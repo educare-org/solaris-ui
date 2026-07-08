@@ -13,8 +13,9 @@ Scope:
 - [ ] workspace foundation;
 - [ ] theme foundation;
 - [ ] token foundation;
-- [ ] accessibility foundation;
-- [ ] i18n foundation;
+- [x] accessibility foundation;
+- [x] translate foundation;
+- [x] showcase foundation;
 - [ ] testing foundation;
 - [ ] Button;
 - [ ] Icon Button;
