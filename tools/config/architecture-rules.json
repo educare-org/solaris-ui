@@ -1,0 +1,83 @@
+{
+  "forbiddenInternalPaths": ["packages/angular/src/lib/shared"],
+  "libStructure": [
+    "packages/angular/src/lib/core",
+    "packages/angular/src/lib/theme",
+    "packages/angular/src/lib/i18n",
+    "packages/angular/src/lib/a11y",
+    "packages/angular/src/lib/primitives",
+    "packages/angular/src/lib/actions",
+    "packages/angular/src/lib/forms",
+    "packages/angular/src/lib/feedback",
+    "packages/angular/src/lib/overlay",
+    "packages/angular/src/lib/navigation",
+    "packages/angular/src/lib/data-display"
+  ],
+  "forbiddenImports": [
+    {
+      "from": "packages/angular/src/lib/core",
+      "mustNotImport": [
+        "packages/angular/src/lib/actions",
+        "packages/angular/src/lib/forms",
+        "packages/angular/src/lib/feedback",
+        "packages/angular/src/lib/overlay",
+        "packages/angular/src/lib/navigation",
+        "packages/angular/src/lib/data-display"
+      ],
+      "reason": "core must not import visual domain components"
+    },
+    {
+      "from": "packages/angular/src/lib/theme",
+      "mustNotImport": [
+        "packages/angular/src/lib/actions",
+        "packages/angular/src/lib/forms",
+        "packages/angular/src/lib/feedback",
+        "packages/angular/src/lib/overlay",
+        "packages/angular/src/lib/navigation",
+        "packages/angular/src/lib/data-display"
+      ],
+      "reason": "theme must not import components"
+    },
+    {
+      "from": "packages/angular/src/lib/i18n",
+      "mustNotImport": [
+        "packages/angular/src/lib/actions",
+        "packages/angular/src/lib/forms",
+        "packages/angular/src/lib/feedback",
+        "packages/angular/src/lib/overlay",
+        "packages/angular/src/lib/navigation",
+        "packages/angular/src/lib/data-display"
+      ],
+      "reason": "i18n must not import components"
+    },
+    {
+      "from": "packages/angular/src/lib/a11y",
+      "mustNotImport": [
+        "packages/angular/src/lib/actions",
+        "packages/angular/src/lib/forms",
+        "packages/angular/src/lib/feedback",
+        "packages/angular/src/lib/overlay",
+        "packages/angular/src/lib/navigation",
+        "packages/angular/src/lib/data-display"
+      ],
+      "reason": "a11y must not import final components"
+    },
+    {
+      "from": "packages/angular/src/lib/primitives",
+      "mustNotImport": [
+        "packages/angular/src/lib/actions",
+        "packages/angular/src/lib/forms",
+        "packages/angular/src/lib/feedback",
+        "packages/angular/src/lib/overlay",
+        "packages/angular/src/lib/navigation",
+        "packages/angular/src/lib/data-display"
+      ],
+      "reason": "primitives must not import final components"
+    }
+  ],
+  "forbiddenLibImportFromShowcase": {
+    "from": "apps/showcase",
+    "mustNotImport": ["packages/angular/src/lib"],
+    "reason": "showcase must import only from the public API (index.ts), not from internal lib paths"
+  }
+}

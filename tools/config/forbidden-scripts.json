@@ -1,0 +1,84 @@
+{
+  "forbiddenPatterns": [
+    {
+      "pattern": "rm\\s+-rf",
+      "reason": "Unix-only recursive force delete",
+      "alternative": "Use `node ./tools/scripts/clean.mjs` or `npx rimraf`"
+    },
+    {
+      "pattern": "cp\\s+-r",
+      "reason": "Unix-only recursive copy",
+      "alternative": "Use `npx shx cp -r` or a Node script with fs.cp"
+    },
+    {
+      "pattern": "mkdir\\s+-p",
+      "reason": "Unix-only parent directory creation",
+      "alternative": "Use `npx shx mkdir -p` or `fs.mkdir({ recursive: true })` in a Node script"
+    },
+    {
+      "pattern": "(?:^|;|&&)\\s*NODE_ENV=",
+      "reason": "Unix inline environment variable syntax",
+      "alternative": "Use `cross-env NODE_ENV=value`"
+    },
+    {
+      "pattern": "(?:^|;|&&)\\s*[A-Z_]+=",
+      "reason": "Unix inline environment variable syntax",
+      "alternative": "Use `cross-env VAR=value`"
+    },
+    {
+      "pattern": "grep\\s+",
+      "reason": "Unix-only grep command",
+      "alternative": "Use a Node script with fs.readFile + regex, or use `findstr` is not cross-platform"
+    },
+    {
+      "pattern": "cat\\s+",
+      "reason": "Unix-only cat command",
+      "alternative": "Use `node -e \"console.log(require('fs').readFileSync('path', 'utf8'))\"` or a Node script"
+    },
+    {
+      "pattern": "find\\s+",
+      "reason": "Unix-only find command",
+      "alternative": "Use a Node script with fs.readdir / glob"
+    },
+    {
+      "pattern": "rmdir\\s+/",
+      "reason": "Windows-only rmdir with flags",
+      "alternative": "Use `node ./tools/scripts/clean.mjs` or `npx rimraf`"
+    },
+    {
+      "pattern": "(?:^|;|&&)\\s*copy\\s+",
+      "reason": "Windows-only copy command",
+      "alternative": "Use a Node script with fs.cp or `npx shx cp`"
+    },
+    {
+      "pattern": "(?:^|;|&&)\\s*set\\s+[A-Z_]+=",
+      "reason": "Windows-only set for environment variables",
+      "alternative": "Use `cross-env VAR=value`"
+    },
+    {
+      "pattern": "type\\s+",
+      "reason": "Windows-only type command",
+      "alternative": "Use a Node script with fs.readFileSync"
+    },
+    {
+      "pattern": "dir\\s+/",
+      "reason": "Windows-only dir with flags",
+      "alternative": "Use `Get-ChildItem` or a Node script"
+    },
+    {
+      "pattern": "\\.sh\\s",
+      "reason": "Shell script dependency (not cross-platform)",
+      "alternative": "Use a Node script (.mjs) instead"
+    },
+    {
+      "pattern": "powershell\\s+",
+      "reason": "PowerShell required (not cross-platform by default)",
+      "alternative": "Use a Node script (.mjs) instead"
+    },
+    {
+      "pattern": "bash\\s+",
+      "reason": "Bash required (not cross-platform by default)",
+      "alternative": "Use a Node script (.mjs) instead"
+    }
+  ]
+}

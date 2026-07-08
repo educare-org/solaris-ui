@@ -56,12 +56,14 @@ Conceptual shape:
 
 @include solaris.core();
 
-@include solaris.theme((
-  color-scheme: system,
-  density: comfortable,
-  radius: md,
-  typography-scale: rem-10,
-));
+@include solaris.theme(
+  (
+    color-scheme: system,
+    density: comfortable,
+    radius: md,
+    typography-scale: rem-10,
+  )
+);
 ```
 
 ## Editable consumer configuration

@@ -89,12 +89,14 @@ Conceptual shape:
 
 @include solaris.core();
 
-@include solaris.theme((
-  color-scheme: system,
-  density: comfortable,
-  radius: md,
-  typography-scale: rem-10,
-));
+@include solaris.theme(
+  (
+    color-scheme: system,
+    density: comfortable,
+    radius: md,
+    typography-scale: rem-10,
+  )
+);
 ```
 
 The exact API may evolve before implementation, but the rule remains:

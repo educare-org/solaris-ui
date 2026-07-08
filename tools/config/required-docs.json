@@ -1,0 +1,92 @@
+{
+  "requiredDocs": [
+    {
+      "path": "docs/overview/start_here.md",
+      "description": "Project overview / starting guide"
+    },
+    {
+      "path": "docs/overview/contributing.md",
+      "description": "Contributing guidelines"
+    },
+    {
+      "path": "docs/architecture/architecture.md",
+      "description": "Architecture documentation"
+    },
+    {
+      "path": "docs/architecture/consumer_setup_policy.md",
+      "description": "Consumer setup policy"
+    },
+    {
+      "path": "docs/architecture/public_api_policy.md",
+      "description": "Public API policy"
+    },
+    {
+      "path": "docs/engineering/ai_development_rules.md",
+      "description": "AI development rules"
+    },
+    {
+      "path": "docs/engineering/dependency_policy.md",
+      "description": "Dependency policy"
+    },
+    {
+      "path": "docs/engineering/engineering_principles.md",
+      "description": "Engineering principles"
+    },
+    {
+      "path": "docs/engineering/security_baseline.md",
+      "description": "Security baseline"
+    },
+    {
+      "path": "docs/quality-and-validation/cross_platform_commands.md",
+      "description": "Cross-platform commands policy"
+    },
+    {
+      "path": "docs/quality-and-validation/definition_of_done.md",
+      "description": "Definition of done"
+    },
+    {
+      "path": "docs/quality-and-validation/scripts_and_validation.md",
+      "description": "Scripts and validation policy"
+    },
+    {
+      "path": "docs/quality-and-validation/testing_strategy.md",
+      "description": "Testing strategy"
+    },
+    {
+      "path": "docs/roadmap/project_roadmap.md",
+      "description": "Project roadmap (primary reference)"
+    },
+    {
+      "path": "docs/standards/accessibility_standard.md",
+      "description": "Accessibility standard"
+    },
+    {
+      "path": "docs/standards/component_standard.md",
+      "description": "Component standard"
+    },
+    {
+      "path": "docs/standards/directive_standard.md",
+      "description": "Directive standard"
+    },
+    {
+      "path": "docs/standards/i18n_standard.md",
+      "description": "i18n standard"
+    },
+    {
+      "path": "docs/standards/service_standard.md",
+      "description": "Service standard"
+    },
+    {
+      "path": "docs/standards/styling_and_tokens.md",
+      "description": "Styling and tokens standard"
+    },
+    {
+      "path": "docs/workflow-and-release/branching_and_commits.md",
+      "description": "Branching and commits standard"
+    },
+    {
+      "path": "docs/workflow-and-release/release_policy.md",
+      "description": "Release policy"
+    }
+  ]
+}

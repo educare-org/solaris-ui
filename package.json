@@ -13,8 +13,21 @@
     "lint": "pnpm nx run-many -t lint",
     "format": "pnpm nx format:write",
     "format:check": "pnpm nx format:check",
-    "graph": "pnpm nx graph"
+    "graph": "pnpm nx graph",
+    "doctor": "node tools/scripts/doctor.mjs",
+    "check:workspace": "node tools/scripts/check-workspace.mjs",
+    "check:package-manager": "node tools/scripts/check-package-manager.mjs",
+    "check:scripts": "node tools/scripts/check-scripts.mjs",
+    "check:architecture": "node tools/scripts/check-architecture.mjs",
+    "check:docs": "node tools/scripts/check-docs.mjs",
+    "check:tokens": "node tools/scripts/check-tokens.mjs",
+    "check:i18n": "node tools/scripts/check-i18n.mjs",
+    "check:security": "node tools/scripts/check-security.mjs",
+    "check:dependencies": "node tools/scripts/check-dependencies.mjs",
+    "check": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs",
+    "verify": "node tools/scripts/verify.mjs"
   },
+  "packageManager": "pnpm@10.33.2",
   "private": true,
   "devDependencies": {
     "@angular-devkit/core": "~21.2.0",

@@ -1,0 +1,54 @@
+{
+  "dangerousPatterns": [
+    {
+      "pattern": "innerHTML\\s*:?\\s*=",
+      "reason": "innerHTML can lead to XSS attacks",
+      "allowedExceptionComment": "SECURITY_EXCEPTION"
+    },
+    {
+      "pattern": "bypassSecurityTrustHtml\\s*\\(",
+      "reason": "Bypassing Angular sanitization for HTML can expose XSS",
+      "allowedExceptionComment": "SECURITY_EXCEPTION"
+    },
+    {
+      "pattern": "bypassSecurityTrustUrl\\s*\\(",
+      "reason": "Bypassing Angular sanitization for URLs can expose XSS",
+      "allowedExceptionComment": "SECURITY_EXCEPTION"
+    },
+    {
+      "pattern": "\\beval\\s*\\(",
+      "reason": "eval executes arbitrary code and is a security risk",
+      "allowedExceptionComment": "SECURITY_EXCEPTION"
+    },
+    {
+      "pattern": "bypassSecurityTrust",
+      "reason": "Bypassing Angular sanitization is dangerous",
+      "allowedExceptionComment": "SECURITY_EXCEPTION"
+    },
+    {
+      "pattern": "document\\.",
+      "reason": "Direct document access bypasses SSR safety and Angular abstractions",
+      "allowedExceptionComment": "SECURITY_EXCEPTION"
+    },
+    {
+      "pattern": "window\\.",
+      "reason": "Direct window access bypasses SSR safety and Angular abstractions",
+      "allowedExceptionComment": "SECURITY_EXCEPTION"
+    },
+    {
+      "pattern": "localStorage\\.",
+      "reason": "Direct localStorage access bypasses SSR safety and Angular abstractions",
+      "allowedExceptionComment": "SECURITY_EXCEPTION"
+    },
+    {
+      "pattern": "sessionStorage\\.",
+      "reason": "Direct sessionStorage access bypasses SSR safety and Angular abstractions",
+      "allowedExceptionComment": "SECURITY_EXCEPTION"
+    },
+    {
+      "pattern": "\\.nativeElement\\b",
+      "reason": "Direct nativeElement access bypasses Angular abstractions",
+      "allowedExceptionComment": "SECURITY_EXCEPTION"
+    }
+  ]
+}

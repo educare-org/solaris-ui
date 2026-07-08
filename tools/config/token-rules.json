@@ -1,0 +1,58 @@
+{
+  "patterns": [
+    {
+      "property": "font-size",
+      "pattern": "font-size\\s*:\\s*\\d+px",
+      "reason": "Use rem tokens instead of px for font-size",
+      "exceptionComment": "SOLARIS_TOKEN_EXCEPTION"
+    },
+    {
+      "property": "padding",
+      "pattern": "(padding|padding-top|padding-right|padding-bottom|padding-left)\\s*:\\s*\\d+px",
+      "reason": "Use rem tokens instead of px for padding",
+      "exceptionComment": "SOLARIS_TOKEN_EXCEPTION"
+    },
+    {
+      "property": "margin",
+      "pattern": "(margin|margin-top|margin-right|margin-bottom|margin-left)\\s*:\\s*\\d+px",
+      "reason": "Use rem tokens instead of px for margin",
+      "exceptionComment": "SOLARIS_TOKEN_EXCEPTION"
+    },
+    {
+      "property": "gap",
+      "pattern": "gap\\s*:\\s*\\d+px",
+      "reason": "Use rem tokens instead of px for gap",
+      "exceptionComment": "SOLARIS_TOKEN_EXCEPTION"
+    },
+    {
+      "property": "border-radius",
+      "pattern": "border-radius\\s*:\\s*\\d+px",
+      "reason": "Use rem tokens instead of px for border-radius",
+      "exceptionComment": "SOLARIS_TOKEN_EXCEPTION"
+    },
+    {
+      "property": "hex-color",
+      "pattern": "#[0-9a-fA-F]{3,8}",
+      "reason": "Use design tokens instead of direct hex color values",
+      "exceptionComment": "SOLARIS_TOKEN_EXCEPTION"
+    },
+    {
+      "property": "rgb/rgba",
+      "pattern": "rgba?\\s*\\(",
+      "reason": "Use design tokens instead of direct rgb/rgba color values",
+      "exceptionComment": "SOLARIS_TOKEN_EXCEPTION"
+    },
+    {
+      "property": "box-shadow",
+      "pattern": "box-shadow\\s*:",
+      "reason": "Use theme token for box-shadow instead of hardcoded values",
+      "exceptionComment": "SOLARIS_TOKEN_EXCEPTION"
+    },
+    {
+      "property": "z-index",
+      "pattern": "z-index\\s*:\\s*\\d+",
+      "reason": "Use a z-index scale token instead of hardcoded z-index",
+      "exceptionComment": "SOLARIS_TOKEN_EXCEPTION"
+    }
+  ]
+}
