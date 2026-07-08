@@ -3,16 +3,16 @@ import { Component, inject, input, computed } from '@angular/core';
 import { SolarisIconRegistryService } from '../service/solaris-icon-registry.service';
 
 @Component({
-  standalone: true,
   selector: 'solaris-icon',
+  standalone: true,
   templateUrl: './solaris-icon.component.html',
 })
 export class SolarisIconComponent {
   private readonly registry = inject(SolarisIconRegistryService);
 
   readonly name = input.required<string>();
-  readonly decorative = input(false);
   readonly ariaLabel = input<string>();
+  readonly decorative = input(false);
 
   protected readonly definition = computed(() =>
     this.registry.getIcon(this.name()),

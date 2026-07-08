@@ -30,11 +30,4 @@ export const PT_BR_CONFIG: Record<string, string> = {
   'configuration.label.font-mono': 'Mono (código)',
   'configuration.label.font-display': 'Display (marca)',
   'configuration.label.font-serif': 'Serif (editorial)',
-  'configuration.section.icons': 'Fundação de Ícones',
-  'configuration.label.icon-registry': 'Registro de ícones',
-  'configuration.label.icon-registry-status':
-    'Ícones nativos registrados: {{count}}',
-  'configuration.label.icon-decorative': 'Ícone (decorativo, aria-hidden)',
-  'configuration.label.icon-semantic': 'Ícone (semântico, com label)',
-  'configuration.label.icon-list': 'Todos os ícones nativos',
 };

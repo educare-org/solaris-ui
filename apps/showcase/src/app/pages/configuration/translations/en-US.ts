@@ -30,11 +30,4 @@ export const EN_US_CONFIG: Record<string, string> = {
   'configuration.label.font-mono': 'Mono (code)',
   'configuration.label.font-display': 'Display (brand)',
   'configuration.label.font-serif': 'Serif (editorial)',
-  'configuration.section.icons': 'Icon Foundation',
-  'configuration.label.icon-registry': 'Icon registry',
-  'configuration.label.icon-registry-status':
-    'Built-in icons registered: {{count}}',
-  'configuration.label.icon-decorative': 'Icon (decorative, aria-hidden)',
-  'configuration.label.icon-semantic': 'Icon (semantic, with label)',
-  'configuration.label.icon-list': 'All built-in icons',
 };

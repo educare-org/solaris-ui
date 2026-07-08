@@ -132,29 +132,3 @@
     </li>
   </ul>
 </section>
-
-<section>
-  <h2>{{ 'configuration.section.icons' | translate }}</h2>
-
-  <h3>{{ 'configuration.label.icon-registry' | translate }}</h3>
-  <p>
-    {{ 'configuration.label.icon-registry-status' | translate : { count:
-    builtInIconCount } }}
-  </p>
-
-  <h3>{{ 'configuration.label.icon-decorative' | translate }}</h3>
-  <solaris-icon name="check" [decorative]="true"></solaris-icon>
-
-  <h3>{{ 'configuration.label.icon-semantic' | translate }}</h3>
-  <solaris-icon name="info" ariaLabel="Information"></solaris-icon>
-
-  <h3>{{ 'configuration.label.icon-list' | translate }}</h3>
-  <ul>
-    @for (iconName of builtInIconNames; track iconName) {
-    <li>
-      <solaris-icon [name]="iconName" [decorative]="true"></solaris-icon>
-      <code>{{ iconName }}</code>
-    </li>
-    }
-  </ul>
-</section>

@@ -6,36 +6,17 @@ import {
   SolarisAccessibilityService,
   SolarisVisuallyHiddenDirective,
   SolarisThemeService,
-  SolarisIconRegistryService,
-  SolarisIconComponent,
 } from '@solaris-ui/angular';
 
 @Component({
   standalone: true,
-  imports: [
-    SolarisVisuallyHiddenDirective,
-    SolarisTranslatePipe,
-    SolarisIconComponent,
-  ],
+  imports: [SolarisVisuallyHiddenDirective, SolarisTranslatePipe],
   templateUrl: './configuration.html',
 })
 export class ConfigurationPage {
   private readonly accessibilityService = inject(SolarisAccessibilityService);
-  private readonly iconRegistry = inject(SolarisIconRegistryService);
   private readonly translateService = inject(SolarisTranslateService);
   private readonly themeService = inject(SolarisThemeService);
-
-  readonly builtInIconNames = [
-    'check',
-    'x',
-    'chevron-down',
-    'chevron-right',
-    'info',
-    'warning',
-    'danger',
-    'success',
-    'loader',
-  ] as const;
 
   get locale(): string {
     return this.translateService.locale as string;
@@ -59,15 +40,5 @@ export class ConfigurationPage {
 
   get reducedMotionPref(): string {
     return this.themeService.reducedMotion;
-  }
-
-  get builtInIconCount(): number {
-    let count = 0;
-    for (const name of this.builtInIconNames) {
-      if (this.iconRegistry.hasIcon(name)) {
-        count++;
-      }
-    }
-    return count;
   }
 }
