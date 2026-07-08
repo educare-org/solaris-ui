@@ -3,8 +3,8 @@
   "libStructure": [
     "packages/angular/src/lib/core",
     "packages/angular/src/lib/theme",
-    "packages/angular/src/lib/i18n",
-    "packages/angular/src/lib/a11y",
+    "packages/angular/src/lib/translation",
+    "packages/angular/src/lib/accessibility",
     "packages/angular/src/lib/primitives",
     "packages/angular/src/lib/actions",
     "packages/angular/src/lib/forms",
@@ -39,7 +39,7 @@
       "reason": "theme must not import components"
     },
     {
-      "from": "packages/angular/src/lib/i18n",
+      "from": "packages/angular/src/lib/translation",
       "mustNotImport": [
         "packages/angular/src/lib/actions",
         "packages/angular/src/lib/forms",
@@ -48,10 +48,10 @@
         "packages/angular/src/lib/navigation",
         "packages/angular/src/lib/data-display"
       ],
-      "reason": "i18n must not import components"
+      "reason": "translation must not import components"
     },
     {
-      "from": "packages/angular/src/lib/a11y",
+      "from": "packages/angular/src/lib/accessibility",
       "mustNotImport": [
         "packages/angular/src/lib/actions",
         "packages/angular/src/lib/forms",
@@ -60,7 +60,7 @@
         "packages/angular/src/lib/navigation",
         "packages/angular/src/lib/data-display"
       ],
-      "reason": "a11y must not import final components"
+      "reason": "accessibility must not import final components"
     },
     {
       "from": "packages/angular/src/lib/primitives",

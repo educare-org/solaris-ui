@@ -27,8 +27,8 @@ export default [
         'error',
         {
           type: 'attribute',
-          prefix: 'lib',
-          style: 'camelCase',
+          prefix: 'solaris',
+          style: 'kebab-case',
         },
       ],
       '@angular-eslint/component-selector': [
