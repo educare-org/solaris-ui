@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "pnpm nx serve showcase --port=4300",
-    "dev": "pnpm nx serve showcase --port=4300",
-    "showcase": "pnpm nx serve showcase --port=4300",
+    "start": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && pnpm nx serve showcase --port=4300",
+    "dev": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && pnpm nx serve showcase --port=4300",
+    "showcase": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && pnpm nx serve showcase --port=4300",
     "build": "pnpm nx run-many -t build",
     "build:lib": "pnpm nx build angular",
     "build:showcase": "pnpm nx build showcase",
