@@ -1,16 +1,42 @@
 @if (definition(); as icon) {
   <svg
     [attr.viewBox]="icon.viewBox"
+    [attr.fill]="icon.fill ?? 'none'"
+    [attr.stroke]="icon.stroke ?? 'currentColor'"
+    [attr.stroke-width]="icon.strokeWidth ?? 2"
+    [attr.stroke-linecap]="icon.strokeLinecap ?? 'round'"
+    [attr.stroke-linejoin]="icon.strokeLinejoin ?? 'round'"
     [attr.aria-hidden]="isHidden() ? 'true' : null"
     [attr.aria-label]="hasSemanticLabel() ? accessibleLabel() : null"
     [attr.role]="isHidden() ? 'presentation' : 'img'"
   >
-    @for (path of icon.paths; track $index) {
-      <path
-        [attr.d]="path.d"
-        [attr.fill-rule]="path.fillRule ?? null"
-        [attr.clip-rule]="path.clipRule ?? null"
-      />
+    @for (element of icon.elements; track $index) {
+      @switch (element.type) {
+        @case ('path') {
+          <path [attr.d]="element.d" />
+        }
+        @case ('line') {
+          <line
+            [attr.x1]="element.x1"
+            [attr.y1]="element.y1"
+            [attr.x2]="element.x2"
+            [attr.y2]="element.y2"
+          />
+        }
+        @case ('polyline') {
+          <polyline [attr.points]="element.points" />
+        }
+        @case ('polygon') {
+          <polygon [attr.points]="element.points" />
+        }
+        @case ('circle') {
+          <circle
+            [attr.cx]="element.cx"
+            [attr.cy]="element.cy"
+            [attr.r]="element.r"
+          />
+        }
+      }
     }
   </svg>
 }

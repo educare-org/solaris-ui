@@ -1,5 +1,5 @@
-/* Solaris font-family tokens (CSS custom properties on :root) */
-@use '../../../packages/angular/src/lib/theme/token/typography/font-family';
+/* Solaris tokens (CSS custom properties on :root) */
+@use '../../../packages/angular/src/lib/theme/theme';
 
 /* Solaris public SCSS API */
 @use '../../../packages/angular/src/styles' as solaris;
@@ -20,4 +20,5 @@ body {
   font-family: var(--solaris-font-family-sans);
   font-size: var(--solaris-font-size-md);
   line-height: var(--solaris-line-height-md);
+  background-color: var(--solaris-bg-page);
 }

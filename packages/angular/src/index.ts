@@ -39,7 +39,14 @@ export { provideSolarisIcons } from './lib/icon/provider/provide-solaris-icons';
 export { SOLARIS_ICONS_CONFIG } from './lib/icon/token/solaris-icon.tokens';
 export { SOLARIS_BUILT_IN_ICONS } from './lib/icon/icons/solaris-built-in-icons';
 export type { SolarisIconDefinition } from './lib/icon/model/solaris-icon-definition.interface';
-export type { SolarisIconPath } from './lib/icon/model/solaris-icon-definition.interface';
+export type {
+  SvgElement,
+  SvgPathElement,
+  SvgLineElement,
+  SvgPolylineElement,
+  SvgPolygonElement,
+  SvgCircleElement,
+} from './lib/icon/model/solaris-icon-definition.interface';
 export type {
   SolarisIconName,
   SolarisBuiltInIcon,

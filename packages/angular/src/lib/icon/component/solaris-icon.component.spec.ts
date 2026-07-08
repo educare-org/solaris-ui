@@ -81,13 +81,16 @@ describe('SolarisIconComponent', () => {
     expect(svg.getAttribute('aria-hidden')).toBeFalsy();
   });
 
-  it('should render path attributes correctly', () => {
+  it('should render SVG with stroke attributes from definition', () => {
     configureTesting();
     fixture.componentRef.setInput('name', 'check');
     fixture.detectChanges();
 
-    const path = fixture.nativeElement.querySelector('path');
-    expect(path.getAttribute('fill-rule')).toBe('nonzero');
-    expect(path.getAttribute('clip-rule')).toBe('nonzero');
+    const svg = fixture.nativeElement.querySelector('svg');
+    expect(svg.getAttribute('fill')).toBe('none');
+    expect(svg.getAttribute('stroke')).toBe('currentColor');
+    expect(svg.getAttribute('stroke-width')).toBe('2');
+    expect(svg.getAttribute('stroke-linecap')).toBe('round');
+    expect(svg.getAttribute('stroke-linejoin')).toBe('round');
   });
 });

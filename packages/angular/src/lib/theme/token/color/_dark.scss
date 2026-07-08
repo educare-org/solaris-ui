@@ -63,3 +63,71 @@
   --solaris-orange-text: #f5cf96;
   --solaris-orange-on-solid: #2e1b04;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --solaris-bg-page: #151616;
+    --solaris-surface-base: #1b1c1d;
+    --solaris-surface-subtle: #222324;
+    --solaris-surface-muted: #333435;
+    --solaris-surface-raised: #202123;
+
+    --solaris-text-strong: #f3f5fb;
+    --solaris-text-default: #e4e6ec;
+    --solaris-text-muted: #adafb4;
+    --solaris-text-subtle: #8e9198;
+    --solaris-text-inverse: #151616;
+
+    --solaris-border-subtle: #3b3b3c;
+    --solaris-border-default: #4a4b4d;
+    --solaris-border-strong: #626367;
+
+    --solaris-primary-base: #8494ff;
+    --solaris-primary-hover: #a8b4ff;
+    --solaris-primary-active: #c1c9ff;
+    --solaris-primary-surface: #1d223f;
+    --solaris-primary-border: #3c4788;
+    --solaris-primary-text: #dce2ff;
+    --solaris-primary-on-solid: #101426;
+
+    --solaris-success-base: #33a44b;
+    --solaris-success-hover: #4db862;
+    --solaris-success-active: #66cc7a;
+    --solaris-success-surface: #0d2613;
+    --solaris-success-border: #1a5e28;
+    --solaris-success-text: #a3e0b0;
+    --solaris-success-on-solid: #0d2613;
+
+    --solaris-warning-base: #d6b90f;
+    --solaris-warning-hover: #e0c82a;
+    --solaris-warning-active: #ead746;
+    --solaris-warning-surface: #2b2504;
+    --solaris-warning-border: #5e5208;
+    --solaris-warning-text: #f0e48a;
+    --solaris-warning-on-solid: #17191e;
+
+    --solaris-danger-base: #f23d45;
+    --solaris-danger-hover: #f56269;
+    --solaris-danger-active: #f7878c;
+    --solaris-danger-surface: #2e0a0c;
+    --solaris-danger-border: #661618;
+    --solaris-danger-text: #f9aeb2;
+    --solaris-danger-on-solid: #ffffff;
+
+    --solaris-info-base: #5f9be4;
+    --solaris-info-hover: #76b0ed;
+    --solaris-info-active: #8dc5f5;
+    --solaris-info-surface: #0e1f30;
+    --solaris-info-border: #244d75;
+    --solaris-info-text: #a8ccf0;
+    --solaris-info-on-solid: #0e1f30;
+
+    --solaris-orange-base: #e98d16;
+    --solaris-orange-hover: #eea33b;
+    --solaris-orange-active: #f2b960;
+    --solaris-orange-surface: #2e1b04;
+    --solaris-orange-border: #663d0a;
+    --solaris-orange-text: #f5cf96;
+    --solaris-orange-on-solid: #2e1b04;
+  }
+}

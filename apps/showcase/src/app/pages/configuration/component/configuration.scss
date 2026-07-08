@@ -1,0 +1,401 @@
+.configuration-page {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: var(--solaris-spacing-8) var(--solaris-spacing-4);
+}
+
+.configuration-hero {
+  margin-bottom: var(--solaris-spacing-8);
+
+  &__eyebrow {
+    display: inline-block;
+    font: var(--solaris-font-weight-semibold) var(--solaris-font-size-sm) / 1
+      var(--solaris-font-family-sans);
+    color: var(--solaris-primary-base);
+    text-transform: uppercase;
+    letter-spacing: var(--solaris-letter-spacing-wide);
+    margin-bottom: var(--solaris-spacing-2);
+  }
+
+  &__title {
+    font: var(--solaris-font-weight-bold) var(--solaris-font-size-3xl) /
+      var(--solaris-line-height-xs) var(--solaris-font-family-sans);
+    color: var(--solaris-text-strong);
+    margin: 0 0 var(--solaris-spacing-3);
+  }
+
+  &__description {
+    font: 400 var(--solaris-font-size-lg) / var(--solaris-line-height-md)
+      var(--solaris-font-family-sans);
+    color: var(--solaris-text-muted);
+    margin: 0 0 var(--solaris-spacing-6);
+    max-width: 48rem;
+  }
+}
+
+.configuration-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-2);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--solaris-spacing-1);
+    padding: var(--solaris-spacing-1) var(--solaris-spacing-3);
+    background: var(--solaris-surface-subtle);
+    border: 1px solid var(--solaris-border-subtle);
+    border-radius: var(--solaris-radius-full);
+    font: 400 var(--solaris-font-size-xs) / var(--solaris-line-height-sm)
+      var(--solaris-font-family-sans);
+  }
+
+  &__label {
+    color: var(--solaris-text-subtle);
+  }
+  &__value {
+    color: var(--solaris-text-strong);
+    font-weight: var(--solaris-font-weight-medium);
+  }
+}
+
+.configuration-grid {
+  display: grid;
+  gap: var(--solaris-spacing-6);
+
+  @media (min-width: 48rem) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.configuration-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-4);
+  padding: var(--solaris-spacing-6);
+  background: var(--solaris-surface-base);
+  border: 1px solid var(--solaris-border-subtle);
+  border-radius: var(--solaris-radius-lg);
+  box-shadow: var(--solaris-shadow-xs);
+
+  &--full {
+    @media (min-width: 48rem) {
+      grid-column: 1/-1;
+    }
+  }
+
+  &__title {
+    font: var(--solaris-font-weight-semibold) var(--solaris-font-size-xl) /
+      var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+    color: var(--solaris-text-strong);
+    margin: 0;
+  }
+
+  &__subtitle {
+    font: var(--solaris-font-weight-semibold) var(--solaris-font-size-md) /
+      var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+    color: var(--solaris-text-strong);
+    margin: var(--solaris-spacing-2) 0 0;
+  }
+
+  &__description {
+    font: 400 var(--solaris-font-size-sm) / var(--solaris-line-height-md)
+      var(--solaris-font-family-sans);
+    color: var(--solaris-text-muted);
+    margin: 0;
+  }
+
+  &__footnote {
+    font: italic 400 var(--solaris-font-size-xs) / var(--solaris-line-height-md)
+      var(--solaris-font-family-sans);
+    color: var(--solaris-text-subtle);
+    margin: 0;
+  }
+}
+
+.configuration-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  margin: 0;
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--solaris-spacing-2);
+    font: 400 var(--solaris-font-size-sm) / var(--solaris-line-height-md)
+      var(--solaris-font-family-sans);
+    padding-bottom: var(--solaris-spacing-2);
+    border-bottom: 1px solid var(--solaris-border-subtle);
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    dt {
+      color: var(--solaris-text-default);
+      font-weight: var(--solaris-font-weight-medium);
+      flex-shrink: 0;
+    }
+    dd {
+      margin: 0;
+      color: var(--solaris-text-strong);
+      text-align: right;
+      word-break: break-all;
+    }
+    code {
+      font: 400 var(--solaris-font-size-xs) var(--solaris-font-family-mono);
+      padding: 0.125rem 0.375rem;
+      background: var(--solaris-surface-subtle);
+      border-radius: var(--solaris-radius-sm);
+    }
+  }
+}
+
+.configuration-chip {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-xs) / 1
+    var(--solaris-font-family-sans);
+  border-radius: var(--solaris-radius-full);
+  background: var(--solaris-surface-subtle);
+  color: var(--solaris-text-muted);
+  border: 1px solid var(--solaris-border-subtle);
+
+  &--active {
+    background: var(--solaris-success-surface);
+    color: var(--solaris-success-text);
+    border-color: var(--solaris-success-border);
+  }
+}
+
+.configuration-visually-hidden-demo {
+  font: 400 var(--solaris-font-size-sm) / 1 var(--solaris-font-family-sans);
+  color: var(--solaris-text-default);
+}
+
+.configuration-font-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  margin-top: var(--solaris-spacing-2);
+}
+
+.configuration-font-row {
+  display: grid;
+  grid-template-columns: 8rem 1fr 2fr;
+  gap: var(--solaris-spacing-3);
+  align-items: center;
+  padding: var(--solaris-spacing-3);
+  background: var(--solaris-surface-subtle);
+  border-radius: var(--solaris-radius-md);
+
+  &__label {
+    font: var(--solaris-font-weight-medium) var(--solaris-font-size-sm) / 1
+      var(--solaris-font-family-sans);
+    color: var(--solaris-text-default);
+  }
+  &__name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font: 400 var(--solaris-font-size-xs) / 1 var(--solaris-font-family-sans);
+    color: var(--solaris-text-muted);
+    code {
+      font: 400 var(--solaris-font-size-xs) var(--solaris-font-family-mono);
+    }
+  }
+}
+
+.configuration-font-sample {
+  display: block;
+  color: var(--solaris-text-strong);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &--sans {
+    font-family: var(--solaris-font-family-sans);
+  }
+  &--mono {
+    font-family: var(--solaris-font-family-mono);
+  }
+  &--display {
+    font-family: var(--solaris-font-family-display);
+  }
+  &--serif {
+    font-family: var(--solaris-font-family-serif);
+  }
+}
+
+.configuration-font-size-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-2);
+  margin-top: var(--solaris-spacing-2);
+}
+
+.configuration-font-size-row {
+  display: grid;
+  grid-template-columns: 3rem 5rem 1fr;
+  gap: var(--solaris-spacing-3);
+  align-items: center;
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
+  border: 1px solid var(--solaris-border-subtle);
+  border-radius: var(--solaris-radius-sm);
+
+  &__token {
+    font: 400 var(--solaris-font-size-xs) var(--solaris-font-family-mono);
+    color: var(--solaris-primary-base);
+  }
+  &__size {
+    font: 400 var(--solaris-font-size-xs) / 1 var(--solaris-font-family-sans);
+    color: var(--solaris-text-muted);
+  }
+  &__demo {
+    font-family: var(--solaris-font-family-sans);
+    color: var(--solaris-text-strong);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.configuration-font-sample--xs {
+  font-size: var(--solaris-font-size-xs);
+}
+.configuration-font-sample--sm {
+  font-size: var(--solaris-font-size-sm);
+}
+.configuration-font-sample--md {
+  font-size: var(--solaris-font-size-md);
+}
+.configuration-font-sample--lg {
+  font-size: var(--solaris-font-size-lg);
+}
+.configuration-font-sample--xl {
+  font-size: var(--solaris-font-size-xl);
+}
+.configuration-font-sample--2xl {
+  font-size: var(--solaris-font-size-2xl);
+}
+.configuration-font-sample--3xl {
+  font-size: var(--solaris-font-size-3xl);
+}
+.configuration-font-sample--4xl {
+  font-size: var(--solaris-font-size-4xl);
+}
+
+.configuration-token-groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-6);
+  margin-top: var(--solaris-spacing-2);
+}
+
+.configuration-token-group__title {
+  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-sm) / 1
+    var(--solaris-font-family-sans);
+  color: var(--solaris-text-muted);
+  margin: 0 0 var(--solaris-spacing-3);
+  text-transform: uppercase;
+  letter-spacing: var(--solaris-letter-spacing-wide);
+}
+
+.configuration-token-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3);
+}
+
+.configuration-token-item {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-2);
+}
+
+.configuration-token-swatch {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--solaris-radius-sm);
+  flex-shrink: 0;
+}
+
+.configuration-token-name {
+  font: 400 var(--solaris-font-size-xs) var(--solaris-font-family-mono);
+  color: var(--solaris-text-muted);
+}
+
+.configuration-token-bar {
+  display: block;
+  height: 0.5rem;
+  background: var(--solaris-primary-base);
+  border-radius: var(--solaris-radius-sm);
+  min-width: 0.25rem;
+  flex-shrink: 0;
+}
+
+.configuration-token-radius {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: var(--solaris-primary-base);
+  flex-shrink: 0;
+}
+
+.configuration-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  gap: var(--solaris-spacing-4);
+  margin-top: var(--solaris-spacing-2);
+}
+
+.configuration-icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--solaris-spacing-2);
+  padding: var(--solaris-spacing-4);
+  border: 1px solid var(--solaris-border-subtle);
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-surface-subtle);
+
+  solaris-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--solaris-text-strong);
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: currentColor;
+    }
+  }
+
+  &__name {
+    font: 400 var(--solaris-font-size-xs) var(--solaris-font-family-mono);
+    color: var(--solaris-text-muted);
+    text-align: center;
+  }
+}
+
+.configuration-code {
+  margin: 0;
+  padding: var(--solaris-spacing-4);
+  background: var(--solaris-surface-subtle);
+  border: 1px solid var(--solaris-border-subtle);
+  border-radius: var(--solaris-radius-md);
+  overflow-x: auto;
+  font: 400 var(--solaris-font-size-sm) / var(--solaris-line-height-lg)
+    var(--solaris-font-family-mono);
+  color: var(--solaris-text-default);
+  code {
+    font: inherit;
+    color: inherit;
+  }
+}

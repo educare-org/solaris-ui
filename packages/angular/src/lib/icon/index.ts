@@ -5,7 +5,14 @@ export { provideSolarisIcons } from './provider/provide-solaris-icons';
 export { SOLARIS_ICONS_CONFIG } from './token/solaris-icon.tokens';
 
 export type { SolarisIconDefinition } from './model/solaris-icon-definition.interface';
-export type { SolarisIconPath } from './model/solaris-icon-definition.interface';
+export type {
+  SvgElement,
+  SvgPathElement,
+  SvgLineElement,
+  SvgPolylineElement,
+  SvgPolygonElement,
+  SvgCircleElement,
+} from './model/solaris-icon-definition.interface';
 export type {
   SolarisIconName,
   SolarisBuiltInIcon,

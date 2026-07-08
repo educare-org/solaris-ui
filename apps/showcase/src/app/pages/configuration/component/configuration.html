@@ -1,0 +1,268 @@
+<div class="configuration-page">
+  <header class="configuration-hero">
+    <span class="configuration-hero__eyebrow"
+      >{{ 'configuration.eyebrow' | translate }}</span
+    >
+    <h1 class="configuration-hero__title">
+      {{ 'configuration.hero-title' | translate }}
+    </h1>
+    <p class="configuration-hero__description">
+      {{ 'configuration.hero-description' | translate }}
+    </p>
+
+    <ul class="configuration-meta">
+      @for (item of metadataItems; track item.labelKey) {
+      <li class="configuration-meta__item">
+        <span class="configuration-meta__label"
+          >{{ item.labelKey | translate }}</span
+        >
+        <span class="configuration-meta__value">{{ item.value }}</span>
+      </li>
+      }
+    </ul>
+  </header>
+
+  <div class="configuration-grid">
+    <section class="configuration-card">
+      <h2 class="configuration-card__title">
+        {{ 'configuration.section.i18n' | translate }}
+      </h2>
+      <p class="configuration-card__description">
+        {{ 'configuration.section.i18n-desc' | translate }}
+      </p>
+      <dl class="configuration-list">
+        <div class="configuration-list__item">
+          <dt>{{ 'configuration.label.locale' | translate }}</dt>
+          <dd><code>{{ locale }}</code></dd>
+        </div>
+        <div class="configuration-list__item">
+          <dt>{{ 'configuration.label.fallback-locale' | translate }}</dt>
+          <dd><code>{{ fallbackLocale }}</code></dd>
+        </div>
+        <div class="configuration-list__item">
+          <dt>{{ 'configuration.label.interpolation' | translate }}</dt>
+          <dd>{{ getInterpolationValue() }}</dd>
+        </div>
+        <div class="configuration-list__item">
+          <dt>{{ 'configuration.label.fallback' | translate }}</dt>
+          <dd>{{ getFallbackValue() }}</dd>
+        </div>
+        <div class="configuration-list__item">
+          <dt>{{ 'configuration.label.missing' | translate }}</dt>
+          <dd>{{ getMissingValue() }}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="configuration-card">
+      <h2 class="configuration-card__title">
+        {{ 'configuration.section.a11y' | translate }}
+      </h2>
+      <p class="configuration-card__description">
+        {{ 'configuration.section.a11y-desc' | translate }}
+      </p>
+      <dl class="configuration-list">
+        <div class="configuration-list__item">
+          <dt>{{ 'configuration.label.reduced-motion' | translate }}</dt>
+          <dd>
+            <span
+              class="configuration-chip"
+              [class.configuration-chip--active]="reducedMotion"
+            >
+              {{ reducedMotion ? 'enabled' : 'disabled' }}
+            </span>
+          </dd>
+        </div>
+        <div class="configuration-list__item">
+          <dt>{{ 'configuration.label.visually-hidden' | translate }}</dt>
+          <dd>
+            <span class="configuration-visually-hidden-demo">
+              {{ 'configuration.text.visible' | translate }}
+              <span solaris-visually-hidden
+                >{{ 'configuration.text.sr-only' | translate }}</span
+              >
+            </span>
+          </dd>
+        </div>
+      </dl>
+      <p class="configuration-card__footnote">
+        {{ 'configuration.a11y-note' | translate }}
+      </p>
+    </section>
+
+    <section class="configuration-card">
+      <h2 class="configuration-card__title">
+        {{ 'configuration.section.theme' | translate }}
+      </h2>
+      <p class="configuration-card__description">
+        {{ 'configuration.section.theme-desc' | translate }}
+      </p>
+      <dl class="configuration-list">
+        <div class="configuration-list__item">
+          <dt>{{ 'configuration.label.color-scheme' | translate }}</dt>
+          <dd><code>{{ colorScheme }}</code></dd>
+        </div>
+        <div class="configuration-list__item">
+          <dt>{{ 'configuration.label.density' | translate }}</dt>
+          <dd><code>{{ density }}</code></dd>
+        </div>
+        <div class="configuration-list__item">
+          <dt>{{ 'configuration.label.reduced-motion-pref' | translate }}</dt>
+          <dd><code>{{ reducedMotionPref }}</code></dd>
+        </div>
+        <div class="configuration-list__item">
+          <dt>{{ 'configuration.label.root-font-size' | translate }}</dt>
+          <dd>
+            <code>{{ 'configuration.text.root-font-size' | translate }}</code>
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="configuration-card configuration-card--full">
+      <h2 class="configuration-card__title">
+        {{ 'configuration.section.typography' | translate }}
+      </h2>
+      <p class="configuration-card__description">
+        {{ 'configuration.section.typography-desc' | translate }}
+      </p>
+
+      <h3 class="configuration-card__subtitle">
+        {{ 'configuration.label.font-family-tokens' | translate }}
+      </h3>
+      <div class="configuration-font-list">
+        @for (font of fontFamilies; track font.cssVar) {
+        <div class="configuration-font-row">
+          <span class="configuration-font-row__label">{{ font.label }}</span>
+          <span class="configuration-font-row__name"
+            ><code>{{ font.fontName }}</code></span
+          >
+          <span class="configuration-font-sample {{ font.className }}"
+            >{{ 'configuration.text.font-demo' | translate }}</span
+          >
+        </div>
+        }
+      </div>
+
+      <h3 class="configuration-card__subtitle">
+        {{ 'configuration.label.font-size-tokens' | translate }}
+      </h3>
+      <div class="configuration-font-size-list">
+        @for (sample of fontSizes; track sample.cssVar) {
+        <div class="configuration-font-size-row">
+          <span class="configuration-font-size-row__token"
+            ><code>{{ sample.token }}</code></span
+          >
+          <span class="configuration-font-size-row__size"
+            >{{ sample.size }}</span
+          >
+          <span class="configuration-font-size-row__demo {{ sample.className }}"
+            >{{ 'configuration.text.font-size-demo' | translate }}</span
+          >
+        </div>
+        }
+      </div>
+
+      <p class="configuration-card__footnote">
+        {{ 'configuration.typography-note' | translate }}
+      </p>
+    </section>
+
+    <section class="configuration-card configuration-card--full">
+      <h2 class="configuration-card__title">
+        {{ 'configuration.section.tokens' | translate }}
+      </h2>
+      <p class="configuration-card__description">
+        {{ 'configuration.section.tokens-desc' | translate }}
+      </p>
+
+      <div class="configuration-token-groups">
+        @for (group of tokenGroups; track group.label) {
+        <div class="configuration-token-group">
+          <h3 class="configuration-token-group__title">{{ group.label }}</h3>
+          @if (group.type === 'color' || group.type === 'border') {
+          <div class="configuration-token-grid">
+            @for (token of group.tokens; track token.cssVar) {
+            <div class="configuration-token-item">
+              <span
+                class="configuration-token-swatch"
+                [style.background]="'var(' + token.cssVar + ')'"
+                [style.border]="group.type === 'border' ? '1px solid var(' + token.cssVar + ')' : 'none'"
+              ></span>
+              <code class="configuration-token-name">{{ token.name }}</code>
+            </div>
+            }
+          </div>
+          } @else if (group.type === 'spacing') {
+          <div class="configuration-token-grid">
+            @for (token of group.tokens; track token.cssVar) {
+            <div class="configuration-token-item">
+              <span
+                class="configuration-token-bar"
+                [style.width]="'var(' + token.cssVar + ')'"
+              ></span>
+              <code class="configuration-token-name">{{ token.name }}</code>
+            </div>
+            }
+          </div>
+          } @else if (group.type === 'radius') {
+          <div class="configuration-token-grid">
+            @for (token of group.tokens; track token.cssVar) {
+            <div class="configuration-token-item">
+              <span
+                class="configuration-token-radius"
+                [style.border-radius]="'var(' + token.cssVar + ')'"
+              ></span>
+              <code class="configuration-token-name">{{ token.name }}</code>
+            </div>
+            }
+          </div>
+          }
+        </div>
+        }
+      </div>
+    </section>
+
+    <section class="configuration-card configuration-card--full">
+      <h2 class="configuration-card__title">
+        {{ 'configuration.section.icons' | translate }}
+      </h2>
+      <p class="configuration-card__description">
+        {{ 'configuration.section.icons-desc' | translate }}
+      </p>
+
+      <div class="configuration-icon-grid">
+        @for (icon of icons; track icon.name) {
+        <div class="configuration-icon-item">
+          <solaris-icon [name]="icon.name" [decorative]="true" />
+          <code class="configuration-icon-item__name">{{ icon.name }}</code>
+        </div>
+        }
+      </div>
+    </section>
+
+    <section class="configuration-card configuration-card--full">
+      <h2 class="configuration-card__title">
+        {{ 'configuration.section.setup' | translate }}
+      </h2>
+      <p class="configuration-card__description">
+        {{ 'configuration.section.setup-desc' | translate }}
+      </p>
+
+      <pre
+        class="configuration-code"
+      ><code>&#64;use '&#64;solaris-ui/angular/styles' as solaris;
+
+&#64;include solaris.core((
+  root-font-size: rem-10
+));
+
+&#64;include solaris.theme((
+  color-scheme: system,
+  density: comfortable,
+  radius: md,
+  reduced-motion: system
+));</code></pre>
+    </section>
+  </div>
+</div>

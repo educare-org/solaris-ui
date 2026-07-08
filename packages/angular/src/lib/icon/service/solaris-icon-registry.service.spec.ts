@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { SolarisIconRegistryService } from './solaris-icon-registry.service';
-import { provideSolarisIcons } from '../provider/provide-solaris-icons';
 import type { SolarisIconDefinition } from '../model/solaris-icon-definition.interface';
+import { provideSolarisIcons } from '../provider/provide-solaris-icons';
 
 describe('SolarisIconRegistryService', () => {
   it('should have built-in icons registered by default', () => {
@@ -20,7 +20,6 @@ describe('SolarisIconRegistryService', () => {
     expect(service.hasIcon('warning')).toBe(true);
     expect(service.hasIcon('danger')).toBe(true);
     expect(service.hasIcon('success')).toBe(true);
-    expect(service.hasIcon('loader')).toBe(true);
   });
 
   it('should return undefined for unregistered icons', () => {
@@ -45,14 +44,16 @@ describe('SolarisIconRegistryService', () => {
     expect(icon).toBeDefined();
     expect(icon?.name).toBe('check');
     expect(icon?.viewBox).toBe('0 0 24 24');
-    expect(icon?.paths.length).toBeGreaterThan(0);
+    expect(icon?.elements.length).toBeGreaterThan(0);
   });
 
   it('should register additional icons via config', () => {
     const customIcon: SolarisIconDefinition = {
       name: 'custom-star',
       viewBox: '0 0 24 24',
-      paths: [{ d: 'M12 2l3 6 6 1-4 5 1 6-6-3-6 3 1-6-4-5 6-1z' }],
+      elements: [
+        { type: 'path', d: 'M12 2l3 6 6 1-4 5 1 6-6-3-6 3 1-6-4-5 6-1z' },
+      ],
     };
 
     TestBed.configureTestingModule({
@@ -77,7 +78,7 @@ describe('SolarisIconRegistryService', () => {
     const dynamicIcon: SolarisIconDefinition = {
       name: 'dynamic',
       viewBox: '0 0 24 24',
-      paths: [{ d: 'M0 0h24v24H0z' }],
+      elements: [{ type: 'path', d: 'M0 0h24v24H0z' }],
     };
 
     service.registerIcon(dynamicIcon);
@@ -91,8 +92,16 @@ describe('SolarisIconRegistryService', () => {
 
     const service = TestBed.inject(SolarisIconRegistryService);
     const icons: SolarisIconDefinition[] = [
-      { name: 'a', viewBox: '0 0 24 24', paths: [{ d: 'M0 0h24v24H0z' }] },
-      { name: 'b', viewBox: '0 0 24 24', paths: [{ d: 'M0 0h24v24H0z' }] },
+      {
+        name: 'a',
+        viewBox: '0 0 24 24',
+        elements: [{ type: 'path', d: 'M0 0h24v24H0z' }],
+      },
+      {
+        name: 'b',
+        viewBox: '0 0 24 24',
+        elements: [{ type: 'path', d: 'M0 0h24v24H0z' }],
+      },
     ];
 
     service.registerIcons(icons);
@@ -111,7 +120,7 @@ describe('SolarisIconRegistryService', () => {
     const overwrite: SolarisIconDefinition = {
       name: 'check',
       viewBox: '0 0 48 48',
-      paths: [{ d: 'M0 0h48v48H0z' }],
+      elements: [{ type: 'path', d: 'M0 0h48v48H0z' }],
     };
 
     service.registerIcon(overwrite);

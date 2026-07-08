@@ -2,102 +2,131 @@ import type { SolarisIconDefinition } from '../model/solaris-icon-definition.int
 
 export const SOLARIS_BUILT_IN_ICONS: SolarisIconDefinition[] = [
   {
-    name: 'check',
+    name: 'x',
     viewBox: '0 0 24 24',
-    paths: [
-      {
-        d: 'M20 6L9 17l-5-5',
-        fillRule: 'nonzero',
-        clipRule: 'nonzero',
-      },
+    elements: [
+      { type: 'path', d: 'M18 6 6 18' },
+      { type: 'path', d: 'm6 6 12 12' },
     ],
   },
   {
-    name: 'x',
+    name: 'check',
     viewBox: '0 0 24 24',
-    paths: [
-      {
-        d: 'M18 6L6 18M6 6l12 12',
-        fillRule: 'nonzero',
-        clipRule: 'nonzero',
-      },
-    ],
+    elements: [{ type: 'path', d: 'M20 6 9 17l-5-5' }],
   },
   {
     name: 'chevron-down',
     viewBox: '0 0 24 24',
-    paths: [
-      {
-        d: 'M6 9l6 6 6-6',
-        fillRule: 'nonzero',
-        clipRule: 'nonzero',
-      },
-    ],
+    elements: [{ type: 'path', d: 'm6 9 6 6 6-6' }],
+  },
+  {
+    name: 'chevron-left',
+    viewBox: '0 0 24 24',
+    elements: [{ type: 'path', d: 'm15 18-6-6 6-6' }],
   },
   {
     name: 'chevron-right',
     viewBox: '0 0 24 24',
-    paths: [
-      {
-        d: 'M9 6l6 6-6 6',
-        fillRule: 'nonzero',
-        clipRule: 'nonzero',
-      },
+    elements: [{ type: 'path', d: 'm9 18 6-6-6-6' }],
+  },
+  {
+    name: 'chevron-up',
+    viewBox: '0 0 24 24',
+    elements: [{ type: 'path', d: 'm18 15-6-6-6 6' }],
+  },
+  {
+    name: 'chevron-forward',
+    viewBox: '0 0 24 24',
+    elements: [
+      { type: 'path', d: 'm9 18 6-6-6-6' },
+      { type: 'path', d: 'm15 18 6-6-6-6' },
+    ],
+  },
+  {
+    name: 'chevron-backward',
+    viewBox: '0 0 24 24',
+    elements: [
+      { type: 'path', d: 'm15 18-6-6 6-6' },
+      { type: 'path', d: 'm9 18-6-6 6-6' },
+    ],
+  },
+  {
+    name: 'chevron-first',
+    viewBox: '0 0 24 24',
+    elements: [
+      { type: 'path', d: 'm15 18-6-6 6-6' },
+      { type: 'path', d: 'M7 6v12' },
+    ],
+  },
+  {
+    name: 'chevron-last',
+    viewBox: '0 0 24 24',
+    elements: [
+      { type: 'path', d: 'm9 18 6-6-6-6' },
+      { type: 'path', d: 'M17 6v12' },
     ],
   },
   {
     name: 'info',
     viewBox: '0 0 24 24',
-    paths: [
-      {
-        d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v2h-2zm0 4h2v6h-2z',
-        fillRule: 'nonzero',
-        clipRule: 'nonzero',
-      },
+    elements: [
+      { type: 'circle', cx: 12, cy: 12, r: 10 },
+      { type: 'path', d: 'M12 16v-4' },
+      { type: 'path', d: 'M12 8h.01' },
     ],
   },
   {
     name: 'warning',
     viewBox: '0 0 24 24',
-    paths: [
+    elements: [
       {
-        d: 'M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z',
-        fillRule: 'nonzero',
-        clipRule: 'nonzero',
+        type: 'path',
+        d: 'M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z',
       },
+      { type: 'path', d: 'M12 9v4' },
+      { type: 'path', d: 'M12 17h.01' },
     ],
   },
   {
     name: 'danger',
     viewBox: '0 0 24 24',
-    paths: [
+    elements: [
       {
-        d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 4h2v2h-2z',
-        fillRule: 'nonzero',
-        clipRule: 'nonzero',
+        type: 'polygon',
+        points:
+          '7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86',
       },
+      { type: 'path', d: 'm15 9-6 6' },
+      { type: 'path', d: 'm9 9 6 6' },
+    ],
+  },
+  {
+    name: 'caution',
+    viewBox: '0 0 24 24',
+    elements: [
+      {
+        type: 'polygon',
+        points:
+          '7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86',
+      },
+      { type: 'path', d: 'M12 8v4' },
+      { type: 'path', d: 'M12 16h.01' },
     ],
   },
   {
     name: 'success',
     viewBox: '0 0 24 24',
-    paths: [
-      {
-        d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-5.5l-2.59-2.59L6 13.5l4 4 8-8-1.41-1.42L10 14.5z',
-        fillRule: 'nonzero',
-        clipRule: 'nonzero',
-      },
+    elements: [
+      { type: 'circle', cx: 12, cy: 12, r: 10 },
+      { type: 'path', d: 'm9 12 2 2 4-4' },
     ],
   },
   {
-    name: 'loader',
+    name: 'shield-check',
     viewBox: '0 0 24 24',
-    paths: [
-      {
-        d: 'M12 4V2A10 10 0 002 12h2a8 8 0 018-8z',
-        fillRule: 'nonzero',
-        clipRule: 'nonzero',
-      },
+    elements: [
+      { type: 'path', d: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10' },
+      { type: 'path', d: 'm9 12 2 2 4-4' },
     ],
   },
 ];
