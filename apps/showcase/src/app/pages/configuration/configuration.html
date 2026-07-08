@@ -1,0 +1,38 @@
+<h1>{{ 'configuration.title' | translate }}</h1>
+
+<section>
+  <h2>{{ 'configuration.section.i18n' | translate }}</h2>
+
+  <h3>{{ 'configuration.label.locale' | translate }}</h3>
+  <p>{{ locale }}</p>
+
+  <h3>{{ 'configuration.label.fallback-locale' | translate }}</h3>
+  <p>{{ fallbackLocale }}</p>
+
+  <h3>{{ 'configuration.label.interpolation' | translate }}</h3>
+  <p>{{ 'greeting' | translate : { name: 'Kaique' } }}</p>
+
+  <h3>{{ 'configuration.label.fallback' | translate }}</h3>
+  <p>{{ 'farewell' | translate }}</p>
+
+  <h3>{{ 'configuration.label.missing' | translate }}</h3>
+  <p>{{ 'nonexistent_key' | translate }}</p>
+</section>
+
+<section>
+  <h2>{{ 'configuration.section.a11y' | translate }}</h2>
+
+  <h3>{{ 'configuration.label.reduced-motion' | translate }}</h3>
+  <p>
+    {{ 'configuration.label.reduced-motion-value' | translate : { value:
+    reducedMotion } }}
+  </p>
+
+  <h3>{{ 'configuration.label.visually-hidden' | translate }}</h3>
+  <p>
+    {{ 'configuration.text.visible' | translate }}
+    <span solaris-visually-hidden
+      >{{ 'configuration.text.sr-only' | translate }}</span
+    >
+  </p>
+</section>
