@@ -24,7 +24,8 @@
     "check:i18n": "node tools/scripts/check-i18n.mjs",
     "check:security": "node tools/scripts/check-security.mjs",
     "check:dependencies": "node tools/scripts/check-dependencies.mjs",
-    "check": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs",
+    "check": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs && pnpm lint && pnpm typecheck",
+    "typecheck": "pnpm tsc --noEmit -p packages/angular/tsconfig.lib.json && pnpm tsc --noEmit -p apps/showcase/tsconfig.app.json",
     "verify": "node tools/scripts/verify.mjs"
   },
   "packageManager": "pnpm@10.33.2",

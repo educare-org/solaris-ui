@@ -1,5 +1,5 @@
+import { printSummary, readJson } from './shared.mjs';
 import { execSync } from 'node:child_process';
-import { printSummary } from './shared.mjs';
 
 const errors = [];
 const warnings = [];
@@ -16,7 +16,7 @@ function runCommand(label, command, required = false) {
       errors.push(`${label} failed (${status})`);
       console.log(`  ✗ ${label} FAILED`);
     } else {
-      warnings.push(`${label} failed or not configured (${status}) — skipped`);
+      warnings.push(`${label} not available (${status}) — skipped`);
       console.log(`  ⚠ ${label} skipped`);
     }
     return false;
@@ -24,6 +24,17 @@ function runCommand(label, command, required = false) {
 }
 
 function runTooling(label) {
+  const pkg = readJson('package.json');
+  const scripts = pkg.scripts || {};
+  const exists = !!scripts[label];
+
+  if (!exists) {
+    warnings.push(`${label} is not configured in package.json — skipped`);
+    console.log(`\n▶ Running ${label}...`);
+    console.log(`  ⚠ ${label} not configured — skipped`);
+    return false;
+  }
+
   console.log(`\n▶ Running ${label}...`);
   try {
     execSync(`pnpm ${label}`, {
@@ -34,13 +45,8 @@ function runTooling(label) {
     console.log(`  ✓ ${label} passed`);
     return true;
   } catch (e) {
-    if (e.status === 1) {
-      warnings.push(`${label} reported issues (exit code 1)`);
-      console.log(`  ⚠ ${label} completed with warnings`);
-    } else {
-      warnings.push(`${label} not configured (exit code ${e.status})`);
-      console.log(`  ⚠ ${label} skipped`);
-    }
+    errors.push(`${label} failed (exit code ${e.status})`);
+    console.log(`  ✗ ${label} FAILED`);
     return false;
   }
 }
