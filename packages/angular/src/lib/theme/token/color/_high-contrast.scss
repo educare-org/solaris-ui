@@ -1,0 +1,26 @@
+[data-theme='high-contrast'],
+[data-high-contrast='true'] {
+  --solaris-bg-page: #ffffff;
+  --solaris-surface-base: #ffffff;
+  --solaris-surface-subtle: #f0f0f0;
+  --solaris-surface-muted: #e0e0e0;
+  --solaris-surface-raised: #ffffff;
+
+  --solaris-text-strong: #000000;
+  --solaris-text-default: #000000;
+  --solaris-text-muted: #222222;
+  --solaris-text-subtle: #444444;
+  --solaris-text-inverse: #ffffff;
+
+  --solaris-border-subtle: #666666;
+  --solaris-border-default: #888888;
+  --solaris-border-strong: #aaaaaa;
+
+  --solaris-primary-base: #0000cc;
+  --solaris-primary-hover: #000099;
+  --solaris-primary-active: #000066;
+  --solaris-primary-surface: #e6e6ff;
+  --solaris-primary-border: #9999ff;
+  --solaris-primary-text: #0000aa;
+  --solaris-primary-on-solid: #ffffff;
+}

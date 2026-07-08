@@ -54,6 +54,7 @@ if (!fileExists(libScssDir)) {
     );
   } else {
     for (const file of scssFiles) {
+      if (file.includes('/token/') || file.includes('\\token\\')) continue;
       const content = readFileSafe(file);
       const lines = content.split('\n');
 

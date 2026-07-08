@@ -1,0 +1,36 @@
+/// Solaris UI Theme
+/// Applies token CSS custom properties based on configuration.
+///
+/// Usage:
+///   @use '@solaris-ui/angular/styles' as solaris;
+///   @include solaris.theme((
+///     color-scheme: system,
+///     density: comfortable,
+///     radius: md,
+///     motion: auto
+///   ));
+
+@use 'sass:map';
+
+$-default-config: (
+  color-scheme: system,
+  density: comfortable,
+  radius: md,
+  motion: auto,
+);
+
+@mixin theme($config: ()) {
+  $merged: map.merge($-default-config, $config);
+
+  $color-scheme: map.get($merged, color-scheme);
+
+  :root {
+    @if $color-scheme == light {
+      color-scheme: light;
+    } @else if $color-scheme == dark {
+      color-scheme: dark;
+    } @else {
+      color-scheme: light dark;
+    }
+  }
+}

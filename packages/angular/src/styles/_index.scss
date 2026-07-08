@@ -1,0 +1,19 @@
+/// Solaris UI — Design System Styles
+///
+/// Public entry point for the Solaris design system SCSS API.
+///
+/// Usage:
+///   @use '@solaris-ui/angular/styles' as solaris;
+///
+///   // Apply core foundation (root font-size, resets)
+///   @include solaris.core((root-font-size: rem-10));
+///
+///   // Apply theme tokens
+///   @include solaris.theme((
+///     color-scheme: system,
+///     density: comfortable,
+///     radius: md,
+///   ));
+
+@forward './core';
+@forward './theme';

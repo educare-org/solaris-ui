@@ -5,5 +5,11 @@
     "@angular/common": "^21.2.0",
     "@angular/core": "^21.2.0"
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "exports": {
+    "./styles": {
+      "style": "./styles/_index.scss",
+      "default": "./styles/_index.scss"
+    }
+  }
 }

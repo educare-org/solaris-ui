@@ -1,0 +1,11 @@
+/// Theme tokens entry point
+/// Re-exports all token modules as a single SCSS entry.
+
+@forward 'token/color';
+@forward 'token/density';
+@forward 'token/radius';
+@forward 'token/spacing';
+@forward 'token/typography';
+@forward 'token/shadow';
+@forward 'token/motion';
+@forward 'token/z-index';

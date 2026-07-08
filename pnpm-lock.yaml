@@ -50,6 +50,18 @@ importers:
       '@eslint/js':
         specifier: ^9.8.0
         version: 9.39.4
+      '@fontsource/ibm-plex-serif':
+        specifier: ^5.2.7
+        version: 5.2.7
+      '@fontsource/inter':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@fontsource/jetbrains-mono':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@fontsource/space-grotesk':
+        specifier: ^5.2.10
+        version: 5.2.10
       '@nx/angular':
         specifier: ^23.0.1
         version: 23.0.1(7e74f631f95b46b436c735626e56d10a)
@@ -2032,6 +2044,30 @@ packages:
     peerDependenciesMeta:
       '@noble/hashes':
         optional: true
+
+  '@fontsource/ibm-plex-serif@5.2.7':
+    resolution:
+      {
+        integrity: sha512-04owmc2OQQ/DAMjXjEMJc+7V4dBVmR01aIFOg4cuqS8pQ4HbvtlYs/u6+O0vCt21EMx5M/azIbgx43iKyisEOA==,
+      }
+
+  '@fontsource/inter@5.2.8':
+    resolution:
+      {
+        integrity: sha512-P6r5WnJoKiNVV+zvW2xM13gNdFhAEpQ9dQJHt3naLvfg+LkF2ldgSLiF4T41lf1SQCM9QmkqPTn4TH568IRagg==,
+      }
+
+  '@fontsource/jetbrains-mono@5.2.8':
+    resolution:
+      {
+        integrity: sha512-6w8/SG4kqvIMu7xd7wt6x3idn1Qux3p9N62s6G3rfldOUYHpWcc2FKrqf+Vo44jRvqWj2oAtTHrZXEP23oSKwQ==,
+      }
+
+  '@fontsource/space-grotesk@5.2.10':
+    resolution:
+      {
+        integrity: sha512-XNXEbT74OIITPqw2H6HXwPDp85fy43uxfBwFR5PU+9sLnjuLj12KlhVM9nZVN6q6dlKjkuN8JisW/OBxwxgUew==,
+      }
 
   '@gar/promise-retry@1.0.3':
     resolution:
@@ -6319,7 +6355,10 @@ packages:
     engines: { node: '>= 4' }
 
   image-size@0.5.5:
-    resolution: { integrity: sha1-Cd/Uq50g4p6xw+gLiZA3jfnjy5w= }
+    resolution:
+      {
+        integrity: sha512-6TDAlDPZxUFCv+fuOkIoXT/V/f3Qbq8e37p+YOiYrUv3v9cc3/6x78VdfPgFVaB9dZYeLUfKgHRebpkm/oP2VQ==,
+      }
     engines: { node: '>=0.10.0' }
     hasBin: true
 
@@ -11039,6 +11078,14 @@ snapshots:
       levn: 0.4.1
 
   '@exodus/bytes@1.15.1': {}
+
+  '@fontsource/ibm-plex-serif@5.2.7': {}
+
+  '@fontsource/inter@5.2.8': {}
+
+  '@fontsource/jetbrains-mono@5.2.8': {}
+
+  '@fontsource/space-grotesk@5.2.10': {}
 
   '@gar/promise-retry@1.0.3': {}
 

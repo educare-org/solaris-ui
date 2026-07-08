@@ -1,0 +1,37 @@
+/// Solaris UI Core
+/// Provides root font-size strategy and base resets.
+///
+/// The default `none` strategy respects the browser's default font-size (typically 16px)
+/// and produces no additional CSS. Consumers who prefer the `rem-10` strategy may opt in,
+/// but must ensure token SCSS files are imported at the correct scope.
+///
+/// Usage:
+///   @use '@solaris-ui/angular/styles' as solaris;
+///
+///   // Default: no root font-size override (browser default)
+///   @include solaris.core();
+///
+///   // rem-10 strategy: 1rem = 10px at root, body reset to 16px
+///   @include solaris.core((root-font-size: rem-10));
+
+@use 'sass:map';
+
+$-default-config: (
+  root-font-size: none,
+);
+
+@mixin core($config: ()) {
+  $merged: map.merge($-default-config, $config);
+
+  $root-font-size: map.get($merged, root-font-size);
+
+  @if $root-font-size == rem-10 {
+    :root {
+      font-size: 62.5%;
+    }
+
+    body {
+      font-size: 1.6rem;
+    }
+  }
+}

@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+/* Solaris font-family tokens (CSS custom properties on :root) */
+@use '../../../packages/angular/src/lib/theme/token/typography/font-family';
+
+/* Solaris public SCSS API */
+@use '../../../packages/angular/src/styles' as solaris;
+
+@include solaris.core();
+@include solaris.theme();
+
+/* Font source loading via @fontsource */
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/space-grotesk/600.css';
+@import '@fontsource/ibm-plex-serif/400.css';
+
+/* Base body styles using Solaris tokens */
+body {
+  font-family: var(--solaris-font-family-sans);
+  font-size: var(--solaris-font-size-md);
+  line-height: var(--solaris-line-height-md);
+}

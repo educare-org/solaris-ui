@@ -1,0 +1,15 @@
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --solaris-motion-duration-fast: 0ms;
+    --solaris-motion-duration-normal: 0ms;
+    --solaris-motion-duration-slow: 0ms;
+    --solaris-motion-duration-slower: 0ms;
+  }
+}
+
+[data-reduced-motion='true'] {
+  --solaris-motion-duration-fast: 0ms;
+  --solaris-motion-duration-normal: 0ms;
+  --solaris-motion-duration-slow: 0ms;
+  --solaris-motion-duration-slower: 0ms;
+}

@@ -1,0 +1,16 @@
+@if (definition(); as icon) {
+  <svg
+    [attr.viewBox]="icon.viewBox"
+    [attr.aria-hidden]="isHidden() ? 'true' : null"
+    [attr.aria-label]="hasSemanticLabel() ? accessibleLabel() : null"
+    [attr.role]="isHidden() ? 'presentation' : 'img'"
+  >
+    @for (path of icon.paths; track $index) {
+      <path
+        [attr.d]="path.d"
+        [attr.fill-rule]="path.fillRule ?? null"
+        [attr.clip-rule]="path.clipRule ?? null"
+      />
+    }
+  </svg>
+}
