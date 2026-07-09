@@ -1,0 +1,5 @@
+@if (isMultiLine()) {
+  @for (width of lineWidths(); track $index) {
+    <span class="solaris-skeleton-line" [style.width]="width"></span>
+  }
+}

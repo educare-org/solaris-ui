@@ -265,3 +265,117 @@ describe('SolarisSkeletonComponent circular', () => {
     expect(el.style.height).toBeFalsy();
   });
 });
+
+describe('SolarisSkeletonComponent multiline', () => {
+  let fixture: ComponentFixture<SolarisSkeletonComponent>;
+
+  it('should not have data-multiline for default lines=1', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.hasAttribute('data-multiline')).toBe(false);
+  });
+
+  it('should have data-multiline for lines=3', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('lines', 3);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.hasAttribute('data-multiline')).toBe(true);
+  });
+
+  it('should render correct number of children', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('lines', 3);
+    fixture.detectChanges();
+    const children = fixture.nativeElement.querySelectorAll(
+      '.solaris-skeleton-line',
+    );
+    expect(children.length).toBe(3);
+  });
+
+  it('should not render children for lines=1', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('lines', 1);
+    fixture.detectChanges();
+    const children = fixture.nativeElement.querySelectorAll(
+      '.solaris-skeleton-line',
+    );
+    expect(children.length).toBe(0);
+  });
+
+  it('should not render children for non-text variant with lines>1', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('variant', 'rectangular');
+    fixture.componentRef.setInput('lines', 3);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.hasAttribute('data-multiline')).toBe(false);
+    const children = fixture.nativeElement.querySelectorAll(
+      '.solaris-skeleton-line',
+    );
+    expect(children.length).toBe(0);
+  });
+
+  it('should apply custom width to first line', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('lines', 3);
+    fixture.componentRef.setInput('width', '70%');
+    fixture.detectChanges();
+    const children = fixture.nativeElement.querySelectorAll(
+      '.solaris-skeleton-line',
+    );
+    expect(children.length).toBe(3);
+    expect(children[0].style.width).toBe('70%');
+  });
+
+  it('should have varied widths for each line', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('lines', 3);
+    fixture.detectChanges();
+    const children = fixture.nativeElement.querySelectorAll(
+      '.solaris-skeleton-line',
+    );
+    expect(children[0].style.width).toBeTruthy();
+    expect(children[1].style.width).toBeTruthy();
+    expect(children[2].style.width).toBeTruthy();
+  });
+
+  it('should support lines with wave animation', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('lines', 2);
+    fixture.componentRef.setInput('animation', 'wave');
+    fixture.detectChanges();
+    const children = fixture.nativeElement.querySelectorAll(
+      '.solaris-skeleton-line',
+    );
+    expect(children.length).toBe(2);
+  });
+
+  it('should support lines=0 gracefully', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('lines', 0);
+    fixture.detectChanges();
+    const children = fixture.nativeElement.querySelectorAll(
+      '.solaris-skeleton-line',
+    );
+    expect(children.length).toBe(0);
+  });
+
+  it('should support lines=10 with varied widths', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('lines', 10);
+    fixture.detectChanges();
+    const children = fixture.nativeElement.querySelectorAll(
+      '.solaris-skeleton-line',
+    );
+    expect(children.length).toBe(10);
+  });
+});

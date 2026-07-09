@@ -52,43 +52,43 @@
     </h2>
     <div class="skeleton-showcase__row">
       <div class="skeleton-showcase__item">
-        <span class="skeleton-showcase__label">SM</span>
+        <span class="skeleton-showcase__label">sm</span>
         <solaris-skeleton size="sm"></solaris-skeleton>
       </div>
       <div class="skeleton-showcase__item">
-        <span class="skeleton-showcase__label">MD</span>
+        <span class="skeleton-showcase__label">md</span>
         <solaris-skeleton size="md"></solaris-skeleton>
       </div>
       <div class="skeleton-showcase__item">
-        <span class="skeleton-showcase__label">LG</span>
+        <span class="skeleton-showcase__label">lg</span>
         <solaris-skeleton size="lg"></solaris-skeleton>
       </div>
     </div>
     <div class="skeleton-showcase__row skeleton-showcase__row--block">
       <div class="skeleton-showcase__item">
-        <span class="skeleton-showcase__label">Rectangular SM</span>
+        <span class="skeleton-showcase__label">Rectangular sm</span>
         <solaris-skeleton variant="rectangular" size="sm"></solaris-skeleton>
       </div>
       <div class="skeleton-showcase__item">
-        <span class="skeleton-showcase__label">Rectangular MD</span>
+        <span class="skeleton-showcase__label">Rectangular md</span>
         <solaris-skeleton variant="rectangular" size="md"></solaris-skeleton>
       </div>
       <div class="skeleton-showcase__item">
-        <span class="skeleton-showcase__label">Rectangular LG</span>
+        <span class="skeleton-showcase__label">Rectangular lg</span>
         <solaris-skeleton variant="rectangular" size="lg"></solaris-skeleton>
       </div>
     </div>
     <div class="skeleton-showcase__row">
       <div class="skeleton-showcase__item skeleton-showcase__item--center">
-        <span class="skeleton-showcase__label">Circular SM</span>
+        <span class="skeleton-showcase__label">Circular sm</span>
         <solaris-skeleton variant="circular" size="sm"></solaris-skeleton>
       </div>
       <div class="skeleton-showcase__item skeleton-showcase__item--center">
-        <span class="skeleton-showcase__label">Circular MD</span>
+        <span class="skeleton-showcase__label">Circular md</span>
         <solaris-skeleton variant="circular" size="md"></solaris-skeleton>
       </div>
       <div class="skeleton-showcase__item skeleton-showcase__item--center">
-        <span class="skeleton-showcase__label">Circular LG</span>
+        <span class="skeleton-showcase__label">Circular lg</span>
         <solaris-skeleton variant="circular" size="lg"></solaris-skeleton>
       </div>
     </div>
@@ -104,15 +104,15 @@
         <solaris-skeleton radius="none"></solaris-skeleton>
       </div>
       <div class="skeleton-showcase__item">
-        <span class="skeleton-showcase__label">SM</span>
+        <span class="skeleton-showcase__label">sm</span>
         <solaris-skeleton radius="sm"></solaris-skeleton>
       </div>
       <div class="skeleton-showcase__item">
-        <span class="skeleton-showcase__label">MD</span>
+        <span class="skeleton-showcase__label">md</span>
         <solaris-skeleton radius="md"></solaris-skeleton>
       </div>
       <div class="skeleton-showcase__item">
-        <span class="skeleton-showcase__label">LG</span>
+        <span class="skeleton-showcase__label">lg</span>
         <solaris-skeleton radius="lg"></solaris-skeleton>
       </div>
       <div class="skeleton-showcase__item">
@@ -183,7 +183,7 @@
     </div>
     <div class="skeleton-showcase__row">
       <div class="skeleton-showcase__item skeleton-showcase__item--center">
-        <span class="skeleton-showcase__label">Avatar SM</span>
+        <span class="skeleton-showcase__label">Avatar sm</span>
         <solaris-skeleton variant="circular" size="sm"></solaris-skeleton>
       </div>
       <div class="skeleton-showcase__item skeleton-showcase__item--center">
@@ -193,6 +193,28 @@
           width="4rem"
           height="4rem"
         ></solaris-skeleton>
+      </div>
+    </div>
+  </section>
+
+  <section class="skeleton-showcase__section">
+    <h2 class="skeleton-showcase__section-title">
+      {{ 'skeleton.multiline' | translate }}
+    </h2>
+    <div class="skeleton-showcase__row">
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Lines 3</span>
+        <solaris-skeleton lines="3"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Lines 5</span>
+        <solaris-skeleton lines="5"></solaris-skeleton>
+      </div>
+    </div>
+    <div class="skeleton-showcase__row skeleton-showcase__row--block">
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Lines 4 + wave</span>
+        <solaris-skeleton lines="4" animation="wave"></solaris-skeleton>
       </div>
     </div>
   </section>
@@ -214,9 +236,7 @@
         >
           <solaris-skeleton variant="circular" size="lg"></solaris-skeleton>
           <div class="skeleton-composition__lines">
-            <solaris-skeleton width="70%"></solaris-skeleton>
-            <solaris-skeleton width="45%"></solaris-skeleton>
-            <solaris-skeleton width="55%"></solaris-skeleton>
+            <solaris-skeleton lines="3"></solaris-skeleton>
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ export const PT_BR_SKELETON: Record<string, string> = {
   'skeleton.radius': 'Arredondamento',
   'skeleton.density': 'Densidade',
   'skeleton.custom-sizing': 'Tamanho Personalizado',
+  'skeleton.multiline': 'Multi-linha',
   'skeleton.composition': 'Composição',
   'skeleton.reduced-motion': 'Movimento Reduzido',
   'skeleton.reduced-motion-note':

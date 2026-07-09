@@ -20,6 +20,7 @@ import type {
     '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'effectiveRadius()',
     '[attr.data-density]': 'density()',
+    '[attr.data-multiline]': 'isMultiLine() ? "" : null',
     '[style.width]': 'width() || null',
     '[style.height]': 'height() || null',
   },
@@ -32,6 +33,7 @@ export class SolarisSkeletonComponent {
   readonly density = input<SolarisSkeletonDensity>();
   readonly width = input<string>();
   readonly height = input<string>();
+  readonly lines = input<number>(1);
 
   readonly effectiveRadius = computed<SolarisSkeletonRadius>(() => {
     const r = this.radius();
@@ -46,5 +48,35 @@ export class SolarisSkeletonComponent {
       return 'full';
     }
     return 'sm';
+  });
+
+  readonly isMultiLine = computed(
+    () => this.lines() > 1 && this.variant() === 'text',
+  );
+
+  readonly lineWidths = computed<string[]>(() => {
+    const count = this.lines();
+    if (count <= 1) {
+      return [];
+    }
+    const customWidth = this.width();
+    const widths = [
+      '100%',
+      '92%',
+      '85%',
+      '78%',
+      '70%',
+      '95%',
+      '88%',
+      '82%',
+      '75%',
+      '68%',
+    ];
+    return Array.from({ length: count }, (_, i) => {
+      if (i === 0 && customWidth) {
+        return customWidth;
+      }
+      return widths[i % widths.length];
+    });
   });
 }

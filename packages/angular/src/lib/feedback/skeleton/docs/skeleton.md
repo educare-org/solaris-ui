@@ -21,15 +21,16 @@ Skeleton displays a visual placeholder while content is loading. It is a non-int
 
 ## API
 
-| Input     | Type                                                         | Default   | Description                                        |
-| --------- | ------------------------------------------------------------ | --------- | -------------------------------------------------- |
-| variant   | `'text'` \| `'rectangular'` \| `'circular'`                  | `'text'`  | Shape variant of the skeleton.                     |
-| animation | `'pulse'` \| `'wave'` \| `'none'`                            | `'pulse'` | Animation style.                                   |
-| size      | `'sm'` \| `'md'` \| `'lg'`                                   | `'md'`    | Size preset.                                       |
-| radius    | `'none'` \| `'sm'` \| `'md'` \| `'lg'` \| `'xl'` \| `'full'` | `'text'`  | Border radius. `'text'` resolves based on variant. |
-| density   | `'compact'` \| `'comfortable'` (optional)                    | —         | Density preset. Inherits from theme when possible. |
-| width     | `string` (optional)                                          | —         | Custom width (e.g. `'70%'`, `'12rem'`).            |
-| height    | `string` (optional)                                          | —         | Custom height (e.g. `'1.6rem'`, `'12rem'`).        |
+| Input     | Type                                                         | Default   | Description                                                             |
+| --------- | ------------------------------------------------------------ | --------- | ----------------------------------------------------------------------- |
+| variant   | `'text'` \| `'rectangular'` \| `'circular'`                  | `'text'`  | Shape variant of the skeleton.                                          |
+| animation | `'pulse'` \| `'wave'` \| `'none'`                            | `'pulse'` | Animation style.                                                        |
+| size      | `'sm'` \| `'md'` \| `'lg'`                                   | `'md'`    | Size preset.                                                            |
+| radius    | `'none'` \| `'sm'` \| `'md'` \| `'lg'` \| `'xl'` \| `'full'` | `'text'`  | Border radius. `'text'` resolves based on variant.                      |
+| density   | `'compact'` \| `'comfortable'` (optional)                    | —         | Density preset. Inherits from theme when possible.                      |
+| width     | `string` (optional)                                          | —         | Custom width (e.g. `'70%'`, `'12rem'`).                                 |
+| height    | `string` (optional)                                          | —         | Custom height (e.g. `'1.6rem'`, `'12rem'`).                             |
+| lines     | `number` (optional)                                          | `1`       | Number of text lines for variant `text`. Lines have auto-varied widths. |
 
 ## Variants
 
@@ -80,6 +81,20 @@ If `width` or `height` are explicitly set, density does not affect dimensions.
 | `pulse`   | Subtle opacity oscillation. Default. |
 | `wave`    | Shimmer effect moving left to right. |
 | `none`    | No animation.                        |
+
+## Lines (multi-line)
+
+When `variant="text"`, the `lines` input renders multiple text lines with automatically varied widths:
+
+```html
+<solaris-skeleton lines="3"></solaris-skeleton>
+```
+
+This produces 3 text lines with widths like 100%, 92%, 85% — simulating natural text flow.
+
+When `width` is set, the first line respects the custom width; subsequent lines use the auto-varied sequence.
+
+`lines` only works with `variant="text"`. Other variants ignore multi-line behavior.
 
 ## Width / Height
 
