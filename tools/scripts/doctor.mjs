@@ -6,7 +6,6 @@ import {
   fileExists,
   readJson,
   readdirSafe,
-  findFilesRecursive,
   printSummary,
 } from './shared.mjs';
 
@@ -191,27 +190,6 @@ if (fileExists('packages/angular/src/lib/testing/provide-solaris-testing.ts')) {
   warnings.push('Centralized testing utilities found — OK');
 } else {
   warnings.push('Centralized testing utilities not found');
-}
-
-if (fileExists('.storybook') || fileExists('packages/angular/.storybook')) {
-  warnings.push('Storybook config found — OK');
-} else {
-  warnings.push('Storybook not configured');
-}
-
-if (
-  fileExists('packages/angular/src') &&
-  fileExists('packages/angular/.storybook')
-) {
-  const storyFiles = findFilesRecursive(
-    'packages/angular/src',
-    /\.stories\.ts$/,
-  );
-  if (storyFiles.length > 0) {
-    warnings.push(`Storybook stories found: ${storyFiles.length} file(s)`);
-  } else {
-    warnings.push('No Storybook stories found');
-  }
 }
 
 const result = printSummary('Doctor', errors, warnings);

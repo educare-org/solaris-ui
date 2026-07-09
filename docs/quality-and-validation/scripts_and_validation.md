@@ -50,7 +50,6 @@ Expected group:
 start
 dev
 showcase
-storybook
 ```
 
 ## Fast validation scripts
@@ -88,7 +87,6 @@ Expected group:
 build
 build:lib
 build:showcase
-build:storybook
 ```
 
 ## Security scripts
