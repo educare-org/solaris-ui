@@ -64,6 +64,20 @@ export type {
   SolarisBadgeDensity,
 } from './lib/data-display/badge/model/badge.types';
 
+export { SolarisCardComponent } from './lib/data-display/card/component/card.component';
+export { SolarisCardHeaderComponent } from './lib/data-display/card/component/card-header.component';
+export { SolarisCardContentComponent } from './lib/data-display/card/component/card-content.component';
+export { SolarisCardMediaComponent } from './lib/data-display/card/component/card-media.component';
+export { SolarisCardFooterComponent } from './lib/data-display/card/component/card-footer.component';
+export { SolarisCardActionsComponent } from './lib/data-display/card/component/card-actions.component';
+export { SolarisCardTitleDirective } from './lib/data-display/card/directives/card-title.directive';
+export { SolarisCardDescriptionDirective } from './lib/data-display/card/directives/card-description.directive';
+export type {
+  SolarisCardAppearance,
+  SolarisCardRadius,
+  SolarisCardDensity,
+} from './lib/data-display/card/model/card.types';
+
 export { SolarisSkeletonComponent } from './lib/feedback/skeleton/component/skeleton.component';
 export type {
   SolarisSkeletonVariant,

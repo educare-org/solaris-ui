@@ -22,4 +22,11 @@ export const appRoutes: Route[] = [
         (m) => m.SkeletonShowcasePage,
       ),
   },
+  {
+    path: 'card',
+    loadComponent: () =>
+      import('./pages/card/component/card-showcase').then(
+        (m) => m.CardShowcasePage,
+      ),
+  },
 ];

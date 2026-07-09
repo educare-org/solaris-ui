@@ -1,0 +1,263 @@
+:host {
+  --solaris-card-gap: initial;
+  --solaris-card-color: initial;
+  --solaris-card-radius: initial;
+  --solaris-card-shadow: initial;
+  --solaris-card-glass-blur: initial;
+  --solaris-card-padding: initial;
+  --solaris-card-background: initial;
+  --solaris-card-header-gap: initial;
+  --solaris-card-border-color: initial;
+  --solaris-card-border-width: initial;
+  --solaris-card-glass-background: initial;
+  --solaris-card-glass-border-color: initial;
+  --solaris-card-footer-border-color: initial;
+  --solaris-card-glass-texture-opacity: initial;
+
+  gap: 0;
+  padding: 0;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  color: var(--solaris-card-color);
+  box-shadow: var(--solaris-card-shadow);
+  border-radius: var(--solaris-card-radius);
+  background: var(--solaris-card-background);
+  border: var(--solaris-card-border-width) solid
+  var(--solaris-card-border-color);
+  --solaris-card-section-gap: var(--solaris-card-gap, 1rem);
+  --solaris-card-section-padding: var(--solaris-card-padding, 1.5rem);
+}
+
+:host([data-appearance='surface']) {
+  --solaris-card-shadow: none;
+  --solaris-card-border-width: 1px;
+  --solaris-card-color: var(--solaris-text-default);
+  --solaris-card-background: var(--solaris-surface-base);
+  --solaris-card-border-color: var(--solaris-border-subtle);
+}
+
+:host([data-appearance='outline']) {
+  --solaris-card-shadow: none;
+  --solaris-card-border-width: 1px;
+  --solaris-card-background: transparent;
+  --solaris-card-color: var(--solaris-text-default);
+  --solaris-card-border-color: var(--solaris-border-default);
+}
+
+:host([data-appearance='tonal']) {
+  --solaris-card-shadow: none;
+  --solaris-card-border-width: 1px;
+  --solaris-card-color: var(--solaris-text-default);
+  --solaris-card-background: var(--solaris-surface-subtle);
+  --solaris-card-border-color: var(--solaris-border-subtle);
+}
+
+:host([data-appearance='glass']) {
+  --solaris-card-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+
+  --solaris-card-glass-blur: 22px;
+  --solaris-card-border-width: 1px;
+  --solaris-card-color: var(--solaris-text-default);
+  --solaris-card-glass-texture-opacity: 0.18;
+
+  // SOLARIS_TOKEN_EXCEPTION: glass appearance requires translucent rgba values for the frosted-glass effect.
+  --solaris-card-glass-background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(255, 255, 255, 0.10) 34%,
+      rgba(255, 255, 255, 0.04) 100%
+    ),
+    rgba(24, 20, 18, 0.34);
+
+  // SOLARIS_TOKEN_EXCEPTION: glass appearance requires translucent rgba values for the frosted-glass effect.
+  --solaris-card-glass-border-color: rgba(255, 255, 255, 0.22);
+
+  position: relative;
+  isolation: isolate;
+  background: var(--solaris-card-glass-background);
+  border-color: var(--solaris-card-glass-border-color);
+  box-shadow: var(--solaris-card-shadow);
+
+  backdrop-filter:
+    blur(var(--solaris-card-glass-blur))
+    saturate(150%)
+    contrast(108%);
+
+  -webkit-backdrop-filter:
+    blur(var(--solaris-card-glass-blur))
+    saturate(150%)
+    contrast(108%);
+}
+
+:host([data-appearance='glass'])::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+
+  background:
+    radial-gradient(
+      circle at 72% 58%,
+      rgba(255, 110, 24, 0.36),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 22% 16%,
+      rgba(255, 255, 255, 0.18),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.18),
+      transparent 42%
+    );
+}
+
+:host([data-appearance='glass'][data-glass-texture='grooves'])::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: var(--solaris-card-glass-texture-opacity, 0.18);
+
+  background-image:
+    repeating-radial-gradient(
+      circle at 0 0,
+      rgba(255, 255, 255, 0.22) 0,
+      rgba(255, 255, 255, 0.22) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+}
+
+:host([data-density='compact']) {
+  --solaris-card-gap: var(--solaris-density-gap-md);
+  --solaris-card-padding: var(--solaris-density-padding-lg);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-card-gap: var(--solaris-density-gap-lg);
+  --solaris-card-padding: var(--solaris-density-padding-xl);
+}
+
+:host([data-radius='none']) {
+  --solaris-card-radius: var(--solaris-radius-none);
+}
+
+:host([data-radius='sm']) {
+  --solaris-card-radius: var(--solaris-radius-sm);
+}
+
+:host([data-radius='lg']) {
+  --solaris-card-radius: var(--solaris-radius-lg);
+}
+
+:host([data-radius='xl']) {
+  --solaris-card-radius: var(--solaris-radius-xl);
+}
+
+:host ::ng-deep .solaris-card-header,
+:host ::ng-deep .solaris-card-content,
+:host ::ng-deep .solaris-card-footer {
+  box-sizing: border-box;
+  padding-inline: var(--solaris-card-section-padding);
+}
+
+:host ::ng-deep .solaris-card-header {
+  display: flex;
+  padding-block-end: 0;
+  flex-direction: column;
+  gap: var(--solaris-card-header-gap, 0.25rem);
+  padding-block-start: var(--solaris-card-section-padding);
+}
+
+:host ::ng-deep .solaris-card-header:only-child {
+  padding-block-end: var(--solaris-card-section-padding);
+}
+
+:host ::ng-deep .solaris-card-content {
+  display: block;
+  padding-block: var(--solaris-card-section-padding);
+}
+
+:host ::ng-deep .solaris-card-header + .solaris-card-content {
+  padding-block-start: var(--solaris-card-section-gap);
+}
+
+:host ::ng-deep .solaris-card-footer {
+  gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-block-start: 0;
+  padding-block-end: var(--solaris-card-section-padding);
+}
+
+:host ::ng-deep .solaris-card-footer:only-child {
+  padding-block-start: var(--solaris-card-section-padding);
+}
+
+:host ::ng-deep .solaris-card-footer[data-separator] {
+  padding-block-start: var(--solaris-card-section-gap);
+
+  border-top: 1px solid
+    var(--solaris-card-footer-border-color, var(--solaris-border-subtle));
+}
+
+:host ::ng-deep .solaris-card-media {
+  margin: 0;
+  display: block;
+  overflow: hidden;
+}
+
+:host ::ng-deep .solaris-card-media:first-child {
+  border-radius: var(--solaris-card-radius) var(--solaris-card-radius) 0 0;
+}
+
+:host ::ng-deep .solaris-card-media:not(:first-child) {
+  border-radius: 0;
+}
+
+:host ::ng-deep .solaris-card-media img,
+:host ::ng-deep .solaris-card-media video,
+:host ::ng-deep .solaris-card-media picture {
+  width: 100%;
+  display: block;
+}
+
+:host ::ng-deep .solaris-card-actions {
+  gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+:host ::ng-deep .solaris-card-title {
+  margin: 0 0 0.25rem;
+  color: var(--solaris-text-strong);
+  font-size: var(--solaris-font-size-lg);
+  line-height: var(--solaris-line-height-sm);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+:host ::ng-deep .solaris-card-description {
+  margin: 0;
+  color: var(--solaris-text-muted);
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-md);
+}
+
+:host ::ng-deep * + .solaris-card-description {
+  margin-top: 0.25rem;
+}
