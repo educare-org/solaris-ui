@@ -15,4 +15,11 @@ export const appRoutes: Route[] = [
         (m) => m.BadgeShowcasePage,
       ),
   },
+  {
+    path: 'skeleton',
+    loadComponent: () =>
+      import('./pages/skeleton/component/skeleton-showcase').then(
+        (m) => m.SkeletonShowcasePage,
+      ),
+  },
 ];

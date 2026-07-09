@@ -1,0 +1,304 @@
+<div class="skeleton-showcase">
+  <header class="skeleton-showcase__header">
+    <h1 class="skeleton-showcase__title">{{ 'skeleton.title' | translate }}</h1>
+    <p class="skeleton-showcase__description">
+      {{ 'skeleton.description' | translate }}
+    </p>
+  </header>
+
+  <section class="skeleton-showcase__section">
+    <h2 class="skeleton-showcase__section-title">
+      {{ 'skeleton.variants' | translate }}
+    </h2>
+    <div class="skeleton-showcase__row">
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Text</span>
+        <solaris-skeleton variant="text"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Rectangular</span>
+        <solaris-skeleton variant="rectangular"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Circular</span>
+        <solaris-skeleton variant="circular"></solaris-skeleton>
+      </div>
+    </div>
+  </section>
+
+  <section class="skeleton-showcase__section">
+    <h2 class="skeleton-showcase__section-title">
+      {{ 'skeleton.animations' | translate }}
+    </h2>
+    <div class="skeleton-showcase__row">
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Pulse</span>
+        <solaris-skeleton animation="pulse"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Wave</span>
+        <solaris-skeleton animation="wave"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">None</span>
+        <solaris-skeleton animation="none"></solaris-skeleton>
+      </div>
+    </div>
+  </section>
+
+  <section class="skeleton-showcase__section">
+    <h2 class="skeleton-showcase__section-title">
+      {{ 'skeleton.sizes' | translate }}
+    </h2>
+    <div class="skeleton-showcase__row">
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">SM</span>
+        <solaris-skeleton size="sm"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">MD</span>
+        <solaris-skeleton size="md"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">LG</span>
+        <solaris-skeleton size="lg"></solaris-skeleton>
+      </div>
+    </div>
+    <div class="skeleton-showcase__row skeleton-showcase__row--block">
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Rectangular SM</span>
+        <solaris-skeleton variant="rectangular" size="sm"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Rectangular MD</span>
+        <solaris-skeleton variant="rectangular" size="md"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Rectangular LG</span>
+        <solaris-skeleton variant="rectangular" size="lg"></solaris-skeleton>
+      </div>
+    </div>
+    <div class="skeleton-showcase__row">
+      <div class="skeleton-showcase__item skeleton-showcase__item--center">
+        <span class="skeleton-showcase__label">Circular SM</span>
+        <solaris-skeleton variant="circular" size="sm"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item skeleton-showcase__item--center">
+        <span class="skeleton-showcase__label">Circular MD</span>
+        <solaris-skeleton variant="circular" size="md"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item skeleton-showcase__item--center">
+        <span class="skeleton-showcase__label">Circular LG</span>
+        <solaris-skeleton variant="circular" size="lg"></solaris-skeleton>
+      </div>
+    </div>
+  </section>
+
+  <section class="skeleton-showcase__section">
+    <h2 class="skeleton-showcase__section-title">
+      {{ 'skeleton.radius' | translate }}
+    </h2>
+    <div class="skeleton-showcase__row">
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">None</span>
+        <solaris-skeleton radius="none"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">SM</span>
+        <solaris-skeleton radius="sm"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">MD</span>
+        <solaris-skeleton radius="md"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">LG</span>
+        <solaris-skeleton radius="lg"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">XL</span>
+        <solaris-skeleton radius="xl"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Full</span>
+        <solaris-skeleton radius="full"></solaris-skeleton>
+      </div>
+    </div>
+    <div class="skeleton-showcase__row skeleton-showcase__row--block">
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Rectangular None</span>
+        <solaris-skeleton
+          variant="rectangular"
+          radius="none"
+        ></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Rectangular Full</span>
+        <solaris-skeleton
+          variant="rectangular"
+          radius="full"
+        ></solaris-skeleton>
+      </div>
+    </div>
+  </section>
+
+  <section class="skeleton-showcase__section">
+    <h2 class="skeleton-showcase__section-title">
+      {{ 'skeleton.density' | translate }}
+    </h2>
+    <div class="skeleton-showcase__row">
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Compact</span>
+        <solaris-skeleton density="compact"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Comfortable</span>
+        <solaris-skeleton density="comfortable"></solaris-skeleton>
+      </div>
+    </div>
+  </section>
+
+  <section class="skeleton-showcase__section">
+    <h2 class="skeleton-showcase__section-title">
+      {{ 'skeleton.custom-sizing' | translate }}
+    </h2>
+    <div class="skeleton-showcase__row">
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Width 40%</span>
+        <solaris-skeleton width="40%"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Width 70%</span>
+        <solaris-skeleton width="70%"></solaris-skeleton>
+      </div>
+    </div>
+    <div class="skeleton-showcase__row skeleton-showcase__row--block">
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Rectangular block</span>
+        <solaris-skeleton
+          variant="rectangular"
+          height="12rem"
+        ></solaris-skeleton>
+      </div>
+    </div>
+    <div class="skeleton-showcase__row">
+      <div class="skeleton-showcase__item skeleton-showcase__item--center">
+        <span class="skeleton-showcase__label">Avatar SM</span>
+        <solaris-skeleton variant="circular" size="sm"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item skeleton-showcase__item--center">
+        <span class="skeleton-showcase__label">Avatar custom</span>
+        <solaris-skeleton
+          variant="circular"
+          width="4rem"
+          height="4rem"
+        ></solaris-skeleton>
+      </div>
+    </div>
+  </section>
+
+  <section class="skeleton-showcase__section">
+    <h2 class="skeleton-showcase__section-title">
+      {{ 'skeleton.composition' | translate }}
+    </h2>
+
+    <div class="skeleton-showcase__examples">
+      <div class="skeleton-composition">
+        <h3 class="skeleton-composition__title">
+          {{ 'skeleton.profile-card' | translate }}
+        </h3>
+        <div
+          class="skeleton-composition__profile-card"
+          aria-busy="true"
+          aria-label="Loading profile card"
+        >
+          <solaris-skeleton variant="circular" size="lg"></solaris-skeleton>
+          <div class="skeleton-composition__lines">
+            <solaris-skeleton width="70%"></solaris-skeleton>
+            <solaris-skeleton width="45%"></solaris-skeleton>
+            <solaris-skeleton width="55%"></solaris-skeleton>
+          </div>
+        </div>
+      </div>
+
+      <div class="skeleton-composition">
+        <h3 class="skeleton-composition__title">
+          {{ 'skeleton.dashboard-card' | translate }}
+        </h3>
+        <div
+          class="skeleton-composition__dashboard-card"
+          aria-busy="true"
+          aria-label="Loading dashboard card"
+        >
+          <solaris-skeleton
+            variant="rectangular"
+            height="10rem"
+          ></solaris-skeleton>
+          <div class="skeleton-composition__card-body">
+            <solaris-skeleton width="60%"></solaris-skeleton>
+            <solaris-skeleton width="85%"></solaris-skeleton>
+            <solaris-skeleton width="35%"></solaris-skeleton>
+          </div>
+        </div>
+      </div>
+
+      <div class="skeleton-composition">
+        <h3 class="skeleton-composition__title">
+          {{ 'skeleton.list-row' | translate }}
+        </h3>
+        <div
+          class="skeleton-composition__list-row"
+          aria-busy="true"
+          aria-label="Loading list row"
+        >
+          <solaris-skeleton variant="circular" size="sm"></solaris-skeleton>
+          <div class="skeleton-composition__list-lines">
+            <solaris-skeleton width="50%"></solaris-skeleton>
+            <solaris-skeleton width="30%"></solaris-skeleton>
+          </div>
+        </div>
+      </div>
+
+      <div class="skeleton-composition">
+        <h3 class="skeleton-composition__title">
+          {{ 'skeleton.media-block' | translate }}
+        </h3>
+        <div
+          class="skeleton-composition__media-block"
+          aria-busy="true"
+          aria-label="Loading media block"
+        >
+          <solaris-skeleton
+            variant="rectangular"
+            width="12rem"
+            height="8rem"
+          ></solaris-skeleton>
+          <div class="skeleton-composition__media-text">
+            <solaris-skeleton width="90%"></solaris-skeleton>
+            <solaris-skeleton width="75%"></solaris-skeleton>
+            <solaris-skeleton width="50%"></solaris-skeleton>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="skeleton-showcase__section">
+    <h2 class="skeleton-showcase__section-title">
+      {{ 'skeleton.reduced-motion' | translate }}
+    </h2>
+    <p class="skeleton-showcase__note">
+      {{ 'skeleton.reduced-motion-note' | translate }}
+    </p>
+    <div class="skeleton-showcase__row">
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Pulse (reduced)</span>
+        <solaris-skeleton animation="pulse"></solaris-skeleton>
+      </div>
+      <div class="skeleton-showcase__item">
+        <span class="skeleton-showcase__label">Wave (reduced)</span>
+        <solaris-skeleton animation="wave"></solaris-skeleton>
+      </div>
+    </div>
+  </section>
+</div>

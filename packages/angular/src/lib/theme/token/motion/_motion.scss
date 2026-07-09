@@ -1,9 +1,9 @@
 :root {
   --solaris-motion-duration-instant: 0ms;
   --solaris-motion-duration-fast: 150ms;
-  --solaris-motion-duration-normal: 250ms;
-  --solaris-motion-duration-slow: 400ms;
-  --solaris-motion-duration-slower: 600ms;
+  --solaris-motion-duration-normal: 300ms;
+  --solaris-motion-duration-slow: 600ms;
+  --solaris-motion-duration-slower: 1200ms;
 
   --solaris-motion-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --solaris-motion-easing-decelerate: cubic-bezier(0, 0, 0.2, 1);

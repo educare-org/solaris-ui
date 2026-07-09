@@ -1,6 +1,6 @@
 [data-theme='dark'] {
   --solaris-bg-page: #151616;
-  --solaris-surface-base: #1b1c1d;
+  --solaris-surface-base: #111212;
   --solaris-surface-subtle: #222324;
   --solaris-surface-muted: #333435;
   --solaris-surface-raised: #202123;
@@ -67,7 +67,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --solaris-bg-page: #151616;
-    --solaris-surface-base: #1b1c1d;
+    --solaris-surface-base: #111212;
     --solaris-surface-subtle: #222324;
     --solaris-surface-muted: #333435;
     --solaris-surface-raised: #202123;

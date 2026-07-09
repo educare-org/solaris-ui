@@ -64,6 +64,15 @@ export type {
   SolarisBadgeDensity,
 } from './lib/data-display/badge/model/badge.types';
 
+export { SolarisSkeletonComponent } from './lib/feedback/skeleton/component/skeleton.component';
+export type {
+  SolarisSkeletonVariant,
+  SolarisSkeletonAnimation,
+  SolarisSkeletonSize,
+  SolarisSkeletonRadius,
+  SolarisSkeletonDensity,
+} from './lib/feedback/skeleton/model/skeleton.types';
+
 export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';
 export type { SolarisTestingOptions } from './lib/testing/provide-solaris-testing';
 export { configureSolarisTesting } from './lib/testing/solaris-test-utilities';

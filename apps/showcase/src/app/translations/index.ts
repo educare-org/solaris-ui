@@ -1,7 +1,12 @@
 import { CONFIGURATION_TRANSLATIONS } from '../pages/configuration/translations';
 import { BADGE_TRANSLATIONS } from '../pages/badge/translations';
+import { SKELETON_TRANSLATIONS } from '../pages/skeleton/translations';
 
-const PAGE_MODULES = [CONFIGURATION_TRANSLATIONS, BADGE_TRANSLATIONS];
+const PAGE_MODULES = [
+  CONFIGURATION_TRANSLATIONS,
+  BADGE_TRANSLATIONS,
+  SKELETON_TRANSLATIONS,
+];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};
 

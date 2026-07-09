@@ -1,0 +1,186 @@
+:host {
+  --solaris-skeleton-width: 100%;
+  --solaris-skeleton-height: 1rem;
+  --solaris-skeleton-radius: var(--solaris-radius-sm);
+  --solaris-skeleton-background: var(--solaris-surface-muted);
+  --solaris-skeleton-highlight: var(--solaris-surface-raised);
+  --solaris-skeleton-animation-easing: var(--solaris-motion-easing-standard);
+  --solaris-skeleton-animation-duration: var(--solaris-motion-duration-slower);
+
+  min-width: 0;
+  min-height: 0;
+  display: block;
+  box-sizing: border-box;
+  width: var(--solaris-skeleton-width);
+  height: var(--solaris-skeleton-height);
+  border-radius: var(--solaris-skeleton-radius);
+  background: var(--solaris-skeleton-background);
+}
+
+:host([data-variant='text']) {
+  --solaris-skeleton-height: 1rem;
+}
+
+:host([data-variant='rectangular']) {
+  --solaris-skeleton-height: 8rem;
+}
+
+:host([data-variant='circular']) {
+  --solaris-skeleton-height: 3rem;
+  --solaris-skeleton-width: 3rem;
+}
+
+:host([data-size='sm']) {
+  --solaris-skeleton-height: 0.75rem;
+}
+
+:host([data-size='sm'][data-variant='rectangular']) {
+  --solaris-skeleton-height: 6rem;
+}
+
+:host([data-size='sm'][data-variant='circular']) {
+  --solaris-skeleton-width: 2.25rem;
+  --solaris-skeleton-height: 2.25rem;
+}
+
+:host([data-size='lg']) {
+  --solaris-skeleton-height: 1.25rem;
+}
+
+:host([data-size='lg'][data-variant='rectangular']) {
+  --solaris-skeleton-height: 10rem;
+}
+
+:host([data-size='lg'][data-variant='circular']) {
+  --solaris-skeleton-width: 3.75rem;
+  --solaris-skeleton-height: 3.75rem;
+}
+
+:host([data-density='compact']) {
+  --solaris-skeleton-height: 0.625rem;
+}
+
+:host([data-density='compact'][data-variant='rectangular']) {
+  --solaris-skeleton-height: 5rem;
+}
+
+:host([data-density='compact'][data-variant='circular']) {
+  --solaris-skeleton-width: 2rem;
+  --solaris-skeleton-height: 2rem;
+}
+
+:host([data-density='comfortable']) {
+  --solaris-skeleton-height: 1.125rem;
+}
+
+:host([data-density='comfortable'][data-variant='rectangular']) {
+  --solaris-skeleton-height: 9rem;
+}
+
+:host([data-density='comfortable'][data-variant='circular']) {
+  --solaris-skeleton-width: 3.5rem;
+  --solaris-skeleton-height: 3.5rem;
+}
+
+:host([data-radius='none']) {
+  --solaris-skeleton-radius: var(--solaris-radius-none);
+}
+
+:host([data-radius='sm']) {
+  --solaris-skeleton-radius: var(--solaris-radius-sm);
+}
+
+:host([data-radius='md']) {
+  --solaris-skeleton-radius: var(--solaris-radius-md);
+}
+
+:host([data-radius='lg']) {
+  --solaris-skeleton-radius: var(--solaris-radius-lg);
+}
+
+:host([data-radius='xl']) {
+  --solaris-skeleton-radius: var(--solaris-radius-xl);
+}
+
+:host([data-radius='full']) {
+  --solaris-skeleton-radius: var(--solaris-radius-full);
+}
+
+:host([data-animation='pulse']) {
+  animation: solaris-skeleton-pulse var(--solaris-skeleton-animation-duration)
+    var(--solaris-skeleton-animation-easing) infinite;
+}
+
+:host([data-animation='wave']) {
+  overflow: hidden;
+  position: relative;
+
+  &::after {
+    inset: 0;
+    content: '';
+    position: absolute;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--solaris-skeleton-highlight) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: solaris-skeleton-wave var(--solaris-skeleton-animation-duration)
+      var(--solaris-skeleton-animation-easing) infinite;
+  }
+}
+
+:host([data-animation='none']) {
+  animation: none;
+
+  &::after {
+    content: none;
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host([data-animation='pulse']) {
+    animation: none;
+  }
+
+  :host([data-animation='wave']) {
+    &::after {
+      animation: none;
+      content: none;
+    }
+  }
+}
+
+[data-reduced-motion='true'] {
+  solaris-skeleton[data-animation='pulse'] {
+    animation: none;
+  }
+
+  solaris-skeleton[data-animation='wave']::after {
+    animation: none;
+    content: none;
+  }
+}
+
+@keyframes solaris-skeleton-pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes solaris-skeleton-wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
