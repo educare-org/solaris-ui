@@ -32,9 +32,7 @@
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish",
     "changeset:status": "changeset status",
-    "storybook": "pnpm nx storybook angular",
-    "storybook:build": "pnpm nx build-storybook angular",
-    "storybook:test": "pnpm nx test-storybook angular",
+    "test:coverage": "pnpm nx run-many -t test:coverage",
     "check": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs && pnpm lint && pnpm typecheck",
     "typecheck": "pnpm tsc --noEmit -p packages/angular/tsconfig.lib.json && pnpm tsc --noEmit -p apps/showcase/tsconfig.app.json",
     "verify": "node tools/scripts/verify.mjs"
@@ -95,6 +93,7 @@
     "@storybook/angular": "^10.4.6",
     "@swc/helpers": "~0.5.18",
     "@typescript-eslint/utils": "^8.40.0",
+    "@vitest/coverage-v8": "^4.1.10",
     "angular-eslint": "^21.2.0",
     "autoprefixer": "^10.4.0",
     "eslint": "^9.8.0",

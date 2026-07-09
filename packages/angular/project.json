@@ -27,6 +27,20 @@
         "watch": false
       }
     },
+    "test:coverage": {
+      "executor": "@nx/angular:unit-test",
+      "options": {
+        "watch": false,
+        "coverage": true,
+        "coverageReporters": ["text", "lcov", "html"],
+        "coverageThresholds": {
+          "statements": 85,
+          "branches": 85,
+          "functions": 85,
+          "lines": 85
+        }
+      }
+    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }

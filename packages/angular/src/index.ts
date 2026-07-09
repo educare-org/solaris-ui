@@ -52,3 +52,7 @@ export type {
   SolarisBuiltInIcon,
 } from './lib/icon/model/solaris-icon.types';
 export type { SolarisIconsConfig } from './lib/icon/token/solaris-icon.tokens';
+
+export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';
+export type { SolarisTestingOptions } from './lib/testing/provide-solaris-testing';
+export { configureSolarisTesting } from './lib/testing/solaris-test-utilities';

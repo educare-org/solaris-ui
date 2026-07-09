@@ -6,6 +6,7 @@ import {
   fileExists,
   readJson,
   readdirSafe,
+  findFilesRecursive,
   printSummary,
 } from './shared.mjs';
 
@@ -169,14 +170,43 @@ if (fileExists('.github/workflows/ci.yml')) {
   warnings.push('CI workflow not configured');
 }
 
+const angularPkg = fileExists('packages/angular/project.json')
+  ? readJson('packages/angular/project.json')
+  : null;
+if (angularPkg && angularPkg.targets && angularPkg.targets['test:coverage']) {
+  warnings.push('test:coverage target configured with thresholds');
+} else {
+  warnings.push(
+    'test:coverage target not configured in packages/angular/project.json',
+  );
+}
+
+if (fileExists('packages/angular/vitest.config.ts')) {
+  warnings.push('vitest coverage config found — OK');
+} else {
+  warnings.push('vitest coverage config not found');
+}
+
+if (fileExists('packages/angular/src/lib/testing/provide-solaris-testing.ts')) {
+  warnings.push('Centralized testing utilities found — OK');
+} else {
+  warnings.push('Centralized testing utilities not found');
+}
+
 if (fileExists('.storybook') || fileExists('packages/angular/.storybook')) {
   warnings.push('Storybook config found — OK');
 } else {
   warnings.push('Storybook not configured');
 }
 
-if (fileExists('packages/angular/src') && fileExists('packages/angular/.storybook')) {
-  const storyFiles = findFilesRecursive('packages/angular/src', /\.stories\.ts$/);
+if (
+  fileExists('packages/angular/src') &&
+  fileExists('packages/angular/.storybook')
+) {
+  const storyFiles = findFilesRecursive(
+    'packages/angular/src',
+    /\.stories\.ts$/,
+  );
   if (storyFiles.length > 0) {
     warnings.push(`Storybook stories found: ${storyFiles.length} file(s)`);
   } else {

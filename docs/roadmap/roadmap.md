@@ -16,7 +16,7 @@ Scope:
 - [x] accessibility foundation;
 - [x] translate foundation;
 - [x] showcase foundation;
-- [ ] testing foundation;
+- [x] testing foundation;
 - [ ] Button;
 - [ ] Icon Button;
 - [ ] Badge;
