@@ -1,12 +1,12 @@
 :host {
   --solaris-skeleton-width: 100%;
   --solaris-skeleton-height: 1rem;
+  --solaris-skeleton-gap: var(--solaris-spacing-2);
   --solaris-skeleton-radius: var(--solaris-radius-sm);
   --solaris-skeleton-background: var(--solaris-surface-muted);
   --solaris-skeleton-highlight: var(--solaris-surface-raised);
   --solaris-skeleton-animation-easing: var(--solaris-motion-easing-standard);
   --solaris-skeleton-animation-duration: var(--solaris-motion-duration-slower);
-  --solaris-skeleton-gap: var(--solaris-spacing-2);
 
   min-width: 0;
   min-height: 0;
@@ -20,12 +20,12 @@
 
 :host([data-multiline]) {
   display: flex;
-  flex-direction: column;
-  gap: var(--solaris-skeleton-gap);
   height: auto;
+  animation: none;
   background: none;
   border-radius: 0;
-  animation: none;
+  flex-direction: column;
+  gap: var(--solaris-skeleton-gap);
 
   &::after {
     content: none;
