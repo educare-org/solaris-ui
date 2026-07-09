@@ -34,10 +34,12 @@ export const PT_BR_CARD: Record<string, string> = {
     'Adicione um campo no portal para permitir que o usuário conecte sua conta do Slack.',
   'card.loading': 'Estado de carregamento',
   'card.basic-title': 'Título do Card Básico',
-  'card.basic-desc-text': 'Este é um card simples com título, descrição e conteúdo livre.',
+  'card.basic-desc-text':
+    'Este é um card simples com título, descrição e conteúdo livre.',
   'card.any-content': 'Qualquer conteúdo pode ir aqui.',
   'card.media-title': 'Card com Mídia',
-  'card.media-desc-text': 'Conteúdo posicionado abaixo da área de mídia com badge e rodapé.',
+  'card.media-desc-text':
+    'Conteúdo posicionado abaixo da área de mídia com badge e rodapé.',
   'card.active': 'Ativo',
   'card.appearance-surface': 'Surface',
   'card.appearance-surface-desc': 'Aparência padrão do card.',

@@ -30,4 +30,4 @@ import {
   templateUrl: './card-showcase.html',
   styleUrls: ['./card-showcase.scss'],
 })
-export class CardShowcasePage { }
+export class CardShowcasePage {}

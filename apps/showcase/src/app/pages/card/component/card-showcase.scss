@@ -99,12 +99,7 @@
   filter: blur(0.25rem);
   border-radius: var(--solaris-radius-lg);
 
-  background:
-    linear-gradient(
-      135deg,
-      #ff7a00,
-      #ff4618
-    );
+  background: linear-gradient(135deg, #ff7a00, #ff4618);
 }
 
 .card-showcase__glass-card {
