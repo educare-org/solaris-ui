@@ -34,6 +34,8 @@ export const EN_US_CONFIG: Record<string, string> = {
   'configuration.label.interpolation': 'Translate: greeting with interpolation',
   'configuration.label.fallback':
     'Translate: missing key (falls back to fallbackLocale)',
+  greeting: 'Hello, {{name}}',
+  farewell: 'Goodbye',
   'configuration.label.missing': 'Translate: nonexistent key (returns key)',
   'configuration.label.reduced-motion': 'Reduced motion',
   'configuration.label.reduced-motion-value':
