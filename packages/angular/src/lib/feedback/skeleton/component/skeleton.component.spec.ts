@@ -68,7 +68,7 @@ describe('SolarisSkeletonComponent', () => {
 
   it('should apply all radius values', () => {
     const el = createFixture();
-    const values = ['none', 'sm', 'md', 'lg', 'xl', 'full'] as const;
+    const values = ['none', 'sm', 'full'] as const;
     for (const v of values) {
       fixture.componentRef.setInput('radius', v);
       fixture.detectChanges();
@@ -162,7 +162,7 @@ describe('SolarisSkeletonComponent', () => {
     fixture.componentRef.setInput('radius', 'text');
     fixture.componentRef.setInput('variant', 'rectangular');
     fixture.detectChanges();
-    expect(el.getAttribute('data-radius')).toBe('md');
+    expect(el.getAttribute('data-radius')).toBe('sm');
   });
 
   it('should resolve effective radius for circular variant', () => {
@@ -377,5 +377,18 @@ describe('SolarisSkeletonComponent multiline', () => {
       '.solaris-skeleton-line',
     );
     expect(children.length).toBe(10);
+  });
+
+  it('should not apply wave animation on host when multiline', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('lines', 3);
+    fixture.componentRef.setInput('animation', 'wave');
+    fixture.detectChanges();
+    const host = fixture.nativeElement;
+    expect(host.hasAttribute('data-multiline')).toBe(true);
+    expect(host.getAttribute('data-animation')).toBe('wave');
+    const children = host.querySelectorAll('.solaris-skeleton-line');
+    expect(children.length).toBe(3);
   });
 });

@@ -24,6 +24,8 @@
   animation: none;
   background: none;
   border-radius: 0;
+  overflow: visible;
+  position: static;
   flex-direction: column;
   gap: var(--solaris-skeleton-gap);
 
@@ -116,18 +118,6 @@
   --solaris-skeleton-radius: var(--solaris-radius-sm);
 }
 
-:host([data-radius='md']) {
-  --solaris-skeleton-radius: var(--solaris-radius-md);
-}
-
-:host([data-radius='lg']) {
-  --solaris-skeleton-radius: var(--solaris-radius-lg);
-}
-
-:host([data-radius='xl']) {
-  --solaris-skeleton-radius: var(--solaris-radius-xl);
-}
-
 :host([data-radius='full']) {
   --solaris-skeleton-radius: var(--solaris-radius-full);
 }
@@ -182,6 +172,16 @@
   }
 }
 
+:host([data-animation='wave'][data-multiline]) {
+  overflow: visible;
+  position: static;
+
+  &::after {
+    content: none;
+    animation: none;
+  }
+}
+
 :host([data-animation='none']) {
   animation: none;
 
@@ -211,6 +211,13 @@
     animation: none;
     content: none;
   }
+
+  :host([data-animation='wave'][data-multiline]) {
+    &::after {
+      content: none;
+      animation: none;
+    }
+  }
 }
 
 [data-reduced-motion='true'] {
@@ -230,6 +237,11 @@
   solaris-skeleton[data-animation='wave'] .solaris-skeleton-line::after {
     animation: none;
     content: none;
+  }
+
+  solaris-skeleton[data-animation='wave'][data-multiline]::after {
+    content: none;
+    animation: none;
   }
 }
 

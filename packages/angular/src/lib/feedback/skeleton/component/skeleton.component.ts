@@ -42,7 +42,7 @@ export class SolarisSkeletonComponent {
     }
     const v = this.variant();
     if (v === 'rectangular') {
-      return 'md';
+      return 'sm';
     }
     if (v === 'circular') {
       return 'full';

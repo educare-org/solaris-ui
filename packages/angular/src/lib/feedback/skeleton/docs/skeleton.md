@@ -21,23 +21,23 @@ Skeleton displays a visual placeholder while content is loading. It is a non-int
 
 ## API
 
-| Input     | Type                                                         | Default   | Description                                                             |
-| --------- | ------------------------------------------------------------ | --------- | ----------------------------------------------------------------------- |
-| variant   | `'text'` \| `'rectangular'` \| `'circular'`                  | `'text'`  | Shape variant of the skeleton.                                          |
-| animation | `'pulse'` \| `'wave'` \| `'none'`                            | `'pulse'` | Animation style.                                                        |
-| size      | `'sm'` \| `'md'` \| `'lg'`                                   | `'md'`    | Size preset.                                                            |
-| radius    | `'none'` \| `'sm'` \| `'md'` \| `'lg'` \| `'xl'` \| `'full'` | `'text'`  | Border radius. `'text'` resolves based on variant.                      |
-| density   | `'compact'` \| `'comfortable'` (optional)                    | —         | Density preset. Inherits from theme when possible.                      |
-| width     | `string` (optional)                                          | —         | Custom width (e.g. `'70%'`, `'12rem'`).                                 |
-| height    | `string` (optional)                                          | —         | Custom height (e.g. `'1.6rem'`, `'12rem'`).                             |
-| lines     | `number` (optional)                                          | `1`       | Number of text lines for variant `text`. Lines have auto-varied widths. |
+| Input     | Type                                        | Default   | Description                                                             |
+| --------- | ------------------------------------------- | --------- | ----------------------------------------------------------------------- |
+| variant   | `'text'` \| `'rectangular'` \| `'circular'` | `'text'`  | Shape variant of the skeleton.                                          |
+| animation | `'pulse'` \| `'wave'` \| `'none'`           | `'pulse'` | Animation style.                                                        |
+| size      | `'sm'` \| `'md'` \| `'lg'`                  | `'md'`    | Size preset.                                                            |
+| radius    | `'none'` \| `'sm'` \| `'full'`              | `'text'`  | Border radius. `'text'` resolves based on variant.                      |
+| density   | `'compact'` \| `'comfortable'` (optional)   | —         | Density preset. Inherits from theme when possible.                      |
+| width     | `string` (optional)                         | —         | Custom width (e.g. `'70%'`, `'12rem'`).                                 |
+| height    | `string` (optional)                         | —         | Custom height (e.g. `'1.6rem'`, `'12rem'`).                             |
+| lines     | `number` (optional)                         | `1`       | Number of text lines for variant `text`. Lines have auto-varied widths. |
 
 ## Variants
 
 | Variant       | Shape                                     | Default height | Default radius |
 | ------------- | ----------------------------------------- | -------------- | -------------- |
 | `text`        | Line placeholder                          | `1rem`         | `sm`           |
-| `rectangular` | Block placeholder (cards, images, etc.)   | `8rem`         | `md`           |
+| `rectangular` | Block placeholder (cards, images, etc.)   | `8rem`         | `sm`           |
 | `circular`    | Circle placeholder (avatars, icons, etc.) | `3rem`         | `full`         |
 
 ## Sizes
@@ -54,15 +54,12 @@ Skeleton displays a visual placeholder while content is loading. It is a non-int
 | ------ | ----------------------- |
 | `none` | `--solaris-radius-none` |
 | `sm`   | `--solaris-radius-sm`   |
-| `md`   | `--solaris-radius-md`   |
-| `lg`   | `--solaris-radius-lg`   |
-| `xl`   | `--solaris-radius-xl`   |
 | `full` | `--solaris-radius-full` |
 
 When `radius` is set to `'text'`, it resolves automatically:
 
 - `text` → `sm`
-- `rectangular` → `md`
+- `rectangular` → `sm`
 - `circular` → `full`
 
 ## Density

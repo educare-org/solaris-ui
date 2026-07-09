@@ -108,18 +108,6 @@
         <solaris-skeleton radius="sm"></solaris-skeleton>
       </div>
       <div class="skeleton-showcase__item">
-        <span class="skeleton-showcase__label">md</span>
-        <solaris-skeleton radius="md"></solaris-skeleton>
-      </div>
-      <div class="skeleton-showcase__item">
-        <span class="skeleton-showcase__label">lg</span>
-        <solaris-skeleton radius="lg"></solaris-skeleton>
-      </div>
-      <div class="skeleton-showcase__item">
-        <span class="skeleton-showcase__label">XL</span>
-        <solaris-skeleton radius="xl"></solaris-skeleton>
-      </div>
-      <div class="skeleton-showcase__item">
         <span class="skeleton-showcase__label">Full</span>
         <solaris-skeleton radius="full"></solaris-skeleton>
       </div>
@@ -204,17 +192,17 @@
     <div class="skeleton-showcase__row">
       <div class="skeleton-showcase__item">
         <span class="skeleton-showcase__label">Lines 3</span>
-        <solaris-skeleton lines="3"></solaris-skeleton>
+        <solaris-skeleton [lines]="3"></solaris-skeleton>
       </div>
       <div class="skeleton-showcase__item">
         <span class="skeleton-showcase__label">Lines 5</span>
-        <solaris-skeleton lines="5"></solaris-skeleton>
+        <solaris-skeleton [lines]="5"></solaris-skeleton>
       </div>
     </div>
     <div class="skeleton-showcase__row skeleton-showcase__row--block">
       <div class="skeleton-showcase__item">
         <span class="skeleton-showcase__label">Lines 4 + wave</span>
-        <solaris-skeleton lines="4" animation="wave"></solaris-skeleton>
+        <solaris-skeleton [lines]="4" animation="wave"></solaris-skeleton>
       </div>
     </div>
   </section>
@@ -236,7 +224,7 @@
         >
           <solaris-skeleton variant="circular" size="lg"></solaris-skeleton>
           <div class="skeleton-composition__lines">
-            <solaris-skeleton lines="3"></solaris-skeleton>
+            <solaris-skeleton [lines]="3"></solaris-skeleton>
           </div>
         </div>
       </div>
