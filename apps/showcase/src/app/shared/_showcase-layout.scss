@@ -1,0 +1,54 @@
+@mixin page($max-width: 80rem) {
+  max-width: $max-width;
+  margin: 0 auto;
+  padding: var(--solaris-spacing-8) var(--solaris-spacing-4);
+}
+
+@mixin header {
+  margin-bottom: var(--solaris-spacing-8);
+}
+
+@mixin title {
+  color: var(--solaris-text-strong);
+  margin: 0 0 var(--solaris-spacing-3);
+  font: var(--solaris-font-weight-bold) var(--solaris-font-size-3xl) /
+    var(--solaris-line-height-xs) var(--solaris-font-family-sans);
+}
+
+@mixin description {
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-lg) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+  color: var(--solaris-text-muted);
+  margin: 0;
+  max-width: 48rem;
+}
+
+@mixin section-card {
+  margin-bottom: var(--solaris-spacing-8);
+  padding: var(--solaris-spacing-6);
+  background: var(--solaris-surface-base);
+  border: 1px solid var(--solaris-border-subtle);
+  border-radius: var(--solaris-radius-lg);
+  box-shadow: var(--solaris-shadow-xs);
+}
+
+@mixin section-title {
+  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-xl) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+  color: var(--solaris-text-strong);
+  margin: 0 0 var(--solaris-spacing-4);
+}
+
+@mixin row($gap: var(--solaris-spacing-3)) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $gap;
+}
+
+@mixin note {
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+  color: var(--solaris-text-muted);
+  margin: 0;
+}

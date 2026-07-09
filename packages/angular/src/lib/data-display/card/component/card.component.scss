@@ -27,8 +27,11 @@
   background: var(--solaris-card-background);
   border: var(--solaris-card-border-width) solid
     var(--solaris-card-border-color);
-  --solaris-card-section-gap: var(--solaris-card-gap, 1rem);
-  --solaris-card-section-padding: var(--solaris-card-padding, 1.5rem);
+  --solaris-card-section-gap: var(--solaris-card-gap, var(--solaris-spacing-4));
+  --solaris-card-section-padding: var(
+    --solaris-card-padding,
+    var(--solaris-spacing-6)
+  );
 }
 
 :host([data-appearance='surface']) {
@@ -56,6 +59,7 @@
 }
 
 :host([data-appearance='glass']) {
+  // SOLARIS_TOKEN_EXCEPTION: glass appearance requires translucent rgba values for the frosted-glass effect.
   --solaris-card-shadow:
     0 24px 80px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.28),
     inset 0 -1px 0 rgba(255, 255, 255, 0.06);
@@ -99,6 +103,7 @@
   pointer-events: none;
   border-radius: inherit;
 
+  // SOLARIS_TOKEN_EXCEPTION: glass ::before uses translucent rgba gradients for the frosted-glass effect.
   background:
     radial-gradient(
       circle at 72% 58%,
@@ -110,7 +115,7 @@
       rgba(255, 255, 255, 0.18),
       transparent 30%
     ),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 42%);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 42%); // SOLARIS_TOKEN_EXCEPTION: glass ::before gradient needs translucent rgba
 }
 
 :host([data-appearance='glass'][data-glass-texture='grooves'])::after {
@@ -122,6 +127,7 @@
   border-radius: inherit;
   opacity: var(--solaris-card-glass-texture-opacity, 0.18);
 
+  // SOLARIS_TOKEN_EXCEPTION: glass texture uses translucent rgba values for the groove pattern.
   background-image: repeating-radial-gradient(
     circle at 0 0,
     rgba(255, 255, 255, 0.22) 0,
@@ -166,9 +172,9 @@
 
 :host ::ng-deep .solaris-card-header {
   display: flex;
-  padding-block-end: 0;
+  padding-block-end: var(--solaris-spacing-0);
   flex-direction: column;
-  gap: var(--solaris-card-header-gap, 0.25rem);
+  gap: var(--solaris-card-header-gap, var(--solaris-spacing-1));
   padding-block-start: var(--solaris-card-section-padding);
 }
 
@@ -186,11 +192,11 @@
 }
 
 :host ::ng-deep .solaris-card-footer {
-  gap: 0.5rem;
+  gap: var(--solaris-spacing-2);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  padding-block-start: 0;
+  padding-block-start: var(--solaris-spacing-0);
   padding-block-end: var(--solaris-card-section-padding);
 }
 
@@ -216,7 +222,7 @@
 }
 
 :host ::ng-deep .solaris-card-media:not(:first-child) {
-  border-radius: 0;
+  border-radius: var(--solaris-radius-none);
 }
 
 :host ::ng-deep .solaris-card-media img,
@@ -227,14 +233,15 @@
 }
 
 :host ::ng-deep .solaris-card-actions {
-  gap: 0.5rem;
+  gap: var(--solaris-spacing-2);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
 }
 
 :host ::ng-deep .solaris-card-title {
-  margin: 0 0 0.25rem;
+  margin: var(--solaris-spacing-0) var(--solaris-spacing-0)
+    var(--solaris-spacing-1);
   color: var(--solaris-text-strong);
   font-size: var(--solaris-font-size-lg);
   line-height: var(--solaris-line-height-sm);
@@ -242,12 +249,12 @@
 }
 
 :host ::ng-deep .solaris-card-description {
-  margin: 0;
+  margin: var(--solaris-spacing-0);
   color: var(--solaris-text-muted);
   font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
 }
 
 :host ::ng-deep * + .solaris-card-description {
-  margin-top: 0.25rem;
+  margin-top: var(--solaris-spacing-1);
 }

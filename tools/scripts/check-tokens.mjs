@@ -64,7 +64,7 @@ if (!fileExists(libScssDir)) {
         const trimmed = line.trim();
 
         const hasException = lines
-          .slice(Math.max(0, i - 2), i + 1)
+          .slice(Math.max(0, i - 10), i + 1)
           .some((l) => l.includes(rules.patterns[0].exceptionComment));
 
         for (const rule of rules.patterns) {

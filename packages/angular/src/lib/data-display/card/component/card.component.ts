@@ -24,7 +24,5 @@ export class SolarisCardComponent {
   readonly appearance = input<SolarisCardAppearance>('surface');
   readonly radius = input<SolarisCardRadius>('lg');
   readonly density = input<SolarisCardDensity>();
-  readonly glassTexture = input<SolarisCardGlassTexture>('none', {
-    alias: 'glass-texture',
-  });
+  readonly glassTexture = input<SolarisCardGlassTexture>('none');
 }

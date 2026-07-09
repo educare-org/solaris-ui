@@ -1,11 +1,11 @@
+@use '../../../shared/showcase-layout' as l;
+
 .card-showcase {
-  margin: 0 auto;
-  max-width: 60rem;
-  padding: var(--solaris-spacing-8) var(--solaris-spacing-4);
+  @include l.page(60rem);
 }
 
 .card-showcase__header {
-  margin-bottom: var(--solaris-spacing-8);
+  @include l.header;
 }
 
 .card-showcase__title {

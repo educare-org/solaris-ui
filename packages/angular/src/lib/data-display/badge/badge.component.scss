@@ -13,7 +13,9 @@
   --solaris-badge-border-color: initial;
 
   --solaris-badge-custom-color: initial;
+  // SOLARIS_TOKEN_EXCEPTION: custom badge fallback uses specific orange hue not covered by current token palette.
   --solaris-badge-custom-background: #f06d26;
+  // SOLARIS_TOKEN_EXCEPTION: custom badge fallback uses specific orange hue not covered by current token palette.
   --solaris-badge-custom-border-color: #eb9160;
 
   user-select: none;
@@ -48,35 +50,35 @@
 
 :host([data-size='sm']) {
   --solaris-badge-gap: 0.125rem;
-  --solaris-badge-line-height: 1.25;
   --solaris-badge-padding-x: 0.375rem;
   --solaris-badge-min-width: 1.125rem;
   --solaris-badge-icon-size: 0.625rem;
   --solaris-badge-padding-y: 0.0625rem;
   --solaris-badge-min-height: 1.125rem;
   --solaris-badge-font-size: var(--solaris-font-size-xs);
+  --solaris-badge-line-height: var(--solaris-line-height-sm);
 }
 
 :host([data-size='md']) {
-  --solaris-badge-gap: 0.25rem;
-  --solaris-badge-line-height: 1.25;
-  --solaris-badge-padding-x: 0.5rem;
   --solaris-badge-min-width: 1.25rem;
   --solaris-badge-icon-size: 0.75rem;
   --solaris-badge-min-height: 1.25rem;
   --solaris-badge-padding-y: 0.0625rem;
+  --solaris-badge-gap: var(--solaris-spacing-1);
+  --solaris-badge-padding-x: var(--solaris-spacing-2);
   --solaris-badge-font-size: var(--solaris-font-size-xs);
+  --solaris-badge-line-height: var(--solaris-line-height-sm);
 }
 
 :host([data-size='lg']) {
   --solaris-badge-gap: 0.375rem;
-  --solaris-badge-line-height: 1.25;
   --solaris-badge-min-width: 1.5rem;
-  --solaris-badge-padding-x: 0.75rem;
   --solaris-badge-min-height: 1.5rem;
   --solaris-badge-padding-y: 0.125rem;
   --solaris-badge-icon-size: 0.875rem;
+  --solaris-badge-padding-x: var(--solaris-spacing-3);
   --solaris-badge-font-size: var(--solaris-font-size-sm);
+  --solaris-badge-line-height: var(--solaris-line-height-sm);
 }
 
 :host([data-density='compact']) {
@@ -104,12 +106,12 @@
 }
 
 :host([data-variant='count']) {
-  --solaris-badge-padding-x: 0.25rem;
+  --solaris-badge-padding-x: var(--solaris-spacing-1);
   --solaris-badge-min-width: var(--solaris-badge-min-height);
 }
 
 :host([data-variant='count'][data-radius='full']) {
-  --solaris-badge-padding-x: 0.25rem;
+  --solaris-badge-padding-x: var(--solaris-spacing-1);
 }
 
 :host([data-appearance='solid']) {
