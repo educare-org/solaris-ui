@@ -53,6 +53,17 @@ export type {
 } from './lib/icon/model/solaris-icon.types';
 export type { SolarisIconsConfig } from './lib/icon/token/solaris-icon.tokens';
 
+export { SolarisBadgeComponent } from './lib/data-display/badge/badge.component';
+export { SolarisBadgeIconDirective } from './lib/data-display/badge/badge-icon.directive';
+export type {
+  SolarisBadgeAppearance,
+  SolarisBadgeColor,
+  SolarisBadgeSize,
+  SolarisBadgeRadius,
+  SolarisBadgeVariant,
+  SolarisBadgeDensity,
+} from './lib/data-display/badge/model/badge.types';
+
 export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';
 export type { SolarisTestingOptions } from './lib/testing/provide-solaris-testing';
 export { configureSolarisTesting } from './lib/testing/solaris-test-utilities';

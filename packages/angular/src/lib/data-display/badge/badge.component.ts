@@ -1,0 +1,33 @@
+import { Component, input } from '@angular/core';
+
+import type {
+  SolarisBadgeAppearance,
+  SolarisBadgeColor,
+  SolarisBadgeSize,
+  SolarisBadgeRadius,
+  SolarisBadgeVariant,
+  SolarisBadgeDensity,
+} from './model/badge.types';
+
+@Component({
+  selector: 'solaris-badge',
+  standalone: true,
+  templateUrl: './badge.component.html',
+  styleUrls: ['./badge.component.scss'],
+  host: {
+    '[attr.data-appearance]': 'appearance()',
+    '[attr.data-color]': 'color()',
+    '[attr.data-size]': 'size()',
+    '[attr.data-radius]': 'radius()',
+    '[attr.data-variant]': 'variant()',
+    '[attr.data-density]': 'density()',
+  },
+})
+export class SolarisBadgeComponent {
+  readonly appearance = input<SolarisBadgeAppearance>('tonal');
+  readonly color = input<SolarisBadgeColor>('neutral');
+  readonly size = input<SolarisBadgeSize>('md');
+  readonly radius = input<SolarisBadgeRadius>('full');
+  readonly variant = input<SolarisBadgeVariant>('standard');
+  readonly density = input<SolarisBadgeDensity>();
+}

@@ -8,4 +8,11 @@ export const appRoutes: Route[] = [
         (m) => m.ConfigurationPage,
       ),
   },
+  {
+    path: 'badge',
+    loadComponent: () =>
+      import('./pages/badge/component/badge-showcase').then(
+        (m) => m.BadgeShowcasePage,
+      ),
+  },
 ];

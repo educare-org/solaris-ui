@@ -33,6 +33,8 @@ export const PT_BR_CONFIG: Record<string, string> = {
   'configuration.label.fallback-locale': 'Idioma de fallback',
   'configuration.label.interpolation': 'Tradução: saudação com interpolação',
   'configuration.label.fallback': 'Tradução: chave ausente (usa fallback)',
+  greeting: 'Olá, {{name}}',
+  farewell: 'Adeus',
   'configuration.label.missing':
     'Tradução: chave inexistente (retorna a chave)',
   'configuration.label.reduced-motion': 'Movimento reduzido',

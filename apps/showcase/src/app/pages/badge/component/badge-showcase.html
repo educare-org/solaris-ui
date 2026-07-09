@@ -1,0 +1,131 @@
+<div class="badge-showcase">
+  <header class="badge-showcase__header">
+    <h1 class="badge-showcase__title">Badge</h1>
+    <p class="badge-showcase__description">
+      {{ 'badge.description' | translate }}
+    </p>
+  </header>
+
+  <section class="badge-showcase__section">
+    <h2 class="badge-showcase__section-title">
+      {{ 'badge.appearances' | translate }}
+    </h2>
+    <div class="badge-showcase__row">
+      <solaris-badge appearance="solid">Solid</solaris-badge>
+      <solaris-badge appearance="tonal">Tonal</solaris-badge>
+      <solaris-badge appearance="outline">Outline</solaris-badge>
+      <solaris-badge appearance="ghost">Ghost</solaris-badge>
+    </div>
+  </section>
+
+  <section class="badge-showcase__section">
+    <h2 class="badge-showcase__section-title">
+      {{ 'badge.colors' | translate }}
+    </h2>
+    <div class="badge-showcase__row">
+      <solaris-badge color="neutral">Neutral</solaris-badge>
+      <solaris-badge color="primary">Primary</solaris-badge>
+      <solaris-badge color="success">Success</solaris-badge>
+      <solaris-badge color="warning">Warning</solaris-badge>
+      <solaris-badge color="danger">Danger</solaris-badge>
+      <solaris-badge color="info">Info</solaris-badge>
+    </div>
+  </section>
+
+  <section class="badge-showcase__section">
+    <h2 class="badge-showcase__section-title">
+      {{ 'badge.sizes' | translate }}
+    </h2>
+    <div class="badge-showcase__row">
+      <solaris-badge size="sm">Small</solaris-badge>
+      <solaris-badge size="md">Medium</solaris-badge>
+      <solaris-badge size="lg">Large</solaris-badge>
+    </div>
+  </section>
+
+  <section class="badge-showcase__section">
+    <h2 class="badge-showcase__section-title">
+      {{ 'badge.radius' | translate }}
+    </h2>
+    <div class="badge-showcase__row">
+      <solaris-badge radius="sm">SM</solaris-badge>
+      <solaris-badge radius="md">MD</solaris-badge>
+      <solaris-badge radius="full">Full</solaris-badge>
+    </div>
+  </section>
+
+  <section class="badge-showcase__section">
+    <h2 class="badge-showcase__section-title">
+      {{ 'badge.variant' | translate }}
+    </h2>
+    <div class="badge-showcase__row">
+      <solaris-badge variant="standard">Standard</solaris-badge>
+      <solaris-badge variant="count" radius="full" color="danger"
+        >3</solaris-badge
+      >
+      <solaris-badge variant="count" radius="full" color="primary"
+        >42</solaris-badge
+      >
+      <solaris-badge variant="count" radius="full" color="success"
+        >99+</solaris-badge
+      >
+    </div>
+  </section>
+
+  <section class="badge-showcase__section">
+    <h2 class="badge-showcase__section-title">
+      {{ 'badge.density' | translate }}
+    </h2>
+    <div class="badge-showcase__row">
+      <solaris-badge density="compact">Compact</solaris-badge>
+      <solaris-badge density="comfortable">Comfortable</solaris-badge>
+    </div>
+  </section>
+
+  <section class="badge-showcase__section">
+    <h2 class="badge-showcase__section-title">
+      {{ 'badge.with-icons' | translate }}
+    </h2>
+    <div class="badge-showcase__row">
+      <solaris-badge color="success">
+        <solaris-icon solaris-badge-icon name="check" [decorative]="true" />
+        Active
+      </solaris-badge>
+      <solaris-badge color="warning">
+        <solaris-icon solaris-badge-icon name="warning" [decorative]="true" />
+        Pending
+      </solaris-badge>
+      <solaris-badge color="danger">
+        <solaris-icon solaris-badge-icon name="danger" [decorative]="true" />
+        Error
+      </solaris-badge>
+      <solaris-badge color="info">
+        Info
+        <solaris-icon solaris-badge-icon name="info" [decorative]="true" />
+      </solaris-badge>
+    </div>
+  </section>
+
+  <section class="badge-showcase__section">
+    <h2 class="badge-showcase__section-title">
+      {{ 'badge.custom-color' | translate }}
+    </h2>
+    <div class="badge-showcase__row">
+      <div class="badge-custom-wrapper">
+        <solaris-badge color="custom">Custom</solaris-badge>
+      </div>
+      <div class="badge-custom-wrapper-alt">
+        <solaris-badge color="custom">Custom Alt</solaris-badge>
+      </div>
+    </div>
+  </section>
+
+  <section class="badge-showcase__section">
+    <h2 class="badge-showcase__section-title">
+      {{ 'badge.light-dark' | translate }}
+    </h2>
+    <p class="badge-showcase__note">
+      {{ 'badge.light-dark-note' | translate }}
+    </p>
+  </section>
+</div>

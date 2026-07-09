@@ -1,0 +1,252 @@
+:host {
+  --solaris-badge-gap: initial;
+  --solaris-badge-color: initial;
+  --solaris-badge-radius: initial;
+  --solaris-badge-padding-x: initial;
+  --solaris-badge-padding-y: initial;
+  --solaris-badge-font-size: initial;
+  --solaris-badge-min-width: initial;
+  --solaris-badge-icon-size: initial;
+  --solaris-badge-background: initial;
+  --solaris-badge-min-height: initial;
+  --solaris-badge-line-height: initial;
+  --solaris-badge-border-color: initial;
+
+  --solaris-badge-custom-color: initial;
+  --solaris-badge-custom-background: #f06d26;
+  --solaris-badge-custom-border-color: #eb9160;
+
+  user-select: none;
+  align-items: center;
+  white-space: nowrap;
+  display: inline-flex;
+  vertical-align: middle;
+  box-sizing: border-box;
+  justify-content: center;
+  gap: var(--solaris-badge-gap);
+  color: var(--solaris-badge-color);
+  font-size: var(--solaris-badge-font-size);
+  min-width: var(--solaris-badge-min-width);
+  border-radius: var(--solaris-badge-radius);
+  min-height: var(--solaris-badge-min-height);
+  background: var(--solaris-badge-background);
+  line-height: var(--solaris-badge-line-height);
+  font-weight: var(--solaris-font-weight-medium);
+  border: 1px solid var(--solaris-badge-border-color);
+  font-family: var(--solaris-font-family-sans), system-ui;
+  padding: var(--solaris-badge-padding-y) var(--solaris-badge-padding-x);
+}
+
+::ng-deep .solaris-badge-icon {
+  flex-shrink: 0;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  width: var(--solaris-badge-icon-size);
+  height: var(--solaris-badge-icon-size);
+}
+
+:host([data-size='sm']) {
+  --solaris-badge-gap: 0.125rem;
+  --solaris-badge-line-height: 1.25;
+  --solaris-badge-padding-x: 0.375rem;
+  --solaris-badge-min-width: 1.125rem;
+  --solaris-badge-icon-size: 0.625rem;
+  --solaris-badge-padding-y: 0.0625rem;
+  --solaris-badge-min-height: 1.125rem;
+  --solaris-badge-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='md']) {
+  --solaris-badge-gap: 0.25rem;
+  --solaris-badge-line-height: 1.25;
+  --solaris-badge-padding-x: 0.5rem;
+  --solaris-badge-min-width: 1.25rem;
+  --solaris-badge-icon-size: 0.75rem;
+  --solaris-badge-min-height: 1.25rem;
+  --solaris-badge-padding-y: 0.0625rem;
+  --solaris-badge-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='lg']) {
+  --solaris-badge-gap: 0.375rem;
+  --solaris-badge-line-height: 1.25;
+  --solaris-badge-min-width: 1.5rem;
+  --solaris-badge-padding-x: 0.75rem;
+  --solaris-badge-min-height: 1.5rem;
+  --solaris-badge-padding-y: 0.125rem;
+  --solaris-badge-icon-size: 0.875rem;
+  --solaris-badge-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-density='compact']) {
+  --solaris-badge-gap: 0.125rem;
+  --solaris-badge-padding-y: 0.0625rem;
+  --solaris-badge-min-height: 1.125rem;
+}
+
+:host([data-density='comfortable']) {
+  --solaris-badge-gap: 0.375rem;
+  --solaris-badge-min-height: 1.5rem;
+  --solaris-badge-padding-y: 0.1875rem;
+}
+
+:host([data-radius='sm']) {
+  --solaris-badge-radius: var(--solaris-radius-sm);
+}
+
+:host([data-radius='md']) {
+  --solaris-badge-radius: var(--solaris-radius-md);
+}
+
+:host([data-radius='full']) {
+  --solaris-badge-radius: var(--solaris-radius-full);
+}
+
+:host([data-variant='count']) {
+  --solaris-badge-padding-x: 0.25rem;
+  --solaris-badge-min-width: var(--solaris-badge-min-height);
+}
+
+:host([data-variant='count'][data-radius='full']) {
+  --solaris-badge-padding-x: 0.25rem;
+}
+
+:host([data-appearance='solid']) {
+  --solaris-badge-border-color: transparent;
+}
+
+:host([data-appearance='outline']) {
+  --solaris-badge-background: transparent;
+}
+
+:host([data-appearance='ghost']) {
+  --solaris-badge-background: transparent;
+  --solaris-badge-border-color: transparent;
+}
+
+:host([data-color='neutral'][data-appearance='solid']) {
+  --solaris-badge-color: var(--solaris-text-inverse);
+  --solaris-badge-background: var(--solaris-text-default);
+}
+
+:host([data-color='neutral'][data-appearance='tonal']) {
+  --solaris-badge-color: var(--solaris-text-default);
+  --solaris-badge-background: var(--solaris-surface-muted);
+  --solaris-badge-border-color: var(--solaris-border-default);
+}
+
+:host([data-color='neutral'][data-appearance='outline']) {
+  --solaris-badge-color: var(--solaris-text-default);
+  --solaris-badge-border-color: var(--solaris-border-default);
+}
+
+:host([data-color='neutral'][data-appearance='ghost']) {
+  --solaris-badge-color: var(--solaris-text-muted);
+}
+
+:host([data-color='primary'][data-appearance='solid']) {
+  --solaris-badge-color: var(--solaris-primary-on-solid);
+  --solaris-badge-background: var(--solaris-primary-base);
+}
+
+:host([data-color='primary'][data-appearance='tonal']) {
+  --solaris-badge-color: var(--solaris-primary-text);
+  --solaris-badge-background: var(--solaris-primary-surface);
+  --solaris-badge-border-color: var(--solaris-primary-border);
+}
+
+:host([data-color='primary'][data-appearance='outline']) {
+  --solaris-badge-color: var(--solaris-primary-text);
+  --solaris-badge-border-color: var(--solaris-primary-border);
+}
+
+:host([data-color='primary'][data-appearance='ghost']) {
+  --solaris-badge-color: var(--solaris-primary-text);
+}
+
+:host([data-color='success'][data-appearance='solid']) {
+  --solaris-badge-color: var(--solaris-success-on-solid);
+  --solaris-badge-background: var(--solaris-success-base);
+}
+
+:host([data-color='success'][data-appearance='tonal']) {
+  --solaris-badge-color: var(--solaris-success-text);
+  --solaris-badge-background: var(--solaris-success-surface);
+  --solaris-badge-border-color: var(--solaris-success-border);
+}
+
+:host([data-color='success'][data-appearance='outline']) {
+  --solaris-badge-color: var(--solaris-success-text);
+  --solaris-badge-border-color: var(--solaris-success-border);
+}
+
+:host([data-color='success'][data-appearance='ghost']) {
+  --solaris-badge-color: var(--solaris-success-text);
+}
+
+:host([data-color='warning'][data-appearance='solid']) {
+  --solaris-badge-color: var(--solaris-warning-on-solid);
+  --solaris-badge-background: var(--solaris-warning-base);
+}
+
+:host([data-color='warning'][data-appearance='tonal']) {
+  --solaris-badge-color: var(--solaris-warning-text);
+  --solaris-badge-background: var(--solaris-warning-surface);
+  --solaris-badge-border-color: var(--solaris-warning-border);
+}
+
+:host([data-color='warning'][data-appearance='outline']) {
+  --solaris-badge-color: var(--solaris-warning-text);
+  --solaris-badge-border-color: var(--solaris-warning-border);
+}
+
+:host([data-color='warning'][data-appearance='ghost']) {
+  --solaris-badge-color: var(--solaris-warning-text);
+}
+
+:host([data-color='danger'][data-appearance='solid']) {
+  --solaris-badge-color: var(--solaris-danger-on-solid);
+  --solaris-badge-background: var(--solaris-danger-base);
+}
+
+:host([data-color='danger'][data-appearance='tonal']) {
+  --solaris-badge-color: var(--solaris-danger-text);
+  --solaris-badge-background: var(--solaris-danger-surface);
+  --solaris-badge-border-color: var(--solaris-danger-border);
+}
+
+:host([data-color='danger'][data-appearance='outline']) {
+  --solaris-badge-color: var(--solaris-danger-text);
+  --solaris-badge-border-color: var(--solaris-danger-border);
+}
+
+:host([data-color='danger'][data-appearance='ghost']) {
+  --solaris-badge-color: var(--solaris-danger-text);
+}
+
+:host([data-color='info'][data-appearance='solid']) {
+  --solaris-badge-color: var(--solaris-info-on-solid);
+  --solaris-badge-background: var(--solaris-info-base);
+}
+
+:host([data-color='info'][data-appearance='tonal']) {
+  --solaris-badge-color: var(--solaris-info-text);
+  --solaris-badge-background: var(--solaris-info-surface);
+  --solaris-badge-border-color: var(--solaris-info-border);
+}
+
+:host([data-color='info'][data-appearance='outline']) {
+  --solaris-badge-color: var(--solaris-info-text);
+  --solaris-badge-border-color: var(--solaris-info-border);
+}
+
+:host([data-color='info'][data-appearance='ghost']) {
+  --solaris-badge-color: var(--solaris-info-text);
+}
+
+:host([data-color='custom']) {
+  --solaris-badge-color: var(--solaris-badge-custom-color);
+  --solaris-badge-background: var(--solaris-badge-custom-background);
+  --solaris-badge-border-color: var(--solaris-badge-custom-border-color);
+}
