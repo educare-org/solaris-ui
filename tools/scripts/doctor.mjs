@@ -1,4 +1,5 @@
 import path from 'node:path';
+import fs from 'node:fs';
 import { execSync } from 'node:child_process';
 import {
   workspaceRoot,
@@ -116,6 +117,72 @@ try {
     warnings.push('Not detected as running with pnpm. Run with: pnpm doctor');
   }
 } catch {}
+
+if (fs.existsSync(path.join(workspaceRoot, '.git'))) {
+  warnings.push('.git found — repository initialized');
+  const hooksDirPath = path.join(workspaceRoot, '.git', 'hooks');
+  try {
+    const hookFiles = fs.readdirSync(hooksDirPath);
+    const hasPreCommit = hookFiles.includes('pre-commit');
+    const hasCommitMsg = hookFiles.includes('commit-msg');
+    if (hasPreCommit) {
+      warnings.push('pre-commit hook is installed');
+    } else {
+      warnings.push('pre-commit hook not found — run pnpm prepare');
+    }
+    if (hasCommitMsg) {
+      warnings.push('commit-msg hook is installed');
+    } else {
+      warnings.push('commit-msg hook not found — run pnpm prepare');
+    }
+  } catch {
+    warnings.push('Git hooks directory not found');
+  }
+} else {
+  errors.push('No .git directory found — not a git repository');
+}
+
+if (fileExists('commitlint.config.mjs')) {
+  warnings.push('commitlint config found — OK');
+} else {
+  errors.push('commitlint.config.mjs not found');
+}
+
+if (fileExists('package.json')) {
+  const pkg = readJson('package.json');
+  if (pkg['simple-git-hooks']) {
+    warnings.push('simple-git-hooks configured in package.json');
+  } else {
+    warnings.push('simple-git-hooks not configured in package.json');
+  }
+}
+
+if (fileExists('.changeset/config.json')) {
+  warnings.push('.changeset/config.json found — OK');
+} else {
+  warnings.push('.changeset directory not found — run pnpm changeset init');
+}
+
+if (fileExists('.github/workflows/ci.yml')) {
+  warnings.push('.github/workflows/ci.yml found — OK');
+} else {
+  warnings.push('CI workflow not configured');
+}
+
+if (fileExists('.storybook') || fileExists('packages/angular/.storybook')) {
+  warnings.push('Storybook config found — OK');
+} else {
+  warnings.push('Storybook not configured');
+}
+
+if (fileExists('packages/angular/src') && fileExists('packages/angular/.storybook')) {
+  const storyFiles = findFilesRecursive('packages/angular/src', /\.stories\.ts$/);
+  if (storyFiles.length > 0) {
+    warnings.push(`Storybook stories found: ${storyFiles.length} file(s)`);
+  } else {
+    warnings.push('No Storybook stories found');
+  }
+}
 
 const result = printSummary('Doctor', errors, warnings);
 process.exitCode = result.errorCount > 0 ? 1 : 0;

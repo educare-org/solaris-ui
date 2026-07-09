@@ -24,12 +24,45 @@
     "check:i18n": "node tools/scripts/check-i18n.mjs",
     "check:security": "node tools/scripts/check-security.mjs",
     "check:dependencies": "node tools/scripts/check-dependencies.mjs",
+    "prepare": "simple-git-hooks",
+    "commitlint": "commitlint",
+    "check:staged": "pnpm lint-staged",
+    "changeset": "changeset",
+    "changeset:add": "changeset add",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
+    "changeset:status": "changeset status",
+    "storybook": "pnpm nx storybook angular",
+    "storybook:build": "pnpm nx build-storybook angular",
+    "storybook:test": "pnpm nx test-storybook angular",
     "check": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs && pnpm lint && pnpm typecheck",
     "typecheck": "pnpm tsc --noEmit -p packages/angular/tsconfig.lib.json && pnpm tsc --noEmit -p apps/showcase/tsconfig.app.json",
     "verify": "node tools/scripts/verify.mjs"
   },
   "packageManager": "pnpm@10.33.2",
   "private": true,
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "esbuild",
+      "less",
+      "lmdb",
+      "msgpackr-extract",
+      "simple-git-hooks"
+    ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint-staged",
+    "commit-msg": "pnpm commitlint --edit $1"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,mjs,cjs,json,html,scss,css,md}": [
+      "prettier --write"
+    ],
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix"
+    ]
+  },
   "devDependencies": {
     "@angular-devkit/core": "~21.2.0",
     "@angular-devkit/schematics": "~21.2.0",
@@ -37,6 +70,10 @@
     "@angular/cli": "~21.2.0",
     "@angular/compiler-cli": "~21.2.0",
     "@angular/language-service": "~21.2.0",
+    "@changesets/changelog-github": "^0.7.0",
+    "@changesets/cli": "^2.31.0",
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
     "@eslint/js": "^9.8.0",
     "@fontsource/ibm-plex-serif": "^5.2.7",
     "@fontsource/inter": "^5.2.8",
@@ -48,10 +85,14 @@
     "@nx/eslint-plugin": "23.0.1",
     "@nx/js": "23.0.1",
     "@nx/playwright": "23.0.1",
+    "@nx/storybook": "^23.0.1",
     "@nx/web": "23.0.1",
     "@nx/workspace": "23.0.1",
     "@playwright/test": "^1.37.0",
     "@schematics/angular": "~21.2.0",
+    "@storybook/addon-a11y": "^10.4.6",
+    "@storybook/addon-links": "^10.4.6",
+    "@storybook/angular": "^10.4.6",
     "@swc/helpers": "~0.5.18",
     "@typescript-eslint/utils": "^8.40.0",
     "angular-eslint": "^21.2.0",
@@ -61,10 +102,14 @@
     "eslint-plugin-playwright": "^1.6.2",
     "jsdom": "^27.1.0",
     "jsonc-eslint-parser": "^2.1.0",
+    "lint-staged": "^17.0.8",
     "ng-packagr": "~21.2.0",
     "nx": "23.0.1",
     "postcss": "^8.4.5",
     "prettier": "~3.6.2",
+    "simple-git-hooks": "^2.13.1",
+    "storybook": "^10.4.6",
+    "ts-node": "10.9.1",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.40.0",

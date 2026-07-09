@@ -64,6 +64,9 @@ runCommand(
   true,
 );
 
+console.log('\n--- Git Hooks ---');
+runCommand('prepare', 'node --experimental-modules node_modules/simple-git-hooks/cli.mjs', false);
+
 console.log('\n--- Extended Checks ---');
 runCommand('check:tokens', 'node tools/scripts/check-tokens.mjs', false);
 runCommand('check:i18n', 'node tools/scripts/check-i18n.mjs', false);
@@ -72,6 +75,7 @@ runCommand(
   'node tools/scripts/check-dependencies.mjs',
   false,
 );
+runCommand('changeset:status', 'pnpm changeset status --since=main', false);
 
 console.log('\n--- Tooling ---');
 runTooling('format:check');

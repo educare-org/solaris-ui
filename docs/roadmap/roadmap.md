@@ -10,9 +10,9 @@ The delivery cannot be rushed.
 
 Scope:
 
-- [ ] workspace foundation;
-- [ ] theme foundation;
-- [ ] token foundation;
+- [x] workspace foundation;
+- [x] theme foundation;
+- [x] token foundation;
 - [x] accessibility foundation;
 - [x] translate foundation;
 - [x] showcase foundation;
