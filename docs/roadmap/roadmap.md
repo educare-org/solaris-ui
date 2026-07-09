@@ -19,10 +19,10 @@ Scope:
 - [x] testing foundation;
 - [ ] Button;
 - [ ] Icon Button;
-- [ ] Badge;
-- [ ] Card;
+- [x] Badge;
+- [x] Card;
 - [ ] Alert;
-- [ ] Skeleton.
+- [x] Skeleton.
 
 ## `0.2.0` — Forms Release
 
