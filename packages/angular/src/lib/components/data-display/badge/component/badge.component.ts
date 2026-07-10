@@ -24,10 +24,10 @@ import type {
   },
 })
 export class SolarisBadgeComponent {
-  readonly appearance = input<SolarisBadgeAppearance>('tonal');
-  readonly color = input<SolarisBadgeColor>('neutral');
-  readonly size = input<SolarisBadgeSize>('md');
-  readonly radius = input<SolarisBadgeRadius>('full');
+  readonly appearance = input<SolarisBadgeAppearance>('solid');
   readonly variant = input<SolarisBadgeVariant>('standard');
+  readonly color = input<SolarisBadgeColor>('neutral');
+  readonly radius = input<SolarisBadgeRadius>('full');
   readonly density = input<SolarisBadgeDensity>();
+  readonly size = input<SolarisBadgeSize>('md');
 }

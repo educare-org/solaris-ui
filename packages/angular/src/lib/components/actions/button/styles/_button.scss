@@ -334,8 +334,8 @@
 }
 
 [solaris-button][data-color='primary'][data-appearance='solid'] {
+  --solaris-button-color: var(--solaris-primary-text);
   --solaris-button-background: var(--solaris-primary-base);
-  --solaris-button-color: var(--solaris-primary-on-solid);
   --solaris-button-focus-ring-color: var(--solaris-primary-base);
   --solaris-button-hover-background: var(--solaris-primary-hover);
   --solaris-button-active-background: var(--solaris-primary-active);
