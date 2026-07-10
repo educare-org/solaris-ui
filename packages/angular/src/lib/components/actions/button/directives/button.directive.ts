@@ -35,8 +35,8 @@ import type {
 export class SolarisButtonDirective {
   readonly appearance = input<SolarisButtonAppearance>('solid');
   readonly color = input<SolarisButtonColor>('neutral');
-  readonly size = input<SolarisButtonSize>('md');
   readonly radius = input<SolarisButtonRadius>('md');
+  readonly size = input<SolarisButtonSize>('md');
   readonly density = input<SolarisButtonDensity>();
   readonly loading = input<boolean>(false);
   readonly disabled = input<boolean>(false);

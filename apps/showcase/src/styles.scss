@@ -8,6 +8,10 @@
 @use '../../../packages/angular/src/lib/components/actions/button/styles/button'
   as solaris-button;
 
+/* Solaris icon button styles */
+@use '../../../packages/angular/src/lib/components/actions/icon-button/styles/icon-button'
+  as solaris-icon-button;
+
 @include solaris.core();
 @include solaris.theme();
 

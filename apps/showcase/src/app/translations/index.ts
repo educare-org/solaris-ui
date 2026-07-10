@@ -4,6 +4,7 @@ import { SKELETON_TRANSLATIONS } from '../pages/skeleton/translations';
 import { CARD_TRANSLATIONS } from '../pages/card/translations';
 import { ALERT_TRANSLATIONS } from '../pages/alert/translations';
 import { BUTTON_TRANSLATIONS } from '../pages/button/translations';
+import { ICON_BUTTON_TRANSLATIONS } from '../pages/icon-button/translations';
 
 const PAGE_MODULES = [
   CONFIGURATION_TRANSLATIONS,
@@ -12,6 +13,7 @@ const PAGE_MODULES = [
   CARD_TRANSLATIONS,
   ALERT_TRANSLATIONS,
   BUTTON_TRANSLATIONS,
+  ICON_BUTTON_TRANSLATIONS,
 ];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};
