@@ -1,7 +1,7 @@
 {
-  "name": "@solaris-ui/source",
-  "version": "0.0.0",
-  "license": "MIT",
+  "name": "@solaris-ui/angular",
+  "version": "0.1.0",
+  "license": "UNLICENSED",
   "scripts": {
     "start": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && pnpm nx serve showcase --port=4300",
     "dev": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && pnpm nx serve showcase --port=4300",
@@ -38,7 +38,7 @@
     "verify": "node tools/scripts/verify.mjs"
   },
   "packageManager": "pnpm@10.33.2",
-  "private": true,
+  "private": false,
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
