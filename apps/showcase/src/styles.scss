@@ -12,6 +12,10 @@
 @use '../../../packages/angular/src/lib/components/actions/icon-button/styles/icon-button'
   as solaris-icon-button;
 
+/* Solaris input styles */
+@use '../../../packages/angular/src/lib/forms/input/styles/input'
+  as solaris-input;
+
 @include solaris.core();
 @include solaris.theme();
 

@@ -9,7 +9,7 @@ import {
   SolarisFormPrefixDirective,
   SolarisFormSuffixDirective,
   SolarisIconComponent,
-  SolarisTranslatePipe,
+  SolarisTranslatePipe, SolarisInputDirective,
 } from '@solaris-ui/angular';
 
 @Component({
@@ -24,6 +24,7 @@ import {
     SolarisFormSuffixDirective,
     SolarisIconComponent,
     SolarisTranslatePipe,
+    SolarisInputDirective,
   ],
   templateUrl: './form-field-showcase.html',
   styleUrls: ['./form-field-showcase.scss'],
@@ -33,4 +34,10 @@ export class FormFieldShowcasePage {
     Validators.required,
     Validators.email,
   ]);
+
+  protected passwordVisible = false;
+
+  protected togglePassword(): void {
+    this.passwordVisible = !this.passwordVisible;
+  }
 }

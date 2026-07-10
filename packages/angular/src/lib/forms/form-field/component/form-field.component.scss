@@ -83,11 +83,31 @@
   color: var(--solaris-form-field-prefix-color);
 }
 
+::ng-deep .solaris-form-prefix solaris-icon {
+  color: var(--solaris-border-subtle);
+  cursor: default;
+  transition: color var(--solaris-motion-duration-fast, 150ms) ease;
+}
+
+::ng-deep .solaris-form-prefix:hover solaris-icon {
+  color: var(--solaris-primary-text);
+}
+
 ::ng-deep .solaris-form-suffix {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   color: var(--solaris-form-field-suffix-color);
+}
+
+::ng-deep .solaris-form-suffix solaris-icon {
+  color: var(--solaris-border-subtle);
+  cursor: default;
+  transition: color var(--solaris-motion-duration-fast, 150ms) ease;
+}
+
+::ng-deep .solaris-form-suffix:hover solaris-icon {
+  color: var(--solaris-primary-text);
 }
 
 .solaris-form-field__message-row {
@@ -106,7 +126,7 @@
 
 :host([data-appearance='outline']) {
   --solaris-form-field-control-background: var(--solaris-surface-base);
-  --solaris-form-field-control-border-color: var(--solaris-border-default);
+  --solaris-form-field-control-border-color: var(--solaris-border-subtle);
   --solaris-form-field-control-border-width: 1px;
 }
 

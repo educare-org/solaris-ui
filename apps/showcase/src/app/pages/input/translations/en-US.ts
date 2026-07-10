@@ -1,0 +1,18 @@
+export const EN_US_INPUT: Record<string, string> = {
+  'input.title': 'Input',
+  'input.description': 'Styling and integration directive for native <input> text-like fields. Works standalone and integrated with Form Field.',
+  'input.basic': 'Basic standalone',
+  'input.with-form-field': 'With Form Field',
+  'input.with-form-field-note': 'Label, hint, and visual shell managed by Form Field. Input keeps behavior, placeholder, and value.',
+  'input.reactive-forms': 'Reactive Forms',
+  'input.reactive-forms-note': 'Required field with validation. Error appears after blur and interaction, but not while focused.',
+  'input.appearances': 'Appearances',
+  'input.sizes': 'Sizes',
+  'input.density': 'Density',
+  'input.radius': 'Radius',
+  'input.states': 'States',
+  'input.types': 'Types',
+  'input.prefix-suffix': 'Prefix and Suffix through Form Field',
+  'input.placeholder-note': 'Placeholder note',
+  'input.placeholder-note-text': 'Placeholder is an example or format hint, not a label replacement. Always provide a proper label via Form Field or an accessible name.',
+};

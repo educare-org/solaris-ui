@@ -3,6 +3,7 @@ import {
   input,
   computed,
   signal,
+  effect,
   ContentChild,
   AfterContentInit,
   OnDestroy,
@@ -235,9 +236,26 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   ngAfterContentInit(): void {
     this.detectControl();
     this.connectControl();
+    this.syncDescribedBy();
     this.warnNoControl();
     this.warnMultipleControls();
   }
+
+  private syncDescribedBy(): void {
+    const describedBy = this.describedBy();
+    if (this.formControl) {
+      if (describedBy) {
+        this.formControl.setDescribedByIds(describedBy.split(' '));
+      } else {
+        this.formControl.setDescribedByIds([]);
+      }
+    }
+  }
+
+  protected readonly describedByEffect = effect(() => {
+    this.describedBy();
+    this.syncDescribedBy();
+  });
 
   ngOnDestroy(): void {
     this.removeListeners();

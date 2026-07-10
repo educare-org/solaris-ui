@@ -130,6 +130,14 @@ export type {
   SolarisFormFieldRadius,
 } from './lib/forms/form-field/model/form-field.types';
 
+export { SolarisInputDirective } from './lib/forms/input/directives/input.directive';
+export type {
+  SolarisInputAppearance,
+  SolarisInputSize,
+  SolarisInputDensity,
+  SolarisInputRadius,
+} from './lib/forms/input/model/input.types';
+
 export { SolarisSkeletonComponent } from './lib/components/feedback/skeleton/component/skeleton.component';
 export type {
   SolarisSkeletonVariant,
