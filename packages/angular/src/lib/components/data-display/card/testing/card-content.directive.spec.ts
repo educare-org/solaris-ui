@@ -1,16 +1,16 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
 
-import { SolarisCardContentComponent } from '../component/card-content.component';
+import { SolarisCardContentDirective } from '../directives/card-content.directive';
 
 @Component({
   standalone: true,
-  imports: [SolarisCardContentComponent],
-  template: '<solaris-card-content><p>Content</p></solaris-card-content>',
+  imports: [SolarisCardContentDirective],
+  template: '<div solaris-card-content><p>Content</p></div>',
 })
 class TestHostComponent {}
 
-describe('SolarisCardContentComponent', () => {
+describe('SolarisCardContentDirective', () => {
   let fixture: ComponentFixture<TestHostComponent>;
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('SolarisCardContentComponent', () => {
   });
 
   it('should project content', () => {
-    const el = fixture.nativeElement.querySelector('solaris-card-content');
+    const el = fixture.nativeElement.querySelector('[solaris-card-content]');
     expect(el.textContent).toContain('Content');
   });
 });

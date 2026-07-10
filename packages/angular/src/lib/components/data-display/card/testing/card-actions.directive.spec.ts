@@ -1,17 +1,16 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
 
-import { SolarisCardHeaderComponent } from '../component/card-header.component';
+import { SolarisCardActionsDirective } from '../directives/card-actions.directive';
 
 @Component({
   standalone: true,
-  imports: [SolarisCardHeaderComponent],
-  template:
-    '<solaris-card-header><span>Header Content</span></solaris-card-header>',
+  imports: [SolarisCardActionsDirective],
+  template: '<div solaris-card-actions><button>Action</button></div>',
 })
 class TestHostComponent {}
 
-describe('SolarisCardHeaderComponent', () => {
+describe('SolarisCardActionsDirective', () => {
   let fixture: ComponentFixture<TestHostComponent>;
 
   beforeEach(() => {
@@ -21,7 +20,7 @@ describe('SolarisCardHeaderComponent', () => {
   });
 
   it('should project content', () => {
-    const el = fixture.nativeElement.querySelector('solaris-card-header');
-    expect(el.textContent).toContain('Header Content');
+    const el = fixture.nativeElement.querySelector('[solaris-card-actions]');
+    expect(el.textContent).toContain('Action');
   });
 });

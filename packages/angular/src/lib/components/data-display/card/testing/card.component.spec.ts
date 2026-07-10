@@ -2,11 +2,11 @@ import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
 
 import { SolarisCardComponent } from '../component/card.component';
-import { SolarisCardHeaderComponent } from '../component/card-header.component';
-import { SolarisCardContentComponent } from '../component/card-content.component';
-import { SolarisCardMediaComponent } from '../component/card-media.component';
-import { SolarisCardFooterComponent } from '../component/card-footer.component';
-import { SolarisCardActionsComponent } from '../component/card-actions.component';
+import { SolarisCardHeaderDirective } from '../directives/card-header.directive';
+import { SolarisCardContentDirective } from '../directives/card-content.directive';
+import { SolarisCardMediaDirective } from '../directives/card-media.directive';
+import { SolarisCardFooterDirective } from '../directives/card-footer.directive';
+import { SolarisCardActionsDirective } from '../directives/card-actions.directive';
 import { SolarisCardTitleDirective } from '../directives/card-title.directive';
 import { SolarisCardDescriptionDirective } from '../directives/card-description.directive';
 
@@ -186,24 +186,24 @@ describe('SolarisCardComponent with content projection', () => {
     standalone: true,
     imports: [
       SolarisCardComponent,
-      SolarisCardHeaderComponent,
-      SolarisCardContentComponent,
-      SolarisCardMediaComponent,
-      SolarisCardFooterComponent,
-      SolarisCardActionsComponent,
+      SolarisCardHeaderDirective,
+      SolarisCardContentDirective,
+      SolarisCardMediaDirective,
+      SolarisCardFooterDirective,
+      SolarisCardActionsDirective,
       SolarisCardTitleDirective,
       SolarisCardDescriptionDirective,
     ],
     template: `
       <solaris-card>
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>Title</h3>
           <p solaris-card-description>Description</p>
-        </solaris-card-header>
-        <solaris-card-content>Content</solaris-card-content>
-        <solaris-card-media>Media</solaris-card-media>
-        <solaris-card-footer>Footer</solaris-card-footer>
-        <solaris-card-actions>Actions</solaris-card-actions>
+        </div>
+        <div solaris-card-content>Content</div>
+        <figure solaris-card-media>Media</figure>
+        <div solaris-card-footer>Footer</div>
+        <div solaris-card-actions>Actions</div>
       </solaris-card>
     `,
   })
@@ -224,11 +224,11 @@ describe('SolarisCardComponent with content projection', () => {
     const f = TestBed.createComponent(FullAnatomyHostComponent);
     f.detectChanges();
     const card = f.nativeElement.querySelector('solaris-card');
-    expect(card.querySelector('solaris-card-header')).toBeTruthy();
-    expect(card.querySelector('solaris-card-content')).toBeTruthy();
-    expect(card.querySelector('solaris-card-media')).toBeTruthy();
-    expect(card.querySelector('solaris-card-footer')).toBeTruthy();
-    expect(card.querySelector('solaris-card-actions')).toBeTruthy();
+    expect(card.querySelector('[solaris-card-header]')).toBeTruthy();
+    expect(card.querySelector('[solaris-card-content]')).toBeTruthy();
+    expect(card.querySelector('[solaris-card-media]')).toBeTruthy();
+    expect(card.querySelector('[solaris-card-footer]')).toBeTruthy();
+    expect(card.querySelector('[solaris-card-actions]')).toBeTruthy();
   });
 
   it('should render title directive inside card', () => {

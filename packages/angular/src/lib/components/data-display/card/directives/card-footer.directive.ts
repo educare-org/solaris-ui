@@ -1,14 +1,13 @@
-import { Component, input } from '@angular/core';
+import { Directive, input } from '@angular/core';
 
-@Component({
-  selector: 'solaris-card-footer',
+@Directive({
+  selector: '[solaris-card-footer]',
   standalone: true,
-  template: '<ng-content />',
   host: {
     class: 'solaris-card-footer',
     '[attr.data-separator]': "separator() ? '' : null",
   },
 })
-export class SolarisCardFooterComponent {
+export class SolarisCardFooterDirective {
   readonly separator = input<boolean>(false);
 }

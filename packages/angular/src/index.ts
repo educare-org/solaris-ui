@@ -65,11 +65,11 @@ export type {
 } from './lib/components/data-display/badge/model/badge.types';
 
 export { SolarisCardComponent } from './lib/components/data-display/card/component/card.component';
-export { SolarisCardHeaderComponent } from './lib/components/data-display/card/component/card-header.component';
-export { SolarisCardContentComponent } from './lib/components/data-display/card/component/card-content.component';
-export { SolarisCardMediaComponent } from './lib/components/data-display/card/component/card-media.component';
-export { SolarisCardFooterComponent } from './lib/components/data-display/card/component/card-footer.component';
-export { SolarisCardActionsComponent } from './lib/components/data-display/card/component/card-actions.component';
+export { SolarisCardHeaderDirective } from './lib/components/data-display/card/directives/card-header.directive';
+export { SolarisCardContentDirective } from './lib/components/data-display/card/directives/card-content.directive';
+export { SolarisCardMediaDirective } from './lib/components/data-display/card/directives/card-media.directive';
+export { SolarisCardFooterDirective } from './lib/components/data-display/card/directives/card-footer.directive';
+export { SolarisCardActionsDirective } from './lib/components/data-display/card/directives/card-actions.directive';
 export { SolarisCardTitleDirective } from './lib/components/data-display/card/directives/card-title.directive';
 export { SolarisCardDescriptionDirective } from './lib/components/data-display/card/directives/card-description.directive';
 export type {

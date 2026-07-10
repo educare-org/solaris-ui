@@ -1,29 +1,29 @@
 import { TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 
-import { SolarisCardFooterComponent } from '../component/card-footer.component';
+import { SolarisCardFooterDirective } from '../directives/card-footer.directive';
 
 @Component({
   standalone: true,
-  imports: [SolarisCardFooterComponent],
-  template: '<solaris-card-footer><span>Footer</span></solaris-card-footer>',
+  imports: [SolarisCardFooterDirective],
+  template: '<div solaris-card-footer><span>Footer</span></div>',
 })
 class DefaultHostComponent {}
 
 @Component({
   standalone: true,
-  imports: [SolarisCardFooterComponent],
+  imports: [SolarisCardFooterDirective],
   template:
-    '<solaris-card-footer [separator]="true"><span>Footer</span></solaris-card-footer>',
+    '<div solaris-card-footer [separator]="true"><span>Footer</span></div>',
 })
 class SeparatorHostComponent {}
 
-describe('SolarisCardFooterComponent', () => {
+describe('SolarisCardFooterDirective', () => {
   it('should project content', () => {
     TestBed.configureTestingModule({});
     const fixture = TestBed.createComponent(DefaultHostComponent);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector('solaris-card-footer');
+    const el = fixture.nativeElement.querySelector('[solaris-card-footer]');
     expect(el.textContent).toContain('Footer');
   });
 
@@ -31,7 +31,7 @@ describe('SolarisCardFooterComponent', () => {
     TestBed.configureTestingModule({});
     const fixture = TestBed.createComponent(DefaultHostComponent);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector('solaris-card-footer');
+    const el = fixture.nativeElement.querySelector('[solaris-card-footer]');
     expect(el.hasAttribute('data-separator')).toBe(false);
   });
 
@@ -39,7 +39,7 @@ describe('SolarisCardFooterComponent', () => {
     TestBed.configureTestingModule({});
     const fixture = TestBed.createComponent(SeparatorHostComponent);
     fixture.detectChanges();
-    const el = fixture.nativeElement.querySelector('solaris-card-footer');
+    const el = fixture.nativeElement.querySelector('[solaris-card-footer]');
     expect(el.hasAttribute('data-separator')).toBe(true);
   });
 });

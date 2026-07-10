@@ -14,16 +14,16 @@
 
     <div class="card-showcase__demo">
       <solaris-card>
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>{{ 'card.basic-title' | translate }}</h3>
           <p solaris-card-description>
             {{ 'card.basic-desc-text' | translate }}
           </p>
-        </solaris-card-header>
+        </div>
 
-        <solaris-card-content>
+        <div solaris-card-content>
           <span>{{ 'card.any-content' | translate }}</span>
-        </solaris-card-content>
+        </div>
       </solaris-card>
     </div>
   </section>
@@ -38,23 +38,23 @@
 
     <div class="card-showcase__demo">
       <solaris-card>
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>{{ 'card.task-title' | translate }}</h3>
           <p solaris-card-description>
             {{ 'card.task-desc-text' | translate }}
           </p>
-        </solaris-card-header>
+        </div>
 
-        <solaris-card-content>
+        <div solaris-card-content>
           <solaris-badge color="primary">
             {{ 'card.development' | translate }}
           </solaris-badge>
-        </solaris-card-content>
+        </div>
 
-        <solaris-card-footer [separator]="true">
+        <div solaris-card-footer [separator]="true">
           <span>{{ 'card.comments' | translate }}</span>
           <span>{{ 'card.tomorrow' | translate }}</span>
-        </solaris-card-footer>
+        </div>
       </solaris-card>
     </div>
   </section>
@@ -67,15 +67,15 @@
 
     <div class="card-showcase__demo">
       <solaris-card>
-        <solaris-card-media>
+        <figure solaris-card-media>
           <div
             class="card-showcase__media-placeholder"
             role="img"
             aria-label="Media preview"
           ></div>
-        </solaris-card-media>
+        </figure>
 
-        <solaris-card-content>
+        <div solaris-card-content>
           <h3 solaris-card-title>{{ 'card.media-title' | translate }}</h3>
           <p solaris-card-description>
             {{ 'card.media-desc-text' | translate }}
@@ -86,11 +86,11 @@
           <solaris-badge color="success">
             {{ 'card.active' | translate }}
           </solaris-badge>
-        </solaris-card-content>
+        </div>
 
-        <solaris-card-footer>
+        <div solaris-card-footer>
           <span>{{ 'card.updated' | translate }}</span>
-        </solaris-card-footer>
+        </div>
       </solaris-card>
     </div>
   </section>
@@ -103,23 +103,23 @@
 
     <div class="card-showcase__demo">
       <solaris-card>
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>{{ 'card.task-title' | translate }}</h3>
           <p solaris-card-description>
             {{ 'card.task-desc-text' | translate }}
           </p>
-        </solaris-card-header>
+        </div>
 
-        <solaris-card-content>
+        <div solaris-card-content>
           <solaris-badge color="warning">
             {{ 'card.in-progress' | translate }}
           </solaris-badge>
-        </solaris-card-content>
+        </div>
 
-        <solaris-card-footer>
+        <div solaris-card-footer>
           <span>{{ 'card.comments' | translate }}</span>
           <span>{{ 'card.tomorrow' | translate }}</span>
-        </solaris-card-footer>
+        </div>
       </solaris-card>
     </div>
   </section>
@@ -134,48 +134,48 @@
 
     <div class="card-showcase__grid">
       <solaris-card appearance="surface">
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>
             {{ 'card.appearance-surface' | translate }}
           </h3>
           <p solaris-card-description>
             {{ 'card.appearance-surface-desc' | translate }}
           </p>
-        </solaris-card-header>
+        </div>
       </solaris-card>
 
       <solaris-card appearance="outline">
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>
             {{ 'card.appearance-outline' | translate }}
           </h3>
           <p solaris-card-description>
             {{ 'card.appearance-outline-desc' | translate }}
           </p>
-        </solaris-card-header>
+        </div>
       </solaris-card>
 
       <solaris-card appearance="tonal">
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>{{ 'card.appearance-tonal' | translate }}</h3>
           <p solaris-card-description>
             {{ 'card.appearance-tonal-desc' | translate }}
           </p>
-        </solaris-card-header>
+        </div>
       </solaris-card>
 
       <div class="card-showcase__glass-preview">
         <div class="card-showcase__glass-shape"></div>
 
         <solaris-card appearance="glass" class="card-showcase__glass-card">
-          <solaris-card-header>
+          <div solaris-card-header>
             <h3 solaris-card-title>
               {{ 'card.appearance-glass' | translate }}
             </h3>
             <p solaris-card-description>
               {{ 'card.appearance-glass-desc' | translate }}
             </p>
-          </solaris-card-header>
+          </div>
         </solaris-card>
       </div>
     </div>
@@ -191,27 +191,27 @@
 
     <div class="card-showcase__grid">
       <solaris-card radius="none">
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>{{ 'card.radius-none' | translate }}</h3>
-        </solaris-card-header>
+        </div>
       </solaris-card>
 
       <solaris-card radius="sm">
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>{{ 'card.radius-sm' | translate }}</h3>
-        </solaris-card-header>
+        </div>
       </solaris-card>
 
       <solaris-card radius="lg">
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>{{ 'card.radius-lg' | translate }}</h3>
-        </solaris-card-header>
+        </div>
       </solaris-card>
 
       <solaris-card radius="xl">
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>{{ 'card.radius-xl' | translate }}</h3>
-        </solaris-card-header>
+        </div>
       </solaris-card>
     </div>
   </section>
@@ -226,31 +226,31 @@
 
     <div class="card-showcase__grid card-showcase__grid--auto-height">
       <solaris-card density="compact">
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>{{ 'card.density-compact' | translate }}</h3>
           <p solaris-card-description>
             {{ 'card.density-compact-desc' | translate }}
           </p>
-        </solaris-card-header>
+        </div>
 
-        <solaris-card-content>
+        <div solaris-card-content>
           {{ 'card.density-compact-content' | translate }}
-        </solaris-card-content>
+        </div>
       </solaris-card>
 
       <solaris-card density="comfortable">
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>
             {{ 'card.density-comfortable' | translate }}
           </h3>
           <p solaris-card-description>
             {{ 'card.density-comfortable-desc' | translate }}
           </p>
-        </solaris-card-header>
+        </div>
 
-        <solaris-card-content>
+        <div solaris-card-content>
           {{ 'card.density-comfortable-content' | translate }}
-        </solaris-card-content>
+        </div>
       </solaris-card>
     </div>
   </section>
@@ -265,23 +265,23 @@
 
     <div class="card-showcase__grid">
       <solaris-card>
-        <solaris-card-content>
+        <div solaris-card-content>
           <p>{{ 'card.footer-no-separator' | translate }}</p>
-        </solaris-card-content>
+        </div>
 
-        <solaris-card-footer>
+        <div solaris-card-footer>
           <span>{{ 'card.footer' | translate }}</span>
-        </solaris-card-footer>
+        </div>
       </solaris-card>
 
       <solaris-card>
-        <solaris-card-content>
+        <div solaris-card-content>
           <p>{{ 'card.footer-with-separator' | translate }}</p>
-        </solaris-card-content>
+        </div>
 
-        <solaris-card-footer [separator]="true">
+        <div solaris-card-footer [separator]="true">
           <span>{{ 'card.footer' | translate }}</span>
-        </solaris-card-footer>
+        </div>
       </solaris-card>
     </div>
   </section>
@@ -296,22 +296,22 @@
 
     <div class="card-showcase__grid">
       <solaris-card>
-        <solaris-card-header>
+        <div solaris-card-header>
           <h3 solaris-card-title>{{ 'card.task-title' | translate }}</h3>
           <p solaris-card-description>
             {{ 'card.task-desc-text' | translate }}
           </p>
-        </solaris-card-header>
+        </div>
 
-        <solaris-card-content>
+        <div solaris-card-content>
           <solaris-badge color="primary">
             {{ 'card.development' | translate }}
           </solaris-badge>
-        </solaris-card-content>
+        </div>
       </solaris-card>
 
       <solaris-card>
-        <solaris-card-content>
+        <div solaris-card-content>
           <solaris-skeleton
             variant="rectangular"
             height="8rem"
@@ -324,11 +324,11 @@
           <div class="card-showcase__spacer"></div>
 
           <solaris-skeleton width="60%"></solaris-skeleton>
-        </solaris-card-content>
+        </div>
 
-        <solaris-card-footer>
+        <div solaris-card-footer>
           <solaris-skeleton width="40%"></solaris-skeleton>
-        </solaris-card-footer>
+        </div>
       </solaris-card>
     </div>
   </section>
