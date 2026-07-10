@@ -109,6 +109,7 @@ Create the core form system for ERP and institutional flows.
 
 ### Scope
 
+- [x] Forms Foundation Contract.
 - Form Field.
 - Input.
 - Textarea.
@@ -121,6 +122,19 @@ Create the core form system for ERP and institutional flows.
 - Error message patterns.
 - Accessible label and description patterns.
 - Form validation display patterns.
+
+### Implementation order
+
+1. Forms Foundation Contract.
+2. Form Field.
+3. Input.
+4. Textarea.
+5. Checkbox.
+6. Radio.
+7. Switch.
+8. Select.
+
+Select is intentionally last due to overlay, keyboard navigation, searchable, CVA, and accessibility requirements.
 
 ### Exit criteria
 
