@@ -111,6 +111,12 @@ export type {
   SolarisIconButtonDensity,
 } from './lib/components/actions/icon-button/model/icon-button.types';
 
+export { SolarisButtonGroupComponent } from './lib/components/actions/button-group/component/button-group.component';
+export type {
+  SolarisButtonGroupOrientation,
+  SolarisButtonGroupDensity,
+} from './lib/components/actions/button-group/model/button-group.types';
+
 export { SolarisSkeletonComponent } from './lib/components/feedback/skeleton/component/skeleton.component';
 export type {
   SolarisSkeletonVariant,

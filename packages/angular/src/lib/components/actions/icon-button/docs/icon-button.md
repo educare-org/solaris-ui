@@ -179,7 +179,7 @@ For the `custom` color value, use CSS custom properties:
 | `--solaris-icon-button-focus-ring-color`  | Focus ring color           |
 | `--solaris-icon-button-disabled-opacity`  | Disabled opacity           |
 
-| `--solaris-icon-button-custom-*`          | Custom color overrides     |
+| `--solaris-icon-button-custom-*` | Custom color overrides |
 
 ## Accessibility
 

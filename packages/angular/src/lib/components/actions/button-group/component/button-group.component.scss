@@ -1,0 +1,111 @@
+:host {
+  --solaris-button-group-gap: 0;
+  --solaris-button-group-radius: var(--solaris-radius-md);
+  --solaris-button-group-border-color: var(--solaris-border-strong);
+  --solaris-button-group-separator-color: var(--solaris-border-soft);
+  --solaris-button-disabled-opacity: 0.28;
+
+  display: inline-flex;
+  box-sizing: border-box;
+  max-width: 100%;
+  gap: var(--solaris-button-group-gap);
+}
+
+:host([data-full-width]) {
+  display: flex;
+  width: 100%;
+}
+
+:host([data-full-width]) ::ng-deep [solaris-button],
+:host([data-full-width]) ::ng-deep [solaris-icon-button] {
+  flex: 1 1 auto;
+}
+
+:host([data-orientation='horizontal']) {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+// SOLARIS_TOKEN_EXCEPTION: box-shadow used as outer group border with inset to avoid layout gap between host edge and child border-radius. Border would create 1px offset; inset box-shadow draws at the same plane as children.
+:host([data-orientation='horizontal'][data-attached]) {
+  border-radius: var(--solaris-button-group-radius);
+  box-shadow: inset 0 0 0 var(--solaris-border-width-sm)
+    var(--solaris-button-group-border-color);
+
+  // SOLARIS_TOKEN_EXCEPTION: box-shadow used as visual divider between buttons, not as shadow. Uses --solaris-border-width-sm and --solaris-button-group-separator-color tokens.
+  ::ng-deep [solaris-button],
+  ::ng-deep [solaris-icon-button] {
+    border-radius: 0;
+    margin-inline-end: 0;
+    box-shadow: inset calc(-1 * var(--solaris-border-width-sm)) 0 0 0
+      var(--solaris-button-group-separator-color);
+  }
+
+  ::ng-deep [solaris-button]:first-child,
+  ::ng-deep [solaris-icon-button]:first-child {
+    border-start-start-radius: var(--solaris-button-group-radius);
+    border-end-start-radius: var(--solaris-button-group-radius);
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow on last child to remove internal divider.
+  ::ng-deep [solaris-button]:last-child,
+  ::ng-deep [solaris-icon-button]:last-child {
+    border-start-end-radius: var(--solaris-button-group-radius);
+    border-end-end-radius: var(--solaris-button-group-radius);
+    box-shadow: none;
+  }
+}
+
+:host([data-orientation='vertical']) {
+  flex-direction: column;
+}
+
+// SOLARIS_TOKEN_EXCEPTION: box-shadow used as outer group border with inset.
+:host([data-orientation='vertical'][data-attached]) {
+  border-radius: var(--solaris-button-group-radius);
+  box-shadow: inset 0 0 0 var(--solaris-border-width-sm)
+    var(--solaris-button-group-border-color);
+
+  // SOLARIS_TOKEN_EXCEPTION: box-shadow used as visual divider between buttons.
+  ::ng-deep [solaris-button],
+  ::ng-deep [solaris-icon-button] {
+    border-radius: 0;
+    margin-block-end: 0;
+    box-shadow: inset 0 calc(-1 * var(--solaris-border-width-sm)) 0 0
+      var(--solaris-button-group-separator-color);
+  }
+
+  ::ng-deep [solaris-button]:first-child,
+  ::ng-deep [solaris-icon-button]:first-child {
+    border-start-start-radius: var(--solaris-button-group-radius);
+    border-start-end-radius: var(--solaris-button-group-radius);
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow on last child to remove internal divider.
+  ::ng-deep [solaris-button]:last-child,
+  ::ng-deep [solaris-icon-button]:last-child {
+    border-end-start-radius: var(--solaris-button-group-radius);
+    border-end-end-radius: var(--solaris-button-group-radius);
+    box-shadow: none;
+  }
+}
+
+:host(:not([data-attached])) {
+  --solaris-button-group-gap: var(--solaris-spacing-2);
+}
+
+:host(:not([data-attached])[data-density='compact']) {
+  --solaris-button-group-gap: var(--solaris-spacing-1);
+}
+
+:host(:not([data-attached])[data-density='comfortable']) {
+  --solaris-button-group-gap: var(--solaris-spacing-3);
+}
+
+:host([data-density='compact']) {
+  --solaris-button-group-gap: var(--solaris-spacing-1);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-button-group-gap: var(--solaris-spacing-3);
+}

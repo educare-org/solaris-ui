@@ -50,4 +50,11 @@ export const appRoutes: Route[] = [
         (m) => m.IconButtonShowcasePage,
       ),
   },
+  {
+    path: 'button-group',
+    loadComponent: () =>
+      import('./pages/button-group/component/button-group-showcase').then(
+        (m) => m.ButtonGroupShowcasePage,
+      ),
+  },
 ];

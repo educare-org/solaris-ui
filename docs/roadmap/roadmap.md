@@ -17,8 +17,9 @@ Scope:
 - [x] translate foundation;
 - [x] showcase foundation;
 - [x] testing foundation;
-- [ ] Button;
-- [ ] Icon Button;
+- [x] Button;
+- [x] Icon Button;
+- [ ] Button Group;
 - [x] Badge;
 - [x] Card;
 - [ ] Alert;

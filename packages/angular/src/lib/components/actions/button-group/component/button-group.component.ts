@@ -1,0 +1,26 @@
+import { Component, input } from '@angular/core';
+
+import type {
+  SolarisButtonGroupOrientation,
+  SolarisButtonGroupDensity,
+} from '../model/button-group.types';
+
+@Component({
+  selector: 'solaris-button-group',
+  standalone: true,
+  templateUrl: './button-group.component.html',
+  styleUrls: ['./button-group.component.scss'],
+  host: {
+    role: 'group',
+    '[attr.data-orientation]': 'orientation()',
+    '[attr.data-attached]': 'attached() ? "" : null',
+    '[attr.data-density]': 'density() ?? null',
+    '[attr.data-full-width]': 'fullWidth() ? "" : null',
+  },
+})
+export class SolarisButtonGroupComponent {
+  readonly orientation = input<SolarisButtonGroupOrientation>('horizontal');
+  readonly attached = input<boolean>(true);
+  readonly density = input<SolarisButtonGroupDensity>();
+  readonly fullWidth = input<boolean>(false);
+}

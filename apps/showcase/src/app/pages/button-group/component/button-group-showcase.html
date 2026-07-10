@@ -1,0 +1,168 @@
+<div class="button-group-showcase">
+  <header class="button-group-showcase__header">
+    <h1 class="button-group-showcase__title">Button Group</h1>
+    <p class="button-group-showcase__description">
+      {{ 'button-group.description' | translate }}
+    </p>
+  </header>
+
+  <section class="button-group-showcase__section">
+    <h2 class="button-group-showcase__section-title">
+      {{ 'button-group.basic-horizontal' | translate }}
+    </h2>
+    <div class="button-group-showcase__row">
+      <solaris-button-group aria-label="Editor actions">
+        <button solaris-button>Edit</button>
+        <button solaris-button>Duplicate</button>
+        <button solaris-button>Delete</button>
+      </solaris-button-group>
+    </div>
+  </section>
+
+  <section class="button-group-showcase__section">
+    <h2 class="button-group-showcase__section-title">
+      {{ 'button-group.horizontal-disabled' | translate }}
+    </h2>
+    <div class="button-group-showcase__row">
+      <solaris-button-group aria-label="Editor actions">
+        <button solaris-button>Edit</button>
+        <button solaris-button>Duplicate</button>
+        <button solaris-button [disabled]="true">Delete</button>
+      </solaris-button-group>
+    </div>
+  </section>
+
+  <section class="button-group-showcase__section">
+    <h2 class="button-group-showcase__section-title">
+      {{ 'button-group.vertical-icon' | translate }}
+    </h2>
+    <div class="button-group-showcase__row">
+      <solaris-button-group orientation="vertical" aria-label="Mood">
+        <button solaris-icon-button aria-label="Happy">
+          <solaris-icon name="success" [decorative]="true" />
+        </button>
+        <button solaris-icon-button aria-label="Neutral">
+          <solaris-icon name="info" [decorative]="true" />
+        </button>
+        <button solaris-icon-button aria-label="Sad">
+          <solaris-icon name="danger" [decorative]="true" />
+        </button>
+      </solaris-button-group>
+    </div>
+  </section>
+
+  <section class="button-group-showcase__section">
+    <h2 class="button-group-showcase__section-title">
+      {{ 'button-group.mixed' | translate }}
+    </h2>
+    <div class="button-group-showcase__row">
+      <solaris-button-group aria-label="Save actions">
+        <button solaris-button>Save</button>
+        <button
+          solaris-icon-button
+          class="button-group-showcase__chevron-btn"
+          aria-label="More save actions"
+        >
+          <solaris-icon
+            class="button-group-showcase__chevron-icon"
+            name="chevron-right"
+            [decorative]="true"
+          />
+        </button>
+      </solaris-button-group>
+    </div>
+    <p class="button-group-showcase__note">
+      {{ 'button-group.mixed-note' | translate }}
+    </p>
+  </section>
+
+  <section class="button-group-showcase__section">
+    <h2 class="button-group-showcase__section-title">
+      {{ 'button-group.badge' | translate }}
+    </h2>
+    <div class="button-group-showcase__row">
+      <solaris-button-group aria-label="Actions with badges">
+        <button solaris-button>
+          Save
+          <solaris-badge variant="count" color="primary">36</solaris-badge>
+        </button>
+        <button solaris-icon-button aria-label="Notifications, 3 new">
+          <solaris-icon name="bell" [decorative]="true" />
+          <solaris-badge
+            solaris-icon-button-badge
+            variant="count"
+            color="danger"
+            size="sm"
+          >
+            3
+          </solaris-badge>
+        </button>
+      </solaris-button-group>
+    </div>
+  </section>
+
+  <section class="button-group-showcase__section">
+    <h2 class="button-group-showcase__section-title">
+      {{ 'button-group.loading' | translate }}
+    </h2>
+    <div class="button-group-showcase__row">
+      <solaris-button-group aria-label="Loading actions">
+        <button solaris-button>Save</button>
+        <button solaris-button [loading]="true">Loading</button>
+      </solaris-button-group>
+    </div>
+  </section>
+
+  <section class="button-group-showcase__section">
+    <h2 class="button-group-showcase__section-title">
+      {{ 'button-group.attached-false' | translate }}
+    </h2>
+    <div class="button-group-showcase__row">
+      <solaris-button-group aria-label="Separated actions" [attached]="false">
+        <button solaris-button>Edit</button>
+        <button solaris-button>Duplicate</button>
+        <button solaris-button [disabled]="true">Delete</button>
+      </solaris-button-group>
+    </div>
+  </section>
+
+  <section class="button-group-showcase__section">
+    <h2 class="button-group-showcase__section-title">
+      {{ 'button-group.full-width' | translate }}
+    </h2>
+    <div class="button-group-showcase__full-width-row">
+      <solaris-button-group aria-label="Form actions" [fullWidth]="true">
+        <button solaris-button>Cancel</button>
+        <button solaris-button color="primary">Submit</button>
+      </solaris-button-group>
+    </div>
+  </section>
+
+  <section class="button-group-showcase__section">
+    <h2 class="button-group-showcase__section-title">
+      {{ 'button-group.anchor' | translate }}
+    </h2>
+    <div class="button-group-showcase__row">
+      <solaris-button-group aria-label="Anchor links">
+        <a solaris-button href="#" (click)="$event.preventDefault()">Link 1</a>
+        <a
+          solaris-icon-button
+          href="#"
+          (click)="$event.preventDefault()"
+          aria-label="Link 2"
+        >
+          <solaris-icon name="info" [decorative]="true" />
+        </a>
+      </solaris-button-group>
+    </div>
+  </section>
+
+  <section class="button-group-showcase__section">
+    <h2 class="button-group-showcase__section-title">
+      {{ 'button-group.future-note' | translate }}
+    </h2>
+    <p class="button-group-showcase__note">
+      {{ 'button-group.future-note-text' | translate }}
+    </p>
+  </section>
+</div>

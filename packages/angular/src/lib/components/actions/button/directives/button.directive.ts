@@ -41,8 +41,8 @@ export class SolarisButtonDirective {
   readonly loading = input<boolean>(false);
   readonly disabled = input<boolean>(false);
   readonly fullWidth = input<boolean>(false);
-  readonly loadingLabel = input<string>();
   readonly loadingLabelKey = input<string>();
+  readonly loadingLabel = input<string>();
 
   protected readonly isEffectivelyDisabled = computed(
     () => this.disabled() || this.loading(),

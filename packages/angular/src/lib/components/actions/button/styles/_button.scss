@@ -80,6 +80,7 @@
 [solaris-button][aria-disabled='true'] {
   cursor: not-allowed;
   pointer-events: all;
+  color: var(--solaris-text-muted);
   opacity: var(--solaris-button-disabled-opacity);
 }
 

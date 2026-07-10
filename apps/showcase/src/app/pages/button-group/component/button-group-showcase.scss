@@ -1,0 +1,60 @@
+@use '../../../shared/showcase-layout' as layout;
+
+.button-group-showcase {
+  @include layout.page;
+
+  &__header {
+    @include layout.header;
+  }
+
+  &__title {
+    @include layout.title;
+  }
+
+  &__description {
+    @include layout.description;
+  }
+
+  &__section {
+    @include layout.section-card;
+  }
+
+  &__section-title {
+    @include layout.section-title;
+  }
+
+  &__row {
+    @include layout.row;
+  }
+
+  &__full-width-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--solaris-spacing-3);
+    max-width: 32rem;
+  }
+
+  &__note {
+    @include layout.note;
+    margin-top: var(--solaris-spacing-3);
+  }
+
+  &__chevron-icon {
+    transition: transform var(--solaris-motion-duration-slow)
+      var(--solaris-motion-easing-standard, ease);
+  }
+
+  &__chevron-btn:hover &__chevron-icon {
+    transform: translateX(0.1875rem);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__chevron-btn:hover &__chevron-icon {
+      transition: none;
+    }
+  }
+
+  [data-reduced-motion='true'] &__chevron-btn:hover &__chevron-icon {
+    transition: none;
+  }
+}

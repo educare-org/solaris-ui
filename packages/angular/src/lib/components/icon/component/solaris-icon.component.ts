@@ -1,6 +1,6 @@
 import { Component, inject, input, computed } from '@angular/core';
 
-import { SolarisIconRegistryService } from '../../../services/icon/service/solaris-icon-registry.service';
+import { SolarisIconRegistryService } from '../../../services/icon';
 
 @Component({
   selector: 'solaris-icon',
