@@ -79,6 +79,18 @@ export type {
   SolarisCardGlassTexture,
 } from './lib/components/data-display/card/model/card.types';
 
+export { SolarisAlertComponent } from './lib/components/feedback/alert/component/alert.component';
+export { SolarisAlertActionsComponent } from './lib/components/feedback/alert/component/alert-actions.component';
+export { SolarisAlertTitleDirective } from './lib/components/feedback/alert/directives/alert-title.directive';
+export { SolarisAlertDescriptionDirective } from './lib/components/feedback/alert/directives/alert-description.directive';
+export type {
+  SolarisAlertVariant,
+  SolarisAlertAppearance,
+  SolarisAlertRadius,
+  SolarisAlertDensity,
+  SolarisAlertLive,
+} from './lib/components/feedback/alert/model/alert.types';
+
 export { SolarisSkeletonComponent } from './lib/components/feedback/skeleton/component/skeleton.component';
 export type {
   SolarisSkeletonVariant,

@@ -29,4 +29,11 @@ export const appRoutes: Route[] = [
         (m) => m.CardShowcasePage,
       ),
   },
+  {
+    path: 'alert',
+    loadComponent: () =>
+      import('./pages/alert/component/alert-showcase').then(
+        (m) => m.AlertShowcasePage,
+      ),
+  },
 ];

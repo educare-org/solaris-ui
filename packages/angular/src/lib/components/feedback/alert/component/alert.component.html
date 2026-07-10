@@ -1,0 +1,20 @@
+@if (showIcon()) {
+  <div class="solaris-alert__icon">
+    <solaris-icon [name]="iconName()" [decorative]="true" />
+  </div>
+}
+
+<div class="solaris-alert__content">
+  <ng-content />
+</div>
+
+@if (closable()) {
+  <button
+    type="button"
+    class="solaris-alert__close"
+    [attr.aria-label]="closeButtonLabel()"
+    (click)="handleClose()"
+  >
+    <solaris-icon name="x" [decorative]="true" />
+  </button>
+}

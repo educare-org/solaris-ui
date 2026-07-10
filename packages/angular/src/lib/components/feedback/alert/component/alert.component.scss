@@ -1,0 +1,368 @@
+:host {
+  --solaris-alert-gap: initial;
+  --solaris-alert-color: initial;
+  --solaris-alert-radius: initial;
+  --solaris-alert-padding: initial;
+  --solaris-alert-icon-size: initial;
+  --solaris-alert-icon-color: initial;
+  --solaris-alert-close-size: initial;
+  --solaris-alert-background: initial;
+  --solaris-alert-title-color: initial;
+  --solaris-alert-actions-gap: initial;
+  --solaris-alert-content-gap: initial;
+  --solaris-alert-border-color: initial;
+  --solaris-alert-border-width: initial;
+  --solaris-alert-description-color: initial;
+  --solaris-alert-close-color: initial;
+  --solaris-alert-close-background: initial;
+  --solaris-alert-close-hover-background: initial;
+
+  display: flex;
+  box-sizing: border-box;
+  gap: var(--solaris-alert-gap);
+  color: var(--solaris-alert-color);
+  padding: var(--solaris-alert-padding);
+  border-radius: var(--solaris-alert-radius);
+  background: var(--solaris-alert-background);
+  border: var(--solaris-alert-border-width) solid
+    var(--solaris-alert-border-color);
+}
+
+.solaris-alert__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: var(--solaris-alert-icon-size);
+  height: var(--solaris-alert-icon-size);
+  color: var(--solaris-alert-icon-color);
+}
+
+.solaris-alert__icon solaris-icon,
+.solaris-alert__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.solaris-alert__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-alert-content-gap);
+}
+
+.solaris-alert__close {
+  all: unset;
+  display: flex;
+  flex-shrink: 0;
+  cursor: pointer;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: center;
+  width: var(--solaris-alert-close-size);
+  height: var(--solaris-alert-close-size);
+  border-radius: var(--solaris-radius-sm);
+  color: var(--solaris-alert-close-color);
+  background: var(--solaris-alert-close-background);
+
+  &:hover {
+    background: var(--solaris-alert-close-hover-background);
+  }
+
+  &:focus-visible {
+    outline-offset: 2px;
+    outline: 2px solid var(--solaris-primary-base);
+  }
+}
+
+.solaris-alert__close solaris-icon,
+.solaris-alert__close svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+::ng-deep .solaris-alert-title {
+  margin: 0;
+  font-size: var(--solaris-font-size-md);
+  color: var(--solaris-alert-title-color);
+  line-height: var(--solaris-line-height-sm);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+::ng-deep .solaris-alert-description {
+  margin: 0;
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-md);
+  color: var(--solaris-alert-description-color);
+}
+
+::ng-deep .solaris-alert-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-alert-actions-gap);
+  margin-block-start: var(--solaris-spacing-2);
+}
+
+::ng-deep .solaris-alert-title + .solaris-alert-description {
+  margin-block-start: var(--solaris-alert-content-gap);
+}
+
+::ng-deep .solaris-alert-content > :first-child:not(.solaris-alert-title) {
+  margin-block-start: 0;
+}
+
+:host {
+  --solaris-alert-close-background: transparent;
+  --solaris-alert-gap: var(--solaris-spacing-3);
+  --solaris-alert-padding: var(--solaris-spacing-4);
+  --solaris-alert-icon-size: var(--solaris-spacing-5);
+  --solaris-alert-close-size: var(--solaris-spacing-6);
+  --solaris-alert-content-gap: var(--solaris-spacing-1);
+  --solaris-alert-actions-gap: var(--solaris-spacing-2);
+  --solaris-alert-close-color: var(--solaris-text-muted);
+  --solaris-alert-title-color: var(--solaris-text-strong);
+  // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent black overlay on any background; no token exists for this pattern.
+  --solaris-alert-close-hover-background: rgba(0, 0, 0, 0.06);
+  --solaris-alert-description-color: var(--solaris-text-default);
+}
+
+:host([data-radius='sm']) {
+  --solaris-alert-radius: var(--solaris-radius-sm);
+}
+
+:host([data-radius='md']) {
+  --solaris-alert-radius: var(--solaris-radius-md);
+}
+
+:host([data-radius='lg']) {
+  --solaris-alert-radius: var(--solaris-radius-lg);
+}
+
+:host([data-radius='xl']) {
+  --solaris-alert-radius: var(--solaris-radius-xl);
+}
+
+:host([data-density='compact']) {
+  --solaris-alert-gap: var(--solaris-density-gap-sm);
+  --solaris-alert-icon-size: var(--solaris-spacing-4);
+  --solaris-alert-padding: var(--solaris-density-padding-md);
+  --solaris-alert-content-gap: var(--solaris-density-gap-xs);
+  --solaris-alert-actions-gap: var(--solaris-density-gap-sm);
+  --solaris-alert-close-size: var(--solaris-density-min-height);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-alert-gap: var(--solaris-density-gap-md);
+  --solaris-alert-icon-size: var(--solaris-spacing-5);
+  --solaris-alert-content-gap: var(--solaris-density-gap-xs);
+  --solaris-alert-padding: var(--solaris-density-padding-lg);
+  --solaris-alert-actions-gap: var(--solaris-density-gap-md);
+  --solaris-alert-close-size: var(--solaris-density-min-height);
+}
+
+:host([data-variant='neutral'][data-appearance='tonal']) {
+  --solaris-alert-color: var(--solaris-text-default);
+  --solaris-alert-icon-color: var(--solaris-text-muted);
+  --solaris-alert-background: var(--solaris-surface-muted);
+  --solaris-alert-border-color: var(--solaris-border-default);
+}
+
+:host([data-variant='neutral'][data-appearance='outline']) {
+  --solaris-alert-background: transparent;
+  --solaris-alert-color: var(--solaris-text-default);
+  --solaris-alert-icon-color: var(--solaris-text-muted);
+  --solaris-alert-border-color: var(--solaris-border-default);
+}
+
+:host([data-variant='neutral'][data-appearance='surface']) {
+  --solaris-alert-color: var(--solaris-text-default);
+  --solaris-alert-icon-color: var(--solaris-text-muted);
+  --solaris-alert-background: var(--solaris-surface-base);
+  --solaris-alert-border-color: var(--solaris-border-subtle);
+}
+
+:host([data-variant='neutral'][data-appearance='solid']) {
+  --solaris-alert-border-color: transparent;
+  --solaris-alert-color: var(--solaris-text-strong);
+  --solaris-alert-icon-color: var(--solaris-text-strong);
+  --solaris-alert-background: var(--solaris-surface-base);
+  --solaris-alert-close-color: var(--solaris-text-strong);
+  --solaris-alert-title-color: var(--solaris-text-strong);
+  --solaris-alert-description-color: var(--solaris-text-inverse);
+  // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent white overlay on solid backgrounds; no token exists for this pattern.
+  --solaris-alert-close-hover-background: rgba(255, 255, 255, 0.12);
+}
+
+:host([data-variant='info'][data-appearance='tonal']) {
+  --solaris-alert-color: var(--solaris-info-text);
+  --solaris-alert-icon-color: var(--solaris-info-base);
+  --solaris-alert-background: var(--solaris-info-surface);
+  --solaris-alert-border-color: var(--solaris-info-border);
+}
+
+:host([data-variant='info'][data-appearance='outline']) {
+  --solaris-alert-background: transparent;
+  --solaris-alert-color: var(--solaris-info-text);
+  --solaris-alert-icon-color: var(--solaris-info-base);
+  --solaris-alert-border-color: var(--solaris-info-border);
+}
+
+:host([data-variant='info'][data-appearance='surface']) {
+  --solaris-alert-color: var(--solaris-text-default);
+  --solaris-alert-icon-color: var(--solaris-info-base);
+  --solaris-alert-background: var(--solaris-surface-base);
+  --solaris-alert-border-color: var(--solaris-info-border);
+}
+
+:host([data-variant='info'][data-appearance='solid']) {
+  --solaris-alert-border-color: transparent;
+  --solaris-alert-color: var(--solaris-info-on-solid);
+  --solaris-alert-background: var(--solaris-info-base);
+  --solaris-alert-icon-color: var(--solaris-info-on-solid);
+  --solaris-alert-close-color: var(--solaris-info-on-solid);
+  --solaris-alert-title-color: var(--solaris-info-on-solid);
+  --solaris-alert-description-color: var(--solaris-info-on-solid);
+  // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent white overlay on solid backgrounds; no token exists for this pattern.
+  --solaris-alert-close-hover-background: rgba(255, 255, 255, 0.12);
+}
+
+:host([data-variant='success'][data-appearance='tonal']) {
+  --solaris-alert-color: var(--solaris-success-text);
+  --solaris-alert-icon-color: var(--solaris-success-base);
+  --solaris-alert-background: var(--solaris-success-surface);
+  --solaris-alert-border-color: var(--solaris-success-border);
+}
+
+:host([data-variant='success'][data-appearance='outline']) {
+  --solaris-alert-background: transparent;
+  --solaris-alert-color: var(--solaris-success-text);
+  --solaris-alert-border-color: var(--solaris-success-border);
+  --solaris-alert-icon-color: var(--solaris-success-base);
+}
+
+:host([data-variant='success'][data-appearance='surface']) {
+  --solaris-alert-color: var(--solaris-text-default);
+  --solaris-alert-background: var(--solaris-surface-base);
+  --solaris-alert-icon-color: var(--solaris-success-base);
+  --solaris-alert-border-color: var(--solaris-success-border);
+}
+
+:host([data-variant='success'][data-appearance='solid']) {
+  --solaris-alert-color: var(--solaris-success-on-solid);
+  --solaris-alert-background: var(--solaris-success-base);
+  --solaris-alert-border-color: transparent;
+  --solaris-alert-icon-color: var(--solaris-success-on-solid);
+  --solaris-alert-close-color: var(--solaris-success-on-solid);
+  --solaris-alert-title-color: var(--solaris-success-on-solid);
+  // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent white overlay on solid backgrounds; no token exists for this pattern.
+  --solaris-alert-close-hover-background: rgba(255, 255, 255, 0.12);
+  --solaris-alert-description-color: var(--solaris-success-on-solid);
+}
+
+:host([data-variant='warning'][data-appearance='tonal']) {
+  --solaris-alert-color: var(--solaris-warning-text);
+  --solaris-alert-icon-color: var(--solaris-warning-base);
+  --solaris-alert-background: var(--solaris-warning-surface);
+  --solaris-alert-border-color: var(--solaris-warning-border);
+}
+
+:host([data-variant='warning'][data-appearance='outline']) {
+  --solaris-alert-background: transparent;
+  --solaris-alert-color: var(--solaris-warning-text);
+  --solaris-alert-icon-color: var(--solaris-warning-base);
+  --solaris-alert-border-color: var(--solaris-warning-border);
+}
+
+:host([data-variant='warning'][data-appearance='surface']) {
+  --solaris-alert-color: var(--solaris-text-default);
+  --solaris-alert-background: var(--solaris-surface-base);
+  --solaris-alert-icon-color: var(--solaris-warning-base);
+  --solaris-alert-border-color: var(--solaris-warning-border);
+}
+
+:host([data-variant='warning'][data-appearance='solid']) {
+  --solaris-alert-border-color: transparent;
+  --solaris-alert-color: var(--solaris-warning-on-solid);
+  --solaris-alert-background: var(--solaris-warning-base);
+  --solaris-alert-icon-color: var(--solaris-warning-on-solid);
+  --solaris-alert-close-color: var(--solaris-warning-on-solid);
+  // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent black overlay on warning solid for adequate contrast; no token exists for this pattern.
+  --solaris-alert-close-hover-background: rgba(0, 0, 0, 0.1);
+  --solaris-alert-title-color: var(--solaris-warning-on-solid);
+  --solaris-alert-description-color: var(--solaris-warning-on-solid);
+}
+
+:host([data-variant='danger'][data-appearance='tonal']) {
+  --solaris-alert-color: var(--solaris-danger-text);
+  --solaris-alert-icon-color: var(--solaris-danger-base);
+  --solaris-alert-background: var(--solaris-danger-surface);
+  --solaris-alert-border-color: var(--solaris-danger-border);
+}
+
+:host([data-variant='danger'][data-appearance='outline']) {
+  --solaris-alert-background: transparent;
+  --solaris-alert-color: var(--solaris-danger-text);
+  --solaris-alert-icon-color: var(--solaris-danger-base);
+  --solaris-alert-border-color: var(--solaris-danger-border);
+}
+
+:host([data-variant='danger'][data-appearance='surface']) {
+  --solaris-alert-color: var(--solaris-text-default);
+  --solaris-alert-icon-color: var(--solaris-danger-base);
+  --solaris-alert-background: var(--solaris-surface-base);
+  --solaris-alert-border-color: var(--solaris-danger-border);
+}
+
+:host([data-variant='danger'][data-appearance='solid']) {
+  --solaris-alert-border-color: transparent;
+  --solaris-alert-color: var(--solaris-danger-on-solid);
+  --solaris-alert-background: var(--solaris-danger-base);
+  --solaris-alert-icon-color: var(--solaris-danger-on-solid);
+  --solaris-alert-close-color: var(--solaris-danger-on-solid);
+  --solaris-alert-title-color: var(--solaris-danger-on-solid);
+  // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent white overlay on solid backgrounds; no token exists for this pattern.
+  --solaris-alert-close-hover-background: rgba(255, 255, 255, 0.12);
+  --solaris-alert-description-color: var(--solaris-danger-on-solid);
+}
+
+:host([data-variant='custom']) {
+  --solaris-alert-color: var(
+    --solaris-alert-custom-color,
+    var(--solaris-text-default)
+  );
+  --solaris-alert-background: var(
+    --solaris-alert-custom-background,
+    var(--solaris-surface-base)
+  );
+  --solaris-alert-border-color: var(
+    --solaris-alert-custom-border-color,
+    var(--solaris-border-default)
+  );
+  --solaris-alert-icon-color: var(
+    --solaris-alert-custom-icon-color,
+    var(--solaris-text-muted)
+  );
+}
+
+:host([data-appearance='solid']) {
+  --solaris-alert-border-width: 0;
+}
+
+:host([data-appearance]:not([data-appearance='solid'])) {
+  --solaris-alert-border-width: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-alert__close {
+    transition: none;
+  }
+}
+
+[data-reduced-motion='true'] {
+  .solaris-alert__close {
+    transition: none;
+  }
+}
