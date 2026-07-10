@@ -10,6 +10,7 @@
   --solaris-text-muted: #adafb4;
   --solaris-text-subtle: #8e9198;
   --solaris-text-inverse: #151616;
+  --solaris-text-glass: #ffffff;
 
   --solaris-border-subtle: #3b3b3c;
   --solaris-border-default: #4a4b4d;
@@ -70,7 +71,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
     @include solaris-dark-tokens;
   }
 }

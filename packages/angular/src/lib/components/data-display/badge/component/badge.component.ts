@@ -24,7 +24,7 @@ import type {
   },
 })
 export class SolarisBadgeComponent {
-  readonly appearance = input<SolarisBadgeAppearance>('solid');
+  readonly appearance = input<SolarisBadgeAppearance>('tonal');
   readonly variant = input<SolarisBadgeVariant>('standard');
   readonly color = input<SolarisBadgeColor>('neutral');
   readonly radius = input<SolarisBadgeRadius>('full');

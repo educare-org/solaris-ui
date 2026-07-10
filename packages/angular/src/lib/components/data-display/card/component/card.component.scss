@@ -66,8 +66,8 @@
 
   --solaris-card-glass-blur: 22px;
   --solaris-card-border-width: 1px;
-  --solaris-card-color: var(--solaris-text-default);
   --solaris-card-glass-texture-opacity: 0.18;
+  --solaris-card-color: var(--solaris-text-glass);
 
   // SOLARIS_TOKEN_EXCEPTION: glass appearance requires translucent rgba values for the frosted-glass effect.
   --solaris-card-glass-background:
@@ -84,9 +84,9 @@
 
   position: relative;
   isolation: isolate;
+  box-shadow: var(--solaris-card-shadow);
   background: var(--solaris-card-glass-background);
   border-color: var(--solaris-card-glass-border-color);
-  box-shadow: var(--solaris-card-shadow);
 
   backdrop-filter: blur(var(--solaris-card-glass-blur)) saturate(150%)
     contrast(108%);
@@ -233,19 +233,19 @@
 }
 
 :host ::ng-deep .solaris-card-actions {
-  gap: var(--solaris-spacing-2);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  gap: var(--solaris-spacing-2);
 }
 
 :host ::ng-deep .solaris-card-title {
-  margin: var(--solaris-spacing-0) var(--solaris-spacing-0)
-    var(--solaris-spacing-1);
   color: var(--solaris-text-strong);
   font-size: var(--solaris-font-size-lg);
   line-height: var(--solaris-line-height-sm);
   font-weight: var(--solaris-font-weight-semibold);
+  margin: var(--solaris-spacing-0) var(--solaris-spacing-0)
+    var(--solaris-spacing-1);
 }
 
 :host ::ng-deep .solaris-card-description {
@@ -253,6 +253,10 @@
   color: var(--solaris-text-muted);
   font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
+}
+
+:host([data-appearance='glass']) ::ng-deep .solaris-card-description {
+  color: var(--solaris-text-glass);
 }
 
 :host ::ng-deep * + .solaris-card-description {

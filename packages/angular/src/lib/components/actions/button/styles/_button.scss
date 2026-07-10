@@ -327,7 +327,7 @@
 
 /* SOLARIS_TOKEN_EXCEPTION: glass appearance uses translucent rgba/backdrop-filter for frosted glass effect. */
 [solaris-button][data-color='neutral'][data-appearance='glass'] {
-  --solaris-button-color: var(--solaris-text-default);
+  --solaris-button-color: var(--solaris-text-glass);
   --solaris-button-glass-accent: rgba(255, 110, 24, 0.36);
   --solaris-button-glass-accent-hover: rgba(255, 110, 24, 0.46);
   --solaris-button-focus-ring-color: var(--solaris-text-default);
