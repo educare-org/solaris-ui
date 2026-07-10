@@ -1,0 +1,266 @@
+:host {
+  --solaris-form-field-label-color: initial;
+  --solaris-form-field-label-font-size: initial;
+  --solaris-form-field-label-font-weight: initial;
+  --solaris-form-field-label-margin-bottom: initial;
+  --solaris-form-field-optional-color: initial;
+  --solaris-form-field-optional-font-size: initial;
+  --solaris-form-field-control-background: initial;
+  --solaris-form-field-control-color: initial;
+  --solaris-form-field-control-border-color: initial;
+  --solaris-form-field-control-border-width: initial;
+  --solaris-form-field-control-radius: initial;
+  --solaris-form-field-control-height: initial;
+  --solaris-form-field-control-padding-x: initial;
+  --solaris-form-field-control-gap: initial;
+  --solaris-form-field-focus-ring-color: initial;
+  --solaris-form-field-focus-ring-width: initial;
+  --solaris-form-field-error-color: initial;
+  --solaris-form-field-error-border-color: initial;
+  --solaris-form-field-error-font-size: initial;
+  --solaris-form-field-hint-color: initial;
+  --solaris-form-field-hint-font-size: initial;
+  --solaris-form-field-disabled-opacity: initial;
+  --solaris-form-field-readonly-background: initial;
+  --solaris-form-field-prefix-color: initial;
+  --solaris-form-field-suffix-color: initial;
+  --solaris-form-field-message-margin-top: initial;
+  --solaris-form-field-font-size: initial;
+
+  display: block;
+  box-sizing: border-box;
+  font-family: var(--solaris-font-family-sans), system-ui;
+  font-size: var(--solaris-form-field-font-size);
+}
+
+.solaris-form-field__label-row {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-2);
+  margin-bottom: var(--solaris-form-field-label-margin-bottom);
+}
+
+.solaris-form-field__label {
+  color: var(--solaris-form-field-label-color);
+  font-size: var(--solaris-form-field-label-font-size);
+  font-weight: var(--solaris-form-field-label-font-weight);
+  cursor: pointer;
+  display: inline-block;
+}
+
+.solaris-form-field__optional-marker {
+  color: var(--solaris-form-field-optional-color);
+  font-size: var(--solaris-form-field-optional-font-size);
+  white-space: nowrap;
+}
+
+.solaris-form-field__control-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-form-field-control-gap);
+  background: var(--solaris-form-field-control-background);
+  border: var(--solaris-form-field-control-border-width) solid var(--solaris-form-field-control-border-color);
+  border-radius: var(--solaris-form-field-control-radius);
+  padding: 0 var(--solaris-form-field-control-padding-x);
+  min-height: var(--solaris-form-field-control-height);
+  box-sizing: border-box;
+  position: relative;
+  transition: border-color var(--solaris-motion-duration-fast, 150ms) ease,
+    box-shadow var(--solaris-motion-duration-fast, 150ms) ease;
+}
+
+.solaris-form-field__control {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .solaris-form-prefix {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--solaris-form-field-prefix-color);
+}
+
+::ng-deep .solaris-form-suffix {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--solaris-form-field-suffix-color);
+}
+
+.solaris-form-field__message-row {
+  margin-top: var(--solaris-form-field-message-margin-top);
+}
+
+.solaris-form-field__hint {
+  color: var(--solaris-form-field-hint-color);
+  font-size: var(--solaris-form-field-hint-font-size);
+}
+
+.solaris-form-field__error {
+  color: var(--solaris-form-field-error-color);
+  font-size: var(--solaris-form-field-error-font-size);
+}
+
+:host([data-appearance='outline']) {
+  --solaris-form-field-control-background: var(--solaris-surface-base);
+  --solaris-form-field-control-border-color: var(--solaris-border-default);
+  --solaris-form-field-control-border-width: 1px;
+}
+
+:host([data-appearance='surface']) {
+  --solaris-form-field-control-background: var(--solaris-surface-muted);
+  --solaris-form-field-control-border-color: var(--solaris-border-subtle);
+  --solaris-form-field-control-border-width: 1px;
+}
+
+:host([data-appearance='filled']) {
+  --solaris-form-field-control-background: var(--solaris-surface-muted);
+  --solaris-form-field-control-border-color: transparent;
+  --solaris-form-field-control-border-width: 0 0 1px 0;
+  border-bottom: 1px solid var(--solaris-border-default);
+}
+
+:host([data-size='sm']) {
+  --solaris-form-field-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-control-height: 2rem;
+  --solaris-form-field-control-padding-x: var(--solaris-spacing-2);
+  --solaris-form-field-control-gap: var(--solaris-spacing-1);
+  --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
+  --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
+}
+
+:host([data-size='md']) {
+  --solaris-form-field-font-size: var(--solaris-font-size-md);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-control-height: 2.5rem;
+  --solaris-form-field-control-padding-x: var(--solaris-spacing-3);
+  --solaris-form-field-control-gap: var(--solaris-spacing-2);
+  --solaris-form-field-hint-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-error-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-optional-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
+  --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
+}
+
+:host([data-size='lg']) {
+  --solaris-form-field-font-size: var(--solaris-font-size-lg);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-md);
+  --solaris-form-field-control-height: 3rem;
+  --solaris-form-field-control-padding-x: var(--solaris-spacing-4);
+  --solaris-form-field-control-gap: var(--solaris-spacing-2);
+  --solaris-form-field-hint-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-error-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-optional-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-2);
+  --solaris-form-field-message-margin-top: var(--solaris-spacing-2);
+}
+
+:host([data-density='compact']) {
+  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
+  --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
+  --solaris-form-field-control-gap: var(--solaris-spacing-1);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-2);
+  --solaris-form-field-message-margin-top: var(--solaris-spacing-2);
+  --solaris-form-field-control-gap: var(--solaris-spacing-2);
+}
+
+:host([data-radius='none']) {
+  --solaris-form-field-control-radius: 0;
+}
+
+:host([data-radius='sm']) {
+  --solaris-form-field-control-radius: var(--solaris-radius-sm);
+}
+
+:host([data-radius='md']) {
+  --solaris-form-field-control-radius: var(--solaris-radius-md);
+}
+
+:host([data-radius='lg']) {
+  --solaris-form-field-control-radius: var(--solaris-radius-lg);
+}
+
+:host([data-focused]) {
+  --solaris-form-field-control-border-color: var(--solaris-form-field-focus-ring-color);
+  box-shadow: 0 0 0 var(--solaris-form-field-focus-ring-width) var(--solaris-form-field-focus-ring-color);
+}
+
+:host([data-focused][data-appearance='filled']) {
+  border-bottom-color: var(--solaris-form-field-focus-ring-color);
+}
+
+:host([data-invalid]) {
+  --solaris-form-field-control-border-color: var(--solaris-form-field-error-border-color);
+}
+
+:host([data-invalid][data-focused]) {
+  box-shadow: 0 0 0 var(--solaris-form-field-focus-ring-width) var(--solaris-form-field-error-border-color);
+  --solaris-form-field-control-border-color: var(--solaris-form-field-error-border-color);
+}
+
+:host([data-disabled]) {
+  --solaris-form-field-control-background: var(--solaris-surface-disabled, var(--solaris-surface-muted));
+  --solaris-form-field-control-color: var(--solaris-text-disabled, var(--solaris-text-muted));
+  cursor: not-allowed;
+  opacity: var(--solaris-form-field-disabled-opacity);
+}
+
+:host([data-readonly]) {
+  --solaris-form-field-control-background: var(--solaris-form-field-readonly-background);
+  --solaris-form-field-control-border-color: var(--solaris-border-subtle);
+}
+
+:host([data-appearance='outline']) {
+  --solaris-form-field-label-color: var(--solaris-text-default);
+  --solaris-form-field-label-font-weight: var(--solaris-font-weight-medium);
+  --solaris-form-field-optional-color: var(--solaris-text-muted);
+  --solaris-form-field-focus-ring-color: var(--solaris-primary-base);
+  --solaris-form-field-focus-ring-width: 2px;
+  --solaris-form-field-error-color: var(--solaris-danger-text);
+  --solaris-form-field-error-border-color: var(--solaris-danger-base);
+  --solaris-form-field-hint-color: var(--solaris-text-muted);
+  --solaris-form-field-prefix-color: var(--solaris-text-muted);
+  --solaris-form-field-suffix-color: var(--solaris-text-muted);
+  --solaris-form-field-disabled-opacity: 0.5;
+  --solaris-form-field-readonly-background: var(--solaris-surface-muted);
+}
+
+:host([data-appearance='surface']) {
+  --solaris-form-field-label-color: var(--solaris-text-default);
+  --solaris-form-field-label-font-weight: var(--solaris-font-weight-medium);
+  --solaris-form-field-optional-color: var(--solaris-text-muted);
+  --solaris-form-field-focus-ring-color: var(--solaris-primary-base);
+  --solaris-form-field-focus-ring-width: 2px;
+  --solaris-form-field-error-color: var(--solaris-danger-text);
+  --solaris-form-field-error-border-color: var(--solaris-danger-base);
+  --solaris-form-field-hint-color: var(--solaris-text-muted);
+  --solaris-form-field-prefix-color: var(--solaris-text-muted);
+  --solaris-form-field-suffix-color: var(--solaris-text-muted);
+  --solaris-form-field-disabled-opacity: 0.5;
+  --solaris-form-field-readonly-background: var(--solaris-surface-base);
+}
+
+:host([data-appearance='filled']) {
+  --solaris-form-field-label-color: var(--solaris-text-default);
+  --solaris-form-field-label-font-weight: var(--solaris-font-weight-medium);
+  --solaris-form-field-optional-color: var(--solaris-text-muted);
+  --solaris-form-field-focus-ring-color: var(--solaris-primary-base);
+  --solaris-form-field-focus-ring-width: 2px;
+  --solaris-form-field-error-color: var(--solaris-danger-text);
+  --solaris-form-field-error-border-color: var(--solaris-danger-base);
+  --solaris-form-field-hint-color: var(--solaris-text-muted);
+  --solaris-form-field-prefix-color: var(--solaris-text-muted);
+  --solaris-form-field-suffix-color: var(--solaris-text-muted);
+  --solaris-form-field-disabled-opacity: 0.5;
+  --solaris-form-field-readonly-background: var(--solaris-surface-muted);
+}

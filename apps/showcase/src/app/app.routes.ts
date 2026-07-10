@@ -57,4 +57,11 @@ export const appRoutes: Route[] = [
         (m) => m.ButtonGroupShowcasePage,
       ),
   },
+  {
+    path: 'form-field',
+    loadComponent: () =>
+      import('./pages/form-field/component/form-field-showcase').then(
+        (m) => m.FormFieldShowcasePage,
+      ),
+  },
 ];

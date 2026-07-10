@@ -117,6 +117,19 @@ export type {
   SolarisButtonGroupDensity,
 } from './lib/components/actions/button-group/model/button-group.types';
 
+export { SolarisFormFieldComponent } from './lib/forms/form-field/component/form-field.component';
+export { SolarisFormLabelComponent } from './lib/forms/form-field/component/form-label.component';
+export { SolarisFormHintComponent } from './lib/forms/form-field/component/form-hint.component';
+export { SolarisFormErrorComponent } from './lib/forms/form-field/component/form-error.component';
+export { SolarisFormPrefixDirective } from './lib/forms/form-field/directives/form-prefix.directive';
+export { SolarisFormSuffixDirective } from './lib/forms/form-field/directives/form-suffix.directive';
+export type {
+  SolarisFormFieldAppearance,
+  SolarisFormFieldSize,
+  SolarisFormFieldDensity,
+  SolarisFormFieldRadius,
+} from './lib/forms/form-field/model/form-field.types';
+
 export { SolarisSkeletonComponent } from './lib/components/feedback/skeleton/component/skeleton.component';
 export type {
   SolarisSkeletonVariant,

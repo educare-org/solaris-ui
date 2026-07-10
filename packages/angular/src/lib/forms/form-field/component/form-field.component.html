@@ -1,0 +1,55 @@
+@if (labelText() || hasProjectedLabel()) {
+  <div class="solaris-form-field__label-row">
+    @if (hasProjectedLabel()) {
+      <ng-content select="solaris-form-label" />
+    } @else if (labelText()) {
+      <label
+        class="solaris-form-field__label"
+        [id]="labelId"
+        [for]="controlId ?? undefined"
+      >
+        {{ labelText() }}
+      </label>
+    }
+    @if (optional()) {
+      <span class="solaris-form-field__optional-marker" aria-label="Optional">
+        {{ optionalLabelText() }}
+      </span>
+    }
+  </div>
+}
+
+<div class="solaris-form-field__control-wrapper">
+  <ng-content select="[solaris-form-prefix]" />
+  <div class="solaris-form-field__control">
+    <ng-content />
+  </div>
+  <ng-content select="[solaris-form-suffix]" />
+</div>
+
+<div class="solaris-form-field__message-row">
+  @if (showError()) {
+    <div
+      class="solaris-form-field__error"
+      [id]="errorId"
+      role="alert"
+    >
+      @if (hasProjectedError()) {
+        <ng-content select="solaris-form-error" />
+      } @else {
+        {{ errorText() }}
+      }
+    </div>
+  } @else if (showHint()) {
+    <div
+      class="solaris-form-field__hint"
+      [id]="hintId"
+    >
+      @if (hasProjectedHint()) {
+        <ng-content select="solaris-form-hint" />
+      } @else {
+        {{ hintText() }}
+      }
+    </div>
+  }
+</div>

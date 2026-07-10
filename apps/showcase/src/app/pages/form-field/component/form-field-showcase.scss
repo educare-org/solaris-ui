@@ -1,0 +1,43 @@
+@use '../../../shared/showcase-layout' as l;
+
+.form-field-showcase {
+  @include l.page(60rem);
+}
+
+.form-field-showcase__header {
+  @include l.header;
+}
+
+.form-field-showcase__title {
+  @include l.title;
+}
+
+.form-field-showcase__description {
+  @include l.description;
+}
+
+.form-field-showcase__section {
+  @include l.section-card;
+}
+
+.form-field-showcase__section-title {
+  @include l.section-title;
+}
+
+.form-field-showcase__note {
+  @include l.note;
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.form-field-showcase__demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.form-field-showcase__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3);
+}

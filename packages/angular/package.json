@@ -4,6 +4,7 @@
   "peerDependencies": {
     "@angular/common": "^21.2.0",
     "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
     "vitest": "^4.0.8"
   },
   "peerDependenciesMeta": {

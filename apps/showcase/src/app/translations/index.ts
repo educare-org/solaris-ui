@@ -6,6 +6,7 @@ import { ALERT_TRANSLATIONS } from '../pages/alert/translations';
 import { BUTTON_TRANSLATIONS } from '../pages/button/translations';
 import { ICON_BUTTON_TRANSLATIONS } from '../pages/icon-button/translations';
 import { BUTTON_GROUP_TRANSLATIONS } from '../pages/button-group/translations';
+import { FORM_FIELD_TRANSLATIONS } from '../pages/form-field/translations';
 
 const PAGE_MODULES = [
   CONFIGURATION_TRANSLATIONS,
@@ -16,6 +17,7 @@ const PAGE_MODULES = [
   BUTTON_TRANSLATIONS,
   ICON_BUTTON_TRANSLATIONS,
   BUTTON_GROUP_TRANSLATIONS,
+  FORM_FIELD_TRANSLATIONS,
 ];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};

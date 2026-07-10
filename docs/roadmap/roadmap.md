@@ -30,13 +30,13 @@ Scope:
 Scope:
 
 - [x] Forms Foundation Contract;
-- Form Field;
-- Input;
-- Textarea;
-- Checkbox;
-- Radio;
-- Switch;
-- Select.
+- [ ] Form Field;
+- [ ] Input;
+- [ ] Textarea;
+- [ ] Checkbox;
+- [ ] Radio;
+- [ ] Switch;
+- [ ] Select.
 
 ## `0.3.0` — Overlay and Navigation Release
 

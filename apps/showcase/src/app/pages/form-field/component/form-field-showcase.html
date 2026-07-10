@@ -1,0 +1,243 @@
+<div class="form-field-showcase">
+  <header class="form-field-showcase__header">
+    <h1 class="form-field-showcase__title">Form Field</h1>
+    <p class="form-field-showcase__description">
+      {{ 'form-field.description' | translate }}
+    </p>
+  </header>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.basic' | translate }}
+    </h2>
+    <p class="form-field-showcase__note">
+      {{ 'form-field.basic-note' | translate }}
+    </p>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field label="Name">
+        <input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.projected-label' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field>
+        <solaris-form-label>Custom Label</solaris-form-label>
+        <input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.hint' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        label="Password"
+        hint="Use at least 8 characters with a number and a symbol."
+      >
+        <input type="password" />
+      </solaris-form-field>
+    </div>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field label="Password">
+        <input type="password" />
+        <solaris-form-hint>Projected: use at least 8 characters.</solaris-form-hint>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.error' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        label="Email"
+        error="Please enter a valid email address."
+        [invalid]="true"
+      >
+        <input />
+      </solaris-form-field>
+    </div>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field label="Email" [invalid]="true">
+        <input />
+        <solaris-form-error>Projected: please enter a valid email.</solaris-form-error>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.auto-invalid' | translate }}
+    </h2>
+    <p class="form-field-showcase__note">
+      {{ 'form-field.auto-invalid-note' | translate }}
+    </p>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field label="Required Email">
+        <input [formControl]="emailControl" />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.manual-invalid' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        label="Custom Error"
+        error="This field has a custom error."
+        [invalid]="true"
+      >
+        <input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.optional' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field label="Nickname" [optional]="true">
+        <input />
+      </solaris-form-field>
+      <solaris-form-field
+        label="Phone"
+        [optional]="true"
+        optionalLabel="(optional)"
+      >
+        <input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.prefix-suffix' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field label="Price">
+        <span solaris-form-prefix>$</span>
+        <input />
+        <span solaris-form-suffix>USD</span>
+      </solaris-form-field>
+    </div>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field label="Search">
+        <solaris-icon solaris-form-prefix name="search" [decorative]="true" />
+        <input />
+      </solaris-form-field>
+    </div>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field label="Password">
+        <input type="password" />
+        <button
+          solaris-form-suffix
+          type="button"
+          aria-label="Show password"
+        >
+          Show
+        </button>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.appearances' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field label="Outline" appearance="outline">
+        <input />
+      </solaris-form-field>
+      <solaris-form-field label="Surface" appearance="surface">
+        <input />
+      </solaris-form-field>
+      <solaris-form-field label="Filled" appearance="filled">
+        <input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.sizes' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field label="Small" size="sm">
+        <input />
+      </solaris-form-field>
+      <solaris-form-field label="Medium" size="md">
+        <input />
+      </solaris-form-field>
+      <solaris-form-field label="Large" size="lg">
+        <input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.density' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field label="Compact" density="compact">
+        <input />
+      </solaris-form-field>
+      <solaris-form-field label="Comfortable" density="comfortable">
+        <input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.radius' | translate }}
+    </h2>
+    <div class="form-field-showcase__row">
+      <solaris-form-field label="None" radius="none">
+        <input />
+      </solaris-form-field>
+      <solaris-form-field label="SM" radius="sm">
+        <input />
+      </solaris-form-field>
+      <solaris-form-field label="MD" radius="md">
+        <input />
+      </solaris-form-field>
+      <solaris-form-field label="LG" radius="lg">
+        <input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.disabled' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field label="Disabled Field" [disabled]="true">
+        <input value="Cannot edit" />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.readonly' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field label="Readonly Field" [readonly]="true">
+        <input value="Read only value" />
+      </solaris-form-field>
+    </div>
+  </section>
+</div>
