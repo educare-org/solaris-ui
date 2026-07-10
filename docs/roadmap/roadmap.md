@@ -22,7 +22,7 @@ Scope:
 - [x] Button Group;
 - [x] Badge;
 - [x] Card;
-- [ ] Alert;
+- [x] Alert;
 - [x] Skeleton.
 
 ## `0.2.0` — Forms Release
