@@ -8,7 +8,7 @@ import {
   SolarisIconComponent,
   SolarisBadgeComponent,
   SolarisTranslatePipe,
-} from '@solaris-ui/angular';
+} from '@educarehq/solaris-ui';
 
 @Component({
   standalone: true,

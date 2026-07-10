@@ -14,7 +14,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "paths": {
-      "@solaris-ui/angular": ["./packages/angular/src/index.ts"]
+      "@educarehq/solaris-ui": ["./packages/angular/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

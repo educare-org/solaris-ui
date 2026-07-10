@@ -1,4 +1,4 @@
-import type { SolarisTranslations } from '@solaris-ui/angular';
+import type { SolarisTranslations } from '@educarehq/solaris-ui';
 
 import { EN_US_BUTTON_GROUP } from './en-US';
 import { PT_BR_BUTTON_GROUP } from './pt-BR';

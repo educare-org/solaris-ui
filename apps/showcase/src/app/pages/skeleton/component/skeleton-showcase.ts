@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import {
   SolarisSkeletonComponent,
   SolarisTranslatePipe,
-} from '@solaris-ui/angular';
+} from '@educarehq/solaris-ui';
 
 @Component({
   standalone: true,

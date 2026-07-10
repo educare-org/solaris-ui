@@ -9,7 +9,7 @@ import {
   provideSolarisAccessibility,
   provideSolarisTheme,
   provideSolarisIcons,
-} from '@solaris-ui/angular';
+} from '@educarehq/solaris-ui';
 
 import { SHOWCASE_TRANSLATIONS } from './translations';
 import { appRoutes } from './app.routes';

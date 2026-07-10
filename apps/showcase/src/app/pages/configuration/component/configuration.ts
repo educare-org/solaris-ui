@@ -7,7 +7,7 @@ import {
   SolarisVisuallyHiddenDirective,
   SolarisThemeService,
   SolarisIconComponent,
-} from '@solaris-ui/angular';
+} from '@educarehq/solaris-ui';
 import {
   FontFamilySample,
   FontSizeSample,
