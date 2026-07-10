@@ -19,7 +19,7 @@ Scope:
 - [x] testing foundation;
 - [x] Button;
 - [x] Icon Button;
-- [ ] Button Group;
+- [x] Button Group;
 - [x] Badge;
 - [x] Card;
 - [ ] Alert;
