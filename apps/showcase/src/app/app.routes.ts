@@ -36,4 +36,11 @@ export const appRoutes: Route[] = [
         (m) => m.AlertShowcasePage,
       ),
   },
+  {
+    path: 'button',
+    loadComponent: () =>
+      import('./pages/button/component/button-showcase').then(
+        (m) => m.ButtonShowcasePage,
+      ),
+  },
 ];

@@ -1,0 +1,679 @@
+[solaris-button] {
+  --solaris-button-gap: initial;
+  --solaris-button-color: initial;
+  --solaris-button-radius: initial;
+  --solaris-button-padding-x: initial;
+  --solaris-button-padding-y: initial;
+  --solaris-button-height: initial;
+  --solaris-button-min-width: initial;
+  --solaris-button-font-size: initial;
+  --solaris-button-font-weight: initial;
+  --solaris-button-icon-size: initial;
+  --solaris-button-background: initial;
+  --solaris-button-border-color: initial;
+  --solaris-button-border-width: initial;
+  --solaris-button-hover-background: initial;
+  --solaris-button-hover-border-color: initial;
+  --solaris-button-active-background: initial;
+  --solaris-button-active-border-color: initial;
+  --solaris-button-focus-ring-color: initial;
+  --solaris-button-disabled-opacity: 0.5;
+
+  --solaris-button-custom-color: initial;
+  --solaris-button-custom-background: initial;
+  --solaris-button-custom-border-color: initial;
+  --solaris-button-custom-hover-background: initial;
+  --solaris-button-custom-hover-border-color: initial;
+  --solaris-button-custom-active-background: initial;
+  --solaris-button-custom-active-border-color: initial;
+
+  cursor: pointer;
+  user-select: none;
+  align-items: center;
+  display: inline-flex;
+  text-decoration: none;
+  box-sizing: border-box;
+  justify-content: center;
+  gap: var(--solaris-button-gap);
+  color: var(--solaris-button-color);
+  height: var(--solaris-button-height);
+  min-width: var(--solaris-button-min-width);
+  font-size: var(--solaris-button-font-size);
+  border-radius: var(--solaris-button-radius);
+  background: var(--solaris-button-background);
+  font-weight: var(--solaris-button-font-weight);
+  padding: var(--solaris-button-padding-y) var(--solaris-button-padding-x);
+  border: var(--solaris-button-border-width) solid
+    var(--solaris-button-border-color);
+  line-height: var(--solaris-line-height-sm, 1.25);
+  font-family: var(--solaris-font-family-sans), system-ui;
+  transition:
+    background var(--solaris-motion-duration-normal, 250ms)
+      var(--solaris-motion-easing-standard, ease),
+    border-color var(--solaris-motion-duration-normal, 250ms)
+      var(--solaris-motion-easing-standard, ease),
+    color var(--solaris-motion-duration-normal, 250ms)
+      var(--solaris-motion-easing-standard, ease),
+    box-shadow var(--solaris-motion-duration-normal, 250ms)
+      var(--solaris-motion-easing-standard, ease),
+    transform var(--solaris-motion-duration-fast, 150ms)
+      var(--solaris-motion-easing-standard, ease);
+}
+
+[solaris-button]:hover {
+  background: var(--solaris-button-hover-background);
+  border-color: var(--solaris-button-hover-border-color);
+}
+
+[solaris-button]:active,
+[solaris-button][data-active] {
+  background: var(--solaris-button-active-background);
+  border-color: var(--solaris-button-active-border-color);
+}
+
+[solaris-button]:focus-visible {
+  outline-offset: 2px;
+  outline: 2px solid var(--solaris-button-focus-ring-color);
+}
+
+[solaris-button][disabled],
+[solaris-button][aria-disabled='true'] {
+  cursor: not-allowed;
+  pointer-events: all;
+  opacity: var(--solaris-button-disabled-opacity);
+}
+
+[solaris-button][data-loading] {
+  cursor: wait;
+  position: relative;
+  pointer-events: all;
+}
+
+[solaris-button][data-loading]::before {
+  content: '';
+  flex-shrink: 0;
+  border-radius: 50%;
+  width: var(--solaris-button-icon-size);
+  height: var(--solaris-button-icon-size);
+  border: 2px solid var(--solaris-button-color);
+  border-top-color: transparent;
+  animation: solaris-button-spin 0.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [solaris-button][data-loading]::before {
+    opacity: 0.5;
+    animation: none;
+  }
+}
+
+[data-reduced-motion='true'] [solaris-button][data-loading]::before {
+  animation: none;
+  opacity: 0.5;
+}
+
+@keyframes solaris-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+[solaris-button][data-full-width] {
+  width: 100%;
+}
+
+[solaris-button] [solaris-button-icon] {
+  flex-shrink: 0;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  width: var(--solaris-button-icon-size);
+  height: var(--solaris-button-icon-size);
+}
+
+[solaris-button] [solaris-button-icon] svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+[solaris-button][data-appearance='solid'] {
+  --solaris-button-border-width: 0;
+}
+
+[solaris-button][data-appearance='outline'] {
+  --solaris-button-border-width: 1px;
+  --solaris-button-background: transparent;
+}
+
+[solaris-button][data-appearance='ghost'] {
+  --solaris-button-border-width: 0;
+  --solaris-button-background: transparent;
+  --solaris-button-border-color: transparent;
+}
+
+[solaris-button][data-appearance='tonal'] {
+  --solaris-button-border-width: 1px;
+}
+
+[solaris-button][data-appearance='surface'] {
+  --solaris-button-border-width: 0;
+}
+
+[solaris-button][data-appearance='glass'] {
+  --solaris-button-border-width: 1px;
+  --solaris-button-glass-blur: 22px;
+
+  // SOLARIS_TOKEN_EXCEPTION: glass appearance requires translucent rgba values for frosted glass effect.
+  --solaris-button-background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.24) 0%,
+      rgba(255, 255, 255, 0.1) 34%,
+      rgba(255, 255, 255, 0.04) 100%
+    ),
+    rgba(24, 20, 18, 0.34);
+
+  // SOLARIS_TOKEN_EXCEPTION: glass appearance requires translucent rgba values for frosted glass effect.
+  --solaris-button-hover-background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.14) 34%,
+      rgba(255, 255, 255, 0.06) 100%
+    ),
+    rgba(24, 20, 18, 0.4);
+
+  // SOLARIS_TOKEN_EXCEPTION: glass appearance requires translucent rgba values for frosted glass effect.
+  --solaris-button-active-background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.22) 0%,
+      rgba(255, 255, 255, 0.1) 34%,
+      rgba(255, 255, 255, 0.04) 100%
+    ),
+    rgba(24, 20, 18, 0.46);
+
+  // SOLARIS_TOKEN_EXCEPTION: glass appearance requires translucent rgba values for frosted glass effect.
+  --solaris-button-border-color: rgba(255, 255, 255, 0.22);
+  --solaris-button-hover-border-color: rgba(255, 255, 255, 0.3);
+  --solaris-button-active-border-color: rgba(255, 255, 255, 0.26);
+
+  --solaris-button-glass-accent: rgba(255, 110, 24, 0.36);
+  --solaris-button-glass-accent-hover: rgba(255, 110, 24, 0.46);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  background: var(--solaris-button-background);
+  border-color: var(--solaris-button-border-color);
+
+  // SOLARIS_TOKEN_EXCEPTION: glass appearance uses translucent rgba/box-shadow for the frosted glass depth effect.
+  box-shadow:
+    0 12px 36px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+
+  backdrop-filter: blur(var(--solaris-button-glass-blur)) saturate(150%)
+    contrast(108%);
+
+  -webkit-backdrop-filter: blur(var(--solaris-button-glass-blur)) saturate(150%)
+    contrast(108%);
+}
+
+[solaris-button][data-appearance='glass']::before {
+  inset: 0;
+  content: '';
+  z-index: -1;
+  opacity: 0.95;
+  position: absolute;
+  pointer-events: none;
+  border-radius: inherit;
+
+  // SOLARIS_TOKEN_EXCEPTION: glass ::before requires translucent rgba for inner highlights.
+  background:
+    radial-gradient(
+      circle at 72% 58%,
+      var(--solaris-button-glass-accent),
+      transparent 42%
+    ),
+    radial-gradient(
+      circle at 22% 16%,
+      rgba(255, 255, 255, 0.2),
+      transparent 34%
+    ),
+    // SOLARIS_TOKEN_EXCEPTION: glass ::before requires translucent rgba for inner highlights.
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 46%);
+
+  transition:
+    opacity var(--solaris-motion-duration-normal, 250ms)
+      var(--solaris-motion-easing-standard, ease),
+    filter var(--solaris-motion-duration-normal, 250ms)
+      var(--solaris-motion-easing-standard, ease);
+}
+
+[solaris-button][data-appearance='glass']:hover {
+  background: var(--solaris-button-hover-background);
+  border-color: var(--solaris-button-hover-border-color);
+
+  // SOLARIS_TOKEN_EXCEPTION: glass hover requires translucent rgba/box-shadow for the depth effect.
+  box-shadow:
+    0 14px 42px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+}
+
+[solaris-button][data-appearance='glass']:hover::before {
+  opacity: 1;
+  filter: saturate(115%);
+}
+
+[solaris-button][data-appearance='glass']:active,
+[solaris-button][data-appearance='glass'][data-active] {
+  transform: translateY(1px);
+  background: var(--solaris-button-active-background);
+  border-color: var(--solaris-button-active-border-color);
+
+  // SOLARIS_TOKEN_EXCEPTION: glass active requires translucent rgba/box-shadow for the depth effect.
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+[solaris-button][data-color='neutral'][data-appearance='solid'] {
+  --solaris-button-color: var(--solaris-text-inverse);
+  --solaris-button-background: var(--solaris-text-default);
+  --solaris-button-hover-background: var(--solaris-text-strong);
+  --solaris-button-active-background: var(--solaris-text-strong);
+  --solaris-button-focus-ring-color: var(--solaris-text-default);
+}
+
+[solaris-button][data-color='neutral'][data-appearance='outline'] {
+  --solaris-button-color: var(--solaris-text-default);
+  --solaris-button-border-color: var(--solaris-border-default);
+  --solaris-button-focus-ring-color: var(--solaris-text-default);
+  --solaris-button-hover-background: var(--solaris-surface-muted);
+  --solaris-button-active-background: var(--solaris-surface-muted);
+  --solaris-button-hover-border-color: var(--solaris-border-strong);
+}
+
+[solaris-button][data-color='neutral'][data-appearance='ghost'] {
+  --solaris-button-color: var(--solaris-text-default);
+  --solaris-button-focus-ring-color: var(--solaris-text-default);
+  --solaris-button-hover-background: var(--solaris-surface-muted);
+  --solaris-button-active-background: var(--solaris-surface-muted);
+}
+
+[solaris-button][data-color='neutral'][data-appearance='tonal'] {
+  --solaris-button-color: var(--solaris-text-default);
+  --solaris-button-background: var(--solaris-surface-muted);
+  --solaris-button-border-color: var(--solaris-border-default);
+  --solaris-button-focus-ring-color: var(--solaris-text-default);
+  --solaris-button-hover-background: var(--solaris-surface-subtle);
+  --solaris-button-hover-border-color: var(--solaris-border-strong);
+  --solaris-button-active-background: var(--solaris-surface-subtle);
+}
+
+[solaris-button][data-color='neutral'][data-appearance='surface'] {
+  --solaris-button-color: var(--solaris-text-default);
+  --solaris-button-background: var(--solaris-surface-muted);
+  --solaris-button-focus-ring-color: var(--solaris-text-default);
+  --solaris-button-hover-background: var(--solaris-surface-subtle);
+  --solaris-button-active-background: var(--solaris-surface-subtle);
+}
+
+/* SOLARIS_TOKEN_EXCEPTION: glass appearance uses translucent rgba/backdrop-filter for frosted glass effect. */
+[solaris-button][data-color='neutral'][data-appearance='glass'] {
+  --solaris-button-color: var(--solaris-text-default);
+  --solaris-button-glass-accent: rgba(255, 110, 24, 0.36);
+  --solaris-button-glass-accent-hover: rgba(255, 110, 24, 0.46);
+  --solaris-button-focus-ring-color: var(--solaris-text-default);
+}
+
+[solaris-button][data-color='primary'][data-appearance='solid'] {
+  --solaris-button-background: var(--solaris-primary-base);
+  --solaris-button-color: var(--solaris-primary-on-solid);
+  --solaris-button-focus-ring-color: var(--solaris-primary-base);
+  --solaris-button-hover-background: var(--solaris-primary-hover);
+  --solaris-button-active-background: var(--solaris-primary-active);
+}
+
+[solaris-button][data-color='primary'][data-appearance='outline'] {
+  --solaris-button-color: var(--solaris-primary-text);
+  --solaris-button-border-color: var(--solaris-primary-border);
+  --solaris-button-focus-ring-color: var(--solaris-primary-base);
+  --solaris-button-hover-background: var(--solaris-primary-surface);
+  --solaris-button-active-background: var(--solaris-primary-surface);
+}
+
+[solaris-button][data-color='primary'][data-appearance='ghost'] {
+  --solaris-button-color: var(--solaris-primary-text);
+  --solaris-button-focus-ring-color: var(--solaris-primary-base);
+  --solaris-button-hover-background: var(--solaris-primary-surface);
+  --solaris-button-active-background: var(--solaris-primary-surface);
+}
+
+[solaris-button][data-color='primary'][data-appearance='tonal'] {
+  --solaris-button-color: var(--solaris-primary-text);
+  --solaris-button-background: var(--solaris-primary-surface);
+  --solaris-button-border-color: var(--solaris-primary-border);
+  --solaris-button-focus-ring-color: var(--solaris-primary-base);
+  --solaris-button-hover-background: var(--solaris-primary-hover);
+  --solaris-button-hover-border-color: var(--solaris-primary-base);
+  --solaris-button-active-background: var(--solaris-primary-active);
+}
+
+[solaris-button][data-color='primary'][data-appearance='surface'] {
+  --solaris-button-color: var(--solaris-primary-text);
+  --solaris-button-background: var(--solaris-primary-surface);
+  --solaris-button-focus-ring-color: var(--solaris-primary-base);
+  --solaris-button-hover-background: var(--solaris-primary-hover);
+  --solaris-button-active-background: var(--solaris-primary-active);
+}
+
+/* SOLARIS_TOKEN_EXCEPTION: glass appearance uses translucent rgba/backdrop-filter for frosted glass effect. */
+[solaris-button][data-color='primary'][data-appearance='glass'] {
+  --solaris-button-color: var(--solaris-primary-text);
+  --solaris-button-glass-accent: rgba(22, 119, 255, 0.32);
+  --solaris-button-glass-accent-hover: rgba(22, 119, 255, 0.42);
+  --solaris-button-focus-ring-color: var(--solaris-primary-base);
+}
+
+[solaris-button][data-color='success'][data-appearance='solid'] {
+  --solaris-button-background: var(--solaris-success-base);
+  --solaris-button-color: var(--solaris-success-on-solid);
+  --solaris-button-focus-ring-color: var(--solaris-success-base);
+  --solaris-button-hover-background: var(--solaris-success-hover);
+  --solaris-button-active-background: var(--solaris-success-active);
+}
+
+[solaris-button][data-color='success'][data-appearance='outline'] {
+  --solaris-button-color: var(--solaris-success-text);
+  --solaris-button-border-color: var(--solaris-success-border);
+  --solaris-button-focus-ring-color: var(--solaris-success-base);
+  --solaris-button-hover-background: var(--solaris-success-surface);
+  --solaris-button-active-background: var(--solaris-success-surface);
+}
+
+[solaris-button][data-color='success'][data-appearance='ghost'] {
+  --solaris-button-color: var(--solaris-success-text);
+  --solaris-button-focus-ring-color: var(--solaris-success-base);
+  --solaris-button-hover-background: var(--solaris-success-surface);
+  --solaris-button-active-background: var(--solaris-success-surface);
+}
+
+[solaris-button][data-color='success'][data-appearance='tonal'] {
+  --solaris-button-color: var(--solaris-success-text);
+  --solaris-button-background: var(--solaris-success-surface);
+  --solaris-button-border-color: var(--solaris-success-border);
+  --solaris-button-focus-ring-color: var(--solaris-success-base);
+  --solaris-button-hover-background: var(--solaris-success-hover);
+  --solaris-button-hover-border-color: var(--solaris-success-base);
+  --solaris-button-active-background: var(--solaris-success-active);
+}
+
+[solaris-button][data-color='success'][data-appearance='surface'] {
+  --solaris-button-color: var(--solaris-success-text);
+  --solaris-button-background: var(--solaris-success-surface);
+  --solaris-button-focus-ring-color: var(--solaris-success-base);
+  --solaris-button-hover-background: var(--solaris-success-hover);
+  --solaris-button-active-background: var(--solaris-success-active);
+}
+
+/* SOLARIS_TOKEN_EXCEPTION: glass appearance uses translucent rgba/backdrop-filter for frosted glass effect. */
+[solaris-button][data-color='success'][data-appearance='glass'] {
+  --solaris-button-color: var(--solaris-success-text);
+  --solaris-button-glass-accent: rgba(22, 163, 74, 0.32);
+  --solaris-button-glass-accent-hover: rgba(22, 163, 74, 0.42);
+  --solaris-button-focus-ring-color: var(--solaris-success-base);
+}
+
+[solaris-button][data-color='warning'][data-appearance='solid'] {
+  --solaris-button-background: var(--solaris-warning-base);
+  --solaris-button-color: var(--solaris-warning-on-solid);
+  --solaris-button-hover-background: var(--solaris-warning-hover);
+  --solaris-button-active-background: var(--solaris-warning-active);
+  --solaris-button-focus-ring-color: var(--solaris-warning-base);
+}
+
+[solaris-button][data-color='warning'][data-appearance='outline'] {
+  --solaris-button-color: var(--solaris-warning-text);
+  --solaris-button-border-color: var(--solaris-warning-border);
+  --solaris-button-focus-ring-color: var(--solaris-warning-base);
+  --solaris-button-hover-background: var(--solaris-warning-surface);
+  --solaris-button-active-background: var(--solaris-warning-surface);
+}
+
+[solaris-button][data-color='warning'][data-appearance='ghost'] {
+  --solaris-button-color: var(--solaris-warning-text);
+  --solaris-button-focus-ring-color: var(--solaris-warning-base);
+  --solaris-button-hover-background: var(--solaris-warning-surface);
+  --solaris-button-active-background: var(--solaris-warning-surface);
+}
+
+[solaris-button][data-color='warning'][data-appearance='tonal'] {
+  --solaris-button-color: var(--solaris-warning-text);
+  --solaris-button-background: var(--solaris-warning-surface);
+  --solaris-button-border-color: var(--solaris-warning-border);
+  --solaris-button-focus-ring-color: var(--solaris-warning-base);
+  --solaris-button-hover-background: var(--solaris-warning-hover);
+  --solaris-button-hover-border-color: var(--solaris-warning-base);
+  --solaris-button-active-background: var(--solaris-warning-active);
+}
+
+[solaris-button][data-color='warning'][data-appearance='surface'] {
+  --solaris-button-color: var(--solaris-warning-text);
+  --solaris-button-background: var(--solaris-warning-surface);
+  --solaris-button-focus-ring-color: var(--solaris-warning-base);
+  --solaris-button-hover-background: var(--solaris-warning-hover);
+  --solaris-button-active-background: var(--solaris-warning-active);
+}
+
+/* SOLARIS_TOKEN_EXCEPTION: glass appearance uses translucent rgba/backdrop-filter for frosted glass effect. */
+[solaris-button][data-color='warning'][data-appearance='glass'] {
+  --solaris-button-color: var(--solaris-warning-text);
+  --solaris-button-glass-accent: rgba(255, 110, 24, 0.38);
+  --solaris-button-glass-accent-hover: rgba(255, 110, 24, 0.48);
+  --solaris-button-focus-ring-color: var(--solaris-warning-base);
+}
+
+[solaris-button][data-color='danger'][data-appearance='solid'] {
+  --solaris-button-background: var(--solaris-danger-base);
+  --solaris-button-color: var(--solaris-danger-on-solid);
+  --solaris-button-focus-ring-color: var(--solaris-danger-base);
+  --solaris-button-hover-background: var(--solaris-danger-hover);
+  --solaris-button-active-background: var(--solaris-danger-active);
+}
+
+[solaris-button][data-color='danger'][data-appearance='outline'] {
+  --solaris-button-color: var(--solaris-danger-text);
+  --solaris-button-border-color: var(--solaris-danger-border);
+  --solaris-button-focus-ring-color: var(--solaris-danger-base);
+  --solaris-button-hover-background: var(--solaris-danger-surface);
+  --solaris-button-active-background: var(--solaris-danger-surface);
+}
+
+[solaris-button][data-color='danger'][data-appearance='ghost'] {
+  --solaris-button-color: var(--solaris-danger-text);
+  --solaris-button-focus-ring-color: var(--solaris-danger-base);
+  --solaris-button-hover-background: var(--solaris-danger-surface);
+  --solaris-button-active-background: var(--solaris-danger-surface);
+}
+
+[solaris-button][data-color='danger'][data-appearance='tonal'] {
+  --solaris-button-color: var(--solaris-danger-text);
+  --solaris-button-background: var(--solaris-danger-surface);
+  --solaris-button-border-color: var(--solaris-danger-border);
+  --solaris-button-focus-ring-color: var(--solaris-danger-base);
+  --solaris-button-hover-background: var(--solaris-danger-hover);
+  --solaris-button-hover-border-color: var(--solaris-danger-base);
+  --solaris-button-active-background: var(--solaris-danger-active);
+}
+
+[solaris-button][data-color='danger'][data-appearance='surface'] {
+  --solaris-button-color: var(--solaris-danger-text);
+  --solaris-button-background: var(--solaris-danger-surface);
+  --solaris-button-focus-ring-color: var(--solaris-danger-base);
+  --solaris-button-hover-background: var(--solaris-danger-hover);
+  --solaris-button-active-background: var(--solaris-danger-active);
+}
+
+/* SOLARIS_TOKEN_EXCEPTION: glass appearance uses translucent rgba/backdrop-filter for frosted glass effect. */
+[solaris-button][data-color='danger'][data-appearance='glass'] {
+  --solaris-button-color: var(--solaris-danger-text);
+  --solaris-button-glass-accent: rgba(220, 38, 38, 0.34);
+  --solaris-button-glass-accent-hover: rgba(220, 38, 38, 0.44);
+  --solaris-button-focus-ring-color: var(--solaris-danger-base);
+}
+
+[solaris-button][data-color='info'][data-appearance='solid'] {
+  --solaris-button-color: var(--solaris-info-text);
+  --solaris-button-background: var(--solaris-info-base);
+  --solaris-button-focus-ring-color: var(--solaris-info-base);
+  --solaris-button-hover-background: var(--solaris-info-hover);
+  --solaris-button-active-background: var(--solaris-info-active);
+}
+
+[solaris-button][data-color='info'][data-appearance='outline'] {
+  --solaris-button-color: var(--solaris-info-text);
+  --solaris-button-border-color: var(--solaris-info-border);
+  --solaris-button-focus-ring-color: var(--solaris-info-base);
+  --solaris-button-hover-background: var(--solaris-info-surface);
+  --solaris-button-active-background: var(--solaris-info-surface);
+}
+
+[solaris-button][data-color='info'][data-appearance='ghost'] {
+  --solaris-button-color: var(--solaris-info-text);
+  --solaris-button-focus-ring-color: var(--solaris-info-base);
+  --solaris-button-hover-background: var(--solaris-info-surface);
+  --solaris-button-active-background: var(--solaris-info-surface);
+}
+
+[solaris-button][data-color='info'][data-appearance='tonal'] {
+  --solaris-button-color: var(--solaris-info-text);
+  --solaris-button-background: var(--solaris-info-surface);
+  --solaris-button-border-color: var(--solaris-info-border);
+  --solaris-button-focus-ring-color: var(--solaris-info-base);
+  --solaris-button-hover-background: var(--solaris-info-hover);
+  --solaris-button-hover-border-color: var(--solaris-info-base);
+  --solaris-button-active-background: var(--solaris-info-active);
+}
+
+[solaris-button][data-color='info'][data-appearance='surface'] {
+  --solaris-button-color: var(--solaris-info-text);
+  --solaris-button-background: var(--solaris-info-surface);
+  --solaris-button-focus-ring-color: var(--solaris-info-base);
+  --solaris-button-hover-background: var(--solaris-info-hover);
+  --solaris-button-active-background: var(--solaris-info-active);
+}
+
+/* SOLARIS_TOKEN_EXCEPTION: glass appearance uses translucent rgba/backdrop-filter for frosted glass effect. */
+[solaris-button][data-color='info'][data-appearance='glass'] {
+  --solaris-button-color: var(--solaris-info-text);
+  --solaris-button-glass-accent: rgba(59, 130, 246, 0.32);
+  --solaris-button-focus-ring-color: var(--solaris-info-base);
+  --solaris-button-glass-accent-hover: rgba(59, 130, 246, 0.42);
+}
+
+[solaris-button][data-color='custom'] {
+  --solaris-button-hover-background: var(
+    --solaris-button-custom-hover-background
+  );
+  --solaris-button-active-background: var(
+    --solaris-button-custom-active-background
+  );
+  --solaris-button-hover-border-color: var(
+    --solaris-button-custom-hover-border-color
+  );
+  --solaris-button-active-border-color: var(
+    --solaris-button-custom-active-border-color
+  );
+  --solaris-button-color: var(
+    --solaris-button-custom-color,
+    var(--solaris-text-default)
+  );
+  --solaris-button-background: var(
+    --solaris-button-custom-background,
+    var(--solaris-surface-base)
+  );
+  --solaris-button-focus-ring-color: var(
+    --solaris-button-custom-color,
+    var(--solaris-text-default)
+  );
+  --solaris-button-border-color: var(
+    --solaris-button-custom-border-color,
+    var(--solaris-border-default)
+  );
+}
+
+[solaris-button][data-size='sm'] {
+  --solaris-button-height: 2rem;
+  --solaris-button-gap: 0.25rem;
+  --solaris-button-min-width: 4rem;
+  --solaris-button-padding-x: 0.75rem;
+  --solaris-button-padding-y: 0.25rem;
+  --solaris-button-icon-size: 0.875rem;
+  --solaris-button-font-size: var(--solaris-font-size-sm, 0.875rem);
+  --solaris-button-font-weight: var(--solaris-font-weight-medium, 500);
+}
+
+[solaris-button][data-size='md'] {
+  --solaris-button-gap: 0.375rem;
+  --solaris-button-height: 2.5rem;
+  --solaris-button-min-width: 5rem;
+  --solaris-button-padding-x: 1rem;
+  --solaris-button-icon-size: 1rem;
+  --solaris-button-padding-y: 0.375rem;
+  --solaris-button-font-size: var(--solaris-font-size-md, 0.875rem);
+  --solaris-button-font-weight: var(--solaris-font-weight-medium, 500);
+}
+
+[solaris-button][data-size='lg'] {
+  --solaris-button-gap: 0.5rem;
+  --solaris-button-height: 3rem;
+  --solaris-button-min-width: 6rem;
+  --solaris-button-padding-y: 0.5rem;
+  --solaris-button-padding-x: 1.25rem;
+  --solaris-button-icon-size: 1.25rem;
+  --solaris-button-font-size: var(--solaris-font-size-lg, 1rem);
+  --solaris-button-font-weight: var(--solaris-font-weight-semibold, 600);
+}
+
+[solaris-button][data-radius='none'] {
+  --solaris-button-radius: var(--solaris-radius-none, 0);
+}
+
+[solaris-button][data-radius='sm'] {
+  --solaris-button-radius: var(--solaris-radius-sm, 0.25rem);
+}
+
+[solaris-button][data-radius='md'] {
+  --solaris-button-radius: var(--solaris-radius-md, 0.5rem);
+}
+
+[solaris-button][data-radius='lg'] {
+  --solaris-button-radius: var(--solaris-radius-lg, 0.75rem);
+}
+
+[solaris-button][data-radius='full'] {
+  --solaris-button-radius: var(--solaris-radius-full, 624.9375rem);
+}
+
+[solaris-button][data-density='compact'] {
+  --solaris-button-height: 2rem;
+  --solaris-button-gap: 0.25rem;
+  --solaris-button-min-width: 4rem;
+  --solaris-button-padding-x: 0.75rem;
+  --solaris-button-icon-size: 0.875rem;
+  --solaris-button-padding-y: 0.1875rem;
+}
+
+[solaris-button][data-density='comfortable'] {
+  --solaris-button-gap: 0.5rem;
+  --solaris-button-height: 2.5rem;
+  --solaris-button-padding-x: 1rem;
+  --solaris-button-icon-size: 1rem;
+  --solaris-button-padding-y: 0.5rem;
+}

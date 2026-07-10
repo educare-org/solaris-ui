@@ -1,0 +1,25 @@
+export const EN_US_BUTTON: Record<string, string> = {
+  'button.description':
+    'Attribute directive that turns buttons and anchors into Solaris-themed buttons.',
+  'button.appearances': 'Appearances',
+  'button.colors': 'Colors',
+  'button.sizes': 'Sizes',
+  'button.radius': 'Radius',
+  'button.density': 'Density',
+  'button.states': 'States',
+  'button.states-default': 'Default States',
+  'button.states-toggle': 'Interactive',
+  'button.with-icons': 'With Icons',
+  'button.full-width': 'Full Width',
+  'button.full-width-primary': 'Sign in with email',
+  'button.full-width-social': 'Sign in with Google',
+  'button.anchor': 'Anchor (link)',
+  'button.custom': 'Custom Color (CSS variables)',
+  'button.button-group': 'Button Group (future)',
+  'button.button-group-note':
+    'Button Group is planned for a future release. It will support horizontal and vertical layout, disabled states, badge integration, icon-only buttons, separators, and active/selected states.',
+  'button.icon-before': 'Confirm',
+  'button.icon-after': 'Continue',
+  'button.toggle-loading': 'Toggle Loading',
+  'button.loading': 'Loading...',
+};

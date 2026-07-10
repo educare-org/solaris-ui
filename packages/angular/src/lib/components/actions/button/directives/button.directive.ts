@@ -1,0 +1,75 @@
+import {
+  Directive,
+  input,
+  computed,
+  HostListener,
+  inject,
+  ElementRef,
+} from '@angular/core';
+
+import type {
+  SolarisButtonAppearance,
+  SolarisButtonColor,
+  SolarisButtonSize,
+  SolarisButtonRadius,
+  SolarisButtonDensity,
+} from '../model/button.types';
+
+@Directive({
+  selector: '[solaris-button]',
+  standalone: true,
+  host: {
+    '[attr.data-appearance]': 'appearance()',
+    '[attr.data-color]': 'color()',
+    '[attr.data-size]': 'size()',
+    '[attr.data-radius]': 'radius()',
+    '[attr.data-density]': 'density()',
+    '[attr.data-loading]': 'loading() ? "" : null',
+    '[attr.data-full-width]': 'fullWidth() ? "" : null',
+    '[attr.aria-busy]': 'loading() ? "true" : null',
+    '[attr.aria-disabled]': 'isEffectivelyDisabled() ? "true" : null',
+    '[attr.disabled]': 'isButton && isEffectivelyDisabled() ? "" : null',
+    '[tabindex]': 'isAnchor && isEffectivelyDisabled() ? "-1" : null',
+  },
+})
+export class SolarisButtonDirective {
+  readonly appearance = input<SolarisButtonAppearance>('solid');
+  readonly color = input<SolarisButtonColor>('neutral');
+  readonly size = input<SolarisButtonSize>('md');
+  readonly radius = input<SolarisButtonRadius>('md');
+  readonly density = input<SolarisButtonDensity>();
+  readonly loading = input<boolean>(false);
+  readonly disabled = input<boolean>(false);
+  readonly fullWidth = input<boolean>(false);
+  readonly loadingLabel = input<string>();
+  readonly loadingLabelKey = input<string>();
+
+  protected readonly isEffectivelyDisabled = computed(
+    () => this.disabled() || this.loading(),
+  );
+
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  // SECURITY_EXCEPTION: ElementRef.nativeElement.tagName is the standard Angular API to differentiate <button> vs <a> for correct disabled/type behavior.
+  protected readonly isButton =
+    this.elementRef.nativeElement.tagName === 'BUTTON';
+  // SECURITY_EXCEPTION: ElementRef.nativeElement.tagName is the standard Angular API to differentiate <button> vs <a> for correct disabled/type behavior.
+  protected readonly isAnchor = this.elementRef.nativeElement.tagName === 'A';
+
+  constructor() {
+    // SECURITY_EXCEPTION: ElementRef.nativeElement.getAttribute/setAttribute is the standard Angular approach to handle default button type.
+    const initialType = this.elementRef.nativeElement.getAttribute('type');
+    if (this.isButton && initialType === null) {
+      // SECURITY_EXCEPTION: ElementRef.nativeElement.setAttribute required for default <button> type behavior.
+      this.elementRef.nativeElement.setAttribute('type', 'button');
+    }
+  }
+
+  @HostListener('click', ['$event'])
+  onClick(event: MouseEvent): void {
+    if (this.isEffectivelyDisabled() && this.isAnchor) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+}

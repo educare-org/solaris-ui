@@ -129,4 +129,9 @@ export const SOLARIS_BUILT_IN_ICONS: SolarisIconDefinition[] = [
       { type: 'path', d: 'm9 12 2 2 4-4' },
     ],
   },
+  {
+    name: 'loader',
+    viewBox: '0 0 24 24',
+    elements: [{ type: 'path', d: 'M12 2a10 10 0 0 1 10 10' }],
+  },
 ];

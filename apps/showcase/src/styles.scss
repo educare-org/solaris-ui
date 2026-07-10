@@ -4,6 +4,10 @@
 /* Solaris public SCSS API */
 @use '../../../packages/angular/src/styles' as solaris;
 
+/* Solaris button styles */
+@use '../../../packages/angular/src/lib/components/actions/button/styles/button'
+  as solaris-button;
+
 @include solaris.core();
 @include solaris.theme();
 

@@ -9,6 +9,11 @@
       "input": "src/styles",
       "glob": "**/*.scss",
       "output": "styles"
+    },
+    {
+      "input": "src/lib/components/actions/button/styles",
+      "glob": "_*.scss",
+      "output": "styles"
     }
   ]
 }

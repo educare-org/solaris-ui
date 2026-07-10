@@ -1,0 +1,25 @@
+export const PT_BR_BUTTON: Record<string, string> = {
+  'button.description':
+    'Diretiva de atributo que transforma botões e links em botões tematizados do Solaris.',
+  'button.appearances': 'Aparências',
+  'button.colors': 'Cores',
+  'button.sizes': 'Tamanhos',
+  'button.radius': 'Arredondamento',
+  'button.density': 'Densidade',
+  'button.states': 'Estados',
+  'button.states-default': 'Estados Padrão',
+  'button.states-toggle': 'Interativo',
+  'button.with-icons': 'Com Ícones',
+  'button.full-width': 'Largura Total',
+  'button.full-width-primary': 'Entrar com e-mail',
+  'button.full-width-social': 'Entrar com Google',
+  'button.anchor': 'Link (âncora)',
+  'button.custom': 'Cor Personalizada (variáveis CSS)',
+  'button.button-group': 'Button Group (futuro)',
+  'button.button-group-note':
+    'Button Group está planejado para uma versão futura. Suportará layout horizontal e vertical, estados desabilitados, integração com badge, botões apenas com ícone, separadores e estados ativos/selecionados.',
+  'button.icon-before': 'Confirmar',
+  'button.icon-after': 'Continuar',
+  'button.toggle-loading': 'Alternar Loading',
+  'button.loading': 'Carregando...',
+};

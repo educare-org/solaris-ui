@@ -91,6 +91,16 @@ export type {
   SolarisAlertLive,
 } from './lib/components/feedback/alert/model/alert.types';
 
+export { SolarisButtonDirective } from './lib/components/actions/button/directives/button.directive';
+export { SolarisButtonIconDirective } from './lib/components/actions/button/directives/button-icon.directive';
+export type {
+  SolarisButtonAppearance,
+  SolarisButtonColor,
+  SolarisButtonSize,
+  SolarisButtonRadius,
+  SolarisButtonDensity,
+} from './lib/components/actions/button/model/button.types';
+
 export { SolarisSkeletonComponent } from './lib/components/feedback/skeleton/component/skeleton.component';
 export type {
   SolarisSkeletonVariant,
