@@ -192,14 +192,6 @@ describe('SolarisIconButtonDirective', () => {
       expect(el.getAttribute('data-appearance')).toBe('surface');
     });
 
-    it('should support appearance glass', () => {
-      TestBed.configureTestingModule({});
-      const fixture = TestBed.createComponent(TestHost);
-      fixture.componentInstance.appearance = 'glass';
-      fixture.detectChanges();
-      const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
-      expect(el.getAttribute('data-appearance')).toBe('glass');
-    });
   });
 
   describe('color', () => {

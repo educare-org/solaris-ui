@@ -65,7 +65,7 @@ Not:
 ### Types
 
 ```typescript
-type SolarisButtonAppearance = 'solid' | 'outline' | 'ghost' | 'tonal' | 'surface' | 'glass';
+type SolarisButtonAppearance = 'solid' | 'outline' | 'ghost' | 'tonal' | 'surface';
 type SolarisButtonColor = 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'custom';
 type SolarisButtonSize = 'sm' | 'md' | 'lg';
 type SolarisButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
@@ -81,7 +81,6 @@ type SolarisButtonDensity = 'compact' | 'comfortable';
 | `ghost`    | Toolbar, dense context, low-weight action | No background or border, subtle hover  |
 | `tonal`    | Action with semantics, medium emphasis    | Soft background, subtle border         |
 | `surface`  | Low emphasis, inline with content         | Muted background, no border            |
-| `glass`    | Hero, media overlay, premium UI           | Translucent background, blur           |
 
 ## Colors
 
