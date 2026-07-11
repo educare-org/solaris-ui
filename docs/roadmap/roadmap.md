@@ -38,7 +38,7 @@ Scope:
 - [x] Checkbox;
 - [x] Checkbox Group;
 - [x] Radio;
-- [ ] Switch;
+- [x] Switch;
 - [ ] Select.
 
 ## `0.3.0` — Overlay and Navigation Release
