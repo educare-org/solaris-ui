@@ -146,6 +146,15 @@ export type {
   SolarisCheckboxDensity,
 } from './lib/forms/checkbox/model/checkbox.types';
 
+export { SolarisCheckboxGroupComponent } from './lib/forms/checkbox-group/component/checkbox-group.component';
+export type {
+  SolarisCheckboxGroupOrientation,
+  SolarisCheckboxGroupLayout,
+  SolarisCheckboxGroupColumns,
+  SolarisCheckboxGroupDensity,
+  SolarisCheckboxGroupSize,
+} from './lib/forms/checkbox-group/model/checkbox-group.types';
+
 export { SolarisTextareaDirective } from './lib/forms/textarea/directives/textarea.directive';
 export type {
   SolarisTextareaAppearance,

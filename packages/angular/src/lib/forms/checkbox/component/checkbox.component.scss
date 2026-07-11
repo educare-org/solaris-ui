@@ -353,7 +353,11 @@
 }
 
 :host([data-readonly]) .solaris-checkbox__label {
-  cursor: default;
+  cursor: not-allowed;
+}
+
+:host([data-readonly]) .solaris-checkbox__label:hover .solaris-checkbox__control {
+  border-color: var(--solaris-checkbox-border-color);
 }
 
 :host([data-readonly][data-checked]) .solaris-checkbox__control,

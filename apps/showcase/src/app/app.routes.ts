@@ -99,4 +99,11 @@ export const appRoutes: Route[] = [
         (m) => m.CheckboxShowcasePage,
       ),
   },
+  {
+    path: 'checkbox-group',
+    loadComponent: () =>
+      import('./pages/checkbox-group/component/checkbox-group-showcase').then(
+        (m) => m.CheckboxGroupShowcasePage,
+      ),
+  },
 ];

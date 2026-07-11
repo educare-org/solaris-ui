@@ -72,6 +72,7 @@ export class SolarisCheckboxComponent
   protected readonly _focused = signal(false);
   private readonly _describedByIds = signal<string[]>([]);
   private readonly cvaDisabled = signal(false);
+  private readonly cvaReadonly = signal(false);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: boolean) => void = () => {};
@@ -131,7 +132,7 @@ export class SolarisCheckboxComponent
   });
 
   protected readonly isEffectivelyReadonly = computed(() => {
-    return this.readonlyInput();
+    return this.readonlyInput() || this.cvaReadonly();
   });
   protected readonly elementId = computed(() => {
     // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls.
@@ -236,6 +237,11 @@ export class SolarisCheckboxComponent
 
   setDisabledState(isDisabled: boolean): void {
     this.cvaDisabled.set(isDisabled);
+  }
+
+  /** Set readonly state from parent group. */
+  setCvaReadonlyState(isReadonly: boolean): void {
+    this.cvaReadonly.set(isReadonly);
   }
 
   protected onInputChange(event: Event): void {
