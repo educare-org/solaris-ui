@@ -35,8 +35,8 @@ Scope:
 - [x] Password Field preset;
 - [x] Email Field preset;
 - [x] Textarea;
-- [ ] Checkbox;
-- [ ] Checkbox Group;
+- [x] Checkbox;
+- [x] Checkbox Group;
 - [ ] Radio;
 - [ ] Switch;
 - [ ] Select.
