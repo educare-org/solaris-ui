@@ -81,20 +81,22 @@
   min-width: 0;
 }
 
-:host([data-control-type='textarea'][data-control-resize='horizontal']) .solaris-form-field__control-wrapper {
+:host([data-control-type='textarea'][data-control-resize='horizontal'])
+  .solaris-form-field__control-wrapper {
   width: 100%;
   min-width: 8rem;
   overflow: hidden;
   resize: horizontal;
 }
 
-:host([data-control-type='textarea'][data-control-resize='horizontal']) .solaris-form-field__control {
+:host([data-control-type='textarea'][data-control-resize='horizontal'])
+  .solaris-form-field__control {
   min-width: 0;
 }
 
-:host(
-    [data-control-type='textarea'][data-control-resize='horizontal']
-  ) ::ng-deep textarea[solaris-textarea] {
+:host([data-control-type='textarea'][data-control-resize='horizontal'])
+  ::ng-deep
+  textarea[solaris-textarea] {
   width: 100%;
   min-width: 0;
   resize: none;
@@ -102,7 +104,7 @@
 }
 
 :host([data-control-type='textarea'][data-control-resize='both'])
-.solaris-form-field__control-wrapper {
+  .solaris-form-field__control-wrapper {
   width: 100%;
   min-width: 8rem;
   min-height: var(--solaris-form-field-control-height);
@@ -113,7 +115,7 @@
 }
 
 :host([data-control-type='textarea'][data-control-resize='both'])
-.solaris-form-field__control {
+  .solaris-form-field__control {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
@@ -121,7 +123,8 @@
 }
 
 :host([data-control-type='textarea'][data-control-resize='both'])
-::ng-deep textarea[solaris-textarea] {
+  ::ng-deep
+  textarea[solaris-textarea] {
   display: block;
   flex: 1 1 auto;
 

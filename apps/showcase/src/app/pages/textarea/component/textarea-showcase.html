@@ -1,30 +1,34 @@
 <div class="textarea-showcase">
   <header class="textarea-showcase__header">
-    <h1 class="textarea-showcase__title">Textarea</h1>
+    <h1 class="textarea-showcase__title">{{ 'textarea.title' | translate }}</h1>
     <p class="textarea-showcase__description">
-      Styling and integration directive for native
-      <code>&lt;textarea&gt;</code>. Works standalone and integrated with Form
-      Field.
+      {{ 'textarea.description' | translate }}
     </p>
   </header>
 
   <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">Basic standalone</h2>
+    <h2 class="textarea-showcase__section-title">
+      {{ 'textarea.basic' | translate }}
+    </h2>
     <div class="textarea-showcase__demo">
-      <textarea solaris-textarea placeholder="Observações"></textarea>
+      <textarea
+        solaris-textarea
+        [placeholder]="'textarea.placeholder.basic' | translate"
+      ></textarea>
     </div>
   </section>
 
   <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">With Form Field</h2>
+    <h2 class="textarea-showcase__section-title">
+      {{ 'textarea.with-form-field' | translate }}
+    </h2>
     <p class="textarea-showcase__note">
-      Label, hint, and visual shell managed by Form Field. Textarea keeps
-      behavior, placeholder, and value.
+      {{ 'textarea.with-form-field-note' | translate }}
     </p>
     <div class="textarea-showcase__demo">
       <solaris-form-field
-        label="Descrição"
-        hint="Escreva uma descrição objetiva."
+        [label]="'textarea.ff-label.desc' | translate"
+        [hint]="'textarea.ff-hint.desc' | translate"
       >
         <textarea solaris-textarea></textarea>
       </solaris-form-field>
@@ -32,183 +36,283 @@
   </section>
 
   <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">Appearances</h2>
+    <h2 class="textarea-showcase__section-title">
+      {{ 'textarea.appearances' | translate }}
+    </h2>
     <div class="textarea-showcase__demo">
-      <solaris-form-field label="Outline" appearance="outline">
+      <solaris-form-field
+        [label]="'textarea.ff-label.outline' | translate"
+        appearance="outline"
+      >
         <textarea
           solaris-textarea
           appearance="outline"
-          placeholder="Outline"
+          [placeholder]="'textarea.placeholder.outline' | translate"
         ></textarea>
       </solaris-form-field>
-      <solaris-form-field label="Surface" appearance="surface">
+      <solaris-form-field
+        [label]="'textarea.ff-label.surface' | translate"
+        appearance="surface"
+      >
         <textarea
           solaris-textarea
           appearance="surface"
-          placeholder="Surface"
+          [placeholder]="'textarea.placeholder.surface' | translate"
         ></textarea>
       </solaris-form-field>
-      <solaris-form-field label="Filled" appearance="filled">
+      <solaris-form-field
+        [label]="'textarea.ff-label.filled' | translate"
+        appearance="filled"
+      >
         <textarea
           solaris-textarea
           appearance="filled"
-          placeholder="Filled"
+          [placeholder]="'textarea.placeholder.filled' | translate"
         ></textarea>
       </solaris-form-field>
     </div>
   </section>
 
   <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">Sizes</h2>
+    <h2 class="textarea-showcase__section-title">
+      {{ 'textarea.sizes' | translate }}
+    </h2>
     <div class="textarea-showcase__demo">
-      <solaris-form-field label="Small" size="sm">
-        <textarea solaris-textarea size="sm" placeholder="Small"></textarea>
+      <solaris-form-field
+        [label]="'textarea.ff-label.small' | translate"
+        size="sm"
+      >
+        <textarea
+          solaris-textarea
+          size="sm"
+          [placeholder]="'textarea.placeholder.small' | translate"
+        ></textarea>
       </solaris-form-field>
-      <solaris-form-field label="Medium" size="md">
-        <textarea solaris-textarea size="md" placeholder="Medium"></textarea>
+      <solaris-form-field
+        [label]="'textarea.ff-label.medium' | translate"
+        size="md"
+      >
+        <textarea
+          solaris-textarea
+          size="md"
+          [placeholder]="'textarea.placeholder.medium' | translate"
+        ></textarea>
       </solaris-form-field>
-      <solaris-form-field label="Large" size="lg">
-        <textarea solaris-textarea size="lg" placeholder="Large"></textarea>
+      <solaris-form-field
+        [label]="'textarea.ff-label.large' | translate"
+        size="lg"
+      >
+        <textarea
+          solaris-textarea
+          size="lg"
+          [placeholder]="'textarea.placeholder.large' | translate"
+        ></textarea>
       </solaris-form-field>
     </div>
   </section>
 
   <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">Density</h2>
+    <h2 class="textarea-showcase__section-title">
+      {{ 'textarea.density' | translate }}
+    </h2>
     <div class="textarea-showcase__demo">
-      <solaris-form-field label="Compact" density="compact">
+      <solaris-form-field
+        [label]="'textarea.ff-label.compact' | translate"
+        density="compact"
+      >
         <textarea
           solaris-textarea
           density="compact"
-          placeholder="Compact"
+          [placeholder]="'textarea.placeholder.compact' | translate"
         ></textarea>
       </solaris-form-field>
-      <solaris-form-field label="Comfortable" density="comfortable">
+      <solaris-form-field
+        [label]="'textarea.ff-label.comfortable' | translate"
+        density="comfortable"
+      >
         <textarea
           solaris-textarea
           density="comfortable"
-          placeholder="Comfortable"
+          [placeholder]="'textarea.placeholder.comfortable' | translate"
         ></textarea>
       </solaris-form-field>
     </div>
   </section>
 
   <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">Radius</h2>
+    <h2 class="textarea-showcase__section-title">
+      {{ 'textarea.radius' | translate }}
+    </h2>
     <div class="textarea-showcase__row">
-      <solaris-form-field label="None" radius="none">
-        <textarea solaris-textarea radius="none" placeholder="None"></textarea>
+      <solaris-form-field
+        [label]="'textarea.ff-label.none' | translate"
+        radius="none"
+      >
+        <textarea
+          solaris-textarea
+          radius="none"
+          [placeholder]="'textarea.placeholder.none-radius' | translate"
+        ></textarea>
       </solaris-form-field>
-      <solaris-form-field label="SM" radius="sm">
-        <textarea solaris-textarea radius="sm" placeholder="SM"></textarea>
+      <solaris-form-field
+        [label]="'textarea.ff-label.sm' | translate"
+        radius="sm"
+      >
+        <textarea
+          solaris-textarea
+          radius="sm"
+          [placeholder]="'textarea.placeholder.sm-radius' | translate"
+        ></textarea>
       </solaris-form-field>
-      <solaris-form-field label="MD" radius="md">
-        <textarea solaris-textarea radius="md" placeholder="MD"></textarea>
+      <solaris-form-field
+        [label]="'textarea.ff-label.md' | translate"
+        radius="md"
+      >
+        <textarea
+          solaris-textarea
+          radius="md"
+          [placeholder]="'textarea.placeholder.md-radius' | translate"
+        ></textarea>
       </solaris-form-field>
-      <solaris-form-field label="LG" radius="lg">
-        <textarea solaris-textarea radius="lg" placeholder="LG"></textarea>
+      <solaris-form-field
+        [label]="'textarea.ff-label.lg' | translate"
+        radius="lg"
+      >
+        <textarea
+          solaris-textarea
+          radius="lg"
+          [placeholder]="'textarea.placeholder.lg-radius' | translate"
+        ></textarea>
       </solaris-form-field>
     </div>
   </section>
 
   <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">States</h2>
+    <h2 class="textarea-showcase__section-title">
+      {{ 'textarea.states' | translate }}
+    </h2>
     <div class="textarea-showcase__demo">
-      <solaris-form-field label="Default">
-        <textarea solaris-textarea placeholder="Default"></textarea>
+      <solaris-form-field [label]="'textarea.ff-label.default' | translate">
+        <textarea
+          solaris-textarea
+          [placeholder]="'textarea.placeholder.default' | translate"
+        ></textarea>
       </solaris-form-field>
       <solaris-form-field
-        label="Invalid"
+        [label]="'textarea.ff-label.invalid-state' | translate"
         [invalid]="true"
-        error="This field has an error."
+        [error]="'textarea.ff-error.invalid' | translate"
       >
         <textarea
           solaris-textarea
           [invalid]="true"
-          placeholder="Invalid"
+          [placeholder]="'textarea.placeholder.invalid-state' | translate"
         ></textarea>
       </solaris-form-field>
-      <solaris-form-field label="Disabled" [disabled]="true">
-        <textarea solaris-textarea disabled placeholder="Disabled"></textarea>
+      <solaris-form-field
+        [label]="'textarea.ff-label.disabled' | translate"
+        [disabled]="true"
+      >
+        <textarea
+          solaris-textarea
+          disabled
+          [placeholder]="'textarea.placeholder.disabled' | translate"
+        ></textarea>
       </solaris-form-field>
-      <solaris-form-field label="Readonly" [readonly]="true">
-        <textarea solaris-textarea readonly>Texto somente leitura</textarea>
+      <solaris-form-field
+        [label]="'textarea.ff-label.readonly' | translate"
+        [readonly]="true"
+      >
+        <textarea solaris-textarea readonly>
+{{
+          'textarea.readonly-value' | translate
+        }}</textarea
+        >
       </solaris-form-field>
     </div>
   </section>
 
   <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">Resize</h2>
+    <h2 class="textarea-showcase__section-title">
+      {{ 'textarea.resize' | translate }}
+    </h2>
     <div class="textarea-showcase__demo">
-      <solaris-form-field label="None">
+      <solaris-form-field
+        [label]="'textarea.ff-label.not-resizable' | translate"
+      >
         <textarea
           solaris-textarea
           resize="none"
-          placeholder="Not resizable"
+          [placeholder]="'textarea.placeholder.not-resizable' | translate"
         ></textarea>
       </solaris-form-field>
-      <solaris-form-field label="Vertical">
+      <solaris-form-field [label]="'textarea.ff-label.vertical' | translate">
         <textarea
           solaris-textarea
           resize="vertical"
-          placeholder="Resize vertically only"
+          [placeholder]="'textarea.placeholder.vertical' | translate"
         ></textarea>
       </solaris-form-field>
-      <solaris-form-field label="Horizontal">
+      <solaris-form-field [label]="'textarea.ff-label.horizontal' | translate">
         <textarea
           solaris-textarea
           resize="horizontal"
-          placeholder="Resize horizontally only"
+          [placeholder]="'textarea.placeholder.horizontal' | translate"
         ></textarea>
       </solaris-form-field>
-      <solaris-form-field label="Both">
+      <solaris-form-field [label]="'textarea.ff-label.both' | translate">
         <textarea
           solaris-textarea
           resize="both"
-          placeholder="Resize both directions"
+          [placeholder]="'textarea.placeholder.both' | translate"
         ></textarea>
       </solaris-form-field>
     </div>
   </section>
 
   <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">Rows</h2>
+    <h2 class="textarea-showcase__section-title">
+      {{ 'textarea.rows' | translate }}
+    </h2>
     <p class="textarea-showcase__note">
-      Textarea respects the native <code>rows</code> attribute.
+      {{ 'textarea.rows-note' | translate }}
     </p>
     <div class="textarea-showcase__demo">
-      <solaris-form-field label="With rows=4">
+      <solaris-form-field [label]="'textarea.ff-label.with-rows' | translate">
         <textarea
           solaris-textarea
           rows="4"
-          placeholder="This textarea has rows=4"
+          [placeholder]="'textarea.placeholder.with-rows' | translate"
         ></textarea>
       </solaris-form-field>
     </div>
   </section>
 
   <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">Placeholder note</h2>
+    <h2 class="textarea-showcase__section-title">
+      {{ 'textarea.placeholder-note' | translate }}
+    </h2>
     <p class="textarea-showcase__note">
-      Placeholder is an example or format hint, not a label replacement. Always
-      provide a proper label via Form Field or an accessible name.
+      {{ 'textarea.placeholder-note-text' | translate }}
     </p>
     <div class="textarea-showcase__demo">
-      <solaris-form-field label="Descrição">
+      <solaris-form-field
+        [label]="'textarea.ff-label.notes-example' | translate"
+      >
         <textarea
           solaris-textarea
-          placeholder="Ex.: Observações para a equipe"
+          [placeholder]="'textarea.placeholder.notes-example' | translate"
         ></textarea>
       </solaris-form-field>
     </div>
   </section>
 
   <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">Rich Text note</h2>
+    <h2 class="textarea-showcase__section-title">
+      {{ 'textarea.rich-text-note' | translate }}
+    </h2>
     <p class="textarea-showcase__note">
-      Rich Text Editor is a separate future component. Textarea v1 is for native
-      multiline plain text input only. It does not support formatted text,
-      contenteditable, toolbars, or complex keyboard shortcuts.
+      {{ 'textarea.rich-text-note-text' | translate }}
     </p>
   </section>
 </div>

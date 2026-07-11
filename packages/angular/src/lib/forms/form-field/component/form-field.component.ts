@@ -26,7 +26,7 @@ import type {
   SolarisFormFieldSize,
   SolarisFormFieldDensity,
   SolarisFormFieldRadius,
-  ControlResize
+  ControlResize,
 } from '../model/form-field.types';
 
 let nextId = 0;
