@@ -155,6 +155,23 @@ export type {
   SolarisCheckboxGroupSize,
 } from './lib/forms/checkbox-group/model/checkbox-group.types';
 
+export { SolarisRadioComponent } from './lib/forms/radio/component/radio.component';
+export type {
+  SolarisRadioAppearance,
+  SolarisRadioColor,
+  SolarisRadioSize,
+  SolarisRadioDensity,
+} from './lib/forms/radio/model/radio.types';
+
+export { SolarisRadioGroupComponent } from './lib/forms/radio-group/component/radio-group.component';
+export type {
+  SolarisRadioGroupOrientation,
+  SolarisRadioGroupLayout,
+  SolarisRadioGroupColumns,
+  SolarisRadioGroupDensity,
+  SolarisRadioGroupSize,
+} from './lib/forms/radio-group/model/radio-group.types';
+
 export { SolarisTextareaDirective } from './lib/forms/textarea/directives/textarea.directive';
 export type {
   SolarisTextareaAppearance,

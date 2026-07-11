@@ -1,0 +1,402 @@
+<div class="radio-group-showcase">
+  <header class="radio-group-showcase__header">
+    <h1 class="radio-group-showcase__title">
+      {{ 'radio-group.title' | translate }}
+    </h1>
+    <p class="radio-group-showcase__description">
+      {{ 'radio-group.description' | translate }}
+    </p>
+  </header>
+
+  <section class="radio-group-showcase__section">
+    <h2 class="radio-group-showcase__section-title">
+      {{ 'radio-group.basic' | translate }}
+    </h2>
+    <p class="radio-group-showcase__note">
+      {{ 'radio-group.basic-note' | translate }}
+    </p>
+    <div class="radio-group-showcase__demo">
+      <solaris-radio-group [formControl]="basicControl" label="Plano">
+        <solaris-radio value="basic"
+          >{{ 'radio-group.basic-label' | translate }}</solaris-radio
+        >
+        <solaris-radio value="pro"
+          >{{ 'radio-group.pro' | translate }}</solaris-radio
+        >
+        <solaris-radio value="enterprise"
+          >{{ 'radio-group.enterprise' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+    <p class="radio-group-showcase__value">
+      {{ 'radio-group.selected' | translate }} {{ basicControl.value }}
+    </p>
+  </section>
+
+  <section class="radio-group-showcase__section">
+    <h2 class="radio-group-showcase__section-title">
+      {{ 'radio-group.appearances' | translate }}
+    </h2>
+    <div class="radio-group-showcase__demo">
+      <h3>{{ 'radio.outline' | translate }}</h3>
+      <solaris-radio-group>
+        <solaris-radio value="a"
+          >{{ 'radio-group.option-a' | translate }}</solaris-radio
+        >
+        <solaris-radio value="b"
+          >{{ 'radio-group.option-b' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+    <div class="radio-group-showcase__demo">
+      <h3>{{ 'radio.surface' | translate }}</h3>
+      <solaris-radio-group>
+        <solaris-radio value="a" appearance="surface"
+          >{{ 'radio-group.option-a' | translate }}</solaris-radio
+        >
+        <solaris-radio value="b" appearance="surface"
+          >{{ 'radio-group.option-b' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+  </section>
+
+  <section class="radio-group-showcase__section">
+    <h2 class="radio-group-showcase__section-title">
+      {{ 'radio-group.colors' | translate }}
+    </h2>
+    <div class="radio-group-showcase__demo">
+      <solaris-radio-group>
+        <solaris-radio value="neutral" color="neutral"
+          >{{ 'radio.neutral' | translate }}</solaris-radio
+        >
+        <solaris-radio value="primary" color="primary"
+          >{{ 'radio.primary' | translate }}</solaris-radio
+        >
+        <solaris-radio value="success" color="success"
+          >{{ 'radio.success' | translate }}</solaris-radio
+        >
+        <solaris-radio value="warning" color="warning"
+          >{{ 'radio.warning' | translate }}</solaris-radio
+        >
+        <solaris-radio value="danger" color="danger"
+          >{{ 'radio.danger' | translate }}</solaris-radio
+        >
+        <solaris-radio value="info" color="info"
+          >{{ 'radio.info' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+  </section>
+
+  <section class="radio-group-showcase__section">
+    <h2 class="radio-group-showcase__section-title">
+      {{ 'radio-group.sizes' | translate }}
+    </h2>
+    <div class="radio-group-showcase__demo">
+      <solaris-radio-group size="sm" label="Small">
+        <solaris-radio value="a"
+          >{{ 'radio-group.option-a' | translate }}</solaris-radio
+        >
+        <solaris-radio value="b"
+          >{{ 'radio-group.option-b' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+    <div class="radio-group-showcase__demo">
+      <solaris-radio-group size="md" label="Medium">
+        <solaris-radio value="a"
+          >{{ 'radio-group.option-a' | translate }}</solaris-radio
+        >
+        <solaris-radio value="b"
+          >{{ 'radio-group.option-b' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+    <div class="radio-group-showcase__demo">
+      <solaris-radio-group size="lg" label="Large">
+        <solaris-radio value="a"
+          >{{ 'radio-group.option-a' | translate }}</solaris-radio
+        >
+        <solaris-radio value="b"
+          >{{ 'radio-group.option-b' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+  </section>
+
+  <section class="radio-group-showcase__section">
+    <h2 class="radio-group-showcase__section-title">
+      {{ 'radio-group.density' | translate }}
+    </h2>
+    <div class="radio-group-showcase__demo">
+      <solaris-radio-group density="compact" label="Compact">
+        <solaris-radio value="a"
+          >{{ 'radio-group.option-a' | translate }}</solaris-radio
+        >
+        <solaris-radio value="b"
+          >{{ 'radio-group.option-b' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+    <div class="radio-group-showcase__demo">
+      <solaris-radio-group density="comfortable" label="Comfortable">
+        <solaris-radio value="a"
+          >{{ 'radio-group.option-a' | translate }}</solaris-radio
+        >
+        <solaris-radio value="b"
+          >{{ 'radio-group.option-b' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+  </section>
+
+  <section class="radio-group-showcase__section">
+    <h2 class="radio-group-showcase__section-title">
+      {{ 'radio-group.layout' | translate }}
+    </h2>
+    <div class="radio-group-showcase__demo">
+      <h3>{{ 'radio-group.vertical-list' | translate }}</h3>
+      <solaris-radio-group orientation="vertical" label="Vertical">
+        <solaris-radio value="a"
+          >{{ 'radio-group.option-a' | translate }}</solaris-radio
+        >
+        <solaris-radio value="b"
+          >{{ 'radio-group.option-b' | translate }}</solaris-radio
+        >
+        <solaris-radio value="c"
+          >{{ 'radio-group.option-c' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+    <div class="radio-group-showcase__demo">
+      <h3>{{ 'radio-group.horizontal-list' | translate }}</h3>
+      <solaris-radio-group
+        orientation="horizontal"
+        [formControl]="horizontalControl"
+        label="Horizontal"
+      >
+        <solaris-radio value="yes"
+          >{{ 'radio-group.yes' | translate }}</solaris-radio
+        >
+        <solaris-radio value="no"
+          >{{ 'radio-group.no' | translate }}</solaris-radio
+        >
+        <solaris-radio value="maybe"
+          >{{ 'radio-group.maybe' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+    <div class="radio-group-showcase__demo">
+      <h3>{{ 'radio-group.grid-2' | translate }}</h3>
+      <solaris-radio-group
+        layout="grid"
+        [columns]="2"
+        [formControl]="gridControl"
+        label="Grid"
+      >
+        <solaris-radio value="a"
+          >{{ 'radio-group.option-a' | translate }}</solaris-radio
+        >
+        <solaris-radio value="b"
+          >{{ 'radio-group.option-b' | translate }}</solaris-radio
+        >
+        <solaris-radio value="c"
+          >{{ 'radio-group.option-c' | translate }}</solaris-radio
+        >
+        <solaris-radio value="d"
+          >{{ 'radio-group.option-d' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+  </section>
+
+  <section class="radio-group-showcase__section">
+    <h2 class="radio-group-showcase__section-title">
+      {{ 'radio-group.disabled' | translate }}
+    </h2>
+    <p class="radio-group-showcase__note">
+      {{ 'radio-group.disabled-note' | translate }}
+    </p>
+    <div class="radio-group-showcase__demo">
+      <h3>{{ 'radio-group.disabled-group' | translate }}</h3>
+      <solaris-radio-group [formControl]="disabledControl" [disabled]="true">
+        <solaris-radio value="basic"
+          >{{ 'radio-group.basic-label' | translate }}</solaris-radio
+        >
+        <solaris-radio value="pro"
+          >{{ 'radio-group.pro' | translate }}</solaris-radio
+        >
+        <solaris-radio value="enterprise"
+          >{{ 'radio-group.enterprise' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+    <div class="radio-group-showcase__demo">
+      <h3>{{ 'radio-group.disabled-radio' | translate }}</h3>
+      <solaris-radio-group [formControl]="basicControl">
+        <solaris-radio value="basic"
+          >{{ 'radio-group.basic-label' | translate }}</solaris-radio
+        >
+        <solaris-radio value="pro" [disabled]="true"
+          >{{ 'radio-group.pro-disabled' | translate }}</solaris-radio
+        >
+        <solaris-radio value="enterprise"
+          >{{ 'radio-group.enterprise' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+  </section>
+
+  <section class="radio-group-showcase__section">
+    <h2 class="radio-group-showcase__section-title">
+      {{ 'radio-group.readonly' | translate }}
+    </h2>
+    <p class="radio-group-showcase__note">
+      {{ 'radio-group.readonly-note' | translate }}
+    </p>
+    <div class="radio-group-showcase__demo">
+      <h3>{{ 'radio-group.readonly-group' | translate }}</h3>
+      <solaris-radio-group [formControl]="readonlyControl" [readonly]="true">
+        <solaris-radio value="basic"
+          >{{ 'radio-group.basic-label' | translate }}</solaris-radio
+        >
+        <solaris-radio value="pro"
+          >{{ 'radio-group.pro' | translate }}</solaris-radio
+        >
+        <solaris-radio value="enterprise"
+          >{{ 'radio-group.enterprise' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+    <div class="radio-group-showcase__demo">
+      <h3>{{ 'radio-group.readonly-radio' | translate }}</h3>
+      <solaris-radio-group [formControl]="basicControl">
+        <solaris-radio value="basic" [readonly]="true"
+          >{{ 'radio-group.basic-readonly' | translate }}</solaris-radio
+        >
+        <solaris-radio value="pro"
+          >{{ 'radio-group.pro' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+  </section>
+
+  <section class="radio-group-showcase__section">
+    <h2 class="radio-group-showcase__section-title">
+      {{ 'radio-group.invalid-required' | translate }}
+    </h2>
+    <div class="radio-group-showcase__demo">
+      <solaris-radio-group
+        label="Required field"
+        [required]="true"
+        [invalid]="true"
+        error="This field is required."
+      >
+        <solaris-radio value="a"
+          >{{ 'radio-group.option-a' | translate }}</solaris-radio
+        >
+        <solaris-radio value="b"
+          >{{ 'radio-group.option-b' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+  </section>
+
+  <section class="radio-group-showcase__section">
+    <h2 class="radio-group-showcase__section-title">
+      {{ 'radio-group.comparewith' | translate }}
+    </h2>
+    <p class="radio-group-showcase__note">
+      {{ 'radio-group.comparewith-note' | translate }}
+    </p>
+    <div class="radio-group-showcase__demo">
+      <solaris-radio-group
+        [formControl]="complexFormControl"
+        [compareWith]="comparePlan"
+        label="Select plan"
+      >
+        <solaris-radio [value]="basicPlan"
+          >{{ 'radio-group.basic-label' | translate }}</solaris-radio
+        >
+        <solaris-radio [value]="proPlan"
+          >{{ 'radio-group.pro' | translate }}</solaris-radio
+        >
+        <solaris-radio [value]="enterprisePlan"
+          >{{ 'radio-group.enterprise' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+  </section>
+
+  <section class="radio-group-showcase__section">
+    <h2 class="radio-group-showcase__section-title">
+      {{ 'radio-group.standalone' | translate }}
+    </h2>
+    <p class="radio-group-showcase__note">
+      {{ 'radio-group.standalone-note' | translate }}
+    </p>
+    <div class="radio-group-showcase__demo">
+      <solaris-radio-group
+        label="Choose a plan"
+        hint="Select the plan that fits your needs"
+        error="Selection is required"
+        [invalid]="true"
+      >
+        <solaris-radio value="basic"
+          >{{ 'radio-group.basic-label' | translate }}</solaris-radio
+        >
+        <solaris-radio value="pro"
+          >{{ 'radio-group.pro' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+  </section>
+
+  <section class="radio-group-showcase__section">
+    <h2 class="radio-group-showcase__section-title">
+      {{ 'radio-group.form-field' | translate }}
+    </h2>
+    <p class="radio-group-showcase__note">
+      {{ 'radio-group.form-field-note' | translate }}
+    </p>
+    <div class="radio-group-showcase__demo">
+      <solaris-form-field
+        [label]="'radio-group.form-field' | translate"
+        [hint]="'radio-group.form-field-hint' | translate"
+        [error]="'radio-group.form-field-error' | translate"
+      >
+        <solaris-radio-group [formControl]="formFieldControl">
+          <solaris-radio value="basic"
+            >{{ 'radio-group.basic-label' | translate }}</solaris-radio
+          >
+          <solaris-radio value="pro"
+            >{{ 'radio-group.pro' | translate }}</solaris-radio
+          >
+          <solaris-radio value="enterprise"
+            >{{ 'radio-group.enterprise' | translate }}</solaris-radio
+          >
+        </solaris-radio-group>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="radio-group-showcase__section">
+    <h2 class="radio-group-showcase__section-title">
+      {{ 'radio-group.visual-note' | translate }}
+    </h2>
+    <p class="radio-group-showcase__note">
+      {{ 'radio-group.visual-note-desc' | translate }}
+    </p>
+    <div class="radio-group-showcase__demo">
+      <solaris-radio-group>
+        <solaris-radio value="a" [checked]="true"
+          >{{ 'radio-group.visual-example' | translate }}</solaris-radio
+        >
+        <solaris-radio value="b"
+          >{{ 'radio-group.option-b' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+  </section>
+</div>

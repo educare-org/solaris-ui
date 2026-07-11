@@ -1,0 +1,41 @@
+@use '../../../shared/showcase-layout' as l;
+
+.radio-group-showcase {
+  @include l.page;
+}
+
+.radio-group-showcase__header {
+  @include l.header;
+}
+
+.radio-group-showcase__title {
+  @include l.title;
+}
+
+.radio-group-showcase__description {
+  @include l.description;
+}
+
+.radio-group-showcase__section {
+  @include l.section-card;
+}
+
+.radio-group-showcase__section-title {
+  @include l.section-title;
+}
+
+.radio-group-showcase__note {
+  @include l.note;
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.radio-group-showcase__demo {
+  margin-bottom: var(--solaris-spacing-2);
+}
+
+.radio-group-showcase__value {
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+  color: var(--solaris-text-muted);
+  margin: var(--solaris-spacing-2) 0 0;
+}

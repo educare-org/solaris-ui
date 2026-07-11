@@ -106,4 +106,18 @@ export const appRoutes: Route[] = [
         (m) => m.CheckboxGroupShowcasePage,
       ),
   },
+  {
+    path: 'radio',
+    loadComponent: () =>
+      import('./pages/radio/component/radio-showcase').then(
+        (m) => m.RadioShowcasePage,
+      ),
+  },
+  {
+    path: 'radio-group',
+    loadComponent: () =>
+      import('./pages/radio-group/component/radio-group-showcase').then(
+        (m) => m.RadioGroupShowcasePage,
+      ),
+  },
 ];

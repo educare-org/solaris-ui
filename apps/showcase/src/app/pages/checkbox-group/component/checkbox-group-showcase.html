@@ -17,9 +17,15 @@
     </p>
     <div class="checkbox-group-showcase__demo">
       <solaris-checkbox-group [formControl]="basicControl">
-        <solaris-checkbox value="sports">{{ 'checkbox-group.sports' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="finance">{{ 'checkbox-group.finance' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="technology">{{ 'checkbox-group.technology' | translate }}</solaris-checkbox>
+        <solaris-checkbox value="sports"
+          >{{ 'checkbox-group.sports' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="finance"
+          >{{ 'checkbox-group.finance' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="technology"
+          >{{ 'checkbox-group.technology' | translate }}</solaris-checkbox
+        >
       </solaris-checkbox-group>
     </div>
     <p class="checkbox-group-showcase__value">
@@ -40,9 +46,15 @@
         [formControl]="horizontalControl"
         orientation="horizontal"
       >
-        <solaris-checkbox value="active">{{ 'checkbox-group.active' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="pending">{{ 'checkbox-group.pending' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="inactive">{{ 'checkbox-group.inactive' | translate }}</solaris-checkbox>
+        <solaris-checkbox value="active"
+          >{{ 'checkbox-group.active' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="pending"
+          >{{ 'checkbox-group.pending' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="inactive"
+          >{{ 'checkbox-group.inactive' | translate }}</solaris-checkbox
+        >
       </solaris-checkbox-group>
     </div>
   </section>
@@ -61,10 +73,18 @@
         layout="grid"
         [columns]="2"
       >
-        <solaris-checkbox value="academic">{{ 'checkbox-group.academic' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="finance">{{ 'checkbox-group.financial' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="reports">{{ 'checkbox-group.reports' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="content">{{ 'checkbox-group.content' | translate }}</solaris-checkbox>
+        <solaris-checkbox value="academic"
+          >{{ 'checkbox-group.academic' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="finance"
+          >{{ 'checkbox-group.financial' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="reports"
+          >{{ 'checkbox-group.reports' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="content"
+          >{{ 'checkbox-group.content' | translate }}</solaris-checkbox
+        >
       </solaris-checkbox-group>
     </div>
   </section>
@@ -81,9 +101,15 @@
         [formControl]="selectAllControl"
         [selectAll]="true"
       >
-        <solaris-checkbox value="read">{{ 'checkbox-group.read' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="write">{{ 'checkbox-group.write' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="delete">{{ 'checkbox-group.delete' | translate }}</solaris-checkbox>
+        <solaris-checkbox value="read"
+          >{{ 'checkbox-group.read' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="write"
+          >{{ 'checkbox-group.write' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="delete"
+          >{{ 'checkbox-group.delete' | translate }}</solaris-checkbox
+        >
       </solaris-checkbox-group>
     </div>
   </section>
@@ -105,9 +131,15 @@
           [formControl]="minSelectedControl"
           [minSelected]="1"
         >
-          <solaris-checkbox value="a">{{ 'checkbox-group.option-a' | translate }}</solaris-checkbox>
-          <solaris-checkbox value="b">{{ 'checkbox-group.option-b' | translate }}</solaris-checkbox>
-          <solaris-checkbox value="c">{{ 'checkbox-group.option-c' | translate }}</solaris-checkbox>
+          <solaris-checkbox value="a"
+            >{{ 'checkbox-group.option-a' | translate }}</solaris-checkbox
+          >
+          <solaris-checkbox value="b"
+            >{{ 'checkbox-group.option-b' | translate }}</solaris-checkbox
+          >
+          <solaris-checkbox value="c"
+            >{{ 'checkbox-group.option-c' | translate }}</solaris-checkbox
+          >
         </solaris-checkbox-group>
       </solaris-form-field>
     </div>
@@ -130,9 +162,15 @@
           [formControl]="maxSelectedControl"
           [maxSelected]="2"
         >
-          <solaris-checkbox value="a">{{ 'checkbox-group.option-a' | translate }}</solaris-checkbox>
-          <solaris-checkbox value="b">{{ 'checkbox-group.option-b' | translate }}</solaris-checkbox>
-          <solaris-checkbox value="c">{{ 'checkbox-group.option-c' | translate }}</solaris-checkbox>
+          <solaris-checkbox value="a"
+            >{{ 'checkbox-group.option-a' | translate }}</solaris-checkbox
+          >
+          <solaris-checkbox value="b"
+            >{{ 'checkbox-group.option-b' | translate }}</solaris-checkbox
+          >
+          <solaris-checkbox value="c"
+            >{{ 'checkbox-group.option-c' | translate }}</solaris-checkbox
+          >
         </solaris-checkbox-group>
       </solaris-form-field>
     </div>
@@ -147,9 +185,15 @@
     </p>
     <div class="checkbox-group-showcase__demo">
       <solaris-checkbox-group [formControl]="disabledControl" [disabled]="true">
-        <solaris-checkbox value="sports">{{ 'checkbox-group.sports' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="finance">{{ 'checkbox-group.finance' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="technology">{{ 'checkbox-group.technology' | translate }}</solaris-checkbox>
+        <solaris-checkbox value="sports"
+          >{{ 'checkbox-group.sports' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="finance"
+          >{{ 'checkbox-group.finance' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="technology"
+          >{{ 'checkbox-group.technology' | translate }}</solaris-checkbox
+        >
       </solaris-checkbox-group>
     </div>
   </section>
@@ -163,9 +207,15 @@
     </p>
     <div class="checkbox-group-showcase__demo">
       <solaris-checkbox-group [formControl]="readonlyControl" [readonly]="true">
-        <solaris-checkbox value="sports">{{ 'checkbox-group.sports' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="finance">{{ 'checkbox-group.finance' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="technology">{{ 'checkbox-group.technology' | translate }}</solaris-checkbox>
+        <solaris-checkbox value="sports"
+          >{{ 'checkbox-group.sports' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="finance"
+          >{{ 'checkbox-group.finance' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="technology"
+          >{{ 'checkbox-group.technology' | translate }}</solaris-checkbox
+        >
       </solaris-checkbox-group>
     </div>
   </section>
@@ -182,11 +232,16 @@
         [formControl]="selectAllControl"
         [selectAll]="true"
       >
-        <solaris-checkbox value="a">{{ 'checkbox-group.option-a' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="b" [disabled]="true"
-          >{{ 'checkbox-group.option-b-disabled' | translate }}</solaris-checkbox
+        <solaris-checkbox value="a"
+          >{{ 'checkbox-group.option-a' | translate }}</solaris-checkbox
         >
-        <solaris-checkbox value="c">{{ 'checkbox-group.option-c' | translate }}</solaris-checkbox>
+        <solaris-checkbox value="b" [disabled]="true"
+          >{{ 'checkbox-group.option-b-disabled' | translate
+          }}</solaris-checkbox
+        >
+        <solaris-checkbox value="c"
+          >{{ 'checkbox-group.option-c' | translate }}</solaris-checkbox
+        >
       </solaris-checkbox-group>
     </div>
   </section>
@@ -205,8 +260,12 @@
         [hint]="'checkbox-group.error.min-selected' | translate"
         [minSelected]="1"
       >
-        <solaris-checkbox value="sports">{{ 'checkbox-group.sports' | translate }}</solaris-checkbox>
-        <solaris-checkbox value="culture">{{ 'checkbox-group.culture' | translate }}</solaris-checkbox>
+        <solaris-checkbox value="sports"
+          >{{ 'checkbox-group.sports' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox value="culture"
+          >{{ 'checkbox-group.culture' | translate }}</solaris-checkbox
+        >
       </solaris-checkbox-group>
     </div>
   </section>
@@ -226,9 +285,15 @@
         [invalid]="formFieldControl.invalid ? true : undefined"
       >
         <solaris-checkbox-group [formControl]="formFieldControl">
-          <solaris-checkbox value="sports">{{ 'checkbox-group.sports' | translate }}</solaris-checkbox>
-          <solaris-checkbox value="finance">{{ 'checkbox-group.finance' | translate }}</solaris-checkbox>
-          <solaris-checkbox value="technology">{{ 'checkbox-group.technology' | translate }}</solaris-checkbox>
+          <solaris-checkbox value="sports"
+            >{{ 'checkbox-group.sports' | translate }}</solaris-checkbox
+          >
+          <solaris-checkbox value="finance"
+            >{{ 'checkbox-group.finance' | translate }}</solaris-checkbox
+          >
+          <solaris-checkbox value="technology"
+            >{{ 'checkbox-group.technology' | translate }}</solaris-checkbox
+          >
         </solaris-checkbox-group>
       </solaris-form-field>
     </div>
@@ -246,9 +311,15 @@
         [formControl]="complexForm.controls.modules"
         [compareWith]="compareModule"
       >
-        <solaris-checkbox [value]="module1">{{ 'checkbox-group.academic' | translate }}</solaris-checkbox>
-        <solaris-checkbox [value]="module2">{{ 'checkbox-group.financial' | translate }}</solaris-checkbox>
-        <solaris-checkbox [value]="module3">{{ 'checkbox-group.reports' | translate }}</solaris-checkbox>
+        <solaris-checkbox [value]="module1"
+          >{{ 'checkbox-group.academic' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox [value]="module2"
+          >{{ 'checkbox-group.financial' | translate }}</solaris-checkbox
+        >
+        <solaris-checkbox [value]="module3"
+          >{{ 'checkbox-group.reports' | translate }}</solaris-checkbox
+        >
       </solaris-checkbox-group>
     </div>
   </section>

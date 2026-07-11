@@ -37,7 +37,7 @@ Scope:
 - [x] Textarea;
 - [x] Checkbox;
 - [x] Checkbox Group;
-- [ ] Radio;
+- [x] Radio;
 - [ ] Switch;
 - [ ] Select.
 
