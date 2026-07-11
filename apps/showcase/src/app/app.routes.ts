@@ -120,4 +120,11 @@ export const appRoutes: Route[] = [
         (m) => m.RadioGroupShowcasePage,
       ),
   },
+  {
+    path: 'switch',
+    loadComponent: () =>
+      import('./pages/switch/component/switch-showcase').then(
+        (m) => m.SwitchShowcasePage,
+      ),
+  },
 ];

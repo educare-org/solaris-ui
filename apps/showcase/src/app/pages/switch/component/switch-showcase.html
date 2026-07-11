@@ -1,0 +1,199 @@
+<div class="switch-showcase">
+  <header class="switch-showcase__header">
+    <h1 class="switch-showcase__title">{{ 'switch.title' | translate }}</h1>
+    <p class="switch-showcase__description">
+      {{ 'switch.description' | translate }}
+    </p>
+  </header>
+
+  <section class="switch-showcase__section">
+    <h2 class="switch-showcase__section-title">
+      {{ 'switch.basic' | translate }}
+    </h2>
+    <div class="switch-showcase__row">
+      <solaris-switch>{{ 'switch.unchecked' | translate }}</solaris-switch>
+      <solaris-switch [checked]="true"
+        >{{ 'switch.checked' | translate }}</solaris-switch
+      >
+    </div>
+  </section>
+
+  <section class="switch-showcase__section">
+    <h2 class="switch-showcase__section-title">
+      {{ 'switch.appearances' | translate }}
+    </h2>
+    <div class="switch-showcase__row">
+      <solaris-switch appearance="surface"
+        >{{ 'switch.surface' | translate }}</solaris-switch
+      >
+      <solaris-switch appearance="outline"
+        >{{ 'switch.outline' | translate }}</solaris-switch
+      >
+    </div>
+  </section>
+
+  <section class="switch-showcase__section">
+    <h2 class="switch-showcase__section-title">
+      {{ 'switch.colors' | translate }}
+    </h2>
+    <div class="switch-showcase__row">
+      <solaris-switch color="neutral"
+        >{{ 'switch.neutral' | translate }}</solaris-switch
+      >
+      <solaris-switch color="primary"
+        >{{ 'switch.primary' | translate }}</solaris-switch
+      >
+      <solaris-switch color="success"
+        >{{ 'switch.success' | translate }}</solaris-switch
+      >
+      <solaris-switch color="warning"
+        >{{ 'switch.warning' | translate }}</solaris-switch
+      >
+      <solaris-switch color="danger"
+        >{{ 'switch.danger' | translate }}</solaris-switch
+      >
+      <solaris-switch color="info"
+        >{{ 'switch.info' | translate }}</solaris-switch
+      >
+    </div>
+  </section>
+
+  <section class="switch-showcase__section">
+    <h2 class="switch-showcase__section-title">
+      {{ 'switch.sizes' | translate }}
+    </h2>
+    <div class="switch-showcase__row">
+      <solaris-switch size="sm"
+        >{{ 'switch.small' | translate }}</solaris-switch
+      >
+      <solaris-switch size="md"
+        >{{ 'switch.medium' | translate }}</solaris-switch
+      >
+      <solaris-switch size="lg"
+        >{{ 'switch.large' | translate }}</solaris-switch
+      >
+    </div>
+  </section>
+
+  <section class="switch-showcase__section">
+    <h2 class="switch-showcase__section-title">
+      {{ 'switch.density' | translate }}
+    </h2>
+    <div class="switch-showcase__row">
+      <solaris-switch density="compact"
+        >{{ 'switch.compact' | translate }}</solaris-switch
+      >
+      <solaris-switch density="comfortable"
+        >{{ 'switch.comfortable' | translate }}</solaris-switch
+      >
+    </div>
+  </section>
+
+  <section class="switch-showcase__section">
+    <h2 class="switch-showcase__section-title">
+      {{ 'switch.states' | translate }}
+    </h2>
+    <div class="switch-showcase__grid">
+      <div class="switch-showcase__cell">
+        <solaris-switch [disabled]="true"
+          >{{ 'switch.disabled-unchecked' | translate }}</solaris-switch
+        >
+      </div>
+      <div class="switch-showcase__cell">
+        <solaris-switch [checked]="true" [disabled]="true"
+          >{{ 'switch.disabled-checked' | translate }}</solaris-switch
+        >
+      </div>
+      <div class="switch-showcase__cell">
+        <solaris-switch [readonly]="true"
+          >{{ 'switch.readonly-unchecked' | translate }}</solaris-switch
+        >
+      </div>
+      <div class="switch-showcase__cell">
+        <solaris-switch [checked]="true" [readonly]="true"
+          >{{ 'switch.readonly-checked' | translate }}</solaris-switch
+        >
+      </div>
+      <div class="switch-showcase__cell">
+        <solaris-switch [invalid]="true"
+          >{{ 'switch.invalid-unchecked' | translate }}</solaris-switch
+        >
+      </div>
+      <div class="switch-showcase__cell">
+        <solaris-switch [checked]="true" [invalid]="true"
+          >{{ 'switch.invalid-checked' | translate }}</solaris-switch
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="switch-showcase__section">
+    <h2 class="switch-showcase__section-title">
+      {{ 'switch.label' | translate }}
+    </h2>
+    <div class="switch-showcase__row">
+      <solaris-switch
+        >{{ 'switch.projected-label' | translate }}</solaris-switch
+      >
+    </div>
+    <div class="switch-showcase__row">
+      <solaris-switch label="Input label example" />
+    </div>
+    <div class="switch-showcase__row">
+      <solaris-switch ariaLabel="No visible label"
+        >{{ 'switch.aria-label-only' | translate }}</solaris-switch
+      >
+    </div>
+  </section>
+
+  <section class="switch-showcase__section">
+    <h2 class="switch-showcase__section-title">
+      {{ 'switch.form-field' | translate }}
+    </h2>
+    <p class="switch-showcase__note">
+      {{ 'switch.form-field-note' | translate }}
+    </p>
+    <div class="switch-showcase__demo">
+      <solaris-form-field
+        [label]="'switch.form-field-label' | translate"
+        [hint]="'switch.form-field-hint' | translate"
+        [error]="notificationsControl.invalid && (notificationsControl.touched || notificationsControl.dirty) ? ('switch.form-field-error' | translate) : ''"
+        [invalid]="notificationsControl.invalid && (notificationsControl.touched || notificationsControl.dirty) ? true : undefined"
+      >
+        <solaris-switch [formControl]="notificationsControl" [required]="true">
+          {{ 'switch.form-field-label' | translate }}
+        </solaris-switch>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="switch-showcase__section">
+    <h2 class="switch-showcase__section-title">
+      {{ 'switch.reactive-forms' | translate }}
+    </h2>
+    <p class="switch-showcase__note">
+      {{ 'switch.reactive-forms-note' | translate }}
+    </p>
+    <div class="switch-showcase__row">
+      <solaris-switch [formControl]="enableControl">
+        {{ 'switch.enable-label' | translate }}
+      </solaris-switch>
+    </div>
+    <p class="switch-showcase__note">
+      {{ 'switch.enable-status' | translate }} {{ enableControl.value ?
+      ('switch.yes' | translate) : ('switch.no' | translate) }}
+    </p>
+  </section>
+
+  <section class="switch-showcase__section">
+    <h2 class="switch-showcase__section-title">
+      {{ 'switch.custom' | translate }}
+    </h2>
+    <p class="switch-showcase__note">{{ 'switch.custom-note' | translate }}</p>
+    <div class="switch-showcase__custom-wrapper">
+      <solaris-switch color="custom" [checked]="true">
+        {{ 'switch.custom-label' | translate }}
+      </solaris-switch>
+    </div>
+  </section>
+</div>

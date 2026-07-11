@@ -15,6 +15,7 @@ import { CHECKBOX_TRANSLATIONS } from '../pages/checkbox/translations';
 import { CHECKBOX_GROUP_TRANSLATIONS } from '../pages/checkbox-group/translations';
 import { RADIO_TRANSLATIONS } from '../pages/radio/translations';
 import { RADIO_GROUP_TRANSLATIONS } from '../pages/radio-group/translations';
+import { SWITCH_TRANSLATIONS } from '../pages/switch/translations';
 
 const PAGE_MODULES = [
   CONFIGURATION_TRANSLATIONS,
@@ -34,6 +35,7 @@ const PAGE_MODULES = [
   CHECKBOX_GROUP_TRANSLATIONS,
   RADIO_TRANSLATIONS,
   RADIO_GROUP_TRANSLATIONS,
+  SWITCH_TRANSLATIONS,
 ];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};

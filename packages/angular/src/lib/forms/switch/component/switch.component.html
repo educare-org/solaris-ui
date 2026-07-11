@@ -1,0 +1,32 @@
+<label class="solaris-switch__label" [for]="elementId()">
+  <input
+    type="checkbox"
+    role="switch"
+    class="solaris-switch__input"
+    [id]="elementId()"
+    [checked]="_checked()"
+    [disabled]="isEffectivelyDisabled()"
+    [required]="required"
+    [attr.aria-label]="effectiveAriaLabel() ?? null"
+    [attr.aria-labelledby]="ariaLabelledBy()"
+    [attr.aria-describedby]="ariaDescribedBy()"
+    [attr.aria-invalid]="isEffectivelyInvalid() ? 'true' : null"
+    [attr.name]="name() ?? null"
+    (change)="onInputChange($event)"
+    (blur)="onBlur()"
+    (focus)="onFocus()"
+    #inputElement
+  />
+  <span class="solaris-switch__track" aria-hidden="true">
+    <span class="solaris-switch__thumb"></span>
+  </span>
+  @if (hasProjectedContent()) {
+    <span class="solaris-switch__label-text" [id]="elementId() + '-label'">
+      <ng-content />
+    </span>
+  } @else if (labelText(); as text) {
+    <span class="solaris-switch__label-text" [id]="elementId() + '-label'">
+      {{ text }}
+    </span>
+  }
+</label>
