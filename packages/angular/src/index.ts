@@ -171,6 +171,15 @@ export type {
   SolarisSwitchDensity,
 } from './lib/forms/switch/model/switch.types';
 
+export { SolarisSwitchGroupComponent } from './lib/forms/switch-group/component/switch-group.component';
+export type {
+  SolarisSwitchGroupOrientation,
+  SolarisSwitchGroupLayout,
+  SolarisSwitchGroupColumns,
+  SolarisSwitchGroupDensity,
+  SolarisSwitchGroupSize,
+} from './lib/forms/switch-group/model/switch-group.types';
+
 export { SolarisRadioGroupComponent } from './lib/forms/radio-group/component/radio-group.component';
 export type {
   SolarisRadioGroupOrientation,

@@ -127,4 +127,11 @@ export const appRoutes: Route[] = [
         (m) => m.SwitchShowcasePage,
       ),
   },
+  {
+    path: 'switch-group',
+    loadComponent: () =>
+      import('./pages/switch-group/component/switch-group-showcase').then(
+        (m) => m.SwitchGroupShowcasePage,
+      ),
+  },
 ];
