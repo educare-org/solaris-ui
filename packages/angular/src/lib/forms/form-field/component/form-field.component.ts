@@ -18,6 +18,8 @@ import { SolarisFormControl } from '../model/form-control.contract';
 import { SolarisFormLabelComponent } from './form-label.component';
 import { SolarisFormErrorComponent } from './form-error.component';
 import { SolarisFormHintComponent } from './form-hint.component';
+import { SolarisFormPrefixDirective } from '../directives/form-prefix.directive';
+import { SolarisFormSuffixDirective } from '../directives/form-suffix.directive';
 
 import type {
   SolarisFormFieldAppearance,
@@ -47,6 +49,8 @@ function generateId(): string {
     '[attr.data-focused]': 'isFocused() ? "" : null',
     '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
     '[attr.data-readonly]': 'isEffectivelyReadonly() ? "" : null',
+    '[attr.data-has-prefix]': 'hasPrefix() ? "" : null',
+    '[attr.data-has-suffix]': 'hasSuffix() ? "" : null',
   },
 })
 export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
@@ -90,6 +94,10 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected projectedHint?: SolarisFormHintComponent;
   @ContentChild(SolarisFormErrorComponent)
   protected projectedError?: SolarisFormErrorComponent;
+  @ContentChild(SolarisFormPrefixDirective)
+  protected prefix?: SolarisFormPrefixDirective;
+  @ContentChild(SolarisFormSuffixDirective)
+  protected suffix?: SolarisFormSuffixDirective;
   @ContentChild(SolarisFormControl)
   protected formControl?: SolarisFormControl;
   @ContentChild(FormControlDirective)
@@ -116,6 +124,8 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly hasProjectedLabel = computed(() => !!this.projectedLabel);
   protected readonly hasProjectedHint = computed(() => !!this.projectedHint);
   protected readonly hasProjectedError = computed(() => !!this.projectedError);
+  protected readonly hasPrefix = signal(false);
+  protected readonly hasSuffix = signal(false);
 
   protected readonly effectiveDensity = computed<SolarisFormFieldDensity>(
     () => {
@@ -243,6 +253,8 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   });
 
   ngAfterContentInit(): void {
+    this.hasPrefix.set(!!this.prefix);
+    this.hasSuffix.set(!!this.suffix);
     this.detectControl();
     this.connectControl();
     this.syncDescribedBy();
@@ -288,11 +300,6 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   }
 
   private detectControl(): void {
-    if (this.formControl) {
-      this.controlId = this.formControl.id;
-      return;
-    }
-
     // SECURITY_EXCEPTION: nativeElement access required to detect projected form controls.
     // SECURITY_EXCEPTION: Angular CDK and Material use the same approach.
     // SECURITY_EXCEPTION: Read-only querySelectorAll, no DOM mutation.
@@ -304,12 +311,17 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     if (children.length > 0) {
       const first = children[0] as HTMLElement;
       this.controlElement = first;
-      if (!first.id) {
+    }
+
+    if (this.formControl) {
+      this.controlId = this.formControl.id;
+    } else if (this.controlElement) {
+      if (!this.controlElement.id) {
         const generatedId = `solaris-control-${this.fieldId}`;
-        first.id = generatedId;
+        this.controlElement.id = generatedId;
         this.controlId = generatedId;
       } else {
-        this.controlId = first.id;
+        this.controlId = this.controlElement.id;
       }
     }
   }

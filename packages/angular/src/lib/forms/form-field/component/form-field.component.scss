@@ -40,7 +40,8 @@
   margin-bottom: var(--solaris-form-field-label-margin-bottom);
 }
 
-.solaris-form-field__label {
+.solaris-form-field__label,
+::ng-deep .solaris-form-label {
   cursor: pointer;
   display: inline-block;
   color: var(--solaris-form-field-label-color);
@@ -72,6 +73,10 @@
     box-shadow var(--solaris-motion-duration-fast, 150ms) ease;
 }
 
+:host([data-has-prefix]) .solaris-form-field__control-wrapper {
+  padding-left: 0;
+}
+
 .solaris-form-field__control {
   flex: 1;
   min-width: 0;
@@ -84,26 +89,36 @@
   display: flex;
   flex-shrink: 0;
   align-items: center;
+  cursor: default;
 }
 
 ::ng-deep .solaris-form-prefix {
+  align-self: stretch;
+  justify-content: center;
   color: var(--solaris-form-field-prefix-color);
+  width: var(--solaris-form-field-control-height);
+  border-right: 1px solid var(--solaris-border-subtle);
+  transition: color var(--solaris-motion-duration-fast, 150ms) ease;
+}
+
+::ng-deep .solaris-form-prefix:hover {
+  color: var(--solaris-text-default);
 }
 
 ::ng-deep .solaris-form-suffix {
   color: var(--solaris-form-field-suffix-color);
+  transition: color var(--solaris-motion-duration-slow) ease;
+}
+
+::ng-deep .solaris-form-suffix:hover {
+  color: var(--solaris-text-default);
 }
 
 ::ng-deep .solaris-form-prefix solaris-icon,
 ::ng-deep .solaris-form-suffix solaris-icon {
   cursor: default;
-  color: var(--solaris-border-subtle);
-  transition: color var(--solaris-motion-duration-fast, 150ms) ease;
-}
-
-::ng-deep .solaris-form-prefix:hover solaris-icon,
-::ng-deep .solaris-form-suffix:hover solaris-icon {
-  color: var(--solaris-primary-text);
+  color: inherit;
+  transition: color var(--solaris-motion-duration-slow) ease;
 }
 
 .solaris-form-field__message-row {
@@ -111,11 +126,13 @@
 }
 
 .solaris-form-field__hint {
+  margin-left: 0.2rem;
   color: var(--solaris-form-field-hint-color);
   font-size: var(--solaris-form-field-hint-font-size);
 }
 
 .solaris-form-field__error {
+  margin-left: 0.2rem;
   color: var(--solaris-form-field-error-color);
   font-size: var(--solaris-form-field-error-font-size);
 }
@@ -204,9 +221,11 @@
     --solaris-form-field-focus-ring-color
   );
 
-  outline: var(--solaris-form-field-focus-ring-width) solid
+  .solaris-form-field__control-wrapper {
+    outline-offset: 1px;
+    outline: var(--solaris-form-field-focus-ring-width) solid
     var(--solaris-form-field-focus-ring-color);
-  outline-offset: 1px;
+  }
 }
 
 :host([data-invalid]) {
@@ -249,8 +268,8 @@
   --solaris-form-field-disabled-opacity: 0.5;
   --solaris-form-field-focus-ring-width: 2px;
   --solaris-form-field-hint-color: var(--solaris-text-muted);
-  --solaris-form-field-suffix-color: var(--solaris-text-muted);
   --solaris-form-field-prefix-color: var(--solaris-text-muted);
+  --solaris-form-field-suffix-color: var(--solaris-text-muted);
   --solaris-form-field-error-color: var(--solaris-danger-text);
   --solaris-form-field-label-color: var(--solaris-text-default);
   --solaris-form-field-optional-color: var(--solaris-text-muted);
