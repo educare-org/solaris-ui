@@ -13,11 +13,11 @@ import {
 } from '@angular/core';
 import { FormControlDirective, FormControlName, NgModel } from '@angular/forms';
 
-import { SolarisTranslateService } from '../../../services/translation/service/solaris-translate.service';
+import { SolarisTranslateService } from '../../../services/translation';
 import { SolarisFormControl } from '../model/form-control.contract';
 import { SolarisFormLabelComponent } from './form-label.component';
-import { SolarisFormHintComponent } from './form-hint.component';
 import { SolarisFormErrorComponent } from './form-error.component';
+import { SolarisFormHintComponent } from './form-hint.component';
 
 import type {
   SolarisFormFieldAppearance,
@@ -38,10 +38,11 @@ function generateId(): string {
   templateUrl: './form-field.component.html',
   styleUrls: ['./form-field.component.scss'],
   host: {
-    '[attr.data-appearance]': 'appearance()',
     '[attr.data-size]': 'size()',
-    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-radius]': 'radius()',
+    '[attr.data-bwignore]': '"true"',
+    '[attr.data-appearance]': 'appearance()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-invalid]': 'showError() ? "" : null',
     '[attr.data-focused]': 'isFocused() ? "" : null',
     '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
@@ -49,29 +50,39 @@ function generateId(): string {
   },
 })
 export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
-  private readonly translateService = inject(SolarisTranslateService);
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly translateService = inject(SolarisTranslateService);
   private readonly ngZone = inject(NgZone);
 
-  readonly label = input<string>('');
+  constructor() {
+    // SECURITY_EXCEPTION: Setting disabled/readonly on native control is standard DOM API.
+    // SECURITY_EXCEPTION: Required for FormField to propagate disabled/readonly state to projected control.
+    effect(() => {
+      this.isEffectivelyDisabled();
+      this.isEffectivelyReadonly();
+      this.syncControlDisabledReadonly();
+    });
+  }
+
+  readonly hintKey = input<string>();
   readonly labelKey = input<string>();
   readonly hint = input<string>('');
-  readonly hintKey = input<string>();
-  readonly error = input<string>('');
   readonly errorKey = input<string>();
+  readonly label = input<string>('');
+  readonly error = input<string>('');
+  readonly optionalLabel = input<string>();
+  readonly requiredLabel = input<string>();
+  readonly optionalLabelKey = input<string>();
+  readonly requiredLabelKey = input<string>();
   readonly required = input<boolean>(false);
   readonly optional = input<boolean>(false);
-  readonly optionalLabel = input<string>();
-  readonly optionalLabelKey = input<string>();
-  readonly requiredLabel = input<string>();
-  readonly requiredLabelKey = input<string>();
   readonly invalid = input<boolean | undefined>();
   readonly disabled = input<boolean | undefined>();
   readonly readonly = input<boolean | undefined>();
-  readonly appearance = input<SolarisFormFieldAppearance>('outline');
-  readonly size = input<SolarisFormFieldSize>('md');
   readonly density = input<SolarisFormFieldDensity>();
+  readonly size = input<SolarisFormFieldSize>('md');
   readonly radius = input<SolarisFormFieldRadius>('md');
+  readonly appearance = input<SolarisFormFieldAppearance>('outline');
 
   @ContentChild(SolarisFormLabelComponent)
   protected projectedLabel?: SolarisFormLabelComponent;
@@ -94,7 +105,6 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly labelId = `solaris-form-field-label-${this.fieldId}`;
 
   protected readonly isFocused = signal(false);
-  protected readonly autoDetectedInvalid = signal(false);
   protected readonly autoDetectedDisabled = signal(false);
   protected readonly autoDetectedReadonly = signal(false);
 
@@ -107,9 +117,11 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly hasProjectedHint = computed(() => !!this.projectedHint);
   protected readonly hasProjectedError = computed(() => !!this.projectedError);
 
-  protected readonly effectiveDensity = computed<SolarisFormFieldDensity>(() => {
-    return this.density() ?? 'comfortable';
-  });
+  protected readonly effectiveDensity = computed<SolarisFormFieldDensity>(
+    () => {
+      return this.density() ?? 'comfortable';
+    },
+  );
 
   protected readonly labelText = computed(() => {
     const key = this.labelKey();
@@ -147,14 +159,6 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     return this.translateService.translate('solaris.form-field.optional');
   });
 
-  protected readonly requiredLabelText = computed(() => {
-    const key = this.requiredLabelKey();
-    if (key) {
-      return this.translateService.translate(key);
-    }
-    return this.requiredLabel() ?? '';
-  });
-
   protected readonly isEffectivelyDisabled = computed(() => {
     const manual = this.disabled();
     if (manual !== undefined) {
@@ -178,7 +182,12 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   });
 
   protected readonly effectiveNgControl = computed(() => {
-    return this.formControlDirective ?? this.formControlName ?? this.ngModelDir ?? null;
+    return (
+      this.formControlDirective ??
+      this.formControlName ??
+      this.ngModelDir ??
+      null
+    );
   });
 
   protected readonly isAutoInvalid = computed(() => {
@@ -237,8 +246,25 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     this.detectControl();
     this.connectControl();
     this.syncDescribedBy();
+    this.syncControlDisabledReadonly();
     this.warnNoControl();
     this.warnMultipleControls();
+  }
+
+  private syncControlDisabledReadonly(): void {
+    if (!this.controlElement) {
+      return;
+    }
+    // SECURITY_EXCEPTION: Setting disabled/readonly on native control is required for FormField propagation.
+    const input = this.controlElement as HTMLInputElement;
+    const shouldDisable = this.isEffectivelyDisabled();
+    const shouldReadonly = this.isEffectivelyReadonly();
+    if (input.disabled !== shouldDisable) {
+      input.disabled = shouldDisable;
+    }
+    if (input.readOnly !== shouldReadonly) {
+      input.readOnly = shouldReadonly;
+    }
   }
 
   private syncDescribedBy(): void {
@@ -305,7 +331,8 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
       };
       element.addEventListener('focusin', onFocus);
       element.addEventListener('focusout', onBlur);
-      this.focusListener = () => element.removeEventListener('focusin', onFocus);
+      this.focusListener = () =>
+        element.removeEventListener('focusin', onFocus);
       this.blurListener = () => element.removeEventListener('focusout', onBlur);
     });
   }
@@ -319,7 +346,9 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
 
   private warnNoControl(): void {
     const hasAnyControl =
-      !!this.formControl || !!this.controlElement || !!this.effectiveNgControl();
+      !!this.formControl ||
+      !!this.controlElement ||
+      !!this.effectiveNgControl();
     if (!hasAnyControl) {
       console.warn(
         `[SolarisFormField] No form control found inside <solaris-form-field id="${this.fieldId}">. ` +

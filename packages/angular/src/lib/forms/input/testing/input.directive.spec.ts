@@ -453,7 +453,8 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
-      template: '<input solaris-input type="number" min="0" max="100" step="1" />',
+      template:
+        '<input solaris-input type="number" min="0" max="100" step="1" />',
     })
     class TestHost {}
 

@@ -177,7 +177,8 @@ describe('SolarisFormFieldComponent with label input', () => {
   @Component({
     standalone: true,
     imports: [SolarisFormFieldComponent],
-    template: '<solaris-form-field label="Email"><input /></solaris-form-field>',
+    template:
+      '<solaris-form-field label="Email"><input /></solaris-form-field>',
     providers: [provideSolarisTesting()],
   })
   class LabelInputHostComponent {}
@@ -191,7 +192,9 @@ describe('SolarisFormFieldComponent with label input', () => {
   });
 
   it('should render label from input', () => {
-    const label = fixture.nativeElement.querySelector('.solaris-form-field__label');
+    const label = fixture.nativeElement.querySelector(
+      '.solaris-form-field__label',
+    );
     expect(label).toBeTruthy();
     expect(label.textContent?.trim()).toBe('Email');
   });
@@ -226,7 +229,9 @@ describe('SolarisFormFieldComponent with projected label', () => {
   });
 
   it('projected label wins over input label', () => {
-    const inlineLabel = fixture.nativeElement.querySelector('.solaris-form-field__label');
+    const inlineLabel = fixture.nativeElement.querySelector(
+      '.solaris-form-field__label',
+    );
     expect(inlineLabel).toBeFalsy();
   });
 });
@@ -235,7 +240,8 @@ describe('SolarisFormFieldComponent with hint input', () => {
   @Component({
     standalone: true,
     imports: [SolarisFormFieldComponent],
-    template: '<solaris-form-field label="Name" hint="Enter your full name."><input /></solaris-form-field>',
+    template:
+      '<solaris-form-field label="Name" hint="Enter your full name."><input /></solaris-form-field>',
     providers: [provideSolarisTesting()],
   })
   class HintInputHostComponent {}
@@ -249,7 +255,9 @@ describe('SolarisFormFieldComponent with hint input', () => {
   });
 
   it('should render hint from input', () => {
-    const hint = fixture.nativeElement.querySelector('.solaris-form-field__hint');
+    const hint = fixture.nativeElement.querySelector(
+      '.solaris-form-field__hint',
+    );
     expect(hint).toBeTruthy();
     expect(hint.textContent?.trim()).toBe('Enter your full name.');
   });
@@ -284,7 +292,9 @@ describe('SolarisFormFieldComponent with projected hint', () => {
   });
 
   it('projected hint wins over input hint', () => {
-    const inlineHint = fixture.nativeElement.querySelector('.solaris-form-field__hint');
+    const inlineHint = fixture.nativeElement.querySelector(
+      '.solaris-form-field__hint',
+    );
     expect(inlineHint?.textContent?.trim()).not.toBe('Input hint');
   });
 });
@@ -293,7 +303,8 @@ describe('SolarisFormFieldComponent with error', () => {
   @Component({
     standalone: true,
     imports: [SolarisFormFieldComponent],
-    template: '<solaris-form-field label="Email" error="Invalid email" [invalid]="true"><input /></solaris-form-field>',
+    template:
+      '<solaris-form-field label="Email" error="Invalid email" [invalid]="true"><input /></solaris-form-field>',
     providers: [provideSolarisTesting()],
   })
   class ErrorInputHostComponent {}
@@ -307,7 +318,9 @@ describe('SolarisFormFieldComponent with error', () => {
   });
 
   it('should render error when invalid is true', () => {
-    const error = fixture.nativeElement.querySelector('.solaris-form-field__error');
+    const error = fixture.nativeElement.querySelector(
+      '.solaris-form-field__error',
+    );
     expect(error).toBeTruthy();
     expect(error.textContent?.trim()).toBe('Invalid email');
   });
@@ -342,7 +355,9 @@ describe('SolarisFormFieldComponent with projected error', () => {
   });
 
   it('projected error wins over input error', () => {
-    const inlineError = fixture.nativeElement.querySelector('.solaris-form-field__error');
+    const inlineError = fixture.nativeElement.querySelector(
+      '.solaris-form-field__error',
+    );
     expect(inlineError?.textContent?.trim()).not.toBe('Input error');
   });
 });
@@ -396,7 +411,8 @@ describe('SolarisFormFieldComponent optional', () => {
   @Component({
     standalone: true,
     imports: [SolarisFormFieldComponent],
-    template: '<solaris-form-field label="Name" [optional]="true"><input /></solaris-form-field>',
+    template:
+      '<solaris-form-field label="Name" [optional]="true"><input /></solaris-form-field>',
     providers: [provideSolarisTesting()],
   })
   class OptionalHostComponent {}
@@ -410,7 +426,9 @@ describe('SolarisFormFieldComponent optional', () => {
   });
 
   it('should render optional marker when optional is true', () => {
-    const marker = fixture.nativeElement.querySelector('.solaris-form-field__optional-marker');
+    const marker = fixture.nativeElement.querySelector(
+      '.solaris-form-field__optional-marker',
+    );
     expect(marker).toBeTruthy();
   });
 });
@@ -418,7 +436,11 @@ describe('SolarisFormFieldComponent optional', () => {
 describe('SolarisFormFieldComponent prefix and suffix', () => {
   @Component({
     standalone: true,
-    imports: [SolarisFormFieldComponent, SolarisFormPrefixDirective, SolarisFormSuffixDirective],
+    imports: [
+      SolarisFormFieldComponent,
+      SolarisFormPrefixDirective,
+      SolarisFormSuffixDirective,
+    ],
     template: `
       <solaris-form-field label="Value">
         <span solaris-form-prefix>$</span>
@@ -462,7 +484,9 @@ describe('SolarisFormFieldComponent with Reactive Forms', () => {
     fixture.componentRef.setInput('label', 'Email');
     fixture.componentRef.setInput('invalid', false);
     fixture.detectChanges();
-    const error = fixture.nativeElement.querySelector('.solaris-form-field__error');
+    const error = fixture.nativeElement.querySelector(
+      '.solaris-form-field__error',
+    );
     expect(error).toBeFalsy();
   });
 });
@@ -500,7 +524,11 @@ describe('SolarisFormLabelComponent', () => {
   });
 
   it('should have correct class', () => {
-    expect(fixture.nativeElement.querySelector('solaris-form-label')?.classList.contains('solaris-form-label')).toBeTruthy();
+    expect(
+      fixture.nativeElement
+        .querySelector('solaris-form-label')
+        ?.classList.contains('solaris-form-label'),
+    ).toBeTruthy();
   });
 });
 
@@ -525,7 +553,11 @@ describe('SolarisFormHintComponent', () => {
   });
 
   it('should have correct class', () => {
-    expect(fixture.nativeElement.querySelector('solaris-form-hint')?.classList.contains('solaris-form-hint')).toBeTruthy();
+    expect(
+      fixture.nativeElement
+        .querySelector('solaris-form-hint')
+        ?.classList.contains('solaris-form-hint'),
+    ).toBeTruthy();
   });
 });
 
@@ -550,7 +582,11 @@ describe('SolarisFormErrorComponent', () => {
   });
 
   it('should have role alert', () => {
-    expect(fixture.nativeElement.querySelector('solaris-form-error')?.getAttribute('role')).toBe('alert');
+    expect(
+      fixture.nativeElement
+        .querySelector('solaris-form-error')
+        ?.getAttribute('role'),
+    ).toBe('alert');
   });
 });
 
@@ -575,7 +611,11 @@ describe('SolarisFormPrefixDirective', () => {
   });
 
   it('should have correct class', () => {
-    expect(fixture.nativeElement.querySelector('[solaris-form-prefix]')?.classList.contains('solaris-form-prefix')).toBeTruthy();
+    expect(
+      fixture.nativeElement
+        .querySelector('[solaris-form-prefix]')
+        ?.classList.contains('solaris-form-prefix'),
+    ).toBeTruthy();
   });
 });
 
@@ -600,6 +640,10 @@ describe('SolarisFormSuffixDirective', () => {
   });
 
   it('should have correct class', () => {
-    expect(fixture.nativeElement.querySelector('[solaris-form-suffix]')?.classList.contains('solaris-form-suffix')).toBeTruthy();
+    expect(
+      fixture.nativeElement
+        .querySelector('[solaris-form-suffix]')
+        ?.classList.contains('solaris-form-suffix'),
+    ).toBeTruthy();
   });
 });

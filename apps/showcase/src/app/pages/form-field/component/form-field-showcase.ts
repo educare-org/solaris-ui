@@ -9,7 +9,8 @@ import {
   SolarisFormPrefixDirective,
   SolarisFormSuffixDirective,
   SolarisIconComponent,
-  SolarisTranslatePipe, SolarisInputDirective,
+  SolarisTranslatePipe,
+  SolarisInputDirective,
 } from '@solaris-ui/angular';
 
 @Component({
@@ -34,10 +35,4 @@ export class FormFieldShowcasePage {
     Validators.required,
     Validators.email,
   ]);
-
-  protected passwordVisible = false;
-
-  protected togglePassword(): void {
-    this.passwordVisible = !this.passwordVisible;
-  }
 }

@@ -1,176 +1,363 @@
 <div class="input-showcase">
   <header class="input-showcase__header">
     <h1 class="input-showcase__title">{{ 'input.title' | translate }}</h1>
-    <p class="input-showcase__description">{{ 'input.description' | translate }}</p>
+    <p class="input-showcase__description">
+      {{ 'input.description' | translate }}
+    </p>
   </header>
 
   <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">{{ 'input.basic' | translate }}</h2>
+    <h2 class="input-showcase__section-title">
+      {{ 'input.basic' | translate }}
+    </h2>
     <div class="input-showcase__demo">
-      <input solaris-input placeholder="Enter your name" />
+      <input
+        solaris-input
+        [placeholder]="'input.placeholder.name' | translate"
+      />
     </div>
   </section>
 
   <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">{{ 'input.with-form-field' | translate }}</h2>
-    <p class="input-showcase__note">{{ 'input.with-form-field-note' | translate }}</p>
+    <h2 class="input-showcase__section-title">
+      {{ 'input.with-form-field' | translate }}
+    </h2>
+    <p class="input-showcase__note">
+      {{ 'input.with-form-field-note' | translate }}
+    </p>
     <div class="input-showcase__demo">
-      <solaris-form-field label="Name" hint="Enter your full name.">
+      <solaris-form-field
+        [label]="'input.label.name' | translate"
+        [hint]="'input.hint.name' | translate"
+      >
         <input solaris-input />
       </solaris-form-field>
     </div>
     <div class="input-showcase__demo">
-      <solaris-form-field label="Email" hint="We will never share your email.">
-        <input solaris-input type="email" placeholder="nome@empresa.com" />
+      <solaris-form-field
+        [label]="'input.label.email' | translate"
+        [hint]="'input.hint.email' | translate"
+      >
+        <input
+          solaris-input
+          type="email"
+          [placeholder]="'input.placeholder.email' | translate"
+        />
       </solaris-form-field>
     </div>
   </section>
 
   <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">{{ 'input.reactive-forms' | translate }}</h2>
-    <p class="input-showcase__note">{{ 'input.reactive-forms-note' | translate }}</p>
+    <h2 class="input-showcase__section-title">
+      {{ 'input.reactive-forms' | translate }}
+    </h2>
+    <p class="input-showcase__note">
+      {{ 'input.reactive-forms-note' | translate }}
+    </p>
     <div class="input-showcase__demo">
       <solaris-form-field
-        label="Required Email"
-        hint="Enter your email address."
-        [error]="emailControl.hasError('required') ? 'Email is required.' : emailControl.hasError('email') ? 'Enter a valid email.' : ''"
+        [label]="'input.label.required-email' | translate"
+        [hint]="'input.hint.required-email' | translate"
+        [error]="emailError"
       >
-        <input solaris-input type="email" [formControl]="emailControl" placeholder="nome@empresa.com" />
+        <input
+          solaris-input
+          type="email"
+          [formControl]="emailControl"
+          [placeholder]="'input.placeholder.email' | translate"
+        />
       </solaris-form-field>
     </div>
   </section>
 
   <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">{{ 'input.appearances' | translate }}</h2>
+    <h2 class="input-showcase__section-title">
+      {{ 'input.appearances' | translate }}
+    </h2>
     <div class="input-showcase__demo">
-      <solaris-form-field label="Outline" appearance="outline">
-        <input solaris-input appearance="outline" placeholder="Outline" />
+      <solaris-form-field
+        [label]="'input.label.outline' | translate"
+        appearance="outline"
+      >
+        <input
+          solaris-input
+          appearance="outline"
+          [placeholder]="'input.placeholder.outline' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Surface" appearance="surface">
-        <input solaris-input appearance="surface" placeholder="Surface" />
+      <solaris-form-field
+        [label]="'input.label.surface' | translate"
+        appearance="surface"
+      >
+        <input
+          solaris-input
+          appearance="surface"
+          [placeholder]="'input.placeholder.surface' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Filled" appearance="filled">
-        <input solaris-input appearance="filled" placeholder="Filled" />
+      <solaris-form-field
+        [label]="'input.label.filled' | translate"
+        appearance="filled"
+      >
+        <input
+          solaris-input
+          appearance="filled"
+          [placeholder]="'input.placeholder.filled' | translate"
+        />
       </solaris-form-field>
     </div>
   </section>
 
   <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">{{ 'input.sizes' | translate }}</h2>
+    <h2 class="input-showcase__section-title">
+      {{ 'input.sizes' | translate }}
+    </h2>
     <div class="input-showcase__demo">
-      <solaris-form-field label="Small" size="sm">
-        <input solaris-input size="sm" placeholder="Small" />
+      <solaris-form-field [label]="'input.label.small' | translate" size="sm">
+        <input
+          solaris-input
+          size="sm"
+          [placeholder]="'input.placeholder.small' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Medium" size="md">
-        <input solaris-input size="md" placeholder="Medium" />
+      <solaris-form-field [label]="'input.label.medium' | translate" size="md">
+        <input
+          solaris-input
+          size="md"
+          [placeholder]="'input.placeholder.medium' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Large" size="lg">
-        <input solaris-input size="lg" placeholder="Large" />
+      <solaris-form-field [label]="'input.label.large' | translate" size="lg">
+        <input
+          solaris-input
+          size="lg"
+          [placeholder]="'input.placeholder.large' | translate"
+        />
       </solaris-form-field>
     </div>
   </section>
 
   <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">{{ 'input.density' | translate }}</h2>
+    <h2 class="input-showcase__section-title">
+      {{ 'input.density' | translate }}
+    </h2>
     <div class="input-showcase__demo">
-      <solaris-form-field label="Compact" density="compact">
-        <input solaris-input density="compact" placeholder="Compact" />
+      <solaris-form-field
+        [label]="'input.label.compact' | translate"
+        density="compact"
+      >
+        <input
+          solaris-input
+          density="compact"
+          [placeholder]="'input.placeholder.compact' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Comfortable" density="comfortable">
-        <input solaris-input density="comfortable" placeholder="Comfortable" />
+      <solaris-form-field
+        [label]="'input.label.comfortable' | translate"
+        density="comfortable"
+      >
+        <input
+          solaris-input
+          density="comfortable"
+          [placeholder]="'input.placeholder.comfortable' | translate"
+        />
       </solaris-form-field>
     </div>
   </section>
 
   <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">{{ 'input.radius' | translate }}</h2>
+    <h2 class="input-showcase__section-title">
+      {{ 'input.radius' | translate }}
+    </h2>
     <div class="input-showcase__row">
-      <solaris-form-field label="None" radius="none">
-        <input solaris-input radius="none" placeholder="None" />
+      <solaris-form-field
+        [label]="'input.label.radius-none' | translate"
+        radius="none"
+      >
+        <input
+          solaris-input
+          radius="none"
+          [placeholder]="'input.placeholder.radius-none' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="SM" radius="sm">
-        <input solaris-input radius="sm" placeholder="SM" />
+      <solaris-form-field
+        [label]="'input.label.radius-sm' | translate"
+        radius="sm"
+      >
+        <input
+          solaris-input
+          radius="sm"
+          [placeholder]="'input.placeholder.radius-sm' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="MD" radius="md">
-        <input solaris-input radius="md" placeholder="MD" />
+      <solaris-form-field
+        [label]="'input.label.radius-md' | translate"
+        radius="md"
+      >
+        <input
+          solaris-input
+          radius="md"
+          [placeholder]="'input.placeholder.radius-md' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="LG" radius="lg">
-        <input solaris-input radius="lg" placeholder="LG" />
+      <solaris-form-field
+        [label]="'input.label.radius-lg' | translate"
+        radius="lg"
+      >
+        <input
+          solaris-input
+          radius="lg"
+          [placeholder]="'input.placeholder.radius-lg' | translate"
+        />
       </solaris-form-field>
     </div>
   </section>
 
   <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">{{ 'input.states' | translate }}</h2>
+    <h2 class="input-showcase__section-title">
+      {{ 'input.states' | translate }}
+    </h2>
     <div class="input-showcase__demo">
-      <solaris-form-field label="Default">
-        <input solaris-input placeholder="Default" />
+      <solaris-form-field [label]="'input.label.default' | translate">
+        <input
+          solaris-input
+          [placeholder]="'input.placeholder.default' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Invalid" [invalid]="true" error="This field has an error.">
-        <input solaris-input [invalid]="true" placeholder="Invalid" />
+      <solaris-form-field
+        [label]="'input.label.invalid' | translate"
+        [invalid]="true"
+        [error]="'input.error.invalid' | translate"
+      >
+        <input
+          solaris-input
+          [invalid]="true"
+          [placeholder]="'input.placeholder.invalid' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Disabled" [disabled]="true">
-        <input solaris-input disabled placeholder="Disabled" />
+      <solaris-form-field
+        [label]="'input.label.disabled' | translate"
+        [disabled]="true"
+      >
+        <input
+          solaris-input
+          disabled
+          [placeholder]="'input.placeholder.disabled' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Readonly" [readonly]="true">
-        <input solaris-input readonly value="Read only value" />
+      <solaris-form-field
+        [label]="'input.label.readonly' | translate"
+        [readonly]="true"
+      >
+        <input
+          solaris-input
+          readonly
+          [value]="'form-field.value.readonly' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Required" [required]="true">
-        <input solaris-input required placeholder="Required" />
+      <solaris-form-field
+        [label]="'input.label.required' | translate"
+        [required]="true"
+      >
+        <input
+          solaris-input
+          required
+          [placeholder]="'input.placeholder.required' | translate"
+        />
       </solaris-form-field>
     </div>
   </section>
 
   <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">{{ 'input.types' | translate }}</h2>
+    <h2 class="input-showcase__section-title">
+      {{ 'input.types' | translate }}
+    </h2>
     <div class="input-showcase__demo">
-      <solaris-form-field label="Text">
-        <input solaris-input type="text" placeholder="Text" />
+      <solaris-form-field [label]="'input.label.text' | translate">
+        <input
+          solaris-input
+          type="text"
+          [placeholder]="'input.placeholder.text' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Email">
-        <input solaris-input type="email" placeholder="email@exemplo.com" />
+      <solaris-form-field [label]="'input.label.email' | translate">
+        <input
+          solaris-input
+          type="email"
+          [placeholder]="'input.placeholder.email-type' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Password">
-        <input solaris-input type="password" placeholder="Password" />
+      <solaris-form-field [label]="'input.label.password' | translate">
+        <input
+          solaris-input
+          type="password"
+          [placeholder]="'input.placeholder.password' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Search">
-        <input solaris-input type="search" placeholder="Search" />
+      <solaris-form-field [label]="'input.label.search' | translate">
+        <input
+          solaris-input
+          type="search"
+          [placeholder]="'input.placeholder.search' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Phone (tel)">
-        <input solaris-input type="tel" placeholder="(11) 99999-9999" />
+      <solaris-form-field [label]="'input.label.phone' | translate">
+        <input
+          solaris-input
+          type="tel"
+          [placeholder]="'input.placeholder.phone' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="URL">
-        <input solaris-input type="url" placeholder="https://exemplo.com" />
+      <solaris-form-field [label]="'input.label.url' | translate">
+        <input
+          solaris-input
+          type="url"
+          [placeholder]="'input.placeholder.url' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Number">
-        <input solaris-input type="number" placeholder="42" />
+      <solaris-form-field [label]="'input.label.number' | translate">
+        <input
+          solaris-input
+          type="number"
+          [placeholder]="'input.placeholder.number' | translate"
+        />
       </solaris-form-field>
-      <solaris-form-field label="Date">
+      <solaris-form-field [label]="'input.label.date' | translate">
         <input solaris-input type="date" />
       </solaris-form-field>
-      <solaris-form-field label="Time">
+      <solaris-form-field [label]="'input.label.time' | translate">
         <input solaris-input type="time" />
       </solaris-form-field>
     </div>
   </section>
 
   <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">{{ 'input.prefix-suffix' | translate }}</h2>
+    <h2 class="input-showcase__section-title">
+      {{ 'input.prefix-suffix' | translate }}
+    </h2>
     <div class="input-showcase__demo">
-      <solaris-form-field label="Search">
+      <solaris-form-field [label]="'input.label.search' | translate">
         <solaris-icon solaris-form-prefix name="search" [decorative]="true" />
-        <input solaris-input type="search" placeholder="Search..." />
+        <input
+          solaris-input
+          type="search"
+          [placeholder]="'input.placeholder.search-type' | translate"
+        />
       </solaris-form-field>
     </div>
     <div class="input-showcase__demo">
-      <solaris-form-field label="Price">
+      <solaris-form-field [label]="'input.label.price' | translate">
         <span solaris-form-prefix>$</span>
-        <input solaris-input type="number" placeholder="0.00" />
-        <span solaris-form-suffix>USD</span>
+        <input
+          solaris-input
+          type="number"
+          [placeholder]="'input.placeholder.price' | translate"
+        />
+        <span solaris-form-suffix>{{ 'input.suffix.usd' | translate }}</span>
       </solaris-form-field>
     </div>
     <div class="input-showcase__demo">
-      <solaris-form-field label="Password">
+      <solaris-form-field [label]="'input.label.password' | translate">
         <input
           solaris-input
           [type]="passwordVisible ? 'text' : 'password'"
@@ -180,7 +367,7 @@
           solaris-form-suffix
           type="button"
           (click)="togglePassword()"
-          [attr.aria-label]="passwordVisible ? 'Hide password' : 'Show password'"
+          [attr.aria-label]="(passwordVisible ? 'input.aria-label.hide' : 'input.aria-label.show') | translate"
         >
           <solaris-icon
             [name]="passwordVisible ? 'eye-off' : 'eye'"
@@ -192,11 +379,19 @@
   </section>
 
   <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">{{ 'input.placeholder-note' | translate }}</h2>
-    <p class="input-showcase__note">{{ 'input.placeholder-note-text' | translate }}</p>
+    <h2 class="input-showcase__section-title">
+      {{ 'input.placeholder-note' | translate }}
+    </h2>
+    <p class="input-showcase__note">
+      {{ 'input.placeholder-note-text' | translate }}
+    </p>
     <div class="input-showcase__demo">
-      <solaris-form-field label="E-mail">
-        <input solaris-input type="email" placeholder="nome@empresa.com" />
+      <solaris-form-field [label]="'input.label.email-placeholder' | translate">
+        <input
+          solaris-input
+          type="email"
+          [placeholder]="'input.placeholder.email-placeholder' | translate"
+        />
       </solaris-form-field>
     </div>
   </section>

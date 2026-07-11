@@ -83,16 +83,16 @@ Input extends `SolarisFormControl` and registers with Form Field when projected 
 
 The contract provides:
 
-| Property/Method    | Purpose |
-|--------------------|---------|
-| `id`               | Control ID for label association |
-| `focused`          | Focus state |
-| `disabled`         | Disabled state |
-| `readonly`         | Readonly state |
-| `invalid`          | Invalid state |
-| `required`         | Required state |
+| Property/Method     | Purpose                                        |
+| ------------------- | ---------------------------------------------- |
+| `id`                | Control ID for label association               |
+| `focused`           | Focus state                                    |
+| `disabled`          | Disabled state                                 |
+| `readonly`          | Readonly state                                 |
+| `invalid`           | Invalid state                                  |
+| `required`          | Required state                                 |
 | `setDescribedByIds` | Receives hint/error IDs for `aria-describedby` |
-| `focus()`          | Programmatic focus |
+| `focus()`           | Programmatic focus                             |
 
 ## API
 
@@ -188,6 +188,7 @@ Input supports native number and date/time types. Native controls and affordance
 Input does not create a custom `ControlValueAccessor`. Angular integrates with `<input>` natively. The directive reads `NgControl` for state detection and Form Field integration.
 
 Compatible with:
+
 - `formControl`
 - `formControlName`
 - `ngModel`

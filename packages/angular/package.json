@@ -5,7 +5,8 @@
     "@angular/common": "^21.2.0",
     "@angular/core": "^21.2.0",
     "@angular/forms": "^21.2.0",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.8",
+    "@angular/platform-browser": "~21.2.0"
   },
   "peerDependenciesMeta": {
     "vitest": {

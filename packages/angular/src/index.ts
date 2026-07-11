@@ -138,6 +138,17 @@ export type {
   SolarisInputRadius,
 } from './lib/forms/input/model/input.types';
 
+export { SolarisPasswordFieldComponent } from './lib/forms/password-field/component/password-field.component';
+export { solarisPasswordValidator } from './lib/forms/password-field/validators/password.validator';
+export type { SolarisPasswordPolicy } from './lib/forms/password-field/model/password-policy.types';
+export type {
+  SolarisPasswordFieldAppearance,
+  SolarisPasswordFieldSize,
+  SolarisPasswordFieldDensity,
+  SolarisPasswordFieldRadius,
+  SolarisPasswordStrength,
+} from './lib/forms/password-field/model/password-field.types';
+
 export { SolarisSkeletonComponent } from './lib/components/feedback/skeleton/component/skeleton.component';
 export type {
   SolarisSkeletonVariant,

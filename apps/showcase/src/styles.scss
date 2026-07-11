@@ -13,8 +13,8 @@
   as solaris-icon-button;
 
 /* Solaris input styles */
-@use '../../../packages/angular/src/lib/forms/input/styles/input'
-  as solaris-input;
+@use '../../../packages/angular/src/lib/forms/input/styles/input' as
+  solaris-input;
 
 @include solaris.core();
 @include solaris.theme();
@@ -29,8 +29,8 @@
 
 /* Base body styles using Solaris tokens */
 body {
-  font-family: var(--solaris-font-family-sans);
   font-size: var(--solaris-font-size-md);
-  line-height: var(--solaris-line-height-md);
   background-color: var(--solaris-bg-page);
+  line-height: var(--solaris-line-height-md);
+  font-family: var(--solaris-font-family-sans), system-ui;
 }

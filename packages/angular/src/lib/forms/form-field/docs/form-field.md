@@ -49,27 +49,27 @@ Selector: `solaris-form-field`
 
 #### Inputs
 
-| Input | Type | Default | Description |
-|---|---|---|---|
-| `label` | `string` | `''` | Label text |
-| `labelKey` | `string` | — | Translation key for label |
-| `hint` | `string` | `''` | Hint text |
-| `hintKey` | `string` | — | Translation key for hint |
-| `error` | `string` | `''` | Error text |
-| `errorKey` | `string` | — | Translation key for error |
-| `required` | `boolean` | `false` | Semantic required state |
-| `optional` | `boolean` | `false` | Shows optional marker |
-| `optionalLabel` | `string` | — | Custom optional label text |
-| `optionalLabelKey` | `string` | — | Translation key for optional label |
-| `requiredLabel` | `string` | — | Custom required label text |
-| `requiredLabelKey` | `string` | — | Translation key for required label |
-| `invalid` | `boolean \| undefined` | — | Manual invalid state (overrides auto-detection) |
-| `disabled` | `boolean \| undefined` | — | Manual disabled state (overrides auto-detection) |
-| `readonly` | `boolean \| undefined` | — | Manual readonly state (overrides auto-detection) |
-| `appearance` | `'outline' \| 'surface' \| 'filled'` | `'outline'` | Visual style |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size |
-| `density` | `'compact' \| 'comfortable'` | inherited | Spacing density |
-| `radius` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Border radius |
+| Input              | Type                                 | Default     | Description                                      |
+| ------------------ | ------------------------------------ | ----------- | ------------------------------------------------ |
+| `label`            | `string`                             | `''`        | Label text                                       |
+| `labelKey`         | `string`                             | —           | Translation key for label                        |
+| `hint`             | `string`                             | `''`        | Hint text                                        |
+| `hintKey`          | `string`                             | —           | Translation key for hint                         |
+| `error`            | `string`                             | `''`        | Error text                                       |
+| `errorKey`         | `string`                             | —           | Translation key for error                        |
+| `required`         | `boolean`                            | `false`     | Semantic required state                          |
+| `optional`         | `boolean`                            | `false`     | Shows optional marker                            |
+| `optionalLabel`    | `string`                             | —           | Custom optional label text                       |
+| `optionalLabelKey` | `string`                             | —           | Translation key for optional label               |
+| `requiredLabel`    | `string`                             | —           | Custom required label text                       |
+| `requiredLabelKey` | `string`                             | —           | Translation key for required label               |
+| `invalid`          | `boolean \| undefined`               | —           | Manual invalid state (overrides auto-detection)  |
+| `disabled`         | `boolean \| undefined`               | —           | Manual disabled state (overrides auto-detection) |
+| `readonly`         | `boolean \| undefined`               | —           | Manual readonly state (overrides auto-detection) |
+| `appearance`       | `'outline' \| 'surface' \| 'filled'` | `'outline'` | Visual style                                     |
+| `size`             | `'sm' \| 'md' \| 'lg'`               | `'md'`      | Control size                                     |
+| `density`          | `'compact' \| 'comfortable'`         | inherited   | Spacing density                                  |
+| `radius`           | `'none' \| 'sm' \| 'md' \| 'lg'`     | `'md'`      | Border radius                                    |
 
 ### SolarisFormLabelComponent
 
@@ -185,6 +185,7 @@ The default visual marks **optional**, not required.
 Use `[solaris-form-prefix]` and `[solaris-form-suffix]` for content placed before/after the control.
 
 Accepts:
+
 - text
 - icon
 - button
@@ -207,35 +208,35 @@ Examples:
 
 ## Appearances
 
-| Value | Description |
-|---|---|
+| Value     | Description                                                            |
+| --------- | ---------------------------------------------------------------------- |
 | `outline` | Clear border, neutral background. Default, good for traditional forms. |
-| `surface` | Card/panel surface, subtle border. |
-| `filled` | Subtle filled background, modern style. |
+| `surface` | Card/panel surface, subtle border.                                     |
+| `filled`  | Subtle filled background, modern style.                                |
 
 ## Size
 
-| Value | Height | Use |
-|---|---|---|
-| `sm` | 2rem | Compact forms, dense layouts |
-| `md` | 2.5rem | Standard forms, default |
-| `lg` | 3rem | Prominent inputs |
+| Value | Height | Use                          |
+| ----- | ------ | ---------------------------- |
+| `sm`  | 2rem   | Compact forms, dense layouts |
+| `md`  | 2.5rem | Standard forms, default      |
+| `lg`  | 3rem   | Prominent inputs             |
 
 ## Density
 
-| Value | Description |
-|---|---|
-| `compact` | Reduced vertical spacing |
+| Value         | Description                         |
+| ------------- | ----------------------------------- |
+| `compact`     | Reduced vertical spacing            |
 | `comfortable` | Increased vertical spacing. Default |
 
 ## Radius
 
-| Value | Description |
-|---|---|
-| `none` | Sharp corners |
-| `sm` | Small rounding |
-| `md` | Medium rounding. Default |
-| `lg` | Large rounding |
+| Value  | Description              |
+| ------ | ------------------------ |
+| `none` | Sharp corners            |
+| `sm`   | Small rounding           |
+| `md`   | Medium rounding. Default |
+| `lg`   | Large rounding           |
 
 ## States
 
@@ -246,6 +247,7 @@ When the internal control is focused, the Form Field reflects the focused state 
 ### Invalid
 
 Automatic detection (with Angular Forms):
+
 ```
 control.invalid && (control.touched || control.dirty) && !control.focused
 ```
@@ -265,6 +267,7 @@ Visual: indicates value is not editable. Preserves readability. Does not look di
 ## Integration with Angular Forms
 
 Form Field reads `NgControl` when available. It automatically detects:
+
 - `invalid`
 - `touched`
 - `dirty`
@@ -277,6 +280,7 @@ Template-driven forms are compatible but Reactive Forms are the primary target.
 ## IDs and aria-describedby
 
 Form Field automatically orchestrates:
+
 - Control `id` (preserves consumer-provided ID or generates SSR-safe one)
 - Label `for`/`id`
 - Hint `id`
@@ -284,6 +288,7 @@ Form Field automatically orchestrates:
 - Control `aria-describedby`
 
 Rules:
+
 - Hint visible → included in `aria-describedby`
 - Error visible → included in `aria-describedby`
 - No duplicate IDs

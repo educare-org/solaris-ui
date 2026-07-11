@@ -71,4 +71,11 @@ export const appRoutes: Route[] = [
         (m) => m.InputShowcasePage,
       ),
   },
+  {
+    path: 'password-field',
+    loadComponent: () =>
+      import('./pages/password-field/component/password-field-showcase').then(
+        (m) => m.PasswordFieldShowcasePage,
+      ),
+  },
 ];

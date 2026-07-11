@@ -21,7 +21,8 @@ input[solaris-input] {
   width: 100%;
   color: var(--solaris-input-color);
   background: var(--solaris-input-background);
-  border: var(--solaris-input-border-width) solid var(--solaris-input-border-color);
+  border: var(--solaris-input-border-width) solid
+    var(--solaris-input-border-color);
   border-radius: var(--solaris-input-radius);
   height: var(--solaris-input-height);
   padding: var(--solaris-input-padding-y) var(--solaris-input-padding-x);

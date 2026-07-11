@@ -19,33 +19,7 @@ import type {
   SolarisInputRadius,
 } from '../model/input.types';
 
-const SUPPORTED_TYPES = new Set([
-  'text',
-  'email',
-  'password',
-  'search',
-  'tel',
-  'url',
-  'number',
-  'date',
-  'time',
-  'datetime-local',
-  'month',
-  'week',
-]);
-
-const UNSUPPORTED_TYPES = new Set([
-  'file',
-  'color',
-  'range',
-  'checkbox',
-  'radio',
-  'submit',
-  'button',
-  'reset',
-  'image',
-  'hidden',
-]);
+import { SUPPORTED_TYPES, UNSUPPORTED_TYPES } from '../model/input.defaults';
 
 let nextId = 0;
 
@@ -56,33 +30,42 @@ function generateId(): string {
 @Directive({
   selector: '[solaris-input]',
   standalone: true,
-  providers: [{ provide: SolarisFormControl, useExisting: SolarisInputDirective }],
+  providers: [
+    { provide: SolarisFormControl, useExisting: SolarisInputDirective },
+  ],
   host: {
-    '[attr.data-appearance]': 'appearance()',
-    '[attr.data-size]': 'size()',
-    '[attr.data-density]': 'effectiveDensity()',
-    '[attr.data-radius]': 'radius()',
-    '[attr.data-invalid]': 'isEffectivelyInvalid() ? "" : null',
-    '[attr.data-full-width]': 'fullWidth() ? "" : null',
-    '[attr.data-focused]': '_focused() ? "" : null',
-    '[attr.aria-invalid]': 'isEffectivelyInvalid() ? "true" : null',
-    '[attr.aria-describedby]': 'ariaDescribedBy()',
     '[id]': 'elementId()',
+    '[attr.data-size]': 'size()',
+    '[attr.data-radius]': 'radius()',
+    '[attr.data-appearance]': 'appearance()',
+    '[attr.data-density]': 'effectiveDensity()',
+    '[attr.aria-describedby]': 'ariaDescribedBy()',
+    '[attr.data-focused]': '_focused() ? "" : null',
+    '[attr.data-full-width]': 'fullWidth() ? "" : null',
+    '[attr.data-invalid]': 'isEffectivelyInvalid() ? "" : null',
+    '[attr.aria-invalid]': 'isEffectivelyInvalid() ? "true" : null',
   },
 })
 export class SolarisInputDirective extends SolarisFormControl {
   readonly appearance = input<SolarisInputAppearance>('outline');
+  readonly radius = input<SolarisInputRadius>('md');
   readonly size = input<SolarisInputSize>('md');
   readonly density = input<SolarisInputDensity>();
-  readonly radius = input<SolarisInputRadius>('md');
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  readonly manualInvalid = input<boolean | undefined>(undefined, { alias: 'invalid' });
+
+  readonly manualInvalid = input<boolean | undefined>(undefined, {
+    alias: 'invalid',
+  });
   readonly fullWidth = input<boolean>(true);
 
   // SECURITY_EXCEPTION: ElementRef.nativeElement is the standard Angular directive API to read host element properties and attributes. Same approach used by Angular CDK and all Solaris directives.
-  private readonly elementRef = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  private readonly elementRef =
+    inject<ElementRef<HTMLInputElement>>(ElementRef);
+  // SECURITY_EXCEPTION: nativeElement access required for host element property reads (tagName, disabled, readonly, required, focus, getAttribute). Same pattern used by Angular CDK form controls.
   private readonly inputElement = this.elementRef.nativeElement;
-  protected readonly ngControl = inject(NgControl, { optional: true, self: true });
+  protected readonly ngControl = inject(NgControl, {
+    optional: true,
+    self: true,
+  });
 
   protected readonly _focused = signal(false);
   private readonly _describedByIds = signal<string[]>([]);
@@ -104,7 +87,11 @@ export class SolarisInputDirective extends SolarisFormControl {
     }
     if (this.ngControl?.control) {
       const control = this.ngControl.control;
-      return control.invalid && (control.touched || control.dirty) && !this._focused();
+      return (
+        control.invalid &&
+        (control.touched || control.dirty) &&
+        !this._focused()
+      );
     }
     return false;
   });
@@ -185,7 +172,9 @@ export class SolarisInputDirective extends SolarisFormControl {
 
   private validateType(): void {
     // SECURITY_EXCEPTION: nativeElement.getAttribute is the standard DOM API to read HTML attributes. Same pattern used by SolarisButtonDirective.
-    const type = (this.inputElement.getAttribute('type') || 'text').toLowerCase();
+    const type = (
+      this.inputElement.getAttribute('type') || 'text'
+    ).toLowerCase();
     if (UNSUPPORTED_TYPES.has(type)) {
       if (isDevMode()) {
         console.warn(
