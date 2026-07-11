@@ -34,11 +34,7 @@ function solarisDomainValidator(
     if (trimmed.length === 0) {
       return null;
     }
-    const atIndex = trimmed.lastIndexOf('@');
-    if (atIndex < 0) {
-      return null;
-    }
-    const domain = trimmed.slice(atIndex + 1).toLowerCase();
+    const domain = extractDomain(trimmed)?.toLowerCase();
     if (!domain) {
       return null;
     }

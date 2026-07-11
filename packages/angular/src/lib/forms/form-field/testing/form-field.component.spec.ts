@@ -2,6 +2,7 @@ import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
 
 import { provideSolarisTesting } from '../../../testing/provide-solaris-testing';
+import { SOLARIS_TRANSLATE_CONFIG } from '../../../services/translation/token/solaris-translate.tokens';
 import { SolarisFormFieldComponent } from '../component/form-field.component';
 import { SolarisFormLabelComponent } from '../component/form-label.component';
 import { SolarisFormHintComponent } from '../component/form-hint.component';
@@ -413,14 +414,27 @@ describe('SolarisFormFieldComponent optional', () => {
     imports: [SolarisFormFieldComponent],
     template:
       '<solaris-form-field label="Name" [optional]="true"><input /></solaris-form-field>',
-    providers: [provideSolarisTesting()],
   })
   class OptionalHostComponent {}
 
   let fixture: ComponentFixture<OptionalHostComponent>;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: SOLARIS_TRANSLATE_CONFIG,
+          useValue: {
+            locale: 'en-US',
+            fallbackLocale: 'en-US',
+            translations: {
+              'en-US': { 'solaris.form-field.optional': 'Optional' },
+            },
+            useBrowserLocale: false,
+          },
+        },
+      ],
+    });
     fixture = TestBed.createComponent(OptionalHostComponent);
     fixture.detectChanges();
   });
@@ -430,6 +444,13 @@ describe('SolarisFormFieldComponent optional', () => {
       '.solaris-form-field__optional-marker',
     );
     expect(marker).toBeTruthy();
+  });
+
+  it('should set dynamic aria-label on optional marker', () => {
+    const marker = fixture.nativeElement.querySelector(
+      '.solaris-form-field__optional-marker',
+    );
+    expect(marker.getAttribute('aria-label')).toBe('Optional');
   });
 });
 
