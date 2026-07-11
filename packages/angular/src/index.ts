@@ -138,6 +138,15 @@ export type {
   SolarisInputRadius,
 } from './lib/forms/input/model/input.types';
 
+export { SolarisTextareaDirective } from './lib/forms/textarea/directives/textarea.directive';
+export type {
+  SolarisTextareaAppearance,
+  SolarisTextareaSize,
+  SolarisTextareaDensity,
+  SolarisTextareaRadius,
+  SolarisTextareaResize,
+} from './lib/forms/textarea/model/textarea.types';
+
 export { SolarisPasswordFieldComponent } from './lib/forms/password-field/component/password-field.component';
 export { solarisPasswordValidator } from './lib/forms/password-field/validators/password.validator';
 export type { SolarisPasswordPolicy } from './lib/forms/password-field/model/password-policy.types';

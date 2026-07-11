@@ -45,7 +45,7 @@ Selector: `[solaris-icon-button]`
 
 | Input          | Type                                                                                 | Default     | Description                  |
 | -------------- | ------------------------------------------------------------------------------------ | ----------- | ---------------------------- |
-| `appearance`   | `'solid' \| 'outline' \| 'ghost' \| 'tonal' \| 'surface'`                 | `'ghost'`   | Visual style                 |
+| `appearance`   | `'solid' \| 'outline' \| 'ghost' \| 'tonal' \| 'surface'`                            | `'ghost'`   | Visual style                 |
 | `color`        | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'` | Semantic color               |
 | `size`         | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Button size                  |
 | `radius`       | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                           | `'md'`      | Border radius                |

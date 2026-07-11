@@ -13,19 +13,20 @@ import {
 } from '@angular/core';
 import { FormControlDirective, FormControlName, NgModel } from '@angular/forms';
 
+import { SolarisFormPrefixDirective } from '../directives/form-prefix.directive';
+import { SolarisFormSuffixDirective } from '../directives/form-suffix.directive';
 import { SolarisTranslateService } from '../../../services/translation';
 import { SolarisFormControl } from '../model/form-control.contract';
 import { SolarisFormLabelComponent } from './form-label.component';
 import { SolarisFormErrorComponent } from './form-error.component';
 import { SolarisFormHintComponent } from './form-hint.component';
-import { SolarisFormPrefixDirective } from '../directives/form-prefix.directive';
-import { SolarisFormSuffixDirective } from '../directives/form-suffix.directive';
 
 import type {
   SolarisFormFieldAppearance,
   SolarisFormFieldSize,
   SolarisFormFieldDensity,
   SolarisFormFieldRadius,
+  ControlResize
 } from '../model/form-field.types';
 
 let nextId = 0;
@@ -45,12 +46,14 @@ function generateId(): string {
     '[attr.data-bwignore]': '"true"',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-control-type]': 'controlType()',
+    '[attr.data-control-resize]': 'controlResize()',
     '[attr.data-invalid]': 'showError() ? "" : null',
     '[attr.data-focused]': 'isFocused() ? "" : null',
-    '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
-    '[attr.data-readonly]': 'isEffectivelyReadonly() ? "" : null',
     '[attr.data-has-prefix]': 'hasPrefix() ? "" : null',
     '[attr.data-has-suffix]': 'hasSuffix() ? "" : null',
+    '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
+    '[attr.data-readonly]': 'isEffectivelyReadonly() ? "" : null',
   },
 })
 export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
@@ -113,8 +116,10 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly labelId = `solaris-form-field-label-${this.fieldId}`;
 
   protected readonly isFocused = signal(false);
+  protected readonly isTextareaControl = signal(false);
   protected readonly autoDetectedDisabled = signal(false);
   protected readonly autoDetectedReadonly = signal(false);
+  protected readonly controlResize = signal<ControlResize | null>(null);
 
   protected controlId: string | null = null;
   private controlElement: HTMLElement | null = null;
@@ -126,6 +131,12 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly hasProjectedError = computed(() => !!this.projectedError);
   protected readonly hasPrefix = signal(false);
   protected readonly hasSuffix = signal(false);
+
+  protected readonly controlType = computed<
+    'input' | 'textarea' | 'select' | 'other'
+  >(() => {
+    return this.isTextareaControl() ? 'textarea' : 'other';
+  });
 
   protected readonly effectiveDensity = computed<SolarisFormFieldDensity>(
     () => {
@@ -311,6 +322,25 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     if (children.length > 0) {
       const first = children[0] as HTMLElement;
       this.controlElement = first;
+      // SECURITY_EXCEPTION: nativeElement.tagName is the standard DOM API to check element type.
+      const isTextarea = first.tagName === 'TEXTAREA';
+      this.isTextareaControl.set(isTextarea);
+
+      if (isTextarea) {
+        const resize = first.dataset['resize'] ?? first.getAttribute('resize');
+
+        const validResize: ControlResize =
+          resize === 'none' ||
+          resize === 'vertical' ||
+          resize === 'horizontal' ||
+          resize === 'both'
+            ? resize
+            : 'vertical';
+
+        this.controlResize.set(validResize);
+      } else {
+        this.controlResize.set(null);
+      }
     }
 
     if (this.formControl) {

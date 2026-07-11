@@ -30,8 +30,10 @@ Scope:
 Scope:
 
 - [x] Forms Foundation Contract;
-- [ ] Form Field;
-- [ ] Input;
+- [x] Form Field;
+- [x] Input;
+- [x] Password Field preset;
+- [x] Email Field preset;
 - [ ] Textarea;
 - [ ] Checkbox;
 - [ ] Radio;

@@ -65,6 +65,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'textarea',
+    loadComponent: () =>
+      import('./pages/textarea/component/textarea-showcase').then(
+        (m) => m.TextareaShowcasePage,
+      ),
+  },
+  {
     path: 'input',
     loadComponent: () =>
       import('./pages/input/component/input-showcase').then(

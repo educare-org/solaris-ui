@@ -10,6 +10,7 @@ import { FORM_FIELD_TRANSLATIONS } from '../pages/form-field/translations';
 import { INPUT_TRANSLATIONS } from '../pages/input/translations';
 import { PASSWORD_FIELD_TRANSLATIONS } from '../pages/password-field/translations';
 import { EMAIL_FIELD_TRANSLATIONS } from '../pages/email-field/translations';
+import { TEXTAREA_TRANSLATIONS } from '../pages/textarea/translations';
 
 const PAGE_MODULES = [
   CONFIGURATION_TRANSLATIONS,
@@ -22,6 +23,7 @@ const PAGE_MODULES = [
   BUTTON_GROUP_TRANSLATIONS,
   FORM_FIELD_TRANSLATIONS,
   INPUT_TRANSLATIONS,
+  TEXTAREA_TRANSLATIONS,
   PASSWORD_FIELD_TRANSLATIONS,
   EMAIL_FIELD_TRANSLATIONS,
 ];

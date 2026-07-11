@@ -191,7 +191,6 @@ describe('SolarisIconButtonDirective', () => {
       const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
       expect(el.getAttribute('data-appearance')).toBe('surface');
     });
-
   });
 
   describe('color', () => {

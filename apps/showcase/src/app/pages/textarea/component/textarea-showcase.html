@@ -1,0 +1,214 @@
+<div class="textarea-showcase">
+  <header class="textarea-showcase__header">
+    <h1 class="textarea-showcase__title">Textarea</h1>
+    <p class="textarea-showcase__description">
+      Styling and integration directive for native
+      <code>&lt;textarea&gt;</code>. Works standalone and integrated with Form
+      Field.
+    </p>
+  </header>
+
+  <section class="textarea-showcase__section">
+    <h2 class="textarea-showcase__section-title">Basic standalone</h2>
+    <div class="textarea-showcase__demo">
+      <textarea solaris-textarea placeholder="Observações"></textarea>
+    </div>
+  </section>
+
+  <section class="textarea-showcase__section">
+    <h2 class="textarea-showcase__section-title">With Form Field</h2>
+    <p class="textarea-showcase__note">
+      Label, hint, and visual shell managed by Form Field. Textarea keeps
+      behavior, placeholder, and value.
+    </p>
+    <div class="textarea-showcase__demo">
+      <solaris-form-field
+        label="Descrição"
+        hint="Escreva uma descrição objetiva."
+      >
+        <textarea solaris-textarea></textarea>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="textarea-showcase__section">
+    <h2 class="textarea-showcase__section-title">Appearances</h2>
+    <div class="textarea-showcase__demo">
+      <solaris-form-field label="Outline" appearance="outline">
+        <textarea
+          solaris-textarea
+          appearance="outline"
+          placeholder="Outline"
+        ></textarea>
+      </solaris-form-field>
+      <solaris-form-field label="Surface" appearance="surface">
+        <textarea
+          solaris-textarea
+          appearance="surface"
+          placeholder="Surface"
+        ></textarea>
+      </solaris-form-field>
+      <solaris-form-field label="Filled" appearance="filled">
+        <textarea
+          solaris-textarea
+          appearance="filled"
+          placeholder="Filled"
+        ></textarea>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="textarea-showcase__section">
+    <h2 class="textarea-showcase__section-title">Sizes</h2>
+    <div class="textarea-showcase__demo">
+      <solaris-form-field label="Small" size="sm">
+        <textarea solaris-textarea size="sm" placeholder="Small"></textarea>
+      </solaris-form-field>
+      <solaris-form-field label="Medium" size="md">
+        <textarea solaris-textarea size="md" placeholder="Medium"></textarea>
+      </solaris-form-field>
+      <solaris-form-field label="Large" size="lg">
+        <textarea solaris-textarea size="lg" placeholder="Large"></textarea>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="textarea-showcase__section">
+    <h2 class="textarea-showcase__section-title">Density</h2>
+    <div class="textarea-showcase__demo">
+      <solaris-form-field label="Compact" density="compact">
+        <textarea
+          solaris-textarea
+          density="compact"
+          placeholder="Compact"
+        ></textarea>
+      </solaris-form-field>
+      <solaris-form-field label="Comfortable" density="comfortable">
+        <textarea
+          solaris-textarea
+          density="comfortable"
+          placeholder="Comfortable"
+        ></textarea>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="textarea-showcase__section">
+    <h2 class="textarea-showcase__section-title">Radius</h2>
+    <div class="textarea-showcase__row">
+      <solaris-form-field label="None" radius="none">
+        <textarea solaris-textarea radius="none" placeholder="None"></textarea>
+      </solaris-form-field>
+      <solaris-form-field label="SM" radius="sm">
+        <textarea solaris-textarea radius="sm" placeholder="SM"></textarea>
+      </solaris-form-field>
+      <solaris-form-field label="MD" radius="md">
+        <textarea solaris-textarea radius="md" placeholder="MD"></textarea>
+      </solaris-form-field>
+      <solaris-form-field label="LG" radius="lg">
+        <textarea solaris-textarea radius="lg" placeholder="LG"></textarea>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="textarea-showcase__section">
+    <h2 class="textarea-showcase__section-title">States</h2>
+    <div class="textarea-showcase__demo">
+      <solaris-form-field label="Default">
+        <textarea solaris-textarea placeholder="Default"></textarea>
+      </solaris-form-field>
+      <solaris-form-field
+        label="Invalid"
+        [invalid]="true"
+        error="This field has an error."
+      >
+        <textarea
+          solaris-textarea
+          [invalid]="true"
+          placeholder="Invalid"
+        ></textarea>
+      </solaris-form-field>
+      <solaris-form-field label="Disabled" [disabled]="true">
+        <textarea solaris-textarea disabled placeholder="Disabled"></textarea>
+      </solaris-form-field>
+      <solaris-form-field label="Readonly" [readonly]="true">
+        <textarea solaris-textarea readonly>Texto somente leitura</textarea>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="textarea-showcase__section">
+    <h2 class="textarea-showcase__section-title">Resize</h2>
+    <div class="textarea-showcase__demo">
+      <solaris-form-field label="None">
+        <textarea
+          solaris-textarea
+          resize="none"
+          placeholder="Not resizable"
+        ></textarea>
+      </solaris-form-field>
+      <solaris-form-field label="Vertical">
+        <textarea
+          solaris-textarea
+          resize="vertical"
+          placeholder="Resize vertically only"
+        ></textarea>
+      </solaris-form-field>
+      <solaris-form-field label="Horizontal">
+        <textarea
+          solaris-textarea
+          resize="horizontal"
+          placeholder="Resize horizontally only"
+        ></textarea>
+      </solaris-form-field>
+      <solaris-form-field label="Both">
+        <textarea
+          solaris-textarea
+          resize="both"
+          placeholder="Resize both directions"
+        ></textarea>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="textarea-showcase__section">
+    <h2 class="textarea-showcase__section-title">Rows</h2>
+    <p class="textarea-showcase__note">
+      Textarea respects the native <code>rows</code> attribute.
+    </p>
+    <div class="textarea-showcase__demo">
+      <solaris-form-field label="With rows=4">
+        <textarea
+          solaris-textarea
+          rows="4"
+          placeholder="This textarea has rows=4"
+        ></textarea>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="textarea-showcase__section">
+    <h2 class="textarea-showcase__section-title">Placeholder note</h2>
+    <p class="textarea-showcase__note">
+      Placeholder is an example or format hint, not a label replacement. Always
+      provide a proper label via Form Field or an accessible name.
+    </p>
+    <div class="textarea-showcase__demo">
+      <solaris-form-field label="Descrição">
+        <textarea
+          solaris-textarea
+          placeholder="Ex.: Observações para a equipe"
+        ></textarea>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="textarea-showcase__section">
+    <h2 class="textarea-showcase__section-title">Rich Text note</h2>
+    <p class="textarea-showcase__note">
+      Rich Text Editor is a separate future component. Textarea v1 is for native
+      multiline plain text input only. It does not support formatted text,
+      contenteditable, toolbars, or complex keyboard shortcuts.
+    </p>
+  </section>
+</div>
