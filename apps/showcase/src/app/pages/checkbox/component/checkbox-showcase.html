@@ -1,0 +1,240 @@
+<div class="checkbox-showcase">
+  <header class="checkbox-showcase__header">
+    <h1 class="checkbox-showcase__title">{{ 'checkbox.title' | translate }}</h1>
+    <p class="checkbox-showcase__description">
+      {{ 'checkbox.description' | translate }}
+    </p>
+  </header>
+
+  <section class="checkbox-showcase__section">
+    <h2 class="checkbox-showcase__section-title">
+      {{ 'checkbox.basic' | translate }}
+    </h2>
+    <div class="checkbox-showcase__row">
+      <solaris-checkbox
+        >{{ 'checkbox.unchecked' | translate }}</solaris-checkbox
+      >
+      <solaris-checkbox [checked]="true"
+        >{{ 'checkbox.checked' | translate }}</solaris-checkbox
+      >
+    </div>
+  </section>
+
+  <section class="checkbox-showcase__section">
+    <h2 class="checkbox-showcase__section-title">
+      {{ 'checkbox.indeterminate' | translate }}
+    </h2>
+    <p class="checkbox-showcase__note">
+      {{ 'checkbox.indeterminate-note' | translate }}
+    </p>
+    <div class="checkbox-showcase__row">
+      <solaris-checkbox
+        [checked]="allSelected()"
+        [indeterminate]="someSelected()"
+        (checkedChange)="toggleAllSelected()"
+      >
+        {{ 'checkbox.select-all' | translate }}
+      </solaris-checkbox>
+    </div>
+  </section>
+
+  <section class="checkbox-showcase__section">
+    <h2 class="checkbox-showcase__section-title">
+      {{ 'checkbox.appearances' | translate }}
+    </h2>
+    <div class="checkbox-showcase__row">
+      <solaris-checkbox appearance="outline"
+        >{{ 'checkbox.outline' | translate }}</solaris-checkbox
+      >
+      <solaris-checkbox appearance="surface"
+        >{{ 'checkbox.surface' | translate }}</solaris-checkbox
+      >
+    </div>
+  </section>
+
+  <section class="checkbox-showcase__section">
+    <h2 class="checkbox-showcase__section-title">
+      {{ 'checkbox.colors' | translate }}
+    </h2>
+    <div class="checkbox-showcase__row">
+      <solaris-checkbox color="neutral"
+        >{{ 'checkbox.neutral' | translate }}</solaris-checkbox
+      >
+      <solaris-checkbox color="primary"
+        >{{ 'checkbox.primary' | translate }}</solaris-checkbox
+      >
+      <solaris-checkbox color="success"
+        >{{ 'checkbox.success' | translate }}</solaris-checkbox
+      >
+      <solaris-checkbox color="warning"
+        >{{ 'checkbox.warning' | translate }}</solaris-checkbox
+      >
+      <solaris-checkbox color="danger"
+        >{{ 'checkbox.danger' | translate }}</solaris-checkbox
+      >
+      <solaris-checkbox color="info"
+        >{{ 'checkbox.info' | translate }}</solaris-checkbox
+      >
+    </div>
+  </section>
+
+  <section class="checkbox-showcase__section">
+    <h2 class="checkbox-showcase__section-title">
+      {{ 'checkbox.sizes' | translate }}
+    </h2>
+    <div class="checkbox-showcase__row">
+      <solaris-checkbox size="sm"
+        >{{ 'checkbox.small' | translate }}</solaris-checkbox
+      >
+      <solaris-checkbox size="md"
+        >{{ 'checkbox.medium' | translate }}</solaris-checkbox
+      >
+      <solaris-checkbox size="lg"
+        >{{ 'checkbox.large' | translate }}</solaris-checkbox
+      >
+    </div>
+  </section>
+
+  <section class="checkbox-showcase__section">
+    <h2 class="checkbox-showcase__section-title">
+      {{ 'checkbox.density' | translate }}
+    </h2>
+    <div class="checkbox-showcase__row">
+      <solaris-checkbox density="compact"
+        >{{ 'checkbox.compact' | translate }}</solaris-checkbox
+      >
+      <solaris-checkbox density="comfortable"
+        >{{ 'checkbox.comfortable' | translate }}</solaris-checkbox
+      >
+    </div>
+  </section>
+
+  <section class="checkbox-showcase__section">
+    <h2 class="checkbox-showcase__section-title">
+      {{ 'checkbox.states' | translate }}
+    </h2>
+    <div class="checkbox-showcase__grid">
+      <div class="checkbox-showcase__cell">
+        <solaris-checkbox [disabled]="true"
+          >{{ 'checkbox.disabled-unchecked' | translate }}</solaris-checkbox
+        >
+      </div>
+      <div class="checkbox-showcase__cell">
+        <solaris-checkbox [checked]="true" [disabled]="true"
+          >{{ 'checkbox.disabled-checked' | translate }}</solaris-checkbox
+        >
+      </div>
+      <div class="checkbox-showcase__cell">
+        <solaris-checkbox [indeterminate]="true" [disabled]="true"
+          >{{ 'checkbox.disabled-indeterminate' | translate }}</solaris-checkbox
+        >
+      </div>
+      <div class="checkbox-showcase__cell">
+        <solaris-checkbox [readonly]="true"
+          >{{ 'checkbox.readonly-unchecked' | translate }}</solaris-checkbox
+        >
+      </div>
+      <div class="checkbox-showcase__cell">
+        <solaris-checkbox [checked]="true" [readonly]="true"
+          >{{ 'checkbox.readonly-checked' | translate }}</solaris-checkbox
+        >
+      </div>
+      <div class="checkbox-showcase__cell">
+        <solaris-checkbox [invalid]="true"
+          >{{ 'checkbox.invalid-unchecked' | translate }}</solaris-checkbox
+        >
+      </div>
+      <div class="checkbox-showcase__cell">
+        <solaris-checkbox [checked]="true" [invalid]="true"
+          >{{ 'checkbox.invalid-checked' | translate }}</solaris-checkbox
+        >
+      </div>
+      <div class="checkbox-showcase__cell">
+        <solaris-checkbox [indeterminate]="true" [invalid]="true"
+          >{{ 'checkbox.invalid-indeterminate' | translate }}</solaris-checkbox
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="checkbox-showcase__section">
+    <h2 class="checkbox-showcase__section-title">
+      {{ 'checkbox.label' | translate }}
+    </h2>
+    <div class="checkbox-showcase__row">
+      <solaris-checkbox
+        >{{ 'checkbox.projected-label' | translate }}</solaris-checkbox
+      >
+    </div>
+    <div class="checkbox-showcase__row">
+      <solaris-checkbox label="Input label example" />
+    </div>
+    <div class="checkbox-showcase__row">
+      <solaris-checkbox ariaLabel="No visible label"
+        >{{ 'checkbox.aria-label-only' | translate }}</solaris-checkbox
+      >
+    </div>
+  </section>
+
+  <section class="checkbox-showcase__section">
+    <h2 class="checkbox-showcase__section-title">
+      {{ 'checkbox.form-field' | translate }}
+    </h2>
+    <p class="checkbox-showcase__note">
+      {{ 'checkbox.form-field-note' | translate }}
+    </p>
+    <div class="checkbox-showcase__demo">
+      <solaris-form-field
+        [label]="'checkbox.form-field-label' | translate"
+        [hint]="'checkbox.form-field-hint' | translate"
+        [error]="termsControl.invalid && (termsControl.touched || termsControl.dirty) ? ('checkbox.form-field-error' | translate) : ''"
+        [invalid]="termsControl.invalid && (termsControl.touched || termsControl.dirty) ? true : undefined"
+      >
+        <solaris-checkbox [formControl]="termsControl" [required]="true">
+          {{ 'checkbox.form-field-label' | translate }}
+        </solaris-checkbox>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="checkbox-showcase__section">
+    <h2 class="checkbox-showcase__section-title">
+      {{ 'checkbox.reactive-forms' | translate }}
+    </h2>
+    <p class="checkbox-showcase__note">
+      {{ 'checkbox.reactive-forms-note' | translate }}
+    </p>
+    <div class="checkbox-showcase__row">
+      <solaris-checkbox [formControl]="acceptControl">
+        {{ 'checkbox.accept-label' | translate }}
+      </solaris-checkbox>
+    </div>
+    <p class="checkbox-showcase__note">
+      {{ 'checkbox.accept-status' | translate }} {{ acceptControl.value ?
+      ('checkbox.yes' | translate) : ('checkbox.no' | translate) }}
+    </p>
+  </section>
+
+  <section class="checkbox-showcase__section">
+    <h2 class="checkbox-showcase__section-title">
+      {{ 'checkbox.custom' | translate }}
+    </h2>
+    <p class="checkbox-showcase__note">
+      {{ 'checkbox.custom-note' | translate }}
+    </p>
+    <div class="checkbox-showcase__custom-wrapper">
+      <solaris-checkbox color="custom" [checked]="true">
+        {{ 'checkbox.custom-label' | translate }}
+      </solaris-checkbox>
+    </div>
+  </section>
+
+  <section class="checkbox-showcase__section">
+    <h2 class="checkbox-showcase__section-title">
+      {{ 'checkbox.future' | translate }}
+    </h2>
+    <p class="checkbox-showcase__note">
+      {{ 'checkbox.future-note' | translate }}
+    </p>
+  </section>
+</div>

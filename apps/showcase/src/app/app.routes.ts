@@ -92,4 +92,11 @@ export const appRoutes: Route[] = [
         (m) => m.EmailFieldShowcasePage,
       ),
   },
+  {
+    path: 'checkbox',
+    loadComponent: () =>
+      import('./pages/checkbox/component/checkbox-showcase').then(
+        (m) => m.CheckboxShowcasePage,
+      ),
+  },
 ];

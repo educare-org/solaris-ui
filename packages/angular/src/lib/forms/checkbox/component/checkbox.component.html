@@ -1,0 +1,54 @@
+<label class="solaris-checkbox__label" [for]="elementId()">
+  <input
+    type="checkbox"
+    class="solaris-checkbox__input"
+    [id]="elementId()"
+    [checked]="_checked()"
+    [disabled]="isEffectivelyDisabled()"
+    [required]="required"
+    [attr.aria-label]="effectiveAriaLabel() ?? null"
+    [attr.aria-labelledby]="ariaLabelledBy()"
+    [attr.aria-describedby]="ariaDescribedBy()"
+    [attr.aria-invalid]="isEffectivelyInvalid() ? 'true' : null"
+    [attr.name]="name() ?? null"
+    (change)="onInputChange($event)"
+    (blur)="onBlur()"
+    (focus)="onFocus()"
+    #inputElement
+  />
+  <span class="solaris-checkbox__control" aria-hidden="true">
+    @if (indeterminate()) {
+      <svg
+        class="solaris-checkbox__icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linecap="round"
+      >
+        <line x1="4" y1="12" x2="20" y2="12" />
+      </svg>
+    } @else if (_checked()) {
+      <svg
+        class="solaris-checkbox__icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+    }
+  </span>
+  @if (hasProjectedContent()) {
+    <span class="solaris-checkbox__label-text" [id]="elementId() + '-label'">
+      <ng-content />
+    </span>
+  } @else if (labelText(); as text) {
+    <span class="solaris-checkbox__label-text" [id]="elementId() + '-label'">
+      {{ text }}
+    </span>
+  }
+</label>

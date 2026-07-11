@@ -138,6 +138,14 @@ export type {
   SolarisInputRadius,
 } from './lib/forms/input/model/input.types';
 
+export { SolarisCheckboxComponent } from './lib/forms/checkbox/component/checkbox.component';
+export type {
+  SolarisCheckboxAppearance,
+  SolarisCheckboxColor,
+  SolarisCheckboxSize,
+  SolarisCheckboxDensity,
+} from './lib/forms/checkbox/model/checkbox.types';
+
 export { SolarisTextareaDirective } from './lib/forms/textarea/directives/textarea.directive';
 export type {
   SolarisTextareaAppearance,

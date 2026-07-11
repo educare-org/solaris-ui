@@ -1,0 +1,62 @@
+@use '../../../shared/showcase-layout' as l;
+
+.checkbox-showcase {
+  @include l.page;
+}
+
+.checkbox-showcase__header {
+  @include l.header;
+}
+
+.checkbox-showcase__title {
+  @include l.title;
+}
+
+.checkbox-showcase__description {
+  @include l.description;
+}
+
+.checkbox-showcase__section {
+  @include l.section-card;
+}
+
+.checkbox-showcase__section-title {
+  @include l.section-title;
+}
+
+.checkbox-showcase__row {
+  @include l.row($gap: var(--solaris-spacing-4));
+  margin-bottom: var(--solaris-spacing-2);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.checkbox-showcase__note {
+  @include l.note;
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.checkbox-showcase__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: var(--solaris-spacing-3);
+}
+
+.checkbox-showcase__cell {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-showcase__demo {
+  margin-bottom: var(--solaris-spacing-2);
+}
+
+.checkbox-showcase__custom-wrapper {
+  --solaris-checkbox-custom-control-background: #9333ea;
+  --solaris-checkbox-custom-control-color: #ffffff;
+  --solaris-checkbox-custom-control-border-color: #9333ea;
+
+  display: inline-flex;
+}

@@ -11,6 +11,7 @@ import { INPUT_TRANSLATIONS } from '../pages/input/translations';
 import { PASSWORD_FIELD_TRANSLATIONS } from '../pages/password-field/translations';
 import { EMAIL_FIELD_TRANSLATIONS } from '../pages/email-field/translations';
 import { TEXTAREA_TRANSLATIONS } from '../pages/textarea/translations';
+import { CHECKBOX_TRANSLATIONS } from '../pages/checkbox/translations';
 
 const PAGE_MODULES = [
   CONFIGURATION_TRANSLATIONS,
@@ -26,6 +27,7 @@ const PAGE_MODULES = [
   TEXTAREA_TRANSLATIONS,
   PASSWORD_FIELD_TRANSLATIONS,
   EMAIL_FIELD_TRANSLATIONS,
+  CHECKBOX_TRANSLATIONS,
 ];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};
