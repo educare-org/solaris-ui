@@ -149,6 +149,19 @@ export type {
   SolarisPasswordStrength,
 } from './lib/forms/password-field/model/password-field.types';
 
+export { SolarisEmailFieldComponent } from './lib/forms/email-field/component/email-field.component';
+export {
+  solarisEmailValidator,
+  solarisAllowedDomainsValidator,
+  solarisBlockedDomainsValidator,
+} from './lib/forms/email-field/validators/email-field.validators';
+export type {
+  SolarisEmailFieldAppearance,
+  SolarisEmailFieldSize,
+  SolarisEmailFieldDensity,
+  SolarisEmailFieldRadius,
+} from './lib/forms/email-field/model/email-field.types';
+
 export { SolarisSkeletonComponent } from './lib/components/feedback/skeleton/component/skeleton.component';
 export type {
   SolarisSkeletonVariant,

@@ -1,0 +1,46 @@
+@use '../../../shared/showcase-layout' as l;
+
+.email-field-showcase {
+  @include l.page(60rem);
+}
+
+.email-field-showcase__header {
+  @include l.header;
+}
+
+.email-field-showcase__title {
+  @include l.title;
+}
+
+.email-field-showcase__description {
+  @include l.description;
+}
+
+.email-field-showcase__section {
+  @include l.section-card;
+}
+
+.email-field-showcase__section-title {
+  @include l.section-title;
+}
+
+.email-field-showcase__note {
+  @include l.note;
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.email-field-showcase__demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.email-field-showcase__demo--row {
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+form {
+  width: 100%;
+}

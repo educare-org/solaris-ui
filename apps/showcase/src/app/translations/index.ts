@@ -9,6 +9,7 @@ import { BUTTON_GROUP_TRANSLATIONS } from '../pages/button-group/translations';
 import { FORM_FIELD_TRANSLATIONS } from '../pages/form-field/translations';
 import { INPUT_TRANSLATIONS } from '../pages/input/translations';
 import { PASSWORD_FIELD_TRANSLATIONS } from '../pages/password-field/translations';
+import { EMAIL_FIELD_TRANSLATIONS } from '../pages/email-field/translations';
 
 const PAGE_MODULES = [
   CONFIGURATION_TRANSLATIONS,
@@ -22,6 +23,7 @@ const PAGE_MODULES = [
   FORM_FIELD_TRANSLATIONS,
   INPUT_TRANSLATIONS,
   PASSWORD_FIELD_TRANSLATIONS,
+  EMAIL_FIELD_TRANSLATIONS,
 ];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};

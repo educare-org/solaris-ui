@@ -12,7 +12,10 @@
       </label>
     }
     @if (optional()) {
-      <span class="solaris-form-field__optional-marker" aria-label="Optional">
+      <span
+        class="solaris-form-field__optional-marker"
+        [attr.aria-label]="optionalLabelText()"
+      >
         {{ optionalLabelText() }}
       </span>
     }
