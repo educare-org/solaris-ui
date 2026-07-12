@@ -49,15 +49,17 @@
         <solaris-icon
           solaris-option-leading
           name="settings"
-          decorative="true"
+          [decorative]="true"
         />
-        <span solaris-option-label>{{ 'option.configuracoes' | translate }}</span>
+        <span solaris-option-label
+          >{{ 'option.configuracoes' | translate }}</span
+        >
       </solaris-option>
       <solaris-option value="help">
         <solaris-icon
           solaris-option-leading
           name="help-circle"
-          decorative="true"
+          [decorative]="true"
         />
         <span solaris-option-label>{{ 'option.ajuda' | translate }}</span>
       </solaris-option>
@@ -121,7 +123,7 @@
       <solaris-option value="advanced">
         <span solaris-option-label>Configurações Avançadas</span>
         <span solaris-option-trailing>
-          <solaris-icon name="chevron-right" decorative="true" />
+          <solaris-icon name="chevron-right" [decorative]="true" />
         </span>
       </solaris-option>
     </div>
@@ -222,7 +224,10 @@
 
       <solaris-option-group [label]="'Financeiro'">
         <solaris-option value="billing" [label]="'Cobrança'"></solaris-option>
-        <solaris-option value="payments" [label]="'Pagamentos'"></solaris-option>
+        <solaris-option
+          value="payments"
+          [label]="'Pagamentos'"
+        ></solaris-option>
       </solaris-option-group>
     </div>
   </section>
@@ -233,8 +238,14 @@
     </h2>
     <div class="option-showcase__listbox" role="listbox">
       <solaris-option-group [label]="'Manutenção'" [disabled]="true">
-        <solaris-option value="item1" [label]="'Item em manutenção 1'"></solaris-option>
-        <solaris-option value="item2" [label]="'Item em manutenção 2'"></solaris-option>
+        <solaris-option
+          value="item1"
+          [label]="'Item em manutenção 1'"
+        ></solaris-option>
+        <solaris-option
+          value="item2"
+          [label]="'Item em manutenção 2'"
+        ></solaris-option>
       </solaris-option-group>
     </div>
   </section>
@@ -244,9 +255,21 @@
       {{ 'option.sizes' | translate }}
     </h2>
     <div class="option-showcase__listbox" role="listbox">
-      <solaris-option value="sm" size="sm" [label]="'Small (sm)'"></solaris-option>
-      <solaris-option value="md" size="md" [label]="'Medium (md)'"></solaris-option>
-      <solaris-option value="lg" size="lg" [label]="'Large (lg)'"></solaris-option>
+      <solaris-option
+        value="sm"
+        size="sm"
+        [label]="'Small (sm)'"
+      ></solaris-option>
+      <solaris-option
+        value="md"
+        size="md"
+        [label]="'Medium (md)'"
+      ></solaris-option>
+      <solaris-option
+        value="lg"
+        size="lg"
+        [label]="'Large (lg)'"
+      ></solaris-option>
     </div>
   </section>
 
@@ -277,7 +300,7 @@
         <solaris-icon
           solaris-option-leading
           name="briefcase"
-          decorative="true"
+          [decorative]="true"
         />
         <span solaris-option-label>Plano Enterprise</span>
         <span solaris-option-description>Para grandes equipes</span>

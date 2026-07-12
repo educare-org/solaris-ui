@@ -111,7 +111,8 @@ describe('SolarisOptionGroupComponent with options', () => {
     configureSolarisTesting();
     const hostFixture = TestBed.createComponent(Host);
     hostFixture.detectChanges();
-    const options = hostFixture.nativeElement.querySelectorAll('solaris-option');
+    const options =
+      hostFixture.nativeElement.querySelectorAll('solaris-option');
     options.forEach((opt: Element) => {
       expect(opt.hasAttribute('aria-disabled')).toBe(true);
     });

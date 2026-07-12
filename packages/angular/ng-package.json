@@ -29,6 +29,11 @@
       "input": "src/lib/interaction/popover/styles",
       "glob": "_*.scss",
       "output": "styles"
+    },
+    {
+      "input": "src/lib/interaction/tooltip/styles",
+      "glob": "_*.scss",
+      "output": "styles"
     }
   ]
 }

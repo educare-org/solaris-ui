@@ -1,7 +1,10 @@
 import { Component, inject, AfterViewInit, ElementRef } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 
-import { SOLARIS_POPOVER_PANEL_DATA, type SolarisPopoverPanelData } from '../token/popover.tokens';
+import {
+  SOLARIS_POPOVER_PANEL_DATA,
+  type SolarisPopoverPanelData,
+} from '../token/popover.tokens';
 
 @Component({
   selector: 'solaris-popover-panel',
@@ -24,10 +27,11 @@ export class SolarisPopoverPanelComponent implements AfterViewInit {
       (this.elementRef as ElementRef<HTMLElement>).nativeElement.focus();
     } else if (this.data.autoFocus === 'first-tabbable') {
       // SECURITY_EXCEPTION: nativeElement.querySelector needed for autoFocus='first-tabbable'. Standard query only.
-      const firstTabbable = (this.elementRef as ElementRef<HTMLElement>).nativeElement
-        .querySelector<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-        );
+      const firstTabbable = (
+        this.elementRef as ElementRef<HTMLElement>
+      ).nativeElement.querySelector<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+      );
       firstTabbable?.focus();
     }
   }

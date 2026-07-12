@@ -24,8 +24,14 @@ import { ComponentPortal } from '@angular/cdk/portal';
 
 import { SolarisPopoverDirective } from './popover.directive';
 import { SolarisPopoverPanelComponent } from '../component/popover-panel.component';
-import { SOLARIS_POPOVER_PANEL_DATA, type SolarisPopoverPanelData } from '../token/popover.tokens';
-import { getPrimaryPosition, getFallbackPositions } from '../model/popover-position';
+import {
+  SOLARIS_POPOVER_PANEL_DATA,
+  type SolarisPopoverPanelData,
+} from '../token/popover.tokens';
+import {
+  getPrimaryPosition,
+  getFallbackPositions,
+} from '../model/popover-position';
 
 import type {
   SolarisPopoverPlacement,
@@ -91,13 +97,19 @@ export class SolarisPopoverTriggerDirective {
     alias: 'solarisPopoverMatchTriggerWidth',
   });
 
-  readonly solarisPopoverMinWidth = input<string | number | undefined>(undefined, {
-    alias: 'solarisPopoverMinWidth',
-  });
+  readonly solarisPopoverMinWidth = input<string | number | undefined>(
+    undefined,
+    {
+      alias: 'solarisPopoverMinWidth',
+    },
+  );
 
-  readonly solarisPopoverMaxWidth = input<string | number | undefined>(undefined, {
-    alias: 'solarisPopoverMaxWidth',
-  });
+  readonly solarisPopoverMaxWidth = input<string | number | undefined>(
+    undefined,
+    {
+      alias: 'solarisPopoverMaxWidth',
+    },
+  );
 
   readonly solarisPopoverCloseOnOutsideClick = input<boolean>(true, {
     alias: 'solarisPopoverCloseOnOutsideClick',
@@ -115,21 +127,30 @@ export class SolarisPopoverTriggerDirective {
     alias: 'solarisPopoverAutoFocus',
   });
 
-  readonly solarisPopoverScrollStrategy = input<SolarisPopoverScrollStrategy>('reposition', {
-    alias: 'solarisPopoverScrollStrategy',
-  });
+  readonly solarisPopoverScrollStrategy = input<SolarisPopoverScrollStrategy>(
+    'reposition',
+    {
+      alias: 'solarisPopoverScrollStrategy',
+    },
+  );
 
   readonly solarisPopoverPanelRole = input<string | undefined>(undefined, {
     alias: 'solarisPopoverPanelRole',
   });
 
-  readonly solarisPopoverAriaHasPopup = input<string | boolean | undefined>(undefined, {
-    alias: 'solarisPopoverAriaHasPopup',
-  });
+  readonly solarisPopoverAriaHasPopup = input<string | boolean | undefined>(
+    undefined,
+    {
+      alias: 'solarisPopoverAriaHasPopup',
+    },
+  );
 
-  readonly solarisPopoverAppearance = input<SolarisPopoverAppearance>('surface', {
-    alias: 'solarisPopoverAppearance',
-  });
+  readonly solarisPopoverAppearance = input<SolarisPopoverAppearance>(
+    'surface',
+    {
+      alias: 'solarisPopoverAppearance',
+    },
+  );
 
   readonly solarisPopoverPadding = input<SolarisPopoverPadding>('md', {
     alias: 'solarisPopoverPadding',
@@ -254,8 +275,12 @@ export class SolarisPopoverTriggerDirective {
       .withPositions([primaryPosition, ...fallbackPositions])
       .withFlexibleDimensions(true)
       .withPush(true)
-      .withDefaultOffsetX(placement === 'right' ? offset : placement === 'left' ? -offset : 0)
-      .withDefaultOffsetY(placement === 'bottom' ? offset : placement === 'top' ? -offset : 0);
+      .withDefaultOffsetX(
+        placement === 'right' ? offset : placement === 'left' ? -offset : 0,
+      )
+      .withDefaultOffsetY(
+        placement === 'bottom' ? offset : placement === 'top' ? -offset : 0,
+      );
   }
 
   private createScrollStrategy() {
@@ -287,9 +312,7 @@ export class SolarisPopoverTriggerDirective {
 
     const panelInjector = Injector.create({
       parent: this.injector,
-      providers: [
-        { provide: SOLARIS_POPOVER_PANEL_DATA, useValue: data },
-      ],
+      providers: [{ provide: SOLARIS_POPOVER_PANEL_DATA, useValue: data }],
     });
 
     const portal = new ComponentPortal(

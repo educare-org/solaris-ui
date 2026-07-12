@@ -1,0 +1,353 @@
+.solaris-tooltip-panel {
+  --solaris-tooltip-icon-size: 1rem;
+  --solaris-tooltip-border-width: 0;
+  --solaris-tooltip-max-width: 20rem;
+  --solaris-tooltip-arrow-size: 0.75rem;
+  --solaris-tooltip-border-color: transparent;
+  --solaris-tooltip-gap: var(--solaris-spacing-3, 0.75rem);
+  --solaris-tooltip-radius: var(--solaris-radius-md, 0.5rem);
+  --solaris-tooltip-color: var(--solaris-text-default, #1a1a1a);
+  --solaris-tooltip-padding-block: var(--solaris-spacing-2, 0.5rem);
+  --solaris-tooltip-padding-inline: var(--solaris-spacing-3, 0.75rem);
+  --solaris-tooltip-background: var(--solaris-surface-raised, #ffffff);
+  --solaris-tooltip-shadow: var(
+    --solaris-shadow-sm,
+    0 1px 3px rgba(0, 0, 0, 0.12)
+  );
+
+  outline: none;
+  display: block;
+}
+
+.solaris-tooltip-panel__container {
+  display: flex;
+  outline: none;
+  line-height: 1.5;
+  overflow: visible;
+  position: relative;
+  word-break: normal;
+  white-space: normal;
+  box-sizing: border-box;
+  align-items: flex-start;
+  max-width: var(--solaris-tooltip-max-width, 20rem);
+  gap: var(--solaris-tooltip-gap, var(--solaris-spacing-3, 0.75rem));
+  padding-block: var(
+    --solaris-tooltip-padding-block,
+    var(--solaris-spacing-2, 0.5rem)
+  );
+  padding-inline: var(
+    --solaris-tooltip-padding-inline,
+    var(--solaris-spacing-3, 0.75rem)
+  );
+  color: var(--solaris-tooltip-color, var(--solaris-text-default, #1a1a1a));
+  background: var(
+    --solaris-tooltip-background,
+    var(--solaris-surface-raised, #ffffff)
+  );
+  border: var(--solaris-tooltip-border-width, 0) solid
+    var(--solaris-tooltip-border-color, transparent);
+  border-radius: var(
+    --solaris-tooltip-radius,
+    var(--solaris-radius-md, 0.5rem)
+  );
+  box-shadow: var(
+    --solaris-tooltip-shadow,
+    var(--solaris-shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.12))
+  );
+}
+
+.solaris-tooltip-panel__arrow {
+  z-index: 2;
+  width: 0;
+  height: 0;
+  position: absolute;
+  pointer-events: none;
+  --solaris-tooltip-arrow-depth: calc(
+    var(--solaris-tooltip-arrow-size, 0.75rem) / 2
+  );
+  --solaris-tooltip-arrow-half-base: calc(
+    var(--solaris-tooltip-arrow-size, 0.75rem) / 2
+  );
+  --solaris-tooltip-arrow-outline-width: var(
+    --solaris-tooltip-arrow-border-width,
+    0px
+  );
+}
+
+.solaris-tooltip-panel__arrow::before,
+.solaris-tooltip-panel__arrow::after {
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  content: '';
+  position: absolute;
+  border-style: solid;
+  box-sizing: border-box;
+}
+
+.solaris-tooltip-arrow--top {
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+}
+
+.solaris-tooltip-arrow--top::before {
+  border-width: 0 var(--solaris-tooltip-arrow-half-base)
+    var(--solaris-tooltip-arrow-depth);
+  border-color: transparent transparent
+    var(--solaris-tooltip-arrow-border-color, transparent);
+  transform: translateX(-50%);
+}
+
+.solaris-tooltip-arrow--top::after {
+  top: var(--solaris-tooltip-arrow-outline-width);
+  border-width: 0 var(--solaris-tooltip-arrow-half-base)
+    var(--solaris-tooltip-arrow-depth);
+  border-color: transparent transparent
+    var(--solaris-tooltip-background, var(--solaris-surface-raised, #ffffff));
+  transform: translateX(-50%);
+}
+
+.solaris-tooltip-arrow--bottom {
+  top: auto;
+  bottom: 0;
+  left: 50%;
+  right: auto;
+}
+
+.solaris-tooltip-arrow--bottom::before {
+  border-width: var(--solaris-tooltip-arrow-depth)
+    var(--solaris-tooltip-arrow-half-base) 0;
+  border-color: var(--solaris-tooltip-arrow-border-color, transparent)
+    transparent transparent;
+  transform: translateX(-50%);
+}
+
+.solaris-tooltip-arrow--bottom::after {
+  top: calc(var(--solaris-tooltip-arrow-outline-width) * -1);
+  border-width: var(--solaris-tooltip-arrow-depth)
+    var(--solaris-tooltip-arrow-half-base) 0;
+  border-color: var(
+      --solaris-tooltip-background,
+      var(--solaris-surface-raised, #ffffff)
+    )
+    transparent transparent;
+  transform: translateX(-50%);
+}
+
+.solaris-tooltip-arrow--left {
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  left: 0;
+}
+
+.solaris-tooltip-arrow--left::before {
+  border-width: var(--solaris-tooltip-arrow-half-base)
+    var(--solaris-tooltip-arrow-depth) var(--solaris-tooltip-arrow-half-base) 0;
+  border-color: transparent
+    var(--solaris-tooltip-arrow-border-color, transparent) transparent
+    transparent;
+  transform: translateY(-50%);
+}
+
+.solaris-tooltip-arrow--left::after {
+  left: var(--solaris-tooltip-arrow-outline-width);
+  border-width: var(--solaris-tooltip-arrow-half-base)
+    var(--solaris-tooltip-arrow-depth) var(--solaris-tooltip-arrow-half-base) 0;
+  border-color: transparent
+    var(--solaris-tooltip-background, var(--solaris-surface-raised, #ffffff))
+    transparent transparent;
+  transform: translateY(-50%);
+}
+
+.solaris-tooltip-arrow--right {
+  top: 50%;
+  right: 0;
+  bottom: auto;
+  left: auto;
+}
+
+.solaris-tooltip-arrow--right::before {
+  border-width: var(--solaris-tooltip-arrow-half-base) 0
+    var(--solaris-tooltip-arrow-half-base) var(--solaris-tooltip-arrow-depth);
+  border-color: transparent transparent transparent
+    var(--solaris-tooltip-arrow-border-color, transparent);
+  transform: translateY(-50%);
+}
+
+.solaris-tooltip-arrow--right::after {
+  left: calc(var(--solaris-tooltip-arrow-outline-width) * -1);
+  border-width: var(--solaris-tooltip-arrow-half-base) 0
+    var(--solaris-tooltip-arrow-half-base) var(--solaris-tooltip-arrow-depth);
+  border-color: transparent transparent transparent
+    var(--solaris-tooltip-background, var(--solaris-surface-raised, #ffffff));
+  transform: translateY(-50%);
+}
+
+.solaris-tooltip-panel__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--solaris-tooltip-gap, var(--solaris-spacing-3, 0.75rem));
+}
+
+.solaris-tooltip-panel__icon {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  width: var(--solaris-tooltip-icon-size, 1rem);
+  height: var(--solaris-tooltip-icon-size, 1rem);
+}
+
+.solaris-tooltip-panel__text {
+  min-width: 0;
+  display: flex;
+  gap: 0.125rem;
+  flex-direction: column;
+}
+
+.solaris-tooltip-panel__title {
+  overflow: hidden;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.solaris-tooltip-panel__body {
+  word-break: normal;
+  white-space: normal;
+}
+
+.solaris-tooltip-panel__close {
+  opacity: 0.7;
+  border: none;
+  flex-shrink: 0;
+  color: inherit;
+  cursor: pointer;
+  background: none;
+  padding: 0.125rem;
+  border-radius: 50%;
+  align-items: center;
+  display: inline-flex;
+  margin: -0.125rem 0 0;
+  justify-content: center;
+  transition: opacity 0.15s ease;
+  width: var(--solaris-tooltip-icon-size, 1rem);
+  height: var(--solaris-tooltip-icon-size, 1rem);
+
+  &:hover,
+  &:focus-visible {
+    opacity: 1;
+  }
+}
+
+.solaris-tooltip-panel__container[data-appearance='outline'] {
+  --solaris-tooltip-background: var(--solaris-surface-raised, #ffffff);
+  --solaris-tooltip-arrow-border-width: var(
+    --solaris-tooltip-border-width,
+    var(--solaris-border-width-sm, 1px)
+  );
+  --solaris-tooltip-arrow-border-color: var(
+    --solaris-tooltip-border-color,
+    var(--solaris-border-default, #d1d5db)
+  );
+
+  background: var(--solaris-tooltip-background);
+  border: var(
+      --solaris-tooltip-border-width,
+      var(--solaris-border-width-sm, 1px)
+    )
+    solid
+    var(--solaris-tooltip-border-color, var(--solaris-border-default, #d1d5db));
+}
+
+.solaris-tooltip-panel__container[data-appearance='surface'] {
+  --solaris-tooltip-background: var(--solaris-surface-raised, #ffffff);
+  --solaris-tooltip-arrow-border-width: 0px;
+  --solaris-tooltip-arrow-border-color: transparent;
+
+  background: var(--solaris-tooltip-background);
+  border: var(--solaris-tooltip-border-width, 0) solid transparent;
+}
+
+.solaris-tooltip-panel__container[data-appearance='inverse'] {
+  --solaris-tooltip-background: var(--solaris-text-default, #1a1a1a);
+  --solaris-tooltip-arrow-border-width: 0px;
+  --solaris-tooltip-arrow-border-color: transparent;
+
+  color: var(--solaris-tooltip-color, var(--solaris-surface-raised, #ffffff));
+  background: var(--solaris-tooltip-background);
+  border: var(--solaris-tooltip-border-width, 0) solid transparent;
+}
+
+.solaris-tooltip-panel__container[data-size='sm'] {
+  padding-block: var(--solaris-spacing-1, 0.375rem);
+  padding-inline: var(--solaris-spacing-3, 0.75rem);
+  font-size: var(--solaris-font-size-sm, 0.8125rem);
+}
+
+.solaris-tooltip-panel__container[data-size='md'] {
+  padding-block: var(--solaris-spacing-2, 0.5rem);
+  padding-inline: var(--solaris-spacing-4, 1rem);
+  font-size: var(--solaris-font-size-md, 0.9375rem);
+}
+
+.solaris-tooltip-panel__container[data-size='lg'] {
+  padding-block: var(--solaris-spacing-3, 0.625rem);
+  padding-inline: var(--solaris-spacing-4, 1.25rem);
+  font-size: var(--solaris-font-size-lg, 1.0625rem);
+}
+
+.solaris-tooltip-panel__container[data-size='sm'] .solaris-tooltip-panel__icon {
+  width: var(--solaris-tooltip-icon-size, 0.875rem);
+  height: var(--solaris-tooltip-icon-size, 0.875rem);
+}
+
+.solaris-tooltip-panel__container[data-size='md'] .solaris-tooltip-panel__icon {
+  width: var(--solaris-tooltip-icon-size, 1rem);
+  height: var(--solaris-tooltip-icon-size, 1rem);
+}
+
+.solaris-tooltip-panel__container[data-size='lg'] .solaris-tooltip-panel__icon {
+  width: var(--solaris-tooltip-icon-size, 1.25rem);
+  height: var(--solaris-tooltip-icon-size, 1.25rem);
+}
+
+.solaris-tooltip-panel__container[data-size='sm']
+  .solaris-tooltip-panel__close {
+  width: var(--solaris-tooltip-icon-size, 0.875rem);
+  height: var(--solaris-tooltip-icon-size, 0.875rem);
+}
+
+.solaris-tooltip-panel__container[data-size='md']
+  .solaris-tooltip-panel__close {
+  width: var(--solaris-tooltip-icon-size, 1rem);
+  height: var(--solaris-tooltip-icon-size, 1rem);
+}
+
+.solaris-tooltip-panel__container[data-size='lg']
+  .solaris-tooltip-panel__close {
+  width: var(--solaris-tooltip-icon-size, 1.25rem);
+  height: var(--solaris-tooltip-icon-size, 1.25rem);
+}
+
+.solaris-tooltip-panel__container[data-radius='sm'] {
+  border-radius: var(--solaris-radius-sm, 0.25rem);
+}
+
+.solaris-tooltip-panel__container[data-radius='md'] {
+  border-radius: var(--solaris-radius-md, 0.5rem);
+}
+
+.solaris-tooltip-panel__container[data-radius='lg'] {
+  border-radius: var(--solaris-radius-lg, 0.75rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-tooltip-panel__close {
+    transition: none;
+  }
+}

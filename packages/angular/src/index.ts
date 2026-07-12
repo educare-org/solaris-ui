@@ -255,6 +255,17 @@ export type {
   SolarisPopoverAutoFocus,
 } from './lib/interaction/popover/model/popover.types';
 
+export { SolarisTooltipDirective } from './lib/interaction/tooltip/directive/tooltip.directive';
+export { SolarisTooltipPanelComponent } from './lib/interaction/tooltip/component/tooltip-panel.component';
+export type {
+  SolarisTooltipPlacement,
+  SolarisTooltipTrigger,
+  SolarisTooltipAppearance,
+  SolarisTooltipSize,
+  SolarisTooltipRadius,
+  SolarisTooltipConfig,
+} from './lib/interaction/tooltip/model/tooltip.types';
+
 export { SolarisSkeletonComponent } from './lib/components/feedback/skeleton/component/skeleton.component';
 export type {
   SolarisSkeletonVariant,

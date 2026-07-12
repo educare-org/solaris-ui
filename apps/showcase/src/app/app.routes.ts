@@ -148,4 +148,11 @@ export const appRoutes: Route[] = [
         (m) => m.PopoverShowcasePage,
       ),
   },
+  {
+    path: 'tooltip',
+    loadComponent: () =>
+      import('./pages/tooltip/component/tooltip-showcase').then(
+        (m) => m.TooltipShowcasePage,
+      ),
+  },
 ];

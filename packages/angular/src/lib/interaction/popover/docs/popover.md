@@ -6,12 +6,12 @@ Popover is a non-modal floating content foundation connected to a trigger elemen
 
 ## Conceptual difference: Tooltip vs Popover
 
-| Aspect | Tooltip | Popover |
-|--------|---------|---------|
-| Content | Short text only | Structured content |
-| Interactivity | Non-interactive | Can contain buttons, fields, lists |
-| Trigger | Hover/focus | Click |
-| Behavior | Informational | Can be opened/closed programmatically |
+| Aspect        | Tooltip         | Popover                               |
+| ------------- | --------------- | ------------------------------------- |
+| Content       | Short text only | Structured content                    |
+| Interactivity | Non-interactive | Can contain buttons, fields, lists    |
+| Trigger       | Hover/focus     | Click                                 |
+| Behavior      | Informational   | Can be opened/closed programmatically |
 
 **Popover is not Tooltip.** Tooltip informs. Popover can contain interaction.
 
@@ -48,51 +48,51 @@ CDK Overlay is an implementation detail. The public API exposes only Solaris con
 
 ### Selectors
 
-| Selector | Type | Description |
-|----------|------|-------------|
-| `ng-template[solaris-popover]` | Directive | Defines popover content template |
-| `[solaris-popover-trigger]` | Directive | Attaches popover behavior to an element |
+| Selector                       | Type      | Description                             |
+| ------------------------------ | --------- | --------------------------------------- |
+| `ng-template[solaris-popover]` | Directive | Defines popover content template        |
+| `[solaris-popover-trigger]`    | Directive | Attaches popover behavior to an element |
 
 ### Trigger inputs
 
-| Input | Type | Default | Description |
-|-------|------|---------|-------------|
-| `solarisPopoverTriggerFor` | `SolarisPopoverDirective` | required | Reference to the popover template |
-| `solarisPopoverOpen` | `boolean \| undefined` | `undefined` | Programmatic open state |
-| `solarisPopoverDisabled` | `boolean` | `false` | Prevents opening |
-| `solarisPopoverPlacement` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred placement side |
-| `solarisPopoverAlign` | `'start' \| 'center' \| 'end'` | `'start'` | Alignment relative to trigger |
-| `solarisPopoverOffset` | `number` | `8` | Offset in pixels from trigger |
-| `solarisPopoverMatchTriggerWidth` | `boolean` | `false` | Matches panel width to trigger |
-| `solarisPopoverMinWidth` | `string \| number \| undefined` | `undefined` | Minimum panel width |
-| `solarisPopoverMaxWidth` | `string \| number \| undefined` | `undefined` | Maximum panel width |
-| `solarisPopoverCloseOnOutsideClick` | `boolean` | `true` | Close when clicking outside |
-| `solarisPopoverCloseOnEscape` | `boolean` | `true` | Close on Escape key |
-| `solarisPopoverRestoreFocus` | `boolean` | `true` | Restore focus to trigger on close |
-| `solarisPopoverAutoFocus` | `false \| 'panel' \| 'first-tabbable'` | `false` | Auto-focus behavior on open |
-| `solarisPopoverScrollStrategy` | `'reposition' \| 'close' \| 'block'` | `'reposition'` | Behavior during scroll |
-| `solarisPopoverPanelRole` | `string \| undefined` | `undefined` | ARIA role for the panel |
-| `solarisPopoverAriaHasPopup` | `string \| boolean \| undefined` | `undefined` | aria-haspopup value |
-| `solarisPopoverAppearance` | `'surface' \| 'outline'` | `'surface'` | Panel visual style |
-| `solarisPopoverPadding` | `'none' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Panel padding |
-| `solarisPopoverRadius` | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Panel border radius |
+| Input                               | Type                                     | Default        | Description                       |
+| ----------------------------------- | ---------------------------------------- | -------------- | --------------------------------- |
+| `solarisPopoverTriggerFor`          | `SolarisPopoverDirective`                | required       | Reference to the popover template |
+| `solarisPopoverOpen`                | `boolean \| undefined`                   | `undefined`    | Programmatic open state           |
+| `solarisPopoverDisabled`            | `boolean`                                | `false`        | Prevents opening                  |
+| `solarisPopoverPlacement`           | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'`     | Preferred placement side          |
+| `solarisPopoverAlign`               | `'start' \| 'center' \| 'end'`           | `'start'`      | Alignment relative to trigger     |
+| `solarisPopoverOffset`              | `number`                                 | `8`            | Offset in pixels from trigger     |
+| `solarisPopoverMatchTriggerWidth`   | `boolean`                                | `false`        | Matches panel width to trigger    |
+| `solarisPopoverMinWidth`            | `string \| number \| undefined`          | `undefined`    | Minimum panel width               |
+| `solarisPopoverMaxWidth`            | `string \| number \| undefined`          | `undefined`    | Maximum panel width               |
+| `solarisPopoverCloseOnOutsideClick` | `boolean`                                | `true`         | Close when clicking outside       |
+| `solarisPopoverCloseOnEscape`       | `boolean`                                | `true`         | Close on Escape key               |
+| `solarisPopoverRestoreFocus`        | `boolean`                                | `true`         | Restore focus to trigger on close |
+| `solarisPopoverAutoFocus`           | `false \| 'panel' \| 'first-tabbable'`   | `false`        | Auto-focus behavior on open       |
+| `solarisPopoverScrollStrategy`      | `'reposition' \| 'close' \| 'block'`     | `'reposition'` | Behavior during scroll            |
+| `solarisPopoverPanelRole`           | `string \| undefined`                    | `undefined`    | ARIA role for the panel           |
+| `solarisPopoverAriaHasPopup`        | `string \| boolean \| undefined`         | `undefined`    | aria-haspopup value               |
+| `solarisPopoverAppearance`          | `'surface' \| 'outline'`                 | `'surface'`    | Panel visual style                |
+| `solarisPopoverPadding`             | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'md'`         | Panel padding                     |
+| `solarisPopoverRadius`              | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`         | Panel border radius               |
 
 ### Trigger outputs
 
-| Output | Type | Description |
-|--------|------|-------------|
-| `solarisPopoverOpened` | `void` | Emits when popover opens |
-| `solarisPopoverClosed` | `void` | Emits when popover closes |
-| `solarisPopoverOpenChange` | `boolean` | Emits open state changes |
+| Output                     | Type      | Description               |
+| -------------------------- | --------- | ------------------------- |
+| `solarisPopoverOpened`     | `void`    | Emits when popover opens  |
+| `solarisPopoverClosed`     | `void`    | Emits when popover closes |
+| `solarisPopoverOpenChange` | `boolean` | Emits open state changes  |
 
 ### Trigger methods
 
-| Method | Description |
-|--------|-------------|
-| `open()` | Opens the popover |
-| `close()` | Closes the popover |
-| `toggle()` | Toggles open/close state |
-| `updatePosition()` | Recalculates position |
+| Method             | Description              |
+| ------------------ | ------------------------ |
+| `open()`           | Opens the popover        |
+| `close()`          | Closes the popover       |
+| `toggle()`         | Toggles open/close state |
+| `updatePosition()` | Recalculates position    |
 
 ## Positioning
 
@@ -117,13 +117,13 @@ Defines alignment along the placement axis.
 
 ### Examples
 
-| Placement | Align | Behavior |
-|-----------|-------|----------|
-| `bottom` | `start` | Opens below, left edge aligned |
-| `bottom` | `center` | Opens below, centered |
-| `bottom` | `end` | Opens below, right edge aligned |
-| `top` | `start` | Opens above, left edge aligned |
-| `right` | `center` | Opens to the right, vertically centered |
+| Placement | Align    | Behavior                                |
+| --------- | -------- | --------------------------------------- |
+| `bottom`  | `start`  | Opens below, left edge aligned          |
+| `bottom`  | `center` | Opens below, centered                   |
+| `bottom`  | `end`    | Opens below, right edge aligned         |
+| `top`     | `start`  | Opens above, left edge aligned          |
+| `right`   | `center` | Opens to the right, vertically centered |
 
 ### Fallback
 
@@ -169,54 +169,54 @@ For Select/Autocomplete future usage, `autoFocus` should be `false` so the compo
 
 ## Scroll strategy
 
-| Strategy | Behavior |
-|----------|----------|
+| Strategy               | Behavior                                                 |
+| ---------------------- | -------------------------------------------------------- |
 | `reposition` (default) | Repositions during scroll/resize, allows position change |
-| `close` | Closes on scroll |
-| `block` | Blocks page scroll while open |
+| `close`                | Closes on scroll                                         |
+| `block`                | Blocks page scroll while open                            |
 
 ## Appearance
 
-| Appearance | Description |
-|------------|-------------|
+| Appearance          | Description                                       |
+| ------------------- | ------------------------------------------------- |
 | `surface` (default) | Solid background with shadow, subtle or no border |
-| `outline` | Surface background with visible border |
+| `outline`           | Surface background with visible border            |
 
 **Important:** `appearance="outline"` uses surface/overlay background with a visible border. It does NOT use transparent background.
 
 ## Padding
 
-| Value | Token |
-|-------|-------|
-| `none` | `0` |
-| `sm` | `--solaris-spacing-2` (0.5rem) |
+| Value          | Token                           |
+| -------------- | ------------------------------- |
+| `none`         | `0`                             |
+| `sm`           | `--solaris-spacing-2` (0.5rem)  |
 | `md` (default) | `--solaris-spacing-3` (0.75rem) |
-| `lg` | `--solaris-spacing-4` (1rem) |
+| `lg`           | `--solaris-spacing-4` (1rem)    |
 
 ## Radius
 
-| Value | Token |
-|-------|-------|
-| `none` | `--solaris-radius-none` (0) |
-| `sm` | `--solaris-radius-sm` (0.25rem) |
-| `md` (default) | `--solaris-radius-md` (0.5rem) |
-| `lg` | `--solaris-radius-lg` (0.75rem) |
-| `xl` | `--solaris-radius-xl` (1rem) |
+| Value          | Token                           |
+| -------------- | ------------------------------- |
+| `none`         | `--solaris-radius-none` (0)     |
+| `sm`           | `--solaris-radius-sm` (0.25rem) |
+| `md` (default) | `--solaris-radius-md` (0.5rem)  |
+| `lg`           | `--solaris-radius-lg` (0.75rem) |
+| `xl`           | `--solaris-radius-xl` (1rem)    |
 
 ## Styling tokens
 
 Popover uses CSS custom properties for visual customization:
 
-| Token | Default | Description |
-|-------|---------|-------------|
-| `--solaris-popover-background` | `--solaris-surface-raised` | Panel background |
-| `--solaris-popover-color` | `--solaris-text-default` | Text color |
-| `--solaris-popover-border-color` | `transparent` | Border color |
-| `--solaris-popover-border-width` | `0` | Border width |
-| `--solaris-popover-radius` | `--solaris-radius-md` | Border radius |
-| `--solaris-popover-padding` | `--solaris-spacing-3` | Inner padding |
-| `--solaris-popover-shadow` | `--solaris-shadow-lg` | Box shadow |
-| `--solaris-popover-z-index` | `1000` | Stack order |
+| Token                                    | Default                    | Description                         |
+| ---------------------------------------- | -------------------------- | ----------------------------------- |
+| `--solaris-popover-background`           | `--solaris-surface-raised` | Panel background                    |
+| `--solaris-popover-color`                | `--solaris-text-default`   | Text color                          |
+| `--solaris-popover-border-color`         | `transparent`              | Border color                        |
+| `--solaris-popover-border-width`         | `0`                        | Border width                        |
+| `--solaris-popover-radius`               | `--solaris-radius-md`      | Border radius                       |
+| `--solaris-popover-padding`              | `--solaris-spacing-3`      | Inner padding                       |
+| `--solaris-popover-shadow`               | `--solaris-shadow-lg`      | Box shadow                          |
+| `--solaris-popover-z-index`              | `1000`                     | Stack order                         |
 | `--solaris-popover-outline-border-color` | `--solaris-border-default` | Border color for outline appearance |
 
 ## ARIA

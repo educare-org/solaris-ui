@@ -21,8 +21,8 @@
   solaris-textarea;
 
 /* Solaris popover styles */
-@use '../../../packages/angular/src/lib/interaction/popover/styles/popover'
-  as solaris-popover;
+@use '../../../packages/angular/src/lib/interaction/popover/styles/popover' as
+  solaris-popover;
 
 @include solaris.core();
 @include solaris.theme();

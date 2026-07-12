@@ -2,10 +2,12 @@ export const PT_BR_POPOVER: Record<string, string> = {
   'popover.description':
     'Funda\u00e7\u00e3o de conte\u00fado flutuante n\u00e3o-modal conectada a um elemento trigger. Suporta conte\u00fado estruturado, elementos interativos e controle program\u00e1tico.',
   'popover.basic': 'Popover B\u00e1sico',
-  'popover.basic-note': 'Clique no bot\u00e3o para abrir o popover. Clique fora ou pressione Esc para fechar.',
+  'popover.basic-note':
+    'Clique no bot\u00e3o para abrir o popover. Clique fora ou pressione Esc para fechar.',
   'popover.open': 'Abrir Popover',
   'popover.placements': 'Posi\u00e7\u00f5es',
-  'popover.placements-note': 'O popover pode aparecer em qualquer lado do elemento trigger.',
+  'popover.placements-note':
+    'O popover pode aparecer em qualquer lado do elemento trigger.',
   'popover.top': 'Topo',
   'popover.top-content': 'Conte\u00fado do popover no topo.',
   'popover.right': 'Direita',
@@ -15,7 +17,8 @@ export const PT_BR_POPOVER: Record<string, string> = {
   'popover.left': 'Esquerda',
   'popover.left-content': 'Conte\u00fado do popover \u00e0 esquerda.',
   'popover.alignments': 'Alinhamentos',
-  'popover.alignments-note': 'Controle o alinhamento relativo ao trigger com start, center e end.',
+  'popover.alignments-note':
+    'Controle o alinhamento relativo ao trigger com start, center e end.',
   'popover.align-start': 'In\u00edcio',
   'popover.align-start-content': 'Alinhado \u00e0 borda inicial.',
   'popover.align-center': 'Centro',
@@ -23,40 +26,54 @@ export const PT_BR_POPOVER: Record<string, string> = {
   'popover.align-end': 'Fim',
   'popover.align-end-content': 'Alinhado \u00e0 borda final.',
   'popover.reactive': 'Posicionamento Reativo',
-  'popover.reactive-note': 'O popover usa CDK FlexibleConnectedPositionStrategy para reposicionar reativamente durante scroll e resize.',
+  'popover.reactive-note':
+    'O popover usa CDK FlexibleConnectedPositionStrategy para reposicionar reativamente durante scroll e resize.',
   'popover.reactive-trigger': 'Teste de Scroll',
-  'popover.reactive-content': 'Este popover reposiciona automaticamente quando voc\u00ea rola.',
-  'popover.scroll-hint': 'Role dentro deste cont\u00eainer enquanto o popover estiver aberto para ver o reposicionamento reativo.',
+  'popover.reactive-content':
+    'Este popover reposiciona automaticamente quando voc\u00ea rola.',
+  'popover.scroll-hint':
+    'Role dentro deste cont\u00eainer enquanto o popover estiver aberto para ver o reposicionamento reativo.',
   'popover.match-width': 'Igualar Largura do Trigger',
-  'popover.match-width-note': 'O painel tem a mesma largura do elemento trigger, \u00fatil para componentes tipo Select.',
+  'popover.match-width-note':
+    'O painel tem a mesma largura do elemento trigger, \u00fatil para componentes tipo Select.',
   'popover.match-width-trigger': 'Trigger Largo',
-  'popover.match-width-content': 'Este painel tem a mesma largura do bot\u00e3o trigger.',
+  'popover.match-width-content':
+    'Este painel tem a mesma largura do bot\u00e3o trigger.',
   'popover.width-constraints': 'Restri\u00e7\u00f5es de Largura',
-  'popover.width-constraints-note': 'Controle a largura m\u00ednima e m\u00e1xima do painel.',
+  'popover.width-constraints-note':
+    'Controle a largura m\u00ednima e m\u00e1xima do painel.',
   'popover.min-width': 'Larg. M\u00edn. 300px',
   'popover.min-width-content': 'Este painel tem largura m\u00ednima de 300px.',
   'popover.max-width': 'Larg. M\u00e1x. 200px',
-  'popover.max-width-content': 'Este painel tem largura m\u00e1xima de 200px. Conte\u00fado longo ser\u00e1 quebrado.',
+  'popover.max-width-content':
+    'Este painel tem largura m\u00e1xima de 200px. Conte\u00fado longo ser\u00e1 quebrado.',
   'popover.close-behavior': 'Comportamento de Fechamento',
-  'popover.close-behavior-note': 'Fechar ao clicar fora e ao pressionar Escape est\u00e3o habilitados por padr\u00e3o.',
+  'popover.close-behavior-note':
+    'Fechar ao clicar fora e ao pressionar Escape est\u00e3o habilitados por padr\u00e3o.',
   'popover.outside-click': 'Clique Externo',
-  'popover.outside-click-content': 'Clique fora deste popover para fech\u00e1-lo.',
+  'popover.outside-click-content':
+    'Clique fora deste popover para fech\u00e1-lo.',
   'popover.escape-close': 'Escape',
   'popover.escape-content': 'Pressione Escape para fechar este popover.',
   'popover.interactive': 'Conte\u00fado Interativo',
-  'popover.interactive-note': 'O popover pode conter bot\u00f5es, links e campos de formul\u00e1rio.',
+  'popover.interactive-note':
+    'O popover pode conter bot\u00f5es, links e campos de formul\u00e1rio.',
   'popover.interactive-trigger': 'Interativo',
-  'popover.interactive-text': 'Este popover cont\u00e9m bot\u00f5es interativos.',
+  'popover.interactive-text':
+    'Este popover cont\u00e9m bot\u00f5es interativos.',
   'popover.save': 'Salvar',
   'popover.cancel': 'Cancelar',
   'popover.appearance': 'Apar\u00eancia',
-  'popover.appearance-note': 'Surface tem estilo sutil. Outline tem borda vis\u00edvel com fundo surface.',
+  'popover.appearance-note':
+    'Surface tem estilo sutil. Outline tem borda vis\u00edvel com fundo surface.',
   'popover.surface': 'Superf\u00edcie',
   'popover.surface-content': 'Apar\u00eancia surface com fundo e sombra.',
   'popover.outline': 'Contorno',
-  'popover.outline-content': 'Apar\u00eancia outline com borda vis\u00edvel e fundo surface.',
+  'popover.outline-content':
+    'Apar\u00eancia outline com borda vis\u00edvel e fundo surface.',
   'popover.padding': 'Espa\u00e7amento Interno',
-  'popover.padding-note': 'Controle o espa\u00e7amento interno do painel popover.',
+  'popover.padding-note':
+    'Controle o espa\u00e7amento interno do painel popover.',
   'popover.none': 'none',
   'popover.sm': 'sm',
   'popover.md': 'md',
@@ -74,8 +91,11 @@ export const PT_BR_POPOVER: Record<string, string> = {
   'popover.radius-lg-content': 'Raio grande na borda.',
   'popover.radius-xl-content': 'Raio extra grande na borda.',
   'popover.accessibility': 'Acessibilidade',
-  'popover.accessibility-note': 'Configure atributos ARIA para suporte a leitores de tela.',
+  'popover.accessibility-note':
+    'Configure atributos ARIA para suporte a leitores de tela.',
   'popover.accessibility-trigger': 'Popover A11y',
-  'popover.accessibility-content': 'Este popover tem role="region" e aria-haspopup="true".',
-  'popover.accessibility-detail': 'O foco \u00e9 restaurado ao trigger quando fechado (restoreFocus est\u00e1 habilitado por padr\u00e3o).',
+  'popover.accessibility-content':
+    'Este popover tem role="region" e aria-haspopup="true".',
+  'popover.accessibility-detail':
+    'O foco \u00e9 restaurado ao trigger quando fechado (restoreFocus est\u00e1 habilitado por padr\u00e3o).',
 };

@@ -19,6 +19,7 @@ import { SWITCH_TRANSLATIONS } from '../pages/switch/translations';
 import { SWITCH_GROUP_TRANSLATIONS } from '../pages/switch-group/translations';
 import { OPTION_TRANSLATIONS } from '../pages/option/translations';
 import { POPOVER_TRANSLATIONS } from '../pages/popover/translations';
+import { TOOLTIP_TRANSLATIONS } from '../pages/tooltip/translations';
 
 const PAGE_MODULES = [
   CONFIGURATION_TRANSLATIONS,
@@ -42,6 +43,7 @@ const PAGE_MODULES = [
   SWITCH_GROUP_TRANSLATIONS,
   OPTION_TRANSLATIONS,
   POPOVER_TRANSLATIONS,
+  TOOLTIP_TRANSLATIONS,
 ];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};

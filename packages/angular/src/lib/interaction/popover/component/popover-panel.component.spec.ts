@@ -4,15 +4,16 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { Overlay } from '@angular/cdk/overlay';
 
 import { SolarisPopoverPanelComponent } from './popover-panel.component';
-import { SOLARIS_POPOVER_PANEL_DATA, type SolarisPopoverPanelData } from '../token/popover.tokens';
+import {
+  SOLARIS_POPOVER_PANEL_DATA,
+  type SolarisPopoverPanelData,
+} from '../token/popover.tokens';
 
 describe('SolarisPopoverPanelComponent', () => {
   describe('rendering', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverPanelComponent,
-      ],
+      imports: [SolarisPopoverPanelComponent],
       template: `
         <ng-template #contentTemplate>
           <div class="projected-content">Hello Panel</div>
@@ -48,13 +49,15 @@ describe('SolarisPopoverPanelComponent', () => {
       };
 
       const injector = Injector.create({
-        providers: [
-          { provide: SOLARIS_POPOVER_PANEL_DATA, useValue: data },
-        ],
+        providers: [{ provide: SOLARIS_POPOVER_PANEL_DATA, useValue: data }],
       });
 
       const overlayRef = overlay.create({
-        positionStrategy: overlay.position().global().centerHorizontally().centerVertically(),
+        positionStrategy: overlay
+          .position()
+          .global()
+          .centerHorizontally()
+          .centerVertically(),
         hasBackdrop: false,
       });
 
@@ -66,10 +69,13 @@ describe('SolarisPopoverPanelComponent', () => {
       overlayRef.attach(portal);
       fixture.detectChanges();
 
-      const panelEl = overlayRef.overlayElement.querySelector('.solaris-popover-panel');
+      const panelEl = overlayRef.overlayElement.querySelector(
+        '.solaris-popover-panel',
+      );
       expect(panelEl).toBeTruthy();
 
-      const projected = overlayRef.overlayElement.querySelector('.projected-content');
+      const projected =
+        overlayRef.overlayElement.querySelector('.projected-content');
       expect(projected).toBeTruthy();
       expect(projected?.textContent?.trim()).toBe('Hello Panel');
 
@@ -90,13 +96,15 @@ describe('SolarisPopoverPanelComponent', () => {
       };
 
       const injector = Injector.create({
-        providers: [
-          { provide: SOLARIS_POPOVER_PANEL_DATA, useValue: data },
-        ],
+        providers: [{ provide: SOLARIS_POPOVER_PANEL_DATA, useValue: data }],
       });
 
       const overlayRef = overlay.create({
-        positionStrategy: overlay.position().global().centerHorizontally().centerVertically(),
+        positionStrategy: overlay
+          .position()
+          .global()
+          .centerHorizontally()
+          .centerVertically(),
         hasBackdrop: false,
       });
 
@@ -108,7 +116,9 @@ describe('SolarisPopoverPanelComponent', () => {
       overlayRef.attach(portal);
       fixture.detectChanges();
 
-      const container = overlayRef.overlayElement.querySelector('.solaris-popover-panel__container');
+      const container = overlayRef.overlayElement.querySelector(
+        '.solaris-popover-panel__container',
+      );
       expect(container).toBeTruthy();
       expect(container?.getAttribute('data-appearance')).toBe('outline');
       expect(container?.getAttribute('data-padding')).toBe('lg');

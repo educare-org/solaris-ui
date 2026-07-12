@@ -12,7 +12,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--solaris-option-group-gap);
-  padding: var(--solaris-option-group-padding-y) var(--solaris-option-group-padding-x);
+  padding: var(--solaris-option-group-padding-y)
+    var(--solaris-option-group-padding-x);
 }
 
 .solaris-option-group__label {

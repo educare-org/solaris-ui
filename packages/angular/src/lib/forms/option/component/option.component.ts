@@ -61,9 +61,13 @@ export class SolarisOptionComponent {
 
   protected readonly leadingSlot = contentChild(SolarisOptionLeadingDirective);
   protected readonly labelSlot = contentChild(SolarisOptionLabelDirective);
-  protected readonly descriptionSlot = contentChild(SolarisOptionDescriptionDirective);
+  protected readonly descriptionSlot = contentChild(
+    SolarisOptionDescriptionDirective,
+  );
   protected readonly metaSlot = contentChild(SolarisOptionMetaDirective);
-  protected readonly trailingSlot = contentChild(SolarisOptionTrailingDirective);
+  protected readonly trailingSlot = contentChild(
+    SolarisOptionTrailingDirective,
+  );
 
   readonly value = input<unknown>();
   readonly optionLabel = input<string>(undefined, { alias: 'label' });
@@ -91,11 +95,18 @@ export class SolarisOptionComponent {
   readonly density = input<SolarisOptionDensity>();
   readonly optionId = input<string>(undefined, { alias: 'id' });
 
-  readonly optionInteraction = output<{ option: SolarisOptionComponent; event: MouseEvent }>();
+  readonly optionInteraction = output<{
+    option: SolarisOptionComponent;
+    event: MouseEvent;
+  }>();
 
   protected readonly elementId = computed(() => {
     // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls and Solaris Checkbox.
-    return this.optionId() || this.elementRef.nativeElement.getAttribute('id') || generateId();
+    return (
+      this.optionId() ||
+      this.elementRef.nativeElement.getAttribute('id') ||
+      generateId()
+    );
   });
 
   protected readonly effectiveDensity = computed<SolarisOptionDensity>(() => {

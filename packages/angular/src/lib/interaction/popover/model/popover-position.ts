@@ -1,6 +1,9 @@
 import type { ConnectedPosition } from '@angular/cdk/overlay';
 
-import type { SolarisPopoverPlacement, SolarisPopoverAlign } from './popover.types';
+import type {
+  SolarisPopoverPlacement,
+  SolarisPopoverAlign,
+} from './popover.types';
 
 interface PopoverPositionConfig {
   originX: 'start' | 'center' | 'end';
@@ -16,39 +19,99 @@ function getBasePosition(
   switch (placement) {
     case 'bottom': {
       if (align === 'start') {
-        return { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' };
+        return {
+          originX: 'start',
+          originY: 'bottom',
+          overlayX: 'start',
+          overlayY: 'top',
+        };
       }
       if (align === 'center') {
-        return { originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top' };
+        return {
+          originX: 'center',
+          originY: 'bottom',
+          overlayX: 'center',
+          overlayY: 'top',
+        };
       }
-      return { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top' };
+      return {
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'end',
+        overlayY: 'top',
+      };
     }
     case 'top': {
       if (align === 'start') {
-        return { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom' };
+        return {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'bottom',
+        };
       }
       if (align === 'center') {
-        return { originX: 'center', originY: 'top', overlayX: 'center', overlayY: 'bottom' };
+        return {
+          originX: 'center',
+          originY: 'top',
+          overlayX: 'center',
+          overlayY: 'bottom',
+        };
       }
-      return { originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom' };
+      return {
+        originX: 'end',
+        originY: 'top',
+        overlayX: 'end',
+        overlayY: 'bottom',
+      };
     }
     case 'right': {
       if (align === 'start') {
-        return { originX: 'end', originY: 'top', overlayX: 'start', overlayY: 'top' };
+        return {
+          originX: 'end',
+          originY: 'top',
+          overlayX: 'start',
+          overlayY: 'top',
+        };
       }
       if (align === 'center') {
-        return { originX: 'end', originY: 'center', overlayX: 'start', overlayY: 'center' };
+        return {
+          originX: 'end',
+          originY: 'center',
+          overlayX: 'start',
+          overlayY: 'center',
+        };
       }
-      return { originX: 'end', originY: 'bottom', overlayX: 'start', overlayY: 'bottom' };
+      return {
+        originX: 'end',
+        originY: 'bottom',
+        overlayX: 'start',
+        overlayY: 'bottom',
+      };
     }
     case 'left': {
       if (align === 'start') {
-        return { originX: 'start', originY: 'top', overlayX: 'end', overlayY: 'top' };
+        return {
+          originX: 'start',
+          originY: 'top',
+          overlayX: 'end',
+          overlayY: 'top',
+        };
       }
       if (align === 'center') {
-        return { originX: 'start', originY: 'center', overlayX: 'end', overlayY: 'center' };
+        return {
+          originX: 'start',
+          originY: 'center',
+          overlayX: 'end',
+          overlayY: 'center',
+        };
       }
-      return { originX: 'start', originY: 'bottom', overlayX: 'end', overlayY: 'bottom' };
+      return {
+        originX: 'start',
+        originY: 'bottom',
+        overlayX: 'end',
+        overlayY: 'bottom',
+      };
     }
   }
 }
@@ -69,20 +132,29 @@ export function getPrimaryPosition(
   return toConnectedPosition(getBasePosition(placement, align));
 }
 
-function oppositePlacement(placement: SolarisPopoverPlacement): SolarisPopoverPlacement {
+function oppositePlacement(
+  placement: SolarisPopoverPlacement,
+): SolarisPopoverPlacement {
   switch (placement) {
-    case 'top': return 'bottom';
-    case 'bottom': return 'top';
-    case 'left': return 'right';
-    case 'right': return 'left';
+    case 'top':
+      return 'bottom';
+    case 'bottom':
+      return 'top';
+    case 'left':
+      return 'right';
+    case 'right':
+      return 'left';
   }
 }
 
 function shiftedAlign(align: SolarisPopoverAlign): SolarisPopoverAlign {
   switch (align) {
-    case 'start': return 'end';
-    case 'end': return 'start';
-    case 'center': return 'center';
+    case 'start':
+      return 'end';
+    case 'end':
+      return 'start';
+    case 'center':
+      return 'center';
   }
 }
 

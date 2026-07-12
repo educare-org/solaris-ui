@@ -153,7 +153,10 @@
   --solaris-option-hover-background: var(--solaris-surface-subtle);
   --solaris-option-active-background: var(--solaris-surface-muted);
   --solaris-option-selected-background: var(--solaris-primary-surface);
-  --solaris-option-selected-color: var(--solaris-primary-text, var(--solaris-text-default));
+  --solaris-option-selected-color: var(
+    --solaris-primary-text,
+    var(--solaris-text-default)
+  );
   --solaris-option-disabled-opacity: 0.35;
   --solaris-option-indicator-color: var(--solaris-primary-base);
 
@@ -177,7 +180,10 @@
   --solaris-option-hover-background: var(--solaris-surface-subtle);
   --solaris-option-active-background: var(--solaris-surface-muted);
   --solaris-option-selected-background: var(--solaris-primary-surface);
-  --solaris-option-selected-color: var(--solaris-primary-text, var(--solaris-text-default));
+  --solaris-option-selected-color: var(
+    --solaris-primary-text,
+    var(--solaris-text-default)
+  );
   --solaris-option-disabled-opacity: 0.35;
   --solaris-option-indicator-color: var(--solaris-primary-base);
 
@@ -201,7 +207,10 @@
   --solaris-option-hover-background: var(--solaris-surface-subtle);
   --solaris-option-active-background: var(--solaris-surface-muted);
   --solaris-option-selected-background: var(--solaris-primary-surface);
-  --solaris-option-selected-color: var(--solaris-primary-text, var(--solaris-text-default));
+  --solaris-option-selected-color: var(
+    --solaris-primary-text,
+    var(--solaris-text-default)
+  );
   --solaris-option-disabled-opacity: 0.35;
   --solaris-option-indicator-color: var(--solaris-primary-base);
 

@@ -20,7 +20,9 @@ describe('SolarisPopoverTriggerDirective', () => {
 
   const getPanelContent = (): Element | null => {
     const containerEl = overlayContainer?.getContainerElement();
-    return containerEl?.querySelector('.solaris-popover-panel__container') ?? null;
+    return (
+      containerEl?.querySelector('.solaris-popover-panel__container') ?? null
+    );
   };
 
   const getPanelHost = (): Element | null => {
@@ -29,7 +31,9 @@ describe('SolarisPopoverTriggerDirective', () => {
   };
 
   const triggerClick = <T>(fixture: ComponentFixture<T>): void => {
-    const triggerEl = fixture.nativeElement.querySelector('[solaris-popover-trigger]');
+    const triggerEl = fixture.nativeElement.querySelector(
+      '[solaris-popover-trigger]',
+    );
     triggerEl.click();
     fixture.detectChanges();
   };
@@ -37,15 +41,9 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('basic open/close', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
-        <button
-          solaris-popover-trigger
-          [solarisPopoverTriggerFor]="myPopover"
-        >
+        <button solaris-popover-trigger [solarisPopoverTriggerFor]="myPopover">
           Trigger
         </button>
         <ng-template solaris-popover #myPopover="solarisPopover">
@@ -113,10 +111,7 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('openChange events', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
         <button
           solaris-popover-trigger
@@ -137,9 +132,15 @@ describe('SolarisPopoverTriggerDirective', () => {
       closedCount = 0;
       openChangeValues: boolean[] = [];
 
-      onOpened(): void { this.openedCount++; }
-      onClosed(): void { this.closedCount++; }
-      onOpenChange(value: boolean): void { this.openChangeValues.push(value); }
+      onOpened(): void {
+        this.openedCount++;
+      }
+      onClosed(): void {
+        this.closedCount++;
+      }
+      onOpenChange(value: boolean): void {
+        this.openChangeValues.push(value);
+      }
     }
 
     it('should emit opened on open', () => {
@@ -166,10 +167,7 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('disabled', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
         <button
           solaris-popover-trigger
@@ -196,10 +194,7 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('closeOnEscape', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
         <button
           solaris-popover-trigger
@@ -223,8 +218,12 @@ describe('SolarisPopoverTriggerDirective', () => {
       triggerClick(fixture);
       expect(getPanelContent()).toBeTruthy();
 
-      const triggerEl = fixture.nativeElement.querySelector('[solaris-popover-trigger]');
-      triggerEl.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+      const triggerEl = fixture.nativeElement.querySelector(
+        '[solaris-popover-trigger]',
+      );
+      triggerEl.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+      );
       fixture.detectChanges();
       expect(getPanelContent()).toBeNull();
     });
@@ -237,8 +236,12 @@ describe('SolarisPopoverTriggerDirective', () => {
       triggerClick(fixture);
       expect(getPanelContent()).toBeTruthy();
 
-      const triggerEl = fixture.nativeElement.querySelector('[solaris-popover-trigger]');
-      triggerEl.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+      const triggerEl = fixture.nativeElement.querySelector(
+        '[solaris-popover-trigger]',
+      );
+      triggerEl.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+      );
       fixture.detectChanges();
       expect(getPanelContent()).toBeTruthy();
     });
@@ -247,10 +250,7 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('closeOnOutsideClick', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
         <button
           solaris-popover-trigger
@@ -299,10 +299,7 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('restoreFocus', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
         <button
           solaris-popover-trigger
@@ -322,7 +319,9 @@ describe('SolarisPopoverTriggerDirective', () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
 
-      const triggerEl = fixture.nativeElement.querySelector('[solaris-popover-trigger]') as HTMLElement;
+      const triggerEl = fixture.nativeElement.querySelector(
+        '[solaris-popover-trigger]',
+      ) as HTMLElement;
       triggerEl.focus();
       triggerClick(fixture);
 
@@ -340,10 +339,7 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('autoFocus', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
         <button
           solaris-popover-trigger
@@ -392,10 +388,7 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('positioning', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
         <button
           solaris-popover-trigger
@@ -455,10 +448,7 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('appearance', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
         <button
           solaris-popover-trigger
@@ -497,10 +487,7 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('padding and radius', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
         <button
           solaris-popover-trigger
@@ -542,10 +529,7 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('matchTriggerWidth', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
         <button
           solaris-popover-trigger
@@ -573,10 +557,7 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('minWidth and maxWidth', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
         <button
           solaris-popover-trigger
@@ -616,15 +597,9 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('updatePosition', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
-        <button
-          solaris-popover-trigger
-          [solarisPopoverTriggerFor]="myPopover"
-        >
+        <button solaris-popover-trigger [solarisPopoverTriggerFor]="myPopover">
           Trigger
         </button>
         <ng-template solaris-popover #myPopover="solarisPopover">
@@ -653,10 +628,7 @@ describe('SolarisPopoverTriggerDirective', () => {
   describe('ARIA', () => {
     @Component({
       standalone: true,
-      imports: [
-        SolarisPopoverDirective,
-        SolarisPopoverTriggerDirective,
-      ],
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
       template: `
         <button
           solaris-popover-trigger
@@ -679,7 +651,9 @@ describe('SolarisPopoverTriggerDirective', () => {
     it('should set aria-expanded on trigger when open', () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const triggerEl = fixture.nativeElement.querySelector('[solaris-popover-trigger]');
+      const triggerEl = fixture.nativeElement.querySelector(
+        '[solaris-popover-trigger]',
+      );
 
       expect(triggerEl.getAttribute('aria-expanded')).toBeNull();
 
@@ -690,7 +664,9 @@ describe('SolarisPopoverTriggerDirective', () => {
     it('should remove aria-expanded when closed', () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const triggerEl = fixture.nativeElement.querySelector('[solaris-popover-trigger]');
+      const triggerEl = fixture.nativeElement.querySelector(
+        '[solaris-popover-trigger]',
+      );
 
       triggerClick(fixture);
       expect(triggerEl.getAttribute('aria-expanded')).toBe('true');
@@ -702,7 +678,9 @@ describe('SolarisPopoverTriggerDirective', () => {
     it('should set aria-haspopup when configured', () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const triggerEl = fixture.nativeElement.querySelector('[solaris-popover-trigger]');
+      const triggerEl = fixture.nativeElement.querySelector(
+        '[solaris-popover-trigger]',
+      );
       expect(triggerEl.getAttribute('aria-haspopup')).toBe('true');
     });
 

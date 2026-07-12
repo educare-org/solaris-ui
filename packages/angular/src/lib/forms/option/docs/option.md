@@ -6,11 +6,11 @@
 
 ## Difference from Radio and Checkbox
 
-| Component | Purpose |
-|-----------|---------|
-| **Radio** | Single choice directly in the form. Visible and interactive without opening a dropdown. |
-| **Checkbox** | Boolean or multiple choices directly in the form. Always visible. |
-| **Option** | Item inside a selector component (Select, Multi Select, Autocomplete). Not a form control itself. |
+| Component    | Purpose                                                                                           |
+| ------------ | ------------------------------------------------------------------------------------------------- |
+| **Radio**    | Single choice directly in the form. Visible and interactive without opening a dropdown.           |
+| **Checkbox** | Boolean or multiple choices directly in the form. Always visible.                                 |
+| **Option**   | Item inside a selector component (Select, Multi Select, Autocomplete). Not a form control itself. |
 
 ## When to use
 
@@ -42,22 +42,22 @@ Select controls choice. Option represents a choice.
 
 ### Inputs
 
-| Input | Type | Default | Description |
-|-------|------|---------|-------------|
-| `value` | `unknown` | — | The value this option represents |
-| `label` | `string` | — | Direct label text |
-| `labelKey` | `string` | — | i18n key for label |
-| `description` | `string` | — | Direct description text |
-| `descriptionKey` | `string` | — | i18n key for description |
-| `disabled` | `boolean` | `false` | Disables the option |
-| `selected` | `boolean` | `false` | Marks the option as selected |
-| `active` | `boolean` | `false` | Highlights the option as active (e.g., keyboard navigation) |
-| `highlighted` | `boolean` | `false` | Contextual highlight (e.g., search match) |
-| `selectionMode` | `'none' \| 'single' \| 'multiple'` | `'none'` | Visual selection mode |
-| `showSelectionIndicator` | `boolean` | `false` | Shows visual selection indicator |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
-| `density` | `'compact' \| 'comfortable'` | inherited | Density variant |
-| `id` | `string` | auto-generated | Element ID |
+| Input                    | Type                               | Default        | Description                                                 |
+| ------------------------ | ---------------------------------- | -------------- | ----------------------------------------------------------- |
+| `value`                  | `unknown`                          | —              | The value this option represents                            |
+| `label`                  | `string`                           | —              | Direct label text                                           |
+| `labelKey`               | `string`                           | —              | i18n key for label                                          |
+| `description`            | `string`                           | —              | Direct description text                                     |
+| `descriptionKey`         | `string`                           | —              | i18n key for description                                    |
+| `disabled`               | `boolean`                          | `false`        | Disables the option                                         |
+| `selected`               | `boolean`                          | `false`        | Marks the option as selected                                |
+| `active`                 | `boolean`                          | `false`        | Highlights the option as active (e.g., keyboard navigation) |
+| `highlighted`            | `boolean`                          | `false`        | Contextual highlight (e.g., search match)                   |
+| `selectionMode`          | `'none' \| 'single' \| 'multiple'` | `'none'`       | Visual selection mode                                       |
+| `showSelectionIndicator` | `boolean`                          | `false`        | Shows visual selection indicator                            |
+| `size`                   | `'sm' \| 'md' \| 'lg'`             | `'md'`         | Size variant                                                |
+| `density`                | `'compact' \| 'comfortable'`       | inherited      | Density variant                                             |
+| `id`                     | `string`                           | auto-generated | Element ID                                                  |
 
 ### Outputs
 
@@ -65,24 +65,26 @@ Option does not emit outputs. Parent components control interaction via `@Conten
 
 ## Slots / Anatomy
 
-| Slot Selector | Area | Description |
-|---------------|------|-------------|
-| `[solaris-option-leading]` | Leading | Icon, flag, avatar, or visual indicator on the left |
-| `[solaris-option-label]` | Label | Explicit label text (overrides projected content and `label` input) |
-| default content | Label | Simple projected text becomes the label |
-| `[solaris-option-description]` | Description | Secondary text below the label |
-| `[solaris-option-meta]` | Meta | Auxiliary text on the right side (e.g., "English", "Admin") |
-| `[solaris-option-trailing]` | Trailing | Badge, expansion icon, checkmark, shortcut, counter |
+| Slot Selector                  | Area        | Description                                                         |
+| ------------------------------ | ----------- | ------------------------------------------------------------------- |
+| `[solaris-option-leading]`     | Leading     | Icon, flag, avatar, or visual indicator on the left                 |
+| `[solaris-option-label]`       | Label       | Explicit label text (overrides projected content and `label` input) |
+| default content                | Label       | Simple projected text becomes the label                             |
+| `[solaris-option-description]` | Description | Secondary text below the label                                      |
+| `[solaris-option-meta]`        | Meta        | Auxiliary text on the right side (e.g., "English", "Admin")         |
+| `[solaris-option-trailing]`    | Trailing    | Badge, expansion icon, checkmark, shortcut, counter                 |
 
 ## Label and Description Priority
 
 **Label:**
+
 1. `[solaris-option-label]` slot (explicit label)
 2. Projected content (simple text)
 3. `label` input
 4. `labelKey` translation
 
 **Description:**
+
 1. `[solaris-option-description]` slot
 2. `description` input
 3. `descriptionKey` translation
@@ -193,7 +195,5 @@ Parent components can control these for all child options.
 </solaris-option>
 
 <!-- Multi-select visual -->
-<solaris-option value="us" selectionMode="multiple" [showSelectionIndicator]="true" [selected]="true">
-  United States
-</solaris-option>
+<solaris-option value="us" selectionMode="multiple" [showSelectionIndicator]="true" [selected]="true"> United States </solaris-option>
 ```

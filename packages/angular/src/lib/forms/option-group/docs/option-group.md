@@ -20,14 +20,14 @@
 
 ### Inputs
 
-| Input | Type | Default | Description |
-|-------|------|---------|-------------|
-| `label` | `string` | — | Group label text |
-| `labelKey` | `string` | — | i18n key for group label |
-| `disabled` | `boolean` | `false` | Disables the group and propagates to child options |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
-| `density` | `'compact' \| 'comfortable'` | inherited | Density variant |
-| `id` | `string` | auto-generated | Element ID |
+| Input      | Type                         | Default        | Description                                        |
+| ---------- | ---------------------------- | -------------- | -------------------------------------------------- |
+| `label`    | `string`                     | —              | Group label text                                   |
+| `labelKey` | `string`                     | —              | i18n key for group label                           |
+| `disabled` | `boolean`                    | `false`        | Disables the group and propagates to child options |
+| `size`     | `'sm' \| 'md' \| 'lg'`       | `'md'`         | Size variant                                       |
+| `density`  | `'compact' \| 'comfortable'` | inherited      | Density variant                                    |
+| `id`       | `string`                     | auto-generated | Element ID                                         |
 
 ## Disabled Propagation
 

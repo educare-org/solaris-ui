@@ -10,15 +10,34 @@
       @if (isCheckSelection()) {
         <span class="solaris-option__check">
           @if (selected()) {
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="solaris-option__check-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="solaris-option__check-icon"
+            >
               <polyline points="20 6 9 17 4 12" />
             </svg>
           }
         </span>
       } @else if (isMultiCheckSelection()) {
-        <span class="solaris-option__checkbox" [class.solaris-option__checkbox--checked]="selected()">
+        <span
+          class="solaris-option__checkbox"
+          [class.solaris-option__checkbox--checked]="selected()"
+        >
           @if (selected()) {
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="solaris-option__checkbox-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="solaris-option__checkbox-icon"
+            >
               <polyline points="20 6 9 17 4 12" />
             </svg>
           }

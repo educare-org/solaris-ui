@@ -49,7 +49,8 @@ describe('SolarisOptionComponent', () => {
     @Component({
       standalone: true,
       imports: [SolarisOptionComponent],
-      template: '<solaris-option value="admin" [label]="\'Admin\'"></solaris-option>',
+      template:
+        '<solaris-option value="admin" [label]="\'Admin\'"></solaris-option>',
     })
     class Host {}
     const hostFixture = TestBed.createComponent(Host);
@@ -295,10 +296,7 @@ describe('SolarisOptionComponent description', () => {
     configureSolarisTesting();
     @Component({
       standalone: true,
-      imports: [
-        SolarisOptionComponent,
-        SolarisOptionDescriptionDirective,
-      ],
+      imports: [SolarisOptionComponent, SolarisOptionDescriptionDirective],
       template: `
         <solaris-option value="test">
           <span solaris-option-description>Slot Description</span>

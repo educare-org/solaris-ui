@@ -10,6 +10,5 @@ export interface SolarisPopoverPanelData {
   autoFocus: string | boolean;
 }
 
-export const SOLARIS_POPOVER_PANEL_DATA = new InjectionToken<SolarisPopoverPanelData>(
-  'SolarisPopoverPanelData',
-);
+export const SOLARIS_POPOVER_PANEL_DATA =
+  new InjectionToken<SolarisPopoverPanelData>('SolarisPopoverPanelData');
