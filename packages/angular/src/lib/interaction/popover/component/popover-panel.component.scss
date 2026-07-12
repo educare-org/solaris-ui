@@ -1,0 +1,64 @@
+.solaris-popover-panel {
+  display: block;
+  outline: none;
+}
+
+.solaris-popover-panel__container {
+  box-sizing: border-box;
+  background: var(--solaris-popover-background, var(--solaris-surface-raised));
+  color: var(--solaris-popover-color, var(--solaris-text-default));
+  border: var(--solaris-popover-border-width, 0) solid
+    var(--solaris-popover-border-color, transparent);
+  border-radius: var(--solaris-popover-radius, var(--solaris-radius-md));
+  box-shadow: var(--solaris-popover-shadow, var(--solaris-shadow-lg));
+  padding: var(--solaris-popover-padding, var(--solaris-spacing-3));
+  min-width: var(--solaris-popover-min-width, auto);
+  max-width: var(--solaris-popover-max-width, none);
+  outline: none;
+}
+
+.solaris-popover-panel__container[data-appearance='outline'] {
+  background: var(--solaris-popover-background, var(--solaris-surface-raised));
+  border: var(--solaris-popover-border-width, var(--solaris-border-width-sm))
+    solid
+    var(
+      --solaris-popover-border-color,
+      var(--solaris-popover-outline-border-color, var(--solaris-border-default))
+    );
+}
+
+.solaris-popover-panel__container[data-padding='none'] {
+  --solaris-popover-padding: 0;
+}
+
+.solaris-popover-panel__container[data-padding='sm'] {
+  --solaris-popover-padding: var(--solaris-spacing-2);
+}
+
+.solaris-popover-panel__container[data-padding='md'] {
+  --solaris-popover-padding: var(--solaris-spacing-3);
+}
+
+.solaris-popover-panel__container[data-padding='lg'] {
+  --solaris-popover-padding: var(--solaris-spacing-4);
+}
+
+.solaris-popover-panel__container[data-radius='none'] {
+  border-radius: var(--solaris-radius-none);
+}
+
+.solaris-popover-panel__container[data-radius='sm'] {
+  border-radius: var(--solaris-radius-sm);
+}
+
+.solaris-popover-panel__container[data-radius='md'] {
+  border-radius: var(--solaris-radius-md);
+}
+
+.solaris-popover-panel__container[data-radius='lg'] {
+  border-radius: var(--solaris-radius-lg);
+}
+
+.solaris-popover-panel__container[data-radius='xl'] {
+  border-radius: var(--solaris-radius-xl);
+}

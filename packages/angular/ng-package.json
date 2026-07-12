@@ -24,6 +24,11 @@
       "input": "src/lib/forms/input/styles",
       "glob": "_*.scss",
       "output": "styles"
+    },
+    {
+      "input": "src/lib/interaction/popover/styles",
+      "glob": "_*.scss",
+      "output": "styles"
     }
   ]
 }

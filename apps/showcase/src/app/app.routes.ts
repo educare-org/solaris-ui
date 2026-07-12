@@ -134,4 +134,11 @@ export const appRoutes: Route[] = [
         (m) => m.SwitchGroupShowcasePage,
       ),
   },
+  {
+    path: 'popover',
+    loadComponent: () =>
+      import('./pages/popover/component/popover-showcase').then(
+        (m) => m.PopoverShowcasePage,
+      ),
+  },
 ];

@@ -17,6 +17,7 @@ import { RADIO_TRANSLATIONS } from '../pages/radio/translations';
 import { RADIO_GROUP_TRANSLATIONS } from '../pages/radio-group/translations';
 import { SWITCH_TRANSLATIONS } from '../pages/switch/translations';
 import { SWITCH_GROUP_TRANSLATIONS } from '../pages/switch-group/translations';
+import { POPOVER_TRANSLATIONS } from '../pages/popover/translations';
 
 const PAGE_MODULES = [
   CONFIGURATION_TRANSLATIONS,
@@ -38,6 +39,7 @@ const PAGE_MODULES = [
   RADIO_GROUP_TRANSLATIONS,
   SWITCH_TRANSLATIONS,
   SWITCH_GROUP_TRANSLATIONS,
+  POPOVER_TRANSLATIONS,
 ];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};

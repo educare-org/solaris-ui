@@ -1,0 +1,11 @@
+<div
+  class="solaris-popover-panel__container"
+  [attr.data-appearance]="data.appearance"
+  [attr.data-padding]="data.padding"
+  [attr.data-radius]="data.radius"
+  [attr.role]="data.role"
+  [id]="data.panelId"
+  tabindex="-1"
+>
+  <ng-container *ngTemplateOutlet="data.contentTemplate" />
+</div>

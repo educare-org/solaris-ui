@@ -222,6 +222,19 @@ export type {
   SolarisEmailFieldRadius,
 } from './lib/forms/email-field/model/email-field.types';
 
+export { SolarisPopoverDirective } from './lib/interaction/popover/directives/popover.directive';
+export { SolarisPopoverTriggerDirective } from './lib/interaction/popover/directives/popover-trigger.directive';
+export { SolarisPopoverPanelComponent } from './lib/interaction/popover/component/popover-panel.component';
+export type {
+  SolarisPopoverPlacement,
+  SolarisPopoverAlign,
+  SolarisPopoverAppearance,
+  SolarisPopoverPadding,
+  SolarisPopoverRadius,
+  SolarisPopoverScrollStrategy,
+  SolarisPopoverAutoFocus,
+} from './lib/interaction/popover/model/popover.types';
+
 export { SolarisSkeletonComponent } from './lib/components/feedback/skeleton/component/skeleton.component';
 export type {
   SolarisSkeletonVariant,

@@ -39,6 +39,7 @@ Scope:
 - [x] Checkbox Group;
 - [x] Radio;
 - [x] Switch;
+- Popover;
 - [ ] Select.
 
 ## `0.3.0` — Overlay and Navigation Release
