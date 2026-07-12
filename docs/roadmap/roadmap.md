@@ -40,7 +40,7 @@ Scope:
 - [x] Radio;
 - [x] Switch;
 - [x] Popover;
-- [ ] Option + Option Group;
+- [x] Option + Option Group;
 - [ ] Tooltip;
 - [ ] Select;
 - [ ] Multi Select;
