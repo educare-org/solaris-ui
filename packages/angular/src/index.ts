@@ -117,6 +117,26 @@ export type {
   SolarisButtonGroupDensity,
 } from './lib/components/actions/button-group/model/button-group.types';
 
+export { SolarisOptionComponent } from './lib/forms/option/component/option.component';
+export {
+  SolarisOptionLeadingDirective,
+  SolarisOptionLabelDirective,
+  SolarisOptionDescriptionDirective,
+  SolarisOptionMetaDirective,
+  SolarisOptionTrailingDirective,
+} from './lib/forms/option/directives/option-slots.directive';
+export type {
+  SolarisOptionSize,
+  SolarisOptionDensity,
+  SolarisOptionSelectionMode,
+} from './lib/forms/option/model/option.types';
+
+export { SolarisOptionGroupComponent } from './lib/forms/option-group/component/option-group.component';
+export type {
+  SolarisOptionGroupSize,
+  SolarisOptionGroupDensity,
+} from './lib/forms/option-group/model/option-group.types';
+
 export { SolarisFormFieldComponent } from './lib/forms/form-field/component/form-field.component';
 export { SolarisFormLabelComponent } from './lib/forms/form-field/component/form-label.component';
 export { SolarisFormHintComponent } from './lib/forms/form-field/component/form-hint.component';

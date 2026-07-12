@@ -1,0 +1,63 @@
+<div class="solaris-option">
+  @if (leadingSlot()) {
+    <div class="solaris-option__leading">
+      <ng-content select="[solaris-option-leading]" />
+    </div>
+  }
+
+  @if (showSelectionVisual()) {
+    <div class="solaris-option__selection-indicator" aria-hidden="true">
+      @if (isCheckSelection()) {
+        <span class="solaris-option__check">
+          @if (selected()) {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="solaris-option__check-icon">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          }
+        </span>
+      } @else if (isMultiCheckSelection()) {
+        <span class="solaris-option__checkbox" [class.solaris-option__checkbox--checked]="selected()">
+          @if (selected()) {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="solaris-option__checkbox-icon">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          }
+        </span>
+      }
+    </div>
+  }
+
+  <div class="solaris-option__content">
+    <div class="solaris-option__label">
+      @if (labelSlot()) {
+        <ng-content select="[solaris-option-label]" />
+      }
+      <ng-content />
+      @if (!labelSlot() && labelText(); as text) {
+        <span class="solaris-option__label-text">{{ text }}</span>
+      }
+    </div>
+
+    @if (descriptionSlot()) {
+      <div class="solaris-option__description">
+        <ng-content select="[solaris-option-description]" />
+      </div>
+    } @else if (descriptionText(); as desc) {
+      <div class="solaris-option__description">
+        <span class="solaris-option__description-text">{{ desc }}</span>
+      </div>
+    }
+  </div>
+
+  @if (metaSlot()) {
+    <div class="solaris-option__meta">
+      <ng-content select="[solaris-option-meta]" />
+    </div>
+  }
+
+  @if (trailingSlot()) {
+    <div class="solaris-option__trailing">
+      <ng-content select="[solaris-option-trailing]" />
+    </div>
+  }
+</div>

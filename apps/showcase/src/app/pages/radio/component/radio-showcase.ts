@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {
   SolarisRadioComponent,
   SolarisRadioGroupComponent,
-  SolarisFormFieldComponent,
   SolarisTranslatePipe,
 } from '@solaris-ui/angular';
 
@@ -11,7 +10,6 @@ import {
   imports: [
     SolarisRadioComponent,
     SolarisRadioGroupComponent,
-    SolarisFormFieldComponent,
     SolarisTranslatePipe,
   ],
   templateUrl: './radio-showcase.html',

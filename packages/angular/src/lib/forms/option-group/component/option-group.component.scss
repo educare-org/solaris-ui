@@ -1,0 +1,79 @@
+:host {
+  --solaris-option-group-label-color: initial;
+  --solaris-option-group-gap: initial;
+  --solaris-option-group-padding-x: initial;
+  --solaris-option-group-padding-y: initial;
+
+  display: block;
+  outline: none;
+}
+
+.solaris-option-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-option-group-gap);
+  padding: var(--solaris-option-group-padding-y) var(--solaris-option-group-padding-x);
+}
+
+.solaris-option-group__label {
+  color: var(--solaris-option-group-label-color);
+  font-weight: var(--solaris-font-weight-semibold);
+  padding: var(--solaris-spacing-1) var(--solaris-spacing-3);
+  user-select: none;
+}
+
+.solaris-option-group__options {
+  display: flex;
+  flex-direction: column;
+}
+
+:host([data-size='sm']) {
+  --solaris-option-group-gap: var(--solaris-spacing-1);
+  --solaris-option-group-padding-x: 0;
+  --solaris-option-group-padding-y: 0;
+  --solaris-option-group-label-color: var(--solaris-text-muted);
+
+  .solaris-option-group__label {
+    font-size: var(--solaris-font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+:host([data-size='md']) {
+  --solaris-option-group-gap: var(--solaris-spacing-1);
+  --solaris-option-group-padding-x: 0;
+  --solaris-option-group-padding-y: 0;
+  --solaris-option-group-label-color: var(--solaris-text-muted);
+
+  .solaris-option-group__label {
+    font-size: var(--solaris-font-size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+:host([data-size='lg']) {
+  --solaris-option-group-gap: var(--solaris-spacing-2);
+  --solaris-option-group-padding-x: 0;
+  --solaris-option-group-padding-y: 0;
+  --solaris-option-group-label-color: var(--solaris-text-muted);
+
+  .solaris-option-group__label {
+    font-size: var(--solaris-font-size-md);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+:host([data-density='compact']) {
+  --solaris-option-group-gap: 0;
+}
+
+:host([data-density='comfortable']) {
+  --solaris-option-group-gap: var(--solaris-spacing-1);
+}
+
+:host([data-disabled]) {
+  opacity: 0.6;
+}

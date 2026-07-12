@@ -1,0 +1,256 @@
+:host {
+  --solaris-option-background: initial;
+  --solaris-option-hover-background: initial;
+  --solaris-option-active-background: initial;
+  --solaris-option-selected-background: initial;
+  --solaris-option-selected-color: initial;
+  --solaris-option-disabled-opacity: initial;
+  --solaris-option-label-color: initial;
+  --solaris-option-description-color: initial;
+  --solaris-option-meta-color: initial;
+  --solaris-option-gap: initial;
+  --solaris-option-padding-x: initial;
+  --solaris-option-padding-y: initial;
+  --solaris-option-radius: initial;
+  --solaris-option-min-height: initial;
+  --solaris-option-indicator-size: initial;
+  --solaris-option-indicator-color: initial;
+
+  display: block;
+  outline: none;
+}
+
+.solaris-option {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-option-gap);
+  padding: var(--solaris-option-padding-y) var(--solaris-option-padding-x);
+  min-height: var(--solaris-option-min-height);
+  border-radius: var(--solaris-option-radius);
+  background: var(--solaris-option-background);
+  color: inherit;
+  cursor: pointer;
+  user-select: none;
+  box-sizing: border-box;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease;
+}
+
+.solaris-option__leading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.solaris-option__selection-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.solaris-option__check,
+.solaris-option__checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--solaris-option-indicator-size);
+  height: var(--solaris-option-indicator-size);
+  border-radius: var(--solaris-radius-sm);
+  box-sizing: border-box;
+}
+
+.solaris-option__check-icon,
+.solaris-option__checkbox-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0.125rem;
+  box-sizing: border-box;
+}
+
+.solaris-option__checkbox {
+  border: 0.0625rem solid var(--solaris-option-indicator-color);
+  background: transparent;
+}
+
+.solaris-option__checkbox--checked {
+  background: var(--solaris-option-indicator-color);
+  color: var(--solaris-text-inverse);
+  border-color: var(--solaris-option-indicator-color);
+}
+
+.solaris-option__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  gap: 0.125rem;
+}
+
+.solaris-option__label {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.solaris-option__label-text {
+  color: var(--solaris-option-label-color);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.solaris-option__description {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.solaris-option__description-text {
+  color: var(--solaris-option-description-color);
+  font-size: 0.875em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.solaris-option__meta {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--solaris-option-meta-color);
+  font-size: 0.875em;
+}
+
+.solaris-option__trailing {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+:host([data-selection-mode='single']) .solaris-option__check {
+  border-radius: 50%;
+}
+
+:host([data-selection-mode='single']) .solaris-option__check-icon {
+  padding: 0.1875rem;
+}
+
+:host([data-size='sm']) {
+  --solaris-option-padding-x: var(--solaris-spacing-2);
+  --solaris-option-padding-y: var(--solaris-spacing-1);
+  --solaris-option-gap: var(--solaris-spacing-1);
+  --solaris-option-radius: var(--solaris-radius-sm);
+  --solaris-option-min-height: 2rem;
+  --solaris-option-indicator-size: 0.875rem;
+  --solaris-option-label-color: var(--solaris-text-default);
+  --solaris-option-description-color: var(--solaris-text-muted);
+  --solaris-option-meta-color: var(--solaris-text-muted);
+  --solaris-option-background: transparent;
+  --solaris-option-hover-background: var(--solaris-surface-subtle);
+  --solaris-option-active-background: var(--solaris-surface-muted);
+  --solaris-option-selected-background: var(--solaris-primary-surface);
+  --solaris-option-selected-color: var(--solaris-primary-text, var(--solaris-text-default));
+  --solaris-option-disabled-opacity: 0.35;
+  --solaris-option-indicator-color: var(--solaris-primary-base);
+
+  .solaris-option__label-text {
+    font-size: var(--solaris-font-size-sm);
+    line-height: var(--solaris-line-height-sm);
+  }
+}
+
+:host([data-size='md']) {
+  --solaris-option-padding-x: var(--solaris-spacing-3);
+  --solaris-option-padding-y: var(--solaris-spacing-1);
+  --solaris-option-gap: var(--solaris-spacing-2);
+  --solaris-option-radius: var(--solaris-radius-sm);
+  --solaris-option-min-height: 2.5rem;
+  --solaris-option-indicator-size: 1rem;
+  --solaris-option-label-color: var(--solaris-text-default);
+  --solaris-option-description-color: var(--solaris-text-muted);
+  --solaris-option-meta-color: var(--solaris-text-muted);
+  --solaris-option-background: transparent;
+  --solaris-option-hover-background: var(--solaris-surface-subtle);
+  --solaris-option-active-background: var(--solaris-surface-muted);
+  --solaris-option-selected-background: var(--solaris-primary-surface);
+  --solaris-option-selected-color: var(--solaris-primary-text, var(--solaris-text-default));
+  --solaris-option-disabled-opacity: 0.35;
+  --solaris-option-indicator-color: var(--solaris-primary-base);
+
+  .solaris-option__label-text {
+    font-size: var(--solaris-font-size-md);
+    line-height: var(--solaris-line-height-md);
+  }
+}
+
+:host([data-size='lg']) {
+  --solaris-option-padding-x: var(--solaris-spacing-4);
+  --solaris-option-padding-y: var(--solaris-spacing-2);
+  --solaris-option-gap: var(--solaris-spacing-3);
+  --solaris-option-radius: var(--solaris-radius-md);
+  --solaris-option-min-height: 3rem;
+  --solaris-option-indicator-size: 1.25rem;
+  --solaris-option-label-color: var(--solaris-text-default);
+  --solaris-option-description-color: var(--solaris-text-muted);
+  --solaris-option-meta-color: var(--solaris-text-muted);
+  --solaris-option-background: transparent;
+  --solaris-option-hover-background: var(--solaris-surface-subtle);
+  --solaris-option-active-background: var(--solaris-surface-muted);
+  --solaris-option-selected-background: var(--solaris-primary-surface);
+  --solaris-option-selected-color: var(--solaris-primary-text, var(--solaris-text-default));
+  --solaris-option-disabled-opacity: 0.35;
+  --solaris-option-indicator-color: var(--solaris-primary-base);
+
+  .solaris-option__label-text {
+    font-size: var(--solaris-font-size-lg);
+    line-height: var(--solaris-line-height-lg);
+  }
+}
+
+:host([data-density='compact']) {
+  --solaris-option-padding-x: var(--solaris-spacing-2);
+  --solaris-option-padding-y: 0.25rem;
+  --solaris-option-gap: var(--solaris-spacing-1);
+  --solaris-option-min-height: auto;
+}
+
+:host([data-density='comfortable']) {
+  --solaris-option-gap: var(--solaris-spacing-3);
+}
+
+:host(:not([data-disabled])) .solaris-option:hover {
+  background: var(--solaris-option-hover-background);
+}
+
+:host(:not([data-disabled])) .solaris-option:active {
+  background: var(--solaris-option-active-background);
+}
+
+:host([data-selected]:not([data-disabled])) .solaris-option {
+  background: var(--solaris-option-selected-background);
+  color: var(--solaris-option-selected-color);
+}
+
+:host([data-active]:not([data-disabled])) .solaris-option {
+  background: var(--solaris-option-active-background);
+}
+
+:host([data-active][data-selected]:not([data-disabled])) .solaris-option {
+  background: var(--solaris-option-selected-background);
+  color: var(--solaris-option-selected-color);
+}
+
+:host([data-highlighted]) .solaris-option {
+  outline: 0.125rem solid var(--solaris-primary-base);
+  outline-offset: -0.125rem;
+}
+
+:host([data-disabled]) .solaris-option {
+  opacity: var(--solaris-option-disabled-opacity);
+  cursor: not-allowed;
+  pointer-events: none;
+}

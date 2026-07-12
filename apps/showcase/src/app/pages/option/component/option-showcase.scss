@@ -1,0 +1,46 @@
+@use '../../../shared/showcase-layout' as l;
+
+.option-showcase {
+  @include l.page;
+}
+
+.option-showcase__header {
+  @include l.header;
+}
+
+.option-showcase__title {
+  @include l.title;
+}
+
+.option-showcase__description {
+  @include l.description;
+}
+
+.option-showcase__section {
+  @include l.section-card;
+}
+
+.option-showcase__section-title {
+  @include l.section-title;
+}
+
+.option-showcase__note {
+  @include l.note;
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.option-showcase__listbox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-1);
+  padding: var(--solaris-spacing-2);
+  background: var(--solaris-surface-base);
+  border: 1px solid var(--solaris-border-subtle);
+  border-radius: var(--solaris-radius-lg);
+  max-width: 24rem;
+}
+
+.option-showcase__flag {
+  font-size: 1.25rem;
+  line-height: 1;
+}

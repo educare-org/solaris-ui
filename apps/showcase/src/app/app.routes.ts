@@ -135,6 +135,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'option',
+    loadComponent: () =>
+      import('./pages/option/component/option-showcase').then(
+        (m) => m.OptionShowcasePage,
+      ),
+  },
+  {
     path: 'popover',
     loadComponent: () =>
       import('./pages/popover/component/popover-showcase').then(
