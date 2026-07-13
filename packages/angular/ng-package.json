@@ -21,17 +21,17 @@
       "output": "styles"
     },
     {
-      "input": "src/lib/forms/input/styles",
+      "input": "src/lib/components/forms/input/styles",
       "glob": "_*.scss",
       "output": "styles"
     },
     {
-      "input": "src/lib/interaction/popover/styles",
+      "input": "src/lib/components/interaction/popover/styles",
       "glob": "_*.scss",
       "output": "styles"
     },
     {
-      "input": "src/lib/interaction/tooltip/styles",
+      "input": "src/lib/components/interaction/tooltip/styles",
       "glob": "_*.scss",
       "output": "styles"
     }

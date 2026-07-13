@@ -41,7 +41,7 @@ Scope:
 - [x] Switch;
 - [x] Popover;
 - [x] Option + Option Group;
-- [ ] Tooltip;
+- [x] Tooltip;
 - [ ] Select;
 - [ ] Multi Select;
 

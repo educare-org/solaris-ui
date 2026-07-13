@@ -117,135 +117,135 @@ export type {
   SolarisButtonGroupDensity,
 } from './lib/components/actions/button-group/model/button-group.types';
 
-export { SolarisOptionComponent } from './lib/forms/option/component/option.component';
+export { SolarisOptionComponent } from './lib/components/forms/option/component/option.component';
 export {
   SolarisOptionLeadingDirective,
   SolarisOptionLabelDirective,
   SolarisOptionDescriptionDirective,
   SolarisOptionMetaDirective,
   SolarisOptionTrailingDirective,
-} from './lib/forms/option/directives/option-slots.directive';
+} from './lib/components/forms/option/directives/option-slots.directive';
 export type {
   SolarisOptionSize,
   SolarisOptionDensity,
   SolarisOptionSelectionMode,
-} from './lib/forms/option/model/option.types';
+} from './lib/components/forms/option/model/option.types';
 
-export { SolarisOptionGroupComponent } from './lib/forms/option-group/component/option-group.component';
+export { SolarisOptionGroupComponent } from './lib/components/forms/option-group/component/option-group.component';
 export type {
   SolarisOptionGroupSize,
   SolarisOptionGroupDensity,
-} from './lib/forms/option-group/model/option-group.types';
+} from './lib/components/forms/option-group/model/option-group.types';
 
-export { SolarisFormFieldComponent } from './lib/forms/form-field/component/form-field.component';
-export { SolarisFormLabelComponent } from './lib/forms/form-field/component/form-label.component';
-export { SolarisFormHintComponent } from './lib/forms/form-field/component/form-hint.component';
-export { SolarisFormErrorComponent } from './lib/forms/form-field/component/form-error.component';
-export { SolarisFormPrefixDirective } from './lib/forms/form-field/directives/form-prefix.directive';
-export { SolarisFormSuffixDirective } from './lib/forms/form-field/directives/form-suffix.directive';
+export { SolarisFormFieldComponent } from './lib/components/forms/form-field/component/form-field.component';
+export { SolarisFormLabelComponent } from './lib/components/forms/form-field/component/form-label.component';
+export { SolarisFormHintComponent } from './lib/components/forms/form-field/component/form-hint.component';
+export { SolarisFormErrorComponent } from './lib/components/forms/form-field/component/form-error.component';
+export { SolarisFormPrefixDirective } from './lib/components/forms/form-field/directives/form-prefix.directive';
+export { SolarisFormSuffixDirective } from './lib/components/forms/form-field/directives/form-suffix.directive';
 export type {
   SolarisFormFieldAppearance,
   SolarisFormFieldSize,
   SolarisFormFieldDensity,
   SolarisFormFieldRadius,
-} from './lib/forms/form-field/model/form-field.types';
+} from './lib/components/forms/form-field/model/form-field.types';
 
-export { SolarisInputDirective } from './lib/forms/input/directives/input.directive';
+export { SolarisInputDirective } from './lib/components/forms/input/directives/input.directive';
 export type {
   SolarisInputAppearance,
   SolarisInputSize,
   SolarisInputDensity,
   SolarisInputRadius,
-} from './lib/forms/input/model/input.types';
+} from './lib/components/forms/input/model/input.types';
 
-export { SolarisCheckboxComponent } from './lib/forms/checkbox/component/checkbox.component';
+export { SolarisCheckboxComponent } from './lib/components/forms/checkbox/component/checkbox.component';
 export type {
   SolarisCheckboxAppearance,
   SolarisCheckboxColor,
   SolarisCheckboxSize,
   SolarisCheckboxRadius,
   SolarisCheckboxDensity,
-} from './lib/forms/checkbox/model/checkbox.types';
+} from './lib/components/forms/checkbox/model/checkbox.types';
 
-export { SolarisCheckboxGroupComponent } from './lib/forms/checkbox-group/component/checkbox-group.component';
+export { SolarisCheckboxGroupComponent } from './lib/components/forms/checkbox-group/component/checkbox-group.component';
 export type {
   SolarisCheckboxGroupOrientation,
   SolarisCheckboxGroupLayout,
   SolarisCheckboxGroupColumns,
   SolarisCheckboxGroupDensity,
   SolarisCheckboxGroupSize,
-} from './lib/forms/checkbox-group/model/checkbox-group.types';
+} from './lib/components/forms/checkbox-group/model/checkbox-group.types';
 
-export { SolarisRadioComponent } from './lib/forms/radio/component/radio.component';
+export { SolarisRadioComponent } from './lib/components/forms/radio/component/radio.component';
 export type {
   SolarisRadioAppearance,
   SolarisRadioColor,
   SolarisRadioSize,
   SolarisRadioDensity,
-} from './lib/forms/radio/model/radio.types';
+} from './lib/components/forms/radio/model/radio.types';
 
-export { SolarisSwitchComponent } from './lib/forms/switch/component/switch.component';
+export { SolarisSwitchComponent } from './lib/components/forms/switch/component/switch.component';
 export type {
   SolarisSwitchAppearance,
   SolarisSwitchColor,
   SolarisSwitchSize,
   SolarisSwitchDensity,
-} from './lib/forms/switch/model/switch.types';
+} from './lib/components/forms/switch/model/switch.types';
 
-export { SolarisSwitchGroupComponent } from './lib/forms/switch-group/component/switch-group.component';
+export { SolarisSwitchGroupComponent } from './lib/components/forms/switch-group/component/switch-group.component';
 export type {
   SolarisSwitchGroupOrientation,
   SolarisSwitchGroupLayout,
   SolarisSwitchGroupColumns,
   SolarisSwitchGroupDensity,
   SolarisSwitchGroupSize,
-} from './lib/forms/switch-group/model/switch-group.types';
+} from './lib/components/forms/switch-group/model/switch-group.types';
 
-export { SolarisRadioGroupComponent } from './lib/forms/radio-group/component/radio-group.component';
+export { SolarisRadioGroupComponent } from './lib/components/forms/radio-group/component/radio-group.component';
 export type {
   SolarisRadioGroupOrientation,
   SolarisRadioGroupLayout,
   SolarisRadioGroupColumns,
   SolarisRadioGroupDensity,
   SolarisRadioGroupSize,
-} from './lib/forms/radio-group/model/radio-group.types';
+} from './lib/components/forms/radio-group/model/radio-group.types';
 
-export { SolarisTextareaDirective } from './lib/forms/textarea/directives/textarea.directive';
+export { SolarisTextareaDirective } from './lib/components/forms/textarea/directives/textarea.directive';
 export type {
   SolarisTextareaAppearance,
   SolarisTextareaSize,
   SolarisTextareaDensity,
   SolarisTextareaRadius,
   SolarisTextareaResize,
-} from './lib/forms/textarea/model/textarea.types';
+} from './lib/components/forms/textarea/model/textarea.types';
 
-export { SolarisPasswordFieldComponent } from './lib/forms/password-field/component/password-field.component';
-export { solarisPasswordValidator } from './lib/forms/password-field/validators/password.validator';
-export type { SolarisPasswordPolicy } from './lib/forms/password-field/model/password-policy.types';
+export { SolarisPasswordFieldComponent } from './lib/components/forms/password-field/component/password-field.component';
+export { solarisPasswordValidator } from './lib/components/forms/password-field/validators/password.validator';
+export type { SolarisPasswordPolicy } from './lib/components/forms/password-field/model/password-policy.types';
 export type {
   SolarisPasswordFieldAppearance,
   SolarisPasswordFieldSize,
   SolarisPasswordFieldDensity,
   SolarisPasswordFieldRadius,
   SolarisPasswordStrength,
-} from './lib/forms/password-field/model/password-field.types';
+} from './lib/components/forms/password-field/model/password-field.types';
 
-export { SolarisEmailFieldComponent } from './lib/forms/email-field/component/email-field.component';
+export { SolarisEmailFieldComponent } from './lib/components/forms/email-field/component/email-field.component';
 export {
   solarisEmailValidator,
   solarisAllowedDomainsValidator,
   solarisBlockedDomainsValidator,
-} from './lib/forms/email-field/validators/email-field.validators';
+} from './lib/components/forms/email-field/validators/email-field.validators';
 export type {
   SolarisEmailFieldAppearance,
   SolarisEmailFieldSize,
   SolarisEmailFieldDensity,
   SolarisEmailFieldRadius,
-} from './lib/forms/email-field/model/email-field.types';
+} from './lib/components/forms/email-field/model/email-field.types';
 
-export { SolarisPopoverDirective } from './lib/interaction/popover/directives/popover.directive';
-export { SolarisPopoverTriggerDirective } from './lib/interaction/popover/directives/popover-trigger.directive';
-export { SolarisPopoverPanelComponent } from './lib/interaction/popover/component/popover-panel.component';
+export { SolarisPopoverDirective } from './lib/components/interaction/popover/directives/popover.directive';
+export { SolarisPopoverTriggerDirective } from './lib/components/interaction/popover/directives/popover-trigger.directive';
+export { SolarisPopoverPanelComponent } from './lib/components/interaction/popover/component/popover-panel.component';
 export type {
   SolarisPopoverPlacement,
   SolarisPopoverAlign,
@@ -254,10 +254,10 @@ export type {
   SolarisPopoverRadius,
   SolarisPopoverScrollStrategy,
   SolarisPopoverAutoFocus,
-} from './lib/interaction/popover/model/popover.types';
+} from './lib/components/interaction/popover/model/popover.types';
 
-export { SolarisTooltipDirective } from './lib/interaction/tooltip/directive/tooltip.directive';
-export { SolarisTooltipPanelComponent } from './lib/interaction/tooltip/component/tooltip-panel.component';
+export { SolarisTooltipDirective } from './lib/components/interaction/tooltip/directive/tooltip.directive';
+export { SolarisTooltipPanelComponent } from './lib/components/interaction/tooltip/component/tooltip-panel.component';
 export type {
   SolarisTooltipPlacement,
   SolarisTooltipTrigger,
@@ -265,7 +265,7 @@ export type {
   SolarisTooltipSize,
   SolarisTooltipRadius,
   SolarisTooltipConfig,
-} from './lib/interaction/tooltip/model/tooltip.types';
+} from './lib/components/interaction/tooltip/model/tooltip.types';
 
 export { SolarisSkeletonComponent } from './lib/components/feedback/skeleton/component/skeleton.component';
 export type {

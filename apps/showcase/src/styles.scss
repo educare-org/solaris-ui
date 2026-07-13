@@ -13,16 +13,16 @@
   as solaris-icon-button;
 
 /* Solaris input styles */
-@use '../../../packages/angular/src/lib/forms/input/styles/input' as
+@use '../../../packages/angular/src/lib/components/forms/input/styles/input' as
   solaris-input;
 
 /* Solaris textarea styles */
-@use '../../../packages/angular/src/lib/forms/textarea/styles/textarea' as
-  solaris-textarea;
+@use '../../../packages/angular/src/lib/components/forms/textarea/styles/textarea'
+  as solaris-textarea;
 
 /* Solaris popover styles */
-@use '../../../packages/angular/src/lib/interaction/popover/styles/popover' as
-  solaris-popover;
+@use '../../../packages/angular/src/lib/components/interaction/popover/styles/popover'
+  as solaris-popover;
 
 @include solaris.core(
   (
