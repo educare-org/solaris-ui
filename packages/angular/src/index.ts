@@ -163,6 +163,7 @@ export type {
   SolarisCheckboxAppearance,
   SolarisCheckboxColor,
   SolarisCheckboxSize,
+  SolarisCheckboxRadius,
   SolarisCheckboxDensity,
 } from './lib/forms/checkbox/model/checkbox.types';
 

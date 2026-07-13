@@ -48,7 +48,7 @@ function generateId(): string {
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-control-type]': 'controlType()',
     '[attr.data-control-resize]': 'controlResize()',
-    '[attr.data-invalid]': 'showError() ? "" : null',
+    '[attr.data-invalid]': 'isInvalid() ? "" : null',
     '[attr.data-focused]': 'isFocused() ? "" : null',
     '[attr.data-has-prefix]': 'hasPrefix() ? "" : null',
     '[attr.data-has-suffix]': 'hasSuffix() ? "" : null',

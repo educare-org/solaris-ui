@@ -111,6 +111,29 @@
 
   <section class="checkbox-showcase__section">
     <h2 class="checkbox-showcase__section-title">
+      {{ 'checkbox.radius' | translate }}
+    </h2>
+    <p class="checkbox-showcase__note">
+      {{ 'checkbox.radius-note' | translate }}
+    </p>
+    <div class="checkbox-showcase__row">
+      <solaris-checkbox radius="sm"
+        >{{ 'checkbox.small' | translate }}</solaris-checkbox
+      >
+      <solaris-checkbox radius="md"
+        >{{ 'checkbox.medium' | translate }}</solaris-checkbox
+      >
+      <solaris-checkbox radius="lg"
+        >{{ 'checkbox.large' | translate }}</solaris-checkbox
+      >
+      <solaris-checkbox radius="full"
+        >{{ 'checkbox.neutral' | translate }}</solaris-checkbox
+      >
+    </div>
+  </section>
+
+  <section class="checkbox-showcase__section">
+    <h2 class="checkbox-showcase__section-title">
       {{ 'checkbox.states' | translate }}
     </h2>
     <div class="checkbox-showcase__grid">

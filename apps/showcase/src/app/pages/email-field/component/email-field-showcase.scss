@@ -1,31 +1,31 @@
-@use '../../../shared/showcase-layout' as l;
+@use '../../../shared/showcase-layout' as layout;
 
 .email-field-showcase {
-  @include l.page(60rem);
+  @include layout.page;
 }
 
 .email-field-showcase__header {
-  @include l.header;
+  @include layout.header;
 }
 
 .email-field-showcase__title {
-  @include l.title;
+  @include layout.title;
 }
 
 .email-field-showcase__description {
-  @include l.description;
+  @include layout.description;
 }
 
 .email-field-showcase__section {
-  @include l.section-card;
+  @include layout.section-card;
 }
 
 .email-field-showcase__section-title {
-  @include l.section-title;
+  @include layout.section-title;
 }
 
 .email-field-showcase__note {
-  @include l.note;
+  @include layout.note;
   margin-bottom: var(--solaris-spacing-3);
 }
 

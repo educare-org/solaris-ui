@@ -27,7 +27,7 @@
   background: var(--solaris-card-background);
   border: var(--solaris-card-border-width) solid
     var(--solaris-card-border-color);
-  --solaris-card-section-gap: var(--solaris-card-gap, var(--solaris-spacing-4));
+  --solaris-card-section-gap: var(--solaris-card-gap, var(--solaris-spacing-5));
   --solaris-card-section-padding: var(
     --solaris-card-padding,
     var(--solaris-spacing-6)
@@ -36,26 +36,26 @@
 
 :host([data-appearance='surface']) {
   --solaris-card-shadow: none;
-  --solaris-card-border-width: 1px;
   --solaris-card-color: var(--solaris-text-default);
   --solaris-card-background: var(--solaris-surface-base);
   --solaris-card-border-color: var(--solaris-border-subtle);
+  --solaris-card-border-width: var(--solaris-border-width-sm);
 }
 
 :host([data-appearance='outline']) {
   --solaris-card-shadow: none;
-  --solaris-card-border-width: 1px;
   --solaris-card-background: transparent;
   --solaris-card-color: var(--solaris-text-default);
   --solaris-card-border-color: var(--solaris-border-default);
+  --solaris-card-border-width: var(--solaris-border-width-sm);
 }
 
 :host([data-appearance='tonal']) {
   --solaris-card-shadow: none;
-  --solaris-card-border-width: 1px;
   --solaris-card-color: var(--solaris-text-default);
   --solaris-card-background: var(--solaris-surface-subtle);
   --solaris-card-border-color: var(--solaris-border-subtle);
+  --solaris-card-border-width: var(--solaris-border-width-sm);
 }
 
 :host([data-appearance='glass']) {
@@ -65,9 +65,9 @@
     inset 0 -1px 0 rgba(255, 255, 255, 0.06);
 
   --solaris-card-glass-blur: 22px;
-  --solaris-card-border-width: 1px;
   --solaris-card-glass-texture-opacity: 0.18;
   --solaris-card-color: var(--solaris-text-glass);
+  --solaris-card-border-width: var(--solaris-border-width-sm);
 
   // SOLARIS_TOKEN_EXCEPTION: glass appearance requires translucent rgba values for the frosted-glass effect.
   --solaris-card-glass-background:
@@ -138,8 +138,8 @@
 }
 
 :host([data-density='compact']) {
-  --solaris-card-gap: var(--solaris-density-gap-md);
-  --solaris-card-padding: var(--solaris-density-padding-lg);
+  --solaris-card-gap: var(--solaris-density-gap-lg);
+  --solaris-card-padding: var(--solaris-density-padding-xl);
 }
 
 :host([data-density='comfortable']) {
@@ -196,7 +196,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  padding-block-start: var(--solaris-spacing-0);
+  padding-block-start: var(--solaris-spacing-1);
   padding-block-end: var(--solaris-card-section-padding);
 }
 
@@ -207,7 +207,7 @@
 :host ::ng-deep .solaris-card-footer[data-separator] {
   padding-block-start: var(--solaris-card-section-gap);
 
-  border-top: 1px solid
+  border-top: var(--solaris-border-width-sm) solid
     var(--solaris-card-footer-border-color, var(--solaris-border-subtle));
 }
 
@@ -245,7 +245,7 @@
   line-height: var(--solaris-line-height-sm);
   font-weight: var(--solaris-font-weight-semibold);
   margin: var(--solaris-spacing-0) var(--solaris-spacing-0)
-    var(--solaris-spacing-1);
+    var(--solaris-spacing-2);
 }
 
 :host ::ng-deep .solaris-card-description {

@@ -130,7 +130,7 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
       return undefined;
     }
     return {
-      ...(p ?? {}),
+      ...p,
       ...(min !== undefined ? { minLength: min } : {}),
       ...(max !== undefined ? { maxLength: max } : {}),
     };
@@ -209,9 +209,13 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
       return false;
     }
 
+    const val = this.internalValue();
+    if (this.required() && (!val || val.length === 0)) {
+      return true;
+    }
+
     const currentPolicy = this.effectivePolicy();
     if (this.validatePolicy() && currentPolicy) {
-      const val = this.internalValue();
       if (typeof val === 'string' && val.length > 0) {
         const errors = solarisPasswordValidator(currentPolicy)({
           value: val,
@@ -223,6 +227,24 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
     }
 
     return false;
+  });
+
+  protected readonly computedError = computed(() => {
+    if (!this.isFieldInvalid()) {
+      return '';
+    }
+
+    const val = this.internalValue();
+    if (!val || val.length === 0) {
+      if (this.required()) {
+        return this.translateWithDefault(
+          'solaris.password-field.error.required',
+          'Password is required.',
+        );
+      }
+    }
+
+    return '';
   });
 
   protected readonly requirementList = computed<RequirementItem[]>(() => {

@@ -1,31 +1,31 @@
-@use '../../../shared/showcase-layout' as l;
+@use '../../../shared/showcase-layout' as layout;
 
 .radio-showcase {
-  @include l.page;
+  @include layout.page;
 }
 
 .radio-showcase__header {
-  @include l.header;
+  @include layout.header;
 }
 
 .radio-showcase__title {
-  @include l.title;
+  @include layout.title;
 }
 
 .radio-showcase__description {
-  @include l.description;
+  @include layout.description;
 }
 
 .radio-showcase__section {
-  @include l.section-card;
+  @include layout.section-card;
 }
 
 .radio-showcase__section-title {
-  @include l.section-title;
+  @include layout.section-title;
 }
 
 .radio-showcase__row {
-  @include l.row($gap: var(--solaris-spacing-4));
+  @include layout.row($gap: var(--solaris-spacing-4));
   margin-bottom: var(--solaris-spacing-2);
 
   &:last-child {
@@ -34,14 +34,14 @@
 }
 
 .radio-showcase__note {
-  @include l.note;
+  @include layout.note;
   margin-bottom: var(--solaris-spacing-3);
 }
 
 .radio-showcase__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
   gap: var(--solaris-spacing-3);
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
 }
 
 .radio-showcase__cell {

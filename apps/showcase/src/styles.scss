@@ -24,7 +24,11 @@
 @use '../../../packages/angular/src/lib/interaction/popover/styles/popover' as
   solaris-popover;
 
-@include solaris.core();
+@include solaris.core(
+  (
+    root-font-size: rem-10,
+  )
+);
 @include solaris.theme();
 
 /* Font source loading via @fontsource */
@@ -37,7 +41,6 @@
 
 /* Base body styles using Solaris tokens */
 body {
-  font-size: var(--solaris-font-size-md);
   background-color: var(--solaris-bg-page);
   line-height: var(--solaris-line-height-md);
   font-family: var(--solaris-font-family-sans), system-ui;

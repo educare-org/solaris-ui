@@ -1,11 +1,11 @@
-@use '../../../shared/showcase-layout' as l;
+@use '../../../shared/showcase-layout' as layout;
 
 .card-showcase {
-  @include l.page(60rem);
+  @include layout.page;
 }
 
 .card-showcase__header {
-  @include l.header;
+  @include layout.header;
 }
 
 .card-showcase__title {
@@ -49,7 +49,7 @@
 .card-showcase__grid {
   display: grid;
   gap: var(--solaris-spacing-4);
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
 }
 
 .card-showcase__media-placeholder {

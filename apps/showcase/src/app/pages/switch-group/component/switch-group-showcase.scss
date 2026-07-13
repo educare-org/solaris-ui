@@ -1,7 +1,7 @@
 @use '../../../shared/showcase-layout' as layout;
 
 .switch-group-showcase {
-  @include layout.page(80rem);
+  @include layout.page;
 }
 
 .switch-group-showcase__title {
@@ -21,10 +21,10 @@
 }
 
 .switch-group-showcase__subsection-title {
-  font: var(--solaris-font-weight-medium) var(--solaris-font-size-sm) /
-    var(--solaris-line-height-md) var(--solaris-font-family-sans);
   color: var(--solaris-text-muted);
   margin: var(--solaris-spacing-4) 0 var(--solaris-spacing-2);
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
 }
 
 .switch-group-showcase__note {

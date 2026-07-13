@@ -2,29 +2,30 @@
 
 .theme-toggle {
   display: inline-flex;
-  border: 1px solid var(--solaris-border-subtle);
-  border-radius: var(--solaris-radius-full);
   overflow: hidden;
-  background: var(--solaris-surface-muted);
   font-size: var(--solaris-font-size-md);
+  background: var(--solaris-surface-muted);
+  border-radius: var(--solaris-radius-full);
+  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
 }
 
 .theme-toggle__btn {
-  cursor: pointer;
+  padding: 0;
+  border: none;
   display: flex;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border: none;
   background: transparent;
+  width: var(--solaris-spacing-8);
+  height: var(--solaris-spacing-8);
   color: var(--solaris-text-muted);
-  transition: color var(--solaris-motion-duration-fast, 150ms) ease;
-  padding: 0;
+  transition: color var(--solaris-motion-duration-fast)
+    var(--solaris-motion-easing-standard);
 
   svg {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: var(--solaris-spacing-5);
+    height: var(--solaris-spacing-5);
   }
 
   &:hover {

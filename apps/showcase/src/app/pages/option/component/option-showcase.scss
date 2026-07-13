@@ -1,31 +1,31 @@
-@use '../../../shared/showcase-layout' as l;
+@use '../../../shared/showcase-layout' as layout;
 
 .option-showcase {
-  @include l.page;
+  @include layout.page;
 }
 
 .option-showcase__header {
-  @include l.header;
+  @include layout.header;
 }
 
 .option-showcase__title {
-  @include l.title;
+  @include layout.title;
 }
 
 .option-showcase__description {
-  @include l.description;
+  @include layout.description;
 }
 
 .option-showcase__section {
-  @include l.section-card;
+  @include layout.section-card;
 }
 
 .option-showcase__section-title {
-  @include l.section-title;
+  @include layout.section-title;
 }
 
 .option-showcase__note {
-  @include l.note;
+  @include layout.note;
   margin-bottom: var(--solaris-spacing-3);
 }
 

@@ -2,29 +2,29 @@
   --solaris-button-gap: initial;
   --solaris-button-color: initial;
   --solaris-button-radius: initial;
+  --solaris-button-height: initial;
   --solaris-button-padding-x: initial;
   --solaris-button-padding-y: initial;
-  --solaris-button-height: initial;
   --solaris-button-min-width: initial;
   --solaris-button-font-size: initial;
-  --solaris-button-font-weight: initial;
   --solaris-button-icon-size: initial;
   --solaris-button-background: initial;
+  --solaris-button-font-weight: initial;
   --solaris-button-border-color: initial;
   --solaris-button-border-width: initial;
-  --solaris-button-hover-background: initial;
-  --solaris-button-hover-border-color: initial;
-  --solaris-button-active-background: initial;
-  --solaris-button-active-border-color: initial;
-  --solaris-button-focus-ring-color: initial;
   --solaris-button-disabled-opacity: 0.5;
+  --solaris-button-hover-background: initial;
+  --solaris-button-focus-ring-color: initial;
+  --solaris-button-active-background: initial;
+  --solaris-button-hover-border-color: initial;
+  --solaris-button-active-border-color: initial;
 
   --solaris-button-custom-color: initial;
   --solaris-button-custom-background: initial;
   --solaris-button-custom-border-color: initial;
   --solaris-button-custom-hover-background: initial;
-  --solaris-button-custom-hover-border-color: initial;
   --solaris-button-custom-active-background: initial;
+  --solaris-button-custom-hover-border-color: initial;
   --solaris-button-custom-active-border-color: initial;
 
   cursor: pointer;
@@ -37,16 +37,16 @@
   gap: var(--solaris-button-gap);
   color: var(--solaris-button-color);
   height: var(--solaris-button-height);
+  line-height: var(--solaris-line-height-sm);
   min-width: var(--solaris-button-min-width);
   font-size: var(--solaris-button-font-size);
   border-radius: var(--solaris-button-radius);
   background: var(--solaris-button-background);
   font-weight: var(--solaris-button-font-weight);
+  font-family: var(--solaris-font-family-sans), system-ui;
   padding: var(--solaris-button-padding-y) var(--solaris-button-padding-x);
   border: var(--solaris-button-border-width) solid
     var(--solaris-button-border-color);
-  line-height: var(--solaris-line-height-sm, 1.25);
-  font-family: var(--solaris-font-family-sans), system-ui;
   transition:
     background var(--solaris-motion-duration-normal, 250ms)
       var(--solaris-motion-easing-standard, ease),
@@ -143,8 +143,8 @@
 }
 
 [solaris-button][data-appearance='outline'] {
-  --solaris-button-border-width: 1px;
   --solaris-button-background: transparent;
+  --solaris-button-border-width: var(--solaris-border-width-sm);
 }
 
 [solaris-button][data-appearance='ghost'] {
@@ -154,7 +154,7 @@
 }
 
 [solaris-button][data-appearance='tonal'] {
-  --solaris-button-border-width: 1px;
+  --solaris-button-border-width: var(--solaris-border-width-sm);
 }
 
 [solaris-button][data-appearance='surface'] {
@@ -440,71 +440,71 @@
 }
 
 [solaris-button][data-size='sm'] {
-  --solaris-button-height: 2rem;
-  --solaris-button-gap: 0.25rem;
-  --solaris-button-min-width: 4rem;
-  --solaris-button-padding-x: 0.75rem;
-  --solaris-button-padding-y: 0.25rem;
-  --solaris-button-icon-size: 0.875rem;
-  --solaris-button-font-size: var(--solaris-font-size-sm, 0.875rem);
-  --solaris-button-font-weight: var(--solaris-font-weight-medium, 500);
+  --solaris-button-gap: var(--solaris-spacing-1);
+  --solaris-button-height: var(--solaris-spacing-8);
+  --solaris-button-padding-x: var(--solaris-spacing-3);
+  --solaris-button-padding-y: var(--solaris-spacing-1);
+  --solaris-button-min-width: var(--solaris-spacing-16);
+  --solaris-button-icon-size: var(--solaris-font-size-sm);
+  --solaris-button-font-size: var(--solaris-font-size-sm);
+  --solaris-button-font-weight: var(--solaris-font-weight-medium);
 }
 
 [solaris-button][data-size='md'] {
-  --solaris-button-gap: 0.375rem;
-  --solaris-button-height: 2.5rem;
-  --solaris-button-min-width: 5rem;
-  --solaris-button-padding-x: 1rem;
-  --solaris-button-icon-size: 1rem;
-  --solaris-button-padding-y: 0.375rem;
-  --solaris-button-font-size: var(--solaris-font-size-md, 0.875rem);
-  --solaris-button-font-weight: var(--solaris-font-weight-medium, 500);
+  --solaris-button-gap: var(--solaris-spacing-2);
+  --solaris-button-height: var(--solaris-spacing-10);
+  --solaris-button-padding-y: var(--solaris-spacing-2);
+  --solaris-button-padding-x: var(--solaris-spacing-4);
+  --solaris-button-icon-size: var(--solaris-spacing-4);
+  --solaris-button-min-width: var(--solaris-spacing-20);
+  --solaris-button-font-size: var(--solaris-font-size-md);
+  --solaris-button-font-weight: var(--solaris-font-weight-medium);
 }
 
 [solaris-button][data-size='lg'] {
-  --solaris-button-gap: 0.5rem;
-  --solaris-button-height: 3rem;
-  --solaris-button-min-width: 6rem;
-  --solaris-button-padding-y: 0.5rem;
-  --solaris-button-padding-x: 1.25rem;
-  --solaris-button-icon-size: 1.25rem;
-  --solaris-button-font-size: var(--solaris-font-size-lg, 1rem);
-  --solaris-button-font-weight: var(--solaris-font-weight-semibold, 600);
+  --solaris-button-gap: var(--solaris-spacing-2);
+  --solaris-button-height: var(--solaris-spacing-12);
+  --solaris-button-padding-y: var(--solaris-spacing-2);
+  --solaris-button-padding-x: var(--solaris-spacing-5);
+  --solaris-button-icon-size: var(--solaris-spacing-5);
+  --solaris-button-min-width: var(--solaris-spacing-24);
+  --solaris-button-font-size: var(--solaris-font-size-lg);
+  --solaris-button-font-weight: var(--solaris-font-weight-semibold);
 }
 
 [solaris-button][data-radius='none'] {
-  --solaris-button-radius: var(--solaris-radius-none, 0);
+  --solaris-button-radius: var(--solaris-radius-none);
 }
 
 [solaris-button][data-radius='sm'] {
-  --solaris-button-radius: var(--solaris-radius-sm, 0.25rem);
+  --solaris-button-radius: var(--solaris-radius-sm);
 }
 
 [solaris-button][data-radius='md'] {
-  --solaris-button-radius: var(--solaris-radius-md, 0.5rem);
+  --solaris-button-radius: var(--solaris-radius-md);
 }
 
 [solaris-button][data-radius='lg'] {
-  --solaris-button-radius: var(--solaris-radius-lg, 0.75rem);
+  --solaris-button-radius: var(--solaris-radius-lg);
 }
 
 [solaris-button][data-radius='full'] {
-  --solaris-button-radius: var(--solaris-radius-full, 624.9375rem);
+  --solaris-button-radius: var(--solaris-radius-full);
 }
 
 [solaris-button][data-density='compact'] {
-  --solaris-button-height: 2rem;
-  --solaris-button-gap: 0.25rem;
-  --solaris-button-min-width: 4rem;
-  --solaris-button-padding-x: 0.75rem;
-  --solaris-button-icon-size: 0.875rem;
-  --solaris-button-padding-y: 0.1875rem;
+  --solaris-button-gap: var(--solaris-density-gap-md);
+  --solaris-button-padding-y: var(--solaris-spacing-4);
+  --solaris-button-min-width: var(--solaris-spacing-10);
+  --solaris-button-icon-size: var(--solaris-font-size-sm);
+  --solaris-button-height: var(--solaris-density-min-height);
+  --solaris-button-padding-x: var(--solaris-density-padding-lg);
 }
 
 [solaris-button][data-density='comfortable'] {
-  --solaris-button-gap: 0.5rem;
-  --solaris-button-height: 2.5rem;
-  --solaris-button-padding-x: 1rem;
-  --solaris-button-icon-size: 1rem;
-  --solaris-button-padding-y: 0.5rem;
+  --solaris-button-gap: var(--solaris-density-gap-md);
+  --solaris-button-icon-size: var(--solaris-spacing-4);
+  --solaris-button-padding-y: var(--solaris-spacing-4);
+  --solaris-button-height: var(--solaris-density-min-height);
+  --solaris-button-padding-x: var(--solaris-density-padding-lg);
 }

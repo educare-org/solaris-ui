@@ -1,16 +1,16 @@
 [solaris-icon-button] {
+  --solaris-icon-button-size: initial;
   --solaris-icon-button-color: initial;
   --solaris-icon-button-radius: initial;
-  --solaris-icon-button-size: initial;
   --solaris-icon-button-background: initial;
   --solaris-icon-button-border-color: initial;
   --solaris-icon-button-border-width: initial;
-  --solaris-icon-button-hover-background: initial;
-  --solaris-icon-button-hover-border-color: initial;
-  --solaris-icon-button-active-background: initial;
-  --solaris-icon-button-active-border-color: initial;
-  --solaris-icon-button-focus-ring-color: initial;
   --solaris-icon-button-disabled-opacity: 0.5;
+  --solaris-icon-button-focus-ring-color: initial;
+  --solaris-icon-button-hover-background: initial;
+  --solaris-icon-button-active-background: initial;
+  --solaris-icon-button-hover-border-color: initial;
+  --solaris-icon-button-active-border-color: initial;
 
   --solaris-icon-button-custom-color: initial;
   --solaris-icon-button-custom-background: initial;
@@ -20,38 +20,38 @@
   --solaris-icon-button-custom-active-background: initial;
   --solaris-icon-button-custom-active-border-color: initial;
 
+  padding: 0;
+  flex-shrink: 0;
+  line-height: 1;
   cursor: pointer;
   user-select: none;
-  display: inline-flex;
+  position: relative;
   align-items: center;
-  justify-content: center;
+  display: inline-flex;
   text-decoration: none;
   box-sizing: border-box;
-  position: relative;
-  flex-shrink: 0;
-  color: var(--solaris-icon-button-color);
+  justify-content: center;
   width: var(--solaris-icon-button-size);
   height: var(--solaris-icon-button-size);
+  color: var(--solaris-icon-button-color);
   min-width: var(--solaris-icon-button-size);
   min-height: var(--solaris-icon-button-size);
   border-radius: var(--solaris-icon-button-radius);
   background: var(--solaris-icon-button-background);
-  padding: 0;
+  font-family: var(--solaris-font-family-sans), system-ui;
   border: var(--solaris-icon-button-border-width) solid
     var(--solaris-icon-button-border-color);
-  line-height: 1;
-  font-family: var(--solaris-font-family-sans), system-ui;
   transition:
-    background var(--solaris-motion-duration-normal, 250ms)
-      var(--solaris-motion-easing-standard, ease),
-    border-color var(--solaris-motion-duration-normal, 250ms)
-      var(--solaris-motion-easing-standard, ease),
-    color var(--solaris-motion-duration-normal, 250ms)
-      var(--solaris-motion-easing-standard, ease),
-    box-shadow var(--solaris-motion-duration-normal, 250ms)
-      var(--solaris-motion-easing-standard, ease),
-    transform var(--solaris-motion-duration-fast, 150ms)
-      var(--solaris-motion-easing-standard, ease);
+    background var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    transform var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard);
 }
 
 [solaris-icon-button]:hover {
@@ -98,11 +98,11 @@
 }
 
 [solaris-icon-button][data-loading]::before {
+  width: 1em;
+  height: 1em;
   content: '';
   flex-shrink: 0;
   border-radius: 50%;
-  width: 1em;
-  height: 1em;
   border: 2px solid var(--solaris-icon-button-color);
   border-top-color: transparent;
   animation: solaris-icon-button-spin 0.6s linear infinite;
@@ -127,21 +127,20 @@
 }
 
 [solaris-icon-button] .solaris-icon-button-badge {
-  position: absolute;
   top: 0;
   right: 0;
-  transform: translate(50%, -50%);
+  position: absolute;
   pointer-events: none;
+  transform: translate(50%, -50%);
 }
 
-/* Appearance base */
 [solaris-icon-button][data-appearance='solid'] {
   --solaris-icon-button-border-width: 0;
 }
 
 [solaris-icon-button][data-appearance='outline'] {
-  --solaris-icon-button-border-width: 1px;
   --solaris-icon-button-background: transparent;
+  --solaris-icon-button-border-width: var(--solaris-border-width-sm);
 }
 
 [solaris-icon-button][data-appearance='ghost'] {
@@ -151,14 +150,13 @@
 }
 
 [solaris-icon-button][data-appearance='tonal'] {
-  --solaris-icon-button-border-width: 1px;
+  --solaris-icon-button-border-width: var(--solaris-border-width-sm);
 }
 
 [solaris-icon-button][data-appearance='surface'] {
   --solaris-icon-button-border-width: 0;
 }
 
-/* Color + Appearance combinations */
 [solaris-icon-button][data-color='neutral'][data-appearance='solid'] {
   --solaris-icon-button-color: var(--solaris-text-inverse);
   --solaris-icon-button-background: var(--solaris-text-default);
@@ -406,7 +404,6 @@
   --solaris-icon-button-active-background: var(--solaris-info-active);
 }
 
-/* Custom color */
 [solaris-icon-button][data-color='custom'] {
   --solaris-icon-button-hover-background: var(
     --solaris-icon-button-custom-hover-background
@@ -438,50 +435,47 @@
   );
 }
 
-/* Size */
 [solaris-icon-button][data-size='sm'] {
-  --solaris-icon-button-size: 2rem;
-  font-size: 0.875rem;
+  font-size: var(--solaris-font-size-sm);
+  --solaris-icon-button-size: var(--solaris-spacing-8);
 }
 
 [solaris-icon-button][data-size='md'] {
-  --solaris-icon-button-size: 2.5rem;
-  font-size: 1rem;
+  font-size: var(--solaris-font-size-md);
+  --solaris-icon-button-size: var(--solaris-spacing-10);
 }
 
 [solaris-icon-button][data-size='lg'] {
-  --solaris-icon-button-size: 3rem;
-  font-size: 1.25rem;
+  font-size: var(--solaris-font-size-lg);
+  --solaris-icon-button-size: var(--solaris-spacing-12);
 }
 
-/* Radius */
 [solaris-icon-button][data-radius='none'] {
-  --solaris-icon-button-radius: var(--solaris-radius-none, 0);
+  --solaris-icon-button-radius: var(--solaris-radius-none);
 }
 
 [solaris-icon-button][data-radius='sm'] {
-  --solaris-icon-button-radius: var(--solaris-radius-sm, 0.25rem);
+  --solaris-icon-button-radius: var(--solaris-radius-sm);
 }
 
 [solaris-icon-button][data-radius='md'] {
-  --solaris-icon-button-radius: var(--solaris-radius-md, 0.5rem);
+  --solaris-icon-button-radius: var(--solaris-radius-md);
 }
 
 [solaris-icon-button][data-radius='lg'] {
-  --solaris-icon-button-radius: var(--solaris-radius-lg, 0.75rem);
+  --solaris-icon-button-radius: var(--solaris-radius-lg);
 }
 
 [solaris-icon-button][data-radius='full'] {
-  --solaris-icon-button-radius: var(--solaris-radius-full, 624.9375rem);
+  --solaris-icon-button-radius: var(--solaris-radius-full);
 }
 
-/* Density */
 [solaris-icon-button][data-density='compact'] {
-  --solaris-icon-button-size: 2rem;
-  font-size: 0.875rem;
+  font-size: var(--solaris-font-size-sm);
+  --solaris-icon-button-size: var(--solaris-density-min-height);
 }
 
 [solaris-icon-button][data-density='comfortable'] {
-  --solaris-icon-button-size: 2.5rem;
-  font-size: 1rem;
+  font-size: var(--solaris-font-size-md);
+  --solaris-icon-button-size: var(--solaris-density-min-height);
 }

@@ -1,7 +1,7 @@
 import { Component, inject, input, computed, output } from '@angular/core';
 
-import { SolarisIconComponent } from '../../../icon/component/solaris-icon.component';
-import { SolarisTranslateService } from '../../../../services/translation/service/solaris-translate.service';
+import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisIconComponent } from '../../../icon';
 
 import type {
   SolarisAlertVariant,
@@ -18,28 +18,30 @@ import type {
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss'],
   host: {
+    '[attr.role]': 'liveRole()',
     '[attr.data-variant]': 'variant()',
-    '[attr.data-appearance]': 'appearance()',
+    '[attr.aria-live]': 'ariaLive()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-density]': 'density()',
+    '[attr.data-appearance]': 'appearance()',
     '[attr.data-closable]': 'closable() ? "" : null',
-    '[attr.role]': 'liveRole()',
-    '[attr.aria-live]': 'ariaLive()',
+    '[attr.data-has-title]': 'hasTitle() ? "" : null',
   },
 })
 export class SolarisAlertComponent {
   private readonly translateService = inject(SolarisTranslateService);
 
-  readonly variant = input<SolarisAlertVariant>('info');
   readonly appearance = input<SolarisAlertAppearance>('tonal');
+  readonly variant = input<SolarisAlertVariant>('info');
   readonly radius = input<SolarisAlertRadius>('md');
+  readonly live = input<SolarisAlertLive>('off');
   readonly density = input<SolarisAlertDensity>();
   readonly closable = input<boolean>(false);
-  readonly live = input<SolarisAlertLive>('off');
+  readonly hasTitle = input<boolean>(false);
   readonly showIcon = input<boolean>(true);
-  readonly icon = input<string>();
-  readonly closeLabel = input<string>();
   readonly closeLabelKey = input<string>();
+  readonly closeLabel = input<string>();
+  readonly icon = input<string>();
 
   readonly dismissed = output<void>();
 

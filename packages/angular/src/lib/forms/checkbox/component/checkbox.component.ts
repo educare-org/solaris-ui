@@ -20,6 +20,7 @@ import type {
   SolarisCheckboxAppearance,
   SolarisCheckboxColor,
   SolarisCheckboxSize,
+  SolarisCheckboxRadius,
   SolarisCheckboxDensity,
 } from '../model/checkbox.types';
 
@@ -49,6 +50,7 @@ function generateId(): string {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',
     '[attr.data-size]': 'size()',
+    '[attr.data-radius]': 'radius()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-checked]': '_checked() ? "" : null',
     '[attr.data-indeterminate]': 'indeterminate() ? "" : null',
@@ -107,6 +109,7 @@ export class SolarisCheckboxComponent
   readonly color = input<SolarisCheckboxColor>('primary');
   readonly size = input<SolarisCheckboxSize>('md');
   readonly density = input<SolarisCheckboxDensity>();
+  readonly radius = input<SolarisCheckboxRadius>('sm');
   readonly checkboxLabel = input<string>(undefined, { alias: 'label' });
   readonly labelKey = input<string>();
   readonly name = input<string>();

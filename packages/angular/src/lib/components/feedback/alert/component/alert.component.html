@@ -9,12 +9,14 @@
 </div>
 
 @if (closable()) {
-  <button
-    type="button"
-    class="solaris-alert__close"
-    [attr.aria-label]="closeButtonLabel()"
-    (click)="handleClose()"
-  >
-    <solaris-icon name="x" [decorative]="true" />
-  </button>
+  <div class="solaris-alert__close-slot">
+    <button
+      type="button"
+      class="solaris-alert__close"
+      [attr.aria-label]="closeButtonLabel()"
+      (click)="handleClose()"
+    >
+      <solaris-icon name="x" [decorative]="true" />
+    </button>
+  </div>
 }

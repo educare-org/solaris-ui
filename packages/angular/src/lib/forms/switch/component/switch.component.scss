@@ -73,7 +73,7 @@
     --solaris-switch-thumb-background,
     var(--solaris-surface-raised, #ffffff)
   );
-  border: var(--solaris-switch-thumb-border-width, 0.0625rem) solid
+  border: var(--solaris-switch-thumb-border-width) solid
     var(--solaris-switch-thumb-border-color, rgb(0 0 0 / 0.12));
   box-shadow: var(
     --solaris-switch-thumb-shadow,
@@ -95,34 +95,44 @@
 }
 
 :host([data-size='sm']) {
-  --solaris-switch-track-width: 1.75rem;
-  --solaris-switch-track-height: 1rem;
-  --solaris-switch-thumb-size: 0.625rem;
-  --solaris-switch-thumb-offset: 0.125rem;
+  --solaris-switch-track-width: calc(
+    var(--solaris-spacing-6) + var(--solaris-spacing-1)
+  );
+  --solaris-switch-track-height: var(--solaris-spacing-4);
+  --solaris-switch-thumb-size: calc(
+    var(--solaris-spacing-3) - var(--solaris-spacing-1) / 2
+  );
+  --solaris-switch-thumb-offset: calc(var(--solaris-spacing-1) / 2);
   --solaris-switch-gap: var(--solaris-spacing-2);
-  --solaris-switch-track-border-width: 0.0625rem;
+  --solaris-switch-track-border-width: calc(var(--solaris-spacing-1) / 4);
   --solaris-switch-label-font-size: var(--solaris-font-size-sm);
   --solaris-switch-label-line-height: var(--solaris-line-height-sm);
 }
 
 :host([data-size='md']) {
-  --solaris-switch-track-width: 2.125rem;
-  --solaris-switch-track-height: 1.1875rem;
-  --solaris-switch-thumb-size: 0.75rem;
-  --solaris-switch-thumb-offset: 0.125rem;
+  --solaris-switch-track-width: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-1) / 2
+  );
+  --solaris-switch-track-height: calc(
+    var(--solaris-spacing-4) + var(--solaris-spacing-3) / 4
+  );
+  --solaris-switch-thumb-size: var(--solaris-spacing-3);
+  --solaris-switch-thumb-offset: calc(var(--solaris-spacing-1) / 2);
   --solaris-switch-gap: var(--solaris-spacing-2);
-  --solaris-switch-track-border-width: 0.0625rem;
+  --solaris-switch-track-border-width: calc(var(--solaris-spacing-1) / 4);
   --solaris-switch-label-font-size: var(--solaris-font-size-md);
   --solaris-switch-label-line-height: var(--solaris-line-height-md);
 }
 
 :host([data-size='lg']) {
-  --solaris-switch-track-width: 2.625rem;
-  --solaris-switch-track-height: 1.5rem;
-  --solaris-switch-thumb-size: 1rem;
-  --solaris-switch-thumb-offset: 0.1875rem;
+  --solaris-switch-track-width: calc(
+    var(--solaris-spacing-10) + var(--solaris-spacing-1) / 2
+  );
+  --solaris-switch-track-height: var(--solaris-spacing-6);
+  --solaris-switch-thumb-size: var(--solaris-spacing-4);
+  --solaris-switch-thumb-offset: calc(var(--solaris-spacing-1) * 0.75);
   --solaris-switch-gap: var(--solaris-spacing-3);
-  --solaris-switch-track-border-width: 0.125rem;
+  --solaris-switch-track-border-width: calc(var(--solaris-spacing-1) / 2);
   --solaris-switch-label-font-size: var(--solaris-font-size-lg);
   --solaris-switch-label-line-height: var(--solaris-line-height-lg);
 }
@@ -307,8 +317,9 @@
 }
 
 .solaris-switch__input:focus-visible + .solaris-switch__track {
-  outline: 0.125rem solid var(--solaris-switch-focus-ring-color);
-  outline-offset: 0.125rem;
+  outline: var(--solaris-border-width-sm) solid
+    var(--solaris-switch-focus-ring-color);
+  outline-offset: calc(var(--solaris-spacing-1) / 2);
 }
 
 @media (prefers-reduced-motion: reduce) {

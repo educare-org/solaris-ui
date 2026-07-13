@@ -23,11 +23,29 @@
 }
 
 <div class="solaris-form-field__control-wrapper">
-  <ng-content select="[solaris-form-prefix]" />
+  <span
+    class="
+      solaris-form-field__affix
+      solaris-form-field__affix--prefix
+    "
+    [attr.data-empty]="hasPrefix() ? null : ''"
+  >
+    <ng-content select="[solaris-form-prefix]" />
+  </span>
+
   <div class="solaris-form-field__control">
     <ng-content />
   </div>
-  <ng-content select="[solaris-form-suffix]" />
+
+  <span
+    class="
+      solaris-form-field__affix
+      solaris-form-field__affix--suffix
+    "
+    [attr.data-empty]="hasSuffix() ? null : ''"
+  >
+    <ng-content select="[solaris-form-suffix]" />
+  </span>
 </div>
 
 <div class="solaris-form-field__message-row">

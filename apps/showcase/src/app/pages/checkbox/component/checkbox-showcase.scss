@@ -1,31 +1,31 @@
-@use '../../../shared/showcase-layout' as l;
+@use '../../../shared/showcase-layout' as layout;
 
 .checkbox-showcase {
-  @include l.page;
+  @include layout.page;
 }
 
 .checkbox-showcase__header {
-  @include l.header;
+  @include layout.header;
 }
 
 .checkbox-showcase__title {
-  @include l.title;
+  @include layout.title;
 }
 
 .checkbox-showcase__description {
-  @include l.description;
+  @include layout.description;
 }
 
 .checkbox-showcase__section {
-  @include l.section-card;
+  @include layout.section-card;
 }
 
 .checkbox-showcase__section-title {
-  @include l.section-title;
+  @include layout.section-title;
 }
 
 .checkbox-showcase__row {
-  @include l.row($gap: var(--solaris-spacing-4));
+  @include layout.row($gap: var(--solaris-spacing-4));
   margin-bottom: var(--solaris-spacing-2);
 
   &:last-child {
@@ -34,7 +34,7 @@
 }
 
 .checkbox-showcase__note {
-  @include l.note;
+  @include layout.note;
   margin-bottom: var(--solaris-spacing-3);
 }
 

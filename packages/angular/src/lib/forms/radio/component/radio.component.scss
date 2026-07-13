@@ -77,27 +77,27 @@
 }
 
 :host([data-size='sm']) {
-  --solaris-radio-size: 1rem;
-  --solaris-radio-ring-width: 0.125rem;
-  --solaris-radio-dot-size: 0.375rem;
+  --solaris-radio-size: var(--solaris-spacing-4);
+  --solaris-radio-ring-width: calc(var(--solaris-spacing-1) / 2);
+  --solaris-radio-dot-size: calc(var(--solaris-spacing-1) * 1.5);
   --solaris-radio-gap: var(--solaris-spacing-2);
   --solaris-radio-label-font-size: var(--solaris-font-size-sm);
   --solaris-radio-label-line-height: var(--solaris-line-height-sm);
 }
 
 :host([data-size='md']) {
-  --solaris-radio-size: 1.25rem;
-  --solaris-radio-ring-width: 0.125rem;
-  --solaris-radio-dot-size: 0.5rem;
+  --solaris-radio-size: var(--solaris-spacing-5);
+  --solaris-radio-ring-width: calc(var(--solaris-spacing-1) / 2);
+  --solaris-radio-dot-size: var(--solaris-spacing-2);
   --solaris-radio-gap: var(--solaris-spacing-2);
   --solaris-radio-label-font-size: var(--solaris-font-size-md);
   --solaris-radio-label-line-height: var(--solaris-line-height-md);
 }
 
 :host([data-size='lg']) {
-  --solaris-radio-size: 1.5rem;
-  --solaris-radio-ring-width: 0.1875rem;
-  --solaris-radio-dot-size: 0.625rem;
+  --solaris-radio-size: var(--solaris-spacing-6);
+  --solaris-radio-ring-width: calc(var(--solaris-spacing-1) * 0.75);
+  --solaris-radio-dot-size: calc(var(--solaris-spacing-1) * 2.5);
   --solaris-radio-gap: var(--solaris-spacing-3);
   --solaris-radio-label-font-size: var(--solaris-font-size-lg);
   --solaris-radio-label-line-height: var(--solaris-line-height-lg);
@@ -118,12 +118,12 @@
 :host([data-appearance='surface']) {
   --solaris-radio-background: var(--solaris-surface-muted);
   --solaris-radio-border-color: transparent;
-  --solaris-radio-ring-width: 0;
+  --solaris-radio-ring-width: var(--solaris-spacing-0);
 }
 
 :host([data-appearance='surface'][data-checked]) {
   --solaris-radio-background: transparent;
-  --solaris-radio-ring-width: 0.125rem;
+  --solaris-radio-ring-width: calc(var(--solaris-spacing-1) / 2);
 }
 
 :host([data-color='neutral']) {
@@ -262,8 +262,9 @@
 }
 
 .solaris-radio__input:focus-visible + .solaris-radio__control {
-  outline: 0.125rem solid var(--solaris-radio-focus-ring-color);
-  outline-offset: 0.125rem;
+  outline: var(--solaris-border-width-sm) solid
+    var(--solaris-radio-focus-ring-color);
+  outline-offset: calc(var(--solaris-spacing-1) / 2);
 }
 
 :host([data-invalid]) {

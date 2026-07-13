@@ -42,98 +42,109 @@
 
 .solaris-form-field__label,
 ::ng-deep .solaris-form-label {
-  cursor: pointer;
   display: inline-block;
   color: var(--solaris-form-field-label-color);
   font-size: var(--solaris-form-field-label-font-size);
   font-weight: var(--solaris-form-field-label-font-weight);
+  cursor: pointer;
 }
 
 .solaris-form-field__optional-marker {
-  white-space: nowrap;
   color: var(--solaris-form-field-optional-color);
   font-size: var(--solaris-form-field-optional-font-size);
+  white-space: nowrap;
 }
 
 .solaris-form-field__control-wrapper {
-  display: flex;
   position: relative;
-  align-items: center;
-  border-style: solid;
-  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
   gap: var(--solaris-form-field-control-gap);
   min-height: var(--solaris-form-field-control-height);
   padding: 0 var(--solaris-form-field-control-padding-x);
+  box-sizing: border-box;
+  border-width: var(--solaris-form-field-control-border-width);
+  border-style: solid;
+  border-color: var(--solaris-form-field-control-border-color);
   border-radius: var(--solaris-form-field-control-radius);
   background: var(--solaris-form-field-control-background);
-  border-width: var(--solaris-form-field-control-border-width);
-  border-color: var(--solaris-form-field-control-border-color);
   transition:
-    border-color var(--solaris-motion-duration-fast, 150ms) ease,
-    box-shadow var(--solaris-motion-duration-fast, 150ms) ease;
+    border-color var(--solaris-motion-duration-fast) ease,
+    box-shadow var(--solaris-motion-duration-fast) ease;
 }
 
 :host([data-has-prefix]) .solaris-form-field__control-wrapper {
   padding-left: 0;
 }
 
+.solaris-form-field__control {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+}
+
+.solaris-form-field__affix {
+  display: flex;
+  flex: 0 0 auto;
+  align-self: stretch;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  box-sizing: border-box;
+  line-height: 1;
+  cursor: default;
+}
+
+.solaris-form-field__affix[data-empty] {
+  display: none;
+}
+
+.solaris-form-field__affix--prefix {
+  inline-size: var(--solaris-form-field-control-height);
+  color: var(--solaris-form-field-prefix-color);
+  border-inline-end: var(--solaris-border-width-sm) solid
+  var(--solaris-border-subtle);
+  transition: color var(--solaris-motion-duration-fast) ease;
+}
+
+.solaris-form-field__affix--suffix {
+  color: var(--solaris-form-field-suffix-color);
+  transition: color var(--solaris-motion-duration-slow) ease;
+}
+
+.solaris-form-field__affix--prefix:hover,
+.solaris-form-field__affix--suffix:hover {
+  color: var(--solaris-text-default);
+}
+
+:host ::ng-deep .solaris-form-prefix,
+:host ::ng-deep .solaris-form-suffix {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-self: auto;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  border: 0;
+  line-height: 1;
+  cursor: inherit;
+}
+
+:host ::ng-deep solaris-icon.solaris-form-prefix,
+:host ::ng-deep solaris-icon.solaris-form-suffix,
+:host ::ng-deep .solaris-form-prefix solaris-icon,
+:host ::ng-deep .solaris-form-suffix solaris-icon {
+  inline-size: 1em;
+  block-size: 1em;
+  flex: 0 0 auto;
+  color: inherit;
+  font-size: var(--solaris-font-size-lg);
+  transition: color var(--solaris-motion-duration-slow) ease;
+}
+
 :host([data-control-type='textarea']) {
   min-width: 0;
-}
-
-:host([data-control-type='textarea'][data-control-resize='horizontal'])
-  .solaris-form-field__control-wrapper {
-  width: 100%;
-  min-width: 8rem;
-  overflow: hidden;
-  resize: horizontal;
-}
-
-:host([data-control-type='textarea'][data-control-resize='horizontal'])
-  .solaris-form-field__control {
-  min-width: 0;
-}
-
-:host([data-control-type='textarea'][data-control-resize='horizontal'])
-  ::ng-deep
-  textarea[solaris-textarea] {
-  width: 100%;
-  min-width: 0;
-  resize: none;
-  display: block;
-}
-
-:host([data-control-type='textarea'][data-control-resize='both'])
-  .solaris-form-field__control-wrapper {
-  width: 100%;
-  min-width: 8rem;
-  min-height: var(--solaris-form-field-control-height);
-
-  resize: both;
-  overflow: hidden;
-  align-items: stretch;
-}
-
-:host([data-control-type='textarea'][data-control-resize='both'])
-  .solaris-form-field__control {
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
-  align-items: stretch;
-}
-
-:host([data-control-type='textarea'][data-control-resize='both'])
-  ::ng-deep
-  textarea[solaris-textarea] {
-  display: block;
-  flex: 1 1 auto;
-
-  width: 100%;
-  height: 100%;
-  min-width: 0;
-  min-height: 0;
-
-  resize: none;
 }
 
 :host([data-control-type='textarea']) .solaris-form-field__control-wrapper {
@@ -145,48 +156,56 @@
   overflow: visible;
 }
 
+:host([data-control-type='textarea'][data-control-resize='horizontal'])
+.solaris-form-field__control-wrapper {
+  width: 100%;
+  min-width: 8rem;
+  overflow: hidden;
+  resize: horizontal;
+}
+
+:host([data-control-type='textarea'][data-control-resize='horizontal'])
 .solaris-form-field__control {
-  flex: 1;
   min-width: 0;
-  display: flex;
-  align-items: center;
 }
 
-::ng-deep .solaris-form-prefix,
-::ng-deep .solaris-form-suffix {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  cursor: default;
+:host([data-control-type='textarea'][data-control-resize='horizontal'])
+::ng-deep
+textarea[solaris-textarea] {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  resize: none;
 }
 
-::ng-deep .solaris-form-prefix {
-  align-self: stretch;
-  justify-content: center;
-  color: var(--solaris-form-field-prefix-color);
-  width: var(--solaris-form-field-control-height);
-  border-right: 1px solid var(--solaris-border-subtle);
-  transition: color var(--solaris-motion-duration-fast, 150ms) ease;
+:host([data-control-type='textarea'][data-control-resize='both'])
+.solaris-form-field__control-wrapper {
+  width: 100%;
+  min-width: 8rem;
+  min-height: var(--solaris-form-field-control-height);
+  align-items: stretch;
+  overflow: hidden;
+  resize: both;
 }
 
-::ng-deep .solaris-form-prefix:hover {
-  color: var(--solaris-text-default);
+:host([data-control-type='textarea'][data-control-resize='both'])
+.solaris-form-field__control {
+  align-items: stretch;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
-::ng-deep .solaris-form-suffix {
-  color: var(--solaris-form-field-suffix-color);
-  transition: color var(--solaris-motion-duration-slow) ease;
-}
-
-::ng-deep .solaris-form-suffix:hover {
-  color: var(--solaris-text-default);
-}
-
-::ng-deep .solaris-form-prefix solaris-icon,
-::ng-deep .solaris-form-suffix solaris-icon {
-  cursor: default;
-  color: inherit;
-  transition: color var(--solaris-motion-duration-slow) ease;
+:host([data-control-type='textarea'][data-control-resize='both'])
+::ng-deep
+textarea[solaris-textarea] {
+  display: block;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  resize: none;
 }
 
 .solaris-form-field__message-row {
@@ -194,19 +213,19 @@
 }
 
 .solaris-form-field__hint {
-  margin-left: 0.2rem;
+  margin-left: calc(var(--solaris-spacing-1) * 0.8);
   color: var(--solaris-form-field-hint-color);
   font-size: var(--solaris-form-field-hint-font-size);
 }
 
 .solaris-form-field__error {
-  margin-left: 0.2rem;
+  margin-left: calc(var(--solaris-spacing-1) * 0.8);
   color: var(--solaris-form-field-error-color);
   font-size: var(--solaris-form-field-error-font-size);
 }
 
 :host([data-size='sm']) {
-  --solaris-form-field-control-height: 2rem;
+  --solaris-form-field-control-height: var(--solaris-spacing-8);
   --solaris-form-field-control-gap: var(--solaris-spacing-1);
   --solaris-form-field-font-size: var(--solaris-font-size-sm);
   --solaris-form-field-control-padding-x: var(--solaris-spacing-2);
@@ -219,7 +238,7 @@
 }
 
 :host([data-size='md']) {
-  --solaris-form-field-control-height: 2.5rem;
+  --solaris-form-field-control-height: var(--solaris-spacing-10);
   --solaris-form-field-control-gap: var(--solaris-spacing-2);
   --solaris-form-field-font-size: var(--solaris-font-size-md);
   --solaris-form-field-control-padding-x: var(--solaris-spacing-3);
@@ -232,7 +251,7 @@
 }
 
 :host([data-size='lg']) {
-  --solaris-form-field-control-height: 3rem;
+  --solaris-form-field-control-height: var(--solaris-spacing-12);
   --solaris-form-field-control-gap: var(--solaris-spacing-2);
   --solaris-form-field-font-size: var(--solaris-font-size-lg);
   --solaris-form-field-control-padding-x: var(--solaris-spacing-4);
@@ -245,7 +264,7 @@
 }
 
 :host([data-density='compact']) {
-  --solaris-form-field-control-height: 1.75rem;
+  --solaris-form-field-control-height: var(--solaris-density-min-height);
   --solaris-form-field-control-gap: var(--solaris-spacing-1);
   --solaris-form-field-font-size: var(--solaris-font-size-sm);
   --solaris-form-field-control-padding-x: var(--solaris-spacing-2);
@@ -258,7 +277,7 @@
 }
 
 :host([data-density='comfortable']) {
-  --solaris-form-field-control-height: 2.75rem;
+  --solaris-form-field-control-height: var(--solaris-density-min-height);
   --solaris-form-field-control-gap: var(--solaris-spacing-2);
   --solaris-form-field-control-padding-x: var(--solaris-spacing-3);
   --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
@@ -269,7 +288,7 @@
 }
 
 :host([data-radius='none']) {
-  --solaris-form-field-control-radius: 0;
+  --solaris-form-field-control-radius: var(--solaris-radius-none);
 }
 
 :host([data-radius='sm']) {
@@ -290,29 +309,13 @@
   );
 
   .solaris-form-field__control-wrapper {
-    outline-offset: 1px;
     outline: var(--solaris-form-field-focus-ring-width) solid
-      var(--solaris-form-field-focus-ring-color);
+    var(--solaris-form-field-focus-ring-color);
+    outline-offset: 1px;
   }
 }
 
-:host([data-invalid]) {
-  --solaris-form-field-control-border-color: var(
-    --solaris-form-field-error-border-color
-  );
-}
-
-:host([data-invalid][data-focused]) {
-  --solaris-form-field-control-border-color: var(
-    --solaris-form-field-error-border-color
-  );
-
-  outline-color: var(--solaris-form-field-error-border-color);
-}
-
 :host([data-disabled]) {
-  cursor: not-allowed;
-  opacity: var(--solaris-form-field-disabled-opacity);
   --solaris-form-field-control-color: var(
     --solaris-text-disabled,
     var(--solaris-text-muted)
@@ -321,6 +324,9 @@
     --solaris-surface-disabled,
     var(--solaris-surface-muted)
   );
+
+  opacity: var(--solaris-form-field-disabled-opacity);
+  cursor: not-allowed;
 }
 
 :host([data-readonly]) {
@@ -347,7 +353,7 @@
 }
 
 :host([data-appearance='outline']) {
-  --solaris-form-field-control-border-width: 1px;
+  --solaris-form-field-control-border-width: var(--solaris-border-width-sm);
   --solaris-form-field-control-background: var(--solaris-surface-base);
   --solaris-form-field-readonly-background: var(--solaris-surface-muted);
   --solaris-form-field-control-border-color: var(--solaris-border-subtle);
@@ -361,8 +367,22 @@
 }
 
 :host([data-appearance='filled']) {
-  --solaris-form-field-control-border-width: 1px;
   --solaris-form-field-control-background: var(--solaris-surface-subtle);
   --solaris-form-field-readonly-background: var(--solaris-surface-muted);
   --solaris-form-field-control-border-color: var(--solaris-border-subtle);
+  --solaris-form-field-control-border-width: var(--solaris-border-width-sm);
+}
+
+:host([data-invalid]) {
+  --solaris-form-field-control-border-color: var(
+    --solaris-form-field-error-border-color
+  );
+}
+
+:host([data-invalid][data-focused]) {
+  --solaris-form-field-control-border-color: var(
+    --solaris-form-field-error-border-color
+  );
+
+  outline-color: var(--solaris-form-field-error-border-color);
 }
