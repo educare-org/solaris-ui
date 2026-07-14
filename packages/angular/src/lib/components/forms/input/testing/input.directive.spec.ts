@@ -18,6 +18,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-element-host' },
       template: '<input solaris-input />',
     })
     class TestHost {}
@@ -83,6 +84,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-appearance-host' },
       template: '<input solaris-input [appearance]="appearance" />',
     })
     class TestHost {
@@ -120,6 +122,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-size-host' },
       template: '<input solaris-input [size]="size" />',
     })
     class TestHost {
@@ -157,6 +160,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-density-host' },
       template: '<input solaris-input [density]="density" />',
     })
     class TestHost {
@@ -185,6 +189,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-radius-host' },
       template: '<input solaris-input [radius]="radius" />',
     })
     class TestHost {
@@ -231,6 +236,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-fullwidth-host' },
       template: '<input solaris-input [fullWidth]="fullWidth" />',
     })
     class TestHost {
@@ -259,6 +265,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-invalid-host' },
       template: '<input solaris-input [invalid]="invalid" />',
     })
     class TestHost {
@@ -295,6 +302,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-native-attr-host' },
       template:
         '<input solaris-input type="email" placeholder="Email" autocomplete="email" inputmode="email" />',
     })
@@ -337,6 +345,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-disabled-host' },
       template: '<input solaris-input [disabled]="disabled" />',
     })
     class TestHost {
@@ -365,6 +374,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-readonly-host' },
       template: '<input solaris-input readonly value="test" />',
     })
     class TestHost {}
@@ -382,6 +392,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-required-host' },
       template: '<input solaris-input required />',
     })
     class TestHost {}
@@ -399,6 +410,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-id-host' },
       template: '<input solaris-input id="custom-id" />',
     })
     class TestHost {}
@@ -416,6 +428,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-types-host' },
       template: '<input solaris-input [type]="type" />',
     })
     class TestHost {
@@ -453,6 +466,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-number-host' },
       template:
         '<input solaris-input type="number" min="0" max="100" step="1" />',
     })
@@ -473,6 +487,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-a11y-host' },
       template: '<input solaris-input />',
     })
     class TestHost {}
@@ -498,6 +513,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisInputDirective, SolarisFormFieldComponent],
+      host: { 'data-testid': 'input-form-field-host' },
       template: `
         <solaris-form-field label="Name" hint="Enter your name">
           <input solaris-input />
@@ -537,6 +553,7 @@ describe('SolarisInputDirective', () => {
     @Component({
       standalone: true,
       imports: [ReactiveFormsModule, SolarisInputDirective],
+      host: { 'data-testid': 'input-reactive-host' },
       template: '<input solaris-input [formControl]="control" />',
     })
     class TestHost {
@@ -577,6 +594,7 @@ describe('SolarisInputDirective on invalid host', () => {
   @Component({
     standalone: true,
     imports: [SolarisInputDirective],
+    host: { 'data-testid': 'input-invalid-host-2' },
     template: '<div solaris-input></div>',
   })
   class TestHost {}

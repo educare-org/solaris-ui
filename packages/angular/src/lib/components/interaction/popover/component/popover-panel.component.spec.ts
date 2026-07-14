@@ -13,7 +13,6 @@ describe('SolarisPopoverPanelComponent', () => {
   describe('rendering', () => {
     @Component({
       standalone: true,
-      imports: [SolarisPopoverPanelComponent],
       template: `
         <ng-template #contentTemplate>
           <div class="projected-content">Hello Panel</div>

@@ -254,6 +254,7 @@ class VisibleChangeHost {
 @Component({
   standalone: true,
   imports: [SolarisPasswordFieldComponent, ReactiveFormsModule],
+  host: { 'data-testid': 'requirements-host' },
   template: `<solaris-password-field
     label="Senha"
     [showRequirements]="true"
@@ -267,6 +268,7 @@ class RequirementsHost {
 @Component({
   standalone: true,
   imports: [SolarisPasswordFieldComponent, ReactiveFormsModule],
+  host: { 'data-testid': 'no-requirements-host' },
   template: `<solaris-password-field
     label="Senha"
     [showRequirements]="false"
@@ -280,6 +282,7 @@ class NoRequirementsHost {
 @Component({
   standalone: true,
   imports: [SolarisPasswordFieldComponent, ReactiveFormsModule],
+  host: { 'data-testid': 'strength-host' },
   template: `<solaris-password-field
     label="Senha"
     [showStrength]="true"
@@ -290,6 +293,7 @@ class StrengthHost {}
 @Component({
   standalone: true,
   imports: [SolarisPasswordFieldComponent, ReactiveFormsModule],
+  host: { 'data-testid': 'no-strength-host' },
   template: `<solaris-password-field
     label="Senha"
     [showStrength]="false"

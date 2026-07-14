@@ -589,6 +589,7 @@ describe('SolarisButtonDirective with icons', () => {
   @Component({
     standalone: true,
     imports: [SolarisButtonDirective, SolarisButtonIconDirective],
+    host: { 'data-testid': 'icon-before-host' },
     template: `
       <button solaris-button>
         <span solaris-button-icon>icon</span>
@@ -612,6 +613,7 @@ describe('SolarisButtonDirective with icons', () => {
   @Component({
     standalone: true,
     imports: [SolarisButtonDirective, SolarisButtonIconDirective],
+    host: { 'data-testid': 'icon-after-host' },
     template: `
       <button solaris-button>
         Text

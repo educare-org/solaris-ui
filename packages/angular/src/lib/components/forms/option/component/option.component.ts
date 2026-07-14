@@ -113,9 +113,9 @@ export class SolarisOptionComponent {
   }>();
 
   protected readonly elementId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls and Solaris Checkbox.
     return (
       this.optionId() ||
+      // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls and Solaris Checkbox.
       this.elementRef.nativeElement.getAttribute('id') ||
       generateId()
     );

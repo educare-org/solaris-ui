@@ -273,24 +273,17 @@ export class SolarisPopoverTriggerDirective {
       this.connectedSide =
         change.connectionPair.originY === 'bottom' ? 'bottom' : 'top';
       if (this.panelContainerRef) {
-        this.panelContainerRef.setAttribute(
-          'data-connected-side',
-          this.connectedSide,
-        );
+        this.panelContainerRef.dataset['connectedSide'] = this.connectedSide;
       }
-      this.elementRef.nativeElement.setAttribute(
-        'data-connected-side',
-        this.connectedSide,
-      );
+      // SECURITY_EXCEPTION: nativeElement.setAttribute required to sync data-connected-side. Read-only DOM access.
+      this.elementRef.nativeElement.dataset['connectedSide'] =
+        this.connectedSide;
       // SECURITY_EXCEPTION: closest() required to find ancestor form-field wrapper. SSR-safe via injected ElementRef.
       const formFieldWrapper = this.elementRef.nativeElement.closest(
         '.solaris-form-field__control-wrapper',
       ) as HTMLElement | null;
       if (formFieldWrapper) {
-        formFieldWrapper.setAttribute(
-          'data-connected-side',
-          this.connectedSide,
-        );
+        formFieldWrapper.dataset['connectedSide'] = this.connectedSide;
       }
     });
   }
@@ -303,18 +296,29 @@ export class SolarisPopoverTriggerDirective {
     const primaryPosition = getPrimaryPosition(placement, align);
     const fallbackPositions = getFallbackPositions(placement, align);
 
+    let offsetX = 0;
+    let offsetY = 0;
+
+    if (placement === 'right') {
+      offsetX = offset;
+    } else if (placement === 'left') {
+      offsetX = -offset;
+    }
+
+    if (placement === 'bottom') {
+      offsetY = offset;
+    } else if (placement === 'top') {
+      offsetY = -offset;
+    }
+
     return this.overlay
       .position()
       .flexibleConnectedTo(this.elementRef)
       .withPositions([primaryPosition, ...fallbackPositions])
       .withFlexibleDimensions(true)
       .withPush(true)
-      .withDefaultOffsetX(
-        placement === 'right' ? offset : placement === 'left' ? -offset : 0,
-      )
-      .withDefaultOffsetY(
-        placement === 'bottom' ? offset : placement === 'top' ? -offset : 0,
-      );
+      .withDefaultOffsetX(offsetX)
+      .withDefaultOffsetY(offsetY);
   }
 
   private createScrollStrategy() {
@@ -366,12 +370,13 @@ export class SolarisPopoverTriggerDirective {
     );
 
     const componentRef = this.overlayRef.attach(portal);
+    // SECURITY_EXCEPTION: nativeElement.querySelector required to find panel container in attached overlay. CDK overlay provides no typed API for this.
     this.panelContainerRef = componentRef.location.nativeElement.querySelector(
       '.solaris-popover-panel__container',
     );
 
     if (this.panelContainerRef && initialSide) {
-      this.panelContainerRef.setAttribute('data-connected-side', initialSide);
+      this.panelContainerRef.dataset['connectedSide'] = initialSide;
     }
   }
 

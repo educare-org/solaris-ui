@@ -172,6 +172,7 @@ export class SolarisSelectComponent
   private readonly popoverSubscriptions: (() => void)[] = [];
 
   protected readonly elementId = computed(() => {
+    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is standard DOM API to check existing ID before generating one. Same approach used by Solaris Option and Angular CDK.
     const existing = this.elementRef.nativeElement.getAttribute('id');
     return existing ?? generateId();
   });
@@ -419,6 +420,7 @@ export class SolarisSelectComponent
   }
 
   focus(): void {
+    // SECURITY_EXCEPTION: nativeElement.focus() required to programmatically focus the select host. Standard DOM method used by Angular CDK.
     this.elementRef.nativeElement.focus();
   }
 
@@ -497,6 +499,7 @@ export class SolarisSelectComponent
 
     if (this.searchable()) {
       requestAnimationFrame(() => {
+        // SECURITY_EXCEPTION: nativeElement.focus() required to focus search input when panel opens. Standard DOM method.
         this.searchInputRef?.nativeElement.focus();
       });
     }
@@ -703,7 +706,9 @@ export class SolarisSelectComponent
     const nativeEl = (
       option as unknown as { elementRef: ElementRef<HTMLElement> }
     ).elementRef;
+    // SECURITY_EXCEPTION: nativeElement access needed to read option text for search filtering. Read-only, SSR-safe.
     if (nativeEl?.nativeElement) {
+      // SECURITY_EXCEPTION: nativeElement.textContent needed to read option text for search filtering. Read-only, SSR-safe.
       return nativeEl.nativeElement.textContent?.trim() || '';
     }
     return '';

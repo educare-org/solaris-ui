@@ -26,12 +26,12 @@ export class SolarisPopoverPanelComponent implements AfterViewInit {
       // SECURITY_EXCEPTION: nativeElement.focus() required for autoFocus='panel'. SSR-safe via ElementRef.
       (this.elementRef as ElementRef<HTMLElement>).nativeElement.focus();
     } else if (this.data.autoFocus === 'first-tabbable') {
-      // SECURITY_EXCEPTION: nativeElement.querySelector needed for autoFocus='first-tabbable'. Standard query only.
       const firstTabbable = (
         this.elementRef as ElementRef<HTMLElement>
-      ).nativeElement.querySelector<HTMLElement>(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-      );
+      ).nativeElement // SECURITY_EXCEPTION: nativeElement.querySelector needed for autoFocus='first-tabbable'. Standard query only.
+        .querySelector<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
       firstTabbable?.focus();
     }
   }

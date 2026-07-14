@@ -41,6 +41,7 @@ input[solaris-input]::placeholder {
 
 input[solaris-input]:focus-visible {
   border-color: var(--solaris-input-focus-ring-color);
+  // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized color. Hardcoded spread is required by design.
   box-shadow: 0 0 0 2px var(--solaris-input-focus-ring-color);
 }
 
@@ -50,6 +51,7 @@ input[solaris-input][data-invalid] {
 
 input[solaris-input][data-invalid]:focus-visible {
   border-color: var(--solaris-input-invalid-border-color);
+  // SOLARIS_TOKEN_EXCEPTION: Invalid state focus ring box-shadow uses CSS var. Hardcoded spread required by design.
   box-shadow: 0 0 0 2px var(--solaris-input-invalid-border-color);
 }
 
@@ -78,6 +80,7 @@ input[solaris-input]::-webkit-outer-spin-button {
 input[solaris-input]:autofill,
 input[solaris-input]:-webkit-autofill {
   -webkit-text-fill-color: var(--solaris-input-color);
+  // SOLARIS_TOKEN_EXCEPTION: WebKit autofill requires hardcoded box-shadow inset to override browser default yellow background.
   -webkit-box-shadow: 0 0 0 30px var(--solaris-input-background) inset;
   transition: background-color 5000s ease-in-out 0s;
 }
@@ -187,6 +190,7 @@ input[solaris-input][data-full-width] {
   input[solaris-input]:autofill,
   input[solaris-input]:-webkit-autofill {
     -webkit-text-fill-color: var(--solaris-input-color);
+    // SOLARIS_TOKEN_EXCEPTION: WebKit autofill dark mode requires hardcoded box-shadow inset override.
     -webkit-box-shadow: 0 0 0 30px var(--solaris-input-background) inset;
   }
 }
@@ -198,11 +202,13 @@ solaris-form-field input[solaris-input] {
   height: auto;
   padding-left: 0;
   padding-right: 0;
+  // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow inside form-field context is intentional to inherit from parent.
   box-shadow: none;
 }
 
 solaris-form-field input[solaris-input]:focus-visible {
   border-color: transparent;
+  // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow inside form-field context is intentional to inherit from parent.
   box-shadow: none;
 }
 
@@ -212,6 +218,7 @@ solaris-form-field input[solaris-input][data-invalid] {
 
 solaris-form-field input[solaris-input][data-invalid]:focus-visible {
   border-color: transparent;
+  // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow inside form-field context is intentional to inherit from parent.
   box-shadow: none;
 }
 
@@ -243,5 +250,6 @@ solaris-form-field input[solaris-input]::-webkit-search-results-decoration {
 solaris-form-field input[solaris-input]:autofill,
 solaris-form-field input[solaris-input]:-webkit-autofill {
   -webkit-text-fill-color: var(--solaris-input-color);
+  // SOLARIS_TOKEN_EXCEPTION: WebKit autofill inside form-field requires hardcoded transparent box-shadow inset.
   -webkit-box-shadow: 0 0 0 30px transparent inset;
 }

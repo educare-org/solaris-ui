@@ -40,6 +40,7 @@
 }
 
 .solaris-tooltip-panel__arrow {
+  // SOLARIS_TOKEN_EXCEPTION: z-index 2 ensures arrow renders above tooltip panel. Will be replaced by z-index scale token in future.
   z-index: 2;
   width: 0;
   height: 0;
@@ -243,6 +244,7 @@
   content: '';
   position: absolute;
   background: var(--solaris-tooltip-background);
+  // SOLARIS_TOKEN_EXCEPTION: z-index 3 ensures bridging element in outline mode covers the gap. Will be replaced by z-index scale token in future.
   z-index: 3;
   pointer-events: none;
 }

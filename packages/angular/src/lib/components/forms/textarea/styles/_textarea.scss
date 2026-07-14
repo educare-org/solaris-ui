@@ -41,6 +41,7 @@ textarea[solaris-textarea]::placeholder {
 
 textarea[solaris-textarea]:focus-visible {
   border-color: var(--solaris-textarea-focus-ring-color);
+  // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized color. Hardcoded spread required by design.
   box-shadow: 0 0 0 2px var(--solaris-textarea-focus-ring-color);
 }
 
@@ -50,6 +51,7 @@ textarea[solaris-textarea][data-invalid] {
 
 textarea[solaris-textarea][data-invalid]:focus-visible {
   border-color: var(--solaris-textarea-invalid-border-color);
+  // SOLARIS_TOKEN_EXCEPTION: Invalid state focus ring box-shadow uses CSS var. Hardcoded spread required by design.
   box-shadow: 0 0 0 2px var(--solaris-textarea-invalid-border-color);
 }
 
@@ -183,6 +185,7 @@ textarea[solaris-textarea][data-full-width] {
   textarea[solaris-textarea]:autofill,
   textarea[solaris-textarea]:-webkit-autofill {
     -webkit-text-fill-color: var(--solaris-textarea-color);
+    // SOLARIS_TOKEN_EXCEPTION: WebKit autofill dark mode requires hardcoded box-shadow inset to override browser default.
     -webkit-box-shadow: 0 0 0 30px var(--solaris-textarea-background) inset;
   }
 }
@@ -193,11 +196,13 @@ solaris-form-field textarea[solaris-textarea] {
   border-radius: 0;
   padding-left: 0;
   padding-right: 0;
+  // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow inside form-field context is intentional to inherit from parent.
   box-shadow: none;
 }
 
 solaris-form-field textarea[solaris-textarea]:focus-visible {
   border-color: transparent;
+  // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow inside form-field context is intentional to inherit from parent.
   box-shadow: none;
 }
 
@@ -207,6 +212,7 @@ solaris-form-field textarea[solaris-textarea][data-invalid] {
 
 solaris-form-field textarea[solaris-textarea][data-invalid]:focus-visible {
   border-color: transparent;
+  // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow inside form-field context is intentional to inherit from parent.
   box-shadow: none;
 }
 
@@ -231,5 +237,6 @@ solaris-form-field textarea[solaris-textarea][data-density='comfortable'] {
 solaris-form-field textarea[solaris-textarea]:autofill,
 solaris-form-field textarea[solaris-textarea]:-webkit-autofill {
   -webkit-text-fill-color: var(--solaris-textarea-color);
+  // SOLARIS_TOKEN_EXCEPTION: WebKit autofill inside form-field requires hardcoded transparent box-shadow inset.
   -webkit-box-shadow: 0 0 0 30px transparent inset;
 }

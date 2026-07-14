@@ -63,18 +63,22 @@
 
 .solaris-switch__thumb {
   position: absolute;
+  // SOLARIS_TOKEN_EXCEPTION: z-index 1 ensures thumb renders above track. Will be replaced by z-index scale token in future.
   z-index: 1;
   top: 50%;
   left: var(--solaris-switch-thumb-offset);
   width: var(--solaris-switch-thumb-size);
   height: var(--solaris-switch-thumb-size);
   border-radius: 50%;
+  // SOLARIS_TOKEN_EXCEPTION: CSS var fallback hex value provides default when token is not defined. Required for standalone use.
   background-color: var(
     --solaris-switch-thumb-background,
     var(--solaris-surface-raised, #ffffff)
   );
+  // SOLARIS_TOKEN_EXCEPTION: CSS var fallback rgb value provides default border color. Required for standalone use.
   border: var(--solaris-switch-thumb-border-width) solid
     var(--solaris-switch-thumb-border-color, rgb(0 0 0 / 0.12));
+  // SOLARIS_TOKEN_EXCEPTION: CSS var fallback value provides default thumb shadow. Required for standalone use.
   box-shadow: var(
     --solaris-switch-thumb-shadow,
     0 0.0625rem 0.125rem rgb(0 0 0 / 0.24)
@@ -152,12 +156,14 @@
 }
 
 :host([data-appearance='surface']) {
+  // SOLARIS_TOKEN_EXCEPTION: CSS var fallback hex provides default track background. Required for standalone use.
   --solaris-switch-track-background: var(
     --solaris-surface-muted,
     var(--solaris-surface-subtle, #e5e7eb)
   );
   --solaris-switch-track-border-color: transparent;
   --solaris-switch-track-border-width: 0;
+  // SOLARIS_TOKEN_EXCEPTION: CSS var fallback hex provides default thumb background. Required for standalone use.
   --solaris-switch-thumb-background: var(--solaris-surface-raised, #ffffff);
 }
 
@@ -167,14 +173,17 @@
 
 :host([data-appearance='outline']) {
   --solaris-switch-track-background: transparent;
+  // SOLARIS_TOKEN_EXCEPTION: CSS var fallback hex provides default border color. Required for standalone use.
   --solaris-switch-track-border-color: var(
     --solaris-border-default,
     var(--solaris-border-subtle, #cbd5e1)
   );
+  // SOLARIS_TOKEN_EXCEPTION: CSS var fallback hex provides default thumb background. Required for standalone use.
   --solaris-switch-thumb-background: var(--solaris-surface-raised, #ffffff);
 }
 
 :host([data-checked]) {
+  // SOLARIS_TOKEN_EXCEPTION: CSS var fallback hex provides default thumb background. Required for standalone use.
   --solaris-switch-thumb-background: var(--solaris-surface-raised, #ffffff);
 }
 
@@ -261,6 +270,7 @@
     --solaris-switch-custom-border-color,
     var(--solaris-border-default)
   );
+  // SOLARIS_TOKEN_EXCEPTION: CSS var fallback hex provides default thumb background. Required for standalone use.
   --solaris-switch-thumb-background: var(
     --solaris-switch-custom-thumb-background,
     var(--solaris-surface-raised, #ffffff)
@@ -276,6 +286,7 @@
     --solaris-switch-custom-track-checked-background,
     var(--solaris-primary-base)
   );
+  // SOLARIS_TOKEN_EXCEPTION: CSS var fallback hex provides default thumb background. Required for standalone use.
   --solaris-switch-thumb-background: var(
     --solaris-switch-custom-thumb-background,
     var(--solaris-surface-raised, #ffffff)

@@ -79,6 +79,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'basic-tooltip-host' },
       template: `<button
         [solarisTooltip]="'Simple text'"
         [solarisTooltipShowDelay]="0"
@@ -134,6 +135,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'property-binding-host' },
       template: `<button [solarisTooltip]="text" [solarisTooltipShowDelay]="0">
         Trigger
       </button>`,
@@ -166,6 +168,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'template-for-host' },
       template: `
         <button [solarisTooltipFor]="myTooltip" [solarisTooltipShowDelay]="0">
           Trigger
@@ -191,6 +194,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'disabled-tooltip-host' },
       template: `<button
         [solarisTooltip]="'Text'"
         [solarisTooltipDisabled]="true"
@@ -222,6 +226,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'click-trigger-host' },
       template: `<button
         [solarisTooltip]="'Click text'"
         solarisTooltipTrigger="click"
@@ -269,6 +274,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'manual-trigger-host' },
       template: `<button
         [solarisTooltip]="'Manual'"
         solarisTooltipTrigger="manual"
@@ -351,6 +357,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'events-host' },
       template: `
         <button
           [solarisTooltip]="'Events'"
@@ -404,6 +411,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'escape-key-host' },
       template: `<button
         [solarisTooltip]="'Escape test'"
         solarisTooltipTrigger="click"
@@ -434,6 +442,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'closeable-host' },
       template: `
         <button
           [solarisTooltip]="'Closeable text'"
@@ -485,6 +494,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'closeable-hover-host' },
       template: `<button
         [solarisTooltip]="'Text'"
         [solarisTooltipCloseable]="true"
@@ -510,6 +520,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'appearance-host' },
       template: `
         <button
           [solarisTooltip]="'Appearance test'"
@@ -558,6 +569,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'arrow-host' },
       template: `
         <button
           [solarisTooltip]="'Arrow test'"
@@ -596,6 +608,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'icon-title-host' },
       template: `
         <button
           [solarisTooltip]="'Body text'"
@@ -633,6 +646,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'positioning-host' },
       template: `
         <button
           [solarisTooltip]="'Position test'"
@@ -691,6 +705,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'size-host' },
       template: `
         <button
           [solarisTooltip]="'Size test'"
@@ -739,6 +754,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'radius-host' },
       template: `
         <button
           [solarisTooltip]="'Radius test'"
@@ -787,6 +803,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'aria-host' },
       template: `<button
         [solarisTooltip]="'Aria test'"
         [solarisTooltipShowDelay]="0"
@@ -815,6 +832,7 @@ describe('SolarisTooltipDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'reposition-host' },
       template: `<button
         [solarisTooltip]="'Reposition'"
         solarisTooltipTrigger="click"

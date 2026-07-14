@@ -19,6 +19,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-element-host' },
       template: '<textarea solaris-textarea></textarea>',
     })
     class TestHost {}
@@ -100,6 +101,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-appearance-host' },
       template:
         '<textarea solaris-textarea [appearance]="appearance"></textarea>',
     })
@@ -138,6 +140,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-size-host' },
       template: '<textarea solaris-textarea [size]="size"></textarea>',
     })
     class TestHost {
@@ -175,6 +178,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-density-host' },
       template: '<textarea solaris-textarea [density]="density"></textarea>',
     })
     class TestHost {
@@ -203,6 +207,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-radius-host' },
       template: '<textarea solaris-textarea [radius]="radius"></textarea>',
     })
     class TestHost {
@@ -249,6 +254,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-resize-host' },
       template: '<textarea solaris-textarea [resize]="resize"></textarea>',
     })
     class TestHost {
@@ -295,6 +301,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-fullwidth-host' },
       template:
         '<textarea solaris-textarea [fullWidth]="fullWidth"></textarea>',
     })
@@ -324,6 +331,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-invalid-host' },
       template: '<textarea solaris-textarea [invalid]="invalid"></textarea>',
     })
     class TestHost {
@@ -360,6 +368,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-native-attr-host' },
       template:
         '<textarea solaris-textarea placeholder="Description" rows="4" cols="50" maxlength="500"></textarea>',
     })
@@ -402,6 +411,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-disabled-host' },
       template: '<textarea solaris-textarea [disabled]="disabled"></textarea>',
     })
     class TestHost {
@@ -430,6 +440,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-readonly-host' },
       template: '<textarea solaris-textarea readonly value="test"></textarea>',
     })
     class TestHost {}
@@ -447,6 +458,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-required-host' },
       template: '<textarea solaris-textarea required></textarea>',
     })
     class TestHost {}
@@ -464,6 +476,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-id-host' },
       template: '<textarea solaris-textarea id="custom-id"></textarea>',
     })
     class TestHost {}
@@ -481,6 +494,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-a11y-host' },
       template: '<textarea solaris-textarea></textarea>',
     })
     class TestHost {}
@@ -506,6 +520,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [SolarisTextareaDirective, SolarisFormFieldComponent],
+      host: { 'data-testid': 'textarea-form-field-host' },
       template: `
         <solaris-form-field label="Description" hint="Enter your description">
           <textarea solaris-textarea></textarea>
@@ -545,6 +560,7 @@ describe('SolarisTextareaDirective', () => {
     @Component({
       standalone: true,
       imports: [ReactiveFormsModule, SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-reactive-host' },
       template:
         '<textarea solaris-textarea [formControl]="control"></textarea>',
     })
@@ -586,6 +602,7 @@ describe('SolarisTextareaDirective on invalid host', () => {
   @Component({
     standalone: true,
     imports: [SolarisTextareaDirective],
+    host: { 'data-testid': 'textarea-invalid-host-2' },
     template: '<div solaris-textarea></div>',
   })
   class TestHost {}

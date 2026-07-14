@@ -528,6 +528,7 @@ describe('SolarisFormLabelComponent', () => {
   @Component({
     standalone: true,
     imports: [SolarisFormLabelComponent],
+    host: { 'data-testid': 'label-host' },
     template: '<solaris-form-label>Custom Label</solaris-form-label>',
   })
   class LabelHostComponent {}
@@ -557,6 +558,7 @@ describe('SolarisFormHintComponent', () => {
   @Component({
     standalone: true,
     imports: [SolarisFormHintComponent],
+    host: { 'data-testid': 'hint-host' },
     template: '<solaris-form-hint>Some hint text</solaris-form-hint>',
   })
   class HintHostComponent {}
@@ -586,6 +588,7 @@ describe('SolarisFormErrorComponent', () => {
   @Component({
     standalone: true,
     imports: [SolarisFormErrorComponent],
+    host: { 'data-testid': 'error-host' },
     template: '<solaris-form-error>Error message</solaris-form-error>',
   })
   class ErrorHostComponent {}
