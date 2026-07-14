@@ -32,7 +32,7 @@
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  gap: var(--solaris-spacing-2, 0.5rem);
+  gap: var(--solaris-spacing-2);
   min-height: var(--solaris-select-height);
   border-radius: var(--solaris-select-radius);
   background: var(--solaris-select-background);
