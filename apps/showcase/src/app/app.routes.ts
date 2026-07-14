@@ -149,6 +149,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'multi-select',
+    loadComponent: () =>
+      import('./pages/multi-select/component/multi-select-showcase').then(
+        (m) => m.MultiSelectShowcasePage,
+      ),
+  },
+  {
     path: 'popover',
     loadComponent: () =>
       import('./pages/popover/component/popover-showcase').then(

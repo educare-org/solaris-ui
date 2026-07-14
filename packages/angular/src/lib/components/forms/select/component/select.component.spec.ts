@@ -343,7 +343,9 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(UnsafeRenderingHost);
       fixture.detectChanges();
-      const placeholder = fixture.nativeElement.querySelector('.solaris-select__placeholder');
+      const placeholder = fixture.nativeElement.querySelector(
+        '.solaris-select__placeholder',
+      );
       expect(placeholder).toBeTruthy();
       expect(placeholder.textContent).toContain('<img src=x onerror=alert(1)>');
     });
@@ -352,15 +354,19 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(UnsafeRenderingHost);
       fixture.detectChanges();
-      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
-      expect((select as any).emptyTextValue()).toContain('<script>alert(1)</script>');
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect((select as any).emptyTextValue()).toContain(
+        '<script>alert(1)</script>',
+      );
     });
 
     it('should escape loadingText with HTML-like string', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(UnsafeRenderingHost);
       fixture.detectChanges();
-      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
       expect((select as any).loadingTextValue()).toContain('<b>Loading</b>');
     });
 
@@ -368,7 +374,8 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(UnsafeRenderingHost);
       fixture.detectChanges();
-      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
       select.writeValue('x');
       fixture.detectChanges();
       const displayText = (select as any).displayText();
@@ -379,7 +386,8 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(UnsafeRenderingHost);
       fixture.detectChanges();
-      const option = fixture.debugElement.query(By.css('solaris-option')).componentInstance as any;
+      const option = fixture.debugElement.query(By.css('solaris-option'))
+        .componentInstance as any;
       const labelText = option.labelText();
       expect(labelText).toContain('<b>XSS</b>');
     });
@@ -408,10 +416,13 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(SearchHost);
       fixture.detectChanges();
-      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
       const query = '[';
       const opts = (select as any).options.toArray();
-      const filtered = opts.filter((opt: any) => select.optionMatchesSearch(opt, query));
+      const filtered = opts.filter((opt: any) =>
+        select.optionMatchesSearch(opt, query),
+      );
       expect(Array.isArray(filtered)).toBe(true);
     });
 
@@ -419,10 +430,13 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(SearchHost);
       fixture.detectChanges();
-      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
       const query = '*';
       const opts = (select as any).options.toArray();
-      const filtered = opts.filter((opt: any) => select.optionMatchesSearch(opt, query));
+      const filtered = opts.filter((opt: any) =>
+        select.optionMatchesSearch(opt, query),
+      );
       expect(Array.isArray(filtered)).toBe(true);
     });
 
@@ -430,10 +444,13 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(SearchHost);
       fixture.detectChanges();
-      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
       const query = '(a+)+';
       const opts = (select as any).options.toArray();
-      const filtered = opts.filter((opt: any) => select.optionMatchesSearch(opt, query));
+      const filtered = opts.filter((opt: any) =>
+        select.optionMatchesSearch(opt, query),
+      );
       expect(Array.isArray(filtered)).toBe(true);
     });
 
@@ -441,7 +458,8 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(SearchHost);
       fixture.detectChanges();
-      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
       const aOpt = (select as any).options.toArray()[0];
       const query = 'option';
       const matches = select.optionMatchesSearch(aOpt, query);
@@ -452,7 +470,8 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(SearchHost);
       fixture.detectChanges();
-      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
       const aOpt = (select as any).options.toArray()[0];
       const query = 'zzzzz';
       const matches = select.optionMatchesSearch(aOpt, query);
@@ -465,9 +484,17 @@ describe('SolarisSelectComponent', () => {
       standalone: true,
       imports: [SolarisSelectComponent, SolarisOptionComponent],
       template: `
-        <solaris-select [disabled]="isDisabled" [readonly]="isReadonly" [clearable]="true">
+        <solaris-select
+          [disabled]="isDisabled"
+          [readonly]="isReadonly"
+          [clearable]="true"
+        >
           <solaris-option value="a" label="Option A"></solaris-option>
-          <solaris-option value="b" label="Option B" [disabled]="optDisabled"></solaris-option>
+          <solaris-option
+            value="b"
+            label="Option B"
+            [disabled]="optDisabled"
+          ></solaris-option>
         </solaris-select>
       `,
       providers: [
@@ -486,13 +513,14 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledReadonlyHost);
       fixture.detectChanges();
-      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as SolarisSelectComponent;
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
       const opts = (select as any).options.toArray();
       const disabledOpt = opts.find((o: any) => o.isEffectivelyDisabled());
       select.writeValue(null);
       fixture.detectChanges();
       if (disabledOpt) {
-        select.selectOption(disabledOpt);
+        (select as any).selectOption(disabledOpt);
         fixture.detectChanges();
         const val = (select as any).internalValue();
         expect(val).toBeNull();
@@ -513,7 +541,8 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       fixture.componentInstance.isReadonly = true;
       fixture.detectChanges();
-      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
       expect((select as any).canOpen()).toBe(false);
     });
 
@@ -523,7 +552,8 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       fixture.componentInstance.isDisabled = true;
       fixture.detectChanges();
-      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
       expect((select as any).canOpen()).toBe(false);
     });
 
@@ -531,7 +561,8 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledReadonlyHost);
       fixture.detectChanges();
-      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
       select.writeValue('a');
       fixture.detectChanges();
       fixture.componentInstance.isReadonly = true;
@@ -543,7 +574,8 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledReadonlyHost);
       fixture.detectChanges();
-      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
       select.writeValue('a');
       fixture.detectChanges();
       fixture.componentInstance.isDisabled = true;

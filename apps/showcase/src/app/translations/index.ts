@@ -19,6 +19,7 @@ import { SWITCH_TRANSLATIONS } from '../pages/switch/translations';
 import { SWITCH_GROUP_TRANSLATIONS } from '../pages/switch-group/translations';
 import { OPTION_TRANSLATIONS } from '../pages/option/translations';
 import { SELECT_TRANSLATIONS } from '../pages/select/translations';
+import { MULTI_SELECT_TRANSLATIONS } from '../pages/multi-select/translations';
 import { POPOVER_TRANSLATIONS } from '../pages/popover/translations';
 import { TOOLTIP_TRANSLATIONS } from '../pages/tooltip/translations';
 
@@ -44,6 +45,7 @@ const PAGE_MODULES = [
   SWITCH_GROUP_TRANSLATIONS,
   OPTION_TRANSLATIONS,
   SELECT_TRANSLATIONS,
+  MULTI_SELECT_TRANSLATIONS,
   POPOVER_TRANSLATIONS,
   TOOLTIP_TRANSLATIONS,
 ];

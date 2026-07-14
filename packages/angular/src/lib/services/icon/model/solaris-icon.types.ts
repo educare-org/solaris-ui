@@ -16,6 +16,7 @@ export type SolarisBuiltInIcon =
   | 'success'
   | 'shield-check'
   | 'sun'
-  | 'moon';
+  | 'moon'
+  | 'globe';
 
 export type SolarisIconName = string & { __brand?: never };

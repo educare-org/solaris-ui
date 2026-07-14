@@ -44,6 +44,7 @@ The following are **forbidden** in forms components:
 Rich content must use Angular content projection, controlled by the consumer.
 
 **Correct:**
+
 ```html
 <solaris-option value="br">
   <span solaris-option-leading>
@@ -54,6 +55,7 @@ Rich content must use Angular content projection, controlled by the consumer.
 ```
 
 **Forbidden:**
+
 ```html
 <solaris-option [labelHtml]="htmlFromApi"></solaris-option>
 ```
@@ -69,10 +71,12 @@ Even if `displayWith` returns `<b>Admin</b>`, the text must appear escaped as te
 ## Icons use `SolarisIconRegistry` or projection
 
 **Safe:**
+
 - `SolarisIconRegistry` with `<solaris-icon name="...">`
 - Projected Angular content
 
 **Forbidden:**
+
 - `iconUrl`, `rawSvg`, `svgString`
 - SVG string via `innerHTML`
 - Remote image URLs as the component's official icon API
@@ -84,6 +88,7 @@ If the consumer projects an image or SVG on their own, that is the consumer's re
 Forms primitives must not call APIs directly.
 
 **Forbidden in forms components:**
+
 - `remoteUrl`, `fetchUrl`, `dataSourceUrl`, `loadOptionsFromUrl`
 - `HttpClient` inside Select, Multi Select, or Option
 - `fetch`, `XMLHttpRequest`
@@ -117,18 +122,19 @@ If async data loading is needed in the future, it must be provided by the consum
 
 Disabled must block all value-changing interactions:
 
-| Interaction | Must block |
-|---|---|
-| Click on option | Yes |
-| Enter / Space | Yes |
-| Arrow selection that changes value | Yes |
-| Clear button | Yes |
-| Remove chip | Yes |
-| Toggle (checkbox/switch/radio) | Yes |
-| Select all | Yes |
-| Programmatic interaction via user action | Yes |
+| Interaction                              | Must block |
+| ---------------------------------------- | ---------- |
+| Click on option                          | Yes        |
+| Enter / Space                            | Yes        |
+| Arrow selection that changes value       | Yes        |
+| Clear button                             | Yes        |
+| Remove chip                              | Yes        |
+| Toggle (checkbox/switch/radio)           | Yes        |
+| Select all                               | Yes        |
+| Programmatic interaction via user action | Yes        |
 
 A disabled option must not be selectable through any interaction path:
+
 - Click, Enter, Space
 - Keyboard navigation
 - Search followed by Enter
@@ -140,6 +146,7 @@ A disabled option must not be selectable through any interaction path:
 Readonly is not disabled.
 
 Readonly must block all value-changing interactions (same as disabled), but must preserve:
+
 - Visual contrast (better than disabled)
 - Text selection and reading
 - Focusability when appropriate
@@ -149,12 +156,14 @@ Readonly must not emit `valueChange` / `change` from user interaction.
 ## Overlay cleanup
 
 When a component that uses an overlay (Select, Popover, Tooltip) is destroyed:
+
 - The overlay must be removed from the DOM
 - Subscriptions and listeners must be cleaned up
 - No orphan overlays in the DOM
 - No stale references after destroy
 
 Overlay behavior in forms:
+
 - Escape closes the overlay
 - Click outside closes the overlay
 - Scroll/resize should reposition when infrastructure offers it

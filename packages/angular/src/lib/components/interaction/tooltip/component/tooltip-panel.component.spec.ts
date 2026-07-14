@@ -59,7 +59,9 @@ describe('SolarisTooltipPanelComponent unsafe rendering security', () => {
         body: '<img src=x onerror=alert(1)>',
       }),
     );
-    const containerEl = fixture.nativeElement.querySelector('.solaris-tooltip-panel__container');
+    const containerEl = fixture.nativeElement.querySelector(
+      '.solaris-tooltip-panel__container',
+    );
     expect(containerEl.textContent).toContain('<img src=x onerror=alert(1)>');
     const img = containerEl.querySelector('img');
     expect(img).toBeNull();
@@ -72,7 +74,9 @@ describe('SolarisTooltipPanelComponent unsafe rendering security', () => {
         body: 'Some body',
       }),
     );
-    const containerEl = fixture.nativeElement.querySelector('.solaris-tooltip-panel__container');
+    const containerEl = fixture.nativeElement.querySelector(
+      '.solaris-tooltip-panel__container',
+    );
     expect(containerEl.textContent).toContain('<b>Título</b>');
     const b = containerEl.querySelector('b');
     expect(b).toBeNull();
@@ -85,9 +89,13 @@ describe('SolarisTooltipPanelComponent unsafe rendering security', () => {
         body: '<a href="javascript:void(0)">click</a>',
       }),
     );
-    const containerEl = fixture.nativeElement.querySelector('.solaris-tooltip-panel__container');
+    const containerEl = fixture.nativeElement.querySelector(
+      '.solaris-tooltip-panel__container',
+    );
     expect(containerEl.textContent).toContain('<script>alert(1)</script>');
-    expect(containerEl.textContent).toContain('<a href="javascript:void(0)">click</a>');
+    expect(containerEl.textContent).toContain(
+      '<a href="javascript:void(0)">click</a>',
+    );
     const script = containerEl.querySelector('script');
     expect(script).toBeNull();
     const a = containerEl.querySelector('a');

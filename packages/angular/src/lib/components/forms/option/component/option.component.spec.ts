@@ -369,7 +369,8 @@ describe('SolarisOptionComponent unsafe rendering security', () => {
     @Component({
       standalone: true,
       imports: [SolarisOptionComponent],
-      template: '<solaris-option value="x" [label]="\'<img src=x onerror=alert(1)>\'"></solaris-option>',
+      template:
+        '<solaris-option value="x" [label]="\'<img src=x onerror=alert(1)>\'"></solaris-option>',
     })
     class Host {}
     const hostFixture = TestBed.createComponent(Host);
@@ -385,12 +386,15 @@ describe('SolarisOptionComponent unsafe rendering security', () => {
     @Component({
       standalone: true,
       imports: [SolarisOptionComponent],
-      template: '<solaris-option value="admin" [label]="\'Admin\'" [description]="\'<b>Admin</b>\'"></solaris-option>',
+      template:
+        '<solaris-option value="admin" [label]="\'Admin\'" [description]="\'<b>Admin</b>\'"></solaris-option>',
     })
     class Host {}
     const hostFixture = TestBed.createComponent(Host);
     hostFixture.detectChanges();
-    const description = hostFixture.nativeElement.querySelector('.solaris-option__description-text');
+    const description = hostFixture.nativeElement.querySelector(
+      '.solaris-option__description-text',
+    );
     expect(description).toBeTruthy();
     expect(description.textContent).toContain('<b>Admin</b>');
     const b = description.querySelector('b');
@@ -402,7 +406,8 @@ describe('SolarisOptionComponent unsafe rendering security', () => {
     @Component({
       standalone: true,
       imports: [SolarisOptionComponent],
-      template: '<solaris-option value="test" [label]="\'Test\'" [description]="\'Desc\'"></solaris-option>',
+      template:
+        '<solaris-option value="test" [label]="\'Test\'" [description]="\'Desc\'"></solaris-option>',
     })
     class Host {}
     const hostFixture = TestBed.createComponent(Host);

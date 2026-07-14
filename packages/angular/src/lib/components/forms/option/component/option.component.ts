@@ -50,8 +50,9 @@ function generateId(): string {
     '[attr.data-active]': 'effectiveActive() ? "" : null',
     '[attr.data-highlighted]': 'highlighted() ? "" : null',
     '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
-    '[attr.data-selection-mode]': 'selectionMode()',
-    '[attr.data-show-indicator]': 'showSelectionIndicator() ? "" : null',
+    '[attr.data-selection-mode]': 'effectiveSelectionMode()',
+    '[attr.data-show-indicator]':
+      'effectiveShowSelectionIndicator() ? "" : null',
     '[attr.id]': 'elementId()',
     '[style.display]': 'internalHidden() ? "none" : ""',
   },
@@ -64,6 +65,12 @@ export class SolarisOptionComponent {
   private readonly internalSelected = signal<boolean | undefined>(undefined);
   private readonly internalActive = signal<boolean | undefined>(undefined);
   protected readonly internalHidden = signal(false);
+  private readonly internalSelectionMode = signal<
+    SolarisOptionSelectionMode | undefined
+  >(undefined);
+  private readonly internalShowSelectionIndicator = signal<boolean | undefined>(
+    undefined,
+  );
 
   protected readonly leadingSlot = contentChild(SolarisOptionLeadingDirective);
   protected readonly labelSlot = contentChild(SolarisOptionLabelDirective);
@@ -104,6 +111,23 @@ export class SolarisOptionComponent {
   setHidden(v: boolean): void {
     this.internalHidden.set(v);
   }
+
+  setSelectionMode(mode: SolarisOptionSelectionMode): void {
+    this.internalSelectionMode.set(mode);
+  }
+
+  setShowSelectionIndicator(show: boolean): void {
+    this.internalShowSelectionIndicator.set(show);
+  }
+
+  protected readonly effectiveSelectionMode = computed(() => {
+    return this.internalSelectionMode() ?? this.selectionMode();
+  });
+
+  protected readonly effectiveShowSelectionIndicator = computed(() => {
+    const internal = this.internalShowSelectionIndicator();
+    return internal !== undefined ? internal : this.showSelectionIndicator();
+  });
 
   protected readonly effectiveActive = computed(
     () => this.internalActive() ?? this.active(),
@@ -146,7 +170,10 @@ export class SolarisOptionComponent {
   });
 
   protected readonly ariaSelected = computed(() => {
-    if (this.selectionMode() === 'none' || !this.showSelectionIndicator()) {
+    if (
+      this.effectiveSelectionMode() === 'none' ||
+      !this.effectiveShowSelectionIndicator()
+    ) {
       return null;
     }
     return this.selected() ? 'true' : 'false';
@@ -173,15 +200,22 @@ export class SolarisOptionComponent {
   });
 
   protected readonly showSelectionVisual = computed(() => {
-    return this.showSelectionIndicator() && this.selectionMode() !== 'none';
+    return (
+      this.effectiveShowSelectionIndicator() &&
+      this.effectiveSelectionMode() !== 'none'
+    );
   });
 
   protected readonly isCheckSelection = computed(() => {
-    return this.selectionMode() === 'single' && this.showSelectionVisual();
+    return (
+      this.effectiveSelectionMode() === 'single' && this.showSelectionVisual()
+    );
   });
 
   protected readonly isMultiCheckSelection = computed(() => {
-    return this.selectionMode() === 'multiple' && this.showSelectionVisual();
+    return (
+      this.effectiveSelectionMode() === 'multiple' && this.showSelectionVisual()
+    );
   });
 
   setGroupDisabledState(isDisabled: boolean): void {

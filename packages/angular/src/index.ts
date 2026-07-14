@@ -158,6 +158,15 @@ export type {
   SolarisSelectRadius,
 } from './lib/components/forms/select/model/select.types';
 
+export { SolarisMultiSelectComponent } from './lib/components/forms/multi-select/component/multi-select.component';
+export type {
+  SolarisMultiSelectAppearance,
+  SolarisMultiSelectSize,
+  SolarisMultiSelectDensity,
+  SolarisMultiSelectRadius,
+  SolarisMultiSelectDisplayMode,
+} from './lib/components/forms/multi-select/model/multi-select.types';
+
 export { SolarisInputDirective } from './lib/components/forms/input/directives/input.directive';
 export type {
   SolarisInputAppearance,

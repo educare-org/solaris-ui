@@ -546,7 +546,9 @@ describe('SolarisFormFieldComponent unsafe rendering security', () => {
     TestBed.configureTestingModule({});
     const fixture = TestBed.createComponent(UnsafeRenderingHost);
     fixture.detectChanges();
-    const label = fixture.nativeElement.querySelector('.solaris-form-field__label');
+    const label = fixture.nativeElement.querySelector(
+      '.solaris-form-field__label',
+    );
     expect(label).toBeTruthy();
     expect(label.textContent).toContain('<img src=x onerror=alert(1)>');
     const img = label.querySelector('img');
@@ -557,7 +559,9 @@ describe('SolarisFormFieldComponent unsafe rendering security', () => {
     TestBed.configureTestingModule({});
     const fixture = TestBed.createComponent(UnsafeRenderingHost);
     fixture.detectChanges();
-    const hint = fixture.nativeElement.querySelector('.solaris-form-field__hint');
+    const hint = fixture.nativeElement.querySelector(
+      '.solaris-form-field__hint',
+    );
     expect(hint).toBeTruthy();
     expect(hint.textContent).toContain('<script>alert(1)</script>');
     const script = hint.querySelector('script');
@@ -568,7 +572,9 @@ describe('SolarisFormFieldComponent unsafe rendering security', () => {
     TestBed.configureTestingModule({});
     const fixture = TestBed.createComponent(UnsafeRenderingHost);
     fixture.detectChanges();
-    const error = fixture.nativeElement.querySelector('.solaris-form-field__error');
+    const error = fixture.nativeElement.querySelector(
+      '.solaris-form-field__error',
+    );
     expect(error).toBeTruthy();
     expect(error.textContent).toContain('<b>Erro</b>');
     const b = error.querySelector('b');
