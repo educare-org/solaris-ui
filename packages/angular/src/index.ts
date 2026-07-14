@@ -150,6 +150,14 @@ export type {
   SolarisFormFieldRadius,
 } from './lib/components/forms/form-field/model/form-field.types';
 
+export { SolarisSelectComponent } from './lib/components/forms/select/component/select.component';
+export type {
+  SolarisSelectAppearance,
+  SolarisSelectSize,
+  SolarisSelectDensity,
+  SolarisSelectRadius,
+} from './lib/components/forms/select/model/select.types';
+
 export { SolarisInputDirective } from './lib/components/forms/input/directives/input.directive';
 export type {
   SolarisInputAppearance,

@@ -18,6 +18,8 @@ import type {
   SolarisOptionSelectionMode,
 } from '../model/option.types';
 
+import { SolarisIconComponent } from '../../../icon';
+
 import {
   SolarisOptionLeadingDirective,
   SolarisOptionLabelDirective,
@@ -35,7 +37,7 @@ function generateId(): string {
 @Component({
   selector: 'solaris-option',
   standalone: true,
-  imports: [],
+  imports: [SolarisIconComponent],
   templateUrl: './option.component.html',
   styleUrls: ['./option.component.scss'],
   host: {
@@ -58,6 +60,7 @@ export class SolarisOptionComponent {
   private readonly translateService = inject(SolarisTranslateService);
 
   protected readonly groupDisabled = signal(false);
+  private readonly internalSelected = signal<boolean | undefined>(undefined);
 
   protected readonly leadingSlot = contentChild(SolarisOptionLeadingDirective);
   protected readonly labelSlot = contentChild(SolarisOptionLabelDirective);
@@ -78,9 +81,18 @@ export class SolarisOptionComponent {
     alias: 'disabled',
     transform: (v: boolean) => v ?? false,
   });
-  readonly selected = input<boolean, boolean>(false, {
+  readonly selectedInput = input<boolean, boolean>(false, {
+    alias: 'selected',
     transform: (v: boolean) => v ?? false,
   });
+
+  protected readonly selected = computed(
+    () => this.internalSelected() ?? this.selectedInput(),
+  );
+
+  setSelected(isSelected: boolean): void {
+    this.internalSelected.set(isSelected);
+  }
   readonly active = input<boolean, boolean>(false, {
     transform: (v: boolean) => v ?? false,
   });
@@ -113,7 +125,7 @@ export class SolarisOptionComponent {
     return this.density() ?? 'comfortable';
   });
 
-  protected readonly isEffectivelyDisabled = computed(() => {
+  readonly isEffectivelyDisabled = computed(() => {
     return this.disabledInput() || this.groupDisabled();
   });
 
@@ -124,7 +136,7 @@ export class SolarisOptionComponent {
     return this.selected() ? 'true' : 'false';
   });
 
-  protected readonly labelText = computed(() => {
+  readonly labelText = computed(() => {
     const key = this.labelKey();
     if (key) {
       const translated = this.translateService.translate(key);
@@ -134,7 +146,7 @@ export class SolarisOptionComponent {
     return this.optionLabel();
   });
 
-  protected readonly descriptionText = computed(() => {
+  readonly descriptionText = computed(() => {
     const key = this.descriptionKey();
     if (key) {
       const translated = this.translateService.translate(key);

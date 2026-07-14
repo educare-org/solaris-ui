@@ -60,6 +60,7 @@ describe('SolarisTranslateService', () => {
           provideSolarisTranslate({
             locale: 'custom-locale',
             fallbackLocale: 'en-US',
+            useBrowserLocale: false,
             translations: {
               'custom-locale': { hello: 'Custom Hello' },
             },
@@ -120,6 +121,7 @@ describe('SolarisTranslateService', () => {
           provideSolarisTranslate({
             locale: 'pt-BR',
             fallbackLocale: 'en-US',
+            useBrowserLocale: false,
             translations: {
               'pt-BR': { label: 'Rótulo' },
               'en-US': { label: 'Label' },

@@ -1,8 +1,8 @@
 :host {
-  --solaris-option-group-label-color: initial;
   --solaris-option-group-gap: initial;
   --solaris-option-group-padding-x: initial;
   --solaris-option-group-padding-y: initial;
+  --solaris-option-group-label-color: initial;
 
   display: block;
   outline: none;
@@ -17,10 +17,10 @@
 }
 
 .solaris-option-group__label {
+  user-select: none;
   color: var(--solaris-option-group-label-color);
   font-weight: var(--solaris-font-weight-semibold);
-  padding: var(--solaris-spacing-1) var(--solaris-spacing-3);
-  user-select: none;
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
 }
 
 .solaris-option-group__options {
@@ -29,9 +29,9 @@
 }
 
 :host([data-size='sm']) {
-  --solaris-option-group-gap: var(--solaris-spacing-1);
   --solaris-option-group-padding-x: 0;
   --solaris-option-group-padding-y: 0;
+  --solaris-option-group-gap: var(--solaris-spacing-1);
   --solaris-option-group-label-color: var(--solaris-text-muted);
 
   .solaris-option-group__label {
@@ -42,9 +42,9 @@
 }
 
 :host([data-size='md']) {
-  --solaris-option-group-gap: var(--solaris-spacing-1);
   --solaris-option-group-padding-x: 0;
   --solaris-option-group-padding-y: 0;
+  --solaris-option-group-gap: var(--solaris-spacing-1);
   --solaris-option-group-label-color: var(--solaris-text-muted);
 
   .solaris-option-group__label {
@@ -55,9 +55,9 @@
 }
 
 :host([data-size='lg']) {
-  --solaris-option-group-gap: var(--solaris-spacing-2);
   --solaris-option-group-padding-x: 0;
   --solaris-option-group-padding-y: 0;
+  --solaris-option-group-gap: var(--solaris-spacing-2);
   --solaris-option-group-label-color: var(--solaris-text-muted);
 
   .solaris-option-group__label {

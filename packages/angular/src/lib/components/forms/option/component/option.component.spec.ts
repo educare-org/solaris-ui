@@ -328,8 +328,8 @@ describe('SolarisOptionComponent selection visual', () => {
     fixture.detectChanges();
     const indicator = el.querySelector('.solaris-option__selection-indicator');
     expect(indicator).toBeTruthy();
-    const checkIcon = el.querySelector('.solaris-option__check-icon');
-    expect(checkIcon).toBeTruthy();
+    const trailingCheck = el.querySelector('.solaris-option__trailing-check');
+    expect(trailingCheck).toBeTruthy();
   });
 
   it('should show checkbox indicator for multiple selection when selected', () => {

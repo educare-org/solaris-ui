@@ -77,6 +77,16 @@
   padding-left: 0;
 }
 
+.solaris-form-field__control-wrapper[data-connected-side='bottom'] {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.solaris-form-field__control-wrapper[data-connected-side='top'] {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 .solaris-form-field__control {
   display: flex;
   flex: 1;

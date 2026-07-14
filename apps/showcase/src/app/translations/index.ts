@@ -18,6 +18,7 @@ import { RADIO_GROUP_TRANSLATIONS } from '../pages/radio-group/translations';
 import { SWITCH_TRANSLATIONS } from '../pages/switch/translations';
 import { SWITCH_GROUP_TRANSLATIONS } from '../pages/switch-group/translations';
 import { OPTION_TRANSLATIONS } from '../pages/option/translations';
+import { SELECT_TRANSLATIONS } from '../pages/select/translations';
 import { POPOVER_TRANSLATIONS } from '../pages/popover/translations';
 import { TOOLTIP_TRANSLATIONS } from '../pages/tooltip/translations';
 
@@ -42,6 +43,7 @@ const PAGE_MODULES = [
   SWITCH_TRANSLATIONS,
   SWITCH_GROUP_TRANSLATIONS,
   OPTION_TRANSLATIONS,
+  SELECT_TRANSLATIONS,
   POPOVER_TRANSLATIONS,
   TOOLTIP_TRANSLATIONS,
 ];

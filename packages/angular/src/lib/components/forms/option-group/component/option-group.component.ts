@@ -51,7 +51,7 @@ export class SolarisOptionGroupComponent
   private readonly translateService = inject(SolarisTranslateService);
 
   @ContentChildren(SolarisOptionComponent, { descendants: true })
-  protected options!: QueryList<SolarisOptionComponent>;
+  options!: QueryList<SolarisOptionComponent>;
 
   readonly label = input<string>();
   readonly labelKey = input<string>();
@@ -82,7 +82,7 @@ export class SolarisOptionGroupComponent
     },
   );
 
-  protected readonly isEffectivelyDisabled = computed(() => {
+  readonly isEffectivelyDisabled = computed(() => {
     return this.disabledInput();
   });
 

@@ -1,0 +1,94 @@
+<div
+  class="solaris-select__trigger"
+  solaris-popover-trigger
+  [solarisPopoverDisabled]="!canOpen()"
+  [solarisPopoverTriggerFor]="matchWidthPopover"
+  [solarisPopoverMatchTriggerWidth]="panelMatchTriggerWidth()"
+  [solarisPopoverAppearance]="popoverAppearance()"
+  [solarisPopoverPlacement]="'bottom'"
+  [solarisPopoverAlign]="'start'"
+  [solarisPopoverOffset]="0"
+  [solarisPopoverPadding]="'none'"
+  [solarisPopoverRadius]="radius()"
+  [solarisPopoverTopConnected]="true"
+  [solarisPopoverMinWidth]="panelMinWidth()"
+  [solarisPopoverMaxWidth]="panelMaxWidth()"
+  [solarisPopoverScrollStrategy]="'reposition'"
+  [solarisPopoverCloseOnEscape]="false"
+>
+  @if (searchable() && panelOpen()) {
+    <input
+      #searchInput
+      type="text"
+      class="solaris-select__search-input"
+      [attr.placeholder]="searchPlaceholderText()"
+      [value]="searchQuery()"
+      (input)="onSearchInput($event)"
+      (keydown)="onSearchKeydown($event)"
+      role="searchbox"
+      autocomplete="off"
+    />
+  } @else {
+    <span class="solaris-select__value">
+      @if (displayText()) {
+        <span class="solaris-select__value-text">{{ displayText() }}</span>
+      } @else {
+        <span class="solaris-select__placeholder">{{ placeholderText() }}</span>
+      }
+    </span>
+  }
+
+  <span class="solaris-select__actions">
+    @if (canClear()) {
+      <button
+        type="button"
+        class="solaris-select__clear"
+        [attr.aria-label]="clearAriaLabel()"
+        (click)="clearValue(); $event.stopPropagation()"
+        tabindex="-1"
+      >
+        <solaris-icon name="x" [decorative]="true" />
+      </button>
+    }
+
+    <solaris-icon
+      class="solaris-select__dropdown-icon"
+      name="chevron-down"
+      [decorative]="true"
+      size="sm"
+    />
+  </span>
+</div>
+
+<ng-template #matchWidthPopover="solarisPopover" solaris-popover>
+  <div
+    class="solaris-select__panel"
+    role="listbox"
+    [attr.id]="panelId"
+    tabindex="-1"
+    (click)="onPanelClick($event)"
+    (keydown)="onPanelKeydown($event)"
+  >
+    @if (loading()) {
+      <div class="solaris-select__loading">
+        <span class="solaris-select__loading-text">{{
+          loadingTextValue()
+        }}</span>
+      </div>
+    } @else if (showNoResults()) {
+      <div class="solaris-select__no-results">
+        <span class="solaris-select__no-results-text">{{
+          noResultsTextValue()
+        }}</span>
+      </div>
+    } @else if (showEmpty()) {
+      <div class="solaris-select__empty">
+        <span class="solaris-select__empty-text">{{ emptyTextValue() }}</span>
+      </div>
+    } @else {
+      <div class="solaris-select__options">
+        <ng-content />
+      </div>
+    }
+  </div>
+</ng-template>

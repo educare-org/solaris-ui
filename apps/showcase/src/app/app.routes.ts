@@ -142,6 +142,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'select',
+    loadComponent: () =>
+      import('./pages/select/component/select-showcase').then(
+        (m) => m.SelectShowcasePage,
+      ),
+  },
+  {
     path: 'popover',
     loadComponent: () =>
       import('./pages/popover/component/popover-showcase').then(

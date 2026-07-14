@@ -66,10 +66,15 @@ export class SolarisPopoverTriggerDirective {
   protected readonly isOpen = signal(false);
 
   private overlayRef: OverlayRef | null = null;
+  private positionStrategy: FlexibleConnectedPositionStrategy | null = null;
   private outsideClickCleanup: (() => void) | null = null;
   private previousActiveElement: HTMLElement | null = null;
+  private panelContainerRef: HTMLElement | null = null;
+  private connectedSide: 'top' | 'bottom' = 'bottom';
 
-  readonly solarisPopoverTriggerFor = input.required<SolarisPopoverDirective>({
+  readonly solarisPopoverTriggerFor = input<
+    SolarisPopoverDirective | undefined
+  >(undefined, {
     alias: 'solarisPopoverTriggerFor',
   });
 
@@ -160,6 +165,10 @@ export class SolarisPopoverTriggerDirective {
     alias: 'solarisPopoverRadius',
   });
 
+  readonly solarisPopoverTopConnected = input<boolean>(false, {
+    alias: 'solarisPopoverTopConnected',
+  });
+
   readonly solarisPopoverOpened = output<void>();
   readonly solarisPopoverClosed = output<void>();
   readonly solarisPopoverOpenChange = output<boolean>();
@@ -170,9 +179,9 @@ export class SolarisPopoverTriggerDirective {
     return String(value);
   });
 
-  private readonly popoverTemplateRef = computed<TemplateRef<unknown>>(
-    () => this.solarisPopoverTriggerFor()?.templateRef,
-  );
+  private readonly popoverTemplateRef = computed<
+    TemplateRef<unknown> | undefined
+  >(() => this.solarisPopoverTriggerFor()?.templateRef);
 
   constructor() {
     effect(() => {
@@ -248,17 +257,42 @@ export class SolarisPopoverTriggerDirective {
   private createOverlay(): void {
     this.disposeOverlay();
 
-    const positionStrategy = this.createPositionStrategy();
+    this.positionStrategy = this.createPositionStrategy();
     const scrollStrategy = this.createScrollStrategy();
 
     const config = new OverlayConfig({
-      positionStrategy,
+      positionStrategy: this.positionStrategy,
       scrollStrategy,
       disposeOnNavigation: true,
       panelClass: 'solaris-popover-panel-overlay',
     });
 
     this.overlayRef = this.overlay.create(config);
+
+    this.positionStrategy.positionChanges.subscribe((change) => {
+      this.connectedSide =
+        change.connectionPair.originY === 'bottom' ? 'bottom' : 'top';
+      if (this.panelContainerRef) {
+        this.panelContainerRef.setAttribute(
+          'data-connected-side',
+          this.connectedSide,
+        );
+      }
+      this.elementRef.nativeElement.setAttribute(
+        'data-connected-side',
+        this.connectedSide,
+      );
+      // SECURITY_EXCEPTION: closest() required to find ancestor form-field wrapper. SSR-safe via injected ElementRef.
+      const formFieldWrapper = this.elementRef.nativeElement.closest(
+        '.solaris-form-field__control-wrapper',
+      ) as HTMLElement | null;
+      if (formFieldWrapper) {
+        formFieldWrapper.setAttribute(
+          'data-connected-side',
+          this.connectedSide,
+        );
+      }
+    });
   }
 
   private createPositionStrategy(): FlexibleConnectedPositionStrategy {
@@ -300,14 +334,24 @@ export class SolarisPopoverTriggerDirective {
       return;
     }
 
+    const templateRef = this.popoverTemplateRef();
+    if (!templateRef) {
+      return;
+    }
+
+    const topConnected = this.solarisPopoverTopConnected();
+    const initialSide = topConnected ? 'bottom' : undefined;
+    this.connectedSide = 'bottom';
+
     const data: SolarisPopoverPanelData = {
-      contentTemplate: this.popoverTemplateRef() as TemplateRef<unknown>,
+      contentTemplate: templateRef,
       appearance: this.solarisPopoverAppearance(),
       padding: this.solarisPopoverPadding(),
       radius: this.solarisPopoverRadius(),
       role: this.solarisPopoverPanelRole(),
       panelId: this.panelId,
       autoFocus: this.solarisPopoverAutoFocus(),
+      connectedSide: initialSide,
     };
 
     const panelInjector = Injector.create({
@@ -321,7 +365,14 @@ export class SolarisPopoverTriggerDirective {
       panelInjector,
     );
 
-    this.overlayRef.attach(portal);
+    const componentRef = this.overlayRef.attach(portal);
+    this.panelContainerRef = componentRef.location.nativeElement.querySelector(
+      '.solaris-popover-panel__container',
+    );
+
+    if (this.panelContainerRef && initialSide) {
+      this.panelContainerRef.setAttribute('data-connected-side', initialSide);
+    }
   }
 
   private detachPanel(): void {

@@ -7,39 +7,15 @@
 
   @if (showSelectionVisual()) {
     <div class="solaris-option__selection-indicator" aria-hidden="true">
-      @if (isCheckSelection()) {
-        <span class="solaris-option__check">
-          @if (selected()) {
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="solaris-option__check-icon"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-          }
-        </span>
-      } @else if (isMultiCheckSelection()) {
+      @if (isMultiCheckSelection()) {
         <span
           class="solaris-option__checkbox"
           [class.solaris-option__checkbox--checked]="selected()"
         >
           @if (selected()) {
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="solaris-option__checkbox-icon"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
+            <span class="solaris-option__checkbox-icon">
+              <solaris-icon name="check" [decorative]="true" />
+            </span>
           }
         </span>
       }
@@ -74,9 +50,14 @@
     </div>
   }
 
-  @if (trailingSlot()) {
+  @if (trailingSlot() || selected()) {
     <div class="solaris-option__trailing">
       <ng-content select="[solaris-option-trailing]" />
+      @if (selected()) {
+        <span class="solaris-option__trailing-check">
+          <solaris-icon name="check" [decorative]="true" />
+        </span>
+      }
     </div>
   }
 </div>

@@ -12,6 +12,7 @@ export const SOLARIS_BUILT_IN_ICONS: SolarisIconDefinition[] = [
   {
     name: 'check',
     viewBox: '0 0 24 24',
+    strokeWidth: 3,
     elements: [{ type: 'path', d: 'M20 6 9 17l-5-5' }],
   },
   {
