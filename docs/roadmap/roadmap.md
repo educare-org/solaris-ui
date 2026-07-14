@@ -42,7 +42,7 @@ Scope:
 - [x] Popover;
 - [x] Option + Option Group;
 - [x] Tooltip;
-- [ ] Select;
+- [x] Select;
 - [ ] Multi Select;
 
 ## `0.3.0` — Overlay and Navigation Release
