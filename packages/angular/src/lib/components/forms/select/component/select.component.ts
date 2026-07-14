@@ -19,6 +19,7 @@ import {
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
+import { SolarisFormFieldComponent } from '../../form-field/component/form-field.component';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisOptionComponent } from '../../option';
 import { SolarisOptionGroupComponent } from '../../option-group';
@@ -94,6 +95,9 @@ export class SolarisSelectComponent
 {
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly translateService = inject(SolarisTranslateService);
+  protected readonly parentFormField = inject(SolarisFormFieldComponent, {
+    optional: true,
+  });
 
   @ViewChild(SolarisPopoverTriggerDirective)
   protected popoverTrigger?: SolarisPopoverTriggerDirective;
@@ -341,6 +345,30 @@ export class SolarisSelectComponent
     return this.ariaLabelledby();
   });
 
+  protected readonly labelText = computed(() => {
+    const key = this.labelKey();
+    if (key) {
+      return this.translateService.translate(key) || this.label() || '';
+    }
+    return this.label() ?? '';
+  });
+
+  protected readonly hintText = computed(() => {
+    const key = this.hintKey();
+    if (key) {
+      return this.translateService.translate(key) || this.hint() || '';
+    }
+    return this.hint() ?? '';
+  });
+
+  protected readonly errorText = computed(() => {
+    const key = this.errorKey();
+    if (key) {
+      return this.translateService.translate(key) || this.error() || '';
+    }
+    return this.error() ?? '';
+  });
+
   protected readonly activeDescendantId = computed(() => {
     if (!this.panelOpen()) return null;
     const idx = this.activeOptionIndex();
@@ -454,11 +482,14 @@ export class SolarisSelectComponent
     this.setOptionsSelectedState();
     this.setOptionGroupDisabledState();
     this.syncActiveOptionToSelected();
+    this.syncActiveStates();
+    this.syncVisibility();
     this.subscribeToOptionInteractions();
 
     const optionsSub = this.options.changes.subscribe(() => {
       this.setOptionsSelectedState();
       this.setOptionGroupDisabledState();
+      this.syncVisibility();
       this.subscribeToOptionInteractions();
     });
     this.optionsSubscription = () => optionsSub.unsubscribe();
@@ -494,6 +525,8 @@ export class SolarisSelectComponent
     this.panelOpen.set(true);
     this.setOptionsSelectedState();
     this.syncActiveOptionToSelected();
+    this.syncActiveStates();
+    this.syncVisibility();
     this.opened.emit();
     this.openChange.emit(true);
 
@@ -508,6 +541,7 @@ export class SolarisSelectComponent
   protected onPanelClosed(): void {
     this.panelOpen.set(false);
     this.searchQuery.set('');
+    this.syncVisibility();
     this.closed.emit();
     this.openChange.emit(false);
     this.markAsTouched();
@@ -596,11 +630,13 @@ export class SolarisSelectComponent
     if (event.key === 'Home') {
       event.preventDefault();
       this.activeOptionIndex.set(this.getFirstEnabledOptionIndex());
+      this.syncActiveStates();
       return true;
     }
     if (event.key === 'End') {
       event.preventDefault();
       this.activeOptionIndex.set(this.getLastEnabledOptionIndex());
+      this.syncActiveStates();
       return true;
     }
     return false;
@@ -612,6 +648,8 @@ export class SolarisSelectComponent
     this.searchQuery.set(value);
     this.searchChange.emit(value);
     this.activeOptionIndex.set(-1);
+    this.syncActiveStates();
+    this.syncVisibility();
   }
 
   protected onSearchKeydown(event: KeyboardEvent): void {
@@ -637,6 +675,8 @@ export class SolarisSelectComponent
         if (this.searchQuery()) {
           this.searchQuery.set('');
           this.searchChange.emit('');
+          this.syncVisibility();
+          this.syncActiveStates();
         } else {
           this.popoverTrigger?.close();
         }
@@ -653,6 +693,33 @@ export class SolarisSelectComponent
 
   protected onPanelKeydown(event: KeyboardEvent): void {
     event.stopPropagation();
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        this.focusNextOption(1);
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.focusNextOption(-1);
+        break;
+      case 'Enter':
+      case ' ':
+        event.preventDefault();
+        this.selectActiveOption();
+        break;
+      case 'Escape':
+        event.preventDefault();
+        this.popoverTrigger?.close();
+        break;
+      case 'Home':
+        event.preventDefault();
+        this.activeOptionIndex.set(this.getFirstEnabledOptionIndex());
+        break;
+      case 'End':
+        event.preventDefault();
+        this.activeOptionIndex.set(this.getLastEnabledOptionIndex());
+        break;
+    }
   }
 
   protected onTriggerFocus(): void {
@@ -691,6 +758,30 @@ export class SolarisSelectComponent
     });
   }
 
+  private syncActiveStates(): void {
+    const idx = this.activeOptionIndex();
+    const opts = this.visibleOptions();
+    this.options.forEach((opt) => opt.setActive(false));
+    if (idx >= 0 && idx < opts.length) {
+      opts[idx].setActive(true);
+    }
+  }
+
+  private syncVisibility(): void {
+    const query = this.searchQuery().trim();
+    if (!query) {
+      this.options.forEach((o) => o.setHidden(false));
+      this.optionGroups.forEach((g) => g.setHidden(false));
+      return;
+    }
+    const visible = new Set(this.visibleOptions());
+    this.options.forEach((o) => o.setHidden(!visible.has(o)));
+    this.optionGroups.forEach((g) => {
+      const anyVisible = g.options.some((o) => visible.has(o));
+      g.setHidden(!anyVisible);
+    });
+  }
+
   private syncActiveOptionToSelected(): void {
     const selected = this.selectedOption();
     if (selected) {
@@ -700,6 +791,7 @@ export class SolarisSelectComponent
     } else {
       this.activeOptionIndex.set(-1);
     }
+    this.syncActiveStates();
   }
 
   private getOptionNativeText(option: SolarisOptionComponent): string {
@@ -771,6 +863,7 @@ export class SolarisSelectComponent
     while (next >= 0 && next < opts.length) {
       if (!opts[next].isEffectivelyDisabled()) {
         this.activeOptionIndex.set(next);
+        this.syncActiveStates();
         return;
       }
       next += direction;
@@ -778,8 +871,10 @@ export class SolarisSelectComponent
 
     if (direction === 1 && next >= opts.length) {
       this.activeOptionIndex.set(this.getFirstEnabledOptionIndex());
+      this.syncActiveStates();
     } else if (direction === -1 && next < 0) {
       this.activeOptionIndex.set(this.getLastEnabledOptionIndex());
+      this.syncActiveStates();
     }
   }
 

@@ -42,6 +42,7 @@ function generateId(): string {
     '[attr.aria-labelledby]': 'ariaLabelledBy()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
+    '[style.display]': 'internalHidden() ? "none" : ""',
   },
 })
 export class SolarisOptionGroupComponent
@@ -64,6 +65,7 @@ export class SolarisOptionGroupComponent
   readonly groupId = input<string>(undefined, { alias: 'id' });
 
   protected readonly contentInitialized = signal(false);
+  protected readonly internalHidden = signal(false);
 
   protected readonly elementId = computed(() => {
     return (
@@ -122,6 +124,10 @@ export class SolarisOptionGroupComponent
     if (this.optionQuerySubscription) {
       this.optionQuerySubscription.unsubscribe();
     }
+  }
+
+  setHidden(v: boolean): void {
+    this.internalHidden.set(v);
   }
 
   private propagateDisabledToOptions(): void {

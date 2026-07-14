@@ -1,3 +1,9 @@
+@if (labelText(); as label) {
+  @if (!parentFormField) {
+    <label class="solaris-select__label" [for]="id">{{ label }}</label>
+  }
+}
+
 <div
   class="solaris-select__trigger"
   solaris-popover-trigger
@@ -59,6 +65,14 @@
     />
   </span>
 </div>
+
+@if (!parentFormField) {
+  @if (isEffectivelyInvalid() && errorText(); as error) {
+    <div class="solaris-select__error" role="alert">{{ error }}</div>
+  } @else if (hintText(); as hint) {
+    <div class="solaris-select__hint">{{ hint }}</div>
+  }
+}
 
 <ng-template #matchWidthPopover="solarisPopover" solaris-popover>
   <div

@@ -47,12 +47,13 @@ function generateId(): string {
     '[attr.data-size]': 'size()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-selected]': 'selected() ? "" : null',
-    '[attr.data-active]': 'active() ? "" : null',
+    '[attr.data-active]': 'effectiveActive() ? "" : null',
     '[attr.data-highlighted]': 'highlighted() ? "" : null',
     '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
     '[attr.data-selection-mode]': 'selectionMode()',
     '[attr.data-show-indicator]': 'showSelectionIndicator() ? "" : null',
     '[attr.id]': 'elementId()',
+    '[style.display]': 'internalHidden() ? "none" : ""',
   },
 })
 export class SolarisOptionComponent {
@@ -61,6 +62,8 @@ export class SolarisOptionComponent {
 
   protected readonly groupDisabled = signal(false);
   private readonly internalSelected = signal<boolean | undefined>(undefined);
+  private readonly internalActive = signal<boolean | undefined>(undefined);
+  protected readonly internalHidden = signal(false);
 
   protected readonly leadingSlot = contentChild(SolarisOptionLeadingDirective);
   protected readonly labelSlot = contentChild(SolarisOptionLabelDirective);
@@ -93,6 +96,19 @@ export class SolarisOptionComponent {
   setSelected(isSelected: boolean): void {
     this.internalSelected.set(isSelected);
   }
+
+  setActive(v: boolean): void {
+    this.internalActive.set(v);
+  }
+
+  setHidden(v: boolean): void {
+    this.internalHidden.set(v);
+  }
+
+  protected readonly effectiveActive = computed(
+    () => this.internalActive() ?? this.active(),
+  );
+
   readonly active = input<boolean, boolean>(false, {
     transform: (v: boolean) => v ?? false,
   });

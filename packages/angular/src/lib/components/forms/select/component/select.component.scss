@@ -22,6 +22,7 @@
   user-select: none;
   position: relative;
   display: inline-flex;
+  flex-direction: column;
   box-sizing: border-box;
   font-family: var(--solaris-font-family-sans, system-ui);
 }
@@ -43,6 +44,28 @@
     box-shadow var(--solaris-motion-duration-slow) ease;
 }
 
+.solaris-select__label {
+  display: block;
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-sm);
+  color: var(--solaris-text-secondary);
+  margin-bottom: var(--solaris-spacing-1);
+}
+
+.solaris-select__hint {
+  font-size: var(--solaris-font-size-xs);
+  line-height: var(--solaris-line-height-xs);
+  color: var(--solaris-text-muted);
+  margin-top: var(--solaris-spacing-1);
+}
+
+.solaris-select__error {
+  font-size: var(--solaris-font-size-xs);
+  line-height: var(--solaris-line-height-xs);
+  color: var(--solaris-danger-base);
+  margin-top: var(--solaris-spacing-1);
+}
+
 :host([data-open]) .solaris-select__trigger {
   // SOLARIS_TOKEN_EXCEPTION: Removing box-shadow when panel is open to avoid double border effect.
   box-shadow: none;
@@ -61,12 +84,6 @@
 :host([data-open]:focus-visible) .solaris-select__trigger {
   // SOLARIS_TOKEN_EXCEPTION: Removing box-shadow when panel is open to avoid double border effect.
   box-shadow: none;
-}
-
-:host(:focus-visible) .solaris-select__trigger {
-  border-color: var(--solaris-select-focus-ring-color);
-  // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized color. Hardcoded spread required by design.
-  box-shadow: 0 0 0 2px var(--solaris-select-focus-ring-color);
 }
 
 .solaris-select__value {
@@ -178,7 +195,8 @@
 .solaris-select__options {
   display: flex;
   flex-direction: column;
-  gap: var(--solaris-spacing-2);
+  gap: var(--solaris-spacing-1);
+  padding: var(--solaris-spacing-1) var(--solaris-spacing-2);
 }
 
 :host([data-appearance='outline']) {
