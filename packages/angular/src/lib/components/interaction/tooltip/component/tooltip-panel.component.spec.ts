@@ -52,6 +52,49 @@ function createFixture(data: SolarisTooltipPanelData) {
   return fixture;
 }
 
+describe('SolarisTooltipPanelComponent unsafe rendering security', () => {
+  it('should escape body with HTML-like string', () => {
+    const fixture = createFixture(
+      createDefaultData({
+        body: '<img src=x onerror=alert(1)>',
+      }),
+    );
+    const containerEl = fixture.nativeElement.querySelector('.solaris-tooltip-panel__container');
+    expect(containerEl.textContent).toContain('<img src=x onerror=alert(1)>');
+    const img = containerEl.querySelector('img');
+    expect(img).toBeNull();
+  });
+
+  it('should escape title with HTML-like string', () => {
+    const fixture = createFixture(
+      createDefaultData({
+        title: '<b>Título</b>',
+        body: 'Some body',
+      }),
+    );
+    const containerEl = fixture.nativeElement.querySelector('.solaris-tooltip-panel__container');
+    expect(containerEl.textContent).toContain('<b>Título</b>');
+    const b = containerEl.querySelector('b');
+    expect(b).toBeNull();
+  });
+
+  it('should escape both title and body with HTML-like strings', () => {
+    const fixture = createFixture(
+      createDefaultData({
+        title: '<script>alert(1)</script>',
+        body: '<a href="javascript:void(0)">click</a>',
+      }),
+    );
+    const containerEl = fixture.nativeElement.querySelector('.solaris-tooltip-panel__container');
+    expect(containerEl.textContent).toContain('<script>alert(1)</script>');
+    expect(containerEl.textContent).toContain('<a href="javascript:void(0)">click</a>');
+    const script = containerEl.querySelector('script');
+    expect(script).toBeNull();
+    const a = containerEl.querySelector('a');
+    expect(a).toBeNull();
+  });
+});
+
 describe('SolarisTooltipPanelComponent', () => {
   it('should create the panel component', () => {
     const fixture = createFixture(createDefaultData());

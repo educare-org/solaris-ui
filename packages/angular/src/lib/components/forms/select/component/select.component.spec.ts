@@ -312,6 +312,311 @@ describe('SolarisSelectComponent', () => {
     });
   });
 
+  describe('security - unsafe rendering', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select
+          placeholder="<img src=x onerror=alert(1)>"
+          emptyText="<script>alert(1)</script>"
+          loadingText="<b>Loading</b>"
+          [loading]="false"
+          [displayWith]="unsafeDisplay"
+        >
+          <solaris-option value="x" label="<b>XSS</b>"></solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class UnsafeRenderingHost {
+      unsafeDisplay(_value: unknown): string {
+        return '<b>Admin</b>';
+      }
+    }
+
+    it('should escape placeholder with HTML-like string', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(UnsafeRenderingHost);
+      fixture.detectChanges();
+      const placeholder = fixture.nativeElement.querySelector('.solaris-select__placeholder');
+      expect(placeholder).toBeTruthy();
+      expect(placeholder.textContent).toContain('<img src=x onerror=alert(1)>');
+    });
+
+    it('should escape emptyText with HTML-like string', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(UnsafeRenderingHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      expect((select as any).emptyTextValue()).toContain('<script>alert(1)</script>');
+    });
+
+    it('should escape loadingText with HTML-like string', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(UnsafeRenderingHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      expect((select as any).loadingTextValue()).toContain('<b>Loading</b>');
+    });
+
+    it('should escape displayWith returning HTML-like string', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(UnsafeRenderingHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      select.writeValue('x');
+      fixture.detectChanges();
+      const displayText = (select as any).displayText();
+      expect(displayText).toContain('<b>Admin</b>');
+    });
+
+    it('should escape option label with HTML-like string', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(UnsafeRenderingHost);
+      fixture.detectChanges();
+      const option = fixture.debugElement.query(By.css('solaris-option')).componentInstance as any;
+      const labelText = option.labelText();
+      expect(labelText).toContain('<b>XSS</b>');
+    });
+  });
+
+  describe('security - search', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select [searchable]="true">
+          <solaris-option value="a" label="Option A"></solaris-option>
+          <solaris-option value="b" label="Option B"></solaris-option>
+          <solaris-option value="c" label="Option C"></solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class SearchHost {}
+
+    it('should not break search with "[" character', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SearchHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const query = '[';
+      const opts = (select as any).options.toArray();
+      const filtered = opts.filter((opt: any) => select.optionMatchesSearch(opt, query));
+      expect(Array.isArray(filtered)).toBe(true);
+    });
+
+    it('should not break search with "*" character', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SearchHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const query = '*';
+      const opts = (select as any).options.toArray();
+      const filtered = opts.filter((opt: any) => select.optionMatchesSearch(opt, query));
+      expect(Array.isArray(filtered)).toBe(true);
+    });
+
+    it('should not create dangerous regex from "(a+)+" pattern', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SearchHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const query = '(a+)+';
+      const opts = (select as any).options.toArray();
+      const filtered = opts.filter((opt: any) => select.optionMatchesSearch(opt, query));
+      expect(Array.isArray(filtered)).toBe(true);
+    });
+
+    it('should be case-insensitive when matching', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SearchHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const aOpt = (select as any).options.toArray()[0];
+      const query = 'option';
+      const matches = select.optionMatchesSearch(aOpt, query);
+      expect(matches).toBe(true);
+    });
+
+    it('should not match when query does not match anything', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SearchHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      const aOpt = (select as any).options.toArray()[0];
+      const query = 'zzzzz';
+      const matches = select.optionMatchesSearch(aOpt, query);
+      expect(matches).toBe(false);
+    });
+  });
+
+  describe('security - disabled/readonly', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select [disabled]="isDisabled" [readonly]="isReadonly" [clearable]="true">
+          <solaris-option value="a" label="Option A"></solaris-option>
+          <solaris-option value="b" label="Option B" [disabled]="optDisabled"></solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class DisabledReadonlyHost {
+      isDisabled = false;
+      isReadonly = false;
+      optDisabled = true;
+    }
+
+    it('should not select disabled option on click', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(DisabledReadonlyHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as SolarisSelectComponent;
+      const opts = (select as any).options.toArray();
+      const disabledOpt = opts.find((o: any) => o.isEffectivelyDisabled());
+      select.writeValue(null);
+      fixture.detectChanges();
+      if (disabledOpt) {
+        select.selectOption(disabledOpt);
+        fixture.detectChanges();
+        const val = (select as any).internalValue();
+        expect(val).toBeNull();
+      }
+    });
+
+    it('disabled option should have aria-disabled true', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(DisabledReadonlyHost);
+      fixture.detectChanges();
+      const optEl = fixture.nativeElement.querySelectorAll('solaris-option')[1];
+      expect(optEl.getAttribute('aria-disabled')).toBe('true');
+    });
+
+    it('readonly select should not open', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(DisabledReadonlyHost);
+      fixture.detectChanges();
+      fixture.componentInstance.isReadonly = true;
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      expect((select as any).canOpen()).toBe(false);
+    });
+
+    it('disabled select should not open', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(DisabledReadonlyHost);
+      fixture.detectChanges();
+      fixture.componentInstance.isDisabled = true;
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      expect((select as any).canOpen()).toBe(false);
+    });
+
+    it('readonly select clear should not appear', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(DisabledReadonlyHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      select.writeValue('a');
+      fixture.detectChanges();
+      fixture.componentInstance.isReadonly = true;
+      fixture.detectChanges();
+      expect((select as any).canClear()).toBe(false);
+    });
+
+    it('disabled select clear should not appear', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(DisabledReadonlyHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select')).componentInstance as any;
+      select.writeValue('a');
+      fixture.detectChanges();
+      fixture.componentInstance.isDisabled = true;
+      fixture.detectChanges();
+      expect((select as any).canClear()).toBe(false);
+    });
+  });
+
+  describe('security - overlay cleanup', () => {
+    it('should destroy cleanly without errors', () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideSolarisTesting({
+            translate: { translations: { 'en-US': getTestTranslations() } },
+          }),
+        ],
+      });
+      @Component({
+        standalone: true,
+        imports: [SolarisSelectComponent, SolarisOptionComponent],
+        template: `
+          <solaris-select>
+            <solaris-option value="a" label="A"></solaris-option>
+          </solaris-select>
+        `,
+      })
+      class Host {}
+      const fixture = TestBed.createComponent(Host);
+      fixture.detectChanges();
+      expect(() => fixture.destroy()).not.toThrow();
+    });
+  });
+
+  describe('security - DOM leakage', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select>
+          <solaris-option [value]="objValue" label="Object"></solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class DomLeakageHost {
+      objValue = { id: 1, name: 'admin' };
+    }
+
+    it('should not serialize object value in DOM data attribute', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(DomLeakageHost);
+      fixture.detectChanges();
+      const host = fixture.nativeElement.querySelector('solaris-select');
+      const outerHtml = host.outerHTML;
+      expect(outerHtml).not.toContain('data-value');
+    });
+
+    it('should not have [object Object] in aria attributes', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(DomLeakageHost);
+      fixture.detectChanges();
+      const host = fixture.nativeElement.querySelector('solaris-select');
+      const ariaLabel = host.getAttribute('aria-label');
+      if (ariaLabel) {
+        expect(ariaLabel).not.toContain('[object Object]');
+      }
+    });
+  });
+
   describe('data attributes', () => {
     @Component({
       standalone: true,

@@ -524,6 +524,58 @@ describe('SolarisFormFieldComponent no control warning', () => {
   });
 });
 
+describe('SolarisFormFieldComponent unsafe rendering security', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisFormFieldComponent],
+    template: `
+      <solaris-form-field
+        label="<img src=x onerror=alert(1)>"
+        hint="<script>alert(1)</script>"
+        error="<b>Erro</b>"
+        [invalid]="true"
+      >
+        <input />
+      </solaris-form-field>
+    `,
+    providers: [provideSolarisTesting()],
+  })
+  class UnsafeRenderingHost {}
+
+  it('should escape label with HTML-like string', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(UnsafeRenderingHost);
+    fixture.detectChanges();
+    const label = fixture.nativeElement.querySelector('.solaris-form-field__label');
+    expect(label).toBeTruthy();
+    expect(label.textContent).toContain('<img src=x onerror=alert(1)>');
+    const img = label.querySelector('img');
+    expect(img).toBeNull();
+  });
+
+  it('should escape hint with HTML-like string', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(UnsafeRenderingHost);
+    fixture.detectChanges();
+    const hint = fixture.nativeElement.querySelector('.solaris-form-field__hint');
+    expect(hint).toBeTruthy();
+    expect(hint.textContent).toContain('<script>alert(1)</script>');
+    const script = hint.querySelector('script');
+    expect(script).toBeNull();
+  });
+
+  it('should escape error with HTML-like string', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(UnsafeRenderingHost);
+    fixture.detectChanges();
+    const error = fixture.nativeElement.querySelector('.solaris-form-field__error');
+    expect(error).toBeTruthy();
+    expect(error.textContent).toContain('<b>Erro</b>');
+    const b = error.querySelector('b');
+    expect(b).toBeNull();
+  });
+});
+
 describe('SolarisFormLabelComponent', () => {
   @Component({
     standalone: true,

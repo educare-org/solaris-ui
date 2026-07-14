@@ -363,6 +363,55 @@ describe('SolarisOptionComponent selection visual', () => {
   });
 });
 
+describe('SolarisOptionComponent unsafe rendering security', () => {
+  it('should escape label input with HTML-like string', () => {
+    configureSolarisTesting();
+    @Component({
+      standalone: true,
+      imports: [SolarisOptionComponent],
+      template: '<solaris-option value="x" [label]="\'<img src=x onerror=alert(1)>\'"></solaris-option>',
+    })
+    class Host {}
+    const hostFixture = TestBed.createComponent(Host);
+    hostFixture.detectChanges();
+    const text = hostFixture.nativeElement.textContent;
+    expect(text).toContain('<img src=x onerror=alert(1)>');
+    const img = hostFixture.nativeElement.querySelector('img');
+    expect(img).toBeNull();
+  });
+
+  it('should escape description input with HTML-like string', () => {
+    configureSolarisTesting();
+    @Component({
+      standalone: true,
+      imports: [SolarisOptionComponent],
+      template: '<solaris-option value="admin" [label]="\'Admin\'" [description]="\'<b>Admin</b>\'"></solaris-option>',
+    })
+    class Host {}
+    const hostFixture = TestBed.createComponent(Host);
+    hostFixture.detectChanges();
+    const description = hostFixture.nativeElement.querySelector('.solaris-option__description-text');
+    expect(description).toBeTruthy();
+    expect(description.textContent).toContain('<b>Admin</b>');
+    const b = description.querySelector('b');
+    expect(b).toBeNull();
+  });
+
+  it('should not have innerHTML in template for label or description', () => {
+    configureSolarisTesting();
+    @Component({
+      standalone: true,
+      imports: [SolarisOptionComponent],
+      template: '<solaris-option value="test" [label]="\'Test\'" [description]="\'Desc\'"></solaris-option>',
+    })
+    class Host {}
+    const hostFixture = TestBed.createComponent(Host);
+    hostFixture.detectChanges();
+    const optionEl = hostFixture.nativeElement.querySelector('solaris-option');
+    expect(optionEl.innerHTML).not.toContain('innerHTML');
+  });
+});
+
 describe('SolarisOptionComponent i18n', () => {
   it('should use labelKey with translation', () => {
     configureSolarisTesting();

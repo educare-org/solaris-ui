@@ -119,6 +119,25 @@ describe('SolarisOptionGroupComponent with options', () => {
   });
 });
 
+describe('SolarisOptionGroupComponent unsafe rendering security', () => {
+  it('should escape label with HTML-like string', () => {
+    configureSolarisTesting();
+    @Component({
+      standalone: true,
+      imports: [SolarisOptionGroupComponent],
+      template: '<solaris-option-group [label]="\'<img src=x onerror=alert(1)>\'"></solaris-option-group>',
+    })
+    class Host {}
+    const hostFixture = TestBed.createComponent(Host);
+    hostFixture.detectChanges();
+    const label = hostFixture.nativeElement.querySelector('.solaris-option-group__label');
+    expect(label).toBeTruthy();
+    expect(label.textContent).toContain('<img src=x onerror=alert(1)>');
+    const img = label.querySelector('img');
+    expect(img).toBeNull();
+  });
+});
+
 describe('SolarisOptionGroupComponent labelKey', () => {
   it('should use labelKey with translation', () => {
     configureSolarisTesting();

@@ -684,6 +684,17 @@ describe('SolarisPopoverTriggerDirective', () => {
       expect(triggerEl.getAttribute('aria-haspopup')).toBe('true');
     });
 
+    it('should clean up overlay on destroy with open panel', () => {
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      triggerClick(fixture);
+      expect(getPanelContent()).toBeTruthy();
+      fixture.destroy();
+      const containerEl = overlayContainer?.getContainerElement();
+      const content = containerEl?.querySelector('solaris-popover-panel');
+      expect(content).toBeFalsy();
+    });
+
     it('should apply panelRole when configured', () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
