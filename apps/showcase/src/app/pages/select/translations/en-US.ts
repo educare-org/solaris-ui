@@ -4,6 +4,7 @@ export const EN_US_SELECT: Record<string, string> = {
     'Single-select form control with search, clear, and rich option support. Integrates with Form Field, Popover, and Option components.',
 
   'select.basic': 'Basic select',
+  'select.withIcon': 'With Icon',
   'select.placeholder-section': 'Placeholder',
   'select.searchable': 'Searchable',
   'select.clearable': 'Clearable',

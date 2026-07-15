@@ -866,32 +866,45 @@ describe('SolarisMultiSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.getAttribute('role')).toBe('combobox');
+      const trigger = fixture.nativeElement.querySelector(
+        'solaris-multi-select .solaris-multi-select__trigger',
+      );
+      expect(trigger.getAttribute('role')).toBe('combobox');
     });
 
     it('should have aria-haspopup listbox', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.getAttribute('aria-haspopup')).toBe('listbox');
+      const trigger = fixture.nativeElement.querySelector(
+        'solaris-multi-select .solaris-multi-select__trigger',
+      );
+      expect(trigger.getAttribute('aria-haspopup')).toBe('listbox');
     });
 
     it('should have aria-expanded false initially', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.getAttribute('aria-expanded')).toBe('false');
+      const trigger = fixture.nativeElement.querySelector(
+        'solaris-multi-select .solaris-multi-select__trigger',
+      );
+      expect(trigger.getAttribute('aria-expanded')).toBe('false');
     });
 
-    it('should have aria-multiselectable', () => {
+    it('should have aria-multiselectable', async () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.getAttribute('aria-multiselectable')).toBe('true');
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__trigger',
+      );
+      trigger.click();
+      fixture.detectChanges();
+      await fixture.whenStable();
+      const panel = document.querySelector('[role="listbox"]');
+      expect(panel).toBeTruthy();
+      expect(panel!.getAttribute('aria-multiselectable')).toBe('true');
     });
   });
 
@@ -916,32 +929,40 @@ describe('SolarisMultiSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.getAttribute('data-appearance')).toBe('outline');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-appearance')).toBe('outline');
     });
 
     it('should have default size md', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.getAttribute('data-size')).toBe('md');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-size')).toBe('md');
     });
 
     it('should have default radius md', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.getAttribute('data-radius')).toBe('md');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-radius')).toBe('md');
     });
 
     it('should have default density comfortable', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.getAttribute('data-density')).toBe('comfortable');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-density')).toBe('comfortable');
     });
   });
 
@@ -972,8 +993,10 @@ describe('SolarisMultiSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.hasAttribute('data-disabled')).toBe(true);
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      );
+      expect(formField.hasAttribute('data-disabled')).toBe(true);
     });
 
     @Component({
@@ -1002,8 +1025,10 @@ describe('SolarisMultiSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(ReadonlyHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.hasAttribute('data-readonly')).toBe(true);
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      );
+      expect(formField.hasAttribute('data-readonly')).toBe(true);
     });
 
     @Component({
@@ -1032,40 +1057,50 @@ describe('SolarisMultiSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(InvalidHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.hasAttribute('data-invalid')).toBe(true);
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      );
+      expect(formField.hasAttribute('data-invalid')).toBe(true);
     });
 
     it('should apply data-size', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.getAttribute('data-size')).toBe('sm');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-size')).toBe('sm');
     });
 
     it('should apply data-density', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.getAttribute('data-density')).toBe('compact');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-density')).toBe('compact');
     });
 
     it('should apply data-radius', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.getAttribute('data-radius')).toBe('lg');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-radius')).toBe('lg');
     });
 
     it('should apply data-appearance', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-multi-select');
-      expect(host.getAttribute('data-appearance')).toBe('filled');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-appearance')).toBe('filled');
     });
   });
 

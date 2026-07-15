@@ -3,6 +3,7 @@ import {
   ElementRef,
   Injector,
   ViewContainerRef,
+  ComponentRef,
   computed,
   effect,
   inject,
@@ -23,10 +24,12 @@ import {
   OverlayRef,
   OverlayConfig,
   FlexibleConnectedPositionStrategy,
+  type ConnectedOverlayPositionChange,
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
+import { Subscription } from 'rxjs';
 
-import { SolarisTranslateService } from '../../../../services/translation/service/solaris-translate.service';
+import { SolarisTranslateService } from '../../../../services/translation';
 
 import { SolarisTooltipPanelComponent } from '../component/tooltip-panel.component';
 import {
@@ -36,6 +39,7 @@ import {
 import {
   getTooltipPositions,
   getTooltipArrowClass,
+  derivePlacementFromConnectionPair,
 } from '../model/tooltip-position';
 
 import type {
@@ -47,6 +51,14 @@ import type {
 } from '../model/tooltip.types';
 
 let nextPanelId = 0;
+
+const TOOLTIP_TRIGGER_GAP = 3;
+
+const ARROW_SIZE_PX: Record<string, number> = {
+  sm: 12,
+  md: 20,
+  lg: 24,
+};
 
 @Directive({
   selector: '[solaris-tooltip], [solarisTooltip], [solarisTooltipFor]',
@@ -78,6 +90,10 @@ export class SolarisTooltipDirective implements AfterViewInit {
   private hoverTimeout: ReturnType<typeof setTimeout> | null = null;
   private isHovered = false;
   private isFocused = false;
+  private tooltipComponentRef: ComponentRef<SolarisTooltipPanelComponent> | null =
+    null;
+  private positionChangesSub: Subscription | null = null;
+  private currentPlacement: SolarisTooltipPlacement = 'top';
 
   readonly solarisTooltip = input<string | undefined>(undefined, {
     alias: 'solarisTooltip',
@@ -119,7 +135,7 @@ export class SolarisTooltipDirective implements AfterViewInit {
     alias: 'solarisTooltipPlacement',
   });
 
-  readonly solarisTooltipOffset = input<number, string | number>(8, {
+  readonly solarisTooltipOffset = input<number, string | number>(0, {
     alias: 'solarisTooltipOffset',
     transform: numberAttribute,
   });
@@ -387,10 +403,8 @@ export class SolarisTooltipDirective implements AfterViewInit {
           }
         });
       }, delay);
-    } else {
-      if (!this.isHovered && !this.isFocused) {
-        this.close();
-      }
+    } else if (!this.isHovered && !this.isFocused) {
+      this.close();
     }
   }
 
@@ -419,8 +433,12 @@ export class SolarisTooltipDirective implements AfterViewInit {
 
   private createPositionStrategy(): FlexibleConnectedPositionStrategy {
     const placement = this.solarisTooltipPlacement();
-    const offset = Number(this.solarisTooltipOffset());
-    const positions = getTooltipPositions(placement, offset);
+    const userOffset = Number(this.solarisTooltipOffset());
+    const hasArrow = this.solarisTooltipArrow();
+    const size = this.solarisTooltipSize();
+    const arrowPx = hasArrow ? (ARROW_SIZE_PX[size] ?? 20) : 0;
+    const effectiveOffset = arrowPx + TOOLTIP_TRIGGER_GAP + userOffset;
+    const positions = getTooltipPositions(placement, effectiveOffset);
 
     return this.overlay
       .position()
@@ -436,7 +454,7 @@ export class SolarisTooltipDirective implements AfterViewInit {
       return;
     }
 
-    const placement = this.solarisTooltipPlacement();
+    this.currentPlacement = this.solarisTooltipPlacement();
     const trigger = this.solarisTooltipTrigger();
     const effectiveCloseable =
       trigger === 'click' ? this.solarisTooltipCloseable() : false;
@@ -453,11 +471,11 @@ export class SolarisTooltipDirective implements AfterViewInit {
       radius: this.solarisTooltipRadius(),
       maxWidth: this.solarisTooltipMaxWidth(),
       arrow: this.solarisTooltipArrow(),
-      arrowClass: getTooltipArrowClass(placement),
+      arrowClass: getTooltipArrowClass(this.currentPlacement),
       closeable: effectiveCloseable,
       closeLabel: this.getResolvedCloseLabel(),
       panelId: this.panelId,
-      placement,
+      placement: this.currentPlacement,
       trigger,
       close: closeFn,
     };
@@ -473,7 +491,24 @@ export class SolarisTooltipDirective implements AfterViewInit {
       panelInjector,
     );
 
-    this.overlayRef.attach(portal);
+    this.tooltipComponentRef = this.overlayRef.attach(portal);
+
+    const strategy = this.overlayRef.getConfig()
+      .positionStrategy as FlexibleConnectedPositionStrategy;
+    this.positionChangesSub = strategy.positionChanges.subscribe(
+      (change: ConnectedOverlayPositionChange) => {
+        const actualPlacement = derivePlacementFromConnectionPair(
+          change.connectionPair,
+        );
+        if (actualPlacement !== this.currentPlacement) {
+          this.currentPlacement = actualPlacement;
+          this.tooltipComponentRef?.instance.updatePlacement(
+            actualPlacement,
+            getTooltipArrowClass(actualPlacement),
+          );
+        }
+      },
+    );
   }
 
   private detachPanel(): void {
@@ -485,6 +520,9 @@ export class SolarisTooltipDirective implements AfterViewInit {
   }
 
   private disposeOverlay(): void {
+    this.positionChangesSub?.unsubscribe();
+    this.positionChangesSub = null;
+    this.tooltipComponentRef = null;
     if (this.overlayRef) {
       this.overlayRef.dispose();
       this.overlayRef = null;

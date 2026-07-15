@@ -1,21 +1,9 @@
 :host {
-  --solaris-select-padding-y: 0;
-  --solaris-select-disabled-opacity: 0.5;
-  --solaris-select-radius: var(--solaris-radius-md);
-  --solaris-select-height: var(--solaris-spacing-10);
-  --solaris-select-color: var(--solaris-text-default);
-  --solaris-select-padding-x: var(--solaris-spacing-3);
   --solaris-select-icon-color: var(--solaris-text-muted);
-  --solaris-select-font-size: var(--solaris-font-size-md);
-  --solaris-select-background: var(--solaris-surface-base);
   --solaris-select-value-color: var(--solaris-text-default);
-  --solaris-select-line-height: var(--solaris-line-height-md);
-  --solaris-select-border-color: var(--solaris-border-default);
-  --solaris-select-border-width: var(--solaris-border-width-sm);
   --solaris-select-placeholder-color: var(--solaris-text-muted);
-  --solaris-select-focus-ring-color: var(--solaris-primary-base);
-  --solaris-select-invalid-border-color: var(--solaris-danger-base);
-  --solaris-select-readonly-background: var(--solaris-surface-muted);
+  --solaris-select-font-size: var(--solaris-font-size-md);
+  --solaris-select-line-height: var(--solaris-line-height-md);
 
   outline: none;
   cursor: pointer;
@@ -28,62 +16,25 @@
 }
 
 .solaris-select__trigger {
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   box-sizing: border-box;
   gap: var(--solaris-spacing-2);
-  min-height: var(--solaris-select-height);
-  border-radius: var(--solaris-select-radius);
-  background: var(--solaris-select-background);
-  padding: var(--solaris-select-padding-y) var(--solaris-select-padding-x);
-  border: var(--solaris-select-border-width) solid
-    var(--solaris-select-border-color);
-  transition:
-    border-color var(--solaris-motion-duration-slow) ease,
-    box-shadow var(--solaris-motion-duration-slow) ease;
+  padding: 0;
+  outline: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
-.solaris-select__label {
-  display: block;
-  font-size: var(--solaris-font-size-sm);
-  line-height: var(--solaris-line-height-sm);
-  color: var(--solaris-text-secondary);
-  margin-bottom: var(--solaris-spacing-1);
+:host ::ng-deep .solaris-form-field__message-row {
+  margin-top: 0 !important;
 }
 
-.solaris-select__hint {
-  font-size: var(--solaris-font-size-xs);
-  line-height: var(--solaris-line-height-xs);
-  color: var(--solaris-text-muted);
-  margin-top: var(--solaris-spacing-1);
-}
-
-.solaris-select__error {
-  font-size: var(--solaris-font-size-xs);
-  line-height: var(--solaris-line-height-xs);
-  color: var(--solaris-danger-base);
-  margin-top: var(--solaris-spacing-1);
-}
-
-:host([data-open]) .solaris-select__trigger {
-  // SOLARIS_TOKEN_EXCEPTION: Removing box-shadow when panel is open to avoid double border effect.
-  box-shadow: none;
-}
-
-:host([data-open]) .solaris-select__trigger[data-connected-side='bottom'] {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-:host([data-open]) .solaris-select__trigger[data-connected-side='top'] {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
-:host([data-open]:focus-visible) .solaris-select__trigger {
-  // SOLARIS_TOKEN_EXCEPTION: Removing box-shadow when panel is open to avoid double border effect.
-  box-shadow: none;
+:host ::ng-deep .solaris-select--panel-open .solaris-form-field__message-row {
+  display: none;
 }
 
 .solaris-select__value {
@@ -199,112 +150,15 @@
   padding: var(--solaris-spacing-1) var(--solaris-spacing-2);
 }
 
-:host([data-appearance='outline']) {
-  --solaris-select-background: var(--solaris-surface-base);
-  --solaris-select-border-color: var(--solaris-border-default);
-}
-
-:host([data-appearance='surface']) {
-  --solaris-select-background: var(--solaris-surface-muted);
-  --solaris-select-border-color: var(--solaris-border-subtle);
-}
-
-:host([data-appearance='filled']) {
-  --solaris-select-background: var(--solaris-surface-muted);
-  --solaris-select-border-color: var(--solaris-border-default);
-  --solaris-select-border-width: 0 0 var(--solaris-border-width-sm) 0;
-}
-
-:host([data-size='sm']) {
-  --solaris-select-height: var(--solaris-spacing-8);
-  --solaris-select-padding-x: var(--solaris-spacing-2);
-  --solaris-select-font-size: var(--solaris-font-size-sm);
-  --solaris-select-line-height: var(--solaris-line-height-sm);
-}
-
-:host([data-size='md']) {
-  --solaris-select-height: var(--solaris-spacing-10);
-  --solaris-select-padding-x: var(--solaris-spacing-3);
-  --solaris-select-font-size: var(--solaris-font-size-md);
-  --solaris-select-line-height: var(--solaris-line-height-md);
-}
-
-:host([data-size='lg']) {
-  --solaris-select-height: var(--solaris-spacing-12);
-  --solaris-select-padding-x: var(--solaris-spacing-4);
-  --solaris-select-font-size: var(--solaris-font-size-lg);
-  --solaris-select-line-height: var(--solaris-line-height-lg);
-}
-
-:host([data-density='compact']) {
-  --solaris-select-height: var(--solaris-density-min-height);
-  --solaris-select-line-height: var(--solaris-line-height-sm);
-}
-
-:host([data-density='comfortable']) {
-  --solaris-select-line-height: var(--solaris-line-height-md);
-}
-
-:host([data-radius='none']) {
-  --solaris-select-radius: var(--solaris-radius-none);
-}
-
-:host([data-radius='sm']) {
-  --solaris-select-radius: var(--solaris-radius-sm);
-}
-
-:host([data-radius='md']) {
-  --solaris-select-radius: var(--solaris-radius-md);
-}
-
-:host([data-radius='lg']) {
-  --solaris-select-radius: var(--solaris-radius-lg);
-}
-
 :host([data-disabled]) {
   cursor: not-allowed;
-}
-
-:host([data-disabled]) .solaris-select__trigger {
-  opacity: var(--solaris-select-disabled-opacity);
 }
 
 :host([data-readonly]) {
   cursor: default;
 }
 
-:host([data-readonly]) .solaris-select__trigger {
-  background: var(--solaris-select-readonly-background);
-}
-
-:host([data-invalid]) .solaris-select__trigger {
-  border-color: var(--solaris-select-invalid-border-color);
-}
-
-:host([data-invalid]:focus-visible) .solaris-select__trigger {
-  border-color: var(--solaris-select-invalid-border-color);
-  // SOLARIS_TOKEN_EXCEPTION: Invalid state focus ring box-shadow uses CSS var. Hardcoded spread required by design.
-  box-shadow: 0 0 0 2px var(--solaris-select-invalid-border-color);
-}
-
-:host([data-open][data-invalid]) .solaris-select__trigger {
-  // SOLARIS_TOKEN_EXCEPTION: Removing box-shadow when panel is open to avoid double border effect.
-  box-shadow: none;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  border-color: var(--solaris-select-invalid-border-color);
-}
-
-:host([data-open][data-invalid]:focus-visible) .solaris-select__trigger {
-  // SOLARIS_TOKEN_EXCEPTION: Removing box-shadow when panel is open to avoid double border effect.
-  box-shadow: none;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  border-color: var(--solaris-select-invalid-border-color);
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .solaris-select__trigger,
   .solaris-select__dropdown-icon,
   .solaris-select__clear {
     transition: none;
@@ -312,47 +166,8 @@
 }
 
 [data-reduced-motion='true'] {
-  .solaris-select__trigger,
   .solaris-select__dropdown-icon,
   .solaris-select__clear {
     transition: none;
   }
-}
-
-solaris-form-field solaris-select {
-  width: 100%;
-  --solaris-select-border-width: 0;
-  --solaris-select-background: transparent;
-  --solaris-select-border-color: transparent;
-}
-
-solaris-form-field solaris-select .solaris-select__trigger {
-  border: none;
-  padding-left: 0;
-  border-radius: 0;
-  padding-right: 0;
-  // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow inside form-field context is intentional to inherit from parent.
-  box-shadow: none;
-  min-height: auto;
-  background: transparent;
-}
-
-solaris-form-field solaris-select:focus-visible .solaris-select__trigger,
-solaris-form-field solaris-select[data-open] .solaris-select__trigger {
-  // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow inside form-field context is intentional to inherit from parent.
-  box-shadow: none;
-  border-color: transparent;
-}
-
-solaris-form-field solaris-select[data-invalid] .solaris-select__trigger {
-  border-color: transparent;
-}
-
-solaris-form-field solaris-select[data-disabled] {
-  opacity: var(--solaris-select-disabled-opacity);
-}
-
-solaris-form-field solaris-select[data-density='compact'] {
-  padding-top: 0;
-  padding-bottom: 0;
 }

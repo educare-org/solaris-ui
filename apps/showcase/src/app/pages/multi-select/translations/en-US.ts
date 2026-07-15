@@ -4,6 +4,7 @@ export const MULTI_SELECT_EN_US: Record<string, string> = {
     'Multi Select allows selecting multiple options from a dropdown.',
   'multiSelect.basic': 'Basic Multi Select',
   'multiSelect.basicDesc': 'Simple multi select with displayMode summary.',
+  'multiSelect.withIcon': 'With Icon',
   'multiSelect.searchable': 'Searchable',
   'multiSelect.searchableDesc':
     'Local search filters options. Selection persists when filtered out.',

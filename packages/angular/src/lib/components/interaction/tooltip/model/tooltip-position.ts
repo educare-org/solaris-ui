@@ -1,4 +1,7 @@
-import type { ConnectedPosition } from '@angular/cdk/overlay';
+import type {
+  ConnectedPosition,
+  ConnectionPositionPair,
+} from '@angular/cdk/overlay';
 
 import type { SolarisTooltipPlacement } from './tooltip.types';
 
@@ -199,4 +202,30 @@ export function getTooltipArrowClass(
     case 'right-end':
       return 'solaris-tooltip-arrow--left';
   }
+}
+
+export function derivePlacementFromConnectionPair(
+  pair: ConnectionPositionPair,
+): SolarisTooltipPlacement {
+  if (pair.overlayY === 'bottom' && pair.originY === 'top') {
+    if (pair.overlayX === 'center') return 'top';
+    if (pair.overlayX === 'start') return 'top-start';
+    if (pair.overlayX === 'end') return 'top-end';
+  }
+  if (pair.overlayY === 'top' && pair.originY === 'bottom') {
+    if (pair.overlayX === 'center') return 'bottom';
+    if (pair.overlayX === 'start') return 'bottom-start';
+    if (pair.overlayX === 'end') return 'bottom-end';
+  }
+  if (pair.overlayX === 'start' && pair.originX === 'end') {
+    if (pair.overlayY === 'center') return 'right';
+    if (pair.overlayY === 'top') return 'right-start';
+    if (pair.overlayY === 'bottom') return 'right-end';
+  }
+  if (pair.overlayX === 'end' && pair.originX === 'start') {
+    if (pair.overlayY === 'center') return 'left';
+    if (pair.overlayY === 'top') return 'left-start';
+    if (pair.overlayY === 'bottom') return 'left-end';
+  }
+  return 'top';
 }

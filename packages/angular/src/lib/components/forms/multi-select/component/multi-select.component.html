@@ -1,14 +1,19 @@
-@if (labelText(); as label) {
-  @if (!parentFormField) {
-    <label class="solaris-multi-select__label" [for]="id">{{ label }}</label>
-  }
-}
-
-<div
-  class="solaris-multi-select__trigger"
+<solaris-form-field
+  #formFieldRef
+  [control]="this"
+  [label]="labelText()"
+  [hint]="hintText()"
+  [error]="errorText()"
+  [appearance]="appearance()"
+  [size]="size()"
+  [density]="effectiveDensity()"
+  [radius]="radius()"
+  [invalid]="isEffectivelyInvalid()"
+  [required]="requiredInput()"
   solaris-popover-trigger
   [solarisPopoverDisabled]="!canOpen()"
   [solarisPopoverTriggerFor]="matchWidthPopover"
+  [class.solaris-multi-select--panel-open]="panelOpen()"
   [solarisPopoverMatchTriggerWidth]="panelMatchTriggerWidth()"
   [solarisPopoverAppearance]="popoverAppearance()"
   [solarisPopoverPlacement]="'bottom'"
@@ -21,94 +26,46 @@
   [solarisPopoverMaxWidth]="panelMaxWidth()"
   [solarisPopoverScrollStrategy]="'reposition'"
   [solarisPopoverCloseOnEscape]="false"
+  [solarisPopoverAriaHasPopup]="'listbox'"
 >
-  <div class="solaris-multi-select__trigger-content" #triggerContent>
-    @if (displayMode() === 'auto') {
-      @if (hasValue()) {
-        @if (showCountOnly()) {
-          <span
-            class="solaris-multi-select__value"
-            [solarisTooltip]="countTooltipText()"
-            [solarisTooltipTrigger]="'hover'"
-          >
-            <span class="solaris-multi-select__value-text">{{
-              summaryText()
-            }}</span>
-          </span>
-        } @else {
-          <div
-            class="solaris-multi-select__chips solaris-multi-select__chips--auto"
-          >
-            @for (opt of autoVisibleChips(); track opt) {
-              <span class="solaris-multi-select__chip" role="listitem">
-                <span class="solaris-multi-select__chip-label">{{
-                  getOptionDisplayLabel(opt)
-                }}</span>
-                @if (!isEffectivelyDisabled() && !isEffectivelyReadonly()) {
-                  <button
-                    type="button"
-                    class="solaris-multi-select__chip-remove"
-                    [attr.aria-label]="removeChipAriaLabel()"
-                    (click)="removeChip(opt, $event)"
-                    tabindex="-1"
-                  >
-                    <solaris-icon name="x" [decorative]="true" />
-                  </button>
-                }
-              </span>
-            }
-            @if (autoShowOverflow()) {
-              <span
-                class="solaris-multi-select__chip-overflow"
-                [solarisTooltip]="autoOverflowTooltipText()"
-                [solarisTooltipTrigger]="'hover'"
-                >+{{ autoOverflowCount() }}</span
-              >
-            }
-          </div>
-        }
-      }
-      @if (searchable() && panelOpen()) {
-        <input
-          #searchInput
-          type="text"
-          class="solaris-multi-select__search-input"
-          [attr.placeholder]="searchPlaceholderText()"
-          [value]="searchQuery()"
-          (input)="onSearchInput($event)"
-          (keydown)="onSearchKeydown($event)"
-          role="searchbox"
-          autocomplete="off"
-        />
-      }
-      @if (!hasValue() && !(searchable() && panelOpen())) {
-        <span class="solaris-multi-select__value">
-          <span class="solaris-multi-select__placeholder">{{
-            placeholderText()
-          }}</span>
-        </span>
-      }
-    } @else {
-      @if (searchable() && panelOpen()) {
-        <input
-          #searchInput
-          type="text"
-          class="solaris-multi-select__search-input"
-          [attr.placeholder]="searchPlaceholderText()"
-          [value]="searchQuery()"
-          (input)="onSearchInput($event)"
-          (keydown)="onSearchKeydown($event)"
-          role="searchbox"
-          autocomplete="off"
-        />
-      } @else {
+  @if (icon(); as iconName) {
+    <solaris-icon solaris-form-prefix [name]="iconName" [decorative]="true" />
+  }
+  <ng-content select="[solaris-form-prefix]" />
+
+  <div
+    #triggerEl
+    class="solaris-multi-select__trigger"
+    [id]="elementId() + '--trigger'"
+    solaris-form-field-trigger
+    role="combobox"
+    tabindex="0"
+    [attr.aria-expanded]="panelOpen() ? 'true' : 'false'"
+    [attr.aria-controls]="panelOpen() ? panelId : null"
+    [attr.aria-haspopup]="'listbox'"
+    [attr.aria-activedescendant]="activeDescendantId()"
+    (keydown)="onTriggerKeydown($event)"
+    (focus)="onTriggerFocus()"
+    (blur)="onTriggerBlur()"
+  >
+    <div class="solaris-multi-select__trigger-content" #triggerContent>
+      @if (displayMode() === 'auto') {
         @if (hasValue()) {
-          @if (displayMode() === 'chips') {
-            <div class="solaris-multi-select__chips">
-              @for (
-                opt of selectedOptions().slice(0, maxVisibleChips());
-                track opt
-              ) {
+          @if (showCountOnly()) {
+            <span
+              class="solaris-multi-select__chip"
+              [solarisTooltip]="countTooltipText()"
+              [solarisTooltipTrigger]="'hover'"
+            >
+              <span class="solaris-multi-select__chip-label">{{
+                summaryText()
+              }}</span>
+            </span>
+          } @else {
+            <div
+              class="solaris-multi-select__chips solaris-multi-select__chips--auto"
+            >
+              @for (opt of autoVisibleChips(); track opt) {
                 <span class="solaris-multi-select__chip" role="listitem">
                   <span class="solaris-multi-select__chip-label">{{
                     getOptionDisplayLabel(opt)
@@ -126,65 +83,133 @@
                   }
                 </span>
               }
-              @if (overflowCount() > 0) {
-                <span class="solaris-multi-select__chip-overflow">
-                  {{ overflowText() }}
-                </span>
+              @if (autoShowOverflow()) {
+                <span
+                  class="solaris-multi-select__chip-overflow"
+                  [solarisTooltip]="autoOverflowTooltipText()"
+                  [solarisTooltipTrigger]="'hover'"
+                  >+{{ autoOverflowCount() }}</span
+                >
               }
             </div>
-          } @else if (displayMode() === 'comma') {
-            <span class="solaris-multi-select__value">
-              <span class="solaris-multi-select__value-text">{{
-                commaText()
-              }}</span>
-            </span>
-          } @else {
-            <span class="solaris-multi-select__value">
-              <span class="solaris-multi-select__value-text">{{
-                summaryText()
-              }}</span>
-            </span>
           }
-        } @else {
+        }
+        @if (searchable() && panelOpen()) {
+          <input
+            #searchInput
+            type="text"
+            class="solaris-multi-select__search-input"
+            [attr.placeholder]="searchPlaceholderText()"
+            [value]="searchQuery()"
+            (input)="onSearchInput($event)"
+            (keydown)="onSearchKeydown($event)"
+            role="searchbox"
+            autocomplete="off"
+          />
+        }
+        @if (!hasValue() && !(searchable() && panelOpen())) {
           <span class="solaris-multi-select__value">
             <span class="solaris-multi-select__placeholder">{{
               placeholderText()
             }}</span>
           </span>
         }
+      } @else {
+        @if (searchable() && panelOpen()) {
+          <input
+            #searchInput
+            type="text"
+            class="solaris-multi-select__search-input"
+            [attr.placeholder]="searchPlaceholderText()"
+            [value]="searchQuery()"
+            (input)="onSearchInput($event)"
+            (keydown)="onSearchKeydown($event)"
+            role="searchbox"
+            autocomplete="off"
+          />
+        } @else {
+          @if (hasValue()) {
+            @if (displayMode() === 'chips') {
+              <div class="solaris-multi-select__chips">
+                @for (
+                  opt of selectedOptions().slice(0, maxVisibleChips());
+                  track opt
+                ) {
+                  <span class="solaris-multi-select__chip" role="listitem">
+                    <span class="solaris-multi-select__chip-label">{{
+                      getOptionDisplayLabel(opt)
+                    }}</span>
+                    @if (!isEffectivelyDisabled() && !isEffectivelyReadonly()) {
+                      <button
+                        type="button"
+                        class="solaris-multi-select__chip-remove"
+                        [attr.aria-label]="removeChipAriaLabel()"
+                        (click)="removeChip(opt, $event)"
+                        tabindex="-1"
+                      >
+                        <solaris-icon name="x" [decorative]="true" />
+                      </button>
+                    }
+                  </span>
+                }
+                @if (overflowCount() > 0) {
+                  <span class="solaris-multi-select__chip-overflow">
+                    {{ overflowText() }}
+                  </span>
+                }
+              </div>
+            } @else if (displayMode() === 'comma') {
+              <span class="solaris-multi-select__value">
+                <span class="solaris-multi-select__value-text">{{
+                  commaText()
+                }}</span>
+              </span>
+            } @else {
+              <span
+                class="solaris-multi-select__chip"
+                [solarisTooltip]="countTooltipText()"
+                [solarisTooltipTrigger]="'hover'"
+              >
+                <span class="solaris-multi-select__chip-label">{{
+                  summaryText()
+                }}</span>
+              </span>
+            }
+          } @else {
+            <span class="solaris-multi-select__value">
+              <span class="solaris-multi-select__placeholder">{{
+                placeholderText()
+              }}</span>
+            </span>
+          }
+        }
       }
-    }
+    </div>
+
+    <span class="solaris-multi-select__actions">
+      @if (canClear()) {
+        <button
+          type="button"
+          class="solaris-multi-select__clear"
+          [attr.aria-label]="clearAriaLabel()"
+          (click)="clearValue(); $event.stopPropagation()"
+          tabindex="-1"
+        >
+          <solaris-icon name="x" [decorative]="true" />
+        </button>
+      }
+
+      <solaris-icon
+        class="solaris-multi-select__dropdown-icon"
+        name="chevron-down"
+        [decorative]="true"
+        size="sm"
+      />
+    </span>
   </div>
 
-  <span class="solaris-multi-select__actions">
-    @if (canClear()) {
-      <button
-        type="button"
-        class="solaris-multi-select__clear"
-        [attr.aria-label]="clearAriaLabel()"
-        (click)="clearValue(); $event.stopPropagation()"
-        tabindex="-1"
-      >
-        <solaris-icon name="x" [decorative]="true" />
-      </button>
-    }
-
-    <solaris-icon
-      class="solaris-multi-select__dropdown-icon"
-      name="chevron-down"
-      [decorative]="true"
-      size="sm"
-    />
-  </span>
-</div>
-
-@if (!parentFormField) {
-  @if (isEffectivelyInvalid() && errorText(); as error) {
-    <div class="solaris-multi-select__error" role="alert">{{ error }}</div>
-  } @else if (hintText(); as hint) {
-    <div class="solaris-multi-select__hint">{{ hint }}</div>
-  }
-}
+  <ng-content select="[solaris-form-suffix]" />
+</solaris-form-field>
 
 <ng-template #matchWidthPopover="solarisPopover" solaris-popover>
   <div
@@ -254,7 +279,7 @@
         class="solaris-multi-select__options"
         [style.max-height]="panelMaxHeight()"
       >
-        <ng-content />
+        <ng-content select="solaris-option, solaris-option-group" />
       </div>
     }
   </div>

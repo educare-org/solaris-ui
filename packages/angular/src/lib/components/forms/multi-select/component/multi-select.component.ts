@@ -15,11 +15,14 @@ import {
   AfterViewInit,
   OnDestroy,
   DestroyRef,
+  isDevMode,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisFormFieldComponent } from '../../form-field/component/form-field.component';
+import { SolarisFormFieldTriggerDirective } from '../../form-field/directives/form-field-trigger.directive';
+import { SolarisFormPrefixDirective } from '../../form-field/directives/form-prefix.directive';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisOptionComponent } from '../../option';
 import { SolarisOptionGroupComponent } from '../../option-group';
@@ -54,6 +57,9 @@ function normalizeArray(value: unknown): unknown[] {
   selector: 'solaris-multi-select',
   standalone: true,
   imports: [
+    SolarisFormFieldComponent,
+    SolarisFormFieldTriggerDirective,
+    SolarisFormPrefixDirective,
     SolarisIconComponent,
     SolarisPopoverDirective,
     SolarisPopoverTriggerDirective,
@@ -73,30 +79,12 @@ function normalizeArray(value: unknown): unknown[] {
   templateUrl: './multi-select.component.html',
   styleUrls: ['./multi-select.component.scss'],
   host: {
-    role: 'combobox',
     'solaris-multi-select': '',
     '[attr.id]': 'elementId()',
-    '(blur)': 'onTriggerBlur()',
-    '(focus)': 'onTriggerFocus()',
     '[attr.data-size]': 'size()',
-    '[attr.data-radius]': 'radius()',
-    '[attr.aria-haspopup]': '"listbox"',
-    '(keydown)': 'onTriggerKeydown($event)',
-    '[attr.data-appearance]': 'appearance()',
-    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-open]': 'panelOpen() ? "" : null',
     '[attr.aria-label]': 'ariaLabelText() ?? null',
     '[attr.data-has-value]': 'hasValue() ? "" : null',
-    '[tabindex]': 'isEffectivelyDisabled() ? "-1" : "0"',
-    '[attr.aria-activedescendant]': 'activeDescendantId()',
-    '[attr.aria-controls]': 'panelOpen() ? panelId : null',
-    '[attr.aria-labelledby]': 'ariaLabelledbyText() ?? null',
-    '[attr.aria-describedby]': 'ariaDescribedBy()',
-    '[attr.aria-expanded]': 'panelOpen() ? "true" : "false"',
-    '[attr.aria-multiselectable]': '"true"',
-    '[attr.data-invalid]': 'isEffectivelyInvalid() ? "" : null',
-    '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
-    '[attr.data-readonly]': 'isEffectivelyReadonly() ? "" : null',
   },
 })
 export class SolarisMultiSelectComponent
@@ -114,6 +102,12 @@ export class SolarisMultiSelectComponent
 
   @ViewChild('searchInput', { read: ElementRef })
   protected searchInputRef?: ElementRef<HTMLInputElement>;
+
+  @ViewChild('triggerEl', { read: ElementRef })
+  protected triggerElement?: ElementRef<HTMLElement>;
+
+  @ViewChild('formFieldRef', { read: ElementRef })
+  protected formFieldElement?: ElementRef<HTMLElement>;
 
   @ContentChildren(SolarisOptionComponent, { descendants: true })
   protected options!: QueryList<SolarisOptionComponent>;
@@ -152,6 +146,7 @@ export class SolarisMultiSelectComponent
   readonly readonlyInput = input(false, { alias: 'readonly' });
   readonly requiredInput = input(false, { alias: 'required' });
   readonly panelMaxHeight = input<string | number>('20rem');
+  readonly icon = input<string>();
   readonly displayWith = input<(value: unknown) => string | undefined>();
   readonly appearance = input<SolarisMultiSelectAppearance>('outline');
   readonly compareWith = input<(a: unknown, b: unknown) => boolean>(Object.is);
@@ -641,8 +636,12 @@ export class SolarisMultiSelectComponent
   }
 
   focus(): void {
-    // SECURITY_EXCEPTION: nativeElement.focus() required to programmatically focus the select host. Standard DOM method used by Angular CDK.
-    this.elementRef.nativeElement.focus();
+    // SECURITY_EXCEPTION: nativeElement.focus() required to programmatically focus the multi-select trigger. Standard DOM method used by Angular CDK.
+    if (this.triggerElement) {
+      this.triggerElement.nativeElement.focus();
+    } else {
+      this.elementRef.nativeElement.focus();
+    }
   }
 
   writeValue(safe: unknown): void {
@@ -688,6 +687,13 @@ export class SolarisMultiSelectComponent
       this.subscribeToOptionInteractions();
     });
     this.optionsSubscription = () => optionsSub.unsubscribe();
+
+    if (isDevMode() && this.parentFormField) {
+      console.warn(
+        'SolarisMultiSelectComponent already includes SolarisFormField internally. ' +
+          'Do not wrap it with <solaris-form-field>; pass label, hint, error, prefix and suffix directly to <solaris-multi-select>.',
+      );
+    }
   }
 
   ngAfterViewInit(): void {
@@ -744,6 +750,7 @@ export class SolarisMultiSelectComponent
     this.syncVisibility();
     this.opened.emit();
     this.openChange.emit(true);
+    this.setConnectedSide('bottom');
 
     if (this.searchable()) {
       requestAnimationFrame(() => {
@@ -760,6 +767,32 @@ export class SolarisMultiSelectComponent
     this.closed.emit();
     this.openChange.emit(false);
     this.markAsTouched();
+    this.clearConnectedSide();
+  }
+
+  private setConnectedSide(side: 'bottom' | 'top'): void {
+    const el = this.formFieldElement?.nativeElement;
+    if (el) {
+      // SECURITY_EXCEPTION: nativeElement.querySelector required to find control-wrapper for connected-side sync.
+      const wrapper = el.querySelector<HTMLElement>(
+        '.solaris-form-field__control-wrapper',
+      );
+      if (wrapper) {
+        wrapper.dataset['connectedSide'] = side;
+      }
+    }
+  }
+
+  private clearConnectedSide(): void {
+    const el = this.formFieldElement?.nativeElement;
+    if (el) {
+      const wrapper = el.querySelector<HTMLElement>(
+        '.solaris-form-field__control-wrapper',
+      );
+      if (wrapper) {
+        delete wrapper.dataset['connectedSide'];
+      }
+    }
   }
 
   protected toggleOption(option: SolarisOptionComponent): void {

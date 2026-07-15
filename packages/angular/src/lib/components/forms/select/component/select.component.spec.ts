@@ -82,8 +82,10 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       fixture.componentInstance.control.disable();
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.hasAttribute('data-disabled')).toBe(true);
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField.hasAttribute('data-disabled')).toBe(true);
     });
 
     it('should clear selection when value is null', () => {
@@ -241,24 +243,30 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.getAttribute('role')).toBe('combobox');
+      const trigger = fixture.nativeElement.querySelector(
+        'solaris-select .solaris-select__trigger',
+      );
+      expect(trigger.getAttribute('role')).toBe('combobox');
     });
 
     it('should have aria-haspopup listbox', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.getAttribute('aria-haspopup')).toBe('listbox');
+      const trigger = fixture.nativeElement.querySelector(
+        'solaris-select .solaris-select__trigger',
+      );
+      expect(trigger.getAttribute('aria-haspopup')).toBe('listbox');
     });
 
     it('should have aria-expanded false initially', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.getAttribute('aria-expanded')).toBe('false');
+      const trigger = fixture.nativeElement.querySelector(
+        'solaris-select .solaris-select__trigger',
+      );
+      expect(trigger.getAttribute('aria-expanded')).toBe('false');
     });
   });
 
@@ -283,32 +291,40 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.getAttribute('data-appearance')).toBe('outline');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-appearance')).toBe('outline');
     });
 
     it('should have default size md', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.getAttribute('data-size')).toBe('md');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-size')).toBe('md');
     });
 
     it('should have default radius md', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.getAttribute('data-radius')).toBe('md');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-radius')).toBe('md');
     });
 
     it('should have default density comfortable', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.getAttribute('data-density')).toBe('comfortable');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-density')).toBe('comfortable');
     });
   });
 
@@ -386,8 +402,9 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(UnsafeRenderingHost);
       fixture.detectChanges();
-      const option = fixture.debugElement.query(By.css('solaris-option'))
+      const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
+      const option = select.options.toArray()[0];
       const labelText = option.labelText();
       expect(labelText).toContain('<b>XSS</b>');
     });
@@ -531,14 +548,20 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledReadonlyHost);
       fixture.detectChanges();
-      const optEl = fixture.nativeElement.querySelectorAll('solaris-option')[1];
-      expect(optEl.getAttribute('aria-disabled')).toBe('true');
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      const disabledOpt = select.options
+        .toArray()
+        .find((o: any) => o.value() === 'b');
+      expect(disabledOpt).toBeDefined();
+      expect(
+        disabledOpt.elementRef.nativeElement.getAttribute('aria-disabled'),
+      ).toBe('true');
     });
 
     it('readonly select should not open', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledReadonlyHost);
-      fixture.detectChanges();
       fixture.componentInstance.isReadonly = true;
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
@@ -549,7 +572,6 @@ describe('SolarisSelectComponent', () => {
     it('disabled select should not open', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledReadonlyHost);
-      fixture.detectChanges();
       fixture.componentInstance.isDisabled = true;
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
@@ -560,12 +582,11 @@ describe('SolarisSelectComponent', () => {
     it('readonly select clear should not appear', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledReadonlyHost);
+      fixture.componentInstance.isReadonly = true;
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
       select.writeValue('a');
-      fixture.detectChanges();
-      fixture.componentInstance.isReadonly = true;
       fixture.detectChanges();
       expect((select as any).canClear()).toBe(false);
     });
@@ -573,12 +594,11 @@ describe('SolarisSelectComponent', () => {
     it('disabled select clear should not appear', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledReadonlyHost);
+      fixture.componentInstance.isDisabled = true;
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
       select.writeValue('a');
-      fixture.detectChanges();
-      fixture.componentInstance.isDisabled = true;
       fixture.detectChanges();
       expect((select as any).canClear()).toBe(false);
     });
@@ -676,8 +696,10 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.hasAttribute('data-disabled')).toBe(true);
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField.hasAttribute('data-disabled')).toBe(true);
     });
 
     @Component({
@@ -706,8 +728,10 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(ReadonlyHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.hasAttribute('data-readonly')).toBe(true);
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField.hasAttribute('data-readonly')).toBe(true);
     });
 
     @Component({
@@ -736,40 +760,50 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(InvalidHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.hasAttribute('data-invalid')).toBe(true);
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField.hasAttribute('data-invalid')).toBe(true);
     });
 
     it('should apply data-size', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.getAttribute('data-size')).toBe('sm');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-size')).toBe('sm');
     });
 
     it('should apply data-density', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.getAttribute('data-density')).toBe('compact');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-density')).toBe('compact');
     });
 
     it('should apply data-radius', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.getAttribute('data-radius')).toBe('lg');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-radius')).toBe('lg');
     });
 
     it('should apply data-appearance', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DisabledHost);
       fixture.detectChanges();
-      const host = fixture.nativeElement.querySelector('solaris-select');
-      expect(host.getAttribute('data-appearance')).toBe('filled');
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField.getAttribute('data-appearance')).toBe('filled');
     });
   });
 });

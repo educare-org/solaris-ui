@@ -4,6 +4,7 @@ export const PT_BR_SELECT: Record<string, string> = {
     'Controle de formulário de seleção única com suporte a busca, limpeza e opções ricas. Integra com Form Field, Popover e Option.',
 
   'select.basic': 'Select básico',
+  'select.withIcon': 'Com Ícone',
   'select.placeholder-section': 'Placeholder',
   'select.searchable': 'Com busca',
   'select.clearable': 'Com limpeza',

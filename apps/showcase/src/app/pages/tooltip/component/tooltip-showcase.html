@@ -389,4 +389,89 @@
       </button>
     </div>
   </section>
+
+  <section class="tooltip-showcase__section">
+    <h2 class="tooltip-showcase__section-title">
+      Arrow visual validation matrix
+    </h2>
+    <p class="tooltip-showcase__note">
+      All 12 placements × 3 appearances × 3 sizes. Hover or click to verify
+      arrow direction, border continuity, and no visual duplication.
+    </p>
+    <div class="tooltip-matrix">
+      @for (placement of placements; track placement) {
+      <div class="tooltip-matrix__group">
+        <h3 class="tooltip-matrix__label">{{ placement }}</h3>
+        @for (appearance of matrixAppearances; track appearance) { @for (size of
+        matrixSizes; track size) {
+        <button
+          [solarisTooltip]="'Tooltip ' + placement"
+          [solarisTooltipTitle]="'Title ' + placement"
+          [solarisTooltipPlacement]="placement"
+          [solarisTooltipAppearance]="appearance"
+          [solarisTooltipSize]="size"
+          [solarisTooltipArrow]="true"
+          solarisTooltipTrigger="click"
+          solaris-button
+          class="tooltip-matrix__btn"
+        >
+          {{ appearance }}-{{ size }}
+        </button>
+        } }
+      </div>
+      }
+    </div>
+  </section>
+
+  <section class="tooltip-showcase__section">
+    <h2 class="tooltip-showcase__section-title">
+      Fallback edge cases (viewport boundaries)
+    </h2>
+    <p class="tooltip-showcase__note">
+      Buttons near viewport edges to force CDK fallback. Arrow should switch
+      sides accordingly.
+    </p>
+    <div class="tooltip-edges">
+      <button
+        [solarisTooltip]="'Top edge — forces bottom fallback'"
+        solarisTooltipPlacement="top"
+        solarisTooltipTrigger="click"
+        [solarisTooltipAppearance]="appearance"
+        solaris-button
+        class="tooltip-edges__top"
+      >
+        Top
+      </button>
+      <button
+        [solarisTooltip]="'Bottom edge — forces top fallback'"
+        solarisTooltipPlacement="bottom"
+        solarisTooltipTrigger="click"
+        [solarisTooltipAppearance]="appearance"
+        solaris-button
+        class="tooltip-edges__bottom"
+      >
+        Bottom
+      </button>
+      <button
+        [solarisTooltip]="'Left edge — forces right fallback'"
+        solarisTooltipPlacement="left"
+        solarisTooltipTrigger="click"
+        [solarisTooltipAppearance]="appearance"
+        solaris-button
+        class="tooltip-edges__left"
+      >
+        Left
+      </button>
+      <button
+        [solarisTooltip]="'Right edge — forces left fallback'"
+        solarisTooltipPlacement="right"
+        solarisTooltipTrigger="click"
+        [solarisTooltipAppearance]="appearance"
+        solaris-button
+        class="tooltip-edges__right"
+      >
+        Right
+      </button>
+    </div>
+  </section>
 </div>

@@ -155,6 +155,164 @@ describe('SolarisTooltipPanelComponent', () => {
       );
       expect(arrow).toBeNull();
     });
+
+    it('should render exactly one arrow element', () => {
+      const fixture = createFixture(
+        createDefaultData({
+          arrow: true,
+          arrowClass: 'solaris-tooltip-arrow--top',
+        }),
+      );
+
+      const arrows = fixture.nativeElement.querySelectorAll(
+        '.solaris-tooltip-panel__arrow',
+      );
+      expect(arrows.length).toBe(1);
+    });
+
+    it('should render arrow with arrow class', () => {
+      const fixture = createFixture(
+        createDefaultData({
+          arrow: true,
+          arrowClass: 'solaris-tooltip-arrow--bottom',
+        }),
+      );
+
+      const arrow = fixture.nativeElement.querySelector(
+        '.solaris-tooltip-panel__arrow',
+      ) as HTMLElement;
+      expect(arrow).toBeTruthy();
+      expect(arrow.classList.contains('solaris-tooltip-arrow--bottom')).toBe(
+        true,
+      );
+    });
+
+    describe('placement to arrow class mapping', () => {
+      it('top placement should use arrow--bottom class', () => {
+        const fixture = createFixture(
+          createDefaultData({
+            arrow: true,
+            placement: 'top',
+            arrowClass: 'solaris-tooltip-arrow--bottom',
+          }),
+        );
+        const arrow = fixture.nativeElement.querySelector(
+          '.solaris-tooltip-panel__arrow',
+        );
+        expect(arrow.classList.contains('solaris-tooltip-arrow--bottom')).toBe(
+          true,
+        );
+      });
+
+      it('bottom placement should use arrow--top class', () => {
+        const fixture = createFixture(
+          createDefaultData({
+            arrow: true,
+            placement: 'bottom',
+            arrowClass: 'solaris-tooltip-arrow--top',
+          }),
+        );
+        const arrow = fixture.nativeElement.querySelector(
+          '.solaris-tooltip-panel__arrow',
+        );
+        expect(arrow.classList.contains('solaris-tooltip-arrow--top')).toBe(
+          true,
+        );
+      });
+
+      it('left placement should use arrow--right class', () => {
+        const fixture = createFixture(
+          createDefaultData({
+            arrow: true,
+            placement: 'left',
+            arrowClass: 'solaris-tooltip-arrow--right',
+          }),
+        );
+        const arrow = fixture.nativeElement.querySelector(
+          '.solaris-tooltip-panel__arrow',
+        );
+        expect(arrow.classList.contains('solaris-tooltip-arrow--right')).toBe(
+          true,
+        );
+      });
+
+      it('right placement should use arrow--left class', () => {
+        const fixture = createFixture(
+          createDefaultData({
+            arrow: true,
+            placement: 'right',
+            arrowClass: 'solaris-tooltip-arrow--left',
+          }),
+        );
+        const arrow = fixture.nativeElement.querySelector(
+          '.solaris-tooltip-panel__arrow',
+        );
+        expect(arrow.classList.contains('solaris-tooltip-arrow--left')).toBe(
+          true,
+        );
+      });
+
+      it('top-start placement should use arrow--bottom class', () => {
+        const fixture = createFixture(
+          createDefaultData({
+            arrow: true,
+            placement: 'top-start',
+            arrowClass: 'solaris-tooltip-arrow--bottom',
+          }),
+        );
+        const arrow = fixture.nativeElement.querySelector(
+          '.solaris-tooltip-panel__arrow',
+        );
+        expect(arrow.classList.contains('solaris-tooltip-arrow--bottom')).toBe(
+          true,
+        );
+      });
+
+      it('bottom-end placement should use arrow--top class', () => {
+        const fixture = createFixture(
+          createDefaultData({
+            arrow: true,
+            placement: 'bottom-end',
+            arrowClass: 'solaris-tooltip-arrow--top',
+          }),
+        );
+        const arrow = fixture.nativeElement.querySelector(
+          '.solaris-tooltip-panel__arrow',
+        );
+        expect(arrow.classList.contains('solaris-tooltip-arrow--top')).toBe(
+          true,
+        );
+      });
+    });
+  });
+
+  describe('updatePlacement', () => {
+    it('should update placement and arrowClass via updatePlacement method', () => {
+      const fixture = createFixture(
+        createDefaultData({
+          arrow: true,
+          placement: 'top',
+          arrowClass: 'solaris-tooltip-arrow--bottom',
+        }),
+      );
+
+      const component = fixture.debugElement.query(
+        By.directive(SolarisTooltipPanelComponent),
+      ).componentInstance as SolarisTooltipPanelComponent;
+
+      component.updatePlacement('bottom', 'solaris-tooltip-arrow--top');
+      fixture.detectChanges();
+
+      const container = fixture.nativeElement.querySelector(
+        '.solaris-tooltip-panel__container',
+      );
+      expect(container.getAttribute('data-placement')).toBe('bottom');
+
+      const arrow = fixture.nativeElement.querySelector(
+        '.solaris-tooltip-panel__arrow',
+      );
+      expect(arrow.classList.contains('solaris-tooltip-arrow--top')).toBe(true);
+    });
   });
 
   describe('close button', () => {
@@ -201,6 +359,38 @@ describe('SolarisTooltipPanelComponent', () => {
       );
       closeBtn.click();
       expect(closeCalled).toBe(true);
+    });
+  });
+
+  describe('appearance tokens', () => {
+    it('outline should apply border-width and border-color tokens on container', () => {
+      const fixture = createFixture(
+        createDefaultData({ appearance: 'outline' }),
+      );
+      const container = fixture.nativeElement.querySelector(
+        '.solaris-tooltip-panel__container',
+      );
+      expect(container.getAttribute('data-appearance')).toBe('outline');
+    });
+
+    it('surface should not have visible border tokens', () => {
+      const fixture = createFixture(
+        createDefaultData({ appearance: 'surface' }),
+      );
+      const container = fixture.nativeElement.querySelector(
+        '.solaris-tooltip-panel__container',
+      );
+      expect(container.getAttribute('data-appearance')).toBe('surface');
+    });
+
+    it('inverse should not have visible border tokens', () => {
+      const fixture = createFixture(
+        createDefaultData({ appearance: 'inverse' }),
+      );
+      const container = fixture.nativeElement.querySelector(
+        '.solaris-tooltip-panel__container',
+      );
+      expect(container.getAttribute('data-appearance')).toBe('inverse');
     });
   });
 

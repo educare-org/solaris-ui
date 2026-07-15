@@ -555,9 +555,21 @@ describe('SolarisFormFieldComponent unsafe rendering security', () => {
     expect(img).toBeNull();
   });
 
+  @Component({
+    standalone: true,
+    imports: [SolarisFormFieldComponent],
+    template: `
+      <solaris-form-field hint="<script>alert(1)</script>">
+        <input />
+      </solaris-form-field>
+    `,
+    providers: [provideSolarisTesting()],
+  })
+  class HintOnlyHost {}
+
   it('should escape hint with HTML-like string', () => {
     TestBed.configureTestingModule({});
-    const fixture = TestBed.createComponent(UnsafeRenderingHost);
+    const fixture = TestBed.createComponent(HintOnlyHost);
     fixture.detectChanges();
     const hint = fixture.nativeElement.querySelector(
       '.solaris-form-field__hint',

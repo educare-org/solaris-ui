@@ -90,6 +90,7 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   readonly size = input<SolarisFormFieldSize>('md');
   readonly radius = input<SolarisFormFieldRadius>('md');
   readonly appearance = input<SolarisFormFieldAppearance>('outline');
+  readonly control = input<SolarisFormControl | undefined>(undefined);
 
   @ContentChild(SolarisFormLabelComponent)
   protected projectedLabel?: SolarisFormLabelComponent;
@@ -185,6 +186,10 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     if (manual !== undefined) {
       return manual;
     }
+    const explicitControl = this.control();
+    if (explicitControl) {
+      return explicitControl.disabled;
+    }
     if (this.formControl) {
       return this.formControl.disabled;
     }
@@ -195,6 +200,10 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     const manual = this.readonly();
     if (manual !== undefined) {
       return manual;
+    }
+    const explicitControl = this.control();
+    if (explicitControl) {
+      return explicitControl.readonly;
     }
     if (this.formControl) {
       return this.formControl.readonly;
@@ -234,6 +243,10 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     const manual = this.invalid();
     if (manual !== undefined) {
       return manual;
+    }
+    const explicitControl = this.control();
+    if (explicitControl) {
+      return explicitControl.invalid;
     }
     if (this.formControl) {
       return this.formControl.invalid && !this.isFocused();
@@ -278,6 +291,9 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     if (!this.controlElement) {
       return;
     }
+    if (this.control()) {
+      return;
+    }
     // SECURITY_EXCEPTION: Setting disabled/readonly on native control is required for FormField propagation.
     const input = this.controlElement as HTMLInputElement;
     const shouldDisable = this.isEffectivelyDisabled();
@@ -292,11 +308,12 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
 
   private syncDescribedBy(): void {
     const describedBy = this.describedBy();
-    if (this.formControl) {
+    const targetControl = this.control() ?? this.formControl;
+    if (targetControl) {
       if (describedBy) {
-        this.formControl.setDescribedByIds(describedBy.split(' '));
+        targetControl.setDescribedByIds(describedBy.split(' '));
       } else {
-        this.formControl.setDescribedByIds([]);
+        targetControl.setDescribedByIds([]);
       }
     }
   }
@@ -311,6 +328,22 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   }
 
   private detectControl(): void {
+    const explicitControl = this.control();
+    if (explicitControl) {
+      this.controlId = explicitControl.id;
+      const triggerEl = this.elementRef.nativeElement.querySelector(
+        '[solaris-form-field-trigger]',
+      );
+      if (triggerEl) {
+        this.controlElement = triggerEl as HTMLElement;
+        if (triggerEl.id) {
+          this.controlId = triggerEl.id;
+        }
+        this.connectControl();
+      }
+      return;
+    }
+
     // SECURITY_EXCEPTION: nativeElement access required to detect projected form controls.
     // SECURITY_EXCEPTION: Angular CDK and Material use the same approach.
     // SECURITY_EXCEPTION: Read-only querySelectorAll, no DOM mutation.
@@ -388,6 +421,7 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
 
   private warnNoControl(): void {
     const hasAnyControl =
+      !!this.control() ||
       !!this.formControl ||
       !!this.controlElement ||
       !!this.effectiveNgControl();

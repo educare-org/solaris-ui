@@ -4,6 +4,7 @@ export const MULTI_SELECT_PT_BR: Record<string, string> = {
     'Multi Select permite selecionar múltiplas opções em um dropdown.',
   'multiSelect.basic': 'Multi Select Básico',
   'multiSelect.basicDesc': 'Multi select simples com displayMode summary.',
+  'multiSelect.withIcon': 'Com Ícone',
   'multiSelect.searchable': 'Com Busca',
   'multiSelect.searchableDesc':
     'Busca local filtra opções. Seleção permanece quando filtrada.',

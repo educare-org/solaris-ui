@@ -26,6 +26,22 @@
 
   <section class="multi-select-showcase__section">
     <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.withIcon' | translate }}
+    </h2>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        icon="globe"
+        [placeholder]="'multiSelect.placeholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
       {{ 'multiSelect.searchable' | translate }}
     </h2>
     <p class="multi-select-showcase__note">

@@ -49,7 +49,7 @@ let nextPanelId = 0;
   selector: '[solaris-popover-trigger]',
   standalone: true,
   host: {
-    '[attr.aria-expanded]': 'isOpen() ? "true" : null',
+    '[attr.aria-expanded]': 'isOpen() ? "true" : "false"',
     '[attr.aria-controls]': 'isOpen() ? panelId : null',
     '[attr.aria-haspopup]': 'ariaHasPopupComputed()',
   },

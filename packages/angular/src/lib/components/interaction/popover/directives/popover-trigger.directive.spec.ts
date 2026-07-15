@@ -655,7 +655,7 @@ describe('SolarisPopoverTriggerDirective', () => {
         '[solaris-popover-trigger]',
       );
 
-      expect(triggerEl.getAttribute('aria-expanded')).toBeNull();
+      expect(triggerEl.getAttribute('aria-expanded')).toBe('false');
 
       triggerClick(fixture);
       expect(triggerEl.getAttribute('aria-expanded')).toBe('true');
@@ -672,7 +672,7 @@ describe('SolarisPopoverTriggerDirective', () => {
       expect(triggerEl.getAttribute('aria-expanded')).toBe('true');
 
       triggerClick(fixture);
-      expect(triggerEl.getAttribute('aria-expanded')).toBeNull();
+      expect(triggerEl.getAttribute('aria-expanded')).toBe('false');
     });
 
     it('should set aria-haspopup when configured', () => {

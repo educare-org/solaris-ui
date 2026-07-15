@@ -28,3 +28,52 @@
     @include layout.note;
   }
 }
+
+.tooltip-matrix {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  &__group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__label {
+    width: 8rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin: 0;
+  }
+
+  &__btn {
+    font-size: 0.75rem !important;
+    min-width: 4.5rem;
+  }
+}
+
+.tooltip-edges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+
+  &__top {
+    margin-top: -2rem;
+  }
+
+  &__bottom {
+    margin-bottom: -2rem;
+  }
+
+  &__left {
+    margin-left: -2rem;
+  }
+
+  &__right {
+    margin-right: -2rem;
+  }
+}

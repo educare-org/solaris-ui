@@ -1,11 +1,16 @@
-@if (labelText(); as label) {
-  @if (!parentFormField) {
-    <label class="solaris-select__label" [for]="id">{{ label }}</label>
-  }
-}
-
-<div
-  class="solaris-select__trigger"
+<solaris-form-field
+  #formFieldRef
+  [class.solaris-select--panel-open]="panelOpen()"
+  [control]="this"
+  [label]="labelText()"
+  [hint]="hintText()"
+  [error]="errorText()"
+  [appearance]="appearance()"
+  [size]="size()"
+  [density]="effectiveDensity()"
+  [radius]="radius()"
+  [invalid]="isEffectivelyInvalid()"
+  [required]="requiredInput()"
   solaris-popover-trigger
   [solarisPopoverDisabled]="!canOpen()"
   [solarisPopoverTriggerFor]="matchWidthPopover"
@@ -21,58 +26,76 @@
   [solarisPopoverMaxWidth]="panelMaxWidth()"
   [solarisPopoverScrollStrategy]="'reposition'"
   [solarisPopoverCloseOnEscape]="false"
+  [solarisPopoverAriaHasPopup]="'listbox'"
 >
-  @if (searchable() && panelOpen()) {
-    <input
-      #searchInput
-      type="text"
-      class="solaris-select__search-input"
-      [attr.placeholder]="searchPlaceholderText()"
-      [value]="searchQuery()"
-      (input)="onSearchInput($event)"
-      (keydown)="onSearchKeydown($event)"
-      role="searchbox"
-      autocomplete="off"
-    />
-  } @else {
-    <span class="solaris-select__value">
-      @if (displayText()) {
-        <span class="solaris-select__value-text">{{ displayText() }}</span>
-      } @else {
-        <span class="solaris-select__placeholder">{{ placeholderText() }}</span>
-      }
-    </span>
+  @if (icon(); as iconName) {
+    <solaris-icon solaris-form-prefix [name]="iconName" [decorative]="true" />
   }
+  <ng-content select="[solaris-form-prefix]" />
 
-  <span class="solaris-select__actions">
-    @if (canClear()) {
-      <button
-        type="button"
-        class="solaris-select__clear"
-        [attr.aria-label]="clearAriaLabel()"
-        (click)="clearValue(); $event.stopPropagation()"
-        tabindex="-1"
-      >
-        <solaris-icon name="x" [decorative]="true" />
-      </button>
+  <div
+    #triggerEl
+    class="solaris-select__trigger"
+    [id]="elementId() + '--trigger'"
+    solaris-form-field-trigger
+    role="combobox"
+    tabindex="0"
+    [attr.aria-expanded]="panelOpen() ? 'true' : 'false'"
+    [attr.aria-controls]="panelOpen() ? panelId : null"
+    [attr.aria-haspopup]="'listbox'"
+    [attr.aria-activedescendant]="activeDescendantId()"
+    (keydown)="onTriggerKeydown($event)"
+    (focus)="onTriggerFocus()"
+    (blur)="onTriggerBlur()"
+  >
+    @if (searchable() && panelOpen()) {
+      <input
+        #searchInput
+        type="text"
+        class="solaris-select__search-input"
+        [attr.placeholder]="searchPlaceholderText()"
+        [value]="searchQuery()"
+        (input)="onSearchInput($event)"
+        (keydown)="onSearchKeydown($event)"
+        role="searchbox"
+        autocomplete="off"
+      />
+    } @else {
+      <span class="solaris-select__value">
+        @if (displayText()) {
+          <span class="solaris-select__value-text">{{ displayText() }}</span>
+        } @else {
+          <span class="solaris-select__placeholder">{{
+            placeholderText()
+          }}</span>
+        }
+      </span>
     }
 
-    <solaris-icon
-      class="solaris-select__dropdown-icon"
-      name="chevron-down"
-      [decorative]="true"
-      size="sm"
-    />
-  </span>
-</div>
+    <span class="solaris-select__actions">
+      @if (canClear()) {
+        <button
+          type="button"
+          class="solaris-select__clear"
+          [attr.aria-label]="clearAriaLabel()"
+          (click)="clearValue(); $event.stopPropagation()"
+          tabindex="-1"
+        >
+          <solaris-icon name="x" [decorative]="true" />
+        </button>
+      }
 
-@if (!parentFormField) {
-  @if (isEffectivelyInvalid() && errorText(); as error) {
-    <div class="solaris-select__error" role="alert">{{ error }}</div>
-  } @else if (hintText(); as hint) {
-    <div class="solaris-select__hint">{{ hint }}</div>
-  }
-}
+      <solaris-icon
+        class="solaris-select__dropdown-icon"
+        name="chevron-down"
+        [decorative]="true"
+        size="sm"
+      />
+    </span>
+  </div>
+
+  <ng-content select="[solaris-form-suffix]" />
+</solaris-form-field>
 
 <ng-template #matchWidthPopover="solarisPopover" solaris-popover>
   <div
@@ -101,7 +124,7 @@
       </div>
     } @else {
       <div class="solaris-select__options">
-        <ng-content />
+        <ng-content select="solaris-option, solaris-option-group" />
       </div>
     }
   </div>
