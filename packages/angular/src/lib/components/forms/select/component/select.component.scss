@@ -76,7 +76,7 @@
   width: var(--solaris-font-size-xl);
   height: var(--solaris-font-size-xl);
   color: var(--solaris-select-icon-color);
-  transition: background var(--solaris-motion-duration-normal) ease;
+  transition: color var(--solaris-motion-duration-normal) ease;
 
   solaris-icon {
     width: var(--solaris-font-size-xl);
@@ -85,7 +85,7 @@
 }
 
 .solaris-select__clear:hover {
-  background: var(--solaris-surface-muted);
+  color: var(--solaris-text-default);
 }
 
 .solaris-select__dropdown-icon {
