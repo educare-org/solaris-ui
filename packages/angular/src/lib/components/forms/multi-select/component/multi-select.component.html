@@ -56,6 +56,7 @@
               class="solaris-multi-select__chip"
               [solarisTooltip]="countTooltipText()"
               [solarisTooltipTrigger]="'hover'"
+              tabindex="0"
             >
               <span class="solaris-multi-select__chip-label">{{
                 summaryText()
@@ -88,6 +89,13 @@
                   class="solaris-multi-select__chip-overflow"
                   [solarisTooltip]="autoOverflowTooltipText()"
                   [solarisTooltipTrigger]="'hover'"
+                  tabindex="0"
+                  [attr.aria-label]="
+                    '+ ' +
+                    autoOverflowCount() +
+                    ' ' +
+                    selectedLabels().join(', ')
+                  "
                   >+{{ autoOverflowCount() }}</span
                 >
               }
@@ -155,7 +163,12 @@
                   </span>
                 }
                 @if (overflowCount() > 0) {
-                  <span class="solaris-multi-select__chip-overflow">
+                  <span
+                    class="solaris-multi-select__chip-overflow"
+                    [attr.aria-label]="
+                      '+ ' + overflowCount() + ' ' + selectedLabels().join(', ')
+                    "
+                  >
                     {{ overflowText() }}
                   </span>
                 }
@@ -171,6 +184,7 @@
                 class="solaris-multi-select__chip"
                 [solarisTooltip]="countTooltipText()"
                 [solarisTooltipTrigger]="'hover'"
+                tabindex="0"
               >
                 <span class="solaris-multi-select__chip-label">{{
                   summaryText()
@@ -232,6 +246,9 @@
         (click)="handleSelectAll()"
         (keydown.enter)="handleSelectAll()"
         (keydown.space)="handleSelectAll(); $event.preventDefault()"
+        [class.solaris-multi-select__select-all--readonly]="
+          isEffectivelyReadonly()
+        "
       >
         <span
           class="solaris-multi-select__select-all-checkbox"

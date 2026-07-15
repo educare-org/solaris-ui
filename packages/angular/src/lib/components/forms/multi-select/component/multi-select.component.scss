@@ -39,7 +39,7 @@
 }
 
 :host ::ng-deep .solaris-form-field__message-row {
-  margin-top: 0 !important;
+  margin-top: 0;
 }
 
 :host
@@ -294,6 +294,11 @@
   color: var(--solaris-multi-select-value-color);
   font-size: var(--solaris-multi-select-font-size);
   line-height: var(--solaris-multi-select-line-height);
+}
+
+.solaris-multi-select__select-all--readonly {
+  cursor: default;
+  opacity: 0.5;
 }
 
 :host([data-disabled]) {

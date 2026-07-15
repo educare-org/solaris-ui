@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import {
   SolarisMultiSelectComponent,
@@ -35,6 +35,7 @@ export class MultiSelectShowcasePage {
   protected autoControl = new FormControl<string[]>(['br', 'us', 'pt', 'ar']);
   protected autoSearchControl = new FormControl<string[]>(['br', 'us']);
   protected chipsControl = new FormControl<string[]>(['br', 'us', 'pt']);
+  protected summaryControl = new FormControl<string[]>(['br', 'us']);
   protected commaControl = new FormControl<string[]>(['br', 'us']);
   protected overflowControl = new FormControl<string[]>([
     'br',
@@ -53,7 +54,17 @@ export class MultiSelectShowcasePage {
   });
   protected formFieldControl = new FormControl<string[]>([]);
   protected richControl = new FormControl<string[]>([]);
+  protected invalidControl = new FormControl<string[] | null>(null, [
+    Validators.required,
+  ]);
   protected loading = false;
+
+  protected get invalidError(): string {
+    if (this.invalidControl.hasError('required')) {
+      return 'This field is required.';
+    }
+    return '';
+  }
 
   protected toggleLoading(): void {
     this.loading = !this.loading;

@@ -124,7 +124,10 @@
         <span class="solaris-select__empty-text">{{ emptyTextValue() }}</span>
       </div>
     } @else {
-      <div class="solaris-select__options">
+      <div
+        class="solaris-select__options"
+        [style.max-height]="panelMaxHeight()"
+      >
         <ng-content select="solaris-option, solaris-option-group" />
       </div>
     }

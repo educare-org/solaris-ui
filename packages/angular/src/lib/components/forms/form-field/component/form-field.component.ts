@@ -331,6 +331,7 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     const explicitControl = this.control();
     if (explicitControl) {
       this.controlId = explicitControl.id;
+      // SECURITY_EXCEPTION: nativeElement.querySelector required to find trigger element. Standard DOM API used after Angular CDK pattern.
       const triggerEl = this.elementRef.nativeElement.querySelector(
         '[solaris-form-field-trigger]',
       );

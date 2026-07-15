@@ -30,7 +30,7 @@
 }
 
 :host ::ng-deep .solaris-form-field__message-row {
-  margin-top: 0 !important;
+  margin-top: 0;
 }
 
 :host ::ng-deep .solaris-select--panel-open .solaris-form-field__message-row {
@@ -107,7 +107,6 @@
 .solaris-select__panel {
   display: flex;
   overflow-y: auto;
-  max-height: 20rem;
   flex-direction: column;
   overscroll-behavior: contain;
 }

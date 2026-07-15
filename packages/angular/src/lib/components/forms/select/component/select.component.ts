@@ -22,6 +22,7 @@ import { SolarisFormControl } from '../../form-field/model/form-control.contract
 import { SolarisFormFieldComponent } from '../../form-field/component/form-field.component';
 import { SolarisFormFieldTriggerDirective } from '../../form-field/directives/form-field-trigger.directive';
 import { SolarisFormPrefixDirective } from '../../form-field/directives/form-prefix.directive';
+import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisOptionComponent } from '../../option';
 import { SolarisOptionGroupComponent } from '../../option-group';
@@ -51,6 +52,7 @@ function generateId(): string {
     SolarisFormFieldComponent,
     SolarisFormFieldTriggerDirective,
     SolarisFormPrefixDirective,
+    SolarisFormSuffixDirective,
     SolarisIconComponent,
     SolarisPopoverDirective,
     SolarisPopoverTriggerDirective,
@@ -126,6 +128,8 @@ export class SolarisSelectComponent
   readonly loading = input<boolean>(false);
   readonly searchPlaceholder = input<string>();
   readonly clearable = input<boolean>(false);
+  readonly clearLabel = input<string>();
+  readonly clearLabelKey = input<string>();
   readonly value = input<unknown>(undefined);
   readonly searchable = input<boolean>(false);
   readonly searchPlaceholderKey = input<string>();
@@ -325,6 +329,14 @@ export class SolarisSelectComponent
   });
 
   protected readonly clearAriaLabel = computed(() => {
+    const key = this.clearLabelKey();
+    if (key) {
+      return this.translateService.translate(key);
+    }
+    const text = this.clearLabel();
+    if (text) {
+      return text;
+    }
     return this.translateService.translate('solaris.select.clear');
   });
 
@@ -447,6 +459,7 @@ export class SolarisSelectComponent
     if (this.triggerElement) {
       this.triggerElement.nativeElement.focus();
     } else {
+      // SECURITY_EXCEPTION: nativeElement.focus() required as fallback when no triggerElement ref. Standard DOM method.
       this.elementRef.nativeElement.focus();
     }
   }
@@ -556,6 +569,7 @@ export class SolarisSelectComponent
   }
 
   private setConnectedSide(side: 'bottom' | 'top'): void {
+    // SECURITY_EXCEPTION: nativeElement required to access form-field DOM for connected-side sync. ElementRef SSR-safe.
     const el = this.formFieldElement?.nativeElement;
     if (el) {
       // SECURITY_EXCEPTION: nativeElement.querySelector required to find control-wrapper for connected-side sync.
@@ -569,6 +583,7 @@ export class SolarisSelectComponent
   }
 
   private clearConnectedSide(): void {
+    // SECURITY_EXCEPTION: nativeElement required to access form-field DOM for connected-side cleanup. ElementRef SSR-safe.
     const el = this.formFieldElement?.nativeElement;
     if (el) {
       const wrapper = el.querySelector<HTMLElement>(

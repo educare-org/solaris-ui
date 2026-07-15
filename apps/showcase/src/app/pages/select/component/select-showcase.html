@@ -50,6 +50,28 @@
 
   <section class="select-showcase__section">
     <h2 class="select-showcase__section-title">
+      {{ 'select.withSuffix' | translate }}
+    </h2>
+    <div class="select-showcase__demo">
+      <solaris-select [placeholder]="'select.placeholder-suffix' | translate">
+        <solaris-icon
+          solaris-form-suffix
+          name="help-circle"
+          [decorative]="false"
+          [attr.aria-label]="'select.suffixHelp' | translate"
+        />
+        <solaris-option value="a"
+          >{{ 'select.option.option-a' | translate }}</solaris-option
+        >
+        <solaris-option value="b"
+          >{{ 'select.option.option-b' | translate }}</solaris-option
+        >
+      </solaris-select>
+    </div>
+  </section>
+
+  <section class="select-showcase__section">
+    <h2 class="select-showcase__section-title">
       {{ 'select.placeholder-section' | translate }}
     </h2>
     <div class="select-showcase__demo">

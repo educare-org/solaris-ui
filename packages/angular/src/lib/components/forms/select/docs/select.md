@@ -68,6 +68,8 @@ Select v1 does not implement:
 | `loadingTextKey`             | `string`                                  | —           | i18n key for loading text                     |
 | `emptyText`                  | `string`                                  | —           | Text when no options available                |
 | `emptyTextKey`               | `string`                                  | —           | i18n key for empty text                       |
+| `clearLabel`                 | `string`                                  | —           | Custom aria-label for clear button            |
+| `clearLabelKey`              | `string`                                  | —           | i18n key for clear button label               |
 | `noResultsText`              | `string`                                  | —           | Text when search returns no results           |
 | `noResultsTextKey`           | `string`                                  | —           | i18n key for no results text                  |
 | `compareWith`                | `(a: unknown, b: unknown) => boolean`     | `Object.is` | Custom comparison function for object values  |

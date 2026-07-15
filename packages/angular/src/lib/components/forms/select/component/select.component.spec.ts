@@ -669,6 +669,175 @@ describe('SolarisSelectComponent', () => {
     });
   });
 
+  describe('prefix/suffix projection', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select>
+          <span solaris-form-prefix>Prefix</span>
+          <span solaris-form-suffix>Suffix</span>
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class PrefixSuffixHost {}
+
+    it('should project prefix into form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(PrefixSuffixHost);
+      fixture.detectChanges();
+      const prefix = fixture.nativeElement.querySelector(
+        'solaris-select [solaris-form-prefix]',
+      );
+      expect(prefix).toBeTruthy();
+      expect(prefix.textContent.trim()).toBe('Prefix');
+    });
+
+    it('should project suffix into form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(PrefixSuffixHost);
+      fixture.detectChanges();
+      const suffix = fixture.nativeElement.querySelector(
+        'solaris-select [solaris-form-suffix]',
+      );
+      expect(suffix).toBeTruthy();
+      expect(suffix.textContent.trim()).toBe('Suffix');
+    });
+
+    it('should not render options inside trigger area', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(PrefixSuffixHost);
+      fixture.detectChanges();
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-select__trigger',
+      );
+      const optionInTrigger = trigger.querySelector('solaris-option');
+      expect(optionInTrigger).toBeFalsy();
+    });
+  });
+
+  describe('keyboard navigation', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select [searchable]="true">
+          <solaris-option value="a">Option A</solaris-option>
+          <solaris-option value="b">Option B</solaris-option>
+          <solaris-option value="c">Option C</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class KeyboardHost {}
+
+    it('should prevent keyboard interaction when disabled', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      select.setDisabledState(true);
+      fixture.detectChanges();
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      const spy = vi.spyOn(event, 'preventDefault');
+      (select as any).onTriggerKeydown(event);
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should have activeDescendantId when panel open', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      (select as any).panelOpen.set(true);
+      (select as any).activeOptionIndex.set(1);
+      fixture.detectChanges();
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-select__trigger',
+      );
+      expect(trigger.getAttribute('aria-activedescendant')).toBeTruthy();
+    });
+  });
+
+  describe('popover integration', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select>
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class PopoverHost {}
+
+    it('should have popover trigger directive on form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(PopoverHost);
+      fixture.detectChanges();
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField.hasAttribute('solaris-popover-trigger')).toBe(true);
+    });
+
+    it('should open panel when popover opens', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(PopoverHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      select.onPanelOpened();
+      fixture.detectChanges();
+      expect(select.panelOpen()).toBe(true);
+    });
+
+    it('should close panel when popover closes', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(PopoverHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      select.onPanelOpened();
+      select.onPanelClosed();
+      fixture.detectChanges();
+      expect(select.panelOpen()).toBe(false);
+    });
+
+    it('should emit opened/closed events', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(PopoverHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      const openedSpy = vi.fn();
+      const closedSpy = vi.fn();
+      select.opened.subscribe(openedSpy);
+      select.closed.subscribe(closedSpy);
+      (select as any).onPanelOpened();
+      expect(openedSpy).toHaveBeenCalledTimes(1);
+      (select as any).onPanelClosed();
+      expect(closedSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('data attributes', () => {
     @Component({
       standalone: true,

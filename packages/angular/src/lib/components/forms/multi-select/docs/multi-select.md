@@ -26,54 +26,60 @@ Multi Select represents a multiple selection within a form. It controls an array
 
 ### Inputs
 
-| Input                   | Type                                      | Default     | Description                            |
-| ----------------------- | ----------------------------------------- | ----------- | -------------------------------------- |
-| `value`                 | `unknown[]`                               | `[]`        | Current selection                      |
-| `placeholder`           | `string \| undefined`                     | —           | Placeholder text                       |
-| `placeholderKey`        | `string \| undefined`                     | —           | Translation key for placeholder        |
-| `searchable`            | `boolean`                                 | `false`     | Enable local search                    |
-| `searchPlaceholder`     | `string \| undefined`                     | —           | Search input placeholder               |
-| `searchPlaceholderKey`  | `string \| undefined`                     | —           | Translation key for search placeholder |
-| `clearable`             | `boolean`                                 | `false`     | Show clear button                      |
-| `disabled`              | `boolean`                                 | `false`     | Disabled state                         |
-| `readonly`              | `boolean`                                 | `false`     | Read-only state                        |
-| `required`              | `boolean`                                 | `false`     | Required validation                    |
-| `invalid`               | `boolean \| undefined`                    | —           | Manual invalid state                   |
-| `loading`               | `boolean`                                 | `false`     | Loading state                          |
-| `emptyText`             | `string \| undefined`                     | —           | Text when no options                   |
-| `emptyTextKey`          | `string \| undefined`                     | —           | Translation key for empty text         |
-| `loadingText`           | `string \| undefined`                     | —           | Text during loading                    |
-| `loadingTextKey`        | `string \| undefined`                     | —           | Translation key for loading text       |
-| `selectAll`             | `boolean`                                 | `false`     | Show select all option                 |
-| `selectAllLabel`        | `string \| undefined`                     | —           | Label for select all                   |
-| `selectAllLabelKey`     | `string \| undefined`                     | —           | Translation key for select all         |
-| `minSelected`           | `number \| undefined`                     | —           | Minimum selection validation           |
-| `maxSelected`           | `number \| undefined`                     | —           | Maximum selection validation           |
-| `displayMode`           | `'summary' \| 'chips' \| 'comma'`         | `'summary'` | How selection is displayed             |
-| `maxVisibleChips`       | `number`                                  | `3`         | Max chips shown in chips mode          |
-| `selectedCountLabel`    | `string \| undefined`                     | —           | Custom label for selected count        |
-| `selectedCountLabelKey` | `string \| undefined`                     | —           | Translation key for selected count     |
-| `overflowLabel`         | `string \| undefined`                     | —           | Custom label for overflow count        |
-| `overflowLabelKey`      | `string \| undefined`                     | —           | Translation key for overflow           |
-| `showSelectionTooltip`  | `boolean`                                 | `false`     | Show tooltip with selection info       |
-| `compareWith`           | `(a, b) => boolean`                       | `Object.is` | Custom comparison function             |
-| `displayWith`           | `(value) => string \| undefined`          | —           | Custom display function                |
-| `appearance`            | `'outline' \| 'surface' \| 'filled'`      | `'outline'` | Visual appearance                      |
-| `size`                  | `'sm' \| 'md' \| 'lg'`                    | `'md'`      | Size variant                           |
-| `density`               | `'compact' \| 'comfortable' \| undefined` | —           | Density                                |
-| `radius`                | `'none' \| 'sm' \| 'md' \| 'lg'`          | `'md'`      | Border radius                          |
-| `label`                 | `string \| undefined`                     | —           | Label text                             |
-| `labelKey`              | `string \| undefined`                     | —           | Translation key for label              |
-| `hint`                  | `string \| undefined`                     | —           | Hint text                              |
-| `hintKey`               | `string \| undefined`                     | —           | Translation key for hint               |
-| `error`                 | `string \| undefined`                     | —           | Error text                             |
-| `errorKey`              | `string \| undefined`                     | —           | Translation key for error              |
-| `panelMaxHeight`        | `string \| number`                        | `'20rem'`   | Max height of dropdown panel           |
-| `panelWidth`            | `string \| number \| undefined`           | —           | Width of dropdown panel                |
-| `name`                  | `string \| undefined`                     | —           | Native name attribute                  |
-| `ariaLabel`             | `string \| undefined`                     | —           | ARIA label                             |
-| `ariaLabelKey`          | `string \| undefined`                     | —           | Translation key for ARIA label         |
-| `ariaLabelledby`        | `string \| undefined`                     | —           | ARIA labelledby                        |
+| Input                   | Type                                        | Default     | Description                            |
+| ----------------------- | ------------------------------------------- | ----------- | -------------------------------------- |
+| `value`                 | `unknown[]`                                 | `[]`        | Current selection                      |
+| `placeholder`           | `string \| undefined`                       | —           | Placeholder text                       |
+| `placeholderKey`        | `string \| undefined`                       | —           | Translation key for placeholder        |
+| `searchable`            | `boolean`                                   | `false`     | Enable local search                    |
+| `searchPlaceholder`     | `string \| undefined`                       | —           | Search input placeholder               |
+| `searchPlaceholderKey`  | `string \| undefined`                       | —           | Translation key for search placeholder |
+| `clearable`             | `boolean`                                   | `false`     | Show clear button                      |
+| `disabled`              | `boolean`                                   | `false`     | Disabled state                         |
+| `readonly`              | `boolean`                                   | `false`     | Read-only state                        |
+| `required`              | `boolean`                                   | `false`     | Required validation                    |
+| `invalid`               | `boolean \| undefined`                      | —           | Manual invalid state                   |
+| `loading`               | `boolean`                                   | `false`     | Loading state                          |
+| `emptyText`             | `string \| undefined`                       | —           | Text when no options                   |
+| `emptyTextKey`          | `string \| undefined`                       | —           | Translation key for empty text         |
+| `loadingText`           | `string \| undefined`                       | —           | Text during loading                    |
+| `loadingTextKey`        | `string \| undefined`                       | —           | Translation key for loading text       |
+| `selectAll`             | `boolean`                                   | `false`     | Show select all option                 |
+| `selectAllLabel`        | `string \| undefined`                       | —           | Label for select all                   |
+| `selectAllLabelKey`     | `string \| undefined`                       | —           | Translation key for select all         |
+| `minSelected`           | `number \| undefined`                       | —           | Minimum selection validation           |
+| `maxSelected`           | `number \| undefined`                       | —           | Maximum selection validation           |
+| `displayMode`           | `'auto' \| 'summary' \| 'chips' \| 'comma'` | `'auto'`    | How selection is displayed             |
+| `maxVisibleChips`       | `number`                                    | `3`         | Max chips shown in chips mode          |
+| `selectedCountLabel`    | `string \| undefined`                       | —           | Custom label for selected count        |
+| `selectedCountLabelKey` | `string \| undefined`                       | —           | Translation key for selected count     |
+| `overflowLabel`         | `string \| undefined`                       | —           | Custom label for overflow count        |
+| `overflowLabelKey`      | `string \| undefined`                       | —           | Translation key for overflow           |
+| `showSelectionTooltip`  | `boolean`                                   | `false`     | Show tooltip with selection info       |
+| `noResultsText`         | `string \| undefined`                       | —           | Text when search returns no results    |
+| `noResultsTextKey`      | `string \| undefined`                       | —           | Translation key for no results text    |
+| `clearLabel`            | `string \| undefined`                       | —           | Custom aria-label for clear button     |
+| `clearLabelKey`         | `string \| undefined`                       | —           | Translation key for clear button label |
+| `removeChipLabel`       | `string \| undefined`                       | —           | Custom aria-label for chip remove      |
+| `removeChipLabelKey`    | `string \| undefined`                       | —           | Translation key for chip remove label  |
+| `compareWith`           | `(a, b) => boolean`                         | `Object.is` | Custom comparison function             |
+| `displayWith`           | `(value) => string \| undefined`            | —           | Custom display function                |
+| `appearance`            | `'outline' \| 'surface' \| 'filled'`        | `'outline'` | Visual appearance                      |
+| `size`                  | `'sm' \| 'md' \| 'lg'`                      | `'md'`      | Size variant                           |
+| `density`               | `'compact' \| 'comfortable' \| undefined`   | —           | Density                                |
+| `radius`                | `'none' \| 'sm' \| 'md' \| 'lg'`            | `'md'`      | Border radius                          |
+| `label`                 | `string \| undefined`                       | —           | Label text                             |
+| `labelKey`              | `string \| undefined`                       | —           | Translation key for label              |
+| `hint`                  | `string \| undefined`                       | —           | Hint text                              |
+| `hintKey`               | `string \| undefined`                       | —           | Translation key for hint               |
+| `error`                 | `string \| undefined`                       | —           | Error text                             |
+| `errorKey`              | `string \| undefined`                       | —           | Translation key for error              |
+| `panelMaxHeight`        | `string \| number`                          | `'20rem'`   | Max height of dropdown panel           |
+| `panelWidth`            | `string \| number \| undefined`             | —           | Width of dropdown panel                |
+| `name`                  | `string \| undefined`                       | —           | Native name attribute                  |
+| `ariaLabel`             | `string \| undefined`                       | —           | ARIA label                             |
+| `ariaLabelKey`          | `string \| undefined`                       | —           | Translation key for ARIA label         |
+| `ariaLabelledby`        | `string \| undefined`                       | —           | ARIA labelledby                        |
 
 ### Outputs
 

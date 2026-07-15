@@ -90,6 +90,15 @@
     <div class="multi-select-showcase__row">
       <solaris-multi-select
         [formControl]="chipsControl"
+        displayMode="chips"
+        [placeholder]="'multiSelect.placeholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+      </solaris-multi-select>
+      <solaris-multi-select
+        [formControl]="summaryControl"
         displayMode="summary"
         [placeholder]="'multiSelect.placeholder' | translate"
       >
@@ -270,6 +279,25 @@
         <solaris-option value="c">Item C</solaris-option>
         <solaris-option value="d">Item D</solaris-option>
         <solaris-option value="e">Item E</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.invalid' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.invalidDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="invalidControl"
+        [error]="invalidError"
+        [placeholder]="'multiSelect.selectItems' | translate"
+      >
+        <solaris-option value="a">Item A</solaris-option>
+        <solaris-option value="b">Item B</solaris-option>
       </solaris-multi-select>
     </div>
   </section>

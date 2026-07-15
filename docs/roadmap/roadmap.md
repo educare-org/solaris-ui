@@ -43,7 +43,7 @@ Scope:
 - [x] Option + Option Group;
 - [x] Tooltip;
 - [x] Select;
-- [ ] Multi Select;
+- [x] Multi Select;
 
 ## `0.3.0` — Overlay and Navigation Release
 

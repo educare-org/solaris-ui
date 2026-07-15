@@ -287,11 +287,11 @@ describe('SolarisMultiSelectComponent', () => {
       ).componentInstance as any;
       multiSelect.writeValue(['a', 'b']);
       fixture.detectChanges();
-      const valueText = fixture.nativeElement.querySelector(
-        '.solaris-multi-select__value-text',
+      const chipLabel = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__chip-label',
       );
-      expect(valueText).toBeTruthy();
-      expect(valueText.textContent.trim()).toContain('2 selected');
+      expect(chipLabel).toBeTruthy();
+      expect(chipLabel.textContent.trim()).toContain('2 selected');
     });
 
     it('should show comma display', () => {
@@ -1333,6 +1333,238 @@ describe('SolarisMultiSelectComponent', () => {
       const fixture = TestBed.createComponent(Host);
       fixture.detectChanges();
       expect(() => fixture.destroy()).not.toThrow();
+    });
+  });
+
+  describe('prefix/suffix projection', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-multi-select>
+          <span solaris-form-prefix>Prefix</span>
+          <span solaris-form-suffix>Suffix</span>
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-multi-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class PrefixSuffixHost {}
+
+    it('should project prefix into form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(PrefixSuffixHost);
+      fixture.detectChanges();
+      const prefix = fixture.nativeElement.querySelector(
+        'solaris-multi-select [solaris-form-prefix]',
+      );
+      expect(prefix).toBeTruthy();
+      expect(prefix.textContent.trim()).toBe('Prefix');
+    });
+
+    it('should project suffix into form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(PrefixSuffixHost);
+      fixture.detectChanges();
+      const suffix = fixture.nativeElement.querySelector(
+        'solaris-multi-select [solaris-form-suffix]',
+      );
+      expect(suffix).toBeTruthy();
+      expect(suffix.textContent.trim()).toBe('Suffix');
+    });
+
+    it('should not render options inside trigger area', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(PrefixSuffixHost);
+      fixture.detectChanges();
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__trigger',
+      );
+      const optionInTrigger = trigger.querySelector('solaris-option');
+      expect(optionInTrigger).toBeFalsy();
+    });
+  });
+
+  describe('backspace behavior', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-multi-select [searchable]="true">
+          <solaris-option value="a">Option A</solaris-option>
+          <solaris-option value="b">Option B</solaris-option>
+        </solaris-multi-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class BackspaceHost {}
+
+    it('should not toggle option when search query is non-empty', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(BackspaceHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      multiSelect.writeValue(['a', 'b']);
+      multiSelect.searchQuery.set('text');
+      fixture.detectChanges();
+      const initialLength = multiSelect.internalValue().length;
+      const event = new KeyboardEvent('keydown', { key: 'Backspace' });
+      multiSelect.onSearchKeydown(event);
+      fixture.detectChanges();
+      expect(multiSelect.internalValue().length).toBe(initialLength);
+    });
+
+    it('should remove last selected option when search query is empty', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(BackspaceHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      multiSelect.writeValue(['a', 'b']);
+      multiSelect.searchQuery.set('');
+      fixture.detectChanges();
+      const event = new KeyboardEvent('keydown', { key: 'Backspace' });
+      multiSelect.onSearchKeydown(event);
+      fixture.detectChanges();
+      expect(multiSelect.internalValue()).toEqual(['a']);
+    });
+  });
+
+  describe('keyboard navigation', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-multi-select [searchable]="true">
+          <solaris-option value="a">Option A</solaris-option>
+          <solaris-option value="b">Option B</solaris-option>
+          <solaris-option value="c">Option C</solaris-option>
+        </solaris-multi-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class KeyboardHost {}
+
+    it('should prevent keyboard interaction when disabled', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      multiSelect.setDisabledState(true);
+      fixture.detectChanges();
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      const spy = vi.spyOn(event, 'preventDefault');
+      multiSelect.onTriggerKeydown(event);
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should have activeDescendantId when panel open', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      multiSelect.panelOpen.set(true);
+      multiSelect.activeOptionIndex.set(1);
+      fixture.detectChanges();
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__trigger',
+      );
+      expect(trigger.getAttribute('aria-activedescendant')).toBeTruthy();
+    });
+  });
+
+  describe('displayMode auto', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-multi-select displayMode="auto">
+          <solaris-option value="a">Option A</solaris-option>
+          <solaris-option value="b">Option B</solaris-option>
+        </solaris-multi-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class AutoDisplayHost {}
+
+    it('should have auto display mode set', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(AutoDisplayHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      expect(multiSelect.displayMode()).toBe('auto');
+    });
+
+    it('should show placeholder when no value', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(AutoDisplayHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      multiSelect.writeValue([]);
+      fixture.detectChanges();
+      const placeholder = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__placeholder',
+      );
+      expect(placeholder).toBeTruthy();
+    });
+  });
+
+  describe('selectAll readonly guard', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-multi-select [selectAll]="true" [readonly]="true">
+          <solaris-option value="a">Option A</solaris-option>
+          <solaris-option value="b">Option B</solaris-option>
+        </solaris-multi-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class SelectAllReadonlyHost {}
+
+    it('should not call selectAll when readonly', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SelectAllReadonlyHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      const spy = vi.spyOn(multiSelect, 'handleSelectAll');
+      multiSelect.handleSelectAll();
+      expect(multiSelect.isEffectivelyReadonly()).toBe(true);
+      expect(multiSelect.internalValue()).toEqual([]);
     });
   });
 
