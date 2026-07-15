@@ -57,6 +57,7 @@
         [value]="searchQuery()"
         (input)="onSearchInput($event)"
         (keydown)="onSearchKeydown($event)"
+        (click)="$event.stopPropagation()"
         role="searchbox"
         autocomplete="off"
       />
