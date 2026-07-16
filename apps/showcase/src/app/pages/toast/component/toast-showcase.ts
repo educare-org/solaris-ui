@@ -83,7 +83,7 @@ export class ToastShowcasePage implements OnDestroy {
           },
         },
       ],
-      persistent: true
+      persistent: true,
     });
   }
 
@@ -110,8 +110,12 @@ export class ToastShowcasePage implements OnDestroy {
         setTimeout(() => {
           this.progressRef?.update({
             variant: 'success',
-            title: this.translateService.translate('toast.progress-complete-title'),
-            description: this.translateService.translate('toast.progress-complete-description'),
+            title: this.translateService.translate(
+              'toast.progress-complete-title',
+            ),
+            description: this.translateService.translate(
+              'toast.progress-complete-description',
+            ),
             showProgress: false,
             persistent: false,
             duration: 3000,
@@ -241,14 +245,18 @@ export class ToastShowcasePage implements OnDestroy {
         {
           label: this.translateService.translate('toast.actions-undo'),
           appearance: 'outline',
-          action: (ref) => { ref.dismiss(); },
+          action: (ref) => {
+            ref.dismiss();
+          },
         },
         {
           label: this.translateService.translate('toast.actions-dismiss'),
           appearance: 'solid',
           color: 'primary',
           closeOnClick: true,
-          action: (ref) => { ref.dismiss(); },
+          action: (ref) => {
+            ref.dismiss();
+          },
         },
       ],
       persistent: true,

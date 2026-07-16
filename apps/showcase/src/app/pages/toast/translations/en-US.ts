@@ -96,7 +96,8 @@ export const EN_US_TOAST: Record<string, string> = {
   'toast.progress-title': 'Uploading...',
   'toast.progress-demo-desc': 'Your file is being uploaded.',
   'toast.progress-complete-title': 'Upload complete!',
-  'toast.progress-complete-description': 'Your file has been uploaded successfully.',
+  'toast.progress-complete-description':
+    'Your file has been uploaded successfully.',
   'toast.persistent-title': 'Persistent Toast',
   'toast.loading-title': 'Processing...',
   'toast.loading-desc': 'Please wait while we process your request.',
