@@ -1,0 +1,41 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.checkbox-group-showcase {
+  @include layout.page;
+}
+
+.checkbox-group-showcase__header {
+  @include layout.header;
+}
+
+.checkbox-group-showcase__title {
+  @include layout.title;
+}
+
+.checkbox-group-showcase__description {
+  @include layout.description;
+}
+
+.checkbox-group-showcase__section {
+  @include layout.section-card;
+}
+
+.checkbox-group-showcase__section-title {
+  @include layout.section-title;
+}
+
+.checkbox-group-showcase__note {
+  @include layout.note;
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.checkbox-group-showcase__demo {
+  margin-bottom: var(--solaris-spacing-2);
+}
+
+.checkbox-group-showcase__value {
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+  color: var(--solaris-text-muted);
+  margin: var(--solaris-spacing-2) 0 0;
+}

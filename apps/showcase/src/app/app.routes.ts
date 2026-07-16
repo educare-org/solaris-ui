@@ -11,168 +11,168 @@ export const appRoutes: Route[] = [
   {
     path: 'badge',
     loadComponent: () =>
-      import('./pages/badge/component/badge-showcase').then(
+      import('./pages/data-display/badge/component/badge-showcase').then(
         (m) => m.BadgeShowcasePage,
       ),
   },
   {
     path: 'skeleton',
     loadComponent: () =>
-      import('./pages/skeleton/component/skeleton-showcase').then(
+      import('./pages/feedback/skeleton/component/skeleton-showcase').then(
         (m) => m.SkeletonShowcasePage,
       ),
   },
   {
     path: 'card',
     loadComponent: () =>
-      import('./pages/card/component/card-showcase').then(
+      import('./pages/data-display/card/component/card-showcase').then(
         (m) => m.CardShowcasePage,
       ),
   },
   {
     path: 'alert',
     loadComponent: () =>
-      import('./pages/alert/component/alert-showcase').then(
+      import('./pages/feedback/alert/component/alert-showcase').then(
         (m) => m.AlertShowcasePage,
       ),
   },
   {
     path: 'button',
     loadComponent: () =>
-      import('./pages/button/component/button-showcase').then(
+      import('./pages/actions/button/component/button-showcase').then(
         (m) => m.ButtonShowcasePage,
       ),
   },
   {
     path: 'icon-button',
     loadComponent: () =>
-      import('./pages/icon-button/component/icon-button-showcase').then(
+      import('./pages/actions/icon-button/component/icon-button-showcase').then(
         (m) => m.IconButtonShowcasePage,
       ),
   },
   {
     path: 'button-group',
     loadComponent: () =>
-      import('./pages/button-group/component/button-group-showcase').then(
-        (m) => m.ButtonGroupShowcasePage,
-      ),
+      import(
+        './pages/actions/button-group/component/button-group-showcase'
+      ).then((m) => m.ButtonGroupShowcasePage),
   },
   {
     path: 'form-field',
     loadComponent: () =>
-      import('./pages/form-field/component/form-field-showcase').then(
+      import('./pages/forms/form-field/component/form-field-showcase').then(
         (m) => m.FormFieldShowcasePage,
       ),
   },
   {
     path: 'textarea',
     loadComponent: () =>
-      import('./pages/textarea/component/textarea-showcase').then(
+      import('./pages/forms/textarea/component/textarea-showcase').then(
         (m) => m.TextareaShowcasePage,
       ),
   },
   {
     path: 'input',
     loadComponent: () =>
-      import('./pages/input/component/input-showcase').then(
+      import('./pages/forms/input/component/input-showcase').then(
         (m) => m.InputShowcasePage,
       ),
   },
   {
     path: 'password-field',
     loadComponent: () =>
-      import('./pages/password-field/component/password-field-showcase').then(
-        (m) => m.PasswordFieldShowcasePage,
-      ),
+      import(
+        './pages/forms/password-field/component/password-field-showcase'
+      ).then((m) => m.PasswordFieldShowcasePage),
   },
   {
     path: 'email-field',
     loadComponent: () =>
-      import('./pages/email-field/component/email-field-showcase').then(
+      import('./pages/forms/email-field/component/email-field-showcase').then(
         (m) => m.EmailFieldShowcasePage,
       ),
   },
   {
     path: 'checkbox',
     loadComponent: () =>
-      import('./pages/checkbox/component/checkbox-showcase').then(
+      import('./pages/forms/checkbox/component/checkbox-showcase').then(
         (m) => m.CheckboxShowcasePage,
       ),
   },
   {
     path: 'checkbox-group',
     loadComponent: () =>
-      import('./pages/checkbox-group/component/checkbox-group-showcase').then(
-        (m) => m.CheckboxGroupShowcasePage,
-      ),
+      import(
+        './pages/forms/checkbox-group/component/checkbox-group-showcase'
+      ).then((m) => m.CheckboxGroupShowcasePage),
   },
   {
     path: 'radio',
     loadComponent: () =>
-      import('./pages/radio/component/radio-showcase').then(
+      import('./pages/forms/radio/component/radio-showcase').then(
         (m) => m.RadioShowcasePage,
       ),
   },
   {
     path: 'radio-group',
     loadComponent: () =>
-      import('./pages/radio-group/component/radio-group-showcase').then(
+      import('./pages/forms/radio-group/component/radio-group-showcase').then(
         (m) => m.RadioGroupShowcasePage,
       ),
   },
   {
     path: 'switch',
     loadComponent: () =>
-      import('./pages/switch/component/switch-showcase').then(
+      import('./pages/forms/switch/component/switch-showcase').then(
         (m) => m.SwitchShowcasePage,
       ),
   },
   {
     path: 'switch-group',
     loadComponent: () =>
-      import('./pages/switch-group/component/switch-group-showcase').then(
+      import('./pages/forms/switch-group/component/switch-group-showcase').then(
         (m) => m.SwitchGroupShowcasePage,
       ),
   },
   {
     path: 'option',
     loadComponent: () =>
-      import('./pages/option/component/option-showcase').then(
+      import('./pages/forms/option/component/option-showcase').then(
         (m) => m.OptionShowcasePage,
       ),
   },
   {
     path: 'select',
     loadComponent: () =>
-      import('./pages/select/component/select-showcase').then(
+      import('./pages/forms/select/component/select-showcase').then(
         (m) => m.SelectShowcasePage,
       ),
   },
   {
     path: 'multi-select',
     loadComponent: () =>
-      import('./pages/multi-select/component/multi-select-showcase').then(
+      import('./pages/forms/multi-select/component/multi-select-showcase').then(
         (m) => m.MultiSelectShowcasePage,
       ),
   },
   {
     path: 'popover',
     loadComponent: () =>
-      import('./pages/popover/component/popover-showcase').then(
+      import('./pages/interaction/popover/component/popover-showcase').then(
         (m) => m.PopoverShowcasePage,
       ),
   },
   {
     path: 'tooltip',
     loadComponent: () =>
-      import('./pages/tooltip/component/tooltip-showcase').then(
+      import('./pages/interaction/tooltip/component/tooltip-showcase').then(
         (m) => m.TooltipShowcasePage,
       ),
   },
   {
     path: 'toast',
     loadComponent: () =>
-      import('./pages/toast/component/toast-showcase').then(
+      import('./pages/feedback/toast/component/toast-showcase').then(
         (m) => m.ToastShowcasePage,
       ),
   },

@@ -1,0 +1,45 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.badge-showcase {
+  @include layout.page;
+
+  &__header {
+    @include layout.header;
+  }
+
+  &__title {
+    @include layout.title;
+  }
+
+  &__description {
+    @include layout.description;
+  }
+
+  &__section {
+    @include layout.section-card;
+  }
+
+  &__section-title {
+    @include layout.section-title;
+  }
+
+  &__row {
+    @include layout.row;
+  }
+
+  &__note {
+    @include layout.note;
+  }
+}
+
+.badge-custom-wrapper {
+  --solaris-badge-custom-background: #9333ea;
+  --solaris-badge-custom-color: #ffffff;
+  --solaris-badge-custom-border-color: #9333ea;
+}
+
+.badge-custom-wrapper-alt {
+  --solaris-badge-custom-background: #f59e0b;
+  --solaris-badge-custom-color: #17191e;
+  --solaris-badge-custom-border-color: #f59e0b;
+}

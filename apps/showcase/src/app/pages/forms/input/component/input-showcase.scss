@@ -1,0 +1,43 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.input-showcase {
+  @include layout.page;
+}
+
+.input-showcase__header {
+  @include layout.header;
+}
+
+.input-showcase__title {
+  @include layout.title;
+}
+
+.input-showcase__description {
+  @include layout.description;
+}
+
+.input-showcase__section {
+  @include layout.section-card;
+}
+
+.input-showcase__section-title {
+  @include layout.section-title;
+}
+
+.input-showcase__note {
+  @include layout.note;
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.input-showcase__demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.input-showcase__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3);
+}
