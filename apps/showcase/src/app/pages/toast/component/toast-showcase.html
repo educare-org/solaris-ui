@@ -157,6 +157,24 @@
 
   <section class="toast-showcase__section">
     <h2 class="toast-showcase__section-title">
+      {{ 'toast.actions-no-desc' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.actions-no-desc-desc' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showWithActionsNoDescription()"
+      >
+        {{ 'toast.show' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
       {{ 'toast.progress' | translate }}
     </h2>
     <p class="toast-showcase__section-desc">

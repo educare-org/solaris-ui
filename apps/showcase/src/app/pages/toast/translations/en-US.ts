@@ -90,8 +90,13 @@ export const EN_US_TOAST: Record<string, string> = {
   'toast.actions-title': 'Unsaved changes',
   'toast.actions-description':
     'You have unsaved changes. Do you want to continue?',
+  'toast.actions-no-desc': 'Actions Without Description',
+  'toast.actions-no-desc-desc':
+    'Toast with action buttons but no description body text.',
   'toast.progress-title': 'Uploading...',
   'toast.progress-demo-desc': 'Your file is being uploaded.',
+  'toast.progress-complete-title': 'Upload complete!',
+  'toast.progress-complete-description': 'Your file has been uploaded successfully.',
   'toast.persistent-title': 'Persistent Toast',
   'toast.loading-title': 'Processing...',
   'toast.loading-desc': 'Please wait while we process your request.',

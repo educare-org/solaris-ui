@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 
 import {
   SolarisToastService,
@@ -15,11 +15,13 @@ import {
   templateUrl: './toast-showcase.html',
   styleUrls: ['./toast-showcase.scss'],
 })
-export class ToastShowcasePage {
+export class ToastShowcasePage implements OnDestroy {
   private readonly toastService = inject(SolarisToastService);
   private readonly translateService = inject(SolarisTranslateService);
 
   private loadingRef: SolarisToastRef | null = null;
+  private progressRef: SolarisToastRef | null = null;
+  private progressInterval: ReturnType<typeof setInterval> | null = null;
 
   protected showVariant(variant: SolarisToastVariant): void {
     this.toastService.show({
@@ -86,13 +88,40 @@ export class ToastShowcasePage {
   }
 
   protected showWithProgress(): void {
-    this.toastService.info({
+    this.progressRef?.dismiss();
+    if (this.progressInterval) clearInterval(this.progressInterval);
+
+    this.progressRef = this.toastService.loading({
       title: this.translateService.translate('toast.progress-title'),
       description: this.translateService.translate('toast.progress-demo-desc'),
       showProgress: true,
-      progress: 45,
-      duration: 6000,
+      progress: 0,
+      persistent: true,
     });
+
+    let value = 0;
+    this.progressInterval = setInterval(() => {
+      value += Math.random() * 8 + 2;
+      if (value >= 100) {
+        value = 100;
+        clearInterval(this.progressInterval!);
+        this.progressInterval = null;
+        this.progressRef?.update({ progress: 100 });
+        setTimeout(() => {
+          this.progressRef?.update({
+            variant: 'success',
+            title: this.translateService.translate('toast.progress-complete-title'),
+            description: this.translateService.translate('toast.progress-complete-description'),
+            showProgress: false,
+            persistent: false,
+            duration: 3000,
+          });
+          this.progressRef = null;
+        }, 400);
+        return;
+      }
+      this.progressRef?.update({ progress: Math.round(value) });
+    }, 250);
   }
 
   protected showCountdownBar(): void {
@@ -205,6 +234,27 @@ export class ToastShowcasePage {
     });
   }
 
+  protected showWithActionsNoDescription(): void {
+    this.toastService.warning({
+      title: this.translateService.translate('toast.actions-title'),
+      actions: [
+        {
+          label: this.translateService.translate('toast.actions-undo'),
+          appearance: 'outline',
+          action: (ref) => { ref.dismiss(); },
+        },
+        {
+          label: this.translateService.translate('toast.actions-dismiss'),
+          appearance: 'solid',
+          color: 'primary',
+          closeOnClick: true,
+          action: (ref) => { ref.dismiss(); },
+        },
+      ],
+      persistent: true,
+    });
+  }
+
   protected showIconSizeLg(): void {
     this.toastService.info({
       title: this.translateService.translate('toast.icon-size-title'),
@@ -252,5 +302,12 @@ export class ToastShowcasePage {
 
   protected dismissAll(): void {
     this.toastService.dismissAll();
+  }
+
+  ngOnDestroy(): void {
+    if (this.progressInterval) {
+      clearInterval(this.progressInterval);
+      this.progressInterval = null;
+    }
   }
 }

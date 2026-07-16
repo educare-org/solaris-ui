@@ -41,8 +41,8 @@
 
 .solaris-toast__root {
   display: flex;
-  align-items: center;
   box-sizing: border-box;
+  align-items: flex-start;
   gap: var(--solaris-toast-gap);
   color: var(--solaris-toast-color);
   padding: var(--solaris-toast-padding);
@@ -52,11 +52,24 @@
     var(--solaris-toast-border-color);
 }
 
+:host([data-center-content='true']) .solaris-toast__root {
+  align-items: center;
+}
+
+:host([data-center-content='true']) .solaris-toast__trailing {
+  align-self: center;
+}
+
+:host([data-center-content='true']) .solaris-toast__media {
+  margin-top: 0;
+}
+
 .solaris-toast__media {
   display: grid;
   flex-shrink: 0;
   overflow: hidden;
   place-items: center;
+  margin-top: var(--solaris-spacing-1);
   width: var(--solaris-toast-media-size);
   height: var(--solaris-toast-media-size);
 }
@@ -203,6 +216,7 @@
   flex-wrap: wrap;
   gap: var(--solaris-spacing-1);
   color: var(--solaris-text-muted);
+  background: var(--solaris-bg-page);
   font-size: var(--solaris-font-size-xs);
   line-height: var(--solaris-line-height-md);
   padding: var(--solaris-toast-padding) var(--solaris-spacing-4);

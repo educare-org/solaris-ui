@@ -35,6 +35,8 @@ import { SolarisIconComponent } from '../../../icon';
     '[attr.data-appearance]': 'hostDataAppearance()',
     '[attr.data-media-shape]': 'hostDataMediaShape()',
     '[attr.data-actions-align]': 'hostDataActionsAlign()',
+    '[attr.data-center-content]': 'centerContent()',
+    '[attr.data-actions-no-desc]': 'hasActionsNoDescription()',
   },
 })
 export class SolarisToastComponent {
@@ -168,6 +170,14 @@ export class SolarisToastComponent {
     return actions && actions.length > 0;
   });
   protected readonly showClose = computed(() => this.entry().resolvedCloseable);
+
+  protected readonly centerContent = computed(
+    () => !this.showDescription() && !this.showActions(),
+  );
+
+  protected readonly hasActionsNoDescription = computed(
+    () => this.showActions() && !this.showDescription(),
+  );
 
   constructor() {
     effect(() => {

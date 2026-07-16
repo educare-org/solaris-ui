@@ -90,8 +90,13 @@ export const PT_BR_TOAST: Record<string, string> = {
   'toast.actions-title': 'Alterações não salvas',
   'toast.actions-description':
     'Você tem alterações não salvas. Deseja continuar?',
+  'toast.actions-no-desc': 'Ações sem Descrição',
+  'toast.actions-no-desc-desc':
+    'Toast com botões de ação mas sem texto de descrição.',
   'toast.progress-title': 'Enviando...',
   'toast.progress-demo-desc': 'Seu arquivo está sendo enviado.',
+  'toast.progress-complete-title': 'Upload concluído!',
+  'toast.progress-complete-description': 'Seu arquivo foi enviado com sucesso.',
   'toast.persistent-title': 'Toast Persistente',
   'toast.loading-title': 'Processando...',
   'toast.loading-desc': 'Aguarde enquanto processamos sua solicitação.',
