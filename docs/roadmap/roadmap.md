@@ -49,7 +49,7 @@ Scope:
 
 Scope:
 
-- [ ] Toast;
+- [x] Toast;
 - [ ] Dialog;
 - [ ] Stepper;
 - [ ] Tabs;
