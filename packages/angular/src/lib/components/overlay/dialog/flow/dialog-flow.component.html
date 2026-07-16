@@ -1,0 +1,17 @@
+<div class="solaris-dialog-flow__stage">
+  <div class="solaris-dialog-flow__steps">
+    @for (step of stepTemplates(); track step.index) {
+      <div
+        class="solaris-dialog-flow__step"
+        [class.solaris-dialog-flow__step--active]="step.index === activeIndex()"
+        [class.solaris-dialog-flow__step--exit]="step.index !== activeIndex()"
+      >
+        <ng-container [ngTemplateOutlet]="step.template" />
+      </div>
+    }
+  </div>
+
+  <div class="solaris-dialog-flow__footer">
+    <ng-content select="[solaris-dialog-flow-footer]" />
+  </div>
+</div>

@@ -23,6 +23,7 @@ import { MULTI_SELECT_TRANSLATIONS } from '../pages/forms/multi-select/translati
 import { POPOVER_TRANSLATIONS } from '../pages/interaction/popover/translations';
 import { TOOLTIP_TRANSLATIONS } from '../pages/interaction/tooltip/translations';
 import { TOAST_TRANSLATIONS } from '../pages/feedback/toast/translations';
+import { DIALOG_TRANSLATIONS } from '../pages/overlay/dialog/translations';
 
 const PAGE_MODULES = [
   CONFIGURATION_TRANSLATIONS,
@@ -50,6 +51,7 @@ const PAGE_MODULES = [
   POPOVER_TRANSLATIONS,
   TOOLTIP_TRANSLATIONS,
   TOAST_TRANSLATIONS,
+  DIALOG_TRANSLATIONS,
 ];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};

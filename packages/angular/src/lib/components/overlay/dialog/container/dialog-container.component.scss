@@ -1,0 +1,96 @@
+:host {
+  --solaris-dialog-panel-padding: 0;
+  --solaris-dialog-panel-min-width: 28rem;
+  --solaris-dialog-backdrop-bg: var(--solaris-backdrop);
+  --solaris-dialog-z-index: var(--solaris-z-index-modal);
+  --solaris-dialog-panel-shadow: var(--solaris-shadow-lg);
+  --solaris-dialog-panel-radius: var(--solaris-radius-xl);
+  --solaris-dialog-panel-border: var(--solaris-border-default);
+  --solaris-dialog-panel-bg: var(
+    --solaris-surface-raised,
+    var(--solaris-surface-base)
+  );
+  --solaris-dialog-panel-max-height: calc(100dvh - var(--solaris-spacing-8));
+  --solaris-dialog-panel-max-width: calc(100vw - var(--solaris-spacing-8));
+
+  inset: 0;
+  display: flex;
+  overflow: hidden;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--solaris-dialog-z-index);
+}
+
+.solaris-dialog-backdrop {
+  inset: 0;
+  display: flex;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  background: var(--solaris-dialog-backdrop-bg);
+}
+
+.solaris-dialog-panel {
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  flex-direction: column;
+  box-sizing: border-box;
+  background: var(--solaris-dialog-panel-bg);
+  animation: solaris-dialog-enter 0.2s ease-out;
+  box-shadow: var(--solaris-dialog-panel-shadow);
+  max-width: var(--solaris-dialog-panel-max-width);
+  min-width: var(--solaris-dialog-panel-min-width);
+  border-radius: var(--solaris-dialog-panel-radius);
+  max-height: var(--solaris-dialog-panel-max-height);
+}
+
+:host([data-appearance='outline']) .solaris-dialog-panel {
+  border: 1px solid var(--solaris-dialog-panel-border);
+}
+
+:host([data-size='sm']) .solaris-dialog-panel {
+  width: 56rem;
+}
+
+:host([data-size='md']) .solaris-dialog-panel {
+  width: 72rem;
+}
+
+:host([data-size='lg']) .solaris-dialog-panel {
+  width: 96rem;
+}
+
+:host([data-size='xl']) .solaris-dialog-panel {
+  width: 128rem;
+}
+
+:host([data-size='fullscreen']) .solaris-dialog-panel {
+  width: 100vw;
+  height: 100dvh;
+  max-width: 100vw;
+  border-radius: 0;
+  max-height: 100dvh;
+}
+
+@keyframes solaris-dialog-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-dialog-panel {
+    animation: none;
+  }
+}
+
+:host-context([data-reduced-motion='true']) .solaris-dialog-panel {
+  animation: none;
+}

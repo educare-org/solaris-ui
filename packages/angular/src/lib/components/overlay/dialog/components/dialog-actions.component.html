@@ -1,0 +1,14 @@
+<div class="solaris-dialog-actions__inner">
+  @for (action of actions(); track $index) {
+    <button
+      type="button"
+      solaris-button
+      (click)="handleAction(action)"
+      [color]="action.color ?? 'neutral'"
+      [disabled]="action.disabled ?? false"
+      [appearance]="action.appearance ?? 'solid'"
+    >
+      {{ action.label }}
+    </button>
+  }
+</div>

@@ -1,0 +1,49 @@
+.dialog-flow-example {
+  padding: var(--solaris-spacing-4);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 250px;
+}
+
+.dialog-flow-example__title {
+  margin: 0 0 var(--solaris-spacing-4);
+  font-size: var(--solaris-font-size-lg);
+  font-weight: var(--solaris-font-weight-semibold);
+  color: var(--solaris-text-strong);
+}
+
+.dialog-flow-example__step {
+  padding: var(--solaris-spacing-2) 0;
+}
+
+.dialog-flow-example__step h3 {
+  margin: 0 0 var(--solaris-spacing-2);
+  font-size: var(--solaris-font-size-base);
+  font-weight: var(--solaris-font-weight-semibold);
+  color: var(--solaris-text-strong);
+}
+
+.dialog-flow-example__step p {
+  margin: 0 0 var(--solaris-spacing-3);
+  font-size: var(--solaris-font-size-sm);
+  color: var(--solaris-text-muted);
+  line-height: var(--solaris-line-height-md);
+}
+
+.dialog-flow-example__step ul {
+  margin: 0;
+  padding-left: var(--solaris-spacing-5);
+  font-size: var(--solaris-font-size-sm);
+  color: var(--solaris-text-muted);
+  line-height: var(--solaris-line-height-lg);
+}
+
+.dialog-flow-example__footer {
+  display: flex;
+  gap: var(--solaris-spacing-3);
+  justify-content: flex-end;
+  margin-top: auto;
+  padding-top: var(--solaris-spacing-4);
+  border-top: 1px solid var(--solaris-border-subtle);
+}

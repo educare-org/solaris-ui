@@ -1,0 +1,63 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.dialog-showcase {
+  @include layout.page;
+}
+.dialog-showcase__header {
+  @include layout.header;
+}
+.dialog-showcase__title {
+  margin: 0 0 var(--solaris-spacing-2);
+  font-size: var(--solaris-font-size-3xl);
+  font-weight: var(--solaris-font-weight-semibold);
+  color: var(--solaris-text-strong);
+}
+.dialog-showcase__description {
+  margin: 0;
+  max-width: 120rem;
+  color: var(--solaris-text-muted);
+  font-size: var(--solaris-font-size-lg);
+  line-height: var(--solaris-line-height-md);
+}
+.dialog-showcase__section {
+  margin-bottom: var(--solaris-spacing-8);
+}
+.dialog-showcase__section-title {
+  margin: 0 0 var(--solaris-spacing-1);
+  font-size: var(--solaris-font-size-xl);
+  font-weight: var(--solaris-font-weight-semibold);
+  color: var(--solaris-text-strong);
+}
+.dialog-showcase__section-desc {
+  margin: 0 0 var(--solaris-spacing-4);
+  color: var(--solaris-text-muted);
+  font-size: var(--solaris-font-size-sm);
+}
+.dialog-showcase__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3);
+}
+
+.solaris-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-4);
+  font-size: var(--solaris-font-size-sm);
+  font-weight: var(--solaris-font-weight-medium);
+  line-height: 1;
+  color: var(--solaris-text-strong);
+  background: var(--solaris-surface-base);
+  border: 1px solid var(--solaris-border-default);
+  border-radius: var(--solaris-radius-md);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.solaris-button:hover {
+  background: var(--solaris-surface-hover, var(--solaris-surface-raised));
+  border-color: var(--solaris-border-hover);
+}

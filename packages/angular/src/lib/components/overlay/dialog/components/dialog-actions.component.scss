@@ -1,0 +1,34 @@
+:host {
+  display: block;
+  padding: var(--solaris-spacing-3, 12px) var(--solaris-spacing-4, 16px);
+}
+
+.solaris-dialog-actions__inner {
+  display: flex;
+  gap: var(--solaris-spacing-2, 8px);
+  flex-wrap: wrap;
+}
+
+:host([data-align='start']) .solaris-dialog-actions__inner {
+  justify-content: flex-start;
+}
+
+:host([data-align='center']) .solaris-dialog-actions__inner {
+  justify-content: center;
+}
+
+:host([data-align='end']) .solaris-dialog-actions__inner {
+  justify-content: flex-end;
+}
+
+:host([data-align='space-between']) .solaris-dialog-actions__inner {
+  justify-content: space-between;
+}
+
+:host([data-stack='vertical']) .solaris-dialog-actions__inner {
+  flex-direction: column;
+}
+
+:host([data-stack='horizontal']) .solaris-dialog-actions__inner {
+  flex-direction: row;
+}

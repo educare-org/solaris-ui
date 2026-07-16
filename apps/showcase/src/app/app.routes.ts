@@ -176,4 +176,11 @@ export const appRoutes: Route[] = [
         (m) => m.ToastShowcasePage,
       ),
   },
+  {
+    path: 'dialog',
+    loadComponent: () =>
+      import('./pages/overlay/dialog/component/dialog-page.component').then(
+        (m) => m.DialogPageComponent,
+      ),
+  },
 ];

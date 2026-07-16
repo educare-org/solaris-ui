@@ -1,0 +1,159 @@
+@keyframes slide-in-forward {
+  from {
+    opacity: 0;
+    transform: translateX(var(--solaris-spacing-20));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-forward {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(calc(var(--solaris-spacing-20) * -1));
+  }
+}
+
+@keyframes slide-in-backward {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--solaris-spacing-20) * -1));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-backward {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(var(--solaris-spacing-20));
+  }
+}
+
+:host {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.solaris-dialog-flow__stage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.solaris-dialog-flow__steps {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.solaris-dialog-flow__step {
+  inset: 0;
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.solaris-dialog-flow__step--active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+:host([data-direction='forward']) .solaris-dialog-flow__step--active {
+  animation: slide-in-forward var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard) both;
+}
+
+:host([data-direction='backward']) .solaris-dialog-flow__step--active {
+  animation: slide-in-backward var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard) both;
+}
+
+:host([data-direction='forward']) .solaris-dialog-flow__step--exit {
+  animation: slide-out-forward var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard) both;
+}
+
+:host([data-direction='backward']) .solaris-dialog-flow__step--exit {
+  animation: slide-out-backward var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard) both;
+}
+
+.solaris-dialog-flow__footer {
+  opacity: 1;
+  transform: none;
+}
+
+:host([data-transition='fade']) .solaris-dialog-flow__step--active,
+:host([data-transition='fade']) .solaris-dialog-flow__step--exit {
+  animation-name: none;
+}
+
+:host([data-transition='fade']) .solaris-dialog-flow__step--active {
+  opacity: 1;
+  transition: opacity var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+:host([data-transition='fade']) .solaris-dialog-flow__step--exit {
+  opacity: 0;
+  transition: opacity var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+:host([data-transition='none']) .solaris-dialog-flow__step--active,
+:host([data-transition='none']) .solaris-dialog-flow__step--exit {
+  animation: none;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-dialog-flow__step--active,
+  .solaris-dialog-flow__step--exit {
+    animation-name: none;
+  }
+
+  .solaris-dialog-flow__step--active {
+    opacity: 1;
+    transition: opacity var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard);
+  }
+
+  .solaris-dialog-flow__step--exit {
+    opacity: 0;
+    transition: opacity var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard);
+  }
+}
+
+:host-context([data-reduced-motion='true']) .solaris-dialog-flow__step--active,
+:host-context([data-reduced-motion='true']) .solaris-dialog-flow__step--exit {
+  animation-name: none;
+}
+
+:host-context([data-reduced-motion='true']) .solaris-dialog-flow__step--active {
+  opacity: 1;
+  transition: opacity var(--solaris-motion-duration-fast)
+    var(--solaris-motion-easing-standard);
+}
+
+:host-context([data-reduced-motion='true']) .solaris-dialog-flow__step--exit {
+  opacity: 0;
+  transition: opacity var(--solaris-motion-duration-fast)
+    var(--solaris-motion-easing-standard);
+}

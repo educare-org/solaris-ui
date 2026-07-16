@@ -10,6 +10,7 @@ import {
   provideSolarisTheme,
   provideSolarisIcons,
   provideSolarisToast,
+  provideSolarisDialog,
 } from '@solaris-ui/angular';
 
 import { SHOWCASE_TRANSLATIONS } from './translations';
@@ -32,5 +33,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideSolarisIcons(),
     provideSolarisToast(),
+    provideSolarisDialog(),
   ],
 };

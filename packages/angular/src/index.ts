@@ -308,6 +308,34 @@ export type { SolarisToastAction } from './lib/components/feedback/toast/model/t
 export type { SolarisToastEntry } from './lib/components/feedback/toast/model/toast.types';
 export type { SolarisToastRef } from './lib/components/feedback/toast/model/toast.types';
 
+export { SolarisDialogService } from './lib/components/overlay/dialog/service/dialog.service';
+export { SolarisDialogRef } from './lib/components/overlay/dialog/service/dialog-ref';
+export { SolarisDialogContainerComponent } from './lib/components/overlay/dialog/container/dialog-container.component';
+export { SolarisDialogComponent } from './lib/components/overlay/dialog/component/dialog.component';
+export { SolarisDialogHeaderComponent } from './lib/components/overlay/dialog/components/dialog-header.component';
+export { SolarisDialogContentComponent } from './lib/components/overlay/dialog/components/dialog-content.component';
+export { SolarisDialogActionsComponent } from './lib/components/overlay/dialog/components/dialog-actions.component';
+export { SolarisDialogFlowComponent } from './lib/components/overlay/dialog/flow/dialog-flow.component';
+export { SolarisDialogStepComponent } from './lib/components/overlay/dialog/flow/dialog-step.component';
+export { provideSolarisDialog } from './lib/components/overlay/dialog/provider/provide-solaris-dialog';
+export { SOLARIS_DIALOG_CONFIG } from './lib/components/overlay/dialog/token/dialog.tokens';
+export {
+  SOLARIS_DIALOG_DATA,
+  SOLARIS_DIALOG_REF,
+} from './lib/components/overlay/dialog/token/dialog-data.token';
+
+export type { SolarisDialogAppearance } from './lib/components/overlay/dialog/model/dialog.types';
+export type { SolarisDialogVariant } from './lib/components/overlay/dialog/model/dialog.types';
+export type { SolarisDialogSize } from './lib/components/overlay/dialog/model/dialog.types';
+export type { SolarisDialogActionsAlign } from './lib/components/overlay/dialog/model/dialog.types';
+export type { SolarisDialogActionsStack } from './lib/components/overlay/dialog/model/dialog.types';
+export type { SolarisDialogAutoFocus } from './lib/components/overlay/dialog/model/dialog.types';
+export type { SolarisDialogRole } from './lib/components/overlay/dialog/model/dialog.types';
+export type { SolarisDialogAction } from './lib/components/overlay/dialog/model/dialog.types';
+export type { SolarisDialogOptions } from './lib/components/overlay/dialog/model/dialog.types';
+export type { SolarisDialogComponentConfig } from './lib/components/overlay/dialog/model/dialog.types';
+export type { SolarisDialogConfig } from './lib/components/overlay/dialog/model/dialog.types';
+
 export type { SolarisTestingOptions } from './lib/testing/provide-solaris-testing';
 export { configureSolarisTesting } from './lib/testing/solaris-test-utilities';
 export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';

@@ -1,0 +1,25 @@
+<solaris-dialog-header
+  [icon]="icon()"
+  [iconDecorative]="iconDecorative()"
+  [title]="title()"
+  [description]="description()"
+  [closeable]="closeable()"
+  [closeLabel]="closeLabel()"
+  [size]="size()"
+  [variant]="variant()"
+/>
+
+@if (description() && !hasActions()) {
+  <solaris-dialog-content>
+    <p class="solaris-dialog__description-text">{{ description() }}</p>
+  </solaris-dialog-content>
+}
+
+@if (hasActions()) {
+  <div class="solaris-dialog__body"></div>
+  <solaris-dialog-actions
+    [actions]="actions()"
+    [align]="actionsAlign()"
+    [stack]="actionsStack()"
+  />
+}
