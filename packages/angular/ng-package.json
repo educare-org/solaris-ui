@@ -34,6 +34,11 @@
       "input": "src/lib/components/interaction/tooltip/styles",
       "glob": "_*.scss",
       "output": "styles"
+    },
+    {
+      "input": "src/lib/components/feedback/toast/styles",
+      "glob": "_*.scss",
+      "output": "styles"
     }
   ]
 }

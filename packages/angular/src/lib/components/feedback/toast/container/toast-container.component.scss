@@ -1,0 +1,63 @@
+:host {
+  position: fixed;
+  z-index: var(--solaris-toast-z-index, var(--solaris-z-index-toast, 500));
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-toast-gap, var(--solaris-spacing-3));
+  pointer-events: none;
+  box-sizing: border-box;
+  max-height: 100dvh;
+  overflow: hidden;
+  padding: var(--solaris-spacing-4);
+  inset: 0;
+}
+
+:host([data-position='top-start']) {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+:host([data-position='top-center']) {
+  align-items: center;
+  justify-content: flex-start;
+}
+
+:host([data-position='top-end']) {
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+:host([data-position='bottom-start']) {
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+:host([data-position='bottom-center']) {
+  align-items: center;
+  justify-content: flex-end;
+}
+
+:host([data-position='bottom-end']) {
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+@media (max-width: 640px) {
+  :host {
+    padding: var(--solaris-spacing-2);
+    max-width: 100vw;
+    width: 100%;
+  }
+
+  :host([data-position='top-start']),
+  :host([data-position='top-center']),
+  :host([data-position='top-end']) {
+    align-items: stretch;
+  }
+
+  :host([data-position='bottom-start']),
+  :host([data-position='bottom-center']),
+  :host([data-position='bottom-end']) {
+    align-items: stretch;
+  }
+}

@@ -13,20 +13,20 @@ import {
   ViewChild,
   AfterContentInit,
   AfterViewInit,
-  OnDestroy,
   DestroyRef,
   isDevMode,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
+import {
+  SolarisFormFieldTriggerDirective,
+  SolarisFormPrefixDirective,
+  SolarisFormFieldComponent,
+} from '../../form-field';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
-import { SolarisFormFieldComponent } from '../../form-field/component/form-field.component';
-import { SolarisFormFieldTriggerDirective } from '../../form-field/directives/form-field-trigger.directive';
-import { SolarisFormPrefixDirective } from '../../form-field/directives/form-prefix.directive';
-import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
 import { SolarisTranslateService } from '../../../../services/translation';
-import { SolarisOptionComponent } from '../../option';
 import { SolarisOptionGroupComponent } from '../../option-group';
+import { SolarisOptionComponent } from '../../option';
 import { SolarisIconComponent } from '../../../icon';
 import {
   SolarisPopoverDirective,
@@ -61,7 +61,6 @@ function normalizeArray(value: unknown): unknown[] {
     SolarisFormFieldComponent,
     SolarisFormFieldTriggerDirective,
     SolarisFormPrefixDirective,
-    SolarisFormSuffixDirective,
     SolarisIconComponent,
     SolarisPopoverDirective,
     SolarisPopoverTriggerDirective,
@@ -91,7 +90,7 @@ function normalizeArray(value: unknown): unknown[] {
 })
 export class SolarisMultiSelectComponent
   extends SolarisFormControl
-  implements ControlValueAccessor, AfterContentInit, AfterViewInit, OnDestroy
+  implements ControlValueAccessor, AfterContentInit, AfterViewInit
 {
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly translateService = inject(SolarisTranslateService);
@@ -408,13 +407,6 @@ export class SolarisMultiSelectComponent
     return this.selectedLabels().join(', ');
   });
 
-  protected readonly displayText = computed(() => {
-    const mode = this.displayMode();
-    if (mode === 'summary') return this.summaryText();
-    if (mode === 'comma') return this.commaText();
-    return '';
-  });
-
   protected readonly placeholderText = computed(() => {
     const key = this.placeholderKey();
     if (key) {
@@ -630,11 +622,6 @@ export class SolarisMultiSelectComponent
     );
   });
 
-  protected readonly effectiveDisplayMode = computed(() => {
-    if (this.hasValue() && this.displayMode() === 'chips') return 'chips';
-    return this.displayMode();
-  });
-
   get id(): string {
     return this.elementId();
   }
@@ -701,6 +688,13 @@ export class SolarisMultiSelectComponent
       this.internalValue();
       this.setOptionsSelectedState();
     });
+    this.destroyRef.onDestroy(() => {
+      this.optionsSubscription?.();
+      this.optionInteractionSubscriptions.forEach((fn) => fn());
+      this.popoverSubscriptions.forEach((fn) => fn());
+      this.resizeObserver?.disconnect();
+      this.resizeObserver = null;
+    });
   }
 
   ngAfterContentInit(): void {
@@ -747,14 +741,6 @@ export class SolarisMultiSelectComponent
       );
     }
     this.setupResizeObserver();
-  }
-
-  ngOnDestroy(): void {
-    this.optionsSubscription?.();
-    this.optionInteractionSubscriptions.forEach((fn) => fn());
-    this.popoverSubscriptions.forEach((fn) => fn());
-    this.resizeObserver?.disconnect();
-    this.resizeObserver = null;
   }
 
   private setupResizeObserver(): void {

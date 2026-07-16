@@ -1,0 +1,108 @@
+<div class="solaris-toast__root">
+  @if (showIcon()) {
+    <div class="solaris-toast__media">
+      <div class="solaris-toast__icon">
+        <solaris-icon
+          [name]="entry().resolvedIcon"
+          [decorative]="entry().options.iconDecorative !== false"
+        />
+      </div>
+    </div>
+  }
+
+  <div class="solaris-toast__content">
+    @if (showTitle()) {
+      <div class="solaris-toast__title">{{ entry().resolvedTitle }}</div>
+    }
+
+    @if (showDescription()) {
+      <div
+        class="solaris-toast__description"
+        [class.solaris-toast__description--truncated]="isTruncated()"
+        [style.--solaris-toast-max-lines]="entry().resolvedMaxCollapsedLines"
+      >
+        {{ entry().resolvedDescription }}
+      </div>
+    }
+
+    @if (showActions()) {
+      <div class="solaris-toast__actions">
+        @for (action of entry().resolvedActions; track $index) {
+          <button
+            solaris-button
+            [appearance]="action.appearance ?? 'ghost'"
+            [color]="action.color ?? 'neutral'"
+            size="sm"
+            [disabled]="action.disabled ?? false"
+            (click)="handleActionClick(action)"
+          >
+            {{ action.label }}
+          </button>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="solaris-toast__trailing">
+    @if (isExpandable()) {
+      <button
+        type="button"
+        class="solaris-toast__trailing-btn"
+        [attr.aria-label]="expandButtonLabel()"
+        [attr.aria-expanded]="expanded()"
+        (click)="toggleExpanded()"
+      >
+        <solaris-icon
+          class="solaris-toast__expand-icon"
+          [class.solaris-toast__expand-icon--expanded]="expanded()"
+          name="chevron-down"
+          [decorative]="true"
+        />
+      </button>
+    }
+
+    @if (showClose()) {
+      <button
+        type="button"
+        class="solaris-toast__trailing-btn"
+        [attr.aria-label]="entry().resolvedCloseLabel"
+        (click)="handleDismiss()"
+      >
+        <solaris-icon name="x" [decorative]="true" />
+      </button>
+    }
+  </div>
+</div>
+
+@if (showProgressBar()) {
+  <div
+    class="solaris-toast__progress"
+    role="progressbar"
+    [attr.aria-valuenow]="progressValue()"
+    [attr.aria-valuemin]="0"
+    [attr.aria-valuemax]="100"
+    [attr.aria-label]="
+      isProcessProgress()
+        ? translate('solaris.toast.progress')
+        : translate('solaris.toast.remaining')
+    "
+  >
+    <div
+      class="solaris-toast__progress-bar"
+      [style.width.%]="progressValue()"
+    ></div>
+  </div>
+}
+
+@if (showCountdownText()) {
+  <div class="solaris-toast__countdown-text">
+    <span class="solaris-toast__countdown-message">{{ countdownText() }}</span>
+    <button
+      type="button"
+      class="solaris-toast__countdown-toggle"
+      (click)="togglePause()"
+    >
+      {{ pauseButtonLabel() }}
+    </button>
+  </div>
+}

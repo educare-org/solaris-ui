@@ -9,6 +9,7 @@ import {
   provideSolarisAccessibility,
   provideSolarisTheme,
   provideSolarisIcons,
+  provideSolarisToast,
 } from '@solaris-ui/angular';
 
 import { SHOWCASE_TRANSLATIONS } from './translations';
@@ -30,5 +31,6 @@ export const appConfig: ApplicationConfig = {
       density: 'comfortable',
     }),
     provideSolarisIcons(),
+    provideSolarisToast(),
   ],
 };

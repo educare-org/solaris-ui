@@ -52,14 +52,19 @@ if (!pkg.version) error('Missing "version" in package.json');
 const entryPoints = [
   { field: 'main', path: pkg.main },
   { field: 'module', path: pkg.module },
-  { field: 'typings || types || exports[types]', path: pkg.typings || pkg.types },
+  {
+    field: 'typings || types || exports[types]',
+    path: pkg.typings || pkg.types,
+  },
 ];
 
 if (!pkg.main && !pkg.module) {
   if (pkg.exports) {
     info(`Exports field found (${Object.keys(pkg.exports).length} entries)`);
   } else {
-    error('Missing both "main" and "module" entry points, and no "exports" field');
+    error(
+      'Missing both "main" and "module" entry points, and no "exports" field',
+    );
   }
 }
 

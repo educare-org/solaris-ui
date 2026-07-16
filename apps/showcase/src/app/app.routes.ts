@@ -169,4 +169,11 @@ export const appRoutes: Route[] = [
         (m) => m.TooltipShowcasePage,
       ),
   },
+  {
+    path: 'toast',
+    loadComponent: () =>
+      import('./pages/toast/component/toast-showcase').then(
+        (m) => m.ToastShowcasePage,
+      ),
+  },
 ];

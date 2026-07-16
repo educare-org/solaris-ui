@@ -20,6 +20,17 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.multiSelect.clear': 'Clear selection',
       'solaris.multiSelect.selectAll': 'Select all',
       'solaris.multiSelect.removeChip': 'Remove',
+
+      'solaris.toast.close': 'Close',
+      'solaris.toast.progress': 'Progress',
+      'solaris.toast.remaining': 'Remaining time',
+      'solaris.toast.closesIn':
+        'This message will close in {{seconds}} seconds.',
+      'solaris.toast.paused': 'Paused.',
+      'solaris.toast.pause': 'click to pause',
+      'solaris.toast.continue': 'click to continue',
+      'solaris.toast.expand': 'Expand',
+      'solaris.toast.collapse': 'Collapse',
     },
     'pt-BR': {
       'solaris.select.search.placeholder': 'Buscar...',
@@ -37,6 +48,17 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.multiSelect.clear': 'Limpar seleção',
       'solaris.multiSelect.selectAll': 'Selecionar todos',
       'solaris.multiSelect.removeChip': 'Remover',
+
+      'solaris.toast.close': 'Fechar',
+      'solaris.toast.progress': 'Progresso',
+      'solaris.toast.remaining': 'Tempo restante',
+      'solaris.toast.closesIn':
+        'Esta mensagem irá fechar em {{seconds}} segundos.',
+      'solaris.toast.paused': 'Pausado.',
+      'solaris.toast.pause': 'clique para pausar',
+      'solaris.toast.continue': 'clique para continuar',
+      'solaris.toast.expand': 'Expandir',
+      'solaris.toast.collapse': 'Recolher',
     },
   },
   useBrowserLocale: true,

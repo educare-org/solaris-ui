@@ -293,6 +293,21 @@ export type {
   SolarisSkeletonDensity,
 } from './lib/components/feedback/skeleton/model/skeleton.types';
 
-export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';
+export { SolarisToastContainerComponent } from './lib/components/feedback/toast/container/toast-container.component';
+export { provideSolarisToast } from './lib/components/feedback/toast/provider/provide-solaris-toast';
+export { SolarisToastComponent } from './lib/components/feedback/toast/component/toast.component';
+export { SolarisToastService } from './lib/components/feedback/toast/service/toast.service';
+export { SOLARIS_TOAST_CONFIG } from './lib/components/feedback/toast/token/toast.tokens';
+
+export type { SolarisToastAppearance } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastPosition } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastOptions } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastVariant } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastConfig } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastAction } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastEntry } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastRef } from './lib/components/feedback/toast/model/toast.types';
+
 export type { SolarisTestingOptions } from './lib/testing/provide-solaris-testing';
 export { configureSolarisTesting } from './lib/testing/solaris-test-utilities';
+export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';

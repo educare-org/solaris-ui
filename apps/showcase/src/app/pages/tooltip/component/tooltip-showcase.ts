@@ -21,13 +21,11 @@ import type {
   styleUrls: ['./tooltip-showcase.scss'],
 })
 export class TooltipShowcasePage {
-  protected showArrow = true;
   protected appearance: 'outline' | 'surface' | 'inverse' = 'outline';
-  protected size: 'sm' | 'md' | 'lg' = 'sm';
-  protected radius: 'sm' | 'md' | 'lg' = 'md';
-  protected placement = 'top';
-  protected tooltipDisabled = false;
   protected clickTooltipOpen = false;
+  protected radius: 'sm' | 'md' | 'lg' = 'md';
+  protected size: 'sm' | 'md' | 'lg' = 'sm';
+  protected placement = 'top';
 
   protected readonly placements: SolarisTooltipPlacement[] = [
     'top',

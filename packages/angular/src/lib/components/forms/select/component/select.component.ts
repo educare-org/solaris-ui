@@ -18,14 +18,15 @@ import {
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
+import {
+  SolarisFormPrefixDirective,
+  SolarisFormFieldTriggerDirective,
+  SolarisFormFieldComponent,
+} from '../../form-field';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
-import { SolarisFormFieldComponent } from '../../form-field/component/form-field.component';
-import { SolarisFormFieldTriggerDirective } from '../../form-field/directives/form-field-trigger.directive';
-import { SolarisFormPrefixDirective } from '../../form-field/directives/form-prefix.directive';
-import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
 import { SolarisTranslateService } from '../../../../services/translation';
-import { SolarisOptionComponent } from '../../option';
 import { SolarisOptionGroupComponent } from '../../option-group';
+import { SolarisOptionComponent } from '../../option';
 import { SolarisIconComponent } from '../../../icon';
 import {
   SolarisPopoverDirective,
@@ -52,7 +53,6 @@ function generateId(): string {
     SolarisFormFieldComponent,
     SolarisFormFieldTriggerDirective,
     SolarisFormPrefixDirective,
-    SolarisFormSuffixDirective,
     SolarisIconComponent,
     SolarisPopoverDirective,
     SolarisPopoverTriggerDirective,

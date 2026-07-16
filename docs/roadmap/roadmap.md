@@ -49,13 +49,12 @@ Scope:
 
 Scope:
 
-- Dialog;
-- Toast;
-- Tooltip;
-- Dropdown Menu;
-- Tabs;
-- Segmented Control;
-- Stepper.
+- [ ] Toast;
+- [ ] Dialog;
+- [ ] Stepper;
+- [ ] Tabs;
+- [ ] Segmented Control;
+- [ ] Dropdown Menu.
 
 ## `0.4.0` — Data and Advanced Release
 

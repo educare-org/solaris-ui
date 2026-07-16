@@ -44,6 +44,8 @@
     [attr.aria-controls]="panelOpen() ? panelId : null"
     [attr.aria-haspopup]="'listbox'"
     [attr.aria-activedescendant]="activeDescendantId()"
+    [attr.aria-labelledby]="ariaLabelledbyText() ?? null"
+    [attr.aria-describedby]="ariaDescribedBy() ?? null"
     (keydown)="onTriggerKeydown($event)"
     (focus)="onTriggerFocus()"
     (blur)="onTriggerBlur()"
