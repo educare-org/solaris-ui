@@ -50,7 +50,7 @@ Scope:
 Scope:
 
 - [x] Toast;
-- [ ] Dialog;
+- [x] Dialog;
 - [ ] Stepper;
 - [ ] Tabs;
 - [ ] Segmented Control;
