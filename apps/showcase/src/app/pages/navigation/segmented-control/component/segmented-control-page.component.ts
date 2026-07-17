@@ -19,6 +19,7 @@ import { SegmentedReactiveFormsExample } from '../examples/reactive-forms/compon
 import { SegmentedIconOnlyExample } from '../examples/icon-only/component/icon-only.component';
 import { SegmentedLongLabelsExample } from '../examples/long-labels/component/long-labels.component';
 import { SegmentedNoIndicatorExample } from '../examples/no-indicator/component/no-indicator.component';
+import { SegmentedManyOptionsExample } from '../examples/many-options/component/many-options.component';
 
 @Component({
   standalone: true,
@@ -42,6 +43,7 @@ import { SegmentedNoIndicatorExample } from '../examples/no-indicator/component/
     SegmentedIconOnlyExample,
     SegmentedLongLabelsExample,
     SegmentedNoIndicatorExample,
+    SegmentedManyOptionsExample,
   ],
   templateUrl: './segmented-control-page.component.html',
   styleUrls: ['./segmented-control-page.component.scss'],

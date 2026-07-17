@@ -90,4 +90,11 @@ export const SEGMENTED_CONTROL_TRANSLATIONS_PT_BR: Record<string, string> = {
 
   'segmented-control.example.no-indicator.a': 'Opção A',
   'segmented-control.example.no-indicator.b': 'Opção B',
+
+  'segmented-control.many-options': 'Muitas Opções',
+  'segmented-control.example.many-options.critical': 'Crítico',
+  'segmented-control.example.many-options.high': 'Alta',
+  'segmented-control.example.many-options.medium': 'Média',
+  'segmented-control.example.many-options.low': 'Baixa',
+  'segmented-control.example.many-options.none': 'Nenhuma',
 };

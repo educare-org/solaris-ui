@@ -1,8 +1,11 @@
 import {
   input,
   inject,
+  signal,
   computed,
   Component,
+  ElementRef,
+  AfterContentInit,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
@@ -33,13 +36,16 @@ let nextId = 0;
     '[class.solaris-segmented-item--icon-only]': 'isIconOnly()',
   },
 })
-export class SolarisSegmentedItemComponent {
+export class SolarisSegmentedItemComponent implements AfterContentInit {
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
   private readonly control = inject(SOLARIS_SEGMENTED_CONTROL, {
     optional: true,
   });
+  private readonly elementRef = inject(ElementRef);
+
+  protected readonly hasContent = signal(false);
 
   readonly value = input.required<unknown>();
   readonly label = input<string | undefined>(undefined);
@@ -84,8 +90,32 @@ export class SolarisSegmentedItemComponent {
   });
 
   protected readonly isIconOnly = computed(() => {
-    return !!this.icon() && !this.label() && !this.labelKey();
+    return !!this.icon() && !this.label() && !this.labelKey() && !this.hasContent();
   });
+
+  ngAfterContentInit(): void {
+    this.updateHasContent();
+  }
+
+  private updateHasContent(): void {
+    // SECURITY_EXCEPTION: nativeElement required to check projected content. SSR-safe read-only operation.
+    const nativeEl = this.elementRef.nativeElement as HTMLElement;
+    const innerEl = nativeEl.querySelector('.solaris-segmented-item__inner');
+    if (!innerEl) return;
+    for (const node of Array.from(innerEl.childNodes)) {
+      if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
+        this.hasContent.set(true);
+        return;
+      }
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const el = node as HTMLElement;
+        if (!el.classList.contains('solaris-segmented-item__icon')) {
+          this.hasContent.set(true);
+          return;
+        }
+      }
+    }
+  }
 
   readonly resolvedLabel = computed(() => {
     if (this.label()) return this.label();
