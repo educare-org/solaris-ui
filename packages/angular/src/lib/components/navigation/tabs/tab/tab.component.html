@@ -1,0 +1,23 @@
+<span class="solaris-tab__inner">
+  @if (icon(); as iconName) {
+    <solaris-icon
+      class="solaris-tab__icon"
+      [name]="iconName"
+      [decorative]="iconDecorative()"
+    />
+  }
+  @if (resolvedLabel(); as labelText) {
+    <span class="solaris-tab__label">{{ labelText }}</span>
+  }
+  <ng-content />
+  @if (computedBadge(); as badgeValue) {
+    <solaris-badge
+      class="solaris-tab__badge"
+      variant="count"
+      size="sm"
+      [attr.aria-label]="resolvedBadgeLabel()"
+    >
+      {{ badgeValue }}
+    </solaris-badge>
+  }
+</span>

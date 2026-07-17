@@ -336,6 +336,24 @@ export type { SolarisDialogOptions } from './lib/components/overlay/dialog/model
 export type { SolarisDialogComponentConfig } from './lib/components/overlay/dialog/model/dialog.types';
 export type { SolarisDialogConfig } from './lib/components/overlay/dialog/model/dialog.types';
 
+export { SolarisTabsComponent } from './lib/components/navigation/tabs/component/tabs.component';
+export { SolarisTabComponent } from './lib/components/navigation/tabs/tab/tab.component';
+export { SolarisTabPanelComponent } from './lib/components/navigation/tabs/tab-panel/tab-panel.component';
+export { SOLARIS_TABS } from './lib/components/navigation/tabs/token/tabs.tokens';
+
+export type { SolarisTabsControl } from './lib/components/navigation/tabs/token/tabs.tokens';
+export type {
+  SolarisTabsOrientation,
+  SolarisTabsAppearance,
+  SolarisTabsSize,
+  SolarisTabsDensity,
+  SolarisTabsActivationMode,
+  SolarisTabsContentTransition,
+  SolarisTabsValueChangeEvent,
+  SolarisTabsChangeEvent,
+  SolarisTabClickEvent,
+} from './lib/components/navigation/tabs/model/tabs.types';
+
 export { SolarisStepperComponent } from './lib/components/navigation/stepper/component/stepper.component';
 export { SolarisStepComponent } from './lib/components/navigation/stepper/step/step.component';
 export { SolarisStepperContentComponent } from './lib/components/navigation/stepper/content/stepper-content.component';

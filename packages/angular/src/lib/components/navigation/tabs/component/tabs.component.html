@@ -1,0 +1,24 @@
+<div
+  class="solaris-tabs__tablist"
+  role="tablist"
+  [attr.aria-orientation]="orientation()"
+  [attr.aria-label]="resolvedAriaLabel()"
+>
+  <ng-content select="solaris-tab" />
+</div>
+
+@if (panels().length > 0) {
+  <div
+    class="solaris-tabs__panels"
+    [class.solaris-tabs__panels--fade]="contentTransition() === 'fade'"
+    [class.solaris-tabs__panels--slide]="contentTransition() === 'slide'"
+    [class.solaris-tabs__panels--slide-from-right]="
+      contentTransition() === 'slide' && slideDirection() === 'right'
+    "
+    [class.solaris-tabs__panels--slide-from-left]="
+      contentTransition() === 'slide' && slideDirection() === 'left'
+    "
+  >
+    <ng-content select="solaris-tab-panel" />
+  </div>
+}

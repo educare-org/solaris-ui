@@ -1,0 +1,27 @@
+<solaris-tabs [(value)]="activeTab">
+  <solaris-tab value="code" icon="code">
+    {{ 'tabs.example.with-panels.tab-code' | translate }}
+  </solaris-tab>
+  <solaris-tab value="issues" icon="issue">
+    {{ 'tabs.example.with-panels.tab-issues' | translate }}
+  </solaris-tab>
+  <solaris-tab value="pull-requests" icon="pull-request">
+    {{ 'tabs.example.with-panels.tab-pull-requests' | translate }}
+  </solaris-tab>
+  <solaris-tab value="actions" icon="analytics">
+    {{ 'tabs.example.with-panels.tab-actions' | translate }}
+  </solaris-tab>
+
+  <solaris-tab-panel value="code">
+    <p>{{ 'tabs.example.with-panels.panel-code' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="issues">
+    <p>{{ 'tabs.example.with-panels.panel-issues' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="pull-requests">
+    <p>{{ 'tabs.example.with-panels.panel-pull-requests' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="actions">
+    <p>{{ 'tabs.example.with-panels.panel-actions' | translate }}</p>
+  </solaris-tab-panel>
+</solaris-tabs>

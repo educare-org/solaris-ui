@@ -184,6 +184,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'tabs',
+    loadComponent: () =>
+      import('./pages/navigation/tabs/component/tabs-page.component').then(
+        (m) => m.TabsPageComponent,
+      ),
+  },
+  {
     path: 'stepper',
     loadComponent: () =>
       import(

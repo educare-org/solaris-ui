@@ -1,0 +1,21 @@
+<solaris-tabs contentTransition="fade" [(value)]="activeTab">
+  <solaris-tab value="a" icon="file">
+    {{ 'tabs.example.transition-fade.tab-a' | translate }}
+  </solaris-tab>
+  <solaris-tab value="b" icon="files">
+    {{ 'tabs.example.transition-fade.tab-b' | translate }}
+  </solaris-tab>
+  <solaris-tab value="c" icon="folder">
+    {{ 'tabs.example.transition-fade.tab-c' | translate }}
+  </solaris-tab>
+
+  <solaris-tab-panel value="a">
+    <p>{{ 'tabs.example.transition-fade.panel-a' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="b">
+    <p>{{ 'tabs.example.transition-fade.panel-b' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="c">
+    <p>{{ 'tabs.example.transition-fade.panel-c' | translate }}</p>
+  </solaris-tab-panel>
+</solaris-tabs>

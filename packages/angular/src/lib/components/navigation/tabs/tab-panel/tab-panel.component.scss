@@ -1,0 +1,10 @@
+:host {
+  --solaris-tab-panel-padding: var(--solaris-spacing-4);
+
+  display: block;
+  padding: var(--solaris-tab-panel-padding);
+}
+
+:host([hidden]) {
+  display: none;
+}

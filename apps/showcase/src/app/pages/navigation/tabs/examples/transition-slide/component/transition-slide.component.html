@@ -1,0 +1,21 @@
+<solaris-tabs contentTransition="slide" [(value)]="activeTab">
+  <solaris-tab value="first" icon="bookmark">
+    {{ 'tabs.example.transition-slide.tab-first' | translate }}
+  </solaris-tab>
+  <solaris-tab value="second" icon="link">
+    {{ 'tabs.example.transition-slide.tab-second' | translate }}
+  </solaris-tab>
+  <solaris-tab value="third" icon="map-pin">
+    {{ 'tabs.example.transition-slide.tab-third' | translate }}
+  </solaris-tab>
+
+  <solaris-tab-panel value="first">
+    <p>{{ 'tabs.example.transition-slide.panel-first' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="second">
+    <p>{{ 'tabs.example.transition-slide.panel-second' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="third">
+    <p>{{ 'tabs.example.transition-slide.panel-third' | translate }}</p>
+  </solaris-tab-panel>
+</solaris-tabs>

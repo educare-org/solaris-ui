@@ -1,0 +1,27 @@
+<solaris-tabs orientation="vertical" [(value)]="activeTab">
+  <solaris-tab value="general" icon="user">
+    {{ 'tabs.example.vertical.tab-general' | translate }}
+  </solaris-tab>
+  <solaris-tab value="security" icon="security">
+    {{ 'tabs.example.vertical.tab-security' | translate }}
+  </solaris-tab>
+  <solaris-tab value="notifications" icon="notification">
+    {{ 'tabs.example.vertical.tab-notifications' | translate }}
+  </solaris-tab>
+  <solaris-tab value="privacy" icon="eye-off">
+    {{ 'tabs.example.vertical.tab-privacy' | translate }}
+  </solaris-tab>
+
+  <solaris-tab-panel value="general">
+    <p>{{ 'tabs.example.vertical.panel-general' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="security">
+    <p>{{ 'tabs.example.vertical.panel-security' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="notifications">
+    <p>{{ 'tabs.example.vertical.panel-notifications' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="privacy">
+    <p>{{ 'tabs.example.vertical.panel-privacy' | translate }}</p>
+  </solaris-tab-panel>
+</solaris-tabs>

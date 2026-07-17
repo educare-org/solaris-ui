@@ -1,0 +1,25 @@
+<p class="manual-activation__instruction">
+  {{ 'tabs.example.manual-activation.instruction' | translate }}
+</p>
+
+<solaris-tabs activationMode="manual" [(value)]="activeTab">
+  <solaris-tab value="step-1">
+    {{ 'tabs.example.manual-activation.tab-step-1' | translate }}
+  </solaris-tab>
+  <solaris-tab value="step-2">
+    {{ 'tabs.example.manual-activation.tab-step-2' | translate }}
+  </solaris-tab>
+  <solaris-tab value="step-3">
+    {{ 'tabs.example.manual-activation.tab-step-3' | translate }}
+  </solaris-tab>
+
+  <solaris-tab-panel value="step-1">
+    <p>{{ 'tabs.example.manual-activation.panel-step-1' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="step-2">
+    <p>{{ 'tabs.example.manual-activation.panel-step-2' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="step-3">
+    <p>{{ 'tabs.example.manual-activation.panel-step-3' | translate }}</p>
+  </solaris-tab-panel>
+</solaris-tabs>

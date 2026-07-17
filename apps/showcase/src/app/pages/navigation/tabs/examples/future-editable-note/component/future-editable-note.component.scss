@@ -1,0 +1,19 @@
+.note {
+  padding: var(--solaris-spacing-4);
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-surface-subtle);
+  color: var(--solaris-text-default);
+  font-size: var(--solaris-font-size-sm);
+}
+
+.note__title {
+  margin: 0 0 var(--solaris-spacing-2);
+  font-size: var(--solaris-font-size-md);
+  font-weight: var(--solaris-font-weight-semibold);
+  color: var(--solaris-text-default);
+}
+
+.note__text {
+  margin: 0;
+  color: var(--solaris-text-muted);
+}
