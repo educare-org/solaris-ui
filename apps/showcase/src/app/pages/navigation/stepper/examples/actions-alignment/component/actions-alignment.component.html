@@ -1,0 +1,48 @@
+<p class="example-description">
+  Actions alignment: <strong>{{ align() }}</strong>
+</p>
+
+<div class="example-buttons">
+  <button
+    type="button"
+    solaris-button
+    (click)="align.set('start')"
+    [appearance]="align() === 'start' ? 'solid' : 'outline'"
+  >
+    Start
+  </button>
+  <button
+    type="button"
+    solaris-button
+    (click)="align.set('center')"
+    [appearance]="align() === 'center' ? 'solid' : 'outline'"
+  >
+    Center
+  </button>
+  <button
+    type="button"
+    solaris-button
+    (click)="align.set('end')"
+    [appearance]="align() === 'end' ? 'solid' : 'outline'"
+  >
+    End
+  </button>
+  <button
+    type="button"
+    solaris-button
+    (click)="align.set('space-between')"
+    [appearance]="align() === 'space-between' ? 'solid' : 'outline'"
+  >
+    Space Between
+  </button>
+</div>
+
+<solaris-stepper [activeIndex]="0">
+  <solaris-step label="Step 1" status="completed" />
+  <solaris-step label="Step 2" status="active" />
+  <solaris-step label="Step 3" status="pending" />
+  <solaris-stepper-actions [align]="align()">
+    <button type="button" solaris-button appearance="ghost">Cancel</button>
+    <button type="button" solaris-button color="primary">Continue</button>
+  </solaris-stepper-actions>
+</solaris-stepper>

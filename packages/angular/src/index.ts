@@ -336,6 +336,23 @@ export type { SolarisDialogOptions } from './lib/components/overlay/dialog/model
 export type { SolarisDialogComponentConfig } from './lib/components/overlay/dialog/model/dialog.types';
 export type { SolarisDialogConfig } from './lib/components/overlay/dialog/model/dialog.types';
 
+export { SolarisStepperComponent } from './lib/components/navigation/stepper/component/stepper.component';
+export { SolarisStepComponent } from './lib/components/navigation/stepper/step/step.component';
+export { SolarisStepperContentComponent } from './lib/components/navigation/stepper/content/stepper-content.component';
+export { SolarisStepperActionsComponent } from './lib/components/navigation/stepper/actions/stepper-actions.component';
+export { SOLARIS_STEPPER } from './lib/components/navigation/stepper/token/stepper.tokens';
+
+export type { SolarisStepperControl } from './lib/components/navigation/stepper/token/stepper.tokens';
+export type { SolarisStepperOrientation } from './lib/components/navigation/stepper/model/stepper.types';
+export type { SolarisStepperAppearance } from './lib/components/navigation/stepper/model/stepper.types';
+export type { SolarisStepperSize } from './lib/components/navigation/stepper/model/stepper.types';
+export type { SolarisStepperDensity } from './lib/components/navigation/stepper/model/stepper.types';
+export type { SolarisStepperStatus } from './lib/components/navigation/stepper/model/stepper.types';
+export type { SolarisStepperContentTransition } from './lib/components/navigation/stepper/model/stepper.types';
+export type { SolarisStepperActionsAlign } from './lib/components/navigation/stepper/model/stepper.types';
+export type { SolarisStepperChangeEvent } from './lib/components/navigation/stepper/model/stepper.types';
+export type { SolarisStepClickEvent } from './lib/components/navigation/stepper/model/stepper.types';
+
 export type { SolarisTestingOptions } from './lib/testing/provide-solaris-testing';
 export { configureSolarisTesting } from './lib/testing/solaris-test-utilities';
 export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';

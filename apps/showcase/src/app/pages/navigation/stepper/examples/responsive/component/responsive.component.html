@@ -1,0 +1,21 @@
+<p class="example-description">
+  Resize the container to see responsive behavior. Horizontal stepper adapts
+  with overflow.
+</p>
+<div class="responsive-container">
+  <solaris-stepper [activeIndex]="0">
+    <solaris-step label="Getting Started" status="completed" />
+    <solaris-step
+      label="Configuration"
+      status="active"
+      description="Set up your environment"
+    />
+    <solaris-step
+      label="Data Import"
+      status="pending"
+      description="Import your data"
+    />
+    <solaris-step label="Validation" status="pending" />
+    <solaris-step label="Publish" status="pending" />
+  </solaris-stepper>
+</div>

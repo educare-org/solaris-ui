@@ -1,0 +1,71 @@
+<p class="example-description">
+  Content transition: <strong>{{ transition() }}</strong>
+</p>
+
+<div class="example-buttons">
+  <button
+    type="button"
+    solaris-button
+    (click)="transition.set('none')"
+    [appearance]="transition() === 'none' ? 'solid' : 'outline'"
+  >
+    None
+  </button>
+  <button
+    type="button"
+    solaris-button
+    (click)="transition.set('fade')"
+    [appearance]="transition() === 'fade' ? 'solid' : 'outline'"
+  >
+    Fade
+  </button>
+  <button
+    type="button"
+    solaris-button
+    (click)="transition.set('slide')"
+    [appearance]="transition() === 'slide' ? 'solid' : 'outline'"
+  >
+    Slide
+  </button>
+</div>
+
+<solaris-stepper
+  [(activeIndex)]="activeStep"
+  [contentTransition]="transition()"
+>
+  <solaris-step label="Step 1">
+    <solaris-stepper-content>
+      <div class="transition-content">Content for step 1</div>
+    </solaris-stepper-content>
+  </solaris-step>
+  <solaris-step label="Step 2">
+    <solaris-stepper-content>
+      <div class="transition-content">Content for step 2</div>
+    </solaris-stepper-content>
+  </solaris-step>
+  <solaris-step label="Step 3">
+    <solaris-stepper-content>
+      <div class="transition-content">Content for step 3</div>
+    </solaris-stepper-content>
+  </solaris-step>
+  <solaris-stepper-actions>
+    <button
+      type="button"
+      solaris-button
+      appearance="ghost"
+      [disabled]="activeStep() === 0"
+      (click)="prev()"
+    >
+      Back
+    </button>
+    <button
+      type="button"
+      solaris-button
+      color="primary"
+      [disabled]="activeStep() >= 2"
+      (click)="next()"
+    >
+      Next
+    </button>
+  </solaris-stepper-actions>
+</solaris-stepper>

@@ -1,0 +1,30 @@
+<p class="example-description">
+  Density: <strong>{{ density() }}</strong> | Size:
+  <strong>{{ size() }}</strong>
+</p>
+
+<div class="example-buttons">
+  <button
+    type="button"
+    solaris-button
+    (click)="density.set('comfortable'); size.set('md')"
+    [appearance]="density() === 'comfortable' ? 'solid' : 'outline'"
+  >
+    Comfortable
+  </button>
+  <button
+    type="button"
+    solaris-button
+    (click)="density.set('compact'); size.set('sm')"
+    [appearance]="density() === 'compact' ? 'solid' : 'outline'"
+  >
+    Compact
+  </button>
+</div>
+
+<solaris-stepper [activeIndex]="1" [density]="density()" [size]="size()">
+  <solaris-step label="Step 1" status="completed" />
+  <solaris-step label="Step 2" status="active" />
+  <solaris-step label="Step 3" status="pending" />
+  <solaris-step label="Step 4" status="pending" />
+</solaris-stepper>

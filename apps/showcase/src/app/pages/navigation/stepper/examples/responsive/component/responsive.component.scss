@@ -1,0 +1,15 @@
+.example-description {
+  margin-bottom: var(--solaris-spacing-3);
+  color: var(--solaris-text-muted);
+  font-size: var(--solaris-font-size-sm);
+}
+
+.responsive-container {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: var(--solaris-spacing-4);
+  border: 0.1rem solid var(--solaris-border-subtle);
+  border-radius: var(--solaris-radius-md);
+  resize: horizontal;
+  min-width: 20rem;
+}

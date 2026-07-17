@@ -24,6 +24,7 @@ import { POPOVER_TRANSLATIONS } from '../pages/interaction/popover/translations'
 import { TOOLTIP_TRANSLATIONS } from '../pages/interaction/tooltip/translations';
 import { TOAST_TRANSLATIONS } from '../pages/feedback/toast/translations';
 import { DIALOG_TRANSLATIONS } from '../pages/overlay/dialog/translations';
+import { STEPPER_TRANSLATIONS } from '../pages/navigation/stepper/translations';
 
 const PAGE_MODULES = [
   CONFIGURATION_TRANSLATIONS,
@@ -52,6 +53,7 @@ const PAGE_MODULES = [
   TOOLTIP_TRANSLATIONS,
   TOAST_TRANSLATIONS,
   DIALOG_TRANSLATIONS,
+  STEPPER_TRANSLATIONS,
 ];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};

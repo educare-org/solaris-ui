@@ -1,0 +1,21 @@
+:host {
+  display: flex;
+  gap: var(--solaris-spacing-3);
+  padding-top: var(--solaris-spacing-6);
+}
+
+:host([data-align='start']) {
+  justify-content: flex-start;
+}
+
+:host([data-align='center']) {
+  justify-content: center;
+}
+
+:host([data-align='end']) {
+  justify-content: flex-end;
+}
+
+:host([data-align='space-between']) {
+  justify-content: space-between;
+}

@@ -183,4 +183,11 @@ export const appRoutes: Route[] = [
         (m) => m.DialogPageComponent,
       ),
   },
+  {
+    path: 'stepper',
+    loadComponent: () =>
+      import(
+        './pages/navigation/stepper/component/stepper-page.component'
+      ).then((m) => m.StepperPageComponent),
+  },
 ];

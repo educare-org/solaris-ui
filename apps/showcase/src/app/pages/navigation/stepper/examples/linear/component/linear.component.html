@@ -1,0 +1,9 @@
+<p class="example-description">
+  Linear: future steps are blocked. Click completed steps to go back.
+</p>
+<solaris-stepper [(activeIndex)]="activeIndex" [linear]="true">
+  <solaris-step label="Step 1" status="completed" />
+  <solaris-step label="Step 2" status="completed" />
+  <solaris-step label="Step 3" status="active" />
+  <solaris-step label="Step 4" status="pending" />
+</solaris-stepper>
