@@ -103,10 +103,6 @@
   --solaris-tab-padding-x: var(--solaris-spacing-2);
 }
 
-:host([data-appearance='underline'][data-active='true']) {
-  box-shadow: inset 0 -0.2rem 0 0 var(--solaris-tabs-indicator-color);
-}
-
 :host([data-appearance='underline']) {
   --solaris-tab-radius: 0;
 }

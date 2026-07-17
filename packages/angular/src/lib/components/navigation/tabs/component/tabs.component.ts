@@ -10,6 +10,7 @@ import {
   ChangeDetectionStrategy,
   effect,
   ElementRef,
+  NgZone,
 } from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../services/translation';
@@ -60,6 +61,7 @@ export class SolarisTabsComponent implements SolarisTabsControl {
     optional: true,
   });
   private readonly elementRef = inject(ElementRef);
+  private readonly ngZone = inject(NgZone);
 
   readonly tabs = contentChildren(SolarisTabComponent);
   readonly panels = contentChildren(SolarisTabPanelComponent);
@@ -90,6 +92,11 @@ export class SolarisTabsComponent implements SolarisTabsControl {
   protected readonly slideDirection = signal<'left' | 'right'>('right');
 
   protected readonly instanceId = `solaris-tabs-${nextInstanceId++}`;
+
+  protected readonly indicatorReady = signal(false);
+  protected readonly indicatorTransformX = signal('translateX(0)');
+  protected readonly indicatorTransformY = signal('translateY(0)');
+  protected readonly indicatorSize = signal('0');
 
   protected readonly resolvedAriaLabel = computed(() => {
     if (this.ariaLabel()) return this.ariaLabel();
@@ -122,6 +129,19 @@ export class SolarisTabsComponent implements SolarisTabsControl {
       }
       this.previousValue.set(current);
     });
+
+    this.ngZone.runOutsideAngular(() => {
+      setTimeout(() => this.measureIndicator());
+    });
+
+    effect(() => {
+      this.value();
+      this.appearance();
+      this.orientation();
+      this.ngZone.runOutsideAngular(() => {
+        setTimeout(() => this.measureIndicator());
+      });
+    });
   }
 
   activateTab(tab: SolarisTabComponent): void {
@@ -153,6 +173,33 @@ export class SolarisTabsComponent implements SolarisTabsControl {
 
   generatePanelId(value: string | number): string {
     return `${this.instanceId}-panel-${value}`;
+  }
+
+  private measureIndicator(): void {
+    const nativeEl = this.elementRef.nativeElement as HTMLElement;
+    const tablist = nativeEl.querySelector(
+      '.solaris-tabs__tablist',
+    ) as HTMLElement | null;
+    if (!tablist) return;
+
+    const activeTab = tablist.querySelector(
+      'solaris-tab[data-active="true"]',
+    ) as HTMLElement | null;
+    if (!activeTab) return;
+
+    const isVertical = this.orientation() === 'vertical';
+
+    if (isVertical) {
+      this.indicatorTransformY.set(`translateY(${activeTab.offsetTop}px)`);
+      this.indicatorSize.set(`${activeTab.offsetHeight}px`);
+    } else {
+      this.indicatorTransformX.set(`translateX(${activeTab.offsetLeft}px)`);
+      this.indicatorSize.set(`${activeTab.offsetWidth}px`);
+    }
+
+    if (!this.indicatorReady()) {
+      setTimeout(() => this.indicatorReady.set(true));
+    }
   }
 
   private updateSlideDirection(

@@ -140,11 +140,46 @@
   }
 }
 
+.solaris-tabs__indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: var(--solaris-tabs-indicator-size);
+  background: var(--solaris-tabs-indicator-color);
+  border-radius: var(--solaris-radius-sm) var(--solaris-radius-sm) 0 0;
+  transition: none;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.solaris-tabs__indicator--vertical {
+  bottom: auto;
+  left: auto;
+  right: 0;
+  top: 0;
+  width: var(--solaris-tabs-indicator-size);
+  height: 0;
+  border-radius: var(--solaris-radius-sm) 0 0 var(--solaris-radius-sm);
+}
+
+.solaris-tabs__indicator--animate {
+  transition:
+    transform var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    width var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    height var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .solaris-tabs__panels--fade > ::ng-deep solaris-tab-panel[data-active='true'],
   .solaris-tabs__panels--slide > ::ng-deep
     solaris-tab-panel[data-active='true'] {
     animation: none;
+  }
+  .solaris-tabs__indicator {
+    transition: none;
   }
 }
 
@@ -153,5 +188,8 @@
   .solaris-tabs__panels--slide > ::ng-deep
     solaris-tab-panel[data-active='true'] {
     animation: none;
+  }
+  .solaris-tabs__indicator {
+    transition: none;
   }
 }
