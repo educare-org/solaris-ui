@@ -53,7 +53,7 @@ Scope:
 - [x] Dialog;
 - [x] Stepper;
 - [x] Tabs;
-- [ ] Segmented Control;
+- [x] Segmented Control;
 - [ ] Dropdown Menu;
 - [ ] Editable Tabs.
 
