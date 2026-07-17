@@ -52,7 +52,7 @@ Scope:
 - [x] Toast;
 - [x] Dialog;
 - [x] Stepper;
-- [ ] Tabs;
+- [x] Tabs;
 - [ ] Segmented Control;
 - [ ] Dropdown Menu;
 - [ ] Editable Tabs.
