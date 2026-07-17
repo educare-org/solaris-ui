@@ -51,7 +51,7 @@ Scope:
 
 - [x] Toast;
 - [x] Dialog;
-- [ ] Stepper;
+- [x] Stepper;
 - [ ] Tabs;
 - [ ] Segmented Control;
 - [ ] Dropdown Menu.
@@ -60,9 +60,9 @@ Scope:
 
 Scope:
 
-- Table;
-- Phone Input;
-- showcase command/code components.
+- [ ] Table;
+- [ ] Phone Input;
+- [ ] showcase command/code components.
 
 ## Future
 
