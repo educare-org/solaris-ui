@@ -54,6 +54,7 @@ Scope:
 - [x] Stepper;
 - [x] Tabs;
 - [x] Segmented Control;
+- [ ] Divider;
 - [ ] Dropdown Menu;
 - [ ] Editable Tabs.
 
@@ -63,7 +64,6 @@ Scope:
 
 - [ ] Accordion;
 - [ ] Collapsible;
-- [ ] Divider;
 - [ ] Breadcrumb.
 
 ## `0.4.0` — Data and Advanced Release
