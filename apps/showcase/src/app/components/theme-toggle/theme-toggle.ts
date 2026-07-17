@@ -1,9 +1,12 @@
 import { Component, inject, PLATFORM_ID } from '@angular/core';
 
+import { SolarisSegmentedControlComponent, SolarisSegmentedItemComponent } from '@solaris-ui/angular';
+
 const STORAGE_KEY = 'solaris-theme';
 
 @Component({
   standalone: true,
+  imports: [SolarisSegmentedControlComponent, SolarisSegmentedItemComponent],
   selector: 'app-theme-toggle',
   templateUrl: './theme-toggle.html',
   styleUrls: ['./theme-toggle.scss'],
@@ -29,7 +32,8 @@ export class ShowcaseThemeToggle {
     this.applyTheme(this.activeTheme);
   }
 
-  protected setTheme(theme: 'light' | 'dark' | 'system'): void {
+  protected setTheme(theme: unknown): void {
+    if (theme !== 'light' && theme !== 'dark' && theme !== 'system') return;
     this.activeTheme = theme;
     const isBrowser = this.platformId === 'browser';
     if (!isBrowser) return;

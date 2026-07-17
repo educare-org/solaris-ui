@@ -1,0 +1,13 @@
+<span class="solaris-segmented-item__inner">
+  @if (icon(); as iconName) {
+    <solaris-icon
+      class="solaris-segmented-item__icon"
+      [name]="iconName"
+      [decorative]="true"
+    />
+  }
+  @if (resolvedLabel(); as labelText) {
+    <span class="solaris-segmented-item__label">{{ labelText }}</span>
+  }
+  <ng-content />
+</span>

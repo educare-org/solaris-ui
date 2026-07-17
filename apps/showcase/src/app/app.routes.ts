@@ -197,4 +197,11 @@ export const appRoutes: Route[] = [
         './pages/navigation/stepper/component/stepper-page.component'
       ).then((m) => m.StepperPageComponent),
   },
+  {
+    path: 'segmented-control',
+    loadComponent: () =>
+      import(
+        './pages/navigation/segmented-control/component/segmented-control-page.component'
+      ).then((m) => m.SegmentedControlPageComponent),
+  },
 ];

@@ -33,4 +33,18 @@ export const THEME_ICONS: SolarisIconDefinition[] = [
       { type: 'path', d: 'M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z' },
     ],
   },
+  {
+    name: 'monitor',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      { type: 'path', d: 'M2 3h20v14H2z' },
+      { type: 'path', d: 'M8 21h8' },
+      { type: 'path', d: 'M12 17v4' },
+    ],
+  },
 ];

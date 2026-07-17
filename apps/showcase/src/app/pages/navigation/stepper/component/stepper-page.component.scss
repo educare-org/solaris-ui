@@ -1,33 +1,25 @@
+@use '../../../../shared/showcase-layout' as layout;
+
 .stepper-showcase {
-  max-width: 96rem;
-  padding: var(--solaris-spacing-8);
-}
+  @include layout.page;
 
-.stepper-showcase__header {
-  margin-bottom: var(--solaris-spacing-8);
-}
+  &__header {
+    @include layout.header;
+  }
 
-.stepper-showcase__title {
-  color: var(--solaris-text-strong);
-  margin: 0 0 var(--solaris-spacing-2);
-  font: var(--solaris-font-weight-bold) var(--solaris-font-size-3xl) /
-    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
-}
+  &__title {
+    @include layout.title;
+  }
 
-.stepper-showcase__description {
-  margin: 0;
-  color: var(--solaris-text-muted);
-  font: var(--solaris-font-weight-regular) var(--solaris-font-size-md) /
-    var(--solaris-line-height-md) var(--solaris-font-family-sans);
-}
+  &__description {
+    @include layout.description;
+  }
 
-.stepper-showcase__section {
-  margin-bottom: var(--solaris-spacing-10);
-}
+  &__section {
+    @include layout.section-card;
+  }
 
-.stepper-showcase__section-title {
-  color: var(--solaris-text-default);
-  margin: 0 0 var(--solaris-spacing-4);
-  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-xl) /
-    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+  &__section-title {
+    @include layout.section-title;
+  }
 }

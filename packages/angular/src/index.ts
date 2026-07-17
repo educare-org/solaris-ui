@@ -371,6 +371,21 @@ export type { SolarisStepperActionsAlign } from './lib/components/navigation/ste
 export type { SolarisStepperChangeEvent } from './lib/components/navigation/stepper/model/stepper.types';
 export type { SolarisStepClickEvent } from './lib/components/navigation/stepper/model/stepper.types';
 
+export { SolarisSegmentedControlComponent } from './lib/components/navigation/segmented-control/component/segmented-control.component';
+export { SolarisSegmentedItemComponent } from './lib/components/navigation/segmented-control/item/segmented-item.component';
+export { SOLARIS_SEGMENTED_CONTROL } from './lib/components/navigation/segmented-control/token/segmented-control.tokens';
+
+export type { SolarisSegmentedControlInterface } from './lib/components/navigation/segmented-control/token/segmented-control.tokens';
+export type {
+  SolarisSegmentedControlOrientation,
+  SolarisSegmentedControlAppearance,
+  SolarisSegmentedControlSize,
+  SolarisSegmentedControlDensity,
+  SolarisSegmentedControlRadius,
+  SolarisSegmentedControlValueChangeEvent,
+  SolarisSegmentedControlChangeEvent,
+} from './lib/components/navigation/segmented-control/model/segmented-control.types';
+
 export type { SolarisTestingOptions } from './lib/testing/provide-solaris-testing';
 export { configureSolarisTesting } from './lib/testing/solaris-test-utilities';
 export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';

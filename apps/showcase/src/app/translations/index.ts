@@ -26,6 +26,7 @@ import { TOAST_TRANSLATIONS } from '../pages/feedback/toast/translations';
 import { DIALOG_TRANSLATIONS } from '../pages/overlay/dialog/translations';
 import { STEPPER_TRANSLATIONS } from '../pages/navigation/stepper/translations';
 import { TABS_TRANSLATIONS } from '../pages/navigation/tabs/translations';
+import { SEGMENTED_CONTROL_TRANSLATIONS } from '../pages/navigation/segmented-control/translations';
 
 const PAGE_MODULES = [
   CONFIGURATION_TRANSLATIONS,
@@ -56,6 +57,7 @@ const PAGE_MODULES = [
   DIALOG_TRANSLATIONS,
   STEPPER_TRANSLATIONS,
   TABS_TRANSLATIONS,
+  SEGMENTED_CONTROL_TRANSLATIONS,
 ];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};
