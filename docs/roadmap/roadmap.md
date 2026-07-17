@@ -56,6 +56,15 @@ Scope:
 - [ ] Segmented Control;
 - [ ] Dropdown Menu.
 
+## `0.3.1` — Disclosure and Content Organization Extension
+
+Scope:
+
+- [ ] Accordion
+- [ ] Collapsible
+- [ ] Divider
+- [ ] Breadcrumb
+
 ## `0.4.0` — Data and Advanced Release
 
 Scope:
