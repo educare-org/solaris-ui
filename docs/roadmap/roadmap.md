@@ -54,7 +54,8 @@ Scope:
 - [x] Stepper;
 - [ ] Tabs;
 - [ ] Segmented Control;
-- [ ] Dropdown Menu.
+- [ ] Dropdown Menu;
+- [ ] Editable Tabs.
 
 ## `0.3.1` — Disclosure and Content Organization Extension
 
