@@ -60,10 +60,10 @@ Scope:
 
 Scope:
 
-- [ ] Accordion
-- [ ] Collapsible
-- [ ] Divider
-- [ ] Breadcrumb
+- [ ] Accordion;
+- [ ] Collapsible;
+- [ ] Divider;
+- [ ] Breadcrumb.
 
 ## `0.4.0` — Data and Advanced Release
 
