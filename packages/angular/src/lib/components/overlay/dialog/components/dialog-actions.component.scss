@@ -1,12 +1,12 @@
 :host {
   display: block;
-  padding: var(--solaris-spacing-3, 12px) var(--solaris-spacing-4, 16px);
+  padding: var(--solaris-spacing-3) var(--solaris-spacing-4);
 }
 
 .solaris-dialog-actions__inner {
   display: flex;
-  gap: var(--solaris-spacing-2, 8px);
   flex-wrap: wrap;
+  gap: var(--solaris-spacing-2);
 }
 
 :host([data-align='start']) .solaris-dialog-actions__inner {

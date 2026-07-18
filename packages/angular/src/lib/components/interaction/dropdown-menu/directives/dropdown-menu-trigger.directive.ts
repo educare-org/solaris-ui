@@ -235,29 +235,30 @@ export class SolarisDropdownMenuTriggerDirective {
     const primaryPosition = getPrimaryPosition(placement, align);
     const fallbackPositions = getFallbackPositions(placement, align);
 
-    let offsetX = 0;
-    let offsetY = 0;
-
-    if (placement === 'right') {
-      offsetX = offset;
-    } else if (placement === 'left') {
-      offsetX = -offset;
-    }
-
-    if (placement === 'bottom') {
-      offsetY = offset;
-    } else if (placement === 'top') {
-      offsetY = -offset;
-    }
+    const allPositions = [primaryPosition, ...fallbackPositions].map(
+      (pos) => ({
+        ...pos,
+        offsetY:
+          pos.originY === 'bottom' && pos.overlayY === 'top'
+            ? offset
+            : pos.originY === 'top' && pos.overlayY === 'bottom'
+              ? -offset
+              : 0,
+        offsetX:
+          pos.originX === 'end' && pos.overlayX === 'start'
+            ? offset
+            : pos.originX === 'start' && pos.overlayX === 'end'
+              ? -offset
+              : 0,
+      }),
+    );
 
     return this.overlay
       .position()
       .flexibleConnectedTo(this.elementRef)
-      .withPositions([primaryPosition, ...fallbackPositions])
+      .withPositions(allPositions)
       .withFlexibleDimensions(true)
-      .withPush(true)
-      .withDefaultOffsetX(offsetX)
-      .withDefaultOffsetY(offsetY);
+      .withPush(true);
   }
 
   private createScrollStrategy() {
