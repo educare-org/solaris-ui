@@ -411,6 +411,26 @@ export type {
   SolarisDropdownMenuScrollStrategy,
 } from './lib/components/interaction/dropdown-menu/model/dropdown-menu.types';
 
+export { SolarisEditableTabsComponent } from './lib/components/navigation/editable-tabs/component/editable-tabs.component';
+export { SolarisEditableTabComponent } from './lib/components/navigation/editable-tabs/editable-tab/editable-tab.component';
+
+export type { SolarisEditableTabData } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabAction } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabRenameEvent } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabRemoveEvent } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabMoveEvent } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabDefaultChangeEvent } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabActionEvent } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabMoveDirection } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabsOrientation } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabsAppearance } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabsSize } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabsDensity } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabsActivationMode } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabsContentTransition } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabsShowActions } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabsRenameOnBlur } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+
 export type { SolarisTestingOptions } from './lib/testing/provide-solaris-testing';
 export { configureSolarisTesting } from './lib/testing/solaris-test-utilities';
 export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';

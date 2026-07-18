@@ -29,6 +29,7 @@ import { TABS_TRANSLATIONS } from '../pages/navigation/tabs/translations';
 import { SEGMENTED_CONTROL_TRANSLATIONS } from '../pages/navigation/segmented-control/translations';
 import { DIVIDER_TRANSLATIONS } from '../pages/content/divider/translations';
 import { DROPDOWN_MENU_TRANSLATIONS } from '../pages/interaction/dropdown-menu/translations';
+import { EDITABLE_TABS_TRANSLATIONS } from '../pages/navigation/editable-tabs/translations';
 
 const PAGE_MODULES = [
   CONFIGURATION_TRANSLATIONS,
@@ -62,6 +63,7 @@ const PAGE_MODULES = [
   SEGMENTED_CONTROL_TRANSLATIONS,
   DIVIDER_TRANSLATIONS,
   DROPDOWN_MENU_TRANSLATIONS,
+  EDITABLE_TABS_TRANSLATIONS,
 ];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};

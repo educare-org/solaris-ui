@@ -1,0 +1,132 @@
+<div class="solaris-editable-tabs__wrapper">
+  <solaris-tabs
+    [value]="$any(value())"
+    (valueChange)="onValueChange($event)"
+    [defaultValue]="$any(defaultValue())"
+    [orientation]="orientation()"
+    [appearance]="appearance()"
+    [size]="size()"
+    [density]="density()"
+    [activationMode]="activationMode()"
+    [contentTransition]="contentTransition()"
+    [ariaLabel]="resolvedAriaLabel()"
+    class="solaris-editable-tabs__inner"
+  >
+    @for (tab of tabs(); track tab.value; let i = $index) {
+      <solaris-tab
+        [value]="$any(tab.value)"
+        [label]="isRenaming(tab) ? undefined : tab.label"
+        [labelKey]="isRenaming(tab) ? undefined : tab.labelKey"
+        [icon]="tab.icon"
+        [badge]="tab.badge"
+        [disabled]="tab.disabled ?? false"
+        [attr.data-editable]="editable() ? '' : null"
+        [attr.data-has-icon]="tab.icon ? '' : null"
+        [attr.data-menu-open]="activeMenuIndex() === i ? '' : null"
+      >
+        @if (isRenaming(tab)) {
+          <span class="solaris-editable-tabs__rename-wrapper">
+            <input
+              #renameInput
+              class="solaris-editable-tabs__rename-input"
+              [value]="renameValue()"
+              (input)="renameValue.set($any($event).target.value)"
+              (keydown)="onRenameKeydown($event, tab)"
+              (blur)="onRenameBlur(tab)"
+              [attr.aria-label]="resolveText('solaris.editableTabs.confirmRename') ?? 'Confirm rename'"
+            />
+          </span>
+        } @else if (hasActions(tab)) {
+          <span
+            class="solaris-editable-tabs__action-area"
+            [class.solaris-editable-tabs__action-area--visible]="
+              showActions() === 'always'
+            "
+            [class.solaris-editable-tabs__action-area--replaces-icon]="!!tab.icon"
+          >
+            <button
+              class="solaris-editable-tabs__action-trigger"
+              solaris-dropdown-menu-trigger
+              [solarisDropdownMenuTriggerFor]="tabMenuRefs()[i]"
+              [solarisDropdownMenuPlacement]="'bottom'"
+              [solarisDropdownMenuAlign]="'start'"
+              [solarisDropdownMenuOffset]="4"
+              [solarisDropdownMenuRestoreFocus]="true"
+              [solarisDropdownMenuOpen]="activeMenuIndex() === i"
+              (menuOpened)="activeMenuIndex.set(i)"
+              (menuClosed)="activeMenuIndex.set(null)"
+              [attr.aria-label]="resolveText('solaris.editableTabs.tabActions') ?? 'Tab actions'"
+              tabindex="0"
+              type="button"
+            >
+              <solaris-icon name="ellipses" [decorative]="true" />
+            </button>
+          </span>
+        }
+      </solaris-tab>
+    }
+
+    @for (tab of tabs(); track tab.value) {
+      <solaris-tab-panel [value]="$any(tab.value)" [lazy]="true">
+        @if (getContentTemplate(tab); as tmpl) {
+          <ng-container [ngTemplateOutlet]="tmpl" />
+        }
+      </solaris-tab-panel>
+    }
+  </solaris-tabs>
+</div>
+
+@for (tab of tabs(); track tab.value; let i = $index) {
+  <solaris-dropdown-menu>
+    @if (canRename(tab)) {
+      <solaris-dropdown-menu-item
+        [label]="resolveText('solaris.editableTabs.rename') ?? 'Rename'"
+        icon="edit"
+        (itemSelected)="startRename(tab)"
+      />
+    }
+    @if (canSetDefault(tab)) {
+      <solaris-dropdown-menu-item
+        [label]="resolveText('solaris.editableTabs.setAsDefault') ?? 'Set as default'"
+        icon="check"
+        (itemSelected)="setAsDefault(tab)"
+      />
+    }
+    @if (canMoveLeft(tab)) {
+      <solaris-dropdown-menu-item
+        [label]="moveLabel('left')"
+        [icon]="moveIcon('left')"
+        (itemSelected)="moveTab(tab, i, orientation() === 'vertical' ? 'up' : 'left')"
+      />
+    }
+    @if (canMoveRight(tab)) {
+      <solaris-dropdown-menu-item
+        [label]="moveLabel('right')"
+        [icon]="moveIcon('right')"
+        (itemSelected)="moveTab(tab, i, orientation() === 'vertical' ? 'down' : 'right')"
+      />
+    }
+    @if (tab.customActions?.length) {
+      @for (action of tab.customActions; track action.id) {
+        @if (!action.disabled) {
+          <solaris-dropdown-menu-item
+            [label]="action.label ?? ''"
+            [labelKey]="action.labelKey"
+            [icon]="action.icon"
+            [color]="action.color ?? 'neutral'"
+            (itemSelected)="handleCustomAction(tab, action)"
+          />
+        }
+      }
+    }
+    @if (canRemove(tab)) {
+      <solaris-divider />
+      <solaris-dropdown-menu-item
+        [label]="resolveText('solaris.editableTabs.remove') ?? 'Remove'"
+        icon="x"
+        color="danger"
+        (itemSelected)="confirmRemove(tab, i)"
+      />
+    }
+  </solaris-dropdown-menu>
+}

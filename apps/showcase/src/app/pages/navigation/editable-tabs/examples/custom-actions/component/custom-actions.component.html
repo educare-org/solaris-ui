@@ -1,0 +1,8 @@
+<solaris-editable-tabs
+  [tabs]="tabs"
+  [(value)]="activeTab"
+  (tabAction)="onAction($event)"
+/>
+<p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--solaris-text-muted)">
+  {{ 'editableTabs.example.custom-actions.last-action' | translate:{ action: lastAction() } }}
+</p>

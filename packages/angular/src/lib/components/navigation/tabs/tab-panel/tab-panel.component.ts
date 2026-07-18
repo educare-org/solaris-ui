@@ -1,9 +1,10 @@
 import {
   Component,
   input,
-  inject,
   computed,
   signal,
+  inject,
+  effect,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
@@ -55,12 +56,17 @@ export class SolarisTabPanelComponent {
 
   protected readonly hasBeenActivated = signal(false);
 
+  constructor() {
+    effect(() => {
+      if (this.isActive()) {
+        this.hasBeenActivated.set(true);
+      }
+    });
+  }
+
   protected readonly showContent = computed(() => {
     if (!this.lazy()) return true;
-    if (this.isActive()) {
-      this.hasBeenActivated.set(true);
-      return true;
-    }
+    if (this.isActive()) return true;
     return this.hasBeenActivated();
   });
 }

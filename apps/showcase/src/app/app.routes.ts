@@ -218,4 +218,11 @@ export const appRoutes: Route[] = [
         './pages/interaction/dropdown-menu/component/dropdown-menu-showcase'
       ).then((m) => m.DropdownMenuShowcasePage),
   },
+  {
+    path: 'editable-tabs',
+    loadComponent: () =>
+      import(
+        './pages/navigation/editable-tabs/component/editable-tabs-page.component'
+      ).then((m) => m.EditableTabsPageComponent),
+  },
 ];

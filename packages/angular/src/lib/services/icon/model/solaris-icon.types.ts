@@ -18,6 +18,8 @@ export type SolarisBuiltInIcon =
   | 'sun'
   | 'moon'
   | 'monitor'
-  | 'globe';
+  | 'globe'
+  | 'ellipses'
+  | 'edit';
 
 export type SolarisIconName = string & { __brand?: never };

@@ -138,6 +138,7 @@ export class SolarisTabsComponent implements SolarisTabsControl {
       this.value();
       this.appearance();
       this.orientation();
+      this.tabs();
       this.ngZone.runOutsideAngular(() => {
         setTimeout(() => this.measureIndicator());
       });
