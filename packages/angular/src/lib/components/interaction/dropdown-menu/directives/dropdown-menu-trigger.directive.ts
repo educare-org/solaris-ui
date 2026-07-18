@@ -65,6 +65,7 @@ export class SolarisDropdownMenuTriggerDirective {
 
   private overlayRef: OverlayRef | null = null;
   private outsideClickCleanup: (() => void) | null = null;
+  private keydownCleanup: (() => void) | null = null;
   private previousActiveElement: HTMLElement | null = null;
   private attachedMenu: SolarisDropdownMenuComponent | null = null;
   private positionStrategy: FlexibleConnectedPositionStrategy | null = null;
@@ -308,6 +309,8 @@ export class SolarisDropdownMenuTriggerDirective {
 
     this.attachedMenu = menu;
 
+    this.addKeydownHandler();
+
     setTimeout(() => {
       menu.focusFirstItem();
     });
@@ -319,6 +322,7 @@ export class SolarisDropdownMenuTriggerDirective {
       this.disposeOverlay();
     }
     this.removeOutsideClickHandler();
+    this.removeKeydownHandler();
     this.attachedMenu = null;
   }
 
@@ -328,6 +332,7 @@ export class SolarisDropdownMenuTriggerDirective {
       this.overlayRef = null;
     }
     this.removeOutsideClickHandler();
+    this.removeKeydownHandler();
   }
 
   private addOutsideClickHandler(): void {
@@ -366,6 +371,30 @@ export class SolarisDropdownMenuTriggerDirective {
       !triggerElement.contains(target)
     ) {
       this.close();
+    }
+  };
+
+  private addKeydownHandler(): void {
+    this.removeKeydownHandler();
+    if (!this.overlayRef) return;
+
+    this.keydownCleanup = this.rendererListen(
+      this.overlayRef.overlayElement,
+      'keydown',
+      this.handleOverlayKeydown,
+    );
+  }
+
+  private removeKeydownHandler(): void {
+    if (this.keydownCleanup) {
+      this.keydownCleanup();
+      this.keydownCleanup = null;
+    }
+  }
+
+  private readonly handleOverlayKeydown = (event: Event): void => {
+    if (this.isOpen() && this.attachedMenu) {
+      this.onKeydown(event as KeyboardEvent);
     }
   };
 

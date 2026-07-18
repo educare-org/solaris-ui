@@ -35,9 +35,12 @@
   background: var(--solaris-dropdown-menu-item-hover-background);
 }
 
-:host(:focus-visible) {
+:host(:focus) {
   outline-offset: -2px;
-  background: var(--solaris-dropdown-menu-item-focus-background);
+  background: var(--solaris-dropdown-menu-item-hover-background);
+}
+
+:host(:focus-visible) {
   outline: var(--solaris-border-width-md) solid
     var(--solaris-dropdown-menu-item-focus-ring-color);
 }
@@ -51,7 +54,8 @@
   color: var(--solaris-dropdown-menu-item-danger-color);
 }
 
-:host([data-color='danger']:hover) {
+:host([data-color='danger']:hover),
+:host([data-color='danger']:focus) {
   background: var(--solaris-dropdown-menu-item-danger-hover);
 }
 

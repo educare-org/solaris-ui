@@ -86,6 +86,16 @@ export class SolarisDropdownMenuItemComponent {
     this.itemSelected.emit();
   }
 
+  @HostListener('keydown', ['$event'])
+  onKeydown(event: KeyboardEvent): void {
+    if (this.disabled()) return;
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      event.stopPropagation();
+      this.handleClick();
+    }
+  }
+
   focus(): void {
     this.elementRef.nativeElement.focus();
   }
