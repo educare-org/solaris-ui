@@ -2,9 +2,9 @@ import type { SolarisIconDefinition } from '../model/solaris-icon-definition.int
 import { NAVIGATION_ICONS } from './groups/navigation';
 import { ACTIONS_ICONS } from './groups/actions';
 import { STATUS_ICONS } from './groups/status';
+import { LAYOUT_ICONS } from './groups/layout';
 import { THEME_ICONS } from './groups/theme';
 import { DATA_ICONS } from './groups/data';
-import { LAYOUT_ICONS } from './groups/layout';
 
 export const SOLARIS_BUILT_IN_ICONS: SolarisIconDefinition[] = [
   ...NAVIGATION_ICONS,

@@ -28,7 +28,8 @@
     var(--solaris-segmented-item-font-size) / 1 var(--solaris-font-family-sans);
   border-radius: max(
     calc(var(--solaris-segmented-radius) - var(--solaris-segmented-padding)),
-    calc(var(--solaris-segmented-padding) - var(--solaris-segmented-radius)));
+    calc(var(--solaris-segmented-padding) - var(--solaris-segmented-radius))
+  );
 
   transition:
     color var(--solaris-motion-duration-normal)

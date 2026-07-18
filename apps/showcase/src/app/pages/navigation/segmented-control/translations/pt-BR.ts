@@ -84,9 +84,12 @@ export const SEGMENTED_CONTROL_TRANSLATIONS_PT_BR: Record<string, string> = {
   'segmented-control.example.icon-only.list-view': 'Visualização em lista',
   'segmented-control.example.icon-only.grid-view': 'Visualização em grade',
 
-  'segmented-control.example.long-labels.user-settings': 'Configurações de Usuário',
-  'segmented-control.example.long-labels.system-preferences': 'Preferências do Sistema',
-  'segmented-control.example.long-labels.notifications': 'Notificações e Alertas',
+  'segmented-control.example.long-labels.user-settings':
+    'Configurações de Usuário',
+  'segmented-control.example.long-labels.system-preferences':
+    'Preferências do Sistema',
+  'segmented-control.example.long-labels.notifications':
+    'Notificações e Alertas',
 
   'segmented-control.example.no-indicator.a': 'Opção A',
   'segmented-control.example.no-indicator.b': 'Opção B',

@@ -78,7 +78,11 @@ let nextInstanceId = 0;
   ],
 })
 export class SolarisSegmentedControlComponent
-  implements SolarisSegmentedControlInterface, ControlValueAccessor, AfterViewInit, OnDestroy
+  implements
+    SolarisSegmentedControlInterface,
+    ControlValueAccessor,
+    AfterViewInit,
+    OnDestroy
 {
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
@@ -107,7 +111,8 @@ export class SolarisSegmentedControlComponent
   readonly compareWith = input<(a: unknown, b: unknown) => boolean>(Object.is);
   readonly density = input<SolarisSegmentedControlDensity>('comfortable');
   readonly appearance = input<SolarisSegmentedControlAppearance>('surface');
-  readonly orientation = input<SolarisSegmentedControlOrientation>('horizontal');
+  readonly orientation =
+    input<SolarisSegmentedControlOrientation>('horizontal');
 
   readonly valueChange = output<unknown>();
   readonly segmentedChange = output<SolarisSegmentedControlChangeEvent>();
@@ -156,17 +161,20 @@ export class SolarisSegmentedControlComponent
   ngAfterViewInit(): void {
     this.setupIndicatorMeasurement();
 
-    effect(() => {
-      this.value();
-      this.appearance();
-      this.orientation();
-      this.size();
-      this.density();
-      this.radius();
-      this.ngZone.runOutsideAngular(() => {
-        requestAnimationFrame(() => this.measureIndicator());
-      });
-    }, { injector: this.injector });
+    effect(
+      () => {
+        this.value();
+        this.appearance();
+        this.orientation();
+        this.size();
+        this.density();
+        this.radius();
+        this.ngZone.runOutsideAngular(() => {
+          requestAnimationFrame(() => this.measureIndicator());
+        });
+      },
+      { injector: this.injector },
+    );
   }
 
   ngOnDestroy(): void {

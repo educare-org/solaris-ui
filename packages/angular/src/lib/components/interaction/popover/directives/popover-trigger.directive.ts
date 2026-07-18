@@ -274,13 +274,16 @@ export class SolarisPopoverTriggerDirective {
         change.connectionPair.originY === 'bottom' ? 'bottom' : 'top';
       if (this.panelContainerRef) {
         this.panelContainerRef.dataset['connectedSide'] = this.connectedSide;
+        if (this.solarisPopoverTopConnected()) {
+          this.panelContainerRef.dataset['formField'] = '';
+        }
       }
       // SECURITY_EXCEPTION: nativeElement.setAttribute required to sync data-connected-side. Read-only DOM access.
       this.elementRef.nativeElement.dataset['connectedSide'] =
         this.connectedSide;
-      // SECURITY_EXCEPTION: closest() required to find ancestor form-field wrapper. SSR-safe via injected ElementRef.
-      const formFieldWrapper = this.elementRef.nativeElement.closest(
-        '.solaris-form-field__control-wrapper',
+      // SECURITY_EXCEPTION: querySelector required to find descendant form-field control wrapper. SSR-safe via injected ElementRef.
+      const formFieldWrapper = this.elementRef.nativeElement.querySelector(
+        ':scope > .solaris-form-field__control-wrapper',
       ) as HTMLElement | null;
       if (formFieldWrapper) {
         formFieldWrapper.dataset['connectedSide'] = this.connectedSide;
@@ -377,6 +380,16 @@ export class SolarisPopoverTriggerDirective {
 
     if (this.panelContainerRef && initialSide) {
       this.panelContainerRef.dataset['connectedSide'] = initialSide;
+      if (topConnected) {
+        this.panelContainerRef.dataset['formField'] = '';
+        // SECURITY_EXCEPTION: querySelector required to find descendant form-field control wrapper. SSR-safe via injected ElementRef.
+        const formFieldWrapper = this.elementRef.nativeElement.querySelector(
+          ':scope > .solaris-form-field__control-wrapper',
+        ) as HTMLElement | null;
+        if (formFieldWrapper) {
+          formFieldWrapper.dataset['connectedSide'] = initialSide;
+        }
+      }
     }
   }
 

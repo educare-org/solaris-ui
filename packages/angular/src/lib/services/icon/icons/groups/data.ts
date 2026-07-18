@@ -10,7 +10,10 @@ export const DATA_ICONS: SolarisIconDefinition[] = [
     strokeLinecap: 'round',
     strokeLinejoin: 'round',
     elements: [
-      { type: 'path', d: 'M6 2h12a2 2 0 012 2v16a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z' },
+      {
+        type: 'path',
+        d: 'M6 2h12a2 2 0 012 2v16a2 2 0 01-2 2H6a2 2 0 01-2-2V4a2 2 0 012-2z',
+      },
       { type: 'path', d: 'M9 22v-4h6v4' },
       { type: 'path', d: 'M8 6h.01' },
       { type: 'path', d: 'M16 6h.01' },
@@ -90,7 +93,10 @@ export const DATA_ICONS: SolarisIconDefinition[] = [
     strokeLinecap: 'round',
     strokeLinejoin: 'round',
     elements: [
-      { type: 'path', d: 'M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z' },
+      {
+        type: 'path',
+        d: 'M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z',
+      },
     ],
   },
   {

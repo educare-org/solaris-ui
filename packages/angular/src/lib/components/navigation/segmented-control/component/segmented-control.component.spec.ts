@@ -89,7 +89,9 @@ describe('SolarisSegmentedControlComponent', () => {
       ],
       template: `
         <solaris-segmented-control [(value)]="selectedValue">
-          <solaris-segmented-item value="monthly">Mensal</solaris-segmented-item>
+          <solaris-segmented-item value="monthly"
+            >Mensal</solaris-segmented-item
+          >
           <solaris-segmented-item value="yearly">Anual</solaris-segmented-item>
         </solaris-segmented-control>
       `,
@@ -295,7 +297,10 @@ describe('SolarisSegmentedControlComponent', () => {
         SolarisSegmentedItemComponent,
       ],
       template: `
-        <solaris-segmented-control orientation="vertical" [(value)]="selectedValue">
+        <solaris-segmented-control
+          orientation="vertical"
+          [(value)]="selectedValue"
+        >
           <solaris-segmented-item value="a">A</solaris-segmented-item>
           <solaris-segmented-item value="b">B</solaris-segmented-item>
         </solaris-segmented-control>
@@ -355,7 +360,9 @@ describe('SolarisSegmentedControlComponent', () => {
       template: `
         <solaris-segmented-control [(value)]="selectedValue">
           <solaris-segmented-item value="a">A</solaris-segmented-item>
-          <solaris-segmented-item value="b" [disabled]="true">B</solaris-segmented-item>
+          <solaris-segmented-item value="b" [disabled]="true"
+            >B</solaris-segmented-item
+          >
           <solaris-segmented-item value="c">C</solaris-segmented-item>
         </solaris-segmented-control>
       `,
@@ -463,7 +470,8 @@ describe('SolarisSegmentedControlComponent', () => {
       `,
     })
     class TestHost {
-      readonly appearance = signal<SolarisSegmentedControlAppearance>('surface');
+      readonly appearance =
+        signal<SolarisSegmentedControlAppearance>('surface');
     }
 
     let fixture: ComponentFixture<TestHost>;
@@ -1007,8 +1015,8 @@ describe('SolarisSegmentedControlComponent', () => {
           [(value)]="selectedValue"
           [compareWith]="compareFn"
         >
-          <solaris-segmented-item [value]="{id: 1}">A</solaris-segmented-item>
-          <solaris-segmented-item [value]="{id: 2}">B</solaris-segmented-item>
+          <solaris-segmented-item [value]="{ id: 1 }">A</solaris-segmented-item>
+          <solaris-segmented-item [value]="{ id: 2 }">B</solaris-segmented-item>
         </solaris-segmented-control>
       `,
     })

@@ -112,7 +112,11 @@
   --solaris-tab-radius: var(--solaris-radius-full);
 }
 
-:host([data-appearance='pills']:hover:not([data-disabled='true']):not([data-active='true'])) {
+:host(
+  [data-appearance='pills']:hover:not([data-disabled='true']):not(
+      [data-active='true']
+    )
+) {
   background: var(--solaris-tab-hover-background);
 }
 

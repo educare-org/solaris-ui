@@ -38,6 +38,16 @@
             [attr.r]="element.r"
           />
         }
+        @case ('rect') {
+          <rect
+            [attr.x]="element.x"
+            [attr.y]="element.y"
+            [attr.width]="element.width"
+            [attr.height]="element.height"
+            [attr.rx]="element.rx"
+            [attr.ry]="element.ry"
+          />
+        }
       }
     }
   </svg>

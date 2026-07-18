@@ -116,7 +116,10 @@ describe('SolarisSegmentedItemComponent', () => {
       standalone: true,
       imports: [SolarisSegmentedItemComponent],
       template: `
-        <solaris-segmented-item value="a" label="Label A"></solaris-segmented-item>
+        <solaris-segmented-item
+          value="a"
+          label="Label A"
+        ></solaris-segmented-item>
       `,
     })
     class TestHost {}
@@ -190,7 +193,9 @@ describe('SolarisSegmentedItemComponent', () => {
       ],
       template: `
         <solaris-segmented-control>
-          <solaris-segmented-item value="list" icon="list">List</solaris-segmented-item>
+          <solaris-segmented-item value="list" icon="list"
+            >List</solaris-segmented-item
+          >
         </solaris-segmented-control>
       `,
     })

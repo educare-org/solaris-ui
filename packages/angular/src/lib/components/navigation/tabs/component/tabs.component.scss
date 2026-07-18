@@ -174,7 +174,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .solaris-tabs__panels--fade > ::ng-deep solaris-tab-panel[data-active='true'],
-  .solaris-tabs__panels--slide > ::ng-deep
+  .solaris-tabs__panels--slide
+    > ::ng-deep
     solaris-tab-panel[data-active='true'] {
     animation: none;
   }
@@ -185,7 +186,8 @@
 
 :host-context([data-reduced-motion='true']) {
   .solaris-tabs__panels--fade > ::ng-deep solaris-tab-panel[data-active='true'],
-  .solaris-tabs__panels--slide > ::ng-deep
+  .solaris-tabs__panels--slide
+    > ::ng-deep
     solaris-tab-panel[data-active='true'] {
     animation: none;
   }

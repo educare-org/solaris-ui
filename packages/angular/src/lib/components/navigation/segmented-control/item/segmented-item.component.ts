@@ -83,14 +83,14 @@ export class SolarisSegmentedItemComponent implements AfterContentInit {
     if (this.isSelected()) return true;
     if (!this.control) return false;
     const items = this.control.items();
-    const firstEnabled = items.findIndex(
-      (item) => !item.isComputedDisabled(),
-    );
+    const firstEnabled = items.findIndex((item) => !item.isComputedDisabled());
     return items.indexOf(this) === firstEnabled;
   });
 
   protected readonly isIconOnly = computed(() => {
-    return !!this.icon() && !this.label() && !this.labelKey() && !this.hasContent();
+    return (
+      !!this.icon() && !this.label() && !this.labelKey() && !this.hasContent()
+    );
   });
 
   ngAfterContentInit(): void {

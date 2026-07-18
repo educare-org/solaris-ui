@@ -10,7 +10,10 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
     strokeLinecap: 'round',
     strokeLinejoin: 'round',
     elements: [
-      { type: 'path', d: 'M20 9v9a2 2 0 01-2 2H6a2 2 0 01-2-2V9m16-5H4a2 2 0 00-2 2v1a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm-10 9h4' },
+      {
+        type: 'path',
+        d: 'M20 9v9a2 2 0 01-2 2H6a2 2 0 01-2-2V9m16-5H4a2 2 0 00-2 2v1a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm-10 9h4',
+      },
     ],
   },
   {
@@ -122,7 +125,10 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
     viewBox: '0 0 24 24',
     fill: 'currentColor',
     elements: [
-      { type: 'path', d: 'M12,10a2,2,0,1,0,2,2A2,2,0,0,0,12,10ZM5,10a2,2,0,1,0,2,2A2,2,0,0,0,5,10Zm14,0a2,2,0,1,0,2,2A2,2,0,0,0,19,10Z' },
+      {
+        type: 'path',
+        d: 'M12,10a2,2,0,1,0,2,2A2,2,0,0,0,12,10ZM5,10a2,2,0,1,0,2,2A2,2,0,0,0,5,10Zm14,0a2,2,0,1,0,2,2A2,2,0,0,0,19,10Z',
+      },
     ],
   },
   {
@@ -134,7 +140,10 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
     strokeLinecap: 'round',
     strokeLinejoin: 'round',
     elements: [
-      { type: 'path', d: 'M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z' },
+      {
+        type: 'path',
+        d: 'M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z',
+      },
       { type: 'polyline', points: '14 2 14 8 20 8' },
     ],
   },
@@ -147,7 +156,10 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
     strokeLinecap: 'round',
     strokeLinejoin: 'round',
     elements: [
-      { type: 'path', d: 'M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V6.5L15.5 2z' },
+      {
+        type: 'path',
+        d: 'M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V6.5L15.5 2z',
+      },
       { type: 'path', d: 'M3 7.6v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8' },
       { type: 'path', d: 'M15 2v5h5' },
     ],
@@ -161,7 +173,10 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
     strokeLinecap: 'round',
     strokeLinejoin: 'round',
     elements: [
-      { type: 'path', d: 'M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z' },
+      {
+        type: 'path',
+        d: 'M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z',
+      },
     ],
   },
   {
@@ -173,8 +188,14 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
     strokeLinecap: 'round',
     strokeLinejoin: 'round',
     elements: [
-      { type: 'path', d: 'M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7' },
-      { type: 'path', d: 'M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z' },
+      {
+        type: 'path',
+        d: 'M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7',
+      },
+      {
+        type: 'path',
+        d: 'M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z',
+      },
     ],
   },
   {
@@ -199,8 +220,14 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
     strokeLinecap: 'round',
     strokeLinejoin: 'round',
     elements: [
-      { type: 'path', d: 'M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71' },
-      { type: 'path', d: 'M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71' },
+      {
+        type: 'path',
+        d: 'M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71',
+      },
+      {
+        type: 'path',
+        d: 'M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71',
+      },
     ],
   },
   {
@@ -225,7 +252,10 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
     strokeLinecap: 'round',
     strokeLinejoin: 'round',
     elements: [
-      { type: 'path', d: 'M6 17l2-5h14l-3 8a2 2 0 01-2 1H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h7a2 2 0 012 2v4' },
+      {
+        type: 'path',
+        d: 'M6 17l2-5h14l-3 8a2 2 0 01-2 1H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h7a2 2 0 012 2v4',
+      },
     ],
   },
   {
@@ -316,7 +346,10 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
     strokeLinecap: 'round',
     strokeLinejoin: 'round',
     elements: [
-      { type: 'path', d: 'M8 16v-5m4 5V8m4 8v-2m2-10H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2z' },
+      {
+        type: 'path',
+        d: 'M8 16v-5m4 5V8m4 8v-2m2-10H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2z',
+      },
     ],
   },
 ];

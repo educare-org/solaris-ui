@@ -1,6 +1,9 @@
 import { Component, inject, PLATFORM_ID } from '@angular/core';
 
-import { SolarisSegmentedControlComponent, SolarisSegmentedItemComponent } from '@solaris-ui/angular';
+import {
+  SolarisSegmentedControlComponent,
+  SolarisSegmentedItemComponent,
+} from '@solaris-ui/angular';
 
 const STORAGE_KEY = 'solaris-theme';
 

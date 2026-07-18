@@ -28,6 +28,7 @@ export interface SolarisSegmentedControlInterface {
   focusItem: (item: SolarisSegmentedItemComponent) => void;
 }
 
-export const SOLARIS_SEGMENTED_CONTROL = new InjectionToken<SolarisSegmentedControlInterface>(
-  'SolarisSegmentedControl',
-);
+export const SOLARIS_SEGMENTED_CONTROL =
+  new InjectionToken<SolarisSegmentedControlInterface>(
+    'SolarisSegmentedControl',
+  );

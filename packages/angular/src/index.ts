@@ -386,6 +386,31 @@ export type {
   SolarisSegmentedControlChangeEvent,
 } from './lib/components/navigation/segmented-control/model/segmented-control.types';
 
+export { SolarisDividerComponent } from './lib/components/data-display/divider/component/divider.component';
+export type {
+  SolarisDividerOrientation,
+  SolarisDividerAppearance,
+  SolarisDividerSpacing,
+  SolarisDividerInset,
+} from './lib/components/data-display/divider/model/divider.types';
+
+export { SolarisDropdownMenuComponent } from './lib/components/interaction/dropdown-menu/component/dropdown-menu.component';
+export { SolarisDropdownMenuTriggerDirective } from './lib/components/interaction/dropdown-menu/directives/dropdown-menu-trigger.directive';
+export { SolarisDropdownMenuItemComponent } from './lib/components/interaction/dropdown-menu/component/dropdown-menu-item.component';
+export { SolarisDropdownMenuGroupComponent } from './lib/components/interaction/dropdown-menu/component/dropdown-menu-group.component';
+export { SolarisDropdownMenuLabelComponent } from './lib/components/interaction/dropdown-menu/component/dropdown-menu-label.component';
+export type {
+  SolarisDropdownMenuPlacement,
+  SolarisDropdownMenuAlign,
+  SolarisDropdownMenuAppearance,
+  SolarisDropdownMenuRadius,
+  SolarisDropdownMenuSize,
+  SolarisDropdownMenuDensity,
+  SolarisDropdownMenuItemColor,
+  SolarisDropdownMenuItemType,
+  SolarisDropdownMenuScrollStrategy,
+} from './lib/components/interaction/dropdown-menu/model/dropdown-menu.types';
+
 export type { SolarisTestingOptions } from './lib/testing/provide-solaris-testing';
 export { configureSolarisTesting } from './lib/testing/solaris-test-utilities';
 export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';

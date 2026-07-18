@@ -204,4 +204,18 @@ export const appRoutes: Route[] = [
         './pages/navigation/segmented-control/component/segmented-control-page.component'
       ).then((m) => m.SegmentedControlPageComponent),
   },
+  {
+    path: 'divider',
+    loadComponent: () =>
+      import('./pages/content/divider/component/divider-showcase').then(
+        (m) => m.DividerShowcasePage,
+      ),
+  },
+  {
+    path: 'dropdown-menu',
+    loadComponent: () =>
+      import(
+        './pages/interaction/dropdown-menu/component/dropdown-menu-showcase'
+      ).then((m) => m.DropdownMenuShowcasePage),
+  },
 ];

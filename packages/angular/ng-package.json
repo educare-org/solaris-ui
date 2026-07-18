@@ -39,6 +39,11 @@
       "input": "src/lib/components/feedback/toast/styles",
       "glob": "_*.scss",
       "output": "styles"
+    },
+    {
+      "input": "src/lib/components/interaction/dropdown-menu/styles",
+      "glob": "_*.scss",
+      "output": "styles"
     }
   ]
 }

@@ -12,7 +12,11 @@
       class="solaris-tabs__indicator"
       [class.solaris-tabs__indicator--animate]="indicatorReady()"
       [class.solaris-tabs__indicator--vertical]="orientation() === 'vertical'"
-      [style.transform]="orientation() === 'vertical' ? indicatorTransformY() : indicatorTransformX()"
+      [style.transform]="
+        orientation() === 'vertical'
+          ? indicatorTransformY()
+          : indicatorTransformX()
+      "
       [style.width]="orientation() === 'vertical' ? '' : indicatorSize()"
       [style.height]="orientation() === 'vertical' ? indicatorSize() : ''"
     ></div>

@@ -6,12 +6,12 @@ Segmented Control provides a way to quickly switch between a small number of rel
 
 ## Relationship to other components
 
-| Component | Purpose |
-|-----------|---------|
+| Component             | Purpose                                     |
+| --------------------- | ------------------------------------------- |
 | **Segmented Control** | Selects one option among few related values |
-| **Tabs** | Organizes content into switchable panels |
-| **Button Group** | Groups related actions |
-| **Radio Group** | Selects one option in a form context |
+| **Tabs**              | Organizes content into switchable panels    |
+| **Button Group**      | Groups related actions                      |
+| **Radio Group**       | Selects one option in a form context        |
 
 ### Conceptual rule
 
@@ -44,31 +44,31 @@ Segmented Control provides a way to quickly switch between a small number of rel
 
 Selector: `solaris-segmented-control`
 
-| Input | Type | Default | Description |
-|-------|------|---------|-------------|
-| `value` | `unknown` | `undefined` | Current selected value (two-way) |
-| `defaultValue` | `unknown` | `undefined` | Initial value when none is set |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction |
-| `appearance` | `'surface' \| 'outline'` | `'surface'` | Visual style |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
-| `density` | `'compact' \| 'comfortable'` | `'comfortable'` | Spacing density |
-| `radius` | `'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` | Border radius |
-| `disabled` | `boolean` | `false` | Disables all interaction |
-| `readonly` | `boolean` | `false` | Allows focus but blocks changes |
-| `required` | `boolean` | `false` | Marks as required |
-| `invalid` | `boolean` | `false` | Marks as invalid |
-| `fullWidth` | `boolean` | `false` | Stretches to full container width |
-| `equalWidth` | `boolean` | `false` | Makes all items equal width |
-| `indicator` | `boolean` | `true` | Shows animated selection indicator |
-| `compareWith` | `(a, b) => boolean` | `Object.is` | Custom comparison function |
-| `ariaLabel` | `string \| undefined` | `undefined` | ARIA label |
-| `ariaLabelKey` | `string \| undefined` | `undefined` | Translation key for ARIA label |
-| `ariaLabelledby` | `string \| undefined` | `undefined` | ARIA labelledby |
+| Input            | Type                             | Default         | Description                        |
+| ---------------- | -------------------------------- | --------------- | ---------------------------------- |
+| `value`          | `unknown`                        | `undefined`     | Current selected value (two-way)   |
+| `defaultValue`   | `unknown`                        | `undefined`     | Initial value when none is set     |
+| `orientation`    | `'horizontal' \| 'vertical'`     | `'horizontal'`  | Layout direction                   |
+| `appearance`     | `'surface' \| 'outline'`         | `'surface'`     | Visual style                       |
+| `size`           | `'sm' \| 'md' \| 'lg'`           | `'md'`          | Size variant                       |
+| `density`        | `'compact' \| 'comfortable'`     | `'comfortable'` | Spacing density                    |
+| `radius`         | `'sm' \| 'md' \| 'lg' \| 'full'` | `'md'`          | Border radius                      |
+| `disabled`       | `boolean`                        | `false`         | Disables all interaction           |
+| `readonly`       | `boolean`                        | `false`         | Allows focus but blocks changes    |
+| `required`       | `boolean`                        | `false`         | Marks as required                  |
+| `invalid`        | `boolean`                        | `false`         | Marks as invalid                   |
+| `fullWidth`      | `boolean`                        | `false`         | Stretches to full container width  |
+| `equalWidth`     | `boolean`                        | `false`         | Makes all items equal width        |
+| `indicator`      | `boolean`                        | `true`          | Shows animated selection indicator |
+| `compareWith`    | `(a, b) => boolean`              | `Object.is`     | Custom comparison function         |
+| `ariaLabel`      | `string \| undefined`            | `undefined`     | ARIA label                         |
+| `ariaLabelKey`   | `string \| undefined`            | `undefined`     | Translation key for ARIA label     |
+| `ariaLabelledby` | `string \| undefined`            | `undefined`     | ARIA labelledby                    |
 
-| Output | Type | Description |
-|--------|------|-------------|
-| `valueChange` | `unknown` | Emits when value changes |
-| `change` | `SolarisSegmentedControlChangeEvent` | Emits value and previous value |
+| Output        | Type                                 | Description                    |
+| ------------- | ------------------------------------ | ------------------------------ |
+| `valueChange` | `unknown`                            | Emits when value changes       |
+| `change`      | `SolarisSegmentedControlChangeEvent` | Emits value and previous value |
 
 ### ControlValueAccessor
 
@@ -83,14 +83,14 @@ Implements `ControlValueAccessor` for Angular Forms:
 
 Selector: `solaris-segmented-item`
 
-| Input | Type | Default | Description |
-|-------|------|---------|-------------|
-| `value` | `unknown` | required | Item value |
-| `label` | `string \| undefined` | `undefined` | Item text |
-| `labelKey` | `string \| undefined` | `undefined` | Translation key |
-| `icon` | `string \| undefined` | `undefined` | Icon name |
-| `disabled` | `boolean` | `false` | Disables this item |
-| `ariaLabel` | `string \| undefined` | `undefined` | ARIA label |
+| Input          | Type                  | Default     | Description                    |
+| -------------- | --------------------- | ----------- | ------------------------------ |
+| `value`        | `unknown`             | required    | Item value                     |
+| `label`        | `string \| undefined` | `undefined` | Item text                      |
+| `labelKey`     | `string \| undefined` | `undefined` | Translation key                |
+| `icon`         | `string \| undefined` | `undefined` | Icon name                      |
+| `disabled`     | `boolean`             | `false`     | Disables this item             |
+| `ariaLabel`    | `string \| undefined` | `undefined` | ARIA label                     |
 | `ariaLabelKey` | `string \| undefined` | `undefined` | Translation key for ARIA label |
 
 Segmented Item does **not** implement CVA. The CVA belongs to Segmented Control.
@@ -156,16 +156,16 @@ Semantics follow radio group pattern:
 
 ## Keyboard Navigation
 
-| Key | Horizontal | Vertical |
-|-----|-----------|----------|
-| ArrowRight | Next enabled item | — |
-| ArrowLeft | Previous enabled item | — |
-| ArrowDown | — | Next enabled item |
-| ArrowUp | — | Previous enabled item |
-| Home | First enabled item | First enabled item |
-| End | Last enabled item | Last enabled item |
-| Space | Select focused item | Select focused item |
-| Enter | Select focused item | Select focused item |
+| Key        | Horizontal            | Vertical              |
+| ---------- | --------------------- | --------------------- |
+| ArrowRight | Next enabled item     | —                     |
+| ArrowLeft  | Previous enabled item | —                     |
+| ArrowDown  | —                     | Next enabled item     |
+| ArrowUp    | —                     | Previous enabled item |
+| Home       | First enabled item    | First enabled item    |
+| End        | Last enabled item     | Last enabled item     |
+| Space      | Select focused item   | Select focused item   |
+| Enter      | Select focused item   | Select focused item   |
 
 Disabled items are skipped during keyboard navigation.
 

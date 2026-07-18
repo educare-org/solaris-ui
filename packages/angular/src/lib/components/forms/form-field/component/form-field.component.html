@@ -42,22 +42,24 @@
   </span>
 </div>
 
-<div class="solaris-form-field__message-row">
-  @if (showError()) {
-    <div class="solaris-form-field__error" [id]="errorId" role="alert">
-      @if (hasProjectedError()) {
-        <ng-content select="solaris-form-error" />
-      } @else {
-        {{ errorText() }}
-      }
-    </div>
-  } @else if (showHint()) {
-    <div class="solaris-form-field__hint" [id]="hintId">
-      @if (hasProjectedHint()) {
-        <ng-content select="solaris-form-hint" />
-      } @else {
-        {{ hintText() }}
-      }
-    </div>
-  }
-</div>
+@if (showError() || showHint()) {
+  <div class="solaris-form-field__message-row">
+    @if (showError()) {
+      <div class="solaris-form-field__error" [id]="errorId" role="alert">
+        @if (hasProjectedError()) {
+          <ng-content select="solaris-form-error" />
+        } @else {
+          {{ errorText() }}
+        }
+      </div>
+    } @else if (showHint()) {
+      <div class="solaris-form-field__hint" [id]="hintId">
+        @if (hasProjectedHint()) {
+          <ng-content select="solaris-form-hint" />
+        } @else {
+          {{ hintText() }}
+        }
+      </div>
+    }
+  </div>
+}

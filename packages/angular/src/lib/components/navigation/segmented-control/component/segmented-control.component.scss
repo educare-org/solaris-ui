@@ -138,12 +138,12 @@
   bottom: var(--solaris-segmented-padding);
   box-shadow: var(--solaris-segmented-indicator-shadow);
   background: var(--solaris-segmented-indicator-background);
-  border: var(--solaris-border-width-sm) solid
-    var(--solaris-border-subtle);
+  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
   border-radius: max(
     var(--solaris-radius-sm),
     calc(var(--solaris-segmented-radius) - var(--solaris-segmented-padding)),
-    calc(var(--solaris-segmented-padding) - var(--solaris-segmented-radius)));
+    calc(var(--solaris-segmented-padding) - var(--solaris-segmented-radius))
+  );
 }
 
 .solaris-segmented-control__indicator--vertical {

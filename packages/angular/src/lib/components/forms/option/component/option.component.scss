@@ -1,22 +1,22 @@
 :host {
-  --solaris-option-gap: initial;
-  --solaris-option-radius: initial;
-  --solaris-option-padding-y: initial;
-  --solaris-option-padding-x: initial;
-  --solaris-option-min-height: initial;
-  --solaris-option-meta-color: initial;
-  --solaris-option-background: initial;
-  --solaris-option-label-color: initial;
-  --solaris-option-indicator-size: initial;
-  --solaris-option-selected-color: initial;
-  --solaris-option-description-font-size: initial;
-  --solaris-option-meta-font-size: initial;
-  --solaris-option-indicator-color: initial;
-  --solaris-option-disabled-opacity: initial;
-  --solaris-option-hover-background: initial;
-  --solaris-option-active-background: initial;
-  --solaris-option-description-color: initial;
-  --solaris-option-selected-background: initial;
+  --solaris-option-min-height: 2.5rem;
+  --solaris-option-gap: var(--solaris-spacing-2);
+  --solaris-option-radius: var(--solaris-radius-sm);
+  --solaris-option-padding-y: var(--solaris-spacing-2);
+  --solaris-option-padding-x: var(--solaris-spacing-4);
+  --solaris-option-indicator-size: var(--solaris-spacing-5);
+  --solaris-option-meta-font-size: var(--solaris-font-size-sm);
+  --solaris-option-description-font-size: var(--solaris-font-size-sm);
+  --solaris-option-background: transparent;
+  --solaris-option-disabled-opacity: 0.35;
+  --solaris-option-meta-color: var(--solaris-text-muted);
+  --solaris-option-label-color: var(--solaris-text-default);
+  --solaris-option-selected-color: var(--solaris-primary-text);
+  --solaris-option-description-color: var(--solaris-text-muted);
+  --solaris-option-indicator-color: var(--solaris-primary-border);
+  --solaris-option-hover-background: var(--solaris-surface-subtle);
+  --solaris-option-active-background: var(--solaris-surface-muted);
+  --solaris-option-selected-background: var(--solaris-primary-surface);
 
   outline: none;
   display: block;
@@ -35,8 +35,8 @@
   min-height: var(--solaris-option-min-height);
   padding: var(--solaris-option-padding-y) var(--solaris-option-padding-x);
   transition:
-    background-color 0.12s ease,
-    color 0.12s ease;
+    background-color var(--solaris-motion-duration-normal) ease,
+    color var(--solaris-motion-duration-normal) ease;
 }
 
 .solaris-option__leading {
@@ -91,8 +91,8 @@
   flex: 1;
   min-width: 0;
   display: flex;
-  gap: var(--solaris-spacing-1);
   flex-direction: column;
+  gap: var(--solaris-spacing-1);
 }
 
 .solaris-option__label {
@@ -156,23 +156,11 @@
 
 :host([data-size='sm']) {
   --solaris-option-min-height: 2rem;
-  --solaris-option-disabled-opacity: 0.35;
-  --solaris-option-background: transparent;
   --solaris-option-gap: var(--solaris-spacing-1);
-  --solaris-option-radius: var(--solaris-radius-sm);
-  --solaris-option-padding-y: var(--solaris-spacing-2);
   --solaris-option-padding-x: var(--solaris-spacing-3);
-  --solaris-option-meta-color: var(--solaris-text-muted);
-  --solaris-option-label-color: var(--solaris-text-default);
   --solaris-option-indicator-size: var(--solaris-spacing-4);
-  --solaris-option-selected-color: var(--solaris-primary-text);
   --solaris-option-meta-font-size: var(--solaris-font-size-xs);
-  --solaris-option-description-color: var(--solaris-text-muted);
-  --solaris-option-indicator-color: var(--solaris-primary-base);
-  --solaris-option-active-background: var(--solaris-surface-muted);
-  --solaris-option-hover-background: var(--solaris-surface-subtle);
   --solaris-option-description-font-size: var(--solaris-font-size-xs);
-  --solaris-option-selected-background: var(--solaris-primary-surface);
 
   .solaris-option__label-text {
     font-size: var(--solaris-font-size-sm);
@@ -181,25 +169,6 @@
 }
 
 :host([data-size='md']) {
-  --solaris-option-min-height: 2.5rem;
-  --solaris-option-disabled-opacity: 0.35;
-  --solaris-option-background: transparent;
-  --solaris-option-gap: var(--solaris-spacing-2);
-  --solaris-option-radius: var(--solaris-radius-sm);
-  --solaris-option-padding-x: var(--solaris-spacing-4);
-  --solaris-option-padding-y: var(--solaris-spacing-2);
-  --solaris-option-meta-color: var(--solaris-text-muted);
-  --solaris-option-label-color: var(--solaris-text-default);
-  --solaris-option-indicator-size: var(--solaris-spacing-5);
-  --solaris-option-selected-color: var(--solaris-primary-text);
-  --solaris-option-meta-font-size: var(--solaris-font-size-sm);
-  --solaris-option-indicator-color: var(--solaris-primary-base);
-  --solaris-option-description-color: var(--solaris-text-muted);
-  --solaris-option-hover-background: var(--solaris-surface-subtle);
-  --solaris-option-active-background: var(--solaris-surface-muted);
-  --solaris-option-description-font-size: var(--solaris-font-size-sm);
-  --solaris-option-selected-background: var(--solaris-primary-surface);
-
   .solaris-option__label-text {
     font-size: var(--solaris-font-size-md);
     line-height: var(--solaris-line-height-md);
@@ -208,23 +177,11 @@
 
 :host([data-size='lg']) {
   --solaris-option-min-height: 3rem;
-  --solaris-option-disabled-opacity: 0.35;
-  --solaris-option-background: transparent;
   --solaris-option-gap: var(--solaris-spacing-3);
   --solaris-option-radius: var(--solaris-radius-md);
   --solaris-option-padding-y: var(--solaris-spacing-3);
   --solaris-option-padding-x: var(--solaris-spacing-5);
-  --solaris-option-meta-color: var(--solaris-text-muted);
-  --solaris-option-label-color: var(--solaris-text-default);
-  --solaris-option-meta-font-size: var(--solaris-font-size-sm);
   --solaris-option-indicator-size: var(--solaris-spacing-6);
-  --solaris-option-selected-color: var(--solaris-primary-text);
-  --solaris-option-description-color: var(--solaris-text-muted);
-  --solaris-option-indicator-color: var(--solaris-primary-base);
-  --solaris-option-hover-background: var(--solaris-surface-subtle);
-  --solaris-option-active-background: var(--solaris-surface-muted);
-  --solaris-option-selected-background: var(--solaris-primary-surface);
-  --solaris-option-description-font-size: var(--solaris-font-size-sm);
 
   .solaris-option__label-text {
     font-size: var(--solaris-font-size-lg);
@@ -252,8 +209,8 @@
 }
 
 :host([data-selected]:not([data-disabled])) .solaris-option {
-  background: var(--solaris-option-selected-background);
   color: var(--solaris-option-selected-color);
+  background: var(--solaris-option-selected-background);
 }
 
 :host([data-active]:not([data-disabled])) .solaris-option {
@@ -261,16 +218,16 @@
 }
 
 :host([data-active][data-selected]:not([data-disabled])) .solaris-option {
-  background: var(--solaris-option-selected-background);
   color: var(--solaris-option-selected-color);
+  background: var(--solaris-option-selected-background);
 }
 
 :host([data-highlighted]) .solaris-option {
-  outline: var(--solaris-border-width-sm) solid var(--solaris-primary-base);
   outline-offset: calc(-1 * var(--solaris-spacing-1) / 2);
+  outline: var(--solaris-border-width-sm) solid var(--solaris-primary-base);
 }
 
 :host([data-disabled]) .solaris-option {
-  opacity: var(--solaris-option-disabled-opacity);
   cursor: not-allowed;
+  opacity: var(--solaris-option-disabled-opacity);
 }

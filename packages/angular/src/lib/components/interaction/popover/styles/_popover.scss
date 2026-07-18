@@ -1,34 +1,39 @@
 .solaris-popover-panel-overlay {
-  z-index: var(--solaris-z-index-popover, 1000);
+  z-index: var(--solaris-z-index-popover);
 }
 
 .solaris-popover-panel {
-  display: block;
+  --solaris-popover-border-width: 0;
+  --solaris-popover-min-width: auto;
+  --solaris-popover-max-width: none;
+  --solaris-popover-border-color: transparent;
+  --solaris-popover-radius: var(--solaris-radius-md);
+  --solaris-popover-shadow: var(--solaris-shadow-lg);
+  --solaris-popover-padding: var(--solaris-spacing-3);
+  --solaris-popover-color: var(--solaris-text-default);
+  --solaris-popover-background: var(--solaris-surface-raised);
+
   outline: none;
+  display: block;
 }
 
 .solaris-popover-panel__container {
-  box-sizing: border-box;
-  background: var(--solaris-popover-background, var(--solaris-surface-raised));
-  color: var(--solaris-popover-color, var(--solaris-text-default));
-  border: var(--solaris-popover-border-width, 0) solid
-    var(--solaris-popover-border-color, transparent);
-  border-radius: var(--solaris-popover-radius, var(--solaris-radius-md));
-  box-shadow: var(--solaris-popover-shadow, var(--solaris-shadow-lg));
-  padding: var(--solaris-popover-padding, var(--solaris-spacing-3));
-  min-width: var(--solaris-popover-min-width, auto);
-  max-width: var(--solaris-popover-max-width, none);
   outline: none;
+  box-sizing: border-box;
+  color: var(--solaris-popover-color);
+  padding: var(--solaris-popover-padding);
+  box-shadow: var(--solaris-popover-shadow);
+  min-width: var(--solaris-popover-min-width);
+  max-width: var(--solaris-popover-max-width);
+  border-radius: var(--solaris-popover-radius);
+  background: var(--solaris-popover-background);
+  border: var(--solaris-popover-border-width) solid
+    var(--solaris-popover-border-color);
 }
 
 .solaris-popover-panel__container[data-appearance='outline'] {
-  background: var(--solaris-popover-background, var(--solaris-surface-raised));
-  border: var(--solaris-popover-border-width, var(--solaris-border-width-sm))
-    solid
-    var(
-      --solaris-popover-border-color,
-      var(--solaris-popover-outline-border-color, var(--solaris-border-default))
-    );
+  background: var(--solaris-surface-base);
+  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
 }
 
 .solaris-popover-panel__container[data-padding='none'] {

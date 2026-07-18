@@ -85,8 +85,10 @@ export const SEGMENTED_CONTROL_TRANSLATIONS_EN_US: Record<string, string> = {
   'segmented-control.example.icon-only.grid-view': 'Grid view',
 
   'segmented-control.example.long-labels.user-settings': 'User Settings',
-  'segmented-control.example.long-labels.system-preferences': 'System Preferences',
-  'segmented-control.example.long-labels.notifications': 'Notifications & Alerts',
+  'segmented-control.example.long-labels.system-preferences':
+    'System Preferences',
+  'segmented-control.example.long-labels.notifications':
+    'Notifications & Alerts',
 
   'segmented-control.example.no-indicator.a': 'Option A',
   'segmented-control.example.no-indicator.b': 'Option B',

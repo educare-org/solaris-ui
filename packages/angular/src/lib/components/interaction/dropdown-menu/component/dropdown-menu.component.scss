@@ -1,0 +1,78 @@
+:host {
+  --solaris-dropdown-menu-min-width: calc(
+    var(--solaris-spacing-24) + var(--solaris-spacing-10) +
+      var(--solaris-spacing-1)
+  );
+  --solaris-dropdown-menu-max-width: calc(
+    var(--solaris-spacing-24) * 2 + var(--solaris-spacing-10) +
+      var(--solaris-spacing-2)
+  );
+
+  display: none;
+}
+
+.solaris-dropdown-menu__wrapper {
+  --solaris-dropdown-menu-gap: 0;
+  --solaris-dropdown-menu-padding: var(--solaris-spacing-2);
+
+  display: flex;
+  outline: none;
+  user-select: none;
+  flex-direction: column;
+  box-sizing: border-box;
+  gap: var(--solaris-dropdown-menu-gap);
+  padding: var(--solaris-dropdown-menu-padding);
+  min-width: var(--solaris-dropdown-menu-min-width);
+  max-width: var(--solaris-dropdown-menu-max-width);
+
+  ::ng-deep solaris-divider {
+    margin-inline: calc(-1 * var(--solaris-dropdown-menu-padding));
+    width: calc(100% + 2 * var(--solaris-dropdown-menu-padding));
+  }
+}
+
+::ng-deep solaris-dropdown-menu-group {
+  display: flex;
+  flex-direction: column;
+  padding-block: var(--solaris-spacing-1);
+
+  &:first-child {
+    padding-block-start: 0;
+  }
+
+  &:last-child {
+    padding-block-end: 0;
+  }
+}
+
+::ng-deep solaris-dropdown-menu-label {
+  display: flex;
+  cursor: default;
+  user-select: none;
+  align-items: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--solaris-text-muted);
+  font-weight: var(--solaris-font-weight-semibold);
+  font-size: var(--solaris-font-size-xs);
+  line-height: var(--solaris-line-height-xs);
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
+}
+
+[data-size='sm'] .solaris-dropdown-menu__wrapper {
+  --solaris-dropdown-menu-min-width: calc(
+    var(--solaris-dropdown-menu-min-width) - var(--solaris-spacing-5)
+  );
+  --solaris-dropdown-menu-max-width: calc(
+    var(--solaris-dropdown-menu-max-width) - var(--solaris-spacing-5)
+  );
+}
+
+[data-size='lg'] .solaris-dropdown-menu__wrapper {
+  --solaris-dropdown-menu-min-width: calc(
+    var(--solaris-dropdown-menu-min-width) + var(--solaris-spacing-5)
+  );
+  --solaris-dropdown-menu-max-width: calc(
+    var(--solaris-dropdown-menu-max-width) + var(--solaris-spacing-5)
+  );
+}

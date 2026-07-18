@@ -5,8 +5,14 @@
     <div
       class="solaris-segmented-control__indicator"
       [class.solaris-segmented-control__indicator--animate]="indicatorReady()"
-      [class.solaris-segmented-control__indicator--vertical]="orientation() === 'vertical'"
-      [style.transform]="orientation() === 'vertical' ? indicatorTransformY() : indicatorTransformX()"
+      [class.solaris-segmented-control__indicator--vertical]="
+        orientation() === 'vertical'
+      "
+      [style.transform]="
+        orientation() === 'vertical'
+          ? indicatorTransformY()
+          : indicatorTransformX()
+      "
       [style.width]="orientation() === 'vertical' ? '' : indicatorWidth()"
       [style.height]="orientation() === 'vertical' ? indicatorHeight() : ''"
     ></div>
