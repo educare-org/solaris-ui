@@ -101,17 +101,19 @@ Non-interactive label text for menu groups.
 
 ## Keyboard Navigation
 
-| Key       | Action                              |
-| --------- | ----------------------------------- |
-| ArrowDown | Move to next enabled item           |
-| ArrowUp   | Move to previous enabled item       |
-| Home      | Move to first enabled item          |
-| End       | Move to last enabled item           |
-| Enter     | Activate focused item               |
-| Space     | Activate focused item               |
-| Escape    | Close menu, return focus to trigger |
-| Tab       | Close menu, move focus              |
-| Typeahead | Type letters to focus matching item |
+| Key        | Action                                              |
+| ---------- | --------------------------------------------------- |
+| ArrowDown  | Move to next enabled item                           |
+| ArrowUp    | Move to previous enabled item                       |
+| ArrowRight | Open submenu (on submenu trigger)                   |
+| ArrowLeft  | Close submenu, return focus to parent trigger       |
+| Home       | Move to first enabled item                          |
+| End        | Move to last enabled item                           |
+| Enter      | Activate focused item / open submenu                |
+| Space      | Activate focused item / open submenu                |
+| Escape     | Close submenu first, then close root menu           |
+| Tab        | Close menu, move focus                              |
+| Typeahead  | Type letters to focus matching item                 |
 
 ## Accessibility
 
@@ -124,6 +126,7 @@ Non-interactive label text for menu groups.
 - `aria-controls` on trigger points to menu
 - Groups use `aria-labelledby` when label present
 - Focus returns to trigger on close
+- Submenu triggers have `aria-haspopup="menu"` and `aria-expanded`
 
 ## Examples
 
@@ -176,9 +179,111 @@ Non-interactive label text for menu groups.
 </solaris-dropdown-menu>
 ```
 
+### With Submenu
+
+```html
+<button solaris-button solaris-dropdown-menu-trigger [solarisDropdownMenuTriggerFor]="actionsMenu">Actions</button>
+<solaris-dropdown-menu #actionsMenu>
+  <solaris-dropdown-menu-item label="Rename" icon="edit" />
+  <solaris-dropdown-submenu>
+    <solaris-dropdown-submenu-trigger icon="download">
+      Export
+    </solaris-dropdown-submenu-trigger>
+    <solaris-dropdown-menu>
+      <solaris-dropdown-menu-item label="PDF" />
+      <solaris-dropdown-menu-item label="CSV" />
+      <solaris-dropdown-menu-item label="XLSX" />
+    </solaris-dropdown-menu>
+  </solaris-dropdown-submenu>
+  <solaris-divider />
+  <solaris-dropdown-submenu>
+    <solaris-dropdown-submenu-trigger icon="settings">
+      Advanced
+    </solaris-dropdown-submenu-trigger>
+    <solaris-dropdown-menu>
+      <solaris-dropdown-menu-item label="Permissions" />
+      <solaris-dropdown-menu-item label="Audit Log" />
+    </solaris-dropdown-menu>
+  </solaris-dropdown-submenu>
+</solaris-dropdown-menu>
+```
+
+## Submenu
+
+### Purpose
+
+Dropdown Submenu extends Dropdown Menu with nested menu support. A submenu trigger renders as a menu item with a trailing chevron and opens a secondary menu beside the trigger.
+
+### Usage
+
+```html
+<solaris-dropdown-submenu>
+  <solaris-dropdown-submenu-trigger icon="download" label="Export" />
+  <solaris-dropdown-menu>
+    <solaris-dropdown-menu-item label="PDF" />
+    <solaris-dropdown-menu-item label="CSV" />
+  </solaris-dropdown-menu>
+</solaris-dropdown-submenu>
+```
+
+### Submenu (`<solaris-dropdown-submenu>`)
+
+| Input               | Type                                                                       | Default         | Description                              |
+| ------------------- | -------------------------------------------------------------------------- | --------------- | ---------------------------------------- |
+| `openMode`          | `'hover' \| 'click' \| 'hover-click'`                                     | `'hover-click'` | Interaction mode to open submenu         |
+| `openDelay`         | `number`                                                                   | `120`           | Delay before opening on hover (ms)       |
+| `closeDelay`        | `number`                                                                   | `160`           | Delay before closing on leave (ms)       |
+| `disabled`          | `boolean`                                                                  | `false`         | Disable the submenu                      |
+| `placement`         | `'right-start' \| 'right' \| 'right-end' \| 'left-start' \| 'left' \| 'left-end'` | `'right-start'` | Preferred placement of submenu panel     |
+| `matchTriggerWidth` | `boolean`                                                                  | `false`         | Match submenu width to trigger           |
+| `minWidth`          | `string \| null`                                                           | `null`          | Minimum submenu width                    |
+| `maxWidth`          | `string \| null`                                                           | `null`          | Maximum submenu width                    |
+
+### Submenu Trigger (`<solaris-dropdown-submenu-trigger>`)
+
+| Input      | Type                                                                     | Default     | Description            |
+| ---------- | ------------------------------------------------------------------------ | ----------- | ---------------------- |
+| `icon`     | `string \| undefined`                                                    | `undefined` | Leading icon name      |
+| `label`    | `string \| undefined`                                                    | `undefined` | Trigger label text     |
+| `labelKey` | `string \| undefined`                                                    | `undefined` | Translation key        |
+| `disabled` | `boolean`                                                                | `false`     | Disable the trigger    |
+| `color`    | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'neutral'` | Semantic color variant |
+
+### Submenu Keyboard Navigation
+
+| Key        | Action                                                |
+| ---------- | ----------------------------------------------------- |
+| ArrowRight | Open submenu and focus first enabled item             |
+| ArrowLeft  | Close submenu and return focus to parent trigger      |
+| Enter      | Open submenu                                          |
+| Space      | Open submenu                                          |
+| Escape     | Close deepest open submenu first                      |
+
+### Submenu Touch/Click Behavior
+
+- First tap on submenu trigger opens submenu.
+- Tapping an actionable item inside submenu runs that item and closes the menu tree.
+- Tapping outside closes the whole menu tree.
+
+### Submenu Accessibility
+
+- Submenu trigger has `role="menuitem"` and `aria-haspopup="menu"`
+- `aria-expanded` reflects open/closed state
+- `aria-controls` points to submenu panel
+- `aria-disabled` on disabled triggers
+
+### Submenu Depth
+
+Recommended maximum: **2 submenu levels**. Deeper nesting may cause usability issues.
+
+> Use submenus sparingly. If a menu requires more than two nested levels, prefer a Dialog, Command Palette, dedicated page, or clearer information architecture.
+
+### Submenu and Divider
+
+Dividers work correctly inside menus that contain submenus. Place `<solaris-divider />` between items and submenus as needed.
+
 ## Limitations (v1)
 
-- No submenu/nested menu
 - No menu bar
 - No context menu via right-click
 - No command palette
@@ -193,4 +298,4 @@ Non-interactive label text for menu groups.
 
 ## Future
 
-Architecture is compatible with future submenu support via additional components.
+Architecture supports submenu nesting via additional components.

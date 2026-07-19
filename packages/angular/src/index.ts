@@ -399,6 +399,8 @@ export { SolarisDropdownMenuTriggerDirective } from './lib/components/interactio
 export { SolarisDropdownMenuItemComponent } from './lib/components/interaction/dropdown-menu/component/dropdown-menu-item.component';
 export { SolarisDropdownMenuGroupComponent } from './lib/components/interaction/dropdown-menu/component/dropdown-menu-group.component';
 export { SolarisDropdownMenuLabelComponent } from './lib/components/interaction/dropdown-menu/component/dropdown-menu-label.component';
+export { SolarisDropdownSubmenuComponent } from './lib/components/interaction/dropdown-menu/component/dropdown-submenu.component';
+export { SolarisDropdownSubmenuTriggerComponent } from './lib/components/interaction/dropdown-menu/component/dropdown-submenu-trigger.component';
 export type {
   SolarisDropdownMenuPlacement,
   SolarisDropdownMenuAlign,
@@ -410,6 +412,10 @@ export type {
   SolarisDropdownMenuItemType,
   SolarisDropdownMenuScrollStrategy,
 } from './lib/components/interaction/dropdown-menu/model/dropdown-menu.types';
+export type {
+  SolarisDropdownSubmenuOpenMode,
+  SolarisDropdownSubmenuPlacement,
+} from './lib/components/interaction/dropdown-menu/model/dropdown-submenu.types';
 
 export { SolarisEditableTabsComponent } from './lib/components/navigation/editable-tabs/component/editable-tabs.component';
 export { SolarisEditableTabComponent } from './lib/components/navigation/editable-tabs/editable-tab/editable-tab.component';

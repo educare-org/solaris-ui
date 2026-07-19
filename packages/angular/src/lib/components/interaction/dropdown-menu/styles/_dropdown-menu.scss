@@ -1,4 +1,13 @@
 .solaris-dropdown-menu-overlay {
+  --solaris-dropdown-menu-min-width: calc(
+    var(--solaris-spacing-24) + var(--solaris-spacing-10) +
+      var(--solaris-spacing-1)
+  );
+  --solaris-dropdown-menu-max-width: calc(
+    var(--solaris-spacing-24) * 2 + var(--solaris-spacing-10) +
+      var(--solaris-spacing-2)
+  );
+
   .solaris-popover-panel__container {
     padding: 0;
     overflow: hidden;
@@ -6,6 +15,19 @@
 }
 
 .solaris-dropdown-menu__wrapper {
+  --solaris-dropdown-menu-gap: var(--solaris-spacing-2);
+  --solaris-dropdown-menu-padding: var(--solaris-spacing-2);
+
+  display: flex;
+  outline: none;
+  user-select: none;
+  flex-direction: column;
+  box-sizing: border-box;
+  gap: var(--solaris-dropdown-menu-gap);
+  padding: var(--solaris-dropdown-menu-padding);
+  min-width: var(--solaris-dropdown-menu-min-width);
+  max-width: var(--solaris-dropdown-menu-max-width);
+
   solaris-divider {
     margin-inline: calc(-1 * var(--solaris-dropdown-menu-padding));
     width: calc(100% + 2 * var(--solaris-dropdown-menu-padding));
@@ -38,4 +60,13 @@ solaris-dropdown-menu-label {
   font-size: var(--solaris-font-size-xs);
   line-height: var(--solaris-line-height-xs);
   padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
+}
+
+solaris-dropdown-submenu {
+  display: flex;
+  flex-direction: column;
+}
+
+solaris-dropdown-submenu-trigger {
+  display: flex;
 }

@@ -12,7 +12,7 @@
 }
 
 .solaris-dropdown-menu__wrapper {
-  --solaris-dropdown-menu-gap: 0;
+  --solaris-dropdown-menu-gap: var(--solaris-spacing-1);
   --solaris-dropdown-menu-padding: var(--solaris-spacing-2);
 
   display: flex;

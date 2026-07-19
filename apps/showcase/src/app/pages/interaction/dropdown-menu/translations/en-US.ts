@@ -72,4 +72,34 @@ export const EN_US_DROPDOWN_MENU: Record<string, string> = {
   'dropdown-menu.keyboard-item-3': 'Enter / Space: Activate focused item',
   'dropdown-menu.keyboard-item-4': 'Escape: Close menu and return focus',
   'dropdown-menu.keyboard-item-5': 'Type letters for typeahead navigation',
+  'dropdown-menu.keyboard-item-6':
+    'ArrowRight: Open submenu on focused submenu trigger',
+  'dropdown-menu.keyboard-item-7':
+    'ArrowLeft: Close submenu and return focus to parent trigger',
+
+  'dropdown-menu.submenu-basic': 'Basic Submenu',
+  'dropdown-menu.submenu-basic-note':
+    'Items with a trailing chevron open a nested submenu beside the trigger.',
+  'dropdown-menu.submenu-nested': 'Nested Submenu',
+  'dropdown-menu.submenu-nested-note':
+    'Submenus can be nested. Recommended maximum: 2 levels.',
+  'dropdown-menu.submenu-icons': 'Submenu with Icons and Divider',
+  'dropdown-menu.submenu-icons-note':
+    'Submenus support icons, dividers, and keyboard navigation.',
+  'dropdown-menu.submenu-disabled': 'Disabled Submenu Trigger',
+  'dropdown-menu.submenu-disabled-note':
+    'Disabled submenu triggers are skipped during keyboard navigation and do not open.',
+  'dropdown-menu.export-pdf': 'PDF',
+  'dropdown-menu.export-csv': 'CSV',
+  'dropdown-menu.export-xlsx': 'XLSX',
+  'dropdown-menu.advanced': 'Advanced',
+  'dropdown-menu.permissions': 'Permissions',
+  'dropdown-menu.audit-log': 'Audit Log',
+  'dropdown-menu.move-to': 'Move to',
+  'dropdown-menu.archive': 'Archive',
+  'dropdown-menu.backlog': 'Backlog',
+  'dropdown-menu.trash': 'Trash',
+  'dropdown-menu.soft-delete': 'Soft Delete',
+  'dropdown-menu.hard-delete': 'Hard Delete',
+  'dropdown-menu.view-density': 'View Density',
 };

@@ -73,4 +73,34 @@ export const PT_BR_DROPDOWN_MENU: Record<string, string> = {
   'dropdown-menu.keyboard-item-3': 'Enter / Espaço: Ativar o item focado',
   'dropdown-menu.keyboard-item-4': 'Escape: Fechar o menu e retornar o foco',
   'dropdown-menu.keyboard-item-5': 'Digite letras para navegação por digitação',
+  'dropdown-menu.keyboard-item-6':
+    'Seta para Direita: Abrir submenu no gatilho de submenu focado',
+  'dropdown-menu.keyboard-item-7':
+    'Seta para Esquerda: Fechar submenu e retornar o foco ao gatilho pai',
+
+  'dropdown-menu.submenu-basic': 'Submenu Básico',
+  'dropdown-menu.submenu-basic-note':
+    'Itens com um chevron à direita abrem um submenu aninhado ao lado do gatilho.',
+  'dropdown-menu.submenu-nested': 'Submenu Aninhado',
+  'dropdown-menu.submenu-nested-note':
+    'Submenus podem ser aninhados. Máximo recomendado: 2 níveis.',
+  'dropdown-menu.submenu-icons': 'Submenu com Ícones e Divisor',
+  'dropdown-menu.submenu-icons-note':
+    'Submenus suportam ícones, divisores e navegação por teclado.',
+  'dropdown-menu.submenu-disabled': 'Gatilho de Submenu Desabilitado',
+  'dropdown-menu.submenu-disabled-note':
+    'Gatilhos de submenu desabilitados são ignorados na navegação por teclado e não abrem.',
+  'dropdown-menu.export-pdf': 'PDF',
+  'dropdown-menu.export-csv': 'CSV',
+  'dropdown-menu.export-xlsx': 'XLSX',
+  'dropdown-menu.advanced': 'Avançado',
+  'dropdown-menu.permissions': 'Permissões',
+  'dropdown-menu.audit-log': 'Log de Auditoria',
+  'dropdown-menu.move-to': 'Mover para',
+  'dropdown-menu.archive': 'Arquivar',
+  'dropdown-menu.backlog': 'Backlog',
+  'dropdown-menu.trash': 'Lixeira',
+  'dropdown-menu.soft-delete': 'Exclusão Suave',
+  'dropdown-menu.hard-delete': 'Exclusão Permanente',
+  'dropdown-menu.view-density': 'Densidade de Visualização',
 };

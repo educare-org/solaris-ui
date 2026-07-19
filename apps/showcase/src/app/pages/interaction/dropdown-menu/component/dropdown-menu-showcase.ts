@@ -8,6 +8,8 @@ import {
   SolarisDropdownMenuItemComponent,
   SolarisDropdownMenuGroupComponent,
   SolarisDropdownMenuLabelComponent,
+  SolarisDropdownSubmenuComponent,
+  SolarisDropdownSubmenuTriggerComponent,
   SolarisTranslatePipe,
 } from '@solaris-ui/angular';
 
@@ -21,6 +23,8 @@ import {
     SolarisDropdownMenuItemComponent,
     SolarisDropdownMenuGroupComponent,
     SolarisDropdownMenuLabelComponent,
+    SolarisDropdownSubmenuComponent,
+    SolarisDropdownSubmenuTriggerComponent,
     SolarisTranslatePipe,
   ],
   templateUrl: './dropdown-menu-showcase.html',

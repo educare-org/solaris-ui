@@ -20,6 +20,14 @@ export type SolarisBuiltInIcon =
   | 'monitor'
   | 'globe'
   | 'ellipses'
-  | 'edit';
+  | 'edit'
+  | 'trash'
+  | 'move'
+  | 'gear'
+  | 'settings'
+  | 'wrench'
+  | 'unlink'
+  | 'unlock'
+  | 'lock';
 
 export type SolarisIconName = string & { __brand?: never };

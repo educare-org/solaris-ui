@@ -8,7 +8,10 @@ import {
   TemplateRef,
 } from '@angular/core';
 
-import { SolarisDropdownMenuItemComponent } from './dropdown-menu-item.component';
+import {
+  SOLARIS_DROPDOWN_NAVIGABLE_ITEM,
+  type SolarisDropdownNavigableItem,
+} from '../model/dropdown-menu-navigation';
 
 import type {
   SolarisDropdownMenuSize,
@@ -33,7 +36,8 @@ export class SolarisDropdownMenuComponent {
   readonly size = input<SolarisDropdownMenuSize>('md');
   readonly density = input<SolarisDropdownMenuDensity>('comfortable');
 
-  readonly items = contentChildren(SolarisDropdownMenuItemComponent);
+  readonly navigableItems =
+    contentChildren<SolarisDropdownNavigableItem>(SOLARIS_DROPDOWN_NAVIGABLE_ITEM);
 
   readonly contentTemplate = viewChild.required('contentTmpl', {
     read: TemplateRef,
@@ -43,32 +47,32 @@ export class SolarisDropdownMenuComponent {
 
   readonly focusedIndex = signal(-1);
 
-  readonly enabledItems = computed(() => {
-    return this.items().filter((item) => !item.disabled());
+  readonly enabledNavigableItems = computed(() => {
+    return this.navigableItems().filter((item) => !item.disabled());
   });
 
   focusFirstItem(): void {
-    const enabled = this.enabledItems();
+    const enabled = this.enabledNavigableItems();
     if (enabled.length > 0) {
-      const idx = this.items().indexOf(enabled[0]);
+      const idx = this.navigableItems().indexOf(enabled[0]);
       this.focusedIndex.set(idx);
       enabled[0].focus();
     }
   }
 
   focusLastItem(): void {
-    const enabled = this.enabledItems();
+    const enabled = this.enabledNavigableItems();
     const last = enabled.at(-1);
     if (last) {
-      const idx = this.items().indexOf(last);
+      const idx = this.navigableItems().indexOf(last);
       this.focusedIndex.set(idx);
       last.focus();
     }
   }
 
   focusNextItem(): void {
-    const items = this.items();
-    const enabled = this.enabledItems();
+    const items = this.navigableItems();
+    const enabled = this.enabledNavigableItems();
     if (enabled.length === 0) return;
 
     const currentFocused = this.focusedIndex();
@@ -88,8 +92,8 @@ export class SolarisDropdownMenuComponent {
   }
 
   focusPreviousItem(): void {
-    const items = this.items();
-    const enabled = this.enabledItems();
+    const items = this.navigableItems();
+    const enabled = this.enabledNavigableItems();
     if (enabled.length === 0) return;
 
     const currentFocused = this.focusedIndex();
@@ -110,21 +114,21 @@ export class SolarisDropdownMenuComponent {
   }
 
   focusItemByLabel(label: string): void {
-    const enabled = this.enabledItems();
+    const enabled = this.enabledNavigableItems();
     const lowerLabel = label.toLowerCase();
     const match = enabled.find((item) => {
       const itemLabel = item.label();
       return itemLabel?.toLowerCase().startsWith(lowerLabel);
     });
     if (match) {
-      const idx = this.items().indexOf(match);
+      const idx = this.navigableItems().indexOf(match);
       this.focusedIndex.set(idx);
       match.focus();
     }
   }
 
   activateFocusedItem(): void {
-    const items = this.items();
+    const items = this.navigableItems();
     const idx = this.focusedIndex();
     if (idx >= 0 && idx < items.length) {
       const item = items[idx];

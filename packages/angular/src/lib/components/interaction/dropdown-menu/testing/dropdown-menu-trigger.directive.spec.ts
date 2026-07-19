@@ -100,12 +100,12 @@ describe('SolarisDropdownMenuTriggerDirective', () => {
 
   it('should have menu items accessible via contentChildren', () => {
     const menu = fixture.componentInstance.menu;
-    expect(menu.items().length).toBe(3);
+    expect(menu.navigableItems().length).toBe(3);
   });
 
-  it('should have disabled item ignored in enabledItems', () => {
+  it('should have disabled item ignored in navigable items', () => {
     const menu = fixture.componentInstance.menu;
-    expect(menu.enabledItems().length).toBe(2);
+    expect(menu.enabledNavigableItems().length).toBe(2);
   });
 
   it('should set aria-controls pointing to menu id', () => {

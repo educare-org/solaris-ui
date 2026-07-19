@@ -365,13 +365,19 @@ export class SolarisDropdownMenuTriggerDirective {
     const triggerElement = this.elementRef.nativeElement;
     const target = event.target as Node;
 
-    if (
-      target &&
-      !overlayElement.contains(target) &&
-      !triggerElement.contains(target)
-    ) {
-      this.close();
+    if (!target) return;
+    if (overlayElement.contains(target) || triggerElement.contains(target)) return;
+
+    const allDropdownOverlays = this.document.querySelectorAll<HTMLElement>(
+      '.cdk-overlay-pane.solaris-dropdown-menu-overlay',
+    );
+    for (let i = 0; i < allDropdownOverlays.length; i++) {
+      if (allDropdownOverlays[i] !== overlayElement && allDropdownOverlays[i].contains(target)) {
+        return;
+      }
     }
+
+    this.close();
   };
 
   private addKeydownHandler(): void {

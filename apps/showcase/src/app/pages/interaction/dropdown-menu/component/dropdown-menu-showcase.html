@@ -356,6 +356,207 @@
 
   <section class="dropdown-menu-showcase__section">
     <h2 class="dropdown-menu-showcase__section-title">
+      {{ 'dropdown-menu.submenu-basic' | translate }}
+    </h2>
+    <p class="dropdown-menu-showcase__note">
+      {{ 'dropdown-menu.submenu-basic-note' | translate }}
+    </p>
+    <div class="dropdown-menu-showcase__row">
+      <button
+        solaris-button
+        solaris-dropdown-menu-trigger
+        [solarisDropdownMenuTriggerFor]="submenuMenu"
+      >
+        {{ 'dropdown-menu.open' | translate }}
+      </button>
+      <solaris-dropdown-menu #submenuMenu>
+        <solaris-dropdown-menu-item
+          label="{{ 'dropdown-menu.rename' | translate }}"
+          icon="edit"
+        />
+        <solaris-dropdown-submenu>
+          <solaris-dropdown-submenu-trigger icon="download">
+            {{ 'dropdown-menu.export' | translate }}
+          </solaris-dropdown-submenu-trigger>
+          <solaris-dropdown-menu>
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.export-pdf' | translate }}"
+            />
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.export-csv' | translate }}"
+            />
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.export-xlsx' | translate }}"
+            />
+          </solaris-dropdown-menu>
+        </solaris-dropdown-submenu>
+        <solaris-divider />
+        <solaris-dropdown-submenu>
+          <solaris-dropdown-submenu-trigger icon="gear">
+            {{ 'dropdown-menu.advanced' | translate }}
+          </solaris-dropdown-submenu-trigger>
+          <solaris-dropdown-menu>
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.permissions' | translate }}"
+            />
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.audit-log' | translate }}"
+            />
+          </solaris-dropdown-menu>
+        </solaris-dropdown-submenu>
+      </solaris-dropdown-menu>
+    </div>
+  </section>
+
+  <section class="dropdown-menu-showcase__section">
+    <h2 class="dropdown-menu-showcase__section-title">
+      {{ 'dropdown-menu.submenu-nested' | translate }}
+    </h2>
+    <p class="dropdown-menu-showcase__note">
+      {{ 'dropdown-menu.submenu-nested-note' | translate }}
+    </p>
+    <div class="dropdown-menu-showcase__row">
+      <button
+        solaris-button
+        solaris-dropdown-menu-trigger
+        [solarisDropdownMenuTriggerFor]="nestedSubmenuMenu"
+      >
+        {{ 'dropdown-menu.open' | translate }}
+      </button>
+      <solaris-dropdown-menu #nestedSubmenuMenu>
+        <solaris-dropdown-menu-item
+          label="{{ 'dropdown-menu.edit' | translate }}"
+          icon="edit"
+        />
+        <solaris-dropdown-submenu>
+          <solaris-dropdown-submenu-trigger icon="move">
+            {{ 'dropdown-menu.move-to' | translate }}
+          </solaris-dropdown-submenu-trigger>
+          <solaris-dropdown-menu>
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.archive' | translate }}"
+            />
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.backlog' | translate }}"
+            />
+            <solaris-dropdown-submenu>
+              <solaris-dropdown-submenu-trigger icon="trash">
+                {{ 'dropdown-menu.trash' | translate }}
+              </solaris-dropdown-submenu-trigger>
+              <solaris-dropdown-menu>
+                <solaris-dropdown-menu-item
+                  label="{{ 'dropdown-menu.soft-delete' | translate }}"
+                />
+                <solaris-dropdown-menu-item
+                  label="{{ 'dropdown-menu.hard-delete' | translate }}"
+                  color="danger"
+                />
+              </solaris-dropdown-menu>
+            </solaris-dropdown-submenu>
+          </solaris-dropdown-menu>
+        </solaris-dropdown-submenu>
+      </solaris-dropdown-menu>
+    </div>
+  </section>
+
+  <section class="dropdown-menu-showcase__section">
+    <h2 class="dropdown-menu-showcase__section-title">
+      {{ 'dropdown-menu.submenu-icons' | translate }}
+    </h2>
+    <p class="dropdown-menu-showcase__note">
+      {{ 'dropdown-menu.submenu-icons-note' | translate }}
+    </p>
+    <div class="dropdown-menu-showcase__row">
+      <button
+        solaris-button
+        solaris-dropdown-menu-trigger
+        [solarisDropdownMenuTriggerFor]="submenuIconMenu"
+      >
+        {{ 'dropdown-menu.open' | translate }}
+      </button>
+      <solaris-dropdown-menu #submenuIconMenu>
+        <solaris-dropdown-submenu>
+          <solaris-dropdown-submenu-trigger icon="download">
+            {{ 'dropdown-menu.export' | translate }}
+          </solaris-dropdown-submenu-trigger>
+          <solaris-dropdown-menu>
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.export-pdf' | translate }}"
+              icon="file"
+            />
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.export-csv' | translate }}"
+              icon="files"
+            />
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.export-xlsx' | translate }}"
+              icon="files"
+            />
+          </solaris-dropdown-menu>
+        </solaris-dropdown-submenu>
+        <solaris-divider />
+        <solaris-dropdown-submenu>
+          <solaris-dropdown-submenu-trigger icon="eye">
+            {{ 'dropdown-menu.view-density' | translate }}
+          </solaris-dropdown-submenu-trigger>
+          <solaris-dropdown-menu>
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.compact' | translate }}"
+            />
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.comfortable' | translate }}"
+            />
+          </solaris-dropdown-menu>
+        </solaris-dropdown-submenu>
+      </solaris-dropdown-menu>
+    </div>
+  </section>
+
+  <section class="dropdown-menu-showcase__section">
+    <h2 class="dropdown-menu-showcase__section-title">
+      {{ 'dropdown-menu.submenu-disabled' | translate }}
+    </h2>
+    <p class="dropdown-menu-showcase__note">
+      {{ 'dropdown-menu.submenu-disabled-note' | translate }}
+    </p>
+    <div class="dropdown-menu-showcase__row">
+      <button
+        solaris-button
+        solaris-dropdown-menu-trigger
+        [solarisDropdownMenuTriggerFor]="submenuDisabledMenu"
+      >
+        {{ 'dropdown-menu.open' | translate }}
+      </button>
+      <solaris-dropdown-menu #submenuDisabledMenu>
+        <solaris-dropdown-submenu>
+          <solaris-dropdown-submenu-trigger icon="download">
+            {{ 'dropdown-menu.export' | translate }}
+          </solaris-dropdown-submenu-trigger>
+          <solaris-dropdown-menu>
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.export-pdf' | translate }}"
+            />
+          </solaris-dropdown-menu>
+        </solaris-dropdown-submenu>
+        <solaris-dropdown-submenu>
+          <solaris-dropdown-submenu-trigger
+            icon="settings"
+            [disabled]="true"
+          >
+            {{ 'dropdown-menu.disabled-action' | translate }}
+          </solaris-dropdown-submenu-trigger>
+          <solaris-dropdown-menu>
+            <solaris-dropdown-menu-item
+              label="{{ 'dropdown-menu.permissions' | translate }}"
+            />
+          </solaris-dropdown-menu>
+        </solaris-dropdown-submenu>
+      </solaris-dropdown-menu>
+    </div>
+  </section>
+
+  <section class="dropdown-menu-showcase__section">
+    <h2 class="dropdown-menu-showcase__section-title">
       {{ 'dropdown-menu.keyboard' | translate }}
     </h2>
     <p class="dropdown-menu-showcase__note">
@@ -367,6 +568,8 @@
       <li>{{ 'dropdown-menu.keyboard-item-3' | translate }}</li>
       <li>{{ 'dropdown-menu.keyboard-item-4' | translate }}</li>
       <li>{{ 'dropdown-menu.keyboard-item-5' | translate }}</li>
+      <li>{{ 'dropdown-menu.keyboard-item-6' | translate }}</li>
+      <li>{{ 'dropdown-menu.keyboard-item-7' | translate }}</li>
     </ul>
   </section>
 </div>

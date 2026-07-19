@@ -4,6 +4,9 @@ export { SolarisDropdownMenuItemComponent } from './component/dropdown-menu-item
 export { SolarisDropdownMenuGroupComponent } from './component/dropdown-menu-group.component';
 export { SolarisDropdownMenuLabelComponent } from './component/dropdown-menu-label.component';
 
+export { SolarisDropdownSubmenuComponent } from './component/dropdown-submenu.component';
+export { SolarisDropdownSubmenuTriggerComponent } from './component/dropdown-submenu-trigger.component';
+
 export type {
   SolarisDropdownMenuPlacement,
   SolarisDropdownMenuAlign,
@@ -15,3 +18,8 @@ export type {
   SolarisDropdownMenuItemType,
   SolarisDropdownMenuScrollStrategy,
 } from './model/dropdown-menu.types';
+
+export type {
+  SolarisDropdownSubmenuOpenMode,
+  SolarisDropdownSubmenuPlacement,
+} from './model/dropdown-submenu.types';

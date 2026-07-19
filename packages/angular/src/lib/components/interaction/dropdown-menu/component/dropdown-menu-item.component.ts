@@ -6,6 +6,7 @@ import {
   ElementRef,
   inject,
   HostListener,
+  forwardRef,
 } from '@angular/core';
 
 import { SolarisIconComponent } from '../../../icon';
@@ -14,11 +15,20 @@ import type {
   SolarisDropdownMenuItemColor,
   SolarisDropdownMenuItemType,
 } from '../model/dropdown-menu.types';
+import {
+  SOLARIS_DROPDOWN_NAVIGABLE_ITEM,
+} from '../model/dropdown-menu-navigation';
 
 @Component({
   selector: 'solaris-dropdown-menu-item',
   standalone: true,
   imports: [SolarisIconComponent],
+  providers: [
+    {
+      provide: SOLARIS_DROPDOWN_NAVIGABLE_ITEM,
+      useExisting: forwardRef(() => SolarisDropdownMenuItemComponent),
+    },
+  ],
   templateUrl: './dropdown-menu-item.component.html',
   styleUrls: ['./dropdown-menu-item.component.scss'],
   host: {
@@ -30,8 +40,8 @@ import type {
     '[attr.aria-checked]': 'computedAriaChecked()',
     '[attr.data-checked]': 'checked() ? "" : null',
     '[attr.data-disabled]': 'disabled() ? "" : null',
-    '[attr.data-has-leading]': 'hasLeadingContent() ? "" : null',
     '[attr.aria-disabled]': 'disabled() ? "true" : null',
+    '[attr.data-has-leading]': 'hasLeadingContent() ? "" : null',
   },
 })
 export class SolarisDropdownMenuItemComponent {
