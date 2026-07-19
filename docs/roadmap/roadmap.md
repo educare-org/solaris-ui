@@ -56,7 +56,7 @@ Scope:
 - [x] Segmented Control;
 - [x] Divider;
 - [x] Dropdown Menu;
-- [ ] Editable Tabs.
+- [x] Editable Tabs.
 
 ## `0.3.1` — Disclosure and Content Organization Extension
 
