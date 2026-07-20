@@ -44,14 +44,7 @@ Add the core styles to your `angular.json` or global stylesheet:
 
 ```typescript
 // app.config.ts
-import {
-  provideSolarisTheme,
-  provideSolarisTranslate,
-  provideSolarisAccessibility,
-  provideSolarisIcons,
-  provideSolarisDialog,
-  provideSolarisToast,
-} from '@solaris-ui/angular';
+import { provideSolarisTheme, provideSolarisTranslate, provideSolarisAccessibility, provideSolarisIcons, provideSolarisDialog, provideSolarisToast } from '@solaris-ui/angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -86,68 +79,76 @@ export class ExampleComponent {}
 ## 🧩 Components
 
 ### Actions
-| Component | Directive | Description |
-|-----------|-----------|-------------|
-| Button | `SolarisButtonDirective` | 6 colors, 4 appearances, multiple sizes and densities |
-| Icon Button | `SolarisIconButtonDirective` | Compact icon-only button with badge support |
-| Button Group | `SolarisButtonGroupComponent` | Groups buttons horizontally or vertically |
+
+| Component    | Directive                     | Description                                           |
+| ------------ | ----------------------------- | ----------------------------------------------------- |
+| Button       | `SolarisButtonDirective`      | 6 colors, 4 appearances, multiple sizes and densities |
+| Icon Button  | `SolarisIconButtonDirective`  | Compact icon-only button with badge support           |
+| Button Group | `SolarisButtonGroupComponent` | Groups buttons horizontally or vertically             |
 
 ### Data Display
-| Component | Description |
-|-----------|-------------|
-| `SolarisBadgeComponent` | Notification badge with icon directive |
-| `SolarisCardComponent` | Content card with header, content, media, footer, actions, title, and description directives |
-| `SolarisDividerComponent` | Horizontal/vertical separator with multiple appearances |
+
+| Component                 | Description                                                                                  |
+| ------------------------- | -------------------------------------------------------------------------------------------- |
+| `SolarisBadgeComponent`   | Notification badge with icon directive                                                       |
+| `SolarisCardComponent`    | Content card with header, content, media, footer, actions, title, and description directives |
+| `SolarisDividerComponent` | Horizontal/vertical separator with multiple appearances                                      |
 
 ### Feedback
-| Component | Description |
-|-----------|-------------|
-| `SolarisAlertComponent` | 7 variants, 2 appearances, configurable radius and density |
-| `SolarisSkeletonComponent` | Loading placeholder with multiple shapes and animations |
-| `SolarisToastComponent` | Toast notification system with 7 variants, countdown timer, pause-on-hover, and programmatic API via `SolarisToastService` |
+
+| Component                  | Description                                                                                                                |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `SolarisAlertComponent`    | 7 variants, 2 appearances, configurable radius and density                                                                 |
+| `SolarisSkeletonComponent` | Loading placeholder with multiple shapes and animations                                                                    |
+| `SolarisToastComponent`    | Toast notification system with 7 variants, countdown timer, pause-on-hover, and programmatic API via `SolarisToastService` |
 
 ### Forms
-| Component | Description |
-|-----------|-------------|
-| `SolarisFormFieldComponent` | Wrapper with label, hint, error, prefix/suffix slots, and character counter |
-| `SolarisInputDirective` | Text input with multiple appearances |
-| `SolarisTextareaDirective` | Textarea with resize options |
-| `SolarisSelectComponent` | Single-select dropdown |
-| `SolarisMultiSelectComponent` | Multi-select dropdown with display modes |
-| `SolarisOptionComponent` | Option with leading, label, description, meta, and trailing slots |
-| `SolarisOptionGroupComponent` | Grouped options with label |
-| `SolarisCheckboxComponent` | Checkbox with multiple colors |
-| `SolarisCheckboxGroupComponent` | Grouped checkboxes with layout options |
-| `SolarisRadioComponent` | Radio button |
-| `SolarisRadioGroupComponent` | Grouped radio buttons |
-| `SolarisSwitchComponent` | Toggle switch |
-| `SolarisSwitchGroupComponent` | Grouped switches |
-| `SolarisPasswordFieldComponent` | Password input with strength indicator and policy validation |
-| `SolarisEmailFieldComponent` | Email input with domain allowlist/blocklist validation |
+
+| Component                       | Description                                                                 |
+| ------------------------------- | --------------------------------------------------------------------------- |
+| `SolarisFormFieldComponent`     | Wrapper with label, hint, error, prefix/suffix slots, and character counter |
+| `SolarisInputDirective`         | Text input with multiple appearances                                        |
+| `SolarisTextareaDirective`      | Textarea with resize options                                                |
+| `SolarisSelectComponent`        | Single-select dropdown                                                      |
+| `SolarisMultiSelectComponent`   | Multi-select dropdown with display modes                                    |
+| `SolarisOptionComponent`        | Option with leading, label, description, meta, and trailing slots           |
+| `SolarisOptionGroupComponent`   | Grouped options with label                                                  |
+| `SolarisCheckboxComponent`      | Checkbox with multiple colors                                               |
+| `SolarisCheckboxGroupComponent` | Grouped checkboxes with layout options                                      |
+| `SolarisRadioComponent`         | Radio button                                                                |
+| `SolarisRadioGroupComponent`    | Grouped radio buttons                                                       |
+| `SolarisSwitchComponent`        | Toggle switch                                                               |
+| `SolarisSwitchGroupComponent`   | Grouped switches                                                            |
+| `SolarisPasswordFieldComponent` | Password input with strength indicator and policy validation                |
+| `SolarisEmailFieldComponent`    | Email input with domain allowlist/blocklist validation                      |
 
 ### Icon
-| Component | Description |
-|-----------|-------------|
+
+| Component              | Description                              |
+| ---------------------- | ---------------------------------------- |
 | `SolarisIconComponent` | SVG icon renderer with built-in icon set |
 
 ### Interaction
-| Component / Directive | Description |
-|----------------------|-------------|
-| `SolarisPopoverDirective` | Popover panel with multiple placements, scroll strategies, and auto-focus |
-| `SolarisTooltipDirective` | Tooltip with multiple triggers, placements, and sizes |
-| `SolarisDropdownMenuComponent` | Full dropdown menu with submenus, groups, labels, and items |
+
+| Component / Directive          | Description                                                               |
+| ------------------------------ | ------------------------------------------------------------------------- |
+| `SolarisPopoverDirective`      | Popover panel with multiple placements, scroll strategies, and auto-focus |
+| `SolarisTooltipDirective`      | Tooltip with multiple triggers, placements, and sizes                     |
+| `SolarisDropdownMenuComponent` | Full dropdown menu with submenus, groups, labels, and items               |
 
 ### Navigation
-| Component | Description |
-|-----------|-------------|
-| `SolarisTabsComponent` | Tabs with panels, content transitions, pills, scrollable, full-width, enclosed modes |
-| `SolarisStepperComponent` | Multi-step workflow with linear/non-linear, wizard, card, vertical, and icon modes |
-| `SolarisSegmentedControlComponent` | Segmented control with icons, badges, and full-width modes |
-| `SolarisEditableTabsComponent` | Tabs with rename, reorder, add, remove, lock, and custom actions |
+
+| Component                          | Description                                                                          |
+| ---------------------------------- | ------------------------------------------------------------------------------------ |
+| `SolarisTabsComponent`             | Tabs with panels, content transitions, pills, scrollable, full-width, enclosed modes |
+| `SolarisStepperComponent`          | Multi-step workflow with linear/non-linear, wizard, card, vertical, and icon modes   |
+| `SolarisSegmentedControlComponent` | Segmented control with icons, badges, and full-width modes                           |
+| `SolarisEditableTabsComponent`     | Tabs with rename, reorder, add, remove, lock, and custom actions                     |
 
 ### Overlay
-| Component | Description |
-|-----------|-------------|
+
+| Component                | Description                                                                                                                           |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
 | `SolarisDialogComponent` | Modal dialog with header, content, actions, alert/confirm/custom variants, flow mode, and programmatic API via `SolarisDialogService` |
 
 ---
