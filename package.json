@@ -1,6 +1,6 @@
 {
-  "name": "@solaris-ui/source",
-  "version": "0.2.0",
+  "name": "@solaris-ui/angular",
+  "version": "0.3.0",
   "license": "MIT",
   "scripts": {
     "start": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && pnpm nx serve showcase --port=4300",

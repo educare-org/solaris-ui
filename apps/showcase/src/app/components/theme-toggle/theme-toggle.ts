@@ -26,7 +26,7 @@ export class ShowcaseThemeToggle {
     if (stored === 'light' || stored === 'dark' || stored === 'system') {
       this.activeTheme = stored;
     } else {
-      const current = document.documentElement.getAttribute('data-theme');
+      const current = document.documentElement.dataset['theme'];
       if (current === 'light' || current === 'dark') {
         this.activeTheme = current;
       }
@@ -47,9 +47,9 @@ export class ShowcaseThemeToggle {
 
   private applyTheme(theme: 'light' | 'dark' | 'system'): void {
     if (theme === 'system') {
-      document.documentElement.removeAttribute('data-theme');
+      delete document.documentElement.dataset['theme'];
     } else {
-      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.dataset['theme'] = theme;
     }
   }
 }
