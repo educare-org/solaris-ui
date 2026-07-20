@@ -1,98 +1,326 @@
-# SolarisUi
+# Solaris UI 🌞
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A comprehensive Angular component library built with accessibility, theming, and developer experience in mind.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+> **Published as:** `@educarehq/solaris-ui`
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+---
 
-## Run tasks
+## ✨ Features
 
-To run tasks with Nx use:
+- **40+ components** organized in 8 categories: Actions, Data Display, Feedback, Forms, Icon, Interaction, Navigation, and Overlay
+- **Theming engine** — light/dark mode, configurable density (comfortable/compact), and reduced motion support
+- **Built-in i18n** — built-in translations for EN-US and PT-BR with an extensible translation service
+- **Accessibility first** — all components follow WCAG guidelines, with a dedicated accessibility service
+- **SVG icon system** — built-in icons with a custom registry, plus CSP-friendly icon loading
+- **Angular CDK powered** — leverages `@angular/cdk` for overlay, positioning, and a11y primitives
 
-```sh
-npx nx <target> <project-name>
+---
+
+## 📦 Installation
+
+```bash
+npm install @educarehq/solaris-ui
+# or
+yarn add @educarehq/solaris-ui
+# or
+pnpm add @educarehq/solaris-ui
 ```
 
-For example:
+---
 
-```sh
-npx nx build myproject
+## 🚀 Quick Start
+
+### 1. Import styles
+
+Add the core styles to your `angular.json` or global stylesheet:
+
+```scss
+// styles.scss
+@use '@educarehq/solaris-ui/styles';
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+### 2. Provide global services
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```typescript
+// app.config.ts
+import {
+  provideSolarisTheme,
+  provideSolarisTranslate,
+  provideSolarisAccessibility,
+  provideSolarisIcons,
+  provideSolarisDialog,
+  provideSolarisToast,
+} from '@solaris-ui/angular';
 
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-To install a new plugin you can use the `nx add` command. Here's an example of adding the React plugin:
-
-```sh
-npx nx add @nx/react
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideSolarisTheme(),
+    provideSolarisTranslate(),
+    provideSolarisAccessibility(),
+    provideSolarisIcons(),
+    provideSolarisDialog(),
+    provideSolarisToast(),
+    // ... other providers
+  ],
+};
 ```
 
-Use the plugin's generator to create new projects. For example, to create a new React app or library:
+### 3. Use a component
 
-```sh
-# Generate an app
-npx nx g @nx/react:app demo
+```typescript
+// example.component.ts
+import { Component } from '@angular/core';
+import { SolarisButtonDirective } from '@solaris-ui/angular';
 
-# Generate a library
-npx nx g @nx/react:lib some-lib
+@Component({
+  standalone: true,
+  imports: [SolarisButtonDirective],
+  template: `<button solarisButton color="primary">Click me</button>`,
+})
+export class ExampleComponent {}
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+---
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## 🧩 Components
 
-## Set up CI!
+### Actions
+| Component | Directive | Description |
+|-----------|-----------|-------------|
+| Button | `SolarisButtonDirective` | 6 colors, 4 appearances, multiple sizes and densities |
+| Icon Button | `SolarisIconButtonDirective` | Compact icon-only button with badge support |
+| Button Group | `SolarisButtonGroupComponent` | Groups buttons horizontally or vertically |
 
-### Step 1
+### Data Display
+| Component | Description |
+|-----------|-------------|
+| `SolarisBadgeComponent` | Notification badge with icon directive |
+| `SolarisCardComponent` | Content card with header, content, media, footer, actions, title, and description directives |
+| `SolarisDividerComponent` | Horizontal/vertical separator with multiple appearances |
 
-To connect to Nx Cloud, run the following command:
+### Feedback
+| Component | Description |
+|-----------|-------------|
+| `SolarisAlertComponent` | 7 variants, 2 appearances, configurable radius and density |
+| `SolarisSkeletonComponent` | Loading placeholder with multiple shapes and animations |
+| `SolarisToastComponent` | Toast notification system with 7 variants, countdown timer, pause-on-hover, and programmatic API via `SolarisToastService` |
 
-```sh
-npx nx connect
+### Forms
+| Component | Description |
+|-----------|-------------|
+| `SolarisFormFieldComponent` | Wrapper with label, hint, error, prefix/suffix slots, and character counter |
+| `SolarisInputDirective` | Text input with multiple appearances |
+| `SolarisTextareaDirective` | Textarea with resize options |
+| `SolarisSelectComponent` | Single-select dropdown |
+| `SolarisMultiSelectComponent` | Multi-select dropdown with display modes |
+| `SolarisOptionComponent` | Option with leading, label, description, meta, and trailing slots |
+| `SolarisOptionGroupComponent` | Grouped options with label |
+| `SolarisCheckboxComponent` | Checkbox with multiple colors |
+| `SolarisCheckboxGroupComponent` | Grouped checkboxes with layout options |
+| `SolarisRadioComponent` | Radio button |
+| `SolarisRadioGroupComponent` | Grouped radio buttons |
+| `SolarisSwitchComponent` | Toggle switch |
+| `SolarisSwitchGroupComponent` | Grouped switches |
+| `SolarisPasswordFieldComponent` | Password input with strength indicator and policy validation |
+| `SolarisEmailFieldComponent` | Email input with domain allowlist/blocklist validation |
+
+### Icon
+| Component | Description |
+|-----------|-------------|
+| `SolarisIconComponent` | SVG icon renderer with built-in icon set |
+
+### Interaction
+| Component / Directive | Description |
+|----------------------|-------------|
+| `SolarisPopoverDirective` | Popover panel with multiple placements, scroll strategies, and auto-focus |
+| `SolarisTooltipDirective` | Tooltip with multiple triggers, placements, and sizes |
+| `SolarisDropdownMenuComponent` | Full dropdown menu with submenus, groups, labels, and items |
+
+### Navigation
+| Component | Description |
+|-----------|-------------|
+| `SolarisTabsComponent` | Tabs with panels, content transitions, pills, scrollable, full-width, enclosed modes |
+| `SolarisStepperComponent` | Multi-step workflow with linear/non-linear, wizard, card, vertical, and icon modes |
+| `SolarisSegmentedControlComponent` | Segmented control with icons, badges, and full-width modes |
+| `SolarisEditableTabsComponent` | Tabs with rename, reorder, add, remove, lock, and custom actions |
+
+### Overlay
+| Component | Description |
+|-----------|-------------|
+| `SolarisDialogComponent` | Modal dialog with header, content, actions, alert/confirm/custom variants, flow mode, and programmatic API via `SolarisDialogService` |
+
+---
+
+## 🎨 Theming
+
+Solaris UI provides a comprehensive theming system:
+
+```typescript
+// Custom theme configuration
+import { provideSolarisTheme } from '@solaris-ui/angular';
+import type { SolarisThemeConfig } from '@solaris-ui/angular';
+
+const themeConfig: SolarisThemeConfig = {
+  colorScheme: 'system', // 'light' | 'dark' | 'system'
+  density: 'comfortable', // 'comfortable' | 'compact'
+  reducedMotion: 'system', // 'system' | 'reduced' | 'no-preference'
+};
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideSolarisTheme(themeConfig)],
+};
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+- **Color scheme**: automatic detection via `prefers-color-scheme`, or manual light/dark
+- **Density**: comfortable (default) or compact for space-efficient layouts
+- **Reduced motion**: respects user's `prefers-reduced-motion` setting
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
-### Step 2
+## 🌐 Internationalization
 
-Use the following command to configure a CI workflow for your workspace:
+Built-in translations for **EN-US** and **PT-BR**:
 
-```sh
-npx nx g ci-workflow
+```typescript
+import { provideSolarisTranslate } from '@solaris-ui/angular';
+import type { SolarisTranslateConfig } from '@solaris-ui/angular';
+
+const translateConfig: SolarisTranslateConfig = {
+  locale: 'pt-BR', // or 'en-US'
+};
+
+export const appConfig: ApplicationConfig = {
+  providers: [provideSolarisTranslate(translateConfig)],
+};
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Use the `SolarisTranslatePipe` in templates:
 
-## Install Nx Console
+```html
+<label>{{ 'form.field.required' | solarisTranslate }}</label>
+```
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+---
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## ♿ Accessibility
 
-## Useful links
+Solaris UI is built with accessibility as a core principle:
 
-Learn more:
+- All components meet WCAG 2.1 AA standards
+- `SolarisAccessibilityService` manages `prefers-reduced-motion` across all animated components
+- `SolarisVisuallyHiddenDirective` for screen-reader-only content
+- Proper ARIA attributes on all interactive components
+- Focus management in dialogs, dropdowns, and popovers
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/intro#learn-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
-And join the Nx community:
+## 🛠 Development
 
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+This project uses [Nx](https://nx.dev) as its build system.
+
+### Prerequisites
+
+- Node.js 22+
+- pnpm 10+
+
+### Setup
+
+```bash
+pnpm install
+```
+
+### Run the showcase app
+
+```bash
+pnpm dev
+# or
+pnpm nx serve showcase
+```
+
+The showcase app runs at `http://localhost:4300` and demonstrates all components with interactive examples.
+
+### Build the library
+
+```bash
+pnpm build:lib
+# or
+pnpm nx build angular
+```
+
+### Run tests
+
+```bash
+# Unit tests
+pnpm nx test angular
+
+# With coverage
+pnpm nx run angular:test:coverage
+
+# E2E tests
+pnpm nx e2e showcase-e2e
+```
+
+### Lint
+
+```bash
+pnpm lint
+# or
+pnpm nx run-many -t lint
+```
+
+### Type check
+
+```bash
+pnpm typecheck
+```
+
+### Full verification
+
+```bash
+pnpm verify
+```
+
+This runs lint, type checking, tests, and other validations — the same pipeline executed in CI.
+
+### Release
+
+This project uses [Changesets](https://github.com/changesets/changesets) for versioning and publishing.
+
+```bash
+# Add a changeset
+pnpm changeset add
+
+# Version packages
+pnpm changeset version
+
+# Publish
+pnpm changeset publish
+```
+
+---
+
+## 🏗 Project Structure
+
+```
+solaris-ui/
+├── apps/
+│   └── showcase/              # Demo application with all components
+├── packages/
+│   └── angular/               # The component library
+│       └── src/
+│           ├── lib/
+│           │   ├── components/ # All components organized by category
+│           │   ├── services/   # Theme, translation, accessibility, icon services
+│           │   └── testing/    # Testing utilities
+│           └── styles/        # Core SCSS styles
+├── tools/                     # Build and validation scripts
+├── .github/workflows/         # CI pipeline
+└── .changeset/                # Changeset configuration
+```
+
+---
+
+## 📄 License
+
+MIT © [Educarehq](https://github.com/educarehq)
