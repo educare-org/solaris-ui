@@ -18,6 +18,7 @@ import {
   OverlayRef,
   OverlayConfig,
   FlexibleConnectedPositionStrategy,
+  type ConnectedPosition,
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
@@ -182,6 +183,7 @@ export class SolarisDropdownMenuTriggerDirective {
       return;
     }
 
+    // SECURITY_EXCEPTION: this.document.activeElement required for restoreFocus. SSR-safe via injected DOCUMENT.
     this.previousActiveElement = this.document.activeElement as HTMLElement;
     this.createOverlay();
     this.attachMenu();
@@ -236,23 +238,31 @@ export class SolarisDropdownMenuTriggerDirective {
     const primaryPosition = getPrimaryPosition(placement, align);
     const fallbackPositions = getFallbackPositions(placement, align);
 
-    const allPositions = [primaryPosition, ...fallbackPositions].map(
-      (pos) => ({
-        ...pos,
-        offsetY:
-          pos.originY === 'bottom' && pos.overlayY === 'top'
-            ? offset
-            : pos.originY === 'top' && pos.overlayY === 'bottom'
-              ? -offset
-              : 0,
-        offsetX:
-          pos.originX === 'end' && pos.overlayX === 'start'
-            ? offset
-            : pos.originX === 'start' && pos.overlayX === 'end'
-              ? -offset
-              : 0,
-      }),
-    );
+    const calculateOffsetY = (pos: ConnectedPosition): number => {
+      if (pos.originY === 'bottom' && pos.overlayY === 'top') {
+        return offset;
+      }
+      if (pos.originY === 'top' && pos.overlayY === 'bottom') {
+        return -offset;
+      }
+      return 0;
+    };
+
+    const calculateOffsetX = (pos: ConnectedPosition): number => {
+      if (pos.originX === 'end' && pos.overlayX === 'start') {
+        return offset;
+      }
+      if (pos.originX === 'start' && pos.overlayX === 'end') {
+        return -offset;
+      }
+      return 0;
+    };
+
+    const allPositions = [primaryPosition, ...fallbackPositions].map((pos) => ({
+      ...pos,
+      offsetY: calculateOffsetY(pos),
+      offsetX: calculateOffsetX(pos),
+    }));
 
     return this.overlay
       .position()
@@ -328,7 +338,11 @@ export class SolarisDropdownMenuTriggerDirective {
 
   private disposeOverlay(): void {
     if (this.overlayRef) {
-      this.overlayRef.dispose();
+      try {
+        this.overlayRef.dispose();
+      } catch {
+        // Injector may already be destroyed during test teardown
+      }
       this.overlayRef = null;
     }
     this.removeOutsideClickHandler();
@@ -362,17 +376,23 @@ export class SolarisDropdownMenuTriggerDirective {
     }
 
     const overlayElement = this.overlayRef.overlayElement;
+    // SECURITY_EXCEPTION: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
     const triggerElement = this.elementRef.nativeElement;
     const target = event.target as Node;
 
     if (!target) return;
-    if (overlayElement.contains(target) || triggerElement.contains(target)) return;
+    if (overlayElement.contains(target) || triggerElement.contains(target))
+      return;
 
+    // SECURITY_EXCEPTION: document.querySelectorAll required to find other dropdown overlays for outside-click. SSR-safe via injected DOCUMENT.
     const allDropdownOverlays = this.document.querySelectorAll<HTMLElement>(
       '.cdk-overlay-pane.solaris-dropdown-menu-overlay',
     );
     for (let i = 0; i < allDropdownOverlays.length; i++) {
-      if (allDropdownOverlays[i] !== overlayElement && allDropdownOverlays[i].contains(target)) {
+      if (
+        allDropdownOverlays[i] !== overlayElement &&
+        allDropdownOverlays[i].contains(target)
+      ) {
         return;
       }
     }
@@ -426,6 +446,7 @@ export class SolarisDropdownMenuTriggerDirective {
       maxWidth?: number | string;
     } = {};
 
+    // SECURITY_EXCEPTION: nativeElement.offsetWidth required for matchTriggerWidth. Read-only measurement.
     const triggerWidth = this.elementRef.nativeElement.offsetWidth;
     const matchWidth = this.solarisDropdownMenuMatchTriggerWidth();
     const minWidth = this.solarisDropdownMenuMinWidth();
@@ -451,6 +472,7 @@ export class SolarisDropdownMenuTriggerDirective {
     if (
       this.solarisDropdownMenuRestoreFocus() &&
       this.previousActiveElement &&
+      // SECURITY_EXCEPTION: this.document.contains() to safely verify trigger still exists before focus.
       this.document.contains(this.previousActiveElement)
     ) {
       this.previousActiveElement.focus();

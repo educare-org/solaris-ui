@@ -299,23 +299,21 @@ export class SolarisPopoverTriggerDirective {
     const primaryPosition = getPrimaryPosition(placement, align);
     const fallbackPositions = getFallbackPositions(placement, align);
 
-    const allPositions = [primaryPosition, ...fallbackPositions].map(
-      (pos) => ({
-        ...pos,
-        offsetY:
-          pos.originY === 'bottom' && pos.overlayY === 'top'
-            ? offset
-            : pos.originY === 'top' && pos.overlayY === 'bottom'
-              ? -offset
-              : 0,
-        offsetX:
-          pos.originX === 'end' && pos.overlayX === 'start'
-            ? offset
-            : pos.originX === 'start' && pos.overlayX === 'end'
-              ? -offset
-              : 0,
-      }),
-    );
+    const allPositions = [primaryPosition, ...fallbackPositions].map((pos) => ({
+      ...pos,
+      offsetY:
+        pos.originY === 'bottom' && pos.overlayY === 'top'
+          ? offset
+          : pos.originY === 'top' && pos.overlayY === 'bottom'
+            ? -offset
+            : 0,
+      offsetX:
+        pos.originX === 'end' && pos.overlayX === 'start'
+          ? offset
+          : pos.originX === 'start' && pos.overlayX === 'end'
+            ? -offset
+            : 0,
+    }));
 
     return this.overlay
       .position()

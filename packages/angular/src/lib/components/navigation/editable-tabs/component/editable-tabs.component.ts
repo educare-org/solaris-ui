@@ -85,8 +85,10 @@ export class SolarisEditableTabsComponent {
   readonly appearance = input<SolarisEditableTabsAppearance>('underline');
   readonly size = input<SolarisEditableTabsSize>('md');
   readonly density = input<SolarisEditableTabsDensity>('comfortable');
-  readonly activationMode = input<SolarisEditableTabsActivationMode>('automatic');
-  readonly contentTransition = input<SolarisEditableTabsContentTransition>('slide');
+  readonly activationMode =
+    input<SolarisEditableTabsActivationMode>('automatic');
+  readonly contentTransition =
+    input<SolarisEditableTabsContentTransition>('slide');
 
   readonly tabs = input.required<SolarisEditableTabData[]>();
 
@@ -102,7 +104,9 @@ export class SolarisEditableTabsComponent {
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly ariaLabelKey = input<string | undefined>(undefined);
 
-  readonly tabContentMap = input<Record<string, TemplateRef<void>> | undefined>(undefined);
+  readonly tabContentMap = input<Record<string, TemplateRef<void>> | undefined>(
+    undefined,
+  );
 
   readonly valueChange = output<unknown>();
   readonly tabRenameRequested = output<SolarisEditableTabRenameEvent>();
@@ -215,6 +219,7 @@ export class SolarisEditableTabsComponent {
     this.renameValue.set(tab.label ?? '');
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
+        // SECURITY_EXCEPTION: document.querySelector required to find rename input. SSR-safe via guard.
         const input = document.querySelector(
           `.solaris-editable-tabs__rename-input`,
         ) as HTMLInputElement | null;
@@ -256,7 +261,10 @@ export class SolarisEditableTabsComponent {
     this.renamingTabId.set(null);
   }
 
-  protected onRenameKeydown(event: KeyboardEvent, tab: SolarisEditableTabData): void {
+  protected onRenameKeydown(
+    event: KeyboardEvent,
+    tab: SolarisEditableTabData,
+  ): void {
     event.stopPropagation();
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -293,11 +301,23 @@ export class SolarisEditableTabsComponent {
 
   protected moveLabel(direction: 'left' | 'right'): string {
     if (this.orientation() === 'vertical') {
-      const key = direction === 'left' ? 'solaris.editableTabs.moveUp' : 'solaris.editableTabs.moveDown';
-      return this.resolveText(key) ?? (direction === 'left' ? 'Move up' : 'Move down');
+      const key =
+        direction === 'left'
+          ? 'solaris.editableTabs.moveUp'
+          : 'solaris.editableTabs.moveDown';
+      return (
+        this.resolveText(key) ??
+        (direction === 'left' ? 'Move up' : 'Move down')
+      );
     }
-    const key = direction === 'left' ? 'solaris.editableTabs.moveLeft' : 'solaris.editableTabs.moveRight';
-    return this.resolveText(key) ?? (direction === 'left' ? 'Move left' : 'Move right');
+    const key =
+      direction === 'left'
+        ? 'solaris.editableTabs.moveLeft'
+        : 'solaris.editableTabs.moveRight';
+    return (
+      this.resolveText(key) ??
+      (direction === 'left' ? 'Move left' : 'Move right')
+    );
   }
 
   protected moveIcon(direction: 'left' | 'right'): string {
@@ -338,13 +358,18 @@ export class SolarisEditableTabsComponent {
     const event: SolarisEditableTabDefaultChangeEvent = {
       value: tab.value,
       previousDefaultValue:
-        previousDefaultValue !== undefined ? (previousDefaultValue as unknown) : undefined,
+        previousDefaultValue !== undefined
+          ? (previousDefaultValue as unknown)
+          : undefined,
     };
 
     this.defaultTabChange.emit(event);
   }
 
-  protected handleCustomAction(tab: SolarisEditableTabData, action: SolarisEditableTabAction): void {
+  protected handleCustomAction(
+    tab: SolarisEditableTabData,
+    action: SolarisEditableTabAction,
+  ): void {
     this.activeMenuIndex.set(null);
     const event: SolarisEditableTabActionEvent = {
       tabValue: tab.value,
@@ -358,7 +383,9 @@ export class SolarisEditableTabsComponent {
     return this.renamingTabId() === tab.value;
   }
 
-  protected getContentTemplate(tab: SolarisEditableTabData): TemplateRef<void> | null {
+  protected getContentTemplate(
+    tab: SolarisEditableTabData,
+  ): TemplateRef<void> | null {
     const contentMap = this.tabContentMap();
     if (contentMap) {
       const key = String(tab.value);

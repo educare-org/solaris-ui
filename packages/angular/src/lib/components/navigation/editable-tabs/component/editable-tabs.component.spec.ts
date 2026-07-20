@@ -83,12 +83,7 @@ class AlwaysShowActionsTestHost {
 @Component({
   standalone: true,
   imports: [SolarisEditableTabsComponent],
-  template: `
-    <solaris-editable-tabs
-      [tabs]="tabs()"
-      [(value)]="value"
-    />
-  `,
+  template: ` <solaris-editable-tabs [tabs]="tabs()" [(value)]="value" /> `,
   host: { 'data-jig': 'locked' },
 })
 class LockedTabTestHost {
@@ -99,12 +94,7 @@ class LockedTabTestHost {
 @Component({
   standalone: true,
   imports: [SolarisEditableTabsComponent],
-  template: `
-    <solaris-editable-tabs
-      [tabs]="tabs()"
-      [(value)]="value"
-    />
-  `,
+  template: ` <solaris-editable-tabs [tabs]="tabs()" [(value)]="value" /> `,
   host: { 'data-jig': 'disabled' },
 })
 class DisabledTabTestHost {
@@ -229,12 +219,7 @@ class CustomActionsTestHost {
 @Component({
   standalone: true,
   imports: [SolarisEditableTabsComponent],
-  template: `
-    <solaris-editable-tabs
-      [tabs]="tabs()"
-      [(value)]="value"
-    />
-  `,
+  template: ` <solaris-editable-tabs [tabs]="tabs()" [(value)]="value" /> `,
   host: { 'data-jig': 'no-default' },
 })
 class NoDefaultValueTestHost {
@@ -277,9 +262,8 @@ function configureBase(): void {
 function getComponent(
   fixture: ComponentFixture<unknown>,
 ): SolarisEditableTabsComponent {
-  return fixture.debugElement.query(
-    By.directive(SolarisEditableTabsComponent),
-  ).componentInstance as SolarisEditableTabsComponent;
+  return fixture.debugElement.query(By.directive(SolarisEditableTabsComponent))
+    .componentInstance as SolarisEditableTabsComponent;
 }
 
 describe('SolarisEditableTabsComponent', () => {
@@ -306,18 +290,16 @@ describe('SolarisEditableTabsComponent', () => {
       configureBase();
       const fixture = TestBed.createComponent(BasicTestHost);
       fixture.detectChanges();
-      expect(
-        fixture.nativeElement.querySelector('solaris-tabs'),
-      ).toBeTruthy();
+      expect(fixture.nativeElement.querySelector('solaris-tabs')).toBeTruthy();
     });
 
     it('should render a solaris-tab for each tab data item', () => {
       configureBase();
       const fixture = TestBed.createComponent(BasicTestHost);
       fixture.detectChanges();
-      expect(
-        fixture.nativeElement.querySelectorAll('solaris-tab').length,
-      ).toBe(3);
+      expect(fixture.nativeElement.querySelectorAll('solaris-tab').length).toBe(
+        3,
+      );
     });
 
     it('should render the tablist wrapper', () => {
@@ -325,9 +307,7 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(BasicTestHost);
       fixture.detectChanges();
       expect(
-        fixture.nativeElement.querySelector(
-          '.solaris-editable-tabs__wrapper',
-        ),
+        fixture.nativeElement.querySelector('.solaris-editable-tabs__wrapper'),
       ).toBeTruthy();
     });
   });
@@ -428,8 +408,9 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const tabs = fixture.nativeElement.querySelectorAll('solaris-tab');
       const disabledTab = tabs[1];
-      const actionArea =
-        disabledTab.querySelector('.solaris-editable-tabs__action-area');
+      const actionArea = disabledTab.querySelector(
+        '.solaris-editable-tabs__action-area',
+      );
       expect(actionArea).toBeNull();
     });
 
@@ -516,9 +497,7 @@ describe('SolarisEditableTabsComponent', () => {
       (component as any).commitRename(tab);
       fixture.detectChanges();
       expect(fixture.componentInstance.renameEvent).toBeTruthy();
-      expect(fixture.componentInstance.renameEvent.previousLabel).toBe(
-        'Tab 1',
-      );
+      expect(fixture.componentInstance.renameEvent.previousLabel).toBe('Tab 1');
       expect(fixture.componentInstance.renameEvent.nextLabel).toBe(
         'Renamed Tab',
       );
@@ -565,9 +544,7 @@ describe('SolarisEditableTabsComponent', () => {
         '.solaris-editable-tabs__rename-input',
       );
       expect(input).toBeTruthy();
-      input.dispatchEvent(
-        new KeyboardEvent('keydown', { key: 'Escape' }),
-      );
+      input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
       fixture.detectChanges();
       expect(
         fixture.nativeElement.querySelector(
@@ -828,9 +805,7 @@ describe('SolarisEditableTabsComponent', () => {
       (component as any).setAsDefault(tab);
       fixture.detectChanges();
       expect(fixture.componentInstance.defaultChangeEvent).toBeTruthy();
-      expect(fixture.componentInstance.defaultChangeEvent.value).toBe(
-        'tab2',
-      );
+      expect(fixture.componentInstance.defaultChangeEvent.value).toBe('tab2');
     });
 
     it('should include previousDefaultValue when changing default', () => {
@@ -874,9 +849,7 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       expect(fixture.componentInstance.actionEvent).toBeTruthy();
       expect(fixture.componentInstance.actionEvent.tabValue).toBe('tab1');
-      expect(fixture.componentInstance.actionEvent.actionId).toBe(
-        'duplicate',
-      );
+      expect(fixture.componentInstance.actionEvent.actionId).toBe('duplicate');
     });
   });
 

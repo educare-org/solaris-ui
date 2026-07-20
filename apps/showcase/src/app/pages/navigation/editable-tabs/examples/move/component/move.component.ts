@@ -1,6 +1,9 @@
 import { Component, signal } from '@angular/core';
 
-import { SolarisEditableTabsComponent, SolarisTranslatePipe } from '@solaris-ui/angular';
+import {
+  SolarisEditableTabsComponent,
+  SolarisTranslatePipe,
+} from '@solaris-ui/angular';
 import type { SolarisEditableTabData } from '@solaris-ui/angular';
 
 @Component({
@@ -19,7 +22,11 @@ export class EditableTabsMoveExample {
     { value: 'done', label: 'Done' },
   ];
 
-  onMove(event: { value: unknown; previousIndex: number; nextIndex: number }): void {
+  onMove(event: {
+    value: unknown;
+    previousIndex: number;
+    nextIndex: number;
+  }): void {
     const tab = this.tabs.splice(event.previousIndex, 1)[0];
     this.tabs.splice(event.nextIndex, 0, tab);
     this.tabs = [...this.tabs];

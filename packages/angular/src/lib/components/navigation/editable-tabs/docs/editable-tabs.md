@@ -6,11 +6,11 @@ Editable Tabs extends the existing Solaris Tabs component with tab management ca
 
 ## Conceptual differences
 
-| Component        | Purpose                                                |
-| ---------------- | ------------------------------------------------------ |
-| **Tabs**         | Base navigation and tab panels                         |
-| **Editable Tabs**| Tab management layer over the base Tabs component      |
-| **Dropdown Menu**| Per-tab actions (rename, move, remove, etc.)           |
+| Component         | Purpose                                           |
+| ----------------- | ------------------------------------------------- |
+| **Tabs**          | Base navigation and tab panels                    |
+| **Editable Tabs** | Tab management layer over the base Tabs component |
+| **Dropdown Menu** | Per-tab actions (rename, move, remove, etc.)      |
 
 Editable Tabs does **not** duplicate the base Tabs visual system, selection logic, keyboard model, or content transition behavior. It reuses `solaris-tabs`, `solaris-tab`, and `solaris-tab-panel` internally.
 
@@ -81,15 +81,15 @@ Custom actions can be added through `SolarisEditableTabAction[]`.
 
 ## Keyboard behavior
 
-| Key                | Context               | Action                    |
-| ------------------ | --------------------- | ------------------------- |
-| Arrow keys         | Tablist               | Navigate between tabs     |
-| Home/End           | Tablist               | First/last tab            |
-| Enter/Space        | Action trigger        | Open Dropdown Menu        |
-| Enter              | Rename input          | Confirm rename            |
-| Escape             | Rename input          | Cancel rename             |
-| Arrow Down/Up      | Dropdown Menu         | Navigate menu items       |
-| Escape             | Dropdown Menu         | Close menu                |
+| Key           | Context        | Action                |
+| ------------- | -------------- | --------------------- |
+| Arrow keys    | Tablist        | Navigate between tabs |
+| Home/End      | Tablist        | First/last tab        |
+| Enter/Space   | Action trigger | Open Dropdown Menu    |
+| Enter         | Rename input   | Confirm rename        |
+| Escape        | Rename input   | Cancel rename         |
+| Arrow Down/Up | Dropdown Menu  | Navigate menu items   |
+| Escape        | Dropdown Menu  | Close menu            |
 
 ## Styling
 
@@ -112,25 +112,17 @@ Editable Tabs inherits all base Tabs styling tokens. Additional component-level 
 ### Basic editable tabs
 
 ```html
-<solaris-editable-tabs
-  [tabs]="tabs"
-  [(value)]="activeTab"
-  (tabRename)="onRename($event)"
-  (tabRemove)="onRemove($event)"
-  (tabMove)="onMove($event)"
-/>
+<solaris-editable-tabs [tabs]="tabs" [(value)]="activeTab" (tabRename)="onRename($event)" (tabRemove)="onRemove($event)" (tabMove)="onMove($event)" />
 ```
 
 ### Locked tab
 
 ```html
-<solaris-editable-tabs
-  [tabs]="tabs"
-  [(value)]="activeTab"
-/>
+<solaris-editable-tabs [tabs]="tabs" [(value)]="activeTab" />
 ```
 
 With tab data:
+
 ```typescript
 const tabs = [
   { value: 'general', label: 'General', locked: true },
@@ -141,63 +133,58 @@ const tabs = [
 ### Custom actions
 
 ```html
-<solaris-editable-tabs
-  [tabs]="tabs"
-  [(value)]="activeTab"
-  (tabAction)="onAction($event)"
-/>
+<solaris-editable-tabs [tabs]="tabs" [(value)]="activeTab" (tabAction)="onAction($event)" />
 ```
 
 With custom actions:
+
 ```typescript
 const customActions = [
   { id: 'duplicate', label: 'Duplicate', icon: 'copy' },
   { id: 'export', label: 'Export', icon: 'export' },
 ];
 
-const tabs = [
-  { value: 'tab1', label: 'Tab 1', customActions },
-];
+const tabs = [{ value: 'tab1', label: 'Tab 1', customActions }];
 ```
 
 ## API
 
 ### SolarisEditableTabsComponent
 
-| Input               | Type                                      | Default          | Description                    |
-| ------------------- | ----------------------------------------- | ---------------- | ------------------------------ |
-| `tabs`              | `SolarisEditableTabData[]`                | required         | Tab definitions                |
-| `value`             | `unknown`                                 | `undefined`      | Active tab value (two-way)     |
-| `defaultValue`      | `unknown`                                 | `undefined`      | Initial active value           |
-| `orientation`       | `'horizontal' \| 'vertical'`              | `'horizontal'`   | Tablist orientation            |
-| `appearance`        | `'underline' \| 'pills' \| 'enclosed'`    | `'underline'`    | Visual appearance              |
-| `size`              | `'sm' \| 'md' \| 'lg'`                   | `'md'`           | Tab size                       |
-| `density`           | `'compact' \| 'comfortable'`              | `'comfortable'`  | Tab density                    |
-| `activationMode`    | `'automatic' \| 'manual'`                | `'automatic'`    | Tab activation mode            |
-| `contentTransition` | `'none' \| 'fade' \| 'slide'`            | `'slide'`        | Panel content transition       |
-| `editable`          | `boolean`                                 | `true`           | Enable editing                 |
-| `renamable`         | `boolean`                                 | `true`           | Enable rename                  |
-| `removable`         | `boolean`                                 | `true`           | Enable remove                  |
-| `movable`           | `boolean`                                 | `true`           | Enable move                    |
-| `defaultable`       | `boolean`                                 | `true`           | Enable set as default          |
-| `showActions`       | `'hover' \| 'always' \| 'focus-hover'`   | `'focus-hover'`  | When to show action trigger    |
-| `renameOnBlur`      | `'confirm' \| 'cancel'`                 | `'confirm'`      | Behavior on rename input blur  |
-| `minTabs`           | `number`                                  | `1`              | Minimum tabs before blocking   |
-| `allowEmpty`        | `boolean`                                 | `false`          | Allow removing all tabs        |
-| `ariaLabel`         | `string \| undefined`                     | `undefined`      | Direct ARIA label              |
-| `ariaLabelKey`      | `string \| undefined`                     | `undefined`      | Translation key for ARIA label |
+| Input               | Type                                   | Default         | Description                    |
+| ------------------- | -------------------------------------- | --------------- | ------------------------------ |
+| `tabs`              | `SolarisEditableTabData[]`             | required        | Tab definitions                |
+| `value`             | `unknown`                              | `undefined`     | Active tab value (two-way)     |
+| `defaultValue`      | `unknown`                              | `undefined`     | Initial active value           |
+| `orientation`       | `'horizontal' \| 'vertical'`           | `'horizontal'`  | Tablist orientation            |
+| `appearance`        | `'underline' \| 'pills' \| 'enclosed'` | `'underline'`   | Visual appearance              |
+| `size`              | `'sm' \| 'md' \| 'lg'`                 | `'md'`          | Tab size                       |
+| `density`           | `'compact' \| 'comfortable'`           | `'comfortable'` | Tab density                    |
+| `activationMode`    | `'automatic' \| 'manual'`              | `'automatic'`   | Tab activation mode            |
+| `contentTransition` | `'none' \| 'fade' \| 'slide'`          | `'slide'`       | Panel content transition       |
+| `editable`          | `boolean`                              | `true`          | Enable editing                 |
+| `renamable`         | `boolean`                              | `true`          | Enable rename                  |
+| `removable`         | `boolean`                              | `true`          | Enable remove                  |
+| `movable`           | `boolean`                              | `true`          | Enable move                    |
+| `defaultable`       | `boolean`                              | `true`          | Enable set as default          |
+| `showActions`       | `'hover' \| 'always' \| 'focus-hover'` | `'focus-hover'` | When to show action trigger    |
+| `renameOnBlur`      | `'confirm' \| 'cancel'`                | `'confirm'`     | Behavior on rename input blur  |
+| `minTabs`           | `number`                               | `1`             | Minimum tabs before blocking   |
+| `allowEmpty`        | `boolean`                              | `false`         | Allow removing all tabs        |
+| `ariaLabel`         | `string \| undefined`                  | `undefined`     | Direct ARIA label              |
+| `ariaLabelKey`      | `string \| undefined`                  | `undefined`     | Translation key for ARIA label |
 
-| Output                  | Type                                        | Description                        |
-| ----------------------- | ------------------------------------------- | ---------------------------------- |
-| `valueChange`           | `unknown`                                   | Active tab value changed           |
-| `tabRenameRequested`    | `SolarisEditableTabRenameEvent`             | Before rename (consumer confirm)   |
-| `tabRename`             | `SolarisEditableTabRenameEvent`             | Rename confirmed                   |
-| `tabRemoveRequested`    | `SolarisEditableTabRemoveEvent`             | Before remove (consumer confirm)   |
-| `tabRemove`             | `SolarisEditableTabRemoveEvent`             | Remove confirmed                   |
-| `tabMoveRequested`      | `SolarisEditableTabMoveEvent`               | Before move (consumer confirm)     |
-| `tabMove`               | `SolarisEditableTabMoveEvent`               | Move confirmed                     |
-| `defaultTabChange`      | `SolarisEditableTabDefaultChangeEvent`      | Default tab changed                |
-| `tabAction`             | `SolarisEditableTabActionEvent`             | Custom action triggered            |
+| Output               | Type                                   | Description                      |
+| -------------------- | -------------------------------------- | -------------------------------- |
+| `valueChange`        | `unknown`                              | Active tab value changed         |
+| `tabRenameRequested` | `SolarisEditableTabRenameEvent`        | Before rename (consumer confirm) |
+| `tabRename`          | `SolarisEditableTabRenameEvent`        | Rename confirmed                 |
+| `tabRemoveRequested` | `SolarisEditableTabRemoveEvent`        | Before remove (consumer confirm) |
+| `tabRemove`          | `SolarisEditableTabRemoveEvent`        | Remove confirmed                 |
+| `tabMoveRequested`   | `SolarisEditableTabMoveEvent`          | Before move (consumer confirm)   |
+| `tabMove`            | `SolarisEditableTabMoveEvent`          | Move confirmed                   |
+| `defaultTabChange`   | `SolarisEditableTabDefaultChangeEvent` | Default tab changed              |
+| `tabAction`          | `SolarisEditableTabActionEvent`        | Custom action triggered          |
 
 ### SolarisEditableTabData
 

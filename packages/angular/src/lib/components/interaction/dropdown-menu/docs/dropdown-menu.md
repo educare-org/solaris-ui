@@ -101,19 +101,19 @@ Non-interactive label text for menu groups.
 
 ## Keyboard Navigation
 
-| Key        | Action                                              |
-| ---------- | --------------------------------------------------- |
-| ArrowDown  | Move to next enabled item                           |
-| ArrowUp    | Move to previous enabled item                       |
-| ArrowRight | Open submenu (on submenu trigger)                   |
-| ArrowLeft  | Close submenu, return focus to parent trigger       |
-| Home       | Move to first enabled item                          |
-| End        | Move to last enabled item                           |
-| Enter      | Activate focused item / open submenu                |
-| Space      | Activate focused item / open submenu                |
-| Escape     | Close submenu first, then close root menu           |
-| Tab        | Close menu, move focus                              |
-| Typeahead  | Type letters to focus matching item                 |
+| Key        | Action                                        |
+| ---------- | --------------------------------------------- |
+| ArrowDown  | Move to next enabled item                     |
+| ArrowUp    | Move to previous enabled item                 |
+| ArrowRight | Open submenu (on submenu trigger)             |
+| ArrowLeft  | Close submenu, return focus to parent trigger |
+| Home       | Move to first enabled item                    |
+| End        | Move to last enabled item                     |
+| Enter      | Activate focused item / open submenu          |
+| Space      | Activate focused item / open submenu          |
+| Escape     | Close submenu first, then close root menu     |
+| Tab        | Close menu, move focus                        |
+| Typeahead  | Type letters to focus matching item           |
 
 ## Accessibility
 
@@ -186,9 +186,7 @@ Non-interactive label text for menu groups.
 <solaris-dropdown-menu #actionsMenu>
   <solaris-dropdown-menu-item label="Rename" icon="edit" />
   <solaris-dropdown-submenu>
-    <solaris-dropdown-submenu-trigger icon="download">
-      Export
-    </solaris-dropdown-submenu-trigger>
+    <solaris-dropdown-submenu-trigger icon="download"> Export </solaris-dropdown-submenu-trigger>
     <solaris-dropdown-menu>
       <solaris-dropdown-menu-item label="PDF" />
       <solaris-dropdown-menu-item label="CSV" />
@@ -197,9 +195,7 @@ Non-interactive label text for menu groups.
   </solaris-dropdown-submenu>
   <solaris-divider />
   <solaris-dropdown-submenu>
-    <solaris-dropdown-submenu-trigger icon="settings">
-      Advanced
-    </solaris-dropdown-submenu-trigger>
+    <solaris-dropdown-submenu-trigger icon="settings"> Advanced </solaris-dropdown-submenu-trigger>
     <solaris-dropdown-menu>
       <solaris-dropdown-menu-item label="Permissions" />
       <solaris-dropdown-menu-item label="Audit Log" />
@@ -228,16 +224,16 @@ Dropdown Submenu extends Dropdown Menu with nested menu support. A submenu trigg
 
 ### Submenu (`<solaris-dropdown-submenu>`)
 
-| Input               | Type                                                                       | Default         | Description                              |
-| ------------------- | -------------------------------------------------------------------------- | --------------- | ---------------------------------------- |
-| `openMode`          | `'hover' \| 'click' \| 'hover-click'`                                     | `'hover-click'` | Interaction mode to open submenu         |
-| `openDelay`         | `number`                                                                   | `120`           | Delay before opening on hover (ms)       |
-| `closeDelay`        | `number`                                                                   | `160`           | Delay before closing on leave (ms)       |
-| `disabled`          | `boolean`                                                                  | `false`         | Disable the submenu                      |
-| `placement`         | `'right-start' \| 'right' \| 'right-end' \| 'left-start' \| 'left' \| 'left-end'` | `'right-start'` | Preferred placement of submenu panel     |
-| `matchTriggerWidth` | `boolean`                                                                  | `false`         | Match submenu width to trigger           |
-| `minWidth`          | `string \| null`                                                           | `null`          | Minimum submenu width                    |
-| `maxWidth`          | `string \| null`                                                           | `null`          | Maximum submenu width                    |
+| Input               | Type                                                                              | Default         | Description                          |
+| ------------------- | --------------------------------------------------------------------------------- | --------------- | ------------------------------------ |
+| `openMode`          | `'hover' \| 'click' \| 'hover-click'`                                             | `'hover-click'` | Interaction mode to open submenu     |
+| `openDelay`         | `number`                                                                          | `120`           | Delay before opening on hover (ms)   |
+| `closeDelay`        | `number`                                                                          | `160`           | Delay before closing on leave (ms)   |
+| `disabled`          | `boolean`                                                                         | `false`         | Disable the submenu                  |
+| `placement`         | `'right-start' \| 'right' \| 'right-end' \| 'left-start' \| 'left' \| 'left-end'` | `'right-start'` | Preferred placement of submenu panel |
+| `matchTriggerWidth` | `boolean`                                                                         | `false`         | Match submenu width to trigger       |
+| `minWidth`          | `string \| null`                                                                  | `null`          | Minimum submenu width                |
+| `maxWidth`          | `string \| null`                                                                  | `null`          | Maximum submenu width                |
 
 ### Submenu Trigger (`<solaris-dropdown-submenu-trigger>`)
 
@@ -251,13 +247,13 @@ Dropdown Submenu extends Dropdown Menu with nested menu support. A submenu trigg
 
 ### Submenu Keyboard Navigation
 
-| Key        | Action                                                |
-| ---------- | ----------------------------------------------------- |
-| ArrowRight | Open submenu and focus first enabled item             |
-| ArrowLeft  | Close submenu and return focus to parent trigger      |
-| Enter      | Open submenu                                          |
-| Space      | Open submenu                                          |
-| Escape     | Close deepest open submenu first                      |
+| Key        | Action                                           |
+| ---------- | ------------------------------------------------ |
+| ArrowRight | Open submenu and focus first enabled item        |
+| ArrowLeft  | Close submenu and return focus to parent trigger |
+| Enter      | Open submenu                                     |
+| Space      | Open submenu                                     |
+| Escape     | Close deepest open submenu first                 |
 
 ### Submenu Touch/Click Behavior
 

@@ -11,9 +11,7 @@ import {
 import { SolarisIconComponent } from '../../../icon';
 
 import type { SolarisDropdownMenuItemColor } from '../model/dropdown-menu.types';
-import {
-  SOLARIS_DROPDOWN_NAVIGABLE_ITEM,
-} from '../model/dropdown-menu-navigation';
+import { SOLARIS_DROPDOWN_NAVIGABLE_ITEM } from '../model/dropdown-menu-navigation';
 import { SolarisDropdownSubmenuComponent } from './dropdown-submenu.component';
 
 @Component({
@@ -95,6 +93,7 @@ export class SolarisDropdownSubmenuTriggerComponent {
   }
 
   focus(): void {
+    // SECURITY_EXCEPTION: nativeElement.focus() required for programmatic focus. No alternative exists.
     this.elementRef.nativeElement.focus();
   }
 }

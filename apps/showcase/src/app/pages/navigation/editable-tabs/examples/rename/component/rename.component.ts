@@ -1,6 +1,9 @@
 import { Component, signal } from '@angular/core';
 
-import { SolarisEditableTabsComponent, SolarisTranslatePipe } from '@solaris-ui/angular';
+import {
+  SolarisEditableTabsComponent,
+  SolarisTranslatePipe,
+} from '@solaris-ui/angular';
 import type { SolarisEditableTabData } from '@solaris-ui/angular';
 
 @Component({

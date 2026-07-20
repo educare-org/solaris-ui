@@ -16,6 +16,11 @@ export class EditableTabsIconsBadgesExample {
     { value: 'code', label: 'Code', icon: 'code', badge: 12 },
     { value: 'issues', label: 'Issues', icon: 'issue', badge: 5 },
     { value: 'pull-requests', label: 'PRs', icon: 'pull-request', badge: 3 },
-    { value: 'notifications', label: 'Notifications', icon: 'notification', badge: 99 },
+    {
+      value: 'notifications',
+      label: 'Notifications',
+      icon: 'notification',
+      badge: 99,
+    },
   ];
 }

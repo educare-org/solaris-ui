@@ -1,6 +1,9 @@
 import { Component, signal } from '@angular/core';
 
-import { SolarisEditableTabsComponent, SolarisTranslatePipe } from '@solaris-ui/angular';
+import {
+  SolarisEditableTabsComponent,
+  SolarisTranslatePipe,
+} from '@solaris-ui/angular';
 import type { SolarisEditableTabData } from '@solaris-ui/angular';
 
 @Component({
@@ -21,7 +24,9 @@ export class BasicEditableTabsExample {
 
   onRename(event: { value: unknown; nextLabel: string }): void {
     this.tabs.update((tabs) =>
-      tabs.map((t) => (t.value === event.value ? { ...t, label: event.nextLabel } : t)),
+      tabs.map((t) =>
+        t.value === event.value ? { ...t, label: event.nextLabel } : t,
+      ),
     );
   }
 
@@ -29,7 +34,11 @@ export class BasicEditableTabsExample {
     this.tabs.update((tabs) => tabs.filter((t) => t.value !== event.value));
   }
 
-  onMove(event: { value: unknown; previousIndex: number; nextIndex: number }): void {
+  onMove(event: {
+    value: unknown;
+    previousIndex: number;
+    nextIndex: number;
+  }): void {
     this.tabs.update((tabs) => {
       const updated = [...tabs];
       const [tab] = updated.splice(event.previousIndex, 1);

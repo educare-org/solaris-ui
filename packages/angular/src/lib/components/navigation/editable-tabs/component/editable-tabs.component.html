@@ -33,7 +33,10 @@
               (input)="renameValue.set($any($event).target.value)"
               (keydown)="onRenameKeydown($event, tab)"
               (blur)="onRenameBlur(tab)"
-              [attr.aria-label]="resolveText('solaris.editableTabs.confirmRename') ?? 'Confirm rename'"
+              [attr.aria-label]="
+                resolveText('solaris.editableTabs.confirmRename') ??
+                'Confirm rename'
+              "
             />
           </span>
         } @else if (hasActions(tab)) {
@@ -42,7 +45,9 @@
             [class.solaris-editable-tabs__action-area--visible]="
               showActions() === 'always'
             "
-            [class.solaris-editable-tabs__action-area--replaces-icon]="!!tab.icon"
+            [class.solaris-editable-tabs__action-area--replaces-icon]="
+              !!tab.icon
+            "
           >
             <button
               class="solaris-editable-tabs__action-trigger"
@@ -55,7 +60,9 @@
               [solarisDropdownMenuOpen]="activeMenuIndex() === i"
               (menuOpened)="activeMenuIndex.set(i)"
               (menuClosed)="activeMenuIndex.set(null)"
-              [attr.aria-label]="resolveText('solaris.editableTabs.tabActions') ?? 'Tab actions'"
+              [attr.aria-label]="
+                resolveText('solaris.editableTabs.tabActions') ?? 'Tab actions'
+              "
               tabindex="0"
               type="button"
             >
@@ -87,7 +94,9 @@
     }
     @if (canSetDefault(tab)) {
       <solaris-dropdown-menu-item
-        [label]="resolveText('solaris.editableTabs.setAsDefault') ?? 'Set as default'"
+        [label]="
+          resolveText('solaris.editableTabs.setAsDefault') ?? 'Set as default'
+        "
         icon="check"
         (itemSelected)="setAsDefault(tab)"
       />
@@ -96,14 +105,18 @@
       <solaris-dropdown-menu-item
         [label]="moveLabel('left')"
         [icon]="moveIcon('left')"
-        (itemSelected)="moveTab(tab, i, orientation() === 'vertical' ? 'up' : 'left')"
+        (itemSelected)="
+          moveTab(tab, i, orientation() === 'vertical' ? 'up' : 'left')
+        "
       />
     }
     @if (canMoveRight(tab)) {
       <solaris-dropdown-menu-item
         [label]="moveLabel('right')"
         [icon]="moveIcon('right')"
-        (itemSelected)="moveTab(tab, i, orientation() === 'vertical' ? 'down' : 'right')"
+        (itemSelected)="
+          moveTab(tab, i, orientation() === 'vertical' ? 'down' : 'right')
+        "
       />
     }
     @if (tab.customActions?.length) {

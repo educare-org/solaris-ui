@@ -8,4 +8,6 @@ export interface SolarisDropdownNavigableItem {
 }
 
 export const SOLARIS_DROPDOWN_NAVIGABLE_ITEM =
-  new InjectionToken<SolarisDropdownNavigableItem>('SolarisDropdownNavigableItem');
+  new InjectionToken<SolarisDropdownNavigableItem>(
+    'SolarisDropdownNavigableItem',
+  );

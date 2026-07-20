@@ -3,12 +3,16 @@
   --solaris-editable-tabs-action-radius: var(--solaris-radius-sm);
   --solaris-editable-tabs-action-color: var(--solaris-text-muted);
   --solaris-editable-tabs-action-hover-color: var(--solaris-text-default);
-  --solaris-editable-tabs-action-hover-background: var(--solaris-surface-subtle);
+  --solaris-editable-tabs-action-hover-background: var(
+    --solaris-surface-subtle
+  );
   --solaris-editable-tabs-rename-input-min-width: var(--solaris-spacing-20);
   --solaris-editable-tabs-rename-input-padding: var(--solaris-spacing-1);
   --solaris-editable-tabs-rename-input-radius: var(--solaris-radius-sm);
   --solaris-editable-tabs-rename-input-font-size: inherit;
-  --solaris-editable-tabs-rename-input-border-color: var(--solaris-primary-base);
+  --solaris-editable-tabs-rename-input-border-color: var(
+    --solaris-primary-base
+  );
   --solaris-editable-tabs-rename-input-background: var(--solaris-surface-base);
 
   display: block;
@@ -51,9 +55,7 @@
   opacity: 1;
 }
 
-:host
-  ::ng-deep
-  .solaris-editable-tabs__action-area--replaces-icon {
+:host ::ng-deep .solaris-editable-tabs__action-area--replaces-icon {
   display: none;
   order: -1;
 }
@@ -77,14 +79,8 @@
   display: inline-flex;
 }
 
-:host
-  ::ng-deep
-  solaris-tab[data-has-icon]:hover
-  .solaris-tab__icon,
-:host
-  ::ng-deep
-  solaris-tab[data-has-icon]:focus-within
-  .solaris-tab__icon {
+:host ::ng-deep solaris-tab[data-has-icon]:hover .solaris-tab__icon,
+:host ::ng-deep solaris-tab[data-has-icon]:focus-within .solaris-tab__icon {
   display: none;
 }
 
@@ -95,10 +91,7 @@
   display: inline-flex;
 }
 
-:host
-  ::ng-deep
-  solaris-tab[data-has-icon][data-menu-open]
-  .solaris-tab__icon {
+:host ::ng-deep solaris-tab[data-has-icon][data-menu-open] .solaris-tab__icon {
   display: none;
 }
 
@@ -128,7 +121,8 @@
   background: transparent;
   color: var(--solaris-editable-tabs-action-color);
   border-radius: var(--solaris-editable-tabs-action-radius);
-  transition: color var(--solaris-motion-duration-fast)
+  transition:
+    color var(--solaris-motion-duration-fast)
       var(--solaris-motion-easing-standard),
     background var(--solaris-motion-duration-fast)
       var(--solaris-motion-easing-standard);

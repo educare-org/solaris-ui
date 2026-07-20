@@ -31,7 +31,9 @@ export class SolarisEditableTabComponent {
   readonly renamable = input<boolean | undefined>(undefined);
   readonly defaultable = input<boolean | undefined>(undefined);
   readonly badge = input<string | number | undefined>(undefined);
-  readonly customActions = input<SolarisEditableTabAction[] | undefined>(undefined);
+  readonly customActions = input<SolarisEditableTabAction[] | undefined>(
+    undefined,
+  );
 
   readonly content = contentChild(TemplateRef);
 }

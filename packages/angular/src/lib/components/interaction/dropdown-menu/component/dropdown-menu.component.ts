@@ -36,8 +36,9 @@ export class SolarisDropdownMenuComponent {
   readonly size = input<SolarisDropdownMenuSize>('md');
   readonly density = input<SolarisDropdownMenuDensity>('comfortable');
 
-  readonly navigableItems =
-    contentChildren<SolarisDropdownNavigableItem>(SOLARIS_DROPDOWN_NAVIGABLE_ITEM);
+  readonly navigableItems = contentChildren<SolarisDropdownNavigableItem>(
+    SOLARIS_DROPDOWN_NAVIGABLE_ITEM,
+  );
 
   readonly contentTemplate = viewChild.required('contentTmpl', {
     read: TemplateRef,

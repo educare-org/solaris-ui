@@ -1,7 +1,6 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component, ViewChild } from '@angular/core';
 
-import { SolarisButtonDirective } from '../../../actions/button/directives/button.directive';
 import { SolarisDropdownMenuTriggerDirective } from '../directives/dropdown-menu-trigger.directive';
 import { SolarisDropdownMenuComponent } from '../component/dropdown-menu.component';
 import { SolarisDropdownMenuItemComponent } from '../component/dropdown-menu-item.component';
@@ -10,14 +9,12 @@ describe('SolarisDropdownMenuTriggerDirective', () => {
   @Component({
     standalone: true,
     imports: [
-      SolarisButtonDirective,
       SolarisDropdownMenuTriggerDirective,
       SolarisDropdownMenuComponent,
       SolarisDropdownMenuItemComponent,
     ],
     template: `
       <button
-        solaris-button
         solaris-dropdown-menu-trigger
         [solarisDropdownMenuTriggerFor]="menu"
       >
@@ -100,12 +97,12 @@ describe('SolarisDropdownMenuTriggerDirective', () => {
 
   it('should have menu items accessible via contentChildren', () => {
     const menu = fixture.componentInstance.menu;
-    expect(menu.navigableItems().length).toBe(3);
+    expect(menu.navigableItems()).toHaveLength(3);
   });
 
   it('should have disabled item ignored in navigable items', () => {
     const menu = fixture.componentInstance.menu;
-    expect(menu.enabledNavigableItems().length).toBe(2);
+    expect(menu.enabledNavigableItems()).toHaveLength(2);
   });
 
   it('should set aria-controls pointing to menu id', () => {

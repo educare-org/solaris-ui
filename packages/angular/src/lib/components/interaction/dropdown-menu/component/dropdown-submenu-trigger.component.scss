@@ -5,9 +5,15 @@
   --solaris-dropdown-submenu-trigger-padding-x: var(--solaris-spacing-4);
   --solaris-dropdown-submenu-trigger-label-color: var(--solaris-text-default);
   --solaris-dropdown-submenu-trigger-danger-color: var(--solaris-danger-text);
-  --solaris-dropdown-submenu-trigger-danger-hover: var(--solaris-danger-surface);
-  --solaris-dropdown-submenu-trigger-focus-ring-color: var(--solaris-primary-base);
-  --solaris-dropdown-submenu-trigger-hover-background: var(--solaris-surface-muted);
+  --solaris-dropdown-submenu-trigger-danger-hover: var(
+    --solaris-danger-surface
+  );
+  --solaris-dropdown-submenu-trigger-focus-ring-color: var(
+    --solaris-primary-base
+  );
+  --solaris-dropdown-submenu-trigger-hover-background: var(
+    --solaris-surface-muted
+  );
   --solaris-dropdown-submenu-trigger-trailing-color: var(--solaris-text-muted);
 
   display: flex;

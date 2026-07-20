@@ -15,9 +15,7 @@ import type {
   SolarisDropdownMenuItemColor,
   SolarisDropdownMenuItemType,
 } from '../model/dropdown-menu.types';
-import {
-  SOLARIS_DROPDOWN_NAVIGABLE_ITEM,
-} from '../model/dropdown-menu-navigation';
+import { SOLARIS_DROPDOWN_NAVIGABLE_ITEM } from '../model/dropdown-menu-navigation';
 
 @Component({
   selector: 'solaris-dropdown-menu-item',
@@ -107,6 +105,7 @@ export class SolarisDropdownMenuItemComponent {
   }
 
   focus(): void {
+    // SECURITY_EXCEPTION: nativeElement.focus() required for programmatic focus. No alternative exists.
     this.elementRef.nativeElement.focus();
   }
 }
