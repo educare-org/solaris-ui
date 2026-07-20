@@ -55,4 +55,8 @@ export const PT_BR_FORM_FIELD: Record<string, string> = {
   'form-field.label.readonly': 'Campo Somente Leitura',
   'form-field.value.disabled': 'Não é possível editar',
   'form-field.value.readonly': 'Valor somente leitura',
+  'form-field.character-counter': 'Contador de Caracteres',
+  'form-field.character-counter-note':
+    'Exibido automaticamente quando maxlength está definido no input nativo.',
+  'form-field.label.maxlength': 'Limitado a 20 caracteres',
 };

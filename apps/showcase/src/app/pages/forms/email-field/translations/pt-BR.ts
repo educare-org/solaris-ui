@@ -59,4 +59,8 @@ export const emailFieldPtBr: SolarisTranslationMap = {
   'email-field.reactive-forms-empty': '(vazio)',
   'email-field.label.manual': 'E-mail (manual)',
   'email-field.placeholder.manual': 'Use Form Field + Input diretamente',
+  'email-field.character-counter': 'Contador de Caracteres',
+  'email-field.character-counter-note':
+    'Exibido automaticamente quando maxLength é fornecido.',
+  'email-field.label.maxlength': 'E-mail (máx 100)',
 };

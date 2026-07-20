@@ -29,6 +29,7 @@
     [attr.name]="name() ?? null"
     [attr.id]="id() ?? null"
     [attr.placeholder]="placeholderText() || null"
+    [attr.maxlength]="maxLength() ?? null"
     (input)="onInput($event)"
     (focus)="onInputFocus()"
     (blur)="onInputBlur()"

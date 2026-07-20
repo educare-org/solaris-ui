@@ -55,6 +55,23 @@
   white-space: nowrap;
 }
 
+.solaris-form-field__character-counter {
+  margin-left: auto;
+  color: var(--solaris-form-field-optional-color);
+  font-size: var(--solaris-form-field-optional-font-size);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  transition: color var(--solaris-motion-duration-fast) ease;
+}
+
+.solaris-form-field__character-counter[data-severity='warning'] {
+  color: var(--solaris-warning-text);
+}
+
+.solaris-form-field__character-counter[data-severity='danger'] {
+  color: var(--solaris-danger-text);
+}
+
 .solaris-form-field__control-wrapper {
   position: relative;
   display: flex;

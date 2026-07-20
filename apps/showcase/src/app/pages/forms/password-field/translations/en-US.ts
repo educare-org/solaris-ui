@@ -67,4 +67,8 @@ export const passwordFieldEnUs: SolarisTranslationMap = {
   'password-field.label.radius-md': 'MD',
   'password-field.label.radius-lg': 'LG',
   'password-field.reactive-forms-empty': '(empty)',
+  'password-field.character-counter': 'Character Counter',
+  'password-field.character-counter-note':
+    'Automatically shown when maxLength is provided.',
+  'password-field.label.maxlength': 'Password (max 30)',
 };

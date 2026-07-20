@@ -70,4 +70,9 @@ export const PT_BR_TEXTAREA: SolarisTranslationMap = {
   'textarea.ff-hint.desc': 'Escreva uma descrição objetiva.',
   'textarea.ff-error.invalid': 'Este campo contém um erro.',
   'textarea.readonly-value': 'Texto somente leitura',
+  'textarea.character-counter': 'Contador de Caracteres',
+  'textarea.character-counter-note':
+    'Exibido automaticamente quando maxlength está definido no textarea.',
+  'textarea.ff-label.maxlength': 'Limitado a 100 caracteres',
+  'textarea.placeholder.maxlength': 'Digite sua mensagem...',
 };

@@ -19,6 +19,16 @@
         {{ optionalLabelText() }}
       </span>
     }
+    @if (showCharacterCounter()) {
+      <span
+        class="solaris-form-field__character-counter"
+        aria-live="polite"
+        [attr.aria-label]="characterCounterText()"
+        [attr.data-severity]="characterCounterSeverity()"
+      >
+        {{ characterCounterText() }}
+      </span>
+    }
   </div>
 }
 

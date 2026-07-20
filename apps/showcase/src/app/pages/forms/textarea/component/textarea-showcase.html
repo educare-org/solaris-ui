@@ -309,6 +309,26 @@
 
   <section class="textarea-showcase__section">
     <h2 class="textarea-showcase__section-title">
+      {{ 'textarea.character-counter' | translate }}
+    </h2>
+    <p class="textarea-showcase__note">
+      {{ 'textarea.character-counter-note' | translate }}
+    </p>
+    <div class="textarea-showcase__demo">
+      <solaris-form-field
+        [label]="'textarea.ff-label.maxlength' | translate"
+      >
+        <textarea
+          solaris-textarea
+          maxlength="100"
+          [placeholder]="'textarea.placeholder.maxlength' | translate"
+        ></textarea>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="textarea-showcase__section">
+    <h2 class="textarea-showcase__section-title">
       {{ 'textarea.rich-text-note' | translate }}
     </h2>
     <p class="textarea-showcase__note">

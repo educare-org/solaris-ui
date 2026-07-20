@@ -238,6 +238,21 @@
 
   <section class="email-field-showcase__section">
     <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.character-counter' | translate }}
+    </h2>
+    <p class="email-field-showcase__note">
+      {{ 'email-field.character-counter-note' | translate }}
+    </p>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.maxlength' | translate"
+        [maxLength]="100"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
       {{ 'email-field.manual-composition' | translate }}
     </h2>
     <p class="email-field-showcase__note">

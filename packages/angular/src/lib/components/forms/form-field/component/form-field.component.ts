@@ -122,10 +122,35 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly autoDetectedReadonly = signal(false);
   protected readonly controlResize = signal<ControlResize | null>(null);
 
+  protected readonly maxLength = signal<number | undefined>(undefined);
+  protected readonly currentLength = signal<number>(0);
+  protected readonly showCharacterCounter = computed(() => {
+    const max = this.maxLength();
+    return max !== undefined && max > 0;
+  });
+  protected readonly characterCounterText = computed(() => {
+    const max = this.maxLength();
+    if (max === undefined || max <= 0) return '';
+    const current = this.currentLength();
+    return `${current}/${max}`;
+  });
+  protected readonly characterCounterSeverity = computed<
+    'normal' | 'warning' | 'danger'
+  >(() => {
+    const max = this.maxLength();
+    const current = this.currentLength();
+    if (max === undefined || max <= 0) return 'normal';
+    const ratio = current / max;
+    if (ratio >= 1) return 'danger';
+    if (ratio >= 0.9) return 'warning';
+    return 'normal';
+  });
+
   protected controlId: string | null = null;
   private controlElement: HTMLElement | null = null;
   private focusListener: (() => void) | null = null;
   private blurListener: (() => void) | null = null;
+  private inputListener: (() => void) | null = null;
 
   protected readonly hasProjectedLabel = computed(() => !!this.projectedLabel);
   protected readonly hasProjectedHint = computed(() => !!this.projectedHint);
@@ -360,6 +385,19 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
       const isTextarea = first.tagName === 'TEXTAREA';
       this.isTextareaControl.set(isTextarea);
 
+      // SECURITY_EXCEPTION: getAttribute is the standard DOM API to read HTML attributes.
+      const maxlengthAttr = first.getAttribute('maxlength');
+      if (maxlengthAttr !== null) {
+        const parsed = parseInt(maxlengthAttr, 10);
+        this.maxLength.set(!isNaN(parsed) ? parsed : undefined);
+      } else {
+        this.maxLength.set(undefined);
+      }
+      // SECURITY_EXCEPTION: reading value.length from native input/textarea is required for character counter.
+      this.currentLength.set(
+        (first as HTMLInputElement | HTMLTextAreaElement).value?.length ?? 0,
+      );
+
       if (isTextarea) {
         const resize = first.dataset['resize'] ?? first.getAttribute('resize');
 
@@ -405,19 +443,32 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
       const onBlur = (): void => {
         this.ngZone.run(() => this.isFocused.set(false));
       };
+      const onInput = (): void => {
+        // SECURITY_EXCEPTION: reading value.length from native input/textarea is standard DOM API for character counter.
+        this.ngZone.run(() => {
+          this.currentLength.set(
+            (element as HTMLInputElement | HTMLTextAreaElement).value?.length ??
+              0,
+          );
+        });
+      };
       element.addEventListener('focusin', onFocus);
       element.addEventListener('focusout', onBlur);
+      element.addEventListener('input', onInput);
       this.focusListener = () =>
         element.removeEventListener('focusin', onFocus);
       this.blurListener = () => element.removeEventListener('focusout', onBlur);
+      this.inputListener = () => element.removeEventListener('input', onInput);
     });
   }
 
   private removeListeners(): void {
     this.focusListener?.();
     this.blurListener?.();
+    this.inputListener?.();
     this.focusListener = null;
     this.blurListener = null;
+    this.inputListener = null;
   }
 
   private warnNoControl(): void {

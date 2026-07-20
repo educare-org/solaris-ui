@@ -55,4 +55,8 @@ export const EN_US_FORM_FIELD: Record<string, string> = {
   'form-field.label.readonly': 'Readonly Field',
   'form-field.value.disabled': 'Cannot edit',
   'form-field.value.readonly': 'Read only value',
+  'form-field.character-counter': 'Character Counter',
+  'form-field.character-counter-note':
+    'Automatically shown when maxlength is set on the native input.',
+  'form-field.label.maxlength': 'Limited to 20 characters',
 };

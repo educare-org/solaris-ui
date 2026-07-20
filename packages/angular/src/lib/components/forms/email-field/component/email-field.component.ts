@@ -85,6 +85,7 @@ export class SolarisEmailFieldComponent implements ControlValueAccessor {
   readonly size = input<SolarisEmailFieldSize>('md');
   readonly radius = input<SolarisEmailFieldRadius>('md');
   readonly appearance = input<SolarisEmailFieldAppearance>('outline');
+  readonly maxLength = input<number | undefined>();
   readonly validateDomain = input<boolean, boolean>(false, {
     transform: (v: boolean) => v,
   });
