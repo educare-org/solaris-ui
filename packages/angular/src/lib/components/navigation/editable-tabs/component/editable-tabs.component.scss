@@ -161,6 +161,7 @@
 }
 
 .solaris-editable-tabs__rename-input:focus {
+  // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized color. Hardcoded spread required by design.
   box-shadow: 0 0 0 var(--solaris-border-width-sm)
     var(--solaris-primary-base-alpha);
 }

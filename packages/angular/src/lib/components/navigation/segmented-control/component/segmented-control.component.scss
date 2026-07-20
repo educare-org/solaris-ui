@@ -128,6 +128,7 @@
 
 .solaris-segmented-control__indicator {
   left: 0;
+  // SOLARIS_TOKEN_EXCEPTION: z-index 1 ensures indicator renders above items. Will be replaced by z-index scale token in future.
   z-index: 1;
   height: auto;
   transition: none;
