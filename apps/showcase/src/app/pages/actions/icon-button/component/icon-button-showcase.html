@@ -1,0 +1,300 @@
+<div class="icon-button-showcase">
+  <header class="icon-button-showcase__header">
+    <h1 class="icon-button-showcase__title">
+      {{ 'icon-button.title' | translate }}
+    </h1>
+    <p class="icon-button-showcase__description">
+      {{ 'icon-button.description' | translate }}
+    </p>
+  </header>
+
+  <section class="icon-button-showcase__section">
+    <h2 class="icon-button-showcase__section-title">
+      {{ 'icon-button.appearances' | translate }}
+    </h2>
+    <div class="icon-button-showcase__row">
+      <button solaris-icon-button appearance="solid" aria-label="Check">
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+      <button solaris-icon-button appearance="outline" aria-label="Check">
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+      <button solaris-icon-button appearance="ghost" aria-label="Check">
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+      <button solaris-icon-button appearance="tonal" aria-label="Check">
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+      <button solaris-icon-button appearance="surface" aria-label="Check">
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+    </div>
+  </section>
+
+  <section class="icon-button-showcase__section">
+    <h2 class="icon-button-showcase__section-title">
+      {{ 'icon-button.colors' | translate }}
+    </h2>
+    <div class="icon-button-showcase__row">
+      <button solaris-icon-button color="neutral" aria-label="Info">
+        <solaris-icon name="info" [decorative]="true" />
+      </button>
+      <button solaris-icon-button color="primary" aria-label="Info">
+        <solaris-icon name="info" [decorative]="true" />
+      </button>
+      <button solaris-icon-button color="success" aria-label="Info">
+        <solaris-icon name="info" [decorative]="true" />
+      </button>
+      <button solaris-icon-button color="warning" aria-label="Info">
+        <solaris-icon name="info" [decorative]="true" />
+      </button>
+      <button solaris-icon-button color="danger" aria-label="Info">
+        <solaris-icon name="info" [decorative]="true" />
+      </button>
+      <button solaris-icon-button color="info" aria-label="Info">
+        <solaris-icon name="info" [decorative]="true" />
+      </button>
+    </div>
+  </section>
+
+  <section class="icon-button-showcase__section">
+    <h2 class="icon-button-showcase__section-title">
+      {{ 'icon-button.sizes' | translate }}
+    </h2>
+    <div class="icon-button-showcase__row">
+      <button solaris-icon-button size="sm" color="primary" aria-label="Check">
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+      <button solaris-icon-button size="md" color="primary" aria-label="Check">
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+      <button solaris-icon-button size="lg" color="primary" aria-label="Check">
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+    </div>
+  </section>
+
+  <section class="icon-button-showcase__section">
+    <h2 class="icon-button-showcase__section-title">
+      {{ 'icon-button.radius' | translate }}
+    </h2>
+    <div class="icon-button-showcase__row">
+      <button
+        solaris-icon-button
+        radius="none"
+        color="primary"
+        aria-label="Check"
+      >
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+      <button
+        solaris-icon-button
+        radius="sm"
+        color="primary"
+        aria-label="Check"
+      >
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+      <button
+        solaris-icon-button
+        radius="md"
+        color="primary"
+        aria-label="Check"
+      >
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+      <button
+        solaris-icon-button
+        radius="lg"
+        color="primary"
+        aria-label="Check"
+      >
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+      <button
+        solaris-icon-button
+        radius="full"
+        color="primary"
+        aria-label="Check"
+      >
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+    </div>
+  </section>
+
+  <section class="icon-button-showcase__section">
+    <h2 class="icon-button-showcase__section-title">
+      {{ 'icon-button.density' | translate }}
+    </h2>
+    <div class="icon-button-showcase__row">
+      <button
+        solaris-icon-button
+        density="compact"
+        color="primary"
+        aria-label="Check"
+      >
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+      <button
+        solaris-icon-button
+        density="comfortable"
+        color="primary"
+        aria-label="Check"
+      >
+        <solaris-icon name="check" [decorative]="true" />
+      </button>
+    </div>
+  </section>
+
+  <section class="icon-button-showcase__section">
+    <h2 class="icon-button-showcase__section-title">
+      {{ 'icon-button.states' | translate }}
+    </h2>
+    <h3 class="icon-button-showcase__subsection-title">
+      {{ 'icon-button.states-default' | translate }}
+    </h3>
+    <div class="icon-button-showcase__row">
+      <button solaris-icon-button color="primary" aria-label="Info">
+        <solaris-icon name="info" [decorative]="true" />
+      </button>
+      <button
+        solaris-icon-button
+        color="primary"
+        [disabled]="true"
+        aria-label="Info disabled"
+      >
+        <solaris-icon name="info" [decorative]="true" />
+      </button>
+      <button
+        solaris-icon-button
+        color="primary"
+        [loading]="true"
+        aria-label="Info loading"
+      >
+        <solaris-icon name="info" [decorative]="true" />
+      </button>
+    </div>
+    <h3 class="icon-button-showcase__subsection-title">
+      {{ 'icon-button.states-toggle' | translate }}
+    </h3>
+    <div class="icon-button-showcase__row">
+      <button
+        solaris-icon-button
+        color="primary"
+        (click)="toggleLoading()"
+        [attr.aria-label]="loading ? 'Loading' : 'Toggle loading'"
+      >
+        <solaris-icon [name]="loading ? 'x' : 'check'" [decorative]="true" />
+      </button>
+    </div>
+  </section>
+
+  <section class="icon-button-showcase__section">
+    <h2 class="icon-button-showcase__section-title">
+      {{ 'icon-button.anchor' | translate }}
+    </h2>
+    <div class="icon-button-showcase__row">
+      <a
+        solaris-icon-button
+        href="#"
+        (click)="$event.preventDefault()"
+        aria-label="Settings"
+      >
+        <solaris-icon name="info" [decorative]="true" />
+      </a>
+      <a
+        solaris-icon-button
+        href="#"
+        [disabled]="true"
+        (click)="$event.preventDefault()"
+        aria-label="Settings disabled"
+      >
+        <solaris-icon name="info" [decorative]="true" />
+      </a>
+    </div>
+  </section>
+
+  <section class="icon-button-showcase__section">
+    <h2 class="icon-button-showcase__section-title">
+      {{ 'icon-button.accessible-name' | translate }}
+    </h2>
+    <div class="icon-button-showcase__row">
+      <button solaris-icon-button aria-label="Close" title="aria-label: Close">
+        <solaris-icon name="x" [decorative]="true" />
+      </button>
+      <span class="icon-button-showcase__label">aria-label</span>
+      <button
+        solaris-icon-button
+        aria-labelledby="icon-btn-label"
+        title="aria-labelledby"
+      >
+        <solaris-icon name="x" [decorative]="true" />
+      </button>
+      <span class="icon-button-showcase__label">aria-labelledby</span>
+      <span id="icon-btn-label" solaris-visually-hidden>Close</span>
+    </div>
+    <p class="icon-button-showcase__note">
+      {{ 'icon-button.accessible-name-note' | translate }}
+    </p>
+  </section>
+
+  <section class="icon-button-showcase__section">
+    <h2 class="icon-button-showcase__section-title">
+      {{ 'icon-button.badge' | translate }}
+    </h2>
+    <div class="icon-button-showcase__row">
+      <button solaris-icon-button aria-label="Notifications, 3 new">
+        <solaris-icon name="info" [decorative]="true" />
+        <solaris-badge
+          solaris-icon-button-badge
+          variant="count"
+          color="primary"
+          size="sm"
+          radius="full"
+        >
+          3
+        </solaris-badge>
+      </button>
+      <button solaris-icon-button aria-label="Favorites, 148 items">
+        <solaris-icon name="info" [decorative]="true" />
+        <solaris-badge
+          solaris-icon-button-badge
+          color="warning"
+          appearance="tonal"
+        >
+          148
+        </solaris-badge>
+      </button>
+    </div>
+    <p class="icon-button-showcase__note">
+      {{ 'icon-button.badge-note' | translate }}
+    </p>
+  </section>
+
+  <section class="icon-button-showcase__section">
+    <h2 class="icon-button-showcase__section-title">
+      {{ 'icon-button.custom' | translate }}
+    </h2>
+    <div class="icon-button-showcase__row">
+      <div class="icon-button-custom-violet">
+        <button solaris-icon-button color="custom" aria-label="Custom violet">
+          <solaris-icon name="info" [decorative]="true" />
+        </button>
+      </div>
+      <div class="icon-button-custom-amber">
+        <button solaris-icon-button color="custom" aria-label="Custom amber">
+          <solaris-icon name="info" [decorative]="true" />
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="icon-button-showcase__section">
+    <h2 class="icon-button-showcase__section-title">
+      {{ 'icon-button.button-group' | translate }}
+    </h2>
+    <p class="icon-button-showcase__note">
+      {{ 'icon-button.button-group-note' | translate }}
+    </p>
+  </section>
+</div>

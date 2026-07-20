@@ -1,0 +1,184 @@
+:host {
+  --solaris-editable-tabs-action-size: var(--solaris-spacing-5);
+  --solaris-editable-tabs-action-radius: var(--solaris-radius-sm);
+  --solaris-editable-tabs-action-color: var(--solaris-text-muted);
+  --solaris-editable-tabs-action-hover-color: var(--solaris-text-default);
+  --solaris-editable-tabs-action-hover-background: var(
+    --solaris-surface-subtle
+  );
+  --solaris-editable-tabs-rename-input-min-width: var(--solaris-spacing-20);
+  --solaris-editable-tabs-rename-input-padding: var(--solaris-spacing-1);
+  --solaris-editable-tabs-rename-input-radius: var(--solaris-radius-sm);
+  --solaris-editable-tabs-rename-input-font-size: inherit;
+  --solaris-editable-tabs-rename-input-border-color: var(
+    --solaris-primary-base
+  );
+  --solaris-editable-tabs-rename-input-background: var(--solaris-surface-base);
+
+  display: block;
+  width: 100%;
+}
+
+.solaris-editable-tabs__wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.solaris-editable-tabs__action-area {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--solaris-motion-duration-fast)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-editable-tabs__action-area--visible {
+  opacity: 1;
+}
+
+:host([data-show-actions='always']) .solaris-editable-tabs__action-area {
+  opacity: 1;
+}
+
+:host
+  ::ng-deep
+  solaris-tab[data-editable]:hover
+  .solaris-editable-tabs__action-area {
+  opacity: 1;
+}
+
+:host
+  ::ng-deep
+  solaris-tab[data-editable]:focus-within
+  .solaris-editable-tabs__action-area {
+  opacity: 1;
+}
+
+:host ::ng-deep .solaris-editable-tabs__action-area--replaces-icon {
+  display: none;
+  order: -1;
+}
+
+:host
+  ::ng-deep
+  .solaris-editable-tabs__action-area--replaces-icon
+  .solaris-editable-tabs__action-trigger {
+  width: var(--solaris-tab-icon-size);
+  height: var(--solaris-tab-icon-size);
+}
+
+:host
+  ::ng-deep
+  solaris-tab[data-has-icon]:hover
+  .solaris-editable-tabs__action-area--replaces-icon,
+:host
+  ::ng-deep
+  solaris-tab[data-has-icon]:focus-within
+  .solaris-editable-tabs__action-area--replaces-icon {
+  display: inline-flex;
+}
+
+:host ::ng-deep solaris-tab[data-has-icon]:hover .solaris-tab__icon,
+:host ::ng-deep solaris-tab[data-has-icon]:focus-within .solaris-tab__icon {
+  display: none;
+}
+
+:host
+  ::ng-deep
+  solaris-tab[data-has-icon][data-menu-open]
+  .solaris-editable-tabs__action-area--replaces-icon {
+  display: inline-flex;
+}
+
+:host ::ng-deep solaris-tab[data-has-icon][data-menu-open] .solaris-tab__icon {
+  display: none;
+}
+
+:host([data-show-actions='always'])
+  ::ng-deep
+  .solaris-editable-tabs__action-area--replaces-icon {
+  display: inline-flex;
+}
+
+:host([data-show-actions='always'])
+  ::ng-deep
+  solaris-tab[data-has-icon]
+  .solaris-tab__icon {
+  display: none;
+}
+
+.solaris-editable-tabs__action-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--solaris-editable-tabs-action-size);
+  height: var(--solaris-editable-tabs-action-size);
+  padding: 0;
+  margin: 0;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: var(--solaris-editable-tabs-action-color);
+  border-radius: var(--solaris-editable-tabs-action-radius);
+  transition:
+    color var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard),
+    background var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard);
+  line-height: 0;
+}
+
+.solaris-editable-tabs__action-trigger:hover,
+.solaris-editable-tabs__action-trigger:focus-visible {
+  color: var(--solaris-editable-tabs-action-hover-color);
+  background: var(--solaris-editable-tabs-action-hover-background);
+}
+
+.solaris-editable-tabs__action-trigger:focus-visible {
+  outline: var(--solaris-border-width-md) solid var(--solaris-primary-base);
+  outline-offset: var(--solaris-border-width-sm);
+}
+
+.solaris-editable-tabs__rename-wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+.solaris-editable-tabs__rename-input {
+  min-width: var(--solaris-editable-tabs-rename-input-min-width);
+  padding: var(--solaris-editable-tabs-rename-input-padding);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-editable-tabs-rename-input-border-color);
+  border-radius: var(--solaris-editable-tabs-rename-input-radius);
+  background: var(--solaris-editable-tabs-rename-input-background);
+  font: var(--solaris-font-weight-regular)
+    var(--solaris-editable-tabs-rename-input-font-size) / 1.2
+    var(--solaris-font-family-sans);
+  color: inherit;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.solaris-editable-tabs__rename-input:focus {
+  box-shadow: 0 0 0 var(--solaris-border-width-sm)
+    var(--solaris-primary-base-alpha);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-editable-tabs__action-area {
+    transition: none;
+  }
+  .solaris-editable-tabs__action-trigger {
+    transition: none;
+  }
+}
+
+:host-context([data-reduced-motion='true']) {
+  .solaris-editable-tabs__action-area {
+    transition: none;
+  }
+  .solaris-editable-tabs__action-trigger {
+    transition: none;
+  }
+}

@@ -1,0 +1,242 @@
+textarea[solaris-textarea] {
+  --solaris-textarea-background: initial;
+  --solaris-textarea-color: initial;
+  --solaris-textarea-border-color: initial;
+  --solaris-textarea-border-width: initial;
+  --solaris-textarea-radius: initial;
+  --solaris-textarea-padding-x: initial;
+  --solaris-textarea-padding-y: initial;
+  --solaris-textarea-min-height: initial;
+  --solaris-textarea-font-size: initial;
+  --solaris-textarea-line-height: initial;
+  --solaris-textarea-placeholder-color: initial;
+  --solaris-textarea-focus-ring-color: initial;
+  --solaris-textarea-invalid-border-color: initial;
+  --solaris-textarea-disabled-opacity: initial;
+  --solaris-textarea-readonly-background: initial;
+
+  font-family: var(--solaris-font-family-sans), system-ui;
+  box-sizing: border-box;
+  margin: 0;
+  width: 100%;
+  color: var(--solaris-textarea-color);
+  background: var(--solaris-textarea-background);
+  border: var(--solaris-textarea-border-width) solid
+    var(--solaris-textarea-border-color);
+  border-radius: var(--solaris-textarea-radius);
+  min-height: var(--solaris-textarea-min-height);
+  padding: var(--solaris-textarea-padding-y) var(--solaris-textarea-padding-x);
+  font-size: var(--solaris-textarea-font-size);
+  line-height: var(--solaris-textarea-line-height);
+  outline: none;
+  transition:
+    border-color var(--solaris-motion-duration-fast, 150ms) ease,
+    box-shadow var(--solaris-motion-duration-fast, 150ms) ease;
+}
+
+textarea[solaris-textarea]::placeholder {
+  color: var(--solaris-textarea-placeholder-color);
+  opacity: 1;
+}
+
+textarea[solaris-textarea]:focus-visible {
+  border-color: var(--solaris-textarea-focus-ring-color);
+  // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized color. Hardcoded spread required by design.
+  box-shadow: 0 0 0 2px var(--solaris-textarea-focus-ring-color);
+}
+
+textarea[solaris-textarea][data-invalid] {
+  border-color: var(--solaris-textarea-invalid-border-color);
+}
+
+textarea[solaris-textarea][data-invalid]:focus-visible {
+  border-color: var(--solaris-textarea-invalid-border-color);
+  // SOLARIS_TOKEN_EXCEPTION: Invalid state focus ring box-shadow uses CSS var. Hardcoded spread required by design.
+  box-shadow: 0 0 0 2px var(--solaris-textarea-invalid-border-color);
+}
+
+textarea[solaris-textarea]:disabled {
+  cursor: not-allowed;
+  opacity: var(--solaris-textarea-disabled-opacity);
+}
+
+textarea[solaris-textarea][readonly] {
+  background: var(--solaris-textarea-readonly-background);
+  cursor: default;
+}
+
+textarea[solaris-textarea][data-appearance='outline'] {
+  --solaris-textarea-background: var(--solaris-surface-base);
+  --solaris-textarea-color: var(--solaris-text-default);
+  --solaris-textarea-border-color: var(--solaris-border-default);
+  --solaris-textarea-border-width: 1px;
+  --solaris-textarea-placeholder-color: var(--solaris-text-muted);
+  --solaris-textarea-focus-ring-color: var(--solaris-primary-base);
+  --solaris-textarea-invalid-border-color: var(--solaris-danger-base);
+  --solaris-textarea-disabled-opacity: 0.5;
+  --solaris-textarea-readonly-background: var(--solaris-surface-muted);
+}
+
+textarea[solaris-textarea][data-appearance='surface'] {
+  --solaris-textarea-background: var(--solaris-surface-muted);
+  --solaris-textarea-color: var(--solaris-text-default);
+  --solaris-textarea-border-color: var(--solaris-border-subtle);
+  --solaris-textarea-border-width: 1px;
+  --solaris-textarea-placeholder-color: var(--solaris-text-muted);
+  --solaris-textarea-focus-ring-color: var(--solaris-primary-base);
+  --solaris-textarea-invalid-border-color: var(--solaris-danger-base);
+  --solaris-textarea-disabled-opacity: 0.5;
+  --solaris-textarea-readonly-background: var(--solaris-surface-base);
+}
+
+textarea[solaris-textarea][data-appearance='filled'] {
+  --solaris-textarea-background: var(--solaris-surface-muted);
+  --solaris-textarea-color: var(--solaris-text-default);
+  --solaris-textarea-border-color: transparent;
+  --solaris-textarea-border-width: 0 0 1px 0;
+  --solaris-textarea-placeholder-color: var(--solaris-text-muted);
+  --solaris-textarea-focus-ring-color: var(--solaris-primary-base);
+  --solaris-textarea-invalid-border-color: var(--solaris-danger-base);
+  --solaris-textarea-disabled-opacity: 0.5;
+  --solaris-textarea-readonly-background: var(--solaris-surface-base);
+}
+
+textarea[solaris-textarea][data-size='sm'] {
+  --solaris-textarea-padding-x: var(--solaris-spacing-2);
+  --solaris-textarea-padding-y: 0.25rem;
+  --solaris-textarea-min-height: 3rem;
+  --solaris-textarea-font-size: var(--solaris-font-size-sm);
+  --solaris-textarea-line-height: var(--solaris-line-height-sm);
+}
+
+textarea[solaris-textarea][data-size='md'] {
+  --solaris-textarea-padding-x: var(--solaris-spacing-3);
+  --solaris-textarea-padding-y: 0.375rem;
+  --solaris-textarea-min-height: 3.5rem;
+  --solaris-textarea-font-size: var(--solaris-font-size-md);
+  --solaris-textarea-line-height: var(--solaris-line-height-md);
+}
+
+textarea[solaris-textarea][data-size='lg'] {
+  --solaris-textarea-padding-x: var(--solaris-spacing-4);
+  --solaris-textarea-padding-y: 0.5rem;
+  --solaris-textarea-min-height: 4rem;
+  --solaris-textarea-font-size: var(--solaris-font-size-lg);
+  --solaris-textarea-line-height: var(--solaris-line-height-lg);
+}
+
+textarea[solaris-textarea][data-density='compact'] {
+  --solaris-textarea-padding-y: 0.1875rem;
+  --solaris-textarea-line-height: var(--solaris-line-height-sm);
+}
+
+textarea[solaris-textarea][data-density='comfortable'] {
+  --solaris-textarea-padding-y: 0.5rem;
+  --solaris-textarea-line-height: var(--solaris-line-height-md);
+}
+
+textarea[solaris-textarea][data-radius='none'] {
+  --solaris-textarea-radius: 0;
+}
+
+textarea[solaris-textarea][data-radius='sm'] {
+  --solaris-textarea-radius: var(--solaris-radius-sm);
+}
+
+textarea[solaris-textarea][data-radius='md'] {
+  --solaris-textarea-radius: var(--solaris-radius-md);
+}
+
+textarea[solaris-textarea][data-radius='lg'] {
+  --solaris-textarea-radius: var(--solaris-radius-lg);
+}
+
+textarea[solaris-textarea][data-resize='none'] {
+  resize: none;
+}
+
+textarea[solaris-textarea][data-resize='vertical'] {
+  resize: vertical;
+}
+
+textarea[solaris-textarea][data-resize='horizontal'] {
+  resize: horizontal;
+}
+
+textarea[solaris-textarea][data-resize='both'] {
+  resize: both;
+}
+
+textarea[solaris-textarea][data-full-width] {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  textarea[solaris-textarea] {
+    transition: none;
+  }
+}
+
+[data-reduced-motion='true'] textarea[solaris-textarea] {
+  transition: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  textarea[solaris-textarea]:autofill,
+  textarea[solaris-textarea]:-webkit-autofill {
+    -webkit-text-fill-color: var(--solaris-textarea-color);
+    // SOLARIS_TOKEN_EXCEPTION: WebKit autofill dark mode requires hardcoded box-shadow inset to override browser default.
+    -webkit-box-shadow: 0 0 0 30px var(--solaris-textarea-background) inset;
+  }
+}
+
+solaris-form-field textarea[solaris-textarea] {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding-left: 0;
+  padding-right: 0;
+  // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow inside form-field context is intentional to inherit from parent.
+  box-shadow: none;
+}
+
+solaris-form-field textarea[solaris-textarea]:focus-visible {
+  border-color: transparent;
+  // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow inside form-field context is intentional to inherit from parent.
+  box-shadow: none;
+}
+
+solaris-form-field textarea[solaris-textarea][data-invalid] {
+  border-color: transparent;
+}
+
+solaris-form-field textarea[solaris-textarea][data-invalid]:focus-visible {
+  border-color: transparent;
+  // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow inside form-field context is intentional to inherit from parent.
+  box-shadow: none;
+}
+
+solaris-form-field textarea[solaris-textarea][disabled] {
+  opacity: var(--solaris-textarea-disabled-opacity);
+}
+
+solaris-form-field textarea[solaris-textarea][readonly] {
+  background: transparent;
+}
+
+solaris-form-field textarea[solaris-textarea][data-density='compact'] {
+  padding-top: 0.1875rem;
+  padding-bottom: 0.1875rem;
+}
+
+solaris-form-field textarea[solaris-textarea][data-density='comfortable'] {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+solaris-form-field textarea[solaris-textarea]:autofill,
+solaris-form-field textarea[solaris-textarea]:-webkit-autofill {
+  -webkit-text-fill-color: var(--solaris-textarea-color);
+  // SOLARIS_TOKEN_EXCEPTION: WebKit autofill inside form-field requires hardcoded transparent box-shadow inset.
+  -webkit-box-shadow: 0 0 0 30px transparent inset;
+}

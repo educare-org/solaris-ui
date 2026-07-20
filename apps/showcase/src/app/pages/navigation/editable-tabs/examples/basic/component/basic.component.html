@@ -1,0 +1,19 @@
+<solaris-editable-tabs
+  [tabs]="tabs()"
+  [(value)]="activeTab"
+  (tabRename)="onRename($event)"
+  (tabRemove)="onRemove($event)"
+  (tabMove)="onMove($event)"
+  (defaultTabChange)="onDefaultChange($event)"
+/>
+<p
+  style="
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: var(--solaris-text-muted);
+  "
+>
+  {{
+    'editableTabs.example.basic.active-tab' | translate: { value: activeTab() }
+  }}
+</p>

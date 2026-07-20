@@ -1,7 +1,7 @@
 {
-  "name": "@educarehq/solaris-ui",
-  "version": "0.1.0",
-  "license": "UNLICENSED",
+  "name": "@solaris-ui/angular",
+  "version": "0.3.0",
+  "license": "MIT",
   "scripts": {
     "start": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && pnpm nx serve showcase --port=4300",
     "dev": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && pnpm nx serve showcase --port=4300",
@@ -24,6 +24,7 @@
     "check:i18n": "node tools/scripts/check-i18n.mjs",
     "check:security": "node tools/scripts/check-security.mjs",
     "check:dependencies": "node tools/scripts/check-dependencies.mjs",
+    "package:check": "node tools/scripts/check-package.mjs",
     "prepare": "simple-git-hooks",
     "commitlint": "commitlint",
     "check:staged": "pnpm lint-staged",
@@ -38,7 +39,7 @@
     "verify": "node tools/scripts/verify.mjs"
   },
   "packageManager": "pnpm@10.33.2",
-  "private": false,
+  "private": true,
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
@@ -110,6 +111,7 @@
     "vitest": "^4.0.8"
   },
   "dependencies": {
+    "@angular/cdk": "~21.2.14",
     "@angular/common": "~21.2.0",
     "@angular/compiler": "~21.2.0",
     "@angular/core": "~21.2.0",

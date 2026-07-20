@@ -28,12 +28,23 @@ export interface SvgCircleElement {
   r: number;
 }
 
+export interface SvgRectElement {
+  type: 'rect';
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  rx?: number;
+  ry?: number;
+}
+
 export type SvgElement =
   | SvgPathElement
   | SvgLineElement
   | SvgPolylineElement
   | SvgPolygonElement
-  | SvgCircleElement;
+  | SvgCircleElement
+  | SvgRectElement;
 
 export interface SolarisIconDefinition {
   name: string;

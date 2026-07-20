@@ -1,0 +1,31 @@
+@if (labelText(); as text) {
+  <span class="solaris-checkbox-group__label" [id]="labelId()">
+    {{ text }}
+  </span>
+}
+@if (selectAll()) {
+  <div class="solaris-checkbox-group__select-all">
+    <solaris-checkbox
+      [checked]="selectAllChecked()"
+      [indeterminate]="selectAllIndeterminate()"
+      [disabled]="isEffectivelyDisabled()"
+      [readonly]="isEffectivelyReadonly()"
+      (checkedChange)="onSelectAllChange($event)"
+    >
+      {{ selectAllLabelText() }}
+    </solaris-checkbox>
+  </div>
+}
+<div class="solaris-checkbox-group__options" role="group">
+  <ng-content />
+</div>
+@if (hintText(); as text) {
+  <p class="solaris-checkbox-group__hint" [id]="hintId()">
+    {{ text }}
+  </p>
+}
+@if (showError(); as text) {
+  <p class="solaris-checkbox-group__error" [id]="errorId()" role="alert">
+    {{ text }}
+  </p>
+}

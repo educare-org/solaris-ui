@@ -1,0 +1,48 @@
+<div
+  class="solaris-tooltip-panel__container"
+  [attr.data-appearance]="data.appearance"
+  [attr.data-size]="data.size"
+  [attr.data-radius]="data.radius"
+  [attr.data-placement]="data.placement"
+  [id]="data.panelId"
+  [style.max-width]="data.maxWidth"
+>
+  @if (data.arrow) {
+    <div class="solaris-tooltip-panel__arrow {{ data.arrowClass }}"></div>
+  }
+
+  <div class="solaris-tooltip-panel__content">
+    @if (data.icon) {
+      <solaris-icon
+        [name]="data.icon"
+        [decorative]="data.iconDecorative"
+        class="solaris-tooltip-panel__icon"
+      />
+    }
+
+    <div class="solaris-tooltip-panel__text">
+      @if (data.title) {
+        <div class="solaris-tooltip-panel__title">{{ data.title }}</div>
+      }
+
+      @if (data.body) {
+        <div class="solaris-tooltip-panel__body">{{ data.body }}</div>
+      }
+
+      @if (data.contentTemplate) {
+        <ng-container [ngTemplateOutlet]="data.contentTemplate" />
+      }
+    </div>
+  </div>
+
+  @if (data.closeable) {
+    <button
+      class="solaris-tooltip-panel__close"
+      type="button"
+      (click)="data.close()"
+      attr.aria-label="{{ data.closeLabel }}"
+    >
+      <solaris-icon name="x" [decorative]="true" />
+    </button>
+  }
+</div>

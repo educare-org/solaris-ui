@@ -1,0 +1,63 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.switch-showcase {
+  @include layout.page;
+}
+
+.switch-showcase__header {
+  @include layout.header;
+}
+
+.switch-showcase__title {
+  @include layout.title;
+}
+
+.switch-showcase__description {
+  @include layout.description;
+}
+
+.switch-showcase__section {
+  @include layout.section-card;
+}
+
+.switch-showcase__section-title {
+  @include layout.section-title;
+}
+
+.switch-showcase__row {
+  @include layout.row($gap: var(--solaris-spacing-4));
+  margin-bottom: var(--solaris-spacing-2);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.switch-showcase__note {
+  @include layout.note;
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.switch-showcase__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: var(--solaris-spacing-3);
+}
+
+.switch-showcase__cell {
+  display: flex;
+  align-items: center;
+}
+
+.switch-showcase__demo {
+  margin-bottom: var(--solaris-spacing-2);
+}
+
+.switch-showcase__custom-wrapper {
+  --solaris-switch-custom-track-background: #e5e7eb;
+  --solaris-switch-custom-track-checked-background: #9333ea;
+  --solaris-switch-custom-thumb-background: #ffffff;
+  --solaris-switch-custom-border-color: #d1d5db;
+
+  display: inline-flex;
+}

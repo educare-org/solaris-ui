@@ -1,0 +1,40 @@
+<div
+  class="solaris-tabs__tablist"
+  #tablist
+  role="tablist"
+  [attr.aria-orientation]="orientation()"
+  [attr.aria-label]="resolvedAriaLabel()"
+>
+  <ng-content select="solaris-tab" />
+
+  @if (showIndicator() && appearance() === 'underline') {
+    <div
+      class="solaris-tabs__indicator"
+      [class.solaris-tabs__indicator--animate]="indicatorReady()"
+      [class.solaris-tabs__indicator--vertical]="orientation() === 'vertical'"
+      [style.transform]="
+        orientation() === 'vertical'
+          ? indicatorTransformY()
+          : indicatorTransformX()
+      "
+      [style.width]="orientation() === 'vertical' ? '' : indicatorSize()"
+      [style.height]="orientation() === 'vertical' ? indicatorSize() : ''"
+    ></div>
+  }
+</div>
+
+@if (panels().length > 0) {
+  <div
+    class="solaris-tabs__panels"
+    [class.solaris-tabs__panels--fade]="contentTransition() === 'fade'"
+    [class.solaris-tabs__panels--slide]="contentTransition() === 'slide'"
+    [class.solaris-tabs__panels--slide-from-right]="
+      contentTransition() === 'slide' && slideDirection() === 'right'
+    "
+    [class.solaris-tabs__panels--slide-from-left]="
+      contentTransition() === 'slide' && slideDirection() === 'left'
+    "
+  >
+    <ng-content select="solaris-tab-panel" />
+  </div>
+}

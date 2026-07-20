@@ -1,0 +1,168 @@
+<div class="dialog-showcase">
+  <header class="dialog-showcase__header">
+    <h1 class="dialog-showcase__title">{{ 'dialog.title' | translate }}</h1>
+    <p class="dialog-showcase__description">
+      {{ 'dialog.description' | translate }}
+    </p>
+  </header>
+
+  <section class="dialog-showcase__section">
+    <h2 class="dialog-showcase__section-title">
+      {{ 'dialog.basic' | translate }}
+    </h2>
+    <p class="dialog-showcase__section-desc">
+      {{ 'dialog.basic-desc' | translate }}
+    </p>
+    <div class="dialog-showcase__row">
+      <button type="button" solaris-button (click)="openBasic()">
+        {{ 'dialog.open-basic' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openConfirmation()">
+        {{ 'dialog.open-confirmation' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openDanger()">
+        {{ 'dialog.open-danger' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="dialog-showcase__section">
+    <h2 class="dialog-showcase__section-title">
+      {{ 'dialog.actions-align' | translate }}
+    </h2>
+    <p class="dialog-showcase__section-desc">
+      {{ 'dialog.actions-align-desc' | translate }}
+    </p>
+    <div class="dialog-showcase__row">
+      <button type="button" solaris-button (click)="openActionsStart()">
+        {{ 'dialog.align-start' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openActionsCenter()">
+        {{ 'dialog.align-center' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openActionsEnd()">
+        {{ 'dialog.align-end' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openActionsSpaceBetween()">
+        {{ 'dialog.align-space-between' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="dialog-showcase__section">
+    <h2 class="dialog-showcase__section-title">
+      {{ 'dialog.sizes' | translate }}
+    </h2>
+    <p class="dialog-showcase__section-desc">
+      {{ 'dialog.sizes-desc' | translate }}
+    </p>
+    <div class="dialog-showcase__row">
+      <button type="button" solaris-button (click)="openSizeSm()">
+        {{ 'dialog.size-sm' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openSizeMd()">
+        {{ 'dialog.size-md' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openSizeLg()">
+        {{ 'dialog.size-lg' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openSizeXl()">
+        {{ 'dialog.size-xl' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openSizeFullscreen()">
+        {{ 'dialog.size-fullscreen' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="dialog-showcase__section">
+    <h2 class="dialog-showcase__section-title">
+      {{ 'dialog.appearance' | translate }}
+    </h2>
+    <p class="dialog-showcase__section-desc">
+      {{ 'dialog.appearance-desc' | translate }}
+    </p>
+    <div class="dialog-showcase__row">
+      <button type="button" solaris-button (click)="openSurface()">
+        {{ 'dialog.surface' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openOutline()">
+        {{ 'dialog.outline' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="dialog-showcase__section">
+    <h2 class="dialog-showcase__section-title">
+      {{ 'dialog.variants' | translate }}
+    </h2>
+    <p class="dialog-showcase__section-desc">
+      {{ 'dialog.variants-desc' | translate }}
+    </p>
+    <div class="dialog-showcase__row">
+      <button type="button" solaris-button (click)="openVariant('neutral')">
+        {{ 'dialog.variant-neutral' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openVariant('info')">
+        {{ 'dialog.variant-info' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openVariant('success')">
+        {{ 'dialog.variant-success' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openVariant('warning')">
+        {{ 'dialog.variant-warning' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openVariant('danger')">
+        {{ 'dialog.variant-danger' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="dialog-showcase__section">
+    <h2 class="dialog-showcase__section-title">
+      {{ 'dialog.component' | translate }}
+    </h2>
+    <p class="dialog-showcase__section-desc">
+      {{ 'dialog.component-desc' | translate }}
+    </p>
+    <div class="dialog-showcase__row">
+      <button type="button" solaris-button (click)="openComponent()">
+        {{ 'dialog.open-component' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="dialog-showcase__section">
+    <h2 class="dialog-showcase__section-title">
+      {{ 'dialog.behavior' | translate }}
+    </h2>
+    <p class="dialog-showcase__section-desc">
+      {{ 'dialog.behavior-desc' | translate }}
+    </p>
+    <div class="dialog-showcase__row">
+      <button type="button" solaris-button (click)="openNotCloseable()">
+        {{ 'dialog.not-closeable' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openNoBackdropClose()">
+        {{ 'dialog.no-backdrop-close' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openNoEscapeClose()">
+        {{ 'dialog.no-escape-close' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="dialog-showcase__section">
+    <h2 class="dialog-showcase__section-title">
+      {{ 'dialog.flow' | translate }}
+    </h2>
+    <p class="dialog-showcase__section-desc">
+      {{ 'dialog.flow-desc' | translate }}
+    </p>
+    <div class="dialog-showcase__row">
+      <button type="button" solaris-button (click)="openFlow()">
+        {{ 'dialog.open-flow' | translate }}
+      </button>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,42 @@
+export const PT_BR_SWITCH_GROUP: Record<string, string> = {
+  'switch-group.title': 'Switch Group',
+  'switch-group.description':
+    'Agrupa configurações booleanas relacionadas. Cada switch filho representa uma opção booleana nomeada. O valor é Record<string, boolean>.',
+  'switch-group.basic': 'Básico',
+  'switch-group.value-label': 'Valor',
+  'switch-group.standalone': 'Label/hint/error standalone',
+  'switch-group.form-field': 'Integração com Form Field',
+  'switch-group.layouts': 'Layouts',
+  'switch-group.vertical-list': 'Lista vertical',
+  'switch-group.horizontal-list': 'Lista horizontal',
+  'switch-group.grid-2-columns': 'Grid 2 colunas',
+  'switch-group.grid-auto': 'Grid auto',
+  'switch-group.disabled': 'Desabilitado',
+  'switch-group.disabled-group': 'Grupo desabilitado',
+  'switch-group.disabled-child': 'Filho desabilitado individualmente',
+  'switch-group.readonly': 'Somente leitura',
+  'switch-group.readonly-group': 'Grupo somente leitura',
+  'switch-group.readonly-child': 'Filho somente leitura individual',
+  'switch-group.validation': 'Validação',
+  'switch-group.min-enabled': 'minEnabled',
+  'switch-group.min-enabled-note':
+    'Pelo menos um switch deve estar ativado. O grupo fica inválido abaixo do limite.',
+  'switch-group.min-enabled-error': 'Selecione ao menos um canal.',
+  'switch-group.max-enabled': 'maxEnabled',
+  'switch-group.max-enabled-note':
+    'No máximo dois switches podem estar ativados. O grupo fica inválido acima do limite. Switches não são desabilitados automaticamente.',
+  'switch-group.max-enabled-error': 'Selecione no máximo dois canais.',
+  'switch-group.required': 'Obrigatório',
+  'switch-group.required-note': 'Pelo menos uma opção deve estar ativada.',
+  'switch-group.required-error': 'Você precisa selecionar ao menos uma opção.',
+  'switch-group.reactive-forms': 'Reactive Forms',
+  'switch-group.reactive-forms-note':
+    'Switch Group vinculado a um FormControl<Record<string, boolean>>.',
+  'switch-group.sizes': 'Consistência visual (tamanhos)',
+  'switch-group.size-sm': 'Pequeno (sm)',
+  'switch-group.size-md': 'Médio (md)',
+  'switch-group.size-lg': 'Grande (lg)',
+  'switch-group.future': 'Futuro',
+  'switch-group.future-note':
+    'Switch Group não possui master switch / select-all no v1 porque switch não tem estado indeterminate significativo. Sem loading/pending, nested/tree ou async update no v1.',
+};

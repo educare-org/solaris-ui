@@ -7,14 +7,36 @@ import { SOLARIS_TRANSLATE_CONFIG } from '../token/solaris-translate.tokens';
 import type { SolarisLocale } from '../model/solaris-locale.types';
 import type { SolarisTranslateParams } from '../model/solaris-translation.types';
 
+function mergeConfigs(
+  injected?: SolarisTranslateConfig,
+): SolarisTranslateConfig {
+  if (!injected) return SOLARIS_TRANSLATE_DEFAULT_CONFIG;
+  const merged: SolarisTranslateConfig = {
+    ...SOLARIS_TRANSLATE_DEFAULT_CONFIG,
+    ...injected,
+    translations: {},
+  };
+  const allLocales = new Set([
+    ...Object.keys(SOLARIS_TRANSLATE_DEFAULT_CONFIG.translations),
+    ...Object.keys(injected.translations ?? {}),
+  ]);
+  for (const locale of allLocales) {
+    merged.translations[locale] = {
+      ...(SOLARIS_TRANSLATE_DEFAULT_CONFIG.translations[locale] ?? {}),
+      ...(injected.translations?.[locale] ?? {}),
+    };
+  }
+  return merged;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class SolarisTranslateService {
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly config: SolarisTranslateConfig =
-    inject(SOLARIS_TRANSLATE_CONFIG, { optional: true }) ??
-    SOLARIS_TRANSLATE_DEFAULT_CONFIG;
+  private readonly config: SolarisTranslateConfig = mergeConfigs(
+    inject(SOLARIS_TRANSLATE_CONFIG, { optional: true }) ?? undefined,
+  );
 
   get locale(): SolarisLocale {
     return this.resolveLocale();
@@ -34,11 +56,16 @@ export class SolarisTranslateService {
       return this.interpolate(localeMap[key], params);
     }
 
-    if (fallbackLocale !== locale) {
+    if (fallbackLocale) {
       const fallbackMap = translations[fallbackLocale];
       if (fallbackMap && key in fallbackMap) {
         return this.interpolate(fallbackMap[key], params);
       }
+    }
+
+    const defaultMap = translations['en-US'];
+    if (defaultMap && key in defaultMap) {
+      return this.interpolate(defaultMap[key], params);
     }
 
     return key;

@@ -1,0 +1,43 @@
+<solaris-stepper [(activeIndex)]="activeStep" [linear]="true">
+  <solaris-step label="Account" [completed]="activeStep() > 0">
+    <solaris-stepper-content>
+      <div class="wizard-content">
+        <h3>Account Setup</h3>
+        <p>Enter your account details here.</p>
+      </div>
+    </solaris-stepper-content>
+  </solaris-step>
+
+  <solaris-step label="Institution" [completed]="activeStep() > 1">
+    <solaris-stepper-content>
+      <div class="wizard-content">
+        <h3>Institution</h3>
+        <p>Select your institution.</p>
+      </div>
+    </solaris-stepper-content>
+  </solaris-step>
+
+  <solaris-step label="Review">
+    <solaris-stepper-content>
+      <div class="wizard-content">
+        <h3>Review</h3>
+        <p>Review your information before submitting.</p>
+      </div>
+    </solaris-stepper-content>
+  </solaris-step>
+
+  <solaris-stepper-actions align="space-between">
+    <button
+      type="button"
+      solaris-button
+      appearance="ghost"
+      [disabled]="activeStep() === 0"
+      (click)="prev()"
+    >
+      Back
+    </button>
+    <button type="button" solaris-button color="primary" (click)="next()">
+      {{ activeStep() < 2 ? 'Next' : 'Finish' }}
+    </button>
+  </solaris-stepper-actions>
+</solaris-stepper>

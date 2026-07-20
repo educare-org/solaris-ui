@@ -1,0 +1,58 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.radio-showcase {
+  @include layout.page;
+}
+
+.radio-showcase__header {
+  @include layout.header;
+}
+
+.radio-showcase__title {
+  @include layout.title;
+}
+
+.radio-showcase__description {
+  @include layout.description;
+}
+
+.radio-showcase__section {
+  @include layout.section-card;
+}
+
+.radio-showcase__section-title {
+  @include layout.section-title;
+}
+
+.radio-showcase__row {
+  @include layout.row($gap: var(--solaris-spacing-4));
+  margin-bottom: var(--solaris-spacing-2);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.radio-showcase__note {
+  @include layout.note;
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.radio-showcase__grid {
+  display: grid;
+  gap: var(--solaris-spacing-3);
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+}
+
+.radio-showcase__cell {
+  display: flex;
+  align-items: center;
+}
+
+.radio-showcase__custom-wrapper {
+  --solaris-radio-custom-ring-color: #9333ea;
+  --solaris-radio-custom-indicator-color: #9333ea;
+  --solaris-radio-custom-border-color: #9333ea;
+
+  display: inline-flex;
+}

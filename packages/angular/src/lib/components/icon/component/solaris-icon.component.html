@@ -1,5 +1,7 @@
 @if (definition(); as icon) {
   <svg
+    width="100%"
+    height="100%"
     [attr.viewBox]="icon.viewBox"
     [attr.fill]="icon.fill ?? 'none'"
     [attr.stroke]="icon.stroke ?? 'currentColor'"
@@ -34,6 +36,16 @@
             [attr.cx]="element.cx"
             [attr.cy]="element.cy"
             [attr.r]="element.r"
+          />
+        }
+        @case ('rect') {
+          <rect
+            [attr.x]="element.x"
+            [attr.y]="element.y"
+            [attr.width]="element.width"
+            [attr.height]="element.height"
+            [attr.rx]="element.rx"
+            [attr.ry]="element.ry"
           />
         }
       }

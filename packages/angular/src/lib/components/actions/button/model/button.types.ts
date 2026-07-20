@@ -3,8 +3,7 @@ export type SolarisButtonAppearance =
   | 'outline'
   | 'ghost'
   | 'tonal'
-  | 'surface'
-  | 'glass';
+  | 'surface';
 
 export type SolarisButtonColor =
   | 'neutral'

@@ -1,0 +1,21 @@
+<solaris-tabs appearance="enclosed" [(value)]="activeTab">
+  <solaris-tab value="details" icon="file">
+    {{ 'tabs.example.enclosed.tab-details' | translate }}
+  </solaris-tab>
+  <solaris-tab value="activity" icon="message-circle">
+    {{ 'tabs.example.enclosed.tab-activity' | translate }}
+  </solaris-tab>
+  <solaris-tab value="settings" icon="security">
+    {{ 'tabs.example.enclosed.tab-settings' | translate }}
+  </solaris-tab>
+
+  <solaris-tab-panel value="details">
+    <p>{{ 'tabs.example.enclosed.panel-details' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="activity">
+    <p>{{ 'tabs.example.enclosed.panel-activity' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="settings">
+    <p>{{ 'tabs.example.enclosed.panel-settings' | translate }}</p>
+  </solaris-tab-panel>
+</solaris-tabs>

@@ -1,0 +1,16 @@
+<div class="solaris-dropdown-submenu-trigger__wrapper">
+  @if (hasLeadingContent()) {
+    <div class="solaris-dropdown-submenu-trigger__leading">
+      <solaris-icon [name]="icon()!" aria-hidden="true" />
+    </div>
+  }
+  <div class="solaris-dropdown-submenu-trigger__content">
+    <ng-content></ng-content>
+    @if (label()) {
+      <span class="solaris-dropdown-submenu-trigger__label">{{ label() }}</span>
+    }
+  </div>
+  <div class="solaris-dropdown-submenu-trigger__trailing">
+    <solaris-icon name="chevron-right" aria-hidden="true" />
+  </div>
+</div>

@@ -1,0 +1,146 @@
+<div class="radio-showcase">
+  <header class="radio-showcase__header">
+    <h1 class="radio-showcase__title">{{ 'radio.title' | translate }}</h1>
+    <p class="radio-showcase__description">
+      {{ 'radio.description' | translate }}
+    </p>
+  </header>
+
+  <section class="radio-showcase__section">
+    <h2 class="radio-showcase__section-title">
+      {{ 'radio.appearances' | translate }}
+    </h2>
+    <div class="radio-showcase__row">
+      <solaris-radio appearance="outline"
+        >{{ 'radio.outline' | translate }}</solaris-radio
+      >
+      <solaris-radio appearance="surface"
+        >{{ 'radio.surface' | translate }}</solaris-radio
+      >
+    </div>
+  </section>
+
+  <section class="radio-showcase__section">
+    <h2 class="radio-showcase__section-title">
+      {{ 'radio.colors' | translate }}
+    </h2>
+    <div class="radio-showcase__row">
+      <solaris-radio color="neutral"
+        >{{ 'radio.neutral' | translate }}</solaris-radio
+      >
+      <solaris-radio color="primary"
+        >{{ 'radio.primary' | translate }}</solaris-radio
+      >
+      <solaris-radio color="success"
+        >{{ 'radio.success' | translate }}</solaris-radio
+      >
+      <solaris-radio color="warning"
+        >{{ 'radio.warning' | translate }}</solaris-radio
+      >
+      <solaris-radio color="danger"
+        >{{ 'radio.danger' | translate }}</solaris-radio
+      >
+      <solaris-radio color="info">{{ 'radio.info' | translate }}</solaris-radio>
+    </div>
+  </section>
+
+  <section class="radio-showcase__section">
+    <h2 class="radio-showcase__section-title">
+      {{ 'radio.sizes' | translate }}
+    </h2>
+    <div class="radio-showcase__row">
+      <solaris-radio size="sm">{{ 'radio.small' | translate }}</solaris-radio>
+      <solaris-radio size="md">{{ 'radio.medium' | translate }}</solaris-radio>
+      <solaris-radio size="lg">{{ 'radio.large' | translate }}</solaris-radio>
+    </div>
+  </section>
+
+  <section class="radio-showcase__section">
+    <h2 class="radio-showcase__section-title">
+      {{ 'radio.states' | translate }}
+    </h2>
+    <div class="radio-showcase__grid">
+      <div class="radio-showcase__cell">
+        <solaris-radio [checked]="true"
+          >{{ 'radio.checked' | translate }}</solaris-radio
+        >
+      </div>
+      <div class="radio-showcase__cell">
+        <solaris-radio>{{ 'radio.unchecked' | translate }}</solaris-radio>
+      </div>
+      <div class="radio-showcase__cell">
+        <solaris-radio [checked]="true" [disabled]="true"
+          >{{ 'radio.disabled-checked' | translate }}</solaris-radio
+        >
+      </div>
+      <div class="radio-showcase__cell">
+        <solaris-radio [disabled]="true"
+          >{{ 'radio.disabled-unchecked' | translate }}</solaris-radio
+        >
+      </div>
+      <div class="radio-showcase__cell">
+        <solaris-radio [checked]="true" [readonly]="true"
+          >{{ 'radio.readonly-checked' | translate }}</solaris-radio
+        >
+      </div>
+      <div class="radio-showcase__cell">
+        <solaris-radio [readonly]="true"
+          >{{ 'radio.readonly-unchecked' | translate }}</solaris-radio
+        >
+      </div>
+      <div class="radio-showcase__cell">
+        <solaris-radio [checked]="true" [invalid]="true"
+          >{{ 'radio.invalid-checked' | translate }}</solaris-radio
+        >
+      </div>
+      <div class="radio-showcase__cell">
+        <solaris-radio [invalid]="true"
+          >{{ 'radio.invalid-unchecked' | translate }}</solaris-radio
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="radio-showcase__section">
+    <h2 class="radio-showcase__section-title">
+      {{ 'radio.mutual' | translate }}
+    </h2>
+    <p class="radio-showcase__note">{{ 'radio.mutual-note' | translate }}</p>
+    <div class="radio-showcase__row">
+      <solaris-radio-group>
+        <solaris-radio value="a" [checked]="true"
+          >{{ 'radio.option-a' | translate }}</solaris-radio
+        >
+        <solaris-radio value="b"
+          >{{ 'radio.option-b' | translate }}</solaris-radio
+        >
+      </solaris-radio-group>
+    </div>
+  </section>
+
+  <section class="radio-showcase__section">
+    <h2 class="radio-showcase__section-title">
+      {{ 'radio.density' | translate }}
+    </h2>
+    <div class="radio-showcase__row">
+      <solaris-radio density="compact"
+        >{{ 'radio.compact' | translate }}</solaris-radio
+      >
+      <solaris-radio density="comfortable"
+        >{{ 'radio.comfortable' | translate }}</solaris-radio
+      >
+    </div>
+  </section>
+
+  <section class="radio-showcase__section">
+    <h2 class="radio-showcase__section-title">
+      {{ 'radio.custom-color' | translate }}
+    </h2>
+    <p class="radio-showcase__note">{{ 'radio.custom-note' | translate }}</p>
+    <div class="radio-showcase__custom-wrapper">
+      <solaris-radio color="custom" [checked]="true">
+        {{ 'radio.custom-label' | translate }}
+      </solaris-radio>
+    </div>
+  </section>
+</div>

@@ -9,7 +9,9 @@ import {
   provideSolarisAccessibility,
   provideSolarisTheme,
   provideSolarisIcons,
-} from '@educarehq/solaris-ui';
+  provideSolarisToast,
+  provideSolarisDialog,
+} from '@solaris-ui/angular';
 
 import { SHOWCASE_TRANSLATIONS } from './translations';
 import { appRoutes } from './app.routes';
@@ -30,5 +32,7 @@ export const appConfig: ApplicationConfig = {
       density: 'comfortable',
     }),
     provideSolarisIcons(),
+    provideSolarisToast(),
+    provideSolarisDialog(),
   ],
 };

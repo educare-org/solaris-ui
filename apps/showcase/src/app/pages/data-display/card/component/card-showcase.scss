@@ -1,0 +1,110 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.card-showcase {
+  @include layout.page;
+}
+
+.card-showcase__header {
+  @include layout.header;
+}
+
+.card-showcase__title {
+  color: var(--solaris-text-strong);
+  margin: 0 0 var(--solaris-spacing-2);
+  font-size: var(--solaris-font-size-3xl);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.card-showcase__description {
+  margin: 0;
+  color: var(--solaris-text-muted);
+  font-size: var(--solaris-font-size-lg);
+}
+
+.card-showcase__section {
+  margin-bottom: var(--solaris-spacing-8);
+}
+
+.card-showcase__section-title {
+  color: var(--solaris-text-strong);
+  margin: 0 0 var(--solaris-spacing-1);
+  font-size: var(--solaris-font-size-xl);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.card-showcase__grid--auto-height {
+  align-items: start;
+}
+
+.card-showcase__section-desc {
+  color: var(--solaris-text-muted);
+  margin: 0 0 var(--solaris-spacing-4);
+  font-size: var(--solaris-font-size-sm);
+}
+
+.card-showcase__demo {
+  max-width: 25rem;
+}
+
+.card-showcase__grid {
+  display: grid;
+  gap: var(--solaris-spacing-4);
+  grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+}
+
+.card-showcase__media-placeholder {
+  width: 100%;
+  height: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--solaris-text-muted);
+  font-size: var(--solaris-font-size-sm);
+  background: var(--solaris-surface-muted);
+}
+
+.card-showcase__spacer {
+  height: var(--solaris-spacing-2);
+}
+
+.card-showcase__glass-preview {
+  overflow: hidden;
+  position: relative;
+  min-height: 6.5rem;
+  isolation: isolate;
+  border-radius: var(--solaris-radius-lg);
+
+  background:
+    radial-gradient(
+      circle at 70% 35%,
+      rgba(255, 126, 36, 0.26),
+      transparent 55%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 104, 24, 0.22),
+      rgba(255, 58, 24, 0.08) 48%,
+      transparent
+    ),
+    var(--solaris-surface-base);
+}
+
+.card-showcase__glass-shape {
+  height: 7rem;
+  width: 11rem;
+  bottom: -2rem;
+  opacity: 0.86;
+  right: -1.5rem;
+  position: absolute;
+  filter: blur(0.25rem);
+  border-radius: var(--solaris-radius-lg);
+
+  background: linear-gradient(135deg, #ff7a00, #ff4618);
+}
+
+.card-showcase__glass-card {
+  z-index: 1;
+  height: 100%;
+  position: relative;
+  min-height: 6.5rem;
+}

@@ -1,0 +1,8 @@
+<p class="example-description">Non-linear: all enabled steps are clickable.</p>
+<solaris-stepper [(activeIndex)]="activeIndex">
+  <solaris-step label="Step 1" status="completed" />
+  <solaris-step label="Step 2" status="completed" />
+  <solaris-step label="Step 3" status="active" />
+  <solaris-step label="Step 4" status="pending" />
+</solaris-stepper>
+<p class="example-active-step">Active step: {{ activeIndex() + 1 }}</p>

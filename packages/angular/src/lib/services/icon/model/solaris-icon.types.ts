@@ -16,6 +16,18 @@ export type SolarisBuiltInIcon =
   | 'success'
   | 'shield-check'
   | 'sun'
-  | 'moon';
+  | 'moon'
+  | 'monitor'
+  | 'globe'
+  | 'ellipses'
+  | 'edit'
+  | 'trash'
+  | 'move'
+  | 'gear'
+  | 'settings'
+  | 'wrench'
+  | 'unlink'
+  | 'unlock'
+  | 'lock';
 
 export type SolarisIconName = string & { __brand?: never };

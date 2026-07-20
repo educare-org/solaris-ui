@@ -1,0 +1,252 @@
+<div class="alert-showcase">
+  <header class="alert-showcase__header">
+    <h1 class="alert-showcase__title">{{ 'alert.title' | translate }}</h1>
+    <p class="alert-showcase__description">
+      {{ 'alert.description' | translate }}
+    </p>
+  </header>
+
+  <section class="alert-showcase__section">
+    <h2 class="alert-showcase__section-title">
+      {{ 'alert.variants' | translate }}
+    </h2>
+    <p class="alert-showcase__section-desc">
+      {{ 'alert.variants-desc' | translate }}
+    </p>
+
+    <div class="alert-showcase__demo">
+      <solaris-alert variant="neutral"
+        >{{ 'alert.neutral' | translate }}: {{ 'alert.neutral-desc' | translate
+        }}</solaris-alert
+      >
+      <solaris-alert variant="info"
+        >{{ 'alert.info' | translate }}: {{ 'alert.info-desc' | translate
+        }}</solaris-alert
+      >
+      <solaris-alert variant="success"
+        >{{ 'alert.success' | translate }}: {{ 'alert.success-desc' | translate
+        }}</solaris-alert
+      >
+      <solaris-alert variant="warning"
+        >{{ 'alert.warning' | translate }}: {{ 'alert.warning-desc' | translate
+        }}</solaris-alert
+      >
+      <solaris-alert variant="danger"
+        >{{ 'alert.danger' | translate }}: {{ 'alert.danger-desc' | translate
+        }}</solaris-alert
+      >
+    </div>
+  </section>
+
+  <section class="alert-showcase__section">
+    <h2 class="alert-showcase__section-title">
+      {{ 'alert.appearances' | translate }}
+    </h2>
+    <p class="alert-showcase__section-desc">
+      {{ 'alert.appearances-desc' | translate }}
+    </p>
+
+    <div class="alert-showcase__demo">
+      <solaris-alert variant="info" appearance="tonal"
+        >{{ 'alert.appearance-tonal' | translate }}: {{
+        'alert.appearance-tonal-desc' | translate }}</solaris-alert
+      >
+      <solaris-alert variant="info" appearance="outline"
+        >{{ 'alert.appearance-outline' | translate }}: {{
+        'alert.appearance-outline-desc' | translate }}</solaris-alert
+      >
+      <solaris-alert variant="info" appearance="surface"
+        >{{ 'alert.appearance-surface' | translate }}: {{
+        'alert.appearance-surface-desc' | translate }}</solaris-alert
+      >
+      <solaris-alert variant="info" appearance="solid"
+        >{{ 'alert.appearance-solid' | translate }}: {{
+        'alert.appearance-solid-desc' | translate }}</solaris-alert
+      >
+    </div>
+  </section>
+
+  <section class="alert-showcase__section">
+    <h2 class="alert-showcase__section-title">
+      {{ 'alert.density' | translate }}
+    </h2>
+    <p class="alert-showcase__section-desc">
+      {{ 'alert.density-desc' | translate }}
+    </p>
+
+    <div class="alert-showcase__demo">
+      <solaris-alert variant="info" density="compact"
+        >{{ 'alert.density-compact' | translate }}: {{
+        'alert.density-compact-desc' | translate }}</solaris-alert
+      >
+      <solaris-alert variant="info" density="comfortable"
+        >{{ 'alert.density-comfortable' | translate }}: {{
+        'alert.density-comfortable-desc' | translate }}</solaris-alert
+      >
+    </div>
+  </section>
+
+  <section class="alert-showcase__section">
+    <h2 class="alert-showcase__section-title">
+      {{ 'alert.radius' | translate }}
+    </h2>
+    <p class="alert-showcase__section-desc">
+      {{ 'alert.radius-desc' | translate }}
+    </p>
+
+    <div class="alert-showcase__grid">
+      <solaris-alert variant="info" radius="sm"
+        >{{ 'alert.radius-sm' | translate }}</solaris-alert
+      >
+      <solaris-alert variant="info" radius="md"
+        >{{ 'alert.radius-md' | translate }}</solaris-alert
+      >
+      <solaris-alert variant="info" radius="lg"
+        >{{ 'alert.radius-lg' | translate }}</solaris-alert
+      >
+      <solaris-alert variant="info" radius="xl"
+        >{{ 'alert.radius-xl' | translate }}</solaris-alert
+      >
+    </div>
+  </section>
+
+  <section class="alert-showcase__section">
+    <h2 class="alert-showcase__section-title">
+      {{ 'alert.anatomy' | translate }}
+    </h2>
+    <p class="alert-showcase__section-desc">
+      {{ 'alert.anatomy-desc' | translate }}
+    </p>
+
+    <div class="alert-showcase__demo">
+      <solaris-alert variant="warning" [closable]="true" [hasTitle]="true">
+        <h3 solaris-alert-title>{{ 'alert.anatomy-title' | translate }}</h3>
+        <p solaris-alert-description>
+          {{ 'alert.anatomy-desc-text' | translate }}
+        </p>
+        <solaris-alert-actions>
+          <a href="#">{{ 'alert.anatomy-action' | translate }}</a>
+        </solaris-alert-actions>
+      </solaris-alert>
+    </div>
+  </section>
+
+  <section class="alert-showcase__section">
+    <h2 class="alert-showcase__section-title">
+      {{ 'alert.closable' | translate }}
+    </h2>
+    <p class="alert-showcase__section-desc">
+      {{ 'alert.closable-desc' | translate }}
+    </p>
+
+    <div class="alert-showcase__demo">
+      @if (showClosableAlert) {
+      <solaris-alert
+        variant="warning"
+        [closable]="true"
+        (dismissed)="handleDismiss()"
+      >
+        {{ 'alert.closable-message' | translate }}
+      </solaris-alert>
+      } @if (showClosableAlert2) {
+      <solaris-alert
+        variant="success"
+        [closable]="true"
+        (dismissed)="handleDismiss2()"
+      >
+        {{ 'alert.closable-message' | translate }}
+      </solaris-alert>
+      } @if (!showClosableAlert2) {
+      <p class="alert-showcase__note">
+        {{ 'alert.closable-closed' | translate }}
+      </p>
+      <button type="button" (click)="showAgain()">
+        {{ 'alert.closable-show' | translate }}
+      </button>
+      }
+    </div>
+  </section>
+
+  <section class="alert-showcase__section">
+    <h2 class="alert-showcase__section-title">
+      {{ 'alert.live' | translate }}
+    </h2>
+    <p class="alert-showcase__section-desc">
+      {{ 'alert.live-desc' | translate }}
+    </p>
+
+    <div class="alert-showcase__demo">
+      <solaris-alert variant="info" live="off"
+        >{{ 'alert.live-off' | translate }}: {{ 'alert.live-off-desc' |
+        translate }}</solaris-alert
+      >
+      <solaris-alert variant="success" live="polite"
+        >{{ 'alert.live-polite' | translate }}: {{ 'alert.live-polite-desc' |
+        translate }}</solaris-alert
+      >
+      <solaris-alert variant="danger" live="assertive"
+        >{{ 'alert.live-assertive' | translate }}: {{
+        'alert.live-assertive-desc' | translate }}</solaris-alert
+      >
+    </div>
+  </section>
+
+  <section class="alert-showcase__section">
+    <h2 class="alert-showcase__section-title">
+      {{ 'alert.icon' | translate }}
+    </h2>
+    <p class="alert-showcase__section-desc">
+      {{ 'alert.icon-desc' | translate }}
+    </p>
+
+    <div class="alert-showcase__demo">
+      <solaris-alert variant="success"
+        >{{ 'alert.icon-default' | translate }}</solaris-alert
+      >
+      <solaris-alert variant="info" [showIcon]="false"
+        >{{ 'alert.icon-hidden' | translate }}</solaris-alert
+      >
+      <solaris-alert variant="info" icon="check"
+        >{{ 'alert.icon-custom' | translate }}</solaris-alert
+      >
+    </div>
+  </section>
+
+  <section class="alert-showcase__section">
+    <h2 class="alert-showcase__section-title">
+      {{ 'alert.promotional' | translate }}
+    </h2>
+    <p class="alert-showcase__section-desc">
+      {{ 'alert.promotional-desc' | translate }}
+    </p>
+
+    <div class="alert-showcase__demo">
+      <solaris-alert
+        variant="neutral"
+        appearance="solid"
+        radius="lg"
+        [closable]="false"
+        [showIcon]="true"
+        icon="info"
+      >
+        {{ 'alert.promotional-text' | translate }}
+        <a href="#">{{ 'alert.promotional-link' | translate }}</a>
+      </solaris-alert>
+    </div>
+  </section>
+
+  <section class="alert-showcase__section">
+    <h2 class="alert-showcase__section-title">
+      {{ 'alert.custom' | translate }}
+    </h2>
+    <p class="alert-showcase__section-desc">
+      {{ 'alert.custom-desc' | translate }}
+    </p>
+
+    <div class="alert-showcase__demo">
+      <solaris-alert variant="custom" class="alert-showcase__custom">
+        {{ 'alert.custom-text' | translate }}
+      </solaris-alert>
+    </div>
+  </section>
+</div>

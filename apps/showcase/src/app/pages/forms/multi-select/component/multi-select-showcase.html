@@ -1,0 +1,431 @@
+<div class="multi-select-showcase">
+  <header class="multi-select-showcase__header">
+    <h1 class="multi-select-showcase__title">
+      {{ 'multiSelect.title' | translate }}
+    </h1>
+    <p class="multi-select-showcase__description">
+      {{ 'multiSelect.description' | translate }}
+    </p>
+  </header>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.basic' | translate }}
+    </h2>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="basicControl"
+        [placeholder]="'multiSelect.placeholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.withIcon' | translate }}
+    </h2>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        icon="globe"
+        [placeholder]="'multiSelect.placeholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.searchable' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.searchableDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="searchableControl"
+        [searchable]="true"
+        [placeholder]="'multiSelect.placeholder' | translate"
+        [searchPlaceholder]="'multiSelect.searchPlaceholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+        <solaris-option value="ar">Argentina</solaris-option>
+        <solaris-option value="jp">Japão</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.clearable' | translate }}
+    </h2>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="clearableControl"
+        [clearable]="true"
+        [placeholder]="'multiSelect.placeholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.displayModes' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.displayModesDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__row">
+      <solaris-multi-select
+        [formControl]="chipsControl"
+        displayMode="chips"
+        [placeholder]="'multiSelect.placeholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+      </solaris-multi-select>
+      <solaris-multi-select
+        [formControl]="summaryControl"
+        displayMode="summary"
+        [placeholder]="'multiSelect.placeholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+      </solaris-multi-select>
+      <solaris-multi-select
+        [formControl]="commaControl"
+        displayMode="comma"
+        [placeholder]="'multiSelect.placeholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.autoDisplay' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.autoDisplayDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="autoControl"
+        displayMode="auto"
+        [placeholder]="'multiSelect.placeholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+        <solaris-option value="ar">Argentina</solaris-option>
+        <solaris-option value="jp">Japão</solaris-option>
+      </solaris-multi-select>
+      <p class="multi-select-showcase__note">
+        {{ 'multiSelect.autoResizeNote' | translate }}
+      </p>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.autoSearch' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.autoSearchDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="autoSearchControl"
+        displayMode="auto"
+        [searchable]="true"
+        [placeholder]="'multiSelect.placeholder' | translate"
+        [searchPlaceholder]="'multiSelect.searchPlaceholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.chipsOverflow' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.chipsOverflowDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="overflowControl"
+        displayMode="chips"
+        [maxVisibleChips]="3"
+        [placeholder]="'multiSelect.placeholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+        <solaris-option value="ar">Argentina</solaris-option>
+        <solaris-option value="jp">Japão</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.selectAll' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.selectAllDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="selectAllControl"
+        [selectAll]="true"
+        [searchable]="true"
+        [placeholder]="'multiSelect.selectFruits' | translate"
+      >
+        <solaris-option value="apple">Maçã</solaris-option>
+        <solaris-option value="banana">Banana</solaris-option>
+        <solaris-option value="orange">Laranja</solaris-option>
+        <solaris-option value="grape" [disabled]="true"
+          >Uva (disabled)</solaris-option
+        >
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.optionGroups' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.optionGroupsDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="groupControl"
+        [placeholder]="'multiSelect.selectPermissions' | translate"
+      >
+        <solaris-option-group [label]="'multiSelect.groupAcademic' | translate">
+          <solaris-option value="students">Alunos</solaris-option>
+          <solaris-option value="classes">Turmas</solaris-option>
+        </solaris-option-group>
+        <solaris-option-group
+          [label]="'multiSelect.groupFinancial' | translate"
+          [disabled]="true"
+        >
+          <solaris-option value="billing">Cobrança</solaris-option>
+          <solaris-option value="payments">Pagamentos</solaris-option>
+        </solaris-option-group>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.disabledOptions' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.disabledOptionsDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [placeholder]="'multiSelect.selectItems' | translate"
+      >
+        <solaris-option value="a">Item A</solaris-option>
+        <solaris-option value="b" [disabled]="true"
+          >Item B (disabled)</solaris-option
+        >
+        <solaris-option value="c">Item C</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.minMax' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.minMaxDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="minMaxControl"
+        [minSelected]="2"
+        [maxSelected]="4"
+        [hint]="'multiSelect.minHint' | translate"
+        [placeholder]="'multiSelect.selectItems' | translate"
+      >
+        <solaris-option value="a">Item A</solaris-option>
+        <solaris-option value="b">Item B</solaris-option>
+        <solaris-option value="c">Item C</solaris-option>
+        <solaris-option value="d">Item D</solaris-option>
+        <solaris-option value="e">Item E</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.invalid' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.invalidDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="invalidControl"
+        [error]="invalidError"
+        [placeholder]="'multiSelect.selectItems' | translate"
+      >
+        <solaris-option value="a">Item A</solaris-option>
+        <solaris-option value="b">Item B</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.loading' | translate }}
+    </h2>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [loading]="loading"
+        [placeholder]="'multiSelect.selectItems' | translate"
+      >
+        <solaris-option value="a">Item A</solaris-option>
+        <solaris-option value="b">Item B</solaris-option>
+      </solaris-multi-select>
+      <button
+        class="multi-select-showcase__toggle-btn"
+        (click)="toggleLoading()"
+      >
+        {{ loading ? 'Stop Loading' : 'Start Loading' }}
+      </button>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.empty' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.emptyDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [placeholder]="'multiSelect.selectItems' | translate"
+      >
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.readonly' | translate }}
+    </h2>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="readonlyControl"
+        [readonly]="true"
+        [placeholder]="'multiSelect.placeholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.disabled' | translate }}
+    </h2>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="disabledControl"
+        [placeholder]="'multiSelect.placeholder' | translate"
+      >
+        <solaris-option value="br">Brasil</solaris-option>
+        <solaris-option value="us">Estados Unidos</solaris-option>
+        <solaris-option value="pt">Portugal</solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.formField' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.formFieldDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__demo">
+      <solaris-form-field
+        [label]="'multiSelect.selectCountries' | translate"
+        [hint]="'multiSelect.requiredHint' | translate"
+      >
+        <solaris-multi-select
+          [formControl]="formFieldControl"
+          [placeholder]="'multiSelect.placeholder' | translate"
+        >
+          <solaris-option value="br">Brasil</solaris-option>
+          <solaris-option value="us">Estados Unidos</solaris-option>
+          <solaris-option value="pt">Portugal</solaris-option>
+        </solaris-multi-select>
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="multi-select-showcase__section">
+    <h2 class="multi-select-showcase__section-title">
+      {{ 'multiSelect.rich' | translate }}
+    </h2>
+    <p class="multi-select-showcase__note">
+      {{ 'multiSelect.richDesc' | translate }}
+    </p>
+    <div class="multi-select-showcase__demo">
+      <solaris-multi-select
+        [formControl]="richControl"
+        [placeholder]="'multiSelect.selectItems' | translate"
+      >
+        <solaris-option value="email">
+          <span solaris-option-leading>📧</span>
+          <span solaris-option-label>E-mail</span>
+          <span solaris-option-meta>Comunicação</span>
+          <solaris-badge solaris-option-trailing color="primary" size="sm"
+            >Novo</solaris-badge
+          >
+        </solaris-option>
+        <solaris-option value="sms">
+          <span solaris-option-leading>📱</span>
+          <span solaris-option-label>SMS</span>
+          <span solaris-option-meta>Notificações</span>
+        </solaris-option>
+        <solaris-option value="push">
+          <span solaris-option-leading>🔔</span>
+          <span solaris-option-label>Push</span>
+          <span solaris-option-meta>Mobile</span>
+        </solaris-option>
+      </solaris-multi-select>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,272 @@
+<div class="email-field-showcase">
+  <header class="email-field-showcase__header">
+    <h1 class="email-field-showcase__title">
+      {{ 'email-field.title' | translate }}
+    </h1>
+    <p class="email-field-showcase__description">
+      {{ 'email-field.description' | translate }}
+    </p>
+  </header>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.basic' | translate }}
+    </h2>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.email' | translate"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.required' | translate }}
+    </h2>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.required' | translate"
+        [required]="true"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.hint' | translate }}
+    </h2>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.corporate' | translate"
+        [hint]="'email-field.hint.corporate' | translate"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.placeholder' | translate }}
+    </h2>
+    <p class="email-field-showcase__note">
+      {{ 'email-field.placeholder-note' | translate }}
+    </p>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.placeholder' | translate"
+        [placeholder]="'email-field.placeholder.hint' | translate"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.invalid-format' | translate }}
+    </h2>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.invalid' | translate"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.allowed-domains' | translate }}
+    </h2>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.allowed' | translate"
+        [hint]="'email-field.hint.corporate' | translate"
+        [allowedDomains]="['empresa.com.br']"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.blocked-domains' | translate }}
+    </h2>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.blocked' | translate"
+        [hint]="'email-field.hint.corporate' | translate"
+        [blockedDomains]="['tempmail.com', 'mailinator.com']"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.normalize-lowercase' | translate }}
+    </h2>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.lowercase' | translate"
+        [normalizeLowercase]="true"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.readonly' | translate }}
+    </h2>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.readonly' | translate"
+        [readonly]="true"
+        value="user@example.com"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.disabled' | translate }}
+    </h2>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.disabled' | translate"
+        [disabled]="true"
+        value="user@example.com"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.appearances' | translate }}
+    </h2>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.outline' | translate"
+        appearance="outline"
+      ></solaris-email-field>
+      <solaris-email-field
+        [label]="'email-field.label.surface' | translate"
+        appearance="surface"
+      ></solaris-email-field>
+      <solaris-email-field
+        [label]="'email-field.label.filled' | translate"
+        appearance="filled"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.sizes' | translate }}
+    </h2>
+    <div class="email-field-showcase__demo email-field-showcase__demo--row">
+      <solaris-email-field
+        [label]="'email-field.label.sm' | translate"
+        size="sm"
+      ></solaris-email-field>
+      <solaris-email-field
+        [label]="'email-field.label.md' | translate"
+        size="md"
+      ></solaris-email-field>
+      <solaris-email-field
+        [label]="'email-field.label.lg' | translate"
+        size="lg"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.density' | translate }}
+    </h2>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.compact' | translate"
+        density="compact"
+      ></solaris-email-field>
+      <solaris-email-field
+        [label]="'email-field.label.comfortable' | translate"
+        density="comfortable"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.radius' | translate }}
+    </h2>
+    <div class="email-field-showcase__demo email-field-showcase__demo--row">
+      <solaris-email-field
+        [label]="'email-field.label.radius-none' | translate"
+        radius="none"
+      ></solaris-email-field>
+      <solaris-email-field
+        [label]="'email-field.label.radius-sm' | translate"
+        radius="sm"
+      ></solaris-email-field>
+      <solaris-email-field
+        [label]="'email-field.label.radius-md' | translate"
+        radius="md"
+      ></solaris-email-field>
+      <solaris-email-field
+        [label]="'email-field.label.radius-lg' | translate"
+        radius="lg"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.reactive-forms' | translate }}
+    </h2>
+    <p class="email-field-showcase__note">
+      {{ 'email-field.reactive-forms-note' | translate }}
+    </p>
+    <div class="email-field-showcase__demo">
+      <form [formGroup]="formGroup">
+        <solaris-email-field
+          formControlName="email"
+          [label]="'email-field.label.email' | translate"
+          [required]="true"
+        ></solaris-email-field>
+      </form>
+      <p class="email-field-showcase__note">
+        {{ 'email-field.reactive-forms-status' | translate:{ valid:
+        formGroup.valid, touched: formGroup.touched, value: emailDisplayValue }
+        }}
+      </p>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.character-counter' | translate }}
+    </h2>
+    <p class="email-field-showcase__note">
+      {{ 'email-field.character-counter-note' | translate }}
+    </p>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.maxlength' | translate"
+        [maxLength]="100"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.manual-composition' | translate }}
+    </h2>
+    <p class="email-field-showcase__note">
+      {{ 'email-field.manual-composition-note' | translate }}
+    </p>
+    <div class="email-field-showcase__demo">
+      <solaris-form-field [label]="'email-field.label.manual' | translate">
+        <input
+          solaris-input
+          type="email"
+          autocomplete="email"
+          [placeholder]="'email-field.placeholder.manual' | translate"
+        />
+      </solaris-form-field>
+    </div>
+  </section>
+</div>

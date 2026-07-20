@@ -1,24 +1,33 @@
 :host {
-  --solaris-alert-gap: initial;
   --solaris-alert-color: initial;
   --solaris-alert-radius: initial;
-  --solaris-alert-padding: initial;
-  --solaris-alert-icon-size: initial;
   --solaris-alert-icon-color: initial;
-  --solaris-alert-close-size: initial;
   --solaris-alert-background: initial;
-  --solaris-alert-title-color: initial;
-  --solaris-alert-actions-gap: initial;
-  --solaris-alert-content-gap: initial;
   --solaris-alert-border-color: initial;
   --solaris-alert-border-width: initial;
-  --solaris-alert-description-color: initial;
-  --solaris-alert-close-color: initial;
-  --solaris-alert-close-background: initial;
-  --solaris-alert-close-hover-background: initial;
+
+  --solaris-alert-icon-offset: -1px;
+  --solaris-alert-close-offset: 0px;
+  --solaris-alert-close-background: transparent;
+  --solaris-alert-gap: var(--solaris-spacing-3);
+  --solaris-alert-padding: var(--solaris-spacing-4);
+  --solaris-alert-close-size: var(--solaris-spacing-4);
+  --solaris-alert-content-gap: var(--solaris-spacing-1);
+  --solaris-alert-actions-gap: var(--solaris-spacing-2);
+  --solaris-alert-close-color: var(--solaris-text-muted);
+  --solaris-alert-icon-size: var(--solaris-font-size-lg);
+  --solaris-alert-title-color: var(--solaris-text-strong);
+  --solaris-alert-close-icon-size: var(--solaris-font-size-md);
+  --solaris-alert-description-color: var(--solaris-text-default);
+  --solaris-alert-first-line-height: var(--solaris-line-height-md);
+  --solaris-alert-first-line-font-size: var(--solaris-font-size-sm);
+
+  // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent black overlay on any background; no token exists for this pattern.
+  --solaris-alert-close-hover-background: rgba(0, 0, 0, 0.06);
 
   display: flex;
   box-sizing: border-box;
+  align-items: flex-start;
   gap: var(--solaris-alert-gap);
   color: var(--solaris-alert-color);
   padding: var(--solaris-alert-padding);
@@ -28,21 +37,33 @@
     var(--solaris-alert-border-color);
 }
 
+:host([data-has-title]) {
+  --solaris-alert-icon-offset: 0px;
+  --solaris-alert-close-offset: 0px;
+  --solaris-alert-first-line-height: var(--solaris-line-height-sm);
+  --solaris-alert-first-line-font-size: var(--solaris-font-size-md);
+}
+
 .solaris-alert__icon {
+  display: grid;
   flex-shrink: 0;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
+  position: relative;
+  place-items: center;
+  transform: translateY(-50%);
   width: var(--solaris-alert-icon-size);
   height: var(--solaris-alert-icon-size);
   color: var(--solaris-alert-icon-color);
+  line-height: var(--solaris-alert-first-line-height);
+  font-size: var(--solaris-alert-first-line-font-size);
+
+  inset-block-start: calc(0.5lh + var(--solaris-alert-icon-offset));
 }
 
 .solaris-alert__icon solaris-icon,
 .solaris-alert__icon svg {
-  width: 100%;
-  height: 100%;
   display: block;
+  width: var(--solaris-alert-icon-size);
+  height: var(--solaris-alert-icon-size);
 }
 
 .solaris-alert__content {
@@ -51,51 +72,61 @@
   display: flex;
   flex-direction: column;
   gap: var(--solaris-alert-content-gap);
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-md);
 }
 
 .solaris-alert__close {
   all: unset;
-  display: flex;
+  display: grid;
   flex-shrink: 0;
   cursor: pointer;
-  align-items: center;
+  position: relative;
+  place-items: center;
   box-sizing: border-box;
-  justify-content: center;
+  inset-block-start: 0.5lh;
+  transform: translateY(-50%);
   width: var(--solaris-alert-close-size);
   height: var(--solaris-alert-close-size);
   border-radius: var(--solaris-radius-sm);
   color: var(--solaris-alert-close-color);
   background: var(--solaris-alert-close-background);
+  line-height: var(--solaris-alert-first-line-height);
+  font-size: var(--solaris-alert-first-line-font-size);
 
   &:hover {
     background: var(--solaris-alert-close-hover-background);
   }
 
   &:focus-visible {
-    outline-offset: 2px;
     outline: 2px solid var(--solaris-primary-base);
+    outline-offset: 2px;
   }
 }
 
 .solaris-alert__close solaris-icon,
 .solaris-alert__close svg {
-  width: 100%;
-  height: 100%;
   display: block;
+  width: var(--solaris-alert-close-icon-size);
+  height: var(--solaris-alert-close-icon-size);
 }
 
 ::ng-deep .solaris-alert-title {
   margin: 0;
+
   font-size: var(--solaris-font-size-md);
-  color: var(--solaris-alert-title-color);
   line-height: var(--solaris-line-height-sm);
   font-weight: var(--solaris-font-weight-semibold);
+
+  color: var(--solaris-alert-title-color);
 }
 
 ::ng-deep .solaris-alert-description {
   margin: 0;
+
   font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
+
   color: var(--solaris-alert-description-color);
 }
 
@@ -110,23 +141,8 @@
   margin-block-start: var(--solaris-alert-content-gap);
 }
 
-::ng-deep .solaris-alert-content > :first-child:not(.solaris-alert-title) {
+::ng-deep .solaris-alert__content > :first-child:not(.solaris-alert-title) {
   margin-block-start: 0;
-}
-
-:host {
-  --solaris-alert-close-background: transparent;
-  --solaris-alert-gap: var(--solaris-spacing-3);
-  --solaris-alert-padding: var(--solaris-spacing-4);
-  --solaris-alert-icon-size: var(--solaris-spacing-5);
-  --solaris-alert-close-size: var(--solaris-spacing-6);
-  --solaris-alert-content-gap: var(--solaris-spacing-1);
-  --solaris-alert-actions-gap: var(--solaris-spacing-2);
-  --solaris-alert-close-color: var(--solaris-text-muted);
-  --solaris-alert-title-color: var(--solaris-text-strong);
-  // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent black overlay on any background; no token exists for this pattern.
-  --solaris-alert-close-hover-background: rgba(0, 0, 0, 0.06);
-  --solaris-alert-description-color: var(--solaris-text-default);
 }
 
 :host([data-radius='sm']) {
@@ -146,19 +162,17 @@
 }
 
 :host([data-density='compact']) {
-  --solaris-alert-gap: var(--solaris-density-gap-sm);
-  --solaris-alert-icon-size: var(--solaris-spacing-4);
+  --solaris-alert-gap: var(--solaris-density-gap-md);
   --solaris-alert-padding: var(--solaris-density-padding-md);
-  --solaris-alert-content-gap: var(--solaris-density-gap-xs);
-  --solaris-alert-actions-gap: var(--solaris-density-gap-sm);
+  --solaris-alert-content-gap: var(--solaris-density-gap-md);
+  --solaris-alert-actions-gap: var(--solaris-density-gap-md);
   --solaris-alert-close-size: var(--solaris-density-min-height);
 }
 
 :host([data-density='comfortable']) {
   --solaris-alert-gap: var(--solaris-density-gap-md);
-  --solaris-alert-icon-size: var(--solaris-spacing-5);
-  --solaris-alert-content-gap: var(--solaris-density-gap-xs);
   --solaris-alert-padding: var(--solaris-density-padding-lg);
+  --solaris-alert-content-gap: var(--solaris-density-gap-md);
   --solaris-alert-actions-gap: var(--solaris-density-gap-md);
   --solaris-alert-close-size: var(--solaris-density-min-height);
 }
@@ -192,6 +206,7 @@
   --solaris-alert-close-color: var(--solaris-text-strong);
   --solaris-alert-title-color: var(--solaris-text-strong);
   --solaris-alert-description-color: var(--solaris-text-inverse);
+
   // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent white overlay on solid backgrounds; no token exists for this pattern.
   --solaris-alert-close-hover-background: rgba(255, 255, 255, 0.12);
 }
@@ -225,6 +240,7 @@
   --solaris-alert-close-color: var(--solaris-info-on-solid);
   --solaris-alert-title-color: var(--solaris-info-on-solid);
   --solaris-alert-description-color: var(--solaris-info-on-solid);
+
   // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent white overlay on solid backgrounds; no token exists for this pattern.
   --solaris-alert-close-hover-background: rgba(255, 255, 255, 0.12);
 }
@@ -257,9 +273,10 @@
   --solaris-alert-icon-color: var(--solaris-success-on-solid);
   --solaris-alert-close-color: var(--solaris-success-on-solid);
   --solaris-alert-title-color: var(--solaris-success-on-solid);
+  --solaris-alert-description-color: var(--solaris-success-on-solid);
+
   // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent white overlay on solid backgrounds; no token exists for this pattern.
   --solaris-alert-close-hover-background: rgba(255, 255, 255, 0.12);
-  --solaris-alert-description-color: var(--solaris-success-on-solid);
 }
 
 :host([data-variant='warning'][data-appearance='tonal']) {
@@ -278,8 +295,8 @@
 
 :host([data-variant='warning'][data-appearance='surface']) {
   --solaris-alert-color: var(--solaris-text-default);
-  --solaris-alert-background: var(--solaris-surface-base);
   --solaris-alert-icon-color: var(--solaris-warning-base);
+  --solaris-alert-background: var(--solaris-surface-base);
   --solaris-alert-border-color: var(--solaris-warning-border);
 }
 
@@ -289,10 +306,11 @@
   --solaris-alert-background: var(--solaris-warning-base);
   --solaris-alert-icon-color: var(--solaris-warning-on-solid);
   --solaris-alert-close-color: var(--solaris-warning-on-solid);
-  // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent black overlay on warning solid for adequate contrast; no token exists for this pattern.
-  --solaris-alert-close-hover-background: rgba(0, 0, 0, 0.1);
   --solaris-alert-title-color: var(--solaris-warning-on-solid);
   --solaris-alert-description-color: var(--solaris-warning-on-solid);
+
+  // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent black overlay on warning solid for adequate contrast; no token exists for this pattern.
+  --solaris-alert-close-hover-background: rgba(0, 0, 0, 0.1);
 }
 
 :host([data-variant='danger'][data-appearance='tonal']) {
@@ -323,9 +341,10 @@
   --solaris-alert-icon-color: var(--solaris-danger-on-solid);
   --solaris-alert-close-color: var(--solaris-danger-on-solid);
   --solaris-alert-title-color: var(--solaris-danger-on-solid);
+  --solaris-alert-description-color: var(--solaris-danger-on-solid);
+
   // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent white overlay on solid backgrounds; no token exists for this pattern.
   --solaris-alert-close-hover-background: rgba(255, 255, 255, 0.12);
-  --solaris-alert-description-color: var(--solaris-danger-on-solid);
 }
 
 :host([data-variant='custom']) {
@@ -333,14 +352,17 @@
     --solaris-alert-custom-color,
     var(--solaris-text-default)
   );
+
   --solaris-alert-background: var(
     --solaris-alert-custom-background,
     var(--solaris-surface-base)
   );
+
   --solaris-alert-border-color: var(
     --solaris-alert-custom-border-color,
     var(--solaris-border-default)
   );
+
   --solaris-alert-icon-color: var(
     --solaris-alert-custom-icon-color,
     var(--solaris-text-muted)
@@ -352,7 +374,7 @@
 }
 
 :host([data-appearance]:not([data-appearance='solid'])) {
-  --solaris-alert-border-width: 1px;
+  --solaris-alert-border-width: var(--solaris-border-width-sm);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -361,7 +383,7 @@
   }
 }
 
-[data-reduced-motion='true'] {
+:host-context([data-reduced-motion='true']) {
   .solaris-alert__close {
     transition: none;
   }

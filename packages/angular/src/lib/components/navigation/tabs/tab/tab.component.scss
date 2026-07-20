@@ -1,0 +1,153 @@
+:host {
+  --solaris-tab-gap: var(--solaris-spacing-2);
+  --solaris-tab-padding-x: var(--solaris-spacing-3);
+  --solaris-tab-padding-y: var(--solaris-spacing-2);
+  --solaris-tab-color: var(--solaris-text-default);
+  --solaris-tab-active-color: var(--solaris-primary-text);
+  --solaris-tab-hover-background: var(--solaris-surface-subtle);
+  --solaris-tab-active-background: var(--solaris-surface-base);
+  --solaris-tab-radius: var(--solaris-radius-sm);
+  --solaris-tab-font-size: var(--solaris-font-size-sm);
+  --solaris-tab-font-weight: var(--solaris-font-weight-medium);
+  --solaris-tab-icon-size: var(--solaris-spacing-4);
+  --solaris-tab-badge-gap: var(--solaris-spacing-2);
+  --solaris-tabs-indicator-color: var(--solaris-primary-base);
+  --solaris-tabs-border-color: var(--solaris-border-subtle);
+  --solaris-tabs-tab-active-background: var(--solaris-primary-surface);
+
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  align-items: center;
+  white-space: nowrap;
+  display: inline-flex;
+  text-decoration: none;
+  background: transparent;
+  gap: var(--solaris-tab-gap);
+  color: var(--solaris-tab-color);
+  padding: var(--solaris-tab-padding-y) var(--solaris-tab-padding-x);
+  font: var(--solaris-tab-font-weight) var(--solaris-tab-font-size) / 1
+    var(--solaris-font-family-sans);
+  transition:
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    background var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+:host(:hover:not([data-disabled='true']):not([data-active='true'])) {
+  background: var(--solaris-tab-hover-background);
+}
+
+:host(:focus-visible) {
+  outline-offset: var(--solaris-border-width-md);
+  outline: var(--solaris-border-width-md) solid var(--solaris-primary-base);
+}
+
+:host([data-active='true']) {
+  color: var(--solaris-tab-active-color);
+}
+
+:host([data-disabled='true']) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+:host([data-orientation='vertical']) {
+  width: 100%;
+  display: flex;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.solaris-tab__inner {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--solaris-tab-gap);
+}
+
+.solaris-tab__icon {
+  flex-shrink: 0;
+  width: var(--solaris-tab-icon-size);
+  height: var(--solaris-tab-icon-size);
+}
+
+.solaris-tab__label {
+  line-height: var(--solaris-line-height-md);
+}
+
+.solaris-tab__badge {
+  flex-shrink: 0;
+}
+
+:host([data-size='sm']) {
+  --solaris-tab-padding-y: var(--solaris-spacing-1);
+  --solaris-tab-padding-x: var(--solaris-spacing-2);
+  --solaris-tab-icon-size: var(--solaris-spacing-3);
+  --solaris-tab-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='lg']) {
+  --solaris-tab-padding-y: var(--solaris-spacing-3);
+  --solaris-tab-padding-x: var(--solaris-spacing-4);
+  --solaris-tab-icon-size: var(--solaris-spacing-5);
+  --solaris-tab-font-size: var(--solaris-font-size-md);
+}
+
+:host([data-density='compact']) {
+  --solaris-tab-gap: var(--solaris-spacing-1);
+  --solaris-tab-padding-y: var(--solaris-spacing-1);
+  --solaris-tab-padding-x: var(--solaris-spacing-2);
+}
+
+:host([data-appearance='underline']) {
+  --solaris-tab-radius: 0;
+}
+
+:host([data-appearance='pills']) {
+  border-radius: var(--solaris-tab-radius);
+  --solaris-tab-radius: var(--solaris-radius-full);
+}
+
+:host(
+  [data-appearance='pills']:hover:not([data-disabled='true']):not(
+      [data-active='true']
+    )
+) {
+  background: var(--solaris-tab-hover-background);
+}
+
+:host([data-appearance='pills'][data-active='true']) {
+  color: var(--solaris-tab-active-color);
+  background: var(--solaris-tabs-tab-active-background);
+}
+
+:host([data-appearance='enclosed']) {
+  margin-bottom: 0;
+  border: var(--solaris-border-width-sm) solid transparent;
+  border-bottom: none;
+  border-radius: var(--solaris-radius-sm) var(--solaris-radius-sm) 0 0;
+}
+
+:host([data-appearance='enclosed'][data-active='true']) {
+  background: var(--solaris-surface-base);
+  border-color: var(--solaris-tabs-border-color);
+}
+
+:host-context([data-full-width='true']) {
+  flex: 1;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none;
+  }
+}
+
+:host-context([data-reduced-motion='true']) {
+  transition: none;
+}

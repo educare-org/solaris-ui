@@ -6,6 +6,7 @@ import { SolarisIconRegistryService } from '../../../services/icon';
   selector: 'solaris-icon',
   standalone: true,
   templateUrl: './solaris-icon.component.html',
+  styleUrls: ['./solaris-icon.component.scss'],
 })
 export class SolarisIconComponent {
   private readonly registry = inject(SolarisIconRegistryService);

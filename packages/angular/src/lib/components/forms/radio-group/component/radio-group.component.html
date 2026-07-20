@@ -1,0 +1,18 @@
+@if (labelText(); as text) {
+  <span class="solaris-radio-group__label" [id]="labelId()">
+    {{ text }}
+  </span>
+}
+<div class="solaris-radio-group__options" role="presentation">
+  <ng-content />
+</div>
+@if (hintText(); as text) {
+  <p class="solaris-radio-group__hint" [id]="hintId()">
+    {{ text }}
+  </p>
+}
+@if (showError(); as text) {
+  <p class="solaris-radio-group__error" [id]="errorId()" role="alert">
+    {{ text }}
+  </p>
+}

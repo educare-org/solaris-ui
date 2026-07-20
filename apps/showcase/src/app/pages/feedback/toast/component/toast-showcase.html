@@ -1,0 +1,375 @@
+<div class="toast-showcase">
+  <header class="toast-showcase__header">
+    <h1 class="toast-showcase__title">{{ 'toast.title' | translate }}</h1>
+    <p class="toast-showcase__description">
+      {{ 'toast.description' | translate }}
+    </p>
+  </header>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
+      {{ 'toast.variants' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.variants-desc' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showVariant('neutral')"
+      >
+        {{ 'toast.neutral' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showVariant('info')"
+      >
+        {{ 'toast.info' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showVariant('success')"
+      >
+        {{ 'toast.success' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showVariant('warning')"
+      >
+        {{ 'toast.warning' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showVariant('danger')"
+      >
+        {{ 'toast.danger' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showVariant('loading')"
+      >
+        {{ 'toast.loading' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
+      {{ 'toast.appearances' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.appearances-desc' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showAppearance('surface')"
+      >
+        {{ 'toast.appearance-surface' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showAppearance('outline')"
+      >
+        {{ 'toast.appearance-outline' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
+      {{ 'toast.positions' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.positions-desc' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showPosition('top-start')"
+      >
+        {{ 'toast.position-top-start' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showPosition('top-center')"
+      >
+        {{ 'toast.position-top-center' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showPosition('top-end')"
+      >
+        {{ 'toast.position-top-end' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showPosition('bottom-start')"
+      >
+        {{ 'toast.position-bottom-start' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showPosition('bottom-center')"
+      >
+        {{ 'toast.position-bottom-center' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showPosition('bottom-end')"
+      >
+        {{ 'toast.position-bottom-end' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
+      {{ 'toast.actions' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.actions-desc' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showWithActions()"
+      >
+        {{ 'toast.show' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
+      {{ 'toast.actions-no-desc' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.actions-no-desc-desc' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showWithActionsNoDescription()"
+      >
+        {{ 'toast.show' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
+      {{ 'toast.progress' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.progress-desc' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showWithProgress()"
+      >
+        {{ 'toast.show' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
+      {{ 'toast.countdown' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.countdown-desc' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showCountdownBar()"
+      >
+        {{ 'toast.countdown-bar' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showCountdownText()"
+      >
+        {{ 'toast.countdown-text' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showCountdownBoth()"
+      >
+        {{ 'toast.countdown-both' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
+      {{ 'toast.expandable' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.expandable-desc-section' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showExpandable()"
+      >
+        {{ 'toast.expandable-collapsed' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showExpandedDefault()"
+      >
+        {{ 'toast.expandable-expanded' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
+      {{ 'toast.actions-align' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.actions-align-desc' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showActionsStart()"
+      >
+        {{ 'toast.actions-align-start' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showActionsCenter()"
+      >
+        {{ 'toast.actions-align-center' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showWithActions()"
+      >
+        {{ 'toast.actions-align-end' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showActionsStretch()"
+      >
+        {{ 'toast.actions-align-stretch' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
+      {{ 'toast.icon-and-media' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.icon-and-media-desc' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showIconSizeLg()"
+      >
+        {{ 'toast.icon-size-lg' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showMediaShapeSquare()"
+      >
+        {{ 'toast.media-shape-square' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
+      {{ 'toast.persistent' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.persistent-desc' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showPersistent()"
+      >
+        {{ 'toast.show' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
+      {{ 'toast.update' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.update-desc' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="showLoadingToast()"
+      >
+        {{ 'toast.update-trigger' | translate }}
+      </button>
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="completeLoading()"
+      >
+        {{ 'toast.update-complete' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="toast-showcase__section">
+    <h2 class="toast-showcase__section-title">
+      {{ 'toast.dismiss-all' | translate }}
+    </h2>
+    <p class="toast-showcase__section-desc">
+      {{ 'toast.dismiss-all-desc' | translate }}
+    </p>
+    <div class="toast-showcase__row">
+      <button
+        type="button"
+        class="toast-showcase__button"
+        (click)="dismissAll()"
+      >
+        {{ 'toast.dismiss-all-button' | translate }}
+      </button>
+    </div>
+  </section>
+</div>

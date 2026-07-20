@@ -1,0 +1,44 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.dropdown-menu-showcase {
+  @include layout.page;
+
+  &__header {
+    @include layout.header;
+  }
+
+  &__title {
+    @include layout.title;
+  }
+
+  &__description {
+    @include layout.description;
+  }
+
+  &__section {
+    @include layout.section-card;
+  }
+
+  &__section-title {
+    @include layout.section-title;
+  }
+
+  &__note {
+    @include layout.note;
+  }
+
+  &__row {
+    @include layout.row;
+  }
+
+  &__keyboard-list {
+    list-style: disc;
+    padding-inline-start: var(--solaris-spacing-5);
+    color: var(--solaris-text-default);
+    font-size: var(--solaris-font-size-sm);
+  }
+
+  &__keyboard-list li {
+    margin-bottom: var(--solaris-spacing-1);
+  }
+}

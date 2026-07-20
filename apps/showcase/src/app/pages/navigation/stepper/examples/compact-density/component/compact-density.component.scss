@@ -1,0 +1,11 @@
+.example-description {
+  margin-bottom: var(--solaris-spacing-3);
+  color: var(--solaris-text-muted);
+  font-size: var(--solaris-font-size-sm);
+}
+
+.example-buttons {
+  margin-bottom: var(--solaris-spacing-3);
+  display: flex;
+  gap: var(--solaris-spacing-2);
+}

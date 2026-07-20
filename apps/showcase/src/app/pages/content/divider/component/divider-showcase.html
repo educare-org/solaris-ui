@@ -1,0 +1,120 @@
+<div class="divider-showcase">
+  <header class="divider-showcase__header">
+    <h1 class="divider-showcase__title">Divider</h1>
+    <p class="divider-showcase__description">
+      {{ 'divider.description' | translate }}
+    </p>
+  </header>
+
+  <section class="divider-showcase__section">
+    <h2 class="divider-showcase__section-title">
+      {{ 'divider.basic' | translate }}
+    </h2>
+    <p class="divider-showcase__note">{{ 'divider.basic-note' | translate }}</p>
+    <p>{{ 'divider.content-above' | translate }}</p>
+    <solaris-divider />
+    <p>{{ 'divider.content-below' | translate }}</p>
+  </section>
+
+  <section class="divider-showcase__section">
+    <h2 class="divider-showcase__section-title">
+      {{ 'divider.strong' | translate }}
+    </h2>
+    <p class="divider-showcase__note">
+      {{ 'divider.strong-note' | translate }}
+    </p>
+    <p>{{ 'divider.content-above-short' | translate }}</p>
+    <solaris-divider appearance="strong" />
+    <p>{{ 'divider.content-below-short' | translate }}</p>
+  </section>
+
+  <section class="divider-showcase__section">
+    <h2 class="divider-showcase__section-title">
+      {{ 'divider.spacing' | translate }}
+    </h2>
+    <p class="divider-showcase__note">
+      {{ 'divider.spacing-note' | translate }}
+    </p>
+    <div class="divider-showcase__spacing-demo">
+      <p>{{ 'divider.spacing-none' | translate }}</p>
+      <solaris-divider spacing="none" />
+      <p>{{ 'divider.spacing-sm' | translate }}</p>
+      <solaris-divider spacing="sm" />
+      <p>{{ 'divider.spacing-md' | translate }}</p>
+      <solaris-divider spacing="md" />
+      <p>{{ 'divider.spacing-lg' | translate }}</p>
+      <solaris-divider spacing="lg" />
+    </div>
+  </section>
+
+  <section class="divider-showcase__section">
+    <h2 class="divider-showcase__section-title">
+      {{ 'divider.inset' | translate }}
+    </h2>
+    <p class="divider-showcase__note">{{ 'divider.inset-note' | translate }}</p>
+    <p>{{ 'divider.inset-start' | translate }}</p>
+    <solaris-divider inset="start" />
+    <p>{{ 'divider.inset-end' | translate }}</p>
+    <solaris-divider inset="end" />
+    <p>{{ 'divider.inset-both' | translate }}</p>
+    <solaris-divider inset="both" />
+  </section>
+
+  <section class="divider-showcase__section">
+    <h2 class="divider-showcase__section-title">
+      {{ 'divider.vertical' | translate }}
+    </h2>
+    <p class="divider-showcase__note">
+      {{ 'divider.vertical-note' | translate }}
+    </p>
+    <div class="divider-showcase__toolbar">
+      <span>{{ 'divider.file' | translate }}</span>
+      <solaris-divider orientation="vertical" />
+      <span>{{ 'divider.edit' | translate }}</span>
+      <solaris-divider orientation="vertical" />
+      <span>{{ 'divider.view' | translate }}</span>
+      <solaris-divider orientation="vertical" />
+      <span>{{ 'divider.help' | translate }}</span>
+    </div>
+  </section>
+
+  <section class="divider-showcase__section">
+    <h2 class="divider-showcase__section-title">
+      {{ 'divider.custom-length' | translate }}
+    </h2>
+    <p class="divider-showcase__note">
+      {{ 'divider.custom-length-note' | translate }}
+    </p>
+    <p>{{ 'divider.width-50' | translate }}</p>
+    <solaris-divider width="50%" />
+    <p>{{ 'divider.width-200' | translate }}</p>
+    <solaris-divider width="200px" />
+  </section>
+
+  <section class="divider-showcase__section">
+    <h2 class="divider-showcase__section-title">
+      {{ 'divider.dropdown' | translate }}
+    </h2>
+    <p class="divider-showcase__note">
+      {{ 'divider.dropdown-note' | translate }}
+    </p>
+    <button
+      solaris-button
+      solaris-dropdown-menu-trigger
+      [solarisDropdownMenuTriggerFor]="dividerMenu"
+    >
+      {{ 'divider.open-menu' | translate }}
+    </button>
+    <solaris-dropdown-menu #dividerMenu>
+      <solaris-dropdown-menu-item label="{{ 'divider.edit' | translate }}" />
+      <solaris-dropdown-menu-item
+        label="{{ 'divider.duplicate' | translate }}"
+      />
+      <solaris-divider />
+      <solaris-dropdown-menu-item
+        label="{{ 'divider.delete' | translate }}"
+        color="danger"
+      />
+    </solaris-dropdown-menu>
+  </section>
+</div>

@@ -29,33 +29,50 @@ Scope:
 
 Scope:
 
-- Form Field;
-- Input;
-- Textarea;
-- Checkbox;
-- Radio;
-- Switch;
-- Select.
+- [x] Forms Foundation Contract;
+- [x] Form Field;
+- [x] Input;
+- [x] Password Field preset;
+- [x] Email Field preset;
+- [x] Textarea;
+- [x] Checkbox;
+- [x] Checkbox Group;
+- [x] Radio;
+- [x] Switch;
+- [x] Popover;
+- [x] Option + Option Group;
+- [x] Tooltip;
+- [x] Select;
+- [x] Multi Select;
 
 ## `0.3.0` — Overlay and Navigation Release
 
 Scope:
 
-- Dialog;
-- Toast;
-- Tooltip;
-- Dropdown Menu;
-- Tabs;
-- Segmented Control;
-- Stepper.
+- [x] Toast;
+- [x] Dialog;
+- [x] Stepper;
+- [x] Tabs;
+- [x] Segmented Control;
+- [x] Divider;
+- [x] Dropdown Menu;
+- [x] Editable Tabs.
+
+## `0.3.1` — Disclosure and Content Organization Extension
+
+Scope:
+
+- [ ] Accordion;
+- [ ] Collapsible;
+- [ ] Breadcrumb.
 
 ## `0.4.0` — Data and Advanced Release
 
 Scope:
 
-- Table;
-- Phone Input;
-- showcase command/code components.
+- [ ] Table;
+- [ ] Phone Input;
+- [ ] showcase command/code components.
 
 ## Future
 

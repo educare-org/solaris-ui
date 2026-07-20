@@ -1,0 +1,21 @@
+<solaris-tabs appearance="pills" [(value)]="activeTab">
+  <solaris-tab value="drafts" icon="file">
+    {{ 'tabs.example.pills.tab-drafts' | translate }}
+  </solaris-tab>
+  <solaris-tab value="active" icon="check">
+    {{ 'tabs.example.pills.tab-active' | translate }}
+  </solaris-tab>
+  <solaris-tab value="archived" icon="archives">
+    {{ 'tabs.example.pills.tab-archived' | translate }}
+  </solaris-tab>
+
+  <solaris-tab-panel value="drafts">
+    <p>{{ 'tabs.example.pills.panel-drafts' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="active">
+    <p>{{ 'tabs.example.pills.panel-active' | translate }}</p>
+  </solaris-tab-panel>
+  <solaris-tab-panel value="archived">
+    <p>{{ 'tabs.example.pills.panel-archived' | translate }}</p>
+  </solaris-tab-panel>
+</solaris-tabs>

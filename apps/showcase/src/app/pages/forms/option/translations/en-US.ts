@@ -1,0 +1,29 @@
+export const EN_US_OPTION: Record<string, string> = {
+  'option.title': 'Option',
+  'option.description':
+    'Option and Option Group are primitives for selectable lists controlled by parent components like Select, Multi Select, and Autocomplete.',
+  'option.basic': 'Basic options',
+  'option.with-description': 'Option with description',
+  'option.with-leading-icon': 'Option with leading icon',
+  'option.language': 'Language / Country option',
+  'option.language-note':
+    'Option with flag/icon on the left, main label in the center, and translation/meta on the right.',
+  'option.with-badge': 'Option with trailing badge',
+  'option.with-trailing-icon': 'Option with trailing expansion icon',
+  'option.trailing-icon-note':
+    'Visual-only expansion indicator. Submenu behavior is not implemented in v1.',
+  'option.single-selection': 'Single selection visual',
+  'option.single-selection-note':
+    'Selected option shows a checkmark indicator.',
+  'option.multi-selection': 'Multiple selection visual preparation',
+  'option.multi-selection-note':
+    'Visual checkbox-like indicator. Multi-select behavior is controlled by the parent component.',
+  'option.disabled': 'Disabled option',
+  'option.group': 'Option Group',
+  'option.disabled-group': 'Disabled Option Group',
+  'option.sizes': 'Sizes',
+  'option.density': 'Density',
+  'option.rich-composition': 'Rich composition',
+  'option.configuracoes': 'Settings',
+  'option.ajuda': 'Help',
+};

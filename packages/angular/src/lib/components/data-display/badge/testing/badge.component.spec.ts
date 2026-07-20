@@ -160,6 +160,7 @@ describe('SolarisBadgeComponent with content projection', () => {
   @Component({
     standalone: true,
     imports: [SolarisBadgeComponent, SolarisBadgeIconDirective],
+    host: { 'data-testid': 'icon-before-host' },
     template: `
       <solaris-badge>
         <span solaris-badge-icon>i</span>
@@ -172,6 +173,7 @@ describe('SolarisBadgeComponent with content projection', () => {
   @Component({
     standalone: true,
     imports: [SolarisBadgeComponent, SolarisBadgeIconDirective],
+    host: { 'data-testid': 'icon-after-host' },
     template: `
       <solaris-badge>
         text
@@ -202,7 +204,7 @@ describe('SolarisBadgeComponent with content projection', () => {
     fixture.detectChanges();
     const badge = fixture.nativeElement.querySelector('solaris-badge');
     const icons = badge.querySelectorAll('[solaris-badge-icon]');
-    expect(icons.length).toBe(1);
+    expect(icons).toHaveLength(1);
     expect(badge.textContent?.trim()).toContain('text');
   });
 
@@ -212,7 +214,7 @@ describe('SolarisBadgeComponent with content projection', () => {
     fixture.detectChanges();
     const badge = fixture.nativeElement.querySelector('solaris-badge');
     const icons = badge.querySelectorAll('[solaris-badge-icon]');
-    expect(icons.length).toBe(1);
+    expect(icons).toHaveLength(1);
     expect(badge.textContent?.trim()).toContain('text');
   });
 
@@ -222,6 +224,6 @@ describe('SolarisBadgeComponent with content projection', () => {
     fixture.detectChanges();
     const badge = fixture.nativeElement.querySelector('solaris-badge');
     const icons = badge.querySelectorAll('[solaris-badge-icon]');
-    expect(icons.length).toBe(2);
+    expect(icons).toHaveLength(2);
   });
 });

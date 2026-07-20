@@ -1,0 +1,36 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.dialog-showcase {
+  @include layout.page;
+
+  &__header {
+    @include layout.header;
+  }
+
+  &__title {
+    @include layout.title;
+  }
+
+  &__description {
+    @include layout.description;
+  }
+
+  &__section {
+    @include layout.section-card;
+  }
+
+  &__section-title {
+    @include layout.section-title;
+  }
+
+  &__section-desc {
+    margin: 0 0 var(--solaris-spacing-4);
+    color: var(--solaris-text-muted);
+    font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+      var(--solaris-line-height-md) var(--solaris-font-family-sans);
+  }
+
+  &__row {
+    @include layout.row;
+  }
+}

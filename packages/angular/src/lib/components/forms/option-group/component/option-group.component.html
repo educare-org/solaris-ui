@@ -1,0 +1,10 @@
+<div class="solaris-option-group">
+  @if (labelText(); as groupLabel) {
+    <div class="solaris-option-group__label" [id]="labelId()">
+      {{ groupLabel }}
+    </div>
+  }
+  <div class="solaris-option-group__options">
+    <ng-content />
+  </div>
+</div>

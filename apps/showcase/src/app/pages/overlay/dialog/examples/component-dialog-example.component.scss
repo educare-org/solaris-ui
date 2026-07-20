@@ -1,0 +1,32 @@
+.component-dialog-example {
+  padding: var(--solaris-spacing-6);
+  text-align: center;
+}
+
+.component-dialog-example__title {
+  margin: var(--solaris-spacing-3) 0;
+  font-size: var(--solaris-font-size-xl);
+  font-weight: var(--solaris-font-weight-semibold);
+  color: var(--solaris-text-strong);
+}
+
+.component-dialog-example__description {
+  margin: 0 0 var(--solaris-spacing-6);
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-md);
+  color: var(--solaris-text-muted);
+}
+
+.component-dialog-example__actions {
+  display: flex;
+  gap: var(--solaris-spacing-3);
+  justify-content: center;
+}
+
+code {
+  padding: var(--solaris-spacing-025) var(--solaris-spacing-1);
+  background: var(--solaris-surface-raised);
+  border: 1px solid var(--solaris-border-subtle);
+  border-radius: var(--solaris-radius-sm);
+  font-size: 0.875em;
+}

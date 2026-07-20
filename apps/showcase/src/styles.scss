@@ -12,7 +12,23 @@
 @use '../../../packages/angular/src/lib/components/actions/icon-button/styles/icon-button'
   as solaris-icon-button;
 
-@include solaris.core();
+/* Solaris input styles */
+@use '../../../packages/angular/src/lib/components/forms/input/styles/input' as
+  solaris-input;
+
+/* Solaris textarea styles */
+@use '../../../packages/angular/src/lib/components/forms/textarea/styles/textarea'
+  as solaris-textarea;
+
+/* Solaris popover styles */
+@use '../../../packages/angular/src/lib/components/interaction/popover/styles/popover'
+  as solaris-popover;
+
+@include solaris.core(
+  (
+    root-font-size: rem-10,
+  )
+);
 @include solaris.theme();
 
 /* Font source loading via @fontsource */
@@ -25,8 +41,7 @@
 
 /* Base body styles using Solaris tokens */
 body {
-  font-family: var(--solaris-font-family-sans);
-  font-size: var(--solaris-font-size-md);
-  line-height: var(--solaris-line-height-md);
   background-color: var(--solaris-bg-page);
+  line-height: var(--solaris-line-height-md);
+  font-family: var(--solaris-font-family-sans), system-ui;
 }

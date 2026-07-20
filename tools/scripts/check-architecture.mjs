@@ -78,10 +78,16 @@ if (!fileExists(libBase)) {
         const importPattern = forbiddenImport
           .replace(/\\/g, '/')
           .replace('packages/angular/src/lib/', '');
-        if (
-          content.includes(importPattern) ||
-          content.includes(`@solaris-ui/angular/${importPattern}`)
-        ) {
+        const lines = content.split('\n');
+        const hasViolation = lines.some(
+          (line) =>
+            (line.includes('from ') ||
+              line.includes('import ') ||
+              line.includes('require(')) &&
+            (line.includes(importPattern) ||
+              line.includes(`@solaris-ui/angular/${importPattern}`)),
+        );
+        if (hasViolation) {
           errors.push(
             `File ${file} imports from ${forbiddenImport}. ${rule.reason}`,
           );

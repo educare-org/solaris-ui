@@ -1,0 +1,32 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.switch-group-showcase {
+  @include layout.page;
+}
+
+.switch-group-showcase__title {
+  @include layout.title;
+}
+
+.switch-group-showcase__description {
+  @include layout.description;
+}
+
+.switch-group-showcase__section-card {
+  @include layout.section-card;
+}
+
+.switch-group-showcase__section-title {
+  @include layout.section-title;
+}
+
+.switch-group-showcase__subsection-title {
+  color: var(--solaris-text-muted);
+  margin: var(--solaris-spacing-4) 0 var(--solaris-spacing-2);
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.switch-group-showcase__note {
+  @include layout.note;
+}

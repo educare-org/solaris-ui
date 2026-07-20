@@ -1,0 +1,311 @@
+<div class="form-field-showcase">
+  <header class="form-field-showcase__header">
+    <h1 class="form-field-showcase__title">
+      {{ 'form-field.title' | translate }}
+    </h1>
+    <p class="form-field-showcase__description">
+      {{ 'form-field.description' | translate }}
+    </p>
+  </header>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.basic' | translate }}
+    </h2>
+    <p class="form-field-showcase__note">
+      {{ 'form-field.basic-note' | translate }}
+    </p>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field [label]="'form-field.label.name' | translate">
+        <input solaris-input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.projected-label' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field>
+        <solaris-form-label
+          >{{ 'form-field.label.custom-label' | translate }}</solaris-form-label
+        >
+        <input solaris-input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.hint' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        [label]="'form-field.label.password' | translate"
+        [hint]="'form-field.hint.password' | translate"
+      >
+        <input solaris-input type="password" />
+      </solaris-form-field>
+    </div>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field [label]="'form-field.label.password' | translate">
+        <input solaris-input type="password" />
+        <solaris-form-hint
+          >{{ 'form-field.hint.projected' | translate }}</solaris-form-hint
+        >
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.error' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        [label]="'form-field.label.email' | translate"
+        [error]="'form-field.error.email' | translate"
+        [invalid]="true"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+    </div>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        [label]="'form-field.label.email' | translate"
+        [invalid]="true"
+      >
+        <input solaris-input />
+        <solaris-form-error
+          >{{ 'form-field.error.projected' | translate }}</solaris-form-error
+        >
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.auto-invalid' | translate }}
+    </h2>
+    <p class="form-field-showcase__note">
+      {{ 'form-field.auto-invalid-note' | translate }}
+    </p>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        [label]="'form-field.label.required-email' | translate"
+      >
+        <input solaris-input [formControl]="emailControl" />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.manual-invalid' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        [label]="'form-field.label.custom-error' | translate"
+        [error]="'form-field.error.custom' | translate"
+        [invalid]="true"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.optional' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        [label]="'form-field.label.nickname' | translate"
+        [optional]="true"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+      <solaris-form-field
+        [label]="'form-field.label.phone' | translate"
+        [optional]="true"
+        [optionalLabel]="'form-field.optional-label' | translate"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.prefix-suffix' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field [label]="'form-field.label.price' | translate">
+        <span solaris-form-prefix>$</span>
+        <input solaris-input />
+        <span solaris-form-suffix
+          >{{ 'form-field.suffix.usd' | translate }}</span
+        >
+      </solaris-form-field>
+    </div>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field [label]="'form-field.label.search' | translate">
+        <solaris-icon solaris-form-prefix name="search" [decorative]="true" />
+        <input solaris-input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.appearances' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        [label]="'form-field.label.outline' | translate"
+        appearance="outline"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+      <solaris-form-field
+        [label]="'form-field.label.surface' | translate"
+        appearance="surface"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+      <solaris-form-field
+        [label]="'form-field.label.filled' | translate"
+        appearance="filled"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.sizes' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        [label]="'form-field.label.small' | translate"
+        size="sm"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+      <solaris-form-field
+        [label]="'form-field.label.medium' | translate"
+        size="md"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+      <solaris-form-field
+        [label]="'form-field.label.large' | translate"
+        size="lg"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.density' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        [label]="'form-field.label.compact' | translate"
+        density="compact"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+      <solaris-form-field
+        [label]="'form-field.label.comfortable' | translate"
+        density="comfortable"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.radius' | translate }}
+    </h2>
+    <div class="form-field-showcase__row">
+      <solaris-form-field
+        [label]="'form-field.label.radius-none' | translate"
+        radius="none"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+      <solaris-form-field
+        [label]="'form-field.label.radius-sm' | translate"
+        radius="sm"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+      <solaris-form-field
+        [label]="'form-field.label.radius-md' | translate"
+        radius="md"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+      <solaris-form-field
+        [label]="'form-field.label.radius-lg' | translate"
+        radius="lg"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.disabled' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        [label]="'form-field.label.disabled' | translate"
+        [disabled]="true"
+      >
+        <input
+          solaris-input
+          [value]="'form-field.value.disabled' | translate"
+        />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.readonly' | translate }}
+    </h2>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field
+        [label]="'form-field.label.readonly' | translate"
+        [readonly]="true"
+      >
+        <input
+          solaris-input
+          [value]="'form-field.value.readonly' | translate"
+        />
+      </solaris-form-field>
+    </div>
+  </section>
+
+  <section class="form-field-showcase__section">
+    <h2 class="form-field-showcase__section-title">
+      {{ 'form-field.character-counter' | translate }}
+    </h2>
+    <p class="form-field-showcase__note">
+      {{ 'form-field.character-counter-note' | translate }}
+    </p>
+    <div class="form-field-showcase__demo">
+      <solaris-form-field [label]="'form-field.label.maxlength' | translate">
+        <input solaris-input maxlength="20" />
+      </solaris-form-field>
+    </div>
+  </section>
+</div>

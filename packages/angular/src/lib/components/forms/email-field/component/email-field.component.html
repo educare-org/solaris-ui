@@ -1,0 +1,37 @@
+<solaris-form-field
+  [label]="label()"
+  [labelKey]="labelKey()"
+  [hint]="hint()"
+  [hintKey]="hintKey()"
+  [error]="error() || computedError()"
+  [errorKey]="errorKey()"
+  [invalid]="isFieldInvalid()"
+  [required]="required()"
+  [optional]="optional()"
+  [disabled]="isEffectivelyDisabled()"
+  [readonly]="readonly()"
+  [appearance]="appearance()"
+  [size]="size()"
+  [density]="density()"
+  [radius]="radius()"
+>
+  <input
+    #inputElement
+    solaris-input
+    type="email"
+    [value]="internalValue()"
+    [disabled]="isEffectivelyDisabled()"
+    [readonly]="readonly()"
+    [attr.autocomplete]="autocomplete()"
+    [attr.inputmode]="'email'"
+    [attr.autocapitalize]="'none'"
+    [attr.spellcheck]="'false'"
+    [attr.name]="name() ?? null"
+    [attr.id]="id() ?? null"
+    [attr.placeholder]="placeholderText() || null"
+    [attr.maxlength]="maxLength() ?? null"
+    (input)="onInput($event)"
+    (focus)="onInputFocus()"
+    (blur)="onInputBlur()"
+  />
+</solaris-form-field>

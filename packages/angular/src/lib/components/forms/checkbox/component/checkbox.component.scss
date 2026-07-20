@@ -1,0 +1,391 @@
+:host {
+  --solaris-checkbox-size: initial;
+  --solaris-checkbox-icon-size: initial;
+  --solaris-checkbox-gap: initial;
+  --solaris-checkbox-border-color: initial;
+  --solaris-checkbox-border-width: initial;
+  --solaris-checkbox-background: initial;
+  --solaris-checkbox-color: initial;
+  --solaris-checkbox-focus-ring-color: initial;
+  --solaris-checkbox-disabled-opacity: initial;
+  --solaris-checkbox-radius: var(--solaris-radius-sm);
+  --solaris-checkbox-readonly-background: initial;
+  --solaris-checkbox-invalid-border-color: initial;
+  --solaris-checkbox-custom-control-background: initial;
+  --solaris-checkbox-custom-control-color: initial;
+  --solaris-checkbox-custom-control-border-color: initial;
+  --solaris-checkbox-custom-control-hover-background: initial;
+  --solaris-checkbox-label-font-size: initial;
+  --solaris-checkbox-label-line-height: initial;
+
+  display: inline-flex;
+  vertical-align: middle;
+  outline: none;
+}
+
+.solaris-checkbox__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--solaris-checkbox-gap);
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.solaris-checkbox__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.solaris-checkbox__control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--solaris-checkbox-size);
+  height: var(--solaris-checkbox-size);
+  border: var(--solaris-checkbox-border-width) solid
+    var(--solaris-checkbox-border-color);
+  border-radius: var(--solaris-checkbox-radius);
+  background: var(--solaris-checkbox-background);
+  color: var(--solaris-checkbox-color);
+  box-sizing: border-box;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  position: relative;
+}
+
+.solaris-checkbox__icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: calc(var(--solaris-spacing-1) / 2);
+  box-sizing: border-box;
+}
+
+.solaris-checkbox__label-text {
+  font-size: var(--solaris-checkbox-label-font-size);
+  line-height: var(--solaris-checkbox-label-line-height);
+  color: inherit;
+}
+
+:host([data-size='sm']) {
+  --solaris-checkbox-size: var(--solaris-spacing-4);
+  --solaris-checkbox-icon-size: calc(var(--solaris-spacing-5) / 2);
+  --solaris-checkbox-gap: var(--solaris-spacing-2);
+  --solaris-checkbox-border-width: calc(var(--solaris-spacing-1) / 4);
+  --solaris-checkbox-label-font-size: var(--solaris-font-size-sm);
+  --solaris-checkbox-label-line-height: var(--solaris-line-height-sm);
+}
+
+:host([data-size='md']) {
+  --solaris-checkbox-size: var(--solaris-spacing-5);
+  --solaris-checkbox-icon-size: var(--solaris-spacing-3);
+  --solaris-checkbox-gap: var(--solaris-spacing-2);
+  --solaris-checkbox-border-width: calc(var(--solaris-spacing-1) / 4);
+  --solaris-checkbox-label-font-size: var(--solaris-font-size-md);
+  --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
+}
+
+:host([data-size='lg']) {
+  --solaris-checkbox-size: var(--solaris-spacing-6);
+  --solaris-checkbox-icon-size: calc(
+    var(--solaris-spacing-4) - var(--solaris-spacing-1) / 2
+  );
+  --solaris-checkbox-gap: var(--solaris-spacing-3);
+  --solaris-checkbox-border-width: calc(var(--solaris-spacing-1) / 2);
+  --solaris-checkbox-label-font-size: var(--solaris-font-size-lg);
+  --solaris-checkbox-label-line-height: var(--solaris-line-height-lg);
+}
+
+:host([data-density='compact']) {
+  --solaris-checkbox-gap: var(--solaris-spacing-1);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-checkbox-gap: var(--solaris-spacing-3);
+}
+
+:host([data-appearance='outline']) {
+  --solaris-checkbox-background: transparent;
+}
+
+:host([data-appearance='surface']) {
+  --solaris-checkbox-background: var(--solaris-surface-muted);
+  --solaris-checkbox-border-color: transparent;
+  --solaris-checkbox-border-width: var(--solaris-spacing-0);
+}
+
+:host([data-appearance='surface'][data-checked]),
+:host([data-appearance='surface'][data-indeterminate]) {
+  --solaris-checkbox-border-width: var(--solaris-spacing-0);
+}
+
+:host([data-color='neutral']) {
+  --solaris-checkbox-border-color: var(--solaris-border-default);
+}
+
+:host([data-color='neutral'][data-checked]),
+:host([data-color='neutral'][data-indeterminate]) {
+  --solaris-checkbox-background: var(--solaris-text-default);
+  --solaris-checkbox-color: var(--solaris-text-inverse);
+  --solaris-checkbox-border-color: var(--solaris-text-default);
+}
+
+:host([data-color='primary']) {
+  --solaris-checkbox-border-color: var(
+    --solaris-primary-border,
+    var(--solaris-border-default)
+  );
+  --solaris-checkbox-focus-ring-color: var(--solaris-primary-base);
+}
+
+:host([data-color='primary'][data-checked]),
+:host([data-color='primary'][data-indeterminate]) {
+  --solaris-checkbox-background: var(--solaris-primary-base);
+  --solaris-checkbox-color: var(
+    --solaris-primary-text,
+    var(--solaris-text-inverse)
+  );
+  --solaris-checkbox-border-color: var(--solaris-primary-base);
+}
+
+:host([data-color='success']) {
+  --solaris-checkbox-border-color: var(
+    --solaris-success-border,
+    var(--solaris-border-default)
+  );
+  --solaris-checkbox-focus-ring-color: var(--solaris-success-base);
+}
+
+:host([data-color='success'][data-checked]),
+:host([data-color='success'][data-indeterminate]) {
+  --solaris-checkbox-background: var(--solaris-success-base);
+  --solaris-checkbox-color: var(
+    --solaris-success-on-solid,
+    var(--solaris-text-inverse)
+  );
+  --solaris-checkbox-border-color: var(--solaris-success-base);
+}
+
+:host([data-color='warning']) {
+  --solaris-checkbox-border-color: var(
+    --solaris-warning-border,
+    var(--solaris-border-default)
+  );
+  --solaris-checkbox-focus-ring-color: var(--solaris-warning-base);
+}
+
+:host([data-color='warning'][data-checked]),
+:host([data-color='warning'][data-indeterminate]) {
+  --solaris-checkbox-background: var(--solaris-warning-base);
+  --solaris-checkbox-color: var(
+    --solaris-warning-on-solid,
+    var(--solaris-text-inverse)
+  );
+  --solaris-checkbox-border-color: var(--solaris-warning-base);
+}
+
+:host([data-color='danger']) {
+  --solaris-checkbox-border-color: var(
+    --solaris-danger-border,
+    var(--solaris-border-default)
+  );
+  --solaris-checkbox-focus-ring-color: var(--solaris-danger-base);
+}
+
+:host([data-color='danger'][data-checked]),
+:host([data-color='danger'][data-indeterminate]) {
+  --solaris-checkbox-background: var(--solaris-danger-base);
+  --solaris-checkbox-color: var(
+    --solaris-danger-on-solid,
+    var(--solaris-text-inverse)
+  );
+  --solaris-checkbox-border-color: var(--solaris-danger-base);
+}
+
+:host([data-color='info']) {
+  --solaris-checkbox-border-color: var(
+    --solaris-info-border,
+    var(--solaris-border-default)
+  );
+  --solaris-checkbox-focus-ring-color: var(--solaris-info-base);
+}
+
+:host([data-color='info'][data-checked]),
+:host([data-color='info'][data-indeterminate]) {
+  --solaris-checkbox-background: var(--solaris-info-base);
+  --solaris-checkbox-color: var(
+    --solaris-info-on-solid,
+    var(--solaris-text-inverse)
+  );
+  --solaris-checkbox-border-color: var(--solaris-info-base);
+}
+
+:host([data-color='custom']) {
+  --solaris-checkbox-border-color: var(
+    --solaris-checkbox-custom-control-border-color,
+    var(--solaris-border-default)
+  );
+  --solaris-checkbox-background: var(
+    --solaris-checkbox-custom-control-background,
+    transparent
+  );
+  --solaris-checkbox-color: var(
+    --solaris-checkbox-custom-control-color,
+    inherit
+  );
+}
+
+:host([data-color='custom'][data-checked]),
+:host([data-color='custom'][data-indeterminate]) {
+  --solaris-checkbox-background: var(
+    --solaris-checkbox-custom-control-background,
+    var(--solaris-primary-base)
+  );
+  --solaris-checkbox-color: var(
+    --solaris-checkbox-custom-control-color,
+    var(--solaris-text-inverse)
+  );
+  --solaris-checkbox-border-color: var(
+    --solaris-checkbox-custom-control-border-color,
+    var(
+      --solaris-checkbox-custom-control-background,
+      var(--solaris-primary-base)
+    )
+  );
+}
+
+.solaris-checkbox__label:hover .solaris-checkbox__control,
+:host([data-color='custom'])
+  .solaris-checkbox__label:hover
+  .solaris-checkbox__control {
+  border-color: var(--solaris-checkbox-border-color);
+}
+
+:host([data-color='primary'])
+  .solaris-checkbox__label:hover
+  .solaris-checkbox__control {
+  border-color: var(--solaris-primary-hover, var(--solaris-primary-base));
+}
+
+:host([data-color='success'])
+  .solaris-checkbox__label:hover
+  .solaris-checkbox__control {
+  border-color: var(--solaris-success-hover, var(--solaris-success-base));
+}
+
+:host([data-color='warning'])
+  .solaris-checkbox__label:hover
+  .solaris-checkbox__control {
+  border-color: var(--solaris-warning-hover, var(--solaris-warning-base));
+}
+
+:host([data-color='danger'])
+  .solaris-checkbox__label:hover
+  .solaris-checkbox__control {
+  border-color: var(--solaris-danger-hover, var(--solaris-danger-base));
+}
+
+:host([data-color='info'])
+  .solaris-checkbox__label:hover
+  .solaris-checkbox__control {
+  border-color: var(--solaris-info-hover, var(--solaris-info-base));
+}
+
+.solaris-checkbox__input:focus-visible + .solaris-checkbox__control {
+  outline: var(--solaris-border-width-sm) solid
+    var(--solaris-checkbox-focus-ring-color);
+  outline-offset: calc(var(--solaris-spacing-1) / 2);
+}
+
+:host([data-invalid]) {
+  --solaris-checkbox-border-color: var(
+    --solaris-checkbox-invalid-border-color,
+    var(--solaris-danger-base)
+  );
+  --solaris-checkbox-focus-ring-color: var(--solaris-danger-base);
+}
+
+:host([data-invalid][data-checked]),
+:host([data-invalid][data-indeterminate]) {
+  --solaris-checkbox-background: var(--solaris-danger-base);
+  --solaris-checkbox-color: var(
+    --solaris-danger-on-solid,
+    var(--solaris-text-inverse)
+  );
+  --solaris-checkbox-border-color: var(--solaris-danger-base);
+}
+
+:host([data-invalid])
+  .solaris-checkbox__label:hover
+  .solaris-checkbox__control {
+  border-color: var(
+    --solaris-checkbox-invalid-border-color,
+    var(--solaris-danger-base)
+  );
+}
+
+:host([data-disabled]) {
+  --solaris-checkbox-disabled-opacity: 0.5;
+}
+
+:host([data-disabled]) .solaris-checkbox__label {
+  cursor: not-allowed;
+}
+
+:host([data-disabled]) .solaris-checkbox__control {
+  opacity: var(--solaris-checkbox-disabled-opacity);
+}
+
+:host([data-disabled]) .solaris-checkbox__label-text {
+  opacity: var(--solaris-checkbox-disabled-opacity);
+}
+
+:host([data-readonly]) {
+  --solaris-checkbox-border-color: var(
+    --solaris-surface-muted,
+    var(--solaris-border-subtle)
+  );
+}
+
+:host([data-readonly]) .solaris-checkbox__label {
+  cursor: not-allowed;
+}
+
+:host([data-readonly])
+  .solaris-checkbox__label:hover
+  .solaris-checkbox__control {
+  border-color: var(--solaris-checkbox-border-color);
+}
+
+:host([data-readonly][data-checked]) .solaris-checkbox__control,
+:host([data-readonly][data-indeterminate]) .solaris-checkbox__control {
+  background: var(
+    --solaris-checkbox-readonly-background,
+    var(--solaris-surface-muted)
+  );
+  --solaris-checkbox-border-color: var(
+    --solaris-checkbox-readonly-background,
+    var(--solaris-surface-muted)
+  );
+}
+
+:host([data-radius='md']) {
+  --solaris-checkbox-radius: var(--solaris-radius-md);
+}
+
+:host([data-radius='lg']) {
+  --solaris-checkbox-radius: var(--solaris-radius-lg);
+}
+
+:host([data-radius='full']) {
+  --solaris-checkbox-radius: var(--solaris-radius-full);
+}

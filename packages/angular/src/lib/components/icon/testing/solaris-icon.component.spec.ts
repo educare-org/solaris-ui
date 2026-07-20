@@ -89,7 +89,7 @@ describe('SolarisIconComponent', () => {
     const svg = fixture.nativeElement.querySelector('svg');
     expect(svg.getAttribute('fill')).toBe('none');
     expect(svg.getAttribute('stroke')).toBe('currentColor');
-    expect(svg.getAttribute('stroke-width')).toBe('2');
+    expect(svg.getAttribute('stroke-width')).toBe('3');
     expect(svg.getAttribute('stroke-linecap')).toBe('round');
     expect(svg.getAttribute('stroke-linejoin')).toBe('round');
   });

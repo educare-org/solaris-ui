@@ -19,6 +19,31 @@
       "input": "src/lib/components/actions/icon-button/styles",
       "glob": "_*.scss",
       "output": "styles"
+    },
+    {
+      "input": "src/lib/components/forms/input/styles",
+      "glob": "_*.scss",
+      "output": "styles"
+    },
+    {
+      "input": "src/lib/components/interaction/popover/styles",
+      "glob": "_*.scss",
+      "output": "styles"
+    },
+    {
+      "input": "src/lib/components/interaction/tooltip/styles",
+      "glob": "_*.scss",
+      "output": "styles"
+    },
+    {
+      "input": "src/lib/components/feedback/toast/styles",
+      "glob": "_*.scss",
+      "output": "styles"
+    },
+    {
+      "input": "src/lib/components/interaction/dropdown-menu/styles",
+      "glob": "_*.scss",
+      "output": "styles"
     }
   ]
 }

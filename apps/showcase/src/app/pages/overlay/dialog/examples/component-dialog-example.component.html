@@ -1,0 +1,33 @@
+<div class="component-dialog-example">
+  <solaris-icon name="info-circle" [decorative]="false" />
+
+  <h2 class="component-dialog-example__title">{{ data.title }}</h2>
+
+  <p class="component-dialog-example__description">
+    {{ 'dialog.examples.component.desc-part1' | translate
+    }}<code>openComponent()</code
+    >{{ 'dialog.examples.component.desc-part2' | translate
+    }}<code>SOLARIS_DIALOG_DATA</code
+    >{{ 'dialog.examples.component.desc-part3' | translate }}
+  </p>
+
+  <div class="component-dialog-example__actions">
+    <button
+      type="button"
+      solaris-button
+      appearance="ghost"
+      (click)="close('cancel')"
+    >
+      {{ 'dialog.common.cancel' | translate }}
+    </button>
+
+    <button
+      type="button"
+      solaris-button
+      color="primary"
+      (click)="closeWithPizza()"
+    >
+      {{ 'dialog.examples.component.close-pizza' | translate }}
+    </button>
+  </div>
+</div>

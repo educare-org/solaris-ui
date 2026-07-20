@@ -1,0 +1,38 @@
+<div class="solaris-dialog-header__start">
+  @if (hasIcon()) {
+    <div class="solaris-dialog-header__icon">
+      <solaris-icon [name]="icon()!" [decorative]="iconDecorative()" />
+    </div>
+  }
+
+  <div class="solaris-dialog-header__text">
+    @if (hasTitle()) {
+      <h2 class="solaris-dialog-header__title" id="solaris-dialog-title">
+        {{ title() }}
+      </h2>
+    }
+
+    @if (hasDescription()) {
+      <p
+        class="solaris-dialog-header__description"
+        id="solaris-dialog-description"
+      >
+        {{ description() }}
+      </p>
+    }
+  </div>
+</div>
+
+@if (showCloseButton()) {
+  <div class="solaris-dialog-header__end">
+    <button
+      type="button"
+      class="solaris-dialog-header__close"
+      [attr.data-size]="size()"
+      [attr.aria-label]="closeLabel()"
+      (click)="close()"
+    >
+      <solaris-icon name="x" [decorative]="true" />
+    </button>
+  </div>
+}

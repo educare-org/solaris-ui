@@ -1,0 +1,18 @@
+<solaris-editable-tabs
+  [tabs]="tabs"
+  [(value)]="activeTab"
+  [defaultValue]="defaultTab()"
+  (defaultTabChange)="onDefaultChange($event)"
+/>
+<p
+  style="
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--solaris-text-muted);
+  "
+>
+  {{
+    'editableTabs.example.default-event.description'
+      | translate: { value: defaultTab() }
+  }}
+</p>

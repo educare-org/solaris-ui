@@ -1,9 +1,15 @@
 import { Component, inject, PLATFORM_ID } from '@angular/core';
 
+import {
+  SolarisSegmentedControlComponent,
+  SolarisSegmentedItemComponent,
+} from '@solaris-ui/angular';
+
 const STORAGE_KEY = 'solaris-theme';
 
 @Component({
   standalone: true,
+  imports: [SolarisSegmentedControlComponent, SolarisSegmentedItemComponent],
   selector: 'app-theme-toggle',
   templateUrl: './theme-toggle.html',
   styleUrls: ['./theme-toggle.scss'],
@@ -20,7 +26,7 @@ export class ShowcaseThemeToggle {
     if (stored === 'light' || stored === 'dark' || stored === 'system') {
       this.activeTheme = stored;
     } else {
-      const current = document.documentElement.getAttribute('data-theme');
+      const current = document.documentElement.dataset['theme'];
       if (current === 'light' || current === 'dark') {
         this.activeTheme = current;
       }
@@ -29,7 +35,8 @@ export class ShowcaseThemeToggle {
     this.applyTheme(this.activeTheme);
   }
 
-  protected setTheme(theme: 'light' | 'dark' | 'system'): void {
+  protected setTheme(theme: unknown): void {
+    if (theme !== 'light' && theme !== 'dark' && theme !== 'system') return;
     this.activeTheme = theme;
     const isBrowser = this.platformId === 'browser';
     if (!isBrowser) return;
@@ -40,9 +47,9 @@ export class ShowcaseThemeToggle {
 
   private applyTheme(theme: 'light' | 'dark' | 'system'): void {
     if (theme === 'system') {
-      document.documentElement.removeAttribute('data-theme');
+      delete document.documentElement.dataset['theme'];
     } else {
-      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.dataset['theme'] = theme;
     }
   }
 }
