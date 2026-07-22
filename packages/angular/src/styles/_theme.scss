@@ -11,6 +11,16 @@
 ///   ));
 
 @use 'sass:map';
+@use 'token/color';
+@use 'token/density';
+@use 'token/radius';
+@use 'token/spacing';
+@use 'token/typography';
+@use 'token/shadow';
+@use 'token/motion';
+@use 'token/z-index';
+@use 'token/border';
+@use 'token/opacity';
 
 $-default-config: (
   color-scheme: system,

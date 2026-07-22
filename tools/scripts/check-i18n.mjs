@@ -3,7 +3,6 @@ import fs from 'node:fs';
 import {
   workspaceRoot,
   fileExists,
-  readdirSafe,
   readFileSafe,
   printSummary,
 } from './shared.mjs';
@@ -104,44 +103,42 @@ if (!fileExists(libDir)) {
             );
           }
         }
-      } else {
+      } else if (
+        trimmed.includes('label:') ||
+        trimmed.includes("label '") ||
+        trimmed.includes('label "') ||
+        trimmed.includes('title:') ||
+        trimmed.includes("title '") ||
+        trimmed.includes('title "') ||
+        trimmed.includes('placeholder:') ||
+        trimmed.includes("placeholder '") ||
+        trimmed.includes('placeholder "') ||
+        trimmed.includes('ariaLabel:') ||
+        trimmed.includes("ariaLabel '") ||
+        trimmed.includes('ariaLabel "') ||
+        trimmed.includes('aria-label') ||
+        trimmed.includes('ariaLabel')
+      ) {
         if (
-          trimmed.includes('label:') ||
-          trimmed.includes("label '") ||
-          trimmed.includes('label "') ||
-          trimmed.includes('title:') ||
-          trimmed.includes("title '") ||
-          trimmed.includes('title "') ||
-          trimmed.includes('placeholder:') ||
-          trimmed.includes("placeholder '") ||
-          trimmed.includes('placeholder "') ||
-          trimmed.includes('ariaLabel:') ||
-          trimmed.includes("ariaLabel '") ||
-          trimmed.includes('ariaLabel "') ||
-          trimmed.includes('aria-label') ||
-          trimmed.includes('ariaLabel')
+          !trimmed.includes('Key') &&
+          !trimmed.includes('translate') &&
+          !trimmed.includes('LabelKey') &&
+          !trimmed.includes('TitleKey')
         ) {
-          if (
-            !trimmed.includes('Key') &&
-            !trimmed.includes('translate') &&
-            !trimmed.includes('LabelKey') &&
-            !trimmed.includes('TitleKey')
-          ) {
-            const stringMatch = trimmed.match(
-              /['"]([A-Za-z\u00C0-\u024F ]{5,})['"]/,
-            );
-            if (stringMatch) {
-              const text = stringMatch[1];
-              if (
-                text.length > 5 &&
-                !text.startsWith('@') &&
-                !text.startsWith('solaris-') &&
-                !text.startsWith('cdk-')
-              ) {
-                warnings.push(
-                  `${file}:${lineNum}: Possible hardcoded user-facing text "${text.substring(0, 40)}". Use translation keys and the key/dual pattern (e.g., label + labelKey).`,
-                );
-              }
+          const stringMatch = trimmed.match(
+            /['"]([A-Za-z\u00C0-\u024F ]{5,})['"]/,
+          );
+          if (stringMatch) {
+            const text = stringMatch[1];
+            if (
+              text.length > 5 &&
+              !text.startsWith('@') &&
+              !text.startsWith('solaris-') &&
+              !text.startsWith('cdk-')
+            ) {
+              warnings.push(
+                `${file}:${lineNum}: Possible hardcoded user-facing text "${text.substring(0, 40)}". Use translation keys and the key/dual pattern (e.g., label + labelKey).`,
+              );
             }
           }
         }
