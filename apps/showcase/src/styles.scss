@@ -1,28 +1,4 @@
-/* Solaris tokens (CSS custom properties on :root) */
-@use '../../../packages/angular/src/lib/services/theme/theme';
-
-/* Solaris public SCSS API */
 @use '../../../packages/angular/src/styles' as solaris;
-
-/* Solaris button styles */
-@use '../../../packages/angular/src/lib/components/actions/button/styles/button'
-  as solaris-button;
-
-/* Solaris icon button styles */
-@use '../../../packages/angular/src/lib/components/actions/icon-button/styles/icon-button'
-  as solaris-icon-button;
-
-/* Solaris input styles */
-@use '../../../packages/angular/src/lib/components/forms/input/styles/input' as
-  solaris-input;
-
-/* Solaris textarea styles */
-@use '../../../packages/angular/src/lib/components/forms/textarea/styles/textarea'
-  as solaris-textarea;
-
-/* Solaris popover styles */
-@use '../../../packages/angular/src/lib/components/interaction/popover/styles/popover'
-  as solaris-popover;
 
 @include solaris.core(
   (
@@ -31,15 +7,13 @@
 );
 @include solaris.theme();
 
-/* Font source loading via @fontsource */
 @import '@fontsource/inter/400.css';
 @import '@fontsource/inter/500.css';
 @import '@fontsource/inter/600.css';
-@import '@fontsource/jetbrains-mono/400.css';
 @import '@fontsource/space-grotesk/600.css';
+@import '@fontsource/jetbrains-mono/400.css';
 @import '@fontsource/ibm-plex-serif/400.css';
 
-/* Base body styles using Solaris tokens */
 body {
   background-color: var(--solaris-bg-page);
   line-height: var(--solaris-line-height-md);

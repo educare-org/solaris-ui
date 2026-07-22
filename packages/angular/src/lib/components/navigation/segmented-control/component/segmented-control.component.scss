@@ -128,6 +128,7 @@
 
 .solaris-segmented-control__indicator {
   left: 0;
+  // SOLARIS_TOKEN_EXCEPTION: indicator must stack above items
   z-index: 1;
   height: auto;
   transition: none;

@@ -161,6 +161,7 @@
 }
 
 .solaris-editable-tabs__rename-input:focus {
+  // SOLARIS_TOKEN_EXCEPTION: outline focus ring built from border-width + color tokens
   box-shadow: 0 0 0 var(--solaris-border-width-sm)
     var(--solaris-primary-base-alpha);
 }

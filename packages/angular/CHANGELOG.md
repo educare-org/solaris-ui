@@ -1,5 +1,25 @@
 # @solaris-ui/angular
 
+## 0.3.2
+
+### Patch Changes
+
+- Simplifica importação de estilos e adiciona suporte a `ng-add`
+  - Move todos os SCSS de diretivas (`_button.scss`, `_input.scss`, etc.) para
+    `src/styles/` — agora são publicados automaticamente via asset glob
+  - Adiciona `@forward` de todos os componentes no `_index.scss` público —
+    consumidores agora só precisam de **um único `@use`** para obter tokens,
+    tema e estilos de componentes
+  - Adiciona `_textarea.scss` que estava faltando nos assets publicados
+  - Remove `_components.scss` (não mais necessário — `_index.scss` já exporta tudo)
+  - Adiciona wildcard `"./styles/*"` no exports map para resolver imports
+    individuais quando necessário
+  - Cria schematic `ng-add` com `tsconfig.schematics.json` para configurar
+    `styles.scss` e `app.config.ts` automaticamente
+  - Simplifica `ng-package.json`: remove 8 entradas individuais de assets de
+    componentes, substituídas pelo glob único `src/styles/**/*.scss`
+  - Atualiza showcase para usar o novo padrão de import único
+
 ## 0.3.1
 
 ### Patch Changes
