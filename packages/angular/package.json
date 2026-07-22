@@ -1,6 +1,6 @@
 {
   "name": "@educarehq/solaris-ui",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "peerDependencies": {
     "@angular/cdk": "^21.2.0",
     "@angular/common": "^21.2.0",
