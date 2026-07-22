@@ -20,6 +20,10 @@
     "./styles": {
       "style": "./styles/_index.scss",
       "default": "./styles/_index.scss"
+    },
+    "./styles/*": {
+      "style": "./styles/_*.scss",
+      "default": "./styles/_*.scss"
     }
   }
 }
