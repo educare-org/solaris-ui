@@ -52,6 +52,29 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.editableTabs.remove': 'Remove',
       'solaris.editableTabs.confirmRename': 'Confirm rename',
       'solaris.editableTabs.cancelRename': 'Cancel rename',
+
+      'solaris.form-field.optional': 'Optional',
+
+      'solaris.email-field.required': 'Email is required.',
+      'solaris.email-field.invalid': 'Enter a valid email address.',
+      'solaris.email-field.allowedDomain': 'Email domain is not allowed.',
+      'solaris.email-field.blockedDomain': 'Email domain is blocked.',
+
+      'solaris.password-field.toggle.hide': 'Hide password',
+      'solaris.password-field.toggle.show': 'Show password',
+      'solaris.password-field.error.required': 'Password is required.',
+      'solaris.password-field.requirement.minLength':
+        'At least {{count}} characters.',
+      'solaris.password-field.requirement.maxLength':
+        'At most {{count}} characters.',
+      'solaris.password-field.requirement.lowercase': 'One lowercase letter.',
+      'solaris.password-field.requirement.uppercase': 'One uppercase letter.',
+      'solaris.password-field.requirement.number': 'One number.',
+      'solaris.password-field.requirement.symbol': 'One symbol.',
+      'solaris.password-field.requirement.noWhitespace': 'No spaces.',
+      'solaris.password-field.strength.weak': 'Weak',
+      'solaris.password-field.strength.medium': 'Medium',
+      'solaris.password-field.strength.strong': 'Strong',
     },
     'pt-BR': {
       'solaris.select.search.placeholder': 'Buscar...',
@@ -101,6 +124,29 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.editableTabs.remove': 'Remover',
       'solaris.editableTabs.confirmRename': 'Confirmar renomeação',
       'solaris.editableTabs.cancelRename': 'Cancelar renomeação',
+
+      'solaris.form-field.optional': 'Opcional',
+
+      'solaris.email-field.required': 'E-mail é obrigatório.',
+      'solaris.email-field.invalid': 'Insira um e-mail válido.',
+      'solaris.email-field.allowedDomain': 'Domínio de e-mail não permitido.',
+      'solaris.email-field.blockedDomain': 'Domínio de e-mail não permitido.',
+
+      'solaris.password-field.toggle.hide': 'Ocultar senha',
+      'solaris.password-field.toggle.show': 'Mostrar senha',
+      'solaris.password-field.error.required': 'Senha é obrigatória.',
+      'solaris.password-field.requirement.minLength':
+        'Pelo menos {{count}} caracteres.',
+      'solaris.password-field.requirement.maxLength':
+        'No máximo {{count}} caracteres.',
+      'solaris.password-field.requirement.lowercase': 'Uma letra minúscula.',
+      'solaris.password-field.requirement.uppercase': 'Uma letra maiúscula.',
+      'solaris.password-field.requirement.number': 'Um número.',
+      'solaris.password-field.requirement.symbol': 'Um símbolo.',
+      'solaris.password-field.requirement.noWhitespace': 'Sem espaços.',
+      'solaris.password-field.strength.weak': 'Fraca',
+      'solaris.password-field.strength.medium': 'Média',
+      'solaris.password-field.strength.strong': 'Forte',
     },
   },
   useBrowserLocale: true,
