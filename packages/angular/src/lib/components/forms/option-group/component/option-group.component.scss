@@ -76,5 +76,5 @@
 }
 
 :host([data-disabled]) {
-  opacity: 0.6;
+  opacity: var(--solaris-opacity-60);
 }

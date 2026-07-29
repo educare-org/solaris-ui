@@ -12,7 +12,7 @@
   --solaris-button-font-weight: initial;
   --solaris-button-border-color: initial;
   --solaris-button-border-width: initial;
-  --solaris-button-disabled-opacity: 0.5;
+  --solaris-button-disabled-opacity: var(--solaris-opacity-50);
   --solaris-button-hover-background: initial;
   --solaris-button-focus-ring-color: initial;
   --solaris-button-active-background: initial;
@@ -103,14 +103,14 @@
 
 @media (prefers-reduced-motion: reduce) {
   [solaris-button][data-loading]::before {
-    opacity: 0.5;
+    opacity: var(--solaris-opacity-50);
     animation: none;
   }
 }
 
 [data-reduced-motion='true'] [solaris-button][data-loading]::before {
   animation: none;
-  opacity: 0.5;
+  opacity: var(--solaris-opacity-50);
 }
 
 @keyframes solaris-button-spin {
@@ -212,7 +212,7 @@
 }
 
 [solaris-button][data-color='primary'][data-appearance='outline'] {
-  --solaris-button-color: var(--solaris-primary-text);
+  --solaris-button-color: var(--solaris-primary-base);
   --solaris-button-border-color: var(--solaris-primary-border);
   --solaris-button-focus-ring-color: var(--solaris-primary-base);
   --solaris-button-hover-background: var(--solaris-primary-surface);
@@ -220,7 +220,7 @@
 }
 
 [solaris-button][data-color='primary'][data-appearance='ghost'] {
-  --solaris-button-color: var(--solaris-primary-text);
+  --solaris-button-color: var(--solaris-primary-base);
   --solaris-button-focus-ring-color: var(--solaris-primary-base);
   --solaris-button-hover-background: var(--solaris-primary-surface);
   --solaris-button-active-background: var(--solaris-primary-surface);

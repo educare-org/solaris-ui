@@ -34,6 +34,16 @@
   );
 }
 
+:host([data-size='sm']) {
+  --solaris-card-section-gap: var(--solaris-spacing-4);
+  --solaris-card-section-padding: var(--solaris-spacing-4);
+}
+
+:host([data-size='lg']) {
+  --solaris-card-section-gap: var(--solaris-spacing-6);
+  --solaris-card-section-padding: var(--solaris-spacing-8);
+}
+
 :host([data-appearance='surface']) {
   --solaris-card-shadow: none;
   --solaris-card-color: var(--solaris-text-default);

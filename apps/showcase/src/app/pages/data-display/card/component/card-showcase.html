@@ -256,6 +256,51 @@
   </section>
 
   <section class="card-showcase__section">
+    <h2 class="card-showcase__section-title">{{ 'card.size' | translate }}</h2>
+    <p class="card-showcase__section-desc">
+      {{ 'card.size-desc' | translate }}
+    </p>
+
+    <div class="card-showcase__grid">
+      <solaris-card size="sm">
+        <div solaris-card-header>
+          <h3 solaris-card-title>{{ 'card.size-sm' | translate }}</h3>
+          <p solaris-card-description>
+            {{ 'card.size-sm-desc' | translate }}
+          </p>
+        </div>
+        <div solaris-card-content>
+          <solaris-badge color="primary">sm</solaris-badge>
+        </div>
+      </solaris-card>
+
+      <solaris-card size="md">
+        <div solaris-card-header>
+          <h3 solaris-card-title>{{ 'card.size-md' | translate }}</h3>
+          <p solaris-card-description>
+            {{ 'card.size-md-desc' | translate }}
+          </p>
+        </div>
+        <div solaris-card-content>
+          <solaris-badge color="primary">md</solaris-badge>
+        </div>
+      </solaris-card>
+
+      <solaris-card size="lg">
+        <div solaris-card-header>
+          <h3 solaris-card-title>{{ 'card.size-lg' | translate }}</h3>
+          <p solaris-card-description>
+            {{ 'card.size-lg-desc' | translate }}
+          </p>
+        </div>
+        <div solaris-card-content>
+          <solaris-badge color="primary">lg</solaris-badge>
+        </div>
+      </solaris-card>
+    </div>
+  </section>
+
+  <section class="card-showcase__section">
     <h2 class="card-showcase__section-title">
       {{ 'card.separator' | translate }}
     </h2>

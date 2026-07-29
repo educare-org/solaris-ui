@@ -81,7 +81,7 @@
   // SOLARIS_TOKEN_EXCEPTION: CSS var fallback value provides default thumb shadow. Required for standalone use.
   box-shadow: var(
     --solaris-switch-thumb-shadow,
-    0 0.0625rem 0.125rem rgb(0 0 0 / 0.24)
+    0 1px 2px rgb(0 0 0 / 0.24)
   );
   box-sizing: border-box;
   transform: translateY(-50%);
@@ -361,7 +361,7 @@
 }
 
 :host([data-disabled]) {
-  --solaris-switch-disabled-opacity: 0.5;
+  --solaris-switch-disabled-opacity: var(--solaris-opacity-50);
 }
 
 :host([data-disabled]) .solaris-switch__label {

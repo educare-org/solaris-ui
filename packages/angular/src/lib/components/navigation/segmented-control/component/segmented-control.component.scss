@@ -112,7 +112,7 @@
 }
 
 :host([data-disabled]) .solaris-segmented-control__indicator {
-  opacity: 0.6;
+  opacity: var(--solaris-opacity-60);
   cursor: not-allowed;
 }
 

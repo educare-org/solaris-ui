@@ -48,7 +48,7 @@
 }
 
 :host:not([data-selected='true']):not([data-disabled='true']) {
-  opacity: 0.5;
+  opacity: var(--solaris-opacity-50);
 }
 
 :host(:focus-visible) {
@@ -62,7 +62,7 @@
 }
 
 :host([data-disabled='true']) {
-  opacity: 0.15;
+  opacity: var(--solaris-opacity-10);
   cursor: not-allowed;
 }
 
@@ -71,7 +71,7 @@
 }
 
 :host([data-selected='true'][data-disabled='true']) {
-  opacity: 0.4;
+  opacity: var(--solaris-opacity-40);
 }
 
 :host-context([data-orientation='vertical']) {

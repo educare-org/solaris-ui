@@ -297,7 +297,7 @@
 }
 
 .solaris-multi-select__select-all--readonly {
-  opacity: 0.5;
+  opacity: var(--solaris-opacity-50);
   cursor: default;
 }
 

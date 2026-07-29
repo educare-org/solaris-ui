@@ -5,7 +5,9 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
   fallbackLocale: 'en-US',
   translations: {
     'en-US': {
-      'solaris.select.search.placeholder': 'Search...',
+      'solaris.button.loading': 'Loading...',
+
+      'solaris.stepper.optional': 'Optional',
       'solaris.select.loading': 'Loading...',
       'solaris.select.empty': 'No options available',
       'solaris.select.noResults': 'No results found',
@@ -77,7 +79,9 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.password-field.strength.strong': 'Strong',
     },
     'pt-BR': {
-      'solaris.select.search.placeholder': 'Buscar...',
+      'solaris.button.loading': 'Carregando...',
+
+      'solaris.stepper.optional': 'Opcional',
       'solaris.select.loading': 'Carregando...',
       'solaris.select.empty': 'Nenhuma opção disponível',
       'solaris.select.noResults': 'Nenhum resultado encontrado',

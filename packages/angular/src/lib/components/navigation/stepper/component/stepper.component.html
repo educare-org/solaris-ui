@@ -54,9 +54,8 @@
 
       @if (showStepStatus()) {
         <span class="solaris-stepper__status-badge">
-          @if (step.optional()) {
-            <span class="solaris-stepper__optional-text">Optional</span>
-            <!-- SOLARIS_I18N_EXCEPTION: "Optional" is a short static label used as a visual badge. Translation support can be added in a future iteration. -->
+          @if (step.resolvedOptionalLabel(); as optLabel) {
+            <span class="solaris-stepper__optional-text">{{ optLabel }}</span>
           }
         </span>
       }

@@ -98,6 +98,14 @@ export class SolarisStepComponent {
     return descriptionKey ?? '';
   });
 
+  readonly resolvedOptionalLabel = computed(() => {
+    if (!this.optional()) return undefined;
+    if (this.translateService) {
+      return this.translateService.translate('solaris.stepper.optional');
+    }
+    return 'Optional';
+  });
+
   readonly showCheckIcon = computed(
     () => this.computedStatus() === 'completed' && !this.icon(),
   );

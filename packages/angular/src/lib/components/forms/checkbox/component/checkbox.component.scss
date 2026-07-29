@@ -334,7 +334,7 @@
 }
 
 :host([data-disabled]) {
-  --solaris-checkbox-disabled-opacity: 0.5;
+  --solaris-checkbox-disabled-opacity: var(--solaris-opacity-50);
 }
 
 :host([data-disabled]) .solaris-checkbox__label {

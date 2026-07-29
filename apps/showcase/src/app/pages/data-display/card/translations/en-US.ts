@@ -61,4 +61,12 @@ export const EN_US_CARD: Record<string, string> = {
   'card.density-comfortable-content': 'Content area with more spacing.',
   'card.footer-no-separator': 'Footer without separator.',
   'card.footer-with-separator': 'Footer with separator.',
+  'card.size': 'Size',
+  'card.size-desc': 'Sm, md, and lg size options controlling inner padding.',
+  'card.size-sm': 'sm',
+  'card.size-sm-desc': 'Compact padding ideal for dense layouts.',
+  'card.size-md': 'md',
+  'card.size-md-desc': 'Default padding for most use cases.',
+  'card.size-lg': 'lg',
+  'card.size-lg-desc': 'Spacious padding for featured content.',
 };

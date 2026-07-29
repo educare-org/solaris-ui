@@ -73,7 +73,7 @@ textarea[solaris-textarea][data-appearance='outline'] {
   --solaris-textarea-placeholder-color: var(--solaris-text-muted);
   --solaris-textarea-focus-ring-color: var(--solaris-primary-base);
   --solaris-textarea-invalid-border-color: var(--solaris-danger-base);
-  --solaris-textarea-disabled-opacity: 0.5;
+  --solaris-textarea-disabled-opacity: var(--solaris-opacity-50);
   --solaris-textarea-readonly-background: var(--solaris-surface-muted);
 }
 
@@ -85,7 +85,7 @@ textarea[solaris-textarea][data-appearance='surface'] {
   --solaris-textarea-placeholder-color: var(--solaris-text-muted);
   --solaris-textarea-focus-ring-color: var(--solaris-primary-base);
   --solaris-textarea-invalid-border-color: var(--solaris-danger-base);
-  --solaris-textarea-disabled-opacity: 0.5;
+  --solaris-textarea-disabled-opacity: var(--solaris-opacity-50);
   --solaris-textarea-readonly-background: var(--solaris-surface-base);
 }
 
@@ -97,41 +97,41 @@ textarea[solaris-textarea][data-appearance='filled'] {
   --solaris-textarea-placeholder-color: var(--solaris-text-muted);
   --solaris-textarea-focus-ring-color: var(--solaris-primary-base);
   --solaris-textarea-invalid-border-color: var(--solaris-danger-base);
-  --solaris-textarea-disabled-opacity: 0.5;
+  --solaris-textarea-disabled-opacity: var(--solaris-opacity-50);
   --solaris-textarea-readonly-background: var(--solaris-surface-base);
 }
 
 textarea[solaris-textarea][data-size='sm'] {
   --solaris-textarea-padding-x: var(--solaris-spacing-2);
-  --solaris-textarea-padding-y: 0.25rem;
-  --solaris-textarea-min-height: 3rem;
+  --solaris-textarea-padding-y: 0.125rem;
+  --solaris-textarea-min-height: 2rem;
   --solaris-textarea-font-size: var(--solaris-font-size-sm);
   --solaris-textarea-line-height: var(--solaris-line-height-sm);
 }
 
 textarea[solaris-textarea][data-size='md'] {
   --solaris-textarea-padding-x: var(--solaris-spacing-3);
-  --solaris-textarea-padding-y: 0.375rem;
-  --solaris-textarea-min-height: 3.5rem;
+  --solaris-textarea-padding-y: 0.25rem;
+  --solaris-textarea-min-height: 2.25rem;
   --solaris-textarea-font-size: var(--solaris-font-size-md);
   --solaris-textarea-line-height: var(--solaris-line-height-md);
 }
 
 textarea[solaris-textarea][data-size='lg'] {
   --solaris-textarea-padding-x: var(--solaris-spacing-4);
-  --solaris-textarea-padding-y: 0.5rem;
-  --solaris-textarea-min-height: 4rem;
+  --solaris-textarea-padding-y: 0.25rem;
+  --solaris-textarea-min-height: 2.5rem;
   --solaris-textarea-font-size: var(--solaris-font-size-lg);
   --solaris-textarea-line-height: var(--solaris-line-height-lg);
 }
 
 textarea[solaris-textarea][data-density='compact'] {
-  --solaris-textarea-padding-y: 0.1875rem;
+  --solaris-textarea-padding-y: 0.125rem;
   --solaris-textarea-line-height: var(--solaris-line-height-sm);
 }
 
 textarea[solaris-textarea][data-density='comfortable'] {
-  --solaris-textarea-padding-y: 0.5rem;
+  --solaris-textarea-padding-y: 0.25rem;
   --solaris-textarea-line-height: var(--solaris-line-height-md);
 }
 
@@ -225,13 +225,13 @@ solaris-form-field textarea[solaris-textarea][readonly] {
 }
 
 solaris-form-field textarea[solaris-textarea][data-density='compact'] {
-  padding-top: 0.1875rem;
-  padding-bottom: 0.1875rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
 }
 
 solaris-form-field textarea[solaris-textarea][data-density='comfortable'] {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 solaris-form-field textarea[solaris-textarea]:autofill,

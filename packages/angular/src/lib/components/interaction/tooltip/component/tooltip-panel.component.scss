@@ -244,7 +244,7 @@
 }
 
 .solaris-tooltip-panel__close {
-  opacity: 0.7;
+  opacity: var(--solaris-opacity-70);
   border: none;
   flex-shrink: 0;
   color: inherit;

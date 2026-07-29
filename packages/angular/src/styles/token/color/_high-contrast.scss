@@ -12,10 +12,12 @@
   --solaris-text-muted: #222222;
   --solaris-text-subtle: #444444;
   --solaris-text-inverse: #ffffff;
+  --solaris-text-glass: #ffffff;
 
   --solaris-border-subtle: #666666;
   --solaris-border-default: #888888;
   --solaris-border-strong: #aaaaaa;
+  --solaris-border-soft: #cccccc;
 
   --solaris-primary-base: #0000cc;
   --solaris-primary-hover: #000099;
@@ -24,4 +26,115 @@
   --solaris-primary-border: #9999ff;
   --solaris-primary-text: #0000aa;
   --solaris-primary-on-solid: #ffffff;
+
+  --solaris-success-base: #006600;
+  --solaris-success-hover: #004d00;
+  --solaris-success-active: #003300;
+  --solaris-success-surface: #e6f2e6;
+  --solaris-success-border: #99cc99;
+  --solaris-success-text: #004d00;
+  --solaris-success-on-solid: #ffffff;
+
+  --solaris-warning-base: #996600;
+  --solaris-warning-hover: #7a5200;
+  --solaris-warning-active: #5c3d00;
+  --solaris-warning-surface: #fff2cc;
+  --solaris-warning-border: #ffd633;
+  --solaris-warning-text: #664400;
+  --solaris-warning-on-solid: #ffffff;
+
+  --solaris-danger-base: #cc0000;
+  --solaris-danger-hover: #990000;
+  --solaris-danger-active: #660000;
+  --solaris-danger-surface: #ffe6e6;
+  --solaris-danger-border: #ff9999;
+  --solaris-danger-text: #990000;
+  --solaris-danger-on-solid: #ffffff;
+
+  --solaris-info-base: #0044cc;
+  --solaris-info-hover: #003399;
+  --solaris-info-active: #002266;
+  --solaris-info-surface: #e6eeff;
+  --solaris-info-border: #99bbff;
+  --solaris-info-text: #003399;
+  --solaris-info-on-solid: #ffffff;
+
+  --solaris-orange-base: #cc6600;
+  --solaris-orange-hover: #995200;
+  --solaris-orange-active: #663d00;
+  --solaris-orange-surface: #fff0e6;
+  --solaris-orange-border: #ffcca8;
+  --solaris-orange-text: #994d00;
+  --solaris-orange-on-solid: #ffffff;
+}
+
+@media (prefers-contrast: high) {
+  :root:not([data-theme]) {
+    --solaris-bg-page: #ffffff;
+    --solaris-surface-base: #ffffff;
+    --solaris-surface-subtle: #f0f0f0;
+    --solaris-surface-muted: #e0e0e0;
+    --solaris-surface-raised: #ffffff;
+    --solaris-backdrop: #000000e2;
+
+    --solaris-text-strong: #000000;
+    --solaris-text-default: #000000;
+    --solaris-text-muted: #222222;
+    --solaris-text-subtle: #444444;
+    --solaris-text-inverse: #ffffff;
+    --solaris-text-glass: #ffffff;
+
+    --solaris-border-subtle: #666666;
+    --solaris-border-default: #888888;
+    --solaris-border-strong: #aaaaaa;
+    --solaris-border-soft: #cccccc;
+
+    --solaris-primary-base: #0000cc;
+    --solaris-primary-hover: #000099;
+    --solaris-primary-active: #000066;
+    --solaris-primary-surface: #e6e6ff;
+    --solaris-primary-border: #9999ff;
+    --solaris-primary-text: #0000aa;
+    --solaris-primary-on-solid: #ffffff;
+
+    --solaris-success-base: #006600;
+    --solaris-success-hover: #004d00;
+    --solaris-success-active: #003300;
+    --solaris-success-surface: #e6f2e6;
+    --solaris-success-border: #99cc99;
+    --solaris-success-text: #004d00;
+    --solaris-success-on-solid: #ffffff;
+
+    --solaris-warning-base: #996600;
+    --solaris-warning-hover: #7a5200;
+    --solaris-warning-active: #5c3d00;
+    --solaris-warning-surface: #fff2cc;
+    --solaris-warning-border: #ffd633;
+    --solaris-warning-text: #664400;
+    --solaris-warning-on-solid: #ffffff;
+
+    --solaris-danger-base: #cc0000;
+    --solaris-danger-hover: #990000;
+    --solaris-danger-active: #660000;
+    --solaris-danger-surface: #ffe6e6;
+    --solaris-danger-border: #ff9999;
+    --solaris-danger-text: #990000;
+    --solaris-danger-on-solid: #ffffff;
+
+    --solaris-info-base: #0044cc;
+    --solaris-info-hover: #003399;
+    --solaris-info-active: #002266;
+    --solaris-info-surface: #e6eeff;
+    --solaris-info-border: #99bbff;
+    --solaris-info-text: #003399;
+    --solaris-info-on-solid: #ffffff;
+
+    --solaris-orange-base: #cc6600;
+    --solaris-orange-hover: #995200;
+    --solaris-orange-active: #663d00;
+    --solaris-orange-surface: #fff0e6;
+    --solaris-orange-border: #ffcca8;
+    --solaris-orange-text: #994d00;
+    --solaris-orange-on-solid: #ffffff;
+  }
 }

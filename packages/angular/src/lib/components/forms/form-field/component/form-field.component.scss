@@ -360,7 +360,7 @@
 :host([data-appearance='outline']),
 :host([data-appearance='surface']),
 :host([data-appearance='filled']) {
-  --solaris-form-field-disabled-opacity: 0.5;
+  --solaris-form-field-disabled-opacity: var(--solaris-opacity-50);
   --solaris-form-field-focus-ring-width: 2px;
   --solaris-form-field-hint-color: var(--solaris-text-muted);
   --solaris-form-field-prefix-color: var(--solaris-text-muted);

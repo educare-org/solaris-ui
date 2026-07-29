@@ -75,6 +75,7 @@ export { SolarisCardDescriptionDirective } from './lib/components/data-display/c
 export type {
   SolarisCardAppearance,
   SolarisCardRadius,
+  SolarisCardSize,
   SolarisCardDensity,
   SolarisCardGlassTexture,
 } from './lib/components/data-display/card/model/card.types';

@@ -93,7 +93,7 @@ input[solaris-input][data-appearance='outline'] {
   --solaris-input-placeholder-color: var(--solaris-text-muted);
   --solaris-input-focus-ring-color: var(--solaris-primary-base);
   --solaris-input-invalid-border-color: var(--solaris-danger-base);
-  --solaris-input-disabled-opacity: 0.5;
+  --solaris-input-disabled-opacity: var(--solaris-opacity-50);
   --solaris-input-readonly-background: var(--solaris-surface-muted);
 }
 
@@ -105,7 +105,7 @@ input[solaris-input][data-appearance='surface'] {
   --solaris-input-placeholder-color: var(--solaris-text-muted);
   --solaris-input-focus-ring-color: var(--solaris-primary-base);
   --solaris-input-invalid-border-color: var(--solaris-danger-base);
-  --solaris-input-disabled-opacity: 0.5;
+  --solaris-input-disabled-opacity: var(--solaris-opacity-50);
   --solaris-input-readonly-background: var(--solaris-surface-base);
 }
 
@@ -117,7 +117,7 @@ input[solaris-input][data-appearance='filled'] {
   --solaris-input-placeholder-color: var(--solaris-text-muted);
   --solaris-input-focus-ring-color: var(--solaris-primary-base);
   --solaris-input-invalid-border-color: var(--solaris-danger-base);
-  --solaris-input-disabled-opacity: 0.5;
+  --solaris-input-disabled-opacity: var(--solaris-opacity-50);
   --solaris-input-readonly-background: var(--solaris-surface-base);
 }
 

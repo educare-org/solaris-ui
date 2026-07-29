@@ -255,7 +255,7 @@
 }
 
 :host([data-disabled]) {
-  --solaris-radio-disabled-opacity: 0.5;
+  --solaris-radio-disabled-opacity: var(--solaris-opacity-50);
 }
 
 :host([data-disabled]) .solaris-radio__label {
