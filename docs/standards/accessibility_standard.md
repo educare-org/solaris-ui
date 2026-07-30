@@ -16,23 +16,23 @@ out of the box.
 
 ### Minimum contrast ratios
 
-| Usage | Ratio | WCAG SC |
-|-------|-------|---------|
-| Normal text (<18px / 14px bold) | 4.5:1 | 1.4.3 |
-| Large text (≥18px / ≥14px bold) | 3:1 | 1.4.3 |
-| UI components and graphical objects | 3:1 | 1.4.11 |
-| Focus indicator | 3:1 against adjacent | 2.4.13 |
+| Usage                               | Ratio                | WCAG SC |
+| ----------------------------------- | -------------------- | ------- |
+| Normal text (<18px / 14px bold)     | 4.5:1                | 1.4.3   |
+| Large text (≥18px / ≥14px bold)     | 3:1                  | 1.4.3   |
+| UI components and graphical objects | 3:1                  | 1.4.11  |
+| Focus indicator                     | 3:1 against adjacent | 2.4.13  |
 
 ### Color tokens with known contrast issues
 
 These tokens do NOT meet WCAG AA for certain uses:
 
-| Token | Value | Ratio vs white | Issue |
-|-------|-------|---------------|-------|
-| `--solaris-primary-base` | #4282fb | ~2.8:1 | Use as text on white only at ≥18px |
-| `--solaris-text-subtle` | #7a7d84 | ~4.1:1 | Fails AA for normal text; use for captions only |
-| `--solaris-info-base` | #5f9be4 | ~2.6:1 | Use for large UI elements or backgrounds only |
-| `--solaris-warning-base` | #f1d008 | ~1.1:1 | Background only; never use for text |
+| Token                    | Value   | Ratio vs white | Issue                                           |
+| ------------------------ | ------- | -------------- | ----------------------------------------------- |
+| `--solaris-primary-base` | #4282fb | ~2.8:1         | Use as text on white only at ≥18px              |
+| `--solaris-text-subtle`  | #7a7d84 | ~4.1:1         | Fails AA for normal text; use for captions only |
+| `--solaris-info-base`    | #5f9be4 | ~2.6:1         | Use for large UI elements or backgrounds only   |
+| `--solaris-warning-base` | #f1d008 | ~1.1:1         | Background only; never use for text             |
 
 ### Color usage rules
 
@@ -50,12 +50,12 @@ These tokens do NOT meet WCAG AA for certain uses:
 
 Solaris provides system-wide focus ring tokens:
 
-| Token | Default | Dark | High-contrast |
-|-------|---------|------|---------------|
-| `--solaris-focus-ring-width` | 2px | 2px | 3px |
-| `--solaris-focus-ring-offset` | 2px | 2px | 2px |
-| `--solaris-focus-ring-color` | primary-base | primary-hover | #000000 |
-| `--solaris-focus-ring-style` | solid | solid | solid |
+| Token                         | Default      | Dark          | High-contrast |
+| ----------------------------- | ------------ | ------------- | ------------- |
+| `--solaris-focus-ring-width`  | 2px          | 2px           | 3px           |
+| `--solaris-focus-ring-offset` | 2px          | 2px           | 2px           |
+| `--solaris-focus-ring-color`  | primary-base | primary-hover | #000000       |
+| `--solaris-focus-ring-style`  | solid        | solid         | solid         |
 
 ### Requirements per component
 
@@ -64,15 +64,15 @@ focus indication.
 
 Focus management is required for these patterns:
 
-| Pattern | Requirement |
-|---------|------------|
-| Dialog | Trap focus, restore on close |
-| Dropdown menu | Arrow key navigation, first/last item wrap |
-| Tooltip (interactive) | Focus stays within tooltip content |
-| Tabs | Arrow key navigation between tabs |
-| Stepper | Enter/click activates step |
-| Select | Arrow key navigation, typeahead |
-| Command/search | Arrow key navigation, escape to close |
+| Pattern               | Requirement                                |
+| --------------------- | ------------------------------------------ |
+| Dialog                | Trap focus, restore on close               |
+| Dropdown menu         | Arrow key navigation, first/last item wrap |
+| Tooltip (interactive) | Focus stays within tooltip content         |
+| Tabs                  | Arrow key navigation between tabs          |
+| Stepper               | Enter/click activates step                 |
+| Select                | Arrow key navigation, typeahead            |
+| Command/search        | Arrow key navigation, escape to close      |
 
 ### Forbidden
 
@@ -86,15 +86,16 @@ Focus management is required for these patterns:
 
 ### Minimum sizes (WCAG 2.2)
 
-| Target type | Minimum size |
-|-------------|-------------|
-| Pointer targets (default) | 24×24 CSS px |
-| Essential targets (inline) | no minimum |
-| Density compact | 44×44 CSS px (recommended) |
+| Target type                | Minimum size               |
+| -------------------------- | -------------------------- |
+| Pointer targets (default)  | 24×24 CSS px               |
+| Essential targets (inline) | no minimum                 |
+| Density compact            | 44×44 CSS px (recommended) |
 
 All interactive controls should target 44×44px (`--solaris-density-min-height`
-+ `--solaris-density-padding-*`), which aligns with the comfortable density
-mode.
+
+- `--solaris-density-padding-*`), which aligns with the comfortable density
+  mode.
 
 ---
 
@@ -102,18 +103,18 @@ mode.
 
 ### Required keyboard behaviors
 
-| Component | Keys |
-|-----------|------|
-| Button | Enter, Space |
-| Link (as button) | Enter |
-| Checkbox / Radio | Space |
-| Switch | Enter or Space |
+| Component         | Keys                                                |
+| ----------------- | --------------------------------------------------- |
+| Button            | Enter, Space                                        |
+| Link (as button)  | Enter                                               |
+| Checkbox / Radio  | Space                                               |
+| Switch            | Enter or Space                                      |
 | Select / Combobox | Enter (open), Arrow keys (navigate), Escape (close) |
-| Tabs | Arrow keys (navigate), Home/End (first/last) |
-| Dialog | Escape (close), Tab (cycle within) |
-| Tooltip | Escape (close if interactive) |
-| Dropdown menu | Arrow keys, Enter (select), Escape (close) |
-| Stepper | Enter (activate step) |
+| Tabs              | Arrow keys (navigate), Home/End (first/last)        |
+| Dialog            | Escape (close), Tab (cycle within)                  |
+| Tooltip           | Escape (close if interactive)                       |
+| Dropdown menu     | Arrow keys, Enter (select), Escape (close)          |
+| Stepper           | Enter (activate step)                               |
 
 ### Testing
 
@@ -193,14 +194,14 @@ Disabled components must be:
 
 Every public component must include:
 
-| Test type | Required |
-|-----------|----------|
-| Keyboard navigation | Yes |
-| Focus management | Yes |
-| ARIA attributes | Yes |
-| Screen reader label | Yes |
-| Disabled state | Yes |
-| Reduced motion | Yes |
+| Test type                  | Required    |
+| -------------------------- | ----------- |
+| Keyboard navigation        | Yes         |
+| Focus management           | Yes         |
+| ARIA attributes            | Yes         |
+| Screen reader label        | Yes         |
+| Disabled state             | Yes         |
+| Reduced motion             | Yes         |
 | Color contrast (automated) | Recommended |
 
 ### Tooling

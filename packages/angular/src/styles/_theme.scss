@@ -53,7 +53,17 @@ $-default-config: (
       --solaris-density-default: comfortable;
     }
 
-    @if $radius == none or $radius == sm or $radius == lg or $radius == xl or $radius == full {
+    @if $radius ==
+      none or
+      $radius ==
+      sm or
+      $radius ==
+      lg or
+      $radius ==
+      xl or
+      $radius ==
+      full
+    {
       --solaris-radius-default: var(--solaris-radius-#{$radius});
     } @else {
       --solaris-radius-default: var(--solaris-radius-md);

@@ -109,7 +109,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: var(--solaris-z-index-decorative);
   pointer-events: none;
   border-radius: inherit;
 
@@ -132,7 +132,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: var(--solaris-z-index-decorative);
   pointer-events: none;
   border-radius: inherit;
   opacity: var(--solaris-card-glass-texture-opacity, 0.18);

@@ -1,5 +1,8 @@
 :root {
+  --solaris-z-index-decorative: -1;
   --solaris-z-index-base: 0;
+  --solaris-z-index-content: 1;
+  --solaris-z-index-raised: 10;
   --solaris-z-index-dropdown: 100;
   --solaris-z-index-sticky: 200;
   --solaris-z-index-overlay: 300;

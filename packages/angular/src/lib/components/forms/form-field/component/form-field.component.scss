@@ -81,7 +81,7 @@
   padding: 0 var(--solaris-form-field-control-padding-x);
   box-sizing: border-box;
   border-width: var(--solaris-form-field-control-border-width);
-  border-style: solid;
+  border-style: var(--solaris-border-style-default);
   border-color: var(--solaris-form-field-control-border-color);
   border-radius: var(--solaris-form-field-control-radius);
   background: var(--solaris-form-field-control-background);

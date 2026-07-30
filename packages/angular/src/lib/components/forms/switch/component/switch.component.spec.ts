@@ -536,11 +536,11 @@ describe('SolarisSwitchComponent thumb visual', () => {
     expect(borderRadius).toBe('50%');
   });
 
-  it('should have thumb with z-index 1', () => {
+  it('should have thumb with content z-index', () => {
     createFixture();
     const thumb = getThumb();
     const zIndex = thumb!.style.zIndex || getComputedStyle(thumb!).zIndex;
-    expect(zIndex).toBe('1');
+    expect(zIndex).toBe('var(--solaris-z-index-content)');
   });
 
   it('should move thumb position when checked', () => {

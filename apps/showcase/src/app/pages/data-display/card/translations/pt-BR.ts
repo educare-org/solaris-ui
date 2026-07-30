@@ -62,7 +62,8 @@ export const PT_BR_CARD: Record<string, string> = {
   'card.footer-no-separator': 'Rodapé sem separador.',
   'card.footer-with-separator': 'Rodapé com separador.',
   'card.size': 'Tamanho',
-  'card.size-desc': 'Opções sm, md e lg de tamanho controlando o padding interno.',
+  'card.size-desc':
+    'Opções sm, md e lg de tamanho controlando o padding interno.',
   'card.size-sm': 'sm',
   'card.size-sm-desc': 'Padding compacto ideal para layouts densos.',
   'card.size-md': 'md',

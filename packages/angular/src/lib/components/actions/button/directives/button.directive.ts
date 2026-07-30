@@ -52,7 +52,9 @@ export class SolarisButtonDirective {
   );
 
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly translate = inject(SolarisTranslateService, { optional: true });
+  private readonly translate = inject(SolarisTranslateService, {
+    optional: true,
+  });
 
   protected readonly resolvedLoadingLabel = computed(() => {
     const label = this.loadingLabel();

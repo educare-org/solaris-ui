@@ -60,7 +60,7 @@
   height: 0;
   content: '';
   position: absolute;
-  border-style: solid;
+  border-style: var(--solaris-border-style-default);
 }
 
 .solaris-tooltip-arrow--bottom {

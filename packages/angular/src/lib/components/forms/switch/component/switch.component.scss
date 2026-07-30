@@ -63,9 +63,8 @@
 
 .solaris-switch__thumb {
   position: absolute;
-  // SOLARIS_TOKEN_EXCEPTION: z-index 1 ensures thumb renders above track. Will be replaced by z-index scale token in future.
-  z-index: 1;
   top: 50%;
+  z-index: var(--solaris-z-index-content);
   left: var(--solaris-switch-thumb-offset);
   width: var(--solaris-switch-thumb-size);
   height: var(--solaris-switch-thumb-size);
@@ -79,10 +78,7 @@
   border: var(--solaris-switch-thumb-border-width) solid
     var(--solaris-switch-thumb-border-color, rgb(0 0 0 / 0.12));
   // SOLARIS_TOKEN_EXCEPTION: CSS var fallback value provides default thumb shadow. Required for standalone use.
-  box-shadow: var(
-    --solaris-switch-thumb-shadow,
-    0 1px 2px rgb(0 0 0 / 0.24)
-  );
+  box-shadow: var(--solaris-switch-thumb-shadow, 0 1px 2px rgb(0 0 0 / 0.24));
   box-sizing: border-box;
   transform: translateY(-50%);
   transition:

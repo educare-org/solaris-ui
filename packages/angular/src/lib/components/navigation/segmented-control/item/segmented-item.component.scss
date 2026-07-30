@@ -10,8 +10,6 @@
   --solaris-segmented-item-font-weight: var(--solaris-font-weight-medium);
   --solaris-segmented-item-hover-background: var(--solaris-surface-subtle);
 
-  // SOLARIS_TOKEN_EXCEPTION: item must stack above indicator when hovered/selected
-  z-index: 2;
   border: none;
   cursor: pointer;
   user-select: none;
@@ -22,6 +20,7 @@
   text-decoration: none;
   background: transparent;
   gap: var(--solaris-segmented-item-gap);
+  z-index: var(--solaris-z-index-raised);
   color: var(--solaris-segmented-item-color);
   padding: var(--solaris-segmented-item-padding-y)
     var(--solaris-segmented-item-padding-x);
