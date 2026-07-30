@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-import type { SolarisDialogConfig } from '../model/dialog.types';
+import type { SolarisDialogConfig } from '../components/root/model/dialog.types';
 
 export const SOLARIS_DIALOG_CONFIG = new InjectionToken<SolarisDialogConfig>(
   'SolarisDialogConfig',

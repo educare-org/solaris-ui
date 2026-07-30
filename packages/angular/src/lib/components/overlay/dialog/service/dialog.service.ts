@@ -8,7 +8,7 @@ import {
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
-import { SolarisDialogContainerComponent } from '../container/dialog-container.component';
+import { SolarisDialogContainerComponent } from '../components/container/component/dialog-container.component';
 import { SolarisDialogRef } from './dialog-ref';
 import {
   SOLARIS_DIALOG_REF,
@@ -22,7 +22,7 @@ import type {
   SolarisDialogOptions,
   SolarisDialogComponentConfig,
   SolarisDialogConfig,
-} from '../model/dialog.types';
+} from '../components/root/model/dialog.types';
 
 let nextDialogId = 0;
 

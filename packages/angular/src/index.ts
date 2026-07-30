@@ -311,13 +311,13 @@ export type { SolarisToastRef } from './lib/components/feedback/toast/model/toas
 
 export { SolarisDialogService } from './lib/components/overlay/dialog/service/dialog.service';
 export { SolarisDialogRef } from './lib/components/overlay/dialog/service/dialog-ref';
-export { SolarisDialogContainerComponent } from './lib/components/overlay/dialog/container/dialog-container.component';
-export { SolarisDialogComponent } from './lib/components/overlay/dialog/component/dialog.component';
-export { SolarisDialogHeaderComponent } from './lib/components/overlay/dialog/components/dialog-header.component';
-export { SolarisDialogContentComponent } from './lib/components/overlay/dialog/components/dialog-content.component';
-export { SolarisDialogActionsComponent } from './lib/components/overlay/dialog/components/dialog-actions.component';
-export { SolarisDialogFlowComponent } from './lib/components/overlay/dialog/flow/dialog-flow.component';
-export { SolarisDialogStepComponent } from './lib/components/overlay/dialog/flow/dialog-step.component';
+export { SolarisDialogContainerComponent } from './lib/components/overlay/dialog/components/container/component/dialog-container.component';
+export { SolarisDialogComponent } from './lib/components/overlay/dialog/components/root/component/dialog.component';
+export { SolarisDialogHeaderComponent } from './lib/components/overlay/dialog/components/header/component/dialog-header.component';
+export { SolarisDialogContentComponent } from './lib/components/overlay/dialog/components/content/component/dialog-content.component';
+export { SolarisDialogActionsComponent } from './lib/components/overlay/dialog/components/actions/component/dialog-actions.component';
+export { SolarisDialogFlowComponent } from './lib/components/overlay/dialog/components/flow/component/dialog-flow.component';
+export { SolarisDialogStepComponent } from './lib/components/overlay/dialog/components/step/component/dialog-step.component';
 export { provideSolarisDialog } from './lib/components/overlay/dialog/provider/provide-solaris-dialog';
 export { SOLARIS_DIALOG_CONFIG } from './lib/components/overlay/dialog/token/dialog.tokens';
 export {
@@ -325,21 +325,21 @@ export {
   SOLARIS_DIALOG_REF,
 } from './lib/components/overlay/dialog/token/dialog-data.token';
 
-export type { SolarisDialogAppearance } from './lib/components/overlay/dialog/model/dialog.types';
-export type { SolarisDialogVariant } from './lib/components/overlay/dialog/model/dialog.types';
-export type { SolarisDialogSize } from './lib/components/overlay/dialog/model/dialog.types';
-export type { SolarisDialogActionsAlign } from './lib/components/overlay/dialog/model/dialog.types';
-export type { SolarisDialogActionsStack } from './lib/components/overlay/dialog/model/dialog.types';
-export type { SolarisDialogAutoFocus } from './lib/components/overlay/dialog/model/dialog.types';
-export type { SolarisDialogRole } from './lib/components/overlay/dialog/model/dialog.types';
-export type { SolarisDialogAction } from './lib/components/overlay/dialog/model/dialog.types';
-export type { SolarisDialogOptions } from './lib/components/overlay/dialog/model/dialog.types';
-export type { SolarisDialogComponentConfig } from './lib/components/overlay/dialog/model/dialog.types';
-export type { SolarisDialogConfig } from './lib/components/overlay/dialog/model/dialog.types';
+export type { SolarisDialogAppearance } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogVariant } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogSize } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogActionsAlign } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogActionsStack } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogAutoFocus } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogRole } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogAction } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogOptions } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogComponentConfig } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogConfig } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 
-export { SolarisTabsComponent } from './lib/components/navigation/tabs/component/tabs.component';
-export { SolarisTabComponent } from './lib/components/navigation/tabs/tab/tab.component';
-export { SolarisTabPanelComponent } from './lib/components/navigation/tabs/tab-panel/tab-panel.component';
+export { SolarisTabsComponent } from './lib/components/navigation/tabs/components/root/component/tabs.component';
+export { SolarisTabComponent } from './lib/components/navigation/tabs/components/tab/component/tab.component';
+export { SolarisTabPanelComponent } from './lib/components/navigation/tabs/components/tab-panel/component/tab-panel.component';
 export { SOLARIS_TABS } from './lib/components/navigation/tabs/token/tabs.tokens';
 
 export type { SolarisTabsControl } from './lib/components/navigation/tabs/token/tabs.tokens';
@@ -353,24 +353,24 @@ export type {
   SolarisTabsValueChangeEvent,
   SolarisTabsChangeEvent,
   SolarisTabClickEvent,
-} from './lib/components/navigation/tabs/model/tabs.types';
+} from './lib/components/navigation/tabs/components/root/model/tabs.types';
 
-export { SolarisStepperComponent } from './lib/components/navigation/stepper/component/stepper.component';
-export { SolarisStepComponent } from './lib/components/navigation/stepper/step/step.component';
-export { SolarisStepperContentComponent } from './lib/components/navigation/stepper/content/stepper-content.component';
-export { SolarisStepperActionsComponent } from './lib/components/navigation/stepper/actions/stepper-actions.component';
+export { SolarisStepperComponent } from './lib/components/navigation/stepper/components/root/component/stepper.component';
+export { SolarisStepComponent } from './lib/components/navigation/stepper/components/step/component/step.component';
+export { SolarisStepperContentComponent } from './lib/components/navigation/stepper/components/content/component/stepper-content.component';
+export { SolarisStepperActionsComponent } from './lib/components/navigation/stepper/components/actions/component/stepper-actions.component';
 export { SOLARIS_STEPPER } from './lib/components/navigation/stepper/token/stepper.tokens';
 
 export type { SolarisStepperControl } from './lib/components/navigation/stepper/token/stepper.tokens';
-export type { SolarisStepperOrientation } from './lib/components/navigation/stepper/model/stepper.types';
-export type { SolarisStepperAppearance } from './lib/components/navigation/stepper/model/stepper.types';
-export type { SolarisStepperSize } from './lib/components/navigation/stepper/model/stepper.types';
-export type { SolarisStepperDensity } from './lib/components/navigation/stepper/model/stepper.types';
-export type { SolarisStepperStatus } from './lib/components/navigation/stepper/model/stepper.types';
-export type { SolarisStepperContentTransition } from './lib/components/navigation/stepper/model/stepper.types';
-export type { SolarisStepperActionsAlign } from './lib/components/navigation/stepper/model/stepper.types';
-export type { SolarisStepperChangeEvent } from './lib/components/navigation/stepper/model/stepper.types';
-export type { SolarisStepClickEvent } from './lib/components/navigation/stepper/model/stepper.types';
+export type { SolarisStepperOrientation } from './lib/components/navigation/stepper/components/root/model/stepper.types';
+export type { SolarisStepperAppearance } from './lib/components/navigation/stepper/components/root/model/stepper.types';
+export type { SolarisStepperSize } from './lib/components/navigation/stepper/components/root/model/stepper.types';
+export type { SolarisStepperDensity } from './lib/components/navigation/stepper/components/root/model/stepper.types';
+export type { SolarisStepperStatus } from './lib/components/navigation/stepper/components/root/model/stepper.types';
+export type { SolarisStepperContentTransition } from './lib/components/navigation/stepper/components/root/model/stepper.types';
+export type { SolarisStepperActionsAlign } from './lib/components/navigation/stepper/components/root/model/stepper.types';
+export type { SolarisStepperChangeEvent } from './lib/components/navigation/stepper/components/root/model/stepper.types';
+export type { SolarisStepClickEvent } from './lib/components/navigation/stepper/components/root/model/stepper.types';
 
 export { SolarisSegmentedControlComponent } from './lib/components/navigation/segmented-control/component/segmented-control.component';
 export { SolarisSegmentedItemComponent } from './lib/components/navigation/segmented-control/item/segmented-item.component';

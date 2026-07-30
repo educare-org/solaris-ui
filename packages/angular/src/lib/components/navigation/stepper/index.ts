@@ -1,7 +1,7 @@
-export { SolarisStepperComponent } from './component/stepper.component';
-export { SolarisStepComponent } from './step/step.component';
-export { SolarisStepperContentComponent } from './content/stepper-content.component';
-export { SolarisStepperActionsComponent } from './actions/stepper-actions.component';
+export { SolarisStepperComponent } from './components/root/component/stepper.component';
+export { SolarisStepComponent } from './components/step/component/step.component';
+export { SolarisStepperContentComponent } from './components/content/component/stepper-content.component';
+export { SolarisStepperActionsComponent } from './components/actions/component/stepper-actions.component';
 export { SOLARIS_STEPPER } from './token/stepper.tokens';
 
 export type { SolarisStepperControl } from './token/stepper.tokens';
@@ -15,4 +15,4 @@ export type {
   SolarisStepperActionsAlign,
   SolarisStepperChangeEvent,
   SolarisStepClickEvent,
-} from './model/stepper.types';
+} from './components/root/model/stepper.types';

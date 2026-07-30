@@ -67,6 +67,89 @@ describe('SolarisAccessibilityService', () => {
     });
   });
 
+  describe('with respectSystemPreference', () => {
+    it('reducedMotion reflects system preference when matchMedia is available', () => {
+      const originalMatchMedia = window.matchMedia;
+      const addEventListener = vi.fn();
+      const removeEventListener = vi.fn();
+
+      const mockMatchMedia = vi.fn().mockImplementation((query: string) => ({
+        matches: true,
+        media: query,
+        addEventListener,
+        removeEventListener,
+      }));
+      window.matchMedia = mockMatchMedia as typeof window.matchMedia;
+
+      try {
+        TestBed.configureTestingModule({
+          providers: [
+            provideSolarisAccessibilityTesting({ respectSystemPreference: true }),
+          ],
+        });
+
+        const service = TestBed.inject(SolarisAccessibilityService);
+        expect(service.reducedMotion()).toBe(true);
+        expect(mockMatchMedia).toHaveBeenCalledWith('(prefers-reduced-motion: reduce)');
+      } finally {
+        window.matchMedia = originalMatchMedia;
+      }
+    });
+
+    it('reducedMotion is false when matchMedia reports no preference', () => {
+      const originalMatchMedia = window.matchMedia;
+      const mockMatchMedia = vi.fn().mockImplementation((query: string) => ({
+        matches: false,
+        media: query,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      }));
+      window.matchMedia = mockMatchMedia as typeof window.matchMedia;
+
+      try {
+        TestBed.configureTestingModule({
+          providers: [
+            provideSolarisAccessibilityTesting({ respectSystemPreference: true }),
+          ],
+        });
+
+        const service = TestBed.inject(SolarisAccessibilityService);
+        expect(service.reducedMotion()).toBe(false);
+      } finally {
+        window.matchMedia = originalMatchMedia;
+      }
+    });
+
+    it('cleans up matchMedia listener on destroy', () => {
+      const originalMatchMedia = window.matchMedia;
+      const removeEventListener = vi.fn();
+      const mockMatchMedia = vi.fn().mockImplementation((query: string) => ({
+        matches: false,
+        media: query,
+        addEventListener: vi.fn(),
+        removeEventListener,
+      }));
+      window.matchMedia = mockMatchMedia as typeof window.matchMedia;
+
+      try {
+        TestBed.configureTestingModule({
+          providers: [
+            provideSolarisAccessibilityTesting({ respectSystemPreference: true }),
+          ],
+        });
+
+        const service = TestBed.inject(SolarisAccessibilityService);
+        const mockMql = mockMatchMedia.mock.results[0].value;
+        expect(mockMql.addEventListener).toHaveBeenCalled();
+
+        TestBed.resetTestingModule();
+        expect(removeEventListener).toHaveBeenCalled();
+      } finally {
+        window.matchMedia = originalMatchMedia;
+      }
+    });
+  });
+
   describe('provideSolarisAccessibility', () => {
     it('public provider works', () => {
       TestBed.configureTestingModule({
@@ -75,6 +158,17 @@ describe('SolarisAccessibilityService', () => {
 
       const service = TestBed.inject(SolarisAccessibilityService);
       expect(service).toBeTruthy();
+    });
+
+    it('public provider accepts custom config', () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideSolarisAccessibility({ forceReducedMotion: true }),
+        ],
+      });
+
+      const service = TestBed.inject(SolarisAccessibilityService);
+      expect(service.reducedMotion()).toBe(true);
     });
   });
 

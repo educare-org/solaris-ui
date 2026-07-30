@@ -5,7 +5,7 @@ import {
   SOLARIS_DIALOG_DEFAULT_CONFIG,
 } from '../token/dialog.tokens';
 import { SolarisDialogService } from '../service/dialog.service';
-import type { SolarisDialogConfig } from '../model/dialog.types';
+import type { SolarisDialogConfig } from '../components/root/model/dialog.types';
 
 export function provideSolarisDialog(
   config?: Partial<SolarisDialogConfig>,
