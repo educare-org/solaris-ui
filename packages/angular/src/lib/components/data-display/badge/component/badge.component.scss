@@ -1,4 +1,5 @@
 :host {
+
   --solaris-badge-custom-color: initial;
   --solaris-badge-gap: var(--solaris-spacing-2);
   --solaris-badge-radius: var(--solaris-radius-sm);
@@ -11,8 +12,7 @@
   --solaris-badge-background: var(--solaris-surface-muted);
   --solaris-badge-line-height: var(--solaris-line-height-sm);
   --solaris-badge-border-color: var(--solaris-border-default);
-  --solaris-badge-icon-size: calc(var(--solaris-spacing-4) / 1.15);
-
+  --solaris-badge-icon-size: calc(var(--solaris-spacing-1) * 3.5);
   user-select: none;
   align-items: center;
   white-space: nowrap;
@@ -62,7 +62,7 @@
   --solaris-badge-min-height: var(--solaris-spacing-5);
   --solaris-badge-font-size: var(--solaris-font-size-sm);
   --solaris-badge-line-height: var(--solaris-line-height-sm);
-  --solaris-badge-icon-size: calc(var(--solaris-spacing-4) / 1.15);
+  --solaris-badge-icon-size: calc(var(--solaris-spacing-1) * 3.5);
 }
 
 :host([data-size='lg']) {

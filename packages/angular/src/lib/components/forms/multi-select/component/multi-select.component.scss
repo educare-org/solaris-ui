@@ -1,4 +1,5 @@
 :host {
+
   --solaris-multi-select-chip-gap: var(--solaris-spacing-1);
   --solaris-multi-select-chip-radius: var(--solaris-radius-sm);
   --solaris-multi-select-icon-color: var(--solaris-text-muted);
@@ -13,7 +14,6 @@
   --solaris-multi-select-placeholder-color: var(--solaris-text-muted);
   --solaris-multi-select-chip-remove-size: var(--solaris-font-size-md);
   --solaris-multi-select-chip-background: var(--solaris-surface-subtle);
-
   outline: none;
   cursor: pointer;
   user-select: none;
@@ -120,6 +120,11 @@
 }
 
 .solaris-multi-select__chip-remove {
+
+  solaris-icon {
+    width: var(--solaris-multi-select-chip-remove-size);
+    height: var(--solaris-multi-select-chip-remove-size);
+  }
   padding: 0;
   border: none;
   display: flex;
@@ -132,12 +137,7 @@
   color: var(--solaris-multi-select-icon-color);
   width: var(--solaris-multi-select-chip-remove-size);
   height: var(--solaris-multi-select-chip-remove-size);
-  transition: background var(--solaris-motion-duration-normal) ease;
-
-  solaris-icon {
-    width: var(--solaris-multi-select-chip-remove-size);
-    height: var(--solaris-multi-select-chip-remove-size);
-  }
+  transition: background var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard);
 }
 
 .solaris-multi-select__chip-remove:hover {
@@ -160,6 +160,11 @@
 }
 
 .solaris-multi-select__clear {
+
+  solaris-icon {
+    width: var(--solaris-font-size-xl);
+    height: var(--solaris-font-size-xl);
+  }
   padding: 0;
   border: none;
   display: flex;
@@ -171,12 +176,7 @@
   width: var(--solaris-font-size-xl);
   height: var(--solaris-font-size-xl);
   color: var(--solaris-multi-select-icon-color);
-  transition: color var(--solaris-motion-duration-normal) ease;
-
-  solaris-icon {
-    width: var(--solaris-font-size-xl);
-    height: var(--solaris-font-size-xl);
-  }
+  transition: color var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard);
 }
 
 .solaris-multi-select__clear:hover {
@@ -184,15 +184,15 @@
 }
 
 .solaris-multi-select__dropdown-icon {
-  width: var(--solaris-font-size-xl);
-  height: var(--solaris-font-size-xl);
-  color: var(--solaris-multi-select-icon-color);
-  transition: transform var(--solaris-motion-duration-normal) ease;
 
   solaris-icon {
     width: var(--solaris-font-size-xl);
     height: var(--solaris-font-size-xl);
   }
+  width: var(--solaris-font-size-xl);
+  height: var(--solaris-font-size-xl);
+  color: var(--solaris-multi-select-icon-color);
+  transition: transform var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard);
 }
 
 :host([data-open]) .solaris-multi-select__dropdown-icon {
@@ -211,13 +211,13 @@
   margin: 0;
   padding: 0;
   border: none;
-  outline: none;
   min-width: 0;
+  outline: none;
   font-family: inherit;
-  background: transparent;
   box-sizing: border-box;
-  font-size: var(--solaris-multi-select-font-size);
+  background: transparent;
   color: var(--solaris-multi-select-value-color);
+  font-size: var(--solaris-multi-select-font-size);
   line-height: var(--solaris-multi-select-line-height);
 }
 
@@ -252,7 +252,7 @@
   gap: var(--solaris-spacing-2);
   min-height: var(--solaris-multi-select-select-all-height);
   padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
-  transition: background var(--solaris-motion-duration-normal) ease;
+  transition: background var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard);
 }
 
 .solaris-multi-select__select-all:hover {
@@ -291,14 +291,14 @@
 }
 
 .solaris-multi-select__select-all-label {
-  font-size: var(--solaris-multi-select-font-size);
   color: var(--solaris-multi-select-value-color);
+  font-size: var(--solaris-multi-select-font-size);
   line-height: var(--solaris-multi-select-line-height);
 }
 
 .solaris-multi-select__select-all--readonly {
-  opacity: var(--solaris-opacity-50);
   cursor: default;
+  opacity: var(--solaris-opacity-50);
 }
 
 :host([data-disabled]) {

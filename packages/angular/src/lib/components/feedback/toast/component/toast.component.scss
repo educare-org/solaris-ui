@@ -1,31 +1,32 @@
 :host {
-  --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-radius: var(--solaris-radius-md);
-  --solaris-toast-shadow: var(--solaris-shadow-lg);
-  --solaris-toast-icon-color: var(--solaris-text-muted);
-  --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-title-color: var(--solaris-text-strong);
-  --solaris-toast-border-color: transparent;
-  --solaris-toast-border-width: 0;
-  --solaris-toast-action-color: var(--solaris-primary-base);
-  --solaris-toast-progress-color: var(--solaris-text-muted);
-  --solaris-toast-description-color: var(--solaris-text-muted);
+
+
 
   --solaris-toast-max-lines: 2;
   --solaris-toast-width: 50rem;
+  --solaris-toast-border-width: 0;
   --solaris-toast-max-width: 50rem;
+  --solaris-toast-border-color: transparent;
   --solaris-toast-gap: var(--solaris-spacing-3);
+  --solaris-toast-radius: var(--solaris-radius-md);
+  --solaris-toast-shadow: var(--solaris-shadow-lg);
   --solaris-toast-padding: var(--solaris-spacing-2);
+  --solaris-toast-color: var(--solaris-text-default);
   --solaris-toast-close-size: var(--solaris-spacing-4);
   --solaris-toast-media-size: var(--solaris-spacing-6);
+  --solaris-toast-icon-color: var(--solaris-text-muted);
   --solaris-toast-content-gap: var(--solaris-spacing-1);
   --solaris-toast-actions-gap: var(--solaris-spacing-2);
   --solaris-toast-radius-value: var(--solaris-radius-md);
   --solaris-toast-icon-size: var(--solaris-font-size-lg);
   --solaris-toast-shadow-value: var(--solaris-shadow-lg);
+  --solaris-toast-title-color: var(--solaris-text-strong);
+  --solaris-toast-background: var(--solaris-surface-raised);
+  --solaris-toast-action-color: var(--solaris-primary-base);
+  --solaris-toast-progress-color: var(--solaris-text-muted);
   --solaris-toast-progress-height: var(--solaris-spacing-1);
+  --solaris-toast-description-color: var(--solaris-text-muted);
   --solaris-toast-close-icon-size: var(--solaris-font-size-lg);
-
   display: block;
   overflow: hidden;
   pointer-events: auto;
@@ -34,7 +35,6 @@
   max-width: var(--solaris-toast-max-width);
   box-shadow: var(--solaris-toast-shadow-value);
   border-radius: var(--solaris-toast-radius-value);
-
   animation: solaris-toast-enter var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
@@ -75,9 +75,6 @@
 }
 
 .solaris-toast__icon {
-  display: grid;
-  place-items: center;
-  color: var(--solaris-toast-icon-color);
 
   solaris-icon,
   svg {
@@ -85,6 +82,9 @@
     width: var(--solaris-toast-icon-size);
     height: var(--solaris-toast-icon-size);
   }
+  display: grid;
+  place-items: center;
+  color: var(--solaris-toast-icon-color);
 }
 
 .solaris-toast__content {
@@ -108,12 +108,6 @@
 }
 
 .solaris-toast__description {
-  margin: 0;
-  word-break: normal;
-  overflow-wrap: break-word;
-  font-size: var(--solaris-font-size-xs);
-  line-height: var(--solaris-line-height-md);
-  color: var(--solaris-toast-description-color, var(--solaris-text-muted));
 
   &--truncated {
     overflow: hidden;
@@ -121,6 +115,12 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: var(--solaris-toast-max-lines);
   }
+  margin: 0;
+  word-break: normal;
+  overflow-wrap: break-word;
+  font-size: var(--solaris-font-size-xs);
+  line-height: var(--solaris-line-height-md);
+  color: var(--solaris-toast-description-color, var(--solaris-text-muted));
 }
 
 .solaris-toast__trailing {
@@ -131,19 +131,6 @@
 }
 
 .solaris-toast__trailing-btn {
-  all: unset;
-  display: grid;
-  flex-shrink: 0;
-  cursor: pointer;
-  place-items: center;
-  box-sizing: border-box;
-  background: transparent;
-  color: var(--solaris-text-muted);
-  width: var(--solaris-toast-close-size);
-  height: var(--solaris-toast-close-size);
-  border-radius: var(--solaris-radius-sm);
-  transition: color var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
 
   &:hover {
     color: var(--solaris-text-default);
@@ -160,15 +147,28 @@
     width: var(--solaris-toast-close-icon-size);
     height: var(--solaris-toast-close-icon-size);
   }
+  all: unset;
+  display: grid;
+  flex-shrink: 0;
+  cursor: pointer;
+  place-items: center;
+  box-sizing: border-box;
+  background: transparent;
+  color: var(--solaris-text-muted);
+  width: var(--solaris-toast-close-size);
+  height: var(--solaris-toast-close-size);
+  border-radius: var(--solaris-radius-sm);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 .solaris-toast__expand-icon {
-  transition: transform var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
 
   &--expanded {
     transform: rotate(180deg);
   }
+  transition: transform var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 .solaris-toast__actions {
@@ -191,17 +191,17 @@
 }
 
 :host([data-actions-align='stretch']) .solaris-toast__actions {
-  justify-content: stretch;
 
   [solaris-button] {
     flex: 1;
   }
+  justify-content: stretch;
 }
 
 .solaris-toast__progress {
-  height: var(--solaris-toast-progress-height);
-  background: var(--solaris-surface-muted);
   overflow: hidden;
+  background: var(--solaris-surface-muted);
+  height: var(--solaris-toast-progress-height);
 }
 
 .solaris-toast__progress-bar {
@@ -212,8 +212,8 @@
 
 .solaris-toast__countdown-text {
   display: flex;
-  align-items: baseline;
   flex-wrap: wrap;
+  align-items: baseline;
   gap: var(--solaris-spacing-1);
   color: var(--solaris-text-muted);
   background: var(--solaris-bg-page);
@@ -223,13 +223,6 @@
 }
 
 .solaris-toast__countdown-toggle {
-  all: unset;
-  cursor: pointer;
-  white-space: nowrap;
-  line-height: inherit;
-  text-decoration: none;
-  color: var(--solaris-text-default);
-  font-weight: var(--solaris-font-weight-bold);
 
   &:hover {
     text-decoration: underline;
@@ -241,6 +234,13 @@
     border-radius: var(--solaris-radius-sm);
     outline: 2px solid var(--solaris-primary-base);
   }
+  all: unset;
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: inherit;
+  text-decoration: none;
+  color: var(--solaris-text-default);
+  font-weight: var(--solaris-font-weight-bold);
 }
 
 :host([data-icon-size='sm']) {
@@ -271,11 +271,11 @@
 }
 
 :host([data-variant='neutral'][data-appearance='surface']) {
+  --solaris-toast-border-width: 0;
+  --solaris-toast-border-color: transparent;
   --solaris-toast-color: var(--solaris-text-default);
   --solaris-toast-icon-color: var(--solaris-text-muted);
   --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-border-color: transparent;
-  --solaris-toast-border-width: 0;
   --solaris-toast-progress-color: var(--solaris-text-muted);
 }
 
@@ -283,35 +283,35 @@
   --solaris-toast-color: var(--solaris-text-default);
   --solaris-toast-icon-color: var(--solaris-text-muted);
   --solaris-toast-background: var(--solaris-surface-raised);
+  --solaris-toast-progress-color: var(--solaris-text-muted);
   --solaris-toast-border-color: var(--solaris-border-default);
   --solaris-toast-border-width: var(--solaris-border-width-sm);
-  --solaris-toast-progress-color: var(--solaris-text-muted);
 }
 
 :host([data-variant='info'][data-appearance='surface']) {
+  --solaris-toast-border-width: 0;
+  --solaris-toast-border-color: transparent;
   --solaris-toast-color: var(--solaris-text-default);
   --solaris-toast-icon-color: var(--solaris-info-base);
-  --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-border-color: transparent;
-  --solaris-toast-border-width: 0;
   --solaris-toast-progress-color: var(--solaris-info-base);
+  --solaris-toast-background: var(--solaris-surface-raised);
 }
 
 :host([data-variant='info'][data-appearance='outline']) {
   --solaris-toast-color: var(--solaris-text-default);
   --solaris-toast-icon-color: var(--solaris-info-base);
-  --solaris-toast-background: var(--solaris-surface-raised);
   --solaris-toast-border-color: var(--solaris-info-border);
-  --solaris-toast-border-width: var(--solaris-border-width-sm);
   --solaris-toast-progress-color: var(--solaris-info-base);
+  --solaris-toast-background: var(--solaris-surface-raised);
+  --solaris-toast-border-width: var(--solaris-border-width-sm);
 }
 
 :host([data-variant='success'][data-appearance='surface']) {
+  --solaris-toast-border-width: 0;
+  --solaris-toast-border-color: transparent;
   --solaris-toast-color: var(--solaris-text-default);
   --solaris-toast-icon-color: var(--solaris-success-base);
   --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-border-color: transparent;
-  --solaris-toast-border-width: 0;
   --solaris-toast-progress-color: var(--solaris-success-base);
 }
 
@@ -320,16 +320,16 @@
   --solaris-toast-icon-color: var(--solaris-success-base);
   --solaris-toast-background: var(--solaris-surface-raised);
   --solaris-toast-border-color: var(--solaris-success-border);
-  --solaris-toast-border-width: var(--solaris-border-width-sm);
   --solaris-toast-progress-color: var(--solaris-success-base);
+  --solaris-toast-border-width: var(--solaris-border-width-sm);
 }
 
 :host([data-variant='warning'][data-appearance='surface']) {
+  --solaris-toast-border-width: 0;
+  --solaris-toast-border-color: transparent;
   --solaris-toast-color: var(--solaris-text-default);
   --solaris-toast-icon-color: var(--solaris-warning-base);
   --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-border-color: transparent;
-  --solaris-toast-border-width: 0;
   --solaris-toast-progress-color: var(--solaris-warning-base);
 }
 
@@ -338,16 +338,16 @@
   --solaris-toast-icon-color: var(--solaris-warning-base);
   --solaris-toast-background: var(--solaris-surface-raised);
   --solaris-toast-border-color: var(--solaris-warning-border);
-  --solaris-toast-border-width: var(--solaris-border-width-sm);
   --solaris-toast-progress-color: var(--solaris-warning-base);
+  --solaris-toast-border-width: var(--solaris-border-width-sm);
 }
 
 :host([data-variant='danger'][data-appearance='surface']) {
+  --solaris-toast-border-width: 0;
+  --solaris-toast-border-color: transparent;
   --solaris-toast-color: var(--solaris-text-default);
   --solaris-toast-icon-color: var(--solaris-danger-base);
   --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-border-color: transparent;
-  --solaris-toast-border-width: 0;
   --solaris-toast-progress-color: var(--solaris-danger-base);
 }
 
@@ -356,16 +356,16 @@
   --solaris-toast-icon-color: var(--solaris-danger-base);
   --solaris-toast-background: var(--solaris-surface-raised);
   --solaris-toast-border-color: var(--solaris-danger-border);
-  --solaris-toast-border-width: var(--solaris-border-width-sm);
   --solaris-toast-progress-color: var(--solaris-danger-base);
+  --solaris-toast-border-width: var(--solaris-border-width-sm);
 }
 
 :host([data-variant='loading'][data-appearance='surface']) {
+  --solaris-toast-border-width: 0;
+  --solaris-toast-border-color: transparent;
   --solaris-toast-color: var(--solaris-text-default);
   --solaris-toast-icon-color: var(--solaris-primary-base);
   --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-border-color: transparent;
-  --solaris-toast-border-width: 0;
   --solaris-toast-progress-color: var(--solaris-primary-base);
 }
 
@@ -374,14 +374,18 @@
   --solaris-toast-icon-color: var(--solaris-primary-base);
   --solaris-toast-background: var(--solaris-surface-raised);
   --solaris-toast-border-color: var(--solaris-primary-border);
-  --solaris-toast-border-width: var(--solaris-border-width-sm);
   --solaris-toast-progress-color: var(--solaris-primary-base);
+  --solaris-toast-border-width: var(--solaris-border-width-sm);
 }
 
 :host([data-variant='custom']) {
   --solaris-toast-color: var(
     --solaris-toast-custom-color,
     var(--solaris-text-default)
+  );
+  --solaris-toast-icon-color: var(
+    --solaris-toast-custom-icon-color,
+    var(--solaris-text-muted)
   );
   --solaris-toast-background: var(
     --solaris-toast-custom-background,
@@ -390,10 +394,6 @@
   --solaris-toast-border-color: var(
     --solaris-toast-custom-border-color,
     var(--solaris-border-default)
-  );
-  --solaris-toast-icon-color: var(
-    --solaris-toast-custom-icon-color,
-    var(--solaris-text-muted)
   );
   --solaris-toast-progress-color: var(
     --solaris-toast-custom-progress-color,

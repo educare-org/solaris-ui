@@ -1,22 +1,22 @@
 :host {
-  --solaris-radio-gap: var(--solaris-spacing-2);
-  --solaris-radio-size: var(--solaris-spacing-5);
-  --solaris-radio-dot-size: var(--solaris-spacing-2);
+
   --solaris-radio-dot-color: transparent;
   --solaris-radio-background: transparent;
-  --solaris-radio-ring-width: calc(var(--solaris-spacing-1) / 2);
   --solaris-radio-ring-color: transparent;
-  --solaris-radio-border-color: var(--solaris-primary-border);
   --solaris-radio-custom-surface: initial;
-  --solaris-radio-label-font-size: var(--solaris-font-size-md);
-  --solaris-radio-focus-ring-color: var(--solaris-primary-base);
-  --solaris-radio-disabled-opacity: var(--solaris-opacity-50);
   --solaris-radio-custom-ring-color: initial;
-  --solaris-radio-label-line-height: var(--solaris-line-height-md);
   --solaris-radio-readonly-background: initial;
   --solaris-radio-custom-border-color: initial;
+  --solaris-radio-gap: var(--solaris-spacing-2);
+  --solaris-radio-size: var(--solaris-spacing-5);
   --solaris-radio-custom-indicator-color: initial;
-
+  --solaris-radio-dot-size: var(--solaris-spacing-2);
+  --solaris-radio-border-color: var(--solaris-primary-border);
+  --solaris-radio-disabled-opacity: var(--solaris-opacity-50);
+  --solaris-radio-label-font-size: var(--solaris-font-size-md);
+  --solaris-radio-focus-ring-color: var(--solaris-primary-base);
+  --solaris-radio-ring-width: calc(var(--solaris-spacing-1) / 2);
+  --solaris-radio-label-line-height: var(--solaris-line-height-md);
   outline: none;
   display: inline-flex;
   vertical-align: middle;
@@ -51,13 +51,13 @@
   justify-content: center;
   width: var(--solaris-radio-size);
   height: var(--solaris-radio-size);
+  background: var(--solaris-radio-background);
   border: var(--solaris-radio-ring-width) solid
     var(--solaris-radio-border-color);
-  background: var(--solaris-radio-background);
   transition:
-    background-color var(--solaris-motion-duration-normal) ease,
-    border-color var(--solaris-motion-duration-normal) ease,
-    box-shadow var(--solaris-motion-duration-normal) ease;
+    background-color var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard);
 }
 
 .solaris-radio__dot {
@@ -234,9 +234,9 @@
 }
 
 .solaris-radio__input:focus-visible + .solaris-radio__control {
+  outline-offset: calc(var(--solaris-spacing-1) / 2);
   outline: var(--solaris-border-width-sm) solid
     var(--solaris-radio-focus-ring-color);
-  outline-offset: calc(var(--solaris-spacing-1) / 2);
 }
 
 :host([data-invalid]) {
@@ -292,8 +292,8 @@
 }
 
 :host([data-readonly][data-checked]) .solaris-radio__control {
-  background: var(--solaris-radio-readonly-background, transparent);
   border-color: var(--solaris-radio-ring-color);
+  background: var(--solaris-radio-readonly-background, transparent);
 }
 
 :host([data-readonly][data-checked]) .solaris-radio__dot {
