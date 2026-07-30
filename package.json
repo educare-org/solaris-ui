@@ -26,6 +26,9 @@
     "check:i18n": "node tools/scripts/check-i18n.mjs",
     "check:security": "node tools/scripts/check-security.mjs",
     "check:dependencies": "node tools/scripts/check-dependencies.mjs",
+    "check:token-references": "node tools/scripts/check-token-references.mjs",
+    "check:changeset": "node tools/scripts/check-changeset.mjs",
+    "check:vulnerabilities": "node tools/scripts/check-vulnerabilities.mjs",
     "package:check": "node tools/scripts/check-package.mjs",
     "prepare": "simple-git-hooks",
     "commitlint": "commitlint",
@@ -36,7 +39,7 @@
     "changeset:publish": "changeset publish",
     "changeset:status": "changeset status",
     "test:coverage": "pnpm nx run-many -t test:coverage",
-    "check": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs && pnpm lint:scss && pnpm lint && pnpm typecheck",
+    "check": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs && node tools/scripts/check-dependencies.mjs && node tools/scripts/check-token-references.mjs && node tools/scripts/check-changeset.mjs && pnpm lint:scss && pnpm lint && pnpm typecheck",
     "typecheck": "pnpm tsc --noEmit -p packages/angular/tsconfig.lib.json && pnpm tsc --noEmit -p apps/showcase/tsconfig.app.json",
     "verify": "node tools/scripts/verify.mjs"
   },
@@ -54,7 +57,8 @@
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged",
-    "commit-msg": "pnpm commitlint --edit $1"
+    "commit-msg": "pnpm commitlint --edit $1",
+    "pre-push": "pnpm verify"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs,json,html,md}": [

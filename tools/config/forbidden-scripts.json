@@ -3,7 +3,7 @@
     {
       "pattern": "rm\\s+-rf",
       "reason": "Unix-only recursive force delete",
-      "alternative": "Use `node ./tools/scripts/clean.mjs` or `npx rimraf`"
+      "alternative": "Use `npx rimraf` or a Node script with `fs.rmSync(path, { recursive: true, force: true })`"
     },
     {
       "pattern": "cp\\s+-r",
@@ -43,7 +43,7 @@
     {
       "pattern": "rmdir\\s+/",
       "reason": "Windows-only rmdir with flags",
-      "alternative": "Use `node ./tools/scripts/clean.mjs` or `npx rimraf`"
+      "alternative": "Use `npx rimraf` or a Node script with `fs.rmSync(path, { recursive: true, force: true })`"
     },
     {
       "pattern": "(?:^|;|&&)\\s*copy\\s+",
