@@ -1,17 +1,17 @@
 import { test, expect } from '@playwright/test';
+import { DropdownMenuPageObject } from './pages/dropdown-menu.po';
 
 test.describe('Dropdown Menu', () => {
+  let menu: DropdownMenuPageObject;
+
   test.beforeEach(async ({ page }) => {
     await page.goto('/dropdown-menu');
     await expect(page.locator('h1')).toBeVisible();
+    menu = new DropdownMenuPageObject(page);
   });
 
-  test('opens menu and selects an item', async ({ page }) => {
-    const trigger = page.locator('[solaris-dropdown-menu-trigger]').first();
-    await trigger.click();
-    const menu = page.locator('.solaris-dropdown-menu__wrapper');
-    await expect(menu).toBeVisible();
-
-    await page.getByRole('menuitem', { name: 'Edit' }).click();
+  test('opens menu and selects an item', async () => {
+    await menu.open(0);
+    await menu.selectItem('Edit');
   });
 });

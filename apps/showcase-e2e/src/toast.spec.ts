@@ -1,22 +1,25 @@
 import { test, expect } from '@playwright/test';
+import { ToastPageObject } from './pages/toast.po';
 
 test.describe('Toast', () => {
+  let toast: ToastPageObject;
+
   test.beforeEach(async ({ page }) => {
     await page.goto('/toast');
     await expect(page.locator('h1')).toBeVisible();
+    toast = new ToastPageObject(page);
   });
 
-  test('shows toast on trigger click', async ({ page }) => {
-    await page.getByRole('button', { name: 'Neutral' }).click();
-    const toast = page.locator('solaris-toast');
-    await expect(toast).toBeVisible();
+  test('shows toast on trigger click', async () => {
+    await toast.show('Neutral');
+    await toast.assertVisible();
   });
 
-  test('dismisses all toasts', async ({ page }) => {
-    await page.getByRole('button', { name: 'Neutral' }).click();
-    await expect(page.locator('solaris-toast')).toBeVisible();
+  test('dismisses all toasts', async () => {
+    await toast.show('Neutral');
+    await toast.assertVisible();
 
-    await page.getByRole('button', { name: 'Dismiss All Toasts' }).click();
-    await expect(page.locator('solaris-toast')).not.toBeVisible();
+    await toast.dismissAll();
+    await toast.assertNotVisible();
   });
 });

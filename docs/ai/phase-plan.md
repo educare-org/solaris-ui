@@ -13,8 +13,8 @@ Cada fase constrói sobre a anterior.
 
 | Fase | Nome               | Foco                                        | Status                     |
 | ---- | ------------------ | ------------------------------------------- | -------------------------- |
-| A    | Tools & Guardrails | Scripts de validação, hooks, CI             | ✅ 90% (1 item pendente)   |
-| B    | Testes             | Cobertura real (E2E, serviços, integração)  | ✅ 80% (2 itens pendentes) |
+| A | Tools & Guardrails | Scripts de validação, hooks, CI | ✅ 100% |
+| B | Testes | Cobertura real (E2E, serviços, integração) | ✅ 90% (1 item pendente) |
 | C    | Documentação       | Storybook, ADRs, guias                      | ❌ Não iniciada            |
 | D    | AI Dev Flow        | Scaffold, templates, validação automatizada | ❌ Não iniciada            |
 
@@ -366,7 +366,7 @@ Criar o ecossistema que permite à IA gerar componentes completos (código + tes
 - [x] A5: `check:vulnerabilities` integrado ao `verify`
 - [x] A6: `check:dependencies` integrado ao `check` e `verify`
 - [x] A7: `sort-scss-properties.js` removido
-- [ ] `pnpm verify` passa limpo — **pendente** (precisa rodar completo e corrigir falhas de lint/build)
+- [x] `pnpm verify` passa limpo
 - [x] CI pipeline atualizado com todos os novos checks
 
 ### Fase B — Testes
@@ -376,7 +376,7 @@ Criar o ecossistema que permite à IA gerar componentes completos (código + tes
 - [/] B3: E2E com interação (formulários, overlay, teclado) — **parcial** (138 testes no chromium; firefox/webkit não revalidados)
 - [x] B4: Testes de serviços (theme ✅, accessibility ✅, translation ✅, icon ✅)
 - [x] B5: Testes das testing utilities
-- [/] B6: Page Objects para componentes complexos — **parcial** (dialog.po.ts, select.po.ts criados; faltam dropdown, toast, etc.)
+- [x] B6: Page Objects para componentes complexos — dialog, select, dropdown-menu, toast, popover, tabs, tooltip, button
 - [x] Cobertura de serviços atinge 80%+ (statements 84%, threshold 80%)
 - [ ] E2E passa em 3 browsers (Chromium, Firefox, WebKit) — **pendente** (só chromium validado)
 
