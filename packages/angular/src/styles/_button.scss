@@ -1,6 +1,4 @@
 [solaris-button] {
-
-
   --solaris-button-border-width: 0;
   --solaris-button-custom-color: initial;
   --solaris-button-border-color: transparent;
@@ -27,6 +25,7 @@
   --solaris-button-font-weight: var(--solaris-font-weight-medium);
   --solaris-button-hover-background: var(--solaris-primary-hover);
   --solaris-button-active-background: var(--solaris-primary-active);
+
   cursor: pointer;
   user-select: none;
   align-items: center;
@@ -89,10 +88,10 @@
   content: '';
   flex-shrink: 0;
   border-radius: 50%;
-  border-top-color: transparent;
   width: var(--solaris-button-icon-size);
   height: var(--solaris-button-icon-size);
   border: 2px solid var(--solaris-button-color);
+  border-top-color: transparent;
   animation: solaris-button-spin 0.6s linear infinite;
 }
 
