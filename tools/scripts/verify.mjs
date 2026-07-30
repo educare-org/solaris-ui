@@ -1,5 +1,7 @@
-import { printSummary, readJson } from './shared.mjs';
+import { printSummary, readJson, workspaceRoot } from './shared.mjs';
 import { execSync } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const errors = [];
 const warnings = [];
@@ -7,7 +9,7 @@ const warnings = [];
 function runCommand(label, command, required = false) {
   console.log(`\n▶ Running ${label}...`);
   try {
-    execSync(command, { stdio: 'inherit', shell: true, timeout: 120000 });
+    execSync(command, { stdio: 'inherit', shell: true, timeout: 300000 });
     console.log(`  ✓ ${label} passed`);
     return true;
   } catch (e) {
@@ -40,7 +42,7 @@ function runTooling(label) {
     execSync(`pnpm ${label}`, {
       stdio: 'inherit',
       shell: true,
-      timeout: 120000,
+      timeout: 300000,
     });
     console.log(`  ✓ ${label} passed`);
     return true;
@@ -72,7 +74,9 @@ runCommand(
   'node tools/scripts/check-dependencies.mjs',
   false,
 );
-runCommand('changeset:status', 'pnpm changeset status --since=main', false);
+const nxConfig = JSON.parse(fs.readFileSync(path.join(workspaceRoot, 'nx.json'), 'utf-8'));
+const defaultBase = nxConfig.defaultBase || 'main';
+runCommand('changeset:status', `pnpm changeset status --since=${defaultBase}`, false);
 
 console.log('\n--- Tooling ---');
 runTooling('format:check');

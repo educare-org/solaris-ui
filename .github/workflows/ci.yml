@@ -41,6 +41,14 @@ jobs:
       - name: Derive appropriate SHAs for base and head for Nx
         uses: nrwl/nx-set-shas@v4
 
+      - name: Restore Nx cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .nx/cache
+          key: nx-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            nx-${{ runner.os }}-
+
       - name: Run verification
         run: pnpm verify
 
@@ -50,11 +58,10 @@ jobs:
         with:
           path: .nx/cache
           key: nx-${{ runner.os }}-${{ github.sha }}
-          restore-keys: |
-            nx-${{ runner.os }}-
 
   e2e:
     name: E2E
+    needs: verify
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -76,8 +83,24 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Restore Nx cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .nx/cache
+          key: nx-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            nx-${{ runner.os }}-
+
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps
 
       - name: Run E2E tests
         run: pnpm nx e2e showcase-e2e
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: apps/showcase-e2e/playwright-report/
+          retention-days: 7
