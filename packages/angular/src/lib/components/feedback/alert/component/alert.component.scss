@@ -1,10 +1,10 @@
 :host {
-  --solaris-alert-color: initial;
-  --solaris-alert-radius: initial;
-  --solaris-alert-icon-color: initial;
-  --solaris-alert-background: initial;
-  --solaris-alert-border-color: initial;
-  --solaris-alert-border-width: initial;
+  --solaris-alert-color: var(--solaris-info-text);
+  --solaris-alert-radius: var(--solaris-radius-md);
+  --solaris-alert-icon-color: var(--solaris-info-base);
+  --solaris-alert-background: var(--solaris-info-surface);
+  --solaris-alert-border-color: var(--solaris-info-border);
+  --solaris-alert-border-width: var(--solaris-border-width-sm);
 
   --solaris-alert-icon-offset: -1px;
   --solaris-alert-close-offset: 0px;
@@ -55,7 +55,6 @@
   color: var(--solaris-alert-icon-color);
   line-height: var(--solaris-alert-first-line-height);
   font-size: var(--solaris-alert-first-line-font-size);
-
   inset-block-start: calc(0.5lh + var(--solaris-alert-icon-offset));
 }
 
@@ -99,8 +98,8 @@
   }
 
   &:focus-visible {
-    outline: 2px solid var(--solaris-primary-base);
     outline-offset: 2px;
+    outline: 2px solid var(--solaris-primary-base);
   }
 }
 
@@ -123,10 +122,8 @@
 
 ::ng-deep .solaris-alert-description {
   margin: 0;
-
   font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
-
   color: var(--solaris-alert-description-color);
 }
 

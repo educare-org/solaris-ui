@@ -1,21 +1,28 @@
 :host {
-  --solaris-switch-track-width: initial;
-  --solaris-switch-track-height: initial;
-  --solaris-switch-track-background: initial;
+  --solaris-switch-track-width: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-1) / 2
+  );
+  --solaris-switch-track-height: calc(
+    var(--solaris-spacing-4) + var(--solaris-spacing-3) / 4
+  );
+  --solaris-switch-track-background: var(--solaris-surface-muted);
   --solaris-switch-track-checked-background: initial;
-  --solaris-switch-track-border-color: initial;
-  --solaris-switch-track-border-width: initial;
-  --solaris-switch-thumb-size: initial;
-  --solaris-switch-thumb-background: initial;
-  --solaris-switch-thumb-border-width: initial;
-  --solaris-switch-thumb-border-color: initial;
-  --solaris-switch-thumb-shadow: initial;
-  --solaris-switch-thumb-offset: initial;
-  --solaris-switch-gap: initial;
-  --solaris-switch-label-color: initial;
-  --solaris-switch-focus-ring-color: initial;
-  --solaris-switch-disabled-opacity: initial;
-  --solaris-switch-readonly-opacity: initial;
+  --solaris-switch-track-border-color: var(
+    --solaris-primary-border,
+    var(--solaris-border-default)
+  );
+  --solaris-switch-track-border-width: 0;
+  --solaris-switch-thumb-size: var(--solaris-spacing-3);
+  --solaris-switch-thumb-background: var(--solaris-surface-raised);
+  --solaris-switch-thumb-border-width: 0;
+  --solaris-switch-thumb-border-color: rgb(0 0 0 / 0.12);
+  --solaris-switch-thumb-shadow: 0 1px 2px rgb(0 0 0 / 0.24);
+  --solaris-switch-thumb-offset: calc(var(--solaris-spacing-1) / 2);
+  --solaris-switch-gap: var(--solaris-spacing-2);
+  --solaris-switch-label-color: var(--solaris-text-default);
+  --solaris-switch-focus-ring-color: var(--solaris-primary-base);
+  --solaris-switch-disabled-opacity: var(--solaris-opacity-50);
+  --solaris-switch-readonly-opacity: 0.65;
   --solaris-switch-custom-track-background: initial;
   --solaris-switch-custom-track-checked-background: initial;
   --solaris-switch-custom-thumb-background: initial;

@@ -1,18 +1,18 @@
 :host {
-  --solaris-card-gap: initial;
-  --solaris-card-color: initial;
-  --solaris-card-radius: initial;
-  --solaris-card-shadow: initial;
+  --solaris-card-shadow: none;
   --solaris-card-glass-blur: initial;
-  --solaris-card-padding: initial;
-  --solaris-card-background: initial;
-  --solaris-card-header-gap: initial;
-  --solaris-card-border-color: initial;
-  --solaris-card-border-width: initial;
   --solaris-card-glass-background: initial;
   --solaris-card-glass-border-color: initial;
-  --solaris-card-footer-border-color: initial;
+  --solaris-card-gap: var(--solaris-spacing-5);
   --solaris-card-glass-texture-opacity: initial;
+  --solaris-card-radius: var(--solaris-radius-lg);
+  --solaris-card-padding: var(--solaris-spacing-6);
+  --solaris-card-color: var(--solaris-text-default);
+  --solaris-card-header-gap: var(--solaris-spacing-1);
+  --solaris-card-background: var(--solaris-surface-base);
+  --solaris-card-border-color: var(--solaris-border-subtle);
+  --solaris-card-border-width: var(--solaris-border-width-sm);
+  --solaris-card-footer-border-color: var(--solaris-border-subtle);
 
   gap: 0;
   padding: 0;
@@ -20,18 +20,14 @@
   overflow: hidden;
   flex-direction: column;
   box-sizing: border-box;
-
   color: var(--solaris-card-color);
   box-shadow: var(--solaris-card-shadow);
   border-radius: var(--solaris-card-radius);
   background: var(--solaris-card-background);
+  --solaris-card-section-gap: var(--solaris-card-gap);
+  --solaris-card-section-padding: var(--solaris-card-padding);
   border: var(--solaris-card-border-width) solid
     var(--solaris-card-border-color);
-  --solaris-card-section-gap: var(--solaris-card-gap, var(--solaris-spacing-5));
-  --solaris-card-section-padding: var(
-    --solaris-card-padding,
-    var(--solaris-spacing-6)
-  );
 }
 
 :host([data-size='sm']) {
@@ -106,12 +102,12 @@
 }
 
 :host([data-appearance='glass'])::before {
+  inset: 0;
   content: '';
   position: absolute;
-  inset: 0;
-  z-index: var(--solaris-z-index-decorative);
   pointer-events: none;
   border-radius: inherit;
+  z-index: var(--solaris-z-index-decorative);
 
   // SOLARIS_TOKEN_EXCEPTION: glass ::before uses translucent rgba gradients for the frosted-glass effect.
   background:

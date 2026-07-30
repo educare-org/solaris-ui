@@ -1,17 +1,17 @@
 :host {
-  --solaris-badge-gap: initial;
-  --solaris-badge-color: initial;
-  --solaris-badge-radius: initial;
-  --solaris-badge-padding-x: initial;
-  --solaris-badge-padding-y: initial;
-  --solaris-badge-font-size: initial;
-  --solaris-badge-min-width: initial;
-  --solaris-badge-icon-size: initial;
-  --solaris-badge-background: initial;
-  --solaris-badge-min-height: initial;
-  --solaris-badge-line-height: initial;
   --solaris-badge-custom-color: initial;
-  --solaris-badge-border-color: initial;
+  --solaris-badge-gap: var(--solaris-spacing-2);
+  --solaris-badge-radius: var(--solaris-radius-sm);
+  --solaris-badge-color: var(--solaris-text-default);
+  --solaris-badge-padding-y: var(--solaris-spacing-1);
+  --solaris-badge-padding-x: var(--solaris-spacing-4);
+  --solaris-badge-min-width: var(--solaris-spacing-4);
+  --solaris-badge-min-height: var(--solaris-spacing-5);
+  --solaris-badge-font-size: var(--solaris-font-size-sm);
+  --solaris-badge-background: var(--solaris-surface-muted);
+  --solaris-badge-line-height: var(--solaris-line-height-sm);
+  --solaris-badge-border-color: var(--solaris-border-default);
+  --solaris-badge-icon-size: calc(var(--solaris-spacing-4) / 1.15);
 
   user-select: none;
   align-items: center;

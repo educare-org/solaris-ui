@@ -1,8 +1,8 @@
 :host {
-  --solaris-option-group-gap: initial;
-  --solaris-option-group-padding-x: initial;
-  --solaris-option-group-padding-y: initial;
-  --solaris-option-group-label-color: initial;
+  --solaris-option-group-gap: var(--solaris-spacing-1);
+  --solaris-option-group-padding-x: 0;
+  --solaris-option-group-padding-y: 0;
+  --solaris-option-group-label-color: var(--solaris-text-muted);
 
   display: block;
   outline: none;

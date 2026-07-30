@@ -1,15 +1,15 @@
 :host {
-  --solaris-toast-color: initial;
-  --solaris-toast-radius: initial;
-  --solaris-toast-shadow: initial;
-  --solaris-toast-icon-color: initial;
-  --solaris-toast-background: initial;
-  --solaris-toast-title-color: initial;
-  --solaris-toast-border-color: initial;
-  --solaris-toast-border-width: initial;
-  --solaris-toast-action-color: initial;
-  --solaris-toast-progress-color: initial;
-  --solaris-toast-description-color: initial;
+  --solaris-toast-color: var(--solaris-text-default);
+  --solaris-toast-radius: var(--solaris-radius-md);
+  --solaris-toast-shadow: var(--solaris-shadow-lg);
+  --solaris-toast-icon-color: var(--solaris-text-muted);
+  --solaris-toast-background: var(--solaris-surface-raised);
+  --solaris-toast-title-color: var(--solaris-text-strong);
+  --solaris-toast-border-color: transparent;
+  --solaris-toast-border-width: 0;
+  --solaris-toast-action-color: var(--solaris-primary-base);
+  --solaris-toast-progress-color: var(--solaris-text-muted);
+  --solaris-toast-description-color: var(--solaris-text-muted);
 
   --solaris-toast-max-lines: 2;
   --solaris-toast-width: 50rem;
