@@ -1,25 +1,25 @@
 [solaris-icon-button] {
-  --solaris-icon-button-size: initial;
-  --solaris-icon-button-color: initial;
-  --solaris-icon-button-radius: initial;
-  --solaris-icon-button-background: initial;
-  --solaris-icon-button-border-color: initial;
-  --solaris-icon-button-border-width: initial;
-  --solaris-icon-button-disabled-opacity: var(--solaris-opacity-50);
-  --solaris-icon-button-focus-ring-color: initial;
-  --solaris-icon-button-hover-background: initial;
-  --solaris-icon-button-active-background: initial;
-  --solaris-icon-button-hover-border-color: initial;
-  --solaris-icon-button-active-border-color: initial;
 
+
+  --solaris-icon-button-border-width: 0;
   --solaris-icon-button-custom-color: initial;
+  --solaris-icon-button-border-color: transparent;
   --solaris-icon-button-custom-background: initial;
   --solaris-icon-button-custom-border-color: initial;
+  --solaris-icon-button-size: var(--solaris-spacing-10);
+  --solaris-icon-button-hover-border-color: transparent;
+  --solaris-icon-button-radius: var(--solaris-radius-sm);
+  --solaris-icon-button-active-border-color: transparent;
   --solaris-icon-button-custom-hover-background: initial;
-  --solaris-icon-button-custom-hover-border-color: initial;
   --solaris-icon-button-custom-active-background: initial;
+  --solaris-icon-button-color: var(--solaris-primary-text);
+  --solaris-icon-button-custom-hover-border-color: initial;
   --solaris-icon-button-custom-active-border-color: initial;
-
+  --solaris-icon-button-background: var(--solaris-primary-base);
+  --solaris-icon-button-disabled-opacity: var(--solaris-opacity-50);
+  --solaris-icon-button-focus-ring-color: var(--solaris-primary-base);
+  --solaris-icon-button-hover-background: var(--solaris-primary-hover);
+  --solaris-icon-button-active-background: var(--solaris-primary-active);
   padding: 0;
   flex-shrink: 0;
   line-height: 1;
@@ -103,15 +103,15 @@
   content: '';
   flex-shrink: 0;
   border-radius: 50%;
-  border: 2px solid var(--solaris-icon-button-color);
   border-top-color: transparent;
+  border: 2px solid var(--solaris-icon-button-color);
   animation: solaris-icon-button-spin 0.6s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   [solaris-icon-button][data-loading]::before {
-    opacity: var(--solaris-opacity-50);
     animation: none;
+    opacity: var(--solaris-opacity-50);
   }
 }
 
@@ -241,8 +241,8 @@
 }
 
 [solaris-icon-button][data-color='success'][data-appearance='solid'] {
-  --solaris-icon-button-background: var(--solaris-success-base);
   --solaris-icon-button-color: var(--solaris-success-on-solid);
+  --solaris-icon-button-background: var(--solaris-success-base);
   --solaris-icon-button-focus-ring-color: var(--solaris-success-base);
   --solaris-icon-button-hover-background: var(--solaris-success-hover);
   --solaris-icon-button-active-background: var(--solaris-success-active);
@@ -282,11 +282,11 @@
 }
 
 [solaris-icon-button][data-color='warning'][data-appearance='solid'] {
-  --solaris-icon-button-background: var(--solaris-warning-base);
   --solaris-icon-button-color: var(--solaris-warning-on-solid);
+  --solaris-icon-button-background: var(--solaris-warning-base);
+  --solaris-icon-button-focus-ring-color: var(--solaris-warning-base);
   --solaris-icon-button-hover-background: var(--solaris-warning-hover);
   --solaris-icon-button-active-background: var(--solaris-warning-active);
-  --solaris-icon-button-focus-ring-color: var(--solaris-warning-base);
 }
 
 [solaris-icon-button][data-color='warning'][data-appearance='outline'] {
@@ -323,8 +323,8 @@
 }
 
 [solaris-icon-button][data-color='danger'][data-appearance='solid'] {
-  --solaris-icon-button-background: var(--solaris-danger-base);
   --solaris-icon-button-color: var(--solaris-danger-on-solid);
+  --solaris-icon-button-background: var(--solaris-danger-base);
   --solaris-icon-button-focus-ring-color: var(--solaris-danger-base);
   --solaris-icon-button-hover-background: var(--solaris-danger-hover);
   --solaris-icon-button-active-background: var(--solaris-danger-active);
@@ -436,18 +436,18 @@
 }
 
 [solaris-icon-button][data-size='sm'] {
-  font-size: var(--solaris-font-size-sm);
   --solaris-icon-button-size: var(--solaris-spacing-8);
+  font-size: var(--solaris-font-size-sm);
 }
 
 [solaris-icon-button][data-size='md'] {
-  font-size: var(--solaris-font-size-md);
   --solaris-icon-button-size: var(--solaris-spacing-10);
+  font-size: var(--solaris-font-size-md);
 }
 
 [solaris-icon-button][data-size='lg'] {
-  font-size: var(--solaris-font-size-lg);
   --solaris-icon-button-size: var(--solaris-spacing-12);
+  font-size: var(--solaris-font-size-lg);
 }
 
 [solaris-icon-button][data-radius='none'] {
@@ -471,11 +471,11 @@
 }
 
 [solaris-icon-button][data-density='compact'] {
-  font-size: var(--solaris-font-size-sm);
   --solaris-icon-button-size: var(--solaris-density-min-height);
+  font-size: var(--solaris-font-size-sm);
 }
 
 [solaris-icon-button][data-density='comfortable'] {
-  font-size: var(--solaris-font-size-md);
   --solaris-icon-button-size: var(--solaris-density-min-height);
+  font-size: var(--solaris-font-size-md);
 }

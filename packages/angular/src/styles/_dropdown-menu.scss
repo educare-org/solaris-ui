@@ -1,4 +1,9 @@
 .solaris-dropdown-menu-overlay {
+
+  .solaris-popover-panel__container {
+    padding: 0;
+    overflow: hidden;
+  }
   --solaris-dropdown-menu-min-width: calc(
     var(--solaris-spacing-24) + var(--solaris-spacing-10) +
       var(--solaris-spacing-1)
@@ -7,17 +12,17 @@
     var(--solaris-spacing-24) * 2 + var(--solaris-spacing-10) +
       var(--solaris-spacing-2)
   );
-
-  .solaris-popover-panel__container {
-    padding: 0;
-    overflow: hidden;
-  }
 }
 
 .solaris-dropdown-menu__wrapper {
+
+
+  solaris-divider {
+    width: calc(100% + 2 * var(--solaris-dropdown-menu-padding));
+    margin-inline: calc(-1 * var(--solaris-dropdown-menu-padding));
+  }
   --solaris-dropdown-menu-gap: var(--solaris-spacing-2);
   --solaris-dropdown-menu-padding: var(--solaris-spacing-2);
-
   display: flex;
   outline: none;
   user-select: none;
@@ -27,17 +32,9 @@
   padding: var(--solaris-dropdown-menu-padding);
   min-width: var(--solaris-dropdown-menu-min-width);
   max-width: var(--solaris-dropdown-menu-max-width);
-
-  solaris-divider {
-    margin-inline: calc(-1 * var(--solaris-dropdown-menu-padding));
-    width: calc(100% + 2 * var(--solaris-dropdown-menu-padding));
-  }
 }
 
 solaris-dropdown-menu-group {
-  display: flex;
-  flex-direction: column;
-  padding-block: var(--solaris-spacing-1);
 
   &:first-child {
     padding-block-start: 0;
@@ -46,6 +43,9 @@ solaris-dropdown-menu-group {
   &:last-child {
     padding-block-end: 0;
   }
+  display: flex;
+  flex-direction: column;
+  padding-block: var(--solaris-spacing-1);
 }
 
 solaris-dropdown-menu-label {
@@ -56,9 +56,9 @@ solaris-dropdown-menu-label {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--solaris-text-muted);
-  font-weight: var(--solaris-font-weight-semibold);
   font-size: var(--solaris-font-size-xs);
   line-height: var(--solaris-line-height-xs);
+  font-weight: var(--solaris-font-weight-semibold);
   padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
 }
 
