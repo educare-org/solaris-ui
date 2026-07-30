@@ -2,6 +2,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
+    setupFiles: ['packages/angular/src/vitest.setup.ts'],
     dangerouslyIgnoreUnhandledErrors: true,
     coverage: {
       provider: 'v8',
