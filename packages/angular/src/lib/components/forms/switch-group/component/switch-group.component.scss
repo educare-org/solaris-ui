@@ -4,7 +4,7 @@
   --solaris-switch-group-column-gap: var(--solaris-spacing-3);
   --solaris-switch-group-label-color: var(--solaris-text-strong);
   --solaris-switch-group-hint-color: var(--solaris-text-muted);
-  --solaris-switch-group-error-color: var(--solaris-text-danger);
+  --solaris-switch-group-error-color: var(--solaris-danger-text);
   --solaris-switch-group-label-font-size: var(--solaris-font-size-sm);
   --solaris-switch-group-label-line-height: var(--solaris-line-height-md);
   --solaris-switch-group-hint-font-size: var(--solaris-font-size-xs);
@@ -87,7 +87,7 @@
     --solaris-text-danger,
     var(--solaris-text-strong)
   );
-  --solaris-switch-group-error-color: var(--solaris-text-danger);
+  --solaris-switch-group-error-color: var(--solaris-danger-text);
 }
 
 .solaris-switch-group__hint {

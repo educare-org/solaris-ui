@@ -10,9 +10,13 @@
   --solaris-multi-select-line-height: var(--solaris-line-height-md);
   --solaris-multi-select-chip-font-size: var(--solaris-font-size-sm);
   --solaris-multi-select-select-all-height: var(--solaris-spacing-9);
+  --solaris-surface-hover: var(--solaris-surface-subtle);
+  --solaris-primary-muted: var(--solaris-primary-surface);
+  --solaris-on-primary: var(--solaris-primary-on-solid);
   --solaris-multi-select-placeholder-color: var(--solaris-text-muted);
   --solaris-multi-select-chip-remove-size: var(--solaris-font-size-md);
   --solaris-multi-select-chip-background: var(--solaris-surface-subtle);
+
   outline: none;
   cursor: pointer;
   user-select: none;

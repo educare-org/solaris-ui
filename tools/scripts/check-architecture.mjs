@@ -3,7 +3,6 @@ import fs from 'node:fs';
 import {
   workspaceRoot,
   fileExists,
-  readdirSafe,
   readFileSafe,
   printSummary,
 } from './shared.mjs';
@@ -92,6 +91,48 @@ if (!fileExists(libBase)) {
             `File ${file} imports from ${forbiddenImport}. ${rule.reason}`,
           );
         }
+      }
+    }
+  }
+
+  const showcaseRule = rules.forbiddenLibImportFromShowcase;
+  if (showcaseRule && fileExists(showcaseRule.from)) {
+    const showcaseFiles = [];
+    function walkShowcase(dir) {
+      const resolved = path.join(workspaceRoot, dir);
+      let entries;
+      try {
+        entries = fs.readdirSync(resolved, { withFileTypes: true });
+      } catch {
+        return;
+      }
+      for (const entry of entries) {
+        const fullPath = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+          if (!entry.name.startsWith('node_modules') && !entry.name.startsWith('.')) {
+            walkShowcase(fullPath);
+          }
+        } else if (
+          /\.(ts|html)$/.test(entry.name) &&
+          !entry.name.endsWith('.spec.ts') &&
+          !entry.name.endsWith('.test.ts')
+        ) {
+          showcaseFiles.push(fullPath);
+        }
+      }
+    }
+    walkShowcase(showcaseRule.from);
+
+    for (const file of showcaseFiles) {
+      const content = readFileSafe(file);
+      const lines = content.split('\n');
+      const hasViolation = lines.some(
+        (line) =>
+          (line.includes('from ') || line.includes('import ') || line.includes('require(')) &&
+          showcaseRule.mustNotImport.some((p) => line.includes(p)),
+      );
+      if (hasViolation) {
+        errors.push(`File ${file} — ${showcaseRule.reason}`);
       }
     }
   }

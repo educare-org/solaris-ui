@@ -1,4 +1,5 @@
 :host {
+  --solaris-toast-z-index: var(--solaris-z-index-toast);
   position: fixed;
   z-index: var(--solaris-toast-z-index);
   display: flex;
