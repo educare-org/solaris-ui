@@ -13,7 +13,9 @@ textarea[solaris-textarea] {
   --solaris-textarea-focus-ring-color: var(--solaris-primary-base);
   --solaris-textarea-invalid-border-color: var(--solaris-danger-base);
   --solaris-textarea-readonly-background: var(--solaris-surface-muted);
-  --solaris-textarea-min-height: calc(var(--solaris-spacing-8) + var(--solaris-spacing-1));
+  --solaris-textarea-min-height: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-1)
+  );
 
   margin: 0;
   width: 100%;
@@ -30,8 +32,10 @@ textarea[solaris-textarea] {
   border: var(--solaris-textarea-border-width) solid
     var(--solaris-textarea-border-color);
   transition:
-    border-color var(--solaris-motion-duration-fast) var(--solaris-motion-easing-standard),
-    box-shadow var(--solaris-motion-duration-fast) var(--solaris-motion-easing-standard);
+    border-color var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard);
 }
 
 textarea[solaris-textarea]::placeholder {
@@ -104,9 +108,9 @@ textarea[solaris-textarea][data-appearance='filled'] {
 textarea[solaris-textarea][data-size='sm'] {
   --solaris-textarea-padding-x: var(--solaris-spacing-2);
   --solaris-textarea-min-height: var(--solaris-spacing-8);
+  --solaris-textarea-padding-y: var(--solaris-spacing-half);
   --solaris-textarea-font-size: var(--solaris-font-size-sm);
   --solaris-textarea-line-height: var(--solaris-line-height-sm);
-  --solaris-textarea-padding-y: calc(var(--solaris-spacing-1) / 2);
 }
 
 textarea[solaris-textarea][data-size='md'] {
@@ -114,7 +118,9 @@ textarea[solaris-textarea][data-size='md'] {
   --solaris-textarea-padding-y: var(--solaris-spacing-1);
   --solaris-textarea-font-size: var(--solaris-font-size-md);
   --solaris-textarea-line-height: var(--solaris-line-height-md);
-  --solaris-textarea-min-height: calc(var(--solaris-spacing-8) + var(--solaris-spacing-1));
+  --solaris-textarea-min-height: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-1)
+  );
 }
 
 textarea[solaris-textarea][data-size='lg'] {
@@ -127,7 +133,7 @@ textarea[solaris-textarea][data-size='lg'] {
 
 textarea[solaris-textarea][data-density='compact'] {
   --solaris-textarea-line-height: var(--solaris-line-height-sm);
-  --solaris-textarea-padding-y: calc(var(--solaris-spacing-1) / 2);
+  --solaris-textarea-padding-y: var(--solaris-spacing-half);
 }
 
 textarea[solaris-textarea][data-density='comfortable'] {
@@ -225,8 +231,8 @@ solaris-form-field textarea[solaris-textarea][readonly] {
 }
 
 solaris-form-field textarea[solaris-textarea][data-density='compact'] {
-  padding-top: calc(var(--solaris-spacing-1) / 2);
-  padding-bottom: calc(var(--solaris-spacing-1) / 2);
+  padding-top: var(--solaris-spacing-half);
+  padding-bottom: var(--solaris-spacing-half);
 }
 
 solaris-form-field textarea[solaris-textarea][data-density='comfortable'] {

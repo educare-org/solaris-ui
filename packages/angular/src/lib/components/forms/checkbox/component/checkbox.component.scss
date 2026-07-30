@@ -1,5 +1,4 @@
 :host {
-
   --solaris-checkbox-color: transparent;
   --solaris-checkbox-background: transparent;
   --solaris-checkbox-readonly-background: initial;
@@ -15,7 +14,7 @@
   --solaris-checkbox-disabled-opacity: var(--solaris-opacity-50);
   --solaris-checkbox-label-font-size: var(--solaris-font-size-md);
   --solaris-checkbox-focus-ring-color: var(--solaris-primary-base);
-  --solaris-checkbox-border-width: calc(var(--solaris-spacing-1) / 4);
+  --solaris-checkbox-border-width: var(--solaris-spacing-quarter);
   --solaris-checkbox-invalid-border-color: var(--solaris-danger-base);
   --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
   outline: none;
@@ -57,9 +56,12 @@
   border: var(--solaris-checkbox-border-width) solid
     var(--solaris-checkbox-border-color);
   transition:
-    background-color var(--solaris-motion-duration-fast) var(--solaris-motion-easing-standard),
-    border-color var(--solaris-motion-duration-fast) var(--solaris-motion-easing-standard),
-    box-shadow var(--solaris-motion-duration-fast) var(--solaris-motion-easing-standard);
+    background-color var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard);
 }
 
 .solaris-checkbox__icon {
@@ -67,7 +69,7 @@
   height: 100%;
   display: block;
   box-sizing: border-box;
-  padding: calc(var(--solaris-spacing-1) / 2);
+  padding: var(--solaris-spacing-half);
 }
 
 .solaris-checkbox__label-text {
@@ -81,7 +83,7 @@
   --solaris-checkbox-size: var(--solaris-spacing-4);
   --solaris-checkbox-label-font-size: var(--solaris-font-size-sm);
   --solaris-checkbox-icon-size: calc(var(--solaris-spacing-5) / 2);
-  --solaris-checkbox-border-width: calc(var(--solaris-spacing-1) / 4);
+  --solaris-checkbox-border-width: var(--solaris-spacing-quarter);
   --solaris-checkbox-label-line-height: var(--solaris-line-height-sm);
 }
 
@@ -90,7 +92,7 @@
   --solaris-checkbox-size: var(--solaris-spacing-5);
   --solaris-checkbox-icon-size: var(--solaris-spacing-3);
   --solaris-checkbox-label-font-size: var(--solaris-font-size-md);
-  --solaris-checkbox-border-width: calc(var(--solaris-spacing-1) / 4);
+  --solaris-checkbox-border-width: var(--solaris-spacing-quarter);
   --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
 }
 
@@ -98,7 +100,7 @@
   --solaris-checkbox-gap: var(--solaris-spacing-3);
   --solaris-checkbox-size: var(--solaris-spacing-6);
   --solaris-checkbox-label-font-size: var(--solaris-font-size-lg);
-  --solaris-checkbox-border-width: calc(var(--solaris-spacing-1) / 2);
+  --solaris-checkbox-border-width: var(--solaris-spacing-half);
   --solaris-checkbox-label-line-height: var(--solaris-line-height-lg);
   --solaris-checkbox-icon-size: calc(
     var(--solaris-spacing-4) - var(--solaris-spacing-1) / 2
@@ -273,35 +275,35 @@
 :host([data-color='primary'])
   .solaris-checkbox__label:hover
   .solaris-checkbox__control {
-  border-color: var(--solaris-primary-hover, var(--solaris-primary-base));
+  border-color: var(--solaris-primary-hover);
 }
 
 :host([data-color='success'])
   .solaris-checkbox__label:hover
   .solaris-checkbox__control {
-  border-color: var(--solaris-success-hover, var(--solaris-success-base));
+  border-color: var(--solaris-success-hover);
 }
 
 :host([data-color='warning'])
   .solaris-checkbox__label:hover
   .solaris-checkbox__control {
-  border-color: var(--solaris-warning-hover, var(--solaris-warning-base));
+  border-color: var(--solaris-warning-hover);
 }
 
 :host([data-color='danger'])
   .solaris-checkbox__label:hover
   .solaris-checkbox__control {
-  border-color: var(--solaris-danger-hover, var(--solaris-danger-base));
+  border-color: var(--solaris-danger-hover);
 }
 
 :host([data-color='info'])
   .solaris-checkbox__label:hover
   .solaris-checkbox__control {
-  border-color: var(--solaris-info-hover, var(--solaris-info-base));
+  border-color: var(--solaris-info-hover);
 }
 
 .solaris-checkbox__input:focus-visible + .solaris-checkbox__control {
-  outline-offset: calc(var(--solaris-spacing-1) / 2);
+  outline-offset: var(--solaris-spacing-half);
   outline: var(--solaris-border-width-sm) solid
     var(--solaris-checkbox-focus-ring-color);
 }

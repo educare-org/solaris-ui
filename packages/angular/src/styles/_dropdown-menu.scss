@@ -1,5 +1,4 @@
 .solaris-dropdown-menu-overlay {
-
   .solaris-popover-panel__container {
     padding: 0;
     overflow: hidden;
@@ -15,8 +14,6 @@
 }
 
 .solaris-dropdown-menu__wrapper {
-
-
   solaris-divider {
     width: calc(100% + 2 * var(--solaris-dropdown-menu-padding));
     margin-inline: calc(-1 * var(--solaris-dropdown-menu-padding));
@@ -35,7 +32,6 @@
 }
 
 solaris-dropdown-menu-group {
-
   &:first-child {
     padding-block-start: 0;
   }

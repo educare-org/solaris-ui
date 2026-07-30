@@ -11,7 +11,7 @@
   --solaris-tooltip-padding-block: var(--solaris-spacing-3);
   --solaris-tooltip-padding-inline: var(--solaris-spacing-5);
   --solaris-tooltip-background: var(--solaris-surface-raised);
-  --solaris-tooltip-offset: calc(var(--solaris-spacing-1) / 2);
+  --solaris-tooltip-offset: var(--solaris-spacing-half);
 
   outline: none;
   display: block;
@@ -43,9 +43,8 @@
 
 .solaris-tooltip-panel__arrow {
   --solaris-tooltip-arrow-outer-size: calc(
-    var(--solaris-tooltip-arrow-size) +
-      var(--solaris-tooltip-border-width, 0px) +
-      var(--solaris-tooltip-border-width, 0px)
+    var(--solaris-tooltip-arrow-size) + var(--solaris-tooltip-border-width) +
+      var(--solaris-tooltip-border-width)
   );
 
   width: 0;
@@ -66,14 +65,14 @@
 .solaris-tooltip-arrow--bottom {
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(0px - var(--solaris-tooltip-border-width, 0px));
+  bottom: calc(0px - var(--solaris-tooltip-border-width));
 }
 
 .solaris-tooltip-arrow--bottom::before,
 .solaris-tooltip-arrow--bottom::after {
   left: 50%;
   transform: translateX(-50%);
-  top: calc(0px - var(--solaris-tooltip-border-width, 0px));
+  top: calc(0px - var(--solaris-tooltip-border-width));
 }
 
 .solaris-tooltip-arrow--bottom::before {
@@ -91,14 +90,14 @@
 .solaris-tooltip-arrow--top {
   left: 50%;
   transform: translateX(-50%);
-  top: calc(0px - var(--solaris-tooltip-border-width, 0px));
+  top: calc(0px - var(--solaris-tooltip-border-width));
 }
 
 .solaris-tooltip-arrow--top::before,
 .solaris-tooltip-arrow--top::after {
   left: 50%;
   transform: translateX(-50%);
-  bottom: calc(0px - var(--solaris-tooltip-border-width, 0px));
+  bottom: calc(0px - var(--solaris-tooltip-border-width));
 }
 
 .solaris-tooltip-arrow--top::before {
@@ -116,14 +115,14 @@
 .solaris-tooltip-arrow--right {
   top: 50%;
   transform: translateY(-50%);
-  right: calc(0px - var(--solaris-tooltip-border-width, 0px));
+  right: calc(0px - var(--solaris-tooltip-border-width));
 }
 
 .solaris-tooltip-arrow--right::before,
 .solaris-tooltip-arrow--right::after {
   top: 50%;
   transform: translateY(-50%);
-  left: calc(0px - var(--solaris-tooltip-border-width, 0px));
+  left: calc(0px - var(--solaris-tooltip-border-width));
 }
 
 .solaris-tooltip-arrow--right::before {
@@ -144,14 +143,14 @@
 .solaris-tooltip-arrow--left {
   top: 50%;
   transform: translateY(-50%);
-  left: calc(0px - var(--solaris-tooltip-border-width, 0px));
+  left: calc(0px - var(--solaris-tooltip-border-width));
 }
 
 .solaris-tooltip-arrow--left::before,
 .solaris-tooltip-arrow--left::after {
   top: 50%;
   transform: translateY(-50%);
-  right: calc(0px - var(--solaris-tooltip-border-width, 0px));
+  right: calc(0px - var(--solaris-tooltip-border-width));
 }
 
 .solaris-tooltip-arrow--left::before {

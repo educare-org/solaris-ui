@@ -146,7 +146,11 @@ const args = process.argv.slice(2);
 function findScssFiles(dir, result = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
+    if (
+      entry.isDirectory() &&
+      !entry.name.startsWith('.') &&
+      entry.name !== 'node_modules'
+    ) {
       findScssFiles(full, result);
     } else if (entry.isFile() && entry.name.endsWith('.scss')) {
       result.push(full);
@@ -172,7 +176,9 @@ if (args.includes('--all')) {
   }
   console.log(`\n${changed} of ${total} file(s) modified.`);
 } else {
-  console.error('Usage: node tools\\sort-scss-properties.js <file1.scss> [file2.scss ...]');
+  console.error(
+    'Usage: node tools\\sort-scss-properties.js <file1.scss> [file2.scss ...]',
+  );
   console.error('       node tools\\sort-scss-properties.js --all');
   process.exit(1);
 }

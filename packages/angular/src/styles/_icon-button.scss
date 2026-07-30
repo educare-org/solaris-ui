@@ -21,7 +21,7 @@
 
   padding: 0;
   flex-shrink: 0;
-  line-height: 1;
+  line-height: var(--solaris-line-height-none);
   cursor: pointer;
   user-select: none;
   position: relative;
@@ -102,9 +102,10 @@
   content: '';
   flex-shrink: 0;
   border-radius: 50%;
-  border-top-color: transparent;
   border: 2px solid var(--solaris-icon-button-color);
-  animation: solaris-icon-button-spin 0.6s linear infinite;
+  border-top-color: transparent;
+  animation: solaris-icon-button-spin 0.6s var(--solaris-motion-easing-linear)
+    infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -22,6 +22,7 @@
 @use 'token/border';
 @use 'token/opacity';
 @use 'token/focus';
+@use 'token/glass';
 
 $-default-config: (
   color-scheme: system,

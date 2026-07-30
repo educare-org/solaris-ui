@@ -30,8 +30,10 @@ input[solaris-input] {
   border: var(--solaris-input-border-width) solid
     var(--solaris-input-border-color);
   transition:
-    border-color var(--solaris-motion-duration-fast) var(--solaris-motion-easing-standard),
-    box-shadow var(--solaris-motion-duration-fast) var(--solaris-motion-easing-standard);
+    border-color var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard);
 }
 
 input[solaris-input]::placeholder {
@@ -80,7 +82,7 @@ input[solaris-input]::-webkit-outer-spin-button {
 input[solaris-input]:autofill,
 input[solaris-input]:-webkit-autofill {
   // SOLARIS_TOKEN_EXCEPTION: WebKit autofill requires hardcoded box-shadow inset to override browser default yellow background.
-  transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s var(--solaris-motion-easing-standard) 0s;
   -webkit-text-fill-color: var(--solaris-input-color);
   -webkit-box-shadow: 0 0 0 30px var(--solaris-input-background) inset;
 }

@@ -1,5 +1,4 @@
 :host {
-
   --solaris-option-min-height: 1.5rem;
   --solaris-option-background: transparent;
   --solaris-option-gap: var(--solaris-spacing-2);
@@ -35,8 +34,10 @@
   min-height: var(--solaris-option-min-height);
   padding: var(--solaris-option-padding-y) var(--solaris-option-padding-x);
   transition:
-    background-color var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard),
-    color var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard);
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 }
 
 .solaris-option__leading {
@@ -72,7 +73,7 @@
   align-items: center;
   box-sizing: border-box;
   justify-content: center;
-  padding: calc(var(--solaris-spacing-1) / 2);
+  padding: var(--solaris-spacing-half);
 }
 
 .solaris-option__checkbox {
@@ -151,11 +152,10 @@
 }
 
 :host([data-selection-mode='single']) .solaris-option__check-icon {
-  padding: calc(var(--solaris-spacing-1) / 2);
+  padding: var(--solaris-spacing-half);
 }
 
 :host([data-size='sm']) {
-
   .solaris-option__label-text {
     font-size: var(--solaris-font-size-sm);
     line-height: var(--solaris-line-height-sm);
@@ -176,7 +176,6 @@
 }
 
 :host([data-size='lg']) {
-
   .solaris-option__label-text {
     font-size: var(--solaris-font-size-lg);
     line-height: var(--solaris-line-height-lg);

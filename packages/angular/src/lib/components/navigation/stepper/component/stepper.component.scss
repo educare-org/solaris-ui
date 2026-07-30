@@ -97,8 +97,8 @@
 }
 
 .solaris-stepper__indicator-button:focus-visible {
-  outline-offset: 0.125rem;
-  outline: 0.125rem solid var(--solaris-primary-base);
+  outline-offset: var(--solaris-spacing-half);
+  outline: var(--solaris-spacing-half) solid var(--solaris-primary-base);
 }
 
 .solaris-stepper__step[data-status='active'] .solaris-stepper__indicator-button,
@@ -213,7 +213,8 @@
   border-radius: var(--solaris-radius-lg);
   box-shadow: var(--solaris-stepper-card-shadow);
   background: var(--solaris-stepper-card-background);
-  border: 1px solid var(--solaris-stepper-card-border-color);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-stepper-card-border-color);
   transition:
     box-shadow var(--solaris-motion-duration-fast)
       var(--solaris-motion-easing-standard),

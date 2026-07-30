@@ -47,11 +47,16 @@
   border: var(--solaris-button-border-width) solid
     var(--solaris-button-border-color);
   transition:
-    background var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard),
-    border-color var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard),
-    color var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard),
-    box-shadow var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard),
-    transform var(--solaris-motion-duration-fast) var(--solaris-motion-easing-standard);
+    background var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    transform var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard);
 }
 
 [solaris-button]:hover {
@@ -92,7 +97,8 @@
   height: var(--solaris-button-icon-size);
   border: 2px solid var(--solaris-button-color);
   border-top-color: transparent;
-  animation: solaris-button-spin 0.6s linear infinite;
+  animation: solaris-button-spin 0.6s var(--solaris-motion-easing-linear)
+    infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

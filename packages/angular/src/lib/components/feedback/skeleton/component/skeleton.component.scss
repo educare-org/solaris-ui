@@ -50,7 +50,7 @@
 }
 
 :host([data-variant='rectangular']) {
-  --solaris-skeleton-height: 5rem;
+  --solaris-skeleton-height: var(--solaris-spacing-20);
 }
 
 :host([data-variant='circular']) {
@@ -67,8 +67,8 @@
 }
 
 :host([data-size='sm'][data-variant='circular']) {
-  --solaris-skeleton-width: 1.5rem;
-  --solaris-skeleton-height: 1.5rem;
+  --solaris-skeleton-width: var(--solaris-spacing-6);
+  --solaris-skeleton-height: var(--solaris-spacing-6);
 }
 
 :host([data-size='lg']) {
@@ -89,16 +89,16 @@
 }
 
 :host([data-density='compact'][data-variant='rectangular']) {
-  --solaris-skeleton-height: 3rem;
+  --solaris-skeleton-height: var(--solaris-spacing-12);
 }
 
 :host([data-density='compact'][data-variant='circular']) {
-  --solaris-skeleton-width: 1.25rem;
-  --solaris-skeleton-height: 1.25rem;
+  --solaris-skeleton-width: var(--solaris-spacing-5);
+  --solaris-skeleton-height: var(--solaris-spacing-5);
 }
 
 :host([data-density='comfortable']) {
-  --solaris-skeleton-height: 0.75rem;
+  --solaris-skeleton-height: var(--solaris-spacing-3);
 }
 
 :host([data-density='comfortable'][data-variant='rectangular']) {

@@ -1,5 +1,4 @@
 :host {
-
   --solaris-badge-custom-color: initial;
   --solaris-badge-gap: var(--solaris-spacing-2);
   --solaris-badge-radius: var(--solaris-radius-sm);
@@ -51,7 +50,7 @@
   --solaris-badge-min-height: var(--solaris-spacing-5);
   --solaris-badge-font-size: var(--solaris-font-size-xs);
   --solaris-badge-line-height: var(--solaris-line-height-sm);
-  --solaris-badge-padding-y: calc(var(--solaris-spacing-1) / 2);
+  --solaris-badge-padding-y: var(--solaris-spacing-half);
 }
 
 :host([data-size='md']) {
@@ -78,7 +77,7 @@
 
 :host([data-density='compact']) {
   --solaris-badge-gap: var(--solaris-density-gap-xs);
-  --solaris-badge-padding-y: calc(var(--solaris-spacing-1) / 4);
+  --solaris-badge-padding-y: var(--solaris-spacing-quarter);
   --solaris-badge-min-height: calc(
     var(--solaris-spacing-4) + var(--solaris-spacing-1) / 2
   );

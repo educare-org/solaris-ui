@@ -1,5 +1,4 @@
 :host {
-
   --solaris-select-icon-color: var(--solaris-text-muted);
   --solaris-select-font-size: var(--solaris-font-size-md);
   --solaris-select-value-color: var(--solaris-text-default);
@@ -12,7 +11,7 @@
   display: inline-flex;
   flex-direction: column;
   box-sizing: border-box;
-  font-family: var(--solaris-font-family-sans, system-ui);
+  font-family: var(--solaris-font-family-sans), system-ui;
 }
 
 .solaris-select__trigger {
@@ -65,7 +64,6 @@
 }
 
 .solaris-select__clear {
-
   solaris-icon {
     width: var(--solaris-font-size-xl);
     height: var(--solaris-font-size-xl);
@@ -81,7 +79,8 @@
   width: var(--solaris-font-size-xl);
   height: var(--solaris-font-size-xl);
   color: var(--solaris-select-icon-color);
-  transition: color var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 .solaris-select__clear:hover {
@@ -89,7 +88,6 @@
 }
 
 .solaris-select__dropdown-icon {
-
   solaris-icon {
     width: var(--solaris-font-size-xl);
     height: var(--solaris-font-size-xl);
@@ -97,7 +95,8 @@
   width: var(--solaris-font-size-xl);
   height: var(--solaris-font-size-xl);
   color: var(--solaris-select-icon-color);
-  transition: transform var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard);
+  transition: transform var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 :host([data-open]) .solaris-select__dropdown-icon {

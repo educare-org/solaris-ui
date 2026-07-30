@@ -38,7 +38,7 @@
   flex-direction: column;
   box-sizing: border-box;
   background: var(--solaris-dialog-panel-bg);
-  animation: solaris-dialog-enter 0.2s ease-out;
+  animation: solaris-dialog-enter 0.2s var(--solaris-motion-easing-decelerate);
   box-shadow: var(--solaris-dialog-panel-shadow);
   max-width: var(--solaris-dialog-panel-max-width);
   min-width: var(--solaris-dialog-panel-min-width);
@@ -47,7 +47,8 @@
 }
 
 :host([data-appearance='outline']) .solaris-dialog-panel {
-  border: 1px solid var(--solaris-dialog-panel-border);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-dialog-panel-border);
 }
 
 :host([data-size='sm']) .solaris-dialog-panel {

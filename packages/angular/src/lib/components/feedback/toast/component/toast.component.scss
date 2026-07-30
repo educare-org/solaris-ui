@@ -1,7 +1,4 @@
 :host {
-
-
-
   --solaris-toast-max-lines: 2;
   --solaris-toast-width: 50rem;
   --solaris-toast-border-width: 0;
@@ -75,7 +72,6 @@
 }
 
 .solaris-toast__icon {
-
   solaris-icon,
   svg {
     display: block;
@@ -104,11 +100,10 @@
   font-size: var(--solaris-font-size-md);
   line-height: var(--solaris-line-height-sm);
   font-weight: var(--solaris-font-weight-semibold);
-  color: var(--solaris-toast-title-color, var(--solaris-text-strong));
+  color: var(--solaris-toast-title-color);
 }
 
 .solaris-toast__description {
-
   &--truncated {
     overflow: hidden;
     display: -webkit-box;
@@ -120,7 +115,7 @@
   overflow-wrap: break-word;
   font-size: var(--solaris-font-size-xs);
   line-height: var(--solaris-line-height-md);
-  color: var(--solaris-toast-description-color, var(--solaris-text-muted));
+  color: var(--solaris-toast-description-color);
 }
 
 .solaris-toast__trailing {
@@ -131,7 +126,6 @@
 }
 
 .solaris-toast__trailing-btn {
-
   &:hover {
     color: var(--solaris-text-default);
   }
@@ -163,7 +157,6 @@
 }
 
 .solaris-toast__expand-icon {
-
   &--expanded {
     transform: rotate(180deg);
   }
@@ -191,7 +184,6 @@
 }
 
 :host([data-actions-align='stretch']) .solaris-toast__actions {
-
   [solaris-button] {
     flex: 1;
   }
@@ -207,7 +199,7 @@
 .solaris-toast__progress-bar {
   height: 100%;
   transition: width 100ms var(--solaris-motion-easing-standard);
-  background: var(--solaris-toast-progress-color, var(--solaris-primary-base));
+  background: var(--solaris-toast-progress-color);
 }
 
 .solaris-toast__countdown-text {
@@ -223,7 +215,6 @@
 }
 
 .solaris-toast__countdown-toggle {
-
   &:hover {
     text-decoration: underline;
   }
@@ -411,7 +402,7 @@
 }
 
 :host([data-variant='loading']) .solaris-toast__icon {
-  animation: solaris-toast-spin 1s linear infinite;
+  animation: solaris-toast-spin 1s var(--solaris-motion-easing-linear) infinite;
 }
 
 @keyframes solaris-toast-spin {

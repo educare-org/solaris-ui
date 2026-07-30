@@ -1,5 +1,4 @@
 :host {
-
   --solaris-option-group-padding-x: 0;
   --solaris-option-group-padding-y: 0;
   --solaris-option-group-gap: var(--solaris-spacing-1);
@@ -29,7 +28,6 @@
 }
 
 :host([data-size='sm']) {
-
   .solaris-option-group__label {
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -42,7 +40,6 @@
 }
 
 :host([data-size='md']) {
-
   .solaris-option-group__label {
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -55,7 +52,6 @@
 }
 
 :host([data-size='lg']) {
-
   .solaris-option-group__label {
     letter-spacing: 0.05em;
     text-transform: uppercase;

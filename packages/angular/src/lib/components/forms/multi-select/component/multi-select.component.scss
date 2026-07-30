@@ -1,5 +1,4 @@
 :host {
-
   --solaris-multi-select-chip-gap: var(--solaris-spacing-1);
   --solaris-multi-select-chip-radius: var(--solaris-radius-sm);
   --solaris-multi-select-icon-color: var(--solaris-text-muted);
@@ -21,7 +20,7 @@
   display: inline-flex;
   flex-direction: column;
   box-sizing: border-box;
-  font-family: var(--solaris-font-family-sans, system-ui);
+  font-family: var(--solaris-font-family-sans), system-ui;
 }
 
 .solaris-multi-select__trigger {
@@ -120,7 +119,6 @@
 }
 
 .solaris-multi-select__chip-remove {
-
   solaris-icon {
     width: var(--solaris-multi-select-chip-remove-size);
     height: var(--solaris-multi-select-chip-remove-size);
@@ -137,7 +135,8 @@
   color: var(--solaris-multi-select-icon-color);
   width: var(--solaris-multi-select-chip-remove-size);
   height: var(--solaris-multi-select-chip-remove-size);
-  transition: background var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard);
+  transition: background var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 .solaris-multi-select__chip-remove:hover {
@@ -160,7 +159,6 @@
 }
 
 .solaris-multi-select__clear {
-
   solaris-icon {
     width: var(--solaris-font-size-xl);
     height: var(--solaris-font-size-xl);
@@ -176,7 +174,8 @@
   width: var(--solaris-font-size-xl);
   height: var(--solaris-font-size-xl);
   color: var(--solaris-multi-select-icon-color);
-  transition: color var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 .solaris-multi-select__clear:hover {
@@ -184,7 +183,6 @@
 }
 
 .solaris-multi-select__dropdown-icon {
-
   solaris-icon {
     width: var(--solaris-font-size-xl);
     height: var(--solaris-font-size-xl);
@@ -192,7 +190,8 @@
   width: var(--solaris-font-size-xl);
   height: var(--solaris-font-size-xl);
   color: var(--solaris-multi-select-icon-color);
-  transition: transform var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard);
+  transition: transform var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 :host([data-open]) .solaris-multi-select__dropdown-icon {
@@ -252,7 +251,8 @@
   gap: var(--solaris-spacing-2);
   min-height: var(--solaris-multi-select-select-all-height);
   padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
-  transition: background var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard);
+  transition: background var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 .solaris-multi-select__select-all:hover {

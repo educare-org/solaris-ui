@@ -98,7 +98,7 @@
   align-items: center;
   box-sizing: border-box;
   justify-content: center;
-  padding: calc(var(--solaris-spacing-1) / 2);
+  padding: var(--solaris-spacing-half);
 }
 
 .solaris-dropdown-menu-item__radio {
@@ -110,7 +110,7 @@
   box-sizing: border-box;
   background: transparent;
   justify-content: center;
-  border: calc(var(--solaris-spacing-1) / 2) solid var(--solaris-primary-border);
+  border: var(--solaris-spacing-half) solid var(--solaris-primary-border);
 }
 
 .solaris-dropdown-menu-item__radio--checked {
@@ -128,7 +128,7 @@
   flex: 1;
   min-width: 0;
   display: flex;
-  gap: 0.125rem;
+  gap: var(--solaris-spacing-half);
   flex-direction: column;
 }
 
