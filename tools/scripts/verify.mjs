@@ -79,24 +79,22 @@ runCommand(
   'node tools/scripts/check-token-references.mjs',
   true,
 );
-runCommand(
-  'check:changeset',
-  'node tools/scripts/check-changeset.mjs',
-  true,
+runCommand('check:changeset', 'node tools/scripts/check-changeset.mjs', true);
+const nxConfig = JSON.parse(
+  fs.readFileSync(path.join(workspaceRoot, 'nx.json'), 'utf-8'),
 );
-const nxConfig = JSON.parse(fs.readFileSync(path.join(workspaceRoot, 'nx.json'), 'utf-8'));
 const defaultBase = nxConfig.defaultBase || 'main';
-runCommand('changeset:status', `pnpm changeset status --since=${defaultBase}`, false);
+runCommand(
+  'changeset:status',
+  `pnpm changeset status --since=${defaultBase}`,
+  false,
+);
 runCommand(
   'check:vulnerabilities',
   'node tools/scripts/check-vulnerabilities.mjs',
   false,
 );
-runCommand(
-  'check:bundle',
-  'node tools/scripts/check-bundle.mjs',
-  false,
-);
+runCommand('check:bundle', 'node tools/scripts/check-bundle.mjs', false);
 
 console.log('\n--- Tooling ---');
 runTooling('format:check');

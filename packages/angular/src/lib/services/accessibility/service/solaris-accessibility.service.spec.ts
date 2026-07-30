@@ -84,13 +84,17 @@ describe('SolarisAccessibilityService', () => {
       try {
         TestBed.configureTestingModule({
           providers: [
-            provideSolarisAccessibilityTesting({ respectSystemPreference: true }),
+            provideSolarisAccessibilityTesting({
+              respectSystemPreference: true,
+            }),
           ],
         });
 
         const service = TestBed.inject(SolarisAccessibilityService);
         expect(service.reducedMotion()).toBe(true);
-        expect(mockMatchMedia).toHaveBeenCalledWith('(prefers-reduced-motion: reduce)');
+        expect(mockMatchMedia).toHaveBeenCalledWith(
+          '(prefers-reduced-motion: reduce)',
+        );
       } finally {
         window.matchMedia = originalMatchMedia;
       }
@@ -109,7 +113,9 @@ describe('SolarisAccessibilityService', () => {
       try {
         TestBed.configureTestingModule({
           providers: [
-            provideSolarisAccessibilityTesting({ respectSystemPreference: true }),
+            provideSolarisAccessibilityTesting({
+              respectSystemPreference: true,
+            }),
           ],
         });
 
@@ -134,7 +140,9 @@ describe('SolarisAccessibilityService', () => {
       try {
         TestBed.configureTestingModule({
           providers: [
-            provideSolarisAccessibilityTesting({ respectSystemPreference: true }),
+            provideSolarisAccessibilityTesting({
+              respectSystemPreference: true,
+            }),
           ],
         });
 
@@ -162,9 +170,7 @@ describe('SolarisAccessibilityService', () => {
 
     it('public provider accepts custom config', () => {
       TestBed.configureTestingModule({
-        providers: [
-          provideSolarisAccessibility({ forceReducedMotion: true }),
-        ],
+        providers: [provideSolarisAccessibility({ forceReducedMotion: true })],
       });
 
       const service = TestBed.inject(SolarisAccessibilityService);

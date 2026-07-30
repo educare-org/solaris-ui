@@ -7,7 +7,9 @@ test.describe('Tabs', () => {
   });
 
   test('activates tab on click', async ({ page }) => {
-    const tablist = page.locator('app-basic-tabs-example').locator('[role="tablist"]');
+    const tablist = page
+      .locator('app-basic-tabs-example')
+      .locator('[role="tablist"]');
     const tabs = tablist.locator('[role="tab"]');
     const count = await tabs.count();
     expect(count).toBeGreaterThanOrEqual(2);

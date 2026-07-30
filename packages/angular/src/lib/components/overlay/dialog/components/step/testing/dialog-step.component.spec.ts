@@ -5,7 +5,8 @@ import { SolarisDialogStepComponent } from '../component/dialog-step.component';
 @Component({
   standalone: true,
   imports: [SolarisDialogStepComponent],
-  template: '<solaris-dialog-step><p class="step-content">Step content</p></solaris-dialog-step>',
+  template:
+    '<solaris-dialog-step><p class="step-content">Step content</p></solaris-dialog-step>',
 })
 class TestHostComponent {}
 
@@ -19,14 +20,19 @@ describe('SolarisDialogStepComponent', () => {
   });
 
   it('should create', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('solaris-dialog-step');
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      'solaris-dialog-step',
+    );
     expect(el).toBeTruthy();
   });
 
   it('should have a TemplateRef via ViewChild', () => {
-    const stepEl = (fixture.nativeElement as HTMLElement).querySelector('solaris-dialog-step');
+    const stepEl = (fixture.nativeElement as HTMLElement).querySelector(
+      'solaris-dialog-step',
+    );
     const stepComponent = (stepEl as any)?.__ngContext__;
-    const cmpInstance = (fixture.debugElement.children[0] as any).componentInstance as SolarisDialogStepComponent;
+    const cmpInstance = (fixture.debugElement.children[0] as any)
+      .componentInstance as SolarisDialogStepComponent;
     expect(cmpInstance.templateRef).toBeInstanceOf(TemplateRef);
   });
 });

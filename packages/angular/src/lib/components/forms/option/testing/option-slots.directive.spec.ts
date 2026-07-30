@@ -38,7 +38,9 @@ describe('option-slots directives', () => {
 
   describe('SolarisOptionLeadingDirective', () => {
     it('should create with solaris-option-leading attribute', () => {
-      const el = (fixture.nativeElement as HTMLElement).querySelector('.test-leading');
+      const el = (fixture.nativeElement as HTMLElement).querySelector(
+        '.test-leading',
+      );
       expect(el).toBeTruthy();
       expect(el?.hasAttribute('solaris-option-leading')).toBe(true);
     });
@@ -46,7 +48,9 @@ describe('option-slots directives', () => {
 
   describe('SolarisOptionLabelDirective', () => {
     it('should create with solaris-option-label attribute', () => {
-      const el = (fixture.nativeElement as HTMLElement).querySelector('.test-label');
+      const el = (fixture.nativeElement as HTMLElement).querySelector(
+        '.test-label',
+      );
       expect(el).toBeTruthy();
       expect(el?.hasAttribute('solaris-option-label')).toBe(true);
     });
@@ -54,7 +58,9 @@ describe('option-slots directives', () => {
 
   describe('SolarisOptionDescriptionDirective', () => {
     it('should create with solaris-option-description attribute', () => {
-      const el = (fixture.nativeElement as HTMLElement).querySelector('.test-desc');
+      const el = (fixture.nativeElement as HTMLElement).querySelector(
+        '.test-desc',
+      );
       expect(el).toBeTruthy();
       expect(el?.hasAttribute('solaris-option-description')).toBe(true);
     });
@@ -62,7 +68,9 @@ describe('option-slots directives', () => {
 
   describe('SolarisOptionMetaDirective', () => {
     it('should create with solaris-option-meta attribute', () => {
-      const el = (fixture.nativeElement as HTMLElement).querySelector('.test-meta');
+      const el = (fixture.nativeElement as HTMLElement).querySelector(
+        '.test-meta',
+      );
       expect(el).toBeTruthy();
       expect(el?.hasAttribute('solaris-option-meta')).toBe(true);
     });
@@ -70,7 +78,9 @@ describe('option-slots directives', () => {
 
   describe('SolarisOptionTrailingDirective', () => {
     it('should create with solaris-option-trailing attribute', () => {
-      const el = (fixture.nativeElement as HTMLElement).querySelector('.test-trailing');
+      const el = (fixture.nativeElement as HTMLElement).querySelector(
+        '.test-trailing',
+      );
       expect(el).toBeTruthy();
       expect(el?.hasAttribute('solaris-option-trailing')).toBe(true);
     });

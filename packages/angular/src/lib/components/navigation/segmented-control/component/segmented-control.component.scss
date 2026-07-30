@@ -147,7 +147,8 @@
 }
 
 .solaris-segmented-control__indicator--vertical {
-  inset: 0 var(--solaris-segmented-padding) auto var(--solaris-segmented-padding);
+  inset: 0 var(--solaris-segmented-padding) auto
+    var(--solaris-segmented-padding);
   height: 0;
   width: auto;
 }

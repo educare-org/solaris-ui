@@ -19,12 +19,16 @@ describe('SolarisFormSuffixDirective', () => {
   });
 
   it('should create', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('.test-suffix');
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      '.test-suffix',
+    );
     expect(el).toBeTruthy();
   });
 
   it('should have host class solaris-form-suffix', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('.test-suffix')!;
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      '.test-suffix',
+    )!;
     expect(el.classList.contains('solaris-form-suffix')).toBe(true);
   });
 });

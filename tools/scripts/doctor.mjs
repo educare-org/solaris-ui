@@ -180,7 +180,10 @@ if (angularPkg && angularPkg.targets && angularPkg.targets['test:coverage']) {
   );
 }
 
-if (fileExists('packages/angular/vitest.config.ts') || fileExists('packages/angular/vitest-base.config.ts')) {
+if (
+  fileExists('packages/angular/vitest.config.ts') ||
+  fileExists('packages/angular/vitest-base.config.ts')
+) {
   warnings.push('vitest coverage config found — OK');
 } else {
   warnings.push('vitest coverage config not found');

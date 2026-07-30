@@ -109,7 +109,10 @@ if (!fileExists(libBase)) {
       for (const entry of entries) {
         const fullPath = path.join(dir, entry.name);
         if (entry.isDirectory()) {
-          if (!entry.name.startsWith('node_modules') && !entry.name.startsWith('.')) {
+          if (
+            !entry.name.startsWith('node_modules') &&
+            !entry.name.startsWith('.')
+          ) {
             walkShowcase(fullPath);
           }
         } else if (
@@ -128,7 +131,9 @@ if (!fileExists(libBase)) {
       const lines = content.split('\n');
       const hasViolation = lines.some(
         (line) =>
-          (line.includes('from ') || line.includes('import ') || line.includes('require(')) &&
+          (line.includes('from ') ||
+            line.includes('import ') ||
+            line.includes('require(')) &&
           showcaseRule.mustNotImport.some((p) => line.includes(p)),
       );
       if (hasViolation) {

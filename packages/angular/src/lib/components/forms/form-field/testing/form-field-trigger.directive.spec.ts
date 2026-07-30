@@ -5,7 +5,8 @@ import { SolarisFormFieldTriggerDirective } from '../directives/form-field-trigg
 @Component({
   standalone: true,
   imports: [SolarisFormFieldTriggerDirective],
-  template: '<button solaris-form-field-trigger class="test-trigger">Open</button>',
+  template:
+    '<button solaris-form-field-trigger class="test-trigger">Open</button>',
 })
 class TestHostComponent {}
 
@@ -19,12 +20,16 @@ describe('SolarisFormFieldTriggerDirective', () => {
   });
 
   it('should create', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('.test-trigger');
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      '.test-trigger',
+    );
     expect(el).toBeTruthy();
   });
 
   it('should have solaris-form-field-trigger attribute', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('.test-trigger')!;
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      '.test-trigger',
+    )!;
     expect(el.hasAttribute('solaris-form-field-trigger')).toBe(true);
   });
 });

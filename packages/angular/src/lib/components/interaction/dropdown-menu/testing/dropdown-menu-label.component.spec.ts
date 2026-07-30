@@ -18,7 +18,9 @@ describe('SolarisDropdownMenuLabelComponent', () => {
   });
 
   it('should render label text', () => {
-    const textEl = (fixture.nativeElement as HTMLElement).querySelector('.solaris-dropdown-menu-label__text');
+    const textEl = (fixture.nativeElement as HTMLElement).querySelector(
+      '.solaris-dropdown-menu-label__text',
+    );
     expect(textEl?.textContent?.trim()).toBe('Group Label');
   });
 
@@ -46,7 +48,9 @@ describe('SolarisDropdownMenuLabelComponent', () => {
     fixture.componentRef.setInput('label', 'Updated Label');
     fixture.detectChanges();
 
-    const textEl = (fixture.nativeElement as HTMLElement).querySelector('.solaris-dropdown-menu-label__text');
+    const textEl = (fixture.nativeElement as HTMLElement).querySelector(
+      '.solaris-dropdown-menu-label__text',
+    );
     expect(textEl?.textContent?.trim()).toBe('Updated Label');
   });
 });

@@ -10,7 +10,10 @@ function createDialogRef(): SolarisDialogRef {
   return new SolarisDialogRef('test-header');
 }
 
-function q(fixture: ComponentFixture<unknown>, selector: string): HTMLElement | null {
+function q(
+  fixture: ComponentFixture<unknown>,
+  selector: string,
+): HTMLElement | null {
   return (fixture.nativeElement as HTMLElement).querySelector(selector);
 }
 
@@ -35,14 +38,22 @@ function createFixture(
   });
 
   const fixture = TestBed.createComponent(SolarisDialogHeaderComponent);
-  if (inputs.icon !== undefined) fixture.componentRef.setInput('icon', inputs.icon);
-  if (inputs.title !== undefined) fixture.componentRef.setInput('title', inputs.title);
-  if (inputs.description !== undefined) fixture.componentRef.setInput('description', inputs.description);
-  if (inputs.closeable !== undefined) fixture.componentRef.setInput('closeable', inputs.closeable);
-  if (inputs.closeLabel !== undefined) fixture.componentRef.setInput('closeLabel', inputs.closeLabel);
-  if (inputs.iconDecorative !== undefined) fixture.componentRef.setInput('iconDecorative', inputs.iconDecorative);
-  if (inputs.size !== undefined) fixture.componentRef.setInput('size', inputs.size);
-  if (inputs.variant !== undefined) fixture.componentRef.setInput('variant', inputs.variant);
+  if (inputs.icon !== undefined)
+    fixture.componentRef.setInput('icon', inputs.icon);
+  if (inputs.title !== undefined)
+    fixture.componentRef.setInput('title', inputs.title);
+  if (inputs.description !== undefined)
+    fixture.componentRef.setInput('description', inputs.description);
+  if (inputs.closeable !== undefined)
+    fixture.componentRef.setInput('closeable', inputs.closeable);
+  if (inputs.closeLabel !== undefined)
+    fixture.componentRef.setInput('closeLabel', inputs.closeLabel);
+  if (inputs.iconDecorative !== undefined)
+    fixture.componentRef.setInput('iconDecorative', inputs.iconDecorative);
+  if (inputs.size !== undefined)
+    fixture.componentRef.setInput('size', inputs.size);
+  if (inputs.variant !== undefined)
+    fixture.componentRef.setInput('variant', inputs.variant);
   fixture.detectChanges();
   return fixture;
 }

@@ -5,7 +5,8 @@ import { SolarisFormHintComponent } from '../component/form-hint.component';
 @Component({
   standalone: true,
   imports: [SolarisFormHintComponent],
-  template: '<solaris-form-hint><span class="hint">Hint text</span></solaris-form-hint>',
+  template:
+    '<solaris-form-hint><span class="hint">Hint text</span></solaris-form-hint>',
 })
 class TestHostComponent {}
 
@@ -19,12 +20,16 @@ describe('SolarisFormHintComponent', () => {
   });
 
   it('should create', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('solaris-form-hint');
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      'solaris-form-hint',
+    );
     expect(el).toBeTruthy();
   });
 
   it('should have host class solaris-form-hint', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('solaris-form-hint')!;
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      'solaris-form-hint',
+    )!;
     expect(el.classList.contains('solaris-form-hint')).toBe(true);
   });
 

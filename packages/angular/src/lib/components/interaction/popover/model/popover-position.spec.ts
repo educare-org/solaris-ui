@@ -1,7 +1,4 @@
-import {
-  getPrimaryPosition,
-  getFallbackPositions,
-} from './popover-position';
+import { getPrimaryPosition, getFallbackPositions } from './popover-position';
 
 import type { ConnectedPosition } from '@angular/cdk/overlay';
 

@@ -5,7 +5,8 @@ import { SolarisDialogContentComponent } from '../component/dialog-content.compo
 @Component({
   standalone: true,
   imports: [SolarisDialogContentComponent],
-  template: '<solaris-dialog-content><p class="projected">Projected Content</p></solaris-dialog-content>',
+  template:
+    '<solaris-dialog-content><p class="projected">Projected Content</p></solaris-dialog-content>',
 })
 class TestHostComponent {}
 
@@ -25,12 +26,16 @@ describe('SolarisDialogContentComponent', () => {
   });
 
   it('should have host class solaris-dialog-content', () => {
-    const hostEl = (fixture.nativeElement as HTMLElement).querySelector('solaris-dialog-content');
+    const hostEl = (fixture.nativeElement as HTMLElement).querySelector(
+      'solaris-dialog-content',
+    );
     expect(hostEl?.classList.contains('solaris-dialog-content')).toBe(true);
   });
 
   it('should transclude projected content', () => {
-    const projected = (fixture.nativeElement as HTMLElement).querySelector('.projected');
+    const projected = (fixture.nativeElement as HTMLElement).querySelector(
+      '.projected',
+    );
     expect(projected).toBeTruthy();
     expect(projected?.textContent?.trim()).toBe('Projected Content');
   });

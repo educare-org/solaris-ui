@@ -81,7 +81,9 @@ describe('SolarisEditableTabComponent', () => {
     });
 
     it('should accept customActions input', () => {
-      const actions: SolarisEditableTabAction[] = [{ id: 'close', label: 'Close' }];
+      const actions: SolarisEditableTabAction[] = [
+        { id: 'close', label: 'Close' },
+      ];
       fixture.componentRef.setInput('customActions', actions);
       fixture.detectChanges();
       expect(fixture.componentInstance.customActions()?.length).toBe(1);

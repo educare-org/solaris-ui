@@ -44,50 +44,52 @@ describe('SolarisDialogActionsComponent', () => {
 
   it('should not render buttons when actions array is empty', () => {
     const fixture = createFixture([]);
-    const buttons = (fixture.nativeElement as HTMLElement).querySelectorAll('button');
+    const buttons = (fixture.nativeElement as HTMLElement).querySelectorAll(
+      'button',
+    );
     expect(buttons).toHaveLength(0);
   });
 
   it('should render buttons for each action', () => {
-    const fixture = createFixture([
-      { label: 'Cancel' },
-      { label: 'Confirm' },
-    ]);
-    const buttons = (fixture.nativeElement as HTMLElement).querySelectorAll('button');
+    const fixture = createFixture([{ label: 'Cancel' }, { label: 'Confirm' }]);
+    const buttons = (fixture.nativeElement as HTMLElement).querySelectorAll(
+      'button',
+    );
     expect(buttons).toHaveLength(2);
     expect(buttons[0].textContent?.trim()).toBe('Cancel');
     expect(buttons[1].textContent?.trim()).toBe('Confirm');
   });
 
   it('should have solaris-button directive on each button', () => {
-    const fixture = createFixture([
-      { label: 'Cancel' },
-      { label: 'Confirm' },
-    ]);
-    const buttons = (fixture.nativeElement as HTMLElement).querySelectorAll('[solaris-button]');
+    const fixture = createFixture([{ label: 'Cancel' }, { label: 'Confirm' }]);
+    const buttons = (fixture.nativeElement as HTMLElement).querySelectorAll(
+      '[solaris-button]',
+    );
     expect(buttons).toHaveLength(2);
   });
 
   it('should emit actionExecuted when a button is clicked', () => {
-    const fixture = createFixture([
-      { label: 'Click Me' },
-    ]);
+    const fixture = createFixture([{ label: 'Click Me' }]);
     const spy = vi.fn();
     fixture.componentInstance.actionExecuted.subscribe(spy);
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector('button')!;
+    const button = (fixture.nativeElement as HTMLElement).querySelector(
+      'button',
+    )!;
     button.click();
     expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith(expect.objectContaining({ label: 'Click Me' }));
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({ label: 'Click Me' }),
+    );
   });
 
   it('should call action callback when action has an action function', () => {
     const actionFn = vi.fn();
-    const fixture = createFixture([
-      { label: 'Action', action: actionFn },
-    ]);
+    const fixture = createFixture([{ label: 'Action', action: actionFn }]);
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector('button')!;
+    const button = (fixture.nativeElement as HTMLElement).querySelector(
+      'button',
+    )!;
     button.click();
     expect(actionFn).toHaveBeenCalledTimes(1);
   });
@@ -110,7 +112,9 @@ describe('SolarisDialogActionsComponent', () => {
     ]);
     fixture.detectChanges();
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector('button')!;
+    const button = (fixture.nativeElement as HTMLElement).querySelector(
+      'button',
+    )!;
     button.click();
     expect(closeSpy).toHaveBeenCalledWith('closed-value');
   });
@@ -133,7 +137,9 @@ describe('SolarisDialogActionsComponent', () => {
     ]);
     fixture.detectChanges();
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector('button')!;
+    const button = (fixture.nativeElement as HTMLElement).querySelector(
+      'button',
+    )!;
     button.click();
     expect(closeSpy).not.toHaveBeenCalled();
   });
@@ -143,7 +149,9 @@ describe('SolarisDialogActionsComponent', () => {
       { label: 'Async', action: () => Promise.resolve() },
     ]);
 
-    const button = (fixture.nativeElement as HTMLElement).querySelector('button')!;
+    const button = (fixture.nativeElement as HTMLElement).querySelector(
+      'button',
+    )!;
     expect(() => button.click()).not.toThrow();
   });
 

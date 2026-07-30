@@ -113,7 +113,11 @@
 }
 
 :host(
-  [data-appearance='pills']:hover:not([data-disabled='true'], [data-active='true'])) {
+  [data-appearance='pills']:hover:not(
+      [data-disabled='true'],
+      [data-active='true']
+    )
+) {
   background: var(--solaris-tab-hover-background);
 }
 

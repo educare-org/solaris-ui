@@ -19,12 +19,16 @@ describe('SolarisFormPrefixDirective', () => {
   });
 
   it('should create the element with directive', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('.test-prefix');
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      '.test-prefix',
+    );
     expect(el).toBeTruthy();
   });
 
   it('should have host class solaris-form-prefix', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('.test-prefix')!;
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      '.test-prefix',
+    )!;
     expect(el.classList.contains('solaris-form-prefix')).toBe(true);
   });
 });

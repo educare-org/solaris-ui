@@ -4,7 +4,10 @@ export class SelectPageObject {
   constructor(private readonly page: Page) {}
 
   trigger(index = 0): Locator {
-    return this.page.locator('solaris-select').nth(index).locator('.solaris-select__trigger');
+    return this.page
+      .locator('solaris-select')
+      .nth(index)
+      .locator('.solaris-select__trigger');
   }
 
   options(): Locator {

@@ -288,8 +288,12 @@ describe('SolarisDialogFlowComponent', () => {
       imports: [SolarisDialogFlowComponent, SolarisDialogStepComponent],
       template: `
         <solaris-dialog-flow [activeIndex]="activeIndex()">
-          <solaris-dialog-step><p class="step-content">First</p></solaris-dialog-step>
-          <solaris-dialog-step><p class="step-content">Second</p></solaris-dialog-step>
+          <solaris-dialog-step
+            ><p class="step-content">First</p></solaris-dialog-step
+          >
+          <solaris-dialog-step
+            ><p class="step-content">Second</p></solaris-dialog-step
+          >
         </solaris-dialog-flow>
       `,
     })
@@ -338,9 +342,15 @@ describe('SolarisDialogFlowComponent', () => {
       imports: [SolarisDialogFlowComponent, SolarisDialogStepComponent],
       template: `
         <solaris-dialog-flow [activeIndex]="activeIndex()">
-          <solaris-dialog-step><p class="step-content">Step A</p></solaris-dialog-step>
-          <solaris-dialog-step><p class="step-content">Step B</p></solaris-dialog-step>
-          <solaris-dialog-step><p class="step-content">Step C</p></solaris-dialog-step>
+          <solaris-dialog-step
+            ><p class="step-content">Step A</p></solaris-dialog-step
+          >
+          <solaris-dialog-step
+            ><p class="step-content">Step B</p></solaris-dialog-step
+          >
+          <solaris-dialog-step
+            ><p class="step-content">Step C</p></solaris-dialog-step
+          >
         </solaris-dialog-flow>
       `,
     })
@@ -381,11 +391,17 @@ describe('SolarisDialogFlowComponent', () => {
       imports: [SolarisDialogFlowComponent, SolarisDialogStepComponent],
       template: `
         <solaris-dialog-flow [activeIndex]="activeIndex()">
-          <solaris-dialog-step><p class="step-content">Single</p></solaris-dialog-step>
+          <solaris-dialog-step
+            ><p class="step-content">Single</p></solaris-dialog-step
+          >
         </solaris-dialog-flow>
         <solaris-dialog-flow [activeIndex]="activeIndex()">
-          <solaris-dialog-step><p class="step-content">First</p></solaris-dialog-step>
-          <solaris-dialog-step><p class="step-content">Second</p></solaris-dialog-step>
+          <solaris-dialog-step
+            ><p class="step-content">First</p></solaris-dialog-step
+          >
+          <solaris-dialog-step
+            ><p class="step-content">Second</p></solaris-dialog-step
+          >
         </solaris-dialog-flow>
       `,
     })
@@ -399,10 +415,14 @@ describe('SolarisDialogFlowComponent', () => {
     const flows = fixture.nativeElement.querySelectorAll('solaris-dialog-flow');
     expect(flows.length).toBe(2);
 
-    const singleFlowSteps = flows[0].querySelectorAll('.solaris-dialog-flow__step');
+    const singleFlowSteps = flows[0].querySelectorAll(
+      '.solaris-dialog-flow__step',
+    );
     expect(singleFlowSteps.length).toBe(1);
 
-    const multiFlowSteps = flows[1].querySelectorAll('.solaris-dialog-flow__step');
+    const multiFlowSteps = flows[1].querySelectorAll(
+      '.solaris-dialog-flow__step',
+    );
     expect(multiFlowSteps.length).toBe(2);
   });
 });

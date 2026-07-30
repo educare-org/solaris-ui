@@ -5,7 +5,8 @@ import { SolarisFormErrorComponent } from '../component/form-error.component';
 @Component({
   standalone: true,
   imports: [SolarisFormErrorComponent],
-  template: '<solaris-form-error><span class="msg">Error text</span></solaris-form-error>',
+  template:
+    '<solaris-form-error><span class="msg">Error text</span></solaris-form-error>',
 })
 class TestHostComponent {}
 
@@ -19,17 +20,23 @@ describe('SolarisFormErrorComponent', () => {
   });
 
   it('should create', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('solaris-form-error');
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      'solaris-form-error',
+    );
     expect(el).toBeTruthy();
   });
 
   it('should have host class solaris-form-error', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('solaris-form-error')!;
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      'solaris-form-error',
+    )!;
     expect(el.classList.contains('solaris-form-error')).toBe(true);
   });
 
   it('should have role alert', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('solaris-form-error')!;
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      'solaris-form-error',
+    )!;
     expect(el.getAttribute('role')).toBe('alert');
   });
 

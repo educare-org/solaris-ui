@@ -5,20 +5,31 @@ import { provideSolarisIcons } from '../../../../../../services/icon/provider/pr
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../../../services/icon/icons/solaris-built-in-icons';
 import { SolarisDialogContainerComponent } from '../component/dialog-container.component';
 import { SolarisDialogRef } from '../../../service/dialog-ref';
-import { SOLARIS_DIALOG_REF, SOLARIS_DIALOG_DATA } from '../../../token/dialog-data.token';
-import type { SolarisDialogOptions, SolarisDialogComponentConfig } from '../../root/model/dialog.types';
+import {
+  SOLARIS_DIALOG_REF,
+  SOLARIS_DIALOG_DATA,
+} from '../../../token/dialog-data.token';
+import type {
+  SolarisDialogOptions,
+  SolarisDialogComponentConfig,
+} from '../../root/model/dialog.types';
 
 function createDialogRef(): SolarisDialogRef<unknown> {
   return new SolarisDialogRef<unknown>('test-dialog-id');
 }
 
-function q(fixture: ComponentFixture<unknown>, selector: string): HTMLElement | null {
+function q(
+  fixture: ComponentFixture<unknown>,
+  selector: string,
+): HTMLElement | null {
   return (fixture.nativeElement as HTMLElement).querySelector(selector);
 }
 
 describe('SolarisDialogContainerComponent', () => {
   describe('simple mode', () => {
-    function createSimpleFixture(options: SolarisDialogOptions): ComponentFixture<SolarisDialogContainerComponent> {
+    function createSimpleFixture(
+      options: SolarisDialogOptions,
+    ): ComponentFixture<SolarisDialogContainerComponent> {
       configureSolarisTesting();
       TestBed.configureTestingModule({
         providers: [
@@ -68,7 +79,10 @@ describe('SolarisDialogContainerComponent', () => {
     });
 
     it('should pass simpleOptions to solaris-dialog', () => {
-      const fixture = createSimpleFixture({ title: 'Pass Title', description: 'Pass Desc' });
+      const fixture = createSimpleFixture({
+        title: 'Pass Title',
+        description: 'Pass Desc',
+      });
       const titleEl = q(fixture, '.solaris-dialog-header__title');
       expect(titleEl?.textContent?.trim()).toBe('Pass Title');
       const descEl = q(fixture, '.solaris-dialog-header__description');
@@ -104,7 +118,10 @@ describe('SolarisDialogContainerComponent', () => {
     });
 
     it('should set custom role when provided', () => {
-      const fixture = createSimpleFixture({ title: 'Test', role: 'alertdialog' });
+      const fixture = createSimpleFixture({
+        title: 'Test',
+        role: 'alertdialog',
+      });
 
       const panel = q(fixture, '.solaris-dialog-panel') as HTMLElement;
       expect(panel.getAttribute('role')).toBe('alertdialog');
@@ -129,18 +146,28 @@ describe('SolarisDialogContainerComponent', () => {
       });
 
       it('should reflect closeOnBackdrop false', () => {
-        const fixture = createSimpleFixture({ title: 'Test', closeOnBackdropClick: false });
+        const fixture = createSimpleFixture({
+          title: 'Test',
+          closeOnBackdropClick: false,
+        });
         expect((fixture.componentInstance as any).closeOnBackdrop).toBe(false);
       });
 
       it('should reflect closeOnEscapeEnabled default', () => {
         const fixture = createSimpleFixture({ title: 'Test' });
-        expect((fixture.componentInstance as any).closeOnEscapeEnabled).toBe(true);
+        expect((fixture.componentInstance as any).closeOnEscapeEnabled).toBe(
+          true,
+        );
       });
 
       it('should reflect closeOnEscapeEnabled false', () => {
-        const fixture = createSimpleFixture({ title: 'Test', closeOnEscape: false });
-        expect((fixture.componentInstance as any).closeOnEscapeEnabled).toBe(false);
+        const fixture = createSimpleFixture({
+          title: 'Test',
+          closeOnEscape: false,
+        });
+        expect((fixture.componentInstance as any).closeOnEscapeEnabled).toBe(
+          false,
+        );
       });
     });
 
@@ -157,8 +184,13 @@ describe('SolarisDialogContainerComponent', () => {
           ],
         });
 
-        const fixture = TestBed.createComponent(SolarisDialogContainerComponent);
-        fixture.componentRef.setInput('simpleOptions', { title: 'Test', closeOnBackdropClick: true });
+        const fixture = TestBed.createComponent(
+          SolarisDialogContainerComponent,
+        );
+        fixture.componentRef.setInput('simpleOptions', {
+          title: 'Test',
+          closeOnBackdropClick: true,
+        });
         fixture.detectChanges();
 
         const backdrop = q(fixture, '.solaris-dialog-backdrop') as HTMLElement;
@@ -178,8 +210,13 @@ describe('SolarisDialogContainerComponent', () => {
           ],
         });
 
-        const fixture = TestBed.createComponent(SolarisDialogContainerComponent);
-        fixture.componentRef.setInput('simpleOptions', { title: 'Test', closeOnBackdropClick: false });
+        const fixture = TestBed.createComponent(
+          SolarisDialogContainerComponent,
+        );
+        fixture.componentRef.setInput('simpleOptions', {
+          title: 'Test',
+          closeOnBackdropClick: false,
+        });
         fixture.detectChanges();
 
         const backdrop = q(fixture, '.solaris-dialog-backdrop') as HTMLElement;
@@ -199,7 +236,9 @@ describe('SolarisDialogContainerComponent', () => {
           ],
         });
 
-        const fixture = TestBed.createComponent(SolarisDialogContainerComponent);
+        const fixture = TestBed.createComponent(
+          SolarisDialogContainerComponent,
+        );
         fixture.componentRef.setInput('simpleOptions', { title: 'Test' });
         fixture.detectChanges();
 
@@ -222,8 +261,13 @@ describe('SolarisDialogContainerComponent', () => {
           ],
         });
 
-        const fixture = TestBed.createComponent(SolarisDialogContainerComponent);
-        fixture.componentRef.setInput('simpleOptions', { title: 'Test', closeOnEscape: true });
+        const fixture = TestBed.createComponent(
+          SolarisDialogContainerComponent,
+        );
+        fixture.componentRef.setInput('simpleOptions', {
+          title: 'Test',
+          closeOnEscape: true,
+        });
         fixture.detectChanges();
 
         document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
@@ -242,8 +286,13 @@ describe('SolarisDialogContainerComponent', () => {
           ],
         });
 
-        const fixture = TestBed.createComponent(SolarisDialogContainerComponent);
-        fixture.componentRef.setInput('simpleOptions', { title: 'Test', closeOnEscape: false });
+        const fixture = TestBed.createComponent(
+          SolarisDialogContainerComponent,
+        );
+        fixture.componentRef.setInput('simpleOptions', {
+          title: 'Test',
+          closeOnEscape: false,
+        });
         fixture.detectChanges();
 
         document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
@@ -262,7 +311,9 @@ describe('SolarisDialogContainerComponent', () => {
           ],
         });
 
-        const fixture = TestBed.createComponent(SolarisDialogContainerComponent);
+        const fixture = TestBed.createComponent(
+          SolarisDialogContainerComponent,
+        );
         fixture.componentRef.setInput('simpleOptions', { title: 'Test' });
         fixture.detectChanges();
 
@@ -328,7 +379,9 @@ describe('SolarisDialogContainerComponent', () => {
 
     it('should render the external component', () => {
       const fixture = createExternalFixture(ExternalTestComponent);
-      const content = (fixture.nativeElement as HTMLElement).textContent?.trim();
+      const content = (
+        fixture.nativeElement as HTMLElement
+      ).textContent?.trim();
       expect(content).toContain('External Component');
     });
 
@@ -355,7 +408,9 @@ describe('SolarisDialogContainerComponent', () => {
         data: 'Injected Data',
       });
       fixture.detectChanges();
-      const content = (fixture.nativeElement as HTMLElement).textContent?.trim();
+      const content = (
+        fixture.nativeElement as HTMLElement
+      ).textContent?.trim();
       expect(content).toContain('Injected Data');
     });
 
@@ -373,7 +428,9 @@ describe('SolarisDialogContainerComponent', () => {
 
       const fixture = createExternalFixture(RefCheckComponent);
       fixture.detectChanges();
-      const content = (fixture.nativeElement as HTMLElement).textContent?.trim();
+      const content = (
+        fixture.nativeElement as HTMLElement
+      ).textContent?.trim();
       expect(content).toContain('ref:true');
     });
 
@@ -395,11 +452,15 @@ describe('SolarisDialogContainerComponent', () => {
 
       fixture.componentRef.setInput('externalComponent', FirstComponent);
       fixture.detectChanges();
-      expect((fixture.nativeElement as HTMLElement).textContent).toContain('First');
+      expect((fixture.nativeElement as HTMLElement).textContent).toContain(
+        'First',
+      );
 
       fixture.componentRef.setInput('externalComponent', SecondComponent);
       fixture.detectChanges();
-      expect((fixture.nativeElement as HTMLElement).textContent).toContain('Second');
+      expect((fixture.nativeElement as HTMLElement).textContent).toContain(
+        'Second',
+      );
     });
   });
 });

@@ -53,7 +53,10 @@ test.describe('Dialog', () => {
     await dialog.closeViaEscape();
 
     await dialog.open('Space between');
-    await expect(dialog.actions()).toHaveAttribute('data-align', 'space-between');
+    await expect(dialog.actions()).toHaveAttribute(
+      'data-align',
+      'space-between',
+    );
     await dialog.closeViaEscape();
   });
 

@@ -13,7 +13,9 @@ test.describe('Button', () => {
   });
 
   test('disabled button is not clickable', async ({ page }) => {
-    const disabledBtn = page.locator('button[solaris-button][disabled]').first();
+    const disabledBtn = page
+      .locator('button[solaris-button][disabled]')
+      .first();
     await expect(disabledBtn).toBeDisabled();
   });
 

@@ -1,13 +1,27 @@
 import path from 'node:path';
 import fs from 'node:fs';
-import { workspaceRoot, findFilesRecursive, readFileSafe, printSummary } from './shared.mjs';
+import {
+  workspaceRoot,
+  findFilesRecursive,
+  readFileSafe,
+  printSummary,
+} from './shared.mjs';
 
 const errors = [];
 const warnings = [];
 
-const tokenFiles = findFilesRecursive(path.join(workspaceRoot, 'packages/angular/src/styles/token'), /\.scss$/);
-const styleFiles = findFilesRecursive(path.join(workspaceRoot, 'packages/angular/src/styles'), /\.scss$/);
-const componentFiles = findFilesRecursive(path.join(workspaceRoot, 'packages/angular/src/lib/components'), /\.scss$/);
+const tokenFiles = findFilesRecursive(
+  path.join(workspaceRoot, 'packages/angular/src/styles/token'),
+  /\.scss$/,
+);
+const styleFiles = findFilesRecursive(
+  path.join(workspaceRoot, 'packages/angular/src/styles'),
+  /\.scss$/,
+);
+const componentFiles = findFilesRecursive(
+  path.join(workspaceRoot, 'packages/angular/src/lib/components'),
+  /\.scss$/,
+);
 
 const globalTokens = new Set();
 const componentTokens = new Set();
@@ -29,7 +43,10 @@ function extractTokenRefs(content) {
   let match;
   while ((match = varRegex.exec(content)) !== null) {
     const token = match[1];
-    if (token.endsWith('-') && content.slice(match.index + match[0].length).startsWith('#')) {
+    if (
+      token.endsWith('-') &&
+      content.slice(match.index + match[0].length).startsWith('#')
+    ) {
       continue;
     }
     refs.push(token);

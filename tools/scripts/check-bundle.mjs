@@ -1,12 +1,20 @@
 import path from 'node:path';
 import fs from 'node:fs';
-import { workspaceRoot, fileExists, readJson, printSummary } from './shared.mjs';
+import {
+  workspaceRoot,
+  fileExists,
+  readJson,
+  printSummary,
+} from './shared.mjs';
 
 const errors = [];
 const warnings = [];
 
 const distDir = path.join(workspaceRoot, 'dist/packages/angular');
-const baselineFile = path.join(workspaceRoot, 'tools/config/bundle-baseline.json');
+const baselineFile = path.join(
+  workspaceRoot,
+  'tools/config/bundle-baseline.json',
+);
 
 function getDirSize(dir) {
   let total = 0;
@@ -50,25 +58,36 @@ if (!fileExists(distDir)) {
 
       console.log(`  Current: ${fmt(currentSize)}`);
       console.log(`  Baseline: ${fmt(baselineSize)}`);
-      console.log(`  Change: ${diff > 0 ? '+' : ''}${fmt(diff)} (${percentChange.toFixed(2)}%)`);
+      console.log(
+        `  Change: ${diff > 0 ? '+' : ''}${fmt(diff)} (${percentChange.toFixed(2)}%)`,
+      );
 
       if (percentChange > 25) {
-        errors.push(`Bundle size increased by ${percentChange.toFixed(2)}% (exceeds 25% threshold).`);
+        errors.push(
+          `Bundle size increased by ${percentChange.toFixed(2)}% (exceeds 25% threshold).`,
+        );
         errors.push('  → Review what was added and consider tree-shaking.');
       } else if (percentChange > 10) {
-        warnings.push(`Bundle size increased by ${percentChange.toFixed(2)}% (exceeds 10% warning threshold).`);
+        warnings.push(
+          `Bundle size increased by ${percentChange.toFixed(2)}% (exceeds 10% warning threshold).`,
+        );
       }
     }
   } else if (currentSize !== null) {
     fs.mkdirSync(path.dirname(baselineFile), { recursive: true });
-    fs.writeFileSync(baselineFile, JSON.stringify({ size: currentSize }, null, 2));
+    fs.writeFileSync(
+      baselineFile,
+      JSON.stringify({ size: currentSize }, null, 2),
+    );
     const fmt = (bytes) => {
       if (bytes > 1048576) return `${(bytes / 1048576).toFixed(2)} MB`;
       if (bytes > 1024) return `${(bytes / 1024).toFixed(2)} KB`;
       return `${bytes} B`;
     };
     console.log(`  Baseline created: ${fmt(currentSize)}`);
-    warnings.push('Baseline created. Commit the baseline file to track future changes.');
+    warnings.push(
+      'Baseline created. Commit the baseline file to track future changes.',
+    );
   }
 }
 

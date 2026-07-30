@@ -19,12 +19,16 @@ describe('SolarisButtonIconDirective', () => {
   });
 
   it('should create', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('.test-icon');
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      '.test-icon',
+    );
     expect(el).toBeTruthy();
   });
 
   it('should have host class solaris-button-icon', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('.test-icon')!;
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      '.test-icon',
+    )!;
     expect(el.classList.contains('solaris-button-icon')).toBe(true);
   });
 });

@@ -54,11 +54,7 @@
   isolation: isolate;
   border-radius: var(--solaris-radius-lg);
   background:
-    radial-gradient(
-      circle at 70% 35%,
-      rgb(255 126 36 / 26%),
-      transparent 55%
-    ),
+    radial-gradient(circle at 70% 35%, rgb(255 126 36 / 26%), transparent 55%),
     linear-gradient(
       135deg,
       rgb(255 104 24 / 22%),

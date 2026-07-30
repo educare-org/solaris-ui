@@ -16,7 +16,10 @@ import {
 import { SolarisTranslateService } from '../../../../../../services/translation';
 import { SolarisTabComponent } from '../../tab/component/tab.component';
 import { SolarisTabPanelComponent } from '../../tab-panel/component/tab-panel.component';
-import { SOLARIS_TABS, type SolarisTabsControl } from '../../../token/tabs.tokens';
+import {
+  SOLARIS_TABS,
+  type SolarisTabsControl,
+} from '../../../token/tabs.tokens';
 
 import type {
   SolarisTabsOrientation,

@@ -35,7 +35,11 @@ function hasPendingChangeset() {
   try {
     const entries = fs.readdirSync(changesetDir, { withFileTypes: true });
     return entries.some(
-      (e) => e.isFile() && e.name.endsWith('.md') && e.name !== 'config.json' && e.name !== 'README.md',
+      (e) =>
+        e.isFile() &&
+        e.name.endsWith('.md') &&
+        e.name !== 'config.json' &&
+        e.name !== 'README.md',
     );
   } catch {
     return false;

@@ -11,12 +11,12 @@ O objetivo deste plano é criar guardrails, documentação e testes tão sólido
 
 Cada fase constrói sobre a anterior.
 
-| Fase | Nome | Foco |
-|------|------|------|
-| A | Tools & Guardrails | Scripts de validação, hooks, CI |
-| B | Testes | Cobertura real (E2E, serviços, integração) |
-| C | Documentação | Storybook, ADRs, guias |
-| D | AI Dev Flow | Scaffold, templates, validação automatizada |
+| Fase | Nome               | Foco                                        | Status                     |
+| ---- | ------------------ | ------------------------------------------- | -------------------------- |
+| A    | Tools & Guardrails | Scripts de validação, hooks, CI             | ✅ 90% (1 item pendente)   |
+| B    | Testes             | Cobertura real (E2E, serviços, integração)  | ✅ 80% (2 itens pendentes) |
+| C    | Documentação       | Storybook, ADRs, guias                      | ❌ Não iniciada            |
+| D    | AI Dev Flow        | Scaffold, templates, validação automatizada | ❌ Não iniciada            |
 
 ---
 
@@ -33,6 +33,7 @@ Garantir que toda validação automatizada existe, está ativa em CI, e bloqueia
 **Contexto:** O script existe em `tools/scripts/check-token-references.mjs` mas não está referenciado em nenhum script do `package.json`. Tampouco roda no `verify.mjs`.
 
 **O que fazer:**
+
 1. Adicionar script `"check:token-references"` no `package.json` apontando para `tools/scripts/check-token-references.mjs`
 2. Adicionar `"check:token-references"` ao comando `"check"` no `package.json`
 3. Adicionar `check-token-references.mjs` ao pipeline do `verify.mjs` (entre os checks obrigatórios ou opcionais)
@@ -40,6 +41,7 @@ Garantir que toda validação automatizada existe, está ativa em CI, e bloqueia
 5. Verificar se o script escaneia todos os diretórios relevantes (`packages/angular/src/lib/**/*.scss`, não apenas `components/`)
 
 **Critério de aceitação:**
+
 - `pnpm check:token-references` funciona e reporta resultados
 - `pnpm check` inclui token-references
 - `pnpm verify` inclui token-references
@@ -50,6 +52,7 @@ Garantir que toda validação automatizada existe, está ativa em CI, e bloqueia
 **Contexto:** O projeto usa Changesets para versionamento, mas não há validação em CI que obrigue a existência de um changeset para mudanças no pacote.
 
 **O que fazer:**
+
 1. Criar script `tools/scripts/check-changeset.mjs` que:
    - Verifica se há arquivos modificados em `packages/angular/`
    - Se sim, verifica se existe um arquivo `.md` em `.changeset/` (gerado por `changeset add`)
@@ -58,6 +61,7 @@ Garantir que toda validação automatizada existe, está ativa em CI, e bloqueia
 3. Adicionar ao `"check"` e ao `verify.mjs`
 
 **Critério de aceitação:**
+
 - Mudanças em `packages/angular/` sem changeset falham no check
 - Mudanças em `apps/` ou `tools/` sem changeset passam (não afetam o pacote publicado)
 
@@ -66,10 +70,12 @@ Garantir que toda validação automatizada existe, está ativa em CI, e bloqueia
 **Contexto:** Existem hooks pre-commit (lint-staged) mas não pre-push. Isso permite que código quebrado seja empurrado e só descoberto no CI.
 
 **O que fazer:**
+
 1. Configurar `simple-git-hooks` para adicionar hook `pre-push` que executa `pnpm verify --quick` (versão reduzida: lint + typecheck + testes dos arquivos alterados)
 2. Atualizar `package.json` na seção `"simple-git-hooks"`
 
 **Critério de aceitação:**
+
 - `git push` executa verificação antes de enviar
 - Push é cancelado se verificação falhar
 
@@ -78,6 +84,7 @@ Garantir que toda validação automatizada existe, está ativa em CI, e bloqueia
 **Contexto:** Não há proteção contra crescimento incontrolado do bundle. Um componente novo pode adicionar 50KB sem ninguém perceber.
 
 **O que fazer:**
+
 1. Criar script `tools/scripts/check-bundle.mjs` que:
    - Executa `pnpm build:lib`
    - Mede o tamanho dos arquivos em `dist/packages/angular/`
@@ -87,6 +94,7 @@ Garantir que toda validação automatizada existe, está ativa em CI, e bloqueia
 2. Adicionar ao `verify.mjs` como etapa opcional (não bloqueante inicialmente)
 
 **Critério de aceitação:**
+
 - Script calcula tamanho total do pacote compilado
 - Baseline inicial é criada na primeira execução
 - Diferenças percentuais são reportadas corretamente
@@ -96,11 +104,13 @@ Garantir que toda validação automatizada existe, está ativa em CI, e bloqueia
 **Contexto:** Vulnerabilidades em dependências não são verificadas automaticamente.
 
 **O que fazer:**
+
 1. Criar script `tools/scripts/check-vulnerabilities.mjs` que executa `pnpm audit --audit-level=high` e parseia a saída
 2. Se encontrar vulnerabilidades high/critical, reporta erro
 3. Adicionar ao `verify.mjs`
 
 **Critério de aceitação:**
+
 - `pnpm check:vulnerabilities` funciona
 - Vulnerabilidades high/critical bloqueiam o verify
 
@@ -109,10 +119,12 @@ Garantir que toda validação automatizada existe, está ativa em CI, e bloqueia
 **Contexto:** O script `check-dependencies.mjs` existe, tem script `"check:dependencies"` no package.json, mas não está no `"check"` nem no `verify.mjs`.
 
 **O que fazer:**
+
 1. Adicionar `"check:dependencies"` ao comando `"check"` no `package.json`
 2. Adicionar ao `verify.mjs`
 
 **Critério de aceitação:**
+
 - `pnpm check` valida dependências
 - `pnpm verify` valida dependências
 
@@ -121,9 +133,11 @@ Garantir que toda validação automatizada existe, está ativa em CI, e bloqueia
 **Contexto:** O script em `tools/sort-scss-properties.js` ordena por length (não alfabeticamente), não é referenciado em nenhum script, e não tem propósito claro.
 
 **O que fazer:**
+
 1. Deletar o arquivo `tools/sort-scss-properties.js`
 
 **Critério de aceitação:**
+
 - Arquivo removido do disco
 - Nenhum script ou config referencia o arquivo
 
@@ -142,6 +156,7 @@ Garantir que a suíte de testes cobre não apenas unidades de componente, mas fl
 **Contexto:** Não há um arquivo de setup global para o Vitest. Cada spec precisa configurar providers manualmente.
 
 **O que fazer:**
+
 - Criar `packages/angular/vitest.setup.ts` com:
   - Configuração global de `TestBed`
   - `configureSolarisTesting()` como setup automático
@@ -153,6 +168,7 @@ Garantir que a suíte de testes cobre não apenas unidades de componente, mas fl
 **Contexto:** Não há `test:watch` no package.json, o que força o dev a rodar `pnpm nx test angular --watch` manualmente.
 
 **O que fazer:**
+
 - Adicionar `"test:watch": "pnpm nx test angular --watch"` no `package.json`
 
 #### B3 — E2E com testes de interação
@@ -160,6 +176,7 @@ Garantir que a suíte de testes cobre não apenas unidades de componente, mas fl
 **Contexto:** O E2E atual só tem smoke tests (29 rotas, verifica apenas se a página carrega). Não testa interação real.
 
 **O que fazer:**
+
 - Adicionar testes E2E no Playwright para:
   - Preenchimento e submissão de formulários (input, select, checkbox, radio)
   - Navegação por tabs e stepper
@@ -174,6 +191,7 @@ Garantir que a suíte de testes cobre não apenas unidades de componente, mas fl
 **Contexto:** Serviços fundamentais não têm testes.
 
 **O que fazer:**
+
 - Criar testes para:
   - `services/accessibility/` — focus management, reduced motion, prefers-contrast
   - `services/theme/` — troca de tema, persistência, detecção de sistema
@@ -185,6 +203,7 @@ Garantir que a suíte de testes cobre não apenas unidades de componente, mas fl
 **Contexto:** As próprias `configureSolarisTesting()` e `provideSolarisTesting()` não têm testes.
 
 **O que fazer:**
+
 - Criar spec para `packages/angular/src/lib/testing/`
 - Testar que `configureSolarisTesting` funciona com e sem providers extras
 - Testar que `provideSolarisTesting` configura accessibility + theme + translation corretamente
@@ -194,6 +213,7 @@ Garantir que a suíte de testes cobre não apenas unidades de componente, mas fl
 **Contexto:** Testes de select, multi-select, dialog repetem a mesma lógica de query + interação.
 
 **O que fazer:**
+
 - Criar Page Objects em `packages/angular/src/lib/testing/page-objects/`:
   - `select.po.ts`
   - `multi-select.po.ts`
@@ -216,6 +236,7 @@ Criar a infraestrutura de documentação que permite a qualquer desenvolvedor (h
 **Contexto:** Storybook está no roadmap desde a Fase 0 mas nunca foi configurado. Não há stories para nenhum componente.
 
 **O que fazer:**
+
 - Configurar Storybook com `pnpm nx g @nx/angular:storybook-configuration angular`
 - Criar stories para componentes existentes começando pelos de maior impacto visual: Button, Card, Alert, Dialog, Select, Toast
 - Cada story deve documentar: variantes (appearance, size, color), estados (disabled, error, loading), tema (light/dark)
@@ -227,6 +248,7 @@ Criar a infraestrutura de documentação que permite a qualquer desenvolvedor (h
 **Contexto:** Decisões arquiteturais estão espalhadas em documentos de texto sem formato estruturado.
 
 **O que fazer:**
+
 - Criar diretório `docs/adr/`
 - Migrar decisões existentes do `forms_foundation_contract.md` para o formato ADR (Nygard-style)
 - Registrar novas decisões à medida que surgirem
@@ -237,6 +259,7 @@ Criar a infraestrutura de documentação que permite a qualquer desenvolvedor (h
 **Contexto:** Não há um passo-a-passo para criar um novo componente seguindo todos os padrões.
 
 **O que fazer:**
+
 - Criar `docs/guides/creating-a-component.md` com:
   - Estrutura de pastas
   - Arquivos necessários (component, spec, docs/stories, showcase)
@@ -248,6 +271,7 @@ Criar a infraestrutura de documentação que permite a qualquer desenvolvedor (h
 **Contexto:** Consumidores não sabem como sobrescrever tokens ou criar temas customizados.
 
 **O que fazer:**
+
 - Criar `docs/guides/theme-customization.md` com:
   - Como sobrescrever tokens CSS
   - Como criar um tema escuro customizado
@@ -259,6 +283,7 @@ Criar a infraestrutura de documentação que permite a qualquer desenvolvedor (h
 **Contexto:** O sistema de ícones não tem documentação dedicada.
 
 **O que fazer:**
+
 - Criar `docs/guides/icons.md` com:
   - Como usar o componente `<solaris-icon>`
   - Como registrar novos ícones
@@ -280,6 +305,7 @@ Criar o ecossistema que permite à IA gerar componentes completos (código + tes
 **Contexto:** Cada tarefa para IA precisa de contexto diferente. Sem template, a IA omite requisitos importantes.
 
 **O que fazer:**
+
 - Criar `docs/ai/prompt-templates.md` com templates para:
   - **Criar componente novo**: inclui referência ao component_standard, accessibility_standard, testing_strategy, definition_of_done
   - **Adicionar funcionalidade**: inclui análise de impacto, arquivos afetados, contratos existentes
@@ -291,6 +317,7 @@ Criar o ecossistema que permite à IA gerar componentes completos (código + tes
 **Contexto:** Criar um componente novo exige criar 6-8 arquivos manuais. Isso é repetitivo e propenso a erro.
 
 **O que fazer:**
+
 - Criar `tools/scripts/generate-component.mjs` que:
   - Recebe nome e categoria como argumentos
   - Gera estrutura completa de pastas e arquivos:
@@ -306,13 +333,14 @@ Criar o ecossistema que permite à IA gerar componentes completos (código + tes
 **Contexto:** Mesmo com scaffold, o código gerado pode desviar dos padrões.
 
 **O que fazer:**
+
 - Criar script `tools/scripts/validate-component.mjs` que verifica:
   - Estrutura de pastas correta
   - Inputs e outputs seguem convenção de nomenclatura
   - Testes existem
   - Documentação existe
   - Tokens são usados (não valores fixos)
-  - Acessibilidade básica (aria-*, role, focus)
+  - Acessibilidade básica (aria-\*, role, focus)
   - Nenhum import proibido
 - Integrar ao `verify.mjs` como check opcional para diretórios de componente
 
@@ -321,6 +349,7 @@ Criar o ecossistema que permite à IA gerar componentes completos (código + tes
 **Contexto:** Desenvolvedores esquecem de criar changeset ao adicionar componente.
 
 **O que fazer:**
+
 - O script `generate-component.mjs` já gera changeset stub (D2)
 - Adicionar validação no CI que verifica se componente novo tem changeset (A2)
 
@@ -330,26 +359,26 @@ Criar o ecossistema que permite à IA gerar componentes completos (código + tes
 
 ### Fase A — Tools & Guardrails
 
-- [ ] A1: `check-token-references.mjs` integrado ao `verify`
-- [ ] A2: `check:changeset` integrado ao `verify`
-- [ ] A3: Pre-push hook configurado
-- [ ] A4: `check-bundle.mjs` criado e integrado
-- [ ] A5: `check:vulnerabilities` integrado ao `verify`
-- [ ] A6: `check:dependencies` integrado ao `check` e `verify`
-- [ ] A7: `sort-scss-properties.js` removido
-- [ ] `pnpm verify` passa limpo
-- [ ] CI pipeline atualizado com todos os novos checks
+- [x] A1: `check-token-references.mjs` integrado ao `verify`
+- [x] A2: `check:changeset` integrado ao `verify`
+- [x] A3: Pre-push hook configurado (`"pre-push": "pnpm verify"`)
+- [x] A4: `check-bundle.mjs` criado e integrado (opcional no verify)
+- [x] A5: `check:vulnerabilities` integrado ao `verify`
+- [x] A6: `check:dependencies` integrado ao `check` e `verify`
+- [x] A7: `sort-scss-properties.js` removido
+- [ ] `pnpm verify` passa limpo — **pendente** (precisa rodar completo e corrigir falhas de lint/build)
+- [x] CI pipeline atualizado com todos os novos checks
 
 ### Fase B — Testes
 
-- [ ] B1: `vitest.setup.ts` global criado
-- [ ] B2: `test:watch` no package.json
-- [ ] B3: E2E com interação (formulários, overlay, teclado)
-- [ ] B4: Testes de serviços (theme, accessibility, translation, icon)
-- [ ] B5: Testes das testing utilities
-- [ ] B6: Page Objects para componentes complexos
-- [ ] Cobertura de serviços atinge 80%+
-- [ ] E2E passa em 3 browsers (Chromium, Firefox, WebKit)
+- [x] B1: `vitest.setup.ts` global criado (`packages/angular/src/vitest.setup.ts`)
+- [x] B2: `test:watch` no package.json
+- [/] B3: E2E com interação (formulários, overlay, teclado) — **parcial** (138 testes no chromium; firefox/webkit não revalidados)
+- [x] B4: Testes de serviços (theme ✅, accessibility ✅, translation ✅, icon ✅)
+- [x] B5: Testes das testing utilities
+- [/] B6: Page Objects para componentes complexos — **parcial** (dialog.po.ts, select.po.ts criados; faltam dropdown, toast, etc.)
+- [x] Cobertura de serviços atinge 80%+ (statements 84%, threshold 80%)
+- [ ] E2E passa em 3 browsers (Chromium, Firefox, WebKit) — **pendente** (só chromium validado)
 
 ### Fase C — Documentação
 

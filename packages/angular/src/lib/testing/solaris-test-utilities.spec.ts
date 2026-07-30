@@ -91,7 +91,9 @@ describe('configureSolarisTesting', () => {
 
   it('should work when called multiple times', () => {
     configureSolarisTesting({ accessibility: { forceReducedMotion: true } });
-    configureSolarisTesting({ accessibility: { respectSystemPreference: true } });
+    configureSolarisTesting({
+      accessibility: { respectSystemPreference: true },
+    });
 
     const config = TestBed.inject(SOLARIS_ACCESSIBILITY_CONFIG);
     expect(config.respectSystemPreference).toBe(true);

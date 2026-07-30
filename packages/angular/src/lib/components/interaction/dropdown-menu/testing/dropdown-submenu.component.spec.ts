@@ -25,7 +25,8 @@ import { SolarisDropdownMenuItemComponent } from '../component/dropdown-menu-ite
   `,
 })
 class BasicTestHost {
-  @ViewChild(SolarisDropdownSubmenuComponent) submenu!: SolarisDropdownSubmenuComponent;
+  @ViewChild(SolarisDropdownSubmenuComponent)
+  submenu!: SolarisDropdownSubmenuComponent;
 }
 
 @Component({
@@ -46,7 +47,8 @@ class BasicTestHost {
   `,
 })
 class DisabledTestHost {
-  @ViewChild(SolarisDropdownSubmenuComponent) submenu!: SolarisDropdownSubmenuComponent;
+  @ViewChild(SolarisDropdownSubmenuComponent)
+  submenu!: SolarisDropdownSubmenuComponent;
 }
 
 @Component({
@@ -67,7 +69,8 @@ class DisabledTestHost {
   `,
 })
 class LeftPlacementTestHost {
-  @ViewChild(SolarisDropdownSubmenuComponent) submenu!: SolarisDropdownSubmenuComponent;
+  @ViewChild(SolarisDropdownSubmenuComponent)
+  submenu!: SolarisDropdownSubmenuComponent;
 }
 
 @Component({
@@ -88,7 +91,8 @@ class LeftPlacementTestHost {
   `,
 })
 class MatchWidthTestHost {
-  @ViewChild(SolarisDropdownSubmenuComponent) submenu!: SolarisDropdownSubmenuComponent;
+  @ViewChild(SolarisDropdownSubmenuComponent)
+  submenu!: SolarisDropdownSubmenuComponent;
 }
 
 @Component({
@@ -109,7 +113,8 @@ class MatchWidthTestHost {
   `,
 })
 class MinWidthTestHost {
-  @ViewChild(SolarisDropdownSubmenuComponent) submenu!: SolarisDropdownSubmenuComponent;
+  @ViewChild(SolarisDropdownSubmenuComponent)
+  submenu!: SolarisDropdownSubmenuComponent;
 }
 
 @Component({
@@ -130,7 +135,8 @@ class MinWidthTestHost {
   `,
 })
 class MaxWidthTestHost {
-  @ViewChild(SolarisDropdownSubmenuComponent) submenu!: SolarisDropdownSubmenuComponent;
+  @ViewChild(SolarisDropdownSubmenuComponent)
+  submenu!: SolarisDropdownSubmenuComponent;
 }
 
 @Component({
@@ -151,7 +157,8 @@ class MaxWidthTestHost {
   `,
 })
 class CustomOpenDelayTestHost {
-  @ViewChild(SolarisDropdownSubmenuComponent) submenu!: SolarisDropdownSubmenuComponent;
+  @ViewChild(SolarisDropdownSubmenuComponent)
+  submenu!: SolarisDropdownSubmenuComponent;
 }
 
 @Component({
@@ -172,7 +179,8 @@ class CustomOpenDelayTestHost {
   `,
 })
 class CustomCloseDelayTestHost {
-  @ViewChild(SolarisDropdownSubmenuComponent) submenu!: SolarisDropdownSubmenuComponent;
+  @ViewChild(SolarisDropdownSubmenuComponent)
+  submenu!: SolarisDropdownSubmenuComponent;
 }
 
 @Component({
@@ -193,7 +201,8 @@ class CustomCloseDelayTestHost {
   `,
 })
 class ClickModeTestHost {
-  @ViewChild(SolarisDropdownSubmenuComponent) submenu!: SolarisDropdownSubmenuComponent;
+  @ViewChild(SolarisDropdownSubmenuComponent)
+  submenu!: SolarisDropdownSubmenuComponent;
 }
 
 @Component({
@@ -214,7 +223,8 @@ class ClickModeTestHost {
   `,
 })
 class HoverModeTestHost {
-  @ViewChild(SolarisDropdownSubmenuComponent) submenu!: SolarisDropdownSubmenuComponent;
+  @ViewChild(SolarisDropdownSubmenuComponent)
+  submenu!: SolarisDropdownSubmenuComponent;
 }
 
 describe('SolarisDropdownSubmenuComponent', () => {
@@ -307,7 +317,9 @@ describe('SolarisDropdownSubmenuComponent', () => {
     });
 
     it('should have trigger element in DOM', () => {
-      const el = fixture.nativeElement.querySelector('solaris-dropdown-submenu-trigger');
+      const el = fixture.nativeElement.querySelector(
+        'solaris-dropdown-submenu-trigger',
+      );
       expect(el).toBeTruthy();
     });
   });
@@ -451,7 +463,9 @@ describe('SolarisDropdownSubmenuComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(BasicTestHost);
       fixture.detectChanges();
-      const el = fixture.nativeElement.querySelector('solaris-dropdown-submenu');
+      const el = fixture.nativeElement.querySelector(
+        'solaris-dropdown-submenu',
+      );
       expect(el.classList.contains('solaris-dropdown-submenu')).toBe(true);
     });
   });

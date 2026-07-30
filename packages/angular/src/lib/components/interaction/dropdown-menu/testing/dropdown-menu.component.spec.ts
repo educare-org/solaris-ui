@@ -3,17 +3,17 @@ import { Component, ViewChild } from '@angular/core';
 
 import { SolarisDropdownMenuComponent } from '../component/dropdown-menu.component';
 import { SolarisDropdownMenuItemComponent } from '../component/dropdown-menu-item.component';
-import type { SolarisDropdownMenuSize, SolarisDropdownMenuDensity } from '../model/dropdown-menu.types';
+import type {
+  SolarisDropdownMenuSize,
+  SolarisDropdownMenuDensity,
+} from '../model/dropdown-menu.types';
 
 describe('SolarisDropdownMenuComponent', () => {
   @Component({
     standalone: true,
     imports: [SolarisDropdownMenuComponent, SolarisDropdownMenuItemComponent],
     template: `
-      <solaris-dropdown-menu
-        [size]="size"
-        [density]="density"
-      >
+      <solaris-dropdown-menu [size]="size" [density]="density">
         <solaris-dropdown-menu-item label="First" />
         <solaris-dropdown-menu-item label="Second" />
         <solaris-dropdown-menu-item label="Third" [disabled]="true" />
@@ -22,7 +22,8 @@ describe('SolarisDropdownMenuComponent', () => {
     `,
   })
   class TestHost {
-    @ViewChild(SolarisDropdownMenuComponent) menu!: SolarisDropdownMenuComponent;
+    @ViewChild(SolarisDropdownMenuComponent)
+    menu!: SolarisDropdownMenuComponent;
     size: SolarisDropdownMenuSize = 'md';
     density: SolarisDropdownMenuDensity = 'comfortable';
   }
@@ -40,7 +41,9 @@ describe('SolarisDropdownMenuComponent', () => {
   });
 
   it('should have role menu', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('solaris-dropdown-menu')!;
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      'solaris-dropdown-menu',
+    )!;
     expect(el.getAttribute('role')).toBe('menu');
   });
 
@@ -50,17 +53,22 @@ describe('SolarisDropdownMenuComponent', () => {
   });
 
   it('should set data-size host attribute', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('solaris-dropdown-menu')!;
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      'solaris-dropdown-menu',
+    )!;
     expect(el.getAttribute('data-size')).toBe('md');
   });
 
   it('should set data-density host attribute', () => {
-    const el = (fixture.nativeElement as HTMLElement).querySelector('solaris-dropdown-menu')!;
+    const el = (fixture.nativeElement as HTMLElement).querySelector(
+      'solaris-dropdown-menu',
+    )!;
     expect(el.getAttribute('data-density')).toBe('comfortable');
   });
 
   it('should have 3 enabled navigable items (excluding disabled)', () => {
-    const count = fixture.componentInstance.menu['enabledNavigableItems']().length;
+    const count =
+      fixture.componentInstance.menu['enabledNavigableItems']().length;
     expect(count).toBe(3);
   });
 
@@ -134,9 +142,9 @@ describe('SolarisDropdownMenuComponent', () => {
 
     it('should not focus any item when no match', () => {
       const items = fixture.componentInstance.menu['enabledNavigableItems']();
-      items.forEach(item => vi.spyOn(item, 'focus'));
+      items.forEach((item) => vi.spyOn(item, 'focus'));
       fixture.componentInstance.menu.focusItemByLabel('nonexistent');
-      items.forEach(item => expect(item.focus).not.toHaveBeenCalled());
+      items.forEach((item) => expect(item.focus).not.toHaveBeenCalled());
     });
   });
 
@@ -150,13 +158,16 @@ describe('SolarisDropdownMenuComponent', () => {
     });
 
     it('should do nothing when no item is focused', () => {
-      expect(() => fixture.componentInstance.menu.activateFocusedItem()).not.toThrow();
+      expect(() =>
+        fixture.componentInstance.menu.activateFocusedItem(),
+      ).not.toThrow();
     });
   });
 
   it('should skip disabled items in enabledNavigableItems', () => {
     const items = fixture.componentInstance.menu['navigableItems']();
-    const enabledItems = fixture.componentInstance.menu['enabledNavigableItems']();
+    const enabledItems =
+      fixture.componentInstance.menu['enabledNavigableItems']();
     expect(items.length).toBe(4);
     expect(enabledItems.length).toBe(3);
   });
