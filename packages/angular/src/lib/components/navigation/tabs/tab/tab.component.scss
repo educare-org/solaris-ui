@@ -38,7 +38,7 @@
       var(--solaris-motion-easing-standard);
 }
 
-:host(:hover:not([data-disabled='true']):not([data-active='true'])) {
+:host(:hover:not([data-disabled='true'], [data-active='true'])) {
   background: var(--solaris-tab-hover-background);
 }
 
@@ -113,10 +113,7 @@
 }
 
 :host(
-  [data-appearance='pills']:hover:not([data-disabled='true']):not(
-      [data-active='true']
-    )
-) {
+  [data-appearance='pills']:hover:not([data-disabled='true'], [data-active='true'])) {
   background: var(--solaris-tab-hover-background);
 }
 

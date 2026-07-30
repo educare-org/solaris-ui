@@ -4,6 +4,7 @@
   --solaris-select-value-color: var(--solaris-text-default);
   --solaris-select-line-height: var(--solaris-line-height-md);
   --solaris-select-placeholder-color: var(--solaris-text-muted);
+
   outline: none;
   cursor: pointer;
   user-select: none;
@@ -68,6 +69,7 @@
     width: var(--solaris-font-size-xl);
     height: var(--solaris-font-size-xl);
   }
+
   padding: 0;
   border: none;
   display: flex;
@@ -92,6 +94,7 @@
     width: var(--solaris-font-size-xl);
     height: var(--solaris-font-size-xl);
   }
+
   width: var(--solaris-font-size-xl);
   height: var(--solaris-font-size-xl);
   color: var(--solaris-select-icon-color);

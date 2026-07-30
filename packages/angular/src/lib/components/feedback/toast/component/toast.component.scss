@@ -24,6 +24,7 @@
   --solaris-toast-progress-height: var(--solaris-spacing-1);
   --solaris-toast-description-color: var(--solaris-text-muted);
   --solaris-toast-close-icon-size: var(--solaris-font-size-lg);
+
   display: block;
   overflow: hidden;
   pointer-events: auto;
@@ -78,6 +79,7 @@
     width: var(--solaris-toast-icon-size);
     height: var(--solaris-toast-icon-size);
   }
+
   display: grid;
   place-items: center;
   color: var(--solaris-toast-icon-color);
@@ -110,6 +112,7 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: var(--solaris-toast-max-lines);
   }
+
   margin: 0;
   word-break: normal;
   overflow-wrap: break-word;
@@ -141,6 +144,7 @@
     width: var(--solaris-toast-close-icon-size);
     height: var(--solaris-toast-close-icon-size);
   }
+
   all: unset;
   display: grid;
   flex-shrink: 0;
@@ -160,6 +164,7 @@
   &--expanded {
     transform: rotate(180deg);
   }
+
   transition: transform var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
@@ -187,6 +192,7 @@
   [solaris-button] {
     flex: 1;
   }
+
   justify-content: stretch;
 }
 
@@ -225,6 +231,7 @@
     border-radius: var(--solaris-radius-sm);
     outline: 2px solid var(--solaris-primary-base);
   }
+
   all: unset;
   cursor: pointer;
   white-space: nowrap;
@@ -444,7 +451,7 @@
   animation: none;
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   :host {
     --solaris-toast-width: 100%;
     --solaris-toast-max-width: 100%;

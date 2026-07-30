@@ -437,16 +437,19 @@
 
 [solaris-icon-button][data-size='sm'] {
   --solaris-icon-button-size: var(--solaris-spacing-8);
+
   font-size: var(--solaris-font-size-sm);
 }
 
 [solaris-icon-button][data-size='md'] {
   --solaris-icon-button-size: var(--solaris-spacing-10);
+
   font-size: var(--solaris-font-size-md);
 }
 
 [solaris-icon-button][data-size='lg'] {
   --solaris-icon-button-size: var(--solaris-spacing-12);
+
   font-size: var(--solaris-font-size-lg);
 }
 
@@ -472,10 +475,12 @@
 
 [solaris-icon-button][data-density='compact'] {
   --solaris-icon-button-size: var(--solaris-density-min-height);
+
   font-size: var(--solaris-font-size-sm);
 }
 
 [solaris-icon-button][data-density='comfortable'] {
   --solaris-icon-button-size: var(--solaris-density-min-height);
+
   font-size: var(--solaris-font-size-md);
 }

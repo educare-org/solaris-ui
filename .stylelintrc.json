@@ -3,6 +3,12 @@
     "stylelint-config-standard-scss"
   ],
   "rules": {
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": ["ng-deep"]
+      }
+    ],
     "scss/at-rule-no-unknown": null,
     "scss/operator-no-newline-after": null,
     "scss/no-global-function-names": null,
@@ -33,7 +39,27 @@
     "comment-empty-line-before": null,
     "no-descending-specificity": null,
     "property-no-vendor-prefix": null,
-    "value-no-vendor-prefix": null
+    "value-no-vendor-prefix": null,
+    "value-keyword-case": [
+      "lower",
+      {
+        "ignoreKeywords": [
+          "Inter",
+          "BlinkMacSystemFont",
+          "Consolas",
+          "Menlo",
+          "Georgia",
+          "Cambria",
+          "Times",
+          "IBM Plex Serif",
+          "JetBrains Mono",
+          "Space Grotesk",
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+          "Segoe UI Symbol"
+        ]
+      }
+    ]
   },
   "ignoreFiles": [
     "dist/**/*.scss",

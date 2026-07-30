@@ -33,8 +33,7 @@
 }
 
 :host([data-orientation='horizontal']) .solaris-switch-group__options {
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
 }
 
 :host([data-layout='grid']) .solaris-switch-group__options {

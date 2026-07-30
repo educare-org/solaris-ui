@@ -26,6 +26,7 @@
 
 .form-field-showcase__note {
   @include layout.note;
+
   margin-bottom: var(--solaris-spacing-3);
 }
 

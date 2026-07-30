@@ -30,7 +30,6 @@
     calc(var(--solaris-segmented-radius) - var(--solaris-segmented-padding)),
     calc(var(--solaris-segmented-padding) - var(--solaris-segmented-radius))
   );
-
   transition:
     color var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
@@ -38,7 +37,7 @@
       var(--solaris-motion-easing-standard);
 }
 
-:host(:hover:not([data-disabled='true']):not([data-selected='true'])) {
+:host(:hover:not([data-disabled='true'], [data-selected='true'])) {
   background: var(--solaris-segmented-item-hover-background);
 }
 
@@ -46,7 +45,7 @@
   --solaris-segmented-item-icon-size: calc(var(--solaris-font-size-md) * 1.2);
 }
 
-:host:not([data-selected='true']):not([data-disabled='true']) {
+:host:not([data-selected='true'], [data-disabled='true']) {
   opacity: var(--solaris-opacity-50);
 }
 

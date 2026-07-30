@@ -17,6 +17,7 @@
   --solaris-checkbox-border-width: var(--solaris-spacing-quarter);
   --solaris-checkbox-invalid-border-color: var(--solaris-danger-base);
   --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
+
   outline: none;
   display: inline-flex;
   vertical-align: middle;
@@ -374,6 +375,7 @@
     --solaris-checkbox-readonly-background,
     var(--solaris-surface-muted)
   );
+
   background: var(
     --solaris-checkbox-readonly-background,
     var(--solaris-surface-muted)

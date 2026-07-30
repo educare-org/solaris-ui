@@ -146,19 +146,19 @@ export class ConfigurationPage {
       token: '2xl',
       cssVar: '--solaris-font-size-2xl',
       size: '1.5rem',
-      className: 'configuration-font-sample--2xl',
+      className: 'configuration-font-sample-2xl',
     },
     {
       token: '3xl',
       cssVar: '--solaris-font-size-3xl',
       size: '1.875rem',
-      className: 'configuration-font-sample--3xl',
+      className: 'configuration-font-sample-3xl',
     },
     {
       token: '4xl',
       cssVar: '--solaris-font-size-4xl',
       size: '2.25rem',
-      className: 'configuration-font-sample--4xl',
+      className: 'configuration-font-sample-4xl',
     },
   ];
 

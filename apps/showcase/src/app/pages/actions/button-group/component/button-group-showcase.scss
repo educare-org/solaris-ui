@@ -36,6 +36,7 @@
 
   &__note {
     @include layout.note;
+
     margin-top: var(--solaris-spacing-3);
   }
 

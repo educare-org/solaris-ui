@@ -32,8 +32,7 @@
 }
 
 :host([data-orientation='horizontal']) .solaris-tabs__tablist {
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: auto hidden;
   flex-direction: row;
   scrollbar-width: thin;
   border-bottom: var(--solaris-border-width-sm) solid
@@ -153,10 +152,7 @@
 }
 
 .solaris-tabs__indicator--vertical {
-  bottom: auto;
-  left: auto;
-  right: 0;
-  top: 0;
+  inset: 0 0 auto auto;
   width: var(--solaris-tabs-indicator-size);
   height: 0;
   border-radius: var(--solaris-radius-sm) 0 0 var(--solaris-radius-sm);

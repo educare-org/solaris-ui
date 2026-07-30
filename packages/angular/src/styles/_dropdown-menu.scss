@@ -20,6 +20,7 @@
   }
   --solaris-dropdown-menu-gap: var(--solaris-spacing-2);
   --solaris-dropdown-menu-padding: var(--solaris-spacing-2);
+
   display: flex;
   outline: none;
   user-select: none;
@@ -39,6 +40,7 @@ solaris-dropdown-menu-group {
   &:last-child {
     padding-block-end: 0;
   }
+
   display: flex;
   flex-direction: column;
   padding-block: var(--solaris-spacing-1);

@@ -38,8 +38,7 @@
 }
 
 :host([data-orientation='horizontal']) .solaris-checkbox-group__options {
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
 }
 
 :host([data-layout='grid']) .solaris-checkbox-group__options {

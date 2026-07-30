@@ -48,6 +48,7 @@
 
   &__note {
     @include layout.note;
+
     margin: 0 0 var(--solaris-spacing-4);
   }
 

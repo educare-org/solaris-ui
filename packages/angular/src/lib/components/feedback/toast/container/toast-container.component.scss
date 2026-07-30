@@ -1,5 +1,6 @@
 :host {
   --solaris-toast-z-index: var(--solaris-z-index-toast);
+
   position: fixed;
   z-index: var(--solaris-toast-z-index);
   display: flex;
@@ -43,7 +44,7 @@
   justify-content: flex-end;
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
   :host {
     padding: var(--solaris-spacing-2);
     max-width: 100vw;

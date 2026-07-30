@@ -26,6 +26,7 @@
 
 .checkbox-showcase__row {
   @include layout.row($gap: var(--solaris-spacing-4));
+
   margin-bottom: var(--solaris-spacing-2);
 
   &:last-child {
@@ -35,6 +36,7 @@
 
 .checkbox-showcase__note {
   @include layout.note;
+
   margin-bottom: var(--solaris-spacing-3);
 }
 

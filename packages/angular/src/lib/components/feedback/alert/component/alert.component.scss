@@ -17,12 +17,13 @@
   --solaris-alert-background: var(--solaris-info-surface);
   --solaris-alert-title-color: var(--solaris-text-strong);
   --solaris-alert-border-color: var(--solaris-info-border);
-  --solaris-alert-close-hover-background: rgba(0, 0, 0, 0.06);
+  --solaris-alert-close-hover-background: rgb(0 0 0 / 6%);
   --solaris-alert-border-width: var(--solaris-border-width-sm);
   --solaris-alert-close-icon-size: var(--solaris-font-size-md);
   --solaris-alert-description-color: var(--solaris-text-default);
   --solaris-alert-first-line-height: var(--solaris-line-height-md);
   --solaris-alert-first-line-font-size: var(--solaris-font-size-sm);
+
   display: flex;
   box-sizing: border-box;
   align-items: flex-start;
@@ -82,6 +83,7 @@
     outline-offset: 2px;
     outline: 2px solid var(--solaris-primary-base);
   }
+
   all: unset;
   display: grid;
   flex-shrink: 0;
@@ -199,7 +201,7 @@
   --solaris-alert-close-color: var(--solaris-text-strong);
   --solaris-alert-title-color: var(--solaris-text-strong);
   --solaris-alert-description-color: var(--solaris-text-inverse);
-  --solaris-alert-close-hover-background: rgba(255, 255, 255, 0.12);
+  --solaris-alert-close-hover-background: rgb(255 255 255 / 12%);
 }
 
 :host([data-variant='info'][data-appearance='tonal']) {
@@ -232,7 +234,7 @@
   --solaris-alert-close-color: var(--solaris-info-on-solid);
   --solaris-alert-title-color: var(--solaris-info-on-solid);
   --solaris-alert-description-color: var(--solaris-info-on-solid);
-  --solaris-alert-close-hover-background: rgba(255, 255, 255, 0.12);
+  --solaris-alert-close-hover-background: rgb(255 255 255 / 12%);
 }
 
 :host([data-variant='success'][data-appearance='tonal']) {
@@ -264,7 +266,7 @@
   --solaris-alert-icon-color: var(--solaris-success-on-solid);
   --solaris-alert-close-color: var(--solaris-success-on-solid);
   --solaris-alert-title-color: var(--solaris-success-on-solid);
-  --solaris-alert-close-hover-background: rgba(255, 255, 255, 0.12);
+  --solaris-alert-close-hover-background: rgb(255 255 255 / 12%);
   --solaris-alert-description-color: var(--solaris-success-on-solid);
 }
 
@@ -294,7 +296,7 @@
   --solaris-alert-border-color: transparent;
   --solaris-alert-color: var(--solaris-warning-on-solid);
   --solaris-alert-background: var(--solaris-warning-base);
-  --solaris-alert-close-hover-background: rgba(0, 0, 0, 0.1);
+  --solaris-alert-close-hover-background: rgb(0 0 0 / 10%);
   --solaris-alert-icon-color: var(--solaris-warning-on-solid);
   --solaris-alert-close-color: var(--solaris-warning-on-solid);
   --solaris-alert-title-color: var(--solaris-warning-on-solid);
@@ -331,7 +333,7 @@
   --solaris-alert-close-color: var(--solaris-danger-on-solid);
   --solaris-alert-title-color: var(--solaris-danger-on-solid);
   --solaris-alert-description-color: var(--solaris-danger-on-solid);
-  --solaris-alert-close-hover-background: rgba(255, 255, 255, 0.12);
+  --solaris-alert-close-hover-background: rgb(255 255 255 / 12%);
 }
 
 :host([data-variant='custom']) {

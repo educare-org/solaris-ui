@@ -26,6 +26,7 @@
   --solaris-form-field-control-border-color: var(--solaris-border-subtle);
   --solaris-form-field-label-font-weight: var(--solaris-font-weight-medium);
   --solaris-form-field-control-border-width: var(--solaris-border-width-sm);
+
   display: block;
   box-sizing: border-box;
   font-size: var(--solaris-form-field-font-size);
@@ -350,6 +351,7 @@
     --solaris-surface-disabled,
     var(--solaris-surface-muted)
   );
+
   cursor: not-allowed;
   opacity: var(--solaris-form-field-disabled-opacity);
 }
@@ -408,5 +410,6 @@
   --solaris-form-field-control-border-color: var(
     --solaris-form-field-error-border-color
   );
+
   outline-color: var(--solaris-form-field-error-border-color);
 }
