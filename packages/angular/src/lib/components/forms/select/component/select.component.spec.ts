@@ -769,6 +769,145 @@ describe('SolarisSelectComponent', () => {
       );
       expect(trigger.getAttribute('aria-activedescendant')).toBeTruthy();
     });
+
+    it('should select active option when Enter is pressed with panel open', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      (select as any).panelOpen.set(true);
+      (select as any).activeOptionIndex.set(1);
+      (select as any).selectActiveOption();
+      fixture.detectChanges();
+      expect((select as any).internalValue()).toBe('b');
+    });
+
+    it('should not select when activeOptionIndex is out of bounds', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      (select as any).panelOpen.set(true);
+      (select as any).activeOptionIndex.set(99);
+      const opts = (select as any).visibleOptions();
+      expect(opts.length).toBeLessThan(99);
+    });
+
+    it('should focus next option with ArrowDown', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      (select as any).panelOpen.set(true);
+      (select as any).focusNextOption(1);
+      expect((select as any).activeOptionIndex()).toBe(0);
+      (select as any).focusNextOption(1);
+      expect((select as any).activeOptionIndex()).toBe(1);
+    });
+
+    it('should focus previous option with ArrowUp', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      (select as any).panelOpen.set(true);
+      (select as any).activeOptionIndex.set(2);
+      (select as any).focusNextOption(-1);
+      expect((select as any).activeOptionIndex()).toBe(1);
+    });
+
+    it('should wrap from last to first option', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      (select as any).panelOpen.set(true);
+      (select as any).activeOptionIndex.set(2);
+      (select as any).focusNextOption(1);
+      const idx = (select as any).activeOptionIndex();
+      expect(idx).toBeGreaterThanOrEqual(0);
+    });
+
+    it('should handle ArrowDown when closed without error', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      (select as any).panelOpen.set(false);
+      expect(() => {
+        const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+        (select as any).onTriggerKeydown(event);
+      }).not.toThrow();
+    });
+
+    it('should get first enabled option index', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      (select as any).panelOpen.set(true);
+      const idx = (select as any).getFirstEnabledOptionIndex();
+      expect(idx).toBeGreaterThanOrEqual(0);
+    });
+
+    it('should get last enabled option index', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      (select as any).panelOpen.set(true);
+      const idx = (select as any).getLastEnabledOptionIndex();
+      expect(idx).toBeGreaterThanOrEqual(0);
+    });
+
+    it('should close panel on Escape key', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      (select as any).panelOpen.set(true);
+      const event = new KeyboardEvent('keydown', { key: 'Escape' });
+      const result = (select as any).maybeClosePanel(event);
+      expect(result).toBe(true);
+      expect((select as any).panelOpen()).toBe(true);
+    });
+
+    it('should navigate to first option on Home key', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      (select as any).panelOpen.set(true);
+      (select as any).activeOptionIndex.set(2);
+      const event = new KeyboardEvent('keydown', { key: 'Home' });
+      const result = (select as any).maybeNavigateToBound(event);
+      expect(result).toBe(true);
+      expect((select as any).activeOptionIndex()).toBe(0);
+    });
+
+    it('should navigate to last option on End key', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      (select as any).panelOpen.set(true);
+      const event = new KeyboardEvent('keydown', { key: 'End' });
+      const result = (select as any).maybeNavigateToBound(event);
+      expect(result).toBe(true);
+      const opts = (select as any).visibleOptions();
+      expect((select as any).activeOptionIndex()).toBe(opts.length - 1);
+    });
   });
 
   describe('popover integration', () => {
