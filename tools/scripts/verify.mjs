@@ -80,6 +80,7 @@ runCommand('changeset:status', `pnpm changeset status --since=${defaultBase}`, f
 
 console.log('\n--- Tooling ---');
 runTooling('format:check');
+runTooling('lint:scss');
 runTooling('lint');
 runTooling('typecheck');
 runTooling('test');

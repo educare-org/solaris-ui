@@ -12,6 +12,7 @@
     "build:showcase": "pnpm nx build showcase",
     "test": "pnpm nx run-many -t test",
     "lint": "pnpm nx run-many -t lint",
+    "lint:scss": "stylelint \"packages/**/*.scss\" \"apps/**/*.scss\"",
     "format": "pnpm nx format:write",
     "format:check": "pnpm nx format:check",
     "graph": "pnpm nx graph",
@@ -35,7 +36,7 @@
     "changeset:publish": "changeset publish",
     "changeset:status": "changeset status",
     "test:coverage": "pnpm nx run-many -t test:coverage",
-    "check": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs && pnpm lint && pnpm typecheck",
+    "check": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs && pnpm lint:scss && pnpm lint && pnpm typecheck",
     "typecheck": "pnpm tsc --noEmit -p packages/angular/tsconfig.lib.json && pnpm tsc --noEmit -p apps/showcase/tsconfig.app.json",
     "verify": "node tools/scripts/verify.mjs"
   },
@@ -56,8 +57,12 @@
     "commit-msg": "pnpm commitlint --edit $1"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,mjs,cjs,json,html,scss,css,md}": [
+    "*.{ts,tsx,js,jsx,mjs,cjs,json,html,md}": [
       "prettier --write"
+    ],
+    "*.{scss,css}": [
+      "prettier --write",
+      "stylelint --fix"
     ],
     "*.{ts,tsx,js,jsx}": [
       "eslint --fix"
@@ -105,6 +110,8 @@
     "postcss": "^8.4.5",
     "prettier": "~3.6.2",
     "simple-git-hooks": "^2.13.1",
+    "stylelint": "^17.14.1",
+    "stylelint-config-standard-scss": "^17.0.0",
     "ts-node": "10.9.1",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2",

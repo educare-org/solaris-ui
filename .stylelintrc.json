@@ -1,0 +1,44 @@
+{
+  "extends": [
+    "stylelint-config-standard-scss"
+  ],
+  "rules": {
+    "scss/at-rule-no-unknown": null,
+    "scss/operator-no-newline-after": null,
+    "scss/no-global-function-names": null,
+    "scss/dollar-variable-empty-line-before": null,
+    "scss/at-mixin-argumentless-call-parentheses": null,
+    "scss/comment-no-empty": null,
+    "scss/selector-no-redundant-nesting-selector": null,
+    "at-rule-no-unknown": null,
+    "at-rule-empty-line-before": null,
+    "custom-property-pattern": "^solaris-[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+    "custom-property-empty-line-before": null,
+    "selector-class-pattern": [
+      "^([a-z][a-z0-9]*(-[a-z0-9]+)*(-[a-z0-9]+)*(__[a-z][a-z0-9]*(-[a-z0-9]+)*)?(--[a-z][a-z0-9]*(-[a-z0-9]+)*)?|cdk-[a-z]+(-[a-z]+)*|ng-[a-z]+(-[a-z]+)*)$",
+      {
+        "message": "Expected class selector to follow BEM-like pattern: solaris-{block}__{element}--{modifier}"
+      }
+    ],
+    "keyframes-name-pattern": null,
+    "max-nesting-depth": null,
+    "no-duplicate-selectors": true,
+    "declaration-no-important": null,
+    "length-zero-no-unit": null,
+    "color-named": "never",
+    "color-hex-length": null,
+    "number-max-precision": null,
+    "shorthand-property-no-redundant-values": null,
+    "rule-empty-line-before": null,
+    "comment-empty-line-before": null,
+    "no-descending-specificity": null,
+    "property-no-vendor-prefix": null,
+    "value-no-vendor-prefix": null
+  },
+  "ignoreFiles": [
+    "dist/**/*.scss",
+    "coverage/**/*.scss",
+    "node_modules/**/*.scss",
+    ".nx/**/*.scss"
+  ]
+}
