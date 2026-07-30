@@ -3,7 +3,6 @@
 }
 
 .solaris-popover-panel {
-
   --solaris-popover-border-width: 0;
   --solaris-popover-min-width: auto;
   --solaris-popover-max-width: none;
@@ -13,6 +12,7 @@
   --solaris-popover-padding: var(--solaris-spacing-3);
   --solaris-popover-color: var(--solaris-text-default);
   --solaris-popover-background: var(--solaris-surface-raised);
+
   outline: none;
   display: block;
 }

@@ -1,5 +1,4 @@
 input[solaris-input] {
-
   --solaris-input-radius: var(--solaris-radius-sm);
   --solaris-input-height: var(--solaris-spacing-10);
   --solaris-input-color: var(--solaris-text-default);
@@ -15,6 +14,7 @@ input[solaris-input] {
   --solaris-input-focus-ring-color: var(--solaris-primary-base);
   --solaris-input-invalid-border-color: var(--solaris-danger-base);
   --solaris-input-readonly-background: var(--solaris-surface-muted);
+
   margin: 0;
   width: 100%;
   outline: none;

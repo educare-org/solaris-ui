@@ -1,5 +1,4 @@
 textarea[solaris-textarea] {
-
   --solaris-textarea-radius: var(--solaris-radius-sm);
   --solaris-textarea-color: var(--solaris-text-default);
   --solaris-textarea-padding-x: var(--solaris-spacing-3);
@@ -15,6 +14,7 @@ textarea[solaris-textarea] {
   --solaris-textarea-invalid-border-color: var(--solaris-danger-base);
   --solaris-textarea-readonly-background: var(--solaris-surface-muted);
   --solaris-textarea-min-height: calc(var(--solaris-spacing-8) + var(--solaris-spacing-1));
+
   margin: 0;
   width: 100%;
   outline: none;
