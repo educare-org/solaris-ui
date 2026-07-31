@@ -63,6 +63,7 @@ tools/scripts/              validation, check scripts
 - **ARIA required** — every interactive element must have appropriate aria attributes
 - **Spec + docs + changeset required** — never create a component without all three
 - **Cross-platform commands** — never bash-only or PowerShell-only syntax in scripts
+- **Commit standard** — Conventional Commits enforced by commitlint. Types: `feature`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. Use `feature`, never `feat`. Subject in lowercase or camelCase for API names (e.g. `feature(schematics): add provideSolaris setup`). See `docs/workflow-and-release/branching_and_commits.md`.
 
 ## Reference
 

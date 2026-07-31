@@ -26,12 +26,13 @@ chore/repo-setup
 
 ## Commit standard
 
-Solaris uses Conventional Commits.
+Solaris uses Conventional Commits with `feature` as the type for new functionality
+(enforced by `commitlint`).
 
 ## Commit examples
 
 ```txt
-feat(actions-button): add loading state
+feature(actions-button): add loading state
 fix(forms-input): correct aria-describedby
 docs(architecture): document boundary rules
 test(navigation-tabs): add keyboard coverage
