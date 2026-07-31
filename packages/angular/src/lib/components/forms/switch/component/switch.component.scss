@@ -8,6 +8,8 @@
   --solaris-switch-custom-thumb-background: initial;
   --solaris-switch-track-checked-background: initial;
   --solaris-switch-thumb-size: var(--solaris-spacing-3);
+
+  // SOLARIS_TOKEN_EXCEPTION: thumb border and shadow use translucent black alpha independent of theme surface; no token exists for this pattern.
   --solaris-switch-thumb-border-color: rgb(0 0 0 / 12%);
   --solaris-switch-label-color: var(--solaris-text-default);
   --solaris-switch-custom-track-checked-background: initial;

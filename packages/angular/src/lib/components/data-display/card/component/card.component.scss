@@ -97,7 +97,6 @@
 }
 
 :host([data-appearance='glass'][data-glass-texture='grooves'])::after {
-  // SOLARIS_TOKEN_EXCEPTION: glass texture uses translucent rgba values for the groove pattern.
   inset: 0;
   content: '';
   position: absolute;
@@ -107,8 +106,8 @@
   opacity: var(--solaris-card-glass-texture-opacity);
   background-image: repeating-radial-gradient(
     circle at 0 0,
-    rgb(255 255 255 / 22%) 0,
-    rgb(255 255 255 / 22%) 1px,
+    var(--solaris-glass-border-color) 0,
+    var(--solaris-glass-border-color) 1px,
     transparent 1px,
     transparent 4px
   );

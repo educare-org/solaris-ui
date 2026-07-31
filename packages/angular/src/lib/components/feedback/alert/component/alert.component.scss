@@ -1,6 +1,4 @@
 :host {
-  // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent black overlay on any background; no token exists for this pattern.
-
   --solaris-alert-icon-offset: -1px;
   --solaris-alert-close-offset: 0px;
   --solaris-alert-close-background: transparent;
@@ -17,6 +15,8 @@
   --solaris-alert-background: var(--solaris-info-surface);
   --solaris-alert-title-color: var(--solaris-text-strong);
   --solaris-alert-border-color: var(--solaris-info-border);
+
+  // SOLARIS_TOKEN_EXCEPTION: close hover uses translucent black overlay on any background; no token exists for this pattern.
   --solaris-alert-close-hover-background: rgb(0 0 0 / 6%);
   --solaris-alert-border-width: var(--solaris-border-width-sm);
   --solaris-alert-close-icon-size: var(--solaris-font-size-md);

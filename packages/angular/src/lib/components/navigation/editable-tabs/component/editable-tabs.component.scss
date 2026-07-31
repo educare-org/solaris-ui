@@ -13,6 +13,8 @@
   --solaris-editable-tabs-rename-input-border-color: var(
     --solaris-primary-base
   );
+
+  // SOLARIS_TOKEN_EXCEPTION: derived primary alpha for the rename input highlight; no alpha token exists for this pattern.
   --solaris-primary-base-alpha: rgb(66 130 251 / 30%);
   --solaris-editable-tabs-rename-input-background: var(--solaris-surface-base);
 
