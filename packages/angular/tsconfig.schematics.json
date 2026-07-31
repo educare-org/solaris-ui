@@ -6,7 +6,10 @@
     "declaration": false,
     "declarationMap": false,
     "sourceMap": false,
-    "inlineSources": false
+    "inlineSources": false,
+    "module": "commonjs",
+    "moduleResolution": "node10"
   },
-  "include": ["schematics/**/*.ts"]
+  "include": ["schematics/**/*.ts"],
+  "exclude": ["schematics/**/*.spec.ts"]
 }

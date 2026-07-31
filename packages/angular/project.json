@@ -42,6 +42,26 @@
         }
       }
     },
+    "test:schematics": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "pnpm build:schematics",
+          "vitest run --config packages/angular/vitest.schematics.config.ts"
+        ],
+        "parallel": false
+      }
+    },
+    "build:schematics": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "pnpm tsc -p packages/angular/tsconfig.schematics.json",
+          "node tools/scripts/build-schematics.mjs"
+        ],
+        "parallel": false
+      }
+    },
     "lint": {
       "executor": "@nx/eslint:lint"
     },

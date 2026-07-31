@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://educarehq.github.io/solaris-ui/schematics/init.schema.json",
+  "title": "Solaris UI init options",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project to add Solaris UI to",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "colorScheme": {
+      "type": "string",
+      "enum": ["light", "dark", "system"],
+      "default": "system",
+      "description": "Default color scheme",
+      "x-prompt": "Which color scheme should Solaris use by default?"
+    },
+    "density": {
+      "type": "string",
+      "enum": ["comfortable", "compact"],
+      "default": "comfortable",
+      "description": "Default density",
+      "x-prompt": "Which density should Solaris use by default?"
+    },
+    "radius": {
+      "type": "string",
+      "enum": ["none", "sm", "md", "lg", "xl", "full"],
+      "default": "md",
+      "description": "Default border radius",
+      "x-prompt": "Which border radius should Solaris use by default?"
+    },
+    "reducedMotion": {
+      "type": "string",
+      "enum": ["auto", "reduce", "no-preference"],
+      "default": "auto",
+      "description": "Reduced motion preference",
+      "x-prompt": "Which reduced-motion preference should Solaris use by default?"
+    },
+    "skipStyles": {
+      "type": "boolean",
+      "description": "Skip creating the solaris.scss style setup file",
+      "default": false
+    },
+    "skipProviders": {
+      "type": "boolean",
+      "description": "Skip adding provideSolaris to the application config",
+      "default": false
+    }
+  },
+  "required": []
+}

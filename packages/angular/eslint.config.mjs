@@ -18,6 +18,7 @@ export default [
           ignoredDependencies: [
             '@angular/common',
             '@angular/core',
+            '@angular-devkit/schematics',
             '@storybook/angular',
             'storybook',
           ],

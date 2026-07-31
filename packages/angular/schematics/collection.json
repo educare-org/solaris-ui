@@ -1,6 +1,12 @@
 {
   "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
+    "init": {
+      "description": "Sets up @educarehq/solaris-ui styles and providers in an Angular project",
+      "factory": "./init/index#init",
+      "schema": "./init/schema.json",
+      "hidden": true
+    },
     "ng-add": {
       "description": "Adds @educarehq/solaris-ui to an Angular project",
       "factory": "./ng-add/index#ngAdd",

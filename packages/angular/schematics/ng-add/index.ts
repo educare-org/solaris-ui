@@ -1,11 +1,16 @@
-import type { Rule, Tree } from '@angular-devkit/schematics';
-import { SchematicsException } from '@angular-devkit/schematics';
+import type { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+
+import { init, type InitOptions } from '../init/index';
+import { getGlobalStylesPath } from '../init/styles';
+import { getProject } from '../init/workspace';
+import { logChange, logSkip } from '../init/messages';
 
 interface NgAddOptions {
   project?: string;
   colorScheme?: 'light' | 'dark' | 'system';
   density?: 'comfortable' | 'compact';
   radius?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  reducedMotion?: 'auto' | 'reduce' | 'no-preference';
 }
 
 const COMPONENT_STYLES = [
@@ -18,58 +23,6 @@ const COMPONENT_STYLES = [
   'toast',
   'dropdown-menu',
 ];
-
-function getProjectTargetPath(tree: Tree, projectName: string): string {
-  const workspace = tree.read('angular.json');
-  if (!workspace) {
-    throw new SchematicsException('angular.json not found');
-  }
-
-  const workspaceJson = JSON.parse(workspace.toString());
-  const project = workspaceJson.projects?.[projectName];
-
-  if (!project) {
-    throw new SchematicsException(
-      `Project "${projectName}" not found in angular.json`,
-    );
-  }
-
-  return project.root ?? '';
-}
-
-function getStylesPath(tree: Tree, projectRoot: string): string | null {
-  const candidates = [
-    `${projectRoot}/src/styles.scss`,
-    `${projectRoot}/src/styles.sass`,
-    `${projectRoot}/src/styles.css`,
-    `${projectRoot}/src/style.scss`,
-    `${projectRoot}/src/style.sass`,
-    `${projectRoot}/src/style.css`,
-  ];
-
-  for (const candidate of candidates) {
-    if (tree.exists(candidate)) {
-      return candidate;
-    }
-  }
-
-  return null;
-}
-
-function getAppConfigPath(tree: Tree, projectRoot: string): string | null {
-  const candidates = [
-    `${projectRoot}/src/app/app.config.ts`,
-    `${projectRoot}/src/app/app.config.ts`,
-  ];
-
-  for (const candidate of candidates) {
-    if (tree.exists(candidate)) {
-      return candidate;
-    }
-  }
-
-  return null;
-}
 
 function removeOldComponentImports(content: string): string {
   const lines = content.split('\n');
@@ -101,111 +54,46 @@ function removeOldComponentImports(content: string): string {
   return kept.join('\n');
 }
 
-function hasSolarisCoreImport(content: string): boolean {
-  return /@use\s+['"]@educarehq\/solaris-ui\/styles['"]/.test(content);
-}
+function cleanLegacyStyleImports(
+  tree: Tree,
+  context: SchematicContext,
+  projectRoot: string,
+): void {
+  const stylesPath = getGlobalStylesPath(tree, projectRoot);
+  if (!stylesPath) {
+    return;
+  }
 
-function hasSolarisThemeMixin(content: string): boolean {
-  return /@include\s+solaris\.theme\s*\(/.test(content);
+  const content = tree.readText(stylesPath);
+  const cleaned = removeOldComponentImports(content);
+
+  if (cleaned !== content) {
+    tree.overwrite(stylesPath, cleaned);
+    logChange(
+      context,
+      `Removed legacy Solaris style imports from ${stylesPath}`,
+    );
+  } else {
+    logSkip(context, `No legacy Solaris style imports in ${stylesPath}`);
+  }
 }
 
 export function ngAdd(options: NgAddOptions): Rule {
-  return async (tree: Tree) => {
-    const projectName = options.project ?? 'default';
-    const projectRoot = getProjectTargetPath(tree, projectName);
+  return (tree: Tree, context: SchematicContext) => {
+    const project = getProject(tree, options.project);
 
-    // --- Update styles.scss ---
-    const stylesPath = getStylesPath(tree, projectRoot);
-    if (stylesPath) {
-      let content = tree.readText(stylesPath);
+    // Clean up legacy individual component style imports before delegating.
+    cleanLegacyStyleImports(tree, context, project.root);
 
-      // 1. Remove old individual component @use statements
-      content = removeOldComponentImports(content);
+    const initOptions: InitOptions = {
+      project: project.name,
+      colorScheme: options.colorScheme,
+      density: options.density,
+      radius: options.radius,
+      reducedMotion: options.reducedMotion,
+    };
 
-      // 2. Add the unified @use if not present
-      if (!hasSolarisCoreImport(content)) {
-        content = [
-          `@use '@educarehq/solaris-ui/styles' as solaris;`,
-          '',
-          content,
-        ].join('\n');
-      }
-
-      // 3. Add @include mixins if not present
-      if (!hasSolarisThemeMixin(content)) {
-        const mixinBlock = [
-          `@include solaris.core((root-font-size: rem-10));`,
-          `@include solaris.theme((`,
-          `  color-scheme: ${options.colorScheme ?? 'system'},`,
-          `  density: ${options.density ?? 'comfortable'},`,
-          `  radius: ${options.radius ?? 'md'},`,
-          `));`,
-        ].join('\n');
-
-        content += `\n${mixinBlock}\n`;
-      }
-
-      tree.overwrite(stylesPath, content);
-    }
-
-    // --- Update app.config.ts ---
-    const appConfigPath = getAppConfigPath(tree, projectRoot);
-    if (appConfigPath) {
-      const existingContent = tree.readText(appConfigPath);
-      const hasSolarisProviders = existingContent.includes(
-        'provideSolarisTheme',
-      );
-
-      if (!hasSolarisProviders) {
-        const importStatement = [
-          `import {`,
-          `  provideSolarisTheme,`,
-          `  provideSolarisTranslate,`,
-          `  provideSolarisAccessibility,`,
-          `  provideSolarisIcons,`,
-          `  provideSolarisDialog,`,
-          `  provideSolarisToast,`,
-          `} from '@educarehq/solaris-ui';`,
-        ].join('\n');
-
-        const providersArray = [
-          `provideSolarisTheme(),`,
-          `provideSolarisTranslate(),`,
-          `provideSolarisAccessibility(),`,
-          `provideSolarisIcons(),`,
-          `provideSolarisDialog(),`,
-          `provideSolarisToast(),`,
-        ].join('\n    ');
-
-        let updated = existingContent;
-
-        // Add import if not present
-        if (!existingContent.includes('provideSolarisTheme')) {
-          const importRegex = /^import\s/gm;
-          const matches = [...updated.matchAll(importRegex)];
-          if (matches.length > 0) {
-            const lastImport = matches[matches.length - 1];
-            const importEnd = updated.indexOf(';', lastImport.index!) + 1;
-            updated = `${updated.slice(0, importEnd)}\n${importStatement}${updated.slice(importEnd)}`;
-          }
-        }
-
-        // Add providers if not present
-        if (!updated.includes('provideSolarisTheme')) {
-          const providersMatch = updated.match(/providers:\s*\[([\s\S]*?)\]/);
-          if (providersMatch) {
-            const providersContent = providersMatch[1];
-            updated = updated.replace(
-              providersMatch[0],
-              `providers: [${providersContent}\n    ${providersArray}]`,
-            );
-          }
-        }
-
-        tree.overwrite(appConfigPath, updated);
-      }
-    }
-
-    return tree;
+    const initRule = init(initOptions);
+    return initRule(tree, context);
   };
 }

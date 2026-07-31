@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "SolarisNgAddSchema",
+  "$id": "https://educarehq.github.io/solaris-ui/schematics/ng-add.schema.json",
   "title": "Solaris UI ng-add options",
   "type": "object",
   "properties": {
@@ -28,6 +28,12 @@
       "enum": ["none", "sm", "md", "lg", "xl", "full"],
       "default": "md",
       "description": "Default border radius"
+    },
+    "reducedMotion": {
+      "type": "string",
+      "enum": ["auto", "reduce", "no-preference"],
+      "default": "auto",
+      "description": "Reduced motion preference"
     }
   },
   "required": []
