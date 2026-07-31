@@ -60,26 +60,11 @@ console.log('══════════════════════�
 runCommand('pnpm run doctor', 'node tools/scripts/doctor.mjs', true);
 
 console.log('\n--- Check Suite ---');
-runCommand(
-  'pnpm check',
-  'node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs',
-  true,
-);
+runCommand('pnpm check', 'pnpm check', true);
 
 console.log('\n--- Extended Checks ---');
 runCommand('check:tokens', 'node tools/scripts/check-tokens.mjs', false);
 runCommand('check:i18n', 'node tools/scripts/check-i18n.mjs', false);
-runCommand(
-  'check:dependencies',
-  'node tools/scripts/check-dependencies.mjs',
-  true,
-);
-runCommand(
-  'check:token-references',
-  'node tools/scripts/check-token-references.mjs',
-  true,
-);
-runCommand('check:changeset', 'node tools/scripts/check-changeset.mjs', true);
 const nxConfig = JSON.parse(
   fs.readFileSync(path.join(workspaceRoot, 'nx.json'), 'utf-8'),
 );
@@ -87,11 +72,6 @@ const defaultBase = nxConfig.defaultBase || 'main';
 runCommand(
   'changeset:status',
   `pnpm changeset status --since=${defaultBase}`,
-  false,
-);
-runCommand(
-  'check:vulnerabilities',
-  'node tools/scripts/check-vulnerabilities.mjs',
   false,
 );
 runCommand('check:bundle', 'node tools/scripts/check-bundle.mjs', false);

@@ -42,7 +42,7 @@
     "changeset:status": "changeset status",
     "test:watch": "pnpm nx test angular --watch",
     "test:coverage": "pnpm nx run-many -t test:coverage",
-    "check": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs && node tools/scripts/check-dependencies.mjs && node tools/scripts/check-token-references.mjs && node tools/scripts/check-changeset.mjs && node tools/scripts/check-vulnerabilities.mjs && pnpm lint:scss && pnpm lint && pnpm typecheck",
+    "check": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs && node tools/scripts/check-dependencies.mjs && node tools/scripts/check-token-references.mjs && node tools/scripts/check-changeset.mjs && node tools/scripts/check-vulnerabilities.mjs && pnpm lint:scss && pnpm lint && pnpm typecheck && node tools/scripts/validate-component.mjs",
     "typecheck": "pnpm tsc --noEmit -p packages/angular/tsconfig.lib.json && pnpm tsc --noEmit -p apps/showcase/tsconfig.app.json",
     "verify": "node tools/scripts/verify.mjs"
   },

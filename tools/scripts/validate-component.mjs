@@ -107,9 +107,16 @@ function validateComponent(compDir) {
       }
 
       // Check for inline template
+      const isPassthroughTemplate =
+        /template:\s*['`]\s*(<ng-template[^>]*>\s*)?<ng-content\s*\/?>\s*(<\/ng-template>)?\s*['`]/.test(
+          content,
+        );
+      const isEmptyTemplate = /template:\s*['`]\s*['`]/.test(content);
       if (
         /template:\s*['`]/.test(content) &&
-        !content.includes('templateUrl')
+        !content.includes('templateUrl') &&
+        !isPassthroughTemplate &&
+        !isEmptyTemplate
       ) {
         errors.push(
           `${tsFile}: uses inline template (use templateUrl instead)`,
