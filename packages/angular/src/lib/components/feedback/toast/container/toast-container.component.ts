@@ -4,6 +4,7 @@ import {
   input,
   computed,
   ChangeDetectionStrategy,
+  forwardRef,
 } from '@angular/core';
 
 import { SolarisToastComponent } from '../component/toast.component';
@@ -13,7 +14,7 @@ import { SolarisToastService } from '../service/toast.service';
 @Component({
   selector: 'solaris-toast-container',
   standalone: true,
-  imports: [SolarisToastComponent],
+  imports: [forwardRef(() => SolarisToastComponent)],
   templateUrl: './toast-container.component.html',
   styleUrls: ['./toast-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

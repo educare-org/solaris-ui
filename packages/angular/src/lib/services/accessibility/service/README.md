@@ -46,7 +46,7 @@ interface SolarisAccessibilityConfig {
 ## Example
 
 ```typescript
-provideSolarisAccessibility({ respectSystemPreference: true });
+provideSolaris({ accessibility: { respectSystemPreference: true } });
 ```
 
 ```html

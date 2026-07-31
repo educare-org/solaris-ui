@@ -15,10 +15,10 @@ Dialog blocks the flow and demands user attention. Use for confirmations, alerts
 The Dialog module is part of the `@educarehq/solaris-ui` package. To use it, add the provider:
 
 ```typescript
-import { provideSolarisDialog } from '@educarehq/solaris-ui';
+import { provideSolaris } from '@educarehq/solaris-ui';
 
 bootstrapApplication(App, {
-  providers: [provideSolarisDialog()],
+  providers: [provideSolaris()],
 });
 ```
 

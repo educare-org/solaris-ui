@@ -41,10 +41,10 @@ Supported element types: `path`, `circle`, `rect`, `line`, `polyline`, `polygon`
 ### 2. Register via provider
 
 ```typescript
-import { provideSolarisIcons } from '@educarehq/solaris-ui';
+import { provideSolaris } from '@educarehq/solaris-ui';
 
 export const appConfig = {
-  providers: [provideSolarisIcons({ extraIcons: [myIcon] })],
+  providers: [provideSolaris({ icons: { extraIcons: [myIcon] } })],
 };
 ```
 

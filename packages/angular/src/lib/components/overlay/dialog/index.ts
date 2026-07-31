@@ -7,7 +7,7 @@ export { SolarisDialogContentComponent } from './components/content/component/di
 export { SolarisDialogActionsComponent } from './components/actions/component/dialog-actions.component';
 export { SolarisDialogFlowComponent } from './components/flow/component/dialog-flow.component';
 export { SolarisDialogStepComponent } from './components/step/component/dialog-step.component';
-export { provideSolarisDialog } from './provider/provide-solaris-dialog';
+
 export { SOLARIS_DIALOG_CONFIG } from './token/dialog.tokens';
 export {
   SOLARIS_DIALOG_DATA,

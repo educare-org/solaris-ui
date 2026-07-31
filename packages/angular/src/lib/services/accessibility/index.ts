@@ -1,6 +1,6 @@
 export { provideSolarisAccessibilityTesting } from './testing/solaris-accessibility-testing.provider';
 export { SolarisVisuallyHiddenDirective } from './directives/visually-hidden.directive';
-export { provideSolarisAccessibility } from './provider/provide-solaris-accessibility';
+
 export { SolarisAccessibilityService } from './service/solaris-accessibility.service';
 export { SOLARIS_ACCESSIBILITY_CONFIG } from './token/solaris-accessibility.tokens';
 

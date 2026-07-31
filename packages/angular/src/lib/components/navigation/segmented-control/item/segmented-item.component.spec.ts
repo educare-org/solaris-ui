@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, signal } from '@angular/core';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
-import { provideSolarisIcons } from '../../../../services/icon';
+import { provideSolaris } from '../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../services/icon/icons/solaris-built-in-icons';
 import { SolarisSegmentedItemComponent } from './segmented-item.component';
 import { SolarisSegmentedControlComponent } from '../component/segmented-control.component';
@@ -26,7 +26,7 @@ describe('SolarisSegmentedItemComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -76,7 +76,7 @@ describe('SolarisSegmentedItemComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -132,7 +132,7 @@ describe('SolarisSegmentedItemComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -168,7 +168,7 @@ describe('SolarisSegmentedItemComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -208,7 +208,7 @@ describe('SolarisSegmentedItemComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 

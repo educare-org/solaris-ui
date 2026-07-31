@@ -4,14 +4,7 @@ import {
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import {
-  provideSolarisTranslate,
-  provideSolarisAccessibility,
-  provideSolarisTheme,
-  provideSolarisIcons,
-  provideSolarisToast,
-  provideSolarisDialog,
-} from '@solaris-ui/angular';
+import { provideSolaris } from '@solaris-ui/angular';
 
 import { SHOWCASE_TRANSLATIONS } from './translations';
 import { appRoutes } from './app.routes';
@@ -20,19 +13,17 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(appRoutes),
-    provideSolarisTranslate({
-      locale: 'en-US',
-      fallbackLocale: 'pt-BR',
-      useBrowserLocale: true,
-      translations: SHOWCASE_TRANSLATIONS,
+    provideSolaris({
+      translate: {
+        locale: 'en-US',
+        fallbackLocale: 'pt-BR',
+        useBrowserLocale: true,
+        translations: SHOWCASE_TRANSLATIONS,
+      },
+      theme: {
+        colorScheme: 'system',
+        density: 'comfortable',
+      },
     }),
-    provideSolarisAccessibility(),
-    provideSolarisTheme({
-      colorScheme: 'system',
-      density: 'comfortable',
-    }),
-    provideSolarisIcons(),
-    provideSolarisToast(),
-    provideSolarisDialog(),
   ],
 };

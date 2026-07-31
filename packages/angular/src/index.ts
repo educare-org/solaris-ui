@@ -1,6 +1,5 @@
 export { provideSolarisTranslateTesting } from './lib/services/translation/testing/solaris-translate-testing.provider';
 export type { SolarisTranslateConfig } from './lib/services/translation/model/solaris-translate-config.interface';
-export { provideSolarisTranslate } from './lib/services/translation/provider/provide-solaris-translate';
 export { SolarisTranslateService } from './lib/services/translation/service/solaris-translate.service';
 export { SolarisTranslatePipe } from './lib/services/translation/pipe/solaris-translate.pipe';
 export { SOLARIS_TRANSLATE_CONFIG } from './lib/services/translation/token/solaris-translate.tokens';
@@ -17,7 +16,6 @@ export type {
 export { provideSolarisAccessibilityTesting } from './lib/services/accessibility/testing/solaris-accessibility-testing.provider';
 export type { SolarisAccessibilityConfig } from './lib/services/accessibility/model/solaris-accessibility-config.interface';
 export { SolarisVisuallyHiddenDirective } from './lib/services/accessibility/directives/visually-hidden.directive';
-export { provideSolarisAccessibility } from './lib/services/accessibility/provider/provide-solaris-accessibility';
 export { SolarisAccessibilityService } from './lib/services/accessibility/service/solaris-accessibility.service';
 export type { SolarisReducedMotionState } from './lib/services/accessibility/model/solaris-accessibility.types';
 export { SOLARIS_ACCESSIBILITY_CONFIG } from './lib/services/accessibility/token/solaris-accessibility.tokens';
@@ -29,13 +27,11 @@ export type {
   SolarisDensity,
   SolarisReducedMotionPreference,
 } from './lib/services/theme/model/solaris-theme.types';
-export { provideSolarisTheme } from './lib/services/theme/provider/provide-solaris-theme';
 export { SolarisThemeService } from './lib/services/theme/service/solaris-theme.service';
 export { SOLARIS_THEME_CONFIG } from './lib/services/theme/token/solaris-theme.tokens';
 
 export { SolarisIconComponent } from './lib/components/icon/component/solaris-icon.component';
 export { SolarisIconRegistryService } from './lib/services/icon/service/solaris-icon-registry.service';
-export { provideSolarisIcons } from './lib/services/icon/provider/provide-solaris-icons';
 export { SOLARIS_ICONS_CONFIG } from './lib/services/icon/token/solaris-icon.tokens';
 export { SOLARIS_BUILT_IN_ICONS } from './lib/services/icon/icons/solaris-built-in-icons';
 export type { SolarisIconDefinition } from './lib/services/icon/model/solaris-icon-definition.interface';
@@ -295,7 +291,6 @@ export type {
 } from './lib/components/feedback/skeleton/model/skeleton.types';
 
 export { SolarisToastContainerComponent } from './lib/components/feedback/toast/container/toast-container.component';
-export { provideSolarisToast } from './lib/components/feedback/toast/provider/provide-solaris-toast';
 export { SolarisToastComponent } from './lib/components/feedback/toast/component/toast.component';
 export { SolarisToastService } from './lib/components/feedback/toast/service/toast.service';
 export { SOLARIS_TOAST_CONFIG } from './lib/components/feedback/toast/token/toast.tokens';
@@ -318,7 +313,6 @@ export { SolarisDialogContentComponent } from './lib/components/overlay/dialog/c
 export { SolarisDialogActionsComponent } from './lib/components/overlay/dialog/components/actions/component/dialog-actions.component';
 export { SolarisDialogFlowComponent } from './lib/components/overlay/dialog/components/flow/component/dialog-flow.component';
 export { SolarisDialogStepComponent } from './lib/components/overlay/dialog/components/step/component/dialog-step.component';
-export { provideSolarisDialog } from './lib/components/overlay/dialog/provider/provide-solaris-dialog';
 export { SOLARIS_DIALOG_CONFIG } from './lib/components/overlay/dialog/token/dialog.tokens';
 export {
   SOLARIS_DIALOG_DATA,
@@ -441,3 +435,6 @@ export type { SolarisEditableTabsRenameOnBlur } from './lib/components/navigatio
 export type { SolarisTestingOptions } from './lib/testing/provide-solaris-testing';
 export { configureSolarisTesting } from './lib/testing/solaris-test-utilities';
 export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';
+
+export { provideSolaris } from './lib/providers/provide-solaris';
+export type { SolarisSetupConfig } from './lib/providers/solaris-setup-config.interface';

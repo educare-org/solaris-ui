@@ -5,7 +5,7 @@ import { SolarisAlertComponent } from '../component/alert.component';
 import { SolarisAlertTitleDirective } from '../directives/alert-title.directive';
 import { SolarisAlertDescriptionDirective } from '../directives/alert-description.directive';
 import { SolarisAlertActionsComponent } from '../component/alert-actions.component';
-import { provideSolarisIcons } from '../../../../services/icon/provider/provide-solaris-icons';
+import { provideSolaris } from '../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../services/icon/icons/solaris-built-in-icons';
 
 describe('SolarisAlertComponent', () => {
@@ -13,7 +13,9 @@ describe('SolarisAlertComponent', () => {
 
   const createFixture = () => {
     TestBed.configureTestingModule({
-      providers: [provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS })],
+      providers: [
+        provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+      ],
     });
     fixture = TestBed.createComponent(SolarisAlertComponent);
     fixture.detectChanges();
@@ -215,7 +217,9 @@ describe('SolarisAlertComponent - Closable', () => {
 
   const createFixture = () => {
     TestBed.configureTestingModule({
-      providers: [provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS })],
+      providers: [
+        provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+      ],
     });
     fixture = TestBed.createComponent(SolarisAlertComponent);
     fixture.detectChanges();
@@ -294,7 +298,9 @@ describe('SolarisAlertComponent - Live', () => {
 
   const createFixture = () => {
     TestBed.configureTestingModule({
-      providers: [provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS })],
+      providers: [
+        provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+      ],
     });
     fixture = TestBed.createComponent(SolarisAlertComponent);
     fixture.detectChanges();
@@ -331,7 +337,9 @@ describe('SolarisAlertComponent - Icon', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS })],
+      providers: [
+        provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+      ],
     });
     fixture = TestBed.createComponent(SolarisAlertComponent);
     fixture.detectChanges();
@@ -400,7 +408,9 @@ describe('SolarisAlertComponent with content projection', () => {
     standalone: true,
     imports: [SolarisAlertComponent],
     template: '<solaris-alert>Free content</solaris-alert>',
-    providers: [provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS })],
+    providers: [
+      provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+    ],
   })
   class FreeContentHostComponent {}
 
@@ -412,7 +422,9 @@ describe('SolarisAlertComponent with content projection', () => {
       SolarisAlertDescriptionDirective,
       SolarisAlertActionsComponent,
     ],
-    providers: [provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS })],
+    providers: [
+      provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+    ],
     template: `
       <solaris-alert>
         <h3 solaris-alert-title>Title</h3>
@@ -478,7 +490,9 @@ describe('SolarisAlertComponent - Accessibility', () => {
 
   const createFixture = () => {
     TestBed.configureTestingModule({
-      providers: [provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS })],
+      providers: [
+        provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+      ],
     });
     fixture = TestBed.createComponent(SolarisAlertComponent);
     fixture.detectChanges();

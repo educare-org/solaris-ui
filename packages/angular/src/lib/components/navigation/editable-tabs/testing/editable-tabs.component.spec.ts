@@ -3,7 +3,7 @@ import { Component, signal } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { configureSolarisTesting } from '../../../../testing/solaris-test-utilities';
-import { provideSolarisIcons } from '../../../../services/icon/provider/provide-solaris-icons';
+import { provideSolaris } from '../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../services/icon/icons/solaris-built-in-icons';
 import { SolarisEditableTabsComponent } from '../component/editable-tabs.component';
 
@@ -255,7 +255,9 @@ class PermissionsTestHost {
 function configureBase(): void {
   configureSolarisTesting();
   TestBed.configureTestingModule({
-    providers: [...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS })],
+    providers: [
+      ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+    ],
   });
 }
 

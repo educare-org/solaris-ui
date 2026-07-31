@@ -1,7 +1,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { configureSolarisTesting } from '../../../../../../testing/solaris-test-utilities';
-import { provideSolarisIcons } from '../../../../../../services/icon/provider/provide-solaris-icons';
+import { provideSolaris } from '../../../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../../../services/icon/icons/solaris-built-in-icons';
 import { SolarisStepperComponent } from '../../root/component/stepper.component';
 import { SolarisStepComponent } from '../component/step.component';
@@ -16,7 +16,9 @@ function q(
 function configureBase() {
   configureSolarisTesting();
   TestBed.configureTestingModule({
-    providers: [...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS })],
+    providers: [
+      ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+    ],
   });
 }
 

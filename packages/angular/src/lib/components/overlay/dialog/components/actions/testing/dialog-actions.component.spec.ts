@@ -1,6 +1,6 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { configureSolarisTesting } from '../../../../../../testing/solaris-test-utilities';
-import { provideSolarisIcons } from '../../../../../../services/icon/provider/provide-solaris-icons';
+import { provideSolaris } from '../../../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../../../services/icon/icons/solaris-built-in-icons';
 import { SolarisDialogRef } from '../../../service/dialog-ref';
 import { SOLARIS_DIALOG_REF } from '../../../token/dialog-data.token';
@@ -19,7 +19,7 @@ function createFixture(
   configureSolarisTesting();
   TestBed.configureTestingModule({
     providers: [
-      ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+      ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
       { provide: SOLARIS_DIALOG_REF, useValue: createDialogRef() },
     ],
   });
@@ -101,7 +101,7 @@ describe('SolarisDialogActionsComponent', () => {
     configureSolarisTesting();
     TestBed.configureTestingModule({
       providers: [
-        ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         { provide: SOLARIS_DIALOG_REF, useValue: ref },
       ],
     });
@@ -126,7 +126,7 @@ describe('SolarisDialogActionsComponent', () => {
     configureSolarisTesting();
     TestBed.configureTestingModule({
       providers: [
-        ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         { provide: SOLARIS_DIALOG_REF, useValue: ref },
       ],
     });

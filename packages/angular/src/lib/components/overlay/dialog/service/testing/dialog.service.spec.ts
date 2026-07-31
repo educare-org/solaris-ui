@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Component, inject } from '@angular/core';
-import { provideSolarisIcons } from '../../../../../services/icon/provider/provide-solaris-icons';
+import { provideSolaris } from '../../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../../services/icon/icons/solaris-built-in-icons';
 import { configureSolarisTesting } from '../../../../../testing/solaris-test-utilities';
 
 import { SolarisDialogService } from '../dialog.service';
-import { provideSolarisDialog } from '../../provider/provide-solaris-dialog';
 import { SolarisDialogRef } from '../dialog-ref';
 import { SOLARIS_DIALOG_DATA } from '../../token/dialog-data.token';
 import { SOLARIS_DIALOG_REF } from '../../token/dialog-data.token';
@@ -28,8 +27,8 @@ describe('SolarisDialogService', () => {
     configureSolarisTesting();
     TestBed.configureTestingModule({
       providers: [
-        ...provideSolarisDialog(),
-        ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+        ...provideSolaris(),
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
       ],
     });
     service = TestBed.inject(SolarisDialogService);

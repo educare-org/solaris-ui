@@ -3,7 +3,7 @@ import { Component, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
-import { provideSolarisIcons } from '../../../../services/icon';
+import { provideSolaris } from '../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../services/icon/icons/solaris-built-in-icons';
 import type {
   SolarisSegmentedControlAppearance,
@@ -39,7 +39,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -109,7 +109,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -162,7 +162,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -220,7 +220,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -318,7 +318,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -380,7 +380,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -432,7 +432,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -482,7 +482,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -529,7 +529,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -582,7 +582,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -629,7 +629,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -692,7 +692,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -740,7 +740,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -779,7 +779,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -834,7 +834,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -891,7 +891,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -938,7 +938,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -980,7 +980,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 
@@ -1034,7 +1034,7 @@ describe('SolarisSegmentedControlComponent', () => {
         imports: [TestHost],
         providers: [
           ...provideSolarisTesting(),
-          ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
         ],
       }).compileComponents();
 

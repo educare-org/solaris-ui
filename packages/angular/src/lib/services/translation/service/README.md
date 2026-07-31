@@ -35,7 +35,7 @@ Parameters are regex-escaped. No ICU MessageFormat or pluralization yet.
 | ----------------------------------------- | ---------------------------------- | -------------------------- |
 | `SolarisTranslateService`                 | Main service, `providedIn: 'root'` |
 | `SolarisTranslatePipe`                    | Template pipe: `'key'              | solarisTranslate : params` |
-| `provideSolarisTranslate(config)`         | Config provider                    |
+| `provideSolaris({ translate })`           | Config provider                    |
 | `provideSolarisTranslateTesting(config?)` | Testing provider with defaults     |
 
 ### Config
@@ -62,11 +62,12 @@ No direct browser API access. `navigator.language` guarded by `isPlatformBrowser
 ## Example
 
 ```typescript
-provideSolarisTranslate({
-  locale: 'pt-BR',
-  fallbackLocale: 'en-US',
-  useBrowserLocale: true,
-  translations: {
+provideSolaris({
+  translate: {
+    locale: 'pt-BR',
+    fallbackLocale: 'en-US',
+    useBrowserLocale: true,
+    translations: {
     'pt-BR': { greeting: 'Olá, {{name}}' },
     'en-US': { greeting: 'Hello, {{name}}' },
   },
