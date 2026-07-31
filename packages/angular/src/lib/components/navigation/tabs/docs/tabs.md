@@ -249,6 +249,55 @@ Not yet implemented:
 - Drag and drop
 - Default tab persistence
 
+## Examples
+
+### Basic tabs
+
+```html
+<solaris-tabs [(value)]="activeTab">
+  <solaris-tab value="overview">Overview</solaris-tab>
+  <solaris-tab value="settings">Settings</solaris-tab>
+</solaris-tabs>
+```
+
+### With panels, icons, and badges
+
+```html
+<solaris-tabs [(value)]="activeTab">
+  <solaris-tab value="code" icon="code">Code</solaris-tab>
+  <solaris-tab value="issues" icon="circle-nodes" [badge]="30">Issues</solaris-tab>
+  <solaris-tab value="pull-requests" icon="git-pull-request">Pull requests</solaris-tab>
+
+  <solaris-tab-panel value="code">Code content</solaris-tab-panel>
+  <solaris-tab-panel value="issues">Issues content</solaris-tab-panel>
+  <solaris-tab-panel value="pull-requests">Pull requests content</solaris-tab-panel>
+</solaris-tabs>
+```
+
+### Vertical orientation
+
+```html
+<solaris-tabs orientation="vertical" [(value)]="activeTab">
+  <solaris-tab value="general">General</solaris-tab>
+  <solaris-tab value="security">Security</solaris-tab>
+  <solaris-tab value="notifications">Notifications</solaris-tab>
+</solaris-tabs>
+```
+
+### Disabled and lazy
+
+```html
+<solaris-tabs [(value)]="activeTab">
+  <solaris-tab value="profile">Profile</solaris-tab>
+  <solaris-tab value="billing">Billing</solaris-tab>
+  <solaris-tab value="coming-soon" disabled>Coming Soon</solaris-tab>
+</solaris-tabs>
+
+<solaris-tab-panel value="billing" [lazy]="true">
+  <!-- Rendered only when this tab is activated -->
+</solaris-tab-panel>
+```
+
 ## Limitations
 
 - This component does not persist the default tab. The application is responsible for persistence via localStorage, backend, query parameters, or routes.

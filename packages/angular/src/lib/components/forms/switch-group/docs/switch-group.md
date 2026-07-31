@@ -1,37 +1,37 @@
 # SolarisSwitchGroupComponent
 
-## Propósito
+## Purpose
 
-`SolarisSwitchGroupComponent` agrupa configurações booleanas independentes relacionadas. Cada switch filho representa uma opção booleana nomeada, e o valor do grupo é um objeto `Record<string, boolean>` onde a chave é o `value` do filho.
+`SolarisSwitchGroupComponent` groups related independent boolean settings. Each child switch represents a named boolean option, and the group value is a `Record<string, boolean>` object where the key is the child `value`.
 
-## Diferença conceitual
+## Conceptual difference
 
-| Componente            | Valor                     | Uso                                               |
-| --------------------- | ------------------------- | ------------------------------------------------- |
-| **Switch**            | `boolean`                 | Liga/desliga uma configuração.                    |
-| **Switch Group**      | `Record<string, boolean>` | Conjunto de configurações booleanas relacionadas. |
-| **Checkbox Group**    | `unknown[]` (array)       | Seleção múltipla em uma coleção.                  |
-| **Radio Group**       | `unknown`                 | Escolha única.                                    |
-| **Toggle Group**      | Valor de toggle ativo     | Controle de estado visual de UI.                  |
-| **Segmented Control** | Valor do segmento ativo   | Alternativa visual a Radio Group.                 |
+| Component            | Value                     | Usage                                            |
+| -------------------- | ------------------------- | ------------------------------------------------ |
+| **Switch**           | `boolean`                 | Toggles a single setting on/off.                 |
+| **Switch Group**     | `Record<string, boolean>` | Set of related boolean settings.                 |
+| **Checkbox Group**   | `unknown[]` (array)       | Multiple selection in a collection.              |
+| **Radio Group**      | `unknown`                 | Single choice.                                   |
+| **Toggle Group**     | Active toggle value       | UI visual state control.                         |
+| **Segmented Control**| Active segment value      | Visual alternative to Radio Group.               |
 
-## Quando usar
+## When to use
 
-- Agrupar preferências ou configurações booleanas independentes (e.g., canais de notificação, preferências de segurança).
-- Expor um conjunto de switches como um único FormControl com valor `Record<string, boolean>`.
+- Group independent boolean preferences or settings (e.g., notification channels, security preferences).
+- Expose a set of switches as a single FormControl with a `Record<string, boolean>` value.
 
-## Quando não usar
+## When not to use
 
-- Para seleção múltipla em uma lista — use **Checkbox Group**.
-- Para escolha única — use **Radio Group**.
-- Para alternância visual de estado de UI — use **Toggle Group** ou **Segmented Control**.
-- Para cenários que exijam master switch/select-all — não implementado no v1.
-- Para loading/pending — não implementado no v1.
-- Para grupos aninhados/tree — não implementado no v1.
+- For multiple selection in a list — use **Checkbox Group**.
+- For single choice — use **Radio Group**.
+- For visual UI state toggling — use **Toggle Group** or **Segmented Control**.
+- For scenarios requiring a master switch/select-all — not implemented in v1.
+- For loading/pending — not implemented in v1.
+- For nested groups/tree — not implemented in v1.
 
-## Valor
+## Value
 
-O valor do Switch Group é `Record<string, boolean>`:
+The Switch Group value is `Record<string, boolean>`:
 
 ```typescript
 {
@@ -41,72 +41,72 @@ O valor do Switch Group é `Record<string, boolean>`:
 }
 ```
 
-Cada chave corresponde ao `value` de um switch filho.
+Each key corresponds to the `value` of a child switch.
 
 ## API
 
 ### Inputs
 
-| Input          | Tipo                         | Default         | Descrição                          |
-| -------------- | ---------------------------- | --------------- | ---------------------------------- |
-| `value`        | `Record<string, boolean>`    | `{}`            | Valor do grupo.                    |
-| `orientation`  | `'vertical' \| 'horizontal'` | `'vertical'`    | Direção do layout.                 |
-| `layout`       | `'list' \| 'grid'`           | `'list'`        | Tipo de layout.                    |
-| `columns`      | `1 \| 2 \| 3 \| 4 \| 'auto'` | `1`             | Colunas no layout grid.            |
-| `density`      | `'compact' \| 'comfortable'` | Herdado do tema | Densidade visual.                  |
-| `size`         | `'sm' \| 'md' \| 'lg'`       | `'md'`          | Tamanho dos switches.              |
-| `disabled`     | `boolean`                    | `false`         | Desabilita o grupo.                |
-| `readonly`     | `boolean`                    | `false`         | Apenas leitura.                    |
-| `required`     | `boolean`                    | `false`         | Exige pelo menos um switch ligado. |
-| `invalid`      | `boolean \| undefined`       | `undefined`     | Estado inválido manual.            |
-| `label`        | `string \| undefined`        | `undefined`     | Rótulo do grupo.                   |
-| `labelKey`     | `string \| undefined`        | `undefined`     | Chave de tradução do rótulo.       |
-| `hint`         | `string \| undefined`        | `undefined`     | Texto de ajuda.                    |
-| `hintKey`      | `string \| undefined`        | `undefined`     | Chave de tradução do hint.         |
-| `error`        | `string \| undefined`        | `undefined`     | Texto de erro.                     |
-| `errorKey`     | `string \| undefined`        | `undefined`     | Chave de tradução do erro.         |
-| `minEnabled`   | `number \| undefined`        | `undefined`     | Mínimo de switches ligados.        |
-| `maxEnabled`   | `number \| undefined`        | `undefined`     | Máximo de switches ligados.        |
-| `ariaLabel`    | `string \| undefined`        | `undefined`     | ARIA label.                        |
-| `ariaLabelKey` | `string \| undefined`        | `undefined`     | Chave de tradução do ARIA label.   |
+| Input          | Type                         | Default             | Description                                |
+| -------------- | ---------------------------- | ------------------- | ------------------------------------------ |
+| `value`        | `Record<string, boolean>`    | `{}`                | Group value.                               |
+| `orientation`  | `'vertical' \| 'horizontal'` | `'vertical'`        | Layout direction.                          |
+| `layout`       | `'list' \| 'grid'`           | `'list'`            | Layout type.                               |
+| `columns`      | `1 \| 2 \| 3 \| 4 \| 'auto'` | `1`                 | Columns in the grid layout.                |
+| `density`      | `'compact' \| 'comfortable'` | Inherited from theme | Visual density.                           |
+| `size`         | `'sm' \| 'md' \| 'lg'`       | `'md'`              | Size of the switches.                      |
+| `disabled`     | `boolean`                    | `false`             | Disables the group.                        |
+| `readonly`     | `boolean`                    | `false`             | Readonly.                                  |
+| `required`     | `boolean`                    | `false`             | Requires at least one switch to be on.     |
+| `invalid`      | `boolean \| undefined`       | `undefined`         | Manual invalid state.                      |
+| `label`        | `string \| undefined`        | `undefined`         | Group label.                               |
+| `labelKey`     | `string \| undefined`        | `undefined`         | Translation key for the label.             |
+| `hint`         | `string \| undefined`        | `undefined`         | Help text.                                 |
+| `hintKey`      | `string \| undefined`        | `undefined`         | Translation key for the hint.              |
+| `error`        | `string \| undefined`        | `undefined`         | Error text.                                |
+| `errorKey`     | `string \| undefined`        | `undefined`         | Translation key for the error.             |
+| `minEnabled`   | `number \| undefined`        | `undefined`         | Minimum number of switches that must be on.|
+| `maxEnabled`   | `number \| undefined`        | `undefined`         | Maximum number of switches that can be on. |
+| `ariaLabel`    | `string \| undefined`        | `undefined`         | ARIA label.                                |
+| `ariaLabelKey` | `string \| undefined`        | `undefined`         | Translation key for the ARIA label.        |
 
 ### Outputs
 
-| Output        | Tipo                      | Descrição                         |
-| ------------- | ------------------------- | --------------------------------- |
-| `valueChange` | `Record<string, boolean>` | Emitido quando o valor muda.      |
-| `change`      | `Record<string, boolean>` | Emitido em toda mudança de valor. |
+| Output        | Type                      | Description                     |
+| ------------- | ------------------------- | ------------------------------- |
+| `valueChange` | `Record<string, boolean>` | Emitted when the value changes. |
+| `change`      | `Record<string, boolean>` | Emitted on every value change.  |
 
 ## CVA (ControlValueAccessor)
 
-O componente implementa `ControlValueAccessor` para uso com Angular Forms:
+The component implements `ControlValueAccessor` for use with Angular Forms:
 
 - `writeValue(value: Record<string, boolean> | null)`
 - `registerOnChange(fn)`
 - `registerOnTouched(fn)`
 - `setDisabledState(isDisabled: boolean)`
 
-## Value dos filhos como chave
+## Child value as key
 
-Cada switch filho deve ter um `value` único dentro do grupo:
+Each child switch must have a unique `value` within the group:
 
 ```html
 <solaris-switch-group formControlName="notifications">
-  <solaris-switch value="email">E-mail</solaris-switch>
+  <solaris-switch value="email">Email</solaris-switch>
   <solaris-switch value="sms">SMS</solaris-switch>
 </solaris-switch-group>
 ```
 
-- `value="email"` → chave `"email"` no objeto.
-- Se o valor do grupo for `{ email: true }`, o switch com `value="email"` fica ligado.
-- Filhos sem `value` emitem warning em desenvolvimento.
-- `value` duplicados emitem warning em desenvolvimento.
+- `value="email"` → `"email"` key in the object.
+- If the group value is `{ email: true }`, the switch with `value="email"` is on.
+- Children without a `value` emit a warning in development.
+- Duplicate `value`s emit a warning in development.
 
-## Validação
+## Validation
 
 ### minEnabled
 
-Valida que pelo menos N switches estão ligados.
+Validates that at least N switches are on.
 
 ```html
 <solaris-switch-group [minEnabled]="1" ...> </solaris-switch-group>
@@ -114,13 +114,13 @@ Valida que pelo menos N switches estão ligados.
 
 ### maxEnabled
 
-Valida que no máximo N switches estão ligados.
+Validates that at most N switches are on.
 
-**Nota:** `maxEnabled` apenas valida no v1. Ele não desabilita switches automaticamente.
+**Note:** `maxEnabled` only validates in v1. It does not disable switches automatically.
 
 ### required
 
-Equivale a `minEnabled={1}`, a menos que `minEnabled` seja maior.
+Equivalent to `minEnabled={1}`, unless `minEnabled` is greater.
 
 ```html
 <solaris-switch-group required ...> </solaris-switch-group>
@@ -128,88 +128,107 @@ Equivale a `minEnabled={1}`, a menos que `minEnabled` seja maior.
 
 ## Disabled
 
-O grupo pode ser desabilitado como um todo, propagando para todos os filhos:
+The group can be disabled as a whole, propagating to all children:
 
 ```html
 <solaris-switch-group disabled>
-  <solaris-switch value="email">E-mail</solaris-switch>
+  <solaris-switch value="email">Email</solaris-switch>
 </solaris-switch-group>
 ```
 
-Switches individuais podem ter `disabled` próprio, que prevalece sobre o grupo quando o grupo está habilitado.
+Individual switches can have their own `disabled`, which takes precedence over the group when the group is enabled.
 
 ## Readonly
 
-Similar ao disabled, mas mantém a aparência de leitura:
+Similar to disabled, but keeps a readonly appearance:
 
 ```html
 <solaris-switch-group readonly>
-  <solaris-switch value="email">E-mail</solaris-switch>
+  <solaris-switch value="email">Email</solaris-switch>
 </solaris-switch-group>
 ```
 
-## Orientation, Layout e Grid
+## Orientation, Layout, and Grid
 
 ```html
-<!-- Vertical (padrão) -->
+<!-- Vertical (default) -->
 <solaris-switch-group orientation="vertical" layout="list"> ... </solaris-switch-group>
 
 <!-- Horizontal -->
 <solaris-switch-group orientation="horizontal" layout="list"> ... </solaris-switch-group>
 
-<!-- Grid com 2 colunas -->
+<!-- Grid with 2 columns -->
 <solaris-switch-group layout="grid" [columns]="2"> ... </solaris-switch-group>
 
-<!-- Grid auto -->
+<!-- Auto grid -->
 <solaris-switch-group layout="grid" columns="auto"> ... </solaris-switch-group>
 ```
 
-## Label, Hint e Error
+## CSS Variables
+
+Switch Group tokens can be customized on the host or a parent element:
+
+| Token                                          | Purpose                         |
+| ---------------------------------------------- | ------------------------------- |
+| `--solaris-switch-group-gap`                   | Gap between items in list layout |
+| `--solaris-switch-group-row-gap`               | Row gap in grid layout          |
+| `--solaris-switch-group-column-gap`            | Column gap in grid layout       |
+| `--solaris-switch-group-label-color`           | Group label color               |
+| `--solaris-switch-group-label-font-size`       | Group label font size           |
+| `--solaris-switch-group-label-line-height`     | Group label line height         |
+| `--solaris-switch-group-hint-color`            | Hint text color                 |
+| `--solaris-switch-group-hint-font-size`        | Hint font size                  |
+| `--solaris-switch-group-hint-line-height`      | Hint line height                |
+| `--solaris-switch-group-error-color`           | Error text color                |
+| `--solaris-switch-group-error-font-size`       | Error font size                 |
+| `--solaris-switch-group-error-line-height`     | Error line height               |
+
+## Label, Hint, and Error
 
 ```html
-<solaris-switch-group label="Notificações" hint="Configure os canais de notificação." error="Selecione ao menos um canal." [invalid]="true">
-  <solaris-switch value="email">E-mail</solaris-switch>
+<solaris-switch-group label="Notifications" hint="Configure the notification channels." error="Select at least one channel." [invalid]="true">
+  <solaris-switch value="email">Email</solaris-switch>
 </solaris-switch-group>
 ```
 
-## Integração com Form Field
+## Form Field integration
 
 ```html
-<solaris-form-field label="Preferências" hint="Essas opções afetam a conta.">
+<solaris-form-field label="Preferences" hint="These options affect your account.">
   <solaris-switch-group formControlName="preferences">
-    <solaris-switch value="twoFactor">Autenticação em duas etapas</solaris-switch>
-    <solaris-switch value="marketing">Comunicações de marketing</solaris-switch>
+    <solaris-switch value="twoFactor">Two-step authentication</solaris-switch>
+    <solaris-switch value="marketing">Marketing communications</solaris-switch>
   </solaris-switch-group>
 </solaris-form-field>
 ```
 
-## Acessibilidade
+## Accessibility
 
-- O grupo usa `role="group"`.
-- Não usa `role="radiogroup"`.
-- Não usa `role="switch"` no grupo.
-- Cada switch filho mantém `role="switch"`.
-- `aria-label` e `aria-labelledby` são preservados.
-- `aria-describedby` é aplicado quando hint/error estão presentes.
-- O grupo não captura teclado. Cada switch filho mantém seu comportamento nativo.
-- Tab navega entre os switches; Space alterna o switch focado.
+- The group uses `role="group"`.
+- It does not use `role="radiogroup"`.
+- It does not use `role="switch"` on the group.
+- Each child switch keeps `role="switch"`.
+- `aria-label` and `aria-labelledby` are preserved.
+- `aria-describedby` is applied when hint/error are present.
+- The group does not capture the keyboard. Each child switch keeps its native behavior.
+- Tab navigates between switches; Space toggles the focused switch.
 
-## Limitações da v1
+## Limitations (v1)
 
-- **Sem master switch/select-all.** Switch não tem estado indeterminate nativo adequado.
-- **Sem loading/pending.**
-- **Sem nested/tree.**
-- **maxEnabled não desabilita switches automaticamente.** Apenas valida.
-- **Sem estado indeterminate para Switch.**
-- **Sem async/optimistic update/rollback.**
+- **No master switch/select-all.** Switch does not have an adequate native indeterminate state.
+- **No loading/pending.**
+- **No nested/tree.**
+- **maxEnabled does not disable switches automatically.** It only validates.
+- **No indeterminate state for Switch.**
+- **No async/optimistic update/rollback.**
 
-## Exemplos
+## Examples
 
-### Básico
+### Basic
 
 ```html
-<solaris-switch-group label="Notificações">
-  <solaris-switch value="email">E-mail</solaris-switch>
+<solaris-switch-group label="Notifications">
+  <solaris-switch value="email">Email</solaris-switch>
   <solaris-switch value="sms">SMS</solaris-switch>
   <solaris-switch value="push">Push</solaris-switch>
 </solaris-switch-group>
@@ -226,8 +245,8 @@ readonly notificationsControl = new FormControl({
 ```
 
 ```html
-<solaris-switch-group [formControl]="notificationsControl" label="Canais">
-  <solaris-switch value="email">E-mail</solaris-switch>
+<solaris-switch-group [formControl]="notificationsControl" label="Channels">
+  <solaris-switch value="email">Email</solaris-switch>
   <solaris-switch value="sms">SMS</solaris-switch>
   <solaris-switch value="push">Push</solaris-switch>
 </solaris-switch-group>

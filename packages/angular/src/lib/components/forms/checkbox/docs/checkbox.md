@@ -8,7 +8,7 @@ Checkbox is a form control component that allows users to select or deselect an 
 
 - Toggling a single boolean option.
 - Selecting/deselecting an item.
-- Presenting a list of independent choices (with future Checkbox Group).
+- Presenting a list of independent choices (with Checkbox Group).
 
 ## When not to use
 
@@ -18,51 +18,39 @@ Checkbox is a form control component that allows users to select or deselect an 
 
 ## API
 
-```typescript
-@Component({
-  selector: 'solaris-checkbox',
-  standalone: true,
-})
-class SolarisCheckboxComponent {
-  // State
-  checked: boolean; // false
-  indeterminate: boolean; // false
-  disabled: boolean; // false
-  readonly: boolean; // false
-  required: boolean; // false
+### Inputs
 
-  // Visual
-  appearance: SolarisCheckboxAppearance; // 'outline' | 'surface'
-  color: SolarisCheckboxColor; // 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'custom'
-  size: SolarisCheckboxSize; // 'sm' | 'md' | 'lg'
-  density: SolarisCheckboxDensity; // 'compact' | 'comfortable' (inherits when unset)
+| Input           | Type                                                                                     | Default     | Description                              |
+| --------------- | ---------------------------------------------------------------------------------------- | ----------- | ---------------------------------------- |
+| `checked`       | `boolean`                                                                                | `false`     | Whether the checkbox is checked          |
+| `indeterminate` | `boolean`                                                                                | `false`     | Visual indeterminate state (controlled)  |
+| `disabled`      | `boolean`                                                                                | `false`     | Disables the checkbox                    |
+| `readonly`      | `boolean`                                                                                | `false`     | Readonly mode (value preserved)          |
+| `required`      | `boolean`                                                                                | `false`     | Required validation                      |
+| `invalid`       | `boolean \| undefined`                                                                   | `undefined` | Invalid state                            |
+| `appearance`    | `'outline' \| 'surface'`                                                                 | `'outline'` | Visual appearance                        |
+| `color`         | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'`     | `'primary'` | Semantic color                           |
+| `size`          | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`      | Size variant                             |
+| `density`       | `'compact' \| 'comfortable'`                                                             | inherited   | Density variant                          |
+| `radius`        | `'none' \| 'sm' \| 'md' \| 'lg'`                                                         | `'sm'`      | Border radius of the control box         |
+| `label`         | `string`                                                                                 | —           | Direct label text                        |
+| `labelKey`      | `string`                                                                                 | —           | i18n key for label                       |
+| `name`          | `string`                                                                                 | —           | Native `name` attribute                  |
+| `value`         | `unknown`                                                                                | —           | Value submitted to the form              |
+| `ariaLabel`     | `string`                                                                                 | —           | Accessible label                         |
+| `ariaLabelKey`  | `string`                                                                                 | —           | i18n key for accessible label            |
 
-  // Label
-  label: string; // Direct text
-  labelKey: string; // i18n translation key
-  // Or use content projection:
-  // <solaris-checkbox>Label text</solaris-checkbox>
+### Outputs
 
-  // Native attributes
-  name: string;
-  value: unknown;
+| Output                | Type      | Description                                |
+| --------------------- | --------- | ------------------------------------------ |
+| `checkedChange`       | `boolean` | Emitted when checked state changes         |
+| `indeterminateChange` | `boolean` | Emitted when indeterminate state changes   |
+| `change`              | `Event`   | Native change event                        |
 
-  // Accessibility
-  ariaLabel: string;
-  ariaLabelKey: string;
+Label can also be provided via content projection: `<solaris-checkbox>Label text</solaris-checkbox>`. Projected content wins over the `label` input.
 
-  // Events
-  checkedChange: boolean;
-  indeterminateChange: boolean;
-  change: Event;
-
-  // ControlValueAccessor
-  writeValue(value: boolean | null): void;
-  registerOnChange(fn: (value: boolean) => void): void;
-  registerOnTouched(fn: () => void): void;
-  setDisabledState(isDisabled: boolean): void;
-}
-```
+Checkbox implements `ControlValueAccessor`, so it works with Reactive Forms (`[formControl]`, `formControlName`) and template-driven forms (`[(ngModel)]`).
 
 ## Checked
 
@@ -338,14 +326,16 @@ General component tokens available for advanced customization:
 - Readonly prevents interaction at the JavaScript level but the native checkbox does not support the `readonly` attribute.
 - Custom color is only available via CSS variables, not arbitrary input props.
 
-## Checkbox Group (future evolution)
+## Checkbox Group
 
-Checkbox Group is the next planned evolution. It will involve:
+Use `solaris-checkbox-group` to present multiple related checkboxes:
 
-- modeling multiple values (array, set, object);
-- min/max selected validation;
-- group label, hint, and error;
-- Form Field or Fieldset integration;
-- integration with existing Radio Group architecture.
+```html
+<solaris-checkbox-group label="Notifications">
+  <solaris-checkbox>Email</solaris-checkbox>
+  <solaris-checkbox>Push</solaris-checkbox>
+  <solaris-checkbox>SMS</solaris-checkbox>
+</solaris-checkbox-group>
+```
 
-Checkbox v1 is designed to be compatible with a future Checkbox Group.
+Checkbox Group handles multiple values, group label/hint/error, and validation. Checkbox remains the individual building block.

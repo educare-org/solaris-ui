@@ -453,7 +453,7 @@ Use the `custom` variant with documented CSS variables:
 
 ---
 
-## Usage examples
+## Examples
 
 ### Basic toast
 

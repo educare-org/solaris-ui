@@ -20,26 +20,24 @@ Badge displays short informational content such as status labels, counts, or sem
 
 ## API
 
-```typescript
-@Component({
-  selector: 'solaris-badge',
-  standalone: true,
-})
-class SolarisBadgeComponent {
-  appearance: SolarisBadgeAppearance; // 'solid' | 'tonal' | 'outline' | 'ghost'
-  color: SolarisBadgeColor; // 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'custom'
-  size: SolarisBadgeSize; // 'sm' | 'md' | 'lg'
-  radius: SolarisBadgeRadius; // 'sm' | 'md' | 'full'
-  variant: SolarisBadgeVariant; // 'standard' | 'count'
-  density: SolarisBadgeDensity; // 'compact' | 'comfortable' (inherits from theme when unset)
-}
+### SolarisBadgeComponent
 
-@Directive({
-  selector: '[solaris-badge-icon]',
-  standalone: true,
-})
-class SolarisBadgeIconDirective {}
-```
+**Selector:** `solaris-badge`
+
+| Input        | Type                                                                                     | Default     | Description                            |
+| ------------ | ---------------------------------------------------------------------------------------- | ----------- | -------------------------------------- |
+| `appearance` | `'solid' \| 'tonal' \| 'outline' \| 'ghost'`                                              | `'tonal'`   | Visual appearance                      |
+| `color`      | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'`     | `'neutral'` | Semantic color                         |
+| `size`       | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`      | Size variant                           |
+| `radius`     | `'sm' \| 'md' \| 'full'`                                                                 | `'full'`    | Border radius                          |
+| `variant`    | `'standard' \| 'count'`                                                                  | `'standard'`| Visual variant                         |
+| `density`    | `'compact' \| 'comfortable'`                                                             | inherited   | Density variant                        |
+
+### SolarisBadgeIconDirective
+
+**Selector:** `[solaris-badge-icon]`
+
+Marks an element inside the badge as the icon slot for sizing and alignment.
 
 ## Appearances
 

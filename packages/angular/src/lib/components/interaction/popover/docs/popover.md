@@ -165,7 +165,7 @@ Controls the gap between trigger and panel in pixels. Default is `8px` (equivale
 - `autoFocus` (default `false`): when `'panel'`, focuses the panel element; when `'first-tabbable'`, focuses the first tabbable element inside the panel
 - `restoreFocus` (default `true`): on close, returns focus to the trigger element (safe if trigger is removed from DOM)
 
-For Select/Autocomplete future usage, `autoFocus` should be `false` so the component controls focus internally.
+For Select/Autocomplete usage, `autoFocus` should be `false` so the component controls focus internally.
 
 ## Scroll strategy
 
@@ -207,19 +207,19 @@ For Select/Autocomplete future usage, `autoFocus` should be `false` so the compo
 
 Popover uses CSS custom properties for visual customization:
 
-| Token                                    | Default                    | Description                         |
-| ---------------------------------------- | -------------------------- | ----------------------------------- |
-| `--solaris-popover-background`           | `--solaris-surface-raised` | Panel background                    |
-| `--solaris-popover-color`                | `--solaris-text-default`   | Text color                          |
-| `--solaris-popover-border-color`         | `transparent`              | Border color                        |
-| `--solaris-popover-border-width`         | `0`                        | Border width                        |
-| `--solaris-popover-radius`               | `--solaris-radius-md`      | Border radius                       |
-| `--solaris-popover-padding`              | `--solaris-spacing-3`      | Inner padding                       |
-| `--solaris-popover-shadow`               | `--solaris-shadow-lg`      | Box shadow                          |
-| `--solaris-popover-z-index`              | `1000`                     | Stack order                         |
-| `--solaris-popover-outline-border-color` | `--solaris-border-default` | Border color for outline appearance |
+| Token                            | Default                    | Description                         |
+| -------------------------------- | -------------------------- | ----------------------------------- |
+| `--solaris-popover-background`    | `--solaris-surface-raised` | Panel background                    |
+| `--solaris-popover-color`         | `--solaris-text-default`   | Text color                          |
+| `--solaris-popover-border-color`  | `transparent`              | Border color                        |
+| `--solaris-popover-border-width`  | `0`                        | Border width                        |
+| `--solaris-popover-radius`        | `--solaris-radius-md`      | Border radius                       |
+| `--solaris-popover-padding`       | `--solaris-spacing-3`      | Inner padding                       |
+| `--solaris-popover-shadow`        | `--solaris-shadow-lg`      | Box shadow                          |
+| `--solaris-popover-min-width`     | `auto`                     | Minimum panel width                 |
+| `--solaris-popover-max-width`     | `none`                     | Maximum panel width                 |
 
-## ARIA
+## Accessibility
 
 Popover does not impose a fixed role by default.
 
@@ -229,9 +229,56 @@ Popover does not impose a fixed role by default.
 - `aria-controls` is set when the popover is open
 - Role is not forced on the panel element when `panelRole` is `undefined`
 
+## Examples
+
+### Basic popover
+
+```html
+<button solaris-popover-trigger [solarisPopoverTriggerFor]="helpPopover">
+  Help
+</button>
+
+<ng-template #helpPopover solaris-popover>
+  <p>This panel can contain structured, interactive content.</p>
+</ng-template>
+```
+
+### Placement and appearance
+
+```html
+<button
+  solaris-popover-trigger
+  [solarisPopoverTriggerFor]="profilePopover"
+  solarisPopoverPlacement="bottom"
+  solarisPopoverAlign="end"
+  solarisPopoverAppearance="outline"
+  solarisPopoverRadius="lg"
+>
+  <solaris-icon name="user" decorative="true" />
+  Profile
+</button>
+
+<ng-template #profilePopover solaris-popover>
+  <p>Signed in as developer@example.com</p>
+</ng-template>
+```
+
+### With interactive content
+
+```html
+<button solaris-popover-trigger [solarisPopoverTriggerFor]="actionsPopover">
+  Filters
+</button>
+
+<ng-template #actionsPopover solaris-popover>
+  <button solaris-button size="sm" fullWidth>Apply</button>
+  <button solaris-button size="sm" appearance="ghost" fullWidth>Clear</button>
+</ng-template>
+```
+
 ## Limitations (v1)
 
-- No arrow/setinha
+- No arrow
 - No nested popovers
 - No focus trap (non-modal by design)
 - No keyboard navigation patterns (listbox, menu, typeahead)
@@ -249,6 +296,6 @@ Popover provides the overlay foundation for:
 - **Menu** — uses popover with `panelRole="menu"`, `ariaHasPopup="menu"`, roving tabindex
 - **Datepicker** — uses popover with calendar widget
 - **Command Palette** — uses popover with search, filtering, keyboard navigation
-- **Tooltip** (future) — may use overlay with hover/focus triggers, arrow support
+- **Tooltip** — implemented; built on overlay with hover/focus triggers
 
 Each component adds its own ARIA pattern, keyboard handling, focus management, and visual design on top of Popover's overlay foundation.

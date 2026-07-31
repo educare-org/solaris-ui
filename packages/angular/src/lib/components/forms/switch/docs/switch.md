@@ -33,50 +33,36 @@ Switch is a form control component that represents a binary on/off configuration
 
 ## API
 
-```typescript
-@Component({
-  selector: 'solaris-switch',
-  standalone: true,
-})
-class SolarisSwitchComponent {
-  // State
-  checked: boolean; // false
-  disabled: boolean; // false
-  readonly: boolean; // false
-  required: boolean; // false
-  invalid: boolean; // false
+### Inputs
 
-  // Visual
-  appearance: SolarisSwitchAppearance; // 'outline' | 'surface'
-  color: SolarisSwitchColor; // 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'custom'
-  size: SolarisSwitchSize; // 'sm' | 'md' | 'lg'
-  density: SolarisSwitchDensity; // 'compact' | 'comfortable' (inherits when unset)
+| Input        | Type                                                                                     | Default     | Description                              |
+| ------------ | ---------------------------------------------------------------------------------------- | ----------- | ---------------------------------------- |
+| `checked`    | `boolean`                                                                                | `false`     | Whether the switch is on                 |
+| `disabled`   | `boolean`                                                                                | `false`     | Disables the switch                      |
+| `readonly`   | `boolean`                                                                                | `false`     | Readonly mode (value preserved)          |
+| `required`   | `boolean`                                                                                | `false`     | Required validation                      |
+| `invalid`    | `boolean \| undefined`                                                                   | `undefined` | Invalid state                            |
+| `appearance` | `'outline' \| 'surface'`                                                                 | `'surface'` | Visual appearance                        |
+| `color`      | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'`     | `'primary'` | Semantic color                           |
+| `size`       | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`      | Size variant                             |
+| `density`    | `'compact' \| 'comfortable'`                                                             | inherited   | Density variant                          |
+| `label`      | `string`                                                                                 | —           | Direct label text                        |
+| `labelKey`   | `string`                                                                                 | —           | i18n key for label                       |
+| `name`       | `string`                                                                                 | —           | Native `name` attribute                  |
+| `value`      | `string`                                                                                 | —           | Value submitted to the form              |
+| `ariaLabel`  | `string`                                                                                 | —           | Accessible label                         |
+| `ariaLabelKey` | `string`                                                                               | —           | i18n key for accessible label            |
 
-  // Label
-  label: string; // Direct text
-  labelKey: string; // i18n translation key
-  // Or use content projection:
-  // <solaris-switch>Label text</solaris-switch>
+### Outputs
 
-  // Native attributes
-  name: string;
-  value: string;
+| Output          | Type      | Description                         |
+| --------------- | --------- | ----------------------------------- |
+| `checkedChange` | `boolean` | Emitted when checked state changes  |
+| `change`        | `Event`   | Native change event                 |
 
-  // Accessibility
-  ariaLabel: string;
-  ariaLabelKey: string;
+Label can also be provided via content projection: `<solaris-switch>Label text</solaris-switch>`. Projected content wins over the `label` input.
 
-  // Events
-  checkedChange: boolean;
-  change: Event;
-
-  // ControlValueAccessor
-  writeValue(value: boolean | null): void;
-  registerOnChange(fn: (value: boolean) => void): void;
-  registerOnTouched(fn: () => void): void;
-  setDisabledState(isDisabled: boolean): void;
-}
-```
+Switch implements `ControlValueAccessor`, so it works with Reactive Forms (`[formControl]`, `formControlName`) and template-driven forms (`[(ngModel)]`).
 
 ## Checked
 

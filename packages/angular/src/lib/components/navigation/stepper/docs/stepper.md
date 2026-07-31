@@ -162,6 +162,26 @@ Compact minimalist appearance with dashed connector lines and smaller indicators
 
 Status precedence: disabled > error > active > completed > pending.
 
+## CSS Variables
+
+The following CSS variables can be customized:
+
+| Token                                    | Purpose                          |
+| ---------------------------------------- | -------------------------------- |
+| `--solaris-stepper-gap`                  | Gap between steps and connectors |
+| `--solaris-stepper-card-shadow`          | Card appearance shadow           |
+| `--solaris-stepper-indicator-size`       | Indicator circle size            |
+| `--solaris-stepper-label-color`          | Step label color                 |
+| `--solaris-stepper-indicator-color`      | Indicator text/icon color        |
+| `--solaris-stepper-description-color`    | Step description color           |
+| `--solaris-stepper-card-background`      | Card appearance background       |
+| `--solaris-stepper-connector-color`      | Connector line color             |
+| `--solaris-stepper-connector-size`       | Connector line thickness         |
+| `--solaris-stepper-card-border-color`    | Card appearance border color     |
+| `--solaris-stepper-indicator-background` | Indicator background             |
+| `--solaris-stepper-connector-active-color` | Active connector line color    |
+| `--solaris-stepper-dashed-connector-color` | Dashed appearance connector color |
+
 ## Content / Wizard
 
 The Stepper supports two modes:
@@ -186,6 +206,77 @@ Actions are projected at the Stepper level using `<solaris-stepper-actions>`. Th
 ## i18n
 
 Labels and descriptions support translation keys via `labelKey`/`descriptionKey`. ARIA labels also support `ariaLabelKey`.
+
+## Examples
+
+### Basic stepper
+
+```html
+<solaris-stepper [(activeIndex)]="activeStep">
+  <solaris-step label="Account" description="Create your account" />
+  <solaris-step label="Profile" description="Complete your profile" />
+  <solaris-step label="Confirm" description="Review and confirm" />
+</solaris-stepper>
+```
+
+### Wizard with content and actions
+
+```html
+<solaris-stepper [(activeIndex)]="activeStep" linear>
+  <solaris-step label="Details" icon="user">
+    <solaris-stepper-content>
+      <p>Step 1 content</p>
+    </solaris-stepper-content>
+  </solaris-step>
+  <solaris-step label="Payment" icon="credit-card">
+    <solaris-stepper-content>
+      <p>Step 2 content</p>
+    </solaris-stepper-content>
+  </solaris-step>
+
+  <solaris-stepper-actions>
+    <button solaris-button (click)="previous()">Back</button>
+    <button solaris-button color="primary" (click)="next()">Next</button>
+  </solaris-stepper-actions>
+</solaris-stepper>
+```
+
+### Statuses
+
+```html
+<solaris-stepper [(activeIndex)]="activeStep">
+  <solaris-step label="Cart" status="completed" />
+  <solaris-step label="Shipping" status="active" />
+  <solaris-step label="Payment" status="pending" />
+  <solaris-step label="Review" status="error" />
+</solaris-stepper>
+```
+
+### Appearances
+
+```html
+<solaris-stepper appearance="card" [(activeIndex)]="activeStep">
+  <solaris-step label="Setup" />
+  <solaris-step label="Integrate" />
+  <solaris-step label="Launch" />
+</solaris-stepper>
+
+<solaris-stepper appearance="dashed" [(activeIndex)]="activeStep">
+  <solaris-step label="One" />
+  <solaris-step label="Two" />
+  <solaris-step label="Three" />
+</solaris-stepper>
+```
+
+### Vertical orientation
+
+```html
+<solaris-stepper orientation="vertical" [(activeIndex)]="activeStep">
+  <solaris-step label="Plan" />
+  <solaris-step label="Design" />
+  <solaris-step label="Ship" />
+</solaris-stepper>
+```
 
 ## Limitations (v1)
 

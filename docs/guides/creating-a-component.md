@@ -130,14 +130,23 @@ See `TESTING_STRATEGY.md` for detailed test requirements.
 
 ### 5. Write documentation
 
-Create `docs/<component-name>.md` following the existing pattern. Required sections:
+Create `docs/<component-name>.md` in English. Sections follow a required baseline plus conditional sections:
 
-- Purpose
-- API (inputs, outputs, types)
-- Visual variants
-- Accessibility
-- CSS Variables
-- Examples
+**Always required:**
+
+- `## Purpose` — what the component is for
+- `## API` — inputs, outputs, types, defaults
+- `## Accessibility` — ARIA, keyboard, focus, contrast
+- `## Examples` — usage snippets
+
+**Conditional (add when they apply):**
+
+- `## CSS Variables` — only when the component defines `--solaris-*` tokens
+- Visual variants section (e.g. `## Visual variants`, `## Appearances`, `## Sizes`) — only when the component exposes variant inputs (`appearance`, `size`, `density`, `radius`, `color`, `orientation`, …)
+
+The template used by `generate-component.mjs` already includes all six sections; remove the conditional ones if they do not apply.
+
+`tools/scripts/validate-component.mjs` enforces the required baseline and warns when tokens or variant inputs exist without the corresponding section. Run `pnpm validate:component` before committing.
 
 See `packages/angular/src/lib/components/actions/button/docs/button.md` as reference.
 

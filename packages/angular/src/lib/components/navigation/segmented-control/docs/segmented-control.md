@@ -144,6 +144,28 @@ By default, Segmented Control renders an animated selection indicator that:
 - Respects `prefers-reduced-motion`
 - Can be disabled via `[indicator]="false"`
 
+## CSS Variables
+
+The following CSS variables can be customized:
+
+| Token                                          | Purpose                              |
+| ---------------------------------------------- | ------------------------------------ |
+| `--solaris-segmented-item-height`              | Item height                          |
+| `--solaris-segmented-gap`                      | Gap between items                    |
+| `--solaris-segmented-radius`                   | Container border radius              |
+| `--solaris-segmented-padding`                  | Container inner padding              |
+| `--solaris-segmented-item-color`               | Item text color                      |
+| `--solaris-segmented-item-padding-y`           | Vertical item padding                |
+| `--solaris-segmented-item-padding-x`           | Horizontal item padding              |
+| `--solaris-segmented-background`               | Container background                 |
+| `--solaris-segmented-indicator-shadow`         | Selection indicator shadow           |
+| `--solaris-segmented-border-color`             | Container border color (outline)     |
+| `--solaris-segmented-border-width`             | Container border width (outline)     |
+| `--solaris-segmented-focus-ring-color`         | Focus ring color                     |
+| `--solaris-segmented-item-selected-color`      | Selected item text color             |
+| `--solaris-segmented-indicator-background`     | Selection indicator background       |
+| `--solaris-segmented-item-hover-background`    | Item hover background                |
+
 ## Accessibility
 
 Semantics follow radio group pattern:
@@ -179,6 +201,63 @@ Disabled items are skipped during keyboard navigation.
 ## Icon-only
 
 When an item has only an icon with no label text, an accessible name is required via `ariaLabel` or `ariaLabelKey`.
+
+## Examples
+
+### Basic
+
+```html
+<solaris-segmented-control [(value)]="view" ariaLabel="View mode">
+  <solaris-segmented-item value="list" label="List" />
+  <solaris-segmented-item value="grid" label="Grid" />
+  <solaris-segmented-item value="kanban" label="Kanban" />
+</solaris-segmented-control>
+```
+
+### With icons
+
+```html
+<solaris-segmented-control [(value)]="theme" ariaLabel="Theme">
+  <solaris-segmented-item value="light" icon="sun" />
+  <solaris-segmented-item value="dark" icon="moon" />
+  <solaris-segmented-item value="system" icon="monitor" />
+</solaris-segmented-control>
+```
+
+### Orientation and appearance
+
+```html
+<solaris-segmented-control
+  [(value)]="role"
+  orientation="vertical"
+  appearance="outline"
+  ariaLabel="Role"
+>
+  <solaris-segmented-item value="student" label="Student" />
+  <solaris-segmented-item value="teacher" label="Teacher" />
+  <solaris-segmented-item value="admin" label="Admin" />
+</solaris-segmented-control>
+```
+
+### Sizes and radius
+
+```html
+<solaris-segmented-control [(value)]="size" size="sm" radius="full" ariaLabel="Size">
+  <solaris-segmented-item value="s" label="Small" />
+  <solaris-segmented-item value="m" label="Medium" />
+  <solaris-segmented-item value="l" label="Large" />
+</solaris-segmented-control>
+```
+
+### Disabled item
+
+```html
+<solaris-segmented-control [(value)]="plan" ariaLabel="Plan">
+  <solaris-segmented-item value="basic" label="Basic" />
+  <solaris-segmented-item value="pro" label="Pro" />
+  <solaris-segmented-item value="enterprise" label="Enterprise" disabled />
+</solaris-segmented-control>
+```
 
 ## Limitations (v1)
 

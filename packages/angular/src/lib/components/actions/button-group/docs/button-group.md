@@ -15,11 +15,11 @@ It wraps `[solaris-button]` and `[solaris-icon-button]` elements into a cohesive
 
 ## When not to use
 
-- Do not use Button Group for selecting one option among many — use Segmented Control (future component).
-- Do not use Button Group for toggle state — use Toggle Group (future component).
-- Do not use Button Group for tab navigation — use Tabs (future component).
-- Do not use Button Group for menu/dropdown behavior — use Dropdown Button (future component).
-- Do not use Button Group for split button behavior — use Split Button (future component).
+- Do not use Button Group for selecting one option among many — use `solaris-segmented-control`.
+- Do not use Button Group for toggle state — Toggle Group (not available in v1).
+- Do not use Button Group for tab navigation — use `solaris-tabs`.
+- Do not use Button Group for menu/dropdown behavior — Dropdown Button (not available in v1).
+- Do not use Button Group for split button behavior — Split Button (not available in v1).
 
 ## Difference from similar patterns
 
@@ -255,21 +255,23 @@ Disabled and loading state belong to each child. The group only ensures correct 
 - Each child controls its own appearance, color, size, radius, disabled, and loading state.
 - The group controls layout and visual union only.
 
-## Future evolution
+## Related patterns
 
-- Segmented Control (option selection)
-- Toggle Group (state control)
-- Split Button (primary + menu)
-- Dropdown Button (menu opening)
-- Toolbar (keyboard navigation)
-- Selected/pressed state management
-- Roving tabindex for toolbar-like groups
+- Segmented Control — implemented as `solaris-segmented-control` (option selection)
+- Tabs — implemented as `solaris-tabs` (content switching)
+- Toggle Group — future (state control)
+- Split Button — future (primary action + menu)
+- Dropdown Button — future (menu opening)
+- Toolbar — future (keyboard navigation)
+- Selected/pressed state management — future
+- Roving tabindex for toolbar-like groups — future
 
-## CSS Custom Properties
+## CSS Variables
 
-| Token                                     | Purpose                                  |
-| ----------------------------------------- | ---------------------------------------- |
-| `--solaris-button-group-gap`              | Gap between separated items              |
-| `--solaris-button-group-separator-color`  | Internal border color for attached items |
-| `--solaris-button-group-radius`           | Outer border-radius for attached group   |
-| `--solaris-button-group-attached-overlap` | Negative overlap for attached borders    |
+| Token                                    | Purpose                                        |
+| ---------------------------------------- | ---------------------------------------------- |
+| `--solaris-button-group-gap`             | Gap between separated items                    |
+| `--solaris-button-group-radius`          | Outer border-radius for the attached group     |
+| `--solaris-button-group-border-color`    | Outer border color for the attached group      |
+| `--solaris-button-group-separator-color` | Internal border color between attached items   |
+| `--solaris-button-disabled-opacity`      | Disabled opacity applied to child buttons      |

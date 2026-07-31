@@ -18,7 +18,7 @@ Icon Button is implemented as a **directive** (`[solaris-icon-button]`), not a c
 | ------------------ | ------------------------------------- | --------------------------------------------------------------- |
 | Content            | Text + optional icon                  | Icon only                                                       |
 | Shape              | Rectangular (text-driven width)       | Square (equal width/height)                                     |
-| Default appearance | `solid`                               | `ghost`                                                         |
+| Default appearance | `solid`                               | `solid`                                                         |
 | Accessible name    | Usually visible text                  | Must be provided via `aria-label`/`aria-labelledby`/`ariaLabel` |
 | Use case           | Primary/secondary actions with labels | Toolbar, header, card, action icon buttons                      |
 
@@ -33,9 +33,9 @@ Icon Button is implemented as a **directive** (`[solaris-icon-button]`), not a c
 ## When Not to Use
 
 - When the action needs visible text label → use `[solaris-button]`
-- When you need multiple icon buttons grouped → wait for Button Group (future)
-- When you need toggle/pressed state → Toggle Button (future)
-- When you need a menu trigger → Menu Button (future)
+- When you need multiple icon buttons grouped → use `solaris-button-group`
+- When you need toggle/pressed state → Toggle Button (not available in v1)
+- When you need a menu trigger → Menu Button (not available in v1)
 
 ## API
 
@@ -45,7 +45,7 @@ Selector: `[solaris-icon-button]`
 
 | Input          | Type                                                                                 | Default     | Description                  |
 | -------------- | ------------------------------------------------------------------------------------ | ----------- | ---------------------------- |
-| `appearance`   | `'solid' \| 'outline' \| 'ghost' \| 'tonal' \| 'surface'`                            | `'ghost'`   | Visual style                 |
+| `appearance`   | `'solid' \| 'outline' \| 'ghost' \| 'tonal' \| 'surface'`                            | `'solid'`   | Visual style                 |
 | `color`        | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'` | Semantic color               |
 | `size`         | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Button size                  |
 | `radius`       | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                           | `'md'`      | Border radius                |
@@ -60,6 +60,63 @@ Selector: `[solaris-icon-button]`
 Selector: `[solaris-icon-button-badge]`
 
 Used on a badge element projected inside the icon button to position it correctly.
+
+## Appearances
+
+| Appearance | Visual                                  |
+| ---------- | --------------------------------------- |
+| `solid`    | Filled background, high visual weight   |
+| `outline`  | Transparent background, visible border  |
+| `ghost`    | No background or border, subtle hover   |
+| `tonal`    | Soft background, subtle border          |
+| `surface`  | Muted background, no border             |
+
+Default: `solid`
+
+## Colors
+
+| Color     | Usage                              |
+| --------- | ---------------------------------- |
+| `neutral` | Default, no semantic meaning       |
+| `primary` | Brand accent                       |
+| `success` | Positive states                    |
+| `warning` | Attention states                   |
+| `danger`  | Error or destructive states        |
+| `info`    | Informational states               |
+| `custom`  | Consumer-defined via CSS variables |
+
+Default: `neutral`
+
+## Sizes
+
+| Size | Width/Height |
+| ---- | ------------ |
+| `sm` | 2rem         |
+| `md` | 2.5rem       |
+| `lg` | 3rem         |
+
+Default: `md`
+
+## Radius
+
+| Radius | Value                       |
+| ------ | --------------------------- |
+| `none` | 0                           |
+| `sm`   | Token `--solaris-radius-sm` |
+| `md`   | Token `--solaris-radius-md` |
+| `lg`   | Token `--solaris-radius-lg` |
+| `full` | Pill shape                  |
+
+Default: `md`
+
+## Density
+
+| Density       | Effect                                                 |
+| ------------- | ------------------------------------------------------ |
+| `compact`     | Size from `--solaris-density-min-height`, smaller text |
+| `comfortable` | Size from `--solaris-density-min-height`, default text |
+
+When not provided, Icon Button inherits density from the theme system. Both values set `--solaris-icon-button-size` to `--solaris-density-min-height`; `compact` also reduces the icon font size.
 
 ## Accessible Name (Required)
 
@@ -163,23 +220,36 @@ For the `custom` color value, use CSS custom properties:
 }
 ```
 
-## Component CSS Variables
+## CSS Variables
 
-| Variable                                  | Description                |
-| ----------------------------------------- | -------------------------- |
-| `--solaris-icon-button-size`              | Width/height of the button |
-| `--solaris-icon-button-icon-size`         | Icon dimensions            |
-| `--solaris-icon-button-radius`            | Border radius              |
-| `--solaris-icon-button-color`             | Icon color                 |
-| `--solaris-icon-button-background`        | Background color           |
-| `--solaris-icon-button-border-color`      | Border color               |
-| `--solaris-icon-button-border-width`      | Border width               |
-| `--solaris-icon-button-hover-background`  | Hover background           |
-| `--solaris-icon-button-active-background` | Active background          |
-| `--solaris-icon-button-focus-ring-color`  | Focus ring color           |
-| `--solaris-icon-button-disabled-opacity`  | Disabled opacity           |
+The following CSS variables can be customized:
 
-| `--solaris-icon-button-custom-*` | Custom color overrides |
+| Token                                           | Purpose                          |
+| ----------------------------------------------- | -------------------------------- |
+| `--solaris-icon-button-size`                    | Width/height of the button       |
+| `--solaris-icon-button-radius`                  | Border radius                    |
+| `--solaris-icon-button-color`                   | Icon color                       |
+| `--solaris-icon-button-background`              | Background color                 |
+| `--solaris-icon-button-border-color`            | Border color                     |
+| `--solaris-icon-button-border-width`            | Border width                     |
+| `--solaris-icon-button-hover-background`        | Hover background                 |
+| `--solaris-icon-button-hover-border-color`      | Hover border color               |
+| `--solaris-icon-button-active-background`       | Active background                |
+| `--solaris-icon-button-active-border-color`     | Active border color              |
+| `--solaris-icon-button-focus-ring-color`        | Focus ring color                 |
+| `--solaris-icon-button-disabled-opacity`        | Disabled opacity                 |
+
+### Custom color tokens
+
+| Token                                               | Purpose                |
+| --------------------------------------------------- | ---------------------- |
+| `--solaris-icon-button-custom-color`                | Icon color             |
+| `--solaris-icon-button-custom-background`           | Background color       |
+| `--solaris-icon-button-custom-border-color`         | Border color           |
+| `--solaris-icon-button-custom-hover-background`     | Hover background       |
+| `--solaris-icon-button-custom-hover-border-color`   | Hover border color     |
+| `--solaris-icon-button-custom-active-background`    | Active background      |
+| `--solaris-icon-button-custom-active-border-color`  | Active border color    |
 
 ## Accessibility
 
@@ -191,6 +261,66 @@ For the `custom` color value, use CSS custom properties:
 - Disabled anchor is not keyboard navigable.
 - Badge is visual only; accessible name must be set on the button.
 
+## Examples
+
+```html
+<!-- Appearances -->
+<button solaris-icon-button appearance="solid" aria-label="Check">
+  <solaris-icon name="check" decorative="true" />
+</button>
+<button solaris-icon-button appearance="outline" aria-label="Check">
+  <solaris-icon name="check" decorative="true" />
+</button>
+<button solaris-icon-button appearance="ghost" aria-label="Check">
+  <solaris-icon name="check" decorative="true" />
+</button>
+
+<!-- Colors -->
+<button solaris-icon-button color="primary" aria-label="Edit">
+  <solaris-icon name="edit" decorative="true" />
+</button>
+<button solaris-icon-button color="danger" aria-label="Delete">
+  <solaris-icon name="trash" decorative="true" />
+</button>
+<button solaris-icon-button color="success" aria-label="Check">
+  <solaris-icon name="success" decorative="true" />
+</button>
+
+<!-- Sizes -->
+<button solaris-icon-button size="sm" aria-label="Settings">
+  <solaris-icon name="gear" decorative="true" />
+</button>
+<button solaris-icon-button size="md" aria-label="Settings">
+  <solaris-icon name="gear" decorative="true" />
+</button>
+<button solaris-icon-button size="lg" color="primary" aria-label="Settings">
+  <solaris-icon name="gear" decorative="true" />
+</button>
+
+<!-- Radius -->
+<button solaris-icon-button radius="full" color="primary" aria-label="Check">
+  <solaris-icon name="check" decorative="true" />
+</button>
+
+<!-- With badge -->
+<button solaris-icon-button aria-label="Notifications, 3 new">
+  <solaris-icon name="info" decorative="true" />
+  <solaris-badge
+    solaris-icon-button-badge
+    variant="count"
+    color="primary"
+    size="sm"
+    radius="full"
+    >3</solaris-badge
+  >
+</button>
+
+<!-- Loading -->
+<button solaris-icon-button [loading]="true" aria-label="Saving">
+  <solaris-icon name="check" decorative="true" />
+</button>
+```
+
 ## Limitations (v1)
 
 - No toggle/pressed/selected state.
@@ -200,17 +330,22 @@ For the `custom` color value, use CSS custom properties:
 - No floating action button.
 - Badge does not automatically update accessible name.
 
-## Button Group (Future)
+## Button Group
 
-Button Group is planned for a future release. It will support:
+Use `solaris-button-group` to group multiple icon buttons:
 
-- Horizontal and vertical layout
-- Disabled states
-- Badge integration
-- Icon-only buttons
-- Combined actions (e.g., Save with badge)
-- Fork/Star with counter
-- Dropdown integration
-- Active/selected states
+```html
+<solaris-button-group aria-label="Mood">
+  <button solaris-icon-button aria-label="Happy">
+    <solaris-icon name="success" decorative="true" />
+  </button>
+  <button solaris-icon-button aria-label="Neutral">
+    <solaris-icon name="info" decorative="true" />
+  </button>
+  <button solaris-icon-button aria-label="Sad">
+    <solaris-icon name="danger" decorative="true" />
+  </button>
+</solaris-button-group>
+```
 
-The current Icon Button is designed to be compatible with future Button Group composition.
+Button Group supports horizontal/vertical layout, attached/separated items, and badge integration. Icon Button is designed to be composed inside it.
