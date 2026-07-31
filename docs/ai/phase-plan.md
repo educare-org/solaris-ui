@@ -20,6 +20,19 @@ Each phase builds on the previous one.
 
 ---
 
+## Known tech debt
+
+Issues accepted consciously to keep velocity. Each entry has a decision, reason, and a path to resolution.
+
+| #   | Item                                                                                                                                                                                                                                                                                | Decided    | Why kept                                                                                      | Resolution path                                            |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| 1   | 7 components with inline `template` passthrough: `'<ng-content />'` (form-error, form-hint, form-label, alert-actions), `'<ng-template><ng-content /></ng-template>'` (dialog-step), empty `''` + `contentChild(TemplateRef)` (editable-tab), `'<ng-content />'` (dropdown-submenu) | 2026-07-31 | Validated as legitimate passthrough/placeholder patterns; allowed by `validate-component.mjs` | Extract to `templateUrl` if the component ever grows logic |
+| 2   | OnPush `changeDetection` missing on 32 components                                                                                                                                                                                                                                   | resolved   | —                                                                                             | **DONE** — batch applied + enforced by component template  |
+
+The debt list must be updated whenever an accepted deviation is created or resolved. Do not add new deviations silently — record them here first.
+
+---
+
 ## Phase A — Tools & Guardrails
 
 ### Objective
