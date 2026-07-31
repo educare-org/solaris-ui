@@ -46,4 +46,3 @@ Remove this section if the component defines no `--solaris-*` tokens.
 ```html
 <solaris-$name$ />
 ```
-

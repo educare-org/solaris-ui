@@ -20,33 +20,33 @@ Checkbox is a form control component that allows users to select or deselect an 
 
 ### Inputs
 
-| Input           | Type                                                                                     | Default     | Description                              |
-| --------------- | ---------------------------------------------------------------------------------------- | ----------- | ---------------------------------------- |
-| `checked`       | `boolean`                                                                                | `false`     | Whether the checkbox is checked          |
-| `indeterminate` | `boolean`                                                                                | `false`     | Visual indeterminate state (controlled)  |
-| `disabled`      | `boolean`                                                                                | `false`     | Disables the checkbox                    |
-| `readonly`      | `boolean`                                                                                | `false`     | Readonly mode (value preserved)          |
-| `required`      | `boolean`                                                                                | `false`     | Required validation                      |
-| `invalid`       | `boolean \| undefined`                                                                   | `undefined` | Invalid state                            |
-| `appearance`    | `'outline' \| 'surface'`                                                                 | `'outline'` | Visual appearance                        |
-| `color`         | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'`     | `'primary'` | Semantic color                           |
-| `size`          | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`      | Size variant                             |
-| `density`       | `'compact' \| 'comfortable'`                                                             | inherited   | Density variant                          |
-| `radius`        | `'none' \| 'sm' \| 'md' \| 'lg'`                                                         | `'sm'`      | Border radius of the control box         |
-| `label`         | `string`                                                                                 | —           | Direct label text                        |
-| `labelKey`      | `string`                                                                                 | —           | i18n key for label                       |
-| `name`          | `string`                                                                                 | —           | Native `name` attribute                  |
-| `value`         | `unknown`                                                                                | —           | Value submitted to the form              |
-| `ariaLabel`     | `string`                                                                                 | —           | Accessible label                         |
-| `ariaLabelKey`  | `string`                                                                                 | —           | i18n key for accessible label            |
+| Input           | Type                                                                                 | Default     | Description                             |
+| --------------- | ------------------------------------------------------------------------------------ | ----------- | --------------------------------------- |
+| `checked`       | `boolean`                                                                            | `false`     | Whether the checkbox is checked         |
+| `indeterminate` | `boolean`                                                                            | `false`     | Visual indeterminate state (controlled) |
+| `disabled`      | `boolean`                                                                            | `false`     | Disables the checkbox                   |
+| `readonly`      | `boolean`                                                                            | `false`     | Readonly mode (value preserved)         |
+| `required`      | `boolean`                                                                            | `false`     | Required validation                     |
+| `invalid`       | `boolean \| undefined`                                                               | `undefined` | Invalid state                           |
+| `appearance`    | `'outline' \| 'surface'`                                                             | `'outline'` | Visual appearance                       |
+| `color`         | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'` | Semantic color                          |
+| `size`          | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Size variant                            |
+| `density`       | `'compact' \| 'comfortable'`                                                         | inherited   | Density variant                         |
+| `radius`        | `'none' \| 'sm' \| 'md' \| 'lg'`                                                     | `'sm'`      | Border radius of the control box        |
+| `label`         | `string`                                                                             | —           | Direct label text                       |
+| `labelKey`      | `string`                                                                             | —           | i18n key for label                      |
+| `name`          | `string`                                                                             | —           | Native `name` attribute                 |
+| `value`         | `unknown`                                                                            | —           | Value submitted to the form             |
+| `ariaLabel`     | `string`                                                                             | —           | Accessible label                        |
+| `ariaLabelKey`  | `string`                                                                             | —           | i18n key for accessible label           |
 
 ### Outputs
 
-| Output                | Type      | Description                                |
-| --------------------- | --------- | ------------------------------------------ |
-| `checkedChange`       | `boolean` | Emitted when checked state changes         |
-| `indeterminateChange` | `boolean` | Emitted when indeterminate state changes   |
-| `change`              | `Event`   | Native change event                        |
+| Output                | Type      | Description                              |
+| --------------------- | --------- | ---------------------------------------- |
+| `checkedChange`       | `boolean` | Emitted when checked state changes       |
+| `indeterminateChange` | `boolean` | Emitted when indeterminate state changes |
+| `change`              | `Event`   | Native change event                      |
 
 Label can also be provided via content projection: `<solaris-checkbox>Label text</solaris-checkbox>`. Projected content wins over the `label` input.
 

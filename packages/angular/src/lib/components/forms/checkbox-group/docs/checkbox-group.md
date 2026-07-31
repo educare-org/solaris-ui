@@ -159,11 +159,11 @@ Only applies when `layout="grid"`. Supported values: `1`, `2`, `3`, `4`, `'auto'
 
 ## Sizes
 
-| Size | Effect                    |
-| ---- | ------------------------- |
-| `sm` | Compact option sizing     |
-| `md` | Standard option sizing    |
-| `lg` | Large option sizing       |
+| Size | Effect                 |
+| ---- | ---------------------- |
+| `sm` | Compact option sizing  |
+| `md` | Standard option sizing |
+| `lg` | Large option sizing    |
 
 Default: `md`
 
@@ -184,21 +184,21 @@ When not provided, the group falls back to `comfortable`.
 
 General component tokens available for advanced customization:
 
-| Token                                      | Purpose                      |
-| ------------------------------------------ | ---------------------------- |
-| `--solaris-checkbox-group-gap`             | Gap between options          |
-| `--solaris-checkbox-group-row-gap`         | Row gap in grid layout       |
-| `--solaris-checkbox-group-column-gap`      | Column gap in grid layout    |
-| `--solaris-checkbox-group-select-all-gap`  | Margin below select-all      |
-| `--solaris-checkbox-group-label-color`     | Label text color             |
-| `--solaris-checkbox-group-label-font-size` | Label font size              |
-| `--solaris-checkbox-group-label-line-height` | Label line height          |
-| `--solaris-checkbox-group-hint-color`      | Hint text color              |
-| `--solaris-checkbox-group-hint-font-size`  | Hint font size               |
-| `--solaris-checkbox-group-hint-line-height` | Hint line height            |
-| `--solaris-checkbox-group-error-color`     | Error text color             |
-| `--solaris-checkbox-group-error-font-size` | Error font size              |
-| `--solaris-checkbox-group-error-line-height` | Error line height          |
+| Token                                        | Purpose                   |
+| -------------------------------------------- | ------------------------- |
+| `--solaris-checkbox-group-gap`               | Gap between options       |
+| `--solaris-checkbox-group-row-gap`           | Row gap in grid layout    |
+| `--solaris-checkbox-group-column-gap`        | Column gap in grid layout |
+| `--solaris-checkbox-group-select-all-gap`    | Margin below select-all   |
+| `--solaris-checkbox-group-label-color`       | Label text color          |
+| `--solaris-checkbox-group-label-font-size`   | Label font size           |
+| `--solaris-checkbox-group-label-line-height` | Label line height         |
+| `--solaris-checkbox-group-hint-color`        | Hint text color           |
+| `--solaris-checkbox-group-hint-font-size`    | Hint font size            |
+| `--solaris-checkbox-group-hint-line-height`  | Hint line height          |
+| `--solaris-checkbox-group-error-color`       | Error text color          |
+| `--solaris-checkbox-group-error-font-size`   | Error font size           |
+| `--solaris-checkbox-group-error-line-height` | Error line height         |
 
 ## selectAll
 

@@ -10,14 +10,14 @@ Tooltip is a short, contextual informational layer used to explain or complement
 
 ## Difference between Tooltip and Popover
 
-| Characteristic   | Tooltip                             | Popover               |
-| ----------------- | ----------------------------------- | --------------------- |
-| Purpose           | Inform                              | Interact              |
-| Content           | Short text, icon, optional title    | Any template          |
-| Buttons           | Internal close only                 | Custom buttons        |
-| Focus             | Does not trap focus                 | Can trap focus        |
-| Primary trigger   | Hover/focus                         | Click                 |
-| Closing           | Mouse leave, blur, Escape           | Escape, outside click |
+| Characteristic  | Tooltip                          | Popover               |
+| --------------- | -------------------------------- | --------------------- |
+| Purpose         | Inform                           | Interact              |
+| Content         | Short text, icon, optional title | Any template          |
+| Buttons         | Internal close only              | Custom buttons        |
+| Focus           | Does not trap focus              | Can trap focus        |
+| Primary trigger | Hover/focus                      | Click                 |
+| Closing         | Mouse leave, blur, Escape        | Escape, outside click |
 
 ---
 
@@ -61,38 +61,38 @@ If you need custom buttons like "View details", "Configure", "Apply", "Cancel", 
 
 ### Inputs
 
-| Input                                | Type                                  | Default     | Description                            |
-| ------------------------------------ | ------------------------------------- | ----------- | -------------------------------------- |
-| `solaris-tooltip` / `solarisTooltip` | `string \| undefined`                 | `undefined` | Tooltip text                           |
-| `solarisTooltipKey`                  | `string \| undefined`                 | `undefined` | Translation key for the text           |
-| `solarisTooltipFor`                  | `TemplateRef<unknown> \| undefined`   | `undefined` | Informational template                 |
-| `solarisTooltipTitle`                | `string \| undefined`                 | `undefined` | Optional title                         |
-| `solarisTooltipTitleKey`             | `string \| undefined`                 | `undefined` | Translation key for the title          |
-| `solarisTooltipIcon`                 | `string \| undefined`                 | `undefined` | Icon name (Solaris Icon Registry)      |
-| `solarisTooltipIconDecorative`       | `boolean`                             | `true`      | Whether the icon is decorative         |
-| `solarisTooltipTrigger`              | `'hover' \| 'click' \| 'manual'`      | `'hover'`   | Opening trigger                        |
-| `solarisTooltipPlacement`            | `SolarisTooltipPlacement`             | `'top'`     | Initial position                       |
-| `solarisTooltipOffset`               | `number \| string`                    | `8`         | Offset in px                           |
-| `solarisTooltipDisabled`             | `boolean`                             | `false`     | Disables the tooltip                   |
-| `solarisTooltipCloseable`            | `boolean`                             | `false`     | Shows close button (click only)        |
-| `solarisTooltipCloseLabel`           | `string \| undefined`                 | `undefined` | Close button label                     |
-| `solarisTooltipCloseLabelKey`        | `string \| undefined`                 | `undefined` | Translation key for the label          |
-| `solarisTooltipShowDelay`            | `number`                              | `300`       | Delay to open (ms)                     |
-| `solarisTooltipHideDelay`            | `number`                              | `100`       | Delay to close (ms)                    |
-| `solarisTooltipAppearance`           | `'outline' \| 'surface' \| 'inverse'` | `'outline'` | Appearance                             |
-| `solarisTooltipSize`                 | `'sm' \| 'md' \| 'lg'`                | `'sm'`      | Size                                   |
-| `solarisTooltipRadius`               | `'sm' \| 'md' \| 'lg'`                | `'md'`      | Border radius                          |
-| `solarisTooltipMaxWidth`             | `string \| number`                    | `'20rem'`   | Maximum width                          |
-| `solarisTooltipArrow`                | `boolean`                             | `true`      | Shows arrow                            |
-| `solarisTooltipOpen`                 | `boolean \| undefined`                | `undefined` | Controlled state                       |
+| Input                                | Type                                  | Default     | Description                       |
+| ------------------------------------ | ------------------------------------- | ----------- | --------------------------------- |
+| `solaris-tooltip` / `solarisTooltip` | `string \| undefined`                 | `undefined` | Tooltip text                      |
+| `solarisTooltipKey`                  | `string \| undefined`                 | `undefined` | Translation key for the text      |
+| `solarisTooltipFor`                  | `TemplateRef<unknown> \| undefined`   | `undefined` | Informational template            |
+| `solarisTooltipTitle`                | `string \| undefined`                 | `undefined` | Optional title                    |
+| `solarisTooltipTitleKey`             | `string \| undefined`                 | `undefined` | Translation key for the title     |
+| `solarisTooltipIcon`                 | `string \| undefined`                 | `undefined` | Icon name (Solaris Icon Registry) |
+| `solarisTooltipIconDecorative`       | `boolean`                             | `true`      | Whether the icon is decorative    |
+| `solarisTooltipTrigger`              | `'hover' \| 'click' \| 'manual'`      | `'hover'`   | Opening trigger                   |
+| `solarisTooltipPlacement`            | `SolarisTooltipPlacement`             | `'top'`     | Initial position                  |
+| `solarisTooltipOffset`               | `number \| string`                    | `8`         | Offset in px                      |
+| `solarisTooltipDisabled`             | `boolean`                             | `false`     | Disables the tooltip              |
+| `solarisTooltipCloseable`            | `boolean`                             | `false`     | Shows close button (click only)   |
+| `solarisTooltipCloseLabel`           | `string \| undefined`                 | `undefined` | Close button label                |
+| `solarisTooltipCloseLabelKey`        | `string \| undefined`                 | `undefined` | Translation key for the label     |
+| `solarisTooltipShowDelay`            | `number`                              | `300`       | Delay to open (ms)                |
+| `solarisTooltipHideDelay`            | `number`                              | `100`       | Delay to close (ms)               |
+| `solarisTooltipAppearance`           | `'outline' \| 'surface' \| 'inverse'` | `'outline'` | Appearance                        |
+| `solarisTooltipSize`                 | `'sm' \| 'md' \| 'lg'`                | `'sm'`      | Size                              |
+| `solarisTooltipRadius`               | `'sm' \| 'md' \| 'lg'`                | `'md'`      | Border radius                     |
+| `solarisTooltipMaxWidth`             | `string \| number`                    | `'20rem'`   | Maximum width                     |
+| `solarisTooltipArrow`                | `boolean`                             | `true`      | Shows arrow                       |
+| `solarisTooltipOpen`                 | `boolean \| undefined`                | `undefined` | Controlled state                  |
 
 ### Outputs
 
-| Output                     | Type      | Description                  |
-| -------------------------- | --------- | ---------------------------- |
-| `solarisTooltipOpened`     | `void`    | Emitted when it opens        |
-| `solarisTooltipClosed`     | `void`    | Emitted when it closes       |
-| `solarisTooltipOpenChange` | `boolean` | Emitted on state change      |
+| Output                     | Type      | Description             |
+| -------------------------- | --------- | ----------------------- |
+| `solarisTooltipOpened`     | `void`    | Emitted when it opens   |
+| `solarisTooltipClosed`     | `void`    | Emitted when it closes  |
+| `solarisTooltipOpenChange` | `boolean` | Emitted on state change |
 
 ### Public methods
 
@@ -198,21 +198,21 @@ Default: `20rem`. Prevents a long tooltip on a single line. Text wraps correctly
 
 The following CSS variables can be customized:
 
-| Token                             | Purpose                          |
-| --------------------------------- | -------------------------------- |
-| `--solaris-tooltip-background`    | Panel background                 |
-| `--solaris-tooltip-color`         | Text color                       |
-| `--solaris-tooltip-border-color`  | Border color                     |
-| `--solaris-tooltip-border-width`  | Border width                     |
-| `--solaris-tooltip-radius`        | Panel border radius              |
-| `--solaris-tooltip-shadow`        | Panel box shadow                 |
-| `--solaris-tooltip-gap`           | Gap between icon, text, and close |
-| `--solaris-tooltip-max-width`     | Maximum panel width              |
-| `--solaris-tooltip-padding-block` | Vertical padding                 |
-| `--solaris-tooltip-padding-inline` | Horizontal padding               |
-| `--solaris-tooltip-icon-size`     | Icon and close button size       |
-| `--solaris-tooltip-arrow-size`    | Arrow size                       |
-| `--solaris-tooltip-offset`        | Offset between icon and content  |
+| Token                              | Purpose                           |
+| ---------------------------------- | --------------------------------- |
+| `--solaris-tooltip-background`     | Panel background                  |
+| `--solaris-tooltip-color`          | Text color                        |
+| `--solaris-tooltip-border-color`   | Border color                      |
+| `--solaris-tooltip-border-width`   | Border width                      |
+| `--solaris-tooltip-radius`         | Panel border radius               |
+| `--solaris-tooltip-shadow`         | Panel box shadow                  |
+| `--solaris-tooltip-gap`            | Gap between icon, text, and close |
+| `--solaris-tooltip-max-width`      | Maximum panel width               |
+| `--solaris-tooltip-padding-block`  | Vertical padding                  |
+| `--solaris-tooltip-padding-inline` | Horizontal padding                |
+| `--solaris-tooltip-icon-size`      | Icon and close button size        |
+| `--solaris-tooltip-arrow-size`     | Arrow size                        |
+| `--solaris-tooltip-offset`         | Offset between icon and content   |
 
 ---
 

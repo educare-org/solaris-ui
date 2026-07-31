@@ -6,14 +6,14 @@
 
 ## Conceptual difference
 
-| Component            | Value                     | Usage                                            |
-| -------------------- | ------------------------- | ------------------------------------------------ |
-| **Switch**           | `boolean`                 | Toggles a single setting on/off.                 |
-| **Switch Group**     | `Record<string, boolean>` | Set of related boolean settings.                 |
-| **Checkbox Group**   | `unknown[]` (array)       | Multiple selection in a collection.              |
-| **Radio Group**      | `unknown`                 | Single choice.                                   |
-| **Toggle Group**     | Active toggle value       | UI visual state control.                         |
-| **Segmented Control**| Active segment value      | Visual alternative to Radio Group.               |
+| Component             | Value                     | Usage                               |
+| --------------------- | ------------------------- | ----------------------------------- |
+| **Switch**            | `boolean`                 | Toggles a single setting on/off.    |
+| **Switch Group**      | `Record<string, boolean>` | Set of related boolean settings.    |
+| **Checkbox Group**    | `unknown[]` (array)       | Multiple selection in a collection. |
+| **Radio Group**       | `unknown`                 | Single choice.                      |
+| **Toggle Group**      | Active toggle value       | UI visual state control.            |
+| **Segmented Control** | Active segment value      | Visual alternative to Radio Group.  |
 
 ## When to use
 
@@ -47,28 +47,28 @@ Each key corresponds to the `value` of a child switch.
 
 ### Inputs
 
-| Input          | Type                         | Default             | Description                                |
-| -------------- | ---------------------------- | ------------------- | ------------------------------------------ |
-| `value`        | `Record<string, boolean>`    | `{}`                | Group value.                               |
-| `orientation`  | `'vertical' \| 'horizontal'` | `'vertical'`        | Layout direction.                          |
-| `layout`       | `'list' \| 'grid'`           | `'list'`            | Layout type.                               |
-| `columns`      | `1 \| 2 \| 3 \| 4 \| 'auto'` | `1`                 | Columns in the grid layout.                |
-| `density`      | `'compact' \| 'comfortable'` | Inherited from theme | Visual density.                           |
-| `size`         | `'sm' \| 'md' \| 'lg'`       | `'md'`              | Size of the switches.                      |
-| `disabled`     | `boolean`                    | `false`             | Disables the group.                        |
-| `readonly`     | `boolean`                    | `false`             | Readonly.                                  |
-| `required`     | `boolean`                    | `false`             | Requires at least one switch to be on.     |
-| `invalid`      | `boolean \| undefined`       | `undefined`         | Manual invalid state.                      |
-| `label`        | `string \| undefined`        | `undefined`         | Group label.                               |
-| `labelKey`     | `string \| undefined`        | `undefined`         | Translation key for the label.             |
-| `hint`         | `string \| undefined`        | `undefined`         | Help text.                                 |
-| `hintKey`      | `string \| undefined`        | `undefined`         | Translation key for the hint.              |
-| `error`        | `string \| undefined`        | `undefined`         | Error text.                                |
-| `errorKey`     | `string \| undefined`        | `undefined`         | Translation key for the error.             |
-| `minEnabled`   | `number \| undefined`        | `undefined`         | Minimum number of switches that must be on.|
-| `maxEnabled`   | `number \| undefined`        | `undefined`         | Maximum number of switches that can be on. |
-| `ariaLabel`    | `string \| undefined`        | `undefined`         | ARIA label.                                |
-| `ariaLabelKey` | `string \| undefined`        | `undefined`         | Translation key for the ARIA label.        |
+| Input          | Type                         | Default              | Description                                 |
+| -------------- | ---------------------------- | -------------------- | ------------------------------------------- |
+| `value`        | `Record<string, boolean>`    | `{}`                 | Group value.                                |
+| `orientation`  | `'vertical' \| 'horizontal'` | `'vertical'`         | Layout direction.                           |
+| `layout`       | `'list' \| 'grid'`           | `'list'`             | Layout type.                                |
+| `columns`      | `1 \| 2 \| 3 \| 4 \| 'auto'` | `1`                  | Columns in the grid layout.                 |
+| `density`      | `'compact' \| 'comfortable'` | Inherited from theme | Visual density.                             |
+| `size`         | `'sm' \| 'md' \| 'lg'`       | `'md'`               | Size of the switches.                       |
+| `disabled`     | `boolean`                    | `false`              | Disables the group.                         |
+| `readonly`     | `boolean`                    | `false`              | Readonly.                                   |
+| `required`     | `boolean`                    | `false`              | Requires at least one switch to be on.      |
+| `invalid`      | `boolean \| undefined`       | `undefined`          | Manual invalid state.                       |
+| `label`        | `string \| undefined`        | `undefined`          | Group label.                                |
+| `labelKey`     | `string \| undefined`        | `undefined`          | Translation key for the label.              |
+| `hint`         | `string \| undefined`        | `undefined`          | Help text.                                  |
+| `hintKey`      | `string \| undefined`        | `undefined`          | Translation key for the hint.               |
+| `error`        | `string \| undefined`        | `undefined`          | Error text.                                 |
+| `errorKey`     | `string \| undefined`        | `undefined`          | Translation key for the error.              |
+| `minEnabled`   | `number \| undefined`        | `undefined`          | Minimum number of switches that must be on. |
+| `maxEnabled`   | `number \| undefined`        | `undefined`          | Maximum number of switches that can be on.  |
+| `ariaLabel`    | `string \| undefined`        | `undefined`          | ARIA label.                                 |
+| `ariaLabelKey` | `string \| undefined`        | `undefined`          | Translation key for the ARIA label.         |
 
 ### Outputs
 
@@ -168,20 +168,20 @@ Similar to disabled, but keeps a readonly appearance:
 
 Switch Group tokens can be customized on the host or a parent element:
 
-| Token                                          | Purpose                         |
-| ---------------------------------------------- | ------------------------------- |
-| `--solaris-switch-group-gap`                   | Gap between items in list layout |
-| `--solaris-switch-group-row-gap`               | Row gap in grid layout          |
-| `--solaris-switch-group-column-gap`            | Column gap in grid layout       |
-| `--solaris-switch-group-label-color`           | Group label color               |
-| `--solaris-switch-group-label-font-size`       | Group label font size           |
-| `--solaris-switch-group-label-line-height`     | Group label line height         |
-| `--solaris-switch-group-hint-color`            | Hint text color                 |
-| `--solaris-switch-group-hint-font-size`        | Hint font size                  |
-| `--solaris-switch-group-hint-line-height`      | Hint line height                |
-| `--solaris-switch-group-error-color`           | Error text color                |
-| `--solaris-switch-group-error-font-size`       | Error font size                 |
-| `--solaris-switch-group-error-line-height`     | Error line height               |
+| Token                                      | Purpose                          |
+| ------------------------------------------ | -------------------------------- |
+| `--solaris-switch-group-gap`               | Gap between items in list layout |
+| `--solaris-switch-group-row-gap`           | Row gap in grid layout           |
+| `--solaris-switch-group-column-gap`        | Column gap in grid layout        |
+| `--solaris-switch-group-label-color`       | Group label color                |
+| `--solaris-switch-group-label-font-size`   | Group label font size            |
+| `--solaris-switch-group-label-line-height` | Group label line height          |
+| `--solaris-switch-group-hint-color`        | Hint text color                  |
+| `--solaris-switch-group-hint-font-size`    | Hint font size                   |
+| `--solaris-switch-group-hint-line-height`  | Hint line height                 |
+| `--solaris-switch-group-error-color`       | Error text color                 |
+| `--solaris-switch-group-error-font-size`   | Error font size                  |
+| `--solaris-switch-group-error-line-height` | Error line height                |
 
 ## Label, Hint, and Error
 

@@ -34,13 +34,13 @@ This means:
 
 **Selector:** `solaris-card`
 
-| Input          | Type                                                                          | Default   | Description                          |
-| -------------- | ----------------------------------------------------------------------------- | --------- | ------------------------------------ |
-| `appearance`   | `'surface' \| 'outline' \| 'tonal' \| 'glass'`                                 | `'surface'` | Visual appearance                  |
-| `radius`       | `'none' \| 'sm' \| 'lg' \| 'xl'`                                               | `'lg'`    | Border radius                        |
-| `size`         | `'sm' \| 'md' \| 'lg'`                                                         | `'md'`    | Internal section gap and padding     |
-| `density`      | `'compact' \| 'comfortable'`                                                   | inherited | Density variant                      |
-| `glassTexture` | `'none' \| 'grooves'`                                                          | `'none'`  | Decorative texture (glass only)      |
+| Input          | Type                                           | Default     | Description                      |
+| -------------- | ---------------------------------------------- | ----------- | -------------------------------- |
+| `appearance`   | `'surface' \| 'outline' \| 'tonal' \| 'glass'` | `'surface'` | Visual appearance                |
+| `radius`       | `'none' \| 'sm' \| 'lg' \| 'xl'`               | `'lg'`      | Border radius                    |
+| `size`         | `'sm' \| 'md' \| 'lg'`                         | `'md'`      | Internal section gap and padding |
+| `density`      | `'compact' \| 'comfortable'`                   | inherited   | Density variant                  |
+| `glassTexture` | `'none' \| 'grooves'`                          | `'none'`    | Decorative texture (glass only)  |
 
 ## Wrappers
 
@@ -95,11 +95,11 @@ Radius `full` is not supported in Card v1.
 
 ## Size
 
-| Size   | Effect                                              |
-| ------ | --------------------------------------------------- |
-| `sm`   | Reduced section gap and padding (`--solaris-spacing-4`) |
-| `md`   | Default section gap and padding                     |
-| `lg`   | Increased section gap and padding (`--solaris-spacing-6`/`--solaris-spacing-8`) |
+| Size | Effect                                                                          |
+| ---- | ------------------------------------------------------------------------------- |
+| `sm` | Reduced section gap and padding (`--solaris-spacing-4`)                         |
+| `md` | Default section gap and padding                                                 |
+| `lg` | Increased section gap and padding (`--solaris-spacing-6`/`--solaris-spacing-8`) |
 
 Default: `md`
 

@@ -137,25 +137,25 @@ Default: `md`
 
 General component tokens available for advanced customization:
 
-| Token                                    | Purpose                                        |
-| ---------------------------------------- | ---------------------------------------------- |
-| `--solaris-multi-select-chip-gap`        | Gap between chips                              |
-| `--solaris-multi-select-chip-radius`     | Chip border radius                             |
-| `--solaris-multi-select-chip-color`      | Chip text color                                |
-| `--solaris-multi-select-chip-font-size`  | Chip font size                                 |
-| `--solaris-multi-select-chip-padding-x`  | Chip horizontal padding                        |
-| `--solaris-multi-select-chip-padding-y`  | Chip vertical padding                          |
-| `--solaris-multi-select-chip-background` | Chip background                                |
-| `--solaris-multi-select-chip-remove-size` | Chip remove button size                       |
-| `--solaris-multi-select-value-color`     | Value and search text color                    |
-| `--solaris-multi-select-placeholder-color` | Placeholder text color                       |
-| `--solaris-multi-select-font-size`       | Base font size                                 |
-| `--solaris-multi-select-line-height`     | Base line height                               |
-| `--solaris-multi-select-icon-color`      | Icon color (clear, dropdown, remove)           |
-| `--solaris-multi-select-select-all-height` | Select-all row minimum height                |
-| `--solaris-surface-hover`                | Hover background for chip remove and select-all |
-| `--solaris-primary-muted`                | Partial select-all checkbox background         |
-| `--solaris-on-primary`                   | Select-all checkbox check icon color           |
+| Token                                      | Purpose                                         |
+| ------------------------------------------ | ----------------------------------------------- |
+| `--solaris-multi-select-chip-gap`          | Gap between chips                               |
+| `--solaris-multi-select-chip-radius`       | Chip border radius                              |
+| `--solaris-multi-select-chip-color`        | Chip text color                                 |
+| `--solaris-multi-select-chip-font-size`    | Chip font size                                  |
+| `--solaris-multi-select-chip-padding-x`    | Chip horizontal padding                         |
+| `--solaris-multi-select-chip-padding-y`    | Chip vertical padding                           |
+| `--solaris-multi-select-chip-background`   | Chip background                                 |
+| `--solaris-multi-select-chip-remove-size`  | Chip remove button size                         |
+| `--solaris-multi-select-value-color`       | Value and search text color                     |
+| `--solaris-multi-select-placeholder-color` | Placeholder text color                          |
+| `--solaris-multi-select-font-size`         | Base font size                                  |
+| `--solaris-multi-select-line-height`       | Base line height                                |
+| `--solaris-multi-select-icon-color`        | Icon color (clear, dropdown, remove)            |
+| `--solaris-multi-select-select-all-height` | Select-all row minimum height                   |
+| `--solaris-surface-hover`                  | Hover background for chip remove and select-all |
+| `--solaris-primary-muted`                  | Partial select-all checkbox background          |
+| `--solaris-on-primary`                     | Select-all checkbox check icon color            |
 
 ## ControlValueAccessor (CVA)
 

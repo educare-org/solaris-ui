@@ -306,36 +306,36 @@ Use the `custom` variant with documented CSS variables:
 
 The following CSS variables can be customized:
 
-| Token                                   | Purpose                                        |
-| --------------------------------------- | ---------------------------------------------- |
-| `--solaris-alert-background`            | Container background color                     |
-| `--solaris-alert-color`                 | Text color                                     |
-| `--solaris-alert-border-color`          | Border color                                   |
-| `--solaris-alert-border-width`          | Border width                                   |
-| `--solaris-alert-radius`                | Border radius                                  |
-| `--solaris-alert-padding`               | Container padding                              |
-| `--solaris-alert-gap`                   | Gap between icon, content, and close button    |
-| `--solaris-alert-icon-size`             | Icon width/height                              |
-| `--solaris-alert-icon-color`            | Icon color                                     |
-| `--solaris-alert-icon-offset`           | Vertical offset applied to the icon            |
-| `--solaris-alert-close-size`            | Close button width/height                      |
-| `--solaris-alert-close-icon-size`       | Close icon width/height                        |
-| `--solaris-alert-close-color`           | Close button color                             |
-| `--solaris-alert-close-background`      | Close button background                        |
-| `--solaris-alert-close-hover-background`| Close button hover background                  |
-| `--solaris-alert-close-offset`          | Vertical offset applied to the close button    |
-| `--solaris-alert-title-color`           | Title text color                               |
-| `--solaris-alert-description-color`     | Description text color                         |
-| `--solaris-alert-content-gap`           | Gap between title, description, and actions    |
-| `--solaris-alert-actions-gap`           | Gap between action items                       |
-| `--solaris-alert-first-line-height`     | Line height of the first content line          |
-| `--solaris-alert-first-line-font-size`  | Font size of the first content line            |
+| Token                                    | Purpose                                     |
+| ---------------------------------------- | ------------------------------------------- |
+| `--solaris-alert-background`             | Container background color                  |
+| `--solaris-alert-color`                  | Text color                                  |
+| `--solaris-alert-border-color`           | Border color                                |
+| `--solaris-alert-border-width`           | Border width                                |
+| `--solaris-alert-radius`                 | Border radius                               |
+| `--solaris-alert-padding`                | Container padding                           |
+| `--solaris-alert-gap`                    | Gap between icon, content, and close button |
+| `--solaris-alert-icon-size`              | Icon width/height                           |
+| `--solaris-alert-icon-color`             | Icon color                                  |
+| `--solaris-alert-icon-offset`            | Vertical offset applied to the icon         |
+| `--solaris-alert-close-size`             | Close button width/height                   |
+| `--solaris-alert-close-icon-size`        | Close icon width/height                     |
+| `--solaris-alert-close-color`            | Close button color                          |
+| `--solaris-alert-close-background`       | Close button background                     |
+| `--solaris-alert-close-hover-background` | Close button hover background               |
+| `--solaris-alert-close-offset`           | Vertical offset applied to the close button |
+| `--solaris-alert-title-color`            | Title text color                            |
+| `--solaris-alert-description-color`      | Description text color                      |
+| `--solaris-alert-content-gap`            | Gap between title, description, and actions |
+| `--solaris-alert-actions-gap`            | Gap between action items                    |
+| `--solaris-alert-first-line-height`      | Line height of the first content line       |
+| `--solaris-alert-first-line-font-size`   | Font size of the first content line         |
 
 ### Custom variant tokens
 
-| Token                                   | Purpose                            |
-| --------------------------------------- | ---------------------------------- |
-| `--solaris-alert-custom-color`          | Text color for custom variant      |
-| `--solaris-alert-custom-background`     | Background for custom variant      |
-| `--solaris-alert-custom-border-color`   | Border color for custom variant    |
-| `--solaris-alert-custom-icon-color`     | Icon color for custom variant      |
+| Token                                 | Purpose                         |
+| ------------------------------------- | ------------------------------- |
+| `--solaris-alert-custom-color`        | Text color for custom variant   |
+| `--solaris-alert-custom-background`   | Background for custom variant   |
+| `--solaris-alert-custom-border-color` | Border color for custom variant |
+| `--solaris-alert-custom-icon-color`   | Icon color for custom variant   |

@@ -207,17 +207,17 @@ For Select/Autocomplete usage, `autoFocus` should be `false` so the component co
 
 Popover uses CSS custom properties for visual customization:
 
-| Token                            | Default                    | Description                         |
-| -------------------------------- | -------------------------- | ----------------------------------- |
-| `--solaris-popover-background`    | `--solaris-surface-raised` | Panel background                    |
-| `--solaris-popover-color`         | `--solaris-text-default`   | Text color                          |
-| `--solaris-popover-border-color`  | `transparent`              | Border color                        |
-| `--solaris-popover-border-width`  | `0`                        | Border width                        |
-| `--solaris-popover-radius`        | `--solaris-radius-md`      | Border radius                       |
-| `--solaris-popover-padding`       | `--solaris-spacing-3`      | Inner padding                       |
-| `--solaris-popover-shadow`        | `--solaris-shadow-lg`      | Box shadow                          |
-| `--solaris-popover-min-width`     | `auto`                     | Minimum panel width                 |
-| `--solaris-popover-max-width`     | `none`                     | Maximum panel width                 |
+| Token                            | Default                    | Description         |
+| -------------------------------- | -------------------------- | ------------------- |
+| `--solaris-popover-background`   | `--solaris-surface-raised` | Panel background    |
+| `--solaris-popover-color`        | `--solaris-text-default`   | Text color          |
+| `--solaris-popover-border-color` | `transparent`              | Border color        |
+| `--solaris-popover-border-width` | `0`                        | Border width        |
+| `--solaris-popover-radius`       | `--solaris-radius-md`      | Border radius       |
+| `--solaris-popover-padding`      | `--solaris-spacing-3`      | Inner padding       |
+| `--solaris-popover-shadow`       | `--solaris-shadow-lg`      | Box shadow          |
+| `--solaris-popover-min-width`    | `auto`                     | Minimum panel width |
+| `--solaris-popover-max-width`    | `none`                     | Maximum panel width |
 
 ## Accessibility
 
@@ -234,9 +234,7 @@ Popover does not impose a fixed role by default.
 ### Basic popover
 
 ```html
-<button solaris-popover-trigger [solarisPopoverTriggerFor]="helpPopover">
-  Help
-</button>
+<button solaris-popover-trigger [solarisPopoverTriggerFor]="helpPopover">Help</button>
 
 <ng-template #helpPopover solaris-popover>
   <p>This panel can contain structured, interactive content.</p>
@@ -246,14 +244,7 @@ Popover does not impose a fixed role by default.
 ### Placement and appearance
 
 ```html
-<button
-  solaris-popover-trigger
-  [solarisPopoverTriggerFor]="profilePopover"
-  solarisPopoverPlacement="bottom"
-  solarisPopoverAlign="end"
-  solarisPopoverAppearance="outline"
-  solarisPopoverRadius="lg"
->
+<button solaris-popover-trigger [solarisPopoverTriggerFor]="profilePopover" solarisPopoverPlacement="bottom" solarisPopoverAlign="end" solarisPopoverAppearance="outline" solarisPopoverRadius="lg">
   <solaris-icon name="user" decorative="true" />
   Profile
 </button>
@@ -266,9 +257,7 @@ Popover does not impose a fixed role by default.
 ### With interactive content
 
 ```html
-<button solaris-popover-trigger [solarisPopoverTriggerFor]="actionsPopover">
-  Filters
-</button>
+<button solaris-popover-trigger [solarisPopoverTriggerFor]="actionsPopover">Filters</button>
 
 <ng-template #actionsPopover solaris-popover>
   <button solaris-button size="sm" fullWidth>Apply</button>

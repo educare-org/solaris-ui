@@ -107,16 +107,16 @@ Custom dimensions override defaults. Accepts any valid CSS length:
 
 The following CSS variables can be customized:
 
-| Token                                      | Purpose                                         |
-| ------------------------------------------ | ----------------------------------------------- |
-| `--solaris-skeleton-width`                 | Skeleton width                                  |
-| `--solaris-skeleton-height`                | Skeleton height                                 |
-| `--solaris-skeleton-gap`                   | Gap between multi-line skeleton lines           |
-| `--solaris-skeleton-radius`                | Border radius                                   |
-| `--solaris-skeleton-background`            | Base background color                           |
-| `--solaris-skeleton-highlight`             | Shimmer highlight color for the wave animation  |
-| `--solaris-skeleton-animation-duration`    | Animation duration                              |
-| `--solaris-skeleton-animation-easing`      | Animation easing function                       |
+| Token                                   | Purpose                                        |
+| --------------------------------------- | ---------------------------------------------- |
+| `--solaris-skeleton-width`              | Skeleton width                                 |
+| `--solaris-skeleton-height`             | Skeleton height                                |
+| `--solaris-skeleton-gap`                | Gap between multi-line skeleton lines          |
+| `--solaris-skeleton-radius`             | Border radius                                  |
+| `--solaris-skeleton-background`         | Base background color                          |
+| `--solaris-skeleton-highlight`          | Shimmer highlight color for the wave animation |
+| `--solaris-skeleton-animation-duration` | Animation duration                             |
+| `--solaris-skeleton-animation-easing`   | Animation easing function                      |
 
 ## Reduced motion
 

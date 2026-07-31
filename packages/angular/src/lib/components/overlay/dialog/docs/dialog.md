@@ -203,23 +203,23 @@ this.dialog.open({
 
 The following CSS variables can be customized. Panel and backdrop tokens are declared on the dialog container; icon and close tokens on the dialog header.
 
-| Token                                 | Purpose                                |
-| ------------------------------------- | -------------------------------------- |
-| `--solaris-dialog-panel-bg`           | Panel background                       |
-| `--solaris-dialog-panel-padding`      | Panel inner padding                    |
-| `--solaris-dialog-panel-radius`       | Panel border radius                    |
-| `--solaris-dialog-panel-shadow`       | Panel box shadow                       |
-| `--solaris-dialog-panel-border`       | Panel border color (outline appearance)|
-| `--solaris-dialog-panel-min-width`    | Panel minimum width                    |
-| `--solaris-dialog-panel-max-width`    | Panel maximum width                    |
-| `--solaris-dialog-panel-max-height`   | Panel maximum height                   |
-| `--solaris-dialog-backdrop-bg`        | Backdrop background                    |
-| `--solaris-dialog-z-index`            | Stack order of the overlay             |
-| `--solaris-dialog-icon-color`         | Header icon color                      |
-| `--solaris-dialog-icon-size`          | Header icon size                       |
-| `--solaris-dialog-media-size`         | Header icon container size             |
-| `--solaris-dialog-close-size`         | Close button size                      |
-| `--solaris-dialog-close-icon-size`    | Close icon size                        |
+| Token                               | Purpose                                 |
+| ----------------------------------- | --------------------------------------- |
+| `--solaris-dialog-panel-bg`         | Panel background                        |
+| `--solaris-dialog-panel-padding`    | Panel inner padding                     |
+| `--solaris-dialog-panel-radius`     | Panel border radius                     |
+| `--solaris-dialog-panel-shadow`     | Panel box shadow                        |
+| `--solaris-dialog-panel-border`     | Panel border color (outline appearance) |
+| `--solaris-dialog-panel-min-width`  | Panel minimum width                     |
+| `--solaris-dialog-panel-max-width`  | Panel maximum width                     |
+| `--solaris-dialog-panel-max-height` | Panel maximum height                    |
+| `--solaris-dialog-backdrop-bg`      | Backdrop background                     |
+| `--solaris-dialog-z-index`          | Stack order of the overlay              |
+| `--solaris-dialog-icon-color`       | Header icon color                       |
+| `--solaris-dialog-icon-size`        | Header icon size                        |
+| `--solaris-dialog-media-size`       | Header icon container size              |
+| `--solaris-dialog-close-size`       | Close button size                       |
+| `--solaris-dialog-close-icon-size`  | Close icon size                         |
 
 ## Accessibility
 

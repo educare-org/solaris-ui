@@ -268,10 +268,10 @@ Disabled and loading state belong to each child. The group only ensures correct 
 
 ## CSS Variables
 
-| Token                                    | Purpose                                        |
-| ---------------------------------------- | ---------------------------------------------- |
-| `--solaris-button-group-gap`             | Gap between separated items                    |
-| `--solaris-button-group-radius`          | Outer border-radius for the attached group     |
-| `--solaris-button-group-border-color`    | Outer border color for the attached group      |
-| `--solaris-button-group-separator-color` | Internal border color between attached items   |
-| `--solaris-button-disabled-opacity`      | Disabled opacity applied to child buttons      |
+| Token                                    | Purpose                                      |
+| ---------------------------------------- | -------------------------------------------- |
+| `--solaris-button-group-gap`             | Gap between separated items                  |
+| `--solaris-button-group-radius`          | Outer border-radius for the attached group   |
+| `--solaris-button-group-border-color`    | Outer border color for the attached group    |
+| `--solaris-button-group-separator-color` | Internal border color between attached items |
+| `--solaris-button-disabled-opacity`      | Disabled opacity applied to child buttons    |

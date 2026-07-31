@@ -31,7 +31,7 @@ It is the institutional select for Solaris UI: accessible, keyboard-navigable, s
 | ---------------- | ------------------------------------------------------ |
 | **Select**       | Single choice from a dropdown list. Can be searchable. |
 | **Radio Group**  | Few visible options. No dropdown.                      |
-| **Autocomplete** | Text input with suggestions. Not available in v1. |
+| **Autocomplete** | Text input with suggestions. Not available in v1.      |
 
 ## Single Select v1
 
@@ -102,48 +102,48 @@ Select v1 does not implement:
 
 ## Appearances
 
-| Appearance | Visual                                       |
-| ---------- | -------------------------------------------- |
-| `outline`  | Visible border and field background (default) |
-| `surface`  | Lighter surface, for cards and panels        |
+| Appearance | Visual                                         |
+| ---------- | ---------------------------------------------- |
+| `outline`  | Visible border and field background (default)  |
+| `surface`  | Lighter surface, for cards and panels          |
 | `filled`   | Subtle filled background, less dominant border |
 
 ## Sizes
 
-| Size | Effect                   |
-| ---- | ------------------------ |
-| `sm` | Compact trigger and text |
-| `md` | Standard (default)       |
+| Size | Effect                    |
+| ---- | ------------------------- |
+| `sm` | Compact trigger and text  |
+| `md` | Standard (default)        |
 | `lg` | Spacious trigger and text |
 
 ## Density
 
-| Density       | Effect                     |
-| ------------- | -------------------------- |
-| `compact`     | Reduced padding and gap    |
-| `comfortable` | Increased padding and gap  |
+| Density       | Effect                    |
+| ------------- | ------------------------- |
+| `compact`     | Reduced padding and gap   |
+| `comfortable` | Increased padding and gap |
 
 When not provided, Select inherits density from the theme system.
 
 ## Radius
 
-| Radius | Effect                     |
-| ------ | -------------------------- |
-| `none` | No border radius           |
-| `sm`   | Small border radius        |
+| Radius | Effect                         |
+| ------ | ------------------------------ |
+| `none` | No border radius               |
+| `sm`   | Small border radius            |
 | `md`   | Medium border radius (default) |
-| `lg`   | Large border radius        |
+| `lg`   | Large border radius            |
 
 ## CSS Variables
 
 Select tokens can be customized on the host or a parent element:
 
-| Token                                | Purpose                    |
-| ------------------------------------ | -------------------------- |
-| `--solaris-select-value-color`       | Selected value text color  |
-| `--solaris-select-font-size`         | Font size                  |
-| `--solaris-select-line-height`       | Line height                |
-| `--solaris-select-placeholder-color` | Placeholder text color     |
+| Token                                | Purpose                       |
+| ------------------------------------ | ----------------------------- |
+| `--solaris-select-value-color`       | Selected value text color     |
+| `--solaris-select-font-size`         | Font size                     |
+| `--solaris-select-line-height`       | Line height                   |
+| `--solaris-select-placeholder-color` | Placeholder text color        |
 | `--solaris-select-icon-color`        | Dropdown and clear icon color |
 
 ## Searchable

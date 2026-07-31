@@ -151,18 +151,17 @@ function validateDocs(compDir, name) {
   }
 
   const scssFiles = walk(compDir, '.scss');
-  const scssText = scssFiles
-    .map((f) => readFileSync(f, 'utf-8'))
-    .join('\n');
+  const scssText = scssFiles.map((f) => readFileSync(f, 'utf-8')).join('\n');
   const hasTokens = /--solaris-[a-z0-9-]+/.test(scssText);
 
   const tsAndTypes = walk(compDir, '.ts')
     .filter((f) => !f.includes('.spec.') && !f.includes('.stories.'))
     .map((f) => readFileSync(f, 'utf-8'))
     .join('\n');
-  const hasVariants = /Solaris\w*(Appearance|Color|Size|Radius|Density|Orientation|Variant|Shape|Position)\b/.test(
-    tsAndTypes,
-  );
+  const hasVariants =
+    /Solaris\w*(Appearance|Color|Size|Radius|Density|Orientation|Variant|Shape|Position)\b/.test(
+      tsAndTypes,
+    );
 
   for (const docFile of docFiles) {
     const filePath = join(docDir, docFile);

@@ -24,14 +24,14 @@ Badge displays short informational content such as status labels, counts, or sem
 
 **Selector:** `solaris-badge`
 
-| Input        | Type                                                                                     | Default     | Description                            |
-| ------------ | ---------------------------------------------------------------------------------------- | ----------- | -------------------------------------- |
-| `appearance` | `'solid' \| 'tonal' \| 'outline' \| 'ghost'`                                              | `'tonal'`   | Visual appearance                      |
-| `color`      | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'`     | `'neutral'` | Semantic color                         |
-| `size`       | `'sm' \| 'md' \| 'lg'`                                                                   | `'md'`      | Size variant                           |
-| `radius`     | `'sm' \| 'md' \| 'full'`                                                                 | `'full'`    | Border radius                          |
-| `variant`    | `'standard' \| 'count'`                                                                  | `'standard'`| Visual variant                         |
-| `density`    | `'compact' \| 'comfortable'`                                                             | inherited   | Density variant                        |
+| Input        | Type                                                                                 | Default      | Description       |
+| ------------ | ------------------------------------------------------------------------------------ | ------------ | ----------------- |
+| `appearance` | `'solid' \| 'tonal' \| 'outline' \| 'ghost'`                                         | `'tonal'`    | Visual appearance |
+| `color`      | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'`  | Semantic color    |
+| `size`       | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`       | Size variant      |
+| `radius`     | `'sm' \| 'md' \| 'full'`                                                             | `'full'`     | Border radius     |
+| `variant`    | `'standard' \| 'count'`                                                              | `'standard'` | Visual variant    |
+| `density`    | `'compact' \| 'comfortable'`                                                         | inherited    | Density variant   |
 
 ### SolarisBadgeIconDirective
 

@@ -139,23 +139,23 @@ If `rows` is not specified, a visual min-height is applied based on size and den
 
 Textarea tokens can be customized on the textarea element or a parent:
 
-| Token                                       | Purpose                    |
-| ------------------------------------------- | -------------------------- |
-| `--solaris-textarea-radius`                 | Border radius              |
-| `--solaris-textarea-color`                  | Text color                 |
-| `--solaris-textarea-background`             | Background color           |
-| `--solaris-textarea-border-color`           | Border color               |
-| `--solaris-textarea-border-width`           | Border width               |
-| `--solaris-textarea-padding-x`              | Horizontal padding         |
-| `--solaris-textarea-padding-y`              | Vertical padding           |
-| `--solaris-textarea-font-size`              | Font size                  |
-| `--solaris-textarea-line-height`            | Line height                |
-| `--solaris-textarea-min-height`             | Minimum height             |
-| `--solaris-textarea-placeholder-color`      | Placeholder text color     |
-| `--solaris-textarea-focus-ring-color`       | Focus ring color           |
-| `--solaris-textarea-invalid-border-color`   | Invalid border color       |
-| `--solaris-textarea-disabled-opacity`       | Disabled opacity           |
-| `--solaris-textarea-readonly-background`    | Readonly background color  |
+| Token                                     | Purpose                   |
+| ----------------------------------------- | ------------------------- |
+| `--solaris-textarea-radius`               | Border radius             |
+| `--solaris-textarea-color`                | Text color                |
+| `--solaris-textarea-background`           | Background color          |
+| `--solaris-textarea-border-color`         | Border color              |
+| `--solaris-textarea-border-width`         | Border width              |
+| `--solaris-textarea-padding-x`            | Horizontal padding        |
+| `--solaris-textarea-padding-y`            | Vertical padding          |
+| `--solaris-textarea-font-size`            | Font size                 |
+| `--solaris-textarea-line-height`          | Line height               |
+| `--solaris-textarea-min-height`           | Minimum height            |
+| `--solaris-textarea-placeholder-color`    | Placeholder text color    |
+| `--solaris-textarea-focus-ring-color`     | Focus ring color          |
+| `--solaris-textarea-invalid-border-color` | Invalid border color      |
+| `--solaris-textarea-disabled-opacity`     | Disabled opacity          |
+| `--solaris-textarea-readonly-background`  | Readonly background color |
 
 ## Placeholder
 

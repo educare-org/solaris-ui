@@ -31,29 +31,29 @@
 
 ## Sizes
 
-| Size | Label typography                     |
-| ---- | ------------------------------------ |
-| `sm` | Uppercase, `xs` font size            |
-| `md` | Uppercase, `sm` font size (default)  |
-| `lg` | Uppercase, `md` font size            |
+| Size | Label typography                    |
+| ---- | ----------------------------------- |
+| `sm` | Uppercase, `xs` font size           |
+| `md` | Uppercase, `sm` font size (default) |
+| `lg` | Uppercase, `md` font size           |
 
 ## Density
 
-| Density       | Effect                     |
-| ------------- | -------------------------- |
-| `compact`     | Reduced gap between items  |
-| `comfortable` | Increased gap (default)    |
+| Density       | Effect                    |
+| ------------- | ------------------------- |
+| `compact`     | Reduced gap between items |
+| `comfortable` | Increased gap (default)   |
 
 ## CSS Variables
 
 Option Group tokens can be customized on the host or a parent element:
 
-| Token                                  | Purpose                      |
-| -------------------------------------- | ---------------------------- |
-| `--solaris-option-group-padding-x`     | Horizontal padding           |
-| `--solaris-option-group-padding-y`     | Vertical padding             |
-| `--solaris-option-group-gap`           | Gap between label and options |
-| `--solaris-option-group-label-color`   | Group label color            |
+| Token                                | Purpose                       |
+| ------------------------------------ | ----------------------------- |
+| `--solaris-option-group-padding-x`   | Horizontal padding            |
+| `--solaris-option-group-padding-y`   | Vertical padding              |
+| `--solaris-option-group-gap`         | Gap between label and options |
+| `--solaris-option-group-label-color` | Group label color             |
 
 ## Disabled Propagation
 

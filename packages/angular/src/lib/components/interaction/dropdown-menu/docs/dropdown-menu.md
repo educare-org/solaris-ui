@@ -114,13 +114,13 @@ Set on the trigger via `solarisDropdownMenuAppearance`.
 
 Set on the trigger via `solarisDropdownMenuRadius`.
 
-| Radius | Description              |
-| ------ | ------------------------ |
-| `none` | No border radius         |
-| `sm`   | Small radius             |
-| `md`   | Medium radius (default)  |
-| `lg`   | Large radius             |
-| `xl`   | Extra large radius       |
+| Radius | Description             |
+| ------ | ----------------------- |
+| `none` | No border radius        |
+| `sm`   | Small radius            |
+| `md`   | Medium radius (default) |
+| `lg`   | Large radius            |
+| `xl`   | Extra large radius      |
 
 ### Size
 
@@ -158,24 +158,24 @@ Set on the item via `color`.
 
 The following CSS variables can be customized:
 
-| Token                                              | Purpose                            |
-| -------------------------------------------------- | ---------------------------------- |
-| `--solaris-dropdown-menu-min-width`                | Minimum menu width                 |
-| `--solaris-dropdown-menu-max-width`                | Maximum menu width                 |
-| `--solaris-dropdown-menu-gap`                      | Gap between menu items             |
-| `--solaris-dropdown-menu-padding`                  | Inner padding of the menu panel    |
-| `--solaris-dropdown-menu-item-gap`                 | Gap between icon, label, shortcut  |
-| `--solaris-dropdown-menu-item-radius`              | Item border radius                 |
-| `--solaris-dropdown-menu-item-padding-y`           | Vertical item padding              |
-| `--solaris-dropdown-menu-item-padding-x`           | Horizontal item padding            |
-| `--solaris-dropdown-menu-item-label-color`         | Item label color                   |
-| `--solaris-dropdown-menu-item-danger-color`        | Text color for danger items        |
-| `--solaris-dropdown-menu-item-shortcut-color`      | Shortcut hint color                |
-| `--solaris-dropdown-menu-item-danger-hover`        | Hover background for danger items  |
-| `--solaris-dropdown-menu-item-description-color`   | Description text color             |
-| `--solaris-dropdown-menu-item-focus-ring-color`    | Focus ring color                   |
-| `--solaris-dropdown-menu-item-hover-background`    | Item hover background              |
-| `--solaris-dropdown-menu-item-focus-background`    | Item focus background              |
+| Token                                            | Purpose                           |
+| ------------------------------------------------ | --------------------------------- |
+| `--solaris-dropdown-menu-min-width`              | Minimum menu width                |
+| `--solaris-dropdown-menu-max-width`              | Maximum menu width                |
+| `--solaris-dropdown-menu-gap`                    | Gap between menu items            |
+| `--solaris-dropdown-menu-padding`                | Inner padding of the menu panel   |
+| `--solaris-dropdown-menu-item-gap`               | Gap between icon, label, shortcut |
+| `--solaris-dropdown-menu-item-radius`            | Item border radius                |
+| `--solaris-dropdown-menu-item-padding-y`         | Vertical item padding             |
+| `--solaris-dropdown-menu-item-padding-x`         | Horizontal item padding           |
+| `--solaris-dropdown-menu-item-label-color`       | Item label color                  |
+| `--solaris-dropdown-menu-item-danger-color`      | Text color for danger items       |
+| `--solaris-dropdown-menu-item-shortcut-color`    | Shortcut hint color               |
+| `--solaris-dropdown-menu-item-danger-hover`      | Hover background for danger items |
+| `--solaris-dropdown-menu-item-description-color` | Description text color            |
+| `--solaris-dropdown-menu-item-focus-ring-color`  | Focus ring color                  |
+| `--solaris-dropdown-menu-item-hover-background`  | Item hover background             |
+| `--solaris-dropdown-menu-item-focus-background`  | Item focus background             |
 
 ## Keyboard Navigation
 

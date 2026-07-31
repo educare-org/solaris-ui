@@ -150,23 +150,23 @@ Preserves native `required` attribute. Optional marker is a Form Field responsib
 
 General component tokens available for advanced customization. These apply to the standalone input shell (inside Form Field, the shell is managed by Form Field):
 
-| Token                                    | Purpose                        |
-| ---------------------------------------- | ------------------------------ |
-| `--solaris-input-radius`                 | Border radius                  |
-| `--solaris-input-height`                 | Input height                   |
-| `--solaris-input-color`                  | Text color                     |
-| `--solaris-input-padding-x`              | Horizontal padding             |
-| `--solaris-input-padding-y`              | Vertical padding               |
-| `--solaris-input-font-size`              | Font size                      |
-| `--solaris-input-line-height`            | Line height                    |
-| `--solaris-input-background`             | Background color               |
-| `--solaris-input-border-color`           | Border color                   |
-| `--solaris-input-border-width`           | Border width                   |
-| `--solaris-input-placeholder-color`      | Placeholder text color         |
-| `--solaris-input-focus-ring-color`       | Focus ring color               |
-| `--solaris-input-invalid-border-color`   | Invalid border color           |
-| `--solaris-input-disabled-opacity`       | Disabled opacity               |
-| `--solaris-input-readonly-background`    | Readonly background            |
+| Token                                  | Purpose                |
+| -------------------------------------- | ---------------------- |
+| `--solaris-input-radius`               | Border radius          |
+| `--solaris-input-height`               | Input height           |
+| `--solaris-input-color`                | Text color             |
+| `--solaris-input-padding-x`            | Horizontal padding     |
+| `--solaris-input-padding-y`            | Vertical padding       |
+| `--solaris-input-font-size`            | Font size              |
+| `--solaris-input-line-height`          | Line height            |
+| `--solaris-input-background`           | Background color       |
+| `--solaris-input-border-color`         | Border color           |
+| `--solaris-input-border-width`         | Border width           |
+| `--solaris-input-placeholder-color`    | Placeholder text color |
+| `--solaris-input-focus-ring-color`     | Focus ring color       |
+| `--solaris-input-invalid-border-color` | Invalid border color   |
+| `--solaris-input-disabled-opacity`     | Disabled opacity       |
+| `--solaris-input-readonly-background`  | Readonly background    |
 
 ## Placeholder
 

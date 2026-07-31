@@ -148,23 +148,23 @@ By default, Segmented Control renders an animated selection indicator that:
 
 The following CSS variables can be customized:
 
-| Token                                          | Purpose                              |
-| ---------------------------------------------- | ------------------------------------ |
-| `--solaris-segmented-item-height`              | Item height                          |
-| `--solaris-segmented-gap`                      | Gap between items                    |
-| `--solaris-segmented-radius`                   | Container border radius              |
-| `--solaris-segmented-padding`                  | Container inner padding              |
-| `--solaris-segmented-item-color`               | Item text color                      |
-| `--solaris-segmented-item-padding-y`           | Vertical item padding                |
-| `--solaris-segmented-item-padding-x`           | Horizontal item padding              |
-| `--solaris-segmented-background`               | Container background                 |
-| `--solaris-segmented-indicator-shadow`         | Selection indicator shadow           |
-| `--solaris-segmented-border-color`             | Container border color (outline)     |
-| `--solaris-segmented-border-width`             | Container border width (outline)     |
-| `--solaris-segmented-focus-ring-color`         | Focus ring color                     |
-| `--solaris-segmented-item-selected-color`      | Selected item text color             |
-| `--solaris-segmented-indicator-background`     | Selection indicator background       |
-| `--solaris-segmented-item-hover-background`    | Item hover background                |
+| Token                                       | Purpose                          |
+| ------------------------------------------- | -------------------------------- |
+| `--solaris-segmented-item-height`           | Item height                      |
+| `--solaris-segmented-gap`                   | Gap between items                |
+| `--solaris-segmented-radius`                | Container border radius          |
+| `--solaris-segmented-padding`               | Container inner padding          |
+| `--solaris-segmented-item-color`            | Item text color                  |
+| `--solaris-segmented-item-padding-y`        | Vertical item padding            |
+| `--solaris-segmented-item-padding-x`        | Horizontal item padding          |
+| `--solaris-segmented-background`            | Container background             |
+| `--solaris-segmented-indicator-shadow`      | Selection indicator shadow       |
+| `--solaris-segmented-border-color`          | Container border color (outline) |
+| `--solaris-segmented-border-width`          | Container border width (outline) |
+| `--solaris-segmented-focus-ring-color`      | Focus ring color                 |
+| `--solaris-segmented-item-selected-color`   | Selected item text color         |
+| `--solaris-segmented-indicator-background`  | Selection indicator background   |
+| `--solaris-segmented-item-hover-background` | Item hover background            |
 
 ## Accessibility
 
@@ -227,12 +227,7 @@ When an item has only an icon with no label text, an accessible name is required
 ### Orientation and appearance
 
 ```html
-<solaris-segmented-control
-  [(value)]="role"
-  orientation="vertical"
-  appearance="outline"
-  ariaLabel="Role"
->
+<solaris-segmented-control [(value)]="role" orientation="vertical" appearance="outline" ariaLabel="Role">
   <solaris-segmented-item value="student" label="Student" />
   <solaris-segmented-item value="teacher" label="Teacher" />
   <solaris-segmented-item value="admin" label="Admin" />

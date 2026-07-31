@@ -63,13 +63,13 @@ Used on a badge element projected inside the icon button to position it correctl
 
 ## Appearances
 
-| Appearance | Visual                                  |
-| ---------- | --------------------------------------- |
-| `solid`    | Filled background, high visual weight   |
-| `outline`  | Transparent background, visible border  |
-| `ghost`    | No background or border, subtle hover   |
-| `tonal`    | Soft background, subtle border          |
-| `surface`  | Muted background, no border             |
+| Appearance | Visual                                 |
+| ---------- | -------------------------------------- |
+| `solid`    | Filled background, high visual weight  |
+| `outline`  | Transparent background, visible border |
+| `ghost`    | No background or border, subtle hover  |
+| `tonal`    | Soft background, subtle border         |
+| `surface`  | Muted background, no border            |
 
 Default: `solid`
 
@@ -224,32 +224,32 @@ For the `custom` color value, use CSS custom properties:
 
 The following CSS variables can be customized:
 
-| Token                                           | Purpose                          |
-| ----------------------------------------------- | -------------------------------- |
-| `--solaris-icon-button-size`                    | Width/height of the button       |
-| `--solaris-icon-button-radius`                  | Border radius                    |
-| `--solaris-icon-button-color`                   | Icon color                       |
-| `--solaris-icon-button-background`              | Background color                 |
-| `--solaris-icon-button-border-color`            | Border color                     |
-| `--solaris-icon-button-border-width`            | Border width                     |
-| `--solaris-icon-button-hover-background`        | Hover background                 |
-| `--solaris-icon-button-hover-border-color`      | Hover border color               |
-| `--solaris-icon-button-active-background`       | Active background                |
-| `--solaris-icon-button-active-border-color`     | Active border color              |
-| `--solaris-icon-button-focus-ring-color`        | Focus ring color                 |
-| `--solaris-icon-button-disabled-opacity`        | Disabled opacity                 |
+| Token                                       | Purpose                    |
+| ------------------------------------------- | -------------------------- |
+| `--solaris-icon-button-size`                | Width/height of the button |
+| `--solaris-icon-button-radius`              | Border radius              |
+| `--solaris-icon-button-color`               | Icon color                 |
+| `--solaris-icon-button-background`          | Background color           |
+| `--solaris-icon-button-border-color`        | Border color               |
+| `--solaris-icon-button-border-width`        | Border width               |
+| `--solaris-icon-button-hover-background`    | Hover background           |
+| `--solaris-icon-button-hover-border-color`  | Hover border color         |
+| `--solaris-icon-button-active-background`   | Active background          |
+| `--solaris-icon-button-active-border-color` | Active border color        |
+| `--solaris-icon-button-focus-ring-color`    | Focus ring color           |
+| `--solaris-icon-button-disabled-opacity`    | Disabled opacity           |
 
 ### Custom color tokens
 
-| Token                                               | Purpose                |
-| --------------------------------------------------- | ---------------------- |
-| `--solaris-icon-button-custom-color`                | Icon color             |
-| `--solaris-icon-button-custom-background`           | Background color       |
-| `--solaris-icon-button-custom-border-color`         | Border color           |
-| `--solaris-icon-button-custom-hover-background`     | Hover background       |
-| `--solaris-icon-button-custom-hover-border-color`   | Hover border color     |
-| `--solaris-icon-button-custom-active-background`    | Active background      |
-| `--solaris-icon-button-custom-active-border-color`  | Active border color    |
+| Token                                              | Purpose             |
+| -------------------------------------------------- | ------------------- |
+| `--solaris-icon-button-custom-color`               | Icon color          |
+| `--solaris-icon-button-custom-background`          | Background color    |
+| `--solaris-icon-button-custom-border-color`        | Border color        |
+| `--solaris-icon-button-custom-hover-background`    | Hover background    |
+| `--solaris-icon-button-custom-hover-border-color`  | Hover border color  |
+| `--solaris-icon-button-custom-active-background`   | Active background   |
+| `--solaris-icon-button-custom-active-border-color` | Active border color |
 
 ## Accessibility
 
@@ -305,14 +305,7 @@ The following CSS variables can be customized:
 <!-- With badge -->
 <button solaris-icon-button aria-label="Notifications, 3 new">
   <solaris-icon name="info" decorative="true" />
-  <solaris-badge
-    solaris-icon-button-badge
-    variant="count"
-    color="primary"
-    size="sm"
-    radius="full"
-    >3</solaris-badge
-  >
+  <solaris-badge solaris-icon-button-badge variant="count" color="primary" size="sm" radius="full">3</solaris-badge>
 </button>
 
 <!-- Loading -->

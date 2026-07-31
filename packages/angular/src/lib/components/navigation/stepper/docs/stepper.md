@@ -166,20 +166,20 @@ Status precedence: disabled > error > active > completed > pending.
 
 The following CSS variables can be customized:
 
-| Token                                    | Purpose                          |
-| ---------------------------------------- | -------------------------------- |
-| `--solaris-stepper-gap`                  | Gap between steps and connectors |
-| `--solaris-stepper-card-shadow`          | Card appearance shadow           |
-| `--solaris-stepper-indicator-size`       | Indicator circle size            |
-| `--solaris-stepper-label-color`          | Step label color                 |
-| `--solaris-stepper-indicator-color`      | Indicator text/icon color        |
-| `--solaris-stepper-description-color`    | Step description color           |
-| `--solaris-stepper-card-background`      | Card appearance background       |
-| `--solaris-stepper-connector-color`      | Connector line color             |
-| `--solaris-stepper-connector-size`       | Connector line thickness         |
-| `--solaris-stepper-card-border-color`    | Card appearance border color     |
-| `--solaris-stepper-indicator-background` | Indicator background             |
-| `--solaris-stepper-connector-active-color` | Active connector line color    |
+| Token                                      | Purpose                           |
+| ------------------------------------------ | --------------------------------- |
+| `--solaris-stepper-gap`                    | Gap between steps and connectors  |
+| `--solaris-stepper-card-shadow`            | Card appearance shadow            |
+| `--solaris-stepper-indicator-size`         | Indicator circle size             |
+| `--solaris-stepper-label-color`            | Step label color                  |
+| `--solaris-stepper-indicator-color`        | Indicator text/icon color         |
+| `--solaris-stepper-description-color`      | Step description color            |
+| `--solaris-stepper-card-background`        | Card appearance background        |
+| `--solaris-stepper-connector-color`        | Connector line color              |
+| `--solaris-stepper-connector-size`         | Connector line thickness          |
+| `--solaris-stepper-card-border-color`      | Card appearance border color      |
+| `--solaris-stepper-indicator-background`   | Indicator background              |
+| `--solaris-stepper-connector-active-color` | Active connector line color       |
 | `--solaris-stepper-dashed-connector-color` | Dashed appearance connector color |
 
 ## Content / Wizard
