@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 import type {
   SolarisBadgeAppearance,
@@ -14,6 +14,7 @@ import type {
   standalone: true,
   templateUrl: './badge.component.html',
   styleUrls: ['./badge.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',

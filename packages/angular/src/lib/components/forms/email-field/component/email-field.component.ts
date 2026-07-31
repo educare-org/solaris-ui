@@ -8,6 +8,7 @@ import {
   ViewChild,
   ElementRef,
   isDevMode,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
@@ -45,6 +46,7 @@ import { SolarisInputDirective } from '../../input';
   ],
   templateUrl: './email-field.component.html',
   styleUrls: ['./email-field.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SolarisEmailFieldComponent implements ControlValueAccessor {
   private readonly translateService = inject(SolarisTranslateService);

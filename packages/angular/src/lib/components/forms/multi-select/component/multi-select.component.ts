@@ -15,6 +15,7 @@ import {
   AfterViewInit,
   DestroyRef,
   isDevMode,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
@@ -79,6 +80,7 @@ function normalizeArray(value: unknown): unknown[] {
   ],
   templateUrl: './multi-select.component.html',
   styleUrls: ['./multi-select.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'solaris-multi-select': '',
     '[attr.id]': 'elementId()',

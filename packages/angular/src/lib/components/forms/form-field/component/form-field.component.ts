@@ -10,6 +10,7 @@ import {
   ElementRef,
   inject,
   NgZone,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormControlDirective, FormControlName, NgModel } from '@angular/forms';
 
@@ -40,6 +41,7 @@ function generateId(): string {
   imports: [],
   templateUrl: './form-field.component.html',
   styleUrls: ['./form-field.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'radius()',

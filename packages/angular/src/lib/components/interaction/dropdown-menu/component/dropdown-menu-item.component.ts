@@ -7,6 +7,7 @@ import {
   inject,
   HostListener,
   forwardRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { SolarisIconComponent } from '../../../icon';
@@ -29,6 +30,7 @@ import { SOLARIS_DROPDOWN_NAVIGABLE_ITEM } from '../model/dropdown-menu-navigati
   ],
   templateUrl: './dropdown-menu-item.component.html',
   styleUrls: ['./dropdown-menu-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-type]': 'type()',
     '[attr.data-color]': 'color()',

@@ -1,12 +1,12 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 let nextLabelId = 0;
 
 @Component({
   selector: 'solaris-dropdown-menu-label',
   standalone: true,
-  template:
-    '<span class="solaris-dropdown-menu-label__text">{{ label() }}</span>',
+  templateUrl: './dropdown-menu-label.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[id]': 'labelId',
     class: 'solaris-dropdown-menu-label',

@@ -1,4 +1,10 @@
-import { Component, inject, input, computed } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { SolarisIconRegistryService } from '../../../services/icon';
 
@@ -7,6 +13,7 @@ import { SolarisIconRegistryService } from '../../../services/icon';
   standalone: true,
   templateUrl: './solaris-icon.component.html',
   styleUrls: ['./solaris-icon.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SolarisIconComponent {
   private readonly registry = inject(SolarisIconRegistryService);

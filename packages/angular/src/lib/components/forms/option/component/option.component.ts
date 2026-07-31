@@ -8,6 +8,7 @@ import {
   ElementRef,
   contentChild,
   HostListener,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../services/translation';
@@ -40,6 +41,7 @@ function generateId(): string {
   imports: [SolarisIconComponent],
   templateUrl: './option.component.html',
   styleUrls: ['./option.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'option',
     '[attr.aria-selected]': 'ariaSelected()',

@@ -1,4 +1,11 @@
-import { Component, inject, input, computed, output } from '@angular/core';
+import {
+  Component,
+  inject,
+  input,
+  computed,
+  output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisIconComponent } from '../../../icon';
@@ -17,6 +24,7 @@ import type {
   imports: [SolarisIconComponent],
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.role]': 'liveRole()',
     '[attr.data-variant]': 'variant()',

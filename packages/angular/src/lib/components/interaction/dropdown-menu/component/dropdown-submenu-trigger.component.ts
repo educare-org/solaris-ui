@@ -6,6 +6,7 @@ import {
   input,
   computed,
   forwardRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { SolarisIconComponent } from '../../../icon';
@@ -26,6 +27,7 @@ import { SolarisDropdownSubmenuComponent } from './dropdown-submenu.component';
   ],
   templateUrl: './dropdown-submenu-trigger.component.html',
   styleUrls: ['./dropdown-submenu-trigger.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.role]': '"menuitem"',
     '[attr.data-color]': 'color()',

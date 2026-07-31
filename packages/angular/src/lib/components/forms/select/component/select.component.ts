@@ -15,6 +15,7 @@ import {
   AfterViewInit,
   OnDestroy,
   isDevMode,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
@@ -70,6 +71,7 @@ function generateId(): string {
   ],
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'solaris-select': '',
     '[attr.id]': 'elementId()',

@@ -10,6 +10,7 @@ import {
   ViewChild,
   ElementRef,
   isDevMode,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
@@ -61,6 +62,7 @@ interface RequirementItem {
   ],
   templateUrl: './password-field.component.html',
   styleUrls: ['./password-field.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SolarisPasswordFieldComponent implements ControlValueAccessor {
   private readonly translateService = inject(SolarisTranslateService);

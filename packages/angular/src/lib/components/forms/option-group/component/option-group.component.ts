@@ -10,6 +10,7 @@ import {
   QueryList,
   type AfterContentInit,
   type OnDestroy,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Subscription = any;
@@ -34,6 +35,7 @@ function generateId(): string {
   imports: [],
   templateUrl: './option-group.component.html',
   styleUrls: ['./option-group.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'group',
     '[attr.id]': 'elementId()',

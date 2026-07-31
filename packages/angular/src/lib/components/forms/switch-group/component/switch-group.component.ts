@@ -13,6 +13,7 @@ import {
   type AfterContentInit,
   type OnDestroy,
   NgZone,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Subscription = any;
@@ -52,6 +53,7 @@ function generateId(): string {
   ],
   templateUrl: './switch-group.component.html',
   styleUrls: ['./switch-group.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'group',
     '[attr.data-orientation]': 'orientation()',

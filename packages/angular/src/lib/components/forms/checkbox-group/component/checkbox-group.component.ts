@@ -13,6 +13,7 @@ import {
   type AfterContentInit,
   type OnDestroy,
   NgZone,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { type Subscription } from 'rxjs';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
@@ -56,6 +57,7 @@ function defaultCompare(a: unknown, b: unknown): boolean {
   ],
   templateUrl: './checkbox-group.component.html',
   styleUrls: ['./checkbox-group.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'group',
     '[attr.data-orientation]': 'orientation()',

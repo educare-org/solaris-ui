@@ -9,6 +9,7 @@ import {
   signal,
   inject,
   DestroyRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import {
@@ -38,6 +39,7 @@ import type {
   selector: 'solaris-dropdown-submenu',
   standalone: true,
   template: '<ng-content />',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'solaris-dropdown-submenu',
   },

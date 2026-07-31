@@ -10,6 +10,7 @@ import {
   ElementRef,
   viewChild,
   afterNextRender,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
@@ -46,6 +47,7 @@ function generateId(): string {
   ],
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',

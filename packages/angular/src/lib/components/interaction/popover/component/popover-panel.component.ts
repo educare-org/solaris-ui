@@ -1,4 +1,10 @@
-import { Component, inject, AfterViewInit, ElementRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  AfterViewInit,
+  ElementRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 
 import {
@@ -12,6 +18,7 @@ import {
   imports: [NgTemplateOutlet],
   templateUrl: './popover-panel.component.html',
   styleUrls: ['./popover-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'solaris-popover-panel',
     '[attr.tabindex]': 'data.autoFocus === "panel" ? "-1" : null',

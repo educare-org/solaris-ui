@@ -13,6 +13,7 @@ import {
   type AfterContentInit,
   type OnDestroy,
   NgZone,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Subscription = any;
@@ -67,6 +68,7 @@ function generateGroupName(): string {
   ],
   templateUrl: './radio-group.component.html',
   styleUrls: ['./radio-group.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'radiogroup',
     '[attr.data-orientation]': 'orientation()',
