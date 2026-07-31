@@ -12,10 +12,10 @@ Dialog blocks the flow and demands user attention. Use for confirmations, alerts
 
 ## Installation
 
-The Dialog module is part of the `@solaris-ui/angular` package. To use it, add the provider:
+The Dialog module is part of the `@educarehq/solaris-ui` package. To use it, add the provider:
 
 ```typescript
-import { provideSolarisDialog } from '@solaris-ui/angular';
+import { provideSolarisDialog } from '@educarehq/solaris-ui';
 
 bootstrapApplication(App, {
   providers: [provideSolarisDialog()],

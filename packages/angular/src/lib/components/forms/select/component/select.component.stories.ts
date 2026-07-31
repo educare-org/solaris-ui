@@ -22,7 +22,15 @@ export default meta;
 
 type Story = StoryObj<SolarisSelectComponent>;
 
-export const Basic: Story = { args: { label: 'Choose an option', placeholder: 'Select...' } };
-export const Searchable: Story = { args: { label: 'Search', placeholder: 'Type to search...', searchable: true } };
-export const Clearable: Story = { args: { label: 'Clearable', placeholder: 'Select...', clearable: true } };
-export const Disabled: Story = { args: { label: 'Disabled', placeholder: 'Cannot open', disabled: true } };
+export const Basic: Story = {
+  args: { label: 'Choose an option', placeholder: 'Select...' },
+};
+export const Searchable: Story = {
+  args: { label: 'Search', placeholder: 'Type to search...', searchable: true },
+};
+export const Clearable: Story = {
+  args: { label: 'Clearable', placeholder: 'Select...', clearable: true },
+};
+export const Disabled: Story = {
+  args: { label: 'Disabled', placeholder: 'Cannot open', disabled: true },
+};

@@ -26,14 +26,16 @@ Form controls can be implemented as either directives (applied to native HTML el
 ## Consequences
 
 Positive:
+
 - Native elements preserve autofill, keyboard, semantics, and Angular Forms integration
 - Components enable rich visual customization when needed
 - Clear boundary between "enhance" and "replace"
 
 Negative:
+
 - Some developers may choose component when directive suffices
 - Testing two patterns requires different approaches
 
 ## Compliance
 
-Enforced by code review. Documented in COMPONENT_STANDARD.md.
+Enforced by code review. Operational rules are documented in `docs/standards/directive_standard.md` and `docs/standards/component_standard.md`.

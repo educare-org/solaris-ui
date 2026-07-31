@@ -10,11 +10,11 @@
 
 ## Inputs
 
-| Input | Type | Default | Description |
-|---|---|---|---|
-| `name` | `string` | required | Icon name from the registry |
-| `decorative` | `boolean` | `false` | Hides icon from screen readers |
-| `ariaLabel` | `string` | — | Accessible label when not decorative |
+| Input        | Type      | Default  | Description                          |
+| ------------ | --------- | -------- | ------------------------------------ |
+| `name`       | `string`  | required | Icon name from the registry          |
+| `decorative` | `boolean` | `false`  | Hides icon from screen readers       |
+| `ariaLabel`  | `string`  | —        | Accessible label when not decorative |
 
 ## Accessibility
 
@@ -27,14 +27,12 @@
 ### 1. Define the icon
 
 ```typescript
-import type { SolarisIconDefinition } from '@solaris-ui/angular';
+import type { SolarisIconDefinition } from '@educarehq/solaris-ui';
 
 const myIcon: SolarisIconDefinition = {
   name: 'custom-star',
   viewBox: '0 0 24 24',
-  elements: [
-    { type: 'path', d: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z' },
-  ],
+  elements: [{ type: 'path', d: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z' }],
 };
 ```
 
@@ -43,12 +41,10 @@ Supported element types: `path`, `circle`, `rect`, `line`, `polyline`, `polygon`
 ### 2. Register via provider
 
 ```typescript
-import { provideSolarisIcons } from '@solaris-ui/angular';
+import { provideSolarisIcons } from '@educarehq/solaris-ui';
 
 export const appConfig = {
-  providers: [
-    provideSolarisIcons({ extraIcons: [myIcon] }),
-  ],
+  providers: [provideSolarisIcons({ extraIcons: [myIcon] })],
 };
 ```
 
@@ -62,19 +58,19 @@ export const appConfig = {
 
 Solaris ships with the following icon groups:
 
-| Group | Icons |
-|---|---|
-| Actions | `check`, `x`, `chevron-down`, `chevron-right`, `chevron-left`, `chevron-up`, `search`, `plus`, `minus`, `edit`, `copy`, `share`, `external-link`, `more-horizontal`, `more-vertical` |
-| Navigation | `arrow-right`, `arrow-left`, `arrow-up`, `arrow-down`, `home`, `menu`, `sidebar` |
-| Status | `info`, `warning`, `danger`, `success`, `alert-circle`, `help-circle`, `question` |
-| Layout | `maximize`, `minimize`, `expand`, `collapse`, `move` |
-| Data | `download`, `upload`, `trash`, `file`, `folder`, `filter`, `refresh-cw` |
-| Theme | `sun`, `moon`, `eye`, `eye-off`, `settings`, `bell` |
+| Group      | Icons                                                                                                                                                                                |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Actions    | `check`, `x`, `chevron-down`, `chevron-right`, `chevron-left`, `chevron-up`, `search`, `plus`, `minus`, `edit`, `copy`, `share`, `external-link`, `more-horizontal`, `more-vertical` |
+| Navigation | `arrow-right`, `arrow-left`, `arrow-up`, `arrow-down`, `home`, `menu`, `sidebar`                                                                                                     |
+| Status     | `info`, `warning`, `danger`, `success`, `alert-circle`, `help-circle`, `question`                                                                                                    |
+| Layout     | `maximize`, `minimize`, `expand`, `collapse`, `move`                                                                                                                                 |
+| Data       | `download`, `upload`, `trash`, `file`, `folder`, `filter`, `refresh-cw`                                                                                                              |
+| Theme      | `sun`, `moon`, `eye`, `eye-off`, `settings`, `bell`                                                                                                                                  |
 
 To check if an icon exists at runtime:
 
 ```typescript
-import { SolarisIconRegistryService } from '@solaris-ui/angular';
+import { SolarisIconRegistryService } from '@educarehq/solaris-ui';
 
 class MyComponent {
   private registry = inject(SolarisIconRegistryService);

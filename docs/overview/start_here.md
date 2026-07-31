@@ -7,8 +7,18 @@ It is built first for Educare and personal projects, but its architecture must b
 ## Official package name
 
 ```txt
-@solaris-ui/angular
+@educarehq/solaris-ui
 ```
+
+This is the name published to npm. Consumers install and import from it:
+
+```txt
+npm install @educarehq/solaris-ui
+import { ... } from '@educarehq/solaris-ui';
+@use '@educarehq/solaris-ui/styles' as solaris;
+```
+
+`@solaris-ui/angular` is only the internal workspace alias used for imports inside this monorepo. It is never published.
 
 ## Project thesis
 
@@ -78,19 +88,6 @@ packages/
 
 1. `ARCHITECTURE.md`
 2. `ENGINEERING_PRINCIPLES.md`
-3. `STYLING_AND_TOKENS.md`
-4. `ACCESSIBILITY_STANDARD.md`
-5. `I18N_STANDARD.md`
-6. `COMPONENT_STANDARD.md`
-7. `TESTING_STRATEGY.md`
-8. `SECURITY_BASELINE.md`
-9. `DEFINITION_OF_DONE.md`
-10. `AI_DEVELOPMENT_RULES.md`
-
-## Required reading order
-
-1. `ARCHITECTURE.md`
-2. `ENGINEERING_PRINCIPLES.md`
 3. `CROSS_PLATFORM_COMMANDS.md`
 4. `STYLING_AND_TOKENS.md`
 5. `ACCESSIBILITY_STANDARD.md`
@@ -98,10 +95,9 @@ packages/
 7. `COMPONENT_STANDARD.md`
 8. `TESTING_STRATEGY.md`
 9. `SECURITY_BASELINE.md`
-10. `SCRIPTS_AND_VALIDATION.md`
-11. `DEFINITION_OF_DONE.md`
-12. `AI_DEVELOPMENT_RULES.md`
-13. `PROJECT_ROADMAP.md`
+10. `DEFINITION_OF_DONE.md`
+11. `AI_DEVELOPMENT_RULES.md`
+12. `PROJECT_ROADMAP.md`
 
 ## Non-negotiable rule
 

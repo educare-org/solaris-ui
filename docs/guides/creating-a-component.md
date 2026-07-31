@@ -73,6 +73,7 @@ export class SolarisComponentComponent {
 ```
 
 **Rules:**
+
 - Use `input` signal, not `@Input()`
 - Use `model` for two-way binding, `output` for events
 - Use `OnPush` change detection
@@ -95,11 +96,16 @@ export class SolarisComponentComponent {
   padding: var(--solaris-component-padding);
 }
 
-[solaris-component][data-size='sm'] { --solaris-component-padding: var(--solaris-spacing-2); }
-[solaris-component][data-size='lg'] { --solaris-component-padding: var(--solaris-spacing-4); }
+[solaris-component][data-size='sm'] {
+  --solaris-component-padding: var(--solaris-spacing-2);
+}
+[solaris-component][data-size='lg'] {
+  --solaris-component-padding: var(--solaris-spacing-4);
+}
 ```
 
 **Rules:**
+
 - Always use CSS custom properties with `--solaris-*` prefix
 - Never use raw color/length values — always reference design tokens
 - Use `data-*` attribute selectors for variants

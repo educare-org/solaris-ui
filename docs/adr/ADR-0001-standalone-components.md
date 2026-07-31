@@ -20,11 +20,13 @@ All Solaris components, directives, and pipes MUST be standalone (`standalone: t
 ## Consequences
 
 Positive:
+
 - Tree-shakeable by default — consumers import only what they use
 - Simpler file structure — no NgModule boilerplate
 - Easier lazy loading and testing
 
 Negative:
+
 - Each component must declare its imports, leading to repetition
 - Angular versions < 15 require polyfills or migration
 

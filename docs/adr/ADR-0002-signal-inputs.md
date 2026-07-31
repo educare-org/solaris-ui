@@ -23,11 +23,13 @@ Existing `@Input()`/`@Output()` decorators in legacy components may remain but n
 ## Consequences
 
 Positive:
+
 - Type-safe inputs with default values
 - Better change detection (OnPush by default)
 - Composable reactive pipelines
 
 Negative:
+
 - Signal API is still evolving in Angular 21+
 - Some third-party integrations may not support signals yet
 

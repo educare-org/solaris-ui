@@ -30,6 +30,8 @@
     "check:changeset": "node tools/scripts/check-changeset.mjs",
     "check:vulnerabilities": "node tools/scripts/check-vulnerabilities.mjs",
     "package:check": "node tools/scripts/check-package.mjs",
+    "generate:component": "node tools/scripts/generate-component.mjs",
+    "validate:component": "node tools/scripts/validate-component.mjs",
     "prepare": "simple-git-hooks",
     "commitlint": "commitlint",
     "check:staged": "pnpm lint-staged",

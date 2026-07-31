@@ -19,7 +19,10 @@ export class TabsPageObject {
     await this.tabs(sectionSelector).nth(index).click();
   }
 
-  async assertTabSelected(sectionSelector: string, index: number): Promise<void> {
+  async assertTabSelected(
+    sectionSelector: string,
+    index: number,
+  ): Promise<void> {
     await this.tabs(sectionSelector).nth(index).waitFor({ state: 'visible' });
   }
 }

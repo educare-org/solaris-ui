@@ -85,7 +85,7 @@ src/styles/solaris.scss
 Conceptual shape:
 
 ```scss
-@use '@solaris-ui/angular/styles' as solaris;
+@use '@educarehq/solaris-ui/styles' as solaris;
 
 @include solaris.core();
 

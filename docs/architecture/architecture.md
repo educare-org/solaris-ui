@@ -51,45 +51,66 @@ Examples:
 
 ```txt
 packages/angular/src/lib/
-  core/
-  theme/
-  i18n/
-  a11y/
-  primitives/
+  components/
+    actions/
+      button/
+      button-group/
+      icon-button/
 
-  actions/
-    button/
-    icon-button/
-    segmented-control/
+    forms/
+      checkbox/
+      checkbox-group/
+      email-field/
+      form-field/
+      input/
+      multi-select/
+      option/
+      option-group/
+      password-field/
+      radio/
+      radio-group/
+      select/
+      switch/
+      switch-group/
+      textarea/
 
-  forms/
-    form-field/
-    input/
-    select/
-    checkbox/
-    radio/
-    switch/
-    textarea/
-    phone-input/
+    feedback/
+      alert/
+      skeleton/
+      toast/
 
-  feedback/
-    alert/
-    toast/
-    tooltip/
-    skeleton/
+    overlay/
+      dialog/
 
-  overlay/
-    dialog/
-    dropdown-menu/
+    navigation/
+      editable-tabs/
+      segmented-control/
+      stepper/
+      tabs/
 
-  navigation/
-    tabs/
-    stepper/
+    data-display/
+      badge/
+      card/
+      divider/
 
-  data-display/
-    badge/
-    card/
-    table/
+    interaction/
+      dropdown-menu/
+      popover/
+      tooltip/
+
+    icon/
+      component/
+      testing/
+
+  services/
+    accessibility/
+    icon/
+    theme/
+    translation/
+  testing/
+
+packages/angular/src/
+  styles/
 ```
 
 ## Internal component structure

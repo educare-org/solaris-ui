@@ -2,7 +2,7 @@
 
 ## Official baseline
 
-Solaris targets WCAG 2.1 AA. WCAG 2.2 AA criteria are on the roadmap.
+Solaris targets WCAG 2.2 AA.
 
 ## Design principles
 

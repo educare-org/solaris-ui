@@ -110,13 +110,18 @@ Create the core form system for ERP and institutional flows.
 ### Scope
 
 - [x] Forms Foundation Contract.
-- Form Field.
-- Input.
-- Textarea.
-- Checkbox.
-- Radio.
-- Switch.
-- Select.
+- [x] Form Field.
+- [x] Input.
+- [x] Password Field preset.
+- [x] Email Field preset.
+- [x] Textarea.
+- [x] Checkbox.
+- [x] Checkbox Group.
+- [x] Radio.
+- [x] Switch.
+- [x] Select.
+- [x] Multi Select.
+- [x] Option + Option Group.
 - Reactive Forms integration.
 - ControlValueAccessor patterns.
 - Error message patterns.
@@ -153,13 +158,15 @@ Create interaction-heavy components with strong focus, keyboard, and overlay beh
 
 ### Scope
 
-- Dialog.
-- Toast.
-- Tooltip.
-- Dropdown Menu.
-- Tabs.
-- Segmented Control.
-- Stepper.
+- [x] Dialog.
+- [x] Toast.
+- [x] Tooltip.
+- [x] Dropdown Menu.
+- [x] Tabs.
+- [x] Editable Tabs.
+- [x] Segmented Control.
+- [x] Stepper.
+- [x] Divider.
 - Overlay primitives.
 - Focus trap behavior.
 - Roving tabindex behavior where applicable.
@@ -174,6 +181,24 @@ Create interaction-heavy components with strong focus, keyboard, and overlay beh
 - ARIA roles and attributes are validated.
 - Components work in showcase scenarios.
 - Visual regression exists for critical states.
+
+## Phase 3.1 — Disclosure and Content Organization Extension `0.3.1`
+
+### Objective
+
+Add disclosure and content organization components.
+
+### Scope
+
+- [ ] Accordion.
+- [ ] Collapsible.
+- [ ] Breadcrumb.
+
+### Exit criteria
+
+- Disclosure components support keyboard interaction.
+- ARIA roles and attributes are validated.
+- Components work in showcase scenarios.
 
 ## Phase 4 — Data and Advanced Release `0.4.0`
 
@@ -208,7 +233,7 @@ Make Solaris safe and predictable to install in consuming applications.
 
 ### Scope
 
-- `@solaris-ui/angular:init` generator or Angular schematic.
+- `@educarehq/solaris-ui:init` generator or Angular schematic.
 - Consumer style setup.
 - `src/styles/solaris.scss` creation.
 - Global style import.

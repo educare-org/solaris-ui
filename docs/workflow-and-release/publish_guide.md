@@ -251,4 +251,4 @@ If a bad release happens:
 - `docs/workflow-and-release/branching_and_commits.md`
 - `docs/engineering/dependency_policy.md`
 - `docs/engineering/security_baseline.md`
-- `docs/quality-and-validation/scripts_and_validation.md`
+- `docs/quality-and-validation/cross_platform_commands.md`

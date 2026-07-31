@@ -5,9 +5,17 @@
 Solaris uses CSS custom properties (tokens) for all visual properties. Themes are sets of token values applied via CSS selectors:
 
 ```scss
-:root, [data-theme='light'] { /* light tokens */ }
-[data-theme='dark'] { /* dark tokens */ }
-[data-theme='high-contrast'], [data-high-contrast='true'] { /* high-contrast tokens */ }
+:root,
+[data-theme='light'] {
+  /* light tokens */
+}
+[data-theme='dark'] {
+  /* dark tokens */
+}
+[data-theme='high-contrast'],
+[data-high-contrast='true'] {
+  /* high-contrast tokens */
+}
 ```
 
 The default theme is `light`. Changing `data-theme` on a parent element switches all children.
@@ -28,14 +36,14 @@ All children of `.my-component` will use the overridden colors.
 
 ### Common overridable tokens
 
-| Category | Example tokens |
-|---|---|
-| Colors | `--solaris-primary-*`, `--solaris-surface-*`, `--solaris-text-*` |
-| Spacing | `--solaris-spacing-1` through `--solaris-spacing-20` |
-| Radius | `--solaris-radius-sm`, `--solaris-radius-md`, `--solaris-radius-lg` |
-| Font | `--solaris-font-size-*`, `--solaris-font-weight-*`, `--solaris-font-family-*` |
-| Shadow | `--solaris-shadow-sm`, `--solaris-shadow-md`, `--solaris-shadow-lg` |
-| Opacity | `--solaris-opacity-*` |
+| Category | Example tokens                                                                |
+| -------- | ----------------------------------------------------------------------------- |
+| Colors   | `--solaris-primary-*`, `--solaris-surface-*`, `--solaris-text-*`              |
+| Spacing  | `--solaris-spacing-1` through `--solaris-spacing-20`                          |
+| Radius   | `--solaris-radius-sm`, `--solaris-radius-md`, `--solaris-radius-lg`           |
+| Font     | `--solaris-font-size-*`, `--solaris-font-weight-*`, `--solaris-font-family-*` |
+| Shadow   | `--solaris-shadow-sm`, `--solaris-shadow-md`, `--solaris-shadow-lg`           |
+| Opacity  | `--solaris-opacity-*`                                                         |
 
 ## Creating a custom color scheme
 
@@ -60,7 +68,7 @@ All children of `.my-component` will use the overridden colors.
 ### 2. Apply to your app
 
 ```html
-<html data-theme="brand">
+<html data-theme="brand"></html>
 ```
 
 Or toggle programmatically:
