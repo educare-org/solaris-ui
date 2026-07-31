@@ -61,7 +61,6 @@ Conceptual shape:
     color-scheme: system,
     density: comfortable,
     radius: md,
-    typography-scale: rem-10,
   )
 );
 ```

@@ -15,19 +15,9 @@ Tailwind is forbidden inside the Solaris library.
 
 Solaris uses a rem-based typography and spacing strategy.
 
-The recommended consumer setup uses:
+Solaris keeps the browser default root font-size (100%, typically `16px`).
 
-```scss
-:root {
-  font-size: 62.5%;
-}
-
-body {
-  font-size: 1.6rem;
-}
-```
-
-This makes `1rem` equivalent to `10px` under the browser default font size, while preserving a readable `16px` body text baseline.
+Setting a custom root font-size (e.g. `62.5%` to make `1rem` equal `10px`) is forbidden because it breaks WCAG 1.4.4 (Resize Text). Tokens use `rem` and scale with the user's font-size preference.
 
 ## Token rule
 
@@ -43,7 +33,6 @@ Consumers may customize Solaris through supported options only:
 colorScheme: light | dark | system
 density: compact | comfortable
 radius: none | sm | md | lg | xl
-typographyScale: rem-10
 ```
 
 Custom arbitrary values are not allowed unless explicitly supported.
@@ -94,7 +83,6 @@ Conceptual shape:
     color-scheme: system,
     density: comfortable,
     radius: md,
-    typography-scale: rem-10,
   )
 );
 ```
