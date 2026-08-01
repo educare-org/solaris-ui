@@ -1,5 +1,5 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
-import { Component, signal, type QueryList } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
@@ -82,7 +82,7 @@ describe('SolarisCheckboxGroupComponent with children', () => {
 
   let hostFixture: ComponentFixture<SimpleGroupHost>;
   let groupEl: HTMLElement;
-  let checkboxes: SolarisCheckboxComponent[];
+  let checkboxes: readonly SolarisCheckboxComponent[];
 
   const setup = () => {
     configureSolarisTesting();
@@ -94,7 +94,7 @@ describe('SolarisCheckboxGroupComponent with children', () => {
     const groupComp = hostFixture.debugElement.query(
       By.directive(SolarisCheckboxGroupComponent),
     ).componentInstance as SolarisCheckboxGroupComponent;
-    checkboxes = groupComp['checkboxes'].toArray();
+    checkboxes = groupComp['checkboxes']();
     return { hostFixture, groupEl, groupComp, checkboxes };
   };
 
@@ -124,7 +124,7 @@ describe('SolarisCheckboxGroupComponent CVA', () => {
 
   let hostFixture: ComponentFixture<CvaHost>;
   let groupComp: SolarisCheckboxGroupComponent;
-  let checkboxes: SolarisCheckboxComponent[];
+  let checkboxes: readonly SolarisCheckboxComponent[];
 
   const setup = () => {
     configureSolarisTesting();
@@ -135,9 +135,9 @@ describe('SolarisCheckboxGroupComponent CVA', () => {
     ).componentInstance as SolarisCheckboxGroupComponent;
     checkboxes = (
       groupComp as unknown as {
-        checkboxes: QueryList<SolarisCheckboxComponent>;
+        checkboxes: () => readonly SolarisCheckboxComponent[];
       }
-    ).checkboxes.toArray();
+    ).checkboxes();
     return { hostFixture, groupComp, checkboxes };
   };
 
@@ -265,7 +265,7 @@ describe('SolarisCheckboxGroupComponent value management', () => {
 
   let hostFixture: ComponentFixture<ValueHost>;
   let groupComp: SolarisCheckboxGroupComponent;
-  let checkboxes: SolarisCheckboxComponent[];
+  let checkboxes: readonly SolarisCheckboxComponent[];
 
   const setup = () => {
     configureSolarisTesting();
@@ -274,7 +274,7 @@ describe('SolarisCheckboxGroupComponent value management', () => {
     groupComp = hostFixture.debugElement.query(
       By.directive(SolarisCheckboxGroupComponent),
     ).componentInstance as SolarisCheckboxGroupComponent;
-    checkboxes = groupComp['checkboxes'].toArray();
+    checkboxes = groupComp['checkboxes']();
     return { hostFixture, groupComp, checkboxes };
   };
 
@@ -548,7 +548,7 @@ describe('SolarisCheckboxGroupComponent disabled/readonly', () => {
 
   let hostFixture: ComponentFixture<StateHost>;
   let groupComp: SolarisCheckboxGroupComponent;
-  let checkboxes: SolarisCheckboxComponent[];
+  let checkboxes: readonly SolarisCheckboxComponent[];
 
   const setup = () => {
     configureSolarisTesting();
@@ -557,7 +557,7 @@ describe('SolarisCheckboxGroupComponent disabled/readonly', () => {
     groupComp = hostFixture.debugElement.query(
       By.directive(SolarisCheckboxGroupComponent),
     ).componentInstance as SolarisCheckboxGroupComponent;
-    checkboxes = groupComp['checkboxes'].toArray();
+    checkboxes = groupComp['checkboxes']();
     return { hostFixture, groupComp, checkboxes };
   };
 
@@ -853,7 +853,7 @@ describe('SolarisCheckboxGroupComponent compareWith', () => {
     const groupComp = hFixture.debugElement.query(
       By.directive(SolarisCheckboxGroupComponent),
     ).componentInstance as SolarisCheckboxGroupComponent;
-    const checkboxes = groupComp['checkboxes'].toArray();
+    const checkboxes = groupComp['checkboxes']();
     const userA = hFixture.componentInstance.userA;
 
     groupComp.writeValue([userA]);
@@ -869,7 +869,7 @@ describe('SolarisCheckboxGroupComponent compareWith', () => {
     const groupComp = hFixture.debugElement.query(
       By.directive(SolarisCheckboxGroupComponent),
     ).componentInstance as SolarisCheckboxGroupComponent;
-    const checkboxes = groupComp['checkboxes'].toArray();
+    const checkboxes = groupComp['checkboxes']();
     const userA = hFixture.componentInstance.userA;
 
     groupComp.writeValue([userA]);
@@ -887,7 +887,7 @@ describe('SolarisCheckboxGroupComponent compareWith', () => {
     const groupComp = hFixture.debugElement.query(
       By.directive(SolarisCheckboxGroupComponent),
     ).componentInstance as SolarisCheckboxGroupComponent;
-    const checkboxes = groupComp['checkboxes'].toArray();
+    const checkboxes = groupComp['checkboxes']();
     const userB = hFixture.componentInstance.userB;
 
     groupComp.writeValue([userB]);
@@ -918,7 +918,7 @@ describe('SolarisCheckboxGroupComponent child disabled individual', () => {
     const groupComp = hFixture.debugElement.query(
       By.directive(SolarisCheckboxGroupComponent),
     ).componentInstance as SolarisCheckboxGroupComponent;
-    const checkboxes = groupComp['checkboxes'].toArray();
+    const checkboxes = groupComp['checkboxes']();
     expect(checkboxes[0].disabled).toBe(false);
     expect(checkboxes[1].disabled).toBe(true);
     expect(checkboxes[2].readonly).toBe(true);
@@ -951,7 +951,7 @@ describe('SolarisCheckboxGroupComponent reactive forms', () => {
     const groupComp = hFixture.debugElement.query(
       By.directive(SolarisCheckboxGroupComponent),
     ).componentInstance as SolarisCheckboxGroupComponent;
-    const checkboxes = groupComp['checkboxes'].toArray();
+    const checkboxes = groupComp['checkboxes']();
     expect(checkboxes[0]['_checked']()).toBe(true);
     expect(checkboxes[1]['_checked']()).toBe(false);
   });
@@ -963,7 +963,7 @@ describe('SolarisCheckboxGroupComponent reactive forms', () => {
     const groupComp = hFixture.debugElement.query(
       By.directive(SolarisCheckboxGroupComponent),
     ).componentInstance as SolarisCheckboxGroupComponent;
-    const checkboxes = groupComp['checkboxes'].toArray();
+    const checkboxes = groupComp['checkboxes']();
     checkboxes[1].checkedChange.emit(true);
     hFixture.detectChanges();
     expect(hFixture.componentInstance.control.value).toEqual(['a', 'b']);
@@ -979,5 +979,53 @@ describe('SolarisCheckboxGroupComponent reactive forms', () => {
       'solaris-checkbox-group',
     ) as HTMLElement;
     expect(el.hasAttribute('data-disabled')).toBe(true);
+  });
+});
+
+describe('SolarisCheckboxGroupComponent public API surface', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisCheckboxGroupComponent, SolarisCheckboxComponent],
+    template: `
+      <solaris-checkbox-group [required]="true">
+        <solaris-checkbox value="a">A</solaris-checkbox>
+        <solaris-checkbox value="b">B</solaris-checkbox>
+      </solaris-checkbox-group>
+    `,
+  })
+  class ApiHost {}
+
+  function getGroup(): any {
+    const f = TestBed.createComponent(ApiHost);
+    f.detectChanges();
+    return f.debugElement.query(By.css('solaris-checkbox-group'))
+      .componentInstance as any;
+  }
+
+  it('should expose state getters', () => {
+    configureSolarisTesting();
+    const group = getGroup();
+    expect(group.disabled).toBe(false);
+    expect(group.readonly).toBe(false);
+    expect(group.invalid).toBe(false);
+    expect(group.required).toBe(true);
+    expect(group.focused).toBe(false);
+    expect(group.describedByIds).toEqual([]);
+  });
+
+  it('should set describedByIds', () => {
+    configureSolarisTesting();
+    const group = getGroup();
+    group.setDescribedByIds(['hint-1', 'error-1']);
+    expect(group.describedByIds).toEqual(['hint-1', 'error-1']);
+  });
+
+  it('should focus the first checkbox', () => {
+    configureSolarisTesting();
+    const group = getGroup();
+    const checkbox = group.checkboxes()[0];
+    const focusSpy = vi.spyOn(checkbox, 'focus');
+    group.focus();
+    expect(focusSpy).toHaveBeenCalled();
   });
 });

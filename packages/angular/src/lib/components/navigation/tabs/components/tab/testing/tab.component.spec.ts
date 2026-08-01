@@ -144,4 +144,91 @@ describe('SolarisTabComponent', () => {
     fixture.detectChanges();
     expect(fixture.componentInstance.value()).toBe('b');
   });
+
+  it('should resolve label from labelKey', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisTabsComponent, SolarisTabComponent],
+      template: `
+        <solaris-tabs>
+          <solaris-tab value="a" labelKey="solaris.tab.a" />
+        </solaris-tabs>
+      `,
+    })
+    class LabelKeyHost {}
+
+    configureBase();
+    TestBed.configureTestingModule({
+      providers: [
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+      ],
+    });
+    const fixture = TestBed.createComponent(LabelKeyHost);
+    fixture.detectChanges();
+    const tabs = fixture.nativeElement.querySelectorAll('solaris-tab');
+    expect(tabs[0].textContent?.trim()).toContain('solaris.tab.a');
+  });
+
+  it('should resolve ariaLabel from ariaLabelKey', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisTabsComponent, SolarisTabComponent],
+      template: `
+        <solaris-tabs>
+          <solaris-tab value="a" ariaLabel="Custom Aria" />
+        </solaris-tabs>
+      `,
+    })
+    class AriaLabelHost {}
+
+    configureBase();
+    const fixture = TestBed.createComponent(AriaLabelHost);
+    fixture.detectChanges();
+    const tab = fixture.nativeElement.querySelector('solaris-tab');
+    expect(tab.getAttribute('aria-label')).toBe('Custom Aria');
+  });
+
+  it('should resolve badgeLabel from badgeLabelKey', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisTabsComponent, SolarisTabComponent],
+      template: `
+        <solaris-tabs>
+          <solaris-tab value="a" label="A" [badge]="'5'" badgeLabel="New" />
+        </solaris-tabs>
+      `,
+    })
+    class BadgeLabelHost {}
+
+    configureBase();
+    const fixture = TestBed.createComponent(BadgeLabelHost);
+    fixture.detectChanges();
+    const badge = fixture.nativeElement.querySelector('solaris-badge');
+    expect(badge?.getAttribute('aria-label')).toBe('New');
+    expect(badge?.textContent?.trim()).toBe('5');
+  });
+
+  it('should not activate on Enter when activationMode is manual', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisTabsComponent, SolarisTabComponent],
+      template: `
+        <solaris-tabs [value]="value" activationMode="manual">
+          <solaris-tab value="a" label="A" />
+          <solaris-tab value="b" label="B" />
+        </solaris-tabs>
+      `,
+    })
+    class ManualModeHost {
+      value: string | number | undefined = 'a';
+    }
+
+    configureBase();
+    const fixture = TestBed.createComponent(ManualModeHost);
+    fixture.detectChanges();
+    const tabs = fixture.nativeElement.querySelectorAll('solaris-tab');
+    tabs[1].dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    fixture.detectChanges();
+    expect(fixture.componentInstance.value).toBe('a');
+  });
 });

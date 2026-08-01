@@ -87,7 +87,7 @@ describe('SolarisRadioGroupComponent with children', () => {
 
   let hostFixture: ComponentFixture<SimpleGroupHost>;
   let groupEl: HTMLElement;
-  let radios: SolarisRadioComponent[];
+  let radios: readonly SolarisRadioComponent[];
 
   const setup = () => {
     configureSolarisTesting();
@@ -99,7 +99,7 @@ describe('SolarisRadioGroupComponent with children', () => {
     const groupComp = hostFixture.debugElement.query(
       By.directive(SolarisRadioGroupComponent),
     ).componentInstance as SolarisRadioGroupComponent;
-    radios = groupComp['radios'].toArray();
+    radios = groupComp['radios']();
     return { hostFixture, groupEl, groupComp, radios };
   };
 
@@ -129,7 +129,7 @@ describe('SolarisRadioGroupComponent CVA', () => {
 
   let hostFixture: ComponentFixture<CvaHost>;
   let groupComp: SolarisRadioGroupComponent;
-  let radios: SolarisRadioComponent[];
+  let radios: readonly SolarisRadioComponent[];
 
   const setup = () => {
     configureSolarisTesting();
@@ -138,7 +138,7 @@ describe('SolarisRadioGroupComponent CVA', () => {
     groupComp = hostFixture.debugElement.query(
       By.directive(SolarisRadioGroupComponent),
     ).componentInstance as SolarisRadioGroupComponent;
-    radios = groupComp['radios'].toArray();
+    radios = groupComp['radios']();
     return { hostFixture, groupComp, radios };
   };
 
@@ -234,7 +234,7 @@ describe('SolarisRadioGroupComponent value management', () => {
 
   let hostFixture: ComponentFixture<ValueHost>;
   let groupComp: SolarisRadioGroupComponent;
-  let radios: SolarisRadioComponent[];
+  let radios: readonly SolarisRadioComponent[];
 
   const setup = () => {
     configureSolarisTesting();
@@ -243,7 +243,7 @@ describe('SolarisRadioGroupComponent value management', () => {
     groupComp = hostFixture.debugElement.query(
       By.directive(SolarisRadioGroupComponent),
     ).componentInstance as SolarisRadioGroupComponent;
-    radios = groupComp['radios'].toArray();
+    radios = groupComp['radios']();
     return { hostFixture, groupComp, radios };
   };
 
@@ -307,7 +307,7 @@ describe('SolarisRadioGroupComponent disabled/readonly', () => {
 
   let hostFixture: ComponentFixture<StateHost>;
   let groupComp: SolarisRadioGroupComponent;
-  let radios: SolarisRadioComponent[];
+  let radios: readonly SolarisRadioComponent[];
 
   const setup = () => {
     configureSolarisTesting();
@@ -316,7 +316,7 @@ describe('SolarisRadioGroupComponent disabled/readonly', () => {
     groupComp = hostFixture.debugElement.query(
       By.directive(SolarisRadioGroupComponent),
     ).componentInstance as SolarisRadioGroupComponent;
-    radios = groupComp['radios'].toArray();
+    radios = groupComp['radios']();
     return { hostFixture, groupComp, radios };
   };
 
@@ -561,7 +561,7 @@ describe('SolarisRadioGroupComponent compareWith', () => {
     const groupComp = hFixture.debugElement.query(
       By.directive(SolarisRadioGroupComponent),
     ).componentInstance as SolarisRadioGroupComponent;
-    const radios = groupComp['radios'].toArray();
+    const radios = groupComp['radios']();
     const basicPlan = hFixture.componentInstance.basicPlan;
 
     groupComp.writeValue(basicPlan);
@@ -597,7 +597,7 @@ describe('SolarisRadioGroupComponent reactive forms', () => {
     const groupComp = hFixture.debugElement.query(
       By.directive(SolarisRadioGroupComponent),
     ).componentInstance as SolarisRadioGroupComponent;
-    const radios = groupComp['radios'].toArray();
+    const radios = groupComp['radios']();
     expect(radios[0]['_checked']()).toBe(true);
     expect(radios[1]['_checked']()).toBe(false);
   });
@@ -609,7 +609,7 @@ describe('SolarisRadioGroupComponent reactive forms', () => {
     const groupComp = hFixture.debugElement.query(
       By.directive(SolarisRadioGroupComponent),
     ).componentInstance as SolarisRadioGroupComponent;
-    const radios = groupComp['radios'].toArray();
+    const radios = groupComp['radios']();
     radios[1].checkedChange.emit(true);
     hFixture.detectChanges();
     expect(hFixture.componentInstance.control.value).toBe('b');
@@ -625,5 +625,53 @@ describe('SolarisRadioGroupComponent reactive forms', () => {
       'solaris-radio-group',
     ) as HTMLElement;
     expect(el.hasAttribute('data-disabled')).toBe(true);
+  });
+});
+
+describe('SolarisRadioGroupComponent public API surface', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisRadioGroupComponent, SolarisRadioComponent],
+    template: `
+      <solaris-radio-group [required]="true">
+        <solaris-radio value="a">A</solaris-radio>
+        <solaris-radio value="b">B</solaris-radio>
+      </solaris-radio-group>
+    `,
+  })
+  class ApiHost {}
+
+  function getGroup(): any {
+    const f = TestBed.createComponent(ApiHost);
+    f.detectChanges();
+    return f.debugElement.query(By.css('solaris-radio-group'))
+      .componentInstance as any;
+  }
+
+  it('should expose state getters', () => {
+    configureSolarisTesting();
+    const group = getGroup();
+    expect(group.disabled).toBe(false);
+    expect(group.readonly).toBe(false);
+    expect(group.invalid).toBe(false);
+    expect(group.required).toBe(true);
+    expect(group.focused).toBe(false);
+    expect(group.describedByIds).toEqual([]);
+  });
+
+  it('should set describedByIds', () => {
+    configureSolarisTesting();
+    const group = getGroup();
+    group.setDescribedByIds(['hint-1', 'error-1']);
+    expect(group.describedByIds).toEqual(['hint-1', 'error-1']);
+  });
+
+  it('should focus the first radio', () => {
+    configureSolarisTesting();
+    const group = getGroup();
+    const radio = group.radios()[0];
+    const focusSpy = vi.spyOn(radio, 'focus');
+    group.focus();
+    expect(focusSpy).toHaveBeenCalled();
   });
 });

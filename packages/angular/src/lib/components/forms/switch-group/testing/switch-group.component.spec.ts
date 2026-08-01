@@ -549,4 +549,54 @@ describe('SolarisSwitchGroupComponent child composition', () => {
     expect(switches[0].hasAttribute('data-checked')).toBe(true);
     expect(switches[1].hasAttribute('data-checked')).toBe(false);
   });
+
+  it('should warn when a child switch is missing a value', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSwitchGroupComponent, SolarisSwitchComponent],
+      template: `
+        <solaris-switch-group>
+          <solaris-switch>No value</solaris-switch>
+          <solaris-switch value="sms">SMS</solaris-switch>
+        </solaris-switch-group>
+      `,
+    })
+    class MissingValueHost {}
+
+    const warnSpy = vi
+      .spyOn(console, 'warn')
+      .mockImplementation(() => undefined);
+    TestBed.configureTestingModule({});
+    const f = TestBed.createComponent(MissingValueHost);
+    f.detectChanges();
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('missing a value'),
+    );
+    warnSpy.mockRestore();
+  });
+
+  it('should warn when child switches have duplicate values', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSwitchGroupComponent, SolarisSwitchComponent],
+      template: `
+        <solaris-switch-group>
+          <solaris-switch value="email">E-mail</solaris-switch>
+          <solaris-switch value="email">E-mail 2</solaris-switch>
+        </solaris-switch-group>
+      `,
+    })
+    class DuplicateValueHost {}
+
+    const warnSpy = vi
+      .spyOn(console, 'warn')
+      .mockImplementation(() => undefined);
+    TestBed.configureTestingModule({});
+    const f = TestBed.createComponent(DuplicateValueHost);
+    f.detectChanges();
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Duplicate value'),
+    );
+    warnSpy.mockRestore();
+  });
 });

@@ -1625,4 +1625,140 @@ describe('SolarisMultiSelectComponent', () => {
       expect(groupBOpt.isEffectivelyDisabled()).toBe(true);
     });
   });
+
+  describe('text fallbacks', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-multi-select
+          [loading]="true"
+          loadingText="Loading fallback"
+          emptyText="Empty fallback"
+          noResultsText="No results fallback"
+          clearLabel="Clear fallback"
+          searchPlaceholder="Search fallback"
+        >
+          <solaris-option value="a" label="Apple"></solaris-option>
+        </solaris-multi-select>
+      `,
+      providers: [provideSolarisTesting({})],
+    })
+    class TextFallbackHost {}
+
+    it('should use direct text inputs as fallbacks', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TextFallbackHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      expect(multiSelect.loadingTextValue()).toBe('Loading fallback');
+      expect(multiSelect.emptyTextValue()).toBe('Empty fallback');
+      expect(multiSelect.noResultsTextValue()).toBe('No results fallback');
+      expect(multiSelect.clearAriaLabel()).toBe('Clear fallback');
+      expect(multiSelect.searchPlaceholderText()).toBe('Search fallback');
+    });
+
+    it('should fall back to default translation keys', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
+        template: `
+          <solaris-multi-select [loading]="true">
+            <solaris-option value="a" label="Apple"></solaris-option>
+          </solaris-multi-select>
+        `,
+        providers: [provideSolarisTesting({})],
+      })
+      class DefaultFallbackHost {}
+
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(DefaultFallbackHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      const withDefaults = multiSelect['translateService'] as {
+        translate: (key: string) => string;
+      };
+      withDefaults.translate = (key: string) => `T:${key}`;
+      expect(multiSelect.emptyTextValue()).toBe('T:solaris.multiSelect.empty');
+      expect(multiSelect.noResultsTextValue()).toBe(
+        'T:solaris.multiSelect.noResults',
+      );
+      expect(multiSelect.loadingTextValue()).toBe(
+        'T:solaris.multiSelect.loading',
+      );
+      expect(multiSelect.clearAriaLabel()).toBe('T:solaris.multiSelect.clear');
+    });
+  });
+
+  describe('public API surface', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-multi-select [required]="true">
+          <solaris-option value="a" label="Apple"></solaris-option>
+        </solaris-multi-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class ApiSurfaceHost {}
+
+    function getMultiSelect(): any {
+      const fixture = TestBed.createComponent(ApiSurfaceHost);
+      fixture.detectChanges();
+      return fixture.debugElement.query(By.css('solaris-multi-select'))
+        .componentInstance as any;
+    }
+
+    it('should expose state getters', () => {
+      TestBed.configureTestingModule({});
+      const multiSelect = getMultiSelect();
+      expect(multiSelect.disabled).toBe(false);
+      expect(multiSelect.readonly).toBe(false);
+      expect(multiSelect.invalid).toBe(false);
+      expect(multiSelect.required).toBe(true);
+      expect(multiSelect.focused).toBe(false);
+      expect(multiSelect.describedByIds).toEqual([]);
+    });
+
+    it('should set describedByIds', () => {
+      TestBed.configureTestingModule({});
+      const multiSelect = getMultiSelect();
+      multiSelect.setDescribedByIds(['hint-1', 'error-1']);
+      expect(multiSelect.describedByIds).toEqual(['hint-1', 'error-1']);
+    });
+
+    it('should focus the trigger element', () => {
+      TestBed.configureTestingModule({});
+      const multiSelect = getMultiSelect();
+      const focusSpy = vi.spyOn(
+        multiSelect.triggerElement.nativeElement,
+        'focus',
+      );
+      multiSelect.focus();
+      expect(focusSpy).toHaveBeenCalled();
+    });
+
+    it('should writeValue with a non-array value', () => {
+      TestBed.configureTestingModule({});
+      const multiSelect = getMultiSelect();
+      multiSelect.writeValue('not-an-array');
+      expect(multiSelect.value()).toEqual([]);
+    });
+
+    it('should writeValue with an object value', () => {
+      TestBed.configureTestingModule({});
+      const multiSelect = getMultiSelect();
+      multiSelect.writeValue({ a: 1 });
+      expect(multiSelect.value()).toEqual([]);
+    });
+  });
 });
