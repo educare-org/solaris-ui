@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { join, dirname } from 'node:path';
+import { join, dirname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -65,7 +65,9 @@ function validateComponent(compDir) {
   const hasSourceDir = ['component', 'directives', 'components'].some((d) =>
     existsSync(join(compDir, d)),
   );
-  const hasModel = existsSync(join(compDir, 'model'));
+  const hasModel = walk(compDir, '.ts').some((f) =>
+    f.includes(`${sep}model${sep}`),
+  );
   const hasDocs = existsSync(join(compDir, 'docs'));
   const hasIndex = existsSync(join(compDir, 'index.ts'));
 
@@ -215,6 +217,17 @@ function main() {
     for (const category of CATEGORIES) {
       const catDir = join(COMPONENTS_BASE, category);
       if (!existsSync(catDir)) continue;
+
+      // A category may itself be a component unit (e.g. icon has component/
+      // and index.ts at the category root) rather than containing subfolders.
+      if (
+        existsSync(join(catDir, 'component')) ||
+        existsSync(join(catDir, 'index.ts'))
+      ) {
+        validateComponent(catDir);
+        continue;
+      }
+
       const components = readdirSync(catDir);
       for (const comp of components) {
         const compDir = join(catDir, comp);

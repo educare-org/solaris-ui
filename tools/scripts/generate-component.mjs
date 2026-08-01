@@ -55,7 +55,7 @@ function generateChangeset(name, category) {
   return {
     name: '@educarehq/solaris-ui',
     content: {
-      minor: [`feat(${category}): add ${name} component`],
+      minor: [`feature(${category}): add ${name} component`],
     },
     createdAt: date,
   };
@@ -139,7 +139,7 @@ export type { Solaris${pascalName}Size, Solaris${pascalName}Config } from './mod
 '@educarehq/solaris-ui': minor
 ---
 
-feat(${category}): add ${kebabName} component
+feature(${category}): add ${kebabName} component
 
 Generated scaffold for the ${kebabName} component.
 `;
