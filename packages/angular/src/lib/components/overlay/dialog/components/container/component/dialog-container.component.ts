@@ -2,8 +2,7 @@ import {
   Component,
   input,
   effect,
-  signal,
-  ViewChild,
+  viewChild,
   ViewContainerRef,
   inject,
   HostListener,
@@ -50,14 +49,9 @@ export class SolarisDialogContainerComponent {
     null,
   );
 
-  @ViewChild('componentHost', { read: ViewContainerRef })
-  set componentHostRef(vcr: ViewContainerRef | undefined) {
-    this._componentHost.set(vcr);
-  }
-
-  private readonly _componentHost = signal<ViewContainerRef | undefined>(
-    undefined,
-  );
+  private readonly _componentHost = viewChild('componentHost', {
+    read: ViewContainerRef,
+  });
 
   private componentRef: ComponentRef<unknown> | null = null;
 

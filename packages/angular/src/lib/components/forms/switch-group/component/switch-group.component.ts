@@ -8,8 +8,7 @@ import {
   forwardRef,
   inject,
   ElementRef,
-  ContentChildren,
-  QueryList,
+  contentChildren,
   type AfterContentInit,
   type OnDestroy,
   NgZone,
@@ -79,8 +78,7 @@ export class SolarisSwitchGroupComponent
   private readonly translateService = inject(SolarisTranslateService);
   private readonly ngZone = inject(NgZone);
 
-  @ContentChildren(SolarisSwitchComponent)
-  protected switches!: QueryList<SolarisSwitchComponent>;
+  protected readonly switches = contentChildren(SolarisSwitchComponent);
 
   readonly orientation = input<SolarisSwitchGroupOrientation>('vertical');
   readonly layout = input<SolarisSwitchGroupLayout>('list');
@@ -114,7 +112,7 @@ export class SolarisSwitchGroupComponent
   readonly ariaLabelKey = input<string>();
 
   readonly valueChange = output<Record<string, boolean>>();
-  // eslint-disable-next-line @angular-eslint/no-output-native
+
   readonly change = output<Record<string, boolean>>();
 
   private readonly _value = signal<Record<string, boolean>>({});
@@ -133,7 +131,6 @@ export class SolarisSwitchGroupComponent
     Subscription
   >();
   private contentInitialized = false;
-  private switchQuerySubscription: Subscription | null = null;
   private focusListenersAttached = false;
 
   protected readonly groupId = computed(() => {
@@ -260,7 +257,7 @@ export class SolarisSwitchGroupComponent
   }
 
   focus(): void {
-    const first = this.switches?.get(0);
+    const first = this.switches()[0];
     if (first) {
       first.focus();
     }
@@ -292,29 +289,29 @@ export class SolarisSwitchGroupComponent
     this.syncSwitchesToValue();
     this.propagateDisabledToSwitches();
     this.propagateReadonlyToSwitches();
-
-    this.switchQuerySubscription = this.switches.changes.subscribe(() => {
-      this.validateChildren();
-      this.initSwitches();
-      this.syncSwitchesToValue();
-      this.propagateDisabledToSwitches();
-      this.propagateReadonlyToSwitches();
-    });
   }
+
+  private readonly _switchesEffect = effect(() => {
+    if (!this.contentInitialized) return;
+    this.switches();
+    this.validateChildren();
+    this.initSwitches();
+    this.syncSwitchesToValue();
+    this.propagateDisabledToSwitches();
+    this.propagateReadonlyToSwitches();
+  });
 
   ngOnDestroy(): void {
     this.unsubscribeAllSwitches();
-    if (this.switchQuerySubscription) {
-      this.switchQuerySubscription.unsubscribe();
-    }
   }
 
   private validateChildren(): void {
-    if (!this.switches) return;
+    const opts = this.switches();
+    if (opts.length === 0) return;
 
     const keys = new Map<string, SolarisSwitchComponent>();
 
-    this.switches.forEach((sw) => {
+    opts.forEach((sw) => {
       const key = sw.value();
       if (key === null || key === undefined) {
         console.warn(
@@ -356,7 +353,7 @@ export class SolarisSwitchGroupComponent
 
   private initSwitches(): void {
     this.unsubscribeAllSwitches();
-    this.switches.forEach((sw) => {
+    this.switches().forEach((sw) => {
       const sub = sw.checkedChange.subscribe((checked: boolean) => {
         this.onChildCheckedChange(sw, checked);
       });
@@ -396,10 +393,10 @@ export class SolarisSwitchGroupComponent
   }
 
   private syncSwitchesToValue(): void {
-    if (!this.contentInitialized || !this.switches) return;
+    if (!this.contentInitialized) return;
     const currentValue = this._value();
 
-    this.switches.forEach((sw) => {
+    this.switches().forEach((sw) => {
       const key = sw.value();
       if (key === null || key === undefined) {
         return;
@@ -409,17 +406,17 @@ export class SolarisSwitchGroupComponent
   }
 
   private propagateDisabledToSwitches(): void {
-    if (!this.contentInitialized || !this.switches) return;
+    if (!this.contentInitialized) return;
     const isDisabled = this.isEffectivelyDisabled();
-    this.switches.forEach((sw) => {
+    this.switches().forEach((sw) => {
       sw.setDisabledState(isDisabled);
     });
   }
 
   private propagateReadonlyToSwitches(): void {
-    if (!this.contentInitialized || !this.switches) return;
+    if (!this.contentInitialized) return;
     const isReadonly = this.isEffectivelyReadonly();
-    this.switches.forEach((sw) => {
+    this.switches().forEach((sw) => {
       sw.setCvaReadonlyState(isReadonly);
     });
   }

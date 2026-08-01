@@ -1,7 +1,7 @@
 import {
   Component,
   TemplateRef,
-  ViewChild,
+  viewChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
@@ -12,6 +12,5 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SolarisDialogStepComponent {
-  @ViewChild(TemplateRef, { static: true })
-  templateRef!: TemplateRef<unknown>;
+  readonly templateRef = viewChild.required(TemplateRef);
 }

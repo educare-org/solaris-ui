@@ -5,7 +5,7 @@ import {
   signal,
   forwardRef,
   inject,
-  ViewChild,
+  viewChild,
   ElementRef,
   isDevMode,
   ChangeDetectionStrategy,
@@ -51,8 +51,8 @@ import { SolarisInputDirective } from '../../input';
 export class SolarisEmailFieldComponent implements ControlValueAccessor {
   private readonly translateService = inject(SolarisTranslateService);
 
-  @ViewChild('inputElement', { read: ElementRef })
-  protected inputElementRef?: ElementRef<HTMLInputElement>;
+  protected readonly inputElementRef =
+    viewChild<ElementRef<HTMLInputElement>>('inputElement');
 
   readonly id = input<string>();
   readonly name = input<string>();
@@ -220,10 +220,10 @@ export class SolarisEmailFieldComponent implements ControlValueAccessor {
       this.internalValue.set(currentValue);
       this.onChange(currentValue);
 
-      if (this.inputElementRef) {
+      if (this.inputElementRef()) {
         try {
           // SECURITY_EXCEPTION: nativeElement.value assignment is required to sync the input element with the normalized value after blur. Angular's data binding may not reflect synchronous value changes to the native input. Same approach is standard for CVA blur normalization.
-          this.inputElementRef.nativeElement.value = currentValue;
+          this.inputElementRef()!.nativeElement.value = currentValue;
         } catch {
           if (isDevMode()) {
             console.warn(

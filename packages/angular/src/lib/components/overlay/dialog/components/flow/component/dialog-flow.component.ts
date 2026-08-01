@@ -2,9 +2,7 @@ import {
   Component,
   input,
   model,
-  ContentChildren,
-  QueryList,
-  AfterContentInit,
+  contentChildren,
   effect,
   signal,
   ChangeDetectionStrategy,
@@ -26,12 +24,11 @@ import { SolarisDialogStepComponent } from '../../step/component/dialog-step.com
     '[attr.data-direction]': 'animationDirection()',
   },
 })
-export class SolarisDialogFlowComponent implements AfterContentInit {
+export class SolarisDialogFlowComponent {
   readonly activeIndex = model<number>(0);
   readonly transition = input<'slide' | 'fade' | 'none'>('slide');
 
-  @ContentChildren(SolarisDialogStepComponent)
-  steps?: QueryList<SolarisDialogStepComponent>;
+  readonly steps = contentChildren(SolarisDialogStepComponent);
 
   protected readonly stepTemplates = signal<
     {
@@ -60,25 +57,13 @@ export class SolarisDialogFlowComponent implements AfterContentInit {
       this.previousIndex = current;
       this.hasNavigated = true;
     });
-  }
 
-  ngAfterContentInit(): void {
-    if (this.steps) {
-      this.stepTemplates.set(
-        this.steps.toArray().map((s, i) => ({
-          template: s.templateRef,
-          index: i,
-        })),
-      );
-
-      this.steps.changes.subscribe(() => {
-        this.stepTemplates.set(
-          (this.steps?.toArray() ?? []).map((s, i) => ({
-            template: s.templateRef,
-            index: i,
-          })),
-        );
-      });
-    }
+    effect(() => {
+      const stepTemplates = this.steps().map((s, i) => ({
+        template: s.templateRef(),
+        index: i,
+      }));
+      this.stepTemplates.set(stepTemplates);
+    });
   }
 }

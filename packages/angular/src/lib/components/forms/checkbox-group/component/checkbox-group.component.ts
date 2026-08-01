@@ -8,8 +8,7 @@ import {
   forwardRef,
   inject,
   ElementRef,
-  ContentChildren,
-  QueryList,
+  contentChildren,
   type AfterContentInit,
   type OnDestroy,
   NgZone,
@@ -84,8 +83,7 @@ export class SolarisCheckboxGroupComponent
   private readonly translateService = inject(SolarisTranslateService);
   private readonly ngZone = inject(NgZone);
 
-  @ContentChildren(SolarisCheckboxComponent)
-  protected checkboxes!: QueryList<SolarisCheckboxComponent>;
+  protected readonly checkboxes = contentChildren(SolarisCheckboxComponent);
 
   /** Inputs */
   readonly orientation = input<SolarisCheckboxGroupOrientation>('vertical');
@@ -126,7 +124,7 @@ export class SolarisCheckboxGroupComponent
 
   /** Outputs */
   readonly valueChange = output<unknown[]>();
-  // eslint-disable-next-line @angular-eslint/no-output-native
+
   readonly change = output<unknown[]>();
 
   /** Internal state */
@@ -149,7 +147,6 @@ export class SolarisCheckboxGroupComponent
     any
   >();
   private contentInitialized = false;
-  private checkboxQuerySubscription: Subscription | null = null;
   private focusListenersAttached = false;
 
   /** IDs */
@@ -306,7 +303,7 @@ export class SolarisCheckboxGroupComponent
   }
 
   focus(): void {
-    const first = this.checkboxes?.get(0);
+    const first = this.checkboxes()[0];
     if (first) {
       first.focus();
     }
@@ -339,20 +336,19 @@ export class SolarisCheckboxGroupComponent
     this.syncChildrenToValue();
     this.propagateDisabledToChildren();
     this.propagateReadonlyToChildren();
-
-    this.checkboxQuerySubscription = this.checkboxes.changes.subscribe(() => {
-      this.initCheckboxes();
-      this.syncChildrenToValue();
-      this.propagateDisabledToChildren();
-      this.propagateReadonlyToChildren();
-    });
   }
+
+  private readonly _checkboxesEffect = effect(() => {
+    if (!this.contentInitialized) return;
+    this.checkboxes();
+    this.initCheckboxes();
+    this.syncChildrenToValue();
+    this.propagateDisabledToChildren();
+    this.propagateReadonlyToChildren();
+  });
 
   ngOnDestroy(): void {
     this.unsubscribeAllCheckboxes();
-    if (this.checkboxQuerySubscription) {
-      this.checkboxQuerySubscription.unsubscribe();
-    }
   }
 
   /** Focus tracking */
@@ -380,7 +376,7 @@ export class SolarisCheckboxGroupComponent
   /** Init checkbox tracking */
   private initCheckboxes(): void {
     this.unsubscribeAllCheckboxes();
-    this.checkboxes.forEach((checkbox) => {
+    this.checkboxes().forEach((checkbox) => {
       const sub = checkbox.checkedChange.subscribe((checked: boolean) => {
         this.onChildCheckedChange(checkbox, checked);
       });
@@ -460,11 +456,11 @@ export class SolarisCheckboxGroupComponent
 
   /** Sync checkboxes to current value */
   private syncChildrenToValue(): void {
-    if (!this.contentInitialized || !this.checkboxes) return;
+    if (!this.contentInitialized) return;
     const currentValue = this._value();
     const cmp = this.compareWith();
 
-    this.checkboxes.forEach((checkbox) => {
+    this.checkboxes().forEach((checkbox) => {
       const childValue = checkbox.value();
       const isChecked = currentValue.some((v) => cmp(v, childValue));
       checkbox.writeValue(isChecked);
@@ -472,9 +468,8 @@ export class SolarisCheckboxGroupComponent
   }
 
   /** Get enabled (non-disabled, non-readonly) checkboxes */
-  private getEnabledCheckboxes(): SolarisCheckboxComponent[] {
-    if (!this.checkboxes) return [];
-    return this.checkboxes.filter((c) => !c.disabled && !c.readonly);
+  private getEnabledCheckboxes(): readonly SolarisCheckboxComponent[] {
+    return this.checkboxes().filter((c) => !c.disabled && !c.readonly);
   }
 
   /** Check if a child's value is selected */
@@ -486,18 +481,18 @@ export class SolarisCheckboxGroupComponent
 
   /** Propagate disabled to children */
   private propagateDisabledToChildren(): void {
-    if (!this.contentInitialized || !this.checkboxes) return;
+    if (!this.contentInitialized) return;
     const isDisabled = this.isEffectivelyDisabled();
-    this.checkboxes.forEach((checkbox) => {
+    this.checkboxes().forEach((checkbox) => {
       checkbox.setDisabledState(isDisabled);
     });
   }
 
   /** Propagate readonly to children */
   private propagateReadonlyToChildren(): void {
-    if (!this.contentInitialized || !this.checkboxes) return;
+    if (!this.contentInitialized) return;
     const isReadonly = this.isEffectivelyReadonly();
-    this.checkboxes.forEach((checkbox) => {
+    this.checkboxes().forEach((checkbox) => {
       checkbox.setCvaReadonlyState(isReadonly);
     });
   }

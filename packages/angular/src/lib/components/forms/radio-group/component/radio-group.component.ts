@@ -8,11 +8,10 @@ import {
   forwardRef,
   inject,
   ElementRef,
-  ContentChildren,
-  QueryList,
+  contentChildren,
+  NgZone,
   type AfterContentInit,
   type OnDestroy,
-  NgZone,
   ChangeDetectionStrategy,
 } from '@angular/core';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -94,8 +93,7 @@ export class SolarisRadioGroupComponent
   private readonly translateService = inject(SolarisTranslateService);
   private readonly ngZone = inject(NgZone);
 
-  @ContentChildren(SolarisRadioComponent)
-  protected radios!: QueryList<SolarisRadioComponent>;
+  protected readonly radios = contentChildren(SolarisRadioComponent);
 
   readonly orientation = input<SolarisRadioGroupOrientation>('vertical');
   readonly layout = input<SolarisRadioGroupLayout>('list');
@@ -129,7 +127,7 @@ export class SolarisRadioGroupComponent
   readonly ariaLabelKey = input<string>();
 
   readonly valueChange = output<unknown>();
-  // eslint-disable-next-line @angular-eslint/no-output-native
+
   readonly change = output<unknown>();
 
   private readonly _value = signal<unknown>(undefined);
@@ -147,9 +145,7 @@ export class SolarisRadioGroupComponent
     Subscription
   >();
   private contentInitialized = false;
-  private radioQuerySubscription: Subscription | null = null;
   private focusListenersAttached = false;
-
   protected readonly groupId = computed(() => {
     // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK and Solaris Checkbox.
     return this.elementRef.nativeElement.getAttribute('id') || generateId();
@@ -274,7 +270,7 @@ export class SolarisRadioGroupComponent
   }
 
   focus(): void {
-    const first = this.radios?.get(0);
+    const first = this.radios()[0];
     if (first) {
       first.focus();
     }
@@ -298,27 +294,29 @@ export class SolarisRadioGroupComponent
     this.propagateDisabledToRadios();
   }
 
-  ngAfterContentInit(): void {
-    this.contentInitialized = true;
-    this.attachFocusListeners();
+  private readonly _radiosEffect = effect(() => {
+    // Re-run when the projected radio set changes. The initial sync happens in
+    // ngAfterContentInit to preserve form-control writeValue ordering.
+    if (!this.contentInitialized) return;
+    this.radios();
     this.initRadios();
     this.syncRadiosToValue();
     this.propagateDisabledToRadios();
     this.propagateReadonlyToRadios();
-
-    this.radioQuerySubscription = this.radios.changes.subscribe(() => {
-      this.initRadios();
-      this.syncRadiosToValue();
-      this.propagateDisabledToRadios();
-      this.propagateReadonlyToRadios();
-    });
-  }
+  });
 
   ngOnDestroy(): void {
     this.unsubscribeAllRadios();
-    if (this.radioQuerySubscription) {
-      this.radioQuerySubscription.unsubscribe();
-    }
+  }
+
+  ngAfterContentInit(): void {
+    this.contentInitialized = true;
+    this.attachFocusListeners();
+    this.radios();
+    this.initRadios();
+    this.syncRadiosToValue();
+    this.propagateDisabledToRadios();
+    this.propagateReadonlyToRadios();
   }
 
   private attachFocusListeners(): void {
@@ -344,7 +342,7 @@ export class SolarisRadioGroupComponent
 
   private initRadios(): void {
     this.unsubscribeAllRadios();
-    this.radios.forEach((radio) => {
+    this.radios().forEach((radio) => {
       const sub = radio.checkedChange.subscribe((checked: boolean) => {
         this.onRadioCheckedChange(radio, checked);
       });
@@ -389,11 +387,11 @@ export class SolarisRadioGroupComponent
   }
 
   private syncRadiosToValue(): void {
-    if (!this.contentInitialized || !this.radios) return;
+    if (!this.contentInitialized) return;
     const currentValue = this._value();
     const cmp = this.compareWith();
 
-    this.radios.forEach((radio) => {
+    this.radios().forEach((radio) => {
       const childValue = radio.value();
       const isChecked =
         currentValue !== undefined && cmp(currentValue, childValue);
@@ -402,17 +400,17 @@ export class SolarisRadioGroupComponent
   }
 
   private propagateDisabledToRadios(): void {
-    if (!this.contentInitialized || !this.radios) return;
+    if (!this.contentInitialized) return;
     const isDisabled = this.isEffectivelyDisabled();
-    this.radios.forEach((radio) => {
+    this.radios().forEach((radio) => {
       radio.setDisabledState(isDisabled);
     });
   }
 
   private propagateReadonlyToRadios(): void {
-    if (!this.contentInitialized || !this.radios) return;
+    if (!this.contentInitialized) return;
     const isReadonly = this.isEffectivelyReadonly();
-    this.radios.forEach((radio) => {
+    this.radios().forEach((radio) => {
       radio.setCvaReadonlyState(isReadonly);
     });
   }

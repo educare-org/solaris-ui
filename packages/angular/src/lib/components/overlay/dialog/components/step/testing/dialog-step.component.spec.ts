@@ -26,13 +26,13 @@ describe('SolarisDialogStepComponent', () => {
     expect(el).toBeTruthy();
   });
 
-  it('should have a TemplateRef via ViewChild', () => {
+  it('should have a TemplateRef via viewChild', () => {
     const stepEl = (fixture.nativeElement as HTMLElement).querySelector(
       'solaris-dialog-step',
     );
     const stepComponent = (stepEl as any)?.__ngContext__;
     const cmpInstance = (fixture.debugElement.children[0] as any)
       .componentInstance as SolarisDialogStepComponent;
-    expect(cmpInstance.templateRef).toBeInstanceOf(TemplateRef);
+    expect(cmpInstance.templateRef()).toBeInstanceOf(TemplateRef);
   });
 });
