@@ -337,6 +337,7 @@ describe('SolarisDropdownSubmenuComponent', () => {
 
     afterEach(() => {
       component.close();
+      fixture.destroy();
       TestBed.resetTestingModule();
     });
 
@@ -483,6 +484,7 @@ describe('SolarisDropdownSubmenuComponent', () => {
 
     afterEach(() => {
       component.close();
+      fixture.destroy();
       TestBed.resetTestingModule();
     });
 

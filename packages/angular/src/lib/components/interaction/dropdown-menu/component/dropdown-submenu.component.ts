@@ -78,6 +78,7 @@ export class SolarisDropdownSubmenuComponent {
   private panelMouseLeaveCleanup: (() => void) | null = null;
   private openTimer: ReturnType<typeof setTimeout> | null = null;
   private closeTimer: ReturnType<typeof setTimeout> | null = null;
+  private focusTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
     // SECURITY_EXCEPTION: nativeElement required to store submenu reference. SSR-safe via ElementRef.
@@ -547,8 +548,12 @@ export class SolarisDropdownSubmenuComponent {
 
     this.updateOverlaySize();
 
-    setTimeout(() => {
+    if (this.focusTimeout !== null) {
+      clearTimeout(this.focusTimeout);
+    }
+    this.focusTimeout = setTimeout(() => {
       menu.focusFirstItem();
+      this.focusTimeout = null;
     });
   }
 
@@ -740,6 +745,10 @@ export class SolarisDropdownSubmenuComponent {
   private clearTimers(): void {
     this.clearOpenTimer();
     this.clearCloseTimer();
+    if (this.focusTimeout !== null) {
+      clearTimeout(this.focusTimeout);
+      this.focusTimeout = null;
+    }
   }
 
   private clearOpenTimer(): void {

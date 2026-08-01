@@ -220,6 +220,7 @@ describe('SolarisDropdownMenuTriggerDirective', () => {
 
   afterEach(() => {
     fixture.componentInstance.trigger.close();
+    fixture.destroy();
     TestBed.resetTestingModule();
   });
 
@@ -392,6 +393,12 @@ describe('SolarisDropdownMenuTriggerDirective - disabled', () => {
     fixture.detectChanges();
     expect(fixture.componentInstance.trigger['isOpen']()).toBe(false);
   });
+
+  afterEach(() => {
+    fixture.componentInstance.trigger.close();
+    fixture.destroy();
+    TestBed.resetTestingModule();
+  });
 });
 
 describe('SolarisDropdownMenuTriggerDirective - closeOnEscape', () => {
@@ -405,6 +412,7 @@ describe('SolarisDropdownMenuTriggerDirective - closeOnEscape', () => {
 
   afterEach(() => {
     fixture.componentInstance.trigger.close();
+    fixture.destroy();
     TestBed.resetTestingModule();
   });
 
@@ -434,6 +442,7 @@ describe('SolarisDropdownMenuTriggerDirective - closeOnOutsideClick', () => {
 
   afterEach(() => {
     fixture.componentInstance.trigger.close();
+    fixture.destroy();
     TestBed.resetTestingModule();
   });
 
@@ -462,6 +471,7 @@ describe('SolarisDropdownMenuTriggerDirective - controlled open', () => {
 
   afterEach(() => {
     fixture.componentInstance.trigger.close();
+    fixture.destroy();
     TestBed.resetTestingModule();
   });
 
@@ -481,6 +491,7 @@ describe('SolarisDropdownMenuTriggerDirective - matchTriggerWidth', () => {
 
   afterEach(() => {
     fixture.componentInstance.trigger.close();
+    fixture.destroy();
     TestBed.resetTestingModule();
   });
 
@@ -505,6 +516,7 @@ describe('SolarisDropdownMenuTriggerDirective - placement', () => {
 
   afterEach(() => {
     fixture.componentInstance.trigger.close();
+    fixture.destroy();
     TestBed.resetTestingModule();
   });
 

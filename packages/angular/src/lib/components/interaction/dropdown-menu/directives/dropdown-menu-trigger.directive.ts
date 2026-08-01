@@ -70,6 +70,7 @@ export class SolarisDropdownMenuTriggerDirective {
   private previousActiveElement: HTMLElement | null = null;
   private attachedMenu: SolarisDropdownMenuComponent | null = null;
   private positionStrategy: FlexibleConnectedPositionStrategy | null = null;
+  private focusTimeout: ReturnType<typeof setTimeout> | null = null;
 
   protected readonly isOpen = signal(false);
 
@@ -321,8 +322,12 @@ export class SolarisDropdownMenuTriggerDirective {
 
     this.addKeydownHandler();
 
-    setTimeout(() => {
+    if (this.focusTimeout !== null) {
+      clearTimeout(this.focusTimeout);
+    }
+    this.focusTimeout = setTimeout(() => {
       menu.focusFirstItem();
+      this.focusTimeout = null;
     });
   }
 
@@ -337,6 +342,10 @@ export class SolarisDropdownMenuTriggerDirective {
   }
 
   private disposeOverlay(): void {
+    if (this.focusTimeout !== null) {
+      clearTimeout(this.focusTimeout);
+      this.focusTimeout = null;
+    }
     if (this.overlayRef) {
       try {
         this.overlayRef.dispose();
