@@ -108,7 +108,7 @@ export class SolarisSwitchComponent
   readonly ariaLabelKey = input<string>();
 
   readonly checkedChange = output<boolean>();
-   
+
   readonly change = output<Event>();
 
   protected readonly effectiveDensity = computed<SolarisSwitchDensity>(() => {

@@ -111,7 +111,7 @@ export class SolarisRadioComponent
   readonly ariaLabelKey = input<string>();
 
   readonly checkedChange = output<boolean>();
-   
+
   readonly change = output<Event>();
 
   protected readonly effectiveDensity = computed<SolarisRadioDensity>(() => {

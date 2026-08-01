@@ -116,7 +116,7 @@ export class SolarisCheckboxComponent
 
   readonly checkedChange = output<boolean>();
   readonly indeterminateChange = output<boolean>();
-   
+
   readonly change = output<Event>();
 
   protected readonly effectiveDensity = computed<SolarisCheckboxDensity>(() => {
