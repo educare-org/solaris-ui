@@ -418,6 +418,12 @@ export type {
   SolarisDropdownSubmenuPlacement,
 } from './lib/components/interaction/dropdown-menu/model/dropdown-submenu.types';
 
+export { SolarisCollapsibleComponent } from './lib/components/interaction/collapsible/component/collapsible.component';
+export type {
+  SolarisCollapsibleSize,
+  SolarisCollapsibleConfig,
+} from './lib/components/interaction/collapsible/model/collapsible.types';
+
 export { SolarisEditableTabsComponent } from './lib/components/navigation/editable-tabs/component/editable-tabs.component';
 export { SolarisEditableTabComponent } from './lib/components/navigation/editable-tabs/editable-tab/editable-tab.component';
 

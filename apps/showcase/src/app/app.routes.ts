@@ -219,6 +219,13 @@ export const appRoutes: Route[] = [
       ).then((m) => m.DropdownMenuShowcasePage),
   },
   {
+    path: 'collapsible',
+    loadComponent: () =>
+      import(
+        './pages/interaction/collapsible/component/collapsible-showcase'
+      ).then((m) => m.CollapsibleShowcasePage),
+  },
+  {
     path: 'editable-tabs',
     loadComponent: () =>
       import(

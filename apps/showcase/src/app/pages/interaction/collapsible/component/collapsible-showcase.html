@@ -1,0 +1,88 @@
+<div class="collapsible-showcase">
+  <header class="collapsible-showcase__header">
+    <h1 class="collapsible-showcase__title">Collapsible</h1>
+    <p class="collapsible-showcase__description">
+      {{ 'collapsible.description' | translate }}
+    </p>
+  </header>
+
+  <section class="collapsible-showcase__section">
+    <h2 class="collapsible-showcase__section-title">
+      {{ 'collapsible.basic' | translate }}
+    </h2>
+    <p class="collapsible-showcase__note">
+      {{ 'collapsible.basic-note' | translate }}
+    </p>
+    <solaris-collapsible [label]="'collapsible.basic-details' | translate">
+      <p>{{ 'collapsible.basic-content' | translate }}</p>
+    </solaris-collapsible>
+  </section>
+
+  <section class="collapsible-showcase__section">
+    <h2 class="collapsible-showcase__section-title">
+      {{ 'collapsible.controlled' | translate }}
+    </h2>
+    <p class="collapsible-showcase__note">
+      {{ 'collapsible.controlled-note' | translate }}
+    </p>
+    <p class="collapsible-showcase__state">
+      {{ controlledOpen ? ('collapsible.controlled-state' | translate) :
+      ('collapsible.controlled-state-closed' | translate) }}
+    </p>
+    <solaris-collapsible
+      [(open)]="controlledOpen"
+      [label]="'collapsible.controlled-label' | translate"
+    >
+      <p>{{ 'collapsible.controlled-content' | translate }}</p>
+    </solaris-collapsible>
+  </section>
+
+  <section class="collapsible-showcase__section">
+    <h2 class="collapsible-showcase__section-title">
+      {{ 'collapsible.open-on-init' | translate }}
+    </h2>
+    <p class="collapsible-showcase__note">
+      {{ 'collapsible.open-on-init-note' | translate }}
+    </p>
+    <solaris-collapsible
+      [open]="true"
+      [label]="'collapsible.open-on-init-label' | translate"
+    >
+      <p>{{ 'collapsible.open-on-init-content' | translate }}</p>
+    </solaris-collapsible>
+  </section>
+
+  <section class="collapsible-showcase__section">
+    <h2 class="collapsible-showcase__section-title">
+      {{ 'collapsible.disabled' | translate }}
+    </h2>
+    <p class="collapsible-showcase__note">
+      {{ 'collapsible.disabled-note' | translate }}
+    </p>
+    <solaris-collapsible
+      [label]="'collapsible.disabled-label' | translate"
+      [disabled]="true"
+    >
+      <p>{{ 'collapsible.disabled-content' | translate }}</p>
+    </solaris-collapsible>
+  </section>
+
+  <section class="collapsible-showcase__section">
+    <h2 class="collapsible-showcase__section-title">
+      {{ 'collapsible.sizes' | translate }}
+    </h2>
+    <p class="collapsible-showcase__note">
+      {{ 'collapsible.sizes-note' | translate }}
+    </p>
+    <div class="collapsible-showcase__stack">
+      @for (size of sizes; track size) {
+      <solaris-collapsible
+        [size]="size"
+        [label]="'collapsible.size-' + size | translate"
+      >
+        <p>{{ 'collapsible.size-' + size + '-content' | translate }}</p>
+      </solaris-collapsible>
+      }
+    </div>
+  </section>
+</div>

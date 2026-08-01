@@ -1,0 +1,33 @@
+<div class="solaris-collapsible__header">
+  <button
+    type="button"
+    class="solaris-collapsible__trigger"
+    [id]="triggerId()"
+    [attr.aria-expanded]="open()"
+    [attr.aria-controls]="panelId()"
+    [attr.aria-label]="effectiveAriaLabel()"
+    [disabled]="disabled()"
+    (click)="toggle()"
+  >
+    <span class="solaris-collapsible__trigger-label">
+      {{ labelText() }}
+    </span>
+    <solaris-icon
+      name="chevron-down"
+      class="solaris-collapsible__trigger-icon"
+      [decorative]="true"
+    />
+  </button>
+</div>
+<div
+  class="solaris-collapsible__panel"
+  [id]="panelId()"
+  role="region"
+  [attr.aria-labelledby]="triggerId()"
+  [attr.aria-hidden]="open() ? null : 'true'"
+  [attr.inert]="open() ? null : ''"
+>
+  <div class="solaris-collapsible__panel-inner">
+    <ng-content />
+  </div>
+</div>
