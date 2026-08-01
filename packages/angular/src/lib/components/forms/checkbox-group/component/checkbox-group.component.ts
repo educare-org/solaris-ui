@@ -125,6 +125,7 @@ export class SolarisCheckboxGroupComponent
   /** Outputs */
   readonly valueChange = output<unknown[]>();
 
+   
   readonly change = output<unknown[]>();
 
   /** Internal state */
