@@ -35,10 +35,10 @@
         "coverage": true,
         "coverageReporters": ["text", "lcov", "html"],
         "coverageThresholds": {
-          "statements": 80,
-          "branches": 80,
-          "functions": 80,
-          "lines": 80
+          "statements": 85,
+          "branches": 83,
+          "functions": 85,
+          "lines": 85
         }
       }
     },
