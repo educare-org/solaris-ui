@@ -1,4 +1,4 @@
-# Solaris UI — AI Phase Plan
+﻿# Solaris UI — AI Phase Plan
 
 > Read this entire document before starting any phase.
 > Fill in the checklist below at the end of each phase.
@@ -24,10 +24,12 @@ Each phase builds on the previous one.
 
 Issues accepted consciously to keep velocity. Each entry has a decision, reason, and a path to resolution.
 
-| #   | Item                                                                                                                                                                                                                                                                                | Decided    | Why kept                                                                                      | Resolution path                                            |
-| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| 1   | 7 components with inline `template` passthrough: `'<ng-content />'` (form-error, form-hint, form-label, alert-actions), `'<ng-template><ng-content /></ng-template>'` (dialog-step), empty `''` + `contentChild(TemplateRef)` (editable-tab), `'<ng-content />'` (dropdown-submenu) | 2026-07-31 | Validated as legitimate passthrough/placeholder patterns; allowed by `validate-component.mjs` | Extract to `templateUrl` if the component ever grows logic |
-| 2   | OnPush `changeDetection` missing on 32 components                                                                                                                                                                                                                                   | resolved   | —                                                                                             | **DONE** — batch applied + enforced by component template  |
+| #   | Item                                                                                                                                                                                                                                                                                | Decided    | Why kept                                                                                                                                                                                                                     | Resolution path                                                                                                                          |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | 7 components with inline `template` passthrough: `'<ng-content />'` (form-error, form-hint, form-label, alert-actions), `'<ng-template><ng-content /></ng-template>'` (dialog-step), empty `''` + `contentChild(TemplateRef)` (editable-tab), `'<ng-content />'` (dropdown-submenu) | 2026-07-31 | Validated as legitimate passthrough/placeholder patterns; allowed by `validate-component.mjs`                                                                                                                                | Extract to `templateUrl` if the component ever grows logic                                                                               |
+| 2   | OnPush `changeDetection` missing on 32 components                                                                                                                                                                                                                                   | resolved   | —                                                                                                                                                                                                                            | **DONE** — batch applied + enforced by component template                                                                                |
+| 3   | Global branch coverage at `83%` (goal `85%`) — gap concentrated in `multi-select`, `select`, `dropdown-submenu` integration branches (hover/placement/keyboard/overlay)                                                                                                             | 2026-07-31 | Statements/functions/lines already at 85%; branch gap needs integration tests, not unit tests                                                                                                                                | Add integration-level branch tests for the 3 components; raise threshold to `85%`                                                        |
+| 4   | Decorator queries (`@ViewChild`/`@ContentChild`) still in `select`, `multi-select`, `form-field` (3 components, ~14 queries) — the largest and most central form components                                                                                                         | 2026-07-31 | Migrated 9 components (email/password-field, option-group, radio/checkbox/switch-group, dialog-step/flow/container); these 3 remain because they use queries in setters, lifecycle hooks, and templates (high refactor risk) | Migrate to `viewChild()`/`contentChild()` following the established pattern; `@HostListener` stays (no signal alternative in Angular 21) |
 
 The debt list must be updated whenever an accepted deviation is created or resolved. Do not add new deviations silently — record them here first.
 
@@ -386,12 +388,12 @@ Create the ecosystem that lets AI generate complete components (code + tests + d
 
 - [x] B1: Global `vitest.setup.ts` created (`packages/angular/src/vitest.setup.ts`)
 - [x] B2: `test:watch` in package.json
-- [/] B3: E2E with interaction (forms, overlay, keyboard) — **partial** (138 tests on chromium; firefox/webkit not revalidated)
+- [x] B3: E2E with interaction (forms, overlay, keyboard) - 138 tests passing
 - [x] B4: Service tests (theme ✅, accessibility ✅, translation ✅, icon ✅)
 - [x] B5: Testing utilities tests
 - [x] B6: Page Objects for complex components — dialog, select, dropdown-menu, toast, popover, tabs, tooltip, button
-- [x] Service coverage reaches 80%+ (statements 84%, threshold 80%)
-- [ ] E2E passes on 3 browsers (Chromium, Firefox, WebKit) — **pending** (only chromium validated)
+- [x] Service coverage reaches 85%+ (statements 85%, threshold 85%)
+- [x] E2E passes on 3 browsers (Chromium, Firefox, WebKit) - validated 2026-07-31
 
 ### Phase C — Documentation
 
@@ -411,7 +413,7 @@ Create the ecosystem that lets AI generate complete components (code + tests + d
 - [x] D3: `validate-component.mjs` functional
 - [x] D4: Automatic changeset in scaffold
 - [x] Complete component generation (tests + docs + changeset stub)
-- [ ] Blind test: AI generates a new component following the template and scaffold
+- [x] Blind test: AI generates a new component following the template and scaffold (divider-stack, 2026-07-31)
 
 ---
 
