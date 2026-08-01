@@ -1109,7 +1109,7 @@ export class SolarisMultiSelectComponent
 
   private setOptionGroupDisabledState(): void {
     this.optionGroups.forEach((group) => {
-      group.options.forEach((opt) => {
+      group.options().forEach((opt) => {
         opt.setGroupDisabledState(group.isEffectivelyDisabled());
       });
     });
@@ -1134,7 +1134,7 @@ export class SolarisMultiSelectComponent
     const visible = new Set(this.visibleOptions());
     this.options.forEach((o) => o.setHidden(!visible.has(o)));
     this.optionGroups.forEach((g) => {
-      const anyVisible = g.options.some((o) => visible.has(o));
+      const anyVisible = g.options().some((o) => visible.has(o));
       g.setHidden(!anyVisible);
     });
   }
