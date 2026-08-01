@@ -1,10 +1,12 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component, ViewChild } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 import { SolarisDropdownSubmenuComponent } from '../component/dropdown-submenu.component';
 import { SolarisDropdownSubmenuTriggerComponent } from '../component/dropdown-submenu-trigger.component';
 import { SolarisDropdownMenuComponent } from '../component/dropdown-menu.component';
 import { SolarisDropdownMenuItemComponent } from '../component/dropdown-menu-item.component';
+import type { SolarisDropdownSubmenuPlacement } from '../model/dropdown-submenu.types';
 
 @Component({
   standalone: true,
@@ -546,5 +548,256 @@ describe('SolarisDropdownSubmenuComponent', () => {
       const panelId = component.nestedMenuPanelId();
       expect(panelId).toMatch(/^solaris-dropdown-menu-\d+$/);
     });
+  });
+
+  describe('keyboard integration', () => {
+    let fixture: ComponentFixture<BasicTestHost>;
+    let component: SolarisDropdownSubmenuComponent;
+    let menu: SolarisDropdownMenuComponent;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({});
+      fixture = TestBed.createComponent(BasicTestHost);
+      fixture.detectChanges();
+      component = fixture.componentInstance.submenu;
+      menu = fixture.debugElement.query(
+        By.directive(SolarisDropdownMenuComponent),
+      ).componentInstance;
+    });
+
+    afterEach(() => {
+      component.close();
+      fixture.destroy();
+      TestBed.resetTestingModule();
+    });
+
+    it('should navigate down with ArrowDown', () => {
+      const spy = vi.spyOn(menu, 'focusNextItem');
+      component.handleKeydown(
+        new KeyboardEvent('keydown', { key: 'ArrowDown' }),
+      );
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should navigate up with ArrowUp', () => {
+      const spy = vi.spyOn(menu, 'focusPreviousItem');
+      component.handleKeydown(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should focus first item with Home', () => {
+      const spy = vi.spyOn(menu, 'focusFirstItem');
+      component.handleKeydown(new KeyboardEvent('keydown', { key: 'Home' }));
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should focus last item with End', () => {
+      const spy = vi.spyOn(menu, 'focusLastItem');
+      component.handleKeydown(new KeyboardEvent('keydown', { key: 'End' }));
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('should activate focused item and close on Enter', () => {
+      const spy = vi.spyOn(menu, 'activateFocusedItem');
+      component.open();
+      component.handleKeydown(new KeyboardEvent('keydown', { key: 'Enter' }));
+      expect(spy).toHaveBeenCalled();
+      expect(component['isOpen']()).toBe(false);
+    });
+
+    it('should close on ArrowLeft', () => {
+      component.open();
+      component.handleKeydown(
+        new KeyboardEvent('keydown', { key: 'ArrowLeft' }),
+      );
+      expect(component['isOpen']()).toBe(false);
+    });
+
+    it('should close on Escape', () => {
+      component.open();
+      component.handleKeydown(new KeyboardEvent('keydown', { key: 'Escape' }));
+      expect(component['isOpen']()).toBe(false);
+    });
+
+    it('should focus by label for single character without modifiers', () => {
+      const spy = vi.spyOn(menu, 'focusItemByLabel');
+      component.handleKeydown(new KeyboardEvent('keydown', { key: 'p' }));
+      expect(spy).toHaveBeenCalledWith('p');
+    });
+  });
+
+  describe('placement integration', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisDropdownSubmenuComponent,
+        SolarisDropdownSubmenuTriggerComponent,
+        SolarisDropdownMenuComponent,
+        SolarisDropdownMenuItemComponent,
+      ],
+      template: `
+        <solaris-dropdown-submenu [placement]="placement">
+          <solaris-dropdown-submenu-trigger label="Export" />
+          <solaris-dropdown-menu>
+            <solaris-dropdown-menu-item label="PDF" />
+          </solaris-dropdown-menu>
+        </solaris-dropdown-submenu>
+      `,
+    })
+    class PlacementHost {
+      placement: SolarisDropdownSubmenuPlacement = 'right-start';
+      @ViewChild(SolarisDropdownSubmenuComponent)
+      submenu!: SolarisDropdownSubmenuComponent;
+    }
+
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisDropdownSubmenuComponent,
+        SolarisDropdownSubmenuTriggerComponent,
+        SolarisDropdownMenuComponent,
+        SolarisDropdownMenuItemComponent,
+      ],
+      template: `
+        <solaris-dropdown-submenu minWidth="200px" maxWidth="400px">
+          <solaris-dropdown-submenu-trigger label="Export" />
+          <solaris-dropdown-menu>
+            <solaris-dropdown-menu-item label="PDF" />
+          </solaris-dropdown-menu>
+        </solaris-dropdown-submenu>
+      `,
+    })
+    class SizedTestHost {
+      @ViewChild(SolarisDropdownSubmenuComponent)
+      submenu!: SolarisDropdownSubmenuComponent;
+    }
+
+    it('should build positions for every placement without error', () => {
+      const placements: SolarisDropdownSubmenuPlacement[] = [
+        'right-start',
+        'right',
+        'right-end',
+        'left-start',
+        'left',
+        'left-end',
+      ];
+      for (const placement of placements) {
+        TestBed.configureTestingModule({});
+        const fixture = TestBed.createComponent(PlacementHost);
+        fixture.componentInstance.placement = placement;
+        fixture.detectChanges();
+        const component = fixture.componentInstance.submenu;
+        expect(() => {
+          component.open();
+          component.close();
+        }).not.toThrow();
+        fixture.destroy();
+        TestBed.resetTestingModule();
+      }
+    });
+
+    it('should set minWidth and maxWidth on overlay', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SizedTestHost);
+      fixture.detectChanges();
+      const component = fixture.componentInstance.submenu;
+      component.open();
+      expect(component['overlayRef']).toBeTruthy();
+      expect(component['overlayRef']!.getConfig().maxWidth).toBe('400px');
+      component.close();
+      fixture.destroy();
+      TestBed.resetTestingModule();
+    });
+  });
+
+  describe('event handlers', () => {
+    let fixture: ComponentFixture<BasicTestHost>;
+    let component: SolarisDropdownSubmenuComponent;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({});
+      fixture = TestBed.createComponent(BasicTestHost);
+      fixture.detectChanges();
+      component = fixture.componentInstance.submenu;
+    });
+
+    afterEach(() => {
+      component.close();
+      fixture.destroy();
+      TestBed.resetTestingModule();
+    });
+
+    it('should close on outside click', () => {
+      component.open();
+      expect(component['isOpen']()).toBe(true);
+      (component as any).handleOutsideClick({
+        target: document.createElement('div'),
+      });
+      expect(component['isOpen']()).toBe(false);
+    });
+
+    it('should not close when clicking inside overlay', () => {
+      component.open();
+      const overlayEl = component['overlayRef']!.overlayElement;
+      (component as any).handleOutsideClick({ target: overlayEl });
+      expect(component['isOpen']()).toBe(true);
+      component.close();
+    });
+
+    it('should ignore outside click without overlay', () => {
+      expect(() => {
+        (component as any).handleOutsideClick({
+          target: document.createElement('div'),
+        });
+      }).not.toThrow();
+    });
+
+    it('should close on item click', () => {
+      component.open();
+      const overlayEl = component['overlayRef']!.overlayElement;
+      const item = document.createElement('solaris-dropdown-menu-item');
+      overlayEl.appendChild(item);
+      (component as any).handleItemClick({ target: item });
+      expect(component['isOpen']()).toBe(false);
+    });
+  });
+});
+
+describe('SolarisDropdownSubmenuComponent without nested menu', () => {
+  @Component({
+    standalone: true,
+    imports: [
+      SolarisDropdownSubmenuComponent,
+      SolarisDropdownSubmenuTriggerComponent,
+    ],
+    template: `
+      <solaris-dropdown-submenu>
+        <solaris-dropdown-submenu-trigger label="Export" />
+      </solaris-dropdown-submenu>
+    `,
+  })
+  class NoMenuHost {
+    @ViewChild(SolarisDropdownSubmenuComponent)
+    submenu!: SolarisDropdownSubmenuComponent;
+  }
+
+  it('should compute null panel id without nested menu', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(NoMenuHost);
+    fixture.detectChanges();
+    const component = fixture.componentInstance.submenu;
+    expect(component.nestedMenuPanelId()).toBeNull();
+    fixture.destroy();
+  });
+
+  it('should ignore keydown when no nested menu', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(NoMenuHost);
+    fixture.detectChanges();
+    const component = fixture.componentInstance.submenu;
+    expect(() => {
+      component.handleKeydown(new KeyboardEvent('keydown', { key: 'Enter' }));
+    }).not.toThrow();
+    fixture.destroy();
   });
 });

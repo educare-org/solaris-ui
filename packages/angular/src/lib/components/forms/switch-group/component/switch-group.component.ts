@@ -113,7 +113,6 @@ export class SolarisSwitchGroupComponent
 
   readonly valueChange = output<Record<string, boolean>>();
 
-   
   readonly change = output<Record<string, boolean>>();
 
   private readonly _value = signal<Record<string, boolean>>({});

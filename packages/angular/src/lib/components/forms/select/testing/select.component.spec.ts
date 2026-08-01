@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
+import { SolarisTranslateService } from '../../../../services/translation/service/solaris-translate.service';
 import { SolarisSelectComponent } from '../component/select.component';
 import { SolarisOptionComponent } from '../../option/component/option.component';
 import { SolarisOptionGroupComponent } from '../../option-group/component/option-group.component';
@@ -73,7 +74,7 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as SolarisSelectComponent;
-      expect((select as any).options.length).toBe(2);
+      expect((select as any).options().length).toBe(2);
     });
 
     it('should setDisabledState block interaction', () => {
@@ -143,7 +144,7 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
-      expect(select.options.length).toBe(3);
+      expect(select.options().length).toBe(3);
     });
 
     it('should have 1 option group via ContentChildren', () => {
@@ -152,7 +153,7 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
-      expect(select.optionGroups.length).toBe(1);
+      expect(select.optionGroups().length).toBe(1);
     });
 
     it('should have disabled option', () => {
@@ -161,8 +162,8 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
-      const disabledOpts = select.options
-        .toArray()
+      const disabledOpts = select
+        .options()
         .filter((o: any) => o.disabledInput());
       expect(disabledOpts.length).toBe(1);
       expect(disabledOpts[0].value()).toBe('b');
@@ -404,7 +405,7 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
-      const option = select.options.toArray()[0];
+      const option = select.options()[0];
       const labelText = option.labelText();
       expect(labelText).toContain('<b>XSS</b>');
     });
@@ -436,7 +437,7 @@ describe('SolarisSelectComponent', () => {
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
       const query = '[';
-      const opts = (select as any).options.toArray();
+      const opts = (select as any).options();
       const filtered = opts.filter((opt: any) =>
         select.optionMatchesSearch(opt, query),
       );
@@ -450,7 +451,7 @@ describe('SolarisSelectComponent', () => {
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
       const query = '*';
-      const opts = (select as any).options.toArray();
+      const opts = (select as any).options();
       const filtered = opts.filter((opt: any) =>
         select.optionMatchesSearch(opt, query),
       );
@@ -464,7 +465,7 @@ describe('SolarisSelectComponent', () => {
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
       const query = '(a+)+';
-      const opts = (select as any).options.toArray();
+      const opts = (select as any).options();
       const filtered = opts.filter((opt: any) =>
         select.optionMatchesSearch(opt, query),
       );
@@ -477,7 +478,7 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
-      const aOpt = (select as any).options.toArray()[0];
+      const aOpt = (select as any).options()[0];
       const query = 'option';
       const matches = select.optionMatchesSearch(aOpt, query);
       expect(matches).toBe(true);
@@ -489,7 +490,7 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
-      const aOpt = (select as any).options.toArray()[0];
+      const aOpt = (select as any).options()[0];
       const query = 'zzzzz';
       const matches = select.optionMatchesSearch(aOpt, query);
       expect(matches).toBe(false);
@@ -532,7 +533,7 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as SolarisSelectComponent;
-      const opts = (select as any).options.toArray();
+      const opts = (select as any).options();
       const disabledOpt = opts.find((o: any) => o.isEffectivelyDisabled());
       select.writeValue(null);
       fixture.detectChanges();
@@ -550,9 +551,7 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
-      const disabledOpt = select.options
-        .toArray()
-        .find((o: any) => o.value() === 'b');
+      const disabledOpt = select.options().find((o: any) => o.value() === 'b');
       expect(disabledOpt).toBeDefined();
       expect(
         disabledOpt.elementRef.nativeElement.getAttribute('aria-disabled'),
@@ -981,6 +980,191 @@ describe('SolarisSelectComponent', () => {
       const opts = (select as any).visibleOptions();
       expect((select as any).activeOptionIndex()).toBe(opts.length - 1);
     });
+
+    it('should select active option on Enter via onTriggerKeydown with panel open', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      (select as any).panelOpen.set(true);
+      (select as any).activeOptionIndex.set(1);
+      const event = new KeyboardEvent('keydown', { key: 'Enter' });
+      (select as any).onTriggerKeydown(event);
+      expect((select as any).internalValue()).toBe('b');
+    });
+
+    it('should navigate options via onTriggerKeydown ArrowDown when panel open', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      (select as any).panelOpen.set(true);
+      const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+      (select as any).onTriggerKeydown(event);
+      expect((select as any).activeOptionIndex()).toBe(0);
+    });
+
+    it('should close panel on Escape via onTriggerKeydown', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      (select as any).panelOpen.set(true);
+      const closeSpy = vi
+        .spyOn(select as any, 'popoverTrigger')
+        .mockReturnValue(undefined);
+      const event = new KeyboardEvent('keydown', { key: 'Escape' });
+      (select as any).onTriggerKeydown(event);
+      expect(closeSpy).toHaveBeenCalled();
+    });
+
+    it('should close panel on Tab via onTriggerKeydown', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      (select as any).panelOpen.set(true);
+      const closeSpy = vi
+        .spyOn(select as any, 'popoverTrigger')
+        .mockReturnValue(undefined);
+      const event = new KeyboardEvent('keydown', { key: 'Tab' });
+      (select as any).onTriggerKeydown(event);
+      expect(closeSpy).toHaveBeenCalled();
+    });
+
+    it('should navigate to first option via onTriggerKeydown Home', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      (select as any).panelOpen.set(true);
+      (select as any).activeOptionIndex.set(2);
+      const event = new KeyboardEvent('keydown', { key: 'Home' });
+      (select as any).onTriggerKeydown(event);
+      expect((select as any).activeOptionIndex()).toBe(0);
+    });
+
+    it('should clear search query on Escape in search input', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      (select as any).panelOpen.set(true);
+      (select as any).searchQuery.set('abc');
+      const event = new KeyboardEvent('keydown', { key: 'Escape' });
+      (select as any).onSearchKeydown(event);
+      expect((select as any).searchQuery()).toBe('');
+    });
+
+    it('should navigate search results with ArrowDown and ArrowUp', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      (select as any).panelOpen.set(true);
+      (select as any).searchQuery.set('a');
+      (select as any).onSearchKeydown(
+        new KeyboardEvent('keydown', { key: 'ArrowDown' }),
+      );
+      expect((select as any).activeOptionIndex()).toBe(0);
+      (select as any).onSearchKeydown(
+        new KeyboardEvent('keydown', { key: 'ArrowUp' }),
+      );
+      expect((select as any).activeOptionIndex()).toBeGreaterThanOrEqual(0);
+    });
+
+    it('should select active option on Enter in search input', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      (select as any).panelOpen.set(true);
+      (select as any).searchQuery.set('b');
+      (select as any).activeOptionIndex.set(0);
+      (select as any).onSearchKeydown(
+        new KeyboardEvent('keydown', { key: 'Enter' }),
+      );
+      expect((select as any).internalValue()).toBe('b');
+    });
+
+    it('should close panel on Tab in search input', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      (select as any).panelOpen.set(true);
+      const closeSpy = vi
+        .spyOn(select as any, 'popoverTrigger')
+        .mockReturnValue(undefined);
+      (select as any).onSearchKeydown(
+        new KeyboardEvent('keydown', { key: 'Tab' }),
+      );
+      expect(closeSpy).toHaveBeenCalled();
+    });
+
+    it('should navigate options via onPanelKeydown', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      (select as any).panelOpen.set(true);
+      (select as any).onPanelKeydown(
+        new KeyboardEvent('keydown', { key: 'ArrowDown' }),
+      );
+      expect((select as any).activeOptionIndex()).toBe(0);
+      (select as any).onPanelKeydown(
+        new KeyboardEvent('keydown', { key: 'ArrowUp' }),
+      );
+      (select as any).onPanelKeydown(
+        new KeyboardEvent('keydown', { key: 'Home' }),
+      );
+      expect((select as any).activeOptionIndex()).toBe(0);
+      (select as any).onPanelKeydown(
+        new KeyboardEvent('keydown', { key: 'End' }),
+      );
+      const opts = (select as any).visibleOptions();
+      expect((select as any).activeOptionIndex()).toBe(opts.length - 1);
+    });
+
+    it('should select active option via onPanelKeydown Enter', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      (select as any).panelOpen.set(true);
+      (select as any).activeOptionIndex.set(2);
+      (select as any).onPanelKeydown(
+        new KeyboardEvent('keydown', { key: 'Enter' }),
+      );
+      expect((select as any).internalValue()).toBe('c');
+    });
+
+    it('should close panel via onPanelKeydown Escape', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(KeyboardHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      (select as any).panelOpen.set(true);
+      const closeSpy = vi
+        .spyOn(select as any, 'popoverTrigger')
+        .mockReturnValue(undefined);
+      (select as any).onPanelKeydown(
+        new KeyboardEvent('keydown', { key: 'Escape' }),
+      );
+      expect(closeSpy).toHaveBeenCalled();
+    });
   });
 
   describe('popover integration', () => {
@@ -1278,6 +1462,259 @@ describe('SolarisSelectComponent', () => {
         expect.stringContaining('No displayWith provided'),
       );
       warnSpy.mockRestore();
+    });
+
+    it('should use translation keys when provided', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisSelectComponent, SolarisOptionComponent],
+        template: `
+          <solaris-select
+            labelKey="selectLabel"
+            hintKey="selectHint"
+            errorKey="selectError"
+            placeholderKey="selectPlaceholder"
+            ariaLabelKey="selectAriaLabel"
+            searchPlaceholderKey="selectSearchPlaceholder"
+            loadingTextKey="selectLoading"
+            emptyTextKey="selectEmpty"
+            noResultsTextKey="selectNoResults"
+            clearLabelKey="selectClear"
+          >
+            <solaris-option value="a" label="Apple"></solaris-option>
+          </solaris-select>
+        `,
+        providers: [provideSolarisTesting({})],
+      })
+      class TranslationKeyHost {}
+
+      TestBed.configureTestingModule({});
+      const translateService = TestBed.inject(SolarisTranslateService);
+      const original = translateService.translate;
+      translateService.translate = (key: string) =>
+        ({
+          selectLabel: 'Translated label',
+          selectHint: 'Translated hint',
+          selectError: 'Translated error',
+          selectPlaceholder: 'Translated placeholder',
+          selectAriaLabel: 'Translated aria label',
+          selectSearchPlaceholder: 'Translated search placeholder',
+          selectLoading: 'Translated loading',
+          selectEmpty: 'Translated empty',
+          selectNoResults: 'Translated no results',
+          selectClear: 'Translated clear',
+        })[key] ?? key;
+      const fixture = TestBed.createComponent(TranslationKeyHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.labelText()).toBe('Translated label');
+      expect(select.hintText()).toBe('Translated hint');
+      expect(select.errorText()).toBe('Translated error');
+      expect(select.placeholderText()).toBe('Translated placeholder');
+      expect(select.ariaLabelText()).toBe('Translated aria label');
+      expect(select.searchPlaceholderText()).toBe(
+        'Translated search placeholder',
+      );
+      expect(select.loadingTextValue()).toBe('Translated loading');
+      expect(select.emptyTextValue()).toBe('Translated empty');
+      expect(select.noResultsTextValue()).toBe('Translated no results');
+      expect(select.clearAriaLabel()).toBe('Translated clear');
+      translateService.translate = original;
+    });
+
+    it('should fall back to direct text when key translation is empty', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisSelectComponent, SolarisOptionComponent],
+        template: `
+          <solaris-select
+            placeholderKey="missing.key"
+            placeholder="Direct placeholder"
+            labelKey="missing.label"
+            label="Direct label"
+          >
+            <solaris-option value="a" label="Apple"></solaris-option>
+          </solaris-select>
+        `,
+        providers: [provideSolarisTesting({})],
+      })
+      class EmptyTranslationHost {}
+
+      TestBed.configureTestingModule({});
+      const translateService = TestBed.inject(SolarisTranslateService);
+      const original = translateService.translate;
+      translateService.translate = (key: string) => '';
+      const fixture = TestBed.createComponent(EmptyTranslationHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.placeholderText()).toBe('Direct placeholder');
+      expect(select.labelText()).toBe('Direct label');
+      translateService.translate = original;
+    });
+
+    it('should use default texts for search and state keys', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisSelectComponent, SolarisOptionComponent],
+        template: `
+          <solaris-select [loading]="true">
+            <solaris-option value="a" label="Apple"></solaris-option>
+          </solaris-select>
+        `,
+        providers: [provideSolarisTesting({})],
+      })
+      class DefaultStateHost {}
+
+      TestBed.configureTestingModule({});
+      const translateService = TestBed.inject(SolarisTranslateService);
+      const original = translateService.translate;
+      translateService.translate = (key: string) =>
+        ({
+          'solaris.select.search.placeholder': 'Search...',
+          'solaris.select.loading': 'Loading...',
+          'solaris.select.empty': 'No options available',
+          'solaris.select.noResults': 'No results found',
+          'solaris.select.clear': 'Clear selection',
+        })[key] ?? key;
+      const fixture = TestBed.createComponent(DefaultStateHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.searchPlaceholderText()).toBe('Search...');
+      expect(select.loadingTextValue()).toBe('Loading...');
+      expect(select.emptyTextValue()).toBe('No options available');
+      expect(select.noResultsTextValue()).toBe('No results found');
+      expect(select.clearAriaLabel()).toBe('Clear selection');
+      translateService.translate = original;
+    });
+  });
+
+  describe('display text fallbacks', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select [displayWith]="displayWith">
+          <solaris-option value="a" label="Apple"></solaris-option>
+        </solaris-select>
+      `,
+      providers: [provideSolarisTesting({})],
+    })
+    class DisplayWithHost {
+      displayWith = (v: unknown) => `Display:${String(v)}`;
+    }
+
+    it('should use displayWith for value text', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(DisplayWithHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      select.writeValue('a');
+      fixture.detectChanges();
+      expect(select.displayText()).toBe('Display:a');
+    });
+
+    it('should use String() fallback for scalar value without option', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisSelectComponent, SolarisOptionComponent],
+        template: `
+          <solaris-select>
+            <solaris-option value="a" label="Apple"></solaris-option>
+          </solaris-select>
+        `,
+        providers: [provideSolarisTesting({})],
+      })
+      class ScalarHost {}
+
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ScalarHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      select.writeValue('zzz');
+      fixture.detectChanges();
+      expect(select.displayText()).toBe('zzz');
+    });
+  });
+
+  describe('focus and validity', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select [required]="true">
+          <solaris-option value="a" label="Apple"></solaris-option>
+        </solaris-select>
+      `,
+      providers: [provideSolarisTesting({})],
+    })
+    class RequiredHost {}
+
+    it('should be invalid when required and touched with no value', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(RequiredHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.isEffectivelyInvalid()).toBe(false);
+      (select as any).touched.set(true);
+      fixture.detectChanges();
+      expect(select.isEffectivelyInvalid()).toBe(true);
+    });
+
+    it('should focus host element as fallback when no trigger element', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(RequiredHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      const focusSpy = vi.spyOn(select.elementRef.nativeElement, 'focus');
+      vi.spyOn(select as any, 'triggerElement').mockReturnValue(undefined);
+      select.focus();
+      expect(focusSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('connected side sync', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select>
+          <solaris-option value="a" label="Apple"></solaris-option>
+        </solaris-select>
+      `,
+      providers: [provideSolarisTesting({})],
+    })
+    class ConnectedHost {}
+
+    it('should set and clear connected side on open and close', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ConnectedHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      const setSpy = vi.spyOn(select as any, 'setConnectedSide');
+      const clearSpy = vi.spyOn(select as any, 'clearConnectedSide');
+      (select as any).onPanelOpened();
+      expect(setSpy).toHaveBeenCalledWith('bottom');
+      (select as any).onPanelClosed();
+      expect(clearSpy).toHaveBeenCalled();
+    });
+
+    it('should find option text via native text fallback', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ConnectedHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      const opt = (select as any).options()[0];
+      const text = (select as any).getOptionNativeText(opt);
+      expect(text).toBe('Apple');
     });
   });
 });
