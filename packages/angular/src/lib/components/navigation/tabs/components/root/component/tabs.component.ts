@@ -31,8 +31,7 @@ import type {
   SolarisTabsChangeEvent,
   SolarisTabClickEvent,
 } from '../model/tabs.types';
-
-let nextInstanceId = 0;
+import { nextIdFor } from '../../../../../../core/utils/id';
 
 @Component({
   selector: 'solaris-tabs',
@@ -94,7 +93,7 @@ export class SolarisTabsComponent implements SolarisTabsControl {
   );
   protected readonly slideDirection = signal<'left' | 'right'>('right');
 
-  protected readonly instanceId = `solaris-tabs-${nextInstanceId++}`;
+  protected readonly instanceId = nextIdFor('solaris-tabs');
 
   protected readonly indicatorReady = signal(false);
   protected readonly indicatorTransformX = signal('translateX(0)');

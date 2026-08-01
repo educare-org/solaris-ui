@@ -20,6 +20,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisSegmentedItemComponent } from '../item/segmented-item.component';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { nextIdFor } from '../../../../core/utils/id';
 
 import {
   SOLARIS_SEGMENTED_CONTROL,
@@ -34,8 +35,6 @@ import type {
   SolarisSegmentedControlRadius,
   SolarisSegmentedControlChangeEvent,
 } from '../model/segmented-control.types';
-
-let nextInstanceId = 0;
 
 @Component({
   selector: 'solaris-segmented-control',
@@ -117,7 +116,7 @@ export class SolarisSegmentedControlComponent
   readonly valueChange = output<unknown>();
   readonly segmentedChange = output<SolarisSegmentedControlChangeEvent>();
 
-  protected readonly instanceId = `solaris-segmented-control-${nextInstanceId++}`;
+  protected readonly instanceId = nextIdFor('solaris-segmented-control');
   protected readonly touched = signal(false);
   protected readonly indicatorWidth = signal('0');
   protected readonly indicatorHeight = signal('0');

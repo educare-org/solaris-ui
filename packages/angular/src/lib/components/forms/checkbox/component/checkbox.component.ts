@@ -16,6 +16,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { resolveElementId } from '../../../../core/utils/id';
 
 import type {
   SolarisCheckboxAppearance,
@@ -24,12 +25,6 @@ import type {
   SolarisCheckboxRadius,
   SolarisCheckboxDensity,
 } from '../model/checkbox.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-checkbox-${++nextId}`;
-}
 
 @Component({
   selector: 'solaris-checkbox',
@@ -121,7 +116,7 @@ export class SolarisCheckboxComponent
 
   readonly checkedChange = output<boolean>();
   readonly indeterminateChange = output<boolean>();
-  // eslint-disable-next-line @angular-eslint/no-output-native
+   
   readonly change = output<Event>();
 
   protected readonly effectiveDensity = computed<SolarisCheckboxDensity>(() => {
@@ -140,9 +135,7 @@ export class SolarisCheckboxComponent
     return this.readonlyInput() || this.cvaReadonly();
   });
   protected readonly elementId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls.
-    const existingId = this.elementRef.nativeElement.getAttribute('id');
-    return existingId || generateId();
+    return resolveElementId(this.elementRef, 'solaris-checkbox');
   });
 
   protected readonly ariaDescribedBy = computed(() => {

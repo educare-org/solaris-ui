@@ -9,8 +9,7 @@ import {
 } from '@angular/core';
 
 import { SOLARIS_TABS } from '../../../token/tabs.tokens';
-
-let nextId = 0;
+import { nextIdFor } from '../../../../../../core/utils/id';
 
 @Component({
   selector: 'solaris-tab-panel',
@@ -33,7 +32,7 @@ export class SolarisTabPanelComponent {
   readonly value = input.required<string | number>();
   readonly lazy = input<boolean>(false);
 
-  protected readonly instanceId = `solaris-tab-panel-${nextId++}`;
+  protected readonly instanceId = nextIdFor('solaris-tab-panel');
 
   protected readonly panelId = computed(() => {
     if (this.tabsControl) {

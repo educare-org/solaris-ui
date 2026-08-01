@@ -16,6 +16,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { resolveElementId } from '../../../../core/utils/id';
 
 import type {
   SolarisSwitchAppearance,
@@ -23,12 +24,6 @@ import type {
   SolarisSwitchSize,
   SolarisSwitchDensity,
 } from '../model/switch.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-switch-${++nextId}`;
-}
 
 @Component({
   selector: 'solaris-switch',
@@ -113,7 +108,7 @@ export class SolarisSwitchComponent
   readonly ariaLabelKey = input<string>();
 
   readonly checkedChange = output<boolean>();
-  // eslint-disable-next-line @angular-eslint/no-output-native
+   
   readonly change = output<Event>();
 
   protected readonly effectiveDensity = computed<SolarisSwitchDensity>(() => {
@@ -133,9 +128,7 @@ export class SolarisSwitchComponent
   });
 
   protected readonly elementId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls.
-    const existingId = this.elementRef.nativeElement.getAttribute('id');
-    return existingId || generateId();
+    return resolveElementId(this.elementRef, 'solaris-switch');
   });
 
   protected readonly ariaDescribedBy = computed(() => {

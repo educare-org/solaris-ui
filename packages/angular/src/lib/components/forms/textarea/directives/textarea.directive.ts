@@ -11,6 +11,7 @@ import {
 import { NgControl } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
+import { resolveElementId } from '../../../../core/utils/id';
 
 import type {
   SolarisTextareaAppearance,
@@ -19,12 +20,6 @@ import type {
   SolarisTextareaRadius,
   SolarisTextareaResize,
 } from '../model/textarea.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-textarea-${++nextId}`;
-}
 
 @Directive({
   selector: '[solaris-textarea]',
@@ -71,10 +66,8 @@ export class SolarisTextareaDirective extends SolarisFormControl {
   protected readonly _focused = signal(false);
   private readonly _describedByIds = signal<string[]>([]);
 
-  // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls.
   protected readonly elementId = computed(() => {
-    const existingId = this.textareaElement.getAttribute('id');
-    return existingId ?? generateId();
+    return resolveElementId(this.elementRef, 'solaris-textarea');
   });
 
   protected readonly effectiveDensity = computed<SolarisTextareaDensity>(() => {

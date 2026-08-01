@@ -21,6 +21,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisSwitchComponent } from '../../switch';
+import { resolveElementId } from '../../../../core/utils/id';
 
 import type {
   SolarisSwitchGroupOrientation,
@@ -29,12 +30,6 @@ import type {
   SolarisSwitchGroupDensity,
   SolarisSwitchGroupSize,
 } from '../model/switch-group.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-switch-group-${++nextId}`;
-}
 
 @Component({
   selector: 'solaris-switch-group',
@@ -134,8 +129,7 @@ export class SolarisSwitchGroupComponent
   private focusListenersAttached = false;
 
   protected readonly groupId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK and Solaris Checkbox/Radio groups.
-    return this.elementRef.nativeElement.getAttribute('id') || generateId();
+    return resolveElementId(this.elementRef, 'solaris-switch-group');
   });
   protected readonly labelId = computed(() => `${this.groupId()}-label`);
   protected readonly hintId = computed(() => `${this.groupId()}-hint`);

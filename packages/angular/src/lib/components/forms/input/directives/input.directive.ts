@@ -11,6 +11,7 @@ import {
 import { NgControl } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
+import { resolveElementId } from '../../../../core/utils/id';
 
 import type {
   SolarisInputAppearance,
@@ -20,12 +21,6 @@ import type {
 } from '../model/input.types';
 
 import { SUPPORTED_TYPES, UNSUPPORTED_TYPES } from '../model/input.defaults';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-input-${++nextId}`;
-}
 
 @Directive({
   selector: '[solaris-input]',
@@ -70,10 +65,8 @@ export class SolarisInputDirective extends SolarisFormControl {
   protected readonly _focused = signal(false);
   private readonly _describedByIds = signal<string[]>([]);
 
-  // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls.
   protected readonly elementId = computed(() => {
-    const existingId = this.inputElement.getAttribute('id');
-    return existingId ?? generateId();
+    return resolveElementId(this.elementRef, 'solaris-input');
   });
 
   protected readonly effectiveDensity = computed<SolarisInputDensity>(() => {

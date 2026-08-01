@@ -18,8 +18,7 @@ import type {
   SolarisDropdownMenuSize,
   SolarisDropdownMenuDensity,
 } from '../model/dropdown-menu.types';
-
-let nextId = 0;
+import { nextIdFor } from '../../../../core/utils/id';
 
 @Component({
   selector: 'solaris-dropdown-menu',
@@ -46,7 +45,7 @@ export class SolarisDropdownMenuComponent {
     read: TemplateRef,
   });
 
-  readonly panelId = `solaris-dropdown-menu-${++nextId}`;
+  readonly panelId = nextIdFor('solaris-dropdown-menu');
 
   readonly focusedIndex = signal(-1);
 

@@ -12,8 +12,7 @@ import {
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisIconComponent } from '../../../icon';
 import { SOLARIS_SEGMENTED_CONTROL } from '../token/segmented-control.tokens';
-
-let nextId = 0;
+import { nextIdFor } from '../../../../core/utils/id';
 
 @Component({
   selector: 'solaris-segmented-item',
@@ -55,7 +54,7 @@ export class SolarisSegmentedItemComponent implements AfterContentInit {
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly ariaLabelKey = input<string | undefined>(undefined);
 
-  protected readonly instanceId = `solaris-segmented-item-${nextId++}`;
+  protected readonly instanceId = nextIdFor('solaris-segmented-item');
 
   protected readonly itemId = computed(() => {
     const ctrl = this.control;

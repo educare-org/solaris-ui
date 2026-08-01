@@ -17,6 +17,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SOLARIS_RADIO_GROUP_NAME } from '../../radio-group/model/radio-group.token';
+import { resolveElementId } from '../../../../core/utils/id';
 
 import type {
   SolarisRadioAppearance,
@@ -24,12 +25,6 @@ import type {
   SolarisRadioSize,
   SolarisRadioDensity,
 } from '../model/radio.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-radio-${++nextId}`;
-}
 
 @Component({
   selector: 'solaris-radio',
@@ -116,7 +111,7 @@ export class SolarisRadioComponent
   readonly ariaLabelKey = input<string>();
 
   readonly checkedChange = output<boolean>();
-  // eslint-disable-next-line @angular-eslint/no-output-native
+   
   readonly change = output<Event>();
 
   protected readonly effectiveDensity = computed<SolarisRadioDensity>(() => {
@@ -136,9 +131,7 @@ export class SolarisRadioComponent
   });
 
   protected readonly elementId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls.
-    const existingId = this.elementRef.nativeElement.getAttribute('id');
-    return existingId || generateId();
+    return resolveElementId(this.elementRef, 'solaris-radio');
   });
 
   protected readonly ariaDescribedBy = computed(() => {

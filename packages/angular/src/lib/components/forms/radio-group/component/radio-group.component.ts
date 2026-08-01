@@ -22,6 +22,7 @@ import { SolarisFormControl } from '../../form-field/model/form-control.contract
 import { SolarisRadioComponent } from '../../radio/component/radio.component';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SOLARIS_RADIO_GROUP_NAME } from '../model/radio-group.token';
+import { resolveElementId } from '../../../../core/utils/id';
 
 import type {
   SolarisRadioGroupOrientation,
@@ -30,12 +31,6 @@ import type {
   SolarisRadioGroupDensity,
   SolarisRadioGroupSize,
 } from '../model/radio-group.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-radio-group-${++nextId}`;
-}
 
 function defaultCompare(a: unknown, b: unknown): boolean {
   return Object.is(a, b);
@@ -147,8 +142,7 @@ export class SolarisRadioGroupComponent
   private contentInitialized = false;
   private focusListenersAttached = false;
   protected readonly groupId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK and Solaris Checkbox.
-    return this.elementRef.nativeElement.getAttribute('id') || generateId();
+    return resolveElementId(this.elementRef, 'solaris-radio-group');
   });
   protected readonly labelId = computed(() => `${this.groupId()}-label`);
   protected readonly hintId = computed(() => `${this.groupId()}-hint`);

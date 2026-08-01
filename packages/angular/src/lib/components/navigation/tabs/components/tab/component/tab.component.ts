@@ -10,8 +10,7 @@ import { SolarisTranslateService } from '../../../../../../services/translation'
 import { SolarisBadgeComponent } from '../../../../../data-display/badge';
 import { SolarisIconComponent } from '../../../../../icon';
 import { SOLARIS_TABS } from '../../../token/tabs.tokens';
-
-let nextId = 0;
+import { nextIdFor } from '../../../../../../core/utils/id';
 
 @Component({
   selector: 'solaris-tab',
@@ -56,7 +55,7 @@ export class SolarisTabComponent {
   readonly badgeLabelKey = input<string | undefined>(undefined);
   readonly badge = input<string | number | undefined>(undefined);
 
-  protected readonly instanceId = `solaris-tab-${nextId++}`;
+  protected readonly instanceId = nextIdFor('solaris-tab');
 
   protected readonly tabId = computed(() => {
     if (this.tabsControl) {

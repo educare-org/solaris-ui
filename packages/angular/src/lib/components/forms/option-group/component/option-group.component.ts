@@ -12,17 +12,12 @@ import {
 
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisOptionComponent } from '../../option';
+import { resolveElementId } from '../../../../core/utils/id';
 
 import type {
   SolarisOptionGroupSize,
   SolarisOptionGroupDensity,
 } from '../model/option-group.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-option-group-${++nextId}`;
-}
 
 @Component({
   selector: 'solaris-option-group',
@@ -65,9 +60,7 @@ export class SolarisOptionGroupComponent {
   protected readonly elementId = computed(() => {
     return (
       this.groupId() ||
-      // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls and Solaris Checkbox.
-      this.elementRef.nativeElement.getAttribute('id') ||
-      generateId()
+      resolveElementId(this.elementRef, 'solaris-option-group')
     );
   });
 

@@ -20,6 +20,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisCheckboxComponent } from '../../checkbox/component/checkbox.component';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { resolveElementId } from '../../../../core/utils/id';
 
 import type {
   SolarisCheckboxGroupOrientation,
@@ -28,12 +29,6 @@ import type {
   SolarisCheckboxGroupDensity,
   SolarisCheckboxGroupSize,
 } from '../model/checkbox-group.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-checkbox-group-${++nextId}`;
-}
 
 function defaultCompare(a: unknown, b: unknown): boolean {
   return Object.is(a, b);
@@ -151,8 +146,7 @@ export class SolarisCheckboxGroupComponent
 
   /** IDs */
   protected readonly groupId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK and Solaris Checkbox.
-    return this.elementRef.nativeElement.getAttribute('id') || generateId();
+    return resolveElementId(this.elementRef, 'solaris-checkbox-group');
   });
   protected readonly labelId = computed(() => `${this.groupId()}-label`);
   protected readonly hintId = computed(() => `${this.groupId()}-hint`);

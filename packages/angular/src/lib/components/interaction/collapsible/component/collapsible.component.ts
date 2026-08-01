@@ -12,12 +12,7 @@ import {
 import { SolarisTranslateService } from '../../../../services/translation';
 import type { SolarisCollapsibleSize } from '../model/collapsible.types';
 import { SolarisIconComponent } from '../../../icon';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-collapsible-${++nextId}`;
-}
+import { resolveElementId } from '../../../../core/utils/id';
 
 @Component({
   selector: 'solaris-collapsible',
@@ -48,9 +43,7 @@ export class SolarisCollapsibleComponent {
   readonly size = input<SolarisCollapsibleSize>('md');
 
   protected readonly baseId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls.
-    const existingId = this.elementRef.nativeElement.getAttribute('id');
-    return existingId || generateId();
+    return resolveElementId(this.elementRef, 'solaris-collapsible');
   });
 
   protected readonly triggerId = computed(() => `${this.baseId()}-trigger`);

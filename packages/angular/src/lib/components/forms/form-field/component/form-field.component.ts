@@ -21,6 +21,7 @@ import { SolarisFormControl } from '../model/form-control.contract';
 import { SolarisFormLabelComponent } from './form-label.component';
 import { SolarisFormErrorComponent } from './form-error.component';
 import { SolarisFormHintComponent } from './form-hint.component';
+import { nextIdFor } from '../../../../core/utils/id';
 
 import type {
   SolarisFormFieldAppearance,
@@ -29,11 +30,6 @@ import type {
   SolarisFormFieldRadius,
   ControlResize,
 } from '../model/form-field.types';
-
-let nextId = 0;
-function generateId(): string {
-  return `solaris-form-field-${++nextId}`;
-}
 
 @Component({
   selector: 'solaris-form-field',
@@ -104,7 +100,7 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly formControlName = contentChild(FormControlName);
   protected readonly ngModelDir = contentChild(NgModel);
 
-  protected readonly fieldId = generateId();
+  protected readonly fieldId = nextIdFor('solaris-form-field');
   protected readonly hintId = `solaris-form-field-hint-${this.fieldId}`;
   protected readonly errorId = `solaris-form-field-error-${this.fieldId}`;
   protected readonly labelId = `solaris-form-field-label-${this.fieldId}`;

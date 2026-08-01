@@ -33,6 +33,7 @@ import {
   SolarisPopoverTriggerDirective,
 } from '../../../interaction/popover';
 import { SolarisTooltipDirective } from '../../../interaction/tooltip';
+import { nextIdFor, resolveElementId } from '../../../../core/utils/id';
 
 import type {
   SolarisMultiSelectAppearance,
@@ -41,12 +42,6 @@ import type {
   SolarisMultiSelectRadius,
   SolarisMultiSelectDisplayMode,
 } from '../model/multi-select.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-multi-select-${++nextId}`;
-}
 
 function normalizeArray(value: unknown): unknown[] {
   if (value === null || value === undefined) return [];
@@ -187,7 +182,7 @@ export class SolarisMultiSelectComponent
   readonly valueChange = output<unknown[]>();
   readonly selectionChange = output<SolarisOptionComponent>();
 
-  protected readonly panelId = `solaris-multi-select-panel-${generateId()}`;
+  protected readonly panelId = nextIdFor('solaris-multi-select-panel');
   protected readonly panelOpen = signal(false);
   protected readonly internalValue = signal<unknown[]>([]);
   protected readonly internalFocused = signal(false);
@@ -209,9 +204,7 @@ export class SolarisMultiSelectComponent
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly elementId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is standard DOM API to check existing ID before generating one. Same approach used by Solaris Select and Option.
-    const existing = this.elementRef.nativeElement.getAttribute('id');
-    return existing ?? generateId();
+    return resolveElementId(this.elementRef, 'solaris-multi-select');
   });
 
   protected readonly effectiveDensity = computed<SolarisMultiSelectDensity>(

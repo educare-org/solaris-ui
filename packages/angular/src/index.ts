@@ -448,5 +448,7 @@ export type { SolarisTestingOptions } from './lib/testing/provide-solaris-testin
 export { configureSolarisTesting } from './lib/testing/solaris-test-utilities';
 export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';
 
+export { nextIdFor, resolveElementId } from './lib/core/utils/id';
+
 export { provideSolaris } from './lib/providers/provide-solaris';
 export type { SolarisSetupConfig } from './lib/providers/solaris-setup-config.interface';

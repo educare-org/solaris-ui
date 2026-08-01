@@ -32,6 +32,7 @@ import {
   SolarisPopoverDirective,
   SolarisPopoverTriggerDirective,
 } from '../../../interaction/popover';
+import { nextIdFor, resolveElementId } from '../../../../core/utils/id';
 
 import type {
   SolarisSelectAppearance,
@@ -39,12 +40,6 @@ import type {
   SolarisSelectDensity,
   SolarisSelectRadius,
 } from '../model/select.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-select-${++nextId}`;
-}
 
 @Component({
   selector: 'solaris-select',
@@ -163,7 +158,7 @@ export class SolarisSelectComponent
   readonly valueChange = output<unknown>();
   readonly selectionChange = output<SolarisOptionComponent | undefined>();
 
-  protected readonly panelId = `solaris-select-panel-${generateId()}`;
+  protected readonly panelId = nextIdFor('solaris-select-panel');
   protected readonly panelOpen = signal(false);
   protected readonly internalValue = signal<unknown>(undefined);
   protected readonly internalFocused = signal(false);
@@ -179,9 +174,7 @@ export class SolarisSelectComponent
   private readonly popoverSubscriptions: (() => void)[] = [];
 
   protected readonly elementId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is standard DOM API to check existing ID before generating one. Same approach used by Solaris Option and Angular CDK.
-    const existing = this.elementRef.nativeElement.getAttribute('id');
-    return existing ?? generateId();
+    return resolveElementId(this.elementRef, 'solaris-select');
   });
 
   protected readonly effectiveDensity = computed<SolarisSelectDensity>(() => {

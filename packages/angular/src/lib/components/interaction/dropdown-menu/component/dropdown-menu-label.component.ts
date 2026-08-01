@@ -1,6 +1,5 @@
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
-
-let nextLabelId = 0;
+import { nextIdFor } from '../../../../core/utils/id';
 
 @Component({
   selector: 'solaris-dropdown-menu-label',
@@ -15,5 +14,5 @@ let nextLabelId = 0;
 export class SolarisDropdownMenuLabelComponent {
   readonly label = input.required<string>();
 
-  readonly labelId = `solaris-dropdown-menu-label-${++nextLabelId}`;
+  readonly labelId = nextIdFor('solaris-dropdown-menu-label');
 }
