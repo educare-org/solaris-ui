@@ -190,8 +190,8 @@ Add disclosure and content organization components.
 
 ### Scope
 
+- [x] Collapsible.
 - [ ] Accordion.
-- [ ] Collapsible.
 - [ ] Breadcrumb.
 
 ### Exit criteria
