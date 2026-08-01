@@ -30,6 +30,8 @@ const CATEGORIES = [
   'overlay',
   'navigation',
   'data-display',
+  'interaction',
+  'icon',
 ];
 
 function toPascal(name) {
