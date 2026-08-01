@@ -1,4 +1,5 @@
 import nx from '@nx/eslint-plugin';
+import angular from 'angular-eslint';
 
 export default [
   ...nx.configs['flat/base'],
@@ -36,6 +37,9 @@ export default [
       '**/*.cjs',
       '**/*.mjs',
     ],
+    plugins: {
+      '@angular-eslint': angular.tsPlugin,
+    },
     // Override or add rules here
     rules: {
       '@angular-eslint/no-input-rename': 'off',
