@@ -55,4 +55,14 @@ export default [
     // Override or add rules here
     rules: {},
   },
+  {
+    files: [
+      '**/forms/checkbox-group/component/checkbox-group.component.ts',
+      '**/forms/radio-group/component/radio-group.component.ts',
+      '**/forms/switch-group/component/switch-group.component.ts',
+    ],
+    rules: {
+      '@angular-eslint/no-output-native': 'off',
+    },
+  },
 ];

@@ -4,7 +4,7 @@ import {
   computed,
   signal,
   effect,
-  ContentChild,
+  contentChild,
   AfterContentInit,
   OnDestroy,
   ElementRef,
@@ -94,24 +94,15 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   readonly appearance = input<SolarisFormFieldAppearance>('outline');
   readonly control = input<SolarisFormControl | undefined>(undefined);
 
-  @ContentChild(SolarisFormLabelComponent)
-  protected projectedLabel?: SolarisFormLabelComponent;
-  @ContentChild(SolarisFormHintComponent)
-  protected projectedHint?: SolarisFormHintComponent;
-  @ContentChild(SolarisFormErrorComponent)
-  protected projectedError?: SolarisFormErrorComponent;
-  @ContentChild(SolarisFormPrefixDirective)
-  protected prefix?: SolarisFormPrefixDirective;
-  @ContentChild(SolarisFormSuffixDirective)
-  protected suffix?: SolarisFormSuffixDirective;
-  @ContentChild(SolarisFormControl)
-  protected formControl?: SolarisFormControl;
-  @ContentChild(FormControlDirective)
-  protected formControlDirective?: FormControlDirective;
-  @ContentChild(FormControlName)
-  protected formControlName?: FormControlName;
-  @ContentChild(NgModel)
-  protected ngModelDir?: NgModel;
+  protected readonly projectedLabel = contentChild(SolarisFormLabelComponent);
+  protected readonly projectedHint = contentChild(SolarisFormHintComponent);
+  protected readonly projectedError = contentChild(SolarisFormErrorComponent);
+  protected readonly prefix = contentChild(SolarisFormPrefixDirective);
+  protected readonly suffix = contentChild(SolarisFormSuffixDirective);
+  protected readonly formControl = contentChild(SolarisFormControl);
+  protected readonly formControlDirective = contentChild(FormControlDirective);
+  protected readonly formControlName = contentChild(FormControlName);
+  protected readonly ngModelDir = contentChild(NgModel);
 
   protected readonly fieldId = generateId();
   protected readonly hintId = `solaris-form-field-hint-${this.fieldId}`;
@@ -154,9 +145,13 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   private blurListener: (() => void) | null = null;
   private inputListener: (() => void) | null = null;
 
-  protected readonly hasProjectedLabel = computed(() => !!this.projectedLabel);
-  protected readonly hasProjectedHint = computed(() => !!this.projectedHint);
-  protected readonly hasProjectedError = computed(() => !!this.projectedError);
+  protected readonly hasProjectedLabel = computed(
+    () => !!this.projectedLabel(),
+  );
+  protected readonly hasProjectedHint = computed(() => !!this.projectedHint());
+  protected readonly hasProjectedError = computed(
+    () => !!this.projectedError(),
+  );
   protected readonly hasPrefix = signal(false);
   protected readonly hasSuffix = signal(false);
 
@@ -217,8 +212,8 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     if (explicitControl) {
       return explicitControl.disabled;
     }
-    if (this.formControl) {
-      return this.formControl.disabled;
+    if (this.formControl()) {
+      return this.formControl()!.disabled;
     }
     return this.autoDetectedDisabled();
   });
@@ -232,17 +227,17 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     if (explicitControl) {
       return explicitControl.readonly;
     }
-    if (this.formControl) {
-      return this.formControl.readonly;
+    if (this.formControl()) {
+      return this.formControl()!.readonly;
     }
     return this.autoDetectedReadonly();
   });
 
   protected readonly effectiveNgControl = computed(() => {
     return (
-      this.formControlDirective ??
-      this.formControlName ??
-      this.ngModelDir ??
+      this.formControlDirective() ??
+      this.formControlName() ??
+      this.ngModelDir() ??
       null
     );
   });
@@ -275,8 +270,8 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     if (explicitControl) {
       return explicitControl.invalid;
     }
-    if (this.formControl) {
-      return this.formControl.invalid && !this.isFocused();
+    if (this.formControl()) {
+      return this.formControl()!.invalid && !this.isFocused();
     }
     return this.isAutoInvalid();
   });
@@ -304,8 +299,8 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   });
 
   ngAfterContentInit(): void {
-    this.hasPrefix.set(!!this.prefix);
-    this.hasSuffix.set(!!this.suffix);
+    this.hasPrefix.set(!!this.prefix());
+    this.hasSuffix.set(!!this.suffix());
     this.detectControl();
     this.connectControl();
     this.syncDescribedBy();
@@ -335,7 +330,7 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
 
   private syncDescribedBy(): void {
     const describedBy = this.describedBy();
-    const targetControl = this.control() ?? this.formControl;
+    const targetControl = this.control() ?? this.formControl();
     if (targetControl) {
       if (describedBy) {
         targetControl.setDescribedByIds(describedBy.split(' '));
@@ -417,8 +412,8 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
       }
     }
 
-    if (this.formControl) {
-      this.controlId = this.formControl.id;
+    if (this.formControl()) {
+      this.controlId = this.formControl()!.id;
     } else if (this.controlElement) {
       if (!this.controlElement.id) {
         const generatedId = `solaris-control-${this.fieldId}`;
@@ -476,7 +471,7 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   private warnNoControl(): void {
     const hasAnyControl =
       !!this.control() ||
-      !!this.formControl ||
+      !!this.formControl() ||
       !!this.controlElement ||
       !!this.effectiveNgControl();
     if (!hasAnyControl) {

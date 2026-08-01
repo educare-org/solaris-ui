@@ -113,7 +113,7 @@ describe('SolarisMultiSelectComponent', () => {
       multiSelect.registerOnChange((v: unknown[]) => {
         emitted = v;
       });
-      multiSelect.toggleOption(multiSelect.options.toArray()[1]);
+      multiSelect.toggleOption(multiSelect.options()[1]);
       fixture.detectChanges();
       expect(emitted).toEqual(['a', 'b']);
     });
@@ -178,7 +178,7 @@ describe('SolarisMultiSelectComponent', () => {
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as any;
-      multiSelect.toggleOption(multiSelect.options.toArray()[1]);
+      multiSelect.toggleOption(multiSelect.options()[1]);
       fixture.detectChanges();
       expect(multiSelect.internalValue()).toEqual(['a', 'b']);
     });
@@ -190,7 +190,7 @@ describe('SolarisMultiSelectComponent', () => {
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as any;
-      multiSelect.toggleOption(multiSelect.options.toArray()[0]);
+      multiSelect.toggleOption(multiSelect.options()[0]);
       fixture.detectChanges();
       expect(multiSelect.internalValue()).toEqual([]);
     });
@@ -202,7 +202,7 @@ describe('SolarisMultiSelectComponent', () => {
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as any;
-      multiSelect.toggleOption(multiSelect.options.toArray()[2]);
+      multiSelect.toggleOption(multiSelect.options()[2]);
       fixture.detectChanges();
       expect(multiSelect.internalValue()).toEqual(['a']);
     });
@@ -218,7 +218,7 @@ describe('SolarisMultiSelectComponent', () => {
       multiSelect.valueChange.subscribe((v: unknown[]) => {
         emitted = v;
       });
-      multiSelect.toggleOption(multiSelect.options.toArray()[1]);
+      multiSelect.toggleOption(multiSelect.options()[1]);
       fixture.detectChanges();
       expect(emitted).toEqual(['a', 'b']);
     });
@@ -233,7 +233,7 @@ describe('SolarisMultiSelectComponent', () => {
       const original = ['a'];
       multiSelect.writeValue(original);
       fixture.detectChanges();
-      multiSelect.toggleOption(multiSelect.options.toArray()[1]);
+      multiSelect.toggleOption(multiSelect.options()[1]);
       fixture.detectChanges();
       expect(original).toEqual(['a']);
     });
@@ -545,7 +545,7 @@ describe('SolarisMultiSelectComponent', () => {
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as any;
-      const opts = multiSelect.options.toArray();
+      const opts = multiSelect.options();
       const filtered = opts.filter((o: any) =>
         multiSelect.optionMatchesSearch(o, 'app'),
       );
@@ -1163,9 +1163,7 @@ describe('SolarisMultiSelectComponent', () => {
       ).componentInstance as any;
       multiSelect.writeValue(['x']);
       fixture.detectChanges();
-      const label = multiSelect.getOptionDisplayLabel(
-        multiSelect.options.toArray()[0],
-      );
+      const label = multiSelect.getOptionDisplayLabel(multiSelect.options()[0]);
       expect(label).toContain('<b>Admin</b>');
     });
   });
@@ -1195,7 +1193,7 @@ describe('SolarisMultiSelectComponent', () => {
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as any;
-      const opts = multiSelect.options.toArray();
+      const opts = multiSelect.options();
       const filtered = opts.filter((opt: any) =>
         multiSelect.optionMatchesSearch(opt, '['),
       );
@@ -1209,7 +1207,7 @@ describe('SolarisMultiSelectComponent', () => {
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as any;
-      const aOpt = multiSelect.options.toArray()[0];
+      const aOpt = multiSelect.options()[0];
       expect(multiSelect.optionMatchesSearch(aOpt, 'option')).toBe(true);
     });
   });
@@ -1251,8 +1249,8 @@ describe('SolarisMultiSelectComponent', () => {
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as any;
-      const disabledOpt = multiSelect.options
-        .toArray()
+      const disabledOpt = multiSelect
+        .options()
         .find((o: any) => o.isEffectivelyDisabled());
       multiSelect.writeValue([]);
       fixture.detectChanges();
@@ -1270,7 +1268,7 @@ describe('SolarisMultiSelectComponent', () => {
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as any;
-      const disabledOpt = multiSelect.options.toArray()[1] as any;
+      const disabledOpt = multiSelect.options()[1] as any;
       const optEl = disabledOpt.elementRef.nativeElement;
       expect(optEl.getAttribute('aria-disabled')).toBe('true');
     });
@@ -1601,7 +1599,7 @@ describe('SolarisMultiSelectComponent', () => {
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as any;
-      expect(multiSelect.optionGroups.length).toBe(2);
+      expect(multiSelect.optionGroups().length).toBe(2);
     });
 
     it('should have options from groups', () => {
@@ -1611,7 +1609,7 @@ describe('SolarisMultiSelectComponent', () => {
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as any;
-      expect(multiSelect.options.length).toBe(2);
+      expect(multiSelect.options().length).toBe(2);
     });
 
     it('should respect group disabled', () => {
@@ -1621,7 +1619,7 @@ describe('SolarisMultiSelectComponent', () => {
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as any;
-      const groupBOpt = multiSelect.options.toArray()[1];
+      const groupBOpt = multiSelect.options()[1];
       expect(groupBOpt.isEffectivelyDisabled()).toBe(true);
     });
   });
@@ -1740,7 +1738,7 @@ describe('SolarisMultiSelectComponent', () => {
       TestBed.configureTestingModule({});
       const multiSelect = getMultiSelect();
       const focusSpy = vi.spyOn(
-        multiSelect.triggerElement.nativeElement,
+        multiSelect.triggerElement().nativeElement,
         'focus',
       );
       multiSelect.focus();

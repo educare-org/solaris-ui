@@ -7,10 +7,9 @@ import {
   effect,
   forwardRef,
   inject,
-  ContentChildren,
-  QueryList,
+  contentChildren,
+  viewChild,
   ElementRef,
-  ViewChild,
   AfterContentInit,
   AfterViewInit,
   DestroyRef,
@@ -100,23 +99,27 @@ export class SolarisMultiSelectComponent
     optional: true,
   });
 
-  @ViewChild(SolarisPopoverTriggerDirective)
-  protected popoverTrigger?: SolarisPopoverTriggerDirective;
+  protected readonly popoverTrigger = viewChild(SolarisPopoverTriggerDirective);
 
-  @ViewChild('searchInput', { read: ElementRef })
-  protected searchInputRef?: ElementRef<HTMLInputElement>;
+  protected readonly searchInputRef =
+    viewChild<ElementRef<HTMLInputElement>>('searchInput');
 
-  @ViewChild('triggerEl', { read: ElementRef })
-  protected triggerElement?: ElementRef<HTMLElement>;
+  protected readonly triggerElement =
+    viewChild<ElementRef<HTMLElement>>('triggerEl');
 
-  @ViewChild('formFieldRef', { read: ElementRef })
-  protected formFieldElement?: ElementRef<HTMLElement>;
+  protected readonly formFieldElement =
+    viewChild<ElementRef<HTMLElement>>('formFieldRef');
 
-  @ContentChildren(SolarisOptionComponent, { descendants: true })
-  protected options!: QueryList<SolarisOptionComponent>;
+  protected readonly options = contentChildren(SolarisOptionComponent, {
+    descendants: true,
+  });
 
-  @ContentChildren(SolarisOptionGroupComponent, { descendants: true })
-  protected optionGroups!: QueryList<SolarisOptionGroupComponent>;
+  protected readonly optionGroups = contentChildren(
+    SolarisOptionGroupComponent,
+    {
+      descendants: true,
+    },
+  );
 
   readonly hint = input<string>();
   readonly label = input<string>();
@@ -194,12 +197,11 @@ export class SolarisMultiSelectComponent
   protected readonly touched = signal(false);
   protected readonly optionsInitialized = signal(false);
 
-  @ViewChild('triggerContent', { read: ElementRef })
-  protected triggerContentRef?: ElementRef<HTMLElement>;
+  protected readonly triggerContentRef =
+    viewChild<ElementRef<HTMLElement>>('triggerContent');
 
   private onChange: (value: unknown[]) => void = () => undefined;
   private onTouched: () => void = () => undefined;
-  private optionsSubscription: (() => void) | undefined;
   private optionInteractionSubscriptions: (() => void)[] = [];
   private readonly popoverSubscriptions: (() => void)[] = [];
   private readonly triggerWidth = signal(0);
@@ -268,7 +270,7 @@ export class SolarisMultiSelectComponent
     () => {
       const value = this.internalValue();
       const comp = this.compareWith();
-      const opts = this.options;
+      const opts = this.options();
       if (!opts || value.length === 0) {
         return [];
       }
@@ -557,12 +559,12 @@ export class SolarisMultiSelectComponent
   });
 
   protected readonly visibleOptions = computed(() => {
-    const opts = this.options;
+    const opts = this.options();
     if (!opts) return [];
     if (!this.panelOpen()) return [];
     const query = this.searchQuery().toLowerCase().trim();
-    if (!query) return opts.toArray();
-    return opts.toArray().filter((opt) => {
+    if (!query) return opts;
+    return opts.filter((opt) => {
       if (opt.isEffectivelyDisabled()) return false;
       return this.optionMatchesSearch(opt, query);
     });
@@ -577,7 +579,7 @@ export class SolarisMultiSelectComponent
   });
 
   protected readonly showEmpty = computed(() => {
-    const opts = this.options;
+    const opts = this.options();
     return (
       (!opts || opts.length === 0) &&
       !this.loading() &&
@@ -593,19 +595,16 @@ export class SolarisMultiSelectComponent
   });
 
   protected readonly selectableOptions = computed(() => {
-    const opts = this.options;
+    const opts = this.options();
     if (!opts) return [];
     const query = this.searchQuery().trim();
     let filtered: SolarisOptionComponent[];
     if (query) {
-      filtered = opts
-        .toArray()
-        .filter(
-          (o) =>
-            !o.isEffectivelyDisabled() && this.optionMatchesSearch(o, query),
-        );
+      filtered = opts.filter(
+        (o) => !o.isEffectivelyDisabled() && this.optionMatchesSearch(o, query),
+      );
     } else {
-      filtered = opts.toArray().filter((o) => !o.isEffectivelyDisabled());
+      filtered = opts.filter((o) => !o.isEffectivelyDisabled());
     }
     return filtered;
   });
@@ -658,8 +657,8 @@ export class SolarisMultiSelectComponent
 
   focus(): void {
     // SECURITY_EXCEPTION: nativeElement.focus() required to programmatically focus the multi-select trigger. Standard DOM method used by Angular CDK.
-    if (this.triggerElement) {
-      this.triggerElement.nativeElement.focus();
+    if (this.triggerElement()) {
+      this.triggerElement()!.nativeElement.focus();
     } else {
       // SECURITY_EXCEPTION: nativeElement.focus() required as fallback when no triggerElement ref. Standard DOM method.
       this.elementRef.nativeElement.focus();
@@ -688,10 +687,15 @@ export class SolarisMultiSelectComponent
     effect(() => {
       if (!this.optionsInitialized()) return;
       this.internalValue();
+      this.options();
+      this.optionGroups();
+      this.setOptionsMultiSelectMode();
       this.setOptionsSelectedState();
+      this.setOptionGroupDisabledState();
+      this.syncVisibility();
+      this.subscribeToOptionInteractions();
     });
     this.destroyRef.onDestroy(() => {
-      this.optionsSubscription?.();
       this.optionInteractionSubscriptions.forEach((fn) => fn());
       this.popoverSubscriptions.forEach((fn) => fn());
       this.resizeObserver?.disconnect();
@@ -708,15 +712,6 @@ export class SolarisMultiSelectComponent
     this.syncVisibility();
     this.subscribeToOptionInteractions();
 
-    const optionsSub = this.options.changes.subscribe(() => {
-      this.setOptionsMultiSelectMode();
-      this.setOptionsSelectedState();
-      this.setOptionGroupDisabledState();
-      this.syncVisibility();
-      this.subscribeToOptionInteractions();
-    });
-    this.optionsSubscription = () => optionsSub.unsubscribe();
-
     if (isDevMode() && this.parentFormField) {
       console.warn(
         'SolarisMultiSelectComponent already includes SolarisFormField internally. ' +
@@ -726,13 +721,13 @@ export class SolarisMultiSelectComponent
   }
 
   ngAfterViewInit(): void {
-    if (this.popoverTrigger) {
-      const openedSub = this.popoverTrigger.solarisPopoverOpened.subscribe(
+    if (this.popoverTrigger()) {
+      const openedSub = this.popoverTrigger()!.solarisPopoverOpened.subscribe(
         () => {
           this.onPanelOpened();
         },
       );
-      const closedSub = this.popoverTrigger.solarisPopoverClosed.subscribe(
+      const closedSub = this.popoverTrigger()!.solarisPopoverClosed.subscribe(
         () => {
           this.onPanelClosed();
         },
@@ -747,7 +742,7 @@ export class SolarisMultiSelectComponent
 
   private setupResizeObserver(): void {
     // SECURITY_EXCEPTION: nativeElement access needed to measure trigger content width for auto display mode. ResizeObserver is SSR-safe (guarded by typeof check). offsetWidth is read-only, no XSS risk.
-    const el = this.triggerContentRef?.nativeElement;
+    const el = this.triggerContentRef()?.nativeElement;
     if (!el) return;
 
     this.triggerWidth.set(el.offsetWidth);
@@ -776,7 +771,7 @@ export class SolarisMultiSelectComponent
     if (this.searchable()) {
       requestAnimationFrame(() => {
         // SECURITY_EXCEPTION: nativeElement.focus() required to focus search input when panel opens. Standard DOM method.
-        this.searchInputRef?.nativeElement.focus();
+        this.searchInputRef()?.nativeElement.focus();
       });
     }
   }
@@ -793,7 +788,7 @@ export class SolarisMultiSelectComponent
 
   private setConnectedSide(side: 'bottom' | 'top'): void {
     // SECURITY_EXCEPTION: nativeElement required to access form-field DOM for connected-side sync. ElementRef SSR-safe.
-    const el = this.formFieldElement?.nativeElement;
+    const el = this.formFieldElement()?.nativeElement;
     if (el) {
       // SECURITY_EXCEPTION: nativeElement.querySelector required to find control-wrapper for connected-side sync.
       const wrapper = el.querySelector<HTMLElement>(
@@ -807,7 +802,7 @@ export class SolarisMultiSelectComponent
 
   private clearConnectedSide(): void {
     // SECURITY_EXCEPTION: nativeElement required to access form-field DOM for connected-side cleanup. ElementRef SSR-safe.
-    const el = this.formFieldElement?.nativeElement;
+    const el = this.formFieldElement()?.nativeElement;
     if (el) {
       const wrapper = el.querySelector<HTMLElement>(
         '.solaris-form-field__control-wrapper',
@@ -842,7 +837,7 @@ export class SolarisMultiSelectComponent
     if (this.searchable() && this.panelOpen()) {
       requestAnimationFrame(() => {
         // SECURITY_EXCEPTION: nativeElement.focus() required to restore focus to search input after selection. ElementRef SSR-safe.
-        this.searchInputRef?.nativeElement.focus();
+        this.searchInputRef()?.nativeElement.focus();
       });
     }
   }
@@ -935,7 +930,7 @@ export class SolarisMultiSelectComponent
     if (this.panelOpen()) {
       this.selectActiveOption();
     } else {
-      this.popoverTrigger?.open();
+      this.popoverTrigger()?.open();
     }
   }
 
@@ -943,7 +938,7 @@ export class SolarisMultiSelectComponent
     if (this.panelOpen()) {
       this.focusNextOption(direction);
     } else {
-      this.popoverTrigger?.open();
+      this.popoverTrigger()?.open();
       requestAnimationFrame(() => this.focusNextOption(direction));
     }
   }
@@ -952,11 +947,11 @@ export class SolarisMultiSelectComponent
     if (!this.panelOpen()) return false;
     if (event.key === 'Escape') {
       event.preventDefault();
-      this.popoverTrigger?.close();
+      this.popoverTrigger()?.close();
       return true;
     }
     if (event.key === 'Tab') {
-      this.popoverTrigger?.close();
+      this.popoverTrigger()?.close();
       return true;
     }
     return false;
@@ -1015,11 +1010,11 @@ export class SolarisMultiSelectComponent
           this.syncVisibility();
           this.syncActiveStates();
         } else {
-          this.popoverTrigger?.close();
+          this.popoverTrigger()?.close();
         }
         break;
       case 'Tab':
-        this.popoverTrigger?.close();
+        this.popoverTrigger()?.close();
         break;
       case 'Backspace':
         if (
@@ -1059,7 +1054,7 @@ export class SolarisMultiSelectComponent
         break;
       case 'Escape':
         event.preventDefault();
-        this.popoverTrigger?.close();
+        this.popoverTrigger()?.close();
         break;
       case 'Home':
         event.preventDefault();
@@ -1083,7 +1078,7 @@ export class SolarisMultiSelectComponent
   private subscribeToOptionInteractions(): void {
     this.optionInteractionSubscriptions.forEach((fn) => fn());
     this.optionInteractionSubscriptions = [];
-    this.options.forEach((opt) => {
+    this.options().forEach((opt) => {
       const sub = opt.optionInteraction.subscribe(({ option }) => {
         this.toggleOption(option);
       });
@@ -1092,7 +1087,7 @@ export class SolarisMultiSelectComponent
   }
 
   protected setOptionsMultiSelectMode(): void {
-    this.options.forEach((opt) => {
+    this.options().forEach((opt) => {
       opt.setSelectionMode('multiple');
       opt.setShowSelectionIndicator(true);
     });
@@ -1101,14 +1096,14 @@ export class SolarisMultiSelectComponent
   protected setOptionsSelectedState(): void {
     const value = this.internalValue();
     const comp = this.compareWith();
-    this.options.forEach((opt) => {
+    this.options().forEach((opt) => {
       const isSelected = value.some((v) => comp(opt.value(), v));
       opt.setSelected(isSelected);
     });
   }
 
   private setOptionGroupDisabledState(): void {
-    this.optionGroups.forEach((group) => {
+    this.optionGroups().forEach((group) => {
       group.options().forEach((opt) => {
         opt.setGroupDisabledState(group.isEffectivelyDisabled());
       });
@@ -1118,7 +1113,7 @@ export class SolarisMultiSelectComponent
   private syncActiveStates(): void {
     const idx = this.activeOptionIndex();
     const opts = this.visibleOptions();
-    this.options.forEach((opt) => opt.setActive(false));
+    this.options().forEach((opt) => opt.setActive(false));
     if (idx >= 0 && idx < opts.length) {
       opts[idx].setActive(true);
     }
@@ -1127,13 +1122,13 @@ export class SolarisMultiSelectComponent
   private syncVisibility(): void {
     const query = this.searchQuery().trim();
     if (!query) {
-      this.options.forEach((o) => o.setHidden(false));
-      this.optionGroups.forEach((g) => g.setHidden(false));
+      this.options().forEach((o) => o.setHidden(false));
+      this.optionGroups().forEach((g) => g.setHidden(false));
       return;
     }
     const visible = new Set(this.visibleOptions());
-    this.options.forEach((o) => o.setHidden(!visible.has(o)));
-    this.optionGroups.forEach((g) => {
+    this.options().forEach((o) => o.setHidden(!visible.has(o)));
+    this.optionGroups().forEach((g) => {
       const anyVisible = g.options().some((o) => visible.has(o));
       g.setHidden(!anyVisible);
     });

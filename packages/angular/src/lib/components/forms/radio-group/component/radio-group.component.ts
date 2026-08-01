@@ -128,7 +128,6 @@ export class SolarisRadioGroupComponent
 
   readonly valueChange = output<unknown>();
 
-   
   readonly change = output<unknown>();
 
   private readonly _value = signal<unknown>(undefined);
