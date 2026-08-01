@@ -389,6 +389,12 @@ export type {
   SolarisDividerInset,
 } from './lib/components/data-display/divider/model/divider.types';
 
+export { SolarisDividerStackComponent } from './lib/components/data-display/divider-stack/component/divider-stack.component';
+export type {
+  SolarisDividerStackSpacing,
+  SolarisDividerStackInset,
+} from './lib/components/data-display/divider-stack/model/divider-stack.types';
+
 export { SolarisDropdownMenuComponent } from './lib/components/interaction/dropdown-menu/component/dropdown-menu.component';
 export { SolarisDropdownMenuTriggerDirective } from './lib/components/interaction/dropdown-menu/directives/dropdown-menu-trigger.directive';
 export { SolarisDropdownMenuItemComponent } from './lib/components/interaction/dropdown-menu/component/dropdown-menu-item.component';
