@@ -65,4 +65,14 @@ export default [
       '@angular-eslint/no-output-native': 'off',
     },
   },
+  {
+    files: [
+      '**/forms/checkbox/component/checkbox.component.ts',
+      '**/forms/radio/component/radio.component.ts',
+      '**/forms/switch/component/switch.component.ts',
+    ],
+    rules: {
+      '@angular-eslint/no-output-native': 'off',
+    },
+  },
 ];
