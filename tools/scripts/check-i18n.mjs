@@ -41,7 +41,8 @@ if (!fileExists(libDir)) {
       } else if (/\.(ts|html)$/.test(entry.name)) {
         if (
           entry.name.endsWith('.spec.ts') ||
-          entry.name.endsWith('.test.ts')
+          entry.name.endsWith('.test.ts') ||
+          entry.name.endsWith('.stories.ts')
         ) {
           return;
         }
