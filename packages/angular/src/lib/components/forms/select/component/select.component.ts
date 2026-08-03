@@ -1,3 +1,11 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to programmatically focus the select trigger. Standard DOM method used by Angular CDK.
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() required as fallback when no triggerElement ref. Standard DOM method.
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to focus search input when panel opens. Standard DOM method.
+// SECURITY_EXCEPTION_FILE: nativeElement required to access form-field DOM for connected-side sync. ElementRef SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement.querySelector required to find control-wrapper for connected-side sync.
+// SECURITY_EXCEPTION_FILE: nativeElement required to access form-field DOM for connected-side cleanup. ElementRef SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement access needed to read option text for search filtering. Read-only, SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement.textContent needed to read option text for search filtering. Read-only, SSR-safe.
 import {
   Component,
   input,
@@ -32,7 +40,7 @@ import {
   SolarisPopoverDirective,
   SolarisPopoverTriggerDirective,
 } from '../../../interaction/popover';
-import { nextIdFor, resolveElementId } from '../../../../core/utils/id';
+import { nextIdFor, resolveElementId } from '../../../../core';
 
 import type {
   SolarisSelectAppearance,
@@ -452,11 +460,10 @@ export class SolarisSelectComponent
   }
 
   focus(): void {
-    // SECURITY_EXCEPTION: nativeElement.focus() required to programmatically focus the select trigger. Standard DOM method used by Angular CDK.
-    if (this.triggerElement()) {
-      this.triggerElement()!.nativeElement.focus();
+    const triggerEl = this.triggerElement();
+    if (triggerEl) {
+      triggerEl.nativeElement.focus();
     } else {
-      // SECURITY_EXCEPTION: nativeElement.focus() required as fallback when no triggerElement ref. Standard DOM method.
       this.elementRef.nativeElement.focus();
     }
   }
@@ -509,17 +516,14 @@ export class SolarisSelectComponent
   }
 
   ngAfterViewInit(): void {
-    if (this.popoverTrigger()) {
-      const openedSub = this.popoverTrigger()!.solarisPopoverOpened.subscribe(
-        () => {
-          this.onPanelOpened();
-        },
-      );
-      const closedSub = this.popoverTrigger()!.solarisPopoverClosed.subscribe(
-        () => {
-          this.onPanelClosed();
-        },
-      );
+    const trigger = this.popoverTrigger();
+    if (trigger) {
+      const openedSub = trigger.solarisPopoverOpened.subscribe(() => {
+        this.onPanelOpened();
+      });
+      const closedSub = trigger.solarisPopoverClosed.subscribe(() => {
+        this.onPanelClosed();
+      });
       this.popoverSubscriptions.push(
         () => openedSub.unsubscribe(),
         () => closedSub.unsubscribe(),
@@ -545,7 +549,6 @@ export class SolarisSelectComponent
 
     if (this.searchable()) {
       requestAnimationFrame(() => {
-        // SECURITY_EXCEPTION: nativeElement.focus() required to focus search input when panel opens. Standard DOM method.
         this.searchInputRef()?.nativeElement.focus();
       });
     }
@@ -562,10 +565,8 @@ export class SolarisSelectComponent
   }
 
   private setConnectedSide(side: 'bottom' | 'top'): void {
-    // SECURITY_EXCEPTION: nativeElement required to access form-field DOM for connected-side sync. ElementRef SSR-safe.
     const el = this.formFieldElement()?.nativeElement;
     if (el) {
-      // SECURITY_EXCEPTION: nativeElement.querySelector required to find control-wrapper for connected-side sync.
       const wrapper = el.querySelector<HTMLElement>(
         '.solaris-form-field__control-wrapper',
       );
@@ -576,7 +577,6 @@ export class SolarisSelectComponent
   }
 
   private clearConnectedSide(): void {
-    // SECURITY_EXCEPTION: nativeElement required to access form-field DOM for connected-side cleanup. ElementRef SSR-safe.
     const el = this.formFieldElement()?.nativeElement;
     if (el) {
       const wrapper = el.querySelector<HTMLElement>(
@@ -839,9 +839,7 @@ export class SolarisSelectComponent
     const nativeEl = (
       option as unknown as { elementRef: ElementRef<HTMLElement> }
     ).elementRef;
-    // SECURITY_EXCEPTION: nativeElement access needed to read option text for search filtering. Read-only, SSR-safe.
     if (nativeEl?.nativeElement) {
-      // SECURITY_EXCEPTION: nativeElement.textContent needed to read option text for search filtering. Read-only, SSR-safe.
       return nativeEl.nativeElement.textContent?.trim() || '';
     }
     return '';

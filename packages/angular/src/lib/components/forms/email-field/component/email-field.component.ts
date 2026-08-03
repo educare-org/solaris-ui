@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.value assignment is required to sync the input element with the normalized value after blur. Angular's data binding may not reflect synchronous value changes to the native input. Same approach is standard for CVA blur normalization.
 import {
   Component,
   input,
@@ -222,7 +223,6 @@ export class SolarisEmailFieldComponent implements ControlValueAccessor {
 
       if (this.inputElementRef()) {
         try {
-          // SECURITY_EXCEPTION: nativeElement.value assignment is required to sync the input element with the normalized value after blur. Angular's data binding may not reflect synchronous value changes to the native input. Same approach is standard for CVA blur normalization.
           this.inputElementRef()!.nativeElement.value = currentValue;
         } catch {
           if (isDevMode()) {

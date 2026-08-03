@@ -1,3 +1,16 @@
+// SECURITY_EXCEPTION_FILE: Setting disabled/readonly on native control is standard DOM API.
+// SECURITY_EXCEPTION_FILE: Required for FormField to propagate disabled/readonly state to projected control.
+// SECURITY_EXCEPTION_FILE: Setting disabled/readonly on native control is required for FormField propagation.
+// SECURITY_EXCEPTION_FILE: nativeElement.querySelector required to find trigger element. Standard DOM API used after Angular CDK pattern.
+// SECURITY_EXCEPTION_FILE: nativeElement access required to detect projected form controls.
+// SECURITY_EXCEPTION_FILE: Angular CDK and Material use the same approach.
+// SECURITY_EXCEPTION_FILE: Read-only querySelectorAll, no DOM mutation.
+// SECURITY_EXCEPTION_FILE: nativeElement.tagName is the standard DOM API to check element type.
+// SECURITY_EXCEPTION_FILE: getAttribute is the standard DOM API to read HTML attributes.
+// SECURITY_EXCEPTION_FILE: reading value.length from native input/textarea is required for character counter.
+// SECURITY_EXCEPTION_FILE: reading value.length from native input/textarea is standard DOM API for character counter.
+// SECURITY_EXCEPTION_FILE: nativeElement access required to count projected controls.
+// SECURITY_EXCEPTION_FILE: Same justification as detectControl: read-only query, no DOM mutation.
 import {
   Component,
   input,
@@ -21,7 +34,7 @@ import { SolarisFormControl } from '../model/form-control.contract';
 import { SolarisFormLabelComponent } from './form-label.component';
 import { SolarisFormErrorComponent } from './form-error.component';
 import { SolarisFormHintComponent } from './form-hint.component';
-import { nextIdFor } from '../../../../core/utils/id';
+import { nextIdFor } from '../../../../core';
 
 import type {
   SolarisFormFieldAppearance,
@@ -60,8 +73,6 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   private readonly ngZone = inject(NgZone);
 
   constructor() {
-    // SECURITY_EXCEPTION: Setting disabled/readonly on native control is standard DOM API.
-    // SECURITY_EXCEPTION: Required for FormField to propagate disabled/readonly state to projected control.
     effect(() => {
       this.isEffectivelyDisabled();
       this.isEffectivelyReadonly();
@@ -208,8 +219,9 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     if (explicitControl) {
       return explicitControl.disabled;
     }
-    if (this.formControl()) {
-      return this.formControl()!.disabled;
+    const projectedControl = this.formControl();
+    if (projectedControl) {
+      return projectedControl.disabled;
     }
     return this.autoDetectedDisabled();
   });
@@ -223,8 +235,9 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     if (explicitControl) {
       return explicitControl.readonly;
     }
-    if (this.formControl()) {
-      return this.formControl()!.readonly;
+    const projectedControl = this.formControl();
+    if (projectedControl) {
+      return projectedControl.readonly;
     }
     return this.autoDetectedReadonly();
   });
@@ -266,8 +279,9 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     if (explicitControl) {
       return explicitControl.invalid;
     }
-    if (this.formControl()) {
-      return this.formControl()!.invalid && !this.isFocused();
+    const projectedControl = this.formControl();
+    if (projectedControl) {
+      return projectedControl.invalid && !this.isFocused();
     }
     return this.isAutoInvalid();
   });
@@ -312,7 +326,6 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     if (this.control()) {
       return;
     }
-    // SECURITY_EXCEPTION: Setting disabled/readonly on native control is required for FormField propagation.
     const input = this.controlElement as HTMLInputElement;
     const shouldDisable = this.isEffectivelyDisabled();
     const shouldReadonly = this.isEffectivelyReadonly();
@@ -348,76 +361,91 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   private detectControl(): void {
     const explicitControl = this.control();
     if (explicitControl) {
-      this.controlId = explicitControl.id;
-      // SECURITY_EXCEPTION: nativeElement.querySelector required to find trigger element. Standard DOM API used after Angular CDK pattern.
-      const triggerEl = this.elementRef.nativeElement.querySelector(
-        '[solaris-form-field-trigger]',
-      );
-      if (triggerEl) {
-        this.controlElement = triggerEl as HTMLElement;
-        if (triggerEl.id) {
-          this.controlId = triggerEl.id;
-        }
-        this.connectControl();
-      }
-      return;
+      this.detectExplicitControl(explicitControl);
+    } else {
+      this.detectNativeControl();
     }
+    this.assignControlId();
+  }
 
-    // SECURITY_EXCEPTION: nativeElement access required to detect projected form controls.
-    // SECURITY_EXCEPTION: Angular CDK and Material use the same approach.
-    // SECURITY_EXCEPTION: Read-only querySelectorAll, no DOM mutation.
+  private detectExplicitControl(explicitControl: SolarisFormControl): void {
+    this.controlId = explicitControl.id;
+    const triggerEl = this.elementRef.nativeElement.querySelector(
+      '[solaris-form-field-trigger]',
+    );
+    if (triggerEl) {
+      this.controlElement = triggerEl as HTMLElement;
+      if (triggerEl.id) {
+        this.controlId = triggerEl.id;
+      }
+      this.connectControl();
+    }
+  }
+
+  private detectNativeControl(): void {
     const nativeElement = this.elementRef.nativeElement;
     const children = nativeElement.querySelectorAll(
       'input, select, textarea, [solaris-input], [solaris-select], [solaris-textarea]',
     );
 
-    if (children.length > 0) {
-      const first = children[0] as HTMLElement;
-      this.controlElement = first;
-      // SECURITY_EXCEPTION: nativeElement.tagName is the standard DOM API to check element type.
-      const isTextarea = first.tagName === 'TEXTAREA';
-      this.isTextareaControl.set(isTextarea);
-
-      // SECURITY_EXCEPTION: getAttribute is the standard DOM API to read HTML attributes.
-      const maxlengthAttr = first.getAttribute('maxlength');
-      if (maxlengthAttr !== null) {
-        const parsed = parseInt(maxlengthAttr, 10);
-        this.maxLength.set(!isNaN(parsed) ? parsed : undefined);
-      } else {
-        this.maxLength.set(undefined);
-      }
-      // SECURITY_EXCEPTION: reading value.length from native input/textarea is required for character counter.
-      this.currentLength.set(
-        (first as HTMLInputElement | HTMLTextAreaElement).value?.length ?? 0,
-      );
-
-      if (isTextarea) {
-        const resize = first.dataset['resize'] ?? first.getAttribute('resize');
-
-        const validResize: ControlResize =
-          resize === 'none' ||
-          resize === 'vertical' ||
-          resize === 'horizontal' ||
-          resize === 'both'
-            ? resize
-            : 'vertical';
-
-        this.controlResize.set(validResize);
-      } else {
-        this.controlResize.set(null);
-      }
+    if (children.length === 0) {
+      return;
     }
 
-    if (this.formControl()) {
-      this.controlId = this.formControl()!.id;
-    } else if (this.controlElement) {
-      if (!this.controlElement.id) {
-        const generatedId = `solaris-control-${this.fieldId}`;
-        this.controlElement.id = generatedId;
-        this.controlId = generatedId;
-      } else {
-        this.controlId = this.controlElement.id;
-      }
+    const first = children[0] as HTMLElement;
+    this.controlElement = first;
+    const isTextarea = first.tagName === 'TEXTAREA';
+    this.isTextareaControl.set(isTextarea);
+    this.detectCharacterCounter(first);
+    this.detectControlResize(first, isTextarea);
+  }
+
+  private detectCharacterCounter(first: HTMLElement): void {
+    const maxlengthAttr = first.getAttribute('maxlength');
+    if (maxlengthAttr !== null) {
+      const parsed = Number.parseInt(maxlengthAttr, 10);
+      this.maxLength.set(!Number.isNaN(parsed) ? parsed : undefined);
+    } else {
+      this.maxLength.set(undefined);
+    }
+    this.currentLength.set(
+      (first as HTMLInputElement | HTMLTextAreaElement).value?.length ?? 0,
+    );
+  }
+
+  private detectControlResize(first: HTMLElement, isTextarea: boolean): void {
+    if (!isTextarea) {
+      this.controlResize.set(null);
+      return;
+    }
+    const resize = first.dataset['resize'] ?? first.getAttribute('resize');
+
+    const validResize: ControlResize =
+      resize === 'none' ||
+      resize === 'vertical' ||
+      resize === 'horizontal' ||
+      resize === 'both'
+        ? resize
+        : 'vertical';
+
+    this.controlResize.set(validResize);
+  }
+
+  private assignControlId(): void {
+    const projectedControl = this.formControl();
+    if (projectedControl) {
+      this.controlId = projectedControl.id;
+      return;
+    }
+    if (!this.controlElement) {
+      return;
+    }
+    if (!this.controlElement.id) {
+      const generatedId = `solaris-control-${this.fieldId}`;
+      this.controlElement.id = generatedId;
+      this.controlId = generatedId;
+    } else {
+      this.controlId = this.controlElement.id;
     }
   }
 
@@ -437,7 +465,6 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
         this.ngZone.run(() => this.isFocused.set(false));
       };
       const onInput = (): void => {
-        // SECURITY_EXCEPTION: reading value.length from native input/textarea is standard DOM API for character counter.
         this.ngZone.run(() => {
           this.currentLength.set(
             (element as HTMLInputElement | HTMLTextAreaElement).value?.length ??
@@ -480,8 +507,6 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   }
 
   private warnMultipleControls(): void {
-    // SECURITY_EXCEPTION: nativeElement access required to count projected controls.
-    // SECURITY_EXCEPTION: Same justification as detectControl: read-only query, no DOM mutation.
     const nativeElement = this.elementRef.nativeElement;
     const children = nativeElement.querySelectorAll(
       'input, select, textarea, [solaris-input], [solaris-select], [solaris-textarea]',

@@ -1,3 +1,13 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to programmatically focus the multi-select trigger. Standard DOM method used by Angular CDK.
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() required as fallback when no triggerElement ref. Standard DOM method.
+// SECURITY_EXCEPTION_FILE: nativeElement access needed to measure trigger content width for auto display mode. ResizeObserver is SSR-safe (guarded by typeof check). offsetWidth is read-only, no XSS risk.
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to focus search input when panel opens. Standard DOM method.
+// SECURITY_EXCEPTION_FILE: nativeElement required to access form-field DOM for connected-side sync. ElementRef SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement.querySelector required to find control-wrapper for connected-side sync.
+// SECURITY_EXCEPTION_FILE: nativeElement required to access form-field DOM for connected-side cleanup. ElementRef SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to restore focus to search input after selection. ElementRef SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement access needed to read option text for search filtering. Read-only, SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement.textContent needed to read option text for search filtering. Read-only, SSR-safe.
 import {
   Component,
   input,
@@ -33,7 +43,7 @@ import {
   SolarisPopoverTriggerDirective,
 } from '../../../interaction/popover';
 import { SolarisTooltipDirective } from '../../../interaction/tooltip';
-import { nextIdFor, resolveElementId } from '../../../../core/utils/id';
+import { nextIdFor, resolveElementId } from '../../../../core';
 
 import type {
   SolarisMultiSelectAppearance,
@@ -649,11 +659,9 @@ export class SolarisMultiSelectComponent
   }
 
   focus(): void {
-    // SECURITY_EXCEPTION: nativeElement.focus() required to programmatically focus the multi-select trigger. Standard DOM method used by Angular CDK.
     if (this.triggerElement()) {
-      this.triggerElement()!.nativeElement.focus();
+      this.triggerElement()?.nativeElement.focus();
     } else {
-      // SECURITY_EXCEPTION: nativeElement.focus() required as fallback when no triggerElement ref. Standard DOM method.
       this.elementRef.nativeElement.focus();
     }
   }
@@ -714,17 +722,14 @@ export class SolarisMultiSelectComponent
   }
 
   ngAfterViewInit(): void {
-    if (this.popoverTrigger()) {
-      const openedSub = this.popoverTrigger()!.solarisPopoverOpened.subscribe(
-        () => {
-          this.onPanelOpened();
-        },
-      );
-      const closedSub = this.popoverTrigger()!.solarisPopoverClosed.subscribe(
-        () => {
-          this.onPanelClosed();
-        },
-      );
+    const trigger = this.popoverTrigger();
+    if (trigger) {
+      const openedSub = trigger.solarisPopoverOpened.subscribe(() => {
+        this.onPanelOpened();
+      });
+      const closedSub = trigger.solarisPopoverClosed.subscribe(() => {
+        this.onPanelClosed();
+      });
       this.popoverSubscriptions.push(
         () => openedSub.unsubscribe(),
         () => closedSub.unsubscribe(),
@@ -734,7 +739,6 @@ export class SolarisMultiSelectComponent
   }
 
   private setupResizeObserver(): void {
-    // SECURITY_EXCEPTION: nativeElement access needed to measure trigger content width for auto display mode. ResizeObserver is SSR-safe (guarded by typeof check). offsetWidth is read-only, no XSS risk.
     const el = this.triggerContentRef()?.nativeElement;
     if (!el) return;
 
@@ -763,7 +767,6 @@ export class SolarisMultiSelectComponent
 
     if (this.searchable()) {
       requestAnimationFrame(() => {
-        // SECURITY_EXCEPTION: nativeElement.focus() required to focus search input when panel opens. Standard DOM method.
         this.searchInputRef()?.nativeElement.focus();
       });
     }
@@ -780,10 +783,8 @@ export class SolarisMultiSelectComponent
   }
 
   private setConnectedSide(side: 'bottom' | 'top'): void {
-    // SECURITY_EXCEPTION: nativeElement required to access form-field DOM for connected-side sync. ElementRef SSR-safe.
     const el = this.formFieldElement()?.nativeElement;
     if (el) {
-      // SECURITY_EXCEPTION: nativeElement.querySelector required to find control-wrapper for connected-side sync.
       const wrapper = el.querySelector<HTMLElement>(
         '.solaris-form-field__control-wrapper',
       );
@@ -794,7 +795,6 @@ export class SolarisMultiSelectComponent
   }
 
   private clearConnectedSide(): void {
-    // SECURITY_EXCEPTION: nativeElement required to access form-field DOM for connected-side cleanup. ElementRef SSR-safe.
     const el = this.formFieldElement()?.nativeElement;
     if (el) {
       const wrapper = el.querySelector<HTMLElement>(
@@ -829,7 +829,6 @@ export class SolarisMultiSelectComponent
 
     if (this.searchable() && this.panelOpen()) {
       requestAnimationFrame(() => {
-        // SECURITY_EXCEPTION: nativeElement.focus() required to restore focus to search input after selection. ElementRef SSR-safe.
         this.searchInputRef()?.nativeElement.focus();
       });
     }
@@ -1018,7 +1017,7 @@ export class SolarisMultiSelectComponent
           event.preventDefault();
           const selected = this.selectedOptions();
           if (selected.length > 0) {
-            this.toggleOption(selected[selected.length - 1]);
+            this.toggleOption(<SolarisOptionComponent>selected.at(-1));
           }
         }
         break;
@@ -1144,9 +1143,7 @@ export class SolarisMultiSelectComponent
     const nativeEl = (
       option as unknown as { elementRef: ElementRef<HTMLElement> }
     ).elementRef;
-    // SECURITY_EXCEPTION: nativeElement access needed to read option text for search filtering. Read-only, SSR-safe.
     if (nativeEl?.nativeElement) {
-      // SECURITY_EXCEPTION: nativeElement.textContent needed to read option text for search filtering. Read-only, SSR-safe.
       return nativeEl.nativeElement.textContent?.trim() || '';
     }
     return '';

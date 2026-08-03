@@ -14,7 +14,9 @@ const configPath = path.join(
   'config',
   'security-rules.json',
 );
-const rules = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+const rules = config.dangerousPatterns;
+const fileLevelExceptionComment = config.fileLevelExceptionComment;
 
 const errors = [];
 const warnings = [];
@@ -60,6 +62,37 @@ for (const scanDir of dirsToScan) {
     const content = readFileSafe(file);
     const lines = content.split('\n');
 
+    if (content.includes(fileLevelExceptionComment)) {
+      const flagged = [];
+      for (let i = 0; i < lines.length; i++) {
+        const lineNum = i + 1;
+        const trimmed = lines[i].trim();
+
+        if (
+          trimmed.startsWith('//') ||
+          trimmed.startsWith('/*') ||
+          trimmed.startsWith('*')
+        ) {
+          continue;
+        }
+
+        for (const rule of rules) {
+          const regex = new RegExp(rule.pattern);
+          if (regex.test(trimmed)) {
+            flagged.push(`${file}:${lineNum}: ${rule.pattern}`);
+            break;
+          }
+        }
+      }
+      if (flagged.length > 0) {
+        warnings.push(
+          `${file}: ${flagged.length} dangerous pattern(s) allowed by file-level exception "${fileLevelExceptionComment}". ` +
+            `Review the exception comment for justification, safer alternatives considered, and tests.`,
+        );
+      }
+      continue;
+    }
+
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
       const lineNum = i + 1;
@@ -75,13 +108,11 @@ for (const scanDir of dirsToScan) {
 
       const hasException = lines
         .slice(Math.max(0, i - 2), i + 1)
-        .some((l) =>
-          l.includes(rules.dangerousPatterns[0].allowedExceptionComment),
-        );
+        .some((l) => l.includes(rules[0].allowedExceptionComment));
 
       if (hasException) continue;
 
-      for (const rule of rules.dangerousPatterns) {
+      for (const rule of rules) {
         const regex = new RegExp(rule.pattern);
         if (regex.test(trimmed)) {
           errors.push(

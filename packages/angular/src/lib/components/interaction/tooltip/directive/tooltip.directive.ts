@@ -1,3 +1,6 @@
+// SECURITY_EXCEPTION_FILE: this.document.activeElement required for restoreFocus. SSR-safe via injected DOCUMENT.
+// SECURITY_EXCEPTION_FILE: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
+// SECURITY_EXCEPTION_FILE: this.document.contains() to safely verify trigger still exists before focus.
 import {
   Directive,
   ElementRef,
@@ -292,7 +295,6 @@ export class SolarisTooltipDirective implements AfterViewInit {
     this.clearHoverTimeout();
 
     if (this.solarisTooltipTrigger() === 'click') {
-      // SECURITY_EXCEPTION: this.document.activeElement required for restoreFocus. SSR-safe via injected DOCUMENT.
       this.previousActiveElement = this.document.activeElement as HTMLElement;
     }
 
@@ -557,7 +559,6 @@ export class SolarisTooltipDirective implements AfterViewInit {
     }
 
     const overlayElement = this.overlayRef.overlayElement;
-    // SECURITY_EXCEPTION: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
     const triggerElement = this.elementRef.nativeElement;
     const target = event.target as Node;
 
@@ -585,7 +586,6 @@ export class SolarisTooltipDirective implements AfterViewInit {
     if (
       this.solarisTooltipTrigger() === 'click' &&
       this.previousActiveElement &&
-      // SECURITY_EXCEPTION: this.document.contains() to safely verify trigger still exists before focus.
       this.document.contains(this.previousActiveElement)
     ) {
       this.previousActiveElement.focus();

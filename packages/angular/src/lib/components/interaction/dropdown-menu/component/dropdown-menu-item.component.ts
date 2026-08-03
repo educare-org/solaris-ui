@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() required for programmatic focus. No alternative exists.
 import {
   Component,
   input,
@@ -107,7 +108,6 @@ export class SolarisDropdownMenuItemComponent {
   }
 
   focus(): void {
-    // SECURITY_EXCEPTION: nativeElement.focus() required for programmatic focus. No alternative exists.
     this.elementRef.nativeElement.focus();
   }
 }

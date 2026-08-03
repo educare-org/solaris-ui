@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../services/translation';
-import { resolveElementId } from '../../../../core/utils/id';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisOptionSize,
@@ -123,7 +123,7 @@ export class SolarisOptionComponent {
 
   protected readonly effectiveShowSelectionIndicator = computed(() => {
     const internal = this.internalShowSelectionIndicator();
-    return internal !== undefined ? internal : this.showSelectionIndicator();
+    return internal ?? this.showSelectionIndicator();
   });
 
   protected readonly effectiveActive = computed(

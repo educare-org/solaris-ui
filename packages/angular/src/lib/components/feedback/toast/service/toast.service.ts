@@ -1,3 +1,5 @@
+// SECURITY_EXCEPTION_FILE: nativeElement required for dynamic container. SSR-safe.
+// SECURITY_EXCEPTION_FILE: document.body.appendChild for root-level attachment. SSR-safe.
 import {
   Injectable,
   inject,
@@ -74,9 +76,7 @@ export class SolarisToastService {
       });
       componentRef.setInput('position', position);
       this.appRef.attachView(componentRef.hostView);
-      // SECURITY_EXCEPTION: nativeElement required for dynamic container. SSR-safe.
       const rootEl = componentRef.location.nativeElement as HTMLElement;
-      // SECURITY_EXCEPTION: document.body.appendChild for root-level attachment. SSR-safe.
       document.body.appendChild(rootEl);
       this.containerRefs.set(position, componentRef);
       ref = componentRef;

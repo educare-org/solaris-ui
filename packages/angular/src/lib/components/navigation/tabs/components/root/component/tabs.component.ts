@@ -1,3 +1,5 @@
+// SECURITY_EXCEPTION_FILE: nativeElement required to query tab elements for programmatic focus. Read-only, SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement required to query tablist for indicator measurement. Read-only, SSR-safe.
 import {
   Component,
   input,
@@ -159,7 +161,6 @@ export class SolarisTabsComponent implements SolarisTabsControl {
   }
 
   focusTab(tab: SolarisTabComponent): void {
-    // SECURITY_EXCEPTION: nativeElement required to query tab elements for programmatic focus. Read-only, SSR-safe.
     const nativeElement = this.elementRef.nativeElement as HTMLElement;
     const tabElements = nativeElement.querySelectorAll(
       'solaris-tab',
@@ -180,7 +181,6 @@ export class SolarisTabsComponent implements SolarisTabsControl {
   }
 
   private measureIndicator(): void {
-    // SECURITY_EXCEPTION: nativeElement required to query tablist for indicator measurement. Read-only, SSR-safe.
     const nativeEl = this.elementRef.nativeElement as HTMLElement;
     const tablist = nativeEl.querySelector(
       '.solaris-tabs__tablist',

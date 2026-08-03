@@ -1,3 +1,7 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.querySelector required to find item DOM element for programmatic focus. Standard DOM method, SSR-safe with guard.
+// SECURITY_EXCEPTION_FILE: nativeElement.querySelector required to measure indicator position for animation. Read-only measurement, SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement required for ResizeObserver target. Standard DOM API, SSR-safe with typeof guard.
+// SECURITY_EXCEPTION_FILE: nativeElement required for MutationObserver target. Standard DOM API, SSR-safe with typeof guard.
 import {
   Component,
   input,
@@ -20,7 +24,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisSegmentedItemComponent } from '../item/segmented-item.component';
 import { SolarisTranslateService } from '../../../../services/translation';
-import { nextIdFor } from '../../../../core/utils/id';
+import { nextIdFor } from '../../../../core';
 
 import {
   SOLARIS_SEGMENTED_CONTROL,
@@ -194,7 +198,6 @@ export class SolarisSegmentedControlComponent
   }
 
   focusItem(item: SolarisSegmentedItemComponent): void {
-    // SECURITY_EXCEPTION: nativeElement.querySelector required to find item DOM element for programmatic focus. Standard DOM method, SSR-safe with guard.
     const nativeElement = this.elementRef.nativeElement as HTMLElement;
     const itemElements = nativeElement.querySelectorAll(
       'solaris-segmented-item',
@@ -236,7 +239,6 @@ export class SolarisSegmentedControlComponent
   private measureIndicator(): void {
     if (!this.indicator()) return;
 
-    // SECURITY_EXCEPTION: nativeElement.querySelector required to measure indicator position for animation. Read-only measurement, SSR-safe.
     const nativeEl = this.elementRef.nativeElement as HTMLElement;
     const container = nativeEl.querySelector(
       '.solaris-segmented-control__container',
@@ -270,13 +272,11 @@ export class SolarisSegmentedControlComponent
           requestAnimationFrame(() => this.measureIndicator());
         });
       });
-      // SECURITY_EXCEPTION: nativeElement required for ResizeObserver target. Standard DOM API, SSR-safe with typeof guard.
       const nativeEl = this.elementRef.nativeElement as HTMLElement;
       this.resizeObserver.observe(nativeEl);
     }
 
     if (typeof MutationObserver !== 'undefined') {
-      // SECURITY_EXCEPTION: nativeElement required for MutationObserver target. Standard DOM API, SSR-safe with typeof guard.
       const nativeEl = this.elementRef.nativeElement as HTMLElement;
       this.contentObserver = new MutationObserver(() => {
         this.ngZone.runOutsideAngular(() => {

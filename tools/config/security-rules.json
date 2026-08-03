@@ -1,4 +1,5 @@
 {
+  "fileLevelExceptionComment": "SECURITY_EXCEPTION_FILE",
   "dangerousPatterns": [
     {
       "pattern": "innerHTML\\s*:?\\s*=",

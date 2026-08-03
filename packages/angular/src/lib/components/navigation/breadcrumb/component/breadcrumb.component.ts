@@ -9,11 +9,14 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
+import {
+  SolarisDropdownMenuComponent,
+  SolarisDropdownMenuItemComponent,
+  SolarisDropdownMenuTriggerDirective,
+} from '../../../interaction/dropdown-menu';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisIconComponent } from '../../../icon';
-import { SolarisDropdownMenuComponent } from '../../../interaction/dropdown-menu/component/dropdown-menu.component';
-import { SolarisDropdownMenuItemComponent } from '../../../interaction/dropdown-menu/component/dropdown-menu-item.component';
-import { SolarisDropdownMenuTriggerDirective } from '../../../interaction/dropdown-menu/directives/dropdown-menu-trigger.directive';
+import { SEPARATOR_ICONS } from '../model/breadcrumb.types';
 
 import type {
   SolarisBreadcrumbSize,
@@ -21,28 +24,9 @@ import type {
   SolarisBreadcrumbOverflowPosition,
   SolarisBreadcrumbItem,
   SolarisBreadcrumbNavigateEvent,
+  SolarisBreadcrumbEllipsisSlot,
+  SolarisBreadcrumbVisibleSlot,
 } from '../model/breadcrumb.types';
-
-interface SolarisBreadcrumbSlot {
-  kind: 'item';
-  item: SolarisBreadcrumbItem;
-  index: number;
-}
-
-interface SolarisBreadcrumbEllipsisSlot {
-  kind: 'ellipsis';
-  hiddenItems: SolarisBreadcrumbItem[];
-}
-
-type SolarisBreadcrumbVisibleSlot =
-  | SolarisBreadcrumbSlot
-  | SolarisBreadcrumbEllipsisSlot;
-
-const SEPARATOR_ICONS: Record<SolarisBreadcrumbSeparator, string> = {
-  slash: 'slash',
-  chevron: 'chevron-right',
-  dot: 'dot',
-};
 
 @Component({
   selector: 'solaris-breadcrumb',

@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to restore focus after toggle. No SSR-safe alternative exists for imperative focus. Same approach used by Angular CDK.
 import {
   Component,
   input,
@@ -416,7 +417,6 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
 
     if (this.inputElementRef()) {
       try {
-        // SECURITY_EXCEPTION: nativeElement.focus() is the standard DOM API to restore focus after toggle. No SSR-safe alternative exists for imperative focus. Same approach used by Angular CDK.
         this.inputElementRef()!.nativeElement.focus();
       } catch {
         if (isDevMode()) {

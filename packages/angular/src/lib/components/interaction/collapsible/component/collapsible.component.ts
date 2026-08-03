@@ -10,15 +10,15 @@ import {
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 
-import { SolarisTranslateService } from '../../../../services/translation';
 import type {
   SolarisCollapsibleSize,
   SolarisCollapsibleAppearance,
   SolarisCollapsibleValue,
 } from '../model/collapsible.types';
+import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisIconComponent } from '../../../icon';
-import { resolveElementId } from '../../../../core/utils/id';
-import { SOLARIS_ACCORDION } from '../../accordion/model/accordion.tokens';
+import { resolveElementId } from '../../../../core';
+import { SOLARIS_ACCORDION } from '../../accordion';
 
 @Component({
   selector: 'solaris-collapsible',
@@ -59,10 +59,6 @@ export class SolarisCollapsibleComponent {
 
   protected readonly baseId = computed(() => {
     return resolveElementId(this.elementRef, 'solaris-collapsible');
-  });
-
-  protected readonly isControlled = computed(() => {
-    return !!this.accordionControl;
   });
 
   protected readonly isOpen = computed(() => {

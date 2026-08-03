@@ -1,5 +1,5 @@
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
-import { nextIdFor } from '../../../../core/utils/id';
+import { nextIdFor } from '../../../../core';
 
 @Component({
   selector: 'solaris-dropdown-menu-label',

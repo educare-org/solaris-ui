@@ -8,9 +8,8 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { nextIdFor } from '../../../../core/utils/id';
-
-import { SolarisCollapsibleComponent } from '../../collapsible/component/collapsible.component';
+import { SolarisCollapsibleComponent } from '../../collapsible';
+import { nextIdFor } from '../../../../core';
 
 import {
   SOLARIS_ACCORDION,
@@ -81,7 +80,7 @@ export class SolarisAccordionComponent implements SolarisAccordionControl {
   isOpen(value: SolarisAccordionValue | undefined): boolean {
     const resolved = this.resolvedValue();
     if (Array.isArray(resolved)) {
-      return resolved.some((v) => v === value);
+      return value !== undefined && resolved.includes(value);
     }
     return resolved === value;
   }

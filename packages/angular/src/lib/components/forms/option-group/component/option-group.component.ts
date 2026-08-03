@@ -12,7 +12,7 @@ import {
 
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisOptionComponent } from '../../option';
-import { resolveElementId } from '../../../../core/utils/id';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisOptionGroupSize,

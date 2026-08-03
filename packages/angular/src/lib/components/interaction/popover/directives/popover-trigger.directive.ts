@@ -1,3 +1,10 @@
+// SECURITY_EXCEPTION_FILE: this.document.activeElement required for restoreFocus. SSR-safe via injected DOCUMENT.
+// SECURITY_EXCEPTION_FILE: nativeElement.setAttribute required to sync data-connected-side. Read-only DOM access.
+// SECURITY_EXCEPTION_FILE: querySelector required to find descendant form-field control wrapper. SSR-safe via injected ElementRef.
+// SECURITY_EXCEPTION_FILE: nativeElement.querySelector required to find panel container in attached overlay. CDK overlay provides no typed API for this.
+// SECURITY_EXCEPTION_FILE: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement.offsetWidth ÔÇö required for matchTriggerWidth.
+// SECURITY_EXCEPTION_FILE: this.document.contains() to safely verify trigger still exists before focus.
 import {
   Directive,
   ElementRef,
@@ -217,7 +224,6 @@ export class SolarisPopoverTriggerDirective {
       return;
     }
 
-    // SECURITY_EXCEPTION: this.document.activeElement required for restoreFocus. SSR-safe via injected DOCUMENT.
     this.previousActiveElement = this.document.activeElement as HTMLElement;
     this.createOverlay();
     this.attachPanel();
@@ -278,10 +284,8 @@ export class SolarisPopoverTriggerDirective {
           this.panelContainerRef.dataset['formField'] = '';
         }
       }
-      // SECURITY_EXCEPTION: nativeElement.setAttribute required to sync data-connected-side. Read-only DOM access.
       this.elementRef.nativeElement.dataset['connectedSide'] =
         this.connectedSide;
-      // SECURITY_EXCEPTION: querySelector required to find descendant form-field control wrapper. SSR-safe via injected ElementRef.
       const formFieldWrapper = this.elementRef.nativeElement.querySelector(
         ':scope > .solaris-form-field__control-wrapper',
       ) as HTMLElement | null;
@@ -372,7 +376,6 @@ export class SolarisPopoverTriggerDirective {
     );
 
     const componentRef = this.overlayRef.attach(portal);
-    // SECURITY_EXCEPTION: nativeElement.querySelector required to find panel container in attached overlay. CDK overlay provides no typed API for this.
     this.panelContainerRef = componentRef.location.nativeElement.querySelector(
       '.solaris-popover-panel__container',
     );
@@ -381,7 +384,6 @@ export class SolarisPopoverTriggerDirective {
       this.panelContainerRef.dataset['connectedSide'] = initialSide;
       if (topConnected) {
         this.panelContainerRef.dataset['formField'] = '';
-        // SECURITY_EXCEPTION: querySelector required to find descendant form-field control wrapper. SSR-safe via injected ElementRef.
         const formFieldWrapper = this.elementRef.nativeElement.querySelector(
           ':scope > .solaris-form-field__control-wrapper',
         ) as HTMLElement | null;
@@ -435,7 +437,6 @@ export class SolarisPopoverTriggerDirective {
     }
 
     const overlayElement = this.overlayRef.overlayElement;
-    // SECURITY_EXCEPTION: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
     const triggerElement = this.elementRef.nativeElement;
     const target = event.target as Node;
 
@@ -470,7 +471,6 @@ export class SolarisPopoverTriggerDirective {
       maxWidth?: number | string;
     } = {};
 
-    // SECURITY_EXCEPTION: nativeElement.offsetWidth — required for matchTriggerWidth.
     // ElementRef is SSR-safe. offsetWidth is a read-only layout property.
     const triggerWidth = this.elementRef.nativeElement.offsetWidth;
     const matchWidth = this.solarisPopoverMatchTriggerWidth();
@@ -498,7 +498,6 @@ export class SolarisPopoverTriggerDirective {
     if (
       this.solarisPopoverRestoreFocus() &&
       this.previousActiveElement &&
-      // SECURITY_EXCEPTION: this.document.contains() to safely verify trigger still exists before focus.
       this.document.contains(this.previousActiveElement)
     ) {
       this.previousActiveElement.focus();

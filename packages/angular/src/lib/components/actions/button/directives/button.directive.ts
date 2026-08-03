@@ -1,3 +1,6 @@
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.tagName is the standard Angular API to differentiate <button> vs <a> for correct disabled/type behavior.
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.getAttribute/setAttribute is the standard Angular approach to handle default button type.
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.setAttribute required for default <button> type behavior.
 import {
   Directive,
   input,
@@ -74,17 +77,13 @@ export class SolarisButtonDirective {
     return undefined;
   });
 
-  // SECURITY_EXCEPTION: ElementRef.nativeElement.tagName is the standard Angular API to differentiate <button> vs <a> for correct disabled/type behavior.
   protected readonly isButton =
     this.elementRef.nativeElement.tagName === 'BUTTON';
-  // SECURITY_EXCEPTION: ElementRef.nativeElement.tagName is the standard Angular API to differentiate <button> vs <a> for correct disabled/type behavior.
   protected readonly isAnchor = this.elementRef.nativeElement.tagName === 'A';
 
   constructor() {
-    // SECURITY_EXCEPTION: ElementRef.nativeElement.getAttribute/setAttribute is the standard Angular approach to handle default button type.
     const initialType = this.elementRef.nativeElement.getAttribute('type');
     if (this.isButton && initialType === null) {
-      // SECURITY_EXCEPTION: ElementRef.nativeElement.setAttribute required for default <button> type behavior.
       this.elementRef.nativeElement.setAttribute('type', 'button');
     }
   }

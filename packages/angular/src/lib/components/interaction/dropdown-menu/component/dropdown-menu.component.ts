@@ -18,7 +18,7 @@ import type {
   SolarisDropdownMenuSize,
   SolarisDropdownMenuDensity,
 } from '../model/dropdown-menu.types';
-import { nextIdFor } from '../../../../core/utils/id';
+import { nextIdFor } from '../../../../core';
 
 @Component({
   selector: 'solaris-dropdown-menu',

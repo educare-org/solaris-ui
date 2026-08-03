@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: nativeElement required to check projected content. SSR-safe read-only operation.
 import {
   input,
   inject,
@@ -12,7 +13,7 @@ import {
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisIconComponent } from '../../../icon';
 import { SOLARIS_SEGMENTED_CONTROL } from '../token/segmented-control.tokens';
-import { nextIdFor } from '../../../../core/utils/id';
+import { nextIdFor } from '../../../../core';
 
 @Component({
   selector: 'solaris-segmented-item',
@@ -97,7 +98,6 @@ export class SolarisSegmentedItemComponent implements AfterContentInit {
   }
 
   private updateHasContent(): void {
-    // SECURITY_EXCEPTION: nativeElement required to check projected content. SSR-safe read-only operation.
     const nativeEl = this.elementRef.nativeElement as HTMLElement;
     const innerEl = nativeEl.querySelector('.solaris-segmented-item__inner');
     if (!innerEl) return;

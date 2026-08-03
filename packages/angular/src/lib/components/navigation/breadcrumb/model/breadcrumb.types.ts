@@ -36,3 +36,24 @@ export interface SolarisBreadcrumbConfig {
   ariaLabel?: string;
   ariaLabelKey?: string;
 }
+
+export interface SolarisBreadcrumbSlot {
+  kind: 'item';
+  item: SolarisBreadcrumbItem;
+  index: number;
+}
+
+export interface SolarisBreadcrumbEllipsisSlot {
+  kind: 'ellipsis';
+  hiddenItems: SolarisBreadcrumbItem[];
+}
+
+export type SolarisBreadcrumbVisibleSlot =
+  | SolarisBreadcrumbSlot
+  | SolarisBreadcrumbEllipsisSlot;
+
+export const SEPARATOR_ICONS: Record<SolarisBreadcrumbSeparator, string> = {
+  slash: 'slash',
+  chevron: 'chevron-right',
+  dot: 'dot',
+};
