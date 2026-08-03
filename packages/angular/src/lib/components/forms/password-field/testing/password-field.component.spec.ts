@@ -12,8 +12,7 @@ import { SolarisPasswordFieldComponent } from '../component/password-field.compo
 import { SolarisPasswordPolicy } from '../model/password-policy.types';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
-import { provideSolarisIcons } from '../../../../services/icon/provider/provide-solaris-icons';
-
+import { provideSolaris } from '../../../../providers/provide-solaris';
 const defaultPolicy: SolarisPasswordPolicy = {
   minLength: 8,
   requireLowercase: true,
@@ -307,7 +306,7 @@ describe('SolarisPasswordFieldComponent', () => {
       providers: [
         provideZonelessChangeDetection(),
         provideSolarisTesting(),
-        provideSolarisIcons(),
+        provideSolaris(),
       ],
     }).compileComponents();
   });

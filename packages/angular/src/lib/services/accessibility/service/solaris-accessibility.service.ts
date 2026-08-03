@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: window.matchMedia is the only browser API for reduced motion detection. Guarded by isPlatformBrowser. Tested.
 import {
   Injectable,
   inject,
@@ -31,7 +32,6 @@ export class SolarisAccessibilityService {
       this.config.respectSystemPreference &&
       isPlatformBrowser(this.platformId)
     ) {
-      // SECURITY_EXCEPTION: window.matchMedia is the only browser API for reduced motion detection. Guarded by isPlatformBrowser. Tested.
       const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
       this.reducedMotionSignal = signal(mql.matches);
 

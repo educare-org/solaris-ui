@@ -1,18 +1,20 @@
 :host {
-  --solaris-card-gap: initial;
-  --solaris-card-color: initial;
-  --solaris-card-radius: initial;
-  --solaris-card-shadow: initial;
+  --solaris-card-shadow: none;
   --solaris-card-glass-blur: initial;
-  --solaris-card-padding: initial;
-  --solaris-card-background: initial;
-  --solaris-card-header-gap: initial;
-  --solaris-card-border-color: initial;
-  --solaris-card-border-width: initial;
   --solaris-card-glass-background: initial;
   --solaris-card-glass-border-color: initial;
-  --solaris-card-footer-border-color: initial;
+  --solaris-card-gap: var(--solaris-spacing-5);
   --solaris-card-glass-texture-opacity: initial;
+  --solaris-card-radius: var(--solaris-radius-lg);
+  --solaris-card-padding: var(--solaris-spacing-6);
+  --solaris-card-color: var(--solaris-text-default);
+  --solaris-card-header-gap: var(--solaris-spacing-1);
+  --solaris-card-section-gap: var(--solaris-card-gap);
+  --solaris-card-background: var(--solaris-surface-base);
+  --solaris-card-border-color: var(--solaris-border-subtle);
+  --solaris-card-border-width: var(--solaris-border-width-sm);
+  --solaris-card-section-padding: var(--solaris-card-padding);
+  --solaris-card-footer-border-color: var(--solaris-border-subtle);
 
   gap: 0;
   padding: 0;
@@ -20,18 +22,22 @@
   overflow: hidden;
   flex-direction: column;
   box-sizing: border-box;
-
   color: var(--solaris-card-color);
   box-shadow: var(--solaris-card-shadow);
   border-radius: var(--solaris-card-radius);
   background: var(--solaris-card-background);
   border: var(--solaris-card-border-width) solid
     var(--solaris-card-border-color);
-  --solaris-card-section-gap: var(--solaris-card-gap, var(--solaris-spacing-5));
-  --solaris-card-section-padding: var(
-    --solaris-card-padding,
-    var(--solaris-spacing-6)
-  );
+}
+
+:host([data-size='sm']) {
+  --solaris-card-section-gap: var(--solaris-spacing-4);
+  --solaris-card-section-padding: var(--solaris-spacing-4);
+}
+
+:host([data-size='lg']) {
+  --solaris-card-section-gap: var(--solaris-spacing-6);
+  --solaris-card-section-padding: var(--solaris-spacing-8);
 }
 
 :host([data-appearance='surface']) {
@@ -59,79 +65,49 @@
 }
 
 :host([data-appearance='glass']) {
-  // SOLARIS_TOKEN_EXCEPTION: glass appearance requires translucent rgba values for the frosted-glass effect.
-  --solaris-card-shadow:
-    0 24px 80px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
-
-  --solaris-card-glass-blur: 22px;
-  --solaris-card-glass-texture-opacity: 0.18;
+  --solaris-card-glass-blur: var(--solaris-glass-blur);
+  --solaris-card-glass-texture-opacity: var(--solaris-glass-texture-opacity);
   --solaris-card-color: var(--solaris-text-glass);
   --solaris-card-border-width: var(--solaris-border-width-sm);
-
-  // SOLARIS_TOKEN_EXCEPTION: glass appearance requires translucent rgba values for the frosted-glass effect.
-  --solaris-card-glass-background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.24) 0%,
-      rgba(255, 255, 255, 0.1) 34%,
-      rgba(255, 255, 255, 0.04) 100%
-    ),
-    rgba(24, 20, 18, 0.34);
-
-  // SOLARIS_TOKEN_EXCEPTION: glass appearance requires translucent rgba values for the frosted-glass effect.
-  --solaris-card-glass-border-color: rgba(255, 255, 255, 0.22);
+  --solaris-card-glass-border-color: var(--solaris-glass-border-color);
+  --solaris-card-shadow: var(--solaris-glass-shadow);
+  --solaris-card-glass-background: var(--solaris-glass-background);
 
   position: relative;
   isolation: isolate;
   box-shadow: var(--solaris-card-shadow);
   background: var(--solaris-card-glass-background);
   border-color: var(--solaris-card-glass-border-color);
-
-  backdrop-filter: blur(var(--solaris-card-glass-blur)) saturate(150%)
-    contrast(108%);
-
-  -webkit-backdrop-filter: blur(var(--solaris-card-glass-blur)) saturate(150%)
-    contrast(108%);
+  backdrop-filter: var(--solaris-glass-backdrop-filter);
+  -webkit-backdrop-filter: var(--solaris-glass-backdrop-filter);
 }
 
 :host([data-appearance='glass'])::before {
+  // SOLARIS_TOKEN_EXCEPTION: glass ::before uses translucent rgba gradients for the frosted-glass effect.
+  inset: 0;
   content: '';
   position: absolute;
-  inset: 0;
-  z-index: -1;
   pointer-events: none;
   border-radius: inherit;
-
-  // SOLARIS_TOKEN_EXCEPTION: glass ::before uses translucent rgba gradients for the frosted-glass effect.
+  z-index: var(--solaris-z-index-decorative);
   background:
-    radial-gradient(
-      circle at 72% 58%,
-      rgba(255, 110, 24, 0.36),
-      transparent 34%
-    ),
-    radial-gradient(
-      circle at 22% 16%,
-      rgba(255, 255, 255, 0.18),
-      transparent 30%
-    ),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 42%); // SOLARIS_TOKEN_EXCEPTION: glass ::before gradient needs translucent rgba
+    radial-gradient(circle at 72% 58%, rgb(255 110 24 / 36%), transparent 34%),
+    radial-gradient(circle at 22% 16%, rgb(255 255 255 / 18%), transparent 30%),
+    linear-gradient(135deg, rgb(255 255 255 / 18%), transparent 42%); // SOLARIS_TOKEN_EXCEPTION: glass ::before gradient needs translucent rgba
 }
 
 :host([data-appearance='glass'][data-glass-texture='grooves'])::after {
+  inset: 0;
   content: '';
   position: absolute;
-  inset: 0;
-  z-index: -1;
   pointer-events: none;
   border-radius: inherit;
-  opacity: var(--solaris-card-glass-texture-opacity, 0.18);
-
-  // SOLARIS_TOKEN_EXCEPTION: glass texture uses translucent rgba values for the groove pattern.
+  z-index: var(--solaris-z-index-decorative);
+  opacity: var(--solaris-card-glass-texture-opacity);
   background-image: repeating-radial-gradient(
     circle at 0 0,
-    rgba(255, 255, 255, 0.22) 0,
-    rgba(255, 255, 255, 0.22) 1px,
+    var(--solaris-glass-border-color) 0,
+    var(--solaris-glass-border-color) 1px,
     transparent 1px,
     transparent 4px
   );
@@ -172,10 +148,9 @@
 
 :host ::ng-deep .solaris-card-header {
   display: flex;
-  padding-block-end: var(--solaris-spacing-0);
   flex-direction: column;
-  gap: var(--solaris-card-header-gap, var(--solaris-spacing-1));
-  padding-block-start: var(--solaris-card-section-padding);
+  padding-block: var(--solaris-card-section-padding) var(--solaris-spacing-0);
+  gap: var(--solaris-card-header-gap);
 }
 
 :host ::ng-deep .solaris-card-header:only-child {
@@ -192,12 +167,11 @@
 }
 
 :host ::ng-deep .solaris-card-footer {
-  gap: var(--solaris-spacing-2);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  padding-block-start: var(--solaris-spacing-1);
-  padding-block-end: var(--solaris-card-section-padding);
+  gap: var(--solaris-spacing-2);
+  padding-block: var(--solaris-spacing-1) var(--solaris-card-section-padding);
 }
 
 :host ::ng-deep .solaris-card-footer:only-child {
@@ -206,9 +180,8 @@
 
 :host ::ng-deep .solaris-card-footer[data-separator] {
   padding-block-start: var(--solaris-card-section-gap);
-
   border-top: var(--solaris-border-width-sm) solid
-    var(--solaris-card-footer-border-color, var(--solaris-border-subtle));
+    var(--solaris-card-footer-border-color);
 }
 
 :host ::ng-deep .solaris-card-media {

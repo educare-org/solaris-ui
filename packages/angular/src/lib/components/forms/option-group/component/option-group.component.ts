@@ -6,27 +6,18 @@ import {
   effect,
   inject,
   ElementRef,
-  ContentChildren,
-  QueryList,
-  type AfterContentInit,
-  type OnDestroy,
+  contentChildren,
+  ChangeDetectionStrategy,
 } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Subscription = any;
 
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisOptionComponent } from '../../option';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisOptionGroupSize,
   SolarisOptionGroupDensity,
 } from '../model/option-group.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-option-group-${++nextId}`;
-}
 
 @Component({
   selector: 'solaris-option-group',
@@ -34,6 +25,7 @@ function generateId(): string {
   imports: [],
   templateUrl: './option-group.component.html',
   styleUrls: ['./option-group.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'group',
     '[attr.id]': 'elementId()',
@@ -45,14 +37,13 @@ function generateId(): string {
     '[style.display]': 'internalHidden() ? "none" : ""',
   },
 })
-export class SolarisOptionGroupComponent
-  implements AfterContentInit, OnDestroy
-{
+export class SolarisOptionGroupComponent {
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly translateService = inject(SolarisTranslateService);
 
-  @ContentChildren(SolarisOptionComponent, { descendants: true })
-  options!: QueryList<SolarisOptionComponent>;
+  readonly options = contentChildren(SolarisOptionComponent, {
+    descendants: true,
+  });
 
   readonly label = input<string>();
   readonly labelKey = input<string>();
@@ -64,15 +55,12 @@ export class SolarisOptionGroupComponent
   readonly density = input<SolarisOptionGroupDensity>();
   readonly groupId = input<string>(undefined, { alias: 'id' });
 
-  protected readonly contentInitialized = signal(false);
   protected readonly internalHidden = signal(false);
 
   protected readonly elementId = computed(() => {
     return (
       this.groupId() ||
-      // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls and Solaris Checkbox.
-      this.elementRef.nativeElement.getAttribute('id') ||
-      generateId()
+      resolveElementId(this.elementRef, 'solaris-option-group')
     );
   });
 
@@ -109,38 +97,21 @@ export class SolarisOptionGroupComponent
     return null;
   });
 
-  private optionQuerySubscription: Subscription | null = null;
-
-  ngAfterContentInit(): void {
-    this.contentInitialized.set(true);
+  private readonly _optionsEffect = effect(() => {
+    this.options();
+    this.isEffectivelyDisabled();
     this.propagateDisabledToOptions();
-
-    this.optionQuerySubscription = this.options.changes.subscribe(() => {
-      this.propagateDisabledToOptions();
-    });
-  }
-
-  ngOnDestroy(): void {
-    if (this.optionQuerySubscription) {
-      this.optionQuerySubscription.unsubscribe();
-    }
-  }
+  });
 
   setHidden(v: boolean): void {
     this.internalHidden.set(v);
   }
 
   private propagateDisabledToOptions(): void {
-    if (!this.options) return;
+    const opts = this.options();
     const isDisabled = this.isEffectivelyDisabled();
-    this.options.forEach((option) => {
+    opts.forEach((option) => {
       option.setGroupDisabledState(isDisabled);
     });
   }
-
-  private readonly _disabledEffect = effect(() => {
-    if (!this.contentInitialized()) return;
-    this.isEffectivelyDisabled();
-    this.propagateDisabledToOptions();
-  });
 }

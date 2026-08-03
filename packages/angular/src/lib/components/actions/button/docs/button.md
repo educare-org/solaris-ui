@@ -30,10 +30,10 @@ Not:
 
 ## When not to use
 
-- Icon-only buttons — use the future `[solaris-icon-button]` directive
-- Button groups — use the future `solaris-button-group` component
-- Split buttons — use the future split button component
-- Segmented controls — use the future segmented control component
+- Icon-only buttons — use `[solaris-icon-button]`
+- Button groups — use `solaris-button-group`
+- Split buttons — not supported in v1
+- Segmented controls — use `solaris-segmented-control`
 - Social login buttons — compose with `appearance="outline"` and a projected icon
 
 ## Difference between Button and Icon Button
@@ -43,7 +43,7 @@ Not:
 | Text      | Required (projected)                 | Not allowed                           |
 | Icon      | Optional via `[solaris-button-icon]` | Required                              |
 | Use case  | Actions with labels                  | Toolbar, compact actions              |
-| v1 status | ✅ Implemented                       | 🔜 Future component                   |
+| v1 status | ✅ Implemented                       | ✅ Implemented                        |
 
 ## API
 
@@ -281,8 +281,8 @@ The following CSS variables can be customized:
 
 ## Limitations (v1)
 
-- No icon-only support — use `[solaris-icon-button]` (future component)
-- No button group support — use `solaris-button-group` (future component)
+- No built-in icon-only variant — use `[solaris-icon-button]`
+- No button group support — use `solaris-button-group`
 - No split button support
 - No segmented button support
 - No toggle group support
@@ -291,20 +291,19 @@ The following CSS variables can be customized:
 - No public spinner component — loading uses CSS pseudo-element
 - No harness created for v1
 
-## Button Group (future evolution)
+## Button Group
 
-Button Group is planned for a future release with support for:
+Use `solaris-button-group` to group related actions:
 
-- Horizontal and vertical layout
-- Disabled states
-- Badge integration
-- Icon-only buttons
-- Combined actions
-- Separators
-- Active/selected states
-- Dropdown integration
+```html
+<solaris-button-group aria-label="Editor actions">
+  <button solaris-button>Edit</button>
+  <button solaris-button>Duplicate</button>
+  <button solaris-button disabled>Delete</button>
+</solaris-button-group>
+```
 
-Button v1 does not block Button Group. The directive's architecture allows it to be used inside a future group component.
+Button Group supports horizontal/vertical layout, attached/separated items, full width, badges, and icon-only buttons. The Button directive is designed to be used inside it.
 
 ## Examples
 

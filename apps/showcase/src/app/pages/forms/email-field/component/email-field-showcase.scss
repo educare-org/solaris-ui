@@ -26,6 +26,7 @@
 
 .email-field-showcase__note {
   @include layout.note;
+
   margin-bottom: var(--solaris-spacing-3);
 }
 
@@ -37,8 +38,7 @@
 }
 
 .email-field-showcase__demo--row {
-  flex-wrap: wrap;
-  flex-direction: row;
+  flex-flow: row wrap;
 }
 
 form {

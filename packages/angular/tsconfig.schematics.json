@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "outDir": "../../dist/packages/angular/schematics",
+    "rootDir": "schematics",
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "inlineSources": false,
+    "module": "commonjs",
+    "moduleResolution": "node10"
+  },
+  "include": ["schematics/**/*.ts"],
+  "exclude": ["schematics/**/*.spec.ts"]
+}

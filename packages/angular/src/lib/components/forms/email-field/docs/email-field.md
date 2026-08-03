@@ -97,6 +97,50 @@ The embedded input uses these fixed attributes:
 4. Allowed domain violation
 5. Blocked domain violation
 
+## Appearances
+
+| Value     | Description                                                            |
+| --------- | ---------------------------------------------------------------------- |
+| `outline` | Clear border, neutral background. Default, good for traditional forms. |
+| `surface` | Card/panel surface, subtle border.                                     |
+| `filled`  | Subtle filled background, modern style.                                |
+
+Default: `outline`
+
+## Sizes
+
+| Value | Height | Use                          |
+| ----- | ------ | ---------------------------- |
+| `sm`  | 2rem   | Compact forms, dense layouts |
+| `md`  | 2.5rem | Standard forms, default      |
+| `lg`  | 3rem   | Prominent inputs             |
+
+Default: `md`
+
+## Density
+
+| Value         | Description                         |
+| ------------- | ----------------------------------- |
+| `compact`     | Reduced vertical spacing            |
+| `comfortable` | Increased vertical spacing. Default |
+
+When not provided, density is inherited from the theme.
+
+## Radius
+
+| Value  | Description              |
+| ------ | ------------------------ |
+| `none` | Sharp corners            |
+| `sm`   | Small rounding           |
+| `md`   | Medium rounding. Default |
+| `lg`   | Large rounding           |
+
+Default: `md`
+
+## CSS Variables
+
+Email Field declares no `--solaris-*` custom properties of its own. The visual shell and all styling tokens are delegated to the underlying `solaris-form-field` and `[solaris-input]` — see their CSS Variables sections for customization.
+
 ## CVA (ControlValueAccessor)
 
 Email Field implements `ControlValueAccessor` for Angular Forms integration.

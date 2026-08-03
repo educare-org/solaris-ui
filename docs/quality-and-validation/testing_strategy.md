@@ -120,11 +120,18 @@ Visual regression is required for critical components:
 
 ## Coverage targets
 
+Enforced by `vitest-base.config.ts` and the `test:coverage` target:
+
 ```txt
-global: 85%
-core/adapters: 95%
-critical components: 90%
+global: statements 85% | branches 85% | functions 85% | lines 85%
+core/adapters: 95% (goal)
+critical components: 90% (goal)
 ```
+
+The `85%` branch threshold is enforced globally (current: 85.07%). Integration
+tests covering hover/placement/keyboard/overlay combinations in `multi-select`,
+`select`, and `dropdown-submenu` keep the branch target above `85%`. Do not lower
+the threshold silently; add targeted branch tests instead.
 
 Coverage without meaningful assertions is not accepted.
 

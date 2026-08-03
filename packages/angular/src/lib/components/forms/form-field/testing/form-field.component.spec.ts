@@ -1,5 +1,12 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { By } from '@angular/platform-browser';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
 import { SOLARIS_TRANSLATE_CONFIG } from '../../../../services/translation/token/solaris-translate.tokens';
@@ -509,6 +516,96 @@ describe('SolarisFormFieldComponent with Reactive Forms', () => {
       '.solaris-form-field__error',
     );
     expect(error).toBeFalsy();
+  });
+});
+
+describe('SolarisFormFieldComponent character counter', () => {
+  it('should return empty text without maxLength', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisTesting()],
+    });
+    const fixture = TestBed.createComponent(SolarisFormFieldComponent);
+    fixture.detectChanges();
+    const f = fixture.componentInstance as any;
+    expect(f.characterCounterText()).toBe('');
+    expect(f.characterCounterSeverity()).toBe('normal');
+  });
+
+  it('should report danger severity at or above max', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisTesting()],
+    });
+    const fixture = TestBed.createComponent(SolarisFormFieldComponent);
+    fixture.detectChanges();
+    const f = fixture.componentInstance as any;
+    f.maxLength.set(10);
+    f.currentLength.set(10);
+    fixture.detectChanges();
+    expect(f.characterCounterText()).toBe('10/10');
+    expect(f.characterCounterSeverity()).toBe('danger');
+  });
+
+  it('should report warning severity above 90%', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisTesting()],
+    });
+    const fixture = TestBed.createComponent(SolarisFormFieldComponent);
+    fixture.detectChanges();
+    const f = fixture.componentInstance as any;
+    f.maxLength.set(10);
+    f.currentLength.set(9);
+    fixture.detectChanges();
+    expect(f.characterCounterSeverity()).toBe('warning');
+  });
+});
+
+describe('SolarisFormFieldComponent auto invalid', () => {
+  @Component({
+    standalone: true,
+    imports: [ReactiveFormsModule, SolarisFormFieldComponent],
+    template: `
+      <form [formGroup]="form">
+        <solaris-form-field label="Email">
+          <input [formControl]="form.controls.email" ngDefaultControl />
+        </solaris-form-field>
+      </form>
+    `,
+  })
+  class AutoInvalidHost {
+    form = new FormGroup({
+      email: new FormControl('', Validators.required),
+    });
+  }
+
+  function getField(fixture: ComponentFixture<AutoInvalidHost>): any {
+    return fixture.debugElement.query(By.css('solaris-form-field'))
+      .componentInstance as any;
+  }
+
+  it('should not be auto-invalid while focused', () => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule],
+      providers: [provideSolarisTesting()],
+    });
+    const fixture = TestBed.createComponent(AutoInvalidHost);
+    fixture.detectChanges();
+    fixture.componentInstance.form.controls['email'].setErrors({ x: true });
+    fixture.componentInstance.form.controls['email'].markAsTouched();
+    getField(fixture).isFocused.set(true);
+    fixture.detectChanges();
+    expect(getField(fixture).isAutoInvalid()).toBe(false);
+  });
+
+  it('should not be auto-invalid when control is valid', () => {
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule],
+      providers: [provideSolarisTesting()],
+    });
+    const fixture = TestBed.createComponent(AutoInvalidHost);
+    fixture.detectChanges();
+    fixture.componentInstance.form.controls['email'].markAsTouched();
+    fixture.detectChanges();
+    expect(getField(fixture).isAutoInvalid()).toBe(false);
   });
 });
 

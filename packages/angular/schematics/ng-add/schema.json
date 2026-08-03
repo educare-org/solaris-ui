@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://educarehq.github.io/solaris-ui/schematics/ng-add.schema.json",
+  "title": "Solaris UI ng-add options",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project to add Solaris UI to",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "colorScheme": {
+      "type": "string",
+      "enum": ["light", "dark", "system"],
+      "default": "system",
+      "description": "Default color scheme"
+    },
+    "density": {
+      "type": "string",
+      "enum": ["comfortable", "compact"],
+      "default": "comfortable",
+      "description": "Default density"
+    },
+    "radius": {
+      "type": "string",
+      "enum": ["none", "sm", "md", "lg", "xl", "full"],
+      "default": "md",
+      "description": "Default border radius"
+    },
+    "reducedMotion": {
+      "type": "string",
+      "enum": ["auto", "reduce", "no-preference"],
+      "default": "auto",
+      "description": "Reduced motion preference"
+    }
+  },
+  "required": []
+}

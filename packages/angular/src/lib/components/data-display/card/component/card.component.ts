@@ -1,8 +1,9 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 import type {
   SolarisCardAppearance,
   SolarisCardRadius,
+  SolarisCardSize,
   SolarisCardDensity,
   SolarisCardGlassTexture,
 } from '../model/card.types';
@@ -12,8 +13,10 @@ import type {
   standalone: true,
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-appearance]': 'appearance()',
+    '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-density]': 'density()',
     '[attr.data-glass-texture]':
@@ -23,6 +26,7 @@ import type {
 export class SolarisCardComponent {
   readonly appearance = input<SolarisCardAppearance>('surface');
   readonly radius = input<SolarisCardRadius>('lg');
+  readonly size = input<SolarisCardSize>('md');
   readonly density = input<SolarisCardDensity>();
   readonly glassTexture = input<SolarisCardGlassTexture>('none');
 }

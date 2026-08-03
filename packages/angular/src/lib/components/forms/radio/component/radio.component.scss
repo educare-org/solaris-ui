@@ -1,21 +1,21 @@
 :host {
-  --solaris-radio-gap: initial;
-  --solaris-radio-size: initial;
-  --solaris-radio-dot-size: initial;
-  --solaris-radio-dot-color: initial;
-  --solaris-radio-background: initial;
-  --solaris-radio-ring-width: initial;
-  --solaris-radio-ring-color: initial;
-  --solaris-radio-border-color: initial;
+  --solaris-radio-dot-color: transparent;
+  --solaris-radio-background: transparent;
+  --solaris-radio-ring-color: transparent;
   --solaris-radio-custom-surface: initial;
-  --solaris-radio-label-font-size: initial;
-  --solaris-radio-focus-ring-color: initial;
-  --solaris-radio-disabled-opacity: initial;
   --solaris-radio-custom-ring-color: initial;
-  --solaris-radio-label-line-height: initial;
   --solaris-radio-readonly-background: initial;
   --solaris-radio-custom-border-color: initial;
+  --solaris-radio-gap: var(--solaris-spacing-2);
+  --solaris-radio-size: var(--solaris-spacing-5);
   --solaris-radio-custom-indicator-color: initial;
+  --solaris-radio-dot-size: var(--solaris-spacing-2);
+  --solaris-radio-border-color: var(--solaris-primary-border);
+  --solaris-radio-disabled-opacity: var(--solaris-opacity-50);
+  --solaris-radio-label-font-size: var(--solaris-font-size-md);
+  --solaris-radio-focus-ring-color: var(--solaris-primary-base);
+  --solaris-radio-ring-width: var(--solaris-spacing-half);
+  --solaris-radio-label-line-height: var(--solaris-line-height-md);
 
   outline: none;
   display: inline-flex;
@@ -51,13 +51,16 @@
   justify-content: center;
   width: var(--solaris-radio-size);
   height: var(--solaris-radio-size);
+  background: var(--solaris-radio-background);
   border: var(--solaris-radio-ring-width) solid
     var(--solaris-radio-border-color);
-  background: var(--solaris-radio-background);
   transition:
-    background-color var(--solaris-motion-duration-normal) ease,
-    border-color var(--solaris-motion-duration-normal) ease,
-    box-shadow var(--solaris-motion-duration-normal) ease;
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 }
 
 .solaris-radio__dot {
@@ -80,7 +83,7 @@
   --solaris-radio-size: var(--solaris-spacing-4);
   --solaris-radio-label-font-size: var(--solaris-font-size-sm);
   --solaris-radio-dot-size: calc(var(--solaris-spacing-1) * 1.5);
-  --solaris-radio-ring-width: calc(var(--solaris-spacing-1) / 2);
+  --solaris-radio-ring-width: var(--solaris-spacing-half);
   --solaris-radio-label-line-height: var(--solaris-line-height-sm);
 }
 
@@ -89,7 +92,7 @@
   --solaris-radio-size: var(--solaris-spacing-5);
   --solaris-radio-dot-size: var(--solaris-spacing-2);
   --solaris-radio-label-font-size: var(--solaris-font-size-md);
-  --solaris-radio-ring-width: calc(var(--solaris-spacing-1) / 2);
+  --solaris-radio-ring-width: var(--solaris-spacing-half);
   --solaris-radio-label-line-height: var(--solaris-line-height-md);
 }
 
@@ -122,7 +125,7 @@
 
 :host([data-appearance='surface'][data-checked]) {
   --solaris-radio-background: transparent;
-  --solaris-radio-ring-width: calc(var(--solaris-spacing-1) / 2);
+  --solaris-radio-ring-width: var(--solaris-spacing-half);
 }
 
 :host([data-color='neutral']) {
@@ -208,35 +211,35 @@
 :host([data-color='primary'])
   .solaris-radio__label:hover
   .solaris-radio__control {
-  border-color: var(--solaris-primary-hover, var(--solaris-primary-base));
+  border-color: var(--solaris-primary-hover);
 }
 
 :host([data-color='success'])
   .solaris-radio__label:hover
   .solaris-radio__control {
-  border-color: var(--solaris-success-hover, var(--solaris-success-base));
+  border-color: var(--solaris-success-hover);
 }
 
 :host([data-color='warning'])
   .solaris-radio__label:hover
   .solaris-radio__control {
-  border-color: var(--solaris-warning-hover, var(--solaris-warning-base));
+  border-color: var(--solaris-warning-hover);
 }
 
 :host([data-color='danger'])
   .solaris-radio__label:hover
   .solaris-radio__control {
-  border-color: var(--solaris-danger-hover, var(--solaris-danger-base));
+  border-color: var(--solaris-danger-hover);
 }
 
 :host([data-color='info']) .solaris-radio__label:hover .solaris-radio__control {
-  border-color: var(--solaris-info-hover, var(--solaris-info-base));
+  border-color: var(--solaris-info-hover);
 }
 
 .solaris-radio__input:focus-visible + .solaris-radio__control {
+  outline-offset: var(--solaris-spacing-half);
   outline: var(--solaris-border-width-sm) solid
     var(--solaris-radio-focus-ring-color);
-  outline-offset: calc(var(--solaris-spacing-1) / 2);
 }
 
 :host([data-invalid]) {
@@ -255,7 +258,7 @@
 }
 
 :host([data-disabled]) {
-  --solaris-radio-disabled-opacity: 0.5;
+  --solaris-radio-disabled-opacity: var(--solaris-opacity-50);
 }
 
 :host([data-disabled]) .solaris-radio__label {
@@ -292,8 +295,8 @@
 }
 
 :host([data-readonly][data-checked]) .solaris-radio__control {
-  background: var(--solaris-radio-readonly-background, transparent);
   border-color: var(--solaris-radio-ring-color);
+  background: var(--solaris-radio-readonly-background);
 }
 
 :host([data-readonly][data-checked]) .solaris-radio__dot {

@@ -452,6 +452,8 @@ solaris-form-error-1
 
 ## 16. Accessibility
 
+Reference: `docs/standards/accessibility_standard.md`. This section applies that standard to forms.
+
 - label correctly associated with the control (`for`/`id`)
 - `aria-describedby` with hint/error/description
 - visible error associated with the control
@@ -468,6 +470,8 @@ solaris-form-error-1
 ---
 
 ## 17. I18n
+
+Reference: `docs/standards/i18n_standard.md`. This section applies that standard to forms.
 
 ### 17.1. Translation-oriented inputs
 
@@ -492,6 +496,8 @@ Do not over-engineer the API before components exist. This contract guides consi
 ---
 
 ## 18. Security
+
+Reference: `docs/engineering/security_baseline.md`. This section applies that baseline to forms.
 
 ### 18.1. Prohibitions
 
@@ -519,6 +525,8 @@ Use safe projection (`<ng-content>`) instead of HTML in strings.
 ---
 
 ## 19. Testing Strategy
+
+Reference: `docs/quality-and-validation/testing_strategy.md`. This section applies that strategy to forms.
 
 ### 19.1. Mandatory tests per control
 

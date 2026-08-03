@@ -1,0 +1,16 @@
+:host {
+  --solaris-accordion-gap: var(--solaris-spacing-2);
+
+  display: block;
+  box-sizing: border-box;
+}
+
+.solaris-accordion__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-accordion-gap);
+}
+
+:host([data-appearance='lined']) .solaris-accordion__inner {
+  gap: 0;
+}

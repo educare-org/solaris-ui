@@ -1,4 +1,9 @@
-import { Component, input, computed } from '@angular/core';
+import {
+  Component,
+  input,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import type {
   SolarisDividerOrientation,
@@ -13,6 +18,7 @@ import type {
   standalone: true,
   templateUrl: './divider.component.html',
   styleUrls: ['./divider.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-inset]': 'inset()',
     '[attr.role]': 'computedRole()',

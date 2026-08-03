@@ -2,8 +2,7 @@ import { TestBed, type ComponentFixture } from '@angular/core/testing';
 
 import { SolarisToastContainerComponent } from './toast-container.component';
 import { SolarisToastService } from '../service/toast.service';
-import { provideSolarisToast } from '../provider/provide-solaris-toast';
-import { provideSolarisIcons } from '../../../../services/icon/provider/provide-solaris-icons';
+import { provideSolaris } from '../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../services/icon/icons/solaris-built-in-icons';
 
 describe('SolarisToastContainerComponent', () => {
@@ -14,8 +13,10 @@ describe('SolarisToastContainerComponent', () => {
     TestBed.configureTestingModule({
       imports: [SolarisToastContainerComponent],
       providers: [
-        ...provideSolarisToast({ position: 'bottom-center' }),
-        ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+        ...provideSolaris({
+          toast: { position: 'bottom-center' },
+          icons: { extraIcons: SOLARIS_BUILT_IN_ICONS },
+        }),
       ],
     });
     service = TestBed.inject(SolarisToastService);
@@ -91,8 +92,10 @@ describe('SolarisToastContainerComponent - with custom config', () => {
     TestBed.configureTestingModule({
       imports: [SolarisToastContainerComponent],
       providers: [
-        ...provideSolarisToast({ limit: 2, position: 'bottom-center' }),
-        ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+        ...provideSolaris({
+          toast: { limit: 2, position: 'bottom-center' },
+          icons: { extraIcons: SOLARIS_BUILT_IN_ICONS },
+        }),
       ],
     });
     service = TestBed.inject(SolarisToastService);

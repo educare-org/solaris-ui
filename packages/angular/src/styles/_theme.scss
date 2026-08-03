@@ -1,5 +1,5 @@
 /// Solaris UI Theme
-/// Applies token CSS custom properties based on configuration.
+/// Applies design tokens and default configuration to the document root.
 ///
 /// Usage:
 ///   @use '@solaris-ui/angular/styles' as solaris;
@@ -21,6 +21,8 @@
 @use 'token/z-index';
 @use 'token/border';
 @use 'token/opacity';
+@use 'token/focus';
+@use 'token/glass';
 
 $-default-config: (
   color-scheme: system,
@@ -33,6 +35,9 @@ $-default-config: (
   $merged: map.merge($-default-config, $config);
 
   $color-scheme: map.get($merged, color-scheme);
+  $density: map.get($merged, density);
+  $radius: map.get($merged, radius);
+  $motion: map.get($merged, motion);
 
   :root {
     @if $color-scheme == light {
@@ -41,6 +46,35 @@ $-default-config: (
       color-scheme: dark;
     } @else {
       color-scheme: light dark;
+    }
+
+    @if $density == compact {
+      --solaris-density-default: compact;
+    } @else {
+      --solaris-density-default: comfortable;
+    }
+
+    @if $radius ==
+      none or
+      $radius ==
+      sm or
+      $radius ==
+      lg or
+      $radius ==
+      xl or
+      $radius ==
+      full
+    {
+      --solaris-radius-default: var(--solaris-radius-#{$radius});
+    } @else {
+      --solaris-radius-default: var(--solaris-radius-md);
+    }
+
+    @if $motion == reduce {
+      --solaris-motion-duration-fast: 0ms;
+      --solaris-motion-duration-normal: 0ms;
+      --solaris-motion-duration-slow: 0ms;
+      --solaris-motion-duration-slower: 0ms;
     }
   }
 }

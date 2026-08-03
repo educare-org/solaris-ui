@@ -151,6 +151,25 @@ Invalid applies error styling. When used inside Form Field, the invalid state is
 </solaris-radio-group>
 ```
 
+### Columns
+
+When `layout="grid"`, the `columns` input controls how many radios fit per row:
+
+| Columns | Behavior                           |
+| ------- | ---------------------------------- |
+| `1`     | Single column (default)            |
+| `2`     | Two columns                        |
+| `3`     | Three columns                      |
+| `4`     | Four columns                       |
+| `auto`  | Auto-fill based on available width |
+
+```html
+<solaris-radio-group layout="grid" columns="auto">
+  <solaris-radio value="a">A</solaris-radio>
+  <solaris-radio value="b">B</solaris-radio>
+</solaris-radio-group>
+```
+
 ## Sizes
 
 Size propagates to all child radios.
@@ -168,6 +187,25 @@ Density affects gap between items.
 ```html
 <solaris-radio-group density="compact"> ... </solaris-radio-group> <solaris-radio-group density="comfortable"> ... </solaris-radio-group>
 ```
+
+## CSS Variables
+
+Radio Group tokens can be customized on the host or a parent element:
+
+| Token                                     | Purpose                          |
+| ----------------------------------------- | -------------------------------- |
+| `--solaris-radio-group-gap`               | Gap between items in list layout |
+| `--solaris-radio-group-row-gap`           | Row gap in grid layout           |
+| `--solaris-radio-group-column-gap`        | Column gap in grid layout        |
+| `--solaris-radio-group-label-color`       | Group label color                |
+| `--solaris-radio-group-label-font-size`   | Group label font size            |
+| `--solaris-radio-group-label-line-height` | Group label line height          |
+| `--solaris-radio-group-hint-color`        | Hint text color                  |
+| `--solaris-radio-group-hint-font-size`    | Hint font size                   |
+| `--solaris-radio-group-hint-line-height`  | Hint line height                 |
+| `--solaris-radio-group-error-color`       | Error text color                 |
+| `--solaris-radio-group-error-font-size`   | Error font size                  |
+| `--solaris-radio-group-error-line-height` | Error line height                |
 
 ## CompareWith
 

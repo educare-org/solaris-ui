@@ -1,3 +1,10 @@
+// SECURITY_EXCEPTION_FILE: nativeElement required to store submenu reference. SSR-safe via ElementRef.
+// SECURITY_EXCEPTION_FILE: nativeElement.addEventListener required for custom events. SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement required for hover detection via ElementRef. Read-only, SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement.dispatchEvent required for custom event. SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement.parentElement required to traverse DOM. Read-only, SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement identity comparison. Read-only, SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
 import {
   Component,
   ElementRef,
@@ -9,6 +16,7 @@ import {
   signal,
   inject,
   DestroyRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import {
@@ -38,6 +46,7 @@ import type {
   selector: 'solaris-dropdown-submenu',
   standalone: true,
   template: '<ng-content />',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'solaris-dropdown-submenu',
   },
@@ -76,18 +85,16 @@ export class SolarisDropdownSubmenuComponent {
   private panelMouseLeaveCleanup: (() => void) | null = null;
   private openTimer: ReturnType<typeof setTimeout> | null = null;
   private closeTimer: ReturnType<typeof setTimeout> | null = null;
+  private focusTimeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
-    // SECURITY_EXCEPTION: nativeElement required to store submenu reference. SSR-safe via ElementRef.
     (this.elementRef.nativeElement as unknown as Record<string, unknown>)[
       '__solarisSubmenu'
     ] = this;
-    // SECURITY_EXCEPTION: nativeElement.addEventListener required for custom events. SSR-safe.
     this.elementRef.nativeElement.addEventListener(
       'solaris-submenu-child-opened',
       () => this.clearCloseTimer(),
     );
-    // SECURITY_EXCEPTION: nativeElement.addEventListener required for custom events. SSR-safe.
     this.elementRef.nativeElement.addEventListener(
       'solaris-submenu-child-closed',
       () => {
@@ -204,7 +211,6 @@ export class SolarisDropdownSubmenuComponent {
   }
 
   private isPointerInside(): boolean {
-    // SECURITY_EXCEPTION: nativeElement required for hover detection via ElementRef. Read-only, SSR-safe.
     const triggerEl = this.elementRef.nativeElement;
     const overlayEl = this.overlayRef?.overlayElement;
     if (overlayEl) {
@@ -214,7 +220,6 @@ export class SolarisDropdownSubmenuComponent {
   }
 
   private notifyParentKeepAlive(): void {
-    // SECURITY_EXCEPTION: nativeElement.dispatchEvent required for custom event. SSR-safe.
     this.elementRef.nativeElement.dispatchEvent(
       new CustomEvent('solaris-submenu-child-opened', {
         bubbles: true,
@@ -224,7 +229,6 @@ export class SolarisDropdownSubmenuComponent {
   }
 
   private notifyParentChildClosed(): void {
-    // SECURITY_EXCEPTION: nativeElement.dispatchEvent required for custom event. SSR-safe.
     this.elementRef.nativeElement.dispatchEvent(
       new CustomEvent('solaris-submenu-child-closed', {
         bubbles: true,
@@ -250,7 +254,6 @@ export class SolarisDropdownSubmenuComponent {
   }
 
   private closeSiblingSubmenus(): void {
-    // SECURITY_EXCEPTION: nativeElement.parentElement required to traverse DOM. Read-only, SSR-safe.
     const parent = this.elementRef.nativeElement.parentElement;
     if (!parent) return;
     const siblings = parent.querySelectorAll<HTMLElement>(
@@ -258,7 +261,6 @@ export class SolarisDropdownSubmenuComponent {
     );
     for (let i = 0; i < siblings.length; i++) {
       const sibling = siblings[i];
-      // SECURITY_EXCEPTION: nativeElement identity comparison. Read-only, SSR-safe.
       if (sibling !== this.elementRef.nativeElement) {
         const submenu = (sibling as unknown as Record<string, unknown>)[
           '__solarisSubmenu'
@@ -545,8 +547,12 @@ export class SolarisDropdownSubmenuComponent {
 
     this.updateOverlaySize();
 
-    setTimeout(() => {
+    if (this.focusTimeout !== null) {
+      clearTimeout(this.focusTimeout);
+    }
+    this.focusTimeout = setTimeout(() => {
       menu.focusFirstItem();
+      this.focusTimeout = null;
     });
   }
 
@@ -594,7 +600,6 @@ export class SolarisDropdownSubmenuComponent {
     if (!this.overlayRef) return;
 
     const overlayElement = this.overlayRef.overlayElement;
-    // SECURITY_EXCEPTION: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
     const triggerElement = this.elementRef.nativeElement;
     const target = event.target as Node;
 
@@ -738,6 +743,10 @@ export class SolarisDropdownSubmenuComponent {
   private clearTimers(): void {
     this.clearOpenTimer();
     this.clearCloseTimer();
+    if (this.focusTimeout !== null) {
+      clearTimeout(this.focusTimeout);
+      this.focusTimeout = null;
+    }
   }
 
   private clearOpenTimer(): void {

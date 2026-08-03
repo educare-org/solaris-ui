@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: document.querySelector required to find rename input. SSR-safe via guard.
 import {
   Component,
   input,
@@ -219,7 +220,6 @@ export class SolarisEditableTabsComponent {
     this.renameValue.set(tab.label ?? '');
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        // SECURITY_EXCEPTION: document.querySelector required to find rename input. SSR-safe via guard.
         const input = document.querySelector(
           `.solaris-editable-tabs__rename-input`,
         ) as HTMLInputElement | null;

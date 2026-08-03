@@ -31,40 +31,42 @@ pnpm add @educarehq/solaris-ui
 
 ## 🚀 Quick Start
 
-### 1. Import styles
+### 1. Install and run the setup schematic
 
-Add the core styles to your `angular.json` or global stylesheet:
-
-```scss
-// styles.scss
-@use '@educarehq/solaris-ui/styles';
+```bash
+ng add @educarehq/solaris-ui
 ```
+
+or, in an Nx workspace:
+
+```bash
+pnpm add @educarehq/solaris-ui
+pnpm exec nx g @educarehq/solaris-ui:init
+```
+
+The schematic creates `src/styles/solaris.scss`, imports it from your global
+stylesheet, and adds `provideSolaris(...)` to your application config.
 
 ### 2. Provide global services
 
 ```typescript
 // app.config.ts
-import { provideSolarisTheme, provideSolarisTranslate, provideSolarisAccessibility, provideSolarisIcons, provideSolarisDialog, provideSolarisToast } from '@solaris-ui/angular';
+import { provideSolaris } from '@educarehq/solaris-ui';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideSolarisTheme(),
-    provideSolarisTranslate(),
-    provideSolarisAccessibility(),
-    provideSolarisIcons(),
-    provideSolarisDialog(),
-    provideSolarisToast(),
+    provideSolaris(),
     // ... other providers
   ],
 };
 ```
 
-### 3. Use a component
+### 4. Use a component
 
 ```typescript
 // example.component.ts
 import { Component } from '@angular/core';
-import { SolarisButtonDirective } from '@solaris-ui/angular';
+import { SolarisButtonDirective } from '@educarehq/solaris-ui';
 
 @Component({
   standalone: true,
@@ -159,8 +161,8 @@ Solaris UI provides a comprehensive theming system:
 
 ```typescript
 // Custom theme configuration
-import { provideSolarisTheme } from '@solaris-ui/angular';
-import type { SolarisThemeConfig } from '@solaris-ui/angular';
+import { provideSolaris } from '@educarehq/solaris-ui';
+import type { SolarisThemeConfig } from '@educarehq/solaris-ui';
 
 const themeConfig: SolarisThemeConfig = {
   colorScheme: 'system', // 'light' | 'dark' | 'system'
@@ -169,7 +171,7 @@ const themeConfig: SolarisThemeConfig = {
 };
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideSolarisTheme(themeConfig)],
+  providers: [provideSolaris({ theme: themeConfig })],
 };
 ```
 
@@ -184,15 +186,15 @@ export const appConfig: ApplicationConfig = {
 Built-in translations for **EN-US** and **PT-BR**:
 
 ```typescript
-import { provideSolarisTranslate } from '@solaris-ui/angular';
-import type { SolarisTranslateConfig } from '@solaris-ui/angular';
+import { provideSolaris } from '@educarehq/solaris-ui';
+import type { SolarisTranslateConfig } from '@educarehq/solaris-ui';
 
 const translateConfig: SolarisTranslateConfig = {
   locale: 'pt-BR', // or 'en-US'
 };
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideSolarisTranslate(translateConfig)],
+  providers: [provideSolaris({ translate: translateConfig })],
 };
 ```
 

@@ -50,3 +50,8 @@ __screenshots__/
 
 
 storybook-static
+
+# Playwright
+test-results/
+apps/showcase-e2e/test-results/
+apps/showcase-e2e/playwright-report/

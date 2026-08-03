@@ -1,0 +1,114 @@
+<div class="accordion-showcase">
+  <header class="accordion-showcase__header">
+    <h1 class="accordion-showcase__title">Accordion</h1>
+    <p class="accordion-showcase__description">
+      {{ 'accordion.description' | translate }}
+    </p>
+  </header>
+
+  <section class="accordion-showcase__section">
+    <h2 class="accordion-showcase__section-title">
+      {{ 'accordion.single' | translate }}
+    </h2>
+    <p class="accordion-showcase__note">
+      {{ 'accordion.single-note' | translate }}
+    </p>
+    <solaris-accordion [(value)]="singleValue">
+      <solaris-collapsible
+        value="account"
+        [label]="'accordion.item-account' | translate"
+      >
+        <p>{{ 'accordion.item-account-content' | translate }}</p>
+      </solaris-collapsible>
+      <solaris-collapsible
+        value="notifications"
+        [label]="'accordion.item-notifications' | translate"
+      >
+        <p>{{ 'accordion.item-notifications-content' | translate }}</p>
+      </solaris-collapsible>
+      <solaris-collapsible
+        value="security"
+        [label]="'accordion.item-security' | translate"
+      >
+        <p>{{ 'accordion.item-security-content' | translate }}</p>
+      </solaris-collapsible>
+    </solaris-accordion>
+  </section>
+
+  <section class="accordion-showcase__section">
+    <h2 class="accordion-showcase__section-title">
+      {{ 'accordion.multiple' | translate }}
+    </h2>
+    <p class="accordion-showcase__note">
+      {{ 'accordion.multiple-note' | translate }}
+    </p>
+    <solaris-accordion type="multiple" [(value)]="multipleValues">
+      <solaris-collapsible value="a" [label]="'accordion.multi-a' | translate">
+        <p>{{ 'accordion.multi-a-content' | translate }}</p>
+      </solaris-collapsible>
+      <solaris-collapsible value="b" [label]="'accordion.multi-b' | translate">
+        <p>{{ 'accordion.multi-b-content' | translate }}</p>
+      </solaris-collapsible>
+    </solaris-accordion>
+  </section>
+
+  <section class="accordion-showcase__section">
+    <h2 class="accordion-showcase__section-title">
+      {{ 'accordion.lined' | translate }}
+    </h2>
+    <p class="accordion-showcase__note">
+      {{ 'accordion.lined-note' | translate }}
+    </p>
+    <solaris-accordion appearance="lined">
+      <solaris-collapsible value="l1" [label]="'accordion.line-1' | translate">
+        <p>{{ 'accordion.line-1-content' | translate }}</p>
+      </solaris-collapsible>
+      <solaris-collapsible value="l2" [label]="'accordion.line-2' | translate">
+        <p>{{ 'accordion.line-2-content' | translate }}</p>
+      </solaris-collapsible>
+      <solaris-collapsible value="l3" [label]="'accordion.line-3' | translate">
+        <p>{{ 'accordion.line-3-content' | translate }}</p>
+      </solaris-collapsible>
+    </solaris-accordion>
+  </section>
+
+  <section class="accordion-showcase__section">
+    <h2 class="accordion-showcase__section-title">
+      {{ 'accordion.locked' | translate }}
+    </h2>
+    <p class="accordion-showcase__note">
+      {{ 'accordion.locked-note' | translate }}
+    </p>
+    <solaris-accordion [allowToggle]="false" [(value)]="singleValue">
+      <solaris-collapsible value="req1" [label]="'accordion.req-1' | translate">
+        <p>{{ 'accordion.req-1-content' | translate }}</p>
+      </solaris-collapsible>
+      <solaris-collapsible value="req2" [label]="'accordion.req-2' | translate">
+        <p>{{ 'accordion.req-2-content' | translate }}</p>
+      </solaris-collapsible>
+    </solaris-accordion>
+  </section>
+
+  <section class="accordion-showcase__section">
+    <h2 class="accordion-showcase__section-title">
+      {{ 'accordion.heading-level' | translate }}
+    </h2>
+    <p class="accordion-showcase__note">
+      {{ 'accordion.heading-level-note' | translate }}
+    </p>
+    <solaris-accordion [headingLevel]="4">
+      <solaris-collapsible
+        value="h1"
+        [label]="'accordion.heading-a' | translate"
+      >
+        <p>{{ 'accordion.heading-a-content' | translate }}</p>
+      </solaris-collapsible>
+      <solaris-collapsible
+        value="h2"
+        [label]="'accordion.heading-b' | translate"
+      >
+        <p>{{ 'accordion.heading-b-content' | translate }}</p>
+      </solaris-collapsible>
+    </solaris-accordion>
+  </section>
+</div>

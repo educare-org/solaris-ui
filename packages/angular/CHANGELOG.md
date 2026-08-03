@@ -1,132 +1,95 @@
-# @solaris-ui/angular
+# @educarehq/solaris-ui
+
+## 0.5.0
+
+### Minor Changes
+
+- 1680e35: remove the unused `setChecked` method from `solaris-radio` (the radio group syncs checked state through `writeValue`, so the method was dead API) and the unused `isCheckSelection` computed from `solaris-option` (single-selection feedback is rendered by the trailing check indicator). Also narrow the `writeValue` parameter type in `solaris-radio-group` from `unknown | null` to `unknown`.
+- 7f05f82: rename `change` output to `changeEvent` in `solaris-switch`, `solaris-checkbox`, `solaris-radio` and the `solaris-switch-group`, `solaris-checkbox-group`, `solaris-radio-group` components. The old name collided with the native DOM `change` event and was flagged by `@angular-eslint/no-output-native`. Consumers should bind `(changeEvent)` instead of `(change)`.
+
+## 0.4.0
+
+### Minor Changes
+
+- Added `SolarisCollapsibleComponent`, an accessible disclosure primitive with token-driven styling, keyboard support, reduced-motion-aware animation, and showcase/documentation coverage.
+- Added `SolarisAccordionComponent`, a grouped disclosure component built on top of Collapsible. It supports single and multiple expansion modes, boxed and lined appearances, controlled Collapsible items, APG-compatible semantics, and keyboard interaction.
+- Added `SolarisBreadcrumbComponent` for hierarchical navigation. It supports link and text items, icon-only and icon-with-text items, slash/chevron/dot separators, start/middle/end overflow strategies, a dropdown overflow menu, optional previous/next pager controls, default translations, showcase coverage, and public exports.
+- Added built-in `slash`, `dot`, and `home` icons for navigation and breadcrumb use cases.
+- Added `SolarisDividerStackComponent`, a layout primitive for separating stacked content groups with token-driven spacing and inset controls.
+- Added the unified `provideSolaris(config)` setup API and `SolarisSetupConfig` type. Individual setup providers remain internal and are no longer part of the public API surface.
+- Added an interactive `init` schematic and updated `ng-add` to delegate to it. The schematic creates `src/styles/solaris.scss`, wires the global stylesheet, and adds `provideSolaris(...)` to the application configuration.
+- Updated schematics packaging so generated schematics compile as CommonJS inside the ESM package and can be loaded by Angular CLI.
+- Centralized generated component IDs through shared `nextIdFor` and `resolveElementId` utilities, removing repeated per-component ID counters.
+
+### Patch Changes
+
+- Excluded Storybook-only packages from the Angular library dependency checks so package validation focuses on dependencies used by the published library.
+
+### Migration Notes
+
+- Replace public imports of individual setup providers with `provideSolaris(config)`.
+- Existing component imports remain stable unless they depended on internal setup providers that are no longer exported from the public API.
+
+## 0.3.3
+
+### Patch Changes
+
+- Published component style entry points through the unified public styles API.
+- Moved component SCSS entry points under `src/styles` so ng-packagr includes them in the published package assets.
+- Updated the public styles index to forward all component styles from a single entry point.
+- Added initial `ng-add` schematic infrastructure for automatic consumer setup.
+- Added token validation exceptions for intentional hardcoded SCSS values in overlay and navigation controls.
 
 ## 0.3.2
 
 ### Patch Changes
 
-- ae6e251: updating exported styles
+- Updated exported style assets to make public style imports resolve consistently from the npm package.
+- Added wildcard style exports so consumers can import the aggregate styles entry point or individual public style files when needed.
 
 ## 0.3.1
 
 ### Patch Changes
 
-- e05a8c3: Fix CSS custom properties (`--solaris-*`) not being published in the npm package
-
-  Token SCSS files defining all `--solaris-*` variables (colors, spacing, typography, density, radius, shadows, etc.) were located in an internal directory not included in the published package. External consumers saw errors like `--solaris-form-field-control-height não está definido`.
-
-  This fix:
-  - Moves token SCSS files to `src/styles/token/` so they ship with the package
-  - Adds `@use` for all token categories in the public `_theme.scss` mixin
-  - Ensures all design tokens are emitted on `:root` when consumers call `@include solaris.theme()`
+- Fixed missing published CSS custom properties for `--solaris-*` design tokens.
+- Moved token SCSS files into the published `src/styles/token` asset tree.
+- Updated the public theme entry point so calling `@include solaris.theme()` emits color, spacing, typography, density, radius, shadow, and related token variables on `:root`.
 
 ## 0.3.0
 
 ### Minor Changes
 
-- ea1277f: ## `0.3.0` — Overlay and Navigation Release
+- Added `SolarisToastService` and toast UI for non-blocking notifications. Toasts support neutral, info, success, warning, danger, loading, and custom variants; surface and outline appearances; multiple positions; configurable duration; countdown progress; hover/focus pause; expandable content; action buttons; and programmatic dismissal/update APIs.
+- Added dialog infrastructure for modal workflows, alerts, confirmations, and custom Angular component content. Dialogs support multiple variants and sizes, simple and component-based opening modes, configurable close behavior, focus management, action buttons, and dialog flow transitions.
+- Added `SolarisStepperComponent` for multi-step flows with horizontal and vertical orientations, default/card/dashed appearances, linear and non-linear navigation, status states, content transitions, and built-in action alignment.
+- Added `SolarisTabsComponent` with horizontal and vertical orientations, underline/pills/enclosed appearances, automatic or manual activation, lazy panels, animated indicators, scrollable tab bars, badges, icons, and WAI-ARIA tab semantics.
+- Added `SolarisSegmentedControlComponent`, a ControlValueAccessor-compatible segmented selection control with orientation, appearance, size, density, radius, disabled, readonly, required, animated indicator, and keyboard support.
+- Added `SolarisDividerComponent` for decorative or semantic separators with horizontal and vertical orientation, subtle and strong appearances, spacing controls, and inset controls.
+- Added dropdown menu primitives with item, checkbox, and radio item support; none/single/multiple selection modes; color variants; submenu support; placement configuration; type-ahead; arrow/Home/End navigation; Enter/Space activation; Escape dismissal; and WAI-ARIA menu semantics.
+- Added editable tabs on top of Tabs and Dropdown Menu, including inline rename, keyboard confirm/cancel, reorder guards, remove guards, default tab actions, custom actions, and configurable action visibility.
+- Added Form Field character counters for projected inputs and textareas with `maxlength`, including normal, warning, and danger counter states. Email and password field presets now pass `maxlength` through to their native inputs.
 
-  ### 🍞 Toast
+## 0.2.0
 
-  A non-blocking, auto-dismissing notification system with service-based API.
-  - 7 variants: `neutral`, `info`, `success`, `warning`, `danger`, `loading`, `custom`
-  - 2 appearances: `surface`, `outline`, 6 positions, configurable duration
-  - Countdown timer with progress bar / text / both modes
-  - Pause on hover/focus, expandable content, action buttons
-  - Programmatic API via `SolarisToastService`: `show()`, `info()`, `success()`, `warning()`, `danger()`, `loading()`, `dismiss()`, `dismissAll()`, `update()`
+### Minor Changes
 
-  ### 🗂️ Dialog
-
-  A modal overlay component for alerts, confirmations, and custom content.
-  - 5 variants: `neutral`, `info`, `success`, `warning`, `danger`
-  - 5 sizes: `sm`, `md`, `lg`, `xl`, `fullscreen`
-  - Two open modes: `open(options)` for simple dialogs, `openComponent()` for custom Angular components
-  - Dialog Flow: multi-step wizard with slide/fade/none transitions
-  - Action buttons with configurable appearance and auto-close
-  - Configurable close behavior: `closeOnEscape`, `closeOnBackdropClick`, `closeable`
-
-  ### 🪜 Stepper
-
-  A step-by-step progress indicator for multi-step workflows.
-  - 2 orientations: `horizontal`, `vertical`
-  - 3 appearances: `default`, `card`, `dashed`
-  - Linear and non-linear navigation modes
-  - 5 step statuses: `pending`, `active`, `completed`, `error`, `disabled`
-  - Content transitions: `none`, `fade`, `slide`
-  - Built-in action bar with configurable alignment
-
-  ### 📑 Tabs
-
-  A tabbed navigation component with animated indicator and keyboard support.
-  - 2 orientations: `horizontal`, `vertical`
-  - 3 appearances: `underline`, `pills`, `enclosed`
-  - Automatic and manual activation modes
-  - Content transitions with directional awareness
-  - Animated sliding indicator, scrollable tab bar, badge and icon support
-  - Lazy-loading panels, full WAI-ARIA compliance
-
-  ### 🔘 Segmented Control
-
-  A radio-group-like segmented button control for mutually exclusive options.
-  - 2 orientations, 2 appearances, 3 sizes, 2 densities, 4 radius options
-  - Animated sliding indicator
-  - Full `ControlValueAccessor` implementation for Reactive Forms and template-driven forms
-  - Keyboard navigation, disabled/readonly/required states
-
-  ### ➖ Divider
-
-  A lightweight visual separator for horizontal and vertical content division.
-  - 2 appearances: `subtle`, `strong`
-  - 4 spacing and 4 inset options
-  - Decorative and semantic (`role="separator"`) modes
-
-  ### 📋 Dropdown Menu
-
-  A context menu with full keyboard navigation, selection modes, and submenu support.
-  - Item types: `item`, `checkbox`, `radio` with `none`/`single`/`multiple` selection modes
-  - 6 item colors: `neutral`, `primary`, `success`, `warning`, `danger`, `info`
-  - Submenu support with `hover`/`click`/`hover-click` open modes and configurable placement
-  - Keyboard navigation: Arrow keys, Home/End, type-ahead, Enter/Space, Escape
-  - WAI-ARIA `role="menu"` compliance
-
-  ### ✏️ Editable Tabs
-
-  Extends the Tabs component with inline editing, reordering, and custom actions.
-  - Inline rename with Enter to confirm, Escape to cancel
-  - Reorder tabs with move guards for locked tabs
-  - Remove with configurable minimum tab count
-  - Set as default tab, custom actions per tab
-  - Three action visibility modes: `hover`, `always`, `focus-hover`
-  - Composed on top of Tabs and Dropdown Menu
-
-  ### 🆕 Form Field — Character Counter
-  - `form-field`: automatically detects `maxlength` attribute on projected input/textarea and displays a `(current/max)` counter next to the label
-  - Counter has 3 severity states: normal (< 90%), warning (>= 90%), danger (100%) with color transitions
-  - `email-field`: added `maxLength` input with `[attr.maxlength]` pass-through
-  - `password-field`: added `[attr.maxlength]` pass-through to native input
-  - Optional — only appears when maxlength is defined
+- Added the forms foundation used by Solaris form controls, including shared label, hint, error, prefix, suffix, appearance, size, density, radius, invalid, and focus-ring patterns.
+- Added `SolarisFormFieldComponent` for consistent field composition around native and custom controls.
+- Added input and textarea directives with external Form Field integration, ControlValueAccessor support, and accessible description wiring.
+- Added password and email field presets with ControlValueAccessor support, visibility toggle, strength/domain validation patterns, normalization, blocked-domain handling, and complete showcase documentation.
+- Added checkbox, checkbox group, radio, radio group, switch, and switch group components with Reactive Forms integration, disabled/touched/invalid states, accessible labels, and keyboard support.
+- Added option and option group primitives for reusable selection UIs with labels, icons, grouping, and slots.
+- Added select and multi-select components with Form Field integration, searchable panels, keyboard navigation, popover-based overlays, i18n, ControlValueAccessor support, select-all handling, display modes, removable chips, and overflow behavior.
+- Added popover and tooltip primitives for form and overlay use cases, including placement, alignment, offset, trigger behavior, keyboard dismissal, arrow rendering, delay configuration, closeable content, and i18n support.
+- Added shared prefix and suffix directives compatible with Form Field, Select, and Multi Select.
+- Added showcase pages and documentation for the forms release.
 
 ## 0.1.0
 
 ### Minor Changes
 
-- bca9fe3: Add email field preset component (`solaris-email-field`): composable form preset with CVA, built-in domain validation, normalization (trim/lowercase), and complete showcase documentation.
-- 0c7e174: feat(forms): 0.2.0 Forms Release
-  - **Form Field**: new component with label, hint, error, prefix/suffix, appearance, size, density, radius, invalid state, and focus ring
-  - **Input**: directive with external Form Field support, CVA, icon prefix
-  - **Textarea**: directive with external Form Field support, CVA, auto-resize
-  - **Password Field**: preset with visibility toggle, strength meter, CVA
-  - **Email Field**: preset with domain validation, blocked domains, CVA
-  - **Checkbox**: standalone component, CVA, label
-  - **Checkbox Group**: group with indeterminate state, select all, CVA
-  - **Radio**: standalone component, CVA
-  - **Radio Group**: group with orientation support, CVA
-  - **Switch**: standalone component, CVA, label
-  - **Switch Group**: group with select all, CVA
-  - **Option + Option Group**: reusable option primitives with selection, icon, slots, group label
-  - **Select**: uses Form Field internally, searchable, keyboard navigation, popover panel, i18n, CVA
-  - **Multi Select**: uses Form Field internally, display modes (auto/summary/chips/comma), searchable, select all, removable chips, overflow, i18n, CVA
-  - **Popover**: trigger directive + panel component, placement, align, offset, scroll strategy, keyboard dismissal
-  - **Tooltip**: directive with hover/click trigger, placement, arrow, delay, closeable, i18n
-  - **Accessibility**: ARIA attributes on all form controls (aria-expanded, aria-controls, aria-haspopup, aria-activedescendant, aria-multiselectable, aria-label, aria-describedby)
-  - **Prefix/Suffix**: directives compatible with Form Field, Select, and Multi Select
-  - **Showcase**: documentation pages for all form components with live examples
+- Established the Angular library workspace, npm package foundation, build pipeline, test infrastructure, linting, formatting, validation scripts, and Changesets setup.
+- Added the design token foundation, theme foundation, light/dark/system theme support, density primitives, high-contrast preparation, reduced-motion support, and root font-size strategy.
+- Added translation, accessibility, icon registry, and testing utility foundations.
+- Added the first low-risk component set: Button, Icon Button, Badge, Card, Alert, and Skeleton.
+- Added initial showcase coverage and public documentation structure for the library foundation.

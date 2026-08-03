@@ -1,98 +1,150 @@
 # SolarisPasswordField
 
-## Propósito
+## Purpose
 
-`SolarisPasswordField` é uma predefinição oficial de Form Field para senhas. Ele compõe `solaris-form-field` + `solaris-input` + comportamento comum de senha.
+`SolarisPasswordField` is an official Form Field preset for passwords. It composes `solaris-form-field` + `solaris-input` + common password behavior.
 
-## Por que é um componente preset
+## Why a preset component
 
-Campos de senha aparecem em quase todos os produtos e tendem a gerar repetição de código, inconsistência visual e validações desalinhadas.
+Password fields appear in nearly every product and tend to produce code repetition, visual inconsistency, and misaligned validations.
 
-Password Field não substitui Form Field + Input. Ele é uma conveniência oficial para o caso comum de senha.
+Password Field does not replace Form Field + Input. It is an official convenience for the common password case.
 
-## Diferença entre Password Field e Form Field + Input manual
+## Difference between Password Field and Form Field + Input
 
-| Aspecto             | Password Field | Form Field + Input manual |
-| ------------------- | -------------- | ------------------------- |
-| Toggle visibilidade | Incluso        | Precisa implementar       |
-| Policy/validação    | Integrado      | Precisa aplicar validator |
-| Requirements list   | Opcional       | Precisa implementar       |
-| Strength indicator  | Opcional       | Precisa implementar       |
-| CVA                 | Implementado   | Precisa implementar       |
-| Consistência visual | Garantida      | Manual                    |
+| Aspect             | Password Field | Form Field + Input manual |
+| ------------------ | -------------- | ------------------------- |
+| Visibility toggle  | Included       | Must be implemented       |
+| Policy/validation  | Integrated     | Validator must be applied |
+| Requirements list  | Optional       | Must be implemented       |
+| Strength indicator | Optional       | Must be implemented       |
+| CVA                | Implemented    | Must be implemented       |
+| Visual consistency | Guaranteed     | Manual                    |
 
-## Quando usar
+## When to use
 
 - Login
-- Cadastro
-- Troca de senha
-- Qualquer formulário que precise de campo de senha
+- Registration
+- Password change
+- Any form that needs a password field
 
-## Quando não usar
+## When not to use
 
-- Quando precisar de confirmação de senha (use dois campos separados)
-- Quando precisar de validação com verificação externa (vazamento, API)
-- Quando precisar de um campo de senha altamente customizado que o componente não suporta
+- When password confirmation is needed (use two separate fields)
+- When validation with external verification is needed (leak checks, API)
+- When a highly customized password field that the component does not support is needed
 
 ## API
 
 ### Inputs
 
-| Input                | Type                                      | Default     | Description                                        |
-| -------------------- | ----------------------------------------- | ----------- | -------------------------------------------------- |
-| `value`              | `string`                                  | `''`        | Valor inicial                                      |
-| `label`              | `string \| undefined`                     | `''`        | Label do campo                                     |
-| `labelKey`           | `string \| undefined`                     | -           | Chave de tradução para label                       |
-| `hint`               | `string \| undefined`                     | `''`        | Texto de ajuda                                     |
-| `hintKey`            | `string \| undefined`                     | -           | Chave de tradução para hint                        |
-| `error`              | `string \| undefined`                     | `''`        | Texto de erro                                      |
-| `errorKey`           | `string \| undefined`                     | -           | Chave de tradução para error                       |
-| `placeholder`        | `string \| undefined`                     | -           | Placeholder do input                               |
-| `placeholderKey`     | `string \| undefined`                     | -           | Chave de tradução para placeholder                 |
-| `autocomplete`       | `string \| undefined`                     | -           | Valor do atributo autocomplete                     |
-| `name`               | `string \| undefined`                     | -           | Atributo name do input                             |
-| `id`                 | `string \| undefined`                     | -           | Atributo id do input                               |
-| `required`           | `boolean`                                 | `false`     | Campo obrigatório                                  |
-| `optional`           | `boolean`                                 | `false`     | Campo opcional                                     |
-| `disabled`           | `boolean`                                 | `false`     | Campo desabilitado                                 |
-| `readonly`           | `boolean`                                 | `false`     | Campo apenas leitura                               |
-| `invalid`            | `boolean \| undefined`                    | -           | Estado inválido manual (vence detecção automática) |
-| `appearance`         | `'outline' \| 'surface' \| 'filled'`      | `'outline'` | Aparência                                          |
-| `size`               | `'sm' \| 'md' \| 'lg'`                    | `'md'`      | Tamanho                                            |
-| `density`            | `'compact' \| 'comfortable' \| undefined` | -           | Densidade (herdada do theme)                       |
-| `radius`             | `'none' \| 'sm' \| 'md' \| 'lg'`          | `'md'`      | Arredondamento                                     |
-| `fullWidth`          | `boolean`                                 | `true`      | Largura total                                      |
-| `showToggle`         | `boolean`                                 | `true`      | Mostrar botão de toggle                            |
-| `visible`            | `boolean`                                 | `false`     | Senha visível                                      |
-| `showRequirements`   | `boolean`                                 | `false`     | Mostrar lista de requisitos                        |
-| `showStrength`       | `boolean`                                 | `false`     | Mostrar indicador de força                         |
-| `policy`             | `SolarisPasswordPolicy \| undefined`      | -           | Política de senha                                  |
-| `validatePolicy`     | `boolean`                                 | `true`      | Validar contra política                            |
-| `toggleShowLabel`    | `string \| undefined`                     | -           | Label do toggle "mostrar"                          |
-| `toggleShowLabelKey` | `string \| undefined`                     | -           | Chave de tradução                                  |
-| `toggleHideLabel`    | `string \| undefined`                     | -           | Label do toggle "ocultar"                          |
-| `toggleHideLabelKey` | `string \| undefined`                     | -           | Chave de tradução                                  |
+| Input                | Type                                      | Default     | Description                                          |
+| -------------------- | ----------------------------------------- | ----------- | ---------------------------------------------------- |
+| `value`              | `string`                                  | `''`        | Initial value                                        |
+| `label`              | `string \| undefined`                     | `''`        | Field label                                          |
+| `labelKey`           | `string \| undefined`                     | -           | Translation key for label                            |
+| `hint`               | `string \| undefined`                     | `''`        | Help text                                            |
+| `hintKey`            | `string \| undefined`                     | -           | Translation key for hint                             |
+| `error`              | `string \| undefined`                     | `''`        | Error text                                           |
+| `errorKey`           | `string \| undefined`                     | -           | Translation key for error                            |
+| `placeholder`        | `string \| undefined`                     | -           | Input placeholder                                    |
+| `placeholderKey`     | `string \| undefined`                     | -           | Translation key for placeholder                      |
+| `autocomplete`       | `string \| undefined`                     | -           | Value of the autocomplete attribute                  |
+| `name`               | `string \| undefined`                     | -           | `name` attribute of the input                        |
+| `id`                 | `string \| undefined`                     | -           | `id` attribute of the input                          |
+| `required`           | `boolean`                                 | `false`     | Required field                                       |
+| `optional`           | `boolean`                                 | `false`     | Optional field                                       |
+| `disabled`           | `boolean`                                 | `false`     | Disabled field                                       |
+| `readonly`           | `boolean`                                 | `false`     | Readonly field                                       |
+| `invalid`            | `boolean \| undefined`                    | -           | Manual invalid state (overrides automatic detection) |
+| `appearance`         | `'outline' \| 'surface' \| 'filled'`      | `'outline'` | Appearance                                           |
+| `size`               | `'sm' \| 'md' \| 'lg'`                    | `'md'`      | Size                                                 |
+| `density`            | `'compact' \| 'comfortable' \| undefined` | -           | Density (inherited from theme)                       |
+| `radius`             | `'none' \| 'sm' \| 'md' \| 'lg'`          | `'md'`      | Border radius                                        |
+| `fullWidth`          | `boolean`                                 | `true`      | Full width                                           |
+| `showToggle`         | `boolean`                                 | `true`      | Show toggle button                                   |
+| `visible`            | `boolean`                                 | `false`     | Password visible                                     |
+| `showRequirements`   | `boolean`                                 | `false`     | Show requirements list                               |
+| `showStrength`       | `boolean`                                 | `false`     | Show strength indicator                              |
+| `policy`             | `SolarisPasswordPolicy \| undefined`      | -           | Password policy                                      |
+| `validatePolicy`     | `boolean`                                 | `true`      | Validate against policy                              |
+| `toggleShowLabel`    | `string \| undefined`                     | -           | Toggle "show" label                                  |
+| `toggleShowLabelKey` | `string \| undefined`                     | -           | Translation key                                      |
+| `toggleHideLabel`    | `string \| undefined`                     | -           | Toggle "hide" label                                  |
+| `toggleHideLabelKey` | `string \| undefined`                     | -           | Translation key                                      |
 
 ### Outputs
 
-| Output          | Type      | Description                           |
-| --------------- | --------- | ------------------------------------- |
-| `valueChange`   | `string`  | Emitido quando o valor muda           |
-| `visibleChange` | `boolean` | Emitido quando a visibilidade alterna |
+| Output          | Type      | Description                     |
+| --------------- | --------- | ------------------------------- |
+| `valueChange`   | `string`  | Emitted when the value changes  |
+| `visibleChange` | `boolean` | Emitted when visibility toggles |
+
+## Appearances
+
+| Appearance | Visual                                         |
+| ---------- | ---------------------------------------------- |
+| `outline`  | Visible border and field background (default)  |
+| `surface`  | Lighter, for cards and panels                  |
+| `filled`   | Subtle filled background, less dominant border |
+
+## Sizes
+
+| Size | Effect             |
+| ---- | ------------------ |
+| `sm` | Compact            |
+| `md` | Standard (default) |
+| `lg` | Spacious           |
+
+## Density
+
+| Density       | Effect                            |
+| ------------- | --------------------------------- |
+| `compact`     | Reduced padding and line-height   |
+| `comfortable` | Increased padding and line-height |
+
+When not provided, Password Field inherits density from the theme system.
+
+## Radius
+
+| Radius | Effect                         |
+| ------ | ------------------------------ |
+| `none` | No border radius               |
+| `sm`   | Small border radius            |
+| `md`   | Medium border radius (default) |
+| `lg`   | Large border radius            |
+
+## CSS Variables
+
+The strength indicator and requirements list are customizable:
+
+| Token                                              | Purpose                              |
+| -------------------------------------------------- | ------------------------------------ |
+| `--solaris-password-field-strength-height`         | Strength bar height                  |
+| `--solaris-password-field-strength-gap`            | Gap between strength bar and label   |
+| `--solaris-password-field-strength-radius`         | Strength segment border radius       |
+| `--solaris-password-field-strength-bar-bg`         | Inactive strength segment background |
+| `--solaris-password-field-strength-weak-color`     | Weak level color                     |
+| `--solaris-password-field-strength-medium-color`   | Medium level color                   |
+| `--solaris-password-field-strength-strong-color`   | Strong level color                   |
+| `--solaris-password-field-requirement-gap`         | Gap between requirement items        |
+| `--solaris-password-field-requirement-color`       | Requirement text color               |
+| `--solaris-password-field-requirement-met-color`   | Met requirement color                |
+| `--solaris-password-field-requirement-unmet-color` | Unmet requirement color              |
 
 ## CVA / Angular Forms
 
-Password Field implementa `ControlValueAccessor` e funciona com Reactive Forms.
+Password Field implements `ControlValueAccessor` and works with Reactive Forms.
 
 ```html
 <form [formGroup]="form">
-  <solaris-password-field formControlName="password" label="Senha" autocomplete="new-password"></solaris-password-field>
+  <solaris-password-field formControlName="password" label="Password" autocomplete="new-password"></solaris-password-field>
 </form>
 ```
 
 ## Policy
 
-`SolarisPasswordPolicy` define as regras de validação:
+`SolarisPasswordPolicy` defines the validation rules:
 
 ```typescript
 interface SolarisPasswordPolicy {
@@ -107,16 +159,16 @@ interface SolarisPasswordPolicy {
 }
 ```
 
-## Validator reutilizável
+## Reusable validator
 
-`SolarisPasswordValidator(policy)` é uma `ValidatorFn` que pode ser usada em qualquer FormControl:
+`SolarisPasswordValidator(policy)` is a `ValidatorFn` that can be used on any FormControl:
 
 ```typescript
 const policy = { minLength: 12, requireLowercase: true, requireUppercase: true, requireNumber: true, requireSymbol: true };
 password: new FormControl('', [Validators.required, solarisPasswordValidator(policy)]);
 ```
 
-Nomes de erro:
+Error names:
 
 - `solarisPasswordMinLength`
 - `solarisPasswordMaxLength`
@@ -129,69 +181,91 @@ Nomes de erro:
 
 ## Show / Hide password
 
-Toggle de visibilidade incluso. Use `[showToggle]="false"` para ocultar.
+Built-in visibility toggle. Use `[showToggle]="false"` to hide it.
 
 ## Requirements list
 
-Ative com `[showRequirements]="true"` e forneça `[policy]`. A lista mostra cada requisito e seu estado.
+Enable with `[showRequirements]="true"` and provide `[policy]`. The list shows each requirement and its state.
 
 ## Strength indicator
 
-Ative com `[showStrength]="true"`. O indicador usa heurística simples baseada em comprimento e diversidade.
+Enable with `[showStrength]="true"`. The indicator uses a simple heuristic based on length and diversity.
 
-Estados: `empty | weak | medium | strong`
+States: `empty | weak | medium | strong`
 
-**Aviso:** O strength indicator é heurístico e não substitui medidor criptográfico.
+**Warning:** The strength indicator is heuristic and does not replace a cryptographic meter.
 
 ## Autocomplete
 
-| Contexto       | Valor recomendado  |
-| -------------- | ------------------ |
-| Login          | `current-password` |
-| Cadastro/troca | `new-password`     |
-| Código único   | `one-time-code`    |
+| Context             | Recommended value  |
+| ------------------- | ------------------ |
+| Login               | `current-password` |
+| Registration/change | `new-password`     |
+| One-time code       | `one-time-code`    |
 
 ## Required / Optional
 
-Use `[required]="true"` ou `[optional]="true"`.
+Use `[required]="true"` or `[optional]="true"`.
 
 ## Disabled / Readonly
 
-- `disabled`: campo não interativo, não submete valor
-- `readonly`: valor visível, não editável
+- `disabled`: non-interactive field, does not submit a value
+- `readonly`: value visible, not editable
 
 ## Error behavior
 
-Erro visível quando:
+Error is visible when:
 
 ```
 control.invalid && (control.touched || control.dirty) && !control.focused
 ```
 
-Erro manual explícito via `[invalid]="true"` vence detecção automática.
+An explicit manual error via `[invalid]="true"` overrides automatic detection.
 
-## Segurança
+## Security
 
-- Senha nunca é logada
-- Senha nunca é persistida em storage
-- Senha nunca é enviada para serviços externos
-- Visibilidade alterna apenas o `type` do input
-- Valor não aparece em texto fora do input
+- The password is never logged
+- The password is never persisted to storage
+- The password is never sent to external services
+- Visibility only toggles the input `type`
+- The value does not appear as text outside the input
 
-## Acessibilidade
+## Accessibility
 
-- Label conectado ao input via `for`/`id`
-- Hint/error em `aria-describedby`
-- Botão de toggle tem accessible name
-- Lista de requisitos não depende apenas de cor
-- Strength não depende apenas de cor
-- Suporte a `prefers-reduced-motion`
+- Label connected to the input via `for`/`id`
+- Hint/error in `aria-describedby`
+- The toggle button has an accessible name
+- The requirements list does not rely on color alone
+- Strength does not rely on color alone
+- Support for `prefers-reduced-motion`
 
-## Limitações v1
+## Examples
 
-- Não substitui autenticação
-- Não valida vazamento de senha
-- Não faz chamada externa
-- Não cria Password Confirm Field
-- Strength indicator é heurístico
-- Requirement labels sem i18n nativo (diretas em português)
+```html
+<!-- Basic -->
+<solaris-password-field label="Password" autocomplete="current-password" />
+
+<!-- Reactive Forms -->
+<solaris-password-field formControlName="password" label="Password" autocomplete="new-password" />
+
+<!-- Template-driven -->
+<solaris-password-field [(ngModel)]="password" label="Password" />
+
+<!-- With requirements list -->
+<solaris-password-field label="New password" autocomplete="new-password" [showRequirements]="true" [policy]="passwordPolicy" />
+
+<!-- With strength indicator -->
+<solaris-password-field label="New password" autocomplete="new-password" [showStrength]="true" />
+
+<!-- Disabled -->
+<solaris-password-field label="Password" [disabled]="true" />
+```
+
+## Limitations v1
+
+- Does not replace authentication
+- Does not validate password leaks
+- Does not make external calls
+- Does not provide a Password Confirm Field
+- The strength indicator is heuristic
+- Requirement labels without native i18n (currently hardcoded in Portuguese)

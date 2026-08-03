@@ -8,9 +8,11 @@ import {
   ElementRef,
   contentChild,
   HostListener,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../services/translation';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisOptionSize,
@@ -28,18 +30,13 @@ import {
   SolarisOptionTrailingDirective,
 } from '../directives/option-slots.directive';
 
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-option-${++nextId}`;
-}
-
 @Component({
   selector: 'solaris-option',
   standalone: true,
   imports: [SolarisIconComponent],
   templateUrl: './option.component.html',
   styleUrls: ['./option.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'option',
     '[attr.aria-selected]': 'ariaSelected()',
@@ -126,7 +123,7 @@ export class SolarisOptionComponent {
 
   protected readonly effectiveShowSelectionIndicator = computed(() => {
     const internal = this.internalShowSelectionIndicator();
-    return internal !== undefined ? internal : this.showSelectionIndicator();
+    return internal ?? this.showSelectionIndicator();
   });
 
   protected readonly effectiveActive = computed(
@@ -154,10 +151,7 @@ export class SolarisOptionComponent {
 
   protected readonly elementId = computed(() => {
     return (
-      this.optionId() ||
-      // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls and Solaris Checkbox.
-      this.elementRef.nativeElement.getAttribute('id') ||
-      generateId()
+      this.optionId() || resolveElementId(this.elementRef, 'solaris-option')
     );
   });
 
@@ -203,12 +197,6 @@ export class SolarisOptionComponent {
     return (
       this.effectiveShowSelectionIndicator() &&
       this.effectiveSelectionMode() !== 'none'
-    );
-  });
-
-  protected readonly isCheckSelection = computed(() => {
-    return (
-      this.effectiveSelectionMode() === 'single' && this.showSelectionVisual()
     );
   });
 

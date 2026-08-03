@@ -1,3 +1,8 @@
+// SECURITY_EXCEPTION_FILE: this.document.activeElement required for restoreFocus. SSR-safe via injected DOCUMENT.
+// SECURITY_EXCEPTION_FILE: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
+// SECURITY_EXCEPTION_FILE: document.querySelectorAll required to find other dropdown overlays for outside-click. SSR-safe via injected DOCUMENT.
+// SECURITY_EXCEPTION_FILE: nativeElement.offsetWidth required for matchTriggerWidth. Read-only measurement.
+// SECURITY_EXCEPTION_FILE: this.document.contains() to safely verify trigger still exists before focus.
 import {
   Directive,
   ElementRef,
@@ -70,6 +75,7 @@ export class SolarisDropdownMenuTriggerDirective {
   private previousActiveElement: HTMLElement | null = null;
   private attachedMenu: SolarisDropdownMenuComponent | null = null;
   private positionStrategy: FlexibleConnectedPositionStrategy | null = null;
+  private focusTimeout: ReturnType<typeof setTimeout> | null = null;
 
   protected readonly isOpen = signal(false);
 
@@ -183,7 +189,6 @@ export class SolarisDropdownMenuTriggerDirective {
       return;
     }
 
-    // SECURITY_EXCEPTION: this.document.activeElement required for restoreFocus. SSR-safe via injected DOCUMENT.
     this.previousActiveElement = this.document.activeElement as HTMLElement;
     this.createOverlay();
     this.attachMenu();
@@ -321,8 +326,12 @@ export class SolarisDropdownMenuTriggerDirective {
 
     this.addKeydownHandler();
 
-    setTimeout(() => {
+    if (this.focusTimeout !== null) {
+      clearTimeout(this.focusTimeout);
+    }
+    this.focusTimeout = setTimeout(() => {
       menu.focusFirstItem();
+      this.focusTimeout = null;
     });
   }
 
@@ -337,6 +346,10 @@ export class SolarisDropdownMenuTriggerDirective {
   }
 
   private disposeOverlay(): void {
+    if (this.focusTimeout !== null) {
+      clearTimeout(this.focusTimeout);
+      this.focusTimeout = null;
+    }
     if (this.overlayRef) {
       try {
         this.overlayRef.dispose();
@@ -376,7 +389,6 @@ export class SolarisDropdownMenuTriggerDirective {
     }
 
     const overlayElement = this.overlayRef.overlayElement;
-    // SECURITY_EXCEPTION: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
     const triggerElement = this.elementRef.nativeElement;
     const target = event.target as Node;
 
@@ -384,7 +396,6 @@ export class SolarisDropdownMenuTriggerDirective {
     if (overlayElement.contains(target) || triggerElement.contains(target))
       return;
 
-    // SECURITY_EXCEPTION: document.querySelectorAll required to find other dropdown overlays for outside-click. SSR-safe via injected DOCUMENT.
     const allDropdownOverlays = this.document.querySelectorAll<HTMLElement>(
       '.cdk-overlay-pane.solaris-dropdown-menu-overlay',
     );
@@ -446,7 +457,6 @@ export class SolarisDropdownMenuTriggerDirective {
       maxWidth?: number | string;
     } = {};
 
-    // SECURITY_EXCEPTION: nativeElement.offsetWidth required for matchTriggerWidth. Read-only measurement.
     const triggerWidth = this.elementRef.nativeElement.offsetWidth;
     const matchWidth = this.solarisDropdownMenuMatchTriggerWidth();
     const minWidth = this.solarisDropdownMenuMinWidth();
@@ -472,7 +482,6 @@ export class SolarisDropdownMenuTriggerDirective {
     if (
       this.solarisDropdownMenuRestoreFocus() &&
       this.previousActiveElement &&
-      // SECURITY_EXCEPTION: this.document.contains() to safely verify trigger still exists before focus.
       this.document.contains(this.previousActiveElement)
     ) {
       this.previousActiveElement.focus();

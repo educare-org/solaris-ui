@@ -1,4 +1,9 @@
-import { Component, input, computed } from '@angular/core';
+import {
+  Component,
+  input,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import type {
   SolarisSkeletonVariant,
@@ -13,6 +18,7 @@ import type {
   standalone: true,
   templateUrl: './skeleton.component.html',
   styleUrls: ['./skeleton.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'aria-hidden': 'true',
     '[attr.data-variant]': 'variant()',

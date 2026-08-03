@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() required for programmatic focus. No alternative exists.
 import {
   Component,
   input,
@@ -7,6 +8,7 @@ import {
   inject,
   HostListener,
   forwardRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { SolarisIconComponent } from '../../../icon';
@@ -29,6 +31,7 @@ import { SOLARIS_DROPDOWN_NAVIGABLE_ITEM } from '../model/dropdown-menu-navigati
   ],
   templateUrl: './dropdown-menu-item.component.html',
   styleUrls: ['./dropdown-menu-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-type]': 'type()',
     '[attr.data-color]': 'color()',
@@ -105,7 +108,6 @@ export class SolarisDropdownMenuItemComponent {
   }
 
   focus(): void {
-    // SECURITY_EXCEPTION: nativeElement.focus() required for programmatic focus. No alternative exists.
     this.elementRef.nativeElement.focus();
   }
 }

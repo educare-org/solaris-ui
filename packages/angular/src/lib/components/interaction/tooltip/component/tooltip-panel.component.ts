@@ -1,4 +1,9 @@
-import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 
 import { SolarisIconComponent } from '../../../icon';
@@ -14,6 +19,7 @@ import {
   imports: [NgTemplateOutlet, SolarisIconComponent],
   templateUrl: './tooltip-panel.component.html',
   styleUrls: ['./tooltip-panel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'solaris-tooltip-panel',
   },

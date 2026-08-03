@@ -1,0 +1,41 @@
+:host {
+  --solaris-divider-stack-spacing-none: 0;
+  --solaris-divider-stack-spacing-sm: var(--solaris-spacing-2);
+  --solaris-divider-stack-spacing-md: var(--solaris-spacing-3);
+  --solaris-divider-stack-spacing-lg: var(--solaris-spacing-5);
+  --solaris-divider-stack-inset-start: var(--solaris-spacing-3);
+  --solaris-divider-stack-inset-end: var(--solaris-spacing-3);
+
+  display: block;
+  box-sizing: border-box;
+}
+
+:host([data-spacing='none']) {
+  --solaris-divider-stack-gap: var(--solaris-divider-stack-spacing-none);
+}
+:host([data-spacing='sm']) {
+  --solaris-divider-stack-gap: var(--solaris-divider-stack-spacing-sm);
+}
+:host([data-spacing='md']) {
+  --solaris-divider-stack-gap: var(--solaris-divider-stack-spacing-md);
+}
+:host([data-spacing='lg']) {
+  --solaris-divider-stack-gap: var(--solaris-divider-stack-spacing-lg);
+}
+
+:host > :not(:first-child) {
+  border-top: var(--solaris-border-width-sm) solid var(--solaris-border-default);
+  padding-top: var(--solaris-divider-stack-gap);
+  margin-top: var(--solaris-divider-stack-gap);
+}
+
+:host([data-inset='start']) > :not(:first-child) {
+  margin-inline-start: var(--solaris-divider-stack-inset-start);
+}
+:host([data-inset='end']) > :not(:first-child) {
+  margin-inline-end: var(--solaris-divider-stack-inset-end);
+}
+:host([data-inset='both']) > :not(:first-child) {
+  margin-inline: var(--solaris-divider-stack-inset-start)
+    var(--solaris-divider-stack-inset-end);
+}

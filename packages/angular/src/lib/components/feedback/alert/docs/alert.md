@@ -256,6 +256,39 @@ Use the `custom` variant with documented CSS variables:
 
 ---
 
+## Examples
+
+```html
+<!-- Variants -->
+<solaris-alert variant="info">Changes are saved automatically.</solaris-alert>
+<solaris-alert variant="success">Changes saved successfully.</solaris-alert>
+<solaris-alert variant="warning">This action affects active users.</solaris-alert>
+<solaris-alert variant="danger">Something went wrong.</solaris-alert>
+
+<!-- Appearances -->
+<solaris-alert appearance="tonal">Tonal alert</solaris-alert>
+<solaris-alert appearance="outline">Outline alert</solaris-alert>
+<solaris-alert appearance="surface">Surface alert</solaris-alert>
+<solaris-alert appearance="solid">Solid alert</solaris-alert>
+
+<!-- Density -->
+<solaris-alert density="compact">Compact alert</solaris-alert>
+<solaris-alert density="comfortable">Comfortable alert</solaris-alert>
+
+<!-- Radius -->
+<solaris-alert radius="sm">Small radius</solaris-alert>
+<solaris-alert radius="lg">Large radius</solaris-alert>
+
+<!-- Icon customization -->
+<solaris-alert [showIcon]="false">No icon</solaris-alert>
+<solaris-alert icon="check" variant="success">Custom icon</solaris-alert>
+
+<!-- Live region -->
+<solaris-alert live="assertive">Important update.</solaris-alert>
+```
+
+---
+
 ## Limitations (v1)
 
 - Not a Toast notification.
@@ -269,9 +302,38 @@ Use the `custom` variant with documented CSS variables:
 
 ---
 
-## Component CSS variables
+## CSS Variables
 
-| Variable                              | Description                     |
+The following CSS variables can be customized:
+
+| Token                                    | Purpose                                     |
+| ---------------------------------------- | ------------------------------------------- |
+| `--solaris-alert-background`             | Container background color                  |
+| `--solaris-alert-color`                  | Text color                                  |
+| `--solaris-alert-border-color`           | Border color                                |
+| `--solaris-alert-border-width`           | Border width                                |
+| `--solaris-alert-radius`                 | Border radius                               |
+| `--solaris-alert-padding`                | Container padding                           |
+| `--solaris-alert-gap`                    | Gap between icon, content, and close button |
+| `--solaris-alert-icon-size`              | Icon width/height                           |
+| `--solaris-alert-icon-color`             | Icon color                                  |
+| `--solaris-alert-icon-offset`            | Vertical offset applied to the icon         |
+| `--solaris-alert-close-size`             | Close button width/height                   |
+| `--solaris-alert-close-icon-size`        | Close icon width/height                     |
+| `--solaris-alert-close-color`            | Close button color                          |
+| `--solaris-alert-close-background`       | Close button background                     |
+| `--solaris-alert-close-hover-background` | Close button hover background               |
+| `--solaris-alert-close-offset`           | Vertical offset applied to the close button |
+| `--solaris-alert-title-color`            | Title text color                            |
+| `--solaris-alert-description-color`      | Description text color                      |
+| `--solaris-alert-content-gap`            | Gap between title, description, and actions |
+| `--solaris-alert-actions-gap`            | Gap between action items                    |
+| `--solaris-alert-first-line-height`      | Line height of the first content line       |
+| `--solaris-alert-first-line-font-size`   | Font size of the first content line         |
+
+### Custom variant tokens
+
+| Token                                 | Purpose                         |
 | ------------------------------------- | ------------------------------- |
 | `--solaris-alert-custom-color`        | Text color for custom variant   |
 | `--solaris-alert-custom-background`   | Background for custom variant   |

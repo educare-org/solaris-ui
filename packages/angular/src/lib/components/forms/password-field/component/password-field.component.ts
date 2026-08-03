@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to restore focus after toggle. No SSR-safe alternative exists for imperative focus. Same approach used by Angular CDK.
 import {
   Component,
   input,
@@ -7,9 +8,10 @@ import {
   effect,
   forwardRef,
   inject,
-  ViewChild,
+  viewChild,
   ElementRef,
   isDevMode,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   NG_VALUE_ACCESSOR,
@@ -61,12 +63,13 @@ interface RequirementItem {
   ],
   templateUrl: './password-field.component.html',
   styleUrls: ['./password-field.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SolarisPasswordFieldComponent implements ControlValueAccessor {
   private readonly translateService = inject(SolarisTranslateService);
 
-  @ViewChild('inputElement', { read: ElementRef })
-  protected inputElementRef?: ElementRef<HTMLInputElement>;
+  protected readonly inputElementRef =
+    viewChild<ElementRef<HTMLInputElement>>('inputElement');
 
   readonly value = input<string>('');
   readonly label = input<string>('');
@@ -412,10 +415,9 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
     this._visibleState.set(newVisible);
     this.visibleChange.emit(newVisible);
 
-    if (this.inputElementRef) {
+    if (this.inputElementRef()) {
       try {
-        // SECURITY_EXCEPTION: nativeElement.focus() is the standard DOM API to restore focus after toggle. No SSR-safe alternative exists for imperative focus. Same approach used by Angular CDK.
-        this.inputElementRef.nativeElement.focus();
+        this.inputElementRef()!.nativeElement.focus();
       } catch {
         if (isDevMode()) {
           console.warn(

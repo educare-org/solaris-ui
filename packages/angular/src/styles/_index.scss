@@ -1,12 +1,13 @@
 /// Solaris UI — Design System Styles
 ///
 /// Public entry point for the Solaris design system SCSS API.
+/// All tokens use browser default font-size (1rem = 16px).
 ///
 /// Usage:
 ///   @use '@solaris-ui/angular/styles' as solaris;
 ///
-///   // Apply core foundation (root font-size, resets)
-///   @include solaris.core((root-font-size: rem-10));
+///   // Apply core foundation
+///   @include solaris.core();
 ///
 ///   // Apply theme tokens
 ///   @include solaris.theme((
@@ -17,3 +18,11 @@
 
 @forward './core';
 @forward './theme';
+@forward './button';
+@forward './icon-button';
+@forward './input';
+@forward './textarea';
+@forward './popover';
+@forward './tooltip';
+@forward './toast';
+@forward './dropdown-menu';

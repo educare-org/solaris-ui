@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focusin/focusout are standard DOM events for focus tracking. Same pattern used by Solaris FormField and Checkbox/Radio groups.
 import {
   Component,
   input,
@@ -8,19 +9,19 @@ import {
   forwardRef,
   inject,
   ElementRef,
-  ContentChildren,
-  QueryList,
+  contentChildren,
   type AfterContentInit,
   type OnDestroy,
   NgZone,
+  ChangeDetectionStrategy,
+  type OutputRefSubscription,
 } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Subscription = any;
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisSwitchComponent } from '../../switch';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisSwitchGroupOrientation,
@@ -29,12 +30,6 @@ import type {
   SolarisSwitchGroupDensity,
   SolarisSwitchGroupSize,
 } from '../model/switch-group.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-switch-group-${++nextId}`;
-}
 
 @Component({
   selector: 'solaris-switch-group',
@@ -52,6 +47,7 @@ function generateId(): string {
   ],
   templateUrl: './switch-group.component.html',
   styleUrls: ['./switch-group.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'group',
     '[attr.data-orientation]': 'orientation()',
@@ -77,8 +73,7 @@ export class SolarisSwitchGroupComponent
   private readonly translateService = inject(SolarisTranslateService);
   private readonly ngZone = inject(NgZone);
 
-  @ContentChildren(SolarisSwitchComponent)
-  protected switches!: QueryList<SolarisSwitchComponent>;
+  protected readonly switches = contentChildren(SolarisSwitchComponent);
 
   readonly orientation = input<SolarisSwitchGroupOrientation>('vertical');
   readonly layout = input<SolarisSwitchGroupLayout>('list');
@@ -112,8 +107,8 @@ export class SolarisSwitchGroupComponent
   readonly ariaLabelKey = input<string>();
 
   readonly valueChange = output<Record<string, boolean>>();
-  // eslint-disable-next-line @angular-eslint/no-output-native
-  readonly change = output<Record<string, boolean>>();
+
+  readonly changeEvent = output<Record<string, boolean>>();
 
   private readonly _value = signal<Record<string, boolean>>({});
   private readonly _focused = signal(false);
@@ -128,15 +123,13 @@ export class SolarisSwitchGroupComponent
 
   private readonly switchSubscriptions = new Map<
     SolarisSwitchComponent,
-    Subscription
+    OutputRefSubscription
   >();
   private contentInitialized = false;
-  private switchQuerySubscription: Subscription | null = null;
   private focusListenersAttached = false;
 
   protected readonly groupId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK and Solaris Checkbox/Radio groups.
-    return this.elementRef.nativeElement.getAttribute('id') || generateId();
+    return resolveElementId(this.elementRef, 'solaris-switch-group');
   });
   protected readonly labelId = computed(() => `${this.groupId()}-label`);
   protected readonly hintId = computed(() => `${this.groupId()}-hint`);
@@ -258,7 +251,7 @@ export class SolarisSwitchGroupComponent
   }
 
   focus(): void {
-    const first = this.switches?.get(0);
+    const first = this.switches()[0];
     if (first) {
       first.focus();
     }
@@ -290,29 +283,29 @@ export class SolarisSwitchGroupComponent
     this.syncSwitchesToValue();
     this.propagateDisabledToSwitches();
     this.propagateReadonlyToSwitches();
-
-    this.switchQuerySubscription = this.switches.changes.subscribe(() => {
-      this.validateChildren();
-      this.initSwitches();
-      this.syncSwitchesToValue();
-      this.propagateDisabledToSwitches();
-      this.propagateReadonlyToSwitches();
-    });
   }
+
+  private readonly _switchesEffect = effect(() => {
+    if (!this.contentInitialized) return;
+    this.switches();
+    this.validateChildren();
+    this.initSwitches();
+    this.syncSwitchesToValue();
+    this.propagateDisabledToSwitches();
+    this.propagateReadonlyToSwitches();
+  });
 
   ngOnDestroy(): void {
     this.unsubscribeAllSwitches();
-    if (this.switchQuerySubscription) {
-      this.switchQuerySubscription.unsubscribe();
-    }
   }
 
   private validateChildren(): void {
-    if (!this.switches) return;
+    const opts = this.switches();
+    if (opts.length === 0) return;
 
     const keys = new Map<string, SolarisSwitchComponent>();
 
-    this.switches.forEach((sw) => {
+    opts.forEach((sw) => {
       const key = sw.value();
       if (key === null || key === undefined) {
         console.warn(
@@ -335,7 +328,6 @@ export class SolarisSwitchGroupComponent
     if (this.focusListenersAttached) return;
     this.focusListenersAttached = true;
 
-    // SECURITY_EXCEPTION: nativeElement.focusin/focusout are standard DOM events for focus tracking. Same pattern used by Solaris FormField and Checkbox/Radio groups.
     const native = this.elementRef.nativeElement;
     this.ngZone.runOutsideAngular(() => {
       native.addEventListener('focusin', () => {
@@ -354,7 +346,7 @@ export class SolarisSwitchGroupComponent
 
   private initSwitches(): void {
     this.unsubscribeAllSwitches();
-    this.switches.forEach((sw) => {
+    this.switches().forEach((sw) => {
       const sub = sw.checkedChange.subscribe((checked: boolean) => {
         this.onChildCheckedChange(sw, checked);
       });
@@ -390,14 +382,14 @@ export class SolarisSwitchGroupComponent
     this._value.set(newValue);
     this.onChange(newValue);
     this.valueChange.emit(newValue);
-    this.change.emit(newValue);
+    this.changeEvent.emit(newValue);
   }
 
   private syncSwitchesToValue(): void {
-    if (!this.contentInitialized || !this.switches) return;
+    if (!this.contentInitialized) return;
     const currentValue = this._value();
 
-    this.switches.forEach((sw) => {
+    this.switches().forEach((sw) => {
       const key = sw.value();
       if (key === null || key === undefined) {
         return;
@@ -407,17 +399,17 @@ export class SolarisSwitchGroupComponent
   }
 
   private propagateDisabledToSwitches(): void {
-    if (!this.contentInitialized || !this.switches) return;
+    if (!this.contentInitialized) return;
     const isDisabled = this.isEffectivelyDisabled();
-    this.switches.forEach((sw) => {
+    this.switches().forEach((sw) => {
       sw.setDisabledState(isDisabled);
     });
   }
 
   private propagateReadonlyToSwitches(): void {
-    if (!this.contentInitialized || !this.switches) return;
+    if (!this.contentInitialized) return;
     const isReadonly = this.isEffectivelyReadonly();
-    this.switches.forEach((sw) => {
+    this.switches().forEach((sw) => {
       sw.setCvaReadonlyState(isReadonly);
     });
   }

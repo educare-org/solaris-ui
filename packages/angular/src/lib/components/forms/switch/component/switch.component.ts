@@ -1,3 +1,5 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
+// SECURITY_EXCEPTION_FILE: nativeElement.childNodes is the standard DOM API to check for projected content in the host element. Same pattern used by Angular CDK content projection detection.
 import {
   Component,
   input,
@@ -10,11 +12,13 @@ import {
   ElementRef,
   viewChild,
   afterNextRender,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisSwitchAppearance,
@@ -22,12 +26,6 @@ import type {
   SolarisSwitchSize,
   SolarisSwitchDensity,
 } from '../model/switch.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-switch-${++nextId}`;
-}
 
 @Component({
   selector: 'solaris-switch',
@@ -45,6 +43,7 @@ function generateId(): string {
   ],
   templateUrl: './switch.component.html',
   styleUrls: ['./switch.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',
@@ -104,15 +103,15 @@ export class SolarisSwitchComponent
   readonly size = input<SolarisSwitchSize>('md');
   readonly density = input<SolarisSwitchDensity>();
   readonly switchLabel = input<string>(undefined, { alias: 'label' });
-  readonly labelKey = input<string>();
-  readonly name = input<string>();
-  readonly value = input<string>();
-  readonly ariaLabel = input<string>();
   readonly ariaLabelKey = input<string>();
+  readonly ariaLabel = input<string>();
+  readonly labelKey = input<string>();
+  readonly value = input<string>();
+  readonly name = input<string>();
 
   readonly checkedChange = output<boolean>();
-  // eslint-disable-next-line @angular-eslint/no-output-native
-  readonly change = output<Event>();
+
+  readonly changeEvent = output<Event>();
 
   protected readonly effectiveDensity = computed<SolarisSwitchDensity>(() => {
     return this.density() ?? 'comfortable';
@@ -131,9 +130,7 @@ export class SolarisSwitchComponent
   });
 
   protected readonly elementId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls.
-    const existingId = this.elementRef.nativeElement.getAttribute('id');
-    return existingId || generateId();
+    return resolveElementId(this.elementRef, 'solaris-switch');
   });
 
   protected readonly ariaDescribedBy = computed(() => {
@@ -202,7 +199,6 @@ export class SolarisSwitchComponent
   focus(): void {
     const input = this.inputElementRef();
     if (input) {
-      // SECURITY_EXCEPTION: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
       input.nativeElement.focus();
     }
   }
@@ -244,7 +240,7 @@ export class SolarisSwitchComponent
     this._checked.set(input.checked);
     this.onChange(input.checked);
     this.checkedChange.emit(input.checked);
-    this.change.emit(event);
+    this.changeEvent.emit(event);
     this.onTouched();
   }
 
@@ -265,7 +261,6 @@ export class SolarisSwitchComponent
         return;
       }
       this.contentChecked = true;
-      // SECURITY_EXCEPTION: nativeElement.childNodes is the standard DOM API to check for projected content in the host element. Same pattern used by Angular CDK content projection detection.
       const nativeElement = this.elementRef.nativeElement;
       const hasContent = Array.from(nativeElement.childNodes).some(
         (node) => node.nodeType !== Node.COMMENT_NODE,

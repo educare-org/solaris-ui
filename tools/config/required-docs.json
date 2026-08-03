@@ -38,15 +38,11 @@
     },
     {
       "path": "docs/quality-and-validation/cross_platform_commands.md",
-      "description": "Cross-platform commands policy"
+      "description": "Cross-platform commands and script validation policy"
     },
     {
       "path": "docs/quality-and-validation/definition_of_done.md",
       "description": "Definition of done"
-    },
-    {
-      "path": "docs/quality-and-validation/scripts_and_validation.md",
-      "description": "Scripts and validation policy"
     },
     {
       "path": "docs/quality-and-validation/testing_strategy.md",

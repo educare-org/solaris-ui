@@ -6,6 +6,7 @@ import {
   computed,
   viewChild,
   TemplateRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import {
@@ -17,14 +18,14 @@ import type {
   SolarisDropdownMenuSize,
   SolarisDropdownMenuDensity,
 } from '../model/dropdown-menu.types';
-
-let nextId = 0;
+import { nextIdFor } from '../../../../core';
 
 @Component({
   selector: 'solaris-dropdown-menu',
   standalone: true,
   templateUrl: './dropdown-menu.component.html',
   styleUrls: ['./dropdown-menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[id]': 'panelId',
     '[attr.role]': '"menu"',
@@ -44,7 +45,7 @@ export class SolarisDropdownMenuComponent {
     read: TemplateRef,
   });
 
-  readonly panelId = `solaris-dropdown-menu-${++nextId}`;
+  readonly panelId = nextIdFor('solaris-dropdown-menu');
 
   readonly focusedIndex = signal(-1);
 

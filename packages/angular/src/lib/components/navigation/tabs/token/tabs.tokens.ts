@@ -1,6 +1,6 @@
 import { InjectionToken, type Signal } from '@angular/core';
 
-import type { SolarisTabComponent } from '../tab/tab.component';
+import type { SolarisTabComponent } from '../components/tab/component/tab.component';
 import type {
   SolarisTabsOrientation,
   SolarisTabsAppearance,
@@ -8,7 +8,7 @@ import type {
   SolarisTabsDensity,
   SolarisTabsActivationMode,
   SolarisTabsContentTransition,
-} from '../model/tabs.types';
+} from '../components/root/model/tabs.types';
 
 export interface SolarisTabsControl {
   value: Signal<string | number | undefined>;

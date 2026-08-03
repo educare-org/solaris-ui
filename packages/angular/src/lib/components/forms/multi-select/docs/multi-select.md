@@ -93,6 +93,70 @@ Multi Select represents a multiple selection within a form. It controls an array
 | `searchChange`    | `string`                 | Search query change       |
 | `cleared`         | `void`                   | Selection cleared         |
 
+## Appearances
+
+| Value     | Description                                                            |
+| --------- | ---------------------------------------------------------------------- |
+| `outline` | Clear border, neutral background. Default, good for traditional forms. |
+| `surface` | Card/panel surface, subtle border.                                     |
+| `filled`  | Subtle filled background, modern style.                                |
+
+Default: `outline`
+
+## Sizes
+
+| Value | Height | Use                          |
+| ----- | ------ | ---------------------------- |
+| `sm`  | 2rem   | Compact forms, dense layouts |
+| `md`  | 2.5rem | Standard forms, default      |
+| `lg`  | 3rem   | Prominent inputs             |
+
+Default: `md`
+
+## Density
+
+| Value         | Description                         |
+| ------------- | ----------------------------------- |
+| `compact`     | Reduced vertical spacing            |
+| `comfortable` | Increased vertical spacing. Default |
+
+When not provided, density is inherited from the theme.
+
+## Radius
+
+| Value  | Description              |
+| ------ | ------------------------ |
+| `none` | Sharp corners            |
+| `sm`   | Small rounding           |
+| `md`   | Medium rounding. Default |
+| `lg`   | Large rounding           |
+
+Default: `md`
+
+## CSS Variables
+
+General component tokens available for advanced customization:
+
+| Token                                      | Purpose                                         |
+| ------------------------------------------ | ----------------------------------------------- |
+| `--solaris-multi-select-chip-gap`          | Gap between chips                               |
+| `--solaris-multi-select-chip-radius`       | Chip border radius                              |
+| `--solaris-multi-select-chip-color`        | Chip text color                                 |
+| `--solaris-multi-select-chip-font-size`    | Chip font size                                  |
+| `--solaris-multi-select-chip-padding-x`    | Chip horizontal padding                         |
+| `--solaris-multi-select-chip-padding-y`    | Chip vertical padding                           |
+| `--solaris-multi-select-chip-background`   | Chip background                                 |
+| `--solaris-multi-select-chip-remove-size`  | Chip remove button size                         |
+| `--solaris-multi-select-value-color`       | Value and search text color                     |
+| `--solaris-multi-select-placeholder-color` | Placeholder text color                          |
+| `--solaris-multi-select-font-size`         | Base font size                                  |
+| `--solaris-multi-select-line-height`       | Base line height                                |
+| `--solaris-multi-select-icon-color`        | Icon color (clear, dropdown, remove)            |
+| `--solaris-multi-select-select-all-height` | Select-all row minimum height                   |
+| `--solaris-surface-hover`                  | Hover background for chip remove and select-all |
+| `--solaris-primary-muted`                  | Partial select-all checkbox background          |
+| `--solaris-on-primary`                     | Select-all checkbox check icon color            |
+
 ## ControlValueAccessor (CVA)
 
 The component implements `ControlValueAccessor` with array value:

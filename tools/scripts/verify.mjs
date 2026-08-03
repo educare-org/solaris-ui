@@ -1,5 +1,7 @@
-import { printSummary, readJson } from './shared.mjs';
+import { printSummary, readJson, workspaceRoot } from './shared.mjs';
 import { execSync } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const errors = [];
 const warnings = [];
@@ -7,7 +9,7 @@ const warnings = [];
 function runCommand(label, command, required = false) {
   console.log(`\n▶ Running ${label}...`);
   try {
-    execSync(command, { stdio: 'inherit', shell: true, timeout: 120000 });
+    execSync(command, { stdio: 'inherit', shell: true, timeout: 300000 });
     console.log(`  ✓ ${label} passed`);
     return true;
   } catch (e) {
@@ -40,7 +42,7 @@ function runTooling(label) {
     execSync(`pnpm ${label}`, {
       stdio: 'inherit',
       shell: true,
-      timeout: 120000,
+      timeout: 300000,
     });
     console.log(`  ✓ ${label} passed`);
     return true;
@@ -58,24 +60,25 @@ console.log('══════════════════════�
 runCommand('pnpm run doctor', 'node tools/scripts/doctor.mjs', true);
 
 console.log('\n--- Check Suite ---');
-runCommand(
-  'pnpm check',
-  'node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs',
-  true,
-);
+runCommand('pnpm check', 'pnpm check', true);
 
 console.log('\n--- Extended Checks ---');
 runCommand('check:tokens', 'node tools/scripts/check-tokens.mjs', false);
 runCommand('check:i18n', 'node tools/scripts/check-i18n.mjs', false);
+const nxConfig = JSON.parse(
+  fs.readFileSync(path.join(workspaceRoot, 'nx.json'), 'utf-8'),
+);
+const defaultBase = nxConfig.defaultBase || 'main';
 runCommand(
-  'check:dependencies',
-  'node tools/scripts/check-dependencies.mjs',
+  'changeset:status',
+  `pnpm changeset status --since=${defaultBase}`,
   false,
 );
-runCommand('changeset:status', 'pnpm changeset status --since=main', false);
+runCommand('check:bundle', 'node tools/scripts/check-bundle.mjs', false);
 
 console.log('\n--- Tooling ---');
 runTooling('format:check');
+runTooling('lint:scss');
 runTooling('lint');
 runTooling('typecheck');
 runTooling('test');

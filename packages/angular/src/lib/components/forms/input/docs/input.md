@@ -146,6 +146,28 @@ Preserves native `readonly` attribute. Readonly is visually distinct from disabl
 
 Preserves native `required` attribute. Optional marker is a Form Field responsibility.
 
+## CSS Variables
+
+General component tokens available for advanced customization. These apply to the standalone input shell (inside Form Field, the shell is managed by Form Field):
+
+| Token                                  | Purpose                |
+| -------------------------------------- | ---------------------- |
+| `--solaris-input-radius`               | Border radius          |
+| `--solaris-input-height`               | Input height           |
+| `--solaris-input-color`                | Text color             |
+| `--solaris-input-padding-x`            | Horizontal padding     |
+| `--solaris-input-padding-y`            | Vertical padding       |
+| `--solaris-input-font-size`            | Font size              |
+| `--solaris-input-line-height`          | Line height            |
+| `--solaris-input-background`           | Background color       |
+| `--solaris-input-border-color`         | Border color           |
+| `--solaris-input-border-width`         | Border width           |
+| `--solaris-input-placeholder-color`    | Placeholder text color |
+| `--solaris-input-focus-ring-color`     | Focus ring color       |
+| `--solaris-input-invalid-border-color` | Invalid border color   |
+| `--solaris-input-disabled-opacity`     | Disabled opacity       |
+| `--solaris-input-readonly-background`  | Readonly background    |
+
 ## Placeholder
 
 Placeholder must not replace a label. Documented anti-pattern:
@@ -207,6 +229,41 @@ Input does not block autofill or autocomplete. CSS handles autofill states to ke
 - `focus-visible` is not removed.
 - Disabled and readonly are real, not visual-only.
 - Placeholder is not treated as a label.
+
+## Examples
+
+```html
+<!-- Basic -->
+<input solaris-input placeholder="Your name" />
+
+<!-- Types -->
+<input solaris-input type="email" placeholder="name@company.com" />
+<input solaris-input type="password" />
+
+<!-- Appearance variants -->
+<input solaris-input appearance="outline" placeholder="Outline" />
+<input solaris-input appearance="surface" placeholder="Surface" />
+<input solaris-input appearance="filled" placeholder="Filled" />
+
+<!-- Sizes and radius -->
+<input solaris-input size="sm" radius="sm" placeholder="Small" />
+<input solaris-input size="md" radius="md" placeholder="Medium" />
+<input solaris-input size="lg" radius="lg" placeholder="Large" />
+
+<!-- States -->
+<input solaris-input [invalid]="true" placeholder="Invalid" />
+<input solaris-input disabled placeholder="Disabled" />
+<input solaris-input readonly value="Readonly" />
+
+<!-- Form Field integration -->
+<solaris-form-field label="Email">
+  <input solaris-input type="email" formControlName="email" />
+</solaris-form-field>
+
+<!-- Reactive Forms and template-driven forms -->
+<input solaris-input [formControl]="nameControl" placeholder="Name" />
+<input solaris-input [(ngModel)]="search" placeholder="Search" />
+```
 
 ## Limitations of Input v1
 

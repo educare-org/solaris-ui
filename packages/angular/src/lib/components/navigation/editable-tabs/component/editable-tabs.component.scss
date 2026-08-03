@@ -13,6 +13,9 @@
   --solaris-editable-tabs-rename-input-border-color: var(
     --solaris-primary-base
   );
+
+  // SOLARIS_TOKEN_EXCEPTION: derived primary alpha for the rename input highlight; no alpha token exists for this pattern.
+  --solaris-primary-base-alpha: rgb(66 130 251 / 30%);
   --solaris-editable-tabs-rename-input-background: var(--solaris-surface-base);
 
   display: block;
@@ -161,7 +164,7 @@
 }
 
 .solaris-editable-tabs__rename-input:focus {
-  // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized color. Hardcoded spread required by design.
+  // SOLARIS_TOKEN_EXCEPTION: outline focus ring built from border-width + color tokens
   box-shadow: 0 0 0 var(--solaris-border-width-sm)
     var(--solaris-primary-base-alpha);
 }

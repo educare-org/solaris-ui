@@ -56,7 +56,7 @@ export const PT_BR_CONFIG: Record<string, string> = {
   'configuration.text.sr-only':
     'Este texto está disponível apenas para leitores de tela.',
   'configuration.text.root-font-size':
-    'Solaris usa 100% de font-size raiz (padrão do navegador). Tokens usam rem e escalam com as preferências de tamanho de fonte do usuário. Estratégia rem-10 opcional via @include solaris.core((root-font-size: rem-10)).',
+    'Solaris usa 100% de font-size raiz (padrão do navegador). Tokens usam rem e escalam com as preferências de tamanho de fonte do usuário.',
   'configuration.text.font-size-demo': 'O rato roeu a roupa do rei de Roma.',
   'configuration.text.font-demo': 'Solaris demonstra seus tokens de fonte.',
   'configuration.a11y-note':

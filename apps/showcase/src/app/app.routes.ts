@@ -191,6 +191,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'breadcrumb',
+    loadComponent: () =>
+      import(
+        './pages/navigation/breadcrumb/component/breadcrumb-showcase'
+      ).then((m) => m.BreadcrumbShowcasePage),
+  },
+  {
     path: 'stepper',
     loadComponent: () =>
       import(
@@ -217,6 +224,20 @@ export const appRoutes: Route[] = [
       import(
         './pages/interaction/dropdown-menu/component/dropdown-menu-showcase'
       ).then((m) => m.DropdownMenuShowcasePage),
+  },
+  {
+    path: 'collapsible',
+    loadComponent: () =>
+      import(
+        './pages/interaction/collapsible/component/collapsible-showcase'
+      ).then((m) => m.CollapsibleShowcasePage),
+  },
+  {
+    path: 'accordion',
+    loadComponent: () =>
+      import('./pages/interaction/accordion/component/accordion-showcase').then(
+        (m) => m.AccordionShowcasePage,
+      ),
   },
   {
     path: 'editable-tabs',

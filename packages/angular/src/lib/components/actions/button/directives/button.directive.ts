@@ -1,3 +1,6 @@
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.tagName is the standard Angular API to differentiate <button> vs <a> for correct disabled/type behavior.
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.getAttribute/setAttribute is the standard Angular approach to handle default button type.
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.setAttribute required for default <button> type behavior.
 import {
   Directive,
   input,
@@ -15,6 +18,8 @@ import type {
   SolarisButtonDensity,
 } from '../model/button.types';
 
+import { SolarisTranslateService } from '../../../../services/translation';
+
 @Directive({
   selector: '[solaris-button]',
   standalone: true,
@@ -27,6 +32,7 @@ import type {
     '[attr.data-loading]': 'loading() ? "" : null',
     '[attr.data-full-width]': 'fullWidth() ? "" : null',
     '[attr.aria-busy]': 'loading() ? "true" : null',
+    '[attr.aria-label]': 'loading() ? resolvedLoadingLabel() : null',
     '[attr.aria-disabled]': 'isEffectivelyDisabled() ? "true" : null',
     '[attr.disabled]': 'isButton && isEffectivelyDisabled() ? "" : null',
     '[tabindex]': 'isAnchor && isEffectivelyDisabled() ? "-1" : null',
@@ -49,18 +55,35 @@ export class SolarisButtonDirective {
   );
 
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly translate = inject(SolarisTranslateService, {
+    optional: true,
+  });
 
-  // SECURITY_EXCEPTION: ElementRef.nativeElement.tagName is the standard Angular API to differentiate <button> vs <a> for correct disabled/type behavior.
+  protected readonly resolvedLoadingLabel = computed(() => {
+    const label = this.loadingLabel();
+    if (label) {
+      return label;
+    }
+
+    const key = this.loadingLabelKey();
+    if (key && this.translate) {
+      return this.translate.translate(key);
+    }
+
+    if (this.translate) {
+      return this.translate.translate('solaris.button.loading');
+    }
+
+    return undefined;
+  });
+
   protected readonly isButton =
     this.elementRef.nativeElement.tagName === 'BUTTON';
-  // SECURITY_EXCEPTION: ElementRef.nativeElement.tagName is the standard Angular API to differentiate <button> vs <a> for correct disabled/type behavior.
   protected readonly isAnchor = this.elementRef.nativeElement.tagName === 'A';
 
   constructor() {
-    // SECURITY_EXCEPTION: ElementRef.nativeElement.getAttribute/setAttribute is the standard Angular approach to handle default button type.
     const initialType = this.elementRef.nativeElement.getAttribute('type');
     if (this.isButton && initialType === null) {
-      // SECURITY_EXCEPTION: ElementRef.nativeElement.setAttribute required for default <button> type behavior.
       this.elementRef.nativeElement.setAttribute('type', 'button');
     }
   }

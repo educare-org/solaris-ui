@@ -5,7 +5,7 @@ import type {
   SolarisStepperAppearance,
   SolarisStepperSize,
   SolarisStepperDensity,
-} from '../model/stepper.types';
+} from '../components/root/model/stepper.types';
 
 export interface SolarisStepperControl {
   activeIndex: () => number;

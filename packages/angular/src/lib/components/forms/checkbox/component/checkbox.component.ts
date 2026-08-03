@@ -1,3 +1,6 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
+// SECURITY_EXCEPTION_FILE: nativeElement.indeterminate is the standard DOM property to set indeterminate on a native checkbox. No HTML attribute alternative exists.
+// SECURITY_EXCEPTION_FILE: nativeElement.childNodes is the standard DOM API to check for projected content in the host element. Same pattern used by Angular CDK content projection detection.
 import {
   Component,
   input,
@@ -10,11 +13,13 @@ import {
   ElementRef,
   viewChild,
   afterNextRender,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisCheckboxAppearance,
@@ -23,12 +28,6 @@ import type {
   SolarisCheckboxRadius,
   SolarisCheckboxDensity,
 } from '../model/checkbox.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-checkbox-${++nextId}`;
-}
 
 @Component({
   selector: 'solaris-checkbox',
@@ -46,6 +45,7 @@ function generateId(): string {
   ],
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',
@@ -119,8 +119,8 @@ export class SolarisCheckboxComponent
 
   readonly checkedChange = output<boolean>();
   readonly indeterminateChange = output<boolean>();
-  // eslint-disable-next-line @angular-eslint/no-output-native
-  readonly change = output<Event>();
+
+  readonly changeEvent = output<Event>();
 
   protected readonly effectiveDensity = computed<SolarisCheckboxDensity>(() => {
     return this.density() ?? 'comfortable';
@@ -138,9 +138,7 @@ export class SolarisCheckboxComponent
     return this.readonlyInput() || this.cvaReadonly();
   });
   protected readonly elementId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls.
-    const existingId = this.elementRef.nativeElement.getAttribute('id');
-    return existingId || generateId();
+    return resolveElementId(this.elementRef, 'solaris-checkbox');
   });
 
   protected readonly ariaDescribedBy = computed(() => {
@@ -209,7 +207,6 @@ export class SolarisCheckboxComponent
   focus(): void {
     const input = this.inputElementRef();
     if (input) {
-      // SECURITY_EXCEPTION: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
       input.nativeElement.focus();
     }
   }
@@ -217,7 +214,6 @@ export class SolarisCheckboxComponent
   private readonly syncIndeterminate = effect(() => {
     const el = this.inputElementRef();
     if (el) {
-      // SECURITY_EXCEPTION: nativeElement.indeterminate is the standard DOM property to set indeterminate on a native checkbox. No HTML attribute alternative exists.
       el.nativeElement.indeterminate = this.indeterminate();
     }
   });
@@ -265,7 +261,7 @@ export class SolarisCheckboxComponent
     this._checked.set(input.checked);
     this.onChange(input.checked);
     this.checkedChange.emit(input.checked);
-    this.change.emit(event);
+    this.changeEvent.emit(event);
     this.onTouched();
   }
 
@@ -286,7 +282,6 @@ export class SolarisCheckboxComponent
         return;
       }
       this.contentChecked = true;
-      // SECURITY_EXCEPTION: nativeElement.childNodes is the standard DOM API to check for projected content in the host element. Same pattern used by Angular CDK content projection detection.
       const nativeElement = this.elementRef.nativeElement;
       const hasContent = Array.from(nativeElement.childNodes).some(
         (node) => node.nodeType !== Node.COMMENT_NODE,

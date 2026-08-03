@@ -55,7 +55,7 @@ export const EN_US_CONFIG: Record<string, string> = {
   'configuration.text.sr-only':
     'This text is only available to screen readers.',
   'configuration.text.root-font-size':
-    'Solaris uses 100% root font-size (browser default). Tokens use rem units and scale with user font-size preferences. Opt-in rem-10 strategy available via @include solaris.core((root-font-size: rem-10)).',
+    'Solaris uses 100% root font-size (browser default). Tokens use rem units and scale with user font-size preferences.',
   'configuration.text.font-size-demo':
     'The quick brown fox jumps over the lazy dog.',
   'configuration.text.font-demo': 'Solaris demonstrates its font tokens.',

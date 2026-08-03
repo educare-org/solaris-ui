@@ -1,106 +1,105 @@
 # Solaris Tooltip
 
-## Propósito
+## Purpose
 
-Tooltip é uma camada informacional curta e contextual usada para explicar ou complementar um elemento da interface sem ocupar espaço permanente.
+Tooltip is a short, contextual informational layer used to explain or complement a UI element without permanently occupying space.
 
 **Tooltip may explain. Popover may interact.**
-**Tooltip pode explicar. Popover pode interagir.**
 
 ---
 
-## Diferença entre Tooltip e Popover
+## Difference between Tooltip and Popover
 
-| Característica    | Tooltip                             | Popover               |
-| ----------------- | ----------------------------------- | --------------------- |
-| Propósito         | Informar                            | Interagir             |
-| Conteúdo          | Texto curto, ícone, título opcional | Qualquer template     |
-| Botões            | Apenas close interno                | Botões customizados   |
-| Foco              | Não prende foco                     | Pode prender foco     |
-| Trigger principal | Hover/focus                         | Click                 |
-| Fechamento        | Mouse leave, blur, Escape           | Escape, outside click |
+| Characteristic  | Tooltip                          | Popover               |
+| --------------- | -------------------------------- | --------------------- |
+| Purpose         | Inform                           | Interact              |
+| Content         | Short text, icon, optional title | Any template          |
+| Buttons         | Internal close only              | Custom buttons        |
+| Focus           | Does not trap focus              | Can trap focus        |
+| Primary trigger | Hover/focus                      | Click                 |
+| Closing         | Mouse leave, blur, Escape        | Escape, outside click |
 
 ---
 
-## Quando usar
+## When to use
 
-- Ícones de ajuda
-- Botões icon-only
-- Texto truncado
-- Explicação curta de campo
-- Motivo de item desabilitado
-- Atalhos de teclado
-- Detalhe de badge/count
-- Informação contextual breve
+- Help icons
+- Icon-only buttons
+- Truncated text
+- Short field explanation
+- Reason for a disabled item
+- Keyboard shortcuts
+- Badge/count detail
+- Brief contextual information
 
-## Quando não usar
+## When not to use
 
-- Menu de ações
-- Formulário
-- Lista selecionável
-- Conteúdo longo
-- Confirmação de ação destrutiva
-- Navegação
+- Action menu
+- Form
+- Selectable list
+- Long content
+- Destructive action confirmation
+- Navigation
 - Select
 - Dropdown
-- Ações customizadas
-- Footer com botões
-- Links de ação
-- Conteúdo interativo complexo
+- Custom actions
+- Footer with buttons
+- Action links
+- Complex interactive content
 
-Se precisar de botões customizados como "Ver detalhes", "Configurar", "Aplicar", "Cancelar", "Entendi" ou qualquer ação arbitrária, use **Solaris Popover**, não Tooltip.
+If you need custom buttons like "View details", "Configure", "Apply", "Cancel", "Got it", or any arbitrary action, use **Solaris Popover**, not Tooltip.
 
 ---
 
 ## API
 
-### Selectores
+### Selectors
 
-- `[solaris-tooltip]` — atributo com valor textual direto
+- `[solaris-tooltip]` — attribute with a direct textual value
 - `[solarisTooltip]` — property binding
 - `[solarisTooltipFor]` — template reference
 
 ### Inputs
 
-| Input                                | Type                                  | Default     | Description                           |
-| ------------------------------------ | ------------------------------------- | ----------- | ------------------------------------- |
-| `solaris-tooltip` / `solarisTooltip` | `string \| undefined`                 | `undefined` | Texto do tooltip                      |
-| `solarisTooltipKey`                  | `string \| undefined`                 | `undefined` | Chave de tradução do texto            |
-| `solarisTooltipFor`                  | `TemplateRef<unknown> \| undefined`   | `undefined` | Template informacional                |
-| `solarisTooltipTitle`                | `string \| undefined`                 | `undefined` | Título opcional                       |
-| `solarisTooltipTitleKey`             | `string \| undefined`                 | `undefined` | Chave de tradução do título           |
-| `solarisTooltipIcon`                 | `string \| undefined`                 | `undefined` | Nome do ícone (Solaris Icon Registry) |
-| `solarisTooltipIconDecorative`       | `boolean`                             | `true`      | Se o ícone é decorativo               |
-| `solarisTooltipTrigger`              | `'hover' \| 'click' \| 'manual'`      | `'hover'`   | Trigger de abertura                   |
-| `solarisTooltipPlacement`            | `SolarisTooltipPlacement`             | `'top'`     | Posição inicial                       |
-| `solarisTooltipOffset`               | `number \| string`                    | `8`         | Offset em px                          |
-| `solarisTooltipDisabled`             | `boolean`                             | `false`     | Desabilita o tooltip                  |
-| `solarisTooltipCloseable`            | `boolean`                             | `false`     | Mostra botão de fechar (apenas click) |
-| `solarisTooltipCloseLabel`           | `string \| undefined`                 | `undefined` | Label do botão fechar                 |
-| `solarisTooltipCloseLabelKey`        | `string \| undefined`                 | `undefined` | Chave de tradução do label            |
-| `solarisTooltipShowDelay`            | `number`                              | `300`       | Delay para abrir (ms)                 |
-| `solarisTooltipHideDelay`            | `number`                              | `100`       | Delay para fechar (ms)                |
-| `solarisTooltipAppearance`           | `'outline' \| 'surface' \| 'inverse'` | `'outline'` | Aparência                             |
-| `solarisTooltipSize`                 | `'sm' \| 'md' \| 'lg'`                | `'sm'`      | Tamanho                               |
-| `solarisTooltipRadius`               | `'sm' \| 'md' \| 'lg'`                | `'md'`      | Raio de borda                         |
-| `solarisTooltipMaxWidth`             | `string \| number`                    | `'20rem'`   | Largura máxima                        |
-| `solarisTooltipArrow`                | `boolean`                             | `true`      | Mostra seta                           |
-| `solarisTooltipOpen`                 | `boolean \| undefined`                | `undefined` | Estado controlado                     |
+| Input                                | Type                                  | Default     | Description                       |
+| ------------------------------------ | ------------------------------------- | ----------- | --------------------------------- |
+| `solaris-tooltip` / `solarisTooltip` | `string \| undefined`                 | `undefined` | Tooltip text                      |
+| `solarisTooltipKey`                  | `string \| undefined`                 | `undefined` | Translation key for the text      |
+| `solarisTooltipFor`                  | `TemplateRef<unknown> \| undefined`   | `undefined` | Informational template            |
+| `solarisTooltipTitle`                | `string \| undefined`                 | `undefined` | Optional title                    |
+| `solarisTooltipTitleKey`             | `string \| undefined`                 | `undefined` | Translation key for the title     |
+| `solarisTooltipIcon`                 | `string \| undefined`                 | `undefined` | Icon name (Solaris Icon Registry) |
+| `solarisTooltipIconDecorative`       | `boolean`                             | `true`      | Whether the icon is decorative    |
+| `solarisTooltipTrigger`              | `'hover' \| 'click' \| 'manual'`      | `'hover'`   | Opening trigger                   |
+| `solarisTooltipPlacement`            | `SolarisTooltipPlacement`             | `'top'`     | Initial position                  |
+| `solarisTooltipOffset`               | `number \| string`                    | `8`         | Offset in px                      |
+| `solarisTooltipDisabled`             | `boolean`                             | `false`     | Disables the tooltip              |
+| `solarisTooltipCloseable`            | `boolean`                             | `false`     | Shows close button (click only)   |
+| `solarisTooltipCloseLabel`           | `string \| undefined`                 | `undefined` | Close button label                |
+| `solarisTooltipCloseLabelKey`        | `string \| undefined`                 | `undefined` | Translation key for the label     |
+| `solarisTooltipShowDelay`            | `number`                              | `300`       | Delay to open (ms)                |
+| `solarisTooltipHideDelay`            | `number`                              | `100`       | Delay to close (ms)               |
+| `solarisTooltipAppearance`           | `'outline' \| 'surface' \| 'inverse'` | `'outline'` | Appearance                        |
+| `solarisTooltipSize`                 | `'sm' \| 'md' \| 'lg'`                | `'sm'`      | Size                              |
+| `solarisTooltipRadius`               | `'sm' \| 'md' \| 'lg'`                | `'md'`      | Border radius                     |
+| `solarisTooltipMaxWidth`             | `string \| number`                    | `'20rem'`   | Maximum width                     |
+| `solarisTooltipArrow`                | `boolean`                             | `true`      | Shows arrow                       |
+| `solarisTooltipOpen`                 | `boolean \| undefined`                | `undefined` | Controlled state                  |
 
 ### Outputs
 
-| Output                     | Type      | Description                  |
-| -------------------------- | --------- | ---------------------------- |
-| `solarisTooltipOpened`     | `void`    | Emitido quando abre          |
-| `solarisTooltipClosed`     | `void`    | Emitido quando fecha         |
-| `solarisTooltipOpenChange` | `boolean` | Emitido na mudança de estado |
+| Output                     | Type      | Description             |
+| -------------------------- | --------- | ----------------------- |
+| `solarisTooltipOpened`     | `void`    | Emitted when it opens   |
+| `solarisTooltipClosed`     | `void`    | Emitted when it closes  |
+| `solarisTooltipOpenChange` | `boolean` | Emitted on state change |
 
-### Métodos públicos
+### Public methods
 
-- `open()` — Abre o tooltip
-- `close()` — Fecha o tooltip
-- `toggle()` — Alterna estado
-- `reposition()` — Atualiza posição
+- `open()` — Opens the tooltip
+- `close()` — Closes the tooltip
+- `toggle()` — Toggles state
+- `reposition()` — Updates position
 
 ---
 
@@ -108,34 +107,34 @@ Se precisar de botões customizados como "Ver detalhes", "Configurar", "Aplicar"
 
 ### Hover (default)
 
-Abre no `mouseenter`/`focusin`. Fecha no `mouseleave`/`focusout`/`Escape`. Usa `showDelay` e `hideDelay`. Não renderiza botão de fechar. Aplica `aria-describedby` no trigger.
+Opens on `mouseenter`/`focusin`. Closes on `mouseleave`/`focusout`/`Escape`. Uses `showDelay` and `hideDelay`. Does not render a close button. Applies `aria-describedby` on the trigger.
 
 ### Click
 
-Abre no click. Permanece aberto. Fecha no Escape ou outside click. Pode mostrar botão de fechar quando `closeable=true`. Restaura foco ao trigger ao fechar.
+Opens on click. Stays open. Closes on Escape or outside click. Can show a close button when `closeable=true`. Restores focus to the trigger on close.
 
 ### Manual
 
-Não abre por interação do usuário. Abre apenas via `open()` ou input controlado `solarisTooltipOpen`.
+Does not open on user interaction. Opens only via `open()` or the controlled input `solarisTooltipOpen`.
 
 ---
 
 ## Closeable
 
-- Disponível apenas quando `trigger="click"`.
-- Se `trigger="hover"` e `closeable=true`, a opção é ignorada.
-- O botão de fechar possui accessible name via `aria-label`.
-- Suporta `closeLabel` e `closeLabelKey`.
-- Default usa a chave de tradução `solaris.tooltip.close`.
+- Available only when `trigger="click"`.
+- If `trigger="hover"` and `closeable=true`, the option is ignored.
+- The close button has an accessible name via `aria-label`.
+- Supports `closeLabel` and `closeLabelKey`.
+- Default uses the translation key `solaris.tooltip.close`.
 
 ---
 
-## Título e Ícone
+## Title and Icon
 
-- `solarisTooltipTitle` / `solarisTooltipTitleKey`: título opcional com peso visual maior.
-- `solarisTooltipIcon`: ícone opcional à esquerda.
-- Com título: ícone alinhado ao título.
-- Sem título: ícone alinhado ao centro vertical do texto.
+- `solarisTooltipTitle` / `solarisTooltipTitleKey`: optional title with greater visual weight.
+- `solarisTooltipIcon`: optional icon on the left.
+- With title: icon aligned with the title.
+- Without title: icon aligned with the vertical center of the text.
 
 ---
 
@@ -143,37 +142,37 @@ Não abre por interação do usuário. Abre apenas via `open()` ou input control
 
 ### outline (default)
 
-Surface background + borda. Não é transparente. Usa tokens `--solaris-surface-raised`, `--solaris-border-default`.
+Surface background + border. Not transparent. Uses tokens `--solaris-surface-raised`, `--solaris-border-default`.
 
 ### surface
 
-Surface background sem borda forte. Contraste suficiente em light/dark.
+Surface background without strong border. Sufficient contrast in light/dark.
 
 ### inverse
 
-Alto contraste. Background escuro com texto claro em light theme; background claro com texto escuro em dark theme.
+High contrast. Dark background with light text in light theme; light background with dark text in dark theme.
 
 ---
 
 ## Arrow
 
 - Default `true`.
-- Pode ser desligada com `[solarisTooltipArrow]="false"`.
-- A seta acompanha o placement.
-- Respeita appearance, background e border.
-- Usa CSS pseudo-element com rotação de 45°.
+- Can be turned off with `[solarisTooltipArrow]="false"`.
+- The arrow follows the placement.
+- Respects appearance, background, and border.
+- Uses a CSS pseudo-element rotated 45°.
 
 ---
 
 ## Placement
 
-Suporta 12 posições:
+Supports 12 positions:
 
 `top`, `top-start`, `top-end`, `bottom`, `bottom-start`, `bottom-end`, `right`, `right-start`, `right-end`, `left`, `left-start`, `left-end`
 
 Default: `top`
 
-O posicionamento é reativo via CDK `FlexibleConnectedPositionStrategy` com fallback automático.
+Positioning is reactive via the CDK `FlexibleConnectedPositionStrategy` with automatic fallback.
 
 ---
 
@@ -191,95 +190,117 @@ O posicionamento é reativo via CDK `FlexibleConnectedPositionStrategy` com fall
 
 ## MaxWidth
 
-Default: `20rem`. Impede tooltip longo em linha única. Texto quebra corretamente.
+Default: `20rem`. Prevents a long tooltip on a single line. Text wraps correctly.
 
 ---
 
-## Acessibilidade
+## CSS Variables
+
+The following CSS variables can be customized:
+
+| Token                              | Purpose                           |
+| ---------------------------------- | --------------------------------- |
+| `--solaris-tooltip-background`     | Panel background                  |
+| `--solaris-tooltip-color`          | Text color                        |
+| `--solaris-tooltip-border-color`   | Border color                      |
+| `--solaris-tooltip-border-width`   | Border width                      |
+| `--solaris-tooltip-radius`         | Panel border radius               |
+| `--solaris-tooltip-shadow`         | Panel box shadow                  |
+| `--solaris-tooltip-gap`            | Gap between icon, text, and close |
+| `--solaris-tooltip-max-width`      | Maximum panel width               |
+| `--solaris-tooltip-padding-block`  | Vertical padding                  |
+| `--solaris-tooltip-padding-inline` | Horizontal padding                |
+| `--solaris-tooltip-icon-size`      | Icon and close button size        |
+| `--solaris-tooltip-arrow-size`     | Arrow size                        |
+| `--solaris-tooltip-offset`         | Offset between icon and content   |
+
+---
+
+## Accessibility
 
 ### Hover/focus tooltip
 
-- `role="tooltip"` no painel.
-- Trigger recebe `aria-describedby` enquanto aberto.
-- Escape fecha.
-- Não move foco automaticamente.
-- Não prende foco.
+- `role="tooltip"` on the panel.
+- Trigger receives `aria-describedby` while open.
+- Escape closes.
+- Does not move focus automatically.
+- Does not trap focus.
 
 ### Click closeable tooltip
 
-- Não força `role="tooltip"` quando há botão de fechar (usar `role="dialog"` não-modal seria semanticamente mais honesto, mas mantemos `role="tooltip"` por ser estritamente informacional).
-- Escape fecha.
-- Outside click fecha.
-- Botão close é acessível por teclado.
+- Does not force `role="tooltip"` when there is a close button (using non-modal `role="dialog"` would be semantically more honest, but we keep `role="tooltip"` because it is strictly informational).
+- Escape closes.
+- Outside click closes.
+- Close button is keyboard accessible.
 
-### Teclado
+### Keyboard
 
-- Escape fecha sempre quando aberto.
-- Tab funciona naturalmente.
-- Hover tooltip não cria elementos focáveis.
-- Click closeable pode ter botão de fechar focável.
-- Sem focus trap.
+- Escape always closes when open.
+- Tab works naturally.
+- Hover tooltip does not create focusable elements.
+- Click closeable can have a focusable close button.
+- No focus trap.
 
 ---
 
-## Exemplos
+## Examples
 
-### Básico hover
+### Basic hover
 
 ```html
-<button solaris-tooltip="Editar item">
-  <solaris-icon name="edit" />
+<button solaris-tooltip="Edit item">
+  <solaris-icon name="edit" decorative="true" />
 </button>
 ```
 
 ### Property binding
 
 ```html
-<button [solarisTooltip]="tooltipText">Ajuda</button>
+<button [solarisTooltip]="tooltipText">Help</button>
 ```
 
-### Título e ícone
+### Title and icon
 
 ```html
-<button solaris-tooltip="Disponível após a confirmação do pagamento." solarisTooltipTitle="Acesso pendente" solarisTooltipIcon="info">Status</button>
+<button solaris-tooltip="Available after payment confirmation." solarisTooltipTitle="Pending access" solarisTooltipIcon="info">Status</button>
 ```
 
 ### Click closeable
 
 ```html
-<button solaris-tooltip="Essa métrica considera os últimos 30 dias." solarisTooltipTrigger="click" [solarisTooltipCloseable]="true">?</button>
+<button solaris-tooltip="This metric considers the last 30 days." solarisTooltipTrigger="click" [solarisTooltipCloseable]="true">?</button>
 ```
 
-### Template informacional
+### Informational template
 
 ```html
-<button [solarisTooltipFor]="paymentTooltip" solarisTooltipTrigger="click" [solarisTooltipCloseable]="true">Saiba mais</button>
+<button [solarisTooltipFor]="paymentTooltip" solarisTooltipTrigger="click" [solarisTooltipCloseable]="true">Learn more</button>
 
-<ng-template #paymentTooltip> O pagamento pode levar até 48 horas para ser confirmado. </ng-template>
+<ng-template #paymentTooltip> Payment can take up to 48 hours to be confirmed. </ng-template>
 ```
 
 ---
 
 ## Anti-patterns
 
-Tooltip **não** deve conter:
+Tooltip must **not** contain:
 
-- Botões customizados ("Ver detalhes", "Configurar", "Aplicar")
-- Links de ação
-- Formulários
-- Listas selecionáveis
-- Qualquer conteúdo interativo além do botão de fechar
+- Custom buttons ("View details", "Configure", "Apply")
+- Action links
+- Forms
+- Selectable lists
+- Any interactive content beyond the close button
 
-Se você precisa de conteúdo interativo, use **Solaris Popover**.
+If you need interactive content, use **Solaris Popover**.
 
 ---
 
-## Limitações v1
+## Limitations (v1)
 
-- Sem botões customizados (apenas close interno)
-- Sem HTML string ou innerHTML
-- Sem async loading
-- Sem focus trap
-- Sem nested tooltip
-- Sem animações complexas (apenas transitions CSS simples)
-- Sem suporte a `full` radius
+- No custom buttons (internal close only)
+- No HTML string or innerHTML
+- No async loading
+- No focus trap
+- No nested tooltip
+- No complex animations (only simple CSS transitions)
+- No `full` radius support

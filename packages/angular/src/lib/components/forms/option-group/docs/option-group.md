@@ -29,6 +29,32 @@
 | `density`  | `'compact' \| 'comfortable'` | inherited      | Density variant                                    |
 | `id`       | `string`                     | auto-generated | Element ID                                         |
 
+## Sizes
+
+| Size | Label typography                    |
+| ---- | ----------------------------------- |
+| `sm` | Uppercase, `xs` font size           |
+| `md` | Uppercase, `sm` font size (default) |
+| `lg` | Uppercase, `md` font size           |
+
+## Density
+
+| Density       | Effect                    |
+| ------------- | ------------------------- |
+| `compact`     | Reduced gap between items |
+| `comfortable` | Increased gap (default)   |
+
+## CSS Variables
+
+Option Group tokens can be customized on the host or a parent element:
+
+| Token                                | Purpose                       |
+| ------------------------------------ | ----------------------------- |
+| `--solaris-option-group-padding-x`   | Horizontal padding            |
+| `--solaris-option-group-padding-y`   | Vertical padding              |
+| `--solaris-option-group-gap`         | Gap between label and options |
+| `--solaris-option-group-label-color` | Group label color             |
+
 ## Disabled Propagation
 
 When an Option Group is disabled, it propagates the disabled state to all child `solaris-option` components. Individual option `disabled` continues to have priority.
@@ -45,6 +71,37 @@ When an Option Group is disabled, it propagates the disabled state to all child 
 - `role="group"` on host
 - `aria-label` or `aria-labelledby` based on the label
 - Group label is rendered as a visual heading inside the group
+
+## Examples
+
+```html
+<!-- Basic group -->
+<solaris-option-group label="Academic">
+  <solaris-option value="students">Students</solaris-option>
+  <solaris-option value="classes">Classes</solaris-option>
+</solaris-option-group>
+
+<!-- Inside a select -->
+<solaris-select formControlName="role" label="Role">
+  <solaris-option-group label="Academic">
+    <solaris-option value="students">Students</solaris-option>
+  </solaris-option-group>
+  <solaris-option-group label="Financial">
+    <solaris-option value="tuition">Tuition</solaris-option>
+  </solaris-option-group>
+</solaris-select>
+
+<!-- Disabled group -->
+<solaris-option-group label="Maintenance" [disabled]="true">
+  <solaris-option value="item1">Item 1</solaris-option>
+  <solaris-option value="item2">Item 2</solaris-option>
+</solaris-option-group>
+
+<!-- Size -->
+<solaris-option-group label="Academic" size="sm">
+  <solaris-option value="students">Students</solaris-option>
+</solaris-option-group>
+```
 
 ## Limitations (v1)
 

@@ -1,0 +1,79 @@
+<div class="solaris-stepper__indicators">
+  @for (step of steps(); track step; let i = $index) {
+    @if (showConnectors() && i > 0) {
+      <div
+        class="solaris-stepper__connector"
+        [class.solaris-stepper__connector--active]="i <= activeIndex()"
+      ></div>
+    }
+
+    <div
+      class="solaris-stepper__step"
+      [class.solaris-stepper__step--active]="i === activeIndex()"
+      [class.solaris-stepper__step--clickable]="isStepClickable(step)"
+      [attr.data-status]="step.computedStatus()"
+    >
+      @if (isStepClickable(step)) {
+        <button
+          type="button"
+          class="solaris-stepper__indicator-button"
+          (click)="goToStep(i)"
+          [attr.aria-current]="i === activeIndex() ? 'step' : undefined"
+          [attr.aria-disabled]="step.computedStatus() === 'disabled'"
+        >
+          @if (step.icon(); as iconName) {
+            <solaris-icon [name]="iconName" [decorative]="true" />
+          } @else if (step.showCheckIcon()) {
+            <solaris-icon name="check" [decorative]="true" />
+          } @else if (step.showErrorIcon()) {
+            <solaris-icon name="danger" [decorative]="true" />
+          } @else if (showStepNumbers()) {
+            <span class="solaris-stepper__number">{{ i + 1 }}</span>
+          }
+        </button>
+      } @else {
+        <span class="solaris-stepper__indicator-static">
+          @if (step.icon(); as iconName) {
+            <solaris-icon [name]="iconName" [decorative]="true" />
+          } @else if (step.showCheckIcon()) {
+            <solaris-icon name="check" [decorative]="true" />
+          } @else if (step.showErrorIcon()) {
+            <solaris-icon name="danger" [decorative]="true" />
+          } @else if (showStepNumbers()) {
+            <span class="solaris-stepper__number">{{ i + 1 }}</span>
+          }
+        </span>
+      }
+
+      <div class="solaris-stepper__label-group">
+        <span class="solaris-stepper__label">{{ step.resolvedLabel() }}</span>
+        @if (step.resolvedDescription(); as desc) {
+          <span class="solaris-stepper__description">{{ desc }}</span>
+        }
+      </div>
+
+      @if (showStepStatus()) {
+        <span class="solaris-stepper__status-badge">
+          @if (step.resolvedOptionalLabel(); as optLabel) {
+            <span class="solaris-stepper__optional-text">{{ optLabel }}</span>
+          }
+        </span>
+      }
+    </div>
+  }
+</div>
+
+<div
+  class="solaris-stepper__content-panel"
+  [class.solaris-stepper__content-panel--fade]="contentTransition() === 'fade'"
+  [class.solaris-stepper__content-panel--slide-right]="
+    contentTransition() === 'slide' && stepTransitionDirection() === 'next'
+  "
+  [class.solaris-stepper__content-panel--slide-left]="
+    contentTransition() === 'slide' && stepTransitionDirection() === 'previous'
+  "
+>
+  <ng-content select="solaris-step" />
+</div>
+
+<ng-content select="solaris-stepper-actions" />

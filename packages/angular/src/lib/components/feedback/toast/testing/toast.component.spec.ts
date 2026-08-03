@@ -4,8 +4,7 @@ import { Component, input } from '@angular/core';
 import { SolarisToastComponent } from '../component/toast.component';
 import { SolarisToastService } from '../service/toast.service';
 import type { SolarisToastEntry } from '../model/toast.types';
-import { provideSolarisToast } from '../provider/provide-solaris-toast';
-import { provideSolarisIcons } from '../../../../services/icon/provider/provide-solaris-icons';
+import { provideSolaris } from '../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../services/icon/icons/solaris-built-in-icons';
 
 @Component({
@@ -28,8 +27,7 @@ describe('SolarisToastComponent', () => {
     TestBed.configureTestingModule({
       imports: [TestHostComponent],
       providers: [
-        ...provideSolarisToast(),
-        ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
       ],
     });
     service = TestBed.inject(SolarisToastService);

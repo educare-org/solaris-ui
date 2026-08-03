@@ -77,14 +77,14 @@ Project mutation is only allowed through explicit generators or schematics.
 Correct:
 
 ```txt
-pnpm add @solaris-ui/angular
-pnpm exec nx g @solaris-ui/angular:init
+pnpm add @educarehq/solaris-ui
+pnpm exec nx g @educarehq/solaris-ui:init
 ```
 
 or:
 
 ```txt
-ng add @solaris-ui/angular
+ng add @educarehq/solaris-ui
 ```
 
 Wrong:

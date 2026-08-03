@@ -211,6 +211,119 @@ CI commands must follow the same rules as local commands.
 
 A command that only works in Linux CI but fails on Windows development environments is not acceptable for general Solaris documentation or package scripts.
 
+## Script taxonomy
+
+Scripts are part of the architecture.
+
+They must be explicit, predictable, portable, and clear when they fail.
+
+Main rule:
+
+```txt
+start validates minimum health
+verify validates everything
+commit validates changed files
+CI validates the whole project
+```
+
+### Development scripts
+
+```txt
+start
+dev
+showcase
+```
+
+### Fast validation scripts
+
+```txt
+check
+check:workspace
+check:format
+check:lint
+check:types
+```
+
+### Full validation scripts
+
+```txt
+verify
+verify:ci
+test
+test:unit
+test:component
+test:a11y
+test:e2e
+test:visual
+```
+
+### Build scripts
+
+```txt
+build
+build:lib
+build:showcase
+```
+
+### Security scripts
+
+```txt
+security:audit
+security:dependencies
+security:secrets
+security:licenses
+```
+
+### Release scripts
+
+```txt
+changeset
+version
+release
+release:dry-run
+package:check
+```
+
+### Maintenance scripts
+
+```txt
+format
+format:check
+lint
+lint:fix
+clean
+doctor
+```
+
+### `pnpm start`
+
+`pnpm start` must not simply run the application.
+
+It should validate minimum project health first:
+
+- package manager;
+- dependency installation;
+- workspace shape;
+- light format check;
+- affected lint;
+- affected typecheck.
+
+Then it may run the showcase.
+
+### `pnpm verify`
+
+`pnpm verify` must run the full quality gate:
+
+- format check;
+- lint;
+- typecheck;
+- tests;
+- build;
+- accessibility checks;
+- package validation;
+- public API validation;
+- dependency audit.
+
 ## Documentation examples
 
 Documentation must prefer portable commands.
@@ -249,7 +362,20 @@ It should validate:
 - shell-specific commands in package scripts when detectable;
 - missing cross-platform wrappers.
 
+`pnpm doctor` must also diagnose the workspace:
+
+- lockfile integrity;
+- dependency installation;
+- Nx health;
+- Angular buildability;
+- import boundaries;
+- required config files.
+
 ## Error message rule
+
+A failing script must explain what failed and what the developer should do next.
+
+A script that fails without useful guidance is considered incomplete.
 
 Cross-platform validation failures must explain:
 

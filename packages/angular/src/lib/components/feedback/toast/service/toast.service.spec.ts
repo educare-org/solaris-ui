@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { SolarisToastService } from './toast.service';
-import { provideSolarisToast } from '../provider/provide-solaris-toast';
-import { provideSolarisIcons } from '../../../../services/icon/provider/provide-solaris-icons';
+import { provideSolaris } from '../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../services/icon/icons/solaris-built-in-icons';
 
 describe('SolarisToastService', () => {
@@ -11,8 +10,8 @@ describe('SolarisToastService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ...provideSolarisToast(),
-        ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+        ...provideSolaris(),
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
       ],
     });
     service = TestBed.inject(SolarisToastService);
@@ -158,8 +157,10 @@ describe('SolarisToastService - with custom config', () => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       providers: [
-        ...provideSolarisToast({ limit: 2, appearance: 'outline' }),
-        ...provideSolarisIcons({ extraIcons: SOLARIS_BUILT_IN_ICONS }),
+        ...provideSolaris({
+          toast: { limit: 2, appearance: 'outline' },
+          icons: { extraIcons: SOLARIS_BUILT_IN_ICONS },
+        }),
       ],
     });
     service = TestBed.inject(SolarisToastService);

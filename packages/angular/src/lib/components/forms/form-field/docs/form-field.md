@@ -238,6 +238,40 @@ Examples:
 | `md`   | Medium rounding. Default |
 | `lg`   | Large rounding           |
 
+## CSS Variables
+
+General component tokens available for advanced customization:
+
+| Token                                       | Purpose                            |
+| ------------------------------------------- | ---------------------------------- |
+| `--solaris-form-field-focus-ring-width`     | Focus ring width                   |
+| `--solaris-form-field-focus-ring-color`     | Focus ring color                   |
+| `--solaris-form-field-control-color`        | Control text color                 |
+| `--solaris-form-field-control-radius`       | Control border radius              |
+| `--solaris-form-field-control-height`       | Control wrapper height             |
+| `--solaris-form-field-control-gap`          | Gap inside control wrapper         |
+| `--solaris-form-field-control-padding-x`    | Control wrapper horizontal padding |
+| `--solaris-form-field-control-background`   | Control wrapper background         |
+| `--solaris-form-field-control-border-color` | Control wrapper border color       |
+| `--solaris-form-field-control-border-width` | Control wrapper border width       |
+| `--solaris-form-field-readonly-background`  | Readonly background                |
+| `--solaris-form-field-disabled-opacity`     | Disabled opacity                   |
+| `--solaris-form-field-label-color`          | Label text color                   |
+| `--solaris-form-field-label-font-size`      | Label font size                    |
+| `--solaris-form-field-label-font-weight`    | Label font weight                  |
+| `--solaris-form-field-label-margin-bottom`  | Margin below label                 |
+| `--solaris-form-field-hint-color`           | Hint text color                    |
+| `--solaris-form-field-hint-font-size`       | Hint font size                     |
+| `--solaris-form-field-error-color`          | Error text color                   |
+| `--solaris-form-field-error-font-size`      | Error font size                    |
+| `--solaris-form-field-error-border-color`   | Invalid border color               |
+| `--solaris-form-field-message-margin-top`   | Margin above hint/error row        |
+| `--solaris-form-field-prefix-color`         | Prefix content color               |
+| `--solaris-form-field-suffix-color`         | Suffix content color               |
+| `--solaris-form-field-optional-color`       | Optional marker color              |
+| `--solaris-form-field-optional-font-size`   | Optional marker font size          |
+| `--solaris-form-field-font-size`            | Base font size                     |
+
 ## States
 
 ### Focused
@@ -306,6 +340,49 @@ Rules:
 - Optional marker is accessible.
 - Interactive suffix (e.g. icon button) remains focusable.
 - Decorative prefix/suffix do not pollute the accessible name.
+
+## Examples
+
+```html
+<!-- Basic -->
+<solaris-form-field label="Name">
+  <input solaris-input formControlName="name" />
+</solaris-form-field>
+
+<!-- Appearance variants -->
+<solaris-form-field label="Outline" appearance="outline">
+  <input solaris-input />
+</solaris-form-field>
+<solaris-form-field label="Surface" appearance="surface">
+  <input solaris-input />
+</solaris-form-field>
+<solaris-form-field label="Filled" appearance="filled">
+  <input solaris-input />
+</solaris-form-field>
+
+<!-- Hint and error -->
+<solaris-form-field label="Password" hint="Use at least 12 characters." error="This field is required.">
+  <input solaris-input type="password" formControlName="password" />
+</solaris-form-field>
+
+<!-- Prefix and suffix -->
+<solaris-form-field label="Search">
+  <solaris-icon solaris-form-prefix name="search" decorative="true" />
+  <input solaris-input formControlName="search" />
+</solaris-form-field>
+<solaris-form-field label="Value">
+  <span solaris-form-prefix>R$</span>
+  <input solaris-input formControlName="amount" />
+  <span solaris-form-suffix>BRL</span>
+</solaris-form-field>
+
+<!-- Projected label and hint -->
+<solaris-form-field>
+  <solaris-form-label>Email</solaris-form-label>
+  <input solaris-input type="email" formControlName="email" />
+  <solaris-form-hint>We never share your email.</solaris-form-hint>
+</solaris-form-field>
+```
 
 ## Limitations (v1)
 

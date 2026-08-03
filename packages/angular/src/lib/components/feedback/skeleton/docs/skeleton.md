@@ -103,6 +103,21 @@ Custom dimensions override defaults. Accepts any valid CSS length:
 <solaris-skeleton variant="rectangular" height="12rem"></solaris-skeleton>
 ```
 
+## CSS Variables
+
+The following CSS variables can be customized:
+
+| Token                                   | Purpose                                        |
+| --------------------------------------- | ---------------------------------------------- |
+| `--solaris-skeleton-width`              | Skeleton width                                 |
+| `--solaris-skeleton-height`             | Skeleton height                                |
+| `--solaris-skeleton-gap`                | Gap between multi-line skeleton lines          |
+| `--solaris-skeleton-radius`             | Border radius                                  |
+| `--solaris-skeleton-background`         | Base background color                          |
+| `--solaris-skeleton-highlight`          | Shimmer highlight color for the wave animation |
+| `--solaris-skeleton-animation-duration` | Animation duration                             |
+| `--solaris-skeleton-animation-easing`   | Animation easing function                      |
+
 ## Reduced motion
 
 When reduced motion is active (via `prefers-reduced-motion: reduce` or `[data-reduced-motion='true']`), all animations are disabled. The skeleton renders as a static placeholder.
@@ -143,6 +158,39 @@ Skeleton is designed for composition. Combine multiple instances to build loadin
 ```
 
 Skeleton is visual only. It must not be the sole mechanism for communicating loading state.
+
+## Examples
+
+```html
+<!-- Variants -->
+<solaris-skeleton></solaris-skeleton>
+<solaris-skeleton variant="rectangular"></solaris-skeleton>
+<solaris-skeleton variant="circular"></solaris-skeleton>
+
+<!-- Sizes -->
+<solaris-skeleton size="sm"></solaris-skeleton>
+<solaris-skeleton size="lg"></solaris-skeleton>
+
+<!-- Animations -->
+<solaris-skeleton animation="pulse"></solaris-skeleton>
+<solaris-skeleton animation="wave"></solaris-skeleton>
+<solaris-skeleton animation="none"></solaris-skeleton>
+
+<!-- Multi-line text -->
+<solaris-skeleton lines="3"></solaris-skeleton>
+
+<!-- Custom dimensions -->
+<solaris-skeleton width="70%"></solaris-skeleton>
+<solaris-skeleton variant="rectangular" width="12rem" height="6rem"></solaris-skeleton>
+
+<!-- Loading composition -->
+<section aria-busy="true" aria-label="Loading profile">
+  <div class="profile-skeleton">
+    <solaris-skeleton variant="circular" size="lg"></solaris-skeleton>
+    <solaris-skeleton width="60%"></solaris-skeleton>
+  </div>
+</section>
+```
 
 ## Limitations (v1)
 

@@ -96,6 +96,15 @@ if (!peerDeps || Object.keys(peerDeps).length === 0) {
   info(`Peer dependencies: ${Object.keys(peerDeps).join(', ')}`);
 }
 
+if (pkg.schematics) {
+  const schematicsPath = resolve(distDir, pkg.schematics);
+  if (!existsSync(schematicsPath)) {
+    error(`Schematics entry not found: ${pkg.schematics}`);
+  } else {
+    info(`Schematics entry: ${pkg.schematics} ✓`);
+  }
+}
+
 const files = pkg.files;
 if (!files || files.length === 0) {
   info('No "files" field (all files will be published; consider adding one)');

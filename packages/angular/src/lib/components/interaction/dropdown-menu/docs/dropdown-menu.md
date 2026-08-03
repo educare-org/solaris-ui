@@ -99,6 +99,84 @@ Non-interactive label text for menu groups.
 | ------- | -------- | -------- | ----------- |
 | `label` | `string` | required | Label text  |
 
+## Visual variants
+
+### Appearance
+
+Set on the trigger via `solarisDropdownMenuAppearance`.
+
+| Appearance          | Description                                       |
+| ------------------- | ------------------------------------------------- |
+| `surface` (default) | Solid background with shadow, subtle or no border |
+| `outline`           | Surface background with visible border            |
+
+### Radius
+
+Set on the trigger via `solarisDropdownMenuRadius`.
+
+| Radius | Description             |
+| ------ | ----------------------- |
+| `none` | No border radius        |
+| `sm`   | Small radius            |
+| `md`   | Medium radius (default) |
+| `lg`   | Large radius            |
+| `xl`   | Extra large radius      |
+
+### Size
+
+Set on the menu via `size`.
+
+| Size | Description  |
+| ---- | ------------ |
+| `sm` | Compact menu |
+| `md` | Default menu |
+| `lg` | Large menu   |
+
+### Density
+
+Set on the menu via `density`.
+
+| Density       | Effect               |
+| ------------- | -------------------- |
+| `compact`     | Reduced item spacing |
+| `comfortable` | Default item spacing |
+
+### Item colors
+
+Set on the item via `color`.
+
+| Color     | Usage                |
+| --------- | -------------------- |
+| `neutral` | Default item color   |
+| `primary` | Brand accent         |
+| `success` | Positive action      |
+| `warning` | Cautionary action    |
+| `danger`  | Destructive action   |
+| `info`    | Informational action |
+
+## CSS Variables
+
+The following CSS variables can be customized:
+
+| Token                                            | Purpose                           |
+| ------------------------------------------------ | --------------------------------- |
+| `--solaris-dropdown-menu-min-width`              | Minimum menu width                |
+| `--solaris-dropdown-menu-max-width`              | Maximum menu width                |
+| `--solaris-dropdown-menu-gap`                    | Gap between menu items            |
+| `--solaris-dropdown-menu-padding`                | Inner padding of the menu panel   |
+| `--solaris-dropdown-menu-item-gap`               | Gap between icon, label, shortcut |
+| `--solaris-dropdown-menu-item-radius`            | Item border radius                |
+| `--solaris-dropdown-menu-item-padding-y`         | Vertical item padding             |
+| `--solaris-dropdown-menu-item-padding-x`         | Horizontal item padding           |
+| `--solaris-dropdown-menu-item-label-color`       | Item label color                  |
+| `--solaris-dropdown-menu-item-danger-color`      | Text color for danger items       |
+| `--solaris-dropdown-menu-item-shortcut-color`    | Shortcut hint color               |
+| `--solaris-dropdown-menu-item-danger-hover`      | Hover background for danger items |
+| `--solaris-dropdown-menu-item-description-color` | Description text color            |
+| `--solaris-dropdown-menu-item-focus-ring-color`  | Focus ring color                  |
+| `--solaris-dropdown-menu-item-hover-background`  | Item hover background             |
+| `--solaris-dropdown-menu-item-focus-background`  | Item focus background             |
+
 ## Keyboard Navigation
 
 | Key        | Action                                        |

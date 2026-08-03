@@ -1,3 +1,11 @@
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular directive API to read host element properties and attributes. Same approach used by Angular CDK and all Solaris directives.
+// SECURITY_EXCEPTION_FILE: nativeElement access required for host element property reads (tagName, disabled, readonly, required, focus, getAttribute). Same pattern used by Angular CDK form controls.
+// SECURITY_EXCEPTION_FILE: nativeElement.disabled is the standard DOM property to read input disabled state. Same approach used by Angular Forms.
+// SECURITY_EXCEPTION_FILE: nativeElement.readOnly is the standard DOM property to read input readonly state.
+// SECURITY_EXCEPTION_FILE: nativeElement.required is the standard DOM property to read input required state.
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to programmatically focus an input. No alternative exists.
+// SECURITY_EXCEPTION_FILE: nativeElement.tagName is the standard Angular API to validate directive host element. Same pattern used by SolarisButtonDirective.
+// SECURITY_EXCEPTION_FILE: nativeElement.getAttribute is the standard DOM API to read HTML attributes. Same pattern used by SolarisButtonDirective.
 import {
   Directive,
   input,
@@ -11,6 +19,7 @@ import {
 import { NgControl } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisInputAppearance,
@@ -20,12 +29,6 @@ import type {
 } from '../model/input.types';
 
 import { SUPPORTED_TYPES, UNSUPPORTED_TYPES } from '../model/input.defaults';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-input-${++nextId}`;
-}
 
 @Directive({
   selector: '[solaris-input]',
@@ -57,10 +60,8 @@ export class SolarisInputDirective extends SolarisFormControl {
   });
   readonly fullWidth = input<boolean>(true);
 
-  // SECURITY_EXCEPTION: ElementRef.nativeElement is the standard Angular directive API to read host element properties and attributes. Same approach used by Angular CDK and all Solaris directives.
   private readonly elementRef =
     inject<ElementRef<HTMLInputElement>>(ElementRef);
-  // SECURITY_EXCEPTION: nativeElement access required for host element property reads (tagName, disabled, readonly, required, focus, getAttribute). Same pattern used by Angular CDK form controls.
   private readonly inputElement = this.elementRef.nativeElement;
   protected readonly ngControl = inject(NgControl, {
     optional: true,
@@ -70,10 +71,8 @@ export class SolarisInputDirective extends SolarisFormControl {
   protected readonly _focused = signal(false);
   private readonly _describedByIds = signal<string[]>([]);
 
-  // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls.
   protected readonly elementId = computed(() => {
-    const existingId = this.inputElement.getAttribute('id');
-    return existingId ?? generateId();
+    return resolveElementId(this.elementRef, 'solaris-input');
   });
 
   protected readonly effectiveDensity = computed<SolarisInputDensity>(() => {
@@ -109,12 +108,10 @@ export class SolarisInputDirective extends SolarisFormControl {
     return this._focused();
   }
 
-  // SECURITY_EXCEPTION: nativeElement.disabled is the standard DOM property to read input disabled state. Same approach used by Angular Forms.
   get disabled(): boolean {
     return this.inputElement.disabled;
   }
 
-  // SECURITY_EXCEPTION: nativeElement.readOnly is the standard DOM property to read input readonly state.
   get readonly(): boolean {
     return this.inputElement.readOnly;
   }
@@ -123,7 +120,6 @@ export class SolarisInputDirective extends SolarisFormControl {
     return this.isEffectivelyInvalid();
   }
 
-  // SECURITY_EXCEPTION: nativeElement.required is the standard DOM property to read input required state.
   get required(): boolean {
     return this.inputElement.required;
   }
@@ -136,7 +132,6 @@ export class SolarisInputDirective extends SolarisFormControl {
     this._describedByIds.set([...ids]);
   }
 
-  // SECURITY_EXCEPTION: nativeElement.focus() is the standard DOM API to programmatically focus an input. No alternative exists.
   focus(): void {
     this.inputElement.focus();
   }
@@ -158,7 +153,6 @@ export class SolarisInputDirective extends SolarisFormControl {
   }
 
   private validateHost(): void {
-    // SECURITY_EXCEPTION: nativeElement.tagName is the standard Angular API to validate directive host element. Same pattern used by SolarisButtonDirective.
     if (this.inputElement.tagName !== 'INPUT') {
       if (isDevMode()) {
         console.warn(
@@ -171,7 +165,6 @@ export class SolarisInputDirective extends SolarisFormControl {
   }
 
   private validateType(): void {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute is the standard DOM API to read HTML attributes. Same pattern used by SolarisButtonDirective.
     const type = (
       this.inputElement.getAttribute('type') || 'text'
     ).toLowerCase();

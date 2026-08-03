@@ -1,9 +1,9 @@
 :host {
   --solaris-select-icon-color: var(--solaris-text-muted);
-  --solaris-select-value-color: var(--solaris-text-default);
-  --solaris-select-placeholder-color: var(--solaris-text-muted);
   --solaris-select-font-size: var(--solaris-font-size-md);
+  --solaris-select-value-color: var(--solaris-text-default);
   --solaris-select-line-height: var(--solaris-line-height-md);
+  --solaris-select-placeholder-color: var(--solaris-text-muted);
 
   outline: none;
   cursor: pointer;
@@ -12,21 +12,21 @@
   display: inline-flex;
   flex-direction: column;
   box-sizing: border-box;
-  font-family: var(--solaris-font-family-sans, system-ui);
+  font-family: var(--solaris-font-family-sans), system-ui;
 }
 
 .solaris-select__trigger {
   flex: 1;
+  padding: 0;
   min-width: 0;
+  border: none;
   display: flex;
+  outline: none;
+  cursor: pointer;
   align-items: center;
   box-sizing: border-box;
-  gap: var(--solaris-spacing-2);
-  padding: 0;
-  outline: none;
-  border: none;
   background: transparent;
-  cursor: pointer;
+  gap: var(--solaris-spacing-2);
 }
 
 :host ::ng-deep .solaris-form-field__message-row {
@@ -65,6 +65,11 @@
 }
 
 .solaris-select__clear {
+  solaris-icon {
+    width: var(--solaris-font-size-xl);
+    height: var(--solaris-font-size-xl);
+  }
+
   padding: 0;
   border: none;
   display: flex;
@@ -76,12 +81,8 @@
   width: var(--solaris-font-size-xl);
   height: var(--solaris-font-size-xl);
   color: var(--solaris-select-icon-color);
-  transition: color var(--solaris-motion-duration-normal) ease;
-
-  solaris-icon {
-    width: var(--solaris-font-size-xl);
-    height: var(--solaris-font-size-xl);
-  }
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 .solaris-select__clear:hover {
@@ -89,15 +90,16 @@
 }
 
 .solaris-select__dropdown-icon {
-  width: var(--solaris-font-size-xl);
-  height: var(--solaris-font-size-xl);
-  color: var(--solaris-select-icon-color);
-  transition: transform var(--solaris-motion-duration-normal) ease;
-
   solaris-icon {
     width: var(--solaris-font-size-xl);
     height: var(--solaris-font-size-xl);
   }
+
+  width: var(--solaris-font-size-xl);
+  height: var(--solaris-font-size-xl);
+  color: var(--solaris-select-icon-color);
+  transition: transform var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 :host([data-open]) .solaris-select__dropdown-icon {
@@ -113,17 +115,17 @@
 
 .solaris-select__search-input {
   flex: 1;
+  margin: 0;
+  padding: 0;
   min-width: 0;
   border: none;
   outline: none;
-  padding: 0;
-  margin: 0;
   font-family: inherit;
   box-sizing: border-box;
+  background: transparent;
   color: var(--solaris-select-value-color);
   font-size: var(--solaris-select-font-size);
   line-height: var(--solaris-select-line-height);
-  background: transparent;
 }
 
 .solaris-select__search-input::placeholder {

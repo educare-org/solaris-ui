@@ -1,14 +1,13 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 
 import { SolarisIconComponent } from '../component/solaris-icon.component';
-import { provideSolarisIcons } from '../../../services/icon/provider/provide-solaris-icons';
-
+import { provideSolaris } from '../../../providers/provide-solaris';
 describe('SolarisIconComponent', () => {
   let fixture: ComponentFixture<SolarisIconComponent>;
 
   const configureTesting = () => {
     TestBed.configureTestingModule({
-      providers: [provideSolarisIcons()],
+      providers: [provideSolaris()],
     });
 
     fixture = TestBed.createComponent(SolarisIconComponent);

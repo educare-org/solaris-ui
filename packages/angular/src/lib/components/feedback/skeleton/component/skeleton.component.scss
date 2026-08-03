@@ -50,7 +50,7 @@
 }
 
 :host([data-variant='rectangular']) {
-  --solaris-skeleton-height: 8rem;
+  --solaris-skeleton-height: var(--solaris-spacing-20);
 }
 
 :host([data-variant='circular']) {
@@ -63,12 +63,12 @@
 }
 
 :host([data-size='sm'][data-variant='rectangular']) {
-  --solaris-skeleton-height: 6rem;
+  --solaris-skeleton-height: 3.75rem;
 }
 
 :host([data-size='sm'][data-variant='circular']) {
-  --solaris-skeleton-width: 2.25rem;
-  --solaris-skeleton-height: 2.25rem;
+  --solaris-skeleton-width: var(--solaris-spacing-6);
+  --solaris-skeleton-height: var(--solaris-spacing-6);
 }
 
 :host([data-size='lg']) {
@@ -76,38 +76,38 @@
 }
 
 :host([data-size='lg'][data-variant='rectangular']) {
-  --solaris-skeleton-height: 10rem;
+  --solaris-skeleton-height: 6.25rem;
 }
 
 :host([data-size='lg'][data-variant='circular']) {
-  --solaris-skeleton-width: 3.75rem;
-  --solaris-skeleton-height: 3.75rem;
+  --solaris-skeleton-width: 2.25rem;
+  --solaris-skeleton-height: 2.25rem;
 }
 
 :host([data-density='compact']) {
-  --solaris-skeleton-height: 0.625rem;
+  --solaris-skeleton-height: 0.375rem;
 }
 
 :host([data-density='compact'][data-variant='rectangular']) {
-  --solaris-skeleton-height: 5rem;
+  --solaris-skeleton-height: var(--solaris-spacing-12);
 }
 
 :host([data-density='compact'][data-variant='circular']) {
-  --solaris-skeleton-width: 2rem;
-  --solaris-skeleton-height: 2rem;
+  --solaris-skeleton-width: var(--solaris-spacing-5);
+  --solaris-skeleton-height: var(--solaris-spacing-5);
 }
 
 :host([data-density='comfortable']) {
-  --solaris-skeleton-height: 1.125rem;
+  --solaris-skeleton-height: var(--solaris-spacing-3);
 }
 
 :host([data-density='comfortable'][data-variant='rectangular']) {
-  --solaris-skeleton-height: 9rem;
+  --solaris-skeleton-height: 5.5rem;
 }
 
 :host([data-density='comfortable'][data-variant='circular']) {
-  --solaris-skeleton-width: 3.5rem;
-  --solaris-skeleton-height: 3.5rem;
+  --solaris-skeleton-width: 2.25rem;
+  --solaris-skeleton-height: 2.25rem;
 }
 
 :host([data-radius='none']) {

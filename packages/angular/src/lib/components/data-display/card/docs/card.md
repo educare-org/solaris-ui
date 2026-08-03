@@ -30,17 +30,17 @@ This means:
 
 ## API
 
-```typescript
-@Component({
-  selector: 'solaris-card',
-  standalone: true,
-})
-class SolarisCardComponent {
-  appearance: SolarisCardAppearance; // 'surface' | 'outline' | 'tonal' | 'glass'
-  radius: SolarisCardRadius; // 'none' | 'sm' | 'lg' | 'xl'
-  density: SolarisCardDensity; // 'compact' | 'comfortable' (inherits from theme)
-}
-```
+### SolarisCardComponent
+
+**Selector:** `solaris-card`
+
+| Input          | Type                                           | Default     | Description                      |
+| -------------- | ---------------------------------------------- | ----------- | -------------------------------- |
+| `appearance`   | `'surface' \| 'outline' \| 'tonal' \| 'glass'` | `'surface'` | Visual appearance                |
+| `radius`       | `'none' \| 'sm' \| 'lg' \| 'xl'`               | `'lg'`      | Border radius                    |
+| `size`         | `'sm' \| 'md' \| 'lg'`                         | `'md'`      | Internal section gap and padding |
+| `density`      | `'compact' \| 'comfortable'`                   | inherited   | Density variant                  |
+| `glassTexture` | `'none' \| 'grooves'`                          | `'none'`    | Decorative texture (glass only)  |
 
 ## Wrappers
 
@@ -92,6 +92,33 @@ Default: `surface`
 Default: `lg`
 
 Radius `full` is not supported in Card v1.
+
+## Size
+
+| Size | Effect                                                                          |
+| ---- | ------------------------------------------------------------------------------- |
+| `sm` | Reduced section gap and padding (`--solaris-spacing-4`)                         |
+| `md` | Default section gap and padding                                                 |
+| `lg` | Increased section gap and padding (`--solaris-spacing-6`/`--solaris-spacing-8`) |
+
+Default: `md`
+
+`size` controls the internal section gap and padding, not the card's width. The card still expands to fit its content unless constrained by its parent.
+
+## Glass Texture
+
+`glassTexture` adds a decorative texture overlay to the `glass` appearance. It only takes effect when `appearance="glass"`.
+
+| Texture   | Effect                                                    |
+| --------- | --------------------------------------------------------- |
+| `none`    | No extra texture (default)                                |
+| `grooves` | Repeating radial-gradient groove pattern over the surface |
+
+```html
+<solaris-card appearance="glass" glassTexture="grooves">
+  <solaris-card-content>Content</solaris-card-content>
+</solaris-card>
+```
 
 ## Density
 

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 
 import type {
   SolarisButtonGroupOrientation,
@@ -10,6 +10,7 @@ import type {
   standalone: true,
   templateUrl: './button-group.component.html',
   styleUrls: ['./button-group.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'group',
     '[attr.data-orientation]': 'orientation()',

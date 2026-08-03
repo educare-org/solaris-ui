@@ -1,3 +1,5 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
+// SECURITY_EXCEPTION_FILE: nativeElement.childNodes is the standard DOM API to check for projected content in the host element. Same pattern used by Angular CDK content projection detection.
 import {
   Component,
   input,
@@ -10,12 +12,14 @@ import {
   ElementRef,
   viewChild,
   afterNextRender,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SOLARIS_RADIO_GROUP_NAME } from '../../radio-group/model/radio-group.token';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisRadioAppearance,
@@ -23,12 +27,6 @@ import type {
   SolarisRadioSize,
   SolarisRadioDensity,
 } from '../model/radio.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-radio-${++nextId}`;
-}
 
 @Component({
   selector: 'solaris-radio',
@@ -46,6 +44,7 @@ function generateId(): string {
   ],
   templateUrl: './radio.component.html',
   styleUrls: ['./radio.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',
@@ -114,8 +113,8 @@ export class SolarisRadioComponent
   readonly ariaLabelKey = input<string>();
 
   readonly checkedChange = output<boolean>();
-  // eslint-disable-next-line @angular-eslint/no-output-native
-  readonly change = output<Event>();
+
+  readonly changeEvent = output<Event>();
 
   protected readonly effectiveDensity = computed<SolarisRadioDensity>(() => {
     return this.density() ?? 'comfortable';
@@ -134,9 +133,7 @@ export class SolarisRadioComponent
   });
 
   protected readonly elementId = computed(() => {
-    // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls.
-    const existingId = this.elementRef.nativeElement.getAttribute('id');
-    return existingId || generateId();
+    return resolveElementId(this.elementRef, 'solaris-radio');
   });
 
   protected readonly ariaDescribedBy = computed(() => {
@@ -209,7 +206,6 @@ export class SolarisRadioComponent
   focus(): void {
     const input = this.inputElementRef();
     if (input) {
-      // SECURITY_EXCEPTION: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
       input.nativeElement.focus();
     }
   }
@@ -238,11 +234,6 @@ export class SolarisRadioComponent
     this.cvaReadonly.set(isReadonly);
   }
 
-  setChecked(value: boolean): void {
-    this._checked.set(value);
-    this.onChange(value);
-  }
-
   protected onInputChange(event: Event): void {
     if (this.isEffectivelyDisabled() || this.isEffectivelyReadonly()) {
       event.preventDefault();
@@ -255,7 +246,7 @@ export class SolarisRadioComponent
     this._checked.set(input.checked);
     this.onChange(input.checked);
     this.checkedChange.emit(input.checked);
-    this.change.emit(event);
+    this.changeEvent.emit(event);
     this.onTouched();
   }
 
@@ -276,7 +267,6 @@ export class SolarisRadioComponent
         return;
       }
       this.contentChecked = true;
-      // SECURITY_EXCEPTION: nativeElement.childNodes is the standard DOM API to check for projected content in the host element. Same pattern used by Angular CDK content projection detection.
       const nativeElement = this.elementRef.nativeElement;
       const hasContent = Array.from(nativeElement.childNodes).some(
         (node) => node.nodeType !== Node.COMMENT_NODE,

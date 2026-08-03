@@ -1,0 +1,16 @@
+:root {
+  --solaris-focus-ring-width: 2px;
+  --solaris-focus-ring-offset: 2px;
+  --solaris-focus-ring-color: var(--solaris-primary-base);
+  --solaris-focus-ring-style: solid;
+}
+
+[data-theme='dark'] {
+  --solaris-focus-ring-color: var(--solaris-primary-hover);
+}
+
+[data-theme='high-contrast'] {
+  --solaris-focus-ring-width: 3px;
+  --solaris-focus-ring-offset: 2px;
+  --solaris-focus-ring-color: #000000;
+}

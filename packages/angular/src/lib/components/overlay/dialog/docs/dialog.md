@@ -12,13 +12,13 @@ Dialog blocks the flow and demands user attention. Use for confirmations, alerts
 
 ## Installation
 
-The Dialog module is part of the `@solaris-ui/angular` package. To use it, add the provider:
+The Dialog module is part of the `@educarehq/solaris-ui` package. To use it, add the provider:
 
 ```typescript
-import { provideSolarisDialog } from '@solaris-ui/angular';
+import { provideSolaris } from '@educarehq/solaris-ui';
 
 bootstrapApplication(App, {
-  providers: [provideSolarisDialog()],
+  providers: [provideSolaris()],
 });
 ```
 
@@ -198,6 +198,28 @@ this.dialog.open({
 
 - `surface`: Default. Surface/raised background with shadow, no border.
 - `outline`: Surface background with visible border.
+
+## CSS Variables
+
+The following CSS variables can be customized. Panel and backdrop tokens are declared on the dialog container; icon and close tokens on the dialog header.
+
+| Token                               | Purpose                                 |
+| ----------------------------------- | --------------------------------------- |
+| `--solaris-dialog-panel-bg`         | Panel background                        |
+| `--solaris-dialog-panel-padding`    | Panel inner padding                     |
+| `--solaris-dialog-panel-radius`     | Panel border radius                     |
+| `--solaris-dialog-panel-shadow`     | Panel box shadow                        |
+| `--solaris-dialog-panel-border`     | Panel border color (outline appearance) |
+| `--solaris-dialog-panel-min-width`  | Panel minimum width                     |
+| `--solaris-dialog-panel-max-width`  | Panel maximum width                     |
+| `--solaris-dialog-panel-max-height` | Panel maximum height                    |
+| `--solaris-dialog-backdrop-bg`      | Backdrop background                     |
+| `--solaris-dialog-z-index`          | Stack order of the overlay              |
+| `--solaris-dialog-icon-color`       | Header icon color                       |
+| `--solaris-dialog-icon-size`        | Header icon size                        |
+| `--solaris-dialog-media-size`       | Header icon container size              |
+| `--solaris-dialog-close-size`       | Close button size                       |
+| `--solaris-dialog-close-icon-size`  | Close icon size                         |
 
 ## Accessibility
 

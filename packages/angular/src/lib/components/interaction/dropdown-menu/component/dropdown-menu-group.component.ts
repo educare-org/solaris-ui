@@ -1,4 +1,9 @@
-import { Component, contentChild, computed } from '@angular/core';
+import {
+  Component,
+  contentChild,
+  computed,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 import { SolarisDropdownMenuLabelComponent } from './dropdown-menu-label.component';
 
@@ -8,6 +13,7 @@ let nextGroupId = 0;
   selector: 'solaris-dropdown-menu-group',
   standalone: true,
   templateUrl: './dropdown-menu-group.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.role]': 'computedRole()',
     '[id]': 'groupId',

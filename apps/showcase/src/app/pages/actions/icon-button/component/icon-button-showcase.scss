@@ -36,6 +36,7 @@
 
   &__note {
     @include layout.note;
+
     margin-top: 1rem;
   }
 
@@ -53,15 +54,11 @@
   isolation: isolate;
   border-radius: var(--solaris-radius-lg);
   background:
-    radial-gradient(
-      circle at 70% 35%,
-      rgba(255, 126, 36, 0.26),
-      transparent 55%
-    ),
+    radial-gradient(circle at 70% 35%, rgb(255 126 36 / 26%), transparent 55%),
     linear-gradient(
       135deg,
-      rgba(255, 104, 24, 0.22),
-      rgba(255, 58, 24, 0.08) 48%,
+      rgb(255 104 24 / 22%),
+      rgb(255 58 24 / 8%) 48%,
       transparent
     ),
     var(--solaris-surface-base);

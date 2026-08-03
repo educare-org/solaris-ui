@@ -4,7 +4,7 @@
   --solaris-radio-group-column-gap: var(--solaris-spacing-3);
   --solaris-radio-group-label-color: var(--solaris-text-strong);
   --solaris-radio-group-hint-color: var(--solaris-text-muted);
-  --solaris-radio-group-error-color: var(--solaris-text-danger);
+  --solaris-radio-group-error-color: var(--solaris-danger-text);
   --solaris-radio-group-label-font-size: var(--solaris-font-size-sm);
   --solaris-radio-group-label-line-height: var(--solaris-line-height-md);
   --solaris-radio-group-hint-font-size: var(--solaris-font-size-xs);
@@ -32,8 +32,7 @@
 }
 
 :host([data-orientation='horizontal']) .solaris-radio-group__options {
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
 }
 
 :host([data-layout='grid']) .solaris-radio-group__options {
@@ -71,7 +70,7 @@
 }
 
 :host([data-disabled]) {
-  opacity: 0.5;
+  opacity: var(--solaris-opacity-50);
   cursor: not-allowed;
 }
 

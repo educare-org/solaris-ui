@@ -11,14 +11,14 @@ Package installation must not silently mutate consumer files.
 Correct:
 
 ```txt
-pnpm add @solaris-ui/angular
-pnpm exec nx g @solaris-ui/angular:init
+pnpm add @educarehq/solaris-ui
+pnpm exec nx g @educarehq/solaris-ui:init
 ```
 
 or:
 
 ```txt
-ng add @solaris-ui/angular
+ng add @educarehq/solaris-ui
 ```
 
 Wrong:
@@ -52,7 +52,7 @@ src/styles/solaris.scss
 Conceptual shape:
 
 ```scss
-@use '@solaris-ui/angular/styles' as solaris;
+@use '@educarehq/solaris-ui/styles' as solaris;
 
 @include solaris.core();
 
@@ -61,7 +61,6 @@ Conceptual shape:
     color-scheme: system,
     density: comfortable,
     radius: md,
-    typography-scale: rem-10,
   )
 );
 ```

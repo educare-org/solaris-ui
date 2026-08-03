@@ -1,3 +1,10 @@
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular directive API to read host element properties and attributes. Same approach used by Angular CDK and all Solaris directives.
+// SECURITY_EXCEPTION_FILE: nativeElement access required for host element property reads (tagName, disabled, readonly, required, focus, getAttribute). Same pattern used by Angular CDK form controls.
+// SECURITY_EXCEPTION_FILE: nativeElement.disabled is the standard DOM property to read textarea disabled state. Same approach used by Angular Forms.
+// SECURITY_EXCEPTION_FILE: nativeElement.readOnly is the standard DOM property to read textarea readonly state.
+// SECURITY_EXCEPTION_FILE: nativeElement.required is the standard DOM property to read textarea required state.
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to programmatically focus a textarea. No alternative exists.
+// SECURITY_EXCEPTION_FILE: nativeElement.tagName is the standard Angular API to validate directive host element. Same pattern used by SolarisInputDirective.
 import {
   Directive,
   input,
@@ -11,6 +18,7 @@ import {
 import { NgControl } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisTextareaAppearance,
@@ -19,12 +27,6 @@ import type {
   SolarisTextareaRadius,
   SolarisTextareaResize,
 } from '../model/textarea.types';
-
-let nextId = 0;
-
-function generateId(): string {
-  return `solaris-textarea-${++nextId}`;
-}
 
 @Directive({
   selector: '[solaris-textarea]',
@@ -58,10 +60,8 @@ export class SolarisTextareaDirective extends SolarisFormControl {
   readonly fullWidth = input<boolean>(true);
   readonly resize = input<SolarisTextareaResize>('vertical');
 
-  // SECURITY_EXCEPTION: ElementRef.nativeElement is the standard Angular directive API to read host element properties and attributes. Same approach used by Angular CDK and all Solaris directives.
   private readonly elementRef =
     inject<ElementRef<HTMLTextAreaElement>>(ElementRef);
-  // SECURITY_EXCEPTION: nativeElement access required for host element property reads (tagName, disabled, readonly, required, focus, getAttribute). Same pattern used by Angular CDK form controls.
   private readonly textareaElement = this.elementRef.nativeElement;
   protected readonly ngControl = inject(NgControl, {
     optional: true,
@@ -71,10 +71,8 @@ export class SolarisTextareaDirective extends SolarisFormControl {
   protected readonly _focused = signal(false);
   private readonly _describedByIds = signal<string[]>([]);
 
-  // SECURITY_EXCEPTION: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls.
   protected readonly elementId = computed(() => {
-    const existingId = this.textareaElement.getAttribute('id');
-    return existingId ?? generateId();
+    return resolveElementId(this.elementRef, 'solaris-textarea');
   });
 
   protected readonly effectiveDensity = computed<SolarisTextareaDensity>(() => {
@@ -110,12 +108,10 @@ export class SolarisTextareaDirective extends SolarisFormControl {
     return this._focused();
   }
 
-  // SECURITY_EXCEPTION: nativeElement.disabled is the standard DOM property to read textarea disabled state. Same approach used by Angular Forms.
   get disabled(): boolean {
     return this.textareaElement.disabled;
   }
 
-  // SECURITY_EXCEPTION: nativeElement.readOnly is the standard DOM property to read textarea readonly state.
   get readonly(): boolean {
     return this.textareaElement.readOnly;
   }
@@ -124,7 +120,6 @@ export class SolarisTextareaDirective extends SolarisFormControl {
     return this.isEffectivelyInvalid();
   }
 
-  // SECURITY_EXCEPTION: nativeElement.required is the standard DOM property to read textarea required state.
   get required(): boolean {
     return this.textareaElement.required;
   }
@@ -137,7 +132,6 @@ export class SolarisTextareaDirective extends SolarisFormControl {
     this._describedByIds.set([...ids]);
   }
 
-  // SECURITY_EXCEPTION: nativeElement.focus() is the standard DOM API to programmatically focus a textarea. No alternative exists.
   focus(): void {
     this.textareaElement.focus();
   }
@@ -158,7 +152,6 @@ export class SolarisTextareaDirective extends SolarisFormControl {
   }
 
   private validateHost(): void {
-    // SECURITY_EXCEPTION: nativeElement.tagName is the standard Angular API to validate directive host element. Same pattern used by SolarisInputDirective.
     if (this.textareaElement.tagName !== 'TEXTAREA') {
       if (isDevMode()) {
         console.warn(

@@ -135,6 +135,28 @@ Textarea respects the native `rows` attribute:
 
 If `rows` is not specified, a visual min-height is applied based on size and density.
 
+## CSS Variables
+
+Textarea tokens can be customized on the textarea element or a parent:
+
+| Token                                     | Purpose                   |
+| ----------------------------------------- | ------------------------- |
+| `--solaris-textarea-radius`               | Border radius             |
+| `--solaris-textarea-color`                | Text color                |
+| `--solaris-textarea-background`           | Background color          |
+| `--solaris-textarea-border-color`         | Border color              |
+| `--solaris-textarea-border-width`         | Border width              |
+| `--solaris-textarea-padding-x`            | Horizontal padding        |
+| `--solaris-textarea-padding-y`            | Vertical padding          |
+| `--solaris-textarea-font-size`            | Font size                 |
+| `--solaris-textarea-line-height`          | Line height               |
+| `--solaris-textarea-min-height`           | Minimum height            |
+| `--solaris-textarea-placeholder-color`    | Placeholder text color    |
+| `--solaris-textarea-focus-ring-color`     | Focus ring color          |
+| `--solaris-textarea-invalid-border-color` | Invalid border color      |
+| `--solaris-textarea-disabled-opacity`     | Disabled opacity          |
+| `--solaris-textarea-readonly-background`  | Readonly background color |
+
 ## Placeholder
 
 Placeholder must not replace a label. Documented anti-pattern:
@@ -175,6 +197,36 @@ Textarea preserves native behavior. Autocomplete, spellcheck, text selection, co
 - Placeholder is not treated as a label.
 - No additional `role` is added (native textarea role is already correct).
 - Readonly and disabled are visually distinguishable.
+
+## Examples
+
+```html
+<!-- Standalone -->
+<textarea solaris-textarea placeholder="Description"></textarea>
+
+<!-- With rows -->
+<textarea solaris-textarea rows="4" placeholder="Notes"></textarea>
+
+<!-- Appearances -->
+<textarea solaris-textarea appearance="surface" placeholder="Surface"></textarea>
+<textarea solaris-textarea appearance="filled" placeholder="Filled"></textarea>
+
+<!-- Resize -->
+<textarea solaris-textarea resize="none" placeholder="Not resizable"></textarea>
+<textarea solaris-textarea resize="both" placeholder="Resizable in both directions"></textarea>
+
+<!-- States -->
+<textarea solaris-textarea [invalid]="true" placeholder="Invalid"></textarea>
+<textarea solaris-textarea disabled></textarea>
+
+<!-- Form Field integration -->
+<solaris-form-field label="Description" hint="Provide a concise description.">
+  <textarea solaris-textarea></textarea>
+</solaris-form-field>
+
+<!-- Reactive Forms -->
+<textarea solaris-textarea formControlName="description"></textarea>
+```
 
 ## Limitations of Textarea v1
 

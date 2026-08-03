@@ -14,7 +14,7 @@
 
 ## When to use
 
-- Inside a future `solaris-select`, `solaris-multi-select`, or `solaris-autocomplete`.
+- Inside a `solaris-select`, `solaris-multi-select`, or a future `solaris-autocomplete`.
 - When you need a structured list item with leading icon, label, description, meta text, and trailing content.
 - When you need visual preparation for single or multi selection.
 
@@ -144,6 +144,31 @@ Disabled options have reduced opacity and `aria-disabled="true"`. They are not i
 
 Parent components can control these for all child options.
 
+## CSS Variables
+
+Option tokens can be customized on the host or a parent element:
+
+| Token                                    | Purpose                                    |
+| ---------------------------------------- | ------------------------------------------ |
+| `--solaris-option-min-height`            | Minimum row height                         |
+| `--solaris-option-background`            | Background color                           |
+| `--solaris-option-gap`                   | Gap between leading, content, and trailing |
+| `--solaris-option-radius`                | Border radius                              |
+| `--solaris-option-padding-y`             | Vertical padding                           |
+| `--solaris-option-padding-x`             | Horizontal padding                         |
+| `--solaris-option-label-color`           | Label text color                           |
+| `--solaris-option-description-color`     | Description text color                     |
+| `--solaris-option-description-font-size` | Description font size                      |
+| `--solaris-option-meta-color`            | Meta text color                            |
+| `--solaris-option-meta-font-size`        | Meta font size                             |
+| `--solaris-option-indicator-size`        | Selection indicator size                   |
+| `--solaris-option-indicator-color`       | Selection indicator border/background      |
+| `--solaris-option-selected-color`        | Selected text color                        |
+| `--solaris-option-selected-background`   | Selected background color                  |
+| `--solaris-option-hover-background`      | Hover background color                     |
+| `--solaris-option-active-background`     | Active background color (mouse/keyboard)   |
+| `--solaris-option-disabled-opacity`      | Disabled opacity                           |
+
 ## Accessibility
 
 - `role="option"` on host
@@ -158,7 +183,7 @@ Parent components can control these for all child options.
 - Option is **not** a `ControlValueAccessor`
 - Option **does not** use `formControlName`
 - Option **does not** control selection alone
-- Select/Multi Select/Autocomplete will control selection
+- Select and Multi Select control selection; Autocomplete is future
 - Option can show visual multi-select indicator but **does not** implement multi-select behavior
 - Option can show expansion icon in trailing but **does not** implement submenu
 - Option Group is **not** collapsible in v1

@@ -42,21 +42,23 @@ Toast communicates **temporary floating feedback**. It appears as an overlay car
 
 ## API
 
-### provideSolarisToast
+### provideSolaris
 
 ```typescript
-import { provideSolarisToast } from '@solaris-ui/angular';
+import { provideSolaris } from '@solaris-ui/angular';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideSolarisToast({
-      position: 'top-end',
-      duration: 5000,
-      limit: 5,
-      appearance: 'surface',
-      pauseOnHover: true,
-      pauseOnFocus: true,
-      newestOnTop: true,
+    provideSolaris({
+      toast: {
+        position: 'top-end',
+        duration: 5000,
+        limit: 5,
+        appearance: 'surface',
+        pauseOnHover: true,
+        pauseOnFocus: true,
+        newestOnTop: true,
+      },
     }),
   ],
 });
@@ -453,7 +455,7 @@ Use the `custom` variant with documented CSS variables:
 
 ---
 
-## Usage examples
+## Examples
 
 ### Basic toast
 

@@ -1,0 +1,193 @@
+:host {
+  --solaris-tabs-gap: 0;
+  --solaris-tabs-padding: 0;
+  --solaris-tabs-tab-height: auto;
+  --solaris-tabs-badge-gap: var(--solaris-spacing-2);
+  --solaris-tabs-tab-radius: var(--solaris-radius-sm);
+  --solaris-tabs-tab-color: var(--solaris-text-default);
+  --solaris-tabs-tab-padding-y: var(--solaris-spacing-2);
+  --solaris-tabs-tab-padding-x: var(--solaris-spacing-3);
+  --solaris-tabs-panel-padding: var(--solaris-spacing-4);
+  --solaris-tabs-border-color: var(--solaris-border-subtle);
+  --solaris-tabs-indicator-color: var(--solaris-primary-base);
+  --solaris-tabs-tab-active-color: var(--solaris-primary-text);
+  --solaris-tabs-indicator-size: var(--solaris-border-width-md);
+  --solaris-tabs-tab-hover-background: var(--solaris-surface-subtle);
+  --solaris-tabs-tab-active-background: var(--solaris-primary-surface);
+
+  width: 100%;
+  display: block;
+}
+
+:host([data-orientation='vertical']) {
+  display: flex;
+  gap: var(--solaris-spacing-4);
+}
+
+.solaris-tabs__tablist {
+  display: flex;
+  position: relative;
+  align-items: stretch;
+  gap: var(--solaris-tabs-gap);
+}
+
+:host([data-orientation='horizontal']) .solaris-tabs__tablist {
+  overflow: auto hidden;
+  flex-direction: row;
+  scrollbar-width: thin;
+  border-bottom: var(--solaris-border-width-sm) solid
+    var(--solaris-tabs-border-color);
+}
+
+:host([data-orientation='vertical']) .solaris-tabs__tablist {
+  flex-shrink: 0;
+  flex-direction: column;
+  border-right: var(--solaris-border-width-sm) solid
+    var(--solaris-tabs-border-color);
+}
+
+:host([data-scrollable='false'][data-orientation='horizontal'])
+  .solaris-tabs__tablist {
+  overflow: visible;
+}
+
+:host([data-full-width='true'][data-orientation='horizontal'])
+  .solaris-tabs__tablist {
+  display: flex;
+}
+
+:host([data-appearance='pills'][data-orientation='horizontal'])
+  .solaris-tabs__tablist {
+  border-bottom: none;
+  gap: var(--solaris-spacing-1);
+}
+
+:host([data-appearance='underline'][data-orientation='horizontal'])
+  .solaris-tabs__tablist {
+  border-bottom: var(--solaris-border-width-sm) solid
+    var(--solaris-tabs-border-color);
+}
+
+:host([data-appearance='enclosed'][data-orientation='horizontal'])
+  .solaris-tabs__tablist {
+  margin-bottom: 0;
+  border-bottom: var(--solaris-border-width-sm) solid
+    var(--solaris-tabs-border-color);
+}
+
+:host([data-appearance='enclosed'][data-orientation='horizontal'])
+  .solaris-tabs__panels {
+  border: var(--solaris-border-width-sm) solid var(--solaris-tabs-border-color);
+  border-top: none;
+  border-radius: 0 0 var(--solaris-radius-sm) var(--solaris-radius-sm);
+}
+
+.solaris-tabs__panels {
+  position: relative;
+  overflow: hidden;
+}
+
+:host([data-orientation='vertical']) .solaris-tabs__panels {
+  flex: 1;
+  min-width: 0;
+}
+
+.solaris-tabs__panels--fade > ::ng-deep solaris-tab-panel[data-active='true'] {
+  animation: solaris-tabs-fade-in var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-tabs__panels--slide > ::ng-deep solaris-tab-panel[data-active='true'] {
+  animation: solaris-tabs-slide-in-right var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-tabs__panels--slide-from-left
+  > ::ng-deep
+  solaris-tab-panel[data-active='true'] {
+  animation-name: solaris-tabs-slide-in-left;
+}
+
+@keyframes solaris-tabs-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes solaris-tabs-slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(var(--solaris-spacing-4));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes solaris-tabs-slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(calc(-1 * var(--solaris-spacing-4)));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.solaris-tabs__indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: var(--solaris-tabs-indicator-size);
+  background: var(--solaris-tabs-indicator-color);
+  border-radius: var(--solaris-radius-sm) var(--solaris-radius-sm) 0 0;
+  transition: none;
+  pointer-events: none;
+  z-index: var(--solaris-z-index-content);
+}
+
+.solaris-tabs__indicator--vertical {
+  inset: 0 0 auto auto;
+  width: var(--solaris-tabs-indicator-size);
+  height: 0;
+  border-radius: var(--solaris-radius-sm) 0 0 var(--solaris-radius-sm);
+}
+
+.solaris-tabs__indicator--animate {
+  transition:
+    transform var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    width var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    height var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-tabs__panels--fade > ::ng-deep solaris-tab-panel[data-active='true'],
+  .solaris-tabs__panels--slide
+    > ::ng-deep
+    solaris-tab-panel[data-active='true'] {
+    animation: none;
+  }
+  .solaris-tabs__indicator {
+    transition: none;
+  }
+}
+
+:host-context([data-reduced-motion='true']) {
+  .solaris-tabs__panels--fade > ::ng-deep solaris-tab-panel[data-active='true'],
+  .solaris-tabs__panels--slide
+    > ::ng-deep
+    solaris-tab-panel[data-active='true'] {
+    animation: none;
+  }
+  .solaris-tabs__indicator {
+    transition: none;
+  }
+}

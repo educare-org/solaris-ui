@@ -22,6 +22,8 @@ feedback
 overlay
 navigation
 data-display
+interaction
+icon
 ```
 
 ## Minimum component questions

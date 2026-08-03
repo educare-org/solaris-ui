@@ -61,4 +61,13 @@ export const PT_BR_CARD: Record<string, string> = {
   'card.density-comfortable-content': 'Área de conteúdo com mais espaçamento.',
   'card.footer-no-separator': 'Rodapé sem separador.',
   'card.footer-with-separator': 'Rodapé com separador.',
+  'card.size': 'Tamanho',
+  'card.size-desc':
+    'Opções sm, md e lg de tamanho controlando o padding interno.',
+  'card.size-sm': 'sm',
+  'card.size-sm-desc': 'Padding compacto ideal para layouts densos.',
+  'card.size-md': 'md',
+  'card.size-md-desc': 'Padding padrão para a maioria dos casos.',
+  'card.size-lg': 'lg',
+  'card.size-lg-desc': 'Padding espaçoso para conteúdo em destaque.',
 };

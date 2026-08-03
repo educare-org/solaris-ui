@@ -10,8 +10,6 @@
   --solaris-segmented-item-font-weight: var(--solaris-font-weight-medium);
   --solaris-segmented-item-hover-background: var(--solaris-surface-subtle);
 
-  // SOLARIS_TOKEN_EXCEPTION: z-index 2 ensures selected item renders above indicator. Will be replaced by z-index scale token in future.
-  z-index: 2;
   border: none;
   cursor: pointer;
   user-select: none;
@@ -22,6 +20,7 @@
   text-decoration: none;
   background: transparent;
   gap: var(--solaris-segmented-item-gap);
+  z-index: var(--solaris-z-index-raised);
   color: var(--solaris-segmented-item-color);
   padding: var(--solaris-segmented-item-padding-y)
     var(--solaris-segmented-item-padding-x);
@@ -31,7 +30,6 @@
     calc(var(--solaris-segmented-radius) - var(--solaris-segmented-padding)),
     calc(var(--solaris-segmented-padding) - var(--solaris-segmented-radius))
   );
-
   transition:
     color var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
@@ -39,7 +37,7 @@
       var(--solaris-motion-easing-standard);
 }
 
-:host(:hover:not([data-disabled='true']):not([data-selected='true'])) {
+:host(:hover:not([data-disabled='true'], [data-selected='true'])) {
   background: var(--solaris-segmented-item-hover-background);
 }
 
@@ -47,8 +45,8 @@
   --solaris-segmented-item-icon-size: calc(var(--solaris-font-size-md) * 1.2);
 }
 
-:host:not([data-selected='true']):not([data-disabled='true']) {
-  opacity: 0.5;
+:host:not([data-selected='true'], [data-disabled='true']) {
+  opacity: var(--solaris-opacity-50);
 }
 
 :host(:focus-visible) {
@@ -62,7 +60,7 @@
 }
 
 :host([data-disabled='true']) {
-  opacity: 0.15;
+  opacity: var(--solaris-opacity-10);
   cursor: not-allowed;
 }
 
@@ -71,7 +69,7 @@
 }
 
 :host([data-selected='true'][data-disabled='true']) {
-  opacity: 0.4;
+  opacity: var(--solaris-opacity-40);
 }
 
 :host-context([data-orientation='vertical']) {
