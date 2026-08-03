@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focusin/focusout are standard DOM events for focus tracking. Same pattern used by Solaris FormField.
 import {
   Component,
   input,
@@ -13,14 +14,14 @@ import {
   type OnDestroy,
   NgZone,
   ChangeDetectionStrategy,
+  type OutputRefSubscription,
 } from '@angular/core';
-import { type Subscription } from 'rxjs';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
-import { SolarisCheckboxComponent } from '../../checkbox/component/checkbox.component';
 import { SolarisTranslateService } from '../../../../services/translation';
-import { resolveElementId } from '../../../../core/utils/id';
+import { SolarisCheckboxComponent } from '../../checkbox';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisCheckboxGroupOrientation,
@@ -80,7 +81,6 @@ export class SolarisCheckboxGroupComponent
 
   protected readonly checkboxes = contentChildren(SolarisCheckboxComponent);
 
-  /** Inputs */
   readonly orientation = input<SolarisCheckboxGroupOrientation>('vertical');
   readonly layout = input<SolarisCheckboxGroupLayout>('list');
   readonly columns = input<SolarisCheckboxGroupColumns>(1);
@@ -117,34 +117,28 @@ export class SolarisCheckboxGroupComponent
   readonly ariaLabel = input<string>();
   readonly ariaLabelKey = input<string>();
 
-  /** Outputs */
   readonly valueChange = output<unknown[]>();
 
-  readonly change = output<unknown[]>();
+  readonly changeEvent = output<unknown[]>();
 
-  /** Internal state */
   private readonly _value = signal<unknown[]>([]);
   private readonly _focused = signal(false);
   private readonly _describedByIds = signal<string[]>([]);
   private readonly cvaDisabled = signal(false);
   private readonly autoInvalid = signal(false);
 
-  /** CVA callbacks */
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: unknown[]) => void = () => {};
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onTouched: () => void = () => {};
 
-  /** Subscriptions cleanup */
   private readonly checkboxCvaSubscriptions = new Map<
     SolarisCheckboxComponent,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any
+    OutputRefSubscription
   >();
   private contentInitialized = false;
   private focusListenersAttached = false;
 
-  /** IDs */
   protected readonly groupId = computed(() => {
     return resolveElementId(this.elementRef, 'solaris-checkbox-group');
   });
@@ -152,7 +146,6 @@ export class SolarisCheckboxGroupComponent
   protected readonly hintId = computed(() => `${this.groupId()}-hint`);
   protected readonly errorId = computed(() => `${this.groupId()}-error`);
 
-  /** Computed */
   protected readonly columnsStr = computed(() => String(this.columns()));
 
   protected readonly effectiveDensity = computed<SolarisCheckboxGroupDensity>(
@@ -247,7 +240,6 @@ export class SolarisCheckboxGroupComponent
     return null;
   });
 
-  /** Select-all computed */
   protected readonly selectAllChecked = computed(() => {
     const children = this.getEnabledCheckboxes();
     if (children.length === 0) return false;
@@ -263,7 +255,6 @@ export class SolarisCheckboxGroupComponent
     return checkedCount > 0 && checkedCount < children.length;
   });
 
-  /** SolarisFormControl implementation */
   get id(): string {
     return this.groupId();
   }
@@ -296,6 +287,10 @@ export class SolarisCheckboxGroupComponent
     this._describedByIds.set([...ids]);
   }
 
+  constructor() {
+    super();
+  }
+
   focus(): void {
     const first = this.checkboxes()[0];
     if (first) {
@@ -303,7 +298,6 @@ export class SolarisCheckboxGroupComponent
     }
   }
 
-  /** CVA implementation */
   writeValue(value: unknown[] | null): void {
     this._value.set(Array.isArray(value) ? [...value] : []);
     this.syncChildrenToValue();
@@ -322,7 +316,6 @@ export class SolarisCheckboxGroupComponent
     this.propagateDisabledToChildren();
   }
 
-  /** ContentChildren lifecycle */
   ngAfterContentInit(): void {
     this.contentInitialized = true;
     this.attachFocusListeners();
@@ -345,12 +338,10 @@ export class SolarisCheckboxGroupComponent
     this.unsubscribeAllCheckboxes();
   }
 
-  /** Focus tracking */
   private attachFocusListeners(): void {
     if (this.focusListenersAttached) return;
     this.focusListenersAttached = true;
 
-    // SECURITY_EXCEPTION: nativeElement.focusin/focusout are standard DOM events for focus tracking. Same pattern used by Solaris FormField.
     const native = this.elementRef.nativeElement;
     this.ngZone.runOutsideAngular(() => {
       native.addEventListener('focusin', () => {
@@ -367,7 +358,6 @@ export class SolarisCheckboxGroupComponent
     });
   }
 
-  /** Init checkbox tracking */
   private initCheckboxes(): void {
     this.unsubscribeAllCheckboxes();
     this.checkboxes().forEach((checkbox) => {
@@ -383,7 +373,6 @@ export class SolarisCheckboxGroupComponent
     this.checkboxCvaSubscriptions.clear();
   }
 
-  /** Child checkbox interaction */
   private onChildCheckedChange(
     child: SolarisCheckboxComponent,
     checked: boolean,
@@ -411,7 +400,6 @@ export class SolarisCheckboxGroupComponent
     this.updateValue(currentValue);
   }
 
-  /** Select all interaction */
   protected onSelectAllChange(checked: boolean): void {
     if (this.isEffectivelyDisabled() || this.isEffectivelyReadonly()) {
       return;
@@ -439,16 +427,14 @@ export class SolarisCheckboxGroupComponent
     this.updateValue(currentValue);
   }
 
-  /** Value update */
   private updateValue(newValue: unknown[]): void {
     this._value.set(newValue);
     this.syncChildrenToValue();
     this.onChange(newValue);
     this.valueChange.emit(newValue);
-    this.change.emit(newValue);
+    this.changeEvent.emit(newValue);
   }
 
-  /** Sync checkboxes to current value */
   private syncChildrenToValue(): void {
     if (!this.contentInitialized) return;
     const currentValue = this._value();
@@ -461,19 +447,16 @@ export class SolarisCheckboxGroupComponent
     });
   }
 
-  /** Get enabled (non-disabled, non-readonly) checkboxes */
   private getEnabledCheckboxes(): readonly SolarisCheckboxComponent[] {
     return this.checkboxes().filter((c) => !c.disabled && !c.readonly);
   }
 
-  /** Check if a child's value is selected */
   private isChildValueInValue(child: SolarisCheckboxComponent): boolean {
     const childValue = child.value();
     const cmp = this.compareWith();
     return this._value().some((v) => cmp(v, childValue));
   }
 
-  /** Propagate disabled to children */
   private propagateDisabledToChildren(): void {
     if (!this.contentInitialized) return;
     const isDisabled = this.isEffectivelyDisabled();
@@ -482,7 +465,6 @@ export class SolarisCheckboxGroupComponent
     });
   }
 
-  /** Propagate readonly to children */
   private propagateReadonlyToChildren(): void {
     if (!this.contentInitialized) return;
     const isReadonly = this.isEffectivelyReadonly();
@@ -491,7 +473,6 @@ export class SolarisCheckboxGroupComponent
     });
   }
 
-  /** Effect: propagate disabled/readonly when inputs change */
   private readonly _propagateEffect = effect(() => {
     if (!this.contentInitialized) return;
     this.isEffectivelyDisabled();
@@ -500,7 +481,6 @@ export class SolarisCheckboxGroupComponent
     this.propagateReadonlyToChildren();
   });
 
-  /** Effect: re-validate on value/min/max changes */
   private readonly _validateEffect = effect(() => {
     this._value();
     this.minSelected();
@@ -514,10 +494,6 @@ export class SolarisCheckboxGroupComponent
     const max = this.maxSelected();
     const isOutOfBounds =
       (min != null && count < min) || (max != null && count > max);
-    this.autoInvalid.set(!!isOutOfBounds);
-  }
-
-  constructor() {
-    super();
+    this.autoInvalid.set(isOutOfBounds);
   }
 }

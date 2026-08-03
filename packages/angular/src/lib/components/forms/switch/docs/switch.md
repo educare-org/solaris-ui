@@ -58,7 +58,7 @@ Switch is a form control component that represents a binary on/off configuration
 | Output          | Type      | Description                        |
 | --------------- | --------- | ---------------------------------- |
 | `checkedChange` | `boolean` | Emitted when checked state changes |
-| `change`        | `Event`   | Native change event                |
+| `changeEvent`   | `Event`   | Native change event                |
 
 Label can also be provided via content projection: `<solaris-switch>Label text</solaris-switch>`. Projected content wins over the `label` input.
 

@@ -219,7 +219,7 @@ describe('SolarisRadioComponent outputs', () => {
   it('should emit change on user interaction', () => {
     createFixture();
     let emitted = false;
-    fixture.componentRef.instance.change.subscribe(() => {
+    fixture.componentRef.instance.changeEvent.subscribe(() => {
       emitted = true;
     });
     fixture.detectChanges();
@@ -237,7 +237,7 @@ describe('SolarisRadioComponent outputs', () => {
     fixture.componentRef.instance.checkedChange.subscribe(() => {
       emittedChecked = true;
     });
-    fixture.componentRef.instance.change.subscribe(() => {
+    fixture.componentRef.instance.changeEvent.subscribe(() => {
       emittedChange = true;
     });
     fixture.detectChanges();

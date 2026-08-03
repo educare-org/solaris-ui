@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focusin/focusout are standard DOM events for focus tracking. Same pattern used by Solaris FormField and Checkbox/Radio groups.
 import {
   Component,
   input,
@@ -13,15 +14,14 @@ import {
   type OnDestroy,
   NgZone,
   ChangeDetectionStrategy,
+  type OutputRefSubscription,
 } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Subscription = any;
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisSwitchComponent } from '../../switch';
-import { resolveElementId } from '../../../../core/utils/id';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisSwitchGroupOrientation,
@@ -108,7 +108,7 @@ export class SolarisSwitchGroupComponent
 
   readonly valueChange = output<Record<string, boolean>>();
 
-  readonly change = output<Record<string, boolean>>();
+  readonly changeEvent = output<Record<string, boolean>>();
 
   private readonly _value = signal<Record<string, boolean>>({});
   private readonly _focused = signal(false);
@@ -123,7 +123,7 @@ export class SolarisSwitchGroupComponent
 
   private readonly switchSubscriptions = new Map<
     SolarisSwitchComponent,
-    Subscription
+    OutputRefSubscription
   >();
   private contentInitialized = false;
   private focusListenersAttached = false;
@@ -328,7 +328,6 @@ export class SolarisSwitchGroupComponent
     if (this.focusListenersAttached) return;
     this.focusListenersAttached = true;
 
-    // SECURITY_EXCEPTION: nativeElement.focusin/focusout are standard DOM events for focus tracking. Same pattern used by Solaris FormField and Checkbox/Radio groups.
     const native = this.elementRef.nativeElement;
     this.ngZone.runOutsideAngular(() => {
       native.addEventListener('focusin', () => {
@@ -383,7 +382,7 @@ export class SolarisSwitchGroupComponent
     this._value.set(newValue);
     this.onChange(newValue);
     this.valueChange.emit(newValue);
-    this.change.emit(newValue);
+    this.changeEvent.emit(newValue);
   }
 
   private syncSwitchesToValue(): void {

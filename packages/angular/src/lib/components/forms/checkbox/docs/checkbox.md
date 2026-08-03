@@ -46,7 +46,7 @@ Checkbox is a form control component that allows users to select or deselect an 
 | --------------------- | --------- | ---------------------------------------- |
 | `checkedChange`       | `boolean` | Emitted when checked state changes       |
 | `indeterminateChange` | `boolean` | Emitted when indeterminate state changes |
-| `change`              | `Event`   | Native change event                      |
+| `changeEvent`         | `Event`   | Native change event                      |
 
 Label can also be provided via content projection: `<solaris-checkbox>Label text</solaris-checkbox>`. Projected content wins over the `label` input.
 

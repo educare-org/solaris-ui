@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focusin/focusout are standard DOM events for focus tracking. Same pattern used by Solaris FormField.
 import {
   Component,
   input,
@@ -13,16 +14,15 @@ import {
   type AfterContentInit,
   type OnDestroy,
   ChangeDetectionStrategy,
+  type OutputRefSubscription,
 } from '@angular/core';
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Subscription = any;
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
-import { SolarisRadioComponent } from '../../radio/component/radio.component';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SOLARIS_RADIO_GROUP_NAME } from '../model/radio-group.token';
-import { resolveElementId } from '../../../../core/utils/id';
+import { SolarisRadioComponent } from '../../radio';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisRadioGroupOrientation,
@@ -123,7 +123,7 @@ export class SolarisRadioGroupComponent
 
   readonly valueChange = output<unknown>();
 
-  readonly change = output<unknown>();
+  readonly changeEvent = output<unknown>();
 
   private readonly _value = signal<unknown>(undefined);
   private readonly _focused = signal(false);
@@ -137,7 +137,7 @@ export class SolarisRadioGroupComponent
 
   private readonly radioSubscriptions = new Map<
     SolarisRadioComponent,
-    Subscription
+    OutputRefSubscription
   >();
   private contentInitialized = false;
   private focusListenersAttached = false;
@@ -317,7 +317,6 @@ export class SolarisRadioGroupComponent
     if (this.focusListenersAttached) return;
     this.focusListenersAttached = true;
 
-    // SECURITY_EXCEPTION: nativeElement.focusin/focusout are standard DOM events for focus tracking. Same pattern used by Solaris FormField.
     const native = this.elementRef.nativeElement;
     this.ngZone.runOutsideAngular(() => {
       native.addEventListener('focusin', () => {
@@ -340,7 +339,7 @@ export class SolarisRadioGroupComponent
       const sub = radio.checkedChange.subscribe((checked: boolean) => {
         this.onRadioCheckedChange(radio, checked);
       });
-      this.radioSubscriptions.set(radio, sub as unknown as Subscription);
+      this.radioSubscriptions.set(radio, sub);
     });
   }
 
@@ -377,7 +376,7 @@ export class SolarisRadioGroupComponent
     this.syncRadiosToValue();
     this.onChange(newValue);
     this.valueChange.emit(newValue);
-    this.change.emit(newValue);
+    this.changeEvent.emit(newValue);
   }
 
   private syncRadiosToValue(): void {

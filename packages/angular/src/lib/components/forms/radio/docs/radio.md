@@ -42,7 +42,7 @@ Radio is a form control component that represents a single option within a set o
 | Output          | Type      | Description                        |
 | --------------- | --------- | ---------------------------------- |
 | `checkedChange` | `boolean` | Emitted when checked state changes |
-| `change`        | `Event`   | Native change event                |
+| `changeEvent`   | `Event`   | Native change event                |
 
 Label can also be provided via content projection: `<solaris-radio>Label text</solaris-radio>`. Projected content wins over the `label` input.
 

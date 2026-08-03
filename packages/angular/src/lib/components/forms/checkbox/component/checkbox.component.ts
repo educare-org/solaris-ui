@@ -1,3 +1,6 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
+// SECURITY_EXCEPTION_FILE: nativeElement.indeterminate is the standard DOM property to set indeterminate on a native checkbox. No HTML attribute alternative exists.
+// SECURITY_EXCEPTION_FILE: nativeElement.childNodes is the standard DOM API to check for projected content in the host element. Same pattern used by Angular CDK content projection detection.
 import {
   Component,
   input,
@@ -16,7 +19,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
-import { resolveElementId } from '../../../../core/utils/id';
+import { resolveElementId } from '../../../../core';
 
 import type {
   SolarisCheckboxAppearance,
@@ -117,7 +120,7 @@ export class SolarisCheckboxComponent
   readonly checkedChange = output<boolean>();
   readonly indeterminateChange = output<boolean>();
 
-  readonly change = output<Event>();
+  readonly changeEvent = output<Event>();
 
   protected readonly effectiveDensity = computed<SolarisCheckboxDensity>(() => {
     return this.density() ?? 'comfortable';
@@ -204,7 +207,6 @@ export class SolarisCheckboxComponent
   focus(): void {
     const input = this.inputElementRef();
     if (input) {
-      // SECURITY_EXCEPTION: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
       input.nativeElement.focus();
     }
   }
@@ -212,7 +214,6 @@ export class SolarisCheckboxComponent
   private readonly syncIndeterminate = effect(() => {
     const el = this.inputElementRef();
     if (el) {
-      // SECURITY_EXCEPTION: nativeElement.indeterminate is the standard DOM property to set indeterminate on a native checkbox. No HTML attribute alternative exists.
       el.nativeElement.indeterminate = this.indeterminate();
     }
   });
@@ -260,7 +261,7 @@ export class SolarisCheckboxComponent
     this._checked.set(input.checked);
     this.onChange(input.checked);
     this.checkedChange.emit(input.checked);
-    this.change.emit(event);
+    this.changeEvent.emit(event);
     this.onTouched();
   }
 
@@ -281,7 +282,6 @@ export class SolarisCheckboxComponent
         return;
       }
       this.contentChecked = true;
-      // SECURITY_EXCEPTION: nativeElement.childNodes is the standard DOM API to check for projected content in the host element. Same pattern used by Angular CDK content projection detection.
       const nativeElement = this.elementRef.nativeElement;
       const hasContent = Array.from(nativeElement.childNodes).some(
         (node) => node.nodeType !== Node.COMMENT_NODE,

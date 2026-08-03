@@ -151,7 +151,7 @@ Readonly must block all value-changing interactions (same as disabled), but must
 - Text selection and reading
 - Focusability when appropriate
 
-Readonly must not emit `valueChange` / `change` from user interaction.
+Readonly must not emit `valueChange` / `changeEvent` from user interaction.
 
 ## Overlay cleanup
 

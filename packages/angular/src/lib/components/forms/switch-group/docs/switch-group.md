@@ -75,7 +75,7 @@ Each key corresponds to the `value` of a child switch.
 | Output        | Type                      | Description                     |
 | ------------- | ------------------------- | ------------------------------- |
 | `valueChange` | `Record<string, boolean>` | Emitted when the value changes. |
-| `change`      | `Record<string, boolean>` | Emitted on every value change.  |
+| `changeEvent` | `Record<string, boolean>` | Emitted on every value change.  |
 
 ## CVA (ControlValueAccessor)
 
