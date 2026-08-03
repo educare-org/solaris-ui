@@ -421,8 +421,20 @@ export type {
 export { SolarisCollapsibleComponent } from './lib/components/interaction/collapsible/component/collapsible.component';
 export type {
   SolarisCollapsibleSize,
+  SolarisCollapsibleAppearance,
+  SolarisCollapsibleValue,
   SolarisCollapsibleConfig,
 } from './lib/components/interaction/collapsible/model/collapsible.types';
+
+export { SolarisAccordionComponent } from './lib/components/interaction/accordion/component/accordion.component';
+export type {
+  SolarisAccordionAppearance,
+  SolarisAccordionType,
+  SolarisAccordionSize,
+  SolarisAccordionValue,
+  SolarisAccordionModel,
+  SolarisAccordionConfig,
+} from './lib/components/interaction/accordion/model/accordion.types';
 
 export { SolarisEditableTabsComponent } from './lib/components/navigation/editable-tabs/component/editable-tabs.component';
 export { SolarisEditableTabComponent } from './lib/components/navigation/editable-tabs/editable-tab/editable-tab.component';

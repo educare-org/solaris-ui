@@ -73,6 +73,13 @@ describe('SolarisCollapsibleComponent', () => {
   })
   class LargeHost {}
 
+  @Component({
+    standalone: true,
+    imports: [SolarisCollapsibleComponent],
+    template: `<solaris-collapsible appearance="lined" label="Details" />`,
+  })
+  class LinedHost {}
+
   let fixture: ComponentFixture<TestHostComponent>;
 
   const getHost = (): HTMLElement =>
@@ -214,6 +221,21 @@ describe('SolarisCollapsibleComponent', () => {
         'solaris-collapsible',
       ) as HTMLElement;
       expect(hostEl.getAttribute('data-size')).toBe('lg');
+    });
+  });
+
+  describe('appearance', () => {
+    it('should default to boxed', () => {
+      expect(getHost().getAttribute('data-appearance')).toBe('boxed');
+    });
+
+    it('should reflect the appearance input', () => {
+      const linedFixture = TestBed.createComponent(LinedHost);
+      linedFixture.detectChanges();
+      const hostEl = linedFixture.nativeElement.querySelector(
+        'solaris-collapsible',
+      ) as HTMLElement;
+      expect(hostEl.getAttribute('data-appearance')).toBe('lined');
     });
   });
 });

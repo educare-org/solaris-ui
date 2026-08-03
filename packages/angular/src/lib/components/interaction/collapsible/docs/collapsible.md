@@ -10,21 +10,32 @@ a collapsible panel. It is the base primitive for Accordion.
 
 ### Inputs
 
-| Input          | Type                   | Default | Description                                   |
-| -------------- | ---------------------- | ------- | --------------------------------------------- |
-| `open`         | `boolean`              | `false` | Two-way binding that controls the open state. |
-| `label`        | `string`               | —       | Visible trigger text.                         |
-| `labelKey`     | `string`               | —       | i18n key resolved for the trigger text.       |
-| `ariaLabel`    | `string`               | —       | Accessible name used when no visible label.   |
-| `ariaLabelKey` | `string`               | —       | i18n key resolved for the accessible name.    |
-| `disabled`     | `boolean`              | `false` | Disables the trigger interaction.             |
-| `size`         | `'sm' \| 'md' \| 'lg'` | `'md'`  | Reserved for density variants.                |
+| Input          | Type                   | Default          | Description                                                                      |
+| -------------- | ---------------------- | ---------------- | -------------------------------------------------------------------------------- |
+| `open`         | `boolean`              | `false`          | Two-way binding that controls the open state (standalone mode).                  |
+| `value`        | `string \| number`     | —                | Unique identifier used when controlled by an Accordion.                          |
+| `appearance`   | `'boxed' \| 'lined'`   | `'boxed'`        | Visual mode. `boxed` is a bordered card; `lined` is a divider under the trigger. |
+| `label`        | `string`               | —                | Visible trigger text.                                                            |
+| `labelKey`     | `string`               | —                | i18n key resolved for the trigger text.                                          |
+| `ariaLabel`    | `string`               | —                | Accessible name used when no visible label.                                      |
+| `ariaLabelKey` | `string`               | —                | i18n key resolved for the accessible name.                                       |
+| `disabled`     | `boolean`              | `false`          | Disables the trigger interaction.                                                |
+| `size`         | `'sm' \| 'md' \| 'lg'` | `'md'`           | Reserved for density variants.                                                   |
+| `icon`         | `string`               | `'chevron-down'` | Icon rendered at the end of the trigger.                                         |
 
 ### Outputs
 
 | Output       | Type      | Description                          |
 | ------------ | --------- | ------------------------------------ |
 | `openChange` | `boolean` | Emitted when the open state changes. |
+
+## Controlled mode (Accordion)
+
+When a `solaris-collapsible` is projected inside a `solaris-accordion`, it acts
+as an accordion section: the open state is owned by the container, a heading is
+rendered around the trigger, and `value` is used for identification. In that
+mode `open`/`openChange` are ignored and the `appearance`, `headingLevel`, and
+`expandIcon` are inherited from the container.
 
 ## Accessibility
 
@@ -33,10 +44,14 @@ a collapsible panel. It is the base primitive for Accordion.
 - The panel has `role="region"` and `aria-labelledby` referencing the trigger.
 - When collapsed, the panel is `aria-hidden` and `inert`, removing its content
   from the accessibility tree and the tab order.
+- In Accordion mode, the trigger is wrapped in a heading (`h2`–`h6`) per the APG
+  Accordion pattern.
 - Keyboard: Enter and Space toggle the disclosure via the native button.
 
 ## Visual variants
 
+- **Appearance**: `boxed` (bordered card) or `lined` (divider under the
+  trigger, except the last sibling).
 - **Size**: `sm`, `md`, `lg` control the reserved density of the component.
 
 ## CSS Variables

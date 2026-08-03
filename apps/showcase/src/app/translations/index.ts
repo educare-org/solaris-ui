@@ -30,6 +30,7 @@ import { SEGMENTED_CONTROL_TRANSLATIONS } from '../pages/navigation/segmented-co
 import { DIVIDER_TRANSLATIONS } from '../pages/content/divider/translations';
 import { DROPDOWN_MENU_TRANSLATIONS } from '../pages/interaction/dropdown-menu/translations';
 import { COLLAPSIBLE_TRANSLATIONS } from '../pages/interaction/collapsible/translations';
+import { ACCORDION_TRANSLATIONS } from '../pages/interaction/accordion/translations';
 import { EDITABLE_TABS_TRANSLATIONS } from '../pages/navigation/editable-tabs/translations';
 
 const PAGE_MODULES = [
@@ -65,6 +66,7 @@ const PAGE_MODULES = [
   DIVIDER_TRANSLATIONS,
   DROPDOWN_MENU_TRANSLATIONS,
   COLLAPSIBLE_TRANSLATIONS,
+  ACCORDION_TRANSLATIONS,
   EDITABLE_TABS_TRANSLATIONS,
 ];
 

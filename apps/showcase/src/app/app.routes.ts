@@ -226,6 +226,13 @@ export const appRoutes: Route[] = [
       ).then((m) => m.CollapsibleShowcasePage),
   },
   {
+    path: 'accordion',
+    loadComponent: () =>
+      import('./pages/interaction/accordion/component/accordion-showcase').then(
+        (m) => m.AccordionShowcasePage,
+      ),
+  },
+  {
     path: 'editable-tabs',
     loadComponent: () =>
       import(

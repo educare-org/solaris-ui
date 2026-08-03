@@ -1,31 +1,72 @@
-<div class="solaris-collapsible__header">
+@if (headingLevel()) {
+  @switch (headingLevel()) {
+    @case (2) {
+      <h2 class="solaris-collapsible__header">
+        <ng-container *ngTemplateOutlet="triggerContent" />
+      </h2>
+    }
+    @case (3) {
+      <h3 class="solaris-collapsible__header">
+        <ng-container *ngTemplateOutlet="triggerContent" />
+      </h3>
+    }
+    @case (4) {
+      <h4 class="solaris-collapsible__header">
+        <ng-container *ngTemplateOutlet="triggerContent" />
+      </h4>
+    }
+    @case (5) {
+      <h5 class="solaris-collapsible__header">
+        <ng-container *ngTemplateOutlet="triggerContent" />
+      </h5>
+    }
+    @case (6) {
+      <h6 class="solaris-collapsible__header">
+        <ng-container *ngTemplateOutlet="triggerContent" />
+      </h6>
+    }
+    @default {
+      <h3 class="solaris-collapsible__header">
+        <ng-container *ngTemplateOutlet="triggerContent" />
+      </h3>
+    }
+  }
+} @else {
+  <div class="solaris-collapsible__header">
+    <ng-container *ngTemplateOutlet="triggerContent" />
+  </div>
+}
+
+<ng-template #triggerContent>
   <button
     type="button"
     class="solaris-collapsible__trigger"
     [id]="triggerId()"
-    [attr.aria-expanded]="open()"
+    [attr.aria-expanded]="isOpen()"
     [attr.aria-controls]="panelId()"
     [attr.aria-label]="effectiveAriaLabel()"
-    [disabled]="disabled()"
+    [attr.aria-disabled]="!canToggleClosed() && isOpen() ? 'true' : null"
+    [disabled]="isEffectivelyDisabled()"
     (click)="toggle()"
   >
     <span class="solaris-collapsible__trigger-label">
       {{ labelText() }}
     </span>
     <solaris-icon
-      name="chevron-down"
+      [name]="effectiveIcon()"
       class="solaris-collapsible__trigger-icon"
       [decorative]="true"
     />
   </button>
-</div>
+</ng-template>
+
 <div
   class="solaris-collapsible__panel"
   [id]="panelId()"
   role="region"
   [attr.aria-labelledby]="triggerId()"
-  [attr.aria-hidden]="open() ? null : 'true'"
-  [attr.inert]="open() ? null : ''"
+  [attr.aria-hidden]="isOpen() ? null : 'true'"
+  [attr.inert]="isOpen() ? null : ''"
 >
   <div class="solaris-collapsible__panel-inner">
     <ng-content />
