@@ -1,251 +1,126 @@
-# Solaris UI — Publish Guide
+# Solaris UI - Publish Guide
 
 ## Purpose
 
-This document describes the step-by-step process to publish `@educarehq/solaris-ui` to npm.
+This document describes how to release `@educarehq/solaris-ui` to npm.
 
-It covers the Changesets workflow, pre-publication validation, npm registry setup, and post-publish verification.
-
----
+Solaris uses Changesets for versioning and changelog generation. The Angular package is built with ng-packagr, so npm publication must use the generated artifact at `dist/packages/angular`.
 
 ## Prerequisites
 
 Before publishing, ensure:
 
-1. You have npm publishing rights for the `@solaris-ui` organization.
-2. You are logged in to npm (`npm whoami` returns your publishing account).
-3. Your npm account has 2FA enabled.
-4. The package `@educarehq/solaris-ui` is not already published at the target version.
-5. You are on the `main` branch and it is up to date.
-6. The working directory is clean (`git status` shows no uncommitted changes).
+- You are releasing from `main` or from a release branch that will be merged into `main`.
+- `develop` has been reconciled with `main` before the release branch is created.
+- The working directory is clean.
+- `pnpm verify` passes locally before the release branch is merged.
+- `packages/angular/package.json` contains the version that should be published.
+- The npm package version is not already published.
+- GitHub Actions has an `NPM_TOKEN` secret with publish access to `@educarehq/solaris-ui`.
+- The npm package has provenance/trusted-publishing support configured when `--provenance` is enabled.
 
----
+## Release Versioning
 
-## Step 1 — Run the full validation
-
-```bash
-pnpm verify
-```
-
-This runs format check, lint, typecheck, tests, build, accessibility checks, package validation, public API validation, and dependency audit.
-
-A publish must not proceed if `pnpm verify` fails.
-
----
-
-## Step 2 — Create a Changeset
+Run Changesets versioning on the release branch:
 
 ```bash
-pnpm changeset
-```
-
-Answer the prompts:
-
-- Select `@educarehq/solaris-ui`.
-- Choose the bump type (`patch`, `minor`, or `major`) according to SemVer.
-- Write a clear changelog entry describing what changed.
-
-Changeset files are created in `.changeset/` as markdown files.
-
----
-
-## Step 3 — Review the Changeset
-
-Read the generated file:
-
-```bash
-cat .changeset/*.md
-```
-
-Ensure the bump type is correct and the changelog entry is accurate.
-
-Commit the changeset:
-
-```bash
-git add .
-git commit -m "chore(release): add changeset for <description>"
-```
-
----
-
-## Step 4 — Version the package
-
-```bash
+pnpm changeset status --since=main
 pnpm changeset version
 ```
 
-This:
+Review the generated diff carefully. It should update:
 
-- Updates the package version in `package.json`.
-- Updates the changelog.
-- Removes the changeset files.
+- `packages/angular/package.json`
+- `packages/angular/CHANGELOG.md`
+- consumed files under `.changeset/`
 
-Review the diff:
+For the `0.4.0` release, the expected package bump is:
 
-```bash
-git diff
+```txt
+@educarehq/solaris-ui: 0.3.3 -> 0.4.0
 ```
 
-Make sure the version is correct and the changelog is well formatted.
-
----
-
-## Step 5 — Commit the version bump
+Commit the release version bump:
 
 ```bash
 git add .
-git commit -m "chore(release): bump @educarehq/solaris-ui to <version>"
+git commit -m "chore(release): bump @educarehq/solaris-ui to 0.4.0"
 ```
 
----
+## Local Validation
 
-## Step 6 — Build the package
-
-```bash
-pnpm build
-```
-
-This produces the distributable at `dist/packages/angular/`.
-
----
-
-## Step 7 — Validate the package contents
+Run the full local validation before merging the release branch:
 
 ```bash
+pnpm verify
+pnpm build:lib
 pnpm package:check
 ```
 
-This validates:
+`pnpm verify` runs the project validation pipeline. `pnpm build:lib` builds the publishable Angular package and schematics into `dist/packages/angular`. `pnpm package:check` validates that generated artifact.
 
-- Correct files are included.
-- No internal files are accidentally exposed.
-- Package metadata is correct.
-- Entry points resolve correctly.
+## CI Publication
 
----
+The release workflow is defined in `.github/workflows/release.yml` and runs on pushes to `main`.
 
-## Step 8 — Publish to npm
+The workflow:
 
-```bash
-pnpm publish dist/packages/angular --access public
-```
+- Reads the local package name and version from `packages/angular/package.json`.
+- Reads the currently published npm version.
+- Skips publication if the local version is already published.
+- Installs dependencies.
+- Runs `pnpm verify`.
+- Runs `pnpm build:lib` to rebuild the release artifact, including schematics.
+- Runs `pnpm package:check`.
+- Publishes `dist/packages/angular` with `npm publish --access public --provenance`.
+- Creates and pushes the git tag `<package-name>@<version>`.
 
-Or, if using the Changesets publish command:
+The workflow publishes the ng-packagr output, not the source package directory. Do not replace it with `pnpm changeset publish` unless the package layout changes.
 
-```bash
-pnpm changeset publish
-```
+## Manual Publication Fallback
 
-The publish command:
-
-- Publishes the package to npm.
-- Creates a Git tag for the version.
-- Pushes the tag to the remote.
-
-When publishing directly, ensure you use `--access public` since scoped packages default to private.
-
----
-
-## Step 9 — Verify the published package
+If CI publication is unavailable, use the same artifact manually:
 
 ```bash
-npm view @educarehq/solaris-ui versions --json
+pnpm install --frozen-lockfile
+pnpm verify
+pnpm build:lib
+pnpm package:check
+npm publish dist/packages/angular --access public --provenance
 ```
 
-Or check the latest:
+If npm requires two-factor authentication for manual publication, pass the OTP explicitly:
+
+```bash
+npm publish dist/packages/angular --access public --provenance --otp <code>
+```
+
+## Post-Publish Verification
+
+After publication, verify npm and git state:
 
 ```bash
 npm view @educarehq/solaris-ui version
+npm view @educarehq/solaris-ui versions --json
+git tag --list "@educarehq/solaris-ui@*"
 ```
 
-Install the published version in a temporary project and verify it works:
+The npm version should match `packages/angular/package.json`.
+
+## Rollback Policy
+
+Do not unpublish a version that may have been installed by consumers.
+
+If a bad release is published:
+
+- Publish a patch release with the fix.
+- Deprecate the bad version with a clear migration message.
 
 ```bash
-mkdir temp-verify
-cd temp-verify
-npm init -y
-npm install @educarehq/solaris-ui
+npm deprecate @educarehq/solaris-ui@<bad-version> "Use @educarehq/solaris-ui@<fixed-version> instead."
 ```
 
----
-
-## Step 10 — Push the release commit and tag
-
-If `pnpm changeset publish` did not push automatically:
-
-```bash
-git push origin main --follow-tags
-```
-
----
-
-## CI/CD Publishing
-
-For automated publishing through CI:
-
-1. Configure npm trusted publishing (OpenID Connect) in the npm registry.
-2. Set up provenance (attestations) in the npm registry.
-3. Configure a GitHub Actions workflow that triggers on push to `main`.
-4. The workflow must run `pnpm verify` before publishing.
-5. The workflow must use `pnpm changeset publish` with the npm token configured as a secret.
-
-Example CI workflow outline:
-
-```yaml
-name: Release
-on:
-  push:
-    branches: [main]
-jobs:
-  release:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      id-token: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          registry-url: 'https://registry.npmjs.org'
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm verify
-      - run: pnpm changeset publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-```
-
----
-
-## Security Requirements
-
-- npm account must have 2FA enabled.
-- CI must use trusted publishing when available.
-- CI must use minimal permissions.
-- Never commit `.npmrc` files with authentication tokens.
-- Never expose `NPM_TOKEN` in logs.
-- Use the `--otp` flag when 2FA code is required for manual publishing.
-- Before public release, ensure supply chain security measures are in place (see `SECURITY_BASELINE.md`).
-
----
-
-## Rollback
-
-npm does not allow unpublishing packages that other packages depend on.
-
-If a bad release happens:
-
-1. Do not unpublish a version that consumers may depend on.
-2. Publish a patch fixing the issue.
-3. Deprecate the bad version with a clear message:
-   ```bash
-   npm deprecate @educarehq/solaris-ui@<bad-version> "Description of the issue and which version to use instead"
-   ```
-
----
-
-## Related documents
+## Related Documents
 
 - `docs/workflow-and-release/release_policy.md`
 - `docs/workflow-and-release/branching_and_commits.md`

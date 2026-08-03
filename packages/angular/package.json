@@ -1,6 +1,23 @@
 {
   "name": "@educarehq/solaris-ui",
-  "version": "0.3.3",
+  "version": "0.4.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/educarehq/solaris-ui.git",
+    "directory": "packages/angular"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "fesm2022",
+    "types",
+    "styles",
+    "schematics",
+    "README.md",
+    "package.json"
+  ],
   "peerDependencies": {
     "@angular-devkit/schematics": "^21.0.0",
     "@angular/cdk": "^21.2.0",

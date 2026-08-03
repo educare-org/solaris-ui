@@ -21,9 +21,22 @@ function getChangedPackages() {
     });
     const files = result.trim().split('\n').filter(Boolean);
     const libFiles = files.filter((f) => f.startsWith('packages/angular/'));
-    return libFiles.length > 0 ? ['@solaris-ui/angular'] : [];
+
+    const releaseMetadataFiles = new Set([
+      'packages/angular/CHANGELOG.md',
+      'packages/angular/package.json',
+    ]);
+    const hasOnlyReleaseMetadata =
+      libFiles.length > 0 &&
+      libFiles.every((file) => releaseMetadataFiles.has(file));
+
+    if (hasOnlyReleaseMetadata) {
+      return [];
+    }
+
+    return libFiles.length > 0 ? ['@educarehq/solaris-ui'] : [];
   } catch {
-    warnings.push('Could not detect changed files — is this a git repository?');
+    warnings.push('Could not detect changed files - is this a git repository?');
     return [];
   }
 }
@@ -52,7 +65,7 @@ if (changedPackages.length > 0 && !hasPendingChangeset()) {
   errors.push(
     `Changes detected in ${changedPackages.join(', ')} but no pending changeset found.`,
   );
-  errors.push(`  → Run "pnpm changeset add" to document this change.`);
+  errors.push(`  -> Run "pnpm changeset add" to document this change.`);
 }
 
 const result = printSummary('Changeset Check', errors, warnings);
