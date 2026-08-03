@@ -270,7 +270,7 @@ export class SolarisRadioGroupComponent
     }
   }
 
-  writeValue(value: unknown | null): void {
+  writeValue(value: unknown): void {
     this._value.set(value ?? undefined);
     this.syncRadiosToValue();
   }

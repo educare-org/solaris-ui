@@ -200,12 +200,6 @@ export class SolarisOptionComponent {
     );
   });
 
-  protected readonly isCheckSelection = computed(() => {
-    return (
-      this.effectiveSelectionMode() === 'single' && this.showSelectionVisual()
-    );
-  });
-
   protected readonly isMultiCheckSelection = computed(() => {
     return (
       this.effectiveSelectionMode() === 'multiple' && this.showSelectionVisual()

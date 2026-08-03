@@ -234,11 +234,6 @@ export class SolarisRadioComponent
     this.cvaReadonly.set(isReadonly);
   }
 
-  setChecked(value: boolean): void {
-    this._checked.set(value);
-    this.onChange(value);
-  }
-
   protected onInputChange(event: Event): void {
     if (this.isEffectivelyDisabled() || this.isEffectivelyReadonly()) {
       event.preventDefault();
