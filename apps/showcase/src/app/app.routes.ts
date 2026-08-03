@@ -191,6 +191,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'breadcrumb',
+    loadComponent: () =>
+      import(
+        './pages/navigation/breadcrumb/component/breadcrumb-showcase'
+      ).then((m) => m.BreadcrumbShowcasePage),
+  },
+  {
     path: 'stepper',
     loadComponent: () =>
       import(

@@ -1,0 +1,78 @@
+<div class="breadcrumb-showcase">
+  <header class="breadcrumb-showcase__header">
+    <h1 class="breadcrumb-showcase__title">Breadcrumb</h1>
+    <p class="breadcrumb-showcase__description">
+      {{ 'breadcrumb.description' | translate }}
+    </p>
+  </header>
+
+  <section class="breadcrumb-showcase__section">
+    <h2 class="breadcrumb-showcase__section-title">
+      {{ 'breadcrumb.basic' | translate }}
+    </h2>
+    <p class="breadcrumb-showcase__note">
+      {{ 'breadcrumb.basic-note' | translate }}
+    </p>
+    <solaris-breadcrumb [items]="basicItems" />
+  </section>
+
+  <section class="breadcrumb-showcase__section">
+    <h2 class="breadcrumb-showcase__section-title">
+      {{ 'breadcrumb.icons' | translate }}
+    </h2>
+    <p class="breadcrumb-showcase__note">
+      {{ 'breadcrumb.icons-note' | translate }}
+    </p>
+    <solaris-breadcrumb [items]="iconItems" separator="chevron" />
+  </section>
+
+  <section class="breadcrumb-showcase__section">
+    <h2 class="breadcrumb-showcase__section-title">
+      {{ 'breadcrumb.separators' | translate }}
+    </h2>
+    <p class="breadcrumb-showcase__note">
+      {{ 'breadcrumb.separators-note' | translate }}
+    </p>
+    <div class="breadcrumb-showcase__stack">
+      <solaris-breadcrumb [items]="basicItems" separator="slash" />
+      <solaris-breadcrumb [items]="basicItems" separator="chevron" />
+      <solaris-breadcrumb [items]="basicItems" separator="dot" />
+    </div>
+  </section>
+
+  <section class="breadcrumb-showcase__section">
+    <h2 class="breadcrumb-showcase__section-title">
+      {{ 'breadcrumb.overflow' | translate }}
+    </h2>
+    <p class="breadcrumb-showcase__note">
+      {{ 'breadcrumb.overflow-note' | translate }}
+    </p>
+    <div class="breadcrumb-showcase__stack">
+      <solaris-breadcrumb
+        [items]="longItems"
+        [maxVisibleItems]="3"
+        overflowPosition="start"
+      />
+      <solaris-breadcrumb
+        [items]="longItems"
+        [maxVisibleItems]="3"
+        overflowPosition="middle"
+      />
+      <solaris-breadcrumb
+        [items]="longItems"
+        [maxVisibleItems]="3"
+        overflowPosition="end"
+      />
+    </div>
+  </section>
+
+  <section class="breadcrumb-showcase__section">
+    <h2 class="breadcrumb-showcase__section-title">
+      {{ 'breadcrumb.navigation' | translate }}
+    </h2>
+    <p class="breadcrumb-showcase__note">
+      {{ 'breadcrumb.navigation-note' | translate }}
+    </p>
+    <solaris-breadcrumb [items]="basicItems" [showNavigation]="true" />
+  </section>
+</div>

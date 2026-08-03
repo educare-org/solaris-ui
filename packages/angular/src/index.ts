@@ -381,6 +381,17 @@ export type {
   SolarisSegmentedControlChangeEvent,
 } from './lib/components/navigation/segmented-control/model/segmented-control.types';
 
+export { SolarisBreadcrumbComponent } from './lib/components/navigation/breadcrumb/component/breadcrumb.component';
+export type {
+  SolarisBreadcrumbSize,
+  SolarisBreadcrumbSeparator,
+  SolarisBreadcrumbOverflowPosition,
+  SolarisBreadcrumbValue,
+  SolarisBreadcrumbItem,
+  SolarisBreadcrumbNavigateEvent,
+  SolarisBreadcrumbConfig,
+} from './lib/components/navigation/breadcrumb/model/breadcrumb.types';
+
 export { SolarisDividerComponent } from './lib/components/data-display/divider/component/divider.component';
 export type {
   SolarisDividerOrientation,

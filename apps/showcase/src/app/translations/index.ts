@@ -26,6 +26,7 @@ import { TOAST_TRANSLATIONS } from '../pages/feedback/toast/translations';
 import { DIALOG_TRANSLATIONS } from '../pages/overlay/dialog/translations';
 import { STEPPER_TRANSLATIONS } from '../pages/navigation/stepper/translations';
 import { TABS_TRANSLATIONS } from '../pages/navigation/tabs/translations';
+import { BREADCRUMB_TRANSLATIONS } from '../pages/navigation/breadcrumb/translations';
 import { SEGMENTED_CONTROL_TRANSLATIONS } from '../pages/navigation/segmented-control/translations';
 import { DIVIDER_TRANSLATIONS } from '../pages/content/divider/translations';
 import { DROPDOWN_MENU_TRANSLATIONS } from '../pages/interaction/dropdown-menu/translations';
@@ -62,6 +63,7 @@ const PAGE_MODULES = [
   DIALOG_TRANSLATIONS,
   STEPPER_TRANSLATIONS,
   TABS_TRANSLATIONS,
+  BREADCRUMB_TRANSLATIONS,
   SEGMENTED_CONTROL_TRANSLATIONS,
   DIVIDER_TRANSLATIONS,
   DROPDOWN_MENU_TRANSLATIONS,

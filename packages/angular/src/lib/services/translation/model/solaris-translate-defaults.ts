@@ -55,6 +55,11 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.editableTabs.confirmRename': 'Confirm rename',
       'solaris.editableTabs.cancelRename': 'Cancel rename',
 
+      'solaris.breadcrumb.label': 'Breadcrumb',
+      'solaris.breadcrumb.showMore': 'Show more items',
+      'solaris.breadcrumb.previous': 'Previous',
+      'solaris.breadcrumb.next': 'Next',
+
       'solaris.form-field.optional': 'Optional',
 
       'solaris.email-field.required': 'Email is required.',
@@ -128,6 +133,11 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.editableTabs.remove': 'Remover',
       'solaris.editableTabs.confirmRename': 'Confirmar renomeação',
       'solaris.editableTabs.cancelRename': 'Cancelar renomeação',
+
+      'solaris.breadcrumb.label': 'Trilha de navegação',
+      'solaris.breadcrumb.showMore': 'Mostrar mais itens',
+      'solaris.breadcrumb.previous': 'Anterior',
+      'solaris.breadcrumb.next': 'Próximo',
 
       'solaris.form-field.optional': 'Opcional',
 

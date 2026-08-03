@@ -1,0 +1,94 @@
+<nav class="solaris-breadcrumb__nav" [attr.aria-label]="resolvedLabel()">
+  <ol class="solaris-breadcrumb__list">
+    @for (slot of slots(); track $index) {
+      <li class="solaris-breadcrumb__item">
+        @if (slot.kind === 'ellipsis') {
+          <button
+            #overflowTrigger
+            type="button"
+            class="solaris-breadcrumb__overflow-trigger"
+            solaris-dropdown-menu-trigger
+            [solarisDropdownMenuTriggerFor]="overflowMenu"
+            [attr.aria-label]="resolvedShowMoreLabel()"
+            (menuOpened)="overflowOpen.set(true)"
+            (menuClosed)="overflowOpen.set(false)"
+          >
+            <solaris-icon name="ellipses" [decorative]="true" />
+          </button>
+        } @else if (isLink(slot.item)) {
+          <a
+            class="solaris-breadcrumb__link"
+            [href]="slot.item.href"
+            [attr.aria-label]="itemAriaLabel(slot.item)"
+            (click)="onItemClick(slot.item, $event)"
+          >
+            @if (slot.item.icon) {
+              <solaris-icon [name]="slot.item.icon!" [decorative]="true" />
+            }
+            @if (itemLabel(slot.item)) {
+              <span class="solaris-breadcrumb__label">{{
+                itemLabel(slot.item)
+              }}</span>
+            }
+          </a>
+        } @else {
+          <span
+            class="solaris-breadcrumb__text"
+            [attr.aria-current]="isCurrent(slot.item) ? 'page' : null"
+            [attr.aria-disabled]="isDisabled(slot.item) ? 'true' : null"
+            [attr.aria-label]="itemAriaLabel(slot.item)"
+          >
+            @if (slot.item.icon) {
+              <solaris-icon [name]="slot.item.icon!" [decorative]="true" />
+            }
+            @if (itemLabel(slot.item)) {
+              <span class="solaris-breadcrumb__label">{{
+                itemLabel(slot.item)
+              }}</span>
+            }
+          </span>
+        }
+
+        @if (!$last) {
+          <span class="solaris-breadcrumb__separator" aria-hidden="true">
+            <solaris-icon [name]="separatorIcon()" [decorative]="true" />
+          </span>
+        }
+      </li>
+    }
+  </ol>
+</nav>
+
+@if (showNavigation()) {
+  <div class="solaris-breadcrumb__pager">
+    <button
+      type="button"
+      class="solaris-breadcrumb__pager-button"
+      [attr.aria-label]="resolvedPreviousLabel()"
+      [disabled]="!canGoPrevious()"
+      (click)="onPrevious()"
+    >
+      <solaris-icon name="chevron-left" [decorative]="true" />
+    </button>
+    <button
+      type="button"
+      class="solaris-breadcrumb__pager-button"
+      [attr.aria-label]="resolvedNextLabel()"
+      [disabled]="!canGoNext()"
+      (click)="onNext()"
+    >
+      <solaris-icon name="chevron-right" [decorative]="true" />
+    </button>
+  </div>
+}
+
+<solaris-dropdown-menu #overflowMenu>
+  @for (item of hiddenItems(); track $index) {
+    <solaris-dropdown-menu-item
+      [label]="itemLabel(item)"
+      [icon]="item.icon"
+      [disabled]="item.disabled ?? false"
+      (itemSelected)="onOverflowItemSelect(item)"
+    />
+  }
+</solaris-dropdown-menu>
