@@ -17,7 +17,9 @@ Before publishing, ensure:
 - `packages/angular/package.json` contains the version that should be published.
 - The npm package version is not already published.
 - GitHub Actions has an `NPM_TOKEN` secret with publish access to `@educarehq/solaris-ui`.
-- The npm package has provenance/trusted-publishing support configured when `--provenance` is enabled.
+- The `NPM_TOKEN` granular access token has "Bypass two-factor authentication" enabled so CI can publish without an interactive OTP.
+
+> **Note on provenance:** npm provenance (`--provenance`) is only supported for public source repositories. While `solaris-ui` is private, the release workflow publishes without provenance.
 
 ## Release Versioning
 
@@ -72,7 +74,7 @@ The workflow:
 - Runs `pnpm verify`.
 - Runs `pnpm build:lib` to rebuild the release artifact, including schematics.
 - Runs `pnpm package:check`.
-- Publishes `dist/packages/angular` with `npm publish --access public --provenance`.
+- Publishes `dist/packages/angular` with `npm publish --access public`.
 - Creates and pushes the git tag `<package-name>@<version>`.
 
 The workflow publishes the ng-packagr output, not the source package directory. Do not replace it with `pnpm changeset publish` unless the package layout changes.
@@ -86,7 +88,7 @@ pnpm install --frozen-lockfile
 pnpm verify
 pnpm build:lib
 pnpm package:check
-npm publish dist/packages/angular --access public --provenance
+npm publish dist/packages/angular --access public
 ```
 
 If npm requires two-factor authentication for manual publication, pass the OTP explicitly:

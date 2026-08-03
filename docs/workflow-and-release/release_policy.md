@@ -38,10 +38,11 @@ A release requires:
 
 Before public npm publishing, Solaris must use:
 
-- trusted publishing;
-- provenance;
+- a granular `NPM_TOKEN` with publish access and 2FA bypass for CI;
 - protected branches;
 - CI permissions hardening.
+
+Provenance is currently disabled because npm provenance requires a public source repository and `solaris-ui` is private. If the repository becomes public, re-enable `--provenance` in the release workflow.
 
 ## Canary/beta
 
