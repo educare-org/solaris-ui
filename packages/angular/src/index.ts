@@ -290,6 +290,12 @@ export type {
   SolarisSkeletonDensity,
 } from './lib/components/feedback/skeleton/model/skeleton.types';
 
+export { SolarisProgressComponent } from './lib/components/feedback/progress/component/progress.component';
+export type {
+  SolarisProgressSize,
+  SolarisProgressColor,
+} from './lib/components/feedback/progress/model/progress.types';
+
 export { SolarisSpinnerComponent } from './lib/components/feedback/spinner/component/spinner.component';
 export type {
   SolarisSpinnerSize,

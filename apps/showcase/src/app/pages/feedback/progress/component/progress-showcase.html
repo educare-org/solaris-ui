@@ -1,0 +1,115 @@
+<div class="progress-showcase">
+  <header class="progress-showcase__header">
+    <h1 class="progress-showcase__title">{{ 'progress.title' | translate }}</h1>
+    <p class="progress-showcase__description">
+      {{ 'progress.description' | translate }}
+    </p>
+  </header>
+
+  <section class="progress-showcase__section">
+    <h2 class="progress-showcase__section-title">
+      {{ 'progress.sizes' | translate }}
+    </h2>
+    <div class="progress-showcase__stack">
+      <solaris-progress size="sm" [value]="40"></solaris-progress>
+      <solaris-progress size="md" [value]="60"></solaris-progress>
+      <solaris-progress size="lg" [value]="80"></solaris-progress>
+    </div>
+  </section>
+
+  <section class="progress-showcase__section">
+    <h2 class="progress-showcase__section-title">
+      {{ 'progress.animated' | translate }}
+    </h2>
+    <p class="progress-showcase__note">
+      {{ 'progress.animated-note' | translate }}
+    </p>
+    <div class="progress-showcase__stack">
+      <solaris-progress
+        [value]="animatedValue()"
+        label="Downloading"
+        [showPercent]="true"
+      ></solaris-progress>
+      <div>
+        <button
+          class="progress-showcase__button"
+          type="button"
+          [disabled]="isAnimating()"
+          (click)="playAnimation()"
+        >
+          {{ 'progress.play' | translate }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="progress-showcase__section">
+    <h2 class="progress-showcase__section-title">
+      {{ 'progress.colors' | translate }}
+    </h2>
+    <div class="progress-showcase__stack">
+      <solaris-progress color="neutral" [value]="25"></solaris-progress>
+      <solaris-progress color="primary" [value]="35"></solaris-progress>
+      <solaris-progress color="success" [value]="45"></solaris-progress>
+      <solaris-progress color="warning" [value]="55"></solaris-progress>
+      <solaris-progress color="danger" [value]="65"></solaris-progress>
+      <solaris-progress color="info" [value]="75"></solaris-progress>
+      <solaris-progress
+        color="custom"
+        class="progress-showcase__custom"
+        [value]="85"
+      ></solaris-progress>
+    </div>
+  </section>
+
+  <section class="progress-showcase__section">
+    <h2 class="progress-showcase__section-title">
+      {{ 'progress.labels' | translate }}
+    </h2>
+    <div class="progress-showcase__stack">
+      <solaris-progress
+        [value]="50"
+        label="Uploading"
+        [showPercent]="true"
+      ></solaris-progress>
+      <solaris-progress [value]="66" [showPercent]="true"></solaris-progress>
+      <solaris-progress
+        [value]="100"
+        color="success"
+        label="Complete"
+      ></solaris-progress>
+    </div>
+  </section>
+
+  <section class="progress-showcase__section">
+    <h2 class="progress-showcase__section-title">
+      {{ 'progress.indeterminate' | translate }}
+    </h2>
+    <p class="progress-showcase__note">
+      {{ 'progress.indeterminate-note' | translate }}
+    </p>
+    <div class="progress-showcase__stack">
+      <solaris-progress [indeterminate]="true"></solaris-progress>
+      <solaris-progress
+        [indeterminate]="true"
+        label="Loading"
+      ></solaris-progress>
+      <solaris-progress
+        [indeterminate]="true"
+        color="success"
+      ></solaris-progress>
+    </div>
+  </section>
+
+  <section class="progress-showcase__section">
+    <h2 class="progress-showcase__section-title">
+      {{ 'progress.reduced-motion' | translate }}
+    </h2>
+    <p class="progress-showcase__note">
+      {{ 'progress.reduced-motion-note' | translate }}
+    </p>
+    <div class="progress-showcase__stack">
+      <solaris-progress [indeterminate]="true"></solaris-progress>
+    </div>
+  </section>
+</div>

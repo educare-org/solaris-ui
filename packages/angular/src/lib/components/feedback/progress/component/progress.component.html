@@ -1,0 +1,13 @@
+@if (resolvedLabel(); as label) {
+  <span class="solaris-progress__label">{{ label }}</span>
+}
+<div class="solaris-progress__track" role="presentation" aria-hidden="true">
+  <div
+    class="solaris-progress__fill"
+    [class.solaris-progress__fill--indeterminate]="indeterminate()"
+    [style.--solaris-progress-fill-width.%]="percentText()"
+  ></div>
+</div>
+@if (showPercent() && !indeterminate()) {
+  <span class="solaris-progress__percent">{{ percentText() }}%</span>
+}

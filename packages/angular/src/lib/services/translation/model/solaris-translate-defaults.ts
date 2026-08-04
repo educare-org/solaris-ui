@@ -7,6 +7,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
     'en-US': {
       'solaris.button.loading': 'Loading...',
       'solaris.spinner.loading': 'Loading...',
+      'solaris.progress.indeterminate': 'Indeterminate progress',
 
       'solaris.stepper.optional': 'Optional',
       'solaris.select.loading': 'Loading...',
@@ -87,6 +88,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
     'pt-BR': {
       'solaris.button.loading': 'Carregando...',
       'solaris.spinner.loading': 'Carregando...',
+      'solaris.progress.indeterminate': 'Progresso indeterminado',
 
       'solaris.stepper.optional': 'Opcional',
       'solaris.select.loading': 'Carregando...',

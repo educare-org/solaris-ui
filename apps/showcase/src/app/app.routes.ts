@@ -30,6 +30,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'progress',
+    loadComponent: () =>
+      import('./pages/feedback/progress/component/progress-showcase').then(
+        (m) => m.ProgressShowcasePage,
+      ),
+  },
+  {
     path: 'card',
     loadComponent: () =>
       import('./pages/data-display/card/component/card-showcase').then(
