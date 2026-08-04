@@ -80,6 +80,10 @@
       <button solaris-button color="primary">Default</button>
       <button solaris-button color="primary" [disabled]="true">Disabled</button>
       <button solaris-button color="primary" [loading]="true">Loading</button>
+      <button solaris-button color="primary" [loading]="true">
+        <solaris-icon solaris-button-icon name="check" [decorative]="true" />
+        {{ 'button.icon-loading' | translate }}
+      </button>
     </div>
     <h3 class="button-showcase__subsection-title">
       {{ 'button.states-toggle' | translate }}

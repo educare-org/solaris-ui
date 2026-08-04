@@ -22,4 +22,5 @@ export const EN_US_BUTTON: Record<string, string> = {
   'button.icon-after': 'Continue',
   'button.toggle-loading': 'Toggle Loading',
   'button.loading': 'Loading...',
+  'button.icon-loading': 'Icon replaced by spinner',
 };

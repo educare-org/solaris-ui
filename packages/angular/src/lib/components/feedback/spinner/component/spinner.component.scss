@@ -1,0 +1,161 @@
+:host {
+  --solaris-spinner-size: var(--solaris-spacing-6);
+  --solaris-spinner-thickness: var(--solaris-border-width-md);
+  --solaris-spinner-color: var(--solaris-primary-base);
+  --solaris-spinner-track-color: var(--solaris-border-default);
+  --solaris-spinner-track-opacity: var(--solaris-opacity-100);
+  --solaris-spinner-custom-color: var(--solaris-primary-base);
+  --solaris-spinner-animation-duration: var(--solaris-motion-duration-slow);
+  --solaris-spinner-animation-easing: var(--solaris-motion-easing-linear);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--solaris-spacing-2);
+  box-sizing: border-box;
+  color: var(--solaris-spinner-color);
+  font-family: var(--solaris-font-family-sans);
+}
+
+.solaris-spinner__ring {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  width: var(--solaris-spinner-size);
+  height: var(--solaris-spinner-size);
+}
+
+.solaris-spinner__track,
+.solaris-spinner__indicator {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border-radius: var(--solaris-radius-full);
+}
+
+.solaris-spinner__track {
+  border-width: var(--solaris-spinner-thickness);
+  border-style: solid;
+  border-color: var(--solaris-spinner-track-color);
+  opacity: var(--solaris-spinner-track-opacity);
+}
+
+.solaris-spinner__indicator {
+  border-width: var(--solaris-spinner-thickness);
+  border-style: solid;
+  border-color: transparent;
+  border-top-color: var(--solaris-spinner-color);
+  animation: solaris-spinner-rotate var(--solaris-spinner-animation-duration)
+    var(--solaris-spinner-animation-easing) infinite;
+}
+
+.solaris-spinner__label {
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-md);
+}
+
+:host([data-size='sm']) {
+  --solaris-spinner-size: var(--solaris-spacing-4);
+  --solaris-spinner-thickness: var(--solaris-border-width-sm);
+}
+
+:host([data-size='lg']) {
+  --solaris-spinner-size: var(--solaris-spacing-8);
+  --solaris-spinner-thickness: var(--solaris-spacing-1);
+}
+
+:host([data-size='xl']) {
+  --solaris-spinner-size: var(--solaris-spacing-16);
+  --solaris-spinner-thickness: calc(var(--solaris-border-width-lg) * 2);
+}
+
+:host([data-speed='slow']) {
+  --solaris-spinner-animation-duration: var(--solaris-motion-duration-slower);
+}
+
+:host([data-speed='fast']) {
+  --solaris-spinner-animation-duration: var(--solaris-motion-duration-normal);
+}
+
+:host([data-easing='ease']) {
+  --solaris-spinner-animation-easing: var(--solaris-motion-easing-standard);
+}
+
+:host([data-easing='ease-in']) {
+  --solaris-spinner-animation-easing: var(--solaris-motion-easing-accelerate);
+}
+
+:host([data-easing='ease-out']) {
+  --solaris-spinner-animation-easing: var(--solaris-motion-easing-decelerate);
+}
+
+:host([data-easing='ease-in-out']) {
+  --solaris-spinner-animation-easing: var(--solaris-motion-easing-standard);
+}
+
+:host([data-easing='spring']) {
+  --solaris-spinner-animation-easing: var(--solaris-motion-easing-spring);
+}
+
+:host([data-color='neutral']) {
+  --solaris-spinner-color: var(--solaris-text-muted);
+}
+
+:host([data-color='primary']) {
+  --solaris-spinner-color: var(--solaris-primary-base);
+}
+
+:host([data-color='success']) {
+  --solaris-spinner-color: var(--solaris-success-base);
+}
+
+:host([data-color='warning']) {
+  --solaris-spinner-color: var(--solaris-warning-base);
+}
+
+:host([data-color='danger']) {
+  --solaris-spinner-color: var(--solaris-danger-base);
+}
+
+:host([data-color='info']) {
+  --solaris-spinner-color: var(--solaris-info-base);
+}
+
+:host([data-color='custom']) {
+  --solaris-spinner-color: var(--solaris-spinner-custom-color);
+}
+
+:host([data-backdrop]) {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--solaris-backdrop);
+  z-index: var(--solaris-z-index-overlay);
+}
+
+:host([data-backdrop]) .solaris-spinner__label {
+  color: var(--solaris-text-inverse);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host .solaris-spinner__indicator {
+    animation: none;
+    opacity: var(--solaris-opacity-50);
+  }
+}
+
+[data-reduced-motion='true'] solaris-spinner .solaris-spinner__indicator {
+  animation: none;
+  opacity: var(--solaris-opacity-50);
+}
+
+@keyframes solaris-spinner-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

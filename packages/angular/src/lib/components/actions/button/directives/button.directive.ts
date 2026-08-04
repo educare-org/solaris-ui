@@ -1,14 +1,22 @@
 // SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.tagName is the standard Angular API to differentiate <button> vs <a> for correct disabled/type behavior.
 // SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.getAttribute/setAttribute is the standard Angular approach to handle default button type.
 // SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.setAttribute required for default <button> type behavior.
+// SECURITY_EXCEPTION_FILE: createComponent/insertBefore required to render the spinner component inside a native button host (directive has no template).
 import {
   Directive,
   input,
   computed,
-  HostListener,
+  effect,
   inject,
+  HostListener,
   ElementRef,
+  EnvironmentInjector,
+  PLATFORM_ID,
+  createComponent,
+  DestroyRef,
+  type ComponentRef,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 import type {
   SolarisButtonAppearance,
@@ -19,6 +27,7 @@ import type {
 } from '../model/button.types';
 
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisSpinnerComponent } from '../../../feedback/spinner';
 
 @Directive({
   selector: '[solaris-button]',
@@ -58,6 +67,11 @@ export class SolarisButtonDirective {
   private readonly translate = inject(SolarisTranslateService, {
     optional: true,
   });
+  private readonly environmentInjector = inject(EnvironmentInjector);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
+
+  private spinnerRef: ComponentRef<SolarisSpinnerComponent> | null = null;
 
   protected readonly resolvedLoadingLabel = computed(() => {
     const label = this.loadingLabel();
@@ -86,6 +100,46 @@ export class SolarisButtonDirective {
     if (this.isButton && initialType === null) {
       this.elementRef.nativeElement.setAttribute('type', 'button');
     }
+
+    effect(() => {
+      if (this.loading()) {
+        this.attachSpinner();
+      } else {
+        this.detachSpinner();
+      }
+    });
+
+    this.destroyRef.onDestroy(() => this.detachSpinner());
+  }
+
+  private attachSpinner(): void {
+    if (this.spinnerRef || !isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    const spinnerRef = createComponent(SolarisSpinnerComponent, {
+      environmentInjector: this.environmentInjector,
+    });
+    spinnerRef.setInput('size', 'sm');
+    spinnerRef.setInput('color', 'custom');
+    spinnerRef.setInput('label', '');
+    spinnerRef.setInput('ariaHidden', true);
+    spinnerRef.changeDetectorRef.detectChanges();
+
+    const spinnerEl = spinnerRef.location.nativeElement as HTMLElement;
+    this.elementRef.nativeElement.insertBefore(
+      spinnerEl,
+      this.elementRef.nativeElement.firstChild,
+    );
+    this.spinnerRef = spinnerRef;
+  }
+
+  private detachSpinner(): void {
+    if (!this.spinnerRef) {
+      return;
+    }
+    this.spinnerRef.destroy();
+    this.spinnerRef = null;
   }
 
   @HostListener('click', ['$event'])

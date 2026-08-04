@@ -23,6 +23,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'spinner',
+    loadComponent: () =>
+      import('./pages/feedback/spinner/component/spinner-showcase').then(
+        (m) => m.SpinnerShowcasePage,
+      ),
+  },
+  {
     path: 'card',
     loadComponent: () =>
       import('./pages/data-display/card/component/card-showcase').then(

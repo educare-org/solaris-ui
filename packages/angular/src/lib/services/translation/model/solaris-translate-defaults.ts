@@ -6,6 +6,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
   translations: {
     'en-US': {
       'solaris.button.loading': 'Loading...',
+      'solaris.spinner.loading': 'Loading...',
 
       'solaris.stepper.optional': 'Optional',
       'solaris.select.loading': 'Loading...',
@@ -85,6 +86,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
     },
     'pt-BR': {
       'solaris.button.loading': 'Carregando...',
+      'solaris.spinner.loading': 'Carregando...',
 
       'solaris.stepper.optional': 'Opcional',
       'solaris.select.loading': 'Carregando...',

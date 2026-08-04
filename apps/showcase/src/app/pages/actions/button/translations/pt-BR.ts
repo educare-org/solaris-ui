@@ -22,4 +22,5 @@ export const PT_BR_BUTTON: Record<string, string> = {
   'button.icon-after': 'Continuar',
   'button.toggle-loading': 'Alternar Loading',
   'button.loading': 'Carregando...',
+  'button.icon-loading': 'Ícone substituído pelo spinner',
 };

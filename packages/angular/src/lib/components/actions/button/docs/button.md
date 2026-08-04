@@ -160,8 +160,8 @@ When `fullWidth` is `true`, the button occupies 100% of the available width. Use
 When `loading` is `true`:
 
 - Interaction is blocked (equivalent to disabled)
-- A CSS spinner appears before the text
-- `aria-busy="true"` is set
+- A `solaris-spinner` component appears before the text
+  - `aria-busy="true"` is set
 - The button is visually disabled
 - For `<a>`, click is prevented
 - Reduced motion is respected
@@ -288,7 +288,6 @@ The following CSS variables can be customized:
 - No toggle group support
 - No toolbar group support
 - No public social-button component — compose with `appearance="outline"`
-- No public spinner component — loading uses CSS pseudo-element
 - No harness created for v1
 
 ## Button Group

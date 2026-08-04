@@ -1,0 +1,187 @@
+<div class="spinner-showcase">
+  <header class="spinner-showcase__header">
+    <h1 class="spinner-showcase__title">{{ 'spinner.title' | translate }}</h1>
+    <p class="spinner-showcase__description">
+      {{ 'spinner.description' | translate }}
+    </p>
+  </header>
+
+  <section class="spinner-showcase__section">
+    <h2 class="spinner-showcase__section-title">
+      {{ 'spinner.sizes' | translate }}
+    </h2>
+    <div class="spinner-showcase__row">
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">sm</span>
+        <solaris-spinner size="sm"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">md</span>
+        <solaris-spinner size="md"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">lg</span>
+        <solaris-spinner size="lg"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">xl</span>
+        <solaris-spinner size="xl"></solaris-spinner>
+      </div>
+    </div>
+  </section>
+
+  <section class="spinner-showcase__section">
+    <h2 class="spinner-showcase__section-title">
+      {{ 'spinner.speeds' | translate }}
+    </h2>
+    <div class="spinner-showcase__row">
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Slow</span>
+        <solaris-spinner speed="slow"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Normal</span>
+        <solaris-spinner speed="normal"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Fast</span>
+        <solaris-spinner speed="fast"></solaris-spinner>
+      </div>
+    </div>
+  </section>
+
+  <section class="spinner-showcase__section">
+    <h2 class="spinner-showcase__section-title">
+      {{ 'spinner.easings' | translate }}
+    </h2>
+    <div class="spinner-showcase__row">
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Linear</span>
+        <solaris-spinner easing="linear"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Ease</span>
+        <solaris-spinner easing="ease"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Ease-in</span>
+        <solaris-spinner easing="ease-in"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Ease-out</span>
+        <solaris-spinner easing="ease-out"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Ease-in-out</span>
+        <solaris-spinner easing="ease-in-out"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Spring</span>
+        <solaris-spinner easing="spring"></solaris-spinner>
+      </div>
+    </div>
+  </section>
+
+  <section class="spinner-showcase__section">
+    <h2 class="spinner-showcase__section-title">
+      {{ 'spinner.colors' | translate }}
+    </h2>
+    <div class="spinner-showcase__row">
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Neutral</span>
+        <solaris-spinner color="neutral"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Primary</span>
+        <solaris-spinner color="primary"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Success</span>
+        <solaris-spinner color="success"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Warning</span>
+        <solaris-spinner color="warning"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Danger</span>
+        <solaris-spinner color="danger"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Info</span>
+        <solaris-spinner color="info"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Custom</span>
+        <solaris-spinner
+          color="custom"
+          class="spinner-showcase__custom"
+        ></solaris-spinner>
+      </div>
+    </div>
+  </section>
+
+  <section class="spinner-showcase__section">
+    <h2 class="spinner-showcase__section-title">
+      {{ 'spinner.labels' | translate }}
+    </h2>
+    <div class="spinner-showcase__row">
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Default</span>
+        <solaris-spinner></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">With label</span>
+        <solaris-spinner label="Saving..."></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">i18n key</span>
+        <solaris-spinner labelKey="solaris.spinner.loading"></solaris-spinner>
+      </div>
+    </div>
+  </section>
+
+  <section class="spinner-showcase__section">
+    <h2 class="spinner-showcase__section-title">
+      {{ 'spinner.backdrop' | translate }}
+    </h2>
+    <p class="spinner-showcase__note">
+      {{ 'spinner.backdrop-note' | translate }}
+    </p>
+    <div class="spinner-showcase__row">
+      <div class="spinner-showcase__item">
+        <button
+          class="spinner-showcase__button"
+          type="button"
+          (click)="showBackdrop = true"
+        >
+          {{ 'spinner.show-backdrop' | translate }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="spinner-showcase__section">
+    <h2 class="spinner-showcase__section-title">
+      {{ 'spinner.reduced-motion' | translate }}
+    </h2>
+    <p class="spinner-showcase__note">
+      {{ 'spinner.reduced-motion-note' | translate }}
+    </p>
+    <div class="spinner-showcase__row">
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Static indicator</span>
+        <solaris-spinner></solaris-spinner>
+      </div>
+    </div>
+  </section>
+</div>
+
+@if (showBackdrop) {
+<solaris-spinner
+  size="xl"
+  [backdrop]="true"
+  label="Loading application..."
+  (click)="showBackdrop = false"
+></solaris-spinner>
+}

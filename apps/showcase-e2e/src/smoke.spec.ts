@@ -4,6 +4,7 @@ const ROUTES = [
   'configuration',
   'badge',
   'skeleton',
+  'spinner',
   'card',
   'alert',
   'button',

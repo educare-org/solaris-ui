@@ -517,6 +517,25 @@ describe('SolarisButtonDirective', () => {
       expect(el.textContent?.trim()).toBe('Save');
     });
 
+    it('should render a spinner component when loading', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ButtonTestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-button]');
+      const spinner = el.querySelector('solaris-spinner');
+      expect(spinner).toBeTruthy();
+    });
+
+    it('should remove spinner when loading ends', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ButtonTestHost);
+      fixture.componentInstance.loading = false;
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-button]');
+      const spinner = el.querySelector('solaris-spinner');
+      expect(spinner).toBeFalsy();
+    });
+
     @Component({
       standalone: true,
       imports: [SolarisButtonDirective],

@@ -290,6 +290,14 @@ export type {
   SolarisSkeletonDensity,
 } from './lib/components/feedback/skeleton/model/skeleton.types';
 
+export { SolarisSpinnerComponent } from './lib/components/feedback/spinner/component/spinner.component';
+export type {
+  SolarisSpinnerSize,
+  SolarisSpinnerColor,
+  SolarisSpinnerSpeed,
+  SolarisSpinnerEasing,
+} from './lib/components/feedback/spinner/model/spinner.types';
+
 export { SolarisToastContainerComponent } from './lib/components/feedback/toast/container/toast-container.component';
 export { SolarisToastComponent } from './lib/components/feedback/toast/component/toast.component';
 export { SolarisToastService } from './lib/components/feedback/toast/service/toast.service';

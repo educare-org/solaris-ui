@@ -95,34 +95,16 @@
   pointer-events: all;
 }
 
-[solaris-button][data-loading]::before {
-  content: '';
-  flex-shrink: 0;
-  border-radius: 50%;
-  width: var(--solaris-button-icon-size);
-  height: var(--solaris-button-icon-size);
-  border: 2px solid var(--solaris-button-color);
-  border-top-color: transparent;
-  animation: solaris-button-spin 0.6s var(--solaris-motion-easing-linear)
-    infinite;
+[solaris-button][data-loading] solaris-spinner {
+  --solaris-spinner-size: var(--solaris-button-icon-size);
+  --solaris-spinner-thickness: var(--solaris-border-width-md);
+  --solaris-spinner-custom-color: var(--solaris-button-color);
+  --solaris-spinner-track-color: var(--solaris-button-color);
+  --solaris-spinner-track-opacity: var(--solaris-opacity-30);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  [solaris-button][data-loading]::before {
-    animation: none;
-    opacity: var(--solaris-opacity-50);
-  }
-}
-
-[data-reduced-motion='true'] [solaris-button][data-loading]::before {
-  animation: none;
-  opacity: var(--solaris-opacity-50);
-}
-
-@keyframes solaris-button-spin {
-  to {
-    transform: rotate(360deg);
-  }
+[solaris-button][data-loading] [solaris-button-icon] {
+  display: none;
 }
 
 [solaris-button][data-full-width] {
