@@ -3,6 +3,7 @@ import { BADGE_TRANSLATIONS } from '../pages/data-display/badge/translations';
 import { SKELETON_TRANSLATIONS } from '../pages/feedback/skeleton/translations';
 import { SPINNER_TRANSLATIONS } from '../pages/feedback/spinner/translations';
 import { PROGRESS_TRANSLATIONS } from '../pages/feedback/progress/translations';
+import { LOADING_TEXT_TRANSLATIONS } from '../pages/feedback/loading-text/translations';
 import { CARD_TRANSLATIONS } from '../pages/data-display/card/translations';
 import { ALERT_TRANSLATIONS } from '../pages/feedback/alert/translations';
 import { BUTTON_TRANSLATIONS } from '../pages/actions/button/translations';
@@ -42,6 +43,7 @@ const PAGE_MODULES = [
   SKELETON_TRANSLATIONS,
   SPINNER_TRANSLATIONS,
   PROGRESS_TRANSLATIONS,
+  LOADING_TEXT_TRANSLATIONS,
   CARD_TRANSLATIONS,
   ALERT_TRANSLATIONS,
   BUTTON_TRANSLATIONS,

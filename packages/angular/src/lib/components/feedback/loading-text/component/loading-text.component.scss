@@ -1,0 +1,126 @@
+:host {
+  --solaris-loading-text-color: var(--solaris-text-default);
+  --solaris-loading-text-shimmer-color: var(--solaris-text-inverse);
+  --solaris-loading-text-shimmer-opacity: var(--solaris-opacity-40);
+  --solaris-loading-text-custom-color: var(--solaris-primary-base);
+  --solaris-loading-text-font-size: var(--solaris-font-size-md);
+  --solaris-loading-text-font-weight: var(--solaris-font-weight-medium);
+  --solaris-loading-text-line-height: var(--solaris-line-height-md);
+  --solaris-loading-text-animation-duration: var(
+    --solaris-motion-duration-slower
+  );
+  --solaris-loading-text-animation-easing: var(--solaris-motion-easing-linear);
+
+  display: inline-block;
+  box-sizing: border-box;
+  max-width: 100%;
+  font-family: var(--solaris-font-family-sans);
+  font-size: var(--solaris-loading-text-font-size);
+  font-weight: var(--solaris-loading-text-font-weight);
+  line-height: var(--solaris-loading-text-line-height);
+}
+
+.solaris-loading-text__text {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  max-width: 100%;
+  color: var(--solaris-loading-text-color);
+}
+
+.solaris-loading-text__text::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: transparent;
+  background-image: linear-gradient(
+    100deg,
+    transparent 20%,
+    var(--solaris-loading-text-shimmer-color) 50%,
+    transparent 80%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  opacity: var(--solaris-loading-text-shimmer-opacity);
+  animation: solaris-loading-text-shimmer
+    var(--solaris-loading-text-animation-duration)
+    var(--solaris-loading-text-animation-easing) infinite;
+}
+
+:host([data-size='sm']) {
+  --solaris-loading-text-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='lg']) {
+  --solaris-loading-text-font-size: var(--solaris-font-size-lg);
+}
+
+:host([data-size='xl']) {
+  --solaris-loading-text-font-size: var(--solaris-font-size-xl);
+}
+
+:host([data-speed='slow']) {
+  --solaris-loading-text-animation-duration: var(
+    --solaris-motion-duration-slowest
+  );
+}
+
+:host([data-speed='fast']) {
+  --solaris-loading-text-animation-duration: var(
+    --solaris-motion-duration-slow
+  );
+}
+
+:host([data-color='neutral']) {
+  --solaris-loading-text-color: var(--solaris-text-muted);
+}
+
+:host([data-color='primary']) {
+  --solaris-loading-text-color: var(--solaris-primary-base);
+}
+
+:host([data-color='success']) {
+  --solaris-loading-text-color: var(--solaris-success-base);
+}
+
+:host([data-color='warning']) {
+  --solaris-loading-text-color: var(--solaris-warning-base);
+}
+
+:host([data-color='danger']) {
+  --solaris-loading-text-color: var(--solaris-danger-base);
+}
+
+:host([data-color='info']) {
+  --solaris-loading-text-color: var(--solaris-info-base);
+}
+
+:host([data-color='custom']) {
+  --solaris-loading-text-color: var(--solaris-loading-text-custom-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host .solaris-loading-text__text::after {
+    animation: none;
+    opacity: var(--solaris-opacity-0);
+  }
+}
+
+[data-reduced-motion='true']
+  solaris-loading-text
+  .solaris-loading-text__text::after {
+  animation: none;
+  opacity: var(--solaris-opacity-0);
+}
+
+@keyframes solaris-loading-text-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}

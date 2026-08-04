@@ -1,0 +1,118 @@
+<div class="loading-text-showcase">
+  <header class="loading-text-showcase__header">
+    <h1 class="loading-text-showcase__title">
+      {{ 'loading-text.title' | translate }}
+    </h1>
+    <p class="loading-text-showcase__description">
+      {{ 'loading-text.description' | translate }}
+    </p>
+  </header>
+
+  <section class="loading-text-showcase__section">
+    <h2 class="loading-text-showcase__section-title">
+      {{ 'loading-text.basic' | translate }}
+    </h2>
+    <div class="loading-text-showcase__stack">
+      <solaris-loading-text></solaris-loading-text>
+      <solaris-loading-text
+        text="Uploading your document..."
+      ></solaris-loading-text>
+    </div>
+  </section>
+
+  <section class="loading-text-showcase__section">
+    <h2 class="loading-text-showcase__section-title">
+      {{ 'loading-text.sizes' | translate }}
+    </h2>
+    <div class="loading-text-showcase__stack">
+      <div class="loading-text-showcase__row">
+        <span class="loading-text-showcase__label">sm</span>
+        <solaris-loading-text text="Loading" size="sm"></solaris-loading-text>
+      </div>
+      <div class="loading-text-showcase__row">
+        <span class="loading-text-showcase__label">md</span>
+        <solaris-loading-text text="Loading" size="md"></solaris-loading-text>
+      </div>
+      <div class="loading-text-showcase__row">
+        <span class="loading-text-showcase__label">lg</span>
+        <solaris-loading-text text="Loading" size="lg"></solaris-loading-text>
+      </div>
+      <div class="loading-text-showcase__row">
+        <span class="loading-text-showcase__label">xl</span>
+        <solaris-loading-text text="Loading" size="xl"></solaris-loading-text>
+      </div>
+    </div>
+  </section>
+
+  <section class="loading-text-showcase__section">
+    <h2 class="loading-text-showcase__section-title">
+      {{ 'loading-text.colors' | translate }}
+    </h2>
+    <div class="loading-text-showcase__stack">
+      <solaris-loading-text
+        text="Neutral"
+        color="neutral"
+      ></solaris-loading-text>
+      <solaris-loading-text
+        text="Primary"
+        color="primary"
+      ></solaris-loading-text>
+      <solaris-loading-text
+        text="Success"
+        color="success"
+      ></solaris-loading-text>
+      <solaris-loading-text
+        text="Warning"
+        color="warning"
+      ></solaris-loading-text>
+      <solaris-loading-text text="Danger" color="danger"></solaris-loading-text>
+      <solaris-loading-text text="Info" color="info"></solaris-loading-text>
+      <solaris-loading-text
+        text="Custom"
+        color="custom"
+        class="loading-text-showcase__custom"
+      ></solaris-loading-text>
+    </div>
+  </section>
+
+  <section class="loading-text-showcase__section">
+    <h2 class="loading-text-showcase__section-title">
+      {{ 'loading-text.speeds' | translate }}
+    </h2>
+    <div class="loading-text-showcase__row">
+      <div class="loading-text-showcase__item">
+        <span class="loading-text-showcase__label">Slow</span>
+        <solaris-loading-text
+          text="Loading"
+          speed="slow"
+        ></solaris-loading-text>
+      </div>
+      <div class="loading-text-showcase__item">
+        <span class="loading-text-showcase__label">Normal</span>
+        <solaris-loading-text
+          text="Loading"
+          speed="normal"
+        ></solaris-loading-text>
+      </div>
+      <div class="loading-text-showcase__item">
+        <span class="loading-text-showcase__label">Fast</span>
+        <solaris-loading-text
+          text="Loading"
+          speed="fast"
+        ></solaris-loading-text>
+      </div>
+    </div>
+  </section>
+
+  <section class="loading-text-showcase__section">
+    <h2 class="loading-text-showcase__section-title">
+      {{ 'loading-text.reduced-motion' | translate }}
+    </h2>
+    <p class="loading-text-showcase__note">
+      {{ 'loading-text.reduced-motion-note' | translate }}
+    </p>
+    <div class="loading-text-showcase__stack">
+      <solaris-loading-text text="Static text"></solaris-loading-text>
+    </div>
+  </section>
+</div>

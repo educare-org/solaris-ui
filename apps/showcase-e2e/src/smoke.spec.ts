@@ -6,6 +6,7 @@ const ROUTES = [
   'skeleton',
   'spinner',
   'progress',
+  'loading-text',
   'card',
   'alert',
   'button',

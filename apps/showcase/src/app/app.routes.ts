@@ -37,6 +37,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'loading-text',
+    loadComponent: () =>
+      import(
+        './pages/feedback/loading-text/component/loading-text-showcase'
+      ).then((m) => m.LoadingTextShowcasePage),
+  },
+  {
     path: 'card',
     loadComponent: () =>
       import('./pages/data-display/card/component/card-showcase').then(

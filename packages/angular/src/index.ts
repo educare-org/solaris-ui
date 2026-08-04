@@ -296,6 +296,13 @@ export type {
   SolarisProgressColor,
 } from './lib/components/feedback/progress/model/progress.types';
 
+export { SolarisLoadingTextComponent } from './lib/components/feedback/loading-text/component/loading-text.component';
+export type {
+  SolarisLoadingTextSize,
+  SolarisLoadingTextColor,
+  SolarisLoadingTextSpeed,
+} from './lib/components/feedback/loading-text/model/loading.types';
+
 export { SolarisSpinnerComponent } from './lib/components/feedback/spinner/component/spinner.component';
 export type {
   SolarisSpinnerSize,
