@@ -5,7 +5,7 @@ test.describe('Toast', () => {
   let toast: ToastPageObject;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/toast');
+    await page.goto('/feedback/toast');
     await expect(page.locator('h1')).toBeVisible();
     toast = new ToastPageObject(page);
   });

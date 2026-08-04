@@ -5,7 +5,7 @@ test.describe('Tabs', () => {
   let tabs: TabsPageObject;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/tabs');
+    await page.goto('/navigation/tabs');
     await expect(page.locator('h1')).toBeVisible();
     tabs = new TabsPageObject(page);
   });

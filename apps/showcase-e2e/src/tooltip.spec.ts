@@ -5,7 +5,7 @@ test.describe('Tooltip', () => {
   let tooltip: TooltipPageObject;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/tooltip');
+    await page.goto('/interaction/tooltip');
     await expect(page.locator('h1')).toBeVisible();
     tooltip = new TooltipPageObject(page);
   });

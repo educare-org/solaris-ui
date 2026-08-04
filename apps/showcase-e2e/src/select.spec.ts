@@ -5,7 +5,7 @@ test.describe('Select', () => {
   let select: SelectPageObject;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/select');
+    await page.goto('/forms/select');
     await expect(page.locator('h1')).toBeVisible();
     select = new SelectPageObject(page);
   });

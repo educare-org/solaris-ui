@@ -5,7 +5,7 @@ test.describe('Dialog', () => {
   let dialog: DialogPageObject;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/dialog');
+    await page.goto('/overlay/dialog');
     await expect(page.locator('h1')).toBeVisible();
     dialog = new DialogPageObject(page);
   });

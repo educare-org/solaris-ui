@@ -5,7 +5,7 @@ test.describe('Popover', () => {
   let popover: PopoverPageObject;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/popover');
+    await page.goto('/interaction/popover');
     await expect(page.locator('h1')).toBeVisible();
     popover = new PopoverPageObject(page);
   });

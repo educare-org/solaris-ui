@@ -1,27 +1,27 @@
 import { test, expect } from '@playwright/test';
 
 test('loading text renders default caption', async ({ page }) => {
-  await page.goto('/loading-text');
+  await page.goto('/feedback/loading/loading-text');
   const text = page.locator('solaris-loading-text').first();
   await expect(text).toBeVisible();
   await expect(text).toContainText('Loading...');
 });
 
 test('loading text renders visible custom text', async ({ page }) => {
-  await page.goto('/loading-text');
+  await page.goto('/feedback/loading/loading-text');
   const text = page.getByText('Uploading your document...');
   await expect(text).toBeVisible();
 });
 
 test('loading text exposes accessible name', async ({ page }) => {
-  await page.goto('/loading-text');
+  await page.goto('/feedback/loading/loading-text');
   const text = page.locator('solaris-loading-text').first();
   await expect(text).toHaveAttribute('role', 'status');
   await expect(text).toHaveAttribute('aria-live', 'polite');
 });
 
 test('loading text font size varies by size', async ({ page }) => {
-  await page.goto('/loading-text');
+  await page.goto('/feedback/loading/loading-text');
   const section = page.locator('.loading-text-showcase__section').nth(1);
 
   const sizes = ['sm', 'md', 'lg', 'xl'];
@@ -40,7 +40,7 @@ test('loading text font size varies by size', async ({ page }) => {
 });
 
 test('loading text shimmer animation is present', async ({ page }) => {
-  await page.goto('/loading-text');
+  await page.goto('/feedback/loading/loading-text');
   const text = page.locator('.solaris-loading-text__text').first();
   await expect(text).toBeVisible();
   const anim = await text.evaluate(
@@ -50,7 +50,7 @@ test('loading text shimmer animation is present', async ({ page }) => {
 });
 
 test('loading text base color is always visible', async ({ page }) => {
-  await page.goto('/loading-text');
+  await page.goto('/feedback/loading/loading-text');
   const text = page.locator('.solaris-loading-text__text').first();
   await expect(text).toBeVisible();
   const color = await text.evaluate(

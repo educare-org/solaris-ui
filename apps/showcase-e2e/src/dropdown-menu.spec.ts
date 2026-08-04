@@ -5,7 +5,7 @@ test.describe('Dropdown Menu', () => {
   let menu: DropdownMenuPageObject;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/dropdown-menu');
+    await page.goto('/interaction/dropdown-menu');
     await expect(page.locator('h1')).toBeVisible();
     menu = new DropdownMenuPageObject(page);
   });

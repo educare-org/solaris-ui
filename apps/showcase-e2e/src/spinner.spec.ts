@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('spinner border thickness varies by size', async ({ page }) => {
-  await page.goto('/spinner');
+  await page.goto('/feedback/loading/spinner');
   const sizes = ['sm', 'md', 'lg', 'xl'];
   const thicknesses = new Set<number>();
   for (const size of sizes) {
@@ -19,7 +19,7 @@ test('spinner border thickness varies by size', async ({ page }) => {
 });
 
 test('button loading renders solaris-spinner component', async ({ page }) => {
-  await page.goto('/button');
+  await page.goto('/actions/button');
   const loadingButton = page
     .locator('button[solaris-button][data-loading=""]')
     .first();
@@ -29,7 +29,7 @@ test('button loading renders solaris-spinner component', async ({ page }) => {
 });
 
 test('button spinner thickness matches button size', async ({ page }) => {
-  await page.goto('/button');
+  await page.goto('/actions/button');
   const loadingButton = page
     .locator('button[solaris-button][data-loading=""]')
     .first();
@@ -43,7 +43,7 @@ test('button spinner thickness matches button size', async ({ page }) => {
 });
 
 test('backdrop spinner centers ring and overlays track', async ({ page }) => {
-  await page.goto('/spinner');
+  await page.goto('/feedback/loading/spinner');
   await page.getByRole('button', { name: /backdrop/i }).click();
   const backdrop = page.locator('solaris-spinner[data-backdrop]');
   await expect(backdrop).toBeVisible();

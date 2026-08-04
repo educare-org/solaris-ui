@@ -5,7 +5,7 @@ test.describe('Button', () => {
   let button: ButtonPageObject;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/button');
+    await page.goto('/actions/button');
     await expect(page.locator('h1')).toBeVisible();
     button = new ButtonPageObject(page);
   });

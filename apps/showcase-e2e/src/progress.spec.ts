@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('progress fill width matches value', async ({ page }) => {
-  await page.goto('/progress');
+  await page.goto('/feedback/loading/progress');
   const bar = page.locator('solaris-progress[data-size="lg"]').first();
   await expect(bar).toBeVisible();
   const fill = bar.locator('.solaris-progress__fill');
@@ -10,7 +10,7 @@ test('progress fill width matches value', async ({ page }) => {
 });
 
 test('progress thickness varies by size', async ({ page }) => {
-  await page.goto('/progress');
+  await page.goto('/feedback/loading/progress');
   const section = page.locator('.progress-showcase__section').first();
   const sizes = ['sm', 'md', 'lg'];
   const heights = new Set<number>();
@@ -26,7 +26,7 @@ test('progress thickness varies by size', async ({ page }) => {
 });
 
 test('indeterminate progress renders sliding fill', async ({ page }) => {
-  await page.goto('/progress');
+  await page.goto('/feedback/loading/progress');
   const bar = page.locator('solaris-progress[data-indeterminate]').first();
   await expect(bar).toBeVisible();
   const fill = bar.locator('.solaris-progress__fill');
@@ -37,13 +37,13 @@ test('indeterminate progress renders sliding fill', async ({ page }) => {
 });
 
 test('percent text renders when enabled', async ({ page }) => {
-  await page.goto('/progress');
+  await page.goto('/feedback/loading/progress');
   const percent = page.locator('.solaris-progress__percent').first();
   await expect(percent).toBeVisible();
 });
 
 test('determinate progress animates from 0 to 100', async ({ page }) => {
-  await page.goto('/progress');
+  await page.goto('/feedback/loading/progress');
   const bar = page
     .locator('solaris-progress', { hasText: 'Downloading' })
     .first();
