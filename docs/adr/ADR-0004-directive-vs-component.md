@@ -1,4 +1,4 @@
-# ADR-0004: Directive vs Component Decision
+﻿# ADR-0004: Directive vs Component Decision
 
 ## Status
 
@@ -38,4 +38,4 @@ Negative:
 
 ## Compliance
 
-Enforced by code review. Operational rules are documented in `docs/standards/directive_standard.md` and `docs/standards/component_standard.md`.
+Enforced by code review. Operational rules are documented in `docs/standards/directive-standard.md` and `docs/standards/component-standard.md`.

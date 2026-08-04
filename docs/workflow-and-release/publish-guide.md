@@ -124,8 +124,8 @@ npm deprecate @educarehq/solaris-ui@<bad-version> "Use @educarehq/solaris-ui@<fi
 
 ## Related Documents
 
-- `docs/workflow-and-release/release_policy.md`
-- `docs/workflow-and-release/branching_and_commits.md`
-- `docs/engineering/dependency_policy.md`
-- `docs/engineering/security_baseline.md`
-- `docs/quality-and-validation/cross_platform_commands.md`
+- `docs/workflow-and-release/release-policy.md`
+- `docs/workflow-and-release/branching-and-commits.md`
+- `docs/engineering/dependency-policy.md`
+- `docs/engineering/security-baseline.md`
+- `docs/quality-and-validation/cross-platform-commands.md`

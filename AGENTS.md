@@ -20,13 +20,13 @@ pnpm nx e2e showcase-e2e -- --project=chromium
 ## Before coding, read
 
 1. `docs/architecture/architecture.md` — modular architecture
-2. `docs/engineering/engineering_principles.md` — core principles
-3. `docs/standards/styling_and_tokens.md` — token-driven styling
-4. `docs/standards/accessibility_standard.md` — WCAG 2.2 AA
-5. `docs/standards/component_standard.md` — component API, states, file structure
-6. `docs/quality-and-validation/testing_strategy.md` — what and how to test
-7. `docs/quality-and-validation/definition_of_done.md` — acceptance criteria
-8. `docs/engineering/ai_development_rules.md` — AI constraints
+2. `docs/engineering/engineering-principles.md` — core principles
+3. `docs/standards/styling-and-tokens.md` — token-driven styling
+4. `docs/standards/accessibility-standard.md` — WCAG 2.2 AA
+5. `docs/standards/component-standard.md` — component API, states, file structure
+6. `docs/quality-and-validation/testing-strategy.md` — what and how to test
+7. `docs/quality-and-validation/definition-of-done.md` — acceptance criteria
+8. `docs/engineering/ai-development-rules.md` — AI constraints
 9. `docs/ai/phase-plan.md` — current phase status
 
 ## Project structure
@@ -63,7 +63,7 @@ tools/scripts/              validation, check scripts
 - **ARIA required** — every interactive element must have appropriate aria attributes
 - **Spec + docs + changeset required** — never create a component without all three
 - **Cross-platform commands** — never bash-only or PowerShell-only syntax in scripts
-- **Commit standard** — Conventional Commits enforced by commitlint. Types: `feature`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. Use `feature`, never `feat`. Subject in lowercase or camelCase for API names (e.g. `feature(schematics): add provideSolaris setup`). See `docs/workflow-and-release/branching_and_commits.md`.
+- **Commit standard** — Conventional Commits enforced by commitlint. Types: `feature`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. Use `feature`, never `feat`. Subject in lowercase or camelCase for API names (e.g. `feature(schematics): add provideSolaris setup`). See `docs/workflow-and-release/branching-and-commits.md`.
 
 ## Reference
 
@@ -80,16 +80,16 @@ tools/scripts/              validation, check scripts
 
 | Doc                    | Location                                            |
 | ---------------------- | --------------------------------------------------- |
-| Component Standard     | `docs/standards/component_standard.md`              |
+| Component Standard     | `docs/standards/component-standard.md`              |
 | Creating a Component   | `docs/guides/creating-a-component.md`               |
 | Theme Customization    | `docs/guides/theme-customization.md`                |
 | Icon System            | `docs/guides/icons.md`                              |
 | Architecture           | `docs/architecture/architecture.md`                 |
-| Engineering Principles | `docs/engineering/engineering_principles.md`        |
-| Styling & Tokens       | `docs/standards/styling_and_tokens.md`              |
-| Accessibility          | `docs/standards/accessibility_standard.md`          |
-| Testing Strategy       | `docs/quality-and-validation/testing_strategy.md`   |
-| Definition of Done     | `docs/quality-and-validation/definition_of_done.md` |
-| AI Dev Rules           | `docs/engineering/ai_development_rules.md`          |
+| Engineering Principles | `docs/engineering/engineering-principles.md`        |
+| Styling & Tokens       | `docs/standards/styling-and-tokens.md`              |
+| Accessibility          | `docs/standards/accessibility-standard.md`          |
+| Testing Strategy       | `docs/quality-and-validation/testing-strategy.md`   |
+| Definition of Done     | `docs/quality-and-validation/definition-of-done.md` |
+| AI Dev Rules           | `docs/engineering/ai-development-rules.md`          |
 | ADRs                   | `docs/adr/ADR-0001-standalone-components.md`        |
 | Phase Plan             | `docs/ai/phase-plan.md`                             |

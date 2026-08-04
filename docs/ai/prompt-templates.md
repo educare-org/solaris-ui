@@ -1,4 +1,4 @@
-# Solaris UI — Prompt Templates for AI
+﻿# Solaris UI - Prompt Templates for AI
 
 These templates ensure every AI task includes the required context from Solaris standards.
 
@@ -8,13 +8,13 @@ These templates ensure every AI task includes the required context from Solaris 
 Create a Solaris [component-name] component.
 
 ## Standards to follow
-- AGENTS.md — non-negotiable rules
-- docs/standards/component_standard.md — API, states, file structure
-- docs/standards/accessibility_standard.md — WCAG 2.2 AA
-- docs/standards/styling_and_tokens.md — token-driven styling
-- docs/quality-and-validation/testing_strategy.md — what to test
-- docs/quality-and-validation/definition_of_done.md — acceptance criteria
-- docs/guides/creating-a-component.md — step-by-step guide
+- AGENTS.md - non-negotiable rules
+- docs/standards/component-standard.md - API, states, file structure
+- docs/standards/accessibility-standard.md - WCAG 2.2 AA
+- docs/standards/styling-and-tokens.md - token-driven styling
+- docs/quality-and-validation/testing-strategy.md - what to test
+- docs/quality-and-validation/definition-of-done.md - acceptance criteria
+- docs/guides/creating-a-component.md - step-by-step guide
 
 ## Requirements
 - Category: [actions|forms|feedback|overlay|navigation|data-display]

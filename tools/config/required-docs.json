@@ -1,7 +1,7 @@
 {
   "requiredDocs": [
     {
-      "path": "docs/overview/start_here.md",
+      "path": "docs/overview/start-here.md",
       "description": "Project overview / starting guide"
     },
     {
@@ -13,75 +13,75 @@
       "description": "Architecture documentation"
     },
     {
-      "path": "docs/architecture/consumer_setup_policy.md",
+      "path": "docs/architecture/consumer-setup-policy.md",
       "description": "Consumer setup policy"
     },
     {
-      "path": "docs/architecture/public_api_policy.md",
+      "path": "docs/architecture/public-api-policy.md",
       "description": "Public API policy"
     },
     {
-      "path": "docs/engineering/ai_development_rules.md",
+      "path": "docs/engineering/ai-development-rules.md",
       "description": "AI development rules"
     },
     {
-      "path": "docs/engineering/dependency_policy.md",
+      "path": "docs/engineering/dependency-policy.md",
       "description": "Dependency policy"
     },
     {
-      "path": "docs/engineering/engineering_principles.md",
+      "path": "docs/engineering/engineering-principles.md",
       "description": "Engineering principles"
     },
     {
-      "path": "docs/engineering/security_baseline.md",
+      "path": "docs/engineering/security-baseline.md",
       "description": "Security baseline"
     },
     {
-      "path": "docs/quality-and-validation/cross_platform_commands.md",
+      "path": "docs/quality-and-validation/cross-platform-commands.md",
       "description": "Cross-platform commands and script validation policy"
     },
     {
-      "path": "docs/quality-and-validation/definition_of_done.md",
+      "path": "docs/quality-and-validation/definition-of-done.md",
       "description": "Definition of done"
     },
     {
-      "path": "docs/quality-and-validation/testing_strategy.md",
+      "path": "docs/quality-and-validation/testing-strategy.md",
       "description": "Testing strategy"
     },
     {
-      "path": "docs/roadmap/project_roadmap.md",
+      "path": "docs/roadmap/project-roadmap.md",
       "description": "Project roadmap (primary reference)"
     },
     {
-      "path": "docs/standards/accessibility_standard.md",
+      "path": "docs/standards/accessibility-standard.md",
       "description": "Accessibility standard"
     },
     {
-      "path": "docs/standards/component_standard.md",
+      "path": "docs/standards/component-standard.md",
       "description": "Component standard"
     },
     {
-      "path": "docs/standards/directive_standard.md",
+      "path": "docs/standards/directive-standard.md",
       "description": "Directive standard"
     },
     {
-      "path": "docs/standards/i18n_standard.md",
+      "path": "docs/standards/i18n-standard.md",
       "description": "i18n standard"
     },
     {
-      "path": "docs/standards/service_standard.md",
+      "path": "docs/standards/service-standard.md",
       "description": "Service standard"
     },
     {
-      "path": "docs/standards/styling_and_tokens.md",
+      "path": "docs/standards/styling-and-tokens.md",
       "description": "Styling and tokens standard"
     },
     {
-      "path": "docs/workflow-and-release/branching_and_commits.md",
+      "path": "docs/workflow-and-release/branching-and-commits.md",
       "description": "Branching and commits standard"
     },
     {
-      "path": "docs/workflow-and-release/release_policy.md",
+      "path": "docs/workflow-and-release/release-policy.md",
       "description": "Release policy"
     }
   ]

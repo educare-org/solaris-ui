@@ -1,4 +1,4 @@
-# Solaris UI — Forms Foundation Contract
+﻿# Solaris UI - Forms Foundation Contract
 
 ## Purpose
 
@@ -12,17 +12,17 @@ Implementation prompts must follow this contract without deviation.
 
 ## 1. Core Principles
 
-**Principle 1 — Separation of concerns:**
+**Principle 1 - Separation of concerns:**
 
 - Form Field organizes context.
 - Input collects value.
 - Error communicates validation.
 - Control does not become layout manager.
 
-**Principle 2 — Infrastructure first:**
+**Principle 2 - Infrastructure first:**
 Forms are critical product infrastructure. Architecture prioritizes accessibility, predictability, Angular Forms integration, visual consistency, and low coupling.
 
-**Principle 3 — Native when possible, component when necessary:**
+**Principle 3 - Native when possible, component when necessary:**
 Controls that preserve native semantics and browser behavior must be directives. Controls with their own visual anatomy and complex internal states must be components.
 
 ---
@@ -187,10 +187,10 @@ control.invalid &&
 
 Required empty field:
 
-- user has not touched yet → no error
-- user focused and is still typing → no aggressive visual error
-- user left the field (blur) empty → red border + error message
-- user corrects the value → error disappears
+- user has not touched yet â†’ no error
+- user focused and is still typing â†’ no aggressive visual error
+- user left the field (blur) empty â†’ red border + error message
+- user corrects the value â†’ error disappears
 
 ### 6.3. Future evolution
 
@@ -452,7 +452,7 @@ solaris-form-error-1
 
 ## 16. Accessibility
 
-Reference: `docs/standards/accessibility_standard.md`. This section applies that standard to forms.
+Reference: `docs/standards/accessibility-standard.md`. This section applies that standard to forms.
 
 - label correctly associated with the control (`for`/`id`)
 - `aria-describedby` with hint/error/description
@@ -491,13 +491,13 @@ Reference: `docs/standards/i18n_standard.md`. This section applies that standard
 
 ### 17.3. Constraint
 
-Do not over-engineer the API before components exist. This contract guides consistent patterns — actual inputs will be decided in each prompt.
+Do not over-engineer the API before components exist. This contract guides consistent patterns - actual inputs will be decided in each prompt.
 
 ---
 
 ## 18. Security
 
-Reference: `docs/engineering/security_baseline.md`. This section applies that baseline to forms.
+Reference: `docs/engineering/security-baseline.md`. This section applies that baseline to forms.
 
 ### 18.1. Prohibitions
 
@@ -526,7 +526,7 @@ Use safe projection (`<ng-content>`) instead of HTML in strings.
 
 ## 19. Testing Strategy
 
-Reference: `docs/quality-and-validation/testing_strategy.md`. This section applies that strategy to forms.
+Reference: `docs/quality-and-validation/testing-strategy.md`. This section applies that strategy to forms.
 
 ### 19.1. Mandatory tests per control
 
@@ -586,7 +586,7 @@ Forms must reuse existing patterns, **not create a parallel system**:
 
 The Forms Release `0.2.0` must follow this order:
 
-1. **Forms Foundation Contract** ← this document
+1. **Forms Foundation Contract** â† this document
 2. Form Field
 3. Input
 4. Textarea
@@ -664,11 +664,11 @@ Each prompt must reference this contract as the source of truth and **must not**
 
 ## 25. References
 
-- `docs/standards/component_standard.md`
-- `docs/standards/directive_standard.md`
-- `docs/standards/accessibility_standard.md`
+- `docs/standards/component-standard.md`
+- `docs/standards/directive-standard.md`
+- `docs/standards/accessibility-standard.md`
 - `docs/standards/i18n_standard.md`
-- `docs/standards/styling_and_tokens.md`
-- `docs/quality-and-validation/testing_strategy.md`
-- `docs/quality-and-validation/definition_of_done.md`
-- `docs/roadmap/project_roadmap.md`
+- `docs/standards/styling-and-tokens.md`
+- `docs/quality-and-validation/testing-strategy.md`
+- `docs/quality-and-validation/definition-of-done.md`
+- `docs/roadmap/project-roadmap.md`
