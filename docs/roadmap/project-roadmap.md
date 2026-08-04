@@ -280,6 +280,24 @@ Harden the package before broader use.
 - Public API is stable enough for `0.x`.
 - CI enforces quality gates.
 
+## Off-Roadmap Deliveries
+
+Components delivered outside the phased roadmap at the request of Educare. They follow the same quality guardrails as roadmap components: tests, accessibility, docs, showcase, stories, tokens, changeset, and `pnpm verify`.
+
+| Component              | Type                        | Delivered | Commit                                                    |
+| ---------------------- | --------------------------- | --------- | --------------------------------------------------------- |
+| `solaris-spinner`      | Indeterminate loading ring  | ✅ Done   | `fc285b2` `feature(feedback): add spinner component`      |
+| `solaris-progress`     | Determinate + indeterminate | ✅ Done   | `b0c183a` `feature(feedback): add progress component`     |
+| `solaris-loading-text` | Animated shimmer caption    | ✅ Done   | `504f8ca` `feature(feedback): add loading-text component` |
+
+### Notes
+
+- The three components form a cohesive loading family under `feedback/` and are showcased under the `/feedback/loading/*` route group.
+- `solaris-spinner` integrates with `solaris-button` loading state.
+- `solaris-progress` supports `value` 0-100 (clamped), indeterminate mode, sizes, semantic and `custom` colors, i18n label, and percent display.
+- `solaris-loading-text` is text-only with a shimmer sweep that never hides the base text, and slower speed tokens (`--solaris-motion-duration-slowest`).
+- Each component has unit tests, Playwright E2E coverage, Storybook stories, component docs, and a changeset.
+
 ## Future Phase — Financial and Institutional Components
 
 ### Objective
