@@ -5,6 +5,7 @@ const meta: Meta<SolarisSpinnerComponent> = {
   component: SolarisSpinnerComponent,
   title: 'Feedback/SolarisSpinnerComponent',
   args: {
+    variant: 'ring',
     size: 'md',
     color: 'primary',
     speed: 'normal',
@@ -12,6 +13,10 @@ const meta: Meta<SolarisSpinnerComponent> = {
     backdrop: false,
   },
   argTypes: {
+    variant: {
+      control: 'select',
+      options: ['ring', 'stacked', 'progress'],
+    },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg', 'xl'],
@@ -46,6 +51,12 @@ const meta: Meta<SolarisSpinnerComponent> = {
     backdrop: {
       control: 'boolean',
     },
+    value: {
+      control: { type: 'range', min: 0, max: 100, step: 1 },
+    },
+    showPercent: {
+      control: 'boolean',
+    },
   },
 };
 export default meta;
@@ -54,6 +65,30 @@ type Story = StoryObj<SolarisSpinnerComponent>;
 
 export const Primary: Story = {
   args: {},
+};
+
+export const Stacked: Story = {
+  args: {
+    variant: 'stacked',
+  },
+};
+
+export const Progress: Story = {
+  args: {
+    variant: 'progress',
+    value: 40,
+    showPercent: true,
+  },
+};
+
+export const ProgressWithDetails: Story = {
+  args: {
+    variant: 'progress',
+    value: 60,
+    label: 'Uploading',
+    showPercent: true,
+    description: ['File size: 12MB', 'Time left: 30s'],
+  },
 };
 
 export const WithLabel: Story = {

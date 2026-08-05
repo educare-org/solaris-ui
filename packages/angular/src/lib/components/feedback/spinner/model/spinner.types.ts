@@ -1,3 +1,5 @@
+export type SolarisSpinnerVariant = 'ring' | 'stacked' | 'progress';
+
 export type SolarisSpinnerSize = 'sm' | 'md' | 'lg' | 'xl';
 
 export type SolarisSpinnerColor =
@@ -18,12 +20,3 @@ export type SolarisSpinnerEasing =
   | 'ease-out'
   | 'ease-in-out'
   | 'spring';
-
-export interface SolarisSpinnerConfig {
-  size?: SolarisSpinnerSize;
-  color?: SolarisSpinnerColor;
-  speed?: SolarisSpinnerSpeed;
-  easing?: SolarisSpinnerEasing;
-  backdrop?: boolean;
-  label?: string;
-}

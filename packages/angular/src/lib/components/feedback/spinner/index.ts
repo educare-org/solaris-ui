@@ -1,6 +1,7 @@
 export { SolarisSpinnerComponent } from './component/spinner.component';
 
 export type {
+  SolarisSpinnerVariant,
   SolarisSpinnerSize,
   SolarisSpinnerColor,
   SolarisSpinnerSpeed,

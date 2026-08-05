@@ -8,6 +8,102 @@
 
   <section class="spinner-showcase__section">
     <h2 class="spinner-showcase__section-title">
+      {{ 'spinner.variants' | translate }}
+    </h2>
+    <div class="spinner-showcase__row">
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Ring</span>
+        <solaris-spinner variant="ring"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Stacked</span>
+        <solaris-spinner variant="stacked"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Progress</span>
+        <solaris-spinner
+          variant="progress"
+          [value]="30"
+          [showPercent]="true"
+        ></solaris-spinner>
+      </div>
+    </div>
+  </section>
+
+  <section class="spinner-showcase__section">
+    <h2 class="spinner-showcase__section-title">
+      {{ 'spinner.stacked-sizes' | translate }}
+    </h2>
+    <div class="spinner-showcase__row">
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">sm</span>
+        <solaris-spinner variant="stacked" size="sm"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">md</span>
+        <solaris-spinner variant="stacked" size="md"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">lg</span>
+        <solaris-spinner variant="stacked" size="lg"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">xl</span>
+        <solaris-spinner variant="stacked" size="xl"></solaris-spinner>
+      </div>
+    </div>
+  </section>
+
+  <section class="spinner-showcase__section">
+    <h2 class="spinner-showcase__section-title">
+      {{ 'spinner.stacked-speeds' | translate }}
+    </h2>
+    <div class="spinner-showcase__row">
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Slow</span>
+        <solaris-spinner variant="stacked" speed="slow"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Normal</span>
+        <solaris-spinner variant="stacked" speed="normal"></solaris-spinner>
+      </div>
+      <div class="spinner-showcase__item">
+        <span class="spinner-showcase__label">Fast</span>
+        <solaris-spinner variant="stacked" speed="fast"></solaris-spinner>
+      </div>
+    </div>
+  </section>
+
+  <section class="spinner-showcase__section">
+    <h2 class="spinner-showcase__section-title">
+      {{ 'spinner.determinate' | translate }}
+    </h2>
+    <p class="spinner-showcase__note">
+      {{ 'spinner.determinate-note' | translate }}
+    </p>
+    <div class="spinner-showcase__stack">
+      <solaris-spinner
+        variant="progress"
+        [value]="progressValue()"
+        label="Downloading"
+        [showPercent]="true"
+        [description]="['File size: 12 MB', 'Time left: 30 s']"
+      ></solaris-spinner>
+      <div>
+        <button
+          class="spinner-showcase__button"
+          type="button"
+          [disabled]="isAnimating()"
+          (click)="playAnimation()"
+        >
+          {{ 'spinner.play' | translate }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="spinner-showcase__section">
+    <h2 class="spinner-showcase__section-title">
       {{ 'spinner.sizes' | translate }}
     </h2>
     <div class="spinner-showcase__row">
@@ -153,7 +249,7 @@
         <button
           class="spinner-showcase__button"
           type="button"
-          (click)="showBackdrop = true"
+          (click)="showBackdrop.set(true)"
         >
           {{ 'spinner.show-backdrop' | translate }}
         </button>
@@ -177,11 +273,11 @@
   </section>
 </div>
 
-@if (showBackdrop) {
+@if (showBackdrop()) {
 <solaris-spinner
   size="xl"
   [backdrop]="true"
   label="Loading application..."
-  (click)="showBackdrop = false"
+  (click)="showBackdrop.set(false)"
 ></solaris-spinner>
 }

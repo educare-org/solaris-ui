@@ -1,19 +1,30 @@
 import { test, expect } from '@playwright/test';
 
-test('spinner border thickness varies by size', async ({ page }) => {
+test('spinner stroke thickness varies by size', async ({ page }) => {
   await page.goto('/feedback/loading/spinner');
   const sizes = ['sm', 'md', 'lg', 'xl'];
   const thicknesses = new Set<number>();
   for (const size of sizes) {
     const spinner = page
-      .locator('.spinner-showcase__section')
-      .first()
-      .locator(`solaris-spinner[data-size="${size}"]`);
+      .locator('.spinner-showcase__section', {
+        has: page.locator(
+          'solaris-spinner[data-size="xl"][data-variant="ring"]',
+        ),
+      })
+      .locator(`solaris-spinner[data-size="${size}"][data-variant="ring"]`);
     await expect(spinner).toBeVisible();
-    const thickness = await spinner
+    const rendered = await spinner
       .locator('.solaris-spinner__track')
-      .evaluate((el) => parseFloat(getComputedStyle(el).borderTopWidth) || 0);
-    thicknesses.add(thickness);
+      .evaluate((el) => {
+        const circle = el as SVGCircleElement;
+        const svg = circle.ownerSVGElement as SVGSVGElement;
+        const strokeWidth =
+          parseFloat(getComputedStyle(circle).strokeWidth) || 0;
+        const renderedWidth = svg.getBoundingClientRect().width;
+        const viewBoxWidth = svg.viewBox.baseVal.width;
+        return strokeWidth * (renderedWidth / viewBoxWidth);
+      });
+    thicknesses.add(rendered);
   }
   expect(thicknesses.size).toBeGreaterThan(1);
 });
@@ -37,9 +48,68 @@ test('button spinner thickness matches button size', async ({ page }) => {
     'solaris-spinner .solaris-spinner__track',
   );
   const thickness = await track.evaluate(
-    (el) => parseFloat(getComputedStyle(el).borderTopWidth) || 0,
+    (el) => parseFloat(getComputedStyle(el).strokeWidth) || 0,
   );
   expect(thickness).toBeGreaterThan(0);
+});
+
+test('stacked spinner renders 8 independent bars', async ({ page }) => {
+  await page.goto('/feedback/loading/spinner');
+  const spinner = page
+    .locator('solaris-spinner[data-variant="stacked"]')
+    .first();
+  await expect(spinner).toBeVisible();
+  await expect(spinner).toHaveAttribute('role', 'status');
+  const bars = spinner.locator('.solaris-spinner__bar');
+  await expect(bars).toHaveCount(8);
+  await expect(spinner.locator('.solaris-spinner__track')).toHaveCount(0);
+  await expect(spinner.locator('.solaris-spinner__indicator')).toHaveCount(0);
+});
+
+test('progress spinner exposes value and renders percent', async ({ page }) => {
+  await page.goto('/feedback/loading/spinner');
+  const spinner = page
+    .locator('solaris-spinner[data-variant="progress"]')
+    .first();
+  await expect(spinner).toBeVisible();
+  await expect(spinner).toHaveAttribute('role', 'progressbar');
+  const value = await spinner.getAttribute('aria-valuenow');
+  expect(value).not.toBeNull();
+  const percent = spinner.locator('.solaris-spinner__percent');
+  await expect(percent).toContainText('%');
+});
+
+test('progress spinner animates from 0 to 100', async ({ page }) => {
+  await page.goto('/feedback/loading/spinner');
+  const spinner = page
+    .locator('solaris-spinner[data-variant="progress"]', {
+      hasText: 'Downloading',
+    })
+    .first();
+  await expect(spinner).toBeVisible();
+  expect(await spinner.getAttribute('aria-valuenow')).toBe('0');
+
+  await page.getByRole('button', { name: 'Play' }).click();
+
+  await expect
+    .poll(async () => await spinner.getAttribute('aria-valuenow'), {
+      timeout: 8000,
+    })
+    .toBe('100');
+  await expect(spinner.locator('.solaris-spinner__percent')).toHaveText('100%');
+});
+
+test('progress spinner renders description lines', async ({ page }) => {
+  await page.goto('/feedback/loading/spinner');
+  const spinner = page
+    .locator('solaris-spinner[data-variant="progress"]', {
+      hasText: 'File size',
+    })
+    .first();
+  await expect(spinner).toBeVisible();
+  await expect(
+    spinner.locator('.solaris-spinner__description').first(),
+  ).toContainText('File size');
 });
 
 test('backdrop spinner centers ring and overlays track', async ({ page }) => {
@@ -52,26 +122,8 @@ test('backdrop spinner centers ring and overlays track', async ({ page }) => {
   const track = ring.locator('.solaris-spinner__track');
   const indicator = ring.locator('.solaris-spinner__indicator');
 
-  const ringPos = await ring.evaluate((el) => getComputedStyle(el).position);
-  expect(ringPos).toBe('relative');
-
-  for (const el of [track, indicator]) {
-    const style = await el.evaluate((node) => {
-      const s = getComputedStyle(node);
-      return {
-        position: s.position,
-        top: s.top,
-        left: s.left,
-        right: s.right,
-        bottom: s.bottom,
-      };
-    });
-    expect(style.position).toBe('absolute');
-    expect(style.top).toBe('0px');
-    expect(style.left).toBe('0px');
-    expect(style.right).toBe('0px');
-    expect(style.bottom).toBe('0px');
-  }
+  await expect(track).toBeVisible();
+  await expect(indicator).toBeVisible();
 
   const ringBox = (await ring.boundingBox())!;
   const viewport = page.viewportSize()!;
