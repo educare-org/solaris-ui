@@ -1,5 +1,25 @@
 # @educarehq/solaris-ui
 
+## 0.6.0
+
+### Minor Changes
+
+- 504f8ca: feature(feedback): add loading-text component
+
+  Adds `solaris-loading-text`, an animated loading caption that sweeps a shimmer across short text. Supports `sm`/`md`/`lg`/`xl` sizes, semantic and `custom` colors, `slow`/`normal`/`fast` speeds, i18n-enabled text, `role="status"` with `aria-live="polite"`, and reduced-motion support.
+
+- b0c183a: feature(feedback): add progress component
+
+  Adds `solaris-progress`, a progress indicator with determinate (`value` 0-100) and indeterminate modes, `sm`/`md`/`lg` sizes, semantic and `custom` colors, an optional i18n-enabled label and numeric percentage, `role="progressbar"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, and reduced-motion support.
+
+- fc285b2: feature(feedback): add spinner component
+
+  Adds `solaris-spinner`, an indeterminate loading indicator with `sm`/`md`/`lg`/`xl` sizes (thickness scales with size), semantic and `custom` colors, `speed` and `easing` motion controls, an optional full-screen `backdrop`, an optional i18n-enabled label, `role="status"` + `aria-live="polite"` announcements, and reduced-motion support. The button loading state now renders `solaris-spinner` instead of a CSS pseudo-element spinner.
+
+- 1608f7b: feature(feedback): add spinner stacked variant, progress layout, and rounded caps
+
+  Extends `solaris-spinner` with a `variant` input (`ring` | `stacked` | `progress`). `stacked` renders a classic radial spinner built from 8 independent rounded bars (45 degrees apart) that animate a clockwise fading trail through staggered opacity states; `progress` renders a determinate arc driven by `value` (0-100, clamped) with optional `showPercent` and `description`/`descriptionKey` lines, `role="progressbar"`, and `aria-valuenow`/`valuemin`/`valuemax`/`valuetext`. The progress percentage and label share a baseline with description lines aligned beneath. The indicator now renders as SVG with rounded stroke caps in a fixed `120` viewBox that keeps caps fully inside the canvas, and the static track uses the indicator color at reduced opacity (`--solaris-spinner-track-color` defaults to `--solaris-spinner-color`, `--solaris-spinner-track-opacity` defaults to `--solaris-opacity-20`).
+
 ## 0.5.0
 
 ### Minor Changes
