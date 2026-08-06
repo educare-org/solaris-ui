@@ -52,6 +52,16 @@ for the full API; the relevant inputs are:
 | `disabled`     | `boolean`          | `false` | Disables this item.                                               |
 | `icon`         | `string`           | —       | Per-item icon override for the trigger.                           |
 
+## Import rule
+
+The accordion control token (`SOLARIS_ACCORDION`) lives in
+`model/accordion.tokens.ts`. Any component that consumes the token (such as
+`SolarisCollapsibleComponent`) must import it directly from that module, never
+from the accordion barrel (`../../accordion`). The barrel re-exports
+`SolarisAccordionComponent`, which imports the collapsible primitive, so
+importing the barrel from collapsible would create a circular module dependency
+that breaks JIT/unit-test consumers of the published bundle.
+
 ## Accessibility
 
 - Each header is a native heading (`h2`–`h6`) whose only child is the trigger

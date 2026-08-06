@@ -37,6 +37,15 @@ rendered around the trigger, and `value` is used for identification. In that
 mode `open`/`openChange` are ignored and the `appearance`, `headingLevel`, and
 `expandIcon` are inherited from the container.
 
+## Import rule
+
+When resolving the accordion control token (`SOLARIS_ACCORDION`), import it
+directly from the token module
+(`../../accordion/model/accordion.tokens`), never from the accordion barrel.
+The barrel re-exports `SolarisAccordionComponent`, which imports this component,
+so importing the barrel would create a circular module dependency that breaks
+JIT/unit-test consumers of the published bundle.
+
 ## Accessibility
 
 - The trigger is a native `button` with `aria-expanded` and `aria-controls`

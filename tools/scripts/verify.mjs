@@ -84,6 +84,13 @@ runTooling('typecheck');
 runTooling('test');
 runTooling('build');
 
+console.log('\n--- Bundle Evaluation ---');
+runCommand(
+  'check:bundle-import',
+  'node tools/scripts/check-bundle-import.mjs',
+  true,
+);
+
 console.log('\n═══════════════════════════════════════');
 const result = printSummary('Verification Complete', errors, warnings);
 

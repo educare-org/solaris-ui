@@ -18,7 +18,7 @@ import type {
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisIconComponent } from '../../../icon';
 import { resolveElementId } from '../../../../core';
-import { SOLARIS_ACCORDION } from '../../accordion';
+import { SOLARIS_ACCORDION } from '../../accordion/model/accordion.tokens';
 
 @Component({
   selector: 'solaris-collapsible',
