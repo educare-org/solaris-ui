@@ -144,4 +144,20 @@ describe('SolarisDialogService', () => {
 
       ref.close();
     }));
+
+  it('should open a dialog with bottom placement', () => {
+    const ref = service.open({ title: 'Test', placement: 'bottom' });
+
+    expect(ref).toBeTruthy();
+    expect(ref).toBeInstanceOf(SolarisDialogRef);
+  });
+
+  it('should open a component dialog with bottom placement', () => {
+    const ref = service.openComponent(TestDialogComponent, {
+      placement: 'bottom',
+    });
+
+    expect(ref).toBeTruthy();
+    expect(ref).toBeInstanceOf(SolarisDialogRef);
+  });
 });

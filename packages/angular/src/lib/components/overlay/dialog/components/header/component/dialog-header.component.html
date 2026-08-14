@@ -29,7 +29,7 @@
       type="button"
       class="solaris-dialog-header__close"
       [attr.data-size]="size()"
-      [attr.aria-label]="closeLabel()"
+      [attr.aria-label]="resolvedCloseLabel()"
       (click)="close()"
     >
       <solaris-icon name="x" [decorative]="true" />

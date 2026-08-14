@@ -23,12 +23,13 @@ import type {
   SolarisDialogComponentConfig,
 } from '../../root/model/dialog.types';
 import { SolarisDialogComponent } from '../../root/component/dialog.component';
+import { SolarisDialogHeaderComponent } from '../../header/component/dialog-header.component';
 import { SolarisDialogRef } from '../../../service/dialog-ref';
 
 @Component({
   selector: 'solaris-dialog-container',
   standalone: true,
-  imports: [CdkTrapFocus, SolarisDialogComponent],
+  imports: [CdkTrapFocus, SolarisDialogComponent, SolarisDialogHeaderComponent],
   templateUrl: './dialog-container.component.html',
   styleUrls: ['./dialog-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,6 +38,8 @@ import { SolarisDialogRef } from '../../../service/dialog-ref';
     class: 'solaris-dialog-container',
     '[attr.data-variant]': 'hostVariant',
     '[attr.data-appearance]': 'hostAppearance',
+    '[attr.data-placement]': 'hostPlacement',
+    '[attr.data-backdrop]': 'hasBackdrop',
   },
 })
 export class SolarisDialogContainerComponent {
@@ -69,6 +72,36 @@ export class SolarisDialogContainerComponent {
   protected get hostVariant(): string | undefined | null {
     if (this.simpleOptions()) return this.simpleOptions()?.variant ?? 'neutral';
     return null;
+  }
+
+  protected get hostPlacement(): string {
+    if (this.simpleOptions())
+      return this.simpleOptions()?.placement ?? 'center';
+    return this.externalComponentConfig()?.placement ?? 'center';
+  }
+
+  protected get hasBackdrop(): boolean {
+    if (this.simpleOptions()) return this.simpleOptions()?.backdrop ?? true;
+    return this.externalComponentConfig()?.backdrop ?? true;
+  }
+
+  protected get closeable(): boolean {
+    if (this.simpleOptions()) return this.simpleOptions()?.closeable ?? true;
+    return this.externalComponentConfig()?.closeable ?? true;
+  }
+
+  protected get closeLabel(): string {
+    if (this.simpleOptions()) {
+      return this.simpleOptions()?.closeLabel ?? 'Close';
+    }
+    return this.externalComponentConfig()?.closeLabel ?? 'Close';
+  }
+
+  protected get closeLabelKey(): string | undefined {
+    if (this.simpleOptions()) {
+      return this.simpleOptions()?.closeLabelKey;
+    }
+    return this.externalComponentConfig()?.closeLabelKey;
   }
 
   protected get panelWidth(): string {

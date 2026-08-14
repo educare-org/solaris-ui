@@ -56,6 +56,8 @@ describe('SolarisDialogContainerComponent', () => {
       expect(hostEl.getAttribute('data-size')).toBe('md');
       expect(hostEl.getAttribute('data-variant')).toBe('neutral');
       expect(hostEl.getAttribute('data-appearance')).toBe('surface');
+      expect(hostEl.getAttribute('data-placement')).toBe('center');
+      expect(hostEl.getAttribute('data-backdrop')).toBe('true');
     });
 
     it('should render custom host attributes from options', () => {
@@ -64,12 +66,14 @@ describe('SolarisDialogContainerComponent', () => {
         size: 'lg',
         variant: 'info',
         appearance: 'outline',
+        placement: 'bottom',
       });
       const hostEl = fixture.nativeElement as HTMLElement;
 
       expect(hostEl.getAttribute('data-size')).toBe('lg');
       expect(hostEl.getAttribute('data-variant')).toBe('info');
       expect(hostEl.getAttribute('data-appearance')).toBe('outline');
+      expect(hostEl.getAttribute('data-placement')).toBe('bottom');
     });
 
     it('should render solaris-dialog component in simple mode', () => {
@@ -413,6 +417,40 @@ describe('SolarisDialogContainerComponent', () => {
       const hostEl = fixture.nativeElement as HTMLElement;
 
       expect(hostEl.getAttribute('data-variant')).toBeNull();
+    });
+
+    it('should default backdrop to true on the host', () => {
+      const fixture = createExternalFixture(ExternalTestComponent);
+      const hostEl = fixture.nativeElement as HTMLElement;
+
+      expect(hostEl.getAttribute('data-backdrop')).toBe('true');
+    });
+
+    it('should reflect backdrop false on the host', () => {
+      const fixture = createExternalFixture(ExternalTestComponent, {
+        backdrop: false,
+      });
+      const hostEl = fixture.nativeElement as HTMLElement;
+
+      expect(hostEl.getAttribute('data-backdrop')).toBe('false');
+    });
+
+    it('should render the standard close button when closeable', () => {
+      const fixture = createExternalFixture(ExternalTestComponent, {
+        closeable: true,
+      });
+      const closeBtn = q(fixture, '.solaris-dialog-header__close');
+
+      expect(closeBtn).toBeTruthy();
+    });
+
+    it('should not render the close button when closeable is false', () => {
+      const fixture = createExternalFixture(ExternalTestComponent, {
+        closeable: false,
+      });
+      const closeBtn = q(fixture, '.solaris-dialog-header__close');
+
+      expect(closeBtn).toBeNull();
     });
 
     it('should inject dialog data into external component', () => {

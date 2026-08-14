@@ -9,6 +9,8 @@ export type SolarisDialogVariant =
 
 export type SolarisDialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';
 
+export type SolarisDialogPlacement = 'center' | 'bottom';
+
 export type SolarisDialogActionsAlign =
   | 'start'
   | 'center'
@@ -61,6 +63,7 @@ export interface SolarisDialogOptions<TResult = unknown> {
   variant?: SolarisDialogVariant;
   appearance?: SolarisDialogAppearance;
   size?: SolarisDialogSize;
+  placement?: SolarisDialogPlacement;
   width?: string;
   height?: string;
   minWidth?: string;
@@ -70,6 +73,7 @@ export interface SolarisDialogOptions<TResult = unknown> {
   closeable?: boolean;
   closeLabel?: string;
   closeLabelKey?: string;
+  backdrop?: boolean;
   closeOnEscape?: boolean;
   closeOnBackdropClick?: boolean;
   autoFocus?: SolarisDialogAutoFocus;
@@ -94,6 +98,9 @@ export interface SolarisDialogComponentConfig<TData = unknown> {
   maxHeight?: string;
   data?: TData;
   closeable?: boolean;
+  closeLabel?: string;
+  closeLabelKey?: string;
+  backdrop?: boolean;
   closeOnEscape?: boolean;
   closeOnBackdropClick?: boolean;
   autoFocus?: SolarisDialogAutoFocus;
@@ -101,12 +108,15 @@ export interface SolarisDialogComponentConfig<TData = unknown> {
   role?: SolarisDialogRole;
   appearance?: SolarisDialogAppearance;
   size?: SolarisDialogSize;
+  placement?: SolarisDialogPlacement;
 }
 
 export interface SolarisDialogConfig {
   appearance?: SolarisDialogAppearance;
   size?: SolarisDialogSize;
+  placement?: SolarisDialogPlacement;
   closeable?: boolean;
+  backdrop?: boolean;
   closeOnEscape?: boolean;
   closeOnBackdropClick?: boolean;
   autoFocus?: SolarisDialogAutoFocus;

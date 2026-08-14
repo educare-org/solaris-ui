@@ -22,6 +22,7 @@ import type {
   SolarisDialogOptions,
   SolarisDialogComponentConfig,
   SolarisDialogConfig,
+  SolarisDialogPlacement,
 } from '../components/root/model/dialog.types';
 
 let nextDialogId = 0;
@@ -56,7 +57,10 @@ export class SolarisDialogService {
     const ref = new SolarisDialogRef<TResult>(id);
     const mergedOptions = this.resolveOptions(options);
 
-    const overlayRef = this.createOverlay();
+    const overlayRef = this.createOverlay(
+      mergedOptions.placement,
+      mergedOptions.backdrop,
+    );
     const injector = this.createInjector(ref, undefined);
 
     const portal = new ComponentPortal(
@@ -81,7 +85,7 @@ export class SolarisDialogService {
     const ref = new SolarisDialogRef<TResult>(id);
     const data = config?.data as TData | undefined;
 
-    const overlayRef = this.createOverlay();
+    const overlayRef = this.createOverlay(config?.placement, config?.backdrop);
     const injector = this.createInjector(ref, data);
 
     const portal = new ComponentPortal(
@@ -99,15 +103,24 @@ export class SolarisDialogService {
     return ref;
   }
 
-  private createOverlay(): OverlayRef {
+  private createOverlay(
+    placement?: SolarisDialogPlacement,
+    backdrop = true,
+  ): OverlayRef {
+    const positionStrategy = this.overlay.position().global();
+    positionStrategy.centerHorizontally();
+    if (placement === 'bottom') {
+      positionStrategy.bottom('0');
+    } else {
+      positionStrategy.centerVertically();
+    }
+
     return this.overlay.create({
       hasBackdrop: false,
-      positionStrategy: this.overlay
-        .position()
-        .global()
-        .centerHorizontally()
-        .centerVertically(),
-      scrollStrategy: this.overlay.scrollStrategies.block(),
+      positionStrategy,
+      scrollStrategy: backdrop
+        ? this.overlay.scrollStrategies.block()
+        : this.overlay.scrollStrategies.noop(),
       panelClass: 'solaris-dialog-overlay-panel',
     });
   }
@@ -146,6 +159,7 @@ export class SolarisDialogService {
       appearance: options.appearance ?? this.config.appearance,
       size: options.size ?? this.config.size,
       closeable: options.closeable ?? this.config.closeable ?? true,
+      backdrop: options.backdrop ?? this.config.backdrop ?? true,
       closeOnEscape: options.closeOnEscape ?? this.config.closeOnEscape ?? true,
       closeOnBackdropClick:
         options.closeOnBackdropClick ??
@@ -154,6 +168,7 @@ export class SolarisDialogService {
       autoFocus: options.autoFocus ?? this.config.autoFocus,
       restoreFocus: options.restoreFocus ?? this.config.restoreFocus ?? true,
       role: options.role ?? this.config.role,
+      placement: options.placement ?? this.config.placement ?? 'center',
       actionsAlign: options.actionsAlign ?? this.config.actionsAlign ?? 'end',
       actionsStack: options.actionsStack ?? this.config.actionsStack ?? 'auto',
       ...options,

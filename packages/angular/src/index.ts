@@ -344,6 +344,7 @@ export {
 export type { SolarisDialogAppearance } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogVariant } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogSize } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogPlacement } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogActionsAlign } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogActionsStack } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogAutoFocus } from './lib/components/overlay/dialog/components/root/model/dialog.types';

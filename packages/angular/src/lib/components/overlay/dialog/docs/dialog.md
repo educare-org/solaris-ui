@@ -100,6 +100,7 @@ class UserProfileComponent {
 | variant              | `'neutral' \| 'info' \| 'success' \| 'warning' \| 'danger'` | `'neutral'`        | Semantic variant                |
 | appearance           | `'surface' \| 'outline'`                                    | `'surface'`        | Visual appearance               |
 | size                 | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'fullscreen'`              | `'md'`             | Dialog size                     |
+| placement            | `'center' \| 'bottom'`                                      | `'center'`         | Panel position                  |
 | width                | `string`                                                    | -                  | Custom width                    |
 | height               | `string`                                                    | -                  | Custom height                   |
 | minWidth             | `string`                                                    | -                  | Minimum width                   |
@@ -109,6 +110,7 @@ class UserProfileComponent {
 | closeable            | `boolean`                                                   | `true`             | Show close button               |
 | closeLabel           | `string`                                                    | `'Close'`          | Close button aria-label         |
 | closeLabelKey        | `string`                                                    | -                  | Translation key for close label |
+| backdrop             | `boolean`                                                   | `true`             | Show the modal backdrop         |
 | closeOnEscape        | `boolean`                                                   | `true`             | Close on Escape key             |
 | closeOnBackdropClick | `boolean`                                                   | `true`             | Close on backdrop click         |
 | autoFocus            | `'first-tabbable' \| 'panel' \| false`                      | `'first-tabbable'` | Auto focus behavior             |
@@ -150,6 +152,9 @@ Actions are rendered using the Solaris Button directive (`[solaris-button]`).
 | maxHeight            | `string`                                       | -                  | Maximum height                         |
 | data                 | `TData`                                        | -                  | Data to inject via SOLARIS_DIALOG_DATA |
 | closeable            | `boolean`                                      | `true`             | Show close button                      |
+| closeLabel           | `string`                                       | `'Close'`          | Close button aria-label                |
+| closeLabelKey        | `string`                                       | -                  | Translation key for close label        |
+| backdrop             | `boolean`                                      | `true`             | Show the modal backdrop                |
 | closeOnEscape        | `boolean`                                      | `true`             | Close on Escape key                    |
 | closeOnBackdropClick | `boolean`                                      | `true`             | Close on backdrop click                |
 | autoFocus            | `'first-tabbable' \| 'panel' \| false`         | `'first-tabbable'` | Auto focus behavior                    |
@@ -157,6 +162,7 @@ Actions are rendered using the Solaris Button directive (`[solaris-button]`).
 | role                 | `'dialog' \| 'alertdialog'`                    | `'dialog'`         | ARIA role                              |
 | appearance           | `'surface' \| 'outline'`                       | `'surface'`        | Visual appearance                      |
 | size                 | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'fullscreen'` | `'md'`             | Dialog size                            |
+| placement            | `'center' \| 'bottom'`                         | `'center'`         | Panel position                         |
 
 ## Actions Alignment
 
@@ -198,6 +204,26 @@ this.dialog.open({
 
 - `surface`: Default. Surface/raised background with shadow, no border.
 - `outline`: Surface background with visible border.
+
+## Placements
+
+- `center`: Default. Panel is centered vertically and horizontally.
+- `bottom`: Panel is anchored to the bottom of the viewport with spacing.
+  Useful for bottom-sheet style previews or action panels that do not need to
+  occupy the full height.
+
+```typescript
+this.dialog.open({
+  title: 'Icon usage',
+  placement: 'bottom',
+  width: 'min(40rem, calc(100vw - 2rem))',
+  closeable: true,
+});
+```
+
+For non-modal bottom sheets, set `backdrop: false` to remove the dimming
+overlay. The panel keeps its own pointer events and the page behind remains
+interactive.
 
 ## CSS Variables
 

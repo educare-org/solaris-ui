@@ -7,7 +7,7 @@
   <div
     cdkTrapFocus
     cdkTrapFocusAutoCapture
-    [attr.aria-modal]="true"
+    [attr.aria-modal]="hasBackdrop ? 'true' : 'false'"
     [attr.role]="dialogRole"
     [style.width]="panelWidth"
     class="solaris-dialog-panel"
@@ -20,6 +20,13 @@
     @if (isSimpleMode) {
       <solaris-dialog [options]="simpleOptions()!" />
     } @else {
+      @if (closeable) {
+        <solaris-dialog-header
+          [closeable]="true"
+          [closeLabel]="closeLabel"
+          [closeLabelKey]="closeLabelKey"
+        />
+      }
       <ng-template #componentHost></ng-template>
     }
   </div>
