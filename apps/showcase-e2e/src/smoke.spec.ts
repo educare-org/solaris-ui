@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 
 const ROUTES = [
   'configuration',
+  'icons',
   'data-display/badge',
   'feedback/loading/skeleton',
   'feedback/loading/spinner',

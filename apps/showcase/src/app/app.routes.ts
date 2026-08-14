@@ -9,6 +9,7 @@ import { actionsRoutes } from './routes/actions.routes';
 import { contentRoutes } from './routes/content.routes';
 import { overlayRoutes } from './routes/overlay.routes';
 import { formsRoutes } from './routes/forms.routes';
+import { iconsRoutes } from './routes/icons.routes';
 
 export const appRoutes: Route[] = [
   ...configurationRoutes,
@@ -20,4 +21,5 @@ export const appRoutes: Route[] = [
   ...contentRoutes,
   ...overlayRoutes,
   ...formsRoutes,
+  ...iconsRoutes,
 ];
