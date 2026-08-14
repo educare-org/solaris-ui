@@ -5,6 +5,8 @@ import { STATUS_ICONS } from './groups/status';
 import { LAYOUT_ICONS } from './groups/layout';
 import { THEME_ICONS } from './groups/theme';
 import { DATA_ICONS } from './groups/data';
+import { COMMUNICATION_ICONS } from './groups/communication';
+import { MEDIA_ICONS } from './groups/media';
 
 export const SOLARIS_BUILT_IN_ICONS: SolarisIconDefinition[] = [
   ...NAVIGATION_ICONS,
@@ -13,4 +15,6 @@ export const SOLARIS_BUILT_IN_ICONS: SolarisIconDefinition[] = [
   ...THEME_ICONS,
   ...DATA_ICONS,
   ...LAYOUT_ICONS,
+  ...COMMUNICATION_ICONS,
+  ...MEDIA_ICONS,
 ];

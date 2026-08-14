@@ -70,4 +70,62 @@ export const STATUS_ICONS: SolarisIconDefinition[] = [
       { type: 'path', d: 'm9 12 2 2 4-4' },
     ],
   },
+  {
+    name: 'cancel',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      { type: 'circle', cx: 12, cy: 12, r: 10 },
+      { type: 'path', d: 'M4.929 4.929 19.07 19.071' },
+    ],
+  },
+  {
+    name: 'badge-check',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z',
+      },
+      { type: 'path', d: 'm9 12 2 2 4-4' },
+    ],
+  },
+  {
+    name: 'check-check',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      { type: 'path', d: 'M18 6 7 17l-5-5' },
+      { type: 'path', d: 'm22 10-7.5 7.5L13 16' },
+    ],
+  },
+  {
+    name: 'crown',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z',
+      },
+      { type: 'path', d: 'M5 21h14' },
+    ],
+  },
 ];
