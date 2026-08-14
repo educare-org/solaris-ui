@@ -3,6 +3,7 @@ export const PT_BR_ICONS: Record<string, string> = {
   'icons.description':
     'Explore todos os ícones nativos. Use a busca ou os filtros de categoria para encontrar um ícone e clique nele para ver como usar.',
   'icons.explore': 'Explorar ícones',
+  'icons.search-label': 'Busca',
   'icons.search-placeholder': 'Buscar ícones',
   'icons.categories': 'Categorias',
   'icons.category.all': 'Todos',
@@ -14,7 +15,7 @@ export const PT_BR_ICONS: Record<string, string> = {
   'icons.category.layout': 'Layout',
   'icons.category.communication': 'Comunicação',
   'icons.category.media': 'Mídia',
-  'icons.result-count': '{count} ícones',
+  'icons.result-count': '{{count}} ícones',
   'icons.no-results': 'Nenhum ícone corresponde à sua busca.',
   'icons.usage': 'Como usar',
   'icons.usage-note':

@@ -1,7 +1,7 @@
 @mixin page($max-width: 120rem) {
   margin: 0 auto;
   max-width: $max-width;
-  padding: var(--solaris-spacing-8) var(--solaris-spacing-4);
+  padding: var(--solaris-spacing-8) var(--solaris-spacing-4) 0;
 }
 
 @mixin header {
@@ -19,7 +19,7 @@
   margin: 0;
   max-width: 120rem;
   color: var(--solaris-text-muted);
-  font: var(--solaris-font-weight-regular) var(--solaris-font-size-lg) /
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
 }
 

@@ -19,7 +19,7 @@
         <label class="icons-showcase__customizer-label" for="icons-width">
           {{ 'icons.width' | translate }}
         </label>
-        <div class="icons-showcase__customizer-row">
+        <div class="icons-showcase__customizer-range">
           <input
             id="icons-width"
             type="range"
@@ -84,10 +84,12 @@
           >
           } @else {
           <input
-            class="icons-showcase__customizer-hex"
+            size="sm"
+            solaris-input
             [value]="colorHex()"
-            (change)="onHexChange($event)"
             aria-label="Icon color hex"
+            (change)="onHexChange($event)"
+            class="icons-showcase__customizer-hex"
           />
           }
         </div>
@@ -100,20 +102,19 @@
       </h2>
 
       <div class="icons-showcase__toolbar">
-        <div class="icons-showcase__search">
-          <solaris-icon
-            name="search"
-            [decorative]="true"
-            class="icons-showcase__search-icon"
-          />
+        <solaris-form-field
+          class="icons-showcase__search"
+          [label]="'icons.search-label' | translate"
+        >
+          <solaris-icon name="search" [decorative]="true" solaris-form-prefix />
           <input
             type="search"
-            class="icons-showcase__search-input"
+            solaris-input
             [placeholder]="'icons.search-placeholder' | translate"
             [attr.aria-label]="'icons.search-placeholder' | translate"
             (input)="onSearch($event)"
           />
-        </div>
+        </solaris-form-field>
 
         <solaris-tabs
           [(value)]="selectedCategory"
@@ -139,6 +140,8 @@
         @for (icon of icons(); track icon.name) {
         <button
           type="button"
+          solaris-button
+          appearance="tonal"
           class="icons-showcase__item"
           [attr.aria-pressed]="selectedIcon() === icon.name"
           [attr.aria-label]="icon.name"
@@ -162,51 +165,4 @@
       </div>
     </section>
   </div>
-
-  @if (selectedIcon()) {
-  <aside class="icons-showcase__sheet" role="dialog" aria-modal="false">
-    <div class="icons-showcase__sheet-header">
-      <div class="icons-showcase__sheet-heading">
-        <h2 class="icons-showcase__sheet-title">
-          {{ 'icons.usage' | translate }}
-        </h2>
-        <p class="icons-showcase__usage-note">
-          {{ 'icons.usage-note' | translate }}
-        </p>
-      </div>
-      <button
-        type="button"
-        class="icons-showcase__sheet-close"
-        [attr.aria-label]="'icons.close' | translate"
-        (click)="closeUsage()"
-      >
-        <solaris-icon name="x" [decorative]="true" />
-      </button>
-    </div>
-
-    <div class="icons-showcase__usage">
-      <div class="icons-showcase__usage-preview">
-        <solaris-icon
-          [name]="selectedIcon()!"
-          [decorative]="true"
-          class="icons-showcase__usage-icon"
-          [style.width]="iconWidthCss()"
-          [style.height]="iconWidthCss()"
-          [style.color]="iconColor() ?? null"
-        />
-      </div>
-      <div class="icons-showcase__usage-code">
-        <pre><code>{{ usageSnippet() }}</code></pre>
-        <button
-          type="button"
-          class="icons-showcase__copy"
-          (click)="copySnippet()"
-        >
-          {{ copied() ? ('icons.copied' | translate) : ('icons.copy' |
-          translate) }}
-        </button>
-      </div>
-    </div>
-  </aside>
-  }
 </div>

@@ -1,0 +1,82 @@
+.icon-usage-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-4);
+  padding: 0 var(--solaris-spacing-6) var(--solaris-spacing-5);
+}
+
+.icon-usage-sheet__main {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-4);
+}
+
+.icon-usage-sheet__preview {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--solaris-spacing-20);
+  height: var(--solaris-spacing-20);
+  border: 1px solid var(--solaris-border-subtle);
+  border-radius: var(--solaris-radius-md);
+  background-color: var(--solaris-surface-subtle);
+  background-image:
+    linear-gradient(
+      to right,
+      var(--solaris-border-subtle) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      var(--solaris-border-subtle) 1px,
+      transparent 1px
+    );
+  background-size: var(--solaris-spacing-2) var(--solaris-spacing-2);
+}
+
+.icon-usage-sheet__preview-icon {
+  color: var(--solaris-text-strong);
+}
+
+.icon-usage-sheet__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-1);
+  min-width: 0;
+}
+
+.icon-usage-sheet__title {
+  margin: 0;
+  color: var(--solaris-text-strong);
+  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-lg) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+}
+
+.icon-usage-sheet__note {
+  margin: 0;
+  color: var(--solaris-text-muted);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.icon-usage-sheet__code {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--solaris-spacing-4);
+  border: 1px solid var(--solaris-border-subtle);
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-surface-muted);
+  padding: var(--solaris-spacing-3) var(--solaris-spacing-4);
+
+  pre {
+    margin: 0;
+    overflow-x: auto;
+  }
+
+  code {
+    font-family: var(--solaris-font-family-mono, monospace);
+    color: var(--solaris-text-strong);
+  }
+}

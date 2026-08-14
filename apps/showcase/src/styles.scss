@@ -10,7 +10,15 @@
 @include solaris.core();
 @include solaris.theme();
 
+html,
 body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   background-color: var(--solaris-bg-page);
   line-height: var(--solaris-line-height-md);
   font-family: var(--solaris-font-family-sans), system-ui;

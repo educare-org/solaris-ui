@@ -1,0 +1,46 @@
+<div class="icon-usage-sheet">
+  <div class="icon-usage-sheet__main">
+    <div class="icon-usage-sheet__preview">
+      <solaris-icon
+        [name]="data.name"
+        [decorative]="true"
+        class="icon-usage-sheet__preview-icon"
+        [style.width]="widthCss()"
+        [style.height]="widthCss()"
+        [style.color]="color() ?? null"
+      />
+    </div>
+    <div class="icon-usage-sheet__info">
+      <h2 class="icon-usage-sheet__title">{{ 'icons.usage' | translate }}</h2>
+      <p class="icon-usage-sheet__note">{{ 'icons.usage-note' | translate }}</p>
+    </div>
+  </div>
+
+  <div class="icon-usage-sheet__code">
+    <pre><code>{{ snippet() }}</code></pre>
+    <button
+      type="button"
+      solaris-button
+      size="lg"
+      appearance="ghost"
+      class="icon-usage-sheet__copy"
+      [attr.data-copied]="copied() ? 'true' : 'false'"
+      [attr.aria-label]="copied() ? ('icons.copied' | translate) : ('icons.copy' | translate)"
+      (click)="copy()"
+    >
+      @if (copied()) {
+      <solaris-icon
+        name="check"
+        [decorative]="true"
+        class="icon-usage-sheet__copy-icon"
+      />
+      } @else {
+      <solaris-icon
+        name="copy"
+        [decorative]="true"
+        class="icon-usage-sheet__copy-icon"
+      />
+      }
+    </button>
+  </div>
+</div>

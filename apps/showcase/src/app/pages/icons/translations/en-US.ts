@@ -3,6 +3,7 @@ export const EN_US_ICONS: Record<string, string> = {
   'icons.description':
     'Browse all built-in icons. Use the search box or category filters to find an icon, then click it to see how to use it.',
   'icons.explore': 'Explore icons',
+  'icons.search-label': 'Search',
   'icons.search-placeholder': 'Search icons',
   'icons.categories': 'Categories',
   'icons.category.all': 'All',
@@ -14,7 +15,7 @@ export const EN_US_ICONS: Record<string, string> = {
   'icons.category.layout': 'Layout',
   'icons.category.communication': 'Communication',
   'icons.category.media': 'Media',
-  'icons.result-count': '{count} icons',
+  'icons.result-count': '{{count}} icons',
   'icons.no-results': 'No icons match your search.',
   'icons.usage': 'Usage',
   'icons.usage-note':

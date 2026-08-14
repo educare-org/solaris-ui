@@ -24,23 +24,47 @@ export class IconsPageObject {
   }
 
   usageSection(): Locator {
-    return this.page.locator('.icons-showcase__usage');
+    return this.page.locator('.icon-usage-sheet');
   }
 
   usageSheet(): Locator {
-    return this.page.locator('.icons-showcase__sheet');
+    return this.page.locator('.solaris-dialog-container');
+  }
+
+  usagePanel(): Locator {
+    return this.page.locator('.solaris-dialog-panel');
+  }
+
+  usageDialogContainer(): Locator {
+    return this.page.locator('.solaris-dialog-container');
+  }
+
+  usageStandardCloseButton(): Locator {
+    return this.page.locator('.solaris-dialog-header__close');
+  }
+
+  copyButtonIcon(): Locator {
+    return this.page.locator('.icon-usage-sheet__copy solaris-icon');
+  }
+
+  copyButtonCopiedState(): Locator {
+    return this.page.locator('.icon-usage-sheet__copy[data-copied="true"]');
   }
 
   usageCloseButton(): Locator {
-    return this.page.getByRole('button', { name: 'Close usage panel' });
+    return this.page.getByRole('button', { name: 'Close', exact: true });
+  }
+
+  grid(): Locator {
+    return this.page.locator('.icons-showcase__grid');
   }
 
   usageSnippet(): Locator {
-    return this.page.locator('.icons-showcase__usage-code code');
+    return this.page.locator('.icon-usage-sheet__code code');
   }
 
   copyButton(): Locator {
-    return this.page.getByRole('button', { name: 'Copy', exact: true });
+    return this.page.locator('.icon-usage-sheet__copy');
   }
 
   widthSlider(): Locator {

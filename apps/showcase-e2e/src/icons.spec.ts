@@ -115,9 +115,8 @@ test.describe('Icons', () => {
     }
 
     await icons.copyButton().click();
-    await expect(
-      icons.page.getByRole('button', { name: 'Copied!' }),
-    ).toBeVisible();
+    await expect(icons.copyButtonCopiedState()).toBeVisible();
+    await expect(icons.copyButtonIcon()).toBeVisible();
 
     if (browserName === 'chromium') {
       const clipboard = await page.evaluate(() =>
@@ -127,18 +126,66 @@ test.describe('Icons', () => {
     }
   });
 
-  test('usage sheet is fixed to the bottom of the viewport', async () => {
+  test('usage sheet copy button reverts to copy icon after a delay', async ({
+    page,
+    browserName,
+  }) => {
     await icons.iconItem('check').click();
-    const sheet = icons.usageSheet();
-    await expect(sheet).toBeVisible();
 
-    const box = await sheet.boundingBox();
+    if (browserName === 'chromium') {
+      await page
+        .context()
+        .grantPermissions(['clipboard-read', 'clipboard-write']);
+    }
+
+    await icons.copyButton().click();
+    await expect(icons.copyButtonCopiedState()).toBeVisible();
+
+    await expect(icons.copyButtonCopiedState()).toHaveCount(0, {
+      timeout: 5000,
+    });
+  });
+
+  test('usage sheet is fixed to the bottom of the viewport with spacing', async () => {
+    await icons.iconItem('check').click();
+    const panel = icons.usagePanel();
+    await expect(panel).toBeVisible();
+
+    const box = await panel.boundingBox();
     expect(box).not.toBeNull();
     expect(box!.width).toBeLessThanOrEqual(640);
 
     const viewport = await icons.page.viewportSize();
     expect(box!.y + box!.height).toBeLessThanOrEqual(viewport!.height);
-    expect(box!.y + box!.height).toBeGreaterThan(viewport!.height - 80);
+    expect(box!.y + box!.height).toBeLessThan(viewport!.height - 8);
+  });
+
+  test('usage sheet disables the backdrop', async () => {
+    await icons.iconItem('check').click();
+    const container = icons.usageDialogContainer();
+    await expect(container).toHaveAttribute('data-backdrop', 'false');
+  });
+
+  test('usage sheet shows a square preview beside the title', async () => {
+    await icons.iconItem('check').click();
+
+    const main = icons.page.locator('.icon-usage-sheet__main');
+    const preview = icons.page.locator('.icon-usage-sheet__preview');
+    const info = icons.page.locator('.icon-usage-sheet__info');
+
+    await expect(main).toBeVisible();
+    await expect(preview).toBeVisible();
+    await expect(info).toBeVisible();
+
+    const previewBox = await preview.boundingBox();
+    expect(previewBox).not.toBeNull();
+    expect(previewBox!.width).toBeCloseTo(previewBox!.height, 0);
+  });
+
+  test('usage sheet uses the standard dialog close button', async () => {
+    await icons.iconItem('check').click();
+    await expect(icons.usageStandardCloseButton()).toBeVisible();
+    await expect(icons.usageCloseButton()).toBeVisible();
   });
 
   test('usage sheet closes via close button', async () => {
@@ -147,5 +194,25 @@ test.describe('Icons', () => {
 
     await icons.usageCloseButton().click();
     await expect(icons.usageSheet()).toHaveCount(0);
+  });
+
+  test('page remains scrollable while the usage sheet is open', async () => {
+    await icons.iconItem('check').click();
+    await expect(icons.usageSheet()).toBeVisible();
+
+    await icons.page.evaluate(() => window.scrollBy(0, 200));
+    const scrollY = await icons.page.evaluate(() => window.scrollY);
+    expect(scrollY).toBeGreaterThan(0);
+  });
+
+  test('clicking multiple icons opens a single usage sheet', async () => {
+    await icons.iconItem('chevron-down').click();
+    await icons.iconItem('chevron-left').click();
+    await icons.iconItem('chevron-right').click();
+
+    await expect(icons.usageSheet()).toHaveCount(1);
+    await expect(icons.usageSnippet()).toHaveText(
+      '<solaris-icon name="chevron-right" />',
+    );
   });
 });

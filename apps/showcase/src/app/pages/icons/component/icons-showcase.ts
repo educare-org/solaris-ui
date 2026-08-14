@@ -2,18 +2,29 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   signal,
 } from '@angular/core';
 
 import {
+  SolarisButtonDirective,
+  SolarisDialogRef,
+  SolarisDialogService,
+  SolarisFormFieldComponent,
   SolarisIconComponent,
+  SolarisInputDirective,
   SolarisTabComponent,
   SolarisTabsComponent,
   SolarisTranslatePipe,
   SOLARIS_BUILT_IN_ICONS,
+  SolarisFormPrefixDirective,
 } from '@solaris-ui/angular';
 
 import { ICON_CATEGORIES } from '../model/icons-category';
+import {
+  IconUsageSheetComponent,
+  type IconUsageSheetData,
+} from './icon-usage-sheet';
 
 interface IconColorSwatch {
   label: string;
@@ -23,23 +34,31 @@ interface IconColorSwatch {
 @Component({
   standalone: true,
   imports: [
+    SolarisButtonDirective,
+    SolarisFormFieldComponent,
     SolarisIconComponent,
+    SolarisInputDirective,
     SolarisTabComponent,
     SolarisTabsComponent,
     SolarisTranslatePipe,
+    SolarisFormPrefixDirective,
   ],
   templateUrl: './icons-showcase.html',
   styleUrls: ['./icons-showcase.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IconsShowcasePage {
+  private readonly dialogService = inject(SolarisDialogService);
+  private usageDialogRef: SolarisDialogRef | null = null;
+
   protected readonly allCategory = 'all';
   protected readonly categories = ICON_CATEGORIES;
 
   protected readonly query = signal('');
-  protected readonly selectedCategory = signal<string>(this.allCategory);
+  protected readonly selectedCategory = signal<string | number>(
+    this.allCategory,
+  );
   protected readonly selectedIcon = signal<string | null>(null);
-  protected readonly copied = signal(false);
 
   protected readonly iconWidth = signal(1.5);
   protected readonly iconColor = signal<string | null>(null);
@@ -97,26 +116,34 @@ export class IconsShowcasePage {
     });
   });
 
-  protected readonly usageSnippet = computed(() => {
-    const name = this.selectedIcon();
-    if (!name) {
-      return '';
-    }
-    return `<solaris-icon name="${name}" />`;
-  });
-
   onSearch(event: Event): void {
     this.query.set((event.target as HTMLInputElement).value);
   }
 
   selectIcon(name: string): void {
     this.selectedIcon.set(name);
-    this.copied.set(false);
-  }
 
-  closeUsage(): void {
-    this.selectedIcon.set(null);
-    this.copied.set(false);
+    this.usageDialogRef?.close();
+
+    const data: IconUsageSheetData = {
+      name,
+      width: this.iconWidth,
+      color: this.iconColor,
+    };
+
+    this.usageDialogRef = this.dialogService.openComponent(
+      IconUsageSheetComponent,
+      {
+        placement: 'bottom',
+        width: 'min(40rem, calc(100vw - 2rem))',
+        backdrop: false,
+        closeable: true,
+        closeOnBackdropClick: true,
+        closeOnEscape: true,
+        restoreFocus: true,
+        data,
+      },
+    );
   }
 
   onWidthChange(event: Event): void {
@@ -136,14 +163,5 @@ export class IconsShowcasePage {
     if (/^#[0-9a-f]{6}$/i.test(hex)) {
       this.iconColor.set(hex);
     }
-  }
-
-  async copySnippet(): Promise<void> {
-    const snippet = this.usageSnippet();
-    if (!snippet) {
-      return;
-    }
-    await navigator.clipboard.writeText(snippet);
-    this.copied.set(true);
   }
 }
