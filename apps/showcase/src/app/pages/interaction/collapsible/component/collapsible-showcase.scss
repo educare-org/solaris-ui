@@ -2,33 +2,40 @@
 
 .collapsible-showcase {
   @include layout.page;
+}
 
-  &__header {
-    @include layout.header;
-  }
-  &__title {
-    @include layout.title;
-  }
-  &__description {
-    @include layout.description;
-  }
-  &__section {
-    @include layout.section-card;
-  }
-  &__section-title {
-    @include layout.section-title;
-  }
-  &__note {
-    @include layout.note;
-  }
-  &__state {
-    @include layout.note;
+.collapsible-showcase__header {
+  @include layout.header;
+}
 
-    margin-bottom: 0;
-  }
-  &__stack {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
+.collapsible-showcase__title {
+  @include layout.title;
+}
+
+.collapsible-showcase__description {
+  @include layout.description;
+}
+
+.collapsible-showcase__section {
+  @include layout.section-card;
+}
+
+.collapsible-showcase__section-title {
+  @include layout.section-title;
+}
+
+.collapsible-showcase__note {
+  @include layout.note;
+}
+
+.collapsible-showcase__state {
+  @include layout.note;
+
+  margin-bottom: 0;
+}
+
+.collapsible-showcase__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }

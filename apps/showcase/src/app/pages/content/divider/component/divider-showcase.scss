@@ -2,43 +2,43 @@
 
 .divider-showcase {
   @include layout.page;
+}
 
-  &__header {
-    @include layout.header;
-  }
+.divider-showcase__header {
+  @include layout.header;
+}
 
-  &__title {
-    @include layout.title;
-  }
+.divider-showcase__title {
+  @include layout.title;
+}
 
-  &__description {
-    @include layout.description;
-  }
+.divider-showcase__description {
+  @include layout.description;
+}
 
-  &__section {
-    @include layout.section-card;
-  }
+.divider-showcase__section {
+  @include layout.section-card;
+}
 
-  &__section-title {
-    @include layout.section-title;
-  }
+.divider-showcase__section-title {
+  @include layout.section-title;
+}
 
-  &__note {
-    @include layout.note;
-  }
+.divider-showcase__note {
+  @include layout.note;
+}
 
-  &__spacing-demo > * {
-    margin: 0;
-  }
+.divider-showcase__spacing-demo > * {
+  margin: 0;
+}
 
-  &__toolbar {
-    height: 3rem;
-    display: flex;
-    align-items: center;
-    gap: var(--solaris-spacing-3);
-    border-radius: var(--solaris-radius-md);
-    background: var(--solaris-surface-base);
-    padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
-    border: var(--solaris-border-width-sm) solid var(--solaris-border-default);
-  }
+.divider-showcase__toolbar {
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-3);
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-surface-base);
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
+  border: var(--solaris-border-width-sm) solid var(--solaris-border-default);
 }

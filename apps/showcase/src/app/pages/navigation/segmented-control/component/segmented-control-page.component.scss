@@ -2,24 +2,24 @@
 
 .segmented-control-showcase {
   @include layout.page;
+}
 
-  &__header {
-    @include layout.header;
-  }
+.segmented-control-showcase__header {
+  @include layout.header;
+}
 
-  &__title {
-    @include layout.title;
-  }
+.segmented-control-showcase__title {
+  @include layout.title;
+}
 
-  &__description {
-    @include layout.description;
-  }
+.segmented-control-showcase__description {
+  @include layout.description;
+}
 
-  &__section {
-    @include layout.section-card;
-  }
+.segmented-control-showcase__section {
+  @include layout.section-card;
+}
 
-  &__section-title {
-    @include layout.section-title;
-  }
+.segmented-control-showcase__section-title {
+  @include layout.section-title;
 }

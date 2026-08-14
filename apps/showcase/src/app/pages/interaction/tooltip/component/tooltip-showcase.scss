@@ -2,57 +2,57 @@
 
 .tooltip-showcase {
   @include layout.page;
+}
 
-  &__header {
-    @include layout.header;
-  }
-  &__title {
-    @include layout.title;
-  }
-  &__description {
-    @include layout.description;
-  }
-  &__section {
-    @include layout.section-card;
-  }
-  &__section-title {
-    @include layout.section-title;
-  }
-  &__row {
-    @include layout.row;
-  }
-  &__row--warning {
-    opacity: 0.6;
-  }
-  &__note {
-    @include layout.note;
-  }
+.tooltip-showcase__header {
+  @include layout.header;
+}
+.tooltip-showcase__title {
+  @include layout.title;
+}
+.tooltip-showcase__description {
+  @include layout.description;
+}
+.tooltip-showcase__section {
+  @include layout.section-card;
+}
+.tooltip-showcase__section-title {
+  @include layout.section-title;
+}
+.tooltip-showcase__row {
+  @include layout.row;
+}
+.tooltip-showcase__row--warning {
+  opacity: 0.6;
+}
+.tooltip-showcase__note {
+  @include layout.note;
 }
 
 .tooltip-matrix {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
 
-  &__group {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem;
-  }
+.tooltip-matrix__group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
 
-  &__label {
-    width: 8rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    flex-shrink: 0;
-    margin: 0;
-  }
+.tooltip-matrix__label {
+  width: 8rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin: 0;
+}
 
-  &__btn {
-    font-size: 0.75rem !important;
-    min-width: 4.5rem;
-  }
+.tooltip-matrix__btn {
+  font-size: 0.75rem !important;
+  min-width: 4.5rem;
 }
 
 .tooltip-edges {
@@ -60,20 +60,20 @@
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
+}
 
-  &__top {
-    margin-top: -2rem;
-  }
+.tooltip-edges__top {
+  margin-top: -2rem;
+}
 
-  &__bottom {
-    margin-bottom: -2rem;
-  }
+.tooltip-edges__bottom {
+  margin-bottom: -2rem;
+}
 
-  &__left {
-    margin-left: -2rem;
-  }
+.tooltip-edges__left {
+  margin-left: -2rem;
+}
 
-  &__right {
-    margin-right: -2rem;
-  }
+.tooltip-edges__right {
+  margin-right: -2rem;
 }

@@ -2,24 +2,24 @@
 
 .stepper-showcase {
   @include layout.page;
+}
 
-  &__header {
-    @include layout.header;
-  }
+.stepper-showcase__header {
+  @include layout.header;
+}
 
-  &__title {
-    @include layout.title;
-  }
+.stepper-showcase__title {
+  @include layout.title;
+}
 
-  &__description {
-    @include layout.description;
-  }
+.stepper-showcase__description {
+  @include layout.description;
+}
 
-  &__section {
-    @include layout.section-card;
-  }
+.stepper-showcase__section {
+  @include layout.section-card;
+}
 
-  &__section-title {
-    @include layout.section-title;
-  }
+.stepper-showcase__section-title {
+  @include layout.section-title;
 }

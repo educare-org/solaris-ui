@@ -2,60 +2,63 @@
 
 .button-group-showcase {
   @include layout.page;
+}
 
-  &__header {
-    @include layout.header;
-  }
+.button-group-showcase__header {
+  @include layout.header;
+}
 
-  &__title {
-    @include layout.title;
-  }
+.button-group-showcase__title {
+  @include layout.title;
+}
 
-  &__description {
-    @include layout.description;
-  }
+.button-group-showcase__description {
+  @include layout.description;
+}
 
-  &__section {
-    @include layout.section-card;
-  }
+.button-group-showcase__section {
+  @include layout.section-card;
+}
 
-  &__section-title {
-    @include layout.section-title;
-  }
+.button-group-showcase__section-title {
+  @include layout.section-title;
+}
 
-  &__row {
-    @include layout.row;
-  }
+.button-group-showcase__row {
+  @include layout.row;
+}
 
-  &__full-width-row {
-    display: flex;
-    flex-direction: column;
-    gap: var(--solaris-spacing-3);
-    max-width: 32rem;
-  }
+.button-group-showcase__full-width-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  max-width: 32rem;
+}
 
-  &__note {
-    @include layout.note;
+.button-group-showcase__note {
+  @include layout.note;
 
-    margin-top: var(--solaris-spacing-3);
-  }
+  margin-top: var(--solaris-spacing-3);
+}
 
-  &__chevron-icon {
-    transition: transform var(--solaris-motion-duration-slow)
-      var(--solaris-motion-easing-standard, ease);
-  }
+.button-group-showcase__chevron-icon {
+  transition: transform var(--solaris-motion-duration-slow)
+    var(--solaris-motion-easing-standard, ease);
+}
 
-  &__chevron-btn:hover &__chevron-icon {
-    transform: translateX(0.1875rem);
-  }
+.button-group-showcase__chevron-btn:hover .button-group-showcase__chevron-icon {
+  transform: translateX(0.1875rem);
+}
 
-  @media (prefers-reduced-motion: reduce) {
-    &__chevron-btn:hover &__chevron-icon {
-      transition: none;
-    }
-  }
-
-  [data-reduced-motion='true'] &__chevron-btn:hover &__chevron-icon {
+@media (prefers-reduced-motion: reduce) {
+  .button-group-showcase__chevron-btn:hover
+    .button-group-showcase__chevron-icon {
     transition: none;
   }
+}
+
+[data-reduced-motion='true']
+  .button-group-showcase__chevron-btn:hover
+  .button-group-showcase__chevron-icon {
+  transition: none;
 }

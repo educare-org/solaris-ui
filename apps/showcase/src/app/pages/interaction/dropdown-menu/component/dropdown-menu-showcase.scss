@@ -2,43 +2,43 @@
 
 .dropdown-menu-showcase {
   @include layout.page;
+}
 
-  &__header {
-    @include layout.header;
-  }
+.dropdown-menu-showcase__header {
+  @include layout.header;
+}
 
-  &__title {
-    @include layout.title;
-  }
+.dropdown-menu-showcase__title {
+  @include layout.title;
+}
 
-  &__description {
-    @include layout.description;
-  }
+.dropdown-menu-showcase__description {
+  @include layout.description;
+}
 
-  &__section {
-    @include layout.section-card;
-  }
+.dropdown-menu-showcase__section {
+  @include layout.section-card;
+}
 
-  &__section-title {
-    @include layout.section-title;
-  }
+.dropdown-menu-showcase__section-title {
+  @include layout.section-title;
+}
 
-  &__note {
-    @include layout.note;
-  }
+.dropdown-menu-showcase__note {
+  @include layout.note;
+}
 
-  &__row {
-    @include layout.row;
-  }
+.dropdown-menu-showcase__row {
+  @include layout.row;
+}
 
-  &__keyboard-list {
-    list-style: disc;
-    padding-inline-start: var(--solaris-spacing-5);
-    color: var(--solaris-text-default);
-    font-size: var(--solaris-font-size-sm);
-  }
+.dropdown-menu-showcase__keyboard-list {
+  list-style: disc;
+  padding-inline-start: var(--solaris-spacing-5);
+  color: var(--solaris-text-default);
+  font-size: var(--solaris-font-size-sm);
+}
 
-  &__keyboard-list li {
-    margin-bottom: var(--solaris-spacing-1);
-  }
+.dropdown-menu-showcase__keyboard-list li {
+  margin-bottom: var(--solaris-spacing-1);
 }

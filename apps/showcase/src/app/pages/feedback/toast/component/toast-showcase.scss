@@ -2,57 +2,57 @@
 
 .toast-showcase {
   @include layout.page;
+}
 
-  &__header {
-    @include layout.header;
-  }
+.toast-showcase__header {
+  @include layout.header;
+}
 
-  &__title {
-    @include layout.title;
-  }
+.toast-showcase__title {
+  @include layout.title;
+}
 
-  &__description {
-    @include layout.description;
-  }
+.toast-showcase__description {
+  @include layout.description;
+}
 
-  &__section {
-    @include layout.section-card;
-  }
+.toast-showcase__section {
+  @include layout.section-card;
+}
 
-  &__section-title {
-    @include layout.section-title;
-  }
+.toast-showcase__section-title {
+  @include layout.section-title;
+}
 
-  &__section-desc {
-    margin: 0 0 var(--solaris-spacing-4);
-    color: var(--solaris-text-muted);
-    font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
-      var(--solaris-line-height-md) var(--solaris-font-family-sans);
-  }
+.toast-showcase__section-desc {
+  margin: 0 0 var(--solaris-spacing-4);
+  color: var(--solaris-text-muted);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
 
-  &__row {
-    @include layout.row;
-  }
+.toast-showcase__row {
+  @include layout.row;
+}
 
-  &__button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--solaris-spacing-2) var(--solaris-spacing-4);
-    font: var(--solaris-font-weight-medium) var(--solaris-font-size-sm) /
-      var(--solaris-line-height-md) var(--solaris-font-family-sans);
-    color: var(--solaris-text-strong);
-    background: var(--solaris-bg-raised);
-    border: 1px solid var(--solaris-border-default);
-    border-radius: var(--solaris-radius-md);
-    cursor: pointer;
-    transition:
-      background var(--solaris-transition-fast),
-      border-color var(--solaris-transition-fast);
-  }
+.toast-showcase__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-4);
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+  color: var(--solaris-text-strong);
+  background: var(--solaris-bg-raised);
+  border: 1px solid var(--solaris-border-default);
+  border-radius: var(--solaris-radius-md);
+  cursor: pointer;
+  transition:
+    background var(--solaris-transition-fast),
+    border-color var(--solaris-transition-fast);
+}
 
-  &__button:hover {
-    background: var(--solaris-bg-hover);
-    border-color: var(--solaris-border-strong);
-  }
+.toast-showcase__button:hover {
+  background: var(--solaris-bg-hover);
+  border-color: var(--solaris-border-strong);
 }

@@ -2,60 +2,60 @@
 
 .popover-showcase {
   @include layout.page;
+}
 
-  &__header {
-    @include layout.header;
-  }
+.popover-showcase__header {
+  @include layout.header;
+}
 
-  &__title {
-    @include layout.title;
-  }
+.popover-showcase__title {
+  @include layout.title;
+}
 
-  &__description {
-    @include layout.description;
-  }
+.popover-showcase__description {
+  @include layout.description;
+}
 
-  &__section {
-    @include layout.section-card;
-  }
+.popover-showcase__section {
+  @include layout.section-card;
+}
 
-  &__section-title {
-    @include layout.section-title;
-  }
+.popover-showcase__section-title {
+  @include layout.section-title;
+}
 
-  &__row {
-    @include layout.row;
-  }
+.popover-showcase__row {
+  @include layout.row;
+}
 
-  &__note {
-    @include layout.note;
-  }
+.popover-showcase__note {
+  @include layout.note;
+}
 
-  &__actions {
-    display: flex;
-    gap: var(--solaris-spacing-2);
-    margin-top: var(--solaris-spacing-2);
-  }
+.popover-showcase__actions {
+  display: flex;
+  gap: var(--solaris-spacing-2);
+  margin-top: var(--solaris-spacing-2);
+}
 
-  &__content {
-    font: var(--solaris-font-weight-regular) var(--solaris-font-size-md) /
-      var(--solaris-line-height-md) var(--solaris-font-family-sans);
-    color: var(--solaris-text-default);
-  }
+.popover-showcase__content {
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-md) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+  color: var(--solaris-text-default);
+}
 
-  &__scroll-container {
-    overflow: auto;
-    max-height: 12rem;
-    padding: var(--solaris-spacing-3);
-    border: 1px solid var(--solaris-border-subtle);
-    border-radius: var(--solaris-radius-md);
-    position: relative;
-  }
+.popover-showcase__scroll-container {
+  overflow: auto;
+  max-height: 12rem;
+  padding: var(--solaris-spacing-3);
+  border: 1px solid var(--solaris-border-subtle);
+  border-radius: var(--solaris-radius-md);
+  position: relative;
+}
 
-  &__scroll-hint {
-    font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
-      var(--solaris-line-height-md) var(--solaris-font-family-sans);
-    color: var(--solaris-text-muted);
-    margin-top: var(--solaris-spacing-3);
-  }
+.popover-showcase__scroll-hint {
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+  color: var(--solaris-text-muted);
+  margin-top: var(--solaris-spacing-3);
 }

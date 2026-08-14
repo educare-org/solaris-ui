@@ -2,34 +2,34 @@
 
 .badge-showcase {
   @include layout.page;
+}
 
-  &__header {
-    @include layout.header;
-  }
+.badge-showcase__header {
+  @include layout.header;
+}
 
-  &__title {
-    @include layout.title;
-  }
+.badge-showcase__title {
+  @include layout.title;
+}
 
-  &__description {
-    @include layout.description;
-  }
+.badge-showcase__description {
+  @include layout.description;
+}
 
-  &__section {
-    @include layout.section-card;
-  }
+.badge-showcase__section {
+  @include layout.section-card;
+}
 
-  &__section-title {
-    @include layout.section-title;
-  }
+.badge-showcase__section-title {
+  @include layout.section-title;
+}
 
-  &__row {
-    @include layout.row;
-  }
+.badge-showcase__row {
+  @include layout.row;
+}
 
-  &__note {
-    @include layout.note;
-  }
+.badge-showcase__note {
+  @include layout.note;
 }
 
 .badge-custom-wrapper {

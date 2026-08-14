@@ -2,59 +2,59 @@
 
 .progress-showcase {
   @include layout.page;
+}
 
-  &__header {
-    @include layout.header;
-  }
+.progress-showcase__header {
+  @include layout.header;
+}
 
-  &__title {
-    @include layout.title;
-  }
+.progress-showcase__title {
+  @include layout.title;
+}
 
-  &__description {
-    @include layout.description;
-  }
+.progress-showcase__description {
+  @include layout.description;
+}
 
-  &__section {
-    @include layout.section-card;
-  }
+.progress-showcase__section {
+  @include layout.section-card;
+}
 
-  &__section-title {
-    @include layout.section-title;
-  }
+.progress-showcase__section-title {
+  @include layout.section-title;
+}
 
-  &__note {
-    @include layout.note;
-  }
+.progress-showcase__note {
+  @include layout.note;
+}
 
-  &__stack {
-    display: flex;
-    flex-direction: column;
-    gap: var(--solaris-spacing-4);
-    max-width: 40rem;
-  }
+.progress-showcase__stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-4);
+  max-width: 40rem;
+}
 
-  &__custom {
-    --solaris-progress-custom-color: var(--solaris-orange-base);
-  }
+.progress-showcase__custom {
+  --solaris-progress-custom-color: var(--solaris-orange-base);
+}
 
-  &__button {
-    cursor: pointer;
-    border: 1px solid var(--solaris-border-default);
-    border-radius: var(--solaris-radius-md);
-    background: var(--solaris-surface-subtle);
-    color: var(--solaris-text-default);
-    font-family: var(--solaris-font-family-sans);
-    font-size: var(--solaris-font-size-md);
-    padding: var(--solaris-spacing-2) var(--solaris-spacing-4);
+.progress-showcase__button {
+  cursor: pointer;
+  border: 1px solid var(--solaris-border-default);
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-surface-subtle);
+  color: var(--solaris-text-default);
+  font-family: var(--solaris-font-family-sans);
+  font-size: var(--solaris-font-size-md);
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-4);
+}
 
-    &:hover:not(:disabled) {
-      background: var(--solaris-surface-muted);
-    }
+.progress-showcase__button:hover:not(:disabled) {
+  background: var(--solaris-surface-muted);
+}
 
-    &:disabled {
-      cursor: default;
-      opacity: var(--solaris-opacity-50);
-    }
-  }
+.progress-showcase__button:disabled {
+  cursor: default;
+  opacity: var(--solaris-opacity-50);
 }

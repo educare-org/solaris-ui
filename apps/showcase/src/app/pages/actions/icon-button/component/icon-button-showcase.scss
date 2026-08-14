@@ -2,50 +2,50 @@
 
 .icon-button-showcase {
   @include layout.page;
+}
 
-  &__header {
-    @include layout.header;
-  }
+.icon-button-showcase__header {
+  @include layout.header;
+}
 
-  &__title {
-    @include layout.title;
-  }
+.icon-button-showcase__title {
+  @include layout.title;
+}
 
-  &__description {
-    @include layout.description;
-  }
+.icon-button-showcase__description {
+  @include layout.description;
+}
 
-  &__section {
-    @include layout.section-card;
-  }
+.icon-button-showcase__section {
+  @include layout.section-card;
+}
 
-  &__section-title {
-    @include layout.section-title;
-  }
+.icon-button-showcase__section-title {
+  @include layout.section-title;
+}
 
-  &__subsection-title {
-    font: var(--solaris-font-weight-medium) var(--solaris-font-size-md) /
-      var(--solaris-line-height-sm) var(--solaris-font-family-sans);
-    color: var(--solaris-text-muted);
-    margin: var(--solaris-spacing-3) 0 var(--solaris-spacing-2);
-  }
+.icon-button-showcase__subsection-title {
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-md) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+  color: var(--solaris-text-muted);
+  margin: var(--solaris-spacing-3) 0 var(--solaris-spacing-2);
+}
 
-  &__row {
-    @include layout.row;
-  }
+.icon-button-showcase__row {
+  @include layout.row;
+}
 
-  &__note {
-    @include layout.note;
+.icon-button-showcase__note {
+  @include layout.note;
 
-    margin-top: 1rem;
-  }
+  margin-top: 1rem;
+}
 
-  &__label {
-    font: var(--solaris-font-weight-medium) var(--solaris-font-size-xs) /
-      var(--solaris-line-height-sm) var(--solaris-font-family-mono);
-    color: var(--solaris-text-muted);
-    white-space: nowrap;
-  }
+.icon-button-showcase__label {
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-xs) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-mono);
+  color: var(--solaris-text-muted);
+  white-space: nowrap;
 }
 
 .icon-button-showcase__glass-preview {
