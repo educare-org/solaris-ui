@@ -74,14 +74,6 @@ export class IconsShowcasePage {
 
   protected readonly iconWidthCss = computed(() => `${this.iconWidth()}px`);
 
-  protected readonly activeSwatch = computed(() => {
-    const color = this.iconColor();
-    if (!color) {
-      return null;
-    }
-    return this.colorSwatches.find((swatch) => swatch.value === color) ?? null;
-  });
-
   protected readonly colorHex = computed(() => {
     const color = this.iconColor();
     if (!color) {

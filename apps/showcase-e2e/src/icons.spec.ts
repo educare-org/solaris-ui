@@ -62,9 +62,10 @@ test.describe('Icons', () => {
     );
   });
 
-  test('customizer shows swatch color name in value', async () => {
+  test('customizer shows hex value for standard swatch', async () => {
     await icons.colorSwatch('Warning').click();
-    await expect(icons.colorValue()).toHaveText('Warning');
+    await expect(icons.colorHexInput()).toBeVisible();
+    await expect(icons.colorHexInput()).toHaveValue(/#[0-9a-fA-F]{6}/);
   });
 
   test('customizer shows hex input for custom color', async () => {

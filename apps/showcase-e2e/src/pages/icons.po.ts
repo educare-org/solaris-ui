@@ -85,10 +85,6 @@ export class IconsPageObject {
     return this.page.locator('.icons-showcase__customizer-picker');
   }
 
-  colorValue(): Locator {
-    return this.page.locator('.icons-showcase__customizer-value').nth(1);
-  }
-
   colorHexInput(): Locator {
     return this.page.locator('.icons-showcase__customizer-hex');
   }
