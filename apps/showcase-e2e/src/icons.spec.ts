@@ -43,9 +43,9 @@ test.describe('Icons', () => {
 
   test('customizer changes width for all icons', async () => {
     const slider = icons.widthSlider();
-    await slider.fill('3');
+    await slider.fill('48');
 
-    await expect(icons.widthValue()).toHaveText('3px');
+    await expect(icons.widthValue()).toHaveText('48px');
 
     const icon = icons.itemIcon('check');
     await expect(icon).toHaveCSS('width', '48px');

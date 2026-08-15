@@ -60,7 +60,7 @@ export class IconsShowcasePage {
   );
   protected readonly selectedIcon = signal<string | null>(null);
 
-  protected readonly iconWidth = signal(1.5);
+  protected readonly iconWidth = signal(24);
   protected readonly iconColor = signal<string | null>(null);
 
   protected readonly colorSwatches: IconColorSwatch[] = [
