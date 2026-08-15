@@ -11,7 +11,6 @@
   [disabled]="isEffectivelyDisabled()"
   [readonly]="readonly()"
   [appearance]="appearance()"
-  [size]="size()"
   [density]="density()"
   [radius]="radius()"
 >
@@ -19,6 +18,7 @@
     #inputElement
     solaris-input
     type="email"
+    [density]="density()"
     [value]="internalValue()"
     [disabled]="isEffectivelyDisabled()"
     [readonly]="readonly()"

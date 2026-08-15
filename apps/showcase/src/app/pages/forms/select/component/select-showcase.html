@@ -348,38 +348,6 @@
 
   <section class="select-showcase__section">
     <h2 class="select-showcase__section-title">
-      {{ 'select.sizes' | translate }}
-    </h2>
-    <div class="select-showcase__row">
-      <solaris-select
-        size="sm"
-        [placeholder]="'select.placeholder-sm' | translate"
-      >
-        <solaris-option value="1"
-          >{{ 'select.option.small' | translate }}</solaris-option
-        >
-      </solaris-select>
-      <solaris-select
-        size="md"
-        [placeholder]="'select.placeholder-md' | translate"
-      >
-        <solaris-option value="1"
-          >{{ 'select.option.medium' | translate }}</solaris-option
-        >
-      </solaris-select>
-      <solaris-select
-        size="lg"
-        [placeholder]="'select.placeholder-lg' | translate"
-      >
-        <solaris-option value="1"
-          >{{ 'select.option.large' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
       {{ 'select.density' | translate }}
     </h2>
     <div class="select-showcase__row">
@@ -389,6 +357,14 @@
       >
         <solaris-option value="1"
           >{{ 'select.option.compact' | translate }}</solaris-option
+        >
+      </solaris-select>
+      <solaris-select
+        density="normal"
+        [placeholder]="'select.placeholder-normal' | translate"
+      >
+        <solaris-option value="1"
+          >{{ 'select.option.normal' | translate }}</solaris-option
         >
       </solaris-select>
       <solaris-select

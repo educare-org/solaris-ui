@@ -49,27 +49,26 @@ Selector: `solaris-form-field`
 
 #### Inputs
 
-| Input              | Type                                 | Default     | Description                                      |
-| ------------------ | ------------------------------------ | ----------- | ------------------------------------------------ |
-| `label`            | `string`                             | `''`        | Label text                                       |
-| `labelKey`         | `string`                             | —           | Translation key for label                        |
-| `hint`             | `string`                             | `''`        | Hint text                                        |
-| `hintKey`          | `string`                             | —           | Translation key for hint                         |
-| `error`            | `string`                             | `''`        | Error text                                       |
-| `errorKey`         | `string`                             | —           | Translation key for error                        |
-| `required`         | `boolean`                            | `false`     | Semantic required state                          |
-| `optional`         | `boolean`                            | `false`     | Shows optional marker                            |
-| `optionalLabel`    | `string`                             | —           | Custom optional label text                       |
-| `optionalLabelKey` | `string`                             | —           | Translation key for optional label               |
-| `requiredLabel`    | `string`                             | —           | Custom required label text                       |
-| `requiredLabelKey` | `string`                             | —           | Translation key for required label               |
-| `invalid`          | `boolean \| undefined`               | —           | Manual invalid state (overrides auto-detection)  |
-| `disabled`         | `boolean \| undefined`               | —           | Manual disabled state (overrides auto-detection) |
-| `readonly`         | `boolean \| undefined`               | —           | Manual readonly state (overrides auto-detection) |
-| `appearance`       | `'outline' \| 'surface' \| 'filled'` | `'outline'` | Visual style                                     |
-| `size`             | `'sm' \| 'md' \| 'lg'`               | `'md'`      | Control size                                     |
-| `density`          | `'compact' \| 'comfortable'`         | inherited   | Spacing density                                  |
-| `radius`           | `'none' \| 'sm' \| 'md' \| 'lg'`     | `'md'`      | Border radius                                    |
+| Input              | Type                                     | Default     | Description                                      |
+| ------------------ | ---------------------------------------- | ----------- | ------------------------------------------------ |
+| `label`            | `string`                                 | `''`        | Label text                                       |
+| `labelKey`         | `string`                                 | —           | Translation key for label                        |
+| `hint`             | `string`                                 | `''`        | Hint text                                        |
+| `hintKey`          | `string`                                 | —           | Translation key for hint                         |
+| `error`            | `string`                                 | `''`        | Error text                                       |
+| `errorKey`         | `string`                                 | —           | Translation key for error                        |
+| `required`         | `boolean`                                | `false`     | Semantic required state                          |
+| `optional`         | `boolean`                                | `false`     | Shows optional marker                            |
+| `optionalLabel`    | `string`                                 | —           | Custom optional label text                       |
+| `optionalLabelKey` | `string`                                 | —           | Translation key for optional label               |
+| `requiredLabel`    | `string`                                 | —           | Custom required label text                       |
+| `requiredLabelKey` | `string`                                 | —           | Translation key for required label               |
+| `invalid`          | `boolean \| undefined`                   | —           | Manual invalid state (overrides auto-detection)  |
+| `disabled`         | `boolean \| undefined`                   | —           | Manual disabled state (overrides auto-detection) |
+| `readonly`         | `boolean \| undefined`                   | —           | Manual readonly state (overrides auto-detection) |
+| `appearance`       | `'outline' \| 'surface' \| 'filled'`     | `'outline'` | Visual style                                     |
+| `density`          | `'compact' \| 'normal' \| 'comfortable'` | inherited   | Spacing density                                  |
+| `radius`           | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'md'`      | Border radius                                    |
 
 ### SolarisFormLabelComponent
 
@@ -214,20 +213,13 @@ Examples:
 | `surface` | Card/panel surface, subtle border.                                     |
 | `filled`  | Subtle filled background, modern style.                                |
 
-## Size
-
-| Value | Height | Use                          |
-| ----- | ------ | ---------------------------- |
-| `sm`  | 2rem   | Compact forms, dense layouts |
-| `md`  | 2.5rem | Standard forms, default      |
-| `lg`  | 3rem   | Prominent inputs             |
-
 ## Density
 
-| Value         | Description                         |
-| ------------- | ----------------------------------- |
-| `compact`     | Reduced vertical spacing            |
-| `comfortable` | Increased vertical spacing. Default |
+| Value         | Description                             |
+| ------------- | --------------------------------------- |
+| `compact`     | Reduced vertical spacing and typography |
+| `normal`      | Balanced vertical spacing. Default      |
+| `comfortable` | Increased vertical spacing              |
 
 ## Radius
 

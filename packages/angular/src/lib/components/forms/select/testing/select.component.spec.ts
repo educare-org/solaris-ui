@@ -298,16 +298,6 @@ describe('SolarisSelectComponent', () => {
       expect(formField.getAttribute('data-appearance')).toBe('outline');
     });
 
-    it('should have default size md', () => {
-      TestBed.configureTestingModule({});
-      const fixture = TestBed.createComponent(TestHost);
-      fixture.detectChanges();
-      const formField = fixture.nativeElement.querySelector(
-        'solaris-select solaris-form-field',
-      );
-      expect(formField.getAttribute('data-size')).toBe('md');
-    });
-
     it('should have default radius md', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
@@ -318,14 +308,14 @@ describe('SolarisSelectComponent', () => {
       expect(formField.getAttribute('data-radius')).toBe('md');
     });
 
-    it('should have default density comfortable', () => {
+    it('should have default density normal', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       const formField = fixture.nativeElement.querySelector(
         'solaris-select solaris-form-field',
       );
-      expect(formField.getAttribute('data-density')).toBe('comfortable');
+      expect(formField.getAttribute('data-density')).toBe('normal');
     });
   });
 
@@ -1241,7 +1231,6 @@ describe('SolarisSelectComponent', () => {
       template: `
         <solaris-select
           [disabled]="true"
-          size="sm"
           density="compact"
           radius="lg"
           appearance="filled"
@@ -1273,7 +1262,6 @@ describe('SolarisSelectComponent', () => {
       template: `
         <solaris-select
           [readonly]="true"
-          size="sm"
           density="compact"
           radius="lg"
           appearance="filled"
@@ -1305,7 +1293,6 @@ describe('SolarisSelectComponent', () => {
       template: `
         <solaris-select
           [invalid]="true"
-          size="sm"
           density="compact"
           radius="lg"
           appearance="filled"
@@ -1329,16 +1316,6 @@ describe('SolarisSelectComponent', () => {
         'solaris-select solaris-form-field',
       );
       expect(formField.hasAttribute('data-invalid')).toBe(true);
-    });
-
-    it('should apply data-size', () => {
-      TestBed.configureTestingModule({});
-      const fixture = TestBed.createComponent(DisabledHost);
-      fixture.detectChanges();
-      const formField = fixture.nativeElement.querySelector(
-        'solaris-select solaris-form-field',
-      );
-      expect(formField.getAttribute('data-size')).toBe('sm');
     });
 
     it('should apply data-density', () => {

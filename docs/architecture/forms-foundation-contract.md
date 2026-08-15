@@ -364,7 +364,11 @@ A required field must influence semantics, state, and visual validation when app
 
 ## 12. Size, Density and Radius
 
-### 12.1. Size
+### 12.1. Size (control-level)
+
+Size applies to the control directives (`solaris-input`, `solaris-textarea`,
+`option`, etc.), not to the `solaris-form-field` wrapper. The wrapper's
+vertical rhythm and typography are governed by density.
 
 | Value | Description      |
 | ----- | ---------------- |
@@ -376,12 +380,13 @@ Size affects: height, padding, font-size, icon size, prefix/suffix spacing.
 
 ### 12.2. Density
 
-| Value         | Description           |
-| ------------- | --------------------- |
-| `compact`     | Compact               |
-| `comfortable` | Comfortable (default) |
+| Value         | Description      |
+| ------------- | ---------------- |
+| `compact`     | Compact          |
+| `normal`      | Normal (default) |
+| `comfortable` | Comfortable      |
 
-Density affects: vertical spacing, padding, internal rhythm, without compromising accessibility.
+Density affects: vertical spacing, padding, internal rhythm, and typography (control font size), without compromising accessibility.
 
 ### 12.3. Radius (textual fields)
 
@@ -634,16 +639,15 @@ Each prompt must reference this contract as the source of truth and **must not**
 | 13  | Required                   | No mandatory asterisk by default            |
 | 14  | Optional                   | Marked by default when `optional=true`      |
 | 15  | Prefix / Suffix            | Directives in v1                            |
-| 16  | Size                       | sm / md (default) / lg                      |
-| 17  | Density                    | compact / comfortable (default)             |
-| 18  | Radius (textual)           | none / sm / md (default) / lg               |
-| 19  | Appearance                 | outline (default) / surface / filled        |
-| 20  | Glass                      | Excluded in v1                              |
-| 21  | Readonly                   | Input, Textarea, Select (plan ahead)        |
-| 22  | IDs                        | Automatic SSR-safe                          |
-| 23  | i18n                       | Solaris standard                            |
-| 24  | Security                   | No innerHTML or bypass                      |
-| 25  | shared folder              | Forbidden                                   |
+| 16  | Density                    | compact / normal (default) / comfortable    |
+| 17  | Radius (textual)           | none / sm / md (default) / lg               |
+| 18  | Appearance                 | outline (default) / surface / filled        |
+| 19  | Glass                      | Excluded in v1                              |
+| 20  | Readonly                   | Input, Textarea, Select (plan ahead)        |
+| 21  | IDs                        | Automatic SSR-safe                          |
+| 22  | i18n                       | Solaris standard                            |
+| 23  | Security                   | No innerHTML or bypass                      |
+| 24  | shared folder              | Forbidden                                   |
 
 ---
 

@@ -142,7 +142,6 @@ export { SolarisFormPrefixDirective } from './lib/components/forms/form-field/di
 export { SolarisFormSuffixDirective } from './lib/components/forms/form-field/directives/form-suffix.directive';
 export type {
   SolarisFormFieldAppearance,
-  SolarisFormFieldSize,
   SolarisFormFieldDensity,
   SolarisFormFieldRadius,
 } from './lib/components/forms/form-field/model/form-field.types';
@@ -150,7 +149,6 @@ export type {
 export { SolarisSelectComponent } from './lib/components/forms/select/component/select.component';
 export type {
   SolarisSelectAppearance,
-  SolarisSelectSize,
   SolarisSelectDensity,
   SolarisSelectRadius,
 } from './lib/components/forms/select/model/select.types';
@@ -158,7 +156,6 @@ export type {
 export { SolarisMultiSelectComponent } from './lib/components/forms/multi-select/component/multi-select.component';
 export type {
   SolarisMultiSelectAppearance,
-  SolarisMultiSelectSize,
   SolarisMultiSelectDensity,
   SolarisMultiSelectRadius,
   SolarisMultiSelectDisplayMode,
@@ -238,7 +235,6 @@ export { solarisPasswordValidator } from './lib/components/forms/password-field/
 export type { SolarisPasswordPolicy } from './lib/components/forms/password-field/model/password-policy.types';
 export type {
   SolarisPasswordFieldAppearance,
-  SolarisPasswordFieldSize,
   SolarisPasswordFieldDensity,
   SolarisPasswordFieldRadius,
   SolarisPasswordStrength,
@@ -252,7 +248,6 @@ export {
 } from './lib/components/forms/email-field/validators/email-field.validators';
 export type {
   SolarisEmailFieldAppearance,
-  SolarisEmailFieldSize,
   SolarisEmailFieldDensity,
   SolarisEmailFieldRadius,
 } from './lib/components/forms/email-field/model/email-field.types';

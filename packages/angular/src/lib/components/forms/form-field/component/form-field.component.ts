@@ -30,6 +30,7 @@ import { FormControlDirective, FormControlName, NgModel } from '@angular/forms';
 import { SolarisFormPrefixDirective } from '../directives/form-prefix.directive';
 import { SolarisFormSuffixDirective } from '../directives/form-suffix.directive';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisFormControl } from '../model/form-control.contract';
 import { SolarisFormLabelComponent } from './form-label.component';
 import { SolarisFormErrorComponent } from './form-error.component';
@@ -38,7 +39,6 @@ import { nextIdFor } from '../../../../core';
 
 import type {
   SolarisFormFieldAppearance,
-  SolarisFormFieldSize,
   SolarisFormFieldDensity,
   SolarisFormFieldRadius,
   ControlResize,
@@ -52,7 +52,6 @@ import type {
   styleUrls: ['./form-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-bwignore]': '"true"',
     '[attr.data-appearance]': 'appearance()',
@@ -96,7 +95,6 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   readonly disabled = input<boolean | undefined>();
   readonly readonly = input<boolean | undefined>();
   readonly density = input<SolarisFormFieldDensity>();
-  readonly size = input<SolarisFormFieldSize>('md');
   readonly radius = input<SolarisFormFieldRadius>('md');
   readonly appearance = input<SolarisFormFieldAppearance>('outline');
   readonly control = input<SolarisFormControl | undefined>(undefined);
@@ -168,9 +166,11 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     return this.isTextareaControl() ? 'textarea' : 'other';
   });
 
+  protected readonly themeService = inject(SolarisThemeService);
+
   protected readonly effectiveDensity = computed<SolarisFormFieldDensity>(
     () => {
-      return this.density() ?? 'comfortable';
+      return this.density() ?? this.themeService.density;
     },
   );
 

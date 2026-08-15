@@ -39,19 +39,14 @@ describe('SolarisFormFieldComponent', () => {
     expect(el.getAttribute('data-appearance')).toBe('outline');
   });
 
-  it('should have default size md', () => {
-    const el = createFixture();
-    expect(el.getAttribute('data-size')).toBe('md');
-  });
-
   it('should have default radius md', () => {
     const el = createFixture();
     expect(el.getAttribute('data-radius')).toBe('md');
   });
 
-  it('should have default density comfortable', () => {
+  it('should have default density normal', () => {
     const el = createFixture();
-    expect(el.getAttribute('data-density')).toBe('comfortable');
+    expect(el.getAttribute('data-density')).toBe('normal');
   });
 
   it('should apply appearance via setInput', () => {
@@ -71,23 +66,6 @@ describe('SolarisFormFieldComponent', () => {
     }
   });
 
-  it('should apply size via setInput', () => {
-    const el = createFixture();
-    fixture.componentRef.setInput('size', 'lg');
-    fixture.detectChanges();
-    expect(el.getAttribute('data-size')).toBe('lg');
-  });
-
-  it('should apply all sizes', () => {
-    const el = createFixture();
-    const values = ['sm', 'md', 'lg'] as const;
-    for (const v of values) {
-      fixture.componentRef.setInput('size', v);
-      fixture.detectChanges();
-      expect(el.getAttribute('data-size')).toBe(v);
-    }
-  });
-
   it('should apply density via setInput', () => {
     const el = createFixture();
     fixture.componentRef.setInput('density', 'compact');
@@ -97,7 +75,7 @@ describe('SolarisFormFieldComponent', () => {
 
   it('should apply all density', () => {
     const el = createFixture();
-    const values = ['compact', 'comfortable'] as const;
+    const values = ['compact', 'normal', 'comfortable'] as const;
     for (const v of values) {
       fixture.componentRef.setInput('density', v);
       fixture.detectChanges();

@@ -35,6 +35,7 @@ import {
 } from '../../form-field';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisOptionGroupComponent } from '../../option-group';
 import { SolarisOptionComponent } from '../../option';
 import { SolarisIconComponent } from '../../../icon';
@@ -47,7 +48,6 @@ import { nextIdFor, resolveElementId } from '../../../../core';
 
 import type {
   SolarisMultiSelectAppearance,
-  SolarisMultiSelectSize,
   SolarisMultiSelectDensity,
   SolarisMultiSelectRadius,
   SolarisMultiSelectDisplayMode,
@@ -88,7 +88,6 @@ function normalizeArray(value: unknown): unknown[] {
   host: {
     'solaris-multi-select': '',
     '[attr.id]': 'elementId()',
-    '[attr.data-size]': 'size()',
     '[attr.data-open]': 'panelOpen() ? "" : null',
     '[attr.aria-label]': 'ariaLabelText() ?? null',
     '[attr.data-has-value]': 'hasValue() ? "" : null',
@@ -156,7 +155,6 @@ export class SolarisMultiSelectComponent
   readonly panelMinWidth = input<string | number>();
   readonly panelMaxWidth = input<string | number>();
   readonly density = input<SolarisMultiSelectDensity>();
-  readonly size = input<SolarisMultiSelectSize>('md');
   readonly panelMatchTriggerWidth = input<boolean>(true);
   readonly radius = input<SolarisMultiSelectRadius>('md');
   readonly disabledInput = input(false, { alias: 'disabled' });
@@ -217,9 +215,11 @@ export class SolarisMultiSelectComponent
     return resolveElementId(this.elementRef, 'solaris-multi-select');
   });
 
+  protected readonly themeService = inject(SolarisThemeService);
+
   protected readonly effectiveDensity = computed<SolarisMultiSelectDensity>(
     () => {
-      return this.density() ?? 'comfortable';
+      return this.density() ?? this.themeService.density;
     },
   );
 

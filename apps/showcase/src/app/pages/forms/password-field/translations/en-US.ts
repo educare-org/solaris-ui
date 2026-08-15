@@ -11,7 +11,6 @@ export const passwordFieldEnUs: SolarisTranslationMap = {
   'password-field.strength-only-note':
     'Strength bar without requirements list, using minLength input.',
   'password-field.states': 'States',
-  'password-field.sizes': 'Sizes',
   'password-field.appearances': 'Appearances',
   'password-field.density': 'Density',
   'password-field.radius': 'Radius',
@@ -54,9 +53,6 @@ export const passwordFieldEnUs: SolarisTranslationMap = {
   'password-field.placeholder.manual': 'Use Form Field + Input directly',
   'password-field.aria-label.show': 'Show password',
   'password-field.aria-label.hide': 'Hide password',
-  'password-field.label.sm': 'SM',
-  'password-field.label.md': 'MD',
-  'password-field.label.lg': 'LG',
   'password-field.label.outline': 'Outline',
   'password-field.label.surface': 'Surface',
   'password-field.label.filled': 'Filled',

@@ -38,40 +38,39 @@ Password Field does not replace Form Field + Input. It is an official convenienc
 
 ### Inputs
 
-| Input                | Type                                      | Default     | Description                                          |
-| -------------------- | ----------------------------------------- | ----------- | ---------------------------------------------------- |
-| `value`              | `string`                                  | `''`        | Initial value                                        |
-| `label`              | `string \| undefined`                     | `''`        | Field label                                          |
-| `labelKey`           | `string \| undefined`                     | -           | Translation key for label                            |
-| `hint`               | `string \| undefined`                     | `''`        | Help text                                            |
-| `hintKey`            | `string \| undefined`                     | -           | Translation key for hint                             |
-| `error`              | `string \| undefined`                     | `''`        | Error text                                           |
-| `errorKey`           | `string \| undefined`                     | -           | Translation key for error                            |
-| `placeholder`        | `string \| undefined`                     | -           | Input placeholder                                    |
-| `placeholderKey`     | `string \| undefined`                     | -           | Translation key for placeholder                      |
-| `autocomplete`       | `string \| undefined`                     | -           | Value of the autocomplete attribute                  |
-| `name`               | `string \| undefined`                     | -           | `name` attribute of the input                        |
-| `id`                 | `string \| undefined`                     | -           | `id` attribute of the input                          |
-| `required`           | `boolean`                                 | `false`     | Required field                                       |
-| `optional`           | `boolean`                                 | `false`     | Optional field                                       |
-| `disabled`           | `boolean`                                 | `false`     | Disabled field                                       |
-| `readonly`           | `boolean`                                 | `false`     | Readonly field                                       |
-| `invalid`            | `boolean \| undefined`                    | -           | Manual invalid state (overrides automatic detection) |
-| `appearance`         | `'outline' \| 'surface' \| 'filled'`      | `'outline'` | Appearance                                           |
-| `size`               | `'sm' \| 'md' \| 'lg'`                    | `'md'`      | Size                                                 |
-| `density`            | `'compact' \| 'comfortable' \| undefined` | -           | Density (inherited from theme)                       |
-| `radius`             | `'none' \| 'sm' \| 'md' \| 'lg'`          | `'md'`      | Border radius                                        |
-| `fullWidth`          | `boolean`                                 | `true`      | Full width                                           |
-| `showToggle`         | `boolean`                                 | `true`      | Show toggle button                                   |
-| `visible`            | `boolean`                                 | `false`     | Password visible                                     |
-| `showRequirements`   | `boolean`                                 | `false`     | Show requirements list                               |
-| `showStrength`       | `boolean`                                 | `false`     | Show strength indicator                              |
-| `policy`             | `SolarisPasswordPolicy \| undefined`      | -           | Password policy                                      |
-| `validatePolicy`     | `boolean`                                 | `true`      | Validate against policy                              |
-| `toggleShowLabel`    | `string \| undefined`                     | -           | Toggle "show" label                                  |
-| `toggleShowLabelKey` | `string \| undefined`                     | -           | Translation key                                      |
-| `toggleHideLabel`    | `string \| undefined`                     | -           | Toggle "hide" label                                  |
-| `toggleHideLabelKey` | `string \| undefined`                     | -           | Translation key                                      |
+| Input                | Type                                                  | Default     | Description                                          |
+| -------------------- | ----------------------------------------------------- | ----------- | ---------------------------------------------------- |
+| `value`              | `string`                                              | `''`        | Initial value                                        |
+| `label`              | `string \| undefined`                                 | `''`        | Field label                                          |
+| `labelKey`           | `string \| undefined`                                 | -           | Translation key for label                            |
+| `hint`               | `string \| undefined`                                 | `''`        | Help text                                            |
+| `hintKey`            | `string \| undefined`                                 | -           | Translation key for hint                             |
+| `error`              | `string \| undefined`                                 | `''`        | Error text                                           |
+| `errorKey`           | `string \| undefined`                                 | -           | Translation key for error                            |
+| `placeholder`        | `string \| undefined`                                 | -           | Input placeholder                                    |
+| `placeholderKey`     | `string \| undefined`                                 | -           | Translation key for placeholder                      |
+| `autocomplete`       | `string \| undefined`                                 | -           | Value of the autocomplete attribute                  |
+| `name`               | `string \| undefined`                                 | -           | `name` attribute of the input                        |
+| `id`                 | `string \| undefined`                                 | -           | `id` attribute of the input                          |
+| `required`           | `boolean`                                             | `false`     | Required field                                       |
+| `optional`           | `boolean`                                             | `false`     | Optional field                                       |
+| `disabled`           | `boolean`                                             | `false`     | Disabled field                                       |
+| `readonly`           | `boolean`                                             | `false`     | Readonly field                                       |
+| `invalid`            | `boolean \| undefined`                                | -           | Manual invalid state (overrides automatic detection) |
+| `appearance`         | `'outline' \| 'surface' \| 'filled'`                  | `'outline'` | Appearance                                           |
+| `density`            | `'compact' \| 'normal' \| 'comfortable' \| undefined` | -           | Density (inherited from theme)                       |
+| `radius`             | `'none' \| 'sm' \| 'md' \| 'lg'`                      | `'md'`      | Border radius                                        |
+| `fullWidth`          | `boolean`                                             | `true`      | Full width                                           |
+| `showToggle`         | `boolean`                                             | `true`      | Show toggle button                                   |
+| `visible`            | `boolean`                                             | `false`     | Password visible                                     |
+| `showRequirements`   | `boolean`                                             | `false`     | Show requirements list                               |
+| `showStrength`       | `boolean`                                             | `false`     | Show strength indicator                              |
+| `policy`             | `SolarisPasswordPolicy \| undefined`                  | -           | Password policy                                      |
+| `validatePolicy`     | `boolean`                                             | `true`      | Validate against policy                              |
+| `toggleShowLabel`    | `string \| undefined`                                 | -           | Toggle "show" label                                  |
+| `toggleShowLabelKey` | `string \| undefined`                                 | -           | Translation key                                      |
+| `toggleHideLabel`    | `string \| undefined`                                 | -           | Toggle "hide" label                                  |
+| `toggleHideLabelKey` | `string \| undefined`                                 | -           | Translation key                                      |
 
 ### Outputs
 
@@ -88,19 +87,12 @@ Password Field does not replace Form Field + Input. It is an official convenienc
 | `surface`  | Lighter, for cards and panels                  |
 | `filled`   | Subtle filled background, less dominant border |
 
-## Sizes
-
-| Size | Effect             |
-| ---- | ------------------ |
-| `sm` | Compact            |
-| `md` | Standard (default) |
-| `lg` | Spacious           |
-
 ## Density
 
 | Density       | Effect                            |
 | ------------- | --------------------------------- |
 | `compact`     | Reduced padding and line-height   |
+| `normal`      | Balanced spacing. Default         |
 | `comfortable` | Increased padding and line-height |
 
 When not provided, Password Field inherits density from the theme system.

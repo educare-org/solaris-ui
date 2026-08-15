@@ -95,26 +95,6 @@ class FilledHost {}
   imports: [SolarisEmailFieldComponent, ReactiveFormsModule],
   template: `<solaris-email-field
     label="E-mail"
-    size="sm"
-  ></solaris-email-field>`,
-})
-class SizeSmHost {}
-
-@Component({
-  standalone: true,
-  imports: [SolarisEmailFieldComponent, ReactiveFormsModule],
-  template: `<solaris-email-field
-    label="E-mail"
-    size="lg"
-  ></solaris-email-field>`,
-})
-class SizeLgHost {}
-
-@Component({
-  standalone: true,
-  imports: [SolarisEmailFieldComponent, ReactiveFormsModule],
-  template: `<solaris-email-field
-    label="E-mail"
     density="compact"
   ></solaris-email-field>`,
 })
@@ -129,6 +109,16 @@ class DensityCompactHost {}
   ></solaris-email-field>`,
 })
 class DensityComfortableHost {}
+
+@Component({
+  standalone: true,
+  imports: [SolarisEmailFieldComponent, ReactiveFormsModule],
+  template: `<solaris-email-field
+    label="E-mail"
+    density="normal"
+  ></solaris-email-field>`,
+})
+class DensityNormalHost {}
 
 @Component({
   standalone: true,
@@ -374,24 +364,6 @@ describe('SolarisEmailFieldComponent', () => {
       expect(emailField.componentInstance.appearance()).toBe('filled');
     });
 
-    it('supports size sm', () => {
-      const fixture = TestBed.createComponent(SizeSmHost);
-      fixture.detectChanges();
-      const emailField = fixture.debugElement.query(
-        By.directive(SolarisEmailFieldComponent),
-      );
-      expect(emailField.componentInstance.size()).toBe('sm');
-    });
-
-    it('supports size lg', () => {
-      const fixture = TestBed.createComponent(SizeLgHost);
-      fixture.detectChanges();
-      const emailField = fixture.debugElement.query(
-        By.directive(SolarisEmailFieldComponent),
-      );
-      expect(emailField.componentInstance.size()).toBe('lg');
-    });
-
     it('supports density compact', () => {
       const fixture = TestBed.createComponent(DensityCompactHost);
       fixture.detectChanges();
@@ -408,6 +380,15 @@ describe('SolarisEmailFieldComponent', () => {
         By.directive(SolarisEmailFieldComponent),
       );
       expect(emailField.componentInstance.density()).toBe('comfortable');
+    });
+
+    it('supports density normal', () => {
+      const fixture = TestBed.createComponent(DensityNormalHost);
+      fixture.detectChanges();
+      const emailField = fixture.debugElement.query(
+        By.directive(SolarisEmailFieldComponent),
+      );
+      expect(emailField.componentInstance.density()).toBe('normal');
     });
 
     it('supports radius none', () => {

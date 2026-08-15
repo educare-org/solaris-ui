@@ -8,7 +8,6 @@ export { SolarisFormSuffixDirective } from './directives/form-suffix.directive';
 
 export type {
   SolarisFormFieldAppearance,
-  SolarisFormFieldSize,
   SolarisFormFieldDensity,
   SolarisFormFieldRadius,
 } from './model/form-field.types';

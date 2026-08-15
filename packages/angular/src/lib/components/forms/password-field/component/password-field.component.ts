@@ -21,7 +21,6 @@ import {
 
 import type {
   SolarisPasswordFieldAppearance,
-  SolarisPasswordFieldSize,
   SolarisPasswordFieldDensity,
   SolarisPasswordFieldRadius,
   SolarisPasswordStrength,
@@ -89,7 +88,6 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
   readonly readonly = input<boolean>(false);
   readonly invalid = input<boolean | undefined>();
   readonly appearance = input<SolarisPasswordFieldAppearance>('outline');
-  readonly size = input<SolarisPasswordFieldSize>('md');
   readonly density = input<SolarisPasswordFieldDensity>();
   readonly radius = input<SolarisPasswordFieldRadius>('md');
   readonly fullWidth = input<boolean>(true);

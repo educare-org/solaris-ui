@@ -257,66 +257,41 @@
   font-size: var(--solaris-form-field-error-font-size);
 }
 
-:host([data-size='sm']) {
-  --solaris-form-field-control-gap: var(--solaris-spacing-1);
-  --solaris-form-field-font-size: var(--solaris-font-size-sm);
-  --solaris-form-field-control-height: var(--solaris-spacing-8);
+:host([data-density='compact']) {
+  --solaris-form-field-control-gap: var(--solaris-spacing-2);
+  --solaris-form-field-font-size: var(--solaris-density-font-size);
   --solaris-form-field-control-padding-x: var(--solaris-spacing-2);
   --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
-  --solaris-form-field-label-font-size: var(--solaris-font-size-xs);
-  --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
-  --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
-  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
-  --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
-}
-
-:host([data-size='md']) {
-  --solaris-form-field-control-gap: var(--solaris-spacing-2);
-  --solaris-form-field-font-size: var(--solaris-font-size-md);
-  --solaris-form-field-control-height: var(--solaris-spacing-10);
-  --solaris-form-field-control-padding-x: var(--solaris-spacing-3);
-  --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
-  --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
   --solaris-form-field-label-font-size: var(--solaris-font-size-sm);
   --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
   --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
   --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-control-height: var(--solaris-density-min-height);
+  --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
 }
 
-:host([data-size='lg']) {
+:host([data-density='normal']) {
   --solaris-form-field-control-gap: var(--solaris-spacing-2);
-  --solaris-form-field-font-size: var(--solaris-font-size-lg);
-  --solaris-form-field-control-height: var(--solaris-spacing-12);
-  --solaris-form-field-control-padding-x: var(--solaris-spacing-4);
-  --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
-  --solaris-form-field-label-font-size: var(--solaris-font-size-md);
-  --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
-  --solaris-form-field-message-margin-top: var(--solaris-spacing-2);
-  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-2);
-  --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
-}
-
-:host([data-density='compact']) {
-  --solaris-form-field-control-gap: var(--solaris-spacing-1);
-  --solaris-form-field-font-size: var(--solaris-font-size-sm);
-  --solaris-form-field-control-padding-x: var(--solaris-spacing-2);
-  --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
-  --solaris-form-field-label-font-size: var(--solaris-font-size-xs);
-  --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-font-size: var(--solaris-density-font-size);
+  --solaris-form-field-control-padding-x: var(--solaris-spacing-3);
+  --solaris-form-field-hint-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-error-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-sm);
   --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
   --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
-  --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-optional-font-size: var(--solaris-font-size-sm);
   --solaris-form-field-control-height: var(--solaris-density-min-height);
 }
 
 :host([data-density='comfortable']) {
   --solaris-form-field-control-gap: var(--solaris-spacing-2);
+  --solaris-form-field-font-size: var(--solaris-density-font-size);
   --solaris-form-field-control-padding-x: var(--solaris-spacing-3);
-  --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
-  --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-hint-font-size: var(--solaris-font-size-md);
   --solaris-form-field-message-margin-top: var(--solaris-spacing-2);
+  --solaris-form-field-error-font-size: var(--solaris-font-size-md);
   --solaris-form-field-label-margin-bottom: var(--solaris-spacing-2);
-  --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-optional-font-size: var(--solaris-font-size-md);
   --solaris-form-field-control-height: var(--solaris-density-min-height);
 }
 

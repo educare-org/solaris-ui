@@ -44,40 +44,39 @@ The preset exists for the common case where you want email validation, proper au
 
 ### Inputs
 
-| Input                   | Type                                 | Default     | Description                                        |
-| ----------------------- | ------------------------------------ | ----------- | -------------------------------------------------- |
-| `label`                 | `string`                             | `''`        | Label text                                         |
-| `labelKey`              | `string`                             | —           | Translation key for label                          |
-| `hint`                  | `string`                             | `''`        | Hint text                                          |
-| `hintKey`               | `string`                             | —           | Translation key for hint                           |
-| `error`                 | `string`                             | `''`        | Manual error text                                  |
-| `errorKey`              | `string`                             | —           | Translation key for manual error                   |
-| `requiredError`         | `string`                             | —           | Custom required error text                         |
-| `requiredErrorKey`      | `string`                             | —           | Translation key for required error                 |
-| `invalidError`          | `string`                             | —           | Custom invalid email error text                    |
-| `invalidErrorKey`       | `string`                             | —           | Translation key for invalid error                  |
-| `allowedDomainError`    | `string`                             | —           | Custom allowed domain error text                   |
-| `allowedDomainErrorKey` | `string`                             | —           | Translation key for allowed domain error           |
-| `blockedDomainError`    | `string`                             | —           | Custom blocked domain error text                   |
-| `blockedDomainErrorKey` | `string`                             | —           | Translation key for blocked domain error           |
-| `placeholder`           | `string`                             | —           | Placeholder text (not a substitute for label)      |
-| `placeholderKey`        | `string`                             | —           | Translation key for placeholder                    |
-| `required`              | `boolean`                            | `false`     | Marks field as required                            |
-| `optional`              | `boolean`                            | `false`     | Marks field as optional                            |
-| `readonly`              | `boolean`                            | `false`     | Makes field read-only                              |
-| `disabled`              | `boolean`                            | `false`     | Disables the field                                 |
-| `appearance`            | `'outline' \| 'surface' \| 'filled'` | `'outline'` | Visual appearance                                  |
-| `size`                  | `'sm' \| 'md' \| 'lg'`               | `'md'`      | Field size                                         |
-| `density`               | `'compact' \| 'comfortable'`         | —           | Inherited from theme; fallback `comfortable`       |
-| `radius`                | `'none' \| 'sm' \| 'md' \| 'lg'`     | `'md'`      | Border radius                                      |
-| `autocomplete`          | `string`                             | `'email'`   | Autocomplete attribute                             |
-| `name`                  | `string`                             | —           | Native name attribute                              |
-| `id`                    | `string`                             | —           | Native id attribute                                |
-| `trimOnBlur`            | `boolean`                            | `true`      | Trim whitespace on blur                            |
-| `normalizeLowercase`    | `boolean`                            | `false`     | Convert to lowercase on blur                       |
-| `allowedDomains`        | `string[]`                           | —           | Domain whitelist                                   |
-| `blockedDomains`        | `string[]`                           | —           | Domain blacklist                                   |
-| `validateDomain`        | `boolean`                            | —           | Auto-enabled when allowed/blocked domains provided |
+| Input                   | Type                                     | Default     | Description                                        |
+| ----------------------- | ---------------------------------------- | ----------- | -------------------------------------------------- |
+| `label`                 | `string`                                 | `''`        | Label text                                         |
+| `labelKey`              | `string`                                 | —           | Translation key for label                          |
+| `hint`                  | `string`                                 | `''`        | Hint text                                          |
+| `hintKey`               | `string`                                 | —           | Translation key for hint                           |
+| `error`                 | `string`                                 | `''`        | Manual error text                                  |
+| `errorKey`              | `string`                                 | —           | Translation key for manual error                   |
+| `requiredError`         | `string`                                 | —           | Custom required error text                         |
+| `requiredErrorKey`      | `string`                                 | —           | Translation key for required error                 |
+| `invalidError`          | `string`                                 | —           | Custom invalid email error text                    |
+| `invalidErrorKey`       | `string`                                 | —           | Translation key for invalid error                  |
+| `allowedDomainError`    | `string`                                 | —           | Custom allowed domain error text                   |
+| `allowedDomainErrorKey` | `string`                                 | —           | Translation key for allowed domain error           |
+| `blockedDomainError`    | `string`                                 | —           | Custom blocked domain error text                   |
+| `blockedDomainErrorKey` | `string`                                 | —           | Translation key for blocked domain error           |
+| `placeholder`           | `string`                                 | —           | Placeholder text (not a substitute for label)      |
+| `placeholderKey`        | `string`                                 | —           | Translation key for placeholder                    |
+| `required`              | `boolean`                                | `false`     | Marks field as required                            |
+| `optional`              | `boolean`                                | `false`     | Marks field as optional                            |
+| `readonly`              | `boolean`                                | `false`     | Makes field read-only                              |
+| `disabled`              | `boolean`                                | `false`     | Disables the field                                 |
+| `appearance`            | `'outline' \| 'surface' \| 'filled'`     | `'outline'` | Visual appearance                                  |
+| `density`               | `'compact' \| 'normal' \| 'comfortable'` | —           | Inherited from theme; fallback `normal`            |
+| `radius`                | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'md'`      | Border radius                                      |
+| `autocomplete`          | `string`                                 | `'email'`   | Autocomplete attribute                             |
+| `name`                  | `string`                                 | —           | Native name attribute                              |
+| `id`                    | `string`                                 | —           | Native id attribute                                |
+| `trimOnBlur`            | `boolean`                                | `true`      | Trim whitespace on blur                            |
+| `normalizeLowercase`    | `boolean`                                | `false`     | Convert to lowercase on blur                       |
+| `allowedDomains`        | `string[]`                               | —           | Domain whitelist                                   |
+| `blockedDomains`        | `string[]`                               | —           | Domain blacklist                                   |
+| `validateDomain`        | `boolean`                                | —           | Auto-enabled when allowed/blocked domains provided |
 
 ### Internal input attributes
 
@@ -107,22 +106,13 @@ The embedded input uses these fixed attributes:
 
 Default: `outline`
 
-## Sizes
-
-| Value | Height | Use                          |
-| ----- | ------ | ---------------------------- |
-| `sm`  | 2rem   | Compact forms, dense layouts |
-| `md`  | 2.5rem | Standard forms, default      |
-| `lg`  | 3rem   | Prominent inputs             |
-
-Default: `md`
-
 ## Density
 
-| Value         | Description                         |
-| ------------- | ----------------------------------- |
-| `compact`     | Reduced vertical spacing            |
-| `comfortable` | Increased vertical spacing. Default |
+| Value         | Description                             |
+| ------------- | --------------------------------------- |
+| `compact`     | Reduced vertical spacing and typography |
+| `normal`      | Balanced vertical spacing. Default      |
+| `comfortable` | Increased vertical spacing              |
 
 When not provided, density is inherited from the theme.
 
@@ -217,7 +207,7 @@ Email Field delegates to `solaris-form-field`:
 
 - Label, hint, error text
 - Required/optional markers
-- Appearance, size, density, radius
+- Appearance, density, radius
 - Invalid state (border/outline)
 - Disabled/readonly state
 - `aria-describedby` management

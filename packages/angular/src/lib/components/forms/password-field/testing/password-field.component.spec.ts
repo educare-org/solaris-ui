@@ -127,26 +127,6 @@ class FilledHost {}
   imports: [SolarisPasswordFieldComponent, ReactiveFormsModule],
   template: `<solaris-password-field
     label="Senha"
-    size="sm"
-  ></solaris-password-field>`,
-})
-class SizeSmHost {}
-
-@Component({
-  standalone: true,
-  imports: [SolarisPasswordFieldComponent, ReactiveFormsModule],
-  template: `<solaris-password-field
-    label="Senha"
-    size="lg"
-  ></solaris-password-field>`,
-})
-class SizeLgHost {}
-
-@Component({
-  standalone: true,
-  imports: [SolarisPasswordFieldComponent, ReactiveFormsModule],
-  template: `<solaris-password-field
-    label="Senha"
     density="compact"
   ></solaris-password-field>`,
 })
@@ -161,6 +141,16 @@ class DensityCompactHost {}
   ></solaris-password-field>`,
 })
 class DensityComfortableHost {}
+
+@Component({
+  standalone: true,
+  imports: [SolarisPasswordFieldComponent, ReactiveFormsModule],
+  template: `<solaris-password-field
+    label="Senha"
+    density="normal"
+  ></solaris-password-field>`,
+})
+class DensityNormalHost {}
 
 @Component({
   standalone: true,
@@ -460,24 +450,6 @@ describe('SolarisPasswordFieldComponent', () => {
       expect(passwordField.componentInstance.appearance()).toBe('filled');
     });
 
-    it('supports size sm', () => {
-      const fixture = TestBed.createComponent(SizeSmHost);
-      fixture.detectChanges();
-      const passwordField = fixture.debugElement.query(
-        By.directive(SolarisPasswordFieldComponent),
-      );
-      expect(passwordField.componentInstance.size()).toBe('sm');
-    });
-
-    it('supports size lg', () => {
-      const fixture = TestBed.createComponent(SizeLgHost);
-      fixture.detectChanges();
-      const passwordField = fixture.debugElement.query(
-        By.directive(SolarisPasswordFieldComponent),
-      );
-      expect(passwordField.componentInstance.size()).toBe('lg');
-    });
-
     it('supports density compact', () => {
       const fixture = TestBed.createComponent(DensityCompactHost);
       fixture.detectChanges();
@@ -494,6 +466,15 @@ describe('SolarisPasswordFieldComponent', () => {
         By.directive(SolarisPasswordFieldComponent),
       );
       expect(passwordField.componentInstance.density()).toBe('comfortable');
+    });
+
+    it('supports density normal', () => {
+      const fixture = TestBed.createComponent(DensityNormalHost);
+      fixture.detectChanges();
+      const passwordField = fixture.debugElement.query(
+        By.directive(SolarisPasswordFieldComponent),
+      );
+      expect(passwordField.componentInstance.density()).toBe('normal');
     });
 
     it('supports radius none', () => {

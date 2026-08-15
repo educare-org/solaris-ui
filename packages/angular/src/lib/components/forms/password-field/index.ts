@@ -4,7 +4,6 @@ export { calculatePasswordStrength } from './model/password-strength';
 export type { SolarisPasswordPolicy } from './model/password-policy.types';
 export type {
   SolarisPasswordFieldAppearance,
-  SolarisPasswordFieldSize,
   SolarisPasswordFieldDensity,
   SolarisPasswordFieldRadius,
   SolarisPasswordStrength,

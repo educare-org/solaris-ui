@@ -185,38 +185,18 @@
 
   <section class="form-field-showcase__section">
     <h2 class="form-field-showcase__section-title">
-      {{ 'form-field.sizes' | translate }}
-    </h2>
-    <div class="form-field-showcase__demo">
-      <solaris-form-field
-        [label]="'form-field.label.small' | translate"
-        size="sm"
-      >
-        <input solaris-input />
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'form-field.label.medium' | translate"
-        size="md"
-      >
-        <input solaris-input />
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'form-field.label.large' | translate"
-        size="lg"
-      >
-        <input solaris-input />
-      </solaris-form-field>
-    </div>
-  </section>
-
-  <section class="form-field-showcase__section">
-    <h2 class="form-field-showcase__section-title">
       {{ 'form-field.density' | translate }}
     </h2>
     <div class="form-field-showcase__demo">
       <solaris-form-field
         [label]="'form-field.label.compact' | translate"
         density="compact"
+      >
+        <input solaris-input />
+      </solaris-form-field>
+      <solaris-form-field
+        [label]="'form-field.label.normal' | translate"
+        density="normal"
       >
         <input solaris-input />
       </solaris-form-field>

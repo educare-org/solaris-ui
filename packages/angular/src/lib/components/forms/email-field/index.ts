@@ -6,7 +6,6 @@ export {
 } from './validators/email-field.validators';
 export type {
   SolarisEmailFieldAppearance,
-  SolarisEmailFieldSize,
   SolarisEmailFieldDensity,
   SolarisEmailFieldRadius,
 } from './model/email-field.types';

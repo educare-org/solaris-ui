@@ -75,8 +75,7 @@ Select v1 does not implement:
 | `compareWith`                | `(a: unknown, b: unknown) => boolean`     | `Object.is` | Custom comparison function for object values  |
 | `displayWith`                | `(value: unknown) => string \| undefined` | —           | Custom display function for trigger text      |
 | `appearance`                 | `'outline' \| 'surface' \| 'filled'`      | `'outline'` | Visual appearance                             |
-| `size`                       | `'sm' \| 'md' \| 'lg'`                    | `'md'`      | Size variant                                  |
-| `density`                    | `'compact' \| 'comfortable'`              | inherited   | Density variant                               |
+| `density`                    | `'compact' \| 'normal' \| 'comfortable'`  | inherited   | Density variant                               |
 | `radius`                     | `'none' \| 'sm' \| 'md' \| 'lg'`          | `'md'`      | Border radius                                 |
 | `label` / `labelKey`         | `string`                                  | —           | Label text (used standalone)                  |
 | `hint` / `hintKey`           | `string`                                  | —           | Hint text (used standalone)                   |
@@ -108,20 +107,13 @@ Select v1 does not implement:
 | `surface`  | Lighter surface, for cards and panels          |
 | `filled`   | Subtle filled background, less dominant border |
 
-## Sizes
-
-| Size | Effect                    |
-| ---- | ------------------------- |
-| `sm` | Compact trigger and text  |
-| `md` | Standard (default)        |
-| `lg` | Spacious trigger and text |
-
 ## Density
 
-| Density       | Effect                    |
-| ------------- | ------------------------- |
-| `compact`     | Reduced padding and gap   |
-| `comfortable` | Increased padding and gap |
+| Density       | Effect                                 |
+| ------------- | -------------------------------------- |
+| `compact`     | Reduced padding, gap, and typography   |
+| `normal`      | Balanced spacing. Default              |
+| `comfortable` | Increased padding, gap, and typography |
 
 When not provided, Select inherits density from the theme system.
 

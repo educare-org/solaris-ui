@@ -11,7 +11,6 @@ export const passwordFieldPtBr: SolarisTranslationMap = {
   'password-field.strength-only-note':
     'Barra de força sem lista de requisitos, usando o input minLength.',
   'password-field.states': 'Estados',
-  'password-field.sizes': 'Tamanhos',
   'password-field.appearances': 'Aparências',
   'password-field.density': 'Densidade',
   'password-field.radius': 'Raio',
@@ -54,9 +53,6 @@ export const passwordFieldPtBr: SolarisTranslationMap = {
   'password-field.placeholder.manual': 'Use Form Field + Input diretamente',
   'password-field.aria-label.show': 'Mostrar senha',
   'password-field.aria-label.hide': 'Ocultar senha',
-  'password-field.label.sm': 'SM',
-  'password-field.label.md': 'MD',
-  'password-field.label.lg': 'LG',
   'password-field.label.outline': 'Outline',
   'password-field.label.surface': 'Surface',
   'password-field.label.filled': 'Filled',

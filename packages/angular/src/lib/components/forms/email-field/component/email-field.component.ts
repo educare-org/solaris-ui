@@ -19,7 +19,6 @@ import {
 
 import type {
   SolarisEmailFieldAppearance,
-  SolarisEmailFieldSize,
   SolarisEmailFieldDensity,
   SolarisEmailFieldRadius,
 } from '../model/email-field.types';
@@ -85,7 +84,6 @@ export class SolarisEmailFieldComponent implements ControlValueAccessor {
   readonly allowedDomains = input<string[] | undefined>();
   readonly blockedDomains = input<string[] | undefined>();
   readonly density = input<SolarisEmailFieldDensity>();
-  readonly size = input<SolarisEmailFieldSize>('md');
   readonly radius = input<SolarisEmailFieldRadius>('md');
   readonly appearance = input<SolarisEmailFieldAppearance>('outline');
   readonly maxLength = input<number | undefined>();
