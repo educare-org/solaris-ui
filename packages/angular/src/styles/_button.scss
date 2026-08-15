@@ -529,8 +529,8 @@
 }
 
 [solaris-button][data-shape='wide'] {
-  --solaris-button-padding-x: var(--solaris-spacing-8);
-  --solaris-button-min-width: calc(var(--solaris-spacing-20) * 2);
+  --solaris-button-padding-x: calc(var(--solaris-density-padding-lg) * 2.5);
+  --solaris-button-min-width: calc(var(--solaris-density-min-height) * 3);
 }
 
 [solaris-button][data-radius='none'] {
