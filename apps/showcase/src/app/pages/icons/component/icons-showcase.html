@@ -75,8 +75,8 @@
             aria-label="Icon color picker"
           />
           <input
-            size="sm"
             solaris-input
+            density="compact"
             [value]="colorHex()"
             aria-label="Icon color hex"
             (change)="onHexChange($event)"
@@ -93,6 +93,7 @@
 
       <div class="icons-showcase__toolbar">
         <solaris-form-field
+          density="compact"
           class="icons-showcase__search"
           [label]="'icons.search-label' | translate"
         >
@@ -100,6 +101,7 @@
           <input
             type="search"
             solaris-input
+            density="compact"
             (input)="onSearch($event)"
             [placeholder]="'icons.search-placeholder' | translate"
             [attr.aria-label]="'icons.search-placeholder' | translate"
