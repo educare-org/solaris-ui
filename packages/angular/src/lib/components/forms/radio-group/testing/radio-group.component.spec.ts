@@ -521,9 +521,9 @@ describe('SolarisRadioGroupComponent density', () => {
     return fixture.nativeElement;
   };
 
-  it('should have default density comfortable', () => {
+  it('should have default density normal', () => {
     const el = createFixture();
-    expect(el.getAttribute('data-density')).toBe('comfortable');
+    expect(el.getAttribute('data-density')).toBe('normal');
   });
 
   it('should apply compact density', () => {

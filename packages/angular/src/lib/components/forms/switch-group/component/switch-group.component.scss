@@ -66,6 +66,12 @@
   --solaris-switch-group-column-gap: var(--solaris-spacing-2);
 }
 
+:host([data-density='normal']) {
+  --solaris-switch-group-gap: var(--solaris-spacing-3);
+  --solaris-switch-group-row-gap: var(--solaris-spacing-3);
+  --solaris-switch-group-column-gap: var(--solaris-spacing-3);
+}
+
 :host([data-density='comfortable']) {
   --solaris-switch-group-gap: var(--solaris-spacing-4);
   --solaris-switch-group-row-gap: var(--solaris-spacing-4);

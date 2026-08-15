@@ -88,6 +88,10 @@ describe('SolarisBadgeComponent', () => {
     fixture.componentRef.setInput('density', 'comfortable');
     fixture.detectChanges();
     expect(el.getAttribute('data-density')).toBe('comfortable');
+
+    fixture.componentRef.setInput('density', 'normal');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-density')).toBe('normal');
   });
 
   it('should support all appearances', () => {

@@ -476,11 +476,17 @@
 [solaris-icon-button][data-density='compact'] {
   --solaris-icon-button-size: var(--solaris-density-min-height);
 
-  font-size: var(--solaris-font-size-sm);
+  font-size: var(--solaris-density-font-size);
+}
+
+[solaris-icon-button][data-density='normal'] {
+  --solaris-icon-button-size: var(--solaris-density-min-height);
+
+  font-size: var(--solaris-density-font-size);
 }
 
 [solaris-icon-button][data-density='comfortable'] {
   --solaris-icon-button-size: var(--solaris-density-min-height);
 
-  font-size: var(--solaris-font-size-md);
+  font-size: var(--solaris-density-font-size);
 }

@@ -105,6 +105,13 @@ describe('SolarisCardComponent', () => {
     expect(el.getAttribute('data-density')).toBe('comfortable');
   });
 
+  it('should apply density normal', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('density', 'normal');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-density')).toBe('normal');
+  });
+
   it('should not be focusable by default', () => {
     const el = createFixture();
     expect(el.getAttribute('tabindex')).toBeFalsy();

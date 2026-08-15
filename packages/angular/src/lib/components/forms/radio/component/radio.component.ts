@@ -18,6 +18,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { SOLARIS_RADIO_GROUP_NAME } from '../../radio-group/model/radio-group.token';
 import { resolveElementId } from '../../../../core';
 
@@ -116,8 +117,10 @@ export class SolarisRadioComponent
 
   readonly changeEvent = output<Event>();
 
+  protected readonly themeService = inject(SolarisThemeService);
+
   protected readonly effectiveDensity = computed<SolarisRadioDensity>(() => {
-    return this.density() ?? 'comfortable';
+    return this.density() ?? this.themeService.density;
   });
 
   protected readonly isEffectivelyDisabled = computed(() => {

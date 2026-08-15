@@ -37,7 +37,7 @@ Consumers may customize Solaris through supported options only:
 
 ```txt
 colorScheme: light | dark | system
-density: compact | comfortable
+density: compact | normal | comfortable
 radius: none | sm | md | lg | xl
 ```
 
@@ -59,6 +59,7 @@ Required:
 - system;
 - reduced motion;
 - compact density;
+- normal density;
 - comfortable density.
 
 High contrast must be provisioned from the foundation.
@@ -87,7 +88,7 @@ Conceptual shape:
 @include solaris.theme(
   (
     color-scheme: system,
-    density: comfortable,
+    density: normal,
     radius: md,
   )
 );

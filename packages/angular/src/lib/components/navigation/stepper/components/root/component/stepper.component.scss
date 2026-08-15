@@ -324,6 +324,19 @@
   padding-top: var(--solaris-spacing-3);
 }
 
+:host([data-density='normal']) {
+  --solaris-stepper-gap: var(--solaris-spacing-3);
+  --solaris-stepper-indicator-size: var(--solaris-spacing-8);
+}
+
+:host([data-density='normal']) .solaris-stepper__label {
+  font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-density='normal']) .solaris-stepper__content-panel {
+  padding-top: var(--solaris-spacing-4);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .solaris-stepper__content-panel--fade,
   .solaris-stepper__content-panel--slide-right,

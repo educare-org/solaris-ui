@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 
+import type { SolarisDensity } from '../model/solaris-theme.types';
 import { SOLARIS_THEME_CONFIG } from '../token/solaris-theme.tokens';
 
 @Injectable({ providedIn: 'root' })
@@ -10,8 +11,8 @@ export class SolarisThemeService {
     return this.config?.colorScheme ?? 'system';
   }
 
-  get density(): string {
-    return this.config?.density ?? 'comfortable';
+  get density(): SolarisDensity {
+    return this.config?.density ?? 'normal';
   }
 
   get reducedMotion(): string {

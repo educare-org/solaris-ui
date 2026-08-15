@@ -94,8 +94,8 @@ Focus management is required for these patterns:
 
 All interactive controls should target 44×44px (`--solaris-density-min-height`
 
-- `--solaris-density-padding-*`), which aligns with the comfortable density
-  mode.
+- `--solaris-density-padding-*`), which aligns with the normal density
+  mode (compact is accepted as a tradeoff for dense layouts).
 
 ---
 

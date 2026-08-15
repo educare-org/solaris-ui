@@ -1,5 +1,5 @@
 export interface SolarisThemeConfig {
   colorScheme?: 'light' | 'dark' | 'system';
-  density?: 'compact' | 'comfortable';
+  density?: 'compact' | 'normal' | 'comfortable';
   reducedMotion?: 'auto' | 'reduce' | 'no-preference';
 }

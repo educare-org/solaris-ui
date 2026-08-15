@@ -109,6 +109,10 @@
   --solaris-radio-gap: var(--solaris-spacing-1);
 }
 
+:host([data-density='normal']) {
+  --solaris-radio-gap: var(--solaris-spacing-2);
+}
+
 :host([data-density='comfortable']) {
   --solaris-radio-gap: var(--solaris-spacing-3);
 }

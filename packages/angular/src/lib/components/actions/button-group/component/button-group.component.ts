@@ -1,4 +1,12 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  input,
+  computed,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+
+import { SolarisThemeService } from '../../../../services/theme';
 
 import type {
   SolarisButtonGroupOrientation,
@@ -15,7 +23,7 @@ import type {
     role: 'group',
     '[attr.data-orientation]': 'orientation()',
     '[attr.data-attached]': 'attached() ? "" : null',
-    '[attr.data-density]': 'density() ?? null',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-full-width]': 'fullWidth() ? "" : null',
   },
 })
@@ -24,4 +32,10 @@ export class SolarisButtonGroupComponent {
   readonly attached = input<boolean>(true);
   readonly density = input<SolarisButtonGroupDensity>();
   readonly fullWidth = input<boolean>(false);
+
+  protected readonly themeService = inject(SolarisThemeService);
+
+  protected readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
+  });
 }

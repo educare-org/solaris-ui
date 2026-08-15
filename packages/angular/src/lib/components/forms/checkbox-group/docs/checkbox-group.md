@@ -49,7 +49,7 @@ class SolarisCheckboxGroupComponent {
   columns: 1 | 2 | 3 | 4 | 'auto'; // 1
 
   // Visual
-  density: 'compact' | 'comfortable'; // inherited
+  density: 'compact' | 'normal' | 'comfortable'; // inherited
   size: 'sm' | 'md' | 'lg'; // md
 
   // State

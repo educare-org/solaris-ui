@@ -4,7 +4,10 @@ export type SolarisSegmentedControlAppearance = 'surface' | 'outline';
 
 export type SolarisSegmentedControlSize = 'sm' | 'md' | 'lg';
 
-export type SolarisSegmentedControlDensity = 'compact' | 'comfortable';
+export type SolarisSegmentedControlDensity =
+  | 'compact'
+  | 'normal'
+  | 'comfortable';
 
 export type SolarisSegmentedControlRadius = 'sm' | 'md' | 'lg' | 'full';
 

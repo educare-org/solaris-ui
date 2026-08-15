@@ -1,4 +1,12 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  input,
+  computed,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+
+import { SolarisThemeService } from '../../../../services/theme';
 
 import type {
   SolarisBadgeAppearance,
@@ -21,7 +29,7 @@ import type {
     '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-variant]': 'variant()',
-    '[attr.data-density]': 'density()',
+    '[attr.data-density]': 'effectiveDensity()',
   },
 })
 export class SolarisBadgeComponent {
@@ -31,4 +39,10 @@ export class SolarisBadgeComponent {
   readonly radius = input<SolarisBadgeRadius>('full');
   readonly density = input<SolarisBadgeDensity>();
   readonly size = input<SolarisBadgeSize>('md');
+
+  protected readonly themeService = inject(SolarisThemeService);
+
+  protected readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
+  });
 }

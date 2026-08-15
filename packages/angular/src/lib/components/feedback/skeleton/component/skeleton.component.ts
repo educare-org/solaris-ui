@@ -2,8 +2,11 @@ import {
   Component,
   input,
   computed,
+  inject,
   ChangeDetectionStrategy,
 } from '@angular/core';
+
+import { SolarisThemeService } from '../../../../services/theme';
 
 import type {
   SolarisSkeletonVariant,
@@ -25,7 +28,7 @@ import type {
     '[attr.data-animation]': 'animation()',
     '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'effectiveRadius()',
-    '[attr.data-density]': 'density()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-multiline]': 'isMultiLine() ? "" : null',
     '[style.width]': 'width() || null',
     '[style.height]': 'height() || null',
@@ -40,6 +43,12 @@ export class SolarisSkeletonComponent {
   readonly width = input<string>();
   readonly height = input<string>();
   readonly lines = input<number>(1);
+
+  protected readonly themeService = inject(SolarisThemeService);
+
+  readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   readonly effectiveRadius = computed<SolarisSkeletonRadius>(() => {
     const r = this.radius();

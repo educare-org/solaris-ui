@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { resolveElementId } from '../../../../core';
 
 import type {
@@ -155,8 +156,10 @@ export class SolarisOptionComponent {
     );
   });
 
+  protected readonly themeService = inject(SolarisThemeService);
+
   protected readonly effectiveDensity = computed<SolarisOptionDensity>(() => {
-    return this.density() ?? 'comfortable';
+    return this.density() ?? this.themeService.density;
   });
 
   readonly isEffectivelyDisabled = computed(() => {

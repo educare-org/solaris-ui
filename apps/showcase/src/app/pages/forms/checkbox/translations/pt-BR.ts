@@ -25,6 +25,7 @@ export const PT_BR_CHECKBOX: Record<string, string> = {
   'checkbox.large': 'Grande',
   'checkbox.density': 'Densidade',
   'checkbox.compact': 'Compacto',
+  'checkbox.normal': 'Normal',
   'checkbox.comfortable': 'Confortável',
   'checkbox.radius': 'Raio',
   'checkbox.radius-note': 'Checkbox suporta raio sm (padrão), md, lg e full.',

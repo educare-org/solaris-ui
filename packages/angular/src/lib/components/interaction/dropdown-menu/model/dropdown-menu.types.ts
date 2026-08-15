@@ -13,7 +13,7 @@ export type SolarisDropdownMenuRadius = SolarisPopoverRadius;
 export type SolarisDropdownMenuScrollStrategy = SolarisPopoverScrollStrategy;
 
 export type SolarisDropdownMenuSize = 'sm' | 'md' | 'lg';
-export type SolarisDropdownMenuDensity = 'compact' | 'comfortable';
+export type SolarisDropdownMenuDensity = 'compact' | 'normal' | 'comfortable';
 
 export type SolarisDropdownMenuItemColor =
   | 'neutral'

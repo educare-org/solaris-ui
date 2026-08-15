@@ -21,6 +21,7 @@ export const PT_BR_SWITCH: Record<string, string> = {
   'switch.large': 'Grande',
   'switch.density': 'Densidade',
   'switch.compact': 'Compacto',
+  'switch.normal': 'Normal',
   'switch.comfortable': 'Confortável',
   'switch.states': 'Estados',
   'switch.disabled-unchecked': 'Desabilitado desligado',

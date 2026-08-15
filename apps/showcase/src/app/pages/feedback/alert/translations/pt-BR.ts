@@ -31,9 +31,11 @@ export const PT_BR_ALERT: Record<string, string> = {
   'alert.appearance-solid-desc':
     'Banner preenchido forte para mensagens de alto destaque.',
   'alert.density': 'Densidade',
-  'alert.density-desc': 'Opções de densidade compact e comfortable.',
+  'alert.density-desc': 'Opções de densidade compact, normal e comfortable.',
   'alert.density-compact': 'Compacto',
   'alert.density-compact-desc': 'Padding e gap reduzidos.',
+  'alert.density-normal': 'Normal',
+  'alert.density-normal-desc': 'Padding e gap equilibrados.',
   'alert.density-comfortable': 'Confortável',
   'alert.density-comfortable-desc': 'Padding e gap aumentados.',
   'alert.radius': 'Arredondamento',

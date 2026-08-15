@@ -42,7 +42,7 @@ It wraps `[solaris-button]` and `[solaris-icon-button]` elements into a cohesive
 class SolarisButtonGroupComponent {
   orientation: SolarisButtonGroupOrientation; // 'horizontal' | 'vertical'
   attached: boolean; // true | false
-  density: SolarisButtonGroupDensity; // 'compact' | 'comfortable' | undefined
+  density: SolarisButtonGroupDensity; // 'compact' | 'normal' | 'comfortable' | undefined
   fullWidth: boolean; // true | false
 }
 ```
@@ -75,7 +75,7 @@ class SolarisButtonGroupComponent {
 | `'compact'`                        | Tighter gap and spacing.           |
 | `'comfortable'` (default fallback) | More breathing room between items. |
 
-When not provided, density is inherited from the theme system when available, falling back to comfortable.
+When not provided, density is inherited from the theme system when available, falling back to normal.
 
 ## Compatibility with Button
 

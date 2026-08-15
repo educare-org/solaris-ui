@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../../../services/translation';
+import { SolarisThemeService } from '../../../../../../services/theme';
 import { SolarisBadgeComponent } from '../../../../../data-display/badge';
 import { SolarisIconComponent } from '../../../../../icon';
 import { SOLARIS_TABS } from '../../../token/tabs.tokens';
@@ -41,6 +42,7 @@ export class SolarisTabComponent {
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
+  protected readonly themeService = inject(SolarisThemeService);
   private readonly tabsControl = inject(SOLARIS_TABS, { optional: true });
 
   readonly disabled = input<boolean>(false);
@@ -80,7 +82,7 @@ export class SolarisTabComponent {
   });
 
   protected readonly density = computed(() => {
-    return this.tabsControl?.density() ?? 'comfortable';
+    return this.tabsControl?.effectiveDensity() ?? this.themeService.density;
   });
 
   protected readonly appearance = computed(() => {

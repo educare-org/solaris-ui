@@ -10,6 +10,8 @@ import {
   computed,
 } from '@angular/core';
 
+import { SolarisThemeService } from '../../../../services/theme';
+
 import type {
   SolarisIconButtonAppearance,
   SolarisIconButtonColor,
@@ -26,7 +28,7 @@ import type {
     '[attr.data-color]': 'color()',
     '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'radius()',
-    '[attr.data-density]': 'density()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-loading]': 'loading() ? "" : null',
     '[attr.aria-busy]': 'loading() ? "true" : null',
     '[attr.aria-disabled]': 'isEffectivelyDisabled() ? "true" : null',
@@ -44,6 +46,12 @@ export class SolarisIconButtonDirective {
   readonly ariaLabel = input<string | undefined>();
   readonly disabled = input<boolean>(false);
   readonly loading = input<boolean>(false);
+
+  protected readonly themeService = inject(SolarisThemeService);
+
+  protected readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   protected readonly isEffectivelyDisabled = computed(
     () => this.disabled() || this.loading(),

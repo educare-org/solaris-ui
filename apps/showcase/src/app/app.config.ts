@@ -22,7 +22,7 @@ export const appConfig: ApplicationConfig = {
       },
       theme: {
         colorScheme: 'system',
-        density: 'comfortable',
+        density: 'normal',
       },
     }),
   ],

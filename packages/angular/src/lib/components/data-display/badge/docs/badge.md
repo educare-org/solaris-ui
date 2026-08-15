@@ -31,7 +31,7 @@ Badge displays short informational content such as status labels, counts, or sem
 | `size`       | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`       | Size variant      |
 | `radius`     | `'sm' \| 'md' \| 'full'`                                                             | `'full'`     | Border radius     |
 | `variant`    | `'standard' \| 'count'`                                                              | `'standard'` | Visual variant    |
-| `density`    | `'compact' \| 'comfortable'`                                                         | inherited    | Density variant   |
+| `density`    | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited    | Density variant   |
 
 ### SolarisBadgeIconDirective
 

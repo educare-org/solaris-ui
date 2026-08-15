@@ -132,11 +132,19 @@ textarea[solaris-textarea][data-size='lg'] {
 }
 
 textarea[solaris-textarea][data-density='compact'] {
+  --solaris-textarea-font-size: var(--solaris-density-font-size);
   --solaris-textarea-line-height: var(--solaris-line-height-sm);
   --solaris-textarea-padding-y: var(--solaris-spacing-half);
 }
 
+textarea[solaris-textarea][data-density='normal'] {
+  --solaris-textarea-font-size: var(--solaris-density-font-size);
+  --solaris-textarea-line-height: var(--solaris-line-height-sm);
+  --solaris-textarea-padding-y: var(--solaris-spacing-1);
+}
+
 textarea[solaris-textarea][data-density='comfortable'] {
+  --solaris-textarea-font-size: var(--solaris-density-font-size);
   --solaris-textarea-padding-y: var(--solaris-spacing-1);
   --solaris-textarea-line-height: var(--solaris-line-height-md);
 }
@@ -231,13 +239,18 @@ solaris-form-field textarea[solaris-textarea][readonly] {
 }
 
 solaris-form-field textarea[solaris-textarea][data-density='compact'] {
-  padding-top: var(--solaris-spacing-half);
-  padding-bottom: var(--solaris-spacing-half);
+  padding-top: var(--solaris-density-padding-xs);
+  padding-bottom: var(--solaris-density-padding-xs);
+}
+
+solaris-form-field textarea[solaris-textarea][data-density='normal'] {
+  padding-top: var(--solaris-density-padding-xs);
+  padding-bottom: var(--solaris-density-padding-xs);
 }
 
 solaris-form-field textarea[solaris-textarea][data-density='comfortable'] {
-  padding-top: var(--solaris-spacing-1);
-  padding-bottom: var(--solaris-spacing-1);
+  padding-top: var(--solaris-density-padding-sm);
+  padding-bottom: var(--solaris-density-padding-sm);
 }
 
 solaris-form-field textarea[solaris-textarea]:autofill,

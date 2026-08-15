@@ -18,4 +18,4 @@ export type SolarisButtonSize = 'sm' | 'md' | 'lg';
 
 export type SolarisButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
 
-export type SolarisButtonDensity = 'compact' | 'comfortable';
+export type SolarisButtonDensity = 'compact' | 'normal' | 'comfortable';

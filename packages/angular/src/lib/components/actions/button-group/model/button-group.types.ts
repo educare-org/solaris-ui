@@ -1,3 +1,3 @@
 export type SolarisButtonGroupOrientation = 'horizontal' | 'vertical';
 
-export type SolarisButtonGroupDensity = 'compact' | 'comfortable';
+export type SolarisButtonGroupDensity = 'compact' | 'normal' | 'comfortable';

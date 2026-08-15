@@ -136,7 +136,7 @@ describe('SolarisOptionComponent', () => {
 
   it('should support all density values', () => {
     const el = createFixture();
-    const values = ['compact', 'comfortable'] as const;
+    const values = ['compact', 'normal', 'comfortable'] as const;
     for (const v of values) {
       fixture.componentRef.setInput('density', v);
       fixture.detectChanges();

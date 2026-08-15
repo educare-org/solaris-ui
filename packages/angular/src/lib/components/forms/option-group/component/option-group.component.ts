@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisOptionComponent } from '../../option';
 import { resolveElementId } from '../../../../core';
 
@@ -66,9 +67,11 @@ export class SolarisOptionGroupComponent {
 
   protected readonly labelId = computed(() => `${this.elementId()}-label`);
 
+  protected readonly themeService = inject(SolarisThemeService);
+
   protected readonly effectiveDensity = computed<SolarisOptionGroupDensity>(
     () => {
-      return this.density() ?? 'comfortable';
+      return this.density() ?? this.themeService.density;
     },
   );
 

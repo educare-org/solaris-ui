@@ -16,6 +16,7 @@ import {
 } from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../../../services/translation';
+import { SolarisThemeService } from '../../../../../../services/theme';
 import { SolarisTabComponent } from '../../tab/component/tab.component';
 import { SolarisTabPanelComponent } from '../../tab-panel/component/tab-panel.component';
 import {
@@ -47,7 +48,7 @@ import { nextIdFor } from '../../../../../../core/utils/id';
     '[attr.data-orientation]': 'orientation()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-size]': 'size()',
-    '[attr.data-density]': 'density()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-full-width]': 'fullWidth()',
     '[attr.data-scrollable]': 'scrollable()',
     '[attr.data-show-indicator]': 'showIndicator()',
@@ -64,6 +65,7 @@ export class SolarisTabsComponent implements SolarisTabsControl {
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
+  protected readonly themeService = inject(SolarisThemeService);
   private readonly elementRef = inject(ElementRef);
   private readonly ngZone = inject(NgZone);
 
@@ -75,7 +77,7 @@ export class SolarisTabsComponent implements SolarisTabsControl {
   readonly orientation = input<SolarisTabsOrientation>('horizontal');
   readonly appearance = input<SolarisTabsAppearance>('underline');
   readonly size = input<SolarisTabsSize>('md');
-  readonly density = input<SolarisTabsDensity>('comfortable');
+  readonly density = input<SolarisTabsDensity>();
   readonly activationMode = input<SolarisTabsActivationMode>('automatic');
   readonly contentTransition = input<SolarisTabsContentTransition>('fade');
   readonly fullWidth = input<boolean>(false);
@@ -94,6 +96,10 @@ export class SolarisTabsComponent implements SolarisTabsControl {
     undefined,
   );
   protected readonly slideDirection = signal<'left' | 'right'>('right');
+
+  readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   protected readonly instanceId = nextIdFor('solaris-tabs');
 

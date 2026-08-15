@@ -44,26 +44,26 @@ Segmented Control provides a way to quickly switch between a small number of rel
 
 Selector: `solaris-segmented-control`
 
-| Input            | Type                             | Default         | Description                        |
-| ---------------- | -------------------------------- | --------------- | ---------------------------------- |
-| `value`          | `unknown`                        | `undefined`     | Current selected value (two-way)   |
-| `defaultValue`   | `unknown`                        | `undefined`     | Initial value when none is set     |
-| `orientation`    | `'horizontal' \| 'vertical'`     | `'horizontal'`  | Layout direction                   |
-| `appearance`     | `'surface' \| 'outline'`         | `'surface'`     | Visual style                       |
-| `size`           | `'sm' \| 'md' \| 'lg'`           | `'md'`          | Size variant                       |
-| `density`        | `'compact' \| 'comfortable'`     | `'comfortable'` | Spacing density                    |
-| `radius`         | `'sm' \| 'md' \| 'lg' \| 'full'` | `'md'`          | Border radius                      |
-| `disabled`       | `boolean`                        | `false`         | Disables all interaction           |
-| `readonly`       | `boolean`                        | `false`         | Allows focus but blocks changes    |
-| `required`       | `boolean`                        | `false`         | Marks as required                  |
-| `invalid`        | `boolean`                        | `false`         | Marks as invalid                   |
-| `fullWidth`      | `boolean`                        | `false`         | Stretches to full container width  |
-| `equalWidth`     | `boolean`                        | `false`         | Makes all items equal width        |
-| `indicator`      | `boolean`                        | `true`          | Shows animated selection indicator |
-| `compareWith`    | `(a, b) => boolean`              | `Object.is`     | Custom comparison function         |
-| `ariaLabel`      | `string \| undefined`            | `undefined`     | ARIA label                         |
-| `ariaLabelKey`   | `string \| undefined`            | `undefined`     | Translation key for ARIA label     |
-| `ariaLabelledby` | `string \| undefined`            | `undefined`     | ARIA labelledby                    |
+| Input            | Type                                     | Default        | Description                        |
+| ---------------- | ---------------------------------------- | -------------- | ---------------------------------- |
+| `value`          | `unknown`                                | `undefined`    | Current selected value (two-way)   |
+| `defaultValue`   | `unknown`                                | `undefined`    | Initial value when none is set     |
+| `orientation`    | `'horizontal' \| 'vertical'`             | `'horizontal'` | Layout direction                   |
+| `appearance`     | `'surface' \| 'outline'`                 | `'surface'`    | Visual style                       |
+| `size`           | `'sm' \| 'md' \| 'lg'`                   | `'md'`         | Size variant                       |
+| `density`        | `'compact' \| 'normal' \| 'comfortable'` | `'normal'`     | Spacing density                    |
+| `radius`         | `'sm' \| 'md' \| 'lg' \| 'full'`         | `'md'`         | Border radius                      |
+| `disabled`       | `boolean`                                | `false`        | Disables all interaction           |
+| `readonly`       | `boolean`                                | `false`        | Allows focus but blocks changes    |
+| `required`       | `boolean`                                | `false`        | Marks as required                  |
+| `invalid`        | `boolean`                                | `false`        | Marks as invalid                   |
+| `fullWidth`      | `boolean`                                | `false`        | Stretches to full container width  |
+| `equalWidth`     | `boolean`                                | `false`        | Makes all items equal width        |
+| `indicator`      | `boolean`                                | `true`         | Shows animated selection indicator |
+| `compareWith`    | `(a, b) => boolean`                      | `Object.is`    | Custom comparison function         |
+| `ariaLabel`      | `string \| undefined`                    | `undefined`    | ARIA label                         |
+| `ariaLabelKey`   | `string \| undefined`                    | `undefined`    | Translation key for ARIA label     |
+| `ariaLabelledby` | `string \| undefined`                    | `undefined`    | ARIA labelledby                    |
 
 | Output        | Type                                 | Description                    |
 | ------------- | ------------------------------------ | ------------------------------ |

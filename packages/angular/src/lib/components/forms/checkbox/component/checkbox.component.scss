@@ -112,6 +112,10 @@
   --solaris-checkbox-gap: var(--solaris-spacing-1);
 }
 
+:host([data-density='normal']) {
+  --solaris-checkbox-gap: var(--solaris-spacing-2);
+}
+
 :host([data-density='comfortable']) {
   --solaris-checkbox-gap: var(--solaris-spacing-3);
 }

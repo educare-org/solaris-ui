@@ -15,4 +15,4 @@ export type SolarisBadgeRadius = 'sm' | 'md' | 'full';
 
 export type SolarisBadgeVariant = 'standard' | 'count';
 
-export type SolarisBadgeDensity = 'compact' | 'comfortable';
+export type SolarisBadgeDensity = 'compact' | 'normal' | 'comfortable';

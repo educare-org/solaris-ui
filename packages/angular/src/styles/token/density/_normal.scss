@@ -1,0 +1,16 @@
+[data-density='normal'] {
+  --solaris-density-scale: 0.875;
+  --solaris-density-padding-xs: 4px;
+  --solaris-density-padding-sm: 6px;
+  --solaris-density-padding-md: 8px;
+  --solaris-density-padding-lg: 12px;
+  --solaris-density-padding-xl: 16px;
+  --solaris-density-gap-xs: 3px;
+  --solaris-density-gap-sm: 5px;
+  --solaris-density-gap-md: 7px;
+  --solaris-density-gap-lg: 9px;
+  --solaris-density-gap-xl: 12px;
+  --solaris-density-min-width: 48px;
+  --solaris-density-min-height: 48px;
+  --solaris-density-font-size: var(--solaris-font-size-md);
+}

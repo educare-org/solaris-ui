@@ -157,6 +157,10 @@
   --solaris-switch-gap: var(--solaris-spacing-1);
 }
 
+:host([data-density='normal']) {
+  --solaris-switch-gap: var(--solaris-spacing-2);
+}
+
 :host([data-density='comfortable']) {
   --solaris-switch-gap: var(--solaris-spacing-3);
 }

@@ -16,7 +16,7 @@ export interface SolarisTabsControl {
   orientation: Signal<SolarisTabsOrientation>;
   appearance: Signal<SolarisTabsAppearance>;
   size: Signal<SolarisTabsSize>;
-  density: Signal<SolarisTabsDensity>;
+  effectiveDensity: Signal<SolarisTabsDensity>;
   disabled: Signal<boolean>;
   activationMode: Signal<SolarisTabsActivationMode>;
   contentTransition: Signal<SolarisTabsContentTransition>;

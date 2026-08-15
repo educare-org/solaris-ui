@@ -15,7 +15,7 @@ export interface SolarisSegmentedControlInterface {
   orientation: Signal<SolarisSegmentedControlOrientation>;
   appearance: Signal<SolarisSegmentedControlAppearance>;
   size: Signal<SolarisSegmentedControlSize>;
-  density: Signal<SolarisSegmentedControlDensity>;
+  effectiveDensity: Signal<SolarisSegmentedControlDensity>;
   radius: Signal<SolarisSegmentedControlRadius>;
   disabled: Signal<boolean>;
   readonly: Signal<boolean>;

@@ -125,7 +125,7 @@ describe('SolarisRadioComponent', () => {
 
   it('should support all density values', () => {
     const el = createFixture();
-    const values = ['compact', 'comfortable'] as const;
+    const values = ['compact', 'normal', 'comfortable'] as const;
     for (const v of values) {
       fixture.componentRef.setInput('density', v);
       fixture.detectChanges();
@@ -133,9 +133,9 @@ describe('SolarisRadioComponent', () => {
     }
   });
 
-  it('should have default density comfortable', () => {
+  it('should have default density normal', () => {
     const el = createFixture();
-    expect(el.getAttribute('data-density')).toBe('comfortable');
+    expect(el.getAttribute('data-density')).toBe('normal');
   });
 });
 

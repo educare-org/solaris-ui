@@ -21,16 +21,16 @@ Skeleton displays a visual placeholder while content is loading. It is a non-int
 
 ## API
 
-| Input     | Type                                        | Default   | Description                                                             |
-| --------- | ------------------------------------------- | --------- | ----------------------------------------------------------------------- |
-| variant   | `'text'` \| `'rectangular'` \| `'circular'` | `'text'`  | Shape variant of the skeleton.                                          |
-| animation | `'pulse'` \| `'wave'` \| `'none'`           | `'pulse'` | Animation style.                                                        |
-| size      | `'sm'` \| `'md'` \| `'lg'`                  | `'md'`    | Size preset.                                                            |
-| radius    | `'none'` \| `'sm'` \| `'full'`              | `'text'`  | Border radius. `'text'` resolves based on variant.                      |
-| density   | `'compact'` \| `'comfortable'` (optional)   | —         | Density preset. Inherits from theme when possible.                      |
-| width     | `string` (optional)                         | —         | Custom width (e.g. `'70%'`, `'12rem'`).                                 |
-| height    | `string` (optional)                         | —         | Custom height (e.g. `'1.6rem'`, `'12rem'`).                             |
-| lines     | `number` (optional)                         | `1`       | Number of text lines for variant `text`. Lines have auto-varied widths. |
+| Input     | Type                                                    | Default   | Description                                                             |
+| --------- | ------------------------------------------------------- | --------- | ----------------------------------------------------------------------- |
+| variant   | `'text'` \| `'rectangular'` \| `'circular'`             | `'text'`  | Shape variant of the skeleton.                                          |
+| animation | `'pulse'` \| `'wave'` \| `'none'`                       | `'pulse'` | Animation style.                                                        |
+| size      | `'sm'` \| `'md'` \| `'lg'`                              | `'md'`    | Size preset.                                                            |
+| radius    | `'none'` \| `'sm'` \| `'full'`                          | `'text'`  | Border radius. `'text'` resolves based on variant.                      |
+| density   | `'compact'` \| `'normal'` \| `'comfortable'` (optional) | —         | Density preset. Inherits from theme when possible.                      |
+| width     | `string` (optional)                                     | —         | Custom width (e.g. `'70%'`, `'12rem'`).                                 |
+| height    | `string` (optional)                                     | —         | Custom height (e.g. `'1.6rem'`, `'12rem'`).                             |
+| lines     | `number` (optional)                                     | `1`       | Number of text lines for variant `text`. Lines have auto-varied widths. |
 
 ## Variants
 

@@ -47,7 +47,7 @@ class SolarisRadioGroupComponent {
   layout: SolarisRadioGroupLayout; // 'list' | 'grid'
   columns: SolarisRadioGroupColumns; // 1 | 2 | 3 | 4 | 'auto'
   size: SolarisRadioGroupSize; // 'sm' | 'md' | 'lg'
-  density: SolarisRadioGroupDensity; // 'compact' | 'comfortable' (inherits when unset)
+  density: SolarisRadioGroupDensity; // 'compact' | 'normal' | 'comfortable' (inherits when unset)
 
   // Label, hint, error (standalone)
   label: string;

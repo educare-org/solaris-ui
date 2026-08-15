@@ -20,6 +20,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisCheckboxComponent } from '../../checkbox';
 import { resolveElementId } from '../../../../core';
 
@@ -148,9 +149,11 @@ export class SolarisCheckboxGroupComponent
 
   protected readonly columnsStr = computed(() => String(this.columns()));
 
+  protected readonly themeService = inject(SolarisThemeService);
+
   protected readonly effectiveDensity = computed<SolarisCheckboxGroupDensity>(
     () => {
-      return this.density() ?? 'comfortable';
+      return this.density() ?? this.themeService.density;
     },
   );
 

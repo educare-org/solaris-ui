@@ -58,7 +58,7 @@ Conceptual shape:
 @include solaris.theme(
   (
     color-scheme: system,
-    density: comfortable,
+    density: normal,
     radius: md,
   )
 );

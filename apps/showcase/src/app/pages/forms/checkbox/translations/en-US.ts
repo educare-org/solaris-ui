@@ -25,6 +25,7 @@ export const EN_US_CHECKBOX: Record<string, string> = {
   'checkbox.large': 'Large',
   'checkbox.density': 'Density',
   'checkbox.compact': 'Compact',
+  'checkbox.normal': 'Normal',
   'checkbox.comfortable': 'Comfortable',
   'checkbox.radius': 'Radius',
   'checkbox.radius-note':

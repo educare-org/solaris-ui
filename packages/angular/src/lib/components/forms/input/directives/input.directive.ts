@@ -20,6 +20,7 @@ import { NgControl } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { resolveElementId } from '../../../../core';
+import { SolarisThemeService } from '../../../../services/theme';
 
 import type {
   SolarisInputAppearance,
@@ -75,8 +76,10 @@ export class SolarisInputDirective extends SolarisFormControl {
     return resolveElementId(this.elementRef, 'solaris-input');
   });
 
+  protected readonly themeService = inject(SolarisThemeService);
+
   protected readonly effectiveDensity = computed<SolarisInputDensity>(() => {
-    return this.density() ?? 'comfortable';
+    return this.density() ?? this.themeService.density;
   });
 
   protected readonly isEffectivelyInvalid = computed(() => {

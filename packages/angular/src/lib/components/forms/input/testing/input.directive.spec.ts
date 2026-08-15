@@ -55,12 +55,12 @@ describe('SolarisInputDirective', () => {
       expect(el.getAttribute('data-radius')).toBe('md');
     });
 
-    it('should have default density comfortable', () => {
+    it('should have default density normal', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-input]');
-      expect(el.getAttribute('data-density')).toBe('comfortable');
+      expect(el.getAttribute('data-density')).toBe('normal');
     });
 
     it('should have default fullWidth', () => {
@@ -182,6 +182,15 @@ describe('SolarisInputDirective', () => {
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-input]');
       expect(el.getAttribute('data-density')).toBe('comfortable');
+    });
+
+    it('should support density normal', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.density = 'normal';
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-input]');
+      expect(el.getAttribute('data-density')).toBe('normal');
     });
   });
 

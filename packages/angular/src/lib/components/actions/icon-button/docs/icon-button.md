@@ -49,7 +49,7 @@ Selector: `[solaris-icon-button]`
 | `color`        | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'` | Semantic color               |
 | `size`         | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Button size                  |
 | `radius`       | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                           | `'md'`      | Border radius                |
-| `density`      | `'compact' \| 'comfortable'`                                                         | inherited   | Spacing density              |
+| `density`      | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited   | Spacing density              |
 | `loading`      | `boolean`                                                                            | `false`     | Loading state                |
 | `disabled`     | `boolean`                                                                            | `false`     | Disabled state               |
 | `ariaLabel`    | `string \| undefined`                                                                | —           | Accessible name input        |
@@ -114,9 +114,10 @@ Default: `md`
 | Density       | Effect                                                 |
 | ------------- | ------------------------------------------------------ |
 | `compact`     | Size from `--solaris-density-min-height`, smaller text |
-| `comfortable` | Size from `--solaris-density-min-height`, default text |
+| `normal`      | Size from `--solaris-density-min-height`, default text |
+| `comfortable` | Size from `--solaris-density-min-height`, larger text  |
 
-When not provided, Icon Button inherits density from the theme system. Both values set `--solaris-icon-button-size` to `--solaris-density-min-height`; `compact` also reduces the icon font size.
+When not provided, Icon Button inherits density from the theme system. All values set `--solaris-icon-button-size` to `--solaris-density-min-height`; the icon font size follows the density typography token.
 
 ## Accessible Name (Required)
 

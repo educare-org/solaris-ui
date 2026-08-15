@@ -11,4 +11,4 @@ export type SolarisSwitchColor =
 
 export type SolarisSwitchSize = 'sm' | 'md' | 'lg';
 
-export type SolarisSwitchDensity = 'compact' | 'comfortable';
+export type SolarisSwitchDensity = 'compact' | 'normal' | 'comfortable';

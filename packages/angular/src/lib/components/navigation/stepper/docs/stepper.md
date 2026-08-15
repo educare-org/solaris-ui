@@ -51,20 +51,20 @@ Selector: `solaris-stepper`
 
 #### Inputs
 
-| Input               | Type                              | Default         | Description                         |
-| ------------------- | --------------------------------- | --------------- | ----------------------------------- |
-| `activeIndex`       | `number`                          | `0`             | Index of the active step            |
-| `orientation`       | `'horizontal' \| 'vertical'`      | `'horizontal'`  | Layout direction                    |
-| `appearance`        | `'default' \| 'card' \| 'dashed'` | `'default'`     | Visual style                        |
-| `linear`            | `boolean`                         | `false`         | Blocks future steps when true       |
-| `size`              | `'sm' \| 'md' \| 'lg'`            | `'md'`          | Size variant                        |
-| `density`           | `'compact' \| 'comfortable'`      | `'comfortable'` | Spacing density                     |
-| `showConnectors`    | `boolean`                         | `true`          | Shows connector lines between steps |
-| `showStepStatus`    | `boolean`                         | `true`          | Shows status badges                 |
-| `showStepNumbers`   | `boolean`                         | `true`          | Shows step numbers                  |
-| `contentTransition` | `'none' \| 'fade' \| 'slide'`     | `'fade'`        | Content transition animation        |
-| `ariaLabel`         | `string \| undefined`             | `undefined`     | Direct ARIA label                   |
-| `ariaLabelKey`      | `string \| undefined`             | `undefined`     | Translation key for ARIA label      |
+| Input               | Type                                     | Default        | Description                         |
+| ------------------- | ---------------------------------------- | -------------- | ----------------------------------- |
+| `activeIndex`       | `number`                                 | `0`            | Index of the active step            |
+| `orientation`       | `'horizontal' \| 'vertical'`             | `'horizontal'` | Layout direction                    |
+| `appearance`        | `'default' \| 'card' \| 'dashed'`        | `'default'`    | Visual style                        |
+| `linear`            | `boolean`                                | `false`        | Blocks future steps when true       |
+| `size`              | `'sm' \| 'md' \| 'lg'`                   | `'md'`         | Size variant                        |
+| `density`           | `'compact' \| 'normal' \| 'comfortable'` | `'normal'`     | Spacing density                     |
+| `showConnectors`    | `boolean`                                | `true`         | Shows connector lines between steps |
+| `showStepStatus`    | `boolean`                                | `true`         | Shows status badges                 |
+| `showStepNumbers`   | `boolean`                                | `true`         | Shows step numbers                  |
+| `contentTransition` | `'none' \| 'fade' \| 'slide'`            | `'fade'`       | Content transition animation        |
+| `ariaLabel`         | `string \| undefined`                    | `undefined`    | Direct ARIA label                   |
+| `ariaLabelKey`      | `string \| undefined`                    | `undefined`    | Translation key for ARIA label      |
 
 #### Outputs
 

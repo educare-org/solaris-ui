@@ -16,6 +16,7 @@ import {
 import { NgTemplateOutlet } from '@angular/common';
 
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import {
   SolarisTabPanelComponent,
   SolarisTabsComponent,
@@ -70,7 +71,7 @@ import type {
     '[attr.data-orientation]': 'orientation()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-size]': 'size()',
-    '[attr.data-density]': 'density()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-show-actions]': 'showActions()',
   },
 })
@@ -78,6 +79,7 @@ export class SolarisEditableTabsComponent {
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
+  protected readonly themeService = inject(SolarisThemeService);
   private readonly ngZone = inject(NgZone);
 
   readonly value = model<unknown>(undefined);
@@ -85,7 +87,7 @@ export class SolarisEditableTabsComponent {
   readonly orientation = input<SolarisEditableTabsOrientation>('horizontal');
   readonly appearance = input<SolarisEditableTabsAppearance>('underline');
   readonly size = input<SolarisEditableTabsSize>('md');
-  readonly density = input<SolarisEditableTabsDensity>('comfortable');
+  readonly density = input<SolarisEditableTabsDensity>();
   readonly activationMode =
     input<SolarisEditableTabsActivationMode>('automatic');
   readonly contentTransition =
@@ -118,6 +120,10 @@ export class SolarisEditableTabsComponent {
   readonly tabMove = output<SolarisEditableTabMoveEvent>();
   readonly defaultTabChange = output<SolarisEditableTabDefaultChangeEvent>();
   readonly tabAction = output<SolarisEditableTabActionEvent>();
+
+  protected readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   readonly menuComponents = viewChildren(SolarisDropdownMenuComponent);
   readonly tabMenuRefs = computed(() => {

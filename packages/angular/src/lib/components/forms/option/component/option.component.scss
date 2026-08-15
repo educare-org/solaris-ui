@@ -196,6 +196,13 @@
   --solaris-option-padding-y: var(--solaris-density-padding-sm);
 }
 
+:host([data-density='normal']) {
+  --solaris-option-min-height: auto;
+  --solaris-option-gap: var(--solaris-spacing-3);
+  --solaris-option-padding-x: var(--solaris-spacing-4);
+  --solaris-option-padding-y: var(--solaris-density-padding-sm);
+}
+
 :host([data-density='comfortable']) {
   --solaris-option-gap: var(--solaris-spacing-4);
 }

@@ -14,6 +14,7 @@ import {
 
 import { SolarisStepperActionsComponent } from '../../actions/component/stepper-actions.component';
 import { SolarisTranslateService } from '../../../../../../services/translation';
+import { SolarisThemeService } from '../../../../../../services/theme';
 import type { SolarisStepperControl } from '../../../token/stepper.tokens';
 import { SolarisStepComponent } from '../../step/component/step.component';
 import { SOLARIS_STEPPER } from '../../../token/stepper.tokens';
@@ -39,7 +40,7 @@ import type {
     class: 'solaris-stepper',
     '[attr.data-size]': 'size()',
     '[attr.role]': '"navigation"',
-    '[attr.data-density]': 'density()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-orientation]': 'orientation()',
     '[attr.aria-label]': 'resolvedAriaLabel()',
@@ -55,6 +56,7 @@ export class SolarisStepperComponent implements SolarisStepperControl {
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
+  protected readonly themeService = inject(SolarisThemeService);
 
   readonly steps = contentChildren(SolarisStepComponent);
   readonly actions = contentChild(SolarisStepperActionsComponent);
@@ -64,7 +66,7 @@ export class SolarisStepperComponent implements SolarisStepperControl {
   readonly appearance = input<SolarisStepperAppearance>('default');
   readonly linear = input<boolean>(false);
   readonly size = input<SolarisStepperSize>('md');
-  readonly density = input<SolarisStepperDensity>('comfortable');
+  readonly density = input<SolarisStepperDensity>();
   readonly showConnectors = input<boolean>(true);
   readonly showStepStatus = input<boolean>(true);
   readonly showStepNumbers = input<boolean>(true);
@@ -75,6 +77,10 @@ export class SolarisStepperComponent implements SolarisStepperControl {
   readonly activeIndexChange = output<number>();
   readonly stepChange = output<SolarisStepperChangeEvent>();
   readonly stepClick = output<{ index: number; label: string | undefined }>();
+
+  readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   protected readonly stepTransitionDirection = signal<'next' | 'previous'>(
     'next',

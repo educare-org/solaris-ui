@@ -44,6 +44,7 @@ export const SEGMENTED_CONTROL_TRANSLATIONS_EN_US: Record<string, string> = {
   'segmented-control.example.sizes.large': 'Large',
 
   'segmented-control.example.density.compact': 'Compact',
+  'segmented-control.example.density.normal': 'Normal',
   'segmented-control.example.density.comfortable': 'Comfortable',
 
   'segmented-control.example.radius.sm': 'Radius SM',

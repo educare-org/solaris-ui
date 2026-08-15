@@ -18,6 +18,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { resolveElementId } from '../../../../core';
 
 import type {
@@ -113,8 +114,10 @@ export class SolarisSwitchComponent
 
   readonly changeEvent = output<Event>();
 
+  protected readonly themeService = inject(SolarisThemeService);
+
   protected readonly effectiveDensity = computed<SolarisSwitchDensity>(() => {
-    return this.density() ?? 'comfortable';
+    return this.density() ?? this.themeService.density;
   });
 
   protected readonly isEffectivelyDisabled = computed(() => {

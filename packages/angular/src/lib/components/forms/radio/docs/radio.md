@@ -30,7 +30,7 @@ Radio is a form control component that represents a single option within a set o
 | `appearance`   | `'outline' \| 'surface'`                                                             | `'outline'` | Visual appearance               |
 | `color`        | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'` | Semantic color                  |
 | `size`         | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Size variant                    |
-| `density`      | `'compact' \| 'comfortable'`                                                         | inherited   | Density variant                 |
+| `density`      | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited   | Density variant                 |
 | `label`        | `string`                                                                             | —           | Direct label text               |
 | `labelKey`     | `string`                                                                             | —           | i18n key for label              |
 | `name`         | `string`                                                                             | —           | Native `name` attribute         |

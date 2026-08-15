@@ -6,4 +6,4 @@ export type SolarisSkeletonSize = 'sm' | 'md' | 'lg';
 
 export type SolarisSkeletonRadius = 'text' | 'none' | 'sm' | 'full';
 
-export type SolarisSkeletonDensity = 'compact' | 'comfortable';
+export type SolarisSkeletonDensity = 'compact' | 'normal' | 'comfortable';

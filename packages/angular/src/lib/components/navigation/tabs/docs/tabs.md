@@ -52,23 +52,23 @@ The content panel associated with a tab. Only the active panel is visible.
 
 ### SolarisTabsComponent
 
-| Input               | Type                                   | Default         | Description                             |
-| ------------------- | -------------------------------------- | --------------- | --------------------------------------- |
-| `value`             | `string \| number \| undefined`        | —               | Active tab value (two-way binding)      |
-| `defaultValue`      | `string \| number \| undefined`        | —               | Initial value when value is not set     |
-| `orientation`       | `'horizontal' \| 'vertical'`           | `'horizontal'`  | Layout orientation                      |
-| `appearance`        | `'underline' \| 'pills' \| 'enclosed'` | `'underline'`   | Visual style                            |
-| `size`              | `'sm' \| 'md' \| 'lg'`                 | `'md'`          | Tab size                                |
-| `density`           | `'compact' \| 'comfortable'`           | `'comfortable'` | Spacing density                         |
-| `activationMode`    | `'automatic' \| 'manual'`              | `'automatic'`   | Keyboard activation behavior            |
-| `contentTransition` | `'none' \| 'fade' \| 'slide'`          | `'fade'`        | Panel transition animation              |
-| `fullWidth`         | `boolean`                              | `false`         | Distribute tabs to fill available width |
-| `fitContent`        | `boolean`                              | `true`          | Tabs occupy content width               |
-| `scrollable`        | `boolean`                              | `true`          | Allow horizontal overflow scrolling     |
-| `showIndicator`     | `boolean`                              | `true`          | Show active tab indicator               |
-| `disabled`          | `boolean`                              | `false`         | Disable all tabs                        |
-| `ariaLabel`         | `string \| undefined`                  | —               | Accessible label for the tablist        |
-| `ariaLabelKey`      | `string \| undefined`                  | —               | Translation key for accessible label    |
+| Input               | Type                                     | Default        | Description                             |
+| ------------------- | ---------------------------------------- | -------------- | --------------------------------------- |
+| `value`             | `string \| number \| undefined`          | —              | Active tab value (two-way binding)      |
+| `defaultValue`      | `string \| number \| undefined`          | —              | Initial value when value is not set     |
+| `orientation`       | `'horizontal' \| 'vertical'`             | `'horizontal'` | Layout orientation                      |
+| `appearance`        | `'underline' \| 'pills' \| 'enclosed'`   | `'underline'`  | Visual style                            |
+| `size`              | `'sm' \| 'md' \| 'lg'`                   | `'md'`         | Tab size                                |
+| `density`           | `'compact' \| 'normal' \| 'comfortable'` | `'normal'`     | Spacing density                         |
+| `activationMode`    | `'automatic' \| 'manual'`                | `'automatic'`  | Keyboard activation behavior            |
+| `contentTransition` | `'none' \| 'fade' \| 'slide'`            | `'fade'`       | Panel transition animation              |
+| `fullWidth`         | `boolean`                                | `false`        | Distribute tabs to fill available width |
+| `fitContent`        | `boolean`                                | `true`         | Tabs occupy content width               |
+| `scrollable`        | `boolean`                                | `true`         | Allow horizontal overflow scrolling     |
+| `showIndicator`     | `boolean`                                | `true`         | Show active tab indicator               |
+| `disabled`          | `boolean`                                | `false`        | Disable all tabs                        |
+| `ariaLabel`         | `string \| undefined`                    | —              | Accessible label for the tablist        |
+| `ariaLabelKey`      | `string \| undefined`                    | —              | Translation key for accessible label    |
 
 | Output        | Type                            | Description                             |
 | ------------- | ------------------------------- | --------------------------------------- |

@@ -4,7 +4,7 @@ export type SolarisStepperAppearance = 'default' | 'card' | 'dashed';
 
 export type SolarisStepperSize = 'sm' | 'md' | 'lg';
 
-export type SolarisStepperDensity = 'compact' | 'comfortable';
+export type SolarisStepperDensity = 'compact' | 'normal' | 'comfortable';
 
 export type SolarisStepperStatus =
   | 'pending'

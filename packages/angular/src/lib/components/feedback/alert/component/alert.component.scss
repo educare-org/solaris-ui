@@ -163,6 +163,14 @@
   --solaris-alert-close-size: var(--solaris-density-min-height);
 }
 
+:host([data-density='normal']) {
+  --solaris-alert-gap: var(--solaris-density-gap-md);
+  --solaris-alert-padding: var(--solaris-density-padding-md);
+  --solaris-alert-content-gap: var(--solaris-density-gap-md);
+  --solaris-alert-actions-gap: var(--solaris-density-gap-md);
+  --solaris-alert-close-size: var(--solaris-density-min-height);
+}
+
 :host([data-density='comfortable']) {
   --solaris-alert-gap: var(--solaris-density-gap-md);
   --solaris-alert-padding: var(--solaris-density-padding-lg);

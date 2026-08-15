@@ -43,6 +43,8 @@ export const EN_US_INPUT: Record<string, string> = {
   'input.placeholder.large': 'Large',
   'input.label.compact': 'Compact',
   'input.placeholder.compact': 'Compact',
+  'input.label.normal': 'Normal',
+  'input.placeholder.normal': 'Normal',
   'input.label.comfortable': 'Comfortable',
   'input.placeholder.comfortable': 'Comfortable',
   'input.label.radius-none': 'None',

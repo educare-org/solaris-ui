@@ -51,7 +51,7 @@ Alert is a **highly relevant contextual message**. It alters the user's percepti
 | variant       | `'neutral' \| 'info' \| 'success' \| 'warning' \| 'danger' \| 'custom'` | `'info'`    | Semantic variant              |
 | appearance    | `'tonal' \| 'outline' \| 'surface' \| 'solid'`                          | `'tonal'`   | Visual appearance             |
 | radius        | `'sm' \| 'md' \| 'lg' \| 'xl'`                                          | `'md'`      | Border radius                 |
-| density       | `'compact' \| 'comfortable' \| undefined`                               | `undefined` | Spacing density               |
+| density       | `'compact' \| 'normal' \| 'comfortable' \| undefined`                   | `undefined` | Spacing density               |
 | closable      | `boolean`                                                               | `false`     | Shows close button            |
 | live          | `'off' \| 'polite' \| 'assertive'`                                      | `'off'`     | Live region setting           |
 | showIcon      | `boolean`                                                               | `true`      | Shows variant icon            |

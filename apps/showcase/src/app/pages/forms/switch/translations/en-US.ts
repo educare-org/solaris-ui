@@ -21,6 +21,7 @@ export const EN_US_SWITCH: Record<string, string> = {
   'switch.large': 'Large',
   'switch.density': 'Density',
   'switch.compact': 'Compact',
+  'switch.normal': 'Normal',
   'switch.comfortable': 'Comfortable',
   'switch.states': 'States',
   'switch.disabled-unchecked': 'Disabled unchecked',

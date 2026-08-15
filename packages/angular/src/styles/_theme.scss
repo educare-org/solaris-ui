@@ -26,7 +26,7 @@
 
 $-default-config: (
   color-scheme: system,
-  density: comfortable,
+  density: normal,
   radius: md,
   motion: auto,
 );
@@ -50,8 +50,10 @@ $-default-config: (
 
     @if $density == compact {
       --solaris-density-default: compact;
-    } @else {
+    } @else if $density == comfortable {
       --solaris-density-default: comfortable;
+    } @else {
+      --solaris-density-default: normal;
     }
 
     @if $radius ==

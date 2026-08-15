@@ -13,4 +13,4 @@ export type SolarisCheckboxSize = 'sm' | 'md' | 'lg';
 
 export type SolarisCheckboxRadius = 'sm' | 'md' | 'lg' | 'full';
 
-export type SolarisCheckboxDensity = 'compact' | 'comfortable';
+export type SolarisCheckboxDensity = 'compact' | 'normal' | 'comfortable';

@@ -60,10 +60,10 @@ Dropdown Menu displays a list of actions or commands in an overlay triggered by 
 
 ### Dropdown Menu (`<solaris-dropdown-menu>`)
 
-| Input     | Type                         | Default         | Description  |
-| --------- | ---------------------------- | --------------- | ------------ |
-| `size`    | `'sm' \| 'md' \| 'lg'`       | `'md'`          | Menu size    |
-| `density` | `'compact' \| 'comfortable'` | `'comfortable'` | Menu density |
+| Input     | Type                                     | Default    | Description  |
+| --------- | ---------------------------------------- | ---------- | ------------ |
+| `size`    | `'sm' \| 'md' \| 'lg'`                   | `'md'`     | Menu size    |
+| `density` | `'compact' \| 'normal' \| 'comfortable'` | `'normal'` | Menu density |
 
 ### Menu Item (`<solaris-dropdown-menu-item>`)
 

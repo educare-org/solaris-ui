@@ -27,6 +27,7 @@ import type {
 } from '../model/button.types';
 
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisSpinnerComponent } from '../../../feedback/spinner';
 
 @Directive({
@@ -37,7 +38,7 @@ import { SolarisSpinnerComponent } from '../../../feedback/spinner';
     '[attr.data-color]': 'color()',
     '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'radius()',
-    '[attr.data-density]': 'density()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-loading]': 'loading() ? "" : null',
     '[attr.data-full-width]': 'fullWidth() ? "" : null',
     '[attr.aria-busy]': 'loading() ? "true" : null',
@@ -62,6 +63,12 @@ export class SolarisButtonDirective {
   protected readonly isEffectivelyDisabled = computed(
     () => this.disabled() || this.loading(),
   );
+
+  protected readonly themeService = inject(SolarisThemeService);
+
+  protected readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly translate = inject(SolarisTranslateService, {

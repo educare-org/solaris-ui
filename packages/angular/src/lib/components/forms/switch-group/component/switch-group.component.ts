@@ -20,6 +20,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisSwitchComponent } from '../../switch';
 import { resolveElementId } from '../../../../core';
 
@@ -137,9 +138,11 @@ export class SolarisSwitchGroupComponent
 
   protected readonly columnsStr = computed(() => String(this.columns()));
 
+  protected readonly themeService = inject(SolarisThemeService);
+
   protected readonly effectiveDensity = computed<SolarisSwitchGroupDensity>(
     () => {
-      return this.density() ?? 'comfortable';
+      return this.density() ?? this.themeService.density;
     },
   );
 

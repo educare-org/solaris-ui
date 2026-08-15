@@ -39,7 +39,7 @@ This means:
 | `appearance`   | `'surface' \| 'outline' \| 'tonal' \| 'glass'` | `'surface'` | Visual appearance                |
 | `radius`       | `'none' \| 'sm' \| 'lg' \| 'xl'`               | `'lg'`      | Border radius                    |
 | `size`         | `'sm' \| 'md' \| 'lg'`                         | `'md'`      | Internal section gap and padding |
-| `density`      | `'compact' \| 'comfortable'`                   | inherited   | Density variant                  |
+| `density`      | `'compact' \| 'normal' \| 'comfortable'`       | inherited   | Density variant                  |
 | `glassTexture` | `'none' \| 'grooves'`                          | `'none'`    | Decorative texture (glass only)  |
 
 ## Wrappers

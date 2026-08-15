@@ -1,4 +1,12 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  input,
+  computed,
+  inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+
+import { SolarisThemeService } from '../../../../services/theme';
 
 import type {
   SolarisCardAppearance,
@@ -18,7 +26,7 @@ import type {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'radius()',
-    '[attr.data-density]': 'density()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-glass-texture]':
       'appearance() === "glass" && glassTexture() !== "none" ? glassTexture() : null',
   },
@@ -29,4 +37,10 @@ export class SolarisCardComponent {
   readonly size = input<SolarisCardSize>('md');
   readonly density = input<SolarisCardDensity>();
   readonly glassTexture = input<SolarisCardGlassTexture>('none');
+
+  protected readonly themeService = inject(SolarisThemeService);
+
+  protected readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
+  });
 }

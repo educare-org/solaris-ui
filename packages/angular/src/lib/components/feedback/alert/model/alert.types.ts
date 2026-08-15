@@ -10,6 +10,6 @@ export type SolarisAlertAppearance = 'tonal' | 'outline' | 'surface' | 'solid';
 
 export type SolarisAlertRadius = 'sm' | 'md' | 'lg' | 'xl';
 
-export type SolarisAlertDensity = 'compact' | 'comfortable';
+export type SolarisAlertDensity = 'compact' | 'normal' | 'comfortable';
 
 export type SolarisAlertLive = 'off' | 'polite' | 'assertive';

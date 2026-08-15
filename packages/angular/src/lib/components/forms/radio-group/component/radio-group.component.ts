@@ -20,6 +20,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { SOLARIS_RADIO_GROUP_NAME } from '../model/radio-group.token';
 import { SolarisRadioComponent } from '../../radio';
 import { resolveElementId } from '../../../../core';
@@ -150,9 +151,11 @@ export class SolarisRadioGroupComponent
 
   protected readonly columnsStr = computed(() => String(this.columns()));
 
+  protected readonly themeService = inject(SolarisThemeService);
+
   protected readonly effectiveDensity = computed<SolarisRadioGroupDensity>(
     () => {
-      return this.density() ?? 'comfortable';
+      return this.density() ?? this.themeService.density;
     },
   );
 

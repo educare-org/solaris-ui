@@ -86,6 +86,12 @@
   );
 }
 
+:host([data-density='normal']) {
+  --solaris-badge-gap: var(--solaris-density-gap-sm);
+  --solaris-badge-padding-y: var(--solaris-spacing-1);
+  --solaris-badge-min-height: var(--solaris-spacing-5);
+}
+
 :host([data-density='comfortable']) {
   --solaris-badge-gap: var(--solaris-density-gap-md);
   --solaris-badge-min-height: var(--solaris-spacing-6);

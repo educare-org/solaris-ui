@@ -12,7 +12,7 @@ describe('SolarisThemeService', () => {
     const service = TestBed.inject(SolarisThemeService);
 
     expect(service.colorScheme).toBe('system');
-    expect(service.density).toBe('comfortable');
+    expect(service.density).toBe('normal');
     expect(service.reducedMotion).toBe('auto');
   });
 
@@ -56,7 +56,7 @@ describe('SolarisThemeService', () => {
     const service = TestBed.inject(SolarisThemeService);
 
     expect(service.colorScheme).toBe('system');
-    expect(service.density).toBe('comfortable');
+    expect(service.density).toBe('normal');
     expect(service.reducedMotion).toBe('auto');
   });
 });

@@ -371,6 +371,15 @@ describe('SolarisButtonDirective', () => {
       const el = fixture.nativeElement.querySelector('[solaris-button]');
       expect(el.getAttribute('data-density')).toBe('comfortable');
     });
+
+    it('should support density normal', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.density = 'normal';
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-button]');
+      expect(el.getAttribute('data-density')).toBe('normal');
+    });
   });
 
   describe('fullWidth', () => {

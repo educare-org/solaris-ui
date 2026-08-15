@@ -150,11 +150,21 @@ input[solaris-input][data-size='lg'] {
 input[solaris-input][data-density='compact'] {
   --solaris-input-height: var(--solaris-density-min-height);
   --solaris-input-line-height: var(--solaris-line-height-sm);
+  --solaris-input-font-size: var(--solaris-density-font-size);
+  --solaris-input-padding-y: var(--solaris-density-padding-xs);
+}
+
+input[solaris-input][data-density='normal'] {
+  --solaris-input-height: var(--solaris-density-min-height);
+  --solaris-input-line-height: var(--solaris-line-height-sm);
+  --solaris-input-font-size: var(--solaris-density-font-size);
   --solaris-input-padding-y: var(--solaris-density-padding-xs);
 }
 
 input[solaris-input][data-density='comfortable'] {
+  --solaris-input-height: var(--solaris-density-min-height);
   --solaris-input-line-height: var(--solaris-line-height-md);
+  --solaris-input-font-size: var(--solaris-density-font-size);
   --solaris-input-padding-y: var(--solaris-density-padding-sm);
 }
 
@@ -233,6 +243,11 @@ solaris-form-field input[solaris-input][readonly] {
 }
 
 solaris-form-field input[solaris-input][data-density='compact'] {
+  padding-top: var(--solaris-density-padding-xs);
+  padding-bottom: var(--solaris-density-padding-xs);
+}
+
+solaris-form-field input[solaris-input][data-density='normal'] {
   padding-top: var(--solaris-density-padding-xs);
   padding-bottom: var(--solaris-density-padding-xs);
 }

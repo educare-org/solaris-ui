@@ -11,4 +11,4 @@ export type SolarisRadioColor =
 
 export type SolarisRadioSize = 'sm' | 'md' | 'lg';
 
-export type SolarisRadioDensity = 'compact' | 'comfortable';
+export type SolarisRadioDensity = 'compact' | 'normal' | 'comfortable';

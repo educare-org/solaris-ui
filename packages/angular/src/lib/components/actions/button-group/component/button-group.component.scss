@@ -98,12 +98,20 @@
   --solaris-button-group-gap: var(--solaris-spacing-1);
 }
 
+:host(:not([data-attached])[data-density='normal']) {
+  --solaris-button-group-gap: var(--solaris-spacing-2);
+}
+
 :host(:not([data-attached])[data-density='comfortable']) {
   --solaris-button-group-gap: var(--solaris-spacing-3);
 }
 
 :host([data-density='compact']) {
   --solaris-button-group-gap: var(--solaris-spacing-1);
+}
+
+:host([data-density='normal']) {
+  --solaris-button-group-gap: var(--solaris-spacing-2);
 }
 
 :host([data-density='comfortable']) {

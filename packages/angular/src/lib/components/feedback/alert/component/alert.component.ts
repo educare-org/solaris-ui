@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisIconComponent } from '../../../icon';
 
 import type {
@@ -30,7 +31,7 @@ import type {
     '[attr.data-variant]': 'variant()',
     '[attr.aria-live]': 'ariaLive()',
     '[attr.data-radius]': 'radius()',
-    '[attr.data-density]': 'density()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-closable]': 'closable() ? "" : null',
     '[attr.data-has-title]': 'hasTitle() ? "" : null',
@@ -38,6 +39,7 @@ import type {
 })
 export class SolarisAlertComponent {
   private readonly translateService = inject(SolarisTranslateService);
+  protected readonly themeService = inject(SolarisThemeService);
 
   readonly appearance = input<SolarisAlertAppearance>('tonal');
   readonly variant = input<SolarisAlertVariant>('info');
@@ -52,6 +54,10 @@ export class SolarisAlertComponent {
   readonly icon = input<string>();
 
   readonly dismissed = output<void>();
+
+  protected readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   protected readonly iconName = computed<string>(() => {
     const custom = this.icon();

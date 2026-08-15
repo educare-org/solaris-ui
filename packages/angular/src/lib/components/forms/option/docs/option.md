@@ -42,22 +42,22 @@ Select controls choice. Option represents a choice.
 
 ### Inputs
 
-| Input                    | Type                               | Default        | Description                                                 |
-| ------------------------ | ---------------------------------- | -------------- | ----------------------------------------------------------- |
-| `value`                  | `unknown`                          | —              | The value this option represents                            |
-| `label`                  | `string`                           | —              | Direct label text                                           |
-| `labelKey`               | `string`                           | —              | i18n key for label                                          |
-| `description`            | `string`                           | —              | Direct description text                                     |
-| `descriptionKey`         | `string`                           | —              | i18n key for description                                    |
-| `disabled`               | `boolean`                          | `false`        | Disables the option                                         |
-| `selected`               | `boolean`                          | `false`        | Marks the option as selected                                |
-| `active`                 | `boolean`                          | `false`        | Highlights the option as active (e.g., keyboard navigation) |
-| `highlighted`            | `boolean`                          | `false`        | Contextual highlight (e.g., search match)                   |
-| `selectionMode`          | `'none' \| 'single' \| 'multiple'` | `'none'`       | Visual selection mode                                       |
-| `showSelectionIndicator` | `boolean`                          | `false`        | Shows visual selection indicator                            |
-| `size`                   | `'sm' \| 'md' \| 'lg'`             | `'md'`         | Size variant                                                |
-| `density`                | `'compact' \| 'comfortable'`       | inherited      | Density variant                                             |
-| `id`                     | `string`                           | auto-generated | Element ID                                                  |
+| Input                    | Type                                     | Default        | Description                                                 |
+| ------------------------ | ---------------------------------------- | -------------- | ----------------------------------------------------------- |
+| `value`                  | `unknown`                                | —              | The value this option represents                            |
+| `label`                  | `string`                                 | —              | Direct label text                                           |
+| `labelKey`               | `string`                                 | —              | i18n key for label                                          |
+| `description`            | `string`                                 | —              | Direct description text                                     |
+| `descriptionKey`         | `string`                                 | —              | i18n key for description                                    |
+| `disabled`               | `boolean`                                | `false`        | Disables the option                                         |
+| `selected`               | `boolean`                                | `false`        | Marks the option as selected                                |
+| `active`                 | `boolean`                                | `false`        | Highlights the option as active (e.g., keyboard navigation) |
+| `highlighted`            | `boolean`                                | `false`        | Contextual highlight (e.g., search match)                   |
+| `selectionMode`          | `'none' \| 'single' \| 'multiple'`       | `'none'`       | Visual selection mode                                       |
+| `showSelectionIndicator` | `boolean`                                | `false`        | Shows visual selection indicator                            |
+| `size`                   | `'sm' \| 'md' \| 'lg'`                   | `'md'`         | Size variant                                                |
+| `density`                | `'compact' \| 'normal' \| 'comfortable'` | inherited      | Density variant                                             |
+| `id`                     | `string`                                 | auto-generated | Element ID                                                  |
 
 ### Outputs
 
@@ -140,7 +140,7 @@ Disabled options have reduced opacity and `aria-disabled="true"`. They are not i
 ## Size and Density
 
 - `size`: `sm` (2rem min-height), `md` (2.5rem), `lg` (3rem)
-- `density`: `compact` (tight), `comfortable` (spacious)
+- `density`: `compact` (tight), `normal` (default), `comfortable` (spacious)
 
 Parent components can control these for all child options.
 

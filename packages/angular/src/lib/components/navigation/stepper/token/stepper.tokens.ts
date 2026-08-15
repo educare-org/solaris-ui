@@ -14,7 +14,7 @@ export interface SolarisStepperControl {
   appearance: () => SolarisStepperAppearance;
   linear: () => boolean;
   size: () => SolarisStepperSize;
-  density: () => SolarisStepperDensity;
+  effectiveDensity: () => SolarisStepperDensity;
   goToStep: (index: number) => void;
 }
 

@@ -24,6 +24,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisSegmentedItemComponent } from '../item/segmented-item.component';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { nextIdFor } from '../../../../core';
 
 import {
@@ -52,7 +53,7 @@ import type {
     role: 'radiogroup',
     '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'radius()',
-    '[attr.data-density]': 'density()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-orientation]': 'orientation()',
     '[attr.data-invalid]': 'invalid() || undefined',
@@ -90,6 +91,7 @@ export class SolarisSegmentedControlComponent
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
+  protected readonly themeService = inject(SolarisThemeService);
   private readonly elementRef = inject(ElementRef);
   private readonly injector = inject(Injector);
   private readonly ngZone = inject(NgZone);
@@ -112,7 +114,7 @@ export class SolarisSegmentedControlComponent
   readonly size = input<SolarisSegmentedControlSize>('md');
   readonly radius = input<SolarisSegmentedControlRadius>('md');
   readonly compareWith = input<(a: unknown, b: unknown) => boolean>(Object.is);
-  readonly density = input<SolarisSegmentedControlDensity>('comfortable');
+  readonly density = input<SolarisSegmentedControlDensity>();
   readonly appearance = input<SolarisSegmentedControlAppearance>('surface');
   readonly orientation =
     input<SolarisSegmentedControlOrientation>('horizontal');
@@ -136,6 +138,10 @@ export class SolarisSegmentedControlComponent
 
   protected readonly isEffectivelyDisabled = computed(() => {
     return this.disabled() || this.internalDisabled();
+  });
+
+  readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
   });
 
   protected readonly hasValue = computed(() => {

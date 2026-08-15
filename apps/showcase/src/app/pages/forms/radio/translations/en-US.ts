@@ -27,6 +27,7 @@ export const EN_US_RADIO: Record<string, string> = {
   'radio.invalid-unchecked': 'Invalid unchecked',
   'radio.density': 'Density',
   'radio.compact': 'Compact',
+  'radio.normal': 'Normal',
   'radio.comfortable': 'Comfortable',
   'radio.custom-color': 'Custom color',
   'radio.custom-note': 'Custom color via CSS variables.',

@@ -19,6 +19,7 @@ import { NgControl } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { resolveElementId } from '../../../../core';
+import { SolarisThemeService } from '../../../../services/theme';
 
 import type {
   SolarisTextareaAppearance,
@@ -75,8 +76,10 @@ export class SolarisTextareaDirective extends SolarisFormControl {
     return resolveElementId(this.elementRef, 'solaris-textarea');
   });
 
+  protected readonly themeService = inject(SolarisThemeService);
+
   protected readonly effectiveDensity = computed<SolarisTextareaDensity>(() => {
-    return this.density() ?? 'comfortable';
+    return this.density() ?? this.themeService.density;
   });
 
   protected readonly isEffectivelyInvalid = computed(() => {

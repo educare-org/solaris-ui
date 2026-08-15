@@ -6,8 +6,11 @@ import {
   computed,
   viewChild,
   TemplateRef,
+  inject,
   ChangeDetectionStrategy,
 } from '@angular/core';
+
+import { SolarisThemeService } from '../../../../services/theme';
 
 import {
   SOLARIS_DROPDOWN_NAVIGABLE_ITEM,
@@ -30,12 +33,18 @@ import { nextIdFor } from '../../../../core';
     '[id]': 'panelId',
     '[attr.role]': '"menu"',
     '[attr.data-size]': 'size()',
-    '[attr.data-density]': 'density()',
+    '[attr.data-density]': 'effectiveDensity()',
   },
 })
 export class SolarisDropdownMenuComponent {
   readonly size = input<SolarisDropdownMenuSize>('md');
-  readonly density = input<SolarisDropdownMenuDensity>('comfortable');
+  readonly density = input<SolarisDropdownMenuDensity>();
+
+  protected readonly themeService = inject(SolarisThemeService);
+
+  protected readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   readonly navigableItems = contentChildren<SolarisDropdownNavigableItem>(
     SOLARIS_DROPDOWN_NAVIGABLE_ITEM,

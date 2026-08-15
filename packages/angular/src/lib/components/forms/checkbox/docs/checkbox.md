@@ -31,7 +31,7 @@ Checkbox is a form control component that allows users to select or deselect an 
 | `appearance`    | `'outline' \| 'surface'`                                                             | `'outline'` | Visual appearance                       |
 | `color`         | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'` | Semantic color                          |
 | `size`          | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Size variant                            |
-| `density`       | `'compact' \| 'comfortable'`                                                         | inherited   | Density variant                         |
+| `density`       | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited   | Density variant                         |
 | `radius`        | `'none' \| 'sm' \| 'md' \| 'lg'`                                                     | `'sm'`      | Border radius of the control box        |
 | `label`         | `string`                                                                             | —           | Direct label text                       |
 | `labelKey`      | `string`                                                                             | —           | i18n key for label                      |

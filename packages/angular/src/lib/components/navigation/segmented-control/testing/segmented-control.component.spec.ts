@@ -71,8 +71,8 @@ describe('SolarisSegmentedControlComponent', () => {
       expect(hostElement.getAttribute('data-size')).toBe('md');
     });
 
-    it('has default density comfortable', () => {
-      expect(hostElement.getAttribute('data-density')).toBe('comfortable');
+    it('has default density normal', () => {
+      expect(hostElement.getAttribute('data-density')).toBe('normal');
     });
 
     it('has default radius md', () => {
@@ -597,6 +597,12 @@ describe('SolarisSegmentedControlComponent', () => {
       fixture.componentInstance.density.set('compact');
       fixture.detectChanges();
       expect(hostElement.getAttribute('data-density')).toBe('compact');
+    });
+
+    it('normal applies data-density normal', () => {
+      fixture.componentInstance.density.set('normal');
+      fixture.detectChanges();
+      expect(hostElement.getAttribute('data-density')).toBe('normal');
     });
 
     it('comfortable applies data-density comfortable', () => {

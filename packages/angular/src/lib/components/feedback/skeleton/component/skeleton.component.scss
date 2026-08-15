@@ -97,6 +97,19 @@
   --solaris-skeleton-height: var(--solaris-spacing-5);
 }
 
+:host([data-density='normal']) {
+  --solaris-skeleton-height: var(--solaris-spacing-2);
+}
+
+:host([data-density='normal'][data-variant='rectangular']) {
+  --solaris-skeleton-height: var(--solaris-spacing-16);
+}
+
+:host([data-density='normal'][data-variant='circular']) {
+  --solaris-skeleton-width: 32px;
+  --solaris-skeleton-height: 32px;
+}
+
 :host([data-density='comfortable']) {
   --solaris-skeleton-height: var(--solaris-spacing-3);
 }
