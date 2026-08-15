@@ -4,7 +4,7 @@ export { SolarisIconButtonBadgeDirective } from './directives/icon-button-badge.
 export type {
   SolarisIconButtonAppearance,
   SolarisIconButtonColor,
-  SolarisIconButtonSize,
   SolarisIconButtonRadius,
   SolarisIconButtonDensity,
+  SolarisIconButtonShape,
 } from './model/icon-button.types';

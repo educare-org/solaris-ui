@@ -23,6 +23,7 @@ import type {
   SolarisButtonColor,
   SolarisButtonRadius,
   SolarisButtonDensity,
+  SolarisButtonShape,
 } from '../model/button.types';
 
 import { SolarisTranslateService } from '../../../../services/translation';
@@ -37,6 +38,7 @@ import { SolarisSpinnerComponent } from '../../../feedback/spinner';
     '[attr.data-color]': 'color()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-shape]': 'shape()',
     '[attr.data-loading]': 'loading() ? "" : null',
     '[attr.data-full-width]': 'fullWidth() ? "" : null',
     '[attr.aria-busy]': 'loading() ? "true" : null',
@@ -51,6 +53,7 @@ export class SolarisButtonDirective {
   readonly color = input<SolarisButtonColor>('neutral');
   readonly radius = input<SolarisButtonRadius>('md');
   readonly density = input<SolarisButtonDensity>();
+  readonly shape = input<SolarisButtonShape>('normal');
   readonly loading = input<boolean>(false);
   readonly disabled = input<boolean>(false);
   readonly fullWidth = input<boolean>(false);

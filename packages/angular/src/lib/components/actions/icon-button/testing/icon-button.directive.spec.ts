@@ -6,9 +6,9 @@ import { SolarisIconButtonDirective } from '../directives/icon-button.directive'
 import type {
   SolarisIconButtonAppearance,
   SolarisIconButtonColor,
-  SolarisIconButtonSize,
   SolarisIconButtonRadius,
   SolarisIconButtonDensity,
+  SolarisIconButtonShape,
 } from '../model/icon-button.types';
 
 describe('SolarisIconButtonDirective', () => {
@@ -47,11 +47,6 @@ describe('SolarisIconButtonDirective', () => {
     it('should have default color neutral', () => {
       const el = createFixture();
       expect(el.getAttribute('data-color')).toBe('neutral');
-    });
-
-    it('should have default size md', () => {
-      const el = createFixture();
-      expect(el.getAttribute('data-size')).toBe('md');
     });
 
     it('should have default radius md', () => {
@@ -268,42 +263,33 @@ describe('SolarisIconButtonDirective', () => {
     });
   });
 
-  describe('size', () => {
+  describe('shape', () => {
     @Component({
       standalone: true,
       imports: [SolarisIconButtonDirective],
-      template: `<button solaris-icon-button [size]="size" aria-label="Test">
+      template: `<button solaris-icon-button [shape]="shape" aria-label="Test">
         Test
       </button>`,
     })
     class TestHost {
-      size: SolarisIconButtonSize = 'md';
+      shape: SolarisIconButtonShape = 'normal';
     }
 
-    it('should support size sm', () => {
+    it('should have default shape normal', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
-      fixture.componentInstance.size = 'sm';
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
-      expect(el.getAttribute('data-size')).toBe('sm');
+      expect(el.getAttribute('data-shape')).toBe('normal');
     });
 
-    it('should support size md', () => {
+    it('should support shape wide', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.shape = 'wide';
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
-      expect(el.getAttribute('data-size')).toBe('md');
-    });
-
-    it('should support size lg', () => {
-      TestBed.configureTestingModule({});
-      const fixture = TestBed.createComponent(TestHost);
-      fixture.componentInstance.size = 'lg';
-      fixture.detectChanges();
-      const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
-      expect(el.getAttribute('data-size')).toBe('lg');
+      expect(el.getAttribute('data-shape')).toBe('wide');
     });
   });
 

@@ -9,6 +9,7 @@ import type {
   SolarisButtonColor,
   SolarisButtonRadius,
   SolarisButtonDensity,
+  SolarisButtonShape,
 } from '../model/button.types';
 
 describe('SolarisButtonDirective', () => {
@@ -336,6 +337,34 @@ describe('SolarisButtonDirective', () => {
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-button]');
       expect(el.getAttribute('data-density')).toBe('normal');
+    });
+  });
+
+  describe('shape', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisButtonDirective],
+      template: `<button solaris-button [shape]="shape">Test</button>`,
+    })
+    class TestHost {
+      shape: SolarisButtonShape = 'normal';
+    }
+
+    it('should have default shape normal', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-button]');
+      expect(el.getAttribute('data-shape')).toBe('normal');
+    });
+
+    it('should support shape wide', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.shape = 'wide';
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-button]');
+      expect(el.getAttribute('data-shape')).toBe('wide');
     });
   });
 

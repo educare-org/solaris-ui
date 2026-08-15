@@ -51,3 +51,13 @@ now controls button height, padding, gap, min-width, icon size, and
 typography (`compact`/`normal`/`comfortable`). The `SolarisButtonSize` type
 was removed. The icon button (`solaris-icon-button`) keeps its own `size`
 input.
+
+### Removed `size` from `solaris-icon-button` and added `shape`
+
+The `size` input (`sm`/`md`/`lg`) was removed from `solaris-icon-button`.
+Density now controls icon button size and typography, matching
+`solaris-button`. The `SolarisIconButtonSize` type was removed.
+
+Both `solaris-button` and `solaris-icon-button` now expose a `shape` input
+(`'normal' | 'wide'`). `shape="wide"` renders a horizontally elongated
+button (wider than tall) by increasing horizontal padding and minimum width.

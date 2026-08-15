@@ -5,6 +5,7 @@ export const PT_BR_BUTTON: Record<string, string> = {
   'button.colors': 'Cores',
   'button.radius': 'Arredondamento',
   'button.density': 'Densidade',
+  'button.shape': 'Formato',
   'button.states': 'Estados',
   'button.states-default': 'Estados Padrão',
   'button.states-toggle': 'Interativo',

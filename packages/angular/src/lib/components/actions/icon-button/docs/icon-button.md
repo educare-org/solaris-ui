@@ -47,9 +47,9 @@ Selector: `[solaris-icon-button]`
 | -------------- | ------------------------------------------------------------------------------------ | ----------- | ---------------------------- |
 | `appearance`   | `'solid' \| 'outline' \| 'ghost' \| 'tonal' \| 'surface'`                            | `'solid'`   | Visual style                 |
 | `color`        | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'` | Semantic color               |
-| `size`         | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Button size                  |
 | `radius`       | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                           | `'md'`      | Border radius                |
 | `density`      | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited   | Spacing density              |
+| `shape`        | `'normal' \| 'wide'`                                                                 | `'normal'`  | Button shape                 |
 | `loading`      | `boolean`                                                                            | `false`     | Loading state                |
 | `disabled`     | `boolean`                                                                            | `false`     | Disabled state               |
 | `ariaLabel`    | `string \| undefined`                                                                | —           | Accessible name input        |
@@ -87,15 +87,12 @@ Default: `solid`
 
 Default: `neutral`
 
-## Sizes
+## Shape
 
-| Size | Width/Height |
-| ---- | ------------ |
-| `sm` | 2rem         |
-| `md` | 2.5rem       |
-| `lg` | 3rem         |
-
-Default: `md`
+| Shape    | Description                                  |
+| -------- | -------------------------------------------- |
+| `normal` | Square icon button (width = height). Default |
+| `wide`   | Horizontally padded icon button              |
 
 ## Radius
 
@@ -287,14 +284,11 @@ The following CSS variables can be customized:
   <solaris-icon name="success" decorative="true" />
 </button>
 
-<!-- Sizes -->
-<button solaris-icon-button size="sm" aria-label="Settings">
+<!-- Shape -->
+<button solaris-icon-button aria-label="Settings">
   <solaris-icon name="gear" decorative="true" />
 </button>
-<button solaris-icon-button size="md" aria-label="Settings">
-  <solaris-icon name="gear" decorative="true" />
-</button>
-<button solaris-icon-button size="lg" color="primary" aria-label="Settings">
+<button solaris-icon-button shape="wide" color="primary" aria-label="Settings">
   <solaris-icon name="gear" decorative="true" />
 </button>
 

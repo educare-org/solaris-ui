@@ -15,9 +15,9 @@ import { SolarisThemeService } from '../../../../services/theme';
 import type {
   SolarisIconButtonAppearance,
   SolarisIconButtonColor,
-  SolarisIconButtonSize,
   SolarisIconButtonRadius,
   SolarisIconButtonDensity,
+  SolarisIconButtonShape,
 } from '../model/icon-button.types';
 
 @Directive({
@@ -26,9 +26,9 @@ import type {
   host: {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',
-    '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-shape]': 'shape()',
     '[attr.data-loading]': 'loading() ? "" : null',
     '[attr.aria-busy]': 'loading() ? "true" : null',
     '[attr.aria-disabled]': 'isEffectivelyDisabled() ? "true" : null',
@@ -40,8 +40,8 @@ export class SolarisIconButtonDirective {
   readonly appearance = input<SolarisIconButtonAppearance>('solid');
   readonly color = input<SolarisIconButtonColor>('neutral');
   readonly radius = input<SolarisIconButtonRadius>('md');
-  readonly size = input<SolarisIconButtonSize>('md');
   readonly density = input<SolarisIconButtonDensity>();
+  readonly shape = input<SolarisIconButtonShape>('normal');
   readonly ariaLabelKey = input<string | undefined>();
   readonly ariaLabel = input<string | undefined>();
   readonly disabled = input<boolean>(false);

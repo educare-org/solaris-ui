@@ -49,17 +49,18 @@ Not:
 
 ### Inputs
 
-| Input             | Type                      | Default                 | Description                           |
-| ----------------- | ------------------------- | ----------------------- | ------------------------------------- |
-| `appearance`      | `SolarisButtonAppearance` | `'solid'`               | Visual style                          |
-| `color`           | `SolarisButtonColor`      | `'neutral'`             | Semantic color                        |
-| `radius`          | `SolarisButtonRadius`     | `'md'`                  | Border radius                         |
-| `density`         | `SolarisButtonDensity`    | inherited or `'normal'` | Height, padding, and typography scale |
-| `loading`         | `boolean`                 | `false`                 | Loading state                         |
-| `disabled`        | `boolean`                 | `false`                 | Disabled state                        |
-| `fullWidth`       | `boolean`                 | `false`                 | Full width                            |
-| `loadingLabel`    | `string`                  | —                       | Accessible label during loading       |
-| `loadingLabelKey` | `string`                  | —                       | i18n key for loading label            |
+| Input             | Type                      | Default                 | Description                             |
+| ----------------- | ------------------------- | ----------------------- | --------------------------------------- |
+| `appearance`      | `SolarisButtonAppearance` | `'solid'`               | Visual style                            |
+| `color`           | `SolarisButtonColor`      | `'neutral'`             | Semantic color                          |
+| `radius`          | `SolarisButtonRadius`     | `'md'`                  | Border radius                           |
+| `density`         | `SolarisButtonDensity`    | inherited or `'normal'` | Height, padding, and typography scale   |
+| `shape`           | `SolarisButtonShape`      | `'normal'`              | Button proportions (`normal` \| `wide`) |
+| `loading`         | `boolean`                 | `false`                 | Loading state                           |
+| `disabled`        | `boolean`                 | `false`                 | Disabled state                          |
+| `fullWidth`       | `boolean`                 | `false`                 | Full width                              |
+| `loadingLabel`    | `string`                  | —                       | Accessible label during loading         |
+| `loadingLabelKey` | `string`                  | —                       | i18n key for loading label              |
 
 ### Types
 
@@ -68,6 +69,7 @@ type SolarisButtonAppearance = 'solid' | 'outline' | 'ghost' | 'tonal' | 'surfac
 type SolarisButtonColor = 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'custom';
 type SolarisButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
 type SolarisButtonDensity = 'compact' | 'normal' | 'comfortable';
+type SolarisButtonShape = 'normal' | 'wide';
 ```
 
 ## Appearances
@@ -134,15 +136,12 @@ Density is inherited from the theme when not explicitly set. Fallback is `normal
 | `lg`   | Token `--solaris-radius-lg` |
 | `full` | Pill shape                  |
 
-## Density
+## Shape
 
-| Density       | Effect                                       |
-| ------------- | -------------------------------------------- |
-| `compact`     | Reduced height, padding, gap, and typography |
-| `normal`      | Balanced height and spacing. Default         |
-| `comfortable` | Increased height, padding, and typography    |
-
-Density is inherited from the theme when not explicitly set. Fallback is `normal`.
+| Shape    | Description                                     |
+| -------- | ----------------------------------------------- |
+| `normal` | Standard button proportions. Default            |
+| `wide`   | Horizontally elongated button (wider than tall) |
 
 ## fullWidth
 

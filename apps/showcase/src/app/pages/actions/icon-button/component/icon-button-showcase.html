@@ -59,16 +59,18 @@
 
   <section class="icon-button-showcase__section">
     <h2 class="icon-button-showcase__section-title">
-      {{ 'icon-button.sizes' | translate }}
+      {{ 'icon-button.shape' | translate }}
     </h2>
     <div class="icon-button-showcase__row">
-      <button solaris-icon-button size="sm" color="primary" aria-label="Check">
+      <button solaris-icon-button color="primary" aria-label="Check">
         <solaris-icon name="check" [decorative]="true" />
       </button>
-      <button solaris-icon-button size="md" color="primary" aria-label="Check">
-        <solaris-icon name="check" [decorative]="true" />
-      </button>
-      <button solaris-icon-button size="lg" color="primary" aria-label="Check">
+      <button
+        solaris-icon-button
+        shape="wide"
+        color="primary"
+        aria-label="Check"
+      >
         <solaris-icon name="check" [decorative]="true" />
       </button>
     </div>

@@ -435,24 +435,6 @@
   );
 }
 
-[solaris-icon-button][data-size='sm'] {
-  --solaris-icon-button-size: var(--solaris-spacing-8);
-
-  font-size: var(--solaris-font-size-sm);
-}
-
-[solaris-icon-button][data-size='md'] {
-  --solaris-icon-button-size: var(--solaris-spacing-10);
-
-  font-size: var(--solaris-font-size-md);
-}
-
-[solaris-icon-button][data-size='lg'] {
-  --solaris-icon-button-size: var(--solaris-spacing-12);
-
-  font-size: var(--solaris-font-size-lg);
-}
-
 [solaris-icon-button][data-radius='none'] {
   --solaris-icon-button-radius: var(--solaris-radius-none);
 }
@@ -489,4 +471,8 @@
   --solaris-icon-button-size: var(--solaris-density-min-height);
 
   font-size: var(--solaris-density-font-size);
+}
+
+[solaris-icon-button][data-shape='wide'] {
+  padding-inline: var(--solaris-spacing-4);
 }

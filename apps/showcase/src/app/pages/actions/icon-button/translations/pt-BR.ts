@@ -4,7 +4,7 @@ export const PT_BR_ICON_BUTTON: Record<string, string> = {
     'Diretiva de atributo que transforma botões e links em botões de ação do Solaris representados apenas por ícone.',
   'icon-button.appearances': 'Aparências',
   'icon-button.colors': 'Cores',
-  'icon-button.sizes': 'Tamanhos',
+  'icon-button.shape': 'Formato',
   'icon-button.radius': 'Arredondamento',
   'icon-button.density': 'Densidade',
   'icon-button.states': 'Estados',

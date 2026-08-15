@@ -4,7 +4,7 @@ export const EN_US_ICON_BUTTON: Record<string, string> = {
     'Attribute directive that turns buttons and anchors into icon-only Solaris-themed action buttons.',
   'icon-button.appearances': 'Appearances',
   'icon-button.colors': 'Colors',
-  'icon-button.sizes': 'Sizes',
+  'icon-button.shape': 'Shape',
   'icon-button.radius': 'Radius',
   'icon-button.density': 'Density',
   'icon-button.states': 'States',

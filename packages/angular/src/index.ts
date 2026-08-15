@@ -95,6 +95,7 @@ export type {
   SolarisButtonColor,
   SolarisButtonRadius,
   SolarisButtonDensity,
+  SolarisButtonShape,
 } from './lib/components/actions/button/model/button.types';
 
 export { SolarisIconButtonDirective } from './lib/components/actions/icon-button/directives/icon-button.directive';
@@ -102,9 +103,9 @@ export { SolarisIconButtonBadgeDirective } from './lib/components/actions/icon-b
 export type {
   SolarisIconButtonAppearance,
   SolarisIconButtonColor,
-  SolarisIconButtonSize,
   SolarisIconButtonRadius,
   SolarisIconButtonDensity,
+  SolarisIconButtonShape,
 } from './lib/components/actions/icon-button/model/icon-button.types';
 
 export { SolarisButtonGroupComponent } from './lib/components/actions/button-group/component/button-group.component';

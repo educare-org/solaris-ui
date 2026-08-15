@@ -528,6 +528,11 @@
   --solaris-button-font-weight: var(--solaris-font-weight-semibold);
 }
 
+[solaris-button][data-shape='wide'] {
+  --solaris-button-padding-x: var(--solaris-spacing-6);
+  --solaris-button-min-width: var(--solaris-spacing-24);
+}
+
 [solaris-button][data-radius='none'] {
   --solaris-button-radius: var(--solaris-radius-none);
 }
