@@ -86,8 +86,8 @@
 }
 
 .icons-showcase__customizer-hex {
-  width: 96px;
-  flex-shrink: 0;
+  min-width: 0;
+  flex: 0 0 175px;
 }
 
 .icons-showcase__customizer-swatches {
@@ -113,12 +113,13 @@
 
 .icons-showcase__customizer-picker {
   padding: 0;
+  flex-shrink: 0;
   cursor: pointer;
   appearance: none;
   background: transparent;
   -webkit-appearance: none;
-  width: var(--solaris-spacing-12);
   height: var(--solaris-spacing-8);
+  width: var(--solaris-spacing-12);
   border-radius: var(--solaris-radius-md);
   border: 1px solid var(--solaris-border-default);
 

@@ -55,9 +55,7 @@ export class IconsShowcasePage {
   protected readonly categories = ICON_CATEGORIES;
 
   protected readonly query = signal('');
-  protected readonly selectedCategory = signal<string | number>(
-    this.allCategory,
-  );
+  protected selectedCategory = signal<string | number>(this.allCategory);
   protected readonly selectedIcon = signal<string | null>(null);
 
   protected readonly iconWidth = signal(24);

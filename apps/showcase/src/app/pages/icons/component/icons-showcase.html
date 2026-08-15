@@ -74,11 +74,6 @@
             (input)="onColorPicker($event)"
             aria-label="Icon color picker"
           />
-          @if (iconColor() === null) {
-          <span class="icons-showcase__customizer-value"
-            >{{ 'icons.color.inherit' | translate }}</span
-          >
-          } @else {
           <input
             size="sm"
             solaris-input
@@ -87,7 +82,6 @@
             (change)="onHexChange($event)"
             class="icons-showcase__customizer-hex"
           />
-          }
         </div>
       </div>
     </aside>
@@ -106,15 +100,15 @@
           <input
             type="search"
             solaris-input
+            (input)="onSearch($event)"
             [placeholder]="'icons.search-placeholder' | translate"
             [attr.aria-label]="'icons.search-placeholder' | translate"
-            (input)="onSearch($event)"
           />
         </solaris-form-field>
 
         <solaris-tabs
-          [(value)]="selectedCategory"
           appearance="pills"
+          [(value)]="selectedCategory"
           [ariaLabel]="'icons.categories' | translate"
         >
           <solaris-tab value="all" [labelKey]="'icons.category.all'">
