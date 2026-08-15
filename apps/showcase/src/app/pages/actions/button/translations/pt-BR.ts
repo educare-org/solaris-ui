@@ -3,7 +3,6 @@ export const PT_BR_BUTTON: Record<string, string> = {
     'Diretiva de atributo que transforma botões e links em botões tematizados do Solaris.',
   'button.appearances': 'Aparências',
   'button.colors': 'Cores',
-  'button.sizes': 'Tamanhos',
   'button.radius': 'Arredondamento',
   'button.density': 'Densidade',
   'button.states': 'Estados',

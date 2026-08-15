@@ -6,7 +6,7 @@ const meta: Meta<SolarisButtonDirective> = {
   title: 'Actions/Button',
   render: (args) => ({
     props: args,
-    template: `<button solaris-button [appearance]="appearance" [color]="color" [size]="size" [disabled]="disabled" [loading]="loading">Button</button>`,
+    template: `<button solaris-button [appearance]="appearance" [color]="color" [density]="density" [disabled]="disabled" [loading]="loading">Button</button>`,
   }),
   argTypes: {
     appearance: {
@@ -25,7 +25,10 @@ const meta: Meta<SolarisButtonDirective> = {
         'custom',
       ],
     },
-    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    density: {
+      control: 'select',
+      options: ['compact', 'normal', 'comfortable'],
+    },
     disabled: { control: 'boolean' },
     loading: { control: 'boolean' },
   },
@@ -35,26 +38,36 @@ export default meta;
 type Story = StoryObj<SolarisButtonDirective>;
 
 export const Solid: Story = {
-  args: { appearance: 'solid', color: 'primary', size: 'md' },
+  args: { appearance: 'solid', color: 'primary', density: 'normal' },
 };
 export const Outline: Story = {
-  args: { appearance: 'outline', color: 'primary', size: 'md' },
+  args: { appearance: 'outline', color: 'primary', density: 'normal' },
 };
 export const Ghost: Story = {
-  args: { appearance: 'ghost', color: 'primary', size: 'md' },
+  args: { appearance: 'ghost', color: 'primary', density: 'normal' },
 };
 export const Disabled: Story = {
-  args: { appearance: 'solid', color: 'primary', size: 'md', disabled: true },
+  args: {
+    appearance: 'solid',
+    color: 'primary',
+    density: 'normal',
+    disabled: true,
+  },
 };
 export const Loading: Story = {
-  args: { appearance: 'solid', color: 'primary', size: 'md', loading: true },
+  args: {
+    appearance: 'solid',
+    color: 'primary',
+    density: 'normal',
+    loading: true,
+  },
 };
-export const Small: Story = {
-  args: { appearance: 'solid', color: 'primary', size: 'sm' },
+export const Compact: Story = {
+  args: { appearance: 'solid', color: 'primary', density: 'compact' },
 };
-export const Large: Story = {
-  args: { appearance: 'solid', color: 'primary', size: 'lg' },
+export const Comfortable: Story = {
+  args: { appearance: 'solid', color: 'primary', density: 'comfortable' },
 };
 export const Danger: Story = {
-  args: { appearance: 'solid', color: 'danger', size: 'md' },
+  args: { appearance: 'solid', color: 'danger', density: 'normal' },
 };

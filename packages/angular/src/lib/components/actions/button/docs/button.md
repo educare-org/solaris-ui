@@ -49,25 +49,23 @@ Not:
 
 ### Inputs
 
-| Input             | Type                      | Default                 | Description                     |
-| ----------------- | ------------------------- | ----------------------- | ------------------------------- |
-| `appearance`      | `SolarisButtonAppearance` | `'solid'`               | Visual style                    |
-| `color`           | `SolarisButtonColor`      | `'neutral'`             | Semantic color                  |
-| `size`            | `SolarisButtonSize`       | `'md'`                  | Size variant                    |
-| `radius`          | `SolarisButtonRadius`     | `'md'`                  | Border radius                   |
-| `density`         | `SolarisButtonDensity`    | inherited or `'normal'` | Vertical density                |
-| `loading`         | `boolean`                 | `false`                 | Loading state                   |
-| `disabled`        | `boolean`                 | `false`                 | Disabled state                  |
-| `fullWidth`       | `boolean`                 | `false`                 | Full width                      |
-| `loadingLabel`    | `string`                  | —                       | Accessible label during loading |
-| `loadingLabelKey` | `string`                  | —                       | i18n key for loading label      |
+| Input             | Type                      | Default                 | Description                           |
+| ----------------- | ------------------------- | ----------------------- | ------------------------------------- |
+| `appearance`      | `SolarisButtonAppearance` | `'solid'`               | Visual style                          |
+| `color`           | `SolarisButtonColor`      | `'neutral'`             | Semantic color                        |
+| `radius`          | `SolarisButtonRadius`     | `'md'`                  | Border radius                         |
+| `density`         | `SolarisButtonDensity`    | inherited or `'normal'` | Height, padding, and typography scale |
+| `loading`         | `boolean`                 | `false`                 | Loading state                         |
+| `disabled`        | `boolean`                 | `false`                 | Disabled state                        |
+| `fullWidth`       | `boolean`                 | `false`                 | Full width                            |
+| `loadingLabel`    | `string`                  | —                       | Accessible label during loading       |
+| `loadingLabelKey` | `string`                  | —                       | i18n key for loading label            |
 
 ### Types
 
 ```typescript
 type SolarisButtonAppearance = 'solid' | 'outline' | 'ghost' | 'tonal' | 'surface';
 type SolarisButtonColor = 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'custom';
-type SolarisButtonSize = 'sm' | 'md' | 'lg';
 type SolarisButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
 type SolarisButtonDensity = 'compact' | 'normal' | 'comfortable';
 ```
@@ -116,13 +114,15 @@ Custom is not an arbitrary input. Use CSS variables:
 <button solaris-button color="custom" class="my-custom-button">Custom</button>
 ```
 
-## Sizes
+## Density
 
-| Size | Height | Usage           |
-| ---- | ------ | --------------- |
-| `sm` | 2rem   | Compact actions |
-| `md` | 2.5rem | Default         |
-| `lg` | 3rem   | CTA, main flow  |
+| Density       | Effect                                       |
+| ------------- | -------------------------------------------- |
+| `compact`     | Reduced height, padding, gap, and typography |
+| `normal`      | Balanced height and spacing. Default         |
+| `comfortable` | Increased height, padding, and typography    |
+
+Density is inherited from the theme when not explicitly set. Fallback is `normal`.
 
 ## Radius
 
@@ -136,10 +136,11 @@ Custom is not an arbitrary input. Use CSS variables:
 
 ## Density
 
-| Density       | Effect                           |
-| ------------- | -------------------------------- |
-| `compact`     | Reduced height, padding, and gap |
-| `comfortable` | More breathing room              |
+| Density       | Effect                                       |
+| ------------- | -------------------------------------------- |
+| `compact`     | Reduced height, padding, gap, and typography |
+| `normal`      | Balanced height and spacing. Default         |
+| `comfortable` | Increased height, padding, and typography    |
 
 Density is inherited from the theme when not explicitly set. Fallback is `normal`.
 

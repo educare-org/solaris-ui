@@ -21,7 +21,6 @@ import { isPlatformBrowser } from '@angular/common';
 import type {
   SolarisButtonAppearance,
   SolarisButtonColor,
-  SolarisButtonSize,
   SolarisButtonRadius,
   SolarisButtonDensity,
 } from '../model/button.types';
@@ -36,7 +35,6 @@ import { SolarisSpinnerComponent } from '../../../feedback/spinner';
   host: {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',
-    '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-loading]': 'loading() ? "" : null',
@@ -52,7 +50,6 @@ export class SolarisButtonDirective {
   readonly appearance = input<SolarisButtonAppearance>('solid');
   readonly color = input<SolarisButtonColor>('neutral');
   readonly radius = input<SolarisButtonRadius>('md');
-  readonly size = input<SolarisButtonSize>('md');
   readonly density = input<SolarisButtonDensity>();
   readonly loading = input<boolean>(false);
   readonly disabled = input<boolean>(false);

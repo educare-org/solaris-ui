@@ -93,7 +93,6 @@ export { SolarisButtonIconDirective } from './lib/components/actions/button/dire
 export type {
   SolarisButtonAppearance,
   SolarisButtonColor,
-  SolarisButtonSize,
   SolarisButtonRadius,
   SolarisButtonDensity,
 } from './lib/components/actions/button/model/button.types';

@@ -14,8 +14,6 @@ export type SolarisButtonColor =
   | 'info'
   | 'custom';
 
-export type SolarisButtonSize = 'sm' | 'md' | 'lg';
-
 export type SolarisButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
 
 export type SolarisButtonDensity = 'compact' | 'normal' | 'comfortable';

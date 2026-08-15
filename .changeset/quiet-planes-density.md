@@ -43,3 +43,11 @@ The `size` input (`sm`/`md`/`lg`) was removed from `solaris-tabs` and
 typography (`compact`/`normal`/`comfortable`), which is most visible in the
 `pills` appearance. The `SolarisTabsSize` and `SolarisEditableTabsSize` types
 were removed.
+
+### Removed `size` from `solaris-button`
+
+The `size` input (`sm`/`md`/`lg`) was removed from `solaris-button`. Density
+now controls button height, padding, gap, min-width, icon size, and
+typography (`compact`/`normal`/`comfortable`). The `SolarisButtonSize` type
+was removed. The icon button (`solaris-icon-button`) keeps its own `size`
+input.
