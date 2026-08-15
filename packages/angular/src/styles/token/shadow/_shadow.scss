@@ -1,40 +1,37 @@
 :root {
-  --solaris-shadow-xs: 0 1px 2px rgb(0 0 0 / 5%);
-  --solaris-shadow-sm: 0 1px 3px rgb(0 0 0 / 8%), 0 1px 2px rgb(0 0 0 / 4%);
-  --solaris-shadow-md: 0 4px 6px rgb(0 0 0 / 6%), 0 2px 4px rgb(0 0 0 / 4%);
-  --solaris-shadow-lg: 0 10px 15px rgb(0 0 0 / 8%), 0 4px 6px rgb(0 0 0 / 4%);
-  --solaris-shadow-xl: 0 20px 25px rgb(0 0 0 / 10%), 0 8px 10px rgb(0 0 0 / 4%);
-  --solaris-shadow-2xl: 0 25px 50px rgb(0 0 0 / 15%);
+  --solaris-shadow-xs: 0 1px 2px #0000000d;
+  --solaris-shadow-sm: 0 1px 3px #00000014, 0 1px 2px #0000000a;
+  --solaris-shadow-md: 0 4px 6px #0000000f, 0 2px 4px #0000000a;
+  --solaris-shadow-lg: 0 10px 15px #00000014, 0 4px 6px #0000000a;
+  --solaris-shadow-xl: 0 20px 25px #0000001a, 0 8px 10px #0000000a;
+  --solaris-shadow-2xl: 0 25px 50px #00000026;
 }
 
 [data-theme='dark'] {
-  --solaris-shadow-xs: 0 1px 2px rgb(0 0 0 / 30%);
-  --solaris-shadow-sm: 0 1px 3px rgb(0 0 0 / 35%), 0 1px 2px rgb(0 0 0 / 25%);
-  --solaris-shadow-md: 0 4px 6px rgb(0 0 0 / 35%), 0 2px 4px rgb(0 0 0 / 25%);
-  --solaris-shadow-lg: 0 10px 15px rgb(0 0 0 / 35%), 0 4px 6px rgb(0 0 0 / 25%);
-  --solaris-shadow-xl:
-    0 20px 25px rgb(0 0 0 / 40%), 0 8px 10px rgb(0 0 0 / 25%);
-  --solaris-shadow-2xl: 0 25px 50px rgb(0 0 0 / 50%);
+  --solaris-shadow-xs: 0 1px 2px #0000004d;
+  --solaris-shadow-sm: 0 1px 3px #00000059, 0 1px 2px #00000040;
+  --solaris-shadow-md: 0 4px 6px #00000059, 0 2px 4px #00000040;
+  --solaris-shadow-lg: 0 10px 15px #00000059, 0 4px 6px #00000040;
+  --solaris-shadow-xl: 0 20px 25px #00000066, 0 8px 10px #00000040;
+  --solaris-shadow-2xl: 0 25px 50px #00000080;
 }
 
 [data-theme='high-contrast'] {
-  --solaris-shadow-xs: 0 1px 2px rgb(0 0 0 / 50%);
-  --solaris-shadow-sm: 0 1px 3px rgb(0 0 0 / 50%);
-  --solaris-shadow-md: 0 4px 6px rgb(0 0 0 / 50%);
-  --solaris-shadow-lg: 0 10px 15px rgb(0 0 0 / 50%);
-  --solaris-shadow-xl: 0 20px 25px rgb(0 0 0 / 50%);
-  --solaris-shadow-2xl: 0 25px 50px rgb(0 0 0 / 50%);
+  --solaris-shadow-xs: 0 1px 2px #00000080;
+  --solaris-shadow-sm: 0 1px 3px #00000080;
+  --solaris-shadow-md: 0 4px 6px #00000080;
+  --solaris-shadow-lg: 0 10px 15px #00000080;
+  --solaris-shadow-xl: 0 20px 25px #00000080;
+  --solaris-shadow-2xl: 0 25px 50px #00000080;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --solaris-shadow-xs: 0 1px 2px rgb(0 0 0 / 30%);
-    --solaris-shadow-sm: 0 1px 3px rgb(0 0 0 / 35%), 0 1px 2px rgb(0 0 0 / 25%);
-    --solaris-shadow-md: 0 4px 6px rgb(0 0 0 / 35%), 0 2px 4px rgb(0 0 0 / 25%);
-    --solaris-shadow-lg:
-      0 10px 15px rgb(0 0 0 / 35%), 0 4px 6px rgb(0 0 0 / 25%);
-    --solaris-shadow-xl:
-      0 20px 25px rgb(0 0 0 / 40%), 0 8px 10px rgb(0 0 0 / 25%);
-    --solaris-shadow-2xl: 0 25px 50px rgb(0 0 0 / 50%);
+    --solaris-shadow-xs: 0 1px 2px #0000004d;
+    --solaris-shadow-sm: 0 1px 3px #00000059, 0 1px 2px #00000040;
+    --solaris-shadow-md: 0 4px 6px #00000059, 0 2px 4px #00000040;
+    --solaris-shadow-lg: 0 10px 15px #00000059, 0 4px 6px #00000040;
+    --solaris-shadow-xl: 0 20px 25px #00000066, 0 8px 10px #00000040;
+    --solaris-shadow-2xl: 0 25px 50px #00000080;
   }
 }

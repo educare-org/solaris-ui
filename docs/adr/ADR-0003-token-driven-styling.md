@@ -10,7 +10,7 @@ Components need a consistent visual language. Without a shared token system, eac
 
 ## Decision
 
-All visual properties MUST use CSS custom properties (design tokens) with the `--solaris-*` prefix. Raw values (hex colors, pixel lengths) are forbidden in component styles.
+All visual properties MUST use CSS custom properties (design tokens) with the `--solaris-*` prefix. Raw values (hex colors, rem lengths) are forbidden in component styles.
 
 Tokens are organized by category:
 

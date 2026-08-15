@@ -99,9 +99,9 @@ describe('SolarisSkeletonComponent', () => {
 
   it('should apply custom height', () => {
     const el = createFixture();
-    fixture.componentRef.setInput('height', '12rem');
+    fixture.componentRef.setInput('height', '192px');
     fixture.detectChanges();
-    expect(el.style.height).toBe('12rem');
+    expect(el.style.height).toBe('192px');
   });
 
   it('should have aria-hidden true by default', () => {
@@ -221,7 +221,7 @@ describe('SolarisSkeletonComponent composition', () => {
         <solaris-skeleton
           variant="rectangular"
           width="100%"
-          height="12rem"
+          height="192px"
         ></solaris-skeleton>
         <solaris-skeleton width="80%"></solaris-skeleton>
         <solaris-skeleton width="60%"></solaris-skeleton>

@@ -20,7 +20,7 @@ The following are not allowed without technical justification:
 
 - `any`;
 - unsafe non-null assertions;
-- raw pixel values in component styles;
+- raw values in component styles;
 - hardcoded internal user-facing text;
 - direct DOM access;
 - direct browser globals;

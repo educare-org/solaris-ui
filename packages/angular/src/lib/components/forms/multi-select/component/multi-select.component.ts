@@ -162,7 +162,7 @@ export class SolarisMultiSelectComponent
   readonly disabledInput = input(false, { alias: 'disabled' });
   readonly readonlyInput = input(false, { alias: 'readonly' });
   readonly requiredInput = input(false, { alias: 'required' });
-  readonly panelMaxHeight = input<string | number>('20rem');
+  readonly panelMaxHeight = input<string | number>('320px');
   readonly icon = input<string>();
   readonly displayWith = input<(value: unknown) => string | undefined>();
   readonly appearance = input<SolarisMultiSelectAppearance>('outline');

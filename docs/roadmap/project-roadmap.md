@@ -72,7 +72,7 @@ Create the design system foundation and first low-risk components.
 
 - Theme foundation.
 - Token foundation.
-- Root font-size strategy.
+- Unit strategy (px-based tokens).
 - Light theme.
 - Dark theme.
 - System theme mode.
@@ -240,7 +240,6 @@ Make Solaris safe and predictable to install in consuming applications.
 - `provideSolaris(...)` setup.
 - i18n default setup.
 - theme default setup.
-- root font-size setup.
 - no silent mutation during package install.
 - clear setup output messages.
 

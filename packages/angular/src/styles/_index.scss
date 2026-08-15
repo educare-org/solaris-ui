@@ -1,7 +1,8 @@
 /// Solaris UI — Design System Styles
 ///
 /// Public entry point for the Solaris design system SCSS API.
-/// All tokens use browser default font-size (1rem = 16px).
+/// All design tokens use px so rendering is deterministic regardless of the
+/// consumer's root font-size. Page zoom satisfies WCAG 1.4.4 (Resize Text).
 ///
 /// Usage:
 ///   @use '@solaris-ui/angular/styles' as solaris;

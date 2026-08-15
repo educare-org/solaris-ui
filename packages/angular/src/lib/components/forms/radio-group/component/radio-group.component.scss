@@ -54,7 +54,7 @@
 }
 
 :host([data-layout='grid'][data-columns='auto']) .solaris-radio-group__options {
-  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
 }
 
 :host([data-density='compact']) {

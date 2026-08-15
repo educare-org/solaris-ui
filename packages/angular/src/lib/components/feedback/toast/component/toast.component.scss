@@ -1,8 +1,8 @@
 :host {
   --solaris-toast-max-lines: 2;
-  --solaris-toast-width: 50rem;
+  --solaris-toast-width: 800px;
   --solaris-toast-border-width: 0;
-  --solaris-toast-max-width: 50rem;
+  --solaris-toast-max-width: 800px;
   --solaris-toast-border-color: transparent;
   --solaris-toast-gap: var(--solaris-spacing-3);
   --solaris-toast-radius: var(--solaris-radius-md);
@@ -424,7 +424,7 @@
 @keyframes solaris-toast-enter {
   from {
     opacity: 0;
-    transform: translateY(-1rem) scale(0.95);
+    transform: translateY(-16px) scale(0.95);
   }
   to {
     opacity: 1;

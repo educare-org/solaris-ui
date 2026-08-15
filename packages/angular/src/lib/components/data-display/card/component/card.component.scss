@@ -83,7 +83,7 @@
 }
 
 :host([data-appearance='glass'])::before {
-  // SOLARIS_TOKEN_EXCEPTION: glass ::before uses translucent rgba gradients for the frosted-glass effect.
+  // SOLARIS_TOKEN_EXCEPTION: glass ::before uses translucent color overlays for the frosted-glass effect.
   inset: 0;
   content: '';
   position: absolute;
@@ -91,9 +91,9 @@
   border-radius: inherit;
   z-index: var(--solaris-z-index-decorative);
   background:
-    radial-gradient(circle at 72% 58%, rgb(255 110 24 / 36%), transparent 34%),
-    radial-gradient(circle at 22% 16%, rgb(255 255 255 / 18%), transparent 30%),
-    linear-gradient(135deg, rgb(255 255 255 / 18%), transparent 42%); // SOLARIS_TOKEN_EXCEPTION: glass ::before gradient needs translucent rgba
+    radial-gradient(circle at 72% 58%, #ff6e185c, transparent 34%),
+    radial-gradient(circle at 22% 16%, #ffffff2e, transparent 30%),
+    linear-gradient(135deg, #ffffff2e, transparent 42%); // SOLARIS_TOKEN_EXCEPTION: glass ::before gradient needs translucent colors
 }
 
 :host([data-appearance='glass'][data-glass-texture='grooves'])::after {

@@ -2,16 +2,10 @@
   --solaris-glass-blur: 22px;
   --solaris-glass-backdrop-filter: blur(22px) saturate(150%) contrast(108%);
   --solaris-glass-texture-opacity: 0.18;
-  --solaris-glass-border-color: rgb(255 255 255 / 22%);
+  --solaris-glass-border-color: #ffffff38;
   --solaris-glass-shadow:
-    0 24px 80px rgb(0 0 0 / 38%), inset 0 1px 0 rgb(255 255 255 / 28%),
-    inset 0 -1px 0 rgb(255 255 255 / 6%);
+    0 24px 80px #00000061, inset 0 1px 0 #ffffff47, inset 0 -1px 0 #ffffff0f;
   --solaris-glass-background:
-    linear-gradient(
-      135deg,
-      rgb(255 255 255 / 24%) 0%,
-      rgb(255 255 255 / 10%) 34%,
-      rgb(255 255 255 / 4%) 100%
-    ),
-    rgb(24 20 18 / 34%);
+    linear-gradient(135deg, #ffffff3d 0%, #ffffff1a 34%, #ffffff0a 100%),
+    #18141257;
 }

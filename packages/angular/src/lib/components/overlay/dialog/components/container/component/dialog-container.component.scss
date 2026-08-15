@@ -1,6 +1,6 @@
 :host {
   --solaris-dialog-panel-padding: 0;
-  --solaris-dialog-panel-min-width: 28rem;
+  --solaris-dialog-panel-min-width: 448px;
   --solaris-dialog-backdrop-bg: var(--solaris-backdrop);
   --solaris-dialog-z-index: var(--solaris-z-index-modal);
   --solaris-dialog-panel-shadow: var(--solaris-shadow-lg);
@@ -75,19 +75,19 @@
 }
 
 :host([data-size='sm']) .solaris-dialog-panel {
-  width: 56rem;
+  width: 896px;
 }
 
 :host([data-size='md']) .solaris-dialog-panel {
-  width: 72rem;
+  width: 1152px;
 }
 
 :host([data-size='lg']) .solaris-dialog-panel {
-  width: 96rem;
+  width: 1536px;
 }
 
 :host([data-size='xl']) .solaris-dialog-panel {
-  width: 128rem;
+  width: 2048px;
 }
 
 :host([data-size='fullscreen']) .solaris-dialog-panel {

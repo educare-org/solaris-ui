@@ -20,7 +20,7 @@ function createDefaultData(
     appearance: 'outline',
     size: 'sm',
     radius: 'md',
-    maxWidth: '20rem',
+    maxWidth: '320px',
     arrow: false,
     arrowClass: '',
     closeable: false,

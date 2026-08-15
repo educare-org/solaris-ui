@@ -39,9 +39,8 @@ The setup generator should:
 6. Add `provideSolaris(...)` to application config when possible.
 7. Configure theme defaults.
 8. Configure i18n defaults.
-9. Configure root font-size strategy when selected.
-10. Avoid overwriting user changes silently.
-11. Print clear messages about every change.
+9. Avoid overwriting user changes silently.
+10. Print clear messages about every change.
 
 ## Recommended style setup file
 

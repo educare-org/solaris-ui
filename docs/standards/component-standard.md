@@ -167,10 +167,10 @@ Components must use:
 
 - CSS custom properties;
 - Solaris tokens;
-- rem-based values;
+- px-based values;
 - local component styles.
 
-Raw pixel values are forbidden unless technically justified.
+Raw values are forbidden unless technically justified.
 
 ## Required tests
 

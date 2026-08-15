@@ -192,7 +192,7 @@
 :host([data-control-type='textarea'][data-control-resize='horizontal'])
   .solaris-form-field__control-wrapper {
   width: 100%;
-  min-width: 8rem;
+  min-width: 128px;
   overflow: hidden;
   resize: horizontal;
 }
@@ -215,7 +215,7 @@
   .solaris-form-field__control-wrapper {
   width: 100%;
   resize: both;
-  min-width: 8rem;
+  min-width: 128px;
   overflow: hidden;
   align-items: stretch;
   min-height: var(--solaris-form-field-control-height);

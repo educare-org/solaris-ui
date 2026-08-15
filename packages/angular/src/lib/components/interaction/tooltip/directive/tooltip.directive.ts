@@ -186,7 +186,7 @@ export class SolarisTooltipDirective implements AfterViewInit {
     alias: 'solarisTooltipRadius',
   });
 
-  readonly solarisTooltipMaxWidth = input<string | number>('20rem', {
+  readonly solarisTooltipMaxWidth = input<string | number>('320px', {
     alias: 'solarisTooltipMaxWidth',
   });
 

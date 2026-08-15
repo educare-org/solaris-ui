@@ -307,12 +307,12 @@ describe('SolarisDividerComponent', () => {
     it('should set custom height on vertical', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
-      fixture.componentInstance.h = '10rem';
+      fixture.componentInstance.h = '160px';
       fixture.componentInstance.o = 'vertical';
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('solaris-divider');
       expect(el.style.getPropertyValue('--solaris-divider-height')).toBe(
-        '10rem',
+        '160px',
       );
     });
   });
