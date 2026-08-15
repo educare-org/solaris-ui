@@ -61,3 +61,12 @@ Density now controls icon button size and typography, matching
 Both `solaris-button` and `solaris-icon-button` now expose a `shape` input
 (`'normal' | 'wide'`). `shape="wide"` renders a horizontally elongated
 button (wider than tall) by increasing horizontal padding and minimum width.
+
+### Added `shape` to `solaris-tabs`
+
+`solaris-tabs` now exposes a `shape` input (`'normal' | 'wide'`).
+`shape="wide"` increases tab horizontal padding so tabs are elongated, most
+visible in the `pills` appearance. The elongation scales with density via
+`--solaris-density-padding-lg`, staying proportional in all modes.
+`solaris-editable-tabs` also exposes `shape` and forwards it to the inner
+tabs.

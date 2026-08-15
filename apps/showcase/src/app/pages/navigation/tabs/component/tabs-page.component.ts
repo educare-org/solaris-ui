@@ -16,6 +16,7 @@ import { VerticalTabsExample } from '../examples/vertical/component/vertical.com
 import { EnclosedTabsExample } from '../examples/enclosed/component/enclosed.component';
 import { PillsTabsExample } from '../examples/pills/component/pills.component';
 import { DensityTabsExample } from '../examples/density/component/density.component';
+import { ShapeTabsExample } from '../examples/shape/component/shape.component';
 import { BasicTabsExample } from '../examples/basic/component/basic.component';
 
 @Component({
@@ -29,6 +30,7 @@ import { BasicTabsExample } from '../examples/basic/component/basic.component';
     VerticalTabsExample,
     PillsTabsExample,
     DensityTabsExample,
+    ShapeTabsExample,
     EnclosedTabsExample,
     FullWidthTabsExample,
     ScrollableTabsExample,

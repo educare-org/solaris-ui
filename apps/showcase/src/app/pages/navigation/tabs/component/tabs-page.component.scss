@@ -39,7 +39,8 @@
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
 }
 
-.tabs-showcase__section app-density-tabs-example {
+.tabs-showcase__section app-density-tabs-example,
+.tabs-showcase__section app-shape-tabs-example {
   display: flex;
   flex-direction: column;
   gap: var(--solaris-spacing-1);

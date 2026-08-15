@@ -42,6 +42,7 @@ import type {
   SolarisEditableTabsOrientation,
   SolarisEditableTabsAppearance,
   SolarisEditableTabsDensity,
+  SolarisEditableTabsShape,
   SolarisEditableTabsActivationMode,
   SolarisEditableTabsContentTransition,
   SolarisEditableTabsShowActions,
@@ -70,6 +71,7 @@ import type {
     '[attr.data-orientation]': 'orientation()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-shape]': 'shape()',
     '[attr.data-show-actions]': 'showActions()',
   },
 })
@@ -85,6 +87,7 @@ export class SolarisEditableTabsComponent {
   readonly orientation = input<SolarisEditableTabsOrientation>('horizontal');
   readonly appearance = input<SolarisEditableTabsAppearance>('underline');
   readonly density = input<SolarisEditableTabsDensity>();
+  readonly shape = input<SolarisEditableTabsShape>('normal');
   readonly activationMode =
     input<SolarisEditableTabsActivationMode>('automatic');
   readonly contentTransition =

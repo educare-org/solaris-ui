@@ -107,6 +107,10 @@
   --solaris-tab-font-size: var(--solaris-font-size-md);
 }
 
+:host([data-shape='wide']) {
+  --solaris-tab-padding-x: calc(var(--solaris-density-padding-lg) * 2.5);
+}
+
 :host([data-appearance='underline']) {
   --solaris-tab-radius: 0;
 }

@@ -1,0 +1,29 @@
+<h3 class="tabs-showcase__subsection-title">
+  {{ 'tabs.shape-normal' | translate }}
+</h3>
+<solaris-tabs appearance="pills" [(value)]="normalTab">
+  <solaris-tab value="drafts" icon="file">
+    {{ 'tabs.example.pills.tab-drafts' | translate }}
+  </solaris-tab>
+  <solaris-tab value="active" icon="check">
+    {{ 'tabs.example.pills.tab-active' | translate }}
+  </solaris-tab>
+  <solaris-tab value="archived" icon="archives">
+    {{ 'tabs.example.pills.tab-archived' | translate }}
+  </solaris-tab>
+</solaris-tabs>
+
+<h3 class="tabs-showcase__subsection-title">
+  {{ 'tabs.shape-wide' | translate }}
+</h3>
+<solaris-tabs appearance="pills" shape="wide" [(value)]="wideTab">
+  <solaris-tab value="drafts" icon="file">
+    {{ 'tabs.example.pills.tab-drafts' | translate }}
+  </solaris-tab>
+  <solaris-tab value="active" icon="check">
+    {{ 'tabs.example.pills.tab-active' | translate }}
+  </solaris-tab>
+  <solaris-tab value="archived" icon="archives">
+    {{ 'tabs.example.pills.tab-archived' | translate }}
+  </solaris-tab>
+</solaris-tabs>

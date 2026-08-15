@@ -8,6 +8,7 @@ export type {
   SolarisTabsOrientation,
   SolarisTabsAppearance,
   SolarisTabsDensity,
+  SolarisTabsShape,
   SolarisTabsActivationMode,
   SolarisTabsContentTransition,
   SolarisTabsValueChangeEvent,

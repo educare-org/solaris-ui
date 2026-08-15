@@ -4,6 +4,8 @@ export type SolarisTabsAppearance = 'underline' | 'pills' | 'enclosed';
 
 export type SolarisTabsDensity = 'compact' | 'normal' | 'comfortable';
 
+export type SolarisTabsShape = 'normal' | 'wide';
+
 export type SolarisTabsActivationMode = 'automatic' | 'manual';
 
 export type SolarisTabsContentTransition = 'none' | 'fade' | 'slide';

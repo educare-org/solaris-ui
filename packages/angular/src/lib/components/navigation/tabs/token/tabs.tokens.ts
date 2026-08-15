@@ -5,6 +5,7 @@ import type {
   SolarisTabsOrientation,
   SolarisTabsAppearance,
   SolarisTabsDensity,
+  SolarisTabsShape,
   SolarisTabsActivationMode,
   SolarisTabsContentTransition,
 } from '../components/root/model/tabs.types';
@@ -15,6 +16,7 @@ export interface SolarisTabsControl {
   orientation: Signal<SolarisTabsOrientation>;
   appearance: Signal<SolarisTabsAppearance>;
   effectiveDensity: Signal<SolarisTabsDensity>;
+  shape: Signal<SolarisTabsShape>;
   disabled: Signal<boolean>;
   activationMode: Signal<SolarisTabsActivationMode>;
   contentTransition: Signal<SolarisTabsContentTransition>;

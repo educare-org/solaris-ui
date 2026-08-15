@@ -4,6 +4,7 @@ import type {
   SolarisTabsOrientation,
   SolarisTabsAppearance,
   SolarisTabsDensity,
+  SolarisTabsShape,
   SolarisTabsActivationMode,
   SolarisTabsContentTransition,
 } from '../../tabs';
@@ -11,6 +12,7 @@ import type {
 export type SolarisEditableTabsOrientation = SolarisTabsOrientation;
 export type SolarisEditableTabsAppearance = SolarisTabsAppearance;
 export type SolarisEditableTabsDensity = SolarisTabsDensity;
+export type SolarisEditableTabsShape = SolarisTabsShape;
 export type SolarisEditableTabsActivationMode = SolarisTabsActivationMode;
 export type SolarisEditableTabsContentTransition = SolarisTabsContentTransition;
 

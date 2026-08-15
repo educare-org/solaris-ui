@@ -26,6 +26,7 @@ import { nextIdFor } from '../../../../../../core/utils/id';
     '(click)': 'onClick()',
     '(keydown)': 'onKeydown($event)',
     '[attr.data-density]': 'density()',
+    '[attr.data-shape]': 'shape()',
     '[attr.data-active]': 'isActive()',
     '[attr.aria-controls]': 'panelId()',
     '[attr.aria-selected]': 'isActive()',
@@ -78,6 +79,10 @@ export class SolarisTabComponent {
 
   protected readonly density = computed(() => {
     return this.tabsControl?.effectiveDensity() ?? this.themeService.density;
+  });
+
+  protected readonly shape = computed(() => {
+    return this.tabsControl?.shape() ?? 'normal';
   });
 
   protected readonly appearance = computed(() => {

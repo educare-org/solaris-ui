@@ -161,6 +161,7 @@ const tabs = [{ value: 'tab1', label: 'Tab 1', customActions }];
 | `orientation`       | `'horizontal' \| 'vertical'`             | `'horizontal'`  | Tablist orientation                    |
 | `appearance`        | `'underline' \| 'pills' \| 'enclosed'`   | `'underline'`   | Visual appearance                      |
 | `density`           | `'compact' \| 'normal' \| 'comfortable'` | `'normal'`      | Spacing, padding, and typography scale |
+| `shape`             | `'normal' \| 'wide'`                     | `'normal'`      | Tab proportions                        |
 | `activationMode`    | `'automatic' \| 'manual'`                | `'automatic'`   | Tab activation mode                    |
 | `contentTransition` | `'none' \| 'fade' \| 'slide'`            | `'slide'`       | Panel content transition               |
 | `editable`          | `boolean`                                | `true`          | Enable editing                         |

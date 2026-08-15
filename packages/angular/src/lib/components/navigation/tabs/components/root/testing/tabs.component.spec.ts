@@ -145,6 +145,7 @@ class ManualActivationTabsTestHostComponent {
       [orientation]="'horizontal'"
       [appearance]="'pills'"
       [density]="'compact'"
+      [shape]="'wide'"
     >
       <solaris-tab value="a" label="A" />
       <solaris-tab value="b" label="B" />
@@ -242,6 +243,14 @@ describe('SolarisTabsComponent', () => {
     fixture.detectChanges();
     const host = fixture.nativeElement.querySelector('solaris-tabs');
     expect(host?.getAttribute('data-density')).toBe('compact');
+  });
+
+  it('should apply shape attribute', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(ConfigurableTabsTestHostComponent);
+    fixture.detectChanges();
+    const host = fixture.nativeElement.querySelector('solaris-tabs');
+    expect(host?.getAttribute('data-shape')).toBe('wide');
   });
 
   it('should use defaultValue when value is not set', async () => {

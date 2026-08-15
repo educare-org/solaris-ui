@@ -59,6 +59,7 @@ The content panel associated with a tab. Only the active panel is visible.
 | `orientation`       | `'horizontal' \| 'vertical'`             | `'horizontal'` | Layout orientation                      |
 | `appearance`        | `'underline' \| 'pills' \| 'enclosed'`   | `'underline'`  | Visual style                            |
 | `density`           | `'compact' \| 'normal' \| 'comfortable'` | `'normal'`     | Spacing, padding, and typography scale  |
+| `shape`             | `'normal' \| 'wide'`                     | `'normal'`     | Tab proportions                         |
 | `activationMode`    | `'automatic' \| 'manual'`                | `'automatic'`  | Keyboard activation behavior            |
 | `contentTransition` | `'none' \| 'fade' \| 'slide'`            | `'fade'`       | Panel transition animation              |
 | `fullWidth`         | `boolean`                                | `false`        | Distribute tabs to fill available width |
@@ -150,6 +151,20 @@ Use `orientation` to switch between horizontal and vertical layouts.
 | `underline` | Active tab has a colored bottom border    |
 | `pills`     | Active tab has a rounded background       |
 | `enclosed`  | Active tab connects visually to the panel |
+
+### Shapes
+
+```html
+<solaris-tabs shape="wide">...</solaris-tabs>
+```
+
+| Shape    | Description                                          |
+| -------- | ---------------------------------------------------- |
+| `normal` | Standard tab padding. Default                        |
+| `wide`   | Horizontally elongated tab padding (wider than tall) |
+
+`shape="wide"` scales its horizontal padding with density, so the elongation
+is proportional in `compact`, `normal`, and `comfortable` modes.
 
 ### Activation modes
 
