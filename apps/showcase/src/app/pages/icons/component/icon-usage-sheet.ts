@@ -35,7 +35,7 @@ export class IconUsageSheetComponent {
 
   protected readonly copied = signal(false);
 
-  protected readonly widthCss = computed(() => `${this.data.width()}rem`);
+  protected readonly widthCss = computed(() => `${this.data.width()}px`);
   protected readonly color = computed(() => this.data.color());
   protected readonly snippet = computed(
     () => `<solaris-icon name="${this.data.name}" />`,

@@ -16,7 +16,7 @@ export const PT_BR_CONFIG: Record<string, string> = {
     'Suporte a movimento reduzido e conteúdo visualmente oculto para tecnologias assistivas.',
   'configuration.section.theme': 'Tema',
   'configuration.section.theme-desc':
-    'Esquema de cores, densidade, preferência de movimento reduzido e estratégia de font-size raiz.',
+    'Esquema de cores, densidade, preferência de movimento reduzido e estratégia de unidades.',
   'configuration.section.typography': 'Tipografia',
   'configuration.section.typography-desc':
     'Tokens de família e tamanho de fonte que definem a escala tipográfica do Solaris.',
@@ -45,7 +45,7 @@ export const PT_BR_CONFIG: Record<string, string> = {
   'configuration.label.density': 'Densidade',
   'configuration.label.reduced-motion-pref':
     'Preferência de movimento reduzido',
-  'configuration.label.root-font-size': 'Estratégia de font-size raiz',
+  'configuration.label.unit-strategy': 'Estratégia de unidades',
   'configuration.label.font-size-tokens': 'Tokens de tamanho de fonte',
   'configuration.label.font-family-tokens': 'Tokens de família tipográfica',
   'configuration.label.font-sans': 'Sans (UI)',
@@ -55,8 +55,8 @@ export const PT_BR_CONFIG: Record<string, string> = {
   'configuration.text.visible': 'Este texto está visível.',
   'configuration.text.sr-only':
     'Este texto está disponível apenas para leitores de tela.',
-  'configuration.text.root-font-size':
-    'Solaris usa 100% de font-size raiz (padrão do navegador). Tokens usam rem e escalam com as preferências de tamanho de fonte do usuário.',
+  'configuration.text.unit-strategy':
+    'Solaris usa tokens de design em px para renderização determinística, independente do font-size raiz do consumidor.',
   'configuration.text.font-size-demo': 'O rato roeu a roupa do rei de Roma.',
   'configuration.text.font-demo': 'Solaris demonstra seus tokens de fonte.',
   'configuration.a11y-note':

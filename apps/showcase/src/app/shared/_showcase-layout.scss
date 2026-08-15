@@ -1,4 +1,4 @@
-@mixin page($max-width: 120rem) {
+@mixin page($max-width: 1920px) {
   margin: 0 auto;
   max-width: $max-width;
   padding: var(--solaris-spacing-8) var(--solaris-spacing-4) 0;
@@ -17,7 +17,7 @@
 
 @mixin description {
   margin: 0;
-  max-width: 120rem;
+  max-width: 1920px;
   color: var(--solaris-text-muted);
   font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);

@@ -16,7 +16,7 @@ export const EN_US_CONFIG: Record<string, string> = {
     'Reduced motion support and visually hidden content for assistive technologies.',
   'configuration.section.theme': 'Theme',
   'configuration.section.theme-desc':
-    'Color scheme, density, reduced motion preference, and root font-size strategy.',
+    'Color scheme, density, reduced motion preference, and unit strategy.',
   'configuration.section.typography': 'Typography',
   'configuration.section.typography-desc':
     'Font family and size tokens that define the Solaris typographic scale.',
@@ -44,7 +44,7 @@ export const EN_US_CONFIG: Record<string, string> = {
   'configuration.label.color-scheme': 'Color scheme',
   'configuration.label.density': 'Density',
   'configuration.label.reduced-motion-pref': 'Reduced motion preference',
-  'configuration.label.root-font-size': 'Root font-size strategy',
+  'configuration.label.unit-strategy': 'Unit strategy',
   'configuration.label.font-size-tokens': 'Font size tokens',
   'configuration.label.font-family-tokens': 'Font family tokens',
   'configuration.label.font-sans': 'Sans (UI)',
@@ -54,8 +54,8 @@ export const EN_US_CONFIG: Record<string, string> = {
   'configuration.text.visible': 'This text is visible.',
   'configuration.text.sr-only':
     'This text is only available to screen readers.',
-  'configuration.text.root-font-size':
-    'Solaris uses 100% root font-size (browser default). Tokens use rem units and scale with user font-size preferences.',
+  'configuration.text.unit-strategy':
+    'Solaris uses px-based design tokens so rendering is deterministic regardless of the consumer root font-size.',
   'configuration.text.font-size-demo':
     'The quick brown fox jumps over the lazy dog.',
   'configuration.text.font-demo': 'Solaris demonstrates its font tokens.',

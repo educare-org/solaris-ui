@@ -32,7 +32,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--solaris-spacing-3);
-  max-width: 32rem;
+  max-width: 512px;
 }
 
 .button-group-showcase__note {
@@ -47,7 +47,7 @@
 }
 
 .button-group-showcase__chevron-btn:hover .button-group-showcase__chevron-icon {
-  transform: translateX(0.1875rem);
+  transform: translateX(3px);
 }
 
 @media (prefers-reduced-motion: reduce) {

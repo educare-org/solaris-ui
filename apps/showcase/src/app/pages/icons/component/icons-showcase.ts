@@ -72,7 +72,7 @@ export class IconsShowcasePage {
     { label: 'orange', value: 'var(--solaris-orange-base)' },
   ];
 
-  protected readonly iconWidthCss = computed(() => `${this.iconWidth()}rem`);
+  protected readonly iconWidthCss = computed(() => `${this.iconWidth()}px`);
 
   protected readonly activeSwatch = computed(() => {
     const color = this.iconColor();
@@ -135,7 +135,7 @@ export class IconsShowcasePage {
       IconUsageSheetComponent,
       {
         placement: 'bottom',
-        width: 'min(40rem, calc(100vw - 2rem))',
+        width: 'min(640px, calc(100vw - 32px))',
         backdrop: false,
         closeable: true,
         closeOnBackdropClick: true,

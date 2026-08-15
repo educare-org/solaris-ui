@@ -35,7 +35,7 @@ export const PT_BR_TOOLTIP: Record<string, string> = {
   'tooltip.radius-note': 'Tooltip suporta raio sm, md (padrão) e lg.',
   'tooltip.max-width': 'Largura máxima',
   'tooltip.max-width-note':
-    'A largura máxima padrão é 20rem. Texto longo quebra corretamente.',
+    'A largura máxima padrão é 320px. Texto longo quebra corretamente.',
   'tooltip.disabled': 'Tooltip desabilitado',
   'tooltip.disabled-note': 'Quando desabilitado, o tooltip não abre.',
   'tooltip.badge-count': 'Tooltip para badge/contagem',

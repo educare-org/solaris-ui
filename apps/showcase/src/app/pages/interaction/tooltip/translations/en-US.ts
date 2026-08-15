@@ -36,7 +36,7 @@ export const EN_US_TOOLTIP: Record<string, string> = {
   'tooltip.radius-note': 'Tooltip supports sm, md (default), and lg radius.',
   'tooltip.max-width': 'Max width',
   'tooltip.max-width-note':
-    'Default max-width is 20rem. Long text wraps correctly.',
+    'Default max-width is 320px. Long text wraps correctly.',
   'tooltip.disabled': 'Disabled tooltip',
   'tooltip.disabled-note': 'When disabled, the tooltip does not open.',
   'tooltip.badge-count': 'Badge/count tooltip',

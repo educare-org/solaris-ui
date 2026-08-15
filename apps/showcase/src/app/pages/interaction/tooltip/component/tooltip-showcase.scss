@@ -32,48 +32,48 @@
 .tooltip-matrix {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 24px;
 }
 
 .tooltip-matrix__group {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .tooltip-matrix__label {
-  width: 8rem;
-  font-size: 0.875rem;
+  width: 128px;
+  font-size: 14px;
   font-weight: 600;
   flex-shrink: 0;
   margin: 0;
 }
 
 .tooltip-matrix__btn {
-  font-size: 0.75rem !important;
-  min-width: 4.5rem;
+  font-size: 12px !important;
+  min-width: 72px;
 }
 
 .tooltip-edges {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 16px;
   justify-content: center;
 }
 
 .tooltip-edges__top {
-  margin-top: -2rem;
+  margin-top: -32px;
 }
 
 .tooltip-edges__bottom {
-  margin-bottom: -2rem;
+  margin-bottom: -32px;
 }
 
 .tooltip-edges__left {
-  margin-left: -2rem;
+  margin-left: -32px;
 }
 
 .tooltip-edges__right {
-  margin-right: -2rem;
+  margin-right: -32px;
 }
