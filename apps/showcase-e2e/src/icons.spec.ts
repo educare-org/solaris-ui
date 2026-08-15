@@ -45,7 +45,7 @@ test.describe('Icons', () => {
     const slider = icons.widthSlider();
     await slider.fill('3');
 
-    await expect(icons.widthValue()).toHaveText('3rem');
+    await expect(icons.widthValue()).toHaveText('3px');
 
     const icon = icons.itemIcon('check');
     await expect(icon).toHaveCSS('width', '48px');
