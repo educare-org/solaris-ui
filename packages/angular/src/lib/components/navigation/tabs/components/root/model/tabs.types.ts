@@ -2,8 +2,6 @@ export type SolarisTabsOrientation = 'horizontal' | 'vertical';
 
 export type SolarisTabsAppearance = 'underline' | 'pills' | 'enclosed';
 
-export type SolarisTabsSize = 'sm' | 'md' | 'lg';
-
 export type SolarisTabsDensity = 'compact' | 'normal' | 'comfortable';
 
 export type SolarisTabsActivationMode = 'automatic' | 'manual';

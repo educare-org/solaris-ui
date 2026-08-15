@@ -58,8 +58,7 @@ The content panel associated with a tab. Only the active panel is visible.
 | `defaultValue`      | `string \| number \| undefined`          | —              | Initial value when value is not set     |
 | `orientation`       | `'horizontal' \| 'vertical'`             | `'horizontal'` | Layout orientation                      |
 | `appearance`        | `'underline' \| 'pills' \| 'enclosed'`   | `'underline'`  | Visual style                            |
-| `size`              | `'sm' \| 'md' \| 'lg'`                   | `'md'`         | Tab size                                |
-| `density`           | `'compact' \| 'normal' \| 'comfortable'` | `'normal'`     | Spacing density                         |
+| `density`           | `'compact' \| 'normal' \| 'comfortable'` | `'normal'`     | Spacing, padding, and typography scale  |
 | `activationMode`    | `'automatic' \| 'manual'`                | `'automatic'`  | Keyboard activation behavior            |
 | `contentTransition` | `'none' \| 'fade' \| 'slide'`            | `'fade'`       | Panel transition animation              |
 | `fullWidth`         | `boolean`                                | `false`        | Distribute tabs to fill available width |

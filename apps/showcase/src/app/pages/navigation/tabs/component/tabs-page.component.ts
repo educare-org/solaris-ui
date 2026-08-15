@@ -15,6 +15,7 @@ import { DisabledTabsExample } from '../examples/disabled/component/disabled.com
 import { VerticalTabsExample } from '../examples/vertical/component/vertical.component';
 import { EnclosedTabsExample } from '../examples/enclosed/component/enclosed.component';
 import { PillsTabsExample } from '../examples/pills/component/pills.component';
+import { DensityTabsExample } from '../examples/density/component/density.component';
 import { BasicTabsExample } from '../examples/basic/component/basic.component';
 
 @Component({
@@ -27,6 +28,7 @@ import { BasicTabsExample } from '../examples/basic/component/basic.component';
     DisabledTabsExample,
     VerticalTabsExample,
     PillsTabsExample,
+    DensityTabsExample,
     EnclosedTabsExample,
     FullWidthTabsExample,
     ScrollableTabsExample,

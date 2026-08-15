@@ -31,3 +31,16 @@
   font: var(--solaris-font-weight-semibold) var(--solaris-font-size-xl) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
 }
+
+.tabs-showcase__subsection-title {
+  color: var(--solaris-text-muted);
+  margin: var(--solaris-spacing-5) 0 var(--solaris-spacing-2);
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.tabs-showcase__section app-density-tabs-example {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-1);
+}

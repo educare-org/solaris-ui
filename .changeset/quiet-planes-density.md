@@ -35,3 +35,11 @@ for these, making `size` redundant on the wrapper. The `SolarisFormFieldSize`,
 `SolarisMultiSelectSize` types were removed. Controls such as
 `solaris-input`, `solaris-textarea`, and `solaris-option` keep their own
 `size` input.
+
+### Removed `size` from `solaris-tabs` and `solaris-editable-tabs`
+
+The `size` input (`sm`/`md`/`lg`) was removed from `solaris-tabs` and
+`solaris-editable-tabs`. Density now controls tab padding, gap, icon size, and
+typography (`compact`/`normal`/`comfortable`), which is most visible in the
+`pills` appearance. The `SolarisTabsSize` and `SolarisEditableTabsSize` types
+were removed.

@@ -27,7 +27,6 @@ import {
 import type {
   SolarisTabsOrientation,
   SolarisTabsAppearance,
-  SolarisTabsSize,
   SolarisTabsDensity,
   SolarisTabsActivationMode,
   SolarisTabsContentTransition,
@@ -47,7 +46,6 @@ import { nextIdFor } from '../../../../../../core/utils/id';
     class: 'solaris-tabs',
     '[attr.data-orientation]': 'orientation()',
     '[attr.data-appearance]': 'appearance()',
-    '[attr.data-size]': 'size()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-full-width]': 'fullWidth()',
     '[attr.data-scrollable]': 'scrollable()',
@@ -76,7 +74,6 @@ export class SolarisTabsComponent implements SolarisTabsControl {
   readonly defaultValue = input<string | number | undefined>(undefined);
   readonly orientation = input<SolarisTabsOrientation>('horizontal');
   readonly appearance = input<SolarisTabsAppearance>('underline');
-  readonly size = input<SolarisTabsSize>('md');
   readonly density = input<SolarisTabsDensity>();
   readonly activationMode = input<SolarisTabsActivationMode>('automatic');
   readonly contentTransition = input<SolarisTabsContentTransition>('fade');

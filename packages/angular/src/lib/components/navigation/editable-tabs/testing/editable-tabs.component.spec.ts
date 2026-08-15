@@ -128,7 +128,6 @@ class AllowEmptyTestHost {
       [(value)]="value"
       [orientation]="'vertical'"
       [appearance]="'pills'"
-      [size]="'sm'"
       [density]="'compact'"
     />
   `,
@@ -337,17 +336,6 @@ describe('SolarisEditableTabsComponent', () => {
       ).toBe('pills');
     });
 
-    it('should set data-size', () => {
-      configureBase();
-      const fixture = TestBed.createComponent(ConfigurableTestHost);
-      fixture.detectChanges();
-      expect(
-        fixture.nativeElement
-          .querySelector('solaris-editable-tabs')
-          ?.getAttribute('data-size'),
-      ).toBe('sm');
-    });
-
     it('should set data-density', () => {
       configureBase();
       const fixture = TestBed.createComponent(ConfigurableTestHost);
@@ -445,12 +433,12 @@ describe('SolarisEditableTabsComponent', () => {
       expect(innerTabs?.getAttribute('data-appearance')).toBe('pills');
     });
 
-    it('should pass size to inner solaris-tabs', () => {
+    it('should pass density to inner solaris-tabs', () => {
       configureBase();
       const fixture = TestBed.createComponent(ConfigurableTestHost);
       fixture.detectChanges();
       const innerTabs = fixture.nativeElement.querySelector('solaris-tabs');
-      expect(innerTabs?.getAttribute('data-size')).toBe('sm');
+      expect(innerTabs?.getAttribute('data-density')).toBe('compact');
     });
   });
 

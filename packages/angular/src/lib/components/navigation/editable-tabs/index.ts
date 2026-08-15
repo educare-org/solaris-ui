@@ -12,7 +12,6 @@ export type {
   SolarisEditableTabMoveDirection,
   SolarisEditableTabsOrientation,
   SolarisEditableTabsAppearance,
-  SolarisEditableTabsSize,
   SolarisEditableTabsDensity,
   SolarisEditableTabsActivationMode,
   SolarisEditableTabsContentTransition,

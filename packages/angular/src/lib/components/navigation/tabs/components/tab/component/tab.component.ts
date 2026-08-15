@@ -24,7 +24,6 @@ import { nextIdFor } from '../../../../../../core/utils/id';
     role: 'tab',
     '[attr.id]': 'tabId()',
     '(click)': 'onClick()',
-    '[attr.data-size]': 'size()',
     '(keydown)': 'onKeydown($event)',
     '[attr.data-density]': 'density()',
     '[attr.data-active]': 'isActive()',
@@ -75,10 +74,6 @@ export class SolarisTabComponent {
 
   protected readonly orientation = computed(() => {
     return this.tabsControl?.orientation() ?? 'horizontal';
-  });
-
-  protected readonly size = computed(() => {
-    return this.tabsControl?.size() ?? 'md';
   });
 
   protected readonly density = computed(() => {

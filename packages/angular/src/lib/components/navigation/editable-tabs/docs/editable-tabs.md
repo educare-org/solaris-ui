@@ -153,28 +153,27 @@ const tabs = [{ value: 'tab1', label: 'Tab 1', customActions }];
 
 ### SolarisEditableTabsComponent
 
-| Input               | Type                                     | Default         | Description                    |
-| ------------------- | ---------------------------------------- | --------------- | ------------------------------ |
-| `tabs`              | `SolarisEditableTabData[]`               | required        | Tab definitions                |
-| `value`             | `unknown`                                | `undefined`     | Active tab value (two-way)     |
-| `defaultValue`      | `unknown`                                | `undefined`     | Initial active value           |
-| `orientation`       | `'horizontal' \| 'vertical'`             | `'horizontal'`  | Tablist orientation            |
-| `appearance`        | `'underline' \| 'pills' \| 'enclosed'`   | `'underline'`   | Visual appearance              |
-| `size`              | `'sm' \| 'md' \| 'lg'`                   | `'md'`          | Tab size                       |
-| `density`           | `'compact' \| 'normal' \| 'comfortable'` | `'normal'`      | Tab density                    |
-| `activationMode`    | `'automatic' \| 'manual'`                | `'automatic'`   | Tab activation mode            |
-| `contentTransition` | `'none' \| 'fade' \| 'slide'`            | `'slide'`       | Panel content transition       |
-| `editable`          | `boolean`                                | `true`          | Enable editing                 |
-| `renamable`         | `boolean`                                | `true`          | Enable rename                  |
-| `removable`         | `boolean`                                | `true`          | Enable remove                  |
-| `movable`           | `boolean`                                | `true`          | Enable move                    |
-| `defaultable`       | `boolean`                                | `true`          | Enable set as default          |
-| `showActions`       | `'hover' \| 'always' \| 'focus-hover'`   | `'focus-hover'` | When to show action trigger    |
-| `renameOnBlur`      | `'confirm' \| 'cancel'`                  | `'confirm'`     | Behavior on rename input blur  |
-| `minTabs`           | `number`                                 | `1`             | Minimum tabs before blocking   |
-| `allowEmpty`        | `boolean`                                | `false`         | Allow removing all tabs        |
-| `ariaLabel`         | `string \| undefined`                    | `undefined`     | Direct ARIA label              |
-| `ariaLabelKey`      | `string \| undefined`                    | `undefined`     | Translation key for ARIA label |
+| Input               | Type                                     | Default         | Description                            |
+| ------------------- | ---------------------------------------- | --------------- | -------------------------------------- |
+| `tabs`              | `SolarisEditableTabData[]`               | required        | Tab definitions                        |
+| `value`             | `unknown`                                | `undefined`     | Active tab value (two-way)             |
+| `defaultValue`      | `unknown`                                | `undefined`     | Initial active value                   |
+| `orientation`       | `'horizontal' \| 'vertical'`             | `'horizontal'`  | Tablist orientation                    |
+| `appearance`        | `'underline' \| 'pills' \| 'enclosed'`   | `'underline'`   | Visual appearance                      |
+| `density`           | `'compact' \| 'normal' \| 'comfortable'` | `'normal'`      | Spacing, padding, and typography scale |
+| `activationMode`    | `'automatic' \| 'manual'`                | `'automatic'`   | Tab activation mode                    |
+| `contentTransition` | `'none' \| 'fade' \| 'slide'`            | `'slide'`       | Panel content transition               |
+| `editable`          | `boolean`                                | `true`          | Enable editing                         |
+| `renamable`         | `boolean`                                | `true`          | Enable rename                          |
+| `removable`         | `boolean`                                | `true`          | Enable remove                          |
+| `movable`           | `boolean`                                | `true`          | Enable move                            |
+| `defaultable`       | `boolean`                                | `true`          | Enable set as default                  |
+| `showActions`       | `'hover' \| 'always' \| 'focus-hover'`   | `'focus-hover'` | When to show action trigger            |
+| `renameOnBlur`      | `'confirm' \| 'cancel'`                  | `'confirm'`     | Behavior on rename input blur          |
+| `minTabs`           | `number`                                 | `1`             | Minimum tabs before blocking           |
+| `allowEmpty`        | `boolean`                                | `false`         | Allow removing all tabs                |
+| `ariaLabel`         | `string \| undefined`                    | `undefined`     | Direct ARIA label                      |
+| `ariaLabelKey`      | `string \| undefined`                    | `undefined`     | Translation key for ARIA label         |
 
 | Output               | Type                                   | Description                      |
 | -------------------- | -------------------------------------- | -------------------------------- |
