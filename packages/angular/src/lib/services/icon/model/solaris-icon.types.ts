@@ -19,7 +19,7 @@ export type SolarisBuiltInIcon =
   | 'moon'
   | 'monitor'
   | 'globe'
-  | 'ellipses'
+  | 'ellipsis'
   | 'slash'
   | 'dot'
   | 'home'

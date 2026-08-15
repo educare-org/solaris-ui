@@ -30,7 +30,7 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'down-arrow',
       'down-left-arrow',
       'down-right-arrow',
-      'ellipses',
+      'ellipsis',
       'file',
       'files',
       'folder',

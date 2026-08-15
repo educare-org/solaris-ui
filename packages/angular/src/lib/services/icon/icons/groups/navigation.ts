@@ -121,14 +121,17 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
     ],
   },
   {
-    name: 'ellipses',
+    name: 'ellipsis',
     viewBox: '0 0 24 24',
-    fill: 'currentColor',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
     elements: [
-      {
-        type: 'path',
-        d: 'M12,10a2,2,0,1,0,2,2A2,2,0,0,0,12,10ZM5,10a2,2,0,1,0,2,2A2,2,0,0,0,5,10Zm14,0a2,2,0,1,0,2,2A2,2,0,0,0,19,10Z',
-      },
+      { type: 'circle', cx: 12, cy: 12, r: 1 },
+      { type: 'circle', cx: 19, cy: 12, r: 1 },
+      { type: 'circle', cx: 5, cy: 12, r: 1 },
     ],
   },
   {
@@ -355,11 +358,15 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
   {
     name: 'slash',
     viewBox: '0 0 24 24',
-    fill: 'currentColor',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
     elements: [
       {
         type: 'path',
-        d: 'M16.689 3.9015 a1.125 1.125 0 0 0 -1.5375 0.4095 l -8.25 14.25 a1.125 1.125 0 0 0 1.947 1.128 l 8.25 -14.25 a1.125 1.125 0 0 0 -0.4095 -1.5375 z',
+        d: 'M18 6 6 18',
       },
     ],
   },
@@ -380,7 +387,11 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
     elements: [
       {
         type: 'path',
-        d: 'M22 20V12.1735C22 11.0734 21.5469 10.0218 20.7473 9.26624L13.3737 2.29812C12.6028 1.56962 11.3972 1.56962 10.6263 2.29812L3.25265 9.26624C2.45308 10.0218 2 11.0734 2 12.1735V20C2 21.1046 2.89543 22 4 22H20C21.1046 22 22 21.1046 22 20Z',
+        d: 'M14.5 21v-8a1 1 0 00-1-1h-3a1 1 0 00-1 1v8',
+      },
+      {
+        type: 'path',
+        d: 'M3 10a2 2 0 01.709-1.528l7-6a2 2 0 012.582 0l7 6A2 2 0 0121 10v9a2 2 0 01-2 2H5a2 2 0 01-2-2z',
       },
     ],
   },

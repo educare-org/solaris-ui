@@ -416,7 +416,7 @@ describe('SolarisEditableTabsComponent', () => {
       expect(actionArea).toBeNull();
     });
 
-    it('should render action trigger button with ellipses icon', () => {
+    it('should render action trigger button with ellipsis icon', () => {
       configureBase();
       const fixture = TestBed.createComponent(AlwaysShowActionsTestHost);
       fixture.detectChanges();

@@ -18,7 +18,7 @@ export const EDITABLE_TABS_TRANSLATIONS_EN_US: Record<string, string> = {
   'editableTabs.example.locked.description':
     'The "General" tab is locked — it cannot be renamed, removed, or moved.',
   'editableTabs.example.rename.description':
-    'Click the ellipses icon on a tab, select "Rename", type a new name, and press Enter.',
+    'Click the ellipsis icon on a tab, select "Rename", type a new name, and press Enter.',
   'editableTabs.example.remove.description':
     'Remove tabs via the action menu. The last tab cannot be removed (minTabs=1).',
   'editableTabs.example.move.description':
