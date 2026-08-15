@@ -474,5 +474,7 @@
 }
 
 [solaris-icon-button][data-shape='wide'] {
-  padding-inline: var(--solaris-spacing-4);
+  width: auto;
+  min-width: var(--solaris-icon-button-size);
+  padding-inline: var(--solaris-spacing-6);
 }
