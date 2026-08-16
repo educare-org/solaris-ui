@@ -18,6 +18,13 @@ export const EN_US_DIVIDER: Record<string, string> = {
   'divider.dropdown-note': 'Divider works seamlessly inside dropdown menus.',
   'divider.custom-length': 'Custom Length',
   'divider.custom-length-note': 'Set a fixed width for horizontal dividers.',
+  'divider.with-label': 'With Label',
+  'divider.with-label-note':
+    'Add text between the divider lines with label or labelKey, aligned via textPosition.',
+  'divider.label.center': 'Center',
+  'divider.label.start': 'Start',
+  'divider.label.end': 'End',
+  'divider.label.keyed': 'Translated label',
   'divider.content-above': 'Content above the divider',
   'divider.content-below': 'Content below the divider',
   'divider.content-above-short': 'Content above',

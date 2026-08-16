@@ -93,6 +93,28 @@
 
   <section class="divider-showcase__section">
     <h2 class="divider-showcase__section-title">
+      {{ 'divider.with-label' | translate }}
+    </h2>
+    <p class="divider-showcase__note">
+      {{ 'divider.with-label-note' | translate }}
+    </p>
+    <solaris-divider [label]="'divider.label.center' | translate" />
+    <p class="divider-showcase__spacer"></p>
+    <solaris-divider
+      [label]="'divider.label.start' | translate"
+      textPosition="start"
+    />
+    <p class="divider-showcase__spacer"></p>
+    <solaris-divider
+      [label]="'divider.label.end' | translate"
+      textPosition="end"
+    />
+    <p class="divider-showcase__spacer"></p>
+    <solaris-divider [labelKey]="'divider.label.keyed'" />
+  </section>
+
+  <section class="divider-showcase__section">
+    <h2 class="divider-showcase__section-title">
       {{ 'divider.dropdown' | translate }}
     </h2>
     <p class="divider-showcase__note">

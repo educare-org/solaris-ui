@@ -7,6 +7,9 @@
   --solaris-divider-spacing-md: var(--solaris-spacing-3);
   --solaris-divider-spacing-lg: var(--solaris-spacing-5);
   --solaris-divider-inset-start: var(--solaris-spacing-3);
+  --solaris-divider-text-gap: var(--solaris-spacing-3);
+  --solaris-divider-text-color: var(--solaris-text-muted);
+  --solaris-divider-text-font-size: var(--solaris-font-size-sm);
 
   display: block;
   pointer-events: none;
@@ -14,10 +17,10 @@
 }
 
 :host([data-orientation='horizontal']) {
-  height: 0;
+  display: flex;
+  align-items: center;
   width: var(--solaris-divider-width);
   margin-block: var(--solaris-divider-spacing-md);
-  border-top: var(--solaris-border-width-sm) solid var(--solaris-border-default);
 }
 
 :host([data-orientation='vertical']) {
@@ -28,6 +31,33 @@
   margin-inline: var(--solaris-divider-spacing-md);
   border-left: var(--solaris-border-width-sm) solid
     var(--solaris-border-default);
+}
+
+.solaris-divider__line {
+  flex: 1 1 0;
+  min-width: 0;
+  border-top: var(--solaris-border-width-sm) solid var(--solaris-border-default);
+}
+
+:host([data-orientation='vertical']) .solaris-divider__line {
+  display: none;
+}
+
+.solaris-divider__text {
+  flex: 0 0 auto;
+  max-width: 100%;
+  white-space: nowrap;
+  color: var(--solaris-divider-text-color);
+  font-size: var(--solaris-divider-text-font-size);
+  margin-inline: var(--solaris-divider-text-gap);
+}
+
+:host([data-text-position='start']) .solaris-divider__line:first-child {
+  flex: 0 0 var(--solaris-divider-text-gap);
+}
+
+:host([data-text-position='end']) .solaris-divider__line:last-child {
+  flex: 0 0 var(--solaris-divider-text-gap);
 }
 
 :host([data-spacing='none'][data-orientation='horizontal']) {
@@ -57,9 +87,14 @@
 }
 
 :host([data-appearance='strong']) {
-  border-top-color: var(--solaris-border-strong);
+  .solaris-divider__line {
+    border-top-color: var(--solaris-border-strong);
+    border-top-width: var(--solaris-border-width-lg);
+  }
+}
+
+:host([data-appearance='strong'][data-orientation='vertical']) {
   border-left-color: var(--solaris-border-strong);
-  border-top-width: var(--solaris-border-width-lg);
   border-left-width: var(--solaris-border-width-lg);
 }
 

@@ -5,4 +5,5 @@ export type {
   SolarisDividerAppearance,
   SolarisDividerSpacing,
   SolarisDividerInset,
+  SolarisDividerTextPosition,
 } from './model/divider.types';

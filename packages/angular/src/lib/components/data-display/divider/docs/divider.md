@@ -19,15 +19,18 @@ Divider visually separates groups of content, actions, or sections.
 
 ## API
 
-| Input       | Type                                   | Default        | Description                                  |
-| ----------- | -------------------------------------- | -------------- | -------------------------------------------- |
-| orientation | `'horizontal' \| 'vertical'`           | `'horizontal'` | Direction of the divider line                |
-| appearance  | `'subtle' \| 'strong'`                 | `'subtle'`     | Visual weight of the divider                 |
-| spacing     | `'none' \| 'sm' \| 'md' \| 'lg'`       | `'md'`         | Margin around the divider                    |
-| inset       | `'none' \| 'start' \| 'end' \| 'both'` | `'none'`       | Indentation from edges                       |
-| decorative  | `boolean`                              | `true`         | Whether the divider is purely visual         |
-| width       | `string`                               | `''`           | Horizontal length (e.g. `'10rem'`, `'100%'`) |
-| height      | `string`                               | `''`           | Vertical length (e.g. `'4rem'`)              |
+| Input        | Type                                   | Default        | Description                                  |
+| ------------ | -------------------------------------- | -------------- | -------------------------------------------- |
+| orientation  | `'horizontal' \| 'vertical'`           | `'horizontal'` | Direction of the divider line                |
+| appearance   | `'subtle' \| 'strong'`                 | `'subtle'`     | Visual weight of the divider                 |
+| spacing      | `'none' \| 'sm' \| 'md' \| 'lg'`       | `'md'`         | Margin around the divider                    |
+| inset        | `'none' \| 'start' \| 'end' \| 'both'` | `'none'`       | Indentation from edges                       |
+| decorative   | `boolean`                              | `true`         | Whether the divider is purely visual         |
+| width        | `string`                               | `''`           | Horizontal length (e.g. `'10rem'`, `'100%'`) |
+| height       | `string`                               | `''`           | Vertical length (e.g. `'4rem'`)              |
+| label        | `string`                               | —              | Text rendered between the divider lines      |
+| labelKey     | `string`                               | —              | Translation key for the label                |
+| textPosition | `'start' \| 'center' \| 'end'`         | `'center'`     | Alignment of the label (horizontal only)     |
 
 ## Orientation
 
@@ -71,16 +74,41 @@ Default: `none`
 
 ## CSS Variables
 
-| Token                            | Purpose                         |
-| -------------------------------- | ------------------------------- |
-| `--solaris-divider-width`        | Horizontal length               |
-| `--solaris-divider-height`       | Vertical length                 |
-| `--solaris-divider-spacing-none` | Margin when `spacing="none"`    |
-| `--solaris-divider-spacing-sm`   | Margin when `spacing="sm"`      |
-| `--solaris-divider-spacing-md`   | Margin when `spacing="md"`      |
-| `--solaris-divider-spacing-lg`   | Margin when `spacing="lg"`      |
-| `--solaris-divider-inset-start`  | Indentation from the start edge |
-| `--solaris-divider-inset-end`    | Indentation from the end edge   |
+| Token                              | Purpose                         |
+| ---------------------------------- | ------------------------------- |
+| `--solaris-divider-width`          | Horizontal length               |
+| `--solaris-divider-height`         | Vertical length                 |
+| `--solaris-divider-spacing-none`   | Margin when `spacing="none"`    |
+| `--solaris-divider-spacing-sm`     | Margin when `spacing="sm"`      |
+| `--solaris-divider-spacing-md`     | Margin when `spacing="md"`      |
+| `--solaris-divider-spacing-lg`     | Margin when `spacing="lg"`      |
+| `--solaris-divider-inset-start`    | Indentation from the start edge |
+| `--solaris-divider-inset-end`      | Indentation from the end edge   |
+| `--solaris-divider-text-gap`       | Gap between label and lines     |
+| `--solaris-divider-text-color`     | Label text color                |
+| `--solaris-divider-text-font-size` | Label font size                 |
+
+## With label
+
+`label` (or `labelKey` for i18n) renders text between two divider lines. The label is only supported on horizontal dividers; a vertical divider ignores it.
+
+```html
+<solaris-divider label="Section" /> <solaris-divider [labelKey]="'forms.section' | translate" />
+```
+
+`textPosition` controls the label alignment:
+
+- `center` (default): both lines are equal
+- `start`: a short leading line, then the label, then a line filling the rest
+- `end`: a line filling the space, then the label, then a short trailing line
+
+```html
+<solaris-divider label="Center" textPosition="center" />
+<solaris-divider label="Start" textPosition="start" />
+<solaris-divider label="End" textPosition="end" />
+```
+
+When a label is present, the divider becomes semantic: `role="separator"` is applied and `aria-hidden` is removed regardless of the `decorative` input, so the label is announced to assistive technology.
 
 ## Length
 

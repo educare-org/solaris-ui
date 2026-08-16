@@ -1,1 +1,5 @@
-<ng-content />
+<span class="solaris-divider__line" aria-hidden="true"></span>
+@if (labelText(); as text) {
+  <span class="solaris-divider__text">{{ text }}</span>
+  <span class="solaris-divider__line" aria-hidden="true"></span>
+}

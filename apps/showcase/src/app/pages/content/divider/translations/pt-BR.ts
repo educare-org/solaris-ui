@@ -19,6 +19,13 @@ export const PT_BR_DIVIDER: Record<string, string> = {
   'divider.custom-length': 'Comprimento Personalizado',
   'divider.custom-length-note':
     'Define uma largura fixa para divisores horizontais.',
+  'divider.with-label': 'Com Texto',
+  'divider.with-label-note':
+    'Adicione texto entre as linhas do divisor com label ou labelKey, alinhado via textPosition.',
+  'divider.label.center': 'Centro',
+  'divider.label.start': 'Início',
+  'divider.label.end': 'Fim',
+  'divider.label.keyed': 'Texto traduzido',
   'divider.content-above': 'Conteúdo acima do divisor',
   'divider.content-below': 'Conteúdo abaixo do divisor',
   'divider.content-above-short': 'Conteúdo acima',

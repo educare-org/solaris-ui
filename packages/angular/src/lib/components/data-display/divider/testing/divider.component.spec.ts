@@ -8,7 +8,10 @@ import type {
   SolarisDividerAppearance,
   SolarisDividerSpacing,
   SolarisDividerInset,
+  SolarisDividerTextPosition,
 } from '../model/divider.types';
+
+import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
 
 describe('SolarisDividerComponent', () => {
   describe('defaults', () => {
@@ -314,6 +317,141 @@ describe('SolarisDividerComponent', () => {
       expect(el.style.getPropertyValue('--solaris-divider-height')).toBe(
         '160px',
       );
+    });
+  });
+
+  describe('label', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisDividerComponent],
+      template: '<solaris-divider label="Section" />',
+    })
+    class LabelHost {}
+
+    it('renders label text between lines', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(LabelHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      const text = el.querySelector('.solaris-divider__text');
+      const lines = el.querySelectorAll('.solaris-divider__line');
+      expect(text).toBeTruthy();
+      expect(text.textContent.trim()).toBe('Section');
+      expect(lines.length).toBe(2);
+    });
+  });
+
+  describe('labelKey', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisDividerComponent],
+      template: '<solaris-divider labelKey="divider.sectionLabel" />',
+    })
+    class LabelKeyHost {}
+
+    it('resolves labelKey through translation service', () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideSolarisTesting({
+            translate: {
+              translations: {
+                'en-US': { 'divider.sectionLabel': 'Section' },
+              },
+            },
+          }),
+        ],
+      });
+      const fixture = TestBed.createComponent(LabelKeyHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      const text = el.querySelector('.solaris-divider__text');
+      expect(text).toBeTruthy();
+      expect(text.textContent.trim()).toBe('Section');
+    });
+
+    it('falls back to label when key is not translated', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(LabelKeyHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      const text = el.querySelector('.solaris-divider__text');
+      expect(text).toBeFalsy();
+    });
+  });
+
+  describe('text position', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisDividerComponent],
+      template:
+        '<solaris-divider label="Section" [textPosition]="textPosition" />',
+    })
+    class TestHost {
+      textPosition: SolarisDividerTextPosition = 'center';
+    }
+
+    it('applies data-text-position when label is present', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      expect(el.getAttribute('data-text-position')).toBe('center');
+    });
+
+    it('supports start', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.textPosition = 'start';
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      expect(el.getAttribute('data-text-position')).toBe('start');
+    });
+
+    it('supports end', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.textPosition = 'end';
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      expect(el.getAttribute('data-text-position')).toBe('end');
+    });
+  });
+
+  describe('accessibility with label', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisDividerComponent],
+      template: '<solaris-divider [label]="label" [decorative]="decorative" />',
+    })
+    class TestHost {
+      label = 'Section';
+      decorative = true;
+    }
+
+    it('forces role separator when label is present', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      expect(el.getAttribute('role')).toBe('separator');
+    });
+
+    it('removes aria-hidden when label is present', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      expect(el.getAttribute('aria-hidden')).toBeNull();
+    });
+
+    it('preserves decorative behavior when label is absent', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.label = '';
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      expect(el.getAttribute('aria-hidden')).toBe('true');
+      expect(el.getAttribute('role')).toBeNull();
     });
   });
 });

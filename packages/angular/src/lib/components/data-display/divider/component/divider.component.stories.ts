@@ -20,3 +20,23 @@ export const Heading: Story = {
     await expect(canvas.getByText(/divider/gi)).toBeTruthy();
   },
 };
+
+export const WithLabel: Story = {
+  args: {
+    label: 'Section',
+  },
+};
+
+export const WithLabelStart: Story = {
+  args: {
+    label: 'Section',
+    textPosition: 'start',
+  },
+};
+
+export const WithLabelEnd: Story = {
+  args: {
+    label: 'Section',
+    textPosition: 'end',
+  },
+};
