@@ -1,5 +1,4 @@
-:root,
-[data-theme='light'] {
+@mixin solaris-light-tokens {
   --solaris-bg-page: #ffffff;
   --solaris-surface-base: #ffffff;
   --solaris-surface-subtle: #f7f8fb;
@@ -69,4 +68,9 @@
   --solaris-orange-border: #f5d6a8;
   --solaris-orange-text: #8a4f0b;
   --solaris-orange-on-solid: #ffffff;
+}
+
+:root,
+[data-theme='light'] {
+  @include solaris-light-tokens;
 }

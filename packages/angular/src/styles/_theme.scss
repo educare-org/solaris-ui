@@ -39,15 +39,23 @@ $-default-config: (
   $radius: map.get($merged, radius);
   $motion: map.get($merged, motion);
 
-  :root {
-    @if $color-scheme == light {
+  @if $color-scheme == light {
+    :root:not([data-theme]) {
       color-scheme: light;
-    } @else if $color-scheme == dark {
+      @include color.solaris-light-tokens;
+    }
+  } @else if $color-scheme == dark {
+    :root:not([data-theme]) {
       color-scheme: dark;
-    } @else {
+      @include color.solaris-dark-tokens;
+    }
+  } @else {
+    :root {
       color-scheme: light dark;
     }
+  }
 
+  :root {
     @if $density == compact {
       --solaris-density-default: compact;
     } @else if $density == comfortable {

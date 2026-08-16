@@ -59,4 +59,17 @@ describe('SolarisThemeService', () => {
     expect(service.density).toBe('normal');
     expect(service.reducedMotion).toBe('auto');
   });
+
+  it('should fall back to the --solaris-density-default CSS variable', () => {
+    document.documentElement.style.setProperty(
+      '--solaris-density-default',
+      'compact',
+    );
+    TestBed.configureTestingModule({});
+
+    const service = TestBed.inject(SolarisThemeService);
+
+    expect(service.density).toBe('compact');
+    document.documentElement.style.removeProperty('--solaris-density-default');
+  });
 });
