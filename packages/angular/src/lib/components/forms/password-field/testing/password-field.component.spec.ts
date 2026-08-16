@@ -10,6 +10,7 @@ import { By } from '@angular/platform-browser';
 
 import { SolarisPasswordFieldComponent } from '../component/password-field.component';
 import { SolarisPasswordPolicy } from '../model/password-policy.types';
+import { SolarisFormSuffixDirective } from '../../form-field';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
 import { provideSolaris } from '../../../../providers/provide-solaris';
@@ -290,6 +291,29 @@ class StrengthHost {}
 })
 class NoStrengthHost {}
 
+@Component({
+  standalone: true,
+  imports: [SolarisPasswordFieldComponent, ReactiveFormsModule],
+  template: `<solaris-password-field
+    label="Senha"
+    suffix="check"
+  ></solaris-password-field>`,
+})
+class SuffixHost {}
+
+@Component({
+  standalone: true,
+  imports: [
+    SolarisPasswordFieldComponent,
+    SolarisFormSuffixDirective,
+    ReactiveFormsModule,
+  ],
+  template: `<solaris-password-field label="Senha">
+    <span solaris-form-suffix>seguro</span>
+  </solaris-password-field>`,
+})
+class ProjectedSuffixHost {}
+
 describe('SolarisPasswordFieldComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -397,6 +421,33 @@ describe('SolarisPasswordFieldComponent', () => {
         By.css('button.solaris-password-field__toggle'),
       );
       expect(toggle.nativeElement.getAttribute('aria-label')).toBeTruthy();
+    });
+
+    it('renders toggle button and suffix icon together', () => {
+      const fixture = TestBed.createComponent(SuffixHost);
+      fixture.detectChanges();
+      const toggle = fixture.debugElement.query(
+        By.css('button.solaris-password-field__toggle'),
+      );
+      const suffixIcon = fixture.debugElement.query(
+        By.css('span.solaris-form-suffix solaris-icon'),
+      );
+      const toggleIcon = fixture.debugElement.query(
+        By.css('button.solaris-password-field__toggle solaris-icon'),
+      );
+      expect(toggle).toBeTruthy();
+      expect(suffixIcon).toBeTruthy();
+      expect(toggleIcon).toBeTruthy();
+    });
+
+    it('does not duplicate projected suffix when suffix input is set', () => {
+      const fixture = TestBed.createComponent(ProjectedSuffixHost);
+      fixture.detectChanges();
+      const projected = fixture.nativeElement.querySelector(
+        'span[solaris-form-suffix]',
+      );
+      expect(projected).toBeTruthy();
+      expect(projected.textContent.trim()).toBe('seguro');
     });
 
     it('sets autocomplete on input', () => {

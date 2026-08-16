@@ -35,8 +35,13 @@
 <div class="solaris-form-field__control-wrapper">
   <span
     class="solaris-form-field__affix solaris-form-field__affix--prefix"
-    [attr.data-empty]="hasPrefix() ? null : ''"
+    [attr.data-empty]="effectiveHasPrefix() ? null : ''"
   >
+    @if (prefix(); as prefixName) {
+      <span solaris-form-prefix>
+        <solaris-icon [name]="prefixName" [decorative]="true" />
+      </span>
+    }
     <ng-content select="[solaris-form-prefix]" />
   </span>
 
@@ -46,8 +51,13 @@
 
   <span
     class="solaris-form-field__affix solaris-form-field__affix--suffix"
-    [attr.data-empty]="hasSuffix() ? null : ''"
+    [attr.data-empty]="effectiveHasSuffix() ? null : ''"
   >
+    @if (suffix(); as suffixName) {
+      <span solaris-form-suffix>
+        <solaris-icon [name]="suffixName" [decorative]="true" />
+      </span>
+    }
     <ng-content select="[solaris-form-suffix]" />
   </span>
 </div>

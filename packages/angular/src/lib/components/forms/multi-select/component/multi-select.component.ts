@@ -52,6 +52,7 @@ import type {
   SolarisMultiSelectRadius,
   SolarisMultiSelectDisplayMode,
 } from '../model/multi-select.types';
+import type { SolarisIconName } from '../../../icon/model/icon.types';
 
 function normalizeArray(value: unknown): unknown[] {
   if (value === null || value === undefined) return [];
@@ -161,7 +162,7 @@ export class SolarisMultiSelectComponent
   readonly readonlyInput = input(false, { alias: 'readonly' });
   readonly requiredInput = input(false, { alias: 'required' });
   readonly panelMaxHeight = input<string | number>('320px');
-  readonly icon = input<string>();
+  readonly prefix = input<SolarisIconName>();
   readonly displayWith = input<(value: unknown) => string | undefined>();
   readonly appearance = input<SolarisMultiSelectAppearance>('outline');
   readonly compareWith = input<(a: unknown, b: unknown) => boolean>(Object.is);

@@ -48,6 +48,7 @@ import type {
   SolarisSelectDensity,
   SolarisSelectRadius,
 } from '../model/select.types';
+import type { SolarisIconName } from '../../../icon/model/icon.types';
 
 @Component({
   selector: 'solaris-select',
@@ -115,7 +116,7 @@ export class SolarisSelectComponent
   );
 
   readonly hint = input<string>();
-  readonly icon = input<string>();
+  readonly prefix = input<SolarisIconName>();
   readonly label = input<string>();
   readonly error = input<string>();
   readonly hintKey = input<string>();

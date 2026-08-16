@@ -237,6 +237,23 @@
 
   <section class="email-field-showcase__section">
     <h2 class="email-field-showcase__section-title">
+      {{ 'email-field.affixes' | translate }}
+    </h2>
+    <p class="email-field-showcase__note">
+      {{ 'email-field.affixes-note' | translate }}
+    </p>
+    <div class="email-field-showcase__demo">
+      <solaris-email-field
+        [label]="'email-field.label.affixes' | translate"
+        placeholderKey="email-field.placeholder.affixes"
+        prefix="search"
+        suffix="info"
+      ></solaris-email-field>
+    </div>
+  </section>
+
+  <section class="email-field-showcase__section">
+    <h2 class="email-field-showcase__section-title">
       {{ 'email-field.manual-composition' | translate }}
     </h2>
     <p class="email-field-showcase__note">

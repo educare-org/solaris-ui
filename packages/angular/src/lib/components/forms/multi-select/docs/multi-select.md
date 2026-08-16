@@ -79,6 +79,7 @@ Multi Select represents a multiple selection within a form. It controls an array
 | `ariaLabel`             | `string \| undefined`                                 | —           | ARIA label                             |
 | `ariaLabelKey`          | `string \| undefined`                                 | —           | Translation key for ARIA label         |
 | `ariaLabelledby`        | `string \| undefined`                                 | —           | ARIA labelledby                        |
+| `prefix`                | `SolarisIconName \| undefined`                        | —           | Prefix icon in the leading affix slot  |
 
 ### Outputs
 

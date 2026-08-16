@@ -479,6 +479,45 @@ describe('SolarisFormFieldComponent prefix and suffix', () => {
   });
 });
 
+describe('SolarisFormFieldComponent prefix/suffix inputs', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisFormFieldComponent],
+    template: `
+      <solaris-form-field label="Value" prefix="search" suffix="info">
+        <input />
+      </solaris-form-field>
+    `,
+    providers: [provideSolarisTesting()],
+  })
+  class PrefixSuffixInputHostComponent {}
+
+  let fixture: ComponentFixture<PrefixSuffixInputHostComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(PrefixSuffixInputHostComponent);
+    fixture.detectChanges();
+  });
+
+  it('should render prefix and suffix icons', () => {
+    const prefix = fixture.nativeElement.querySelector(
+      '.solaris-form-field__affix--prefix solaris-icon',
+    );
+    const suffix = fixture.nativeElement.querySelector(
+      '.solaris-form-field__affix--suffix solaris-icon',
+    );
+    expect(prefix).toBeTruthy();
+    expect(suffix).toBeTruthy();
+  });
+
+  it('should apply data-has-prefix and data-has-suffix', () => {
+    const host = fixture.nativeElement.querySelector('solaris-form-field');
+    expect(host.hasAttribute('data-has-prefix')).toBe(true);
+    expect(host.hasAttribute('data-has-suffix')).toBe(true);
+  });
+});
+
 describe('SolarisFormFieldComponent with Reactive Forms', () => {
   let fixture: ComponentFixture<SolarisFormFieldComponent>;
 

@@ -21,7 +21,7 @@ export const emailFieldPtBr: SolarisTranslationMap = {
   'email-field.reactive-forms-note':
     'O campo abaixo usa formControlName com Validators.required. Interaja com o campo para ver o comportamento de validação.',
   'email-field.reactive-forms-status':
-    'Válido: {valid} | Tocou: {touched} | Valor: {value}',
+    'Válido: {{valid}} | Tocou: {{touched}} | Valor: {{value}}',
   'email-field.manual-composition': 'Composição Manual',
   'email-field.manual-composition-note':
     'Você também pode compor Form Field + Input manualmente para controle total.',
@@ -60,4 +60,9 @@ export const emailFieldPtBr: SolarisTranslationMap = {
   'email-field.character-counter-note':
     'Exibido automaticamente quando maxLength é fornecido.',
   'email-field.label.maxlength': 'E-mail (máx 100)',
+  'email-field.affixes': 'Prefixo e Sufixo',
+  'email-field.affixes-note':
+    'Ícones via inputs prefix e suffix; qualquer outro conteúdo via [solaris-form-prefix] / [solaris-form-suffix].',
+  'email-field.label.affixes': 'E-mail com afixos',
+  'email-field.placeholder.affixes': 'seuemail@empresa.com',
 };

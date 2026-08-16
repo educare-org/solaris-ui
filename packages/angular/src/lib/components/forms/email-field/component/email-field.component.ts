@@ -7,6 +7,7 @@ import {
   forwardRef,
   inject,
   viewChild,
+  contentChild,
   ElementRef,
   isDevMode,
   ChangeDetectionStrategy,
@@ -22,6 +23,7 @@ import type {
   SolarisEmailFieldDensity,
   SolarisEmailFieldRadius,
 } from '../model/email-field.types';
+import type { SolarisIconName } from '../../../icon/model/icon.types';
 import {
   isValidEmailFormat,
   extractDomain,
@@ -30,13 +32,23 @@ import {
 } from '../validators/email-field.validators';
 import type { SolarisTranslateParams } from '../../../../services/translation';
 import { SolarisTranslateService } from '../../../../services/translation';
-import { SolarisFormFieldComponent } from '../../form-field';
+import {
+  SolarisFormFieldComponent,
+  SolarisFormPrefixDirective,
+  SolarisFormSuffixDirective,
+} from '../../form-field';
 import { SolarisInputDirective } from '../../input';
+import { SolarisIconComponent } from '../../../icon';
 
 @Component({
   selector: 'solaris-email-field',
   standalone: true,
-  imports: [FormsModule, SolarisFormFieldComponent, SolarisInputDirective],
+  imports: [
+    FormsModule,
+    SolarisFormFieldComponent,
+    SolarisInputDirective,
+    SolarisIconComponent,
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -53,6 +65,9 @@ export class SolarisEmailFieldComponent implements ControlValueAccessor {
 
   protected readonly inputElementRef =
     viewChild<ElementRef<HTMLInputElement>>('inputElement');
+
+  protected readonly projectedPrefix = contentChild(SolarisFormPrefixDirective);
+  protected readonly projectedSuffix = contentChild(SolarisFormSuffixDirective);
 
   readonly id = input<string>();
   readonly name = input<string>();
@@ -89,6 +104,15 @@ export class SolarisEmailFieldComponent implements ControlValueAccessor {
   readonly maxLength = input<number | undefined>();
   readonly validateDomain = input<boolean, boolean>(false, {
     transform: (v: boolean) => v,
+  });
+  readonly prefix = input<SolarisIconName>();
+  readonly suffix = input<SolarisIconName>();
+
+  protected readonly hasPrefix = computed(() => {
+    return !!this.projectedPrefix() || !!this.prefix();
+  });
+  protected readonly hasSuffix = computed(() => {
+    return !!this.projectedSuffix() || !!this.suffix();
   });
 
   protected readonly internalValue = signal<string>('');

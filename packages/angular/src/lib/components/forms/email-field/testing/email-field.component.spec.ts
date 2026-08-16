@@ -220,6 +220,17 @@ class NormalizeLowercaseHost {}
 
 @Component({
   standalone: true,
+  imports: [SolarisEmailFieldComponent, ReactiveFormsModule],
+  template: `<solaris-email-field
+    label="E-mail"
+    prefix="search"
+    suffix="info"
+  ></solaris-email-field>`,
+})
+class IconAffixHost {}
+
+@Component({
+  standalone: true,
   imports: [
     SolarisEmailFieldComponent,
     ReactiveFormsModule,
@@ -296,6 +307,44 @@ describe('SolarisEmailFieldComponent', () => {
       expect(prefix.nativeElement.textContent).toBe('$');
       expect(suffix).toBeTruthy();
       expect(suffix.nativeElement.textContent).toBe('@empresa.com');
+
+      const formField = fixture.debugElement.query(
+        By.css('solaris-form-field'),
+      );
+      expect(formField.nativeElement.hasAttribute('data-has-prefix')).toBe(
+        true,
+      );
+      expect(formField.nativeElement.hasAttribute('data-has-suffix')).toBe(
+        true,
+      );
+    });
+
+    it('renders prefix and suffix icons via inputs', () => {
+      const fixture = TestBed.createComponent(IconAffixHost);
+      fixture.detectChanges();
+      const prefix = fixture.debugElement.query(
+        By.css('[solaris-form-prefix]'),
+      );
+      const suffix = fixture.debugElement.query(
+        By.css('[solaris-form-suffix]'),
+      );
+      expect(prefix).toBeTruthy();
+      expect(suffix).toBeTruthy();
+      const formField = fixture.debugElement.query(
+        By.css('solaris-form-field'),
+      );
+      expect(formField.nativeElement.hasAttribute('data-has-prefix')).toBe(
+        true,
+      );
+      expect(formField.nativeElement.hasAttribute('data-has-suffix')).toBe(
+        true,
+      );
+
+      const affixPrefix = formField.query(
+        By.css('.solaris-form-field__affix--prefix'),
+      );
+      expect(affixPrefix).toBeTruthy();
+      expect(affixPrefix.query(By.css('[solaris-form-prefix]'))).toBeTruthy();
     });
 
     it('renders error when invalid state is visible', () => {

@@ -9,6 +9,7 @@ import {
   forwardRef,
   inject,
   viewChild,
+  contentChild,
   ElementRef,
   isDevMode,
   ChangeDetectionStrategy,
@@ -25,8 +26,10 @@ import type {
   SolarisPasswordFieldRadius,
   SolarisPasswordStrength,
 } from '../model/password-field.types';
+import type { SolarisIconName } from '../../../icon/model/icon.types';
 import {
   SolarisFormFieldComponent,
+  SolarisFormPrefixDirective,
   SolarisFormSuffixDirective,
 } from '../../form-field';
 import type { SolarisPasswordPolicy } from '../model/password-policy.types';
@@ -70,6 +73,9 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
   protected readonly inputElementRef =
     viewChild<ElementRef<HTMLInputElement>>('inputElement');
 
+  protected readonly projectedPrefix = contentChild(SolarisFormPrefixDirective);
+  protected readonly projectedSuffix = contentChild(SolarisFormSuffixDirective);
+
   readonly value = input<string>('');
   readonly label = input<string>('');
   readonly labelKey = input<string>();
@@ -91,6 +97,15 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
   readonly density = input<SolarisPasswordFieldDensity>();
   readonly radius = input<SolarisPasswordFieldRadius>('md');
   readonly fullWidth = input<boolean>(true);
+  readonly prefix = input<SolarisIconName>();
+  readonly suffix = input<SolarisIconName>();
+
+  protected readonly hasPrefix = computed(() => {
+    return !!this.prefix() || !!this.projectedPrefix();
+  });
+  protected readonly hasSuffix = computed(() => {
+    return !!this.suffix() || !!this.projectedSuffix() || this.showToggle();
+  });
 
   readonly showToggle = input<boolean>(true);
   readonly visible = input<boolean>(false);

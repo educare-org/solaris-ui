@@ -18,10 +18,15 @@ export const passwordFieldPtBr: SolarisTranslationMap = {
   'password-field.reactive-forms-note':
     'O campo abaixo usa formControlName com Validators.required e solarisPasswordValidator. Interaja com o campo para ver o comportamento de validação.',
   'password-field.reactive-forms-status':
-    'Válido: {valid} | Tocou: {touched} | Valor: {value}',
+    'Válido: {{valid}} | Tocou: {{touched}} | Valor: {{value}}',
   'password-field.manual-composition': 'Composição Manual',
   'password-field.manual-composition-note':
     'Você também pode compor Form Field + Input + Icon Button manualmente para controle total.',
+  'password-field.affixes': 'Prefixo e Sufixo',
+  'password-field.affixes-note':
+    'Ícones via inputs prefix e suffix; qualquer outro conteúdo via [solaris-form-prefix] / [solaris-form-suffix].',
+  'password-field.label.affixes': 'Senha com afixos',
+  'password-field.placeholder.affixes': 'Digite sua senha',
   'solaris.password-field.toggle.show': 'Mostrar senha',
   'solaris.password-field.toggle.hide': 'Ocultar senha',
   'solaris.password-field.strength.weak': 'Fraca',

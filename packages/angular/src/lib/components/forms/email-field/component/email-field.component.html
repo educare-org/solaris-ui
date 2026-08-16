@@ -13,7 +13,14 @@
   [invalid]="isFieldInvalid()"
   [error]="error() || computedError()"
   [disabled]="isEffectivelyDisabled()"
+  [hasPrefix]="hasPrefix()"
+  [hasSuffix]="hasSuffix()"
 >
+  @if (prefix() && !projectedPrefix()) {
+    <span solaris-form-prefix>
+      <solaris-icon [name]="prefix() ?? ''" [decorative]="true" />
+    </span>
+  }
   <ng-content select="[solaris-form-prefix]" />
   <input
     type="email"
@@ -36,5 +43,10 @@
     [attr.maxlength]="maxLength() ?? null"
     [attr.placeholder]="placeholderText() || null"
   />
+  @if (suffix() && !projectedSuffix()) {
+    <span solaris-form-suffix>
+      <solaris-icon [name]="suffix() ?? ''" [decorative]="true" />
+    </span>
+  }
   <ng-content select="[solaris-form-suffix]" />
 </solaris-form-field>

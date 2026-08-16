@@ -69,6 +69,8 @@ Selector: `solaris-form-field`
 | `appearance`       | `'outline' \| 'surface' \| 'filled'`     | `'outline'` | Visual style                                     |
 | `density`          | `'compact' \| 'normal' \| 'comfortable'` | inherited   | Spacing density                                  |
 | `radius`           | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'md'`      | Border radius                                    |
+| `prefix`           | `SolarisIconName`                        | —           | Prefix icon rendered in the leading affix slot   |
+| `suffix`           | `SolarisIconName`                        | —           | Suffix icon rendered in the trailing affix slot  |
 
 ### SolarisFormLabelComponent
 
@@ -181,16 +183,18 @@ The default visual marks **optional**, not required.
 
 ## Prefix / Suffix
 
-Use `[solaris-form-prefix]` and `[solaris-form-suffix]` for content placed before/after the control.
+Use `prefix` / `suffix` inputs for icons, or `[solaris-form-prefix]` /
+`[solaris-form-suffix]` for any projected content (text, icon, button).
 
-Accepts:
+Icons via inputs:
 
-- text
-- icon
-- button
-- any projected content
+```html
+<solaris-form-field label="Search" prefix="search">
+  <input solaris-input />
+</solaris-form-field>
+```
 
-Examples:
+Projected content (text, buttons, anything):
 
 ```html
 <solaris-form-field label="Search">
@@ -204,6 +208,13 @@ Examples:
   <span solaris-form-suffix>BRL</span>
 </solaris-form-field>
 ```
+
+Accepts (via projection):
+
+- text
+- icon
+- button
+- any projected content
 
 ## Appearances
 

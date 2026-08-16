@@ -35,6 +35,7 @@ import { SolarisFormControl } from '../model/form-control.contract';
 import { SolarisFormLabelComponent } from './form-label.component';
 import { SolarisFormErrorComponent } from './form-error.component';
 import { SolarisFormHintComponent } from './form-hint.component';
+import { SolarisIconComponent } from '../../../icon';
 import { nextIdFor } from '../../../../core';
 
 import type {
@@ -43,11 +44,16 @@ import type {
   SolarisFormFieldRadius,
   ControlResize,
 } from '../model/form-field.types';
+import type { SolarisIconName } from '../../../../services/icon';
 
 @Component({
   selector: 'solaris-form-field',
   standalone: true,
-  imports: [],
+  imports: [
+    SolarisIconComponent,
+    SolarisFormPrefixDirective,
+    SolarisFormSuffixDirective,
+  ],
   templateUrl: './form-field.component.html',
   styleUrls: ['./form-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,8 +66,8 @@ import type {
     '[attr.data-control-resize]': 'controlResize()',
     '[attr.data-invalid]': 'isInvalid() ? "" : null',
     '[attr.data-focused]': 'isFocused() ? "" : null',
-    '[attr.data-has-prefix]': 'hasPrefix() ? "" : null',
-    '[attr.data-has-suffix]': 'hasSuffix() ? "" : null',
+    '[attr.data-has-prefix]': 'effectiveHasPrefix() ? "" : null',
+    '[attr.data-has-suffix]': 'effectiveHasSuffix() ? "" : null',
     '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
     '[attr.data-readonly]': 'isEffectivelyReadonly() ? "" : null',
   },
@@ -102,8 +108,8 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly projectedLabel = contentChild(SolarisFormLabelComponent);
   protected readonly projectedHint = contentChild(SolarisFormHintComponent);
   protected readonly projectedError = contentChild(SolarisFormErrorComponent);
-  protected readonly prefix = contentChild(SolarisFormPrefixDirective);
-  protected readonly suffix = contentChild(SolarisFormSuffixDirective);
+  protected readonly projectedPrefix = contentChild(SolarisFormPrefixDirective);
+  protected readonly projectedSuffix = contentChild(SolarisFormSuffixDirective);
   protected readonly formControl = contentChild(SolarisFormControl);
   protected readonly formControlDirective = contentChild(FormControlDirective);
   protected readonly formControlName = contentChild(FormControlName);
@@ -157,8 +163,26 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly hasProjectedError = computed(
     () => !!this.projectedError(),
   );
-  protected readonly hasPrefix = signal(false);
-  protected readonly hasSuffix = signal(false);
+  readonly hasPrefixInput = input<boolean | undefined>(undefined, {
+    alias: 'hasPrefix',
+  });
+  readonly hasSuffixInput = input<boolean | undefined>(undefined, {
+    alias: 'hasSuffix',
+  });
+
+  readonly prefix = input<SolarisIconName>();
+  readonly suffix = input<SolarisIconName>();
+
+  protected readonly effectiveHasPrefix = computed(() => {
+    return (
+      !!this.prefix() || !!this.projectedPrefix() || !!this.hasPrefixInput()
+    );
+  });
+  protected readonly effectiveHasSuffix = computed(() => {
+    return (
+      !!this.suffix() || !!this.projectedSuffix() || !!this.hasSuffixInput()
+    );
+  });
 
   protected readonly controlType = computed<
     'input' | 'textarea' | 'select' | 'other'
@@ -309,8 +333,6 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   });
 
   ngAfterContentInit(): void {
-    this.hasPrefix.set(!!this.prefix());
-    this.hasSuffix.set(!!this.suffix());
     this.detectControl();
     this.connectControl();
     this.syncDescribedBy();

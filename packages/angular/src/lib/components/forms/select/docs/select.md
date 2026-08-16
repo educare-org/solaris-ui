@@ -86,6 +86,7 @@ Select v1 does not implement:
 | `panelMatchTriggerWidth`     | `boolean`                                 | `true`      | Match panel width to trigger width            |
 | `ariaLabel` / `ariaLabelKey` | `string`                                  | —           | Accessible label                              |
 | `ariaLabelledby`             | `string`                                  | —           | ID of labelling element                       |
+| `prefix`                     | `SolarisIconName`                         | —           | Prefix icon in the leading affix slot         |
 
 ### Outputs
 

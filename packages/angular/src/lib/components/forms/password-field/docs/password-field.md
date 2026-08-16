@@ -71,6 +71,8 @@ Password Field does not replace Form Field + Input. It is an official convenienc
 | `toggleShowLabelKey` | `string \| undefined`                                 | -           | Translation key                                      |
 | `toggleHideLabel`    | `string \| undefined`                                 | -           | Toggle "hide" label                                  |
 | `toggleHideLabelKey` | `string \| undefined`                                 | -           | Translation key                                      |
+| `prefix`             | `SolarisIconName \| undefined`                        | -           | Prefix icon in the leading affix slot                |
+| `suffix`             | `SolarisIconName \| undefined`                        | -           | Suffix icon in the trailing affix slot               |
 
 ### Outputs
 
@@ -251,6 +253,10 @@ An explicit manual error via `[invalid]="true"` overrides automatic detection.
 
 <!-- Disabled -->
 <solaris-password-field label="Password" [disabled]="true" />
+
+<!-- Prefix / Suffix icons -->
+<solaris-password-field label="Password" prefix="lock" />
+<solaris-password-field label="Password" suffix="check" />
 ```
 
 ## Limitations v1

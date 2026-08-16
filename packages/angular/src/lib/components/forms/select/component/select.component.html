@@ -10,6 +10,7 @@
   [radius]="radius()"
   [invalid]="isEffectivelyInvalid()"
   [required]="requiredInput()"
+  [hasPrefix]="!!prefix()"
   solaris-popover-trigger
   [solarisPopoverDisabled]="!canOpen()"
   [solarisPopoverTriggerFor]="matchWidthPopover"
@@ -27,8 +28,10 @@
   [solarisPopoverCloseOnEscape]="false"
   [solarisPopoverAriaHasPopup]="'listbox'"
 >
-  @if (icon(); as iconName) {
-    <solaris-icon solaris-form-prefix [name]="iconName" [decorative]="true" />
+  @if (prefix(); as iconName) {
+    <span solaris-form-prefix>
+      <solaris-icon [name]="iconName" [decorative]="true" />
+    </span>
   }
   <ng-content select="[solaris-form-prefix]" />
 

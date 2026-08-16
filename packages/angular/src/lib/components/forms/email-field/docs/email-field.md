@@ -77,6 +77,8 @@ The preset exists for the common case where you want email validation, proper au
 | `allowedDomains`        | `string[]`                               | —           | Domain whitelist                                   |
 | `blockedDomains`        | `string[]`                               | —           | Domain blacklist                                   |
 | `validateDomain`        | `boolean`                                | —           | Auto-enabled when allowed/blocked domains provided |
+| `prefix`                | `SolarisIconName`                        | —           | Prefix icon in the leading affix slot              |
+| `suffix`                | `SolarisIconName`                        | —           | Suffix icon in the trailing affix slot             |
 
 ### Internal input attributes
 
@@ -280,6 +282,20 @@ Email Field delegates to `solaris-form-field`:
 
 ```html
 <solaris-email-field label="E-mail" [normalizeLowercase]="true"></solaris-email-field>
+```
+
+### Prefix / Suffix icons
+
+```html
+<solaris-email-field label="Search" prefix="search"></solaris-email-field> <solaris-email-field label="E-mail" suffix="info"></solaris-email-field>
+```
+
+### Projected affixes
+
+```html
+<solaris-email-field label="E-mail">
+  <solaris-icon solaris-form-prefix name="mail" decorative="true" />
+</solaris-email-field>
 ```
 
 ### Reactive Forms
