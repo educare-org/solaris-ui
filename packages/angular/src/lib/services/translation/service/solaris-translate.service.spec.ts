@@ -48,6 +48,26 @@ describe('SolarisTranslateService', () => {
       expect(result).toBe('nonexistent_key');
     });
 
+    it('delegates unknown keys to the custom resolver', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          provideSolarisTranslate({
+            locale: 'en-US',
+            fallbackLocale: 'en-US',
+            useBrowserLocale: false,
+            translations: {},
+            resolver: (key) =>
+              key === 'app.login.email.label' ? 'Email' : undefined,
+          }),
+        ],
+      });
+      service = TestBed.inject(SolarisTranslateService);
+
+      expect(service.translate('app.login.email.label')).toBe('Email');
+      expect(service.translate('still.missing')).toBe('still.missing');
+    });
+
     it('supports simple interpolation', () => {
       const result = service.translate('greeting', { name: 'World' });
       expect(result).toBe('Hello, World');

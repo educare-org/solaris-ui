@@ -54,6 +54,29 @@ Internal fallback text is allowed only when:
 
 Consumers must be able to provide translation overrides through a documented provider.
 
+## Host app i18n integration
+
+Solaris resolves `*Key` inputs (e.g. `labelKey`, `placeholderKey`) through the
+`SolarisTranslateService`. Keys registered in the Solaris translation maps are
+resolved directly. For keys owned by the host application, consumers may
+register a `resolver` in `SolarisTranslateConfig`:
+
+```typescript
+provideSolaris({
+  translate: {
+    locale: 'pt-BR',
+    fallbackLocale: 'en-US',
+    useBrowserLocale: true,
+    translations: { 'pt-BR': { 'solaris.button.loading': 'Carregando...' } },
+    resolver: (key, params) => hostI18nService.translate(key, params),
+  },
+});
+```
+
+The resolver is only invoked when a key is not found in the Solaris
+translation maps. If the resolver returns a value different from the key, that
+value is used; otherwise the key is returned verbatim.
+
 ## Locale behavior
 
 Solaris must support:

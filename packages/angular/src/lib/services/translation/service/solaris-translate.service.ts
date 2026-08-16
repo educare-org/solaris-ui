@@ -68,6 +68,11 @@ export class SolarisTranslateService {
       return this.interpolate(defaultMap[key], params);
     }
 
+    const resolved = this.config.resolver?.(key, params);
+    if (resolved !== undefined && resolved !== key) {
+      return resolved;
+    }
+
     return key;
   }
 

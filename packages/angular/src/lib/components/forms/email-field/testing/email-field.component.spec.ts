@@ -9,6 +9,8 @@ import {
 import { By } from '@angular/platform-browser';
 
 import { SolarisEmailFieldComponent } from '../component/email-field.component';
+import { SolarisFormPrefixDirective } from '../../form-field/directives/form-prefix.directive';
+import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
 
@@ -218,6 +220,21 @@ class NormalizeLowercaseHost {}
 
 @Component({
   standalone: true,
+  imports: [
+    SolarisEmailFieldComponent,
+    ReactiveFormsModule,
+    SolarisFormPrefixDirective,
+    SolarisFormSuffixDirective,
+  ],
+  template: `<solaris-email-field label="E-mail">
+    <span solaris-form-prefix>$</span>
+    <span solaris-form-suffix>@empresa.com</span>
+  </solaris-email-field>`,
+})
+class PrefixSuffixHost {}
+
+@Component({
+  standalone: true,
   imports: [SolarisEmailFieldComponent, ReactiveFormsModule],
   template: `<solaris-email-field
     label="E-mail"
@@ -264,6 +281,21 @@ describe('SolarisEmailFieldComponent', () => {
       expect(hint.nativeElement.textContent).toContain(
         'Enter your institutional email.',
       );
+    });
+
+    it('projects prefix and suffix', () => {
+      const fixture = TestBed.createComponent(PrefixSuffixHost);
+      fixture.detectChanges();
+      const prefix = fixture.debugElement.query(
+        By.css('[solaris-form-prefix]'),
+      );
+      const suffix = fixture.debugElement.query(
+        By.css('[solaris-form-suffix]'),
+      );
+      expect(prefix).toBeTruthy();
+      expect(prefix.nativeElement.textContent).toBe('$');
+      expect(suffix).toBeTruthy();
+      expect(suffix.nativeElement.textContent).toBe('@empresa.com');
     });
 
     it('renders error when invalid state is visible', () => {

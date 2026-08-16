@@ -21,6 +21,11 @@ When both are provided, `label` takes precedence. The `SolarisTranslateService` 
 
 Translation files live alongside component code in `translations/en-US.ts` and are bundled with the showcase, not the library. The library provides the pipe and service; consumers provide their own translations.
 
+For keys owned by the host application, consumers may register a `resolver`
+function in `SolarisTranslateConfig`. When a `*Key` is not found in the
+Solaris translation maps, the resolver delegates to the host's i18n system so
+keys resolve without duplicating them in the Solaris maps.
+
 ## Consequences
 
 Positive:
