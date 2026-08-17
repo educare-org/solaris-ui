@@ -64,10 +64,18 @@ export class SolarisIconButtonDirective {
   protected readonly isAnchor = this.elementRef.nativeElement.tagName === 'A';
 
   constructor() {
-    const initialType = this.elementRef.nativeElement.getAttribute('type');
+    const el = this.elementRef.nativeElement;
+    const initialType = el.getAttribute('type');
     if (this.isButton && initialType === null) {
-      this.elementRef.nativeElement.setAttribute('type', 'button');
+      el.setAttribute('type', 'button');
     }
+
+    // Apply variant attributes synchronously so the element never flashes the
+    // base style before Angular's first change detection (SSR/hydration FOUC).
+    el.setAttribute('data-appearance', this.appearance());
+    el.setAttribute('data-color', this.color());
+    el.setAttribute('data-radius', this.radius());
+    el.setAttribute('data-shape', this.shape());
   }
 
   @HostListener('click', ['$event'])
