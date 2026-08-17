@@ -11,7 +11,7 @@ test.describe('Icons', () => {
   });
 
   test('lists all built-in icons', async () => {
-    await expect(icons.gridItems()).toHaveCount(108);
+    await expect(icons.gridItems()).toHaveCount(113);
   });
 
   test('filters icons by search', async () => {
@@ -39,6 +39,14 @@ test.describe('Icons', () => {
     await expect(icons.iconItem('mail')).toBeVisible();
     await expect(icons.iconItem('inbox')).toBeVisible();
     await expect(icons.iconItem('message-square')).toBeVisible();
+  });
+
+  test('filters icons by brands category', async () => {
+    await icons.category('Brands').click();
+    await expect(icons.gridItems()).toHaveCount(5);
+    await expect(icons.iconItem('google')).toBeVisible();
+    await expect(icons.iconItem('microsoft')).toBeVisible();
+    await expect(icons.iconItem('github')).toBeVisible();
   });
 
   test('customizer changes width for all icons', async () => {
