@@ -177,6 +177,8 @@ Error names:
 
 Built-in visibility toggle. Use `[showToggle]="false"` to hide it.
 
+The toggle icon is sized one typography step above the field's `--solaris-density-font-size` for every density, so it stays proportionally larger than the text and other affix icons.
+
 ## Requirements list
 
 Enable with `[showRequirements]="true"` and provide `[policy]`. The list shows each requirement and its state.

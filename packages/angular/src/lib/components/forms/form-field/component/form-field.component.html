@@ -1,36 +1,40 @@
-@if (labelText() || hasProjectedLabel()) {
-  <div class="solaris-form-field__label-row">
-    @if (hasProjectedLabel()) {
-      <ng-content select="solaris-form-label" />
-    } @else if (labelText()) {
-      <label
-        class="solaris-form-field__label"
-        [id]="labelId"
-        [for]="controlId ?? undefined"
-      >
-        {{ labelText() }}
-      </label>
-    }
-    @if (optional()) {
-      <span
-        class="solaris-form-field__optional-marker"
-        [attr.aria-label]="optionalLabelText()"
-      >
-        {{ optionalLabelText() }}
-      </span>
-    }
-    @if (showCharacterCounter()) {
-      <span
-        class="solaris-form-field__character-counter"
-        aria-live="polite"
-        [attr.aria-label]="characterCounterText()"
-        [attr.data-severity]="characterCounterSeverity()"
-      >
-        {{ characterCounterText() }}
-      </span>
-    }
-  </div>
-}
+<div
+  class="solaris-form-field__label-row"
+  [class.solaris-form-field__label-row--empty]="
+    !labelText() && !hasProjectedLabel() && !hasProjectedLabelAction()
+  "
+>
+  @if (hasProjectedLabel()) {
+    <ng-content select="solaris-form-label" />
+  } @else if (labelText()) {
+    <label
+      class="solaris-form-field__label"
+      [id]="labelId"
+      [for]="controlId ?? undefined"
+    >
+      {{ labelText() }}
+    </label>
+  }
+  @if (optional()) {
+    <span
+      class="solaris-form-field__optional-marker"
+      [attr.aria-label]="optionalLabelText()"
+    >
+      {{ optionalLabelText() }}
+    </span>
+  }
+  @if (showCharacterCounter()) {
+    <span
+      class="solaris-form-field__character-counter"
+      aria-live="polite"
+      [attr.aria-label]="characterCounterText()"
+      [attr.data-severity]="characterCounterSeverity()"
+    >
+      {{ characterCounterText() }}
+    </span>
+  }
+  <ng-content select="[solaris-form-label-action]" />
+</div>
 
 <div class="solaris-form-field__control-wrapper">
   <span

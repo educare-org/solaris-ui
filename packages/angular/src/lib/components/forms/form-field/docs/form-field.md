@@ -125,6 +125,19 @@ If a projected `<solaris-form-label>` exists, it wins over the `label`/`labelKey
 
 The label is connected to the control via `for`/`id`. If the control has no `id`, the system generates an SSR-safe ID.
 
+### Label action
+
+Use `[solaris-form-label-action]` to place a link or action on the same row as the label, aligned to the opposite side. This is useful for "Forgot password?" links next to a password field label.
+
+```html
+<solaris-form-field label="Password">
+  <input solaris-input type="password" />
+  <a solaris-form-label-action href="/forgot-password">Forgot password?</a>
+</solaris-form-field>
+```
+
+The action is placed at the end of the label row (pushed to the right via `margin-inline-start: auto`) and kept on the same line as the label. The same slot is forwarded by the preset fields (`solaris-email-field`, `solaris-password-field`, `solaris-select`, `solaris-multi-select`).
+
 ## Hint
 
 Hint can be provided via input:

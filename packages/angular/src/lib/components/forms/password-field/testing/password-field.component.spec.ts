@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
 import { SolarisPasswordFieldComponent } from '../component/password-field.component';
 import { SolarisPasswordPolicy } from '../model/password-policy.types';
 import { SolarisFormSuffixDirective } from '../../form-field';
+import { SolarisFormLabelActionDirective } from '../../form-field';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
 import { provideSolaris } from '../../../../providers/provide-solaris';
@@ -314,6 +315,19 @@ class SuffixHost {}
 })
 class ProjectedSuffixHost {}
 
+@Component({
+  standalone: true,
+  imports: [
+    SolarisPasswordFieldComponent,
+    SolarisFormLabelActionDirective,
+    ReactiveFormsModule,
+  ],
+  template: `<solaris-password-field label="Senha">
+    <a solaris-form-label-action href="#">Esqueceu a senha?</a>
+  </solaris-password-field>`,
+})
+class LabelActionHost {}
+
 describe('SolarisPasswordFieldComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -450,6 +464,20 @@ describe('SolarisPasswordFieldComponent', () => {
       expect(projected.textContent.trim()).toBe('seguro');
     });
 
+    it('projects label action into the label row', () => {
+      const fixture = TestBed.createComponent(LabelActionHost);
+      fixture.detectChanges();
+      const labelRow = fixture.nativeElement.querySelector(
+        '.solaris-form-field__label-row',
+      );
+      const action = fixture.nativeElement.querySelector(
+        '[solaris-form-label-action]',
+      );
+      expect(action).toBeTruthy();
+      expect(labelRow.contains(action)).toBe(true);
+      expect(action.textContent.trim()).toBe('Esqueceu a senha?');
+    });
+
     it('sets autocomplete on input', () => {
       const fixture = TestBed.createComponent(AutocompleteHost);
       fixture.detectChanges();
@@ -526,6 +554,24 @@ describe('SolarisPasswordFieldComponent', () => {
         By.directive(SolarisPasswordFieldComponent),
       );
       expect(passwordField.componentInstance.density()).toBe('normal');
+    });
+
+    it('applies data-density on the host', () => {
+      const fixture = TestBed.createComponent(DensityCompactHost);
+      fixture.detectChanges();
+      const host = fixture.debugElement.query(By.css('solaris-password-field'));
+      expect(host.nativeElement.getAttribute('data-density')).toBe('compact');
+    });
+
+    it('keeps the toggle icon sized from density tokens', () => {
+      const fixture = TestBed.createComponent(DensityCompactHost);
+      fixture.detectChanges();
+      const icon = fixture.debugElement.query(
+        By.css('button.solaris-password-field__toggle solaris-icon'),
+      );
+      expect(icon).toBeTruthy();
+      const host = fixture.debugElement.query(By.css('solaris-password-field'));
+      expect(host.nativeElement.getAttribute('data-density')).toBe('compact');
     });
 
     it('supports radius none', () => {

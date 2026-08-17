@@ -23,7 +23,7 @@ import type {
   SolarisEmailFieldDensity,
   SolarisEmailFieldRadius,
 } from '../model/email-field.types';
-import type { SolarisIconName } from '../../../icon/model/icon.types';
+import type { SolarisIconName } from '../../../../services/icon';
 import {
   isValidEmailFormat,
   extractDomain,
@@ -47,6 +47,8 @@ import { SolarisIconComponent } from '../../../icon';
     FormsModule,
     SolarisFormFieldComponent,
     SolarisInputDirective,
+    SolarisFormPrefixDirective,
+    SolarisFormSuffixDirective,
     SolarisIconComponent,
   ],
   providers: [

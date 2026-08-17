@@ -33,7 +33,10 @@
       <solaris-icon [name]="iconName" [decorative]="true" />
     </span>
   }
-  <ng-content select="[solaris-form-prefix]" />
+  <ng-content
+    select="[solaris-form-prefix]"
+    ngProjectAs="[solaris-form-prefix]"
+  />
 
   <div
     #triggerEl
@@ -99,7 +102,14 @@
     </span>
   </div>
 
-  <ng-content select="[solaris-form-suffix]" />
+  <ng-content
+    select="[solaris-form-suffix]"
+    ngProjectAs="[solaris-form-suffix]"
+  />
+  <ng-content
+    select="[solaris-form-label-action]"
+    ngProjectAs="[solaris-form-label-action]"
+  />
 </solaris-form-field>
 
 <ng-template #matchWidthPopover="solarisPopover" solaris-popover>

@@ -27,6 +27,10 @@ export const passwordFieldPtBr: SolarisTranslationMap = {
     'Ícones via inputs prefix e suffix; qualquer outro conteúdo via [solaris-form-prefix] / [solaris-form-suffix].',
   'password-field.label.affixes': 'Senha com afixos',
   'password-field.placeholder.affixes': 'Digite sua senha',
+  'password-field.label-action': 'Ação no Label',
+  'password-field.label-action-note':
+    'Coloque um link na mesma linha do label usando [solaris-form-label-action].',
+  'password-field.label-action-link': 'Esqueceu a senha?',
   'solaris.password-field.toggle.show': 'Mostrar senha',
   'solaris.password-field.toggle.hide': 'Ocultar senha',
   'solaris.password-field.strength.weak': 'Fraca',

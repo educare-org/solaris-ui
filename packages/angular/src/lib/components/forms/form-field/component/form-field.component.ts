@@ -29,6 +29,7 @@ import { FormControlDirective, FormControlName, NgModel } from '@angular/forms';
 
 import { SolarisFormPrefixDirective } from '../directives/form-prefix.directive';
 import { SolarisFormSuffixDirective } from '../directives/form-suffix.directive';
+import { SolarisFormLabelActionDirective } from '../directives/form-label-action.directive';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisFormControl } from '../model/form-control.contract';
@@ -110,6 +111,9 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly projectedError = contentChild(SolarisFormErrorComponent);
   protected readonly projectedPrefix = contentChild(SolarisFormPrefixDirective);
   protected readonly projectedSuffix = contentChild(SolarisFormSuffixDirective);
+  protected readonly projectedLabelAction = contentChild(
+    SolarisFormLabelActionDirective,
+  );
   protected readonly formControl = contentChild(SolarisFormControl);
   protected readonly formControlDirective = contentChild(FormControlDirective);
   protected readonly formControlName = contentChild(FormControlName);
@@ -162,6 +166,9 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly hasProjectedHint = computed(() => !!this.projectedHint());
   protected readonly hasProjectedError = computed(
     () => !!this.projectedError(),
+  );
+  protected readonly hasProjectedLabelAction = computed(
+    () => !!this.projectedLabelAction(),
   );
   readonly hasPrefixInput = input<boolean | undefined>(undefined, {
     alias: 'hasPrefix',

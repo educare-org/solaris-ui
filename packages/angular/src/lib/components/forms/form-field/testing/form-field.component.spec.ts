@@ -16,6 +16,7 @@ import { SolarisFormHintComponent } from '../component/form-hint.component';
 import { SolarisFormErrorComponent } from '../component/form-error.component';
 import { SolarisFormPrefixDirective } from '../directives/form-prefix.directive';
 import { SolarisFormSuffixDirective } from '../directives/form-suffix.directive';
+import { SolarisFormLabelActionDirective } from '../directives/form-label-action.directive';
 
 describe('SolarisFormFieldComponent', () => {
   let fixture: ComponentFixture<SolarisFormFieldComponent>;
@@ -853,5 +854,58 @@ describe('SolarisFormSuffixDirective', () => {
         .querySelector('[solaris-form-suffix]')
         ?.classList.contains('solaris-form-suffix'),
     ).toBeTruthy();
+  });
+});
+
+describe('SolarisFormFieldComponent label action', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisFormFieldComponent, SolarisFormLabelActionDirective],
+    template: `
+      <solaris-form-field label="Password">
+        <a solaris-form-label-action href="#">Esqueceu a senha?</a>
+        <input type="password" />
+      </solaris-form-field>
+    `,
+    providers: [provideSolarisTesting()],
+  })
+  class LabelActionHostComponent {}
+
+  let fixture: ComponentFixture<LabelActionHostComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(LabelActionHostComponent);
+    fixture.detectChanges();
+  });
+
+  it('should render the label action inside the label row', () => {
+    const labelRow = fixture.nativeElement.querySelector(
+      '.solaris-form-field__label-row',
+    );
+    const action = labelRow.querySelector('[solaris-form-label-action]');
+    expect(action).toBeTruthy();
+    expect(action.textContent?.trim()).toBe('Esqueceu a senha?');
+  });
+
+  it('should apply the label action class', () => {
+    const action = fixture.nativeElement.querySelector(
+      '[solaris-form-label-action]',
+    );
+    expect(action.classList.contains('solaris-form-label-action')).toBe(true);
+  });
+
+  it('should keep the action on the same row as the label', () => {
+    const label = fixture.nativeElement.querySelector(
+      '.solaris-form-field__label',
+    );
+    const action = fixture.nativeElement.querySelector(
+      '[solaris-form-label-action]',
+    );
+    const labelRow = fixture.nativeElement.querySelector(
+      '.solaris-form-field__label-row',
+    );
+    expect(labelRow.contains(label)).toBe(true);
+    expect(labelRow.contains(action)).toBe(true);
   });
 });

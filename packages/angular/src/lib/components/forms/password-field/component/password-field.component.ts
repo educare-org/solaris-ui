@@ -26,7 +26,7 @@ import type {
   SolarisPasswordFieldRadius,
   SolarisPasswordStrength,
 } from '../model/password-field.types';
-import type { SolarisIconName } from '../../../icon/model/icon.types';
+import type { SolarisIconName } from '../../../../services/icon';
 import {
   SolarisFormFieldComponent,
   SolarisFormPrefixDirective,
@@ -36,9 +36,10 @@ import type { SolarisPasswordPolicy } from '../model/password-policy.types';
 import { solarisPasswordValidator } from '../validators/password.validator';
 import { SolarisTranslateService } from '../../../../services/translation';
 import type { SolarisTranslateParams } from '../../../../services/translation';
-import { SolarisIconComponent } from '../../../../components/icon';
-import { SolarisInputDirective } from '../../input';
 import { calculatePasswordStrength } from '../model/password-strength';
+import { SolarisThemeService } from '../../../../services/theme';
+import { SolarisIconComponent } from '../../../icon';
+import { SolarisInputDirective } from '../../input';
 
 interface RequirementItem {
   key: string;
@@ -66,15 +67,23 @@ interface RequirementItem {
   templateUrl: './password-field.component.html',
   styleUrls: ['./password-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[attr.data-density]': 'effectiveDensity()',
+  },
 })
 export class SolarisPasswordFieldComponent implements ControlValueAccessor {
   private readonly translateService = inject(SolarisTranslateService);
+  protected readonly themeService = inject(SolarisThemeService);
 
   protected readonly inputElementRef =
     viewChild<ElementRef<HTMLInputElement>>('inputElement');
 
   protected readonly projectedPrefix = contentChild(SolarisFormPrefixDirective);
   protected readonly projectedSuffix = contentChild(SolarisFormSuffixDirective);
+
+  protected readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   readonly value = input<string>('');
   readonly label = input<string>('');
@@ -430,7 +439,7 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
 
     if (this.inputElementRef()) {
       try {
-        this.inputElementRef()!.nativeElement.focus();
+        this.inputElementRef()?.nativeElement.focus();
       } catch {
         if (isDevMode()) {
           console.warn(

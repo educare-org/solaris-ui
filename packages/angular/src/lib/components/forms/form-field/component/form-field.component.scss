@@ -14,7 +14,7 @@
   --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
   --solaris-form-field-disabled-opacity: var(--solaris-opacity-50);
   --solaris-form-field-control-padding-x: var(--solaris-spacing-3);
-  --solaris-form-field-label-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-md);
   --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
   --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
   --solaris-form-field-focus-ring-color: var(--solaris-primary-base);
@@ -40,6 +40,10 @@
   margin-bottom: var(--solaris-form-field-label-margin-bottom);
 }
 
+.solaris-form-field__label-row--empty {
+  display: none;
+}
+
 .solaris-form-field__label,
 ::ng-deep .solaris-form-label {
   cursor: pointer;
@@ -53,6 +57,11 @@
   white-space: nowrap;
   color: var(--solaris-form-field-optional-color);
   font-size: var(--solaris-form-field-optional-font-size);
+}
+
+:host ::ng-deep .solaris-form-label-action {
+  margin-inline-start: auto;
+  white-space: nowrap;
 }
 
 .solaris-form-field__character-counter {
@@ -262,7 +271,7 @@
   --solaris-form-field-font-size: var(--solaris-density-font-size);
   --solaris-form-field-control-padding-x: var(--solaris-spacing-2);
   --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
-  --solaris-form-field-label-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-md);
   --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
   --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
   --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
@@ -276,7 +285,7 @@
   --solaris-form-field-control-padding-x: var(--solaris-spacing-3);
   --solaris-form-field-hint-font-size: var(--solaris-font-size-sm);
   --solaris-form-field-error-font-size: var(--solaris-font-size-sm);
-  --solaris-form-field-label-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-md);
   --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
   --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
   --solaris-form-field-optional-font-size: var(--solaris-font-size-sm);

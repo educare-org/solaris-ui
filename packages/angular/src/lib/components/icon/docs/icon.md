@@ -11,11 +11,24 @@ the full icon workflow.
 
 ### Inputs
 
-| Input        | Type      | Default     | Description                                |
-| ------------ | --------- | ----------- | ------------------------------------------ |
-| `name`       | `string`  | `required`  | Icon name registered in the icon registry. |
-| `ariaLabel`  | `string`  | `undefined` | Accessible label applied as `aria-label`.  |
-| `decorative` | `boolean` | `false`     | Hides the icon from assistive technology.  |
+| Input          | Type      | Default     | Description                                              |
+| -------------- | --------- | ----------- | -------------------------------------------------------- |
+| `name`         | `string`  | `required`  | Icon name registered in the icon registry.               |
+| `ariaLabel`    | `string`  | `undefined` | Accessible label applied as `aria-label`.                |
+| `decorative`   | `boolean` | `false`     | Hides the icon from assistive technology.                |
+| `inheritColor` | `boolean` | `true`      | Whether the icon inherits `currentColor` for its stroke. |
+
+### Colors
+
+Icons that carry their own colors (multi-color brand icons like `google`,
+`microsoft`, `android`, and monochrome brand icons like `apple`, `github`)
+render with their embedded fills and no inherited stroke, so their brand
+colors are preserved regardless of the surrounding text color.
+
+Line-based icons (e.g. `check`, `chevron-right`) use `currentColor` by default,
+inheriting the text color from their context. Set `[inheritColor]="false"` to
+force such an icon to render without an inherited stroke (useful when you want
+to control the color purely via CSS on the SVG elements).
 
 ### Outputs
 

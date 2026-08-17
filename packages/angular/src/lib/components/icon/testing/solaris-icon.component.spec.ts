@@ -92,4 +92,47 @@ describe('SolarisIconComponent', () => {
     expect(svg.getAttribute('stroke-linecap')).toBe('round');
     expect(svg.getAttribute('stroke-linejoin')).toBe('round');
   });
+
+  it('should use no stroke for icons with their own colors', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'google');
+    fixture.detectChanges();
+
+    const svg = fixture.nativeElement.querySelector('svg');
+    expect(svg.getAttribute('stroke')).toBe('none');
+    expect(svg.getAttribute('stroke-width')).toBe('0');
+  });
+
+  it('should render per-element fill on multicolor brand icons', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'microsoft');
+    fixture.detectChanges();
+
+    const rects = fixture.nativeElement.querySelectorAll('svg rect');
+    expect(rects.length).toBe(4);
+    expect(rects[0].getAttribute('fill')).toBe('#F35325');
+    expect(rects[1].getAttribute('fill')).toBe('#81BC06');
+    expect(rects[2].getAttribute('fill')).toBe('#05A6F0');
+    expect(rects[3].getAttribute('fill')).toBe('#FFBA08');
+  });
+
+  it('should force currentColor stroke when inheritColor is true on a line icon', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'check');
+    fixture.componentRef.setInput('inheritColor', true);
+    fixture.detectChanges();
+
+    const svg = fixture.nativeElement.querySelector('svg');
+    expect(svg.getAttribute('stroke')).toBe('currentColor');
+  });
+
+  it('should disable inherited stroke when inheritColor is false', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'check');
+    fixture.componentRef.setInput('inheritColor', false);
+    fixture.detectChanges();
+
+    const svg = fixture.nativeElement.querySelector('svg');
+    expect(svg.getAttribute('stroke')).toBe('none');
+  });
 });

@@ -27,6 +27,10 @@ export const passwordFieldEnUs: SolarisTranslationMap = {
     'Icons via the prefix and suffix inputs; any other content via [solaris-form-prefix] / [solaris-form-suffix].',
   'password-field.label.affixes': 'Password with affixes',
   'password-field.placeholder.affixes': 'Enter your password',
+  'password-field.label-action': 'Label Action',
+  'password-field.label-action-note':
+    'Place a link on the same row as the label using [solaris-form-label-action].',
+  'password-field.label-action-link': 'Forgot password?',
   'solaris.password-field.toggle.show': 'Show password',
   'solaris.password-field.toggle.hide': 'Hide password',
   'solaris.password-field.strength.weak': 'Weak',
