@@ -22,6 +22,35 @@ describe('SolarisIconRegistryService', () => {
     expect(service.hasIcon('success')).toBe(true);
   });
 
+  it('should have brand icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of ['google', 'microsoft', 'apple', 'android', 'github']) {
+      expect(service.hasIcon(name)).toBe(true);
+      const icon = service.getIcon(name);
+      expect(icon?.elements.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('should expose per-element fills on multicolor brand icons', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+    const google = service.getIcon('google');
+    expect(google?.elements.some((el) => 'fill' in el && el.fill)).toBe(true);
+
+    const microsoft = service.getIcon('microsoft');
+    const rects = microsoft?.elements.filter((el) => el.type === 'rect');
+    expect(rects?.length).toBe(4);
+    expect(rects?.every((el) => el.type === 'rect' && el.fill)).toBe(true);
+  });
+
   it('should return undefined for unregistered icons', () => {
     TestBed.configureTestingModule({
       providers: [provideSolarisIcons()],

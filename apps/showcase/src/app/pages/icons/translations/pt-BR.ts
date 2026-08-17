@@ -15,6 +15,7 @@ export const PT_BR_ICONS: Record<string, string> = {
   'icons.category.layout': 'Layout',
   'icons.category.communication': 'Comunicação',
   'icons.category.media': 'Mídia',
+  'icons.category.brands': 'Marcas',
   'icons.result-count': '{{count}} ícones',
   'icons.no-results': 'Nenhum ícone corresponde à sua busca.',
   'icons.usage': 'Como usar',

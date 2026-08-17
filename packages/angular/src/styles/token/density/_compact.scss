@@ -1,16 +1,16 @@
 [data-density='compact'] {
   --solaris-density-scale: 0.75;
-  --solaris-density-padding-xs: 2px;
-  --solaris-density-padding-sm: 4px;
-  --solaris-density-padding-md: 6px;
-  --solaris-density-padding-lg: 8px;
+  --solaris-density-padding-xs: 4px;
+  --solaris-density-padding-sm: 6px;
+  --solaris-density-padding-md: 8px;
+  --solaris-density-padding-lg: 10px;
   --solaris-density-padding-xl: 12px;
-  --solaris-density-gap-xs: 2px;
-  --solaris-density-gap-sm: 4px;
-  --solaris-density-gap-md: 6px;
-  --solaris-density-gap-lg: 8px;
-  --solaris-density-gap-xl: 10px;
-  --solaris-density-min-width: 36px;
-  --solaris-density-min-height: 36px;
-  --solaris-density-font-size: var(--solaris-font-size-xs);
+  --solaris-density-gap-xs: 4px;
+  --solaris-density-gap-sm: 6px;
+  --solaris-density-gap-md: 8px;
+  --solaris-density-gap-lg: 10px;
+  --solaris-density-gap-xl: 12px;
+  --solaris-density-min-width: 40px;
+  --solaris-density-min-height: 40px;
+  --solaris-density-font-size: var(--solaris-font-size-sm);
 }

@@ -15,6 +15,7 @@ export const EN_US_ICONS: Record<string, string> = {
   'icons.category.layout': 'Layout',
   'icons.category.communication': 'Communication',
   'icons.category.media': 'Media',
+  'icons.category.brands': 'Brands',
   'icons.result-count': '{{count}} icons',
   'icons.no-results': 'No icons match your search.',
   'icons.usage': 'Usage',

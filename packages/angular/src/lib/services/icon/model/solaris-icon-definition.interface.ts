@@ -1,6 +1,11 @@
 export interface SvgPathElement {
   type: 'path';
   d: string;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  strokeLinecap?: string;
+  strokeLinejoin?: string;
 }
 
 export interface SvgLineElement {
@@ -9,16 +14,31 @@ export interface SvgLineElement {
   y1: number;
   x2: number;
   y2: number;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  strokeLinecap?: string;
+  strokeLinejoin?: string;
 }
 
 export interface SvgPolylineElement {
   type: 'polyline';
   points: string;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  strokeLinecap?: string;
+  strokeLinejoin?: string;
 }
 
 export interface SvgPolygonElement {
   type: 'polygon';
   points: string;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  strokeLinecap?: string;
+  strokeLinejoin?: string;
 }
 
 export interface SvgCircleElement {
@@ -26,6 +46,11 @@ export interface SvgCircleElement {
   cx: number;
   cy: number;
   r: number;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  strokeLinecap?: string;
+  strokeLinejoin?: string;
 }
 
 export interface SvgRectElement {
@@ -36,6 +61,11 @@ export interface SvgRectElement {
   height: number;
   rx?: number;
   ry?: number;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  strokeLinecap?: string;
+  strokeLinejoin?: string;
 }
 
 export type SvgElement =

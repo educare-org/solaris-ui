@@ -6,7 +6,8 @@ export type SolarisIconCategoryId =
   | 'data'
   | 'layout'
   | 'communication'
-  | 'media';
+  | 'media'
+  | 'brands';
 
 export interface SolarisIconCategory {
   id: SolarisIconCategoryId;
@@ -145,5 +146,9 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
   {
     id: 'media',
     names: ['image', 'video', 'mic', 'leaf'],
+  },
+  {
+    id: 'brands',
+    names: ['google', 'microsoft', 'apple', 'android', 'github'],
   },
 ];

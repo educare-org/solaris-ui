@@ -1,7 +1,7 @@
 // SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.tagName is the standard Angular API to differentiate <button> vs <a> for correct disabled/type behavior.
 // SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.getAttribute/setAttribute is the standard Angular approach to handle default button type.
 // SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.setAttribute required for default <button> type behavior.
-// SECURITY_EXCEPTION_FILE: createComponent/insertBefore required to render the spinner component inside a native button host (directive has no template).
+// SECURITY_EXCEPTION_FILE: createComponent/insertBefore/appendChild required to render the spinner and icon components inside a native button host (directive has no template).
 import {
   Directive,
   input,
@@ -24,11 +24,13 @@ import type {
   SolarisButtonRadius,
   SolarisButtonDensity,
   SolarisButtonShape,
+  SolarisButtonIconPosition,
 } from '../model/button.types';
 
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisSpinnerComponent } from '../../../feedback/spinner';
+import { SolarisIconComponent } from '../../../icon';
 
 @Directive({
   selector: '[solaris-button]',
@@ -41,6 +43,7 @@ import { SolarisSpinnerComponent } from '../../../feedback/spinner';
     '[attr.data-shape]': 'shape()',
     '[attr.data-loading]': 'loading() ? "" : null',
     '[attr.data-full-width]': 'fullWidth() ? "" : null',
+    '[attr.data-icon-position]': 'computedIconPosition()',
     '[attr.aria-busy]': 'loading() ? "true" : null',
     '[attr.aria-label]': 'loading() ? resolvedLoadingLabel() : null',
     '[attr.aria-disabled]': 'isEffectivelyDisabled() ? "true" : null',
@@ -59,6 +62,12 @@ export class SolarisButtonDirective {
   readonly fullWidth = input<boolean>(false);
   readonly loadingLabelKey = input<string>();
   readonly loadingLabel = input<string>();
+  readonly icon = input<string>();
+  readonly iconPosition = input<SolarisButtonIconPosition>('start');
+
+  protected readonly computedIconPosition = computed<string | null>(() => {
+    return this.icon() ? this.iconPosition() : null;
+  });
 
   protected readonly isEffectivelyDisabled = computed(
     () => this.disabled() || this.loading(),
@@ -79,6 +88,7 @@ export class SolarisButtonDirective {
   private readonly destroyRef = inject(DestroyRef);
 
   private spinnerRef: ComponentRef<SolarisSpinnerComponent> | null = null;
+  private iconRef: ComponentRef<SolarisIconComponent> | null = null;
 
   protected readonly resolvedLoadingLabel = computed(() => {
     const label = this.loadingLabel();
@@ -116,7 +126,14 @@ export class SolarisButtonDirective {
       }
     });
 
-    this.destroyRef.onDestroy(() => this.detachSpinner());
+    effect(() => {
+      this.syncIcon();
+    });
+
+    this.destroyRef.onDestroy(() => {
+      this.detachSpinner();
+      this.detachIcon();
+    });
   }
 
   private attachSpinner(): void {
@@ -147,6 +164,49 @@ export class SolarisButtonDirective {
     }
     this.spinnerRef.destroy();
     this.spinnerRef = null;
+  }
+
+  private syncIcon(): void {
+    const name = this.icon();
+    if (!name || !isPlatformBrowser(this.platformId)) {
+      this.detachIcon();
+      return;
+    }
+
+    if (this.iconRef) {
+      const el = this.iconRef.location.nativeElement as HTMLElement;
+      this.placeIcon(el);
+      return;
+    }
+
+    const iconRef = createComponent(SolarisIconComponent, {
+      environmentInjector: this.environmentInjector,
+    });
+    iconRef.setInput('name', name);
+    iconRef.setInput('decorative', true);
+    iconRef.changeDetectorRef.detectChanges();
+
+    const iconEl = iconRef.location.nativeElement as HTMLElement;
+    iconEl.classList.add('solaris-button-icon');
+    this.iconRef = iconRef;
+    this.placeIcon(iconEl);
+  }
+
+  private placeIcon(iconEl: HTMLElement): void {
+    const host = this.elementRef.nativeElement;
+    if (this.iconPosition() === 'end') {
+      host.appendChild(iconEl);
+    } else {
+      host.insertBefore(iconEl, host.firstChild);
+    }
+  }
+
+  private detachIcon(): void {
+    if (!this.iconRef) {
+      return;
+    }
+    this.iconRef.destroy();
+    this.iconRef = null;
   }
 
   @HostListener('click', ['$event'])

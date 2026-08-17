@@ -10,6 +10,7 @@ import type {
   SolarisButtonRadius,
   SolarisButtonDensity,
   SolarisButtonShape,
+  SolarisButtonIconPosition,
 } from '../model/button.types';
 
 describe('SolarisButtonDirective', () => {
@@ -646,6 +647,60 @@ describe('SolarisButtonDirective with icons', () => {
     expect(icon).toBeTruthy();
     expect(icon?.classList.contains('solaris-button-icon')).toBe(true);
     expect(el.textContent?.trim()).toContain('Text');
+  });
+});
+
+describe('SolarisButtonDirective with icon input', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisButtonDirective],
+    template: `<button
+      solaris-button
+      [icon]="icon"
+      [iconPosition]="iconPosition"
+    >
+      Entrar
+    </button>`,
+  })
+  class TestHost {
+    icon: string | undefined = 'google';
+    iconPosition: SolarisButtonIconPosition = 'start';
+  }
+
+  it('renders an injected icon when icon input is set', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    const icon = el.querySelector('solaris-icon.solaris-button-icon');
+    expect(icon).toBeTruthy();
+  });
+
+  it('applies data-icon-position start by default', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-icon-position')).toBe('start');
+  });
+
+  it('applies data-icon-position end', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.componentInstance.iconPosition = 'end';
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-icon-position')).toBe('end');
+  });
+
+  it('does not apply data-icon-position when icon is empty', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.componentInstance.icon = '';
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.hasAttribute('data-icon-position')).toBe(false);
+    expect(el.querySelector('solaris-icon.solaris-button-icon')).toBeNull();
   });
 });
 

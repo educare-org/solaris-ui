@@ -61,6 +61,8 @@ Not:
 | `fullWidth`       | `boolean`                 | `false`                 | Full width                              |
 | `loadingLabel`    | `string`                  | —                       | Accessible label during loading         |
 | `loadingLabelKey` | `string`                  | —                       | i18n key for loading label              |
+| `icon`            | `SolarisIconName`         | —                       | Icon rendered inside the button         |
+| `iconPosition`    | `'start' \| 'end'`        | `'start'`               | Whether the icon sits before or after   |
 
 ### Types
 
@@ -70,6 +72,7 @@ type SolarisButtonColor = 'neutral' | 'primary' | 'success' | 'warning' | 'dange
 type SolarisButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
 type SolarisButtonDensity = 'compact' | 'normal' | 'comfortable';
 type SolarisButtonShape = 'normal' | 'wide';
+type SolarisButtonIconPosition = 'start' | 'end';
 ```
 
 ## Appearances
@@ -210,6 +213,16 @@ Use the `[solaris-button-icon]` directive to add icons before or after text.
 
 The icon directive applies the `solaris-button-icon` class for proper sizing and alignment.
 
+### Icon via input
+
+For a registered Solaris icon, use the `icon` input with `iconPosition` to place it before or after the text. The icon is injected into the button and padded toward the edge on the icon side.
+
+```html
+<button solaris-button icon="google">Entrar com Google</button> <button solaris-button icon="chevron-right" iconPosition="end">Continuar</button>
+```
+
+`iconPosition="start"` (default) reduces the leading padding so the icon sits close to the button edge; `iconPosition="end"` does the same on the trailing side.
+
 ### Third-party / custom SVG icons
 
 You are not limited to icons from the Solaris registry. Any inline `<svg>` works with `[solaris-button-icon]` — just place it directly on the SVG element:
@@ -227,6 +240,14 @@ You are not limited to icons from the Solaris registry. Any inline `<svg>` works
 ```
 
 The SCSS targets `[solaris-button] [solaris-button-icon] svg` with `width: 100%; height: 100%`, so the SVG automatically scales to match `--solaris-button-icon-size` for the current button size.
+
+### Provider / brand icons
+
+The registry ships `google`, `microsoft`, `apple`, `android`, and `github` icons for social login buttons. Multi-color brand icons (Google, Microsoft, Android) keep their official brand colors; monochrome brand icons (Apple, GitHub) use `currentColor` so they adapt to the theme.
+
+```html
+<button solaris-button icon="google" appearance="outline" fullWidth>Entrar com Google</button>
+```
 
 ## Accessibility
 

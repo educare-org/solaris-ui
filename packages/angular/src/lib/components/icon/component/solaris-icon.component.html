@@ -15,7 +15,14 @@
     @for (element of icon.elements; track $index) {
       @switch (element.type) {
         @case ('path') {
-          <path [attr.d]="element.d" />
+          <path
+            [attr.d]="element.d"
+            [attr.fill]="element.fill ?? null"
+            [attr.stroke]="element.stroke ?? null"
+            [attr.stroke-width]="element.strokeWidth ?? null"
+            [attr.stroke-linecap]="element.strokeLinecap ?? null"
+            [attr.stroke-linejoin]="element.strokeLinejoin ?? null"
+          />
         }
         @case ('line') {
           <line
@@ -23,19 +30,43 @@
             [attr.y1]="element.y1"
             [attr.x2]="element.x2"
             [attr.y2]="element.y2"
+            [attr.fill]="element.fill ?? null"
+            [attr.stroke]="element.stroke ?? null"
+            [attr.stroke-width]="element.strokeWidth ?? null"
+            [attr.stroke-linecap]="element.strokeLinecap ?? null"
+            [attr.stroke-linejoin]="element.strokeLinejoin ?? null"
           />
         }
         @case ('polyline') {
-          <polyline [attr.points]="element.points" />
+          <polyline
+            [attr.points]="element.points"
+            [attr.fill]="element.fill ?? null"
+            [attr.stroke]="element.stroke ?? null"
+            [attr.stroke-width]="element.strokeWidth ?? null"
+            [attr.stroke-linecap]="element.strokeLinecap ?? null"
+            [attr.stroke-linejoin]="element.strokeLinejoin ?? null"
+          />
         }
         @case ('polygon') {
-          <polygon [attr.points]="element.points" />
+          <polygon
+            [attr.points]="element.points"
+            [attr.fill]="element.fill ?? null"
+            [attr.stroke]="element.stroke ?? null"
+            [attr.stroke-width]="element.strokeWidth ?? null"
+            [attr.stroke-linecap]="element.strokeLinecap ?? null"
+            [attr.stroke-linejoin]="element.strokeLinejoin ?? null"
+          />
         }
         @case ('circle') {
           <circle
             [attr.cx]="element.cx"
             [attr.cy]="element.cy"
             [attr.r]="element.r"
+            [attr.fill]="element.fill ?? null"
+            [attr.stroke]="element.stroke ?? null"
+            [attr.stroke-width]="element.strokeWidth ?? null"
+            [attr.stroke-linecap]="element.strokeLinecap ?? null"
+            [attr.stroke-linejoin]="element.strokeLinejoin ?? null"
           />
         }
         @case ('rect') {
@@ -46,6 +77,11 @@
             [attr.height]="element.height"
             [attr.rx]="element.rx"
             [attr.ry]="element.ry"
+            [attr.fill]="element.fill ?? null"
+            [attr.stroke]="element.stroke ?? null"
+            [attr.stroke-width]="element.strokeWidth ?? null"
+            [attr.stroke-linecap]="element.strokeLinecap ?? null"
+            [attr.stroke-linejoin]="element.strokeLinejoin ?? null"
           />
         }
       }

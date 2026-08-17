@@ -31,6 +31,11 @@ export type SolarisBuiltInIcon =
   | 'wrench'
   | 'unlink'
   | 'unlock'
-  | 'lock';
+  | 'lock'
+  | 'google'
+  | 'microsoft'
+  | 'apple'
+  | 'android'
+  | 'github';
 
 export type SolarisIconName = string & { __brand?: never };

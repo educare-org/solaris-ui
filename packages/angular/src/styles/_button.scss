@@ -16,6 +16,8 @@
   --solaris-button-icon-size: var(--solaris-spacing-4);
   --solaris-button-padding-x: var(--solaris-spacing-4);
   --solaris-button-padding-y: var(--solaris-spacing-2);
+  --solaris-button-icon-padding-start: var(--solaris-spacing-2);
+  --solaris-button-icon-padding-end: var(--solaris-spacing-2);
   --solaris-button-custom-active-border-color: initial;
   --solaris-button-custom-hover-color: initial;
   --solaris-button-custom-active-color: initial;
@@ -124,6 +126,14 @@
   width: 100%;
   height: 100%;
   display: block;
+}
+
+[solaris-button][data-icon-position='start'] {
+  padding-inline-start: var(--solaris-button-icon-padding-start);
+}
+
+[solaris-button][data-icon-position='end'] {
+  padding-inline-end: var(--solaris-button-icon-padding-end);
 }
 
 [solaris-button][data-appearance='solid'] {
