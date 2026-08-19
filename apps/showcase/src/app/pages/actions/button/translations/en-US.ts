@@ -1,8 +1,7 @@
 export const EN_US_BUTTON: Record<string, string> = {
   'button.description':
     'Attribute directive that turns buttons and anchors into Solaris-themed buttons.',
-  'button.appearances': 'Appearances',
-  'button.colors': 'Colors',
+  'button.colors-and-appearances': 'Colors & Appearances',
   'button.radius': 'Radius',
   'button.density': 'Density',
   'button.shape': 'Shape',

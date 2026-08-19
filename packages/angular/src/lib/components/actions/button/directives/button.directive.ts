@@ -52,18 +52,18 @@ import { SolarisIconComponent } from '../../../icon';
   },
 })
 export class SolarisButtonDirective {
+  readonly iconPosition = input<SolarisButtonIconPosition>('start');
   readonly appearance = input<SolarisButtonAppearance>('solid');
   readonly color = input<SolarisButtonColor>('neutral');
+  readonly shape = input<SolarisButtonShape>('normal');
   readonly radius = input<SolarisButtonRadius>('md');
   readonly density = input<SolarisButtonDensity>();
-  readonly shape = input<SolarisButtonShape>('normal');
-  readonly loading = input<boolean>(false);
-  readonly disabled = input<boolean>(false);
   readonly fullWidth = input<boolean>(false);
+  readonly disabled = input<boolean>(false);
+  readonly loading = input<boolean>(false);
   readonly loadingLabelKey = input<string>();
   readonly loadingLabel = input<string>();
   readonly icon = input<string>();
-  readonly iconPosition = input<SolarisButtonIconPosition>('start');
 
   protected readonly computedIconPosition = computed<string | null>(() => {
     return this.icon() ? this.iconPosition() : null;
@@ -121,10 +121,12 @@ export class SolarisButtonDirective {
 
     // Apply variant attributes synchronously so the element never flashes the
     // base style before Angular's first change detection (SSR/hydration FOUC).
-    el.setAttribute('data-appearance', this.appearance());
-    el.setAttribute('data-color', this.color());
-    el.setAttribute('data-radius', this.radius());
-    el.setAttribute('data-shape', this.shape());
+    // Apply variant attributes synchronously so the element never flashes the
+    // base style before Angular's first change detection (SSR/hydration FOUC).
+    el.dataset['appearance'] = this.appearance();
+    el.dataset['color'] = this.color();
+    el.dataset['radius'] = this.radius();
+    el.dataset['shape'] = this.shape();
 
     effect(() => {
       if (this.loading()) {

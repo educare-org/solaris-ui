@@ -8,29 +8,30 @@
 
   <section class="button-showcase__section">
     <h2 class="button-showcase__section-title">
-      {{ 'button.appearances' | translate }}
+      {{ 'button.colors-and-appearances' | translate }}
     </h2>
-    <div class="button-showcase__row">
-      <button solaris-button appearance="solid">Solid</button>
-      <button solaris-button appearance="outline">Outline</button>
-      <button solaris-button appearance="ghost">Ghost</button>
-      <button solaris-button appearance="tonal">Tonal</button>
-      <button solaris-button appearance="surface">Surface</button>
-    </div>
-  </section>
-
-  <section class="button-showcase__section">
-    <h2 class="button-showcase__section-title">
-      {{ 'button.colors' | translate }}
-    </h2>
-    <div class="button-showcase__row">
-      <button solaris-button color="neutral">Neutral</button>
-      <button solaris-button color="primary">Primary</button>
-      <button solaris-button color="success">Success</button>
-      <button solaris-button color="warning">Warning</button>
-      <button solaris-button color="danger">Danger</button>
-      <button solaris-button color="info">Info</button>
-    </div>
+    <solaris-tabs
+      [(value)]="selectedColor"
+      [ariaLabel]="'button.colors-and-appearances' | translate"
+    >
+      @for (color of colors; track color.value) {
+      <solaris-tab [value]="color.value">{{ color.label }}</solaris-tab>
+      } @for (color of colors; track color.value) {
+      <solaris-tab-panel [value]="color.value">
+        <div class="button-showcase__row">
+          @for (appearance of appearances; track appearance.value) {
+          <button
+            solaris-button
+            [color]="color.value"
+            [appearance]="appearance.value"
+          >
+            {{ appearance.label }}
+          </button>
+          }
+        </div>
+      </solaris-tab-panel>
+      }
+    </solaris-tabs>
   </section>
 
   <section class="button-showcase__section">
