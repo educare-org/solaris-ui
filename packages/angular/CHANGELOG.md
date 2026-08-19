@@ -1,5 +1,14 @@
 # @educarehq/solaris-ui
 
+## 0.12.0
+
+### Minor Changes
+
+- Polish the toast and button components and refresh the light/dark color tokens.
+  - **toast**: use `fit-content` width, increase padding and add vertical spacing between stacked toasts, and add a 2px rounded accent bar colored to match the variant icon.
+  - **button**: refine appearance/color defaults and borders, and rework the showcase to browse appearances per color through tabs.
+  - **tokens**: update the light and dark semantic color tokens.
+
 ## 0.11.2
 
 ### Patch Changes
