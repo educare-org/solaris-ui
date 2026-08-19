@@ -1,13 +1,13 @@
 :host {
   --solaris-toast-max-lines: 2;
-  --solaris-toast-width: 800px;
   --solaris-toast-border-width: 0;
   --solaris-toast-max-width: 800px;
+  --solaris-toast-width: fit-content;
   --solaris-toast-border-color: transparent;
   --solaris-toast-gap: var(--solaris-spacing-3);
   --solaris-toast-radius: var(--solaris-radius-md);
   --solaris-toast-shadow: var(--solaris-shadow-lg);
-  --solaris-toast-padding: var(--solaris-spacing-2);
+  --solaris-toast-padding: var(--solaris-spacing-3);
   --solaris-toast-color: var(--solaris-text-default);
   --solaris-toast-close-size: var(--solaris-spacing-4);
   --solaris-toast-media-size: var(--solaris-spacing-6);
@@ -30,6 +30,7 @@
   pointer-events: auto;
   box-sizing: border-box;
   width: var(--solaris-toast-width);
+  margin-top: var(--solaris-spacing-4);
   max-width: var(--solaris-toast-max-width);
   box-shadow: var(--solaris-toast-shadow-value);
   border-radius: var(--solaris-toast-radius-value);
@@ -60,6 +61,14 @@
 
 :host([data-center-content='true']) .solaris-toast__media {
   margin-top: 0;
+}
+
+.solaris-toast__bar {
+  width: 3px;
+  flex-shrink: 0;
+  align-self: stretch;
+  border-radius: var(--solaris-radius-full);
+  background: var(--solaris-toast-icon-color);
 }
 
 .solaris-toast__media {
