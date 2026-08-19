@@ -63,10 +63,10 @@ test.describe('Icons', () => {
     await icons.colorSwatch('Primary').click();
 
     const icon = icons.itemIcon('check');
-    await expect(icon).toHaveCSS('color', 'rgb(66, 130, 251)');
+    await expect(icon).toHaveCSS('color', 'rgb(106, 159, 255)');
     await expect(icons.colorPicker()).toHaveCSS(
       'background-color',
-      'rgb(66, 130, 251)',
+      'rgb(106, 159, 255)',
     );
   });
 
@@ -104,7 +104,7 @@ test.describe('Icons', () => {
     await icons.colorSwatch('Inherit').click();
 
     const icon = icons.itemIcon('check');
-    await expect(icon).not.toHaveCSS('color', 'rgb(66, 130, 251)');
+    await expect(icon).not.toHaveCSS('color', 'rgb(106, 159, 255)');
   });
 
   test('reveals usage snippet and copies it on click', async ({
