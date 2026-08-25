@@ -85,6 +85,13 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.password-field.strength.weak': 'Weak',
       'solaris.password-field.strength.medium': 'Medium',
       'solaris.password-field.strength.strong': 'Strong',
+
+      'solaris.phone-field.required': 'Phone number is required.',
+      'solaris.phone-field.invalid': 'Enter a valid phone number.',
+      'solaris.phone-field.search.placeholder': 'Search country or code',
+      'solaris.phone-field.empty': 'No countries available',
+      'solaris.phone-field.noResults': 'No results found',
+      'solaris.phone-field.country': 'Select country code',
     },
     'pt-BR': {
       'solaris.button.loading': 'Carregando...',
@@ -167,6 +174,13 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.password-field.strength.weak': 'Fraca',
       'solaris.password-field.strength.medium': 'Média',
       'solaris.password-field.strength.strong': 'Forte',
+
+      'solaris.phone-field.required': 'O número de telefone é obrigatório.',
+      'solaris.phone-field.invalid': 'Insira um número de telefone válido.',
+      'solaris.phone-field.search.placeholder': 'Buscar país ou código',
+      'solaris.phone-field.empty': 'Nenhum país disponível',
+      'solaris.phone-field.noResults': 'Nenhum resultado encontrado',
+      'solaris.phone-field.country': 'Selecionar código do país',
     },
   },
   useBrowserLocale: true,

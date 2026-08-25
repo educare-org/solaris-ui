@@ -1,0 +1,106 @@
+<solaris-form-field
+  [hint]="hint()"
+  [label]="label()"
+  [radius]="radius()"
+  [density]="density()"
+  [hintKey]="hintKey()"
+  [labelKey]="labelKey()"
+  [errorKey]="errorKey()"
+  [required]="required()"
+  [optional]="optional()"
+  [readonly]="isEffectivelyReadonly()"
+  [appearance]="appearance()"
+  [invalid]="isFieldInvalid()"
+  [error]="error() || computedError()"
+  [disabled]="isEffectivelyDisabled()"
+  [hasPrefix]="hasPrefix()"
+  [hasSuffix]="hasSuffix()"
+  solaris-popover-trigger
+  [solarisPopoverTriggerFor]="countryPopover"
+  [solarisPopoverDisabled]="!canOpen()"
+  [solarisPopoverPlacement]="'bottom'"
+  [solarisPopoverAlign]="'start'"
+  [solarisPopoverOffset]="8"
+  [solarisPopoverPadding]="'none'"
+  [solarisPopoverRadius]="radius()"
+  [solarisPopoverMaxWidth]="panelMaxWidth()"
+  [solarisPopoverAppearance]="popoverAppearance()"
+  [solarisPopoverAutoFocus]="'first-tabbable'"
+  [solarisPopoverAriaHasPopup]="'listbox'"
+>
+  <button
+    type="button"
+    class="solaris-phone-field__country"
+    solaris-form-prefix
+    [attr.aria-label]="countryButtonLabelText()"
+    [attr.aria-haspopup]="'listbox'"
+    [attr.aria-expanded]="panelOpen() ? 'true' : 'false'"
+    [disabled]="!canOpen()"
+    (click)="onCountryToggle($event)"
+  >
+    <span
+      class="solaris-phone-field__flag"
+      [innerHTML]="selectedFlag() | solarisSafeHtml"
+    ></span>
+    <solaris-icon
+      class="solaris-phone-field__chevron"
+      name="chevron-down"
+      [decorative]="true"
+    />
+  </button>
+
+  <span class="solaris-phone-field__dial-code"
+    >+{{ selectedCallingCode() }}</span
+  >
+
+  <input
+    type="tel"
+    #inputElement
+    solaris-input
+    data-bwignore="true"
+    [density]="density()"
+    (blur)="onInputBlur()"
+    [readonly]="isEffectivelyReadonly()"
+    (focus)="onInputFocus()"
+    (click)="onInputClick($event)"
+    [attr.id]="id() ?? null"
+    (input)="onInput($event)"
+    [value]="displayValue()"
+    [attr.inputmode]="'tel'"
+    [attr.autocapitalize]="'none'"
+    [attr.spellcheck]="'false'"
+    [attr.name]="name() ?? null"
+    [attr.autocomplete]="autocomplete()"
+    [disabled]="isEffectivelyDisabled()"
+    [attr.maxlength]="maxLength() ?? null"
+    [attr.placeholder]="placeholderText() || null"
+  />
+
+  @if (suffix() && !projectedSuffix()) {
+    <span solaris-form-suffix>
+      <solaris-icon [name]="suffix() ?? ''" [decorative]="true" />
+    </span>
+  }
+  <ng-content
+    select="[solaris-form-suffix]"
+    ngProjectAs="[solaris-form-suffix]"
+  />
+  <ng-content
+    select="[solaris-form-label-action]"
+    ngProjectAs="[solaris-form-label-action]"
+  />
+</solaris-form-field>
+
+<ng-template #countryPopover="solarisPopover" solaris-popover>
+  <solaris-phone-country-list
+    [countries]="countries()"
+    [selectedCode]="effectiveCountry()"
+    [searchable]="searchable()"
+    [searchPlaceholder]="searchPlaceholderText()"
+    [noResultsText]="noResultsTextValue()"
+    [emptyText]="emptyTextValue()"
+    [maxHeight]="panelMaxHeight()"
+    (countrySelected)="selectCountry($event)"
+    (closeRequest)="closeCountryPanel()"
+  />
+</ng-template>

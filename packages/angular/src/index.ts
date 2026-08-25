@@ -253,6 +253,20 @@ export type {
   SolarisEmailFieldRadius,
 } from './lib/components/forms/email-field/model/email-field.types';
 
+export { SolarisPhoneFieldComponent } from './lib/components/forms/phone-field/component/phone-field.component';
+export { SolarisPhoneCountryListComponent } from './lib/components/forms/phone-field/component/country-list.component';
+export { solarisPhoneValidator } from './lib/components/forms/phone-field/validators/phone-field.validators';
+export type {
+  SolarisCountry,
+  SolarisCountryCode,
+  SolarisCountryListFactory,
+} from './lib/components/forms/phone-field/model/country.types';
+export type {
+  SolarisPhoneFieldAppearance,
+  SolarisPhoneFieldDensity,
+  SolarisPhoneFieldRadius,
+} from './lib/components/forms/phone-field/model/phone-field.types';
+
 export { SolarisPopoverDirective } from './lib/components/interaction/popover/directives/popover.directive';
 export { SolarisPopoverTriggerDirective } from './lib/components/interaction/popover/directives/popover-trigger.directive';
 export { SolarisPopoverPanelComponent } from './lib/components/interaction/popover/component/popover-panel.component';

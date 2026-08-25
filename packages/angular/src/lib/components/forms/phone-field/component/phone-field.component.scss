@@ -1,0 +1,78 @@
+:host {
+  --solaris-phone-field-country-gap: var(--solaris-spacing-1);
+  --solaris-phone-field-country-padding-inline: var(--solaris-spacing-2);
+  --solaris-phone-field-dial-code-color: var(--solaris-text-muted);
+  --solaris-phone-field-flag-size: var(--solaris-font-size-sm);
+  --solaris-phone-field-chevron-size: var(--solaris-font-size-xs);
+
+  display: block;
+  box-sizing: border-box;
+}
+
+:host .solaris-phone-field__country.solaris-form-prefix {
+  all: unset;
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  gap: var(--solaris-phone-field-country-gap);
+  padding-inline: var(--solaris-phone-field-country-padding-inline);
+  cursor: pointer;
+  color: var(--solaris-text-default);
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-md);
+
+  &:focus-visible {
+    outline-offset: 2px;
+    outline: 2px solid var(--solaris-primary-base);
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.solaris-phone-field__flag {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: var(--solaris-phone-field-flag-size);
+  font-size: var(--solaris-font-size-sm);
+  line-height: 1;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+:host .solaris-phone-field__country .solaris-phone-field__chevron {
+  flex-shrink: 0;
+  color: var(--solaris-text-muted);
+  block-size: var(--solaris-phone-field-chevron-size);
+  inline-size: var(--solaris-phone-field-chevron-size);
+  transition: transform var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+:host([data-open]) .solaris-phone-field__chevron {
+  transform: rotate(180deg);
+}
+
+.solaris-phone-field__dial-code {
+  flex: 0 0 auto;
+  user-select: none;
+  cursor: default;
+  color: var(--solaris-phone-field-dial-code-color);
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-md);
+  margin-inline-end: var(--solaris-spacing-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-phone-field__chevron {
+    transition: none;
+  }
+}

@@ -141,6 +141,9 @@ importers:
       angular-eslint:
         specifier: ^21.2.0
         version: 21.4.0(@angular/cli@21.2.19(@types/node@26.1.0)(chokidar@5.0.0))(chokidar@5.0.0)(eslint@9.39.4(jiti@2.7.0))(typescript-eslint@8.63.0(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3))(typescript@5.9.3)
+      country-flag-icons:
+        specifier: ^1.6.20
+        version: 1.6.20
       eslint:
         specifier: ^9.8.0
         version: 9.39.4(jiti@2.7.0)
@@ -156,6 +159,9 @@ importers:
       jsonc-eslint-parser:
         specifier: ^2.1.0
         version: 2.4.2
+      libphonenumber-js:
+        specifier: ^1.13.11
+        version: 1.13.11
       lint-staged:
         specifier: ^17.0.8
         version: 17.0.8
@@ -219,6 +225,12 @@ importers:
       '@angular/platform-browser':
         specifier: ~21.2.0
         version: 21.2.17(@angular/common@21.2.17(@angular/core@21.2.17(@angular/compiler@21.2.17)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.2.17(@angular/compiler@21.2.17)(rxjs@7.8.2))
+      country-flag-icons:
+        specifier: ^1.6.20
+        version: 1.6.20
+      libphonenumber-js:
+        specifier: ^1.13.11
+        version: 1.13.11
       rxjs:
         specifier: ^7.8.0
         version: 7.8.2
@@ -6750,6 +6762,12 @@ packages:
       typescript:
         optional: true
 
+  country-flag-icons@1.6.20:
+    resolution:
+      {
+        integrity: sha512-py8JiEKzjhYw6HPJ0L7SxLgCYim36UPRTZX43/kqGueUCZLSvnrqAiwW8HtQibur7mdkFQUkjOgdK+o/9FBtaw==,
+      }
+
   create-require@1.1.1:
     resolution:
       {
@@ -9025,6 +9043,12 @@ packages:
         integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==,
       }
     engines: { node: '>= 0.8.0' }
+
+  libphonenumber-js@1.13.11:
+    resolution:
+      {
+        integrity: sha512-ETER2kMaIFTI/Nh1a8Gk03dUF/SL0VZqtI+CcVHZxp5WIHYwNS7S+uiYZDYCvLy3lOR4/DAD5jf0h5WkePPpqg==,
+      }
 
   license-webpack-plugin@4.0.2:
     resolution:
@@ -17932,6 +17956,8 @@ snapshots:
     optionalDependencies:
       typescript: 5.9.3
 
+  country-flag-icons@1.6.20: {}
+
   create-require@1.1.1: {}
 
   cross-spawn@7.0.6:
@@ -19348,6 +19374,8 @@ snapshots:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+
+  libphonenumber-js@1.13.11: {}
 
   license-webpack-plugin@4.0.2(webpack@5.105.2(postcss@8.5.25)):
     dependencies:

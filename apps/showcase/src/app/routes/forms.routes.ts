@@ -40,6 +40,13 @@ export const formsRoutes: Route[] = [
           ).then((m) => m.EmailFieldShowcasePage),
       },
       {
+        path: 'phone-field',
+        loadComponent: () =>
+          import(
+            '../pages/forms/phone-field/component/phone-field-showcase'
+          ).then((m) => m.PhoneFieldShowcasePage),
+      },
+      {
         path: 'checkbox',
         loadComponent: () =>
           import('../pages/forms/checkbox/component/checkbox-showcase').then(

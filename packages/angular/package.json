@@ -44,5 +44,9 @@
       "style": "./styles/_*.scss",
       "default": "./styles/_*.scss"
     }
+  },
+  "dependencies": {
+    "country-flag-icons": "^1.6.20",
+    "libphonenumber-js": "^1.13.11"
   }
 }

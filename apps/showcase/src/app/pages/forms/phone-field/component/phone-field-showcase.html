@@ -1,0 +1,223 @@
+<div class="phone-field-showcase">
+  <header class="phone-field-showcase__header">
+    <h1 class="phone-field-showcase__title">
+      {{ 'phone-field.title' | translate }}
+    </h1>
+    <p class="phone-field-showcase__description">
+      {{ 'phone-field.description' | translate }}
+    </p>
+  </header>
+
+  <section class="phone-field-showcase__section">
+    <h2 class="phone-field-showcase__section-title">
+      {{ 'phone-field.basic' | translate }}
+    </h2>
+    <p class="phone-field-showcase__note">
+      {{ 'phone-field.basic-note' | translate }}
+    </p>
+    <div class="phone-field-showcase__demo">
+      <solaris-phone-field
+        [label]="'phone-field.label.basic' | translate"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+    </div>
+  </section>
+
+  <section class="phone-field-showcase__section">
+    <h2 class="phone-field-showcase__section-title">
+      {{ 'phone-field.country-selector' | translate }}
+    </h2>
+    <p class="phone-field-showcase__note">
+      {{ 'phone-field.country-selector-note' | translate }}
+    </p>
+    <div class="phone-field-showcase__demo">
+      <solaris-phone-field
+        [label]="'phone-field.label.country' | translate"
+        defaultCountry="US"
+      ></solaris-phone-field>
+    </div>
+  </section>
+
+  <section class="phone-field-showcase__section">
+    <h2 class="phone-field-showcase__section-title">
+      {{ 'phone-field.restricted-countries' | translate }}
+    </h2>
+    <p class="phone-field-showcase__note">
+      {{ 'phone-field.restricted-countries-note' | translate }}
+    </p>
+    <div class="phone-field-showcase__demo">
+      <solaris-phone-field
+        [label]="'phone-field.label.restricted' | translate"
+        [countryList]="['US', 'GB', 'BR', 'PT']"
+      ></solaris-phone-field>
+    </div>
+  </section>
+
+  <section class="phone-field-showcase__section">
+    <h2 class="phone-field-showcase__section-title">
+      {{ 'phone-field.required' | translate }}
+    </h2>
+    <div class="phone-field-showcase__demo">
+      <solaris-phone-field
+        [label]="'phone-field.label.required' | translate"
+        [required]="true"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+    </div>
+  </section>
+
+  <section class="phone-field-showcase__section">
+    <h2 class="phone-field-showcase__section-title">
+      {{ 'phone-field.hint' | translate }}
+    </h2>
+    <div class="phone-field-showcase__demo">
+      <solaris-phone-field
+        [label]="'phone-field.label.hint' | translate"
+        [hint]="'phone-field.hint.mobile' | translate"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+    </div>
+  </section>
+
+  <section class="phone-field-showcase__section">
+    <h2 class="phone-field-showcase__section-title">
+      {{ 'phone-field.placeholder' | translate }}
+    </h2>
+    <p class="phone-field-showcase__note">
+      {{ 'phone-field.placeholder-note' | translate }}
+    </p>
+    <div class="phone-field-showcase__demo">
+      <solaris-phone-field
+        [label]="'phone-field.label.placeholder' | translate"
+        [placeholder]="'phone-field.placeholder.hint' | translate"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+    </div>
+  </section>
+
+  <section class="phone-field-showcase__section">
+    <h2 class="phone-field-showcase__section-title">
+      {{ 'phone-field.readonly' | translate }}
+    </h2>
+    <div class="phone-field-showcase__demo">
+      <solaris-phone-field
+        [label]="'phone-field.label.readonly' | translate"
+        [readonly]="true"
+        value="+5511999998888"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+    </div>
+  </section>
+
+  <section class="phone-field-showcase__section">
+    <h2 class="phone-field-showcase__section-title">
+      {{ 'phone-field.disabled' | translate }}
+    </h2>
+    <div class="phone-field-showcase__demo">
+      <solaris-phone-field
+        [label]="'phone-field.label.disabled' | translate"
+        [disabled]="true"
+        value="+5511999998888"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+    </div>
+  </section>
+
+  <section class="phone-field-showcase__section">
+    <h2 class="phone-field-showcase__section-title">
+      {{ 'phone-field.appearances' | translate }}
+    </h2>
+    <div class="phone-field-showcase__demo">
+      <solaris-phone-field
+        [label]="'phone-field.label.outline' | translate"
+        appearance="outline"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+      <solaris-phone-field
+        [label]="'phone-field.label.surface' | translate"
+        appearance="surface"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+      <solaris-phone-field
+        [label]="'phone-field.label.filled' | translate"
+        appearance="filled"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+    </div>
+  </section>
+
+  <section class="phone-field-showcase__section">
+    <h2 class="phone-field-showcase__section-title">
+      {{ 'phone-field.density' | translate }}
+    </h2>
+    <div class="phone-field-showcase__demo">
+      <solaris-phone-field
+        [label]="'phone-field.label.compact' | translate"
+        density="compact"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+      <solaris-phone-field
+        [label]="'phone-field.label.normal' | translate"
+        density="normal"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+      <solaris-phone-field
+        [label]="'phone-field.label.comfortable' | translate"
+        density="comfortable"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+    </div>
+  </section>
+
+  <section class="phone-field-showcase__section">
+    <h2 class="phone-field-showcase__section-title">
+      {{ 'phone-field.radius' | translate }}
+    </h2>
+    <div class="phone-field-showcase__demo phone-field-showcase__demo--row">
+      <solaris-phone-field
+        [label]="'phone-field.label.radius-none' | translate"
+        radius="none"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+      <solaris-phone-field
+        [label]="'phone-field.label.radius-sm' | translate"
+        radius="sm"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+      <solaris-phone-field
+        [label]="'phone-field.label.radius-md' | translate"
+        radius="md"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+      <solaris-phone-field
+        [label]="'phone-field.label.radius-lg' | translate"
+        radius="lg"
+        defaultCountry="BR"
+      ></solaris-phone-field>
+    </div>
+  </section>
+
+  <section class="phone-field-showcase__section">
+    <h2 class="phone-field-showcase__section-title">
+      {{ 'phone-field.reactive-forms' | translate }}
+    </h2>
+    <p class="phone-field-showcase__note">
+      {{ 'phone-field.reactive-forms-note' | translate }}
+    </p>
+    <div class="phone-field-showcase__demo">
+      <form [formGroup]="formGroup">
+        <solaris-phone-field
+          formControlName="phone"
+          [label]="'phone-field.label.reactive' | translate"
+          [required]="true"
+          defaultCountry="BR"
+        ></solaris-phone-field>
+      </form>
+      <p class="phone-field-showcase__note">
+        {{ 'phone-field.reactive-forms-status' | translate : { valid:
+        formGroup.valid, touched: formGroup.touched, value: phoneDisplayValue, }
+        }}
+      </p>
+    </div>
+  </section>
+</div>

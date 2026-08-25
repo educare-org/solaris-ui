@@ -34,6 +34,10 @@
   border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
 }
 
+.solaris-popover-panel__container[data-appearance='filled'] {
+  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
+}
+
 .solaris-popover-panel__container[data-padding='none'] {
   --solaris-popover-padding: 0;
 }

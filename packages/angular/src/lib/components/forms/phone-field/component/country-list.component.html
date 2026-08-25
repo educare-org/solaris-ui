@@ -1,0 +1,68 @@
+<div class="solaris-phone-country-list">
+  @if (searchable()) {
+    <div class="solaris-phone-country-list__search">
+      <solaris-icon
+        name="search"
+        [decorative]="true"
+        class="solaris-phone-country-list__search-icon"
+      />
+      <input
+        type="text"
+        class="solaris-phone-country-list__search-input"
+        role="searchbox"
+        autocomplete="off"
+        [attr.placeholder]="searchPlaceholder()"
+        [value]="searchQuery()"
+        (input)="onSearch($event)"
+        (keydown)="onSearchKeydown($event)"
+      />
+    </div>
+  }
+
+  @if (showEmpty()) {
+    <div class="solaris-phone-country-list__empty">
+      <span class="solaris-phone-country-list__empty-text">{{
+        emptyText()
+      }}</span>
+    </div>
+  } @else if (showNoResults()) {
+    <div class="solaris-phone-country-list__no-results">
+      <span class="solaris-phone-country-list__no-results-text">{{
+        noResultsText()
+      }}</span>
+    </div>
+  } @else {
+    <div
+      class="solaris-phone-country-list__list"
+      role="listbox"
+      [attr.id]="listId"
+      [attr.aria-activedescendant]="activeDescendantId()"
+      tabindex="-1"
+      [style.max-height]="maxHeight()"
+      (click)="onListClick($event)"
+      (keydown)="onListKeydown($event)"
+    >
+      @for (country of filtered(); track country.code; let index = $index) {
+        <div
+          class="solaris-phone-country-list__option"
+          role="option"
+          [attr.id]="optionId(index)"
+          [attr.data-active]="activeIndex() === index ? '' : null"
+          [attr.data-selected]="selectedCode() === country.code ? '' : null"
+          [attr.aria-selected]="selectedCode() === country.code"
+        >
+          <span
+            class="solaris-phone-country-list__flag"
+            [innerHTML]="country.flag | solarisSafeHtml"
+          ></span>
+          <span class="solaris-phone-country-list__name">{{
+            country.name
+          }}</span>
+          <span class="solaris-phone-country-list__code"
+            >+{{ country.callingCode }}</span
+          >
+        </div>
+      }
+    </div>
+  }
+</div>

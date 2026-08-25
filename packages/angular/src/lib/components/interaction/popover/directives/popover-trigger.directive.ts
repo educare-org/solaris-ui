@@ -284,13 +284,15 @@ export class SolarisPopoverTriggerDirective {
           this.panelContainerRef.dataset['formField'] = '';
         }
       }
-      this.elementRef.nativeElement.dataset['connectedSide'] =
-        this.connectedSide;
-      const formFieldWrapper = this.elementRef.nativeElement.querySelector(
-        ':scope > .solaris-form-field__control-wrapper',
-      ) as HTMLElement | null;
-      if (formFieldWrapper) {
-        formFieldWrapper.dataset['connectedSide'] = this.connectedSide;
+      if (this.solarisPopoverTopConnected()) {
+        this.elementRef.nativeElement.dataset['connectedSide'] =
+          this.connectedSide;
+        const formFieldWrapper = this.elementRef.nativeElement.querySelector(
+          ':scope > .solaris-form-field__control-wrapper',
+        ) as HTMLElement | null;
+        if (formFieldWrapper) {
+          formFieldWrapper.dataset['connectedSide'] = this.connectedSide;
+        }
       }
     });
   }
