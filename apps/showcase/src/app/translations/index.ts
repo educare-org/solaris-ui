@@ -14,6 +14,7 @@ import { INPUT_TRANSLATIONS } from '../pages/forms/input/translations';
 import { PASSWORD_FIELD_TRANSLATIONS } from '../pages/forms/password-field/translations';
 import { EMAIL_FIELD_TRANSLATIONS } from '../pages/forms/email-field/translations';
 import { PHONE_FIELD_TRANSLATIONS } from '../pages/forms/phone-field/translations';
+import { OTP_INPUT_TRANSLATIONS } from '../pages/forms/otp-input/translations';
 import { TEXTAREA_TRANSLATIONS } from '../pages/forms/textarea/translations';
 import { CHECKBOX_TRANSLATIONS } from '../pages/forms/checkbox/translations';
 import { CHECKBOX_GROUP_TRANSLATIONS } from '../pages/forms/checkbox-group/translations';
@@ -57,6 +58,7 @@ const PAGE_MODULES = [
   PASSWORD_FIELD_TRANSLATIONS,
   EMAIL_FIELD_TRANSLATIONS,
   PHONE_FIELD_TRANSLATIONS,
+  OTP_INPUT_TRANSLATIONS,
   CHECKBOX_TRANSLATIONS,
   CHECKBOX_GROUP_TRANSLATIONS,
   RADIO_TRANSLATIONS,

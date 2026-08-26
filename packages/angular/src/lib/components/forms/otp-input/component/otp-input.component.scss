@@ -1,0 +1,99 @@
+:host {
+  --solaris-otp-input-gap: var(--solaris-spacing-2);
+  --solaris-otp-input-box-radius: var(--solaris-radius-sm);
+  --solaris-otp-input-box-border-color: var(--solaris-border-subtle);
+  --solaris-otp-input-box-border-width: var(--solaris-border-width-sm);
+  --solaris-otp-input-box-background: transparent;
+  --solaris-otp-input-box-color: var(--solaris-text-default);
+  --solaris-otp-input-box-focus-border-color: var(--solaris-primary-base);
+  --solaris-otp-input-box-error-border-color: var(--solaris-danger-base);
+  --solaris-otp-input-box-width: calc(var(--solaris-density-min-height) * 0.9);
+  --solaris-otp-input-box-height: calc(
+    var(--solaris-density-min-height) * 1.15
+  );
+  --solaris-otp-input-separator-color: var(--solaris-text-muted);
+
+  display: block;
+  box-sizing: border-box;
+}
+
+:host solaris-form-field ::ng-deep .solaris-form-field__control-wrapper {
+  background: transparent;
+  border: 0;
+  border-color: transparent;
+}
+
+.solaris-otp-input__boxes {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  gap: var(--solaris-otp-input-gap);
+  padding-block: var(--solaris-spacing-2);
+}
+
+.solaris-otp-input__box {
+  box-sizing: border-box;
+  width: var(--solaris-otp-input-box-width);
+  height: var(--solaris-otp-input-box-height);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: var(--solaris-otp-input-box-color);
+  font-size: var(--solaris-density-font-size);
+  line-height: var(--solaris-line-height-none);
+  background: var(--solaris-otp-input-box-background);
+  border-radius: var(--solaris-otp-input-box-radius);
+  border: var(--solaris-otp-input-box-border-width) solid
+    var(--solaris-otp-input-box-border-color);
+  transition:
+    border-color var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard);
+
+  &:focus {
+    outline: none;
+    border-color: var(--solaris-otp-input-box-focus-border-color);
+
+    // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized
+    // color. Hardcoded spread is required by design (same as solaris-input).
+    box-shadow: 0 0 0 2px var(--solaris-otp-input-box-focus-border-color);
+  }
+
+  &[data-active] {
+    border-color: var(--solaris-otp-input-box-focus-border-color);
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+:host([data-appearance='surface']) {
+  --solaris-otp-input-box-background: var(--solaris-surface-subtle);
+  --solaris-otp-input-box-border-width: 0;
+}
+
+:host([data-appearance='filled']) {
+  --solaris-otp-input-box-background: var(--solaris-surface-subtle);
+  --solaris-otp-input-box-border-width: var(--solaris-border-width-sm);
+}
+
+:host([data-invalid]) .solaris-otp-input__box {
+  border-color: var(--solaris-otp-input-box-error-border-color);
+}
+
+.solaris-otp-input__separator {
+  flex: 0 0 auto;
+  user-select: none;
+  color: var(--solaris-otp-input-separator-color);
+  font-size: var(--solaris-density-font-size);
+  line-height: var(--solaris-line-height-none);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-otp-input__box {
+    transition: none;
+  }
+}

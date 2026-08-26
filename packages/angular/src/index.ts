@@ -267,6 +267,15 @@ export type {
   SolarisPhoneFieldRadius,
 } from './lib/components/forms/phone-field/model/phone-field.types';
 
+export { SolarisOtpInputComponent } from './lib/components/forms/otp-input/component/otp-input.component';
+export { solarisOtpValidator } from './lib/components/forms/otp-input/validators/otp-input.validators';
+export type {
+  SolarisOtpInputAppearance,
+  SolarisOtpInputCharType,
+  SolarisOtpInputDensity,
+  SolarisOtpInputRadius,
+} from './lib/components/forms/otp-input/model/otp-input.types';
+
 export { SolarisPopoverDirective } from './lib/components/interaction/popover/directives/popover.directive';
 export { SolarisPopoverTriggerDirective } from './lib/components/interaction/popover/directives/popover-trigger.directive';
 export { SolarisPopoverPanelComponent } from './lib/components/interaction/popover/component/popover-panel.component';

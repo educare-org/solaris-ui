@@ -1,0 +1,53 @@
+<solaris-form-field
+  [label]="label()"
+  [hint]="hint()"
+  [error]="error() || computedError()"
+  [labelKey]="labelKey()"
+  [hintKey]="hintKey()"
+  [errorKey]="errorKey()"
+  [required]="requiredInput()"
+  [optional]="optional()"
+  [appearance]="appearance()"
+  [density]="density()"
+  [radius]="radius()"
+  [invalid]="isFieldInvalid()"
+  [disabled]="isEffectivelyDisabled()"
+  [readonly]="isEffectivelyReadonly()"
+  [control]="this"
+>
+  <div
+    class="solaris-otp-input__boxes"
+    solaris-form-field-trigger
+    role="group"
+    [attr.aria-label]="groupAriaLabel() || null"
+  >
+    @for (box of boxes(); track $index; let index = $index) {
+      <input
+        #box
+        type="text"
+        class="solaris-otp-input__box"
+        [attr.inputmode]="inputmode()"
+        maxlength="1"
+        autocomplete="one-time-code"
+        [attr.aria-label]="boxAriaLabel(index)"
+        [attr.aria-describedby]="ariaDescribedBy()"
+        [attr.data-active]="focusedIndex() === index ? '' : null"
+        [value]="box"
+        [disabled]="isEffectivelyDisabled()"
+        [readonly]="isEffectivelyReadonly()"
+        (input)="onBoxInput($event, index)"
+        (keydown)="onBoxKeydown($event, index)"
+        (paste)="onBoxPaste($event, index)"
+        (focus)="onBoxFocus(index)"
+        (blur)="onBoxBlur()"
+      />
+      @if (showSeparatorAfter(index)) {
+        <span class="solaris-otp-input__separator" aria-hidden="true">-</span>
+      }
+    }
+  </div>
+  <ng-content
+    select="[solaris-form-label-action]"
+    ngProjectAs="[solaris-form-label-action]"
+  />
+</solaris-form-field>

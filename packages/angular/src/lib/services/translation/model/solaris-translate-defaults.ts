@@ -92,6 +92,10 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.phone-field.empty': 'No countries available',
       'solaris.phone-field.noResults': 'No results found',
       'solaris.phone-field.country': 'Select country code',
+
+      'solaris.otp-input.required': 'Code is required.',
+      'solaris.otp-input.invalid': 'Enter a valid code.',
+      'solaris.otp-input.box': 'Digit {{current}} of {{total}}',
     },
     'pt-BR': {
       'solaris.button.loading': 'Carregando...',
@@ -181,6 +185,10 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.phone-field.empty': 'Nenhum país disponível',
       'solaris.phone-field.noResults': 'Nenhum resultado encontrado',
       'solaris.phone-field.country': 'Selecionar código do país',
+
+      'solaris.otp-input.required': 'O código é obrigatório.',
+      'solaris.otp-input.invalid': 'Insira um código válido.',
+      'solaris.otp-input.box': 'Dígito {{current}} de {{total}}',
     },
   },
   useBrowserLocale: true,
