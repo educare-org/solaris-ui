@@ -33,6 +33,7 @@ import { SolarisInputDirective } from '../../input';
 import { SolarisIconComponent } from '../../../icon';
 import { SolarisTranslateService } from '../../../../services/translation';
 import type { SolarisTranslateParams } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import type { SolarisIconName } from '../../../../services/icon';
 import {
   SolarisPopoverDirective,
@@ -88,6 +89,7 @@ import type {
   host: {
     class: 'solaris-phone-field',
     '[attr.data-open]': 'panelOpen() ? "" : null',
+    '[attr.data-density]': 'effectiveDensity()',
   },
 })
 export class SolarisPhoneFieldComponent
@@ -95,6 +97,7 @@ export class SolarisPhoneFieldComponent
 {
   private readonly translateService = inject(SolarisTranslateService);
   private readonly countryListFactory = inject(SOLARIS_PHONE_COUNTRY_LIST);
+  protected readonly themeService = inject(SolarisThemeService);
 
   protected readonly inputElementRef =
     viewChild<ElementRef<HTMLInputElement>>('inputElement');
@@ -220,6 +223,12 @@ export class SolarisPhoneFieldComponent
   protected readonly isEffectivelyDisabled = computed(() => {
     return this.disabled() || this.internalDisabled();
   });
+
+  protected readonly effectiveDensity = computed<SolarisPhoneFieldDensity>(
+    () => {
+      return this.density() ?? this.themeService.density;
+    },
+  );
 
   protected readonly isEffectivelyReadonly = computed(() => {
     return this.readonly();

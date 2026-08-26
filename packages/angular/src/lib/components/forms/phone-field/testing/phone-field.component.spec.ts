@@ -57,6 +57,16 @@ class RequiredHost {}
 })
 class DisabledHost {}
 
+@Component({
+  standalone: true,
+  imports: [SolarisPhoneFieldComponent, ReactiveFormsModule],
+  template: `<solaris-phone-field
+    label="Phone"
+    density="compact"
+  ></solaris-phone-field>`,
+})
+class DensityCompactHost {}
+
 describe('SolarisPhoneFieldComponent', () => {
   async function setup<T>(hostType: new () => T): Promise<{
     fixture: any;
@@ -87,6 +97,17 @@ describe('SolarisPhoneFieldComponent', () => {
       expect(input.getAttribute('type')).toBe('tel');
       expect(countryButton).toBeTruthy();
       expect(countryButton.getAttribute('aria-haspopup')).toBe('listbox');
+    });
+
+    it('applies data-density on the host', async () => {
+      await TestBed.configureTestingModule({
+        imports: [DensityCompactHost],
+        providers: [provideZonelessChangeDetection(), provideSolarisTesting()],
+      }).compileComponents();
+      const fixture = TestBed.createComponent(DensityCompactHost);
+      fixture.detectChanges();
+      const host = fixture.debugElement.query(By.css('solaris-phone-field'));
+      expect(host.nativeElement.getAttribute('data-density')).toBe('compact');
     });
 
     it('shows the default country flag in the prefix', async () => {
