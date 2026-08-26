@@ -1,0 +1,168 @@
+<div class="otp-input-showcase">
+  <header class="otp-input-showcase__header">
+    <h1 class="otp-input-showcase__title">
+      {{ 'otp-input.title' | translate }}
+    </h1>
+    <p class="otp-input-showcase__description">
+      {{ 'otp-input.description' | translate }}
+    </p>
+  </header>
+
+  <section class="otp-input-showcase__section">
+    <h2 class="otp-input-showcase__section-title">
+      {{ 'otp-input.basic' | translate }}
+    </h2>
+    <p class="otp-input-showcase__note">
+      {{ 'otp-input.basic-note' | translate }}
+    </p>
+    <div class="otp-input-showcase__demo">
+      <solaris-otp-input
+        [label]="'otp-input.label.code' | translate"
+        [maxLength]="6"
+      ></solaris-otp-input>
+    </div>
+  </section>
+
+  <section class="otp-input-showcase__section">
+    <h2 class="otp-input-showcase__section-title">
+      {{ 'otp-input.twelve-digits' | translate }}
+    </h2>
+    <p class="otp-input-showcase__note">
+      {{ 'otp-input.twelve-digits-note' | translate }}
+    </p>
+    <div class="otp-input-showcase__demo">
+      <solaris-otp-input
+        [label]="'otp-input.label.code' | translate"
+        [maxLength]="12"
+      ></solaris-otp-input>
+    </div>
+  </section>
+
+  <section class="otp-input-showcase__section">
+    <h2 class="otp-input-showcase__section-title">
+      {{ 'otp-input.grouped' | translate }}
+    </h2>
+    <div class="otp-input-showcase__demo">
+      <solaris-otp-input
+        [label]="'otp-input.label.grouped' | translate"
+        [maxLength]="6"
+        [separatorEvery]="3"
+      ></solaris-otp-input>
+    </div>
+  </section>
+
+  <section class="otp-input-showcase__section">
+    <h2 class="otp-input-showcase__section-title">
+      {{ 'otp-input.masked' | translate }}
+    </h2>
+    <div class="otp-input-showcase__demo">
+      <solaris-otp-input
+        [label]="'otp-input.label.masked' | translate"
+        [maxLength]="6"
+        [masked]="true"
+      ></solaris-otp-input>
+    </div>
+  </section>
+
+  <section class="otp-input-showcase__section">
+    <h2 class="otp-input-showcase__section-title">
+      {{ 'otp-input.alphanumeric' | translate }}
+    </h2>
+    <div class="otp-input-showcase__demo">
+      <solaris-otp-input
+        [label]="'otp-input.label.alphanumeric' | translate"
+        [maxLength]="6"
+        charType="alphanumeric"
+      ></solaris-otp-input>
+    </div>
+  </section>
+
+  <section class="otp-input-showcase__section">
+    <h2 class="otp-input-showcase__section-title">
+      {{ 'otp-input.required' | translate }}
+    </h2>
+    <div class="otp-input-showcase__demo">
+      <solaris-otp-input
+        [label]="'otp-input.label.required' | translate"
+        [maxLength]="6"
+        [required]="true"
+      ></solaris-otp-input>
+    </div>
+  </section>
+
+  <section class="otp-input-showcase__section">
+    <h2 class="otp-input-showcase__section-title">
+      {{ 'otp-input.reactive-forms' | translate }}
+    </h2>
+    <p class="otp-input-showcase__note">
+      {{ 'otp-input.reactive-forms-note' | translate }}
+    </p>
+    <div class="otp-input-showcase__demo">
+      <form [formGroup]="formGroup">
+        <solaris-otp-input
+          formControlName="code"
+          [label]="'otp-input.label.reactive' | translate"
+          [maxLength]="6"
+          [required]="true"
+          (completed)="onCompleted()"
+        ></solaris-otp-input>
+      </form>
+      <p class="otp-input-showcase__note">
+        {{ 'otp-input.reactive-forms-status' | translate : { valid:
+        formGroup.valid, touched: formGroup.touched, value: codeDisplayValue, }
+        }}
+      </p>
+      @if (completed) {
+      <p class="otp-input-showcase__note">
+        {{ 'otp-input.completed' | translate }}
+      </p>
+      }
+    </div>
+  </section>
+
+  <section class="otp-input-showcase__section">
+    <h2 class="otp-input-showcase__section-title">
+      {{ 'otp-input.appearances' | translate }}
+    </h2>
+    <div class="otp-input-showcase__demo">
+      <solaris-otp-input
+        [label]="'otp-input.label.outline' | translate"
+        appearance="outline"
+        [maxLength]="6"
+      ></solaris-otp-input>
+      <solaris-otp-input
+        [label]="'otp-input.label.surface' | translate"
+        appearance="surface"
+        [maxLength]="6"
+      ></solaris-otp-input>
+      <solaris-otp-input
+        [label]="'otp-input.label.filled' | translate"
+        appearance="filled"
+        [maxLength]="6"
+      ></solaris-otp-input>
+    </div>
+  </section>
+
+  <section class="otp-input-showcase__section">
+    <h2 class="otp-input-showcase__section-title">
+      {{ 'otp-input.density' | translate }}
+    </h2>
+    <div class="otp-input-showcase__demo">
+      <solaris-otp-input
+        [label]="'otp-input.label.compact' | translate"
+        density="compact"
+        [maxLength]="6"
+      ></solaris-otp-input>
+      <solaris-otp-input
+        [label]="'otp-input.label.normal' | translate"
+        density="normal"
+        [maxLength]="6"
+      ></solaris-otp-input>
+      <solaris-otp-input
+        [label]="'otp-input.label.comfortable' | translate"
+        density="comfortable"
+        [maxLength]="6"
+      ></solaris-otp-input>
+    </div>
+  </section>
+</div>

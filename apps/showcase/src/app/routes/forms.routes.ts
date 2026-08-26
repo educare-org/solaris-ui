@@ -47,6 +47,13 @@ export const formsRoutes: Route[] = [
           ).then((m) => m.PhoneFieldShowcasePage),
       },
       {
+        path: 'otp-input',
+        loadComponent: () =>
+          import('../pages/forms/otp-input/component/otp-input-showcase').then(
+            (m) => m.OtpInputShowcasePage,
+          ),
+      },
+      {
         path: 'checkbox',
         loadComponent: () =>
           import('../pages/forms/checkbox/component/checkbox-showcase').then(

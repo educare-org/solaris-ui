@@ -1,0 +1,42 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.otp-input-showcase {
+  @include layout.page;
+}
+
+.otp-input-showcase__header {
+  @include layout.header;
+}
+
+.otp-input-showcase__title {
+  @include layout.title;
+}
+
+.otp-input-showcase__description {
+  @include layout.description;
+}
+
+.otp-input-showcase__section {
+  @include layout.section-card;
+}
+
+.otp-input-showcase__section-title {
+  @include layout.section-title;
+}
+
+.otp-input-showcase__note {
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.otp-input-showcase__demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+form {
+  width: 100%;
+}

@@ -4,6 +4,7 @@
   --solaris-phone-field-dial-code-color: var(--solaris-text-muted);
   --solaris-phone-field-flag-size: var(--solaris-font-size-sm);
   --solaris-phone-field-chevron-size: var(--solaris-font-size-xs);
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-sm);
 
   display: block;
   box-sizing: border-box;
@@ -18,7 +19,7 @@
   padding-inline: var(--solaris-phone-field-country-padding-inline);
   cursor: pointer;
   color: var(--solaris-text-default);
-  font-size: var(--solaris-font-size-sm);
+  font-size: var(--solaris-phone-field-country-font-size);
   line-height: var(--solaris-line-height-md);
 
   &:focus-visible {
@@ -38,7 +39,7 @@
   align-items: center;
   justify-content: center;
   width: var(--solaris-phone-field-flag-size);
-  font-size: var(--solaris-font-size-sm);
+  font-size: var(--solaris-phone-field-flag-size);
   line-height: 1;
 
   svg {
@@ -66,9 +67,36 @@
   user-select: none;
   cursor: default;
   color: var(--solaris-phone-field-dial-code-color);
-  font-size: var(--solaris-font-size-sm);
+  font-size: var(--solaris-phone-field-country-font-size);
   line-height: var(--solaris-line-height-md);
   margin-inline-end: var(--solaris-spacing-1);
+}
+
+:host([data-density='compact']) {
+  --solaris-phone-field-country-font-size: var(--solaris-density-font-size);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-sm
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-xs);
+  --solaris-phone-field-chevron-size: 10px;
+}
+
+:host([data-density='normal']) {
+  --solaris-phone-field-country-font-size: var(--solaris-density-font-size);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-md
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-sm);
+  --solaris-phone-field-chevron-size: var(--solaris-font-size-xs);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-phone-field-country-font-size: var(--solaris-density-font-size);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-lg
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-md);
+  --solaris-phone-field-chevron-size: var(--solaris-font-size-sm);
 }
 
 @media (prefers-reduced-motion: reduce) {
