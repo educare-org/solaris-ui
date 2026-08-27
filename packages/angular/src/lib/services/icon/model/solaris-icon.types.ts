@@ -36,6 +36,18 @@ export type SolarisBuiltInIcon =
   | 'microsoft'
   | 'apple'
   | 'android'
-  | 'github';
+  | 'github'
+  | 'eject'
+  | 'key'
+  | 'notepad'
+  | 'package'
+  | 'plane'
+  | 'podium'
+  | 'rocket'
+  | 'save'
+  | 'send'
+  | 'squared-text'
+  | 'star'
+  | 'star-plus';
 
 export type SolarisIconName = string & { __brand?: never };

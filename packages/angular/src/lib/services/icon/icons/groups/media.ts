@@ -64,4 +64,20 @@ export const MEDIA_ICONS: SolarisIconDefinition[] = [
       { type: 'path', d: 'M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12' },
     ],
   },
+  {
+    name: 'eject',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M4 13a1 1 0 0 1-.72-1.695l7.257-7.668a2 2 0 0 1 2.926 0l7.256 7.668A1 1 0 0 1 20 13z',
+      },
+      { type: 'rect', x: 3, y: 17, width: 18, height: 4, rx: 1 },
+    ],
+  },
 ];

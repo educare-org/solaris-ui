@@ -55,6 +55,7 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'compass',
       'link-2',
       'code-xml',
+      'plane',
     ],
   },
   {
@@ -83,6 +84,11 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'repeat-1',
       'repeat-off',
       'repeat-2',
+      'key',
+      'rocket',
+      'save',
+      'star',
+      'star-plus',
     ],
   },
   {
@@ -121,6 +127,10 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'calendar-sync',
       'book',
       'server',
+      'package',
+      'squared-text',
+      'notepad',
+      'podium',
     ],
   },
   {
@@ -141,11 +151,12 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'message-square-2',
       'message-square-off',
       'inbox',
+      'send',
     ],
   },
   {
     id: 'media',
-    names: ['image', 'video', 'mic', 'leaf'],
+    names: ['image', 'video', 'mic', 'leaf', 'eject'],
   },
   {
     id: 'brands',

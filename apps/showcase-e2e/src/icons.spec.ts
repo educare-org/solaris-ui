@@ -11,7 +11,7 @@ test.describe('Icons', () => {
   });
 
   test('lists all built-in icons', async () => {
-    await expect(icons.gridItems()).toHaveCount(113);
+    await expect(icons.gridItems()).toHaveCount(125);
   });
 
   test('filters icons by search', async () => {
@@ -35,7 +35,7 @@ test.describe('Icons', () => {
 
   test('filters icons by new communication category', async () => {
     await icons.category('Communication').click();
-    await expect(icons.gridItems()).toHaveCount(11);
+    await expect(icons.gridItems()).toHaveCount(12);
     await expect(icons.iconItem('mail')).toBeVisible();
     await expect(icons.iconItem('inbox')).toBeVisible();
     await expect(icons.iconItem('message-square')).toBeVisible();
