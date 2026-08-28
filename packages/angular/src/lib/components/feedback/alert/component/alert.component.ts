@@ -28,9 +28,9 @@ import type {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.role]': 'liveRole()',
-    '[attr.data-variant]': 'variant()',
     '[attr.aria-live]': 'ariaLive()',
     '[attr.data-radius]': 'radius()',
+    '[attr.data-variant]': 'variant()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-closable]': 'closable() ? "" : null',
