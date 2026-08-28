@@ -17,6 +17,7 @@ import type {
   SolarisAlertRadius,
   SolarisAlertDensity,
   SolarisAlertLive,
+  SolarisAlertTextPosition,
 } from '../model/alert.types';
 
 @Component({
@@ -35,12 +36,14 @@ import type {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-closable]': 'closable() ? "" : null',
     '[attr.data-has-title]': 'hasTitle() ? "" : null',
+    '[attr.data-text-position]': 'textPosition()',
   },
 })
 export class SolarisAlertComponent {
   private readonly translateService = inject(SolarisTranslateService);
   protected readonly themeService = inject(SolarisThemeService);
 
+  readonly textPosition = input<SolarisAlertTextPosition>('start');
   readonly appearance = input<SolarisAlertAppearance>('tonal');
   readonly variant = input<SolarisAlertVariant>('info');
   readonly radius = input<SolarisAlertRadius>('md');

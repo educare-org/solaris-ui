@@ -18,6 +18,21 @@ export const EN_US_ALERT: Record<string, string> = {
   'alert.danger-desc': 'Error, failure, or high risk.',
   'alert.appearances': 'Appearances',
   'alert.appearances-desc': 'Tonal, outline, surface, and solid appearances.',
+  'alert.colors-and-appearances': 'Colors & Appearances',
+  'alert.text-position': 'Text Position',
+  'alert.text-position-desc':
+    'Text alignment options: start, center, end, and space-between.',
+  'alert.text-position-start': 'Start',
+  'alert.text-position-start-desc':
+    'Description aligned to the start (left in LTR).',
+  'alert.text-position-center': 'Center',
+  'alert.text-position-center-desc': 'Description centered.',
+  'alert.text-position-end': 'End',
+  'alert.text-position-end-desc':
+    'Description aligned to the end (right in LTR).',
+  'alert.text-position-space-between': 'Space Between',
+  'alert.text-position-space-between-desc':
+    'Two descriptions spread apart with space-between.',
   'alert.appearance-tonal': 'Tonal',
   'alert.appearance-tonal-desc':
     'Soft variant background, ideal for contextual alerts.',

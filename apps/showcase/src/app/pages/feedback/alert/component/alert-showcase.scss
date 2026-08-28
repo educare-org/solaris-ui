@@ -22,7 +22,7 @@
 }
 
 .alert-showcase__section {
-  margin-bottom: var(--solaris-spacing-8);
+  @include layout.section-card;
 }
 
 .alert-showcase__note {
@@ -54,6 +54,12 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--solaris-spacing-3);
+}
+
+.alert-showcase__text-position-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-4);
 }
 
 .alert-showcase__grid {

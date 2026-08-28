@@ -13,3 +13,9 @@ export type SolarisAlertRadius = 'sm' | 'md' | 'lg' | 'xl';
 export type SolarisAlertDensity = 'compact' | 'normal' | 'comfortable';
 
 export type SolarisAlertLive = 'off' | 'polite' | 'assertive';
+
+export type SolarisAlertTextPosition =
+  | 'start'
+  | 'center'
+  | 'end'
+  | 'space-between';

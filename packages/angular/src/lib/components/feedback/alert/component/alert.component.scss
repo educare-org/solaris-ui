@@ -70,6 +70,24 @@
   line-height: var(--solaris-line-height-md);
 }
 
+:host([data-text-position='center']) .solaris-alert__content {
+  text-align: center;
+}
+
+:host([data-text-position='end']) .solaris-alert__content {
+  text-align: right;
+}
+
+:host([data-text-position='space-between']) .solaris-alert__content {
+  flex-direction: row;
+  justify-content: space-between;
+  padding-inline: var(--solaris-spacing-4);
+}
+
+:host([data-text-position='space-between']) .solaris-alert-description {
+  flex: 1;
+}
+
 .solaris-alert__close {
   all: unset;
   display: grid;
@@ -87,6 +105,12 @@
   background: var(--solaris-alert-close-background);
   line-height: var(--solaris-alert-first-line-height);
   font-size: var(--solaris-alert-first-line-font-size);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+
+  &:hover {
+    color: var(--solaris-text-default);
+  }
 
   &:focus-visible {
     outline-offset: 2px;

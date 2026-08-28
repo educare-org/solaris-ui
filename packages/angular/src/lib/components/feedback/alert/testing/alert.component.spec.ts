@@ -520,3 +520,52 @@ describe('SolarisAlertComponent - Accessibility', () => {
     expect(btn.getAttribute('type')).toBe('button');
   });
 });
+
+describe('SolarisAlertComponent - Text Position', () => {
+  let fixture: ComponentFixture<SolarisAlertComponent>;
+
+  const createFixture = () => {
+    TestBed.configureTestingModule({
+      providers: [
+        provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+      ],
+    });
+    fixture = TestBed.createComponent(SolarisAlertComponent);
+    fixture.detectChanges();
+    return fixture.nativeElement;
+  };
+
+  it('should have data-text-position="start" by default', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-text-position')).toBe('start');
+  });
+
+  it('should apply data-text-position="center"', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('textPosition', 'center');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-text-position')).toBe('center');
+  });
+
+  it('should apply data-text-position="end"', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('textPosition', 'end');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-text-position')).toBe('end');
+  });
+
+  it('should apply data-text-position="space-between"', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('textPosition', 'space-between');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-text-position')).toBe('space-between');
+  });
+
+  it('should have .solaris-alert__content element when textPosition is set', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('textPosition', 'center');
+    fixture.detectChanges();
+    const content = el.querySelector('.solaris-alert__content');
+    expect(content).toBeTruthy();
+  });
+});

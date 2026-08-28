@@ -9,4 +9,5 @@ export type {
   SolarisAlertRadius,
   SolarisAlertDensity,
   SolarisAlertLive,
+  SolarisAlertTextPosition,
 } from './model/alert.types';

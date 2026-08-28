@@ -9,10 +9,10 @@ import {
 @Component({
   standalone: true,
   imports: [SolarisTranslatePipe, SolarisButtonDirective],
-  templateUrl: './dialog-page.component.html',
-  styleUrls: ['./dialog-page.component.scss'],
+  templateUrl: './dialog-showcase.component.html',
+  styleUrls: ['./dialog-showcase.component.scss'],
 })
-export class DialogPageComponent {
+export class DialogShowcaseComponent {
   private readonly translateService = inject(SolarisTranslateService);
   private readonly dialogService = inject(SolarisDialogService);
 

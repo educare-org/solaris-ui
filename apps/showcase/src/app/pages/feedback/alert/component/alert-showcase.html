@@ -8,61 +8,72 @@
 
   <section class="alert-showcase__section">
     <h2 class="alert-showcase__section-title">
-      {{ 'alert.variants' | translate }}
+      {{ 'alert.colors-and-appearances' | translate }}
     </h2>
-    <p class="alert-showcase__section-desc">
-      {{ 'alert.variants-desc' | translate }}
-    </p>
-
-    <div class="alert-showcase__demo">
-      <solaris-alert variant="neutral"
-        >{{ 'alert.neutral' | translate }}: {{ 'alert.neutral-desc' | translate
-        }}</solaris-alert
-      >
-      <solaris-alert variant="info"
-        >{{ 'alert.info' | translate }}: {{ 'alert.info-desc' | translate
-        }}</solaris-alert
-      >
-      <solaris-alert variant="success"
-        >{{ 'alert.success' | translate }}: {{ 'alert.success-desc' | translate
-        }}</solaris-alert
-      >
-      <solaris-alert variant="warning"
-        >{{ 'alert.warning' | translate }}: {{ 'alert.warning-desc' | translate
-        }}</solaris-alert
-      >
-      <solaris-alert variant="danger"
-        >{{ 'alert.danger' | translate }}: {{ 'alert.danger-desc' | translate
-        }}</solaris-alert
-      >
-    </div>
+    <solaris-tabs
+      [(value)]="selectedVariant"
+      [ariaLabel]="'alert.colors-and-appearances' | translate"
+    >
+      @for (variant of variants; track variant.value) {
+      <solaris-tab [value]="variant.value">{{ variant.label }}</solaris-tab>
+      } @for (variant of variants; track variant.value) {
+      <solaris-tab-panel [value]="variant.value">
+        <div class="alert-showcase__row">
+          @for (appearance of appearances; track appearance.value) {
+          <solaris-alert
+            [variant]="variant.value"
+            [appearance]="appearance.value"
+          >
+            {{ variant.label }} {{ appearance.label }}
+          </solaris-alert>
+          }
+        </div>
+      </solaris-tab-panel>
+      }
+    </solaris-tabs>
   </section>
 
   <section class="alert-showcase__section">
     <h2 class="alert-showcase__section-title">
-      {{ 'alert.appearances' | translate }}
+      {{ 'alert.text-position' | translate }}
     </h2>
     <p class="alert-showcase__section-desc">
-      {{ 'alert.appearances-desc' | translate }}
+      {{ 'alert.text-position-desc' | translate }}
     </p>
-
-    <div class="alert-showcase__demo">
-      <solaris-alert variant="info" appearance="tonal"
-        >{{ 'alert.appearance-tonal' | translate }}: {{
-        'alert.appearance-tonal-desc' | translate }}</solaris-alert
-      >
-      <solaris-alert variant="info" appearance="outline"
-        >{{ 'alert.appearance-outline' | translate }}: {{
-        'alert.appearance-outline-desc' | translate }}</solaris-alert
-      >
-      <solaris-alert variant="info" appearance="surface"
-        >{{ 'alert.appearance-surface' | translate }}: {{
-        'alert.appearance-surface-desc' | translate }}</solaris-alert
-      >
-      <solaris-alert variant="info" appearance="solid"
-        >{{ 'alert.appearance-solid' | translate }}: {{
-        'alert.appearance-solid-desc' | translate }}</solaris-alert
-      >
+    <div class="alert-showcase__text-position-row">
+      <div>
+        <p class="alert-showcase__note">
+          {{ 'alert.text-position-start' | translate }}
+        </p>
+        <solaris-alert variant="info" [textPosition]="'start'">
+          <p solaris-alert-description>Text aligned to the start.</p>
+        </solaris-alert>
+      </div>
+      <div>
+        <p class="alert-showcase__note">
+          {{ 'alert.text-position-center' | translate }}
+        </p>
+        <solaris-alert variant="info" [textPosition]="'center'">
+          <p solaris-alert-description>Text centered.</p>
+        </solaris-alert>
+      </div>
+      <div>
+        <p class="alert-showcase__note">
+          {{ 'alert.text-position-end' | translate }}
+        </p>
+        <solaris-alert variant="info" [textPosition]="'end'">
+          <p solaris-alert-description>Text aligned to the end.</p>
+        </solaris-alert>
+      </div>
+      <div>
+        <p class="alert-showcase__note">
+          {{ 'alert.text-position-space-between' | translate }}
+        </p>
+        <solaris-alert variant="info" [textPosition]="'space-between'">
+          <p solaris-alert-description>First description.</p>
+          <p solaris-alert-description>Second description.</p>
+        </solaris-alert>
+      </div>
     </div>
   </section>
 
@@ -75,18 +86,18 @@
     </p>
 
     <div class="alert-showcase__demo">
-      <solaris-alert variant="info" density="compact"
-        >{{ 'alert.density-compact' | translate }}: {{
-        'alert.density-compact-desc' | translate }}</solaris-alert
-      >
-      <solaris-alert variant="info" density="normal"
-        >{{ 'alert.density-normal' | translate }}: {{
-        'alert.density-normal-desc' | translate }}</solaris-alert
-      >
-      <solaris-alert variant="info" density="comfortable"
-        >{{ 'alert.density-comfortable' | translate }}: {{
-        'alert.density-comfortable-desc' | translate }}</solaris-alert
-      >
+      <solaris-alert variant="info" density="compact">
+        {{ 'alert.density-compact' | translate }}: {{
+        'alert.density-compact-desc' | translate }}
+      </solaris-alert>
+      <solaris-alert variant="info" density="normal">
+        {{ 'alert.density-normal' | translate }}: {{ 'alert.density-normal-desc'
+        | translate }}
+      </solaris-alert>
+      <solaris-alert variant="info" density="comfortable">
+        {{ 'alert.density-comfortable' | translate }}: {{
+        'alert.density-comfortable-desc' | translate }}
+      </solaris-alert>
     </div>
   </section>
 
@@ -180,18 +191,18 @@
     </p>
 
     <div class="alert-showcase__demo">
-      <solaris-alert variant="info" live="off"
-        >{{ 'alert.live-off' | translate }}: {{ 'alert.live-off-desc' |
-        translate }}</solaris-alert
-      >
-      <solaris-alert variant="success" live="polite"
-        >{{ 'alert.live-polite' | translate }}: {{ 'alert.live-polite-desc' |
-        translate }}</solaris-alert
-      >
-      <solaris-alert variant="danger" live="assertive"
-        >{{ 'alert.live-assertive' | translate }}: {{
-        'alert.live-assertive-desc' | translate }}</solaris-alert
-      >
+      <solaris-alert variant="info" live="off">
+        {{ 'alert.live-off' | translate }}: {{ 'alert.live-off-desc' | translate
+        }}
+      </solaris-alert>
+      <solaris-alert variant="success" live="polite">
+        {{ 'alert.live-polite' | translate }}: {{ 'alert.live-polite-desc' |
+        translate }}
+      </solaris-alert>
+      <solaris-alert variant="danger" live="assertive">
+        {{ 'alert.live-assertive' | translate }}: {{ 'alert.live-assertive-desc'
+        | translate }}
+      </solaris-alert>
     </div>
   </section>
 
@@ -204,15 +215,15 @@
     </p>
 
     <div class="alert-showcase__demo">
-      <solaris-alert variant="success"
-        >{{ 'alert.icon-default' | translate }}</solaris-alert
-      >
-      <solaris-alert variant="info" [showIcon]="false"
-        >{{ 'alert.icon-hidden' | translate }}</solaris-alert
-      >
-      <solaris-alert variant="info" icon="check"
-        >{{ 'alert.icon-custom' | translate }}</solaris-alert
-      >
+      <solaris-alert variant="success">
+        {{ 'alert.icon-default' | translate }}
+      </solaris-alert>
+      <solaris-alert variant="info" [showIcon]="false">
+        {{ 'alert.icon-hidden' | translate }}
+      </solaris-alert>
+      <solaris-alert variant="info" icon="check">
+        {{ 'alert.icon-custom' | translate }}
+      </solaris-alert>
     </div>
   </section>
 
