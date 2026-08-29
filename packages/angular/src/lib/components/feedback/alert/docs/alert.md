@@ -58,6 +58,7 @@ Alert is a **highly relevant contextual message**. It alters the user's percepti
 | icon          | `string \| undefined`                                                   | `undefined` | Custom icon name              |
 | closeLabel    | `string \| undefined`                                                   | `undefined` | Close button accessible label |
 | closeLabelKey | `string \| undefined`                                                   | `undefined` | Close button i18n key         |
+| textPosition  | `'start' \| 'center' \| 'end' \| 'space-between'`                       | `'start'`   | Text alignment inside content |
 
 **Outputs:**
 

@@ -17,6 +17,7 @@ import type {
   SolarisAlertRadius,
   SolarisAlertDensity,
   SolarisAlertLive,
+  SolarisAlertTextPosition,
 } from '../model/alert.types';
 
 @Component({
@@ -28,19 +29,21 @@ import type {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.role]': 'liveRole()',
-    '[attr.data-variant]': 'variant()',
     '[attr.aria-live]': 'ariaLive()',
     '[attr.data-radius]': 'radius()',
+    '[attr.data-variant]': 'variant()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-closable]': 'closable() ? "" : null',
     '[attr.data-has-title]': 'hasTitle() ? "" : null',
+    '[attr.data-text-position]': 'textPosition()',
   },
 })
 export class SolarisAlertComponent {
   private readonly translateService = inject(SolarisTranslateService);
   protected readonly themeService = inject(SolarisThemeService);
 
+  readonly textPosition = input<SolarisAlertTextPosition>('start');
   readonly appearance = input<SolarisAlertAppearance>('tonal');
   readonly variant = input<SolarisAlertVariant>('info');
   readonly radius = input<SolarisAlertRadius>('md');

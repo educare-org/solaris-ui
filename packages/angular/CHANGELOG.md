@@ -8,6 +8,7 @@
   `notepad`, `star`, `star-plus`, `eject`, `podium` and `save`. Sorted into the existing
   icon groups (actions, communication, data, navigation, media) and exposed in the showcase
   category filters.
+- Add `textPosition` input to `SolarisAlertComponent` supporting `'start' | 'center' | 'end' | 'space-between'` alignment. Restructure AlertShowcasePage with tabs for variants/appearances and a new Text Position section. Add hover color transition to alert close button matching the dialog pattern. Rename DialogPageComponent to DialogShowcaseComponent.
 
 ## 0.14.0
 

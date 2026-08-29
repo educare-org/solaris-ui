@@ -18,6 +18,20 @@ export const PT_BR_ALERT: Record<string, string> = {
   'alert.danger-desc': 'Erro, falha ou risco alto.',
   'alert.appearances': 'Aparências',
   'alert.appearances-desc': 'Aparências tonal, outline, surface e solid.',
+  'alert.colors-and-appearances': 'Cores e Aparências',
+  'alert.text-position': 'Posição do Texto',
+  'alert.text-position-desc':
+    'Opções de alinhamento de texto: start, center, end e space-between.',
+  'alert.text-position-start': 'Início',
+  'alert.text-position-start-desc':
+    'Descrição alinhada ao início (esquerda em LTR).',
+  'alert.text-position-center': 'Centro',
+  'alert.text-position-center-desc': 'Descrição centralizada.',
+  'alert.text-position-end': 'Fim',
+  'alert.text-position-end-desc': 'Descrição alinhada ao fim (direita em LTR).',
+  'alert.text-position-space-between': 'Espaço Entre',
+  'alert.text-position-space-between-desc':
+    'Duas descrições separadas com space-between.',
   'alert.appearance-tonal': 'Tonal',
   'alert.appearance-tonal-desc':
     'Fundo suave da variant, ideal para alertas contextuais.',

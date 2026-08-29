@@ -6,7 +6,7 @@ const meta: Meta<SolarisAlertComponent> = {
   title: 'Feedback/Alert',
   render: (args: any) => ({
     props: args,
-    template: `<solaris-alert [variant]="variant" [title]="title" [description]="description" />`,
+    template: `<solaris-alert [variant]="variant" [title]="title" [description]="description" [textPosition]="textPosition" />`,
   }),
 };
 export default meta;
@@ -30,4 +30,40 @@ export const Danger = {
     title: 'Error',
     description: 'An error occurred.',
   },
+};
+
+export const TextPositionStart = {
+  args: {
+    variant: 'info',
+    textPosition: 'start',
+    description: 'Text aligned to start.',
+  },
+};
+
+export const TextPositionCenter = {
+  args: {
+    variant: 'info',
+    textPosition: 'center',
+    description: 'Text centered.',
+  },
+};
+
+export const TextPositionEnd = {
+  args: {
+    variant: 'info',
+    textPosition: 'end',
+    description: 'Text aligned to end.',
+  },
+};
+
+export const TextPositionSpaceBetween = {
+  render: () => ({
+    props: { variant: 'info', textPosition: 'space-between' as const },
+    template: `
+      <solaris-alert variant="info" [textPosition]="textPosition">
+        <p solaris-alert-description>First description.</p>
+        <p solaris-alert-description>Second description.</p>
+      </solaris-alert>
+    `,
+  }),
 };

@@ -8,8 +8,8 @@ export const overlayRoutes: Route[] = [
         path: 'dialog',
         loadComponent: () =>
           import(
-            '../pages/overlay/dialog/component/dialog-page.component'
-          ).then((m) => m.DialogPageComponent),
+            '../pages/overlay/dialog/component/dialog-showcase.component'
+          ).then((m) => m.DialogShowcaseComponent),
       },
     ],
   },
