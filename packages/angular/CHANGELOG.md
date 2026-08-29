@@ -1,5 +1,11 @@
 # @educarehq/solaris-ui
 
+## 0.16.0
+
+### Minor Changes
+
+- feat(alert): add textPosition input and restructure alert showcase with tabs and section-card layout
+
 ## 0.15.0
 
 ### Minor Changes
