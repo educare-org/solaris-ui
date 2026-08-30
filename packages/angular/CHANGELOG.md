@@ -1,5 +1,11 @@
 # @educarehq/solaris-ui
 
+## 0.16.1
+
+### Patch Changes
+
+- Fix SSR compatibility for DOM adapters without `dataset` support.
+
 ## 0.16.0
 
 ### Minor Changes
