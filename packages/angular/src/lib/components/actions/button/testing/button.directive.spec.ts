@@ -60,6 +60,28 @@ describe('SolarisButtonDirective', () => {
       const el = createFixture();
       expect(el.getAttribute('type')).toBe('button');
     });
+
+    it('should render with a DOM adapter that does not implement dataset', () => {
+      const descriptor = Object.getOwnPropertyDescriptor(
+        HTMLElement.prototype,
+        'dataset',
+      );
+      Object.defineProperty(HTMLElement.prototype, 'dataset', {
+        configurable: true,
+        value: undefined,
+      });
+
+      try {
+        const el = createFixture();
+        expect(el.getAttribute('data-appearance')).toBe('solid');
+      } finally {
+        if (descriptor) {
+          Object.defineProperty(HTMLElement.prototype, 'dataset', descriptor);
+        } else {
+          Reflect.deleteProperty(HTMLElement.prototype, 'dataset');
+        }
+      }
+    });
   });
 
   describe('type preservation', () => {

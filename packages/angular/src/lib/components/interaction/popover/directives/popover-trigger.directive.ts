@@ -279,19 +279,27 @@ export class SolarisPopoverTriggerDirective {
       this.connectedSide =
         change.connectionPair.originY === 'bottom' ? 'bottom' : 'top';
       if (this.panelContainerRef) {
-        this.panelContainerRef.dataset['connectedSide'] = this.connectedSide;
+        this.panelContainerRef.setAttribute(
+          'data-connected-side',
+          this.connectedSide,
+        );
         if (this.solarisPopoverTopConnected()) {
-          this.panelContainerRef.dataset['formField'] = '';
+          this.panelContainerRef.setAttribute('data-form-field', '');
         }
       }
       if (this.solarisPopoverTopConnected()) {
-        this.elementRef.nativeElement.dataset['connectedSide'] =
-          this.connectedSide;
+        this.elementRef.nativeElement.setAttribute(
+          'data-connected-side',
+          this.connectedSide,
+        );
         const formFieldWrapper = this.elementRef.nativeElement.querySelector(
           ':scope > .solaris-form-field__control-wrapper',
         ) as HTMLElement | null;
         if (formFieldWrapper) {
-          formFieldWrapper.dataset['connectedSide'] = this.connectedSide;
+          formFieldWrapper.setAttribute(
+            'data-connected-side',
+            this.connectedSide,
+          );
         }
       }
     });
@@ -383,14 +391,14 @@ export class SolarisPopoverTriggerDirective {
     );
 
     if (this.panelContainerRef && initialSide) {
-      this.panelContainerRef.dataset['connectedSide'] = initialSide;
+      this.panelContainerRef.setAttribute('data-connected-side', initialSide);
       if (topConnected) {
-        this.panelContainerRef.dataset['formField'] = '';
+        this.panelContainerRef.setAttribute('data-form-field', '');
         const formFieldWrapper = this.elementRef.nativeElement.querySelector(
           ':scope > .solaris-form-field__control-wrapper',
         ) as HTMLElement | null;
         if (formFieldWrapper) {
-          formFieldWrapper.dataset['connectedSide'] = initialSide;
+          formFieldWrapper.setAttribute('data-connected-side', initialSide);
         }
       }
     }

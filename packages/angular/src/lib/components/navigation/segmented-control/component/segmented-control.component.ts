@@ -17,9 +17,11 @@ import {
   NgZone,
   Injector,
   forwardRef,
+  PLATFORM_ID,
   AfterViewInit,
   OnDestroy,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import { SolarisSegmentedItemComponent } from '../item/segmented-item.component';
@@ -95,6 +97,7 @@ export class SolarisSegmentedControlComponent
   private readonly elementRef = inject(ElementRef);
   private readonly injector = inject(Injector);
   private readonly ngZone = inject(NgZone);
+  private readonly platformId = inject(PLATFORM_ID);
 
   readonly items = contentChildren(SolarisSegmentedItemComponent);
 
@@ -168,6 +171,10 @@ export class SolarisSegmentedControlComponent
   }
 
   ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
     this.setupIndicatorMeasurement();
 
     effect(
@@ -218,6 +225,9 @@ export class SolarisSegmentedControlComponent
   // ControlValueAccessor
   writeValue(safe: unknown): void {
     this.value.set(safe);
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => this.measureIndicator());
     });

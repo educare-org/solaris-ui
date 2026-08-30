@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, signal } from '@angular/core';
+import { Component, PLATFORM_ID, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
@@ -1055,5 +1055,33 @@ describe('SolarisSegmentedControlComponent', () => {
       expect(items[0].getAttribute('data-selected')).toBe('true');
       expect(items[1].getAttribute('data-selected')).toBe('false');
     });
+  });
+});
+
+describe('SolarisSegmentedControlComponent SSR compatibility', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisSegmentedControlComponent, SolarisSegmentedItemComponent],
+    template: `
+      <solaris-segmented-control>
+        <solaris-segmented-item value="a">A</solaris-segmented-item>
+      </solaris-segmented-control>
+    `,
+  })
+  class ServerHost {}
+
+  it('does not schedule layout measurement on the server', () => {
+    TestBed.configureTestingModule({
+      imports: [ServerHost],
+      providers: [
+        ...provideSolarisTesting(),
+        { provide: PLATFORM_ID, useValue: 'server' },
+      ],
+    });
+
+    expect(() => {
+      const fixture = TestBed.createComponent(ServerHost);
+      fixture.detectChanges();
+    }).not.toThrow();
   });
 });

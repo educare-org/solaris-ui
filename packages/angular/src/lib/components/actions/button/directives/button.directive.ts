@@ -121,12 +121,10 @@ export class SolarisButtonDirective {
 
     // Apply variant attributes synchronously so the element never flashes the
     // base style before Angular's first change detection (SSR/hydration FOUC).
-    // Apply variant attributes synchronously so the element never flashes the
-    // base style before Angular's first change detection (SSR/hydration FOUC).
-    el.dataset['appearance'] = this.appearance();
-    el.dataset['color'] = this.color();
-    el.dataset['radius'] = this.radius();
-    el.dataset['shape'] = this.shape();
+    el.setAttribute('data-appearance', this.appearance());
+    el.setAttribute('data-color', this.color());
+    el.setAttribute('data-radius', this.radius());
+    el.setAttribute('data-shape', this.shape());
 
     effect(() => {
       if (this.loading()) {

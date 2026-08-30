@@ -563,6 +563,32 @@ describe('SolarisTextareaDirective', () => {
       const el = fixture.nativeElement.querySelector('[solaris-textarea]');
       expect(el.hasAttribute('data-appearance')).toBe(true);
     });
+
+    it('should render with a DOM adapter that does not implement dataset', () => {
+      const descriptor = Object.getOwnPropertyDescriptor(
+        HTMLElement.prototype,
+        'dataset',
+      );
+      Object.defineProperty(HTMLElement.prototype, 'dataset', {
+        configurable: true,
+        value: undefined,
+      });
+
+      try {
+        TestBed.configureTestingModule({});
+        const fixture = TestBed.createComponent(TestHost);
+        fixture.detectChanges();
+        expect(
+          fixture.nativeElement.querySelector('[solaris-textarea]'),
+        ).toBeTruthy();
+      } finally {
+        if (descriptor) {
+          Object.defineProperty(HTMLElement.prototype, 'dataset', descriptor);
+        } else {
+          Reflect.deleteProperty(HTMLElement.prototype, 'dataset');
+        }
+      }
+    });
   });
 
   describe('with Reactive Forms', () => {

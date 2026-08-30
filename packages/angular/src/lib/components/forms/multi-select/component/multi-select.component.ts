@@ -790,7 +790,7 @@ export class SolarisMultiSelectComponent
         '.solaris-form-field__control-wrapper',
       );
       if (wrapper) {
-        wrapper.dataset['connectedSide'] = side;
+        wrapper.setAttribute('data-connected-side', side);
       }
     }
   }
@@ -802,7 +802,7 @@ export class SolarisMultiSelectComponent
         '.solaris-form-field__control-wrapper',
       );
       if (wrapper) {
-        delete wrapper.dataset['connectedSide'];
+        wrapper.removeAttribute('data-connected-side');
       }
     }
   }

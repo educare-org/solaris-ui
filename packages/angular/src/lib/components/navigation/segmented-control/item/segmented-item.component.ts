@@ -102,11 +102,11 @@ export class SolarisSegmentedItemComponent implements AfterContentInit {
     const innerEl = nativeEl.querySelector('.solaris-segmented-item__inner');
     if (!innerEl) return;
     for (const node of Array.from(innerEl.childNodes)) {
-      if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
+      if (node.nodeType === 3 && node.textContent?.trim()) {
         this.hasContent.set(true);
         return;
       }
-      if (node.nodeType === Node.ELEMENT_NODE) {
+      if (node.nodeType === 1) {
         const el = node as HTMLElement;
         if (!el.classList.contains('solaris-segmented-item__icon')) {
           this.hasContent.set(true);

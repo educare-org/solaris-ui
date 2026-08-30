@@ -447,7 +447,8 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
       this.controlResize.set(null);
       return;
     }
-    const resize = first.dataset['resize'] ?? first.getAttribute('resize');
+    const resize =
+      first.getAttribute('data-resize') ?? first.getAttribute('resize');
 
     const validResize: ControlResize =
       resize === 'none' ||
