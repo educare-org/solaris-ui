@@ -19,6 +19,13 @@ export const navigationRoutes: Route[] = [
           ).then((m) => m.BreadcrumbShowcasePage),
       },
       {
+        path: 'mega-menu',
+        loadComponent: () =>
+          import(
+            '../pages/navigation/mega-menu/component/mega-menu-showcase.component'
+          ).then((m) => m.MegaMenuShowcasePage),
+      },
+      {
         path: 'stepper',
         loadComponent: () =>
           import(

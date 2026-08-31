@@ -1,0 +1,16 @@
+<ng-content select="[solaris-mega-menu-trigger]" />
+<ng-content select="ng-template[solaris-mega-menu-panel]" />
+
+<ng-template #overlayPanel>
+  <section
+    class="solaris-mega-menu__panel"
+    [id]="panelId"
+    tabindex="-1"
+    (pointerenter)="onPanelPointerEnter()"
+    (pointerleave)="onPanelPointerLeave()"
+    (focusout)="onPanelFocusOut()"
+    (keydown.escape)="onPanelEscape($event)"
+  >
+    <ng-container *ngTemplateOutlet="panel()?.templateRef" />
+  </section>
+</ng-template>

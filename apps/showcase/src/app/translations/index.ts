@@ -39,6 +39,7 @@ import { COLLAPSIBLE_TRANSLATIONS } from '../pages/interaction/collapsible/trans
 import { ACCORDION_TRANSLATIONS } from '../pages/interaction/accordion/translations';
 import { EDITABLE_TABS_TRANSLATIONS } from '../pages/navigation/editable-tabs/translations';
 import { ICONS_TRANSLATIONS } from '../pages/icons/translations';
+import { MEGA_MENU_TRANSLATIONS } from '../pages/navigation/mega-menu/translations';
 
 const PAGE_MODULES = [
   CONFIGURATION_TRANSLATIONS,
@@ -82,6 +83,7 @@ const PAGE_MODULES = [
   ACCORDION_TRANSLATIONS,
   EDITABLE_TABS_TRANSLATIONS,
   ICONS_TRANSLATIONS,
+  MEGA_MENU_TRANSLATIONS,
 ];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};

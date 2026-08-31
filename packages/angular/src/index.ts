@@ -114,6 +114,16 @@ export type {
   SolarisButtonGroupDensity,
 } from './lib/components/actions/button-group/model/button-group.types';
 
+export { SolarisMegaMenuComponent } from './lib/components/navigation/mega-menu/component/mega-menu.component';
+export { SolarisMegaMenuAnchorDirective } from './lib/components/navigation/mega-menu/directives/mega-menu-anchor.directive';
+export { SolarisMegaMenuGroupDirective } from './lib/components/navigation/mega-menu/directives/mega-menu-group.directive';
+export { SolarisMegaMenuPanelDirective } from './lib/components/navigation/mega-menu/directives/mega-menu-panel.directive';
+export { SolarisMegaMenuTriggerDirective } from './lib/components/navigation/mega-menu/directives/mega-menu-trigger.directive';
+export type {
+  SolarisMegaMenuAppearance,
+  SolarisMegaMenuPanelWidth,
+} from './lib/components/navigation/mega-menu/model/mega-menu.types';
+
 export { SolarisOptionComponent } from './lib/components/forms/option/component/option.component';
 export {
   SolarisOptionLeadingDirective,
