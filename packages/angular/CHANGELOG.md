@@ -1,5 +1,11 @@
 # @educarehq/solaris-ui
 
+## 0.17.0
+
+### Minor Changes
+
+- 8f815c3: Add reusable animated icons and an accessible menu toggle control.
+
 ## 0.16.1
 
 ### Patch Changes
