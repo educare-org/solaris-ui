@@ -1,20 +1,14 @@
-import { isPlatformBrowser } from '@angular/common';
 import {
-  ComponentRef,
-  DestroyRef,
   Directive,
   ElementRef,
-  EnvironmentInjector,
   HostListener,
-  PLATFORM_ID,
-  createComponent,
   inject,
+  Renderer2,
 } from '@angular/core';
 
-import { SolarisIconComponent } from '../../../icon';
 import { SOLARIS_MEGA_MENU } from '../model/mega-menu.tokens';
 
-// SECURITY_EXCEPTION_FILE: Native host access sets the semantic button type and appends the decorative chevron component. Host bindings cannot set a missing attribute conditionally; directive specs cover trigger semantics and interaction.
+// SECURITY_EXCEPTION_FILE: Native host access sets the semantic button type. Renderer2 creates the decorative chevron for both SSR and browser rendering; directive specs cover trigger semantics and interaction.
 
 @Directive({
   selector: 'button[solaris-mega-menu-trigger]',
@@ -32,23 +26,31 @@ export class SolarisMegaMenuTriggerDirective {
   protected readonly megaMenu = inject(SOLARIS_MEGA_MENU);
   private readonly elementRef =
     inject<ElementRef<HTMLButtonElement>>(ElementRef);
-  private readonly environmentInjector = inject(EnvironmentInjector);
-  private readonly platformId = inject(PLATFORM_ID);
-  private readonly destroyRef = inject(DestroyRef);
-  private chevronRef: ComponentRef<SolarisIconComponent> | null = null;
+  private readonly renderer = inject(Renderer2);
+  private isPointerInteraction = false;
 
   constructor() {
     if (this.elementRef.nativeElement.getAttribute('type') === null) {
       this.elementRef.nativeElement.setAttribute('type', 'button');
     }
 
-    this.attachChevron();
-    this.destroyRef.onDestroy(() => this.chevronRef?.destroy());
+    this.ensureChevron();
   }
 
   @HostListener('click')
   onClick(): void {
     this.megaMenu.toggleFromClick();
+    this.isPointerInteraction = false;
+  }
+
+  @HostListener('pointerdown')
+  onPointerDown(): void {
+    this.isPointerInteraction = true;
+  }
+
+  @HostListener('pointercancel')
+  onPointerCancel(): void {
+    this.isPointerInteraction = false;
   }
 
   @HostListener('pointerenter')
@@ -63,6 +65,10 @@ export class SolarisMegaMenuTriggerDirective {
 
   @HostListener('focusin')
   onFocusIn(): void {
+    if (this.isPointerInteraction) {
+      return;
+    }
+
     this.megaMenu.open();
   }
 
@@ -78,21 +84,16 @@ export class SolarisMegaMenuTriggerDirective {
     this.megaMenu.close(true);
   }
 
-  private attachChevron(): void {
-    if (!isPlatformBrowser(this.platformId)) {
+  private ensureChevron(): void {
+    const host = this.elementRef.nativeElement;
+
+    if (host.querySelector('.solaris-mega-menu-trigger__chevron')) {
       return;
     }
 
-    const chevronRef = createComponent(SolarisIconComponent, {
-      environmentInjector: this.environmentInjector,
-    });
-    chevronRef.setInput('name', 'chevron-down');
-    chevronRef.setInput('decorative', true);
-    chevronRef.changeDetectorRef.detectChanges();
-
-    const chevronElement = chevronRef.location.nativeElement as HTMLElement;
-    chevronElement.classList.add('solaris-mega-menu-trigger__chevron');
-    this.elementRef.nativeElement.appendChild(chevronElement);
-    this.chevronRef = chevronRef;
+    const chevron = this.renderer.createElement('span');
+    this.renderer.addClass(chevron, 'solaris-mega-menu-trigger__chevron');
+    this.renderer.setAttribute(chevron, 'aria-hidden', 'true');
+    this.renderer.appendChild(host, chevron);
   }
 }

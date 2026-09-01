@@ -127,7 +127,20 @@ describe('SolarisMegaMenuComponent', () => {
     expect(panel?.textContent).toContain('All products');
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
     expect(trigger.getAttribute('aria-controls')).toBe(panel?.id);
-    expect(trigger.querySelector('solaris-icon')).toBeTruthy();
+    expect(
+      trigger.querySelector('.solaris-mega-menu-trigger__chevron'),
+    ).toBeTruthy();
+  });
+
+  it('renders its chevron with the trigger', () => {
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.detectChanges();
+
+    const chevron = getTrigger(fixture).querySelector(
+      '.solaris-mega-menu-trigger__chevron',
+    );
+
+    expect(chevron?.getAttribute('aria-hidden')).toBe('true');
   });
 
   it('sizes the panel to the anchor', () => {

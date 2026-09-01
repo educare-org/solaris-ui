@@ -1,5 +1,11 @@
 # @educarehq/solaris-ui
 
+## 0.17.1
+
+### Patch Changes
+
+- Preserve server-rendered button variants during hydration and render mega menu chevrons before client startup.
+
 ## 0.17.0
 
 ### Minor Changes

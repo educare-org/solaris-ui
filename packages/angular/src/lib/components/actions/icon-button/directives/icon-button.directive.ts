@@ -70,12 +70,20 @@ export class SolarisIconButtonDirective {
       el.setAttribute('type', 'button');
     }
 
-    // Apply variant attributes synchronously so the element never flashes the
-    // base style before Angular's first change detection (SSR/hydration FOUC).
-    el.setAttribute('data-appearance', this.appearance());
-    el.setAttribute('data-color', this.color());
-    el.setAttribute('data-radius', this.radius());
-    el.setAttribute('data-shape', this.shape());
+    // Preserve SSR attributes during hydration. Angular applies input bindings
+    // after directive construction, so writing defaults here would flash them.
+    if (!el.hasAttribute('data-appearance')) {
+      el.setAttribute('data-appearance', this.appearance());
+    }
+    if (!el.hasAttribute('data-color')) {
+      el.setAttribute('data-color', this.color());
+    }
+    if (!el.hasAttribute('data-radius')) {
+      el.setAttribute('data-radius', this.radius());
+    }
+    if (!el.hasAttribute('data-shape')) {
+      el.setAttribute('data-shape', this.shape());
+    }
   }
 
   @HostListener('click', ['$event'])

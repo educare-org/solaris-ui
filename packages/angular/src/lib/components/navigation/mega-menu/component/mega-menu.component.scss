@@ -11,15 +11,20 @@ solaris-mega-menu {
 }
 
 .solaris-mega-menu-trigger__chevron {
-  flex: 0 0 auto;
   order: 1;
+  flex: 0 0 auto;
+  transform: rotate(45deg);
   margin-inline-start: auto;
+  width: var(--solaris-spacing-2);
+  height: var(--solaris-spacing-2);
+  border-right: var(--solaris-border-width-sm) solid currentcolor;
+  border-bottom: var(--solaris-border-width-sm) solid currentcolor;
   transition: transform var(--solaris-motion-duration-fast)
     var(--solaris-motion-easing-standard);
 }
 
 [solaris-mega-menu-trigger][data-open] .solaris-mega-menu-trigger__chevron {
-  transform: rotate(180deg);
+  transform: rotate(-135deg);
 }
 
 [solaris-mega-menu-trigger][data-appearance='underline'] {
@@ -35,12 +40,12 @@ solaris-mega-menu {
 }
 
 .solaris-mega-menu-anchor__underline {
-  position: absolute;
-  z-index: var(--solaris-z-index-raised);
   bottom: 1px;
   height: 2px;
-  background: var(--solaris-primary-base);
+  position: absolute;
   pointer-events: none;
+  z-index: var(--solaris-z-index-raised);
+  background: var(--solaris-primary-base);
   transition:
     left var(--solaris-motion-duration-fast)
       var(--solaris-motion-easing-standard),
@@ -62,29 +67,29 @@ solaris-mega-menu {
 }
 
 .solaris-mega-menu__panel {
-  --solaris-mega-menu-background: var(--solaris-surface-raised);
-  --solaris-mega-menu-color: var(--solaris-text-default);
   --solaris-mega-menu-shadow: var(--solaris-shadow-lg);
+  --solaris-mega-menu-color: var(--solaris-text-default);
+  --solaris-mega-menu-background: var(--solaris-surface-raised);
 
-  box-sizing: border-box;
   width: 100%;
+  box-sizing: border-box;
   color: var(--solaris-mega-menu-color);
-  background: var(--solaris-mega-menu-background);
   box-shadow: var(--solaris-mega-menu-shadow);
+  background: var(--solaris-mega-menu-background);
   animation: solaris-mega-menu-enter var(--solaris-motion-duration-fast)
     var(--solaris-motion-easing-decelerate);
 }
 
 .cdk-overlay-backdrop.solaris-mega-menu-backdrop {
-  background: transparent;
   pointer-events: none;
+  background: transparent;
 }
 
 .solaris-mega-menu-backdrop__region {
   display: block;
   position: absolute;
-  background: var(--solaris-backdrop);
   pointer-events: auto;
+  background: var(--solaris-backdrop);
 }
 
 .solaris-mega-menu-backdrop__region--top,
