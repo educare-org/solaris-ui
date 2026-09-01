@@ -12,3 +12,5 @@ export type {
   SolarisIconName,
   SolarisBuiltInIcon,
 } from '../../../services/icon/model/solaris-icon.types';
+
+export type SolarisAnimatedIconName = 'menu';

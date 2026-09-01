@@ -8,11 +8,14 @@ import {
 
 import {
   SolarisButtonDirective,
+  SolarisAnimatedIconComponent,
   SolarisDialogRef,
   SolarisDialogService,
   SolarisFormFieldComponent,
   SolarisIconComponent,
+  SolarisIconButtonDirective,
   SolarisInputDirective,
+  SolarisMenuToggleDirective,
   SolarisTabComponent,
   SolarisTabsComponent,
   SolarisTranslatePipe,
@@ -35,9 +38,12 @@ interface IconColorSwatch {
   standalone: true,
   imports: [
     SolarisButtonDirective,
+    SolarisAnimatedIconComponent,
     SolarisFormFieldComponent,
     SolarisIconComponent,
+    SolarisIconButtonDirective,
     SolarisInputDirective,
+    SolarisMenuToggleDirective,
     SolarisTabComponent,
     SolarisTabsComponent,
     SolarisTranslatePipe,
@@ -52,11 +58,13 @@ export class IconsShowcasePage {
   private usageDialogRef: SolarisDialogRef | null = null;
 
   protected readonly allCategory = 'all';
+  protected readonly animatedCategory = 'animated';
   protected readonly categories = ICON_CATEGORIES;
 
   protected readonly query = signal('');
   protected selectedCategory = signal<string | number>(this.allCategory);
   protected readonly selectedIcon = signal<string | null>(null);
+  protected readonly menuToggleOpen = signal(false);
 
   protected readonly iconWidth = signal(24);
   protected readonly iconColor = signal<string | null>(null);
@@ -71,6 +79,9 @@ export class IconsShowcasePage {
   ];
 
   protected readonly iconWidthCss = computed(() => `${this.iconWidth()}px`);
+  protected readonly isAnimatedCategory = computed(
+    () => this.selectedCategory() === this.animatedCategory,
+  );
 
   protected readonly colorHex = computed(() => {
     const color = this.iconColor();

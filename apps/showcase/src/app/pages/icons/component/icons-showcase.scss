@@ -31,6 +31,10 @@
   grid-template-columns: 288px 1fr;
 }
 
+.icons-showcase__layout--animated {
+  grid-template-columns: 1fr;
+}
+
 .icons-showcase__customizer {
   @include layout.section-card;
 
@@ -219,6 +223,61 @@
   margin: var(--solaris-spacing-4) 0 0;
 }
 
+.icons-showcase__animated-card {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--solaris-border-default);
+  border-radius: var(--solaris-radius-md);
+  grid-template-columns: minmax(160px, 0.7fr) minmax(0, 1fr);
+}
+
+.icons-showcase__animated-preview {
+  display: flex;
+  min-height: 192px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--solaris-spacing-4);
+  color: var(--solaris-text-strong);
+  background: var(--solaris-surface-muted);
+}
+
+.icons-showcase__animated-state {
+  margin: 0;
+  color: var(--solaris-text-muted);
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+}
+
+.icons-showcase__animated-content {
+  padding: var(--solaris-spacing-6);
+}
+
+.icons-showcase__animated-title {
+  margin: 0 0 var(--solaris-spacing-2);
+  color: var(--solaris-text-strong);
+  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-lg) /
+    var(--solaris-line-height-lg) var(--solaris-font-family-sans);
+}
+
+.icons-showcase__animated-description {
+  margin: 0 0 var(--solaris-spacing-4);
+  color: var(--solaris-text-default);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.icons-showcase__animated-code {
+  overflow-x: auto;
+  margin: 0;
+  padding: var(--solaris-spacing-4);
+  color: var(--solaris-text-strong);
+  background: var(--solaris-surface-subtle);
+  border-radius: var(--solaris-radius-sm);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-xs) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-mono, monospace);
+}
+
 @media (width <= 896px) {
   .icons-showcase__layout {
     grid-template-columns: 1fr;
@@ -226,5 +285,9 @@
 
   .icons-showcase__customizer {
     position: static;
+  }
+
+  .icons-showcase__animated-card {
+    grid-template-columns: 1fr;
   }
 }

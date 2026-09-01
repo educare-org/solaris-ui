@@ -16,6 +16,7 @@ export const PT_BR_ICONS: Record<string, string> = {
   'icons.category.communication': 'Comunicação',
   'icons.category.media': 'Mídia',
   'icons.category.brands': 'Marcas',
+  'icons.category.animated': 'Animados',
   'icons.result-count': '{{count}} ícones',
   'icons.no-results': 'Nenhum ícone corresponde à sua busca.',
   'icons.usage': 'Como usar',
@@ -36,4 +37,10 @@ export const PT_BR_ICONS: Record<string, string> = {
   'icons.color.danger': 'Perigo',
   'icons.color.info': 'Info',
   'icons.color.orange': 'Laranja',
+  'icons.animated.title': 'Controles animados',
+  'icons.animated.menu-toggle.title': 'Menu / Fechar',
+  'icons.animated.menu-toggle.description':
+    'Um icon button com duas linhas que alterna para um X. Use-o para abrir e fechar uma navegação lateral.',
+  'icons.animated.menu-toggle.closed': 'Menu fechado',
+  'icons.animated.menu-toggle.open': 'Menu aberto',
 };

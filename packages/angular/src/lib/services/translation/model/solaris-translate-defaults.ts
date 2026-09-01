@@ -37,6 +37,9 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.toast.expand': 'Expand',
       'solaris.toast.collapse': 'Collapse',
 
+      'solaris.menuToggle.open': 'Open menu',
+      'solaris.menuToggle.close': 'Close menu',
+
       'solaris.dialog.close': 'Close',
       'solaris.dialog.confirm': 'Confirm',
       'solaris.dialog.cancel': 'Cancel',

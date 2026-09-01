@@ -87,12 +87,18 @@
   height: 1em;
 }
 
+[solaris-icon-button] solaris-animated-icon {
+  width: var(--solaris-spacing-5);
+  height: var(--solaris-spacing-5);
+}
+
 [solaris-icon-button] solaris-icon svg {
   width: 100%;
   height: 100%;
 }
 
-[solaris-icon-button][data-loading] solaris-icon {
+[solaris-icon-button][data-loading] solaris-icon,
+[solaris-icon-button][data-loading] solaris-animated-icon {
   display: none;
 }
 

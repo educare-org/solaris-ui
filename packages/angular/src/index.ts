@@ -31,6 +31,8 @@ export { SolarisThemeService } from './lib/services/theme/service/solaris-theme.
 export { SOLARIS_THEME_CONFIG } from './lib/services/theme/token/solaris-theme.tokens';
 
 export { SolarisIconComponent } from './lib/components/icon/component/solaris-icon.component';
+export { SolarisAnimatedIconComponent } from './lib/components/icon/component/solaris-animated-icon.component';
+export type { SolarisAnimatedIconName } from './lib/components/icon/model/icon.types';
 export { SolarisIconRegistryService } from './lib/services/icon/service/solaris-icon-registry.service';
 export { SOLARIS_ICONS_CONFIG } from './lib/services/icon/token/solaris-icon.tokens';
 export { SOLARIS_BUILT_IN_ICONS } from './lib/services/icon/icons/solaris-built-in-icons';
@@ -100,6 +102,7 @@ export type {
 
 export { SolarisIconButtonDirective } from './lib/components/actions/icon-button/directives/icon-button.directive';
 export { SolarisIconButtonBadgeDirective } from './lib/components/actions/icon-button/directives/icon-button-badge.directive';
+export { SolarisMenuToggleDirective } from './lib/components/actions/icon-button/directives/menu-toggle.directive';
 export type {
   SolarisIconButtonAppearance,
   SolarisIconButtonColor,

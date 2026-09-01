@@ -6,7 +6,11 @@
     </p>
   </header>
 
-  <div class="icons-showcase__layout">
+  <div
+    class="icons-showcase__layout"
+    [class.icons-showcase__layout--animated]="isAnimatedCategory()"
+  >
+    @if (!isAnimatedCategory()) {
     <aside class="icons-showcase__customizer">
       <h2 class="icons-showcase__customizer-title">
         {{ 'icons.customizer' | translate }}
@@ -85,13 +89,16 @@
         </div>
       </div>
     </aside>
+    }
 
     <section class="icons-showcase__section">
       <h2 class="icons-showcase__section-title">
-        {{ 'icons.explore' | translate }}
+        {{ (isAnimatedCategory() ? 'icons.animated.title' : 'icons.explore') |
+        translate }}
       </h2>
 
       <div class="icons-showcase__toolbar">
+        @if (!isAnimatedCategory()) {
         <solaris-form-field
           density="compact"
           class="icons-showcase__search"
@@ -107,6 +114,7 @@
             [attr.aria-label]="'icons.search-placeholder' | translate"
           />
         </solaris-form-field>
+        }
 
         <solaris-tabs
           appearance="pills"
@@ -121,9 +129,58 @@
             [labelKey]="'icons.category.' + category.id"
           ></solaris-tab>
           }
+          <solaris-tab
+            [value]="animatedCategory"
+            labelKey="icons.category.animated"
+          ></solaris-tab>
         </solaris-tabs>
       </div>
 
+      @if (isAnimatedCategory()) {
+      <article class="icons-showcase__animated-card">
+        <div class="icons-showcase__animated-preview">
+          <button
+            solaris-icon-button
+            solaris-menu-toggle
+            [(solarisMenuToggleOpen)]="menuToggleOpen"
+            solarisMenuToggleControls="icons-animated-menu-state"
+          >
+            <solaris-animated-icon
+              name="menu"
+              [active]="menuToggleOpen()"
+              [decorative]="true"
+            />
+          </button>
+          <p
+            id="icons-animated-menu-state"
+            class="icons-showcase__animated-state"
+            aria-live="polite"
+          >
+            {{ (menuToggleOpen() ? 'icons.animated.menu-toggle.open' :
+            'icons.animated.menu-toggle.closed' ) | translate }}
+          </p>
+        </div>
+        <div class="icons-showcase__animated-content">
+          <h3 class="icons-showcase__animated-title">
+            {{ 'icons.animated.menu-toggle.title' | translate }}
+          </h3>
+          <p class="icons-showcase__animated-description">
+            {{ 'icons.animated.menu-toggle.description' | translate }}
+          </p>
+          <pre class="icons-showcase__animated-code"><code>&lt;button
+  solaris-icon-button
+  solaris-menu-toggle
+  [(solarisMenuToggleOpen)]="sidebarOpen"
+  solarisMenuToggleControls="app-sidebar"&gt;
+  &lt;solaris-animated-icon
+    name="menu"
+    [active]="sidebarOpen()"
+    [decorative]="true"
+  /&gt;
+&lt;/button&gt;</code></pre>
+        </div>
+      </article>
+      } @else {
       <p class="icons-showcase__count">
         {{ 'icons.result-count' | translate: { count: icons().length } }}
       </p>
@@ -155,6 +212,7 @@
         </p>
         }
       </div>
+      }
     </section>
   </div>
 </div>

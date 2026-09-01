@@ -16,6 +16,7 @@ export const EN_US_ICONS: Record<string, string> = {
   'icons.category.communication': 'Communication',
   'icons.category.media': 'Media',
   'icons.category.brands': 'Brands',
+  'icons.category.animated': 'Animated',
   'icons.result-count': '{{count}} icons',
   'icons.no-results': 'No icons match your search.',
   'icons.usage': 'Usage',
@@ -36,4 +37,10 @@ export const EN_US_ICONS: Record<string, string> = {
   'icons.color.danger': 'Danger',
   'icons.color.info': 'Info',
   'icons.color.orange': 'Orange',
+  'icons.animated.title': 'Animated controls',
+  'icons.animated.menu-toggle.title': 'Menu / close',
+  'icons.animated.menu-toggle.description':
+    'An icon button with two lines that transforms into an X. Use it to open and close side navigation.',
+  'icons.animated.menu-toggle.closed': 'Menu closed',
+  'icons.animated.menu-toggle.open': 'Menu open',
 };

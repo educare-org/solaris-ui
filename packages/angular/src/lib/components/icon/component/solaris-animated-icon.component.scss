@@ -1,0 +1,44 @@
+:host {
+  width: 1em;
+  height: 1em;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+}
+
+.solaris-animated-icon__line {
+  transform-box: view-box;
+  transition: transform var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-animated-icon__line--top {
+  transform-origin: 50% 33.333%;
+}
+
+.solaris-animated-icon__line--bottom {
+  transform-origin: 50% 66.667%;
+}
+
+:host([data-active]) .solaris-animated-icon__line--top {
+  transform: translateY(16.667%) rotate(45deg);
+}
+
+:host([data-active]) .solaris-animated-icon__line--bottom {
+  transform: translateY(-16.667%) rotate(-45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-animated-icon__line {
+    transition: none;
+  }
+}
+
+:host-context([data-reduced-motion='true']) .solaris-animated-icon__line {
+  transition: none;
+}
