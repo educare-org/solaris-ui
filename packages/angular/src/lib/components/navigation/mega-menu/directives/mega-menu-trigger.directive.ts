@@ -14,6 +14,8 @@ import {
 import { SolarisIconComponent } from '../../../icon';
 import { SOLARIS_MEGA_MENU } from '../model/mega-menu.tokens';
 
+// SECURITY_EXCEPTION_FILE: Native host access sets the semantic button type and appends the decorative chevron component. Host bindings cannot set a missing attribute conditionally; directive specs cover trigger semantics and interaction.
+
 @Directive({
   selector: 'button[solaris-mega-menu-trigger]',
   standalone: true,

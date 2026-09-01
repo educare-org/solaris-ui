@@ -40,6 +40,8 @@ import {
 import type { SolarisMegaMenuPanelWidth } from '../model/mega-menu.types';
 import type { SolarisMegaMenuAppearance } from '../model/mega-menu.types';
 
+// SECURITY_EXCEPTION_FILE: ElementRef and injected DOCUMENT support focus restoration, overlay geometry, and browser-only event listeners. Angular bindings cannot express these imperative DOM APIs; component specs cover open, close, focus, and viewport behavior.
+
 const MEGA_MENU_ANCHOR_ERROR =
   'SolarisMegaMenuComponent requires an ancestor with the [solaris-mega-menu-anchor] directive. The anchor defines the menu panel position and width, and the interactive area excluded from the backdrop. Add solaris-mega-menu-anchor to the navigation container that wraps this mega menu.';
 
