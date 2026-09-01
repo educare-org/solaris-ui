@@ -127,20 +127,26 @@ describe('SolarisMegaMenuComponent', () => {
     expect(panel?.textContent).toContain('All products');
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
     expect(trigger.getAttribute('aria-controls')).toBe(panel?.id);
-    expect(
-      trigger.querySelector('.solaris-mega-menu-trigger__chevron'),
-    ).toBeTruthy();
   });
 
-  it('renders its chevron with the trigger', () => {
+  it('does not mutate the projected trigger content', () => {
     const fixture = TestBed.createComponent(TestHost);
     fixture.detectChanges();
 
-    const chevron = getTrigger(fixture).querySelector(
-      '.solaris-mega-menu-trigger__chevron',
-    );
+    expect(getTrigger(fixture).children).toHaveLength(0);
+  });
 
-    expect(chevron?.getAttribute('aria-hidden')).toBe('true');
+  it('opens from a pointer click without toggling again on focus', () => {
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.detectChanges();
+    const trigger = getTrigger(fixture);
+
+    trigger.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    trigger.dispatchEvent(new Event('focusin', { bubbles: true }));
+    trigger.click();
+    fixture.detectChanges();
+
+    expect(getPanel()).toBeTruthy();
   });
 
   it('sizes the panel to the anchor', () => {

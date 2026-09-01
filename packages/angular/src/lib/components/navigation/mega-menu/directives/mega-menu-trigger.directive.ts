@@ -1,14 +1,8 @@
-import {
-  Directive,
-  ElementRef,
-  HostListener,
-  inject,
-  Renderer2,
-} from '@angular/core';
+import { Directive, ElementRef, HostListener, inject } from '@angular/core';
 
 import { SOLARIS_MEGA_MENU } from '../model/mega-menu.tokens';
 
-// SECURITY_EXCEPTION_FILE: Native host access sets the semantic button type. Renderer2 creates the decorative chevron for both SSR and browser rendering; directive specs cover trigger semantics and interaction.
+// SECURITY_EXCEPTION_FILE: Native host access sets the semantic button type; directive specs cover trigger semantics and interaction.
 
 @Directive({
   selector: 'button[solaris-mega-menu-trigger]',
@@ -26,15 +20,12 @@ export class SolarisMegaMenuTriggerDirective {
   protected readonly megaMenu = inject(SOLARIS_MEGA_MENU);
   private readonly elementRef =
     inject<ElementRef<HTMLButtonElement>>(ElementRef);
-  private readonly renderer = inject(Renderer2);
   private isPointerInteraction = false;
 
   constructor() {
     if (this.elementRef.nativeElement.getAttribute('type') === null) {
       this.elementRef.nativeElement.setAttribute('type', 'button');
     }
-
-    this.ensureChevron();
   }
 
   @HostListener('click')
@@ -82,18 +73,5 @@ export class SolarisMegaMenuTriggerDirective {
   onEscape(event: Event): void {
     event.preventDefault();
     this.megaMenu.close(true);
-  }
-
-  private ensureChevron(): void {
-    const host = this.elementRef.nativeElement;
-
-    if (host.querySelector('.solaris-mega-menu-trigger__chevron')) {
-      return;
-    }
-
-    const chevron = this.renderer.createElement('span');
-    this.renderer.addClass(chevron, 'solaris-mega-menu-trigger__chevron');
-    this.renderer.setAttribute(chevron, 'aria-hidden', 'true');
-    this.renderer.appendChild(host, chevron);
   }
 }

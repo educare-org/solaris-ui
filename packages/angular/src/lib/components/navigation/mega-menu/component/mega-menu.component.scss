@@ -6,25 +6,28 @@ solaris-mega-menu {
   display: inline-flex;
   align-items: center;
   gap: var(--solaris-spacing-2);
-  transition: color var(--solaris-motion-duration-fast)
+  transition: color var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
 
-.solaris-mega-menu-trigger__chevron {
-  order: 1;
+[solaris-mega-menu-trigger]::after {
+  content: '';
   flex: 0 0 auto;
-  transform: rotate(45deg);
-  margin-inline-start: auto;
-  width: var(--solaris-spacing-2);
-  height: var(--solaris-spacing-2);
-  border-right: var(--solaris-border-width-sm) solid currentcolor;
-  border-bottom: var(--solaris-border-width-sm) solid currentcolor;
-  transition: transform var(--solaris-motion-duration-fast)
+  width: var(--solaris-spacing-4);
+  height: var(--solaris-spacing-4);
+  background: currentcolor;
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition: transform var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m3 6 5 5 5-5' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='m3 6 5 5 5-5' fill='none' stroke='black' stroke-linecap='round' stroke-linejoin='round' stroke-width='2'/%3E%3C/svg%3E")
+    center / contain no-repeat;
 }
 
-[solaris-mega-menu-trigger][data-open] .solaris-mega-menu-trigger__chevron {
-  transform: rotate(-135deg);
+[solaris-mega-menu-trigger][data-open]::after {
+  transform: rotate(180deg);
 }
 
 [solaris-mega-menu-trigger][data-appearance='underline'] {
@@ -47,9 +50,9 @@ solaris-mega-menu {
   z-index: var(--solaris-z-index-raised);
   background: var(--solaris-primary-base);
   transition:
-    left var(--solaris-motion-duration-fast)
+    left var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
-    width var(--solaris-motion-duration-fast)
+    width var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard);
 }
 
@@ -129,7 +132,7 @@ solaris-mega-menu {
 @media (prefers-reduced-motion: reduce) {
   [solaris-mega-menu-trigger],
   .solaris-mega-menu-anchor__underline,
-  .solaris-mega-menu-trigger__chevron,
+  [solaris-mega-menu-trigger]::after,
   .solaris-mega-menu__panel {
     animation: none;
     transition: none;
