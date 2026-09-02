@@ -22,6 +22,29 @@ describe('SolarisIconRegistryService', () => {
     expect(service.hasIcon('success')).toBe(true);
   });
 
+  it('should have the new built-in icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of [
+      'headphones',
+      'headphones-off',
+      'timer',
+      'clock-arrow-right',
+      'truck',
+      'handshake',
+      'route',
+      'mouse-pointer-click',
+      'rss',
+    ]) {
+      expect(service.hasIcon(name)).toBe(true);
+      expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
+    }
+  });
+
   it('should have brand icons registered by default', () => {
     TestBed.configureTestingModule({
       providers: [provideSolarisIcons()],
