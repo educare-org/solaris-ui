@@ -3,6 +3,9 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     setupFiles: ['packages/angular/src/vitest.setup.ts'],
+    // Prevent forked test workers from exhausting memory on local Windows runs.
+    minWorkers: 1,
+    maxWorkers: 1,
     coverage: {
       provider: 'v8',
       enabled: true,

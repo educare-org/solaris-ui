@@ -63,6 +63,25 @@ Overflow is disabled by default. Set both `maxVisibleItems` and
 The current item is always visible. The ellipsis trigger opens a dropdown menu
 with the hidden items in their original order.
 
+## Size and Separator Variants
+
+Use `size` to scale the breadcrumb's text, icons, separators, and pager
+controls together.
+
+| Size | Use case                         |
+| ---- | -------------------------------- |
+| `sm` | Compact navigation and toolbars. |
+| `md` | Default page navigation.         |
+| `lg` | Prominent hierarchical context.  |
+
+Use `separator` to match the hierarchy's visual language:
+
+| Separator | Appearance     |
+| --------- | -------------- |
+| `slash`   | `/`            |
+| `chevron` | Right chevron. |
+| `dot`     | Centered dot.  |
+
 ## Accessibility
 
 - Renders `nav` with an accessible label and an ordered list (`ol`).
