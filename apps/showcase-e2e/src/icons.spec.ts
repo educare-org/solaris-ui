@@ -6,12 +6,14 @@ test.describe('Icons', () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/icons');
-    await expect(page.locator('h1')).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Icons', exact: true }),
+    ).toBeVisible();
     icons = new IconsPageObject(page);
   });
 
   test('lists all built-in icons', async () => {
-    await expect(icons.gridItems()).toHaveCount(125);
+    await expect(icons.gridItems()).toHaveCount(134);
   });
 
   test('filters icons by search', async () => {
