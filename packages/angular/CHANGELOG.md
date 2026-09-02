@@ -1,5 +1,11 @@
 # @educarehq/solaris-ui
 
+## 0.17.2
+
+### Patch Changes
+
+- 26f8d34: Render mega menu chevrons with CSS to preserve hydration and pointer interactions.
+
 ## 0.17.1
 
 ### Patch Changes
