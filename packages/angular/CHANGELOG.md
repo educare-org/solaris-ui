@@ -1,5 +1,11 @@
 # @educarehq/solaris-ui
 
+## 0.18.0
+
+### Minor Changes
+
+- de89c85: Add headphones, headphones-off, timer, clock-arrow-right, truck, handshake, route, mouse-pointer-click, and rss built-in icons.
+
 ## 0.17.2
 
 ### Patch Changes
