@@ -222,6 +222,63 @@ export const ACTIONS_ICONS: SolarisIconDefinition[] = [
     ],
   },
   {
+    name: 'share-2',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      { type: 'path', d: 'M12 2v13' },
+      { type: 'path', d: 'm16 6-4-4-4 4' },
+      { type: 'path', d: 'M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8' },
+    ],
+  },
+  {
+    name: 'command',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3',
+      },
+    ],
+  },
+  {
+    name: 'log-in',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      { type: 'path', d: 'm10 17 5-5-5-5' },
+      { type: 'path', d: 'M15 12H3' },
+      { type: 'path', d: 'M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4' },
+    ],
+  },
+  {
+    name: 'log-out',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      { type: 'path', d: 'm16 17 5-5-5-5' },
+      { type: 'path', d: 'M21 12H9' },
+      { type: 'path', d: 'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4' },
+    ],
+  },
+  {
     name: 'x',
     viewBox: '0 0 24 24',
     elements: [

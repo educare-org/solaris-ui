@@ -20,6 +20,10 @@ describe('SolarisIconRegistryService', () => {
     expect(service.hasIcon('warning')).toBe(true);
     expect(service.hasIcon('danger')).toBe(true);
     expect(service.hasIcon('success')).toBe(true);
+    expect(service.hasIcon('command')).toBe(true);
+    expect(service.hasIcon('log-in')).toBe(true);
+    expect(service.hasIcon('log-out')).toBe(true);
+    expect(service.hasIcon('share-2')).toBe(true);
   });
 
   it('should have the new built-in icons registered by default', () => {
