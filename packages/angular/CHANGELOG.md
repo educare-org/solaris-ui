@@ -1,5 +1,15 @@
 # @educarehq/solaris-ui
 
+## 0.19.0
+
+### Minor Changes
+
+- db8a0b9: Add the `command`, `log-in`, `log-out`, and `share-2` built-in action icons.
+
+### Patch Changes
+
+- d736f5b: Document breadcrumb variants and limit Angular test workers to prevent local memory exhaustion.
+
 ## 0.18.0
 
 ### Minor Changes
