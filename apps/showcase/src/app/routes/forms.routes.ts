@@ -82,6 +82,13 @@ export const formsRoutes: Route[] = [
           ).then((m) => m.RadioGroupShowcasePage),
       },
       {
+        path: 'selection-card',
+        loadComponent: () =>
+          import(
+            '../pages/forms/selection-card/component/selection-card-showcase'
+          ).then((m) => m.SelectionCardShowcasePage),
+      },
+      {
         path: 'switch',
         loadComponent: () =>
           import('../pages/forms/switch/component/switch-showcase').then(

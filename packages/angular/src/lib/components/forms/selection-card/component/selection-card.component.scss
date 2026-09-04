@@ -1,0 +1,344 @@
+:host {
+  --solaris-selection-card-gap: var(--solaris-spacing-4);
+  --solaris-selection-card-radius: var(--solaris-radius-lg);
+  --solaris-selection-card-padding: var(--solaris-spacing-6);
+  --solaris-selection-card-color: var(--solaris-text-default);
+  --solaris-selection-card-background: var(--solaris-surface-base);
+  --solaris-selection-card-indicator-size: var(--solaris-spacing-5);
+  --solaris-selection-card-border-color: var(--solaris-border-subtle);
+  --solaris-selection-card-disabled-opacity: var(--solaris-opacity-50);
+  --solaris-selection-card-border-width: var(--solaris-border-width-sm);
+  --solaris-selection-card-indicator-dot-size: var(--solaris-spacing-2);
+  --solaris-selection-card-hover-background: var(--solaris-surface-subtle);
+  --solaris-selection-card-active-background: var(--solaris-surface-muted);
+  --solaris-selection-card-focus-ring-color: var(--solaris-text-default);
+  --solaris-selection-card-indicator-dot-color: var(--solaris-text-default);
+  --solaris-selection-card-selected-background: var(--solaris-surface-muted);
+  --solaris-selection-card-selected-border-color: var(--solaris-border-default);
+  --solaris-selection-card-indicator-border-color: var(
+    --solaris-border-default
+  );
+  --solaris-selection-card-glass-background: initial;
+  --solaris-selection-card-glass-border-color: initial;
+
+  --solaris-selection-card-custom-focus-ring-color: initial;
+  --solaris-selection-card-custom-indicator-dot-color: initial;
+  --solaris-selection-card-custom-selected-background: initial;
+  --solaris-selection-card-custom-selected-border-color: initial;
+  --solaris-selection-card-custom-indicator-border-color: initial;
+
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.solaris-selection-card__input {
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  position: absolute;
+  z-index: var(--solaris-z-index-content);
+}
+
+.solaris-selection-card__surface {
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  color: var(--solaris-selection-card-color);
+  border-radius: var(--solaris-selection-card-radius);
+  background: var(--solaris-selection-card-background);
+  border: var(--solaris-selection-card-border-width) solid
+    var(--solaris-selection-card-border-color);
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-selection-card__body {
+  display: flex;
+  min-height: var(--solaris-density-min-height);
+  box-sizing: border-box;
+  align-items: flex-start;
+  gap: var(--solaris-selection-card-gap);
+  padding: var(--solaris-selection-card-padding);
+}
+
+.solaris-selection-card__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.solaris-selection-card__control {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: 50%;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: center;
+  width: var(--solaris-selection-card-indicator-size);
+  height: var(--solaris-selection-card-indicator-size);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-selection-card-indicator-border-color);
+}
+
+:host([data-has-media]) .solaris-selection-card__control {
+  top: var(--solaris-selection-card-padding);
+  right: var(--solaris-selection-card-padding);
+  position: absolute;
+  background: var(--solaris-surface-base);
+}
+
+.solaris-selection-card__dot {
+  display: block;
+  border-radius: 50%;
+  width: var(--solaris-selection-card-indicator-dot-size);
+  height: var(--solaris-selection-card-indicator-dot-size);
+  background: var(--solaris-selection-card-indicator-dot-color);
+}
+
+:host ::ng-deep .solaris-selection-card-media {
+  margin: 0;
+  display: block;
+  overflow: hidden;
+}
+
+:host ::ng-deep .solaris-selection-card-media img,
+:host ::ng-deep .solaris-selection-card-media video,
+:host ::ng-deep .solaris-selection-card-media picture {
+  width: 100%;
+  display: block;
+}
+
+:host ::ng-deep .solaris-selection-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-1);
+}
+
+:host ::ng-deep .solaris-selection-card-content {
+  display: block;
+  margin-top: var(--solaris-selection-card-gap);
+}
+
+:host ::ng-deep .solaris-selection-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-2);
+  margin-top: var(--solaris-selection-card-gap);
+}
+
+:host ::ng-deep .solaris-selection-card-footer[data-separator] {
+  padding-top: var(--solaris-selection-card-gap);
+  border-top: var(--solaris-border-width-sm) solid
+    var(--solaris-selection-card-border-color);
+}
+
+:host ::ng-deep .solaris-selection-card-title {
+  margin: 0;
+  color: var(--solaris-text-strong);
+  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-lg) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+}
+
+:host ::ng-deep .solaris-selection-card-description {
+  margin: 0;
+  color: var(--solaris-text-muted);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+:host([data-size='sm']) {
+  --solaris-selection-card-gap: var(--solaris-spacing-3);
+  --solaris-selection-card-padding: var(--solaris-spacing-4);
+  --solaris-selection-card-indicator-size: var(--solaris-spacing-4);
+  --solaris-selection-card-indicator-dot-size: calc(
+    var(--solaris-spacing-1) * 1.5
+  );
+}
+
+:host([data-size='lg']) {
+  --solaris-selection-card-gap: var(--solaris-spacing-5);
+  --solaris-selection-card-padding: var(--solaris-spacing-8);
+  --solaris-selection-card-indicator-size: var(--solaris-spacing-6);
+  --solaris-selection-card-indicator-dot-size: calc(
+    var(--solaris-spacing-1) * 2.5
+  );
+}
+
+:host([data-density='compact']) {
+  --solaris-selection-card-gap: var(--solaris-density-gap-lg);
+  --solaris-selection-card-padding: var(--solaris-density-padding-xl);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-selection-card-gap: var(--solaris-density-gap-lg);
+  --solaris-selection-card-padding: var(--solaris-density-padding-xl);
+}
+
+:host([data-radius='none']) {
+  --solaris-selection-card-radius: var(--solaris-radius-none);
+}
+
+:host([data-radius='sm']) {
+  --solaris-selection-card-radius: var(--solaris-radius-sm);
+}
+
+:host([data-radius='xl']) {
+  --solaris-selection-card-radius: var(--solaris-radius-xl);
+}
+
+:host([data-appearance='outline']) {
+  --solaris-selection-card-background: transparent;
+  --solaris-selection-card-border-color: var(--solaris-border-default);
+}
+
+:host([data-appearance='tonal']) {
+  --solaris-selection-card-background: var(--solaris-surface-subtle);
+  --solaris-selection-card-border-color: var(--solaris-border-subtle);
+}
+
+:host([data-appearance='glass']) .solaris-selection-card__surface {
+  --solaris-selection-card-color: var(--solaris-text-glass);
+  --solaris-selection-card-glass-background: var(--solaris-glass-background);
+  --solaris-selection-card-glass-border-color: var(
+    --solaris-glass-border-color
+  );
+
+  isolation: isolate;
+  background: var(--solaris-selection-card-glass-background);
+  border-color: var(--solaris-selection-card-glass-border-color);
+  box-shadow: var(--solaris-glass-shadow);
+  backdrop-filter: var(--solaris-glass-backdrop-filter);
+  -webkit-backdrop-filter: var(--solaris-glass-backdrop-filter);
+}
+
+:host([data-appearance='glass'][data-checked])
+  .solaris-selection-card__surface {
+  background: var(--solaris-selection-card-background);
+  border-color: var(--solaris-selection-card-border-color);
+}
+
+:host([data-appearance='glass']) ::ng-deep .solaris-selection-card-description {
+  color: var(--solaris-text-glass);
+}
+
+:host([data-color='primary']) {
+  --solaris-selection-card-focus-ring-color: var(--solaris-primary-base);
+  --solaris-selection-card-indicator-dot-color: var(--solaris-primary-base);
+  --solaris-selection-card-selected-background: var(--solaris-primary-surface);
+  --solaris-selection-card-selected-border-color: var(--solaris-primary-border);
+  --solaris-selection-card-indicator-border-color: var(
+    --solaris-primary-border
+  );
+}
+
+:host([data-color='success']) {
+  --solaris-selection-card-focus-ring-color: var(--solaris-success-base);
+  --solaris-selection-card-indicator-dot-color: var(--solaris-success-base);
+  --solaris-selection-card-selected-background: var(--solaris-success-surface);
+  --solaris-selection-card-selected-border-color: var(--solaris-success-border);
+  --solaris-selection-card-indicator-border-color: var(
+    --solaris-success-border
+  );
+}
+
+:host([data-color='warning']) {
+  --solaris-selection-card-focus-ring-color: var(--solaris-warning-base);
+  --solaris-selection-card-indicator-dot-color: var(--solaris-warning-base);
+  --solaris-selection-card-selected-background: var(--solaris-warning-surface);
+  --solaris-selection-card-selected-border-color: var(--solaris-warning-border);
+  --solaris-selection-card-indicator-border-color: var(
+    --solaris-warning-border
+  );
+}
+
+:host([data-color='danger']) {
+  --solaris-selection-card-focus-ring-color: var(--solaris-danger-base);
+  --solaris-selection-card-indicator-dot-color: var(--solaris-danger-base);
+  --solaris-selection-card-selected-background: var(--solaris-danger-surface);
+  --solaris-selection-card-selected-border-color: var(--solaris-danger-border);
+  --solaris-selection-card-indicator-border-color: var(--solaris-danger-border);
+}
+
+:host([data-color='info']) {
+  --solaris-selection-card-focus-ring-color: var(--solaris-info-base);
+  --solaris-selection-card-indicator-dot-color: var(--solaris-info-base);
+  --solaris-selection-card-selected-background: var(--solaris-info-surface);
+  --solaris-selection-card-selected-border-color: var(--solaris-info-border);
+  --solaris-selection-card-indicator-border-color: var(--solaris-info-border);
+}
+
+:host([data-color='custom']) {
+  --solaris-selection-card-focus-ring-color: var(
+    --solaris-selection-card-custom-focus-ring-color
+  );
+  --solaris-selection-card-indicator-dot-color: var(
+    --solaris-selection-card-custom-indicator-dot-color
+  );
+  --solaris-selection-card-selected-background: var(
+    --solaris-selection-card-custom-selected-background
+  );
+  --solaris-selection-card-selected-border-color: var(
+    --solaris-selection-card-custom-selected-border-color
+  );
+  --solaris-selection-card-indicator-border-color: var(
+    --solaris-selection-card-custom-indicator-border-color
+  );
+}
+
+:host(:not([data-disabled], [data-readonly]))
+  .solaris-selection-card__input:hover
+  + .solaris-selection-card__surface {
+  background: var(--solaris-selection-card-hover-background);
+}
+
+:host(:not([data-disabled], [data-readonly]))
+  .solaris-selection-card__input:active
+  + .solaris-selection-card__surface {
+  background: var(--solaris-selection-card-active-background);
+}
+
+:host([data-checked]) {
+  --solaris-selection-card-background: var(
+    --solaris-selection-card-selected-background
+  );
+  --solaris-selection-card-border-color: var(
+    --solaris-selection-card-selected-border-color
+  );
+}
+
+.solaris-selection-card__input:focus-visible
+  + .solaris-selection-card__surface {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-selection-card-focus-ring-color);
+}
+
+:host([data-invalid]) {
+  --solaris-selection-card-border-color: var(--solaris-danger-border);
+  --solaris-selection-card-focus-ring-color: var(--solaris-danger-base);
+  --solaris-selection-card-indicator-dot-color: var(--solaris-danger-base);
+  --solaris-selection-card-indicator-border-color: var(--solaris-danger-border);
+}
+
+:host([data-disabled]) .solaris-selection-card__surface {
+  cursor: not-allowed;
+  opacity: var(--solaris-selection-card-disabled-opacity);
+}
+
+:host([data-readonly]) .solaris-selection-card__input {
+  cursor: not-allowed;
+}
+
+:host([data-readonly]) .solaris-selection-card__surface {
+  cursor: default;
+  opacity: var(--solaris-selection-card-disabled-opacity);
+}

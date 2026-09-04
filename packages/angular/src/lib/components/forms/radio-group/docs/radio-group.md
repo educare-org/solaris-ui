@@ -24,7 +24,6 @@ Radio Group is a form control component that manages single selection within a s
 - Do not use Radio Group for multi-selection — use Checkbox Group instead.
 - Do not use Radio Group as a Segmented Control — use Segmented Control for segmented navigation.
 - Do not use Radio Group as a Toggle Group — use Toggle Group for button-like toggles.
-- Do not use Radio Group as Selection Cards — use Selection Card for card-style selection.
 - Do not use Radio Group for independent boolean options — use individual Checkboxes instead.
 
 ## API
@@ -169,6 +168,27 @@ When `layout="grid"`, the `columns` input controls how many radios fit per row:
   <solaris-radio value="b">B</solaris-radio>
 </solaris-radio-group>
 ```
+
+## Selection Cards
+
+`SolarisSelectionCardComponent` is a radio option with a card-sized target. It
+can be mixed with `solaris-radio` in the same group.
+
+```html
+<solaris-radio-group [formControl]="planControl" layout="grid" columns="auto">
+  <solaris-selection-card value="basic">
+    <h3>Basic</h3>
+    <p>For small teams getting started.</p>
+  </solaris-selection-card>
+  <solaris-selection-card value="pro">
+    <h3>Pro</h3>
+    <p>For growing teams.</p>
+  </solaris-selection-card>
+</solaris-radio-group>
+```
+
+The group manages the selected value, validation, disabled state, readonly
+state, and native radio name for every option.
 
 ## Sizes
 
@@ -316,6 +336,6 @@ const control = new FormControl('basic');
 ## Limitations (v1)
 
 - Radio Group v1 does not support dynamic addition/removal of radios after initial render without re-syncing.
-- Radio Group v1 is not a Segmented Control, Toggle Group, or Selection Card.
+- Radio Group v1 is not a Segmented Control or Toggle Group.
 - The checked state does not toggle off when clicking the already-selected radio (native radio behavior).
 - Custom color is only available via CSS variables on individual radios, not arbitrary input props.

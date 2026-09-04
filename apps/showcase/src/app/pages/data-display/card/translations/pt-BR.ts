@@ -8,6 +8,7 @@ export const PT_BR_CARD: Record<string, string> = {
   'card.anatomy-desc': 'Card com cabeçalho, conteúdo, rodapé e separador.',
   'card.media': 'Card com Mídia',
   'card.media-desc': 'Card com wrapper de mídia, conteúdo, badge e rodapé.',
+  'card.media-preview': 'Pré-visualização de mídia',
   'card.task': 'Card Tipo Tarefa',
   'card.task-desc':
     'Composição de card de tarefa com título, descrição, badge e metadados.',

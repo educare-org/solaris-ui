@@ -21,6 +21,10 @@ import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SOLARIS_RADIO_GROUP_NAME } from '../../radio-group/model/radio-group.token';
 import { resolveElementId } from '../../../../core';
+import {
+  SOLARIS_RADIO_OPTION,
+  type SolarisRadioOption,
+} from '../model/radio-option.contract';
 
 import type {
   SolarisRadioAppearance,
@@ -42,6 +46,10 @@ import type {
       provide: SolarisFormControl,
       useExisting: SolarisRadioComponent,
     },
+    {
+      provide: SOLARIS_RADIO_OPTION,
+      useExisting: forwardRef(() => SolarisRadioComponent),
+    },
   ],
   templateUrl: './radio.component.html',
   styleUrls: ['./radio.component.scss'],
@@ -60,7 +68,7 @@ import type {
 })
 export class SolarisRadioComponent
   extends SolarisFormControl
-  implements ControlValueAccessor
+  implements ControlValueAccessor, SolarisRadioOption
 {
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly translateService = inject(SolarisTranslateService);

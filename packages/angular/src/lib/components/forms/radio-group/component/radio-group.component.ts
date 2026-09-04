@@ -22,6 +22,10 @@ import { SolarisFormControl } from '../../form-field/model/form-control.contract
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SOLARIS_RADIO_GROUP_NAME } from '../model/radio-group.token';
+import {
+  SOLARIS_RADIO_OPTION,
+  type SolarisRadioOption,
+} from '../../radio/model/radio-option.contract';
 import { SolarisRadioComponent } from '../../radio';
 import { resolveElementId } from '../../../../core';
 
@@ -89,7 +93,9 @@ export class SolarisRadioGroupComponent
   private readonly translateService = inject(SolarisTranslateService);
   private readonly ngZone = inject(NgZone);
 
+  // Kept for the existing radio-specific testing surface.
   protected readonly radios = contentChildren(SolarisRadioComponent);
+  private readonly radioOptions = contentChildren(SOLARIS_RADIO_OPTION);
 
   readonly orientation = input<SolarisRadioGroupOrientation>('vertical');
   readonly layout = input<SolarisRadioGroupLayout>('list');
@@ -137,7 +143,7 @@ export class SolarisRadioGroupComponent
   private onTouched: () => void = () => {};
 
   private readonly radioSubscriptions = new Map<
-    SolarisRadioComponent,
+    SolarisRadioOption,
     OutputRefSubscription
   >();
   private contentInitialized = false;
@@ -267,7 +273,7 @@ export class SolarisRadioGroupComponent
   }
 
   focus(): void {
-    const first = this.radios()[0];
+    const first = this.radioOptions()[0];
     if (first) {
       first.focus();
     }
@@ -295,7 +301,7 @@ export class SolarisRadioGroupComponent
     // Re-run when the projected radio set changes. The initial sync happens in
     // ngAfterContentInit to preserve form-control writeValue ordering.
     if (!this.contentInitialized) return;
-    this.radios();
+    this.radioOptions();
     this.initRadios();
     this.syncRadiosToValue();
     this.propagateDisabledToRadios();
@@ -309,7 +315,7 @@ export class SolarisRadioGroupComponent
   ngAfterContentInit(): void {
     this.contentInitialized = true;
     this.attachFocusListeners();
-    this.radios();
+    this.radioOptions();
     this.initRadios();
     this.syncRadiosToValue();
     this.propagateDisabledToRadios();
@@ -338,7 +344,7 @@ export class SolarisRadioGroupComponent
 
   private initRadios(): void {
     this.unsubscribeAllRadios();
-    this.radios().forEach((radio) => {
+    this.radioOptions().forEach((radio) => {
       const sub = radio.checkedChange.subscribe((checked: boolean) => {
         this.onRadioCheckedChange(radio, checked);
       });
@@ -352,7 +358,7 @@ export class SolarisRadioGroupComponent
   }
 
   private onRadioCheckedChange(
-    child: SolarisRadioComponent,
+    child: SolarisRadioOption,
     checked: boolean,
   ): void {
     if (this.isEffectivelyDisabled() || this.isEffectivelyReadonly()) {
@@ -387,7 +393,7 @@ export class SolarisRadioGroupComponent
     const currentValue = this._value();
     const cmp = this.compareWith();
 
-    this.radios().forEach((radio) => {
+    this.radioOptions().forEach((radio) => {
       const childValue = radio.value();
       const isChecked =
         currentValue !== undefined && cmp(currentValue, childValue);
@@ -398,7 +404,7 @@ export class SolarisRadioGroupComponent
   private propagateDisabledToRadios(): void {
     if (!this.contentInitialized) return;
     const isDisabled = this.isEffectivelyDisabled();
-    this.radios().forEach((radio) => {
+    this.radioOptions().forEach((radio) => {
       radio.setDisabledState(isDisabled);
     });
   }
@@ -406,7 +412,7 @@ export class SolarisRadioGroupComponent
   private propagateReadonlyToRadios(): void {
     if (!this.contentInitialized) return;
     const isReadonly = this.isEffectivelyReadonly();
-    this.radios().forEach((radio) => {
+    this.radioOptions().forEach((radio) => {
       radio.setCvaReadonlyState(isReadonly);
     });
   }

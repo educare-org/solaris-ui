@@ -22,6 +22,7 @@ const ROUTES = [
   'forms/checkbox-group',
   'forms/radio',
   'forms/radio-group',
+  'forms/selection-card',
   'forms/switch',
   'forms/switch-group',
   'forms/option',
