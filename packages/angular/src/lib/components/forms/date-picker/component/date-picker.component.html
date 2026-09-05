@@ -1,0 +1,75 @@
+<solaris-form-field
+  [control]="this"
+  [radius]="radius()"
+  [hint]="hintText()"
+  [label]="labelText()"
+  [error]="errorText()"
+  solaris-popover-trigger
+  [appearance]="appearance()"
+  [required]="requiredInput()"
+  [density]="effectiveDensity()"
+  [solarisPopoverPadding]="'md'"
+  [solarisPopoverAlign]="'start'"
+  [solarisPopoverRadius]="radius()"
+  [invalid]="isEffectivelyInvalid()"
+  [disabled]="isEffectivelyDisabled()"
+  [readonly]="isEffectivelyReadonly()"
+  [solarisPopoverPlacement]="'bottom'"
+  [solarisPopoverAriaHasPopup]="'dialog'"
+  (solarisPopoverOpened)="onPanelOpened()"
+  (solarisPopoverClosed)="onPanelClosed()"
+  [solarisPopoverTriggerFor]="calendarPopover"
+  [solarisPopoverDisabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
+>
+  <input
+    [id]="id"
+    type="text"
+    #inputElement
+    solaris-input
+    autocomplete="off"
+    inputmode="numeric"
+    (blur)="onInputBlur()"
+    [value]="displayValue()"
+    (focus)="onInputFocus()"
+    (input)="onInput($event)"
+    (keydown)="onInputKeydown($event)"
+    (click)="$event.stopPropagation()"
+    [disabled]="isEffectivelyDisabled()"
+    [readonly]="isEffectivelyReadonly()"
+    [attr.placeholder]="placeholderText()"
+    [attr.aria-describedby]="describedByIds.join(' ') || null"
+  />
+
+  <button
+    type="button"
+    appearance="ghost"
+    solaris-icon-button
+    solaris-form-suffix
+    class="solaris-date-picker__calendar-trigger"
+    [attr.aria-label]="calendarButtonLabelText()"
+    [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
+  >
+    <solaris-icon name="calendar" [decorative]="true" />
+  </button>
+</solaris-form-field>
+
+<ng-template #calendarPopover="solarisPopover" solaris-popover>
+  <div
+    role="dialog"
+    class="solaris-date-picker__panel"
+    [attr.aria-label]="calendarButtonLabelText()"
+  >
+    <solaris-date-calendar
+      [min]="min()"
+      [max]="max()"
+      [selected]="value()"
+      [month]="displayedMonth()"
+      [locale]="resolvedLocale()"
+      [disabledDates]="disabledDates()"
+      [nextMonthLabel]="nextMonthLabel()"
+      (selectedChange)="selectDate($event)"
+      (monthChange)="setDisplayedMonth($event)"
+      [previousMonthLabel]="previousMonthLabel()"
+    />
+  </div>
+</ng-template>

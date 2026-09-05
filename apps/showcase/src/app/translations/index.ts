@@ -21,6 +21,7 @@ import { CHECKBOX_GROUP_TRANSLATIONS } from '../pages/forms/checkbox-group/trans
 import { RADIO_TRANSLATIONS } from '../pages/forms/radio/translations';
 import { RADIO_GROUP_TRANSLATIONS } from '../pages/forms/radio-group/translations';
 import { SELECTION_CARD_TRANSLATIONS } from '../pages/forms/selection-card/translations';
+import { DATE_PICKER_TRANSLATIONS } from '../pages/forms/date-picker/translations';
 import { SWITCH_TRANSLATIONS } from '../pages/forms/switch/translations';
 import { SWITCH_GROUP_TRANSLATIONS } from '../pages/forms/switch-group/translations';
 import { OPTION_TRANSLATIONS } from '../pages/forms/option/translations';
@@ -66,6 +67,7 @@ const PAGE_MODULES = [
   RADIO_TRANSLATIONS,
   RADIO_GROUP_TRANSLATIONS,
   SELECTION_CARD_TRANSLATIONS,
+  DATE_PICKER_TRANSLATIONS,
   SWITCH_TRANSLATIONS,
   SWITCH_GROUP_TRANSLATIONS,
   OPTION_TRANSLATIONS,

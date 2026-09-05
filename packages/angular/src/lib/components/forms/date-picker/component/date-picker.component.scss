@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.solaris-date-picker__panel {
+  width: calc((var(--solaris-spacing-24) * 2) + var(--solaris-spacing-16));
+}
+
+[solaris-button].solaris-date-picker__calendar-trigger,
+.solaris-date-picker__calendar-trigger {
+  color: var(--solaris-text-muted) !important;
+  background: transparent !important;
+  cursor: pointer;
+}
+
+[solaris-button].solaris-date-picker__calendar-trigger:hover,
+[solaris-button].solaris-date-picker__calendar-trigger:active,
+.solaris-date-picker__calendar-trigger:hover,
+.solaris-date-picker__calendar-trigger:active {
+  color: var(--solaris-text-strong) !important;
+  background: transparent !important;
+}
+
+.solaris-date-picker__calendar-trigger solaris-icon {
+  cursor: pointer;
+}

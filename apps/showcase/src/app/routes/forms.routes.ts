@@ -89,6 +89,13 @@ export const formsRoutes: Route[] = [
           ).then((m) => m.SelectionCardShowcasePage),
       },
       {
+        path: 'date-picker',
+        loadComponent: () =>
+          import(
+            '../pages/forms/date-picker/component/date-picker-showcase'
+          ).then((m) => m.DatePickerShowcasePage),
+      },
+      {
         path: 'switch',
         loadComponent: () =>
           import('../pages/forms/switch/component/switch-showcase').then(

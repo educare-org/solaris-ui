@@ -4,6 +4,7 @@
 // SECURITY_EXCEPTION_FILE: nativeElement.querySelector required to find panel container in attached overlay. CDK overlay provides no typed API for this.
 // SECURITY_EXCEPTION_FILE: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
 // SECURITY_EXCEPTION_FILE: nativeElement.offsetWidth ÔÇö required for matchTriggerWidth.
+// SECURITY_EXCEPTION_FILE: getBoundingClientRect and style required to size fit-content panels after projection.
 // SECURITY_EXCEPTION_FILE: this.document.contains() to safely verify trigger still exists before focus.
 import {
   Directive,
@@ -77,6 +78,7 @@ export class SolarisPopoverTriggerDirective {
   private outsideClickCleanup: (() => void) | null = null;
   private previousActiveElement: HTMLElement | null = null;
   private panelContainerRef: HTMLElement | null = null;
+  private fitContentSizeTimeout: ReturnType<typeof setTimeout> | null = null;
   private connectedSide: 'top' | 'bottom' = 'bottom';
 
   readonly solarisPopoverTriggerFor = input<
@@ -107,6 +109,10 @@ export class SolarisPopoverTriggerDirective {
 
   readonly solarisPopoverMatchTriggerWidth = input<boolean>(false, {
     alias: 'solarisPopoverMatchTriggerWidth',
+  });
+
+  readonly solarisPopoverFitContent = input<boolean>(false, {
+    alias: 'solarisPopoverFitContent',
   });
 
   readonly solarisPopoverMinWidth = input<string | number | undefined>(
@@ -158,7 +164,7 @@ export class SolarisPopoverTriggerDirective {
   );
 
   readonly solarisPopoverAppearance = input<SolarisPopoverAppearance>(
-    'surface',
+    'outline',
     {
       alias: 'solarisPopoverAppearance',
     },
@@ -390,6 +396,17 @@ export class SolarisPopoverTriggerDirective {
       '.solaris-popover-panel__container',
     );
 
+    if (this.panelContainerRef && this.solarisPopoverFitContent()) {
+      this.panelContainerRef.style.maxWidth = '100%';
+      this.fitContentSizeTimeout = setTimeout(() => {
+        const panelContent = this.panelContainerRef?.firstElementChild;
+        if (panelContent) {
+          this.syncFitContentWidth(panelContent);
+        }
+        this.fitContentSizeTimeout = null;
+      }, 0);
+    }
+
     if (this.panelContainerRef && initialSide) {
       this.panelContainerRef.setAttribute('data-connected-side', initialSide);
       if (topConnected) {
@@ -413,6 +430,12 @@ export class SolarisPopoverTriggerDirective {
   }
 
   private disposeOverlay(): void {
+    if (this.fitContentSizeTimeout) {
+      clearTimeout(this.fitContentSizeTimeout);
+      this.fitContentSizeTimeout = null;
+    }
+    this.panelContainerRef = null;
+
     if (this.overlayRef) {
       this.overlayRef.dispose();
       this.overlayRef = null;
@@ -502,6 +525,14 @@ export class SolarisPopoverTriggerDirective {
     }
 
     this.overlayRef.updateSize(size);
+  }
+
+  private syncFitContentWidth(content: Element): void {
+    const contentWidth = content.getBoundingClientRect().width;
+    if (contentWidth && this.panelContainerRef) {
+      this.panelContainerRef.style.width = `${Math.ceil(contentWidth)}px`;
+      this.overlayRef?.updatePosition();
+    }
   }
 
   private restoreFocus(): void {

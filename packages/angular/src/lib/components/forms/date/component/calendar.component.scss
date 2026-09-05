@@ -1,0 +1,189 @@
+.solaris-date-calendar {
+  --solaris-date-calendar-gap: var(--solaris-spacing-2);
+
+  display: grid;
+  gap: var(--solaris-date-calendar-gap);
+  width: calc((var(--solaris-spacing-24) * 2) + var(--solaris-spacing-16));
+}
+
+.solaris-date-calendar__header,
+.solaris-date-calendar__weekdays,
+.solaris-date-calendar__days {
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--solaris-date-calendar-gap);
+}
+
+.solaris-date-calendar__header {
+  grid-template-columns: auto 1fr auto;
+}
+
+.solaris-date-calendar__month {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: center;
+  align-items: center;
+  display: inline-flex;
+  background: transparent;
+  justify-content: center;
+  gap: var(--solaris-spacing-2);
+  color: var(--solaris-text-strong);
+  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.solaris-date-calendar__month-icon {
+  transition: transform var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+::ng-deep solaris-icon svg {
+  stroke-width: 3;
+  width: var(--solaris-font-size-xl);
+  height: var(--solaris-font-size-xl);
+}
+
+.solaris-date-calendar__month[aria-expanded='true']
+  .solaris-date-calendar__month-icon {
+  transform: rotate(180deg);
+}
+
+.solaris-date-calendar__month:focus-visible,
+.solaris-date-calendar__month-option:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-date-calendar__navigation {
+  border: 0;
+  cursor: pointer;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  background: transparent;
+  width: var(--solaris-spacing-10);
+  color: var(--solaris-text-muted);
+  height: var(--solaris-spacing-10);
+  padding: 0 var(--solaris-spacing-2);
+
+  ::ng-deep solaris-icon svg {
+    stroke-width: 3;
+    width: var(--solaris-font-size-xl);
+    height: var(--solaris-font-size-xl);
+  }
+
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-date-calendar__navigation:hover,
+.solaris-date-calendar__navigation:active {
+  background: transparent;
+  color: var(--solaris-text-strong);
+}
+
+.solaris-date-calendar__navigation:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-date-calendar__weekdays span {
+  color: var(--solaris-text-muted);
+  text-align: center;
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-xs) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+}
+
+.solaris-date-calendar__weekdays {
+  min-height: var(--solaris-spacing-6);
+}
+
+.solaris-date-calendar__day {
+  border: 0;
+  cursor: pointer;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  background: transparent;
+  padding: var(--solaris-spacing-1);
+  color: var(--solaris-text-default);
+  min-width: var(--solaris-spacing-6);
+  min-height: var(--solaris-spacing-6);
+  border-radius: var(--solaris-radius-md);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.solaris-date-calendar__days {
+  grid-template-rows: repeat(6, minmax(var(--solaris-spacing-6), 1fr));
+}
+
+.solaris-date-calendar__day:hover:not(:disabled, [data-selected]) {
+  background: var(--solaris-surface-subtle);
+}
+
+.solaris-date-calendar__months {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--solaris-spacing-5);
+  align-content: start;
+  min-height: calc(var(--solaris-spacing-6) * 9);
+}
+
+.solaris-date-calendar__month-option {
+  width: 100%;
+  aspect-ratio: 1;
+  align-self: start;
+  padding: 0 var(--solaris-spacing-2);
+  border: 0;
+  border-radius: var(--solaris-radius-md);
+  color: var(--solaris-text-default);
+  background: transparent;
+  cursor: pointer;
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.solaris-date-calendar__month-option:hover:not([data-selected]) {
+  background: var(--solaris-surface-subtle);
+}
+
+.solaris-date-calendar__month-option[data-selected] {
+  color: var(--solaris-primary-text);
+  background: var(--solaris-primary-base);
+}
+
+.solaris-date-calendar__day:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+}
+
+.solaris-date-calendar__day[data-outside-month] {
+  color: var(--solaris-text-muted);
+  opacity: var(--solaris-opacity-70);
+}
+
+.solaris-date-calendar__day[data-in-range] {
+  background: var(--solaris-primary-surface);
+}
+
+.solaris-date-calendar__day[data-selected] {
+  color: var(--solaris-primary-text);
+  background: var(--solaris-primary-base);
+}
+
+.solaris-date-calendar__day[data-today]:not([data-selected]) {
+  outline: var(--solaris-border-width-sm) solid var(--solaris-primary-border);
+}
+
+.solaris-date-calendar__day:disabled {
+  cursor: not-allowed;
+  color: var(--solaris-text-muted);
+  opacity: var(--solaris-opacity-50);
+}

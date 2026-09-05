@@ -64,6 +64,7 @@ CDK Overlay is an implementation detail. The public API exposes only Solaris con
 | `solarisPopoverAlign`               | `'start' \| 'center' \| 'end'`           | `'start'`      | Alignment relative to trigger     |
 | `solarisPopoverOffset`              | `number`                                 | `8`            | Offset in pixels from trigger     |
 | `solarisPopoverMatchTriggerWidth`   | `boolean`                                | `false`        | Matches panel width to trigger    |
+| `solarisPopoverFitContent`          | `boolean`                                | `false`        | Sizes panel to its content        |
 | `solarisPopoverMinWidth`            | `string \| number \| undefined`          | `undefined`    | Minimum panel width               |
 | `solarisPopoverMaxWidth`            | `string \| number \| undefined`          | `undefined`    | Maximum panel width               |
 | `solarisPopoverCloseOnOutsideClick` | `boolean`                                | `true`         | Close when clicking outside       |

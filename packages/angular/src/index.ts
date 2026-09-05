@@ -224,6 +224,18 @@ export type {
   SolarisSelectionCardSize,
 } from './lib/components/forms/selection-card/model/selection-card.types';
 
+export { SolarisDatePickerComponent } from './lib/components/forms/date-picker/component/date-picker.component';
+export type {
+  SolarisDatePickerAppearance,
+  SolarisDatePickerRadius,
+} from './lib/components/forms/date-picker/model/date-picker.types';
+export { SolarisDateRangePickerComponent } from './lib/components/forms/date-range-picker/component/date-range-picker.component';
+export type {
+  SolarisDatePreset,
+  SolarisDateRange,
+  SolarisDateValue,
+} from './lib/components/forms/date/model/date.types';
+
 export { SolarisSwitchComponent } from './lib/components/forms/switch/component/switch.component';
 export type {
   SolarisSwitchAppearance,
