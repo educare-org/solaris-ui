@@ -21,6 +21,7 @@ export default [
             '@angular-devkit/schematics',
             '@storybook/angular',
             'storybook',
+            'vitest',
           ],
         },
       ],
