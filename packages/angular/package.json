@@ -19,19 +19,13 @@
     "package.json"
   ],
   "peerDependencies": {
-    "@angular-devkit/schematics": "^21.0.0",
+    "@angular-devkit/schematics": "^21.2.19",
     "@angular/cdk": "^21.2.0",
-    "@angular/common": "^21.2.0",
-    "@angular/core": "^21.2.0",
-    "@angular/forms": "^21.2.0",
-    "@angular/platform-browser": "~21.2.0",
-    "rxjs": "^7.8.0",
-    "vitest": "^4.0.8"
-  },
-  "peerDependenciesMeta": {
-    "vitest": {
-      "optional": true
-    }
+    "@angular/common": "^21.2.19",
+    "@angular/core": "^21.2.19",
+    "@angular/forms": "^21.2.19",
+    "@angular/platform-browser": "~21.2.19",
+    "rxjs": "^7.8.0"
   },
   "sideEffects": false,
   "schematics": "./schematics/collection.json",

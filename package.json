@@ -59,14 +59,24 @@
       "simple-git-hooks"
     ],
     "overrides": {
-      "brace-expansion@<1.1.17": "1.1.17",
-      "brace-expansion@>=5.0.0 <5.0.8": "5.0.8",
+      "brace-expansion@<1.1.18": "1.1.18",
+      "brace-expansion@>=5.0.0 <5.0.9": "5.0.9",
+      "browserslist@<4.28.7": "4.28.7",
       "webpack-dev-server": "5.2.6",
       "body-parser@<1.20.6": "1.20.6",
       "svgo@<4.0.2": "4.0.2",
-      "fast-uri@<3.1.4": "3.1.4",
+      "fast-uri@<3.1.6": "3.1.6",
+      "hono@<4.12.34": "4.12.34",
+      "@hono/node-server@<1.19.15": "1.19.15",
+      "ip-address@<10.3.1": "10.3.1",
+      "js-yaml@<3.15.1": "3.15.1",
+      "js-yaml@>=4.0.0 <4.3.1": "4.3.1",
+      "nanoid@<3.3.18": "3.3.18",
       "tar@<7.5.21": "7.5.22",
-      "postcss@<8.5.18": "8.5.25"
+      "postcss@<8.5.18": "8.5.25",
+      "qs@<6.16.0": "6.16.0",
+      "undici@>=6.0.0 <6.28.0": "6.28.0",
+      "undici@>=7.0.0 <7.29.0": "7.29.0"
     }
   },
   "simple-git-hooks": {
@@ -92,8 +102,9 @@
     "@angular-devkit/schematics": "~21.2.19",
     "@angular/build": "~21.2.19",
     "@angular/cli": "~21.2.19",
-    "@angular/compiler-cli": "~21.2.19",
-    "@angular/language-service": "~21.2.19",
+    "@angular/compiler-cli": "~21.2.22",
+    "@angular/language-service": "~21.2.22",
+    "@angular/platform-browser-dynamic": "~21.2.22",
     "@changesets/changelog-github": "^0.7.0",
     "@changesets/cli": "^2.31.0",
     "@commitlint/cli": "^21.2.1",
@@ -120,11 +131,13 @@
     "@typescript-eslint/utils": "^8.40.0",
     "@vitest/coverage-v8": "^4.1.10",
     "angular-eslint": "^21.2.0",
+    "country-flag-icons": "^1.6.20",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-playwright": "^1.6.2",
     "jsdom": "^27.1.0",
     "jsonc-eslint-parser": "^2.1.0",
+    "libphonenumber-js": "^1.13.11",
     "lint-staged": "^17.0.8",
     "ng-packagr": "~21.2.6",
     "nx": "23.1.1",
@@ -138,18 +151,16 @@
     "tslib": "^2.3.0",
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.40.0",
-    "vitest": "^4.0.8",
-    "country-flag-icons": "^1.6.20",
-    "libphonenumber-js": "^1.13.11"
+    "vitest": "^4.0.8"
   },
   "dependencies": {
     "@angular/cdk": "~21.2.14",
-    "@angular/common": "~21.2.0",
-    "@angular/compiler": "~21.2.0",
-    "@angular/core": "~21.2.0",
-    "@angular/forms": "~21.2.0",
-    "@angular/platform-browser": "~21.2.0",
-    "@angular/router": "~21.2.0",
+    "@angular/common": "~21.2.22",
+    "@angular/compiler": "~21.2.22",
+    "@angular/core": "~21.2.22",
+    "@angular/forms": "~21.2.22",
+    "@angular/platform-browser": "~21.2.22",
+    "@angular/router": "~21.2.22",
     "rxjs": "~7.8.0"
   }
 }
