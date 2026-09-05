@@ -8,6 +8,7 @@ export const EN_US_CARD: Record<string, string> = {
   'card.anatomy-desc': 'Card with header, content, footer, and separator.',
   'card.media': 'Media Card',
   'card.media-desc': 'Card with media wrapper, content, badge, and footer.',
+  'card.media-preview': 'Media preview',
   'card.task': 'Task-like Card',
   'card.task-desc':
     'Task card composition with title, description, badge, and metadata.',

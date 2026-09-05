@@ -1,0 +1,189 @@
+<solaris-form-field
+  [control]="this"
+  [label]="labelText()"
+  [hint]="hintText()"
+  [error]="errorText()"
+  [appearance]="appearance()"
+  [density]="effectiveDensity()"
+  [radius]="radius()"
+  [invalid]="isEffectivelyInvalid()"
+  [required]="requiredInput()"
+  [disabled]="isEffectivelyDisabled()"
+  [readonly]="isEffectivelyReadonly()"
+  solaris-popover-trigger
+  [solarisPopoverTriggerFor]="rangePopover"
+  [solarisPopoverDisabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
+  [solarisPopoverPlacement]="'bottom'"
+  [solarisPopoverAlign]="'start'"
+  [solarisPopoverPadding]="'none'"
+  [solarisPopoverFitContent]="true"
+  [solarisPopoverMaxWidth]="'calc(100vw - var(--solaris-spacing-4))'"
+  [solarisPopoverRadius]="radius()"
+  [solarisPopoverAriaHasPopup]="'dialog'"
+  (solarisPopoverOpened)="onPanelOpened()"
+  (solarisPopoverClosed)="onPanelClosed()"
+>
+  <button
+    #triggerButton
+    type="button"
+    class="solaris-date-range-picker__trigger"
+    [id]="id"
+    [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
+    [attr.aria-expanded]="panelOpen() ? 'true' : 'false'"
+    [attr.aria-describedby]="describedByIds.join(' ') || null"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+    (keydown)="onInputKeydown($event)"
+  >
+    {{ rangeDisplay() || placeholderText() }}
+  </button>
+
+  <button
+    type="button"
+    appearance="ghost"
+    solaris-icon-button
+    solaris-form-suffix
+    class="solaris-date-range-picker__calendar-trigger"
+    [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
+    [attr.aria-label]="calendarLabel()"
+  >
+    <solaris-icon name="calendar" [decorative]="true" />
+  </button>
+</solaris-form-field>
+
+<ng-template #rangePopover="solarisPopover" solaris-popover>
+  <div
+    role="dialog"
+    [attr.aria-label]="calendarLabel()"
+    class="solaris-date-range-picker__panel"
+  >
+    <nav
+      class="solaris-date-range-picker__presets"
+      [attr.aria-label]="presetsLabel()"
+    >
+      @if (presets().length > 0) {
+        @for (preset of presets(); track preset.id) {
+          <button
+            type="button"
+            class="solaris-date-range-picker__preset"
+            [attr.data-active]="activePresetId() === preset.id ? '' : null"
+            (click)="selectPreset(preset)"
+          >
+            {{ presetLabel(preset) }}
+          </button>
+        }
+      }
+      <button
+        type="button"
+        class="solaris-date-range-picker__preset"
+        [attr.data-active]="activePresetId() === 'custom' ? '' : null"
+        (click)="selectCustom()"
+      >
+        {{ customLabel() }}
+      </button>
+    </nav>
+    <div class="solaris-date-range-picker__content">
+      <div class="solaris-date-range-picker__calendars">
+        <solaris-date-calendar
+          [min]="min()"
+          [max]="max()"
+          [range]="pending()"
+          [month]="displayedMonth()"
+          [locale]="resolvedLocale()"
+          [disabledDates]="disabledDates()"
+          [nextMonthLabel]="nextMonthLabel()"
+          (selectedChange)="selectDate($event)"
+          (monthChange)="setDisplayedMonth($event)"
+          [previousMonthLabel]="previousMonthLabel()"
+        />
+        <span
+          class="solaris-date-range-picker__calendar-divider"
+          aria-hidden="true"
+        ></span>
+        <solaris-date-calendar
+          [min]="min()"
+          [max]="max()"
+          [range]="pending()"
+          [month]="nextMonth()"
+          [locale]="resolvedLocale()"
+          [disabledDates]="disabledDates()"
+          [nextMonthLabel]="nextMonthLabel()"
+          (selectedChange)="selectDate($event)"
+          (monthChange)="setDisplayedMonth($event)"
+          [previousMonthLabel]="previousMonthLabel()"
+        />
+      </div>
+      <footer class="solaris-date-range-picker__footer">
+        <div class="solaris-date-range-picker__inputs">
+          <input
+            type="text"
+            solaris-input
+            (blur)="onBlur()"
+            density="compact"
+            autocomplete="off"
+            [fullWidth]="false"
+            inputmode="numeric"
+            (focus)="onFocus()"
+            [value]="startDisplay()"
+            (click)="onInputClick($event)"
+            [attr.aria-label]="startLabel()"
+            [disabled]="isEffectivelyDisabled()"
+            [readonly]="isEffectivelyReadonly()"
+            (input)="onInput('start', $event)"
+          />
+          <span class="solaris-date-range-picker__separator" aria-hidden="true"
+            >-</span
+          >
+          <input
+            type="text"
+            solaris-input
+            (blur)="onBlur()"
+            density="compact"
+            [fullWidth]="false"
+            autocomplete="off"
+            (focus)="onFocus()"
+            inputmode="numeric"
+            [value]="endDisplay()"
+            [attr.aria-label]="endLabel()"
+            (click)="onInputClick($event)"
+            [disabled]="isEffectivelyDisabled()"
+            [readonly]="isEffectivelyReadonly()"
+            (input)="onInput('end', $event)"
+          />
+        </div>
+        <div class="solaris-date-range-picker__actions">
+          <button
+            type="button"
+            solaris-button
+            density="compact"
+            appearance="ghost"
+            data-density="compact"
+            (click)="clearPending()"
+          >
+            {{ clearLabel() }}
+          </button>
+          <button
+            type="button"
+            solaris-button
+            density="compact"
+            (click)="cancel()"
+            appearance="outline"
+            data-density="compact"
+          >
+            {{ cancelLabel() }}
+          </button>
+          <button
+            type="button"
+            solaris-button
+            color="primary"
+            (click)="apply()"
+            density="compact"
+            data-density="compact"
+          >
+            {{ applyLabel() }}
+          </button>
+        </div>
+      </footer>
+    </div>
+  </div>
+</ng-template>

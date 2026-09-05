@@ -1,0 +1,33 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.date-picker-showcase {
+  @include layout.page;
+}
+.date-picker-showcase__header {
+  @include layout.header;
+}
+.date-picker-showcase__title {
+  @include layout.title;
+}
+.date-picker-showcase__description {
+  @include layout.description;
+}
+.date-picker-showcase__section {
+  @include layout.section-card;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  max-width: calc(var(--solaris-spacing-24) * 4);
+}
+.date-picker-showcase__section-title {
+  @include layout.section-title;
+}
+.date-picker-showcase__note {
+  @include layout.note;
+}
+.date-picker-showcase__demo {
+  display: grid;
+  gap: var(--solaris-spacing-4);
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}

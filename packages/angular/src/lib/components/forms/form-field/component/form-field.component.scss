@@ -149,6 +149,11 @@
 }
 
 .solaris-form-field__affix--suffix {
+  --solaris-icon-button-size: calc(
+    var(--solaris-form-field-control-height) -
+      (var(--solaris-form-field-control-border-width) * 2)
+  );
+
   color: var(--solaris-form-field-suffix-color);
   transition: color var(--solaris-motion-duration-slow)
     var(--solaris-motion-easing-standard);
@@ -170,6 +175,10 @@
   align-items: center;
   display: inline-flex;
   justify-content: center;
+}
+
+:host ::ng-deep .solaris-form-field__affix--suffix [solaris-icon-button] {
+  --solaris-icon-button-size: inherit;
 }
 
 :host ::ng-deep solaris-icon.solaris-form-prefix,
@@ -269,7 +278,7 @@
 :host([data-density='compact']) {
   --solaris-form-field-control-gap: var(--solaris-spacing-2);
   --solaris-form-field-font-size: var(--solaris-density-font-size);
-  --solaris-form-field-control-padding-x: var(--solaris-spacing-2);
+  --solaris-form-field-control-padding-x: var(--solaris-spacing-3);
   --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
   --solaris-form-field-label-font-size: var(--solaris-font-size-md);
   --solaris-form-field-message-margin-top: var(--solaris-spacing-1);

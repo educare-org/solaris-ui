@@ -1,0 +1,369 @@
+<div class="selection-card-showcase">
+  <header class="selection-card-showcase__header">
+    <h1 class="selection-card-showcase__title">
+      {{ 'selection-card.title' | translate }}
+    </h1>
+    <p class="selection-card-showcase__description">
+      {{ 'selection-card.description' | translate }}
+    </p>
+  </header>
+
+  <section class="selection-card-showcase__section">
+    <h2 class="selection-card-showcase__section-title">
+      {{ 'selection-card.group.title' | translate }}
+    </h2>
+    <p class="selection-card-showcase__note">
+      {{ 'selection-card.group.note' | translate }}
+    </p>
+    <solaris-radio-group
+      [formControl]="planControl"
+      [ariaLabel]="'selection-card.group.title' | translate"
+      layout="grid"
+      columns="auto"
+    >
+      <solaris-selection-card color="primary" value="basic">
+        <p class="selection-card-showcase__eyebrow">
+          {{ 'selection-card.basic.eyebrow' | translate }}
+        </p>
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.basic.title' | translate }}
+        </h3>
+        <p class="selection-card-showcase__plan-description">
+          {{ 'selection-card.basic.description' | translate }}
+        </p>
+      </solaris-selection-card>
+
+      <solaris-selection-card color="primary" value="pro">
+        <p class="selection-card-showcase__eyebrow">
+          {{ 'selection-card.pro.eyebrow' | translate }}
+        </p>
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.pro.title' | translate }}
+        </h3>
+        <p class="selection-card-showcase__plan-description">
+          {{ 'selection-card.pro.description' | translate }}
+        </p>
+      </solaris-selection-card>
+
+      <solaris-selection-card color="primary" value="enterprise">
+        <p class="selection-card-showcase__eyebrow">
+          {{ 'selection-card.enterprise.eyebrow' | translate }}
+        </p>
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.enterprise.title' | translate }}
+        </h3>
+        <p class="selection-card-showcase__plan-description">
+          {{ 'selection-card.enterprise.description' | translate }}
+        </p>
+      </solaris-selection-card>
+    </solaris-radio-group>
+    <p class="selection-card-showcase__value">
+      {{ 'selection-card.selected' | translate }} {{ planControl.value }}
+    </p>
+  </section>
+
+  <section class="selection-card-showcase__section">
+    <h2 class="selection-card-showcase__section-title">
+      {{ 'selection-card.structure.title' | translate }}
+    </h2>
+    <p class="selection-card-showcase__note">
+      {{ 'selection-card.structure.note' | translate }}
+    </p>
+    <solaris-radio-group
+      [formControl]="deliveryControl"
+      [ariaLabel]="'selection-card.structure.title' | translate"
+      layout="grid"
+      columns="auto"
+    >
+      <solaris-selection-card color="primary" value="standard">
+        <figure solaris-selection-card-media>
+          <div
+            class="selection-card-showcase__media-placeholder"
+            role="img"
+            [attr.aria-label]="'selection-card.structure.standard-media' | translate"
+          ></div>
+        </figure>
+        <div solaris-selection-card-header>
+          <h3 solaris-selection-card-title>
+            {{ 'selection-card.structure.standard-title' | translate }}
+          </h3>
+          <p solaris-selection-card-description>
+            {{ 'selection-card.structure.standard-description' | translate }}
+          </p>
+        </div>
+        <div solaris-selection-card-content>
+          <p class="selection-card-showcase__content-copy">
+            {{ 'selection-card.structure.standard-content' | translate }}
+          </p>
+        </div>
+        <div solaris-selection-card-footer [separator]="true">
+          <span
+            >{{ 'selection-card.structure.standard-footer' | translate }}</span
+          >
+        </div>
+      </solaris-selection-card>
+
+      <solaris-selection-card color="primary" value="express">
+        <figure solaris-selection-card-media>
+          <div
+            class="selection-card-showcase__media-placeholder selection-card-showcase__media-placeholder--express"
+            role="img"
+            [attr.aria-label]="'selection-card.structure.express-media' | translate"
+          ></div>
+        </figure>
+        <div solaris-selection-card-header>
+          <h3 solaris-selection-card-title>
+            {{ 'selection-card.structure.express-title' | translate }}
+          </h3>
+          <p solaris-selection-card-description>
+            {{ 'selection-card.structure.express-description' | translate }}
+          </p>
+        </div>
+        <div solaris-selection-card-content>
+          <p class="selection-card-showcase__content-copy">
+            {{ 'selection-card.structure.express-content' | translate }}
+          </p>
+        </div>
+        <div solaris-selection-card-footer [separator]="true">
+          <span
+            >{{ 'selection-card.structure.express-footer' | translate }}</span
+          >
+        </div>
+      </solaris-selection-card>
+    </solaris-radio-group>
+    <p class="selection-card-showcase__value">
+      {{ 'selection-card.selected' | translate }} {{ deliveryControl.value }}
+    </p>
+  </section>
+
+  <section class="selection-card-showcase__section">
+    <h2 class="selection-card-showcase__section-title">
+      {{ 'selection-card.standalone.title' | translate }}
+    </h2>
+    <p class="selection-card-showcase__note">
+      {{ 'selection-card.standalone.note' | translate }}
+    </p>
+    <div class="selection-card-showcase__single-demo">
+      <solaris-selection-card color="info" [formControl]="standaloneControl">
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.standalone.card-title' | translate }}
+        </h3>
+        <p class="selection-card-showcase__plan-description">
+          {{ 'selection-card.standalone.card-description' | translate }}
+        </p>
+      </solaris-selection-card>
+    </div>
+    <p class="selection-card-showcase__value">
+      {{ 'selection-card.checked' | translate }} {{ standaloneControl.value }}
+    </p>
+  </section>
+
+  <section class="selection-card-showcase__section">
+    <h2 class="selection-card-showcase__section-title">
+      {{ 'selection-card.appearance.title' | translate }}
+    </h2>
+    <p class="selection-card-showcase__note">
+      {{ 'selection-card.appearance.note' | translate }}
+    </p>
+    <div class="selection-card-showcase__grid">
+      <solaris-selection-card
+        appearance="surface"
+        color="primary"
+        [checked]="true"
+      >
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.appearance.surface' | translate }}
+        </h3>
+      </solaris-selection-card>
+      <solaris-selection-card
+        appearance="outline"
+        color="primary"
+        [checked]="true"
+      >
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.appearance.outline' | translate }}
+        </h3>
+      </solaris-selection-card>
+      <solaris-selection-card
+        appearance="tonal"
+        color="primary"
+        [checked]="true"
+      >
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.appearance.tonal' | translate }}
+        </h3>
+      </solaris-selection-card>
+      <div class="selection-card-showcase__glass-preview">
+        <solaris-selection-card appearance="glass">
+          <h3 class="selection-card-showcase__plan-title">
+            {{ 'selection-card.appearance.glass' | translate }}
+          </h3>
+        </solaris-selection-card>
+      </div>
+    </div>
+  </section>
+
+  <section class="selection-card-showcase__section">
+    <h2 class="selection-card-showcase__section-title">
+      {{ 'selection-card.colors.title' | translate }}
+    </h2>
+    <p class="selection-card-showcase__note">
+      {{ 'selection-card.colors.note' | translate }}
+    </p>
+    <div class="selection-card-showcase__grid">
+      <solaris-selection-card color="neutral" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.colors.neutral' | translate }}
+        </h3>
+      </solaris-selection-card>
+      <solaris-selection-card color="primary" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.colors.primary' | translate }}
+        </h3>
+      </solaris-selection-card>
+      <solaris-selection-card color="success" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.colors.success' | translate }}
+        </h3>
+      </solaris-selection-card>
+      <solaris-selection-card color="warning" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.colors.warning' | translate }}
+        </h3>
+      </solaris-selection-card>
+      <solaris-selection-card color="danger" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.colors.danger' | translate }}
+        </h3>
+      </solaris-selection-card>
+      <solaris-selection-card color="info" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.colors.info' | translate }}
+        </h3>
+      </solaris-selection-card>
+      <solaris-selection-card
+        class="selection-card-showcase__custom-violet"
+        color="custom"
+        [checked]="true"
+      >
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.colors.custom' | translate }}
+        </h3>
+      </solaris-selection-card>
+    </div>
+  </section>
+
+  <section class="selection-card-showcase__section">
+    <h2 class="selection-card-showcase__section-title">
+      {{ 'selection-card.size.title' | translate }}
+    </h2>
+    <p class="selection-card-showcase__note">
+      {{ 'selection-card.size.note' | translate }}
+    </p>
+    <div class="selection-card-showcase__grid">
+      <solaris-selection-card color="primary" size="sm" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">sm</h3>
+      </solaris-selection-card>
+      <solaris-selection-card color="primary" size="md" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">md</h3>
+      </solaris-selection-card>
+      <solaris-selection-card color="primary" size="lg" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">lg</h3>
+      </solaris-selection-card>
+    </div>
+  </section>
+
+  <section class="selection-card-showcase__section">
+    <h2 class="selection-card-showcase__section-title">
+      {{ 'selection-card.density.title' | translate }}
+    </h2>
+    <p class="selection-card-showcase__note">
+      {{ 'selection-card.density.note' | translate }}
+    </p>
+    <div class="selection-card-showcase__grid">
+      <solaris-selection-card
+        color="primary"
+        density="compact"
+        [checked]="true"
+      >
+        <h3 class="selection-card-showcase__plan-title">compact</h3>
+      </solaris-selection-card>
+      <solaris-selection-card color="primary" density="normal" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">normal</h3>
+      </solaris-selection-card>
+      <solaris-selection-card
+        color="primary"
+        density="comfortable"
+        [checked]="true"
+      >
+        <h3 class="selection-card-showcase__plan-title">comfortable</h3>
+      </solaris-selection-card>
+    </div>
+  </section>
+
+  <section class="selection-card-showcase__section">
+    <h2 class="selection-card-showcase__section-title">
+      {{ 'selection-card.radius.title' | translate }}
+    </h2>
+    <p class="selection-card-showcase__note">
+      {{ 'selection-card.radius.note' | translate }}
+    </p>
+    <div class="selection-card-showcase__grid">
+      <solaris-selection-card color="primary" radius="none" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">none</h3>
+      </solaris-selection-card>
+      <solaris-selection-card color="primary" radius="sm" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">sm</h3>
+      </solaris-selection-card>
+      <solaris-selection-card color="primary" radius="lg" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">lg</h3>
+      </solaris-selection-card>
+      <solaris-selection-card color="primary" radius="xl" [checked]="true">
+        <h3 class="selection-card-showcase__plan-title">xl</h3>
+      </solaris-selection-card>
+    </div>
+  </section>
+
+  <section class="selection-card-showcase__section">
+    <h2 class="selection-card-showcase__section-title">
+      {{ 'selection-card.states.title' | translate }}
+    </h2>
+    <p class="selection-card-showcase__note">
+      {{ 'selection-card.states.note' | translate }}
+    </p>
+    <div class="selection-card-showcase__grid">
+      <solaris-selection-card
+        color="primary"
+        [checked]="true"
+        [disabled]="true"
+      >
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.states.disabled' | translate }}
+        </h3>
+        <p class="selection-card-showcase__plan-description">
+          {{ 'selection-card.states.disabled-description' | translate }}
+        </p>
+      </solaris-selection-card>
+
+      <solaris-radio-group [formControl]="readonlyControl" [readonly]="true">
+        <solaris-selection-card color="primary" value="basic">
+          <h3 class="selection-card-showcase__plan-title">
+            {{ 'selection-card.states.readonly' | translate }}
+          </h3>
+          <p class="selection-card-showcase__plan-description">
+            {{ 'selection-card.states.readonly-description' | translate }}
+          </p>
+        </solaris-selection-card>
+      </solaris-radio-group>
+
+      <solaris-selection-card color="primary" [checked]="true" [invalid]="true">
+        <h3 class="selection-card-showcase__plan-title">
+          {{ 'selection-card.states.invalid' | translate }}
+        </h3>
+        <p class="selection-card-showcase__plan-description">
+          {{ 'selection-card.states.invalid-description' | translate }}
+        </p>
+      </solaris-selection-card>
+    </div>
+  </section>
+</div>

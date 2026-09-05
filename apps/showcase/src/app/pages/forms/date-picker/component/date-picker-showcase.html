@@ -1,0 +1,97 @@
+<div class="date-picker-showcase">
+  <header class="date-picker-showcase__header">
+    <h1 class="date-picker-showcase__title">
+      {{ 'date-picker.title' | translate }}
+    </h1>
+    <p class="date-picker-showcase__description">
+      {{ 'date-picker.description' | translate }}
+    </p>
+  </header>
+
+  <section class="date-picker-showcase__section">
+    <h2 class="date-picker-showcase__section-title">
+      {{ 'date-picker.single.title' | translate }}
+    </h2>
+    <solaris-date-picker
+      [formControl]="dateControl"
+      locale="pt-BR"
+      [label]="'date-picker.single.label' | translate"
+      [hint]="'date-picker.single.hint' | translate"
+    />
+  </section>
+
+  <section class="date-picker-showcase__section">
+    <h2 class="date-picker-showcase__section-title">
+      {{ 'date-picker.range.title' | translate }}
+    </h2>
+    <p class="date-picker-showcase__note">
+      {{ 'date-picker.range.note' | translate }}
+    </p>
+    <solaris-date-range-picker
+      [formControl]="rangeControl"
+      locale="pt-BR"
+      [presets]="presets"
+      [label]="'date-picker.range.label' | translate"
+      [hint]="'date-picker.range.hint' | translate"
+    />
+  </section>
+
+  <section class="date-picker-showcase__section">
+    <h2 class="date-picker-showcase__section-title">
+      {{ 'date-picker.constraints.title' | translate }}
+    </h2>
+    <p class="date-picker-showcase__note">
+      {{ 'date-picker.constraints.note' | translate }}
+    </p>
+    <div class="date-picker-showcase__demo">
+      <solaris-date-picker
+        [formControl]="limitedDateControl"
+        locale="pt-BR"
+        density="compact"
+        [min]="minSelectableDate"
+        [max]="maxSelectableDate"
+        [disabledDates]="unavailableDates"
+        [label]="'date-picker.constraints.date.label' | translate"
+        [hint]="'date-picker.constraints.date.hint' | translate"
+      />
+      <solaris-date-range-picker
+        [formControl]="limitedRangeControl"
+        locale="pt-BR"
+        [min]="minSelectableDate"
+        [max]="maxSelectableDate"
+        [disabledDates]="unavailableDates"
+        [label]="'date-picker.constraints.range.label' | translate"
+        [hint]="'date-picker.constraints.range.hint' | translate"
+      />
+    </div>
+  </section>
+
+  <section class="date-picker-showcase__section">
+    <h2 class="date-picker-showcase__section-title">
+      {{ 'date-picker.states.title' | translate }}
+    </h2>
+    <div class="date-picker-showcase__demo">
+      <solaris-date-picker
+        [formControl]="requiredDateControl"
+        locale="pt-BR"
+        [required]="true"
+        [label]="'date-picker.states.required.label' | translate"
+        [hint]="'date-picker.states.required.hint' | translate"
+      />
+      <solaris-date-picker
+        [formControl]="readonlyDateControl"
+        locale="pt-BR"
+        [readonly]="true"
+        [label]="'date-picker.states.readonly.label' | translate"
+        [hint]="'date-picker.states.readonly.hint' | translate"
+      />
+      <solaris-date-picker
+        [formControl]="disabledDateControl"
+        locale="pt-BR"
+        [disabled]="true"
+        [label]="'date-picker.states.disabled.label' | translate"
+        [hint]="'date-picker.states.disabled.hint' | translate"
+      />
+    </div>
+  </section>
+</div>

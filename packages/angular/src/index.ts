@@ -209,6 +209,33 @@ export type {
   SolarisRadioDensity,
 } from './lib/components/forms/radio/model/radio.types';
 
+export { SolarisSelectionCardComponent } from './lib/components/forms/selection-card/component/selection-card.component';
+export { SolarisSelectionCardContentDirective } from './lib/components/forms/selection-card/directives/selection-card-content.directive';
+export { SolarisSelectionCardDescriptionDirective } from './lib/components/forms/selection-card/directives/selection-card-description.directive';
+export { SolarisSelectionCardFooterDirective } from './lib/components/forms/selection-card/directives/selection-card-footer.directive';
+export { SolarisSelectionCardHeaderDirective } from './lib/components/forms/selection-card/directives/selection-card-header.directive';
+export { SolarisSelectionCardMediaDirective } from './lib/components/forms/selection-card/directives/selection-card-media.directive';
+export { SolarisSelectionCardTitleDirective } from './lib/components/forms/selection-card/directives/selection-card-title.directive';
+export type {
+  SolarisSelectionCardAppearance,
+  SolarisSelectionCardColor,
+  SolarisSelectionCardDensity,
+  SolarisSelectionCardRadius,
+  SolarisSelectionCardSize,
+} from './lib/components/forms/selection-card/model/selection-card.types';
+
+export { SolarisDatePickerComponent } from './lib/components/forms/date-picker/component/date-picker.component';
+export type {
+  SolarisDatePickerAppearance,
+  SolarisDatePickerRadius,
+} from './lib/components/forms/date-picker/model/date-picker.types';
+export { SolarisDateRangePickerComponent } from './lib/components/forms/date-range-picker/component/date-range-picker.component';
+export type {
+  SolarisDatePreset,
+  SolarisDateRange,
+  SolarisDateValue,
+} from './lib/components/forms/date/model/date.types';
+
 export { SolarisSwitchComponent } from './lib/components/forms/switch/component/switch.component';
 export type {
   SolarisSwitchAppearance,

@@ -1,0 +1,85 @@
+<div class="solaris-date-calendar" role="grid" [attr.aria-label]="monthLabel()">
+  <header class="solaris-date-calendar__header">
+    <button
+      type="button"
+      class="solaris-date-calendar__navigation"
+      [attr.aria-label]="previousMonthLabel()"
+      (click)="previousMonth()"
+    >
+      <solaris-icon name="chevron-left" [decorative]="true" />
+    </button>
+    <button
+      type="button"
+      class="solaris-date-calendar__month"
+      [attr.aria-expanded]="monthSelectionOpen() ? 'true' : 'false'"
+      (click)="toggleMonthSelection()"
+    >
+      {{ monthLabel() }}
+      <solaris-icon
+        name="chevron-down"
+        [decorative]="true"
+        class="solaris-date-calendar__month-icon"
+      />
+    </button>
+    <button
+      type="button"
+      (click)="nextMonth()"
+      class="solaris-date-calendar__navigation"
+      [attr.aria-label]="nextMonthLabel()"
+    >
+      <solaris-icon name="chevron-right" [decorative]="true" />
+    </button>
+  </header>
+
+  @if (monthSelectionOpen()) {
+    <div class="solaris-date-calendar__months" role="grid">
+      @for (option of monthOptions(); track option.month) {
+        <button
+          type="button"
+          class="solaris-date-calendar__month-option"
+          [attr.aria-selected]="option.month === month().month"
+          [attr.data-selected]="option.month === month().month ? '' : null"
+          (click)="selectMonth(option.month)"
+        >
+          {{ option.label }}
+        </button>
+      }
+    </div>
+  } @else {
+    <div class="solaris-date-calendar__weekdays" role="row">
+      @for (weekday of weekdays(); track weekday) {
+        <span role="columnheader">{{ weekday }}</span>
+      }
+    </div>
+
+    <div class="solaris-date-calendar__days">
+      @for (day of days(); track day.value) {
+        <button
+          type="button"
+          role="gridcell"
+          class="solaris-date-calendar__day"
+          [disabled]="isDisabled(day.value)"
+          [attr.aria-label]="dayLabel(day.value)"
+          [attr.aria-selected]="
+            isSelected(day.value) ||
+            isRangeStart(day.value) ||
+            isRangeEnd(day.value)
+          "
+          [attr.data-outside-month]="day.inCurrentMonth ? null : ''"
+          [attr.data-selected]="
+            isSelected(day.value) ||
+            isRangeStart(day.value) ||
+            isRangeEnd(day.value)
+              ? ''
+              : null
+          "
+          [attr.data-in-range]="isInRange(day.value) ? '' : null"
+          [attr.data-today]="isToday(day.value) ? '' : null"
+          (click)="selectDay(day.value)"
+        >
+          {{ day.day }}
+        </button>
+      }
+    </div>
+  }
+</div>

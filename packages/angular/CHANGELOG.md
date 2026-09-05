@@ -1,5 +1,12 @@
 # @educarehq/solaris-ui
 
+## 0.20.0
+
+### Minor Changes
+
+- fe0de1b: Add Selection Card for single-choice card options with Radio Group and Angular Forms support.
+- 7e9858e: Add locale-aware date picker and date range picker form controls.
+
 ## 0.19.0
 
 ### Minor Changes

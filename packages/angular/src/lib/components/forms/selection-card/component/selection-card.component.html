@@ -1,0 +1,33 @@
+<input
+  #inputElement
+  type="radio"
+  class="solaris-selection-card__input"
+  [id]="elementId()"
+  [disabled]="isEffectivelyDisabled()"
+  [required]="required"
+  [attr.name]="effectiveName() ?? null"
+  [attr.aria-label]="effectiveAriaLabel() ?? null"
+  [attr.aria-labelledby]="ariaLabelledBy()"
+  [attr.aria-describedby]="ariaDescribedBy()"
+  [attr.aria-invalid]="isEffectivelyInvalid() ? 'true' : null"
+  [attr.aria-readonly]="isEffectivelyReadonly() ? 'true' : null"
+  (change)="onInputChange($event)"
+  (focus)="onFocus()"
+  (blur)="onBlur()"
+/>
+<div class="solaris-selection-card__surface">
+  <ng-content select="[solaris-selection-card-media]" />
+  <div class="solaris-selection-card__body">
+    <span class="solaris-selection-card__control" aria-hidden="true">
+      @if (_checked()) {
+        <span class="solaris-selection-card__dot"></span>
+      }
+    </span>
+    <div class="solaris-selection-card__content" [id]="contentId()">
+      <ng-content select="[solaris-selection-card-header]" />
+      <ng-content select="[solaris-selection-card-content]" />
+      <ng-content />
+      <ng-content select="[solaris-selection-card-footer]" />
+    </div>
+  </div>
+</div>
