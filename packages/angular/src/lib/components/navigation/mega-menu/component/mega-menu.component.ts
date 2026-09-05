@@ -37,8 +37,10 @@ import {
   type SolarisMegaMenuControl,
   type SolarisMegaMenuGroupControl,
 } from '../model/mega-menu.tokens';
-import type { SolarisMegaMenuPanelWidth } from '../model/mega-menu.types';
-import type { SolarisMegaMenuAppearance } from '../model/mega-menu.types';
+import type {
+  SolarisMegaMenuPanelWidth,
+  SolarisMegaMenuAppearance,
+} from '../model/mega-menu.types';
 
 // SECURITY_EXCEPTION_FILE: ElementRef and injected DOCUMENT support focus restoration, overlay geometry, and browser-only event listeners. Angular bindings cannot express these imperative DOM APIs; component specs cover open, close, focus, and viewport behavior.
 

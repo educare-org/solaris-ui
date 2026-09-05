@@ -1,11 +1,29 @@
 # @educarehq/solaris-ui
 
-## 0.18.0
+## 0.20.0
 
 ### Minor Changes
 
 - fe0de1b: Add Selection Card for single-choice card options with Radio Group and Angular Forms support.
 - 7e9858e: Add locale-aware date picker and date range picker form controls.
+
+## 0.19.0
+
+### Minor Changes
+
+- db8a0b9: Add the `command`, `log-in`, `log-out`, and `share-2` built-in action icons.
+
+### Patch Changes
+
+- d736f5b: Document breadcrumb variants and limit Angular test workers to prevent local memory exhaustion.
+
+## 0.18.0
+
+### Minor Changes
+
+- de89c85: Add headphones, headphones-off, timer, clock-arrow-right, truck, handshake, route, mouse-pointer-click, and rss built-in icons.
+
+## 0.17.2
 
 ### Patch Changes
 

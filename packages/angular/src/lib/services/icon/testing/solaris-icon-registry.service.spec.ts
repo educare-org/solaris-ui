@@ -20,6 +20,33 @@ describe('SolarisIconRegistryService', () => {
     expect(service.hasIcon('warning')).toBe(true);
     expect(service.hasIcon('danger')).toBe(true);
     expect(service.hasIcon('success')).toBe(true);
+    expect(service.hasIcon('command')).toBe(true);
+    expect(service.hasIcon('log-in')).toBe(true);
+    expect(service.hasIcon('log-out')).toBe(true);
+    expect(service.hasIcon('share-2')).toBe(true);
+  });
+
+  it('should have the new built-in icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of [
+      'headphones',
+      'headphones-off',
+      'timer',
+      'clock-arrow-right',
+      'truck',
+      'handshake',
+      'route',
+      'mouse-pointer-click',
+      'rss',
+    ]) {
+      expect(service.hasIcon(name)).toBe(true);
+      expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
+    }
   });
 
   it('should have brand icons registered by default', () => {
