@@ -49,6 +49,30 @@ describe('SolarisIconRegistryService', () => {
     }
   });
 
+  it('should have institutional domain icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of [
+      'id-card',
+      'badge',
+      'city',
+      'school',
+      'balance',
+      'signature',
+      'neighborhood',
+      'book-user',
+      'hash',
+      'list-ordered',
+    ]) {
+      expect(service.hasIcon(name)).toBe(true);
+      expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
+    }
+  });
+
   it('should have brand icons registered by default', () => {
     TestBed.configureTestingModule({
       providers: [provideSolarisIcons()],

@@ -20,6 +20,7 @@ import {
   DestroyRef,
   HostListener,
   TemplateRef,
+  type ComponentRef,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import {
@@ -78,6 +79,9 @@ export class SolarisPopoverTriggerDirective {
   private outsideClickCleanup: (() => void) | null = null;
   private previousActiveElement: HTMLElement | null = null;
   private panelContainerRef: HTMLElement | null = null;
+  private panelDataRef: SolarisPopoverPanelData | null = null;
+  private panelComponentRef: ComponentRef<SolarisPopoverPanelComponent> | null =
+    null;
   private fitContentSizeTimeout: ReturnType<typeof setTimeout> | null = null;
   private connectedSide: 'top' | 'bottom' = 'bottom';
 
@@ -284,6 +288,13 @@ export class SolarisPopoverTriggerDirective {
     this.positionStrategy.positionChanges.subscribe((change) => {
       this.connectedSide =
         change.connectionPair.originY === 'bottom' ? 'bottom' : 'top';
+      // Keep the panel data object in sync so the template
+      // [attr.data-connected-side] binding does not revert the
+      // flip on the next change detection cycle.
+      if (this.panelDataRef) {
+        this.panelDataRef.connectedSide = this.connectedSide;
+      }
+      this.panelComponentRef?.changeDetectorRef.markForCheck();
       if (this.panelContainerRef) {
         this.panelContainerRef.setAttribute(
           'data-connected-side',
@@ -392,6 +403,8 @@ export class SolarisPopoverTriggerDirective {
     );
 
     const componentRef = this.overlayRef.attach(portal);
+    this.panelComponentRef = componentRef;
+    this.panelDataRef = data;
     this.panelContainerRef = componentRef.location.nativeElement.querySelector(
       '.solaris-popover-panel__container',
     );
@@ -425,6 +438,8 @@ export class SolarisPopoverTriggerDirective {
     if (this.overlayRef) {
       this.overlayRef.detach();
       this.disposeOverlay();
+    } else {
+      this.clearConnectedSideAttributes();
     }
     this.removeOutsideClickHandler();
   }
@@ -435,12 +450,27 @@ export class SolarisPopoverTriggerDirective {
       this.fitContentSizeTimeout = null;
     }
     this.panelContainerRef = null;
+    this.panelDataRef = null;
+    this.panelComponentRef = null;
 
     if (this.overlayRef) {
       this.overlayRef.dispose();
       this.overlayRef = null;
     }
+    this.clearConnectedSideAttributes();
     this.removeOutsideClickHandler();
+  }
+
+  private clearConnectedSideAttributes(): void {
+    const host = this.elementRef.nativeElement;
+    if (!host) {
+      return;
+    }
+    host.removeAttribute('data-connected-side');
+    const formFieldWrapper = host.querySelector(
+      ':scope > .solaris-form-field__control-wrapper',
+    ) as HTMLElement | null;
+    formFieldWrapper?.removeAttribute('data-connected-side');
   }
 
   private addOutsideClickHandler(): void {
