@@ -1,5 +1,16 @@
 # @educarehq/solaris-ui
 
+## 0.21.0
+
+### Minor Changes
+
+- fa8689d: Add institutional domain icons to the built-in registry: `id-card`, `badge`, `city`, `school`, `balance`, `signature`, `neighborhood`, `book-user` and `hash` in the Data group, plus `list-ordered` in the Layout group.
+
+### Patch Changes
+
+- 0179b25: Require patched Angular peers and remove the test-only Vitest peer dependency.
+- fa8689d: Fix `solaris-select` and `solaris-multi-select` keeping the flat connected border after the popover closes. `data-connected-side` ownership moved to `SolarisPopoverTriggerDirective`, which now clears it on close, detach and overlay dispose, and keeps the panel data object in sync so the top/bottom flip is not reverted by change detection. The popover panel no longer renders a shadow when connected above a form field.
+
 ## 0.20.0
 
 ### Minor Changes

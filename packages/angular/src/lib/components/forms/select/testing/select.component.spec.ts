@@ -1669,18 +1669,19 @@ describe('SolarisSelectComponent', () => {
     })
     class ConnectedHost {}
 
-    it('should set and clear connected side on open and close', () => {
+    it('should toggle panel state on open and close without managing connected side', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(ConnectedHost);
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
-      const setSpy = vi.spyOn(select as any, 'setConnectedSide');
-      const clearSpy = vi.spyOn(select as any, 'clearConnectedSide');
+      // connected-side ownership moved to SolarisPopoverTriggerDirective
+      expect((select as any).setConnectedSide).toBeUndefined();
+      expect((select as any).clearConnectedSide).toBeUndefined();
       (select as any).onPanelOpened();
-      expect(setSpy).toHaveBeenCalledWith('bottom');
+      expect(select.panelOpen()).toBe(true);
       (select as any).onPanelClosed();
-      expect(clearSpy).toHaveBeenCalled();
+      expect(select.panelOpen()).toBe(false);
     });
 
     it('should find option text via native text fallback', () => {

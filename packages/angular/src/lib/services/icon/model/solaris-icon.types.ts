@@ -48,6 +48,16 @@ export type SolarisBuiltInIcon =
   | 'send'
   | 'squared-text'
   | 'star'
-  | 'star-plus';
+  | 'star-plus'
+  | 'id-card'
+  | 'badge'
+  | 'city'
+  | 'school'
+  | 'balance'
+  | 'signature'
+  | 'neighborhood'
+  | 'book-user'
+  | 'hash'
+  | 'list-ordered';
 
 export type SolarisIconName = string & { __brand?: never };
