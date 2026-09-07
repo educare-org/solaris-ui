@@ -1,9 +1,6 @@
 // SECURITY_EXCEPTION_FILE: nativeElement.focus() required to programmatically focus the select trigger. Standard DOM method used by Angular CDK.
 // SECURITY_EXCEPTION_FILE: nativeElement.focus() required as fallback when no triggerElement ref. Standard DOM method.
 // SECURITY_EXCEPTION_FILE: nativeElement.focus() required to focus search input when panel opens. Standard DOM method.
-// SECURITY_EXCEPTION_FILE: nativeElement required to access form-field DOM for connected-side sync. ElementRef SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement.querySelector required to find control-wrapper for connected-side sync.
-// SECURITY_EXCEPTION_FILE: nativeElement required to access form-field DOM for connected-side cleanup. ElementRef SSR-safe.
 // SECURITY_EXCEPTION_FILE: nativeElement access needed to read option text for search filtering. Read-only, SSR-safe.
 // SECURITY_EXCEPTION_FILE: nativeElement.textContent needed to read option text for search filtering. Read-only, SSR-safe.
 import {
@@ -48,7 +45,7 @@ import type {
   SolarisSelectDensity,
   SolarisSelectRadius,
 } from '../model/select.types';
-import type { SolarisIconName } from '../../../icon/model/icon.types';
+import type { SolarisIconName } from '../../../../services/icon';
 
 @Component({
   selector: 'solaris-select',
@@ -100,9 +97,6 @@ export class SolarisSelectComponent
 
   protected readonly triggerElement =
     viewChild<ElementRef<HTMLElement>>('triggerEl');
-
-  protected readonly formFieldElement =
-    viewChild<ElementRef<HTMLElement>>('formFieldRef');
 
   protected readonly options = contentChildren(SolarisOptionComponent, {
     descendants: true,
@@ -546,7 +540,6 @@ export class SolarisSelectComponent
     this.syncVisibility();
     this.opened.emit();
     this.openChange.emit(true);
-    this.setConnectedSide('bottom');
 
     if (this.searchable()) {
       requestAnimationFrame(() => {
@@ -562,31 +555,6 @@ export class SolarisSelectComponent
     this.closed.emit();
     this.openChange.emit(false);
     this.markAsTouched();
-    this.clearConnectedSide();
-  }
-
-  private setConnectedSide(side: 'bottom' | 'top'): void {
-    const el = this.formFieldElement()?.nativeElement;
-    if (el) {
-      const wrapper = el.querySelector<HTMLElement>(
-        '.solaris-form-field__control-wrapper',
-      );
-      if (wrapper) {
-        wrapper.setAttribute('data-connected-side', side);
-      }
-    }
-  }
-
-  private clearConnectedSide(): void {
-    const el = this.formFieldElement()?.nativeElement;
-    if (el) {
-      const wrapper = el.querySelector<HTMLElement>(
-        '.solaris-form-field__control-wrapper',
-      );
-      if (wrapper) {
-        wrapper.removeAttribute('data-connected-side');
-      }
-    }
   }
 
   protected selectOption(option: SolarisOptionComponent): void {

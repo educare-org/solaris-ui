@@ -625,6 +625,52 @@ describe('SolarisPopoverTriggerDirective', () => {
     });
   });
 
+  describe('topConnected cleanup', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
+      template: `
+        <div
+          solaris-popover-trigger
+          [solarisPopoverTriggerFor]="myPopover"
+          [solarisPopoverTopConnected]="true"
+        >
+          <div class="solaris-form-field__control-wrapper">Trigger</div>
+        </div>
+        <ng-template solaris-popover #myPopover="solarisPopover">
+          <div>Content</div>
+        </ng-template>
+      `,
+    })
+    class TopConnectedHost {}
+
+    it('should remove data-connected-side from trigger and wrapper on close', () => {
+      const fixture = TestBed.createComponent(TopConnectedHost);
+      fixture.detectChanges();
+
+      const triggerDirective = fixture.debugElement
+        .query(By.directive(SolarisPopoverTriggerDirective))
+        ?.injector.get(SolarisPopoverTriggerDirective);
+
+      triggerDirective.open();
+      fixture.detectChanges();
+
+      const triggerEl = fixture.nativeElement.querySelector(
+        '[solaris-popover-trigger]',
+      ) as HTMLElement;
+      const wrapper = triggerEl.querySelector(
+        '.solaris-form-field__control-wrapper',
+      ) as HTMLElement;
+      expect(wrapper.getAttribute('data-connected-side')).toBe('bottom');
+
+      triggerDirective.close();
+      fixture.detectChanges();
+
+      expect(triggerEl.hasAttribute('data-connected-side')).toBe(false);
+      expect(wrapper.hasAttribute('data-connected-side')).toBe(false);
+    });
+  });
+
   describe('ARIA', () => {
     @Component({
       standalone: true,
