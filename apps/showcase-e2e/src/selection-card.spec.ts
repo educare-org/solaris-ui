@@ -91,6 +91,11 @@ test.describe('Selection Card', () => {
 
     await expect(
       page.locator('solaris-selection-card[data-has-media]'),
+    ).toHaveCount(3);
+    await expect(
+      page.locator(
+        'solaris-selection-card[data-has-media][data-media-position="top"]',
+      ),
     ).toHaveCount(2);
     await expect(
       page.locator('solaris-selection-card[data-appearance="surface"]'),
