@@ -1,5 +1,16 @@
 # @educarehq/solaris-ui
 
+## 0.22.0
+
+### Minor Changes
+
+- e99c846: Card and selection-card ship with zero spacing by default and separators on by default. Migration: remove explicit `[separator]="true"` (now the default, use `[separator]="false"` to opt out) and set spacing through `size`/`density` or the `--solaris-card-*` / `--solaris-selection-card-*` tokens.
+  - `solaris-card` and `solaris-selection-card` default to `padding: 0`, `gap: 0` and zero section margins in every `size` and `density`. `size` now only affects indicator, dot and side-media dimensions.
+  - `solaris-card-header`, `solaris-card-footer`, `solaris-selection-card-header` and `solaris-selection-card-footer` now default `separator` to `true`.
+  - Selection-card separators span the full row width, including the control column, and share the same subtle color through `--solaris-selection-card-header-border-color` and the new `--solaris-selection-card-footer-border-color`. The host exposes `data-header-separator` / `data-footer-separator`.
+  - `solaris-selection-card` adds `selection="radio" | "switch"`, `selectionPosition="start" | "end"` and `mediaPosition="top" | "start"`. The radio sits in the header row at header height; the switch renders in the footer row and must not be used inside `solaris-radio-group`.
+  - `solaris-card` adds `mediaPosition="top" | "start"` (fixed side thumb, vertically centered).
+
 ## 0.21.0
 
 ### Minor Changes
