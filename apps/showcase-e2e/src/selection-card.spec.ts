@@ -55,6 +55,34 @@ test.describe('Selection Card', () => {
     ).toHaveCount(1);
   });
 
+  test('renders switch selection and end positions', async ({ page }) => {
+    await expect(
+      page.locator('solaris-selection-card[data-selection="switch"]'),
+    ).toHaveCount(2);
+    await expect(
+      page.locator('solaris-selection-card[data-selection-position="end"]'),
+    ).toHaveCount(2);
+    await expect(
+      page.locator(
+        'solaris-selection-card[data-selection="switch"] input[role="switch"]',
+      ),
+    ).toHaveCount(2);
+
+    const switchInput = page
+      .locator('solaris-selection-card[data-selection="switch"] input')
+      .first();
+    await switchInput.scrollIntoViewIfNeeded();
+    await expect(switchInput).toBeChecked();
+    await switchInput.click();
+    await expect(switchInput).not.toBeChecked();
+  });
+
+  test('renders side media cards', async ({ page }) => {
+    await expect(
+      page.locator('solaris-selection-card[data-media-position="start"]'),
+    ).toHaveCount(1);
+  });
+
   test('renders structured cards and appearances', async ({ page }) => {
     const deliveryInputs = page
       .locator('solaris-radio-group')

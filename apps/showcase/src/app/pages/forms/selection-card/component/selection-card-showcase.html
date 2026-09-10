@@ -261,13 +261,13 @@
       {{ 'selection-card.size.note' | translate }}
     </p>
     <div class="selection-card-showcase__grid">
-      <solaris-selection-card color="primary" size="sm" [checked]="true">
+      <solaris-selection-card size="sm" [checked]="true">
         <h3 class="selection-card-showcase__plan-title">sm</h3>
       </solaris-selection-card>
-      <solaris-selection-card color="primary" size="md" [checked]="true">
+      <solaris-selection-card size="md" [checked]="true">
         <h3 class="selection-card-showcase__plan-title">md</h3>
       </solaris-selection-card>
-      <solaris-selection-card color="primary" size="lg" [checked]="true">
+      <solaris-selection-card size="lg" [checked]="true">
         <h3 class="selection-card-showcase__plan-title">lg</h3>
       </solaris-selection-card>
     </div>
@@ -281,21 +281,13 @@
       {{ 'selection-card.density.note' | translate }}
     </p>
     <div class="selection-card-showcase__grid">
-      <solaris-selection-card
-        color="primary"
-        density="compact"
-        [checked]="true"
-      >
+      <solaris-selection-card density="compact" [checked]="true">
         <h3 class="selection-card-showcase__plan-title">compact</h3>
       </solaris-selection-card>
-      <solaris-selection-card color="primary" density="normal" [checked]="true">
+      <solaris-selection-card density="normal" [checked]="true">
         <h3 class="selection-card-showcase__plan-title">normal</h3>
       </solaris-selection-card>
-      <solaris-selection-card
-        color="primary"
-        density="comfortable"
-        [checked]="true"
-      >
+      <solaris-selection-card density="comfortable" [checked]="true">
         <h3 class="selection-card-showcase__plan-title">comfortable</h3>
       </solaris-selection-card>
     </div>
@@ -309,17 +301,95 @@
       {{ 'selection-card.radius.note' | translate }}
     </p>
     <div class="selection-card-showcase__grid">
-      <solaris-selection-card color="primary" radius="none" [checked]="true">
+      <solaris-selection-card radius="none" [checked]="true">
         <h3 class="selection-card-showcase__plan-title">none</h3>
       </solaris-selection-card>
-      <solaris-selection-card color="primary" radius="sm" [checked]="true">
+      <solaris-selection-card radius="sm" [checked]="true">
         <h3 class="selection-card-showcase__plan-title">sm</h3>
       </solaris-selection-card>
-      <solaris-selection-card color="primary" radius="lg" [checked]="true">
+      <solaris-selection-card radius="lg" [checked]="true">
         <h3 class="selection-card-showcase__plan-title">lg</h3>
       </solaris-selection-card>
-      <solaris-selection-card color="primary" radius="xl" [checked]="true">
+      <solaris-selection-card radius="xl" [checked]="true">
         <h3 class="selection-card-showcase__plan-title">xl</h3>
+      </solaris-selection-card>
+    </div>
+  </section>
+
+  <section class="selection-card-showcase__section">
+    <h2 class="selection-card-showcase__section-title">
+      {{ 'selection-card.selection.title' | translate }}
+    </h2>
+    <p class="selection-card-showcase__note">
+      {{ 'selection-card.selection.note' | translate }}
+    </p>
+    <div class="selection-card-showcase__grid">
+      <solaris-selection-card
+        value="radio-end"
+        selection="radio"
+        selectionPosition="end"
+        [checked]="true"
+      >
+        <div solaris-selection-card-header>
+          <h3 solaris-selection-card-title>
+            {{ 'selection-card.selection.radio-end' | translate }}
+          </h3>
+        </div>
+        <div solaris-selection-card-footer>
+          <span>{{ 'selection-card.selection.footer' | translate }}</span>
+        </div>
+      </solaris-selection-card>
+      <solaris-selection-card selection="switch" [checked]="true">
+        <div solaris-selection-card-header>
+          <h3 solaris-selection-card-title>
+            {{ 'selection-card.selection.switch' | translate }}
+          </h3>
+        </div>
+        <div solaris-selection-card-footer>
+          <span>{{ 'selection-card.selection.footer' | translate }}</span>
+        </div>
+      </solaris-selection-card>
+      <solaris-selection-card
+        selection="switch"
+        selectionPosition="end"
+        [checked]="true"
+      >
+        <div solaris-selection-card-header>
+          <h3 solaris-selection-card-title>
+            {{ 'selection-card.selection.switch-end' | translate }}
+          </h3>
+        </div>
+        <div solaris-selection-card-footer>
+          <span>{{ 'selection-card.selection.footer' | translate }}</span>
+        </div>
+      </solaris-selection-card>
+    </div>
+  </section>
+
+  <section class="selection-card-showcase__section">
+    <h2 class="selection-card-showcase__section-title">
+      {{ 'selection-card.media-start.title' | translate }}
+    </h2>
+    <p class="selection-card-showcase__note">
+      {{ 'selection-card.media-start.note' | translate }}
+    </p>
+    <div class="selection-card-showcase__grid">
+      <solaris-selection-card value="media-start" mediaPosition="start">
+        <figure solaris-selection-card-media>
+          <div
+            class="selection-card-showcase__media-placeholder"
+            role="img"
+            [attr.aria-label]="'selection-card.structure.standard-media' | translate"
+          ></div>
+        </figure>
+        <div solaris-selection-card-header>
+          <h3 solaris-selection-card-title>
+            {{ 'selection-card.structure.standard-title' | translate }}
+          </h3>
+          <p solaris-selection-card-description>
+            {{ 'selection-card.structure.standard-description' | translate }}
+          </p>
+        </div>
       </solaris-selection-card>
     </div>
   </section>
@@ -332,11 +402,7 @@
       {{ 'selection-card.states.note' | translate }}
     </p>
     <div class="selection-card-showcase__grid">
-      <solaris-selection-card
-        color="primary"
-        [checked]="true"
-        [disabled]="true"
-      >
+      <solaris-selection-card [checked]="true" [disabled]="true">
         <h3 class="selection-card-showcase__plan-title">
           {{ 'selection-card.states.disabled' | translate }}
         </h3>
@@ -346,7 +412,7 @@
       </solaris-selection-card>
 
       <solaris-radio-group [formControl]="readonlyControl" [readonly]="true">
-        <solaris-selection-card color="primary" value="basic">
+        <solaris-selection-card value="basic">
           <h3 class="selection-card-showcase__plan-title">
             {{ 'selection-card.states.readonly' | translate }}
           </h3>
@@ -356,7 +422,7 @@
         </solaris-selection-card>
       </solaris-radio-group>
 
-      <solaris-selection-card color="primary" [checked]="true" [invalid]="true">
+      <solaris-selection-card [checked]="true" [invalid]="true">
         <h3 class="selection-card-showcase__plan-title">
           {{ 'selection-card.states.invalid' | translate }}
         </h3>

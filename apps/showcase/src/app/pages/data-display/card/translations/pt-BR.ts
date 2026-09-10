@@ -74,4 +74,7 @@ export const PT_BR_CARD: Record<string, string> = {
   'card.size-md-desc': 'Padding padrão para a maioria dos casos.',
   'card.size-lg': 'lg',
   'card.size-lg-desc': 'Padding espaçoso para conteúdo em destaque.',
+  'card.media-start': 'Mídia lateral',
+  'card.media-start-desc':
+    'Thumb fixo ao lado do conteúdo, centralizado verticalmente.',
 };

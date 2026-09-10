@@ -34,13 +34,19 @@ This means:
 
 **Selector:** `solaris-card`
 
-| Input          | Type                                           | Default     | Description                      |
-| -------------- | ---------------------------------------------- | ----------- | -------------------------------- |
-| `appearance`   | `'surface' \| 'outline' \| 'tonal' \| 'glass'` | `'surface'` | Visual appearance                |
-| `radius`       | `'none' \| 'sm' \| 'lg' \| 'xl'`               | `'lg'`      | Border radius                    |
-| `size`         | `'sm' \| 'md' \| 'lg'`                         | `'md'`      | Internal section gap and padding |
-| `density`      | `'compact' \| 'normal' \| 'comfortable'`       | inherited   | Density variant                  |
-| `glassTexture` | `'none' \| 'grooves'`                          | `'none'`    | Decorative texture (glass only)  |
+| Input           | Type                                           | Default     | Description                      |
+| --------------- | ---------------------------------------------- | ----------- | -------------------------------- |
+| `appearance`    | `'surface' \| 'outline' \| 'tonal' \| 'glass'` | `'surface'` | Visual appearance                |
+| `radius`        | `'none' \| 'sm' \| 'lg' \| 'xl'`               | `'lg'`      | Border radius                    |
+| `size`          | `'sm' \| 'md' \| 'lg'`                         | `'md'`      | Internal section gap and padding |
+| `density`       | `'compact' \| 'normal' \| 'comfortable'`       | inherited   | Density variant                  |
+| `glassTexture`  | `'none' \| 'grooves'`                          | `'none'`    | Decorative texture (glass only)  |
+| `mediaPosition` | `'top' \| 'start'`                             | `'top'`     | Media layout: full-width or side |
+
+> Card v2 ships with zero spacing by default (`padding`, `gap` and section
+> margins are `0`). `size` and `density` are the opt-in sources of spacing:
+> choose `size="sm"`/`"lg"` or a density when the design needs breathing room,
+> or override the `--solaris-card-*` tokens directly.
 
 ## Wrappers
 
@@ -54,11 +60,17 @@ All wrappers are optional and project free content.
 | SolarisCardFooter  | `solaris-card-footer`  | Metadata, dates, metrics      |
 | SolarisCardActions | `solaris-card-actions` | Future action area            |
 
+### SolarisCardHeader
+
+| Input       | Type    | Default | Description                       |
+| ----------- | ------- | ------- | --------------------------------- |
+| `separator` | boolean | `true`  | Shows a border-bottom when `true` |
+
 ### SolarisCardFooter
 
 | Input       | Type    | Default | Description                    |
 | ----------- | ------- | ------- | ------------------------------ |
-| `separator` | boolean | `false` | Shows a border-top when `true` |
+| `separator` | boolean | `true`  | Shows a border-top when `true` |
 
 ## Directives
 
@@ -129,13 +141,34 @@ Default: `md`
 
 When not provided, Card inherits density from the theme system.
 
-## Footer Separator
+## Header and Footer Separators
 
-When `separator="true"` is set on `<solaris-card-footer>`, a border-top is rendered. This is a purely visual separator and must not be the only way to convey semantic grouping.
+Header (`separator="true"`, default) renders a border-bottom; footer
+(`separator="true"`, default) renders a border-top. Both are purely visual
+separators and must not be the only way to convey semantic grouping. Set
+`[separator]="false"` to remove either line.
 
 ## Media
 
-`<solaris-card-media>` projects content (typically an image) and handles overflow control. It does not:
+`<solaris-card-media>` projects content (typically an image) and handles overflow control.
+
+| `mediaPosition` | Layout                                                            |
+| --------------- | ----------------------------------------------------------------- |
+| `top`           | Full-width media before the body (default).                       |
+| `start`         | Fixed-size thumb at the side of the content, vertically centered. |
+
+```html
+<solaris-card mediaPosition="start">
+  <figure solaris-card-media>
+    <img src="icon.png" alt="Module icon" />
+  </figure>
+  <div solaris-card-content>
+    <h3 solaris-card-title>Analytics</h3>
+  </div>
+</solaris-card>
+```
+
+It does not:
 
 - set aspect ratio;
 - perform lazy loading;
@@ -215,21 +248,23 @@ Card works well with other Solaris components:
 
 ## CSS Custom Properties
 
-| Token                                | Purpose                       |
-| ------------------------------------ | ----------------------------- |
-| `--solaris-card-background`          | Background color              |
-| `--solaris-card-color`               | Text color                    |
-| `--solaris-card-border-color`        | Border color                  |
-| `--solaris-card-border-width`        | Border width                  |
-| `--solaris-card-radius`              | Border radius                 |
-| `--solaris-card-padding`             | Inner padding                 |
-| `--solaris-card-gap`                 | Gap between sections          |
-| `--solaris-card-shadow`              | Box shadow                    |
-| `--solaris-card-glass-background`    | Glass background (glass only) |
-| `--solaris-card-glass-border-color`  | Glass border color            |
-| `--solaris-card-glass-blur`          | Glass backdrop blur amount    |
-| `--solaris-card-footer-border-color` | Footer separator border color |
-| `--solaris-card-header-gap`          | Gap inside header             |
+| Token                                | Purpose                              |
+| ------------------------------------ | ------------------------------------ |
+| `--solaris-card-background`          | Background color                     |
+| `--solaris-card-color`               | Text color                           |
+| `--solaris-card-border-color`        | Border color                         |
+| `--solaris-card-border-width`        | Border width                         |
+| `--solaris-card-radius`              | Border radius                        |
+| `--solaris-card-padding`             | Inner padding                        |
+| `--solaris-card-gap`                 | Gap between sections                 |
+| `--solaris-card-shadow`              | Box shadow                           |
+| `--solaris-card-glass-background`    | Glass background (glass only)        |
+| `--solaris-card-glass-border-color`  | Glass border color                   |
+| `--solaris-card-glass-blur`          | Glass backdrop blur amount           |
+| `--solaris-card-footer-border-color` | Footer separator border color        |
+| `--solaris-card-header-border-color` | Header separator border color        |
+| `--solaris-card-header-gap`          | Gap inside header                    |
+| `--solaris-card-media-size`          | Side-media thumb size (`start` mode) |
 
 ## Limitations (v1)
 

@@ -34,3 +34,31 @@ export const Disabled: Story = {
     disabled: true,
   },
 };
+
+export const RadioEnd: Story = {
+  args: {
+    selection: 'radio',
+    selectionPosition: 'end',
+    checked: true,
+  },
+};
+
+export const Switch: Story = {
+  args: {
+    selection: 'switch',
+    checked: true,
+  },
+};
+
+export const SwitchEnd: Story = {
+  args: {
+    selection: 'switch',
+    selectionPosition: 'end',
+  },
+};
+
+export const MediaStart: Story = {
+  args: {
+    mediaPosition: 'start',
+  },
+};

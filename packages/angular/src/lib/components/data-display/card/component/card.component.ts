@@ -10,6 +10,7 @@ import { SolarisThemeService } from '../../../../services/theme';
 
 import type {
   SolarisCardAppearance,
+  SolarisCardMediaPosition,
   SolarisCardRadius,
   SolarisCardSize,
   SolarisCardDensity,
@@ -27,6 +28,7 @@ import type {
     '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-media-position]': 'mediaPosition()',
     '[attr.data-glass-texture]':
       'appearance() === "glass" && glassTexture() !== "none" ? glassTexture() : null',
   },
@@ -37,6 +39,7 @@ export class SolarisCardComponent {
   readonly size = input<SolarisCardSize>('md');
   readonly density = input<SolarisCardDensity>();
   readonly glassTexture = input<SolarisCardGlassTexture>('none');
+  readonly mediaPosition = input<SolarisCardMediaPosition>('top');
 
   protected readonly themeService = inject(SolarisThemeService);
 

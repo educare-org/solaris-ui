@@ -179,6 +179,18 @@ describe('SolarisCardComponent', () => {
     const el = createFixture();
     expect(el.hasAttribute('data-glass-texture')).toBe(false);
   });
+
+  it('should have default mediaPosition as top', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-media-position')).toBe('top');
+  });
+
+  it('should apply mediaPosition start', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('mediaPosition', 'start');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-media-position')).toBe('start');
+  });
 });
 
 describe('SolarisCardComponent with content projection', () => {

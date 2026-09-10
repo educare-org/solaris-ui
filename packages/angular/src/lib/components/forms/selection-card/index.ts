@@ -12,4 +12,7 @@ export type {
   SolarisSelectionCardDensity,
   SolarisSelectionCardRadius,
   SolarisSelectionCardSize,
+  SolarisSelectionCardSelection,
+  SolarisSelectionCardSelectionPosition,
+  SolarisSelectionCardMediaPosition,
 } from './model/selection-card.types';

@@ -24,13 +24,18 @@ import {
   SOLARIS_RADIO_OPTION,
   type SolarisRadioOption,
 } from '../../radio/model/radio-option.contract';
+import { SolarisSelectionCardFooterDirective } from '../directives/selection-card-footer.directive';
+import { SolarisSelectionCardHeaderDirective } from '../directives/selection-card-header.directive';
 import { SolarisSelectionCardMediaDirective } from '../directives/selection-card-media.directive';
 
 import type {
   SolarisSelectionCardAppearance,
   SolarisSelectionCardColor,
   SolarisSelectionCardDensity,
+  SolarisSelectionCardMediaPosition,
   SolarisSelectionCardRadius,
+  SolarisSelectionCardSelection,
+  SolarisSelectionCardSelectionPosition,
   SolarisSelectionCardSize,
 } from '../model/selection-card.types';
 
@@ -62,12 +67,18 @@ import type {
     '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-selection]': 'selection()',
+    '[attr.data-selection-position]': 'selectionPosition()',
+    '[attr.data-media-position]': 'mediaPosition()',
     '[attr.data-checked]': '_checked() ? "" : null',
     '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
     '[attr.data-readonly]': 'isEffectivelyReadonly() ? "" : null',
     '[attr.data-invalid]': 'isEffectivelyInvalid() ? "" : null',
     '[attr.data-focused]': '_focused() ? "" : null',
     '[attr.data-has-media]': 'hasMedia() ? "" : null',
+    '[attr.data-has-footer]': 'hasFooter() ? "" : null',
+    '[attr.data-header-separator]': 'hasHeaderSeparator() ? "" : null',
+    '[attr.data-footer-separator]': 'hasFooterSeparator() ? "" : null',
   },
 })
 export class SolarisSelectionCardComponent
@@ -81,6 +92,8 @@ export class SolarisSelectionCardComponent
   private readonly inputElementRef =
     viewChild<ElementRef<HTMLInputElement>>('inputElement');
   private readonly media = contentChild(SolarisSelectionCardMediaDirective);
+  private readonly header = contentChild(SolarisSelectionCardHeaderDirective);
+  private readonly footer = contentChild(SolarisSelectionCardFooterDirective);
 
   protected readonly _checked = signal(false);
   protected readonly _focused = signal(false);
@@ -116,6 +129,10 @@ export class SolarisSelectionCardComponent
   readonly size = input<SolarisSelectionCardSize>('md');
   readonly radius = input<SolarisSelectionCardRadius>('lg');
   readonly density = input<SolarisSelectionCardDensity>();
+  readonly selection = input<SolarisSelectionCardSelection>('radio');
+  readonly selectionPosition =
+    input<SolarisSelectionCardSelectionPosition>('start');
+  readonly mediaPosition = input<SolarisSelectionCardMediaPosition>('top');
   readonly name = input<string>();
   readonly value = input<unknown>();
   readonly ariaLabel = input<string>();
@@ -131,6 +148,20 @@ export class SolarisSelectionCardComponent
   );
 
   protected readonly hasMedia = computed(() => this.media() !== undefined);
+
+  protected readonly hasFooter = computed(() => this.footer() !== undefined);
+
+  protected readonly hasHeaderSeparator = computed(
+    () => this.header()?.separator() ?? false,
+  );
+
+  protected readonly hasFooterSeparator = computed(
+    () => this.footer()?.separator() ?? false,
+  );
+
+  protected readonly isSwitchSelection = computed(
+    () => this.selection() === 'switch',
+  );
 
   protected readonly isEffectivelyDisabled = computed(
     () => this.disabledInput() || this.cvaDisabled(),
@@ -151,7 +182,7 @@ export class SolarisSelectionCardComponent
   protected readonly contentId = computed(() => `${this.elementId()}-content`);
 
   protected readonly effectiveName = computed(
-    () => this.name() ?? this.groupName,
+    () => this.name() ?? (this.isSwitchSelection() ? null : this.groupName),
   );
 
   protected readonly ariaDescribedBy = computed(() => {

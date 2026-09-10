@@ -3,3 +3,4 @@ export type SolarisCardRadius = 'none' | 'sm' | 'lg' | 'xl';
 export type SolarisCardSize = 'sm' | 'md' | 'lg';
 export type SolarisCardDensity = 'compact' | 'normal' | 'comfortable';
 export type SolarisCardGlassTexture = 'none' | 'grooves';
+export type SolarisCardMediaPosition = 'top' | 'start';
