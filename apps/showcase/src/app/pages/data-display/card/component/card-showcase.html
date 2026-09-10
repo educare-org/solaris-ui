@@ -88,8 +88,36 @@
           </solaris-badge>
         </div>
 
-        <div solaris-card-footer>
+        <div solaris-card-footer [separator]="false">
           <span>{{ 'card.updated' | translate }}</span>
+        </div>
+      </solaris-card>
+    </div>
+  </section>
+
+  <section class="card-showcase__section">
+    <h2 class="card-showcase__section-title">
+      {{ 'card.media-start' | translate }}
+    </h2>
+    <p class="card-showcase__section-desc">
+      {{ 'card.media-start-desc' | translate }}
+    </p>
+
+    <div class="card-showcase__demo">
+      <solaris-card mediaPosition="start">
+        <figure solaris-card-media>
+          <div
+            class="card-showcase__media-placeholder"
+            role="img"
+            [attr.aria-label]="'card.media-preview' | translate"
+          ></div>
+        </figure>
+
+        <div solaris-card-content>
+          <h3 solaris-card-title>{{ 'card.media-title' | translate }}</h3>
+          <p solaris-card-description>
+            {{ 'card.media-desc-text' | translate }}
+          </p>
         </div>
       </solaris-card>
     </div>
@@ -116,7 +144,7 @@
           </solaris-badge>
         </div>
 
-        <div solaris-card-footer>
+        <div solaris-card-footer [separator]="false">
           <span>{{ 'card.comments' | translate }}</span>
           <span>{{ 'card.tomorrow' | translate }}</span>
         </div>
@@ -321,7 +349,7 @@
           <p>{{ 'card.footer-no-separator' | translate }}</p>
         </div>
 
-        <div solaris-card-footer>
+        <div solaris-card-footer [separator]="false">
           <span>{{ 'card.footer' | translate }}</span>
         </div>
       </solaris-card>
@@ -378,7 +406,7 @@
           <solaris-skeleton width="60%"></solaris-skeleton>
         </div>
 
-        <div solaris-card-footer>
+        <div solaris-card-footer [separator]="false">
           <solaris-skeleton width="40%"></solaris-skeleton>
         </div>
       </solaris-card>

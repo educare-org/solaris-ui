@@ -25,7 +25,7 @@ describe('SolarisSelectionCardComponent', () => {
 
   const getNativeInput = (): HTMLInputElement => {
     return fixture.nativeElement.querySelector(
-      'input[type="radio"]',
+      'input.solaris-selection-card__input',
     ) as HTMLInputElement;
   };
 
@@ -43,6 +43,9 @@ describe('SolarisSelectionCardComponent', () => {
     expect(element.getAttribute('data-density')).toBe('normal');
     expect(element.getAttribute('data-appearance')).toBe('surface');
     expect(element.getAttribute('data-color')).toBe('neutral');
+    expect(element.getAttribute('data-selection')).toBe('radio');
+    expect(element.getAttribute('data-selection-position')).toBe('start');
+    expect(element.getAttribute('data-media-position')).toBe('top');
     expect(element.hasAttribute('data-checked')).toBe(false);
   });
 
@@ -150,6 +153,242 @@ describe('SolarisSelectionCardComponent', () => {
     ) as HTMLElement;
 
     expect(input.getAttribute('aria-labelledby')).toBe(content.id);
+  });
+
+  it('should render a switch input with role switch when selection is switch', () => {
+    createFixture();
+    fixture.componentRef.setInput('selection', 'switch');
+    fixture.detectChanges();
+
+    const input = getNativeInput();
+    expect(input.type).toBe('checkbox');
+    expect(input.getAttribute('role')).toBe('switch');
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.getAttribute('data-selection')).toBe('switch');
+    expect(
+      element.querySelector('.solaris-selection-card__switch'),
+    ).toBeTruthy();
+  });
+
+  it('should render the switch inside the footer, not the body', () => {
+    createFixture();
+    fixture.componentRef.setInput('selection', 'switch');
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+    const footer = element.querySelector(
+      '.solaris-selection-card__footer',
+    ) as HTMLElement;
+    expect(footer).toBeTruthy();
+    expect(
+      footer.querySelector('.solaris-selection-card__switch'),
+    ).toBeTruthy();
+    expect(
+      element
+        .querySelector('.solaris-selection-card__body')
+        ?.querySelector('.solaris-selection-card__switch'),
+    ).toBeFalsy();
+  });
+
+  it('should place the switch at the end of the footer when selectionPosition is end', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisSelectionCardComponent,
+        SolarisSelectionCardFooterDirective,
+      ],
+      template: `
+        <solaris-selection-card selection="switch" selectionPosition="end">
+          <div solaris-selection-card-footer>Footer</div>
+        </solaris-selection-card>
+      `,
+    })
+    class SwitchEndHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SwitchEndHost);
+    hostFixture.detectChanges();
+    const footer = hostFixture.nativeElement.querySelector(
+      '.solaris-selection-card__footer',
+    ) as HTMLElement;
+    const switchControl = footer.querySelector(
+      '.solaris-selection-card__switch',
+    ) as HTMLElement;
+    const footerContent = footer.querySelector(
+      '.solaris-selection-card-footer',
+    ) as HTMLElement;
+
+    expect(switchControl).toBeTruthy();
+    expect(
+      switchControl.compareDocumentPosition(footerContent) &
+        Node.DOCUMENT_POSITION_PRECEDING,
+    ).toBeTruthy();
+  });
+
+  it('should render the radio control before the header at header height by default', () => {
+    createFixture();
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+    const topRow = element.querySelector(
+      '.solaris-selection-card__top-row',
+    ) as HTMLElement;
+    const children = Array.from(topRow.children);
+    const controlIndex = children.findIndex((child) =>
+      child.classList.contains('solaris-selection-card__control'),
+    );
+    const headerIndex = children.findIndex((child) =>
+      child.classList.contains('solaris-selection-card__header'),
+    );
+
+    expect(controlIndex).toBeGreaterThanOrEqual(0);
+    expect(headerIndex).toBeGreaterThanOrEqual(0);
+    expect(controlIndex).toBeLessThan(headerIndex);
+  });
+
+  it('should place the control at the end when selectionPosition is end', () => {
+    createFixture();
+    fixture.componentRef.setInput('selectionPosition', 'end');
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.getAttribute('data-selection-position')).toBe('end');
+    const topRow = element.querySelector(
+      '.solaris-selection-card__top-row',
+    ) as HTMLElement;
+    const children = Array.from(topRow.children);
+    const controlIndex = children.findIndex((child) =>
+      child.classList.contains('solaris-selection-card__control'),
+    );
+    const headerIndex = children.findIndex((child) =>
+      child.classList.contains('solaris-selection-card__header'),
+    );
+
+    expect(controlIndex).toBeGreaterThanOrEqual(0);
+    expect(headerIndex).toBeGreaterThanOrEqual(0);
+    expect(controlIndex).toBeGreaterThan(headerIndex);
+  });
+
+  it('should apply mediaPosition start', () => {
+    createFixture();
+    fixture.componentRef.setInput('mediaPosition', 'start');
+    fixture.detectChanges();
+
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.getAttribute('data-media-position')).toBe('start');
+  });
+
+  it('should emit checkedChange when the switch is toggled', () => {
+    createFixture();
+    fixture.componentRef.setInput('selection', 'switch');
+    fixture.detectChanges();
+    let emitted: boolean | undefined;
+    fixture.componentRef.instance.checkedChange.subscribe((value) => {
+      emitted = value;
+    });
+
+    getNativeInput().click();
+    fixture.detectChanges();
+
+    expect(emitted).toBe(true);
+  });
+
+  it('should have header and footer separators by default', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisSelectionCardComponent,
+        SolarisSelectionCardFooterDirective,
+        SolarisSelectionCardHeaderDirective,
+      ],
+      template: `
+        <solaris-selection-card>
+          <div solaris-selection-card-header>Header</div>
+          <div solaris-selection-card-footer>Footer</div>
+        </solaris-selection-card>
+      `,
+    })
+    class SeparatorDefaultHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SeparatorDefaultHost);
+    hostFixture.detectChanges();
+    const card = hostFixture.nativeElement.querySelector(
+      'solaris-selection-card',
+    ) as HTMLElement;
+
+    expect(
+      card
+        .querySelector('.solaris-selection-card-header')
+        ?.hasAttribute('data-separator'),
+    ).toBe(true);
+    expect(
+      card
+        .querySelector('.solaris-selection-card-footer')
+        ?.hasAttribute('data-separator'),
+    ).toBe(true);
+  });
+
+  it('should render a full-width header separator and expose separator state on the host', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisSelectionCardComponent,
+        SolarisSelectionCardFooterDirective,
+        SolarisSelectionCardHeaderDirective,
+      ],
+      template: `
+        <solaris-selection-card>
+          <div solaris-selection-card-header>Header</div>
+          <div solaris-selection-card-footer>Footer</div>
+        </solaris-selection-card>
+      `,
+    })
+    class SeparatorHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SeparatorHost);
+    hostFixture.detectChanges();
+    const card = hostFixture.nativeElement.querySelector(
+      'solaris-selection-card',
+    ) as HTMLElement;
+
+    expect(card.hasAttribute('data-header-separator')).toBe(true);
+    expect(card.hasAttribute('data-footer-separator')).toBe(true);
+    expect(
+      card.querySelector('.solaris-selection-card__separator'),
+    ).toBeTruthy();
+  });
+
+  it('should not render separators when disabled on header and footer', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisSelectionCardComponent,
+        SolarisSelectionCardFooterDirective,
+        SolarisSelectionCardHeaderDirective,
+      ],
+      template: `
+        <solaris-selection-card>
+          <div solaris-selection-card-header [separator]="false">Header</div>
+          <div solaris-selection-card-footer [separator]="false">Footer</div>
+        </solaris-selection-card>
+      `,
+    })
+    class NoSeparatorHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(NoSeparatorHost);
+    hostFixture.detectChanges();
+    const card = hostFixture.nativeElement.querySelector(
+      'solaris-selection-card',
+    ) as HTMLElement;
+
+    expect(card.hasAttribute('data-header-separator')).toBe(false);
+    expect(card.hasAttribute('data-footer-separator')).toBe(false);
+    expect(
+      card.querySelector('.solaris-selection-card__separator'),
+    ).toBeFalsy();
   });
 
   it('should support media, sections, and a separator footer', () => {

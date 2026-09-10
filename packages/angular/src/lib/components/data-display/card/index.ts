@@ -11,4 +11,7 @@ export type {
   SolarisCardAppearance,
   SolarisCardRadius,
   SolarisCardDensity,
+  SolarisCardSize,
+  SolarisCardGlassTexture,
+  SolarisCardMediaPosition,
 } from './model/card.types';

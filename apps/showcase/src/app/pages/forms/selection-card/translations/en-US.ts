@@ -77,4 +77,14 @@ export const EN_US_SELECTION_CARD: Record<string, string> = {
   'selection-card.states.invalid': 'Invalid',
   'selection-card.states.invalid-description':
     'Use when the current selection is invalid.',
+  'selection-card.selection.title': 'Selection modes',
+  'selection-card.selection.note':
+    'Radio sits at header height; switch renders in the footer. Position moves the control start or end.',
+  'selection-card.selection.radio-end': 'Radio at the end',
+  'selection-card.selection.switch': 'Switch selection',
+  'selection-card.selection.switch-end': 'Switch at the end',
+  'selection-card.selection.footer': 'Footer with separator',
+  'selection-card.media-start.title': 'Side media',
+  'selection-card.media-start.note':
+    'Side media renders a fixed thumb at the side of the content, vertically centered.',
 };

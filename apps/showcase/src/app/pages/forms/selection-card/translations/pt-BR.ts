@@ -76,4 +76,14 @@ export const PT_BR_SELECTION_CARD: Record<string, string> = {
   'selection-card.states.invalid': 'Inválido',
   'selection-card.states.invalid-description':
     'Use quando a seleção atual for inválida.',
+  'selection-card.selection.title': 'Modos de seleção',
+  'selection-card.selection.note':
+    'O radio fica na altura do header; o switch rende no footer. A posição move o controle para o início ou fim.',
+  'selection-card.selection.radio-end': 'Radio no fim',
+  'selection-card.selection.switch': 'Seleção com switch',
+  'selection-card.selection.switch-end': 'Switch no fim',
+  'selection-card.selection.footer': 'Rodapé com separador',
+  'selection-card.media-start.title': 'Mídia lateral',
+  'selection-card.media-start.note':
+    'A mídia lateral rende um thumb fixo ao lado do conteúdo, centralizado verticalmente.',
 };

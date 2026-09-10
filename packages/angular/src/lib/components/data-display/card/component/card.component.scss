@@ -3,18 +3,20 @@
   --solaris-card-glass-blur: initial;
   --solaris-card-glass-background: initial;
   --solaris-card-glass-border-color: initial;
-  --solaris-card-gap: var(--solaris-spacing-5);
+  --solaris-card-gap: var(--solaris-spacing-0);
   --solaris-card-glass-texture-opacity: initial;
   --solaris-card-radius: var(--solaris-radius-lg);
-  --solaris-card-padding: var(--solaris-spacing-6);
+  --solaris-card-padding: var(--solaris-spacing-0);
   --solaris-card-color: var(--solaris-text-default);
-  --solaris-card-header-gap: var(--solaris-spacing-1);
+  --solaris-card-header-gap: var(--solaris-spacing-0);
   --solaris-card-section-gap: var(--solaris-card-gap);
   --solaris-card-background: var(--solaris-surface-base);
   --solaris-card-border-color: var(--solaris-border-subtle);
   --solaris-card-border-width: var(--solaris-border-width-sm);
   --solaris-card-section-padding: var(--solaris-card-padding);
   --solaris-card-footer-border-color: var(--solaris-border-subtle);
+  --solaris-card-header-border-color: var(--solaris-border-subtle);
+  --solaris-card-media-size: var(--solaris-spacing-12);
 
   gap: 0;
   padding: 0;
@@ -31,13 +33,11 @@
 }
 
 :host([data-size='sm']) {
-  --solaris-card-section-gap: var(--solaris-spacing-4);
-  --solaris-card-section-padding: var(--solaris-spacing-4);
+  --solaris-card-media-size: var(--solaris-spacing-10);
 }
 
 :host([data-size='lg']) {
-  --solaris-card-section-gap: var(--solaris-spacing-6);
-  --solaris-card-section-padding: var(--solaris-spacing-8);
+  --solaris-card-media-size: var(--solaris-spacing-16);
 }
 
 :host([data-appearance='surface']) {
@@ -113,16 +113,6 @@
   );
 }
 
-:host([data-density='compact']) {
-  --solaris-card-gap: var(--solaris-density-gap-lg);
-  --solaris-card-padding: var(--solaris-density-padding-xl);
-}
-
-:host([data-density='comfortable']) {
-  --solaris-card-gap: var(--solaris-density-gap-lg);
-  --solaris-card-padding: var(--solaris-density-padding-xl);
-}
-
 :host([data-radius='none']) {
   --solaris-card-radius: var(--solaris-radius-none);
 }
@@ -170,12 +160,18 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--solaris-spacing-2);
-  padding-block: var(--solaris-spacing-1) var(--solaris-card-section-padding);
+  gap: var(--solaris-spacing-0);
+  padding-block: var(--solaris-spacing-0) var(--solaris-card-section-padding);
 }
 
 :host ::ng-deep .solaris-card-footer:only-child {
   padding-block-start: var(--solaris-card-section-padding);
+}
+
+:host ::ng-deep .solaris-card-header[data-separator] {
+  padding-block-end: var(--solaris-card-section-gap);
+  border-bottom: var(--solaris-border-width-sm) solid
+    var(--solaris-card-header-border-color);
 }
 
 :host ::ng-deep .solaris-card-footer[data-separator] {
@@ -209,7 +205,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--solaris-spacing-2);
+  gap: var(--solaris-spacing-0);
 }
 
 :host ::ng-deep .solaris-card-title {
@@ -217,8 +213,7 @@
   font-size: var(--solaris-font-size-lg);
   line-height: var(--solaris-line-height-sm);
   font-weight: var(--solaris-font-weight-semibold);
-  margin: var(--solaris-spacing-0) var(--solaris-spacing-0)
-    var(--solaris-spacing-2);
+  margin: var(--solaris-spacing-0);
 }
 
 :host ::ng-deep .solaris-card-description {
@@ -233,5 +228,36 @@
 }
 
 :host ::ng-deep * + .solaris-card-description {
-  margin-top: var(--solaris-spacing-1);
+  margin-top: var(--solaris-spacing-0);
+}
+
+:host([data-media-position='start']) {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: stretch;
+}
+
+:host([data-media-position='start']) ::ng-deep .solaris-card-media {
+  grid-row: 1 / -1;
+  grid-column: 1;
+  align-self: center;
+  width: var(--solaris-card-media-size);
+  height: var(--solaris-card-media-size);
+  border-radius: var(--solaris-radius-md);
+}
+
+:host([data-media-position='start']) ::ng-deep .solaris-card-media img,
+:host([data-media-position='start']) ::ng-deep .solaris-card-media video,
+:host([data-media-position='start']) ::ng-deep .solaris-card-media picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+:host([data-media-position='start']) ::ng-deep .solaris-card-header,
+:host([data-media-position='start']) ::ng-deep .solaris-card-content,
+:host([data-media-position='start']) ::ng-deep .solaris-card-footer,
+:host([data-media-position='start']) ::ng-deep .solaris-card-actions {
+  grid-column: 2;
+  min-width: 0;
 }

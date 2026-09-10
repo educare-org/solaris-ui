@@ -1,6 +1,7 @@
 <input
   #inputElement
-  type="radio"
+  [type]="isSwitchSelection() ? 'checkbox' : 'radio'"
+  [attr.role]="isSwitchSelection() ? 'switch' : null"
   class="solaris-selection-card__input"
   [id]="elementId()"
   [disabled]="isEffectivelyDisabled()"
@@ -18,16 +19,46 @@
 <div class="solaris-selection-card__surface">
   <ng-content select="[solaris-selection-card-media]" />
   <div class="solaris-selection-card__body">
-    <span class="solaris-selection-card__control" aria-hidden="true">
-      @if (_checked()) {
-        <span class="solaris-selection-card__dot"></span>
+    <div class="solaris-selection-card__top-row">
+      @if (!isSwitchSelection() && selectionPosition() === 'start') {
+        <span class="solaris-selection-card__control" aria-hidden="true">
+          @if (_checked()) {
+            <span class="solaris-selection-card__dot"></span>
+          }
+        </span>
       }
-    </span>
+      <div class="solaris-selection-card__header">
+        <ng-content select="[solaris-selection-card-header]" />
+      </div>
+      @if (!isSwitchSelection() && selectionPosition() === 'end') {
+        <span class="solaris-selection-card__control" aria-hidden="true">
+          @if (_checked()) {
+            <span class="solaris-selection-card__dot"></span>
+          }
+        </span>
+      }
+    </div>
+    @if (hasHeaderSeparator()) {
+      <div class="solaris-selection-card__separator" aria-hidden="true"></div>
+    }
     <div class="solaris-selection-card__content" [id]="contentId()">
-      <ng-content select="[solaris-selection-card-header]" />
       <ng-content select="[solaris-selection-card-content]" />
       <ng-content />
-      <ng-content select="[solaris-selection-card-footer]" />
     </div>
   </div>
+  @if (isSwitchSelection() || hasFooter()) {
+    <div class="solaris-selection-card__footer">
+      @if (isSwitchSelection() && selectionPosition() === 'start') {
+        <span class="solaris-selection-card__switch" aria-hidden="true">
+          <span class="solaris-selection-card__switch-thumb"></span>
+        </span>
+      }
+      <ng-content select="[solaris-selection-card-footer]" />
+      @if (isSwitchSelection() && selectionPosition() === 'end') {
+        <span class="solaris-selection-card__switch" aria-hidden="true">
+          <span class="solaris-selection-card__switch-thumb"></span>
+        </span>
+      }
+    </div>
+  }
 </div>

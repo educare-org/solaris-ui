@@ -73,4 +73,7 @@ export const EN_US_CARD: Record<string, string> = {
   'card.size-md-desc': 'Default padding for most use cases.',
   'card.size-lg': 'lg',
   'card.size-lg-desc': 'Spacious padding for featured content.',
+  'card.media-start': 'Side Media',
+  'card.media-start-desc':
+    'Fixed thumb at the side of the content, vertically centered.',
 };
