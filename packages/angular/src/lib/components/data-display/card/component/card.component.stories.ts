@@ -18,3 +18,9 @@ export default meta;
 type Story = StoryObj<SolarisCardComponent>;
 
 export const Basic: Story = {};
+
+export const MediaStart: Story = {
+  args: {
+    mediaPosition: 'start',
+  },
+};

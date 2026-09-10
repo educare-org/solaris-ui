@@ -1,4 +1,4 @@
-import { Directive, input } from '@angular/core';
+import { Directive, booleanAttribute, input } from '@angular/core';
 
 @Directive({
   selector: '[solaris-selection-card-footer]',
@@ -9,5 +9,7 @@ import { Directive, input } from '@angular/core';
   },
 })
 export class SolarisSelectionCardFooterDirective {
-  readonly separator = input<boolean>(false);
+  readonly separator = input<boolean, unknown>(true, {
+    transform: booleanAttribute,
+  });
 }

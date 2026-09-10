@@ -18,6 +18,14 @@ class DefaultHostComponent {}
 })
 class SeparatorHostComponent {}
 
+@Component({
+  standalone: true,
+  imports: [SolarisCardFooterDirective],
+  template:
+    '<div solaris-card-footer [separator]="false"><span>Footer</span></div>',
+})
+class NoSeparatorHostComponent {}
+
 describe('SolarisCardFooterDirective', () => {
   it('should project content', () => {
     TestBed.configureTestingModule({});
@@ -27,12 +35,12 @@ describe('SolarisCardFooterDirective', () => {
     expect(el.textContent).toContain('Footer');
   });
 
-  it('should not have data-separator by default', () => {
+  it('should have data-separator by default', () => {
     TestBed.configureTestingModule({});
     const fixture = TestBed.createComponent(DefaultHostComponent);
     fixture.detectChanges();
     const el = fixture.nativeElement.querySelector('[solaris-card-footer]');
-    expect(el.hasAttribute('data-separator')).toBe(false);
+    expect(el.hasAttribute('data-separator')).toBe(true);
   });
 
   it('should have data-separator when separator is true', () => {
@@ -41,5 +49,13 @@ describe('SolarisCardFooterDirective', () => {
     fixture.detectChanges();
     const el = fixture.nativeElement.querySelector('[solaris-card-footer]');
     expect(el.hasAttribute('data-separator')).toBe(true);
+  });
+
+  it('should not have data-separator when separator is false', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(NoSeparatorHostComponent);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-card-footer]');
+    expect(el.hasAttribute('data-separator')).toBe(false);
   });
 });
