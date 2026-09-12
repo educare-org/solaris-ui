@@ -1,5 +1,11 @@
 # @educarehq/solaris-ui
 
+## 0.23.0
+
+### Minor Changes
+
+- b0d9d79: Add commerce and utility icons to the built-in registry: `shopping-cart`, `shopping-basket`, `shopping-bag`, `wallet` and `globe-off` in the Data group, plus `square-stack` in the Layout group.
+
 ## 0.22.0
 
 ### Minor Changes
