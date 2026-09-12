@@ -144,6 +144,11 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'neighborhood',
       'book-user',
       'hash',
+      'shopping-cart',
+      'shopping-basket',
+      'shopping-bag',
+      'wallet',
+      'globe-off',
     ],
   },
   {
@@ -156,6 +161,7 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'expand',
       'panel-right',
       'list-ordered',
+      'square-stack',
     ],
   },
   {

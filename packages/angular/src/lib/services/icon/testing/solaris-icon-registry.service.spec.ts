@@ -73,6 +73,26 @@ describe('SolarisIconRegistryService', () => {
     }
   });
 
+  it('should have commerce icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of [
+      'shopping-cart',
+      'shopping-basket',
+      'shopping-bag',
+      'wallet',
+      'square-stack',
+      'globe-off',
+    ]) {
+      expect(service.hasIcon(name)).toBe(true);
+      expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
+    }
+  });
+
   it('should have brand icons registered by default', () => {
     TestBed.configureTestingModule({
       providers: [provideSolarisIcons()],
