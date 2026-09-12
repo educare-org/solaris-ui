@@ -510,4 +510,112 @@ export const DATA_ICONS: SolarisIconDefinition[] = [
       { type: 'line', x1: 16, y1: 3, x2: 14, y2: 21 },
     ],
   },
+  {
+    name: 'shopping-cart',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'm2.05 2.05 1.099-.028a1 1 0 0 1 1.008.815l2.69 14.347A1 1 0 0 0 7.83 18H18',
+      },
+      {
+        type: 'path',
+        d: 'M4.563 5h16.435a1 1 0 0 1 .981 1.204l-1.026 6.226A2 2 0 0 1 18.962 14H6.25',
+      },
+      { type: 'circle', cx: 18, cy: 20, r: 2 },
+      { type: 'circle', cx: 8, cy: 20, r: 2 },
+    ],
+  },
+  {
+    name: 'shopping-basket',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      { type: 'path', d: 'm15 11-1 9' },
+      { type: 'path', d: 'm19 11-4-7' },
+      { type: 'path', d: 'M2 11h20' },
+      {
+        type: 'path',
+        d: 'm3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.7-7.4',
+      },
+      { type: 'path', d: 'M4.5 15.5h15' },
+      { type: 'path', d: 'm5 11 4-7' },
+      { type: 'path', d: 'm9 11 1 9' },
+    ],
+  },
+  {
+    name: 'shopping-bag',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      { type: 'path', d: 'M16 10a4 4 0 0 1-8 0' },
+      { type: 'path', d: 'M3.103 6.034h17.794' },
+      {
+        type: 'path',
+        d: 'M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z',
+      },
+    ],
+  },
+  {
+    name: 'wallet',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1',
+      },
+      {
+        type: 'path',
+        d: 'M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4',
+      },
+    ],
+  },
+  {
+    name: 'globe-off',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      {
+        type: 'path',
+        d: 'M10.114 4.462A14.5 14.5 0 0 1 12 2a10 10 0 0 1 9.313 13.643',
+      },
+      {
+        type: 'path',
+        d: 'M15.557 15.556A14.5 14.5 0 0 1 12 22 10 10 0 0 1 4.929 4.929',
+      },
+      {
+        type: 'path',
+        d: 'M15.892 10.234A14.5 14.5 0 0 0 12 2a10 10 0 0 0-3.643.687',
+      },
+      { type: 'path', d: 'M17.656 12H22' },
+      {
+        type: 'path',
+        d: 'M19.071 19.071A10 10 0 0 1 12 22 14.5 14.5 0 0 1 8.44 8.45',
+      },
+      { type: 'path', d: 'M2 12h10' },
+      { type: 'path', d: 'm2 2 20 20' },
+    ],
+  },
 ];
