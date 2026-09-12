@@ -58,6 +58,12 @@ export type SolarisBuiltInIcon =
   | 'neighborhood'
   | 'book-user'
   | 'hash'
-  | 'list-ordered';
+  | 'list-ordered'
+  | 'shopping-cart'
+  | 'shopping-basket'
+  | 'shopping-bag'
+  | 'wallet'
+  | 'square-stack'
+  | 'globe-off';
 
 export type SolarisIconName = string & { __brand?: never };
