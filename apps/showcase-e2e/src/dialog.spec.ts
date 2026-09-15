@@ -65,4 +65,35 @@ test.describe('Dialog', () => {
     await expect(dialog.header()).toHaveAttribute('data-variant', 'danger');
     await dialog.closeViaEscape();
   });
+
+  test('closes via container close button', async () => {
+    await dialog.open('Open basic dialog');
+    await expect(dialog.closeButton()).toBeVisible();
+    await dialog.closeButton().click();
+    await dialog.assertNotVisible();
+  });
+
+  test('moves initial focus to the first action', async () => {
+    await dialog.open('Open basic dialog');
+    await expect(
+      dialog.panel().getByRole('button', { name: 'Cancel' }),
+    ).toBeFocused();
+    await dialog.closeViaEscape();
+  });
+
+  test('anchors dialog to bottom-left placement', async () => {
+    await dialog.open('Placement bottom-left');
+    await expect(dialog.container()).toHaveAttribute(
+      'data-placement',
+      'bottom-left',
+    );
+    await dialog.closeViaEscape();
+  });
+
+  test('renders dialog without separators when disabled', async () => {
+    await dialog.open('No separators');
+    await expect(dialog.header()).not.toHaveAttribute('data-separator', '');
+    await expect(dialog.actions()).not.toHaveAttribute('data-separator', '');
+    await dialog.closeViaEscape();
+  });
 });

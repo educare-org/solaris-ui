@@ -1,12 +1,32 @@
 :host {
   display: block;
-  padding: var(--solaris-spacing-3) var(--solaris-spacing-4);
+  padding: var(--solaris-spacing-0);
+
+  --solaris-dialog-actions-border-color: var(--solaris-border-default);
+}
+
+:host([data-separator]) {
+  border-top: var(--solaris-border-width-sm) solid
+    var(--solaris-dialog-actions-border-color);
 }
 
 .solaris-dialog-actions__inner {
   display: flex;
   flex-wrap: wrap;
+  gap: var(--solaris-spacing-3);
+  padding: var(--solaris-spacing-3);
+}
+
+:host([data-density='compact']) .solaris-dialog-actions__inner {
+  gap: var(--solaris-spacing-1);
+}
+
+:host([data-density='normal']) .solaris-dialog-actions__inner {
   gap: var(--solaris-spacing-2);
+}
+
+:host([data-density='comfortable']) .solaris-dialog-actions__inner {
+  gap: var(--solaris-spacing-3);
 }
 
 :host([data-align='start']) .solaris-dialog-actions__inner {

@@ -2,28 +2,77 @@
   --solaris-dialog-panel-padding: 0;
   --solaris-dialog-panel-min-width: 448px;
   --solaris-dialog-backdrop-bg: var(--solaris-backdrop);
+  --solaris-dialog-panel-bg: var(--solaris-surface-base);
   --solaris-dialog-z-index: var(--solaris-z-index-modal);
   --solaris-dialog-panel-shadow: var(--solaris-shadow-lg);
   --solaris-dialog-panel-radius: var(--solaris-radius-lg);
   --solaris-dialog-panel-border: var(--solaris-border-default);
-  --solaris-dialog-panel-bg: var(
-    --solaris-surface-raised,
-    var(--solaris-surface-base)
-  );
-  --solaris-dialog-panel-max-height: calc(100dvh - var(--solaris-spacing-8));
   --solaris-dialog-panel-max-width: calc(100vw - var(--solaris-spacing-8));
+  --solaris-dialog-panel-max-height: calc(100dvh - var(--solaris-spacing-8));
 
   inset: 0;
   display: flex;
-  overflow: hidden;
   position: fixed;
+  overflow: hidden;
   align-items: center;
   justify-content: center;
   z-index: var(--solaris-dialog-z-index);
 }
 
+:host([data-placement='top']) {
+  align-items: flex-start;
+}
+
 :host([data-placement='bottom']) {
   align-items: flex-end;
+}
+
+:host([data-placement='left']) {
+  justify-content: flex-start;
+}
+
+:host([data-placement='right']) {
+  justify-content: flex-end;
+}
+
+:host([data-placement='top-left']) {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+:host([data-placement='top-right']) {
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+:host([data-placement='bottom-left']) {
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+:host([data-placement='bottom-right']) {
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+:host([data-radius='none']) {
+  --solaris-dialog-panel-radius: var(--solaris-radius-none);
+}
+
+:host([data-radius='sm']) {
+  --solaris-dialog-panel-radius: var(--solaris-radius-sm);
+}
+
+:host([data-radius='md']) {
+  --solaris-dialog-panel-radius: var(--solaris-radius-md);
+}
+
+:host([data-radius='lg']) {
+  --solaris-dialog-panel-radius: var(--solaris-radius-lg);
+}
+
+:host([data-radius='full']) {
+  --solaris-dialog-panel-radius: var(--solaris-radius-full);
 }
 
 :host([data-backdrop='false']) {
@@ -41,8 +90,51 @@
   background: var(--solaris-dialog-backdrop-bg);
 }
 
+:host([data-placement='top']) .solaris-dialog-backdrop {
+  align-items: flex-start;
+  padding-top: var(--solaris-spacing-4);
+}
+
 :host([data-placement='bottom']) .solaris-dialog-backdrop {
   align-items: flex-end;
+  padding-bottom: var(--solaris-spacing-4);
+}
+
+:host([data-placement='left']) .solaris-dialog-backdrop {
+  justify-content: flex-start;
+  padding-left: var(--solaris-spacing-4);
+}
+
+:host([data-placement='right']) .solaris-dialog-backdrop {
+  justify-content: flex-end;
+  padding-right: var(--solaris-spacing-4);
+}
+
+:host([data-placement='top-left']) .solaris-dialog-backdrop {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: var(--solaris-spacing-4);
+  padding-left: var(--solaris-spacing-4);
+}
+
+:host([data-placement='top-right']) .solaris-dialog-backdrop {
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding-top: var(--solaris-spacing-4);
+  padding-right: var(--solaris-spacing-4);
+}
+
+:host([data-placement='bottom-left']) .solaris-dialog-backdrop {
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding-left: var(--solaris-spacing-4);
+  padding-bottom: var(--solaris-spacing-4);
+}
+
+:host([data-placement='bottom-right']) .solaris-dialog-backdrop {
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding-right: var(--solaris-spacing-4);
   padding-bottom: var(--solaris-spacing-4);
 }
 
@@ -61,12 +153,35 @@
   flex-direction: column;
   box-sizing: border-box;
   background: var(--solaris-dialog-panel-bg);
-  animation: solaris-dialog-enter 0.2s var(--solaris-motion-easing-decelerate);
   box-shadow: var(--solaris-dialog-panel-shadow);
   max-width: var(--solaris-dialog-panel-max-width);
   min-width: var(--solaris-dialog-panel-min-width);
   border-radius: var(--solaris-dialog-panel-radius);
   max-height: var(--solaris-dialog-panel-max-height);
+  animation: solaris-dialog-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate);
+}
+
+.solaris-dialog-container__close {
+  border: none;
+  display: flex;
+  cursor: pointer;
+  background: none;
+  aspect-ratio: 1/1;
+  position: absolute;
+  align-items: center;
+  top: var(--solaris-spacing-3);
+  right: var(--solaris-spacing-3);
+  width: var(--solaris-spacing-4);
+  height: var(--solaris-spacing-4);
+  color: var(--solaris-text-muted);
+  font-size: var(--solaris-font-size-lg);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate);
+}
+
+.solaris-dialog-container__close:hover {
+  color: var(--solaris-text-strong);
 }
 
 :host([data-appearance='outline']) .solaris-dialog-panel {
@@ -74,23 +189,7 @@
     var(--solaris-dialog-panel-border);
 }
 
-:host([data-size='sm']) .solaris-dialog-panel {
-  width: 896px;
-}
-
-:host([data-size='md']) .solaris-dialog-panel {
-  width: 1152px;
-}
-
-:host([data-size='lg']) .solaris-dialog-panel {
-  width: 1536px;
-}
-
-:host([data-size='xl']) .solaris-dialog-panel {
-  width: 2048px;
-}
-
-:host([data-size='fullscreen']) .solaris-dialog-panel {
+:host([data-fullscreen]) .solaris-dialog-panel {
   width: 100vw;
   height: 100dvh;
   max-width: 100vw;

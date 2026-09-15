@@ -4,6 +4,7 @@ import {
   SolarisDialogService,
   SolarisTranslatePipe,
   SolarisTranslateService,
+  type SolarisDialogPlacement,
 } from '@solaris-ui/angular';
 
 @Component({
@@ -183,83 +184,15 @@ export class DialogShowcaseComponent {
     });
   }
 
-  openSizeSm(): void {
-    this.dialogService.open({
-      title: this.translateService.translate('dialog.examples.size-sm.title'),
-      description: this.translateService.translate(
-        'dialog.examples.size-sm.desc',
-      ),
-      size: 'sm',
-      actions: [
-        {
-          label: this.translateService.translate('dialog.common.ok'),
-          color: 'primary',
-          close: true,
-        },
-      ],
-    });
-  }
-
-  openSizeMd(): void {
-    this.dialogService.open({
-      title: this.translateService.translate('dialog.examples.size-md.title'),
-      description: this.translateService.translate(
-        'dialog.examples.size-md.desc',
-      ),
-      size: 'md',
-      actions: [
-        {
-          label: this.translateService.translate('dialog.common.ok'),
-          color: 'primary',
-          close: true,
-        },
-      ],
-    });
-  }
-
-  openSizeLg(): void {
-    this.dialogService.open({
-      title: this.translateService.translate('dialog.examples.size-lg.title'),
-      description: this.translateService.translate(
-        'dialog.examples.size-lg.desc',
-      ),
-      size: 'lg',
-      actions: [
-        {
-          label: this.translateService.translate('dialog.common.ok'),
-          color: 'primary',
-          close: true,
-        },
-      ],
-    });
-  }
-
-  openSizeXl(): void {
-    this.dialogService.open({
-      title: this.translateService.translate('dialog.examples.size-xl.title'),
-      description: this.translateService.translate(
-        'dialog.examples.size-xl.desc',
-      ),
-      size: 'xl',
-      actions: [
-        {
-          label: this.translateService.translate('dialog.common.ok'),
-          color: 'primary',
-          close: true,
-        },
-      ],
-    });
-  }
-
-  openSizeFullscreen(): void {
+  openFullscreen(): void {
     this.dialogService.open({
       title: this.translateService.translate(
-        'dialog.examples.size-fullscreen.title',
+        'dialog.examples.fullscreen.title',
       ),
       description: this.translateService.translate(
-        'dialog.examples.size-fullscreen.desc',
+        'dialog.examples.fullscreen.desc',
       ),
-      size: 'fullscreen',
+      fullscreen: true,
       actions: [
         {
           label: this.translateService.translate('dialog.common.close'),
@@ -400,6 +333,70 @@ export class DialogShowcaseComponent {
         {
           label: this.translateService.translate('dialog.common.close'),
           color: 'primary',
+          close: true,
+        },
+      ],
+    });
+  }
+
+  openPlacement(placement: SolarisDialogPlacement): void {
+    this.dialogService.open({
+      title: this.translateService.translate('dialog.examples.placement.title'),
+      description: this.translateService.translate(
+        'dialog.examples.placement.desc',
+      ),
+      placement,
+      actions: [
+        {
+          label: this.translateService.translate('dialog.common.close'),
+          color: 'primary',
+          close: true,
+        },
+      ],
+    });
+  }
+
+  openNoSeparators(): void {
+    this.dialogService.open({
+      title: this.translateService.translate(
+        'dialog.examples.no-separators.title',
+      ),
+      description: this.translateService.translate(
+        'dialog.examples.no-separators.desc',
+      ),
+      headerSeparator: false,
+      footerSeparator: false,
+      actions: [
+        {
+          label: this.translateService.translate('dialog.common.ok'),
+          color: 'primary',
+          close: true,
+        },
+      ],
+    });
+  }
+
+  openActionsCustom(): void {
+    this.dialogService.open({
+      title: this.translateService.translate(
+        'dialog.examples.actions-custom.title',
+      ),
+      description: this.translateService.translate(
+        'dialog.examples.actions-custom.desc',
+      ),
+      density: 'comfortable',
+      actionsShape: 'wide',
+      actionsRadius: 'full',
+      actions: [
+        {
+          label: this.translateService.translate('dialog.common.cancel'),
+          appearance: 'ghost',
+          close: true,
+        },
+        {
+          label: this.translateService.translate('dialog.common.confirm'),
+          color: 'primary',
+          icon: 'check',
           close: true,
         },
       ],

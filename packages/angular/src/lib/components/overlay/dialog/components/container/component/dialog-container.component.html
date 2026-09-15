@@ -5,10 +5,14 @@
   (keydown.escape)="onBackdropClick($event)"
 >
   <div
+    #dialogPanel
+    tabindex="-1"
     cdkTrapFocus
-    cdkTrapFocusAutoCapture
-    [attr.aria-modal]="hasBackdrop ? 'true' : 'false'"
+    [cdkTrapFocusAutoCapture]="false"
     [attr.role]="dialogRole"
+    [attr.aria-label]="panelAriaLabel"
+    [attr.aria-labelledby]="panelAriaLabelledBy"
+    [attr.aria-describedby]="panelAriaDescribedBy"
     [style.width]="panelWidth"
     class="solaris-dialog-panel"
     [style.height]="panelHeight"
@@ -16,18 +20,23 @@
     [style.max-width]="panelMaxWidth"
     [style.min-height]="panelMinHeight"
     [style.max-height]="panelMaxHeight"
+    [attr.aria-modal]="hasBackdrop ? 'true' : 'false'"
   >
     @if (isSimpleMode) {
       <solaris-dialog [options]="simpleOptions()!" />
     } @else {
-      @if (closeable) {
-        <solaris-dialog-header
-          [closeable]="true"
-          [closeLabel]="closeLabel"
-          [closeLabelKey]="closeLabelKey"
-        />
-      }
       <ng-template #componentHost></ng-template>
+    }
+    @if (closeable) {
+      <button
+        type="button"
+        data-dialog-close
+        (click)="closeDialog()"
+        [attr.aria-label]="resolvedCloseLabel"
+        class="solaris-dialog-container__close"
+      >
+        <solaris-icon name="x" [decorative]="true" />
+      </button>
     }
   </div>
 </div>

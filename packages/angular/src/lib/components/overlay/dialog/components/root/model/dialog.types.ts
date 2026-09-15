@@ -7,9 +7,16 @@ export type SolarisDialogVariant =
   | 'warning'
   | 'danger';
 
-export type SolarisDialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'fullscreen';
-
-export type SolarisDialogPlacement = 'center' | 'bottom';
+export type SolarisDialogPlacement =
+  | 'center'
+  | 'top'
+  | 'bottom'
+  | 'left'
+  | 'right'
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right';
 
 export type SolarisDialogActionsAlign =
   | 'start'
@@ -39,11 +46,29 @@ export type SolarisDialogButtonColor =
   | 'info'
   | 'custom';
 
+export type SolarisDialogButtonShape = 'normal' | 'wide';
+
+export type SolarisDialogButtonDensity = 'compact' | 'normal' | 'comfortable';
+
+export type SolarisDialogButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
+
+export type SolarisDialogButtonIconPosition = 'start' | 'end';
+
+export type SolarisDialogRadius = SolarisDialogButtonRadius;
+
+export type SolarisDialogDensity = SolarisDialogButtonDensity;
+
 export interface SolarisDialogAction<TResult = unknown> {
   label: string;
   labelKey?: string;
   appearance?: SolarisDialogButtonAppearance;
   color?: SolarisDialogButtonColor;
+  shape?: SolarisDialogButtonShape;
+  density?: SolarisDialogButtonDensity;
+  radius?: SolarisDialogButtonRadius;
+  icon?: string;
+  iconPosition?: SolarisDialogButtonIconPosition;
+  loading?: boolean;
   disabled?: boolean;
   close?: boolean;
   result?: TResult;
@@ -62,7 +87,7 @@ export interface SolarisDialogOptions<TResult = unknown> {
   iconDecorative?: boolean;
   variant?: SolarisDialogVariant;
   appearance?: SolarisDialogAppearance;
-  size?: SolarisDialogSize;
+  fullscreen?: boolean;
   placement?: SolarisDialogPlacement;
   width?: string;
   height?: string;
@@ -83,6 +108,13 @@ export interface SolarisDialogOptions<TResult = unknown> {
   ariaLabelKey?: string;
   ariaLabelledBy?: string;
   ariaDescribedBy?: string;
+  headerSeparator?: boolean;
+  footerSeparator?: boolean;
+  radius?: SolarisDialogRadius;
+  density?: SolarisDialogDensity;
+  actionsShape?: SolarisDialogButtonShape;
+  actionsDensity?: SolarisDialogButtonDensity;
+  actionsRadius?: SolarisDialogButtonRadius;
   actions?: SolarisDialogAction<TResult>[];
   actionsAlign?: SolarisDialogActionsAlign;
   actionsStack?: SolarisDialogActionsStack;
@@ -107,13 +139,17 @@ export interface SolarisDialogComponentConfig<TData = unknown> {
   restoreFocus?: boolean;
   role?: SolarisDialogRole;
   appearance?: SolarisDialogAppearance;
-  size?: SolarisDialogSize;
+  fullscreen?: boolean;
   placement?: SolarisDialogPlacement;
+  headerSeparator?: boolean;
+  footerSeparator?: boolean;
+  radius?: SolarisDialogRadius;
+  density?: SolarisDialogDensity;
 }
 
 export interface SolarisDialogConfig {
   appearance?: SolarisDialogAppearance;
-  size?: SolarisDialogSize;
+  fullscreen?: boolean;
   placement?: SolarisDialogPlacement;
   closeable?: boolean;
   backdrop?: boolean;
@@ -122,6 +158,13 @@ export interface SolarisDialogConfig {
   autoFocus?: SolarisDialogAutoFocus;
   restoreFocus?: boolean;
   role?: SolarisDialogRole;
+  headerSeparator?: boolean;
+  footerSeparator?: boolean;
+  radius?: SolarisDialogRadius;
+  density?: SolarisDialogDensity;
+  actionsShape?: SolarisDialogButtonShape;
+  actionsDensity?: SolarisDialogButtonDensity;
+  actionsRadius?: SolarisDialogButtonRadius;
   actionsAlign?: SolarisDialogActionsAlign;
   actionsStack?: SolarisDialogActionsStack;
 }

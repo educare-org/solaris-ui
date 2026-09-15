@@ -17,17 +17,30 @@ export const PT_BR_DIALOG: Record<string, string> = {
   'dialog.align-end': 'Alinhar fim',
   'dialog.align-space-between': 'Espaço entre',
 
-  'dialog.sizes': 'Tamanhos',
-  'dialog.sizes-desc': 'Dialog suporta tamanhos sm, md, lg, xl e fullscreen.',
+  'dialog.fullscreen': 'Tela cheia',
+  'dialog.fullscreen-desc':
+    'O painel se adapta ao conteúdo por padrão. Use tela cheia para fluxos imersivos.',
+  'dialog.open-fullscreen': 'Abrir dialog em tela cheia',
 
   'dialog.appearance': 'Aparência',
   'dialog.appearance-desc':
-    'Surface (padrão) tem sombra. Outline tem fundo surface com borda visível.',
+    'Outline (padrão) tem fundo surface com borda visível. Surface não tem borda e tem sombra.',
   'dialog.surface': 'Superfície',
   'dialog.outline': 'Contorno',
 
   'dialog.variants': 'Variantes',
   'dialog.variants-desc': 'Variantes afetam o ícone e a cor de destaque.',
+
+  'dialog.layout': 'Layout',
+  'dialog.layout-desc':
+    'Posicionamento, separadores, densidade e estilo dos botões de ação.',
+  'dialog.placement-top': 'Posição topo',
+  'dialog.placement-left': 'Posição esquerda',
+  'dialog.placement-right': 'Posição direita',
+  'dialog.placement-bottom': 'Posição base',
+  'dialog.placement-bottom-left': 'Posição base-esquerda',
+  'dialog.no-separators': 'Sem separadores',
+  'dialog.actions-custom': 'Ações customizadas',
 
   'dialog.component': 'Dialog por componente',
   'dialog.component-desc':
@@ -60,12 +73,6 @@ export const PT_BR_DIALOG: Record<string, string> = {
   'dialog.common.previous': 'Anterior',
   'dialog.common.next': 'Próximo',
   'dialog.common.finish': 'Finalizar',
-
-  'dialog.size-sm': 'sm',
-  'dialog.size-md': 'md',
-  'dialog.size-lg': 'lg',
-  'dialog.size-xl': 'xl',
-  'dialog.size-fullscreen': 'fullscreen',
 
   'dialog.variant-neutral': 'neutro',
   'dialog.variant-info': 'informativo',
@@ -100,17 +107,8 @@ export const PT_BR_DIALOG: Record<string, string> = {
   'dialog.examples.actions-space-between.desc':
     'As ações são distribuídas com espaço entre elas.',
 
-  'dialog.examples.size-sm.title': 'Dialog pequeno',
-  'dialog.examples.size-sm.desc': 'Tamanho pequeno para confirmações rápidas.',
-  'dialog.examples.size-md.title': 'Dialog médio',
-  'dialog.examples.size-md.desc': 'Tamanho médio é o padrão.',
-  'dialog.examples.size-lg.title': 'Dialog grande',
-  'dialog.examples.size-lg.desc':
-    'Tamanho grande para formulários e conteúdo complexo.',
-  'dialog.examples.size-xl.title': 'Dialog extra grande',
-  'dialog.examples.size-xl.desc': 'Tamanho XL para conteúdo amplo.',
-  'dialog.examples.size-fullscreen.title': 'Dialog tela cheia',
-  'dialog.examples.size-fullscreen.desc':
+  'dialog.examples.fullscreen.title': 'Dialog tela cheia',
+  'dialog.examples.fullscreen.desc':
     'Dialog em tela cheia preenche toda a viewport.',
 
   'dialog.examples.appearance-surface.title': 'Aparência surface',
@@ -122,6 +120,18 @@ export const PT_BR_DIALOG: Record<string, string> = {
 
   'dialog.examples.variant.title': 'Variante {{variant}}',
   'dialog.examples.variant.desc': 'Este dialog usa a variante {{variant}}.',
+
+  'dialog.examples.placement.title': 'Dialog posicionado',
+  'dialog.examples.placement.desc':
+    'Este dialog está ancorado na posição selecionada.',
+
+  'dialog.examples.no-separators.title': 'Dialog sem separadores',
+  'dialog.examples.no-separators.desc':
+    'Separadores de cabeçalho e rodapé desabilitados.',
+
+  'dialog.examples.actions-custom.title': 'Dialog com ações customizadas',
+  'dialog.examples.actions-custom.desc':
+    'Botões wide com raio total e densidade confortável.',
 
   'dialog.examples.not-closeable.title': 'Não fechável',
   'dialog.examples.not-closeable.desc':

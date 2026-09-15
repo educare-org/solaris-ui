@@ -59,16 +59,35 @@ describe('SolarisDialogComponent', () => {
     expect(descEl!.textContent?.trim()).toBe('Test Description');
   });
 
-  it('should show close button by default', () => {
+  it('should set data-separator on header by default', () => {
     const fixture = createFixture({ title: 'Test' });
-    const closeBtn = q(fixture, '.solaris-dialog-header__close');
-    expect(closeBtn).toBeTruthy();
+    const headerEl = q(fixture, 'solaris-dialog-header');
+    expect(headerEl?.getAttribute('data-separator')).toBe('');
   });
 
-  it('should hide close button when closeable is false', () => {
-    const fixture = createFixture({ title: 'Test', closeable: false });
-    const closeBtn = q(fixture, '.solaris-dialog-header__close');
-    expect(closeBtn).toBeFalsy();
+  it('should remove data-separator from header when headerSeparator is false', () => {
+    const fixture = createFixture({ title: 'Test', headerSeparator: false });
+    const headerEl = q(fixture, 'solaris-dialog-header');
+    expect(headerEl?.getAttribute('data-separator')).toBeNull();
+  });
+
+  it('should set data-separator on actions by default', () => {
+    const fixture = createFixture({
+      title: 'Test',
+      actions: [{ label: 'Ok', close: true }],
+    });
+    const actionsEl = q(fixture, 'solaris-dialog-actions');
+    expect(actionsEl?.getAttribute('data-separator')).toBe('');
+  });
+
+  it('should remove data-separator from actions when footerSeparator is false', () => {
+    const fixture = createFixture({
+      title: 'Test',
+      actions: [{ label: 'Ok', close: true }],
+      footerSeparator: false,
+    });
+    const actionsEl = q(fixture, 'solaris-dialog-actions');
+    expect(actionsEl?.getAttribute('data-separator')).toBeNull();
   });
 
   it('should render actions with solaris-button directive', () => {
@@ -96,5 +115,44 @@ describe('SolarisDialogComponent', () => {
     const fixture = createFixture({ title: 'Test', actions: [] });
     const actionsEl = q(fixture, 'solaris-dialog-actions');
     expect(actionsEl).toBeFalsy();
+  });
+
+  it('should resolve titleKey and descriptionKey via translations', () => {
+    configureSolarisTesting(
+      {
+        translate: {
+          translations: {
+            'en-US': {
+              'dlg.title': 'Translated Title',
+              'dlg.desc': 'Translated Description',
+            },
+          },
+        },
+      },
+      {
+        imports: [TestHostComponent],
+        providers: [
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+          {
+            provide: SOLARIS_DIALOG_REF,
+            useValue: new SolarisDialogRef<string>('test-id'),
+          },
+        ],
+      },
+    );
+
+    const host = TestBed.createComponent(TestHostComponent);
+    host.componentInstance.options = {
+      titleKey: 'dlg.title',
+      descriptionKey: 'dlg.desc',
+    };
+    host.detectChanges();
+
+    expect(q(host, '.solaris-dialog-header__title')?.textContent?.trim()).toBe(
+      'Translated Title',
+    );
+    expect(
+      q(host, '.solaris-dialog-header__description')?.textContent?.trim(),
+    ).toBe('Translated Description');
   });
 });

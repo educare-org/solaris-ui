@@ -17,17 +17,30 @@ export const EN_US_DIALOG: Record<string, string> = {
   'dialog.align-end': 'Align end',
   'dialog.align-space-between': 'Space between',
 
-  'dialog.sizes': 'Sizes',
-  'dialog.sizes-desc': 'Dialog supports sm, md, lg, xl, and fullscreen sizes.',
+  'dialog.fullscreen': 'Fullscreen',
+  'dialog.fullscreen-desc':
+    'The panel adapts to its content by default. Use fullscreen for immersive flows.',
+  'dialog.open-fullscreen': 'Open fullscreen dialog',
 
   'dialog.appearance': 'Appearance',
   'dialog.appearance-desc':
-    'Surface (default) has shadow. Outline has surface background with visible border.',
+    'Outline (default) has surface background with visible border. Surface is borderless with shadow.',
   'dialog.surface': 'Surface',
   'dialog.outline': 'Outline',
 
   'dialog.variants': 'Variants',
   'dialog.variants-desc': 'Variants affect icon and accent color.',
+
+  'dialog.layout': 'Layout',
+  'dialog.layout-desc':
+    'Placement, separators, density, and action button style.',
+  'dialog.placement-top': 'Placement top',
+  'dialog.placement-left': 'Placement left',
+  'dialog.placement-right': 'Placement right',
+  'dialog.placement-bottom': 'Placement bottom',
+  'dialog.placement-bottom-left': 'Placement bottom-left',
+  'dialog.no-separators': 'No separators',
+  'dialog.actions-custom': 'Custom actions',
 
   'dialog.component': 'Component dialog',
   'dialog.component-desc':
@@ -61,12 +74,6 @@ export const EN_US_DIALOG: Record<string, string> = {
   'dialog.common.next': 'Next',
   'dialog.common.finish': 'Finish',
 
-  'dialog.size-sm': 'sm',
-  'dialog.size-md': 'md',
-  'dialog.size-lg': 'lg',
-  'dialog.size-xl': 'xl',
-  'dialog.size-fullscreen': 'fullscreen',
-
   'dialog.variant-neutral': 'neutral',
   'dialog.variant-info': 'info',
   'dialog.variant-success': 'success',
@@ -99,16 +106,8 @@ export const EN_US_DIALOG: Record<string, string> = {
   'dialog.examples.actions-space-between.desc':
     'Actions are distributed with space between.',
 
-  'dialog.examples.size-sm.title': 'Small dialog',
-  'dialog.examples.size-sm.desc': 'Small size for quick confirmations.',
-  'dialog.examples.size-md.title': 'Medium dialog',
-  'dialog.examples.size-md.desc': 'Medium size is the default.',
-  'dialog.examples.size-lg.title': 'Large dialog',
-  'dialog.examples.size-lg.desc': 'Large size for forms and complex content.',
-  'dialog.examples.size-xl.title': 'Extra large dialog',
-  'dialog.examples.size-xl.desc': 'XL size for ample content.',
-  'dialog.examples.size-fullscreen.title': 'Fullscreen dialog',
-  'dialog.examples.size-fullscreen.desc':
+  'dialog.examples.fullscreen.title': 'Fullscreen dialog',
+  'dialog.examples.fullscreen.desc':
     'Fullscreen dialog fills the entire viewport.',
 
   'dialog.examples.appearance-surface.title': 'Surface appearance',
@@ -120,6 +119,18 @@ export const EN_US_DIALOG: Record<string, string> = {
 
   'dialog.examples.variant.title': '{{variant}} variant',
   'dialog.examples.variant.desc': 'This dialog uses the {{variant}} variant.',
+
+  'dialog.examples.placement.title': 'Placed dialog',
+  'dialog.examples.placement.desc':
+    'This dialog is anchored to the selected placement.',
+
+  'dialog.examples.no-separators.title': 'Dialog without separators',
+  'dialog.examples.no-separators.desc':
+    'Header and footer separators are disabled.',
+
+  'dialog.examples.actions-custom.title': 'Dialog with custom actions',
+  'dialog.examples.actions-custom.desc':
+    'Wide full-radius buttons with comfortable density.',
 
   'dialog.examples.not-closeable.title': 'Not closeable',
   'dialog.examples.not-closeable.desc':

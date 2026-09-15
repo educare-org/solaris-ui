@@ -40,7 +40,7 @@ export class IconsPageObject {
   }
 
   usageStandardCloseButton(): Locator {
-    return this.page.locator('.solaris-dialog-header__close');
+    return this.page.locator('[data-dialog-close]');
   }
 
   copyButtonIcon(): Locator {

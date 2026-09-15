@@ -178,4 +178,68 @@ describe('SolarisDialogActionsComponent', () => {
     const hostEl = fixture.nativeElement as HTMLElement;
     expect(hostEl.getAttribute('data-stack')).toBe('auto');
   });
+
+  it('should set data-separator by default', () => {
+    const fixture = createFixture([{ label: 'Test' }]);
+    const hostEl = fixture.nativeElement as HTMLElement;
+    expect(hostEl.getAttribute('data-separator')).toBe('');
+  });
+
+  it('should remove data-separator when separator is false', () => {
+    configureSolarisTesting();
+    TestBed.configureTestingModule({
+      providers: [
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+        { provide: SOLARIS_DIALOG_REF, useValue: createDialogRef() },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(SolarisDialogActionsComponent);
+    fixture.componentRef.setInput('actions', [{ label: 'Test' }]);
+    fixture.componentRef.setInput('separator', false);
+    fixture.detectChanges();
+
+    const hostEl = fixture.nativeElement as HTMLElement;
+    expect(hostEl.getAttribute('data-separator')).toBeNull();
+  });
+
+  it('should resolve action labelKey via translations', () => {
+    configureSolarisTesting({
+      translate: {
+        translations: { 'en-US': { 'dlg.ok': 'OK translated' } },
+      },
+    });
+    TestBed.configureTestingModule({
+      providers: [{ provide: SOLARIS_DIALOG_REF, useValue: createDialogRef() }],
+    });
+
+    const fixture = TestBed.createComponent(SolarisDialogActionsComponent);
+    fixture.componentRef.setInput('actions', [
+      { label: 'Ok', labelKey: 'dlg.ok' },
+    ]);
+    fixture.detectChanges();
+
+    const button = (fixture.nativeElement as HTMLElement).querySelector(
+      '[solaris-button]',
+    )!;
+    expect(button.textContent?.trim()).toBe('OK translated');
+  });
+
+  it('should forward shape, radius, icon and loading to solaris-button', () => {
+    const fixture = createFixture([
+      {
+        label: 'Confirm',
+        shape: 'wide',
+        radius: 'full',
+        icon: 'check',
+        loading: true,
+      },
+    ]);
+    const button = (fixture.nativeElement as HTMLElement).querySelector(
+      '[solaris-button]',
+    )!;
+    expect(button.getAttribute('data-shape')).toBe('wide');
+    expect(button.getAttribute('data-radius')).toBe('full');
+    expect(button.getAttribute('data-loading')).toBe('');
+  });
 });

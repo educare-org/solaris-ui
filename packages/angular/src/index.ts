@@ -402,12 +402,19 @@ export {
 
 export type { SolarisDialogAppearance } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogVariant } from './lib/components/overlay/dialog/components/root/model/dialog.types';
-export type { SolarisDialogSize } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogPlacement } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogActionsAlign } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogActionsStack } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogAutoFocus } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogRole } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogButtonAppearance } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogButtonColor } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogButtonShape } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogButtonDensity } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogButtonRadius } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogButtonIconPosition } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogRadius } from './lib/components/overlay/dialog/components/root/model/dialog.types';
+export type { SolarisDialogDensity } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogAction } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogOptions } from './lib/components/overlay/dialog/components/root/model/dialog.types';
 export type { SolarisDialogComponentConfig } from './lib/components/overlay/dialog/components/root/model/dialog.types';
