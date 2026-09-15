@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: Injected DOCUMENT token is the Angular SSR-safe abstraction for document access; used to capture activeElement on open and restore focus on close. No alternative exists.
 import {
   Injectable,
   inject,
