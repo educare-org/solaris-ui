@@ -2,13 +2,16 @@ import {
   Component,
   input,
   inject,
+  booleanAttribute,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
+import type { SolarisDialogVariant } from '../../root/model/dialog.types';
 import { SOLARIS_DIALOG_REF } from '../../../token/dialog-data.token';
-import { SolarisDialogRef } from '../../../service/dialog-ref';
+import type { SolarisDialogRef } from '../../../service/dialog-ref';
 import { SolarisIconComponent } from '../../../../../icon';
-import { SolarisTranslateService } from '../../../../../../services/translation';
+
+let nextDialogHeaderId = 0;
 
 @Component({
   selector: 'solaris-dialog-header',
@@ -20,35 +23,30 @@ import { SolarisTranslateService } from '../../../../../../services/translation'
   host: {
     class: 'solaris-dialog-header',
     '[attr.data-variant]': 'variant()',
+    '[attr.data-separator]': "separator() ? '' : null",
   },
 })
 export class SolarisDialogHeaderComponent {
-  private readonly dialogRef = inject(SOLARIS_DIALOG_REF) as SolarisDialogRef;
-  private readonly translateService = inject(SolarisTranslateService, {
+  private readonly dialogRef = inject(SOLARIS_DIALOG_REF, {
     optional: true,
-  });
+  }) as SolarisDialogRef | null;
 
   readonly icon = input<string>();
   readonly title = input<string>();
   readonly description = input<string>();
-  readonly closeable = input<boolean>(true);
-  readonly closeLabel = input<string>('Close');
-  readonly closeLabelKey = input<string>();
   readonly iconDecorative = input<boolean>(false);
-  readonly size = input<string>('md');
-  readonly variant = input<string>('neutral');
+  readonly variant = input<SolarisDialogVariant>('neutral');
+  readonly separator = input<boolean, unknown>(true, {
+    transform: booleanAttribute,
+  });
 
-  protected readonly showCloseButton = () => this.closeable();
+  private readonly idPrefix =
+    this.dialogRef?.id ?? `solaris-dialog-${++nextDialogHeaderId}`;
+
+  protected readonly titleId = `${this.idPrefix}-title`;
+  protected readonly descriptionId = `${this.idPrefix}-description`;
+
   protected readonly hasTitle = () => !!this.title();
   protected readonly hasDescription = () => !!this.description();
   protected readonly hasIcon = () => !!this.icon();
-  protected readonly resolvedCloseLabel = () =>
-    this.closeLabelKey()
-      ? (this.translateService?.translate(this.closeLabelKey()!) ??
-        this.closeLabel())
-      : this.closeLabel();
-
-  protected close(): void {
-    this.dialogRef.close();
-  }
 }

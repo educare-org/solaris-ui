@@ -19,6 +19,14 @@ export class DialogPageObject {
     return this.page.locator('solaris-dialog-actions');
   }
 
+  container(): Locator {
+    return this.page.locator('.solaris-dialog-container');
+  }
+
+  closeButton(): Locator {
+    return this.panel().locator('[data-dialog-close]');
+  }
+
   async open(buttonName: string): Promise<void> {
     await this.page.getByRole('button', { name: buttonName }).click();
     await this.panel().waitFor({ state: 'visible' });

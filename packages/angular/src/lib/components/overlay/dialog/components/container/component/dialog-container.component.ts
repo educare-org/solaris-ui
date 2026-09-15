@@ -1,8 +1,11 @@
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular API to read the panel element for focus management (panel.focus() and [data-autofocus] lookup). No alternative exists.
 import {
   Component,
   input,
   effect,
   viewChild,
+  AfterViewInit,
+  ElementRef,
   ViewContainerRef,
   inject,
   HostListener,
@@ -21,30 +24,43 @@ import {
 import type {
   SolarisDialogOptions,
   SolarisDialogComponentConfig,
+  SolarisDialogAutoFocus,
 } from '../../root/model/dialog.types';
+import { SolarisTranslateService } from '../../../../../../services/translation';
 import { SolarisDialogComponent } from '../../root/component/dialog.component';
-import { SolarisDialogHeaderComponent } from '../../header/component/dialog-header.component';
+import { SolarisThemeService } from '../../../../../../services/theme';
 import { SolarisDialogRef } from '../../../service/dialog-ref';
+import { SolarisIconComponent } from '../../../../../icon';
 
 @Component({
   selector: 'solaris-dialog-container',
   standalone: true,
-  imports: [CdkTrapFocus, SolarisDialogComponent, SolarisDialogHeaderComponent],
+  imports: [CdkTrapFocus, SolarisDialogComponent, SolarisIconComponent],
   templateUrl: './dialog-container.component.html',
   styleUrls: ['./dialog-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[attr.data-size]': 'hostSize',
+    '[attr.data-fullscreen]': 'hostFullscreen',
     class: 'solaris-dialog-container',
+    '[attr.data-radius]': 'hostRadius',
     '[attr.data-variant]': 'hostVariant',
+    '[attr.data-density]': 'hostDensity',
+    '[attr.data-backdrop]': 'hasBackdrop',
     '[attr.data-appearance]': 'hostAppearance',
     '[attr.data-placement]': 'hostPlacement',
-    '[attr.data-backdrop]': 'hasBackdrop',
+    '[attr.data-header-separator]': 'hostHeaderSeparator',
+    '[attr.data-footer-separator]': 'hostFooterSeparator',
   },
 })
-export class SolarisDialogContainerComponent {
+export class SolarisDialogContainerComponent implements AfterViewInit {
   private readonly dialogRef = inject(SOLARIS_DIALOG_REF) as SolarisDialogRef;
   private readonly injector = inject(Injector);
+  private readonly themeService = inject(SolarisThemeService, {
+    optional: true,
+  });
+  private readonly translateService = inject(SolarisTranslateService, {
+    optional: true,
+  });
 
   readonly externalComponent = input<Type<unknown> | null>(null);
   readonly simpleOptions = input<SolarisDialogOptions | null>(null);
@@ -55,18 +71,23 @@ export class SolarisDialogContainerComponent {
   private readonly _componentHost = viewChild('componentHost', {
     read: ViewContainerRef,
   });
+  private readonly _dialogPanel =
+    viewChild<ElementRef<HTMLElement>>('dialogPanel');
+  private readonly _focusTrap = viewChild(CdkTrapFocus);
 
   private componentRef: ComponentRef<unknown> | null = null;
 
   protected get hostAppearance(): string {
     if (this.simpleOptions())
-      return this.simpleOptions()?.appearance ?? 'surface';
-    return this.externalComponentConfig()?.appearance ?? 'surface';
+      return this.simpleOptions()?.appearance ?? 'outline';
+    return this.externalComponentConfig()?.appearance ?? 'outline';
   }
 
-  protected get hostSize(): string {
-    if (this.simpleOptions()) return this.simpleOptions()?.size ?? 'md';
-    return this.externalComponentConfig()?.size ?? 'md';
+  protected get hostFullscreen(): string | null {
+    const fullscreen = this.simpleOptions()
+      ? (this.simpleOptions()?.fullscreen ?? false)
+      : (this.externalComponentConfig()?.fullscreen ?? false);
+    return fullscreen ? '' : null;
   }
 
   protected get hostVariant(): string | undefined | null {
@@ -85,23 +106,85 @@ export class SolarisDialogContainerComponent {
     return this.externalComponentConfig()?.backdrop ?? true;
   }
 
+  protected get hostRadius(): string {
+    if (this.simpleOptions()) return this.simpleOptions()?.radius ?? 'lg';
+    return this.externalComponentConfig()?.radius ?? 'lg';
+  }
+
+  protected get hostDensity(): string {
+    if (this.simpleOptions())
+      return (
+        this.simpleOptions()?.density ?? this.themeService?.density ?? 'normal'
+      );
+    return (
+      this.externalComponentConfig()?.density ??
+      this.themeService?.density ??
+      'normal'
+    );
+  }
+
+  protected get hostHeaderSeparator(): string | null {
+    const separator = this.simpleOptions()
+      ? (this.simpleOptions()?.headerSeparator ?? true)
+      : (this.externalComponentConfig()?.headerSeparator ?? true);
+    return separator ? '' : null;
+  }
+
+  protected get hostFooterSeparator(): string | null {
+    const separator = this.simpleOptions()
+      ? (this.simpleOptions()?.footerSeparator ?? true)
+      : (this.externalComponentConfig()?.footerSeparator ?? true);
+    return separator ? '' : null;
+  }
+
   protected get closeable(): boolean {
     if (this.simpleOptions()) return this.simpleOptions()?.closeable ?? true;
     return this.externalComponentConfig()?.closeable ?? true;
   }
 
-  protected get closeLabel(): string {
-    if (this.simpleOptions()) {
-      return this.simpleOptions()?.closeLabel ?? 'Close';
+  protected get panelAriaLabel(): string | null {
+    const options = this.simpleOptions();
+    if (!options) return null;
+    if (options.ariaLabelKey) {
+      return (
+        this.translateService?.translate(options.ariaLabelKey) ??
+        options.ariaLabel ??
+        null
+      );
     }
-    return this.externalComponentConfig()?.closeLabel ?? 'Close';
+    return options.ariaLabel ?? null;
   }
 
-  protected get closeLabelKey(): string | undefined {
-    if (this.simpleOptions()) {
-      return this.simpleOptions()?.closeLabelKey;
+  protected get panelAriaLabelledBy(): string | null {
+    const options = this.simpleOptions();
+    if (!options) return null;
+    if (options.ariaLabelledBy) return options.ariaLabelledBy;
+    if (options.ariaLabel ?? options.ariaLabelKey) return null;
+    if (!options.title && !options.titleKey) return null;
+    return `${this.dialogRef.id}-title`;
+  }
+
+  protected get panelAriaDescribedBy(): string | null {
+    const options = this.simpleOptions();
+    if (!options) return null;
+    if (options.ariaDescribedBy) return options.ariaDescribedBy;
+    if (!options.description && !options.descriptionKey) return null;
+    return `${this.dialogRef.id}-description`;
+  }
+
+  protected get resolvedCloseLabel(): string {
+    const closeLabelKey = this.simpleOptions()
+      ? this.simpleOptions()?.closeLabelKey
+      : this.externalComponentConfig()?.closeLabelKey;
+    const closeLabel = this.simpleOptions()
+      ? (this.simpleOptions()?.closeLabel ?? 'Close')
+      : (this.externalComponentConfig()?.closeLabel ?? 'Close');
+    if (closeLabelKey) {
+      return (
+        this.translateService?.translate(closeLabelKey) ?? closeLabel ?? 'Close'
+      );
     }
-    return this.externalComponentConfig()?.closeLabelKey;
+    return closeLabel;
   }
 
   protected get panelWidth(): string {
@@ -157,6 +240,12 @@ export class SolarisDialogContainerComponent {
     return this.externalComponentConfig()?.role ?? 'dialog';
   }
 
+  protected get resolvedAutoFocus(): SolarisDialogAutoFocus {
+    if (this.simpleOptions())
+      return this.simpleOptions()?.autoFocus ?? 'first-tabbable';
+    return this.externalComponentConfig()?.autoFocus ?? 'first-tabbable';
+  }
+
   constructor() {
     effect(() => {
       const comp = this.externalComponent();
@@ -190,6 +279,32 @@ export class SolarisDialogContainerComponent {
     });
 
     this.dialogRef.componentInstance = this.componentRef.instance;
+  }
+
+  ngAfterViewInit(): void {
+    const autoFocus = this.resolvedAutoFocus;
+    if (autoFocus === false) return;
+
+    const panel = this._dialogPanel()?.nativeElement;
+    if (!panel) return;
+
+    const autofocusTarget =
+      panel.querySelector<HTMLElement>('[data-autofocus]');
+    if (autofocusTarget) {
+      autofocusTarget.focus();
+      return;
+    }
+
+    if (autoFocus === 'panel') {
+      panel.focus();
+      return;
+    }
+
+    this._focusTrap()?.focusTrap?.focusInitialElement();
+  }
+
+  protected closeDialog(): void {
+    this.dialogRef.close();
   }
 
   @HostListener('document:keydown.escape')

@@ -51,26 +51,14 @@
 
   <section class="dialog-showcase__section">
     <h2 class="dialog-showcase__section-title">
-      {{ 'dialog.sizes' | translate }}
+      {{ 'dialog.fullscreen' | translate }}
     </h2>
     <p class="dialog-showcase__section-desc">
-      {{ 'dialog.sizes-desc' | translate }}
+      {{ 'dialog.fullscreen-desc' | translate }}
     </p>
     <div class="dialog-showcase__row">
-      <button type="button" solaris-button (click)="openSizeSm()">
-        {{ 'dialog.size-sm' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openSizeMd()">
-        {{ 'dialog.size-md' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openSizeLg()">
-        {{ 'dialog.size-lg' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openSizeXl()">
-        {{ 'dialog.size-xl' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openSizeFullscreen()">
-        {{ 'dialog.size-fullscreen' | translate }}
+      <button type="button" solaris-button (click)="openFullscreen()">
+        {{ 'dialog.open-fullscreen' | translate }}
       </button>
     </div>
   </section>
@@ -88,6 +76,42 @@
       </button>
       <button type="button" solaris-button (click)="openOutline()">
         {{ 'dialog.outline' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="dialog-showcase__section">
+    <h2 class="dialog-showcase__section-title">
+      {{ 'dialog.layout' | translate }}
+    </h2>
+    <p class="dialog-showcase__section-desc">
+      {{ 'dialog.layout-desc' | translate }}
+    </p>
+    <div class="dialog-showcase__row">
+      <button type="button" solaris-button (click)="openPlacement('top')">
+        {{ 'dialog.placement-top' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openPlacement('left')">
+        {{ 'dialog.placement-left' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openPlacement('right')">
+        {{ 'dialog.placement-right' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openPlacement('bottom')">
+        {{ 'dialog.placement-bottom' | translate }}
+      </button>
+      <button
+        type="button"
+        solaris-button
+        (click)="openPlacement('bottom-left')"
+      >
+        {{ 'dialog.placement-bottom-left' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openNoSeparators()">
+        {{ 'dialog.no-separators' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openActionsCustom()">
+        {{ 'dialog.actions-custom' | translate }}
       </button>
     </div>
   </section>

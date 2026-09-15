@@ -7,8 +7,8 @@ export const SOLARIS_DIALOG_CONFIG = new InjectionToken<SolarisDialogConfig>(
 );
 
 export const SOLARIS_DIALOG_DEFAULT_CONFIG: SolarisDialogConfig = {
-  appearance: 'surface',
-  size: 'md',
+  appearance: 'outline',
+  fullscreen: false,
   placement: 'center',
   closeable: true,
   backdrop: true,
@@ -17,6 +17,8 @@ export const SOLARIS_DIALOG_DEFAULT_CONFIG: SolarisDialogConfig = {
   autoFocus: 'first-tabbable',
   restoreFocus: true,
   role: 'dialog',
+  headerSeparator: true,
+  footerSeparator: true,
   actionsAlign: 'end',
   actionsStack: 'auto',
 };

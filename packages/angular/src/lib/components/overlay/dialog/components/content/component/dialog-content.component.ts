@@ -1,4 +1,6 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+
+import type { SolarisDialogDensity } from '../../root/model/dialog.types';
 
 @Component({
   selector: 'solaris-dialog-content',
@@ -8,6 +10,9 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'solaris-dialog-content',
+    '[attr.data-density]': 'density()',
   },
 })
-export class SolarisDialogContentComponent {}
+export class SolarisDialogContentComponent {
+  readonly density = input<SolarisDialogDensity>();
+}

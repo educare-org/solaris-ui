@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: Injected DOCUMENT token is the Angular SSR-safe abstraction for document access; used to capture activeElement on open and restore focus on close. No alternative exists.
 import {
   Injectable,
   inject,
@@ -5,6 +6,7 @@ import {
   type Provider,
   Type,
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
@@ -31,6 +33,7 @@ let nextDialogId = 0;
 export class SolarisDialogService {
   private readonly injector = inject(Injector);
   private readonly overlay = inject(Overlay);
+  private readonly document = inject(DOCUMENT);
 
   private readonly config: SolarisDialogConfig;
 
@@ -72,7 +75,10 @@ export class SolarisDialogService {
     const componentRef = overlayRef.attach(portal);
     componentRef.setInput('simpleOptions', mergedOptions);
 
-    this.trackDialog(ref as unknown as SolarisDialogRef, overlayRef);
+    this.trackDialog(ref as unknown as SolarisDialogRef, overlayRef, {
+      restoreFocus: mergedOptions.restoreFocus ?? true,
+      previouslyFocused: this.document.activeElement as HTMLElement | null,
+    });
 
     return ref;
   }
@@ -98,7 +104,10 @@ export class SolarisDialogService {
     componentRef.setInput('externalComponent', component);
     componentRef.setInput('externalComponentConfig', config ?? {});
 
-    this.trackDialog(ref as unknown as SolarisDialogRef, overlayRef);
+    this.trackDialog(ref as unknown as SolarisDialogRef, overlayRef, {
+      restoreFocus: config?.restoreFocus ?? this.config.restoreFocus ?? true,
+      previouslyFocused: this.document.activeElement as HTMLElement | null,
+    });
 
     return ref;
   }
@@ -108,11 +117,44 @@ export class SolarisDialogService {
     backdrop = true,
   ): OverlayRef {
     const positionStrategy = this.overlay.position().global();
-    positionStrategy.centerHorizontally();
-    if (placement === 'bottom') {
-      positionStrategy.bottom('0');
-    } else {
-      positionStrategy.centerVertically();
+    switch (placement) {
+      case 'top':
+        positionStrategy.centerHorizontally();
+        positionStrategy.top('24px');
+        break;
+      case 'bottom':
+        positionStrategy.centerHorizontally();
+        positionStrategy.bottom('24px');
+        break;
+      case 'left':
+        positionStrategy.left('24px');
+        positionStrategy.centerVertically();
+        break;
+      case 'right':
+        positionStrategy.right('24px');
+        positionStrategy.centerVertically();
+        break;
+      case 'top-left':
+        positionStrategy.left('24px');
+        positionStrategy.top('24px');
+        break;
+      case 'top-right':
+        positionStrategy.right('24px');
+        positionStrategy.top('24px');
+        break;
+      case 'bottom-left':
+        positionStrategy.left('24px');
+        positionStrategy.bottom('24px');
+        break;
+      case 'bottom-right':
+        positionStrategy.right('24px');
+        positionStrategy.bottom('24px');
+        break;
+      case 'center':
+      default:
+        positionStrategy.centerHorizontally();
+        positionStrategy.centerVertically();
+        break;
     }
 
     return this.overlay.create({
@@ -140,7 +182,14 @@ export class SolarisDialogService {
     });
   }
 
-  private trackDialog(ref: SolarisDialogRef, overlayRef: OverlayRef): void {
+  private trackDialog(
+    ref: SolarisDialogRef,
+    overlayRef: OverlayRef,
+    focus: {
+      restoreFocus: boolean;
+      previouslyFocused: HTMLElement | null;
+    },
+  ): void {
     const entry = { ref, overlayRef };
     this.openDialogs.add(entry);
 
@@ -148,16 +197,31 @@ export class SolarisDialogService {
       overlayRef.detach();
       overlayRef.dispose();
       this.openDialogs.delete(entry);
+      this.restoreFocus(focus);
     });
+  }
+
+  private restoreFocus(focus: {
+    restoreFocus: boolean;
+    previouslyFocused: HTMLElement | null;
+  }): void {
+    if (!focus.restoreFocus) return;
+    const target = focus.previouslyFocused;
+    if (!target || typeof target.focus !== 'function') return;
+    if (!this.document.contains(target)) return;
+    const activeElement = this.document.activeElement as HTMLElement | null;
+    if (activeElement && activeElement !== this.document.body) return;
+    target.focus();
   }
 
   private resolveOptions<T>(
     options: SolarisDialogOptions<T>,
   ): SolarisDialogOptions<T> {
     return {
+      ...options,
       variant: options.variant ?? 'neutral',
       appearance: options.appearance ?? this.config.appearance,
-      size: options.size ?? this.config.size,
+      fullscreen: options.fullscreen ?? this.config.fullscreen ?? false,
       closeable: options.closeable ?? this.config.closeable ?? true,
       backdrop: options.backdrop ?? this.config.backdrop ?? true,
       closeOnEscape: options.closeOnEscape ?? this.config.closeOnEscape ?? true,
@@ -169,9 +233,17 @@ export class SolarisDialogService {
       restoreFocus: options.restoreFocus ?? this.config.restoreFocus ?? true,
       role: options.role ?? this.config.role,
       placement: options.placement ?? this.config.placement ?? 'center',
+      headerSeparator:
+        options.headerSeparator ?? this.config.headerSeparator ?? true,
+      footerSeparator:
+        options.footerSeparator ?? this.config.footerSeparator ?? true,
+      radius: options.radius ?? this.config.radius,
+      density: options.density ?? this.config.density,
+      actionsShape: options.actionsShape ?? this.config.actionsShape,
+      actionsDensity: options.actionsDensity ?? this.config.actionsDensity,
+      actionsRadius: options.actionsRadius ?? this.config.actionsRadius,
       actionsAlign: options.actionsAlign ?? this.config.actionsAlign ?? 'end',
       actionsStack: options.actionsStack ?? this.config.actionsStack ?? 'auto',
-      ...options,
     };
   }
 

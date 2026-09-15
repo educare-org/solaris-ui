@@ -53,9 +53,9 @@ describe('SolarisDialogContainerComponent', () => {
       const fixture = createSimpleFixture({ title: 'Test' });
       const hostEl = fixture.nativeElement as HTMLElement;
 
-      expect(hostEl.getAttribute('data-size')).toBe('md');
+      expect(hostEl.getAttribute('data-fullscreen')).toBeNull();
       expect(hostEl.getAttribute('data-variant')).toBe('neutral');
-      expect(hostEl.getAttribute('data-appearance')).toBe('surface');
+      expect(hostEl.getAttribute('data-appearance')).toBe('outline');
       expect(hostEl.getAttribute('data-placement')).toBe('center');
       expect(hostEl.getAttribute('data-backdrop')).toBe('true');
     });
@@ -63,14 +63,14 @@ describe('SolarisDialogContainerComponent', () => {
     it('should render custom host attributes from options', () => {
       const fixture = createSimpleFixture({
         title: 'Test',
-        size: 'lg',
+        fullscreen: true,
         variant: 'info',
         appearance: 'outline',
         placement: 'bottom',
       });
       const hostEl = fixture.nativeElement as HTMLElement;
 
-      expect(hostEl.getAttribute('data-size')).toBe('lg');
+      expect(hostEl.getAttribute('data-fullscreen')).toBe('');
       expect(hostEl.getAttribute('data-variant')).toBe('info');
       expect(hostEl.getAttribute('data-appearance')).toBe('outline');
       expect(hostEl.getAttribute('data-placement')).toBe('bottom');
@@ -340,14 +340,173 @@ describe('SolarisDialogContainerComponent', () => {
 
     it('should show close button by default in rendered dialog', () => {
       const fixture = createSimpleFixture({ title: 'Test' });
-      const closeBtn = q(fixture, '.solaris-dialog-header__close');
+      const closeBtn = q(fixture, '[data-dialog-close]');
       expect(closeBtn).toBeTruthy();
     });
 
     it('should hide close button when closeable is false', () => {
       const fixture = createSimpleFixture({ title: 'Test', closeable: false });
-      const closeBtn = q(fixture, '.solaris-dialog-header__close');
+      const closeBtn = q(fixture, '[data-dialog-close]');
       expect(closeBtn).toBeFalsy();
+    });
+
+    it('should set default aria-label on close button', () => {
+      const fixture = createSimpleFixture({ title: 'Test' });
+      const closeBtn = q(fixture, '[data-dialog-close]');
+      expect(closeBtn?.getAttribute('aria-label')).toBe('Close');
+    });
+
+    it('should close dialog when close button is clicked', () => {
+      const ref = createDialogRef();
+      const closeSpy = vi.spyOn(ref, 'close');
+
+      configureSolarisTesting();
+      TestBed.configureTestingModule({
+        providers: [
+          ...provideSolaris({
+            icons: { extraIcons: SOLARIS_BUILT_IN_ICONS },
+          }),
+          { provide: SOLARIS_DIALOG_REF, useValue: ref },
+        ],
+      });
+
+      const fixture = TestBed.createComponent(SolarisDialogContainerComponent);
+      fixture.componentRef.setInput('simpleOptions', { title: 'Test' });
+      fixture.detectChanges();
+
+      const closeBtn = q(fixture, '[data-dialog-close]') as HTMLElement;
+      closeBtn.click();
+      expect(closeSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should render default radius, density and separators on host', () => {
+      const fixture = createSimpleFixture({ title: 'Test' });
+      const hostEl = fixture.nativeElement as HTMLElement;
+
+      expect(hostEl.getAttribute('data-radius')).toBe('lg');
+      expect(hostEl.getAttribute('data-density')).toBe('normal');
+      expect(hostEl.getAttribute('data-header-separator')).toBe('');
+      expect(hostEl.getAttribute('data-footer-separator')).toBe('');
+    });
+
+    it('should wire aria-labelledby and aria-describedby from title and description', () => {
+      const fixture = createSimpleFixture({
+        title: 'Test',
+        description: 'Desc',
+      });
+      const panel = q(fixture, '.solaris-dialog-panel') as HTMLElement;
+      expect(panel.getAttribute('aria-labelledby')).toBe(
+        'test-dialog-id-title',
+      );
+      expect(panel.getAttribute('aria-describedby')).toBe(
+        'test-dialog-id-description',
+      );
+      expect(panel.getAttribute('aria-label')).toBeNull();
+    });
+
+    it('should match aria references with the rendered header ids', () => {
+      const fixture = createSimpleFixture({
+        title: 'Test',
+        description: 'Desc',
+      });
+      const panel = q(fixture, '.solaris-dialog-panel') as HTMLElement;
+      const titleId = q(fixture, '.solaris-dialog-header__title')?.id;
+      const descId = q(fixture, '.solaris-dialog-header__description')?.id;
+      expect(titleId).toBeTruthy();
+      expect(descId).toBeTruthy();
+      expect(panel.getAttribute('aria-labelledby')).toBe(titleId);
+      expect(panel.getAttribute('aria-describedby')).toBe(descId);
+    });
+
+    it('should prefer explicit aria attributes over title/description defaults', () => {
+      const fixture = createSimpleFixture({
+        title: 'Test',
+        description: 'Desc',
+        ariaLabel: 'Custom label',
+        ariaLabelledBy: 'custom-title',
+        ariaDescribedBy: 'custom-desc',
+      });
+      const panel = q(fixture, '.solaris-dialog-panel') as HTMLElement;
+      expect(panel.getAttribute('aria-label')).toBe('Custom label');
+      expect(panel.getAttribute('aria-labelledby')).toBe('custom-title');
+      expect(panel.getAttribute('aria-describedby')).toBe('custom-desc');
+    });
+
+    describe('auto focus', () => {
+      it('should default autoFocus to first-tabbable', () => {
+        const fixture = createSimpleFixture({ title: 'Test' });
+        const instance = fixture.componentInstance as unknown as {
+          resolvedAutoFocus: string;
+        };
+        expect(instance.resolvedAutoFocus).toBe('first-tabbable');
+      });
+
+      it('should not move focus when autoFocus is false', () => {
+        const fixture = createSimpleFixture({
+          title: 'Test',
+          autoFocus: false,
+        });
+        expect(
+          (fixture.nativeElement as HTMLElement).contains(
+            document.activeElement,
+          ),
+        ).toBe(false);
+      });
+
+      it('should focus the panel when autoFocus is panel', () => {
+        const fixture = createSimpleFixture({
+          title: 'Test',
+          autoFocus: 'panel',
+        });
+        const panel = q(fixture, '.solaris-dialog-panel');
+        expect(document.activeElement).toBe(panel);
+      });
+
+      it('should focus the action with autoFocus', () => {
+        const fixture = createSimpleFixture({
+          title: 'Test',
+          actions: [
+            { label: 'Cancel', close: true },
+            { label: 'Confirm', close: true, autoFocus: true },
+          ],
+        });
+        const buttons = (fixture.nativeElement as HTMLElement).querySelectorAll(
+          '[solaris-button]',
+        );
+        expect(buttons).toHaveLength(2);
+        expect(document.activeElement).toBe(buttons[1]);
+      });
+
+      it('should mark the autofocus action with data-autofocus', () => {
+        const fixture = createSimpleFixture({
+          title: 'Test',
+          actions: [
+            { label: 'Cancel', close: true },
+            { label: 'Confirm', close: true, autoFocus: true },
+          ],
+        });
+        const marked = (fixture.nativeElement as HTMLElement).querySelectorAll(
+          '[solaris-button][data-autofocus]',
+        );
+        expect(marked).toHaveLength(1);
+        expect(marked[0].textContent?.trim()).toBe('Confirm');
+      });
+    });
+
+    it('should reflect custom radius, density and separators on host', () => {
+      const fixture = createSimpleFixture({
+        title: 'Test',
+        radius: 'full',
+        density: 'comfortable',
+        headerSeparator: false,
+        footerSeparator: false,
+      });
+      const hostEl = fixture.nativeElement as HTMLElement;
+
+      expect(hostEl.getAttribute('data-radius')).toBe('full');
+      expect(hostEl.getAttribute('data-density')).toBe('comfortable');
+      expect(hostEl.getAttribute('data-header-separator')).toBeNull();
+      expect(hostEl.getAttribute('data-footer-separator')).toBeNull();
     });
   });
 
@@ -403,12 +562,12 @@ describe('SolarisDialogContainerComponent', () => {
 
     it('should apply host attributes from externalComponentConfig', () => {
       const fixture = createExternalFixture(ExternalTestComponent, {
-        size: 'sm',
+        fullscreen: true,
         appearance: 'outline',
       });
       const hostEl = fixture.nativeElement as HTMLElement;
 
-      expect(hostEl.getAttribute('data-size')).toBe('sm');
+      expect(hostEl.getAttribute('data-fullscreen')).toBe('');
       expect(hostEl.getAttribute('data-appearance')).toBe('outline');
     });
 
@@ -439,7 +598,7 @@ describe('SolarisDialogContainerComponent', () => {
       const fixture = createExternalFixture(ExternalTestComponent, {
         closeable: true,
       });
-      const closeBtn = q(fixture, '.solaris-dialog-header__close');
+      const closeBtn = q(fixture, '[data-dialog-close]');
 
       expect(closeBtn).toBeTruthy();
     });
@@ -448,9 +607,18 @@ describe('SolarisDialogContainerComponent', () => {
       const fixture = createExternalFixture(ExternalTestComponent, {
         closeable: false,
       });
-      const closeBtn = q(fixture, '.solaris-dialog-header__close');
+      const closeBtn = q(fixture, '[data-dialog-close]');
 
       expect(closeBtn).toBeNull();
+    });
+
+    it('should not render solaris-dialog-header in external component mode', () => {
+      const fixture = createExternalFixture(ExternalTestComponent, {
+        closeable: true,
+      });
+      const headerEl = q(fixture, 'solaris-dialog-header');
+
+      expect(headerEl).toBeNull();
     });
 
     it('should inject dialog data into external component', () => {

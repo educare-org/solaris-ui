@@ -2,8 +2,20 @@
   display: block;
   flex: 1;
   overflow-y: auto;
-  padding: var(--solaris-spacing-4);
+  padding: var(--solaris-spacing-0);
   min-height: 0;
+}
+
+:host([data-density='compact']) {
+  padding: var(--solaris-spacing-2);
+}
+
+:host([data-density='normal']) {
+  padding: var(--solaris-spacing-4);
+}
+
+:host([data-density='comfortable']) {
+  padding: var(--solaris-spacing-6);
 }
 
 .solaris-dialog-content__inner {
