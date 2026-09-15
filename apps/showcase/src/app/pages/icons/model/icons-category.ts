@@ -149,6 +149,7 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'shopping-bag',
       'wallet',
       'globe-off',
+      'cookie',
     ],
   },
   {

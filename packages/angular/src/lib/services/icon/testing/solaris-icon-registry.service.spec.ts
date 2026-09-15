@@ -93,6 +93,17 @@ describe('SolarisIconRegistryService', () => {
     }
   });
 
+  it('should have the cookie icon registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    expect(service.hasIcon('cookie')).toBe(true);
+    expect(service.getIcon('cookie')?.elements.length).toBe(9);
+  });
+
   it('should have brand icons registered by default', () => {
     TestBed.configureTestingModule({
       providers: [provideSolarisIcons()],
