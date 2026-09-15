@@ -3,12 +3,19 @@
     <button
       type="button"
       solaris-button
+      [icon]="action.icon"
       (click)="handleAction(action)"
+      [radius]="action.radius ?? 'md'"
+      [shape]="action.shape ?? 'wide'"
       [color]="action.color ?? 'neutral'"
+      [loading]="action.loading ?? false"
       [disabled]="action.disabled ?? false"
+      [attr.data-autofocus]="action.autoFocus ? '' : null"
+      [density]="action.density ?? 'compact'"
       [appearance]="action.appearance ?? 'solid'"
+      [iconPosition]="action.iconPosition ?? 'start'"
     >
-      {{ action.label }}
+      {{ resolvedLabel(action) }}
     </button>
   }
 </div>

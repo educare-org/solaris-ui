@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Component, inject } from '@angular/core';
+import { ApplicationRef, Component, inject } from '@angular/core';
 import { provideSolaris } from '../../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../../services/icon/icons/solaris-built-in-icons';
 import { configureSolarisTesting } from '../../../../../testing/solaris-test-utilities';
@@ -18,6 +18,11 @@ class TestDialogComponent {
   readonly dialogRef = inject<SolarisDialogRef>(SOLARIS_DIALOG_REF, {
     optional: true,
   });
+}
+
+function lastDialogContainer(): Element | null {
+  const containers = document.querySelectorAll('.solaris-dialog-container');
+  return containers.length > 0 ? containers[containers.length - 1] : null;
 }
 
 describe('SolarisDialogService', () => {
@@ -159,5 +164,88 @@ describe('SolarisDialogService', () => {
 
     expect(ref).toBeTruthy();
     expect(ref).toBeInstanceOf(SolarisDialogRef);
+    ref.close();
+  });
+
+  it.each([
+    'center',
+    'top',
+    'bottom',
+    'left',
+    'right',
+    'top-left',
+    'top-right',
+    'bottom-left',
+    'bottom-right',
+  ] as const)('should open a dialog with %s placement', (placement) => {
+    const ref = service.open({ title: 'Test', placement });
+    TestBed.inject(ApplicationRef).tick();
+
+    const container = lastDialogContainer();
+    expect(container?.getAttribute('data-placement')).toBe(placement);
+    ref.close();
+  });
+
+  it('should apply default separators and radius', () => {
+    const ref = service.open({ title: 'Test' });
+    TestBed.inject(ApplicationRef).tick();
+
+    const container = lastDialogContainer();
+    expect(container?.getAttribute('data-header-separator')).toBe('');
+    expect(container?.getAttribute('data-footer-separator')).toBe('');
+    expect(container?.getAttribute('data-radius')).toBe('lg');
+    expect(container?.getAttribute('data-appearance')).toBe('outline');
+    ref.close();
+  });
+
+  it('should restore focus to the previously focused element on close', () => {
+    const trigger = document.createElement('button');
+    trigger.textContent = 'Trigger';
+    document.body.appendChild(trigger);
+    trigger.focus();
+    expect(document.activeElement).toBe(trigger);
+
+    const ref = service.open({ title: 'Test', autoFocus: 'panel' });
+    TestBed.inject(ApplicationRef).tick();
+    expect(document.activeElement).not.toBe(trigger);
+
+    ref.close();
+    expect(document.activeElement).toBe(trigger);
+    trigger.remove();
+  });
+
+  it('should not restore focus when restoreFocus is false', () => {
+    const trigger = document.createElement('button');
+    trigger.textContent = 'Trigger';
+    document.body.appendChild(trigger);
+    trigger.focus();
+
+    const ref = service.open({
+      title: 'Test',
+      autoFocus: 'panel',
+      restoreFocus: false,
+    });
+    TestBed.inject(ApplicationRef).tick();
+    expect(document.activeElement).not.toBe(trigger);
+
+    ref.close();
+    expect(document.activeElement).not.toBe(trigger);
+    trigger.remove();
+  });
+
+  it('should respect headerSeparator, footerSeparator and radius options', () => {
+    const ref = service.open({
+      title: 'Test',
+      headerSeparator: false,
+      footerSeparator: false,
+      radius: 'full',
+    });
+    TestBed.inject(ApplicationRef).tick();
+
+    const container = lastDialogContainer();
+    expect(container?.getAttribute('data-header-separator')).toBeNull();
+    expect(container?.getAttribute('data-footer-separator')).toBeNull();
+    expect(container?.getAttribute('data-radius')).toBe('full');
+    ref.close();
   });
 });

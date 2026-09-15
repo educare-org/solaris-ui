@@ -90,14 +90,14 @@ describe('provideSolaris', () => {
   });
 
   it('provides dialog config merged with defaults', () => {
-    const config: Partial<SolarisDialogConfig> = { size: 'lg' };
+    const config: Partial<SolarisDialogConfig> = { fullscreen: true };
     const providers = provideSolaris({ dialog: config });
     TestBed.configureTestingModule({ providers });
 
     const resolved = TestBed.inject(
       SOLARIS_DIALOG_CONFIG,
     ) as SolarisDialogConfig;
-    expect(resolved.size).toBe('lg');
+    expect(resolved.fullscreen).toBe(true);
     expect(resolved.closeable).toBeDefined();
   });
 

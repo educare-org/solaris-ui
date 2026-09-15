@@ -7,32 +7,15 @@
 
   <div class="solaris-dialog-header__text">
     @if (hasTitle()) {
-      <h2 class="solaris-dialog-header__title" id="solaris-dialog-title">
+      <h2 class="solaris-dialog-header__title" [attr.id]="titleId">
         {{ title() }}
       </h2>
     }
 
     @if (hasDescription()) {
-      <p
-        class="solaris-dialog-header__description"
-        id="solaris-dialog-description"
-      >
+      <p class="solaris-dialog-header__description" [attr.id]="descriptionId">
         {{ description() }}
       </p>
     }
   </div>
 </div>
-
-@if (showCloseButton()) {
-  <div class="solaris-dialog-header__end">
-    <button
-      type="button"
-      class="solaris-dialog-header__close"
-      [attr.data-size]="size()"
-      [attr.aria-label]="resolvedCloseLabel()"
-      (click)="close()"
-    >
-      <solaris-icon name="x" [decorative]="true" />
-    </button>
-  </div>
-}

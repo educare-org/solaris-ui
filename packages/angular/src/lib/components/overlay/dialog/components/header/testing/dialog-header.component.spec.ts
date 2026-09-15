@@ -22,11 +22,9 @@ function createFixture(
     icon: string;
     title: string;
     description: string;
-    closeable: boolean;
-    closeLabel: string;
     iconDecorative: boolean;
-    size: string;
-    variant: string;
+    variant: 'neutral' | 'info' | 'success' | 'warning' | 'danger';
+    separator: boolean;
   }>,
 ): ComponentFixture<SolarisDialogHeaderComponent> {
   configureSolarisTesting();
@@ -44,16 +42,12 @@ function createFixture(
     fixture.componentRef.setInput('title', inputs.title);
   if (inputs.description !== undefined)
     fixture.componentRef.setInput('description', inputs.description);
-  if (inputs.closeable !== undefined)
-    fixture.componentRef.setInput('closeable', inputs.closeable);
-  if (inputs.closeLabel !== undefined)
-    fixture.componentRef.setInput('closeLabel', inputs.closeLabel);
   if (inputs.iconDecorative !== undefined)
     fixture.componentRef.setInput('iconDecorative', inputs.iconDecorative);
-  if (inputs.size !== undefined)
-    fixture.componentRef.setInput('size', inputs.size);
   if (inputs.variant !== undefined)
     fixture.componentRef.setInput('variant', inputs.variant);
+  if (inputs.separator !== undefined)
+    fixture.componentRef.setInput('separator', inputs.separator);
   fixture.detectChanges();
   return fixture;
 }
@@ -69,7 +63,39 @@ describe('SolarisDialogHeaderComponent', () => {
     const titleEl = q(fixture, '.solaris-dialog-header__title');
     expect(titleEl).toBeTruthy();
     expect(titleEl?.textContent?.trim()).toBe('Dialog Title');
-    expect(titleEl?.id).toBe('solaris-dialog-title');
+    expect(titleEl?.id).toBe('test-header-title');
+  });
+
+  it('should derive title id from the dialog ref id', () => {
+    const fixture = createFixture({ title: 'Dialog Title' });
+    const titleEl = q(fixture, '.solaris-dialog-header__title');
+    expect(titleEl?.id).toBe('test-header-title');
+  });
+
+  it('should generate unique ids when no dialog ref is provided', () => {
+    configureSolarisTesting();
+    TestBed.configureTestingModule({
+      providers: [
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+      ],
+    });
+
+    const first = TestBed.createComponent(SolarisDialogHeaderComponent);
+    first.componentRef.setInput('title', 'First');
+    first.detectChanges();
+    const second = TestBed.createComponent(SolarisDialogHeaderComponent);
+    second.componentRef.setInput('title', 'Second');
+    second.detectChanges();
+
+    const firstId = first.nativeElement.querySelector(
+      '.solaris-dialog-header__title',
+    )?.id;
+    const secondId = second.nativeElement.querySelector(
+      '.solaris-dialog-header__title',
+    )?.id;
+    expect(firstId).toBeTruthy();
+    expect(secondId).toBeTruthy();
+    expect(firstId).not.toBe(secondId);
   });
 
   it('should not render title when not provided', () => {
@@ -83,7 +109,7 @@ describe('SolarisDialogHeaderComponent', () => {
     const descEl = q(fixture, '.solaris-dialog-header__description');
     expect(descEl).toBeTruthy();
     expect(descEl?.textContent?.trim()).toBe('Dialog Description');
-    expect(descEl?.id).toBe('solaris-dialog-description');
+    expect(descEl?.id).toBe('test-header-description');
   });
 
   it('should not render description when not provided', () => {
@@ -104,55 +130,22 @@ describe('SolarisDialogHeaderComponent', () => {
     expect(iconEl).toBeFalsy();
   });
 
-  it('should show close button by default', () => {
+  it('should not render a close button (owned by dialog-container)', () => {
     const fixture = createFixture({ title: 'Test' });
-    const closeBtn = q(fixture, '.solaris-dialog-header__close');
-    expect(closeBtn).toBeTruthy();
+    const closeBtn = q(fixture, '[data-dialog-close]');
+    expect(closeBtn).toBeNull();
   });
 
-  it('should hide close button when closeable is false', () => {
-    const fixture = createFixture({ title: 'Test', closeable: false });
-    const closeBtn = q(fixture, '.solaris-dialog-header__close');
-    expect(closeBtn).toBeFalsy();
-  });
-
-  it('should call dialogRef.close when close button is clicked', () => {
-    const ref = createDialogRef();
-    const closeSpy = vi.spyOn(ref, 'close');
-
-    configureSolarisTesting();
-    TestBed.configureTestingModule({
-      providers: [
-        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
-        { provide: SOLARIS_DIALOG_REF, useValue: ref },
-      ],
-    });
-
-    const fixture = TestBed.createComponent(SolarisDialogHeaderComponent);
-    fixture.componentRef.setInput('title', 'Test');
-    fixture.detectChanges();
-
-    const closeBtn = q(fixture, '.solaris-dialog-header__close') as HTMLElement;
-    closeBtn.click();
-    expect(closeSpy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should set aria-label on close button', () => {
-    const fixture = createFixture({ title: 'Test', closeLabel: 'Fechar' });
-    const closeBtn = q(fixture, '.solaris-dialog-header__close');
-    expect(closeBtn?.getAttribute('aria-label')).toBe('Fechar');
-  });
-
-  it('should set aria-label default to Close', () => {
+  it('should set data-separator by default', () => {
     const fixture = createFixture({ title: 'Test' });
-    const closeBtn = q(fixture, '.solaris-dialog-header__close');
-    expect(closeBtn?.getAttribute('aria-label')).toBe('Close');
+    const hostEl = fixture.nativeElement as HTMLElement;
+    expect(hostEl.getAttribute('data-separator')).toBe('');
   });
 
-  it('should set data-size on close button', () => {
-    const fixture = createFixture({ title: 'Test', size: 'lg' });
-    const closeBtn = q(fixture, '.solaris-dialog-header__close');
-    expect(closeBtn?.getAttribute('data-size')).toBe('lg');
+  it('should remove data-separator when separator is false', () => {
+    const fixture = createFixture({ title: 'Test', separator: false });
+    const hostEl = fixture.nativeElement as HTMLElement;
+    expect(hostEl.getAttribute('data-separator')).toBeNull();
   });
 
   it('should set host data-variant attribute', () => {
