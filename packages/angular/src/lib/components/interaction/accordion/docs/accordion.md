@@ -42,15 +42,16 @@ for the full API; the relevant inputs are:
 
 #### Inputs
 
-| Input          | Type               | Default | Description                                                       |
-| -------------- | ------------------ | ------- | ----------------------------------------------------------------- |
-| `value`        | `string \| number` | —       | Unique identifier for the section (required inside an accordion). |
-| `label`        | `string`           | —       | Visible heading text.                                             |
-| `labelKey`     | `string`           | —       | i18n key resolved for the heading text.                           |
-| `ariaLabel`    | `string`           | —       | Accessible name when no visible label.                            |
-| `ariaLabelKey` | `string`           | —       | i18n key resolved for the accessible name.                        |
-| `disabled`     | `boolean`          | `false` | Disables this item.                                               |
-| `icon`         | `string`           | —       | Per-item icon override for the trigger.                           |
+| Input          | Type               | Default | Description                                                             |
+| -------------- | ------------------ | ------- | ----------------------------------------------------------------------- |
+| `value`        | `string \| number` | —       | Unique identifier for the section (required inside an accordion).       |
+| `label`        | `string`           | —       | Visible heading text.                                                   |
+| `labelKey`     | `string`           | —       | i18n key resolved for the heading text.                                 |
+| `ariaLabel`    | `string`           | —       | Accessible name when no visible label.                                  |
+| `ariaLabelKey` | `string`           | —       | i18n key resolved for the accessible name.                              |
+| `disabled`     | `boolean`          | `false` | Disables this item.                                                     |
+| `icon`         | `string`           | —       | Per-item icon override for the trigger.                                 |
+| `leadingIcon`  | `string`           | —       | Optional icon rendered at the start of the trigger, glued to the label. |
 
 ## Import rule
 

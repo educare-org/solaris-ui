@@ -50,6 +50,13 @@
     (click)="toggle()"
   >
     <span class="solaris-collapsible__trigger-label">
+      @if (leadingIcon(); as leadingIconName) {
+        <solaris-icon
+          [name]="leadingIconName"
+          class="solaris-collapsible__trigger-leading-icon"
+          [decorative]="leadingIconDecorative()"
+        />
+      }
       {{ labelText() }}
     </span>
     <solaris-icon

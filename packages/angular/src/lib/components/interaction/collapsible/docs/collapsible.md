@@ -22,6 +22,7 @@ a collapsible panel. It is the base primitive for Accordion.
 | `disabled`     | `boolean`              | `false`          | Disables the trigger interaction.                                                |
 | `size`         | `'sm' \| 'md' \| 'lg'` | `'md'`           | Reserved for density variants.                                                   |
 | `icon`         | `string`               | `'chevron-down'` | Icon rendered at the end of the trigger.                                         |
+| `leadingIcon`  | `string`               | —                | Optional icon rendered at the start of the trigger, glued to the label.          |
 
 ### Outputs
 
@@ -98,6 +99,14 @@ JIT/unit-test consumers of the published bundle.
 
 ```html
 <solaris-collapsible label="Details" disabled>
+  <p>Hidden content.</p>
+</solaris-collapsible>
+```
+
+### Leading icon
+
+```html
+<solaris-collapsible label="Profile" leadingIcon="user">
   <p>Hidden content.</p>
 </solaris-collapsible>
 ```
