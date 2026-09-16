@@ -80,6 +80,13 @@ describe('SolarisCollapsibleComponent', () => {
   })
   class LinedHost {}
 
+  @Component({
+    standalone: true,
+    imports: [SolarisCollapsibleComponent],
+    template: `<solaris-collapsible label="Details" leadingIcon="user" />`,
+  })
+  class LeadingIconHost {}
+
   let fixture: ComponentFixture<TestHostComponent>;
 
   const getHost = (): HTMLElement =>
@@ -236,6 +243,40 @@ describe('SolarisCollapsibleComponent', () => {
         'solaris-collapsible',
       ) as HTMLElement;
       expect(hostEl.getAttribute('data-appearance')).toBe('lined');
+    });
+  });
+
+  describe('leadingIcon', () => {
+    it('should not render a leading icon by default', () => {
+      expect(
+        getHost().querySelector('.solaris-collapsible__trigger-leading-icon'),
+      ).toBeNull();
+    });
+
+    it('should render the leading icon glued to the label', () => {
+      const iconFixture = TestBed.createComponent(LeadingIconHost);
+      iconFixture.detectChanges();
+      const hostEl = iconFixture.nativeElement.querySelector(
+        'solaris-collapsible',
+      ) as HTMLElement;
+      const label = hostEl.querySelector(
+        '.solaris-collapsible__trigger-label',
+      ) as HTMLElement;
+      const leadingIcon = hostEl.querySelector(
+        '.solaris-collapsible__trigger-leading-icon',
+      ) as HTMLElement;
+      const expandIcon = hostEl.querySelector(
+        '.solaris-collapsible__trigger-icon',
+      ) as HTMLElement;
+
+      expect(leadingIcon).toBeTruthy();
+      expect(leadingIcon.parentElement).toBe(label);
+      expect(label.textContent).toContain('Details');
+      expect(expandIcon).toBeTruthy();
+      expect(
+        label.compareDocumentPosition(expandIcon) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
     });
   });
 });

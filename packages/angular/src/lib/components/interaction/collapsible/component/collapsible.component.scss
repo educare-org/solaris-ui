@@ -52,6 +52,20 @@
   opacity: var(--solaris-opacity-50);
 }
 
+.solaris-collapsible__trigger-label {
+  flex: 1;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--solaris-collapsible-trigger-gap);
+}
+
+.solaris-collapsible__trigger-leading-icon {
+  flex-shrink: 0;
+  width: var(--solaris-collapsible-icon-size);
+  height: var(--solaris-collapsible-icon-size);
+}
+
 .solaris-collapsible__trigger-icon {
   flex-shrink: 0;
   width: var(--solaris-collapsible-icon-size);

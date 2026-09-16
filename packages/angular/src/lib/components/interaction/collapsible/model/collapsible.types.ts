@@ -15,4 +15,5 @@ export interface SolarisCollapsibleConfig {
   open?: boolean;
   value?: SolarisCollapsibleValue;
   icon?: string;
+  leadingIcon?: string;
 }

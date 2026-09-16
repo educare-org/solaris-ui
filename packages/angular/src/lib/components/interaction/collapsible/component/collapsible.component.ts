@@ -56,6 +56,10 @@ export class SolarisCollapsibleComponent {
   readonly size = input<SolarisCollapsibleSize>('md');
   readonly appearance = input<SolarisCollapsibleAppearance>('boxed');
   readonly icon = input<string>();
+  readonly leadingIcon = input<string | undefined>(undefined);
+  readonly leadingIconDecorative = input<boolean, boolean>(true, {
+    transform: booleanAttribute,
+  });
 
   protected readonly baseId = computed(() => {
     return resolveElementId(this.elementRef, 'solaris-collapsible');
