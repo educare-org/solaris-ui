@@ -322,6 +322,23 @@ export class SolarisPopoverTriggerDirective {
     });
   }
 
+  private getPositionOrigin(): HTMLElement {
+    // When topConnected (select / multi-select inside form-field), the CDK
+    // origin must be the input box (.solaris-form-field__control-wrapper),
+    // not the whole <solaris-form-field> host (which includes label + hints).
+    // Otherwise the "top" fallback anchors above the label, leaving the
+    // label detached instead of covered by the panel.
+    if (this.solarisPopoverTopConnected()) {
+      const wrapper = this.elementRef.nativeElement.querySelector(
+        ':scope > .solaris-form-field__control-wrapper',
+      ) as HTMLElement | null;
+      if (wrapper) {
+        return wrapper;
+      }
+    }
+    return this.elementRef.nativeElement;
+  }
+
   private createPositionStrategy(): FlexibleConnectedPositionStrategy {
     const placement = this.solarisPopoverPlacement();
     const align = this.solarisPopoverAlign();
@@ -348,7 +365,7 @@ export class SolarisPopoverTriggerDirective {
 
     return this.overlay
       .position()
-      .flexibleConnectedTo(this.elementRef)
+      .flexibleConnectedTo(this.getPositionOrigin())
       .withPositions(allPositions)
       .withFlexibleDimensions(true)
       .withPush(true);
@@ -535,7 +552,9 @@ export class SolarisPopoverTriggerDirective {
     } = {};
 
     // ElementRef is SSR-safe. offsetWidth is a read-only layout property.
-    const triggerWidth = this.elementRef.nativeElement.offsetWidth;
+    // For topConnected, measure the control-wrapper (position origin) so the
+    // panel matches the input width even if label/hint rows differ.
+    const triggerWidth = this.getPositionOrigin().offsetWidth;
     const matchWidth = this.solarisPopoverMatchTriggerWidth();
     const minWidth = this.solarisPopoverMinWidth();
     const maxWidth = this.solarisPopoverMaxWidth();
