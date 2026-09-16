@@ -644,6 +644,29 @@ describe('SolarisPopoverTriggerDirective', () => {
     })
     class TopConnectedHost {}
 
+    it('should anchor to the control-wrapper instead of the host when topConnected', () => {
+      const fixture = TestBed.createComponent(TopConnectedHost);
+      fixture.detectChanges();
+
+      const triggerDirective = fixture.debugElement
+        .query(By.directive(SolarisPopoverTriggerDirective))
+        ?.injector.get(SolarisPopoverTriggerDirective);
+
+      const triggerEl = fixture.nativeElement.querySelector(
+        '[solaris-popover-trigger]',
+      ) as HTMLElement;
+      const wrapper = triggerEl.querySelector(
+        '.solaris-form-field__control-wrapper',
+      ) as HTMLElement;
+
+      // The CDK origin must be the input box so the "top" fallback covers
+      // the label instead of opening above it (select / multi-select bug).
+      const origin = (
+        triggerDirective as unknown as { getPositionOrigin: () => HTMLElement }
+      ).getPositionOrigin();
+      expect(origin).toBe(wrapper);
+    });
+
     it('should remove data-connected-side from trigger and wrapper on close', () => {
       const fixture = TestBed.createComponent(TopConnectedHost);
       fixture.detectChanges();
