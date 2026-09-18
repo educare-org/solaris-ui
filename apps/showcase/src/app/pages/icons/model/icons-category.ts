@@ -4,6 +4,8 @@ export type SolarisIconCategoryId =
   | 'status'
   | 'theme'
   | 'data'
+  | 'people'
+  | 'documents'
   | 'layout'
   | 'communication'
   | 'media'
@@ -56,6 +58,7 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'link-2',
       'code-xml',
       'plane',
+      'chart-spline',
     ],
   },
   {
@@ -93,6 +96,7 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'save',
       'star',
       'star-plus',
+      'square-plus',
     ],
   },
   {
@@ -124,16 +128,11 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'globe',
       'graduation-cap',
       'map-pin',
-      'user',
-      'users',
       'storage',
       'calendar',
       'calendar-sync',
-      'book',
       'server',
       'package',
-      'squared-text',
-      'notepad',
       'podium',
       'id-card',
       'badge',
@@ -142,7 +141,6 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'balance',
       'signature',
       'neighborhood',
-      'book-user',
       'hash',
       'shopping-cart',
       'shopping-basket',
@@ -150,6 +148,42 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'wallet',
       'globe-off',
       'cookie',
+      'backpack',
+      'blocks',
+      'sparkles',
+      'trophy',
+    ],
+  },
+  {
+    id: 'people',
+    names: [
+      'user',
+      'users',
+      'user-group',
+      'user-check',
+      'user-gear',
+      'user-star',
+      'user-add',
+      'user-delete',
+      'user-remove',
+      'user-circle',
+      'user-square',
+      'user-edit',
+      'user-file',
+    ],
+  },
+  {
+    id: 'documents',
+    names: [
+      'book',
+      'squared-text',
+      'notepad',
+      'book-user',
+      'file-text',
+      'receipt',
+      'notebook-pen',
+      'notebook-text',
+      'sticky-note',
     ],
   },
   {
@@ -163,6 +197,7 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'panel-right',
       'list-ordered',
       'square-stack',
+      'table',
     ],
   },
   {

@@ -143,4 +143,19 @@ export const LAYOUT_ICONS: SolarisIconDefinition[] = [
       { type: 'rect', x: 14, y: 14, width: 8, height: 8, rx: 2 },
     ],
   },
+  {
+    name: 'table',
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    elements: [
+      { type: 'path', d: 'M12 3v18' },
+      { type: 'rect', x: 3, y: 3, width: 18, height: 18, rx: 2 },
+      { type: 'path', d: 'M3 9h18' },
+      { type: 'path', d: 'M3 15h18' },
+    ],
+  },
 ];

@@ -12,6 +12,8 @@ export const PT_BR_ICONS: Record<string, string> = {
   'icons.category.status': 'Status',
   'icons.category.theme': 'Tema',
   'icons.category.data': 'Dados',
+  'icons.category.people': 'Pessoas',
+  'icons.category.documents': 'Documentos',
   'icons.category.layout': 'Layout',
   'icons.category.communication': 'Comunicação',
   'icons.category.media': 'Mídia',

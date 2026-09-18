@@ -12,6 +12,8 @@ export const EN_US_ICONS: Record<string, string> = {
   'icons.category.status': 'Status',
   'icons.category.theme': 'Theme',
   'icons.category.data': 'Data',
+  'icons.category.people': 'People',
+  'icons.category.documents': 'Documents',
   'icons.category.layout': 'Layout',
   'icons.category.communication': 'Communication',
   'icons.category.media': 'Media',

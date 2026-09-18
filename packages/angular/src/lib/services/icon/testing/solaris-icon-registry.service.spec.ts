@@ -73,6 +73,77 @@ describe('SolarisIconRegistryService', () => {
     }
   });
 
+  it('should have people icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of [
+      'user',
+      'users',
+      'user-group',
+      'user-check',
+      'user-gear',
+      'user-star',
+      'user-add',
+      'user-delete',
+      'user-remove',
+      'user-circle',
+      'user-square',
+      'user-edit',
+      'user-file',
+    ]) {
+      expect(service.hasIcon(name)).toBe(true);
+      expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('should have document icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of [
+      'book',
+      'squared-text',
+      'notepad',
+      'book-user',
+      'file-text',
+      'receipt',
+      'notebook-pen',
+      'notebook-text',
+      'sticky-note',
+    ]) {
+      expect(service.hasIcon(name)).toBe(true);
+      expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('should have the new domain and data-viz icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of [
+      'backpack',
+      'blocks',
+      'sparkles',
+      'trophy',
+      'square-plus',
+      'table',
+      'chart-spline',
+    ]) {
+      expect(service.hasIcon(name)).toBe(true);
+      expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
+    }
+  });
+
   it('should have commerce icons registered by default', () => {
     TestBed.configureTestingModule({
       providers: [provideSolarisIcons()],
