@@ -94,7 +94,10 @@ export const DOCUMENTS_ICONS: SolarisIconDefinition[] = [
     strokeLinecap: 'round',
     strokeLinejoin: 'round',
     elements: [
-      { type: 'path', d: 'M13.4 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2v-7.4' },
+      {
+        type: 'path',
+        d: 'M13.4 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2v-7.4',
+      },
       { type: 'path', d: 'M2 6h4' },
       { type: 'path', d: 'M2 10h4' },
       { type: 'path', d: 'M2 14h4' },
