@@ -1,0 +1,21 @@
+.component-dialog-chrome-example {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--solaris-spacing-3);
+  padding: var(--solaris-spacing-4);
+}
+
+.component-dialog-chrome-example__text {
+  margin: 0;
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-md);
+  color: var(--solaris-text-strong);
+}
+
+.component-dialog-chrome-example__hint {
+  margin: 0;
+  font-size: var(--solaris-font-size-xs);
+  line-height: var(--solaris-line-height-md);
+  color: var(--solaris-text-muted);
+}

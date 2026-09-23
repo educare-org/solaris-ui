@@ -4,14 +4,24 @@ import {
   SolarisDialogRef,
   SOLARIS_DIALOG_REF,
   SOLARIS_DIALOG_DATA,
+  SolarisDialogHeaderComponent,
+  SolarisDialogContentComponent,
+  SolarisDialogFooterComponent,
+  SolarisDialogCloseDirective,
   SolarisTranslatePipe,
-  SolarisIconComponent,
   SolarisButtonDirective,
 } from '@solaris-ui/angular';
 
 @Component({
   standalone: true,
-  imports: [SolarisButtonDirective, SolarisIconComponent, SolarisTranslatePipe],
+  imports: [
+    SolarisDialogHeaderComponent,
+    SolarisDialogContentComponent,
+    SolarisDialogFooterComponent,
+    SolarisDialogCloseDirective,
+    SolarisButtonDirective,
+    SolarisTranslatePipe,
+  ],
   templateUrl: './component-dialog-example.component.html',
   styleUrls: ['./component-dialog-example.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,9 +36,5 @@ export class ComponentDialogExampleComponent {
 
   closeWithPizza(): void {
     this.dialogRef.close('Pizza!');
-  }
-
-  close(result: string): void {
-    this.dialogRef.close(result);
   }
 }

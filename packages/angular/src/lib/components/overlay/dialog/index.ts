@@ -5,6 +5,8 @@ export { SolarisDialogComponent } from './components/root/component/dialog.compo
 export { SolarisDialogHeaderComponent } from './components/header/component/dialog-header.component';
 export { SolarisDialogContentComponent } from './components/content/component/dialog-content.component';
 export { SolarisDialogActionsComponent } from './components/actions/component/dialog-actions.component';
+export { SolarisDialogFooterComponent } from './components/footer/component/dialog-footer.component';
+export { SolarisDialogCloseDirective } from './components/close/directives/dialog-close.directive';
 export { SolarisDialogFlowComponent } from './components/flow/component/dialog-flow.component';
 export { SolarisDialogStepComponent } from './components/step/component/dialog-step.component';
 

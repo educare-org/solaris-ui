@@ -281,6 +281,45 @@ export class DialogShowcaseComponent {
     });
   }
 
+  openComponentWithChrome(): void {
+    import('../examples/component-dialog-chrome-example.component').then(
+      (m) => {
+        const ref = this.dialogService.openComponent(
+          m.ComponentDialogChromeExampleComponent,
+          {
+            title: this.translateService.translate(
+              'dialog.examples.component-chrome.title',
+            ),
+            description: this.translateService.translate(
+              'dialog.examples.component-chrome.desc',
+            ),
+            width: '500px',
+            data: {
+              message: this.translateService.translate(
+                'dialog.examples.component-chrome.message',
+              ),
+            },
+            actions: [
+              {
+                label: this.translateService.translate('dialog.common.cancel'),
+                appearance: 'ghost',
+                close: true,
+              },
+              {
+                label: this.translateService.translate('dialog.common.confirm'),
+                color: 'primary',
+                close: true,
+              },
+            ],
+          },
+        );
+        ref.afterClosed().subscribe((result) => {
+          console.log('Dialog result:', result);
+        });
+      },
+    );
+  }
+
   openNotCloseable(): void {
     this.dialogService.open({
       title: this.translateService.translate(
