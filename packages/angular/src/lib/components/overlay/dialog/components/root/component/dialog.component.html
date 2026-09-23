@@ -5,6 +5,9 @@
   [description]="resolvedDescription()"
   [separator]="headerSeparator()"
   [iconDecorative]="iconDecorative()"
+  [closeable]="closeable()"
+  [closeLabel]="resolvedCloseLabel()"
+  [scrolled]="bodyScrolled()"
 />
 
 @if (resolvedDescription() && !hasActions()) {
@@ -21,5 +24,6 @@
     [stack]="actionsStack()"
     [separator]="footerSeparator()"
     [density]="density()"
+    [scrolled]="bodyHasMoreBelow()"
   />
 }

@@ -10,6 +10,8 @@ import {
   inject,
   HostListener,
   ChangeDetectionStrategy,
+  signal,
+  afterEveryRender,
   type Type,
   type ComponentRef,
   Injector,
@@ -155,6 +157,25 @@ export class SolarisDialogContainerComponent implements AfterViewInit {
     return this.externalComponentConfig()?.closeable ?? true;
   }
 
+  protected readonly panelScrolled = signal(false);
+
+  protected readonly panelHasMoreBelow = signal(false);
+
+  protected readonly hasManualHeader = signal(false);
+
+  protected get showFloatingClose(): boolean {
+    return (
+      this.closeable &&
+      !this.hasChromeHeader &&
+      !this.isSimpleMode &&
+      !this.hasManualHeader()
+    );
+  }
+
+  protected onPanelBodyScroll(): void {
+    this.syncPanelScrollState();
+  }
+
   protected get panelAriaLabel(): string | null {
     const options = this.simpleOptions();
     if (options) {
@@ -265,20 +286,22 @@ export class SolarisDialogContainerComponent implements AfterViewInit {
     return !!actions && actions.length > 0;
   }
 
-  protected get chromeActions(): SolarisDialogAction<unknown>[] {
+  protected get chromeActions(): SolarisDialogAction[] {
     const config = this.externalComponentConfig();
     const variant = config?.variant ?? 'neutral';
     const shape = config?.actionsShape;
     const density = config?.actionsDensity;
     const radius = config?.actionsRadius;
+
     return (config?.actions ?? []).map((action) => {
       const appearance = action.appearance ?? 'solid';
-      const hasExplicitColor = action.color !== undefined;
-      const color = hasExplicitColor
-        ? action.color
-        : appearance === 'solid'
-          ? variant
-          : undefined;
+
+      let color = action.color;
+
+      if (color === undefined && appearance === 'solid') {
+        color = variant;
+      }
+
       return {
         ...action,
         color,
@@ -387,6 +410,27 @@ export class SolarisDialogContainerComponent implements AfterViewInit {
         this.createComponentInHost(comp);
       }
     });
+    afterEveryRender(() => {
+      this.syncPanelScrollState();
+    });
+  }
+
+  private syncPanelScrollState(): void {
+    const panel = this._dialogPanel()?.nativeElement;
+    const body = panel?.querySelector('.solaris-dialog-panel__body');
+    const scrollTop = body?.scrollTop ?? 0;
+    this.panelScrolled.set(scrollTop > 0);
+    this.panelHasMoreBelow.set(
+      body ? scrollTop + body.clientHeight < body.scrollHeight - 1 : false,
+    );
+    const manualHeaderFound = panel
+      ? panel.querySelector(
+          '.solaris-dialog-panel__body solaris-dialog-header',
+        ) !== null
+      : false;
+    if (manualHeaderFound !== this.hasManualHeader()) {
+      this.hasManualHeader.set(manualHeaderFound);
+    }
   }
 
   private createComponentInHost(compType: Type<unknown>): void {

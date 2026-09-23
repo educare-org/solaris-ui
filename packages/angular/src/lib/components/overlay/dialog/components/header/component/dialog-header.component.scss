@@ -1,19 +1,28 @@
 :host {
   display: flex;
-  align-items: flex-start;
-  gap: var(--solaris-spacing-0);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: var(--solaris-dialog-header-z-index);
+  background: var(--solaris-dialog-panel-bg);
   padding: var(--solaris-spacing-0);
 
   --solaris-dialog-icon-color: var(--solaris-text-muted);
   --solaris-dialog-media-size: var(--solaris-spacing-8);
   --solaris-dialog-icon-size: var(--solaris-font-size-2xl);
   --solaris-dialog-header-border-color: var(--solaris-border-default);
+  --solaris-dialog-header-z-index: var(--solaris-z-index-raised);
+  --solaris-dialog-header-scrolled-shadow: var(--solaris-shadow-md);
 }
 
 :host([data-separator]) {
   padding-block-end: var(--solaris-spacing-3);
   border-bottom: var(--solaris-border-width-sm) solid
     var(--solaris-dialog-header-border-color);
+}
+
+:host([data-scrolled]) {
+  box-shadow: var(--solaris-dialog-header-scrolled-shadow);
 }
 
 :host([data-variant='info']) {
@@ -36,12 +45,19 @@
   flex: 1;
   min-width: 0;
   display: flex;
+  flex-direction: column;
+  padding: var(--solaris-spacing-3);
+}
+
+.solaris-dialog-header__row {
+  display: flex;
   align-items: center;
+  gap: var(--solaris-spacing-3);
+  min-height: var(--solaris-dialog-media-size);
 }
 
 .solaris-dialog-header__icon {
   flex-shrink: 0;
-  padding-left: var(--solaris-spacing-3);
   color: var(--solaris-dialog-icon-color);
 
   solaris-icon,
@@ -52,23 +68,50 @@
   }
 }
 
-.solaris-dialog-header__text {
+.solaris-dialog-header__title {
   flex: 1;
   min-width: 0;
-}
-
-.solaris-dialog-header__title {
   margin: 0;
   color: var(--solaris-text-strong);
-  padding: var(--solaris-spacing-3) 0 0 var(--solaris-spacing-3);
   font: var(--solaris-font-weight-semibold) var(--solaris-font-size-lg) /
     var(--solaris-line-height-sm) var(--solaris-font-family-sans);
 }
 
 .solaris-dialog-header__description {
   color: var(--solaris-text-muted);
-  padding: 0 var(--solaris-spacing-3);
   margin: var(--solaris-spacing-1) 0 0;
   font: var(--solaris-font-weight-regular) var(--solaris-font-size-xs) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.solaris-dialog-header__start:has(.solaris-dialog-header__icon)
+  .solaris-dialog-header__description {
+  margin-left: calc(var(--solaris-dialog-icon-size) + var(--solaris-spacing-3));
+}
+
+.solaris-dialog-header__close {
+  border: none;
+  display: flex;
+  cursor: pointer;
+  background: none;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  width: var(--solaris-dialog-media-size);
+  height: var(--solaris-dialog-media-size);
+  border-radius: var(--solaris-radius-sm);
+  color: var(--solaris-text-muted);
+  font-size: var(--solaris-font-size-lg);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate);
+}
+
+.solaris-dialog-header__close:hover {
+  color: var(--solaris-text-strong);
+}
+
+.solaris-dialog-header__close:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) solid var(--solaris-focus-ring-color);
 }

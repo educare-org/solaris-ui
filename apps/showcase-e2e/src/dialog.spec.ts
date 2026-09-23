@@ -97,6 +97,47 @@ test.describe('Dialog', () => {
     await dialog.closeViaEscape();
   });
 
+  test('keeps header pinned with elevation while scrolling long content', async () => {
+    await dialog.open('Open scrollable dialog');
+    await expect(dialog.header()).toBeVisible();
+    await expect(dialog.header()).not.toHaveAttribute('data-scrolled', '');
+
+    const offsetBefore = await dialog.headerOffsetFromPanelTop();
+    await dialog.body().evaluate((el) => {
+      el.scrollTop = el.scrollHeight;
+    });
+
+    await expect(dialog.header()).toHaveAttribute('data-scrolled', '');
+    const offsetAfter = await dialog.headerOffsetFromPanelTop();
+    expect(Math.abs(offsetAfter - offsetBefore)).toBeLessThan(2);
+    await expect(dialog.header()).toBeVisible();
+    await expect(dialog.closeButton()).toBeVisible();
+    await dialog.closeViaEscape();
+    await dialog.assertNotVisible();
+  });
+
+  test('keeps footer pinned with elevation while content remains below', async () => {
+    await dialog.open('Open scrollable dialog');
+    await expect(dialog.footer()).toBeVisible();
+
+    await dialog.body().evaluate((el) => {
+      el.scrollTop = el.scrollHeight / 2;
+    });
+
+    await expect(dialog.footer()).toHaveAttribute('data-scrolled', '');
+    await expect(dialog.footer()).toBeVisible();
+    await expect(dialog.header()).toHaveAttribute('data-scrolled', '');
+
+    await dialog.body().evaluate((el) => {
+      el.scrollTop = el.scrollHeight;
+    });
+
+    await expect(dialog.footer()).not.toHaveAttribute('data-scrolled', '');
+    await expect(dialog.footer()).toBeVisible();
+    await dialog.closeViaEscape();
+    await dialog.assertNotVisible();
+  });
+
   test('renders chrome header and actions for component dialog', async () => {
     await dialog.open('Open with header/footer');
     await dialog.assertTitle('Component with chrome');

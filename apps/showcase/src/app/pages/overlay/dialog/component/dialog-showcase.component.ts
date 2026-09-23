@@ -442,6 +442,31 @@ export class DialogShowcaseComponent {
     });
   }
 
+  openComponentScroll(): void {
+    import('../examples/component-dialog-scroll-example.component').then(
+      (m) => {
+        const ref = this.dialogService.openComponent(
+          m.ComponentDialogScrollExampleComponent,
+          {
+            width: '720px',
+            maxHeight: '480px',
+            data: {
+              title: this.translateService.translate(
+                'dialog.examples.scroll.title',
+              ),
+              description: this.translateService.translate(
+                'dialog.examples.scroll.desc',
+              ),
+            },
+          },
+        );
+        ref.afterClosed().subscribe((result) => {
+          console.log('Dialog result:', result);
+        });
+      },
+    );
+  }
+
   openFlow(): void {
     import('../examples/dialog-flow-example.component').then((m) => {
       this.dialogService.openComponent(m.DialogFlowExampleComponent, {

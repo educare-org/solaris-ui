@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular API to read the host element for scroll-parent lookup (parentElement traversal) and passive scroll listener for scrolled state. SSR-safe via isPlatformBrowser guard with DestroyRef cleanup. No alternative exists.
 import {
   Component,
   input,
@@ -5,7 +6,14 @@ import {
   inject,
   booleanAttribute,
   ChangeDetectionStrategy,
+  ElementRef,
+  DestroyRef,
+  signal,
+  computed,
+  AfterViewInit,
+  PLATFORM_ID,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { SolarisButtonDirective } from '../../../../../actions/button';
 import { SolarisDialogRef } from '../../../service/dialog-ref';
 import { SOLARIS_DIALOG_REF } from '../../../token/dialog-data.token';
@@ -29,16 +37,23 @@ import type {
     '[attr.data-stack]': 'stack()',
     '[attr.data-separator]': "separator() ? '' : null",
     '[attr.data-density]': 'density()',
+    '[attr.data-scrolled]': "effectiveScrolled() ? '' : null",
     class: 'solaris-dialog-actions',
   },
 })
-export class SolarisDialogActionsComponent<TResult = unknown> {
+export class SolarisDialogActionsComponent<TResult = unknown>
+  implements AfterViewInit
+{
   private readonly dialogRef = inject(
     SOLARIS_DIALOG_REF,
   ) as SolarisDialogRef<TResult>;
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
+  private readonly hostElement =
+    inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly platformId = inject(PLATFORM_ID);
 
   readonly actions = input<SolarisDialogAction<TResult>[]>([]);
   readonly align = input<SolarisDialogActionsAlign>('end');
@@ -47,8 +62,36 @@ export class SolarisDialogActionsComponent<TResult = unknown> {
     transform: booleanAttribute,
   });
   readonly density = input<SolarisDialogDensity>();
+  readonly scrolled = input<boolean>();
+
+  protected readonly internalScrolled = signal(false);
+  protected readonly effectiveScrolled = computed(
+    () => this.scrolled() ?? this.internalScrolled(),
+  );
 
   readonly actionExecuted = output<SolarisDialogAction<TResult>>();
+
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    this.observeScrollParent();
+  }
+
+  private observeScrollParent(): void {
+    const scrollParent = findScrollParent(this.hostElement);
+    if (!scrollParent) {
+      return;
+    }
+    const update = (): void => {
+      this.internalScrolled.set(hasMoreBelow(scrollParent));
+    };
+    update();
+    scrollParent.addEventListener('scroll', update, { passive: true });
+    this.destroyRef.onDestroy(() => {
+      scrollParent.removeEventListener('scroll', update);
+    });
+  }
 
   protected resolvedLabel(action: SolarisDialogAction<TResult>): string {
     if (action.labelKey) {
@@ -74,4 +117,20 @@ export class SolarisDialogActionsComponent<TResult = unknown> {
     executeAction();
     this.actionExecuted.emit(action);
   }
+}
+
+function findScrollParent(element: HTMLElement): HTMLElement | null {
+  let parent = element.parentElement;
+  while (parent) {
+    const overflowY = getComputedStyle(parent).overflowY;
+    if (overflowY === 'auto' || overflowY === 'scroll') {
+      return parent;
+    }
+    parent = parent.parentElement;
+  }
+  return null;
+}
+
+function hasMoreBelow(element: HTMLElement): boolean {
+  return element.scrollTop + element.clientHeight < element.scrollHeight - 1;
 }

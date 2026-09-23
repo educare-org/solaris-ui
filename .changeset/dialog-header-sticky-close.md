@@ -1,0 +1,7 @@
+---
+'@educarehq/solaris-ui': minor
+---
+
+Dialog header is now sticky with an in-flow close button: `solaris-dialog-header` accepts `closeable`/`closeLabel` and renders the `[data-dialog-close]` button vertically centered with the icon and title on the same row (description stays below the title), replacing the absolutely-positioned button that floated over scrolled content. The header sticks to the top with the panel background and gains an elevation shadow (`--solaris-dialog-header-scrolled-shadow`, `data-scrolled`) while the body scrolls; the scroll state is wired automatically in managed dialogs and self-detected from the closest scrollable ancestor in manual composition. `solaris-dialog-container` keeps the floating close button only as a fallback for component dialogs without a header (suppressed when the content renders its own manual header, which previously hid the fallback behind the sticky header background).
+
+`solaris-dialog-footer` and `solaris-dialog-actions` are now sticky to the bottom with the panel background as well, so action bars stay pinned while the body scrolls in manual composition. Both gain an elevation shadow (`--solaris-dialog-footer-scrolled-shadow` / `--solaris-dialog-actions-scrolled-shadow`, `data-scrolled`) while there is still content below the fold, accept an optional `scrolled` input override, and self-detect scrolling — mirroring the header behavior.

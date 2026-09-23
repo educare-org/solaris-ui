@@ -4,6 +4,7 @@ import { configureSolarisTesting } from '../../../../../../testing/solaris-test-
 import { provideSolaris } from '../../../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../../../services/icon/icons/solaris-built-in-icons';
 import { SolarisDialogContainerComponent } from '../component/dialog-container.component';
+import { SolarisDialogHeaderComponent } from '../../header/component/dialog-header.component';
 import { SolarisDialogRef } from '../../../service/dialog-ref';
 import {
   SOLARIS_DIALOG_REF,
@@ -356,6 +357,12 @@ describe('SolarisDialogContainerComponent', () => {
       expect(closeBtn?.getAttribute('aria-label')).toBe('Close');
     });
 
+    it('should render the close button inside the header in simple mode', () => {
+      const fixture = createSimpleFixture({ title: 'Test' });
+      expect(q(fixture, '.solaris-dialog-header__close')).toBeTruthy();
+      expect(q(fixture, '.solaris-dialog-container__close')).toBeNull();
+    });
+
     it('should close dialog when close button is clicked', () => {
       const ref = createDialogRef();
       const closeSpy = vi.spyOn(ref, 'close');
@@ -524,6 +531,20 @@ describe('SolarisDialogContainerComponent', () => {
     class ExternalWithDataComponent {
       readonly data = inject(SOLARIS_DIALOG_DATA);
     }
+
+    @Component({
+      standalone: true,
+      imports: [SolarisDialogHeaderComponent],
+      template: '<solaris-dialog-header title="Manual" /><p>Body</p>',
+    })
+    class ManualHeaderComponent {}
+
+    @Component({
+      standalone: true,
+      imports: [SolarisDialogHeaderComponent],
+      template: '<solaris-dialog-header title="Manual" closeable /><p>Body</p>',
+    })
+    class ManualHeaderCloseableComponent {}
 
     function createExternalFixture(
       component: Type<unknown>,
@@ -737,6 +758,114 @@ describe('SolarisDialogContainerComponent', () => {
         const hostEl = fixture.nativeElement as HTMLElement;
         expect(hostEl.getAttribute('data-variant')).toBe('danger');
       });
+
+      it('should render the close button inside the chrome header', () => {
+        const fixture = createExternalFixture(ExternalTestComponent, {
+          title: 'Chrome Title',
+          description: 'Chrome description',
+        });
+        expect(q(fixture, '.solaris-dialog-header__close')).toBeTruthy();
+        expect(q(fixture, '.solaris-dialog-container__close')).toBeNull();
+      });
+
+      it('should hide the chrome header close button when closeable is false', () => {
+        const fixture = createExternalFixture(ExternalTestComponent, {
+          title: 'Chrome Title',
+          closeable: false,
+        });
+        expect(q(fixture, '[data-dialog-close]')).toBeNull();
+      });
+
+      it('should keep the floating close button when there is no chrome header', () => {
+        const fixture = createExternalFixture(ExternalTestComponent, {
+          closeable: true,
+        });
+        expect(q(fixture, 'solaris-dialog-header')).toBeNull();
+        expect(q(fixture, '.solaris-dialog-container__close')).toBeTruthy();
+      });
+
+      it('should mark the chrome header as scrolled when the panel body scrolls', () => {
+        const fixture = createExternalFixture(ExternalTestComponent, {
+          title: 'Chrome Title',
+          description: 'Chrome description',
+        });
+        const body = q(fixture, '.solaris-dialog-panel__body') as HTMLElement;
+        body.scrollTop = 64;
+        body.dispatchEvent(new Event('scroll'));
+        fixture.detectChanges();
+        const headerEl = q(fixture, 'solaris-dialog-header');
+        expect(headerEl?.getAttribute('data-scrolled')).toBe('');
+      });
+
+      it('should clear the scrolled mark when scrolled back to top', () => {
+        const fixture = createExternalFixture(ExternalTestComponent, {
+          title: 'Chrome Title',
+          description: 'Chrome description',
+        });
+        const body = q(fixture, '.solaris-dialog-panel__body') as HTMLElement;
+        body.scrollTop = 64;
+        body.dispatchEvent(new Event('scroll'));
+        fixture.detectChanges();
+        body.scrollTop = 0;
+        body.dispatchEvent(new Event('scroll'));
+        fixture.detectChanges();
+        const headerEl = q(fixture, 'solaris-dialog-header');
+        expect(headerEl?.getAttribute('data-scrolled')).toBeNull();
+      });
+
+      it('should mark chrome actions as scrolled while the body has content below', () => {
+        const fixture = createExternalFixture(ExternalTestComponent, {
+          title: 'Chrome Title',
+          actions: [{ label: 'Confirm', color: 'primary', close: true }],
+        });
+        const body = q(fixture, '.solaris-dialog-panel__body') as HTMLElement;
+        mockScrollMetrics(body, {
+          scrollTop: 0,
+          clientHeight: 400,
+          scrollHeight: 1000,
+        });
+        body.dispatchEvent(new Event('scroll'));
+        fixture.detectChanges();
+
+        const actionsEl = q(fixture, 'solaris-dialog-actions');
+        expect(actionsEl?.getAttribute('data-scrolled')).toBe('');
+
+        body.scrollTop = 600;
+        body.dispatchEvent(new Event('scroll'));
+        fixture.detectChanges();
+        expect(actionsEl?.getAttribute('data-scrolled')).toBeNull();
+      });
+    });
+
+    describe('manual header composition', () => {
+      it('should suppress the floating close when the component renders its own header', () => {
+        const fixture = createExternalFixture(ManualHeaderComponent);
+        fixture.detectChanges();
+        expect(q(fixture, 'solaris-dialog-header')).toBeTruthy();
+        expect(q(fixture, '[data-dialog-close]')).toBeNull();
+      });
+
+      it('should render the manual in-flow close without duplicating the fallback', () => {
+        const fixture = createExternalFixture(ManualHeaderCloseableComponent);
+        fixture.detectChanges();
+        expect(q(fixture, '.solaris-dialog-header__close')).toBeTruthy();
+        expect(q(fixture, '.solaris-dialog-container__close')).toBeNull();
+      });
     });
   });
 });
+
+function mockScrollMetrics(
+  element: HTMLElement,
+  metrics: { scrollTop: number; clientHeight: number; scrollHeight: number },
+): void {
+  element.scrollTop = metrics.scrollTop;
+  Object.defineProperty(element, 'clientHeight', {
+    value: metrics.clientHeight,
+    configurable: true,
+  });
+  Object.defineProperty(element, 'scrollHeight', {
+    value: metrics.scrollHeight,
+    configurable: true,
+  });
+}

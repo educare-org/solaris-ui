@@ -242,4 +242,72 @@ describe('SolarisDialogActionsComponent', () => {
     expect(button.getAttribute('data-radius')).toBe('full');
     expect(button.getAttribute('data-loading')).toBe('');
   });
+
+  it('should not set data-scrolled by default', () => {
+    const fixture = createFixture([{ label: 'Ok' }]);
+    const hostEl = fixture.nativeElement as HTMLElement;
+    expect(hostEl.getAttribute('data-scrolled')).toBeNull();
+  });
+
+  it('should set data-scrolled when scrolled input is true', () => {
+    configureSolarisTesting();
+    TestBed.configureTestingModule({
+      providers: [
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+        { provide: SOLARIS_DIALOG_REF, useValue: createDialogRef() },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(SolarisDialogActionsComponent);
+    fixture.componentRef.setInput('actions', [{ label: 'Ok' }]);
+    fixture.componentRef.setInput('scrolled', true);
+    fixture.detectChanges();
+
+    const hostEl = fixture.nativeElement as HTMLElement;
+    expect(hostEl.getAttribute('data-scrolled')).toBe('');
+  });
+
+  it('should set data-scrolled while the scroll parent has content below', () => {
+    configureSolarisTesting();
+    TestBed.configureTestingModule({
+      providers: [
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+        { provide: SOLARIS_DIALOG_REF, useValue: createDialogRef() },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(SolarisDialogActionsComponent);
+    fixture.componentRef.setInput('actions', [{ label: 'Ok' }]);
+    const hostEl = fixture.nativeElement as HTMLElement;
+    const scrollParent = hostEl.parentElement as HTMLElement;
+    scrollParent.style.overflowY = 'auto';
+    mockScrollMetrics(scrollParent, {
+      scrollTop: 0,
+      clientHeight: 400,
+      scrollHeight: 1000,
+    });
+    fixture.detectChanges();
+
+    expect(hostEl.getAttribute('data-scrolled')).toBe('');
+
+    scrollParent.scrollTop = 600;
+    scrollParent.dispatchEvent(new Event('scroll'));
+    fixture.detectChanges();
+    expect(hostEl.getAttribute('data-scrolled')).toBeNull();
+  });
 });
+
+function mockScrollMetrics(
+  element: HTMLElement,
+  metrics: { scrollTop: number; clientHeight: number; scrollHeight: number },
+): void {
+  element.scrollTop = metrics.scrollTop;
+  Object.defineProperty(element, 'clientHeight', {
+    value: metrics.clientHeight,
+    configurable: true,
+  });
+  Object.defineProperty(element, 'scrollHeight', {
+    value: metrics.scrollHeight,
+    configurable: true,
+  });
+}

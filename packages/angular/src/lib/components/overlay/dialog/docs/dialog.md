@@ -242,10 +242,41 @@ mobile).
 
 ## Close button
 
-The close button is rendered once by `solaris-dialog-container` as a fixed
-`[data-dialog-close]` icon button (`position: absolute; top/right`), so it
-stays visible with or without a header. `solaris-dialog-header` only renders
-title, description, and icon.
+The close button is rendered in-flow by `solaris-dialog-header` as a
+`[data-dialog-close]` icon button, vertically centered with the icon and the
+title on the same row. The description always renders below the title and
+never shifts the close button. `solaris-dialog-container` only renders its
+legacy floating (`position: absolute`) close button as a fallback when the
+dialog has no header at all (component dialog without chrome
+`title`/`description`/`icon`).
+
+`solaris-dialog-header` also accepts:
+
+| Input        | Type      | Default   | Description                                                              |
+| ------------ | --------- | --------- | ------------------------------------------------------------------------ |
+| `closeable`  | `boolean` | `false`   | Show the in-flow close button (managed dialogs enable it automatically)  |
+| `closeLabel` | `string`  | `'Close'` | Close button `aria-label`                                                |
+| `scrolled`   | `boolean` | -         | Force the scrolled elevation. When omitted, the header detects scrolling |
+
+## Sticky header and footer
+
+`solaris-dialog-header` is `position: sticky; top: 0` with the panel
+background, so it stays pinned while the body scrolls (both in managed
+dialogs, where the header sits outside the scroll region, and in manual
+composition, where the header is placed inside `solaris-dialog-content`).
+While scrolled (`data-scrolled`), the header gains an elevation shadow
+(`--solaris-dialog-header-scrolled-shadow`) below it. In managed dialogs the
+scroll state is wired automatically; in manual composition the header detects
+the closest scrollable ancestor on its own.
+
+`solaris-dialog-footer` and `solaris-dialog-actions` mirror this at the
+bottom: `position: sticky; bottom: 0` with the panel background, so action
+bars stay pinned in manual composition too (in managed dialogs they already
+sit outside the scroll region). Their `data-scrolled` elevation
+(`--solaris-dialog-footer-scrolled-shadow` /
+`--solaris-dialog-actions-scrolled-shadow`) appears while there is still
+content below the fold, and both accept an optional `scrolled` input to force
+the state — just like the header.
 
 ## Separators
 
@@ -281,23 +312,29 @@ interactive.
 
 The following CSS variables can be customized. Panel and backdrop tokens are declared on the dialog container; icon and close tokens on the dialog header.
 
-| Token                                   | Purpose                                 |
-| --------------------------------------- | --------------------------------------- |
-| `--solaris-dialog-panel-bg`             | Panel background                        |
-| `--solaris-dialog-panel-padding`        | Panel inner padding                     |
-| `--solaris-dialog-panel-radius`         | Panel border radius                     |
-| `--solaris-dialog-panel-shadow`         | Panel box shadow                        |
-| `--solaris-dialog-panel-border`         | Panel border color (outline appearance) |
-| `--solaris-dialog-panel-min-width`      | Panel minimum width                     |
-| `--solaris-dialog-panel-max-width`      | Panel maximum width                     |
-| `--solaris-dialog-panel-max-height`     | Panel maximum height                    |
-| `--solaris-dialog-backdrop-bg`          | Backdrop background                     |
-| `--solaris-dialog-z-index`              | Stack order of the overlay              |
-| `--solaris-dialog-icon-color`           | Header icon color                       |
-| `--solaris-dialog-icon-size`            | Header icon size                        |
-| `--solaris-dialog-media-size`           | Header icon container size              |
-| `--solaris-dialog-header-border-color`  | Header separator line color             |
-| `--solaris-dialog-actions-border-color` | Footer separator line color             |
+| Token                                      | Purpose                                     |
+| ------------------------------------------ | ------------------------------------------- |
+| `--solaris-dialog-panel-bg`                | Panel background                            |
+| `--solaris-dialog-panel-padding`           | Panel inner padding                         |
+| `--solaris-dialog-panel-radius`            | Panel border radius                         |
+| `--solaris-dialog-panel-shadow`            | Panel box shadow                            |
+| `--solaris-dialog-panel-border`            | Panel border color (outline appearance)     |
+| `--solaris-dialog-panel-min-width`         | Panel minimum width                         |
+| `--solaris-dialog-panel-max-width`         | Panel maximum width                         |
+| `--solaris-dialog-panel-max-height`        | Panel maximum height                        |
+| `--solaris-dialog-backdrop-bg`             | Backdrop background                         |
+| `--solaris-dialog-z-index`                 | Stack order of the overlay                  |
+| `--solaris-dialog-icon-color`              | Header icon color                           |
+| `--solaris-dialog-icon-size`               | Header icon size                            |
+| `--solaris-dialog-media-size`              | Header icon container size                  |
+| `--solaris-dialog-header-border-color`     | Header separator line color                 |
+| `--solaris-dialog-header-z-index`          | Header stacking above scrolled content      |
+| `--solaris-dialog-header-scrolled-shadow`  | Header elevation shadow while scrolled      |
+| `--solaris-dialog-footer-z-index`          | Footer stacking above scrolled content      |
+| `--solaris-dialog-footer-scrolled-shadow`  | Footer elevation shadow with content below  |
+| `--solaris-dialog-actions-z-index`         | Actions stacking above scrolled content     |
+| `--solaris-dialog-actions-scrolled-shadow` | Actions elevation shadow with content below |
+| `--solaris-dialog-actions-border-color`    | Footer separator line color                 |
 
 ## Accessibility
 
@@ -425,7 +462,7 @@ For full control, compose the dialog parts inside your component template.
 injecting `SolarisDialogRef` for that button.
 
 ```html
-<solaris-dialog-header title="Edit user" description="..." />
+<solaris-dialog-header title="Edit user" description="..." closeable />
 <solaris-dialog-content>
   <form>...</form>
 </solaris-dialog-content>
@@ -438,6 +475,11 @@ injecting `SolarisDialogRef` for that button.
 Do not combine chrome-via-config with manual `solaris-dialog-header` /
 `solaris-dialog-actions` in the same dialog: prefer one approach per dialog
 to avoid duplicated headers or footers.
+
+When composing manually, add `closeable` to `solaris-dialog-header` to keep
+the X button (in-flow, centered with the title). The container only renders
+its floating fallback close button when the dialog has no header at all —
+neither chrome nor a manual `solaris-dialog-header` inside the content.
 
 ### Dialog Flow
 

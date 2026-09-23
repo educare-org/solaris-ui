@@ -165,7 +165,7 @@
 .solaris-dialog-panel__body {
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
+  overflow: hidden auto;
 }
 
 .solaris-dialog-container__close {

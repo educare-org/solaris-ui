@@ -82,6 +82,8 @@
 
 .solaris-popover-panel__container[data-connected-side='top'][data-form-field] {
   border-bottom: none;
+
+  // SOLARIS_TOKEN_EXCEPTION: resetting panel shadow to none when connected to form-field top edge so it visually merges with the input; not a hardcoded shadow value.
   box-shadow: none;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
