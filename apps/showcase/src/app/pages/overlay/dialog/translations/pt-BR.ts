@@ -55,6 +55,11 @@ export const PT_BR_DIALOG: Record<string, string> = {
   'dialog.no-backdrop-close': 'Clique no backdrop desabilitado',
   'dialog.no-escape-close': 'Escape desabilitado',
 
+  'dialog.scroll': 'Conteúdo rolável',
+  'dialog.scroll-desc':
+    'Conteúdo longo mantém o header fixo com elevação ao rolar. Role para ver a sombra e o botão de fechar centralizado.',
+  'dialog.open-scroll': 'Abrir dialog rolável',
+
   'dialog.flow': 'Dialog Flow',
   'dialog.flow-desc':
     'Dialog multi-etapas com transição slide entre os steps, sem reabrir o overlay.',
@@ -159,6 +164,13 @@ export const PT_BR_DIALOG: Record<string, string> = {
     'Este corpo é renderizado pelo componente customizado. Só o corpo rola.',
   'dialog.examples.component-chrome.hint':
     'Título, descrição e ações foram fornecidos via SolarisDialogComponentConfig.',
+
+  'dialog.examples.scroll.title': 'Termos e condições',
+  'dialog.examples.scroll.desc':
+    'Role para ler tudo. O header permanece fixo com sombra.',
+  'dialog.examples.scroll.item-title': 'Seção {{index}}',
+  'dialog.examples.scroll.item-text':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
 
   'dialog.examples.flow.title': 'Dialog Multi-etapas',
   'dialog.examples.flow.step1-title': 'Passo 1: Criar conta',

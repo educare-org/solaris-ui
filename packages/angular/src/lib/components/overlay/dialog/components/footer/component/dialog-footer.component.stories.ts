@@ -14,9 +14,12 @@ export const Primary: Story = {
   args: {},
 };
 
-export const Heading: Story = {
-  args: {},
-  play: async ({ canvas }) => {
-    await expect(canvas.getByText(/dialog-footer/gi)).toBeTruthy();
+export const Scrolled: Story = {
+  args: {
+    scrolled: true,
+  },
+  play: async ({ canvasElement }) => {
+    const footer = canvasElement.querySelector('solaris-dialog-footer');
+    await expect(footer?.getAttribute('data-scrolled')).toBe('');
   },
 };

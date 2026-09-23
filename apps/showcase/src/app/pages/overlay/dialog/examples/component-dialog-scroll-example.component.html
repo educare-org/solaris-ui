@@ -1,0 +1,47 @@
+<solaris-dialog-header
+  [title]="data.title"
+  [description]="data.description"
+  icon="info"
+  closeable
+/>
+
+<solaris-dialog-content>
+  <div class="component-dialog-scroll-example__body">
+    @for (section of sections(); track section) {
+      <section class="component-dialog-scroll-example__section">
+        <h3 class="component-dialog-scroll-example__heading">
+          {{
+            'dialog.examples.scroll.item-title'
+              | translate: { index: section + 1 }
+          }}
+        </h3>
+        <p class="component-dialog-scroll-example__text">
+          {{ 'dialog.examples.scroll.item-text' | translate }}
+        </p>
+      </section>
+    }
+  </div>
+</solaris-dialog-content>
+
+<solaris-dialog-footer align="end">
+  <button
+    type="button"
+    solaris-button
+    density="compact"
+    appearance="ghost"
+    solaris-dialog-close
+    [solarisDialogClose]="'cancel'"
+  >
+    {{ 'dialog.common.cancel' | translate }}
+  </button>
+
+  <button
+    type="button"
+    solaris-button
+    color="primary"
+    density="compact"
+    (click)="closeWithResult('accepted')"
+  >
+    {{ 'dialog.common.confirm' | translate }}
+  </button>
+</solaris-dialog-footer>

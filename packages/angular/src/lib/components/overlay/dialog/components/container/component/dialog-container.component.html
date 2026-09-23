@@ -33,9 +33,12 @@
           [description]="chromeDescription"
           [separator]="chromeHeaderSeparator"
           [iconDecorative]="chromeIconDecorative"
+          [closeable]="closeable"
+          [closeLabel]="resolvedCloseLabel"
+          [scrolled]="panelScrolled()"
         />
       }
-      <div class="solaris-dialog-panel__body">
+      <div class="solaris-dialog-panel__body" (scroll)="onPanelBodyScroll()">
         <ng-template #componentHost></ng-template>
       </div>
       @if (hasChromeActions) {
@@ -45,10 +48,11 @@
           [stack]="chromeActionsStack"
           [separator]="chromeFooterSeparator"
           [density]="chromeDensity"
+          [scrolled]="panelHasMoreBelow()"
         />
       }
     }
-    @if (closeable) {
+    @if (showFloatingClose) {
       <button
         type="button"
         data-dialog-close

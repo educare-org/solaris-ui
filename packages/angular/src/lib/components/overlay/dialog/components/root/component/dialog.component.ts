@@ -1,9 +1,14 @@
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular API to read the host element for capture-phase scroll listener tracking bodyScrolled state. SSR-safe via afterNextRender with DestroyRef cleanup. No alternative exists.
 import {
   Component,
   input,
   inject,
   ChangeDetectionStrategy,
   computed,
+  signal,
+  ElementRef,
+  DestroyRef,
+  afterNextRender,
 } from '@angular/core';
 
 import { SolarisDialogContentComponent } from '../../content/component/dialog-content.component';
@@ -34,6 +39,40 @@ export class SolarisDialogComponent<TResult = unknown> {
   });
 
   readonly options = input.required<SolarisDialogOptions<TResult>>();
+
+  private readonly hostElement =
+    inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+  private readonly destroyRef = inject(DestroyRef);
+
+  protected readonly bodyScrolled = signal(false);
+
+  protected readonly bodyHasMoreBelow = signal(false);
+
+  constructor() {
+    afterNextRender(() => {
+      const syncFrom = (target: HTMLElement | null): void => {
+        if (!target) {
+          return;
+        }
+        this.bodyScrolled.set(target.scrollTop > 0);
+        this.bodyHasMoreBelow.set(
+          target.scrollTop + target.clientHeight < target.scrollHeight - 1,
+        );
+      };
+      const onScroll = (event: Event): void => {
+        syncFrom(event.target as HTMLElement | null);
+      };
+      this.hostElement.addEventListener('scroll', onScroll, { capture: true });
+      this.hostElement
+        .querySelectorAll('.solaris-dialog__body, solaris-dialog-content')
+        .forEach((element) => syncFrom(element as HTMLElement));
+      this.destroyRef.onDestroy(() => {
+        this.hostElement.removeEventListener('scroll', onScroll, {
+          capture: true,
+        });
+      });
+    });
+  }
 
   protected readonly hasActions = computed(() => {
     const actions = this.options().actions;
@@ -84,6 +123,17 @@ export class SolarisDialogComponent<TResult = unknown> {
       );
     }
     return this.description();
+  });
+  protected readonly closeable = computed(
+    () => this.options().closeable ?? true,
+  );
+  protected readonly resolvedCloseLabel = computed(() => {
+    const closeLabelKey = this.options().closeLabelKey;
+    const closeLabel = this.options().closeLabel ?? 'Close';
+    if (closeLabelKey) {
+      return this.translateService?.translate(closeLabelKey) ?? closeLabel;
+    }
+    return closeLabel;
   });
 
   protected readonly actions = computed(() => {

@@ -55,6 +55,11 @@ export const EN_US_DIALOG: Record<string, string> = {
   'dialog.no-backdrop-close': 'Backdrop close disabled',
   'dialog.no-escape-close': 'Escape disabled',
 
+  'dialog.scroll': 'Scrollable content',
+  'dialog.scroll-desc':
+    'Long content keeps the header pinned with scrolled elevation. Scroll to see the shadow and the centered close button.',
+  'dialog.open-scroll': 'Open scrollable dialog',
+
   'dialog.flow': 'Dialog Flow',
   'dialog.flow-desc':
     'Multi-step dialog with slide transition between steps, without reopening the overlay.',
@@ -157,6 +162,13 @@ export const EN_US_DIALOG: Record<string, string> = {
     'This body is rendered by the custom component. Only the body scrolls.',
   'dialog.examples.component-chrome.hint':
     'Title, description and actions were provided via SolarisDialogComponentConfig.',
+
+  'dialog.examples.scroll.title': 'Terms and conditions',
+  'dialog.examples.scroll.desc':
+    'Scroll to read everything. The header stays pinned with a shadow.',
+  'dialog.examples.scroll.item-title': 'Section {{index}}',
+  'dialog.examples.scroll.item-text':
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
 
   'dialog.examples.flow.title': 'Multi-step Dialog',
   'dialog.examples.flow.step1-title': 'Step 1: Create account',

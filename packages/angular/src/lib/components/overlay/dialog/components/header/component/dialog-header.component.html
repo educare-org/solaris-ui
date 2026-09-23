@@ -1,21 +1,33 @@
 <div class="solaris-dialog-header__start">
-  @if (hasIcon()) {
-    <div class="solaris-dialog-header__icon">
-      <solaris-icon [name]="icon()!" [decorative]="iconDecorative()" />
-    </div>
-  }
+  <div class="solaris-dialog-header__row">
+    @if (hasIcon()) {
+      <div class="solaris-dialog-header__icon">
+        <solaris-icon [name]="icon()!" [decorative]="iconDecorative()" />
+      </div>
+    }
 
-  <div class="solaris-dialog-header__text">
     @if (hasTitle()) {
       <h2 class="solaris-dialog-header__title" [attr.id]="titleId">
         {{ title() }}
       </h2>
     }
 
-    @if (hasDescription()) {
-      <p class="solaris-dialog-header__description" [attr.id]="descriptionId">
-        {{ description() }}
-      </p>
+    @if (showClose()) {
+      <button
+        type="button"
+        data-dialog-close
+        (click)="closeDialog()"
+        [attr.aria-label]="closeLabel()"
+        class="solaris-dialog-header__close"
+      >
+        <solaris-icon name="x" [decorative]="true" />
+      </button>
     }
   </div>
+
+  @if (hasDescription()) {
+    <p class="solaris-dialog-header__description" [attr.id]="descriptionId">
+      {{ description() }}
+    </p>
+  }
 </div>

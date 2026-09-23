@@ -44,6 +44,21 @@ function q(
   return (fixture.nativeElement as HTMLElement).querySelector(selector);
 }
 
+function mockScrollMetrics(
+  element: HTMLElement,
+  metrics: { scrollTop: number; clientHeight: number; scrollHeight: number },
+): void {
+  element.scrollTop = metrics.scrollTop;
+  Object.defineProperty(element, 'clientHeight', {
+    value: metrics.clientHeight,
+    configurable: true,
+  });
+  Object.defineProperty(element, 'scrollHeight', {
+    value: metrics.scrollHeight,
+    configurable: true,
+  });
+}
+
 describe('SolarisDialogComponent', () => {
   it('should render title', () => {
     const fixture = createFixture({ title: 'Test Title' });
@@ -109,6 +124,48 @@ describe('SolarisDialogComponent', () => {
     const fixture = createFixture({ title: 'Test', icon: 'info' });
     const icon = q(fixture, 'solaris-icon');
     expect(icon).toBeTruthy();
+  });
+
+  it('should render the close button inside the header by default', () => {
+    const fixture = createFixture({ title: 'Test' });
+    const closeBtn = q(fixture, '.solaris-dialog-header__close');
+    expect(closeBtn).toBeTruthy();
+    expect(closeBtn?.getAttribute('aria-label')).toBe('Close');
+  });
+
+  it('should hide the close button when closeable is false', () => {
+    const fixture = createFixture({ title: 'Test', closeable: false });
+    expect(q(fixture, '[data-dialog-close]')).toBeFalsy();
+  });
+
+  it('should use a custom close label', () => {
+    const fixture = createFixture({ title: 'Test', closeLabel: 'Fechar' });
+    expect(q(fixture, '[data-dialog-close]')?.getAttribute('aria-label')).toBe(
+      'Fechar',
+    );
+  });
+
+  it('should mark actions as scrolled while the body has content below', () => {
+    const fixture = createFixture({
+      title: 'Test',
+      actions: [{ label: 'Ok', close: true }],
+    });
+    const body = q(fixture, '.solaris-dialog__body') as HTMLElement;
+    mockScrollMetrics(body, {
+      scrollTop: 0,
+      clientHeight: 400,
+      scrollHeight: 1000,
+    });
+    body.dispatchEvent(new Event('scroll'));
+    fixture.detectChanges();
+
+    const actionsEl = q(fixture, 'solaris-dialog-actions');
+    expect(actionsEl?.getAttribute('data-scrolled')).toBe('');
+
+    body.scrollTop = 600;
+    body.dispatchEvent(new Event('scroll'));
+    fixture.detectChanges();
+    expect(actionsEl?.getAttribute('data-scrolled')).toBeNull();
   });
 
   it('should not render actions when actions array is empty', () => {

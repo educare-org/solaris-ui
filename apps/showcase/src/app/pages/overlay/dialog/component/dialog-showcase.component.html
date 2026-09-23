@@ -181,6 +181,20 @@
 
   <section class="dialog-showcase__section">
     <h2 class="dialog-showcase__section-title">
+      {{ 'dialog.scroll' | translate }}
+    </h2>
+    <p class="dialog-showcase__section-desc">
+      {{ 'dialog.scroll-desc' | translate }}
+    </p>
+    <div class="dialog-showcase__row">
+      <button type="button" solaris-button (click)="openComponentScroll()">
+        {{ 'dialog.open-scroll' | translate }}
+      </button>
+    </div>
+  </section>
+
+  <section class="dialog-showcase__section">
+    <h2 class="dialog-showcase__section-title">
       {{ 'dialog.flow' | translate }}
     </h2>
     <p class="dialog-showcase__section-desc">

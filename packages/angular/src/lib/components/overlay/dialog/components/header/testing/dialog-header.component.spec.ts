@@ -25,6 +25,9 @@ function createFixture(
     iconDecorative: boolean;
     variant: 'neutral' | 'info' | 'success' | 'warning' | 'danger';
     separator: boolean;
+    closeable: boolean;
+    closeLabel: string;
+    scrolled: boolean;
   }>,
 ): ComponentFixture<SolarisDialogHeaderComponent> {
   configureSolarisTesting();
@@ -48,6 +51,12 @@ function createFixture(
     fixture.componentRef.setInput('variant', inputs.variant);
   if (inputs.separator !== undefined)
     fixture.componentRef.setInput('separator', inputs.separator);
+  if (inputs.closeable !== undefined)
+    fixture.componentRef.setInput('closeable', inputs.closeable);
+  if (inputs.closeLabel !== undefined)
+    fixture.componentRef.setInput('closeLabel', inputs.closeLabel);
+  if (inputs.scrolled !== undefined)
+    fixture.componentRef.setInput('scrolled', inputs.scrolled);
   fixture.detectChanges();
   return fixture;
 }
@@ -130,10 +139,86 @@ describe('SolarisDialogHeaderComponent', () => {
     expect(iconEl).toBeFalsy();
   });
 
-  it('should not render a close button (owned by dialog-container)', () => {
+  it('should not render a close button by default', () => {
     const fixture = createFixture({ title: 'Test' });
     const closeBtn = q(fixture, '[data-dialog-close]');
     expect(closeBtn).toBeNull();
+  });
+
+  it('should render an in-flow close button when closeable', () => {
+    const fixture = createFixture({ title: 'Test', closeable: true });
+    const closeBtn = q(
+      fixture,
+      '.solaris-dialog-header__row [data-dialog-close]',
+    );
+    expect(closeBtn).toBeTruthy();
+    expect(closeBtn?.getAttribute('aria-label')).toBe('Close');
+  });
+
+  it('should use a custom close label', () => {
+    const fixture = createFixture({
+      title: 'Test',
+      closeable: true,
+      closeLabel: 'Fechar',
+    });
+    const closeBtn = q(fixture, '[data-dialog-close]');
+    expect(closeBtn?.getAttribute('aria-label')).toBe('Fechar');
+  });
+
+  it('should close the dialog when the close button is clicked', () => {
+    const ref = createDialogRef();
+    const closeSpy = vi.spyOn(ref, 'close');
+
+    configureSolarisTesting();
+    TestBed.configureTestingModule({
+      providers: [
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+        { provide: SOLARIS_DIALOG_REF, useValue: ref },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(SolarisDialogHeaderComponent);
+    fixture.componentRef.setInput('title', 'Test');
+    fixture.componentRef.setInput('closeable', true);
+    fixture.detectChanges();
+
+    const closeBtn = q(fixture, '[data-dialog-close]') as HTMLElement;
+    closeBtn.click();
+    expect(closeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not set data-scrolled by default', () => {
+    const fixture = createFixture({ title: 'Test' });
+    const hostEl = fixture.nativeElement as HTMLElement;
+    expect(hostEl.getAttribute('data-scrolled')).toBeNull();
+  });
+
+  it('should set data-scrolled when scrolled input is true', () => {
+    const fixture = createFixture({ title: 'Test', scrolled: true });
+    const hostEl = fixture.nativeElement as HTMLElement;
+    expect(hostEl.getAttribute('data-scrolled')).toBe('');
+  });
+
+  it('should set data-scrolled when the scroll parent is scrolled', () => {
+    configureSolarisTesting();
+    TestBed.configureTestingModule({
+      providers: [
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+        { provide: SOLARIS_DIALOG_REF, useValue: createDialogRef() },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(SolarisDialogHeaderComponent);
+    fixture.componentRef.setInput('title', 'Test');
+    const hostEl = fixture.nativeElement as HTMLElement;
+    const scrollParent = hostEl.parentElement as HTMLElement;
+    scrollParent.style.overflowY = 'auto';
+    fixture.detectChanges();
+
+    scrollParent.scrollTop = 48;
+    scrollParent.dispatchEvent(new Event('scroll'));
+    fixture.detectChanges();
+    expect(hostEl.getAttribute('data-scrolled')).toBe('');
   });
 
   it('should set data-separator by default', () => {
