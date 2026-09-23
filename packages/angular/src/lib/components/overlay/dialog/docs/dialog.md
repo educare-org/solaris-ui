@@ -430,7 +430,7 @@ injecting `SolarisDialogRef` for that button.
   <form>...</form>
 </solaris-dialog-content>
 <solaris-dialog-footer align="end">
-  <button type="button" solaris-button appearance="ghost" [solarisDialogClose]>Cancel</button>
+  <button type="button" solaris-button appearance="ghost" solaris-dialog-close>Cancel</button>
   <button type="button" solaris-button color="primary" (click)="save()">Save</button>
 </solaris-dialog-footer>
 ```

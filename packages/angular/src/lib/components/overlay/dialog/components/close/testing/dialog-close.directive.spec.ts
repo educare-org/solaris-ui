@@ -8,7 +8,11 @@ import { SolarisDialogCloseDirective } from '../directives/dialog-close.directiv
 @Component({
   standalone: true,
   imports: [SolarisDialogCloseDirective],
-  template: `<button type="button" [solarisDialogClose]="result">
+  template: `<button
+    type="button"
+    solaris-dialog-close
+    [solarisDialogClose]="result"
+  >
     Close
   </button>`,
 })
