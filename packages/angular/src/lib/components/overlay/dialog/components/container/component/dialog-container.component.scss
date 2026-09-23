@@ -162,6 +162,12 @@
     var(--solaris-motion-easing-decelerate);
 }
 
+.solaris-dialog-panel__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
 .solaris-dialog-container__close {
   border: none;
   display: flex;

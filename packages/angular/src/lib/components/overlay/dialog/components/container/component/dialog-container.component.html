@@ -25,7 +25,28 @@
     @if (isSimpleMode) {
       <solaris-dialog [options]="simpleOptions()!" />
     } @else {
-      <ng-template #componentHost></ng-template>
+      @if (hasChromeHeader) {
+        <solaris-dialog-header
+          [icon]="chromeIcon"
+          [title]="chromeTitle"
+          [variant]="chromeVariant"
+          [description]="chromeDescription"
+          [separator]="chromeHeaderSeparator"
+          [iconDecorative]="chromeIconDecorative"
+        />
+      }
+      <div class="solaris-dialog-panel__body">
+        <ng-template #componentHost></ng-template>
+      </div>
+      @if (hasChromeActions) {
+        <solaris-dialog-actions
+          [actions]="chromeActions"
+          [align]="chromeActionsAlign"
+          [stack]="chromeActionsStack"
+          [separator]="chromeFooterSeparator"
+          [density]="chromeDensity"
+        />
+      }
     }
     @if (closeable) {
       <button

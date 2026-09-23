@@ -1,8 +1,6 @@
-<div class="component-dialog-example">
-  <solaris-icon name="info-circle" [decorative]="false" />
+<solaris-dialog-header [title]="data.title" icon="info-circle" />
 
-  <h2 class="component-dialog-example__title">{{ data.title }}</h2>
-
+<solaris-dialog-content>
   <p class="component-dialog-example__description">
     {{ 'dialog.examples.component.desc-part1' | translate
     }}<code>openComponent()</code
@@ -10,24 +8,26 @@
     }}<code>SOLARIS_DIALOG_DATA</code
     >{{ 'dialog.examples.component.desc-part3' | translate }}
   </p>
+</solaris-dialog-content>
 
-  <div class="component-dialog-example__actions">
-    <button
-      type="button"
-      solaris-button
-      appearance="ghost"
-      (click)="close('cancel')"
-    >
-      {{ 'dialog.common.cancel' | translate }}
-    </button>
+<solaris-dialog-footer align="end">
+  <button
+    type="button"
+    solaris-button
+    density="compact"
+    appearance="ghost"
+    [solarisDialogClose]="'cancel'"
+  >
+    {{ 'dialog.common.cancel' | translate }}
+  </button>
 
-    <button
-      type="button"
-      solaris-button
-      color="primary"
-      (click)="closeWithPizza()"
-    >
-      {{ 'dialog.examples.component.close-pizza' | translate }}
-    </button>
-  </div>
-</div>
+  <button
+    type="button"
+    solaris-button
+    color="primary"
+    density="compact"
+    (click)="closeWithPizza()"
+  >
+    {{ 'dialog.examples.component.close-pizza' | translate }}
+  </button>
+</solaris-dialog-footer>
