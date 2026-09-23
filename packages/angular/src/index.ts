@@ -392,6 +392,8 @@ export { SolarisDialogComponent } from './lib/components/overlay/dialog/componen
 export { SolarisDialogHeaderComponent } from './lib/components/overlay/dialog/components/header/component/dialog-header.component';
 export { SolarisDialogContentComponent } from './lib/components/overlay/dialog/components/content/component/dialog-content.component';
 export { SolarisDialogActionsComponent } from './lib/components/overlay/dialog/components/actions/component/dialog-actions.component';
+export { SolarisDialogFooterComponent } from './lib/components/overlay/dialog/components/footer/component/dialog-footer.component';
+export { SolarisDialogCloseDirective } from './lib/components/overlay/dialog/components/close/directives/dialog-close.directive';
 export { SolarisDialogFlowComponent } from './lib/components/overlay/dialog/components/flow/component/dialog-flow.component';
 export { SolarisDialogStepComponent } from './lib/components/overlay/dialog/components/step/component/dialog-step.component';
 export { SOLARIS_DIALOG_CONFIG } from './lib/components/overlay/dialog/token/dialog.tokens';

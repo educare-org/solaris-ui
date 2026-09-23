@@ -46,6 +46,7 @@ export const PT_BR_DIALOG: Record<string, string> = {
   'dialog.component-desc':
     'Abra um dialog com um componente externo via openComponent(). O componente pode injetar SOLARIS_DIALOG_DATA e SolarisDialogRef.',
   'dialog.open-component': 'Abrir dialog por componente',
+  'dialog.open-component-chrome': 'Abrir com header/footer',
 
   'dialog.behavior': 'Comportamento',
   'dialog.behavior-desc':
@@ -150,6 +151,14 @@ export const PT_BR_DIALOG: Record<string, string> = {
     '. Os dados foram injetados via token ',
   'dialog.examples.component.desc-part3': '.',
   'dialog.examples.component.close-pizza': 'Fechar com "Pizza!"',
+
+  'dialog.examples.component-chrome.title': 'Componente com chrome',
+  'dialog.examples.component-chrome.desc':
+    'Header e footer vêm do config do openComponent.',
+  'dialog.examples.component-chrome.message':
+    'Este corpo é renderizado pelo componente customizado. Só o corpo rola.',
+  'dialog.examples.component-chrome.hint':
+    'Título, descrição e ações foram fornecidos via SolarisDialogComponentConfig.',
 
   'dialog.examples.flow.title': 'Dialog Multi-etapas',
   'dialog.examples.flow.step1-title': 'Passo 1: Criar conta',

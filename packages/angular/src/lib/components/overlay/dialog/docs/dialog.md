@@ -155,31 +155,48 @@ Actions are rendered using the Solaris Button directive (`[solaris-button]`).
 
 ### SolarisDialogComponentConfig
 
-| Property             | Type                                                                                                                 | Default            | Description                            |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------ | -------------------------------------- |
-| width                | `string`                                                                                                             | -                  | Custom width                           |
-| height               | `string`                                                                                                             | -                  | Custom height                          |
-| minWidth             | `string`                                                                                                             | -                  | Minimum width                          |
-| maxWidth             | `string`                                                                                                             | -                  | Maximum width                          |
-| minHeight            | `string`                                                                                                             | -                  | Minimum height                         |
-| maxHeight            | `string`                                                                                                             | -                  | Maximum height                         |
-| data                 | `TData`                                                                                                              | -                  | Data to inject via SOLARIS_DIALOG_DATA |
-| closeable            | `boolean`                                                                                                            | `true`             | Show close button                      |
-| closeLabel           | `string`                                                                                                             | `'Close'`          | Close button aria-label                |
-| closeLabelKey        | `string`                                                                                                             | -                  | Translation key for close label        |
-| backdrop             | `boolean`                                                                                                            | `true`             | Show the modal backdrop                |
-| closeOnEscape        | `boolean`                                                                                                            | `true`             | Close on Escape key                    |
-| closeOnBackdropClick | `boolean`                                                                                                            | `true`             | Close on backdrop click                |
-| autoFocus            | `'first-tabbable' \| 'panel' \| false`                                                                               | `'first-tabbable'` | Auto focus behavior                    |
-| restoreFocus         | `boolean`                                                                                                            | `true`             | Restore focus on close                 |
-| role                 | `'dialog' \| 'alertdialog'`                                                                                          | `'dialog'`         | ARIA role                              |
-| appearance           | `'surface' \| 'outline'`                                                                                             | `'outline'`        | Visual appearance                      |
-| fullscreen           | `boolean`                                                                                                            | `false`            | Full-viewport panel                    |
-| placement            | `'center' \| 'top' \| 'bottom' \| 'left' \| 'right' \| 'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'` | `'center'`         | Panel position                         |
-| headerSeparator      | `boolean`                                                                                                            | `true`             | Show header separator line             |
-| footerSeparator      | `boolean`                                                                                                            | `true`             | Show footer separator line             |
-| radius               | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                                                           | `'lg'`             | Panel border radius                    |
-| density              | `'compact' \| 'normal' \| 'comfortable'`                                                                             | theme density      | Section spacing density                |
+| Property             | Type                                                                                                                 | Default            | Description                                           |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------ | ----------------------------------------------------- |
+| title                | `string`                                                                                                             | -                  | Chrome header title (renders `solaris-dialog-header`) |
+| titleKey             | `string`                                                                                                             | -                  | Translation key for chrome header title               |
+| description          | `string`                                                                                                             | -                  | Chrome header description                             |
+| descriptionKey       | `string`                                                                                                             | -                  | Translation key for chrome header description         |
+| icon                 | `string`                                                                                                             | -                  | Chrome header icon name                               |
+| iconDecorative       | `boolean`                                                                                                            | `false`            | Whether chrome header icon is decorative              |
+| variant              | `'neutral' \| 'info' \| 'success' \| 'warning' \| 'danger'`                                                          | -                  | Chrome header variant (also reflected on the host)    |
+| width                | `string`                                                                                                             | -                  | Custom width                                          |
+| height               | `string`                                                                                                             | -                  | Custom height                                         |
+| minWidth             | `string`                                                                                                             | -                  | Minimum width                                         |
+| maxWidth             | `string`                                                                                                             | -                  | Maximum width                                         |
+| minHeight            | `string`                                                                                                             | -                  | Minimum height                                        |
+| maxHeight            | `string`                                                                                                             | -                  | Maximum height                                        |
+| data                 | `TData`                                                                                                              | -                  | Data to inject via SOLARIS_DIALOG_DATA                |
+| closeable            | `boolean`                                                                                                            | `true`             | Show close button                                     |
+| closeLabel           | `string`                                                                                                             | `'Close'`          | Close button aria-label                               |
+| closeLabelKey        | `string`                                                                                                             | -                  | Translation key for close label                       |
+| backdrop             | `boolean`                                                                                                            | `true`             | Show the modal backdrop                               |
+| closeOnEscape        | `boolean`                                                                                                            | `true`             | Close on Escape key                                   |
+| closeOnBackdropClick | `boolean`                                                                                                            | `true`             | Close on backdrop click                               |
+| autoFocus            | `'first-tabbable' \| 'panel' \| false`                                                                               | `'first-tabbable'` | Auto focus behavior                                   |
+| restoreFocus         | `boolean`                                                                                                            | `true`             | Restore focus on close                                |
+| role                 | `'dialog' \| 'alertdialog'`                                                                                          | `'dialog'`         | ARIA role                                             |
+| ariaLabel            | `string`                                                                                                             | -                  | ARIA label                                            |
+| ariaLabelKey         | `string`                                                                                                             | -                  | Translation key for ARIA label                        |
+| ariaLabelledBy       | `string`                                                                                                             | -                  | ARIA labelledby                                       |
+| ariaDescribedBy      | `string`                                                                                                             | -                  | ARIA describedby                                      |
+| appearance           | `'surface' \| 'outline'`                                                                                             | `'outline'`        | Visual appearance                                     |
+| fullscreen           | `boolean`                                                                                                            | `false`            | Full-viewport panel                                   |
+| placement            | `'center' \| 'top' \| 'bottom' \| 'left' \| 'right' \| 'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'` | `'center'`         | Panel position                                        |
+| headerSeparator      | `boolean`                                                                                                            | `true`             | Show header separator line                            |
+| footerSeparator      | `boolean`                                                                                                            | `true`             | Show footer separator line                            |
+| radius               | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                                                           | `'lg'`             | Panel border radius                                   |
+| density              | `'compact' \| 'normal' \| 'comfortable'`                                                                             | theme density      | Section spacing density                               |
+| actionsShape         | `'normal' \| 'wide'`                                                                                                 | -                  | Default shape for chrome action buttons               |
+| actionsDensity       | `'compact' \| 'normal' \| 'comfortable'`                                                                             | -                  | Default density for chrome action buttons             |
+| actionsRadius        | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                                                           | -                  | Default radius for chrome action buttons              |
+| actions              | `SolarisDialogAction[]`                                                                                              | -                  | Chrome footer action buttons                          |
+| actionsAlign         | `'start' \| 'center' \| 'end' \| 'space-between'`                                                                    | `'end'`            | Chrome footer actions alignment                       |
+| actionsStack         | `'auto' \| 'horizontal' \| 'vertical'`                                                                               | `'auto'`           | Chrome footer actions stacking                        |
 
 ## Actions Alignment
 
@@ -371,6 +388,56 @@ class MyComponent {
   }
 }
 ```
+
+### Component dialog with chrome (header/footer via config)
+
+Pass `title`, `description`, `icon` and `actions` in the component config and
+the container renders `solaris-dialog-header` above and
+`solaris-dialog-actions` below your component. The custom component keeps only
+its body content; the panel body scrolls while header and footer stay fixed.
+
+```typescript
+const ref = this.dialog.openComponent(MyFormComponent, {
+  title: 'Edit user',
+  description: 'Changes are saved immediately.',
+  variant: 'info',
+  width: '500px',
+  data: { userId: '123' },
+  actions: [
+    { label: 'Cancel', appearance: 'ghost', close: true },
+    { label: 'Save', color: 'primary', close: true, result: 'saved' },
+  ],
+});
+```
+
+When a chrome title/description is present, `aria-labelledby` /
+`aria-describedby` point to the header ids (`<dialog-id>-title` /
+`<dialog-id>-description`), like the simple dialog. Explicit `ariaLabel`,
+`ariaLabelledBy` and `ariaDescribedBy` always win.
+
+### Manual composition inside a component dialog
+
+For full control, compose the dialog parts inside your component template.
+`solaris-dialog-content` is the only scrollable region;
+`solaris-dialog-footer` is a generic footer slot for arbitrary content
+(while `solaris-dialog-actions` renders buttons from an `actions` array).
+`solarisDialogClose` closes the dialog with an optional result, without
+injecting `SolarisDialogRef` for that button.
+
+```html
+<solaris-dialog-header title="Edit user" description="..." />
+<solaris-dialog-content>
+  <form>...</form>
+</solaris-dialog-content>
+<solaris-dialog-footer align="end">
+  <button type="button" solaris-button appearance="ghost" [solarisDialogClose]>Cancel</button>
+  <button type="button" solaris-button color="primary" (click)="save()">Save</button>
+</solaris-dialog-footer>
+```
+
+Do not combine chrome-via-config with manual `solaris-dialog-header` /
+`solaris-dialog-actions` in the same dialog: prefer one approach per dialog
+to avoid duplicated headers or footers.
 
 ### Dialog Flow
 

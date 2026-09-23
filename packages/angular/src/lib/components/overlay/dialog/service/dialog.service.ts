@@ -85,13 +85,17 @@ export class SolarisDialogService {
 
   openComponent<TComponent, TResult = unknown, TData = unknown>(
     component: Type<TComponent>,
-    config?: SolarisDialogComponentConfig<TData>,
+    config?: SolarisDialogComponentConfig<TData, TResult>,
   ): SolarisDialogRef<TResult> {
     const id = `solaris-dialog-${++nextDialogId}`;
     const ref = new SolarisDialogRef<TResult>(id);
-    const data = config?.data as TData | undefined;
+    const mergedConfig = this.resolveComponentConfig(config ?? {});
+    const data = mergedConfig.data as TData | undefined;
 
-    const overlayRef = this.createOverlay(config?.placement, config?.backdrop);
+    const overlayRef = this.createOverlay(
+      mergedConfig.placement,
+      mergedConfig.backdrop,
+    );
     const injector = this.createInjector(ref, data);
 
     const portal = new ComponentPortal(
@@ -102,10 +106,10 @@ export class SolarisDialogService {
 
     const componentRef = overlayRef.attach(portal);
     componentRef.setInput('externalComponent', component);
-    componentRef.setInput('externalComponentConfig', config ?? {});
+    componentRef.setInput('externalComponentConfig', mergedConfig);
 
     this.trackDialog(ref as unknown as SolarisDialogRef, overlayRef, {
-      restoreFocus: config?.restoreFocus ?? this.config.restoreFocus ?? true,
+      restoreFocus: mergedConfig.restoreFocus ?? true,
       previouslyFocused: this.document.activeElement as HTMLElement | null,
     });
 
@@ -244,6 +248,36 @@ export class SolarisDialogService {
       actionsRadius: options.actionsRadius ?? this.config.actionsRadius,
       actionsAlign: options.actionsAlign ?? this.config.actionsAlign ?? 'end',
       actionsStack: options.actionsStack ?? this.config.actionsStack ?? 'auto',
+    };
+  }
+
+  private resolveComponentConfig<TData, TResult>(
+    config: SolarisDialogComponentConfig<TData, TResult>,
+  ): SolarisDialogComponentConfig<TData, TResult> {
+    return {
+      ...config,
+      appearance: config.appearance ?? this.config.appearance,
+      fullscreen: config.fullscreen ?? this.config.fullscreen ?? false,
+      closeable: config.closeable ?? this.config.closeable ?? true,
+      backdrop: config.backdrop ?? this.config.backdrop ?? true,
+      closeOnEscape: config.closeOnEscape ?? this.config.closeOnEscape ?? true,
+      closeOnBackdropClick:
+        config.closeOnBackdropClick ?? this.config.closeOnBackdropClick ?? true,
+      autoFocus: config.autoFocus ?? this.config.autoFocus,
+      restoreFocus: config.restoreFocus ?? this.config.restoreFocus ?? true,
+      role: config.role ?? this.config.role,
+      placement: config.placement ?? this.config.placement ?? 'center',
+      headerSeparator:
+        config.headerSeparator ?? this.config.headerSeparator ?? true,
+      footerSeparator:
+        config.footerSeparator ?? this.config.footerSeparator ?? true,
+      radius: config.radius ?? this.config.radius,
+      density: config.density ?? this.config.density,
+      actionsShape: config.actionsShape ?? this.config.actionsShape,
+      actionsDensity: config.actionsDensity ?? this.config.actionsDensity,
+      actionsRadius: config.actionsRadius ?? this.config.actionsRadius,
+      actionsAlign: config.actionsAlign ?? this.config.actionsAlign ?? 'end',
+      actionsStack: config.actionsStack ?? this.config.actionsStack ?? 'auto',
     };
   }
 

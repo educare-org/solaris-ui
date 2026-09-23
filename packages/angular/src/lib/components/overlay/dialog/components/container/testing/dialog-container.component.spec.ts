@@ -680,5 +680,63 @@ describe('SolarisDialogContainerComponent', () => {
         'Second',
       );
     });
+
+    describe('external component chrome (header/actions)', () => {
+      it('should not render chrome header or actions by default', () => {
+        const fixture = createExternalFixture(ExternalTestComponent);
+        expect(q(fixture, 'solaris-dialog-header')).toBeNull();
+        expect(q(fixture, 'solaris-dialog-actions')).toBeNull();
+      });
+
+      it('should render chrome header from title and description', () => {
+        const fixture = createExternalFixture(ExternalTestComponent, {
+          title: 'Chrome Title',
+          description: 'Chrome description',
+        });
+        const titleEl = q(fixture, '.solaris-dialog-header__title');
+        expect(titleEl?.textContent?.trim()).toBe('Chrome Title');
+        const descEl = q(fixture, '.solaris-dialog-header__description');
+        expect(descEl?.textContent?.trim()).toBe('Chrome description');
+      });
+
+      it('should render chrome actions from config', () => {
+        const fixture = createExternalFixture(ExternalTestComponent, {
+          title: 'With actions',
+          actions: [
+            { label: 'Cancel', appearance: 'ghost', close: true },
+            { label: 'Confirm', color: 'primary', close: true },
+          ],
+        });
+        const buttons = (fixture.nativeElement as HTMLElement).querySelectorAll(
+          'solaris-dialog-actions button',
+        );
+        expect(buttons).toHaveLength(2);
+        expect(buttons[0].textContent?.trim()).toBe('Cancel');
+        expect(buttons[1].textContent?.trim()).toBe('Confirm');
+      });
+
+      it('should wire aria-labelledby and aria-describedby for chrome header', () => {
+        const fixture = createExternalFixture(ExternalTestComponent, {
+          title: 'Chrome Title',
+          description: 'Chrome description',
+        });
+        const panel = q(fixture, '.solaris-dialog-panel') as HTMLElement;
+        expect(panel.getAttribute('aria-labelledby')).toBe(
+          'test-dialog-id-title',
+        );
+        expect(panel.getAttribute('aria-describedby')).toBe(
+          'test-dialog-id-description',
+        );
+      });
+
+      it('should reflect chrome variant on the host', () => {
+        const fixture = createExternalFixture(ExternalTestComponent, {
+          title: 'Variant',
+          variant: 'danger',
+        });
+        const hostEl = fixture.nativeElement as HTMLElement;
+        expect(hostEl.getAttribute('data-variant')).toBe('danger');
+      });
+    });
   });
 });

@@ -121,7 +121,17 @@ export interface SolarisDialogOptions<TResult = unknown> {
   data?: unknown;
 }
 
-export interface SolarisDialogComponentConfig<TData = unknown> {
+export interface SolarisDialogComponentConfig<
+  TData = unknown,
+  TResult = unknown,
+> {
+  title?: string;
+  titleKey?: string;
+  description?: string;
+  descriptionKey?: string;
+  icon?: string;
+  iconDecorative?: boolean;
+  variant?: SolarisDialogVariant;
   width?: string;
   height?: string;
   minWidth?: string;
@@ -138,6 +148,10 @@ export interface SolarisDialogComponentConfig<TData = unknown> {
   autoFocus?: SolarisDialogAutoFocus;
   restoreFocus?: boolean;
   role?: SolarisDialogRole;
+  ariaLabel?: string;
+  ariaLabelKey?: string;
+  ariaLabelledBy?: string;
+  ariaDescribedBy?: string;
   appearance?: SolarisDialogAppearance;
   fullscreen?: boolean;
   placement?: SolarisDialogPlacement;
@@ -145,6 +159,12 @@ export interface SolarisDialogComponentConfig<TData = unknown> {
   footerSeparator?: boolean;
   radius?: SolarisDialogRadius;
   density?: SolarisDialogDensity;
+  actionsShape?: SolarisDialogButtonShape;
+  actionsDensity?: SolarisDialogButtonDensity;
+  actionsRadius?: SolarisDialogButtonRadius;
+  actions?: SolarisDialogAction<TResult>[];
+  actionsAlign?: SolarisDialogActionsAlign;
+  actionsStack?: SolarisDialogActionsStack;
 }
 
 export interface SolarisDialogConfig {

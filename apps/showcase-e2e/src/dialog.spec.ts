@@ -96,4 +96,13 @@ test.describe('Dialog', () => {
     await expect(dialog.actions()).not.toHaveAttribute('data-separator', '');
     await dialog.closeViaEscape();
   });
+
+  test('renders chrome header and actions for component dialog', async () => {
+    await dialog.open('Open with header/footer');
+    await dialog.assertTitle('Component with chrome');
+    await expect(dialog.header()).toBeVisible();
+    await expect(dialog.actions()).toBeVisible();
+    await dialog.closeViaButton('Confirm');
+    await dialog.assertNotVisible();
+  });
 });
