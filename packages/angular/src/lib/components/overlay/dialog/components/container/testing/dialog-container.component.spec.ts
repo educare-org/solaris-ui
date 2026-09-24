@@ -484,6 +484,21 @@ describe('SolarisDialogContainerComponent', () => {
         expect(document.activeElement).toBe(buttons[1]);
       });
 
+      it('should focus the first action by default', () => {
+        const fixture = createSimpleFixture({
+          title: 'Test',
+          actions: [
+            { label: 'Cancel', close: true },
+            { label: 'Confirm', close: true },
+          ],
+        });
+        const buttons = (fixture.nativeElement as HTMLElement).querySelectorAll(
+          '[solaris-button]',
+        );
+        expect(buttons).toHaveLength(2);
+        expect(document.activeElement).toBe(buttons[0]);
+      });
+
       it('should mark the autofocus action with data-autofocus', () => {
         const fixture = createSimpleFixture({
           title: 'Test',

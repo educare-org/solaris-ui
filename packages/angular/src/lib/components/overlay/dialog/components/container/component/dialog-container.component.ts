@@ -477,6 +477,14 @@ export class SolarisDialogContainerComponent implements AfterViewInit {
       return;
     }
 
+    const firstAction = panel.querySelector<HTMLElement>(
+      'solaris-dialog-actions button:not([disabled])',
+    );
+    if (firstAction) {
+      firstAction.focus();
+      return;
+    }
+
     this._focusTrap()?.focusTrap?.focusInitialElement();
   }
 

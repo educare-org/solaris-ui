@@ -347,7 +347,8 @@ The following CSS variables can be customized. Panel and backdrop tokens are dec
   `<dialog-id>-description`), so stacked dialogs never share ids
 - Focus trap: Focus is trapped within the dialog
 - Initial focus (`autoFocus`): `'first-tabbable'` (default) focuses the first
-  tabbable element, `'panel'` focuses the panel itself, `false` moves no
+  action button when actions are present, otherwise the first tabbable
+  element, `'panel'` focuses the panel itself, `false` moves no
   focus. An action with `autoFocus: true` wins over the dialog-level setting.
 - Restore focus: Focus returns to the trigger element on close (opt out with
   `restoreFocus: false`)
