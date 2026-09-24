@@ -93,20 +93,36 @@ describe('SolarisDialogFooterComponent', () => {
       'solaris-dialog-footer',
     ) as HTMLElement;
     const scrollParent = footer.parentElement as HTMLElement;
+    const prevOverflowY = scrollParent.style.overflowY;
+    const prevScrollTop = scrollParent.scrollTop;
+    const prevClientHeight = Object.getOwnPropertyDescriptor(
+      scrollParent,
+      'clientHeight',
+    );
+    const prevScrollHeight = Object.getOwnPropertyDescriptor(
+      scrollParent,
+      'scrollHeight',
+    );
     scrollParent.style.overflowY = 'auto';
-    mockScrollMetrics(scrollParent, {
-      scrollTop: 0,
-      clientHeight: 400,
-      scrollHeight: 1000,
-    });
-    fixture.detectChanges();
+    try {
+      mockScrollMetrics(scrollParent, {
+        scrollTop: 0,
+        clientHeight: 400,
+        scrollHeight: 1000,
+      });
+      fixture.detectChanges();
 
-    expect(footer.getAttribute('data-scrolled')).toBe('');
+      expect(footer.getAttribute('data-scrolled')).toBe('');
 
-    scrollParent.scrollTop = 600;
-    scrollParent.dispatchEvent(new Event('scroll'));
-    fixture.detectChanges();
-    expect(footer.getAttribute('data-scrolled')).toBeNull();
+      scrollParent.scrollTop = 600;
+      scrollParent.dispatchEvent(new Event('scroll'));
+      fixture.detectChanges();
+      expect(footer.getAttribute('data-scrolled')).toBeNull();
+    } finally {
+      scrollParent.style.overflowY = prevOverflowY;
+      scrollParent.scrollTop = prevScrollTop;
+      restoreScrollMetrics(scrollParent, prevClientHeight, prevScrollHeight);
+    }
   });
 });
 
@@ -123,4 +139,21 @@ function mockScrollMetrics(
     value: metrics.scrollHeight,
     configurable: true,
   });
+}
+
+function restoreScrollMetrics(
+  element: HTMLElement,
+  clientHeight: PropertyDescriptor | undefined,
+  scrollHeight: PropertyDescriptor | undefined,
+): void {
+  if (clientHeight) {
+    Object.defineProperty(element, 'clientHeight', clientHeight);
+  } else {
+    Reflect.deleteProperty(element, 'clientHeight');
+  }
+  if (scrollHeight) {
+    Object.defineProperty(element, 'scrollHeight', scrollHeight);
+  } else {
+    Reflect.deleteProperty(element, 'scrollHeight');
+  }
 }

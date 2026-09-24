@@ -212,13 +212,20 @@ describe('SolarisDialogHeaderComponent', () => {
     fixture.componentRef.setInput('title', 'Test');
     const hostEl = fixture.nativeElement as HTMLElement;
     const scrollParent = hostEl.parentElement as HTMLElement;
+    const prevOverflowY = scrollParent.style.overflowY;
+    const prevScrollTop = scrollParent.scrollTop;
     scrollParent.style.overflowY = 'auto';
-    fixture.detectChanges();
+    try {
+      fixture.detectChanges();
 
-    scrollParent.scrollTop = 48;
-    scrollParent.dispatchEvent(new Event('scroll'));
-    fixture.detectChanges();
-    expect(hostEl.getAttribute('data-scrolled')).toBe('');
+      scrollParent.scrollTop = 48;
+      scrollParent.dispatchEvent(new Event('scroll'));
+      fixture.detectChanges();
+      expect(hostEl.getAttribute('data-scrolled')).toBe('');
+    } finally {
+      scrollParent.style.overflowY = prevOverflowY;
+      scrollParent.scrollTop = prevScrollTop;
+    }
   });
 
   it('should set data-separator by default', () => {
