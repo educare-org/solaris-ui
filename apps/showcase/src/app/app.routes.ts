@@ -12,6 +12,7 @@ import { formsRoutes } from './routes/forms.routes';
 import { iconsRoutes } from './routes/icons.routes';
 
 export const appRoutes: Route[] = [
+  { path: '', pathMatch: 'full', redirectTo: '/configuration' },
   ...configurationRoutes,
   ...interactionRoutes,
   ...dataDisplayRoutes,

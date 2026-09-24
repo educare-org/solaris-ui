@@ -1,0 +1,42 @@
+<header class="shell-header">
+  <button
+    type="button"
+    class="shell-header__menu-button"
+    [attr.aria-expanded]="menuExpanded().toString()"
+    aria-controls="showcase-sidebar-nav"
+    [attr.aria-label]="
+      (menuExpanded() ? 'shell.menu.close' : 'shell.menu.open') | translate
+    "
+    (click)="menuToggle.emit()"
+  >
+    <span class="shell-header__menu-icon" aria-hidden="true"></span>
+  </button>
+
+  <a
+    routerLink="/"
+    class="shell-header__brand"
+    [attr.aria-label]="'shell.brand.home' | translate"
+  >
+    <span class="shell-header__brand-mark" aria-hidden="true"></span>
+    <span class="shell-header__brand-name"
+      >{{ 'shell.brand.name' | translate }}</span
+    >
+  </a>
+
+  <div class="shell-header__actions">
+    <solaris-form-field density="compact" prefix="search">
+      <input
+        solaris-input
+        type="search"
+        density="compact"
+        [value]="searchQuery()"
+        [attr.aria-label]="'shell.search.label' | translate"
+        (keydown.escape)="clearSearch()"
+        (input)="searchQuery.set($any($event.target).value)"
+        [placeholder]="'shell.search.placeholder' | translate"
+      />
+    </solaris-form-field>
+
+    <app-theme-toggle />
+  </div>
+</header>

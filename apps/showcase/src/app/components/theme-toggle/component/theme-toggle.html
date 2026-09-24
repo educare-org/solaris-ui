@@ -1,0 +1,23 @@
+<solaris-segmented-control
+  size="md"
+  appearance="outline"
+  ariaLabelKey="shell.theme.label"
+  [value]="activeTheme()"
+  (valueChange)="setTheme($event)"
+>
+  <solaris-segmented-item
+    value="light"
+    icon="sun"
+    ariaLabelKey="shell.theme.light"
+  />
+  <solaris-segmented-item
+    value="dark"
+    icon="moon"
+    ariaLabelKey="shell.theme.dark"
+  />
+  <solaris-segmented-item
+    value="system"
+    icon="monitor"
+    ariaLabelKey="shell.theme.system"
+  />
+</solaris-segmented-control>

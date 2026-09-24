@@ -1,4 +1,5 @@
 import { CONFIGURATION_TRANSLATIONS } from '../pages/configuration/translations';
+import { SHELL_TRANSLATIONS } from '../shell/translations';
 import { BADGE_TRANSLATIONS } from '../pages/data-display/badge/translations';
 import { SKELETON_TRANSLATIONS } from '../pages/feedback/skeleton/translations';
 import { SPINNER_TRANSLATIONS } from '../pages/feedback/spinner/translations';
@@ -44,6 +45,7 @@ import { ICONS_TRANSLATIONS } from '../pages/icons/translations';
 import { MEGA_MENU_TRANSLATIONS } from '../pages/navigation/mega-menu/translations';
 
 const PAGE_MODULES = [
+  SHELL_TRANSLATIONS,
   CONFIGURATION_TRANSLATIONS,
   BADGE_TRANSLATIONS,
   SKELETON_TRANSLATIONS,

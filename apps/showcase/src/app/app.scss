@@ -1,5 +1,3 @@
-.app-header {
-  display: flex;
-  justify-content: flex-end;
-  padding: var(--solaris-spacing-3) var(--solaris-spacing-4);
+:host {
+  display: block;
 }

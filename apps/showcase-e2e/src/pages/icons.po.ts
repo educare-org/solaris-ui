@@ -4,7 +4,7 @@ export class IconsPageObject {
   constructor(private readonly page: Page) {}
 
   searchInput(): Locator {
-    return this.page.getByRole('searchbox');
+    return this.page.getByRole('searchbox', { name: 'Search icons' });
   }
 
   category(category: string): Locator {

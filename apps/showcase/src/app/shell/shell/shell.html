@@ -1,0 +1,23 @@
+<a class="shell__skip-link" href="#main-content"
+  >{{ 'shell.skip-link' | translate }}</a
+>
+
+<app-shell-header
+  class="shell__header"
+  [(searchQuery)]="searchQuery"
+  [menuExpanded]="sidebarOpen()"
+  (menuToggle)="toggleSidebar()"
+/>
+
+<div class="shell__body">
+  <app-shell-sidebar
+    class="shell__sidebar"
+    [query]="searchQuery()"
+    [mobileOpen]="sidebarOpen()"
+    (mobileClosed)="closeSidebar()"
+  />
+
+  <main class="shell__main" id="main-content" tabindex="-1">
+    <router-outlet />
+  </main>
+</div>

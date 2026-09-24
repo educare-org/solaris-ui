@@ -1,0 +1,31 @@
+:host {
+  display: block;
+}
+
+.docs-page-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 288px;
+  gap: var(--solaris-spacing-8);
+  align-items: start;
+}
+
+.docs-page-layout__content {
+  min-width: 0;
+}
+
+.docs-page-layout__aside {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+}
+
+@media (width <= 1024px) {
+  .docs-page-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .docs-page-layout__aside {
+    display: none;
+  }
+}

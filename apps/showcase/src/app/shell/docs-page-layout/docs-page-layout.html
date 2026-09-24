@@ -1,0 +1,11 @@
+<div class="docs-page-layout">
+  <div class="docs-page-layout__content">
+    <ng-content />
+  </div>
+
+  @if (items().length > 0) {
+  <aside class="docs-page-layout__aside">
+    <app-docs-on-this-page [items]="items()" />
+  </aside>
+  }
+</div>

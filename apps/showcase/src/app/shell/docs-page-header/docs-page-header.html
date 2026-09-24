@@ -1,0 +1,41 @@
+<header class="docs-page-header">
+  @if (breadcrumbs().length > 0) {
+  <nav
+    class="docs-page-header__breadcrumbs"
+    [attr.aria-label]="'docs.page-header.breadcrumb-label' | translate"
+  >
+    <ol class="docs-page-header__breadcrumb-list">
+      @for (crumb of breadcrumbs(); track $index; let last = $last) {
+      <li class="docs-page-header__breadcrumb-item">
+        @if (crumb.route && !last) {
+        <a class="docs-page-header__breadcrumb-link" [href]="crumb.route">
+          {{ crumb.labelKey ? (crumb.labelKey | translate) : crumb.label }}
+        </a>
+        <span class="docs-page-header__breadcrumb-separator" aria-hidden="true"
+          >/</span
+        >
+        } @else {
+        <span [attr.aria-current]="last ? 'page' : null">
+          {{ crumb.labelKey ? (crumb.labelKey | translate) : crumb.label }}
+        </span>
+        }
+      </li>
+      }
+    </ol>
+  </nav>
+  } @if (eyebrowKey() ?? eyebrow()) {
+  <p class="docs-page-header__eyebrow">
+    {{ eyebrowKey() ? (eyebrowKey()! | translate) : eyebrow() }}
+  </p>
+  }
+
+  <h1 class="docs-page-header__title">
+    {{ titleKey() ? (titleKey()! | translate) : title() }}
+  </h1>
+
+  @if (descriptionKey() ?? description()) {
+  <p class="docs-page-header__description">
+    {{ descriptionKey() ? (descriptionKey()! | translate) : description() }}
+  </p>
+  }
+</header>

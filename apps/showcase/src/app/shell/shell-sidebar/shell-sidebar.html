@@ -1,0 +1,127 @@
+<nav
+  id="showcase-sidebar-nav"
+  class="shell-sidebar"
+  [attr.aria-label]="'shell.sidebar.nav-label' | translate"
+  [attr.data-open]="mobileOpen()"
+>
+  <ng-template #navLinks let-items="items">
+    @for (item of items; track item.labelKey) { @if (item.route) {
+    <li class="shell-sidebar__item">
+      <a
+        class="shell-sidebar__link"
+        [routerLink]="item.route"
+        routerLinkActive="shell-sidebar__link--active"
+        ariaCurrentWhenActive="page"
+        (click)="handleNavigate()"
+      >
+        {{ item.labelKey | translate }}
+      </a>
+    </li>
+    } @else {
+    <li
+      class="shell-sidebar__item shell-sidebar__sublink"
+      [attr.data-open]="isGroupOpen(item.labelKey).toString()"
+    >
+      <button
+        type="button"
+        class="shell-sidebar__sublink-toggle"
+        [attr.aria-expanded]="isGroupOpen(item.labelKey).toString()"
+        [attr.aria-controls]="'sublink-list-' + item.labelKey"
+        (click)="toggleGroup(item.labelKey)"
+      >
+        <span class="shell-sidebar__sublink-label">
+          {{ item.labelKey | translate }}
+        </span>
+        <span class="shell-sidebar__sublink-chevron" aria-hidden="true"></span>
+      </button>
+      <div
+        class="shell-sidebar__sublink-panel"
+        [id]="'sublink-list-' + item.labelKey"
+        role="region"
+        [attr.aria-label]="item.labelKey | translate"
+        [attr.aria-hidden]="(!isGroupOpen(item.labelKey)).toString()"
+        [attr.inert]="!isGroupOpen(item.labelKey) ? '' : null"
+      >
+        <div class="shell-sidebar__sublink-panel-inner">
+          <ul class="shell-sidebar__list">
+            @for (child of item.children ?? []; track child.labelKey) {
+            <li class="shell-sidebar__item">
+              <a
+                class="shell-sidebar__link"
+                [routerLink]="child.route"
+                routerLinkActive="shell-sidebar__link--active"
+                ariaCurrentWhenActive="page"
+                (click)="handleNavigate()"
+              >
+                {{ child.labelKey | translate }}
+              </a>
+            </li>
+            }
+          </ul>
+        </div>
+      </div>
+    </li>
+    } }
+  </ng-template>
+
+  @if (visibleSections().length === 0) {
+  <p class="shell-sidebar__empty" role="status">
+    {{ 'shell.search.no-results' | translate }}
+  </p>
+  } @for (section of visibleSections(); track section.labelKey) {
+  <section
+    class="shell-sidebar__section"
+    [attr.aria-labelledby]="'section-title-' + section.labelKey"
+  >
+    <h2
+      class="shell-sidebar__section-title"
+      [id]="'section-title-' + section.labelKey"
+    >
+      {{ section.labelKey | translate }}
+    </h2>
+
+    @if (section.items.length > 0) {
+    <ul class="shell-sidebar__list">
+      <ng-container
+        *ngTemplateOutlet="navLinks; context: { items: section.items }"
+      />
+    </ul>
+    } @for (group of section.groups; track group.labelKey) {
+    <div
+      class="shell-sidebar__subgroup"
+      [attr.data-open]="isGroupOpen(group.labelKey).toString()"
+    >
+      <button
+        type="button"
+        class="shell-sidebar__subgroup-toggle"
+        [attr.aria-expanded]="isGroupOpen(group.labelKey).toString()"
+        [attr.aria-controls]="'subgroup-list-' + group.labelKey"
+        (click)="toggleGroup(group.labelKey)"
+      >
+        <span class="shell-sidebar__subgroup-label">
+          {{ group.labelKey | translate }}
+        </span>
+        <span class="shell-sidebar__subgroup-chevron" aria-hidden="true"></span>
+      </button>
+
+      <div
+        class="shell-sidebar__subgroup-panel"
+        [id]="'subgroup-list-' + group.labelKey"
+        role="region"
+        [attr.aria-label]="group.labelKey | translate"
+        [attr.aria-hidden]="(!isGroupOpen(group.labelKey)).toString()"
+        [attr.inert]="!isGroupOpen(group.labelKey) ? '' : null"
+      >
+        <div class="shell-sidebar__subgroup-panel-inner">
+          <ul class="shell-sidebar__list shell-sidebar__subgroup-list">
+            <ng-container
+              *ngTemplateOutlet="navLinks; context: { items: group.items }"
+            />
+          </ul>
+        </div>
+      </div>
+    </div>
+    }
+  </section>
+  }
+</nav>
