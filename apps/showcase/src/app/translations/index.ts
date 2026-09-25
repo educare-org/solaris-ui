@@ -6,6 +6,7 @@ import { SPINNER_TRANSLATIONS } from '../pages/feedback/spinner/translations';
 import { PROGRESS_TRANSLATIONS } from '../pages/feedback/progress/translations';
 import { LOADING_TEXT_TRANSLATIONS } from '../pages/feedback/loading-text/translations';
 import { CARD_TRANSLATIONS } from '../pages/data-display/card/translations';
+import { CODE_BLOCK_TRANSLATIONS } from '../pages/data-display/code-block/translations';
 import { ALERT_TRANSLATIONS } from '../pages/feedback/alert/translations';
 import { BUTTON_TRANSLATIONS } from '../pages/actions/button/translations';
 import { ICON_BUTTON_TRANSLATIONS } from '../pages/actions/icon-button/translations';
@@ -53,6 +54,7 @@ const PAGE_MODULES = [
   PROGRESS_TRANSLATIONS,
   LOADING_TEXT_TRANSLATIONS,
   CARD_TRANSLATIONS,
+  CODE_BLOCK_TRANSLATIONS,
   ALERT_TRANSLATIONS,
   BUTTON_TRANSLATIONS,
   ICON_BUTTON_TRANSLATIONS,

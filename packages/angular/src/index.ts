@@ -483,6 +483,35 @@ export type {
   SolarisBreadcrumbConfig,
 } from './lib/components/navigation/breadcrumb/model/breadcrumb.types';
 
+export { SolarisCodeBlockComponent } from './lib/components/data-display/code-block/component/code-block.component';
+export {
+  DEFAULT_CODE_BLOCK_COPIED_DURATION,
+  DEFAULT_CODE_BLOCK_COLLAPSED_LINES,
+} from './lib/components/data-display/code-block/model/code-block.defaults';
+export {
+  SOLARIS_CODE_HIGHLIGHTER,
+  provideSolarisCodeHighlighter,
+} from './lib/components/data-display/code-block/model/code-block.tokens';
+export { provideSolarisShikiHighlighter } from './lib/components/data-display/code-block/shiki/code-block-shiki.provider';
+export type { SolarisShikiHighlighterConfig } from './lib/components/data-display/code-block/shiki/code-block-shiki.provider';
+export type {
+  SolarisCodeBlockAppearance,
+  SolarisCodeBlockCommand,
+  SolarisCodeBlockDensity,
+  SolarisCodeBlockLanguage,
+  SolarisCodeBlockLayout,
+  SolarisCodeBlockRadius,
+  SolarisCodeBlockResolvedCommand,
+  SolarisCodeBlockSize,
+  SolarisCodeBlockVariant,
+  SolarisCodeHighlightColorScheme,
+  SolarisCodeHighlightContext,
+  SolarisCodeHighlightLine,
+  SolarisCodeHighlightResult,
+  SolarisCodeHighlightToken,
+  SolarisCodeHighlightTokenKind,
+  SolarisCodeHighlighter,
+} from './lib/components/data-display/code-block/model/code-block.types';
 export { SolarisDividerComponent } from './lib/components/data-display/divider/component/divider.component';
 export type {
   SolarisDividerOrientation,

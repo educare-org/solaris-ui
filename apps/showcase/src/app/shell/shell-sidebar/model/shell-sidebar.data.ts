@@ -75,6 +75,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
             labelKey: 'shell.sidebar.item.card',
             route: '/data-display/card',
           },
+          {
+            labelKey: 'shell.sidebar.item.code-block',
+            route: '/data-display/code-block',
+          },
         ],
       },
       {

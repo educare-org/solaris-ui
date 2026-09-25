@@ -1,0 +1,221 @@
+@if (layout() === 'inline') {
+  <span class="solaris-code-block__inline-shell">
+    <span class="solaris-code-block__identity-group">
+      <span class="solaris-code-block__identity" aria-hidden="true">
+        @if (identityIconName(); as iconName) {
+          <solaris-icon
+            [name]="iconName"
+            [decorative]="true"
+            class="solaris-code-block__identity-icon"
+          />
+        } @else {
+          <span class="solaris-code-block__badge">{{ identityBadgeText() }}</span>
+        }
+        <span class="solaris-code-block__identity-label">{{ identityLabelText() }}</span>
+      </span>
+      @if (showCommandSelector()) {
+        <span class="solaris-code-block__selector">
+          <solaris-segmented-control
+            size="sm"
+            appearance="outline"
+            [value]="currentCommand()?.id"
+            [ariaLabel]="resolvedCommandSelectorAriaLabel()"
+            (valueChange)="handleCommandChange($event)"
+          >
+            @for (command of resolvedCommands(); track command.id) {
+              <solaris-segmented-item [value]="command.id">
+                {{ command.resolvedLabel }}
+              </solaris-segmented-item>
+            }
+          </solaris-segmented-control>
+        </span>
+      }
+    </span>
+    <span class="solaris-code-block__inline-body">
+    <!-- prettier-ignore: whitespace inside <code> is significant (white-space: pre). Do not reformat the token loops below. -->
+    <code
+      [attr.aria-label]="resolvedAriaLabel()"
+      [attr.data-language]="visibleLanguage()"
+      class="solaris-code-block__code solaris-code-block__code--inline"
+    >@for (line of lines(); track $index; let last = $last) {<span class="solaris-code-block__line solaris-code-block__line--inline">@for (token of line.tokens; track $index) {<span
+            [attr.data-token-kind]="token.kind"
+            [style.color]="token.color ?? null"
+            [style.font-style]="token.fontStyle ?? null"
+            [style.font-weight]="token.fontWeight ?? null"
+            [style.text-decoration]="token.textDecoration ?? null"
+          >{{ token.text }}</span>}</span>@if (!last) {<span class="solaris-code-block__line-break">{{ '\n' }}</span>}}</code>
+    @if (copyable()) {
+      <button
+        type="button"
+        (click)="handleCopy()"
+        [attr.title]="copyButtonLabel()"
+        [attr.aria-label]="copyButtonLabel()"
+        class="solaris-code-block__icon-button"
+        (keydown)="handleActionKeydown($event, 'copy')"
+      >
+        <span
+          aria-hidden="true"
+          class="solaris-code-block__action-icon"
+          [class.solaris-code-block__action-icon--visible]="copiedState()"
+        >
+          <solaris-icon name="check" [decorative]="true" />
+        </span>
+        <span
+          aria-hidden="true"
+          class="solaris-code-block__action-icon"
+          [class.solaris-code-block__action-icon--visible]="!copiedState()"
+        >
+          <solaris-icon name="clipboard" [decorative]="true" />
+        </span>
+      </button>
+      }
+    </span>
+  </span>
+} @else {
+  <div class="solaris-code-block__frame">
+    <div class="solaris-code-block__header">
+      <div class="solaris-code-block__identity-group">
+        <span class="solaris-code-block__identity" aria-hidden="true">
+          @if (identityIconName(); as iconName) {
+            <solaris-icon
+              [name]="iconName"
+              [decorative]="true"
+              class="solaris-code-block__identity-icon"
+            />
+          } @else {
+            <span class="solaris-code-block__badge">{{ identityBadgeText() }}</span>
+          }
+          <span class="solaris-code-block__identity-label">{{ identityLabelText() }}</span>
+        </span>
+        @if (showCommandSelector()) {
+          <span class="solaris-code-block__selector">
+            <solaris-segmented-control
+              size="sm"
+              appearance="outline"
+              [value]="currentCommand()?.id"
+              (valueChange)="handleCommandChange($event)"
+              [ariaLabel]="resolvedCommandSelectorAriaLabel()"
+            >
+              @for (command of resolvedCommands(); track command.id) {
+                <solaris-segmented-item [value]="command.id">
+                  {{ command.resolvedLabel }}
+                </solaris-segmented-item>
+              }
+            </solaris-segmented-control>
+          </span>
+        }
+      </div>
+      <div class="solaris-code-block__actions">
+        @if (shouldShowExpandToggle() && !isEditing()) {
+          <button
+            type="button"
+            (click)="handleExpandToggle()"
+            [attr.aria-controls]="viewportId"
+            class="solaris-code-block__toggle-button"
+            (keydown)="handleActionKeydown($event, 'expand')"
+            [attr.aria-expanded]="resolvedExpanded() ? 'true' : 'false'"
+          >
+            {{ resolvedExpanded() ? resolvedCollapseLabel() : resolvedExpandLabel() }}
+          </button>
+        }
+        @if (showEditToggle()) {
+          <button
+            #editToggle
+            type="button"
+            (click)="handleEditToggle()"
+            [attr.title]="editToggleButtonLabel()"
+            [attr.aria-label]="editToggleButtonLabel()"
+            [attr.aria-pressed]="isEditing() ? 'true' : 'false'"
+            class="solaris-code-block__icon-button"
+            (keydown)="handleActionKeydown($event, 'edit')"
+          >
+            <span aria-hidden="true" class="solaris-code-block__action-icon solaris-code-block__action-icon--visible">
+              <solaris-icon [name]="isEditing() ? 'save' : 'edit'" [decorative]="true" />
+            </span>
+          </button>
+        }
+        @if (isEditing()) {
+          <button
+            type="button"
+            (click)="handleEditCancel()"
+            [attr.title]="resolvedCancelLabel()"
+            [attr.aria-label]="resolvedCancelLabel()"
+            class="solaris-code-block__icon-button"
+            (keydown)="handleActionKeydown($event, 'cancel')"
+          >
+            <span aria-hidden="true" class="solaris-code-block__action-icon solaris-code-block__action-icon--visible">
+              <solaris-icon name="x" [decorative]="true" />
+            </span>
+          </button>
+        }
+        @if (copyable() && !isEditing()) {
+          <button
+            type="button"
+            (click)="handleCopy()"
+            [attr.title]="copyButtonLabel()"
+            [attr.aria-label]="copyButtonLabel()"
+            class="solaris-code-block__icon-button"
+            (keydown)="handleActionKeydown($event, 'copy')"
+          >
+            <span
+              aria-hidden="true"
+              class="solaris-code-block__action-icon"
+              [class.solaris-code-block__action-icon--visible]="copiedState()"
+            >
+              <solaris-icon name="check" [decorative]="true" />
+            </span>
+            <span
+              aria-hidden="true"
+              class="solaris-code-block__action-icon"
+              [class.solaris-code-block__action-icon--visible]="!copiedState()"
+            >
+              <solaris-icon name="clipboard" [decorative]="true" />
+            </span>
+          </button>
+        }
+      </div>
+    </div>
+    <div class="solaris-code-block__viewport-shell">
+      <div
+        #viewport
+        role="region"
+        [attr.id]="viewportId"
+        class="solaris-code-block__viewport"
+        [attr.aria-label]="resolvedAriaLabel()"
+        [attr.tabindex]="isEmpty() || isEditing() ? null : '0'"
+      >
+        @if (isEditing()) {
+          <textarea
+            #editor
+            class="solaris-code-block__editor"
+            [value]="draft()"
+            [attr.aria-label]="resolvedAriaLabel()"
+            [attr.data-language]="visibleLanguage()"
+            wrap="off"
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="off"
+            (input)="handleDraftInput($event)"
+            (keydown)="handleEditorKeydown($event)"
+          ></textarea>
+        } @else {
+          <pre class="solaris-code-block__pre"><code
+              class="solaris-code-block__code"
+              [attr.data-language]="visibleLanguage()"
+            >@for (line of lines(); track $index) {<span class="solaris-code-block__line">@for (token of line.tokens; track $index) {<span
+                    [attr.data-token-kind]="token.kind"
+                    [style.color]="token.color ?? null"
+                    [style.font-style]="token.fontStyle ?? null"
+                    [style.font-weight]="token.fontWeight ?? null"
+                    [style.text-decoration]="token.textDecoration ?? null"
+                  >{{ token.text }}</span>}</span>}</code></pre>
+        }
+      </div>
+      @if (showCollapsedFade()) {
+        <div class="solaris-code-block__fade" aria-hidden="true"></div>
+      }
+    </div>
+  </div>
+}
+
+<span solaris-visually-hidden aria-live="polite">{{ liveAnnouncement() }}</span>

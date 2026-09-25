@@ -25,7 +25,13 @@
     "@angular/core": "^21.2.19",
     "@angular/forms": "^21.2.19",
     "@angular/platform-browser": "~21.2.19",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "shiki": "^4.2.0"
+  },
+  "peerDependenciesMeta": {
+    "shiki": {
+      "optional": true
+    }
   },
   "sideEffects": false,
   "schematics": "./schematics/collection.json",

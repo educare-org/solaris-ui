@@ -18,6 +18,13 @@ export const dataDisplayRoutes: Route[] = [
             (m) => m.CardShowcasePage,
           ),
       },
+      {
+        path: 'code-block',
+        loadComponent: () =>
+          import(
+            '../pages/data-display/code-block/component/code-block-showcase'
+          ).then((m) => m.CodeBlockShowcasePage),
+      },
     ],
   },
 ];

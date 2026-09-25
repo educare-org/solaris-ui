@@ -1,0 +1,118 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    eyebrowKey="code-block.eyebrow"
+    titleKey="code-block.title"
+    descriptionKey="code-block.description"
+    [breadcrumbs]="[
+      { labelKey: 'shell.sidebar.section.components' },
+      { labelKey: 'shell.sidebar.group.data-display' },
+      { labelKey: 'shell.sidebar.item.code-block' },
+    ]"
+  />
+
+  <app-docs-section anchor="basic" titleKey="code-block.section.basic">
+    <p class="code-block-showcase__note">
+      {{ 'code-block.basic.note' | translate }}
+    </p>
+    <solaris-code-block [code]="basicCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="layouts" titleKey="code-block.section.layouts">
+    <p class="code-block-showcase__note">
+      {{ 'code-block.layouts.note' | translate }}
+    </p>
+    <div class="code-block-showcase__row">
+      <solaris-code-block
+        layout="inline"
+        [code]="inlineCode"
+        language="shell"
+      />
+    </div>
+    <solaris-code-block [code]="jsonCode" language="json" />
+  </app-docs-section>
+
+  <app-docs-section anchor="commands" titleKey="code-block.section.commands">
+    <p class="code-block-showcase__note">
+      {{ 'code-block.commands.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="appearances"
+    titleKey="code-block.section.appearances"
+  >
+    <div class="code-block-showcase__stack">
+      <solaris-code-block
+        appearance="surface"
+        [code]="basicCode"
+        language="typescript"
+      />
+      <solaris-code-block
+        appearance="outline"
+        [code]="basicCode"
+        language="typescript"
+      />
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="sizes" titleKey="code-block.section.sizes">
+    <div class="code-block-showcase__stack">
+      <solaris-code-block size="sm" [code]="basicCode" language="typescript" />
+      <solaris-code-block size="md" [code]="basicCode" language="typescript" />
+      <solaris-code-block size="lg" [code]="basicCode" language="typescript" />
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="density" titleKey="code-block.section.density">
+    <div class="code-block-showcase__stack">
+      <solaris-code-block
+        density="compact"
+        [code]="basicCode"
+        language="typescript"
+      />
+      <solaris-code-block
+        density="comfortable"
+        [code]="basicCode"
+        language="typescript"
+      />
+    </div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="expandable"
+    titleKey="code-block.section.expandable"
+  >
+    <p class="code-block-showcase__note">
+      {{ 'code-block.expandable.note' | translate }}
+    </p>
+    <solaris-code-block
+      [code]="longCode"
+      language="typescript"
+      [expandable]="true"
+      [collapsedLines]="4"
+    />
+  </app-docs-section>
+
+  <app-docs-section anchor="editable" titleKey="code-block.section.editable">
+    <p class="code-block-showcase__note">
+      {{ 'code-block.editable.note' | translate }}
+    </p>
+    <solaris-code-block
+      [code]="editableCode"
+      language="typescript"
+      [editable]="true"
+      (codeChange)="handleEditableCodeChange($event)"
+    />
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="highlighting"
+    titleKey="code-block.section.highlighting"
+  >
+    <p class="code-block-showcase__note">
+      {{ 'code-block.highlighting.note' | translate }}
+    </p>
+    <solaris-code-block [code]="basicCode" language="typescript" />
+  </app-docs-section>
+</app-docs-page-layout>

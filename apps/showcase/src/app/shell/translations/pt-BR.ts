@@ -33,6 +33,7 @@ export const PT_BR_SHELL: Record<string, string> = {
   'shell.sidebar.item.divider': 'Divisor',
   'shell.sidebar.item.badge': 'Distintivo',
   'shell.sidebar.item.card': 'Cartão',
+  'shell.sidebar.item.code-block': 'Bloco de código',
   'shell.sidebar.item.alert': 'Alerta',
   'shell.sidebar.item.toast': 'Toast',
   'shell.sidebar.item.loading': 'Carregamento',

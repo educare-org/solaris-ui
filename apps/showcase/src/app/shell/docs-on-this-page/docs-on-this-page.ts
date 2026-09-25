@@ -75,8 +75,19 @@ export class ShowcaseDocsOnThisPage implements AfterViewInit, OnDestroy {
     }
     const target = this.document.getElementById(anchor);
     if (target && typeof target.scrollIntoView === 'function') {
-      target.scrollIntoView({ block: 'start' });
+      target.scrollIntoView({
+        behavior: this.prefersReducedMotion() ? 'auto' : 'smooth',
+        block: 'start',
+      });
     }
+  }
+
+  private prefersReducedMotion(): boolean {
+    const view = this.document.defaultView;
+    return (
+      typeof view?.matchMedia === 'function' &&
+      view.matchMedia('(prefers-reduced-motion: reduce)').matches
+    );
   }
 
   private observeAnchors(): void {
