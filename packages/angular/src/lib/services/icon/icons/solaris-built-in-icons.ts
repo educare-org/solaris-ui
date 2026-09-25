@@ -10,6 +10,7 @@ import { MEDIA_ICONS } from './groups/media';
 import { DATA_ICONS } from './groups/data';
 import { PEOPLE_ICONS } from './groups/people';
 import { DOCUMENTS_ICONS } from './groups/documents';
+import { LANGUAGES_ICONS } from './groups/languages';
 
 export const SOLARIS_BUILT_IN_ICONS: SolarisIconDefinition[] = [
   ...COMMUNICATION_ICONS,
@@ -23,4 +24,5 @@ export const SOLARIS_BUILT_IN_ICONS: SolarisIconDefinition[] = [
   ...DATA_ICONS,
   ...PEOPLE_ICONS,
   ...DOCUMENTS_ICONS,
+  ...LANGUAGES_ICONS,
 ];

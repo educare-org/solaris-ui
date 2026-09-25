@@ -117,6 +117,7 @@ describe('SolarisIconRegistryService', () => {
       'notebook-pen',
       'notebook-text',
       'sticky-note',
+      'clipboard',
     ]) {
       expect(service.hasIcon(name)).toBe(true);
       expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
@@ -202,6 +203,31 @@ describe('SolarisIconRegistryService', () => {
     const rects = microsoft?.elements.filter((el) => el.type === 'rect');
     expect(rects?.length).toBe(4);
     expect(rects?.every((el) => el.type === 'rect' && el.fill)).toBe(true);
+  });
+
+  it('should have language icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of [
+      'typescript',
+      'javascript',
+      'html',
+      'scss',
+      'json',
+      'shell',
+      'bash',
+      'cli',
+      'powershell',
+      'java',
+      'angular',
+    ]) {
+      expect(service.hasIcon(name)).toBe(true);
+      expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
+    }
   });
 
   it('should return undefined for unregistered icons', () => {

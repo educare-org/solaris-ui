@@ -184,6 +184,7 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'notebook-pen',
       'notebook-text',
       'sticky-note',
+      'clipboard',
     ],
   },
   {
