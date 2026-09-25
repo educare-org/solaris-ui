@@ -52,8 +52,8 @@ export class CodeBlockShowcasePage {
   };
 
   protected readonly next: ShowcaseDocsPageNav = {
-    labelKey: 'shell.sidebar.item.alert',
-    route: '/feedback/alert',
+    labelKey: 'shell.sidebar.item.preview-code',
+    route: '/data-display/preview-code',
   };
 
   protected readonly tocItems: readonly ShowcaseTocItem[] = [

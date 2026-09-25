@@ -25,6 +25,13 @@ export const dataDisplayRoutes: Route[] = [
             '../pages/data-display/code-block/component/code-block-showcase'
           ).then((m) => m.CodeBlockShowcasePage),
       },
+      {
+        path: 'preview-code',
+        loadComponent: () =>
+          import(
+            '../pages/data-display/preview-code/component/preview-code-showcase'
+          ).then((m) => m.PreviewCodeShowcasePage),
+      },
     ],
   },
 ];

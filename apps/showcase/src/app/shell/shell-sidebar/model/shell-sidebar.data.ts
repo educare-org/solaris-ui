@@ -79,6 +79,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
             labelKey: 'shell.sidebar.item.code-block',
             route: '/data-display/code-block',
           },
+          {
+            labelKey: 'shell.sidebar.item.preview-code',
+            route: '/data-display/preview-code',
+          },
         ],
       },
       {

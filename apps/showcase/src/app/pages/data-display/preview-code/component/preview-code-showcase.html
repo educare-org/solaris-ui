@@ -1,0 +1,138 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="preview-code.title"
+    descriptionKey="preview-code.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="preview-code.section.examples">
+    <p class="preview-code-showcase__note">
+      {{ 'preview-code.examples.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <button solaris-button type="button">Save</button>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="controlled"
+    titleKey="preview-code.section.controlled"
+  >
+    <p class="preview-code-showcase__note">
+      {{ 'preview-code.controlled.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      [(activeTab)]="controlledTab"
+    >
+      <button solaris-button type="button">Save</button>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="files" titleKey="preview-code.section.files">
+    <p class="preview-code-showcase__note">
+      {{ 'preview-code.files.note' | translate }}
+    </p>
+    <solaris-preview-code [codeFiles]="buttonFiles" defaultCodeFile="ts">
+      <button solaris-button type="button">Save</button>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="expandable"
+    titleKey="preview-code.section.expandable"
+  >
+    <p class="preview-code-showcase__note">
+      {{ 'preview-code.expandable.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="longCode"
+      language="typescript"
+      defaultTab="code"
+      [codeExpandable]="true"
+      [codeCollapsedLines]="4"
+    >
+      <button solaris-button type="button">Save</button>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="layout" titleKey="preview-code.section.layout">
+    <p class="preview-code-showcase__note">
+      {{ 'preview-code.layout.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedAlign"
+      [ariaLabel]="'preview-code.section.layout' | translate"
+    >
+      <solaris-tab value="start"
+        >{{ 'preview-code.align.start' | translate }}</solaris-tab
+      >
+      <solaris-tab value="center"
+        >{{ 'preview-code.align.center' | translate }}</solaris-tab
+      >
+      <solaris-tab value="stretch"
+        >{{ 'preview-code.align.stretch' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="start">
+        <solaris-preview-code
+          [code]="basicCode"
+          language="html"
+          previewAlign="start"
+          [previewPadding]="selectedPadding()"
+          [previewMinHeight]="selectedMinHeight()"
+        >
+          <button solaris-button type="button">Save</button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="center">
+        <solaris-preview-code
+          [code]="basicCode"
+          language="html"
+          previewAlign="center"
+          [previewPadding]="selectedPadding()"
+          [previewMinHeight]="selectedMinHeight()"
+        >
+          <button solaris-button type="button">Save</button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="stretch">
+        <solaris-preview-code
+          [code]="basicCode"
+          language="html"
+          previewAlign="stretch"
+          [previewPadding]="selectedPadding()"
+          [previewMinHeight]="selectedMinHeight()"
+        >
+          <button solaris-button type="button">Save</button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="preview-code.section.installation"
+  >
+    <p class="preview-code-showcase__note">
+      {{ 'preview-code.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="preview-code.section.props">
+    <p class="preview-code-showcase__note">
+      {{ 'preview-code.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

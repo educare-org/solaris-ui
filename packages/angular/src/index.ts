@@ -512,6 +512,36 @@ export type {
   SolarisCodeHighlightTokenKind,
   SolarisCodeHighlighter,
 } from './lib/components/data-display/code-block/model/code-block.types';
+export { SolarisPreviewCodeComponent } from './lib/components/data-display/preview-code/component/preview-code.component';
+export {
+  DEFAULT_PREVIEW_CODE_ALIGN,
+  DEFAULT_PREVIEW_CODE_APPEARANCE,
+  DEFAULT_PREVIEW_CODE_COLLAPSED_LINES,
+  DEFAULT_PREVIEW_CODE_MIN_HEIGHT,
+  DEFAULT_PREVIEW_CODE_PADDING,
+  DEFAULT_PREVIEW_CODE_SIZE,
+  DEFAULT_PREVIEW_CODE_TAB,
+} from './lib/components/data-display/preview-code/model/preview-code.defaults';
+export { SOLARIS_PREVIEW_CODE_TOKENS } from './lib/components/data-display/preview-code/model/preview-code.tokens';
+export type { SolarisPreviewCodeToken } from './lib/components/data-display/preview-code/model/preview-code.tokens';
+export type {
+  SolarisPreviewCodeAlign,
+  SolarisPreviewCodeAppearance,
+  SolarisPreviewCodeDensity,
+  SolarisPreviewCodeFile,
+  SolarisPreviewCodeMinHeight,
+  SolarisPreviewCodePadding,
+  SolarisPreviewCodeRadius,
+  SolarisPreviewCodeResolvedFile,
+  SolarisPreviewCodeSize,
+  SolarisPreviewCodeTab,
+} from './lib/components/data-display/preview-code/model/preview-code.types';
+export {
+  SOLARIS_PREVIEW_CODE_ALIGNS,
+  SOLARIS_PREVIEW_CODE_MIN_HEIGHTS,
+  SOLARIS_PREVIEW_CODE_PADDINGS,
+  SOLARIS_PREVIEW_CODE_TABS,
+} from './lib/components/data-display/preview-code/model/preview-code.types';
 export { SolarisDividerComponent } from './lib/components/data-display/divider/component/divider.component';
 export type {
   SolarisDividerOrientation,
