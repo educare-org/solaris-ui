@@ -17,7 +17,6 @@ describe('ShowcaseDocsPageHeader', () => {
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(ShowcaseDocsPageHeader);
-    fixture.componentRef.setInput('eyebrow', 'Data display');
     fixture.componentRef.setInput('title', 'Badge');
     fixture.componentRef.setInput('description', 'Status labels.');
     fixture.componentRef.setInput('breadcrumbs', [
@@ -27,12 +26,7 @@ describe('ShowcaseDocsPageHeader', () => {
     fixture.detectChanges();
   });
 
-  it('should render eyebrow, title and description', () => {
-    expect(
-      fixture.debugElement
-        .query(By.css('.docs-page-header__eyebrow'))
-        .nativeElement.textContent.trim(),
-    ).toBe('Data display');
+  it('should render title and description', () => {
     expect(
       fixture.debugElement
         .query(By.css('.docs-page-header__title'))
@@ -45,7 +39,7 @@ describe('ShowcaseDocsPageHeader', () => {
     ).toBe('Status labels.');
   });
 
-  it('should render breadcrumbs with the current page marked', () => {
+  it('should render breadcrumbs with chevron separators and current page marked', () => {
     const nav = fixture.debugElement.query(
       By.css('nav.docs-page-header__breadcrumbs'),
     );
@@ -53,22 +47,69 @@ describe('ShowcaseDocsPageHeader', () => {
 
     const current = fixture.debugElement.query(By.css('[aria-current="page"]'));
     expect(current.nativeElement.textContent.trim()).toBe('Badge');
+
+    const separator = fixture.debugElement.query(
+      By.css('.docs-page-header__breadcrumb-separator'),
+    );
+    expect(separator).toBeTruthy();
   });
 
   it('should omit optional blocks when no input is provided', () => {
-    fixture.componentRef.setInput('eyebrow', undefined);
     fixture.componentRef.setInput('description', undefined);
     fixture.componentRef.setInput('breadcrumbs', []);
     fixture.detectChanges();
 
-    expect(
-      fixture.debugElement.query(By.css('.docs-page-header__eyebrow')),
-    ).toBeNull();
     expect(
       fixture.debugElement.query(By.css('.docs-page-header__description')),
     ).toBeNull();
     expect(
       fixture.debugElement.query(By.css('nav.docs-page-header__breadcrumbs')),
     ).toBeNull();
+    expect(
+      fixture.debugElement.query(By.css('.docs-page-header__actions')),
+    ).toBeNull();
+  });
+
+  it('should render page actions with prev/next navigation', () => {
+    fixture.componentRef.setInput('copyable', true);
+    fixture.componentRef.setInput('prev', {
+      label: 'Card',
+      route: '/data-display/card',
+    });
+    fixture.componentRef.setInput('next', {
+      label: 'Alert',
+      route: '/feedback/alert',
+    });
+    fixture.detectChanges();
+
+    const actions = fixture.debugElement.query(
+      By.css('.docs-page-header__actions'),
+    );
+    expect(actions).toBeTruthy();
+    const navLinks = fixture.debugElement.queryAll(
+      By.css('.docs-page-header__actions a[href]'),
+    );
+    expect(navLinks.length).toBe(2);
+    expect(navLinks[0].nativeElement.getAttribute('href')).toBe(
+      '/data-display/card',
+    );
+    expect(navLinks[1].nativeElement.getAttribute('href')).toBe(
+      '/feedback/alert',
+    );
+  });
+
+  it('should emit copyPage when the copy button is clicked', () => {
+    fixture.componentRef.setInput('copyable', true);
+    fixture.detectChanges();
+
+    let emitted = 0;
+    fixture.componentInstance.copyPage.subscribe(() => {
+      emitted += 1;
+    });
+    const copyButton = fixture.debugElement.query(
+      By.css('.docs-page-header__actions solaris-button-group button'),
+    );
+    copyButton.nativeElement.click();
+    expect(emitted).toBe(1);
   });
 });

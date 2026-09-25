@@ -49,6 +49,6 @@
 @mixin note {
   margin-top: 0;
   color: var(--solaris-text-muted);
-  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-xs) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
 }

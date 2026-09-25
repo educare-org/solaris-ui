@@ -1,0 +1,26 @@
+@if (prev() || next()) {
+<nav
+  class="docs-page-footer"
+  [attr.aria-label]="'docs.page-header.component-nav' | translate"
+>
+  @if (prev(); as prevNav) {
+  <a solaris-button class="docs-page-footer__link" [href]="prevNav.route">
+    <solaris-icon solaris-button-icon name="chevron-left" [decorative]="true" />
+    {{ 'docs.page.prev' | translate }}: {{ prevNav.labelKey ? (prevNav.labelKey
+    | translate) : prevNav.label }}
+  </a>
+  } @else {
+  <span></span>
+  } @if (next(); as nextNav) {
+  <a solaris-button class="docs-page-footer__link" [href]="nextNav.route">
+    {{ 'docs.page.next' | translate }}: {{ nextNav.labelKey ? (nextNav.labelKey
+    | translate) : nextNav.label }}
+    <solaris-icon
+      solaris-button-icon
+      name="chevron-right"
+      [decorative]="true"
+    />
+  </a>
+  }
+</nav>
+}

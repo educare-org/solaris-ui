@@ -6,38 +6,37 @@
   display: flex;
   flex-direction: column;
   gap: var(--solaris-spacing-3);
-  margin-bottom: var(--solaris-spacing-8);
 }
 
 .docs-page-header__breadcrumb-list {
   display: flex;
   flex-wrap: wrap;
+  list-style: none;
   align-items: center;
   gap: var(--solaris-spacing-2);
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  margin: var(--solaris-spacing-0);
+  padding: var(--solaris-spacing-0);
 }
 
 .docs-page-header__breadcrumb-item {
-  display: inline-flex;
   align-items: center;
+  display: inline-flex;
   gap: var(--solaris-spacing-2);
-  margin: 0;
-  padding: 0;
   color: var(--solaris-text-muted);
+  margin: var(--solaris-spacing-0);
+  padding: var(--solaris-spacing-0);
   font-size: var(--solaris-font-size-sm);
 }
 
 .docs-page-header__breadcrumb-link {
-  border-radius: var(--solaris-radius-sm);
-  color: var(--solaris-text-muted);
   text-decoration: none;
+  color: var(--solaris-text-muted);
+  border-radius: var(--solaris-radius-sm);
 }
 
 .docs-page-header__breadcrumb-link:hover {
-  color: var(--solaris-text-strong);
   text-decoration: underline;
+  color: var(--solaris-text-strong);
 }
 
 .docs-page-header__breadcrumb-link:focus-visible {
@@ -50,27 +49,33 @@
   color: var(--solaris-border-strong);
 }
 
-.docs-page-header__eyebrow {
-  margin: 0;
-  color: var(--solaris-primary-base);
-  font-size: var(--solaris-font-size-sm);
-  font-weight: var(--solaris-font-weight-semibold);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.docs-page-header__title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-4);
+  justify-content: space-between;
+}
+
+.docs-page-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-8);
 }
 
 .docs-page-header__title {
-  margin: 0;
+  margin: var(--solaris-spacing-0);
   color: var(--solaris-text-strong);
   font-size: var(--solaris-font-size-3xl);
-  font-weight: var(--solaris-font-weight-bold);
   line-height: var(--solaris-line-height-sm);
+  font-weight: var(--solaris-font-weight-bold);
 }
 
 .docs-page-header__description {
-  max-width: 720px;
-  margin: 0;
+  margin: var(--solaris-spacing-0);
   color: var(--solaris-text-muted);
-  font-size: var(--solaris-font-size-md);
+  font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
+  max-width: calc(var(--solaris-spacing-16) * 9);
 }

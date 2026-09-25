@@ -4,20 +4,24 @@
 
 .docs-page-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 288px;
-  gap: var(--solaris-spacing-8);
   align-items: start;
+  gap: var(--solaris-spacing-8);
+  grid-template-columns: minmax(0, 1fr) 288px;
 }
 
 .docs-page-layout__content {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-8);
+  padding: var(--solaris-spacing-12) var(--solaris-spacing-15);
 }
 
 .docs-page-layout__aside {
-  position: sticky;
-  top: 80px;
-  max-height: calc(100vh - 96px);
   overflow-y: auto;
+  position: sticky;
+  top: var(--solaris-spacing-16);
+  max-height: calc(100vh - var(--solaris-spacing-17));
 }
 
 @media (width <= 1024px) {
