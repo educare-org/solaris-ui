@@ -1,12 +1,12 @@
 :host {
-  --solaris-breadcrumb-gap: var(--solaris-spacing-1);
-  --solaris-breadcrumb-icon-size: var(--solaris-spacing-3);
+  --solaris-breadcrumb-gap: var(--solaris-spacing-3);
   --solaris-breadcrumb-pager-size: var(--solaris-spacing-5);
   --solaris-breadcrumb-link-color: var(--solaris-text-muted);
+  --solaris-breadcrumb-icon-size: var(--solaris-font-size-sm);
   --solaris-breadcrumb-font-size: var(--solaris-font-size-md);
   --solaris-breadcrumb-muted-color: var(--solaris-text-muted);
   --solaris-breadcrumb-text-color: var(--solaris-text-default);
-  --solaris-breadcrumb-separator-size: var(--solaris-spacing-3);
+  --solaris-breadcrumb-separator-size: var(--solaris-font-size-sm);
 
   display: block;
   box-sizing: border-box;

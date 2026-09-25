@@ -1,16 +1,16 @@
 import type { SolarisIconDefinition } from '../model/solaris-icon-definition.interface';
 import { COMMUNICATION_ICONS } from './groups/communication';
 import { NAVIGATION_ICONS } from './groups/navigation';
+import { DOCUMENTS_ICONS } from './groups/documents';
+import { LANGUAGES_ICONS } from './groups/languages';
 import { ACTIONS_ICONS } from './groups/actions';
 import { STATUS_ICONS } from './groups/status';
 import { LAYOUT_ICONS } from './groups/layout';
+import { PEOPLE_ICONS } from './groups/people';
 import { BRAND_ICONS } from './groups/brands';
 import { THEME_ICONS } from './groups/theme';
 import { MEDIA_ICONS } from './groups/media';
 import { DATA_ICONS } from './groups/data';
-import { PEOPLE_ICONS } from './groups/people';
-import { DOCUMENTS_ICONS } from './groups/documents';
-import { LANGUAGES_ICONS } from './groups/languages';
 
 export const SOLARIS_BUILT_IN_ICONS: SolarisIconDefinition[] = [
   ...COMMUNICATION_ICONS,

@@ -36,28 +36,28 @@ import { SolarisIconComponent } from '../../../icon';
   selector: '[solaris-button]',
   standalone: true,
   host: {
-    '[attr.data-appearance]': 'appearance()',
+    '[attr.data-shape]': 'shape()',
     '[attr.data-color]': 'color()',
     '[attr.data-radius]': 'radius()',
+    '[attr.data-appearance]': 'appearance()',
     '[attr.data-density]': 'effectiveDensity()',
-    '[attr.data-shape]': 'shape()',
     '[attr.data-loading]': 'loading() ? "" : null',
+    '[attr.aria-busy]': 'loading() ? "true" : null',
     '[attr.data-full-width]': 'fullWidth() ? "" : null',
     '[attr.data-icon-position]': 'computedIconPosition()',
-    '[attr.aria-busy]': 'loading() ? "true" : null',
     '[attr.aria-label]': 'loading() ? resolvedLoadingLabel() : null',
     '[attr.aria-disabled]': 'isEffectivelyDisabled() ? "true" : null',
-    '[attr.disabled]': 'isButton && isEffectivelyDisabled() ? "" : null',
     '[tabindex]': 'isAnchor && isEffectivelyDisabled() ? "-1" : null',
+    '[attr.disabled]': 'isButton && isEffectivelyDisabled() ? "" : null',
   },
 })
 export class SolarisButtonDirective {
   readonly iconPosition = input<SolarisButtonIconPosition>('start');
   readonly appearance = input<SolarisButtonAppearance>('solid');
+  readonly density = input<SolarisButtonDensity>('compact');
   readonly color = input<SolarisButtonColor>('neutral');
   readonly shape = input<SolarisButtonShape>('normal');
   readonly radius = input<SolarisButtonRadius>('md');
-  readonly density = input<SolarisButtonDensity>();
   readonly fullWidth = input<boolean>(false);
   readonly disabled = input<boolean>(false);
   readonly loading = input<boolean>(false);

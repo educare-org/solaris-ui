@@ -24,24 +24,24 @@ import type {
   selector: '[solaris-icon-button]',
   standalone: true,
   host: {
-    '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',
-    '[attr.data-radius]': 'radius()',
-    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-shape]': 'shape()',
+    '[attr.data-radius]': 'radius()',
+    '[attr.data-appearance]': 'appearance()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-loading]': 'loading() ? "" : null',
     '[attr.aria-busy]': 'loading() ? "true" : null',
+    '[tabindex]': 'isAnchor && isEffectivelyDisabled() ? "-1" : null',
     '[attr.aria-disabled]': 'isEffectivelyDisabled() ? "true" : null',
     '[attr.disabled]': 'isButton && isEffectivelyDisabled() ? "" : null',
-    '[tabindex]': 'isAnchor && isEffectivelyDisabled() ? "-1" : null',
   },
 })
 export class SolarisIconButtonDirective {
   readonly appearance = input<SolarisIconButtonAppearance>('solid');
+  readonly density = input<SolarisIconButtonDensity>('compact');
   readonly color = input<SolarisIconButtonColor>('neutral');
-  readonly radius = input<SolarisIconButtonRadius>('md');
-  readonly density = input<SolarisIconButtonDensity>();
   readonly shape = input<SolarisIconButtonShape>('normal');
+  readonly radius = input<SolarisIconButtonRadius>('md');
   readonly ariaLabelKey = input<string | undefined>();
   readonly ariaLabel = input<string | undefined>();
   readonly disabled = input<boolean>(false);
@@ -70,8 +70,6 @@ export class SolarisIconButtonDirective {
       el.setAttribute('type', 'button');
     }
 
-    // Preserve SSR attributes during hydration. Angular applies input bindings
-    // after directive construction, so writing defaults here would flash them.
     if (!el.hasAttribute('data-appearance')) {
       el.setAttribute('data-appearance', this.appearance());
     }

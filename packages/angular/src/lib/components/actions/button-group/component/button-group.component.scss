@@ -1,14 +1,13 @@
 :host {
   --solaris-button-group-gap: 0;
   --solaris-button-group-radius: var(--solaris-radius-md);
+  --solaris-button-disabled-opacity: var(--solaris-opacity-30);
   --solaris-button-group-border-color: var(--solaris-border-strong);
   --solaris-button-group-separator-color: var(--solaris-border-soft);
-  --solaris-button-disabled-opacity: var(--solaris-opacity-30);
 
+  max-width: 100%;
   display: inline-flex;
   box-sizing: border-box;
-  max-width: 100%;
-  gap: var(--solaris-button-group-gap);
 }
 
 :host([data-full-width]) {

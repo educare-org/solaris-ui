@@ -22,16 +22,16 @@ import type {
   host: {
     role: 'group',
     '[attr.data-orientation]': 'orientation()',
-    '[attr.data-attached]': 'attached() ? "" : null',
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-attached]': 'attached() ? "" : null',
     '[attr.data-full-width]': 'fullWidth() ? "" : null',
   },
 })
 export class SolarisButtonGroupComponent {
   readonly orientation = input<SolarisButtonGroupOrientation>('horizontal');
-  readonly attached = input<boolean>(true);
-  readonly density = input<SolarisButtonGroupDensity>();
+  readonly density = input<SolarisButtonGroupDensity>('compact');
   readonly fullWidth = input<boolean>(false);
+  readonly attached = input<boolean>(true);
 
   protected readonly themeService = inject(SolarisThemeService);
 
