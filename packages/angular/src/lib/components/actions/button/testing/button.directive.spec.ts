@@ -332,7 +332,7 @@ describe('SolarisButtonDirective', () => {
       template: `<button solaris-button [density]="density">Test</button>`,
     })
     class TestHost {
-      density: SolarisButtonDensity | undefined = 'compact';
+      density: SolarisButtonDensity = 'compact';
     }
 
     it('should support density compact', () => {

@@ -367,7 +367,7 @@ describe('SolarisIconButtonDirective', () => {
       </button>`,
     })
     class TestHost {
-      density: SolarisIconButtonDensity | undefined = 'compact';
+      density: SolarisIconButtonDensity = 'compact';
     }
 
     it('should support density compact', () => {
