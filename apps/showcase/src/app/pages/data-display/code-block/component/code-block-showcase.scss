@@ -1,15 +1,14 @@
+@use '../../../../shared/showcase-layout' as layout;
+
 .code-block-showcase__note {
-  color: var(--solaris-text-muted);
-  font-size: var(--solaris-font-size-sm);
-  line-height: var(--solaris-line-height-md);
-  margin: 0 0 var(--solaris-spacing-4);
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
 }
 
 .code-block-showcase__row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--solaris-spacing-3);
   margin-bottom: var(--solaris-spacing-4);
+  @include layout.row(var(--solaris-spacing-3));
 }
 
 .code-block-showcase__stack {

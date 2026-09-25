@@ -1,18 +1,20 @@
 <app-docs-page-layout [items]="tocItems">
   <app-docs-page-header
-    eyebrowKey="code-block.eyebrow"
     titleKey="code-block.title"
     descriptionKey="code-block.description"
-    [breadcrumbs]="[
-      { labelKey: 'shell.sidebar.section.components' },
-      { labelKey: 'shell.sidebar.group.data-display' },
-      { labelKey: 'shell.sidebar.item.code-block' },
-    ]"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
   />
 
-  <app-docs-section anchor="basic" titleKey="code-block.section.basic">
+  <app-docs-section anchor="examples" titleKey="code-block.section.examples">
     <p class="code-block-showcase__note">
-      {{ 'code-block.basic.note' | translate }}
+      {{ 'code-block.examples.note' | translate }}
     </p>
     <solaris-code-block [code]="basicCode" language="typescript" />
   </app-docs-section>
@@ -21,14 +23,29 @@
     <p class="code-block-showcase__note">
       {{ 'code-block.layouts.note' | translate }}
     </p>
-    <div class="code-block-showcase__row">
-      <solaris-code-block
-        layout="inline"
-        [code]="inlineCode"
-        language="shell"
-      />
-    </div>
-    <solaris-code-block [code]="jsonCode" language="json" />
+    <solaris-tabs
+      [(value)]="selectedLayout"
+      [ariaLabel]="'code-block.section.layouts' | translate"
+    >
+      <solaris-tab value="inline"
+        >{{ 'code-block.layout.inline' | translate }}</solaris-tab
+      >
+      <solaris-tab value="block"
+        >{{ 'code-block.layout.block' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="inline">
+        <div class="code-block-showcase__row">
+          <solaris-code-block
+            layout="inline"
+            [code]="inlineCode"
+            language="shell"
+          />
+        </div>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="block">
+        <solaris-code-block [code]="jsonCode" language="json" />
+      </solaris-tab-panel>
+    </solaris-tabs>
   </app-docs-section>
 
   <app-docs-section anchor="commands" titleKey="code-block.section.commands">
@@ -42,41 +59,97 @@
     anchor="appearances"
     titleKey="code-block.section.appearances"
   >
-    <div class="code-block-showcase__stack">
-      <solaris-code-block
-        appearance="surface"
-        [code]="basicCode"
-        language="typescript"
-      />
-      <solaris-code-block
-        appearance="outline"
-        [code]="basicCode"
-        language="typescript"
-      />
-    </div>
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'code-block.section.appearances' | translate"
+    >
+      <solaris-tab value="surface"
+        >{{ 'code-block.appearance.surface' | translate }}</solaris-tab
+      >
+      <solaris-tab value="outline"
+        >{{ 'code-block.appearance.outline' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="surface">
+        <solaris-code-block
+          appearance="surface"
+          [code]="basicCode"
+          language="typescript"
+        />
+      </solaris-tab-panel>
+      <solaris-tab-panel value="outline">
+        <solaris-code-block
+          appearance="outline"
+          [code]="basicCode"
+          language="typescript"
+        />
+      </solaris-tab-panel>
+    </solaris-tabs>
   </app-docs-section>
 
   <app-docs-section anchor="sizes" titleKey="code-block.section.sizes">
-    <div class="code-block-showcase__stack">
-      <solaris-code-block size="sm" [code]="basicCode" language="typescript" />
-      <solaris-code-block size="md" [code]="basicCode" language="typescript" />
-      <solaris-code-block size="lg" [code]="basicCode" language="typescript" />
-    </div>
+    <solaris-tabs
+      [(value)]="selectedSize"
+      [ariaLabel]="'code-block.section.sizes' | translate"
+    >
+      <solaris-tab value="sm"
+        >{{ 'code-block.size.sm' | translate }}</solaris-tab
+      >
+      <solaris-tab value="md"
+        >{{ 'code-block.size.md' | translate }}</solaris-tab
+      >
+      <solaris-tab value="lg"
+        >{{ 'code-block.size.lg' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="sm">
+        <solaris-code-block
+          size="sm"
+          [code]="basicCode"
+          language="typescript"
+        />
+      </solaris-tab-panel>
+      <solaris-tab-panel value="md">
+        <solaris-code-block
+          size="md"
+          [code]="basicCode"
+          language="typescript"
+        />
+      </solaris-tab-panel>
+      <solaris-tab-panel value="lg">
+        <solaris-code-block
+          size="lg"
+          [code]="basicCode"
+          language="typescript"
+        />
+      </solaris-tab-panel>
+    </solaris-tabs>
   </app-docs-section>
 
   <app-docs-section anchor="density" titleKey="code-block.section.density">
-    <div class="code-block-showcase__stack">
-      <solaris-code-block
-        density="compact"
-        [code]="basicCode"
-        language="typescript"
-      />
-      <solaris-code-block
-        density="comfortable"
-        [code]="basicCode"
-        language="typescript"
-      />
-    </div>
+    <solaris-tabs
+      [(value)]="selectedDensity"
+      [ariaLabel]="'code-block.section.density' | translate"
+    >
+      <solaris-tab value="compact"
+        >{{ 'code-block.density.compact' | translate }}</solaris-tab
+      >
+      <solaris-tab value="comfortable"
+        >{{ 'code-block.density.comfortable' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="compact">
+        <solaris-code-block
+          density="compact"
+          [code]="basicCode"
+          language="typescript"
+        />
+      </solaris-tab-panel>
+      <solaris-tab-panel value="comfortable">
+        <solaris-code-block
+          density="comfortable"
+          [code]="basicCode"
+          language="typescript"
+        />
+      </solaris-tab-panel>
+    </solaris-tabs>
   </app-docs-section>
 
   <app-docs-section
@@ -115,4 +188,23 @@
     </p>
     <solaris-code-block [code]="basicCode" language="typescript" />
   </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="code-block.section.installation"
+  >
+    <p class="code-block-showcase__note">
+      {{ 'code-block.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="code-block.section.props">
+    <p class="code-block-showcase__note">
+      {{ 'code-block.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
 </app-docs-page-layout>
