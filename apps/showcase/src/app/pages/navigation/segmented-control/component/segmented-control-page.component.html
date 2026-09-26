@@ -1,143 +1,310 @@
-<div class="segmented-control-showcase">
-  <header class="segmented-control-showcase__header">
-    <h1 class="segmented-control-showcase__title">
-      {{ 'segmented-control.title' | translate }}
-    </h1>
-    <p class="segmented-control-showcase__description">
-      {{ 'segmented-control.description' | translate }}
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="segmented-control.title"
+    descriptionKey="segmented-control.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="examples"
+    titleKey="segmented-control.section.examples"
+  >
+    <p class="segmented-control-showcase__note">
+      {{ 'segmented-control.examples.note' | translate }}
     </p>
-  </header>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-segmented-basic-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.basic' | translate }}
-    </h2>
-    <app-segmented-basic-example />
-  </section>
+  <app-docs-section
+    anchor="appearances"
+    titleKey="segmented-control.section.appearances"
+  >
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'segmented-control.section.appearances' | translate"
+    >
+      <solaris-tab value="surface">{{
+        'segmented-control.appearance.surface' | translate
+      }}</solaris-tab>
+      <solaris-tab value="outline">{{
+        'segmented-control.appearance.outline' | translate
+      }}</solaris-tab>
+      <solaris-tab-panel value="surface">
+        <solaris-preview-code [code]="appearanceSurfaceCode" language="html">
+          <solaris-segmented-control
+            appearance="surface"
+            defaultValue="a"
+            ariaLabel="Surface"
+          >
+            <solaris-segmented-item value="a">{{
+              'segmented-control.example.appearances.surface-a' | translate
+            }}</solaris-segmented-item>
+            <solaris-segmented-item value="b">{{
+              'segmented-control.example.appearances.surface-b' | translate
+            }}</solaris-segmented-item>
+            <solaris-segmented-item value="c">{{
+              'segmented-control.example.appearances.surface-c' | translate
+            }}</solaris-segmented-item>
+          </solaris-segmented-control>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="outline">
+        <solaris-preview-code [code]="appearanceOutlineCode" language="html">
+          <solaris-segmented-control
+            appearance="outline"
+            defaultValue="x"
+            ariaLabel="Outline"
+          >
+            <solaris-segmented-item value="x">{{
+              'segmented-control.example.appearances.outline-x' | translate
+            }}</solaris-segmented-item>
+            <solaris-segmented-item value="y">{{
+              'segmented-control.example.appearances.outline-y' | translate
+            }}</solaris-segmented-item>
+            <solaris-segmented-item value="z">{{
+              'segmented-control.example.appearances.outline-z' | translate
+            }}</solaris-segmented-item>
+          </solaris-segmented-control>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.with-icons' | translate }}
-    </h2>
-    <app-segmented-with-icons-example />
-  </section>
+  <app-docs-section
+    anchor="size-density"
+    titleKey="segmented-control.section.size-density"
+  >
+    <p class="segmented-control-showcase__note">
+      {{ 'segmented-control.size-density.note' | translate }}
+    </p>
+    <div class="segmented-control-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'segmented-control.section.sizes' | translate"
+      >
+        <solaris-tab value="sm">{{
+          'segmented-control.size.sm' | translate
+        }}</solaris-tab>
+        <solaris-tab value="md">{{
+          'segmented-control.size.md' | translate
+        }}</solaris-tab>
+        <solaris-tab value="lg">{{
+          'segmented-control.size.lg' | translate
+        }}</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'segmented-control.section.density' | translate"
+      >
+        <solaris-tab value="compact">{{
+          'segmented-control.density.compact' | translate
+        }}</solaris-tab>
+        <solaris-tab value="normal">{{
+          'segmented-control.density.normal' | translate
+        }}</solaris-tab>
+        <solaris-tab value="comfortable">{{
+          'segmented-control.density.comfortable' | translate
+        }}</solaris-tab>
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-segmented-control
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+        defaultValue="m"
+        ariaLabel="Size and density"
+      >
+        <solaris-segmented-item value="s">{{
+          'segmented-control.example.sizes.small' | translate
+        }}</solaris-segmented-item>
+        <solaris-segmented-item value="m">{{
+          'segmented-control.example.sizes.medium' | translate
+        }}</solaris-segmented-item>
+        <solaris-segmented-item value="l">{{
+          'segmented-control.example.sizes.large' | translate
+        }}</solaris-segmented-item>
+      </solaris-segmented-control>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.with-badge' | translate }}
-    </h2>
-    <app-segmented-with-badge-example />
-  </section>
+  <app-docs-section anchor="radius" titleKey="segmented-control.section.radius">
+    <solaris-tabs
+      [(value)]="selectedRadius"
+      [ariaLabel]="'segmented-control.section.radius' | translate"
+    >
+      <solaris-tab value="sm">{{
+        'segmented-control.radius.sm' | translate
+      }}</solaris-tab>
+      <solaris-tab value="md">{{
+        'segmented-control.radius.md' | translate
+      }}</solaris-tab>
+      <solaris-tab value="lg">{{
+        'segmented-control.radius.lg' | translate
+      }}</solaris-tab>
+      <solaris-tab value="full">{{
+        'segmented-control.radius.full' | translate
+      }}</solaris-tab>
+      <solaris-tab-panel value="sm">
+        <solaris-preview-code [code]="radiusSmCode" language="html">
+          <solaris-segmented-control
+            radius="sm"
+            defaultValue="a"
+            ariaLabel="Radius small"
+          >
+            <solaris-segmented-item value="a">{{
+              'segmented-control.example.radius.sm' | translate
+            }}</solaris-segmented-item>
+            <solaris-segmented-item value="b">{{
+              'segmented-control.example.radius.md' | translate
+            }}</solaris-segmented-item>
+          </solaris-segmented-control>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="md">
+        <solaris-preview-code [code]="radiusMdCode" language="html">
+          <solaris-segmented-control
+            radius="md"
+            defaultValue="a"
+            ariaLabel="Radius medium"
+          >
+            <solaris-segmented-item value="a">{{
+              'segmented-control.example.radius.sm' | translate
+            }}</solaris-segmented-item>
+            <solaris-segmented-item value="b">{{
+              'segmented-control.example.radius.md' | translate
+            }}</solaris-segmented-item>
+          </solaris-segmented-control>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="lg">
+        <solaris-preview-code [code]="radiusLgCode" language="html">
+          <solaris-segmented-control
+            radius="lg"
+            defaultValue="a"
+            ariaLabel="Radius large"
+          >
+            <solaris-segmented-item value="a">{{
+              'segmented-control.example.radius.lg' | translate
+            }}</solaris-segmented-item>
+            <solaris-segmented-item value="b">{{
+              'segmented-control.example.radius.full' | translate
+            }}</solaris-segmented-item>
+          </solaris-segmented-control>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="full">
+        <solaris-preview-code [code]="radiusFullCode" language="html">
+          <solaris-segmented-control
+            radius="full"
+            defaultValue="a"
+            ariaLabel="Radius full"
+          >
+            <solaris-segmented-item value="a">{{
+              'segmented-control.example.radius.sm' | translate
+            }}</solaris-segmented-item>
+            <solaris-segmented-item value="b">{{
+              'segmented-control.example.radius.full' | translate
+            }}</solaris-segmented-item>
+          </solaris-segmented-control>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.appearances' | translate }}
-    </h2>
-    <app-segmented-appearances-example />
-  </section>
+  <app-docs-section
+    anchor="orientation"
+    titleKey="segmented-control.section.orientation"
+  >
+    <solaris-preview-code [code]="verticalCode" language="html">
+      <app-segmented-vertical-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.sizes' | translate }}
-    </h2>
-    <app-segmented-sizes-example />
-  </section>
+  <app-docs-section anchor="layout" titleKey="segmented-control.section.layout">
+    <div class="segmented-control-showcase__stack">
+      <solaris-preview-code [code]="fullWidthCode" language="html">
+        <app-segmented-full-width-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="equalWidthCode" language="html">
+        <app-segmented-equal-width-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="manyOptionsCode" language="html">
+        <app-segmented-many-options-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="longLabelsCode" language="html">
+        <app-segmented-long-labels-example />
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
 
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.density' | translate }}
-    </h2>
-    <app-segmented-density-example />
-  </section>
+  <app-docs-section
+    anchor="features"
+    titleKey="segmented-control.section.features"
+  >
+    <div class="segmented-control-showcase__stack">
+      <solaris-preview-code [code]="withIconsCode" language="html">
+        <app-segmented-with-icons-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="withBadgeCode" language="html">
+        <app-segmented-with-badge-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="iconOnlyCode" language="html">
+        <app-segmented-icon-only-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="noIndicatorCode" language="html">
+        <app-segmented-no-indicator-example />
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
 
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.radius' | translate }}
-    </h2>
-    <app-segmented-radius-example />
-  </section>
+  <app-docs-section anchor="states" titleKey="segmented-control.section.states">
+    <div class="segmented-control-showcase__stack">
+      <solaris-preview-code [code]="disabledGroupCode" language="html">
+        <app-segmented-disabled-group-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="disabledItemCode" language="html">
+        <app-segmented-disabled-item-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="readonlyCode" language="html">
+        <app-segmented-readonly-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="invalidCode" language="html">
+        <app-segmented-invalid-example />
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
 
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.full-width' | translate }}
-    </h2>
-    <app-segmented-full-width-example />
-  </section>
+  <app-docs-section anchor="forms" titleKey="segmented-control.section.forms">
+    <solaris-preview-code [code]="reactiveFormsCode" language="html">
+      <app-segmented-reactive-forms-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.equal-width' | translate }}
-    </h2>
-    <app-segmented-equal-width-example />
-  </section>
+  <app-docs-section
+    anchor="installation"
+    titleKey="segmented-control.section.installation"
+  >
+    <p class="segmented-control-showcase__note">
+      {{ 'segmented-control.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
 
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.many-options' | translate }}
-    </h2>
-    <app-segmented-many-options-example />
-  </section>
+  <app-docs-section anchor="props" titleKey="segmented-control.section.props">
+    <p class="segmented-control-showcase__note">
+      {{ 'segmented-control.props.note' | translate }}
+    </p>
+  </app-docs-section>
 
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.vertical' | translate }}
-    </h2>
-    <app-segmented-vertical-example />
-  </section>
-
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.disabled-group' | translate }}
-    </h2>
-    <app-segmented-disabled-group-example />
-  </section>
-
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.disabled-item' | translate }}
-    </h2>
-    <app-segmented-disabled-item-example />
-  </section>
-
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.readonly' | translate }}
-    </h2>
-    <app-segmented-readonly-example />
-  </section>
-
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.invalid' | translate }}
-    </h2>
-    <app-segmented-invalid-example />
-  </section>
-
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.reactive-forms' | translate }}
-    </h2>
-    <app-segmented-reactive-forms-example />
-  </section>
-
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.icon-only' | translate }}
-    </h2>
-    <app-segmented-icon-only-example />
-  </section>
-
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.long-labels' | translate }}
-    </h2>
-    <app-segmented-long-labels-example />
-  </section>
-
-  <section class="segmented-control-showcase__section">
-    <h2 class="segmented-control-showcase__section-title">
-      {{ 'segmented-control.no-indicator' | translate }}
-    </h2>
-    <app-segmented-no-indicator-example />
-  </section>
-</div>
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

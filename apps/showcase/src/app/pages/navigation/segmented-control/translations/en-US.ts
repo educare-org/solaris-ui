@@ -76,6 +76,9 @@ export const SEGMENTED_CONTROL_TRANSLATIONS_EN_US: Record<string, string> = {
 
   'segmented-control.example.invalid.a': 'Option A',
   'segmented-control.example.invalid.b': 'Option B',
+  'segmented-control.example.invalid.group-label': 'Plan',
+  'segmented-control.example.invalid.validate': 'Validate',
+  'segmented-control.example.invalid.error': 'Select an option to continue.',
 
   'segmented-control.example.reactive-forms.light': 'Light',
   'segmented-control.example.reactive-forms.dark': 'Dark',
@@ -100,4 +103,40 @@ export const SEGMENTED_CONTROL_TRANSLATIONS_EN_US: Record<string, string> = {
   'segmented-control.example.many-options.medium': 'Medium',
   'segmented-control.example.many-options.low': 'Low',
   'segmented-control.example.many-options.none': 'None',
+
+  'segmented-control.section.examples': 'Examples',
+  'segmented-control.section.appearances': 'Appearances',
+  'segmented-control.section.sizes': 'Sizes',
+  'segmented-control.section.density': 'Density',
+  'segmented-control.section.size-density': 'Size & density',
+  'segmented-control.size-density.note':
+    'Size and density work together in the component. Combine both controls to see all 9 combinations.',
+  'segmented-control.section.radius': 'Radius',
+  'segmented-control.section.orientation': 'Orientation',
+  'segmented-control.section.layout': 'Layout',
+  'segmented-control.section.features': 'Features',
+  'segmented-control.section.states': 'States',
+  'segmented-control.section.forms': 'Forms',
+  'segmented-control.section.installation': 'Installation',
+  'segmented-control.section.props': 'Props',
+  'segmented-control.examples.note':
+    'Start with the default control, then explore appearances and variants below.',
+  'segmented-control.appearance.surface': 'Surface',
+  'segmented-control.appearance.outline': 'Outline',
+  'segmented-control.size.sm': 'Small',
+  'segmented-control.size.md': 'Medium',
+  'segmented-control.size.lg': 'Large',
+  'segmented-control.density.compact': 'Compact',
+  'segmented-control.density.normal': 'Normal',
+  'segmented-control.density.comfortable': 'Comfortable',
+  'segmented-control.radius.sm': 'Small',
+  'segmented-control.radius.md': 'Medium',
+  'segmented-control.radius.lg': 'Large',
+  'segmented-control.radius.full': 'Full',
+  'segmented-control.installation.note':
+    'Install the single Solaris package, then import the component.',
+  'segmented-control.props.note':
+    'Props table coming soon with the table component.',
+  'segmented-control.ai.prompt':
+    "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.",
 };

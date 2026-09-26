@@ -1,25 +1,18 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.segmented-control-showcase {
-  @include layout.page;
+.segmented-control-showcase__note {
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.segmented-control-showcase__header {
-  @include layout.header;
+.segmented-control-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
 }
 
-.segmented-control-showcase__title {
-  @include layout.title;
-}
-
-.segmented-control-showcase__description {
-  @include layout.description;
-}
-
-.segmented-control-showcase__section {
-  @include layout.section-card;
-}
-
-.segmented-control-showcase__section-title {
-  @include layout.section-title;
+.segmented-control-showcase__controls {
+  display: grid;
+  gap: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-4);
 }

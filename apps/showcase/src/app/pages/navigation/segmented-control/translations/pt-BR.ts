@@ -76,6 +76,10 @@ export const SEGMENTED_CONTROL_TRANSLATIONS_PT_BR: Record<string, string> = {
 
   'segmented-control.example.invalid.a': 'Opção A',
   'segmented-control.example.invalid.b': 'Opção B',
+  'segmented-control.example.invalid.group-label': 'Plano',
+  'segmented-control.example.invalid.validate': 'Validar',
+  'segmented-control.example.invalid.error':
+    'Selecione uma opção para continuar.',
 
   'segmented-control.example.reactive-forms.light': 'Claro',
   'segmented-control.example.reactive-forms.dark': 'Escuro',
@@ -101,4 +105,40 @@ export const SEGMENTED_CONTROL_TRANSLATIONS_PT_BR: Record<string, string> = {
   'segmented-control.example.many-options.medium': 'Média',
   'segmented-control.example.many-options.low': 'Baixa',
   'segmented-control.example.many-options.none': 'Nenhuma',
+
+  'segmented-control.section.examples': 'Exemplos',
+  'segmented-control.section.appearances': 'Aparências',
+  'segmented-control.section.sizes': 'Tamanhos',
+  'segmented-control.section.density': 'Densidade',
+  'segmented-control.section.size-density': 'Tamanho e densidade',
+  'segmented-control.size-density.note':
+    'Tamanho e densidade atuam juntos no componente. Combine os dois controles para ver as 9 combinações possíveis.',
+  'segmented-control.section.radius': 'Raio',
+  'segmented-control.section.orientation': 'Orientação',
+  'segmented-control.section.layout': 'Layout',
+  'segmented-control.section.features': 'Recursos',
+  'segmented-control.section.states': 'Estados',
+  'segmented-control.section.forms': 'Formulários',
+  'segmented-control.section.installation': 'Instalação',
+  'segmented-control.section.props': 'Props',
+  'segmented-control.examples.note':
+    'Comece pelo controle padrão e explore aparências e variantes abaixo.',
+  'segmented-control.appearance.surface': 'Superfície',
+  'segmented-control.appearance.outline': 'Contorno',
+  'segmented-control.size.sm': 'Pequeno',
+  'segmented-control.size.md': 'Médio',
+  'segmented-control.size.lg': 'Grande',
+  'segmented-control.density.compact': 'Compacto',
+  'segmented-control.density.normal': 'Normal',
+  'segmented-control.density.comfortable': 'Confortável',
+  'segmented-control.radius.sm': 'Pequeno',
+  'segmented-control.radius.md': 'Médio',
+  'segmented-control.radius.lg': 'Grande',
+  'segmented-control.radius.full': 'Completo',
+  'segmented-control.installation.note':
+    'Instale o pacote único do Solaris e importe o componente.',
+  'segmented-control.props.note':
+    'Tabela de props em breve, com o componente de tabela.',
+  'segmented-control.ai.prompt':
+    'Estou olhando a documentação Solaris do componente {{component}} ({{url}}). Me ajude a usar e entender o componente. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela.',
 };
