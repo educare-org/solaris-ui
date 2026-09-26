@@ -124,7 +124,6 @@ input[solaris-input][data-appearance='filled'] {
 }
 
 input[solaris-input][data-size='sm'] {
-  --solaris-input-height: var(--solaris-spacing-8);
   --solaris-input-padding-x: var(--solaris-spacing-2);
   --solaris-input-padding-y: var(--solaris-spacing-1);
   --solaris-input-font-size: var(--solaris-font-size-sm);
@@ -132,7 +131,6 @@ input[solaris-input][data-size='sm'] {
 }
 
 input[solaris-input][data-size='md'] {
-  --solaris-input-height: var(--solaris-spacing-10);
   --solaris-input-padding-x: var(--solaris-spacing-3);
   --solaris-input-padding-y: var(--solaris-spacing-2);
   --solaris-input-font-size: var(--solaris-font-size-md);
@@ -140,7 +138,6 @@ input[solaris-input][data-size='md'] {
 }
 
 input[solaris-input][data-size='lg'] {
-  --solaris-input-height: var(--solaris-spacing-12);
   --solaris-input-padding-x: var(--solaris-spacing-4);
   --solaris-input-padding-y: var(--solaris-spacing-2);
   --solaris-input-font-size: var(--solaris-font-size-lg);
@@ -148,24 +145,57 @@ input[solaris-input][data-size='lg'] {
 }
 
 input[solaris-input][data-density='compact'] {
-  --solaris-input-height: var(--solaris-density-min-height);
   --solaris-input-line-height: var(--solaris-line-height-sm);
   --solaris-input-font-size: var(--solaris-density-font-size);
   --solaris-input-padding-y: var(--solaris-density-padding-xs);
 }
 
 input[solaris-input][data-density='normal'] {
-  --solaris-input-height: var(--solaris-density-min-height);
   --solaris-input-line-height: var(--solaris-line-height-sm);
   --solaris-input-font-size: var(--solaris-density-font-size);
   --solaris-input-padding-y: var(--solaris-density-padding-xs);
 }
 
 input[solaris-input][data-density='comfortable'] {
-  --solaris-input-height: var(--solaris-density-min-height);
   --solaris-input-line-height: var(--solaris-line-height-md);
   --solaris-input-font-size: var(--solaris-density-font-size);
   --solaris-input-padding-y: var(--solaris-density-padding-sm);
+}
+
+input[solaris-input][data-size='sm'][data-density='compact'] {
+  --solaris-input-height: var(--solaris-control-height-compact-sm);
+}
+
+input[solaris-input][data-size='md'][data-density='compact'] {
+  --solaris-input-height: var(--solaris-control-height-compact-md);
+}
+
+input[solaris-input][data-size='lg'][data-density='compact'] {
+  --solaris-input-height: var(--solaris-control-height-compact-lg);
+}
+
+input[solaris-input][data-size='sm'][data-density='normal'] {
+  --solaris-input-height: var(--solaris-control-height-normal-sm);
+}
+
+input[solaris-input][data-size='md'][data-density='normal'] {
+  --solaris-input-height: var(--solaris-control-height-normal-md);
+}
+
+input[solaris-input][data-size='lg'][data-density='normal'] {
+  --solaris-input-height: var(--solaris-control-height-normal-lg);
+}
+
+input[solaris-input][data-size='sm'][data-density='comfortable'] {
+  --solaris-input-height: var(--solaris-control-height-comfortable-sm);
+}
+
+input[solaris-input][data-size='md'][data-density='comfortable'] {
+  --solaris-input-height: var(--solaris-control-height-comfortable-md);
+}
+
+input[solaris-input][data-size='lg'][data-density='comfortable'] {
+  --solaris-input-height: var(--solaris-control-height-comfortable-lg);
 }
 
 input[solaris-input][data-radius='none'] {
