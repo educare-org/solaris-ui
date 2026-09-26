@@ -32,7 +32,6 @@ export const appConfig: ApplicationConfig = {
       },
       theme: {
         colorScheme: 'system',
-        density: 'normal',
       },
     }),
   ],
