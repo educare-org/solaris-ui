@@ -11,9 +11,14 @@ import {
 
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisTranslateService } from '../../../../services/translation';
-import { SolarisCodeBlockComponent } from '../../code-block/component/code-block.component';
-import { SolarisSegmentedControlComponent } from '../../../navigation/segmented-control/component/segmented-control.component';
-import { SolarisSegmentedItemComponent } from '../../../navigation/segmented-control/item/segmented-item.component';
+import {
+  SolarisCodeBlockComponent,
+  SolarisCodeBlockCommand,
+} from '../../code-block';
+import {
+  SolarisSegmentedControlComponent,
+  SolarisSegmentedItemComponent,
+} from '../../../navigation/segmented-control';
 import {
   DEFAULT_PREVIEW_CODE_ALIGN,
   DEFAULT_PREVIEW_CODE_APPEARANCE,
@@ -54,7 +59,6 @@ import type {
   SolarisPreviewCodeSize,
   SolarisPreviewCodeTab,
 } from '../model/preview-code.types';
-import type { SolarisCodeBlockCommand } from '../../code-block/model/code-block.types';
 
 let nextPreviewCodeId = 0;
 
@@ -71,14 +75,14 @@ let nextPreviewCodeId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'solaris-preview-code',
-    '[attr.data-appearance]': 'appearance()',
     '[attr.data-size]': 'size()',
-    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-radius]': 'radius()',
-    '[attr.data-active-tab]': 'resolvedActiveTab()',
+    '[attr.data-appearance]': 'appearance()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-preview-align]': 'previewAlign()',
-    '[attr.data-preview-min-height]': 'previewMinHeight()',
+    '[attr.data-active-tab]': 'resolvedActiveTab()',
     '[attr.data-preview-padding]': 'previewPadding()',
+    '[attr.data-preview-min-height]': 'previewMinHeight()',
   },
 })
 export class SolarisPreviewCodeComponent {
@@ -131,7 +135,7 @@ export class SolarisPreviewCodeComponent {
     transform: (value: string | null | undefined) =>
       normalizePreviewCodeRadius(value),
   });
-  readonly density = input<SolarisPreviewCodeDensity>();
+  readonly density = input<SolarisPreviewCodeDensity>('compact');
 
   readonly previewLabel = input<string | null>(null);
   readonly previewLabelKey = input<string | null>(null);

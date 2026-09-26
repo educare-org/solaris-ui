@@ -9,6 +9,7 @@ export type {
   SolarisSegmentedControlSize,
   SolarisSegmentedControlDensity,
   SolarisSegmentedControlRadius,
+  SolarisSegmentedControlSelectedEdge,
   SolarisSegmentedControlValueChangeEvent,
   SolarisSegmentedControlChangeEvent,
 } from './model/segmented-control.types';

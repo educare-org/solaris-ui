@@ -17,7 +17,7 @@
         <span class="solaris-code-block__selector">
           <solaris-segmented-control
             size="sm"
-            appearance="outline"
+            density="compact"
             [value]="currentCommand()?.id"
             [ariaLabel]="resolvedCommandSelectorAriaLabel()"
             (valueChange)="handleCommandChange($event)"
@@ -32,7 +32,6 @@
       }
     </span>
     <span class="solaris-code-block__inline-body">
-    <!-- prettier-ignore: whitespace inside <code> is significant (white-space: pre). Do not reformat the token loops below. -->
     <code
       [attr.aria-label]="resolvedAriaLabel()"
       [attr.data-language]="visibleLanguage()"
@@ -91,7 +90,7 @@
           <span class="solaris-code-block__selector">
             <solaris-segmented-control
               size="sm"
-              appearance="outline"
+              density="compact"
               [value]="currentCommand()?.id"
               (valueChange)="handleCommandChange($event)"
               [ariaLabel]="resolvedCommandSelectorAriaLabel()"
@@ -187,16 +186,16 @@
         @if (isEditing()) {
           <textarea
             #editor
-            class="solaris-code-block__editor"
+            wrap="soft"
             [value]="draft()"
-            [attr.aria-label]="resolvedAriaLabel()"
-            [attr.data-language]="visibleLanguage()"
-            wrap="off"
             spellcheck="false"
             autocomplete="off"
             autocapitalize="off"
             (input)="handleDraftInput($event)"
+            class="solaris-code-block__editor"
             (keydown)="handleEditorKeydown($event)"
+            [attr.aria-label]="resolvedAriaLabel()"
+            [attr.data-language]="visibleLanguage()"
           ></textarea>
         } @else {
           <pre class="solaris-code-block__pre"><code

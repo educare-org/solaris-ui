@@ -11,6 +11,8 @@ export type SolarisSegmentedControlDensity =
 
 export type SolarisSegmentedControlRadius = 'sm' | 'md' | 'lg' | 'full';
 
+export type SolarisSegmentedControlSelectedEdge = 'first' | 'last' | 'both';
+
 export interface SolarisSegmentedControlValueChangeEvent {
   value: unknown;
 }

@@ -40,6 +40,7 @@ import type {
   SolarisSegmentedControlSize,
   SolarisSegmentedControlDensity,
   SolarisSegmentedControlRadius,
+  SolarisSegmentedControlSelectedEdge,
   SolarisSegmentedControlChangeEvent,
 } from '../model/segmented-control.types';
 
@@ -58,18 +59,18 @@ import type {
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-orientation]': 'orientation()',
-    '[attr.data-invalid]': 'invalid() || undefined',
+    '[attr.data-invalid]': 'isInvalid() || undefined',
     '[attr.data-readonly]': 'readonly() || undefined',
     '[attr.aria-required]': 'required() || undefined',
     '[attr.data-full-width]': 'fullWidth() || undefined',
     '[attr.data-equal-width]': 'equalWidth() || undefined',
     '[attr.aria-label]': 'resolvedAriaLabel() || undefined',
     '[attr.data-show-indicator]': 'indicator() || undefined',
+    '[attr.data-selected-edge]': 'selectedEdge()',
     '[attr.aria-labelledby]': 'ariaLabelledby() || undefined',
+    '[attr.aria-invalid]': 'isInvalid() ? "true" : undefined',
     '[attr.data-disabled]': 'isEffectivelyDisabled() || undefined',
     '[attr.aria-disabled]': 'isEffectivelyDisabled() || undefined',
-    '[attr.aria-invalid]':
-      'invalid() || (required() && touched() && !hasValue()) ? "true" : undefined',
   },
   providers: [
     {
@@ -95,9 +96,9 @@ export class SolarisSegmentedControlComponent
   });
   protected readonly themeService = inject(SolarisThemeService);
   private readonly elementRef = inject(ElementRef);
+  private readonly platformId = inject(PLATFORM_ID);
   private readonly injector = inject(Injector);
   private readonly ngZone = inject(NgZone);
-  private readonly platformId = inject(PLATFORM_ID);
 
   readonly items = contentChildren(SolarisSegmentedItemComponent);
 
@@ -117,7 +118,9 @@ export class SolarisSegmentedControlComponent
   readonly size = input<SolarisSegmentedControlSize>('md');
   readonly radius = input<SolarisSegmentedControlRadius>('md');
   readonly compareWith = input<(a: unknown, b: unknown) => boolean>(Object.is);
-  readonly density = input<SolarisSegmentedControlDensity>();
+  readonly density = input<SolarisSegmentedControlDensity | undefined>(
+    undefined,
+  );
   readonly appearance = input<SolarisSegmentedControlAppearance>('surface');
   readonly orientation =
     input<SolarisSegmentedControlOrientation>('horizontal');
@@ -147,8 +150,41 @@ export class SolarisSegmentedControlComponent
     return this.density() ?? this.themeService.density;
   });
 
+  protected readonly selectedEdge = computed<
+    SolarisSegmentedControlSelectedEdge | undefined
+  >(() => {
+    const items = this.items();
+    if (items.length === 0) {
+      return undefined;
+    }
+    const compare = this.compareFn();
+    const current = this.value();
+    const index = items.findIndex((item) => compare(item.value(), current));
+    if (index === -1) {
+      return undefined;
+    }
+    const isFirst = index === 0;
+    const isLast = index === items.length - 1;
+    if (isFirst && isLast) {
+      return 'both';
+    }
+    if (isFirst) {
+      return 'first';
+    }
+    if (isLast) {
+      return 'last';
+    }
+    return undefined;
+  });
+
   protected readonly hasValue = computed(() => {
     return this.value() !== undefined && this.value() !== null;
+  });
+
+  protected readonly isInvalid = computed(() => {
+    return (
+      this.invalid() || (this.required() && this.touched() && !this.hasValue())
+    );
   });
 
   protected readonly resolvedAriaLabel = computed(() => {
@@ -183,7 +219,7 @@ export class SolarisSegmentedControlComponent
         this.appearance();
         this.orientation();
         this.size();
-        this.density();
+        this.effectiveDensity();
         this.radius();
         this.ngZone.runOutsideAngular(() => {
           requestAnimationFrame(() => this.measureIndicator());
@@ -222,7 +258,6 @@ export class SolarisSegmentedControlComponent
     }
   }
 
-  // ControlValueAccessor
   writeValue(safe: unknown): void {
     this.value.set(safe);
     if (!isPlatformBrowser(this.platformId)) {
@@ -268,12 +303,19 @@ export class SolarisSegmentedControlComponent
 
     const isVertical = this.orientation() === 'vertical';
 
+    const containerRect = container.getBoundingClientRect();
+    const itemRect = selectedItem.getBoundingClientRect();
+    const borderLeft = container.clientLeft;
+    const borderTop = container.clientTop;
+
     if (isVertical) {
-      this.indicatorTransformY.set(`translateY(${selectedItem.offsetTop}px)`);
-      this.indicatorHeight.set(`${selectedItem.offsetHeight}px`);
+      const offsetY = itemRect.top - containerRect.top - borderTop;
+      this.indicatorTransformY.set(`translateY(${offsetY}px)`);
+      this.indicatorHeight.set(`${itemRect.height}px`);
     } else {
-      this.indicatorTransformX.set(`translateX(${selectedItem.offsetLeft}px)`);
-      this.indicatorWidth.set(`${selectedItem.offsetWidth}px`);
+      const offsetX = itemRect.left - containerRect.left - borderLeft;
+      this.indicatorTransformX.set(`translateX(${offsetX}px)`);
+      this.indicatorWidth.set(`${itemRect.width}px`);
     }
 
     if (!this.indicatorReady()) {
@@ -303,6 +345,8 @@ export class SolarisSegmentedControlComponent
         childList: true,
         subtree: true,
         characterData: true,
+        attributes: true,
+        attributeFilter: ['data-selected', 'class', 'style'],
       });
     }
 

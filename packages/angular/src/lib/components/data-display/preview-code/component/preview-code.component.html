@@ -1,9 +1,9 @@
 <div class="solaris-preview-code__frame">
   <div class="solaris-preview-code__toolbar">
     <solaris-segmented-control
-      [value]="resolvedActiveTab()"
-      [appearance]="appearance()"
       [size]="size()"
+      [appearance]="appearance()"
+      [value]="resolvedActiveTab()"
       [density]="effectiveDensity()"
       [ariaLabel]="resolvedAriaLabel()"
       (valueChange)="handleTabChange($event)"

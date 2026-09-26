@@ -73,7 +73,7 @@ class PreviewCodeHostComponent {
   defaultTab: SolarisPreviewCodeTab = 'preview';
   appearance: SolarisPreviewCodeAppearance = 'outline';
   size: SolarisPreviewCodeSize = 'md';
-  density: SolarisPreviewCodeDensity | undefined = undefined;
+  density: SolarisPreviewCodeDensity = 'compact';
   previewLabel: string | null = null;
   previewLabelKey: string | null = null;
   codeLabel: string | null = null;

@@ -144,27 +144,36 @@ By default, Segmented Control renders an animated selection indicator that:
 - Respects `prefers-reduced-motion`
 - Can be disabled via `[indicator]="false"`
 
+With `size="sm"` and `density="compact"` the indicator sits flush with the
+container. The first and last options then reuse the container radius
+(`--solaris-segmented-radius`) on their outer corners, and the indicator
+follows the selected edge (exposed as `data-selected-edge`: `first` | `last`
+| `both`), so edge selections never render square against the rounded
+container — regardless of how many options the control has.
+
 ## CSS Variables
 
 The following CSS variables can be customized:
 
-| Token                                       | Purpose                          |
-| ------------------------------------------- | -------------------------------- |
-| `--solaris-segmented-item-height`           | Item height                      |
-| `--solaris-segmented-gap`                   | Gap between items                |
-| `--solaris-segmented-radius`                | Container border radius          |
-| `--solaris-segmented-padding`               | Container inner padding          |
-| `--solaris-segmented-item-color`            | Item text color                  |
-| `--solaris-segmented-item-padding-y`        | Vertical item padding            |
-| `--solaris-segmented-item-padding-x`        | Horizontal item padding          |
-| `--solaris-segmented-background`            | Container background             |
-| `--solaris-segmented-indicator-shadow`      | Selection indicator shadow       |
-| `--solaris-segmented-border-color`          | Container border color (outline) |
-| `--solaris-segmented-border-width`          | Container border width (outline) |
-| `--solaris-segmented-focus-ring-color`      | Focus ring color                 |
-| `--solaris-segmented-item-selected-color`   | Selected item text color         |
-| `--solaris-segmented-indicator-background`  | Selection indicator background   |
-| `--solaris-segmented-item-hover-background` | Item hover background            |
+| Token                                        | Purpose                          |
+| -------------------------------------------- | -------------------------------- |
+| `--solaris-segmented-item-height`            | Item height                      |
+| `--solaris-segmented-gap`                    | Gap between items                |
+| `--solaris-segmented-radius`                 | Container border radius          |
+| `--solaris-segmented-padding-x`              | Container horizontal padding     |
+| `--solaris-segmented-padding-y`              | Container vertical padding       |
+| `--solaris-segmented-item-color`             | Item text color                  |
+| `--solaris-segmented-item-padding-y`         | Vertical item padding            |
+| `--solaris-segmented-item-padding-x`         | Horizontal item padding          |
+| `--solaris-segmented-background`             | Container background             |
+| `--solaris-segmented-indicator-shadow`       | Selection indicator shadow       |
+| `--solaris-segmented-border-color`           | Container border color (outline) |
+| `--solaris-segmented-border-width`           | Container border width (outline) |
+| `--solaris-segmented-focus-ring-color`       | Focus ring color                 |
+| `--solaris-segmented-item-selected-color`    | Selected item text color         |
+| `--solaris-segmented-indicator-border-color` | Selection indicator border color |
+| `--solaris-segmented-indicator-background`   | Selection indicator background   |
+| `--solaris-segmented-item-hover-background`  | Item hover background            |
 
 ## Accessibility
 
@@ -197,6 +206,16 @@ Disabled items are skipped during keyboard navigation.
 - Blocks value changes
 - Does not appear visually disabled
 - Maintains contrast
+
+## Required and invalid
+
+- `required` marks the group as mandatory (`aria-required`).
+- The group becomes visually invalid when `[invalid]="true"` is set, or
+  automatically when it is `required`, has been touched, and has no value
+  (e.g. a form was submitted or reset without a selection).
+- The invalid state is signaled with more than color alone: danger border and
+  outline on the container, danger-tinted selection indicator, and a danger
+  focus ring — never a red border by itself.
 
 ## Icon-only
 
