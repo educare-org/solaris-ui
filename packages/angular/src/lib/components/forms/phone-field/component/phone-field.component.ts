@@ -403,7 +403,8 @@ export class SolarisPhoneFieldComponent
     this.popoverSubscriptions.forEach((fn) => fn());
   }
 
-  writeValue(safe = ''): void {
+  writeValue(value: string | null | undefined): void {
+    const safe = value ?? '';
     this.internalValue.set(safe);
     this.applyDisplayFromValue(safe);
   }

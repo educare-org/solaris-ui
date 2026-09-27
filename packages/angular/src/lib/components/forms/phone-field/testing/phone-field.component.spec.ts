@@ -171,6 +171,18 @@ describe('SolarisPhoneFieldComponent', () => {
       expect(component.displayValue).toBeTruthy();
     });
 
+    it('writeValue normalizes null to empty string', async () => {
+      const { fixture, input, component } = await setup(ReactiveFormsHost);
+      const host = fixture.componentInstance as ReactiveFormsHost;
+      host.control.setValue('+5511999998888');
+      fixture.detectChanges();
+      component.writeValue(null);
+      fixture.detectChanges();
+      expect(component.internalValue()).toBe('');
+      expect(component.displayValue()).toBe('');
+      expect(input.value).toBe('');
+    });
+
     it('clears value when input is emptied', async () => {
       const { fixture, input } = await setup(ReactiveFormsHost);
       const host = fixture.componentInstance as ReactiveFormsHost;
