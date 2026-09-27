@@ -245,7 +245,6 @@ export class SolarisPhoneFieldComponent
   protected readonly popoverAppearance = computed(() => {
     const appearance = this.appearance();
     if (appearance === 'outline') return 'outline';
-    if (appearance === 'filled') return 'filled';
     return 'surface';
   });
 
@@ -404,8 +403,7 @@ export class SolarisPhoneFieldComponent
     this.popoverSubscriptions.forEach((fn) => fn());
   }
 
-  writeValue(value: string | null | undefined): void {
-    const safe = value ?? '';
+  writeValue(safe = ''): void {
     this.internalValue.set(safe);
     this.applyDisplayFromValue(safe);
   }

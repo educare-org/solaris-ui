@@ -24,6 +24,11 @@ import {
   host: {
     class: 'solaris-popover-panel',
     '[attr.tabindex]': 'data.autoFocus === "panel" ? "-1" : null',
+    '[attr.data-appearance]': 'data.appearance',
+    '[attr.data-padding]': 'data.padding',
+    '[attr.data-radius]': 'data.radius',
+    '[attr.data-scrollable]': 'data.maxHeight ? "" : null',
+    '[style.max-height]': 'data.maxHeight ?? null',
   },
 })
 export class SolarisPopoverPanelComponent implements AfterViewInit {

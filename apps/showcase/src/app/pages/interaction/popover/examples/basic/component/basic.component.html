@@ -1,0 +1,11 @@
+<button
+  solaris-button
+  solaris-popover-trigger
+  [solarisPopoverTriggerFor]="basicPopover"
+  solarisPopoverPadding="md"
+>
+  {{ 'popover.open' | translate }}
+</button>
+<ng-template solaris-popover #basicPopover="solarisPopover">
+  <p>{{ 'popover.basic-content' | translate }}</p>
+</ng-template>

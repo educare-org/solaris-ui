@@ -28,6 +28,7 @@ import {
   OverlayRef,
   OverlayConfig,
   FlexibleConnectedPositionStrategy,
+  ConnectedPosition,
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
@@ -133,6 +134,13 @@ export class SolarisPopoverTriggerDirective {
     },
   );
 
+  readonly solarisPopoverMaxHeight = input<string | number | undefined>(
+    undefined,
+    {
+      alias: 'solarisPopoverMaxHeight',
+    },
+  );
+
   readonly solarisPopoverCloseOnOutsideClick = input<boolean>(true, {
     alias: 'solarisPopoverCloseOnOutsideClick',
   });
@@ -174,7 +182,7 @@ export class SolarisPopoverTriggerDirective {
     },
   );
 
-  readonly solarisPopoverPadding = input<SolarisPopoverPadding>('md', {
+  readonly solarisPopoverPadding = input<SolarisPopoverPadding>('none', {
     alias: 'solarisPopoverPadding',
   });
 
@@ -347,20 +355,34 @@ export class SolarisPopoverTriggerDirective {
     const primaryPosition = getPrimaryPosition(placement, align);
     const fallbackPositions = getFallbackPositions(placement, align);
 
+    const getOffsetY = (pos: ConnectedPosition, offset: number): number => {
+      if (pos.originY === 'bottom' && pos.overlayY === 'top') {
+        return offset;
+      }
+
+      if (pos.originY === 'top' && pos.overlayY === 'bottom') {
+        return -offset;
+      }
+
+      return 0;
+    };
+
+    const getOffsetX = (pos: ConnectedPosition, offset: number): number => {
+      if (pos.originX === 'end' && pos.overlayX === 'start') {
+        return offset;
+      }
+
+      if (pos.originX === 'start' && pos.overlayX === 'end') {
+        return -offset;
+      }
+
+      return 0;
+    };
+
     const allPositions = [primaryPosition, ...fallbackPositions].map((pos) => ({
       ...pos,
-      offsetY:
-        pos.originY === 'bottom' && pos.overlayY === 'top'
-          ? offset
-          : pos.originY === 'top' && pos.overlayY === 'bottom'
-            ? -offset
-            : 0,
-      offsetX:
-        pos.originX === 'end' && pos.overlayX === 'start'
-          ? offset
-          : pos.originX === 'start' && pos.overlayX === 'end'
-            ? -offset
-            : 0,
+      offsetY: getOffsetY(pos, offset),
+      offsetX: getOffsetX(pos, offset),
     }));
 
     return this.overlay
@@ -406,6 +428,7 @@ export class SolarisPopoverTriggerDirective {
       panelId: this.panelId,
       autoFocus: this.solarisPopoverAutoFocus(),
       connectedSide: initialSide,
+      maxHeight: normalizeCssDimension(this.solarisPopoverMaxHeight()),
     };
 
     const panelInjector = Injector.create({
@@ -549,6 +572,7 @@ export class SolarisPopoverTriggerDirective {
       width?: number | string;
       minWidth?: number | string;
       maxWidth?: number | string;
+      maxHeight?: number | string;
     } = {};
 
     // ElementRef is SSR-safe. offsetWidth is a read-only layout property.
@@ -558,6 +582,7 @@ export class SolarisPopoverTriggerDirective {
     const matchWidth = this.solarisPopoverMatchTriggerWidth();
     const minWidth = this.solarisPopoverMinWidth();
     const maxWidth = this.solarisPopoverMaxWidth();
+    const maxHeight = this.solarisPopoverMaxHeight();
 
     if (matchWidth) {
       size.width = triggerWidth;
@@ -571,6 +596,11 @@ export class SolarisPopoverTriggerDirective {
 
     if (maxWidth !== undefined) {
       size.maxWidth = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
+    }
+
+    if (maxHeight !== undefined) {
+      size.maxHeight =
+        typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
     }
 
     this.overlayRef.updateSize(size);
@@ -594,4 +624,13 @@ export class SolarisPopoverTriggerDirective {
     }
     this.previousActiveElement = null;
   }
+}
+
+function normalizeCssDimension(
+  value: string | number | undefined,
+): string | undefined {
+  if (value === undefined) {
+    return undefined;
+  }
+  return typeof value === 'number' ? `${value}px` : value;
 }

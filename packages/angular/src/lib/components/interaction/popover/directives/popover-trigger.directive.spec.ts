@@ -470,8 +470,8 @@ describe('SolarisPopoverTriggerDirective', () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       triggerClick(fixture);
-      const container = getPanelContent();
-      expect(container?.getAttribute('data-appearance')).toBe('surface');
+      const host = getPanelHost();
+      expect(host?.getAttribute('data-appearance')).toBe('surface');
     });
 
     it('should set outline appearance', () => {
@@ -479,8 +479,8 @@ describe('SolarisPopoverTriggerDirective', () => {
       fixture.componentInstance.appearance = 'outline';
       fixture.detectChanges();
       triggerClick(fixture);
-      const container = getPanelContent();
-      expect(container?.getAttribute('data-appearance')).toBe('outline');
+      const host = getPanelHost();
+      expect(host?.getAttribute('data-appearance')).toBe('outline');
     });
   });
 
@@ -512,8 +512,8 @@ describe('SolarisPopoverTriggerDirective', () => {
       fixture.componentInstance.padding = 'lg';
       fixture.detectChanges();
       triggerClick(fixture);
-      const container = getPanelContent();
-      expect(container?.getAttribute('data-padding')).toBe('lg');
+      const host = getPanelHost();
+      expect(host?.getAttribute('data-padding')).toBe('lg');
     });
 
     it('should apply radius attribute', () => {
@@ -521,8 +521,33 @@ describe('SolarisPopoverTriggerDirective', () => {
       fixture.componentInstance.radius = 'xl';
       fixture.detectChanges();
       triggerClick(fixture);
-      const container = getPanelContent();
-      expect(container?.getAttribute('data-radius')).toBe('xl');
+      const host = getPanelHost();
+      expect(host?.getAttribute('data-radius')).toBe('xl');
+    });
+
+    it('should default padding to none (zero-spacing container)', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
+        template: `
+          <button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="myPopover"
+          >
+            Trigger
+          </button>
+          <ng-template solaris-popover #myPopover="solarisPopover">
+            <div>Content</div>
+          </ng-template>
+        `,
+      })
+      class DefaultPaddingHost {}
+
+      const fixture = TestBed.createComponent(DefaultPaddingHost);
+      fixture.detectChanges();
+      triggerClick(fixture);
+      const host = getPanelHost();
+      expect(host?.getAttribute('data-padding')).toBe('none');
     });
   });
 
@@ -591,6 +616,56 @@ describe('SolarisPopoverTriggerDirective', () => {
       fixture.detectChanges();
       triggerClick(fixture);
       expect(getPanelContent()).toBeTruthy();
+    });
+  });
+
+  describe('maxHeight', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisPopoverDirective, SolarisPopoverTriggerDirective],
+      template: `
+        <button
+          solaris-popover-trigger
+          [solarisPopoverTriggerFor]="myPopover"
+          [solarisPopoverMaxHeight]="maxHeight"
+        >
+          Trigger
+        </button>
+        <ng-template solaris-popover #myPopover="solarisPopover">
+          <div>Content</div>
+        </ng-template>
+      `,
+    })
+    class TestHost {
+      maxHeight: string | number | undefined = undefined;
+    }
+
+    it('should not set scrollable state without maxHeight', () => {
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      triggerClick(fixture);
+      const host = getPanelHost() as HTMLElement | null;
+      expect(host?.hasAttribute('data-scrollable')).toBe(false);
+      expect(host?.style.maxHeight).toBe('');
+    });
+
+    it('should set scrollable state and max-height style with maxHeight', () => {
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.maxHeight = '320px';
+      fixture.detectChanges();
+      triggerClick(fixture);
+      const host = getPanelHost() as HTMLElement | null;
+      expect(host?.getAttribute('data-scrollable')).toBe('');
+      expect(host?.style.maxHeight).toBe('320px');
+    });
+
+    it('should normalize numeric maxHeight to px', () => {
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.maxHeight = 240;
+      fixture.detectChanges();
+      triggerClick(fixture);
+      const host = getPanelHost() as HTMLElement | null;
+      expect(host?.style.maxHeight).toBe('240px');
     });
   });
 

@@ -1,0 +1,12 @@
+<button
+  solaris-button
+  solaris-popover-trigger
+  [solarisPopoverTriggerFor]="matchWidthPopover"
+  solarisPopoverPadding="md"
+  [solarisPopoverMatchTriggerWidth]="true"
+>
+  {{ 'popover.match-width-trigger' | translate }}
+</button>
+<ng-template solaris-popover #matchWidthPopover="solarisPopover">
+  <p>{{ 'popover.match-width-content' | translate }}</p>
+</ng-template>

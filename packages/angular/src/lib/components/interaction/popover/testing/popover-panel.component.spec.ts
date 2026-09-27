@@ -115,13 +115,18 @@ describe('SolarisPopoverPanelComponent', () => {
       overlayRef.attach(portal);
       fixture.detectChanges();
 
+      const host = overlayRef.overlayElement.querySelector(
+        'solaris-popover-panel',
+      );
+      expect(host).toBeTruthy();
+      expect(host?.getAttribute('data-appearance')).toBe('outline');
+      expect(host?.getAttribute('data-padding')).toBe('lg');
+      expect(host?.getAttribute('data-radius')).toBe('xl');
+
       const container = overlayRef.overlayElement.querySelector(
         '.solaris-popover-panel__container',
       );
       expect(container).toBeTruthy();
-      expect(container?.getAttribute('data-appearance')).toBe('outline');
-      expect(container?.getAttribute('data-padding')).toBe('lg');
-      expect(container?.getAttribute('data-radius')).toBe('xl');
       expect(container?.getAttribute('role')).toBe('region');
       expect(container?.getAttribute('id')).toBe('test-panel-2');
 

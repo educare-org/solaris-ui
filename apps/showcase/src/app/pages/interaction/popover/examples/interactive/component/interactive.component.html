@@ -1,0 +1,21 @@
+<button
+  solaris-button
+  solaris-popover-trigger
+  [solarisPopoverTriggerFor]="interactivePopover"
+  solarisPopoverPadding="md"
+  solarisPopoverAutoFocus="first-tabbable"
+  [solarisPopoverRestoreFocus]="true"
+>
+  {{ 'popover.interactive-trigger' | translate }}
+</button>
+<ng-template solaris-popover #interactivePopover="solarisPopover">
+  <p>{{ 'popover.interactive-text' | translate }}</p>
+  <div class="popover-page__actions">
+    <button solaris-button appearance="solid" (click)="logAction('save')">
+      {{ 'popover.save' | translate }}
+    </button>
+    <button solaris-button appearance="outline" (click)="logAction('cancel')">
+      {{ 'popover.cancel' | translate }}
+    </button>
+  </div>
+</ng-template>

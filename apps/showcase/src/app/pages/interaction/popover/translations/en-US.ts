@@ -1,6 +1,32 @@
 export const EN_US_POPOVER: Record<string, string> = {
+  'popover.title': 'Popover',
   'popover.description':
     'Non-modal floating content foundation connected to a trigger element. Supports structured content, interactive elements, and programmatic control.',
+  'popover.section.examples': 'Examples',
+  'popover.section.placements': 'Placements',
+  'popover.section.align': 'Align',
+  'popover.section.appearance': 'Appearance',
+  'popover.section.padding': 'Padding',
+  'popover.section.radius': 'Radius',
+  'popover.section.sizing': 'Sizing',
+  'popover.section.behaviors': 'Behaviors',
+  'popover.section.accessibility': 'Accessibility',
+  'popover.section.installation': 'Installation',
+  'popover.section.props': 'Props',
+  'popover.examples.note':
+    'Start with the default zero-spacing popover, then explore placements and variants below.',
+  'popover.padding-zero.note':
+    'Popover is a zero-spacing container by default: it renders chrome only. Use padding="md" for simple text, padding="none" for structured content like lists and menus.',
+  'popover.basic-content': 'This is the popover content area.',
+  'popover.max-height': 'Max Height',
+  'popover.max-height-trigger': 'Max height 240px',
+  'popover.max-height-content':
+    'This panel caps at 240px and scrolls internally instead of overflowing the viewport.',
+  'popover.installation.note':
+    'Install the single Solaris package, then import the directives.',
+  'popover.props.note': 'Props table coming soon with the table component.',
+  'popover.ai.prompt':
+    "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.",
   'popover.basic': 'Basic Popover',
   'popover.basic-note':
     'Click the button to open the popover. Click outside or press Escape to close.',
