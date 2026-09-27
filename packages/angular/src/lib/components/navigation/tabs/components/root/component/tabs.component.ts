@@ -95,13 +95,13 @@ export class SolarisTabsComponent
   readonly activationMode = input<SolarisTabsActivationMode>('automatic');
   readonly orientation = input<SolarisTabsOrientation>('horizontal');
   readonly appearance = input<SolarisTabsAppearance>('underline');
-  readonly size = input<SolarisTabsSize>('md');
-  readonly color = input<SolarisTabsColor>('primary');
   readonly ariaLabelKey = input<string | undefined>(undefined);
   readonly defaultValue = input<SolarisTabsValue>(undefined);
   readonly ariaLabel = input<string | undefined>(undefined);
+  readonly color = input<SolarisTabsColor>('neutral');
   readonly shape = input<SolarisTabsShape>('normal');
   readonly density = input<SolarisTabsDensity>();
+  readonly size = input<SolarisTabsSize>('md');
   readonly showIndicator = input<boolean>(true);
   readonly fullWidth = input<boolean>(false);
   readonly fitContent = input<boolean>(true);

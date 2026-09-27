@@ -351,13 +351,13 @@ describe('SolarisTabsComponent', () => {
     expect(host?.hasAttribute('data-show-indicator')).toBe(true);
   });
 
-  it('should apply size md and color primary by default', () => {
+  it('should apply size md and color neutral by default', () => {
     configureBase();
     const fixture = TestBed.createComponent(BasicTabsTestHostComponent);
     fixture.detectChanges();
     const host = fixture.nativeElement.querySelector('solaris-tabs');
     expect(host?.getAttribute('data-size')).toBe('md');
-    expect(host?.getAttribute('data-color')).toBe('primary');
+    expect(host?.getAttribute('data-color')).toBe('neutral');
   });
 
   it('should apply size and color attributes', () => {

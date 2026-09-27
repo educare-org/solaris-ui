@@ -59,7 +59,7 @@ The content panel associated with a tab. Only the active panel is visible.
 | `orientation`       | `'horizontal' \| 'vertical'`             | `'horizontal'` | Layout orientation                      |
 | `appearance`        | `'underline' \| 'pills' \| 'enclosed'`   | `'underline'`  | Visual style                            |
 | `size`              | `'sm' \| 'md' \| 'lg'`                   | `'md'`         | Tab size (height and typography)        |
-| `color`             | `'primary' \| 'neutral'`                 | `'primary'`    | Accent color for active tab             |
+| `color`             | `'primary' \| 'neutral'`                 | `'neutral'`    | Accent color for active tab             |
 | `density`           | `'compact' \| 'normal' \| 'comfortable'` | `'normal'`     | Spacing, padding, and typography scale  |
 | `shape`             | `'normal' \| 'wide'`                     | `'normal'`     | Tab proportions                         |
 | `activationMode`    | `'automatic' \| 'manual'`                | `'automatic'`  | Keyboard activation behavior            |
@@ -180,10 +180,10 @@ tokens) and the typography (`sm` → `xs`, `md` → `sm`, `lg` → `md`), while
 <solaris-tabs color="primary">...</solaris-tabs> <solaris-tabs color="neutral">...</solaris-tabs>
 ```
 
-| Color     | Description                                                                 |
-| --------- | --------------------------------------------------------------------------- |
-| `primary` | Brand accent for the indicator and active tab. Default                      |
-| `neutral` | Muted accent for dense docs/headers and `enclosed` tabs over `surface-base` |
+| Color     | Description                                                                          |
+| --------- | ------------------------------------------------------------------------------------ |
+| `primary` | Brand accent for the indicator and active tab                                        |
+| `neutral` | Muted accent for dense docs/headers and `enclosed` tabs over `surface-base`. Default |
 
 `color` only swaps the indicator, the active tab text, and the active tab
 background. Focus rings always use the primary color.

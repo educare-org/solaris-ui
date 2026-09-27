@@ -90,7 +90,7 @@ export class SolarisTabComponent {
   });
 
   protected readonly color = computed(() => {
-    return this.tabsControl?.color() ?? 'primary';
+    return this.tabsControl?.color() ?? 'neutral';
   });
 
   protected readonly shape = computed(() => {

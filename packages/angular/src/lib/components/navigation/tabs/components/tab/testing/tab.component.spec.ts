@@ -89,14 +89,14 @@ describe('SolarisTabComponent', () => {
     expect(badge?.textContent?.trim()).toBe('5');
   });
 
-  it('should expose size md and color primary by default', () => {
+  it('should expose size md and color neutral by default', () => {
     configureBase();
     const fixture = TestBed.createComponent(TestHostComponent);
     fixture.detectChanges();
     const tabs = fixture.nativeElement.querySelectorAll('solaris-tab');
     tabs.forEach((tab: HTMLElement) => {
       expect(tab.getAttribute('data-size')).toBe('md');
-      expect(tab.getAttribute('data-color')).toBe('primary');
+      expect(tab.getAttribute('data-color')).toBe('neutral');
     });
   });
 
