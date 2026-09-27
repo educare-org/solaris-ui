@@ -12,6 +12,8 @@ export type {
   SolarisEditableTabMoveDirection,
   SolarisEditableTabsOrientation,
   SolarisEditableTabsAppearance,
+  SolarisEditableTabsSize,
+  SolarisEditableTabsColor,
   SolarisEditableTabsDensity,
   SolarisEditableTabsShape,
   SolarisEditableTabsActivationMode,

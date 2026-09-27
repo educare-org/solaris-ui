@@ -1,38 +1,45 @@
 :host {
+  // SOLARIS_TOKEN_EXCEPTION: derived primary alpha; no alpha token exists for this pattern.
+  --solaris-primary-base-alpha: #4282fb4d;
+  --solaris-editable-tabs-rename-input-font-size: inherit;
   --solaris-editable-tabs-action-size: var(--solaris-spacing-5);
   --solaris-editable-tabs-action-radius: var(--solaris-radius-sm);
   --solaris-editable-tabs-action-color: var(--solaris-text-muted);
+  --solaris-editable-tabs-rename-input-radius: var(--solaris-radius-sm);
+  --solaris-editable-tabs-rename-input-padding: var(--solaris-spacing-1);
   --solaris-editable-tabs-action-hover-color: var(--solaris-text-default);
+  --solaris-editable-tabs-rename-input-min-width: var(--solaris-spacing-20);
+
+  // SOLARIS_TOKEN_EXCEPTION: derived primary alpha for the rename input highlight; no alpha token exists for this pattern.
+  --solaris-editable-tabs-rename-input-background: var(--solaris-surface-base);
   --solaris-editable-tabs-action-hover-background: var(
     --solaris-surface-subtle
   );
-  --solaris-editable-tabs-rename-input-min-width: var(--solaris-spacing-20);
-  --solaris-editable-tabs-rename-input-padding: var(--solaris-spacing-1);
-  --solaris-editable-tabs-rename-input-radius: var(--solaris-radius-sm);
-  --solaris-editable-tabs-rename-input-font-size: inherit;
+  --solaris-editable-tabs-rename-input-height: var(
+    --solaris-control-height-normal-md
+  );
   --solaris-editable-tabs-rename-input-border-color: var(
     --solaris-primary-base
   );
+  --solaris-editable-tabs-drop-indicator-z-index: var(
+    --solaris-z-index-content
+  );
 
-  // SOLARIS_TOKEN_EXCEPTION: derived primary alpha for the rename input highlight; no alpha token exists for this pattern.
-  --solaris-primary-base-alpha: #4282fb4d;
-  --solaris-editable-tabs-rename-input-background: var(--solaris-surface-base);
-
-  display: block;
   width: 100%;
+  display: block;
 }
 
 .solaris-editable-tabs__wrapper {
-  position: relative;
   width: 100%;
+  position: relative;
 }
 
 .solaris-editable-tabs__action-area {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   opacity: 0;
-  transition: opacity var(--solaris-motion-duration-fast)
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  transition: opacity var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
 
@@ -58,76 +65,141 @@
   opacity: 1;
 }
 
-:host ::ng-deep .solaris-editable-tabs__action-area--replaces-icon {
-  display: none;
+.solaris-editable-tabs__icon-swap {
   order: -1;
-}
-
-:host
-  ::ng-deep
-  .solaris-editable-tabs__action-area--replaces-icon
-  .solaris-editable-tabs__action-trigger {
+  flex: none;
+  position: relative;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
   width: var(--solaris-tab-icon-size);
   height: var(--solaris-tab-icon-size);
 }
 
-:host
-  ::ng-deep
-  solaris-tab[data-has-icon]:hover
-  .solaris-editable-tabs__action-area--replaces-icon,
-:host
-  ::ng-deep
-  solaris-tab[data-has-icon]:focus-within
-  .solaris-editable-tabs__action-area--replaces-icon {
+.solaris-editable-tabs__swap-icon {
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
   display: inline-flex;
+  inset: 50% auto auto 50%;
+  transform-origin: center;
+  transform: translate(-50%, -50%) scale(0.72);
+  transition:
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    transform var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+  line-height: 0;
+
+  solaris-icon {
+    width: var(--solaris-tab-icon-size);
+    height: var(--solaris-tab-icon-size);
+  }
 }
 
-:host ::ng-deep solaris-tab[data-has-icon]:hover .solaris-tab__icon,
-:host ::ng-deep solaris-tab[data-has-icon]:focus-within .solaris-tab__icon {
-  display: none;
+.solaris-editable-tabs__swap-icon--icon {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
-:host
-  ::ng-deep
-  solaris-tab[data-has-icon][data-menu-open]
-  .solaris-editable-tabs__action-area--replaces-icon {
-  display: inline-flex;
-}
-
-:host ::ng-deep solaris-tab[data-has-icon][data-menu-open] .solaris-tab__icon {
-  display: none;
-}
-
-:host([data-show-actions='always'])
-  ::ng-deep
-  .solaris-editable-tabs__action-area--replaces-icon {
-  display: inline-flex;
-}
-
-:host([data-show-actions='always'])
-  ::ng-deep
-  solaris-tab[data-has-icon]
-  .solaris-tab__icon {
-  display: none;
-}
-
-.solaris-editable-tabs__action-trigger {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--solaris-editable-tabs-action-size);
-  height: var(--solaris-editable-tabs-action-size);
-  padding: 0;
+.solaris-editable-tabs__swap-icon--action {
   margin: 0;
+  padding: 0;
   border: none;
   cursor: pointer;
+  align-items: center;
   background: transparent;
+  justify-content: center;
   color: var(--solaris-editable-tabs-action-color);
   border-radius: var(--solaris-editable-tabs-action-radius);
   transition:
-    color var(--solaris-motion-duration-fast)
+    opacity var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
-    background var(--solaris-motion-duration-fast)
+    transform var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    background var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-editable-tabs__swap-icon--action:hover,
+.solaris-editable-tabs__swap-icon--action:focus-visible {
+  color: var(--solaris-editable-tabs-action-hover-color);
+  background: var(--solaris-editable-tabs-action-hover-background);
+}
+
+.solaris-editable-tabs__swap-icon--action:focus-visible {
+  outline: var(--solaris-border-width-md) solid var(--solaris-primary-base);
+  outline-offset: var(--solaris-border-width-sm);
+}
+
+:host
+  ::ng-deep
+  solaris-tab[data-editable]:hover
+  .solaris-editable-tabs__swap-icon--icon,
+:host
+  ::ng-deep
+  solaris-tab[data-editable]:focus-within
+  .solaris-editable-tabs__swap-icon--icon,
+:host
+  ::ng-deep
+  solaris-tab[data-editable][data-menu-open]
+  .solaris-editable-tabs__swap-icon--icon {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.72);
+}
+
+:host
+  ::ng-deep
+  solaris-tab[data-editable]:hover
+  .solaris-editable-tabs__swap-icon--action,
+:host
+  ::ng-deep
+  solaris-tab[data-editable]:focus-within
+  .solaris-editable-tabs__swap-icon--action,
+:host
+  ::ng-deep
+  solaris-tab[data-editable][data-menu-open]
+  .solaris-editable-tabs__swap-icon--action {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+:host([data-show-actions='always'])
+  ::ng-deep
+  .solaris-editable-tabs__swap-icon--icon {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.72);
+}
+
+:host([data-show-actions='always'])
+  ::ng-deep
+  .solaris-editable-tabs__swap-icon--action {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.solaris-editable-tabs__action-trigger {
+  margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  align-items: center;
+  display: inline-flex;
+  background: transparent;
+  justify-content: center;
+  width: var(--solaris-tab-icon-size);
+  height: var(--solaris-tab-icon-size);
+  font-size: var(--solaris-tab-icon-size);
+  color: var(--solaris-editable-tabs-action-color);
+  border-radius: var(--solaris-editable-tabs-action-radius);
+  transition:
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    background var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard);
   line-height: 0;
 }
@@ -149,18 +221,19 @@
 }
 
 .solaris-editable-tabs__rename-input {
-  min-width: var(--solaris-editable-tabs-rename-input-min-width);
+  outline: none;
+  color: inherit;
+  box-sizing: border-box;
+  height: var(--solaris-editable-tabs-rename-input-height);
   padding: var(--solaris-editable-tabs-rename-input-padding);
+  min-width: var(--solaris-editable-tabs-rename-input-min-width);
+  border-radius: var(--solaris-editable-tabs-rename-input-radius);
   border: var(--solaris-border-width-sm) solid
     var(--solaris-editable-tabs-rename-input-border-color);
-  border-radius: var(--solaris-editable-tabs-rename-input-radius);
   background: var(--solaris-editable-tabs-rename-input-background);
   font: var(--solaris-font-weight-regular)
     var(--solaris-editable-tabs-rename-input-font-size) / 1.2
     var(--solaris-font-family-sans);
-  color: inherit;
-  outline: none;
-  box-sizing: border-box;
 }
 
 .solaris-editable-tabs__rename-input:focus {
@@ -169,11 +242,69 @@
     var(--solaris-primary-base-alpha);
 }
 
+:host([data-size='sm'][data-density='compact']) {
+  --solaris-editable-tabs-rename-input-height: var(
+    --solaris-control-height-compact-sm
+  );
+}
+
+:host([data-size='md'][data-density='compact']) {
+  --solaris-editable-tabs-rename-input-height: var(
+    --solaris-control-height-compact-md
+  );
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-editable-tabs-rename-input-height: var(
+    --solaris-control-height-compact-lg
+  );
+}
+
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-editable-tabs-rename-input-height: var(
+    --solaris-control-height-normal-sm
+  );
+}
+
+:host([data-size='md'][data-density='normal']) {
+  --solaris-editable-tabs-rename-input-height: var(
+    --solaris-control-height-normal-md
+  );
+}
+
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-editable-tabs-rename-input-height: var(
+    --solaris-control-height-normal-lg
+  );
+}
+
+:host([data-size='sm'][data-density='comfortable']) {
+  --solaris-editable-tabs-rename-input-height: var(
+    --solaris-control-height-comfortable-sm
+  );
+}
+
+:host([data-size='md'][data-density='comfortable']) {
+  --solaris-editable-tabs-rename-input-height: var(
+    --solaris-control-height-comfortable-md
+  );
+}
+
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-editable-tabs-rename-input-height: var(
+    --solaris-control-height-comfortable-lg
+  );
+}
+
 @media (prefers-reduced-motion: reduce) {
   .solaris-editable-tabs__action-area {
     transition: none;
   }
   .solaris-editable-tabs__action-trigger {
+    transition: none;
+  }
+  .solaris-editable-tabs__swap-icon,
+  .solaris-editable-tabs__swap-icon--action {
     transition: none;
   }
 }
@@ -185,4 +316,77 @@
   .solaris-editable-tabs__action-trigger {
     transition: none;
   }
+  .solaris-editable-tabs__swap-icon,
+  .solaris-editable-tabs__swap-icon--action {
+    transition: none;
+  }
+}
+
+:host ::ng-deep solaris-tab[data-draggable='true'] {
+  cursor: grab;
+}
+
+:host ::ng-deep solaris-tab[data-dragging='true'] {
+  opacity: var(--solaris-opacity-50);
+  cursor: grabbing;
+}
+
+:host ::ng-deep solaris-tab[data-drop-before],
+:host ::ng-deep solaris-tab[data-drop-after] {
+  position: relative;
+}
+
+:host ::ng-deep solaris-tab[data-drop-before]::before,
+:host ::ng-deep solaris-tab[data-drop-after]::after {
+  content: '';
+  position: absolute;
+  background: var(--solaris-primary-base);
+  border-radius: var(--solaris-radius-full);
+  z-index: var(--solaris-editable-tabs-drop-indicator-z-index);
+}
+
+:host([data-orientation='horizontal'])
+  ::ng-deep
+  solaris-tab[data-drop-before]::before,
+:host([data-orientation='horizontal'])
+  ::ng-deep
+  solaris-tab[data-drop-after]::after {
+  top: var(--solaris-spacing-1);
+  bottom: var(--solaris-spacing-1);
+  width: var(--solaris-border-width-md);
+}
+
+:host([data-orientation='horizontal'])
+  ::ng-deep
+  solaris-tab[data-drop-before]::before {
+  left: calc(var(--solaris-border-width-md) * -1);
+}
+
+:host([data-orientation='horizontal'])
+  ::ng-deep
+  solaris-tab[data-drop-after]::after {
+  right: calc(var(--solaris-border-width-md) * -1);
+}
+
+:host([data-orientation='vertical'])
+  ::ng-deep
+  solaris-tab[data-drop-before]::before,
+:host([data-orientation='vertical'])
+  ::ng-deep
+  solaris-tab[data-drop-after]::after {
+  left: var(--solaris-spacing-1);
+  right: var(--solaris-spacing-1);
+  height: var(--solaris-border-width-md);
+}
+
+:host([data-orientation='vertical'])
+  ::ng-deep
+  solaris-tab[data-drop-before]::before {
+  top: calc(var(--solaris-border-width-md) * -1);
+}
+
+:host([data-orientation='vertical'])
+  ::ng-deep
+  solaris-tab[data-drop-after]::after {
+  bottom: calc(var(--solaris-border-width-md) * -1);
 }

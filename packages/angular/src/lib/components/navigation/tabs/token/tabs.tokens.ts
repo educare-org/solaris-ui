@@ -4,6 +4,8 @@ import type { SolarisTabComponent } from '../components/tab/component/tab.compon
 import type {
   SolarisTabsOrientation,
   SolarisTabsAppearance,
+  SolarisTabsSize,
+  SolarisTabsColor,
   SolarisTabsDensity,
   SolarisTabsShape,
   SolarisTabsActivationMode,
@@ -15,6 +17,8 @@ export interface SolarisTabsControl {
   tabs: Signal<ReadonlyArray<SolarisTabComponent>>;
   orientation: Signal<SolarisTabsOrientation>;
   appearance: Signal<SolarisTabsAppearance>;
+  size: Signal<SolarisTabsSize>;
+  color: Signal<SolarisTabsColor>;
   effectiveDensity: Signal<SolarisTabsDensity>;
   shape: Signal<SolarisTabsShape>;
   disabled: Signal<boolean>;

@@ -1,5 +1,7 @@
 // SECURITY_EXCEPTION_FILE: nativeElement required to query tab elements for programmatic focus. Read-only, SSR-safe.
 // SECURITY_EXCEPTION_FILE: nativeElement required to query tablist for indicator measurement. Read-only, SSR-safe.
+// SECURITY_EXCEPTION_FILE: nativeElement required for ResizeObserver target. Standard DOM API, SSR-safe with typeof guard.
+// SECURITY_EXCEPTION_FILE: nativeElement required for MutationObserver target. Standard DOM API, SSR-safe with typeof guard.
 import {
   Component,
   input,
@@ -13,28 +15,36 @@ import {
   effect,
   ElementRef,
   NgZone,
+  Injector,
+  PLATFORM_ID,
+  AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
+import { SolarisTabPanelComponent } from '../../tab-panel/component/tab-panel.component';
 import { SolarisTranslateService } from '../../../../../../services/translation';
 import { SolarisThemeService } from '../../../../../../services/theme';
 import { SolarisTabComponent } from '../../tab/component/tab.component';
-import { SolarisTabPanelComponent } from '../../tab-panel/component/tab-panel.component';
 import {
   SOLARIS_TABS,
   type SolarisTabsControl,
 } from '../../../token/tabs.tokens';
 
-import type {
+import {
   SolarisTabsOrientation,
   SolarisTabsAppearance,
+  SolarisTabsSize,
+  SolarisTabsColor,
   SolarisTabsDensity,
   SolarisTabsShape,
   SolarisTabsActivationMode,
   SolarisTabsContentTransition,
   SolarisTabsChangeEvent,
   SolarisTabClickEvent,
+  SolarisTabsValue,
 } from '../model/tabs.types';
-import { nextIdFor } from '../../../../../../core/utils/id';
+import { nextIdFor } from '../../../../../../core';
 
 @Component({
   selector: 'solaris-tabs',
@@ -45,13 +55,18 @@ import { nextIdFor } from '../../../../../../core/utils/id';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'solaris-tabs',
-    '[attr.data-orientation]': 'orientation()',
-    '[attr.data-appearance]': 'appearance()',
-    '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-size]': 'size()',
+    '[attr.data-color]': 'color()',
     '[attr.data-shape]': 'shape()',
-    '[attr.data-full-width]': 'fullWidth()',
-    '[attr.data-scrollable]': 'scrollable()',
-    '[attr.data-show-indicator]': 'showIndicator()',
+    '[attr.data-appearance]': 'appearance()',
+    '[attr.data-orientation]': 'orientation()',
+    '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-disabled]': 'disabled() || undefined',
+    '[attr.aria-disabled]': 'disabled() || undefined',
+    '[attr.data-fit-content]': 'fitContent() || undefined',
+    '[attr.data-full-width]': 'fullWidth() || undefined',
+    '[attr.data-scrollable]': 'scrollable() || undefined',
+    '[attr.data-show-indicator]': 'showIndicator() || undefined',
     '[attr.data-content-transition]': 'contentTransition()',
   },
   providers: [
@@ -61,52 +76,58 @@ import { nextIdFor } from '../../../../../../core/utils/id';
     },
   ],
 })
-export class SolarisTabsComponent implements SolarisTabsControl {
+export class SolarisTabsComponent
+  implements SolarisTabsControl, AfterViewInit, OnDestroy
+{
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
   protected readonly themeService = inject(SolarisThemeService);
   private readonly elementRef = inject(ElementRef);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly injector = inject(Injector);
   private readonly ngZone = inject(NgZone);
 
   readonly tabs = contentChildren(SolarisTabComponent);
   readonly panels = contentChildren(SolarisTabPanelComponent);
 
-  readonly value = model<string | number | undefined>(undefined);
-  readonly defaultValue = input<string | number | undefined>(undefined);
+  readonly contentTransition = input<SolarisTabsContentTransition>('fade');
+  readonly activationMode = input<SolarisTabsActivationMode>('automatic');
   readonly orientation = input<SolarisTabsOrientation>('horizontal');
   readonly appearance = input<SolarisTabsAppearance>('underline');
-  readonly density = input<SolarisTabsDensity>();
+  readonly size = input<SolarisTabsSize>('md');
+  readonly color = input<SolarisTabsColor>('primary');
+  readonly ariaLabelKey = input<string | undefined>(undefined);
+  readonly defaultValue = input<SolarisTabsValue>(undefined);
+  readonly ariaLabel = input<string | undefined>(undefined);
   readonly shape = input<SolarisTabsShape>('normal');
-  readonly activationMode = input<SolarisTabsActivationMode>('automatic');
-  readonly contentTransition = input<SolarisTabsContentTransition>('fade');
+  readonly density = input<SolarisTabsDensity>();
+  readonly showIndicator = input<boolean>(true);
   readonly fullWidth = input<boolean>(false);
   readonly fitContent = input<boolean>(true);
   readonly scrollable = input<boolean>(true);
-  readonly showIndicator = input<boolean>(true);
   readonly disabled = input<boolean>(false);
-  readonly ariaLabel = input<string | undefined>(undefined);
-  readonly ariaLabelKey = input<string | undefined>(undefined);
 
-  readonly valueChange = output<string | number | undefined>();
   readonly tabChange = output<SolarisTabsChangeEvent>();
   readonly tabClick = output<SolarisTabClickEvent>();
+  readonly valueChange = output<SolarisTabsValue>();
 
-  protected readonly previousValue = signal<string | number | undefined>(
-    undefined,
-  );
+  readonly value = model<SolarisTabsValue>(undefined);
+  protected readonly instanceId = nextIdFor('solaris-tabs');
+
+  protected readonly previousValue = signal<SolarisTabsValue>(undefined);
   protected readonly slideDirection = signal<'left' | 'right'>('right');
+  protected readonly indicatorTransformX = signal('translateX(0)');
+  protected readonly indicatorTransformY = signal('translateY(0)');
+  protected readonly indicatorReady = signal(false);
+  protected readonly indicatorSize = signal('0');
+
+  private resizeObserver: ResizeObserver | null = null;
+  private contentObserver: MutationObserver | null = null;
 
   readonly effectiveDensity = computed(() => {
     return this.density() ?? this.themeService.density;
   });
-
-  protected readonly instanceId = nextIdFor('solaris-tabs');
-
-  protected readonly indicatorReady = signal(false);
-  protected readonly indicatorTransformX = signal('translateX(0)');
-  protected readonly indicatorTransformY = signal('translateY(0)');
-  protected readonly indicatorSize = signal('0');
 
   protected readonly resolvedAriaLabel = computed(() => {
     if (this.ariaLabel()) return this.ariaLabel();
@@ -114,7 +135,7 @@ export class SolarisTabsComponent implements SolarisTabsControl {
     if (ariaLabelKey && this.translateService) {
       return this.translateService.translate(ariaLabelKey);
     }
-    return ariaLabelKey ?? 'Tabs';
+    return ariaLabelKey ?? undefined;
   });
 
   constructor() {
@@ -139,20 +160,34 @@ export class SolarisTabsComponent implements SolarisTabsControl {
       }
       this.previousValue.set(current);
     });
+  }
 
-    this.ngZone.runOutsideAngular(() => {
-      setTimeout(() => this.measureIndicator());
-    });
+  ngAfterViewInit(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
 
-    effect(() => {
-      this.value();
-      this.appearance();
-      this.orientation();
-      this.tabs();
-      this.ngZone.runOutsideAngular(() => {
-        setTimeout(() => this.measureIndicator());
-      });
-    });
+    this.setupIndicatorMeasurement();
+
+    effect(
+      () => {
+        this.value();
+        this.appearance();
+        this.orientation();
+        this.size();
+        this.color();
+        this.effectiveDensity();
+        this.tabs();
+        this.ngZone.runOutsideAngular(() => {
+          requestAnimationFrame(() => this.measureIndicator());
+        });
+      },
+      { injector: this.injector },
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.disconnectObservers();
   }
 
   activateTab(tab: SolarisTabComponent): void {
@@ -187,6 +222,9 @@ export class SolarisTabsComponent implements SolarisTabsControl {
   }
 
   private measureIndicator(): void {
+    if (!this.showIndicator()) return;
+    if (this.appearance() !== 'underline') return;
+
     const nativeEl = this.elementRef.nativeElement as HTMLElement;
     const tablist = nativeEl.querySelector(
       '.solaris-tabs__tablist',
@@ -200,17 +238,65 @@ export class SolarisTabsComponent implements SolarisTabsControl {
 
     const isVertical = this.orientation() === 'vertical';
 
+    const listRect = tablist.getBoundingClientRect();
+    const tabRect = activeTab.getBoundingClientRect();
+    const borderLeft = tablist.clientLeft;
+    const borderTop = tablist.clientTop;
+
     if (isVertical) {
-      this.indicatorTransformY.set(`translateY(${activeTab.offsetTop}px)`);
-      this.indicatorSize.set(`${activeTab.offsetHeight}px`);
+      const offsetY =
+        tabRect.top - listRect.top - borderTop + tablist.scrollTop;
+      this.indicatorTransformY.set(`translateY(${offsetY}px)`);
+      this.indicatorSize.set(`${tabRect.height}px`);
     } else {
-      this.indicatorTransformX.set(`translateX(${activeTab.offsetLeft}px)`);
-      this.indicatorSize.set(`${activeTab.offsetWidth}px`);
+      const offsetX =
+        tabRect.left - listRect.left - borderLeft + tablist.scrollLeft;
+      this.indicatorTransformX.set(`translateX(${offsetX}px)`);
+      this.indicatorSize.set(`${tabRect.width}px`);
     }
 
     if (!this.indicatorReady()) {
-      setTimeout(() => this.indicatorReady.set(true));
+      requestAnimationFrame(() => this.indicatorReady.set(true));
     }
+  }
+
+  private setupIndicatorMeasurement(): void {
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.ngZone.runOutsideAngular(() => {
+          requestAnimationFrame(() => this.measureIndicator());
+        });
+      });
+      const nativeEl = this.elementRef.nativeElement as HTMLElement;
+      this.resizeObserver.observe(nativeEl);
+    }
+
+    if (typeof MutationObserver !== 'undefined') {
+      const nativeEl = this.elementRef.nativeElement as HTMLElement;
+      this.contentObserver = new MutationObserver(() => {
+        this.ngZone.runOutsideAngular(() => {
+          requestAnimationFrame(() => this.measureIndicator());
+        });
+      });
+      this.contentObserver.observe(nativeEl, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+        attributes: true,
+        attributeFilter: ['data-active', 'class', 'style'],
+      });
+    }
+
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(() => this.measureIndicator());
+    });
+  }
+
+  private disconnectObservers(): void {
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = null;
+    this.contentObserver?.disconnect();
+    this.contentObserver = null;
   }
 
   private updateSlideDirection(

@@ -431,6 +431,8 @@ export type { SolarisTabsControl } from './lib/components/navigation/tabs/token/
 export type {
   SolarisTabsOrientation,
   SolarisTabsAppearance,
+  SolarisTabsSize,
+  SolarisTabsColor,
   SolarisTabsDensity,
   SolarisTabsShape,
   SolarisTabsActivationMode,
@@ -610,6 +612,8 @@ export type { SolarisEditableTabActionEvent } from './lib/components/navigation/
 export type { SolarisEditableTabMoveDirection } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
 export type { SolarisEditableTabsOrientation } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
 export type { SolarisEditableTabsAppearance } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabsSize } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabsColor } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
 export type { SolarisEditableTabsDensity } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
 export type { SolarisEditableTabsShape } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
 export type { SolarisEditableTabsActivationMode } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';

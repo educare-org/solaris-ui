@@ -3,6 +3,8 @@ import type { TemplateRef } from '@angular/core';
 import type {
   SolarisTabsOrientation,
   SolarisTabsAppearance,
+  SolarisTabsSize,
+  SolarisTabsColor,
   SolarisTabsDensity,
   SolarisTabsShape,
   SolarisTabsActivationMode,
@@ -11,6 +13,8 @@ import type {
 
 export type SolarisEditableTabsOrientation = SolarisTabsOrientation;
 export type SolarisEditableTabsAppearance = SolarisTabsAppearance;
+export type SolarisEditableTabsSize = SolarisTabsSize;
+export type SolarisEditableTabsColor = SolarisTabsColor;
 export type SolarisEditableTabsDensity = SolarisTabsDensity;
 export type SolarisEditableTabsShape = SolarisTabsShape;
 export type SolarisEditableTabsActivationMode = SolarisTabsActivationMode;

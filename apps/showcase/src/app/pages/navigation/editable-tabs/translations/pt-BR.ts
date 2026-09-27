@@ -22,9 +22,28 @@ export const EDITABLE_TABS_TRANSLATIONS_PT_BR: Record<string, string> = {
   'editableTabs.example.remove.description':
     'Remova abas pelo menu de ações. A última aba não pode ser removida (minTabs=1).',
   'editableTabs.example.move.description':
-    'Mova abas para esquerda/direita usando o menu de ações. Abas nas extremidades têm suas ações de mover desabilitadas.',
+    'Mova abas para esquerda/direita pelo menu de ações ou arraste e solte em uma nova posição. Abas nas extremidades têm as ações de mover do menu desabilitadas.',
   'editableTabs.example.default-event.description':
     'Aba padrão: {{ value }} (não persistida pelo Solaris)',
   'editableTabs.example.custom-actions.last-action':
     'Última ação: {{ action }}',
+  'editableTabs.section.examples': 'Exemplos',
+  'editableTabs.section.management': 'Renomear, remover e mover',
+  'editableTabs.section.features': 'Recursos',
+  'editableTabs.section.layout': 'Layout',
+  'editableTabs.section.installation': 'Instalação',
+  'editableTabs.section.props': 'Propriedades',
+  'editableTabs.examples.note':
+    'Comece pelas abas editáveis padrão e explore as ações de gerenciamento e variantes abaixo. As abas também podem ser reordenadas arrastando quando dragToReorder está ativo.',
+  'editableTabs.management.note':
+    'As ações de renomear, remover e reordenar ficam no menu de ações da aba. Arrastar e soltar emite o mesmo evento tabMove das ações do menu.',
+  'editableTabs.drag-reorder': 'Arrastar para reordenar',
+  'editableTabs.example.drag-reorder.description':
+    'Arraste uma aba e solte na nova posição. O indicador mostra onde a aba será inserida.',
+  'editableTabs.installation.note':
+    'Instale o pacote único Solaris e importe o componente.',
+  'editableTabs.props.note':
+    'Tabela de propriedades em breve com o componente de tabela.',
+  'editableTabs.ai.prompt':
+    'Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar.',
 };

@@ -4,14 +4,15 @@ import {
   computed,
   Component,
   ChangeDetectionStrategy,
+  ElementRef,
 } from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../../../services/translation';
-import { SolarisThemeService } from '../../../../../../services/theme';
 import { SolarisBadgeComponent } from '../../../../../data-display/badge';
+import { SolarisThemeService } from '../../../../../../services/theme';
 import { SolarisIconComponent } from '../../../../../icon';
 import { SOLARIS_TABS } from '../../../token/tabs.tokens';
-import { nextIdFor } from '../../../../../../core/utils/id';
+import { nextIdFor } from '../../../../../../core';
 
 @Component({
   selector: 'solaris-tab',
@@ -24,9 +25,11 @@ import { nextIdFor } from '../../../../../../core/utils/id';
     role: 'tab',
     '[attr.id]': 'tabId()',
     '(click)': 'onClick()',
-    '(keydown)': 'onKeydown($event)',
-    '[attr.data-density]': 'density()',
     '[attr.data-shape]': 'shape()',
+    '(keydown)': 'onKeydown($event)',
+    '[attr.data-size]': 'size()',
+    '[attr.data-color]': 'color()',
+    '[attr.data-density]': 'density()',
     '[attr.data-active]': 'isActive()',
     '[attr.aria-controls]': 'panelId()',
     '[attr.aria-selected]': 'isActive()',
@@ -44,18 +47,19 @@ export class SolarisTabComponent {
   });
   protected readonly themeService = inject(SolarisThemeService);
   private readonly tabsControl = inject(SOLARIS_TABS, { optional: true });
+  private readonly elementRef = inject(ElementRef);
 
-  readonly disabled = input<boolean>(false);
-  readonly value = input.required<string | number>();
-  readonly iconDecorative = input<boolean>(true);
-  readonly icon = input<string | undefined>(undefined);
-  readonly label = input<string | undefined>(undefined);
-  readonly labelKey = input<string | undefined>(undefined);
-  readonly ariaLabel = input<string | undefined>(undefined);
-  readonly badgeLabel = input<string | undefined>(undefined);
-  readonly ariaLabelKey = input<string | undefined>(undefined);
-  readonly badgeLabelKey = input<string | undefined>(undefined);
   readonly badge = input<string | number | undefined>(undefined);
+  readonly badgeLabelKey = input<string | undefined>(undefined);
+  readonly ariaLabelKey = input<string | undefined>(undefined);
+  readonly badgeLabel = input<string | undefined>(undefined);
+  readonly ariaLabel = input<string | undefined>(undefined);
+  readonly labelKey = input<string | undefined>(undefined);
+  readonly label = input<string | undefined>(undefined);
+  readonly icon = input<string | undefined>(undefined);
+  readonly iconDecorative = input<boolean>(true);
+  readonly value = input.required<string | number>();
+  readonly disabled = input<boolean>(false);
 
   protected readonly instanceId = nextIdFor('solaris-tab');
 
@@ -79,6 +83,14 @@ export class SolarisTabComponent {
 
   protected readonly density = computed(() => {
     return this.tabsControl?.effectiveDensity() ?? this.themeService.density;
+  });
+
+  protected readonly size = computed(() => {
+    return this.tabsControl?.size() ?? 'md';
+  });
+
+  protected readonly color = computed(() => {
+    return this.tabsControl?.color() ?? 'primary';
   });
 
   protected readonly shape = computed(() => {
@@ -179,15 +191,17 @@ export class SolarisTabComponent {
     currentIndex: number,
   ): number | null {
     switch (key) {
-      case 'ArrowRight':
-        return this.orientation() === 'horizontal'
-          ? this.findNextEnabled(tabs, currentIndex, 1)
-          : null;
+      case 'ArrowRight': {
+        if (this.orientation() !== 'horizontal') return null;
+        const direction: 1 | -1 = this.isRTL() ? -1 : 1;
+        return this.findNextEnabled(tabs, currentIndex, direction);
+      }
 
-      case 'ArrowLeft':
-        return this.orientation() === 'horizontal'
-          ? this.findNextEnabled(tabs, currentIndex, -1)
-          : null;
+      case 'ArrowLeft': {
+        if (this.orientation() !== 'horizontal') return null;
+        const direction: 1 | -1 = this.isRTL() ? 1 : -1;
+        return this.findNextEnabled(tabs, currentIndex, direction);
+      }
 
       case 'ArrowDown':
         return this.orientation() === 'vertical'
@@ -215,10 +229,11 @@ export class SolarisTabComponent {
     fromIndex: number,
     direction: 1 | -1,
   ): number | null {
-    let i = fromIndex + direction;
-    while (i >= 0 && i < tabs.length) {
+    if (tabs.length === 0) return null;
+    let i = fromIndex;
+    for (let step = 0; step < tabs.length; step++) {
+      i = (i + direction + tabs.length) % tabs.length;
       if (!tabs[i].isComputedDisabled()) return i;
-      i += direction;
     }
     return null;
   }
@@ -239,5 +254,16 @@ export class SolarisTabComponent {
       if (!tabs[i].isComputedDisabled()) return i;
     }
     return null;
+  }
+
+  private isRTL(): boolean {
+    if (typeof document === 'undefined') return false;
+    const nativeElement = this.elementRef.nativeElement as HTMLElement | null;
+    const closestDir = nativeElement?.closest?.('[dir]')?.getAttribute('dir');
+    const dir =
+      closestDir ??
+      document.documentElement.getAttribute('dir') ??
+      document.dir;
+    return dir === 'rtl';
   }
 }

@@ -1,35 +1,21 @@
-.tabs-showcase {
-  max-width: 1536px;
-  padding: var(--solaris-spacing-8);
+@use '../../../../shared/showcase-layout' as layout;
+
+.tabs-showcase__note {
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.tabs-showcase__header {
-  margin-bottom: var(--solaris-spacing-8);
+.tabs-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
 }
 
-.tabs-showcase__title {
-  color: var(--solaris-text-strong);
-  margin: 0 0 var(--solaris-spacing-2);
-  font: var(--solaris-font-weight-bold) var(--solaris-font-size-3xl) /
-    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
-}
-
-.tabs-showcase__description {
-  margin: 0;
-  color: var(--solaris-text-muted);
-  font: var(--solaris-font-weight-regular) var(--solaris-font-size-md) /
-    var(--solaris-line-height-md) var(--solaris-font-family-sans);
-}
-
-.tabs-showcase__section {
-  margin-bottom: var(--solaris-spacing-10);
-}
-
-.tabs-showcase__section-title {
-  color: var(--solaris-text-default);
-  margin: 0 0 var(--solaris-spacing-4);
-  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-xl) /
-    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+.tabs-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
 }
 
 .tabs-showcase__subsection-title {
@@ -37,11 +23,4 @@
   margin: var(--solaris-spacing-5) 0 var(--solaris-spacing-2);
   font: var(--solaris-font-weight-medium) var(--solaris-font-size-sm) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
-}
-
-.tabs-showcase__section app-density-tabs-example,
-.tabs-showcase__section app-shape-tabs-example {
-  display: flex;
-  flex-direction: column;
-  gap: var(--solaris-spacing-1);
 }

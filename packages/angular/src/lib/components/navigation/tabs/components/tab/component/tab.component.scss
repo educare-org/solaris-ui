@@ -1,19 +1,18 @@
 :host {
   --solaris-tab-gap: var(--solaris-spacing-2);
-  --solaris-tab-padding-x: var(--solaris-spacing-3);
-  --solaris-tab-padding-y: var(--solaris-spacing-2);
-  --solaris-tab-color: var(--solaris-text-default);
-  --solaris-tab-active-color: var(--solaris-primary-text);
-  --solaris-tab-hover-background: var(--solaris-surface-subtle);
-  --solaris-tab-active-background: var(--solaris-surface-base);
+  --solaris-tab-height: auto;
   --solaris-tab-radius: var(--solaris-radius-sm);
-  --solaris-tab-font-size: var(--solaris-font-size-sm);
-  --solaris-tab-font-weight: var(--solaris-font-weight-medium);
-  --solaris-tab-icon-size: var(--solaris-spacing-4);
+  --solaris-tab-color: var(--solaris-text-default);
+  --solaris-tab-padding-y: var(--solaris-spacing-2);
   --solaris-tab-badge-gap: var(--solaris-spacing-2);
-  --solaris-tabs-indicator-color: var(--solaris-primary-base);
-  --solaris-tabs-border-color: var(--solaris-border-subtle);
-  --solaris-tabs-tab-active-background: var(--solaris-primary-surface);
+  --solaris-tab-padding-x: var(--solaris-spacing-3);
+  --solaris-tab-icon-size: var(--solaris-font-size-sm);
+  --solaris-tab-font-size: var(--solaris-font-size-sm);
+  --solaris-tab-active-color: var(--solaris-primary-text);
+  --solaris-tab-border-color: var(--solaris-border-subtle);
+  --solaris-tab-font-weight: var(--solaris-font-weight-medium);
+  --solaris-tab-hover-background: var(--solaris-surface-subtle);
+  --solaris-tab-active-background: var(--solaris-primary-surface);
 
   border: none;
   cursor: pointer;
@@ -23,9 +22,11 @@
   white-space: nowrap;
   display: inline-flex;
   text-decoration: none;
+  box-sizing: border-box;
   background: transparent;
   gap: var(--solaris-tab-gap);
   color: var(--solaris-tab-color);
+  min-height: var(--solaris-tab-height);
   padding: var(--solaris-tab-padding-y) var(--solaris-tab-padding-x);
   font: var(--solaris-tab-font-weight) var(--solaris-tab-font-size) / 1
     var(--solaris-font-family-sans);
@@ -83,32 +84,97 @@
   flex-shrink: 0;
 }
 
-:host([data-density='compact']) {
-  --solaris-tab-gap: var(--solaris-spacing-1);
-  --solaris-tab-padding-y: var(--solaris-spacing-1);
-  --solaris-tab-padding-x: var(--solaris-spacing-2);
-  --solaris-tab-icon-size: var(--solaris-spacing-3);
-  --solaris-tab-font-size: var(--solaris-font-size-xs);
-}
-
-:host([data-density='normal']) {
+:host([data-size='sm'][data-density='compact']) {
   --solaris-tab-gap: var(--solaris-spacing-2);
   --solaris-tab-padding-y: var(--solaris-spacing-2);
   --solaris-tab-padding-x: var(--solaris-spacing-3);
-  --solaris-tab-icon-size: var(--solaris-spacing-4);
-  --solaris-tab-font-size: var(--solaris-font-size-sm);
+  --solaris-tab-icon-size: var(--solaris-font-size-xs);
+  --solaris-tab-font-size: var(--solaris-font-size-xs);
+  --solaris-tab-height: var(--solaris-control-height-compact-sm);
 }
 
-:host([data-density='comfortable']) {
+:host([data-size='md'][data-density='compact']) {
   --solaris-tab-gap: var(--solaris-spacing-3);
+  --solaris-tab-padding-y: var(--solaris-spacing-2);
+  --solaris-tab-padding-x: var(--solaris-spacing-3);
+  --solaris-tab-icon-size: var(--solaris-font-size-sm);
+  --solaris-tab-font-size: var(--solaris-font-size-sm);
+  --solaris-tab-height: var(--solaris-control-height-compact-md);
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-tab-gap: var(--solaris-spacing-2);
+  --solaris-tab-padding-y: var(--solaris-spacing-2);
+  --solaris-tab-padding-x: var(--solaris-spacing-3);
+  --solaris-tab-icon-size: var(--solaris-font-size-sm);
+  --solaris-tab-font-size: var(--solaris-font-size-md);
+  --solaris-tab-height: var(--solaris-control-height-compact-lg);
+}
+
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-tab-gap: var(--solaris-spacing-2);
+  --solaris-tab-padding-y: var(--solaris-spacing-2);
+  --solaris-tab-padding-x: var(--solaris-spacing-3);
+  --solaris-tab-icon-size: var(--solaris-font-size-sm);
+  --solaris-tab-font-size: var(--solaris-font-size-xs);
+  --solaris-tab-height: var(--solaris-control-height-normal-sm);
+}
+
+:host([data-size='md'][data-density='normal']) {
+  --solaris-tab-gap: var(--solaris-spacing-2);
+  --solaris-tab-padding-y: var(--solaris-spacing-2);
+  --solaris-tab-padding-x: var(--solaris-spacing-3);
+  --solaris-tab-icon-size: var(--solaris-font-size-sm);
+  --solaris-tab-font-size: var(--solaris-font-size-sm);
+  --solaris-tab-height: var(--solaris-control-height-normal-md);
+}
+
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-tab-gap: var(--solaris-spacing-2);
+  --solaris-tab-padding-y: var(--solaris-spacing-2);
+  --solaris-tab-padding-x: var(--solaris-spacing-4);
+  --solaris-tab-icon-size: var(--solaris-font-size-sm);
+  --solaris-tab-font-size: var(--solaris-font-size-md);
+  --solaris-tab-height: var(--solaris-control-height-normal-lg);
+}
+
+:host([data-size='sm'][data-density='comfortable']) {
+  --solaris-tab-gap: var(--solaris-spacing-2);
+  --solaris-tab-padding-y: var(--solaris-spacing-3);
+  --solaris-tab-padding-x: var(--solaris-spacing-3);
+  --solaris-tab-icon-size: var(--solaris-font-size-sm);
+  --solaris-tab-font-size: var(--solaris-font-size-xs);
+  --solaris-tab-height: var(--solaris-control-height-comfortable-sm);
+}
+
+:host([data-size='md'][data-density='comfortable']) {
+  --solaris-tab-gap: var(--solaris-spacing-2);
   --solaris-tab-padding-y: var(--solaris-spacing-3);
   --solaris-tab-padding-x: var(--solaris-spacing-4);
-  --solaris-tab-icon-size: var(--solaris-spacing-5);
-  --solaris-tab-font-size: var(--solaris-font-size-md);
+  --solaris-tab-icon-size: var(--solaris-font-size-sm);
+  --solaris-tab-font-size: var(--solaris-font-size-sm);
+  --solaris-tab-height: var(--solaris-control-height-comfortable-md);
 }
 
-:host([data-shape='wide']) {
-  --solaris-tab-padding-x: calc(var(--solaris-density-padding-lg) * 2.5);
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-tab-gap: var(--solaris-spacing-3);
+  --solaris-tab-padding-y: var(--solaris-spacing-3);
+  --solaris-tab-padding-x: var(--solaris-spacing-5);
+  --solaris-tab-icon-size: var(--solaris-font-size-sm);
+  --solaris-tab-font-size: var(--solaris-font-size-md);
+  --solaris-tab-height: var(--solaris-control-height-comfortable-lg);
+}
+
+:host([data-shape='wide'][data-density='compact']) {
+  padding-inline: calc(var(--solaris-tab-padding-x) * 4);
+}
+
+:host([data-shape='wide'][data-density='normal']) {
+  padding-inline: calc(var(--solaris-tab-padding-x) + var(--solaris-spacing-3));
+}
+
+:host([data-shape='wide'][data-density='comfortable']) {
+  padding-inline: calc(var(--solaris-tab-padding-x) + var(--solaris-spacing-4));
 }
 
 :host([data-appearance='underline']) {
@@ -116,8 +182,15 @@
 }
 
 :host([data-appearance='pills']) {
-  border-radius: var(--solaris-tab-radius);
   --solaris-tab-radius: var(--solaris-radius-full);
+
+  border-radius: var(--solaris-tab-radius);
+  padding-inline: calc(var(--solaris-tab-padding-x) + var(--solaris-spacing-2));
+}
+
+:host-context(solaris-tabs[data-color='neutral']) {
+  --solaris-tab-active-color: var(--solaris-text-strong);
+  --solaris-tab-active-background: var(--solaris-surface-muted);
 }
 
 :host(
@@ -131,7 +204,7 @@
 
 :host([data-appearance='pills'][data-active='true']) {
   color: var(--solaris-tab-active-color);
-  background: var(--solaris-tabs-tab-active-background);
+  background: var(--solaris-tab-active-background);
 }
 
 :host([data-appearance='enclosed']) {
@@ -143,10 +216,10 @@
 
 :host([data-appearance='enclosed'][data-active='true']) {
   background: var(--solaris-surface-base);
-  border-color: var(--solaris-tabs-border-color);
+  border-color: var(--solaris-tab-border-color);
 }
 
-:host-context([data-full-width='true']) {
+:host-context([data-full-width]) {
   flex: 1;
   justify-content: center;
 }
