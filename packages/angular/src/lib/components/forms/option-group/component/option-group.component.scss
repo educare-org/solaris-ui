@@ -69,7 +69,7 @@
 }
 
 :host([data-density='normal']) {
-  --solaris-option-group-gap: var(--solaris-spacing-half);
+  --solaris-option-group-gap: var(--solaris-spacing-2);
 }
 
 :host([data-density='comfortable']) {

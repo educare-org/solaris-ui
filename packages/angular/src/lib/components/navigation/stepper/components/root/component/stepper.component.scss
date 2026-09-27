@@ -97,8 +97,8 @@
 }
 
 .solaris-stepper__indicator-button:focus-visible {
-  outline-offset: var(--solaris-spacing-half);
-  outline: var(--solaris-spacing-half) solid var(--solaris-primary-base);
+  outline-offset: var(--solaris-spacing-2);
+  outline: var(--solaris-spacing-2) solid var(--solaris-primary-base);
 }
 
 .solaris-stepper__step[data-status='active'] .solaris-stepper__indicator-button,

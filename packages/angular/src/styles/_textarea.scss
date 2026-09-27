@@ -108,7 +108,7 @@ textarea[solaris-textarea][data-appearance='filled'] {
 textarea[solaris-textarea][data-size='sm'] {
   --solaris-textarea-padding-x: var(--solaris-spacing-2);
   --solaris-textarea-min-height: var(--solaris-spacing-8);
-  --solaris-textarea-padding-y: var(--solaris-spacing-half);
+  --solaris-textarea-padding-y: var(--solaris-spacing-2);
   --solaris-textarea-font-size: var(--solaris-font-size-sm);
   --solaris-textarea-line-height: var(--solaris-line-height-sm);
 }
@@ -134,7 +134,7 @@ textarea[solaris-textarea][data-size='lg'] {
 textarea[solaris-textarea][data-density='compact'] {
   --solaris-textarea-font-size: var(--solaris-density-font-size);
   --solaris-textarea-line-height: var(--solaris-line-height-sm);
-  --solaris-textarea-padding-y: var(--solaris-spacing-half);
+  --solaris-textarea-padding-y: var(--solaris-spacing-2);
 }
 
 textarea[solaris-textarea][data-density='normal'] {

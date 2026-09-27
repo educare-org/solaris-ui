@@ -5,13 +5,13 @@
   --solaris-tooltip-gap: var(--solaris-spacing-5);
   --solaris-tooltip-shadow: var(--solaris-shadow-sm);
   --solaris-tooltip-radius: var(--solaris-radius-md);
+  --solaris-tooltip-offset: var(--solaris-spacing-1);
   --solaris-tooltip-color: var(--solaris-text-default);
   --solaris-tooltip-icon-size: var(--solaris-font-size-md);
   --solaris-tooltip-arrow-size: var(--solaris-font-size-xs);
   --solaris-tooltip-padding-block: var(--solaris-spacing-3);
   --solaris-tooltip-padding-inline: var(--solaris-spacing-5);
   --solaris-tooltip-background: var(--solaris-surface-raised);
-  --solaris-tooltip-offset: var(--solaris-spacing-half);
 
   outline: none;
   display: block;

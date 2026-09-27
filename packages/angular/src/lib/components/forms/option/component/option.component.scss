@@ -74,7 +74,7 @@
   align-items: center;
   box-sizing: border-box;
   justify-content: center;
-  padding: var(--solaris-spacing-half);
+  padding: var(--solaris-spacing-2);
 }
 
 .solaris-option__checkbox {
@@ -153,7 +153,7 @@
 }
 
 :host([data-selection-mode='single']) .solaris-option__check-icon {
-  padding: var(--solaris-spacing-half);
+  padding: var(--solaris-spacing-2);
 }
 
 :host([data-size='sm']) {

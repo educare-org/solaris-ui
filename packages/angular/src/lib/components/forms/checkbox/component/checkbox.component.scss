@@ -14,7 +14,7 @@
   --solaris-checkbox-disabled-opacity: var(--solaris-opacity-50);
   --solaris-checkbox-label-font-size: var(--solaris-font-size-md);
   --solaris-checkbox-focus-ring-color: var(--solaris-primary-base);
-  --solaris-checkbox-border-width: var(--solaris-spacing-quarter);
+  --solaris-checkbox-border-width: var(--solaris-spacing-1);
   --solaris-checkbox-invalid-border-color: var(--solaris-danger-base);
   --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
 
@@ -70,7 +70,7 @@
   height: 100%;
   display: block;
   box-sizing: border-box;
-  padding: var(--solaris-spacing-half);
+  padding: var(--solaris-spacing-2);
 }
 
 .solaris-checkbox__label-text {
@@ -84,7 +84,7 @@
   --solaris-checkbox-size: var(--solaris-spacing-4);
   --solaris-checkbox-label-font-size: var(--solaris-font-size-sm);
   --solaris-checkbox-icon-size: calc(var(--solaris-spacing-5) / 2);
-  --solaris-checkbox-border-width: var(--solaris-spacing-quarter);
+  --solaris-checkbox-border-width: var(--solaris-spacing-1);
   --solaris-checkbox-label-line-height: var(--solaris-line-height-sm);
 }
 
@@ -93,7 +93,7 @@
   --solaris-checkbox-size: var(--solaris-spacing-5);
   --solaris-checkbox-icon-size: var(--solaris-spacing-3);
   --solaris-checkbox-label-font-size: var(--solaris-font-size-md);
-  --solaris-checkbox-border-width: var(--solaris-spacing-quarter);
+  --solaris-checkbox-border-width: var(--solaris-spacing-1);
   --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
 }
 
@@ -101,7 +101,7 @@
   --solaris-checkbox-gap: var(--solaris-spacing-3);
   --solaris-checkbox-size: var(--solaris-spacing-6);
   --solaris-checkbox-label-font-size: var(--solaris-font-size-lg);
-  --solaris-checkbox-border-width: var(--solaris-spacing-half);
+  --solaris-checkbox-border-width: var(--solaris-spacing-2);
   --solaris-checkbox-label-line-height: var(--solaris-line-height-lg);
   --solaris-checkbox-icon-size: calc(
     var(--solaris-spacing-4) - var(--solaris-spacing-1) / 2
@@ -308,7 +308,7 @@
 }
 
 .solaris-checkbox__input:focus-visible + .solaris-checkbox__control {
-  outline-offset: var(--solaris-spacing-half);
+  outline-offset: var(--solaris-spacing-2);
   outline: var(--solaris-border-width-sm) solid
     var(--solaris-checkbox-focus-ring-color);
 }

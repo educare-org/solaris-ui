@@ -18,7 +18,7 @@
   --solaris-switch-focus-ring-color: var(--solaris-primary-base);
   --solaris-switch-track-background: var(--solaris-surface-muted);
   --solaris-switch-thumb-background: var(--solaris-surface-raised);
-  --solaris-switch-thumb-offset: var(--solaris-spacing-half);
+  --solaris-switch-thumb-offset: var(--solaris-spacing-2);
   --solaris-switch-track-width: calc(
     var(--solaris-spacing-8) + var(--solaris-spacing-1) / 2
   );
@@ -108,9 +108,9 @@
   --solaris-switch-gap: var(--solaris-spacing-2);
   --solaris-switch-track-height: var(--solaris-spacing-4);
   --solaris-switch-label-font-size: var(--solaris-font-size-sm);
-  --solaris-switch-thumb-offset: var(--solaris-spacing-half);
+  --solaris-switch-thumb-offset: var(--solaris-spacing-2);
   --solaris-switch-label-line-height: var(--solaris-line-height-sm);
-  --solaris-switch-track-border-width: var(--solaris-spacing-quarter);
+  --solaris-switch-track-border-width: var(--solaris-spacing-1);
   --solaris-switch-track-width: calc(
     var(--solaris-spacing-6) + var(--solaris-spacing-1)
   );
@@ -123,9 +123,9 @@
   --solaris-switch-gap: var(--solaris-spacing-2);
   --solaris-switch-thumb-size: var(--solaris-spacing-3);
   --solaris-switch-label-font-size: var(--solaris-font-size-md);
-  --solaris-switch-thumb-offset: var(--solaris-spacing-half);
+  --solaris-switch-thumb-offset: var(--solaris-spacing-2);
   --solaris-switch-label-line-height: var(--solaris-line-height-md);
-  --solaris-switch-track-border-width: var(--solaris-spacing-quarter);
+  --solaris-switch-track-border-width: var(--solaris-spacing-1);
   --solaris-switch-track-width: calc(
     var(--solaris-spacing-8) + var(--solaris-spacing-1) / 2
   );
@@ -141,7 +141,7 @@
   --solaris-switch-label-font-size: var(--solaris-font-size-lg);
   --solaris-switch-label-line-height: var(--solaris-line-height-lg);
   --solaris-switch-thumb-offset: calc(var(--solaris-spacing-1) * 0.75);
-  --solaris-switch-track-border-width: var(--solaris-spacing-half);
+  --solaris-switch-track-border-width: var(--solaris-spacing-2);
   --solaris-switch-track-width: calc(
     var(--solaris-spacing-10) + var(--solaris-spacing-1) / 2
   );
@@ -325,7 +325,7 @@
 }
 
 .solaris-switch__input:focus-visible + .solaris-switch__track {
-  outline-offset: var(--solaris-spacing-half);
+  outline-offset: var(--solaris-spacing-2);
   outline: var(--solaris-border-width-sm) solid
     var(--solaris-switch-focus-ring-color);
 }
