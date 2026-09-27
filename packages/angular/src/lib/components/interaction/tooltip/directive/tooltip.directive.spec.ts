@@ -6,6 +6,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { provideSolarisTranslateTesting } from '../../../../services/translation/testing/solaris-translate-testing.provider';
 
 import { SolarisTooltipDirective } from './tooltip.directive';
+import { SOLARIS_TOOLTIP_ARROW_SIZE_PX } from '../model/tooltip.types';
 
 describe('SolarisTooltipDirective', () => {
   let overlayContainer: OverlayContainer;
@@ -825,6 +826,79 @@ describe('SolarisTooltipDirective', () => {
       const describedBy = triggerEl.getAttribute('aria-describedby');
       expect(describedBy).toBeTruthy();
       expect(describedBy).toContain('solaris-tooltip-panel-');
+    });
+  });
+
+  describe('skip delay', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'skip-delay-host' },
+      template: `<button
+        [solarisTooltip]="'Skip delay'"
+        [solarisTooltipShowDelay]="showDelay"
+        [solarisTooltipHideDelay]="0"
+        [solarisTooltipSkipDelay]="skipDelay"
+      >
+        Trigger
+      </button>`,
+    })
+    class TestHost {
+      showDelay = 60;
+      skipDelay = 1000;
+    }
+
+    const sleep = (ms: number): Promise<void> =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
+    it('should skip showDelay when reopening within skipDelay', async () => {
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+
+      triggerMouseEnter(fixture);
+      await sleep(120);
+      appRef.tick();
+      expect(getPanelContent()).toBeTruthy();
+
+      triggerMouseLeave(fixture);
+      expect(getPanelContent()).toBeNull();
+
+      // Reopen immediately: skipDelay window is still open, no waiting.
+      triggerMouseEnter(fixture);
+      expect(getPanelContent()).toBeTruthy();
+    });
+
+    it('should respect showDelay again after skipDelay expires', async () => {
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.skipDelay = 0;
+      fixture.detectChanges();
+
+      triggerMouseEnter(fixture);
+      await sleep(120);
+      appRef.tick();
+      expect(getPanelContent()).toBeTruthy();
+
+      triggerMouseLeave(fixture);
+      expect(getPanelContent()).toBeNull();
+
+      // Skip window disabled: reopening waits for showDelay again.
+      triggerMouseEnter(fixture);
+      expect(getPanelContent()).toBeNull();
+      await sleep(120);
+      appRef.tick();
+      expect(getPanelContent()).toBeTruthy();
+    });
+  });
+
+  describe('arrow size contract', () => {
+    it('should match the rendered arrow size per size', () => {
+      // Matches --solaris-tooltip-arrow-size per [data-size]
+      // in tooltip-panel.component.scss.
+      expect(SOLARIS_TOOLTIP_ARROW_SIZE_PX).toEqual({
+        sm: 8,
+        md: 10,
+        lg: 12,
+      });
     });
   });
 

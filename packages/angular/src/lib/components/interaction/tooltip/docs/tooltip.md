@@ -61,30 +61,31 @@ If you need custom buttons like "View details", "Configure", "Apply", "Cancel", 
 
 ### Inputs
 
-| Input                                | Type                                  | Default     | Description                       |
-| ------------------------------------ | ------------------------------------- | ----------- | --------------------------------- |
-| `solaris-tooltip` / `solarisTooltip` | `string \| undefined`                 | `undefined` | Tooltip text                      |
-| `solarisTooltipKey`                  | `string \| undefined`                 | `undefined` | Translation key for the text      |
-| `solarisTooltipFor`                  | `TemplateRef<unknown> \| undefined`   | `undefined` | Informational template            |
-| `solarisTooltipTitle`                | `string \| undefined`                 | `undefined` | Optional title                    |
-| `solarisTooltipTitleKey`             | `string \| undefined`                 | `undefined` | Translation key for the title     |
-| `solarisTooltipIcon`                 | `string \| undefined`                 | `undefined` | Icon name (Solaris Icon Registry) |
-| `solarisTooltipIconDecorative`       | `boolean`                             | `true`      | Whether the icon is decorative    |
-| `solarisTooltipTrigger`              | `'hover' \| 'click' \| 'manual'`      | `'hover'`   | Opening trigger                   |
-| `solarisTooltipPlacement`            | `SolarisTooltipPlacement`             | `'top'`     | Initial position                  |
-| `solarisTooltipOffset`               | `number \| string`                    | `8`         | Offset in px                      |
-| `solarisTooltipDisabled`             | `boolean`                             | `false`     | Disables the tooltip              |
-| `solarisTooltipCloseable`            | `boolean`                             | `false`     | Shows close button (click only)   |
-| `solarisTooltipCloseLabel`           | `string \| undefined`                 | `undefined` | Close button label                |
-| `solarisTooltipCloseLabelKey`        | `string \| undefined`                 | `undefined` | Translation key for the label     |
-| `solarisTooltipShowDelay`            | `number`                              | `300`       | Delay to open (ms)                |
-| `solarisTooltipHideDelay`            | `number`                              | `100`       | Delay to close (ms)               |
-| `solarisTooltipAppearance`           | `'outline' \| 'surface' \| 'inverse'` | `'outline'` | Appearance                        |
-| `solarisTooltipSize`                 | `'sm' \| 'md' \| 'lg'`                | `'sm'`      | Size                              |
-| `solarisTooltipRadius`               | `'sm' \| 'md' \| 'lg'`                | `'md'`      | Border radius                     |
-| `solarisTooltipMaxWidth`             | `string \| number`                    | `'20rem'`   | Maximum width                     |
-| `solarisTooltipArrow`                | `boolean`                             | `true`      | Shows arrow                       |
-| `solarisTooltipOpen`                 | `boolean \| undefined`                | `undefined` | Controlled state                  |
+| Input                                | Type                                  | Default     | Description                                               |
+| ------------------------------------ | ------------------------------------- | ----------- | --------------------------------------------------------- |
+| `solaris-tooltip` / `solarisTooltip` | `string \| undefined`                 | `undefined` | Tooltip text                                              |
+| `solarisTooltipKey`                  | `string \| undefined`                 | `undefined` | Translation key for the text                              |
+| `solarisTooltipFor`                  | `TemplateRef<unknown> \| undefined`   | `undefined` | Informational template                                    |
+| `solarisTooltipTitle`                | `string \| undefined`                 | `undefined` | Optional title                                            |
+| `solarisTooltipTitleKey`             | `string \| undefined`                 | `undefined` | Translation key for the title                             |
+| `solarisTooltipIcon`                 | `string \| undefined`                 | `undefined` | Icon name (Solaris Icon Registry)                         |
+| `solarisTooltipIconDecorative`       | `boolean`                             | `true`      | Whether the icon is decorative                            |
+| `solarisTooltipTrigger`              | `'hover' \| 'click' \| 'manual'`      | `'hover'`   | Opening trigger                                           |
+| `solarisTooltipPlacement`            | `SolarisTooltipPlacement`             | `'top'`     | Initial position                                          |
+| `solarisTooltipOffset`               | `number \| string`                    | `0`         | Extra offset in px (added to arrow + 3px gap)             |
+| `solarisTooltipDisabled`             | `boolean`                             | `false`     | Disables the tooltip                                      |
+| `solarisTooltipCloseable`            | `boolean`                             | `false`     | Shows close button (click only)                           |
+| `solarisTooltipCloseLabel`           | `string \| undefined`                 | `undefined` | Close button label                                        |
+| `solarisTooltipCloseLabelKey`        | `string \| undefined`                 | `undefined` | Translation key for the label                             |
+| `solarisTooltipShowDelay`            | `number`                              | `300`       | Delay to open (ms)                                        |
+| `solarisTooltipHideDelay`            | `number`                              | `100`       | Delay to close (ms)                                       |
+| `solarisTooltipSkipDelay`            | `number`                              | `300`       | Skip `showDelay` window after a close (ms, Radix pattern) |
+| `solarisTooltipAppearance`           | `'outline' \| 'surface' \| 'inverse'` | `'outline'` | Appearance                                                |
+| `solarisTooltipSize`                 | `'sm' \| 'md' \| 'lg'`                | `'sm'`      | Size                                                      |
+| `solarisTooltipRadius`               | `'sm' \| 'md' \| 'lg'`                | `'md'`      | Border radius                                             |
+| `solarisTooltipMaxWidth`             | `string \| number`                    | `'320px'`   | Maximum width                                             |
+| `solarisTooltipArrow`                | `boolean`                             | `true`      | Shows arrow                                               |
+| `solarisTooltipOpen`                 | `boolean \| undefined`                | `undefined` | Controlled state                                          |
 
 ### Outputs
 
@@ -160,7 +161,9 @@ High contrast. Dark background with light text in light theme; light background 
 - Can be turned off with `[solarisTooltipArrow]="false"`.
 - The arrow follows the placement.
 - Respects appearance, background, and border.
-- Uses a CSS pseudo-element rotated 45°.
+- Rendered as a rotated square (diamond) centered on the panel edge, with a
+  border only on its two outer sides, so it continues the panel border
+  without seam steps at any placement or viewport position.
 
 ---
 
@@ -174,15 +177,34 @@ Default: `top`
 
 Positioning is reactive via the CDK `FlexibleConnectedPositionStrategy` with automatic fallback.
 
+When the trigger lives inside a nested scrollable container, that container
+must opt in with `CdkScrollable` from `@angular/cdk/scrolling`, otherwise the
+tooltip does not follow the trigger on scroll (same requirement as Popover).
+
 ---
 
 ## Size
 
-| Size | Font | Padding         |
-| ---- | ---- | --------------- |
-| `sm` | xs   | 0.25rem 0.5rem  |
-| `md` | sm   | 0.25rem 0.75rem |
-| `lg` | md   | 0.5rem 0.75rem  |
+| Size | Font        | Padding (block × inline) | Arrow |
+| ---- | ----------- | ------------------------ | ----- |
+| `sm` | 14px (`xs`) | 2px × 8px                | 8px   |
+| `md` | 16px (`sm`) | 4px × 12px               | 10px  |
+| `lg` | 18px (`md`) | 6px × 20px               | 12px  |
+
+Size is the tooltip's typographic density: it scales font, padding, and
+arrow together. There is no separate `density` input — overlays are exempt
+from the `size × density` height ladder (see `docs/ai/refactor-component/CONTEXT.md`).
+The arrow px values are mirrored in `SOLARIS_TOOLTIP_ARROW_SIZE_PX`
+(`model/tooltip.types.ts`) so the CDK offset reserves exactly the rendered
+arrow height. Keep both in sync.
+
+## Skip delay
+
+After a tooltip closes, reopening within `skipDelay` (default `300ms`)
+skips `showDelay` and opens immediately — the Radix `skipDelayDuration`
+pattern. Moving across a dense toolbar shows each tooltip without the
+initial wait, while an isolated hover still waits `showDelay`. Set
+`skipDelay="0"` to disable.
 
 ## Radius
 
@@ -190,7 +212,22 @@ Positioning is reactive via the CDK `FlexibleConnectedPositionStrategy` with aut
 
 ## MaxWidth
 
-Default: `20rem`. Prevents a long tooltip on a single line. Text wraps correctly.
+Default: `320px`. Prevents a long tooltip on a single line. Text wraps correctly.
+
+## Disabled triggers
+
+A disabled button emits no mouse or focus events, so no tooltip library can
+open on it directly (MUI, Radix, and Ant document the same limitation).
+Wrap the trigger in a `span` that carries the tooltip instead:
+
+```html
+<span solaris-tooltip="Edit item">
+  <button disabled>Edit</button>
+</span>
+```
+
+The wrapper receives hover/focus and shows the tooltip; the inner button
+stays disabled and keeps its semantics.
 
 ---
 

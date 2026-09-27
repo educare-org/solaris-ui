@@ -52,16 +52,11 @@ import type {
   SolarisTooltipSize,
   SolarisTooltipRadius,
 } from '../model/tooltip.types';
+import { SOLARIS_TOOLTIP_ARROW_SIZE_PX } from '../model/tooltip.types';
 
 let nextPanelId = 0;
 
 const TOOLTIP_TRIGGER_GAP = 3;
-
-const ARROW_SIZE_PX: Record<string, number> = {
-  sm: 12,
-  md: 20,
-  lg: 24,
-};
 
 @Directive({
   selector: '[solaris-tooltip], [solarisTooltip], [solarisTooltipFor]',
@@ -91,6 +86,7 @@ export class SolarisTooltipDirective implements AfterViewInit {
   private outsideClickCleanup: (() => void) | null = null;
   private previousActiveElement: HTMLElement | null = null;
   private hoverTimeout: ReturnType<typeof setTimeout> | null = null;
+  private lastCloseAt = 0;
   private isHovered = false;
   private isFocused = false;
   private tooltipComponentRef: ComponentRef<SolarisTooltipPanelComponent> | null =
@@ -168,6 +164,11 @@ export class SolarisTooltipDirective implements AfterViewInit {
 
   readonly solarisTooltipHideDelay = input<number, string | number>(100, {
     alias: 'solarisTooltipHideDelay',
+    transform: numberAttribute,
+  });
+
+  readonly solarisTooltipSkipDelay = input<number, string | number>(300, {
+    alias: 'solarisTooltipSkipDelay',
     transform: numberAttribute,
   });
 
@@ -315,6 +316,7 @@ export class SolarisTooltipDirective implements AfterViewInit {
     this.detachPanel();
     this.restoreFocus();
     this.isOpen.set(false);
+    this.lastCloseAt = Date.now();
     this.solarisTooltipClosed.emit();
     this.solarisTooltipOpenChange.emit(false);
   }
@@ -377,7 +379,11 @@ export class SolarisTooltipDirective implements AfterViewInit {
 
   private scheduleOpen(delay: number): void {
     this.clearHoverTimeout();
-    if (delay > 0) {
+    // Skip-delay (Radix pattern): when the user moves between hover targets
+    // quickly after a close, open immediately instead of waiting showDelay.
+    const skipDelay = Number(this.solarisTooltipSkipDelay());
+    const sinceClose = Date.now() - this.lastCloseAt;
+    if (delay > 0 && !(skipDelay > 0 && sinceClose < skipDelay)) {
       this.hoverTimeout = setTimeout(() => {
         this.ngZone.run(() => {
           if ((this.isHovered || this.isFocused) && !this.isOpen()) {
@@ -438,7 +444,7 @@ export class SolarisTooltipDirective implements AfterViewInit {
     const userOffset = Number(this.solarisTooltipOffset());
     const hasArrow = this.solarisTooltipArrow();
     const size = this.solarisTooltipSize();
-    const arrowPx = hasArrow ? (ARROW_SIZE_PX[size] ?? 20) : 0;
+    const arrowPx = hasArrow ? (SOLARIS_TOOLTIP_ARROW_SIZE_PX[size] ?? 14) : 0;
     const effectiveOffset = arrowPx + TOOLTIP_TRIGGER_GAP + userOffset;
     const positions = getTooltipPositions(placement, effectiveOffset);
 

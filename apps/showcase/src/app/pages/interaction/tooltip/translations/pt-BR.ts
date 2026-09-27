@@ -1,6 +1,41 @@
 export const PT_BR_TOOLTIP: Record<string, string> = {
+  'tooltip.title': 'Tooltip',
   'tooltip.description':
     'Tooltip é uma camada informacional curta e contextual, usada para explicar algo sem ocupar espaço permanente na interface.',
+  'tooltip.section.examples': 'Exemplos',
+  'tooltip.section.triggers': 'Triggers',
+  'tooltip.section.content': 'Conteúdo',
+  'tooltip.section.appearance': 'Aparência',
+  'tooltip.section.sizes': 'Tamanhos',
+  'tooltip.section.radius': 'Raio',
+  'tooltip.section.placement': 'Posição',
+  'tooltip.section.delays': 'Delays',
+  'tooltip.section.states': 'Estados',
+  'tooltip.section.installation': 'Instalação',
+  'tooltip.section.props': 'Props',
+  'tooltip.examples.note':
+    'Comece pelo tooltip hover padrão, depois explore triggers e variantes abaixo.',
+  'tooltip.trigger.hover': 'Hover',
+  'tooltip.trigger.click': 'Clique',
+  'tooltip.trigger.closeable': 'Fechável',
+  'tooltip.trigger.manual': 'Manual',
+  'tooltip.trigger.manual-note':
+    'Tooltips manuais abrem só via open() ou pelo input controlado solarisTooltipOpen.',
+  'tooltip.content.title-body': 'Título e corpo',
+  'tooltip.content.icon': 'Ícone',
+  'tooltip.content.template': 'Template',
+  'tooltip.sizes-density.note':
+    'Size é a densidade tipográfica do tooltip: fonte, padding e seta escalam juntos. Overlays são isentos da escada de altura size × density.',
+  'tooltip.delays.note':
+    'Delays de show/hide evitam flicker. O skip delay (padrão Radix) reabre na hora quando o usuário navega entre alvos em até 300ms.',
+  'tooltip.delays-demo': 'Passe o mouse, saia e volte rápido.',
+  'tooltip.delays-demo-label': 'Passe o mouse 2x',
+  'tooltip.disabled-explain': 'A edição está desabilitada para este item.',
+  'tooltip.installation.note':
+    'Instale o pacote único Solaris e importe a diretiva.',
+  'tooltip.props.note': 'Tabela de props em breve, com o componente de tabela.',
+  'tooltip.ai.prompt':
+    'Estou olhando a documentação Solaris de {{component}} ({{url}}). Me ajude a usar, entender conceitos, dar exemplos e debugar com base nela.',
   'tooltip.basic-hover': 'Tooltip hover básico',
   'tooltip.basic-hover-note':
     'Passe o mouse ou foque no trigger para ver o tooltip. O trigger padrão é hover.',

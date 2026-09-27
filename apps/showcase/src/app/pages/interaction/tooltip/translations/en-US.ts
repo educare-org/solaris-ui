@@ -1,6 +1,41 @@
 export const EN_US_TOOLTIP: Record<string, string> = {
+  'tooltip.title': 'Tooltip',
   'tooltip.description':
     'Tooltip is a short contextual information layer, used to explain something without taking up permanent space in the interface.',
+  'tooltip.section.examples': 'Examples',
+  'tooltip.section.triggers': 'Triggers',
+  'tooltip.section.content': 'Content',
+  'tooltip.section.appearance': 'Appearance',
+  'tooltip.section.sizes': 'Sizes',
+  'tooltip.section.radius': 'Radius',
+  'tooltip.section.placement': 'Placement',
+  'tooltip.section.delays': 'Delays',
+  'tooltip.section.states': 'States',
+  'tooltip.section.installation': 'Installation',
+  'tooltip.section.props': 'Props',
+  'tooltip.examples.note':
+    'Start with the default hover tooltip, then explore triggers and variants below.',
+  'tooltip.trigger.hover': 'Hover',
+  'tooltip.trigger.click': 'Click',
+  'tooltip.trigger.closeable': 'Closeable',
+  'tooltip.trigger.manual': 'Manual',
+  'tooltip.trigger.manual-note':
+    'Manual tooltips open only via open() or the controlled solarisTooltipOpen input.',
+  'tooltip.content.title-body': 'Title and body',
+  'tooltip.content.icon': 'Icon',
+  'tooltip.content.template': 'Template',
+  'tooltip.sizes-density.note':
+    'Size is the tooltip typographic density: font, padding, and arrow scale together. Overlays are exempt from the size × density height ladder.',
+  'tooltip.delays.note':
+    'Show and hide delays avoid flicker. Skip delay (Radix pattern) reopens immediately when the user moves between targets within 300ms.',
+  'tooltip.delays-demo': 'Hover me, leave, then hover again quickly.',
+  'tooltip.delays-demo-label': 'Hover me twice',
+  'tooltip.disabled-explain': 'Editing is disabled for this item.',
+  'tooltip.installation.note':
+    'Install the single Solaris package, then import the directive.',
+  'tooltip.props.note': 'Props table coming soon with the table component.',
+  'tooltip.ai.prompt':
+    "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.",
   'tooltip.basic-hover': 'Basic hover tooltip',
   'tooltip.basic-hover-note':
     'Hover or focus the trigger to see the tooltip. The default trigger is hover.',
