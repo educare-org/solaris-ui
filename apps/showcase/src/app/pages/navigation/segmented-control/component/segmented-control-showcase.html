@@ -32,12 +32,12 @@
       [(value)]="selectedAppearance"
       [ariaLabel]="'segmented-control.section.appearances' | translate"
     >
-      <solaris-tab value="surface">{{
-        'segmented-control.appearance.surface' | translate
-      }}</solaris-tab>
-      <solaris-tab value="outline">{{
-        'segmented-control.appearance.outline' | translate
-      }}</solaris-tab>
+      <solaris-tab value="surface"
+        >{{ 'segmented-control.appearance.surface' | translate }}</solaris-tab
+      >
+      <solaris-tab value="outline"
+        >{{ 'segmented-control.appearance.outline' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="surface">
         <solaris-preview-code [code]="appearanceSurfaceCode" language="html">
           <solaris-segmented-control
@@ -45,15 +45,18 @@
             defaultValue="a"
             ariaLabel="Surface"
           >
-            <solaris-segmented-item value="a">{{
-              'segmented-control.example.appearances.surface-a' | translate
-            }}</solaris-segmented-item>
-            <solaris-segmented-item value="b">{{
-              'segmented-control.example.appearances.surface-b' | translate
-            }}</solaris-segmented-item>
-            <solaris-segmented-item value="c">{{
-              'segmented-control.example.appearances.surface-c' | translate
-            }}</solaris-segmented-item>
+            <solaris-segmented-item value="a"
+              >{{ 'segmented-control.example.appearances.surface-a' | translate
+              }}</solaris-segmented-item
+            >
+            <solaris-segmented-item value="b"
+              >{{ 'segmented-control.example.appearances.surface-b' | translate
+              }}</solaris-segmented-item
+            >
+            <solaris-segmented-item value="c"
+              >{{ 'segmented-control.example.appearances.surface-c' | translate
+              }}</solaris-segmented-item
+            >
           </solaris-segmented-control>
         </solaris-preview-code>
       </solaris-tab-panel>
@@ -64,15 +67,18 @@
             defaultValue="x"
             ariaLabel="Outline"
           >
-            <solaris-segmented-item value="x">{{
-              'segmented-control.example.appearances.outline-x' | translate
-            }}</solaris-segmented-item>
-            <solaris-segmented-item value="y">{{
-              'segmented-control.example.appearances.outline-y' | translate
-            }}</solaris-segmented-item>
-            <solaris-segmented-item value="z">{{
-              'segmented-control.example.appearances.outline-z' | translate
-            }}</solaris-segmented-item>
+            <solaris-segmented-item value="x"
+              >{{ 'segmented-control.example.appearances.outline-x' | translate
+              }}</solaris-segmented-item
+            >
+            <solaris-segmented-item value="y"
+              >{{ 'segmented-control.example.appearances.outline-y' | translate
+              }}</solaris-segmented-item
+            >
+            <solaris-segmented-item value="z"
+              >{{ 'segmented-control.example.appearances.outline-z' | translate
+              }}</solaris-segmented-item
+            >
           </solaris-segmented-control>
         </solaris-preview-code>
       </solaris-tab-panel>
@@ -91,29 +97,30 @@
         [(value)]="selectedSize"
         [ariaLabel]="'segmented-control.section.sizes' | translate"
       >
-        <solaris-tab value="sm">{{
-          'segmented-control.size.sm' | translate
-        }}</solaris-tab>
-        <solaris-tab value="md">{{
-          'segmented-control.size.md' | translate
-        }}</solaris-tab>
-        <solaris-tab value="lg">{{
-          'segmented-control.size.lg' | translate
-        }}</solaris-tab>
+        <solaris-tab value="sm"
+          >{{ 'segmented-control.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'segmented-control.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'segmented-control.size.lg' | translate }}</solaris-tab
+        >
       </solaris-tabs>
       <solaris-tabs
         [(value)]="selectedDensity"
         [ariaLabel]="'segmented-control.section.density' | translate"
       >
-        <solaris-tab value="compact">{{
-          'segmented-control.density.compact' | translate
-        }}</solaris-tab>
-        <solaris-tab value="normal">{{
-          'segmented-control.density.normal' | translate
-        }}</solaris-tab>
-        <solaris-tab value="comfortable">{{
-          'segmented-control.density.comfortable' | translate
-        }}</solaris-tab>
+        <solaris-tab value="compact"
+          >{{ 'segmented-control.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'segmented-control.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'segmented-control.density.comfortable' | translate
+          }}</solaris-tab
+        >
       </solaris-tabs>
     </div>
     <solaris-preview-code [code]="sizeDensityCode()" language="html">
@@ -123,15 +130,18 @@
         defaultValue="m"
         ariaLabel="Size and density"
       >
-        <solaris-segmented-item value="s">{{
-          'segmented-control.example.sizes.small' | translate
-        }}</solaris-segmented-item>
-        <solaris-segmented-item value="m">{{
-          'segmented-control.example.sizes.medium' | translate
-        }}</solaris-segmented-item>
-        <solaris-segmented-item value="l">{{
-          'segmented-control.example.sizes.large' | translate
-        }}</solaris-segmented-item>
+        <solaris-segmented-item value="s"
+          >{{ 'segmented-control.example.sizes.small' | translate
+          }}</solaris-segmented-item
+        >
+        <solaris-segmented-item value="m"
+          >{{ 'segmented-control.example.sizes.medium' | translate
+          }}</solaris-segmented-item
+        >
+        <solaris-segmented-item value="l"
+          >{{ 'segmented-control.example.sizes.large' | translate
+          }}</solaris-segmented-item
+        >
       </solaris-segmented-control>
     </solaris-preview-code>
   </app-docs-section>
@@ -141,18 +151,18 @@
       [(value)]="selectedRadius"
       [ariaLabel]="'segmented-control.section.radius' | translate"
     >
-      <solaris-tab value="sm">{{
-        'segmented-control.radius.sm' | translate
-      }}</solaris-tab>
-      <solaris-tab value="md">{{
-        'segmented-control.radius.md' | translate
-      }}</solaris-tab>
-      <solaris-tab value="lg">{{
-        'segmented-control.radius.lg' | translate
-      }}</solaris-tab>
-      <solaris-tab value="full">{{
-        'segmented-control.radius.full' | translate
-      }}</solaris-tab>
+      <solaris-tab value="sm"
+        >{{ 'segmented-control.radius.sm' | translate }}</solaris-tab
+      >
+      <solaris-tab value="md"
+        >{{ 'segmented-control.radius.md' | translate }}</solaris-tab
+      >
+      <solaris-tab value="lg"
+        >{{ 'segmented-control.radius.lg' | translate }}</solaris-tab
+      >
+      <solaris-tab value="full"
+        >{{ 'segmented-control.radius.full' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="sm">
         <solaris-preview-code [code]="radiusSmCode" language="html">
           <solaris-segmented-control
@@ -160,12 +170,14 @@
             defaultValue="a"
             ariaLabel="Radius small"
           >
-            <solaris-segmented-item value="a">{{
-              'segmented-control.example.radius.sm' | translate
-            }}</solaris-segmented-item>
-            <solaris-segmented-item value="b">{{
-              'segmented-control.example.radius.md' | translate
-            }}</solaris-segmented-item>
+            <solaris-segmented-item value="a"
+              >{{ 'segmented-control.example.radius.sm' | translate
+              }}</solaris-segmented-item
+            >
+            <solaris-segmented-item value="b"
+              >{{ 'segmented-control.example.radius.md' | translate
+              }}</solaris-segmented-item
+            >
           </solaris-segmented-control>
         </solaris-preview-code>
       </solaris-tab-panel>
@@ -176,12 +188,14 @@
             defaultValue="a"
             ariaLabel="Radius medium"
           >
-            <solaris-segmented-item value="a">{{
-              'segmented-control.example.radius.sm' | translate
-            }}</solaris-segmented-item>
-            <solaris-segmented-item value="b">{{
-              'segmented-control.example.radius.md' | translate
-            }}</solaris-segmented-item>
+            <solaris-segmented-item value="a"
+              >{{ 'segmented-control.example.radius.sm' | translate
+              }}</solaris-segmented-item
+            >
+            <solaris-segmented-item value="b"
+              >{{ 'segmented-control.example.radius.md' | translate
+              }}</solaris-segmented-item
+            >
           </solaris-segmented-control>
         </solaris-preview-code>
       </solaris-tab-panel>
@@ -192,12 +206,14 @@
             defaultValue="a"
             ariaLabel="Radius large"
           >
-            <solaris-segmented-item value="a">{{
-              'segmented-control.example.radius.lg' | translate
-            }}</solaris-segmented-item>
-            <solaris-segmented-item value="b">{{
-              'segmented-control.example.radius.full' | translate
-            }}</solaris-segmented-item>
+            <solaris-segmented-item value="a"
+              >{{ 'segmented-control.example.radius.lg' | translate
+              }}</solaris-segmented-item
+            >
+            <solaris-segmented-item value="b"
+              >{{ 'segmented-control.example.radius.full' | translate
+              }}</solaris-segmented-item
+            >
           </solaris-segmented-control>
         </solaris-preview-code>
       </solaris-tab-panel>
@@ -208,12 +224,14 @@
             defaultValue="a"
             ariaLabel="Radius full"
           >
-            <solaris-segmented-item value="a">{{
-              'segmented-control.example.radius.sm' | translate
-            }}</solaris-segmented-item>
-            <solaris-segmented-item value="b">{{
-              'segmented-control.example.radius.full' | translate
-            }}</solaris-segmented-item>
+            <solaris-segmented-item value="a"
+              >{{ 'segmented-control.example.radius.sm' | translate
+              }}</solaris-segmented-item
+            >
+            <solaris-segmented-item value="b"
+              >{{ 'segmented-control.example.radius.full' | translate
+              }}</solaris-segmented-item
+            >
           </solaris-segmented-control>
         </solaris-preview-code>
       </solaris-tab-panel>

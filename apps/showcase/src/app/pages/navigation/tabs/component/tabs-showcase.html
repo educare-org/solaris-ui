@@ -13,9 +13,7 @@
   />
 
   <app-docs-section anchor="examples" titleKey="tabs.section.examples">
-    <p class="tabs-showcase__note">
-      {{ 'tabs.examples.note' | translate }}
-    </p>
+    <p class="tabs-showcase__note">{{ 'tabs.examples.note' | translate }}</p>
     <solaris-preview-code [code]="basicCode" language="html">
       <app-basic-tabs-example />
     </solaris-preview-code>
@@ -26,15 +24,15 @@
       [(value)]="selectedAppearance"
       [ariaLabel]="'tabs.section.appearances' | translate"
     >
-      <solaris-tab value="underline">{{
-        'tabs.appearance.underline' | translate
-      }}</solaris-tab>
-      <solaris-tab value="pills">{{
-        'tabs.appearance.pills' | translate
-      }}</solaris-tab>
-      <solaris-tab value="enclosed">{{
-        'tabs.appearance.enclosed' | translate
-      }}</solaris-tab>
+      <solaris-tab value="underline"
+        >{{ 'tabs.appearance.underline' | translate }}</solaris-tab
+      >
+      <solaris-tab value="pills"
+        >{{ 'tabs.appearance.pills' | translate }}</solaris-tab
+      >
+      <solaris-tab value="enclosed"
+        >{{ 'tabs.appearance.enclosed' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="underline">
         <solaris-preview-code [code]="appearanceUnderlineCode" language="html">
           <app-basic-tabs-example />
@@ -70,29 +68,29 @@
         [(value)]="selectedDensity"
         [ariaLabel]="'tabs.section.density' | translate"
       >
-        <solaris-tab value="compact">{{
-          'tabs.density.compact' | translate
-        }}</solaris-tab>
-        <solaris-tab value="normal">{{
-          'tabs.density.normal' | translate
-        }}</solaris-tab>
-        <solaris-tab value="comfortable">{{
-          'tabs.density.comfortable' | translate
-        }}</solaris-tab>
+        <solaris-tab value="compact"
+          >{{ 'tabs.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'tabs.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'tabs.density.comfortable' | translate }}</solaris-tab
+        >
       </solaris-tabs>
       <solaris-tabs
         [(value)]="selectedDemoAppearance"
         [ariaLabel]="'tabs.section.appearances' | translate"
       >
-        <solaris-tab value="underline">{{
-          'tabs.appearance.underline' | translate
-        }}</solaris-tab>
-        <solaris-tab value="pills">{{
-          'tabs.appearance.pills' | translate
-        }}</solaris-tab>
-        <solaris-tab value="enclosed">{{
-          'tabs.appearance.enclosed' | translate
-        }}</solaris-tab>
+        <solaris-tab value="underline"
+          >{{ 'tabs.appearance.underline' | translate }}</solaris-tab
+        >
+        <solaris-tab value="pills"
+          >{{ 'tabs.appearance.pills' | translate }}</solaris-tab
+        >
+        <solaris-tab value="enclosed"
+          >{{ 'tabs.appearance.enclosed' | translate }}</solaris-tab
+        >
       </solaris-tabs>
     </div>
     <solaris-preview-code [code]="sizeDensityAppearanceCode()" language="html">
@@ -103,23 +101,21 @@
         [appearance]="selectedDemoAppearance()"
         ariaLabel="Size, density and appearance"
       >
-        <solaris-tab value="s">{{
-          'tabs.example.sizes.small' | translate
-        }}</solaris-tab>
-        <solaris-tab value="m">{{
-          'tabs.example.sizes.medium' | translate
-        }}</solaris-tab>
-        <solaris-tab value="l">{{
-          'tabs.example.sizes.large' | translate
-        }}</solaris-tab>
+        <solaris-tab value="s"
+          >{{ 'tabs.example.sizes.small' | translate }}</solaris-tab
+        >
+        <solaris-tab value="m"
+          >{{ 'tabs.example.sizes.medium' | translate }}</solaris-tab
+        >
+        <solaris-tab value="l"
+          >{{ 'tabs.example.sizes.large' | translate }}</solaris-tab
+        >
       </solaris-tabs>
     </solaris-preview-code>
   </app-docs-section>
 
   <app-docs-section anchor="color" titleKey="tabs.section.color">
-    <p class="tabs-showcase__note">
-      {{ 'tabs.color.note' | translate }}
-    </p>
+    <p class="tabs-showcase__note">{{ 'tabs.color.note' | translate }}</p>
     <div class="tabs-showcase__stack">
       <solaris-preview-code [code]="colorPrimaryCode" language="html">
         <solaris-tabs color="primary" defaultValue="a" ariaLabel="Primary">
@@ -188,8 +184,8 @@
         {{ 'tabs.example.reduced-motion.text' | translate }}
       </p>
       <p class="tabs-showcase__note">
-        <strong>{{ 'tabs.example.future-editable.title' | translate }}</strong
-        >: {{ 'tabs.example.future-editable.text' | translate }}
+        <strong>{{ 'tabs.example.future-editable.title' | translate }}</strong>:
+        {{ 'tabs.example.future-editable.text' | translate }}
       </p>
     </div>
   </app-docs-section>
@@ -203,9 +199,7 @@
   </app-docs-section>
 
   <app-docs-section anchor="props" titleKey="tabs.section.props">
-    <p class="tabs-showcase__note">
-      {{ 'tabs.props.note' | translate }}
-    </p>
+    <p class="tabs-showcase__note">{{ 'tabs.props.note' | translate }}</p>
   </app-docs-section>
 
   <app-docs-page-footer [prev]="prev" [next]="next" />

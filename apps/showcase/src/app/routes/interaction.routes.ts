@@ -8,15 +8,15 @@ export const interactionRoutes: Route[] = [
         path: 'popover',
         loadComponent: () =>
           import(
-            '../pages/interaction/popover/component/popover-page.component'
-          ).then((m) => m.PopoverPageComponent),
+            '../pages/interaction/popover/component/popover-showcase'
+          ).then((m) => m.PopoverShowcasePage),
       },
       {
         path: 'tooltip',
         loadComponent: () =>
           import(
-            '../pages/interaction/tooltip/component/tooltip-page.component'
-          ).then((m) => m.TooltipPageComponent),
+            '../pages/interaction/tooltip/component/tooltip-showcase'
+          ).then((m) => m.TooltipShowcasePage),
       },
       {
         path: 'dropdown-menu',

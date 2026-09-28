@@ -13,9 +13,7 @@
   />
 
   <app-docs-section anchor="examples" titleKey="tooltip.section.examples">
-    <p class="tooltip-page__note">
-      {{ 'tooltip.examples.note' | translate }}
-    </p>
+    <p class="tooltip-page__note">{{ 'tooltip.examples.note' | translate }}</p>
     <solaris-preview-code [code]="basicCode" language="html">
       <app-tooltip-basic-hover-example />
     </solaris-preview-code>
@@ -26,18 +24,18 @@
       [(value)]="selectedTrigger"
       [ariaLabel]="'tooltip.section.triggers' | translate"
     >
-      <solaris-tab value="hover">{{
-        'tooltip.trigger.hover' | translate
-      }}</solaris-tab>
-      <solaris-tab value="click">{{
-        'tooltip.trigger.click' | translate
-      }}</solaris-tab>
-      <solaris-tab value="closeable">{{
-        'tooltip.trigger.closeable' | translate
-      }}</solaris-tab>
-      <solaris-tab value="manual">{{
-        'tooltip.trigger.manual' | translate
-      }}</solaris-tab>
+      <solaris-tab value="hover"
+        >{{ 'tooltip.trigger.hover' | translate }}</solaris-tab
+      >
+      <solaris-tab value="click"
+        >{{ 'tooltip.trigger.click' | translate }}</solaris-tab
+      >
+      <solaris-tab value="closeable"
+        >{{ 'tooltip.trigger.closeable' | translate }}</solaris-tab
+      >
+      <solaris-tab value="manual"
+        >{{ 'tooltip.trigger.manual' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="hover">
         <solaris-preview-code [code]="triggerHoverCode" language="html">
           <button
@@ -79,15 +77,15 @@
       [(value)]="selectedContent"
       [ariaLabel]="'tooltip.section.content' | translate"
     >
-      <solaris-tab value="title-body">{{
-        'tooltip.content.title-body' | translate
-      }}</solaris-tab>
-      <solaris-tab value="icon">{{
-        'tooltip.content.icon' | translate
-      }}</solaris-tab>
-      <solaris-tab value="template">{{
-        'tooltip.content.template' | translate
-      }}</solaris-tab>
+      <solaris-tab value="title-body"
+        >{{ 'tooltip.content.title-body' | translate }}</solaris-tab
+      >
+      <solaris-tab value="icon"
+        >{{ 'tooltip.content.icon' | translate }}</solaris-tab
+      >
+      <solaris-tab value="template"
+        >{{ 'tooltip.content.template' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="title-body">
         <solaris-preview-code [code]="contentTitleBodyCode" language="html">
           <button
@@ -136,15 +134,15 @@
       [(value)]="selectedAppearance"
       [ariaLabel]="'tooltip.section.appearance' | translate"
     >
-      <solaris-tab value="outline">{{
-        'tooltip.appearance-outline' | translate
-      }}</solaris-tab>
-      <solaris-tab value="surface">{{
-        'tooltip.appearance-surface' | translate
-      }}</solaris-tab>
-      <solaris-tab value="inverse">{{
-        'tooltip.appearance-inverse' | translate
-      }}</solaris-tab>
+      <solaris-tab value="outline"
+        >{{ 'tooltip.appearance-outline' | translate }}</solaris-tab
+      >
+      <solaris-tab value="surface"
+        >{{ 'tooltip.appearance-surface' | translate }}</solaris-tab
+      >
+      <solaris-tab value="inverse"
+        >{{ 'tooltip.appearance-inverse' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="outline">
         <solaris-preview-code [code]="appearanceOutlineCode" language="html">
           <button
@@ -235,22 +233,20 @@
   </app-docs-section>
 
   <app-docs-section anchor="radius" titleKey="tooltip.section.radius">
-    <p class="tooltip-page__note">
-      {{ 'tooltip.radius-note' | translate }}
-    </p>
+    <p class="tooltip-page__note">{{ 'tooltip.radius-note' | translate }}</p>
     <solaris-tabs
       [(value)]="selectedRadius"
       [ariaLabel]="'tooltip.section.radius' | translate"
     >
-      <solaris-tab value="sm">{{
-        'tooltip.radius-sm' | translate
-      }}</solaris-tab>
-      <solaris-tab value="md">{{
-        'tooltip.radius-md' | translate
-      }}</solaris-tab>
-      <solaris-tab value="lg">{{
-        'tooltip.radius-lg' | translate
-      }}</solaris-tab>
+      <solaris-tab value="sm"
+        >{{ 'tooltip.radius-sm' | translate }}</solaris-tab
+      >
+      <solaris-tab value="md"
+        >{{ 'tooltip.radius-md' | translate }}</solaris-tab
+      >
+      <solaris-tab value="lg"
+        >{{ 'tooltip.radius-lg' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="sm">
         <solaris-preview-code [code]="radiusSmCode" language="html">
           <button
@@ -298,18 +294,18 @@
       [(value)]="selectedPlacement"
       [ariaLabel]="'tooltip.section.placement' | translate"
     >
-      <solaris-tab value="top">{{
-        'tooltip.placement-top' | translate
-      }}</solaris-tab>
-      <solaris-tab value="bottom">{{
-        'tooltip.placement-bottom' | translate
-      }}</solaris-tab>
-      <solaris-tab value="right">{{
-        'tooltip.placement-right' | translate
-      }}</solaris-tab>
-      <solaris-tab value="left">{{
-        'tooltip.placement-left' | translate
-      }}</solaris-tab>
+      <solaris-tab value="top"
+        >{{ 'tooltip.placement-top' | translate }}</solaris-tab
+      >
+      <solaris-tab value="bottom"
+        >{{ 'tooltip.placement-bottom' | translate }}</solaris-tab
+      >
+      <solaris-tab value="right"
+        >{{ 'tooltip.placement-right' | translate }}</solaris-tab
+      >
+      <solaris-tab value="left"
+        >{{ 'tooltip.placement-left' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="top">
         <solaris-preview-code [code]="placementTopCode" language="html">
           <button
@@ -362,9 +358,7 @@
   </app-docs-section>
 
   <app-docs-section anchor="delays" titleKey="tooltip.section.delays">
-    <p class="tooltip-page__note">
-      {{ 'tooltip.delays.note' | translate }}
-    </p>
+    <p class="tooltip-page__note">{{ 'tooltip.delays.note' | translate }}</p>
     <solaris-preview-code [code]="delaysCode" language="html">
       <button
         [solarisTooltip]="'tooltip.delays-demo' | translate"
@@ -420,9 +414,7 @@
   </app-docs-section>
 
   <app-docs-section anchor="props" titleKey="tooltip.section.props">
-    <p class="tooltip-page__note">
-      {{ 'tooltip.props.note' | translate }}
-    </p>
+    <p class="tooltip-page__note">{{ 'tooltip.props.note' | translate }}</p>
   </app-docs-section>
 
   <app-docs-page-footer [prev]="prev" [next]="next" />

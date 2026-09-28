@@ -13,9 +13,7 @@
   />
 
   <app-docs-section anchor="examples" titleKey="popover.section.examples">
-    <p class="popover-page__note">
-      {{ 'popover.examples.note' | translate }}
-    </p>
+    <p class="popover-page__note">{{ 'popover.examples.note' | translate }}</p>
     <solaris-preview-code [code]="basicCode" language="html">
       <app-popover-basic-example />
     </solaris-preview-code>
@@ -31,9 +29,9 @@
     >
       <solaris-tab value="top">{{ 'popover.top' | translate }}</solaris-tab>
       <solaris-tab value="right">{{ 'popover.right' | translate }}</solaris-tab>
-      <solaris-tab value="bottom">{{
-        'popover.bottom' | translate
-      }}</solaris-tab>
+      <solaris-tab value="bottom"
+        >{{ 'popover.bottom' | translate }}</solaris-tab
+      >
       <solaris-tab value="left">{{ 'popover.left' | translate }}</solaris-tab>
       <solaris-tab-panel value="top">
         <solaris-preview-code [code]="placementTopCode" language="html">
@@ -110,15 +108,15 @@
       [(value)]="selectedAlign"
       [ariaLabel]="'popover.section.align' | translate"
     >
-      <solaris-tab value="start">{{
-        'popover.align-start' | translate
-      }}</solaris-tab>
-      <solaris-tab value="center">{{
-        'popover.align-center' | translate
-      }}</solaris-tab>
-      <solaris-tab value="end">{{
-        'popover.align-end' | translate
-      }}</solaris-tab>
+      <solaris-tab value="start"
+        >{{ 'popover.align-start' | translate }}</solaris-tab
+      >
+      <solaris-tab value="center"
+        >{{ 'popover.align-center' | translate }}</solaris-tab
+      >
+      <solaris-tab value="end"
+        >{{ 'popover.align-end' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="start">
         <solaris-preview-code [code]="alignStartCode" language="html">
           <button
@@ -178,12 +176,12 @@
       [(value)]="selectedAppearance"
       [ariaLabel]="'popover.section.appearance' | translate"
     >
-      <solaris-tab value="surface">{{
-        'popover.surface' | translate
-      }}</solaris-tab>
-      <solaris-tab value="outline">{{
-        'popover.outline' | translate
-      }}</solaris-tab>
+      <solaris-tab value="surface"
+        >{{ 'popover.surface' | translate }}</solaris-tab
+      >
+      <solaris-tab value="outline"
+        >{{ 'popover.outline' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="surface">
         <solaris-preview-code [code]="appearanceSurfaceCode" language="html">
           <button
@@ -295,9 +293,7 @@
   </app-docs-section>
 
   <app-docs-section anchor="radius" titleKey="popover.section.radius">
-    <p class="popover-page__note">
-      {{ 'popover.radius-note' | translate }}
-    </p>
+    <p class="popover-page__note">{{ 'popover.radius-note' | translate }}</p>
     <solaris-tabs
       [(value)]="selectedRadius"
       [ariaLabel]="'popover.section.radius' | translate"
@@ -509,9 +505,7 @@
   </app-docs-section>
 
   <app-docs-section anchor="props" titleKey="popover.section.props">
-    <p class="popover-page__note">
-      {{ 'popover.props.note' | translate }}
-    </p>
+    <p class="popover-page__note">{{ 'popover.props.note' | translate }}</p>
   </app-docs-section>
 
   <app-docs-page-footer [prev]="prev" [next]="next" />
