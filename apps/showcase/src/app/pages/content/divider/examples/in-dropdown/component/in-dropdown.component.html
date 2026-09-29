@@ -1,0 +1,16 @@
+<button
+  solaris-button
+  solaris-dropdown-menu-trigger
+  [solarisDropdownMenuTriggerFor]="dividerMenu"
+>
+  {{ 'divider.open-menu' | translate }}
+</button>
+<solaris-dropdown-menu #dividerMenu>
+  <solaris-dropdown-menu-item label="{{ 'divider.edit' | translate }}" />
+  <solaris-dropdown-menu-item label="{{ 'divider.duplicate' | translate }}" />
+  <solaris-divider />
+  <solaris-dropdown-menu-item
+    label="{{ 'divider.delete' | translate }}"
+    color="danger"
+  />
+</solaris-dropdown-menu>

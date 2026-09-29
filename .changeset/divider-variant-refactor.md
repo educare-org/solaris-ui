@@ -1,0 +1,5 @@
+---
+'@educarehq/solaris-ui': minor
+---
+
+Add `variant` (`solid` | `dashed` | `dotted`, default `solid`) to `solaris-divider`, composing with `appearance` (weight/color) for both orientations, and `ariaLabel` / `ariaLabelKey` / `ariaLabelledby` for an accessible name on semantic separators without visible text. Also fixes labels rendering on `vertical` dividers (now ignored, as documented — label is horizontal-only), narrows `width` / `height` to `string | undefined` (default `undefined`), and removes the `solaris-divider-stack` host `class` binding (styling is `:host` + `data-*` only). The divider showcase is rewritten to the `preview-code` standard (`docs-page-layout` + `docs-section` + `solaris-tabs` variations, extracted `basic` / `with-label` / `vertical` / `in-dropdown` examples, simple installation block, `props` placeholder, 1:1 TOC, `en-US` + `pt-BR`). Follow-ups: `divider-stack` still has no dedicated showcase page; no `size` × `density` matrix (correctly out of scope — a 1px separator has no control-height contract).

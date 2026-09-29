@@ -1,6 +1,40 @@
 export const EN_US_DIVIDER: Record<string, string> = {
+  'divider.title': 'Divider',
   'divider.description':
     'Visually separates groups of content, actions, or sections.',
+  'divider.section.examples': 'Examples',
+  'divider.section.appearance': 'Appearance',
+  'divider.section.variant': 'Variant',
+  'divider.section.orientation': 'Orientation',
+  'divider.section.layout': 'Layout',
+  'divider.section.label': 'Label',
+  'divider.section.usage': 'Usage',
+  'divider.section.installation': 'Installation',
+  'divider.section.props': 'Props',
+  'divider.examples.note':
+    'Start with the default divider, then explore appearances and variants below.',
+  'divider.variant.note':
+    'Variant composes with appearance: appearance controls weight and color, variant controls only the line style.',
+  'divider.label.note':
+    'Label is only supported on horizontal dividers; vertical dividers ignore it.',
+  'divider.installation.note':
+    'Install the single Solaris package, then import the component.',
+  'divider.props.note': 'Props table coming soon with the table component.',
+  'divider.ai.prompt':
+    "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.",
+  'divider.appearance.subtle': 'Subtle',
+  'divider.appearance.strong': 'Strong',
+  'divider.variant.solid': 'Solid',
+  'divider.variant.dashed': 'Dashed',
+  'divider.variant.dotted': 'Dotted',
+  'divider.orientation.horizontal': 'Horizontal',
+  'divider.orientation.vertical': 'Vertical',
+  'divider.layout.spacing': 'Spacing',
+  'divider.layout.inset': 'Inset',
+  'divider.layout.length': 'Length',
+  'divider.text-position.center': 'Center',
+  'divider.text-position.start': 'Start',
+  'divider.text-position.end': 'End',
   'divider.basic': 'Basic Divider',
   'divider.basic-note': 'Default horizontal divider with subtle appearance.',
   'divider.strong': 'Strong Appearance',

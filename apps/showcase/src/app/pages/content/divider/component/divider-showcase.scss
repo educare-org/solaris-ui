@@ -1,49 +1,28 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.divider-showcase {
-  @include layout.page;
-}
-
-.divider-showcase__header {
-  @include layout.header;
-}
-
-.divider-showcase__title {
-  @include layout.title;
-}
-
-.divider-showcase__description {
-  @include layout.description;
-}
-
-.divider-showcase__section {
-  @include layout.section-card;
-}
-
-.divider-showcase__section-title {
-  @include layout.section-title;
-}
-
 .divider-showcase__note {
   @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.divider-showcase__spacing-demo > * {
-  margin: 0;
+.divider-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
 }
 
-.divider-showcase__spacer {
-  height: var(--solaris-spacing-5);
+.divider-showcase__demo {
+  display: grid;
+  gap: var(--solaris-spacing-3);
+  width: 100%;
+}
+
+.divider-showcase__demo > p {
   margin: 0;
 }
 
 .divider-showcase__toolbar {
-  height: 48px;
   display: flex;
   align-items: center;
   gap: var(--solaris-spacing-3);
-  border-radius: var(--solaris-radius-md);
-  background: var(--solaris-surface-base);
-  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
-  border: var(--solaris-border-width-sm) solid var(--solaris-border-default);
 }

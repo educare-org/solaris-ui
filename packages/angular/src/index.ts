@@ -552,8 +552,11 @@ export { SolarisDividerComponent } from './lib/components/data-display/divider/c
 export type {
   SolarisDividerOrientation,
   SolarisDividerAppearance,
+  SolarisDividerVariant,
   SolarisDividerSpacing,
   SolarisDividerInset,
+  SolarisDividerLength,
+  SolarisDividerTextPosition,
 } from './lib/components/data-display/divider/model/divider.types';
 
 export { SolarisDividerStackComponent } from './lib/components/data-display/divider-stack/component/divider-stack.component';

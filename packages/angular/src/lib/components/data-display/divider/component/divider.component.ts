@@ -9,6 +9,7 @@ import {
 import type {
   SolarisDividerOrientation,
   SolarisDividerAppearance,
+  SolarisDividerVariant,
   SolarisDividerSpacing,
   SolarisDividerInset,
   SolarisDividerLength,
@@ -28,10 +29,13 @@ import { SolarisTranslateService } from '../../../../services/translation';
     '[attr.role]': 'computedRole()',
     '[attr.data-spacing]': 'spacing()',
     '[attr.data-appearance]': 'appearance()',
+    '[attr.data-variant]': 'variant()',
     '[attr.data-orientation]': 'orientation()',
     '[attr.data-text-position]': 'computedTextPosition()',
     '[attr.aria-hidden]': 'effectiveDecorative() ? "true" : null',
     '[attr.aria-orientation]': 'computedAriaOrientation()',
+    '[attr.aria-label]': 'resolvedAriaLabel() || undefined',
+    '[attr.aria-labelledby]': 'ariaLabelledby() || undefined',
     '[style.--solaris-divider-width]': 'computedWidth()',
     '[style.--solaris-divider-height]': 'computedHeight()',
   },
@@ -41,16 +45,22 @@ export class SolarisDividerComponent {
 
   readonly orientation = input<SolarisDividerOrientation>('horizontal');
   readonly appearance = input<SolarisDividerAppearance>('subtle');
+  readonly variant = input<SolarisDividerVariant>('solid');
   readonly spacing = input<SolarisDividerSpacing>('md');
   readonly inset = input<SolarisDividerInset>('none');
   readonly decorative = input<boolean>(true);
-  readonly width = input<SolarisDividerLength>('');
-  readonly height = input<SolarisDividerLength>('');
+  readonly width = input<SolarisDividerLength | undefined>(undefined);
+  readonly height = input<SolarisDividerLength | undefined>(undefined);
   readonly label = input<string>();
   readonly labelKey = input<string>();
   readonly textPosition = input<SolarisDividerTextPosition>('center');
+  readonly ariaLabel = input<string | undefined>(undefined);
+  readonly ariaLabelKey = input<string | undefined>(undefined);
+  readonly ariaLabelledby = input<string | undefined>(undefined);
 
   protected readonly labelText = computed<string | null>(() => {
+    if (this.orientation() === 'vertical') return null;
+
     const direct = this.label();
     if (direct) return direct;
 
@@ -90,5 +100,15 @@ export class SolarisDividerComponent {
   protected readonly computedHeight = computed<string | null>(() => {
     const h = this.height();
     return h || null;
+  });
+
+  protected readonly resolvedAriaLabel = computed<string | undefined>(() => {
+    if (this.ariaLabel()) return this.ariaLabel();
+    const ariaLabelKey = this.ariaLabelKey();
+    if (ariaLabelKey) {
+      const translated = this.translateService.translate(ariaLabelKey);
+      if (translated !== ariaLabelKey) return translated;
+    }
+    return undefined;
   });
 }

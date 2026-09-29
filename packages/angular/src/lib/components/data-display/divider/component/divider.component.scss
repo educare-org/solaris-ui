@@ -98,6 +98,26 @@
   border-left-width: var(--solaris-border-width-lg);
 }
 
+:host([data-variant='dashed']) {
+  .solaris-divider__line {
+    border-top-style: dashed;
+  }
+}
+
+:host([data-variant='dotted']) {
+  .solaris-divider__line {
+    border-top-style: dotted;
+  }
+}
+
+:host([data-variant='dashed'][data-orientation='vertical']) {
+  border-left-style: dashed;
+}
+
+:host([data-variant='dotted'][data-orientation='vertical']) {
+  border-left-style: dotted;
+}
+
 :host([data-inset='start'][data-orientation='horizontal']) {
   width: calc(100% - var(--solaris-divider-inset-start));
   margin-inline-start: var(--solaris-divider-inset-start);

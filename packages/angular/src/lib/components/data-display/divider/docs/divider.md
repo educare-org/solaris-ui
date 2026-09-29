@@ -19,18 +19,22 @@ Divider visually separates groups of content, actions, or sections.
 
 ## API
 
-| Input        | Type                                   | Default        | Description                                  |
-| ------------ | -------------------------------------- | -------------- | -------------------------------------------- |
-| orientation  | `'horizontal' \| 'vertical'`           | `'horizontal'` | Direction of the divider line                |
-| appearance   | `'subtle' \| 'strong'`                 | `'subtle'`     | Visual weight of the divider                 |
-| spacing      | `'none' \| 'sm' \| 'md' \| 'lg'`       | `'md'`         | Margin around the divider                    |
-| inset        | `'none' \| 'start' \| 'end' \| 'both'` | `'none'`       | Indentation from edges                       |
-| decorative   | `boolean`                              | `true`         | Whether the divider is purely visual         |
-| width        | `string`                               | `''`           | Horizontal length (e.g. `'10rem'`, `'100%'`) |
-| height       | `string`                               | `''`           | Vertical length (e.g. `'4rem'`)              |
-| label        | `string`                               | —              | Text rendered between the divider lines      |
-| labelKey     | `string`                               | —              | Translation key for the label                |
-| textPosition | `'start' \| 'center' \| 'end'`         | `'center'`     | Alignment of the label (horizontal only)     |
+| Input          | Type                                   | Default        | Description                                                  |
+| -------------- | -------------------------------------- | -------------- | ------------------------------------------------------------ |
+| orientation    | `'horizontal' \| 'vertical'`           | `'horizontal'` | Direction of the divider line                                |
+| appearance     | `'subtle' \| 'strong'`                 | `'subtle'`     | Visual weight of the divider                                 |
+| variant        | `'solid' \| 'dashed' \| 'dotted'`      | `'solid'`      | Line style of the divider                                    |
+| spacing        | `'none' \| 'sm' \| 'md' \| 'lg'`       | `'md'`         | Margin around the divider                                    |
+| inset          | `'none' \| 'start' \| 'end' \| 'both'` | `'none'`       | Indentation from edges                                       |
+| decorative     | `boolean`                              | `true`         | Whether the divider is purely visual                         |
+| width          | `string`                               | —              | Horizontal length (e.g. `'10rem'`, `'100%'`)                 |
+| height         | `string`                               | —              | Vertical length (e.g. `'4rem'`)                              |
+| label          | `string`                               | —              | Text rendered between the divider lines (horizontal only)    |
+| labelKey       | `string`                               | —              | Translation key for the label                                |
+| textPosition   | `'start' \| 'center' \| 'end'`         | `'center'`     | Alignment of the label (horizontal only)                     |
+| ariaLabel      | `string`                               | —              | Accessible name for a semantic separator without visual text |
+| ariaLabelKey   | `string`                               | —              | Translation key for the accessible name                      |
+| ariaLabelledby | `string`                               | —              | Id of the element labelling a semantic separator             |
 
 ## Orientation
 
@@ -49,6 +53,24 @@ Default: `horizontal`
 | `strong`   | Thick border (`--solaris-border-width-lg`) in `--solaris-border-strong` |
 
 Default: `subtle`
+
+## Variant
+
+| Variant  | Visual               |
+| -------- | -------------------- |
+| `solid`  | Continuous line      |
+| `dashed` | Dashed line segments |
+| `dotted` | Dotted line segments |
+
+`variant` composes with `appearance`: `appearance` controls weight/color
+(`subtle` vs `strong`), `variant` controls only the line style. Applies to
+both orientations. Default: `solid`
+
+```html
+<solaris-divider variant="dashed" />
+<solaris-divider variant="dotted" appearance="strong" />
+<solaris-divider orientation="vertical" variant="dashed" />
+```
 
 ## Spacing
 
@@ -125,6 +147,12 @@ When a label is present, the divider becomes semantic: `role="separator"` is app
 - When `decorative` is `true`, `aria-hidden="true"` is applied and no `role` is exposed
 - When `decorative` is `false`, `role="separator"` is applied
 - Vertical dividers with `decorative=false` receive `aria-orientation="vertical"`
+- A semantic separator without visible text should receive an accessible name
+  via `ariaLabel` (or `ariaLabelKey` / `ariaLabelledby`):
+
+```html
+<solaris-divider [decorative]="false" ariaLabel="Section separator" />
+```
 
 ## Examples
 

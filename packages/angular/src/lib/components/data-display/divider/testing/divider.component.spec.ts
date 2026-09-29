@@ -6,6 +6,7 @@ import { SolarisDividerComponent } from '../component/divider.component';
 import type {
   SolarisDividerOrientation,
   SolarisDividerAppearance,
+  SolarisDividerVariant,
   SolarisDividerSpacing,
   SolarisDividerInset,
   SolarisDividerTextPosition,
@@ -452,6 +453,110 @@ describe('SolarisDividerComponent', () => {
       const el = fixture.nativeElement.querySelector('solaris-divider');
       expect(el.getAttribute('aria-hidden')).toBe('true');
       expect(el.getAttribute('role')).toBeNull();
+    });
+  });
+
+  describe('variant', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisDividerComponent],
+      template: '<solaris-divider [variant]="variant" />',
+    })
+    class TestHost {
+      variant: SolarisDividerVariant = 'solid';
+    }
+
+    it('should have default variant solid', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      expect(el.getAttribute('data-variant')).toBe('solid');
+    });
+
+    it('should support dashed', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.variant = 'dashed';
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      expect(el.getAttribute('data-variant')).toBe('dashed');
+    });
+
+    it('should support dotted', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.variant = 'dotted';
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      expect(el.getAttribute('data-variant')).toBe('dotted');
+    });
+  });
+
+  describe('vertical with label', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisDividerComponent],
+      template: '<solaris-divider orientation="vertical" label="Section" />',
+    })
+    class TestHost {}
+
+    it('ignores label on vertical orientation', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      expect(el.querySelector('.solaris-divider__text')).toBeFalsy();
+      expect(el.getAttribute('data-text-position')).toBeNull();
+    });
+  });
+
+  describe('accessible name', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisDividerComponent],
+      template:
+        '<solaris-divider [decorative]="false" [ariaLabel]="ariaLabel" [ariaLabelKey]="ariaLabelKey" />',
+    })
+    class TestHost {
+      ariaLabel: string | undefined = undefined;
+      ariaLabelKey: string | undefined = undefined;
+    }
+
+    it('exposes aria-label from direct input', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.ariaLabel = 'Section separator';
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      expect(el.getAttribute('aria-label')).toBe('Section separator');
+    });
+
+    it('resolves ariaLabelKey through translation service', () => {
+      TestBed.configureTestingModule({
+        providers: [
+          provideSolarisTesting({
+            translate: {
+              translations: {
+                'en-US': { 'divider.separator': 'Section separator' },
+              },
+            },
+          }),
+        ],
+      });
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.ariaLabelKey = 'divider.separator';
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      expect(el.getAttribute('aria-label')).toBe('Section separator');
+    });
+
+    it('omits aria-label when no accessible name is provided', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('solaris-divider');
+      expect(el.getAttribute('aria-label')).toBeNull();
     });
   });
 });

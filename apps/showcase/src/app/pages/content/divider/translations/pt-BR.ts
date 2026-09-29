@@ -1,6 +1,40 @@
 export const PT_BR_DIVIDER: Record<string, string> = {
+  'divider.title': 'Divisor',
   'divider.description':
     'Separa visualmente grupos de conteúdo, ações ou seções.',
+  'divider.section.examples': 'Exemplos',
+  'divider.section.appearance': 'Aparência',
+  'divider.section.variant': 'Variante',
+  'divider.section.orientation': 'Orientação',
+  'divider.section.layout': 'Layout',
+  'divider.section.label': 'Texto',
+  'divider.section.usage': 'Uso',
+  'divider.section.installation': 'Instalação',
+  'divider.section.props': 'Props',
+  'divider.examples.note':
+    'Comece com o divisor padrão e explore aparências e variantes abaixo.',
+  'divider.variant.note':
+    'A variante combina com a aparência: a aparência controla peso e cor, a variante controla apenas o estilo da linha.',
+  'divider.label.note':
+    'Texto é suportado apenas em divisores horizontais; divisores verticais o ignoram.',
+  'divider.installation.note':
+    'Instale o pacote único Solaris e importe o componente.',
+  'divider.props.note': 'Tabela de props em breve, com o componente de tabela.',
+  'divider.ai.prompt':
+    'Estou olhando a documentação Solaris UI de {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela.',
+  'divider.appearance.subtle': 'Sutil',
+  'divider.appearance.strong': 'Forte',
+  'divider.variant.solid': 'Sólida',
+  'divider.variant.dashed': 'Tracejada',
+  'divider.variant.dotted': 'Pontilhada',
+  'divider.orientation.horizontal': 'Horizontal',
+  'divider.orientation.vertical': 'Vertical',
+  'divider.layout.spacing': 'Espaçamento',
+  'divider.layout.inset': 'Recuo',
+  'divider.layout.length': 'Comprimento',
+  'divider.text-position.center': 'Centro',
+  'divider.text-position.start': 'Início',
+  'divider.text-position.end': 'Fim',
   'divider.basic': 'Divisor Básico',
   'divider.basic-note': 'Divisor horizontal padrão com aparência sutil.',
   'divider.strong': 'Aparência Forte',

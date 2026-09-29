@@ -4,7 +4,7 @@ import { expect } from 'storybook/test';
 
 const meta: Meta<SolarisDividerComponent> = {
   component: SolarisDividerComponent,
-  title: 'SolarisDividerComponent',
+  title: 'Data Display/Divider',
 };
 export default meta;
 
@@ -38,5 +38,31 @@ export const WithLabelEnd: Story = {
   args: {
     label: 'Section',
     textPosition: 'end',
+  },
+};
+
+export const Dashed: Story = {
+  args: {
+    variant: 'dashed',
+  },
+};
+
+export const DottedStrong: Story = {
+  args: {
+    variant: 'dotted',
+    appearance: 'strong',
+  },
+};
+
+export const Vertical: Story = {
+  args: {
+    orientation: 'vertical',
+  },
+};
+
+export const Semantic: Story = {
+  args: {
+    decorative: false,
+    ariaLabel: 'Section separator',
   },
 };
