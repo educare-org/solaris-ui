@@ -136,7 +136,7 @@ export class IconButtonShowcasePage {
 
   protected readonly chromelessCode = computed(() =>
     [
-      `<button solaris-icon-button chromeless size="${this.selectedChromelessSize()}" aria-label="Notifications, 3 new">`,
+      `<button solaris-icon-button [chromeless]="true" size="${this.selectedChromelessSize()}" aria-label="Notifications, 3 new">`,
       '  <solaris-icon name="notification" [decorative]="true" />',
       '  <solaris-badge solaris-icon-button-badge variant="count" color="danger" size="sm">3</solaris-badge>',
       '</button>',
