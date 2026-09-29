@@ -1,5 +1,5 @@
 :host {
-  --solaris-dropdown-menu-item-gap: var(--solaris-spacing-2);
+  --solaris-dropdown-menu-item-gap: var(--solaris-spacing-4);
   --solaris-dropdown-menu-item-radius: var(--solaris-radius-sm);
   --solaris-dropdown-menu-item-padding-y: var(--solaris-spacing-2);
   --solaris-dropdown-menu-item-padding-x: var(--solaris-spacing-4);
@@ -64,8 +64,8 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: var(--solaris-spacing-5);
-  height: var(--solaris-spacing-5);
+  width: var(--solaris-spacing-8);
+  height: var(--solaris-spacing-8);
   color: var(--solaris-text-muted);
 }
 

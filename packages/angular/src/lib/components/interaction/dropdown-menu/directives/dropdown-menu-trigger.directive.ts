@@ -109,7 +109,7 @@ export class SolarisDropdownMenuTriggerDirective {
   });
 
   readonly solarisDropdownMenuAppearance = input<SolarisDropdownMenuAppearance>(
-    'surface',
+    'outline',
     {
       alias: 'solarisDropdownMenuAppearance',
     },
