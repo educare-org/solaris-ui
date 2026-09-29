@@ -1,3 +1,5 @@
+export type SolarisIconButtonSize = 'sm' | 'md' | 'lg';
+
 export type SolarisIconButtonAppearance =
   | 'solid'
   | 'outline'

@@ -1,24 +1,20 @@
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.tagName is the standard Angular API to differentiate <button> vs <a> for correct disabled/type behavior.
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.getAttribute/setAttribute is the standard Angular approach to handle default button type.
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.setAttribute required for default <button> type behavior.
-// SECURITY_EXCEPTION_FILE: createComponent/insertBefore/appendChild required to render the spinner and icon components inside a native button host (directive has no template).
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.textContent read is required for the dev-mode icon-only a11y guard (no Angular abstraction exposes projected text).
+// SECURITY_EXCEPTION_FILE: createComponent/insertBefore/appendChild required to render the icon component inside a native button host (directive has no template).
 import {
   Directive,
   input,
   computed,
   effect,
-  inject,
   HostListener,
-  ElementRef,
-  EnvironmentInjector,
-  PLATFORM_ID,
   createComponent,
-  DestroyRef,
+  isDevMode,
+  AfterViewInit,
   type ComponentRef,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 import type {
+  SolarisButtonSize,
   SolarisButtonAppearance,
   SolarisButtonColor,
   SolarisButtonRadius,
@@ -27,159 +23,76 @@ import type {
   SolarisButtonIconPosition,
 } from '../model/button.types';
 
-import { SolarisTranslateService } from '../../../../services/translation';
-import { SolarisThemeService } from '../../../../services/theme';
-import { SolarisSpinnerComponent } from '../../../feedback/spinner';
+import { SolarisButtonHostBase } from './button-host-base';
 import { SolarisIconComponent } from '../../../icon';
 
 @Directive({
   selector: '[solaris-button]',
   standalone: true,
   host: {
+    '[attr.data-size]': 'effectiveSize()',
     '[attr.data-shape]': 'shape()',
     '[attr.data-color]': 'color()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-density]': 'effectiveDensity()',
-    '[attr.data-loading]': 'loading() ? "" : null',
+    '[attr.aria-pressed]': 'computedAriaPressed()',
+    '[attr.data-loading]': 'loading() || undefined',
     '[attr.aria-busy]': 'loading() ? "true" : null',
-    '[attr.data-full-width]': 'fullWidth() ? "" : null',
+    '[attr.data-pressed]': 'pressed() || undefined',
+    '[attr.data-full-width]': 'fullWidth() || undefined',
     '[attr.data-icon-position]': 'computedIconPosition()',
-    '[attr.aria-label]': 'loading() ? resolvedLoadingLabel() : null',
     '[attr.aria-disabled]': 'isEffectivelyDisabled() ? "true" : null',
     '[tabindex]': 'isAnchor && isEffectivelyDisabled() ? "-1" : null',
     '[attr.disabled]': 'isButton && isEffectivelyDisabled() ? "" : null',
   },
 })
-export class SolarisButtonDirective {
+export class SolarisButtonDirective
+  extends SolarisButtonHostBase
+  implements AfterViewInit
+{
+  readonly density = input<SolarisButtonDensity | undefined>(undefined);
   readonly iconPosition = input<SolarisButtonIconPosition>('start');
   readonly appearance = input<SolarisButtonAppearance>('solid');
-  readonly density = input<SolarisButtonDensity>('compact');
+  readonly pressed = input<boolean | undefined>(undefined);
   readonly color = input<SolarisButtonColor>('neutral');
   readonly shape = input<SolarisButtonShape>('normal');
   readonly radius = input<SolarisButtonRadius>('md');
+  readonly size = input<SolarisButtonSize>('md');
   readonly fullWidth = input<boolean>(false);
   readonly disabled = input<boolean>(false);
   readonly loading = input<boolean>(false);
   readonly loadingLabelKey = input<string>();
   readonly loadingLabel = input<string>();
+  readonly ariaLabelKey = input<string>();
+  readonly ariaLabel = input<string>();
   readonly icon = input<string>();
 
   protected readonly computedIconPosition = computed<string | null>(() => {
     return this.icon() ? this.iconPosition() : null;
   });
 
-  protected readonly isEffectivelyDisabled = computed(
-    () => this.disabled() || this.loading(),
-  );
-
-  protected readonly themeService = inject(SolarisThemeService);
-
-  protected readonly effectiveDensity = computed(() => {
-    return this.density() ?? this.themeService.density;
+  protected readonly computedAriaPressed = computed<string | null>(() => {
+    const pressed = this.pressed();
+    if (pressed == null) {
+      return null;
+    }
+    return pressed ? 'true' : 'false';
   });
 
-  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly translate = inject(SolarisTranslateService, {
-    optional: true,
-  });
-  private readonly environmentInjector = inject(EnvironmentInjector);
-  private readonly platformId = inject(PLATFORM_ID);
-  private readonly destroyRef = inject(DestroyRef);
-
-  private spinnerRef: ComponentRef<SolarisSpinnerComponent> | null = null;
   private iconRef: ComponentRef<SolarisIconComponent> | null = null;
 
-  protected readonly resolvedLoadingLabel = computed(() => {
-    const label = this.loadingLabel();
-    if (label) {
-      return label;
-    }
-
-    const key = this.loadingLabelKey();
-    if (key && this.translate) {
-      return this.translate.translate(key);
-    }
-
-    if (this.translate) {
-      return this.translate.translate('solaris.button.loading');
-    }
-
-    return undefined;
-  });
-
-  protected readonly isButton =
-    this.elementRef.nativeElement.tagName === 'BUTTON';
-  protected readonly isAnchor = this.elementRef.nativeElement.tagName === 'A';
-
   constructor() {
-    const el = this.elementRef.nativeElement;
-    const initialType = el.getAttribute('type');
-    if (this.isButton && initialType === null) {
-      el.setAttribute('type', 'button');
-    }
-
-    // Preserve SSR attributes during hydration. Angular applies input bindings
-    // after directive construction, so writing defaults here would flash them.
-    if (!el.hasAttribute('data-appearance')) {
-      el.setAttribute('data-appearance', this.appearance());
-    }
-    if (!el.hasAttribute('data-color')) {
-      el.setAttribute('data-color', this.color());
-    }
-    if (!el.hasAttribute('data-radius')) {
-      el.setAttribute('data-radius', this.radius());
-    }
-    if (!el.hasAttribute('data-shape')) {
-      el.setAttribute('data-shape', this.shape());
-    }
-
-    effect(() => {
-      if (this.loading()) {
-        this.attachSpinner();
-      } else {
-        this.detachSpinner();
-      }
-    });
+    super();
+    this.setupButtonHost();
 
     effect(() => {
       this.syncIcon();
     });
 
     this.destroyRef.onDestroy(() => {
-      this.detachSpinner();
       this.detachIcon();
     });
-  }
-
-  private attachSpinner(): void {
-    if (this.spinnerRef || !isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
-    const spinnerRef = createComponent(SolarisSpinnerComponent, {
-      environmentInjector: this.environmentInjector,
-    });
-    spinnerRef.setInput('size', 'sm');
-    spinnerRef.setInput('color', 'custom');
-    spinnerRef.setInput('label', '');
-    spinnerRef.setInput('ariaHidden', true);
-    spinnerRef.changeDetectorRef.detectChanges();
-
-    const spinnerEl = spinnerRef.location.nativeElement as HTMLElement;
-    this.elementRef.nativeElement.insertBefore(
-      spinnerEl,
-      this.elementRef.nativeElement.firstChild,
-    );
-    this.spinnerRef = spinnerRef;
-  }
-
-  private detachSpinner(): void {
-    if (!this.spinnerRef) {
-      return;
-    }
-    this.spinnerRef.destroy();
-    this.spinnerRef = null;
   }
 
   private syncIcon(): void {
@@ -190,6 +103,8 @@ export class SolarisButtonDirective {
     }
 
     if (this.iconRef) {
+      this.iconRef.setInput('name', name);
+      this.iconRef.changeDetectorRef.detectChanges();
       const el = this.iconRef.location.nativeElement as HTMLElement;
       this.placeIcon(el);
       return;
@@ -227,9 +142,27 @@ export class SolarisButtonDirective {
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent): void {
-    if (this.isEffectivelyDisabled() && this.isAnchor) {
-      event.preventDefault();
-      event.stopPropagation();
+    this.handleAnchorClick(event);
+  }
+
+  ngAfterViewInit(): void {
+    if (isDevMode() && isPlatformBrowser(this.platformId)) {
+      this.warnIfIconOnlyWithoutLabel();
     }
+  }
+
+  private warnIfIconOnlyWithoutLabel(): void {
+    const el = this.elementRef.nativeElement;
+    const hasText = (el.textContent ?? '').trim().length > 0;
+    if (hasText) {
+      return;
+    }
+    if (el.hasAttribute('aria-label') || el.hasAttribute('aria-labelledby')) {
+      return;
+    }
+    console.warn(
+      '[Solaris] <button solaris-button> without text content needs an ' +
+        'aria-label, or use [solaris-icon-button] for icon-only buttons.',
+    );
   }
 }

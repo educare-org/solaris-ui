@@ -9,6 +9,7 @@ import type {
   SolarisIconButtonRadius,
   SolarisIconButtonDensity,
   SolarisIconButtonShape,
+  SolarisIconButtonSize,
 } from '../model/icon-button.types';
 
 describe('SolarisIconButtonDirective', () => {
@@ -605,7 +606,7 @@ describe('SolarisIconButtonDirective', () => {
       expect(el.getAttribute('aria-labelledby')).toBe('label-close');
     });
 
-    it('should accept ariaLabel input', () => {
+    it('should apply ariaLabel input as accessible name', () => {
       @Component({
         standalone: true,
         imports: [SolarisIconButtonDirective],
@@ -619,7 +620,208 @@ describe('SolarisIconButtonDirective', () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
-      expect(el.getAttribute('aria-label')).toBeNull();
+      expect(el.getAttribute('aria-label')).toBe('Close');
+    });
+  });
+
+  describe('size', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisIconButtonDirective],
+      template: `<button solaris-icon-button [size]="size" aria-label="Test">
+        Test
+      </button>`,
+    })
+    class TestHost {
+      size: SolarisIconButtonSize = 'md';
+    }
+
+    const setup = (size: SolarisIconButtonSize) => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.size = size;
+      fixture.detectChanges();
+      return fixture.nativeElement.querySelector('[solaris-icon-button]');
+    };
+
+    it('should default to size md', () => {
+      expect(setup('md').getAttribute('data-size')).toBe('md');
+    });
+
+    it('should support size sm', () => {
+      expect(setup('sm').getAttribute('data-size')).toBe('sm');
+    });
+
+    it('should support size lg', () => {
+      expect(setup('lg').getAttribute('data-size')).toBe('lg');
+    });
+  });
+
+  describe('size x density matrix', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisIconButtonDirective],
+      template: `<button
+        solaris-icon-button
+        [size]="size"
+        [density]="density"
+        aria-label="Test"
+      >
+        Test
+      </button>`,
+    })
+    class TestHost {
+      size: SolarisIconButtonSize = 'md';
+      density: SolarisIconButtonDensity | undefined = undefined;
+    }
+
+    it.each([
+      ['sm', 'compact'],
+      ['md', 'compact'],
+      ['lg', 'compact'],
+      ['sm', 'normal'],
+      ['md', 'normal'],
+      ['lg', 'normal'],
+      ['sm', 'comfortable'],
+      ['md', 'comfortable'],
+      ['lg', 'comfortable'],
+    ] as Array<[SolarisIconButtonSize, SolarisIconButtonDensity]>)(
+      'should expose data-size=%s and data-density=%s',
+      (size, density) => {
+        TestBed.configureTestingModule({});
+        const fixture = TestBed.createComponent(TestHost);
+        fixture.componentInstance.size = size;
+        fixture.componentInstance.density = density;
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
+        expect(el.getAttribute('data-size')).toBe(size);
+        expect(el.getAttribute('data-density')).toBe(density);
+      },
+    );
+
+    it('should fall back to theme density when density is unset', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.density = undefined;
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
+      expect(el.getAttribute('data-density')).toBe('normal');
+    });
+  });
+
+  describe('chromeless', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisIconButtonDirective],
+      template: `<button
+        solaris-icon-button
+        [chromeless]="chromeless"
+        aria-label="Test"
+      >
+        Test
+      </button>`,
+    })
+    class TestHost {
+      chromeless = false;
+    }
+
+    it('should not render data-chromeless by default', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
+      expect(el.hasAttribute('data-chromeless')).toBe(false);
+    });
+
+    it('should render data-chromeless when enabled', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.chromeless = true;
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
+      expect(el.hasAttribute('data-chromeless')).toBe(true);
+    });
+  });
+
+  describe('loading indicator parity with button', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisIconButtonDirective],
+      template: `<button
+        solaris-icon-button
+        [loading]="loading"
+        aria-label="Save"
+      >
+        Save
+      </button>`,
+    })
+    class TestHost {
+      loading = true;
+    }
+
+    it('should render a spinner component when loading', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
+      expect(el.querySelector('solaris-spinner')).toBeTruthy();
+    });
+
+    it('should remove spinner when loading ends', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.loading = false;
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
+      expect(el.querySelector('solaris-spinner')).toBeFalsy();
+    });
+  });
+
+  describe('loading aria-label management', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisIconButtonDirective],
+      template: `<button
+        solaris-icon-button
+        [loading]="loading"
+        [loadingLabel]="loadingLabel"
+        [ariaLabel]="ariaLabel"
+      >
+        Save
+      </button>`,
+    })
+    class TestHost {
+      loading = false;
+      loadingLabel: string | undefined = 'Saving…';
+      ariaLabel: string | undefined = undefined;
+    }
+
+    const setup = (patch?: Partial<TestHost>) => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      if (patch) {
+        Object.assign(fixture.componentInstance, patch);
+      }
+      fixture.detectChanges();
+      return {
+        fixture,
+        el: fixture.nativeElement.querySelector('[solaris-icon-button]'),
+      };
+    };
+
+    it('should apply the loading label while loading', () => {
+      const { el } = setup({ loading: true });
+      expect(el.getAttribute('aria-label')).toBe('Saving…');
+    });
+
+    it('should apply the ariaLabel input when idle', () => {
+      const { el } = setup({ ariaLabel: 'Save changes' });
+      expect(el.getAttribute('aria-label')).toBe('Save changes');
+    });
+
+    it('should prefer the loading label over the idle label', () => {
+      const { el } = setup({ loading: true, ariaLabel: 'Save changes' });
+      expect(el.getAttribute('aria-label')).toBe('Saving…');
     });
   });
 
@@ -671,7 +873,7 @@ describe('SolarisIconButtonDirective', () => {
       expect(el.style.outline).not.toBe('none');
     });
 
-    it('should preserve aria-label when loading', () => {
+    it('should announce the loading label while loading', () => {
       @Component({
         standalone: true,
         imports: [SolarisIconButtonDirective],
@@ -689,7 +891,7 @@ describe('SolarisIconButtonDirective', () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
-      expect(el.getAttribute('aria-label')).toBe('Save');
+      expect(el.getAttribute('aria-label')).toBe('Loading...');
     });
   });
 });

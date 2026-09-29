@@ -53,20 +53,25 @@ Not:
 | ----------------- | ------------------------- | ----------------------- | --------------------------------------- |
 | `appearance`      | `SolarisButtonAppearance` | `'solid'`               | Visual style                            |
 | `color`           | `SolarisButtonColor`      | `'neutral'`             | Semantic color                          |
+| `size`            | `SolarisButtonSize`       | `'md'`                  | Control size (`sm` \| `md` \| `lg`)     |
 | `radius`          | `SolarisButtonRadius`     | `'md'`                  | Border radius                           |
 | `density`         | `SolarisButtonDensity`    | inherited or `'normal'` | Height, padding, and typography scale   |
 | `shape`           | `SolarisButtonShape`      | `'normal'`              | Button proportions (`normal` \| `wide`) |
 | `loading`         | `boolean`                 | `false`                 | Loading state                           |
 | `disabled`        | `boolean`                 | `false`                 | Disabled state                          |
+| `pressed`         | `boolean \| undefined`    | `undefined`             | Toggle state (`aria-pressed` when set)  |
 | `fullWidth`       | `boolean`                 | `false`                 | Full width                              |
 | `loadingLabel`    | `string`                  | —                       | Accessible label during loading         |
 | `loadingLabelKey` | `string`                  | —                       | i18n key for loading label              |
+| `ariaLabel`       | `string`                  | —                       | Accessible label (idle, no loading)     |
+| `ariaLabelKey`    | `string`                  | —                       | i18n key for accessible label           |
 | `icon`            | `SolarisIconName`         | —                       | Icon rendered inside the button         |
 | `iconPosition`    | `'start' \| 'end'`        | `'start'`               | Whether the icon sits before or after   |
 
 ### Types
 
 ```typescript
+type SolarisButtonSize = 'sm' | 'md' | 'lg';
 type SolarisButtonAppearance = 'solid' | 'outline' | 'ghost' | 'tonal' | 'surface';
 type SolarisButtonColor = 'neutral' | 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'custom';
 type SolarisButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
@@ -84,6 +89,17 @@ type SolarisButtonIconPosition = 'start' | 'end';
 | `ghost`    | Toolbar, dense context, low-weight action | No background or border, subtle hover  |
 | `tonal`    | Action with semantics, medium emphasis    | Soft background, subtle border         |
 | `surface`  | Low emphasis, inline with content         | Muted background, no border            |
+
+### Hover and active
+
+Low-emphasis appearances (`ghost`, `tonal`, `surface`) stay within their own
+color family on hover and on press — a surface tint for `ghost`, a stronger border for
+`tonal`, a hairline border for `surface` — instead of jumping to the solid
+backgrounds. Text keeps the `*-text` token on hover and on press, so quick
+clicks never flash an inverted fill. Only `solid` and `outline` commit to the
+solid `active` background on press (`:active`, `data-pressed`). Only `neutral`
+`solid`/`outline` invert on hover/active, keeping docs
+and dense headers quiet.
 
 ## Colors
 
@@ -119,6 +135,27 @@ Custom is not an arbitrary input. Use CSS variables:
 <button solaris-button color="custom" class="my-custom-button">Custom</button>
 ```
 
+## Sizes
+
+| Size | Height source (normal density) | Font |
+| ---- | ------------------------------ | ---- |
+| `sm` | `normal-sm` (36px)             | `xs` |
+| `md` | `normal-md` (40px, default)    | `sm` |
+| `lg` | `normal-lg` (44px)             | `md` |
+
+Size combines with density into a 3×3 matrix. The rendered outer height
+always equals `--solaris-control-height-<density>-<size>`:
+
+|      | `compact`   | `normal`    | `comfortable` |
+| ---- | ----------- | ----------- | ------------- |
+| `sm` | 28px        | 36px        | 44px          |
+| `md` | 32px (base) | 40px (base) | 48px (base)   |
+| `lg` | 36px        | 44px        | 52px          |
+
+`md` is the base of each density and aligns with sibling controls that
+consume `--solaris-density-min-height`. Always reference the token of your
+own combination (e.g. `normal-sm`, never `compact-lg`).
+
 ## Density
 
 | Density       | Effect                                       |
@@ -128,6 +165,7 @@ Custom is not an arbitrary input. Use CSS variables:
 | `comfortable` | Increased height, padding, and typography    |
 
 Density is inherited from the theme when not explicitly set. Fallback is `normal`.
+The host exposes `data-size` and `data-density` (effective) attributes.
 
 ## Radius
 
@@ -145,6 +183,21 @@ Density is inherited from the theme when not explicitly set. Fallback is `normal
 | -------- | ----------------------------------------------- |
 | `normal` | Standard button proportions. Default            |
 | `wide`   | Horizontally elongated button (wider than tall) |
+
+## Pressed (toggle)
+
+Set `pressed` to turn the button into a toggle (Radix Toggle parity):
+
+```html
+<button solaris-button [pressed]="isFavorite">Favorite</button>
+```
+
+- `pressed="true"` sets `data-pressed` (active-background treatment — subtle for
+  `ghost`/`tonal`/`surface`, solid for `solid`/`outline`) and
+  `aria-pressed="true"`.
+- `pressed="false"` sets `aria-pressed="false"` (announced as unpressed).
+- When `pressed` is unset, no `aria-pressed` is rendered — the button is a
+  plain action, not a toggle.
 
 ## fullWidth
 
@@ -259,6 +312,9 @@ The registry ships `google`, `microsoft`, `apple`, `android`, and `github` icons
 - `aria-busy="true"` during loading
 - `focus-visible` ring is visible
 - Icons should use `decorative="true"` or `aria-hidden="true"`
+- Icon-only content without text logs a dev-mode warning: add an `aria-label`
+  or use `[solaris-icon-button]` instead
+- `pressed` toggle buttons expose `aria-pressed` (only when `pressed` is set)
 - Loading preserves the accessible name
 - Color is never the only state indicator
 
@@ -303,13 +359,15 @@ The following CSS variables can be customized:
 ## Limitations (v1)
 
 - No built-in icon-only variant — use `[solaris-icon-button]`
+  (a dev-mode warning guards text-less `solaris-button` without `aria-label`)
 - No button group support — use `solaris-button-group`
-- No split button support
+- No split button support (follow-up)
 - No segmented button support
-- No toggle group support
+- No toggle group support (single-button `pressed` toggle is supported)
 - No toolbar group support
-- No public social-button component — compose with `appearance="outline"`
-- No harness created for v1
+- No public social-button component — compose with `appearance="outline"` (follow-up)
+- No badge/count slot parity with `icon-button-badge` (follow-up)
+- No harness created for v1 (follow-up)
 
 ## Button Group
 

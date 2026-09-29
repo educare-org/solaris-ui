@@ -93,17 +93,20 @@ export type {
 export { SolarisButtonDirective } from './lib/components/actions/button/directives/button.directive';
 export { SolarisButtonIconDirective } from './lib/components/actions/button/directives/button-icon.directive';
 export type {
+  SolarisButtonSize,
   SolarisButtonAppearance,
   SolarisButtonColor,
   SolarisButtonRadius,
   SolarisButtonDensity,
   SolarisButtonShape,
+  SolarisButtonIconPosition,
 } from './lib/components/actions/button/model/button.types';
 
 export { SolarisIconButtonDirective } from './lib/components/actions/icon-button/directives/icon-button.directive';
 export { SolarisIconButtonBadgeDirective } from './lib/components/actions/icon-button/directives/icon-button-badge.directive';
 export { SolarisMenuToggleDirective } from './lib/components/actions/icon-button/directives/menu-toggle.directive';
 export type {
+  SolarisIconButtonSize,
   SolarisIconButtonAppearance,
   SolarisIconButtonColor,
   SolarisIconButtonRadius,
@@ -114,6 +117,7 @@ export type {
 export { SolarisButtonGroupComponent } from './lib/components/actions/button-group/component/button-group.component';
 export type {
   SolarisButtonGroupOrientation,
+  SolarisButtonGroupSize,
   SolarisButtonGroupDensity,
 } from './lib/components/actions/button-group/model/button-group.types';
 

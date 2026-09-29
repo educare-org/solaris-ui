@@ -41,6 +41,7 @@ It wraps `[solaris-button]` and `[solaris-icon-button]` elements into a cohesive
 })
 class SolarisButtonGroupComponent {
   orientation: SolarisButtonGroupOrientation; // 'horizontal' | 'vertical'
+  size: SolarisButtonGroupSize; // 'sm' | 'md' | 'lg'
   attached: boolean; // true | false
   density: SolarisButtonGroupDensity; // 'compact' | 'normal' | 'comfortable' | undefined
   fullWidth: boolean; // true | false
@@ -68,14 +69,16 @@ class SolarisButtonGroupComponent {
 | `true`            | The group fills the available width. Child buttons grow to distribute space evenly. |
 | `false` (default) | The group shrinks to fit its content.                                               |
 
-### `density`
+### `size` and `density`
 
-| Value                              | Effect                             |
-| ---------------------------------- | ---------------------------------- |
-| `'compact'`                        | Tighter gap and spacing.           |
-| `'comfortable'` (default fallback) | More breathing room between items. |
+| Value                 | Behavior                                                                            |
+| --------------------- | ----------------------------------------------------------------------------------- |
+| `size` (`'md'`)       | Forced onto every child — all items share the same outer height.                    |
+| `density` (inherited) | Gap between separated items + forced onto children. Falls back to theme (`normal`). |
 
-When not provided, density is inherited from the theme system when available, falling back to normal.
+`size`/`density` set on the group always win over the child inputs. Children never render with mixed heights inside a group.
+
+When `attached` is `true`, children render borderless: the group owns the outer ring and the 1px dividers (hover/active keep background feedback, without border color), so adjacent borders can never double up — including mixed appearance pairs and button + icon-button compositions.
 
 ## Compatibility with Button
 
@@ -251,8 +254,9 @@ Disabled and loading state belong to each child. The group only ensures correct 
 - Button Group v1 does not implement dropdown behavior.
 - Button Group v1 does not implement split button behavior.
 - Button Group v1 does not implement roving tabindex.
-- Button Group v1 does not propagate appearance, color, size, or radius to children.
-- Each child controls its own appearance, color, size, radius, disabled, and loading state.
+- Button Group v1 does not propagate appearance, color, or radius to children.
+- The group forces `size` and `density` onto children (every item shares the same outer height).
+- Each child controls its own appearance, color, radius, disabled, and loading state.
 - The group controls layout and visual union only.
 
 ## Related patterns
@@ -268,10 +272,11 @@ Disabled and loading state belong to each child. The group only ensures correct 
 
 ## CSS Variables
 
-| Token                                    | Purpose                                      |
-| ---------------------------------------- | -------------------------------------------- |
-| `--solaris-button-group-gap`             | Gap between separated items                  |
-| `--solaris-button-group-radius`          | Outer border-radius for the attached group   |
-| `--solaris-button-group-border-color`    | Outer border color for the attached group    |
-| `--solaris-button-group-separator-color` | Internal border color between attached items |
-| `--solaris-button-disabled-opacity`      | Disabled opacity applied to child buttons    |
+| Token                                       | Purpose                                                    |
+| ------------------------------------------- | ---------------------------------------------------------- |
+| `--solaris-button-group-gap`                | Gap between separated items                                |
+| `--solaris-button-group-radius`             | Outer border-radius for the attached group                 |
+| `--solaris-button-group-border-color`       | Outer border color for the attached group                  |
+| `--solaris-button-group-separator-color`    | Internal divider between attached items (soft appearances) |
+| `--solaris-button-group-separator-on-solid` | Internal divider between attached `solid` items            |
+| `--solaris-button-disabled-opacity`         | Disabled opacity applied to child buttons                  |

@@ -3,7 +3,6 @@
   --solaris-button-group-radius: var(--solaris-radius-md);
   --solaris-button-disabled-opacity: var(--solaris-opacity-30);
   --solaris-button-group-border-color: var(--solaris-border-strong);
-  --solaris-button-group-separator-color: var(--solaris-border-soft);
 
   max-width: 100%;
   display: inline-flex;
@@ -25,11 +24,25 @@
   align-items: stretch;
 }
 
-// SOLARIS_TOKEN_EXCEPTION: box-shadow used as outer group border with inset to avoid layout gap between host edge and child border-radius. Border would create 1px offset; inset box-shadow draws at the same plane as children.
-:host([data-orientation='horizontal'][data-attached]) {
-  border-radius: var(--solaris-button-group-radius);
-  box-shadow: inset 0 0 0 var(--solaris-border-width-sm)
+:host([data-orientation='horizontal'][data-attached]),
+:host([data-orientation='vertical'][data-attached]) {
+  border: var(--solaris-border-width-sm) solid
     var(--solaris-button-group-border-color);
+  border-radius: var(--solaris-button-group-radius);
+}
+
+:host([data-orientation='horizontal'][data-attached]) {
+  ::ng-deep [solaris-button] {
+    --solaris-button-border-color: transparent;
+    --solaris-button-hover-border-color: transparent;
+    --solaris-button-active-border-color: transparent;
+  }
+
+  ::ng-deep [solaris-icon-button] {
+    --solaris-icon-button-border-color: transparent;
+    --solaris-icon-button-hover-border-color: transparent;
+    --solaris-icon-button-active-border-color: transparent;
+  }
 
   // SOLARIS_TOKEN_EXCEPTION: box-shadow used as visual divider between buttons, not as shadow. Uses --solaris-border-width-sm and --solaris-button-group-separator-color tokens.
   ::ng-deep [solaris-button],
@@ -40,17 +53,32 @@
       var(--solaris-button-group-separator-color);
   }
 
+  ::ng-deep [solaris-button][data-appearance='solid'],
+  ::ng-deep [solaris-icon-button][data-appearance='solid'] {
+    --solaris-button-group-separator-color: var(
+      --solaris-button-group-separator-on-solid
+    );
+  }
+
   ::ng-deep [solaris-button]:first-child,
   ::ng-deep [solaris-icon-button]:first-child {
-    border-start-start-radius: var(--solaris-button-group-radius);
-    border-end-start-radius: var(--solaris-button-group-radius);
+    border-start-start-radius: calc(
+      var(--solaris-button-group-radius) - var(--solaris-border-width-sm)
+    );
+    border-end-start-radius: calc(
+      var(--solaris-button-group-radius) - var(--solaris-border-width-sm)
+    );
   }
 
   // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow on last child to remove internal divider.
   ::ng-deep [solaris-button]:last-child,
   ::ng-deep [solaris-icon-button]:last-child {
-    border-start-end-radius: var(--solaris-button-group-radius);
-    border-end-end-radius: var(--solaris-button-group-radius);
+    border-start-end-radius: calc(
+      var(--solaris-button-group-radius) - var(--solaris-border-width-sm)
+    );
+    border-end-end-radius: calc(
+      var(--solaris-button-group-radius) - var(--solaris-border-width-sm)
+    );
     box-shadow: none;
   }
 }
@@ -59,11 +87,18 @@
   flex-direction: column;
 }
 
-// SOLARIS_TOKEN_EXCEPTION: box-shadow used as outer group border with inset.
 :host([data-orientation='vertical'][data-attached]) {
-  border-radius: var(--solaris-button-group-radius);
-  box-shadow: inset 0 0 0 var(--solaris-border-width-sm)
-    var(--solaris-button-group-border-color);
+  ::ng-deep [solaris-button] {
+    --solaris-button-border-color: transparent;
+    --solaris-button-hover-border-color: transparent;
+    --solaris-button-active-border-color: transparent;
+  }
+
+  ::ng-deep [solaris-icon-button] {
+    --solaris-icon-button-border-color: transparent;
+    --solaris-icon-button-hover-border-color: transparent;
+    --solaris-icon-button-active-border-color: transparent;
+  }
 
   // SOLARIS_TOKEN_EXCEPTION: box-shadow used as visual divider between buttons.
   ::ng-deep [solaris-button],
@@ -74,45 +109,50 @@
       var(--solaris-button-group-separator-color);
   }
 
+  ::ng-deep [solaris-button][data-appearance='solid'],
+  ::ng-deep [solaris-icon-button][data-appearance='solid'] {
+    --solaris-button-group-separator-color: var(
+      --solaris-button-group-separator-on-solid
+    );
+  }
+
   ::ng-deep [solaris-button]:first-child,
   ::ng-deep [solaris-icon-button]:first-child {
-    border-start-start-radius: var(--solaris-button-group-radius);
-    border-start-end-radius: var(--solaris-button-group-radius);
+    border-start-start-radius: calc(
+      var(--solaris-button-group-radius) - var(--solaris-border-width-sm)
+    );
+    border-start-end-radius: calc(
+      var(--solaris-button-group-radius) - var(--solaris-border-width-sm)
+    );
   }
 
   // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow on last child to remove internal divider.
   ::ng-deep [solaris-button]:last-child,
   ::ng-deep [solaris-icon-button]:last-child {
-    border-end-start-radius: var(--solaris-button-group-radius);
-    border-end-end-radius: var(--solaris-button-group-radius);
+    border-end-start-radius: calc(
+      var(--solaris-button-group-radius) - var(--solaris-border-width-sm)
+    );
+    border-end-end-radius: calc(
+      var(--solaris-button-group-radius) - var(--solaris-border-width-sm)
+    );
     box-shadow: none;
   }
 }
 
 :host(:not([data-attached])) {
   --solaris-button-group-gap: var(--solaris-spacing-2);
+
+  gap: var(--solaris-button-group-gap);
 }
 
 :host(:not([data-attached])[data-density='compact']) {
-  --solaris-button-group-gap: var(--solaris-spacing-1);
+  --solaris-button-group-gap: var(--solaris-spacing-3);
 }
 
 :host(:not([data-attached])[data-density='normal']) {
-  --solaris-button-group-gap: var(--solaris-spacing-2);
+  --solaris-button-group-gap: var(--solaris-spacing-4);
 }
 
 :host(:not([data-attached])[data-density='comfortable']) {
-  --solaris-button-group-gap: var(--solaris-spacing-3);
-}
-
-:host([data-density='compact']) {
-  --solaris-button-group-gap: var(--solaris-spacing-1);
-}
-
-:host([data-density='normal']) {
-  --solaris-button-group-gap: var(--solaris-spacing-2);
-}
-
-:host([data-density='comfortable']) {
-  --solaris-button-group-gap: var(--solaris-spacing-3);
+  --solaris-button-group-gap: var(--solaris-spacing-5);
 }

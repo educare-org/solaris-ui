@@ -240,7 +240,7 @@ describe('SolarisDialogActionsComponent', () => {
     )!;
     expect(button.getAttribute('data-shape')).toBe('wide');
     expect(button.getAttribute('data-radius')).toBe('full');
-    expect(button.getAttribute('data-loading')).toBe('');
+    expect(button.getAttribute('data-loading')).toBe('true');
   });
 
   it('should not set data-scrolled by default', () => {

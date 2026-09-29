@@ -32,7 +32,7 @@ test('spinner stroke thickness varies by size', async ({ page }) => {
 test('button loading renders solaris-spinner component', async ({ page }) => {
   await page.goto('/actions/button');
   const loadingButton = page
-    .locator('button[solaris-button][data-loading=""]')
+    .locator('button[solaris-button][data-loading]')
     .first();
   await expect(loadingButton).toBeVisible();
   const spinner = loadingButton.locator('solaris-spinner');
@@ -42,7 +42,7 @@ test('button loading renders solaris-spinner component', async ({ page }) => {
 test('button spinner thickness matches button size', async ({ page }) => {
   await page.goto('/actions/button');
   const loadingButton = page
-    .locator('button[solaris-button][data-loading=""]')
+    .locator('button[solaris-button][data-loading]')
     .first();
   const track = loadingButton.locator(
     'solaris-spinner .solaris-spinner__track',
