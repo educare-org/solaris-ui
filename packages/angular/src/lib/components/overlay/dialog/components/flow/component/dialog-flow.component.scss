@@ -1,7 +1,7 @@
 @keyframes slide-in-forward {
   from {
     opacity: 0;
-    transform: translateX(var(--solaris-spacing-20));
+    transform: translateX(var(--solaris-spacing-16));
   }
   to {
     opacity: 1;
@@ -16,14 +16,14 @@
   }
   to {
     opacity: 0;
-    transform: translateX(calc(var(--solaris-spacing-20) * -1));
+    transform: translateX(calc(var(--solaris-spacing-16) * -1));
   }
 }
 
 @keyframes slide-in-backward {
   from {
     opacity: 0;
-    transform: translateX(calc(var(--solaris-spacing-20) * -1));
+    transform: translateX(calc(var(--solaris-spacing-16) * -1));
   }
   to {
     opacity: 1;
@@ -38,7 +38,7 @@
   }
   to {
     opacity: 0;
-    transform: translateX(var(--solaris-spacing-20));
+    transform: translateX(var(--solaris-spacing-16));
   }
 }
 

@@ -58,8 +58,8 @@
 }
 
 .solaris-date-range-picker__inputs input {
-  flex: 0 0 calc(var(--solaris-spacing-24) + var(--solaris-spacing-8));
-  width: calc(var(--solaris-spacing-24) + var(--solaris-spacing-8));
+  flex: 0 0 calc(var(--solaris-spacing-17) + var(--solaris-spacing-8));
+  width: calc(var(--solaris-spacing-17) + var(--solaris-spacing-8));
 }
 
 .solaris-date-range-picker__separator {
@@ -76,7 +76,7 @@
   display: grid;
   align-content: start;
   gap: var(--solaris-spacing-1);
-  min-width: calc(var(--solaris-spacing-24) + var(--solaris-spacing-4));
+  min-width: calc(var(--solaris-spacing-17) + var(--solaris-spacing-4));
   padding-block: var(--solaris-spacing-3);
   padding-inline: var(--solaris-spacing-3) var(--solaris-spacing-4);
   border-inline-end: var(--solaris-border-width-sm) solid
@@ -152,7 +152,7 @@
     width: min(
       100%,
       calc(
-        (var(--solaris-spacing-24) * 2) + var(--solaris-spacing-16) +
+        (var(--solaris-spacing-17) * 2) + var(--solaris-spacing-16) +
           (var(--solaris-spacing-3) * 2)
       )
     );

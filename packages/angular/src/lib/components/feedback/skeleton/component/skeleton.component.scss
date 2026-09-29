@@ -50,7 +50,7 @@
 }
 
 :host([data-variant='rectangular']) {
-  --solaris-skeleton-height: var(--solaris-spacing-20);
+  --solaris-skeleton-height: var(--solaris-spacing-16);
 }
 
 :host([data-variant='circular']) {

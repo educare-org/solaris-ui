@@ -35,7 +35,7 @@
 }
 
 .card-showcase__demo {
-  max-width: calc(var(--solaris-spacing-24) * 4);
+  max-width: calc(var(--solaris-spacing-17) * 4);
 }
 
 .card-showcase__grid {
@@ -43,7 +43,7 @@
   gap: var(--solaris-spacing-4);
   grid-template-columns: repeat(
     auto-fit,
-    minmax(min(100%, calc(var(--solaris-spacing-24) * 4)), 1fr)
+    minmax(min(100%, calc(var(--solaris-spacing-17) * 4)), 1fr)
   );
 }
 

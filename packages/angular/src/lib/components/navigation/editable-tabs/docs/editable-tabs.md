@@ -107,7 +107,7 @@ Editable Tabs inherits all base Tabs styling tokens. Additional component-level 
 | `--solaris-editable-tabs-action-color`              | `--solaris-text-muted`       | Action trigger icon color                                  |
 | `--solaris-editable-tabs-action-hover-color`        | `--solaris-text-default`     | Action trigger hover color                                 |
 | `--solaris-editable-tabs-action-hover-background`   | `--solaris-surface-subtle`   | Action trigger hover background                            |
-| `--solaris-editable-tabs-rename-input-min-width`    | `--solaris-spacing-20`       | Rename input minimum width                                 |
+| `--solaris-editable-tabs-rename-input-min-width`    | `--solaris-spacing-16`       | Rename input minimum width                                 |
 | `--solaris-editable-tabs-rename-input-padding`      | `--solaris-spacing-1`        | Rename input padding                                       |
 | `--solaris-editable-tabs-rename-input-radius`       | `--solaris-radius-sm`        | Rename input border radius                                 |
 | `--solaris-editable-tabs-rename-input-font-size`    | `inherit`                    | Rename input font size                                     |

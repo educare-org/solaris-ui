@@ -31,7 +31,7 @@
 }
 
 .selection-card-showcase__single-demo {
-  max-width: calc(var(--solaris-spacing-24) * 4);
+  max-width: calc(var(--solaris-spacing-17) * 4);
 }
 
 .selection-card-showcase__grid {
@@ -39,7 +39,7 @@
   gap: var(--solaris-spacing-3);
   grid-template-columns: repeat(
     auto-fit,
-    minmax(calc(var(--solaris-spacing-24) * 2.5), 1fr)
+    minmax(calc(var(--solaris-spacing-17) * 2.5), 1fr)
   );
 }
 
@@ -52,7 +52,7 @@
 }
 
 .selection-card-showcase__media-placeholder {
-  height: calc(var(--solaris-spacing-24) * 1.5);
+  height: calc(var(--solaris-spacing-17) * 1.5);
   background: var(--solaris-primary-surface);
 }
 

@@ -1,3 +1,5 @@
+// SECURITY_EXCEPTION_FILE: nativeElement.closest('[dir]') required to resolve the effective text direction for arrow-key navigation (RTL-aware). Read-only DOM access, SSR-safe via isPlatformBrowser guard with injected DOCUMENT fallback.
+// SECURITY_EXCEPTION_FILE: this.document.documentElement/dir required to resolve the page-level direction when no closer [dir] ancestor exists. SSR-safe via injected DOCUMENT token and isPlatformBrowser guard.
 import {
   input,
   inject,
@@ -5,7 +7,9 @@ import {
   Component,
   ChangeDetectionStrategy,
   ElementRef,
+  PLATFORM_ID,
 } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 import { SolarisTranslateService } from '../../../../../../services/translation';
 import { SolarisBadgeComponent } from '../../../../../data-display/badge';
@@ -48,6 +52,8 @@ export class SolarisTabComponent {
   protected readonly themeService = inject(SolarisThemeService);
   private readonly tabsControl = inject(SOLARIS_TABS, { optional: true });
   private readonly elementRef = inject(ElementRef);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
 
   readonly badge = input<string | number | undefined>(undefined);
   readonly badgeLabelKey = input<string | undefined>(undefined);
@@ -257,13 +263,13 @@ export class SolarisTabComponent {
   }
 
   private isRTL(): boolean {
-    if (typeof document === 'undefined') return false;
+    if (!isPlatformBrowser(this.platformId)) return false;
     const nativeElement = this.elementRef.nativeElement as HTMLElement | null;
     const closestDir = nativeElement?.closest?.('[dir]')?.getAttribute('dir');
     const dir =
       closestDir ??
-      document.documentElement.getAttribute('dir') ??
-      document.dir;
+      this.document.documentElement.getAttribute('dir') ??
+      this.document.dir;
     return dir === 'rtl';
   }
 }

@@ -39,7 +39,7 @@ All children of `.my-component` will use the overridden colors.
 | Category | Example tokens                                                                |
 | -------- | ----------------------------------------------------------------------------- |
 | Colors   | `--solaris-primary-*`, `--solaris-surface-*`, `--solaris-text-*`              |
-| Spacing  | `--solaris-spacing-1` through `--solaris-spacing-20`                          |
+| Spacing  | `--solaris-spacing-0` through `--solaris-spacing-18`                          |
 | Radius   | `--solaris-radius-sm`, `--solaris-radius-md`, `--solaris-radius-lg`           |
 | Font     | `--solaris-font-size-*`, `--solaris-font-weight-*`, `--solaris-font-family-*` |
 | Shadow   | `--solaris-shadow-sm`, `--solaris-shadow-md`, `--solaris-shadow-lg`           |
