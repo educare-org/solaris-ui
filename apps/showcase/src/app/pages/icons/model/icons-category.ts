@@ -224,6 +224,14 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
   },
   {
     id: 'brands',
-    names: ['google', 'microsoft', 'apple', 'android', 'github'],
+    names: [
+      'google',
+      'microsoft',
+      'apple',
+      'android',
+      'github',
+      'open-ai',
+      'claude-code',
+    ],
   },
 ];

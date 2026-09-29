@@ -224,6 +224,7 @@ describe('SolarisIconRegistryService', () => {
       'powershell',
       'java',
       'angular',
+      'markdown',
     ]) {
       expect(service.hasIcon(name)).toBe(true);
       expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);

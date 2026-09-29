@@ -37,6 +37,8 @@ export type SolarisBuiltInIcon =
   | 'apple'
   | 'android'
   | 'github'
+  | 'open-ai'
+  | 'claude-code'
   | 'eject'
   | 'key'
   | 'package'
@@ -90,6 +92,7 @@ export type SolarisBuiltInIcon =
   | 'trophy'
   | 'square-plus'
   | 'table'
-  | 'chart-spline';
+  | 'chart-spline'
+  | 'markdown';
 
 export type SolarisIconName = string & { __brand?: never };
