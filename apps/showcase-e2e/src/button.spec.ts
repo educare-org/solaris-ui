@@ -24,22 +24,55 @@ test.describe('Button', () => {
     await button.assertAnchorVisible();
   });
 
-  test('full-width button occupies available section width', async ({
-    page,
-  }) => {
-    const card = page
-      .locator('.button-showcase__section')
-      .filter({ has: page.locator('button[data-full-width]') })
-      .first();
-    const fullBtn = card
+  test('wide shape renders wider than normal', async ({ page }) => {
+    const shapeTabs = page.locator('solaris-tabs', {
+      has: page.locator('solaris-tab[value="wide"]'),
+    });
+    const normalButton = page.locator(
+      'solaris-tab-panel[value="normal"] button[solaris-button]',
+    );
+    const wideButton = page.locator(
+      'solaris-tab-panel[value="wide"] button[solaris-button]',
+    );
+
+    await shapeTabs.locator('solaris-tab[value="normal"]').click();
+    await expect(normalButton).toBeVisible();
+    const normalWidth = (await normalButton.boundingBox())!.width;
+
+    await shapeTabs.locator('solaris-tab[value="wide"]').click();
+    await expect(wideButton).toBeVisible();
+    const wideWidth = (await wideButton.boundingBox())!.width;
+
+    expect(wideWidth).toBeGreaterThan(normalWidth + 8);
+  });
+
+  test('provider icon updates when switching provider', async ({ page }) => {
+    const providerTabs = page.locator('solaris-tabs', {
+      has: page.locator('solaris-tab[value="github"]'),
+    });
+    const preview = providerTabs.locator(
+      'xpath=following-sibling::solaris-preview-code[1]',
+    );
+    const icon = preview.locator('button[solaris-button] solaris-icon');
+
+    await providerTabs.locator('solaris-tab[value="google"]').click();
+    await expect(icon).toBeVisible();
+    const googleHtml = await icon.innerHTML();
+
+    await providerTabs.locator('solaris-tab[value="microsoft"]').click();
+    await expect
+      .poll(async () => await icon.innerHTML(), { timeout: 5000 })
+      .not.toBe(googleHtml);
+  });
+
+  test('full-width button occupies available width', async ({ page }) => {
+    const example = page.locator('app-full-width-button-example').first();
+    const fullBtn = example
       .locator('button[solaris-button][data-full-width]')
       .first();
     await expect(fullBtn).toBeVisible();
-    const cardBox = (await card.boundingBox())!;
+    const exampleBox = (await example.boundingBox())!;
     const btnBox = (await fullBtn.boundingBox())!;
-    const cardPadding = 24; // --solaris-spacing-6
-    const expected = cardBox.width - cardPadding * 2;
-    expect(Math.abs(btnBox.width - expected)).toBeLessThan(4);
-    expect(btnBox.width).toBeGreaterThan(384);
+    expect(Math.abs(btnBox.width - exampleBox.width)).toBeLessThan(4);
   });
 });

@@ -1,31 +1,21 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.button-group-showcase {
-  @include layout.page;
+.button-group-showcase__note {
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.button-group-showcase__header {
-  @include layout.header;
+.button-group-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
 }
 
-.button-group-showcase__title {
-  @include layout.title;
-}
-
-.button-group-showcase__description {
-  @include layout.description;
-}
-
-.button-group-showcase__section {
-  @include layout.section-card;
-}
-
-.button-group-showcase__section-title {
-  @include layout.section-title;
-}
-
-.button-group-showcase__row {
-  @include layout.row;
+.button-group-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
 }
 
 .button-group-showcase__full-width-row {
@@ -33,32 +23,4 @@
   flex-direction: column;
   gap: var(--solaris-spacing-3);
   max-width: 512px;
-}
-
-.button-group-showcase__note {
-  @include layout.note;
-
-  margin-top: var(--solaris-spacing-3);
-}
-
-.button-group-showcase__chevron-icon {
-  transition: transform var(--solaris-motion-duration-slow)
-    var(--solaris-motion-easing-standard, ease);
-}
-
-.button-group-showcase__chevron-btn:hover .button-group-showcase__chevron-icon {
-  transform: translateX(3px);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .button-group-showcase__chevron-btn:hover
-    .button-group-showcase__chevron-icon {
-    transition: none;
-  }
-}
-
-[data-reduced-motion='true']
-  .button-group-showcase__chevron-btn:hover
-  .button-group-showcase__chevron-icon {
-  transition: none;
 }

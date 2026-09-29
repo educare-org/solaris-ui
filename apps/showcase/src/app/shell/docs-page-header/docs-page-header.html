@@ -12,9 +12,9 @@
           {{ crumb.labelKey ? (crumb.labelKey | translate) : crumb.label }}
         </a>
         <solaris-icon
-          class="docs-page-header__breadcrumb-separator"
-          name="chevron-right"
           [decorative]="true"
+          name="chevron-right"
+          class="docs-page-header__breadcrumb-separator"
         />
         } @else {
         <span [attr.aria-current]="last ? 'page' : null">
@@ -46,6 +46,7 @@
           solaris-icon-button
           appearance="tonal"
           solaris-dropdown-menu-trigger
+          [solarisDropdownMenuAlign]="'end'"
           [solarisDropdownMenuTriggerFor]="pageMenu"
           [attr.aria-label]="'docs.page-header.open-menu' | translate"
         >
@@ -54,17 +55,19 @@
       </solaris-button-group>
       <solaris-dropdown-menu #pageMenu>
         <solaris-dropdown-menu-item
-          [labelKey]="'docs.page-header.view-markdown'"
-          icon="file"
+          icon="markdown"
           (itemSelected)="viewMarkdown.emit()"
+          [label]="'docs.page-header.view-markdown' | translate"
         />
         <solaris-dropdown-menu-item
-          [labelKey]="'docs.page-header.open-chatgpt'"
+          icon="open-ai"
           (itemSelected)="openChatGpt.emit()"
+          [label]="'docs.page-header.open-chatgpt' | translate"
         />
         <solaris-dropdown-menu-item
-          [labelKey]="'docs.page-header.open-claude'"
+          icon="claude-code"
           (itemSelected)="openClaude.emit()"
+          [label]="'docs.page-header.open-claude' | translate"
         />
       </solaris-dropdown-menu>
       } @if (prev() || next()) {

@@ -114,8 +114,10 @@
 .solaris-preview-code__preview-surface {
   box-sizing: border-box;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  gap: var(--solaris-spacing-3);
   min-inline-size: 0;
   max-inline-size: 100%;
   min-block-size: var(--solaris-preview-code-min-height);
