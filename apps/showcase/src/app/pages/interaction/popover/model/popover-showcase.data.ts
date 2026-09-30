@@ -4,12 +4,6 @@ import type {
 } from '../../../../shell/docs-page-header/docs-page-header';
 import type { ShowcaseTocItem } from '../../../../shell/docs-on-this-page/model/toc-item';
 
-/**
- * Dados estáticos (readonly) da página showcase de Popover.
- * O componente mantém apenas signals e as delegações para
- * `createShowcasePageActions` (não há computed dinâmico aqui).
- */
-
 export const POPOVER_SHOWCASE_SLUG = 'popover';
 export const POPOVER_TRANSLATION_PREFIX = 'popover';
 

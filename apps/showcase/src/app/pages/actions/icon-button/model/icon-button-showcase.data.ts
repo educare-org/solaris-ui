@@ -10,12 +10,6 @@ import type {
 } from '../../../../shell/docs-page-header/docs-page-header';
 import type { ShowcaseTocItem } from '../../../../shell/docs-on-this-page/model/toc-item';
 
-/**
- * Dados estáticos (readonly) da página showcase de Icon Button.
- * O componente mantém apenas signals, computed dinâmicos e as
- * delegações para `createShowcasePageActions`.
- */
-
 export const ICON_BUTTON_SHOWCASE_SLUG = 'icon-button';
 export const ICON_BUTTON_TRANSLATION_PREFIX = 'icon-button';
 

@@ -8,12 +8,6 @@ import type {
   SolarisBadgeColor,
 } from '@solaris-ui/angular';
 
-/**
- * Dados estáticos (readonly) da página showcase de Badge.
- * O componente mantém apenas signals, os computed dinâmicos das
- * variações com tabs e as delegações para `createShowcasePageActions`.
- */
-
 export const BADGE_SHOWCASE_SLUG = 'badge';
 export const BADGE_TRANSLATION_PREFIX = 'badge';
 

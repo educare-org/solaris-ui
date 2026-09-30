@@ -4,12 +4,6 @@ import type {
 } from '../../../../shell/docs-page-header/docs-page-header';
 import type { ShowcaseTocItem } from '../../../../shell/docs-on-this-page/model/toc-item';
 
-/**
- * Dados estáticos (readonly) da página showcase de Tabs.
- * O componente mantém apenas signals, o computed dinâmico de
- * size/density/appearance e as delegações para `createShowcasePageActions`.
- */
-
 export const TABS_SHOWCASE_SLUG = 'tabs';
 export const TABS_TRANSLATION_PREFIX = 'tabs';
 

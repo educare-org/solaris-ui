@@ -4,12 +4,6 @@ import type {
 } from '../../../../shell/docs-page-header/docs-page-header';
 import type { ShowcaseTocItem } from '../../../../shell/docs-on-this-page/model/toc-item';
 
-/**
- * Dados estáticos (readonly) da página showcase de Card.
- * O componente mantém apenas signals, o computed dinâmico de
- * padding/density e as delegações para `createShowcasePageActions`.
- */
-
 export const CARD_SHOWCASE_SLUG = 'card';
 export const CARD_TRANSLATION_PREFIX = 'card';
 

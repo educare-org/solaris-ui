@@ -7,6 +7,7 @@ export type {
   SolarisAlertVariant,
   SolarisAlertAppearance,
   SolarisAlertRadius,
+  SolarisAlertSize,
   SolarisAlertDensity,
   SolarisAlertLive,
   SolarisAlertTextPosition,

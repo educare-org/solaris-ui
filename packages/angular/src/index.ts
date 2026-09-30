@@ -89,9 +89,27 @@ export type {
   SolarisAlertVariant,
   SolarisAlertAppearance,
   SolarisAlertRadius,
+  SolarisAlertSize,
   SolarisAlertDensity,
   SolarisAlertLive,
 } from './lib/components/feedback/alert/model/alert.types';
+
+export { SolarisAnnouncementComponent } from './lib/components/feedback/announcement/component/announcement.component';
+export { SolarisAnnouncementMediaDirective } from './lib/components/feedback/announcement/directives/announcement-media.directive';
+export { SolarisAnnouncementActionsDirective } from './lib/components/feedback/announcement/directives/announcement-actions.directive';
+export {
+  isSolarisAnnouncementDismissed,
+  persistSolarisAnnouncementDismissed,
+  clearSolarisAnnouncementDismissed,
+} from './lib/components/feedback/announcement/model/announcement-storage';
+export type {
+  SolarisAnnouncementAlign,
+  SolarisAnnouncementSize,
+  SolarisAnnouncementDensity,
+  SolarisAnnouncementVariant,
+  SolarisAnnouncementAppearance,
+  SolarisAnnouncementLive,
+} from './lib/components/feedback/announcement/model/announcement.types';
 
 export { SolarisButtonDirective } from './lib/components/actions/button/directives/button.directive';
 export { SolarisButtonIconDirective } from './lib/components/actions/button/directives/button-icon.directive';

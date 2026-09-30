@@ -2,15 +2,18 @@
   --solaris-alert-icon-offset: -1px;
   --solaris-alert-close-offset: 0px;
   --solaris-alert-close-background: transparent;
-  --solaris-alert-gap: var(--solaris-spacing-3);
+  --solaris-alert-gap: var(--solaris-density-gap-md);
   --solaris-alert-color: var(--solaris-info-text);
   --solaris-alert-radius: var(--solaris-radius-md);
-  --solaris-alert-padding: var(--solaris-spacing-4);
+  --solaris-alert-padding: var(--solaris-density-padding-md);
   --solaris-alert-icon-color: var(--solaris-info-base);
-  --solaris-alert-content-gap: var(--solaris-spacing-1);
-  --solaris-alert-actions-gap: var(--solaris-spacing-2);
+  --solaris-alert-content-gap: var(--solaris-density-gap-md);
+  --solaris-alert-actions-gap: var(--solaris-density-gap-md);
   --solaris-alert-close-color: var(--solaris-text-muted);
+  --solaris-alert-font-size: var(--solaris-font-size-sm);
   --solaris-alert-icon-size: var(--solaris-font-size-lg);
+  --solaris-alert-title-font-size: var(--solaris-font-size-md);
+  --solaris-alert-close-size: var(--solaris-font-size-md);
   --solaris-alert-background: var(--solaris-info-surface);
   --solaris-alert-title-color: var(--solaris-text-strong);
   --solaris-alert-border-color: var(--solaris-info-border);
@@ -18,7 +21,7 @@
   --solaris-alert-close-icon-size: var(--solaris-font-size-md);
   --solaris-alert-description-color: var(--solaris-text-default);
   --solaris-alert-first-line-height: var(--solaris-line-height-md);
-  --solaris-alert-first-line-font-size: var(--solaris-font-size-sm);
+  --solaris-alert-first-line-font-size: var(--solaris-alert-font-size);
 
   display: flex;
   box-sizing: border-box;
@@ -36,7 +39,7 @@
   --solaris-alert-icon-offset: 0px;
   --solaris-alert-close-offset: 0px;
   --solaris-alert-first-line-height: var(--solaris-line-height-sm);
-  --solaris-alert-first-line-font-size: var(--solaris-font-size-md);
+  --solaris-alert-first-line-font-size: var(--solaris-alert-title-font-size);
 }
 
 .solaris-alert__icon {
@@ -66,7 +69,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--solaris-alert-content-gap);
-  font-size: var(--solaris-font-size-sm);
+  font-size: var(--solaris-alert-font-size);
   line-height: var(--solaris-line-height-md);
 }
 
@@ -98,8 +101,8 @@
   box-sizing: border-box;
   inset-block-start: 0.5lh;
   transform: translateY(-50%);
-  width: var(--solaris-font-size-md);
-  height: var(--solaris-font-size-md);
+  width: var(--solaris-alert-close-size);
+  height: var(--solaris-alert-close-size);
   border-radius: var(--solaris-radius-sm);
   color: var(--solaris-alert-close-color);
   background: var(--solaris-alert-close-background);
@@ -127,7 +130,7 @@
 
 ::ng-deep .solaris-alert-title {
   margin: 0;
-  font-size: var(--solaris-font-size-md);
+  font-size: var(--solaris-alert-title-font-size);
   color: var(--solaris-alert-title-color);
   line-height: var(--solaris-line-height-sm);
   font-weight: var(--solaris-font-weight-semibold);
@@ -135,7 +138,7 @@
 
 ::ng-deep .solaris-alert-description {
   margin: 0;
-  font-size: var(--solaris-font-size-sm);
+  font-size: var(--solaris-alert-font-size);
   line-height: var(--solaris-line-height-md);
   color: var(--solaris-alert-description-color);
 }
@@ -175,32 +178,50 @@
   --solaris-alert-radius: var(--solaris-radius-xl);
 }
 
-:host([data-density='compact']) {
-  --solaris-alert-gap: var(--solaris-density-gap-md);
-  --solaris-alert-padding: var(--solaris-density-padding-md);
-  --solaris-alert-content-gap: var(--solaris-density-gap-md);
-  --solaris-alert-actions-gap: var(--solaris-density-gap-md);
+// Size selects the density-token step; the effective density resolves the
+// value (same tier composition as card `data-padding`). All 9 size × density
+// combinations resolve distinctly through `--solaris-density-*`.
+:host([data-size='sm']) {
+  --solaris-alert-gap: var(--solaris-density-gap-sm);
+  --solaris-alert-padding: var(--solaris-density-padding-sm);
+  --solaris-alert-font-size: var(--solaris-font-size-xs);
+  --solaris-alert-icon-size: var(--solaris-font-size-md);
+  --solaris-alert-close-size: var(--solaris-font-size-sm);
+  --solaris-alert-content-gap: var(--solaris-density-gap-sm);
+  --solaris-alert-actions-gap: var(--solaris-density-gap-sm);
+  --solaris-alert-title-font-size: var(--solaris-font-size-sm);
+  --solaris-alert-close-icon-size: var(--solaris-font-size-sm);
 }
 
-:host([data-density='normal']) {
+:host([data-size='md']) {
   --solaris-alert-gap: var(--solaris-density-gap-md);
   --solaris-alert-padding: var(--solaris-density-padding-md);
+  --solaris-alert-font-size: var(--solaris-font-size-sm);
+  --solaris-alert-icon-size: var(--solaris-font-size-lg);
+  --solaris-alert-close-size: var(--solaris-font-size-md);
   --solaris-alert-content-gap: var(--solaris-density-gap-md);
   --solaris-alert-actions-gap: var(--solaris-density-gap-md);
+  --solaris-alert-title-font-size: var(--solaris-font-size-md);
+  --solaris-alert-close-icon-size: var(--solaris-font-size-md);
 }
 
-:host([data-density='comfortable']) {
-  --solaris-alert-gap: var(--solaris-density-gap-md);
+:host([data-size='lg']) {
+  --solaris-alert-gap: var(--solaris-density-gap-lg);
   --solaris-alert-padding: var(--solaris-density-padding-lg);
-  --solaris-alert-content-gap: var(--solaris-density-gap-md);
-  --solaris-alert-actions-gap: var(--solaris-density-gap-md);
+  --solaris-alert-font-size: var(--solaris-font-size-md);
+  --solaris-alert-icon-size: var(--solaris-font-size-xl);
+  --solaris-alert-close-size: var(--solaris-font-size-lg);
+  --solaris-alert-content-gap: var(--solaris-density-gap-lg);
+  --solaris-alert-actions-gap: var(--solaris-density-gap-lg);
+  --solaris-alert-title-font-size: var(--solaris-font-size-lg);
+  --solaris-alert-close-icon-size: var(--solaris-font-size-lg);
 }
 
 :host([data-variant='neutral'][data-appearance='tonal']) {
   --solaris-alert-color: var(--solaris-text-default);
   --solaris-alert-icon-color: var(--solaris-text-muted);
   --solaris-alert-background: var(--solaris-surface-muted);
-  --solaris-alert-border-color: var(--solaris-border-default);
+  --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='neutral'][data-appearance='outline']) {
@@ -213,8 +234,8 @@
 :host([data-variant='neutral'][data-appearance='surface']) {
   --solaris-alert-color: var(--solaris-text-default);
   --solaris-alert-icon-color: var(--solaris-text-muted);
-  --solaris-alert-background: var(--solaris-surface-base);
-  --solaris-alert-border-color: var(--solaris-border-subtle);
+  --solaris-alert-background: var(--solaris-surface-muted);
+  --solaris-alert-border-color: var(--solaris-border-default);
 }
 
 :host([data-variant='neutral'][data-appearance='solid']) {
@@ -231,7 +252,7 @@
   --solaris-alert-color: var(--solaris-info-text);
   --solaris-alert-icon-color: var(--solaris-info-base);
   --solaris-alert-background: var(--solaris-info-surface);
-  --solaris-alert-border-color: var(--solaris-info-border);
+  --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='info'][data-appearance='outline']) {
@@ -242,9 +263,9 @@
 }
 
 :host([data-variant='info'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-text-default);
+  --solaris-alert-color: var(--solaris-info-text);
   --solaris-alert-icon-color: var(--solaris-info-base);
-  --solaris-alert-background: var(--solaris-surface-base);
+  --solaris-alert-background: var(--solaris-info-surface);
   --solaris-alert-border-color: var(--solaris-info-border);
 }
 
@@ -262,7 +283,7 @@
   --solaris-alert-color: var(--solaris-success-text);
   --solaris-alert-icon-color: var(--solaris-success-base);
   --solaris-alert-background: var(--solaris-success-surface);
-  --solaris-alert-border-color: var(--solaris-success-border);
+  --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='success'][data-appearance='outline']) {
@@ -273,8 +294,8 @@
 }
 
 :host([data-variant='success'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-text-default);
-  --solaris-alert-background: var(--solaris-surface-base);
+  --solaris-alert-color: var(--solaris-success-text);
+  --solaris-alert-background: var(--solaris-success-surface);
   --solaris-alert-icon-color: var(--solaris-success-base);
   --solaris-alert-border-color: var(--solaris-success-border);
 }
@@ -293,7 +314,7 @@
   --solaris-alert-color: var(--solaris-warning-text);
   --solaris-alert-icon-color: var(--solaris-warning-base);
   --solaris-alert-background: var(--solaris-warning-surface);
-  --solaris-alert-border-color: var(--solaris-warning-border);
+  --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='warning'][data-appearance='outline']) {
@@ -304,9 +325,9 @@
 }
 
 :host([data-variant='warning'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-text-default);
+  --solaris-alert-color: var(--solaris-warning-text);
   --solaris-alert-icon-color: var(--solaris-warning-base);
-  --solaris-alert-background: var(--solaris-surface-base);
+  --solaris-alert-background: var(--solaris-warning-surface);
   --solaris-alert-border-color: var(--solaris-warning-border);
 }
 
@@ -324,7 +345,7 @@
   --solaris-alert-color: var(--solaris-danger-text);
   --solaris-alert-icon-color: var(--solaris-danger-base);
   --solaris-alert-background: var(--solaris-danger-surface);
-  --solaris-alert-border-color: var(--solaris-danger-border);
+  --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='danger'][data-appearance='outline']) {
@@ -335,9 +356,9 @@
 }
 
 :host([data-variant='danger'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-text-default);
+  --solaris-alert-color: var(--solaris-danger-text);
   --solaris-alert-icon-color: var(--solaris-danger-base);
-  --solaris-alert-background: var(--solaris-surface-base);
+  --solaris-alert-background: var(--solaris-danger-surface);
   --solaris-alert-border-color: var(--solaris-danger-border);
 }
 

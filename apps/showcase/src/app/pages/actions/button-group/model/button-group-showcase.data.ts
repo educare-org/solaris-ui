@@ -4,12 +4,6 @@ import type {
 } from '../../../../shell/docs-page-header/docs-page-header';
 import type { ShowcaseTocItem } from '../../../../shell/docs-on-this-page/model/toc-item';
 
-/**
- * Dados estáticos (readonly) da página showcase de Button Group.
- * O componente mantém apenas signals, computed dinâmicos e as
- * delegações para `createShowcasePageActions`.
- */
-
 export const BUTTON_GROUP_SHOWCASE_SLUG = 'button-group';
 export const BUTTON_GROUP_TRANSLATION_PREFIX = 'button-group';
 

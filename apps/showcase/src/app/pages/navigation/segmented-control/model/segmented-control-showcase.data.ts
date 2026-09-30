@@ -4,12 +4,6 @@ import type {
 } from '../../../../shell/docs-page-header/docs-page-header';
 import type { ShowcaseTocItem } from '../../../../shell/docs-on-this-page/model/toc-item';
 
-/**
- * Dados estáticos (readonly) da página showcase de Segmented Control.
- * O componente mantém apenas signals, o computed dinâmico de
- * size/density e as delegações para `createShowcasePageActions`.
- */
-
 export const SEGMENTED_CONTROL_SHOWCASE_SLUG = 'segmented-control';
 export const SEGMENTED_CONTROL_TRANSLATION_PREFIX = 'segmented-control';
 

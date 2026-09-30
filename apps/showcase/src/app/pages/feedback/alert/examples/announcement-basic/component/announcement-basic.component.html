@@ -1,0 +1,6 @@
+@if (visible()) {
+  <solaris-announcement align="center" (dismissed)="handleDismiss()">
+    {{ 'alert.example.announcement-basic.text' | translate }}
+    <a href="#">{{ 'alert.example.announcement-basic.link' | translate }}</a>
+  </solaris-announcement>
+}

@@ -10,12 +10,6 @@ import type {
 } from '../../../../shell/docs-page-header/docs-page-header';
 import type { ShowcaseTocItem } from '../../../../shell/docs-on-this-page/model/toc-item';
 
-/**
- * Dados estáticos (readonly) da página showcase de Button.
- * O componente mantém apenas signals, computed dinâmicos e as
- * delegações para `createShowcasePageActions`.
- */
-
 export const BUTTON_SHOWCASE_SLUG = 'button';
 export const BUTTON_TRANSLATION_PREFIX = 'button';
 

@@ -4,12 +4,6 @@ import type {
 } from '../../../../shell/docs-page-header/docs-page-header';
 import type { ShowcaseTocItem } from '../../../../shell/docs-on-this-page/model/toc-item';
 
-/**
- * Dados estáticos (readonly) da página showcase de Divider.
- * O componente mantém apenas signals, os computed dinâmicos das
- * variações com tabs e as delegações para `createShowcasePageActions`.
- */
-
 export const DIVIDER_SHOWCASE_SLUG = 'divider';
 export const DIVIDER_TRANSLATION_PREFIX = 'divider';
 

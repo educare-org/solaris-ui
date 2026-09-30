@@ -1,0 +1,17 @@
+.announcement-image-bg-example__banner {
+  --solaris-alert-custom-color: #ffffff;
+  --solaris-alert-custom-border-color: transparent;
+  --solaris-alert-custom-icon-color: #ffffff;
+  --solaris-alert-custom-background:
+    linear-gradient(90deg, rgb(17 24 39 / 85%), rgb(17 24 39 / 55%)),
+    radial-gradient(
+      circle at 85% 50%,
+      var(--solaris-primary-base),
+      transparent 60%
+    ),
+    var(--solaris-surface-reverse);
+}
+
+.announcement-image-bg-example__banner a {
+  color: inherit;
+}

@@ -1,0 +1,14 @@
+@if (visible()) {
+  <solaris-alert
+    variant="warning"
+    [closable]="true"
+    (dismissed)="handleDismiss()"
+  >
+    {{ 'alert.example.closable.message' | translate }}
+  </solaris-alert>
+} @else {
+  <p>{{ 'alert.example.closable.closed' | translate }}</p>
+  <button type="button" (click)="showAgain()">
+    {{ 'alert.example.closable.show' | translate }}
+  </button>
+}

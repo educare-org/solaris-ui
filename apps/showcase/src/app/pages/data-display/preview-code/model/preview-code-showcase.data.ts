@@ -6,12 +6,6 @@ import type {
 } from '../../../../shell/docs-page-header/docs-page-header';
 import type { ShowcaseTocItem } from '../../../../shell/docs-on-this-page/model/toc-item';
 
-/**
- * Dados estáticos (readonly) da página showcase de Preview Code.
- * O componente mantém apenas signals e as delegações para
- * `createShowcasePageActions`.
- */
-
 export const PREVIEW_CODE_SHOWCASE_SLUG = 'preview-code';
 export const PREVIEW_CODE_TRANSLATION_PREFIX = 'preview-code';
 

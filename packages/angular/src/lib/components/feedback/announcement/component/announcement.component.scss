@@ -1,0 +1,82 @@
+@keyframes solaris-announcement-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+:host {
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  animation: solaris-announcement-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+:host([data-sticky]) {
+  position: sticky;
+  top: 0;
+  z-index: var(--solaris-z-index-sticky);
+}
+
+solaris-alert {
+  width: 100%;
+}
+
+// Single-line banner: inner alert content flows as a wrapping row so
+// text, links and inline slots sit on one line (Brex-style) instead of
+// stacking. Alignment follows `data-align`.
+:host ::ng-deep .solaris-alert__content {
+  flex-flow: row wrap;
+  align-items: center;
+  row-gap: var(--solaris-spacing-1);
+}
+
+:host([data-align='left']) ::ng-deep .solaris-alert__content {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+:host([data-align='center']) ::ng-deep .solaris-alert__content {
+  justify-content: center;
+  text-align: center;
+}
+
+:host([data-align='right']) ::ng-deep .solaris-alert__content {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+::ng-deep .solaris-announcement-media {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+::ng-deep .solaris-announcement-media img {
+  display: block;
+  max-width: 100%;
+}
+
+::ng-deep .solaris-announcement-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none;
+  }
+}
+
+:host-context([data-reduced-motion='true']) {
+  animation: none;
+}
