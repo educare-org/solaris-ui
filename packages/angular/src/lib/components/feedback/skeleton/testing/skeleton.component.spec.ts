@@ -1,5 +1,6 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
+import { vi } from 'vitest';
 
 import { SolarisSkeletonComponent } from '../component/skeleton.component';
 
@@ -182,10 +183,50 @@ describe('SolarisSkeletonComponent', () => {
 
   it('should preserve explicit radius over text default', () => {
     const el = createFixture();
-    fixture.componentRef.setInput('radius', 'lg');
+    fixture.componentRef.setInput('radius', 'full');
     fixture.componentRef.setInput('variant', 'text');
     fixture.detectChanges();
-    expect(el.getAttribute('data-radius')).toBe('lg');
+    expect(el.getAttribute('data-radius')).toBe('full');
+  });
+
+  it('should fall back to theme density when density is unset', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-density')).toBe('normal');
+  });
+
+  it('should expose the explicit density when set', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('density', 'comfortable');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-density')).toBe('comfortable');
+  });
+
+  it('should apply custom aspect-ratio', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('aspectRatio', '16 / 9');
+    fixture.detectChanges();
+    expect(el.style.aspectRatio).toBe('16 / 9');
+  });
+
+  it('should apply custom animation duration via CSS variable', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('duration', '400ms');
+    fixture.detectChanges();
+    expect(
+      el.style.getPropertyValue('--solaris-skeleton-animation-duration'),
+    ).toBe('400ms');
+  });
+
+  it('should not set a duration variable by default', () => {
+    const el = createFixture();
+    expect(
+      el.style.getPropertyValue('--solaris-skeleton-animation-duration'),
+    ).toBe('');
+  });
+
+  it('should not be pending by default', () => {
+    const el = createFixture();
+    expect(el.hasAttribute('data-pending')).toBe(false);
   });
 });
 
@@ -386,6 +427,33 @@ describe('SolarisSkeletonComponent multiline', () => {
     expect(children.length).toBe(10);
   });
 
+  it('should use deterministic widths with a fixed last line', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('lines', 4);
+    fixture.detectChanges();
+    const children = fixture.nativeElement.querySelectorAll(
+      '.solaris-skeleton-line',
+    );
+    expect(children.length).toBe(4);
+    expect(children[0].style.width).toBe('100%');
+    expect(children[1].style.width).toBe('92%');
+    expect(children[2].style.width).toBe('85%');
+    expect(children[3].style.width).toBe('68%');
+  });
+
+  it('should respect custom lastLineWidth', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('lines', 3);
+    fixture.componentRef.setInput('lastLineWidth', '50%');
+    fixture.detectChanges();
+    const children = fixture.nativeElement.querySelectorAll(
+      '.solaris-skeleton-line',
+    );
+    expect(children[2].style.width).toBe('50%');
+  });
+
   it('should not apply wave animation on host when multiline', () => {
     TestBed.configureTestingModule({});
     fixture = TestBed.createComponent(SolarisSkeletonComponent);
@@ -397,5 +465,36 @@ describe('SolarisSkeletonComponent multiline', () => {
     expect(host.getAttribute('data-animation')).toBe('wave');
     const children = host.querySelectorAll('.solaris-skeleton-line');
     expect(children.length).toBe(3);
+  });
+});
+
+describe('SolarisSkeletonComponent delay', () => {
+  let fixture: ComponentFixture<SolarisSkeletonComponent>;
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('should stay pending until the delay elapses', async () => {
+    vi.useFakeTimers();
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('delay', 400);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.hasAttribute('data-pending')).toBe(true);
+    await vi.advanceTimersByTimeAsync(399);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.hasAttribute('data-pending')).toBe(true);
+    await vi.advanceTimersByTimeAsync(1);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.hasAttribute('data-pending')).toBe(false);
+  });
+
+  it('should render immediately when delay is zero', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisSkeletonComponent);
+    fixture.componentRef.setInput('delay', 0);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.hasAttribute('data-pending')).toBe(false);
   });
 });
