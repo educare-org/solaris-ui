@@ -1,375 +1,272 @@
-<div class="toast-showcase">
-  <header class="toast-showcase__header">
-    <h1 class="toast-showcase__title">{{ 'toast.title' | translate }}</h1>
-    <p class="toast-showcase__description">
-      {{ 'toast.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="toast.title"
+    descriptionKey="toast.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="toast-showcase__section">
-    <h2 class="toast-showcase__section-title">
-      {{ 'toast.variants' | translate }}
-    </h2>
-    <p class="toast-showcase__section-desc">
-      {{ 'toast.variants-desc' | translate }}
-    </p>
-    <div class="toast-showcase__row">
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showVariant('neutral')"
-      >
-        {{ 'toast.neutral' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showVariant('info')"
-      >
-        {{ 'toast.info' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showVariant('success')"
-      >
-        {{ 'toast.success' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showVariant('warning')"
-      >
-        {{ 'toast.warning' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showVariant('danger')"
-      >
-        {{ 'toast.danger' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showVariant('loading')"
-      >
-        {{ 'toast.loading' | translate }}
-      </button>
-    </div>
-  </section>
+  <app-docs-section anchor="examples" titleKey="toast.section.examples">
+    <p class="toast-showcase__note">{{ 'toast.examples.note' | translate }}</p>
+    <solaris-preview-code [code]="basicCode" language="typescript">
+      <app-toast-basic-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="toast-showcase__section">
-    <h2 class="toast-showcase__section-title">
-      {{ 'toast.appearances' | translate }}
-    </h2>
-    <p class="toast-showcase__section-desc">
+  <app-docs-section anchor="variants" titleKey="toast.section.variants">
+    <p class="toast-showcase__note">{{ 'toast.variants-desc' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedVariant"
+      [ariaLabel]="'toast.section.variants' | translate"
+    >
+      <solaris-tab value="neutral"
+        >{{ 'toast.neutral' | translate }}</solaris-tab
+      >
+      <solaris-tab value="info">{{ 'toast.info' | translate }}</solaris-tab>
+      <solaris-tab value="success"
+        >{{ 'toast.success' | translate }}</solaris-tab
+      >
+      <solaris-tab value="warning"
+        >{{ 'toast.warning' | translate }}</solaris-tab
+      >
+      <solaris-tab value="danger">{{ 'toast.danger' | translate }}</solaris-tab>
+      <solaris-tab value="loading"
+        >{{ 'toast.loading' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="neutral">
+        <solaris-preview-code [code]="variantCode()" language="typescript">
+          <button solaris-button type="button" (click)="showVariant()">
+            {{ 'toast.show' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="info">
+        <solaris-preview-code [code]="variantCode()" language="typescript">
+          <button solaris-button type="button" (click)="showVariant()">
+            {{ 'toast.show' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="success">
+        <solaris-preview-code [code]="variantCode()" language="typescript">
+          <button solaris-button type="button" (click)="showVariant()">
+            {{ 'toast.show' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="warning">
+        <solaris-preview-code [code]="variantCode()" language="typescript">
+          <button solaris-button type="button" (click)="showVariant()">
+            {{ 'toast.show' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="danger">
+        <solaris-preview-code [code]="variantCode()" language="typescript">
+          <button solaris-button type="button" (click)="showVariant()">
+            {{ 'toast.show' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="loading">
+        <solaris-preview-code [code]="variantCode()" language="typescript">
+          <button solaris-button type="button" (click)="showVariant()">
+            {{ 'toast.show' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="appearance" titleKey="toast.section.appearance">
+    <p class="toast-showcase__note">
       {{ 'toast.appearances-desc' | translate }}
     </p>
-    <div class="toast-showcase__row">
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showAppearance('surface')"
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'toast.section.appearance' | translate"
+    >
+      <solaris-tab value="surface"
+        >{{ 'toast.appearance-surface' | translate }}</solaris-tab
       >
-        {{ 'toast.appearance-surface' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showAppearance('outline')"
+      <solaris-tab value="outline"
+        >{{ 'toast.appearance-outline' | translate }}</solaris-tab
       >
-        {{ 'toast.appearance-outline' | translate }}
-      </button>
-    </div>
-  </section>
+      <solaris-tab-panel value="surface">
+        <solaris-preview-code [code]="appearanceCode()" language="typescript">
+          <button solaris-button type="button" (click)="showAppearance()">
+            {{ 'toast.show' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="outline">
+        <solaris-preview-code [code]="appearanceCode()" language="typescript">
+          <button solaris-button type="button" (click)="showAppearance()">
+            {{ 'toast.show' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="toast-showcase__section">
-    <h2 class="toast-showcase__section-title">
-      {{ 'toast.positions' | translate }}
-    </h2>
-    <p class="toast-showcase__section-desc">
-      {{ 'toast.positions-desc' | translate }}
-    </p>
-    <div class="toast-showcase__row">
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showPosition('top-start')"
+  <app-docs-section anchor="countdown" titleKey="toast.section.countdown">
+    <p class="toast-showcase__note">{{ 'toast.countdown-desc' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedCountdown"
+      [ariaLabel]="'toast.section.countdown' | translate"
+    >
+      <solaris-tab value="bar"
+        >{{ 'toast.countdown-bar' | translate }}</solaris-tab
       >
-        {{ 'toast.position-top-start' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showPosition('top-center')"
+      <solaris-tab value="text"
+        >{{ 'toast.countdown-text' | translate }}</solaris-tab
       >
-        {{ 'toast.position-top-center' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showPosition('top-end')"
+      <solaris-tab value="both"
+        >{{ 'toast.countdown-both' | translate }}</solaris-tab
       >
-        {{ 'toast.position-top-end' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showPosition('bottom-start')"
-      >
-        {{ 'toast.position-bottom-start' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showPosition('bottom-center')"
-      >
-        {{ 'toast.position-bottom-center' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showPosition('bottom-end')"
-      >
-        {{ 'toast.position-bottom-end' | translate }}
-      </button>
-    </div>
-  </section>
+      <solaris-tab-panel value="bar">
+        <solaris-preview-code [code]="countdownCode()" language="typescript">
+          <button solaris-button type="button" (click)="showCountdown()">
+            {{ 'toast.show' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="text">
+        <solaris-preview-code [code]="countdownCode()" language="typescript">
+          <button solaris-button type="button" (click)="showCountdown()">
+            {{ 'toast.show' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="both">
+        <solaris-preview-code [code]="countdownCode()" language="typescript">
+          <button solaris-button type="button" (click)="showCountdown()">
+            {{ 'toast.show' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="toast-showcase__section">
-    <h2 class="toast-showcase__section-title">
-      {{ 'toast.actions' | translate }}
-    </h2>
-    <p class="toast-showcase__section-desc">
-      {{ 'toast.actions-desc' | translate }}
+  <app-docs-section anchor="size-density" titleKey="toast.section.size-density">
+    <p class="toast-showcase__note">
+      {{ 'toast.size-density.note' | translate }}
     </p>
-    <div class="toast-showcase__row">
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showWithActions()"
+    <div class="toast-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'toast.section.sizes' | translate"
       >
+        <solaris-tab value="sm">{{ 'toast.size.sm' | translate }}</solaris-tab>
+        <solaris-tab value="md">{{ 'toast.size.md' | translate }}</solaris-tab>
+        <solaris-tab value="lg">{{ 'toast.size.lg' | translate }}</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'toast.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'toast.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'toast.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'toast.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="typescript">
+      <button solaris-button type="button" (click)="showSizeDensity()">
         {{ 'toast.show' | translate }}
       </button>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="toast-showcase__section">
-    <h2 class="toast-showcase__section-title">
-      {{ 'toast.actions-no-desc' | translate }}
-    </h2>
-    <p class="toast-showcase__section-desc">
-      {{ 'toast.actions-no-desc-desc' | translate }}
-    </p>
-    <div class="toast-showcase__row">
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showWithActionsNoDescription()"
-      >
-        {{ 'toast.show' | translate }}
-      </button>
-    </div>
-  </section>
+  <app-docs-section anchor="actions" titleKey="toast.section.actions">
+    <p class="toast-showcase__note">{{ 'toast.actions-desc' | translate }}</p>
+    <solaris-preview-code [code]="actionsCode" language="typescript">
+      <app-toast-actions-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="toast-showcase__section">
-    <h2 class="toast-showcase__section-title">
-      {{ 'toast.progress' | translate }}
-    </h2>
-    <p class="toast-showcase__section-desc">
-      {{ 'toast.progress-desc' | translate }}
-    </p>
-    <div class="toast-showcase__row">
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showWithProgress()"
-      >
-        {{ 'toast.show' | translate }}
-      </button>
+  <app-docs-section anchor="progress" titleKey="toast.section.progress">
+    <p class="toast-showcase__note">{{ 'toast.progress-desc' | translate }}</p>
+    <div class="toast-showcase__stack">
+      <solaris-preview-code [code]="progressCode" language="typescript">
+        <button solaris-button type="button" (click)="showWithProgress()">
+          {{ 'toast.progress-trigger' | translate }}
+        </button>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="promiseCode" language="typescript">
+        <app-toast-promise-example />
+      </solaris-preview-code>
     </div>
-  </section>
+  </app-docs-section>
 
-  <section class="toast-showcase__section">
-    <h2 class="toast-showcase__section-title">
-      {{ 'toast.countdown' | translate }}
-    </h2>
-    <p class="toast-showcase__section-desc">
-      {{ 'toast.countdown-desc' | translate }}
-    </p>
-    <div class="toast-showcase__row">
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showCountdownBar()"
-      >
-        {{ 'toast.countdown-bar' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showCountdownText()"
-      >
-        {{ 'toast.countdown-text' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showCountdownBoth()"
-      >
-        {{ 'toast.countdown-both' | translate }}
-      </button>
-    </div>
-  </section>
+  <app-docs-section anchor="positions" titleKey="toast.section.positions">
+    <p class="toast-showcase__note">{{ 'toast.positions-desc' | translate }}</p>
+    <solaris-preview-code [code]="positionsCode" language="typescript">
+      <div class="toast-showcase__controls">
+        <button
+          solaris-button
+          type="button"
+          (click)="showPosition('top-start')"
+        >
+          {{ 'toast.position-top-start' | translate }}
+        </button>
+        <button
+          solaris-button
+          type="button"
+          (click)="showPosition('top-center')"
+        >
+          {{ 'toast.position-top-center' | translate }}
+        </button>
+        <button solaris-button type="button" (click)="showPosition('top-end')">
+          {{ 'toast.position-top-end' | translate }}
+        </button>
+        <button
+          solaris-button
+          type="button"
+          (click)="showPosition('bottom-start')"
+        >
+          {{ 'toast.position-bottom-start' | translate }}
+        </button>
+        <button
+          solaris-button
+          type="button"
+          (click)="showPosition('bottom-center')"
+        >
+          {{ 'toast.position-bottom-center' | translate }}
+        </button>
+        <button
+          solaris-button
+          type="button"
+          (click)="showPosition('bottom-end')"
+        >
+          {{ 'toast.position-bottom-end' | translate }}
+        </button>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="toast-showcase__section">
-    <h2 class="toast-showcase__section-title">
-      {{ 'toast.expandable' | translate }}
-    </h2>
-    <p class="toast-showcase__section-desc">
-      {{ 'toast.expandable-desc-section' | translate }}
+  <app-docs-section anchor="installation" titleKey="toast.section.installation">
+    <p class="toast-showcase__note">
+      {{ 'toast.installation.note' | translate }}
     </p>
-    <div class="toast-showcase__row">
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showExpandable()"
-      >
-        {{ 'toast.expandable-collapsed' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showExpandedDefault()"
-      >
-        {{ 'toast.expandable-expanded' | translate }}
-      </button>
-    </div>
-  </section>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
 
-  <section class="toast-showcase__section">
-    <h2 class="toast-showcase__section-title">
-      {{ 'toast.actions-align' | translate }}
-    </h2>
-    <p class="toast-showcase__section-desc">
-      {{ 'toast.actions-align-desc' | translate }}
-    </p>
-    <div class="toast-showcase__row">
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showActionsStart()"
-      >
-        {{ 'toast.actions-align-start' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showActionsCenter()"
-      >
-        {{ 'toast.actions-align-center' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showWithActions()"
-      >
-        {{ 'toast.actions-align-end' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showActionsStretch()"
-      >
-        {{ 'toast.actions-align-stretch' | translate }}
-      </button>
-    </div>
-  </section>
+  <app-docs-section anchor="props" titleKey="toast.section.props">
+    <p class="toast-showcase__note">{{ 'toast.props.note' | translate }}</p>
+  </app-docs-section>
 
-  <section class="toast-showcase__section">
-    <h2 class="toast-showcase__section-title">
-      {{ 'toast.icon-and-media' | translate }}
-    </h2>
-    <p class="toast-showcase__section-desc">
-      {{ 'toast.icon-and-media-desc' | translate }}
-    </p>
-    <div class="toast-showcase__row">
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showIconSizeLg()"
-      >
-        {{ 'toast.icon-size-lg' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showMediaShapeSquare()"
-      >
-        {{ 'toast.media-shape-square' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="toast-showcase__section">
-    <h2 class="toast-showcase__section-title">
-      {{ 'toast.persistent' | translate }}
-    </h2>
-    <p class="toast-showcase__section-desc">
-      {{ 'toast.persistent-desc' | translate }}
-    </p>
-    <div class="toast-showcase__row">
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showPersistent()"
-      >
-        {{ 'toast.show' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="toast-showcase__section">
-    <h2 class="toast-showcase__section-title">
-      {{ 'toast.update' | translate }}
-    </h2>
-    <p class="toast-showcase__section-desc">
-      {{ 'toast.update-desc' | translate }}
-    </p>
-    <div class="toast-showcase__row">
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="showLoadingToast()"
-      >
-        {{ 'toast.update-trigger' | translate }}
-      </button>
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="completeLoading()"
-      >
-        {{ 'toast.update-complete' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="toast-showcase__section">
-    <h2 class="toast-showcase__section-title">
-      {{ 'toast.dismiss-all' | translate }}
-    </h2>
-    <p class="toast-showcase__section-desc">
-      {{ 'toast.dismiss-all-desc' | translate }}
-    </p>
-    <div class="toast-showcase__row">
-      <button
-        type="button"
-        class="toast-showcase__button"
-        (click)="dismissAll()"
-      >
-        {{ 'toast.dismiss-all-button' | translate }}
-      </button>
-    </div>
-  </section>
-</div>
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

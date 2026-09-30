@@ -11,15 +11,15 @@ test.describe('Toast', () => {
   });
 
   test('shows toast on trigger click', async () => {
-    await toast.show('Neutral');
+    await toast.show();
     await toast.assertVisible();
   });
 
-  test('dismisses all toasts', async () => {
-    await toast.show('Neutral');
+  test('dismisses toast on close click', async () => {
+    await toast.show();
     await toast.assertVisible();
 
-    await toast.dismissAll();
+    await toast.dismiss();
     await toast.assertNotVisible();
   });
 });
