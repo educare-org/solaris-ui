@@ -1,0 +1,16 @@
+.skeleton-list-row-example {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-3);
+  padding: var(--solaris-spacing-3);
+  border: 1px solid var(--solaris-border-subtle);
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-surface-subtle);
+}
+
+.skeleton-list-row-example__lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-2);
+  flex: 1;
+}
