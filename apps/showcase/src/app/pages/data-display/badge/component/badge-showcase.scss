@@ -1,45 +1,19 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.badge-showcase {
-  @include layout.page;
-}
-
-.badge-showcase__header {
-  @include layout.header;
-}
-
-.badge-showcase__title {
-  @include layout.title;
-}
-
-.badge-showcase__description {
-  @include layout.description;
-}
-
-.badge-showcase__section {
-  @include layout.section-card;
-}
-
-.badge-showcase__section-title {
-  @include layout.section-title;
-}
-
-.badge-showcase__row {
-  @include layout.row;
-}
-
 .badge-showcase__note {
   @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.badge-custom-wrapper {
-  --solaris-badge-custom-background: #9333ea;
-  --solaris-badge-custom-color: #ffffff;
-  --solaris-badge-custom-border-color: #9333ea;
+.badge-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
 }
 
-.badge-custom-wrapper-alt {
-  --solaris-badge-custom-background: #f59e0b;
-  --solaris-badge-custom-color: #17191e;
-  --solaris-badge-custom-border-color: #f59e0b;
+.badge-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
 }

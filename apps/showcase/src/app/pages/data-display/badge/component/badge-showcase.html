@@ -1,132 +1,245 @@
-<div class="badge-showcase">
-  <header class="badge-showcase__header">
-    <h1 class="badge-showcase__title">Badge</h1>
-    <p class="badge-showcase__description">
-      {{ 'badge.description' | translate }}
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="badge.title"
+    descriptionKey="badge.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="badge.section.examples">
+    <p class="badge-showcase__note">{{ 'badge.examples.note' | translate }}</p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-badge-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="appearances" titleKey="badge.section.appearances">
+    <p class="badge-showcase__note">
+      {{ 'badge.appearances.note' | translate }}
     </p>
-  </header>
-
-  <section class="badge-showcase__section">
-    <h2 class="badge-showcase__section-title">
-      {{ 'badge.appearances' | translate }}
-    </h2>
-    <div class="badge-showcase__row">
-      <solaris-badge appearance="solid">Solid</solaris-badge>
-      <solaris-badge appearance="tonal">Tonal</solaris-badge>
-      <solaris-badge appearance="outline">Outline</solaris-badge>
-      <solaris-badge appearance="ghost">Ghost</solaris-badge>
-    </div>
-  </section>
-
-  <section class="badge-showcase__section">
-    <h2 class="badge-showcase__section-title">
-      {{ 'badge.colors' | translate }}
-    </h2>
-    <div class="badge-showcase__row">
-      <solaris-badge color="neutral">Neutral</solaris-badge>
-      <solaris-badge color="primary">Primary</solaris-badge>
-      <solaris-badge color="success">Success</solaris-badge>
-      <solaris-badge color="warning">Warning</solaris-badge>
-      <solaris-badge color="danger">Danger</solaris-badge>
-      <solaris-badge color="info">Info</solaris-badge>
-    </div>
-  </section>
-
-  <section class="badge-showcase__section">
-    <h2 class="badge-showcase__section-title">
-      {{ 'badge.sizes' | translate }}
-    </h2>
-    <div class="badge-showcase__row">
-      <solaris-badge size="sm">Small</solaris-badge>
-      <solaris-badge size="md">Medium</solaris-badge>
-      <solaris-badge size="lg">Large</solaris-badge>
-    </div>
-  </section>
-
-  <section class="badge-showcase__section">
-    <h2 class="badge-showcase__section-title">
-      {{ 'badge.radius' | translate }}
-    </h2>
-    <div class="badge-showcase__row">
-      <solaris-badge radius="sm">SM</solaris-badge>
-      <solaris-badge radius="md">MD</solaris-badge>
-      <solaris-badge radius="full">Full</solaris-badge>
-    </div>
-  </section>
-
-  <section class="badge-showcase__section">
-    <h2 class="badge-showcase__section-title">
-      {{ 'badge.variant' | translate }}
-    </h2>
-    <div class="badge-showcase__row">
-      <solaris-badge variant="standard">Standard</solaris-badge>
-      <solaris-badge variant="count" radius="full" color="danger"
-        >3</solaris-badge
+    <div class="badge-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedAppearance"
+        [ariaLabel]="'badge.section.appearances' | translate"
       >
-      <solaris-badge variant="count" radius="full" color="primary"
-        >42</solaris-badge
+        @for (appearance of appearances; track appearance) {
+        <solaris-tab [value]="appearance"
+          >{{ 'badge.appearance.' + appearance | translate }}</solaris-tab
+        >
+        }
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedColor"
+        [ariaLabel]="'badge.section.colors' | translate"
       >
-      <solaris-badge variant="count" radius="full" color="success"
-        >99+</solaris-badge
+        @for (color of colors; track color) {
+        <solaris-tab [value]="color"
+          >{{ 'badge.color.' + color | translate }}</solaris-tab
+        >
+        }
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="appearanceColorCode()" language="html">
+      <solaris-badge
+        [appearance]="selectedAppearance()"
+        [color]="selectedColor()"
       >
-    </div>
-  </section>
-
-  <section class="badge-showcase__section">
-    <h2 class="badge-showcase__section-title">
-      {{ 'badge.density' | translate }}
-    </h2>
-    <div class="badge-showcase__row">
-      <solaris-badge density="compact">Compact</solaris-badge>
-      <solaris-badge density="normal">Normal</solaris-badge>
-      <solaris-badge density="comfortable">Comfortable</solaris-badge>
-    </div>
-  </section>
-
-  <section class="badge-showcase__section">
-    <h2 class="badge-showcase__section-title">
-      {{ 'badge.with-icons' | translate }}
-    </h2>
-    <div class="badge-showcase__row">
-      <solaris-badge color="success">
-        <solaris-icon solaris-badge-icon name="check" [decorative]="true" />
-        Active
+        {{ 'badge.example.demo' | translate }}
       </solaris-badge>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="size-density" titleKey="badge.section.size-density">
+    <p class="badge-showcase__note">
+      {{ 'badge.size-density.note' | translate }}
+    </p>
+    <div class="badge-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'badge.section.sizes' | translate"
+      >
+        <solaris-tab value="sm">{{ 'badge.size.sm' | translate }}</solaris-tab>
+        <solaris-tab value="md">{{ 'badge.size.md' | translate }}</solaris-tab>
+        <solaris-tab value="lg">{{ 'badge.size.lg' | translate }}</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'badge.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'badge.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'badge.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'badge.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDemoKind"
+        [ariaLabel]="'badge.section.size-density' | translate"
+      >
+        <solaris-tab value="standard"
+          >{{ 'badge.size-density.tab.standard' | translate }}</solaris-tab
+        >
+        <solaris-tab value="count"
+          >{{ 'badge.size-density.tab.count' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      @if (selectedDemoKind() === 'count') {
+      <solaris-badge
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+        color="primary"
+        [count]="3"
+      />
+      } @else {
+      <solaris-badge [size]="selectedSize()" [density]="selectedDensity()">
+        {{ 'badge.example.demo' | translate }}
+      </solaris-badge>
+      }
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="count" titleKey="badge.section.count">
+    <p class="badge-showcase__note">{{ 'badge.count.note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedCount"
+      [ariaLabel]="'badge.section.count' | translate"
+    >
+      <solaris-tab [value]="3">3</solaris-tab>
+      <solaris-tab [value]="42">42</solaris-tab>
+      <solaris-tab [value]="103">103</solaris-tab>
+    </solaris-tabs>
+    <solaris-preview-code [code]="countCode()" language="html">
+      @switch (selectedCount()) { @case (42) {
+      <solaris-badge color="primary" [count]="42" />
+      } @case (103) {
+      <solaris-badge color="success" [count]="103" />
+      } @default {
+      <solaris-badge color="danger" [count]="3" />
+      } }
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="dot" titleKey="badge.section.dot">
+    <p class="badge-showcase__note">{{ 'badge.dot.note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedDotMode"
+      [ariaLabel]="'badge.section.dot' | translate"
+    >
+      <solaris-tab value="dot"
+        >{{ 'badge.dot.tab.dot' | translate }}</solaris-tab
+      >
+      <solaris-tab value="pulse"
+        >{{ 'badge.dot.tab.pulse' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code [code]="dotCode()" language="html">
+      @if (selectedDotMode() === 'pulse') {
+      <solaris-badge
+        color="danger"
+        [dot]="true"
+        [pulse]="true"
+        ariaLabel="Live"
+      />
+      } @else {
+      <solaris-badge color="success" [dot]="true" ariaLabel="Online" />
+      }
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="icons" titleKey="badge.section.icons">
+    <p class="badge-showcase__note">{{ 'badge.icons.note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedIcon"
+      [ariaLabel]="'badge.section.icons' | translate"
+    >
+      <solaris-tab value="active"
+        >{{ 'badge.example.status.active' | translate }}</solaris-tab
+      >
+      <solaris-tab value="pending"
+        >{{ 'badge.example.status.pending' | translate }}</solaris-tab
+      >
+      <solaris-tab value="error"
+        >{{ 'badge.example.status.error' | translate }}</solaris-tab
+      >
+      <solaris-tab value="info"
+        >{{ 'badge.example.status.info' | translate }}</solaris-tab
+      >
+      <solaris-tab value="icon-only"
+        >{{ 'badge.icons.tab.icon-only' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code [code]="iconCode()" language="html">
+      @switch (selectedIcon()) { @case ('pending') {
       <solaris-badge color="warning">
         <solaris-icon solaris-badge-icon name="warning" [decorative]="true" />
-        Pending
+        {{ 'badge.example.status.pending' | translate }}
       </solaris-badge>
+      } @case ('error') {
       <solaris-badge color="danger">
         <solaris-icon solaris-badge-icon name="danger" [decorative]="true" />
-        Error
+        {{ 'badge.example.status.error' | translate }}
       </solaris-badge>
+      } @case ('info') {
       <solaris-badge color="info">
-        Info
+        {{ 'badge.example.status.info' | translate }}
         <solaris-icon solaris-badge-icon name="info" [decorative]="true" />
       </solaris-badge>
-    </div>
-  </section>
+      } @case ('icon-only') {
+      <solaris-badge
+        color="primary"
+        [iconOnly]="true"
+        ariaLabel="Notifications"
+      >
+        <solaris-icon solaris-badge-icon name="info" [decorative]="true" />
+      </solaris-badge>
+      } @default {
+      <solaris-badge color="success">
+        <solaris-icon solaris-badge-icon name="check" [decorative]="true" />
+        {{ 'badge.example.status.active' | translate }}
+      </solaris-badge>
+      } }
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="badge-showcase__section">
-    <h2 class="badge-showcase__section-title">
-      {{ 'badge.custom-color' | translate }}
-    </h2>
-    <div class="badge-showcase__row">
-      <div class="badge-custom-wrapper">
-        <solaris-badge color="custom">Custom</solaris-badge>
-      </div>
-      <div class="badge-custom-wrapper-alt">
-        <solaris-badge color="custom">Custom Alt</solaris-badge>
-      </div>
-    </div>
-  </section>
+  <app-docs-section anchor="placement" titleKey="badge.section.placement">
+    <p class="badge-showcase__note">{{ 'badge.placement.note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedPlacement"
+      [ariaLabel]="'badge.section.placement' | translate"
+    >
+      <solaris-tab value="top-right">top-right</solaris-tab>
+      <solaris-tab value="top-left">top-left</solaris-tab>
+      <solaris-tab value="bottom-right">bottom-right</solaris-tab>
+      <solaris-tab value="bottom-left">bottom-left</solaris-tab>
+    </solaris-tabs>
+    <solaris-preview-code [code]="placementCode()" language="html">
+      <app-positioned-badge-example [placement]="selectedPlacement()" />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="badge-showcase__section">
-    <h2 class="badge-showcase__section-title">
-      {{ 'badge.light-dark' | translate }}
-    </h2>
+  <app-docs-section anchor="installation" titleKey="badge.section.installation">
     <p class="badge-showcase__note">
-      {{ 'badge.light-dark-note' | translate }}
+      {{ 'badge.installation.note' | translate }}
     </p>
-  </section>
-</div>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="badge.section.props">
+    <p class="badge-showcase__note">{{ 'badge.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>
