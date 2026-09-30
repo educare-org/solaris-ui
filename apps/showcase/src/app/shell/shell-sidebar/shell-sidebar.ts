@@ -41,34 +41,35 @@ function normalizePath(url: string): string {
 
 /**
  * Collects every collapsible node key (group keys plus parent-item keys
- * with children) so the sidebar can start fully collapsed.
+ * with children, at any depth) so the sidebar can start fully collapsed.
  */
 function collectCollapsibleKeys(
   sections: readonly ShowcaseSidebarNavSection[],
 ): string[] {
   const keys: string[] = [];
-  for (const section of sections) {
-    for (const item of section.items) {
-      if ((item.children ?? []).length > 0) {
+  const collectFromItems = (items: readonly ShowcaseSidebarNavItem[]): void => {
+    for (const item of items) {
+      const children = item.children ?? [];
+      if (children.length > 0) {
         keys.push(item.labelKey);
+        collectFromItems(children);
       }
     }
+  };
+  for (const section of sections) {
+    collectFromItems(section.items);
     for (const group of section.groups) {
       keys.push(group.labelKey);
-      for (const item of group.items) {
-        if ((item.children ?? []).length > 0) {
-          keys.push(item.labelKey);
-        }
-      }
+      collectFromItems(group.items);
     }
   }
   return keys;
 }
 
 /**
- * Finds the collapsible ancestor keys of the given URL (group key and,
- * for nested items, the parent-item key) so only the active page's
- * branch can be expanded.
+ * Finds the collapsible ancestor keys of the given URL at any depth
+ * (group key plus the chain of parent-item keys) so only the active
+ * page's branch can be expanded.
  */
 function findAncestorKeys(
   sections: readonly ShowcaseSidebarNavSection[],
@@ -78,23 +79,133 @@ function findAncestorKeys(
   const matchesRoute = (item: ShowcaseSidebarNavItem): boolean =>
     item.route !== undefined && normalizePath(item.route) === path;
 
-  for (const section of sections) {
-    for (const item of section.items) {
+  const findInItems = (
+    items: readonly ShowcaseSidebarNavItem[],
+    chain: readonly string[],
+  ): readonly string[] | null => {
+    for (const item of items) {
       if (matchesRoute(item)) {
-        return [];
+        return chain;
       }
-      if ((item.children ?? []).some(matchesRoute)) {
-        return [item.labelKey];
+      const children = item.children ?? [];
+      if (children.length > 0) {
+        const found = findInItems(children, [...chain, item.labelKey]);
+        if (found !== null) {
+          return found;
+        }
       }
     }
+    return null;
+  };
+
+  for (const section of sections) {
+    const inSection = findInItems(section.items, []);
+    if (inSection !== null) {
+      return inSection;
+    }
     for (const group of section.groups) {
-      for (const item of group.items) {
-        if (matchesRoute(item)) {
-          return [group.labelKey];
+      const inGroup = findInItems(group.items, [group.labelKey]);
+      if (inGroup !== null) {
+        return inGroup;
+      }
+    }
+  }
+  return [];
+}
+
+/**
+ * Finds the collapsible ancestor chain of a toggle key itself (excluding
+ * the key) at any depth, so opening a nested toggle can keep its parent
+ * chain open while everything else collapses (single-branch accordion).
+ */
+function findToggleAncestors(
+  sections: readonly ShowcaseSidebarNavSection[],
+  targetKey: string,
+): readonly string[] {
+  const findInItems = (
+    items: readonly ShowcaseSidebarNavItem[],
+    chain: readonly string[],
+  ): readonly string[] | null => {
+    for (const item of items) {
+      if (item.labelKey === targetKey) {
+        return (item.children ?? []).length > 0 ? chain : null;
+      }
+      const children = item.children ?? [];
+      if (children.length > 0) {
+        const found = findInItems(children, [...chain, item.labelKey]);
+        if (found !== null) {
+          return found;
         }
-        if ((item.children ?? []).some(matchesRoute)) {
-          return [group.labelKey, item.labelKey];
-        }
+      }
+    }
+    return null;
+  };
+
+  for (const section of sections) {
+    const inSection = findInItems(section.items, []);
+    if (inSection !== null) {
+      return inSection;
+    }
+    for (const group of section.groups) {
+      if (group.labelKey === targetKey) {
+        return [];
+      }
+      const inGroup = findInItems(group.items, [group.labelKey]);
+      if (inGroup !== null) {
+        return inGroup;
+      }
+    }
+  }
+  return [];
+}
+
+/**
+ * Finds collapsible descendant keys of a toggle at any depth (nested
+ * parent items), so closing a parent also resets its nested toggles.
+ */
+function findToggleDescendants(
+  sections: readonly ShowcaseSidebarNavSection[],
+  targetKey: string,
+): readonly string[] {
+  const collectKeys = (items: readonly ShowcaseSidebarNavItem[]): string[] => {
+    const keys: string[] = [];
+    for (const item of items) {
+      const children = item.children ?? [];
+      if (children.length > 0) {
+        keys.push(item.labelKey);
+        keys.push(...collectKeys(children));
+      }
+    }
+    return keys;
+  };
+
+  const findSubtree = (
+    items: readonly ShowcaseSidebarNavItem[],
+  ): readonly ShowcaseSidebarNavItem[] | null => {
+    for (const item of items) {
+      if (item.labelKey === targetKey) {
+        return item.children ?? [];
+      }
+      const found = findSubtree(item.children ?? []);
+      if (found !== null) {
+        return found;
+      }
+    }
+    return null;
+  };
+
+  for (const section of sections) {
+    const inSection = findSubtree(section.items);
+    if (inSection !== null) {
+      return collectKeys(inSection);
+    }
+    for (const group of section.groups) {
+      if (group.labelKey === targetKey) {
+        return collectKeys(group.items);
+      }
+      const inGroup = findSubtree(group.items);
+      if (inGroup !== null) {
+        return collectKeys(inGroup);
       }
     }
   }
@@ -181,11 +292,22 @@ export class ShowcaseShellSidebar {
   }
 
   protected toggleGroup(labelKey: string): void {
-    this.collapsedGroups.update((collapsed) =>
-      collapsed.includes(labelKey)
-        ? collapsed.filter((key) => key !== labelKey)
-        : [...collapsed, labelKey],
-    );
+    const collapsed = this.collapsedGroups();
+    const isCurrentlyCollapsed = collapsed.includes(labelKey);
+    if (!isCurrentlyCollapsed) {
+      const descendants = findToggleDescendants(
+        SHELL_SIDEBAR_SECTIONS,
+        labelKey,
+      );
+      this.collapsedGroups.set([
+        ...new Set([...collapsed, labelKey, ...descendants]),
+      ]);
+      return;
+    }
+    const ancestors = findToggleAncestors(SHELL_SIDEBAR_SECTIONS, labelKey);
+    const keepOpen = new Set([labelKey, ...ancestors]);
+    const allKeys = collectCollapsibleKeys(SHELL_SIDEBAR_SECTIONS);
+    this.collapsedGroups.set(allKeys.filter((key) => !keepOpen.has(key)));
   }
 
   protected handleNavigate(): void {
@@ -196,12 +318,8 @@ export class ShowcaseShellSidebar {
 
   private expandAncestorsOfUrl(url: string): void {
     const ancestors = findAncestorKeys(SHELL_SIDEBAR_SECTIONS, url);
-    if (ancestors.length === 0) {
-      return;
-    }
-    this.collapsedGroups.update((collapsed) =>
-      collapsed.filter((key) => !ancestors.includes(key)),
-    );
+    const allKeys = collectCollapsibleKeys(SHELL_SIDEBAR_SECTIONS);
+    this.collapsedGroups.set(allKeys.filter((key) => !ancestors.includes(key)));
   }
 
   private filterItems(
@@ -213,19 +331,28 @@ export class ShowcaseShellSidebar {
         .translate(item.labelKey)
         .toLocaleLowerCase()
         .includes(term);
-    return items
-      .map((item) => {
+    const filterRecursive = (
+      candidates: readonly ShowcaseSidebarNavItem[],
+    ): readonly ShowcaseSidebarNavItem[] => {
+      const result: ShowcaseSidebarNavItem[] = [];
+      for (const item of candidates) {
         if (item.route) {
-          return matches(item) ? item : undefined;
+          if (matches(item)) {
+            result.push(item);
+          }
+          continue;
         }
         if (matches(item)) {
-          return item;
+          result.push(item);
+          continue;
         }
-        const children = (item.children ?? []).filter((child) =>
-          matches(child),
-        );
-        return children.length > 0 ? { ...item, children } : undefined;
-      })
-      .filter((item): item is ShowcaseSidebarNavItem => item !== undefined);
+        const children = filterRecursive(item.children ?? []);
+        if (children.length > 0) {
+          result.push({ ...item, children });
+        }
+      }
+      return result;
+    };
+    return filterRecursive(items);
   }
 }

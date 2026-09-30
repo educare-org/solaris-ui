@@ -6,6 +6,12 @@
   --solaris-shell-sidebar-link-padding: var(--solaris-spacing-5)
     var(--solaris-spacing-7);
 
+  // border-box is required here: the app has no universal reset and this
+  // element defaults to content-box, which would add its vertical padding
+  // (80px) on top of height: calc(100vh - 64px). The box would then extend
+  // past the viewport bottom and the last ~80px of scroll range — e.g. the
+  // "Sobreposição" item — could never be scrolled into view.
+  box-sizing: border-box;
   display: flex;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -76,9 +82,10 @@
   justify-content: space-between;
   color: var(--solaris-text-muted);
   margin-left: var(--solaris-spacing-7);
+  margin-right: var(--solaris-spacing-4);
   font-size: var(--solaris-font-size-sm);
   border-radius: var(--solaris-radius-md);
-  width: calc(100% - var(--solaris-spacing-7));
+  width: calc(100% - var(--solaris-spacing-7) - var(--solaris-spacing-4));
   padding: var(--solaris-shell-sidebar-link-padding);
   transition:
     background-color var(--solaris-motion-duration-normal)
@@ -210,11 +217,29 @@
   padding: 0;
 }
 
+// The sidebar is a scrollable flex column. Its descendants must keep their
+// intrinsic height: otherwise flex-shrink compresses tall content and the
+// inner overflow:hidden panels clip it, so items below the fold become
+// unreachable without any scrollbar. flex-shrink: 0 forces the excess
+// height to overflow the sidebar itself, which triggers its own scroll.
+.shell-sidebar__section,
+.shell-sidebar__subgroup,
+.shell-sidebar__subgroup-toggle,
+.shell-sidebar__subgroup-panel,
+.shell-sidebar__sublink,
+.shell-sidebar__sublink-toggle,
+.shell-sidebar__sublink-panel,
+.shell-sidebar__list,
+.shell-sidebar__item {
+  flex-shrink: 0;
+}
+
 .shell-sidebar__link {
   display: block;
   text-decoration: none;
   color: var(--solaris-text-muted);
   margin-left: var(--solaris-spacing-10);
+  margin-right: var(--solaris-spacing-4);
   font-size: var(--solaris-font-size-xs);
   border-radius: var(--solaris-radius-md);
   font-weight: var(--solaris-font-weight-medium);
@@ -250,19 +275,20 @@
 
 .shell-sidebar__sublink-toggle {
   border: 0;
-  cursor: pointer;
+  font: inherit;
   display: flex;
+  cursor: pointer;
   text-align: start;
   align-items: center;
   background: transparent;
-  font: inherit;
   gap: var(--solaris-spacing-2);
   justify-content: space-between;
   color: var(--solaris-text-muted);
-  margin-left: var(--solaris-spacing-8);
   font-size: var(--solaris-font-size-xs);
+  margin-left: var(--solaris-spacing-10);
+  margin-right: var(--solaris-spacing-4);
   border-radius: var(--solaris-radius-md);
-  width: calc(100% - var(--solaris-spacing-7));
+  width: calc(100% - var(--solaris-spacing-10) - var(--solaris-spacing-4));
   font-weight: var(--solaris-font-weight-medium);
   padding: var(--solaris-shell-sidebar-link-padding);
   transition:
@@ -286,6 +312,28 @@
 .shell-sidebar__sublink-toggle[aria-expanded='true']
   .shell-sidebar__sublink-label {
   color: var(--solaris-text-default);
+}
+
+.shell-sidebar__sublink-panel .shell-sidebar__link {
+  margin-left: calc(var(--solaris-spacing-10) + var(--solaris-spacing-6));
+}
+
+.shell-sidebar__sublink-panel .shell-sidebar__sublink-toggle {
+  margin-left: calc(var(--solaris-spacing-10) + var(--solaris-spacing-6));
+  width: calc(
+    100% - var(--solaris-spacing-10) - var(--solaris-spacing-6) - var(
+        --solaris-spacing-4
+      )
+  );
+}
+
+.shell-sidebar__sublink-panel
+  .shell-sidebar__sublink-panel
+  .shell-sidebar__link {
+  margin-left: calc(
+    var(--solaris-spacing-10) + var(--solaris-spacing-6) +
+      var(--solaris-spacing-6)
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {

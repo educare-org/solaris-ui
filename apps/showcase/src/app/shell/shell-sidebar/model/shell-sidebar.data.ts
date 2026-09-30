@@ -121,57 +121,104 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
             route: '/forms/form-field',
           },
           {
-            labelKey: 'shell.sidebar.item.textarea',
-            route: '/forms/textarea',
-          },
-          { labelKey: 'shell.sidebar.item.input', route: '/forms/input' },
-          {
-            labelKey: 'shell.sidebar.item.password-field',
-            route: '/forms/password-field',
-          },
-          {
-            labelKey: 'shell.sidebar.item.email-field',
-            route: '/forms/email-field',
-          },
-          {
-            labelKey: 'shell.sidebar.item.phone-field',
-            route: '/forms/phone-field',
-          },
-          {
-            labelKey: 'shell.sidebar.item.otp-input',
-            route: '/forms/otp-input',
-          },
-          {
-            labelKey: 'shell.sidebar.item.checkbox',
-            route: '/forms/checkbox',
-          },
-          {
-            labelKey: 'shell.sidebar.item.checkbox-group',
-            route: '/forms/checkbox-group',
-          },
-          { labelKey: 'shell.sidebar.item.radio', route: '/forms/radio' },
-          {
-            labelKey: 'shell.sidebar.item.radio-group',
-            route: '/forms/radio-group',
+            labelKey: 'shell.sidebar.item.text-fields',
+            children: [
+              { labelKey: 'shell.sidebar.item.input', route: '/forms/input' },
+              {
+                labelKey: 'shell.sidebar.item.textarea',
+                route: '/forms/textarea',
+              },
+              {
+                labelKey: 'shell.sidebar.item.password-field',
+                route: '/forms/password-field',
+              },
+              {
+                labelKey: 'shell.sidebar.item.email-field',
+                route: '/forms/email-field',
+              },
+              {
+                labelKey: 'shell.sidebar.item.phone-field',
+                route: '/forms/phone-field',
+              },
+              {
+                labelKey: 'shell.sidebar.item.otp-input',
+                route: '/forms/otp-input',
+              },
+            ],
           },
           {
-            labelKey: 'shell.sidebar.item.selection-card',
-            route: '/forms/selection-card',
+            labelKey: 'shell.sidebar.item.selection-controls',
+            children: [
+              {
+                labelKey: 'shell.sidebar.item.checkboxes',
+                children: [
+                  {
+                    labelKey: 'shell.sidebar.item.checkbox',
+                    route: '/forms/checkbox',
+                  },
+                  {
+                    labelKey: 'shell.sidebar.item.checkbox-group',
+                    route: '/forms/checkbox-group',
+                  },
+                ],
+              },
+              {
+                labelKey: 'shell.sidebar.item.radios',
+                children: [
+                  {
+                    labelKey: 'shell.sidebar.item.radio',
+                    route: '/forms/radio',
+                  },
+                  {
+                    labelKey: 'shell.sidebar.item.radio-group',
+                    route: '/forms/radio-group',
+                  },
+                ],
+              },
+              {
+                labelKey: 'shell.sidebar.item.switches',
+                children: [
+                  {
+                    labelKey: 'shell.sidebar.item.switch',
+                    route: '/forms/switch',
+                  },
+                  {
+                    labelKey: 'shell.sidebar.item.switch-group',
+                    route: '/forms/switch-group',
+                  },
+                ],
+              },
+              {
+                labelKey: 'shell.sidebar.item.selection-card',
+                route: '/forms/selection-card',
+              },
+            ],
           },
           {
-            labelKey: 'shell.sidebar.item.date-picker',
-            route: '/forms/date-picker',
-          },
-          { labelKey: 'shell.sidebar.item.switch', route: '/forms/switch' },
-          {
-            labelKey: 'shell.sidebar.item.switch-group',
-            route: '/forms/switch-group',
-          },
-          { labelKey: 'shell.sidebar.item.option', route: '/forms/option' },
-          { labelKey: 'shell.sidebar.item.select', route: '/forms/select' },
-          {
-            labelKey: 'shell.sidebar.item.multi-select',
-            route: '/forms/multi-select',
+            labelKey: 'shell.sidebar.item.pickers',
+            children: [
+              {
+                labelKey: 'shell.sidebar.item.selects',
+                children: [
+                  {
+                    labelKey: 'shell.sidebar.item.option',
+                    route: '/forms/option',
+                  },
+                  {
+                    labelKey: 'shell.sidebar.item.select',
+                    route: '/forms/select',
+                  },
+                  {
+                    labelKey: 'shell.sidebar.item.multi-select',
+                    route: '/forms/multi-select',
+                  },
+                ],
+              },
+              {
+                labelKey: 'shell.sidebar.item.date-picker',
+                route: '/forms/date-picker',
+              },
+            ],
           },
         ],
       },
