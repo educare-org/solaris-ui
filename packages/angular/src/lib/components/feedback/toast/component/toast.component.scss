@@ -1,39 +1,50 @@
 :host {
   --solaris-toast-max-lines: 2;
   --solaris-toast-border-width: 0;
-  --solaris-toast-max-width: 800px;
+  --solaris-toast-max-width: 520px;
+  --solaris-toast-min-width: 460px;
   --solaris-toast-width: fit-content;
   --solaris-toast-border-color: transparent;
-  --solaris-toast-gap: var(--solaris-spacing-3);
-  --solaris-toast-radius: var(--solaris-radius-md);
-  --solaris-toast-shadow: var(--solaris-shadow-lg);
-  --solaris-toast-padding: var(--solaris-spacing-3);
+  --solaris-toast-gap: var(--solaris-spacing-4);
+  --solaris-toast-padding: var(--solaris-spacing-5);
   --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-close-size: var(--solaris-spacing-4);
-  --solaris-toast-media-size: var(--solaris-spacing-6);
+  --solaris-toast-close-size: 24px;
+  --solaris-toast-media-size: var(--solaris-spacing-9);
   --solaris-toast-icon-color: var(--solaris-text-muted);
-  --solaris-toast-content-gap: var(--solaris-spacing-1);
+  --solaris-toast-content-gap: var(--solaris-spacing-3);
   --solaris-toast-actions-gap: var(--solaris-spacing-2);
   --solaris-toast-radius-value: var(--solaris-radius-md);
   --solaris-toast-icon-size: var(--solaris-font-size-lg);
+  --solaris-toast-title-font-size: var(--solaris-font-size-sm);
+  --solaris-toast-description-font-size: var(--solaris-font-size-xs);
   --solaris-toast-shadow-value: var(--solaris-shadow-lg);
   --solaris-toast-title-color: var(--solaris-text-strong);
   --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-action-color: var(--solaris-primary-base);
   --solaris-toast-progress-color: var(--solaris-text-muted);
-  --solaris-toast-progress-height: var(--solaris-spacing-1);
+  --solaris-toast-progress-height: 6px;
+  --solaris-toast-bar-width: 3px;
   --solaris-toast-description-color: var(--solaris-text-muted);
-  --solaris-toast-close-icon-size: var(--solaris-font-size-lg);
+  --solaris-toast-close-icon-size: var(--solaris-font-size-md);
+  --solaris-toast-countdown-padding: var(--solaris-spacing-4)
+    var(--solaris-spacing-6);
+  --solaris-toast-custom-color: var(--solaris-text-default);
+  --solaris-toast-custom-icon-color: var(--solaris-text-muted);
+  --solaris-toast-custom-background: var(--solaris-surface-raised);
+  --solaris-toast-custom-border-color: var(--solaris-border-default);
+  --solaris-toast-custom-progress-color: var(--solaris-primary-base);
 
   display: block;
   overflow: hidden;
   pointer-events: auto;
   box-sizing: border-box;
   width: var(--solaris-toast-width);
-  margin-top: var(--solaris-spacing-4);
   max-width: var(--solaris-toast-max-width);
+  min-width: min(var(--solaris-toast-min-width), 100%);
   box-shadow: var(--solaris-toast-shadow-value);
   border-radius: var(--solaris-toast-radius-value);
+  background: var(--solaris-toast-background);
+  border: var(--solaris-toast-border-width) solid
+    var(--solaris-toast-border-color);
   animation: solaris-toast-enter var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
@@ -45,10 +56,15 @@
   gap: var(--solaris-toast-gap);
   color: var(--solaris-toast-color);
   padding: var(--solaris-toast-padding);
-  border-radius: var(--solaris-radius-md);
+  border-radius: var(--solaris-toast-radius-value);
   background: var(--solaris-toast-background);
-  border: var(--solaris-toast-border-width) solid
-    var(--solaris-toast-border-color);
+}
+
+// Radius connection: when a bottom add-on (progress bar / countdown text)
+// is present, the root bottom corners go straight so it connects flush.
+:host([data-has-bottom]) .solaris-toast__root {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 :host([data-center-content='true']) .solaris-toast__root {
@@ -64,7 +80,7 @@
 }
 
 .solaris-toast__bar {
-  width: 3px;
+  width: var(--solaris-toast-bar-width);
   flex-shrink: 0;
   align-self: stretch;
   border-radius: var(--solaris-radius-full);
@@ -100,7 +116,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--solaris-toast-content-gap);
-  font-size: var(--solaris-font-size-sm);
+  font-size: var(--solaris-toast-description-font-size);
   line-height: var(--solaris-line-height-md);
 }
 
@@ -108,7 +124,7 @@
   margin: 0;
   word-break: normal;
   overflow-wrap: break-word;
-  font-size: var(--solaris-font-size-md);
+  font-size: var(--solaris-toast-title-font-size);
   line-height: var(--solaris-line-height-sm);
   font-weight: var(--solaris-font-weight-semibold);
   color: var(--solaris-toast-title-color);
@@ -125,7 +141,7 @@
   margin: 0;
   word-break: normal;
   overflow-wrap: break-word;
-  font-size: var(--solaris-font-size-xs);
+  font-size: var(--solaris-toast-description-font-size);
   line-height: var(--solaris-line-height-md);
   color: var(--solaris-toast-description-color);
 }
@@ -134,7 +150,7 @@
   display: flex;
   flex-shrink: 0;
   align-self: flex-start;
-  gap: var(--solaris-spacing-2);
+  gap: var(--solaris-spacing-1);
 }
 
 .solaris-toast__trailing-btn {
@@ -182,7 +198,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--solaris-toast-actions-gap);
-  margin-block-start: var(--solaris-spacing-2);
+  margin-block-start: var(--solaris-toast-content-gap);
 }
 
 :host([data-actions-align='start']) .solaris-toast__actions {
@@ -219,14 +235,23 @@
 
 .solaris-toast__countdown-text {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--solaris-spacing-1);
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--solaris-spacing-2);
+  overflow: hidden;
   color: var(--solaris-text-muted);
   background: var(--solaris-bg-page);
+  border-top: 1px solid var(--solaris-border-default);
   font-size: var(--solaris-font-size-xs);
   line-height: var(--solaris-line-height-md);
-  padding: var(--solaris-toast-padding) var(--solaris-spacing-4);
+  padding: var(--solaris-toast-countdown-padding);
+}
+
+.solaris-toast__countdown-message,
+.solaris-toast__countdown-toggle {
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
 }
 
 .solaris-toast__countdown-toggle {
@@ -247,22 +272,135 @@
   line-height: inherit;
   text-decoration: none;
   color: var(--solaris-text-default);
-  font-weight: var(--solaris-font-weight-bold);
+  font-weight: var(--solaris-font-weight-medium);
+  font-size: var(--solaris-font-size-xs);
+}
+
+// Size x density matrix (adapted: card scale, no control-height).
+// Padding grows with size (4/6/8 compact, 6/8/12 normal, 8/12/12
+// comfortable); gaps grow with density only (root 4/6/8, content 2/4/6).
+// Title/desc: sm -> xs/xs, md -> sm/xs, lg -> md/sm.
+:host([data-size='sm'][data-density='compact']) {
+  --solaris-toast-padding: var(--solaris-spacing-3);
+  --solaris-toast-gap: var(--solaris-spacing-3);
+  --solaris-toast-content-gap: var(--solaris-spacing-2);
+  --solaris-toast-max-width: 420px;
+  --solaris-toast-min-width: 380px;
+  --solaris-toast-title-font-size: var(--solaris-font-size-xs);
+  --solaris-toast-description-font-size: var(--solaris-font-size-xs);
+  --solaris-toast-close-size: 24px;
+  --solaris-toast-progress-height: 4px;
+}
+
+:host([data-size='md'][data-density='compact']) {
+  --solaris-toast-padding: var(--solaris-spacing-4);
+  --solaris-toast-gap: var(--solaris-spacing-3);
+  --solaris-toast-content-gap: var(--solaris-spacing-2);
+  --solaris-toast-max-width: 520px;
+  --solaris-toast-min-width: 460px;
+  --solaris-toast-title-font-size: var(--solaris-font-size-sm);
+  --solaris-toast-description-font-size: var(--solaris-font-size-xs);
+  --solaris-toast-close-size: 24px;
+  --solaris-toast-progress-height: 4px;
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-toast-padding: var(--solaris-spacing-5);
+  --solaris-toast-gap: var(--solaris-spacing-3);
+  --solaris-toast-content-gap: var(--solaris-spacing-2);
+  --solaris-toast-max-width: 600px;
+  --solaris-toast-min-width: 540px;
+  --solaris-toast-title-font-size: var(--solaris-font-size-md);
+  --solaris-toast-description-font-size: var(--solaris-font-size-sm);
+  --solaris-toast-close-size: 28px;
+  --solaris-toast-progress-height: 4px;
+}
+
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-toast-padding: var(--solaris-spacing-4);
+  --solaris-toast-gap: var(--solaris-spacing-4);
+  --solaris-toast-content-gap: var(--solaris-spacing-3);
+  --solaris-toast-max-width: 420px;
+  --solaris-toast-min-width: 380px;
+  --solaris-toast-title-font-size: var(--solaris-font-size-xs);
+  --solaris-toast-description-font-size: var(--solaris-font-size-xs);
+  --solaris-toast-close-size: 24px;
+  --solaris-toast-progress-height: 6px;
+}
+
+:host([data-size='md'][data-density='normal']) {
+  --solaris-toast-padding: var(--solaris-spacing-5);
+  --solaris-toast-gap: var(--solaris-spacing-4);
+  --solaris-toast-content-gap: var(--solaris-spacing-3);
+  --solaris-toast-max-width: 520px;
+  --solaris-toast-min-width: 460px;
+  --solaris-toast-title-font-size: var(--solaris-font-size-sm);
+  --solaris-toast-description-font-size: var(--solaris-font-size-xs);
+  --solaris-toast-close-size: 24px;
+  --solaris-toast-progress-height: 6px;
+}
+
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-toast-padding: var(--solaris-spacing-6);
+  --solaris-toast-gap: var(--solaris-spacing-4);
+  --solaris-toast-content-gap: var(--solaris-spacing-3);
+  --solaris-toast-max-width: 600px;
+  --solaris-toast-min-width: 540px;
+  --solaris-toast-title-font-size: var(--solaris-font-size-md);
+  --solaris-toast-description-font-size: var(--solaris-font-size-sm);
+  --solaris-toast-close-size: 28px;
+  --solaris-toast-progress-height: 6px;
+}
+
+:host([data-size='sm'][data-density='comfortable']) {
+  --solaris-toast-padding: var(--solaris-spacing-5);
+  --solaris-toast-gap: var(--solaris-spacing-5);
+  --solaris-toast-content-gap: var(--solaris-spacing-4);
+  --solaris-toast-max-width: 420px;
+  --solaris-toast-min-width: 380px;
+  --solaris-toast-title-font-size: var(--solaris-font-size-xs);
+  --solaris-toast-description-font-size: var(--solaris-font-size-xs);
+  --solaris-toast-close-size: 28px;
+  --solaris-toast-progress-height: 6px;
+}
+
+:host([data-size='md'][data-density='comfortable']) {
+  --solaris-toast-padding: var(--solaris-spacing-6);
+  --solaris-toast-gap: var(--solaris-spacing-5);
+  --solaris-toast-content-gap: var(--solaris-spacing-4);
+  --solaris-toast-max-width: 520px;
+  --solaris-toast-min-width: 460px;
+  --solaris-toast-title-font-size: var(--solaris-font-size-sm);
+  --solaris-toast-description-font-size: var(--solaris-font-size-xs);
+  --solaris-toast-close-size: 28px;
+  --solaris-toast-progress-height: 6px;
+}
+
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-toast-padding: var(--solaris-spacing-6);
+  --solaris-toast-gap: var(--solaris-spacing-5);
+  --solaris-toast-content-gap: var(--solaris-spacing-4);
+  --solaris-toast-max-width: 600px;
+  --solaris-toast-min-width: 540px;
+  --solaris-toast-title-font-size: var(--solaris-font-size-md);
+  --solaris-toast-description-font-size: var(--solaris-font-size-sm);
+  --solaris-toast-close-size: 28px;
+  --solaris-toast-progress-height: 6px;
 }
 
 :host([data-icon-size='sm']) {
-  --solaris-toast-media-size: var(--solaris-spacing-6);
-  --solaris-toast-icon-size: var(--solaris-font-size-lg);
+  --solaris-toast-media-size: var(--solaris-spacing-8);
+  --solaris-toast-icon-size: var(--solaris-font-size-sm);
 }
 
 :host([data-icon-size='md']) {
-  --solaris-toast-media-size: var(--solaris-spacing-8);
-  --solaris-toast-icon-size: var(--solaris-font-size-2xl);
+  --solaris-toast-media-size: var(--solaris-spacing-9);
+  --solaris-toast-icon-size: var(--solaris-font-size-lg);
 }
 
 :host([data-icon-size='lg']) {
   --solaris-toast-media-size: var(--solaris-spacing-10);
-  --solaris-toast-icon-size: var(--solaris-font-size-3xl);
+  --solaris-toast-icon-size: var(--solaris-font-size-xl);
 }
 
 :host([data-media-shape='circle']) .solaris-toast__media {
@@ -277,144 +415,56 @@
   border-radius: 0;
 }
 
-:host([data-variant='neutral'][data-appearance='surface']) {
-  --solaris-toast-border-width: 0;
-  --solaris-toast-border-color: transparent;
-  --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-icon-color: var(--solaris-text-muted);
-  --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-progress-color: var(--solaris-text-muted);
-}
-
-:host([data-variant='neutral'][data-appearance='outline']) {
-  --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-icon-color: var(--solaris-text-muted);
-  --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-progress-color: var(--solaris-text-muted);
-  --solaris-toast-border-color: var(--solaris-border-default);
-  --solaris-toast-border-width: var(--solaris-border-width-sm);
-}
-
-:host([data-variant='info'][data-appearance='surface']) {
-  --solaris-toast-border-width: 0;
-  --solaris-toast-border-color: transparent;
-  --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-icon-color: var(--solaris-info-base);
-  --solaris-toast-progress-color: var(--solaris-info-base);
-  --solaris-toast-background: var(--solaris-surface-raised);
-}
-
-:host([data-variant='info'][data-appearance='outline']) {
-  --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-icon-color: var(--solaris-info-base);
-  --solaris-toast-border-color: var(--solaris-info-border);
-  --solaris-toast-progress-color: var(--solaris-info-base);
-  --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-border-width: var(--solaris-border-width-sm);
-}
-
-:host([data-variant='success'][data-appearance='surface']) {
-  --solaris-toast-border-width: 0;
-  --solaris-toast-border-color: transparent;
-  --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-icon-color: var(--solaris-success-base);
-  --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-progress-color: var(--solaris-success-base);
-}
-
-:host([data-variant='success'][data-appearance='outline']) {
-  --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-icon-color: var(--solaris-success-base);
-  --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-border-color: var(--solaris-success-border);
-  --solaris-toast-progress-color: var(--solaris-success-base);
-  --solaris-toast-border-width: var(--solaris-border-width-sm);
-}
-
-:host([data-variant='warning'][data-appearance='surface']) {
-  --solaris-toast-border-width: 0;
-  --solaris-toast-border-color: transparent;
-  --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-icon-color: var(--solaris-warning-base);
-  --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-progress-color: var(--solaris-warning-base);
-}
-
-:host([data-variant='warning'][data-appearance='outline']) {
-  --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-icon-color: var(--solaris-warning-base);
-  --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-border-color: var(--solaris-warning-border);
-  --solaris-toast-progress-color: var(--solaris-warning-base);
-  --solaris-toast-border-width: var(--solaris-border-width-sm);
-}
-
-:host([data-variant='danger'][data-appearance='surface']) {
-  --solaris-toast-border-width: 0;
-  --solaris-toast-border-color: transparent;
-  --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-icon-color: var(--solaris-danger-base);
-  --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-progress-color: var(--solaris-danger-base);
-}
-
-:host([data-variant='danger'][data-appearance='outline']) {
-  --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-icon-color: var(--solaris-danger-base);
-  --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-border-color: var(--solaris-danger-border);
-  --solaris-toast-progress-color: var(--solaris-danger-base);
-  --solaris-toast-border-width: var(--solaris-border-width-sm);
-}
-
-:host([data-variant='loading'][data-appearance='surface']) {
-  --solaris-toast-border-width: 0;
-  --solaris-toast-border-color: transparent;
-  --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-icon-color: var(--solaris-primary-base);
-  --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-progress-color: var(--solaris-primary-base);
-}
-
-:host([data-variant='loading'][data-appearance='outline']) {
-  --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-icon-color: var(--solaris-primary-base);
-  --solaris-toast-background: var(--solaris-surface-raised);
-  --solaris-toast-border-color: var(--solaris-primary-border);
-  --solaris-toast-progress-color: var(--solaris-primary-base);
-  --solaris-toast-border-width: var(--solaris-border-width-sm);
-}
-
-:host([data-variant='custom']) {
-  --solaris-toast-color: var(
-    --solaris-toast-custom-color,
-    var(--solaris-text-default)
-  );
-  --solaris-toast-icon-color: var(
-    --solaris-toast-custom-icon-color,
-    var(--solaris-text-muted)
-  );
-  --solaris-toast-background: var(
-    --solaris-toast-custom-background,
-    var(--solaris-surface-raised)
-  );
-  --solaris-toast-border-color: var(
-    --solaris-toast-custom-border-color,
-    var(--solaris-border-default)
-  );
-  --solaris-toast-progress-color: var(
-    --solaris-toast-custom-progress-color,
-    var(--solaris-primary-base)
-  );
-}
-
 :host([data-appearance='surface']) {
   --solaris-toast-border-width: 0;
   --solaris-toast-border-color: transparent;
+  --solaris-toast-color: var(--solaris-text-default);
+  --solaris-toast-background: var(--solaris-surface-raised);
 }
 
 :host([data-appearance='outline']) {
   --solaris-toast-border-width: var(--solaris-border-width-sm);
+  --solaris-toast-border-color: var(--solaris-border-default);
+  --solaris-toast-color: var(--solaris-text-default);
+  --solaris-toast-background: var(--solaris-surface-raised);
+}
+
+:host([data-variant='neutral']) {
+  --solaris-toast-icon-color: var(--solaris-text-muted);
+  --solaris-toast-progress-color: var(--solaris-text-muted);
+}
+
+:host([data-variant='info']) {
+  --solaris-toast-icon-color: var(--solaris-info-base);
+  --solaris-toast-progress-color: var(--solaris-info-base);
+}
+
+:host([data-variant='success']) {
+  --solaris-toast-icon-color: var(--solaris-success-base);
+  --solaris-toast-progress-color: var(--solaris-success-base);
+}
+
+:host([data-variant='warning']) {
+  --solaris-toast-icon-color: var(--solaris-warning-base);
+  --solaris-toast-progress-color: var(--solaris-warning-base);
+}
+
+:host([data-variant='danger']) {
+  --solaris-toast-icon-color: var(--solaris-danger-base);
+  --solaris-toast-progress-color: var(--solaris-danger-base);
+}
+
+:host([data-variant='loading']) {
+  --solaris-toast-icon-color: var(--solaris-primary-base);
+  --solaris-toast-progress-color: var(--solaris-primary-base);
+}
+
+:host([data-variant='custom']) {
+  --solaris-toast-color: var(--solaris-toast-custom-color);
+  --solaris-toast-icon-color: var(--solaris-toast-custom-icon-color);
+  --solaris-toast-background: var(--solaris-toast-custom-background);
+  --solaris-toast-border-color: var(--solaris-toast-custom-border-color);
+  --solaris-toast-progress-color: var(--solaris-toast-custom-progress-color);
 }
 
 :host([data-variant='loading']) .solaris-toast__icon {
@@ -433,7 +483,7 @@
 @keyframes solaris-toast-enter {
   from {
     opacity: 0;
-    transform: translateY(-16px) scale(0.95);
+    transform: translateY(8px) scale(0.98);
   }
   to {
     opacity: 1;
@@ -451,11 +501,11 @@
   }
 }
 
-:host-context([data-reduced-motion='true']) {
+:host-context(body[data-reduced-motion='true']) {
   animation: none;
 }
 
-:host([data-reduced-motion='true'][data-variant='loading'])
+:host-context(body[data-reduced-motion='true']):host([data-variant='loading'])
   .solaris-toast__icon {
   animation: none;
 }
@@ -464,5 +514,14 @@
   :host {
     --solaris-toast-width: 100%;
     --solaris-toast-max-width: 100%;
+  }
+
+  .solaris-toast__countdown-text {
+    flex-wrap: wrap;
+  }
+
+  .solaris-toast__countdown-message,
+  .solaris-toast__countdown-toggle {
+    white-space: normal;
   }
 }

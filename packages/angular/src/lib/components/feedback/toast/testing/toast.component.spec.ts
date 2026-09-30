@@ -239,11 +239,10 @@ describe('SolarisToastComponent', () => {
   });
 
   /* ── Countdown ── */
-  it('should show countdown bar when showCountdown is true', () => {
+  it('should show countdown bar when countdown is set', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
-      countdownMode: 'bar',
+      countdown: 'bar',
       duration: 5000,
     });
     const fixture = createFixture(service.entries()[0].id);
@@ -253,7 +252,7 @@ describe('SolarisToastComponent', () => {
   it('should not show countdown bar when persistent', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
+      countdown: 'bar',
       persistent: true,
     });
     const fixture = createFixture(service.entries()[0].id);
@@ -310,22 +309,20 @@ describe('SolarisToastComponent', () => {
   });
 
   /* ── Countdown text ── */
-  it('should show countdown text when showCountdown is true and countdownMode text', () => {
+  it('should show countdown text when countdown is text', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
-      countdownMode: 'text',
+      countdown: 'text',
       duration: 5000,
     });
     const fixture = createFixture(service.entries()[0].id);
     expect(q('.solaris-toast__countdown-text', fixture)).toBeTruthy();
   });
 
-  it('should show both bar and text when countdownMode both', () => {
+  it('should show both bar and text when countdown is both', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
-      countdownMode: 'both',
+      countdown: 'both',
       duration: 5000,
     });
     const fixture = createFixture(service.entries()[0].id);
@@ -333,11 +330,10 @@ describe('SolarisToastComponent', () => {
     expect(q('.solaris-toast__countdown-text', fixture)).toBeTruthy();
   });
 
-  it('should only show bar when countdownMode is bar', () => {
+  it('should only show bar when countdown is bar', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
-      countdownMode: 'bar',
+      countdown: 'bar',
       duration: 5000,
     });
     const fixture = createFixture(service.entries()[0].id);
@@ -349,8 +345,7 @@ describe('SolarisToastComponent', () => {
   it('should show stop button when countdown text is visible', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
-      countdownMode: 'text',
+      countdown: 'text',
       duration: 5000,
     });
     const fixture = createFixture(service.entries()[0].id);
@@ -360,45 +355,41 @@ describe('SolarisToastComponent', () => {
   it('should not show toggle button when countdown text is hidden', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
-      countdownMode: 'bar',
+      countdown: 'bar',
       duration: 5000,
     });
     const fixture = createFixture(service.entries()[0].id);
     expect(q('.solaris-toast__countdown-toggle', fixture)).toBeNull();
   });
 
-  it('should show "click to pause" label on toggle button by default', () => {
+  it('should show "Click to pause" label on toggle button by default', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
-      countdownMode: 'text',
+      countdown: 'text',
       duration: 5000,
     });
     const fixture = createFixture(service.entries()[0].id);
     const btn = q('.solaris-toast__countdown-toggle', fixture)!;
-    expect(btn.textContent!.trim()).toBe('click to pause');
+    expect(btn.textContent!.trim()).toBe('Click to pause');
   });
 
-  it('should show "click to continue" label after clicking pause', () => {
+  it('should show "Click to continue" label after clicking pause', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
-      countdownMode: 'text',
+      countdown: 'text',
       duration: 5000,
     });
     const fixture = createFixture(service.entries()[0].id);
     const btn = q('.solaris-toast__countdown-toggle', fixture)!;
     btn.click();
     fixture.detectChanges();
-    expect(btn.textContent!.trim()).toBe('click to continue');
+    expect(btn.textContent!.trim()).toBe('Click to continue');
   });
 
-  it('should toggle label back to "click to pause" after clicking continue', () => {
+  it('should toggle label back to "Click to pause" after clicking continue', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
-      countdownMode: 'text',
+      countdown: 'text',
       duration: 5000,
     });
     const fixture = createFixture(service.entries()[0].id);
@@ -407,14 +398,13 @@ describe('SolarisToastComponent', () => {
     fixture.detectChanges();
     btn.click();
     fixture.detectChanges();
-    expect(btn.textContent!.trim()).toBe('click to pause');
+    expect(btn.textContent!.trim()).toBe('Click to pause');
   });
 
   it('should keep countdown message fixed even when paused', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
-      countdownMode: 'text',
+      countdown: 'text',
       duration: 5000,
     });
     const fixture = createFixture(service.entries()[0].id);
@@ -429,8 +419,7 @@ describe('SolarisToastComponent', () => {
   it('should resume countdown text after clicking continue', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
-      countdownMode: 'text',
+      countdown: 'text',
       duration: 5000,
     });
     const fixture = createFixture(service.entries()[0].id);
@@ -443,11 +432,10 @@ describe('SolarisToastComponent', () => {
     expect(msg.textContent!.trim()).toContain('This message will close in');
   });
 
-  it('should keep "click to pause" label when hover pauses (independent)', () => {
+  it('should keep "Click to pause" label when hover pauses (independent)', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
-      countdownMode: 'text',
+      countdown: 'text',
       duration: 5000,
     });
     const fixture = createFixture(service.entries()[0].id);
@@ -455,14 +443,13 @@ describe('SolarisToastComponent', () => {
     const btn = q('.solaris-toast__countdown-toggle', fixture)!;
     toast.dispatchEvent(new Event('mouseenter'));
     fixture.detectChanges();
-    expect(btn.textContent!.trim()).toBe('click to pause');
+    expect(btn.textContent!.trim()).toBe('Click to pause');
   });
 
-  it('should keep "click to continue" label when hover resumes manually-paused toast', () => {
+  it('should keep "Click to continue" label when hover resumes manually-paused toast', () => {
     service.show({
       title: 'Test',
-      showCountdown: true,
-      countdownMode: 'text',
+      countdown: 'text',
       duration: 5000,
     });
     const fixture = createFixture(service.entries()[0].id);
@@ -470,9 +457,64 @@ describe('SolarisToastComponent', () => {
     const btn = q('.solaris-toast__countdown-toggle', fixture)!;
     btn.click();
     fixture.detectChanges();
-    expect(btn.textContent!.trim()).toBe('click to continue');
+    expect(btn.textContent!.trim()).toBe('Click to continue');
     toast.dispatchEvent(new Event('mouseleave'));
     fixture.detectChanges();
-    expect(btn.textContent!.trim()).toBe('click to continue');
+    expect(btn.textContent!.trim()).toBe('Click to continue');
+  });
+
+  it('should use singular label when one second remains', () => {
+    service.show({
+      title: 'Test',
+      countdown: 'text',
+      duration: 1000,
+    });
+    const fixture = createFixture(service.entries()[0].id);
+    const msg = q('.solaris-toast__countdown-message', fixture)!;
+    expect(msg.textContent!.trim()).toContain('1 second');
+  });
+
+  /* ── Size x density (adapted) ── */
+  it('should apply data-size and data-density from entry', () => {
+    service.show({ title: 'Test', size: 'lg', density: 'compact' });
+    const fixture = createFixture(service.entries()[0].id);
+    expect(getToastEl(fixture).getAttribute('data-size')).toBe('lg');
+    expect(getToastEl(fixture).getAttribute('data-density')).toBe('compact');
+  });
+
+  it('should default size to md and density to theme', () => {
+    service.show({ title: 'Test' });
+    const fixture = createFixture(service.entries()[0].id);
+    expect(getToastEl(fixture).getAttribute('data-size')).toBe('md');
+    expect(getToastEl(fixture).getAttribute('data-density')).toBeTruthy();
+  });
+
+  it('should set data-has-bottom only when countdown or progress present', () => {
+    service.show({ title: 'Plain', countdown: false });
+    let fixture = createFixture(service.entries()[0].id);
+    expect(getToastEl(fixture).hasAttribute('data-has-bottom')).toBe(false);
+    service.dismissAll();
+    service.show({ title: 'Bar', countdown: 'bar', duration: 5000 });
+    fixture = createFixture(service.entries()[0].id);
+    expect(getToastEl(fixture).hasAttribute('data-has-bottom')).toBe(true);
+    service.dismissAll();
+    service.show({ title: 'Manual', progress: 20, persistent: true });
+    fixture = createFixture(service.entries()[0].id);
+    expect(getToastEl(fixture).hasAttribute('data-has-bottom')).toBe(true);
+  });
+
+  it('should hide countdown text from screen readers', () => {
+    service.show({ title: 'Test', countdown: 'text', duration: 5000 });
+    const fixture = createFixture(service.entries()[0].id);
+    expect(
+      q('.solaris-toast__countdown-text', fixture)!.getAttribute('aria-hidden'),
+    ).toBe('true');
+  });
+
+  it('should resolve close label without hardcoded fallback', () => {
+    service.show({ title: 'Test', closeable: true });
+    const fixture = createFixture(service.entries()[0].id);
+    const btn = q('.solaris-toast__trailing-btn', fixture)!;
+    expect(btn.getAttribute('aria-label')).toBeTruthy();
   });
 });

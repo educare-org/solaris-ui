@@ -409,6 +409,14 @@ export type { SolarisToastConfig } from './lib/components/feedback/toast/model/t
 export type { SolarisToastAction } from './lib/components/feedback/toast/model/toast.types';
 export type { SolarisToastEntry } from './lib/components/feedback/toast/model/toast.types';
 export type { SolarisToastRef } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastCountdown } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastSize } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastDensity } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastActionsAlign } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastIconSize } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastMediaShape } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastSetup } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastPromiseMessages } from './lib/components/feedback/toast/model/toast.types';
 
 export { SolarisDialogService } from './lib/components/overlay/dialog/service/dialog.service';
 export { SolarisDialogRef } from './lib/components/overlay/dialog/service/dialog-ref';

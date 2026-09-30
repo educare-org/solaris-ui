@@ -148,6 +148,40 @@ describe('SolarisToastService', () => {
     service.show({ title: 'No Close', closeable: false });
     expect(service.entries()[0].resolvedCloseable).toBe(false);
   });
+
+  it('should default size to md and countdown to text', () => {
+    service.show({ title: 'Test' });
+    const entry = service.entries()[0];
+    expect(entry.resolvedSize).toBe('md');
+    expect(entry.resolvedCountdown).toBe('text');
+  });
+
+  it('should resolve per-toast size and countdown override', () => {
+    service.show({ title: 'Test', size: 'lg', countdown: 'text' });
+    const entry = service.entries()[0];
+    expect(entry.resolvedSize).toBe('lg');
+    expect(entry.resolvedCountdown).toBe('text');
+  });
+
+  it('should generate ids via nextIdFor', () => {
+    const a = service.show({ title: 'A' });
+    const b = service.show({ title: 'B' });
+    expect(a.id).toContain('solaris-toast-');
+    expect(b.id).toContain('solaris-toast-');
+    expect(a.id).not.toBe(b.id);
+  });
+
+  it('promise should resolve to success toast', async () => {
+    const ref = service.promise(Promise.resolve('ok'), {
+      loading: { title: 'Loading' },
+      success: { title: 'Done', variant: 'success' },
+      error: { title: 'Fail', variant: 'danger' },
+    });
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(service.entries().length).toBe(1);
+    expect(service.entries()[0].id).toBe(ref.id);
+  });
 });
 
 describe('SolarisToastService - with custom config', () => {

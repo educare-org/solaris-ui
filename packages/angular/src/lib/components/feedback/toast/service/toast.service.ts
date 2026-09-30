@@ -8,10 +8,12 @@ import {
   EnvironmentInjector,
   Injector,
   createComponent,
+  PLATFORM_ID,
   type ComponentRef,
   type Signal,
   type WritableSignal,
 } from '@angular/core';
+import { isPlatformBrowser, DOCUMENT } from '@angular/common';
 
 import {
   SOLARIS_TOAST_CONFIG,
@@ -19,6 +21,8 @@ import {
   SOLARIS_TOAST_CONTAINER,
 } from '../token/toast.tokens';
 import { SolarisToastContainerComponent } from '../container/toast-container.component';
+import { nextIdFor } from '../../../../core/utils/id';
+import { SolarisThemeService } from '../../../../services/theme';
 
 import type {
   SolarisToastConfig,
@@ -27,10 +31,10 @@ import type {
   SolarisToastVariant,
   SolarisToastAppearance,
   SolarisToastPosition,
+  SolarisToastCountdown,
   SolarisToastEntry,
+  SolarisToastPromiseMessages,
 } from '../model/toast.types';
-
-let nextToastId = 0;
 
 @Injectable()
 export class SolarisToastService {
@@ -39,6 +43,11 @@ export class SolarisToastService {
   private readonly appRef = inject(ApplicationRef);
   private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly injector = inject(Injector);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
+  private readonly themeService = inject(SolarisThemeService, {
+    optional: true,
+  });
 
   private readonly containerRefs = new Map<
     SolarisToastPosition,
@@ -68,6 +77,7 @@ export class SolarisToastService {
     position: SolarisToastPosition,
   ): SolarisToastContainerComponent | null {
     if (!this.autoContainer) return null;
+    if (!isPlatformBrowser(this.platformId)) return null;
     let ref = this.containerRefs.get(position);
     if (!ref) {
       const componentRef = createComponent(SolarisToastContainerComponent, {
@@ -77,7 +87,7 @@ export class SolarisToastService {
       componentRef.setInput('position', position);
       this.appRef.attachView(componentRef.hostView);
       const rootEl = componentRef.location.nativeElement as HTMLElement;
-      document.body.appendChild(rootEl);
+      this.document.body.appendChild(rootEl);
       this.containerRefs.set(position, componentRef);
       ref = componentRef;
     }
@@ -88,7 +98,7 @@ export class SolarisToastService {
     options: SolarisToastOptions,
     existingId?: string,
   ): SolarisToastEntry {
-    const id = existingId ?? options.id ?? `solaris-toast-${++nextToastId}`;
+    const id = existingId ?? options.id ?? nextIdFor('solaris-toast');
     const variant =
       options.variant ?? SolarisToastService.toastVariant ?? 'neutral';
     const appearances = this.resolveAppearances();
@@ -96,6 +106,9 @@ export class SolarisToastService {
     const cfg = this._configSignal();
 
     const position = options.position ?? cfg.position ?? 'bottom-center';
+    const size = options.size ?? cfg.size ?? 'md';
+    const density =
+      options.density ?? cfg.density ?? this.themeService?.density;
 
     const duration = options.duration ?? cfg.duration ?? 5000;
     const effectiveDuration =
@@ -114,15 +127,9 @@ export class SolarisToastService {
       options.descriptionKey,
       undefined,
     );
-    const closeLabel = resolveCloseLabel(
-      options.closeLabel,
-      options.closeLabelKey,
-    );
 
-    const showCountdown = options.showCountdown ?? cfg.showCountdown ?? false;
-    const countdownMode = options.countdownMode ?? cfg.countdownMode ?? 'bar';
-    const showCountdownText =
-      options.showCountdownText ?? cfg.showCountdownText ?? false;
+    const countdown: SolarisToastCountdown =
+      options.countdown ?? cfg.countdown ?? false;
 
     return {
       id,
@@ -131,6 +138,8 @@ export class SolarisToastService {
       resolvedVariant: variant,
       resolvedAppearance: appearance,
       resolvedPosition: position,
+      resolvedSize: size,
+      resolvedDensity: density,
       resolvedDuration: effectiveDuration,
       resolvedPersistent: persistent,
       resolvedCloseable: closeable,
@@ -139,20 +148,18 @@ export class SolarisToastService {
       resolvedIcon: icon,
       resolvedTitle: title,
       resolvedDescription: description,
-      resolvedCloseLabel: closeLabel,
+      resolvedCloseLabel: options.closeLabel,
+      resolvedCloseLabelKey: options.closeLabelKey,
       resolvedProgress: options.progress,
-      resolvedShowProgress: options.showProgress ?? false,
       resolvedActions: options.actions,
       resolvedExpandable: options.expandable ?? false,
       resolvedDefaultExpanded: options.defaultExpanded ?? false,
       resolvedMaxCollapsedLines: options.maxCollapsedLines ?? 2,
-      resolvedExpandLabel:
-        resolveText(options.expandLabel, options.expandLabelKey, '') ?? '',
-      resolvedCollapseLabel:
-        resolveText(options.collapseLabel, options.collapseLabelKey, '') ?? '',
-      resolvedShowCountdown: showCountdown,
-      resolvedShowCountdownText: showCountdownText,
-      resolvedCountdownMode: countdownMode,
+      resolvedExpandLabel: options.expandLabel,
+      resolvedExpandLabelKey: options.expandLabelKey,
+      resolvedCollapseLabel: options.collapseLabel,
+      resolvedCollapseLabelKey: options.collapseLabelKey,
+      resolvedCountdown: countdown,
       resolvedActionsAlign: options.actionsAlign ?? cfg.actionsAlign ?? 'end',
       resolvedIconSize: options.iconSize ?? cfg.iconSize ?? 'md',
       resolvedMediaShape: options.mediaShape ?? cfg.mediaShape ?? 'circle',
@@ -237,6 +244,30 @@ export class SolarisToastService {
     return this.show({ ...options, variant: 'loading' });
   }
 
+  promise(
+    task: Promise<unknown>,
+    messages: SolarisToastPromiseMessages,
+  ): SolarisToastRef {
+    const ref = this.loading({ ...messages.loading, persistent: true });
+    task.then(
+      (value) => {
+        const opts =
+          typeof messages.success === 'function'
+            ? messages.success(value)
+            : messages.success;
+        ref.update({ ...opts, persistent: false });
+      },
+      (reason) => {
+        const opts =
+          typeof messages.error === 'function'
+            ? messages.error(reason)
+            : messages.error;
+        ref.update({ ...opts, persistent: false });
+      },
+    );
+    return ref;
+  }
+
   dismiss(id: string): void {
     this.removeEntry(id);
   }
@@ -301,13 +332,4 @@ function resolveText(
   if (text) return text;
   if (key) return key;
   return defaultText;
-}
-
-function resolveCloseLabel(
-  label: string | undefined,
-  key: string | undefined,
-): string {
-  if (label) return label;
-  if (key) return key;
-  return 'Fechar';
 }

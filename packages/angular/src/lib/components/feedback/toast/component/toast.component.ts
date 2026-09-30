@@ -9,13 +9,16 @@ import {
   ChangeDetectionStrategy,
   DestroyRef,
   HostListener,
+  PLATFORM_ID,
 } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 import type {
   SolarisToastAction,
   SolarisToastEntry,
 } from '../model/toast.types';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisButtonDirective } from '../../../actions/button';
 import { SolarisToastService } from '../service/toast.service';
 import { SolarisIconComponent } from '../../../icon';
@@ -31,20 +34,27 @@ import { SolarisIconComponent } from '../../../icon';
     '[attr.role]': 'hostRole()',
     '[attr.aria-live]': 'hostAriaLive()',
     '[attr.data-variant]': 'hostDataVariant()',
+    '[attr.data-size]': 'hostDataSize()',
+    '[attr.data-density]': 'hostDataDensity()',
     '[attr.data-icon-size]': 'hostDataIconSize()',
+    '[attr.data-paused]': 'isPaused() || undefined',
     '[attr.data-appearance]': 'hostDataAppearance()',
     '[attr.data-media-shape]': 'hostDataMediaShape()',
     '[attr.data-actions-align]': 'hostDataActionsAlign()',
-    '[attr.data-center-content]': 'centerContent()',
-    '[attr.data-actions-no-desc]': 'hasActionsNoDescription()',
+    '[attr.data-has-bottom]': 'hasBottomAddOn() || undefined',
+    '[attr.data-center-content]': 'centerContent() || undefined',
   },
 })
 export class SolarisToastComponent {
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
+  private readonly themeService = inject(SolarisThemeService, {
+    optional: true,
+  });
   private readonly toastService = inject(SolarisToastService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly platformId = inject(PLATFORM_ID);
 
   readonly entry = input.required<SolarisToastEntry>();
   readonly dismiss = output<string>();
@@ -54,6 +64,11 @@ export class SolarisToastComponent {
   );
   protected readonly hostDataAppearance = computed(
     () => this.entry().resolvedAppearance,
+  );
+  protected readonly hostDataSize = computed(() => this.entry().resolvedSize);
+  protected readonly hostDataDensity = computed(
+    () =>
+      this.entry().resolvedDensity ?? this.themeService?.density ?? 'normal',
   );
   protected readonly hostRole = computed(() => this.entry().resolvedRole);
   protected readonly hostAriaLive = computed(() => {
@@ -83,12 +98,26 @@ export class SolarisToastComponent {
   protected readonly expandButtonLabel = computed(() => {
     const e = this.entry();
     if (this.expanded()) {
-      return (
-        e.resolvedCollapseLabel || this.translate('solaris.toast.collapse')
+      return this.resolveLabel(
+        e.resolvedCollapseLabel,
+        e.resolvedCollapseLabelKey,
+        'solaris.toast.collapse',
       );
     }
-    return e.resolvedExpandLabel || this.translate('solaris.toast.expand');
+    return this.resolveLabel(
+      e.resolvedExpandLabel,
+      e.resolvedExpandLabelKey,
+      'solaris.toast.expand',
+    );
   });
+
+  protected readonly closeButtonLabel = computed(() =>
+    this.resolveLabel(
+      this.entry().resolvedCloseLabel,
+      this.entry().resolvedCloseLabelKey,
+      'solaris.toast.close',
+    ),
+  );
 
   protected readonly isTruncated = computed(
     () => this.isExpandable() && !this.expanded(),
@@ -106,37 +135,35 @@ export class SolarisToastComponent {
   protected readonly isPaused = signal(false);
   private readonly isUserPaused = signal(false);
 
+  protected readonly countdownMode = computed(() => {
+    const e = this.entry();
+    if (
+      e.resolvedPersistent ||
+      e.resolvedDuration <= 0 ||
+      e.resolvedDuration >= Infinity
+    ) {
+      return false as const;
+    }
+    return e.resolvedCountdown;
+  });
+
   protected readonly showProgressBar = computed(() => {
     const e = this.entry();
     if (e.resolvedProgress !== undefined && e.resolvedProgress !== null) {
       return true;
     }
-    const showCountdown = this.shouldShowCountdown();
-    return (
-      showCountdown &&
-      !e.resolvedPersistent &&
-      e.resolvedDuration > 0 &&
-      e.resolvedDuration < Infinity &&
-      (e.resolvedCountdownMode === 'bar' || e.resolvedCountdownMode === 'both')
-    );
+    const mode = this.countdownMode();
+    return mode === 'bar' || mode === 'both';
   });
 
   protected readonly showCountdownText = computed(() => {
-    const e = this.entry();
-    const showCountdown = this.shouldShowCountdown();
-    return (
-      showCountdown &&
-      !e.resolvedPersistent &&
-      e.resolvedDuration > 0 &&
-      e.resolvedDuration < Infinity &&
-      (e.resolvedCountdownMode === 'text' || e.resolvedCountdownMode === 'both')
-    );
+    const mode = this.countdownMode();
+    return mode === 'text' || mode === 'both';
   });
 
-  private shouldShowCountdown(): boolean {
-    const e = this.entry();
-    return e.resolvedShowCountdown || e.resolvedShowProgress;
-  }
+  protected readonly hasBottomAddOn = computed(
+    () => this.showProgressBar() || this.showCountdownText(),
+  );
 
   protected readonly progressValue = computed(() => {
     const e = this.entry();
@@ -153,7 +180,8 @@ export class SolarisToastComponent {
 
   protected readonly countdownText = computed(() => {
     const secs = this.remainingSeconds();
-    if (secs <= 0) return '';
+    if (secs <= 0) return undefined;
+    if (secs === 1) return this.translate('solaris.toast.closesInOne');
     return this.translate('solaris.toast.closesIn', { seconds: String(secs) });
   });
 
@@ -167,16 +195,12 @@ export class SolarisToastComponent {
   });
   protected readonly showActions = computed(() => {
     const actions = this.entry().resolvedActions;
-    return actions && actions.length > 0;
+    return !!actions && actions.length > 0;
   });
   protected readonly showClose = computed(() => this.entry().resolvedCloseable);
 
   protected readonly centerContent = computed(
     () => !this.showDescription() && !this.showActions(),
-  );
-
-  protected readonly hasActionsNoDescription = computed(
-    () => this.showActions() && !this.showDescription(),
   );
 
   constructor() {
@@ -205,6 +229,7 @@ export class SolarisToastComponent {
   private startCountdown(duration: number): void {
     this.stopCountdown();
     if (duration <= 0 || duration >= Infinity) return;
+    if (!isPlatformBrowser(this.platformId)) return;
 
     this.countdownStarted = true;
     this.countdownTotalMs = duration;
@@ -329,6 +354,32 @@ export class SolarisToastComponent {
     if (action.closeOnClick) {
       this.handleDismiss();
     }
+  }
+
+  protected resolveActionLabel(action: SolarisToastAction): string | undefined {
+    if (action.label) return action.label;
+    if (action.labelKey && this.translateService) {
+      const translated = this.translateService.translate(action.labelKey);
+      return translated !== action.labelKey ? translated : undefined;
+    }
+    return action.labelKey;
+  }
+
+  private resolveLabel(
+    explicit: string | undefined,
+    key: string | undefined,
+    fallbackKey: string,
+  ): string | undefined {
+    if (explicit) return explicit;
+    if (key && this.translateService) {
+      const translated = this.translateService.translate(key);
+      if (translated !== key) return translated;
+    }
+    if (this.translateService) {
+      const translated = this.translateService.translate(fallbackKey);
+      if (translated !== fallbackKey) return translated;
+    }
+    return undefined;
   }
 
   protected translate(key: string, params?: Record<string, string>): string {

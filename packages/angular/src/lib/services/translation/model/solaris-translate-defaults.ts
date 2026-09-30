@@ -31,9 +31,10 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.toast.remaining': 'Remaining time',
       'solaris.toast.closesIn':
         'This message will close in {{seconds}} seconds.',
+      'solaris.toast.closesInOne': 'This message will close in 1 second.',
       'solaris.toast.paused': 'Paused.',
-      'solaris.toast.pause': 'click to pause',
-      'solaris.toast.continue': 'click to continue',
+      'solaris.toast.pause': 'Click to pause',
+      'solaris.toast.continue': 'Click to continue',
       'solaris.toast.expand': 'Expand',
       'solaris.toast.collapse': 'Collapse',
 
@@ -144,9 +145,10 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.toast.remaining': 'Tempo restante',
       'solaris.toast.closesIn':
         'Esta mensagem irá fechar em {{seconds}} segundos.',
+      'solaris.toast.closesInOne': 'Esta mensagem irá fechar em 1 segundo.',
       'solaris.toast.paused': 'Pausado.',
-      'solaris.toast.pause': 'clique para pausar',
-      'solaris.toast.continue': 'clique para continuar',
+      'solaris.toast.pause': 'Clique para pausar',
+      'solaris.toast.continue': 'Clique para continuar',
       'solaris.toast.expand': 'Expandir',
       'solaris.toast.collapse': 'Recolher',
 

@@ -23,7 +23,12 @@ export type SolarisToastIconSize = 'sm' | 'md' | 'lg';
 
 export type SolarisToastMediaShape = 'circle' | 'rounded' | 'square';
 
-export type SolarisToastCountdownMode = 'bar' | 'text' | 'both';
+export type SolarisToastSize = 'sm' | 'md' | 'lg';
+
+export type SolarisToastDensity = 'compact' | 'normal' | 'comfortable';
+
+/** Unified countdown display. `false` hides the countdown. */
+export type SolarisToastCountdown = 'bar' | 'text' | 'both' | false;
 
 export interface SolarisToastAction {
   label: string;
@@ -40,6 +45,8 @@ export interface SolarisToastOptions {
   variant?: SolarisToastVariant;
   appearance?: SolarisToastAppearance;
   position?: SolarisToastPosition;
+  size?: SolarisToastSize;
+  density?: SolarisToastDensity;
   title?: string;
   titleKey?: string;
   description?: string;
@@ -52,7 +59,6 @@ export interface SolarisToastOptions {
   duration?: number;
   persistent?: boolean;
   progress?: number;
-  showProgress?: boolean;
   actions?: SolarisToastAction[];
   data?: unknown;
   ariaLive?: 'polite' | 'assertive' | 'off';
@@ -64,9 +70,7 @@ export interface SolarisToastOptions {
   expandLabelKey?: string;
   collapseLabel?: string;
   collapseLabelKey?: string;
-  showCountdown?: boolean;
-  showCountdownText?: boolean;
-  countdownMode?: SolarisToastCountdownMode;
+  countdown?: SolarisToastCountdown;
   actionsAlign?: SolarisToastActionsAlign;
   iconSize?: SolarisToastIconSize;
   mediaShape?: SolarisToastMediaShape;
@@ -77,12 +81,12 @@ export interface SolarisToastConfig {
   duration?: number;
   limit?: number;
   appearance?: SolarisToastAppearance;
+  size?: SolarisToastSize;
+  density?: SolarisToastDensity;
   pauseOnHover?: boolean;
   pauseOnFocus?: boolean;
   newestOnTop?: boolean;
-  showCountdown?: boolean;
-  showCountdownText?: boolean;
-  countdownMode?: SolarisToastCountdownMode;
+  countdown?: SolarisToastCountdown;
   actionsAlign?: SolarisToastActionsAlign;
   iconSize?: SolarisToastIconSize;
   mediaShape?: SolarisToastMediaShape;
@@ -98,6 +102,12 @@ export interface SolarisToastRef {
   update(patch: Partial<SolarisToastOptions>): void;
 }
 
+export interface SolarisToastPromiseMessages {
+  loading: SolarisToastOptions;
+  success: SolarisToastOptions | ((value: unknown) => SolarisToastOptions);
+  error: SolarisToastOptions | ((reason: unknown) => SolarisToastOptions);
+}
+
 export interface SolarisToastEntry {
   id: string;
   options: SolarisToastOptions;
@@ -105,6 +115,8 @@ export interface SolarisToastEntry {
   resolvedVariant: SolarisToastVariant;
   resolvedAppearance: SolarisToastAppearance;
   resolvedPosition: SolarisToastPosition;
+  resolvedSize: SolarisToastSize;
+  resolvedDensity: SolarisToastDensity | undefined;
   resolvedDuration: number;
   resolvedPersistent: boolean;
   resolvedCloseable: boolean;
@@ -113,18 +125,18 @@ export interface SolarisToastEntry {
   resolvedIcon: string;
   resolvedTitle: string | undefined;
   resolvedDescription: string | undefined;
-  resolvedCloseLabel: string;
+  resolvedCloseLabel: string | undefined;
+  resolvedCloseLabelKey: string | undefined;
   resolvedProgress: number | undefined;
-  resolvedShowProgress: boolean;
   resolvedActions: SolarisToastOptions['actions'];
   resolvedExpandable: boolean;
   resolvedDefaultExpanded: boolean;
   resolvedMaxCollapsedLines: number;
-  resolvedExpandLabel: string;
-  resolvedCollapseLabel: string;
-  resolvedShowCountdown: boolean;
-  resolvedShowCountdownText: boolean;
-  resolvedCountdownMode: SolarisToastCountdownMode;
+  resolvedExpandLabel: string | undefined;
+  resolvedExpandLabelKey: string | undefined;
+  resolvedCollapseLabel: string | undefined;
+  resolvedCollapseLabelKey: string | undefined;
+  resolvedCountdown: SolarisToastCountdown;
   resolvedActionsAlign: SolarisToastActionsAlign;
   resolvedIconSize: SolarisToastIconSize;
   resolvedMediaShape: SolarisToastMediaShape;

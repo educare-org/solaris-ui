@@ -66,21 +66,21 @@ bootstrapApplication(AppComponent, {
 
 **Config:**
 
-| Property          | Type                                        | Default     | Description                               |
-| ----------------- | ------------------------------------------- | ----------- | ----------------------------------------- |
-| position          | `SolarisToastPosition`                      | `'top-end'` | Where toasts are positioned               |
-| duration          | `number`                                    | `5000`      | Default auto-dismiss duration in ms       |
-| limit             | `number`                                    | `5`         | Maximum visible toasts                    |
-| appearance        | `SolarisToastAppearance`                    | `'surface'` | Default appearance                        |
-| pauseOnHover      | `boolean`                                   | `true`      | Pause dismiss timer on hover              |
-| pauseOnFocus      | `boolean`                                   | `true`      | Pause dismiss timer on focus              |
-| newestOnTop       | `boolean`                                   | `true`      | Show newest toast at the top of the stack |
-| showCountdown     | `boolean`                                   | `false`     | Default countdown visibility              |
-| showCountdownText | `boolean`                                   | `false`     | Default countdown text visibility         |
-| countdownMode     | `'bar' \| 'text' \| 'both'`                 | `'bar'`     | Default countdown display mode            |
-| actionsAlign      | `'start' \| 'center' \| 'end' \| 'stretch'` | `'end'`     | Default actions alignment                 |
-| iconSize          | `'sm' \| 'md' \| 'lg'`                      | `'md'`      | Default icon size                         |
-| mediaShape        | `'circle' \| 'rounded' \| 'square'`         | `'circle'`  | Default media container shape             |
+| Property     | Type                                        | Default     | Description                               |
+| ------------ | ------------------------------------------- | ----------- | ----------------------------------------- |
+| position     | `SolarisToastPosition`                      | `'top-end'` | Where toasts are positioned               |
+| duration     | `number`                                    | `5000`      | Default auto-dismiss duration in ms       |
+| limit        | `number`                                    | `5`         | Maximum visible toasts                    |
+| appearance   | `SolarisToastAppearance`                    | `'surface'` | Default appearance                        |
+| size         | `SolarisToastSize`                          | `'md'`      | Default card size                         |
+| density      | `SolarisToastDensity`                       | theme       | Default density (falls back to theme)     |
+| pauseOnHover | `boolean`                                   | `true`      | Pause dismiss timer on hover              |
+| pauseOnFocus | `boolean`                                   | `true`      | Pause dismiss timer on focus              |
+| newestOnTop  | `boolean`                                   | `true`      | Show newest toast at the top of the stack |
+| countdown    | `'bar' \| 'text' \| 'both' \| false`        | `'text'`    | Default countdown display                 |
+| actionsAlign | `'start' \| 'center' \| 'end' \| 'stretch'` | `'end'`     | Default actions alignment                 |
+| iconSize     | `'sm' \| 'md' \| 'lg'`                      | `'md'`      | Default icon size                         |
+| mediaShape   | `'circle' \| 'rounded' \| 'square'`         | `'circle'`  | Default media container shape             |
 
 ### SolarisToastService
 
@@ -101,41 +101,40 @@ bootstrapApplication(AppComponent, {
 
 ### SolarisToastOptions
 
-| Property          | Type                                        | Default          | Description                       |
-| ----------------- | ------------------------------------------- | ---------------- | --------------------------------- |
-| id                | `string`                                    | Auto-generated   | Unique toast identifier           |
-| variant           | `SolarisToastVariant`                       | `'neutral'`      | Semantic variant                  |
-| appearance        | `SolarisToastAppearance`                    | Provider default | Visual appearance                 |
-| title             | `string`                                    | `undefined`      | Toast title text                  |
-| titleKey          | `string`                                    | `undefined`      | Toast title i18n key              |
-| description       | `string`                                    | `undefined`      | Toast description text            |
-| descriptionKey    | `string`                                    | `undefined`      | Toast description i18n key        |
-| icon              | `string`                                    | Variant default  | Custom icon name                  |
-| iconDecorative    | `boolean`                                   | `true`           | Icon is decorative (aria-hidden)  |
-| closeable         | `boolean`                                   | `true`           | Show close button                 |
-| closeLabel        | `string`                                    | `'Fechar'`       | Close button accessible label     |
-| closeLabelKey     | `string`                                    | `undefined`      | Close button i18n key             |
-| duration          | `number`                                    | Provider default | Auto-dismiss duration (ms)        |
-| persistent        | `boolean`                                   | `false`          | Prevent auto-dismiss              |
-| progress          | `number`                                    | `undefined`      | Process progress 0-100            |
-| showProgress      | `boolean`                                   | `false`          | Show duration progress bar        |
-| actions           | `SolarisToastAction[]`                      | `undefined`      | Action buttons                    |
-| data              | `unknown`                                   | `undefined`      | Arbitrary data for consumer use   |
-| ariaLive          | `'polite' \| 'assertive' \| 'off'`          | Auto             | Override aria-live                |
-| role              | `'status' \| 'alert'`                       | Auto             | Override role                     |
-| expandable        | `boolean`                                   | `false`          | Allow description expand/collapse |
-| defaultExpanded   | `boolean`                                   | `false`          | Start expanded                    |
-| maxCollapsedLines | `number`                                    | `2`              | Lines to show when collapsed      |
-| expandLabel       | `string`                                    | `undefined`      | Expand button accessible label    |
-| expandLabelKey    | `string`                                    | `undefined`      | Expand button i18n key            |
-| collapseLabel     | `string`                                    | `undefined`      | Collapse button accessible label  |
-| collapseLabelKey  | `string`                                    | `undefined`      | Collapse button i18n key          |
-| showCountdown     | `boolean`                                   | `false`          | Show countdown progress           |
-| showCountdownText | `boolean`                                   | `false`          | Show countdown text (seconds)     |
-| countdownMode     | `'bar' \| 'text' \| 'both'`                 | `'bar'`          | Countdown display mode            |
-| actionsAlign      | `'start' \| 'center' \| 'end' \| 'stretch'` | `'end'`          | Action buttons alignment          |
-| iconSize          | `'sm' \| 'md' \| 'lg'`                      | `'md'`           | Icon container size               |
-| mediaShape        | `'circle' \| 'rounded' \| 'square'`         | `'circle'`       | Media container shape             |
+| Property          | Type                                        | Default                     | Description                       |
+| ----------------- | ------------------------------------------- | --------------------------- | --------------------------------- |
+| id                | `string`                                    | Auto-generated              | Unique toast identifier           |
+| variant           | `SolarisToastVariant`                       | `'neutral'`                 | Semantic variant                  |
+| appearance        | `SolarisToastAppearance`                    | Provider default            | Visual appearance                 |
+| size              | `SolarisToastSize`                          | Provider default            | Card size                         |
+| density           | `SolarisToastDensity`                       | Provider/theme              | Density (padding/gap/typography)  |
+| title             | `string`                                    | `undefined`                 | Toast title text                  |
+| titleKey          | `string`                                    | `undefined`                 | Toast title i18n key              |
+| description       | `string`                                    | `undefined`                 | Toast description text            |
+| descriptionKey    | `string`                                    | `undefined`                 | Toast description i18n key        |
+| icon              | `string`                                    | Variant default             | Custom icon name                  |
+| iconDecorative    | `boolean`                                   | `true`                      | Icon is decorative (aria-hidden)  |
+| closeable         | `boolean`                                   | `true`                      | Show close button                 |
+| closeLabel        | `string`                                    | `undefined`                 | Close button accessible label     |
+| closeLabelKey     | `string`                                    | `undefined`                 | Close button i18n key             |
+| duration          | `number`                                    | Provider default            | Auto-dismiss duration (ms)        |
+| persistent        | `boolean`                                   | `false`                     | Prevent auto-dismiss              |
+| progress          | `number`                                    | `undefined`                 | Process progress 0-100            |
+| actions           | `SolarisToastAction[]`                      | `undefined`                 | Action buttons                    |
+| data              | `unknown`                                   | `undefined`                 | Arbitrary data for consumer use   |
+| ariaLive          | `'polite' \| 'assertive' \| 'off'`          | Auto                        | Override aria-live                |
+| role              | `'status' \| 'alert'`                       | Auto                        | Override role                     |
+| expandable        | `boolean`                                   | `false`                     | Allow description expand/collapse |
+| defaultExpanded   | `boolean`                                   | `false`                     | Start expanded                    |
+| maxCollapsedLines | `number`                                    | `2`                         | Lines to show when collapsed      |
+| expandLabel       | `string`                                    | `undefined`                 | Expand button accessible label    |
+| expandLabelKey    | `string`                                    | `undefined`                 | Expand button i18n key            |
+| collapseLabel     | `string`                                    | `undefined`                 | Collapse button accessible label  |
+| collapseLabelKey  | `string`                                    | `undefined`                 | Collapse button i18n key          |
+| countdown         | `'bar' \| 'text' \| 'both' \| false`        | Provider default (`'text'`) | Countdown display                 |
+| actionsAlign      | `'start' \| 'center' \| 'end' \| 'stretch'` | `'end'`                     | Action buttons alignment          |
+| iconSize          | `'sm' \| 'md' \| 'lg'`                      | `'md'`                      | Icon container size               |
+| mediaShape        | `'circle' \| 'rounded' \| 'square'`         | `'circle'`                  | Media container shape             |
 
 ### SolarisToastRef
 
@@ -175,10 +174,10 @@ bootstrapApplication(AppComponent, {
 
 ## Appearances
 
-| Appearance | Visual                              |
-| ---------- | ----------------------------------- |
-| `surface`  | Raised surface, no border           |
-| `outline`  | Raised surface with semantic border |
+| Appearance | Visual                             |
+| ---------- | ---------------------------------- |
+| `surface`  | Raised surface, no border          |
+| `outline`  | Raised surface with default border |
 
 > **Glass** is not available in Toast v1. Documented as future possibility.
 
@@ -212,31 +211,31 @@ bootstrapApplication(AppComponent, {
 The countdown can be displayed as a **progress bar**, **text**, or **both**:
 
 ```typescript
-// Bar only (default)
+// Bar only
 this.toast.info({
   title: 'Closing soon',
-  showCountdown: true,
-  countdownMode: 'bar',
+  countdown: 'bar',
 });
 
 // Text only
 this.toast.info({
   title: 'Closing soon',
-  showCountdown: true,
-  countdownMode: 'text',
+  countdown: 'text',
 });
 
 // Both bar and text
 this.toast.info({
   title: 'Closing soon',
-  showCountdown: true,
-  countdownMode: 'both',
+  countdown: 'both',
 });
 ```
 
-- `showCountdown` (or `showProgress`) enables the countdown.
-- `countdownMode` controls display: `'bar'` (default), `'text'`, or `'both'`.
-- `showCountdownText` also enables text display.
+- `countdown` controls display: `'bar'`, `'text'`, `'both'`, or `false` (default `'text'`).
+- The outline border wraps the whole card including the countdown footer;
+  a 1px divider separates the footer from the content.
+- Countdown text never truncates with ellipsis — the footer is single-line
+  and the card min-width (380/460/540 by size) fits the full message plus
+  the pause toggle (it only wraps on screens under 640px).
 - Countdown starts at 100% and reduces to 0%.
 - Auto-dismiss occurs when countdown reaches 0.
 - Hover/focus pauses the countdown.
@@ -247,7 +246,7 @@ this.toast.info({
 
 |                | Process progress | Countdown                   |
 | -------------- | ---------------- | --------------------------- |
-| Control        | `progress: 45`   | `showCountdown: true`       |
+| Control        | `progress: 45`   | `countdown: 'bar'`          |
 | Visual         | Bar at 45%       | Bar reduces from 100% to 0% |
 | Auto-dismiss   | No               | Yes                         |
 | Pause on hover | No               | Yes                         |
@@ -264,9 +263,43 @@ this.toast.loading({
 // Countdown (auto-dismiss)
 this.toast.success({
   title: 'Saved!',
-  showCountdown: true,
+  countdown: 'bar',
 });
 ```
+
+## Sizes & Density
+
+Toast follows the adapted `size x density` matrix (card scale, no
+`control-height` ladder — toast is a service-driven overlay, not a form
+control):
+
+- `size`: `sm` (420px max, 380px min, title xs) | `md` (520px max, 460px min,
+  title sm, default) | `lg` (600px max, 540px min, title md). Per-toast via
+  `size` or global via provider.
+- `density`: `compact` (root gap 4px, content gap 2px, 4px progress) |
+  `normal` (root gap 6px, content gap 4px, 6px progress, default from
+  `SolarisThemeService`) | `comfortable` (root gap 8px, content gap 6px,
+  6px progress). Per-toast via `density` or global via provider.
+- Padding grows with size inside each density (px): compact 4/6/8, normal
+  6/8/12, comfortable 8/12/12.
+- Host exposes `data-size` + `data-density` (effective). Action buttons
+  inherit the toast `size`.
+- `iconSize` (`sm|md|lg`) still overrides the media container only.
+
+---
+
+## Promise toasts
+
+```typescript
+const ref = this.toast.promise(fetch('/api/save'), {
+  loading: { title: 'Saving…' },
+  success: { title: 'Saved!', variant: 'success' },
+  error: { title: 'Save failed', variant: 'danger' },
+});
+```
+
+- Starts as `loading` (persistent) and updates in place on settle.
+- `success`/`error` accept an object or a mapper `(value) => options`.
 
 ---
 
@@ -369,7 +402,7 @@ Rules:
 
 ### Duration progress / Countdown
 
-- Set `showProgress: true` or `showCountdown: true` without setting `progress`.
+- Set `countdown: 'bar' | 'text' | 'both'` without setting `progress`.
 - Shows remaining time until auto-dismiss.
 - Pauses together with hover/focus.
 
@@ -386,9 +419,9 @@ The icon is rendered inside a media container that can be sized and shaped:
 
 Sizes:
 
-- `sm`: 1.75rem container, small icon
-- `md`: 2.25rem container (default), large icon
-- `lg`: 2.75rem container, larger icon
+- `sm`: 20px container, 16px icon
+- `md`: 24px container (default), 20px icon
+- `lg`: 32px container, 24px icon
 
 ```typescript
 this.toast.success({
@@ -421,7 +454,7 @@ The media area is prepared for future avatar/image support without breaking chan
 - Toast with actions is reachable by Tab.
 - Auto-dismiss pauses on focus for keyboard users.
 - Countdown progress has `aria-valuenow` with correct percentage.
-- Countdown text is hidden from screen readers (`aria-hidden="true"`) to avoid continuous announcements.
+- Countdown text is hidden from screen readers (`aria-hidden="true"`) to avoid continuous announcements; the pause toggle is `tabindex="-1"` so hover/focus pause stays automatic without extra tab stops.
 - Progress bar for manual process progress uses `role="progressbar"` normally.
 
 ---
@@ -523,30 +556,35 @@ ref.update({
 
 ## Component CSS variables
 
-| Variable                                | Description                             |
-| --------------------------------------- | --------------------------------------- |
-| `--solaris-toast-background`            | Background color                        |
-| `--solaris-toast-border-color`          | Border color                            |
-| `--solaris-toast-color`                 | Text color                              |
-| `--solaris-toast-description-color`     | Description text color                  |
-| `--solaris-toast-icon-color`            | Icon color                              |
-| `--solaris-toast-title-color`           | Title text color                        |
-| `--solaris-toast-shadow`                | Box shadow                              |
-| `--solaris-toast-radius`                | Border radius                           |
-| `--solaris-toast-padding`               | Inner padding                           |
-| `--solaris-toast-gap`                   | Gap between elements                    |
-| `--solaris-toast-width`                 | Toast card width                        |
-| `--solaris-toast-max-width`             | Toast card max width                    |
-| `--solaris-toast-z-index`               | Z-index                                 |
-| `--solaris-toast-progress-color`        | Progress bar color                      |
-| `--solaris-toast-media-size`            | Media container size                    |
-| `--solaris-toast-icon-size`             | Icon size inside media container        |
-| `--solaris-toast-media-background`      | Media container background              |
-| `--solaris-toast-max-lines`             | Max lines when description is truncated |
-| `--solaris-toast-custom-background`     | Background for custom variant           |
-| `--solaris-toast-custom-border-color`   | Border for custom variant               |
-| `--solaris-toast-custom-icon-color`     | Icon color for custom variant           |
-| `--solaris-toast-custom-progress-color` | Progress color for custom variant       |
+| Variable                                | Description                                |
+| --------------------------------------- | ------------------------------------------ |
+| `--solaris-toast-background`            | Background color                           |
+| `--solaris-toast-border-color`          | Border color                               |
+| `--solaris-toast-color`                 | Text color                                 |
+| `--solaris-toast-description-color`     | Description text color                     |
+| `--solaris-toast-icon-color`            | Icon color                                 |
+| `--solaris-toast-title-color`           | Title text color                           |
+| `--solaris-toast-shadow-value`          | Box shadow                                 |
+| `--solaris-toast-radius-value`          | Border radius                              |
+| `--solaris-toast-padding`               | Inner padding                              |
+| `--solaris-toast-gap`                   | Gap between elements                       |
+| `--solaris-toast-width`                 | Toast card width                           |
+| `--solaris-toast-max-width`             | Toast card max width (420/520/600 by size) |
+| `--solaris-toast-min-width`             | Toast card min width (380/460/540 by size) |
+| `--solaris-toast-progress-height`       | Progress bar height (4–6 by density)       |
+| `--solaris-toast-bar-width`             | Variant bar width (3px)                    |
+| `--solaris-toast-countdown-padding`     | Countdown footer padding                   |
+| `--solaris-toast-title-font-size`       | Title size (xs/sm/md by size)              |
+| `--solaris-toast-description-font-size` | Description size (xs/sm by size)           |
+| `--solaris-toast-z-index`               | Z-index                                    |
+| `--solaris-toast-progress-color`        | Progress bar color                         |
+| `--solaris-toast-media-size`            | Media container size                       |
+| `--solaris-toast-icon-size`             | Icon size inside media container           |
+| `--solaris-toast-max-lines`             | Max lines when description is truncated    |
+| `--solaris-toast-custom-background`     | Background for custom variant              |
+| `--solaris-toast-custom-border-color`   | Border for custom variant                  |
+| `--solaris-toast-custom-icon-color`     | Icon color for custom variant              |
+| `--solaris-toast-custom-progress-color` | Progress color for custom variant          |
 
 ---
 
