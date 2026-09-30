@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Card is a non-interactive surface component that groups related content into a visually cohesive container. It provides a flexible anatomy with optional structural wrappers, semantic directives, and controlled appearances.
+Card is a surface component that groups related content into a visually cohesive container. It provides a flexible anatomy with optional structural wrappers, semantic directives, and controlled appearances. By default it is non-interactive; setting `href` turns the whole surface into a single link (clickable card).
 
 ## Philosophy: Free with Official Anatomy
 
@@ -20,13 +20,16 @@ This means:
 - Grouping related content into a distinguishable container.
 - Building dashboard widgets, profile summaries, or detail views.
 - Providing visual separation between content blocks.
+- Linking a whole summary surface to a single destination (`href`).
 
 ## When not to use
 
-- Do not use Card for navigation or clickable surfaces (v1 is non-interactive).
 - Do not use Card as a dialog, modal, or overlay.
 - Do not use Card for form sections where a fieldset is more appropriate.
 - Do not use Card when a simpler container or plain section is sufficient.
+- Do not use clickable Card with multiple destinations; one card is one link.
+- Do not project buttons, links, or other interactive controls into a clickable Card.
+- Do not use Card for selectable options; use `solaris-selection-card` instead.
 
 ## API
 
@@ -34,19 +37,29 @@ This means:
 
 **Selector:** `solaris-card`
 
-| Input           | Type                                           | Default     | Description                      |
-| --------------- | ---------------------------------------------- | ----------- | -------------------------------- |
-| `appearance`    | `'surface' \| 'outline' \| 'tonal' \| 'glass'` | `'surface'` | Visual appearance                |
-| `radius`        | `'none' \| 'sm' \| 'lg' \| 'xl'`               | `'lg'`      | Border radius                    |
-| `size`          | `'sm' \| 'md' \| 'lg'`                         | `'md'`      | Internal section gap and padding |
-| `density`       | `'compact' \| 'normal' \| 'comfortable'`       | inherited   | Density variant                  |
-| `glassTexture`  | `'none' \| 'grooves'`                          | `'none'`    | Decorative texture (glass only)  |
-| `mediaPosition` | `'top' \| 'start'`                             | `'top'`     | Media layout: full-width or side |
+| Input           | Type                                           | Default     | Description                                             |
+| --------------- | ---------------------------------------------- | ----------- | ------------------------------------------------------- |
+| `appearance`    | `'surface' \| 'outline' \| 'tonal' \| 'glass'` | `'surface'` | Visual appearance                                       |
+| `radius`        | `'none' \| 'sm' \| 'lg' \| 'xl'`               | `'lg'`      | Border radius                                           |
+| `padding`       | `'none' \| 'sm' \| 'md' \| 'lg'`               | `'none'`    | Inner spacing tier (composes with density)              |
+| `density`       | `'compact' \| 'normal' \| 'comfortable'`       | inherited   | Density variant                                         |
+| `glassTexture`  | `'none' \| 'grooves'`                          | `'none'`    | Decorative texture (glass only)                         |
+| `mediaPosition` | `'top' \| 'start'`                             | `'top'`     | Media layout: full-width or side                        |
+| `href`          | `string`                                       | `undefined` | Turns the whole surface into a single link when set     |
+| `target`        | `string`                                       | `undefined` | Link target, as in `HTMLAnchorElement`                  |
+| `rel`           | `string`                                       | `undefined` | Link rel; defaults to `noopener` when `target="_blank"` |
+| `disabled`      | `boolean`                                      | `false`     | Disables the link overlay (clickable cards only)        |
+| `ariaLabel`     | `string`                                       | `undefined` | Accessible name of the link overlay (clickable cards)   |
+| `ariaLabelKey`  | `string`                                       | `undefined` | Translation key for `ariaLabel`                         |
 
-> Card v2 ships with zero spacing by default (`padding`, `gap` and section
-> margins are `0`). `size` and `density` are the opt-in sources of spacing:
-> choose `size="sm"`/`"lg"` or a density when the design needs breathing room,
+> Card ships with zero spacing by default (`padding`, `gap` and section
+> margins are `0`). `padding` and `density` are the opt-in sources of spacing:
+> choose `padding="sm"`/`"md"`/`"lg"` when the design needs breathing room,
 > or override the `--solaris-card-*` tokens directly.
+>
+> `size` was removed. Migrate `size="sm"` → `padding="sm"`,
+> `size="md"` → `padding="md"`, `size="lg"` → `padding="lg"`.
+> Cards without `size` already render `padding="none"` and need no change.
 
 ## Wrappers
 
@@ -58,7 +71,7 @@ All wrappers are optional and project free content.
 | SolarisCardContent | `solaris-card-content` | Main content area             |
 | SolarisCardMedia   | `solaris-card-media`   | Image, video, or visual media |
 | SolarisCardFooter  | `solaris-card-footer`  | Metadata, dates, metrics      |
-| SolarisCardActions | `solaris-card-actions` | Future action area            |
+| SolarisCardActions | `solaris-card-actions` | Action row (buttons, links)   |
 
 ### SolarisCardHeader
 
@@ -105,17 +118,48 @@ Default: `lg`
 
 Radius `full` is not supported in Card v1.
 
-## Size
+## Padding
 
-| Size | Effect                                                                          |
-| ---- | ------------------------------------------------------------------------------- |
-| `sm` | Reduced section gap and padding (`--solaris-spacing-4`)                         |
-| `md` | Default section gap and padding                                                 |
-| `lg` | Increased section gap and padding (`--solaris-spacing-6`/`--solaris-spacing-8`) |
+`padding` selects a spacing tier; `density` resolves its value through the
+`--solaris-density-*` tokens, so the same tier breathes with the theme
+(`compact` tighter, `comfortable` looser).
 
-Default: `md`
+| Padding | Tier (normal density)                                                 |
+| ------- | --------------------------------------------------------------------- |
+| `none`  | Zero spacing (default)                                                |
+| `sm`    | `--solaris-density-padding-sm` (section gap + header gap scale along) |
+| `md`    | `--solaris-density-padding-md`                                        |
+| `lg`    | `--solaris-density-padding-lg` (larger side-media thumb)              |
 
-`size` controls the internal section gap and padding, not the card's width. The card still expands to fit its content unless constrained by its parent.
+Default: `none`
+
+`padding` controls the internal section padding and gap, not the card's width. The card still expands to fit its content unless constrained by its parent.
+
+## Clickable Card
+
+Setting `href` renders a native link overlay covering the whole surface, so the
+card behaves like a single link: native keyboard focus, `Enter` activation,
+context-menu and modifier-click support come from the browser.
+
+```html
+<solaris-card href="/integrations/slack" ariaLabel="Open the Slack integration">
+  <solaris-card-header>
+    <h3 solaris-card-title>Slack Integration</h3>
+    <p solaris-card-description>Connect your Slack account.</p>
+  </solaris-card-header>
+</solaris-card>
+```
+
+Rules:
+
+- One card is one destination. For cards with several actions, keep the card
+  non-interactive and use `solaris-card-actions` with explicit buttons/links.
+- Never project buttons, links, or other interactive controls into a clickable Card.
+- `ariaLabel` (or `ariaLabelKey`) names the link overlay; provide it whenever
+  the card content alone does not name the destination.
+- `disabled` removes the link target, takes the overlay out of the tab order
+  (`tabindex="-1"`) and exposes `aria-disabled="true"`. It only applies to
+  clickable cards.
 
 ## Glass Texture
 
@@ -146,7 +190,9 @@ When not provided, Card inherits density from the theme system.
 Header (`separator="true"`, default) renders a border-bottom; footer
 (`separator="true"`, default) renders a border-top. Both are purely visual
 separators and must not be the only way to convey semantic grouping. Set
-`[separator]="false"` to remove either line.
+`[separator]="false"` to remove either line. When the card has a single
+section (only a header or only a footer), the separator border is suppressed
+automatically — there is nothing to separate from.
 
 ## Media
 
@@ -177,7 +223,10 @@ It does not:
 
 ## Accessibility
 
-- Card v1 is non-interactive: no tabindex, no role button, no click events.
+- Card is non-interactive by default: no tabindex, no role button, no click events.
+- Clickable Card renders a native link overlay: focus and `Enter` activation
+  are native; the overlay carries `aria-label` from `ariaLabel`/`ariaLabelKey`
+  and `aria-disabled` when `disabled`.
 - Title directive preserves the heading level chosen by the consumer.
 - Description directive preserves the element chosen by the consumer.
 - CardMedia preserves alt attributes of projected images.
@@ -220,6 +269,14 @@ It does not:
   <solaris-card-footer>
     <span>Updated 2 days ago</span>
   </solaris-card-footer>
+</solaris-card>
+
+<!-- Clickable card -->
+<solaris-card href="/features/analytics" ariaLabel="Open the analytics feature">
+  <solaris-card-content>
+    <h3 solaris-card-title>Analytics</h3>
+    <p solaris-card-description>Feature description.</p>
+  </solaris-card-content>
 </solaris-card>
 ```
 
@@ -266,11 +323,12 @@ Card works well with other Solaris components:
 | `--solaris-card-header-gap`          | Gap inside header                    |
 | `--solaris-card-media-size`          | Side-media thumb size (`start` mode) |
 
+The link overlay reuses the global `--solaris-focus-ring-*`,
+`--solaris-shadow-sm` and `--solaris-z-index-content` tokens.
+
 ## Limitations (v1)
 
-- Non-interactive: no click, routerLink, keyboard, or focus behavior.
-- No `selected`, `pressed`, or `active` states.
-- No clickable, action, selection, or task card presets.
+- No `selected`, `pressed`, or `active` states (use `solaris-selection-card` for selectable options).
 - No `radius="full"`.
 - No aspect ratio control on media.
 - No harness in v1 (may be added later for components with richer interaction).

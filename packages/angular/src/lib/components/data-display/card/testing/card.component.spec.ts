@@ -35,6 +35,17 @@ describe('SolarisCardComponent', () => {
     expect(el.getAttribute('data-radius')).toBe('lg');
   });
 
+  it('should have default padding none', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-padding')).toBe('none');
+  });
+
+  it('should not expose the removed size input', () => {
+    const el = createFixture();
+    expect(el.hasAttribute('data-size')).toBe(false);
+    expect('size' in fixture.componentInstance).toBe(false);
+  });
+
   it('should apply appearance surface', () => {
     const el = createFixture();
     fixture.componentRef.setInput('appearance', 'surface');
@@ -89,6 +100,16 @@ describe('SolarisCardComponent', () => {
     fixture.componentRef.setInput('radius', 'xl');
     fixture.detectChanges();
     expect(el.getAttribute('data-radius')).toBe('xl');
+  });
+
+  it('should apply every padding tier', () => {
+    const el = createFixture();
+    const values = ['none', 'sm', 'md', 'lg'] as const;
+    for (const v of values) {
+      fixture.componentRef.setInput('padding', v);
+      fixture.detectChanges();
+      expect(el.getAttribute('data-padding')).toBe(v);
+    }
   });
 
   it('should apply density compact', () => {
@@ -191,6 +212,80 @@ describe('SolarisCardComponent', () => {
     fixture.detectChanges();
     expect(el.getAttribute('data-media-position')).toBe('start');
   });
+
+  it('should not render a link overlay by default', () => {
+    const el = createFixture();
+    expect(el.hasAttribute('data-clickable')).toBe(false);
+    expect(el.querySelector('.solaris-card-link')).toBeNull();
+  });
+
+  it('should render a link overlay when href is set', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('href', '/docs/components/card');
+    fixture.componentRef.setInput('ariaLabel', 'Card documentation');
+    fixture.detectChanges();
+    expect(el.hasAttribute('data-clickable')).toBe(true);
+    const link = el.querySelector('.solaris-card-link');
+    expect(link).toBeTruthy();
+    expect(link?.getAttribute('href')).toBe('/docs/components/card');
+    expect(link?.getAttribute('aria-label')).toBe('Card documentation');
+  });
+
+  it('should forward target and rel to the link overlay', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('href', 'https://example.com');
+    fixture.componentRef.setInput('target', '_blank');
+    fixture.componentRef.setInput('rel', 'noopener noreferrer');
+    fixture.detectChanges();
+    const link = el.querySelector('.solaris-card-link');
+    expect(link?.getAttribute('target')).toBe('_blank');
+    expect(link?.getAttribute('rel')).toBe('noopener noreferrer');
+  });
+
+  it('should default rel to noopener when target is _blank', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('href', 'https://example.com');
+    fixture.componentRef.setInput('target', '_blank');
+    fixture.detectChanges();
+    const link = el.querySelector('.solaris-card-link');
+    expect(link?.getAttribute('rel')).toBe('noopener');
+  });
+
+  it('should resolve the link label from ariaLabelKey', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('href', '/docs');
+    fixture.componentRef.setInput('ariaLabelKey', 'card.clickable.label');
+    fixture.detectChanges();
+    const link = el.querySelector('.solaris-card-link');
+    expect(link?.getAttribute('aria-label')).toBe('card.clickable.label');
+  });
+
+  it('should disable the link overlay when disabled', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('href', '/docs');
+    fixture.componentRef.setInput('disabled', true);
+    fixture.detectChanges();
+    expect(el.hasAttribute('data-disabled')).toBe(true);
+    expect(el.getAttribute('aria-disabled')).toBe('true');
+    const link = el.querySelector('.solaris-card-link');
+    expect(link?.hasAttribute('href')).toBe(false);
+    expect(link?.getAttribute('tabindex')).toBe('-1');
+    expect(link?.getAttribute('aria-disabled')).toBe('true');
+  });
+
+  it('should keep the link keyboard-focusable when enabled', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('href', '/docs');
+    fixture.detectChanges();
+    const link = el.querySelector('.solaris-card-link');
+    expect(link?.hasAttribute('href')).toBe(true);
+    expect(link?.getAttribute('tabindex')).toBeNull();
+  });
+
+  it('should not flag an empty card as single-section', () => {
+    const el = createFixture();
+    expect(el.hasAttribute('data-single-section')).toBe(false);
+  });
 });
 
 describe('SolarisCardComponent with content projection', () => {
@@ -227,6 +322,19 @@ describe('SolarisCardComponent with content projection', () => {
     `,
   })
   class FullAnatomyHostComponent {}
+
+  @Component({
+    standalone: true,
+    imports: [SolarisCardComponent, SolarisCardHeaderDirective],
+    template: `
+      <solaris-card>
+        <div solaris-card-header>
+          <h3 solaris-card-title>Title</h3>
+        </div>
+      </solaris-card>
+    `,
+  })
+  class HeaderOnlyHostComponent {}
 
   let fixture: ComponentFixture<FreeContentHostComponent>;
 
@@ -266,5 +374,21 @@ describe('SolarisCardComponent with content projection', () => {
     const desc = f.nativeElement.querySelector('[solaris-card-description]');
     expect(desc).toBeTruthy();
     expect(desc.textContent).toBe('Description');
+  });
+
+  it('should flag a header-only card as single-section', () => {
+    TestBed.configureTestingModule({});
+    const f = TestBed.createComponent(HeaderOnlyHostComponent);
+    f.detectChanges();
+    const card = f.nativeElement.querySelector('solaris-card');
+    expect(card.hasAttribute('data-single-section')).toBe(true);
+  });
+
+  it('should not flag a full-anatomy card as single-section', () => {
+    TestBed.configureTestingModule({});
+    const f = TestBed.createComponent(FullAnatomyHostComponent);
+    f.detectChanges();
+    const card = f.nativeElement.querySelector('solaris-card');
+    expect(card.hasAttribute('data-single-section')).toBe(false);
   });
 });

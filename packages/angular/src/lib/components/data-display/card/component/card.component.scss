@@ -22,6 +22,7 @@
   padding: 0;
   display: flex;
   overflow: hidden;
+  position: relative;
   flex-direction: column;
   box-sizing: border-box;
   color: var(--solaris-card-color);
@@ -30,14 +31,36 @@
   background: var(--solaris-card-background);
   border: var(--solaris-card-border-width) solid
     var(--solaris-card-border-color);
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 }
 
-:host([data-size='sm']) {
+// Padding tiers compose with density through the --solaris-density-* tokens:
+// the tier selects the scale step, the effective density (compact | normal |
+// comfortable) resolves its value. `none` keeps the v2 zero-spacing default.
+:host([data-padding='sm']) {
   --solaris-card-media-size: var(--solaris-spacing-10);
+  --solaris-card-padding: var(--solaris-density-padding-sm);
+  --solaris-card-gap: var(--solaris-density-gap-sm);
+  --solaris-card-header-gap: var(--solaris-density-gap-xs);
 }
 
-:host([data-size='lg']) {
+:host([data-padding='md']) {
+  --solaris-card-padding: var(--solaris-density-padding-md);
+  --solaris-card-gap: var(--solaris-density-gap-md);
+  --solaris-card-header-gap: var(--solaris-density-gap-sm);
+}
+
+:host([data-padding='lg']) {
   --solaris-card-media-size: var(--solaris-spacing-16);
+  --solaris-card-padding: var(--solaris-density-padding-lg);
+  --solaris-card-gap: var(--solaris-density-gap-lg);
+  --solaris-card-header-gap: var(--solaris-density-gap-md);
 }
 
 :host([data-appearance='surface']) {
@@ -129,6 +152,36 @@
   --solaris-card-radius: var(--solaris-radius-xl);
 }
 
+:host([data-clickable]:not([data-disabled])) {
+  cursor: pointer;
+}
+
+:host([data-clickable]:not([data-disabled], [data-appearance='glass'])):hover {
+  --solaris-card-shadow: var(--solaris-shadow-sm);
+  --solaris-card-border-color: var(--solaris-border-default);
+}
+
+:host([data-clickable][data-disabled]) {
+  cursor: default;
+}
+
+:host([data-clickable][data-disabled]) .solaris-card-link {
+  pointer-events: none;
+}
+
+.solaris-card-link {
+  inset: 0;
+  position: absolute;
+  border-radius: inherit;
+  z-index: var(--solaris-z-index-content);
+}
+
+.solaris-card-link:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+}
+
 :host ::ng-deep .solaris-card-header,
 :host ::ng-deep .solaris-card-content,
 :host ::ng-deep .solaris-card-footer {
@@ -160,7 +213,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--solaris-spacing-0);
+  gap: var(--solaris-card-gap);
   padding-block: var(--solaris-spacing-0) var(--solaris-card-section-padding);
 }
 
@@ -178,6 +231,19 @@
   padding-block-start: var(--solaris-card-section-gap);
   border-top: var(--solaris-border-width-sm) solid
     var(--solaris-card-footer-border-color);
+}
+
+// A single section has nothing to separate from: the separator border would
+// render as an orphan line, so it is suppressed (and the section keeps the
+// regular section padding instead of the separator gap).
+:host([data-single-section]) ::ng-deep .solaris-card-header[data-separator] {
+  padding-block-end: var(--solaris-card-section-padding);
+  border-bottom: none;
+}
+
+:host([data-single-section]) ::ng-deep .solaris-card-footer[data-separator] {
+  padding-block-start: var(--solaris-card-section-padding);
+  border-top: none;
 }
 
 :host ::ng-deep .solaris-card-media {
@@ -205,7 +271,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--solaris-spacing-0);
+  gap: var(--solaris-card-gap);
 }
 
 :host ::ng-deep .solaris-card-title {
