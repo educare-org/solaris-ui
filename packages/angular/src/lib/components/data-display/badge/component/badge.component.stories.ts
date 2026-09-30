@@ -20,3 +20,34 @@ export const Heading: Story = {
     await expect(canvas.getByText(/badge/gi)).toBeTruthy();
   },
 };
+
+export const Count: Story = {
+  args: {
+    color: 'danger',
+    count: 3,
+  } as Partial<SolarisBadgeComponent>,
+};
+
+export const CountCapped: Story = {
+  args: {
+    color: 'primary',
+    count: 103,
+  } as Partial<SolarisBadgeComponent>,
+};
+
+export const Dot: Story = {
+  args: {
+    color: 'success',
+    dot: true,
+    ariaLabel: 'Online',
+  } as Partial<SolarisBadgeComponent>,
+};
+
+export const DotPulse: Story = {
+  args: {
+    color: 'danger',
+    dot: true,
+    pulse: true,
+    ariaLabel: 'Live',
+  } as Partial<SolarisBadgeComponent>,
+};

@@ -60,6 +60,8 @@ export type {
   SolarisBadgeRadius,
   SolarisBadgeVariant,
   SolarisBadgeDensity,
+  SolarisBadgePlacement,
+  SolarisBadgeOffset,
 } from './lib/components/data-display/badge/model/badge.types';
 
 export { SolarisCardComponent } from './lib/components/data-display/card/component/card.component';
