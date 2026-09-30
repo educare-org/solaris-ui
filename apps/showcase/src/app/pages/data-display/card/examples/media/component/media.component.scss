@@ -1,0 +1,10 @@
+.media-card-example__placeholder {
+  width: 100%;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--solaris-text-muted);
+  font-size: var(--solaris-font-size-sm);
+  background: var(--solaris-surface-muted);
+}

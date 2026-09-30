@@ -1,0 +1,21 @@
+<solaris-card padding="md">
+  <figure solaris-card-media>
+    <div
+      class="media-card-example__placeholder"
+      role="img"
+      [attr.aria-label]="'card.example.media.preview' | translate"
+    ></div>
+  </figure>
+  <div solaris-card-content>
+    <h3 solaris-card-title>{{ 'card.example.media.title' | translate }}</h3>
+    <p solaris-card-description>
+      {{ 'card.example.media.description' | translate }}
+    </p>
+    <solaris-badge color="success">
+      {{ 'card.example.media.badge' | translate }}
+    </solaris-badge>
+  </div>
+  <div solaris-card-footer [separator]="false">
+    <span>{{ 'card.example.media.updated' | translate }}</span>
+  </div>
+</solaris-card>
