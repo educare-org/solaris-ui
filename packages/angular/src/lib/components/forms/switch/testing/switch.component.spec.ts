@@ -1,9 +1,12 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 
 import { configureSolarisTesting } from '../../../../testing/solaris-test-utilities';
+import { SolarisIconComponent } from '../../../icon/component/solaris-icon.component';
 import { SolarisSwitchComponent } from '../component/switch.component';
+import { SolarisSwitchGroupComponent } from '../../switch-group/component/switch-group.component';
 import { SolarisFormFieldComponent } from '../../form-field/component/form-field.component';
 
 describe('SolarisSwitchComponent', () => {
@@ -577,5 +580,132 @@ describe('SolarisSwitchComponent thumb visual', () => {
     expect(bgColor).toBeTruthy();
     expect(bgColor).not.toBe('transparent');
     expect(bgColor).not.toBe('rgba(0, 0, 0, 0)');
+  });
+});
+
+describe('SolarisSwitchComponent effective size', () => {
+  let fixture: ComponentFixture<SolarisSwitchComponent>;
+
+  const createFixture = () => {
+    configureSolarisTesting();
+    fixture = TestBed.createComponent(SolarisSwitchComponent);
+    fixture.detectChanges();
+    return fixture.nativeElement;
+  };
+
+  it('should default data-size to md without a group', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-size')).toBe('md');
+  });
+
+  it('should prefer own size over group size', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSwitchGroupComponent, SolarisSwitchComponent],
+      template: `
+        <solaris-switch-group size="lg">
+          <solaris-switch value="a" size="sm">A</solaris-switch>
+        </solaris-switch-group>
+      `,
+    })
+    class OwnSizeHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(OwnSizeHost);
+    hostFixture.detectChanges();
+    const child = hostFixture.nativeElement.querySelector(
+      'solaris-switch',
+    ) as HTMLElement;
+    expect(child.getAttribute('data-size')).toBe('sm');
+  });
+
+  it('should inherit size and density from the group', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSwitchGroupComponent, SolarisSwitchComponent],
+      template: `
+        <solaris-switch-group size="lg" density="compact">
+          <solaris-switch value="a">A</solaris-switch>
+        </solaris-switch-group>
+      `,
+    })
+    class InheritedSizeHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(InheritedSizeHost);
+    hostFixture.detectChanges();
+    const child = hostFixture.nativeElement.querySelector(
+      'solaris-switch',
+    ) as HTMLElement;
+    expect(child.getAttribute('data-size')).toBe('lg');
+    expect(child.getAttribute('data-density')).toBe('compact');
+  });
+
+  it('should prefer own density over group density', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSwitchGroupComponent, SolarisSwitchComponent],
+      template: `
+        <solaris-switch-group density="compact">
+          <solaris-switch value="a" density="comfortable">A</solaris-switch>
+        </solaris-switch-group>
+      `,
+    })
+    class OwnDensityHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(OwnDensityHost);
+    hostFixture.detectChanges();
+    const child = hostFixture.nativeElement.querySelector(
+      'solaris-switch',
+    ) as HTMLElement;
+    expect(child.getAttribute('data-density')).toBe('comfortable');
+  });
+});
+
+describe('SolarisSwitchComponent thumb content', () => {
+  let fixture: ComponentFixture<SolarisSwitchComponent>;
+
+  const createFixture = () => {
+    configureSolarisTesting();
+    fixture = TestBed.createComponent(SolarisSwitchComponent);
+    fixture.detectChanges();
+    return fixture.nativeElement;
+  };
+
+  const getThumb = (): HTMLElement => {
+    return fixture.nativeElement.querySelector(
+      '.solaris-switch__thumb',
+    ) as HTMLElement;
+  };
+
+  it('should render an empty thumb by default', () => {
+    createFixture();
+    expect(getThumb().childElementCount).toBe(0);
+  });
+
+  it('should render the icon inside the thumb', () => {
+    createFixture();
+    fixture.componentRef.setInput('icon', 'check');
+    fixture.detectChanges();
+    const icon = fixture.debugElement.query(By.directive(SolarisIconComponent))
+      ?.componentInstance as SolarisIconComponent | undefined;
+    expect(icon?.name()).toBe('check');
+  });
+
+  it('should render text inside the thumb', () => {
+    createFixture();
+    fixture.componentRef.setInput('text', 'ON');
+    fixture.detectChanges();
+    expect(getThumb().textContent?.trim()).toBe('ON');
+  });
+
+  it('should prefer icon over text', () => {
+    createFixture();
+    fixture.componentRef.setInput('icon', 'check');
+    fixture.componentRef.setInput('text', 'ON');
+    fixture.detectChanges();
+    expect(getThumb().querySelector('solaris-icon')).toBeTruthy();
+    expect(getThumb().querySelector('.solaris-switch__thumb-text')).toBeNull();
   });
 });

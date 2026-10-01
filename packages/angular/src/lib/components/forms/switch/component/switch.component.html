@@ -18,7 +18,13 @@
     #inputElement
   />
   <span class="solaris-switch__track" aria-hidden="true">
-    <span class="solaris-switch__thumb"></span>
+    <span class="solaris-switch__thumb">
+      @if (thumbIcon(); as iconName) {
+        <solaris-icon [name]="iconName" [decorative]="true" />
+      } @else if (thumbText(); as thumbLabel) {
+        <span class="solaris-switch__thumb-text">{{ thumbLabel }}</span>
+      }
+    </span>
   </span>
   @if (hasProjectedContent()) {
     <span class="solaris-switch__label-text" [id]="elementId() + '-label'">

@@ -1,61 +1,21 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.switch-showcase {
-  @include layout.page;
-}
-
-.switch-showcase__header {
-  @include layout.header;
-}
-
-.switch-showcase__title {
-  @include layout.title;
-}
-
-.switch-showcase__description {
-  @include layout.description;
-}
-
-.switch-showcase__section {
-  @include layout.section-card;
-}
-
-.switch-showcase__section-title {
-  @include layout.section-title;
-}
-
-.switch-showcase__row {
-  @include layout.row($gap: var(--solaris-spacing-4));
-
-  margin-bottom: var(--solaris-spacing-2);
-}
-
-.switch-showcase__row:last-child {
-  margin-bottom: 0;
-}
-
 .switch-showcase__note {
   @include layout.note;
 
-  margin-bottom: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.switch-showcase__grid {
+.switch-showcase__stack {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(calc(var(--solaris-spacing-18) + var(--solaris-spacing-17)), 1fr)
-  );
-  gap: var(--solaris-spacing-3);
+  gap: var(--solaris-spacing-4);
 }
 
-.switch-showcase__cell {
+.switch-showcase__controls {
   display: flex;
-  align-items: center;
-}
-
-.switch-showcase__demo {
-  margin-bottom: var(--solaris-spacing-2);
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
 }
 
 .switch-showcase__custom-wrapper {

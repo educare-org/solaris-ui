@@ -35,23 +35,25 @@ Switch is a form control component that represents a binary on/off configuration
 
 ### Inputs
 
-| Input          | Type                                                                                 | Default     | Description                     |
-| -------------- | ------------------------------------------------------------------------------------ | ----------- | ------------------------------- |
-| `checked`      | `boolean`                                                                            | `false`     | Whether the switch is on        |
-| `disabled`     | `boolean`                                                                            | `false`     | Disables the switch             |
-| `readonly`     | `boolean`                                                                            | `false`     | Readonly mode (value preserved) |
-| `required`     | `boolean`                                                                            | `false`     | Required validation             |
-| `invalid`      | `boolean \| undefined`                                                               | `undefined` | Invalid state                   |
-| `appearance`   | `'outline' \| 'surface'`                                                             | `'surface'` | Visual appearance               |
-| `color`        | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'` | Semantic color                  |
-| `size`         | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Size variant                    |
-| `density`      | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited   | Density variant                 |
-| `label`        | `string`                                                                             | —           | Direct label text               |
-| `labelKey`     | `string`                                                                             | —           | i18n key for label              |
-| `name`         | `string`                                                                             | —           | Native `name` attribute         |
-| `value`        | `string`                                                                             | —           | Value submitted to the form     |
-| `ariaLabel`    | `string`                                                                             | —           | Accessible label                |
-| `ariaLabelKey` | `string`                                                                             | —           | i18n key for accessible label   |
+| Input          | Type                                                                                 | Default            | Description                                                |
+| -------------- | ------------------------------------------------------------------------------------ | ------------------ | ---------------------------------------------------------- |
+| `checked`      | `boolean`                                                                            | `false`            | Whether the switch is on                                   |
+| `disabled`     | `boolean`                                                                            | `false`            | Disables the switch                                        |
+| `readonly`     | `boolean`                                                                            | `false`            | Readonly mode (value preserved)                            |
+| `required`     | `boolean`                                                                            | `false`            | Required validation                                        |
+| `invalid`      | `boolean \| undefined`                                                               | `undefined`        | Invalid state                                              |
+| `appearance`   | `'outline' \| 'surface'`                                                             | `'surface'`        | Visual appearance                                          |
+| `color`        | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'`        | Semantic color                                             |
+| `size`         | `'sm' \| 'md' \| 'lg'`                                                               | inherited (`'md'`) | Size variant (own input wins over group)                   |
+| `density`      | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited          | Density variant (own input wins over group, then theme)    |
+| `icon`         | `SolarisIconName`                                                                    | —                  | Decorative icon inside the thumb (`icon` wins over `text`) |
+| `text`         | `string`                                                                             | —                  | Decorative short text inside the thumb (max 2 characters)  |
+| `label`        | `string`                                                                             | —                  | Direct label text                                          |
+| `labelKey`     | `string`                                                                             | —                  | i18n key for label                                         |
+| `name`         | `string`                                                                             | —                  | Native `name` attribute                                    |
+| `value`        | `string`                                                                             | —                  | Value submitted to the form                                |
+| `ariaLabel`    | `string`                                                                             | —                  | Accessible label                                           |
+| `ariaLabelKey` | `string`                                                                             | —                  | i18n key for accessible label                              |
 
 ### Outputs
 
@@ -130,18 +132,39 @@ Invalid applies error styling. When used inside Form Field, the invalid state is
 
 ## Sizes
 
-| Size | Track dimensions                    |
-| ---- | ----------------------------------- |
-| `sm` | 1.5rem × 0.875rem, thumb 0.625rem   |
-| `md` | 1.875rem × 1.0625rem, thumb 0.75rem |
-| `lg` | 2.375rem × 1.3125rem, thumb 1rem    |
+Track height × width per `size` × `density` combination (thumb = height − 2px):
+
+| Size | compact   | normal    | comfortable |
+| ---- | --------- | --------- | ----------- |
+| `sm` | 16 × 28px | 18 × 30px | 20 × 32px   |
+| `md` | 18 × 30px | 20 × 32px | 22 × 34px   |
+| `lg` | 20 × 32px | 22 × 34px | 24 × 36px   |
+
+Inside a `solaris-switch-group`, children inherit the group `size`/`density`
+unless they set their own inputs.
 
 ## Density
 
-| Density       | Effect                       |
-| ------------- | ---------------------------- |
-| `compact`     | Reduced gap between elements |
-| `comfortable` | Increased gap (default)      |
+| Density       | Effect                              |
+| ------------- | ----------------------------------- |
+| `compact`     | Smaller track and tighter label gap |
+| `normal`      | Balanced track and gap (default)    |
+| `comfortable` | Larger track and wider gap          |
+
+## Thumb icon and text
+
+```html
+<solaris-switch icon="check" />
+<solaris-switch text="ON" />
+<solaris-switch icon="check" text="ON" />
+```
+
+- `icon` renders a decorative `solaris-icon` inside the thumb and wins when
+  both inputs are set.
+- `text` renders a short decorative label (max 2 characters, e.g. `"ON"`).
+  Longer values log a development warning and overflow the thumb.
+- Both are `aria-hidden` (the track already is); state stays on
+  `role="switch"` + `aria-checked`, so they never affect the accessible name.
 
 ## Label by projection
 
@@ -265,6 +288,16 @@ Available custom tokens:
 <solaris-switch density="compact">Compact</solaris-switch>
 <solaris-switch density="comfortable">Comfortable</solaris-switch>
 
+<!-- Thumb icon / text -->
+<solaris-switch icon="check">With icon</solaris-switch>
+<solaris-switch text="ON">With text</solaris-switch>
+
+<!-- Group inheritance (children follow the group unless set) -->
+<solaris-switch-group size="lg" density="compact">
+  <solaris-switch value="email">Email</solaris-switch>
+  <solaris-switch value="sms" size="sm">SMS</solaris-switch>
+</solaris-switch-group>
+
 <!-- States -->
 <solaris-switch [disabled]="true">Disabled unchecked</solaris-switch>
 <solaris-switch [checked]="true" [disabled]="true">Disabled checked</solaris-switch>
@@ -289,10 +322,8 @@ Available custom tokens:
 
 ## Limitations (v1)
 
-- Switch v1 is an individual component. Switch Group is not available.
+- Switch Group is available as `solaris-switch-group` (independent toggles sharing value, validation and `size`/`density` inheritance).
 - Switch v1 does NOT have loading/pending/async state.
-- Switch v1 does NOT have text on/off inside the track.
-- Switch v1 does NOT have icons inside the thumb/track.
 - Switch v1 does NOT have optimistic update, rollback or beforeChange guard.
 - Switch v1 does NOT have Segmented Control or Button Group behavior.
 - Readonly is distinguished from disabled visually and behaviorally.

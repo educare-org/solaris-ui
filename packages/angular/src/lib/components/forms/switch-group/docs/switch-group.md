@@ -47,28 +47,27 @@ Each key corresponds to the `value` of a child switch.
 
 ### Inputs
 
-| Input          | Type                                     | Default              | Description                                 |
-| -------------- | ---------------------------------------- | -------------------- | ------------------------------------------- |
-| `value`        | `Record<string, boolean>`                | `{}`                 | Group value.                                |
-| `orientation`  | `'vertical' \| 'horizontal'`             | `'vertical'`         | Layout direction.                           |
-| `layout`       | `'list' \| 'grid'`                       | `'list'`             | Layout type.                                |
-| `columns`      | `1 \| 2 \| 3 \| 4 \| 'auto'`             | `1`                  | Columns in the grid layout.                 |
-| `density`      | `'compact' \| 'normal' \| 'comfortable'` | Inherited from theme | Visual density.                             |
-| `size`         | `'sm' \| 'md' \| 'lg'`                   | `'md'`               | Size of the switches.                       |
-| `disabled`     | `boolean`                                | `false`              | Disables the group.                         |
-| `readonly`     | `boolean`                                | `false`              | Readonly.                                   |
-| `required`     | `boolean`                                | `false`              | Requires at least one switch to be on.      |
-| `invalid`      | `boolean \| undefined`                   | `undefined`          | Manual invalid state.                       |
-| `label`        | `string \| undefined`                    | `undefined`          | Group label.                                |
-| `labelKey`     | `string \| undefined`                    | `undefined`          | Translation key for the label.              |
-| `hint`         | `string \| undefined`                    | `undefined`          | Help text.                                  |
-| `hintKey`      | `string \| undefined`                    | `undefined`          | Translation key for the hint.               |
-| `error`        | `string \| undefined`                    | `undefined`          | Error text.                                 |
-| `errorKey`     | `string \| undefined`                    | `undefined`          | Translation key for the error.              |
-| `minEnabled`   | `number \| undefined`                    | `undefined`          | Minimum number of switches that must be on. |
-| `maxEnabled`   | `number \| undefined`                    | `undefined`          | Maximum number of switches that can be on.  |
-| `ariaLabel`    | `string \| undefined`                    | `undefined`          | ARIA label.                                 |
-| `ariaLabelKey` | `string \| undefined`                    | `undefined`          | Translation key for the ARIA label.         |
+| Input          | Type                                     | Default              | Description                                                               |
+| -------------- | ---------------------------------------- | -------------------- | ------------------------------------------------------------------------- |
+| `orientation`  | `'vertical' \| 'horizontal'`             | `'vertical'`         | Layout direction.                                                         |
+| `layout`       | `'list' \| 'grid'`                       | `'list'`             | Layout type.                                                              |
+| `columns`      | `1 \| 2 \| 3 \| 4 \| 'auto'`             | `1`                  | Columns in the grid layout.                                               |
+| `density`      | `'compact' \| 'normal' \| 'comfortable'` | Inherited from theme | Visual density (inherited by children).                                   |
+| `size`         | `'sm' \| 'md' \| 'lg'`                   | `'md'`               | Size of the switches (inherited by children unless a child sets its own). |
+| `disabled`     | `boolean`                                | `false`              | Disables the group.                                                       |
+| `readonly`     | `boolean`                                | `false`              | Readonly.                                                                 |
+| `required`     | `boolean`                                | `false`              | Requires at least one switch to be on.                                    |
+| `invalid`      | `boolean \| undefined`                   | `undefined`          | Manual invalid state.                                                     |
+| `label`        | `string \| undefined`                    | `undefined`          | Group label.                                                              |
+| `labelKey`     | `string \| undefined`                    | `undefined`          | Translation key for the label.                                            |
+| `hint`         | `string \| undefined`                    | `undefined`          | Help text.                                                                |
+| `hintKey`      | `string \| undefined`                    | `undefined`          | Translation key for the hint.                                             |
+| `error`        | `string \| undefined`                    | `undefined`          | Error text.                                                               |
+| `errorKey`     | `string \| undefined`                    | `undefined`          | Translation key for the error.                                            |
+| `minEnabled`   | `number \| undefined`                    | `undefined`          | Minimum number of switches that must be on.                               |
+| `maxEnabled`   | `number \| undefined`                    | `undefined`          | Maximum number of switches that can be on.                                |
+| `ariaLabel`    | `string \| undefined`                    | `undefined`          | ARIA label.                                                               |
+| `ariaLabelKey` | `string \| undefined`                    | `undefined`          | Translation key for the ARIA label.                                       |
 
 ### Outputs
 

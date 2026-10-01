@@ -3,11 +3,17 @@
   --solaris-switch-thumb-border-width: 0;
   --solaris-switch-readonly-opacity: 0.65;
   --solaris-switch-custom-border-color: initial;
-  --solaris-switch-gap: var(--solaris-spacing-2);
+  --solaris-switch-gap: var(--solaris-spacing-4);
   --solaris-switch-custom-track-background: initial;
   --solaris-switch-custom-thumb-background: initial;
   --solaris-switch-track-checked-background: initial;
-  --solaris-switch-thumb-size: var(--solaris-spacing-3);
+  --solaris-switch-thumb-size: calc(
+    var(--solaris-spacing-8) - var(--solaris-spacing-2)
+  );
+  --solaris-switch-thumb-content-size: calc(
+    var(--solaris-switch-thumb-size) * 0.625
+  );
+  --solaris-switch-thumb-content-color: var(--solaris-text-muted);
 
   // SOLARIS_TOKEN_EXCEPTION: thumb border and shadow use translucent black alpha independent of theme surface; no token exists for this pattern.
   --solaris-switch-thumb-border-color: #0000001f;
@@ -19,13 +25,11 @@
   --solaris-switch-focus-ring-color: var(--solaris-primary-base);
   --solaris-switch-track-background: var(--solaris-surface-muted);
   --solaris-switch-thumb-background: var(--solaris-surface-raised);
-  --solaris-switch-thumb-offset: var(--solaris-spacing-2);
+  --solaris-switch-thumb-offset: var(--solaris-spacing-1);
   --solaris-switch-track-width: calc(
-    var(--solaris-spacing-8) + var(--solaris-spacing-1) / 2
+    var(--solaris-spacing-8) + var(--solaris-spacing-6)
   );
-  --solaris-switch-track-height: calc(
-    var(--solaris-spacing-4) + var(--solaris-spacing-3) / 4
-  );
+  --solaris-switch-track-height: var(--solaris-spacing-8);
   --solaris-switch-track-border-color: var(
     --solaris-primary-border,
     var(--solaris-border-default)
@@ -84,6 +88,11 @@
   width: var(--solaris-switch-thumb-size);
   left: var(--solaris-switch-thumb-offset);
   height: var(--solaris-switch-thumb-size);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--solaris-switch-thumb-content-size);
+  color: var(--solaris-switch-thumb-content-color);
   box-shadow: var(--solaris-switch-thumb-shadow);
   background-color: var(--solaris-switch-thumb-background);
   border: var(--solaris-switch-thumb-border-width) solid
@@ -99,6 +108,13 @@
       var(--solaris-motion-easing-standard);
 }
 
+.solaris-switch__thumb-text {
+  overflow: hidden;
+  white-space: nowrap;
+  line-height: var(--solaris-line-height-none);
+  font-weight: var(--solaris-font-weight-medium);
+}
+
 .solaris-switch__label-text {
   color: var(--solaris-switch-label-color);
   font-size: var(--solaris-switch-label-font-size);
@@ -106,45 +122,110 @@
 }
 
 :host([data-size='sm']) {
-  --solaris-switch-gap: var(--solaris-spacing-2);
-  --solaris-switch-track-height: var(--solaris-spacing-4);
   --solaris-switch-label-font-size: var(--solaris-font-size-sm);
-  --solaris-switch-thumb-offset: var(--solaris-spacing-2);
   --solaris-switch-label-line-height: var(--solaris-line-height-sm);
-  --solaris-switch-track-border-width: var(--solaris-spacing-1);
-  --solaris-switch-track-width: calc(
-    var(--solaris-spacing-6) + var(--solaris-spacing-1)
-  );
-  --solaris-switch-thumb-size: calc(
-    var(--solaris-spacing-3) - var(--solaris-spacing-1) / 2
-  );
 }
 
 :host([data-size='md']) {
-  --solaris-switch-gap: var(--solaris-spacing-2);
-  --solaris-switch-thumb-size: var(--solaris-spacing-3);
   --solaris-switch-label-font-size: var(--solaris-font-size-md);
-  --solaris-switch-thumb-offset: var(--solaris-spacing-2);
   --solaris-switch-label-line-height: var(--solaris-line-height-md);
-  --solaris-switch-track-border-width: var(--solaris-spacing-1);
-  --solaris-switch-track-width: calc(
-    var(--solaris-spacing-8) + var(--solaris-spacing-1) / 2
-  );
-  --solaris-switch-track-height: calc(
-    var(--solaris-spacing-4) + var(--solaris-spacing-3) / 4
-  );
 }
 
 :host([data-size='lg']) {
-  --solaris-switch-gap: var(--solaris-spacing-3);
-  --solaris-switch-thumb-size: var(--solaris-spacing-4);
-  --solaris-switch-track-height: var(--solaris-spacing-6);
   --solaris-switch-label-font-size: var(--solaris-font-size-lg);
   --solaris-switch-label-line-height: var(--solaris-line-height-lg);
-  --solaris-switch-thumb-offset: calc(var(--solaris-spacing-1) * 0.75);
-  --solaris-switch-track-border-width: var(--solaris-spacing-2);
+}
+
+// P1 — matriz size × density: geometria do track/thumb por combinação.
+// Contraste com controles de formulário: o switch tem escala própria
+// (track 16–24px), então referencia spacing (sempre px), não control-height.
+:host([data-size='sm'][data-density='compact']) {
+  --solaris-switch-track-height: var(--solaris-spacing-7);
   --solaris-switch-track-width: calc(
-    var(--solaris-spacing-10) + var(--solaris-spacing-1) / 2
+    var(--solaris-spacing-7) + var(--solaris-spacing-6)
+  );
+  --solaris-switch-thumb-size: calc(
+    var(--solaris-spacing-7) - var(--solaris-spacing-2)
+  );
+}
+
+:host([data-size='md'][data-density='compact']) {
+  --solaris-switch-track-height: calc(
+    var(--solaris-spacing-7) + var(--solaris-spacing-2)
+  );
+  --solaris-switch-track-width: calc(
+    var(--solaris-spacing-9) + var(--solaris-spacing-4)
+  );
+  --solaris-switch-thumb-size: var(--solaris-spacing-7);
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-switch-track-height: var(--solaris-spacing-8);
+  --solaris-switch-track-width: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-6)
+  );
+  --solaris-switch-thumb-size: calc(
+    var(--solaris-spacing-8) - var(--solaris-spacing-2)
+  );
+}
+
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-switch-track-height: calc(
+    var(--solaris-spacing-7) + var(--solaris-spacing-2)
+  );
+  --solaris-switch-track-width: calc(
+    var(--solaris-spacing-9) + var(--solaris-spacing-4)
+  );
+  --solaris-switch-thumb-size: var(--solaris-spacing-7);
+}
+
+:host([data-size='md'][data-density='normal']) {
+  --solaris-switch-track-height: var(--solaris-spacing-8);
+  --solaris-switch-track-width: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-6)
+  );
+  --solaris-switch-thumb-size: calc(
+    var(--solaris-spacing-8) - var(--solaris-spacing-2)
+  );
+}
+
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-switch-track-height: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-2)
+  );
+  --solaris-switch-track-width: calc(
+    var(--solaris-spacing-10) + var(--solaris-spacing-2)
+  );
+  --solaris-switch-thumb-size: var(--solaris-spacing-8);
+}
+
+:host([data-size='sm'][data-density='comfortable']) {
+  --solaris-switch-track-height: var(--solaris-spacing-8);
+  --solaris-switch-track-width: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-6)
+  );
+  --solaris-switch-thumb-size: calc(
+    var(--solaris-spacing-8) - var(--solaris-spacing-2)
+  );
+}
+
+:host([data-size='md'][data-density='comfortable']) {
+  --solaris-switch-track-height: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-2)
+  );
+  --solaris-switch-track-width: calc(
+    var(--solaris-spacing-10) + var(--solaris-spacing-2)
+  );
+  --solaris-switch-thumb-size: var(--solaris-spacing-8);
+}
+
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-switch-track-height: var(--solaris-spacing-9);
+  --solaris-switch-track-width: calc(
+    var(--solaris-spacing-9) + var(--solaris-spacing-6)
+  );
+  --solaris-switch-thumb-size: calc(
+    var(--solaris-spacing-9) - var(--solaris-spacing-2)
   );
 }
 
@@ -155,15 +236,15 @@
 }
 
 :host([data-density='compact']) {
-  --solaris-switch-gap: var(--solaris-spacing-1);
+  --solaris-switch-gap: var(--solaris-spacing-3);
 }
 
 :host([data-density='normal']) {
-  --solaris-switch-gap: var(--solaris-spacing-2);
+  --solaris-switch-gap: var(--solaris-spacing-4);
 }
 
 :host([data-density='comfortable']) {
-  --solaris-switch-gap: var(--solaris-spacing-3);
+  --solaris-switch-gap: var(--solaris-spacing-5);
 }
 
 :host([data-appearance='surface']) {
@@ -180,6 +261,7 @@
 :host([data-appearance='outline']) {
   --solaris-switch-track-background: transparent;
   --solaris-switch-thumb-background: var(--solaris-surface-raised);
+  --solaris-switch-track-border-width: var(--solaris-border-width-sm);
   --solaris-switch-track-border-color: var(--solaris-border-default);
 }
 

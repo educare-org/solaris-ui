@@ -22,6 +22,7 @@ import { SolarisFormControl } from '../../form-field/model/form-control.contract
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisSwitchComponent } from '../../switch';
+import { SOLARIS_SWITCH_GROUP } from '../model/switch-group.token';
 import { resolveElementId } from '../../../../core';
 
 import type {
@@ -43,6 +44,10 @@ import type {
     },
     {
       provide: SolarisFormControl,
+      useExisting: forwardRef(() => SolarisSwitchGroupComponent),
+    },
+    {
+      provide: SOLARIS_SWITCH_GROUP,
       useExisting: forwardRef(() => SolarisSwitchGroupComponent),
     },
   ],
@@ -140,11 +145,10 @@ export class SolarisSwitchGroupComponent
 
   protected readonly themeService = inject(SolarisThemeService);
 
-  protected readonly effectiveDensity = computed<SolarisSwitchGroupDensity>(
-    () => {
-      return this.density() ?? this.themeService.density;
-    },
-  );
+  /** Public for SOLARIS_SWITCH_GROUP: children inherit group density. */
+  readonly effectiveDensity = computed<SolarisSwitchGroupDensity>(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   protected readonly isEffectivelyDisabled = computed(() => {
     return this.disabledInput() || this.cvaDisabled();

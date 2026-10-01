@@ -12,6 +12,7 @@ import {
   ElementRef,
   viewChild,
   afterNextRender,
+  isDevMode,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
@@ -19,8 +20,11 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
+import { SolarisIconComponent } from '../../../icon';
+import { SOLARIS_SWITCH_GROUP } from '../../switch-group/model/switch-group.token';
 import { resolveElementId } from '../../../../core';
 
+import type { SolarisIconName } from '../../../../services/icon';
 import type {
   SolarisSwitchAppearance,
   SolarisSwitchColor,
@@ -31,6 +35,7 @@ import type {
 @Component({
   selector: 'solaris-switch',
   standalone: true,
+  imports: [SolarisIconComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -48,7 +53,7 @@ import type {
   host: {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',
-    '[attr.data-size]': 'size()',
+    '[attr.data-size]': 'effectiveSize()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-checked]': '_checked() ? "" : null',
     '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
@@ -101,8 +106,10 @@ export class SolarisSwitchComponent
   });
   readonly appearance = input<SolarisSwitchAppearance>('surface');
   readonly color = input<SolarisSwitchColor>('primary');
-  readonly size = input<SolarisSwitchSize>('md');
+  readonly size = input<SolarisSwitchSize | undefined>(undefined);
   readonly density = input<SolarisSwitchDensity>();
+  readonly icon = input<SolarisIconName | undefined>(undefined);
+  readonly text = input<string | undefined>(undefined);
   readonly switchLabel = input<string>(undefined, { alias: 'label' });
   readonly ariaLabelKey = input<string>();
   readonly ariaLabel = input<string>();
@@ -115,9 +122,18 @@ export class SolarisSwitchComponent
   readonly changeEvent = output<Event>();
 
   protected readonly themeService = inject(SolarisThemeService);
+  private readonly group = inject(SOLARIS_SWITCH_GROUP, { optional: true });
+
+  protected readonly effectiveSize = computed<SolarisSwitchSize>(() => {
+    return this.size() ?? this.group?.size() ?? 'md';
+  });
 
   protected readonly effectiveDensity = computed<SolarisSwitchDensity>(() => {
-    return this.density() ?? this.themeService.density;
+    return (
+      this.density() ??
+      this.group?.effectiveDensity() ??
+      this.themeService.density
+    );
   });
 
   protected readonly isEffectivelyDisabled = computed(() => {
@@ -165,6 +181,18 @@ export class SolarisSwitchComponent
       return labelId;
     }
     return null;
+  });
+
+  /**
+   * Decorative thumb content. `icon` wins when both are set; the track is
+   * already `aria-hidden`, so this never affects the accessible name.
+   * Keep `text` to 2 characters max (e.g. "ON", "I·O").
+   */
+  protected readonly thumbIcon = computed(() => this.icon() ?? null);
+  protected readonly thumbText = computed(() => {
+    if (this.icon()) return null;
+    const text = this.text()?.trim();
+    return text ? text : null;
   });
 
   get id(): string {
@@ -258,6 +286,18 @@ export class SolarisSwitchComponent
 
   constructor() {
     super();
+
+    if (isDevMode()) {
+      effect(() => {
+        const text = this.text();
+        if (text && text.trim().length > 2) {
+          console.warn(
+            `[SolarisSwitch] The "text" input is meant for up to 2 characters ` +
+              `(got "${text}"). Longer values will overflow the thumb.`,
+          );
+        }
+      });
+    }
 
     afterNextRender(() => {
       if (this.contentChecked) {

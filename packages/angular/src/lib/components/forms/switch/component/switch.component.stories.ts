@@ -20,3 +20,15 @@ export const Heading: Story = {
     await expect(canvas.getByText(/switch/gi)).toBeTruthy();
   },
 };
+
+export const WithIcon: Story = {
+  args: { icon: 'check' },
+};
+
+export const WithText: Story = {
+  args: { text: 'ON' },
+};
+
+export const Sizes: Story = {
+  args: { size: 'lg', density: 'comfortable' },
+};
