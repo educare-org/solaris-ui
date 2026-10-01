@@ -63,6 +63,90 @@ describe('SolarisProgressComponent', () => {
     }
   });
 
+  it('should have default status active', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-status')).toBe('active');
+  });
+
+  it('should apply all status values', () => {
+    const el = createFixture();
+    const values = ['active', 'success', 'exception'] as const;
+    for (const v of values) {
+      fixture.componentRef.setInput('status', v);
+      fixture.detectChanges();
+      expect(el.getAttribute('data-status')).toBe(v);
+    }
+  });
+
+  it('should default density to the theme density', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-density')).toBe('normal');
+  });
+
+  it('should apply explicit density values', () => {
+    const el = createFixture();
+    const values = ['compact', 'normal', 'comfortable'] as const;
+    for (const v of values) {
+      fixture.componentRef.setInput('density', v);
+      fixture.detectChanges();
+      expect(el.getAttribute('data-density')).toBe(v);
+    }
+  });
+
+  it('should render a buffer behind the fill', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('value', 40);
+    fixture.componentRef.setInput('bufferValue', 70);
+    fixture.detectChanges();
+    const buffer = el.querySelector('.solaris-progress__buffer') as HTMLElement;
+    expect(buffer).toBeTruthy();
+    expect(
+      buffer.style.getPropertyValue('--solaris-progress-buffer-width'),
+    ).toBe('70%');
+  });
+
+  it('should clamp the buffer to a 0-100 range', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('bufferValue', 150);
+    fixture.detectChanges();
+    const buffer = el.querySelector('.solaris-progress__buffer') as HTMLElement;
+    expect(
+      buffer.style.getPropertyValue('--solaris-progress-buffer-width'),
+    ).toBe('100%');
+  });
+
+  it('should omit the buffer when no buffer value is provided', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('value', 40);
+    fixture.detectChanges();
+    expect(el.querySelector('.solaris-progress__buffer')).toBeFalsy();
+  });
+
+  it('should render striped fill when enabled', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('striped', true);
+    fixture.detectChanges();
+    const fill = el.querySelector('.solaris-progress__fill') as HTMLElement;
+    expect(fill.classList.contains('solaris-progress__fill--striped')).toBe(
+      true,
+    );
+    expect(el.hasAttribute('data-striped')).toBe(true);
+  });
+
+  it('should render animated stripes when enabled', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('animatedStripes', true);
+    fixture.detectChanges();
+    const fill = el.querySelector('.solaris-progress__fill') as HTMLElement;
+    expect(fill.classList.contains('solaris-progress__fill--striped')).toBe(
+      true,
+    );
+    expect(fill.classList.contains('solaris-progress__fill--animated')).toBe(
+      true,
+    );
+    expect(el.hasAttribute('data-animated-stripes')).toBe(true);
+  });
+
   it('should expose aria-valuenow for determinate progress', () => {
     const el = createFixture();
     fixture.componentRef.setInput('value', 42);

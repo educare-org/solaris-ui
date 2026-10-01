@@ -14,7 +14,7 @@ Spinner is a loading indicator that communicates that a process is in progress. 
 
 ## When not to use
 
-- Do not use Spinner when a linear progress bar is more appropriate — use `solaris-progress`.
+- Do not use Spinner when a linear progress bar is more appropriate — use `solaris-progress`. Rule of thumb: circular determinate (`spinner variant="progress"`) for compact/overlay contexts with a percent, linear bar for uploads, downloads, and multi-step flows.
 - Do not use Spinner as the only feedback for critical, non-recoverable actions.
 - Do not place multiple spinners for the same logical operation.
 
@@ -22,23 +22,26 @@ Spinner is a loading indicator that communicates that a process is in progress. 
 
 ### Inputs
 
-| Input            | Type                                                                                 | Default     | Description                                                           |
-| ---------------- | ------------------------------------------------------------------------------------ | ----------- | --------------------------------------------------------------------- |
-| `variant`        | `'ring' \| 'stacked' \| 'progress'`                                                  | `'ring'`    | Appearance variant. `progress` requires `value`.                      |
-| `size`           | `'sm' \| 'md' \| 'lg' \| 'xl'`                                                       | `'md'`      | Indicator size. `xl` targets full-screen loading.                     |
-| `color`          | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'` | Indicator color.                                                      |
-| `speed`          | `'slow' \| 'normal' \| 'fast'`                                                       | `'normal'`  | Rotation speed. Applies to `ring` and `stacked`.                      |
-| `easing`         | `'linear' \| 'ease' \| 'ease-in' \| 'ease-out' \| 'ease-in-out' \| 'spring'`         | `'linear'`  | Rotation easing. Applies to `ring` and `stacked`.                     |
-| `value`          | `number`                                                                             | `0`         | Determinate progress value, clamped to `0-100`. Used with `progress`. |
-| `showPercent`    | `boolean`                                                                            | `false`     | Shows the numeric percent beside the indicator in `progress`.         |
-| `description`    | `string[]`                                                                           | `[]`        | Optional lines rendered under the percent in `progress`.              |
-| `descriptionKey` | `string[]`                                                                           | `[]`        | i18n keys for the description lines.                                  |
-| `backdrop`       | `boolean`                                                                            | `false`     | Renders a fixed full-screen overlay behind the spinner.               |
-| `label`          | `string`                                                                             | —           | Visible loading label.                                                |
-| `labelKey`       | `string`                                                                             | —           | i18n key for the visible label.                                       |
-| `ariaLabel`      | `string`                                                                             | —           | Accessible name override.                                             |
-| `ariaLabelKey`   | `string`                                                                             | —           | i18n key for the accessible name.                                     |
-| `ariaHidden`     | `boolean`                                                                            | `false`     | Hides the spinner from assistive technology (`aria-hidden`).          |
+| Input            | Type                                                                                 | Default     | Description                                                                                                                      |
+| ---------------- | ------------------------------------------------------------------------------------ | ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `variant`        | `'ring' \| 'stacked' \| 'progress'`                                                  | `'ring'`    | Appearance variant. `progress` is the circular determinate indicator (percent), distinct from the linear `solaris-progress` bar. |
+| `size`           | `'sm' \| 'md' \| 'lg' \| 'xl'`                                                       | `'md'`      | Indicator size. `xl` targets full-screen loading.                                                                                |
+| `density`        | `'compact' \| 'normal' \| 'comfortable'`                                             | theme       | Indicator-to-text gap (adapted matrix). Falls back to `SolarisThemeService.density`.                                             |
+| `color`          | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'` | Indicator color.                                                                                                                 |
+| `speed`          | `'slow' \| 'normal' \| 'fast'`                                                       | `'normal'`  | Rotation speed. Applies to `ring` and `stacked`.                                                                                 |
+| `easing`         | `'linear' \| 'ease' \| 'ease-in' \| 'ease-out' \| 'ease-in-out' \| 'spring'`         | `'linear'`  | Rotation easing. Applies to `ring` and `stacked`.                                                                                |
+| `value`          | `number`                                                                             | `0`         | Determinate progress value, clamped to `0-100`. Used with `progress`.                                                            |
+| `showPercent`    | `boolean`                                                                            | `false`     | Shows the numeric percent beside the indicator in `progress`.                                                                    |
+| `description`    | `string[]`                                                                           | `[]`        | Optional lines rendered under the percent in `progress`.                                                                         |
+| `descriptionKey` | `string[]`                                                                           | `[]`        | i18n keys for the description lines.                                                                                             |
+| `backdrop`       | `boolean`                                                                            | `false`     | Renders a fixed full-screen overlay behind the spinner.                                                                          |
+| `overlay`        | `boolean`                                                                            | `false`     | Renders an absolute overlay centered over the nearest positioned ancestor. Use inside `solarisLoadingZone`.                      |
+| `lockScroll`     | `boolean`                                                                            | `true`      | Locks body scroll while `backdrop` is visible.                                                                                   |
+| `label`          | `string`                                                                             | —           | Visible loading label. No default — indicator-only when omitted.                                                                 |
+| `labelKey`       | `string`                                                                             | —           | i18n key for the visible label.                                                                                                  |
+| `ariaLabel`      | `string`                                                                             | —           | Accessible name override.                                                                                                        |
+| `ariaLabelKey`   | `string`                                                                             | —           | i18n key for the accessible name.                                                                                                |
+| `ariaHidden`     | `boolean`                                                                            | `false`     | Hides the spinner from assistive technology (`aria-hidden`).                                                                     |
 
 ## Variants
 
@@ -81,22 +84,24 @@ When `showPercent` is enabled, the numeric percent and the label share the first
 ## Behavior
 
 - The accessible name is resolved in the following order: `ariaLabel`, `ariaLabelKey`, `label`, `labelKey`, default `solaris.spinner.loading`.
-- When no label resolves, the spinner renders only the animated indicator and exposes `solaris.spinner.loading` as its accessible name.
+- The visible label has no default: without `label`/`labelKey` the spinner renders only the animated indicator and exposes `solaris.spinner.loading` as its accessible name.
 - In `progress` variant, the host uses `role="progressbar"` with `aria-valuemin`, `aria-valuemax`, `aria-valuenow`, and an `aria-valuetext` that combines the label, percent, and description lines.
 - In `ring` and `stacked` variants, the host uses `role="status"` and `aria-live="polite"`.
 - The `description` lines are resolved per index: `description[i]`, then `descriptionKey[i]` via i18n. Empty or unresolvable entries are omitted.
 - In `progress`, the percentage and label render on a shared baseline; description lines render below them, left-aligned to the header.
 
-## Sizes and thickness
+## Sizes and density
 
 The SVG geometry is defined in a fixed `viewBox="0 0 120 120"` with a safe internal margin so rounded caps stay fully inside the canvas at every size. The stroke width is expressed in SVG user-space units and scales together with the whole geometry (`--solaris-spinner-thickness: 15`), which keeps rendering consistent and crisp at 100% browser zoom.
 
-| Size | Indicator size         | Rendered stroke |
-| ---- | ---------------------- | --------------- |
-| `sm` | `--solaris-spacing-4`  | 2px             |
-| `md` | `--solaris-spacing-6`  | 3px             |
-| `lg` | `--solaris-spacing-8`  | 4px             |
-| `xl` | `--solaris-spacing-16` | 8px             |
+Spinner uses an adapted `size` × `density` matrix: `size` drives the indicator geometry together with the label and percent type scale, while `density` (default from `SolarisThemeService`) only adjusts the gap between indicator and text. Spinner is not a form control, so it intentionally does not use the `--solaris-control-height-*` ladder.
+
+| Size | Indicator size         | Label                    | Percent (progress)       | Rendered stroke |
+| ---- | ---------------------- | ------------------------ | ------------------------ | --------------- |
+| `sm` | `--solaris-spacing-6`  | `--solaris-font-size-xs` | `--solaris-font-size-sm` | 1.5px           |
+| `md` | `--solaris-spacing-8`  | `--solaris-font-size-sm` | `--solaris-font-size-md` | 2.5px           |
+| `lg` | `--solaris-spacing-10` | `--solaris-font-size-md` | `--solaris-font-size-lg` | 4px             |
+| `xl` | `--solaris-spacing-16` | `--solaris-font-size-lg` | `--solaris-font-size-xl` | 10px            |
 
 The ring variant renders one subtle background track circle and one continuous active arc. The progress variant uses a full circle with `pathLength="100"` so the arc length maps directly to the `value` percentage.
 
@@ -121,13 +126,28 @@ The ring variant renders one subtle background track circle and one continuous a
 
 ## Backdrop
 
-When `backdrop` is `true`, the spinner renders as a fixed overlay covering the viewport with a `--solaris-backdrop` background. The indicator and label are centered. Use `size="xl"` for a prominent full-screen loading experience.
+When `backdrop` is `true`, the spinner renders as a fixed overlay covering the viewport with a `--solaris-backdrop` background. The indicator and label are centered in a column. Body scroll is locked while the backdrop is visible (opt out with `[lockScroll]="false"`).
 
 ```html
 <solaris-spinner size="xl" backdrop label="Loading application..." />
 ```
 
 The label uses the inverse text color over the dark backdrop. Backdrop uses `--solaris-z-index-overlay`.
+
+## Loading zone (blocking a form or region)
+
+A bare spinner cannot disable the fields around it. Wrap the region with the `solaris-loading-zone` directive and render an `overlay` spinner inside it: the zone exposes `aria-busy="true"` and becomes `inert` (fields below lose focus and AT interaction), while the overlay spinner centers itself over the zone and blocks pointer events.
+
+```html
+<form [solaris-loading-zone]="saving()">
+  <!-- fields… -->
+  @if (saving()) {
+  <solaris-spinner overlay label="Saving…" />
+  }
+</form>
+```
+
+Set `--solaris-spinner-overlay-background` on the spinner to veil the zone (default `transparent`). For full-screen loading, prefer `backdrop` instead.
 
 ## Colors
 
@@ -155,16 +175,20 @@ The track is the indicator color at a reduced opacity (`--solaris-spinner-track-
 
 ## CSS Variables
 
-| Token                                  | Default                          | Description            |
-| -------------------------------------- | -------------------------------- | ---------------------- |
-| `--solaris-spinner-size`               | `--solaris-spacing-6`            | Indicator size.        |
-| `--solaris-spinner-thickness`          | `15` (viewBox units)             | Stroke thickness.      |
-| `--solaris-spinner-color`              | `--solaris-primary-base`         | Indicator color.       |
-| `--solaris-spinner-track-color`        | `--solaris-spinner-color`        | Static track color.    |
-| `--solaris-spinner-track-opacity`      | `--solaris-opacity-20`           | Static track opacity.  |
-| `--solaris-spinner-custom-color`       | `--solaris-primary-base`         | Custom color override. |
-| `--solaris-spinner-animation-duration` | `--solaris-motion-duration-slow` | Rotation duration.     |
-| `--solaris-spinner-animation-easing`   | `--solaris-motion-easing-linear` | Rotation easing.       |
+| Token                                  | Default                          | Description                               |
+| -------------------------------------- | -------------------------------- | ----------------------------------------- |
+| `--solaris-spinner-size`               | `--solaris-spacing-6`            | Indicator size.                           |
+| `--solaris-spinner-thickness`          | `15` (viewBox units)             | Stroke thickness.                         |
+| `--solaris-spinner-color`              | `--solaris-primary-base`         | Indicator color.                          |
+| `--solaris-spinner-track-color`        | `--solaris-spinner-color`        | Static track color.                       |
+| `--solaris-spinner-track-opacity`      | `--solaris-opacity-20`           | Static track opacity.                     |
+| `--solaris-spinner-custom-color`       | `--solaris-primary-base`         | Custom color override.                    |
+| `--solaris-spinner-label-font-size`    | `--solaris-font-size-sm`         | Visible label size (size-driven).         |
+| `--solaris-spinner-percent-font-size`  | `--solaris-font-size-md`         | Percent size in `progress` (size-driven). |
+| `--solaris-spinner-gap`                | `--solaris-spacing-3`            | Indicator-to-text gap (density-driven).   |
+| `--solaris-spinner-overlay-background` | `transparent`                    | Zone overlay veil.                        |
+| `--solaris-spinner-animation-duration` | `--solaris-motion-duration-slow` | Rotation duration.                        |
+| `--solaris-spinner-animation-easing`   | `--solaris-motion-easing-linear` | Rotation easing.                          |
 
 ## Examples
 
@@ -241,6 +265,16 @@ The track is the indicator color at a reduced opacity (`--solaris-spinner-track-
 
 ```html
 <solaris-spinner size="xl" backdrop label="Loading application..." />
+```
+
+### Blocking a form region
+
+```html
+<form [solaris-loading-zone]="saving()">
+  @if (saving()) {
+  <solaris-spinner overlay label="Saving…" />
+  }
+</form>
 ```
 
 ### Custom brand color

@@ -32,19 +32,21 @@
   </svg>
 }
 @if (isProgress()) {
-  <span class="solaris-spinner__content">
-    <span class="solaris-spinner__header">
-      @if (showPercent()) {
-        <span class="solaris-spinner__percent">{{ clampedValue() }}%</span>
-      }
-      @if (resolvedLabel(); as label) {
-        <span class="solaris-spinner__label">{{ label }}</span>
-      }
-    </span>
-    @for (line of resolvedDescription(); track $index) {
-      <span class="solaris-spinner__description">{{ line }}</span>
+  <span class="solaris-spinner__header">
+    @if (showPercent()) {
+      <span class="solaris-spinner__percent">{{ clampedValue() }}%</span>
+    }
+    @if (resolvedLabel(); as label) {
+      <span class="solaris-spinner__label">{{ label }}</span>
     }
   </span>
+  @if (resolvedDescription().length > 0) {
+    <span class="solaris-spinner__descriptions">
+      @for (line of resolvedDescription(); track $index) {
+        <span class="solaris-spinner__description">{{ line }}</span>
+      }
+    </span>
+  }
 } @else if (resolvedLabel(); as label) {
   <span class="solaris-spinner__label">{{ label }}</span>
 }

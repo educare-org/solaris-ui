@@ -1,15 +1,23 @@
+// SECURITY_EXCEPTION_FILE: document.body.style.overflow required for backdrop scroll-lock. SSR-safe via injected DOCUMENT token and isPlatformBrowser guard; previous value restored on toggle and destroy.
 import {
   Component,
   inject,
   input,
   computed,
+  booleanAttribute,
+  effect,
+  PLATFORM_ID,
+  DestroyRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 
 import type {
   SolarisSpinnerSize,
+  SolarisSpinnerDensity,
   SolarisSpinnerColor,
   SolarisSpinnerSpeed,
   SolarisSpinnerEasing,
@@ -29,12 +37,14 @@ import type { SolarisStackedBar } from '../model/spinner-geometry';
     '[attr.role]': 'hostRole()',
     '[attr.aria-live]': 'hostAriaLive()',
     '[attr.data-size]': 'size()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-speed]': 'speed()',
     '[attr.data-color]': 'color()',
     '[attr.data-easing]': 'easing()',
     '[attr.data-variant]': 'variant()',
     '[attr.aria-label]': 'resolvedAriaLabel()',
-    '[attr.data-backdrop]': 'backdrop() ? "" : null',
+    '[attr.data-backdrop]': 'backdrop() || undefined',
+    '[attr.data-overlay]': 'overlay() || undefined',
     '[attr.aria-hidden]': 'ariaHidden() ? "true" : null',
     '[attr.aria-valuemin]': 'progressAria()?.valuemin ?? null',
     '[attr.aria-valuemax]': 'progressAria()?.valuemax ?? null',
@@ -45,23 +55,44 @@ import type { SolarisStackedBar } from '../model/spinner-geometry';
 export class SolarisSpinnerComponent {
   readonly variant = input<SolarisSpinnerVariant>('ring');
   readonly size = input<SolarisSpinnerSize>('md');
+  readonly density = input<SolarisSpinnerDensity | undefined>(undefined);
   readonly color = input<SolarisSpinnerColor>('primary');
   readonly speed = input<SolarisSpinnerSpeed>('normal');
   readonly easing = input<SolarisSpinnerEasing>('linear');
-  readonly backdrop = input<boolean>(false);
-  readonly ariaHidden = input<boolean>(false);
+  readonly backdrop = input<boolean, boolean | ''>(false, {
+    transform: booleanAttribute,
+  });
+  readonly overlay = input<boolean, boolean | ''>(false, {
+    transform: booleanAttribute,
+  });
+  readonly lockScroll = input<boolean, boolean | ''>(true, {
+    transform: booleanAttribute,
+  });
+  readonly ariaHidden = input<boolean, boolean | ''>(false, {
+    transform: booleanAttribute,
+  });
   readonly label = input<string>();
   readonly labelKey = input<string>();
   readonly ariaLabel = input<string>();
   readonly ariaLabelKey = input<string>();
   readonly value = input<number>(0);
-  readonly showPercent = input<boolean>(false);
+  readonly showPercent = input<boolean, boolean | ''>(false, {
+    transform: booleanAttribute,
+  });
   readonly description = input<string[]>([]);
   readonly descriptionKey = input<string[]>([]);
 
   private readonly translate = inject(SolarisTranslateService, {
     optional: true,
   });
+  protected readonly themeService = inject(SolarisThemeService);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
+  private readonly destroyRef = inject(DestroyRef);
+
+  readonly effectiveDensity = computed(
+    () => this.density() ?? this.themeService.density,
+  );
 
   protected readonly isProgress = computed(() => this.variant() === 'progress');
 
@@ -93,6 +124,10 @@ export class SolarisSpinnerComponent {
     return `${value} ${100 - value}`;
   });
 
+  /**
+   * Visible label. Unlike the accessible name, there is no default: the
+   * spinner renders indicator-only unless `label`/`labelKey` is explicit.
+   */
   protected readonly resolvedLabel = computed<string | null>(() => {
     const label = this.label();
     if (label !== undefined) {
@@ -102,10 +137,6 @@ export class SolarisSpinnerComponent {
     const key = this.labelKey();
     if (key && this.translate) {
       return this.translate.translate(key);
-    }
-
-    if (this.translate) {
-      return this.translate.translate('solaris.spinner.loading');
     }
 
     return null;
@@ -185,4 +216,33 @@ export class SolarisSpinnerComponent {
       valuetext: parts.join(', '),
     };
   });
+
+  constructor() {
+    // Backdrop scroll-lock: while a fixed full-screen backdrop is visible,
+    // prevent the page behind it from scrolling. SSR-safe, restored on
+    // destroy and when the backdrop input flips back to false.
+    const canUseDom = isPlatformBrowser(this.platformId);
+    let previousOverflow: string | null = null;
+    effect(() => {
+      const active = this.backdrop() && this.lockScroll();
+      if (!canUseDom) {
+        return;
+      }
+      const body = this.document.body;
+      if (active) {
+        if (previousOverflow === null) {
+          previousOverflow = body.style.overflow;
+        }
+        body.style.overflow = 'hidden';
+      } else if (previousOverflow !== null) {
+        body.style.overflow = previousOverflow;
+        previousOverflow = null;
+      }
+    });
+    this.destroyRef.onDestroy(() => {
+      if (canUseDom && previousOverflow !== null) {
+        this.document.body.style.overflow = previousOverflow;
+      }
+    });
+  }
 }

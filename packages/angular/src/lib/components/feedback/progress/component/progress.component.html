@@ -2,9 +2,17 @@
   <span class="solaris-progress__label">{{ label }}</span>
 }
 <div class="solaris-progress__track" role="presentation" aria-hidden="true">
+  @if (clampedBuffer(); as buffer) {
+    <div
+      class="solaris-progress__buffer"
+      [style.--solaris-progress-buffer-width.%]="buffer"
+    ></div>
+  }
   <div
     class="solaris-progress__fill"
     [class.solaris-progress__fill--indeterminate]="indeterminate()"
+    [class.solaris-progress__fill--striped]="striped() || animatedStripes()"
+    [class.solaris-progress__fill--animated]="animatedStripes()"
     [style.--solaris-progress-fill-width.%]="percentText()"
   ></div>
 </div>

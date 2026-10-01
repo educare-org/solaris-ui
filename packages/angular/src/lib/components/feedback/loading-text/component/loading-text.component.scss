@@ -3,13 +3,22 @@
   --solaris-loading-text-shimmer-color: var(--solaris-text-inverse);
   --solaris-loading-text-shimmer-opacity: var(--solaris-opacity-40);
   --solaris-loading-text-custom-color: var(--solaris-primary-base);
-  --solaris-loading-text-font-size: var(--solaris-font-size-md);
+
+  // Inherit by default: loading text is animated body copy, so it follows
+  // the surrounding font-size/line-height. size/density below are opt-in
+  // fixed overrides.
+  --solaris-loading-text-font-size: inherit;
   --solaris-loading-text-font-weight: var(--solaris-font-weight-medium);
-  --solaris-loading-text-line-height: var(--solaris-line-height-md);
+  --solaris-loading-text-line-height: inherit;
   --solaris-loading-text-animation-duration: var(
     --solaris-motion-duration-slower
   );
   --solaris-loading-text-animation-easing: var(--solaris-motion-easing-linear);
+
+  // Relative to the current font size (inherited or size override) so the
+  // dots scale with the text: 0.25em ~= 4px at the previous 18px default.
+  --solaris-loading-text-dot-size: 0.25em;
+  --solaris-loading-text-dots-gap: 0.25em;
 
   display: inline-block;
   box-sizing: border-box;
@@ -50,8 +59,56 @@
     var(--solaris-loading-text-animation-easing) infinite;
 }
 
+.solaris-loading-text__text--clamped {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+:host([data-density='compact']) {
+  --solaris-loading-text-line-height: var(--solaris-line-height-sm);
+}
+
+:host([data-density='normal']) {
+  --solaris-loading-text-line-height: var(--solaris-line-height-md);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-loading-text-line-height: var(--solaris-line-height-lg);
+}
+
+:host([data-dots]) .solaris-loading-text__dots {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--solaris-loading-text-dots-gap);
+  margin-left: var(--solaris-loading-text-dots-gap);
+  vertical-align: baseline;
+}
+
+.solaris-loading-text__dots > span {
+  width: var(--solaris-loading-text-dot-size);
+  height: var(--solaris-loading-text-dot-size);
+  border-radius: var(--solaris-radius-full);
+  background: currentcolor;
+  animation: solaris-loading-text-dots
+    var(--solaris-loading-text-animation-duration)
+    var(--solaris-loading-text-animation-easing) infinite;
+}
+
+.solaris-loading-text__dots > span:nth-child(2) {
+  animation-delay: calc(var(--solaris-loading-text-animation-duration) / 3);
+}
+
+.solaris-loading-text__dots > span:nth-child(3) {
+  animation-delay: calc(var(--solaris-loading-text-animation-duration) / 1.5);
+}
+
 :host([data-size='sm']) {
   --solaris-loading-text-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='md']) {
+  --solaris-loading-text-font-size: var(--solaris-font-size-md);
 }
 
 :host([data-size='lg']) {
@@ -107,6 +164,10 @@
     animation: none;
     opacity: var(--solaris-opacity-0);
   }
+
+  :host .solaris-loading-text__dots > span {
+    animation: none;
+  }
 }
 
 [data-reduced-motion='true']
@@ -116,11 +177,29 @@
   opacity: var(--solaris-opacity-0);
 }
 
+[data-reduced-motion='true']
+  solaris-loading-text
+  .solaris-loading-text__dots
+  > span {
+  animation: none;
+}
+
 @keyframes solaris-loading-text-shimmer {
   from {
     background-position: 200% 0;
   }
   to {
     background-position: -200% 0;
+  }
+}
+
+@keyframes solaris-loading-text-dots {
+  0%,
+  60%,
+  100% {
+    opacity: var(--solaris-opacity-20);
+  }
+  30% {
+    opacity: var(--solaris-opacity-100);
   }
 }

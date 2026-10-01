@@ -1,5 +1,5 @@
 :host {
-  --solaris-spinner-size: var(--solaris-spacing-6);
+  --solaris-spinner-size: var(--solaris-spacing-8);
   --solaris-spinner-thickness: 15;
   --solaris-spinner-color: var(--solaris-primary-base);
   --solaris-spinner-track-color: var(--solaris-spinner-color);
@@ -8,13 +8,17 @@
   --solaris-spinner-animation-duration: var(--solaris-motion-duration-slow);
   --solaris-spinner-animation-easing: var(--solaris-motion-easing-linear);
   --solaris-spinner-stacked-step: 0;
+  --solaris-spinner-gap: var(--solaris-spacing-3);
+  --solaris-spinner-label-font-size: var(--solaris-font-size-sm);
+  --solaris-spinner-percent-font-size: var(--solaris-font-size-md);
+  --solaris-spinner-overlay-background: transparent;
   --solaris-spinner-stacked-opacity-active: var(--solaris-opacity-100);
   --solaris-spinner-stacked-opacity-mid: var(--solaris-opacity-50);
   --solaris-spinner-stacked-opacity-inactive: var(--solaris-opacity-20);
 
   display: inline-flex;
   align-items: center;
-  gap: var(--solaris-spacing-2);
+  gap: var(--solaris-spinner-gap);
   box-sizing: border-box;
   color: var(--solaris-spinner-color);
   font-family: var(--solaris-font-family-sans);
@@ -78,25 +82,47 @@
 }
 
 .solaris-spinner__label {
-  font-size: var(--solaris-font-size-sm);
+  font-size: var(--solaris-spinner-label-font-size);
   line-height: var(--solaris-line-height-md);
-}
-
-.solaris-spinner__content {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--solaris-spacing-1);
 }
 
 .solaris-spinner__header {
   display: inline-flex;
   align-items: baseline;
-  gap: var(--solaris-spacing-2);
+  gap: var(--solaris-spinner-gap);
+}
+
+.solaris-spinner__descriptions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--solaris-spacing-1);
+}
+
+:host([data-variant='progress']) {
+  display: inline-grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--solaris-spacing-1) var(--solaris-spinner-gap);
+  align-items: center;
+}
+
+:host([data-variant='progress']) > .solaris-spinner__ring {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+:host([data-variant='progress']) > .solaris-spinner__header {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+:host([data-variant='progress']) > .solaris-spinner__descriptions {
+  grid-column: 2;
+  grid-row: 2;
 }
 
 .solaris-spinner__percent {
-  font-size: var(--solaris-font-size-md);
+  font-size: var(--solaris-spinner-percent-font-size);
   font-weight: var(--solaris-font-weight-semibold);
   line-height: var(--solaris-line-height-md);
   font-variant-numeric: tabular-nums;
@@ -108,20 +134,22 @@
   color: var(--solaris-text-muted);
 }
 
-:host([data-variant='progress']) {
-  align-items: flex-start;
-}
-
 :host([data-size='sm']) {
-  --solaris-spinner-size: var(--solaris-spacing-4);
+  --solaris-spinner-size: var(--solaris-spacing-6);
+  --solaris-spinner-label-font-size: var(--solaris-font-size-xs);
+  --solaris-spinner-percent-font-size: var(--solaris-font-size-sm);
 }
 
 :host([data-size='lg']) {
-  --solaris-spinner-size: var(--solaris-spacing-8);
+  --solaris-spinner-size: var(--solaris-spacing-10);
+  --solaris-spinner-label-font-size: var(--solaris-font-size-md);
+  --solaris-spinner-percent-font-size: var(--solaris-font-size-lg);
 }
 
 :host([data-size='xl']) {
   --solaris-spinner-size: var(--solaris-spacing-16);
+  --solaris-spinner-label-font-size: var(--solaris-font-size-lg);
+  --solaris-spinner-percent-font-size: var(--solaris-font-size-xl);
 }
 
 :host([data-speed='slow']) {
@@ -180,14 +208,43 @@
   --solaris-spinner-color: var(--solaris-spinner-custom-color);
 }
 
+:host([data-density='compact']) {
+  --solaris-spinner-gap: var(--solaris-spacing-2);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-spinner-gap: var(--solaris-spacing-4);
+}
+
 :host([data-backdrop]) {
   position: fixed;
   inset: 0;
+  z-index: var(--solaris-z-index-overlay);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: var(--solaris-spacing-4);
+  box-sizing: border-box;
+  padding: var(--solaris-spacing-6);
   background: var(--solaris-backdrop);
-  z-index: var(--solaris-z-index-overlay);
+  text-align: center;
+}
+
+:host([data-overlay]) {
+  position: absolute;
+  inset: 0;
+  z-index: var(--solaris-z-index-content);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--solaris-spacing-3);
+  box-sizing: border-box;
+  padding: var(--solaris-spacing-4);
+  background: var(--solaris-spinner-overlay-background);
+  border-radius: inherit;
+  text-align: center;
 }
 
 :host([data-backdrop]) .solaris-spinner__label {

@@ -5,7 +5,8 @@ const meta: Meta<SolarisLoadingTextComponent> = {
   component: SolarisLoadingTextComponent,
   title: 'Feedback/SolarisLoadingTextComponent',
   args: {
-    size: 'md',
+    size: undefined,
+    density: undefined,
     color: 'primary',
     speed: 'normal',
     text: 'Loading...',
@@ -14,6 +15,10 @@ const meta: Meta<SolarisLoadingTextComponent> = {
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg', 'xl'],
+    },
+    density: {
+      control: 'select',
+      options: ['compact', 'normal', 'comfortable'],
     },
     color: {
       control: 'select',
@@ -33,6 +38,12 @@ const meta: Meta<SolarisLoadingTextComponent> = {
     },
     text: {
       control: 'text',
+    },
+    maxLines: {
+      control: { type: 'number', min: 0, max: 5, step: 1 },
+    },
+    dots: {
+      control: 'boolean',
     },
   },
 };
@@ -78,6 +89,20 @@ export const Slow: Story = {
 export const Fast: Story = {
   args: {
     speed: 'fast',
+  },
+};
+
+export const WithDots: Story = {
+  args: {
+    text: 'Uploading',
+    dots: true,
+  },
+};
+
+export const Clamped: Story = {
+  args: {
+    text: 'Preparing your workspace and syncing every document before you start working',
+    maxLines: 2,
   },
 };
 

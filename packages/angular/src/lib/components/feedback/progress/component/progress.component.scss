@@ -1,15 +1,20 @@
 :host {
+  --solaris-progress-buffer-width: 0%;
+  --solaris-progress-fill-width: 100%;
   --solaris-progress-height: var(--solaris-spacing-2);
   --solaris-progress-radius: var(--solaris-radius-full);
   --solaris-progress-color: var(--solaris-primary-base);
   --solaris-progress-custom-color: var(--solaris-primary-base);
   --solaris-progress-track-color: var(--solaris-surface-muted);
+  --solaris-progress-buffer-opacity: var(--solaris-opacity-40);
+  --solaris-progress-stripe-color: var(--solaris-text-inverse);
+  --solaris-progress-label-font-size: var(--solaris-font-size-sm);
+  --solaris-progress-gap: var(--solaris-spacing-3);
   --solaris-progress-animation-duration: var(--solaris-motion-duration-slower);
-  --solaris-progress-fill-width: 100%;
 
   display: flex;
   align-items: center;
-  gap: var(--solaris-spacing-3);
+  gap: var(--solaris-progress-gap);
   box-sizing: border-box;
   color: var(--solaris-text-muted);
   font-family: var(--solaris-font-family-sans);
@@ -46,9 +51,33 @@
     var(--solaris-motion-easing-standard) infinite;
 }
 
+.solaris-progress__buffer {
+  inset: 0;
+  right: auto;
+  position: absolute;
+  box-sizing: border-box;
+  border-radius: inherit;
+  background: var(--solaris-progress-color);
+  width: var(--solaris-progress-buffer-width);
+  opacity: var(--solaris-progress-buffer-opacity);
+}
+
+.solaris-progress__fill--striped {
+  background-image: repeating-linear-gradient(
+    -55deg,
+    transparent 0 12px,
+    var(--solaris-progress-stripe-color) 12px 16px
+  );
+}
+
+.solaris-progress__fill--animated {
+  animation: solaris-progress-stripes var(--solaris-motion-duration-slow)
+    var(--solaris-motion-easing-linear) infinite;
+}
+
 .solaris-progress__label,
 .solaris-progress__percent {
-  font-size: var(--solaris-font-size-sm);
+  font-size: var(--solaris-progress-label-font-size);
   line-height: var(--solaris-line-height-md);
   white-space: nowrap;
 }
@@ -57,12 +86,66 @@
   font-variant-numeric: tabular-nums;
 }
 
-:host([data-size='sm']) {
-  --solaris-progress-height: var(--solaris-border-width-xl);
+:host([data-size='sm'][data-density='compact']) {
+  --solaris-progress-gap: var(--solaris-spacing-3);
+  --solaris-progress-height: var(--solaris-spacing-3);
+  --solaris-progress-label-font-size: var(--solaris-font-size-xs);
 }
 
-:host([data-size='lg']) {
-  --solaris-progress-height: var(--solaris-spacing-3);
+:host([data-size='md'][data-density='compact']) {
+  --solaris-progress-gap: var(--solaris-spacing-4);
+  --solaris-progress-height: var(--solaris-spacing-4);
+  --solaris-progress-label-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-progress-gap: var(--solaris-spacing-4);
+  --solaris-progress-height: var(--solaris-spacing-5);
+  --solaris-progress-label-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-progress-gap: var(--solaris-spacing-4);
+  --solaris-progress-height: var(--solaris-spacing-5);
+  --solaris-progress-label-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='md'][data-density='normal']) {
+  --solaris-progress-gap: var(--solaris-spacing-4);
+  --solaris-progress-height: var(--solaris-spacing-6);
+  --solaris-progress-label-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-progress-gap: var(--solaris-spacing-4);
+  --solaris-progress-height: var(--solaris-spacing-7);
+  --solaris-progress-label-font-size: var(--solaris-font-size-md);
+}
+
+:host([data-size='sm'][data-density='comfortable']) {
+  --solaris-progress-gap: var(--solaris-spacing-4);
+  --solaris-progress-height: var(--solaris-spacing-7);
+  --solaris-progress-label-font-size: var(--solaris-font-size-md);
+}
+
+:host([data-size='md'][data-density='comfortable']) {
+  --solaris-progress-gap: var(--solaris-spacing-4);
+  --solaris-progress-height: var(--solaris-spacing-8);
+  --solaris-progress-label-font-size: var(--solaris-font-size-md);
+}
+
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-progress-gap: var(--solaris-spacing-5);
+  --solaris-progress-height: var(--solaris-spacing-8);
+  --solaris-progress-label-font-size: var(--solaris-font-size-md);
+}
+
+:host([data-status='success']) {
+  --solaris-progress-color: var(--solaris-success-base);
+}
+
+:host([data-status='exception']) {
+  --solaris-progress-color: var(--solaris-danger-base);
 }
 
 :host([data-color='neutral']) {
@@ -97,11 +180,21 @@
   .solaris-progress__fill--indeterminate {
     animation: none;
   }
+
+  .solaris-progress__fill--animated {
+    animation: none;
+  }
 }
 
 [data-reduced-motion='true']
   solaris-progress
   .solaris-progress__fill--indeterminate {
+  animation: none;
+}
+
+[data-reduced-motion='true']
+  solaris-progress
+  .solaris-progress__fill--animated {
   animation: none;
 }
 
@@ -111,5 +204,14 @@
   }
   100% {
     transform: translateX(350%);
+  }
+}
+
+@keyframes solaris-progress-stripes {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 32px 0;
   }
 }
