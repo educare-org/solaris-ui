@@ -3,7 +3,7 @@
   align-items: center;
   gap: var(--solaris-spacing-3);
   padding: var(--solaris-spacing-3);
-  border: 1px solid var(--solaris-border-subtle);
+  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
   border-radius: var(--solaris-radius-md);
   background: var(--solaris-surface-subtle);
 }

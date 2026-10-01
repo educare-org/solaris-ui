@@ -1,14 +1,19 @@
 :host {
   --solaris-toast-max-lines: 2;
   --solaris-toast-border-width: 0;
-  --solaris-toast-max-width: 520px;
-  --solaris-toast-min-width: 460px;
+  --solaris-toast-max-width: calc(
+    var(--solaris-spacing-18) * 4 + var(--solaris-spacing-5)
+  );
+  --solaris-toast-min-width: calc(
+    var(--solaris-spacing-18) * 3 + var(--solaris-spacing-15) +
+      var(--solaris-spacing-6)
+  );
   --solaris-toast-width: fit-content;
   --solaris-toast-border-color: transparent;
   --solaris-toast-gap: var(--solaris-spacing-4);
   --solaris-toast-padding: var(--solaris-spacing-5);
   --solaris-toast-color: var(--solaris-text-default);
-  --solaris-toast-close-size: 24px;
+  --solaris-toast-close-size: var(--solaris-spacing-9);
   --solaris-toast-media-size: var(--solaris-spacing-9);
   --solaris-toast-icon-color: var(--solaris-text-muted);
   --solaris-toast-content-gap: var(--solaris-spacing-3);
@@ -21,8 +26,8 @@
   --solaris-toast-title-color: var(--solaris-text-strong);
   --solaris-toast-background: var(--solaris-surface-raised);
   --solaris-toast-progress-color: var(--solaris-text-muted);
-  --solaris-toast-progress-height: 6px;
-  --solaris-toast-bar-width: 3px;
+  --solaris-toast-progress-height: var(--solaris-spacing-4);
+  --solaris-toast-bar-width: var(--solaris-border-width-lg);
   --solaris-toast-description-color: var(--solaris-text-muted);
   --solaris-toast-close-icon-size: var(--solaris-font-size-md);
   --solaris-toast-countdown-padding: var(--solaris-spacing-4)
@@ -60,8 +65,6 @@
   background: var(--solaris-toast-background);
 }
 
-// Radius connection: when a bottom add-on (progress bar / countdown text)
-// is present, the root bottom corners go straight so it connects flush.
 :host([data-has-bottom]) .solaris-toast__root {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -159,8 +162,8 @@
   }
 
   &:focus-visible {
-    outline-offset: 2px;
-    outline: 2px solid var(--solaris-primary-base);
+    outline-offset: var(--solaris-focus-ring-offset);
+    outline: var(--solaris-focus-ring-width) solid var(--solaris-primary-base);
   }
 
   solaris-icon,
@@ -241,7 +244,7 @@
   overflow: hidden;
   color: var(--solaris-text-muted);
   background: var(--solaris-bg-page);
-  border-top: 1px solid var(--solaris-border-default);
+  border-top: var(--solaris-border-width-sm) solid var(--solaris-border-default);
   font-size: var(--solaris-font-size-xs);
   line-height: var(--solaris-line-height-md);
   padding: var(--solaris-toast-countdown-padding);
@@ -260,10 +263,10 @@
   }
 
   &:focus-visible {
-    outline-offset: 2px;
+    outline-offset: var(--solaris-focus-ring-offset);
     text-decoration: underline;
     border-radius: var(--solaris-radius-sm);
-    outline: 2px solid var(--solaris-primary-base);
+    outline: var(--solaris-focus-ring-width) solid var(--solaris-primary-base);
   }
 
   all: unset;
@@ -276,116 +279,170 @@
   font-size: var(--solaris-font-size-xs);
 }
 
-// Size x density matrix (adapted: card scale, no control-height).
-// Padding grows with size (4/6/8 compact, 6/8/12 normal, 8/12/12
-// comfortable); gaps grow with density only (root 4/6/8, content 2/4/6).
-// Title/desc: sm -> xs/xs, md -> sm/xs, lg -> md/sm.
 :host([data-size='sm'][data-density='compact']) {
   --solaris-toast-padding: var(--solaris-spacing-3);
   --solaris-toast-gap: var(--solaris-spacing-3);
   --solaris-toast-content-gap: var(--solaris-spacing-2);
-  --solaris-toast-max-width: 420px;
-  --solaris-toast-min-width: 380px;
+  --solaris-toast-max-width: calc(
+    var(--solaris-spacing-18) * 3 + var(--solaris-spacing-11)
+  );
+  --solaris-toast-min-width: calc(
+    var(--solaris-spacing-18) * 2 + var(--solaris-spacing-17) +
+      var(--solaris-spacing-9) + var(--solaris-spacing-3)
+  );
   --solaris-toast-title-font-size: var(--solaris-font-size-xs);
   --solaris-toast-description-font-size: var(--solaris-font-size-xs);
-  --solaris-toast-close-size: 24px;
-  --solaris-toast-progress-height: 4px;
+  --solaris-toast-close-size: var(--solaris-spacing-9);
+  --solaris-toast-progress-height: var(--solaris-spacing-3);
 }
 
 :host([data-size='md'][data-density='compact']) {
   --solaris-toast-padding: var(--solaris-spacing-4);
   --solaris-toast-gap: var(--solaris-spacing-3);
   --solaris-toast-content-gap: var(--solaris-spacing-2);
-  --solaris-toast-max-width: 520px;
-  --solaris-toast-min-width: 460px;
+  --solaris-toast-max-width: calc(
+    var(--solaris-spacing-18) * 4 + var(--solaris-spacing-5)
+  );
+  --solaris-toast-min-width: calc(
+    var(--solaris-spacing-18) * 3 + var(--solaris-spacing-15) +
+      var(--solaris-spacing-6)
+  );
   --solaris-toast-title-font-size: var(--solaris-font-size-sm);
   --solaris-toast-description-font-size: var(--solaris-font-size-xs);
-  --solaris-toast-close-size: 24px;
-  --solaris-toast-progress-height: 4px;
+  --solaris-toast-close-size: var(--solaris-spacing-9);
+  --solaris-toast-progress-height: var(--solaris-spacing-3);
 }
 
 :host([data-size='lg'][data-density='compact']) {
   --solaris-toast-padding: var(--solaris-spacing-5);
   --solaris-toast-gap: var(--solaris-spacing-3);
   --solaris-toast-content-gap: var(--solaris-spacing-2);
-  --solaris-toast-max-width: 600px;
-  --solaris-toast-min-width: 540px;
+  --solaris-toast-max-width: calc(
+    var(--solaris-spacing-18) * 4 + var(--solaris-spacing-16) +
+      var(--solaris-spacing-5)
+  );
+  --solaris-toast-min-width: calc(
+    var(--solaris-spacing-18) * 4 + var(--solaris-spacing-9) +
+      var(--solaris-spacing-3)
+  );
   --solaris-toast-title-font-size: var(--solaris-font-size-md);
   --solaris-toast-description-font-size: var(--solaris-font-size-sm);
-  --solaris-toast-close-size: 28px;
-  --solaris-toast-progress-height: 4px;
+  --solaris-toast-close-size: calc(
+    var(--solaris-spacing-9) + var(--solaris-spacing-3)
+  );
+  --solaris-toast-progress-height: var(--solaris-spacing-3);
 }
 
 :host([data-size='sm'][data-density='normal']) {
   --solaris-toast-padding: var(--solaris-spacing-4);
   --solaris-toast-gap: var(--solaris-spacing-4);
   --solaris-toast-content-gap: var(--solaris-spacing-3);
-  --solaris-toast-max-width: 420px;
-  --solaris-toast-min-width: 380px;
+  --solaris-toast-max-width: calc(
+    var(--solaris-spacing-18) * 3 + var(--solaris-spacing-11)
+  );
+  --solaris-toast-min-width: calc(
+    var(--solaris-spacing-18) * 2 + var(--solaris-spacing-17) +
+      var(--solaris-spacing-9) + var(--solaris-spacing-3)
+  );
   --solaris-toast-title-font-size: var(--solaris-font-size-xs);
   --solaris-toast-description-font-size: var(--solaris-font-size-xs);
-  --solaris-toast-close-size: 24px;
-  --solaris-toast-progress-height: 6px;
+  --solaris-toast-close-size: var(--solaris-spacing-9);
+  --solaris-toast-progress-height: var(--solaris-spacing-4);
 }
 
 :host([data-size='md'][data-density='normal']) {
   --solaris-toast-padding: var(--solaris-spacing-5);
   --solaris-toast-gap: var(--solaris-spacing-4);
   --solaris-toast-content-gap: var(--solaris-spacing-3);
-  --solaris-toast-max-width: 520px;
-  --solaris-toast-min-width: 460px;
+  --solaris-toast-max-width: calc(
+    var(--solaris-spacing-18) * 4 + var(--solaris-spacing-5)
+  );
+  --solaris-toast-min-width: calc(
+    var(--solaris-spacing-18) * 3 + var(--solaris-spacing-15) +
+      var(--solaris-spacing-6)
+  );
   --solaris-toast-title-font-size: var(--solaris-font-size-sm);
   --solaris-toast-description-font-size: var(--solaris-font-size-xs);
-  --solaris-toast-close-size: 24px;
-  --solaris-toast-progress-height: 6px;
+  --solaris-toast-close-size: var(--solaris-spacing-9);
+  --solaris-toast-progress-height: var(--solaris-spacing-4);
 }
 
 :host([data-size='lg'][data-density='normal']) {
   --solaris-toast-padding: var(--solaris-spacing-6);
   --solaris-toast-gap: var(--solaris-spacing-4);
   --solaris-toast-content-gap: var(--solaris-spacing-3);
-  --solaris-toast-max-width: 600px;
-  --solaris-toast-min-width: 540px;
+  --solaris-toast-max-width: calc(
+    var(--solaris-spacing-18) * 4 + var(--solaris-spacing-16) +
+      var(--solaris-spacing-5)
+  );
+  --solaris-toast-min-width: calc(
+    var(--solaris-spacing-18) * 4 + var(--solaris-spacing-9) +
+      var(--solaris-spacing-3)
+  );
   --solaris-toast-title-font-size: var(--solaris-font-size-md);
   --solaris-toast-description-font-size: var(--solaris-font-size-sm);
-  --solaris-toast-close-size: 28px;
-  --solaris-toast-progress-height: 6px;
+  --solaris-toast-close-size: calc(
+    var(--solaris-spacing-9) + var(--solaris-spacing-3)
+  );
+  --solaris-toast-progress-height: var(--solaris-spacing-4);
 }
 
 :host([data-size='sm'][data-density='comfortable']) {
   --solaris-toast-padding: var(--solaris-spacing-5);
   --solaris-toast-gap: var(--solaris-spacing-5);
   --solaris-toast-content-gap: var(--solaris-spacing-4);
-  --solaris-toast-max-width: 420px;
-  --solaris-toast-min-width: 380px;
+  --solaris-toast-max-width: calc(
+    var(--solaris-spacing-18) * 3 + var(--solaris-spacing-11)
+  );
+  --solaris-toast-min-width: calc(
+    var(--solaris-spacing-18) * 2 + var(--solaris-spacing-17) +
+      var(--solaris-spacing-9) + var(--solaris-spacing-3)
+  );
   --solaris-toast-title-font-size: var(--solaris-font-size-xs);
   --solaris-toast-description-font-size: var(--solaris-font-size-xs);
-  --solaris-toast-close-size: 28px;
-  --solaris-toast-progress-height: 6px;
+  --solaris-toast-close-size: calc(
+    var(--solaris-spacing-9) + var(--solaris-spacing-3)
+  );
+  --solaris-toast-progress-height: var(--solaris-spacing-4);
 }
 
 :host([data-size='md'][data-density='comfortable']) {
   --solaris-toast-padding: var(--solaris-spacing-6);
   --solaris-toast-gap: var(--solaris-spacing-5);
   --solaris-toast-content-gap: var(--solaris-spacing-4);
-  --solaris-toast-max-width: 520px;
-  --solaris-toast-min-width: 460px;
+  --solaris-toast-max-width: calc(
+    var(--solaris-spacing-18) * 4 + var(--solaris-spacing-5)
+  );
+  --solaris-toast-min-width: calc(
+    var(--solaris-spacing-18) * 3 + var(--solaris-spacing-15) +
+      var(--solaris-spacing-6)
+  );
   --solaris-toast-title-font-size: var(--solaris-font-size-sm);
   --solaris-toast-description-font-size: var(--solaris-font-size-xs);
-  --solaris-toast-close-size: 28px;
-  --solaris-toast-progress-height: 6px;
+  --solaris-toast-close-size: calc(
+    var(--solaris-spacing-9) + var(--solaris-spacing-3)
+  );
+  --solaris-toast-progress-height: var(--solaris-spacing-4);
 }
 
 :host([data-size='lg'][data-density='comfortable']) {
   --solaris-toast-padding: var(--solaris-spacing-6);
   --solaris-toast-gap: var(--solaris-spacing-5);
   --solaris-toast-content-gap: var(--solaris-spacing-4);
-  --solaris-toast-max-width: 600px;
-  --solaris-toast-min-width: 540px;
+  --solaris-toast-max-width: calc(
+    var(--solaris-spacing-18) * 4 + var(--solaris-spacing-16) +
+      var(--solaris-spacing-5)
+  );
+  --solaris-toast-min-width: calc(
+    var(--solaris-spacing-18) * 4 + var(--solaris-spacing-9) +
+      var(--solaris-spacing-3)
+  );
   --solaris-toast-title-font-size: var(--solaris-font-size-md);
   --solaris-toast-description-font-size: var(--solaris-font-size-sm);
-  --solaris-toast-close-size: 28px;
-  --solaris-toast-progress-height: 6px;
+  --solaris-toast-close-size: calc(
+    var(--solaris-spacing-9) + var(--solaris-spacing-3)
+  );
+  --solaris-toast-progress-height: var(--solaris-spacing-4);
 }
 
 :host([data-icon-size='sm']) {
@@ -483,7 +540,7 @@
 @keyframes solaris-toast-enter {
   from {
     opacity: 0;
-    transform: translateY(8px) scale(0.98);
+    transform: translateY(var(--solaris-spacing-5)) scale(0.98);
   }
   to {
     opacity: 1;

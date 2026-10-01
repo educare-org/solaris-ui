@@ -226,7 +226,7 @@
   border-color: var(--solaris-primary-base);
   box-shadow: var(
     --solaris-shadow-focus,
-    0 0 0 1px var(--solaris-primary-base)
+    0 0 0 var(--solaris-border-width-sm) var(--solaris-primary-base)
   );
 }
 

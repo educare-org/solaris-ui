@@ -4,9 +4,6 @@
   --solaris-loading-text-shimmer-opacity: var(--solaris-opacity-40);
   --solaris-loading-text-custom-color: var(--solaris-primary-base);
 
-  // Inherit by default: loading text is animated body copy, so it follows
-  // the surrounding font-size/line-height. size/density below are opt-in
-  // fixed overrides.
   --solaris-loading-text-font-size: inherit;
   --solaris-loading-text-font-weight: var(--solaris-font-weight-medium);
   --solaris-loading-text-line-height: inherit;
@@ -15,8 +12,6 @@
   );
   --solaris-loading-text-animation-easing: var(--solaris-motion-easing-linear);
 
-  // Relative to the current font size (inherited or size override) so the
-  // dots scale with the text: 0.25em ~= 4px at the previous 18px default.
   --solaris-loading-text-dot-size: 0.25em;
   --solaris-loading-text-dots-gap: 0.25em;
 

@@ -490,12 +490,10 @@ describe('SolarisPasswordFieldComponent', () => {
     it('applies required state', () => {
       const fixture = TestBed.createComponent(RequiredHost);
       fixture.detectChanges();
-      // FormField sets data-* attributes reflecting input state
       const formField = fixture.debugElement.query(
         By.css('solaris-form-field'),
       );
       expect(formField).toBeTruthy();
-      // Verify via component instance that required input was passed
       const passwordField = fixture.debugElement.query(
         By.directive(SolarisPasswordFieldComponent),
       );

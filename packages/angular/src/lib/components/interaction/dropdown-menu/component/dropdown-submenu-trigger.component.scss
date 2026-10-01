@@ -40,7 +40,7 @@
 }
 
 :host(:focus) {
-  outline-offset: -2px;
+  outline-offset: calc(var(--solaris-focus-ring-offset) * -1);
   background: var(--solaris-dropdown-submenu-trigger-hover-background);
 }
 

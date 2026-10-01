@@ -296,9 +296,6 @@ export class SolarisPopoverTriggerDirective {
     this.positionStrategy.positionChanges.subscribe((change) => {
       this.connectedSide =
         change.connectionPair.originY === 'bottom' ? 'bottom' : 'top';
-      // Keep the panel data object in sync so the template
-      // [attr.data-connected-side] binding does not revert the
-      // flip on the next change detection cycle.
       if (this.panelDataRef) {
         this.panelDataRef.connectedSide = this.connectedSide;
       }
@@ -331,11 +328,6 @@ export class SolarisPopoverTriggerDirective {
   }
 
   private getPositionOrigin(): HTMLElement {
-    // When topConnected (select / multi-select inside form-field), the CDK
-    // origin must be the input box (.solaris-form-field__control-wrapper),
-    // not the whole <solaris-form-field> host (which includes label + hints).
-    // Otherwise the "top" fallback anchors above the label, leaving the
-    // label detached instead of covered by the panel.
     if (this.solarisPopoverTopConnected()) {
       const wrapper = this.elementRef.nativeElement.querySelector(
         ':scope > .solaris-form-field__control-wrapper',
@@ -575,9 +567,6 @@ export class SolarisPopoverTriggerDirective {
       maxHeight?: number | string;
     } = {};
 
-    // ElementRef is SSR-safe. offsetWidth is a read-only layout property.
-    // For topConnected, measure the control-wrapper (position origin) so the
-    // panel matches the input width even if label/hint rows differ.
     const triggerWidth = this.getPositionOrigin().offsetWidth;
     const matchWidth = this.solarisPopoverMatchTriggerWidth();
     const minWidth = this.solarisPopoverMinWidth();
@@ -586,7 +575,6 @@ export class SolarisPopoverTriggerDirective {
 
     if (matchWidth) {
       size.width = triggerWidth;
-      // Also set minWidth so it won't shrink below trigger width on flexible dimensions.
       size.minWidth = triggerWidth;
     }
 

@@ -354,7 +354,7 @@ export class SolarisDropdownMenuTriggerDirective {
       try {
         this.overlayRef.dispose();
       } catch {
-        // Injector may already be destroyed during test teardown
+        // no-op
       }
       this.overlayRef = null;
     }

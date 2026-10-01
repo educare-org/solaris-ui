@@ -379,8 +379,6 @@ export class SolarisTooltipDirective implements AfterViewInit {
 
   private scheduleOpen(delay: number): void {
     this.clearHoverTimeout();
-    // Skip-delay (Radix pattern): when the user moves between hover targets
-    // quickly after a close, open immediately instead of waiting showDelay.
     const skipDelay = Number(this.solarisTooltipSkipDelay());
     const sinceClose = Date.now() - this.lastCloseAt;
     if (delay > 0 && !(skipDelay > 0 && sinceClose < skipDelay)) {

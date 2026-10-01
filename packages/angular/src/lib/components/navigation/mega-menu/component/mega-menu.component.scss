@@ -31,7 +31,7 @@ solaris-mega-menu {
 }
 
 [solaris-mega-menu-trigger][data-appearance='underline'] {
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--solaris-border-width-md) solid transparent;
 }
 
 [solaris-mega-menu-trigger][data-appearance='underline'][data-open] {
@@ -43,8 +43,8 @@ solaris-mega-menu {
 }
 
 .solaris-mega-menu-anchor__underline {
-  bottom: 1px;
-  height: 2px;
+  bottom: var(--solaris-border-width-sm);
+  height: var(--solaris-border-width-md);
   position: absolute;
   pointer-events: none;
   z-index: var(--solaris-z-index-raised);

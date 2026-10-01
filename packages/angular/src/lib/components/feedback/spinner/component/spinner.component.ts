@@ -218,9 +218,6 @@ export class SolarisSpinnerComponent {
   });
 
   constructor() {
-    // Backdrop scroll-lock: while a fixed full-screen backdrop is visible,
-    // prevent the page behind it from scrolling. SSR-safe, restored on
-    // destroy and when the backdrop input flips back to false.
     const canUseDom = isPlatformBrowser(this.platformId);
     let previousOverflow: string | null = null;
     effect(() => {

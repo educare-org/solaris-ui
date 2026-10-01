@@ -399,7 +399,7 @@ export class SolarisEditableTabsComponent {
       try {
         event.dataTransfer.setData('text/plain', String(tab.value));
       } catch {
-        // Clipboard access may be denied; drag still works via index signals.
+        // no-op
       }
     }
   }
@@ -418,8 +418,7 @@ export class SolarisEditableTabsComponent {
   }
 
   protected onTabDragLeave(): void {
-    // Intentionally keep the indicator until the next dragover/drop/dragend
-    // to avoid flicker when moving between tab children.
+    // no-op
   }
 
   protected onTabDrop(

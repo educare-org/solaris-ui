@@ -35,8 +35,6 @@ import type {
   },
 })
 export class SolarisLoadingTextComponent {
-  // Omitido = herda font-size/line-height do contexto. size/density são
-  // overrides fixos opcionais.
   readonly size = input<SolarisLoadingTextSize | undefined>(undefined);
   readonly density = input<SolarisLoadingTextDensity | undefined>(undefined);
   readonly color = input<SolarisLoadingTextColor>('primary');

@@ -133,8 +133,6 @@ export abstract class SolarisButtonHostBase {
       el.setAttribute('type', 'button');
     }
 
-    // Preserve SSR attributes during hydration. Angular applies input bindings
-    // after directive construction, so writing defaults here would flash them.
     if (!el.hasAttribute('data-appearance')) {
       el.setAttribute('data-appearance', this.appearance());
     }
@@ -162,9 +160,6 @@ export abstract class SolarisButtonHostBase {
       }
     });
 
-    // The loading label is managed imperatively (not via host binding) so a
-    // consumer-provided aria-label is never clobbered when idle, and is
-    // restored when loading ends.
     effect(() => {
       this.syncLoadingAriaLabel();
     });

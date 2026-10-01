@@ -13,9 +13,6 @@
   margin-bottom: var(--solaris-spacing-4);
 }
 
-// Full-width capped demo so the loaded and loading cards share the exact
-// same frame: without it the centered preview shrink-wraps the card and the
-// percentage-based skeleton bars collapse to a narrow layout.
 .card-showcase__composition-demo {
   display: grid;
   width: 100%;
@@ -26,7 +23,7 @@
 .card-showcase__glass-preview {
   overflow: hidden;
   position: relative;
-  min-height: 104px;
+  min-height: calc(var(--solaris-spacing-17) + var(--solaris-spacing-5));
   isolation: isolate;
   border-radius: var(--solaris-radius-lg);
   background:
@@ -36,13 +33,13 @@
 }
 
 .card-showcase__glass-shape {
-  height: 112px;
-  width: 176px;
-  bottom: -32px;
+  height: calc(var(--solaris-spacing-17) + var(--solaris-spacing-7));
+  width: calc(var(--solaris-spacing-18) + var(--solaris-spacing-13));
+  bottom: calc(var(--solaris-spacing-10) * -1);
   opacity: 0.86;
-  right: -24px;
+  right: calc(var(--solaris-spacing-9) * -1);
   position: absolute;
-  filter: blur(4px);
+  filter: blur(var(--solaris-spacing-3));
   border-radius: var(--solaris-radius-lg);
   background: linear-gradient(135deg, #ff7a00, #ff4618);
 }
@@ -51,5 +48,5 @@
   z-index: 1;
   height: 100%;
   position: relative;
-  min-height: 104px;
+  min-height: calc(var(--solaris-spacing-17) + var(--solaris-spacing-5));
 }

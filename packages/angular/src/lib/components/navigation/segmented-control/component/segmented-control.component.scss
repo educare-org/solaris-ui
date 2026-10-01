@@ -205,12 +205,6 @@
   --solaris-segmented-item-font-size: var(--solaris-font-size-lg);
 }
 
-// Flush edge rounding (sm + compact only): the indicator sits flush with the
-// container (`--solaris-segmented-indicator-position: 0`), so the selected
-// edge segment and the edge items need the container radius on their outer
-// corners. `data-selected-edge` is derived from the selected item index, so
-// this supports any number of options. `-of-type` (not `-child`) is required
-// because the indicator div renders as a later sibling of the items.
 :host([data-size='sm'][data-density='compact'][data-orientation='horizontal'])
   ::ng-deep
   solaris-segmented-item:first-of-type {

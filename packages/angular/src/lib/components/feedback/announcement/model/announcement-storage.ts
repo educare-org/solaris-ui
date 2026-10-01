@@ -1,8 +1,3 @@
-// SSR-safe persistence helpers for `solaris-announcement dismissKey`.
-// All access to `localStorage` is guarded: non-browser platforms and
-// restricted contexts (e.g. private mode throwing on access) degrade to
-// "not dismissed" instead of throwing.
-
 const DISMISSED_VALUE = 'dismissed';
 
 function readStorage(): Storage | null {
@@ -38,7 +33,7 @@ export function persistSolarisAnnouncementDismissed(key: string): void {
   try {
     storage.setItem(key, DISMISSED_VALUE);
   } catch {
-    // Persistence is best-effort; dismissal still emits.
+    // no-op
   }
 }
 
@@ -51,6 +46,6 @@ export function clearSolarisAnnouncementDismissed(key: string): void {
   try {
     storage.removeItem(key);
   } catch {
-    // Ignore — the key simply stays dismissed for this session.
+    // no-op
   }
 }

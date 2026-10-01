@@ -1,5 +1,5 @@
 .divider-vertical-example__toolbar {
-  height: 48px;
+  height: var(--solaris-spacing-13);
   display: flex;
   align-items: center;
   gap: var(--solaris-spacing-3);

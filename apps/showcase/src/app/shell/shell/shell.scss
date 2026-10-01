@@ -10,8 +10,8 @@
   top: var(--solaris-spacing-2);
   left: var(--solaris-spacing-4);
   z-index: 100;
-  width: 1px;
-  height: 1px;
+  width: var(--solaris-border-width-sm);
+  height: var(--solaris-border-width-sm);
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
@@ -47,7 +47,7 @@
 
 .shell__sidebar {
   position: sticky;
-  top: 64px;
+  top: var(--solaris-spacing-15);
   flex-shrink: 0;
   align-self: flex-start;
 }

@@ -5,7 +5,7 @@
   --solaris-phone-country-option-active-bg: var(--solaris-primary-surface);
   --solaris-phone-country-option-active-color: var(--solaris-primary-text);
 
-  width: 260px;
+  width: calc(var(--solaris-spacing-18) * 2 + var(--solaris-spacing-3));
   display: block;
   max-width: 100%;
   box-sizing: border-box;
@@ -55,7 +55,7 @@
 .solaris-phone-country-list__list {
   display: flex;
   overflow-y: auto;
-  max-height: 320px;
+  max-height: calc(var(--solaris-spacing-18) * 2 + var(--solaris-spacing-15));
   scrollbar-width: thin;
   box-sizing: border-box;
   flex-direction: column;
@@ -63,7 +63,7 @@
   scrollbar-color: var(--solaris-border-soft) transparent;
 
   &::-webkit-scrollbar {
-    width: 6px;
+    width: var(--solaris-spacing-4);
   }
 
   &::-webkit-scrollbar-track {

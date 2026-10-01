@@ -40,9 +40,6 @@
       var(--solaris-motion-easing-standard);
 }
 
-// Padding tiers compose with density through the --solaris-density-* tokens:
-// the tier selects the scale step, the effective density (compact | normal |
-// comfortable) resolves its value. `none` keeps the v2 zero-spacing default.
 :host([data-padding='sm']) {
   --solaris-card-media-size: var(--solaris-spacing-10);
   --solaris-card-padding: var(--solaris-density-padding-sm);
@@ -130,9 +127,9 @@
   background-image: repeating-radial-gradient(
     circle at 0 0,
     var(--solaris-glass-border-color) 0,
-    var(--solaris-glass-border-color) 1px,
-    transparent 1px,
-    transparent 4px
+    var(--solaris-glass-border-color) var(--solaris-border-width-sm),
+    transparent var(--solaris-border-width-sm),
+    transparent var(--solaris-spacing-3)
   );
 }
 
@@ -233,9 +230,6 @@
     var(--solaris-card-footer-border-color);
 }
 
-// A single section has nothing to separate from: the separator border would
-// render as an orphan line, so it is suppressed (and the section keeps the
-// regular section padding instead of the separator gap).
 :host([data-single-section]) ::ng-deep .solaris-card-header[data-separator] {
   padding-block-end: var(--solaris-card-section-padding);
   border-bottom: none;

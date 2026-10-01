@@ -93,7 +93,6 @@ export class SolarisRadioGroupComponent
   private readonly translateService = inject(SolarisTranslateService);
   private readonly ngZone = inject(NgZone);
 
-  // Kept for the existing radio-specific testing surface.
   protected readonly radios = contentChildren(SolarisRadioComponent);
   private readonly radioOptions = contentChildren(SOLARIS_RADIO_OPTION);
 
@@ -298,8 +297,6 @@ export class SolarisRadioGroupComponent
   }
 
   private readonly _radiosEffect = effect(() => {
-    // Re-run when the projected radio set changes. The initial sync happens in
-    // ngAfterContentInit to preserve form-control writeValue ordering.
     if (!this.contentInitialized) return;
     this.radioOptions();
     this.initRadios();

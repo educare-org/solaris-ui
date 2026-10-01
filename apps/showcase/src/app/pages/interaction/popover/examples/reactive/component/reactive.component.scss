@@ -1,6 +1,6 @@
 .popover-reactive-example__scroll {
   overflow: auto;
-  max-height: 192px;
+  max-height: calc(var(--solaris-spacing-18) + var(--solaris-spacing-15));
   position: relative;
   padding: var(--solaris-spacing-4);
   border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
@@ -8,7 +8,7 @@
 }
 
 .popover-reactive-example__spacer {
-  height: 320px;
+  height: calc(var(--solaris-spacing-18) * 2 + var(--solaris-spacing-15));
 }
 
 .popover-reactive-example__hint {

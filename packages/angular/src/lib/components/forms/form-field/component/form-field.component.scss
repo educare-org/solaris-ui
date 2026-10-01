@@ -1,5 +1,5 @@
 :host {
-  --solaris-form-field-focus-ring-width: 2px;
+  --solaris-form-field-focus-ring-width: var(--solaris-focus-ring-width);
   --solaris-form-field-control-color: initial;
   --solaris-form-field-control-radius: initial;
   --solaris-form-field-hint-color: var(--solaris-text-muted);
@@ -210,7 +210,7 @@
 :host([data-control-type='textarea'][data-control-resize='horizontal'])
   .solaris-form-field__control-wrapper {
   width: 100%;
-  min-width: 128px;
+  min-width: var(--solaris-spacing-18);
   overflow: hidden;
   resize: horizontal;
 }
@@ -233,7 +233,7 @@
   .solaris-form-field__control-wrapper {
   width: 100%;
   resize: both;
-  min-width: 128px;
+  min-width: var(--solaris-spacing-18);
   overflow: hidden;
   align-items: stretch;
   min-height: var(--solaris-form-field-control-height);
@@ -359,7 +359,7 @@
 :host([data-appearance='outline']),
 :host([data-appearance='surface']),
 :host([data-appearance='filled']) {
-  --solaris-form-field-focus-ring-width: 2px;
+  --solaris-form-field-focus-ring-width: var(--solaris-focus-ring-width);
   --solaris-form-field-hint-color: var(--solaris-text-muted);
   --solaris-form-field-prefix-color: var(--solaris-text-muted);
   --solaris-form-field-suffix-color: var(--solaris-text-muted);

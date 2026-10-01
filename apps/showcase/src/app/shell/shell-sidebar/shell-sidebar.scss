@@ -6,28 +6,24 @@
   --solaris-shell-sidebar-link-padding: var(--solaris-spacing-5)
     var(--solaris-spacing-7);
 
-  // border-box is required here: the app has no universal reset and this
-  // element defaults to content-box, which would add its vertical padding
-  // (80px) on top of height: calc(100vh - 64px). The box would then extend
-  // past the viewport bottom and the last ~80px of scroll range — e.g. the
-  // "Sobreposição" item — could never be scrolled into view.
   box-sizing: border-box;
   display: flex;
   overflow-y: auto;
   scrollbar-width: thin;
   flex-direction: column;
-  height: calc(100vh - 64px);
+  height: calc(100vh - var(--solaris-spacing-15));
   gap: var(--solaris-spacing-5);
   background: var(--solaris-surface-base);
   width: calc(var(--solaris-spacing-18) * 2.5);
-  border-right: 1px solid var(--solaris-border-subtle);
+  border-right: var(--solaris-border-width-sm) solid
+    var(--solaris-border-subtle);
   font-family: var(--solaris-font-family-sans), system-ui;
   scrollbar-color: var(--solaris-border-subtle) transparent;
   padding: var(--solaris-spacing-12) var(--solaris-spacing-6);
 }
 
 .shell-sidebar::-webkit-scrollbar {
-  width: 6px;
+  width: var(--solaris-spacing-4);
 }
 
 .shell-sidebar::-webkit-scrollbar-track {
@@ -117,8 +113,8 @@
 
 .shell-sidebar__subgroup-chevron,
 .shell-sidebar__sublink-chevron {
-  width: 16px;
-  height: 16px;
+  width: var(--solaris-spacing-7);
+  height: var(--solaris-spacing-7);
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
@@ -133,11 +129,15 @@
 .shell-sidebar__sublink-chevron::after {
   content: '';
   display: block;
-  width: 7px;
-  height: 7px;
-  border-right: 2px solid currentcolor;
-  border-bottom: 2px solid currentcolor;
-  transform: rotate(45deg) translate(-1px, -1px);
+  width: calc(var(--solaris-spacing-4) + var(--solaris-border-width-sm));
+  height: calc(var(--solaris-spacing-4) + var(--solaris-border-width-sm));
+  border-right: var(--solaris-border-width-md) solid currentcolor;
+  border-bottom: var(--solaris-border-width-md) solid currentcolor;
+  transform: rotate(45deg)
+    translate(
+      calc(var(--solaris-border-width-sm) * -1),
+      calc(var(--solaris-border-width-sm) * -1)
+    );
   transform-origin: center;
 }
 
@@ -187,7 +187,7 @@
   .shell-sidebar__subgroup-panel-inner,
 .shell-sidebar__sublink[data-open='false'] .shell-sidebar__sublink-panel-inner {
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translateY(calc(var(--solaris-spacing-3) * -1));
   transition-timing-function:
     var(--solaris-motion-easing-accelerate),
     var(--solaris-motion-easing-accelerate);
@@ -207,9 +207,9 @@
 }
 
 .shell-sidebar__list--nested {
-  margin-top: 2px;
+  margin-top: var(--solaris-border-width-md);
   padding-left: var(--solaris-spacing-3);
-  border-left: 1px solid var(--solaris-border-subtle);
+  border-left: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
 }
 
 .shell-sidebar__item {
@@ -217,11 +217,6 @@
   padding: 0;
 }
 
-// The sidebar is a scrollable flex column. Its descendants must keep their
-// intrinsic height: otherwise flex-shrink compresses tall content and the
-// inner overflow:hidden panels clip it, so items below the fold become
-// unreachable without any scrollbar. flex-shrink: 0 forces the excess
-// height to overflow the sidebar itself, which triggers its own scroll.
 .shell-sidebar__section,
 .shell-sidebar__subgroup,
 .shell-sidebar__subgroup-toggle,
@@ -356,14 +351,15 @@
   .shell-sidebar {
     left: 0;
     bottom: 0;
-    top: 64px;
+    top: var(--solaris-spacing-15);
     z-index: 40;
     position: fixed;
     max-height: none;
     visibility: hidden;
     transform: translateX(-100%);
     box-shadow: var(--solaris-shadow-lg);
-    border-right: 1px solid var(--solaris-border-subtle);
+    border-right: var(--solaris-border-width-sm) solid
+      var(--solaris-border-subtle);
     transition: transform var(--solaris-motion-duration-normal);
   }
 

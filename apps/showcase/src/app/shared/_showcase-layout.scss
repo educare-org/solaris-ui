@@ -1,4 +1,4 @@
-@mixin page($max-width: 1920px) {
+@mixin page($max-width: calc(var(--solaris-spacing-18) * 15)) {
   margin: 0 auto;
   max-width: $max-width;
   padding: var(--solaris-spacing-8) var(--solaris-spacing-4) 0;
@@ -17,7 +17,7 @@
 
 @mixin description {
   margin: 0;
-  max-width: 1920px;
+  max-width: calc(var(--solaris-spacing-18) * 15);
   color: var(--solaris-text-muted);
   font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
@@ -29,7 +29,7 @@
   background: var(--solaris-surface-base);
   margin-bottom: var(--solaris-spacing-8);
   border-radius: var(--solaris-radius-lg);
-  border: 1px solid var(--solaris-border-subtle);
+  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
 }
 
 @mixin section-title {

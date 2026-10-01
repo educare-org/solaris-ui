@@ -1675,7 +1675,6 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
-      // connected-side ownership moved to SolarisPopoverTriggerDirective
       expect((select as any).setConnectedSide).toBeUndefined();
       expect((select as any).clearConnectedSide).toBeUndefined();
       (select as any).onPanelOpened();

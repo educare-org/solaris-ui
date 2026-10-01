@@ -37,5 +37,5 @@
 .collapsible-showcase__stack {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--solaris-spacing-7);
 }

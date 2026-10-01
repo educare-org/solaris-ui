@@ -16,7 +16,7 @@ class TestHostComponent {
   readonly entry = input.required<SolarisToastEntry>();
 
   onDismiss(id: string): void {
-    // handled by test
+    // no-op
   }
 }
 
@@ -180,7 +180,6 @@ describe('SolarisToastComponent', () => {
     expect(getToastEl(fixture).getAttribute('aria-live')).toBe('polite');
   });
 
-  /* ── Expandable ── */
   it('should not show expand button when expandable is false', () => {
     service.show({ title: 'Test', description: 'Some description' });
     const fixture = createFixture(service.entries()[0].id);
@@ -238,7 +237,6 @@ describe('SolarisToastComponent', () => {
     ).toBe(true);
   });
 
-  /* ── Countdown ── */
   it('should show countdown bar when countdown is set', () => {
     service.show({
       title: 'Test',
@@ -267,7 +265,6 @@ describe('SolarisToastComponent', () => {
     expect(progressBar!.style.width).toBe('50%');
   });
 
-  /* ── Actions alignment ── */
   it('should set data-actions-align on host', () => {
     service.show({ title: 'Test', actionsAlign: 'center' });
     const fixture = createFixture(service.entries()[0].id);
@@ -282,7 +279,6 @@ describe('SolarisToastComponent', () => {
     expect(getToastEl(fixture).getAttribute('data-actions-align')).toBe('end');
   });
 
-  /* ── Icon size ── */
   it('should set data-icon-size on host', () => {
     service.show({ title: 'Test', iconSize: 'lg' });
     const fixture = createFixture(service.entries()[0].id);
@@ -295,7 +291,6 @@ describe('SolarisToastComponent', () => {
     expect(getToastEl(fixture).getAttribute('data-icon-size')).toBe('md');
   });
 
-  /* ── Media shape ── */
   it('should set data-media-shape on host', () => {
     service.show({ title: 'Test', mediaShape: 'square' });
     const fixture = createFixture(service.entries()[0].id);
@@ -308,7 +303,6 @@ describe('SolarisToastComponent', () => {
     expect(getToastEl(fixture).getAttribute('data-media-shape')).toBe('circle');
   });
 
-  /* ── Countdown text ── */
   it('should show countdown text when countdown is text', () => {
     service.show({
       title: 'Test',
@@ -341,7 +335,6 @@ describe('SolarisToastComponent', () => {
     expect(q('.solaris-toast__countdown-text', fixture)).toBeNull();
   });
 
-  /* ── Pause/Resume toggle button ── */
   it('should show stop button when countdown text is visible', () => {
     service.show({
       title: 'Test',
@@ -474,7 +467,6 @@ describe('SolarisToastComponent', () => {
     expect(msg.textContent!.trim()).toContain('1 second');
   });
 
-  /* ── Size x density (adapted) ── */
   it('should apply data-size and data-density from entry', () => {
     service.show({ title: 'Test', size: 'lg', density: 'compact' });
     const fixture = createFixture(service.entries()[0].id);

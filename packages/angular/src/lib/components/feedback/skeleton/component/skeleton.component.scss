@@ -1,25 +1,7 @@
-/// Solaris Skeleton — size × density × variant matrix.
-///
-/// Own px scale (skeleton is a decorative placeholder, not an interactive
-/// control, so the --solaris-control-height-* ladder does not apply).
-/// Every combination below is explicit: the rendered outer height must
-/// equal the value in the table. Custom `width`/`height` inputs (inline
-/// styles) always win over the matrix.
-///
-/// text (line height):        compact sm 8   | md 12  | lg 16
-///                            normal  sm 12  | md 16  | lg 20
-///                            comfort sm 16  | md 20  | lg 24
-/// rectangular (height):      compact sm 48  | md 64  | lg 80
-///                            normal  sm 64  | md 96  | lg 128
-///                            comfort sm 96  | md 128 | lg 160
-/// circular (diameter):       compact sm 20  | md 24  | lg 32
-///                            normal  sm 24  | md 32  | lg 40
-///                            comfort sm 32  | md 40  | lg 48
-
 :host {
   --solaris-skeleton-width: 100%;
-  --solaris-skeleton-gap: 12px;
-  --solaris-skeleton-height: 16px;
+  --solaris-skeleton-gap: var(--solaris-spacing-6);
+  --solaris-skeleton-height: var(--solaris-spacing-7);
   --solaris-skeleton-radius: var(--solaris-radius-sm);
   --solaris-skeleton-background: var(--solaris-surface-muted);
   --solaris-skeleton-highlight: var(--solaris-surface-raised);
@@ -40,160 +22,140 @@
   visibility: hidden;
 }
 
-// ---------------------------------------------------------------------------
-// Gap follows density only (not part of the height matrix).
-// ---------------------------------------------------------------------------
-
 :host([data-density='compact']) {
-  --solaris-skeleton-gap: 8px;
+  --solaris-skeleton-gap: var(--solaris-spacing-5);
 }
 
 :host([data-density='normal']) {
-  --solaris-skeleton-gap: 12px;
+  --solaris-skeleton-gap: var(--solaris-spacing-6);
 }
 
 :host([data-density='comfortable']) {
-  --solaris-skeleton-gap: 16px;
+  --solaris-skeleton-gap: var(--solaris-spacing-7);
 }
 
-// ---------------------------------------------------------------------------
-// text — line height matrix.
-// ---------------------------------------------------------------------------
-
 :host([data-variant='text'][data-size='sm'][data-density='compact']) {
-  --solaris-skeleton-height: 8px;
+  --solaris-skeleton-height: var(--solaris-spacing-5);
 }
 
 :host([data-variant='text'][data-size='md'][data-density='compact']) {
-  --solaris-skeleton-height: 12px;
+  --solaris-skeleton-height: var(--solaris-spacing-6);
 }
 
 :host([data-variant='text'][data-size='lg'][data-density='compact']) {
-  --solaris-skeleton-height: 16px;
+  --solaris-skeleton-height: var(--solaris-spacing-7);
 }
 
 :host([data-variant='text'][data-size='sm'][data-density='normal']) {
-  --solaris-skeleton-height: 12px;
+  --solaris-skeleton-height: var(--solaris-spacing-6);
 }
 
 :host([data-variant='text'][data-size='md'][data-density='normal']) {
-  --solaris-skeleton-height: 16px;
+  --solaris-skeleton-height: var(--solaris-spacing-7);
 }
 
 :host([data-variant='text'][data-size='lg'][data-density='normal']) {
-  --solaris-skeleton-height: 20px;
+  --solaris-skeleton-height: var(--solaris-spacing-8);
 }
 
 :host([data-variant='text'][data-size='sm'][data-density='comfortable']) {
-  --solaris-skeleton-height: 16px;
+  --solaris-skeleton-height: var(--solaris-spacing-7);
 }
 
 :host([data-variant='text'][data-size='md'][data-density='comfortable']) {
-  --solaris-skeleton-height: 20px;
+  --solaris-skeleton-height: var(--solaris-spacing-8);
 }
 
 :host([data-variant='text'][data-size='lg'][data-density='comfortable']) {
-  --solaris-skeleton-height: 24px;
+  --solaris-skeleton-height: var(--solaris-spacing-9);
 }
 
-// ---------------------------------------------------------------------------
-// rectangular — block height matrix.
-// ---------------------------------------------------------------------------
-
 :host([data-variant='rectangular'][data-size='sm'][data-density='compact']) {
-  --solaris-skeleton-height: 48px;
+  --solaris-skeleton-height: var(--solaris-spacing-13);
 }
 
 :host([data-variant='rectangular'][data-size='md'][data-density='compact']) {
-  --solaris-skeleton-height: 64px;
+  --solaris-skeleton-height: var(--solaris-spacing-15);
 }
 
 :host([data-variant='rectangular'][data-size='lg'][data-density='compact']) {
-  --solaris-skeleton-height: 80px;
+  --solaris-skeleton-height: var(--solaris-spacing-16);
 }
 
 :host([data-variant='rectangular'][data-size='sm'][data-density='normal']) {
-  --solaris-skeleton-height: 64px;
+  --solaris-skeleton-height: var(--solaris-spacing-15);
 }
 
 :host([data-variant='rectangular'][data-size='md'][data-density='normal']) {
-  --solaris-skeleton-height: 96px;
+  --solaris-skeleton-height: var(--solaris-spacing-17);
 }
 
 :host([data-variant='rectangular'][data-size='lg'][data-density='normal']) {
-  --solaris-skeleton-height: 128px;
+  --solaris-skeleton-height: var(--solaris-spacing-18);
 }
 
 :host(
   [data-variant='rectangular'][data-size='sm'][data-density='comfortable']
 ) {
-  --solaris-skeleton-height: 96px;
+  --solaris-skeleton-height: var(--solaris-spacing-17);
 }
 
 :host(
   [data-variant='rectangular'][data-size='md'][data-density='comfortable']
 ) {
-  --solaris-skeleton-height: 128px;
+  --solaris-skeleton-height: var(--solaris-spacing-18);
 }
 
 :host(
   [data-variant='rectangular'][data-size='lg'][data-density='comfortable']
 ) {
-  --solaris-skeleton-height: 160px;
+  --solaris-skeleton-height: var(--solaris-spacing-18);
 }
 
-// ---------------------------------------------------------------------------
-// circular — diameter matrix (width + height).
-// ---------------------------------------------------------------------------
-
 :host([data-variant='circular'][data-size='sm'][data-density='compact']) {
-  --solaris-skeleton-width: 20px;
-  --solaris-skeleton-height: 20px;
+  --solaris-skeleton-width: var(--solaris-spacing-8);
+  --solaris-skeleton-height: var(--solaris-spacing-8);
 }
 
 :host([data-variant='circular'][data-size='md'][data-density='compact']) {
-  --solaris-skeleton-width: 24px;
-  --solaris-skeleton-height: 24px;
+  --solaris-skeleton-width: var(--solaris-spacing-9);
+  --solaris-skeleton-height: var(--solaris-spacing-9);
 }
 
 :host([data-variant='circular'][data-size='lg'][data-density='compact']) {
-  --solaris-skeleton-width: 32px;
-  --solaris-skeleton-height: 32px;
+  --solaris-skeleton-width: var(--solaris-spacing-10);
+  --solaris-skeleton-height: var(--solaris-spacing-10);
 }
 
 :host([data-variant='circular'][data-size='sm'][data-density='normal']) {
-  --solaris-skeleton-width: 24px;
-  --solaris-skeleton-height: 24px;
+  --solaris-skeleton-width: var(--solaris-spacing-9);
+  --solaris-skeleton-height: var(--solaris-spacing-9);
 }
 
 :host([data-variant='circular'][data-size='md'][data-density='normal']) {
-  --solaris-skeleton-width: 32px;
-  --solaris-skeleton-height: 32px;
+  --solaris-skeleton-width: var(--solaris-spacing-10);
+  --solaris-skeleton-height: var(--solaris-spacing-10);
 }
 
 :host([data-variant='circular'][data-size='lg'][data-density='normal']) {
-  --solaris-skeleton-width: 40px;
-  --solaris-skeleton-height: 40px;
+  --solaris-skeleton-width: var(--solaris-spacing-12);
+  --solaris-skeleton-height: var(--solaris-spacing-12);
 }
 
 :host([data-variant='circular'][data-size='sm'][data-density='comfortable']) {
-  --solaris-skeleton-width: 32px;
-  --solaris-skeleton-height: 32px;
+  --solaris-skeleton-width: var(--solaris-spacing-10);
+  --solaris-skeleton-height: var(--solaris-spacing-10);
 }
 
 :host([data-variant='circular'][data-size='md'][data-density='comfortable']) {
-  --solaris-skeleton-width: 40px;
-  --solaris-skeleton-height: 40px;
+  --solaris-skeleton-width: var(--solaris-spacing-12);
+  --solaris-skeleton-height: var(--solaris-spacing-12);
 }
 
 :host([data-variant='circular'][data-size='lg'][data-density='comfortable']) {
-  --solaris-skeleton-width: 48px;
-  --solaris-skeleton-height: 48px;
+  --solaris-skeleton-width: var(--solaris-spacing-13);
+  --solaris-skeleton-height: var(--solaris-spacing-13);
 }
-
-// ---------------------------------------------------------------------------
-// radius.
-// ---------------------------------------------------------------------------
 
 :host([data-radius='none']) {
   --solaris-skeleton-radius: var(--solaris-radius-none);
@@ -207,11 +169,6 @@
   --solaris-skeleton-radius: var(--solaris-radius-full);
 }
 
-// ---------------------------------------------------------------------------
-// multiline lines (host layout lives after the animation section so it
-// wins the cascade over host-level animations at equal specificity).
-// ---------------------------------------------------------------------------
-
 .solaris-skeleton-line {
   display: block;
   box-sizing: border-box;
@@ -221,10 +178,6 @@
   border-radius: var(--solaris-skeleton-radius);
   background: var(--solaris-skeleton-background);
 }
-
-// ---------------------------------------------------------------------------
-// animations.
-// ---------------------------------------------------------------------------
 
 :host([data-animation='pulse']),
 :host([data-animation='pulse']) .solaris-skeleton-line {
@@ -249,10 +202,6 @@
       transparent 100%
     );
     background-size: 200% 100%;
-
-    // NOTE: animation-name must be a literal here. Resolving it through
-    // var(--solaris-skeleton-wave-name) silently prevents the keyframes
-    // from running in Chromium (::after stays at transform: none).
     animation: solaris-skeleton-wave var(--solaris-skeleton-animation-duration)
       var(--solaris-skeleton-animation-easing) infinite;
   }
@@ -278,9 +227,6 @@
   }
 }
 
-// Multiline host: flex column of lines, never a single animated block.
-// Placed after the animation rules so `animation: none` wins at equal
-// specificity over the host-level pulse/wave rules above.
 :host([data-multiline]) {
   display: flex;
   height: auto;
@@ -298,16 +244,9 @@
   }
 }
 
-// Mirror the (symmetric) placeholder under RTL so the shimmer travels
-// right-to-left. Mirroring the host also mirrors the ::after sweep without
-// chaining :host selectors or resolving keyframe names through variables.
 :host-context([dir='rtl']) {
   transform: scaleX(-1);
 }
-
-// ---------------------------------------------------------------------------
-// reduced motion: media query + Solaris data attribute.
-// ---------------------------------------------------------------------------
 
 @media (prefers-reduced-motion: reduce) {
   :host,

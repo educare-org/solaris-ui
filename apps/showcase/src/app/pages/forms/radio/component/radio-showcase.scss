@@ -43,7 +43,10 @@
 .radio-showcase__grid {
   display: grid;
   gap: var(--solaris-spacing-3);
-  grid-template-columns: repeat(auto-fill, minmax(224px, 1fr));
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(calc(var(--solaris-spacing-18) + var(--solaris-spacing-17)), 1fr)
+  );
 }
 
 .radio-showcase__cell {

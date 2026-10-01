@@ -1,6 +1,6 @@
 :host {
   display: block;
-  scroll-margin-top: 80px;
+  scroll-margin-top: var(--solaris-spacing-16);
 }
 
 .docs-section {

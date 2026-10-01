@@ -734,8 +734,6 @@ describe('SolarisPopoverTriggerDirective', () => {
         '.solaris-form-field__control-wrapper',
       ) as HTMLElement;
 
-      // The CDK origin must be the input box so the "top" fallback covers
-      // the label instead of opening above it (select / multi-select bug).
       const origin = (
         triggerDirective as unknown as { getPositionOrigin: () => HTMLElement }
       ).getPositionOrigin();

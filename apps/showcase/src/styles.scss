@@ -12,7 +12,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  scroll-padding-top: var(--solaris-spacing-16);
 }
 
 html,

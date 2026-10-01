@@ -28,9 +28,6 @@ solaris-alert {
   width: 100%;
 }
 
-// Single-line banner: inner alert content flows as a wrapping row so
-// text, links and inline slots sit on one line (Brex-style) instead of
-// stacking. Alignment follows `data-align`.
 :host ::ng-deep .solaris-alert__content {
   flex-flow: row wrap;
   align-items: center;

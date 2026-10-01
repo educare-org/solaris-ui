@@ -8,7 +8,7 @@
 code {
   padding: var(--solaris-spacing-025) var(--solaris-spacing-1);
   background: var(--solaris-surface-raised);
-  border: 1px solid var(--solaris-border-subtle);
+  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
   border-radius: var(--solaris-radius-sm);
   font-size: 0.875em;
 }

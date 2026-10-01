@@ -1,5 +1,5 @@
 :host {
-  --solaris-option-min-height: 24px;
+  --solaris-option-min-height: var(--solaris-spacing-9);
   --solaris-option-background: transparent;
   --solaris-option-gap: var(--solaris-spacing-2);
   --solaris-option-radius: var(--solaris-radius-sm);
@@ -161,7 +161,7 @@
     font-size: var(--solaris-font-size-sm);
     line-height: var(--solaris-line-height-sm);
   }
-  --solaris-option-min-height: 32px;
+  --solaris-option-min-height: var(--solaris-spacing-10);
   --solaris-option-gap: var(--solaris-spacing-1);
   --solaris-option-padding-x: var(--solaris-spacing-3);
   --solaris-option-indicator-size: var(--solaris-spacing-4);
@@ -181,7 +181,7 @@
     font-size: var(--solaris-font-size-lg);
     line-height: var(--solaris-line-height-lg);
   }
-  --solaris-option-min-height: 48px;
+  --solaris-option-min-height: var(--solaris-spacing-13);
   --solaris-option-gap: var(--solaris-spacing-3);
   --solaris-option-radius: var(--solaris-radius-md);
   --solaris-option-padding-y: var(--solaris-spacing-3);

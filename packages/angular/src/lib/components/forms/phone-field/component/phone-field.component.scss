@@ -23,8 +23,8 @@
   line-height: var(--solaris-line-height-md);
 
   &:focus-visible {
-    outline-offset: 2px;
-    outline: 2px solid var(--solaris-primary-base);
+    outline-offset: var(--solaris-focus-ring-offset);
+    outline: var(--solaris-focus-ring-width) solid var(--solaris-primary-base);
   }
 
   &[disabled] {
@@ -78,7 +78,9 @@
     --solaris-density-padding-sm
   );
   --solaris-phone-field-flag-size: var(--solaris-font-size-xs);
-  --solaris-phone-field-chevron-size: 10px;
+  --solaris-phone-field-chevron-size: calc(
+    var(--solaris-spacing-5) + var(--solaris-border-width-md)
+  );
 }
 
 :host([data-density='normal']) {

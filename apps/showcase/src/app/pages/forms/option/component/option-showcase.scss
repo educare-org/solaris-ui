@@ -36,12 +36,12 @@
   gap: var(--solaris-spacing-1);
   padding: var(--solaris-spacing-2);
   background: var(--solaris-surface-base);
-  border: 1px solid var(--solaris-border-subtle);
+  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
   border-radius: var(--solaris-radius-lg);
-  max-width: 384px;
+  max-width: calc(var(--solaris-spacing-18) * 3);
 }
 
 .option-showcase__flag {
-  font-size: 20px;
+  font-size: var(--solaris-spacing-8);
   line-height: 1;
 }

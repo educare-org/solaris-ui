@@ -492,13 +492,8 @@ export class SolarisCodeBlockComponent implements OnDestroy {
     }
     const next = !this.expandedState();
     const viewport = this.viewportRef()?.nativeElement ?? null;
-    // Measure before mutating state so both directions animate from the
-    // current visual height. All DOM writes below happen synchronously in the
-    // same task, so the browser paints only the animated sequence.
     const startHeight = viewport?.getBoundingClientRect().height ?? 0;
     if (viewport && !next) {
-      // Lock the full height before collapsing so the state change below
-      // cannot jump the viewport while we measure the collapsed target.
       viewport.style.maxHeight = `${viewport.scrollHeight}px`;
     }
     this.expandedState.set(next);
@@ -532,9 +527,6 @@ export class SolarisCodeBlockComponent implements OnDestroy {
       }
       return;
     }
-    // Sync the template so measurements below reflect the new state. The
-    // pre-collapse inline lock set by the toggle keeps the viewport at full
-    // height while the collapsed target is computed.
     this.changeDetectorRef.detectChanges();
     let endHeight: number;
     if (expanded) {
@@ -551,17 +543,12 @@ export class SolarisCodeBlockComponent implements OnDestroy {
       }
     }
     viewport.style.maxHeight = `${startHeight}px`;
-    // Force a reflow so the end value below transitions instead of jumping,
-    // and clip the vertical axis while the box height is in flight so no
-    // scrollbar flashes mid-animation.
     void viewport.offsetHeight;
     viewport.classList.add(VIEWPORT_ANIMATING_CLASS);
     const finish = (): void => {
       if (this.viewportAnimationId !== animationId) {
         return;
       }
-      // Clearing restores the CSS value (`none` expanded, collapsed
-      // `max-height` otherwise), identical to the animation end frame.
       this.resetViewportAnimation(viewport);
     };
     const onTransitionEnd = (event: TransitionEvent): void => {
@@ -573,8 +560,6 @@ export class SolarisCodeBlockComponent implements OnDestroy {
       finish();
     };
     viewport.addEventListener('transitionend', onTransitionEnd);
-    // Safety net in case `transitionend` never fires (hidden tab, display
-    // changes, reduced-motion applied mid-flight).
     this.viewportAnimationTimer = setTimeout(() => {
       viewport.removeEventListener('transitionend', onTransitionEnd);
       this.viewportAnimationTimer = null;
@@ -645,8 +630,6 @@ export class SolarisCodeBlockComponent implements OnDestroy {
   }
 
   private cancelViewportAnimation(): void {
-    // Invalidate in-flight frame callbacks and timers; the next animation (or
-    // destroy) starts from a clean inline style.
     this.viewportAnimationId++;
     this.clearViewportAnimationTimer();
     const viewport = this.viewportRef()?.nativeElement;

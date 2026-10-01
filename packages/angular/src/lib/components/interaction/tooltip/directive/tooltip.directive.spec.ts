@@ -863,7 +863,6 @@ describe('SolarisTooltipDirective', () => {
       triggerMouseLeave(fixture);
       expect(getPanelContent()).toBeNull();
 
-      // Reopen immediately: skipDelay window is still open, no waiting.
       triggerMouseEnter(fixture);
       expect(getPanelContent()).toBeTruthy();
     });
@@ -881,7 +880,6 @@ describe('SolarisTooltipDirective', () => {
       triggerMouseLeave(fixture);
       expect(getPanelContent()).toBeNull();
 
-      // Skip window disabled: reopening waits for showDelay again.
       triggerMouseEnter(fixture);
       expect(getPanelContent()).toBeNull();
       await sleep(120);
@@ -892,8 +890,6 @@ describe('SolarisTooltipDirective', () => {
 
   describe('arrow size contract', () => {
     it('should match the rendered arrow size per size', () => {
-      // Matches --solaris-tooltip-arrow-size per [data-size]
-      // in tooltip-panel.component.scss.
       expect(SOLARIS_TOOLTIP_ARROW_SIZE_PX).toEqual({
         sm: 8,
         md: 10,

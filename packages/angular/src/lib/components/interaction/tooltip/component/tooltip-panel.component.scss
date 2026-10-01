@@ -1,6 +1,6 @@
 .solaris-tooltip-panel {
-  --solaris-tooltip-max-width: 512px;
-  --solaris-tooltip-border-width: 0px;
+  --solaris-tooltip-max-width: calc(var(--solaris-spacing-18) * 4);
+  --solaris-tooltip-border-width: 0;
   --solaris-tooltip-border-color: transparent;
   --solaris-tooltip-gap: var(--solaris-spacing-5);
   --solaris-tooltip-shadow: var(--solaris-shadow-sm);
@@ -41,14 +41,6 @@
     var(--solaris-tooltip-border-color);
 }
 
-// Arrow: the element itself is a clipping container placed strictly OUTSIDE
-// the panel; the visible diamond lives in ::before with its center on the
-// panel edge, so only the outer triangle paints. The previous version
-// centered the diamond itself on the edge, leaving the inner triangle inside
-// the panel overlapping the text (an absolutely positioned element paints
-// above non-positioned content, so the tip covered the first line of text).
-// --solaris-tooltip-arrow-size is the visible protrusion (tip to panel edge);
-// the square side is size × √2. Keep in sync with SOLARIS_TOOLTIP_ARROW_SIZE_PX.
 .solaris-tooltip-panel__arrow {
   position: absolute;
   overflow: hidden;
@@ -241,7 +233,7 @@
 }
 
 .solaris-tooltip-panel__container[data-appearance='surface'] {
-  --solaris-tooltip-border-width: 0px;
+  --solaris-tooltip-border-width: 0;
   --solaris-tooltip-border-color: transparent;
 
   border: 0;
@@ -249,7 +241,7 @@
 }
 
 .solaris-tooltip-panel__container[data-appearance='inverse'] {
-  --solaris-tooltip-border-width: 0px;
+  --solaris-tooltip-border-width: 0;
   --solaris-tooltip-border-color: transparent;
   --solaris-tooltip-background: var(--solaris-text-default);
 
@@ -258,28 +250,27 @@
   background: var(--solaris-tooltip-background);
 }
 
-// Arrow size per density: keep in sync with SOLARIS_TOOLTIP_ARROW_SIZE_PX
-// in model/tooltip.types.ts (sm → 8px, md → 10px, lg → 12px). The directive
-// reserves this space for the arrow in the CDK offset.
 .solaris-tooltip-panel__container[data-size='sm'] {
   padding-block: var(--solaris-spacing-2);
   padding-inline: var(--solaris-spacing-5);
   font-size: var(--solaris-font-size-xs);
-  --solaris-tooltip-arrow-size: 8px;
+  --solaris-tooltip-arrow-size: var(--solaris-spacing-5);
 }
 
 .solaris-tooltip-panel__container[data-size='md'] {
   padding-block: var(--solaris-spacing-3);
   padding-inline: var(--solaris-spacing-6);
   font-size: var(--solaris-font-size-sm);
-  --solaris-tooltip-arrow-size: 10px;
+  --solaris-tooltip-arrow-size: calc(
+    var(--solaris-spacing-5) + var(--solaris-border-width-md)
+  );
 }
 
 .solaris-tooltip-panel__container[data-size='lg'] {
   padding-block: var(--solaris-spacing-4);
   padding-inline: var(--solaris-spacing-8);
   font-size: var(--solaris-font-size-md);
-  --solaris-tooltip-arrow-size: 12px;
+  --solaris-tooltip-arrow-size: var(--solaris-spacing-6);
 }
 
 .solaris-tooltip-panel__container[data-size='sm'] .solaris-tooltip-panel__icon,

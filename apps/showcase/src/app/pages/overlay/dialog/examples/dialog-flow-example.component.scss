@@ -3,7 +3,10 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 250px;
+  min-height: calc(
+    var(--solaris-spacing-18) + var(--solaris-spacing-17) +
+      var(--solaris-spacing-9) + var(--solaris-border-width-md)
+  );
 }
 
 .dialog-flow-example__title {
@@ -45,5 +48,5 @@
   justify-content: flex-end;
   margin-top: auto;
   padding-top: var(--solaris-spacing-4);
-  border-top: 1px solid var(--solaris-border-subtle);
+  border-top: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
 }

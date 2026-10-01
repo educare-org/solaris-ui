@@ -193,7 +193,6 @@ describe('ShowcaseShellSidebar', () => {
     expect(toggle.attributes['aria-expanded']).toBe('true');
     expect(subgroup.attributes['data-open']).toBe('true');
     expect(panel.attributes['aria-hidden']).toBe('false');
-    // Panel stays in the DOM so open/close can animate via grid-template-rows.
     expect(
       fixture.debugElement.queryAll(
         By.css('.shell-sidebar__subgroup-panel-inner > .shell-sidebar__list'),
@@ -253,7 +252,6 @@ describe('ShowcaseShellSidebar', () => {
     expect(toggle.attributes['aria-expanded']).toBe('true');
     expect(sublink.attributes['data-open']).toBe('true');
     expect(panel.attributes['aria-hidden']).toBe('false');
-    // Panel stays in the DOM so open/close can animate via grid-template-rows.
     expect(
       fixture.debugElement.queryAll(
         By.css('.shell-sidebar__sublink-panel-inner > .shell-sidebar__list'),

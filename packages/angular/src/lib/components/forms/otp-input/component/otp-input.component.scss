@@ -57,7 +57,8 @@
 
     // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized
     // color. Hardcoded spread is required by design (same as solaris-input).
-    box-shadow: 0 0 0 2px var(--solaris-otp-input-box-focus-border-color);
+    box-shadow: 0 0 0 var(--solaris-border-width-md)
+      var(--solaris-otp-input-box-focus-border-color);
   }
 
   &[data-active] {

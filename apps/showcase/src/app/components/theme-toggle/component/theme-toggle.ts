@@ -63,7 +63,7 @@ export class ShowcaseThemeToggle {
         return stored;
       }
     } catch {
-      // Storage unavailable (e.g. private mode) — fall through to DOM state.
+      // no-op
     }
     const current = this.document.documentElement.dataset['theme'];
     if (current === 'light' || current === 'dark') {
@@ -76,7 +76,7 @@ export class ShowcaseThemeToggle {
     try {
       this.document.defaultView?.localStorage.setItem(STORAGE_KEY, theme);
     } catch {
-      // Storage unavailable — theme still applies for this session.
+      // no-op
     }
   }
 

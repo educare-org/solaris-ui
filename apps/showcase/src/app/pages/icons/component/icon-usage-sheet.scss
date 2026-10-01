@@ -18,19 +18,19 @@
   justify-content: center;
   width: var(--solaris-spacing-16);
   height: var(--solaris-spacing-16);
-  border: 1px solid var(--solaris-border-subtle);
+  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
   border-radius: var(--solaris-radius-md);
   background-color: var(--solaris-surface-subtle);
   background-image:
     linear-gradient(
       to right,
-      var(--solaris-border-subtle) 1px,
-      transparent 1px
+      var(--solaris-border-subtle) var(--solaris-border-width-sm),
+      transparent var(--solaris-border-width-sm)
     ),
     linear-gradient(
       to bottom,
-      var(--solaris-border-subtle) 1px,
-      transparent 1px
+      var(--solaris-border-subtle) var(--solaris-border-width-sm),
+      transparent var(--solaris-border-width-sm)
     );
   background-size: var(--solaris-spacing-2) var(--solaris-spacing-2);
 }
@@ -65,7 +65,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--solaris-spacing-4);
-  border: 1px solid var(--solaris-border-subtle);
+  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
   border-radius: var(--solaris-radius-md);
   background: var(--solaris-surface-muted);
   padding: var(--solaris-spacing-3) var(--solaris-spacing-4);

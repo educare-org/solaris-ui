@@ -65,8 +65,9 @@
 .solaris-progress__fill--striped {
   background-image: repeating-linear-gradient(
     -55deg,
-    transparent 0 12px,
-    var(--solaris-progress-stripe-color) 12px 16px
+    transparent 0 var(--solaris-spacing-6),
+    var(--solaris-progress-stripe-color) var(--solaris-spacing-6)
+      var(--solaris-spacing-7)
   );
 }
 
@@ -212,6 +213,6 @@
     background-position: 0 0;
   }
   to {
-    background-position: 32px 0;
+    background-position: var(--solaris-spacing-10) 0;
   }
 }

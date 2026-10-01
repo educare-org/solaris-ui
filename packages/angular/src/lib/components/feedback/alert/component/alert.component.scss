@@ -1,6 +1,6 @@
 :host {
-  --solaris-alert-icon-offset: -1px;
-  --solaris-alert-close-offset: 0px;
+  --solaris-alert-icon-offset: calc(var(--solaris-border-width-sm) * -1);
+  --solaris-alert-close-offset: 0;
   --solaris-alert-close-background: transparent;
   --solaris-alert-gap: var(--solaris-density-gap-md);
   --solaris-alert-color: var(--solaris-info-text);
@@ -36,8 +36,8 @@
 }
 
 :host([data-has-title]) {
-  --solaris-alert-icon-offset: 0px;
-  --solaris-alert-close-offset: 0px;
+  --solaris-alert-icon-offset: 0;
+  --solaris-alert-close-offset: 0;
   --solaris-alert-first-line-height: var(--solaris-line-height-sm);
   --solaris-alert-first-line-font-size: var(--solaris-alert-title-font-size);
 }
@@ -116,8 +116,8 @@
   }
 
   &:focus-visible {
-    outline-offset: 2px;
-    outline: 2px solid var(--solaris-primary-base);
+    outline-offset: var(--solaris-focus-ring-offset);
+    outline: var(--solaris-focus-ring-width) solid var(--solaris-primary-base);
   }
 }
 
@@ -178,9 +178,6 @@
   --solaris-alert-radius: var(--solaris-radius-xl);
 }
 
-// Size selects the density-token step; the effective density resolves the
-// value (same tier composition as card `data-padding`). All 9 size × density
-// combinations resolve distinctly through `--solaris-density-*`.
 :host([data-size='sm']) {
   --solaris-alert-gap: var(--solaris-density-gap-sm);
   --solaris-alert-padding: var(--solaris-density-padding-sm);

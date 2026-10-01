@@ -26,7 +26,7 @@
 :host([data-orientation='vertical']) {
   width: 0;
   height: var(--solaris-divider-height);
-  min-height: 16px;
+  min-height: var(--solaris-spacing-7);
   align-self: stretch;
   margin-inline: var(--solaris-divider-spacing-md);
   border-left: var(--solaris-border-width-sm) solid
