@@ -5,4 +5,5 @@ export type {
   SolarisMultiSelectDensity,
   SolarisMultiSelectRadius,
   SolarisMultiSelectDisplayMode,
+  SolarisMultiSelectSize,
 } from './model/multi-select.types';

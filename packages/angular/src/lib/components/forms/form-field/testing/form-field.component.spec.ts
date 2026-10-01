@@ -50,6 +50,30 @@ describe('SolarisFormFieldComponent', () => {
     expect(el.getAttribute('data-density')).toBe('normal');
   });
 
+  it('should have default size md', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-size')).toBe('md');
+  });
+
+  it('should apply all sizes', () => {
+    const el = createFixture();
+    const values = ['sm', 'md', 'lg'] as const;
+    for (const v of values) {
+      fixture.componentRef.setInput('size', v);
+      fixture.detectChanges();
+      expect(el.getAttribute('data-size')).toBe(v);
+    }
+  });
+
+  it('should keep size and density independent on the host', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('size', 'lg');
+    fixture.componentRef.setInput('density', 'compact');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-size')).toBe('lg');
+    expect(el.getAttribute('data-density')).toBe('compact');
+  });
+
   it('should apply appearance via setInput', () => {
     const el = createFixture();
     fixture.componentRef.setInput('appearance', 'surface');

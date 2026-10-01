@@ -22,6 +22,7 @@ import type {
   SolarisEmailFieldAppearance,
   SolarisEmailFieldDensity,
   SolarisEmailFieldRadius,
+  SolarisEmailFieldSize,
 } from '../model/email-field.types';
 import type { SolarisIconName } from '../../../../services/icon';
 import {
@@ -39,6 +40,7 @@ import {
 } from '../../form-field';
 import { SolarisInputDirective } from '../../input';
 import { SolarisIconComponent } from '../../../icon';
+import { SolarisThemeService } from '../../../../services/theme';
 
 @Component({
   selector: 'solaris-email-field',
@@ -61,9 +63,14 @@ import { SolarisIconComponent } from '../../../icon';
   templateUrl: './email-field.component.html',
   styleUrls: ['./email-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[attr.data-size]': 'size()',
+    '[attr.data-density]': 'effectiveDensity()',
+  },
 })
 export class SolarisEmailFieldComponent implements ControlValueAccessor {
   private readonly translateService = inject(SolarisTranslateService);
+  protected readonly themeService = inject(SolarisThemeService);
 
   protected readonly inputElementRef =
     viewChild<ElementRef<HTMLInputElement>>('inputElement');
@@ -101,6 +108,7 @@ export class SolarisEmailFieldComponent implements ControlValueAccessor {
   readonly allowedDomains = input<string[] | undefined>();
   readonly blockedDomains = input<string[] | undefined>();
   readonly density = input<SolarisEmailFieldDensity>();
+  readonly size = input<SolarisEmailFieldSize>('md');
   readonly radius = input<SolarisEmailFieldRadius>('md');
   readonly appearance = input<SolarisEmailFieldAppearance>('outline');
   readonly maxLength = input<number | undefined>();
@@ -122,6 +130,12 @@ export class SolarisEmailFieldComponent implements ControlValueAccessor {
   protected readonly internalFocused = signal(false);
   protected readonly touched = signal(false);
   protected readonly dirty = signal(false);
+
+  protected readonly effectiveDensity = computed<SolarisEmailFieldDensity>(
+    () => {
+      return this.density() ?? this.themeService.density;
+    },
+  );
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: string) => void = () => {};

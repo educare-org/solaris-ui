@@ -10,4 +10,5 @@ export type {
   SolarisPhoneFieldAppearance,
   SolarisPhoneFieldDensity,
   SolarisPhoneFieldRadius,
+  SolarisPhoneFieldSize,
 } from './model/phone-field.types';

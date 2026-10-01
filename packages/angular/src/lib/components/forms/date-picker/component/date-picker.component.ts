@@ -40,7 +40,9 @@ import type {
 } from '../../date/model/date.types';
 import type {
   SolarisDatePickerAppearance,
+  SolarisDatePickerDensity,
   SolarisDatePickerRadius,
+  SolarisDatePickerSize,
 } from '../model/date-picker.types';
 import { SolarisIconButtonDirective } from '../../../actions/icon-button';
 
@@ -73,6 +75,8 @@ import { SolarisIconButtonDirective } from '../../../actions/icon-button';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'solaris-date-picker',
+    '[attr.data-size]': 'size()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-open]': 'panelOpen() ? "" : null',
   },
 })
@@ -101,7 +105,8 @@ export class SolarisDatePickerComponent
   readonly disabledDates = input<readonly SolarisDateValue[]>([]);
   readonly appearance = input<SolarisDatePickerAppearance>('outline');
   readonly radius = input<SolarisDatePickerRadius>('md');
-  readonly density = input<'compact' | 'normal' | 'comfortable'>();
+  readonly density = input<SolarisDatePickerDensity>();
+  readonly size = input<SolarisDatePickerSize>('md');
   readonly requiredInput = input(false, { alias: 'required' });
   readonly disabledInput = input(false, { alias: 'disabled' });
   readonly readonlyInput = input(false, { alias: 'readonly' });
@@ -132,7 +137,7 @@ export class SolarisDatePickerComponent
   protected readonly resolvedLocale = computed(
     () => this.locale() ?? this.translateService.locale,
   );
-  protected readonly effectiveDensity = computed(
+  protected readonly effectiveDensity = computed<SolarisDatePickerDensity>(
     () => this.density() ?? this.themeService.density,
   );
   protected readonly isEffectivelyDisabled = computed(

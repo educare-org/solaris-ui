@@ -44,6 +44,7 @@ import type {
   SolarisSelectAppearance,
   SolarisSelectDensity,
   SolarisSelectRadius,
+  SolarisSelectSize,
 } from '../model/select.types';
 import type { SolarisIconName } from '../../../../services/icon';
 
@@ -75,6 +76,8 @@ import type { SolarisIconName } from '../../../../services/icon';
   host: {
     'solaris-select': '',
     '[attr.id]': 'elementId()',
+    '[attr.data-size]': 'size()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-open]': 'panelOpen() ? "" : null',
     '[attr.aria-label]': 'ariaLabelText() ?? null',
     '[attr.data-has-value]': 'hasValue() ? "" : null',
@@ -138,6 +141,7 @@ export class SolarisSelectComponent
   readonly panelMinWidth = input<string | number>();
   readonly panelMaxWidth = input<string | number>();
   readonly density = input<SolarisSelectDensity>();
+  readonly size = input<SolarisSelectSize>('md');
   readonly panelMatchTriggerWidth = input<boolean>(true);
   readonly radius = input<SolarisSelectRadius>('md');
   readonly disabledInput = input(false, { alias: 'disabled' });

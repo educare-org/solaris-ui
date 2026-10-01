@@ -11,4 +11,5 @@ export type {
   SolarisFormFieldAppearance,
   SolarisFormFieldDensity,
   SolarisFormFieldRadius,
+  SolarisFormFieldSize,
 } from './model/form-field.types';

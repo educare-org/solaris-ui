@@ -36,6 +36,7 @@ import type {
   SolarisOtpInputCharType,
   SolarisOtpInputDensity,
   SolarisOtpInputRadius,
+  SolarisOtpInputSize,
 } from '../model/otp-input.types';
 
 const MASK_CHAR = '•';
@@ -65,6 +66,7 @@ const MASK_CHAR = '•';
   host: {
     class: 'solaris-otp-input',
     '[attr.id]': 'elementId()',
+    '[attr.data-size]': 'size()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-length]': 'maxLength()',
@@ -110,6 +112,7 @@ export class SolarisOtpInputComponent
   readonly autoFocus = input<boolean>(false);
   readonly appearance = input<SolarisOtpInputAppearance>('outline');
   readonly density = input<SolarisOtpInputDensity>();
+  readonly size = input<SolarisOtpInputSize>('md');
   readonly radius = input<SolarisOtpInputRadius>('md');
 
   readonly valueChange = output<string>();

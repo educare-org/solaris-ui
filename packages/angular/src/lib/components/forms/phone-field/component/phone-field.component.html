@@ -2,7 +2,8 @@
   [hint]="hint()"
   [label]="label()"
   [radius]="radius()"
-  [density]="density()"
+  [density]="effectiveDensity()"
+  [size]="size()"
   [hintKey]="hintKey()"
   [labelKey]="labelKey()"
   [errorKey]="errorKey()"
@@ -58,7 +59,8 @@
     #inputElement
     solaris-input
     data-bwignore="true"
-    [density]="density()"
+    [density]="effectiveDensity()"
+    [size]="size()"
     (blur)="onInputBlur()"
     [readonly]="isEffectivelyReadonly()"
     (focus)="onInputFocus()"

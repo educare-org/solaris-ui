@@ -24,6 +24,7 @@ import type {
   SolarisPasswordFieldAppearance,
   SolarisPasswordFieldDensity,
   SolarisPasswordFieldRadius,
+  SolarisPasswordFieldSize,
   SolarisPasswordStrength,
 } from '../model/password-field.types';
 import type { SolarisIconName } from '../../../../services/icon';
@@ -68,6 +69,7 @@ interface RequirementItem {
   styleUrls: ['./password-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    '[attr.data-size]': 'size()',
     '[attr.data-density]': 'effectiveDensity()',
   },
 })
@@ -104,6 +106,7 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
   readonly invalid = input<boolean | undefined>();
   readonly appearance = input<SolarisPasswordFieldAppearance>('outline');
   readonly density = input<SolarisPasswordFieldDensity>();
+  readonly size = input<SolarisPasswordFieldSize>('md');
   readonly radius = input<SolarisPasswordFieldRadius>('md');
   readonly fullWidth = input<boolean>(true);
   readonly prefix = input<SolarisIconName>();

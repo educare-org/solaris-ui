@@ -43,6 +43,7 @@ import type {
   SolarisFormFieldAppearance,
   SolarisFormFieldDensity,
   SolarisFormFieldRadius,
+  SolarisFormFieldSize,
   ControlResize,
 } from '../model/form-field.types';
 import type { SolarisIconName } from '../../../../services/icon';
@@ -60,6 +61,7 @@ import type { SolarisIconName } from '../../../../services/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-radius]': 'radius()',
+    '[attr.data-size]': 'size()',
     '[attr.data-bwignore]': '"true"',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-density]': 'effectiveDensity()',
@@ -102,6 +104,7 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   readonly disabled = input<boolean | undefined>();
   readonly readonly = input<boolean | undefined>();
   readonly density = input<SolarisFormFieldDensity>();
+  readonly size = input<SolarisFormFieldSize>('md');
   readonly radius = input<SolarisFormFieldRadius>('md');
   readonly appearance = input<SolarisFormFieldAppearance>('outline');
   readonly control = input<SolarisFormControl | undefined>(undefined);

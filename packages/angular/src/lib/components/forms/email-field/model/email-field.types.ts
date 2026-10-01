@@ -2,6 +2,7 @@ import type {
   SolarisFormFieldAppearance,
   SolarisFormFieldDensity,
   SolarisFormFieldRadius,
+  SolarisFormFieldSize,
 } from '../../form-field';
 
 export type DomainCheckFn = (
@@ -11,3 +12,4 @@ export type DomainCheckFn = (
 export type SolarisEmailFieldAppearance = SolarisFormFieldAppearance;
 export type SolarisEmailFieldDensity = SolarisFormFieldDensity;
 export type SolarisEmailFieldRadius = SolarisFormFieldRadius;
+export type SolarisEmailFieldSize = SolarisFormFieldSize;

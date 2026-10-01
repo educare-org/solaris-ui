@@ -8,6 +8,7 @@
   [appearance]="appearance()"
   [required]="requiredInput()"
   [density]="effectiveDensity()"
+  [size]="size()"
   [solarisPopoverPadding]="'md'"
   [solarisPopoverAlign]="'start'"
   [solarisPopoverRadius]="radius()"
@@ -28,6 +29,8 @@
     solaris-input
     autocomplete="off"
     inputmode="numeric"
+    [density]="effectiveDensity()"
+    [size]="size()"
     (blur)="onInputBlur()"
     [value]="displayValue()"
     (focus)="onInputFocus()"

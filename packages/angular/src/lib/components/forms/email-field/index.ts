@@ -8,4 +8,5 @@ export type {
   SolarisEmailFieldAppearance,
   SolarisEmailFieldDensity,
   SolarisEmailFieldRadius,
+  SolarisEmailFieldSize,
 } from './model/email-field.types';

@@ -55,6 +55,7 @@ import type {
   SolarisPhoneFieldAppearance,
   SolarisPhoneFieldDensity,
   SolarisPhoneFieldRadius,
+  SolarisPhoneFieldSize,
 } from '../model/phone-field.types';
 import type {
   SolarisCountry,
@@ -88,6 +89,7 @@ import type {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'solaris-phone-field',
+    '[attr.data-size]': 'size()',
     '[attr.data-open]': 'panelOpen() ? "" : null',
     '[attr.data-density]': 'effectiveDensity()',
   },
@@ -127,6 +129,7 @@ export class SolarisPhoneFieldComponent
   readonly autocomplete = input<string>('tel');
   readonly invalid = input<boolean | undefined>();
   readonly density = input<SolarisPhoneFieldDensity>();
+  readonly size = input<SolarisPhoneFieldSize>('md');
   readonly radius = input<SolarisPhoneFieldRadius>('md');
   readonly appearance = input<SolarisPhoneFieldAppearance>('outline');
   readonly maxLength = input<number | undefined>();

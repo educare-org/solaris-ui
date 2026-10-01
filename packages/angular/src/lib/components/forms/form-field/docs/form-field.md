@@ -49,28 +49,29 @@ Selector: `solaris-form-field`
 
 #### Inputs
 
-| Input              | Type                                     | Default     | Description                                      |
-| ------------------ | ---------------------------------------- | ----------- | ------------------------------------------------ |
-| `label`            | `string`                                 | `''`        | Label text                                       |
-| `labelKey`         | `string`                                 | —           | Translation key for label                        |
-| `hint`             | `string`                                 | `''`        | Hint text                                        |
-| `hintKey`          | `string`                                 | —           | Translation key for hint                         |
-| `error`            | `string`                                 | `''`        | Error text                                       |
-| `errorKey`         | `string`                                 | —           | Translation key for error                        |
-| `required`         | `boolean`                                | `false`     | Semantic required state                          |
-| `optional`         | `boolean`                                | `false`     | Shows optional marker                            |
-| `optionalLabel`    | `string`                                 | —           | Custom optional label text                       |
-| `optionalLabelKey` | `string`                                 | —           | Translation key for optional label               |
-| `requiredLabel`    | `string`                                 | —           | Custom required label text                       |
-| `requiredLabelKey` | `string`                                 | —           | Translation key for required label               |
-| `invalid`          | `boolean \| undefined`                   | —           | Manual invalid state (overrides auto-detection)  |
-| `disabled`         | `boolean \| undefined`                   | —           | Manual disabled state (overrides auto-detection) |
-| `readonly`         | `boolean \| undefined`                   | —           | Manual readonly state (overrides auto-detection) |
-| `appearance`       | `'outline' \| 'surface' \| 'filled'`     | `'outline'` | Visual style                                     |
-| `density`          | `'compact' \| 'normal' \| 'comfortable'` | inherited   | Spacing density                                  |
-| `radius`           | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'md'`      | Border radius                                    |
-| `prefix`           | `SolarisIconName`                        | —           | Prefix icon rendered in the leading affix slot   |
-| `suffix`           | `SolarisIconName`                        | —           | Suffix icon rendered in the trailing affix slot  |
+| Input              | Type                                     | Default     | Description                                                   |
+| ------------------ | ---------------------------------------- | ----------- | ------------------------------------------------------------- |
+| `label`            | `string`                                 | `''`        | Label text                                                    |
+| `labelKey`         | `string`                                 | —           | Translation key for label                                     |
+| `hint`             | `string`                                 | `''`        | Hint text                                                     |
+| `hintKey`          | `string`                                 | —           | Translation key for hint                                      |
+| `error`            | `string`                                 | `''`        | Error text                                                    |
+| `errorKey`         | `string`                                 | —           | Translation key for error                                     |
+| `required`         | `boolean`                                | `false`     | Semantic required state                                       |
+| `optional`         | `boolean`                                | `false`     | Shows optional marker                                         |
+| `optionalLabel`    | `string`                                 | —           | Custom optional label text                                    |
+| `optionalLabelKey` | `string`                                 | —           | Translation key for optional label                            |
+| `requiredLabel`    | `string`                                 | —           | Custom required label text                                    |
+| `requiredLabelKey` | `string`                                 | —           | Translation key for required label                            |
+| `invalid`          | `boolean \| undefined`                   | —           | Manual invalid state (overrides auto-detection)               |
+| `disabled`         | `boolean \| undefined`                   | —           | Manual disabled state (overrides auto-detection)              |
+| `readonly`         | `boolean \| undefined`                   | —           | Manual readonly state (overrides auto-detection)              |
+| `appearance`       | `'outline' \| 'surface' \| 'filled'`     | `'outline'` | Visual style                                                  |
+| `size`             | `'sm' \| 'md' \| 'lg'`                   | `'md'`      | Control size (outer height follows the size × density matrix) |
+| `density`          | `'compact' \| 'normal' \| 'comfortable'` | inherited   | Spacing density                                               |
+| `radius`           | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'md'`      | Border radius                                                 |
+| `prefix`           | `SolarisIconName`                        | —           | Prefix icon rendered in the leading affix slot                |
+| `suffix`           | `SolarisIconName`                        | —           | Suffix icon rendered in the trailing affix slot               |
 
 ### SolarisFormLabelComponent
 
@@ -244,6 +245,22 @@ Accepts (via projection):
 | `compact`     | Reduced vertical spacing and typography |
 | `normal`      | Balanced vertical spacing. Default      |
 | `comfortable` | Increased vertical spacing              |
+
+## Sizes
+
+Form Field owns the control height. `size` (`sm | md | lg`, default `md`)
+combined with `density` selects one of the 9 `--solaris-control-height-*`
+tokens, so the outer height always matches the matrix:
+
+| Size | compact | normal | comfortable |
+| ---- | ------- | ------ | ----------- |
+| `sm` | 28px    | 36px   | 44px        |
+| `md` | 32px    | 40px   | 48px        |
+| `lg` | 36px    | 44px   | 52px        |
+
+Wrapper controls (`select`, `multi-select`, `email-field`, `password-field`,
+`phone-field`, `date-picker`, `otp-input`) expose the same `size` input and
+forward it to the inner Form Field together with the effective density.
 
 ## Radius
 

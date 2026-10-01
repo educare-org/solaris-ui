@@ -7,9 +7,11 @@
   --solaris-otp-input-box-color: var(--solaris-text-default);
   --solaris-otp-input-box-focus-border-color: var(--solaris-primary-base);
   --solaris-otp-input-box-error-border-color: var(--solaris-danger-base);
-  --solaris-otp-input-box-width: calc(var(--solaris-density-min-height) * 0.9);
+  --solaris-otp-input-box-width: calc(
+    var(--solaris-control-height-normal-md) * 0.9
+  );
   --solaris-otp-input-box-height: calc(
-    var(--solaris-density-min-height) * 1.15
+    var(--solaris-control-height-normal-md) * 1.15
   );
   --solaris-otp-input-separator-color: var(--solaris-text-muted);
 
@@ -83,6 +85,89 @@
 
 :host([data-invalid]) .solaris-otp-input__box {
   border-color: var(--solaris-otp-input-box-error-border-color);
+}
+
+// P0 — caixas derivadas do token da própria combinação size × density
+// (largura 0.9x e altura 1.15x da altura do controle).
+:host([data-size='sm'][data-density='compact']) {
+  --solaris-otp-input-box-width: calc(
+    var(--solaris-control-height-compact-sm) * 0.9
+  );
+  --solaris-otp-input-box-height: calc(
+    var(--solaris-control-height-compact-sm) * 1.15
+  );
+}
+
+:host([data-size='md'][data-density='compact']) {
+  --solaris-otp-input-box-width: calc(
+    var(--solaris-control-height-compact-md) * 0.9
+  );
+  --solaris-otp-input-box-height: calc(
+    var(--solaris-control-height-compact-md) * 1.15
+  );
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-otp-input-box-width: calc(
+    var(--solaris-control-height-compact-lg) * 0.9
+  );
+  --solaris-otp-input-box-height: calc(
+    var(--solaris-control-height-compact-lg) * 1.15
+  );
+}
+
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-otp-input-box-width: calc(
+    var(--solaris-control-height-normal-sm) * 0.9
+  );
+  --solaris-otp-input-box-height: calc(
+    var(--solaris-control-height-normal-sm) * 1.15
+  );
+}
+
+:host([data-size='md'][data-density='normal']) {
+  --solaris-otp-input-box-width: calc(
+    var(--solaris-control-height-normal-md) * 0.9
+  );
+  --solaris-otp-input-box-height: calc(
+    var(--solaris-control-height-normal-md) * 1.15
+  );
+}
+
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-otp-input-box-width: calc(
+    var(--solaris-control-height-normal-lg) * 0.9
+  );
+  --solaris-otp-input-box-height: calc(
+    var(--solaris-control-height-normal-lg) * 1.15
+  );
+}
+
+:host([data-size='sm'][data-density='comfortable']) {
+  --solaris-otp-input-box-width: calc(
+    var(--solaris-control-height-comfortable-sm) * 0.9
+  );
+  --solaris-otp-input-box-height: calc(
+    var(--solaris-control-height-comfortable-sm) * 1.15
+  );
+}
+
+:host([data-size='md'][data-density='comfortable']) {
+  --solaris-otp-input-box-width: calc(
+    var(--solaris-control-height-comfortable-md) * 0.9
+  );
+  --solaris-otp-input-box-height: calc(
+    var(--solaris-control-height-comfortable-md) * 1.15
+  );
+}
+
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-otp-input-box-width: calc(
+    var(--solaris-control-height-comfortable-lg) * 0.9
+  );
+  --solaris-otp-input-box-height: calc(
+    var(--solaris-control-height-comfortable-lg) * 1.15
+  );
 }
 
 .solaris-otp-input__separator {

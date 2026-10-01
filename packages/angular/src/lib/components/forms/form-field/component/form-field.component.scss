@@ -9,7 +9,7 @@
   --solaris-form-field-prefix-color: var(--solaris-text-muted);
   --solaris-form-field-suffix-color: var(--solaris-text-muted);
   --solaris-form-field-label-color: var(--solaris-text-default);
-  --solaris-form-field-control-height: var(--solaris-spacing-10);
+  --solaris-form-field-control-height: var(--solaris-control-height-normal-md);
   --solaris-form-field-optional-color: var(--solaris-text-muted);
   --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
   --solaris-form-field-disabled-opacity: var(--solaris-opacity-50);
@@ -284,7 +284,6 @@
   --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
   --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
   --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
-  --solaris-form-field-control-height: var(--solaris-density-min-height);
   --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
 }
 
@@ -298,7 +297,6 @@
   --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
   --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
   --solaris-form-field-optional-font-size: var(--solaris-font-size-sm);
-  --solaris-form-field-control-height: var(--solaris-density-min-height);
 }
 
 :host([data-density='comfortable']) {
@@ -310,7 +308,51 @@
   --solaris-form-field-error-font-size: var(--solaris-font-size-md);
   --solaris-form-field-label-margin-bottom: var(--solaris-spacing-2);
   --solaris-form-field-optional-font-size: var(--solaris-font-size-md);
-  --solaris-form-field-control-height: var(--solaris-density-min-height);
+}
+
+// P0 — matriz size × density: outer height == token da combinação.
+// Referencie sempre o token da própria combinação (coincidência é
+// feature de alinhamento, não alias).
+:host([data-size='sm'][data-density='compact']) {
+  --solaris-form-field-control-height: var(--solaris-control-height-compact-sm);
+}
+
+:host([data-size='md'][data-density='compact']) {
+  --solaris-form-field-control-height: var(--solaris-control-height-compact-md);
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-form-field-control-height: var(--solaris-control-height-compact-lg);
+}
+
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-form-field-control-height: var(--solaris-control-height-normal-sm);
+}
+
+:host([data-size='md'][data-density='normal']) {
+  --solaris-form-field-control-height: var(--solaris-control-height-normal-md);
+}
+
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-form-field-control-height: var(--solaris-control-height-normal-lg);
+}
+
+:host([data-size='sm'][data-density='comfortable']) {
+  --solaris-form-field-control-height: var(
+    --solaris-control-height-comfortable-sm
+  );
+}
+
+:host([data-size='md'][data-density='comfortable']) {
+  --solaris-form-field-control-height: var(
+    --solaris-control-height-comfortable-md
+  );
+}
+
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-form-field-control-height: var(
+    --solaris-control-height-comfortable-lg
+  );
 }
 
 :host([data-radius='none']) {

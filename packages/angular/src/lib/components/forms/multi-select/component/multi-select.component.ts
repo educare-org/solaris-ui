@@ -48,6 +48,7 @@ import type {
   SolarisMultiSelectDensity,
   SolarisMultiSelectRadius,
   SolarisMultiSelectDisplayMode,
+  SolarisMultiSelectSize,
 } from '../model/multi-select.types';
 import type { SolarisIconName } from '../../../icon/model/icon.types';
 
@@ -86,6 +87,8 @@ function normalizeArray(value: unknown): unknown[] {
   host: {
     'solaris-multi-select': '',
     '[attr.id]': 'elementId()',
+    '[attr.data-size]': 'size()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-open]': 'panelOpen() ? "" : null',
     '[attr.aria-label]': 'ariaLabelText() ?? null',
     '[attr.data-has-value]': 'hasValue() ? "" : null',
@@ -150,6 +153,7 @@ export class SolarisMultiSelectComponent
   readonly panelMinWidth = input<string | number>();
   readonly panelMaxWidth = input<string | number>();
   readonly density = input<SolarisMultiSelectDensity>();
+  readonly size = input<SolarisMultiSelectSize>('md');
   readonly panelMatchTriggerWidth = input<boolean>(true);
   readonly radius = input<SolarisMultiSelectRadius>('md');
   readonly disabledInput = input(false, { alias: 'disabled' });
