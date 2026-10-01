@@ -1,115 +1,334 @@
-<div class="progress-showcase">
-  <header class="progress-showcase__header">
-    <h1 class="progress-showcase__title">{{ 'progress.title' | translate }}</h1>
-    <p class="progress-showcase__description">
-      {{ 'progress.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="progress.title"
+    descriptionKey="progress.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="progress-showcase__section">
-    <h2 class="progress-showcase__section-title">
-      {{ 'progress.sizes' | translate }}
-    </h2>
-    <div class="progress-showcase__stack">
-      <solaris-progress size="sm" [value]="40"></solaris-progress>
-      <solaris-progress size="md" [value]="60"></solaris-progress>
-      <solaris-progress size="lg" [value]="80"></solaris-progress>
-    </div>
-  </section>
-
-  <section class="progress-showcase__section">
-    <h2 class="progress-showcase__section-title">
-      {{ 'progress.animated' | translate }}
-    </h2>
+  <app-docs-section anchor="examples" titleKey="progress.section.examples">
     <p class="progress-showcase__note">
-      {{ 'progress.animated-note' | translate }}
+      {{ 'progress.examples.note' | translate }}
     </p>
-    <div class="progress-showcase__stack">
-      <solaris-progress
-        [value]="animatedValue()"
-        label="Downloading"
-        [showPercent]="true"
-      ></solaris-progress>
-      <div>
-        <button
-          class="progress-showcase__button"
-          type="button"
-          [disabled]="isAnimating()"
-          (click)="playAnimation()"
-        >
-          {{ 'progress.play' | translate }}
-        </button>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <div class="progress-showcase__stack">
+        <solaris-progress [value]="40" />
+        <solaris-progress [value]="60" label="Uploading" [showPercent]="true" />
+        <solaris-progress indeterminate label="Loading" />
       </div>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="progress-showcase__section">
-    <h2 class="progress-showcase__section-title">
-      {{ 'progress.colors' | translate }}
-    </h2>
-    <div class="progress-showcase__stack">
-      <solaris-progress color="neutral" [value]="25"></solaris-progress>
-      <solaris-progress color="primary" [value]="35"></solaris-progress>
-      <solaris-progress color="success" [value]="45"></solaris-progress>
-      <solaris-progress color="warning" [value]="55"></solaris-progress>
-      <solaris-progress color="danger" [value]="65"></solaris-progress>
-      <solaris-progress color="info" [value]="75"></solaris-progress>
-      <solaris-progress
-        color="custom"
-        class="progress-showcase__custom"
-        [value]="85"
-      ></solaris-progress>
-    </div>
-  </section>
-
-  <section class="progress-showcase__section">
-    <h2 class="progress-showcase__section-title">
-      {{ 'progress.labels' | translate }}
-    </h2>
-    <div class="progress-showcase__stack">
-      <solaris-progress
-        [value]="50"
-        label="Uploading"
-        [showPercent]="true"
-      ></solaris-progress>
-      <solaris-progress [value]="66" [showPercent]="true"></solaris-progress>
-      <solaris-progress
-        [value]="100"
-        color="success"
-        label="Complete"
-      ></solaris-progress>
-    </div>
-  </section>
-
-  <section class="progress-showcase__section">
-    <h2 class="progress-showcase__section-title">
-      {{ 'progress.indeterminate' | translate }}
-    </h2>
+  <app-docs-section anchor="status" titleKey="progress.section.status">
     <p class="progress-showcase__note">
-      {{ 'progress.indeterminate-note' | translate }}
+      {{ 'progress.status.note' | translate }}
     </p>
-    <div class="progress-showcase__stack">
-      <solaris-progress [indeterminate]="true"></solaris-progress>
-      <solaris-progress
-        [indeterminate]="true"
-        label="Loading"
-      ></solaris-progress>
-      <solaris-progress
-        [indeterminate]="true"
-        color="success"
-      ></solaris-progress>
-    </div>
-  </section>
+    <solaris-tabs
+      [(value)]="selectedStatus"
+      [ariaLabel]="'progress.section.status' | translate"
+    >
+      <solaris-tab value="active"
+        >{{ 'progress.status.active' | translate }}</solaris-tab
+      >
+      <solaris-tab value="success"
+        >{{ 'progress.status.success' | translate }}</solaris-tab
+      >
+      <solaris-tab value="exception"
+        >{{ 'progress.status.exception' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="active">
+        <solaris-preview-code [code]="statusCode()" language="html">
+          <div class="progress-showcase__stack">
+            <solaris-progress
+              [value]="statusValue()"
+              [status]="selectedStatus()"
+              [label]="statusLabel()"
+              [showPercent]="selectedStatus() !== 'success'"
+            />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="success">
+        <solaris-preview-code [code]="statusCode()" language="html">
+          <div class="progress-showcase__stack">
+            <solaris-progress
+              [value]="statusValue()"
+              [status]="selectedStatus()"
+              [label]="statusLabel()"
+              [showPercent]="selectedStatus() !== 'success'"
+            />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="exception">
+        <solaris-preview-code [code]="statusCode()" language="html">
+          <div class="progress-showcase__stack">
+            <solaris-progress
+              [value]="statusValue()"
+              [status]="selectedStatus()"
+              [label]="statusLabel()"
+              [showPercent]="selectedStatus() !== 'success'"
+            />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="progress-showcase__section">
-    <h2 class="progress-showcase__section-title">
-      {{ 'progress.reduced-motion' | translate }}
-    </h2>
+  <app-docs-section anchor="animated" titleKey="progress.section.animated">
     <p class="progress-showcase__note">
-      {{ 'progress.reduced-motion-note' | translate }}
+      {{ 'progress.animated.note' | translate }}
     </p>
-    <div class="progress-showcase__stack">
-      <solaris-progress [indeterminate]="true"></solaris-progress>
+    <solaris-preview-code [code]="animatedCode()" language="html">
+      <div class="progress-showcase__stack">
+        <solaris-progress
+          [value]="animatedValue()"
+          label="Downloading"
+          [showPercent]="true"
+        />
+        <div>
+          <button
+            solaris-button
+            type="button"
+            [disabled]="isAnimating()"
+            (click)="playAnimation()"
+          >
+            {{ 'progress.play' | translate }}
+          </button>
+        </div>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="stripes" titleKey="progress.section.stripes">
+    <p class="progress-showcase__note">
+      {{ 'progress.stripes.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedStripes"
+      [ariaLabel]="'progress.section.stripes' | translate"
+    >
+      <solaris-tab value="none"
+        >{{ 'progress.stripes.none' | translate }}</solaris-tab
+      >
+      <solaris-tab value="striped"
+        >{{ 'progress.stripes.striped' | translate }}</solaris-tab
+      >
+      <solaris-tab value="animated"
+        >{{ 'progress.stripes.animated' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="none">
+        <solaris-preview-code [code]="stripesCode()" language="html">
+          <div class="progress-showcase__stack">
+            <solaris-progress [value]="55" />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="striped">
+        <solaris-preview-code [code]="stripesCode()" language="html">
+          <div class="progress-showcase__stack">
+            <solaris-progress [value]="55" striped />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="animated">
+        <solaris-preview-code [code]="stripesCode()" language="html">
+          <div class="progress-showcase__stack">
+            <solaris-progress [value]="55" animatedStripes />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="buffer" titleKey="progress.section.buffer">
+    <p class="progress-showcase__note">
+      {{ 'progress.buffer.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="bufferCode" language="html">
+      <div class="progress-showcase__stack">
+        <solaris-progress
+          [value]="40"
+          [bufferValue]="70"
+          label="Buffering"
+          [showPercent]="true"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="progress.section.size-density"
+  >
+    <p class="progress-showcase__note">
+      {{ 'progress.size-density.note' | translate }}
+    </p>
+    <div class="progress-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'progress.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'progress.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'progress.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'progress.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'progress.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'progress.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'progress.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'progress.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
     </div>
-  </section>
-</div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <div class="progress-showcase__stack">
+        <solaris-progress
+          [value]="60"
+          [size]="selectedSize()"
+          [density]="selectedDensity()"
+          label="Uploading"
+          [showPercent]="true"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="colors" titleKey="progress.section.colors">
+    <p class="progress-showcase__note">
+      {{ 'progress.colors-desc' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedColor"
+      [ariaLabel]="'progress.section.colors' | translate"
+    >
+      <solaris-tab value="neutral"
+        >{{ 'progress.color.neutral' | translate }}</solaris-tab
+      >
+      <solaris-tab value="primary"
+        >{{ 'progress.color.primary' | translate }}</solaris-tab
+      >
+      <solaris-tab value="success"
+        >{{ 'progress.color.success' | translate }}</solaris-tab
+      >
+      <solaris-tab value="warning"
+        >{{ 'progress.color.warning' | translate }}</solaris-tab
+      >
+      <solaris-tab value="danger"
+        >{{ 'progress.color.danger' | translate }}</solaris-tab
+      >
+      <solaris-tab value="info"
+        >{{ 'progress.color.info' | translate }}</solaris-tab
+      >
+      <solaris-tab value="custom"
+        >{{ 'progress.color.custom' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="neutral">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <div class="progress-showcase__stack">
+            <solaris-progress [value]="60" [color]="selectedColor()" />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="primary">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <div class="progress-showcase__stack">
+            <solaris-progress [value]="60" [color]="selectedColor()" />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="success">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <div class="progress-showcase__stack">
+            <solaris-progress [value]="60" [color]="selectedColor()" />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="warning">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <div class="progress-showcase__stack">
+            <solaris-progress [value]="60" [color]="selectedColor()" />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="danger">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <div class="progress-showcase__stack">
+            <solaris-progress [value]="60" [color]="selectedColor()" />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="info">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <div class="progress-showcase__stack">
+            <solaris-progress [value]="60" [color]="selectedColor()" />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="custom">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <div class="progress-showcase__stack">
+            <solaris-progress
+              [value]="60"
+              [color]="selectedColor()"
+              class="progress-showcase__custom"
+            />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="indeterminate"
+    titleKey="progress.section.indeterminate"
+  >
+    <p class="progress-showcase__note">
+      {{ 'progress.indeterminate.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="indeterminateCode" language="html">
+      <div class="progress-showcase__stack">
+        <solaris-progress indeterminate />
+        <solaris-progress indeterminate label="Loading" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="progress.section.installation"
+  >
+    <p class="progress-showcase__note">
+      {{ 'progress.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="progress.section.props">
+    <p class="progress-showcase__note">
+      {{ 'progress.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>
