@@ -310,9 +310,6 @@
   --solaris-form-field-optional-font-size: var(--solaris-font-size-md);
 }
 
-// P0 — matriz size × density: outer height == token da combinação.
-// Referencie sempre o token da própria combinação (coincidência é
-// feature de alinhamento, não alias).
 :host([data-size='sm'][data-density='compact']) {
   --solaris-form-field-control-height: var(--solaris-control-height-compact-sm);
 }
@@ -378,14 +375,8 @@
 }
 
 :host([data-disabled]) {
-  --solaris-form-field-control-color: var(
-    --solaris-text-disabled,
-    var(--solaris-text-muted)
-  );
-  --solaris-form-field-control-background: var(
-    --solaris-surface-disabled,
-    var(--solaris-surface-muted)
-  );
+  --solaris-form-field-control-color: var(--solaris-text-muted);
+  --solaris-form-field-control-background: var(--solaris-surface-muted);
 
   cursor: not-allowed;
   opacity: var(--solaris-form-field-disabled-opacity);

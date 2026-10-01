@@ -1,39 +1,33 @@
 :host {
   --solaris-switch-track-border-width: 0;
   --solaris-switch-thumb-border-width: 0;
-  --solaris-switch-readonly-opacity: 0.65;
-  --solaris-switch-custom-border-color: initial;
   --solaris-switch-gap: var(--solaris-spacing-4);
-  --solaris-switch-custom-track-background: initial;
-  --solaris-switch-custom-thumb-background: initial;
-  --solaris-switch-track-checked-background: initial;
+  --solaris-switch-thumb-shadow: var(--solaris-shadow-sm);
+  --solaris-switch-thumb-offset: var(--solaris-spacing-2);
+  --solaris-switch-track-height: var(--solaris-spacing-8);
+  --solaris-switch-label-color: var(--solaris-text-default);
+  --solaris-switch-disabled-opacity: var(--solaris-opacity-50);
+  --solaris-switch-focus-ring-color: var(--solaris-primary-base);
+  --solaris-switch-thumb-content-color: var(--solaris-text-muted);
+  --solaris-switch-track-background: var(--solaris-surface-muted);
+  --solaris-switch-thumb-background: var(--solaris-surface-raised);
+  --solaris-switch-thumb-border-color: var(--solaris-border-subtle);
+  --solaris-switch-track-border-color: var(--solaris-border-subtle);
+  --solaris-switch-track-width: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-6)
+  );
   --solaris-switch-thumb-size: calc(
-    var(--solaris-spacing-8) - var(--solaris-spacing-2)
+    var(--solaris-spacing-8) - var(--solaris-spacing-3)
   );
   --solaris-switch-thumb-content-size: calc(
     var(--solaris-switch-thumb-size) * 0.625
   );
-  --solaris-switch-thumb-content-color: var(--solaris-text-muted);
 
-  // SOLARIS_TOKEN_EXCEPTION: thumb border and shadow use translucent black alpha independent of theme surface; no token exists for this pattern.
-  --solaris-switch-thumb-border-color: #0000001f;
-  --solaris-switch-label-color: var(--solaris-text-default);
+  --solaris-switch-custom-border-color: initial;
+  --solaris-switch-custom-track-background: initial;
+  --solaris-switch-custom-thumb-background: initial;
+  --solaris-switch-track-checked-background: initial;
   --solaris-switch-custom-track-checked-background: initial;
-  --solaris-switch-thumb-shadow: 0 var(--solaris-border-width-sm)
-    var(--solaris-border-width-md) #0000003d;
-  --solaris-switch-disabled-opacity: var(--solaris-opacity-50);
-  --solaris-switch-focus-ring-color: var(--solaris-primary-base);
-  --solaris-switch-track-background: var(--solaris-surface-muted);
-  --solaris-switch-thumb-background: var(--solaris-surface-raised);
-  --solaris-switch-thumb-offset: var(--solaris-spacing-1);
-  --solaris-switch-track-width: calc(
-    var(--solaris-spacing-8) + var(--solaris-spacing-6)
-  );
-  --solaris-switch-track-height: var(--solaris-spacing-8);
-  --solaris-switch-track-border-color: var(
-    --solaris-primary-border,
-    var(--solaris-border-default)
-  );
 
   outline: none;
   display: inline-flex;
@@ -69,43 +63,31 @@
   border-radius: calc(var(--solaris-switch-track-height) / 2);
   border: var(--solaris-switch-track-border-width) solid
     var(--solaris-switch-track-border-color);
-  transition:
-    background-color var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard),
-    border-color var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard),
-    box-shadow var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard);
+  transition: all var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 .solaris-switch__thumb {
   top: 50%;
-  position: absolute;
   border-radius: 50%;
+  position: absolute;
+  align-items: center;
+  display: inline-flex;
   box-sizing: border-box;
+  justify-content: center;
   transform: translateY(-50%);
   z-index: var(--solaris-z-index-content);
   width: var(--solaris-switch-thumb-size);
   left: var(--solaris-switch-thumb-offset);
   height: var(--solaris-switch-thumb-size);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  box-shadow: var(--solaris-switch-thumb-shadow);
   font-size: var(--solaris-switch-thumb-content-size);
   color: var(--solaris-switch-thumb-content-color);
-  box-shadow: var(--solaris-switch-thumb-shadow);
   background-color: var(--solaris-switch-thumb-background);
   border: var(--solaris-switch-thumb-border-width) solid
     var(--solaris-switch-thumb-border-color);
-  transition:
-    left var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard),
-    background-color var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard),
-    border-color var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard),
-    box-shadow var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard);
+  transition: all var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 .solaris-switch__thumb-text {
@@ -136,16 +118,13 @@
   --solaris-switch-label-line-height: var(--solaris-line-height-lg);
 }
 
-// P1 — matriz size × density: geometria do track/thumb por combinação.
-// Contraste com controles de formulário: o switch tem escala própria
-// (track 16–24px), então referencia spacing (sempre px), não control-height.
 :host([data-size='sm'][data-density='compact']) {
   --solaris-switch-track-height: var(--solaris-spacing-7);
   --solaris-switch-track-width: calc(
     var(--solaris-spacing-7) + var(--solaris-spacing-6)
   );
   --solaris-switch-thumb-size: calc(
-    var(--solaris-spacing-7) - var(--solaris-spacing-2)
+    var(--solaris-spacing-7) - var(--solaris-spacing-3)
   );
 }
 
@@ -156,7 +135,9 @@
   --solaris-switch-track-width: calc(
     var(--solaris-spacing-9) + var(--solaris-spacing-4)
   );
-  --solaris-switch-thumb-size: var(--solaris-spacing-7);
+  --solaris-switch-thumb-size: calc(
+    var(--solaris-spacing-7) - var(--solaris-spacing-2)
+  );
 }
 
 :host([data-size='lg'][data-density='compact']) {
@@ -165,7 +146,7 @@
     var(--solaris-spacing-8) + var(--solaris-spacing-6)
   );
   --solaris-switch-thumb-size: calc(
-    var(--solaris-spacing-8) - var(--solaris-spacing-2)
+    var(--solaris-spacing-8) - var(--solaris-spacing-3)
   );
 }
 
@@ -176,7 +157,9 @@
   --solaris-switch-track-width: calc(
     var(--solaris-spacing-9) + var(--solaris-spacing-4)
   );
-  --solaris-switch-thumb-size: var(--solaris-spacing-7);
+  --solaris-switch-thumb-size: calc(
+    var(--solaris-spacing-7) - var(--solaris-spacing-2)
+  );
 }
 
 :host([data-size='md'][data-density='normal']) {
@@ -185,7 +168,7 @@
     var(--solaris-spacing-8) + var(--solaris-spacing-6)
   );
   --solaris-switch-thumb-size: calc(
-    var(--solaris-spacing-8) - var(--solaris-spacing-2)
+    var(--solaris-spacing-8) - var(--solaris-spacing-3)
   );
 }
 
@@ -196,7 +179,9 @@
   --solaris-switch-track-width: calc(
     var(--solaris-spacing-10) + var(--solaris-spacing-2)
   );
-  --solaris-switch-thumb-size: var(--solaris-spacing-8);
+  --solaris-switch-thumb-size: calc(
+    var(--solaris-spacing-7) + var(--solaris-spacing-2)
+  );
 }
 
 :host([data-size='sm'][data-density='comfortable']) {
@@ -205,7 +190,7 @@
     var(--solaris-spacing-8) + var(--solaris-spacing-6)
   );
   --solaris-switch-thumb-size: calc(
-    var(--solaris-spacing-8) - var(--solaris-spacing-2)
+    var(--solaris-spacing-8) - var(--solaris-spacing-3)
   );
 }
 
@@ -216,7 +201,9 @@
   --solaris-switch-track-width: calc(
     var(--solaris-spacing-10) + var(--solaris-spacing-2)
   );
-  --solaris-switch-thumb-size: var(--solaris-spacing-8);
+  --solaris-switch-thumb-size: calc(
+    var(--solaris-spacing-7) + var(--solaris-spacing-2)
+  );
 }
 
 :host([data-size='lg'][data-density='comfortable']) {
@@ -225,7 +212,7 @@
     var(--solaris-spacing-9) + var(--solaris-spacing-6)
   );
   --solaris-switch-thumb-size: calc(
-    var(--solaris-spacing-9) - var(--solaris-spacing-2)
+    var(--solaris-spacing-9) - var(--solaris-spacing-3)
   );
 }
 
@@ -261,8 +248,9 @@
 :host([data-appearance='outline']) {
   --solaris-switch-track-background: transparent;
   --solaris-switch-thumb-background: var(--solaris-surface-raised);
+  --solaris-switch-track-border-color: var(--solaris-border-subtle);
+  --solaris-switch-thumb-border-width: var(--solaris-border-width-sm);
   --solaris-switch-track-border-width: var(--solaris-border-width-sm);
-  --solaris-switch-track-border-color: var(--solaris-border-default);
 }
 
 :host([data-checked]) {
@@ -275,15 +263,11 @@
 
 :host([data-color='neutral'][data-checked]) {
   --solaris-switch-track-background: var(--solaris-text-default);
-  --solaris-switch-track-border-color: var(--solaris-text-default);
+  --solaris-switch-track-border-color: var(--solaris-border-default);
 }
 
 :host([data-color='primary']) {
   --solaris-switch-focus-ring-color: var(--solaris-primary-base);
-  --solaris-switch-track-border-color: var(
-    --solaris-primary-border,
-    var(--solaris-border-default)
-  );
 }
 
 :host([data-color='primary'][data-checked]) {
@@ -293,10 +277,7 @@
 
 :host([data-color='success']) {
   --solaris-switch-focus-ring-color: var(--solaris-success-base);
-  --solaris-switch-track-border-color: var(
-    --solaris-success-border,
-    var(--solaris-border-default)
-  );
+  --solaris-switch-track-border-color: var(--solaris-border-default);
 }
 
 :host([data-color='success'][data-checked]) {
@@ -306,10 +287,7 @@
 
 :host([data-color='warning']) {
   --solaris-switch-focus-ring-color: var(--solaris-warning-base);
-  --solaris-switch-track-border-color: var(
-    --solaris-warning-border,
-    var(--solaris-border-default)
-  );
+  --solaris-switch-track-border-color: var(--solaris-border-default);
 }
 
 :host([data-color='warning'][data-checked]) {
@@ -319,10 +297,7 @@
 
 :host([data-color='danger']) {
   --solaris-switch-focus-ring-color: var(--solaris-danger-base);
-  --solaris-switch-track-border-color: var(
-    --solaris-danger-border,
-    var(--solaris-border-default)
-  );
+  --solaris-switch-track-border-color: var(--solaris-border-default);
 }
 
 :host([data-color='danger'][data-checked]) {
@@ -332,10 +307,7 @@
 
 :host([data-color='info']) {
   --solaris-switch-focus-ring-color: var(--solaris-info-base);
-  --solaris-switch-track-border-color: var(
-    --solaris-info-border,
-    var(--solaris-border-default)
-  );
+  --solaris-switch-track-border-color: var(--solaris-border-default);
 }
 
 :host([data-color='info'][data-checked]) {
@@ -345,66 +317,37 @@
 
 :host([data-color='custom']) {
   --solaris-switch-track-border-color: var(
-    --solaris-switch-custom-border-color,
-    var(--solaris-border-default)
+    --solaris-switch-custom-border-color
   );
   --solaris-switch-track-background: var(
-    --solaris-switch-custom-track-background,
-    var(--solaris-surface-muted)
+    --solaris-switch-custom-track-background
   );
   --solaris-switch-thumb-background: var(
-    --solaris-switch-custom-thumb-background,
-    var(--solaris-surface-raised)
+    --solaris-switch-custom-thumb-background
   );
 }
 
 :host([data-color='custom'][data-checked]) {
   --solaris-switch-thumb-background: var(
-    --solaris-switch-custom-thumb-background,
-    var(--solaris-surface-raised)
+    --solaris-switch-custom-thumb-background
   );
   --solaris-switch-track-background: var(
-    --solaris-switch-custom-track-checked-background,
-    var(--solaris-primary-base)
+    --solaris-switch-custom-track-checked-background
   );
   --solaris-switch-track-border-color: var(
-    --solaris-switch-custom-track-checked-background,
-    var(--solaris-primary-base)
+    --solaris-switch-custom-track-checked-background
   );
 }
 
-:host([data-color='neutral'])
-  .solaris-switch__label:hover
-  .solaris-switch__track {
-  border-color: var(--solaris-text-default);
+:host([data-appearance='outline'][data-checked]) {
+  --solaris-switch-track-border-color: transparent;
+  --solaris-switch-thumb-border-color: transparent;
 }
 
-:host([data-color='primary'])
-  .solaris-switch__label:hover
-  .solaris-switch__track {
-  border-color: var(--solaris-primary-hover);
-}
-
-:host([data-color='success'])
-  .solaris-switch__label:hover
-  .solaris-switch__track {
-  border-color: var(--solaris-success-hover);
-}
-
-:host([data-color='warning'])
-  .solaris-switch__label:hover
-  .solaris-switch__track {
-  border-color: var(--solaris-warning-hover);
-}
-
-:host([data-color='danger'])
-  .solaris-switch__label:hover
-  .solaris-switch__track {
-  border-color: var(--solaris-danger-hover);
-}
-
-:host([data-color='info']) .solaris-switch__label:hover .solaris-switch__track {
-  border-color: var(--solaris-info-hover);
+:host([data-appearance='outline']):not([data-checked])
+  .solaris-switch__label:hover {
+  --solaris-switch-track-border-color: var(--solaris-border-default);
+  --solaris-switch-thumb-border-color: var(--solaris-border-default);
 }
 
 .solaris-switch__input:focus-visible + .solaris-switch__track {
@@ -422,10 +365,7 @@
 
 :host([data-invalid]) {
   --solaris-switch-focus-ring-color: var(--solaris-danger-base);
-  --solaris-switch-track-border-color: var(
-    --solaris-switch-invalid-border-color,
-    var(--solaris-danger-base)
-  );
+  --solaris-switch-track-border-color: var(--solaris-danger-base);
 }
 
 :host([data-invalid][data-checked]) {
@@ -434,10 +374,7 @@
 }
 
 :host([data-invalid]) .solaris-switch__label:hover .solaris-switch__track {
-  border-color: var(
-    --solaris-switch-invalid-border-color,
-    var(--solaris-danger-base)
-  );
+  border-color: var(--solaris-danger-base);
 }
 
 :host([data-disabled]) {
@@ -457,11 +394,7 @@
 }
 
 :host([data-readonly]) {
-  --solaris-switch-readonly-opacity: 0.65;
-  --solaris-switch-track-border-color: var(
-    --solaris-text-muted,
-    var(--solaris-border-subtle)
-  );
+  --solaris-switch-track-border-color: var(--solaris-text-muted);
 }
 
 :host([data-readonly]) .solaris-switch__label {
@@ -470,7 +403,7 @@
 
 :host([data-readonly]) .solaris-switch__track,
 :host([data-readonly]) .solaris-switch__label-text {
-  opacity: var(--solaris-switch-readonly-opacity);
+  opacity: var(--solaris-opacity-60);
 }
 
 :host([data-readonly]) .solaris-switch__label:hover .solaris-switch__track {

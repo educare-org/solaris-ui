@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 import { SolarisSwitchComponent } from '@solaris-ui/angular';
 
@@ -8,4 +8,6 @@ import { SolarisSwitchComponent } from '@solaris-ui/angular';
   imports: [SolarisSwitchComponent],
   templateUrl: './with-icon.component.html',
 })
-export class WithIconSwitchExample {}
+export class WithIconSwitchExample {
+  readonly enabled = signal(true);
+}

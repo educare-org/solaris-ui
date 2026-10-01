@@ -1,5 +1,5 @@
 :host {
-  --solaris-switch-group-gap: var(--solaris-spacing-3);
+  --solaris-switch-group-gap: var(--solaris-spacing-4);
   --solaris-switch-group-row-gap: var(--solaris-spacing-3);
   --solaris-switch-group-column-gap: var(--solaris-spacing-3);
   --solaris-switch-group-label-color: var(--solaris-text-strong);
@@ -64,26 +64,26 @@
 }
 
 :host([data-density='compact']) {
-  --solaris-switch-group-gap: var(--solaris-spacing-2);
+  --solaris-switch-group-gap: var(--solaris-spacing-4);
   --solaris-switch-group-row-gap: var(--solaris-spacing-2);
   --solaris-switch-group-column-gap: var(--solaris-spacing-2);
 }
 
 :host([data-density='normal']) {
-  --solaris-switch-group-gap: var(--solaris-spacing-3);
+  --solaris-switch-group-gap: var(--solaris-spacing-5);
   --solaris-switch-group-row-gap: var(--solaris-spacing-3);
   --solaris-switch-group-column-gap: var(--solaris-spacing-3);
 }
 
 :host([data-density='comfortable']) {
-  --solaris-switch-group-gap: var(--solaris-spacing-4);
+  --solaris-switch-group-gap: var(--solaris-spacing-6);
   --solaris-switch-group-row-gap: var(--solaris-spacing-4);
   --solaris-switch-group-column-gap: var(--solaris-spacing-4);
 }
 
 :host([data-disabled]) {
-  opacity: var(--solaris-opacity-50);
   cursor: not-allowed;
+  opacity: var(--solaris-opacity-50);
 }
 
 :host([data-readonly]) {

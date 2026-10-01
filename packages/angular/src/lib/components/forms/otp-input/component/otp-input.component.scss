@@ -87,8 +87,6 @@
   border-color: var(--solaris-otp-input-box-error-border-color);
 }
 
-// P0 — caixas derivadas do token da própria combinação size × density
-// (largura 0.9x e altura 1.15x da altura do controle).
 :host([data-size='sm'][data-density='compact']) {
   --solaris-otp-input-box-width: calc(
     var(--solaris-control-height-compact-sm) * 0.9

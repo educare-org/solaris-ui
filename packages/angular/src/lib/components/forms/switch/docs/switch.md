@@ -113,10 +113,10 @@ Invalid applies error styling. When used inside Form Field, the invalid state is
 
 ## Appearances
 
-| Appearance | Visual                                                |
-| ---------- | ----------------------------------------------------- |
-| `surface`  | Subtle background, no border when unchecked (default) |
-| `outline`  | Track with visible border                             |
+| Appearance | Visual                                                                                            |
+| ---------- | ------------------------------------------------------------------------------------------------- |
+| `surface`  | Subtle background, no border when unchecked (default)                                             |
+| `outline`  | Track with fixed neutral border (stays neutral when checked or hovered); thumb with subtle border |
 
 ## Colors
 
@@ -132,7 +132,7 @@ Invalid applies error styling. When used inside Form Field, the invalid state is
 
 ## Sizes
 
-Track height × width per `size` × `density` combination (thumb = height − 2px):
+Track height × width per `size` × `density` combination (thumb = height − 4px, 2px offset each side):
 
 | Size | compact   | normal    | comfortable |
 | ---- | --------- | --------- | ----------- |
@@ -157,6 +157,8 @@ unless they set their own inputs.
 <solaris-switch icon="check" />
 <solaris-switch text="ON" />
 <solaris-switch icon="check" text="ON" />
+<!-- reactive icon following the state -->
+<solaris-switch [(checked)]="enabled" [icon]="enabled() ? 'check' : 'x'" />
 ```
 
 - `icon` renders a decorative `solaris-icon` inside the thumb and wins when

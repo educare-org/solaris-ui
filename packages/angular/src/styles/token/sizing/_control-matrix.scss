@@ -1,24 +1,3 @@
-// P0 — Matriz size × density central (fundação forms).
-//
-// Contrato: packages/angular/src/styles/token/sizing/_control-height.scss
-// - `md` = base de cada densidade = `min-height` daquela densidade.
-// - Outer height renderizado deve ser igual ao token da combinação.
-// - Referencie SEMPRE o token da sua combinação (`normal-sm`, nunca
-//   `compact-lg`), mesmo quando valores coincidem. Coincidência é feature
-//   de alinhamento, não alias.
-//
-// Uso (dentro do `:host` do controle, nunca em filho — o host é dono das
-// vars, o filho só herda; ver armadilha nested-density em CONTEXT.md):
-//
-//   @use '<path-ate-token>/sizing/control-matrix' as matrix;
-//
-//   :host([data-size='sm'][data-density='compact']) {
-//     --solaris-xxx-control-height: var(--solaris-control-height-compact-sm);
-//   }
-//   // ... 9 blocos explícitos, sem atalho
-//
-// O mixin abaixo gera exatamente esses 9 blocos para a custom property
-// informada, garantindo referência 1:1 combinação → token.
 @mixin solaris-control-matrix($property) {
   &[data-size='sm'][data-density='compact'] {
     #{$property}: var(--solaris-control-height-compact-sm);

@@ -1,291 +1,177 @@
-<div class="switch-group-showcase">
-  <h1 class="switch-group-showcase__title">Switch Group</h1>
-  <p class="switch-group-showcase__description">
-    Groups related boolean settings. Each child switch represents a named
-    boolean option. Value is Record&lt;string, boolean&gt;.
-  </p>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="switch-group.title"
+    descriptionKey="switch-group.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <!-- Basic -->
-  <section class="switch-group-showcase__section-card">
-    <h2 class="switch-group-showcase__section-title">Basic</h2>
-    <solaris-switch-group label="Notificações" [formControl]="basicControl">
-      <solaris-switch value="email">E-mail</solaris-switch>
-      <solaris-switch value="sms">SMS</solaris-switch>
-      <solaris-switch value="push">Push</solaris-switch>
-    </solaris-switch-group>
+  <app-docs-section anchor="examples" titleKey="switch-group.section.examples">
     <p class="switch-group-showcase__note">
-      Value: {{ basicControl.value | json }}
+      {{ 'switch-group.examples.note' | translate }}
     </p>
-  </section>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-switch-group-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <!-- Standalone label/hint/error -->
-  <section class="switch-group-showcase__section-card">
-    <h2 class="switch-group-showcase__section-title">
-      Standalone label/hint/error
-    </h2>
-    <solaris-switch-group
-      label="Preferências"
-      hint="Configure os recursos ativos."
-      error="Selecione ao menos um recurso."
-      [invalid]="true"
-      [formControl]="standaloneLabelControl"
-    >
-      <solaris-switch value="newsletter">Newsletter</solaris-switch>
-      <solaris-switch value="securityAlerts"
-        >Alertas de segurança</solaris-switch
+  <app-docs-section
+    anchor="size-density"
+    titleKey="switch-group.section.size-density"
+  >
+    <p class="switch-group-showcase__note">
+      {{ 'switch-group.size-density.note' | translate }}
+    </p>
+    <div class="switch-group-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'switch-group.section.sizes' | translate"
       >
-    </solaris-switch-group>
-  </section>
-
-  <!-- Form Field integration -->
-  <section class="switch-group-showcase__section-card">
-    <h2 class="switch-group-showcase__section-title">Form Field integration</h2>
-    <solaris-form-field
-      label="Preferências"
-      hint="Essas opções afetam a conta."
-    >
-      <solaris-switch-group [formControl]="formFieldControl">
-        <solaris-switch value="twoFactor"
-          >Autenticação em duas etapas</solaris-switch
+        <solaris-tab value="sm"
+          >{{ 'switch-group.size.sm' | translate }}</solaris-tab
         >
-        <solaris-switch value="marketing"
-          >Comunicações de marketing</solaris-switch
+        <solaris-tab value="md"
+          >{{ 'switch-group.size.md' | translate }}</solaris-tab
         >
-      </solaris-switch-group>
-    </solaris-form-field>
-    <p class="switch-group-showcase__note">
-      Value: {{ formFieldControl.value | json }}
-    </p>
-  </section>
-
-  <!-- Layouts -->
-  <section class="switch-group-showcase__section-card">
-    <h2 class="switch-group-showcase__section-title">Layouts</h2>
-
-    <h3 class="switch-group-showcase__subsection-title">Vertical list</h3>
-    <solaris-switch-group
-      label="Vertical list"
-      orientation="vertical"
-      layout="list"
-      [formControl]="verticalListControl"
-    >
-      <solaris-switch value="email">E-mail</solaris-switch>
-      <solaris-switch value="sms">SMS</solaris-switch>
-      <solaris-switch value="push">Push</solaris-switch>
-    </solaris-switch-group>
-
-    <h3 class="switch-group-showcase__subsection-title">Horizontal list</h3>
-    <solaris-switch-group
-      label="Horizontal list"
-      orientation="horizontal"
-      layout="list"
-      [formControl]="horizontalListControl"
-    >
-      <solaris-switch value="email">E-mail</solaris-switch>
-      <solaris-switch value="sms">SMS</solaris-switch>
-      <solaris-switch value="push">Push</solaris-switch>
-    </solaris-switch-group>
-
-    <h3 class="switch-group-showcase__subsection-title">Grid 2 columns</h3>
-    <solaris-switch-group
-      label="Grid 2 colunas"
-      layout="grid"
-      [columns]="2"
-      [formControl]="grid2Control"
-    >
-      <solaris-switch value="email">E-mail</solaris-switch>
-      <solaris-switch value="sms">SMS</solaris-switch>
-      <solaris-switch value="push">Push</solaris-switch>
-      <solaris-switch value="newsletter">Newsletter</solaris-switch>
-    </solaris-switch-group>
-
-    <h3 class="switch-group-showcase__subsection-title">Grid auto</h3>
-    <solaris-switch-group
-      label="Grid auto"
-      layout="grid"
-      columns="auto"
-      [formControl]="gridAutoControl"
-    >
-      <solaris-switch value="email">E-mail</solaris-switch>
-      <solaris-switch value="sms">SMS</solaris-switch>
-      <solaris-switch value="push">Push</solaris-switch>
-      <solaris-switch value="newsletter">Newsletter</solaris-switch>
-    </solaris-switch-group>
-  </section>
-
-  <!-- Disabled -->
-  <section class="switch-group-showcase__section-card">
-    <h2 class="switch-group-showcase__section-title">Disabled</h2>
-    <h3 class="switch-group-showcase__subsection-title">Group disabled</h3>
-    <solaris-switch-group
-      label="Grupo desabilitado"
-      [disabled]="true"
-      [formControl]="disabledGroupControl"
-    >
-      <solaris-switch value="email">E-mail</solaris-switch>
-      <solaris-switch value="sms">SMS</solaris-switch>
-      <solaris-switch value="push">Push</solaris-switch>
-    </solaris-switch-group>
-
-    <h3 class="switch-group-showcase__subsection-title">
-      Individual child disabled
-    </h3>
-    <solaris-switch-group
-      label="Filho desabilitado individual"
-      [formControl]="disabledChildControl"
-    >
-      <solaris-switch value="email">E-mail</solaris-switch>
-      <solaris-switch value="sms" [disabled]="true">SMS</solaris-switch>
-      <solaris-switch value="push">Push</solaris-switch>
-    </solaris-switch-group>
-  </section>
-
-  <!-- Readonly -->
-  <section class="switch-group-showcase__section-card">
-    <h2 class="switch-group-showcase__section-title">Readonly</h2>
-    <h3 class="switch-group-showcase__subsection-title">Group readonly</h3>
-    <solaris-switch-group
-      label="Grupo somente leitura"
-      [readonly]="true"
-      [formControl]="readonlyGroupControl"
-    >
-      <solaris-switch value="email">E-mail</solaris-switch>
-      <solaris-switch value="sms">SMS</solaris-switch>
-      <solaris-switch value="push">Push</solaris-switch>
-    </solaris-switch-group>
-
-    <h3 class="switch-group-showcase__subsection-title">
-      Individual child readonly
-    </h3>
-    <solaris-switch-group
-      label="Filho somente leitura individual"
-      [formControl]="readonlyChildControl"
-    >
-      <solaris-switch value="email">E-mail</solaris-switch>
-      <solaris-switch value="sms" [readonly]="true">SMS</solaris-switch>
-      <solaris-switch value="push">Push</solaris-switch>
-    </solaris-switch-group>
-  </section>
-
-  <!-- Validation -->
-  <section class="switch-group-showcase__section-card">
-    <h2 class="switch-group-showcase__section-title">Validation</h2>
-
-    <h3 class="switch-group-showcase__subsection-title">minEnabled</h3>
-    <p class="switch-group-showcase__note">
-      At least one switch must be enabled. Group becomes invalid below the
-      threshold.
-    </p>
-    <solaris-form-field
-      label="Canais (mín. 1)"
-      hint="Selecione ao menos um canal."
-      error="Select at least one channel."
-    >
-      <solaris-switch-group
-        [formControl]="validationMinControl"
-        [minEnabled]="1"
+        <solaris-tab value="lg"
+          >{{ 'switch-group.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'switch-group.section.density' | translate"
       >
-        <solaris-switch value="email">E-mail</solaris-switch>
-        <solaris-switch value="sms">SMS</solaris-switch>
-        <solaris-switch value="push">Push</solaris-switch>
-      </solaris-switch-group>
-    </solaris-form-field>
-
-    <h3 class="switch-group-showcase__subsection-title">maxEnabled</h3>
-    <p class="switch-group-showcase__note">
-      At most two switches may be enabled. Group becomes invalid above the
-      threshold. Switches are not automatically disabled.
-    </p>
-    <solaris-form-field
-      label="Canais (máx. 2)"
-      hint="Selecione no máximo dois canais."
-      error="Select at most two channels."
-    >
+        <solaris-tab value="compact"
+          >{{ 'switch-group.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'switch-group.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'switch-group.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
       <solaris-switch-group
-        [formControl]="validationMaxControl"
-        [maxEnabled]="2"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+        label="Channels"
       >
-        <solaris-switch value="email">E-mail</solaris-switch>
+        <solaris-switch value="email">Email</solaris-switch>
         <solaris-switch value="sms">SMS</solaris-switch>
-        <solaris-switch value="push">Push</solaris-switch>
       </solaris-switch-group>
-    </solaris-form-field>
+    </solaris-preview-code>
+  </app-docs-section>
 
-    <h3 class="switch-group-showcase__subsection-title">Required</h3>
-    <p class="switch-group-showcase__note">
-      At least one option must be enabled.
-    </p>
-    <solaris-form-field
-      label="Canais (obrigatório)"
-      error="You must select at least one option."
+  <app-docs-section anchor="layouts" titleKey="switch-group.section.layouts">
+    <solaris-tabs
+      [(value)]="selectedLayout"
+      [ariaLabel]="'switch-group.section.layouts' | translate"
     >
-      <solaris-switch-group
-        [formControl]="validationRequiredControl"
-        [required]="true"
+      <solaris-tab value="vertical"
+        >{{ 'switch-group.layout.vertical' | translate }}</solaris-tab
       >
-        <solaris-switch value="email">E-mail</solaris-switch>
-        <solaris-switch value="sms">SMS</solaris-switch>
-        <solaris-switch value="push">Push</solaris-switch>
-      </solaris-switch-group>
-    </solaris-form-field>
-  </section>
+      <solaris-tab value="horizontal"
+        >{{ 'switch-group.layout.horizontal' | translate }}</solaris-tab
+      >
+      <solaris-tab value="grid"
+        >{{ 'switch-group.layout.grid' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="vertical">
+        <solaris-preview-code [code]="layoutVerticalCode" language="html">
+          <solaris-switch-group orientation="vertical" label="Channels">
+            <solaris-switch value="email">Email</solaris-switch>
+            <solaris-switch value="sms">SMS</solaris-switch>
+            <solaris-switch value="push">Push</solaris-switch>
+          </solaris-switch-group>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="horizontal">
+        <solaris-preview-code [code]="layoutHorizontalCode" language="html">
+          <solaris-switch-group orientation="horizontal" label="Channels">
+            <solaris-switch value="email">Email</solaris-switch>
+            <solaris-switch value="sms">SMS</solaris-switch>
+            <solaris-switch value="push">Push</solaris-switch>
+          </solaris-switch-group>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="grid">
+        <solaris-preview-code [code]="layoutGridCode" language="html">
+          <solaris-switch-group layout="grid" [columns]="2" label="Channels">
+            <solaris-switch value="email">Email</solaris-switch>
+            <solaris-switch value="sms">SMS</solaris-switch>
+            <solaris-switch value="push">Push</solaris-switch>
+            <solaris-switch value="newsletter">Newsletter</solaris-switch>
+          </solaris-switch-group>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <!-- CVA / Reactive Forms -->
-  <section class="switch-group-showcase__section-card">
-    <h2 class="switch-group-showcase__section-title">Reactive Forms</h2>
+  <app-docs-section anchor="states" titleKey="switch-group.section.states">
+    <solaris-preview-code [code]="statesCode" language="html">
+      <div class="switch-group-showcase__stack">
+        <solaris-switch-group label="Disabled" [disabled]="true">
+          <solaris-switch value="email">Email</solaris-switch>
+          <solaris-switch value="sms">SMS</solaris-switch>
+        </solaris-switch-group>
+        <solaris-switch-group label="Readonly" [readonly]="true">
+          <solaris-switch value="email">Email</solaris-switch>
+          <solaris-switch value="sms">SMS</solaris-switch>
+        </solaris-switch-group>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="validation"
+    titleKey="switch-group.section.validation"
+  >
     <p class="switch-group-showcase__note">
-      Switch Group bound to a FormControl&lt;Record&lt;string, boolean&gt;&gt;.
+      {{ 'switch-group.validation.note' | translate }}
     </p>
-    <solaris-switch-group label="Canais" [formControl]="cvaControl">
-      <solaris-switch value="email">E-mail</solaris-switch>
-      <solaris-switch value="sms">SMS</solaris-switch>
-      <solaris-switch value="push">Push</solaris-switch>
-    </solaris-switch-group>
+    <solaris-preview-code [code]="validationCode" language="html">
+      <app-validation-switch-group-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="form" titleKey="switch-group.section.form">
+    <solaris-preview-code [code]="formFieldCode" language="html">
+      <solaris-form-field
+        [label]="'switch-group.form-field-label' | translate"
+        [hint]="'switch-group.form-field-hint' | translate"
+      >
+        <solaris-switch-group [formControl]="formFieldControl">
+          <solaris-switch value="email">Email</solaris-switch>
+          <solaris-switch value="marketing">Marketing</solaris-switch>
+        </solaris-switch-group>
+      </solaris-form-field>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="switch-group.section.installation"
+  >
     <p class="switch-group-showcase__note">
-      Value: {{ cvaControl.value | json }}
+      {{ 'switch-group.installation.note' | translate }}
     </p>
-  </section>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
 
-  <!-- Visual consistency (sizes) -->
-  <section class="switch-group-showcase__section-card">
-    <h2 class="switch-group-showcase__section-title">
-      Visual consistency (sizes)
-    </h2>
-
-    <h3 class="switch-group-showcase__subsection-title">Small (sm)</h3>
-    <solaris-switch-group
-      label="Pequeno"
-      size="sm"
-      [formControl]="sizeSmControl"
-    >
-      <solaris-switch value="email">E-mail</solaris-switch>
-      <solaris-switch value="sms">SMS</solaris-switch>
-    </solaris-switch-group>
-
-    <h3 class="switch-group-showcase__subsection-title">Medium (md)</h3>
-    <solaris-switch-group label="Médio" size="md" [formControl]="sizeMdControl">
-      <solaris-switch value="email">E-mail</solaris-switch>
-      <solaris-switch value="sms">SMS</solaris-switch>
-    </solaris-switch-group>
-
-    <h3 class="switch-group-showcase__subsection-title">Large (lg)</h3>
-    <solaris-switch-group
-      label="Grande"
-      size="lg"
-      [formControl]="sizeLgControl"
-    >
-      <solaris-switch value="email">E-mail</solaris-switch>
-      <solaris-switch value="sms">SMS</solaris-switch>
-    </solaris-switch-group>
-  </section>
-
-  <!-- Future note -->
-  <section class="switch-group-showcase__section-card">
-    <h2 class="switch-group-showcase__section-title">Future</h2>
+  <app-docs-section anchor="props" titleKey="switch-group.section.props">
     <p class="switch-group-showcase__note">
-      Switch Group does not include a master switch / select-all in v1 because
-      Switch has no meaningful indeterminate state. No loading/pending,
-      nested/tree, or async update in v1.
+      {{ 'switch-group.props.note' | translate }}
     </p>
-  </section>
-</div>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

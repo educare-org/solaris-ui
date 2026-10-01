@@ -73,7 +73,9 @@ export const SWITCH_SHOWCASE_THUMB_NONE_CODE = [
 ].join('\n');
 
 export const SWITCH_SHOWCASE_THUMB_ICON_CODE = [
-  '<solaris-switch icon="check">Notifications</solaris-switch>',
+  '<solaris-switch [(checked)]="enabled" [icon]="enabled() ? \'check\' : \'x\'">',
+  '  Notifications',
+  '</solaris-switch>',
 ].join('\n');
 
 export const SWITCH_SHOWCASE_THUMB_TEXT_CODE = [
