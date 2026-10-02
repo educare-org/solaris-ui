@@ -183,6 +183,7 @@ export type {
   SolarisFormFieldAppearance,
   SolarisFormFieldDensity,
   SolarisFormFieldRadius,
+  SolarisFormFieldSize,
 } from './lib/components/forms/form-field/model/form-field.types';
 
 export { SolarisSelectComponent } from './lib/components/forms/select/component/select.component';

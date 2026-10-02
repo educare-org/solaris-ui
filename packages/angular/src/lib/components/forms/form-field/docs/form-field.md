@@ -262,6 +262,15 @@ Wrapper controls (`select`, `multi-select`, `email-field`, `password-field`,
 `phone-field`, `date-picker`, `otp-input`) expose the same `size` input and
 forward it to the inner Form Field together with the effective density.
 
+### Textarea controls
+
+When the projected control is a `textarea`, the host reports
+`data-control-type="textarea"` and owns the minimum height while the
+textarea delegates to it (`height: auto`, `min-height: 0`). The `resize`
+input (`none | vertical | horizontal | both`, default `vertical`) is
+reflected as `data-control-resize`; `horizontal` and `both` resize the
+wrapper so no second handle appears on the textarea.
+
 ## Radius
 
 | Value  | Description              |

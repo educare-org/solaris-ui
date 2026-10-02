@@ -564,6 +564,14 @@ describe('SolarisTextareaDirective', () => {
       expect(el.hasAttribute('data-appearance')).toBe(true);
     });
 
+    it('should set textarea control type on the form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const field = fixture.nativeElement.querySelector('solaris-form-field');
+      expect(field.getAttribute('data-control-type')).toBe('textarea');
+    });
+
     it('should render with a DOM adapter that does not implement dataset', () => {
       const descriptor = Object.getOwnPropertyDescriptor(
         HTMLElement.prototype,
@@ -588,6 +596,88 @@ describe('SolarisTextareaDirective', () => {
           Reflect.deleteProperty(HTMLElement.prototype, 'dataset');
         }
       }
+    });
+  });
+
+  describe('size-density matrix', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-matrix-host' },
+      template:
+        '<textarea solaris-textarea [size]="size" [density]="density"></textarea>',
+    })
+    class TestHost {
+      size: SolarisTextareaSize = 'md';
+      density: SolarisTextareaDensity | undefined = 'normal';
+    }
+
+    const sizes: SolarisTextareaSize[] = ['sm', 'md', 'lg'];
+    const densities: SolarisTextareaDensity[] = [
+      'compact',
+      'normal',
+      'comfortable',
+    ];
+
+    for (const size of sizes) {
+      for (const density of densities) {
+        it(`should reflect matrix combination ${size} + ${density}`, () => {
+          TestBed.configureTestingModule({});
+          const fixture = TestBed.createComponent(TestHost);
+          fixture.componentInstance.size = size;
+          fixture.componentInstance.density = density;
+          fixture.detectChanges();
+          const el = fixture.nativeElement.querySelector('[solaris-textarea]');
+          expect(el.getAttribute('data-size')).toBe(size);
+          expect(el.getAttribute('data-density')).toBe(density);
+        });
+      }
+    }
+  });
+
+  describe('form-field height delegation', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisTextareaDirective, SolarisFormFieldComponent],
+      host: { 'data-testid': 'textarea-delegation-host' },
+      template: `
+        <solaris-form-field label="Description" size="lg" density="comfortable">
+          <textarea solaris-textarea></textarea>
+        </solaris-form-field>
+      `,
+      providers: [provideSolarisTesting()],
+    })
+    class TestHost {}
+
+    it('should accept size on form-field (P0 foundation)', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const field = fixture.nativeElement.querySelector('solaris-form-field');
+      expect(field.getAttribute('data-size')).toBe('lg');
+      expect(field.getAttribute('data-density')).toBe('comfortable');
+    });
+
+    it('should delegate height to the form field wrapper', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const field = fixture.nativeElement.querySelector('solaris-form-field');
+      expect(field.getAttribute('data-control-type')).toBe('textarea');
+      const control = fixture.nativeElement.querySelector(
+        '.solaris-form-field__control [solaris-textarea]',
+      );
+      expect(control).toBeTruthy();
+    });
+
+    it('should keep textarea standalone-capable with its own defaults', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-textarea]');
+      expect(el.getAttribute('data-size')).toBe('md');
+      expect(el.getAttribute('data-density')).toBe('normal');
+      expect(el.getAttribute('data-resize')).toBe('vertical');
     });
   });
 

@@ -933,3 +933,60 @@ describe('SolarisFormFieldComponent label action', () => {
     expect(labelRow.contains(action)).toBe(true);
   });
 });
+
+describe('SolarisFormFieldComponent control type', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisFormFieldComponent],
+    template: '<solaris-form-field label="Name"><input /></solaris-form-field>',
+    providers: [provideSolarisTesting()],
+  })
+  class InputHostComponent {}
+
+  @Component({
+    standalone: true,
+    imports: [SolarisFormFieldComponent],
+    template:
+      '<solaris-form-field label="Description"><textarea></textarea></solaris-form-field>',
+    providers: [provideSolarisTesting()],
+  })
+  class TextareaHostComponent {}
+
+  it('should report other control type for input', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(InputHostComponent);
+    fixture.detectChanges();
+    const field = fixture.nativeElement.querySelector('solaris-form-field');
+    expect(field.getAttribute('data-control-type')).toBe('other');
+  });
+
+  it('should report textarea control type for textarea', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(TextareaHostComponent);
+    fixture.detectChanges();
+    const field = fixture.nativeElement.querySelector('solaris-form-field');
+    expect(field.getAttribute('data-control-type')).toBe('textarea');
+  });
+});
+
+describe('SolarisFormFieldComponent size-density matrix', () => {
+  const sizes = ['sm', 'md', 'lg'] as const;
+  const densities = ['compact', 'normal', 'comfortable'] as const;
+
+  for (const size of sizes) {
+    for (const density of densities) {
+      it(`should reflect matrix combination ${size} + ${density}`, () => {
+        TestBed.configureTestingModule({
+          providers: [provideSolarisTesting()],
+        });
+        const fixture = TestBed.createComponent(SolarisFormFieldComponent);
+        fixture.componentRef.setInput('size', size);
+        fixture.componentRef.setInput('density', density);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute('data-size')).toBe(size);
+        expect(el.getAttribute('data-density')).toBe(density);
+      });
+    }
+  }
+});

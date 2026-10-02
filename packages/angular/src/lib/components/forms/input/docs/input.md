@@ -104,16 +104,30 @@ The contract provides:
 
 ### Size
 
-- `sm`: 2rem height
-- `md` (default): 2.5rem height
-- `lg`: 3rem height
+- `sm`
+- `md` (default)
+- `lg`
 
-Controls height, padding, font-size, and line-height.
+Standalone, `size` combined with `density` selects one of the 9
+`--solaris-control-height-*` tokens for the input height:
+
+| Size | compact | normal | comfortable |
+| ---- | ------- | ------ | ----------- |
+| `sm` | 28px    | 36px   | 44px        |
+| `md` | 32px    | 40px   | 48px        |
+| `lg` | 36px    | 44px   | 52px        |
+
+Inside `solaris-form-field`, the wrapper owns the outer height and the
+input delegates to it (`height: auto`, only density padding applies).
+Keep `size` in sync on both so font and padding match the wrapper height.
 
 ### Density
 
 - `compact`: reduced height and padding
-- `comfortable` (fallback default): more breathing space
+- `normal`: balanced spacing (theme default)
+- `comfortable`: more breathing space
+
+When omitted, density is inherited from the theme.
 
 ### Radius
 

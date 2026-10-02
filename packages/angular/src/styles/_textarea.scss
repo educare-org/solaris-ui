@@ -32,9 +32,9 @@ textarea[solaris-textarea] {
   border: var(--solaris-textarea-border-width) solid
     var(--solaris-textarea-border-color);
   transition:
-    border-color var(--solaris-motion-duration-fast)
+    border-color var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
-    box-shadow var(--solaris-motion-duration-fast)
+    box-shadow var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard);
 }
 
@@ -207,6 +207,8 @@ textarea[solaris-textarea][data-full-width] {
 solaris-form-field textarea[solaris-textarea] {
   // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow inside form-field context is intentional to inherit from parent.
   border: none;
+  height: auto;
+  min-height: 0;
   padding-left: 0;
   border-radius: 0;
   padding-right: 0;
