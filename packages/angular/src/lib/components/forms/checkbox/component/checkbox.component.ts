@@ -20,6 +20,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
+import { SOLARIS_CHECKBOX_GROUP } from '../../checkbox-group/model/checkbox-group.token';
 import { resolveElementId } from '../../../../core';
 
 import type {
@@ -50,7 +51,7 @@ import type {
   host: {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',
-    '[attr.data-size]': 'size()',
+    '[attr.data-size]': 'effectiveSize()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-checked]': '_checked() ? "" : null',
@@ -107,8 +108,8 @@ export class SolarisCheckboxComponent
     alias: 'invalid',
   });
   readonly appearance = input<SolarisCheckboxAppearance>('outline');
-  readonly color = input<SolarisCheckboxColor>('primary');
-  readonly size = input<SolarisCheckboxSize>('md');
+  readonly color = input<SolarisCheckboxColor>('neutral');
+  readonly size = input<SolarisCheckboxSize | undefined>(undefined);
   readonly density = input<SolarisCheckboxDensity>();
   readonly radius = input<SolarisCheckboxRadius>('sm');
   readonly checkboxLabel = input<string>(undefined, { alias: 'label' });
@@ -124,9 +125,18 @@ export class SolarisCheckboxComponent
   readonly changeEvent = output<Event>();
 
   protected readonly themeService = inject(SolarisThemeService);
+  private readonly group = inject(SOLARIS_CHECKBOX_GROUP, { optional: true });
+
+  protected readonly effectiveSize = computed<SolarisCheckboxSize>(() => {
+    return this.size() ?? this.group?.size() ?? 'md';
+  });
 
   protected readonly effectiveDensity = computed<SolarisCheckboxDensity>(() => {
-    return this.density() ?? this.themeService.density;
+    return (
+      this.density() ??
+      this.group?.effectiveDensity() ??
+      this.themeService.density
+    );
   });
 
   protected readonly isEffectivelyDisabled = computed(() => {

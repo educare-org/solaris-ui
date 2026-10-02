@@ -20,25 +20,25 @@ Checkbox is a form control component that allows users to select or deselect an 
 
 ### Inputs
 
-| Input           | Type                                                                                 | Default     | Description                             |
-| --------------- | ------------------------------------------------------------------------------------ | ----------- | --------------------------------------- |
-| `checked`       | `boolean`                                                                            | `false`     | Whether the checkbox is checked         |
-| `indeterminate` | `boolean`                                                                            | `false`     | Visual indeterminate state (controlled) |
-| `disabled`      | `boolean`                                                                            | `false`     | Disables the checkbox                   |
-| `readonly`      | `boolean`                                                                            | `false`     | Readonly mode (value preserved)         |
-| `required`      | `boolean`                                                                            | `false`     | Required validation                     |
-| `invalid`       | `boolean \| undefined`                                                               | `undefined` | Invalid state                           |
-| `appearance`    | `'outline' \| 'surface'`                                                             | `'outline'` | Visual appearance                       |
-| `color`         | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'` | Semantic color                          |
-| `size`          | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Size variant                            |
-| `density`       | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited   | Density variant                         |
-| `radius`        | `'none' \| 'sm' \| 'md' \| 'lg'`                                                     | `'sm'`      | Border radius of the control box        |
-| `label`         | `string`                                                                             | —           | Direct label text                       |
-| `labelKey`      | `string`                                                                             | —           | i18n key for label                      |
-| `name`          | `string`                                                                             | —           | Native `name` attribute                 |
-| `value`         | `unknown`                                                                            | —           | Value submitted to the form             |
-| `ariaLabel`     | `string`                                                                             | —           | Accessible label                        |
-| `ariaLabelKey`  | `string`                                                                             | —           | i18n key for accessible label           |
+| Input           | Type                                                                                 | Default            | Description                             |
+| --------------- | ------------------------------------------------------------------------------------ | ------------------ | --------------------------------------- |
+| `checked`       | `boolean`                                                                            | `false`            | Whether the checkbox is checked         |
+| `indeterminate` | `boolean`                                                                            | `false`            | Visual indeterminate state (controlled) |
+| `disabled`      | `boolean`                                                                            | `false`            | Disables the checkbox                   |
+| `readonly`      | `boolean`                                                                            | `false`            | Readonly mode (value preserved)         |
+| `required`      | `boolean`                                                                            | `false`            | Required validation                     |
+| `invalid`       | `boolean \| undefined`                                                               | `undefined`        | Invalid state                           |
+| `appearance`    | `'outline' \| 'surface'`                                                             | `'outline'`        | Visual appearance                       |
+| `color`         | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'`        | Semantic color                          |
+| `size`          | `'sm' \| 'md' \| 'lg'`                                                               | inherited (`'md'`) | Size variant (own → group → `'md'`)     |
+| `density`       | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited          | Density variant (own → group → theme)   |
+| `radius`        | `'sm' \| 'md' \| 'lg' \| 'full'`                                                     | `'sm'`             | Border radius of the control box        |
+| `label`         | `string`                                                                             | —                  | Direct label text                       |
+| `labelKey`      | `string`                                                                             | —                  | i18n key for label                      |
+| `name`          | `string`                                                                             | —                  | Native `name` attribute                 |
+| `value`         | `unknown`                                                                            | —                  | Value submitted to the form             |
+| `ariaLabel`     | `string`                                                                             | —                  | Accessible label                        |
+| `ariaLabelKey`  | `string`                                                                             | —                  | i18n key for accessible label           |
 
 ### Outputs
 
@@ -101,10 +101,12 @@ Disabled prevents interaction and reduces visual weight.
 
 ## Required
 
-Required reflects HTML required validation.
+Required reflects HTML required validation. A required checkbox renders a
+`*` marker next to the label and exposes `aria-required="true"` on the
+native input.
 
 ```html
-<solaris-checkbox [required]="true" />
+<solaris-checkbox [required]="true">Accept terms</solaris-checkbox>
 ```
 
 ## Invalid
@@ -126,8 +128,8 @@ Invalid applies error styling. When used inside Form Field, the invalid state is
 
 | Color     | Usage                          |
 | --------- | ------------------------------ |
-| `primary` | Default selection (default)    |
-| `neutral` | Neutral selection              |
+| `neutral` | Neutral selection (default)    |
+| `primary` | Default selection              |
 | `success` | Positive confirmation          |
 | `warning` | Cautious selection             |
 | `danger`  | Critical/destructive selection |
@@ -136,18 +138,38 @@ Invalid applies error styling. When used inside Form Field, the invalid state is
 
 ## Sizes
 
-| Size | Checkbox box |
-| ---- | ------------ |
-| `sm` | 1rem         |
-| `md` | 1.25rem      |
-| `lg` | 1.5rem       |
+Size and density combine into an explicit 3x3 matrix. The control box
+grows with both: 16px (`sm` + `compact`/`normal`) up to 24px (`lg` +
+`comfortable`). The checkmark follows size only (8px `sm`, 12px `md`,
+16px `lg`); the label gap follows density only (4px `compact`, 6px
+`normal`, 8px `comfortable`).
+
+| Size | `compact` | `normal` | `comfortable` |
+| ---- | --------- | -------- | ------------- |
+| `sm` | 16px      | 16px     | 18px          |
+| `md` | 18px      | 20px     | 22px          |
+| `lg` | 20px      | 22px     | 24px          |
+
+Inside a Checkbox Group, `size` and `density` are inherited from the group
+unless the checkbox sets its own — the same contract as
+`solaris-switch`/`solaris-switch-group` (`SOLARIS_CHECKBOX_GROUP`).
+
+```html
+<solaris-checkbox-group size="lg" density="compact">
+  <!-- inherits lg + compact -->
+  <solaris-checkbox value="a">A</solaris-checkbox>
+  <!-- own size wins over the group -->
+  <solaris-checkbox value="b" size="sm">B</solaris-checkbox>
+</solaris-checkbox-group>
+```
 
 ## Density
 
-| Density       | Effect                       |
-| ------------- | ---------------------------- |
-| `compact`     | Reduced gap between elements |
-| `comfortable` | Increased gap (default)      |
+| Density       | Effect                                   |
+| ------------- | ---------------------------------------- |
+| `compact`     | Smaller control, reduced label gap (4px) |
+| `normal`      | Base control and gap (6px)               |
+| `comfortable` | Larger control, increased gap (8px)      |
 
 ## Label by projection
 
@@ -231,21 +253,19 @@ Available custom tokens:
 
 General component tokens available for advanced customization:
 
-| Token                                     | Purpose                   |
-| ----------------------------------------- | ------------------------- |
-| `--solaris-checkbox-size`                 | Checkbox box size         |
-| `--solaris-checkbox-icon-size`            | Check/indeterminate size  |
-| `--solaris-checkbox-gap`                  | Gap between control/label |
-| `--solaris-checkbox-border-color`         | Border color              |
-| `--solaris-checkbox-border-width`         | Border width              |
-| `--solaris-checkbox-background`           | Background color          |
-| `--solaris-checkbox-color`                | Icon color                |
-| `--solaris-checkbox-focus-ring-color`     | Focus ring color          |
-| `--solaris-checkbox-disabled-opacity`     | Disabled opacity          |
-| `--solaris-checkbox-readonly-background`  | Readonly background       |
-| `--solaris-checkbox-invalid-border-color` | Invalid border color      |
-| `--solaris-checkbox-label-font-size`      | Label font size           |
-| `--solaris-checkbox-label-line-height`    | Label line height         |
+| Token                                  | Purpose                   |
+| -------------------------------------- | ------------------------- |
+| `--solaris-checkbox-size`              | Checkbox box size         |
+| `--solaris-checkbox-icon-size`         | Check/indeterminate size  |
+| `--solaris-checkbox-gap`               | Gap between control/label |
+| `--solaris-checkbox-border-color`      | Border color              |
+| `--solaris-checkbox-border-width`      | Border width              |
+| `--solaris-checkbox-background`        | Background color          |
+| `--solaris-checkbox-color`             | Icon color                |
+| `--solaris-checkbox-focus-ring-color`  | Focus ring color          |
+| `--solaris-checkbox-disabled-opacity`  | Disabled opacity          |
+| `--solaris-checkbox-label-font-size`   | Label font size           |
+| `--solaris-checkbox-label-line-height` | Label line height         |
 
 ## Accessibility
 
@@ -253,7 +273,8 @@ General component tokens available for advanced customization:
 - The native input is visually hidden but remains accessible.
 - The visual control box and icons are `aria-hidden="true"`.
 - The label is properly associated with the input via `for` attribute.
-- Required is reflected on the native input.
+- Required is reflected on the native input and via `aria-required`.
+- A required checkbox renders a `*` marker next to the label.
 - Focus-visible is visible and uses Solaris tokens.
 - Invalid state is communicated via `aria-invalid`.
 - `aria-describedby` is set from the Form Field integration.

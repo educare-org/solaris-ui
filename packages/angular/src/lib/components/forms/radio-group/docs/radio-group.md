@@ -35,7 +35,6 @@ Radio Group is a form control component that manages single selection within a s
 })
 class SolarisRadioGroupComponent {
   // State
-  value: unknown;
   disabled: boolean; // false
   readonly: boolean; // false
   required: boolean; // false

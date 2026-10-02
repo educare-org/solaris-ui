@@ -11,6 +11,7 @@
   [attr.aria-labelledby]="ariaLabelledBy()"
   [attr.aria-describedby]="ariaDescribedBy()"
   [attr.aria-invalid]="isEffectivelyInvalid() ? 'true' : null"
+  [attr.aria-required]="requiredInput() ? 'true' : null"
   [attr.aria-readonly]="isEffectivelyReadonly() ? 'true' : null"
   (change)="onInputChange($event)"
   (focus)="onFocus()"

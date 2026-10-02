@@ -62,3 +62,10 @@ export const MediaStart: Story = {
     mediaPosition: 'start',
   },
 };
+
+export const Sizes: Story = {
+  args: {
+    size: 'lg',
+    density: 'comfortable',
+  },
+};

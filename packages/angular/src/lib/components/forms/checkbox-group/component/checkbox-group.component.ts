@@ -22,6 +22,7 @@ import { SolarisFormControl } from '../../form-field/model/form-control.contract
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisCheckboxComponent } from '../../checkbox';
+import { SOLARIS_CHECKBOX_GROUP } from '../model/checkbox-group.token';
 import { resolveElementId } from '../../../../core';
 
 import type {
@@ -48,6 +49,10 @@ function defaultCompare(a: unknown, b: unknown): boolean {
     },
     {
       provide: SolarisFormControl,
+      useExisting: forwardRef(() => SolarisCheckboxGroupComponent),
+    },
+    {
+      provide: SOLARIS_CHECKBOX_GROUP,
       useExisting: forwardRef(() => SolarisCheckboxGroupComponent),
     },
   ],
@@ -151,11 +156,10 @@ export class SolarisCheckboxGroupComponent
 
   protected readonly themeService = inject(SolarisThemeService);
 
-  protected readonly effectiveDensity = computed<SolarisCheckboxGroupDensity>(
-    () => {
-      return this.density() ?? this.themeService.density;
-    },
-  );
+  /** Public for SOLARIS_CHECKBOX_GROUP: children inherit group density. */
+  readonly effectiveDensity = computed<SolarisCheckboxGroupDensity>(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   protected readonly isEffectivelyDisabled = computed(() => {
     return this.disabledInput() || this.cvaDisabled();

@@ -248,6 +248,9 @@ export type {
   SolarisSelectionCardDensity,
   SolarisSelectionCardRadius,
   SolarisSelectionCardSize,
+  SolarisSelectionCardSelection,
+  SolarisSelectionCardSelectionPosition,
+  SolarisSelectionCardMediaPosition,
 } from './lib/components/forms/selection-card/model/selection-card.types';
 
 export { SolarisDatePickerComponent } from './lib/components/forms/date-picker/component/date-picker.component';

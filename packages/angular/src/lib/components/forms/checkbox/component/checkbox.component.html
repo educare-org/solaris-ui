@@ -2,19 +2,20 @@
   <input
     type="checkbox"
     class="solaris-checkbox__input"
+    #inputElement
+    (blur)="onBlur()"
     [id]="elementId()"
-    [checked]="_checked()"
-    [disabled]="isEffectivelyDisabled()"
+    (focus)="onFocus()"
     [required]="required"
-    [attr.aria-label]="effectiveAriaLabel() ?? null"
-    [attr.aria-labelledby]="ariaLabelledBy()"
-    [attr.aria-describedby]="ariaDescribedBy()"
-    [attr.aria-invalid]="isEffectivelyInvalid() ? 'true' : null"
+    [checked]="_checked()"
     [attr.name]="name() ?? null"
     (change)="onInputChange($event)"
-    (blur)="onBlur()"
-    (focus)="onFocus()"
-    #inputElement
+    [disabled]="isEffectivelyDisabled()"
+    [attr.aria-labelledby]="ariaLabelledBy()"
+    [attr.aria-describedby]="ariaDescribedBy()"
+    [attr.aria-label]="effectiveAriaLabel() ?? null"
+    [attr.aria-required]="requiredInput() ? 'true' : null"
+    [attr.aria-invalid]="isEffectivelyInvalid() ? 'true' : null"
   />
   <span class="solaris-checkbox__control" aria-hidden="true">
     @if (indeterminate()) {
@@ -23,7 +24,7 @@
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        stroke-width="3"
+        stroke-width="4"
         stroke-linecap="round"
       >
         <line x1="4" y1="12" x2="20" y2="12" />
@@ -34,7 +35,7 @@
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        stroke-width="3"
+        stroke-width="4"
         stroke-linecap="round"
         stroke-linejoin="round"
       >
@@ -45,10 +46,16 @@
   @if (hasProjectedContent()) {
     <span class="solaris-checkbox__label-text" [id]="elementId() + '-label'">
       <ng-content />
+      @if (requiredInput()) {
+        <span class="solaris-checkbox__required" aria-hidden="true">*</span>
+      }
     </span>
   } @else if (labelText(); as text) {
     <span class="solaris-checkbox__label-text" [id]="elementId() + '-label'">
       {{ text }}
+      @if (requiredInput()) {
+        <span class="solaris-checkbox__required" aria-hidden="true">*</span>
+      }
     </span>
   }
 </label>

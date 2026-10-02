@@ -1,0 +1,11 @@
+<solaris-checkbox-group
+  label="Interests"
+  [formControl]="interestsControl"
+  [minSelected]="1"
+  [maxSelected]="2"
+  error="Select one or two interests."
+>
+  <solaris-checkbox value="sports">Sports</solaris-checkbox>
+  <solaris-checkbox value="finance">Finance</solaris-checkbox>
+  <solaris-checkbox value="technology">Technology</solaris-checkbox>
+</solaris-checkbox-group>
