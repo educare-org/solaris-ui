@@ -1,0 +1,11 @@
+<solaris-radio-group
+  label="Plan"
+  [formControl]="planControl"
+  [required]="true"
+  [invalid]="planControl.invalid && planControl.touched"
+  error="Selection is required."
+>
+  <solaris-radio value="basic">Basic</solaris-radio>
+  <solaris-radio value="pro">Pro</solaris-radio>
+</solaris-radio-group>
+<button type="button" (click)="submit()">Validate</button>

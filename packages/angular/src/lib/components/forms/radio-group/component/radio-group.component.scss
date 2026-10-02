@@ -61,19 +61,19 @@
 }
 
 :host([data-density='compact']) {
-  --solaris-radio-group-gap: var(--solaris-spacing-2);
+  --solaris-radio-group-gap: var(--solaris-spacing-4);
   --solaris-radio-group-row-gap: var(--solaris-spacing-2);
   --solaris-radio-group-column-gap: var(--solaris-spacing-2);
 }
 
 :host([data-density='normal']) {
-  --solaris-radio-group-gap: var(--solaris-spacing-3);
+  --solaris-radio-group-gap: var(--solaris-spacing-5);
   --solaris-radio-group-row-gap: var(--solaris-spacing-3);
   --solaris-radio-group-column-gap: var(--solaris-spacing-3);
 }
 
 :host([data-density='comfortable']) {
-  --solaris-radio-group-gap: var(--solaris-spacing-4);
+  --solaris-radio-group-gap: var(--solaris-spacing-6);
   --solaris-radio-group-row-gap: var(--solaris-spacing-4);
   --solaris-radio-group-column-gap: var(--solaris-spacing-4);
 }

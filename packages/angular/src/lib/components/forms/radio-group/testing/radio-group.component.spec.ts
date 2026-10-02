@@ -534,6 +534,44 @@ describe('SolarisRadioGroupComponent density', () => {
   });
 });
 
+describe('SolarisRadioGroupComponent size inheritance', () => {
+  let fixture: ComponentFixture<SolarisRadioGroupComponent>;
+
+  const createFixture = () => {
+    configureSolarisTesting();
+    fixture = TestBed.createComponent(SolarisRadioGroupComponent);
+    fixture.detectChanges();
+    return fixture.nativeElement;
+  };
+
+  it('should have default size md', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-size')).toBe('md');
+  });
+
+  it('should propagate size and density to children', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisRadioGroupComponent, SolarisRadioComponent],
+      template: `
+        <solaris-radio-group size="lg" density="compact">
+          <solaris-radio value="a">A</solaris-radio>
+        </solaris-radio-group>
+      `,
+    })
+    class InheritanceHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(InheritanceHost);
+    hostFixture.detectChanges();
+    const child = hostFixture.nativeElement.querySelector(
+      'solaris-radio',
+    ) as HTMLElement;
+    expect(child.getAttribute('data-size')).toBe('lg');
+    expect(child.getAttribute('data-density')).toBe('compact');
+  });
+});
+
 describe('SolarisRadioGroupComponent compareWith', () => {
   @Component({
     standalone: true,

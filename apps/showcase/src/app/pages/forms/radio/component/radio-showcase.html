@@ -1,149 +1,241 @@
-<div class="radio-showcase">
-  <header class="radio-showcase__header">
-    <h1 class="radio-showcase__title">{{ 'radio.title' | translate }}</h1>
-    <p class="radio-showcase__description">
-      {{ 'radio.description' | translate }}
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="radio.title"
+    descriptionKey="radio.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="radio.section.examples">
+    <p class="radio-showcase__note">{{ 'radio.examples.note' | translate }}</p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-radio-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="appearances" titleKey="radio.section.appearances">
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'radio.section.appearances' | translate"
+    >
+      <solaris-tab value="outline"
+        >{{ 'radio.appearance.outline' | translate }}</solaris-tab
+      >
+      <solaris-tab value="surface"
+        >{{ 'radio.appearance.surface' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="outline">
+        <solaris-preview-code [code]="appearanceOutlineCode" language="html">
+          <solaris-radio appearance="outline" value="a">Outline</solaris-radio>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="surface">
+        <solaris-preview-code [code]="appearanceSurfaceCode" language="html">
+          <solaris-radio appearance="surface" value="a">Surface</solaris-radio>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="size-density" titleKey="radio.section.size-density">
+    <p class="radio-showcase__note">
+      {{ 'radio.size-density.note' | translate }}
     </p>
-  </header>
-
-  <section class="radio-showcase__section">
-    <h2 class="radio-showcase__section-title">
-      {{ 'radio.appearances' | translate }}
-    </h2>
-    <div class="radio-showcase__row">
-      <solaris-radio appearance="outline"
-        >{{ 'radio.outline' | translate }}</solaris-radio
+    <div class="radio-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'radio.section.sizes' | translate"
       >
-      <solaris-radio appearance="surface"
-        >{{ 'radio.surface' | translate }}</solaris-radio
+        <solaris-tab value="sm">{{ 'radio.size.sm' | translate }}</solaris-tab>
+        <solaris-tab value="md">{{ 'radio.size.md' | translate }}</solaris-tab>
+        <solaris-tab value="lg">{{ 'radio.size.lg' | translate }}</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'radio.section.density' | translate"
       >
+        <solaris-tab value="compact"
+          >{{ 'radio.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'radio.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'radio.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
     </div>
-  </section>
-
-  <section class="radio-showcase__section">
-    <h2 class="radio-showcase__section-title">
-      {{ 'radio.colors' | translate }}
-    </h2>
-    <div class="radio-showcase__row">
-      <solaris-radio color="neutral"
-        >{{ 'radio.neutral' | translate }}</solaris-radio
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-radio
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+        value="pro"
       >
-      <solaris-radio color="primary"
-        >{{ 'radio.primary' | translate }}</solaris-radio
-      >
-      <solaris-radio color="success"
-        >{{ 'radio.success' | translate }}</solaris-radio
-      >
-      <solaris-radio color="warning"
-        >{{ 'radio.warning' | translate }}</solaris-radio
-      >
-      <solaris-radio color="danger"
-        >{{ 'radio.danger' | translate }}</solaris-radio
-      >
-      <solaris-radio color="info">{{ 'radio.info' | translate }}</solaris-radio>
-    </div>
-  </section>
-
-  <section class="radio-showcase__section">
-    <h2 class="radio-showcase__section-title">
-      {{ 'radio.sizes' | translate }}
-    </h2>
-    <div class="radio-showcase__row">
-      <solaris-radio size="sm">{{ 'radio.small' | translate }}</solaris-radio>
-      <solaris-radio size="md">{{ 'radio.medium' | translate }}</solaris-radio>
-      <solaris-radio size="lg">{{ 'radio.large' | translate }}</solaris-radio>
-    </div>
-  </section>
-
-  <section class="radio-showcase__section">
-    <h2 class="radio-showcase__section-title">
-      {{ 'radio.states' | translate }}
-    </h2>
-    <div class="radio-showcase__grid">
-      <div class="radio-showcase__cell">
-        <solaris-radio [checked]="true"
-          >{{ 'radio.checked' | translate }}</solaris-radio
-        >
-      </div>
-      <div class="radio-showcase__cell">
-        <solaris-radio>{{ 'radio.unchecked' | translate }}</solaris-radio>
-      </div>
-      <div class="radio-showcase__cell">
-        <solaris-radio [checked]="true" [disabled]="true"
-          >{{ 'radio.disabled-checked' | translate }}</solaris-radio
-        >
-      </div>
-      <div class="radio-showcase__cell">
-        <solaris-radio [disabled]="true"
-          >{{ 'radio.disabled-unchecked' | translate }}</solaris-radio
-        >
-      </div>
-      <div class="radio-showcase__cell">
-        <solaris-radio [checked]="true" [readonly]="true"
-          >{{ 'radio.readonly-checked' | translate }}</solaris-radio
-        >
-      </div>
-      <div class="radio-showcase__cell">
-        <solaris-radio [readonly]="true"
-          >{{ 'radio.readonly-unchecked' | translate }}</solaris-radio
-        >
-      </div>
-      <div class="radio-showcase__cell">
-        <solaris-radio [checked]="true" [invalid]="true"
-          >{{ 'radio.invalid-checked' | translate }}</solaris-radio
-        >
-      </div>
-      <div class="radio-showcase__cell">
-        <solaris-radio [invalid]="true"
-          >{{ 'radio.invalid-unchecked' | translate }}</solaris-radio
-        >
-      </div>
-    </div>
-  </section>
-
-  <section class="radio-showcase__section">
-    <h2 class="radio-showcase__section-title">
-      {{ 'radio.mutual' | translate }}
-    </h2>
-    <p class="radio-showcase__note">{{ 'radio.mutual-note' | translate }}</p>
-    <div class="radio-showcase__row">
-      <solaris-radio-group>
-        <solaris-radio value="a" [checked]="true"
-          >{{ 'radio.option-a' | translate }}</solaris-radio
-        >
-        <solaris-radio value="b"
-          >{{ 'radio.option-b' | translate }}</solaris-radio
-        >
-      </solaris-radio-group>
-    </div>
-  </section>
-
-  <section class="radio-showcase__section">
-    <h2 class="radio-showcase__section-title">
-      {{ 'radio.density' | translate }}
-    </h2>
-    <div class="radio-showcase__row">
-      <solaris-radio density="compact"
-        >{{ 'radio.compact' | translate }}</solaris-radio
-      >
-      <solaris-radio density="normal"
-        >{{ 'radio.normal' | translate }}</solaris-radio
-      >
-      <solaris-radio density="comfortable"
-        >{{ 'radio.comfortable' | translate }}</solaris-radio
-      >
-    </div>
-  </section>
-
-  <section class="radio-showcase__section">
-    <h2 class="radio-showcase__section-title">
-      {{ 'radio.custom-color' | translate }}
-    </h2>
-    <p class="radio-showcase__note">{{ 'radio.custom-note' | translate }}</p>
-    <div class="radio-showcase__custom-wrapper">
-      <solaris-radio color="custom" [checked]="true">
-        {{ 'radio.custom-label' | translate }}
+        Pro
       </solaris-radio>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="color" titleKey="radio.section.color">
+    <p class="radio-showcase__note">{{ 'radio.color.note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedColor"
+      [ariaLabel]="'radio.section.color' | translate"
+    >
+      <solaris-tab value="neutral"
+        >{{ 'radio.color.neutral' | translate }}</solaris-tab
+      >
+      <solaris-tab value="primary"
+        >{{ 'radio.color.primary' | translate }}</solaris-tab
+      >
+      <solaris-tab value="success"
+        >{{ 'radio.color.success' | translate }}</solaris-tab
+      >
+      <solaris-tab value="warning"
+        >{{ 'radio.color.warning' | translate }}</solaris-tab
+      >
+      <solaris-tab value="danger"
+        >{{ 'radio.color.danger' | translate }}</solaris-tab
+      >
+      <solaris-tab value="info"
+        >{{ 'radio.color.info' | translate }}</solaris-tab
+      >
+      <solaris-tab value="custom"
+        >{{ 'radio.color.custom' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="neutral">
+        <solaris-preview-code [code]="colorNeutralCode" language="html">
+          <solaris-radio color="neutral" value="a">Neutral</solaris-radio>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="primary">
+        <solaris-preview-code [code]="colorPrimaryCode" language="html">
+          <solaris-radio color="primary" value="a">Primary</solaris-radio>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="success">
+        <solaris-preview-code [code]="colorSuccessCode" language="html">
+          <solaris-radio color="success" value="a">Success</solaris-radio>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="warning">
+        <solaris-preview-code [code]="colorWarningCode" language="html">
+          <solaris-radio color="warning" value="a">Warning</solaris-radio>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="danger">
+        <solaris-preview-code [code]="colorDangerCode" language="html">
+          <solaris-radio color="danger" value="a">Danger</solaris-radio>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="info">
+        <solaris-preview-code [code]="colorInfoCode" language="html">
+          <solaris-radio color="info" value="a">Info</solaris-radio>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="custom">
+        <solaris-preview-code [code]="colorCustomCode" language="html">
+          <div class="radio-showcase__custom-wrapper">
+            <solaris-radio color="custom" [checked]="true" value="a"
+              >Custom</solaris-radio
+            >
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="label-layout" titleKey="radio.section.label-layout">
+    <p class="radio-showcase__note">
+      {{ 'radio.label-layout.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedLabelPosition"
+      [ariaLabel]="'radio.section.label-layout' | translate"
+    >
+      <solaris-tab value="end"
+        >{{ 'radio.label-position.end' | translate }}</solaris-tab
+      >
+      <solaris-tab value="start"
+        >{{ 'radio.label-position.start' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="end">
+        <solaris-preview-code [code]="labelEndCode" language="html">
+          <solaris-radio value="pro">Pro</solaris-radio>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="start">
+        <solaris-preview-code [code]="labelStartCode" language="html">
+          <solaris-radio value="pro" labelPosition="start">Pro</solaris-radio>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="description" titleKey="radio.section.description">
+    <p class="radio-showcase__note">
+      {{ 'radio.description.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="descriptionCode" language="html">
+      <app-with-description-radio-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="radio.section.states">
+    <solaris-preview-code [code]="statesCode" language="html">
+      <div class="radio-showcase__stack">
+        <solaris-radio [disabled]="true" value="a">Disabled</solaris-radio>
+        <solaris-radio [checked]="true" [disabled]="true" value="b"
+          >Disabled checked</solaris-radio
+        >
+        <solaris-radio [readonly]="true" value="c">Readonly</solaris-radio>
+        <solaris-radio [invalid]="true" value="d">Invalid</solaris-radio>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="form" titleKey="radio.section.form">
+    <div class="radio-showcase__stack">
+      <solaris-preview-code [code]="formFieldCode" language="html">
+        <solaris-form-field
+          [label]="'radio.form-field-label' | translate"
+          [hint]="'radio.form-field-hint' | translate"
+        >
+          <solaris-radio-group [formControl]="planControl">
+            <solaris-radio value="basic">Basic</solaris-radio>
+            <solaris-radio value="pro">Pro</solaris-radio>
+          </solaris-radio-group>
+        </solaris-form-field>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="reactiveCode" language="html">
+        <solaris-radio-group [formControl]="planControl">
+          <solaris-radio value="basic">Basic</solaris-radio>
+          <solaris-radio value="pro">Pro</solaris-radio>
+        </solaris-radio-group>
+      </solaris-preview-code>
+      <p class="radio-showcase__note">
+        {{ 'radio.selected-label' | translate }} {{ planControl.value }}
+      </p>
     </div>
-  </section>
-</div>
+  </app-docs-section>
+
+  <app-docs-section anchor="installation" titleKey="radio.section.installation">
+    <p class="radio-showcase__note">
+      {{ 'radio.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="radio.section.props">
+    <p class="radio-showcase__note">{{ 'radio.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

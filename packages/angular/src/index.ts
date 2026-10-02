@@ -232,6 +232,7 @@ export type {
   SolarisRadioColor,
   SolarisRadioSize,
   SolarisRadioDensity,
+  SolarisRadioLabelPosition,
 } from './lib/components/forms/radio/model/radio.types';
 
 export { SolarisSelectionCardComponent } from './lib/components/forms/selection-card/component/selection-card.component';

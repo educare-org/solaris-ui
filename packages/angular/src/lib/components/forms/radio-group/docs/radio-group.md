@@ -192,7 +192,9 @@ state, and native radio name for every option.
 
 ## Sizes
 
-Size propagates to all child radios.
+Size propagates to all child radios through the `SOLARIS_RADIO_GROUP`
+token — the same inheritance contract as `solaris-switch-group`. A child
+radio keeps its own `size`/`density` when set explicitly.
 
 ```html
 <solaris-radio-group size="sm"> ... </solaris-radio-group>
@@ -200,9 +202,22 @@ Size propagates to all child radios.
 <solaris-radio-group size="lg"> ... </solaris-radio-group>
 ```
 
+The child resolves `size` as own input → group → `'md'`, and `density`
+as own input → group → theme density. Both are exposed on the child
+host as `data-size`/`data-density` with the effective values.
+
 ## Density
 
-Density affects gap between items.
+Density affects the control size and the gap between items, and
+propagates to children like `size`.
+
+## Unselected options
+
+Inside a group, options that are not selected render faded: the label
+text uses `--solaris-text-muted` and the control circle uses
+`--solaris-radio-unselected-opacity`. The selected option keeps full
+color, so the current choice stands out at a glance. Hovering an
+unselected option restores its full color with a short transition.
 
 ```html
 <solaris-radio-group density="compact"> ... </solaris-radio-group> <solaris-radio-group density="comfortable"> ... </solaris-radio-group>

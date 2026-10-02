@@ -21,7 +21,10 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
-import { SOLARIS_RADIO_GROUP_NAME } from '../model/radio-group.token';
+import {
+  SOLARIS_RADIO_GROUP,
+  SOLARIS_RADIO_GROUP_NAME,
+} from '../model/radio-group.token';
 import {
   SOLARIS_RADIO_OPTION,
   type SolarisRadioOption,
@@ -63,6 +66,10 @@ function generateGroupName(): string {
     {
       provide: SOLARIS_RADIO_GROUP_NAME,
       useFactory: () => generateGroupName(),
+    },
+    {
+      provide: SOLARIS_RADIO_GROUP,
+      useExisting: forwardRef(() => SolarisRadioGroupComponent),
     },
   ],
   templateUrl: './radio-group.component.html',
@@ -158,11 +165,10 @@ export class SolarisRadioGroupComponent
 
   protected readonly themeService = inject(SolarisThemeService);
 
-  protected readonly effectiveDensity = computed<SolarisRadioGroupDensity>(
-    () => {
-      return this.density() ?? this.themeService.density;
-    },
-  );
+  /** Public for SOLARIS_RADIO_GROUP: children inherit group density. */
+  readonly effectiveDensity = computed<SolarisRadioGroupDensity>(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   protected readonly isEffectivelyDisabled = computed(() => {
     return this.disabledInput() || this.cvaDisabled();

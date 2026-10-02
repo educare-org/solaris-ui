@@ -20,3 +20,7 @@ export const Heading: Story = {
     await expect(canvas.getByText(/radio-group/gi)).toBeTruthy();
   },
 };
+
+export const Sizes: Story = {
+  args: { size: 'lg', density: 'comfortable' },
+};

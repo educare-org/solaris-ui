@@ -1,55 +1,38 @@
 export const PT_BR_RADIO_GROUP: Record<string, string> = {
   'radio-group.title': 'Radio Group',
   'radio-group.description':
-    'Controle de formulário para seleção única em um conjunto de opções mutuamente exclusivas. Suporta layouts, aparências, cores, tamanhos, readonly, disabled e integração com Angular Forms.',
-  'radio-group.basic': 'Básico',
-  'radio-group.basic-note':
-    'Orientação vertical padrão com três opções e rótulo.',
-  'radio-group.selected': 'Selecionado:',
-  'radio-group.appearances': 'Aparências',
-  'radio-group.colors': 'Cores',
-  'radio-group.sizes': 'Tamanhos',
-  'radio-group.density': 'Densidade',
-  'radio-group.layout': 'Layouts',
-  'radio-group.vertical-list': 'Vertical / Lista',
-  'radio-group.horizontal-list': 'Horizontal / Lista',
-  'radio-group.grid-2': 'Grade com 2 colunas',
-  'radio-group.disabled': 'Desabilitado',
-  'radio-group.disabled-note':
-    'Grupo desabilitado impede qualquer interação. Radio individual desabilitado também é suportado.',
-  'radio-group.disabled-group': 'Grupo desabilitado',
-  'radio-group.disabled-radio': 'Radio individual desabilitado',
-  'radio-group.readonly': 'Somente leitura',
-  'radio-group.readonly-note':
-    'Somente leitura preserva a visibilidade do valor mas impede alterações. Distinto de disabled.',
-  'radio-group.readonly-group': 'Grupo somente leitura',
-  'radio-group.readonly-radio': 'Radio individual somente leitura',
-  'radio-group.invalid-required': 'Inválido / Obrigatório',
-  'radio-group.comparewith': 'CompareWith',
-  'radio-group.comparewith-note':
-    'Função de comparação personalizada para valores objeto.',
-  'radio-group.standalone': 'Rótulo/dica/erro standalone',
-  'radio-group.standalone-note':
-    'Use rótulo, dica e erro diretamente no grupo sem Form Field.',
-  'radio-group.form-field': 'Integração com Form Field',
-  'radio-group.form-field-note':
-    'Integração completa com Solaris Form Field para rótulo, dica e erro.',
+    'Controle de formulário para seleção única em um conjunto de opções mutuamente exclusivas. Os filhos herdam tamanho e densidade do grupo.',
+  'radio-group.section.examples': 'Exemplos',
+  'radio-group.section.size-density': 'Tamanho e densidade',
+  'radio-group.section.sizes': 'Tamanhos',
+  'radio-group.section.density': 'Densidade',
+  'radio-group.section.layouts': 'Layouts',
+  'radio-group.section.states': 'Estados',
+  'radio-group.section.validation': 'Validação',
+  'radio-group.section.form': 'Integração com formulários',
+  'radio-group.section.installation': 'Instalação',
+  'radio-group.section.props': 'Propriedades',
+  'radio-group.examples.note':
+    'Um único valor compartilhado por radios mutuamente exclusivos. Os filhos herdam tamanho e densidade do grupo, salvo configuração própria.',
+  'radio-group.size-density.note':
+    'O grupo detém tamanho e densidade; cada filho segue, salvo sobrescrita.',
+  'radio-group.size.sm': 'Pequeno',
+  'radio-group.size.md': 'Médio',
+  'radio-group.size.lg': 'Grande',
+  'radio-group.density.compact': 'Compacta',
+  'radio-group.density.normal': 'Normal',
+  'radio-group.density.comfortable': 'Confortável',
+  'radio-group.layout.vertical': 'Vertical',
+  'radio-group.layout.horizontal': 'Horizontal',
+  'radio-group.layout.grid': 'Grade',
+  'radio-group.validation.note':
+    'Seleção obrigatória validada em tempo real: toque no grupo sem escolher para ver o erro.',
+  'radio-group.form-field-label': 'Plano',
   'radio-group.form-field-hint': 'Selecione um plano para continuar.',
-  'radio-group.form-field-error': 'A seleção é obrigatória.',
-  'radio-group.visual-note': 'Referência visual',
-  'radio-group.visual-note-desc':
-    'O radio selecionado possui um anel externo claramente visível e um ponto interno menor, criando uma aparência elegante e institucional.',
-  'radio-group.visual-example': 'Selecionado com anel evidente e ponto sutil',
-  'radio-group.basic-label': 'Básico',
-  'radio-group.pro': 'Pro',
-  'radio-group.enterprise': 'Enterprise',
-  'radio-group.pro-disabled': 'Pro (desabilitado)',
-  'radio-group.basic-readonly': 'Básico (somente leitura)',
-  'radio-group.option-a': 'Opção A',
-  'radio-group.option-b': 'Opção B',
-  'radio-group.option-c': 'Opção C',
-  'radio-group.option-d': 'Opção D',
-  'radio-group.yes': 'Sim',
-  'radio-group.no': 'Não',
-  'radio-group.maybe': 'Talvez',
+  'radio-group.installation.note':
+    'Instale o pacote Solaris UI e importe os componentes de radio group.',
+  'radio-group.props.note':
+    'Tabela de propriedades em breve com o componente de tabela.',
+  'radio-group.ai.prompt':
+    'Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela.',
 };

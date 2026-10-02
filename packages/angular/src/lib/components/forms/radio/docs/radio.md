@@ -19,23 +19,26 @@ Radio is a form control component that represents a single option within a set o
 
 ### Inputs
 
-| Input          | Type                                                                                 | Default     | Description                     |
-| -------------- | ------------------------------------------------------------------------------------ | ----------- | ------------------------------- |
-| `value`        | `unknown`                                                                            | —           | Value this radio represents     |
-| `checked`      | `boolean`                                                                            | `false`     | Whether the radio is checked    |
-| `disabled`     | `boolean`                                                                            | `false`     | Disables the radio              |
-| `readonly`     | `boolean`                                                                            | `false`     | Readonly mode (value preserved) |
-| `required`     | `boolean`                                                                            | `false`     | Required validation             |
-| `invalid`      | `boolean \| undefined`                                                               | `undefined` | Invalid state                   |
-| `appearance`   | `'outline' \| 'surface'`                                                             | `'outline'` | Visual appearance               |
-| `color`        | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'` | Semantic color                  |
-| `size`         | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Size variant                    |
-| `density`      | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited   | Density variant                 |
-| `label`        | `string`                                                                             | —           | Direct label text               |
-| `labelKey`     | `string`                                                                             | —           | i18n key for label              |
-| `name`         | `string`                                                                             | —           | Native `name` attribute         |
-| `ariaLabel`    | `string`                                                                             | —           | Accessible label                |
-| `ariaLabelKey` | `string`                                                                             | —           | i18n key for accessible label   |
+| Input            | Type                                                                                 | Default            | Description                           |
+| ---------------- | ------------------------------------------------------------------------------------ | ------------------ | ------------------------------------- |
+| `value`          | `unknown`                                                                            | —                  | Value this radio represents           |
+| `checked`        | `boolean`                                                                            | `false`            | Whether the radio is checked          |
+| `disabled`       | `boolean`                                                                            | `false`            | Disables the radio                    |
+| `readonly`       | `boolean`                                                                            | `false`            | Readonly mode (value preserved)       |
+| `required`       | `boolean`                                                                            | `false`            | Required validation                   |
+| `invalid`        | `boolean \| undefined`                                                               | `undefined`        | Invalid state                         |
+| `appearance`     | `'outline' \| 'surface'`                                                             | `'outline'`        | Visual appearance                     |
+| `color`          | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'`        | Semantic color                        |
+| `size`           | `'sm' \| 'md' \| 'lg'`                                                               | inherited (`'md'`) | Size variant (own → group → `'md'`)   |
+| `density`        | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited          | Density variant (own → group → theme) |
+| `label`          | `string`                                                                             | —                  | Direct label text                     |
+| `labelKey`       | `string`                                                                             | —                  | i18n key for label                    |
+| `description`    | `string`                                                                             | —                  | Secondary text under the label        |
+| `descriptionKey` | `string`                                                                             | —                  | i18n key for description              |
+| `labelPosition`  | `'start' \| 'end'`                                                                   | `'end'`            | Label side relative to control        |
+| `name`           | `string`                                                                             | —                  | Native `name` attribute               |
+| `ariaLabel`      | `string`                                                                             | —                  | Accessible label                      |
+| `ariaLabelKey`   | `string`                                                                             | —                  | i18n key for accessible label         |
 
 ### Outputs
 
@@ -104,8 +107,8 @@ Invalid applies error styling.
 
 | Color     | Usage                          |
 | --------- | ------------------------------ |
-| `primary` | Default selection (default)    |
-| `neutral` | Neutral selection              |
+| `neutral` | Neutral selection (default)    |
+| `primary` | Default selection              |
 | `success` | Positive confirmation          |
 | `warning` | Cautious selection             |
 | `danger`  | Critical/destructive selection |
@@ -114,43 +117,89 @@ Invalid applies error styling.
 
 ## Sizes
 
-| Size | Radio circle |
-| ---- | ------------ |
-| `sm` | 1rem         |
-| `md` | 1.25rem      |
-| `lg` | 1.5rem       |
+Size and density combine into an explicit 3x3 matrix. The control circle
+grows with both: 16px (`sm` + `compact`/`normal`) up to 24px (`lg` +
+`comfortable`). The inner dot follows size only (6px `sm`, 8px `md`,
+12px `lg`); the label gap follows density only (4px `compact`, 6px
+`normal`, 8px `comfortable`).
+
+| Size | `compact` | `normal` | `comfortable` |
+| ---- | --------- | -------- | ------------- |
+| `sm` | 16px      | 16px     | 18px          |
+| `md` | 18px      | 20px     | 22px          |
+| `lg` | 20px      | 22px     | 24px          |
+
+Inside a Radio Group, `size` and `density` are inherited from the group
+unless the radio sets its own — the same contract as
+`solaris-switch`/`solaris-switch-group` (`SOLARIS_RADIO_GROUP`).
+
+```html
+<solaris-radio-group size="lg" density="compact">
+  <!-- inherits lg + compact -->
+  <solaris-radio value="a">A</solaris-radio>
+  <!-- own size wins over the group -->
+  <solaris-radio value="b" size="sm">B</solaris-radio>
+</solaris-radio-group>
+```
 
 ## Density
 
-| Density       | Effect                       |
-| ------------- | ---------------------------- |
-| `compact`     | Reduced gap between elements |
-| `comfortable` | Increased gap (default)      |
+| Density       | Effect                                   |
+| ------------- | ---------------------------------------- |
+| `compact`     | Smaller control, reduced label gap (4px) |
+| `normal`      | Base control and gap (6px)               |
+| `comfortable` | Larger control, increased gap (8px)      |
+
+## Description
+
+Secondary text rendered under the label, referenced from the native
+input via `aria-describedby`.
+
+```html
+<solaris-radio value="pro" label="Pro" description="For growing teams." />
+```
+
+## LabelPosition
+
+| Value   | Layout                                  |
+| ------- | --------------------------------------- |
+| `end`   | Control before the label (default)      |
+| `start` | Label before the control (mirrored row) |
+
+```html
+<solaris-radio value="pro" label="Pro" labelPosition="start" />
+```
+
+A card-style option is not a radio variant — use Selection Card instead
+(`follow-up`, out of scope for radio v1).
 
 ## CSS Variables
 
-Radio tokens can be customized on the host or a parent element. The `custom` color uses the `--solaris-radio-custom-*` tokens.
+Radio tokens can be customized on the host or a parent element. The `custom` color uses the `--solaris-radio-custom-*` tokens. The label always uses `--solaris-line-height-none` (single-line labels align tight to the control circle).
 
-| Token                                    | Purpose                       |
-| ---------------------------------------- | ----------------------------- |
-| `--solaris-radio-size`                   | Control circle size           |
-| `--solaris-radio-dot-size`               | Inner dot size                |
-| `--solaris-radio-gap`                    | Gap between control and label |
-| `--solaris-radio-background`             | Control background color      |
-| `--solaris-radio-border-color`           | Control border color          |
-| `--solaris-radio-ring-color`             | Checked ring color            |
-| `--solaris-radio-ring-width`             | Control ring/border width     |
-| `--solaris-radio-dot-color`              | Inner dot color               |
-| `--solaris-radio-focus-ring-color`       | Focus ring color              |
-| `--solaris-radio-disabled-opacity`       | Disabled opacity              |
-| `--solaris-radio-readonly-background`    | Readonly control background   |
-| `--solaris-radio-readonly-opacity`       | Readonly opacity              |
-| `--solaris-radio-label-font-size`        | Label font size               |
-| `--solaris-radio-label-line-height`      | Label line height             |
-| `--solaris-radio-custom-surface`         | Custom color: control surface |
-| `--solaris-radio-custom-border-color`    | Custom color: border          |
-| `--solaris-radio-custom-ring-color`      | Custom color: checked ring    |
-| `--solaris-radio-custom-indicator-color` | Custom color: checked dot     |
+| Token                                     | Purpose                           |
+| ----------------------------------------- | --------------------------------- |
+| `--solaris-radio-size`                    | Control circle size               |
+| `--solaris-radio-dot-size`                | Inner dot size                    |
+| `--solaris-radio-gap`                     | Gap between control and label     |
+| `--solaris-radio-background`              | Control background color          |
+| `--solaris-radio-border-color`            | Control border color              |
+| `--solaris-radio-ring-color`              | Checked ring color                |
+| `--solaris-radio-ring-width`              | Control ring/border width         |
+| `--solaris-radio-dot-color`               | Inner dot color                   |
+| `--solaris-radio-focus-ring-color`        | Focus ring color                  |
+| `--solaris-radio-disabled-opacity`        | Disabled opacity                  |
+| `--solaris-radio-readonly-background`     | Readonly control background       |
+| `--solaris-radio-readonly-opacity`        | Readonly opacity                  |
+| `--solaris-radio-label-font-size`         | Label font size                   |
+| `--solaris-radio-unselected-opacity`      | Unselected control fade in groups |
+| `--solaris-radio-description-color`       | Description text color            |
+| `--solaris-radio-description-font-size`   | Description font size             |
+| `--solaris-radio-description-line-height` | Description line height           |
+| `--solaris-radio-custom-surface`          | Custom color: control surface     |
+| `--solaris-radio-custom-border-color`     | Custom color: border              |
+| `--solaris-radio-custom-ring-color`       | Custom color: checked ring        |
+| `--solaris-radio-custom-indicator-color`  | Custom color: checked dot         |
 
 ## Label by projection
 
@@ -207,6 +256,10 @@ Projected content wins over label input when both are provided.
 <solaris-radio size="sm">Small</solaris-radio>
 <solaris-radio size="md">Medium</solaris-radio>
 <solaris-radio size="lg">Large</solaris-radio>
+
+<!-- Description + label position -->
+<solaris-radio value="pro" label="Pro" description="For growing teams." />
+<solaris-radio value="basic" label="Basic" labelPosition="start" />
 
 <!-- States -->
 <solaris-radio [disabled]="true">Disabled</solaris-radio>

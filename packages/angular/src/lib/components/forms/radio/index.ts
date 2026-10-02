@@ -5,4 +5,5 @@ export type {
   SolarisRadioColor,
   SolarisRadioSize,
   SolarisRadioDensity,
+  SolarisRadioLabelPosition,
 } from './model/radio.types';
