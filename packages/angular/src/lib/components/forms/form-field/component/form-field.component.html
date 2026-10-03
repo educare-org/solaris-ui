@@ -13,6 +13,9 @@
       [for]="controlId ?? undefined"
     >
       {{ labelText() }}
+      @if (showRequiredMarker()) {
+        <span class="solaris-form-field__required" aria-hidden="true">*</span>
+      }
     </label>
   }
   @if (optional()) {
@@ -56,14 +59,29 @@
   <span
     class="solaris-form-field__affix solaris-form-field__affix--suffix"
     [attr.data-empty]="effectiveHasSuffix() ? null : ''"
+    [attr.data-variant]="suffixVariant()"
   >
-    @if (suffix(); as suffixName) {
-      <span solaris-form-suffix>
-        <solaris-icon [name]="suffixName" [decorative]="true" />
-      </span>
+    @if (!loading()) {
+      @if (suffix(); as suffixName) {
+        <span solaris-form-suffix>
+          <solaris-icon [name]="suffixName" [decorative]="true" />
+        </span>
+      }
+      <ng-content select="[solaris-form-suffix-action]" />
+      <ng-content select="[solaris-form-suffix]" />
     }
-    <ng-content select="[solaris-form-suffix]" />
   </span>
+  @if (loading()) {
+    <span class="solaris-form-field__loading">
+      <solaris-spinner
+        variant="ring"
+        color="neutral"
+        [size]="loadingSpinnerSize()"
+        [label]="loadingLabel()"
+        [labelKey]="loadingLabelKey()"
+      />
+    </span>
+  }
 </div>
 
 @if (showError() || showHint()) {

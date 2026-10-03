@@ -178,6 +178,7 @@ export { SolarisFormHintComponent } from './lib/components/forms/form-field/comp
 export { SolarisFormErrorComponent } from './lib/components/forms/form-field/component/form-error.component';
 export { SolarisFormPrefixDirective } from './lib/components/forms/form-field/directives/form-prefix.directive';
 export { SolarisFormSuffixDirective } from './lib/components/forms/form-field/directives/form-suffix.directive';
+export { SolarisFormSuffixActionDirective } from './lib/components/forms/form-field/directives/form-suffix-action.directive';
 export { SolarisFormLabelActionDirective } from './lib/components/forms/form-field/directives/form-label-action.directive';
 export type {
   SolarisFormFieldAppearance,

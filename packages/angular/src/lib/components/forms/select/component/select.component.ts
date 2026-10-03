@@ -1,8 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to programmatically focus the select trigger. Standard DOM method used by Angular CDK.
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required as fallback when no triggerElement ref. Standard DOM method.
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to focus search input when panel opens. Standard DOM method.
-// SECURITY_EXCEPTION_FILE: nativeElement access needed to read option text for search filtering. Read-only, SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement.textContent needed to read option text for search filtering. Read-only, SSR-safe.
 import {
   Component,
   input,
@@ -143,7 +138,7 @@ export class SolarisSelectComponent
   readonly density = input<SolarisSelectDensity>();
   readonly size = input<SolarisSelectSize>('md');
   readonly panelMatchTriggerWidth = input<boolean>(true);
-  readonly radius = input<SolarisSelectRadius>('md');
+  readonly radius = input<SolarisSelectRadius>('sm');
   readonly disabledInput = input(false, { alias: 'disabled' });
   readonly readonlyInput = input(false, { alias: 'readonly' });
   readonly requiredInput = input(false, { alias: 'required' });
@@ -461,8 +456,10 @@ export class SolarisSelectComponent
   focus(): void {
     const triggerEl = this.triggerElement();
     if (triggerEl) {
+      // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
       triggerEl.nativeElement.focus();
     } else {
+      // SECURITY_EXCEPTION: fallback focus on the host requires the native method.
       this.elementRef.nativeElement.focus();
     }
   }
@@ -547,6 +544,7 @@ export class SolarisSelectComponent
 
     if (this.searchable()) {
       requestAnimationFrame(() => {
+        // SECURITY_EXCEPTION: focusing the search input when the panel opens requires the native method.
         this.searchInputRef()?.nativeElement.focus();
       });
     }
@@ -812,6 +810,7 @@ export class SolarisSelectComponent
     const nativeEl = (
       option as unknown as { elementRef: ElementRef<HTMLElement> }
     ).elementRef;
+    // SECURITY_EXCEPTION: reading projected option text for search filtering requires the native textContent. Read-only.
     if (nativeEl?.nativeElement) {
       return nativeEl.nativeElement.textContent?.trim() || '';
     }

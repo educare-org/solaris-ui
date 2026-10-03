@@ -66,7 +66,7 @@ Multi Select represents a multiple selection within a form. It controls an array
 | `displayWith`           | `(value) => string \| undefined`                      | —           | Custom display function                |
 | `appearance`            | `'outline' \| 'surface' \| 'filled'`                  | `'outline'` | Visual appearance                      |
 | `density`               | `'compact' \| 'normal' \| 'comfortable' \| undefined` | —           | Density                                |
-| `radius`                | `'none' \| 'sm' \| 'md' \| 'lg'`                      | `'md'`      | Border radius                          |
+| `radius`                | `'none' \| 'sm' \| 'md' \| 'lg'`                      | `'sm'`      | Border radius                          |
 | `label`                 | `string \| undefined`                                 | —           | Label text                             |
 | `labelKey`              | `string \| undefined`                                 | —           | Translation key for label              |
 | `hint`                  | `string \| undefined`                                 | —           | Hint text                              |

@@ -16,6 +16,7 @@ export const PT_BR_FORM_FIELD: Record<string, string> = {
   'form-field.section.radius': 'Raio',
   'form-field.section.states': 'Estados',
   'form-field.section.counter': 'Contador de caracteres',
+  'form-field.section.loading': 'Carregamento',
   'form-field.section.installation': 'Instalação',
   'form-field.section.props': 'Propriedades',
   'form-field.examples.note':
@@ -51,7 +52,7 @@ export const PT_BR_FORM_FIELD: Record<string, string> = {
   'form-field.density.comfortable': 'Confortável',
   'form-field.label.name': 'Nome',
   'form-field.radius.note':
-    'O wrapper suporta raios none, sm, md (padrão) e lg.',
+    'O wrapper suporta raios none, sm (padrão), md e lg. Escala dos fields: md equivale a 8px e lg vira pill.',
   'form-field.radius.none': 'Nenhum',
   'form-field.radius.sm': 'Pequeno',
   'form-field.radius.md': 'Médio',
@@ -61,8 +62,14 @@ export const PT_BR_FORM_FIELD: Record<string, string> = {
   'form-field.states.readonly': 'Campo somente leitura',
   'form-field.states.readonly-value': 'Valor somente leitura',
   'form-field.counter.note':
-    'Exibido automaticamente quando maxlength está definido no input nativo.',
+    'Exibido automaticamente quando maxlength está definido no input nativo, ou quando um erro Validators.maxLength está ativo no controle.',
   'form-field.counter.label': 'Limitado a 20 caracteres',
+  'form-field.loading.note':
+    'Exibe um spinner no slot de sufixo durante trabalho assíncrono. O loading suprime qualquer outro sufixo e define aria-busy no campo.',
+  'form-field.loading.label': 'CEP',
+  'form-field.loading.toggle': 'Alternar carregamento',
+  'form-field.action.label': 'E-mail',
+  'form-field.action.cta': 'Cadastrar',
   'form-field.installation.note':
     'Instale o pacote Solaris UI e importe o form field com uma diretiva de input.',
   'form-field.props.note':

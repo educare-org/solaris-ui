@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focusin/focusout are standard DOM events for focus tracking. Same pattern used by Solaris FormField.
 import {
   Component,
   input,
@@ -349,6 +348,7 @@ export class SolarisCheckboxGroupComponent
     if (this.focusListenersAttached) return;
     this.focusListenersAttached = true;
 
+    // SECURITY_EXCEPTION: group focus tracking needs native focusin/focusout listeners on the host; read-only, outside Angular.
     const native = this.elementRef.nativeElement;
     this.ngZone.runOutsideAngular(() => {
       native.addEventListener('focusin', () => {

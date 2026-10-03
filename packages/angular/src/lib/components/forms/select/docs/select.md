@@ -76,7 +76,7 @@ Select v1 does not implement:
 | `displayWith`                | `(value: unknown) => string \| undefined` | —           | Custom display function for trigger text      |
 | `appearance`                 | `'outline' \| 'surface' \| 'filled'`      | `'outline'` | Visual appearance                             |
 | `density`                    | `'compact' \| 'normal' \| 'comfortable'`  | inherited   | Density variant                               |
-| `radius`                     | `'none' \| 'sm' \| 'md' \| 'lg'`          | `'md'`      | Border radius                                 |
+| `radius`                     | `'none' \| 'sm' \| 'md' \| 'lg'`          | `'sm'`      | Border radius                                 |
 | `label` / `labelKey`         | `string`                                  | —           | Label text (used standalone)                  |
 | `hint` / `hintKey`           | `string`                                  | —           | Hint text (used standalone)                   |
 | `error` / `errorKey`         | `string`                                  | —           | Error text (used standalone)                  |
@@ -120,12 +120,12 @@ When not provided, Select inherits density from the theme system.
 
 ## Radius
 
-| Radius | Effect                         |
-| ------ | ------------------------------ |
-| `none` | No border radius               |
-| `sm`   | Small border radius            |
-| `md`   | Medium border radius (default) |
-| `lg`   | Large border radius            |
+| Radius | Effect                             |
+| ------ | ---------------------------------- |
+| `none` | No border radius                   |
+| `sm`   | Small border radius (2px, default) |
+| `md`   | Medium border radius (8px)         |
+| `lg`   | Pill shape                         |
 
 ## CSS Variables
 

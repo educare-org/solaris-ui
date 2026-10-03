@@ -118,6 +118,13 @@ describe('SolarisOtpInputComponent', () => {
       const host = fixture.debugElement.query(By.css('solaris-otp-input'));
       expect(host.nativeElement.getAttribute('data-density')).toBeTruthy();
     });
+
+    it('has default radius sm reflected on the host', async () => {
+      const { fixture, component } = await setup(BasicHost);
+      expect(component.radius()).toBe('sm');
+      const host = fixture.debugElement.query(By.css('solaris-otp-input'));
+      expect(host.nativeElement.getAttribute('data-radius')).toBe('sm');
+    });
   });
 
   describe('CVA and typing', () => {

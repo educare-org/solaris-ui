@@ -58,7 +58,7 @@ use the prefix/suffix slots. The OTP boxes live inside the control area.
 | `autoFocus`                          | `boolean`                   | `false`                                                | Focus the first box on init.          |
 | `appearance`                         | `SolarisOtpInputAppearance` | `'outline'`                                            | `outline` / `surface` / `filled`.     |
 | `density`                            | `SolarisOtpInputDensity`    | —                                                      | `compact` / `normal` / `comfortable`. |
-| `radius`                             | `SolarisOtpInputRadius`     | `'md'`                                                 | `none` / `sm` / `md` / `lg`.          |
+| `radius`                             | `SolarisOtpInputRadius`     | `'sm'`                                                 | `none` / `sm` / `md` / `lg`.          |
 
 ### Outputs
 

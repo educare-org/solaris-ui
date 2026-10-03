@@ -1,6 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
-// SECURITY_EXCEPTION_FILE: nativeElement.indeterminate is the standard DOM property to set indeterminate on a native checkbox. No HTML attribute alternative exists.
-// SECURITY_EXCEPTION_FILE: nativeElement.childNodes is the standard DOM API to check for projected content in the host element. Same pattern used by Angular CDK content projection detection.
 import {
   Component,
   input,
@@ -220,6 +217,7 @@ export class SolarisCheckboxComponent
   focus(): void {
     const input = this.inputElementRef();
     if (input) {
+      // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
       input.nativeElement.focus();
     }
   }
@@ -227,6 +225,7 @@ export class SolarisCheckboxComponent
   private readonly syncIndeterminate = effect(() => {
     const el = this.inputElementRef();
     if (el) {
+      // SECURITY_EXCEPTION: indeterminate has no HTML attribute; the DOM property is the only API.
       el.nativeElement.indeterminate = this.indeterminate();
     }
   });
@@ -295,6 +294,7 @@ export class SolarisCheckboxComponent
         return;
       }
       this.contentChecked = true;
+      // SECURITY_EXCEPTION: detecting projected content requires reading host childNodes; same pattern as Angular CDK. Read-only.
       const nativeElement = this.elementRef.nativeElement;
       const hasContent = Array.from(nativeElement.childNodes).some(
         (node) => node.nodeType !== Node.COMMENT_NODE,

@@ -935,14 +935,14 @@ describe('SolarisMultiSelectComponent', () => {
       expect(formField.getAttribute('data-appearance')).toBe('outline');
     });
 
-    it('should have default radius md', () => {
+    it('should have default radius sm', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       const formField = fixture.nativeElement.querySelector(
         'solaris-multi-select solaris-form-field',
       );
-      expect(formField.getAttribute('data-radius')).toBe('md');
+      expect(formField.getAttribute('data-radius')).toBe('sm');
     });
 
     it('should have default density normal', () => {

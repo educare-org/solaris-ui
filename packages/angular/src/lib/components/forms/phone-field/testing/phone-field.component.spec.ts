@@ -130,6 +130,11 @@ describe('SolarisPhoneFieldComponent', () => {
       expect(input.getAttribute('placeholder')).toBeTruthy();
     });
 
+    it('has default radius sm', async () => {
+      const { component } = await setup(BasicHost);
+      expect(component.radius()).toBe('sm');
+    });
+
     it('respects an explicit placeholder', async () => {
       await TestBed.configureTestingModule({
         imports: [SolarisPhoneFieldComponent],

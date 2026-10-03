@@ -34,7 +34,7 @@ export const EN_US_INPUT: Record<string, string> = {
   'input.density.normal': 'Normal',
   'input.density.comfortable': 'Comfortable',
   'input.radius.note':
-    'Radius is owned by Form Field when projected; the standalone input exposes the same none, sm, md, and lg values.',
+    'Radius is owned by Form Field when projected; the standalone input exposes the same none, sm, md, and lg values. Fields scale: md maps to 8px and lg renders as a pill.',
   'input.radius.none': 'None',
   'input.radius.sm': 'Small',
   'input.radius.md': 'Medium',

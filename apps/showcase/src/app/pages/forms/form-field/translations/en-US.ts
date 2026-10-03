@@ -16,6 +16,7 @@ export const EN_US_FORM_FIELD: Record<string, string> = {
   'form-field.section.radius': 'Radius',
   'form-field.section.states': 'States',
   'form-field.section.counter': 'Character counter',
+  'form-field.section.loading': 'Loading',
   'form-field.section.installation': 'Installation',
   'form-field.section.props': 'Props',
   'form-field.examples.note':
@@ -52,7 +53,7 @@ export const EN_US_FORM_FIELD: Record<string, string> = {
   'form-field.density.comfortable': 'Comfortable',
   'form-field.label.name': 'Name',
   'form-field.radius.note':
-    'The control wrapper supports none, sm (default is md), md, and lg radius values.',
+    'The control wrapper supports none, sm (default), md, and lg radius values. Fields scale: md maps to 8px and lg renders as a pill.',
   'form-field.radius.none': 'None',
   'form-field.radius.sm': 'Small',
   'form-field.radius.md': 'Medium',
@@ -62,8 +63,14 @@ export const EN_US_FORM_FIELD: Record<string, string> = {
   'form-field.states.readonly': 'Readonly Field',
   'form-field.states.readonly-value': 'Read only value',
   'form-field.counter.note':
-    'Automatically shown when maxlength is set on the native input.',
+    'Automatically shown when maxlength is set on the native input, or when a Validators.maxLength error is active on the control.',
   'form-field.counter.label': 'Limited to 20 characters',
+  'form-field.loading.note':
+    'Renders a spinner in the suffix slot while async work runs. Loading suppresses any other suffix content and sets aria-busy on the field.',
+  'form-field.loading.label': 'Postal code',
+  'form-field.loading.toggle': 'Toggle loading',
+  'form-field.action.label': 'Email',
+  'form-field.action.cta': 'Register',
   'form-field.installation.note':
     'Install the Solaris UI package and import the form field with an input directive.',
   'form-field.props.note': 'Props table coming soon with the table component.',

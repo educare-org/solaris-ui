@@ -158,11 +158,11 @@ textarea[solaris-textarea][data-radius='sm'] {
 }
 
 textarea[solaris-textarea][data-radius='md'] {
-  --solaris-textarea-radius: var(--solaris-radius-md);
+  --solaris-textarea-radius: var(--solaris-radius-lg);
 }
 
 textarea[solaris-textarea][data-radius='lg'] {
-  --solaris-textarea-radius: var(--solaris-radius-lg);
+  --solaris-textarea-radius: var(--solaris-radius-full);
 }
 
 textarea[solaris-textarea][data-resize='none'] {
@@ -209,9 +209,8 @@ solaris-form-field textarea[solaris-textarea] {
   border: none;
   height: auto;
   min-height: 0;
-  padding-left: 0;
+  padding-inline: 0;
   border-radius: 0;
-  padding-right: 0;
   box-shadow: none;
   background: transparent;
 }

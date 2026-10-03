@@ -1,6 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to move focus between OTP boxes on typing/navigation.
-// Standard DOM method used by Angular CDK. ElementRef SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement.value read in onBoxInput to obtain the raw box value.
 import {
   Component,
   input,
@@ -69,6 +66,7 @@ const MASK_CHAR = '•';
     '[attr.data-size]': 'size()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-appearance]': 'appearance()',
+    '[attr.data-radius]': 'radius()',
     '[attr.data-length]': 'maxLength()',
     '[attr.data-masked]': 'masked() ? "" : null',
     '[attr.data-char-type]': 'charType()',
@@ -113,7 +111,7 @@ export class SolarisOtpInputComponent
   readonly appearance = input<SolarisOtpInputAppearance>('outline');
   readonly density = input<SolarisOtpInputDensity>();
   readonly size = input<SolarisOtpInputSize>('md');
-  readonly radius = input<SolarisOtpInputRadius>('md');
+  readonly radius = input<SolarisOtpInputRadius>('sm');
 
   readonly valueChange = output<string>();
   readonly completed = output<void>();
@@ -463,6 +461,7 @@ export class SolarisOtpInputComponent
       return;
     }
     const ref = this.boxRefs()[index];
+    // SECURITY_EXCEPTION: moving focus between OTP boxes requires imperative focus; no declarative alternative exists.
     ref?.nativeElement.focus();
   }
 

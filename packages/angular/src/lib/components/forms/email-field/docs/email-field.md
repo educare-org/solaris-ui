@@ -68,7 +68,7 @@ The preset exists for the common case where you want email validation, proper au
 | `disabled`              | `boolean`                                | `false`     | Disables the field                                 |
 | `appearance`            | `'outline' \| 'surface' \| 'filled'`     | `'outline'` | Visual appearance                                  |
 | `density`               | `'compact' \| 'normal' \| 'comfortable'` | —           | Inherited from theme; fallback `normal`            |
-| `radius`                | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'md'`      | Border radius                                      |
+| `radius`                | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'sm'`      | Border radius                                      |
 | `autocomplete`          | `string`                                 | `'email'`   | Autocomplete attribute                             |
 | `name`                  | `string`                                 | —           | Native name attribute                              |
 | `id`                    | `string`                                 | —           | Native id attribute                                |

@@ -1,5 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
-// SECURITY_EXCEPTION_FILE: nativeElement.childNodes is the standard DOM API to check for projected content in the host element. Same pattern used by Angular CDK content projection detection.
 import {
   Component,
   input,
@@ -249,6 +247,7 @@ export class SolarisRadioComponent
   focus(): void {
     const input = this.inputElementRef();
     if (input) {
+      // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
       input.nativeElement.focus();
     }
   }
@@ -310,6 +309,7 @@ export class SolarisRadioComponent
         return;
       }
       this.contentChecked = true;
+      // SECURITY_EXCEPTION: detecting projected content requires reading host childNodes; same pattern as Angular CDK. Read-only.
       const nativeElement = this.elementRef.nativeElement;
       const hasContent = Array.from(nativeElement.childNodes).some(
         (node) => node.nodeType !== Node.COMMENT_NODE,

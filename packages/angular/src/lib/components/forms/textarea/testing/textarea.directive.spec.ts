@@ -56,12 +56,12 @@ describe('SolarisTextareaDirective', () => {
       expect(el.getAttribute('data-size')).toBe('md');
     });
 
-    it('should have default radius md', () => {
+    it('should have default radius sm', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-textarea]');
-      expect(el.getAttribute('data-radius')).toBe('md');
+      expect(el.getAttribute('data-radius')).toBe('sm');
     });
 
     it('should have default density normal', () => {
@@ -649,6 +649,15 @@ describe('SolarisTextareaDirective', () => {
     })
     class TestHost {}
 
+    @Component({
+      standalone: true,
+      imports: [SolarisTextareaDirective],
+      host: { 'data-testid': 'textarea-standalone-host' },
+      template: '<textarea solaris-textarea></textarea>',
+      providers: [provideSolarisTesting()],
+    })
+    class StandaloneHost {}
+
     it('should accept size on form-field (P0 foundation)', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
@@ -670,9 +679,19 @@ describe('SolarisTextareaDirective', () => {
       expect(control).toBeTruthy();
     });
 
-    it('should keep textarea standalone-capable with its own defaults', () => {
+    it('should inherit size and density from the form field', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-textarea]');
+      expect(el.getAttribute('data-size')).toBe('lg');
+      expect(el.getAttribute('data-density')).toBe('comfortable');
+      expect(el.getAttribute('data-resize')).toBe('vertical');
+    });
+
+    it('should keep textarea standalone-capable with its own defaults', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(StandaloneHost);
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-textarea]');
       expect(el.getAttribute('data-size')).toBe('md');

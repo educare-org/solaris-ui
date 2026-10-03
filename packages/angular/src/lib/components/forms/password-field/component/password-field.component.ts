@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to restore focus after toggle. No SSR-safe alternative exists for imperative focus. Same approach used by Angular CDK.
 import {
   Component,
   input,
@@ -107,7 +106,7 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
   readonly appearance = input<SolarisPasswordFieldAppearance>('outline');
   readonly density = input<SolarisPasswordFieldDensity>();
   readonly size = input<SolarisPasswordFieldSize>('md');
-  readonly radius = input<SolarisPasswordFieldRadius>('md');
+  readonly radius = input<SolarisPasswordFieldRadius>('sm');
   readonly fullWidth = input<boolean>(true);
   readonly prefix = input<SolarisIconName>();
   readonly suffix = input<SolarisIconName>();
@@ -442,6 +441,7 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
 
     if (this.inputElementRef()) {
       try {
+        // SECURITY_EXCEPTION: restoring focus after the visibility toggle requires imperative focus; no declarative alternative exists.
         this.inputElementRef()?.nativeElement.focus();
       } catch {
         if (isDevMode()) {

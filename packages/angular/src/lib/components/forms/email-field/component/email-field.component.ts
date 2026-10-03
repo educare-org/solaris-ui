@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.value assignment is required to sync the input element with the normalized value after blur. Angular's data binding may not reflect synchronous value changes to the native input. Same approach is standard for CVA blur normalization.
 import {
   Component,
   input,
@@ -109,7 +108,7 @@ export class SolarisEmailFieldComponent implements ControlValueAccessor {
   readonly blockedDomains = input<string[] | undefined>();
   readonly density = input<SolarisEmailFieldDensity>();
   readonly size = input<SolarisEmailFieldSize>('md');
-  readonly radius = input<SolarisEmailFieldRadius>('md');
+  readonly radius = input<SolarisEmailFieldRadius>('sm');
   readonly appearance = input<SolarisEmailFieldAppearance>('outline');
   readonly maxLength = input<number | undefined>();
   readonly validateDomain = input<boolean, boolean>(false, {
@@ -261,6 +260,7 @@ export class SolarisEmailFieldComponent implements ControlValueAccessor {
 
       if (this.inputElementRef()) {
         try {
+          // SECURITY_EXCEPTION: syncing the native value after blur normalization requires a direct write; data binding may not reflect it synchronously.
           this.inputElementRef()!.nativeElement.value = currentValue;
         } catch {
           if (isDevMode()) {

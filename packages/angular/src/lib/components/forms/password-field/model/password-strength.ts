@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: Dynamic RegExp is used here with the user's own password value
 import type { SolarisPasswordStrength } from './password-field.types';
 import {
   ALPHABET,

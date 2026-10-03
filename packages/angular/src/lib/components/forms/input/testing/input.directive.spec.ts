@@ -47,12 +47,12 @@ describe('SolarisInputDirective', () => {
       expect(el.getAttribute('data-size')).toBe('md');
     });
 
-    it('should have default radius md', () => {
+    it('should have default radius sm', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-input]');
-      expect(el.getAttribute('data-radius')).toBe('md');
+      expect(el.getAttribute('data-radius')).toBe('sm');
     });
 
     it('should have default density normal', () => {
@@ -607,6 +607,15 @@ describe('SolarisInputDirective', () => {
     })
     class TestHost {}
 
+    @Component({
+      standalone: true,
+      imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-standalone-host' },
+      template: '<input solaris-input />',
+      providers: [provideSolarisTesting()],
+    })
+    class StandaloneHost {}
+
     it('should accept size on form-field (P0 foundation)', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
@@ -626,9 +635,38 @@ describe('SolarisInputDirective', () => {
       expect(control).toBeTruthy();
     });
 
-    it('should keep input standalone-capable with its own defaults', () => {
+    it('should inherit size and density from the form field', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-input]');
+      expect(el.getAttribute('data-size')).toBe('sm');
+      expect(el.getAttribute('data-density')).toBe('compact');
+    });
+
+    it('should prefer explicit input size and density over the field', () => {
+      TestBed.configureTestingModule({});
+      @Component({
+        standalone: true,
+        imports: [SolarisInputDirective, SolarisFormFieldComponent],
+        template: `
+          <solaris-form-field label="Name" size="sm" density="compact">
+            <input solaris-input size="lg" density="comfortable" />
+          </solaris-form-field>
+        `,
+        providers: [provideSolarisTesting()],
+      })
+      class ExplicitHost {}
+      const fixture = TestBed.createComponent(ExplicitHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-input]');
+      expect(el.getAttribute('data-size')).toBe('lg');
+      expect(el.getAttribute('data-density')).toBe('comfortable');
+    });
+
+    it('should keep input standalone-capable with its own defaults', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(StandaloneHost);
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-input]');
       expect(el.getAttribute('data-size')).toBe('md');

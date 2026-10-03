@@ -4,12 +4,14 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import {
   SolarisCodeBlockComponent,
+  SolarisButtonDirective,
   SolarisFormErrorComponent,
   SolarisFormFieldComponent,
   SolarisFormHintComponent,
   SolarisFormLabelComponent,
   SolarisFormPrefixDirective,
   SolarisFormSuffixDirective,
+  SolarisFormSuffixActionDirective,
   SolarisIconComponent,
   SolarisInputDirective,
   SolarisPreviewCodeComponent,
@@ -30,6 +32,7 @@ import { ShowcaseDocsSection } from '../../../../shell/docs-section/docs-section
 import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
 import {
   FORM_FIELD_SHOWCASE_AFFIX_CODE,
+  FORM_FIELD_SHOWCASE_AFFIX_ICONS_CODE,
   FORM_FIELD_SHOWCASE_APPEARANCE_FILLED_CODE,
   FORM_FIELD_SHOWCASE_APPEARANCE_OUTLINE_CODE,
   FORM_FIELD_SHOWCASE_APPEARANCE_SURFACE_CODE,
@@ -45,6 +48,7 @@ import {
   FORM_FIELD_SHOWCASE_INSTALL_COMMANDS,
   FORM_FIELD_SHOWCASE_LABEL_INPUT_CODE,
   FORM_FIELD_SHOWCASE_LABEL_PROJECTED_CODE,
+  FORM_FIELD_SHOWCASE_LOADING_CODE,
   FORM_FIELD_SHOWCASE_MANUAL_INVALID_CODE,
   FORM_FIELD_SHOWCASE_NEXT,
   FORM_FIELD_SHOWCASE_OPTIONAL_CODE,
@@ -55,8 +59,10 @@ import {
   FORM_FIELD_SHOWCASE_RADIUS_MD_CODE,
   FORM_FIELD_SHOWCASE_RADIUS_NONE_CODE,
   FORM_FIELD_SHOWCASE_RADIUS_SM_CODE,
+  FORM_FIELD_SHOWCASE_REQUIRED_CODE,
   FORM_FIELD_SHOWCASE_SLUG,
   FORM_FIELD_SHOWCASE_STATES_CODE,
+  FORM_FIELD_SHOWCASE_SUFFIX_ACTION_CODE,
   FORM_FIELD_SHOWCASE_TOC_ITEMS,
   FORM_FIELD_TRANSLATION_PREFIX,
 } from '../model/form-field-showcase.data';
@@ -67,6 +73,7 @@ import { BasicFormFieldExample } from '../examples/basic/component/basic.compone
   standalone: true,
   imports: [
     ReactiveFormsModule,
+    SolarisButtonDirective,
     SolarisCodeBlockComponent,
     SolarisFormErrorComponent,
     SolarisFormFieldComponent,
@@ -74,6 +81,7 @@ import { BasicFormFieldExample } from '../examples/basic/component/basic.compone
     SolarisFormLabelComponent,
     SolarisFormPrefixDirective,
     SolarisFormSuffixDirective,
+    SolarisFormSuffixActionDirective,
     SolarisIconComponent,
     SolarisInputDirective,
     SolarisPreviewCodeComponent,
@@ -115,9 +123,12 @@ export class FormFieldShowcasePage {
   protected readonly manualInvalidCode =
     FORM_FIELD_SHOWCASE_MANUAL_INVALID_CODE;
   protected readonly optionalCode = FORM_FIELD_SHOWCASE_OPTIONAL_CODE;
+  protected readonly requiredCode = FORM_FIELD_SHOWCASE_REQUIRED_CODE;
   protected readonly affixCode = FORM_FIELD_SHOWCASE_AFFIX_CODE;
+  protected readonly affixIconsCode = FORM_FIELD_SHOWCASE_AFFIX_ICONS_CODE;
   protected readonly prefixIconCode = FORM_FIELD_SHOWCASE_PREFIX_ICON_CODE;
   protected readonly prefixInputCode = FORM_FIELD_SHOWCASE_PREFIX_INPUT_CODE;
+  protected readonly suffixActionCode = FORM_FIELD_SHOWCASE_SUFFIX_ACTION_CODE;
   protected readonly appearanceOutlineCode =
     FORM_FIELD_SHOWCASE_APPEARANCE_OUTLINE_CODE;
   protected readonly appearanceSurfaceCode =
@@ -130,6 +141,15 @@ export class FormFieldShowcasePage {
   protected readonly radiusLgCode = FORM_FIELD_SHOWCASE_RADIUS_LG_CODE;
   protected readonly statesCode = FORM_FIELD_SHOWCASE_STATES_CODE;
   protected readonly counterCode = FORM_FIELD_SHOWCASE_COUNTER_CODE;
+  protected readonly loadingDemo = signal(true);
+
+  protected readonly loadingCode = computed(() =>
+    [
+      `<solaris-form-field label="Postal code" [loading]="${this.loadingDemo()}">`,
+      '  <input solaris-input />',
+      '</solaris-form-field>',
+    ].join('\n'),
+  );
 
   private readonly pageActions = createShowcasePageActions(
     this.translateService,

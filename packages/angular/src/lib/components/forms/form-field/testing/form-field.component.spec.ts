@@ -1,5 +1,5 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, type Type } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -16,6 +16,7 @@ import { SolarisFormHintComponent } from '../component/form-hint.component';
 import { SolarisFormErrorComponent } from '../component/form-error.component';
 import { SolarisFormPrefixDirective } from '../directives/form-prefix.directive';
 import { SolarisFormSuffixDirective } from '../directives/form-suffix.directive';
+import { SolarisFormSuffixActionDirective } from '../directives/form-suffix-action.directive';
 import { SolarisFormLabelActionDirective } from '../directives/form-label-action.directive';
 
 describe('SolarisFormFieldComponent', () => {
@@ -40,9 +41,9 @@ describe('SolarisFormFieldComponent', () => {
     expect(el.getAttribute('data-appearance')).toBe('outline');
   });
 
-  it('should have default radius md', () => {
+  it('should have default radius sm', () => {
     const el = createFixture();
-    expect(el.getAttribute('data-radius')).toBe('md');
+    expect(el.getAttribute('data-radius')).toBe('sm');
   });
 
   it('should have default density normal', () => {
@@ -989,4 +990,308 @@ describe('SolarisFormFieldComponent size-density matrix', () => {
       });
     }
   }
+});
+
+describe('SolarisFormFieldComponent loading', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisFormFieldComponent],
+    template:
+      '<solaris-form-field label="Postal code" [loading]="true"><input /></solaris-form-field>',
+    providers: [provideSolarisTesting()],
+  })
+  class LoadingHostComponent {}
+
+  @Component({
+    standalone: true,
+    imports: [SolarisFormFieldComponent],
+    template:
+      '<solaris-form-field label="Value" [loading]="true"><input /><span solaris-form-suffix>USD</span></solaris-form-field>',
+    providers: [provideSolarisTesting()],
+  })
+  class LoadingSuppressesSuffixHostComponent {}
+
+  function createLoadingHost(host: Type<LoadingHostComponent>) {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(host);
+    fixture.detectChanges();
+    return fixture.nativeElement;
+  }
+
+  it('should expose data-loading and aria-busy while loading', () => {
+    const el = createLoadingHost(LoadingHostComponent);
+    const field = el.querySelector('solaris-form-field');
+    expect(field.getAttribute('data-loading')).toBe('');
+    expect(field.getAttribute('aria-busy')).toBe('true');
+  });
+
+  it('should render a spinner in the loading overlay while loading', () => {
+    const el = createLoadingHost(LoadingHostComponent);
+    const spinner = el.querySelector(
+      '.solaris-form-field__loading solaris-spinner',
+    );
+    expect(spinner).toBeTruthy();
+  });
+
+  it('should not reserve suffix layout while loading without projected suffix', () => {
+    const el = createLoadingHost(LoadingHostComponent);
+    const field = el.querySelector('solaris-form-field');
+    expect(field.hasAttribute('data-has-suffix')).toBe(false);
+    const cell = el.querySelector('.solaris-form-field__affix--suffix');
+    expect(cell.hasAttribute('data-empty')).toBe(true);
+  });
+
+  it('should suppress the projected suffix while loading', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(
+      LoadingSuppressesSuffixHostComponent,
+    );
+    fixture.detectChanges();
+    const el = fixture.nativeElement;
+    expect(
+      el.querySelector('.solaris-form-field__loading solaris-spinner'),
+    ).toBeTruthy();
+    const cell = el.querySelector('.solaris-form-field__affix--suffix');
+    expect(cell.hasAttribute('data-empty')).toBe(true);
+  });
+
+  it('should size the loading spinner sm for sm and md fields', () => {
+    for (const size of ['sm', 'md'] as const) {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [provideSolarisTesting()],
+      });
+      const fixture = TestBed.createComponent(SolarisFormFieldComponent);
+      fixture.componentRef.setInput('size', size);
+      fixture.componentRef.setInput('loading', true);
+      fixture.detectChanges();
+      const spinner = fixture.nativeElement.querySelector('solaris-spinner');
+      expect(spinner.getAttribute('data-size')).toBe('sm');
+    }
+  });
+
+  it('should size the loading spinner md for lg fields', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisTesting()],
+    });
+    const fixture = TestBed.createComponent(SolarisFormFieldComponent);
+    fixture.componentRef.setInput('size', 'lg');
+    fixture.componentRef.setInput('loading', true);
+    fixture.detectChanges();
+    const spinner = fixture.nativeElement.querySelector('solaris-spinner');
+    expect(spinner.getAttribute('data-size')).toBe('md');
+  });
+
+  it('should not have data-loading or spinner when not loading', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisTesting()],
+    });
+    const fixture = TestBed.createComponent(SolarisFormFieldComponent);
+    fixture.detectChanges();
+    const el = fixture.nativeElement;
+    expect(el.getAttribute('data-loading')).toBeNull();
+    expect(el.getAttribute('aria-busy')).toBeNull();
+    expect(el.querySelector('solaris-spinner')).toBeFalsy();
+  });
+});
+
+describe('SolarisFormFieldComponent required marker', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisFormFieldComponent],
+    template:
+      '<solaris-form-field label="Name" [required]="true"><input /></solaris-form-field>',
+    providers: [provideSolarisTesting()],
+  })
+  class RequiredHostComponent {}
+
+  @Component({
+    standalone: true,
+    imports: [SolarisFormFieldComponent],
+    template:
+      '<solaris-form-field label="Name" [required]="true" [optional]="true"><input /></solaris-form-field>',
+    providers: [provideSolarisTesting()],
+  })
+  class RequiredOptionalHostComponent {}
+
+  @Component({
+    standalone: true,
+    imports: [SolarisFormFieldComponent],
+    template:
+      '<solaris-form-field label="Name"><input required /></solaris-form-field>',
+    providers: [provideSolarisTesting()],
+  })
+  class NativeRequiredHostComponent {}
+
+  function createHost(
+    host: Type<RequiredHostComponent | RequiredOptionalHostComponent>,
+  ) {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(host);
+    fixture.detectChanges();
+    return fixture.nativeElement;
+  }
+
+  it('should render the required marker when required is true', () => {
+    const el = createHost(RequiredHostComponent);
+    const marker = el.querySelector('.solaris-form-field__required');
+    expect(marker).toBeTruthy();
+    expect(marker.textContent).toBe('*');
+    expect(marker.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('should propagate required to the native control', () => {
+    const el = createHost(RequiredHostComponent);
+    const input = el.querySelector('input');
+    expect(input.required).toBe(true);
+  });
+
+  it('should prefer the optional marker over the required marker', () => {
+    const el = createHost(RequiredOptionalHostComponent);
+    expect(el.querySelector('.solaris-form-field__required')).toBeFalsy();
+    expect(
+      el.querySelector('.solaris-form-field__optional-marker'),
+    ).toBeTruthy();
+  });
+
+  it('should detect the native required attribute', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(NativeRequiredHostComponent);
+    fixture.detectChanges();
+    const el = fixture.nativeElement;
+    expect(el.querySelector('.solaris-form-field__required')).toBeTruthy();
+  });
+
+  it('should not render the marker by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisTesting()],
+    });
+    const fixture = TestBed.createComponent(SolarisFormFieldComponent);
+    fixture.componentRef.setInput('label', 'Name');
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement.querySelector('.solaris-form-field__required'),
+    ).toBeFalsy();
+  });
+});
+
+describe('SolarisFormFieldComponent validator maxlength counter', () => {
+  @Component({
+    standalone: true,
+    imports: [ReactiveFormsModule, SolarisFormFieldComponent],
+    template: `
+      <solaris-form-field label="Bio">
+        <input [formControl]="control" />
+      </solaris-form-field>
+    `,
+    providers: [provideSolarisTesting()],
+  })
+  class ValidatorMaxLengthHost {
+    control = new FormControl('0123456789X', [Validators.maxLength(10)]);
+  }
+
+  @Component({
+    standalone: true,
+    imports: [ReactiveFormsModule, SolarisFormFieldComponent],
+    template: `
+      <solaris-form-field label="Bio">
+        <input [formControl]="control" />
+      </solaris-form-field>
+    `,
+    providers: [provideSolarisTesting()],
+  })
+  class ValidatorWithinLimitHost {
+    control = new FormControl('abc', [Validators.maxLength(10)]);
+  }
+
+  function createValidatorHost<T>(host: Type<T>) {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(host);
+    fixture.detectChanges();
+    return fixture;
+  }
+
+  it('should show the counter from Validators.maxLength once exceeded', () => {
+    const fixture = createValidatorHost(ValidatorMaxLengthHost);
+    const counter = fixture.nativeElement.querySelector(
+      '.solaris-form-field__character-counter',
+    );
+    expect(counter).toBeTruthy();
+    expect(counter.textContent?.trim()).toBe('11/10');
+    expect(counter.getAttribute('data-severity')).toBe('danger');
+  });
+
+  it('should hide the counter while within the validator limit', () => {
+    const fixture = createValidatorHost(ValidatorWithinLimitHost);
+    expect(
+      fixture.nativeElement.querySelector(
+        '.solaris-form-field__character-counter',
+      ),
+    ).toBeFalsy();
+  });
+});
+
+describe('SolarisFormFieldComponent suffix action', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisFormFieldComponent, SolarisFormSuffixActionDirective],
+    template: `
+      <solaris-form-field label="Email">
+        <input />
+        <button solaris-form-suffix-action type="button">Register</button>
+      </solaris-form-field>
+    `,
+    providers: [provideSolarisTesting()],
+  })
+  class SuffixActionHostComponent {}
+
+  @Component({
+    standalone: true,
+    imports: [SolarisFormFieldComponent, SolarisFormSuffixDirective],
+    template: `
+      <solaris-form-field label="Value">
+        <input />
+        <span solaris-form-suffix>USD</span>
+      </solaris-form-field>
+    `,
+    providers: [provideSolarisTesting()],
+  })
+  class PlainSuffixHostComponent {}
+
+  let fixture: ComponentFixture<SuffixActionHostComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SuffixActionHostComponent);
+    fixture.detectChanges();
+  });
+
+  it('should apply data-has-suffix for action content', () => {
+    const host = fixture.nativeElement.querySelector('solaris-form-field');
+    expect(host.hasAttribute('data-has-suffix')).toBe(true);
+  });
+
+  it('should mark the suffix cell with the action variant', () => {
+    const cell = fixture.nativeElement.querySelector(
+      '.solaris-form-field__affix--suffix',
+    );
+    expect(cell.getAttribute('data-variant')).toBe('action');
+  });
+
+  it('should render the action content inside the suffix cell', () => {
+    const action = fixture.nativeElement.querySelector(
+      '.solaris-form-field__affix--suffix [solaris-form-suffix-action]',
+    );
+    expect(action).toBeTruthy();
+    expect(action.textContent?.trim()).toBe('Register');
+  });
+
+  it('should not use the action variant for plain suffix content', () => {
+    const plainFixture = TestBed.createComponent(PlainSuffixHostComponent);
+    plainFixture.detectChanges();
+    const cell = plainFixture.nativeElement.querySelector(
+      '.solaris-form-field__affix--suffix',
+    );
+    expect(cell.getAttribute('data-variant')).toBeNull();
+  });
 });

@@ -1,7 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.value assignment is required to keep the native input in
-// sync with the as-you-type formatted value. Angular's data binding may not reflect synchronous
-// value changes to the native input. Same approach is standard for CVA blur/format normalization.
-// SECURITY_EXCEPTION_FILE: nativeElement.value read in onInput to obtain the current raw value.
 import {
   Component,
   input,
@@ -130,7 +126,7 @@ export class SolarisPhoneFieldComponent
   readonly invalid = input<boolean | undefined>();
   readonly density = input<SolarisPhoneFieldDensity>();
   readonly size = input<SolarisPhoneFieldSize>('md');
-  readonly radius = input<SolarisPhoneFieldRadius>('md');
+  readonly radius = input<SolarisPhoneFieldRadius>('sm');
   readonly appearance = input<SolarisPhoneFieldAppearance>('outline');
   readonly maxLength = input<number | undefined>();
   readonly suffix = input<SolarisIconName>();

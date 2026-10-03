@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
 import {
   ChangeDetectionStrategy,
   Component,
@@ -247,6 +246,7 @@ export class SolarisSelectionCardComponent
   }
 
   focus(): void {
+    // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
     this.inputElementRef()?.nativeElement.focus();
   }
 
@@ -255,6 +255,7 @@ export class SolarisSelectionCardComponent
   });
 
   private readonly syncNativeChecked = effect(() => {
+    // SECURITY_EXCEPTION: syncing the native checked property requires the native element; data binding targets the directive host, not the input.
     const input = this.inputElementRef()?.nativeElement;
     if (input) {
       input.checked = this._checked();

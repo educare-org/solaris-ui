@@ -207,11 +207,11 @@ input[solaris-input][data-radius='sm'] {
 }
 
 input[solaris-input][data-radius='md'] {
-  --solaris-input-radius: var(--solaris-radius-md);
+  --solaris-input-radius: var(--solaris-radius-lg);
 }
 
 input[solaris-input][data-radius='lg'] {
-  --solaris-input-radius: var(--solaris-radius-lg);
+  --solaris-input-radius: var(--solaris-radius-full);
 }
 
 input[solaris-input][data-full-width] {
@@ -241,9 +241,8 @@ solaris-form-field input[solaris-input] {
   // SOLARIS_TOKEN_EXCEPTION: Resetting box-shadow inside form-field context is intentional to inherit from parent.
   border: none;
   height: auto;
-  padding-left: 0;
+  padding: 0;
   border-radius: 0;
-  padding-right: 0;
   box-shadow: none;
   background: transparent;
 }
@@ -272,19 +271,10 @@ solaris-form-field input[solaris-input][readonly] {
   background: transparent;
 }
 
-solaris-form-field input[solaris-input][data-density='compact'] {
-  padding-top: var(--solaris-density-padding-xs);
-  padding-bottom: var(--solaris-density-padding-xs);
-}
-
-solaris-form-field input[solaris-input][data-density='normal'] {
-  padding-top: var(--solaris-density-padding-xs);
-  padding-bottom: var(--solaris-density-padding-xs);
-}
-
-solaris-form-field input[solaris-input][data-density='comfortable'] {
-  padding-top: var(--solaris-density-padding-sm);
-  padding-bottom: var(--solaris-density-padding-sm);
+solaris-form-field[data-loading] input[solaris-input] {
+  padding-inline-end: calc(
+    var(--solaris-form-field-affix-size) + var(--solaris-form-field-control-gap)
+  );
 }
 
 solaris-form-field input[solaris-input]::-webkit-search-decoration,

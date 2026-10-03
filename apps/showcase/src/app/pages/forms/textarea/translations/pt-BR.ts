@@ -37,7 +37,7 @@ export const PT_BR_TEXTAREA: SolarisTranslationMap = {
   'textarea.density.normal': 'Normal',
   'textarea.density.comfortable': 'Confortável',
   'textarea.radius.note':
-    'O raio pertence ao Form Field quando projetado; o textarea standalone expõe os mesmos valores none, sm, md e lg.',
+    'O raio pertence ao Form Field quando projetado; o textarea standalone expõe os mesmos valores none, sm, md e lg. Escala dos fields: md equivale a 8px e lg vira pill.',
   'textarea.radius.none': 'Nenhum',
   'textarea.radius.sm': 'Pequeno',
   'textarea.radius.md': 'Médio',

@@ -1,11 +1,3 @@
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular directive API to read host element properties and attributes. Same approach used by Angular CDK and all Solaris directives.
-// SECURITY_EXCEPTION_FILE: nativeElement access required for host element property reads (tagName, disabled, readonly, required, focus, getAttribute). Same pattern used by Angular CDK form controls.
-// SECURITY_EXCEPTION_FILE: nativeElement.disabled is the standard DOM property to read input disabled state. Same approach used by Angular Forms.
-// SECURITY_EXCEPTION_FILE: nativeElement.readOnly is the standard DOM property to read input readonly state.
-// SECURITY_EXCEPTION_FILE: nativeElement.required is the standard DOM property to read input required state.
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to programmatically focus an input. No alternative exists.
-// SECURITY_EXCEPTION_FILE: nativeElement.tagName is the standard Angular API to validate directive host element. Same pattern used by SolarisButtonDirective.
-// SECURITY_EXCEPTION_FILE: nativeElement.getAttribute is the standard DOM API to read HTML attributes. Same pattern used by SolarisButtonDirective.
 import {
   Directive,
   input,
@@ -19,6 +11,7 @@ import {
 import { NgControl } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
+import { SOLARIS_FORM_FIELD } from '../../form-field/model/form-field.token';
 import { resolveElementId } from '../../../../core';
 import { SolarisThemeService } from '../../../../services/theme';
 
@@ -39,7 +32,7 @@ import { SUPPORTED_TYPES, UNSUPPORTED_TYPES } from '../model/input.defaults';
   ],
   host: {
     '[id]': 'elementId()',
-    '[attr.data-size]': 'size()',
+    '[attr.data-size]': 'effectiveSize()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-density]': 'effectiveDensity()',
@@ -52,8 +45,8 @@ import { SUPPORTED_TYPES, UNSUPPORTED_TYPES } from '../model/input.defaults';
 })
 export class SolarisInputDirective extends SolarisFormControl {
   readonly appearance = input<SolarisInputAppearance>('outline');
-  readonly radius = input<SolarisInputRadius>('md');
-  readonly size = input<SolarisInputSize>('md');
+  readonly radius = input<SolarisInputRadius>('sm');
+  readonly size = input<SolarisInputSize>();
   readonly density = input<SolarisInputDensity>();
 
   readonly manualInvalid = input<boolean | undefined>(undefined, {
@@ -63,6 +56,7 @@ export class SolarisInputDirective extends SolarisFormControl {
 
   private readonly elementRef =
     inject<ElementRef<HTMLInputElement>>(ElementRef);
+  // SECURITY_EXCEPTION: reading host properties (disabled, readOnly, required, tagName) requires the native element; same pattern as Angular CDK form controls. Read-only.
   private readonly inputElement = this.elementRef.nativeElement;
   protected readonly ngControl = inject(NgControl, {
     optional: true,
@@ -77,9 +71,20 @@ export class SolarisInputDirective extends SolarisFormControl {
   });
 
   protected readonly themeService = inject(SolarisThemeService);
+  protected readonly formField = inject(SOLARIS_FORM_FIELD, {
+    optional: true,
+  });
+
+  protected readonly effectiveSize = computed<SolarisInputSize>(() => {
+    return this.size() ?? this.formField?.size() ?? 'md';
+  });
 
   protected readonly effectiveDensity = computed<SolarisInputDensity>(() => {
-    return this.density() ?? this.themeService.density;
+    return (
+      this.density() ??
+      this.formField?.effectiveDensity() ??
+      this.themeService.density
+    );
   });
 
   protected readonly isEffectivelyInvalid = computed(() => {

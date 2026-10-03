@@ -130,6 +130,14 @@
         </solaris-form-field>
       </div>
     </solaris-preview-code>
+    <solaris-preview-code [code]="requiredCode" language="html">
+      <solaris-form-field
+        [label]="'form-field.label.password' | translate"
+        [required]="true"
+      >
+        <input solaris-input type="password" />
+      </solaris-form-field>
+    </solaris-preview-code>
   </app-docs-section>
 
   <app-docs-section
@@ -152,12 +160,32 @@
           <input solaris-input />
         </solaris-form-field>
       </solaris-preview-code>
+      <solaris-preview-code [code]="affixIconsCode" language="html">
+        <solaris-form-field [label]="'form-field.label.search' | translate">
+          <solaris-icon solaris-form-prefix name="search" [decorative]="true" />
+          <input solaris-input />
+          <solaris-icon solaris-form-suffix name="info" [decorative]="true" />
+        </solaris-form-field>
+      </solaris-preview-code>
       <solaris-preview-code [code]="prefixInputCode" language="html">
         <solaris-form-field
           [label]="'form-field.label.email' | translate"
           prefix="mail"
         >
           <input solaris-input />
+        </solaris-form-field>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="suffixActionCode" language="html">
+        <solaris-form-field [label]="'form-field.action.label' | translate">
+          <input solaris-input />
+          <button
+            solaris-button
+            solaris-form-suffix-action
+            size="sm"
+            type="button"
+          >
+            {{ 'form-field.action.cta' | translate }}
+          </button>
         </solaris-form-field>
       </solaris-preview-code>
     </div>
@@ -286,6 +314,7 @@
           <solaris-form-field
             [label]="'form-field.radius.none' | translate"
             radius="none"
+            prefix="search"
           >
             <input solaris-input />
           </solaris-form-field>
@@ -296,6 +325,7 @@
           <solaris-form-field
             [label]="'form-field.radius.sm' | translate"
             radius="sm"
+            prefix="search"
           >
             <input solaris-input />
           </solaris-form-field>
@@ -306,6 +336,7 @@
           <solaris-form-field
             [label]="'form-field.radius.md' | translate"
             radius="md"
+            prefix="search"
           >
             <input solaris-input />
           </solaris-form-field>
@@ -316,6 +347,7 @@
           <solaris-form-field
             [label]="'form-field.radius.lg' | translate"
             radius="lg"
+            prefix="search"
           >
             <input solaris-input />
           </solaris-form-field>
@@ -356,6 +388,30 @@
     <solaris-preview-code [code]="counterCode" language="html">
       <solaris-form-field [label]="'form-field.counter.label' | translate">
         <input solaris-input maxlength="20" />
+      </solaris-form-field>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="loading" titleKey="form-field.section.loading">
+    <p class="form-field-showcase__note">
+      {{ 'form-field.loading.note' | translate }}
+    </p>
+    <div class="form-field-showcase__controls">
+      <button
+        solaris-button
+        size="sm"
+        type="button"
+        (click)="loadingDemo.set(!loadingDemo())"
+      >
+        {{ 'form-field.loading.toggle' | translate }}
+      </button>
+    </div>
+    <solaris-preview-code [code]="loadingCode()" language="html">
+      <solaris-form-field
+        [label]="'form-field.loading.label' | translate"
+        [loading]="loadingDemo()"
+      >
+        <input solaris-input />
       </solaris-form-field>
     </solaris-preview-code>
   </app-docs-section>

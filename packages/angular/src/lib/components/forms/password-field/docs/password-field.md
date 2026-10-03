@@ -59,7 +59,7 @@ Password Field does not replace Form Field + Input. It is an official convenienc
 | `invalid`            | `boolean \| undefined`                                | -           | Manual invalid state (overrides automatic detection) |
 | `appearance`         | `'outline' \| 'surface' \| 'filled'`                  | `'outline'` | Appearance                                           |
 | `density`            | `'compact' \| 'normal' \| 'comfortable' \| undefined` | -           | Density (inherited from theme)                       |
-| `radius`             | `'none' \| 'sm' \| 'md' \| 'lg'`                      | `'md'`      | Border radius                                        |
+| `radius`             | `'none' \| 'sm' \| 'md' \| 'lg'`                      | `'sm'`      | Border radius                                        |
 | `fullWidth`          | `boolean`                                             | `true`      | Full width                                           |
 | `showToggle`         | `boolean`                                             | `true`      | Show toggle button                                   |
 | `visible`            | `boolean`                                             | `false`     | Password visible                                     |
@@ -101,12 +101,12 @@ When not provided, Password Field inherits density from the theme system.
 
 ## Radius
 
-| Radius | Effect                         |
-| ------ | ------------------------------ |
-| `none` | No border radius               |
-| `sm`   | Small border radius            |
-| `md`   | Medium border radius (default) |
-| `lg`   | Large border radius            |
+| Radius | Effect                             |
+| ------ | ---------------------------------- |
+| `none` | No border radius                   |
+| `sm`   | Small border radius (2px, default) |
+| `md`   | Medium border radius (8px)         |
+| `lg`   | Pill shape                         |
 
 ## CSS Variables
 

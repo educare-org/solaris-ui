@@ -37,6 +37,7 @@ export const FORM_FIELD_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'radius', labelKey: 'form-field.section.radius' },
   { anchor: 'states', labelKey: 'form-field.section.states' },
   { anchor: 'counter', labelKey: 'form-field.section.counter' },
+  { anchor: 'loading', labelKey: 'form-field.section.loading' },
   { anchor: 'installation', labelKey: 'form-field.section.installation' },
   { anchor: 'props', labelKey: 'form-field.section.props' },
 ];
@@ -110,6 +111,12 @@ export const FORM_FIELD_SHOWCASE_OPTIONAL_CODE = [
   '</solaris-form-field>',
 ].join('\n');
 
+export const FORM_FIELD_SHOWCASE_REQUIRED_CODE = [
+  '<solaris-form-field label="Password" [required]="true">',
+  '  <input solaris-input type="password" />',
+  '</solaris-form-field>',
+].join('\n');
+
 export const FORM_FIELD_SHOWCASE_AFFIX_CODE = [
   '<solaris-form-field label="Price">',
   '  <span solaris-form-prefix>$</span>',
@@ -125,9 +132,24 @@ export const FORM_FIELD_SHOWCASE_PREFIX_ICON_CODE = [
   '</solaris-form-field>',
 ].join('\n');
 
+export const FORM_FIELD_SHOWCASE_AFFIX_ICONS_CODE = [
+  '<solaris-form-field label="Search">',
+  '  <solaris-icon solaris-form-prefix name="search" [decorative]="true" />',
+  '  <input solaris-input />',
+  '  <solaris-icon solaris-form-suffix name="info" [decorative]="true" />',
+  '</solaris-form-field>',
+].join('\n');
+
 export const FORM_FIELD_SHOWCASE_PREFIX_INPUT_CODE = [
   '<solaris-form-field label="Email" prefix="mail">',
   '  <input solaris-input />',
+  '</solaris-form-field>',
+].join('\n');
+
+export const FORM_FIELD_SHOWCASE_SUFFIX_ACTION_CODE = [
+  '<solaris-form-field label="Email">',
+  '  <input solaris-input />',
+  '  <button solaris-button solaris-form-suffix-action size="sm">Register</button>',
   '</solaris-form-field>',
 ].join('\n');
 
@@ -150,7 +172,7 @@ export const FORM_FIELD_SHOWCASE_APPEARANCE_FILLED_CODE =
 function formFieldRadiusCode(radius: string): string {
   const label = radius.charAt(0).toUpperCase() + radius.slice(1);
   return [
-    `<solaris-form-field label="${label}" radius="${radius}">`,
+    `<solaris-form-field label="${label}" radius="${radius}" prefix="search">`,
     '  <input solaris-input />',
     '</solaris-form-field>',
   ].join('\n');
@@ -173,6 +195,12 @@ export const FORM_FIELD_SHOWCASE_STATES_CODE = [
 export const FORM_FIELD_SHOWCASE_COUNTER_CODE = [
   '<solaris-form-field label="Limited to 20 characters">',
   '  <input solaris-input maxlength="20" />',
+  '</solaris-form-field>',
+].join('\n');
+
+export const FORM_FIELD_SHOWCASE_LOADING_CODE = [
+  '<solaris-form-field label="Postal code" [loading]="true">',
+  '  <input solaris-input />',
   '</solaris-form-field>',
 ].join('\n');
 

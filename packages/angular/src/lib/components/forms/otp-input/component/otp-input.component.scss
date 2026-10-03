@@ -25,6 +25,22 @@
   border-color: transparent;
 }
 
+:host([data-radius='none']) {
+  --solaris-otp-input-box-radius: var(--solaris-radius-none);
+}
+
+:host([data-radius='sm']) {
+  --solaris-otp-input-box-radius: var(--solaris-radius-sm);
+}
+
+:host([data-radius='md']) {
+  --solaris-otp-input-box-radius: var(--solaris-radius-lg);
+}
+
+:host([data-radius='lg']) {
+  --solaris-otp-input-box-radius: var(--solaris-radius-full);
+}
+
 .solaris-otp-input__boxes {
   display: flex;
   box-sizing: border-box;

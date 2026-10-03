@@ -16,6 +16,11 @@ describe('SolarisDateRangePickerComponent', () => {
     return fixture.nativeElement as HTMLElement;
   };
 
+  it('has default radius sm', () => {
+    createFixture();
+    expect(fixture.componentInstance.radius()).toBe('sm');
+  });
+
   it('uses a read-only trigger to display the applied date range', () => {
     const element = createFixture();
     fixture.componentInstance.writeValue({

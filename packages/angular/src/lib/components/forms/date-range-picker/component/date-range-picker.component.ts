@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API for the FormField focus contract.
 import {
   ChangeDetectionStrategy,
   Component,
@@ -107,7 +106,7 @@ export class SolarisDateRangePickerComponent
   readonly disabledDates = input<readonly SolarisDateValue[]>([]);
   readonly presets = input<readonly SolarisDatePreset[]>([]);
   readonly appearance = input<SolarisDatePickerAppearance>('outline');
-  readonly radius = input<SolarisDatePickerRadius>('md');
+  readonly radius = input<SolarisDatePickerRadius>('sm');
   readonly density = input<'compact' | 'normal' | 'comfortable'>();
   readonly requiredInput = input(false, { alias: 'required' });
   readonly disabledInput = input(false, { alias: 'disabled' });
@@ -219,6 +218,7 @@ export class SolarisDateRangePickerComponent
   });
 
   get id(): string {
+    // SECURITY_EXCEPTION: reading the host id for control association requires the native element. Read-only.
     return `${this.elementRef.nativeElement.id || 'solaris-date-range-picker'}-start`;
   }
   get focused(): boolean {
@@ -243,6 +243,7 @@ export class SolarisDateRangePickerComponent
     this.describedBy.set([...ids]);
   }
   focus(): void {
+    // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
     this.triggerButton()?.nativeElement.focus();
   }
 

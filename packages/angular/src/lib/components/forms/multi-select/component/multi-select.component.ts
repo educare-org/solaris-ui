@@ -1,10 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to programmatically focus the multi-select trigger. Standard DOM method used by Angular CDK.
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required as fallback when no triggerElement ref. Standard DOM method.
-// SECURITY_EXCEPTION_FILE: nativeElement access needed to measure trigger content width for auto display mode. ResizeObserver is SSR-safe (guarded by typeof check). offsetWidth is read-only, no XSS risk.
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to focus search input when panel opens. Standard DOM method.
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to restore focus to search input after selection. ElementRef SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement access needed to read option text for search filtering. Read-only, SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement.textContent needed to read option text for search filtering. Read-only, SSR-safe.
 import {
   Component,
   input,
@@ -155,7 +148,7 @@ export class SolarisMultiSelectComponent
   readonly density = input<SolarisMultiSelectDensity>();
   readonly size = input<SolarisMultiSelectSize>('md');
   readonly panelMatchTriggerWidth = input<boolean>(true);
-  readonly radius = input<SolarisMultiSelectRadius>('md');
+  readonly radius = input<SolarisMultiSelectRadius>('sm');
   readonly disabledInput = input(false, { alias: 'disabled' });
   readonly readonlyInput = input(false, { alias: 'readonly' });
   readonly requiredInput = input(false, { alias: 'required' });
@@ -659,8 +652,10 @@ export class SolarisMultiSelectComponent
 
   focus(): void {
     if (this.triggerElement()) {
+      // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
       this.triggerElement()?.nativeElement.focus();
     } else {
+      // SECURITY_EXCEPTION: fallback focus on the host requires the native method.
       this.elementRef.nativeElement.focus();
     }
   }
@@ -738,6 +733,7 @@ export class SolarisMultiSelectComponent
   }
 
   private setupResizeObserver(): void {
+    // SECURITY_EXCEPTION: measuring trigger content width for auto display mode requires the native element; ResizeObserver is SSR-safe guarded. Read-only.
     const el = this.triggerContentRef()?.nativeElement;
     if (!el) return;
 
@@ -765,6 +761,7 @@ export class SolarisMultiSelectComponent
 
     if (this.searchable()) {
       requestAnimationFrame(() => {
+        // SECURITY_EXCEPTION: focusing the search input when the panel opens requires the native method.
         this.searchInputRef()?.nativeElement.focus();
       });
     }
@@ -802,6 +799,7 @@ export class SolarisMultiSelectComponent
 
     if (this.searchable() && this.panelOpen()) {
       requestAnimationFrame(() => {
+        // SECURITY_EXCEPTION: restoring focus to the search input after selection requires the native method.
         this.searchInputRef()?.nativeElement.focus();
       });
     }
@@ -1116,6 +1114,7 @@ export class SolarisMultiSelectComponent
     const nativeEl = (
       option as unknown as { elementRef: ElementRef<HTMLElement> }
     ).elementRef;
+    // SECURITY_EXCEPTION: reading projected option text for search filtering requires the native textContent. Read-only.
     if (nativeEl?.nativeElement) {
       return nativeEl.nativeElement.textContent?.trim() || '';
     }
