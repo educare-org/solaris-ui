@@ -79,6 +79,50 @@
     var(--solaris-segmented-border-color);
 }
 
+// Appearance parity: outline owns a real border (forced-colors safe), so its
+// thickness is removed from the inner spacing — outer size matches surface.
+:host(
+    [data-appearance='outline'][data-orientation='horizontal']:not(
+        [data-size='sm'][data-density='compact']
+      )
+  )
+  .solaris-segmented-control__container {
+  padding-right: calc(
+    var(--solaris-segmented-padding-x) - var(--solaris-segmented-border-width)
+  );
+  padding-left: calc(
+    var(--solaris-segmented-padding-x) - var(--solaris-segmented-border-width)
+  );
+}
+
+:host([data-appearance='outline'][data-orientation='vertical'])
+  .solaris-segmented-control__container {
+  padding: calc(
+    var(--solaris-segmented-padding-x) - var(--solaris-segmented-border-width)
+  );
+}
+
+:host([data-appearance='outline'][data-orientation='horizontal'])
+  ::ng-deep
+  solaris-segmented-item {
+  min-height: calc(
+    var(--solaris-segmented-item-height) - var(
+        --solaris-segmented-border-width
+      ) *
+      2
+  );
+}
+
+:host([data-appearance='outline'][data-orientation='vertical'])
+  .solaris-segmented-control__indicator--vertical {
+  right: calc(
+    var(--solaris-segmented-padding-x) - var(--solaris-segmented-border-width)
+  );
+  left: calc(
+    var(--solaris-segmented-padding-x) - var(--solaris-segmented-border-width)
+  );
+}
+
 :host([data-appearance='surface']) .solaris-segmented-control__container {
   background: var(--solaris-segmented-background);
 }
