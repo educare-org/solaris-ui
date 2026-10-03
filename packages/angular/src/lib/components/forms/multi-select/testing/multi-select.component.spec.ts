@@ -1513,6 +1513,105 @@ describe('SolarisMultiSelectComponent', () => {
     });
   });
 
+  describe('content min width (widest option floor)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-multi-select [panelMinWidth]="panelMinWidth">
+          <solaris-option value="br" label="Brasil" />
+          <solaris-option value="us" label="Estados Unidos" />
+          <solaris-option value="pt" label="Portugal" />
+        </solaris-multi-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class MinWidthHost {
+      panelMinWidth: string | number | undefined;
+    }
+
+    it('should estimate the floor from the longest option label', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      expect(multiSelect.contentMinWidth()).toBe(215);
+    });
+
+    it('should apply the floor as trigger min-width', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.detectChanges();
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__trigger',
+      );
+      expect(trigger.style.minWidth).toBe('215px');
+    });
+
+    it('should fall back to the floor as panel min-width', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      expect(multiSelect.effectivePanelMinWidth()).toBe(215);
+    });
+
+    it('should prefer an explicit panelMinWidth input', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.componentInstance.panelMinWidth = 300;
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      expect(multiSelect.effectivePanelMinWidth()).toBe(300);
+    });
+
+    it('should not collapse to count-only once the trigger reaches the floor', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      multiSelect.writeValue(['br', 'us']);
+      multiSelect.triggerWidth.set(215);
+      fixture.detectChanges();
+      expect(multiSelect.autoChipCount()).toBeGreaterThan(0);
+      expect(multiSelect.showCountOnly()).toBe(false);
+    });
+
+    it('should return no floor without options', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisMultiSelectComponent],
+        template: `<solaris-multi-select />`,
+        providers: [
+          provideSolarisTesting({
+            translate: { translations: { 'en-US': getTestTranslations() } },
+          }),
+        ],
+      })
+      class EmptyHost {}
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(EmptyHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      expect(multiSelect.contentMinWidth()).toBe(0);
+      expect(multiSelect.effectivePanelMinWidth()).toBeUndefined();
+    });
+  });
+
   describe('selectAll readonly guard', () => {
     @Component({
       standalone: true,
@@ -1824,6 +1923,60 @@ describe('SolarisMultiSelectComponent', () => {
       ) as HTMLElement;
       expect(affix.getAttribute('data-variant')).toBe('action');
       expect(affix.querySelector('[solaris-form-suffix-action]')).toBeTruthy();
+    });
+  });
+
+  describe('search input rendering', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-multi-select [searchable]="true" placeholder="Select items">
+          <solaris-option value="br" label="Brasil" />
+          <solaris-option value="us" label="Estados Unidos" />
+        </solaris-multi-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class SearchInputHost {}
+
+    it('should render the search input when open with a selection', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SearchInputHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      multiSelect.writeValue(['br']);
+      multiSelect.panelOpen.set(true);
+      fixture.detectChanges();
+      const input = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__search-input',
+      );
+      expect(input).toBeTruthy();
+    });
+
+    it('should update the search query on typing', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SearchInputHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      multiSelect.writeValue(['br']);
+      multiSelect.panelOpen.set(true);
+      fixture.detectChanges();
+      const input = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__search-input',
+      ) as HTMLInputElement;
+      input.value = 'bra';
+      input.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+      expect(multiSelect.searchQuery()).toBe('bra');
     });
   });
 });

@@ -165,6 +165,17 @@ Custom comparison function for object values. Defaults to `Object.is`.
 
 Custom function to display values. Useful for object values where `labelText` is not set.
 
+## Trigger and panel min width
+
+Like a native `<select>`, the trigger never shrinks below the widest option:
+`contentMinWidth` estimates the longest option row (label length with a
+size-aware width factor plus option chrome) and applies it as trigger
+`min-width`. The same value backs `effectivePanelMinWidth`, so the panel
+(`matchTriggerWidth`) always fits the longest option without wrapping. An
+explicit `panelMinWidth` input wins over the estimate. Because the trigger
+width no longer depends on the rendered chip/count state, `auto` display mode
+cannot oscillate between chips and count-only while the panel is open.
+
 ## displayMode
 
 Three display modes:

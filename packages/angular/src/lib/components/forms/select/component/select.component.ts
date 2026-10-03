@@ -30,6 +30,7 @@ import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisOptionGroupComponent } from '../../option-group';
 import { SolarisOptionComponent } from '../../option';
+import { SOLARIS_OPTION_PARENT } from '../../option/token/option.tokens';
 import { SolarisIconComponent } from '../../../icon';
 import {
   SolarisPopoverDirective,
@@ -64,6 +65,10 @@ import type { SolarisIconName } from '../../../../services/icon';
     },
     {
       provide: SolarisFormControl,
+      useExisting: forwardRef(() => SolarisSelectComponent),
+    },
+    {
+      provide: SOLARIS_OPTION_PARENT,
       useExisting: forwardRef(() => SolarisSelectComponent),
     },
   ],
@@ -186,7 +191,7 @@ export class SolarisSelectComponent
 
   protected readonly themeService = inject(SolarisThemeService);
 
-  protected readonly effectiveDensity = computed<SolarisSelectDensity>(() => {
+  readonly effectiveDensity = computed<SolarisSelectDensity>(() => {
     return this.density() ?? this.themeService.density;
   });
 
@@ -226,6 +231,31 @@ export class SolarisSelectComponent
       !this.isEffectivelyDisabled() &&
       !this.isEffectivelyReadonly()
     );
+  });
+
+  private getRowLabel(option: SolarisOptionComponent): string {
+    const label = option.labelText();
+    if (label) return label;
+    return this.getOptionNativeText(option);
+  }
+
+  protected readonly contentMinWidth = computed(() => {
+    const opts = this.options();
+    if (!opts || opts.length === 0) return 0;
+    let longest = 0;
+    for (const opt of opts) {
+      longest = Math.max(longest, this.getRowLabel(opt).length);
+    }
+    if (longest === 0) return 0;
+    const charWidth = this.size() === 'sm' ? 8 : this.size() === 'lg' ? 10 : 9;
+    return Math.ceil(longest * charWidth * 1.15 + 50);
+  });
+
+  protected readonly effectivePanelMinWidth = computed(() => {
+    const input = this.panelMinWidth();
+    if (input !== undefined) return input;
+    const floor = this.contentMinWidth();
+    return floor > 0 ? floor : undefined;
   });
 
   protected readonly selectedOption = computed<

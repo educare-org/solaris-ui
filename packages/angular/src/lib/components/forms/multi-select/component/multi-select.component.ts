@@ -30,6 +30,7 @@ import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisOptionGroupComponent } from '../../option-group';
 import { SolarisOptionComponent } from '../../option';
+import { SOLARIS_OPTION_PARENT } from '../../option/token/option.tokens';
 import { SolarisIconComponent } from '../../../icon';
 import {
   SolarisPopoverDirective,
@@ -73,6 +74,10 @@ function normalizeArray(value: unknown): unknown[] {
     },
     {
       provide: SolarisFormControl,
+      useExisting: forwardRef(() => SolarisMultiSelectComponent),
+    },
+    {
+      provide: SOLARIS_OPTION_PARENT,
       useExisting: forwardRef(() => SolarisMultiSelectComponent),
     },
   ],
@@ -216,11 +221,9 @@ export class SolarisMultiSelectComponent
 
   protected readonly themeService = inject(SolarisThemeService);
 
-  protected readonly effectiveDensity = computed<SolarisMultiSelectDensity>(
-    () => {
-      return this.density() ?? this.themeService.density;
-    },
-  );
+  readonly effectiveDensity = computed<SolarisMultiSelectDensity>(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   protected readonly isEffectivelyDisabled = computed(() => {
     return this.disabledInput() || this.internalDisabled();
@@ -329,7 +332,39 @@ export class SolarisMultiSelectComponent
     const tw = this.triggerWidth();
     if (tw <= 0) return 0;
     const searchWidth = this.searchable() && this.panelOpen() ? 80 : 0;
-    return Math.max(0, tw - searchWidth);
+    // Reserve space for trigger gap + actions (chevron + optional clear) so
+    // chip calculation uses the same stable outer width regardless of whether
+    // the clear button is currently rendered. Prevents layout-shift flicker
+    // in clearable mode when the clear button appears/disappears.
+    const triggerGap = 6;
+    const chevronWidth = 20;
+    const clearReserve = this.canClear() ? 24 : 0;
+    return Math.max(
+      0,
+      tw - searchWidth - triggerGap - chevronWidth - clearReserve,
+    );
+  });
+
+  protected readonly contentMinWidth = computed(() => {
+    const opts = this.options();
+    if (!opts || opts.length === 0) return 0;
+    let longest = 0;
+    for (const opt of opts) {
+      longest = Math.max(longest, this.getOptionDisplayLabel(opt).length);
+    }
+    const summaryLength = this.summaryText().length;
+    if (longest === 0 && summaryLength === 0) return 0;
+    const charWidth = this.size() === 'sm' ? 8 : this.size() === 'lg' ? 10 : 9;
+    const widestRow = longest * charWidth * 1.15 + 70;
+    const summaryWidth = summaryLength * charWidth + 20;
+    return Math.ceil(Math.max(widestRow, summaryWidth));
+  });
+
+  protected readonly effectivePanelMinWidth = computed(() => {
+    const input = this.panelMinWidth();
+    if (input !== undefined) return input;
+    const floor = this.contentMinWidth();
+    return floor > 0 ? floor : undefined;
   });
 
   protected readonly autoChipCount = computed(() => {
@@ -740,8 +775,13 @@ export class SolarisMultiSelectComponent
   }
 
   private setupResizeObserver(): void {
-    // SECURITY_EXCEPTION: measuring trigger content width for auto display mode requires the native element; ResizeObserver is SSR-safe guarded. Read-only.
-    const el = this.triggerContentRef()?.nativeElement;
+    // SECURITY_EXCEPTION: measuring trigger width for auto display mode requires the native element; ResizeObserver is SSR-safe guarded. Read-only.
+    // Observe the outer trigger (stable flex width) instead of the inner content
+    // so chip/count swaps and clear-button appearance don't feed back into the
+    // measurement and cause flicker loops in clearable mode.
+    const outer = this.triggerElement()?.nativeElement;
+    const inner = this.triggerContentRef()?.nativeElement;
+    const el = outer ?? inner;
     if (!el) return;
 
     this.triggerWidth.set(el.offsetWidth);
@@ -750,7 +790,10 @@ export class SolarisMultiSelectComponent
       this.resizeObserver?.disconnect();
       this.resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
-          this.triggerWidth.set(entry.contentRect.width);
+          const next = entry.contentRect.width;
+          // Ignore subpixel jitter to avoid signal churn -> flicker.
+          if (Math.abs(next - this.triggerWidth()) < 1) continue;
+          this.triggerWidth.set(next);
         }
       });
       this.resizeObserver.observe(el);

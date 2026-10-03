@@ -5,6 +5,7 @@ import {
   signal,
   effect,
   inject,
+  forwardRef,
   ElementRef,
   contentChildren,
   ChangeDetectionStrategy,
@@ -13,6 +14,7 @@ import {
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisOptionComponent } from '../../option';
+import { SOLARIS_OPTION_PARENT } from '../../option/token/option.tokens';
 import { resolveElementId } from '../../../../core';
 
 import type {
@@ -27,6 +29,12 @@ import type {
   templateUrl: './option-group.component.html',
   styleUrls: ['./option-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: SOLARIS_OPTION_PARENT,
+      useExisting: forwardRef(() => SolarisOptionGroupComponent),
+    },
+  ],
   host: {
     role: 'group',
     '[attr.id]': 'elementId()',
@@ -52,8 +60,13 @@ export class SolarisOptionGroupComponent {
     alias: 'disabled',
     transform: (v: boolean) => v ?? false,
   });
-  readonly size = input<SolarisOptionGroupSize>('md');
-  readonly density = input<SolarisOptionGroupDensity>();
+  readonly sizeInput = input<SolarisOptionGroupSize | undefined>(undefined, {
+    alias: 'size',
+  });
+  readonly densityInput = input<SolarisOptionGroupDensity | undefined>(
+    undefined,
+    { alias: 'density' },
+  );
   readonly groupId = input<string>(undefined, { alias: 'id' });
 
   protected readonly internalHidden = signal(false);
@@ -68,12 +81,22 @@ export class SolarisOptionGroupComponent {
   protected readonly labelId = computed(() => `${this.elementId()}-label`);
 
   protected readonly themeService = inject(SolarisThemeService);
+  private readonly outerParent = inject(SOLARIS_OPTION_PARENT, {
+    optional: true,
+    skipSelf: true,
+  });
 
-  protected readonly effectiveDensity = computed<SolarisOptionGroupDensity>(
-    () => {
-      return this.density() ?? this.themeService.density;
-    },
-  );
+  readonly size = computed<SolarisOptionGroupSize>(() => {
+    return this.sizeInput() ?? this.outerParent?.size() ?? 'md';
+  });
+
+  readonly effectiveDensity = computed<SolarisOptionGroupDensity>(() => {
+    return (
+      this.densityInput() ??
+      this.outerParent?.effectiveDensity() ??
+      this.themeService.density
+    );
+  });
 
   readonly isEffectivelyDisabled = computed(() => {
     return this.disabledInput();

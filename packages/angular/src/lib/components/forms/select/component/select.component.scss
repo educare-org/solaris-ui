@@ -27,11 +27,15 @@
   align-items: center;
   box-sizing: border-box;
   background: transparent;
-  gap: var(--solaris-spacing-2);
+  gap: var(--solaris-spacing-4);
 }
 
 :host ::ng-deep .solaris-form-field__message-row {
   margin-top: 0;
+}
+
+:host ::ng-deep solaris-form-field[data-loading] .solaris-select__trigger {
+  padding-inline-end: var(--solaris-form-field-affix-size);
 }
 
 :host ::ng-deep .solaris-select--panel-open .solaris-form-field__message-row {
@@ -63,7 +67,8 @@
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  gap: var(--solaris-spacing-2);
+  gap: var(--solaris-spacing-3);
+  margin-inline-start: auto;
 }
 
 .solaris-select__clear {
@@ -119,6 +124,7 @@
   flex: 1;
   margin: 0;
   padding: 0;
+  width: 0;
   min-width: 0;
   border: none;
   outline: none;

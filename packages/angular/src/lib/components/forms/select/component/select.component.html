@@ -24,7 +24,7 @@
   [solarisPopoverPadding]="'none'"
   [solarisPopoverRadius]="radius()"
   [solarisPopoverTopConnected]="true"
-  [solarisPopoverMinWidth]="panelMinWidth()"
+  [solarisPopoverMinWidth]="effectivePanelMinWidth()"
   [solarisPopoverMaxWidth]="panelMaxWidth()"
   [solarisPopoverScrollStrategy]="'reposition'"
   [solarisPopoverCloseOnEscape]="false"
@@ -44,6 +44,7 @@
     #triggerEl
     class="solaris-select__trigger"
     [id]="elementId() + '--trigger'"
+    [style.min-width.px]="contentMinWidth() || null"
     solaris-form-field-trigger
     role="combobox"
     tabindex="0"
@@ -83,7 +84,7 @@
     }
 
     <span class="solaris-select__actions">
-      @if (canClear()) {
+      @if (canClear() && !loading()) {
         <button
           type="button"
           class="solaris-select__clear"
@@ -95,12 +96,14 @@
         </button>
       }
 
-      <solaris-icon
-        class="solaris-select__dropdown-icon"
-        name="chevron-down"
-        [decorative]="true"
-        size="sm"
-      />
+      @if (!loading()) {
+        <solaris-icon
+          class="solaris-select__dropdown-icon"
+          name="chevron-down"
+          [decorative]="true"
+          size="sm"
+        />
+      }
     </span>
   </div>
 

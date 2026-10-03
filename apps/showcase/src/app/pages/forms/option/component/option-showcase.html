@@ -211,23 +211,20 @@
       </solaris-tabs>
     </div>
     <solaris-preview-code [code]="sizeDensityCode()" language="html">
-      <div
-        role="listbox"
-        [attr.aria-label]="'option.section.size-density' | translate"
+      <solaris-option-group
+        [label]="'option.size-density.group' | translate"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
       >
         <solaris-option
           value="admin"
           [label]="'option.demo.admin.label' | translate"
-          [size]="selectedSize()"
-          [density]="selectedDensity()"
         />
         <solaris-option
           value="teacher"
           [label]="'option.demo.teacher.label' | translate"
-          [size]="selectedSize()"
-          [density]="selectedDensity()"
         />
-      </div>
+      </solaris-option-group>
     </solaris-preview-code>
   </app-docs-section>
 

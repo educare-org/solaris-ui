@@ -1876,4 +1876,85 @@ describe('SolarisSelectComponent', () => {
       expect(affix.getAttribute('data-variant')).toBe('action');
     });
   });
+
+  describe('content min width (widest option floor)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select [panelMinWidth]="panelMinWidth">
+          <solaris-option value="br" label="Brasil" />
+          <solaris-option value="us" label="Estados Unidos" />
+          <solaris-option value="pt" label="Portugal" />
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class MinWidthHost {
+      panelMinWidth: string | number | undefined;
+    }
+
+    it('should estimate the floor from the longest option label', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.contentMinWidth()).toBe(195);
+    });
+
+    it('should apply the floor as trigger min-width', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.detectChanges();
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-select__trigger',
+      );
+      expect(trigger.style.minWidth).toBe('195px');
+    });
+
+    it('should fall back to the floor as panel min-width', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.effectivePanelMinWidth()).toBe(195);
+    });
+
+    it('should prefer an explicit panelMinWidth input', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.componentInstance.panelMinWidth = 300;
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.effectivePanelMinWidth()).toBe(300);
+    });
+
+    it('should return no floor without options', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisSelectComponent],
+        template: `<solaris-select />`,
+        providers: [
+          provideSolarisTesting({
+            translate: { translations: { 'en-US': getTestTranslations() } },
+          }),
+        ],
+      })
+      class EmptyHost {}
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(EmptyHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.contentMinWidth()).toBe(0);
+      expect(select.effectivePanelMinWidth()).toBeUndefined();
+    });
+  });
 });

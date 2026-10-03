@@ -1,13 +1,18 @@
 :host {
-  --solaris-option-min-height: var(--solaris-spacing-9);
+  --solaris-option-min-height: auto;
   --solaris-option-background: transparent;
-  --solaris-option-gap: var(--solaris-spacing-2);
+  --solaris-option-gap: var(--solaris-spacing-3);
   --solaris-option-radius: var(--solaris-radius-sm);
-  --solaris-option-padding-y: var(--solaris-spacing-2);
+  --solaris-option-padding-y: var(--solaris-spacing-5);
   --solaris-option-padding-x: var(--solaris-spacing-4);
   --solaris-option-meta-color: var(--solaris-text-muted);
-  --solaris-option-indicator-size: var(--solaris-spacing-5);
+  --solaris-option-indicator-size: var(--solaris-spacing-8);
+  --solaris-option-indicator-icon-size: var(--solaris-spacing-6);
+  --solaris-option-indicator-border-width: var(--solaris-spacing-1);
+  --solaris-option-indicator-radius: var(--solaris-radius-sm);
   --solaris-option-label-color: var(--solaris-text-default);
+  --solaris-option-label-font-size: var(--solaris-font-size-md);
+  --solaris-option-label-line-height: var(--solaris-line-height-md);
   --solaris-option-meta-font-size: var(--solaris-font-size-sm);
   --solaris-option-disabled-opacity: var(--solaris-opacity-40);
   --solaris-option-selected-color: var(--solaris-primary-text);
@@ -16,6 +21,7 @@
   --solaris-option-hover-background: var(--solaris-surface-subtle);
   --solaris-option-active-background: var(--solaris-surface-muted);
   --solaris-option-description-font-size: var(--solaris-font-size-sm);
+  --solaris-option-description-line-height: var(--solaris-line-height-md);
   --solaris-option-selected-background: var(--solaris-primary-surface);
 
   outline: none;
@@ -61,32 +67,36 @@
   align-items: center;
   box-sizing: border-box;
   justify-content: center;
-  border-radius: var(--solaris-radius-sm);
+  border-radius: var(--solaris-option-indicator-radius);
   width: var(--solaris-option-indicator-size);
   height: var(--solaris-option-indicator-size);
 }
 
 .solaris-option__check-icon,
 .solaris-option__checkbox-icon {
-  width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   box-sizing: border-box;
   justify-content: center;
-  padding: var(--solaris-spacing-2);
+  font-size: var(--solaris-option-indicator-icon-size);
+}
+
+.solaris-option__check-icon solaris-icon,
+.solaris-option__checkbox-icon solaris-icon {
+  width: 1em;
+  height: 1em;
 }
 
 .solaris-option__checkbox {
   background: transparent;
-  border: var(--solaris-border-width-sm) solid
+  border: var(--solaris-option-indicator-border-width) solid
     var(--solaris-option-indicator-color);
 }
 
 .solaris-option__checkbox--checked {
   color: var(--solaris-primary-text);
-  background: var(--solaris-option-indicator-color);
-  border-color: var(--solaris-option-indicator-color);
+  background: var(--solaris-primary-base);
+  border-color: var(--solaris-primary-base);
 }
 
 .solaris-option__content {
@@ -108,6 +118,8 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   color: var(--solaris-option-label-color);
+  font-size: var(--solaris-option-label-font-size);
+  line-height: var(--solaris-option-label-line-height);
 }
 
 .solaris-option__description {
@@ -122,6 +134,7 @@
   text-overflow: ellipsis;
   color: var(--solaris-option-description-color);
   font-size: var(--solaris-option-description-font-size);
+  line-height: var(--solaris-option-description-line-height);
 }
 
 .solaris-option__meta {
@@ -146,65 +159,162 @@
   color: var(--solaris-success-base);
   width: var(--solaris-option-indicator-size);
   height: var(--solaris-option-indicator-size);
+  font-size: var(--solaris-option-indicator-size);
+}
+
+.solaris-option__trailing-check solaris-icon {
+  width: 1em;
+  height: 1em;
 }
 
 :host([data-selection-mode='single']) .solaris-option__check {
   border-radius: 50%;
 }
 
-:host([data-selection-mode='single']) .solaris-option__check-icon {
-  padding: var(--solaris-spacing-2);
-}
-
-:host([data-size='sm']) {
-  .solaris-option__label-text {
-    font-size: var(--solaris-font-size-sm);
-    line-height: var(--solaris-line-height-sm);
-  }
-  --solaris-option-min-height: var(--solaris-spacing-10);
-  --solaris-option-gap: var(--solaris-spacing-1);
-  --solaris-option-padding-x: var(--solaris-spacing-3);
-  --solaris-option-indicator-size: var(--solaris-spacing-4);
-  --solaris-option-meta-font-size: var(--solaris-font-size-xs);
-  --solaris-option-description-font-size: var(--solaris-font-size-xs);
-}
-
-:host([data-size='md']) {
-  .solaris-option__label-text {
-    font-size: var(--solaris-font-size-md);
-    line-height: var(--solaris-line-height-md);
-  }
-}
-
-:host([data-size='lg']) {
-  .solaris-option__label-text {
-    font-size: var(--solaris-font-size-lg);
-    line-height: var(--solaris-line-height-lg);
-  }
-  --solaris-option-min-height: var(--solaris-spacing-13);
-  --solaris-option-gap: var(--solaris-spacing-3);
-  --solaris-option-radius: var(--solaris-radius-md);
-  --solaris-option-padding-y: var(--solaris-spacing-3);
-  --solaris-option-padding-x: var(--solaris-spacing-5);
-  --solaris-option-indicator-size: var(--solaris-spacing-6);
-}
-
-:host([data-density='compact']) {
+:host([data-size='sm'][data-density='compact']) {
   --solaris-option-min-height: auto;
-  --solaris-option-gap: var(--solaris-spacing-2);
-  --solaris-option-padding-x: var(--solaris-spacing-3);
-  --solaris-option-padding-y: var(--solaris-density-padding-sm);
-}
-
-:host([data-density='normal']) {
-  --solaris-option-min-height: auto;
-  --solaris-option-gap: var(--solaris-spacing-3);
-  --solaris-option-padding-x: var(--solaris-spacing-4);
-  --solaris-option-padding-y: var(--solaris-density-padding-sm);
-}
-
-:host([data-density='comfortable']) {
   --solaris-option-gap: var(--solaris-spacing-4);
+  --solaris-option-padding-y: var(--solaris-spacing-4);
+  --solaris-option-padding-x: var(--solaris-spacing-3);
+  --solaris-option-indicator-size: var(--solaris-spacing-7);
+  --solaris-option-meta-font-size: var(--solaris-font-size-xs);
+  --solaris-option-label-font-size: var(--solaris-font-size-sm);
+  --solaris-option-indicator-icon-size: var(--solaris-spacing-5);
+  --solaris-option-indicator-border-width: var(--solaris-spacing-1);
+  --solaris-option-label-line-height: var(--solaris-line-height-sm);
+  --solaris-option-description-font-size: var(--solaris-font-size-xs);
+  --solaris-option-description-line-height: var(--solaris-line-height-sm);
+}
+
+:host([data-size='md'][data-density='compact']) {
+  --solaris-option-min-height: auto;
+  --solaris-option-gap: var(--solaris-spacing-4);
+  --solaris-option-padding-y: var(--solaris-spacing-4);
+  --solaris-option-padding-x: var(--solaris-spacing-3);
+  --solaris-option-meta-font-size: var(--solaris-font-size-sm);
+  --solaris-option-label-font-size: var(--solaris-font-size-md);
+  --solaris-option-indicator-icon-size: var(--solaris-spacing-6);
+  --solaris-option-indicator-border-width: var(--solaris-spacing-1);
+  --solaris-option-label-line-height: var(--solaris-line-height-md);
+  --solaris-option-description-font-size: var(--solaris-font-size-sm);
+  --solaris-option-description-line-height: var(--solaris-line-height-md);
+  --solaris-option-indicator-size: calc(
+    var(--solaris-spacing-7) + var(--solaris-spacing-2)
+  );
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-option-min-height: auto;
+  --solaris-option-gap: var(--solaris-spacing-4);
+  --solaris-option-radius: var(--solaris-radius-md);
+  --solaris-option-padding-y: var(--solaris-spacing-4);
+  --solaris-option-padding-x: var(--solaris-spacing-3);
+  --solaris-option-indicator-size: var(--solaris-spacing-8);
+  --solaris-option-meta-font-size: var(--solaris-font-size-sm);
+  --solaris-option-label-font-size: var(--solaris-font-size-lg);
+  --solaris-option-indicator-icon-size: var(--solaris-spacing-7);
+  --solaris-option-indicator-border-width: var(--solaris-spacing-2);
+  --solaris-option-label-line-height: var(--solaris-line-height-lg);
+  --solaris-option-description-font-size: var(--solaris-font-size-sm);
+  --solaris-option-description-line-height: var(--solaris-line-height-md);
+}
+
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-option-min-height: auto;
+  --solaris-option-gap: var(--solaris-spacing-5);
+  --solaris-option-padding-y: var(--solaris-spacing-5);
+  --solaris-option-padding-x: var(--solaris-spacing-4);
+  --solaris-option-indicator-size: var(--solaris-spacing-7);
+  --solaris-option-meta-font-size: var(--solaris-font-size-xs);
+  --solaris-option-label-font-size: var(--solaris-font-size-sm);
+  --solaris-option-indicator-icon-size: var(--solaris-spacing-5);
+  --solaris-option-indicator-border-width: var(--solaris-spacing-1);
+  --solaris-option-label-line-height: var(--solaris-line-height-sm);
+  --solaris-option-description-font-size: var(--solaris-font-size-xs);
+  --solaris-option-description-line-height: var(--solaris-line-height-sm);
+}
+
+:host([data-size='md'][data-density='normal']) {
+  --solaris-option-min-height: auto;
+  --solaris-option-gap: var(--solaris-spacing-5);
+  --solaris-option-padding-x: var(--solaris-spacing-4);
+  --solaris-option-padding-y: var(--solaris-spacing-5);
+  --solaris-option-indicator-size: var(--solaris-spacing-8);
+  --solaris-option-meta-font-size: var(--solaris-font-size-sm);
+  --solaris-option-label-font-size: var(--solaris-font-size-md);
+  --solaris-option-indicator-icon-size: var(--solaris-spacing-6);
+  --solaris-option-indicator-border-width: var(--solaris-spacing-1);
+  --solaris-option-label-line-height: var(--solaris-line-height-md);
+  --solaris-option-description-font-size: var(--solaris-font-size-sm);
+  --solaris-option-description-line-height: var(--solaris-line-height-md);
+}
+
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-option-min-height: auto;
+  --solaris-option-gap: var(--solaris-spacing-5);
+  --solaris-option-radius: var(--solaris-radius-md);
+  --solaris-option-padding-x: var(--solaris-spacing-4);
+  --solaris-option-padding-y: var(--solaris-spacing-5);
+  --solaris-option-meta-font-size: var(--solaris-font-size-sm);
+  --solaris-option-label-font-size: var(--solaris-font-size-lg);
+  --solaris-option-indicator-icon-size: var(--solaris-spacing-7);
+  --solaris-option-indicator-border-width: var(--solaris-spacing-2);
+  --solaris-option-label-line-height: var(--solaris-line-height-lg);
+  --solaris-option-description-font-size: var(--solaris-font-size-sm);
+  --solaris-option-description-line-height: var(--solaris-line-height-md);
+  --solaris-option-indicator-size: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-2)
+  );
+}
+
+:host([data-size='sm'][data-density='comfortable']) {
+  --solaris-option-gap: var(--solaris-spacing-6);
+  --solaris-option-padding-x: var(--solaris-spacing-3);
+  --solaris-option-padding-y: var(--solaris-spacing-6);
+  --solaris-option-min-height: var(--solaris-spacing-10);
+  --solaris-option-meta-font-size: var(--solaris-font-size-xs);
+  --solaris-option-label-font-size: var(--solaris-font-size-sm);
+  --solaris-option-indicator-icon-size: var(--solaris-spacing-5);
+  --solaris-option-indicator-border-width: var(--solaris-spacing-1);
+  --solaris-option-label-line-height: var(--solaris-line-height-sm);
+  --solaris-option-description-font-size: var(--solaris-font-size-xs);
+  --solaris-option-description-line-height: var(--solaris-line-height-sm);
+  --solaris-option-indicator-size: calc(
+    var(--solaris-spacing-7) + var(--solaris-spacing-2)
+  );
+}
+
+:host([data-size='md'][data-density='comfortable']) {
+  --solaris-option-gap: var(--solaris-spacing-6);
+  --solaris-option-padding-x: var(--solaris-spacing-4);
+  --solaris-option-padding-y: var(--solaris-spacing-6);
+  --solaris-option-min-height: var(--solaris-spacing-12);
+  --solaris-option-meta-font-size: var(--solaris-font-size-sm);
+  --solaris-option-label-font-size: var(--solaris-font-size-md);
+  --solaris-option-indicator-icon-size: var(--solaris-spacing-6);
+  --solaris-option-indicator-border-width: var(--solaris-spacing-1);
+  --solaris-option-label-line-height: var(--solaris-line-height-md);
+  --solaris-option-description-font-size: var(--solaris-font-size-sm);
+  --solaris-option-description-line-height: var(--solaris-line-height-md);
+  --solaris-option-indicator-size: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-2)
+  );
+}
+
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-option-gap: var(--solaris-spacing-6);
+  --solaris-option-radius: var(--solaris-radius-md);
+  --solaris-option-padding-x: var(--solaris-spacing-5);
+  --solaris-option-padding-y: var(--solaris-spacing-6);
+  --solaris-option-min-height: var(--solaris-spacing-13);
+  --solaris-option-indicator-size: var(--solaris-spacing-9);
+  --solaris-option-meta-font-size: var(--solaris-font-size-sm);
+  --solaris-option-label-font-size: var(--solaris-font-size-lg);
+  --solaris-option-indicator-icon-size: var(--solaris-spacing-7);
+  --solaris-option-indicator-border-width: var(--solaris-spacing-2);
+  --solaris-option-label-line-height: var(--solaris-line-height-lg);
+  --solaris-option-description-font-size: var(--solaris-font-size-sm);
+  --solaris-option-description-line-height: var(--solaris-line-height-md);
 }
 
 :host(:not([data-disabled])) .solaris-option:hover {

@@ -1,0 +1,5 @@
+---
+'@educarehq/solaris-ui': minor
+---
+
+Refactor `solaris-option` onto the size x density standard (tabs/segmented-control pattern). `solaris-option` no longer takes `size`/`density` inputs: it inherits both from the closest parent (`solaris-select`, `solaris-multi-select`, `solaris-option-group`) via the new `SOLARIS_OPTION_PARENT` token, falling back to `md` and the theme density standalone. `solaris-option-group` keeps optional `size`/`density` inputs and forwards the outer selector values (skipSelf) when unset; `solaris-select` and `solaris-multi-select` now provide the token. Stylesheets carry the 9 explicit `[data-size][data-density]` combinations (option rows keep the `sm -> sm`, `md -> md`, `lg -> lg` type scale and own spacing scale with no control-height ladder; group label keeps `sm -> xs`, `md -> sm`, `lg -> md` with monotonic gaps), icons size via `1em` with `font-size` on the wrapper, and the option showcase size-density demo now drives an `option-group` to prove inheritance. Follow-ups: `comfortable` minima (`32/40/48px`) and group gap monotonicity (`0/1/2px`) intentionally change a few rows by 1-16px vs the legacy overrides.

@@ -13,6 +13,7 @@ import {
 
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
+import { SOLARIS_OPTION_PARENT } from '../../option/token/option.tokens';
 import { resolveElementId } from '../../../../core';
 
 import type {
@@ -141,8 +142,6 @@ export class SolarisOptionComponent {
   readonly showSelectionIndicator = input<boolean, boolean>(false, {
     transform: (v: boolean) => v ?? false,
   });
-  readonly size = input<SolarisOptionSize>('md');
-  readonly density = input<SolarisOptionDensity>();
   readonly optionId = input<string>(undefined, { alias: 'id' });
 
   readonly optionInteraction = output<{
@@ -157,9 +156,14 @@ export class SolarisOptionComponent {
   });
 
   protected readonly themeService = inject(SolarisThemeService);
+  private readonly parent = inject(SOLARIS_OPTION_PARENT, { optional: true });
+
+  protected readonly size = computed<SolarisOptionSize>(() => {
+    return this.parent?.size() ?? 'md';
+  });
 
   protected readonly effectiveDensity = computed<SolarisOptionDensity>(() => {
-    return this.density() ?? this.themeService.density;
+    return this.parent?.effectiveDensity() ?? this.themeService.density;
   });
 
   readonly isEffectivelyDisabled = computed(() => {

@@ -1,22 +1,26 @@
 :host {
-  --solaris-multi-select-chip-gap: var(--solaris-spacing-1);
+  --solaris-on-primary: var(--solaris-primary-on-solid);
+  --solaris-surface-hover: var(--solaris-surface-subtle);
+  --solaris-primary-muted: var(--solaris-primary-surface);
+  --solaris-multi-select-chip-gap: var(--solaris-spacing-5);
   --solaris-multi-select-chip-radius: var(--solaris-radius-sm);
   --solaris-multi-select-icon-color: var(--solaris-text-muted);
   --solaris-multi-select-font-size: var(--solaris-font-size-sm);
   --solaris-multi-select-chip-color: var(--solaris-text-default);
+  --solaris-multi-select-checkbox-size: var(--solaris-spacing-8);
   --solaris-multi-select-value-color: var(--solaris-text-default);
   --solaris-multi-select-chip-padding-y: var(--solaris-spacing-1);
   --solaris-multi-select-chip-padding-x: var(--solaris-spacing-2);
+  --solaris-multi-select-checkbox-radius: var(--solaris-radius-sm);
   --solaris-multi-select-line-height: var(--solaris-line-height-md);
   --solaris-multi-select-chip-font-size: var(--solaris-font-size-xs);
   --solaris-multi-select-select-all-height: var(--solaris-spacing-9);
-  --solaris-surface-hover: var(--solaris-surface-subtle);
-  --solaris-primary-muted: var(--solaris-primary-surface);
-  --solaris-on-primary: var(--solaris-primary-on-solid);
+  --solaris-multi-select-checkbox-icon-size: var(--solaris-spacing-6);
   --solaris-multi-select-placeholder-color: var(--solaris-text-muted);
-  --solaris-multi-select-placeholder-opacity: var(--solaris-opacity-70);
   --solaris-multi-select-chip-remove-size: var(--solaris-font-size-sm);
   --solaris-multi-select-chip-background: var(--solaris-surface-subtle);
+  --solaris-multi-select-placeholder-opacity: var(--solaris-opacity-70);
+  --solaris-multi-select-checkbox-border-width: var(--solaris-spacing-1);
 
   outline: none;
   cursor: pointer;
@@ -39,11 +43,18 @@
   align-items: center;
   box-sizing: border-box;
   background: transparent;
-  gap: var(--solaris-spacing-2);
+  gap: var(--solaris-spacing-4);
 }
 
 :host ::ng-deep .solaris-form-field__message-row {
   margin-top: 0;
+}
+
+:host
+  ::ng-deep
+  solaris-form-field[data-loading]
+  .solaris-multi-select__trigger {
+  padding-inline-end: var(--solaris-form-field-affix-size);
 }
 
 :host
@@ -59,7 +70,7 @@
   display: flex;
   overflow: hidden;
   align-items: center;
-  gap: var(--solaris-spacing-2);
+  gap: var(--solaris-spacing-3);
 }
 
 .solaris-multi-select__value {
@@ -162,7 +173,8 @@
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  gap: var(--solaris-spacing-2);
+  gap: var(--solaris-spacing-3);
+  margin-inline-start: auto;
 }
 
 .solaris-multi-select__clear {
@@ -218,6 +230,7 @@
   flex: 1;
   margin: 0;
   padding: 0;
+  width: 0;
   border: none;
   min-width: 0;
   outline: none;
@@ -273,12 +286,14 @@
   display: flex;
   flex-shrink: 0;
   align-items: center;
+  box-sizing: border-box;
   justify-content: center;
-  width: var(--solaris-font-size-lg);
-  height: var(--solaris-font-size-lg);
-  border-radius: var(--solaris-radius-sm);
+  width: var(--solaris-multi-select-checkbox-size);
+  height: var(--solaris-multi-select-checkbox-size);
+  border-radius: var(--solaris-multi-select-checkbox-radius);
   background: var(--solaris-surface-base);
-  border: var(--solaris-border-width-sm) solid var(--solaris-primary-border);
+  border: var(--solaris-multi-select-checkbox-border-width) solid
+    var(--solaris-primary-border);
 }
 
 .solaris-multi-select__select-all-checkbox--checked {
@@ -294,10 +309,17 @@
 .solaris-multi-select__select-all-checkbox-icon {
   display: flex;
   align-items: center;
+  box-sizing: border-box;
   justify-content: center;
   color: var(--solaris-on-primary);
-  width: var(--solaris-font-size-sm);
-  height: var(--solaris-font-size-sm);
+  width: var(--solaris-multi-select-checkbox-icon-size);
+  height: var(--solaris-multi-select-checkbox-icon-size);
+  font-size: var(--solaris-multi-select-checkbox-icon-size);
+}
+
+.solaris-multi-select__select-all-checkbox-icon solaris-icon {
+  width: 1em;
+  height: 1em;
 }
 
 .solaris-multi-select__select-all-label {
@@ -309,6 +331,95 @@
 .solaris-multi-select__select-all--readonly {
   cursor: default;
   opacity: var(--solaris-opacity-50);
+}
+
+:host([data-size='sm'][data-density='compact']) {
+  --solaris-multi-select-chip-padding-y: var(--solaris-spacing-1);
+  --solaris-multi-select-chip-padding-x: var(--solaris-spacing-2);
+  --solaris-multi-select-chip-font-size: var(--solaris-font-size-xs);
+  --solaris-multi-select-checkbox-size: var(--solaris-spacing-7);
+  --solaris-multi-select-checkbox-icon-size: var(--solaris-spacing-5);
+  --solaris-multi-select-checkbox-border-width: var(--solaris-spacing-1);
+}
+
+:host([data-size='md'][data-density='compact']) {
+  --solaris-multi-select-chip-padding-y: var(--solaris-spacing-1);
+  --solaris-multi-select-chip-padding-x: var(--solaris-spacing-3);
+  --solaris-multi-select-chip-font-size: var(--solaris-font-size-xs);
+  --solaris-multi-select-checkbox-size: calc(
+    var(--solaris-spacing-7) + var(--solaris-spacing-2)
+  );
+  --solaris-multi-select-checkbox-icon-size: var(--solaris-spacing-6);
+  --solaris-multi-select-checkbox-border-width: var(--solaris-spacing-1);
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-multi-select-chip-padding-y: var(--solaris-spacing-2);
+  --solaris-multi-select-chip-padding-x: var(--solaris-spacing-4);
+  --solaris-multi-select-chip-font-size: var(--solaris-font-size-sm);
+  --solaris-multi-select-checkbox-size: var(--solaris-spacing-8);
+  --solaris-multi-select-checkbox-icon-size: var(--solaris-spacing-7);
+  --solaris-multi-select-checkbox-border-width: var(--solaris-spacing-2);
+}
+
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-multi-select-chip-padding-y: var(--solaris-spacing-1);
+  --solaris-multi-select-chip-padding-x: var(--solaris-spacing-3);
+  --solaris-multi-select-chip-font-size: var(--solaris-font-size-xs);
+  --solaris-multi-select-checkbox-size: var(--solaris-spacing-7);
+  --solaris-multi-select-checkbox-icon-size: var(--solaris-spacing-5);
+  --solaris-multi-select-checkbox-border-width: var(--solaris-spacing-1);
+}
+
+:host([data-size='md'][data-density='normal']) {
+  --solaris-multi-select-chip-padding-y: var(--solaris-spacing-2);
+  --solaris-multi-select-chip-padding-x: var(--solaris-spacing-4);
+  --solaris-multi-select-chip-font-size: var(--solaris-font-size-xs);
+  --solaris-multi-select-checkbox-size: var(--solaris-spacing-8);
+  --solaris-multi-select-checkbox-icon-size: var(--solaris-spacing-6);
+  --solaris-multi-select-checkbox-border-width: var(--solaris-spacing-1);
+}
+
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-multi-select-chip-padding-y: var(--solaris-spacing-3);
+  --solaris-multi-select-chip-padding-x: var(--solaris-spacing-5);
+  --solaris-multi-select-chip-font-size: var(--solaris-font-size-sm);
+  --solaris-multi-select-checkbox-size: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-2)
+  );
+  --solaris-multi-select-checkbox-icon-size: var(--solaris-spacing-7);
+  --solaris-multi-select-checkbox-border-width: var(--solaris-spacing-2);
+}
+
+:host([data-size='sm'][data-density='comfortable']) {
+  --solaris-multi-select-chip-padding-y: var(--solaris-spacing-2);
+  --solaris-multi-select-chip-padding-x: var(--solaris-spacing-4);
+  --solaris-multi-select-chip-font-size: var(--solaris-font-size-xs);
+  --solaris-multi-select-checkbox-size: calc(
+    var(--solaris-spacing-7) + var(--solaris-spacing-2)
+  );
+  --solaris-multi-select-checkbox-icon-size: var(--solaris-spacing-5);
+  --solaris-multi-select-checkbox-border-width: var(--solaris-spacing-1);
+}
+
+:host([data-size='md'][data-density='comfortable']) {
+  --solaris-multi-select-chip-padding-y: var(--solaris-spacing-3);
+  --solaris-multi-select-chip-padding-x: var(--solaris-spacing-5);
+  --solaris-multi-select-chip-font-size: var(--solaris-font-size-sm);
+  --solaris-multi-select-checkbox-size: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-2)
+  );
+  --solaris-multi-select-checkbox-icon-size: var(--solaris-spacing-6);
+  --solaris-multi-select-checkbox-border-width: var(--solaris-spacing-1);
+}
+
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-multi-select-chip-padding-y: var(--solaris-spacing-4);
+  --solaris-multi-select-chip-padding-x: var(--solaris-spacing-6);
+  --solaris-multi-select-chip-font-size: var(--solaris-font-size-sm);
+  --solaris-multi-select-checkbox-size: var(--solaris-spacing-9);
+  --solaris-multi-select-checkbox-icon-size: var(--solaris-spacing-7);
+  --solaris-multi-select-checkbox-border-width: var(--solaris-spacing-2);
 }
 
 :host([data-disabled]) {

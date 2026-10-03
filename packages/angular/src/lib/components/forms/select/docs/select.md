@@ -141,7 +141,8 @@ Select tokens can be customized on the host or a parent element:
 
 ## Searchable
 
-When `searchable` is `true`, a search input appears at the top of the dropdown panel.
+When `searchable` is `true`, the trigger value is replaced by a search input
+while the panel is open (it sizes to the trigger and never pushes it wider).
 
 - Search is local and synchronous (v1).
 - Filters options by label, description, and text content.
@@ -151,6 +152,14 @@ When `searchable` is `true`, a search input appears at the top of the dropdown p
 - When the panel opens with an existing value, the selected option is active.
 - If search returns no results, `noResultsText` is shown.
 - Escape with a non-empty search query clears the search first; Escape with an empty query closes the panel.
+
+## Trigger and panel min width
+
+Like a native `<select>`, the trigger never shrinks below the widest option:
+`contentMinWidth` estimates the longest option row and applies it as trigger
+`min-width`, backing the panel `min-width` when no explicit `panelMinWidth`
+is given. Opening a searchable select therefore never resizes the trigger,
+and the `matchTriggerWidth` panel always fits the longest option.
 
 ## Clearable
 

@@ -20,14 +20,14 @@
 
 ### Inputs
 
-| Input      | Type                                     | Default        | Description                                        |
-| ---------- | ---------------------------------------- | -------------- | -------------------------------------------------- |
-| `label`    | `string`                                 | —              | Group label text                                   |
-| `labelKey` | `string`                                 | —              | i18n key for group label                           |
-| `disabled` | `boolean`                                | `false`        | Disables the group and propagates to child options |
-| `size`     | `'sm' \| 'md' \| 'lg'`                   | `'md'`         | Size variant                                       |
-| `density`  | `'compact' \| 'normal' \| 'comfortable'` | inherited      | Density variant                                    |
-| `id`       | `string`                                 | auto-generated | Element ID                                         |
+| Input      | Type                                     | Default            | Description                                                       |
+| ---------- | ---------------------------------------- | ------------------ | ----------------------------------------------------------------- |
+| `label`    | `string`                                 | —                  | Group label text                                                  |
+| `labelKey` | `string`                                 | —                  | i18n key for group label                                          |
+| `disabled` | `boolean`                                | `false`            | Disables the group and propagates to child options                |
+| `size`     | `'sm' \| 'md' \| 'lg'`                   | parent / `'md'`    | Size variant (own input wins, else outer selector)                |
+| `density`  | `'compact' \| 'normal' \| 'comfortable'` | parent / inherited | Density variant (own input wins, else outer selector, else theme) |
+| `id`       | `string`                                 | auto-generated     | Element ID                                                        |
 
 ## Sizes
 
@@ -41,15 +41,20 @@
 
 | Density       | Effect                    |
 | ------------- | ------------------------- |
-| `compact`     | Reduced gap between items |
-| `comfortable` | Increased gap (default)   |
+| `compact`     | No gap between items      |
+| `normal`      | `spacing-1` gap (default) |
+| `comfortable` | `spacing-2` gap           |
 
-### Standalone size and density
+### Size and density inheritance
 
 Like Option, the group is a standalone list wrapper with **no** control
-height: `size` (default `'md'`) and `density` (default: inherited theme
-density) adjust label typography and gaps only. The host exposes `data-size`
-and `data-density` for styling hooks.
+height. Its 9 explicit `[data-size][data-density]` combinations adjust label
+typography (`sm → xs`, `md → sm`, `lg → md`) and gaps only. The host exposes
+effective `data-size` and `data-density`: an explicit input wins, otherwise the
+group forwards the outer `solaris-select` / `solaris-multi-select` values (via
+`SOLARIS_OPTION_PARENT` with `skipSelf`), falling back to `'md'` and the theme
+density. Child options always resolve through the group, so rows match the
+group label scale.
 
 ## CSS Variables
 

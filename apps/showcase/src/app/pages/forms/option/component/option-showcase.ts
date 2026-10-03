@@ -4,6 +4,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import {
   SolarisCodeBlockComponent,
   SolarisOptionComponent,
+  SolarisOptionGroupComponent,
   SolarisPreviewCodeComponent,
   SolarisTabComponent,
   SolarisTabPanelComponent,
@@ -48,6 +49,7 @@ import { OptionGroupExample } from '../examples/option-group/component/option-gr
   imports: [
     SolarisCodeBlockComponent,
     SolarisOptionComponent,
+    SolarisOptionGroupComponent,
     SolarisPreviewCodeComponent,
     SolarisTabComponent,
     SolarisTabPanelComponent,
@@ -102,8 +104,10 @@ export class OptionShowcasePage {
 
   protected readonly sizeDensityCode = computed(() =>
     [
-      `<solaris-option value="admin" label="Administrator" size="${this.selectedSize()}" density="${this.selectedDensity()}" />`,
-      `<solaris-option value="teacher" label="Teacher" size="${this.selectedSize()}" density="${this.selectedDensity()}" />`,
+      `<solaris-option-group label="Team" size="${this.selectedSize()}" density="${this.selectedDensity()}">`,
+      '  <solaris-option value="admin" label="Administrator" />',
+      '  <solaris-option value="teacher" label="Teacher" />',
+      '</solaris-option-group>',
     ].join('\n'),
   );
 
