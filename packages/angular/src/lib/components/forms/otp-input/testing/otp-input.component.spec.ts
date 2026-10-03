@@ -256,4 +256,39 @@ describe('SolarisOtpInputComponent', () => {
       expect(boxes.every((b) => b.disabled)).toBe(true);
     });
   });
+
+  describe('form-field repasse (P4 Lote C)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisOtpInputComponent, ReactiveFormsModule],
+      template: `<solaris-otp-input
+        label="Code"
+        [maxLength]="4"
+        size="lg"
+        density="compact"
+        radius="md"
+        appearance="filled"
+      ></solaris-otp-input>`,
+    })
+    class RepasseHost {}
+
+    it('forwards size, density, radius and appearance to the inner form field', async () => {
+      const { fixture } = await setup(RepasseHost);
+      const field = fixture.nativeElement.querySelector(
+        'solaris-otp-input solaris-form-field',
+      ) as HTMLElement;
+      expect(field.getAttribute('data-size')).toBe('lg');
+      expect(field.getAttribute('data-density')).toBe('compact');
+      expect(field.getAttribute('data-radius')).toBe('md');
+      expect(field.getAttribute('data-appearance')).toBe('filled');
+    });
+
+    it('keeps default radius sm on the host', async () => {
+      const { fixture } = await setup(BasicHost);
+      const host = fixture.nativeElement.querySelector(
+        'solaris-otp-input',
+      ) as HTMLElement;
+      expect(host.getAttribute('data-radius')).toBe('sm');
+    });
+  });
 });

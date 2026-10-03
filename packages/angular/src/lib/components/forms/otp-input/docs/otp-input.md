@@ -57,6 +57,7 @@ use the prefix/suffix slots. The OTP boxes live inside the control area.
 | `number`                             | `0`                         | Inserts a `-` separator after every N boxes (0 = off). |
 | `autoFocus`                          | `boolean`                   | `false`                                                | Focus the first box on init.          |
 | `appearance`                         | `SolarisOtpInputAppearance` | `'outline'`                                            | `outline` / `surface` / `filled`.     |
+| `size`                               | `SolarisOtpInputSize`       | `'md'`                                                 | `sm` / `md` / `lg`.                   |
 | `density`                            | `SolarisOtpInputDensity`    | —                                                      | `compact` / `normal` / `comfortable`. |
 | `radius`                             | `SolarisOtpInputRadius`     | `'sm'`                                                 | `none` / `sm` / `md` / `lg`.          |
 
@@ -124,22 +125,24 @@ outside `[minLength, maxLength]`; `null` otherwise (empty values pass).
 
 `SolarisOtpInputComponent` defines the following tokens:
 
-| Token                                        | Default                                          | Description          |
-| -------------------------------------------- | ------------------------------------------------ | -------------------- |
-| `--solaris-otp-input-gap`                    | `var(--solaris-spacing-2)`                       | Gap between boxes.   |
-| `--solaris-otp-input-separator-color`        | `var(--solaris-text-muted)`                      | Separator `-` color. |
-| `--solaris-otp-input-box-radius`             | `var(--solaris-radius-sm)`                       | Box radius.          |
-| `--solaris-otp-input-box-border-color`       | `var(--solaris-border-subtle)`                   | Box border.          |
-| `--solaris-otp-input-box-border-width`       | `var(--solaris-border-width-sm)`                 | Box border width.    |
-| `--solaris-otp-input-box-background`         | `transparent`                                    | Box background.      |
-| `--solaris-otp-input-box-color`              | `var(--solaris-text-default)`                    | Box text color.      |
-| `--solaris-otp-input-box-focus-border-color` | `var(--solaris-primary-base)`                    | Focus border.        |
-| `--solaris-otp-input-box-error-border-color` | `var(--solaris-danger-base)`                     | Invalid border.      |
-| `--solaris-otp-input-box-width`              | `calc(var(--solaris-density-min-height) * 0.90)` | Box width.           |
-| `--solaris-otp-input-box-height`             | `calc(var(--solaris-density-min-height) * 1.15)` | Box height.          |
+| Token                                         | Default                                          | Description                          |
+| --------------------------------------------- | ------------------------------------------------ | ------------------------------------ |
+| `--solaris-otp-input-gap`                     | `var(--solaris-spacing-2)`                       | Gap between boxes.                   |
+| `--solaris-otp-input-separator-color`         | `var(--solaris-text-muted)`                      | Separator `-` color.                 |
+| `--solaris-otp-input-box-radius`              | `var(--solaris-radius-sm)`                       | Box radius.                          |
+| `--solaris-otp-input-box-border-color`        | `var(--solaris-border-subtle)`                   | Box border.                          |
+| `--solaris-otp-input-box-border-width`        | `var(--solaris-border-width-sm)`                 | Box border width.                    |
+| `--solaris-otp-input-box-background`          | `transparent`                                    | Box background.                      |
+| `--solaris-otp-input-box-color`               | `var(--solaris-text-default)`                    | Box text color.                      |
+| `--solaris-otp-input-box-active-border-color` | `var(--solaris-border-strong)`                   | Active box border (no outline ring). |
+| `--solaris-otp-input-box-error-border-color`  | `var(--solaris-danger-base)`                     | Invalid border.                      |
+| `--solaris-otp-input-box-width`               | `calc(var(--solaris-density-min-height) * 0.90)` | Box width.                           |
+| `--solaris-otp-input-box-height`              | `calc(var(--solaris-density-min-height) * 1.15)` | Box height.                          |
 
-Box font follows the density tokens (`--solaris-density-font-size`); the width and height
-make each box a subtle vertical rectangle (slightly taller than wide).
+Box font follows the field type scale (`xs`/`sm`/`md` per density); the width and height
+make each box a subtle vertical rectangle (slightly taller than wide). The focused
+box signals with a lighter neutral border instead of an outline ring, and the outer
+Form Field focus ring is suppressed for OTP.
 
 ## Visual variants
 
@@ -152,6 +155,18 @@ stays clean (no border or background):
 
 `density` (`compact` / `normal` / `comfortable`) and `radius` (`none` / `sm` / `md` / `lg`)
 apply to the boxes as well.
+
+## Size, density, radius, and appearance repasse
+
+`size` (default `'md'`), `density` (default: inherited theme density),
+`radius` (default `'sm'`), and `appearance` (default `'outline'`) are
+repassed together to the inner `solaris-form-field` and scale the boxes
+through the shared Form Field contract. The host exposes `data-size`,
+`data-density`, `data-appearance`, and `data-radius`.
+
+There is deliberately **no** `loading` input: OTP boxes render immediately
+and never wait on async date/option resolution, so a skeleton state does not
+apply.
 
 ## Examples
 

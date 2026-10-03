@@ -21,6 +21,51 @@ describe('SolarisDateRangePickerComponent', () => {
     expect(fixture.componentInstance.radius()).toBe('sm');
   });
 
+  it('has default size md (P4 Lote C)', () => {
+    const element = createFixture();
+    expect(fixture.componentInstance.size()).toBe('md');
+    expect(element.getAttribute('data-size')).toBe('md');
+  });
+
+  it('reflects density on the host and forwards size/density to the field (P4 Lote C)', () => {
+    configureSolarisTesting();
+    fixture = TestBed.createComponent(SolarisDateRangePickerComponent);
+    fixture.componentRef.setInput('label', 'Reporting period');
+    fixture.componentRef.setInput('locale', 'en-US');
+    fixture.componentRef.setInput('size', 'lg');
+    fixture.componentRef.setInput('density', 'compact');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.getAttribute('data-size')).toBe('lg');
+    expect(element.getAttribute('data-density')).toBe('compact');
+    const field = element.querySelector('solaris-form-field') as HTMLElement;
+    expect(field.getAttribute('data-size')).toBe('lg');
+    expect(field.getAttribute('data-density')).toBe('compact');
+  });
+
+  it('forwards loading as overlay without layout shift (P4 Lote C)', () => {
+    configureSolarisTesting();
+    fixture = TestBed.createComponent(SolarisDateRangePickerComponent);
+    fixture.componentRef.setInput('label', 'Reporting period');
+    fixture.componentRef.setInput('locale', 'en-US');
+    fixture.componentRef.setInput('loading', true);
+    fixture.detectChanges();
+    const field = fixture.nativeElement.querySelector(
+      'solaris-form-field',
+    ) as HTMLElement;
+    expect(field.hasAttribute('data-loading')).toBe(true);
+    expect(field.querySelector('.solaris-form-field__loading')).toBeTruthy();
+  });
+
+  it('renders the calendar trigger as a suffix action (P4 Lote C)', () => {
+    const element = createFixture();
+    const trigger = element.querySelector(
+      '.solaris-date-range-picker__calendar-trigger',
+    ) as HTMLElement;
+    expect(trigger).toBeTruthy();
+    expect(trigger.hasAttribute('solaris-form-suffix-action')).toBe(true);
+  });
+
   it('uses a read-only trigger to display the applied date range', () => {
     const element = createFixture();
     fixture.componentInstance.writeValue({

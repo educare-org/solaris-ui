@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   computed,
+  contentChild,
   forwardRef,
   inject,
   input,
@@ -20,6 +21,7 @@ import {
 } from '../../../interaction/popover';
 import {
   SolarisFormFieldComponent,
+  SolarisFormSuffixActionDirective,
   SolarisFormSuffixDirective,
 } from '../../form-field';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
@@ -43,9 +45,11 @@ import type {
   SolarisDateValue,
 } from '../../date/model/date.types';
 import type {
-  SolarisDatePickerAppearance,
-  SolarisDatePickerRadius,
-} from '../../date-picker/model/date-picker.types';
+  SolarisDateRangePickerAppearance,
+  SolarisDateRangePickerDensity,
+  SolarisDateRangePickerRadius,
+  SolarisDateRangePickerSize,
+} from '../model/date-range-picker.types';
 import { SolarisIconButtonDirective } from '../../../actions/icon-button';
 
 const EMPTY_RANGE: SolarisDateRange = { start: null, end: null };
@@ -57,6 +61,7 @@ const EMPTY_RANGE: SolarisDateRange = { start: null, end: null };
     SolarisButtonDirective,
     SolarisDateCalendarComponent,
     SolarisFormFieldComponent,
+    SolarisFormSuffixActionDirective,
     SolarisFormSuffixDirective,
     SolarisIconComponent,
     SolarisInputDirective,
@@ -80,6 +85,8 @@ const EMPTY_RANGE: SolarisDateRange = { start: null, end: null };
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'solaris-date-range-picker',
+    '[attr.data-size]': 'size()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-open]': 'panelOpen() ? "" : null',
   },
 })
@@ -94,6 +101,11 @@ export class SolarisDateRangePickerComponent
     viewChild<ElementRef<HTMLButtonElement>>('triggerButton');
   protected readonly popoverTrigger = viewChild(SolarisPopoverTriggerDirective);
 
+  protected readonly projectedSuffixAction = contentChild(
+    SolarisFormSuffixActionDirective,
+    { descendants: true },
+  );
+
   readonly label = input<string>();
   readonly labelKey = input<string>();
   readonly hint = input<string>();
@@ -105,9 +117,11 @@ export class SolarisDateRangePickerComponent
   readonly max = input<SolarisDateValue>();
   readonly disabledDates = input<readonly SolarisDateValue[]>([]);
   readonly presets = input<readonly SolarisDatePreset[]>([]);
-  readonly appearance = input<SolarisDatePickerAppearance>('outline');
-  readonly radius = input<SolarisDatePickerRadius>('sm');
-  readonly density = input<'compact' | 'normal' | 'comfortable'>();
+  readonly appearance = input<SolarisDateRangePickerAppearance>('outline');
+  readonly radius = input<SolarisDateRangePickerRadius>('sm');
+  readonly size = input<SolarisDateRangePickerSize>('md');
+  readonly density = input<SolarisDateRangePickerDensity>();
+  readonly loading = input<boolean>(false);
   readonly requiredInput = input(false, { alias: 'required' });
   readonly disabledInput = input(false, { alias: 'disabled' });
   readonly readonlyInput = input(false, { alias: 'readonly' });
@@ -138,7 +152,7 @@ export class SolarisDateRangePickerComponent
   protected readonly resolvedLocale = computed(
     () => this.locale() ?? this.translateService.locale,
   );
-  protected readonly effectiveDensity = computed(
+  protected readonly effectiveDensity = computed<SolarisDateRangePickerDensity>(
     () => this.density() ?? this.themeService.density,
   );
   protected readonly isEffectivelyDisabled = computed(

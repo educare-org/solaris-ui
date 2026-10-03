@@ -35,6 +35,7 @@ import { SolarisTranslateService } from '../../../../services/translation';
 import {
   SolarisFormFieldComponent,
   SolarisFormPrefixDirective,
+  SolarisFormSuffixActionDirective,
   SolarisFormSuffixDirective,
 } from '../../form-field';
 import { SolarisInputDirective } from '../../input';
@@ -76,6 +77,10 @@ export class SolarisEmailFieldComponent implements ControlValueAccessor {
 
   protected readonly projectedPrefix = contentChild(SolarisFormPrefixDirective);
   protected readonly projectedSuffix = contentChild(SolarisFormSuffixDirective);
+  protected readonly projectedSuffixAction = contentChild(
+    SolarisFormSuffixActionDirective,
+    { descendants: true },
+  );
 
   readonly id = input<string>();
   readonly name = input<string>();
@@ -98,6 +103,7 @@ export class SolarisEmailFieldComponent implements ControlValueAccessor {
   readonly optional = input<boolean>(false);
   readonly disabled = input<boolean>(false);
   readonly readonly = input<boolean>(false);
+  readonly loading = input<boolean>(false);
   readonly trimOnBlur = input<boolean>(true);
   readonly allowedDomainErrorKey = input<string>();
   readonly blockedDomainErrorKey = input<string>();

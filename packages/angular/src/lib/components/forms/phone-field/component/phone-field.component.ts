@@ -23,6 +23,7 @@ import {
 import {
   SolarisFormFieldComponent,
   SolarisFormPrefixDirective,
+  SolarisFormSuffixActionDirective,
   SolarisFormSuffixDirective,
 } from '../../form-field';
 import { SolarisInputDirective } from '../../input';
@@ -102,6 +103,10 @@ export class SolarisPhoneFieldComponent
   protected readonly popoverTrigger = viewChild(SolarisPopoverTriggerDirective);
   protected readonly projectedPrefix = contentChild(SolarisFormPrefixDirective);
   protected readonly projectedSuffix = contentChild(SolarisFormSuffixDirective);
+  protected readonly projectedSuffixAction = contentChild(
+    SolarisFormSuffixActionDirective,
+    { descendants: true },
+  );
 
   readonly id = input<string>();
   readonly name = input<string>();
@@ -130,6 +135,7 @@ export class SolarisPhoneFieldComponent
   readonly appearance = input<SolarisPhoneFieldAppearance>('outline');
   readonly maxLength = input<number | undefined>();
   readonly suffix = input<SolarisIconName>();
+  readonly loading = input<boolean>(false);
 
   readonly defaultCountry = input<SolarisCountryCode>();
   readonly country = input<SolarisCountryCode | undefined>();

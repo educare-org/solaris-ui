@@ -1,0 +1,23 @@
+<div role="listbox" [attr.aria-label]="'option.group.list-label' | translate">
+  <solaris-option-group [label]="'option.group.academic' | translate">
+    <solaris-option
+      value="students"
+      [label]="'option.group.students' | translate"
+    />
+    <solaris-option
+      value="classes"
+      [label]="'option.group.classes' | translate"
+    />
+    <solaris-option
+      value="grades"
+      [label]="'option.group.grades' | translate"
+    />
+  </solaris-option-group>
+  <solaris-option-group
+    [label]="'option.group.maintenance' | translate"
+    [disabled]="true"
+  >
+    <solaris-option value="item1" [label]="'option.group.item1' | translate" />
+    <solaris-option value="item2" [label]="'option.group.item2' | translate" />
+  </solaris-option-group>
+</div>

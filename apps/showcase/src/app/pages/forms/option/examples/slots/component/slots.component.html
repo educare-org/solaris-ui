@@ -1,0 +1,37 @@
+<div role="listbox" [attr.aria-label]="'option.slots.list-label' | translate">
+  <solaris-option value="enterprise">
+    <solaris-icon solaris-option-leading name="briefcase" [decorative]="true" />
+    <span solaris-option-label>{{
+      'option.slots.plan.enterprise' | translate
+    }}</span>
+    <span solaris-option-description>{{
+      'option.slots.plan.description' | translate
+    }}</span>
+    <span solaris-option-meta>{{
+      'option.slots.plan.billing' | translate
+    }}</span>
+    <span solaris-option-trailing>
+      <solaris-badge color="primary" size="sm">{{
+        'option.slots.plan.popular' | translate
+      }}</solaris-badge>
+    </span>
+  </solaris-option>
+  <solaris-option value="portuguese">
+    <span solaris-option-leading>🇧🇷</span>
+    <span solaris-option-label>{{
+      'option.slots.language.portuguese' | translate
+    }}</span>
+    <span solaris-option-meta>{{
+      'option.slots.language.meta' | translate
+    }}</span>
+  </solaris-option>
+  <solaris-option value="settings">
+    <solaris-icon solaris-option-leading name="settings" [decorative]="true" />
+    <span solaris-option-label>{{
+      'option.slots.settings.label' | translate
+    }}</span>
+    <span solaris-option-trailing>
+      <solaris-icon name="chevron-right" [decorative]="true" />
+    </span>
+  </solaris-option>
+</div>

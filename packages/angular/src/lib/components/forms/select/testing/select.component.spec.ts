@@ -8,6 +8,10 @@ import { SolarisTranslateService } from '../../../../services/translation/servic
 import { SolarisSelectComponent } from '../component/select.component';
 import { SolarisOptionComponent } from '../../option/component/option.component';
 import { SolarisOptionGroupComponent } from '../../option-group/component/option-group.component';
+import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
+import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
+import { SolarisFormFieldComponent } from '../../form-field/component/form-field.component';
+import { SolarisInputDirective } from '../../input/directives/input.directive';
 
 function getTestTranslations() {
   return {
@@ -1692,6 +1696,184 @@ describe('SolarisSelectComponent', () => {
       const opt = (select as any).options()[0];
       const text = (select as any).getOptionNativeText(opt);
       expect(text).toBe('Apple');
+    });
+  });
+
+  describe('form-field repasse (P4 Lote B)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select size="lg" density="compact" [loading]="true">
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class RepasseHost {}
+
+    function getInnerField(fixture: any): HTMLElement {
+      return fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+    }
+
+    it('should forward size to the inner form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      expect(getInnerField(fixture).getAttribute('data-size')).toBe('lg');
+    });
+
+    it('should forward effective density to the inner form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      expect(getInnerField(fixture).getAttribute('data-density')).toBe(
+        'compact',
+      );
+    });
+
+    it('should forward loading as overlay without layout shift', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      const field = getInnerField(fixture);
+      expect(field.hasAttribute('data-loading')).toBe(true);
+      expect(field.getAttribute('aria-busy')).toBe('true');
+      expect(field.querySelector('.solaris-form-field__loading')).toBeTruthy();
+    });
+  });
+
+  describe('clearable (P4 Lote B)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select [clearable]="true" (cleared)="onCleared()">
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class ClearableHost {
+      clearedCount = 0;
+      onCleared(): void {
+        this.clearedCount += 1;
+      }
+    }
+
+    it('should not render a clear button without a value', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ClearableHost);
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector('.solaris-select__clear'),
+      ).toBeFalsy();
+    });
+
+    it('should render a clear button once a value is set and clear on click', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ClearableHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      select.writeValue('a');
+      fixture.detectChanges();
+      const clearBtn = fixture.nativeElement.querySelector(
+        '.solaris-select__clear',
+      );
+      expect(clearBtn).toBeTruthy();
+      clearBtn.click();
+      fixture.detectChanges();
+      expect(fixture.componentInstance.clearedCount).toBe(1);
+      expect(
+        fixture.nativeElement.querySelector('.solaris-select__clear'),
+      ).toBeFalsy();
+    });
+  });
+
+  describe('suffix-action projection (P4 Lote B)', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisSelectComponent,
+        SolarisOptionComponent,
+        SolarisFormFieldComponent,
+        SolarisFormSuffixDirective,
+        SolarisFormSuffixActionDirective,
+      ],
+      template: `
+        <solaris-form-field label="Direct">
+          <input solaris-input aria-label="direct" />
+          <button
+            type="button"
+            solaris-form-suffix
+            solaris-form-suffix-action
+            aria-label="Action"
+          >
+            Go
+          </button>
+        </solaris-form-field>
+        <solaris-select>
+          <button
+            type="button"
+            solaris-form-suffix
+            solaris-form-suffix-action
+            aria-label="Action"
+          >
+            Go
+          </button>
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class SuffixActionHost {}
+
+    it('should render action variant for a dual-attribute direct child (control)', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SuffixActionHost);
+      fixture.detectChanges();
+      const root = fixture.nativeElement as HTMLElement;
+      const directField = root.querySelector(
+        'solaris-form-field',
+      ) as HTMLElement;
+      const directAffix = directField.querySelector(
+        '.solaris-form-field__affix--suffix',
+      ) as HTMLElement;
+      expect(directAffix.getAttribute('data-variant')).toBe('action');
+    });
+
+    it('should cross ngProjectAs and switch the suffix affix to action variant', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SuffixActionHost);
+      fixture.detectChanges();
+      const root = fixture.nativeElement as HTMLElement;
+      const field = root.querySelector(
+        'solaris-select solaris-form-field',
+      ) as HTMLElement;
+      const btn = field.querySelector(
+        '[solaris-form-suffix-action]',
+      ) as HTMLElement;
+      expect(btn).toBeTruthy();
+      const affix = field.querySelector(
+        '.solaris-form-field__affix--suffix',
+      ) as HTMLElement;
+      expect(affix.contains(btn)).toBe(true);
+      expect(affix.getAttribute('data-variant')).toBe('action');
     });
   });
 });

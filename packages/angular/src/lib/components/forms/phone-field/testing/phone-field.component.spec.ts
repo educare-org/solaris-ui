@@ -4,6 +4,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { SolarisPhoneFieldComponent } from '../component/phone-field.component';
+import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
+import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
 
 @Component({
@@ -322,6 +324,61 @@ describe('SolarisPhoneFieldComponent', () => {
       const { countryButton } = await setup(BasicHost);
       expect(countryButton.getAttribute('aria-haspopup')).toBe('listbox');
       expect(countryButton.getAttribute('aria-expanded')).toBe('false');
+    });
+  });
+
+  describe('form-field repasse (P4 Lote C)', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisPhoneFieldComponent,
+        ReactiveFormsModule,
+        SolarisFormSuffixDirective,
+        SolarisFormSuffixActionDirective,
+      ],
+      template: `<solaris-phone-field label="Phone" size="lg" density="compact">
+        <button
+          type="button"
+          solaris-form-suffix
+          solaris-form-suffix-action
+          aria-label="Action"
+        >
+          Go
+        </button>
+      </solaris-phone-field>`,
+    })
+    class RepasseHost {}
+
+    @Component({
+      standalone: true,
+      imports: [SolarisPhoneFieldComponent, ReactiveFormsModule],
+      template: `<solaris-phone-field
+        label="Phone"
+        [loading]="true"
+      ></solaris-phone-field>`,
+    })
+    class LoadingHost {}
+
+    it('forwards size, density and loading to the inner form field', async () => {
+      const { fixture } = await setup(LoadingHost);
+      const field = fixture.nativeElement.querySelector(
+        'solaris-phone-field solaris-form-field',
+      ) as HTMLElement;
+      expect(field.hasAttribute('data-loading')).toBe(true);
+      expect(field.querySelector('.solaris-form-field__loading')).toBeTruthy();
+    });
+
+    it('projects suffix-action into the action variant', async () => {
+      const { fixture } = await setup(RepasseHost);
+      const field = fixture.nativeElement.querySelector(
+        'solaris-phone-field solaris-form-field',
+      ) as HTMLElement;
+      expect(field.getAttribute('data-size')).toBe('lg');
+      expect(field.getAttribute('data-density')).toBe('compact');
+      const affix = field.querySelector(
+        '.solaris-form-field__affix--suffix',
+      ) as HTMLElement;
+      expect(affix.getAttribute('data-variant')).toBe('action');
     });
   });
 });

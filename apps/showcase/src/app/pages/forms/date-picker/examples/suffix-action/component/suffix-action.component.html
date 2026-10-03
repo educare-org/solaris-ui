@@ -1,0 +1,17 @@
+<solaris-date-picker
+  locale="pt-BR"
+  [formControl]="dateControl"
+  [label]="'date-picker.suffix-action.label' | translate"
+  [hint]="'date-picker.suffix-action.hint' | translate"
+>
+  <button
+    type="button"
+    solaris-icon-button
+    solaris-form-suffix
+    solaris-form-suffix-action
+    [attr.aria-label]="'date-picker.suffix-action.clear' | translate"
+    (click)="clearDate()"
+  >
+    <solaris-icon name="x" [decorative]="true" />
+  </button>
+</solaris-date-picker>

@@ -1,47 +1,19 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.option-showcase {
-  @include layout.page;
-}
-
-.option-showcase__header {
-  @include layout.header;
-}
-
-.option-showcase__title {
-  @include layout.title;
-}
-
-.option-showcase__description {
-  @include layout.description;
-}
-
-.option-showcase__section {
-  @include layout.section-card;
-}
-
-.option-showcase__section-title {
-  @include layout.section-title;
-}
-
 .option-showcase__note {
   @include layout.note;
 
-  margin-bottom: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.option-showcase__listbox {
+.option-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
+}
+
+.option-showcase__controls {
   display: flex;
-  flex-direction: column;
-  gap: var(--solaris-spacing-1);
-  padding: var(--solaris-spacing-2);
-  background: var(--solaris-surface-base);
-  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
-  border-radius: var(--solaris-radius-lg);
-  max-width: calc(var(--solaris-spacing-18) * 3);
-}
-
-.option-showcase__flag {
-  font-size: var(--solaris-spacing-8);
-  line-height: 1;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
 }

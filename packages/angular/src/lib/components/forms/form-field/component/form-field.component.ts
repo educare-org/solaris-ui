@@ -116,13 +116,25 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly projectedLabel = contentChild(SolarisFormLabelComponent);
   protected readonly projectedHint = contentChild(SolarisFormHintComponent);
   protected readonly projectedError = contentChild(SolarisFormErrorComponent);
-  protected readonly projectedPrefix = contentChild(SolarisFormPrefixDirective);
-  protected readonly projectedSuffix = contentChild(SolarisFormSuffixDirective);
+  protected readonly projectedPrefix = contentChild(
+    SolarisFormPrefixDirective,
+    {
+      descendants: true,
+    },
+  );
+  protected readonly projectedSuffix = contentChild(
+    SolarisFormSuffixDirective,
+    {
+      descendants: true,
+    },
+  );
   protected readonly projectedSuffixAction = contentChild(
     SolarisFormSuffixActionDirective,
+    { descendants: true },
   );
   protected readonly projectedLabelAction = contentChild(
     SolarisFormLabelActionDirective,
+    { descendants: true },
   );
   protected readonly formControl = contentChild(SolarisFormControl);
   protected readonly formControlDirective = contentChild(FormControlDirective);
@@ -199,6 +211,9 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   readonly hasSuffixInput = input<boolean | undefined>(undefined, {
     alias: 'hasSuffix',
   });
+  readonly hasSuffixActionInput = input<boolean | undefined>(undefined, {
+    alias: 'hasSuffixAction',
+  });
 
   readonly prefix = input<SolarisIconName>();
   readonly suffix = input<SolarisIconName>();
@@ -218,7 +233,9 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     );
   });
   protected readonly hasSuffixAction = computed(
-    () => !this.loading() && !!this.projectedSuffixAction(),
+    () =>
+      !this.loading() &&
+      (!!this.projectedSuffixAction() || !!this.hasSuffixActionInput()),
   );
   protected readonly suffixVariant = computed(() => {
     return this.hasSuffixAction() ? 'action' : null;

@@ -1,53 +1,66 @@
 import type { SolarisTranslationMap } from '@solaris-ui/angular';
 
 export const phoneFieldPtBr: SolarisTranslationMap = {
-  'phone-field.title': 'Campo de Telefone',
+  'phone-field.title': 'Phone Field',
   'phone-field.description':
-    'Phone Field é um preset de Form Field para números de telefone. Compõe Form Field + Input com seletor de país pesquisável, formatação em tempo de digitação e um único valor E.164.',
-  'phone-field.basic': 'Básico',
-  'phone-field.basic-note':
+    'Preset de Form Field para telefones com seletor de país pesquisável, formatação em tempo de digitação e um único valor E.164. Compõe Form Field + Input.',
+  'phone-field.section.examples': 'Exemplos',
+  'phone-field.section.size-density': 'Tamanho e densidade',
+  'phone-field.section.sizes': 'Tamanhos',
+  'phone-field.section.density': 'Densidade',
+  'phone-field.section.appearances': 'Aparências',
+  'phone-field.section.radius': 'Raio',
+  'phone-field.section.states': 'Estados',
+  'phone-field.section.affix': 'Sufixo e ações',
+  'phone-field.section.countries': 'Países e busca',
+  'phone-field.section.form': 'Integração com formulários',
+  'phone-field.section.installation': 'Instalação',
+  'phone-field.section.props': 'Propriedades',
+  'phone-field.examples.note':
     'Digite um número para vê-lo formatado enquanto você digita. O valor é normalizado para E.164 quando válido.',
-  'phone-field.country-selector': 'Seletor de País',
-  'phone-field.country-selector-note':
-    'Abra o botão de prefixo para buscar e escolher um país. O DDI e a formatação seguem a seleção.',
-  'phone-field.restricted-countries': 'Países Restritos',
-  'phone-field.restricted-countries-note':
-    'Passe countryList para limitar quais países podem ser selecionados.',
-  'phone-field.required': 'Obrigatório',
-  'phone-field.hint': 'Dica',
-  'phone-field.placeholder': 'Placeholder',
-  'phone-field.placeholder-note':
-    'Quando nenhum placeholder é fornecido, um exemplo baseado no país é usado.',
-  'phone-field.readonly': 'Apenas leitura',
-  'phone-field.disabled': 'Desabilitado',
-  'phone-field.appearances': 'Aparências',
-  'phone-field.density': 'Densidade',
-  'phone-field.radius': 'Raio',
-  'phone-field.reactive-forms': 'Reactive Forms',
-  'phone-field.reactive-forms-note':
-    'O campo abaixo usa formControlName com Validators.required e solarisPhoneValidator. Interaja com o campo e veja o comportamento de validação.',
-  'phone-field.reactive-forms-status':
-    'Válido: {{valid}} | Tocou: {{touched}} | Valor: {{value}}',
-  'phone-field.reactive-forms-empty': '(vazio)',
-  'phone-field.label.basic': 'Telefone',
-  'phone-field.label.country': 'Telefone',
-  'phone-field.label.restricted': 'Telefone',
-  'phone-field.label.required': 'Telefone',
-  'phone-field.label.hint': 'Celular',
-  'phone-field.hint.mobile': 'Prefira um número de celular.',
-  'phone-field.label.placeholder': 'Telefone',
-  'phone-field.placeholder.hint': 'Digite seu número de telefone',
-  'phone-field.label.readonly': 'Apenas leitura',
-  'phone-field.label.disabled': 'Desabilitado',
-  'phone-field.label.outline': 'Outline',
-  'phone-field.label.surface': 'Surface',
-  'phone-field.label.filled': 'Filled',
-  'phone-field.label.compact': 'Compacto',
-  'phone-field.label.normal': 'Normal',
-  'phone-field.label.comfortable': 'Confortável',
-  'phone-field.label.radius-none': 'Nenhum',
-  'phone-field.label.radius-sm': 'SM',
-  'phone-field.label.radius-md': 'MD',
-  'phone-field.label.radius-lg': 'LG',
-  'phone-field.label.reactive': 'Telefone',
+  'phone-field.demo.label': 'Telefone',
+  'phone-field.size-density.note':
+    'Tamanho e densidade combinam em uma matriz 3x3: o Form Field interno define a altura externa enquanto o preset mantém fonte e espaçamento sincronizados.',
+  'phone-field.size.sm': 'Pequeno',
+  'phone-field.size.md': 'Médio',
+  'phone-field.size.lg': 'Grande',
+  'phone-field.density.compact': 'Compacta',
+  'phone-field.density.normal': 'Normal',
+  'phone-field.density.comfortable': 'Confortável',
+  'phone-field.appearance.outline': 'Outline',
+  'phone-field.appearance.surface': 'Surface',
+  'phone-field.appearance.filled': 'Filled',
+  'phone-field.radius.note':
+    'O raio é delegado ao Form Field interno: md equivale a 8px e lg vira pill.',
+  'phone-field.radius.none': 'Nenhum',
+  'phone-field.radius.sm': 'Pequeno',
+  'phone-field.radius.md': 'Médio',
+  'phone-field.radius.lg': 'Grande',
+  'phone-field.states.note':
+    'Disabled e readonly são reais, não apenas visuais. Loading renderiza um overlay de spinner no slot de sufixo sem deslocar o layout.',
+  'phone-field.states.default': 'Padrão',
+  'phone-field.states.invalid': 'Inválido',
+  'phone-field.states.disabled': 'Desabilitado',
+  'phone-field.states.readonly': 'Somente leitura',
+  'phone-field.states.loading': 'Carregando',
+  'phone-field.error.invalid': 'Este campo tem um erro.',
+  'phone-field.affix.note':
+    'O slot de prefixo pertence ao seletor de país. Ícones de sufixo via input suffix; conteúdo interativo usa o slot suffix-action com [solaris-form-suffix] e [solaris-form-suffix-action].',
+  'phone-field.affix.suffix-label': 'Telefone com sufixo',
+  'phone-field.affix.action-label': 'Telefone com ação',
+  'phone-field.affix.action': 'Verificar',
+  'phone-field.countries.note':
+    'Abra o botão de prefixo para buscar e escolher um país. Passe countryList para restringir as opções e [searchable]="false" para ocultar a busca.',
+  'phone-field.countries.restricted-label': 'Telefone com países restritos',
+  'phone-field.countries.plain-label': 'Telefone sem busca',
+  'phone-field.form.note':
+    'Funciona com Reactive Forms via ControlValueAccessor. O valor do modelo é uma única string E.164; combine com solarisPhoneValidator.',
+  'phone-field.form.label': 'Telefone',
+  'phone-field.form.hint': 'Prefira um número de celular.',
+  'phone-field.installation.note':
+    'Instale o pacote Solaris UI e importe o componente de phone field.',
+  'phone-field.props.note':
+    'Tabela de propriedades em breve com o componente de tabela.',
+  'phone-field.ai.prompt':
+    'Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela.',
 };

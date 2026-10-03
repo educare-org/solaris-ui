@@ -7,6 +7,8 @@ import { provideSolarisTesting } from '../../../../testing/provide-solaris-testi
 import { SolarisMultiSelectComponent } from '../component/multi-select.component';
 import { SolarisOptionComponent } from '../../option/component/option.component';
 import { SolarisOptionGroupComponent } from '../../option-group/component/option-group.component';
+import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
+import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
 import type { SolarisMultiSelectDisplayMode } from '../model/multi-select.types';
 
 function getTestProviders() {
@@ -1734,6 +1736,94 @@ describe('SolarisMultiSelectComponent', () => {
       const multiSelect = getMultiSelect();
       multiSelect.writeValue({ a: 1 });
       expect(multiSelect.value()).toEqual([]);
+    });
+  });
+
+  describe('form-field repasse (P4 Lote B)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-multi-select size="lg" density="compact" [loading]="true">
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-multi-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class RepasseHost {}
+
+    function getInnerField(fixture: any): HTMLElement {
+      return fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      );
+    }
+
+    it('should forward size and effective density to the inner form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      const field = getInnerField(fixture);
+      expect(field.getAttribute('data-size')).toBe('lg');
+      expect(field.getAttribute('data-density')).toBe('compact');
+    });
+
+    it('should forward loading as overlay without layout shift', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      const field = getInnerField(fixture);
+      expect(field.hasAttribute('data-loading')).toBe(true);
+      expect(field.getAttribute('aria-busy')).toBe('true');
+      expect(field.querySelector('.solaris-form-field__loading')).toBeTruthy();
+    });
+  });
+
+  describe('suffix-action projection (P4 Lote B)', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisMultiSelectComponent,
+        SolarisOptionComponent,
+        SolarisFormSuffixDirective,
+        SolarisFormSuffixActionDirective,
+      ],
+      template: `
+        <solaris-multi-select>
+          <button
+            type="button"
+            solaris-form-suffix
+            solaris-form-suffix-action
+            aria-label="Action"
+          >
+            Go
+          </button>
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-multi-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class SuffixActionHost {}
+
+    it('should cross ngProjectAs and switch the suffix affix to action variant', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SuffixActionHost);
+      fixture.detectChanges();
+      const field = fixture.nativeElement.querySelector(
+        'solaris-multi-select solaris-form-field',
+      );
+      const affix = field.querySelector(
+        '.solaris-form-field__affix--suffix',
+      ) as HTMLElement;
+      expect(affix.getAttribute('data-variant')).toBe('action');
+      expect(affix.querySelector('[solaris-form-suffix-action]')).toBeTruthy();
     });
   });
 });

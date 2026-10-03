@@ -5,11 +5,14 @@
   [error]="errorText()"
   [appearance]="appearance()"
   [density]="effectiveDensity()"
+  [size]="size()"
   [radius]="radius()"
   [invalid]="isEffectivelyInvalid()"
   [required]="requiredInput()"
   [disabled]="isEffectivelyDisabled()"
   [readonly]="isEffectivelyReadonly()"
+  [loading]="loading()"
+  [hasSuffixAction]="!!projectedSuffixAction()"
   solaris-popover-trigger
   [solarisPopoverTriggerFor]="rangePopover"
   [solarisPopoverDisabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
@@ -43,12 +46,25 @@
     appearance="ghost"
     solaris-icon-button
     solaris-form-suffix
+    solaris-form-suffix-action
     class="solaris-date-range-picker__calendar-trigger"
     [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
     [attr.aria-label]="calendarLabel()"
   >
     <solaris-icon name="calendar" [decorative]="true" />
   </button>
+  <ng-content
+    select="[solaris-form-suffix][solaris-form-suffix-action]"
+    ngProjectAs="[solaris-form-suffix-action]"
+  />
+  <ng-content
+    select="[solaris-form-suffix]"
+    ngProjectAs="[solaris-form-suffix]"
+  />
+  <ng-content
+    select="[solaris-form-label-action]"
+    ngProjectAs="[solaris-form-label-action]"
+  />
 </solaris-form-field>
 
 <ng-template #rangePopover="solarisPopover" solaris-popover>

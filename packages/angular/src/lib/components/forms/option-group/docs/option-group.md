@@ -44,6 +44,13 @@
 | `compact`     | Reduced gap between items |
 | `comfortable` | Increased gap (default)   |
 
+### Standalone size and density
+
+Like Option, the group is a standalone list wrapper with **no** control
+height: `size` (default `'md'`) and `density` (default: inherited theme
+density) adjust label typography and gaps only. The host exposes `data-size`
+and `data-density` for styling hooks.
+
 ## CSS Variables
 
 Option Group tokens can be customized on the host or a parent element:

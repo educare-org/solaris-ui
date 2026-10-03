@@ -192,6 +192,7 @@ export type {
   SolarisSelectAppearance,
   SolarisSelectDensity,
   SolarisSelectRadius,
+  SolarisSelectSize,
 } from './lib/components/forms/select/model/select.types';
 
 export { SolarisMultiSelectComponent } from './lib/components/forms/multi-select/component/multi-select.component';
@@ -200,6 +201,7 @@ export type {
   SolarisMultiSelectDensity,
   SolarisMultiSelectRadius,
   SolarisMultiSelectDisplayMode,
+  SolarisMultiSelectSize,
 } from './lib/components/forms/multi-select/model/multi-select.types';
 
 export { SolarisInputDirective } from './lib/components/forms/input/directives/input.directive';
@@ -258,9 +260,17 @@ export type {
 export { SolarisDatePickerComponent } from './lib/components/forms/date-picker/component/date-picker.component';
 export type {
   SolarisDatePickerAppearance,
+  SolarisDatePickerDensity,
   SolarisDatePickerRadius,
+  SolarisDatePickerSize,
 } from './lib/components/forms/date-picker/model/date-picker.types';
 export { SolarisDateRangePickerComponent } from './lib/components/forms/date-range-picker/component/date-range-picker.component';
+export type {
+  SolarisDateRangePickerAppearance,
+  SolarisDateRangePickerDensity,
+  SolarisDateRangePickerRadius,
+  SolarisDateRangePickerSize,
+} from './lib/components/forms/date-range-picker/model/date-range-picker.types';
 export type {
   SolarisDatePreset,
   SolarisDateRange,
@@ -309,6 +319,7 @@ export type {
   SolarisPasswordFieldAppearance,
   SolarisPasswordFieldDensity,
   SolarisPasswordFieldRadius,
+  SolarisPasswordFieldSize,
   SolarisPasswordStrength,
 } from './lib/components/forms/password-field/model/password-field.types';
 
@@ -322,6 +333,7 @@ export type {
   SolarisEmailFieldAppearance,
   SolarisEmailFieldDensity,
   SolarisEmailFieldRadius,
+  SolarisEmailFieldSize,
 } from './lib/components/forms/email-field/model/email-field.types';
 
 export { SolarisPhoneFieldComponent } from './lib/components/forms/phone-field/component/phone-field.component';
@@ -336,6 +348,7 @@ export type {
   SolarisPhoneFieldAppearance,
   SolarisPhoneFieldDensity,
   SolarisPhoneFieldRadius,
+  SolarisPhoneFieldSize,
 } from './lib/components/forms/phone-field/model/phone-field.types';
 
 export { SolarisOtpInputComponent } from './lib/components/forms/otp-input/component/otp-input.component';
@@ -345,6 +358,7 @@ export type {
   SolarisOtpInputCharType,
   SolarisOtpInputDensity,
   SolarisOtpInputRadius,
+  SolarisOtpInputSize,
 } from './lib/components/forms/otp-input/model/otp-input.types';
 
 export { SolarisPopoverDirective } from './lib/components/interaction/popover/directives/popover.directive';

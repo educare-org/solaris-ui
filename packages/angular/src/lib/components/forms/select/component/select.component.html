@@ -10,7 +10,9 @@
   [radius]="radius()"
   [invalid]="isEffectivelyInvalid()"
   [required]="requiredInput()"
+  [loading]="loading()"
   [hasPrefix]="!!prefix()"
+  [hasSuffixAction]="!!projectedSuffixAction()"
   solaris-popover-trigger
   [solarisPopoverDisabled]="!canOpen()"
   [solarisPopoverTriggerFor]="matchWidthPopover"
@@ -102,6 +104,10 @@
     </span>
   </div>
 
+  <ng-content
+    select="[solaris-form-suffix][solaris-form-suffix-action]"
+    ngProjectAs="[solaris-form-suffix-action]"
+  />
   <ng-content
     select="[solaris-form-suffix]"
     ngProjectAs="[solaris-form-suffix]"

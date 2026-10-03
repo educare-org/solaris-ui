@@ -144,6 +144,14 @@ Disabled options have reduced opacity and `aria-disabled="true"`. They are not i
 
 Parent components can control these for all child options.
 
+### Standalone sizing (no control height)
+
+`SolarisOptionComponent` is a standalone list item: it carries **no**
+`--solaris-control-height-*` token. `size` (default `'md'`) and `density`
+(default: inherited theme density) adjust font size and padding only, so the
+row sizes to its content inside the parent list. Host exposes
+`data-size` and `data-density` for styling hooks.
+
 ## CSS Variables
 
 Option tokens can be customized on the host or a parent element:
@@ -191,6 +199,13 @@ Option tokens can be customized on the host or a parent element:
 - **No** keyboard navigation implemented in Option v1 (parent responsibility)
 - **No** `appearance` input in v1
 - **No** `radius` input in v1
+- **No** `loading` input in v1 (options render immediately; async state belongs to the parent selector)
+
+## Follow-up (docs only, no implementation)
+
+Textarea `autoGrow`/`maxRows` remains a follow-up and is unrelated to
+Option: options never host free-text editing, so growing text behavior does
+not apply here.
 
 ## Examples
 

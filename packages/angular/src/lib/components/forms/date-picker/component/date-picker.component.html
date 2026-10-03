@@ -15,6 +15,8 @@
   [invalid]="isEffectivelyInvalid()"
   [disabled]="isEffectivelyDisabled()"
   [readonly]="isEffectivelyReadonly()"
+  [loading]="loading()"
+  [hasSuffixAction]="!!projectedSuffixAction()"
   [solarisPopoverPlacement]="'bottom'"
   [solarisPopoverAriaHasPopup]="'dialog'"
   (solarisPopoverOpened)="onPanelOpened()"
@@ -48,12 +50,25 @@
     appearance="ghost"
     solaris-icon-button
     solaris-form-suffix
+    solaris-form-suffix-action
     class="solaris-date-picker__calendar-trigger"
     [attr.aria-label]="calendarButtonLabelText()"
     [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
   >
     <solaris-icon name="calendar" [decorative]="true" />
   </button>
+  <ng-content
+    select="[solaris-form-suffix][solaris-form-suffix-action]"
+    ngProjectAs="[solaris-form-suffix-action]"
+  />
+  <ng-content
+    select="[solaris-form-suffix]"
+    ngProjectAs="[solaris-form-suffix]"
+  />
+  <ng-content
+    select="[solaris-form-label-action]"
+    ngProjectAs="[solaris-form-label-action]"
+  />
 </solaris-form-field>
 
 <ng-template #calendarPopover="solarisPopover" solaris-popover>

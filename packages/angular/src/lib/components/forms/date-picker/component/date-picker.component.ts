@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   computed,
+  contentChild,
   forwardRef,
   inject,
   input,
@@ -19,6 +20,7 @@ import {
 } from '../../../interaction/popover';
 import {
   SolarisFormFieldComponent,
+  SolarisFormSuffixActionDirective,
   SolarisFormSuffixDirective,
 } from '../../form-field';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
@@ -51,6 +53,7 @@ import { SolarisIconButtonDirective } from '../../../actions/icon-button';
   imports: [
     SolarisDateCalendarComponent,
     SolarisFormFieldComponent,
+    SolarisFormSuffixActionDirective,
     SolarisFormSuffixDirective,
     SolarisIconComponent,
     SolarisInputDirective,
@@ -90,6 +93,11 @@ export class SolarisDatePickerComponent
     viewChild<ElementRef<HTMLInputElement>>('inputElement');
   protected readonly popoverTrigger = viewChild(SolarisPopoverTriggerDirective);
 
+  protected readonly projectedSuffixAction = contentChild(
+    SolarisFormSuffixActionDirective,
+    { descendants: true },
+  );
+
   readonly label = input<string>();
   readonly labelKey = input<string>();
   readonly hint = input<string>();
@@ -112,6 +120,7 @@ export class SolarisDatePickerComponent
   readonly manualInvalid = input<boolean | undefined>(undefined, {
     alias: 'invalid',
   });
+  readonly loading = input<boolean>(false);
   readonly calendarButtonLabel = input<string>();
   readonly calendarButtonLabelKey = input<string>();
 

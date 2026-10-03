@@ -5,7 +5,7 @@
   --solaris-otp-input-box-border-width: var(--solaris-border-width-sm);
   --solaris-otp-input-box-background: transparent;
   --solaris-otp-input-box-color: var(--solaris-text-default);
-  --solaris-otp-input-box-focus-border-color: var(--solaris-primary-base);
+  --solaris-otp-input-box-active-border-color: var(--solaris-border-strong);
   --solaris-otp-input-box-error-border-color: var(--solaris-danger-base);
   --solaris-otp-input-box-width: calc(
     var(--solaris-control-height-normal-md) * 0.9
@@ -14,6 +14,7 @@
     var(--solaris-control-height-normal-md) * 1.15
   );
   --solaris-otp-input-separator-color: var(--solaris-text-muted);
+  --solaris-otp-input-box-font-size: var(--solaris-font-size-sm);
 
   display: block;
   box-sizing: border-box;
@@ -41,6 +42,18 @@
   --solaris-otp-input-box-radius: var(--solaris-radius-full);
 }
 
+:host([data-density='compact']) {
+  --solaris-otp-input-box-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-density='normal']) {
+  --solaris-otp-input-box-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-otp-input-box-font-size: var(--solaris-font-size-md);
+}
+
 .solaris-otp-input__boxes {
   display: flex;
   box-sizing: border-box;
@@ -57,7 +70,7 @@
   padding: 0;
   text-align: center;
   color: var(--solaris-otp-input-box-color);
-  font-size: var(--solaris-density-font-size);
+  font-size: var(--solaris-otp-input-box-font-size);
   line-height: var(--solaris-line-height-none);
   background: var(--solaris-otp-input-box-background);
   border-radius: var(--solaris-otp-input-box-radius);
@@ -71,16 +84,14 @@
 
   &:focus {
     outline: none;
-    border-color: var(--solaris-otp-input-box-focus-border-color);
+    border-color: var(--solaris-otp-input-box-active-border-color);
 
-    // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized
-    // color. Hardcoded spread is required by design (same as solaris-input).
-    box-shadow: 0 0 0 var(--solaris-border-width-md)
-      var(--solaris-otp-input-box-focus-border-color);
+    // SOLARIS_TOKEN_EXCEPTION: removing the focus ring on OTP boxes is intentional; the active box signals with a lighter border instead.
+    box-shadow: none;
   }
 
   &[data-active] {
-    border-color: var(--solaris-otp-input-box-focus-border-color);
+    border-color: var(--solaris-otp-input-box-active-border-color);
   }
 
   &[disabled] {
@@ -188,7 +199,7 @@
   flex: 0 0 auto;
   user-select: none;
   color: var(--solaris-otp-input-separator-color);
-  font-size: var(--solaris-density-font-size);
+  font-size: var(--solaris-otp-input-box-font-size);
   line-height: var(--solaris-line-height-none);
 }
 

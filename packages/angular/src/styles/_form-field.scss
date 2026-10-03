@@ -11,6 +11,11 @@ solaris-form-field .solaris-form-label-action {
   white-space: nowrap;
 }
 
+solaris-otp-input solaris-form-field[data-appearance][data-focused] {
+  --solaris-form-field-focus-ring-color: transparent;
+  --solaris-form-field-error-border-color: transparent;
+}
+
 solaris-form-field .solaris-form-prefix,
 solaris-form-field .solaris-form-suffix {
   border: 0;
@@ -39,6 +44,31 @@ solaris-form-field .solaris-form-suffix solaris-icon {
   font-size: var(--solaris-density-font-size);
   transition: color var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
+}
+
+solaris-form-field[data-density='compact'] solaris-icon.solaris-form-prefix,
+solaris-form-field[data-density='compact'] solaris-icon.solaris-form-suffix,
+solaris-form-field[data-density='compact'] .solaris-form-prefix solaris-icon,
+solaris-form-field[data-density='compact'] .solaris-form-suffix solaris-icon {
+  font-size: var(--solaris-font-size-xs);
+}
+
+solaris-form-field[data-density='normal'] solaris-icon.solaris-form-prefix,
+solaris-form-field[data-density='normal'] solaris-icon.solaris-form-suffix,
+solaris-form-field[data-density='normal'] .solaris-form-prefix solaris-icon,
+solaris-form-field[data-density='normal'] .solaris-form-suffix solaris-icon {
+  font-size: var(--solaris-font-size-sm);
+}
+
+solaris-form-field[data-density='comfortable'] solaris-icon.solaris-form-prefix,
+solaris-form-field[data-density='comfortable'] solaris-icon.solaris-form-suffix,
+solaris-form-field[data-density='comfortable']
+  .solaris-form-prefix
+  solaris-icon,
+solaris-form-field[data-density='comfortable']
+  .solaris-form-suffix
+  solaris-icon {
+  font-size: var(--solaris-font-size-md);
 }
 
 solaris-form-field

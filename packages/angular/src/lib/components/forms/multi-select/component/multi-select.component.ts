@@ -7,6 +7,7 @@ import {
   effect,
   forwardRef,
   inject,
+  contentChild,
   contentChildren,
   viewChild,
   ElementRef,
@@ -22,6 +23,7 @@ import {
   SolarisFormFieldTriggerDirective,
   SolarisFormPrefixDirective,
   SolarisFormFieldComponent,
+  SolarisFormSuffixActionDirective,
 } from '../../form-field';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
@@ -108,6 +110,11 @@ export class SolarisMultiSelectComponent
   protected readonly options = contentChildren(SolarisOptionComponent, {
     descendants: true,
   });
+
+  protected readonly projectedSuffixAction = contentChild(
+    SolarisFormSuffixActionDirective,
+    { descendants: true },
+  );
 
   protected readonly optionGroups = contentChildren(
     SolarisOptionGroupComponent,

@@ -14,8 +14,10 @@
   [invalid]="isFieldInvalid()"
   [error]="error() || computedError()"
   [disabled]="isEffectivelyDisabled()"
+  [loading]="loading()"
   [hasPrefix]="hasPrefix()"
   [hasSuffix]="hasSuffix()"
+  [hasSuffixAction]="!!projectedSuffixAction()"
   solaris-popover-trigger
   [solarisPopoverTriggerFor]="countryPopover"
   [solarisPopoverDisabled]="!canOpen()"
@@ -83,6 +85,10 @@
       <solaris-icon [name]="suffix() ?? ''" [decorative]="true" />
     </span>
   }
+  <ng-content
+    select="[solaris-form-suffix][solaris-form-suffix-action]"
+    ngProjectAs="[solaris-form-suffix-action]"
+  />
   <ng-content
     select="[solaris-form-suffix]"
     ngProjectAs="[solaris-form-suffix]"

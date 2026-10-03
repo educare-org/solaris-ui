@@ -37,7 +37,7 @@ input[solaris-input] {
 }
 
 input[solaris-input]::placeholder {
-  opacity: 1;
+  opacity: var(--solaris-opacity-70);
   color: var(--solaris-input-placeholder-color);
 }
 
@@ -126,39 +126,39 @@ input[solaris-input][data-appearance='filled'] {
 input[solaris-input][data-size='sm'] {
   --solaris-input-padding-x: var(--solaris-spacing-2);
   --solaris-input-padding-y: var(--solaris-spacing-1);
-  --solaris-input-font-size: var(--solaris-font-size-sm);
+  --solaris-input-font-size: var(--solaris-font-size-xs);
   --solaris-input-line-height: var(--solaris-line-height-sm);
 }
 
 input[solaris-input][data-size='md'] {
   --solaris-input-padding-x: var(--solaris-spacing-3);
   --solaris-input-padding-y: var(--solaris-spacing-2);
-  --solaris-input-font-size: var(--solaris-font-size-md);
+  --solaris-input-font-size: var(--solaris-font-size-sm);
   --solaris-input-line-height: var(--solaris-line-height-md);
 }
 
 input[solaris-input][data-size='lg'] {
   --solaris-input-padding-x: var(--solaris-spacing-4);
   --solaris-input-padding-y: var(--solaris-spacing-2);
-  --solaris-input-font-size: var(--solaris-font-size-lg);
+  --solaris-input-font-size: var(--solaris-font-size-md);
   --solaris-input-line-height: var(--solaris-line-height-lg);
 }
 
 input[solaris-input][data-density='compact'] {
   --solaris-input-line-height: var(--solaris-line-height-sm);
-  --solaris-input-font-size: var(--solaris-density-font-size);
+  --solaris-input-font-size: var(--solaris-font-size-xs);
   --solaris-input-padding-y: var(--solaris-density-padding-xs);
 }
 
 input[solaris-input][data-density='normal'] {
   --solaris-input-line-height: var(--solaris-line-height-sm);
-  --solaris-input-font-size: var(--solaris-density-font-size);
+  --solaris-input-font-size: var(--solaris-font-size-sm);
   --solaris-input-padding-y: var(--solaris-density-padding-xs);
 }
 
 input[solaris-input][data-density='comfortable'] {
   --solaris-input-line-height: var(--solaris-line-height-md);
-  --solaris-input-font-size: var(--solaris-density-font-size);
+  --solaris-input-font-size: var(--solaris-font-size-md);
   --solaris-input-padding-y: var(--solaris-density-padding-sm);
 }
 

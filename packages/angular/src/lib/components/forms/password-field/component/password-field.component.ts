@@ -30,6 +30,7 @@ import type { SolarisIconName } from '../../../../services/icon';
 import {
   SolarisFormFieldComponent,
   SolarisFormPrefixDirective,
+  SolarisFormSuffixActionDirective,
   SolarisFormSuffixDirective,
 } from '../../form-field';
 import type { SolarisPasswordPolicy } from '../model/password-policy.types';
@@ -55,6 +56,7 @@ interface RequirementItem {
     SolarisFormFieldComponent,
     SolarisInputDirective,
     SolarisFormSuffixDirective,
+    SolarisFormSuffixActionDirective,
     SolarisIconComponent,
   ],
   providers: [
@@ -81,6 +83,10 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
 
   protected readonly projectedPrefix = contentChild(SolarisFormPrefixDirective);
   protected readonly projectedSuffix = contentChild(SolarisFormSuffixDirective);
+  protected readonly projectedSuffixAction = contentChild(
+    SolarisFormSuffixActionDirective,
+    { descendants: true },
+  );
 
   protected readonly effectiveDensity = computed(() => {
     return this.density() ?? this.themeService.density;
@@ -102,6 +108,7 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
   readonly optional = input<boolean>(false);
   readonly disabled = input<boolean>(false);
   readonly readonly = input<boolean>(false);
+  readonly loading = input<boolean>(false);
   readonly invalid = input<boolean | undefined>();
   readonly appearance = input<SolarisPasswordFieldAppearance>('outline');
   readonly density = input<SolarisPasswordFieldDensity>();

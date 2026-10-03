@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
 import { SolarisEmailFieldComponent } from '../component/email-field.component';
 import { SolarisFormPrefixDirective } from '../../form-field/directives/form-prefix.directive';
 import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
+import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
 
@@ -960,6 +961,85 @@ describe('SolarisEmailFieldComponent', () => {
       const input = fixture.debugElement.query(By.css('input[solaris-input]'));
       input.nativeElement.focus();
       expect(document.activeElement).toBe(input.nativeElement);
+    });
+  });
+
+  describe('form-field repasse (P4 Lote C)', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisEmailFieldComponent,
+        ReactiveFormsModule,
+        SolarisFormSuffixDirective,
+        SolarisFormSuffixActionDirective,
+      ],
+      template: `<solaris-email-field
+        label="E-mail"
+        size="lg"
+        density="compact"
+      >
+        <button
+          type="button"
+          solaris-form-suffix
+          solaris-form-suffix-action
+          aria-label="Action"
+        >
+          Go
+        </button>
+      </solaris-email-field>`,
+    })
+    class RepasseHost {}
+
+    @Component({
+      standalone: true,
+      imports: [SolarisEmailFieldComponent, ReactiveFormsModule],
+      template: `<solaris-email-field
+        label="E-mail"
+        [loading]="true"
+      ></solaris-email-field>`,
+    })
+    class LoadingHost {}
+
+    function getInnerField(fixture: any): HTMLElement {
+      return fixture.nativeElement.querySelector(
+        'solaris-email-field solaris-form-field',
+      );
+    }
+
+    it('forwards size and effective density to the inner form field', () => {
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      const field = getInnerField(fixture);
+      expect(field.getAttribute('data-size')).toBe('lg');
+      expect(field.getAttribute('data-density')).toBe('compact');
+    });
+
+    it('forwards loading as overlay without layout shift', () => {
+      const fixture = TestBed.createComponent(LoadingHost);
+      fixture.detectChanges();
+      const field = getInnerField(fixture);
+      expect(field.hasAttribute('data-loading')).toBe(true);
+      expect(field.getAttribute('aria-busy')).toBe('true');
+      expect(field.querySelector('.solaris-form-field__loading')).toBeTruthy();
+    });
+
+    it('keeps explicit size/density on the inner input (explicit wins)', () => {
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      const input = fixture.debugElement.query(By.css('input[solaris-input]'));
+      expect(input.nativeElement.getAttribute('data-size')).toBe('lg');
+      expect(input.nativeElement.getAttribute('data-density')).toBe('compact');
+    });
+
+    it('projects suffix-action and switches the suffix affix to action variant', () => {
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      const field = getInnerField(fixture);
+      const affix = field.querySelector(
+        '.solaris-form-field__affix--suffix',
+      ) as HTMLElement;
+      expect(affix.getAttribute('data-variant')).toBe('action');
+      expect(affix.querySelector('[solaris-form-suffix-action]')).toBeTruthy();
     });
   });
 });

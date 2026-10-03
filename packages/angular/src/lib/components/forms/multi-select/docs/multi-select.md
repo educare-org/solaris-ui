@@ -223,6 +223,33 @@ When search is active, select all acts on currently filtered visible options.
 
 Visual loading state inside the dropdown panel. Does not implement internal fetching.
 
+`loading` is forwarded to the inner `solaris-form-field`: the field shows an
+overlay spinner with no layout shift while the trigger keeps its size.
+
+## Prefix and suffix
+
+Multi Select renders its own `solaris-form-field` internally. Affix content is
+re-projected into that inner field:
+
+- `prefix` renders a leading icon via the `prefix` input.
+- Elements with `[solaris-form-prefix]` are re-projected as the field prefix.
+- Elements with `[solaris-form-suffix]` are re-projected as the field suffix.
+- Suffix actions require **both** `[solaris-form-suffix]` and
+  `[solaris-form-suffix-action]` on the same consumer element. Only then does
+  the element cross the `ngProjectAs` boundary as `[solaris-form-suffix-action]`
+  and switch the suffix affix to `data-variant="action"`.
+- The component bridges the projected action to the inner field via
+  `[hasSuffixAction]`, so the field applies action styling automatically.
+
+```html
+<solaris-multi-select label="Countries" placeholder="Select countries">
+  <solaris-option value="br">Brazil</solaris-option>
+  <button solaris-form-suffix solaris-form-suffix-action type="button" aria-label="Toggle loading">
+    <solaris-icon name="info" [decorative]="true" />
+  </button>
+</solaris-multi-select>
+```
+
 ## empty
 
 Shown when no options are available or when search returns no results.

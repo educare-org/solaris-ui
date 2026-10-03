@@ -81,6 +81,20 @@ describe('SolarisOptionGroupComponent', () => {
     expect(el.getAttribute('data-size')).toBe('md');
   });
 
+  it('should default density to the theme density (P4 Lote B)', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-density')).toBe('normal');
+  });
+
+  it('should inherit density from the theme when density is not set (P4 Lote B)', () => {
+    configureSolarisTesting({ theme: { density: 'comfortable' } });
+    const themed = TestBed.createComponent(SolarisOptionGroupComponent);
+    themed.detectChanges();
+    expect(themed.nativeElement.getAttribute('data-density')).toBe(
+      'comfortable',
+    );
+  });
+
   it('should have SSR-safe id', () => {
     const el = createFixture();
     expect(el.id).toBeTruthy();

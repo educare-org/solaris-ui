@@ -66,6 +66,7 @@ The preset exists for the common case where you want email validation, proper au
 | `optional`              | `boolean`                                | `false`     | Marks field as optional                            |
 | `readonly`              | `boolean`                                | `false`     | Makes field read-only                              |
 | `disabled`              | `boolean`                                | `false`     | Disables the field                                 |
+| `loading`               | `boolean`                                | `false`     | Shows a spinner overlay via the inner Form Field   |
 | `appearance`            | `'outline' \| 'surface' \| 'filled'`     | `'outline'` | Visual appearance                                  |
 | `density`               | `'compact' \| 'normal' \| 'comfortable'` | —           | Inherited from theme; fallback `normal`            |
 | `radius`                | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'sm'`      | Border radius                                      |
@@ -219,6 +220,34 @@ Email Field delegates to `solaris-form-field`:
 - **readonly**: Value is visible, field is not interactive, but still focusable and selectable.
 - **disabled**: Field is not interactive, not focusable, skipped in tab order.
 
+## Loading
+
+`loading` is forwarded to the inner `solaris-form-field`, which renders a
+spinner overlay in the suffix slot. The overlay suppresses suffix content while
+active and never changes the field width, so toggling `loading` causes no
+layout shift:
+
+```html
+<solaris-email-field label="E-mail" [loading]="true" value="user@empresa.com"></solaris-email-field>
+```
+
+## Suffix action
+
+Projected content with **both** `[solaris-form-suffix]` and
+`[solaris-form-suffix-action]` is forwarded to the inner Form Field as a suffix
+action: the suffix cell switches to the `action` variant (hugs the content,
+no divider), sized to fit a nested button. Use it for interactive content such
+as CTA buttons:
+
+```html
+<solaris-email-field label="E-mail" prefix="search">
+  <button type="button" solaris-form-suffix solaris-form-suffix-action aria-label="Check">Check</button>
+</solaris-email-field>
+```
+
+Both attributes are required: `[solaris-form-suffix]` selects the preset
+forwarding slot and `[solaris-form-suffix-action]` selects the action styling.
+
 ## Accessibility
 
 - Label is associated with input via `for`/`id`.
@@ -296,6 +325,20 @@ Email Field delegates to `solaris-form-field`:
 <solaris-email-field label="E-mail">
   <solaris-icon solaris-form-prefix name="mail" decorative="true" />
 </solaris-email-field>
+```
+
+### Suffix action
+
+```html
+<solaris-email-field label="E-mail" prefix="search">
+  <button type="button" solaris-form-suffix solaris-form-suffix-action aria-label="Check">Check</button>
+</solaris-email-field>
+```
+
+### Loading
+
+```html
+<solaris-email-field label="E-mail" [loading]="true" value="user@empresa.com"></solaris-email-field>
 ```
 
 ### Reactive Forms
