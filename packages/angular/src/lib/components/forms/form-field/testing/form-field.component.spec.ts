@@ -75,6 +75,35 @@ describe('SolarisFormFieldComponent', () => {
     expect(el.getAttribute('data-density')).toBe('compact');
   });
 
+  it('should expose all nine size-density combinations on the host (T1 typography matrix)', () => {
+    const el = createFixture();
+    const sizes = ['sm', 'md', 'lg'] as const;
+    const densities = ['compact', 'normal', 'comfortable'] as const;
+    for (const size of sizes) {
+      for (const density of densities) {
+        fixture.componentRef.setInput('size', size);
+        fixture.componentRef.setInput('density', density);
+        fixture.detectChanges();
+        expect(el.getAttribute('data-size')).toBe(size);
+        expect(el.getAttribute('data-density')).toBe(density);
+      }
+    }
+  });
+
+  it('should render hint and error inside a single message row (single margin source)', () => {
+    const el: HTMLElement = createFixture();
+    fixture.componentRef.setInput('hint', 'Assistive text');
+    fixture.componentRef.setInput('error', 'Something went wrong');
+    fixture.componentRef.setInput('invalid', true);
+    fixture.detectChanges();
+    const row = el.querySelector('.solaris-form-field__message-row');
+    expect(row).toBeTruthy();
+    expect(el.querySelectorAll('.solaris-form-field__message-row').length).toBe(
+      1,
+    );
+    expect(row?.querySelector('.solaris-form-field__error')).toBeTruthy();
+  });
+
   it('should apply appearance via setInput', () => {
     const el = createFixture();
     fixture.componentRef.setInput('appearance', 'surface');
@@ -118,7 +147,7 @@ describe('SolarisFormFieldComponent', () => {
 
   it('should apply all radius values', () => {
     const el = createFixture();
-    const values = ['none', 'sm', 'md', 'lg'] as const;
+    const values = ['none', 'sm', 'md', 'lg', 'xl'] as const;
     for (const v of values) {
       fixture.componentRef.setInput('radius', v);
       fixture.detectChanges();

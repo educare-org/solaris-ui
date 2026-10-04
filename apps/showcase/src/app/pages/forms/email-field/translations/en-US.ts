@@ -11,6 +11,7 @@ export const emailFieldEnUs: SolarisTranslationMap = {
   'email-field.section.appearances': 'Appearances',
   'email-field.section.radius': 'Radius',
   'email-field.section.states': 'States',
+  'email-field.section.clearable': 'Clearable',
   'email-field.section.affix': 'Prefix, suffix and actions',
   'email-field.section.validation': 'Validation and domains',
   'email-field.section.form': 'Form integration',
@@ -32,11 +33,12 @@ export const emailFieldEnUs: SolarisTranslationMap = {
   'email-field.appearance.surface': 'Surface',
   'email-field.appearance.filled': 'Filled',
   'email-field.radius.note':
-    'Radius is delegated to the inner Form Field: md maps to 8px and lg renders as a pill.',
+    'Radius follows the global scale: md maps to 4px, lg to 8px, and xl renders as a pill.',
   'email-field.radius.none': 'None',
   'email-field.radius.sm': 'Small',
   'email-field.radius.md': 'Medium',
   'email-field.radius.lg': 'Large',
+  'email-field.radius.xl': 'Pill',
   'email-field.states.note':
     'Disabled and readonly are real, not visual-only. Loading renders a spinner overlay in the suffix slot without shifting the layout.',
   'email-field.states.default': 'Default',
@@ -44,6 +46,9 @@ export const emailFieldEnUs: SolarisTranslationMap = {
   'email-field.states.disabled': 'Disabled',
   'email-field.states.readonly': 'Readonly',
   'email-field.states.loading': 'Loading',
+  'email-field.clearable.note':
+    'With clearable, a clear button appears when the field has a value and emits cleared on click. It stays hidden while disabled, readonly, or loading.',
+  'email-field.clearable.label': 'E-mail',
   'email-field.error.invalid': 'This field has an error.',
   'email-field.error.required': 'E-mail is required.',
   'email-field.error.invalid-email': 'Enter a valid e-mail.',
@@ -72,4 +77,5 @@ export const emailFieldEnUs: SolarisTranslationMap = {
   'solaris.email-field.invalid': 'Enter a valid email address.',
   'solaris.email-field.allowedDomain': 'Email domain is not allowed.',
   'solaris.email-field.blockedDomain': 'Email domain is not allowed.',
+  'solaris.email-field.clear': 'Clear email',
 };

@@ -42,11 +42,13 @@ import {
   SELECT_SHOWCASE_RADIUS_MD_CODE,
   SELECT_SHOWCASE_RADIUS_NONE_CODE,
   SELECT_SHOWCASE_RADIUS_SM_CODE,
+  SELECT_SHOWCASE_RADIUS_XL_CODE,
   SELECT_SHOWCASE_SEARCHABLE_CODE,
   SELECT_SHOWCASE_SLUG,
   SELECT_SHOWCASE_STATES_CODE,
   SELECT_SHOWCASE_SUFFIX_ACTION_CODE,
   SELECT_SHOWCASE_SUFFIX_CODE,
+  SELECT_SHOWCASE_SUFFIX_INPUT_CODE,
   SELECT_SHOWCASE_TOC_ITEMS,
   SELECT_TRANSLATION_PREFIX,
 } from '../model/select-showcase.data';
@@ -99,10 +101,12 @@ export class SelectShowcasePage {
   protected readonly radiusSmCode = SELECT_SHOWCASE_RADIUS_SM_CODE;
   protected readonly radiusMdCode = SELECT_SHOWCASE_RADIUS_MD_CODE;
   protected readonly radiusLgCode = SELECT_SHOWCASE_RADIUS_LG_CODE;
+  protected readonly radiusXlCode = SELECT_SHOWCASE_RADIUS_XL_CODE;
   protected readonly statesCode = SELECT_SHOWCASE_STATES_CODE;
   protected readonly clearableCode = SELECT_SHOWCASE_CLEARABLE_CODE;
   protected readonly prefixCode = SELECT_SHOWCASE_PREFIX_CODE;
   protected readonly suffixCode = SELECT_SHOWCASE_SUFFIX_CODE;
+  protected readonly suffixInputCode = SELECT_SHOWCASE_SUFFIX_INPUT_CODE;
   protected readonly suffixActionCode = SELECT_SHOWCASE_SUFFIX_ACTION_CODE;
   protected readonly searchableCode = SELECT_SHOWCASE_SEARCHABLE_CODE;
   protected readonly objectCode = SELECT_SHOWCASE_OBJECT_CODE;

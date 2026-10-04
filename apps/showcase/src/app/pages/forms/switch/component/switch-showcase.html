@@ -210,6 +210,26 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section anchor="description" titleKey="switch.section.description">
+    <p class="switch-showcase__note">
+      {{ 'switch.description.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="descriptionCode" language="html">
+      <div class="switch-showcase__stack">
+        <solaris-switch
+          [label]="'switch.description.small-label' | translate"
+          [description]="'switch.description.small-text' | translate"
+          size="sm"
+        />
+        <solaris-switch
+          [label]="'switch.description.large-label' | translate"
+          [description]="'switch.description.large-text' | translate"
+          size="lg"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section anchor="form" titleKey="switch.section.form">
     <div class="switch-showcase__stack">
       <solaris-preview-code [code]="formFieldCode" language="html">

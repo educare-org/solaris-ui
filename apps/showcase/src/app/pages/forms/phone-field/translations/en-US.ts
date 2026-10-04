@@ -11,6 +11,7 @@ export const phoneFieldEnUs: SolarisTranslationMap = {
   'phone-field.section.appearances': 'Appearances',
   'phone-field.section.radius': 'Radius',
   'phone-field.section.states': 'States',
+  'phone-field.section.clearable': 'Clearable',
   'phone-field.section.affix': 'Suffix and actions',
   'phone-field.section.countries': 'Countries and search',
   'phone-field.section.form': 'Form integration',
@@ -31,11 +32,12 @@ export const phoneFieldEnUs: SolarisTranslationMap = {
   'phone-field.appearance.surface': 'Surface',
   'phone-field.appearance.filled': 'Filled',
   'phone-field.radius.note':
-    'Radius is delegated to the inner Form Field: md maps to 8px and lg renders as a pill.',
+    'Radius follows the global scale: md maps to 4px, lg to 8px, and xl renders as a pill.',
   'phone-field.radius.none': 'None',
   'phone-field.radius.sm': 'Small',
   'phone-field.radius.md': 'Medium',
   'phone-field.radius.lg': 'Large',
+  'phone-field.radius.xl': 'Pill',
   'phone-field.states.note':
     'Disabled and readonly are real, not visual-only. Loading renders a spinner overlay in the suffix slot without shifting the layout.',
   'phone-field.states.default': 'Default',
@@ -43,6 +45,9 @@ export const phoneFieldEnUs: SolarisTranslationMap = {
   'phone-field.states.disabled': 'Disabled',
   'phone-field.states.readonly': 'Readonly',
   'phone-field.states.loading': 'Loading',
+  'phone-field.clearable.note':
+    'With clearable, a clear button appears when the field has a value and emits cleared on click. It stays hidden while disabled, readonly, or loading.',
+  'phone-field.clearable.label': 'Phone',
   'phone-field.error.invalid': 'This field has an error.',
   'phone-field.affix.note':
     'The prefix slot is owned by the country selector. Suffix icons go through the suffix input; interactive content uses the suffix-action slot with both [solaris-form-suffix] and [solaris-form-suffix-action].',
@@ -62,4 +67,5 @@ export const phoneFieldEnUs: SolarisTranslationMap = {
   'phone-field.props.note': 'Props table coming soon with the table component.',
   'phone-field.ai.prompt':
     "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.",
+  'solaris.phone-field.clear': 'Clear phone number',
 };

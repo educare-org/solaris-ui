@@ -11,6 +11,7 @@ export const EN_US_SWITCH: Record<string, string> = {
   'switch.section.thumb-content': 'Thumb content',
   'switch.section.group': 'Switch group',
   'switch.section.states': 'States',
+  'switch.section.description': 'Description',
   'switch.section.form': 'Form integration',
   'switch.section.installation': 'Installation',
   'switch.section.props': 'Props',
@@ -48,6 +49,12 @@ export const EN_US_SWITCH: Record<string, string> = {
   'switch.enable-status': 'Enabled:',
   'switch.yes': 'Yes',
   'switch.no': 'No',
+  'switch.description.note':
+    'Description renders muted supporting text under the label and scales with size.',
+  'switch.description.small-label': 'Email notifications',
+  'switch.description.small-text': 'Get updates about your account.',
+  'switch.description.large-label': 'SMS notifications',
+  'switch.description.large-text': 'Get urgent alerts by text message.',
   'switch.installation.note':
     'Install the Solaris UI package and import the switch components.',
   'switch.props.note': 'Props table coming soon with the table component.',

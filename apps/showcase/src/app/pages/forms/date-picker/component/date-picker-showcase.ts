@@ -25,6 +25,8 @@ import {
   DATE_PICKER_SHOWCASE_BASIC_CODE,
   DATE_PICKER_SHOWCASE_BOUNDS_CODE,
   DATE_PICKER_SHOWCASE_BREADCRUMBS,
+  DATE_PICKER_SHOWCASE_CALENDAR_OPTIONS_CODE,
+  DATE_PICKER_SHOWCASE_CLEARABLE_CODE,
   DATE_PICKER_SHOWCASE_IMPORT_CODE,
   DATE_PICKER_SHOWCASE_INSTALL_COMMANDS,
   DATE_PICKER_SHOWCASE_NEXT,
@@ -84,6 +86,9 @@ export class DatePickerShowcasePage {
   protected readonly importCode = DATE_PICKER_SHOWCASE_IMPORT_CODE;
   protected readonly basicCode = DATE_PICKER_SHOWCASE_BASIC_CODE;
   protected readonly statesCode = DATE_PICKER_SHOWCASE_STATES_CODE;
+  protected readonly clearableCode = DATE_PICKER_SHOWCASE_CLEARABLE_CODE;
+  protected readonly calendarOptionsCode =
+    DATE_PICKER_SHOWCASE_CALENDAR_OPTIONS_CODE;
   protected readonly suffixActionCode = DATE_PICKER_SHOWCASE_SUFFIX_ACTION_CODE;
   protected readonly boundsCode = DATE_PICKER_SHOWCASE_BOUNDS_CODE;
   protected readonly rangeCode = DATE_PICKER_SHOWCASE_RANGE_CODE;
@@ -117,6 +122,12 @@ export class DatePickerShowcasePage {
   );
 
   protected readonly sizeDensityControl = new FormControl(
+    toSolarisDate(new Date()),
+  );
+  protected readonly clearableControl = new FormControl(
+    toSolarisDate(new Date()),
+  );
+  protected readonly calendarOptionsControl = new FormControl(
     toSolarisDate(new Date()),
   );
   protected readonly appearanceControl = new FormControl(

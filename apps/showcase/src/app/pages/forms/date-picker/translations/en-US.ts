@@ -8,8 +8,10 @@ export const EN_US_DATE_PICKER: Record<string, string> = {
   'date-picker.section.size-density': 'Size & density',
   'date-picker.section.appearance': 'Appearance',
   'date-picker.section.states': 'States',
+  'date-picker.section.clearable': 'Clearable',
   'date-picker.section.affix-action': 'Calendar trigger and suffix actions',
   'date-picker.section.locale-bounds': 'Locale and bounds',
+  'date-picker.section.calendar-options': 'Calendar options',
   'date-picker.section.date-range': 'Date range',
   'date-picker.section.installation': 'Installation',
   'date-picker.section.props': 'Props',
@@ -40,6 +42,9 @@ export const EN_US_DATE_PICKER: Record<string, string> = {
   'date-picker.states.invalid.error': 'Complete this field to continue.',
   'date-picker.states.loading.label': 'Loading date',
   'date-picker.states.loading.hint': 'Resolving available dates.',
+  'date-picker.clearable.note':
+    'With clearable, a clear button appears when a date is set and emits cleared on click. It stays hidden while disabled, readonly, or loading.',
+  'date-picker.clearable.label': 'Invoice date',
   'date-picker.affix-action.note':
     'The built-in calendar button is a suffix action. Extra suffix actions compose beside it, for example a clear button.',
   'date-picker.suffix-action.label': 'Invoice date',
@@ -49,6 +54,9 @@ export const EN_US_DATE_PICKER: Record<string, string> = {
     'Display and typing follow the locale. Min, max, and disabled dates bound the calendar and reject out-of-range input.',
   'date-picker.bounds.label': 'Delivery date',
   'date-picker.bounds.hint': 'Choose a date within the permitted period.',
+  'date-picker.calendar-options.note':
+    'Week starts on the locale first day unless weekStartsOn overrides it. disablePast and disableFuture bound selection to today, and dateFormat switches day/month padding between 2-digit and numeric.',
+  'date-picker.calendar-options.label': 'Start date',
   'date-picker.range.note':
     'Date Range Picker collects a start and end date with presets, a pending panel, and Apply/Cancel. Size, density, loading, and suffix actions work the same as the single picker.',
   'date-picker.range.basic.label': 'Reporting period',
@@ -63,4 +71,5 @@ export const EN_US_DATE_PICKER: Record<string, string> = {
   'date-picker.props.note': 'Props table coming soon with the table component.',
   'date-picker.ai.prompt':
     "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.",
+  'solaris.date-picker.clear': 'Clear date',
 };

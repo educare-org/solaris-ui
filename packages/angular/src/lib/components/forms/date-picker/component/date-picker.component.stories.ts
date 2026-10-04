@@ -18,3 +18,16 @@ export const Basic: Story = {
 export const Required: Story = {
   args: { label: 'Date', required: true },
 };
+
+export const Clearable: Story = {
+  args: { label: 'Date', clearable: true },
+};
+
+export const CalendarOptions: Story = {
+  args: {
+    label: 'Date',
+    weekStartsOn: 1,
+    disablePast: true,
+    dateFormat: 'numeric',
+  },
+};

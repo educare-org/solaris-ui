@@ -81,6 +81,7 @@ export const TEXTAREA_SHOWCASE_RADIUS_NONE_CODE = textareaRadiusCode('none');
 export const TEXTAREA_SHOWCASE_RADIUS_SM_CODE = textareaRadiusCode('sm');
 export const TEXTAREA_SHOWCASE_RADIUS_MD_CODE = textareaRadiusCode('md');
 export const TEXTAREA_SHOWCASE_RADIUS_LG_CODE = textareaRadiusCode('lg');
+export const TEXTAREA_SHOWCASE_RADIUS_XL_CODE = textareaRadiusCode('xl');
 
 export const TEXTAREA_SHOWCASE_STATES_CODE = [
   '<solaris-form-field label="Default">',

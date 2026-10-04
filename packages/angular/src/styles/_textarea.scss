@@ -11,6 +11,7 @@ textarea[solaris-textarea] {
   --solaris-textarea-border-width: var(--solaris-border-width-sm);
   --solaris-textarea-placeholder-color: var(--solaris-text-muted);
   --solaris-textarea-focus-ring-color: var(--solaris-primary-base);
+  --solaris-textarea-focus-ring-width: var(--solaris-focus-ring-width);
   --solaris-textarea-invalid-border-color: var(--solaris-danger-base);
   --solaris-textarea-readonly-background: var(--solaris-surface-muted);
   --solaris-textarea-min-height: calc(
@@ -46,7 +47,8 @@ textarea[solaris-textarea]::placeholder {
 textarea[solaris-textarea]:focus-visible {
   // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized color. Hardcoded spread required by design.
   border-color: var(--solaris-textarea-focus-ring-color);
-  box-shadow: 0 0 0 2px var(--solaris-textarea-focus-ring-color);
+  box-shadow: 0 0 0 var(--solaris-textarea-focus-ring-width)
+    var(--solaris-textarea-focus-ring-color);
 }
 
 textarea[solaris-textarea][data-invalid] {
@@ -56,7 +58,8 @@ textarea[solaris-textarea][data-invalid] {
 textarea[solaris-textarea][data-invalid]:focus-visible {
   // SOLARIS_TOKEN_EXCEPTION: Invalid state focus ring box-shadow uses CSS var. Hardcoded spread required by design.
   border-color: var(--solaris-textarea-invalid-border-color);
-  box-shadow: 0 0 0 2px var(--solaris-textarea-invalid-border-color);
+  box-shadow: 0 0 0 var(--solaris-textarea-focus-ring-width)
+    var(--solaris-textarea-invalid-border-color);
 }
 
 textarea[solaris-textarea]:disabled {
@@ -72,7 +75,7 @@ textarea[solaris-textarea][readonly] {
 textarea[solaris-textarea][data-appearance='outline'] {
   --solaris-textarea-color: var(--solaris-text-default);
   --solaris-textarea-background: var(--solaris-surface-base);
-  --solaris-textarea-border-color: var(--solaris-border-default);
+  --solaris-textarea-border-color: var(--solaris-border-subtle);
   --solaris-textarea-disabled-opacity: var(--solaris-opacity-50);
   --solaris-textarea-border-width: var(--solaris-border-width-sm);
   --solaris-textarea-placeholder-color: var(--solaris-text-muted);
@@ -83,10 +86,10 @@ textarea[solaris-textarea][data-appearance='outline'] {
 
 textarea[solaris-textarea][data-appearance='surface'] {
   --solaris-textarea-color: var(--solaris-text-default);
-  --solaris-textarea-background: var(--solaris-surface-muted);
+  --solaris-textarea-background: var(--solaris-surface-subtle);
   --solaris-textarea-border-color: var(--solaris-border-subtle);
   --solaris-textarea-disabled-opacity: var(--solaris-opacity-50);
-  --solaris-textarea-border-width: var(--solaris-border-width-sm);
+  --solaris-textarea-border-width: 0;
   --solaris-textarea-placeholder-color: var(--solaris-text-muted);
   --solaris-textarea-focus-ring-color: var(--solaris-primary-base);
   --solaris-textarea-invalid-border-color: var(--solaris-danger-base);
@@ -94,15 +97,15 @@ textarea[solaris-textarea][data-appearance='surface'] {
 }
 
 textarea[solaris-textarea][data-appearance='filled'] {
-  --solaris-textarea-border-color: transparent;
+  --solaris-textarea-border-color: var(--solaris-border-subtle);
   --solaris-textarea-color: var(--solaris-text-default);
-  --solaris-textarea-background: var(--solaris-surface-muted);
+  --solaris-textarea-background: var(--solaris-surface-subtle);
   --solaris-textarea-disabled-opacity: var(--solaris-opacity-50);
   --solaris-textarea-placeholder-color: var(--solaris-text-muted);
   --solaris-textarea-focus-ring-color: var(--solaris-primary-base);
   --solaris-textarea-invalid-border-color: var(--solaris-danger-base);
-  --solaris-textarea-readonly-background: var(--solaris-surface-base);
-  --solaris-textarea-border-width: 0 0 var(--solaris-border-width-sm) 0;
+  --solaris-textarea-readonly-background: var(--solaris-surface-muted);
+  --solaris-textarea-border-width: var(--solaris-border-width-sm);
 }
 
 textarea[solaris-textarea][data-size='sm'] {
@@ -149,6 +152,42 @@ textarea[solaris-textarea][data-density='comfortable'] {
   --solaris-textarea-line-height: var(--solaris-line-height-md);
 }
 
+textarea[solaris-textarea][data-size='sm'][data-density='compact'] {
+  --solaris-textarea-min-height: var(--solaris-control-height-compact-sm);
+}
+
+textarea[solaris-textarea][data-size='md'][data-density='compact'] {
+  --solaris-textarea-min-height: var(--solaris-control-height-compact-md);
+}
+
+textarea[solaris-textarea][data-size='lg'][data-density='compact'] {
+  --solaris-textarea-min-height: var(--solaris-control-height-compact-lg);
+}
+
+textarea[solaris-textarea][data-size='sm'][data-density='normal'] {
+  --solaris-textarea-min-height: var(--solaris-control-height-normal-sm);
+}
+
+textarea[solaris-textarea][data-size='md'][data-density='normal'] {
+  --solaris-textarea-min-height: var(--solaris-control-height-normal-md);
+}
+
+textarea[solaris-textarea][data-size='lg'][data-density='normal'] {
+  --solaris-textarea-min-height: var(--solaris-control-height-normal-lg);
+}
+
+textarea[solaris-textarea][data-size='sm'][data-density='comfortable'] {
+  --solaris-textarea-min-height: var(--solaris-control-height-comfortable-sm);
+}
+
+textarea[solaris-textarea][data-size='md'][data-density='comfortable'] {
+  --solaris-textarea-min-height: var(--solaris-control-height-comfortable-md);
+}
+
+textarea[solaris-textarea][data-size='lg'][data-density='comfortable'] {
+  --solaris-textarea-min-height: var(--solaris-control-height-comfortable-lg);
+}
+
 textarea[solaris-textarea][data-radius='none'] {
   --solaris-textarea-radius: var(--solaris-radius-none);
 }
@@ -158,10 +197,14 @@ textarea[solaris-textarea][data-radius='sm'] {
 }
 
 textarea[solaris-textarea][data-radius='md'] {
-  --solaris-textarea-radius: var(--solaris-radius-lg);
+  --solaris-textarea-radius: var(--solaris-radius-md);
 }
 
 textarea[solaris-textarea][data-radius='lg'] {
+  --solaris-textarea-radius: var(--solaris-radius-lg);
+}
+
+textarea[solaris-textarea][data-radius='xl'] {
   --solaris-textarea-radius: var(--solaris-radius-full);
 }
 

@@ -8,8 +8,10 @@ export const PT_BR_DATE_PICKER: Record<string, string> = {
   'date-picker.section.size-density': 'Tamanho e densidade',
   'date-picker.section.appearance': 'Aparência',
   'date-picker.section.states': 'Estados',
+  'date-picker.section.clearable': 'Limpável',
   'date-picker.section.affix-action': 'Gatilho do calendário e ações de sufixo',
   'date-picker.section.locale-bounds': 'Locale e limites',
+  'date-picker.section.calendar-options': 'Opções do calendário',
   'date-picker.section.date-range': 'Intervalo de datas',
   'date-picker.section.installation': 'Instalação',
   'date-picker.section.props': 'Propriedades',
@@ -40,6 +42,9 @@ export const PT_BR_DATE_PICKER: Record<string, string> = {
   'date-picker.states.invalid.error': 'Preencha este campo para continuar.',
   'date-picker.states.loading.label': 'Data carregando',
   'date-picker.states.loading.hint': 'Resolvendo datas disponíveis.',
+  'date-picker.clearable.note':
+    'Com clearable, um botão de limpar aparece quando há data e emite cleared ao clicar. Ele fica oculto quando desabilitado, readonly ou loading.',
+  'date-picker.clearable.label': 'Data da fatura',
   'date-picker.affix-action.note':
     'O botão de calendário embutido é uma suffix action. Ações extras compõem ao lado dele, por exemplo um botão de limpar.',
   'date-picker.suffix-action.label': 'Data da fatura',
@@ -50,6 +55,9 @@ export const PT_BR_DATE_PICKER: Record<string, string> = {
     'Exibição e digitação seguem o locale. Min, max e disabled dates limitam o calendário e rejeitam entradas fora do intervalo.',
   'date-picker.bounds.label': 'Data de entrega',
   'date-picker.bounds.hint': 'Escolha uma data dentro do período permitido.',
+  'date-picker.calendar-options.note':
+    'A semana começa no primeiro dia do locale, salvo override via weekStartsOn. disablePast e disableFuture limitam a seleção a hoje, e dateFormat alterna o preenchimento dia/mês entre 2-digit e numeric.',
+  'date-picker.calendar-options.label': 'Data de início',
   'date-picker.range.note':
     'Date Range Picker coleta data de início e fim com presets, painel pendente e Aplicar/Cancelar. Size, density, loading e suffix actions funcionam como no picker único.',
   'date-picker.range.basic.label': 'Período do relatório',
@@ -66,4 +74,5 @@ export const PT_BR_DATE_PICKER: Record<string, string> = {
     'Tabela de propriedades em breve com o componente de tabela.',
   'date-picker.ai.prompt':
     'Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela.',
+  'solaris.date-picker.clear': 'Limpar data',
 };

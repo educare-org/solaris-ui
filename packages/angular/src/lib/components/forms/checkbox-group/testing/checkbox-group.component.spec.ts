@@ -247,6 +247,19 @@ describe('SolarisCheckboxGroupComponent CVA', () => {
     ) as HTMLElement;
     expect(el.hasAttribute('data-disabled')).toBe(false);
   });
+
+  it('setCvaReadonlyState should toggle group readonly', () => {
+    const { groupComp } = setup();
+    groupComp.setCvaReadonlyState(true);
+    hostFixture!.detectChanges();
+    const el = hostFixture!.nativeElement.querySelector(
+      'solaris-checkbox-group',
+    ) as HTMLElement;
+    expect(el.hasAttribute('data-readonly')).toBe(true);
+    groupComp.setCvaReadonlyState(false);
+    hostFixture!.detectChanges();
+    expect(el.hasAttribute('data-readonly')).toBe(false);
+  });
 });
 
 describe('SolarisCheckboxGroupComponent value management', () => {

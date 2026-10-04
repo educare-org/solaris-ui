@@ -11,6 +11,7 @@ export const phoneFieldPtBr: SolarisTranslationMap = {
   'phone-field.section.appearances': 'Aparências',
   'phone-field.section.radius': 'Raio',
   'phone-field.section.states': 'Estados',
+  'phone-field.section.clearable': 'Limpável',
   'phone-field.section.affix': 'Sufixo e ações',
   'phone-field.section.countries': 'Países e busca',
   'phone-field.section.form': 'Integração com formulários',
@@ -31,11 +32,12 @@ export const phoneFieldPtBr: SolarisTranslationMap = {
   'phone-field.appearance.surface': 'Surface',
   'phone-field.appearance.filled': 'Filled',
   'phone-field.radius.note':
-    'O raio é delegado ao Form Field interno: md equivale a 8px e lg vira pill.',
+    'O raio segue a escala global: md equivale a 4px, lg a 8px e xl vira pill.',
   'phone-field.radius.none': 'Nenhum',
   'phone-field.radius.sm': 'Pequeno',
   'phone-field.radius.md': 'Médio',
   'phone-field.radius.lg': 'Grande',
+  'phone-field.radius.xl': 'Pill',
   'phone-field.states.note':
     'Disabled e readonly são reais, não apenas visuais. Loading renderiza um overlay de spinner no slot de sufixo sem deslocar o layout.',
   'phone-field.states.default': 'Padrão',
@@ -43,6 +45,9 @@ export const phoneFieldPtBr: SolarisTranslationMap = {
   'phone-field.states.disabled': 'Desabilitado',
   'phone-field.states.readonly': 'Somente leitura',
   'phone-field.states.loading': 'Carregando',
+  'phone-field.clearable.note':
+    'Com clearable, um botão de limpar aparece quando o campo tem valor e emite cleared ao clicar. Ele fica oculto quando desabilitado, readonly ou loading.',
+  'phone-field.clearable.label': 'Telefone',
   'phone-field.error.invalid': 'Este campo tem um erro.',
   'phone-field.affix.note':
     'O slot de prefixo pertence ao seletor de país. Ícones de sufixo via input suffix; conteúdo interativo usa o slot suffix-action com [solaris-form-suffix] e [solaris-form-suffix-action].',
@@ -63,4 +68,5 @@ export const phoneFieldPtBr: SolarisTranslationMap = {
     'Tabela de propriedades em breve com o componente de tabela.',
   'phone-field.ai.prompt':
     'Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela.',
+  'solaris.phone-field.clear': 'Limpar telefone',
 };

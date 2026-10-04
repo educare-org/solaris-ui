@@ -39,6 +39,11 @@
     select="[solaris-form-prefix]"
     ngProjectAs="[solaris-form-prefix]"
   />
+  @if (suffix(); as suffixName) {
+    <span solaris-form-suffix>
+      <solaris-icon [name]="suffixName" [decorative]="true" />
+    </span>
+  }
 
   <div
     #triggerEl

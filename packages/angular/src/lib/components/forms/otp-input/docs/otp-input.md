@@ -36,30 +36,30 @@ use the prefix/suffix slots. The OTP boxes live inside the control area.
 
 ### Inputs
 
-| Input                                | Type                        | Default                                                | Description                           |
-| ------------------------------------ | --------------------------- | ------------------------------------------------------ | ------------------------------------- |
-| `value`                              | `string`                    | `''`                                                   | One-way concatenated value.           |
-| `label` / `labelKey`                 | `string` / `string`         | `''`                                                   | Field label.                          |
-| `hint` / `hintKey`                   | `string` / `string`         | `''`                                                   | Helper text.                          |
-| `error` / `errorKey`                 | `string` / `string`         | `''`                                                   | Manual error message.                 |
-| `requiredError` / `requiredErrorKey` | `string` / `string`         | —                                                      | Required error override.              |
-| `invalidError` / `invalidErrorKey`   | `string` / `string`         | —                                                      | Invalid length error override.        |
-| `required`                           | `boolean`                   | `false`                                                | Marks required and validates empty.   |
-| `optional`                           | `boolean`                   | `false`                                                | Shows the optional marker.            |
-| `disabled`                           | `boolean`                   | `false`                                                | Disables the field.                   |
-| `readonly`                           | `boolean`                   | `false`                                                | Read-only field.                      |
-| `invalid`                            | `boolean \| undefined`      | —                                                      | Manual invalid override.              |
-| `maxLength`                          | `number`                    | `12`                                                   | Number of boxes / max code length.    |
-| `minLength`                          | `number`                    | `1`                                                    | Minimum accepted code length.         |
-| `charType`                           | `SolarisOtpInputCharType`   | `'numeric'`                                            | `'numeric'` or `'alphanumeric'`.      |
-| `masked`                             | `boolean`                   | `false`                                                | Show `•` for filled boxes.            |
+| Input                                | Type                        | Default                                                | Description                                |
+| ------------------------------------ | --------------------------- | ------------------------------------------------------ | ------------------------------------------ |
+| `value`                              | `string`                    | `''`                                                   | One-way concatenated value.                |
+| `label` / `labelKey`                 | `string` / `string`         | `''`                                                   | Field label.                               |
+| `hint` / `hintKey`                   | `string` / `string`         | `''`                                                   | Helper text.                               |
+| `error` / `errorKey`                 | `string` / `string`         | `''`                                                   | Manual error message.                      |
+| `requiredError` / `requiredErrorKey` | `string` / `string`         | —                                                      | Required error override.                   |
+| `invalidError` / `invalidErrorKey`   | `string` / `string`         | —                                                      | Invalid length error override.             |
+| `required`                           | `boolean`                   | `false`                                                | Marks required and validates empty.        |
+| `optional`                           | `boolean`                   | `false`                                                | Shows the optional marker.                 |
+| `disabled`                           | `boolean`                   | `false`                                                | Disables the field.                        |
+| `readonly`                           | `boolean`                   | `false`                                                | Read-only field.                           |
+| `invalid`                            | `boolean \| undefined`      | —                                                      | Manual invalid override.                   |
+| `maxLength`                          | `number`                    | `12`                                                   | Number of boxes / max code length.         |
+| `minLength`                          | `number`                    | `1`                                                    | Minimum accepted code length.              |
+| `charType`                           | `SolarisOtpInputCharType`   | `'numeric'`                                            | `'numeric'` or `'alphanumeric'`.           |
+| `masked`                             | `boolean`                   | `false`                                                | Show `•` for filled boxes.                 |
 | `separatorEvery`                     |
 | `number`                             | `0`                         | Inserts a `-` separator after every N boxes (0 = off). |
-| `autoFocus`                          | `boolean`                   | `false`                                                | Focus the first box on init.          |
-| `appearance`                         | `SolarisOtpInputAppearance` | `'outline'`                                            | `outline` / `surface` / `filled`.     |
-| `size`                               | `SolarisOtpInputSize`       | `'md'`                                                 | `sm` / `md` / `lg`.                   |
-| `density`                            | `SolarisOtpInputDensity`    | —                                                      | `compact` / `normal` / `comfortable`. |
-| `radius`                             | `SolarisOtpInputRadius`     | `'sm'`                                                 | `none` / `sm` / `md` / `lg`.          |
+| `autoFocus`                          | `boolean`                   | `false`                                                | Focus the first box on init.               |
+| `appearance`                         | `SolarisOtpInputAppearance` | `'outline'`                                            | `outline` / `surface` / `filled`.          |
+| `size`                               | `SolarisOtpInputSize`       | `'md'`                                                 | `sm` / `md` / `lg`.                        |
+| `density`                            | `SolarisOtpInputDensity`    | —                                                      | `compact` / `normal` / `comfortable`.      |
+| `radius`                             | `SolarisOtpInputRadius`     | `'sm'`                                                 | `none` / `sm` / `md` / `lg` / `xl` (pill). |
 
 ### Outputs
 
@@ -121,6 +121,17 @@ outside `[minLength, maxLength]`; `null` otherwise (empty values pass).
 - Hint/error ids are applied to the boxes via `aria-describedby`.
 - The active box is marked with `data-active`.
 
+## Suffix actions
+
+Extra suffix actions (e.g. a resend-code button) compose beside the boxes and
+are detected via `projectedSuffixAction` (`hasSuffixAction` on Form Field):
+
+```html
+<solaris-otp-input label="Code" [maxLength]="6">
+  <button type="button" solaris-form-suffix solaris-form-suffix-action aria-label="Resend code" (click)="resend()">Resend</button>
+</solaris-otp-input>
+```
+
 ## CSS Variables
 
 `SolarisOtpInputComponent` defines the following tokens:
@@ -153,7 +164,7 @@ stays clean (no border or background):
 - `surface` — boxes have the surface background, no border.
 - `filled` — boxes have the surface background and a border.
 
-`density` (`compact` / `normal` / `comfortable`) and `radius` (`none` / `sm` / `md` / `lg`)
+`density` (`compact` / `normal` / `comfortable`) and `radius` (`none` / `sm` / `md` / `lg` / `xl` (pill))
 apply to the boxes as well.
 
 ## Size, density, radius, and appearance repasse

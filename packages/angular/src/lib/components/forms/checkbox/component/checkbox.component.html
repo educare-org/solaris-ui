@@ -15,6 +15,7 @@
     [attr.aria-describedby]="ariaDescribedBy()"
     [attr.aria-label]="effectiveAriaLabel() ?? null"
     [attr.aria-required]="requiredInput() ? 'true' : null"
+    [attr.aria-checked]="indeterminate() ? 'mixed' : null"
     [attr.aria-invalid]="isEffectivelyInvalid() ? 'true' : null"
   />
   <span class="solaris-checkbox__control" aria-hidden="true">
@@ -43,18 +44,33 @@
       </svg>
     }
   </span>
-  @if (hasProjectedContent()) {
-    <span class="solaris-checkbox__label-text" [id]="elementId() + '-label'">
-      <ng-content />
-      @if (requiredInput()) {
-        <span class="solaris-checkbox__required" aria-hidden="true">*</span>
+  @if (hasProjectedContent() || labelText() || descriptionText()) {
+    <span class="solaris-checkbox__content">
+      @if (hasProjectedContent()) {
+        <span
+          class="solaris-checkbox__label-text"
+          [id]="elementId() + '-label'"
+        >
+          <ng-content />
+          @if (requiredInput()) {
+            <span class="solaris-checkbox__required" aria-hidden="true">*</span>
+          }
+        </span>
+      } @else if (labelText(); as text) {
+        <span
+          class="solaris-checkbox__label-text"
+          [id]="elementId() + '-label'"
+        >
+          {{ text }}
+          @if (requiredInput()) {
+            <span class="solaris-checkbox__required" aria-hidden="true">*</span>
+          }
+        </span>
       }
-    </span>
-  } @else if (labelText(); as text) {
-    <span class="solaris-checkbox__label-text" [id]="elementId() + '-label'">
-      {{ text }}
-      @if (requiredInput()) {
-        <span class="solaris-checkbox__required" aria-hidden="true">*</span>
+      @if (descriptionText(); as description) {
+        <span class="solaris-checkbox__description" [id]="descriptionId()">
+          {{ description }}
+        </span>
       }
     </span>
   }

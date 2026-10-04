@@ -60,7 +60,7 @@ Password Field does not replace Form Field + Input. It is an official convenienc
 | `invalid`            | `boolean \| undefined`                                | -           | Manual invalid state (overrides automatic detection) |
 | `appearance`         | `'outline' \| 'surface' \| 'filled'`                  | `'outline'` | Appearance                                           |
 | `density`            | `'compact' \| 'normal' \| 'comfortable' \| undefined` | -           | Density (inherited from theme)                       |
-| `radius`             | `'none' \| 'sm' \| 'md' \| 'lg'`                      | `'sm'`      | Border radius                                        |
+| `radius`             | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`              | `'sm'`      | Border radius                                        |
 | `fullWidth`          | `boolean`                                             | `true`      | Full width                                           |
 | `showToggle`         | `boolean`                                             | `true`      | Show toggle button                                   |
 | `visible`            | `boolean`                                             | `false`     | Password visible                                     |

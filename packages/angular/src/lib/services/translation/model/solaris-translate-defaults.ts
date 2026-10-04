@@ -73,6 +73,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.email-field.invalid': 'Enter a valid email address.',
       'solaris.email-field.allowedDomain': 'Email domain is not allowed.',
       'solaris.email-field.blockedDomain': 'Email domain is blocked.',
+      'solaris.email-field.clear': 'Clear email',
 
       'solaris.password-field.toggle.hide': 'Hide password',
       'solaris.password-field.toggle.show': 'Show password',
@@ -96,6 +97,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.phone-field.empty': 'No countries available',
       'solaris.phone-field.noResults': 'No results found',
       'solaris.phone-field.country': 'Select country code',
+      'solaris.phone-field.clear': 'Clear phone number',
 
       'solaris.otp-input.required': 'Code is required.',
       'solaris.otp-input.invalid': 'Enter a valid code.',
@@ -107,6 +109,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.date-picker.next-month': 'Next month',
       'solaris.date-picker.invalid': 'Enter a valid date.',
       'solaris.date-picker.required': 'Date is required.',
+      'solaris.date-picker.clear': 'Clear date',
       'solaris.date-range-picker.start': 'Start date',
       'solaris.date-range-picker.end': 'End date',
       'solaris.date-range-picker.placeholder': 'Select a date range',
@@ -184,6 +187,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.email-field.invalid': 'Insira um e-mail válido.',
       'solaris.email-field.allowedDomain': 'Domínio de e-mail não permitido.',
       'solaris.email-field.blockedDomain': 'Domínio de e-mail não permitido.',
+      'solaris.email-field.clear': 'Limpar e-mail',
 
       'solaris.password-field.toggle.hide': 'Ocultar senha',
       'solaris.password-field.toggle.show': 'Mostrar senha',
@@ -207,6 +211,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.phone-field.empty': 'Nenhum país disponível',
       'solaris.phone-field.noResults': 'Nenhum resultado encontrado',
       'solaris.phone-field.country': 'Selecionar código do país',
+      'solaris.phone-field.clear': 'Limpar telefone',
 
       'solaris.otp-input.required': 'O código é obrigatório.',
       'solaris.otp-input.invalid': 'Insira um código válido.',
@@ -218,6 +223,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.date-picker.next-month': 'Próximo mês',
       'solaris.date-picker.invalid': 'Informe uma data válida.',
       'solaris.date-picker.required': 'A data é obrigatória.',
+      'solaris.date-picker.clear': 'Limpar data',
       'solaris.date-range-picker.start': 'Data inicial',
       'solaris.date-range-picker.end': 'Data final',
       'solaris.date-range-picker.placeholder': 'Selecione um intervalo',

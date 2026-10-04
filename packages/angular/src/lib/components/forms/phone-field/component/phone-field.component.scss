@@ -29,7 +29,7 @@
 
   &[disabled] {
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: var(--solaris-opacity-50);
   }
 }
 
@@ -72,7 +72,7 @@
   margin-inline-end: var(--solaris-spacing-1);
 }
 
-:host([data-density='compact']) {
+:host([data-size='sm'][data-density='compact']) {
   --solaris-phone-field-country-font-size: var(--solaris-font-size-xs);
   --solaris-phone-field-country-padding-inline: var(
     --solaris-density-padding-sm
@@ -83,7 +83,36 @@
   );
 }
 
-:host([data-density='normal']) {
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-xs);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-md
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-2xs);
+  --solaris-phone-field-chevron-size: var(--solaris-font-size-2xs);
+}
+
+:host([data-size='sm'][data-density='comfortable']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-xs);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-lg
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-2xs);
+  --solaris-phone-field-chevron-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='md'][data-density='compact']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-sm);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-sm
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-xs);
+  --solaris-phone-field-chevron-size: calc(
+    var(--solaris-spacing-5) + var(--solaris-border-width-md)
+  );
+}
+
+:host([data-size='md'][data-density='normal']) {
   --solaris-phone-field-country-font-size: var(--solaris-font-size-sm);
   --solaris-phone-field-country-padding-inline: var(
     --solaris-density-padding-md
@@ -92,7 +121,36 @@
   --solaris-phone-field-chevron-size: var(--solaris-font-size-2xs);
 }
 
-:host([data-density='comfortable']) {
+:host([data-size='md'][data-density='comfortable']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-sm);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-lg
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-xs);
+  --solaris-phone-field-chevron-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-md);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-sm
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-sm);
+  --solaris-phone-field-chevron-size: calc(
+    var(--solaris-spacing-5) + var(--solaris-border-width-md)
+  );
+}
+
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-md);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-md
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-sm);
+  --solaris-phone-field-chevron-size: var(--solaris-font-size-2xs);
+}
+
+:host([data-size='lg'][data-density='comfortable']) {
   --solaris-phone-field-country-font-size: var(--solaris-font-size-md);
   --solaris-phone-field-country-padding-inline: var(
     --solaris-density-padding-lg
@@ -103,6 +161,43 @@
 
 @media (prefers-reduced-motion: reduce) {
   .solaris-phone-field__chevron {
+    transition: none;
+  }
+}
+
+.solaris-phone-field__clear {
+  solaris-icon {
+    width: var(--solaris-font-size-lg);
+    height: var(--solaris-font-size-lg);
+  }
+
+  padding: 0;
+  border: none;
+  display: flex;
+  cursor: pointer;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  width: var(--solaris-font-size-lg);
+  height: var(--solaris-font-size-lg);
+  color: var(--solaris-text-muted);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-phone-field__clear:hover {
+  color: var(--solaris-text-strong);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-phone-field__clear {
+    transition: none;
+  }
+}
+
+[data-reduced-motion='true'] {
+  .solaris-phone-field__clear {
     transition: none;
   }
 }

@@ -35,25 +35,27 @@ Switch is a form control component that represents a binary on/off configuration
 
 ### Inputs
 
-| Input          | Type                                                                                 | Default            | Description                                                |
-| -------------- | ------------------------------------------------------------------------------------ | ------------------ | ---------------------------------------------------------- |
-| `checked`      | `boolean`                                                                            | `false`            | Whether the switch is on                                   |
-| `disabled`     | `boolean`                                                                            | `false`            | Disables the switch                                        |
-| `readonly`     | `boolean`                                                                            | `false`            | Readonly mode (value preserved)                            |
-| `required`     | `boolean`                                                                            | `false`            | Required validation                                        |
-| `invalid`      | `boolean \| undefined`                                                               | `undefined`        | Invalid state                                              |
-| `appearance`   | `'outline' \| 'surface'`                                                             | `'surface'`        | Visual appearance                                          |
-| `color`        | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'`        | Semantic color                                             |
-| `size`         | `'sm' \| 'md' \| 'lg'`                                                               | inherited (`'md'`) | Size variant (own input wins over group)                   |
-| `density`      | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited          | Density variant (own input wins over group, then theme)    |
-| `icon`         | `SolarisIconName`                                                                    | —                  | Decorative icon inside the thumb (`icon` wins over `text`) |
-| `text`         | `string`                                                                             | —                  | Decorative short text inside the thumb (max 2 characters)  |
-| `label`        | `string`                                                                             | —                  | Direct label text                                          |
-| `labelKey`     | `string`                                                                             | —                  | i18n key for label                                         |
-| `name`         | `string`                                                                             | —                  | Native `name` attribute                                    |
-| `value`        | `string`                                                                             | —                  | Value submitted to the form                                |
-| `ariaLabel`    | `string`                                                                             | —                  | Accessible label                                           |
-| `ariaLabelKey` | `string`                                                                             | —                  | i18n key for accessible label                              |
+| Input            | Type                                                                                 | Default            | Description                                                |
+| ---------------- | ------------------------------------------------------------------------------------ | ------------------ | ---------------------------------------------------------- |
+| `checked`        | `boolean`                                                                            | `false`            | Whether the switch is on                                   |
+| `disabled`       | `boolean`                                                                            | `false`            | Disables the switch                                        |
+| `readonly`       | `boolean`                                                                            | `false`            | Readonly mode (value preserved)                            |
+| `required`       | `boolean`                                                                            | `false`            | Required validation                                        |
+| `invalid`        | `boolean \| undefined`                                                               | `undefined`        | Invalid state                                              |
+| `appearance`     | `'outline' \| 'surface'`                                                             | `'surface'`        | Visual appearance                                          |
+| `color`          | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'`        | Semantic color                                             |
+| `size`           | `'sm' \| 'md' \| 'lg'`                                                               | inherited (`'md'`) | Size variant (own input wins over group)                   |
+| `density`        | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited          | Density variant (own input wins over group, then theme)    |
+| `icon`           | `SolarisIconName`                                                                    | —                  | Decorative icon inside the thumb (`icon` wins over `text`) |
+| `text`           | `string`                                                                             | —                  | Decorative short text inside the thumb (max 2 characters)  |
+| `label`          | `string`                                                                             | —                  | Direct label text                                          |
+| `labelKey`       | `string`                                                                             | —                  | i18n key for label                                         |
+| `description`    | `string`                                                                             | —                  | Muted supporting text under the label (`xs`/`sm` by size)  |
+| `descriptionKey` | `string`                                                                             | —                  | i18n key for description                                   |
+| `name`           | `string`                                                                             | —                  | Native `name` attribute                                    |
+| `value`          | `string`                                                                             | —                  | Value submitted to the form                                |
+| `ariaLabel`      | `string`                                                                             | —                  | Accessible label                                           |
+| `ariaLabelKey`   | `string`                                                                             | —                  | i18n key for accessible label                              |
 
 ### Outputs
 

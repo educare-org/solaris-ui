@@ -713,6 +713,58 @@ describe('SolarisSelectComponent', () => {
       const optionInTrigger = trigger.querySelector('solaris-option');
       expect(optionInTrigger).toBeFalsy();
     });
+
+    it('should render the suffix icon input in the field affix (P5 B/C)', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisSelectComponent, SolarisOptionComponent],
+        template: `
+          <solaris-select suffix="mail">
+            <solaris-option value="a">Option A</solaris-option>
+          </solaris-select>
+        `,
+        providers: [
+          provideSolarisTesting({
+            translate: { translations: { 'en-US': getTestTranslations() } },
+          }),
+        ],
+      })
+      class SuffixIconHost {}
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SuffixIconHost);
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector(
+          '.solaris-form-field__affix--suffix > span[solaris-form-suffix] solaris-icon',
+        ),
+      ).toBeTruthy();
+    });
+
+    it('should accept radius xl (P5 B/C)', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisSelectComponent, SolarisOptionComponent],
+        template: `
+          <solaris-select radius="xl">
+            <solaris-option value="a">Option A</solaris-option>
+          </solaris-select>
+        `,
+        providers: [
+          provideSolarisTesting({
+            translate: { translations: { 'en-US': getTestTranslations() } },
+          }),
+        ],
+      })
+      class RadiusXlHost {}
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(RadiusXlHost);
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement
+          .querySelector('solaris-select solaris-form-field')
+          .getAttribute('data-radius'),
+      ).toBe('xl');
+    });
   });
 
   describe('keyboard navigation', () => {

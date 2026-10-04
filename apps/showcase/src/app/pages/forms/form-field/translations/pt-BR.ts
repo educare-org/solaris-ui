@@ -52,11 +52,12 @@ export const PT_BR_FORM_FIELD: Record<string, string> = {
   'form-field.density.comfortable': 'Confortável',
   'form-field.label.name': 'Nome',
   'form-field.radius.note':
-    'O wrapper suporta raios none, sm (padrão), md e lg. Escala dos fields: md equivale a 8px e lg vira pill.',
+    'O wrapper suporta raios none, sm (padrão), md, lg e xl. Escala global: md equivale a 4px, lg a 8px e xl vira pill.',
   'form-field.radius.none': 'Nenhum',
   'form-field.radius.sm': 'Pequeno',
   'form-field.radius.md': 'Médio',
   'form-field.radius.lg': 'Grande',
+  'form-field.radius.xl': 'Pill',
   'form-field.states.disabled': 'Campo desabilitado',
   'form-field.states.disabled-value': 'Não é possível editar',
   'form-field.states.readonly': 'Campo somente leitura',

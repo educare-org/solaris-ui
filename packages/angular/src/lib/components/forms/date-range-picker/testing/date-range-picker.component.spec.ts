@@ -156,4 +156,54 @@ describe('SolarisDateRangePickerComponent', () => {
         ?.textContent,
     ).toContain('Today');
   });
+
+  describe('clearable + dates parity (P5 B/C)', () => {
+    it('renders a trigger clear button and clears the applied range', () => {
+      const element = createFixture();
+      let cleared = 0;
+      fixture.componentInstance.cleared.subscribe(() => {
+        cleared += 1;
+      });
+      fixture.componentRef.setInput('clearable', true);
+      fixture.componentInstance.writeValue({
+        start: '2025-01-12',
+        end: '2025-01-16',
+      });
+      fixture.detectChanges();
+
+      const button = element.querySelector(
+        '.solaris-date-range-picker__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.getAttribute('aria-label')).toBe('Clear');
+      button.click();
+      fixture.detectChanges();
+
+      expect((fixture.componentInstance as any).value()).toEqual({
+        start: null,
+        end: null,
+      });
+      expect(cleared).toBe(1);
+      expect(
+        element.querySelector('.solaris-date-range-picker__clear'),
+      ).toBeNull();
+    });
+
+    it('hides the trigger clear button without value', () => {
+      const element = createFixture();
+      fixture.componentRef.setInput('clearable', true);
+      fixture.detectChanges();
+      expect(
+        element.querySelector('.solaris-date-range-picker__clear'),
+      ).toBeNull();
+    });
+
+    it('keeps the footer clear action translated (P5 B/C rename)', () => {
+      const element = createFixture();
+      expect((fixture.componentInstance as any).clearButtonLabel()).toBe(
+        'Clear',
+      );
+      expect(element).toBeTruthy();
+    });
+  });
 });

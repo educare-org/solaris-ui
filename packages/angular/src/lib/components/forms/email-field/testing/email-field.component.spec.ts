@@ -295,6 +295,19 @@ describe('SolarisEmailFieldComponent', () => {
       );
     });
 
+    it('forwards described-by ids from the field to the inner input (control contract)', () => {
+      const fixture = TestBed.createComponent(HintHost);
+      fixture.detectChanges();
+      const hint = fixture.debugElement.query(
+        By.css('.solaris-form-field__hint'),
+      );
+      const input = fixture.debugElement.query(By.css('input[type="email"]'));
+      expect(hint).toBeTruthy();
+      expect(input.nativeElement.getAttribute('aria-describedby')).toContain(
+        hint.nativeElement.id,
+      );
+    });
+
     it('projects prefix and suffix', () => {
       const fixture = TestBed.createComponent(PrefixSuffixHost);
       fixture.detectChanges();
@@ -416,7 +429,7 @@ describe('SolarisEmailFieldComponent', () => {
       const emailField = fixture.debugElement.query(
         By.directive(SolarisEmailFieldComponent),
       );
-      expect(emailField.componentInstance.required()).toBe(true);
+      expect(emailField.componentInstance.requiredInput()).toBe(true);
     });
 
     it('applies optional state', () => {
@@ -1040,6 +1053,65 @@ describe('SolarisEmailFieldComponent', () => {
       ) as HTMLElement;
       expect(affix.getAttribute('data-variant')).toBe('action');
       expect(affix.querySelector('[solaris-form-suffix-action]')).toBeTruthy();
+    });
+  });
+
+  describe('clearable (P5 B/C)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisEmailFieldComponent, ReactiveFormsModule],
+      template: `<solaris-email-field
+        label="E-mail"
+        [clearable]="true"
+        (cleared)="clearedCount = clearedCount + 1"
+      ></solaris-email-field>`,
+    })
+    class ClearableHost {
+      clearedCount = 0;
+    }
+
+    it('renders a clear button with the default aria label when it has value', () => {
+      const fixture = TestBed.createComponent(ClearableHost);
+      fixture.detectChanges();
+      const field = fixture.debugElement.query(
+        By.directive(SolarisEmailFieldComponent),
+      ).componentInstance as SolarisEmailFieldComponent;
+      field.writeValue('user@educare.com');
+      fixture.detectChanges();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-email-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.getAttribute('aria-label')).toBe('Clear email');
+    });
+
+    it('clears the value and emits cleared on click', () => {
+      const fixture = TestBed.createComponent(ClearableHost);
+      fixture.detectChanges();
+      const field = fixture.debugElement.query(
+        By.directive(SolarisEmailFieldComponent),
+      ).componentInstance as SolarisEmailFieldComponent;
+      field.writeValue('user@educare.com');
+      fixture.detectChanges();
+      (
+        fixture.nativeElement.querySelector(
+          '.solaris-email-field__clear',
+        ) as HTMLButtonElement
+      ).click();
+      fixture.detectChanges();
+      expect((field as any).internalValue()).toBe('');
+      expect(fixture.componentInstance.clearedCount).toBe(1);
+      expect(
+        fixture.nativeElement.querySelector('.solaris-email-field__clear'),
+      ).toBeNull();
+    });
+
+    it('hides the clear button without value', () => {
+      const fixture = TestBed.createComponent(ClearableHost);
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector('.solaris-email-field__clear'),
+      ).toBeNull();
     });
   });
 });

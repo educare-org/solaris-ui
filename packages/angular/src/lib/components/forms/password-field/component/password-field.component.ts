@@ -34,6 +34,8 @@ import {
   SolarisFormSuffixDirective,
 } from '../../form-field';
 import type { SolarisPasswordPolicy } from '../model/password-policy.types';
+import { SolarisFormControl } from '../../form-field/model/form-control.contract';
+import { resolveElementId } from '../../../../core';
 import { solarisPasswordValidator } from '../validators/password.validator';
 import { SolarisTranslateService } from '../../../../services/translation';
 import type { SolarisTranslateParams } from '../../../../services/translation';
@@ -65,6 +67,10 @@ interface RequirementItem {
       useExisting: forwardRef(() => SolarisPasswordFieldComponent),
       multi: true,
     },
+    {
+      provide: SolarisFormControl,
+      useExisting: forwardRef(() => SolarisPasswordFieldComponent),
+    },
   ],
   templateUrl: './password-field.component.html',
   styleUrls: ['./password-field.component.scss'],
@@ -72,9 +78,14 @@ interface RequirementItem {
   host: {
     '[attr.data-size]': 'size()',
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-full-width]': 'fullWidth() || undefined',
   },
 })
-export class SolarisPasswordFieldComponent implements ControlValueAccessor {
+export class SolarisPasswordFieldComponent
+  extends SolarisFormControl
+  implements ControlValueAccessor
+{
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly translateService = inject(SolarisTranslateService);
   protected readonly themeService = inject(SolarisThemeService);
 
@@ -103,13 +114,15 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
   readonly placeholderKey = input<string>();
   readonly autocomplete = input<string>();
   readonly name = input<string>();
-  readonly id = input<string>();
-  readonly required = input<boolean>(false);
+  readonly fieldId = input<string>(undefined, { alias: 'id' });
+  readonly requiredInput = input<boolean>(false, { alias: 'required' });
   readonly optional = input<boolean>(false);
-  readonly disabled = input<boolean>(false);
-  readonly readonly = input<boolean>(false);
+  readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
+  readonly readonlyInput = input<boolean>(false, { alias: 'readonly' });
   readonly loading = input<boolean>(false);
-  readonly invalid = input<boolean | undefined>();
+  readonly invalidInput = input<boolean | undefined>(undefined, {
+    alias: 'invalid',
+  });
   readonly appearance = input<SolarisPasswordFieldAppearance>('outline');
   readonly density = input<SolarisPasswordFieldDensity>();
   readonly size = input<SolarisPasswordFieldSize>('md');
@@ -171,6 +184,7 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
   });
 
   constructor() {
+    super();
     effect(() => {
       this._visibleState.set(this.visible());
     });
@@ -225,11 +239,65 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
   }
 
   protected readonly isEffectivelyDisabled = computed(() => {
-    return this.disabled() || this.internalDisabled();
+    return this.disabledInput() || this.internalDisabled();
   });
 
+  protected readonly elementId = computed(() => {
+    return resolveElementId(this.elementRef, 'solaris-password-field');
+  });
+
+  protected readonly _describedByIds = signal<string[]>([]);
+
+  protected readonly ariaDescribedBy = computed(() => {
+    const ids = this._describedByIds();
+    return ids.length > 0 ? ids.join(' ') : null;
+  });
+
+  get id(): string {
+    return this.fieldId() ?? this.elementId();
+  }
+
+  get focused(): boolean {
+    return this.internalFocused();
+  }
+
+  get disabled(): boolean {
+    return this.isEffectivelyDisabled();
+  }
+
+  get readonly(): boolean {
+    return this.readonlyInput();
+  }
+
+  get invalid(): boolean {
+    return this.isFieldInvalid();
+  }
+
+  get required(): boolean {
+    return this.requiredInput();
+  }
+
+  get describedByIds(): string[] {
+    return this._describedByIds();
+  }
+
+  setDescribedByIds(ids: string[]): void {
+    this._describedByIds.set([...ids]);
+  }
+
+  focus(): void {
+    const input = this.inputElementRef();
+    if (input) {
+      // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
+      input.nativeElement.focus();
+    } else {
+      // SECURITY_EXCEPTION: fallback focus on the host requires the native method.
+      this.elementRef.nativeElement.focus();
+    }
+  }
+
   protected readonly isFieldInvalid = computed(() => {
-    const manual = this.invalid();
+    const manual = this.invalidInput();
     if (manual !== undefined) {
       return manual;
     }
@@ -244,7 +312,7 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
     }
 
     const val = this.internalValue();
-    if (this.required() && (!val || val.length === 0)) {
+    if (this.requiredInput() && (!val || val.length === 0)) {
       return true;
     }
 
@@ -270,7 +338,7 @@ export class SolarisPasswordFieldComponent implements ControlValueAccessor {
 
     const val = this.internalValue();
     if (!val || val.length === 0) {
-      if (this.required()) {
+      if (this.requiredInput()) {
         return this.translateWithDefault(
           'solaris.password-field.error.required',
           'Password is required.',

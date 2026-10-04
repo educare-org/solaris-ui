@@ -360,6 +360,29 @@ describe('SolarisPasswordFieldComponent', () => {
       expect(hint.nativeElement.textContent).toContain('Use uma senha forte.');
     });
 
+    it('forwards described-by ids from the field to the inner input (control contract)', () => {
+      const fixture = TestBed.createComponent(HintHost);
+      fixture.detectChanges();
+      const hint = fixture.debugElement.query(
+        By.css('.solaris-form-field__hint'),
+      );
+      const input = fixture.debugElement.query(By.css('input[solaris-input]'));
+      expect(hint).toBeTruthy();
+      expect(input.nativeElement.getAttribute('aria-describedby')).toContain(
+        hint.nativeElement.id,
+      );
+    });
+
+    it('reflects fullWidth false by removing the presence attribute', () => {
+      const fixture = TestBed.createComponent(SolarisPasswordFieldComponent);
+      fixture.detectChanges();
+      const el = fixture.nativeElement as HTMLElement;
+      expect(el.hasAttribute('data-full-width')).toBe(true);
+      fixture.componentRef.setInput('fullWidth', false);
+      fixture.detectChanges();
+      expect(el.hasAttribute('data-full-width')).toBe(false);
+    });
+
     it('renders error when invalid state is visible', () => {
       const fixture = TestBed.createComponent(ErrorHost);
       fixture.detectChanges();
@@ -497,7 +520,7 @@ describe('SolarisPasswordFieldComponent', () => {
       const passwordField = fixture.debugElement.query(
         By.directive(SolarisPasswordFieldComponent),
       );
-      expect(passwordField.componentInstance.required()).toBe(true);
+      expect(passwordField.componentInstance.requiredInput()).toBe(true);
     });
 
     it('applies optional state', () => {

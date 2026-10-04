@@ -34,11 +34,12 @@ export const EN_US_INPUT: Record<string, string> = {
   'input.density.normal': 'Normal',
   'input.density.comfortable': 'Comfortable',
   'input.radius.note':
-    'Radius is owned by Form Field when projected; the standalone input exposes the same none, sm, md, and lg values. Fields scale: md maps to 8px and lg renders as a pill.',
+    'Radius is owned by Form Field when projected; the standalone input exposes the same none, sm, md, lg, and xl values. Global scale: md maps to 4px, lg to 8px, and xl renders as a pill.',
   'input.radius.none': 'None',
   'input.radius.sm': 'Small',
   'input.radius.md': 'Medium',
   'input.radius.lg': 'Large',
+  'input.radius.xl': 'Pill',
   'input.states.default': 'Default',
   'input.states.invalid': 'Invalid',
   'input.states.disabled': 'Disabled',

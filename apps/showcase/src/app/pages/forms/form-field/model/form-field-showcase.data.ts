@@ -182,6 +182,7 @@ export const FORM_FIELD_SHOWCASE_RADIUS_NONE_CODE = formFieldRadiusCode('none');
 export const FORM_FIELD_SHOWCASE_RADIUS_SM_CODE = formFieldRadiusCode('sm');
 export const FORM_FIELD_SHOWCASE_RADIUS_MD_CODE = formFieldRadiusCode('md');
 export const FORM_FIELD_SHOWCASE_RADIUS_LG_CODE = formFieldRadiusCode('lg');
+export const FORM_FIELD_SHOWCASE_RADIUS_XL_CODE = formFieldRadiusCode('xl');
 
 export const FORM_FIELD_SHOWCASE_STATES_CODE = [
   '<solaris-form-field label="Disabled Field" [disabled]="true">',

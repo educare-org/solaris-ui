@@ -35,23 +35,30 @@
 }
 
 :host([data-radius='md']) {
-  --solaris-otp-input-box-radius: var(--solaris-radius-lg);
+  --solaris-otp-input-box-radius: var(--solaris-radius-md);
 }
 
 :host([data-radius='lg']) {
+  --solaris-otp-input-box-radius: var(--solaris-radius-lg);
+}
+
+:host([data-radius='xl']) {
   --solaris-otp-input-box-radius: var(--solaris-radius-full);
 }
 
 :host([data-density='compact']) {
   --solaris-otp-input-box-font-size: var(--solaris-font-size-xs);
+  --solaris-otp-input-gap: var(--solaris-spacing-1);
 }
 
 :host([data-density='normal']) {
   --solaris-otp-input-box-font-size: var(--solaris-font-size-sm);
+  --solaris-otp-input-gap: var(--solaris-spacing-2);
 }
 
 :host([data-density='comfortable']) {
   --solaris-otp-input-box-font-size: var(--solaris-font-size-md);
+  --solaris-otp-input-gap: var(--solaris-spacing-3);
 }
 
 .solaris-otp-input__boxes {
@@ -96,7 +103,7 @@
 
   &[disabled] {
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: var(--solaris-opacity-50);
   }
 }
 

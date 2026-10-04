@@ -14,12 +14,18 @@
   --solaris-form-field-disabled-opacity: var(--solaris-opacity-50);
   --solaris-form-field-control-padding-x: var(--solaris-spacing-5);
   --solaris-form-field-label-font-size: var(--solaris-font-size-md);
+  --solaris-form-field-label-line-height: var(--solaris-line-height-md);
   --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-error-line-height: var(--solaris-line-height-sm);
+  --solaris-form-field-hint-line-height: var(--solaris-line-height-sm);
   --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
   --solaris-form-field-focus-ring-color: var(--solaris-primary-base);
   --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
   --solaris-form-field-error-border-color: var(--solaris-danger-base);
   --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-counter-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-counter-line-height: var(--solaris-line-height-sm);
+  --solaris-form-field-required-color: var(--solaris-danger-base);
   --solaris-form-field-control-background: var(--solaris-surface-base);
   --solaris-form-field-readonly-background: var(--solaris-surface-muted);
   --solaris-form-field-focus-ring-width: var(--solaris-focus-ring-width);
@@ -54,6 +60,7 @@
   display: inline-block;
   color: var(--solaris-form-field-label-color);
   font-size: var(--solaris-form-field-label-font-size);
+  line-height: var(--solaris-form-field-label-line-height);
   font-weight: var(--solaris-form-field-label-font-weight);
 }
 
@@ -73,7 +80,8 @@
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
   color: var(--solaris-form-field-optional-color);
-  font-size: var(--solaris-form-field-optional-font-size);
+  font-size: var(--solaris-form-field-counter-font-size);
+  line-height: var(--solaris-form-field-counter-line-height);
   transition: color var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
@@ -262,87 +270,140 @@
 }
 
 .solaris-form-field__hint {
-  margin: var(--solaris-spacing-1);
+  margin: 0;
   color: var(--solaris-form-field-hint-color);
   font-size: var(--solaris-form-field-hint-font-size);
+  line-height: var(--solaris-form-field-hint-line-height);
 }
 
 .solaris-form-field__error {
-  margin: var(--solaris-spacing-1);
+  margin: 0;
   color: var(--solaris-form-field-error-color);
   font-size: var(--solaris-form-field-error-font-size);
+  line-height: var(--solaris-form-field-error-line-height);
 }
 
-:host([data-density='compact']) {
+:host([data-size='sm'][data-density='compact']) {
+  --solaris-form-field-control-height: var(--solaris-control-height-compact-sm);
   --solaris-form-field-font-size: var(--solaris-font-size-xs);
   --solaris-form-field-label-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-label-line-height: var(--solaris-line-height-sm);
   --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
   --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
   --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
   --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
   --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-counter-font-size: var(--solaris-font-size-xs);
 }
 
-:host([data-density='normal']) {
+:host([data-size='md'][data-density='compact']) {
+  --solaris-form-field-control-height: var(--solaris-control-height-compact-md);
   --solaris-form-field-font-size: var(--solaris-font-size-sm);
   --solaris-form-field-label-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-line-height: var(--solaris-line-height-sm);
+  --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
+  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
+  --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-counter-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-form-field-control-height: var(--solaris-control-height-compact-lg);
+  --solaris-form-field-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-line-height: var(--solaris-line-height-sm);
   --solaris-form-field-hint-font-size: var(--solaris-font-size-sm);
   --solaris-form-field-error-font-size: var(--solaris-font-size-sm);
   --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
   --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
   --solaris-form-field-optional-font-size: var(--solaris-font-size-sm);
-}
-
-:host([data-density='comfortable']) {
-  --solaris-form-field-font-size: var(--solaris-font-size-md);
-  --solaris-form-field-label-font-size: var(--solaris-font-size-md);
-  --solaris-form-field-hint-font-size: var(--solaris-font-size-md);
-  --solaris-form-field-message-margin-top: var(--solaris-spacing-2);
-  --solaris-form-field-error-font-size: var(--solaris-font-size-md);
-  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-2);
-  --solaris-form-field-optional-font-size: var(--solaris-font-size-md);
-}
-
-:host([data-size='sm'][data-density='compact']) {
-  --solaris-form-field-control-height: var(--solaris-control-height-compact-sm);
-}
-
-:host([data-size='md'][data-density='compact']) {
-  --solaris-form-field-control-height: var(--solaris-control-height-compact-md);
-}
-
-:host([data-size='lg'][data-density='compact']) {
-  --solaris-form-field-control-height: var(--solaris-control-height-compact-lg);
+  --solaris-form-field-counter-font-size: var(--solaris-font-size-sm);
 }
 
 :host([data-size='sm'][data-density='normal']) {
   --solaris-form-field-control-height: var(--solaris-control-height-normal-sm);
+  --solaris-form-field-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-label-line-height: var(--solaris-line-height-sm);
+  --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
+  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
+  --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-counter-font-size: var(--solaris-font-size-xs);
 }
 
 :host([data-size='md'][data-density='normal']) {
   --solaris-form-field-control-height: var(--solaris-control-height-normal-md);
+  --solaris-form-field-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-line-height: var(--solaris-line-height-sm);
+  --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
+  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
+  --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-counter-font-size: var(--solaris-font-size-xs);
 }
 
 :host([data-size='lg'][data-density='normal']) {
   --solaris-form-field-control-height: var(--solaris-control-height-normal-lg);
+  --solaris-form-field-font-size: var(--solaris-font-size-md);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-md);
+  --solaris-form-field-label-line-height: var(--solaris-line-height-md);
+  --solaris-form-field-hint-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-error-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
+  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
+  --solaris-form-field-optional-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-counter-font-size: var(--solaris-font-size-sm);
 }
 
 :host([data-size='sm'][data-density='comfortable']) {
   --solaris-form-field-control-height: var(
     --solaris-control-height-comfortable-sm
   );
+  --solaris-form-field-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-label-line-height: var(--solaris-line-height-sm);
+  --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-error-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-message-margin-top: var(--solaris-spacing-2);
+  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-2);
+  --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
+  --solaris-form-field-counter-font-size: var(--solaris-font-size-xs);
 }
 
 :host([data-size='md'][data-density='comfortable']) {
   --solaris-form-field-control-height: var(
     --solaris-control-height-comfortable-md
   );
+  --solaris-form-field-font-size: var(--solaris-font-size-md);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-md);
+  --solaris-form-field-label-line-height: var(--solaris-line-height-md);
+  --solaris-form-field-hint-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-error-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-message-margin-top: var(--solaris-spacing-2);
+  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-2);
+  --solaris-form-field-optional-font-size: var(--solaris-font-size-sm);
+  --solaris-form-field-counter-font-size: var(--solaris-font-size-sm);
 }
 
 :host([data-size='lg'][data-density='comfortable']) {
   --solaris-form-field-control-height: var(
     --solaris-control-height-comfortable-lg
   );
+  --solaris-form-field-font-size: var(--solaris-font-size-md);
+  --solaris-form-field-label-font-size: var(--solaris-font-size-md);
+  --solaris-form-field-label-line-height: var(--solaris-line-height-md);
+  --solaris-form-field-hint-font-size: var(--solaris-font-size-md);
+  --solaris-form-field-error-font-size: var(--solaris-font-size-md);
+  --solaris-form-field-message-margin-top: var(--solaris-spacing-2);
+  --solaris-form-field-label-margin-bottom: var(--solaris-spacing-2);
+  --solaris-form-field-optional-font-size: var(--solaris-font-size-md);
+  --solaris-form-field-counter-font-size: var(--solaris-font-size-md);
 }
 
 :host([data-radius='none']) {
@@ -354,10 +415,14 @@
 }
 
 :host([data-radius='md']) {
-  --solaris-form-field-control-radius: var(--solaris-radius-lg);
+  --solaris-form-field-control-radius: var(--solaris-radius-md);
 }
 
 :host([data-radius='lg']) {
+  --solaris-form-field-control-radius: var(--solaris-radius-lg);
+}
+
+:host([data-radius='xl']) {
   --solaris-form-field-control-radius: var(--solaris-radius-full);
 }
 

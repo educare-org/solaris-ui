@@ -9,6 +9,7 @@
     [attr.aria-label]="effectiveAriaLabel() ?? null"
     [attr.aria-labelledby]="ariaLabelledBy()"
     [attr.aria-describedby]="ariaDescribedBy()"
+    [attr.aria-required]="requiredInput() ? 'true' : null"
     [attr.aria-invalid]="isEffectivelyInvalid() ? 'true' : null"
     [attr.name]="effectiveName() ?? null"
     (change)="onInputChange($event)"
@@ -26,10 +27,16 @@
       @if (hasProjectedContent()) {
         <span class="solaris-radio__label-text" [id]="elementId() + '-label'">
           <ng-content />
+          @if (requiredInput()) {
+            <span class="solaris-radio__required" aria-hidden="true">*</span>
+          }
         </span>
       } @else if (labelText(); as text) {
         <span class="solaris-radio__label-text" [id]="elementId() + '-label'">
           {{ text }}
+          @if (requiredInput()) {
+            <span class="solaris-radio__required" aria-hidden="true">*</span>
+          }
         </span>
       }
       @if (descriptionText(); as description) {

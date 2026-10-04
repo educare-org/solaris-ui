@@ -408,10 +408,62 @@ describe('SolarisSwitchComponent label and a11y', () => {
     const input = (hostFixture.nativeElement as HTMLElement).querySelector(
       'input[type="checkbox"]',
     ) as HTMLInputElement;
-    expect(input.hasAttribute('aria-checked')).toBe(false);
+    expect(input.getAttribute('aria-checked')).toBe('false');
     hostFixture.componentRef.setInput('checked', true);
     hostFixture.detectChanges();
     expect(input.checked).toBe(true);
+  });
+
+  it('should render description and reference it via aria-describedby', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSwitchComponent],
+      template: `
+        <solaris-switch label="Updates" description="Weekly digest" />
+      `,
+    })
+    class DescriptionHost {}
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(DescriptionHost);
+    hostFixture.detectChanges();
+    const el = hostFixture.nativeElement as HTMLElement;
+    const description = el.querySelector('.solaris-switch__description');
+    expect(description?.textContent).toContain('Weekly digest');
+    const input = el.querySelector(
+      'input[type="checkbox"]',
+    ) as HTMLInputElement;
+    expect(input.getAttribute('aria-describedby')).toContain(
+      description?.id ?? '',
+    );
+  });
+
+  it('should expose aria-checked matching the checked state', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisSwitchComponent);
+    hostFixture.detectChanges();
+    const input = (hostFixture.nativeElement as HTMLElement).querySelector(
+      'input[type="checkbox"]',
+    ) as HTMLInputElement;
+    expect(input.getAttribute('aria-checked')).toBe('false');
+    hostFixture.componentRef.setInput('checked', true);
+    hostFixture.detectChanges();
+    expect(input.getAttribute('aria-checked')).toBe('true');
+  });
+
+  it('should render required marker and aria-required when required', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisSwitchComponent);
+    hostFixture.componentRef.setInput('label', 'Updates');
+    hostFixture.componentRef.setInput('required', true);
+    hostFixture.detectChanges();
+    const el = hostFixture.nativeElement as HTMLElement;
+    expect(el.querySelector('.solaris-switch__required')?.textContent).toBe(
+      '*',
+    );
+    const input = el.querySelector(
+      'input[type="checkbox"]',
+    ) as HTMLInputElement;
+    expect(input.getAttribute('aria-required')).toBe('true');
   });
 });
 

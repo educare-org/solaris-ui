@@ -97,13 +97,13 @@ When omitted, density is inherited from the theme.
 
 - `none` (sharp corners)
 - `sm` (2px, default)
-- `md` (8px)
-- `lg` (pill)
+- `md` (4px)
+- `lg` (8px)
+- `xl` (pill)
 
-Fields use their own radius scale: `md` maps to the 8px token and `lg`
-renders as a pill, so `sm` and `md` stay visually distinct.
-
-`xl` and `full` are excluded in v1 for textual fields.
+Radius follows the global scale: `md` maps to the 4px token, `lg` to the
+8px token, and `xl` renders as a pill, so `sm` and `md` stay visually
+distinct.
 
 ### Resize
 

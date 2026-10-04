@@ -400,6 +400,19 @@ describe('SolarisRadioComponent label and a11y', () => {
     );
     expect(dot).toBeFalsy();
   });
+
+  it('should render required marker and aria-required when required', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisRadioComponent);
+    hostFixture.componentRef.setInput('label', 'Option B');
+    hostFixture.componentRef.setInput('required', true);
+    hostFixture.detectChanges();
+    const el = hostFixture.nativeElement as HTMLElement;
+    const marker = el.querySelector('.solaris-radio__required');
+    expect(marker?.textContent).toBe('*');
+    const input = el.querySelector('input[type="radio"]') as HTMLInputElement;
+    expect(input.getAttribute('aria-required')).toBe('true');
+  });
 });
 
 describe('SolarisRadioComponent effective size', () => {

@@ -128,6 +128,20 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section anchor="clearable" titleKey="date-picker.section.clearable">
+    <p class="date-picker-showcase__note">
+      {{ 'date-picker.clearable.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="clearableCode" language="html">
+      <solaris-date-picker
+        locale="pt-BR"
+        [clearable]="true"
+        [formControl]="clearableControl"
+        [label]="'date-picker.clearable.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section
     anchor="affix-action"
     titleKey="date-picker.section.affix-action"
@@ -149,6 +163,25 @@
     </p>
     <solaris-preview-code [code]="boundsCode" language="html">
       <app-bounds-date-picker-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="calendar-options"
+    titleKey="date-picker.section.calendar-options"
+  >
+    <p class="date-picker-showcase__note">
+      {{ 'date-picker.calendar-options.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="calendarOptionsCode" language="html">
+      <solaris-date-picker
+        locale="pt-BR"
+        [weekStartsOn]="1"
+        [disablePast]="true"
+        dateFormat="numeric"
+        [formControl]="calendarOptionsControl"
+        [label]="'date-picker.calendar-options.label' | translate"
+      />
     </solaris-preview-code>
   </app-docs-section>
 

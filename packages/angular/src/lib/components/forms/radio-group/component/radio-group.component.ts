@@ -1,6 +1,7 @@
 import {
   Component,
   input,
+  booleanAttribute,
   output,
   computed,
   signal,
@@ -107,17 +108,17 @@ export class SolarisRadioGroupComponent
   readonly columns = input<SolarisRadioGroupColumns>(1);
   readonly density = input<SolarisRadioGroupDensity>();
   readonly size = input<SolarisRadioGroupSize>('md');
-  readonly disabledInput = input<boolean, boolean>(false, {
+  readonly disabledInput = input<boolean, unknown>(false, {
     alias: 'disabled',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly readonlyInput = input<boolean, boolean>(false, {
+  readonly readonlyInput = input<boolean, unknown>(false, {
     alias: 'readonly',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly requiredInput = input<boolean, boolean>(false, {
+  readonly requiredInput = input<boolean, unknown>(false, {
     alias: 'required',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
   readonly invalidInput = input<boolean | undefined>(undefined, {
     alias: 'invalid',
@@ -141,6 +142,7 @@ export class SolarisRadioGroupComponent
   private readonly _focused = signal(false);
   private readonly _describedByIds = signal<string[]>([]);
   private readonly cvaDisabled = signal(false);
+  private readonly cvaReadonly = signal(false);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: unknown) => void = () => {};
@@ -174,7 +176,7 @@ export class SolarisRadioGroupComponent
   });
 
   protected readonly isEffectivelyReadonly = computed(() => {
-    return this.readonlyInput();
+    return this.readonlyInput() || this.cvaReadonly();
   });
 
   protected readonly isEffectivelyInvalid = computed(() => {
@@ -299,6 +301,10 @@ export class SolarisRadioGroupComponent
   setDisabledState(isDisabled: boolean): void {
     this.cvaDisabled.set(isDisabled);
     this.propagateDisabledToRadios();
+  }
+
+  setCvaReadonlyState(isReadonly: boolean): void {
+    this.cvaReadonly.set(isReadonly);
   }
 
   private readonly _radiosEffect = effect(() => {

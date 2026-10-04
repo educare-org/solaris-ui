@@ -71,6 +71,13 @@ describe('SolarisCheckboxComponent', () => {
     expect(el.hasAttribute('data-readonly')).toBe(true);
   });
 
+  it('should reflect radius xl (pill alias) on the host', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('radius', 'xl');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-radius')).toBe('xl');
+  });
+
   it('should apply required', () => {
     createFixture();
     fixture.componentRef.setInput('required', true);
@@ -409,6 +416,58 @@ describe('SolarisCheckboxComponent label and a11y', () => {
       '.solaris-checkbox__label',
     ) as HTMLLabelElement;
     expect(label.getAttribute('for')).toBe(input.id);
+  });
+
+  it('should render description and reference it via aria-describedby', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisCheckboxComponent],
+      template: `
+        <solaris-checkbox label="Updates" description="Weekly digest" />
+      `,
+    })
+    class DescriptionHost {}
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(DescriptionHost);
+    hostFixture.detectChanges();
+    const el = hostFixture.nativeElement as HTMLElement;
+    const description = el.querySelector('.solaris-checkbox__description');
+    expect(description?.textContent).toContain('Weekly digest');
+    const input = el.querySelector(
+      'input[type="checkbox"]',
+    ) as HTMLInputElement;
+    expect(input.getAttribute('aria-describedby')).toContain(
+      description?.id ?? '',
+    );
+  });
+
+  it('should expose aria-checked mixed when indeterminate', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisCheckboxComponent);
+    hostFixture.detectChanges();
+    const input = (hostFixture.nativeElement as HTMLElement).querySelector(
+      'input[type="checkbox"]',
+    ) as HTMLInputElement;
+    expect(input.hasAttribute('aria-checked')).toBe(false);
+    hostFixture.componentRef.setInput('indeterminate', true);
+    hostFixture.detectChanges();
+    expect(input.getAttribute('aria-checked')).toBe('mixed');
+  });
+
+  it('should coerce valueless disabled attribute to true (booleanAttribute)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisCheckboxComponent],
+      template: ` <solaris-checkbox disabled /> `,
+    })
+    class DisabledAttrHost {}
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(DisabledAttrHost);
+    hostFixture.detectChanges();
+    const input = (hostFixture.nativeElement as HTMLElement).querySelector(
+      'input[type="checkbox"]',
+    ) as HTMLInputElement;
+    expect(input.disabled).toBe(true);
   });
 });
 

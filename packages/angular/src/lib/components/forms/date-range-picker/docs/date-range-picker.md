@@ -13,17 +13,24 @@ date-only strings (`YYYY-MM-DD`) or `null`.
 
 ## API
 
-| Input           | Description                                                                    |
-| --------------- | ------------------------------------------------------------------------------ |
-| `locale`        | BCP 47 locale override used for display and typing.                            |
-| `min` / `max`   | Inclusive ISO date bounds.                                                     |
-| `disabledDates` | ISO dates unavailable for selection.                                           |
-| `presets`       | Translated or direct-text predefined ranges, shown as shortcuts.               |
-| `appearance`    | `'outline'` (default) / `'surface'` / `'filled'`.                              |
-| `size`          | `'sm'` / `'md'` (default) / `'lg'`.                                            |
-| `density`       | `'compact'` / `'normal'` / `'comfortable'` (default: inherited theme density). |
-| `radius`        | `'none'` / `'sm'` (default) / `'md'` / `'lg'`.                                 |
-| `loading`       | Shows the field skeleton while dates resolve.                                  |
+| Input               | Description                                                                    |
+| ------------------- | ------------------------------------------------------------------------------ |
+| `locale`            | BCP 47 locale override used for display and typing.                            |
+| `min` / `max`       | Inclusive ISO date bounds.                                                     |
+| `disabledDates`     | ISO dates unavailable for selection.                                           |
+| `disablePast`       | Disables dates before today.                                                   |
+| `disableFuture`     | Disables dates after today.                                                    |
+| `weekStartsOn`      | `0`–`6` first weekday override (default: locale first day, Sunday fallback).   |
+| `dateFormat`        | `'2-digit'` (default) / `'numeric'` day+month display padding.                 |
+| `clearable`         | Shows a trigger clear (`x`) button when a range is set; emits `cleared`.       |
+| `clearLabel`        | Accessible label override for the trigger clear button (`clearLabelKey`).      |
+| `prefix` / `suffix` | Icon names rendered in the Form Field affixes.                                 |
+| `presets`           | Translated or direct-text predefined ranges, shown as shortcuts.               |
+| `appearance`        | `'outline'` (default) / `'surface'` / `'filled'`.                              |
+| `size`              | `'sm'` / `'md'` (default) / `'lg'`.                                            |
+| `density`           | `'compact'` / `'normal'` / `'comfortable'` (default: inherited theme density). |
+| `radius`            | `'none'` / `'sm'` (default) / `'md'` / `'lg'` / `'xl'` (pill).                 |
+| `loading`           | Shows the field skeleton while dates resolve.                                  |
 
 Type aliases: `SolarisDateRangePickerAppearance`,
 `SolarisDateRangePickerDensity`, `SolarisDateRangePickerRadius`,
@@ -54,14 +61,19 @@ attributes). Extra suffix actions compose beside it and set
 ## Interaction
 
 The panel keeps a pending range. Presets appear in a vertical shortcut
-navigation when provided. Clear, Cancel, and Apply use `solaris-button`; only
-Apply updates the form value.
+navigation when provided. The footer Clear button resets the pending range;
+the trigger clear button (`clearable`) clears the applied range immediately
+and emits `cleared`. Cancel and Apply use `solaris-button`; only Apply
+updates the form value. `Escape` inside the footer inputs resets a dirty
+query to the pending range.
 
 ## Accessibility
 
 - Form Field associates labels, hints, and errors with the range trigger.
 - The panel fields have translated labels for start and end dates.
 - The calendar suffix button has a translated accessible label.
+- Roving `ArrowUp`/`ArrowDown`/`Home`/`End` inside the calendar grid is a
+  follow-up (keyboard moves month-by-month via the navigation buttons in v1).
 
 ## Visual Variants
 

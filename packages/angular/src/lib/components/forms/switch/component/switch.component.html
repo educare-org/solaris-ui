@@ -10,6 +10,8 @@
     [attr.aria-label]="effectiveAriaLabel() ?? null"
     [attr.aria-labelledby]="ariaLabelledBy()"
     [attr.aria-describedby]="ariaDescribedBy()"
+    [attr.aria-checked]="_checked() ? 'true' : 'false'"
+    [attr.aria-required]="requiredInput() ? 'true' : null"
     [attr.aria-invalid]="isEffectivelyInvalid() ? 'true' : null"
     [attr.name]="name() ?? null"
     (change)="onInputChange($event)"
@@ -26,13 +28,28 @@
       }
     </span>
   </span>
-  @if (hasProjectedContent()) {
-    <span class="solaris-switch__label-text" [id]="elementId() + '-label'">
-      <ng-content />
-    </span>
-  } @else if (labelText(); as text) {
-    <span class="solaris-switch__label-text" [id]="elementId() + '-label'">
-      {{ text }}
+  @if (hasProjectedContent() || labelText() || descriptionText()) {
+    <span class="solaris-switch__content">
+      @if (hasProjectedContent()) {
+        <span class="solaris-switch__label-text" [id]="elementId() + '-label'">
+          <ng-content />
+          @if (requiredInput()) {
+            <span class="solaris-switch__required" aria-hidden="true">*</span>
+          }
+        </span>
+      } @else if (labelText(); as text) {
+        <span class="solaris-switch__label-text" [id]="elementId() + '-label'">
+          {{ text }}
+          @if (requiredInput()) {
+            <span class="solaris-switch__required" aria-hidden="true">*</span>
+          }
+        </span>
+      }
+      @if (descriptionText(); as description) {
+        <span class="solaris-switch__description" [id]="descriptionId()">
+          {{ description }}
+        </span>
+      }
     </span>
   }
 </label>

@@ -1,6 +1,7 @@
 import {
   Component,
   input,
+  booleanAttribute,
   output,
   computed,
   signal,
@@ -91,17 +92,17 @@ export class SolarisCheckboxGroupComponent
   readonly columns = input<SolarisCheckboxGroupColumns>(1);
   readonly density = input<SolarisCheckboxGroupDensity>();
   readonly size = input<SolarisCheckboxGroupSize>('md');
-  readonly disabledInput = input<boolean, boolean>(false, {
+  readonly disabledInput = input<boolean, unknown>(false, {
     alias: 'disabled',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly readonlyInput = input<boolean, boolean>(false, {
+  readonly readonlyInput = input<boolean, unknown>(false, {
     alias: 'readonly',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly requiredInput = input<boolean, boolean>(false, {
+  readonly requiredInput = input<boolean, unknown>(false, {
     alias: 'required',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
   readonly invalidInput = input<boolean | undefined>(undefined, {
     alias: 'invalid',
@@ -130,6 +131,7 @@ export class SolarisCheckboxGroupComponent
   private readonly _focused = signal(false);
   private readonly _describedByIds = signal<string[]>([]);
   private readonly cvaDisabled = signal(false);
+  private readonly cvaReadonly = signal(false);
   private readonly autoInvalid = signal(false);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -165,7 +167,7 @@ export class SolarisCheckboxGroupComponent
   });
 
   protected readonly isEffectivelyReadonly = computed(() => {
-    return this.readonlyInput();
+    return this.readonlyInput() || this.cvaReadonly();
   });
 
   protected readonly isEffectivelyInvalid = computed(() => {
@@ -320,6 +322,10 @@ export class SolarisCheckboxGroupComponent
   setDisabledState(isDisabled: boolean): void {
     this.cvaDisabled.set(isDisabled);
     this.propagateDisabledToChildren();
+  }
+
+  setCvaReadonlyState(isReadonly: boolean): void {
+    this.cvaReadonly.set(isReadonly);
   }
 
   ngAfterContentInit(): void {

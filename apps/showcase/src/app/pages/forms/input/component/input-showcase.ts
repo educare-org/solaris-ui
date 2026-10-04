@@ -43,6 +43,7 @@ import {
   INPUT_SHOWCASE_RADIUS_MD_CODE,
   INPUT_SHOWCASE_RADIUS_NONE_CODE,
   INPUT_SHOWCASE_RADIUS_SM_CODE,
+  INPUT_SHOWCASE_RADIUS_XL_CODE,
   INPUT_SHOWCASE_REACTIVE_CODE,
   INPUT_SHOWCASE_SLUG,
   INPUT_SHOWCASE_STATES_CODE,
@@ -100,6 +101,7 @@ export class InputShowcasePage {
   protected readonly radiusSmCode = INPUT_SHOWCASE_RADIUS_SM_CODE;
   protected readonly radiusMdCode = INPUT_SHOWCASE_RADIUS_MD_CODE;
   protected readonly radiusLgCode = INPUT_SHOWCASE_RADIUS_LG_CODE;
+  protected readonly radiusXlCode = INPUT_SHOWCASE_RADIUS_XL_CODE;
   protected readonly statesCode = INPUT_SHOWCASE_STATES_CODE;
   protected readonly typeCodes = INPUT_SHOWCASE_TYPE_CODES;
   protected readonly prefixCode = INPUT_SHOWCASE_PREFIX_CODE;

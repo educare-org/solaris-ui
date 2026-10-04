@@ -29,8 +29,13 @@ export const DATE_PICKER_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'size-density', labelKey: 'date-picker.section.size-density' },
   { anchor: 'appearance', labelKey: 'date-picker.section.appearance' },
   { anchor: 'states', labelKey: 'date-picker.section.states' },
+  { anchor: 'clearable', labelKey: 'date-picker.section.clearable' },
   { anchor: 'affix-action', labelKey: 'date-picker.section.affix-action' },
   { anchor: 'locale-bounds', labelKey: 'date-picker.section.locale-bounds' },
+  {
+    anchor: 'calendar-options',
+    labelKey: 'date-picker.section.calendar-options',
+  },
   { anchor: 'date-range', labelKey: 'date-picker.section.date-range' },
   { anchor: 'installation', labelKey: 'date-picker.section.installation' },
   { anchor: 'props', labelKey: 'date-picker.section.props' },
@@ -78,6 +83,26 @@ export const DATE_PICKER_SHOWCASE_BOUNDS_CODE = [
   '  [max]="maxSelectableDate"',
   '  [disabledDates]="unavailableDates"',
   '  [formControl]="limitedDateControl"',
+  '/>',
+].join('\n');
+
+export const DATE_PICKER_SHOWCASE_CLEARABLE_CODE = [
+  '<solaris-date-picker',
+  '  label="Invoice date"',
+  '  locale="pt-BR"',
+  '  [clearable]="true"',
+  '  [formControl]="dateControl"',
+  '/>',
+].join('\n');
+
+export const DATE_PICKER_SHOWCASE_CALENDAR_OPTIONS_CODE = [
+  '<solaris-date-picker',
+  '  label="Start date"',
+  '  locale="pt-BR"',
+  '  [weekStartsOn]="1"',
+  '  [disablePast]="true"',
+  '  dateFormat="numeric"',
+  '  [formControl]="dateControl"',
   '/>',
 ].join('\n');
 

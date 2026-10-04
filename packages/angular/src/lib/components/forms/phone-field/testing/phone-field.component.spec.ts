@@ -69,6 +69,17 @@ class DisabledHost {}
 })
 class DensityCompactHost {}
 
+@Component({
+  standalone: true,
+  imports: [SolarisPhoneFieldComponent, ReactiveFormsModule],
+  template: `<solaris-phone-field
+    label="Phone"
+    defaultCountry="BR"
+    hint="Use your mobile number."
+  ></solaris-phone-field>`,
+})
+class HintHost {}
+
 describe('SolarisPhoneFieldComponent', () => {
   async function setup<T>(hostType: new () => T): Promise<{
     fixture: any;
@@ -99,6 +110,25 @@ describe('SolarisPhoneFieldComponent', () => {
       expect(input.getAttribute('type')).toBe('tel');
       expect(countryButton).toBeTruthy();
       expect(countryButton.getAttribute('aria-haspopup')).toBe('listbox');
+    });
+
+    it('forwards described-by ids from the field to the inner input (control contract)', async () => {
+      const { fixture, input } = await setup(HintHost);
+      const hint = fixture.debugElement.query(
+        By.css('.solaris-form-field__hint'),
+      );
+      expect(hint).toBeTruthy();
+      expect(input.getAttribute('aria-describedby')).toContain(
+        hint.nativeElement.id,
+      );
+    });
+
+    it('caps input length with the effective country max length', async () => {
+      const { input, component } = await setup(DefaultCountryHost);
+      const expected = (component as { effectiveMaxLength: () => number })
+        .effectiveMaxLength()
+        .toString();
+      expect(input.getAttribute('maxlength')).toBe(expected);
     });
 
     it('applies data-density on the host', async () => {
@@ -379,6 +409,59 @@ describe('SolarisPhoneFieldComponent', () => {
         '.solaris-form-field__affix--suffix',
       ) as HTMLElement;
       expect(affix.getAttribute('data-variant')).toBe('action');
+    });
+  });
+
+  describe('clearable (P5 B/C)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisPhoneFieldComponent, ReactiveFormsModule],
+      template: `<solaris-phone-field
+        label="Phone"
+        defaultCountry="BR"
+        [clearable]="true"
+      ></solaris-phone-field>`,
+    })
+    class ClearableHost {}
+
+    it('renders a clear button with the default aria label when it has value', async () => {
+      const { fixture, component } = await setup(ClearableHost);
+      component.writeValue('+5511987654321');
+      fixture.detectChanges();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-phone-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.getAttribute('aria-label')).toBe('Clear phone number');
+    });
+
+    it('clears the value and display on click', async () => {
+      const { fixture, component } = await setup(ClearableHost);
+      let cleared = 0;
+      component.cleared.subscribe(() => {
+        cleared += 1;
+      });
+      component.writeValue('+5511987654321');
+      fixture.detectChanges();
+      (
+        fixture.nativeElement.querySelector(
+          '.solaris-phone-field__clear',
+        ) as HTMLButtonElement
+      ).click();
+      fixture.detectChanges();
+      expect(component.internalValue()).toBe('');
+      expect(component.displayValue()).toBe('');
+      expect(cleared).toBe(1);
+      expect(
+        fixture.nativeElement.querySelector('.solaris-phone-field__clear'),
+      ).toBeNull();
+    });
+
+    it('hides the clear button without value', async () => {
+      const { fixture } = await setup(ClearableHost);
+      expect(
+        fixture.nativeElement.querySelector('.solaris-phone-field__clear'),
+      ).toBeNull();
     });
   });
 });

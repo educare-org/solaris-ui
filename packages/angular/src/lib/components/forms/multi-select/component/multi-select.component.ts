@@ -166,6 +166,7 @@ export class SolarisMultiSelectComponent
   readonly requiredInput = input(false, { alias: 'required' });
   readonly panelMaxHeight = input<string | number>('320px');
   readonly prefix = input<SolarisIconName>();
+  readonly suffix = input<SolarisIconName>();
   readonly displayWith = input<(value: unknown) => string | undefined>();
   readonly appearance = input<SolarisMultiSelectAppearance>('outline');
   readonly compareWith = input<(a: unknown, b: unknown) => boolean>(Object.is);

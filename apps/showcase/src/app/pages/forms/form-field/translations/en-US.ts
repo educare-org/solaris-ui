@@ -53,11 +53,12 @@ export const EN_US_FORM_FIELD: Record<string, string> = {
   'form-field.density.comfortable': 'Comfortable',
   'form-field.label.name': 'Name',
   'form-field.radius.note':
-    'The control wrapper supports none, sm (default), md, and lg radius values. Fields scale: md maps to 8px and lg renders as a pill.',
+    'The control wrapper supports none, sm (default), md, lg, and xl radius values. Global scale: md maps to 4px, lg to 8px, and xl renders as a pill.',
   'form-field.radius.none': 'None',
   'form-field.radius.sm': 'Small',
   'form-field.radius.md': 'Medium',
   'form-field.radius.lg': 'Large',
+  'form-field.radius.xl': 'Pill',
   'form-field.states.disabled': 'Disabled Field',
   'form-field.states.disabled-value': 'Cannot edit',
   'form-field.states.readonly': 'Readonly Field',

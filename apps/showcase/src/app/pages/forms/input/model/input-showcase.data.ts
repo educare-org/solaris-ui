@@ -79,6 +79,7 @@ export const INPUT_SHOWCASE_RADIUS_NONE_CODE = inputRadiusCode('none');
 export const INPUT_SHOWCASE_RADIUS_SM_CODE = inputRadiusCode('sm');
 export const INPUT_SHOWCASE_RADIUS_MD_CODE = inputRadiusCode('md');
 export const INPUT_SHOWCASE_RADIUS_LG_CODE = inputRadiusCode('lg');
+export const INPUT_SHOWCASE_RADIUS_XL_CODE = inputRadiusCode('xl');
 
 export const INPUT_SHOWCASE_STATES_CODE = [
   '<solaris-form-field label="Default">',

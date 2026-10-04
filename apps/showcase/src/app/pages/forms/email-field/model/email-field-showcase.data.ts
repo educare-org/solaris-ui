@@ -30,6 +30,7 @@ export const EMAIL_FIELD_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'appearances', labelKey: 'email-field.section.appearances' },
   { anchor: 'radius', labelKey: 'email-field.section.radius' },
   { anchor: 'states', labelKey: 'email-field.section.states' },
+  { anchor: 'clearable', labelKey: 'email-field.section.clearable' },
   { anchor: 'affix', labelKey: 'email-field.section.affix' },
   { anchor: 'validation', labelKey: 'email-field.section.validation' },
   { anchor: 'form', labelKey: 'email-field.section.form' },
@@ -70,6 +71,7 @@ export const EMAIL_FIELD_SHOWCASE_RADIUS_NONE_CODE =
 export const EMAIL_FIELD_SHOWCASE_RADIUS_SM_CODE = emailFieldRadiusCode('sm');
 export const EMAIL_FIELD_SHOWCASE_RADIUS_MD_CODE = emailFieldRadiusCode('md');
 export const EMAIL_FIELD_SHOWCASE_RADIUS_LG_CODE = emailFieldRadiusCode('lg');
+export const EMAIL_FIELD_SHOWCASE_RADIUS_XL_CODE = emailFieldRadiusCode('xl');
 
 export const EMAIL_FIELD_SHOWCASE_STATES_CODE = [
   '<solaris-email-field label="Default" placeholder="Default" />',
@@ -77,6 +79,10 @@ export const EMAIL_FIELD_SHOWCASE_STATES_CODE = [
   '<solaris-email-field label="Disabled" [disabled]="true" value="user@company.com" />',
   '<solaris-email-field label="Readonly" [readonly]="true" value="user@company.com" />',
   '<solaris-email-field label="Loading" [loading]="true" value="user@company.com" />',
+].join('\n');
+
+export const EMAIL_FIELD_SHOWCASE_CLEARABLE_CODE = [
+  '<solaris-email-field label="E-mail" value="user@company.com" [clearable]="true" (cleared)="onCleared()" />',
 ].join('\n');
 
 export const EMAIL_FIELD_SHOWCASE_PREFIX_CODE = [

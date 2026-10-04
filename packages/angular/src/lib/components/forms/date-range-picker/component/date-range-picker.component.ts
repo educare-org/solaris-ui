@@ -21,6 +21,7 @@ import {
 } from '../../../interaction/popover';
 import {
   SolarisFormFieldComponent,
+  SolarisFormPrefixDirective,
   SolarisFormSuffixActionDirective,
   SolarisFormSuffixDirective,
 } from '../../form-field';
@@ -28,6 +29,7 @@ import { SolarisFormControl } from '../../form-field/model/form-control.contract
 import { SolarisInputDirective } from '../../input';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
+import type { SolarisIconName } from '../../../../services/icon';
 import { SolarisDateCalendarComponent } from '../../date/component/calendar.component';
 import {
   addSolarisMonths,
@@ -40,9 +42,11 @@ import {
 } from '../../date/model/date.utils';
 import type {
   SolarisCalendarMonth,
+  SolarisDateFormat,
   SolarisDatePreset,
   SolarisDateRange,
   SolarisDateValue,
+  SolarisWeekStartsOn,
 } from '../../date/model/date.types';
 import type {
   SolarisDateRangePickerAppearance,
@@ -61,6 +65,7 @@ const EMPTY_RANGE: SolarisDateRange = { start: null, end: null };
     SolarisButtonDirective,
     SolarisDateCalendarComponent,
     SolarisFormFieldComponent,
+    SolarisFormPrefixDirective,
     SolarisFormSuffixActionDirective,
     SolarisFormSuffixDirective,
     SolarisIconComponent,
@@ -128,9 +133,19 @@ export class SolarisDateRangePickerComponent
   readonly manualInvalid = input<boolean | undefined>(undefined, {
     alias: 'invalid',
   });
+  readonly clearable = input<boolean>(false);
+  readonly clearLabel = input<string>();
+  readonly clearLabelKey = input<string>();
+  readonly prefix = input<SolarisIconName>();
+  readonly suffix = input<SolarisIconName>();
+  readonly weekStartsOn = input<SolarisWeekStartsOn>();
+  readonly disablePast = input<boolean>(false);
+  readonly disableFuture = input<boolean>(false);
+  readonly dateFormat = input<SolarisDateFormat>('2-digit');
 
   readonly valueChange = output<SolarisDateRange>();
   readonly openedChange = output<boolean>();
+  readonly cleared = output<void>();
 
   protected readonly value = signal<SolarisDateRange>(EMPTY_RANGE);
   protected readonly pending = signal<SolarisDateRange>(EMPTY_RANGE);
@@ -211,9 +226,32 @@ export class SolarisDateRangePickerComponent
   protected readonly cancelLabel = computed(() =>
     this.translateService.translate('solaris.date-range-picker.cancel'),
   );
-  protected readonly clearLabel = computed(() =>
+  protected readonly clearButtonLabel = computed(() =>
     this.translateService.translate('solaris.date-range-picker.clear'),
   );
+  protected readonly hasValue = computed(() => {
+    const range = this.value();
+    return range.start !== null || range.end !== null;
+  });
+  protected readonly canClear = computed(() => {
+    return (
+      this.clearable() &&
+      this.hasValue() &&
+      !this.isEffectivelyDisabled() &&
+      !this.isEffectivelyReadonly()
+    );
+  });
+  protected readonly clearAriaLabel = computed(() => {
+    const key = this.clearLabelKey();
+    if (key) {
+      return this.translateService.translate(key);
+    }
+    const text = this.clearLabel();
+    if (text) {
+      return text;
+    }
+    return this.translateService.translate('solaris.date-range-picker.clear');
+  });
   protected readonly presetsLabel = computed(() =>
     this.translateService.translate('solaris.date-range-picker.presets'),
   );
@@ -225,8 +263,9 @@ export class SolarisDateRangePickerComponent
   );
   protected readonly rangeDisplay = computed(() => {
     const range = this.value();
-    const start = formatSolarisDate(range.start, this.resolvedLocale());
-    const end = formatSolarisDate(range.end, this.resolvedLocale());
+    const format = this.dateFormat();
+    const start = formatSolarisDate(range.start, this.resolvedLocale(), format);
+    const end = formatSolarisDate(range.end, this.resolvedLocale(), format);
 
     return start && end ? `${start} - ${end}` : start || end;
   });
@@ -327,6 +366,13 @@ export class SolarisDateRangePickerComponent
       this.popoverTrigger()?.open();
     }
   }
+  protected onPanelInputKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.updateDisplays(this.pending());
+      this.parseError.set(false);
+    }
+  }
   protected onPanelOpened(): void {
     this.pending.set(this.value());
     this.updateDisplays(this.value());
@@ -379,6 +425,18 @@ export class SolarisDateRangePickerComponent
     this.updatePending(EMPTY_RANGE);
     this.parseError.set(false);
   }
+  protected clearValue(): void {
+    const cleared: SolarisDateRange = { ...EMPTY_RANGE };
+    this.value.set(cleared);
+    this.pending.set(cleared);
+    this.activePresetId.set('custom');
+    this.updateDisplays(cleared);
+    this.parseError.set(false);
+    this.onChange(cleared);
+    this.valueChange.emit(cleared);
+    this.cleared.emit();
+    this.markTouched();
+  }
   protected cancel(): void {
     this.pending.set(this.value());
     this.updateDisplays(this.value());
@@ -399,10 +457,13 @@ export class SolarisDateRangePickerComponent
     this.updateDisplays(range);
   }
   private updateDisplays(range: SolarisDateRange): void {
+    const format = this.dateFormat();
     this.startDisplay.set(
-      formatSolarisDate(range.start, this.resolvedLocale()),
+      formatSolarisDate(range.start, this.resolvedLocale(), format),
     );
-    this.endDisplay.set(formatSolarisDate(range.end, this.resolvedLocale()));
+    this.endDisplay.set(
+      formatSolarisDate(range.end, this.resolvedLocale(), format),
+    );
   }
   private presetIdForRange(range: SolarisDateRange): string {
     return (
@@ -422,9 +483,12 @@ export class SolarisDateRangePickerComponent
       : { start, end };
   }
   private isSelectable(value: SolarisDateValue): boolean {
+    const today = todaySolarisDate();
     return (
       (!this.min() || value >= this.min()!) &&
       (!this.max() || value <= this.max()!) &&
+      (!this.disablePast() || compareSolarisDates(value, today) >= 0) &&
+      (!this.disableFuture() || compareSolarisDates(value, today) <= 0) &&
       !this.disabledDates().includes(value)
     );
   }

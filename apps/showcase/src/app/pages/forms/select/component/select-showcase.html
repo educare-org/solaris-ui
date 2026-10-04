@@ -146,6 +146,7 @@
       <solaris-tab value="sm">{{ 'select.radius.sm' | translate }}</solaris-tab>
       <solaris-tab value="md">{{ 'select.radius.md' | translate }}</solaris-tab>
       <solaris-tab value="lg">{{ 'select.radius.lg' | translate }}</solaris-tab>
+      <solaris-tab value="xl">{{ 'select.radius.xl' | translate }}</solaris-tab>
       <solaris-tab-panel value="none">
         <solaris-preview-code [code]="radiusNoneCode" language="html">
           <solaris-select
@@ -191,6 +192,19 @@
             [label]="'select.radius.lg' | translate"
             radius="lg"
             [placeholder]="'select.radius.lg' | translate"
+          >
+            <solaris-option value="admin"
+              >{{ 'select.option.admin' | translate }}</solaris-option
+            >
+          </solaris-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="xl">
+        <solaris-preview-code [code]="radiusXlCode" language="html">
+          <solaris-select
+            [label]="'select.radius.xl' | translate"
+            radius="xl"
+            [placeholder]="'select.radius.xl' | translate"
           >
             <solaris-option value="admin"
               >{{ 'select.option.admin' | translate }}</solaris-option
@@ -315,6 +329,20 @@
             [decorative]="false"
             [attr.aria-label]="'select.affix.suffix.icon-label' | translate"
           />
+        </solaris-select>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="suffixInputCode" language="html">
+        <solaris-select
+          suffix="info"
+          [label]="'select.affix.suffix-input.label' | translate"
+          [placeholder]="'select.affix.suffix-input.placeholder' | translate"
+        >
+          <solaris-option value="admin"
+            >{{ 'select.option.admin' | translate }}</solaris-option
+          >
+          <solaris-option value="teacher"
+            >{{ 'select.option.teacher' | translate }}</solaris-option
+          >
         </solaris-select>
       </solaris-preview-code>
       <solaris-preview-code [code]="suffixActionCode" language="html">

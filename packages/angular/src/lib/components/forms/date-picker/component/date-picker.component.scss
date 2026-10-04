@@ -24,3 +24,40 @@
 .solaris-date-picker__calendar-trigger solaris-icon {
   cursor: pointer;
 }
+
+.solaris-date-picker__clear {
+  solaris-icon {
+    width: var(--solaris-font-size-lg);
+    height: var(--solaris-font-size-lg);
+  }
+
+  padding: 0;
+  border: none;
+  display: flex;
+  cursor: pointer;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  width: var(--solaris-font-size-lg);
+  height: var(--solaris-font-size-lg);
+  color: var(--solaris-text-muted);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-date-picker__clear:hover {
+  color: var(--solaris-text-strong);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-date-picker__clear {
+    transition: none;
+  }
+}
+
+[data-reduced-motion='true'] {
+  .solaris-date-picker__clear {
+    transition: none;
+  }
+}

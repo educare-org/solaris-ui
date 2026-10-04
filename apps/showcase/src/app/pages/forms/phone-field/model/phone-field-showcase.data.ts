@@ -30,6 +30,7 @@ export const PHONE_FIELD_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'appearances', labelKey: 'phone-field.section.appearances' },
   { anchor: 'radius', labelKey: 'phone-field.section.radius' },
   { anchor: 'states', labelKey: 'phone-field.section.states' },
+  { anchor: 'clearable', labelKey: 'phone-field.section.clearable' },
   { anchor: 'affix', labelKey: 'phone-field.section.affix' },
   { anchor: 'countries', labelKey: 'phone-field.section.countries' },
   { anchor: 'form', labelKey: 'phone-field.section.form' },
@@ -70,6 +71,11 @@ export const PHONE_FIELD_SHOWCASE_RADIUS_NONE_CODE =
 export const PHONE_FIELD_SHOWCASE_RADIUS_SM_CODE = phoneFieldRadiusCode('sm');
 export const PHONE_FIELD_SHOWCASE_RADIUS_MD_CODE = phoneFieldRadiusCode('md');
 export const PHONE_FIELD_SHOWCASE_RADIUS_LG_CODE = phoneFieldRadiusCode('lg');
+export const PHONE_FIELD_SHOWCASE_RADIUS_XL_CODE = phoneFieldRadiusCode('xl');
+
+export const PHONE_FIELD_SHOWCASE_CLEARABLE_CODE = [
+  '<solaris-phone-field label="Phone" defaultCountry="BR" value="+5511987654321" [clearable]="true" (cleared)="onCleared()" />',
+].join('\n');
 
 export const PHONE_FIELD_SHOWCASE_STATES_CODE = [
   '<solaris-phone-field label="Default" defaultCountry="BR" />',

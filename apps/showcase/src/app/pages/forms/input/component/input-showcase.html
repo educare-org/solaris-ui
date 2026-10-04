@@ -151,6 +151,7 @@
       <solaris-tab value="sm">{{ 'input.radius.sm' | translate }}</solaris-tab>
       <solaris-tab value="md">{{ 'input.radius.md' | translate }}</solaris-tab>
       <solaris-tab value="lg">{{ 'input.radius.lg' | translate }}</solaris-tab>
+      <solaris-tab value="xl">{{ 'input.radius.xl' | translate }}</solaris-tab>
       <solaris-tab-panel value="none">
         <solaris-preview-code [code]="radiusNoneCode" language="html">
           <solaris-form-field
@@ -203,6 +204,20 @@
               solaris-input
               radius="lg"
               [placeholder]="'input.radius.lg' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="xl">
+        <solaris-preview-code [code]="radiusXlCode" language="html">
+          <solaris-form-field
+            [label]="'input.radius.xl' | translate"
+            radius="xl"
+          >
+            <input
+              solaris-input
+              radius="xl"
+              [placeholder]="'input.radius.xl' | translate"
             />
           </solaris-form-field>
         </solaris-preview-code>

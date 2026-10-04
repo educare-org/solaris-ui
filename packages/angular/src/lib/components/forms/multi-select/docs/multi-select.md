@@ -66,20 +66,21 @@ Multi Select represents a multiple selection within a form. It controls an array
 | `displayWith`           | `(value) => string \| undefined`                      | —           | Custom display function                |
 | `appearance`            | `'outline' \| 'surface' \| 'filled'`                  | `'outline'` | Visual appearance                      |
 | `density`               | `'compact' \| 'normal' \| 'comfortable' \| undefined` | —           | Density                                |
-| `radius`                | `'none' \| 'sm' \| 'md' \| 'lg'`                      | `'sm'`      | Border radius                          |
+| `radius`                | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`              | `'sm'`      | Border radius                          |
 | `label`                 | `string \| undefined`                                 | —           | Label text                             |
 | `labelKey`              | `string \| undefined`                                 | —           | Translation key for label              |
 | `hint`                  | `string \| undefined`                                 | —           | Hint text                              |
 | `hintKey`               | `string \| undefined`                                 | —           | Translation key for hint               |
 | `error`                 | `string \| undefined`                                 | —           | Error text                             |
 | `errorKey`              | `string \| undefined`                                 | —           | Translation key for error              |
-| `panelMaxHeight`        | `string \| number`                                    | `'20rem'`   | Max height of dropdown panel           |
+| `panelMaxHeight`        | `string \| number`                                    | `'320px'`   | Max height of dropdown panel           |
 | `panelWidth`            | `string \| number \| undefined`                       | —           | Width of dropdown panel                |
 | `name`                  | `string \| undefined`                                 | —           | Native name attribute                  |
 | `ariaLabel`             | `string \| undefined`                                 | —           | ARIA label                             |
 | `ariaLabelKey`          | `string \| undefined`                                 | —           | Translation key for ARIA label         |
 | `ariaLabelledby`        | `string \| undefined`                                 | —           | ARIA labelledby                        |
 | `prefix`                | `SolarisIconName \| undefined`                        | —           | Prefix icon in the leading affix slot  |
+| `suffix`                | `SolarisIconName \| undefined`                        | —           | Suffix icon in the trailing affix slot |
 
 ### Outputs
 
@@ -243,6 +244,8 @@ Multi Select renders its own `solaris-form-field` internally. Affix content is
 re-projected into that inner field:
 
 - `prefix` renders a leading icon via the `prefix` input.
+- `suffix` renders a trailing icon via the `suffix` input (projected into the
+  field suffix affix, after the trigger chevron).
 - Elements with `[solaris-form-prefix]` are re-projected as the field prefix.
 - Elements with `[solaris-form-suffix]` are re-projected as the field suffix.
 - Suffix actions require **both** `[solaris-form-suffix]` and

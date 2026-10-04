@@ -31,6 +31,7 @@ export const SWITCH_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'thumb-content', labelKey: 'switch.section.thumb-content' },
   { anchor: 'group', labelKey: 'switch.section.group' },
   { anchor: 'states', labelKey: 'switch.section.states' },
+  { anchor: 'description', labelKey: 'switch.section.description' },
   { anchor: 'form', labelKey: 'switch.section.form' },
   { anchor: 'installation', labelKey: 'switch.section.installation' },
   { anchor: 'props', labelKey: 'switch.section.props' },
@@ -97,6 +98,11 @@ export const SWITCH_SHOWCASE_STATES_CODE = [
   '</solaris-switch>',
   '<solaris-switch [readonly]="true">Readonly</solaris-switch>',
   '<solaris-switch [invalid]="true">Invalid</solaris-switch>',
+].join('\n');
+
+export const SWITCH_SHOWCASE_DESCRIPTION_CODE = [
+  '<solaris-switch label="Email notifications" description="Get updates about your account." size="sm" />',
+  '<solaris-switch label="SMS notifications" description="Get urgent alerts by text message." size="lg" />',
 ].join('\n');
 
 export const SWITCH_SHOWCASE_FORM_FIELD_CODE = [

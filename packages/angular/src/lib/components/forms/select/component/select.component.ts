@@ -121,6 +121,7 @@ export class SolarisSelectComponent
 
   readonly hint = input<string>();
   readonly prefix = input<SolarisIconName>();
+  readonly suffix = input<SolarisIconName>();
   readonly label = input<string>();
   readonly error = input<string>();
   readonly hintKey = input<string>();

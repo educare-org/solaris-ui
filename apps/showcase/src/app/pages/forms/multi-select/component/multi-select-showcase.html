@@ -163,6 +163,9 @@
       <solaris-tab value="lg"
         >{{ 'multiSelect.radius.lg' | translate }}</solaris-tab
       >
+      <solaris-tab value="xl"
+        >{{ 'multiSelect.radius.xl' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="none">
         <solaris-preview-code [code]="radiusNoneCode" language="html">
           <solaris-multi-select
@@ -208,6 +211,19 @@
             [label]="'multiSelect.radius.lg' | translate"
             radius="lg"
             [placeholder]="'multiSelect.radius.lg' | translate"
+          >
+            <solaris-option value="br"
+              >{{ 'multiSelect.country.br' | translate }}</solaris-option
+            >
+          </solaris-multi-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="xl">
+        <solaris-preview-code [code]="radiusXlCode" language="html">
+          <solaris-multi-select
+            [label]="'multiSelect.radius.xl' | translate"
+            radius="xl"
+            [placeholder]="'multiSelect.radius.xl' | translate"
           >
             <solaris-option value="br"
               >{{ 'multiSelect.country.br' | translate }}</solaris-option
@@ -339,6 +355,20 @@
               'multiSelect.affix.suffix.icon-label' | translate
             "
           />
+        </solaris-multi-select>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="suffixInputCode" language="html">
+        <solaris-multi-select
+          suffix="info"
+          [label]="'multiSelect.affix.suffix-input.label' | translate"
+          [placeholder]="'multiSelect.affix.suffix-input.placeholder' | translate"
+        >
+          <solaris-option value="br"
+            >{{ 'multiSelect.country.br' | translate }}</solaris-option
+          >
+          <solaris-option value="us"
+            >{{ 'multiSelect.country.us' | translate }}</solaris-option
+          >
         </solaris-multi-select>
       </solaris-preview-code>
       <solaris-preview-code [code]="suffixActionCode" language="html">

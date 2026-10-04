@@ -202,6 +202,9 @@
       <solaris-tab value="lg"
         >{{ 'checkbox.radius.lg' | translate }}</solaris-tab
       >
+      <solaris-tab value="xl"
+        >{{ 'checkbox.radius.xl' | translate }}</solaris-tab
+      >
       <solaris-tab value="full"
         >{{ 'checkbox.radius.full' | translate }}</solaris-tab
       >
@@ -218,6 +221,11 @@
       <solaris-tab-panel value="lg">
         <solaris-preview-code [code]="radiusLgCode" language="html">
           <solaris-checkbox radius="lg" [checked]="true">Lg</solaris-checkbox>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="xl">
+        <solaris-preview-code [code]="radiusXlCode" language="html">
+          <solaris-checkbox radius="xl" [checked]="true">Xl</solaris-checkbox>
         </solaris-preview-code>
       </solaris-tab-panel>
       <solaris-tab-panel value="full">
@@ -240,6 +248,29 @@
         <solaris-checkbox [readonly]="true">Readonly</solaris-checkbox>
         <solaris-checkbox [invalid]="true">Invalid</solaris-checkbox>
         <solaris-checkbox [required]="true">Required</solaris-checkbox>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="description"
+    titleKey="checkbox.section.description"
+  >
+    <p class="checkbox-showcase__note">
+      {{ 'checkbox.description.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="descriptionCode" language="html">
+      <div class="checkbox-showcase__stack">
+        <solaris-checkbox
+          [label]="'checkbox.description.small-label' | translate"
+          [description]="'checkbox.description.small-text' | translate"
+          size="sm"
+        />
+        <solaris-checkbox
+          [label]="'checkbox.description.large-label' | translate"
+          [description]="'checkbox.description.large-text' | translate"
+          size="lg"
+        />
       </div>
     </solaris-preview-code>
   </app-docs-section>

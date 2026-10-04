@@ -135,6 +135,9 @@
       <solaris-tab value="lg"
         >{{ 'phone-field.radius.lg' | translate }}</solaris-tab
       >
+      <solaris-tab value="xl"
+        >{{ 'phone-field.radius.xl' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="none">
         <solaris-preview-code [code]="radiusNoneCode" language="html">
           <solaris-phone-field
@@ -167,6 +170,15 @@
           <solaris-phone-field
             [label]="'phone-field.radius.lg' | translate"
             radius="lg"
+            defaultCountry="BR"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="xl">
+        <solaris-preview-code [code]="radiusXlCode" language="html">
+          <solaris-phone-field
+            [label]="'phone-field.radius.xl' | translate"
+            radius="xl"
             defaultCountry="BR"
           />
         </solaris-preview-code>
@@ -209,6 +221,20 @@
           defaultCountry="BR"
         />
       </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="clearable" titleKey="phone-field.section.clearable">
+    <p class="phone-field-showcase__note">
+      {{ 'phone-field.clearable.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="clearableCode" language="html">
+      <solaris-phone-field
+        [label]="'phone-field.clearable.label' | translate"
+        defaultCountry="BR"
+        value="+5511987654321"
+        [clearable]="true"
+      />
     </solaris-preview-code>
   </app-docs-section>
 

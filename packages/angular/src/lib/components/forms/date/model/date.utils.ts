@@ -1,7 +1,9 @@
 import type {
   SolarisCalendarDay,
   SolarisCalendarMonth,
+  SolarisDateFormat,
   SolarisDateValue,
+  SolarisWeekStartsOn,
 } from './date.types';
 
 const ISO_DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
@@ -89,16 +91,34 @@ export function getCalendarDays(
 export function formatSolarisDate(
   value: SolarisDateValue | null | undefined,
   locale: string,
+  dateFormat: SolarisDateFormat = '2-digit',
 ): string {
   const date = parseSolarisDate(value);
   if (!date) return '';
 
   return new Intl.DateTimeFormat(locale, {
-    day: '2-digit',
-    month: '2-digit',
+    day: dateFormat,
+    month: dateFormat,
     year: 'numeric',
     timeZone: 'UTC',
   }).format(date);
+}
+
+export function localeFirstDay(locale: string): SolarisWeekStartsOn {
+  try {
+    const weekInfo = (
+      new Intl.Locale(locale) as Intl.Locale & {
+        weekInfo?: { firstDay?: unknown };
+      }
+    ).weekInfo;
+    const firstDay = weekInfo?.firstDay;
+    if (typeof firstDay === 'number' && firstDay >= 1 && firstDay <= 7) {
+      return (firstDay % 7) as SolarisWeekStartsOn;
+    }
+  } catch {
+    // Intl.Locale with weekInfo is not available everywhere; fall through.
+  }
+  return 0;
 }
 
 export function parseLocalizedSolarisDate(

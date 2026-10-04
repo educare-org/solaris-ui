@@ -20,6 +20,7 @@ import {
 } from '../../../interaction/popover';
 import {
   SolarisFormFieldComponent,
+  SolarisFormPrefixDirective,
   SolarisFormSuffixActionDirective,
   SolarisFormSuffixDirective,
 } from '../../form-field';
@@ -27,8 +28,10 @@ import { SolarisFormControl } from '../../form-field/model/form-control.contract
 import { SolarisInputDirective } from '../../input';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
+import type { SolarisIconName } from '../../../../services/icon';
 import { SolarisDateCalendarComponent } from '../../date/component/calendar.component';
 import {
+  compareSolarisDates,
   formatSolarisDate,
   monthForSolarisDate,
   parseLocalizedSolarisDate,
@@ -37,7 +40,9 @@ import {
 } from '../../date/model/date.utils';
 import type {
   SolarisCalendarMonth,
+  SolarisDateFormat,
   SolarisDateValue,
+  SolarisWeekStartsOn,
 } from '../../date/model/date.types';
 import type {
   SolarisDatePickerAppearance,
@@ -53,6 +58,7 @@ import { SolarisIconButtonDirective } from '../../../actions/icon-button';
   imports: [
     SolarisDateCalendarComponent,
     SolarisFormFieldComponent,
+    SolarisFormPrefixDirective,
     SolarisFormSuffixActionDirective,
     SolarisFormSuffixDirective,
     SolarisIconComponent,
@@ -123,9 +129,19 @@ export class SolarisDatePickerComponent
   readonly loading = input<boolean>(false);
   readonly calendarButtonLabel = input<string>();
   readonly calendarButtonLabelKey = input<string>();
+  readonly clearable = input<boolean>(false);
+  readonly clearLabel = input<string>();
+  readonly clearLabelKey = input<string>();
+  readonly prefix = input<SolarisIconName>();
+  readonly suffix = input<SolarisIconName>();
+  readonly weekStartsOn = input<SolarisWeekStartsOn>();
+  readonly disablePast = input<boolean>(false);
+  readonly disableFuture = input<boolean>(false);
+  readonly dateFormat = input<SolarisDateFormat>('2-digit');
 
   readonly valueChange = output<SolarisDateValue | null>();
   readonly openedChange = output<boolean>();
+  readonly cleared = output<void>();
 
   protected readonly value = signal<SolarisDateValue | null>(null);
   protected readonly displayValue = signal('');
@@ -161,6 +177,26 @@ export class SolarisDatePickerComponent
       this.parseError() ||
       (this.requiredInput() && this.touched() && !this.value())
     );
+  });
+  protected readonly hasValue = computed(() => this.value() !== null);
+  protected readonly canClear = computed(() => {
+    return (
+      this.clearable() &&
+      this.hasValue() &&
+      !this.isEffectivelyDisabled() &&
+      !this.isEffectivelyReadonly()
+    );
+  });
+  protected readonly clearAriaLabel = computed(() => {
+    const key = this.clearLabelKey();
+    if (key) {
+      return this.translateService.translate(key);
+    }
+    const text = this.clearLabel();
+    if (text) {
+      return text;
+    }
+    return this.translateService.translate('solaris.date-picker.clear');
   });
   protected readonly placeholderText = computed(() =>
     this.resolveText(
@@ -240,7 +276,9 @@ export class SolarisDatePickerComponent
     const valid = parseSolarisDate(value);
     const normalized = valid ? value : null;
     this.value.set(normalized);
-    this.displayValue.set(formatSolarisDate(normalized, this.resolvedLocale()));
+    this.displayValue.set(
+      formatSolarisDate(normalized, this.resolvedLocale(), this.dateFormat()),
+    );
     this.parseError.set(false);
     const month = normalized ? monthForSolarisDate(normalized) : null;
     if (month) this.displayedMonth.set(month);
@@ -288,7 +326,11 @@ export class SolarisDatePickerComponent
     this.markTouched();
     if (!this.parseError()) {
       this.displayValue.set(
-        formatSolarisDate(this.value(), this.resolvedLocale()),
+        formatSolarisDate(
+          this.value(),
+          this.resolvedLocale(),
+          this.dateFormat(),
+        ),
       );
     }
   }
@@ -297,6 +339,21 @@ export class SolarisDatePickerComponent
     if (event.altKey && event.key === 'ArrowDown') {
       event.preventDefault();
       this.popoverTrigger()?.open();
+      return;
+    }
+    if (event.key === 'Escape') {
+      const pristine = formatSolarisDate(
+        this.value(),
+        this.resolvedLocale(),
+        this.dateFormat(),
+      );
+      if (this.displayValue() !== pristine) {
+        event.preventDefault();
+        this.displayValue.set(pristine);
+        this.parseError.set(false);
+      } else {
+        this.popoverTrigger()?.close();
+      }
     }
   }
 
@@ -313,9 +370,19 @@ export class SolarisDatePickerComponent
 
   protected selectDate(value: SolarisDateValue): void {
     this.commitValue(value);
-    this.displayValue.set(formatSolarisDate(value, this.resolvedLocale()));
+    this.displayValue.set(
+      formatSolarisDate(value, this.resolvedLocale(), this.dateFormat()),
+    );
     this.parseError.set(false);
     this.popoverTrigger()?.close();
+  }
+
+  protected clearValue(): void {
+    this.commitValue(null);
+    this.displayValue.set('');
+    this.parseError.set(false);
+    this.cleared.emit();
+    this.markTouched();
   }
 
   protected setDisplayedMonth(month: SolarisCalendarMonth): void {
@@ -330,9 +397,12 @@ export class SolarisDatePickerComponent
   }
 
   private isSelectable(value: SolarisDateValue): boolean {
+    const today = todaySolarisDate();
     return (
       (!this.min() || value >= this.min()!) &&
       (!this.max() || value <= this.max()!) &&
+      (!this.disablePast() || compareSolarisDates(value, today) >= 0) &&
+      (!this.disableFuture() || compareSolarisDates(value, today) <= 0) &&
       !this.disabledDates().includes(value)
     );
   }

@@ -135,6 +135,9 @@
       <solaris-tab value="lg"
         >{{ 'email-field.radius.lg' | translate }}</solaris-tab
       >
+      <solaris-tab value="xl"
+        >{{ 'email-field.radius.xl' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="none">
         <solaris-preview-code [code]="radiusNoneCode" language="html">
           <solaris-email-field
@@ -168,6 +171,15 @@
             [label]="'email-field.radius.lg' | translate"
             radius="lg"
             [placeholder]="'email-field.radius.lg' | translate"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="xl">
+        <solaris-preview-code [code]="radiusXlCode" language="html">
+          <solaris-email-field
+            [label]="'email-field.radius.xl' | translate"
+            radius="xl"
+            [placeholder]="'email-field.radius.xl' | translate"
           />
         </solaris-preview-code>
       </solaris-tab-panel>
@@ -206,6 +218,19 @@
           value="user@company.com"
         />
       </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="clearable" titleKey="email-field.section.clearable">
+    <p class="email-field-showcase__note">
+      {{ 'email-field.clearable.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="clearableCode" language="html">
+      <solaris-email-field
+        [label]="'email-field.clearable.label' | translate"
+        value="user@company.com"
+        [clearable]="true"
+      />
     </solaris-preview-code>
   </app-docs-section>
 

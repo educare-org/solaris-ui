@@ -14,12 +14,14 @@ import {
   compareSolarisDates,
   formatSolarisDate,
   getCalendarDays,
+  localeFirstDay,
   todaySolarisDate,
 } from '../model/date.utils';
 import type {
   SolarisCalendarMonth,
   SolarisDateRange,
   SolarisDateValue,
+  SolarisWeekStartsOn,
 } from '../model/date.types';
 
 @Component({
@@ -40,9 +42,16 @@ export class SolarisDateCalendarComponent {
   readonly min = input<SolarisDateValue>();
   readonly max = input<SolarisDateValue>();
   readonly disabledDates = input<readonly SolarisDateValue[]>([]);
+  readonly weekStartsOn = input<SolarisWeekStartsOn>();
+  readonly disablePast = input<boolean>(false);
+  readonly disableFuture = input<boolean>(false);
 
   readonly selectedChange = output<SolarisDateValue>();
   readonly monthChange = output<SolarisCalendarMonth>();
+
+  protected readonly resolvedWeekStartsOn = computed<SolarisWeekStartsOn>(
+    () => this.weekStartsOn() ?? localeFirstDay(this.locale()),
+  );
 
   protected readonly weekdays = computed(() => {
     const formatter = new Intl.DateTimeFormat(this.locale(), {
@@ -50,11 +59,13 @@ export class SolarisDateCalendarComponent {
       timeZone: 'UTC',
     });
     const sunday = new Date(Date.UTC(2023, 0, 1));
-    return Array.from({ length: 7 }, (_, index) => {
+    const names = Array.from({ length: 7 }, (_, index) => {
       const date = new Date(sunday);
       date.setUTCDate(sunday.getUTCDate() + index);
       return formatter.format(date);
     });
+    const start = this.resolvedWeekStartsOn();
+    return [...names.slice(start), ...names.slice(0, start)];
   });
 
   protected readonly monthLabel = computed(() => {
@@ -65,7 +76,9 @@ export class SolarisDateCalendarComponent {
     }).format(new Date(Date.UTC(this.month().year, this.month().month, 1)));
   });
 
-  protected readonly days = computed(() => getCalendarDays(this.month(), 0));
+  protected readonly days = computed(() =>
+    getCalendarDays(this.month(), this.resolvedWeekStartsOn()),
+  );
   protected readonly monthSelectionOpen = signal(false);
   protected readonly monthOptions = computed(() => {
     const formatter = new Intl.DateTimeFormat(this.locale(), {
@@ -107,10 +120,13 @@ export class SolarisDateCalendarComponent {
   }
 
   protected isDisabled(value: SolarisDateValue): boolean {
+    const today = todaySolarisDate();
     return (
       this.disabledDates().includes(value) ||
       (!!this.min() && compareSolarisDates(value, this.min()!) < 0) ||
-      (!!this.max() && compareSolarisDates(value, this.max()!) > 0)
+      (!!this.max() && compareSolarisDates(value, this.max()!) > 0) ||
+      (this.disablePast() && compareSolarisDates(value, today) < 0) ||
+      (this.disableFuture() && compareSolarisDates(value, today) > 0)
     );
   }
 

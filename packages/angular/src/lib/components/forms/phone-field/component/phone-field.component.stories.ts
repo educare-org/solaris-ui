@@ -123,3 +123,11 @@ export const Readonly: Story = {
     value: '+5511999998888',
   },
 };
+
+export const Clearable: Story = {
+  args: {
+    label: 'Clearable',
+    clearable: true,
+    value: '+5511999998888',
+  },
+};

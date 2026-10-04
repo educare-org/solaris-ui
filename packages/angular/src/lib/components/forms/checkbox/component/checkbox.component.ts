@@ -1,6 +1,7 @@
 import {
   Component,
   input,
+  booleanAttribute,
   output,
   computed,
   signal,
@@ -83,23 +84,23 @@ export class SolarisCheckboxComponent
   protected readonly hasProjectedContent = signal(false);
   private contentChecked = false;
 
-  readonly checked = input<boolean, boolean>(false, {
-    transform: (v: boolean) => v ?? false,
+  readonly checked = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
   });
-  readonly indeterminate = input<boolean, boolean>(false, {
-    transform: (v: boolean) => v ?? false,
+  readonly indeterminate = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
   });
-  readonly disabledInput = input<boolean, boolean>(false, {
+  readonly disabledInput = input<boolean, unknown>(false, {
     alias: 'disabled',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly readonlyInput = input<boolean, boolean>(false, {
+  readonly readonlyInput = input<boolean, unknown>(false, {
     alias: 'readonly',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly requiredInput = input<boolean, boolean>(false, {
+  readonly requiredInput = input<boolean, unknown>(false, {
     alias: 'required',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
   readonly invalidInput = input<boolean | undefined>(undefined, {
     alias: 'invalid',
@@ -110,6 +111,10 @@ export class SolarisCheckboxComponent
   readonly density = input<SolarisCheckboxDensity>();
   readonly radius = input<SolarisCheckboxRadius>('sm');
   readonly checkboxLabel = input<string>(undefined, { alias: 'label' });
+  readonly checkboxDescription = input<string>(undefined, {
+    alias: 'description',
+  });
+  readonly descriptionKey = input<string>();
   readonly labelKey = input<string>();
   readonly name = input<string>();
   readonly value = input<unknown>();
@@ -153,7 +158,22 @@ export class SolarisCheckboxComponent
 
   protected readonly ariaDescribedBy = computed(() => {
     const ids = this._describedByIds();
-    return ids.length > 0 ? ids.join(' ') : null;
+    const ownIds = [...ids];
+    if (this.descriptionText()) ownIds.push(this.descriptionId());
+    return ownIds.length > 0 ? ownIds.join(' ') : null;
+  });
+
+  protected readonly descriptionId = computed(
+    () => `${this.elementId()}-description`,
+  );
+
+  protected readonly descriptionText = computed(() => {
+    const key = this.descriptionKey();
+    if (key) {
+      const translated = this.translateService.translate(key);
+      return translated !== key ? translated : undefined;
+    }
+    return this.checkboxDescription();
   });
 
   protected readonly labelText = computed(() => {

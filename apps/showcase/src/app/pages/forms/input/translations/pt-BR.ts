@@ -34,11 +34,12 @@ export const PT_BR_INPUT: Record<string, string> = {
   'input.density.normal': 'Normal',
   'input.density.comfortable': 'Confortável',
   'input.radius.note':
-    'O raio pertence ao Form Field quando projetado; o input standalone expõe os mesmos valores none, sm, md e lg. Escala dos fields: md equivale a 8px e lg vira pill.',
+    'O raio pertence ao Form Field quando projetado; o input standalone expõe os mesmos valores none, sm, md, lg e xl. Escala global: md equivale a 4px, lg a 8px e xl vira pill.',
   'input.radius.none': 'Nenhum',
   'input.radius.sm': 'Pequeno',
   'input.radius.md': 'Médio',
   'input.radius.lg': 'Grande',
+  'input.radius.xl': 'Pill',
   'input.states.default': 'Padrão',
   'input.states.invalid': 'Inválido',
   'input.states.disabled': 'Desabilitado',

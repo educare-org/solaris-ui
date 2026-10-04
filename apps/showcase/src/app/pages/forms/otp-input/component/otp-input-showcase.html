@@ -190,6 +190,30 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section
+    anchor="suffix-action"
+    titleKey="otp-input.section.suffix-action"
+  >
+    <p class="otp-input-showcase__note">
+      {{ 'otp-input.suffix-action.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="suffixActionCode" language="html">
+      <solaris-otp-input
+        [label]="'otp-input.suffix-action.label' | translate"
+        [maxLength]="6"
+      >
+        <button
+          type="button"
+          solaris-form-suffix
+          solaris-form-suffix-action
+          [attr.aria-label]="'otp-input.suffix-action.button' | translate"
+        >
+          {{ 'otp-input.suffix-action.button' | translate }}
+        </button>
+      </solaris-otp-input>
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section anchor="form" titleKey="otp-input.section.form">
     <p class="otp-input-showcase__note">
       {{ 'otp-input.form.note' | translate }}

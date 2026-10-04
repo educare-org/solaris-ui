@@ -79,6 +79,7 @@ export const MULTI_SELECT_SHOWCASE_RADIUS_NONE_CODE =
 export const MULTI_SELECT_SHOWCASE_RADIUS_SM_CODE = multiSelectRadiusCode('sm');
 export const MULTI_SELECT_SHOWCASE_RADIUS_MD_CODE = multiSelectRadiusCode('md');
 export const MULTI_SELECT_SHOWCASE_RADIUS_LG_CODE = multiSelectRadiusCode('lg');
+export const MULTI_SELECT_SHOWCASE_RADIUS_XL_CODE = multiSelectRadiusCode('xl');
 
 export const MULTI_SELECT_SHOWCASE_STATES_CODE = [
   '<solaris-multi-select label="Default" placeholder="Default">',
@@ -118,6 +119,13 @@ export const MULTI_SELECT_SHOWCASE_SUFFIX_CODE = [
   '  <solaris-option value="br">Brazil</solaris-option>',
   '  <solaris-option value="us">United States</solaris-option>',
   '  <solaris-icon solaris-form-suffix name="info" [decorative]="true" />',
+  '</solaris-multi-select>',
+].join('\n');
+
+export const MULTI_SELECT_SHOWCASE_SUFFIX_INPUT_CODE = [
+  '<solaris-multi-select label="Countries" suffix="info" placeholder="Select countries">',
+  '  <solaris-option value="br">Brazil</solaris-option>',
+  '  <solaris-option value="us">United States</solaris-option>',
   '</solaris-multi-select>',
 ].join('\n');
 

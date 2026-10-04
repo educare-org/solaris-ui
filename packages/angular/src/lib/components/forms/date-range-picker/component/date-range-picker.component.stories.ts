@@ -14,3 +14,16 @@ type Story = StoryObj<SolarisDateRangePickerComponent>;
 export const Basic: Story = {
   args: { label: 'Date range' },
 };
+
+export const Clearable: Story = {
+  args: { label: 'Date range', clearable: true },
+};
+
+export const CalendarOptions: Story = {
+  args: {
+    label: 'Date range',
+    weekStartsOn: 1,
+    disablePast: true,
+    dateFormat: 'numeric',
+  },
+};

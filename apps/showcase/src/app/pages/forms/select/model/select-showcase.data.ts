@@ -77,6 +77,7 @@ export const SELECT_SHOWCASE_RADIUS_NONE_CODE = selectRadiusCode('none');
 export const SELECT_SHOWCASE_RADIUS_SM_CODE = selectRadiusCode('sm');
 export const SELECT_SHOWCASE_RADIUS_MD_CODE = selectRadiusCode('md');
 export const SELECT_SHOWCASE_RADIUS_LG_CODE = selectRadiusCode('lg');
+export const SELECT_SHOWCASE_RADIUS_XL_CODE = selectRadiusCode('xl');
 
 export const SELECT_SHOWCASE_STATES_CODE = [
   '<solaris-select label="Default" placeholder="Default">',
@@ -115,6 +116,13 @@ export const SELECT_SHOWCASE_SUFFIX_CODE = [
   '  <solaris-option value="admin">Administrator</solaris-option>',
   '  <solaris-option value="teacher">Teacher</solaris-option>',
   '  <solaris-icon solaris-form-suffix name="info" [decorative]="true" />',
+  '</solaris-select>',
+].join('\n');
+
+export const SELECT_SHOWCASE_SUFFIX_INPUT_CODE = [
+  '<solaris-select label="Role" suffix="info" placeholder="Select a role">',
+  '  <solaris-option value="admin">Administrator</solaris-option>',
+  '  <solaris-option value="teacher">Teacher</solaris-option>',
   '</solaris-select>',
 ].join('\n');
 

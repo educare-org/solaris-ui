@@ -11,6 +11,7 @@ export const PT_BR_SWITCH: Record<string, string> = {
   'switch.section.thumb-content': 'Conteúdo do thumb',
   'switch.section.group': 'Grupo de switches',
   'switch.section.states': 'Estados',
+  'switch.section.description': 'Descrição',
   'switch.section.form': 'Integração com formulários',
   'switch.section.installation': 'Instalação',
   'switch.section.props': 'Propriedades',
@@ -48,6 +49,12 @@ export const PT_BR_SWITCH: Record<string, string> = {
   'switch.enable-status': 'Ativado:',
   'switch.yes': 'Sim',
   'switch.no': 'Não',
+  'switch.description.note':
+    'Description renderiza um texto de apoio esmaecido sob o label e escala com o size.',
+  'switch.description.small-label': 'Notificações por e-mail',
+  'switch.description.small-text': 'Receba novidades sobre sua conta.',
+  'switch.description.large-label': 'Notificações por SMS',
+  'switch.description.large-text': 'Receba alertas urgentes por mensagem.',
   'switch.installation.note':
     'Instale o pacote Solaris UI e importe os componentes de switch.',
   'switch.props.note':

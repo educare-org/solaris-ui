@@ -59,6 +59,7 @@ import {
   FORM_FIELD_SHOWCASE_RADIUS_MD_CODE,
   FORM_FIELD_SHOWCASE_RADIUS_NONE_CODE,
   FORM_FIELD_SHOWCASE_RADIUS_SM_CODE,
+  FORM_FIELD_SHOWCASE_RADIUS_XL_CODE,
   FORM_FIELD_SHOWCASE_REQUIRED_CODE,
   FORM_FIELD_SHOWCASE_SLUG,
   FORM_FIELD_SHOWCASE_STATES_CODE,
@@ -139,6 +140,7 @@ export class FormFieldShowcasePage {
   protected readonly radiusSmCode = FORM_FIELD_SHOWCASE_RADIUS_SM_CODE;
   protected readonly radiusMdCode = FORM_FIELD_SHOWCASE_RADIUS_MD_CODE;
   protected readonly radiusLgCode = FORM_FIELD_SHOWCASE_RADIUS_LG_CODE;
+  protected readonly radiusXlCode = FORM_FIELD_SHOWCASE_RADIUS_XL_CODE;
   protected readonly statesCode = FORM_FIELD_SHOWCASE_STATES_CODE;
   protected readonly counterCode = FORM_FIELD_SHOWCASE_COUNTER_CODE;
   protected readonly loadingDemo = signal(true);

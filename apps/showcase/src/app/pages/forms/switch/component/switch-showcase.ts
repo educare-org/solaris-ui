@@ -35,6 +35,7 @@ import {
   SWITCH_SHOWCASE_COLOR_SUCCESS_CODE,
   SWITCH_SHOWCASE_COLOR_WARNING_CODE,
   SWITCH_SHOWCASE_CUSTOM_CODE,
+  SWITCH_SHOWCASE_DESCRIPTION_CODE,
   SWITCH_SHOWCASE_FORM_FIELD_CODE,
   SWITCH_SHOWCASE_GROUP_CODE,
   SWITCH_SHOWCASE_IMPORT_CODE,
@@ -108,6 +109,7 @@ export class SwitchShowcasePage {
   protected readonly thumbTextCode = SWITCH_SHOWCASE_THUMB_TEXT_CODE;
   protected readonly groupCode = SWITCH_SHOWCASE_GROUP_CODE;
   protected readonly statesCode = SWITCH_SHOWCASE_STATES_CODE;
+  protected readonly descriptionCode = SWITCH_SHOWCASE_DESCRIPTION_CODE;
   protected readonly formFieldCode = SWITCH_SHOWCASE_FORM_FIELD_CODE;
   protected readonly reactiveCode = SWITCH_SHOWCASE_REACTIVE_CODE;
   protected readonly customCode = SWITCH_SHOWCASE_CUSTOM_CODE;

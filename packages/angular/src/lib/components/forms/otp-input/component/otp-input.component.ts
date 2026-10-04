@@ -7,6 +7,7 @@ import {
   effect,
   forwardRef,
   inject,
+  contentChild,
   viewChildren,
   ElementRef,
   AfterViewInit,
@@ -21,6 +22,7 @@ import {
 import {
   SolarisFormFieldComponent,
   SolarisFormFieldTriggerDirective,
+  SolarisFormSuffixActionDirective,
 } from '../../form-field';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
@@ -45,6 +47,7 @@ const MASK_CHAR = '•';
     FormsModule,
     SolarisFormFieldComponent,
     SolarisFormFieldTriggerDirective,
+    SolarisFormSuffixActionDirective,
   ],
   providers: [
     {
@@ -84,6 +87,11 @@ export class SolarisOtpInputComponent
   protected readonly boxRefs =
     viewChildren<ElementRef<HTMLInputElement>>('box');
 
+  protected readonly projectedSuffixAction = contentChild(
+    SolarisFormSuffixActionDirective,
+    { descendants: true },
+  );
+
   readonly hintKey = input<string>();
   readonly hint = input<string>('');
   readonly labelKey = input<string>();
@@ -108,6 +116,7 @@ export class SolarisOtpInputComponent
   readonly masked = input<boolean>(false);
   readonly separatorEvery = input<number>(0);
   readonly autoFocus = input<boolean>(false);
+  readonly loading = input<boolean>(false);
   readonly appearance = input<SolarisOtpInputAppearance>('outline');
   readonly density = input<SolarisOtpInputDensity>();
   readonly size = input<SolarisOtpInputSize>('md');

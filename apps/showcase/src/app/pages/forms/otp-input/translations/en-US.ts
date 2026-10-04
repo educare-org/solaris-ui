@@ -14,6 +14,7 @@ export const otpInputEnUs: SolarisTranslationMap = {
   'otp-input.section.char-type': 'Character type',
   'otp-input.section.masking': 'Masking',
   'otp-input.section.separator': 'Separator',
+  'otp-input.section.suffix-action': 'Suffix action',
   'otp-input.section.form': 'Form integration',
   'otp-input.section.installation': 'Installation',
   'otp-input.section.props': 'Props',
@@ -61,6 +62,10 @@ export const otpInputEnUs: SolarisTranslationMap = {
     'A decorative separator groups boxes visually every N characters without affecting the value.',
   'otp-input.separator.label': 'Grouped code',
   'otp-input.separator.hint': 'Grouped every 3 digits for readability.',
+  'otp-input.suffix-action.note':
+    'Extra suffix actions (for example a resend-code button) compose beside the boxes and switch the suffix affix to the action variant.',
+  'otp-input.suffix-action.label': 'Code',
+  'otp-input.suffix-action.button': 'Resend',
   'otp-input.form.note':
     'Uses formControlName with Validators.required and solarisOtpValidator(4, 6). Completed fires when the value reaches maxLength.',
   'otp-input.form.label': 'Reactive code',

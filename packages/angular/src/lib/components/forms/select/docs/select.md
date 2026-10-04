@@ -76,17 +76,18 @@ Select v1 does not implement:
 | `displayWith`                | `(value: unknown) => string \| undefined` | —           | Custom display function for trigger text      |
 | `appearance`                 | `'outline' \| 'surface' \| 'filled'`      | `'outline'` | Visual appearance                             |
 | `density`                    | `'compact' \| 'normal' \| 'comfortable'`  | inherited   | Density variant                               |
-| `radius`                     | `'none' \| 'sm' \| 'md' \| 'lg'`          | `'sm'`      | Border radius                                 |
+| `radius`                     | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`  | `'sm'`      | Border radius                                 |
 | `label` / `labelKey`         | `string`                                  | —           | Label text (used standalone)                  |
 | `hint` / `hintKey`           | `string`                                  | —           | Hint text (used standalone)                   |
 | `error` / `errorKey`         | `string`                                  | —           | Error text (used standalone)                  |
-| `panelMaxHeight`             | `string \| number`                        | `'20rem'`   | Max height of the dropdown panel              |
+| `panelMaxHeight`             | `string \| number`                        | `'320px'`   | Max height of the dropdown panel              |
 | `panelMinWidth`              | `string \| number`                        | —           | Min width of the dropdown panel               |
 | `panelMaxWidth`              | `string \| number`                        | —           | Max width of the dropdown panel               |
 | `panelMatchTriggerWidth`     | `boolean`                                 | `true`      | Match panel width to trigger width            |
 | `ariaLabel` / `ariaLabelKey` | `string`                                  | —           | Accessible label                              |
 | `ariaLabelledby`             | `string`                                  | —           | ID of labelling element                       |
 | `prefix`                     | `SolarisIconName`                         | —           | Prefix icon in the leading affix slot         |
+| `suffix`                     | `SolarisIconName`                         | —           | Suffix icon in the trailing affix slot        |
 
 ### Outputs
 
@@ -188,6 +189,8 @@ Select renders its own `solaris-form-field` internally. Affix content is
 re-projected into that inner field:
 
 - `prefix` renders a leading icon via the `prefix` input.
+- `suffix` renders a trailing icon via the `suffix` input (projected into the
+  field suffix affix, after the trigger chevron).
 - Elements with `[solaris-form-prefix]` are re-projected as the field prefix.
 - Elements with `[solaris-form-suffix]` are re-projected as the field suffix.
 - Suffix actions require **both** `[solaris-form-suffix]` and

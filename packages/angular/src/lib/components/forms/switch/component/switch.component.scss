@@ -103,6 +103,23 @@
   line-height: var(--solaris-switch-label-line-height);
 }
 
+.solaris-switch__content {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-1);
+}
+
+.solaris-switch__description {
+  color: var(--solaris-text-muted);
+  font-size: var(--solaris-font-size-xs);
+  line-height: var(--solaris-line-height-sm);
+}
+
+.solaris-switch__required {
+  color: var(--solaris-danger-base);
+  margin-inline-start: var(--solaris-spacing-1);
+}
+
 :host([data-size='sm']) {
   --solaris-switch-label-font-size: var(--solaris-font-size-sm);
   --solaris-switch-label-line-height: var(--solaris-line-height-sm);

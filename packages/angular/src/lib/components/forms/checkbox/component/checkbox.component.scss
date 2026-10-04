@@ -11,6 +11,9 @@
   --solaris-checkbox-label-font-size: var(--solaris-font-size-md);
   --solaris-checkbox-focus-ring-color: var(--solaris-primary-base);
   --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
+  --solaris-checkbox-description-color: var(--solaris-text-muted);
+  --solaris-checkbox-description-font-size: var(--solaris-font-size-xs);
+  --solaris-checkbox-description-line-height: var(--solaris-line-height-sm);
 
   --solaris-checkbox-custom-control-color: initial;
   --solaris-checkbox-custom-control-background: initial;
@@ -75,6 +78,18 @@
   color: inherit;
   font-size: var(--solaris-checkbox-label-font-size);
   line-height: var(--solaris-checkbox-label-line-height);
+}
+
+.solaris-checkbox__content {
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-1);
+}
+
+.solaris-checkbox__description {
+  color: var(--solaris-checkbox-description-color);
+  font-size: var(--solaris-checkbox-description-font-size);
+  line-height: var(--solaris-checkbox-description-line-height);
 }
 
 .solaris-checkbox__required {
@@ -384,5 +399,9 @@
 }
 
 :host([data-radius='full']) {
+  --solaris-checkbox-radius: var(--solaris-radius-full);
+}
+
+:host([data-radius='xl']) {
   --solaris-checkbox-radius: var(--solaris-radius-full);
 }

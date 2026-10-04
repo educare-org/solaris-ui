@@ -257,6 +257,15 @@ describe('SolarisTextareaDirective', () => {
       const el = fixture.nativeElement.querySelector('[solaris-textarea]');
       expect(el.getAttribute('data-radius')).toBe('lg');
     });
+
+    it('should support radius xl (pill)', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.radius = 'xl';
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-textarea]');
+      expect(el.getAttribute('data-radius')).toBe('xl');
+    });
   });
 
   describe('resize', () => {

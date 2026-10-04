@@ -33,6 +33,7 @@ export const OTP_INPUT_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'char-type', labelKey: 'otp-input.section.char-type' },
   { anchor: 'masking', labelKey: 'otp-input.section.masking' },
   { anchor: 'separator', labelKey: 'otp-input.section.separator' },
+  { anchor: 'suffix-action', labelKey: 'otp-input.section.suffix-action' },
   { anchor: 'form', labelKey: 'otp-input.section.form' },
   { anchor: 'installation', labelKey: 'otp-input.section.installation' },
   { anchor: 'props', labelKey: 'otp-input.section.props' },
@@ -61,6 +62,14 @@ export const OTP_INPUT_SHOWCASE_MASKED_CODE = [
 
 export const OTP_INPUT_SHOWCASE_SEPARATOR_CODE = [
   '<solaris-otp-input label="Grouped code" [maxLength]="6" [separatorEvery]="3" />',
+].join('\n');
+
+export const OTP_INPUT_SHOWCASE_SUFFIX_ACTION_CODE = [
+  '<solaris-otp-input label="Code" [maxLength]="6">',
+  '  <button type="button" solaris-form-suffix solaris-form-suffix-action aria-label="Resend code">',
+  '    Resend',
+  '  </button>',
+  '</solaris-otp-input>',
 ].join('\n');
 
 export const OTP_INPUT_SHOWCASE_REACTIVE_CODE = [

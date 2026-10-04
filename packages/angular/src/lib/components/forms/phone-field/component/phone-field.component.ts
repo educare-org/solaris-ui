@@ -20,6 +20,8 @@ import {
   FormsModule,
 } from '@angular/forms';
 
+import { SolarisFormControl } from '../../form-field/model/form-control.contract';
+import { resolveElementId } from '../../../../core';
 import {
   SolarisFormFieldComponent,
   SolarisFormPrefixDirective,
@@ -80,6 +82,10 @@ import type {
       useExisting: forwardRef(() => SolarisPhoneFieldComponent),
       multi: true,
     },
+    {
+      provide: SolarisFormControl,
+      useExisting: forwardRef(() => SolarisPhoneFieldComponent),
+    },
   ],
   templateUrl: './phone-field.component.html',
   styleUrls: ['./phone-field.component.scss'],
@@ -92,8 +98,10 @@ import type {
   },
 })
 export class SolarisPhoneFieldComponent
+  extends SolarisFormControl
   implements ControlValueAccessor, AfterViewInit, OnDestroy
 {
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly translateService = inject(SolarisTranslateService);
   private readonly countryListFactory = inject(SOLARIS_PHONE_COUNTRY_LIST);
   protected readonly themeService = inject(SolarisThemeService);
@@ -108,7 +116,7 @@ export class SolarisPhoneFieldComponent
     { descendants: true },
   );
 
-  readonly id = input<string>();
+  readonly fieldId = input<string>(undefined, { alias: 'id' });
   readonly name = input<string>();
   readonly hintKey = input<string>();
   readonly hint = input<string>('');
@@ -123,12 +131,14 @@ export class SolarisPhoneFieldComponent
   readonly placeholderKey = input<string>();
   readonly invalidErrorKey = input<string>();
   readonly requiredErrorKey = input<string>();
-  readonly required = input<boolean>(false);
+  readonly requiredInput = input<boolean>(false, { alias: 'required' });
   readonly optional = input<boolean>(false);
-  readonly disabled = input<boolean>(false);
-  readonly readonly = input<boolean>(false);
+  readonly disabledInput = input<boolean>(false, { alias: 'disabled' });
+  readonly readonlyInput = input<boolean>(false, { alias: 'readonly' });
   readonly autocomplete = input<string>('tel');
-  readonly invalid = input<boolean | undefined>();
+  readonly invalidInput = input<boolean | undefined>(undefined, {
+    alias: 'invalid',
+  });
   readonly density = input<SolarisPhoneFieldDensity>();
   readonly size = input<SolarisPhoneFieldSize>('md');
   readonly radius = input<SolarisPhoneFieldRadius>('sm');
@@ -136,6 +146,9 @@ export class SolarisPhoneFieldComponent
   readonly maxLength = input<number | undefined>();
   readonly suffix = input<SolarisIconName>();
   readonly loading = input<boolean>(false);
+  readonly clearable = input<boolean>(false);
+  readonly clearLabel = input<string>();
+  readonly clearLabelKey = input<string>();
 
   readonly defaultCountry = input<SolarisCountryCode>();
   readonly country = input<SolarisCountryCode | undefined>();
@@ -155,6 +168,7 @@ export class SolarisPhoneFieldComponent
 
   readonly valueChange = output<string>();
   readonly countryChange = output<SolarisCountryCode>();
+  readonly cleared = output<void>();
 
   protected readonly internalValue = signal<string>('');
   protected readonly displayValue = signal<string>('');
@@ -222,11 +236,30 @@ export class SolarisPhoneFieldComponent
   protected readonly hasPrefix = computed(() => true);
 
   protected readonly hasSuffix = computed(() => {
-    return !!this.projectedSuffix() || !!this.suffix();
+    return !!this.projectedSuffix() || !!this.suffix() || this.canClear();
+  });
+  protected readonly canClear = computed(() => {
+    return (
+      this.clearable() &&
+      (this.internalValue().length > 0 || this.displayValue().length > 0) &&
+      !this.isEffectivelyDisabled() &&
+      !this.isEffectivelyReadonly()
+    );
+  });
+  protected readonly clearAriaLabel = computed(() => {
+    const key = this.clearLabelKey();
+    if (key) {
+      return this.translateService.translate(key);
+    }
+    const text = this.clearLabel();
+    if (text) {
+      return text;
+    }
+    return this.translateService.translate('solaris.phone-field.clear');
   });
 
   protected readonly isEffectivelyDisabled = computed(() => {
-    return this.disabled() || this.internalDisabled();
+    return this.disabledInput() || this.internalDisabled();
   });
 
   protected readonly effectiveDensity = computed<SolarisPhoneFieldDensity>(
@@ -235,8 +268,62 @@ export class SolarisPhoneFieldComponent
     },
   );
 
+  protected readonly elementId = computed(() => {
+    return resolveElementId(this.elementRef, 'solaris-phone-field');
+  });
+
+  protected readonly _describedByIds = signal<string[]>([]);
+
+  protected readonly ariaDescribedBy = computed(() => {
+    const ids = this._describedByIds();
+    return ids.length > 0 ? ids.join(' ') : null;
+  });
+
+  get id(): string {
+    return this.fieldId() ?? this.elementId();
+  }
+
+  get focused(): boolean {
+    return this.internalFocused();
+  }
+
+  get disabled(): boolean {
+    return this.isEffectivelyDisabled();
+  }
+
+  get readonly(): boolean {
+    return this.isEffectivelyReadonly();
+  }
+
+  get invalid(): boolean {
+    return this.isFieldInvalid();
+  }
+
+  get required(): boolean {
+    return this.requiredInput();
+  }
+
+  get describedByIds(): string[] {
+    return this._describedByIds();
+  }
+
+  setDescribedByIds(ids: string[]): void {
+    this._describedByIds.set([...ids]);
+  }
+
+  focus(): void {
+    const input = this.inputElementRef();
+    if (input) {
+      // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
+      input.nativeElement.focus();
+    } else {
+      // SECURITY_EXCEPTION: fallback focus on the host requires the native method.
+      this.elementRef.nativeElement.focus();
+    }
+  }
+
   protected readonly isEffectivelyReadonly = computed(() => {
-    return this.readonly();
+    return this.readonlyInput();
   });
 
   protected readonly canOpen = computed(() => {
@@ -336,7 +423,7 @@ export class SolarisPhoneFieldComponent
     if (!isTouchedOrDirty || this.internalFocused()) return '';
 
     if (!this.displayValue() || this.displayValue().trim().length === 0) {
-      if (this.required()) {
+      if (this.requiredInput()) {
         return this.buildError(
           this.requiredError(),
           this.requiredErrorKey(),
@@ -360,7 +447,7 @@ export class SolarisPhoneFieldComponent
   });
 
   protected readonly isFieldInvalid = computed(() => {
-    const manual = this.invalid();
+    const manual = this.invalidInput();
     if (manual !== undefined) {
       return manual;
     }
@@ -375,6 +462,7 @@ export class SolarisPhoneFieldComponent
   });
 
   constructor() {
+    super();
     effect(() => {
       const value = this.value();
       if (value !== this.lastAppliedValue) {
@@ -476,6 +564,16 @@ export class SolarisPhoneFieldComponent
 
   protected onInputBlur(): void {
     this.internalFocused.set(false);
+    this.markAsTouched();
+  }
+
+  protected clearValue(): void {
+    this.internalValue.set('');
+    this.displayValue.set('');
+    this.dirty.set(true);
+    this.onChange('');
+    this.valueChange.emit('');
+    this.cleared.emit();
     this.markAsTouched();
   }
 

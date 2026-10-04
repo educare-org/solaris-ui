@@ -1,5 +1,30 @@
 :host {
   display: block;
+  --solaris-date-range-picker-trigger-font-size: var(--solaris-font-size-sm);
+  --solaris-date-range-picker-trigger-line-height: var(
+    --solaris-line-height-sm
+  );
+}
+
+:host([data-size='sm'][data-density='compact']),
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-date-range-picker-trigger-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='sm'][data-density='comfortable']),
+:host([data-size='md'][data-density='compact']),
+:host([data-size='md'][data-density='normal']),
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-date-range-picker-trigger-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='md'][data-density='comfortable']),
+:host([data-size='lg'][data-density='normal']),
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-date-range-picker-trigger-font-size: var(--solaris-font-size-md);
+  --solaris-date-range-picker-trigger-line-height: var(
+    --solaris-line-height-md
+  );
 }
 
 [solaris-button].solaris-date-range-picker__calendar-trigger,
@@ -21,6 +46,43 @@
   cursor: pointer;
 }
 
+.solaris-date-range-picker__clear {
+  solaris-icon {
+    width: var(--solaris-font-size-lg);
+    height: var(--solaris-font-size-lg);
+  }
+
+  padding: 0;
+  border: none;
+  display: flex;
+  cursor: pointer;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  width: var(--solaris-font-size-lg);
+  height: var(--solaris-font-size-lg);
+  color: var(--solaris-text-muted);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-date-range-picker__clear:hover {
+  color: var(--solaris-text-strong);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-date-range-picker__clear {
+    transition: none;
+  }
+}
+
+[data-reduced-motion='true'] {
+  .solaris-date-range-picker__clear {
+    transition: none;
+  }
+}
+
 .solaris-date-range-picker__inputs,
 .solaris-date-range-picker__actions {
   display: flex;
@@ -36,8 +98,10 @@
   text-align: start;
   background: transparent;
   cursor: pointer;
-  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
-    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+  font: var(--solaris-font-weight-regular)
+    var(--solaris-date-range-picker-trigger-font-size) /
+    var(--solaris-date-range-picker-trigger-line-height)
+    var(--solaris-font-family-sans);
 }
 
 .solaris-date-range-picker__trigger:focus-visible,

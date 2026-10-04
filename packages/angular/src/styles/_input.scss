@@ -12,6 +12,7 @@ input[solaris-input] {
   --solaris-input-border-width: var(--solaris-border-width-sm);
   --solaris-input-placeholder-color: var(--solaris-text-muted);
   --solaris-input-focus-ring-color: var(--solaris-primary-base);
+  --solaris-input-focus-ring-width: var(--solaris-focus-ring-width);
   --solaris-input-invalid-border-color: var(--solaris-danger-base);
   --solaris-input-readonly-background: var(--solaris-surface-muted);
 
@@ -44,7 +45,8 @@ input[solaris-input]::placeholder {
 input[solaris-input]:focus-visible {
   // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized color. Hardcoded spread is required by design.
   border-color: var(--solaris-input-focus-ring-color);
-  box-shadow: 0 0 0 2px var(--solaris-input-focus-ring-color);
+  box-shadow: 0 0 0 var(--solaris-input-focus-ring-width)
+    var(--solaris-input-focus-ring-color);
 }
 
 input[solaris-input][data-invalid] {
@@ -54,7 +56,8 @@ input[solaris-input][data-invalid] {
 input[solaris-input][data-invalid]:focus-visible {
   // SOLARIS_TOKEN_EXCEPTION: Invalid state focus ring box-shadow uses CSS var. Hardcoded spread required by design.
   border-color: var(--solaris-input-invalid-border-color);
-  box-shadow: 0 0 0 2px var(--solaris-input-invalid-border-color);
+  box-shadow: 0 0 0 var(--solaris-input-focus-ring-width)
+    var(--solaris-input-invalid-border-color);
 }
 
 input[solaris-input]:disabled {
@@ -90,7 +93,7 @@ input[solaris-input]:-webkit-autofill {
 input[solaris-input][data-appearance='outline'] {
   --solaris-input-color: var(--solaris-text-default);
   --solaris-input-background: var(--solaris-surface-base);
-  --solaris-input-border-color: var(--solaris-border-default);
+  --solaris-input-border-color: var(--solaris-border-subtle);
   --solaris-input-disabled-opacity: var(--solaris-opacity-50);
   --solaris-input-border-width: var(--solaris-border-width-sm);
   --solaris-input-placeholder-color: var(--solaris-text-muted);
@@ -101,10 +104,10 @@ input[solaris-input][data-appearance='outline'] {
 
 input[solaris-input][data-appearance='surface'] {
   --solaris-input-color: var(--solaris-text-default);
-  --solaris-input-background: var(--solaris-surface-muted);
+  --solaris-input-background: var(--solaris-surface-subtle);
   --solaris-input-border-color: var(--solaris-border-subtle);
   --solaris-input-disabled-opacity: var(--solaris-opacity-50);
-  --solaris-input-border-width: var(--solaris-border-width-sm);
+  --solaris-input-border-width: 0;
   --solaris-input-placeholder-color: var(--solaris-text-muted);
   --solaris-input-focus-ring-color: var(--solaris-primary-base);
   --solaris-input-invalid-border-color: var(--solaris-danger-base);
@@ -112,15 +115,15 @@ input[solaris-input][data-appearance='surface'] {
 }
 
 input[solaris-input][data-appearance='filled'] {
-  --solaris-input-border-color: transparent;
+  --solaris-input-border-color: var(--solaris-border-subtle);
   --solaris-input-color: var(--solaris-text-default);
-  --solaris-input-background: var(--solaris-surface-muted);
+  --solaris-input-background: var(--solaris-surface-subtle);
   --solaris-input-disabled-opacity: var(--solaris-opacity-50);
   --solaris-input-placeholder-color: var(--solaris-text-muted);
   --solaris-input-focus-ring-color: var(--solaris-primary-base);
   --solaris-input-invalid-border-color: var(--solaris-danger-base);
-  --solaris-input-readonly-background: var(--solaris-surface-base);
-  --solaris-input-border-width: 0 0 var(--solaris-border-width-sm) 0;
+  --solaris-input-readonly-background: var(--solaris-surface-muted);
+  --solaris-input-border-width: var(--solaris-border-width-sm);
 }
 
 input[solaris-input][data-size='sm'] {
@@ -207,10 +210,14 @@ input[solaris-input][data-radius='sm'] {
 }
 
 input[solaris-input][data-radius='md'] {
-  --solaris-input-radius: var(--solaris-radius-lg);
+  --solaris-input-radius: var(--solaris-radius-md);
 }
 
 input[solaris-input][data-radius='lg'] {
+  --solaris-input-radius: var(--solaris-radius-lg);
+}
+
+input[solaris-input][data-radius='xl'] {
   --solaris-input-radius: var(--solaris-radius-full);
 }
 

@@ -1,4 +1,5 @@
 <solaris-form-field
+  [control]="this"
   [hint]="hint()"
   [label]="label()"
   [radius]="radius()"
@@ -7,7 +8,7 @@
   [hintKey]="hintKey()"
   [labelKey]="labelKey()"
   [errorKey]="errorKey()"
-  [required]="required()"
+  [required]="requiredInput()"
   [optional]="optional()"
   [readonly]="isEffectivelyReadonly()"
   [appearance]="appearance()"
@@ -67,7 +68,8 @@
     [readonly]="isEffectivelyReadonly()"
     (focus)="onInputFocus()"
     (click)="onInputClick($event)"
-    [attr.id]="id() ?? null"
+    [attr.id]="fieldId() ?? null"
+    [attr.aria-describedby]="ariaDescribedBy()"
     (input)="onInput($event)"
     [value]="displayValue()"
     [attr.inputmode]="'tel'"
@@ -76,10 +78,23 @@
     [attr.name]="name() ?? null"
     [attr.autocomplete]="autocomplete()"
     [disabled]="isEffectivelyDisabled()"
-    [attr.maxlength]="maxLength() ?? null"
+    [attr.maxlength]="effectiveMaxLength()"
     [attr.placeholder]="placeholderText() || null"
   />
 
+  @if (canClear() && !loading()) {
+    <button
+      type="button"
+      solaris-form-suffix
+      class="solaris-phone-field__clear"
+      [attr.aria-label]="clearAriaLabel()"
+      [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
+      (click)="clearValue(); $event.stopPropagation()"
+      tabindex="-1"
+    >
+      <solaris-icon name="x" [decorative]="true" />
+    </button>
+  }
   @if (suffix() && !projectedSuffix()) {
     <span solaris-form-suffix>
       <solaris-icon [name]="suffix() ?? ''" [decorative]="true" />

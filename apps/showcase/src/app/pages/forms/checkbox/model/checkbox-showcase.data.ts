@@ -32,6 +32,7 @@ export const CHECKBOX_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'color', labelKey: 'checkbox.section.color' },
   { anchor: 'radius', labelKey: 'checkbox.section.radius' },
   { anchor: 'states', labelKey: 'checkbox.section.states' },
+  { anchor: 'description', labelKey: 'checkbox.section.description' },
   { anchor: 'form', labelKey: 'checkbox.section.form' },
   { anchor: 'installation', labelKey: 'checkbox.section.installation' },
   { anchor: 'props', labelKey: 'checkbox.section.props' },
@@ -90,6 +91,7 @@ function checkboxRadiusCode(radius: string): string {
 export const CHECKBOX_SHOWCASE_RADIUS_SM_CODE = checkboxRadiusCode('sm');
 export const CHECKBOX_SHOWCASE_RADIUS_MD_CODE = checkboxRadiusCode('md');
 export const CHECKBOX_SHOWCASE_RADIUS_LG_CODE = checkboxRadiusCode('lg');
+export const CHECKBOX_SHOWCASE_RADIUS_XL_CODE = checkboxRadiusCode('xl');
 export const CHECKBOX_SHOWCASE_RADIUS_FULL_CODE = checkboxRadiusCode('full');
 
 export const CHECKBOX_SHOWCASE_STATES_CODE = [
@@ -100,6 +102,11 @@ export const CHECKBOX_SHOWCASE_STATES_CODE = [
   '<solaris-checkbox [readonly]="true">Readonly</solaris-checkbox>',
   '<solaris-checkbox [invalid]="true">Invalid</solaris-checkbox>',
   '<solaris-checkbox [required]="true">Required</solaris-checkbox>',
+].join('\n');
+
+export const CHECKBOX_SHOWCASE_DESCRIPTION_CODE = [
+  '<solaris-checkbox label="Email notifications" description="Get updates about your account." size="sm" />',
+  '<solaris-checkbox label="SMS notifications" description="Get urgent alerts by text message." size="lg" />',
 ].join('\n');
 
 export const CHECKBOX_SHOWCASE_FORM_FIELD_CODE = [

@@ -173,6 +173,9 @@
       <solaris-tab value="lg"
         >{{ 'textarea.radius.lg' | translate }}</solaris-tab
       >
+      <solaris-tab value="xl"
+        >{{ 'textarea.radius.xl' | translate }}</solaris-tab
+      >
       <solaris-tab-panel value="none">
         <solaris-preview-code [code]="radiusNoneCode" language="html">
           <solaris-form-field
@@ -225,6 +228,20 @@
               solaris-textarea
               radius="lg"
               [placeholder]="'textarea.radius.lg' | translate"
+            ></textarea>
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="xl">
+        <solaris-preview-code [code]="radiusXlCode" language="html">
+          <solaris-form-field
+            [label]="'textarea.radius.xl' | translate"
+            radius="xl"
+          >
+            <textarea
+              solaris-textarea
+              radius="xl"
+              [placeholder]="'textarea.radius.xl' | translate"
             ></textarea>
           </solaris-form-field>
         </solaris-preview-code>
