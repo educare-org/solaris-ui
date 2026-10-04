@@ -252,11 +252,26 @@
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
 }
 
-:host([data-size='sm'][data-density='compact']) {
+// Size × density tokens are split by axis: gap/padding vary only by density,
+// media/dot/switch vary only by size. Only --indicator-size needs both axes.
+// Resolving any old 9-combo block against these must yield identical values.
+:host([data-density='compact']) {
   --solaris-selection-card-gap: var(--solaris-spacing-2);
   --solaris-selection-card-padding: var(--solaris-spacing-3);
+}
+
+:host([data-density='normal']) {
+  --solaris-selection-card-gap: var(--solaris-spacing-3);
+  --solaris-selection-card-padding: var(--solaris-spacing-4);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-selection-card-gap: var(--solaris-spacing-4);
+  --solaris-selection-card-padding: var(--solaris-spacing-5);
+}
+
+:host([data-size='sm']) {
   --solaris-selection-card-media-size: var(--solaris-spacing-10);
-  --solaris-selection-card-indicator-size: var(--solaris-spacing-7);
   --solaris-selection-card-indicator-dot-size: var(--solaris-spacing-4);
   --solaris-selection-card-switch-track-width: calc(
     var(--solaris-spacing-7) + var(--solaris-spacing-6)
@@ -267,13 +282,8 @@
   );
 }
 
-:host([data-size='md'][data-density='compact']) {
-  --solaris-selection-card-gap: var(--solaris-spacing-2);
-  --solaris-selection-card-padding: var(--solaris-spacing-3);
+:host([data-size='md']) {
   --solaris-selection-card-media-size: var(--solaris-spacing-12);
-  --solaris-selection-card-indicator-size: calc(
-    var(--solaris-spacing-7) + var(--solaris-spacing-2)
-  );
   --solaris-selection-card-indicator-dot-size: var(--solaris-spacing-5);
   --solaris-selection-card-switch-track-width: calc(
     var(--solaris-spacing-8) + var(--solaris-spacing-6)
@@ -281,124 +291,50 @@
   --solaris-selection-card-switch-track-height: var(--solaris-spacing-8);
   --solaris-selection-card-switch-thumb-size: calc(
     var(--solaris-spacing-8) - var(--solaris-spacing-3)
+  );
+}
+
+:host([data-size='lg']) {
+  --solaris-selection-card-media-size: var(--solaris-spacing-16);
+  --solaris-selection-card-indicator-dot-size: var(--solaris-spacing-6);
+  --solaris-selection-card-switch-track-width: calc(
+    var(--solaris-spacing-10) + var(--solaris-spacing-2)
+  );
+  --solaris-selection-card-switch-track-height: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-2)
+  );
+  --solaris-selection-card-switch-thumb-size: calc(
+    var(--solaris-spacing-7) + var(--solaris-spacing-2)
+  );
+}
+
+:host([data-size='sm'][data-density='compact']),
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-selection-card-indicator-size: var(--solaris-spacing-7);
+}
+
+:host([data-size='sm'][data-density='comfortable']),
+:host([data-size='md'][data-density='compact']) {
+  --solaris-selection-card-indicator-size: calc(
+    var(--solaris-spacing-7) + var(--solaris-spacing-2)
+  );
+}
+
+// md/normal resolves to the :host default (spacing-8) — no override needed.
+
+:host([data-size='md'][data-density='comfortable']),
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-selection-card-indicator-size: calc(
+    var(--solaris-spacing-8) + var(--solaris-spacing-2)
   );
 }
 
 :host([data-size='lg'][data-density='compact']) {
-  --solaris-selection-card-gap: var(--solaris-spacing-2);
-  --solaris-selection-card-padding: var(--solaris-spacing-3);
-  --solaris-selection-card-media-size: var(--solaris-spacing-16);
   --solaris-selection-card-indicator-size: var(--solaris-spacing-8);
-  --solaris-selection-card-indicator-dot-size: var(--solaris-spacing-6);
-  --solaris-selection-card-switch-track-width: calc(
-    var(--solaris-spacing-10) + var(--solaris-spacing-2)
-  );
-  --solaris-selection-card-switch-track-height: calc(
-    var(--solaris-spacing-8) + var(--solaris-spacing-2)
-  );
-  --solaris-selection-card-switch-thumb-size: calc(
-    var(--solaris-spacing-7) + var(--solaris-spacing-2)
-  );
-}
-
-:host([data-size='sm'][data-density='normal']) {
-  --solaris-selection-card-gap: var(--solaris-spacing-3);
-  --solaris-selection-card-padding: var(--solaris-spacing-4);
-  --solaris-selection-card-media-size: var(--solaris-spacing-10);
-  --solaris-selection-card-indicator-size: var(--solaris-spacing-7);
-  --solaris-selection-card-indicator-dot-size: var(--solaris-spacing-4);
-  --solaris-selection-card-switch-track-width: calc(
-    var(--solaris-spacing-7) + var(--solaris-spacing-6)
-  );
-  --solaris-selection-card-switch-track-height: var(--solaris-spacing-7);
-  --solaris-selection-card-switch-thumb-size: calc(
-    var(--solaris-spacing-7) - var(--solaris-spacing-3)
-  );
-}
-
-:host([data-size='md'][data-density='normal']) {
-  --solaris-selection-card-gap: var(--solaris-spacing-3);
-  --solaris-selection-card-padding: var(--solaris-spacing-4);
-  --solaris-selection-card-media-size: var(--solaris-spacing-12);
-  --solaris-selection-card-indicator-size: var(--solaris-spacing-8);
-  --solaris-selection-card-indicator-dot-size: var(--solaris-spacing-5);
-  --solaris-selection-card-switch-track-width: calc(
-    var(--solaris-spacing-8) + var(--solaris-spacing-6)
-  );
-  --solaris-selection-card-switch-track-height: var(--solaris-spacing-8);
-  --solaris-selection-card-switch-thumb-size: calc(
-    var(--solaris-spacing-8) - var(--solaris-spacing-3)
-  );
-}
-
-:host([data-size='lg'][data-density='normal']) {
-  --solaris-selection-card-gap: var(--solaris-spacing-3);
-  --solaris-selection-card-padding: var(--solaris-spacing-4);
-  --solaris-selection-card-media-size: var(--solaris-spacing-16);
-  --solaris-selection-card-indicator-size: calc(
-    var(--solaris-spacing-8) + var(--solaris-spacing-2)
-  );
-  --solaris-selection-card-indicator-dot-size: var(--solaris-spacing-6);
-  --solaris-selection-card-switch-track-width: calc(
-    var(--solaris-spacing-10) + var(--solaris-spacing-2)
-  );
-  --solaris-selection-card-switch-track-height: calc(
-    var(--solaris-spacing-8) + var(--solaris-spacing-2)
-  );
-  --solaris-selection-card-switch-thumb-size: calc(
-    var(--solaris-spacing-7) + var(--solaris-spacing-2)
-  );
-}
-
-:host([data-size='sm'][data-density='comfortable']) {
-  --solaris-selection-card-gap: var(--solaris-spacing-4);
-  --solaris-selection-card-padding: var(--solaris-spacing-5);
-  --solaris-selection-card-media-size: var(--solaris-spacing-10);
-  --solaris-selection-card-indicator-size: calc(
-    var(--solaris-spacing-7) + var(--solaris-spacing-2)
-  );
-  --solaris-selection-card-indicator-dot-size: var(--solaris-spacing-4);
-  --solaris-selection-card-switch-track-width: calc(
-    var(--solaris-spacing-7) + var(--solaris-spacing-6)
-  );
-  --solaris-selection-card-switch-track-height: var(--solaris-spacing-7);
-  --solaris-selection-card-switch-thumb-size: calc(
-    var(--solaris-spacing-7) - var(--solaris-spacing-3)
-  );
-}
-
-:host([data-size='md'][data-density='comfortable']) {
-  --solaris-selection-card-gap: var(--solaris-spacing-4);
-  --solaris-selection-card-padding: var(--solaris-spacing-5);
-  --solaris-selection-card-media-size: var(--solaris-spacing-12);
-  --solaris-selection-card-indicator-size: calc(
-    var(--solaris-spacing-8) + var(--solaris-spacing-2)
-  );
-  --solaris-selection-card-indicator-dot-size: var(--solaris-spacing-5);
-  --solaris-selection-card-switch-track-width: calc(
-    var(--solaris-spacing-8) + var(--solaris-spacing-6)
-  );
-  --solaris-selection-card-switch-track-height: var(--solaris-spacing-8);
-  --solaris-selection-card-switch-thumb-size: calc(
-    var(--solaris-spacing-8) - var(--solaris-spacing-3)
-  );
 }
 
 :host([data-size='lg'][data-density='comfortable']) {
-  --solaris-selection-card-gap: var(--solaris-spacing-4);
-  --solaris-selection-card-padding: var(--solaris-spacing-5);
-  --solaris-selection-card-media-size: var(--solaris-spacing-16);
   --solaris-selection-card-indicator-size: var(--solaris-spacing-9);
-  --solaris-selection-card-indicator-dot-size: var(--solaris-spacing-6);
-  --solaris-selection-card-switch-track-width: calc(
-    var(--solaris-spacing-10) + var(--solaris-spacing-2)
-  );
-  --solaris-selection-card-switch-track-height: calc(
-    var(--solaris-spacing-8) + var(--solaris-spacing-2)
-  );
-  --solaris-selection-card-switch-thumb-size: calc(
-    var(--solaris-spacing-7) + var(--solaris-spacing-2)
-  );
 }
 
 :host([data-media-position='start']) .solaris-selection-card__surface {

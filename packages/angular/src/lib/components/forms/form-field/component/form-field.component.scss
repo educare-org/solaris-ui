@@ -453,23 +453,6 @@
   );
 }
 
-:host([data-appearance='outline']),
-:host([data-appearance='surface']),
-:host([data-appearance='filled']) {
-  --solaris-form-field-focus-ring-width: var(--solaris-focus-ring-width);
-  --solaris-form-field-hint-color: var(--solaris-text-muted);
-  --solaris-form-field-prefix-color: var(--solaris-text-muted);
-  --solaris-form-field-suffix-color: var(--solaris-text-muted);
-  --solaris-form-field-error-color: var(--solaris-danger-text);
-  --solaris-form-field-label-color: var(--solaris-text-default);
-  --solaris-form-field-required-color: var(--solaris-danger-base);
-  --solaris-form-field-optional-color: var(--solaris-text-muted);
-  --solaris-form-field-disabled-opacity: var(--solaris-opacity-50);
-  --solaris-form-field-focus-ring-color: var(--solaris-primary-base);
-  --solaris-form-field-error-border-color: var(--solaris-danger-base);
-  --solaris-form-field-label-font-weight: var(--solaris-font-weight-medium);
-}
-
 :host([data-appearance='outline']) {
   --solaris-form-field-control-background: var(--solaris-surface-base);
   --solaris-form-field-readonly-background: var(--solaris-surface-muted);
@@ -492,12 +475,6 @@
 }
 
 :host([data-invalid]) {
-  --solaris-form-field-control-border-color: var(
-    --solaris-form-field-error-border-color
-  );
-}
-
-:host([data-invalid][data-focused]) {
   --solaris-form-field-control-border-color: var(
     --solaris-form-field-error-border-color
   );
