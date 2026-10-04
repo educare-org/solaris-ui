@@ -21,7 +21,7 @@ import { SolarisThemeService } from '../../../../services/theme';
 import {
   SOLARIS_RADIO_GROUP,
   SOLARIS_RADIO_GROUP_NAME,
-} from '../../radio-group';
+} from '../../radio-group/model/radio-group.token';
 import { resolveElementId } from '../../../../core';
 import {
   SOLARIS_RADIO_OPTION,
