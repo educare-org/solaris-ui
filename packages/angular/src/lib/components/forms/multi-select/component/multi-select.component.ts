@@ -776,11 +776,12 @@ export class SolarisMultiSelectComponent
   }
 
   private setupResizeObserver(): void {
-    // SECURITY_EXCEPTION: measuring trigger width for auto display mode requires the native element; ResizeObserver is SSR-safe guarded. Read-only.
     // Observe the outer trigger (stable flex width) instead of the inner content
     // so chip/count swaps and clear-button appearance don't feed back into the
     // measurement and cause flicker loops in clearable mode.
+    // SECURITY_EXCEPTION: measuring trigger width for auto display mode requires nativeElement offsetWidth; Renderer2 has no layout-measurement alternative; ResizeObserver is SSR-safe guarded. Read-only, covered by multi-select resize tests.
     const outer = this.triggerElement()?.nativeElement;
+    // SECURITY_EXCEPTION: same justification as above — inner fallback width measurement is read-only via offsetWidth; Renderer2 has no alternative; SSR-safe guarded; covered by multi-select resize tests.
     const inner = this.triggerContentRef()?.nativeElement;
     const el = outer ?? inner;
     if (!el) return;
