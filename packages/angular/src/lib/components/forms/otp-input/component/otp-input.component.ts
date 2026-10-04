@@ -47,7 +47,6 @@ const MASK_CHAR = '•';
     FormsModule,
     SolarisFormFieldComponent,
     SolarisFormFieldTriggerDirective,
-    SolarisFormSuffixActionDirective,
   ],
   providers: [
     {
@@ -286,7 +285,7 @@ export class SolarisOtpInputComponent
 
   focus(): void {
     const index = this.boxChars().findIndex((char) => !char);
-    this.focusBox(index >= 0 ? index : 0);
+    this.focusBox(Math.max(index, 0));
   }
 
   ngAfterViewInit(): void {
