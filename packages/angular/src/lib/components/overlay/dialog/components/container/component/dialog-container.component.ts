@@ -125,8 +125,8 @@ export class SolarisDialogContainerComponent implements AfterViewInit {
   }
 
   protected get hostRadius(): string {
-    if (this.simpleOptions()) return this.simpleOptions()?.radius ?? 'md';
-    return this.externalComponentConfig()?.radius ?? 'md';
+    if (this.simpleOptions()) return this.simpleOptions()?.radius ?? 'lg';
+    return this.externalComponentConfig()?.radius ?? 'lg';
   }
 
   protected readonly effectiveDensity = computed(
