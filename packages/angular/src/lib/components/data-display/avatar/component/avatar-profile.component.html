@@ -1,0 +1,39 @@
+<solaris-avatar
+  [src]="src()"
+  [srcset]="srcset()"
+  [name]="name()"
+  [userId]="userId()"
+  [size]="size()"
+  [status]="status()"
+  [showStatus]="showStatus()"
+  [verified]="verified()"
+  [count]="count()"
+  [max]="max()"
+  [showZero]="showZero()"
+/>
+@if (!compact()) {
+  <span class="solaris-avatar-profile__text">
+    <span class="solaris-avatar-profile__title-row">
+      <span
+        class="solaris-avatar-profile__title"
+        [attr.title]="titleTooltip()"
+        >{{ resolvedTitle() }}</span
+      >
+      @if (resolvedBadgeText()) {
+        <span class="solaris-avatar-profile__badge">{{
+          resolvedBadgeText()
+        }}</span>
+      }
+    </span>
+    @if (resolvedSubtitle()) {
+      <span
+        class="solaris-avatar-profile__subtitle"
+        [attr.title]="subtitleTooltip()"
+        >{{ resolvedSubtitle() }}</span
+      >
+    }
+  </span>
+  <span class="solaris-avatar-profile__actions">
+    <ng-content select="[solaris-avatar-profile-actions]" />
+  </span>
+}

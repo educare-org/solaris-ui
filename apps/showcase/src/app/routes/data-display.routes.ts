@@ -5,6 +5,13 @@ export const dataDisplayRoutes: Route[] = [
     path: 'data-display',
     children: [
       {
+        path: 'avatar',
+        loadComponent: () =>
+          import('../pages/data-display/avatar/component/avatar-showcase').then(
+            (m) => m.AvatarShowcasePage,
+          ),
+      },
+      {
         path: 'badge',
         loadComponent: () =>
           import('../pages/data-display/badge/component/badge-showcase').then(

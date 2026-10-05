@@ -1,0 +1,75 @@
+:host {
+  --solaris-avatar-group-size: var(--solaris-spacing-12);
+  --solaris-avatar-group-overlap: var(--solaris-spacing-4);
+  --solaris-avatar-group-overflow-background: var(--solaris-surface-muted);
+  --solaris-avatar-group-overflow-color: var(--solaris-text-default);
+  --solaris-avatar-group-overflow-border-color: var(--solaris-surface-base);
+  --solaris-avatar-group-font-size: var(--solaris-font-size-sm);
+
+  display: inline-flex;
+  align-items: center;
+}
+
+:host([data-size='xs']) {
+  --solaris-avatar-group-size: var(--solaris-spacing-9);
+  --solaris-avatar-group-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='sm']) {
+  --solaris-avatar-group-size: var(--solaris-spacing-10);
+  --solaris-avatar-group-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='md']) {
+  --solaris-avatar-group-size: var(--solaris-spacing-12);
+  --solaris-avatar-group-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='lg']) {
+  --solaris-avatar-group-size: var(--solaris-spacing-13);
+  --solaris-avatar-group-font-size: var(--solaris-font-size-md);
+}
+
+:host([data-size='xl']) {
+  --solaris-avatar-group-size: var(--solaris-spacing-15);
+  --solaris-avatar-group-font-size: var(--solaris-font-size-lg);
+}
+
+:host solaris-avatar + solaris-avatar,
+:host solaris-avatar + .solaris-avatar-group__overflow {
+  margin-left: calc(var(--solaris-avatar-group-overlap) * -1);
+}
+
+:host solaris-avatar {
+  // SOLARIS_TOKEN_EXCEPTION: box-shadow used as a separator ring between overlapped avatars (not elevation), sized by the spacing token.
+  box-shadow: 0 0 0 var(--solaris-spacing-2)
+    var(--solaris-avatar-group-overflow-border-color);
+}
+
+.solaris-avatar-group__overflow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: var(--solaris-avatar-group-size);
+  height: var(--solaris-avatar-group-size);
+  padding-right: var(--solaris-spacing-4);
+  padding-left: var(--solaris-spacing-4);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-avatar-group-overflow-border-color);
+  border-radius: var(--solaris-radius-full);
+  background: var(--solaris-avatar-group-overflow-background);
+  color: var(--solaris-avatar-group-overflow-color);
+  font-size: var(--solaris-avatar-group-font-size);
+  font-weight: var(--solaris-font-weight-medium);
+  font-family: var(--solaris-font-family-sans), system-ui;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.solaris-avatar-group__overflow:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}

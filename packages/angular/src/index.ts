@@ -64,6 +64,20 @@ export type {
   SolarisBadgeOffset,
 } from './lib/components/data-display/badge/model/badge.types';
 
+export { SolarisAvatarComponent } from './lib/components/data-display/avatar/component/avatar.component';
+export { SolarisAvatarGroupComponent } from './lib/components/data-display/avatar/component/avatar-group.component';
+export { SolarisAvatarProfileComponent } from './lib/components/data-display/avatar/component/avatar-profile.component';
+export { SolarisAvatarPresenceService } from './lib/components/data-display/avatar/service/avatar-presence.service';
+export { SOLARIS_AVATAR_DEFAULT_WORKING_HOURS } from './lib/components/data-display/avatar/service/avatar-presence.service';
+export type {
+  SolarisAvatarFallback,
+  SolarisAvatarGroupUser,
+  SolarisAvatarRadius,
+  SolarisAvatarSize,
+  SolarisAvatarStatus,
+  SolarisAvatarWorkingHours,
+} from './lib/components/data-display/avatar/model/avatar.types';
+
 export { SolarisCardComponent } from './lib/components/data-display/card/component/card.component';
 export { SolarisCardHeaderDirective } from './lib/components/data-display/card/directives/card-header.directive';
 export { SolarisCardContentDirective } from './lib/components/data-display/card/directives/card-content.directive';

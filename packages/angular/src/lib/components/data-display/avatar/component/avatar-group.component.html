@@ -1,0 +1,24 @@
+@for (user of visibleUsers(); track user.userId ?? user.name ?? $index) {
+  <solaris-avatar
+    [src]="user.src"
+    [srcset]="user.srcset"
+    [name]="user.name"
+    [userId]="user.userId"
+    [size]="size()"
+    [radius]="radius()"
+    [status]="user.status"
+    [showStatus]="user.showStatus ?? false"
+    [verified]="user.verified ?? false"
+    [count]="user.count"
+  />
+}
+@if (overflowCount() > 0) {
+  <button
+    type="button"
+    class="solaris-avatar-group__overflow"
+    [attr.aria-label]="overflowLabel()"
+    (click)="onOverflowClick()"
+  >
+    +{{ overflowCount() }}
+  </button>
+}

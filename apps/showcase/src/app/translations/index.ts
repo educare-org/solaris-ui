@@ -1,6 +1,7 @@
 import { CONFIGURATION_TRANSLATIONS } from '../pages/configuration/translations';
 import { SHELL_TRANSLATIONS } from '../shell/translations';
 import { BADGE_TRANSLATIONS } from '../pages/data-display/badge/translations';
+import { AVATAR_TRANSLATIONS } from '../pages/data-display/avatar/translations';
 import { SKELETON_TRANSLATIONS } from '../pages/feedback/skeleton/translations';
 import { SPINNER_TRANSLATIONS } from '../pages/feedback/spinner/translations';
 import { PROGRESS_TRANSLATIONS } from '../pages/feedback/progress/translations';
@@ -49,6 +50,7 @@ import { MEGA_MENU_TRANSLATIONS } from '../pages/navigation/mega-menu/translatio
 const PAGE_MODULES = [
   SHELL_TRANSLATIONS,
   CONFIGURATION_TRANSLATIONS,
+  AVATAR_TRANSLATIONS,
   BADGE_TRANSLATIONS,
   SKELETON_TRANSLATIONS,
   SPINNER_TRANSLATIONS,

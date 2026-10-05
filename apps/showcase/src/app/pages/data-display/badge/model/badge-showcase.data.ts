@@ -18,8 +18,8 @@ export const BADGE_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
 ];
 
 export const BADGE_SHOWCASE_PREV: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.divider',
-  route: '/content/divider',
+  labelKey: 'shell.sidebar.item.avatar',
+  route: '/data-display/avatar',
 };
 
 export const BADGE_SHOWCASE_NEXT: ShowcaseDocsPageNav = {

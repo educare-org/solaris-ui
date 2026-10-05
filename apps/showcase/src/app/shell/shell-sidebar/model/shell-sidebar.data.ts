@@ -68,6 +68,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
         labelKey: 'shell.sidebar.group.data-display',
         items: [
           {
+            labelKey: 'shell.sidebar.item.avatar',
+            route: '/data-display/avatar',
+          },
+          {
             labelKey: 'shell.sidebar.item.badge',
             route: '/data-display/badge',
           },

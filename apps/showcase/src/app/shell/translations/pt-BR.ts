@@ -31,6 +31,7 @@ export const PT_BR_SHELL: Record<string, string> = {
   'shell.sidebar.item.icon-button': 'Botão de ícone',
   'shell.sidebar.item.button-group': 'Grupo de botões',
   'shell.sidebar.item.divider': 'Divisor',
+  'shell.sidebar.item.avatar': 'Avatar',
   'shell.sidebar.item.badge': 'Badge',
   'shell.sidebar.item.card': 'Card',
   'shell.sidebar.item.code-block': 'Bloco de código',
