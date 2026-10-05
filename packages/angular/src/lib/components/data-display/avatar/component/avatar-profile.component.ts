@@ -18,12 +18,12 @@ import {
 
 import { SolarisTranslateService } from '../../../../services/translation';
 
-import { SolarisBadgeComponent } from '../../badge/component/badge.component';
-import { SolarisAvatarComponent } from './avatar.component';
 import type {
   SolarisAvatarSize,
   SolarisAvatarStatus,
 } from '../model/avatar.types';
+import { SolarisAvatarComponent } from './avatar.component';
+import { SolarisBadgeComponent } from '../../badge';
 
 @Component({
   selector: 'solaris-avatar-profile',
