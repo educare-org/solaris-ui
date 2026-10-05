@@ -18,6 +18,7 @@ import { SolarisButtonDirective } from '../../../../../actions/button';
 import { SolarisDialogRef } from '../../../service/dialog-ref';
 import { SOLARIS_DIALOG_REF } from '../../../token/dialog-data.token';
 import { SolarisTranslateService } from '../../../../../../services/translation';
+import { SolarisThemeService } from '../../../../../../services/theme';
 import type {
   SolarisDialogAction,
   SolarisDialogActionsAlign,
@@ -36,7 +37,7 @@ import type {
     '[attr.data-align]': 'align()',
     '[attr.data-stack]': 'stack()',
     '[attr.data-separator]': "separator() ? '' : null",
-    '[attr.data-density]': 'density()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-scrolled]': "effectiveScrolled() ? '' : null",
     class: 'solaris-dialog-actions',
   },
@@ -54,6 +55,9 @@ export class SolarisDialogActionsComponent<TResult = unknown>
     inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly destroyRef = inject(DestroyRef);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly themeService = inject(SolarisThemeService, {
+    optional: true,
+  });
 
   readonly actions = input<SolarisDialogAction<TResult>[]>([]);
   readonly align = input<SolarisDialogActionsAlign>('end');
@@ -63,6 +67,10 @@ export class SolarisDialogActionsComponent<TResult = unknown>
   });
   readonly density = input<SolarisDialogDensity>();
   readonly scrolled = input<boolean>();
+
+  protected readonly effectiveDensity = computed(
+    () => this.density() ?? this.themeService?.density ?? 'normal',
+  );
 
   protected readonly internalScrolled = signal(false);
   protected readonly effectiveScrolled = computed(

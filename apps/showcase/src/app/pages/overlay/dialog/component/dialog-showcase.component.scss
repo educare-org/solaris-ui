@@ -1,36 +1,19 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.dialog-showcase {
-  @include layout.page;
+.dialog-showcase__note {
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.dialog-showcase__header {
-  @include layout.header;
+.dialog-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
 }
 
-.dialog-showcase__title {
-  @include layout.title;
-}
-
-.dialog-showcase__description {
-  @include layout.description;
-}
-
-.dialog-showcase__section {
-  @include layout.section-card;
-}
-
-.dialog-showcase__section-title {
-  @include layout.section-title;
-}
-
-.dialog-showcase__section-desc {
-  margin: 0 0 var(--solaris-spacing-4);
-  color: var(--solaris-text-muted);
-  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
-    var(--solaris-line-height-md) var(--solaris-font-family-sans);
-}
-
-.dialog-showcase__row {
-  @include layout.row;
+.dialog-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
 }

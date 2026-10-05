@@ -21,6 +21,7 @@
     [style.min-height]="panelMinHeight"
     [style.max-height]="panelMaxHeight"
     [attr.aria-modal]="hasBackdrop ? 'true' : 'false'"
+    [attr.aria-hidden]="isTopmost() ? null : 'true'"
   >
     @if (isSimpleMode) {
       <solaris-dialog [options]="simpleOptions()!" />

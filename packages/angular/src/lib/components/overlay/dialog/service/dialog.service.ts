@@ -5,6 +5,7 @@ import {
   Injector,
   type Provider,
   Type,
+  signal,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
@@ -41,6 +42,15 @@ export class SolarisDialogService {
     ref: SolarisDialogRef;
     overlayRef: OverlayRef;
   }>();
+
+  private readonly topmostIdSignal = signal<string | null>(null);
+
+  /**
+   * Id of the topmost open dialog (`null` when none is open).
+   * Drives stacked-dialog semantics: only the topmost dialog reacts to
+   * Escape and stays exposed to assistive technology.
+   */
+  readonly topmostId = this.topmostIdSignal.asReadonly();
 
   constructor() {
     const userConfig = inject(SOLARIS_DIALOG_CONFIG, {
@@ -186,6 +196,28 @@ export class SolarisDialogService {
     });
   }
 
+  /**
+   * Whether the given ref is the topmost open dialog.
+   * Unknown (already closed) refs are never topmost.
+   */
+  isTopmost(ref: SolarisDialogRef): boolean {
+    return this.topmostIdSignal() === ref.id;
+  }
+
+  /**
+   * Number of currently open dialogs (stack depth).
+   */
+  get openCount(): number {
+    return this.openDialogs.size;
+  }
+
+  private updateTopmost(): void {
+    const entries = [...this.openDialogs];
+    this.topmostIdSignal.set(
+      entries.length > 0 ? entries[entries.length - 1].ref.id : null,
+    );
+  }
+
   private trackDialog(
     ref: SolarisDialogRef,
     overlayRef: OverlayRef,
@@ -196,11 +228,13 @@ export class SolarisDialogService {
   ): void {
     const entry = { ref, overlayRef };
     this.openDialogs.add(entry);
+    this.updateTopmost();
 
     ref.afterClosed().subscribe(() => {
       overlayRef.detach();
       overlayRef.dispose();
       this.openDialogs.delete(entry);
+      this.updateTopmost();
       this.restoreFocus(focus);
     });
   }
@@ -237,6 +271,7 @@ export class SolarisDialogService {
       restoreFocus: options.restoreFocus ?? this.config.restoreFocus ?? true,
       role: options.role ?? this.config.role,
       placement: options.placement ?? this.config.placement ?? 'center',
+      sheet: options.sheet ?? this.config.sheet ?? false,
       headerSeparator:
         options.headerSeparator ?? this.config.headerSeparator ?? true,
       footerSeparator:
@@ -267,6 +302,7 @@ export class SolarisDialogService {
       restoreFocus: config.restoreFocus ?? this.config.restoreFocus ?? true,
       role: config.role ?? this.config.role,
       placement: config.placement ?? this.config.placement ?? 'center',
+      sheet: config.sheet ?? this.config.sheet ?? false,
       headerSeparator:
         config.headerSeparator ?? this.config.headerSeparator ?? true,
       footerSeparator:

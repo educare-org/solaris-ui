@@ -190,4 +190,77 @@ export const PT_BR_DIALOG: Record<string, string> = {
   'dialog.examples.flow.step3-list1': 'Verifique os detalhes da conta',
   'dialog.examples.flow.step3-list2': 'Confirme os dados da instituição',
   'dialog.examples.flow.step3-list3': 'Aceite os termos e condições',
+
+  'dialog.section.examples': 'Exemplos',
+  'dialog.section.variants': 'Variantes',
+  'dialog.section.appearance': 'Aparência',
+  'dialog.section.density': 'Densidade',
+  'dialog.section.placement': 'Posicionamento',
+  'dialog.section.sheet': 'Sheets',
+  'dialog.section.nested': 'Dialogs aninhados',
+  'dialog.section.actions': 'Ações',
+  'dialog.section.behavior': 'Comportamento',
+  'dialog.section.component': 'Dialogs por componente',
+  'dialog.section.flow': 'Fluxo do dialog',
+  'dialog.section.installation': 'Instalação',
+  'dialog.section.props': 'Propriedades',
+
+  'dialog.examples.note':
+    'Cada demo abre um dialog real. O snippet mostra a chamada do serviço por trás do botão.',
+  'dialog.density.note':
+    'O espaçamento das seções segue a densidade selecionada. O snippet reflete a seleção atual.',
+  'dialog.sheet.note':
+    'Sheets ancoram o painel a uma borda com largura total. Só posicionamentos de borda suportam sheet.',
+  'dialog.nested.note':
+    'Dialogs podem abrir sobre outros. Só o do topo reage ao Escape; os painéis abaixo ficam ocultos para tecnologia assistiva.',
+  'dialog.installation.note':
+    'O dialog faz parte do pacote único do Solaris UI. Provedor do serviço uma vez.',
+  'dialog.props.note':
+    'A referência completa da API está na documentação do componente. As tabelas de props são geradas do código.',
+  'dialog.ai.prompt':
+    'Me ajude a usar o componente {{component}}. Página da documentação: {{url}}',
+
+  'dialog.demo.open': 'Abrir dialog',
+  'dialog.demo.open-variant': 'Abrir dialog da variante',
+  'dialog.demo.open-appearance': 'Abrir dialog da aparência',
+  'dialog.demo.open-density': 'Abrir dialog da densidade',
+  'dialog.demo.open-placement': 'Abrir dialog posicionado',
+  'dialog.demo.open-actions': 'Abrir dialog das ações',
+  'dialog.demo.open-sheet': 'Abrir bottom sheet',
+  'dialog.demo.open-nested': 'Abrir dialog externo',
+  'dialog.demo.open-validated-flow': 'Abrir fluxo validado',
+
+  'dialog.density.compact': 'Compacta',
+  'dialog.density.normal': 'Normal',
+  'dialog.density.comfortable': 'Confortável',
+
+  'dialog.placement.center': 'Posição centro',
+  'dialog.placement.top-left': 'Posição topo-esquerda',
+  'dialog.placement.top-right': 'Posição topo-direita',
+  'dialog.placement.bottom-right': 'Posição base-direita',
+
+  'dialog.examples.density.title': 'Dialog de densidade',
+  'dialog.examples.density.desc':
+    'O espaçamento das seções segue a densidade {{density}}.',
+
+  'dialog.examples.sheet.title': 'Sheet de filtros',
+  'dialog.examples.sheet.desc':
+    'Este painel está ancorado à borda inferior com largura total.',
+
+  'dialog.examples.nested.outer-title': 'Configurações do projeto',
+  'dialog.examples.nested.outer-desc':
+    'Este é o dialog externo. Abrir outro dialog o empilha por cima.',
+  'dialog.examples.nested.open-inner': 'Abrir dialog aninhado',
+  'dialog.examples.nested.inner-title': 'Descartar alterações?',
+  'dialog.examples.nested.inner-desc':
+    'O dialog externo continua aberto atrás. O Escape fecha só este dialog.',
+
+  'dialog.examples.validated.title': 'Fluxo validado',
+  'dialog.examples.validated.step1-title': 'Passo 1: Seu nome',
+  'dialog.examples.validated.step1-desc':
+    'Digite seu nome para liberar o próximo passo.',
+  'dialog.examples.validated.name-label': 'Nome',
+  'dialog.examples.validated.name-required': 'Nome é obrigatório.',
+  'dialog.examples.validated.step2-title': 'Passo 2: Revisão',
+  'dialog.examples.validated.step2-desc': 'Revise seu nome antes de finalizar.',
 };

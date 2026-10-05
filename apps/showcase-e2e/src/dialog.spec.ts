@@ -43,16 +43,19 @@ test.describe('Dialog', () => {
     await dialog.assertNotVisible();
   });
 
-  test('renders actions with different aligns', async () => {
-    await dialog.open('Align start');
+  test('renders actions with different aligns', async ({ page }) => {
+    await page.getByRole('tab', { name: 'Align start' }).click();
+    await dialog.open('Open actions dialog');
     await expect(dialog.actions()).toHaveAttribute('data-align', 'start');
     await dialog.closeViaEscape();
 
-    await dialog.open('Align center');
+    await page.getByRole('tab', { name: 'Align center' }).click();
+    await dialog.open('Open actions dialog');
     await expect(dialog.actions()).toHaveAttribute('data-align', 'center');
     await dialog.closeViaEscape();
 
-    await dialog.open('Space between');
+    await page.getByRole('tab', { name: 'Space between' }).click();
+    await dialog.open('Open actions dialog');
     await expect(dialog.actions()).toHaveAttribute(
       'data-align',
       'space-between',
@@ -69,6 +72,9 @@ test.describe('Dialog', () => {
   test('closes via container close button', async () => {
     await dialog.open('Open basic dialog');
     await expect(dialog.closeButton()).toBeVisible();
+    const iconBox = await dialog.closeButton().locator('svg').boundingBox();
+    expect(iconBox?.width).toBeGreaterThan(12);
+    expect(iconBox?.height).toBeGreaterThan(12);
     await dialog.closeButton().click();
     await dialog.assertNotVisible();
   });
@@ -81,8 +87,9 @@ test.describe('Dialog', () => {
     await dialog.closeViaEscape();
   });
 
-  test('anchors dialog to bottom-left placement', async () => {
-    await dialog.open('Placement bottom-left');
+  test('anchors dialog to bottom-left placement', async ({ page }) => {
+    await page.getByRole('tab', { name: 'Placement bottom-left' }).click();
+    await dialog.open('Open placement dialog');
     await expect(dialog.container()).toHaveAttribute(
       'data-placement',
       'bottom-left',
@@ -144,6 +151,34 @@ test.describe('Dialog', () => {
     await expect(dialog.header()).toBeVisible();
     await expect(dialog.actions()).toBeVisible();
     await dialog.closeViaButton('Confirm');
+    await dialog.assertNotVisible();
+  });
+
+  test('docks bottom sheet with data-sheet', async () => {
+    await dialog.open('Open bottom sheet');
+    await expect(dialog.container()).toHaveAttribute('data-sheet', '');
+    await expect(dialog.container()).toHaveAttribute(
+      'data-placement',
+      'bottom',
+    );
+    await dialog.closeViaEscape();
+    await dialog.assertNotVisible();
+  });
+
+  test('stacks nested dialogs and Escape closes only the topmost', async ({
+    page,
+  }) => {
+    await dialog.open('Open outer dialog');
+    await dialog.assertTitle('Project settings');
+
+    await page.getByRole('button', { name: 'Open nested dialog' }).click();
+    await expect(dialog.panel()).toHaveCount(2);
+
+    await dialog.closeViaEscape();
+    await expect(dialog.panel()).toHaveCount(1);
+    await dialog.assertTitle('Project settings');
+
+    await dialog.closeViaEscape();
     await dialog.assertNotVisible();
   });
 });

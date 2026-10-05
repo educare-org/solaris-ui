@@ -187,4 +187,77 @@ export const EN_US_DIALOG: Record<string, string> = {
   'dialog.examples.flow.step3-list1': 'Check your account details',
   'dialog.examples.flow.step3-list2': 'Verify institution data',
   'dialog.examples.flow.step3-list3': 'Accept terms and conditions',
+
+  'dialog.section.examples': 'Examples',
+  'dialog.section.variants': 'Variants',
+  'dialog.section.appearance': 'Appearance',
+  'dialog.section.density': 'Density',
+  'dialog.section.placement': 'Placement',
+  'dialog.section.sheet': 'Sheets',
+  'dialog.section.nested': 'Nested dialogs',
+  'dialog.section.actions': 'Actions',
+  'dialog.section.behavior': 'Behavior',
+  'dialog.section.component': 'Component dialogs',
+  'dialog.section.flow': 'Dialog flow',
+  'dialog.section.installation': 'Installation',
+  'dialog.section.props': 'Properties',
+
+  'dialog.examples.note':
+    'Every demo opens a live dialog. The snippet shows the service call behind the button.',
+  'dialog.density.note':
+    'Section spacing follows the selected density. The snippet reflects the current selection.',
+  'dialog.sheet.note':
+    'Sheets dock the panel to an edge placement with full-edge span. Only edge placements support sheet.',
+  'dialog.nested.note':
+    'Dialogs can open on top of each other. Only the topmost reacts to Escape; panels below are hidden from assistive technology.',
+  'dialog.installation.note':
+    'The dialog is part of the single Solaris UI package. Provide the dialog service once.',
+  'dialog.props.note':
+    'Full API reference lives in the component docs. Props tables are generated from the source.',
+  'dialog.ai.prompt':
+    'Help me use the {{component}} component. Docs page: {{url}}',
+
+  'dialog.demo.open': 'Open dialog',
+  'dialog.demo.open-variant': 'Open variant dialog',
+  'dialog.demo.open-appearance': 'Open appearance dialog',
+  'dialog.demo.open-density': 'Open density dialog',
+  'dialog.demo.open-placement': 'Open placement dialog',
+  'dialog.demo.open-actions': 'Open actions dialog',
+  'dialog.demo.open-sheet': 'Open bottom sheet',
+  'dialog.demo.open-nested': 'Open outer dialog',
+  'dialog.demo.open-validated-flow': 'Open validated flow',
+
+  'dialog.density.compact': 'Compact',
+  'dialog.density.normal': 'Normal',
+  'dialog.density.comfortable': 'Comfortable',
+
+  'dialog.placement.center': 'Placement center',
+  'dialog.placement.top-left': 'Placement top-left',
+  'dialog.placement.top-right': 'Placement top-right',
+  'dialog.placement.bottom-right': 'Placement bottom-right',
+
+  'dialog.examples.density.title': 'Density dialog',
+  'dialog.examples.density.desc':
+    'Section spacing follows the {{density}} density.',
+
+  'dialog.examples.sheet.title': 'Filter sheet',
+  'dialog.examples.sheet.desc':
+    'This panel is docked to the bottom edge with full width.',
+
+  'dialog.examples.nested.outer-title': 'Project settings',
+  'dialog.examples.nested.outer-desc':
+    'This is the outer dialog. Opening another dialog stacks it on top.',
+  'dialog.examples.nested.open-inner': 'Open nested dialog',
+  'dialog.examples.nested.inner-title': 'Discard changes?',
+  'dialog.examples.nested.inner-desc':
+    'The outer dialog stays open behind. Escape closes only this dialog.',
+
+  'dialog.examples.validated.title': 'Validated flow',
+  'dialog.examples.validated.step1-title': 'Step 1: Your name',
+  'dialog.examples.validated.step1-desc':
+    'Type your name to unlock the next step.',
+  'dialog.examples.validated.name-label': 'Name',
+  'dialog.examples.validated.name-required': 'Name is required.',
+  'dialog.examples.validated.step2-title': 'Step 2: Review',
+  'dialog.examples.validated.step2-desc': 'Review your name before finishing.',
 };

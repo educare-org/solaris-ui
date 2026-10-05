@@ -248,4 +248,91 @@ describe('SolarisDialogService', () => {
     expect(container?.getAttribute('data-radius')).toBe('full');
     ref.close();
   });
+
+  it('should track stacked dialogs with the last opened as topmost', () => {
+    const ref1 = service.open({ title: 'Outer' });
+    const ref2 = service.open({ title: 'Inner' });
+
+    expect(service.openCount).toBe(2);
+    expect(service.topmostId()).toBe(ref2.id);
+    expect(service.isTopmost(ref2)).toBe(true);
+    expect(service.isTopmost(ref1)).toBe(false);
+
+    ref2.close();
+    expect(service.openCount).toBe(1);
+    expect(service.topmostId()).toBe(ref1.id);
+    expect(service.isTopmost(ref1)).toBe(true);
+
+    ref1.close();
+    expect(service.openCount).toBe(0);
+    expect(service.topmostId()).toBeNull();
+    expect(service.isTopmost(ref1)).toBe(false);
+  });
+
+  it('should hide stacked dialogs below the topmost from assistive technology', () => {
+    const ref1 = service.open({ title: 'Outer' });
+    TestBed.inject(ApplicationRef).tick();
+    const ref2 = service.open({ title: 'Inner' });
+    TestBed.inject(ApplicationRef).tick();
+
+    const panels = document.querySelectorAll('.solaris-dialog-panel');
+    expect(panels.length).toBe(2);
+    expect(panels[0].getAttribute('aria-hidden')).toBe('true');
+    expect(panels[1].getAttribute('aria-hidden')).toBeNull();
+
+    ref2.close();
+    TestBed.inject(ApplicationRef).tick();
+    expect(panels[0].getAttribute('aria-hidden')).toBeNull();
+
+    ref1.close();
+  });
+
+  it('should only close the topmost dialog on Escape', () => {
+    const ref1 = service.open({ title: 'Outer' });
+    TestBed.inject(ApplicationRef).tick();
+    const ref2 = service.open({ title: 'Inner' });
+    TestBed.inject(ApplicationRef).tick();
+
+    const spy1 = vi.fn();
+    const spy2 = vi.fn();
+    ref1.afterClosed().subscribe(spy1);
+    ref2.afterClosed().subscribe(spy2);
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    TestBed.inject(ApplicationRef).tick();
+
+    expect(spy2).toHaveBeenCalledTimes(1);
+    expect(spy1).not.toHaveBeenCalled();
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    TestBed.inject(ApplicationRef).tick();
+
+    expect(spy1).toHaveBeenCalledTimes(1);
+    expect(service.openCount).toBe(0);
+  });
+
+  it('should render data-sheet for edge-docked sheet dialogs', () => {
+    const ref = service.open({
+      title: 'Sheet',
+      placement: 'bottom',
+      sheet: true,
+    });
+    TestBed.inject(ApplicationRef).tick();
+
+    const container = lastDialogContainer();
+    expect(container?.getAttribute('data-sheet')).toBe('');
+    expect(container?.getAttribute('data-placement')).toBe('bottom');
+    ref.close();
+  });
+
+  it('should not render data-sheet for center dialogs', () => {
+    const ref = service.open({ title: 'Test', sheet: true });
+    TestBed.inject(ApplicationRef).tick();
+
+    // `sheet` only docks edge placements; center keeps the floating panel.
+    const container = lastDialogContainer();
+    expect(container?.getAttribute('data-sheet')).toBeNull();
+    expect(container?.getAttribute('data-placement')).toBe('center');
+    ref.close();
+  });
 });

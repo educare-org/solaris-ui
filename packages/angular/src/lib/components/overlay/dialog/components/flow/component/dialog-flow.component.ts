@@ -30,10 +30,63 @@ export class SolarisDialogFlowComponent {
 
   readonly steps = contentChildren(SolarisDialogStepComponent);
 
+  /**
+   * Whether the flow has more than one step.
+   */
+  readonly hasMultipleSteps = (): boolean => this.steps().length > 1;
+
+  /**
+   * Advance to the next enabled step. Disabled steps are skipped.
+   * No-op on the last step.
+   */
+  next(): void {
+    this.goTo(
+      this.findNextEnabled(this.activeIndex(), 1) ?? this.activeIndex(),
+    );
+  }
+
+  /**
+   * Return to the previous enabled step. Disabled steps are skipped.
+   * No-op on the first step.
+   */
+  previous(): void {
+    this.goTo(
+      this.findNextEnabled(this.activeIndex(), -1) ?? this.activeIndex(),
+    );
+  }
+
+  /**
+   * Go to an explicit step. Out-of-range and disabled targets are ignored,
+   * so callers can bind this directly to form validity without guards.
+   */
+  goTo(index: number): void {
+    const steps = this.steps();
+    if (index < 0 || index >= steps.length) {
+      return;
+    }
+    if (steps[index].disabled()) {
+      return;
+    }
+    this.activeIndex.set(index);
+  }
+
+  private findNextEnabled(from: number, direction: 1 | -1): number | null {
+    const steps = this.steps();
+    let index = from + direction;
+    while (index >= 0 && index < steps.length) {
+      if (!steps[index].disabled()) {
+        return index;
+      }
+      index += direction;
+    }
+    return null;
+  }
+
   protected readonly stepTemplates = signal<
     {
       template: import('@angular/core').TemplateRef<unknown>;
       index: number;
+      disabled: boolean;
     }[]
   >([]);
 
@@ -62,6 +115,7 @@ export class SolarisDialogFlowComponent {
       const stepTemplates = this.steps().map((s, i) => ({
         template: s.templateRef(),
         index: i,
+        disabled: s.disabled(),
       }));
       this.stepTemplates.set(stepTemplates);
     });

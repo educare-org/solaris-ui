@@ -10,6 +10,7 @@
   --solaris-dialog-icon-color: var(--solaris-text-muted);
   --solaris-dialog-media-size: var(--solaris-spacing-8);
   --solaris-dialog-icon-size: var(--solaris-font-size-2xl);
+  --solaris-dialog-close-icon-size: var(--solaris-font-size-md);
   --solaris-dialog-header-border-color: var(--solaris-border-default);
   --solaris-dialog-header-z-index: var(--solaris-z-index-raised);
   --solaris-dialog-header-scrolled-shadow: var(--solaris-shadow-md);
@@ -98,6 +99,7 @@
   align-items: center;
   justify-content: center;
   margin-left: auto;
+  padding: var(--solaris-spacing-0);
   width: var(--solaris-dialog-media-size);
   height: var(--solaris-dialog-media-size);
   border-radius: var(--solaris-radius-sm);
@@ -109,6 +111,13 @@
 
 .solaris-dialog-header__close:hover {
   color: var(--solaris-text-strong);
+}
+
+.solaris-dialog-header__close solaris-icon,
+.solaris-dialog-header__close svg {
+  display: block;
+  width: var(--solaris-dialog-close-icon-size);
+  height: var(--solaris-dialog-close-icon-size);
 }
 
 .solaris-dialog-header__close:focus-visible {

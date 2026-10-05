@@ -18,8 +18,7 @@ import type { SolarisDialogVariant } from '../../root/model/dialog.types';
 import { SOLARIS_DIALOG_REF } from '../../../token/dialog-data.token';
 import type { SolarisDialogRef } from '../../../service/dialog-ref';
 import { SolarisIconComponent } from '../../../../../icon';
-
-let nextDialogHeaderId = 0;
+import { nextIdFor } from '../../../../../../core';
 
 @Component({
   selector: 'solaris-dialog-header',
@@ -64,7 +63,7 @@ export class SolarisDialogHeaderComponent implements AfterViewInit {
   );
 
   private readonly idPrefix =
-    this.dialogRef?.id ?? `solaris-dialog-${++nextDialogHeaderId}`;
+    this.dialogRef?.id ?? nextIdFor('solaris-dialog-header');
 
   protected readonly titleId = `${this.idPrefix}-title`;
   protected readonly descriptionId = `${this.idPrefix}-description`;

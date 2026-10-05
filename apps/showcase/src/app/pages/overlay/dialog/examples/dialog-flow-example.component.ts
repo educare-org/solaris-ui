@@ -2,6 +2,7 @@ import {
   Component,
   signal,
   inject,
+  viewChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
@@ -32,13 +33,14 @@ export class DialogFlowExampleComponent {
   ) as SolarisDialogRef<void>;
 
   readonly activeStep = signal(0);
+  protected readonly flow = viewChild.required(SolarisDialogFlowComponent);
 
   next(): void {
-    this.activeStep.update((v) => Math.min(v + 1, 2));
+    this.flow().next();
   }
 
   previous(): void {
-    this.activeStep.update((v) => Math.max(v - 1, 0));
+    this.flow().previous();
   }
 
   close(): void {
