@@ -38,3 +38,23 @@ export const Compact: Story = {
     compact: true,
   } as Partial<SolarisAvatarProfileComponent>,
 };
+
+export const WithLink: Story = {
+  args: {
+    name: 'Amelia Davis',
+    title: 'Amelia Davis',
+    subtitle: 'davis@example.com',
+    badgeText: 'PRO',
+    href: '/users/amelia-davis',
+  } as Partial<SolarisAvatarProfileComponent>,
+};
+
+export const CompactAction: Story = {
+  args: {
+    name: 'Amelia Davis',
+    title: 'Amelia Davis',
+    subtitle: 'davis@example.com',
+    compact: true,
+    actionAriaLabel: 'Open profile',
+  } as Partial<SolarisAvatarProfileComponent>,
+};

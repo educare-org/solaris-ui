@@ -17,7 +17,7 @@
       alt=""
       [src]="src()"
       aria-hidden="true"
-      [srcset]="srcset()"
+      [attr.srcset]="srcset()"
       (error)="onImageError()"
       class="solaris-avatar__image"
     />
@@ -31,7 +31,7 @@
       >
         <defs>
           <clipPath [id]="clipId">
-            <circle cx="50" cy="50" r="50" />
+            <rect x="0" y="0" width="100" height="100" />
           </clipPath>
           <filter [id]="blurId" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur stdDeviation="9" />
@@ -107,7 +107,21 @@
   @if (visibleStatus()) {
     <span class="solaris-avatar__status" aria-hidden="true">
       @if (showOffHoursBadge()) {
-        <span class="solaris-avatar__off-hours">z</span>
+        <svg
+          class="solaris-avatar__off-hours"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M7 5.5H17L7 18.5H17"
+            class="solaris-avatar__off-hours-halo"
+          />
+          <path
+            d="M7 5.5H17L7 18.5H17"
+            class="solaris-avatar__off-hours-glyph"
+          />
+        </svg>
       }
     </span>
   }

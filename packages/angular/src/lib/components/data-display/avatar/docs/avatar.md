@@ -8,12 +8,18 @@ an off-hours `z` emblem that never changes the status color), notification
 counts (same `count`/`max` semantics as `solaris-badge`), a verified seal, an
 organization emblem, and border states (`active` ring, `loading` arc).
 
-The family has three components:
+The family has four components:
 
 - `solaris-avatar` — the base identity block.
 - `solaris-avatar-group` — a data-driven overlapped row with a focusable `+N`
   overflow button. The overflow opens a consumer-provided menu; the group never
   implements its own overlay.
+- `solaris-avatar-group-badge` — a pill combining a mini member cluster with a
+  text label (e.g. a team name). The `+N` marker is static text, never a
+  button, so the pill itself can be a link or a button without nesting
+  interactives. It is intentionally standalone: `solaris-badge` carries
+  count/status semantics that don't fit an identity cluster, but every
+  group-badge token still comes from `--solaris-*`.
 - `solaris-avatar-profile` — an account-selector row (avatar + title +
   subtitle + optional badge) with a compact avatar-only mode.
 
@@ -42,35 +48,35 @@ family exposes labels and slots for them instead of implementing its own.
 
 **Selector:** `solaris-avatar`
 
-| Input                | Type                                                                | Default        | Description                                                     |
-| -------------------- | ------------------------------------------------------------------- | -------------- | --------------------------------------------------------------- |
-| `src`                | `string \| undefined`                                               | `undefined`    | Photo URL; on error falls back to the generative art            |
-| `srcset`             | `string \| undefined`                                               | `undefined`    | Responsive photo candidates                                     |
-| `alt`                | `string \| undefined`                                               | `undefined`    | Decorative fallback identity when `name` is missing             |
-| `name`               | `string \| undefined`                                               | `undefined`    | Person name; drives initials, hash seed, and accessible name    |
-| `userId`             | `string \| undefined`                                               | `undefined`    | Stable hash seed (preferred over `name`)                        |
-| `size`               | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                              | `'md'`         | Size variant                                                    |
-| `radius`             | `'full' \| 'md' \| 'sm' \| 'square'`                                | `'full'`       | Border radius                                                   |
-| `fallback`           | `'initials' \| 'generative' \| 'icon' \| 'empty'`                   | `'generative'` | Rendered when there is no photo                                 |
-| `status`             | `'online' \| 'away' \| 'busy' \| 'dnd' \| 'offline'` \| `undefined` | `undefined`    | Presence status                                                 |
-| `showStatus`         | `boolean`                                                           | `false`        | Render the status dot                                           |
-| `workingHours`       | `SolarisAvatarWorkingHours \| undefined`                            | `09:00–18:00`  | Working range in `'HH:mm'`                                      |
-| `timezone`           | `string \| undefined`                                               | local          | IANA timezone for the off-hours check                           |
-| `showOffHours`       | `boolean`                                                           | `true`         | Render the `z` emblem when outside working hours                |
-| `offHoursOverride`   | `boolean \| undefined`                                              | `undefined`    | Force the off-hours state when defined                          |
-| `count`              | `number \| undefined`                                               | `undefined`    | Notification counter (badge semantics)                          |
-| `max`                | `number`                                                            | `99`           | Cap before the `"+"` suffix (`103` → `"99+"`)                   |
-| `showZero`           | `boolean`                                                           | `false`        | Render `0` instead of hiding the counter                        |
-| `verified`           | `boolean`                                                           | `false`        | Amber rosette seal, pushed outward (shifts the status dot left) |
-| `loading`            | `boolean`                                                           | `false`        | Animated border arc (reduced-motion safe)                       |
-| `active`             | `boolean`                                                           | `false`        | Continuous active ring                                          |
-| `empty`              | `boolean`                                                           | `false`        | Neutral `+` placeholder surface                                 |
-| `ariaLabel`          | `string \| undefined`                                               | `undefined`    | Accessible name override                                        |
-| `ariaLabelKey`       | `string \| undefined`                                               | `undefined`    | i18n key for the accessible name                                |
-| `emptyAriaLabel`     | `string \| undefined`                                               | `undefined`    | Accessible name for the empty state                             |
-| `emptyAriaLabelKey`  | `string \| undefined`                                               | `undefined`    | i18n key for the empty accessible name                          |
-| `actionAriaLabel`    | `string \| undefined`                                               | `undefined`    | Makes the avatar interactive with an action overlay button      |
-| `actionAriaLabelKey` | `string \| undefined`                                               | `undefined`    | i18n key for the action label                                   |
+| Input                | Type                                                                | Default        | Description                                                    |
+| -------------------- | ------------------------------------------------------------------- | -------------- | -------------------------------------------------------------- |
+| `src`                | `string \| undefined`                                               | `undefined`    | Photo URL; on error falls back to the generative art           |
+| `srcset`             | `string \| undefined`                                               | `undefined`    | Responsive photo candidates (omitted when undefined)           |
+| `alt`                | `string \| undefined`                                               | `undefined`    | Decorative fallback identity when `name` is missing            |
+| `name`               | `string \| undefined`                                               | `undefined`    | Person name; drives initials, hash seed, and accessible name   |
+| `userId`             | `string \| undefined`                                               | `undefined`    | Stable hash seed (preferred over `name`)                       |
+| `size`               | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                              | `'md'`         | Size variant                                                   |
+| `radius`             | `'full' \| 'md' \| 'sm' \| 'square'`                                | `'full'`       | Border radius                                                  |
+| `fallback`           | `'initials' \| 'generative' \| 'icon' \| 'empty'`                   | `'generative'` | Rendered when there is no photo                                |
+| `status`             | `'online' \| 'away' \| 'busy' \| 'dnd' \| 'offline'` \| `undefined` | `undefined`    | Presence status                                                |
+| `showStatus`         | `boolean`                                                           | `false`        | Render the status dot                                          |
+| `workingHours`       | `SolarisAvatarWorkingHours \| undefined`                            | `09:00–18:00`  | Working range in `'HH:mm'`                                     |
+| `timezone`           | `string \| undefined`                                               | local          | IANA timezone for the off-hours check                          |
+| `showOffHours`       | `boolean`                                                           | `true`         | Render the `z` emblem when outside working hours               |
+| `offHoursOverride`   | `boolean \| undefined`                                              | `undefined`    | Force the off-hours state when defined                         |
+| `count`              | `number \| undefined`                                               | `undefined`    | Notification counter (badge semantics)                         |
+| `max`                | `number`                                                            | `99`           | Cap before the `"+"` suffix (`103` → `"99+"`)                  |
+| `showZero`           | `boolean`                                                           | `false`        | Render `0` instead of hiding the counter                       |
+| `verified`           | `boolean`                                                           | `false`        | Info rosette seal, pushed outward (shifts the status dot left) |
+| `loading`            | `boolean`                                                           | `false`        | Animated border arc (reduced-motion safe)                      |
+| `active`             | `boolean`                                                           | `false`        | Continuous active ring                                         |
+| `empty`              | `boolean`                                                           | `false`        | Neutral `+` placeholder surface                                |
+| `ariaLabel`          | `string \| undefined`                                               | `undefined`    | Accessible name override                                       |
+| `ariaLabelKey`       | `string \| undefined`                                               | `undefined`    | i18n key for the accessible name                               |
+| `emptyAriaLabel`     | `string \| undefined`                                               | `undefined`    | Accessible name for the empty state                            |
+| `emptyAriaLabelKey`  | `string \| undefined`                                               | `undefined`    | i18n key for the empty accessible name                         |
+| `actionAriaLabel`    | `string \| undefined`                                               | `undefined`    | Makes the avatar interactive with an action overlay button     |
+| `actionAriaLabelKey` | `string \| undefined`                                               | `undefined`    | i18n key for the action label                                  |
 
 | Output        | Description                           |
 | ------------- | ------------------------------------- |
@@ -96,34 +102,67 @@ Slots: `[solaris-avatar-organization]` (top-left emblem, projected content).
 | --------------- | ------------------------------------------- |
 | `overflowClick` | Emitted when the `+N` overflow button fires |
 
+### SolarisAvatarGroupBadgeComponent
+
+**Selector:** `solaris-avatar-group-badge`
+
+| Input                | Type                                   | Default     | Description                                              |
+| -------------------- | -------------------------------------- | ----------- | -------------------------------------------------------- |
+| `users`              | `readonly SolarisAvatarGroupUser[]`    | `[]`        | Data-driven members (avatar inputs subset)               |
+| `max`                | `number`                               | `3`         | Visible members before the static `+N` (`<= 0` → `3`)    |
+| `size`               | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'sm'`      | Avatar size inside the pill                              |
+| `radius`             | `'full' \| 'md' \| 'sm' \| 'square'`   | `'full'`    | Forwarded to member avatars                              |
+| `label`              | `string \| undefined`                  | `undefined` | Pill text (e.g. a team name)                             |
+| `labelKey`           | `string \| undefined`                  | `undefined` | i18n key for the pill text                               |
+| `href`               | `string \| undefined`                  | `undefined` | Turns the pill into a link                               |
+| `target`             | `string \| undefined`                  | `undefined` | Link target (`_blank` auto-adds `rel`)                   |
+| `rel`                | `string \| undefined`                  | `undefined` | Link rel override                                        |
+| `actionAriaLabel`    | `string \| undefined`                  | `undefined` | Turns the pill into a `button` + label                   |
+| `actionAriaLabelKey` | `string \| undefined`                  | `undefined` | i18n key for the button label                            |
+| `ariaLabel`          | `string \| undefined`                  | `undefined` | Accessible name (defaults to label, then `overflowMore`) |
+| `ariaLabelKey`       | `string \| undefined`                  | `undefined` | i18n key for the accessible name                         |
+
+| Output       | Description                                    |
+| ------------ | ---------------------------------------------- |
+| `badgeClick` | Emitted when the pill link/button is activated |
+
 ### SolarisAvatarProfileComponent
 
 **Selector:** `solaris-avatar-profile`
 
-| Input          | Type                                   | Default     | Description                                     |
-| -------------- | -------------------------------------- | ----------- | ----------------------------------------------- |
-| `src`          | `string \| undefined`                  | `undefined` | Photo forwarded to the inner avatar             |
-| `srcset`       | `string \| undefined`                  | `undefined` | Photo candidates forwarded to the inner avatar  |
-| `name`         | `string \| undefined`                  | `undefined` | Identity for initials, hash, and fallback label |
-| `userId`       | `string \| undefined`                  | `undefined` | Stable hash seed                                |
-| `size`         | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`      | Avatar size                                     |
-| `title`        | `string \| undefined`                  | `undefined` | Primary text (name)                             |
-| `titleKey`     | `string \| undefined`                  | `undefined` | i18n key for the title                          |
-| `subtitle`     | `string \| undefined`                  | `undefined` | Secondary text (email)                          |
-| `subtitleKey`  | `string \| undefined`                  | `undefined` | i18n key for the subtitle                       |
-| `badgeText`    | `string \| undefined`                  | `undefined` | Small pill text (e.g. `PRO`)                    |
-| `badgeTextKey` | `string \| undefined`                  | `undefined` | i18n key for the pill text                      |
-| `count`        | `number \| undefined`                  | `undefined` | Counter forwarded to the inner avatar           |
-| `max`          | `number`                               | `99`        | Counter cap                                     |
-| `showZero`     | `boolean`                              | `false`     | Render `0` instead of hiding the counter        |
-| `status`       | `SolarisAvatarStatus \| undefined`     | `undefined` | Presence status                                 |
-| `showStatus`   | `boolean`                              | `false`     | Render the status dot                           |
-| `verified`     | `boolean`                              | `false`     | Verified seal                                   |
-| `compact`      | `boolean`                              | `false`     | Avatar-only mode (`data-compact`)               |
-| `ariaLabel`    | `string \| undefined`                  | `undefined` | Accessible name (defaults to the title)         |
-| `ariaLabelKey` | `string \| undefined`                  | `undefined` | i18n key for the accessible name                |
+| Input                | Type                                   | Default     | Description                                         |
+| -------------------- | -------------------------------------- | ----------- | --------------------------------------------------- |
+| `src`                | `string \| undefined`                  | `undefined` | Photo forwarded to the inner avatar                 |
+| `srcset`             | `string \| undefined`                  | `undefined` | Photo candidates forwarded to the inner avatar      |
+| `name`               | `string \| undefined`                  | `undefined` | Identity for initials, hash, and fallback label     |
+| `userId`             | `string \| undefined`                  | `undefined` | Stable hash seed                                    |
+| `size`               | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`      | Avatar size                                         |
+| `title`              | `string \| undefined`                  | `undefined` | Primary text (name)                                 |
+| `titleKey`           | `string \| undefined`                  | `undefined` | i18n key for the title                              |
+| `subtitle`           | `string \| undefined`                  | `undefined` | Secondary text (email)                              |
+| `subtitleKey`        | `string \| undefined`                  | `undefined` | i18n key for the subtitle                           |
+| `badgeText`          | `string \| undefined`                  | `undefined` | Small pill text via `solaris-badge` (`sm`, primary) |
+| `badgeTextKey`       | `string \| undefined`                  | `undefined` | i18n key for the pill text                          |
+| `href`               | `string \| undefined`                  | `undefined` | Turns the identity (avatar + texts) into a link     |
+| `target`             | `string \| undefined`                  | `undefined` | Link target (`_blank` auto-adds `rel`)              |
+| `rel`                | `string \| undefined`                  | `undefined` | Link rel override                                   |
+| `actionAriaLabel`    | `string \| undefined`                  | `undefined` | Turns the identity into a `button` + label          |
+| `actionAriaLabelKey` | `string \| undefined`                  | `undefined` | i18n key for the button label                       |
+| `count`              | `number \| undefined`                  | `undefined` | Counter forwarded to the inner avatar               |
+| `max`                | `number`                               | `99`        | Counter cap                                         |
+| `showZero`           | `boolean`                              | `false`     | Render `0` instead of hiding the counter            |
+| `status`             | `SolarisAvatarStatus \| undefined`     | `undefined` | Presence status                                     |
+| `showStatus`         | `boolean`                              | `false`     | Render the status dot                               |
+| `verified`           | `boolean`                              | `false`     | Verified seal                                       |
+| `compact`            | `boolean`                              | `false`     | Avatar-only mode (`data-compact`)                   |
+| `ariaLabel`          | `string \| undefined`                  | `undefined` | Accessible name (defaults to the title)             |
+| `ariaLabelKey`       | `string \| undefined`                  | `undefined` | i18n key for the accessible name                    |
 
-Slot: `[solaris-avatar-profile-actions]` (trailing actions, e.g. `...` menu trigger).
+Slot: `[solaris-avatar-profile-actions]` (trailing actions, e.g. `...` menu trigger — always stays outside the link/button identity, so it never nests interactives).
+
+| Output         | Description                                        |
+| -------------- | -------------------------------------------------- |
+| `profileClick` | Emitted when the identity link/button is activated |
 
 ### SolarisAvatarPresenceService
 
@@ -159,6 +198,9 @@ proportionally with the host instead of using fixed values.
 | `square` | `var(--solaris-radius-none)` |
 
 Status, count, verified, and organization markers follow the host radius.
+The generative art fills the whole shape: the SVG clip is a full-bleed rect
+and the outer host radius rounds it, so `square` avatars get corner-to-corner
+art instead of a round orb on a flat tile.
 
 ## Count
 
@@ -184,20 +226,22 @@ Follows the `solaris-badge` semantics exactly:
 ```
 
 - The dot renders only when `showStatus` is `true`; colors come from status
-  tokens (`online` → success, `away` → warning, `busy` → danger,
-  `dnd` → muted text, `offline` → border).
-- The `z` emblem renders only when `showOffHours && isOffHours` and never
-  changes the dot color.
+  tokens (`online` → success, `away` → warning, `busy` → solid danger,
+  `dnd` → danger with a white horizontal bar, `offline` → border).
+- The `z` emblem is a two-stroke SVG glyph nested on the status dot edge
+  (bottom-right): a status-colored `z` over a thicker surface-base halo
+  stroke that cuts it out of the dot. It renders only when
+  `showOffHours && isOffHours` and never changes the dot color itself.
 - `offHoursOverride` forces the state for stories and tests.
-- With `verified`, the amber rosette seal keeps the bottom-right corner and
+- With `verified`, the info rosette seal keeps the bottom-right corner and
   the status dot shifts to the bottom-left. Every marker (status, count,
   verified) sits pushed outward from the edge and cuts a knockout separator
   into the avatar instead of sitting glued on the photo. The seal check uses
-  `warning-on-solid` (dark in both themes): white would be ~1.2:1 on the amber
-  fill, and `warning-text` flips light in dark theme.
+  `text-default` for contrast on the info fill in both themes.
 - `loading` renders a gray track ring with a primary arc that travels over it;
   under reduced motion the arc stops as a full static ring. `active` renders a
-  thicker continuous ring in a primary gradient (darker → lighter). Both rings
+  thicker continuous ring in a widened primary→info gradient (active, info,
+  hover, base) so it reads as a gradient instead of a flat ring. Both rings
   float with a transparent gap around the avatar instead of touching it.
 
 ## CSS Variables
@@ -227,10 +271,18 @@ Follows the `solaris-badge` semantics exactly:
 
 Generative palettes pair `--solaris-*-surface` backgrounds with the matching
 `--solaris-*-text` initials color, so text contrast holds by token design. The
-art is a mesh gradient: three seeded color spots blurred (`feGaussianBlur`)
+art is a mesh gradient: seeded color spots blurred (`feGaussianBlur`)
 and clipped to the avatar shape, so the same user always renders the same orb
-while different users get different compositions. The initials carry a surface
-halo (`paint-order: stroke`) to stay legible over saturated regions.
+while different users get different compositions. Ten palettes (`0–9`)
+cover warning, info, success, primary, orange, danger, two blue alternates
+and two graphite grays; palettes `0–4` are unchanged so existing seeds keep
+their colors. The spot geometry also varies by seed across three layouts
+(orbit triangle, diagonal ribbon with four spots, tight cluster + satellite),
+so defaults differ in shape as well as color. The initials carry a
+surface-base soft-glow halo built from blurred `text-shadow`s that just
+separates them from bright warm mixes (green/red/yellow) in both themes —
+`stroke`/`paint-order` are SVG-only and
+do not render on HTML text — so contrast holds without muting the art.
 
 ## Accessibility
 
@@ -272,10 +324,18 @@ halo (`paint-order: stroke`) to stay legible over saturated regions.
 <!-- Group -->
 <solaris-avatar-group [users]="users" [max]="4" (overflowClick)="openList()" />
 
-<!-- Profile -->
-<solaris-avatar-profile name="Amelia Davis" title="Amelia Davis" subtitle="davis@example.com" badgeText="PRO" [verified]="true">
+<!-- Group badge (static +N, pill itself is the link) -->
+<solaris-avatar-group-badge [users]="users" [max]="3" label="Design team" href="/teams/design" (badgeClick)="openTeam()" />
+
+<!-- Tooltip and menu are always reused, never built-in -->
+<solaris-avatar name="Amelia Davis" status="online" [showStatus]="true" [solarisTooltip]="'avatar.example.tooltip-hint' | translate" />
+<solaris-avatar-group solaris-dropdown-menu-trigger [solarisDropdownMenuTriggerFor]="membersMenu" [users]="users" [max]="2" (overflowClick)="openList()" />
+
+<!-- Profile (link + button identities work in full and compact modes) -->
+<solaris-avatar-profile name="Amelia Davis" title="Amelia Davis" subtitle="davis@example.com" badgeText="PRO" [verified]="true" href="/users/amelia" (profileClick)="onOpenProfile()">
   <button type="button" solaris-avatar-profile-actions>...</button>
 </solaris-avatar-profile>
+<solaris-avatar-profile name="Amelia Davis" title="Amelia Davis" [compact]="true" actionAriaLabel="Open profile" (profileClick)="onOpenProfile()" />
 ```
 
 ## Limitations (v1)

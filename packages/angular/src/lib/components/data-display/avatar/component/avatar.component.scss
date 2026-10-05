@@ -18,32 +18,32 @@
   --solaris-avatar-status-color: var(--solaris-text-muted);
   --solaris-avatar-ring-width: var(--solaris-border-width-lg);
 
-  position: relative;
-  display: inline-flex;
   flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
+  user-select: none;
   overflow: visible;
+  position: relative;
+  align-items: center;
+  display: inline-flex;
+  box-sizing: border-box;
+  vertical-align: middle;
+  justify-content: center;
   width: var(--solaris-avatar-size);
   height: var(--solaris-avatar-size);
-  border-radius: var(--solaris-avatar-radius);
-  background: var(--solaris-avatar-background);
   color: var(--solaris-avatar-color);
   font-size: var(--solaris-avatar-font-size);
+  border-radius: var(--solaris-avatar-radius);
+  background: var(--solaris-avatar-background);
   font-weight: var(--solaris-font-weight-medium);
   font-family: var(--solaris-font-family-sans), system-ui;
-  user-select: none;
-  vertical-align: middle;
 }
 
 :host([data-size='xs']) {
   --solaris-avatar-size: var(--solaris-spacing-9);
-  --solaris-avatar-font-size: var(--solaris-font-size-xs);
   --solaris-avatar-status-size: var(--solaris-spacing-5);
+  --solaris-avatar-font-size: var(--solaris-font-size-xs);
+  --solaris-avatar-count-height: var(--solaris-spacing-5);
   --solaris-avatar-verified-size: var(--solaris-spacing-6);
   --solaris-avatar-organization-size: var(--solaris-spacing-5);
-  --solaris-avatar-count-height: var(--solaris-spacing-5);
 }
 
 :host([data-size='sm']) {
@@ -110,7 +110,7 @@
 }
 
 :host([data-status='dnd']) {
-  --solaris-avatar-status-color: var(--solaris-text-muted);
+  --solaris-avatar-status-color: var(--solaris-danger-base);
 }
 
 :host([data-status='offline']) {
@@ -157,19 +157,59 @@
   --solaris-avatar-mesh-c: var(--solaris-text-muted);
 }
 
+:host([data-palette='5']) {
+  --solaris-avatar-background: var(--solaris-orange-surface);
+  --solaris-avatar-color: var(--solaris-orange-text);
+  --solaris-avatar-mesh-a: var(--solaris-orange-base);
+  --solaris-avatar-mesh-b: var(--solaris-danger-base);
+  --solaris-avatar-mesh-c: var(--solaris-warning-base);
+}
+
+:host([data-palette='6']) {
+  --solaris-avatar-background: var(--solaris-danger-surface);
+  --solaris-avatar-color: var(--solaris-danger-text);
+  --solaris-avatar-mesh-a: var(--solaris-danger-base);
+  --solaris-avatar-mesh-b: var(--solaris-orange-base);
+  --solaris-avatar-mesh-c: var(--solaris-warning-base);
+}
+
+:host([data-palette='7']) {
+  --solaris-avatar-background: var(--solaris-primary-surface);
+  --solaris-avatar-color: var(--solaris-primary-text);
+  --solaris-avatar-mesh-a: var(--solaris-primary-base);
+  --solaris-avatar-mesh-b: var(--solaris-info-base);
+  --solaris-avatar-mesh-c: var(--solaris-success-base);
+}
+
+:host([data-palette='8']) {
+  --solaris-avatar-background: var(--solaris-info-surface);
+  --solaris-avatar-color: var(--solaris-info-text);
+  --solaris-avatar-mesh-a: var(--solaris-info-base);
+  --solaris-avatar-mesh-b: var(--solaris-primary-base);
+  --solaris-avatar-mesh-c: var(--solaris-orange-base);
+}
+
+:host([data-palette='9']) {
+  --solaris-avatar-mesh-c: var(--solaris-text-muted);
+  --solaris-avatar-color: var(--solaris-text-default);
+  --solaris-avatar-mesh-b: var(--solaris-text-subtle);
+  --solaris-avatar-mesh-a: var(--solaris-border-strong);
+  --solaris-avatar-background: var(--solaris-surface-muted);
+}
+
 .solaris-avatar__action {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   height: 100%;
-  padding: var(--solaris-spacing-0);
-  border: var(--solaris-border-width-sm) solid transparent;
-  border-radius: var(--solaris-avatar-radius);
-  background: transparent;
   color: inherit;
   font: inherit;
   cursor: pointer;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  background: transparent;
+  padding: var(--solaris-spacing-0);
+  border-radius: var(--solaris-avatar-radius);
+  border: var(--solaris-border-width-sm) solid transparent;
 }
 
 .solaris-avatar__action:focus-visible {
@@ -181,9 +221,9 @@
 .solaris-avatar__image,
 .solaris-avatar__generative {
   position: absolute;
-  inset: var(--solaris-spacing-0);
   width: 100%;
   height: 100%;
+  inset: var(--solaris-spacing-0);
   border-radius: var(--solaris-avatar-radius);
 }
 
@@ -208,15 +248,13 @@
 }
 
 .solaris-avatar__initials {
-  position: relative;
   line-height: 1;
+  position: relative;
   letter-spacing: var(--solaris-spacing-0);
-
-  // Halo keeps initials legible over the generative blobs; width scales with
-  // the font so it stays proportional across sizes.
-  paint-order: stroke fill;
-  stroke: var(--solaris-avatar-background);
-  stroke-width: 0.12em;
+  text-shadow:
+    0 0 var(--solaris-spacing-2) var(--solaris-avatar-ring-color),
+    0 var(--solaris-spacing-1) var(--solaris-spacing-3)
+      var(--solaris-avatar-ring-color);
 }
 
 .solaris-avatar__icon {
@@ -300,10 +338,42 @@
 }
 
 .solaris-avatar__off-hours {
-  font-size: calc(var(--solaris-avatar-status-size) * 0.75);
-  font-weight: var(--solaris-font-weight-bold);
-  line-height: 1;
-  color: var(--solaris-text-inverse);
+  overflow: visible;
+  position: absolute;
+  transform: translate(55%, 60%);
+  right: var(--solaris-spacing-0);
+  bottom: var(--solaris-spacing-0);
+  width: var(--solaris-avatar-status-size);
+  height: var(--solaris-avatar-status-size);
+}
+
+.solaris-avatar__off-hours-halo,
+.solaris-avatar__off-hours-glyph {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.solaris-avatar__off-hours-halo {
+  stroke-width: 14;
+  stroke: var(--solaris-avatar-ring-color);
+}
+
+.solaris-avatar__off-hours-glyph {
+  stroke-width: 4;
+  stroke: var(--solaris-avatar-status-color);
+}
+
+:host([data-status='dnd']) .solaris-avatar__status::after {
+  content: '';
+  top: 50%;
+  left: 50%;
+  width: 55%;
+  position: absolute;
+  height: var(--solaris-spacing-2);
+  transform: translate(-50%, -50%);
+  border-radius: var(--solaris-radius-full);
+  background: var(--solaris-danger-on-solid);
 }
 
 .solaris-avatar__verified {
@@ -324,14 +394,14 @@
 }
 
 .solaris-avatar__seal {
-  fill: var(--solaris-warning-base);
-  stroke: var(--solaris-avatar-ring-color);
   stroke-width: 10;
+  fill: var(--solaris-info-base);
+  stroke: var(--solaris-avatar-ring-color);
 }
 
 .solaris-avatar__seal-check {
   fill: none;
-  stroke: var(--solaris-warning-on-solid);
+  stroke: var(--solaris-text-default);
   stroke-width: 10;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -377,6 +447,7 @@
   background: conic-gradient(
     from 210deg,
     var(--solaris-primary-active),
+    var(--solaris-info-base),
     var(--solaris-primary-hover),
     var(--solaris-primary-base),
     var(--solaris-primary-active)

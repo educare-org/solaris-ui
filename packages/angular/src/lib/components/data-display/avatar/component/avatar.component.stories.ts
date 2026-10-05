@@ -45,6 +45,14 @@ export const Status: Story = {
   } as Partial<SolarisAvatarComponent>,
 };
 
+export const Dnd: Story = {
+  args: {
+    name: 'Amelia Davis',
+    status: 'dnd',
+    showStatus: true,
+  } as Partial<SolarisAvatarComponent>,
+};
+
 export const OffHours: Story = {
   args: {
     name: 'Amelia Davis',

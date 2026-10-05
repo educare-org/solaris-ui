@@ -1,0 +1,12 @@
+<div class="group-add-example">
+  <solaris-avatar-group [users]="users()" [max]="maxMembers" />
+  <button
+    type="button"
+    class="group-add-example__add"
+    [disabled]="users().length >= maxMembers"
+    [attr.aria-label]="'avatar.example.add-random' | translate"
+    (click)="addRandom()"
+  >
+    +
+  </button>
+</div>

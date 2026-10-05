@@ -19,6 +19,12 @@
     <solaris-preview-code [code]="basicCode" language="html">
       <app-basic-avatar-example />
     </solaris-preview-code>
+    <solaris-preview-code [code]="groupAddCode" language="html">
+      <app-group-add-avatar-example />
+    </solaris-preview-code>
+    <solaris-preview-code [code]="photoCode" language="html">
+      <app-photo-avatar-example />
+    </solaris-preview-code>
   </app-docs-section>
 
   <app-docs-section anchor="status" titleKey="avatar.section.status">
@@ -42,6 +48,9 @@
         <solaris-tab value="off"
           >{{ 'avatar.toggle.off-hours' | translate }}</solaris-tab
         >
+        <solaris-tab value="on"
+          >{{ 'avatar.toggle.on-hours' | translate }}</solaris-tab
+        >
       </solaris-tabs>
     </div>
     <solaris-preview-code [code]="statusCode()" language="html">
@@ -50,7 +59,7 @@
         userId="user-amelia"
         [status]="selectedStatus()"
         [showStatus]="true"
-        [offHoursOverride]="forceOffHours() ? true : undefined"
+        [offHoursOverride]="offHoursOverride()"
       />
     </solaris-preview-code>
   </app-docs-section>
@@ -115,6 +124,9 @@
         <span solaris-avatar-organization>G</span>
       </solaris-avatar>
     </solaris-preview-code>
+    <solaris-preview-code [code]="actionCode" language="html">
+      <app-action-avatar-example />
+    </solaris-preview-code>
   </app-docs-section>
 
   <app-docs-section anchor="group" titleKey="avatar.section.group">
@@ -129,6 +141,34 @@
     </solaris-tabs>
     <solaris-preview-code [code]="groupCode()" language="html">
       <app-group-avatar-example [max]="groupMax()" />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="group-badge" titleKey="avatar.section.group-badge">
+    <p class="avatar-showcase__note">
+      {{ 'avatar.group-badge.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="groupBadgeCode" language="html">
+      <solaris-avatar-group-badge
+        [users]="groupBadgeUsers"
+        [max]="3"
+        [label]="'avatar.example.group-badge.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="integrations"
+    titleKey="avatar.section.integrations"
+  >
+    <p class="avatar-showcase__note">
+      {{ 'avatar.integrations.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="tooltipCode" language="html">
+      <app-avatar-tooltip-example />
+    </solaris-preview-code>
+    <solaris-preview-code [code]="groupMenuCode" language="html">
+      <app-group-menu-avatar-example />
     </solaris-preview-code>
   </app-docs-section>
 

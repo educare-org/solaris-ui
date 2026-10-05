@@ -16,6 +16,13 @@ import {
   SOLARIS_AVATAR_DEFAULT_WORKING_HOURS,
   SolarisAvatarPresenceService,
 } from '../service/avatar-presence.service';
+import {
+  SOLARIS_AVATAR_GENERATIVE_PALETTE_COUNT,
+  buildAvatarMeshSpots,
+  buildAvatarSealPath,
+} from '../model/avatar-generative';
+
+export { SOLARIS_AVATAR_GENERATIVE_PALETTE_COUNT } from '../model/avatar-generative';
 import type {
   SolarisAvatarFallback,
   SolarisAvatarRadius,
@@ -24,60 +31,7 @@ import type {
   SolarisAvatarWorkingHours,
 } from '../model/avatar.types';
 
-export const SOLARIS_AVATAR_GENERATIVE_PALETTE_COUNT = 5;
-
-function mulberry32(seed: number): () => number {
-  let state = seed >>> 0;
-  return () => {
-    state = Math.trunc(state);
-    state = Math.trunc(state + 0x6d2b79f5);
-    let t = Math.imul(state ^ (state >>> 15), 1 | state);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-export interface SolarisAvatarMeshSpot {
-  cx: number;
-  cy: number;
-  rx: number;
-  ry: number;
-  rotate: number;
-  tone: 'a' | 'b' | 'c';
-}
-
-function buildMeshSpots(seed: number): SolarisAvatarMeshSpot[] {
-  const random = mulberry32(seed);
-  const tones: Array<'a' | 'b' | 'c'> = ['a', 'b', 'c'];
-  const spots: SolarisAvatarMeshSpot[] = [];
-  const baseAngle = random() * Math.PI * 2;
-  for (let i = 0; i < tones.length; i++) {
-    const angle = baseAngle + (i / tones.length) * Math.PI * 2;
-    const distance = 16 + random() * 18;
-    spots.push({
-      cx: 50 + Math.cos(angle) * distance,
-      cy: 50 + Math.sin(angle) * distance,
-      rx: 24 + random() * 14,
-      ry: 20 + random() * 14,
-      rotate: Math.floor(random() * 180),
-      tone: tones[i],
-    });
-  }
-  return spots;
-}
-
-function buildSealPath(lobes = 7, radius = 36, depth = 0.07): string {
-  const steps = 168;
-  let path = '';
-  for (let i = 0; i <= steps; i++) {
-    const angle = (i / steps) * Math.PI * 2;
-    const r = radius * (1 + depth * Math.cos(lobes * angle));
-    const x = 50 + Math.cos(angle) * r;
-    const y = 50 + Math.sin(angle) * r;
-    path += `${i === 0 ? 'M' : 'L'}${x.toFixed(1)} ${y.toFixed(1)}`;
-  }
-  return `${path}Z`;
-}
+export type { SolarisAvatarMeshSpot } from '../model/avatar-generative';
 
 @Component({
   selector: 'solaris-avatar',
@@ -88,35 +42,34 @@ function buildSealPath(lobes = 7, radius = 36, depth = 0.07): string {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'solaris-avatar',
+    '[attr.role]': 'hostRole()',
     '[attr.data-size]': 'size()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-fallback]': 'fallback()',
+    '[attr.data-palette]': 'paletteIndex()',
     '[attr.data-status]': 'visibleStatus()',
-    '[attr.data-status-placement]': 'statusPlacement()',
-    '[attr.data-loading]': 'loading() || undefined',
-    '[attr.data-active]': 'active() || undefined',
+    '[attr.aria-label]': 'resolvedAriaLabel()',
     '[attr.data-empty]': 'empty() || undefined',
+    '[attr.data-active]': 'active() || undefined',
+    '[attr.data-loading]': 'loading() || undefined',
     '[attr.data-verified]': 'verified() || undefined',
+    '[attr.data-status-placement]': 'statusPlacement()',
     '[attr.data-off-hours]': 'showOffHoursBadge() || undefined',
     '[attr.data-count-single]': 'isSingleDigit() || undefined',
-    '[attr.data-palette]': 'paletteIndex()',
-    '[attr.role]': 'hostRole()',
-    '[attr.aria-label]': 'resolvedAriaLabel()',
   },
 })
 export class SolarisAvatarComponent {
-  readonly src = input<string | undefined>(undefined);
-  readonly srcset = input<string | undefined>(undefined);
-  readonly alt = input<string | undefined>(undefined);
-  readonly name = input<string | undefined>(undefined);
-  readonly userId = input<string | undefined>(undefined);
-
-  readonly size = input<SolarisAvatarSize>('md');
-  readonly radius = input<SolarisAvatarRadius>('full');
-  readonly fallback = input<SolarisAvatarFallback>('generative');
-
   readonly status = input<SolarisAvatarStatus | undefined>(undefined);
+  readonly fallback = input<SolarisAvatarFallback>('generative');
+  readonly srcset = input<string | undefined>(undefined);
+  readonly userId = input<string | undefined>(undefined);
+  readonly radius = input<SolarisAvatarRadius>('full');
+  readonly name = input<string | undefined>(undefined);
+  readonly src = input<string | undefined>(undefined);
+  readonly alt = input<string | undefined>(undefined);
+  readonly size = input<SolarisAvatarSize>('md');
   readonly showStatus = input<boolean>(false);
+
   readonly workingHours = input<SolarisAvatarWorkingHours | undefined>(
     undefined,
   );
@@ -167,9 +120,11 @@ export class SolarisAvatarComponent {
     ),
   );
 
-  protected readonly meshSpots = computed(() => buildMeshSpots(this.seed()));
+  protected readonly meshSpots = computed(() =>
+    buildAvatarMeshSpots(this.seed()),
+  );
 
-  protected readonly sealPath = computed(() => buildSealPath());
+  protected readonly sealPath = computed(() => buildAvatarSealPath());
 
   protected readonly showImage = computed(
     () => !this.empty() && !this.imageFailed() && !!this.src(),
@@ -269,6 +224,33 @@ export class SolarisAvatarComponent {
       undefined,
   );
 
+  private resolveStatusLabel(
+    status: SolarisAvatarStatus | undefined,
+  ): string | undefined {
+    if (!status) return undefined;
+    if (this.translateService) {
+      return this.translateService.translate(`solaris.avatar.status.${status}`);
+    }
+    return status;
+  }
+
+  private resolveOffHoursLabel(): string | undefined {
+    if (!this.showOffHoursBadge() || !this.translateService) return undefined;
+    return this.translateService.translate('solaris.avatar.offHours');
+  }
+
+  private resolveVerifiedLabel(): string | undefined {
+    if (!this.verified() || !this.translateService) return undefined;
+    return this.translateService.translate('solaris.avatar.verified');
+  }
+
+  private resolveNotificationsLabel(): string | undefined {
+    if (!this.showCount() || !this.translateService) return undefined;
+    return this.translateService.translate('solaris.avatar.notifications', {
+      count: `${this.count()}`,
+    });
+  }
+
   protected readonly resolvedAriaLabel = computed(() => {
     if (this.isInteractive()) return undefined;
     const direct = this.ariaLabel() ?? this.translateKey(this.ariaLabelKey());
@@ -280,30 +262,13 @@ export class SolarisAvatarComponent {
         undefined
       );
     }
-    const parts: string[] = [];
-    const identity = this.name() ?? this.alt();
-    if (identity) parts.push(identity);
-    const status = this.visibleStatus();
-    if (status && this.translateService) {
-      parts.push(
-        this.translateService.translate(`solaris.avatar.status.${status}`),
-      );
-    } else if (status) {
-      parts.push(status);
-    }
-    if (this.showOffHoursBadge() && this.translateService) {
-      parts.push(this.translateService.translate('solaris.avatar.offHours'));
-    }
-    if (this.verified() && this.translateService) {
-      parts.push(this.translateService.translate('solaris.avatar.verified'));
-    }
-    if (this.showCount() && this.translateService) {
-      parts.push(
-        this.translateService.translate('solaris.avatar.notifications', {
-          count: this.isCountCapped() ? `${this.count()}` : `${this.count()}`,
-        }),
-      );
-    }
+    const parts = [
+      this.name() ?? this.alt(),
+      this.resolveStatusLabel(this.visibleStatus()),
+      this.resolveOffHoursLabel(),
+      this.resolveVerifiedLabel(),
+      this.resolveNotificationsLabel(),
+    ].filter((part): part is string => part !== undefined && part !== '');
     return parts.length > 0 ? parts.join(', ') : undefined;
   });
 

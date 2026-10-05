@@ -1,22 +1,24 @@
 // SECURITY_EXCEPTION_FILE: nativeElement required as ResizeObserver/MutationObserver target to detect title/subtitle overflow for the automatic title tooltip. Standard DOM API with no Angular abstraction; SSR-safe via isPlatformBrowser guard and typeof checks.
 // SECURITY_EXCEPTION_FILE: nativeElement.querySelector('.solaris-avatar-profile__title, .solaris-avatar-profile__subtitle') with read-only scrollWidth/clientWidth/textContent required to measure truncation overflow for the accessible title. Text is only read (never written via innerHTML, no XSS risk); SSR-safe via isPlatformBrowser guard.
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   NgZone,
+  OnDestroy,
   PLATFORM_ID,
   computed,
   inject,
   input,
+  output,
   signal,
-  OnDestroy,
 } from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../services/translation';
 
+import { SolarisBadgeComponent } from '../../badge/component/badge.component';
 import { SolarisAvatarComponent } from './avatar.component';
 import type {
   SolarisAvatarSize,
@@ -26,7 +28,7 @@ import type {
 @Component({
   selector: 'solaris-avatar-profile',
   standalone: true,
-  imports: [SolarisAvatarComponent],
+  imports: [NgTemplateOutlet, SolarisAvatarComponent, SolarisBadgeComponent],
   templateUrl: './avatar-profile.component.html',
   styleUrls: ['./avatar-profile.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,8 +36,8 @@ import type {
     class: 'solaris-avatar-profile',
     '[attr.data-size]': 'size()',
     '[attr.data-compact]': 'compact() || undefined',
-    '[attr.role]': '"group"',
-    '[attr.aria-label]': 'resolvedAriaLabel()',
+    '[attr.role]': 'hostRole()',
+    '[attr.aria-label]': 'hostAriaLabel()',
   },
 })
 export class SolarisAvatarProfileComponent implements AfterViewInit, OnDestroy {
@@ -60,8 +62,16 @@ export class SolarisAvatarProfileComponent implements AfterViewInit, OnDestroy {
   readonly verified = input<boolean>(false);
   readonly compact = input<boolean>(false);
 
+  readonly href = input<string | undefined>(undefined);
+  readonly target = input<string | undefined>(undefined);
+  readonly rel = input<string | undefined>(undefined);
+  readonly actionAriaLabel = input<string | undefined>(undefined);
+  readonly actionAriaLabelKey = input<string | undefined>(undefined);
+
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly ariaLabelKey = input<string | undefined>(undefined);
+
+  readonly profileClick = output<void>();
 
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
@@ -104,6 +114,42 @@ export class SolarisAvatarProfileComponent implements AfterViewInit, OnDestroy {
       this.resolvedTitle(),
   );
 
+  protected readonly isLink = computed(() => this.href() !== undefined);
+
+  protected readonly isButton = computed(
+    () =>
+      !this.isLink() &&
+      (this.actionAriaLabel() !== undefined ||
+        this.actionAriaLabelKey() !== undefined),
+  );
+
+  protected readonly isInteractive = computed(
+    () => this.isLink() || this.isButton(),
+  );
+
+  protected readonly resolvedActionLabel = computed(
+    () =>
+      this.actionAriaLabel() ??
+      (this.actionAriaLabelKey() && this.translateService
+        ? this.translateService.translate(this.actionAriaLabelKey() as string)
+        : undefined) ??
+      this.resolvedTitle(),
+  );
+
+  protected readonly hostRole = computed(() =>
+    this.isInteractive() ? undefined : 'group',
+  );
+
+  protected readonly hostAriaLabel = computed(() =>
+    this.isInteractive() ? undefined : this.resolvedAriaLabel(),
+  );
+
+  protected readonly linkRel = computed(() => {
+    if (this.rel() !== undefined) return this.rel();
+    if (this.target() === '_blank') return 'noopener noreferrer';
+    return undefined;
+  });
+
   private readonly titleOverflow = signal<string | undefined>(undefined);
   private readonly subtitleOverflow = signal<string | undefined>(undefined);
 
@@ -124,6 +170,10 @@ export class SolarisAvatarProfileComponent implements AfterViewInit, OnDestroy {
     this.resizeObserver = null;
     this.contentObserver?.disconnect();
     this.contentObserver = null;
+  }
+
+  protected onIdentityClick(): void {
+    this.profileClick.emit();
   }
 
   private setupOverflowObservers(): void {

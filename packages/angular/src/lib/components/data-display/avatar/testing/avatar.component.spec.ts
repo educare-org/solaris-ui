@@ -2,6 +2,10 @@ import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { vi } from 'vitest';
 
 import { SolarisAvatarComponent } from '../component/avatar.component';
+import {
+  SOLARIS_AVATAR_GENERATIVE_PALETTE_COUNT,
+  buildAvatarMeshSpots,
+} from '../model/avatar-generative';
 
 describe('SolarisAvatarComponent', () => {
   let fixture: ComponentFixture<SolarisAvatarComponent>;
@@ -71,6 +75,28 @@ describe('SolarisAvatarComponent', () => {
     expect(el.querySelector('.solaris-avatar__initials')).toBeFalsy();
   });
 
+  it('should omit srcset when no candidates are provided', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('src', 'https://example.com/photo.jpg');
+    fixture.componentRef.setInput('name', 'Amelia Davis');
+    fixture.detectChanges();
+    const img = el.querySelector('.solaris-avatar__image');
+    expect(img?.hasAttribute('srcset')).toBe(false);
+  });
+
+  it('should forward srcset candidates when provided', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('src', 'https://example.com/photo.jpg');
+    fixture.componentRef.setInput(
+      'srcset',
+      'https://example.com/photo-2x.jpg 2x',
+    );
+    fixture.detectChanges();
+    expect(
+      el.querySelector('.solaris-avatar__image')?.getAttribute('srcset'),
+    ).toBe('https://example.com/photo-2x.jpg 2x');
+  });
+
   it('should fall back to generative art on image error', () => {
     const el = createFixture();
     fixture.componentRef.setInput('src', 'https://example.com/broken.jpg');
@@ -102,9 +128,11 @@ describe('SolarisAvatarComponent', () => {
     fixture.componentRef.setInput('offHoursOverride', true);
     fixture.detectChanges();
     expect(el.getAttribute('data-off-hours')).toBeTruthy();
-    expect(el.querySelector('.solaris-avatar__off-hours')?.textContent).toBe(
-      'z',
-    );
+    const offHours = el.querySelector('.solaris-avatar__off-hours');
+    expect(offHours?.tagName).toBe('svg');
+    expect(
+      offHours?.querySelector('.solaris-avatar__off-hours-glyph'),
+    ).toBeTruthy();
     expect(el.getAttribute('aria-label')).toContain('Amelia Davis');
   });
 
@@ -226,6 +254,31 @@ describe('SolarisAvatarComponent', () => {
     ) as HTMLButtonElement;
     action.click();
     expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should expose ten generative palettes', () => {
+    expect(SOLARIS_AVATAR_GENERATIVE_PALETTE_COUNT).toBe(10);
+  });
+
+  it('should build deterministic mesh spots with shape variation', () => {
+    const first = buildAvatarMeshSpots(123456);
+    const second = buildAvatarMeshSpots(123456);
+    expect(second).toEqual(first);
+    const counts = new Set<number>();
+    for (let seed = 0; seed < 40; seed++) {
+      counts.add(buildAvatarMeshSpots(seed).length);
+    }
+    expect(counts.has(3)).toBe(true);
+    expect(counts.has(4)).toBe(true);
+  });
+
+  it('should render dnd status as danger', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('status', 'dnd');
+    fixture.componentRef.setInput('showStatus', true);
+    fixture.detectChanges();
+    expect(el.getAttribute('data-status')).toBe('dnd');
+    expect(el.querySelector('.solaris-avatar__status')).toBeTruthy();
   });
 
   it('should prefer explicit aria labels over composite names', () => {

@@ -1,0 +1,17 @@
+<solaris-avatar-group
+  solaris-dropdown-menu-trigger
+  [solarisDropdownMenuTriggerFor]="membersMenu"
+  [users]="users"
+  [max]="2"
+  (overflowClick)="onOverflowClick()"
+/>
+<solaris-dropdown-menu #membersMenu>
+  <solaris-dropdown-menu-item label="Amelia Davis" />
+  <solaris-dropdown-menu-item label="Dominic Price" />
+  <solaris-dropdown-menu-item label="Elijah Cooper" />
+  <solaris-dropdown-menu-item label="Henry Nguyen" />
+  <solaris-dropdown-menu-item label="Kaique Ferreira" />
+</solaris-dropdown-menu>
+<p class="group-menu-example__caption">
+  {{ 'avatar.example.menu-opened' | translate }}: {{ pillOpenedCount() }}
+</p>

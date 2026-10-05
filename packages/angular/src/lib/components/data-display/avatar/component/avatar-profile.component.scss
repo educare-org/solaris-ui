@@ -1,21 +1,18 @@
 :host {
-  --solaris-avatar-profile-gap: var(--solaris-spacing-4);
+  --solaris-avatar-profile-gap: var(--solaris-spacing-6);
+  --solaris-avatar-profile-title-size: var(--solaris-font-size-sm);
+  --solaris-avatar-profile-title-color: var(--solaris-text-default);
+  --solaris-avatar-profile-subtitle-color: var(--solaris-text-muted);
+  --solaris-avatar-profile-subtitle-size: var(--solaris-font-size-xs);
   --solaris-avatar-profile-max-width: calc(
     var(--solaris-spacing-18) + var(--solaris-spacing-10)
   );
-  --solaris-avatar-profile-title-color: var(--solaris-text-default);
-  --solaris-avatar-profile-title-size: var(--solaris-font-size-sm);
-  --solaris-avatar-profile-subtitle-color: var(--solaris-text-muted);
-  --solaris-avatar-profile-subtitle-size: var(--solaris-font-size-xs);
-  --solaris-avatar-profile-badge-background: var(--solaris-primary-surface);
-  --solaris-avatar-profile-badge-color: var(--solaris-primary-text);
-  --solaris-avatar-profile-badge-border-color: var(--solaris-primary-border);
 
-  display: inline-flex;
+  max-width: 100%;
   align-items: center;
+  display: inline-flex;
   box-sizing: border-box;
   gap: var(--solaris-avatar-profile-gap);
-  max-width: 100%;
   font-family: var(--solaris-font-family-sans), system-ui;
 }
 
@@ -27,65 +24,76 @@
 
 :host([data-size='lg']),
 :host([data-size='xl']) {
-  --solaris-avatar-profile-gap: var(--solaris-spacing-5);
+  --solaris-avatar-profile-gap: var(--solaris-spacing-6);
   --solaris-avatar-profile-title-size: var(--solaris-font-size-md);
   --solaris-avatar-profile-subtitle-size: var(--solaris-font-size-sm);
+}
+
+.solaris-avatar-profile__identity {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-align: start;
+  align-items: center;
+  display: inline-flex;
+  text-decoration: none;
+  box-sizing: border-box;
+  background: transparent;
+  padding: var(--solaris-spacing-0);
+  min-width: var(--solaris-spacing-0);
+  gap: var(--solaris-avatar-profile-gap);
+  border-radius: var(--solaris-radius-sm);
+  border: var(--solaris-border-width-sm) solid transparent;
+}
+
+button.solaris-avatar-profile__identity {
+  appearance: none;
+}
+
+.solaris-avatar-profile__identity:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
 }
 
 .solaris-avatar-profile__text {
   display: inline-flex;
   flex-direction: column;
-  min-width: var(--solaris-spacing-0);
   gap: var(--solaris-spacing-2);
+  min-width: var(--solaris-spacing-0);
 }
 
 .solaris-avatar-profile__title-row {
   display: inline-flex;
   align-items: center;
-  min-width: var(--solaris-spacing-0);
   gap: var(--solaris-spacing-3);
+  min-width: var(--solaris-spacing-0);
 }
 
 .solaris-avatar-profile__title {
   overflow: hidden;
-  max-width: var(--solaris-avatar-profile-max-width);
-  color: var(--solaris-avatar-profile-title-color);
-  font-size: var(--solaris-avatar-profile-title-size);
-  font-weight: var(--solaris-font-weight-medium);
-  line-height: var(--solaris-line-height-sm);
-  text-overflow: ellipsis;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: var(--solaris-line-height-sm);
+  font-weight: var(--solaris-font-weight-medium);
+  color: var(--solaris-avatar-profile-title-color);
+  max-width: var(--solaris-avatar-profile-max-width);
+  font-size: var(--solaris-avatar-profile-title-size);
 }
 
 .solaris-avatar-profile__subtitle {
   overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: var(--solaris-line-height-sm);
   max-width: var(--solaris-avatar-profile-max-width);
   color: var(--solaris-avatar-profile-subtitle-color);
   font-size: var(--solaris-avatar-profile-subtitle-size);
-  line-height: var(--solaris-line-height-sm);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.solaris-avatar-profile__badge {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
-  border: var(--solaris-border-width-sm) solid
-    var(--solaris-avatar-profile-badge-border-color);
-  border-radius: var(--solaris-radius-full);
-  background: var(--solaris-avatar-profile-badge-background);
-  color: var(--solaris-avatar-profile-badge-color);
-  font-size: var(--solaris-font-size-xs);
-  font-weight: var(--solaris-font-weight-medium);
-  line-height: 1;
-  white-space: nowrap;
 }
 
 .solaris-avatar-profile__actions {
-  display: inline-flex;
   align-items: center;
+  display: inline-flex;
 }
 
 .solaris-avatar-profile__actions:empty {
