@@ -1,16 +1,43 @@
-@for (user of visibleUsers(); track user.userId ?? user.name ?? $index) {
-  <solaris-avatar
-    [src]="user.src"
-    [srcset]="user.srcset"
-    [name]="user.name"
-    [userId]="user.userId"
-    [size]="size()"
-    [radius]="radius()"
-    [status]="user.status"
-    [showStatus]="user.showStatus ?? false"
-    [verified]="user.verified ?? false"
-    [count]="user.count"
-  />
+@for (
+  user of visibleUsers();
+  track user.userId ?? user.name ?? $index;
+  let i = $index
+) {
+  @if (user.tooltip || user.tooltipKey) {
+    <solaris-avatar
+      [src]="user.src"
+      [srcset]="user.srcset"
+      [name]="user.name"
+      [userId]="user.userId"
+      [size]="size()"
+      [radius]="radius()"
+      [status]="user.status"
+      [showStatus]="user.showStatus ?? false"
+      [verified]="user.verified ?? false"
+      [count]="user.count"
+      [actionAriaLabel]="user.actionAriaLabel"
+      [actionAriaLabelKey]="user.actionAriaLabelKey"
+      [solarisTooltip]="user.tooltip"
+      [solarisTooltipKey]="user.tooltipKey"
+      (actionClick)="onMemberClick(user, i)"
+    />
+  } @else {
+    <solaris-avatar
+      [src]="user.src"
+      [srcset]="user.srcset"
+      [name]="user.name"
+      [userId]="user.userId"
+      [size]="size()"
+      [radius]="radius()"
+      [status]="user.status"
+      [showStatus]="user.showStatus ?? false"
+      [verified]="user.verified ?? false"
+      [count]="user.count"
+      [actionAriaLabel]="user.actionAriaLabel"
+      [actionAriaLabelKey]="user.actionAriaLabelKey"
+      (actionClick)="onMemberClick(user, i)"
+    />
+  }
 }
 @if (overflowCount() > 0) {
   <button

@@ -25,20 +25,58 @@
 }
 
 <ng-template #pill>
-  <span class="solaris-avatar-group-badge__avatars" aria-hidden="true">
-    @for (user of visibleUsers(); track user.userId ?? user.name ?? $index) {
-      <solaris-avatar
-        [src]="user.src"
-        [srcset]="user.srcset"
-        [name]="user.name"
-        [userId]="user.userId"
-        [size]="size()"
-        [radius]="radius()"
-        [status]="user.status"
-        [showStatus]="user.showStatus ?? false"
-        [verified]="user.verified ?? false"
-        [count]="user.count"
-      />
+  <span
+    class="solaris-avatar-group-badge__avatars"
+    [attr.aria-hidden]="membersInteractive() ? null : true"
+  >
+    @for (
+      user of visibleUsers();
+      track user.userId ?? user.name ?? $index;
+      let i = $index
+    ) {
+      @if (user.tooltip || user.tooltipKey) {
+        <solaris-avatar
+          [src]="user.src"
+          [srcset]="user.srcset"
+          [name]="user.name"
+          [userId]="user.userId"
+          [size]="size()"
+          [radius]="radius()"
+          [status]="user.status"
+          [showStatus]="user.showStatus ?? false"
+          [verified]="user.verified ?? false"
+          [count]="user.count"
+          [actionAriaLabel]="
+            membersInteractive() ? user.actionAriaLabel : undefined
+          "
+          [actionAriaLabelKey]="
+            membersInteractive() ? user.actionAriaLabelKey : undefined
+          "
+          [solarisTooltip]="user.tooltip"
+          [solarisTooltipKey]="user.tooltipKey"
+          (actionClick)="onMemberClick(user, i)"
+        />
+      } @else {
+        <solaris-avatar
+          [src]="user.src"
+          [srcset]="user.srcset"
+          [name]="user.name"
+          [userId]="user.userId"
+          [size]="size()"
+          [radius]="radius()"
+          [status]="user.status"
+          [showStatus]="user.showStatus ?? false"
+          [verified]="user.verified ?? false"
+          [count]="user.count"
+          [actionAriaLabel]="
+            membersInteractive() ? user.actionAriaLabel : undefined
+          "
+          [actionAriaLabelKey]="
+            membersInteractive() ? user.actionAriaLabelKey : undefined
+          "
+          (actionClick)="onMemberClick(user, i)"
+        />
+      }
     }
     @if (overflowCount() > 0) {
       <span class="solaris-avatar-group-badge__more"
@@ -47,6 +85,10 @@
     }
   </span>
   @if (resolvedLabel()) {
-    <span class="solaris-avatar-group-badge__label">{{ resolvedLabel() }}</span>
+    <span
+      class="solaris-avatar-group-badge__label"
+      [attr.title]="labelTooltip()"
+      >{{ resolvedLabel() }}</span
+    >
   }
 </ng-template>

@@ -25,7 +25,7 @@ export const PT_BR_AVATAR: Record<string, string> = {
   'avatar.overlays.note':
     'Verificado, organização e ação usam slots — tooltips e menus vêm do consumidor.',
   'avatar.group.note':
-    'Grupos sobrepõem membros e truncam com uma pill +N focável que abre um menu do consumidor.',
+    'Grupos sobrepõem membros e truncam com uma pill +N focável que abre um menu do consumidor. Passe o mouse para ver o tooltip do membro; navegue com as setas e ative com Enter.',
   'avatar.group-badge.note':
     'Uma pill com mini cluster de membros e um texto. O marcador +N é texto estático, então a pill pode ser link ou botão.',
   'avatar.integrations.note':
@@ -68,6 +68,7 @@ export const PT_BR_AVATAR: Record<string, string> = {
   'avatar.example.profile.name': 'Amelia Davis',
   'avatar.example.profile.email': 'davis@example.com',
   'avatar.example.profile.badge': 'PRO',
+  'avatar.example.member-clicked': 'Membro clicado',
 
   'avatar.ai.prompt':
     'Estou olhando a documentação Solaris do {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela.',

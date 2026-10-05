@@ -101,11 +101,11 @@ export class AvatarShowcasePage {
   protected readonly groupAddCode = AVATAR_SHOWCASE_GROUP_ADD_CODE;
   protected readonly groupBadgeCode = AVATAR_SHOWCASE_GROUP_BADGE_CODE;
   protected readonly groupBadgeUsers: readonly SolarisAvatarGroupUser[] = [
-    { userId: 'user-1', name: 'Amelia Davis' },
-    { userId: 'user-2', name: 'Dominic Price' },
-    { userId: 'user-3', name: 'Elijah Cooper' },
-    { userId: 'user-4', name: 'Henry Nguyen' },
-    { userId: 'user-5', name: 'Kaique Ferreira' },
+    { userId: 'user-1', name: 'Amelia Davis', tooltip: 'Amelia Davis' },
+    { userId: 'user-2', name: 'Dominic Price', tooltip: 'Dominic Price' },
+    { userId: 'user-3', name: 'Elijah Cooper', tooltip: 'Elijah Cooper' },
+    { userId: 'user-4', name: 'Henry Nguyen', tooltip: 'Henry Nguyen' },
+    { userId: 'user-5', name: 'Kaique Ferreira', tooltip: 'Kaique Ferreira' },
   ];
 
   private readonly pageActions = createShowcasePageActions(
@@ -175,7 +175,7 @@ export class AvatarShowcasePage {
 
   protected readonly groupCode = computed(
     () =>
-      `<solaris-avatar-group [users]="users" [max]="${this.groupMax()}" (overflowClick)="openList()" />`,
+      `<solaris-avatar-group [users]="users" [max]="${this.groupMax()}" (overflowClick)="openList()" (memberClick)="openMember($event)" />`,
   );
 
   protected readonly profileCode = computed(() =>

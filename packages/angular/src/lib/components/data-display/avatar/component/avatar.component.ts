@@ -31,6 +31,10 @@ import type {
   SolarisAvatarWorkingHours,
 } from '../model/avatar.types';
 
+export type SolarisAvatarImageLoading = 'lazy' | 'eager';
+
+export type SolarisAvatarImageDecoding = 'async' | 'sync' | 'auto';
+
 export type { SolarisAvatarMeshSpot } from '../model/avatar-generative';
 
 @Component({
@@ -67,6 +71,8 @@ export class SolarisAvatarComponent {
   readonly name = input<string | undefined>(undefined);
   readonly src = input<string | undefined>(undefined);
   readonly alt = input<string | undefined>(undefined);
+  readonly imageLoading = input<SolarisAvatarImageLoading>('lazy');
+  readonly imageDecoding = input<SolarisAvatarImageDecoding>('async');
   readonly size = input<SolarisAvatarSize>('md');
   readonly showStatus = input<boolean>(false);
 

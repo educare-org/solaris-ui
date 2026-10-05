@@ -96,4 +96,97 @@ describe('SolarisAvatarGroupBadgeComponent', () => {
     expect(pill?.tagName).toBe('BUTTON');
     expect(pill?.getAttribute('aria-label')).toBe('Open team');
   });
+
+  it('should emit memberClick when a member action fires and pill is static', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisAvatarGroupBadgeComponent);
+    fixture.componentRef.setInput('users', [
+      {
+        userId: 'user-1',
+        name: 'Amelia Davis',
+        actionAriaLabel: 'Open Amelia Davis profile',
+      },
+      { userId: 'user-2', name: 'Dominic Price' },
+    ]);
+    fixture.componentRef.setInput('label', 'Design team');
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    const spy = vi.fn();
+    fixture.componentInstance.memberClick.subscribe(spy);
+    const action = el.querySelector(
+      'solaris-avatar .solaris-avatar__action',
+    ) as HTMLButtonElement;
+    expect(action?.getAttribute('aria-label')).toBe(
+      'Open Amelia Davis profile',
+    );
+    action.click();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy.mock.calls[0][0]).toEqual({
+      user: expect.objectContaining({ userId: 'user-1' }),
+      index: 0,
+    });
+  });
+
+  it('should suppress member actions when the pill itself is interactive', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisAvatarGroupBadgeComponent);
+    fixture.componentRef.setInput('users', [
+      {
+        userId: 'user-1',
+        name: 'Amelia Davis',
+        actionAriaLabel: 'Open Amelia Davis profile',
+      },
+    ]);
+    fixture.componentRef.setInput('label', 'Design team');
+    fixture.componentRef.setInput('href', '/teams/design');
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    expect(
+      el.querySelector('solaris-avatar .solaris-avatar__action'),
+    ).toBeFalsy();
+  });
+
+  it('should omit the label title when nothing overflows', () => {
+    const el = createFixture();
+    expect(
+      el
+        .querySelector('.solaris-avatar-group-badge__label')
+        ?.getAttribute('title'),
+    ).toBeFalsy();
+  });
+
+  it('should move focus between member actions with arrows', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisAvatarGroupBadgeComponent);
+    fixture.componentRef.setInput('users', [
+      {
+        userId: 'user-1',
+        name: 'Amelia Davis',
+        actionAriaLabel: 'Open Amelia Davis profile',
+        tooltip: 'Amelia Davis',
+      },
+      {
+        userId: 'user-2',
+        name: 'Dominic Price',
+        actionAriaLabel: 'Open Dominic Price profile',
+      },
+    ]);
+    fixture.componentRef.setInput('label', 'Design team');
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    const actions = Array.from(
+      el.querySelectorAll<HTMLButtonElement>(
+        'solaris-avatar .solaris-avatar__action',
+      ),
+    );
+    expect(actions.length).toBe(2);
+    expect(actions[0]?.tabIndex).toBe(0);
+    const first = actions[0] as HTMLButtonElement;
+    const second = actions[1] as HTMLButtonElement;
+    first.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }),
+    );
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(second);
+  });
 });

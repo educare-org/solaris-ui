@@ -288,4 +288,28 @@ describe('SolarisAvatarComponent', () => {
     fixture.detectChanges();
     expect(el.getAttribute('aria-label')).toBe('Custom label');
   });
+
+  it('should lazy-load photos with async decoding by default', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('src', 'https://example.com/photo.jpg');
+    fixture.detectChanges();
+    const img = el.querySelector(
+      '.solaris-avatar__image',
+    ) as HTMLImageElement | null;
+    expect(img?.getAttribute('loading')).toBe('lazy');
+    expect(img?.getAttribute('decoding')).toBe('async');
+  });
+
+  it('should respect custom image loading and decoding', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('src', 'https://example.com/photo.jpg');
+    fixture.componentRef.setInput('imageLoading', 'eager');
+    fixture.componentRef.setInput('imageDecoding', 'sync');
+    fixture.detectChanges();
+    const img = el.querySelector(
+      '.solaris-avatar__image',
+    ) as HTMLImageElement | null;
+    expect(img?.getAttribute('loading')).toBe('eager');
+    expect(img?.getAttribute('decoding')).toBe('sync');
+  });
 });

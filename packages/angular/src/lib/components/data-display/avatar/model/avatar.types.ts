@@ -29,4 +29,13 @@ export interface SolarisAvatarGroupUser {
   showStatus?: boolean;
   verified?: boolean;
   count?: number;
+  actionAriaLabel?: string;
+  actionAriaLabelKey?: string;
+  tooltip?: string;
+  tooltipKey?: string;
+}
+
+export interface SolarisAvatarGroupMemberEvent {
+  user: SolarisAvatarGroupUser;
+  index: number;
 }

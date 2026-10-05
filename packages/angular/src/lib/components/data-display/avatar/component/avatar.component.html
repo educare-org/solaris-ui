@@ -17,6 +17,8 @@
       alt=""
       [src]="src()"
       aria-hidden="true"
+      [attr.loading]="imageLoading()"
+      [attr.decoding]="imageDecoding()"
       [attr.srcset]="srcset()"
       (error)="onImageError()"
       class="solaris-avatar__image"

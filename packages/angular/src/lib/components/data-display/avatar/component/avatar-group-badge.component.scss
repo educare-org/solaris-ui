@@ -7,6 +7,8 @@
   --solaris-avatar-group-badge-border-color: var(--solaris-border-default);
   --solaris-avatar-group-badge-color: var(--solaris-text-default);
   --solaris-avatar-group-badge-font-size: var(--solaris-font-size-sm);
+  --solaris-avatar-group-badge-hover-lift: var(--solaris-spacing-3);
+  --solaris-avatar-group-badge-dim-opacity: var(--solaris-opacity-60);
   --solaris-avatar-group-badge-max-width: calc(
     var(--solaris-spacing-18) + var(--solaris-spacing-10)
   );
@@ -93,9 +95,58 @@ button.solaris-avatar-group-badge__pill {
 }
 
 .solaris-avatar-group-badge__avatars solaris-avatar {
+  position: relative;
+
   // SOLARIS_TOKEN_EXCEPTION: box-shadow used as a separator ring between overlapped avatars (not elevation), sized by the spacing token.
-  box-shadow: 0 0 0 var(--solaris-spacing-2)
+  box-shadow: 0 0 0 var(--solaris-spacing-3)
     var(--solaris-avatar-group-badge-background);
+  transition:
+    transform var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-avatar-group-badge__avatars:has(solaris-avatar:hover)
+  solaris-avatar:not(:hover),
+.solaris-avatar-group-badge__avatars:has(solaris-avatar:focus-within)
+  solaris-avatar:not(:focus-within) {
+  opacity: var(--solaris-avatar-group-badge-dim-opacity);
+}
+
+.solaris-avatar-group-badge__avatars solaris-avatar:hover,
+.solaris-avatar-group-badge__avatars solaris-avatar:focus-within {
+  z-index: var(--solaris-z-index-raised);
+  opacity: var(--solaris-opacity-100);
+  transform: translateY(
+    calc(var(--solaris-avatar-group-badge-hover-lift) * -1)
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-avatar-group-badge__avatars solaris-avatar {
+    transition: none;
+  }
+
+  .solaris-avatar-group-badge__avatars solaris-avatar:hover,
+  .solaris-avatar-group-badge__avatars solaris-avatar:focus-within {
+    transform: none;
+  }
+}
+
+:host-context([data-reduced-motion='true'])
+  .solaris-avatar-group-badge__avatars
+  solaris-avatar {
+  transition: none;
+}
+
+:host-context([data-reduced-motion='true'])
+  .solaris-avatar-group-badge__avatars
+  solaris-avatar:hover,
+:host-context([data-reduced-motion='true'])
+  .solaris-avatar-group-badge__avatars
+  solaris-avatar:focus-within {
+  transform: none;
 }
 
 .solaris-avatar-group-badge__more {

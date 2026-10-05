@@ -5,6 +5,8 @@
   --solaris-avatar-group-overflow-color: var(--solaris-text-default);
   --solaris-avatar-group-overflow-border-color: var(--solaris-surface-base);
   --solaris-avatar-group-font-size: var(--solaris-font-size-sm);
+  --solaris-avatar-group-hover-lift: var(--solaris-spacing-3);
+  --solaris-avatar-group-dim-opacity: var(--solaris-opacity-60);
 
   display: inline-flex;
   align-items: center;
@@ -41,9 +43,48 @@
 }
 
 :host solaris-avatar {
+  position: relative;
+
   // SOLARIS_TOKEN_EXCEPTION: box-shadow used as a separator ring between overlapped avatars (not elevation), sized by the spacing token.
-  box-shadow: 0 0 0 var(--solaris-spacing-2)
+  box-shadow: 0 0 0 var(--solaris-spacing-3)
     var(--solaris-avatar-group-overflow-border-color);
+  transition:
+    transform var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard),
+    opacity var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard);
+}
+
+:host:has(solaris-avatar:hover) solaris-avatar:not(:hover),
+:host:has(solaris-avatar:focus-within) solaris-avatar:not(:focus-within) {
+  opacity: var(--solaris-avatar-group-dim-opacity);
+}
+
+:host solaris-avatar:hover,
+:host solaris-avatar:focus-within {
+  z-index: var(--solaris-z-index-raised);
+  opacity: var(--solaris-opacity-100);
+  transform: translateY(calc(var(--solaris-avatar-group-hover-lift) * -1));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host solaris-avatar {
+    transition: none;
+  }
+
+  :host solaris-avatar:hover,
+  :host solaris-avatar:focus-within {
+    transform: none;
+  }
+}
+
+:host-context([data-reduced-motion='true']) solaris-avatar {
+  transition: none;
+}
+
+:host-context([data-reduced-motion='true']) solaris-avatar:hover,
+:host-context([data-reduced-motion='true']) solaris-avatar:focus-within {
+  transform: none;
 }
 
 .solaris-avatar-group__overflow {

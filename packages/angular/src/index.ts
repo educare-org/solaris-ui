@@ -64,7 +64,11 @@ export type {
   SolarisBadgeOffset,
 } from './lib/components/data-display/badge/model/badge.types';
 
-export { SolarisAvatarComponent } from './lib/components/data-display/avatar/component/avatar.component';
+export {
+  SolarisAvatarComponent,
+  type SolarisAvatarImageDecoding,
+  type SolarisAvatarImageLoading,
+} from './lib/components/data-display/avatar/component/avatar.component';
 export { SolarisAvatarGroupComponent } from './lib/components/data-display/avatar/component/avatar-group.component';
 export { SolarisAvatarGroupBadgeComponent } from './lib/components/data-display/avatar/component/avatar-group-badge.component';
 export { SolarisAvatarProfileComponent } from './lib/components/data-display/avatar/component/avatar-profile.component';
@@ -72,6 +76,7 @@ export { SolarisAvatarPresenceService } from './lib/components/data-display/avat
 export { SOLARIS_AVATAR_DEFAULT_WORKING_HOURS } from './lib/components/data-display/avatar/service/avatar-presence.service';
 export type {
   SolarisAvatarFallback,
+  SolarisAvatarGroupMemberEvent,
   SolarisAvatarGroupUser,
   SolarisAvatarRadius,
   SolarisAvatarSize,

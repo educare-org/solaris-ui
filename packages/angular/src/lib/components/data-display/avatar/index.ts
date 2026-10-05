@@ -1,4 +1,8 @@
-export { SolarisAvatarComponent } from './component/avatar.component';
+export {
+  SolarisAvatarComponent,
+  type SolarisAvatarImageDecoding,
+  type SolarisAvatarImageLoading,
+} from './component/avatar.component';
 export type { SolarisAvatarMeshSpot } from './model/avatar-generative';
 export {
   SOLARIS_AVATAR_GENERATIVE_PALETTE_COUNT,
@@ -13,6 +17,7 @@ export { SOLARIS_AVATAR_DEFAULT_WORKING_HOURS } from './service/avatar-presence.
 
 export type {
   SolarisAvatarFallback,
+  SolarisAvatarGroupMemberEvent,
   SolarisAvatarGroupUser,
   SolarisAvatarRadius,
   SolarisAvatarSize,

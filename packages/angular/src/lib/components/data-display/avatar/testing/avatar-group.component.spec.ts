@@ -96,4 +96,123 @@ describe('SolarisAvatarGroupComponent', () => {
       ),
     ).toBe('10px');
   });
+
+  it('should emit memberClick with user and index when a member action fires', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisAvatarGroupComponent);
+    fixture.componentRef.setInput('users', [
+      {
+        userId: 'user-1',
+        name: 'Amelia Davis',
+        actionAriaLabel: 'Open Amelia Davis profile',
+      },
+      { userId: 'user-2', name: 'Dominic Price' },
+    ]);
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    const spy = vi.fn();
+    fixture.componentInstance.memberClick.subscribe(spy);
+    const action = el.querySelector(
+      'solaris-avatar .solaris-avatar__action',
+    ) as HTMLButtonElement;
+    expect(action).toBeTruthy();
+    expect(action.getAttribute('aria-label')).toBe('Open Amelia Davis profile');
+    action.click();
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith({
+      user: {
+        userId: 'user-1',
+        name: 'Amelia Davis',
+        actionAriaLabel: 'Open Amelia Davis profile',
+      },
+      index: 0,
+    });
+  });
+
+  it('should keep members non-interactive without an action label', () => {
+    const el = createFixture();
+    expect(
+      el.querySelector('solaris-avatar .solaris-avatar__action'),
+    ).toBeFalsy();
+  });
+
+  it('should keep a single tab stop with roving tabindex', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisAvatarGroupComponent);
+    fixture.componentRef.setInput('users', [
+      {
+        userId: 'user-1',
+        name: 'Amelia Davis',
+        actionAriaLabel: 'Open Amelia Davis profile',
+        tooltip: 'Amelia Davis',
+      },
+      {
+        userId: 'user-2',
+        name: 'Dominic Price',
+        actionAriaLabel: 'Open Dominic Price profile',
+      },
+    ]);
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    const actions = Array.from(
+      el.querySelectorAll<HTMLButtonElement>(
+        'solaris-avatar .solaris-avatar__action',
+      ),
+    );
+    expect(actions.length).toBe(2);
+    expect(actions[0]?.tabIndex).toBe(0);
+    expect(actions[1]?.tabIndex).toBe(-1);
+  });
+
+  it('should move focus with arrows, Home and End', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(SolarisAvatarGroupComponent);
+    fixture.componentRef.setInput('users', [
+      {
+        userId: 'user-1',
+        name: 'Amelia Davis',
+        actionAriaLabel: 'Open Amelia Davis profile',
+      },
+      {
+        userId: 'user-2',
+        name: 'Dominic Price',
+        actionAriaLabel: 'Open Dominic Price profile',
+      },
+    ]);
+    fixture.detectChanges();
+    const el = fixture.nativeElement as HTMLElement;
+    const actions = Array.from(
+      el.querySelectorAll<HTMLButtonElement>(
+        'solaris-avatar .solaris-avatar__action',
+      ),
+    );
+    const first = actions[0] as HTMLButtonElement;
+    const second = actions[1] as HTMLButtonElement;
+
+    first.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }),
+    );
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(second);
+    expect(second.tabIndex).toBe(0);
+    expect(first.tabIndex).toBe(-1);
+
+    second.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }),
+    );
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(first);
+
+    second.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Home', bubbles: true }),
+    );
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(first);
+
+    first.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'End', bubbles: true }),
+    );
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(second);
+  });
 });

@@ -1,17 +1,29 @@
-import { NgTemplateOutlet } from '@angular/common';
+// SECURITY_EXCEPTION_FILE: nativeElement required as querySelectorAll/focus target for roving tabindex and arrow-key navigation between member actions, and as ResizeObserver/MutationObserver target to detect label overflow for the automatic title. Read-only DOM traversal with no innerHTML; SSR-safe via isPlatformBrowser guard and typeof checks.
+// SECURITY_EXCEPTION_FILE: nativeElement.querySelector('.solaris-avatar-group-badge__label') with read-only scrollWidth/clientWidth/textContent required to measure truncation overflow for the accessible title. Text is only read (never written via innerHTML, no XSS risk); SSR-safe via isPlatformBrowser guard.
+import { isPlatformBrowser, NgTemplateOutlet } from '@angular/common';
 import {
+  AfterViewChecked,
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  HostListener,
+  NgZone,
+  OnDestroy,
+  PLATFORM_ID,
   computed,
   inject,
   input,
   output,
+  signal,
 } from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisTooltipDirective } from '../../../interaction/tooltip';
 
 import { SolarisAvatarComponent } from './avatar.component';
 import type {
+  SolarisAvatarGroupMemberEvent,
   SolarisAvatarGroupUser,
   SolarisAvatarRadius,
   SolarisAvatarSize,
@@ -22,7 +34,7 @@ const SOLARIS_AVATAR_GROUP_BADGE_DEFAULT_MAX = 3;
 @Component({
   selector: 'solaris-avatar-group-badge',
   standalone: true,
-  imports: [NgTemplateOutlet, SolarisAvatarComponent],
+  imports: [NgTemplateOutlet, SolarisAvatarComponent, SolarisTooltipDirective],
   templateUrl: './avatar-group-badge.component.html',
   styleUrls: ['./avatar-group-badge.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,7 +45,9 @@ const SOLARIS_AVATAR_GROUP_BADGE_DEFAULT_MAX = 3;
     '[attr.aria-label]': 'hostAriaLabel()',
   },
 })
-export class SolarisAvatarGroupBadgeComponent {
+export class SolarisAvatarGroupBadgeComponent
+  implements AfterViewInit, AfterViewChecked, OnDestroy
+{
   readonly users = input<readonly SolarisAvatarGroupUser[]>([]);
   readonly max = input<number>(SOLARIS_AVATAR_GROUP_BADGE_DEFAULT_MAX);
   readonly size = input<SolarisAvatarSize>('sm');
@@ -52,10 +66,14 @@ export class SolarisAvatarGroupBadgeComponent {
   readonly ariaLabelKey = input<string | undefined>(undefined);
 
   readonly badgeClick = output<void>();
+  readonly memberClick = output<SolarisAvatarGroupMemberEvent>();
 
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
+  private readonly elementRef = inject(ElementRef);
+  private readonly ngZone = inject(NgZone);
+  private readonly platformId = inject(PLATFORM_ID);
 
   protected readonly visibleUsers = computed(() => {
     const max =
@@ -110,6 +128,18 @@ export class SolarisAvatarGroupBadgeComponent {
     () => this.isLink() || this.isButton(),
   );
 
+  protected readonly hasInteractiveMembers = computed(() =>
+    this.visibleUsers().some(
+      (user) =>
+        user.actionAriaLabel !== undefined ||
+        user.actionAriaLabelKey !== undefined,
+    ),
+  );
+
+  protected readonly membersInteractive = computed(
+    () => !this.isInteractive() && this.hasInteractiveMembers(),
+  );
+
   protected readonly resolvedActionLabel = computed(
     () =>
       this.actionAriaLabel() ??
@@ -135,5 +165,143 @@ export class SolarisAvatarGroupBadgeComponent {
 
   protected onBadgeClick(): void {
     this.badgeClick.emit();
+  }
+
+  protected onMemberClick(user: SolarisAvatarGroupUser, index: number): void {
+    this.memberClick.emit({ user, index });
+  }
+
+  private readonly labelOverflow = signal<string | undefined>(undefined);
+
+  protected readonly labelTooltip = computed(() => this.labelOverflow());
+
+  private resizeObserver: ResizeObserver | null = null;
+  private contentObserver: MutationObserver | null = null;
+
+  ngAfterViewInit(): void {
+    this.syncRovingTabindex();
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.measureOverflow();
+    this.setupOverflowObservers();
+  }
+
+  ngAfterViewChecked(): void {
+    this.syncRovingTabindex();
+  }
+
+  ngOnDestroy(): void {
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = null;
+    this.contentObserver?.disconnect();
+    this.contentObserver = null;
+  }
+
+  @HostListener('focusin', ['$event'])
+  protected onBadgeFocusIn(event: FocusEvent): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const target = event.target as HTMLElement | null;
+    const items = this.focusableElements();
+    if (target && items.includes(target)) {
+      for (const el of items) {
+        el.tabIndex = el === target ? 0 : -1;
+      }
+    }
+  }
+
+  @HostListener('keydown', ['$event'])
+  protected onBadgeKeydown(event: KeyboardEvent): void {
+    const key = event.key;
+    if (
+      key !== 'ArrowRight' &&
+      key !== 'ArrowLeft' &&
+      key !== 'Home' &&
+      key !== 'End'
+    ) {
+      return;
+    }
+    const items = this.focusableElements();
+    const target = event.target as HTMLElement | null;
+    const currentIndex = target ? items.indexOf(target) : -1;
+    if (currentIndex < 0) return;
+    event.preventDefault();
+    let nextIndex: number;
+    if (key === 'Home') {
+      nextIndex = 0;
+    } else if (key === 'End') {
+      nextIndex = items.length - 1;
+    } else {
+      const direction = key === 'ArrowRight' ? 1 : -1;
+      const step = this.isRtl() ? -direction : direction;
+      nextIndex = (currentIndex + step + items.length) % items.length;
+    }
+    const next = items[nextIndex];
+    if (!next) return;
+    for (const el of items) {
+      el.tabIndex = el === next ? 0 : -1;
+    }
+    next.focus();
+  }
+
+  private focusableElements(): HTMLElement[] {
+    const nativeEl = this.elementRef.nativeElement as HTMLElement;
+    return Array.from(
+      nativeEl.querySelectorAll<HTMLElement>('button.solaris-avatar__action'),
+    ).filter((el) => !el.hasAttribute('disabled'));
+  }
+
+  private syncRovingTabindex(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const items = this.focusableElements();
+    if (items.length === 0) return;
+    const nativeEl = this.elementRef.nativeElement as HTMLElement;
+    const active = nativeEl.ownerDocument.activeElement as HTMLElement | null;
+    const activeIndex = active ? items.indexOf(active) : -1;
+    const rovingIndex = activeIndex >= 0 ? activeIndex : 0;
+    items.forEach((el, index) => {
+      el.tabIndex = index === rovingIndex ? 0 : -1;
+    });
+  }
+
+  private isRtl(): boolean {
+    const nativeEl = this.elementRef.nativeElement as HTMLElement;
+    return (
+      nativeEl.closest('[dir]')?.getAttribute('dir')?.toLowerCase() === 'rtl' ||
+      nativeEl.ownerDocument.dir.toLowerCase() === 'rtl'
+    );
+  }
+
+  private setupOverflowObservers(): void {
+    const nativeEl = this.elementRef.nativeElement as HTMLElement;
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.ngZone.run(() => this.measureOverflow());
+      });
+      this.resizeObserver.observe(nativeEl);
+    }
+    if (typeof MutationObserver !== 'undefined') {
+      this.contentObserver = new MutationObserver(() => {
+        this.ngZone.run(() => this.measureOverflow());
+      });
+      this.contentObserver.observe(nativeEl, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+      });
+    }
+  }
+
+  private measureOverflow(): void {
+    const nativeEl = this.elementRef.nativeElement as HTMLElement;
+    const target = nativeEl.querySelector(
+      '.solaris-avatar-group-badge__label',
+    ) as HTMLElement | null;
+    if (!target) {
+      this.labelOverflow.set(undefined);
+      return;
+    }
+    const isOverflowing = target.scrollWidth > target.clientWidth + 1;
+    this.labelOverflow.set(
+      isOverflowing ? target.textContent?.trim() || undefined : undefined,
+    );
   }
 }

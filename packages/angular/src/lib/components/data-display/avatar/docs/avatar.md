@@ -53,6 +53,8 @@ family exposes labels and slots for them instead of implementing its own.
 | `src`                | `string \| undefined`                                               | `undefined`    | Photo URL; on error falls back to the generative art           |
 | `srcset`             | `string \| undefined`                                               | `undefined`    | Responsive photo candidates (omitted when undefined)           |
 | `alt`                | `string \| undefined`                                               | `undefined`    | Decorative fallback identity when `name` is missing            |
+| `imageLoading`       | `'lazy' \| 'eager'`                                                 | `'lazy'`       | Native `loading` forwarded to the photo (`eager` for LCP)      |
+| `imageDecoding`      | `'async' \| 'sync' \| 'auto'`                                       | `'async'`      | Native `decoding` forwarded to the photo                       |
 | `name`               | `string \| undefined`                                               | `undefined`    | Person name; drives initials, hash seed, and accessible name   |
 | `userId`             | `string \| undefined`                                               | `undefined`    | Stable hash seed (preferred over `name`)                       |
 | `size`               | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                              | `'md'`         | Size variant                                                   |
@@ -98,9 +100,21 @@ Slots: `[solaris-avatar-organization]` (top-left emblem, projected content).
 | `ariaLabel`    | `string \| undefined`                  | `undefined` | Group label; also overrides the overflow button label   |
 | `ariaLabelKey` | `string \| undefined`                  | `undefined` | i18n key for the group/overflow label                   |
 
-| Output          | Description                                 |
-| --------------- | ------------------------------------------- |
-| `overflowClick` | Emitted when the `+N` overflow button fires |
+| Output          | Description                                                          |
+| --------------- | -------------------------------------------------------------------- |
+| `overflowClick` | Emitted when the `+N` overflow button fires                          |
+| `memberClick`   | Emitted with `{ user, index }` when a member avatar fires its action |
+
+Members are clickable per-avatar: set `actionAriaLabel` (or
+`actionAriaLabelKey`) on a `SolarisAvatarGroupUser` to render that member as
+a real `<button>` inside `solaris-avatar`. Members without an action label
+stay non-interactive. Set `tooltip` (or `tooltipKey`) per member to reuse the
+Solaris tooltip on that avatar. Hovering (or keyboard-focusing) a member lifts it
+(`translateY(-4px)`) and dims the siblings; the separator ring is
+`var(--solaris-spacing-3)` (4px). Reduced motion disables the lift.
+Keyboard: one tab stop per group (roving `tabindex`); `ArrowLeft`/`ArrowRight`
+(RTL-aware), `Home`/`End` move focus between member actions and the `+N`
+overflow button.
 
 ### SolarisAvatarGroupBadgeComponent
 
@@ -122,9 +136,20 @@ Slots: `[solaris-avatar-organization]` (top-left emblem, projected content).
 | `ariaLabel`          | `string \| undefined`                  | `undefined` | Accessible name (defaults to label, then `overflowMore`) |
 | `ariaLabelKey`       | `string \| undefined`                  | `undefined` | i18n key for the accessible name                         |
 
-| Output       | Description                                    |
-| ------------ | ---------------------------------------------- |
-| `badgeClick` | Emitted when the pill link/button is activated |
+| Output        | Description                                                          |
+| ------------- | -------------------------------------------------------------------- |
+| `badgeClick`  | Emitted when the pill link/button is activated                       |
+| `memberClick` | Emitted with `{ user, index }` when a member avatar fires its action |
+
+Members support the same per-avatar action as `solaris-avatar-group`
+(`actionAriaLabel` / `actionAriaLabelKey` on `SolarisAvatarGroupUser`) with
+the same hover lift + sibling dim, plus per-member `tooltip` / `tooltipKey`
+reusing the Solaris tooltip. Member actions only render when the pill
+itself is non-interactive (`span`); when the pill is a link or button the
+members stay static so interactives are never nested. Interactive members
+share the group roving `tabindex` (arrows/`Home`/`End`). The pill label
+truncates with `ellipsis` and exposes the full text in `title` only when
+actually overflowing (measured like `solaris-avatar-profile`).
 
 ### SolarisAvatarProfileComponent
 
@@ -267,6 +292,8 @@ Follows the `solaris-badge` semantics exactly:
 | `--solaris-avatar-mesh-a/b/c`        | Generative mesh spot fills        |
 | `--solaris-avatar-group-overlap`     | Group overlap (px)                |
 | `--solaris-avatar-group-size`        | Overflow pill size (per `size`)   |
+| `--solaris-avatar-group-hover-lift`  | Group hover lift distance         |
+| `--solaris-avatar-group-dim-opacity` | Group sibling dim opacity         |
 | `--solaris-avatar-profile-max-width` | Title/subtitle truncation width   |
 
 Generative palettes pair `--solaris-*-surface` backgrounds with the matching
@@ -300,6 +327,8 @@ do not render on HTML text — so contrast holds without muting the art.
 - `loading` uses a CSS arc that stops under `prefers-reduced-motion` (and
   `[data-reduced-motion='true']`); state never depends on animation alone.
 - Keyboard: `Enter`/`Space` activate the action and overflow buttons natively.
+  Member groups keep a single tab stop (roving `tabindex`) with
+  `ArrowLeft`/`ArrowRight` (RTL-aware) and `Home`/`End` moving focus.
 
 ## Examples
 
@@ -322,14 +351,18 @@ do not render on HTML text — so contrast holds without muting the art.
 <solaris-avatar [empty]="true" emptyAriaLabel="Add member" />
 
 <!-- Group -->
-<solaris-avatar-group [users]="users" [max]="4" (overflowClick)="openList()" />
+<solaris-avatar-group [users]="users" [max]="4" (overflowClick)="openList()" (memberClick)="openMember($event)" />
 
 <!-- Group badge (static +N, pill itself is the link) -->
-<solaris-avatar-group-badge [users]="users" [max]="3" label="Design team" href="/teams/design" (badgeClick)="openTeam()" />
+<solaris-avatar-group-badge [users]="users" [max]="3" label="Design team" href="/teams/design" (badgeClick)="openTeam()" (memberClick)="openMember($event)" />
 
-<!-- Tooltip and menu are always reused, never built-in -->
+<!-- Tooltip and menu are always reused, never built-in: the dropdown content is 100% consumer-provided -->
 <solaris-avatar name="Amelia Davis" status="online" [showStatus]="true" [solarisTooltip]="'avatar.example.tooltip-hint' | translate" />
 <solaris-avatar-group solaris-dropdown-menu-trigger [solarisDropdownMenuTriggerFor]="membersMenu" [users]="users" [max]="2" (overflowClick)="openList()" />
+<solaris-dropdown-menu #membersMenu>
+  <!-- qualquer conteúdo: items simples, com avatar, com descrição, ações... -->
+  <solaris-dropdown-menu-item label="Amelia Davis" />
+</solaris-dropdown-menu>
 
 <!-- Profile (link + button identities work in full and compact modes) -->
 <solaris-avatar-profile name="Amelia Davis" title="Amelia Davis" subtitle="davis@example.com" badgeText="PRO" [verified]="true" href="/users/amelia" (profileClick)="onOpenProfile()">

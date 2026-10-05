@@ -25,7 +25,7 @@ export const EN_US_AVATAR: Record<string, string> = {
   'avatar.overlays.note':
     'Verified, organization, and action markers reuse slots — tooltips and menus come from the consumer.',
   'avatar.group.note':
-    'Groups overlap members and truncate with a focusable +N pill that opens a consumer menu.',
+    'Groups overlap members and truncate with a focusable +N pill that opens a consumer menu. Hover for the member tooltip; navigate with the arrow keys and activate with Enter.',
   'avatar.group-badge.note':
     'A pill with a mini member cluster and a text label. The +N marker is static text, so the pill itself can be a link or a button.',
   'avatar.integrations.note':
@@ -68,6 +68,7 @@ export const EN_US_AVATAR: Record<string, string> = {
   'avatar.example.profile.name': 'Amelia Davis',
   'avatar.example.profile.email': 'davis@example.com',
   'avatar.example.profile.badge': 'PRO',
+  'avatar.example.member-clicked': 'Clicked member',
 
   'avatar.ai.prompt':
     "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.",

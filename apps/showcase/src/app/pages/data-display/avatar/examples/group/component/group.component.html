@@ -1,1 +1,9 @@
-<solaris-avatar-group [users]="users()" [max]="max()" />
+<solaris-avatar-group
+  [users]="users()"
+  [max]="max()"
+  (memberClick)="onMemberClick($event)"
+/>
+<p class="group-example__caption">
+  {{ 'avatar.example.member-clicked' | translate }}:
+  {{ lastMemberClicked() ?? '—' }}
+</p>
