@@ -1,11 +1,16 @@
-solaris-mega-menu {
+.solaris-mega-menu {
   display: inline-block;
+  box-sizing: border-box;
 }
 
 [solaris-mega-menu-trigger] {
+  --solaris-mega-menu-trigger-gap: 0.5em;
+
   display: inline-flex;
   align-items: center;
-  gap: var(--solaris-spacing-2);
+  gap: var(--solaris-mega-menu-trigger-gap);
+  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
   transition: color var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
@@ -13,8 +18,8 @@ solaris-mega-menu {
 [solaris-mega-menu-trigger]::after {
   content: '';
   flex: 0 0 auto;
-  width: var(--solaris-spacing-4);
-  height: var(--solaris-spacing-4);
+  width: 1em;
+  height: 1em;
   background: currentcolor;
   transform: rotate(0deg);
   transform-origin: center;
@@ -59,6 +64,11 @@ solaris-mega-menu {
 [solaris-mega-menu-trigger][data-appearance='underline']:hover,
 [solaris-mega-menu-trigger][data-appearance='underline']:focus-visible {
   background: transparent;
+}
+
+[solaris-mega-menu-trigger]:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) solid var(--solaris-focus-ring-color);
 }
 
 [solaris-mega-menu-trigger][data-appearance='text'] {

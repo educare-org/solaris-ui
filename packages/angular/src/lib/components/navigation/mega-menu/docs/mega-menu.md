@@ -99,10 +99,19 @@ Use `[(open)]` when application state needs to control the panel:
 | `underline` | Draws an active underline aligned with the trigger. |
 | `text`      | Uses a text-only active state.                      |
 
+## Trigger typography
+
+The trigger declares the system font by default (semibold `sm`/`1.5`/sans),
+so it renders correctly in any consumer without extra CSS. The chevron
+(`1em`) and the text-chevron gap (`0.5em`) scale with the trigger
+`font-size` — override `font-size` on the trigger (or an ancestor) to
+resize the whole trigger proportionally.
+
 ## CSS Variables
 
-| Variable                         | Default                    | Description             |
-| -------------------------------- | -------------------------- | ----------------------- |
-| `--solaris-mega-menu-background` | `--solaris-surface-raised` | Panel background.       |
-| `--solaris-mega-menu-color`      | `--solaris-text-default`   | Panel foreground color. |
-| `--solaris-mega-menu-shadow`     | `--solaris-shadow-lg`      | Panel elevation shadow. |
+| Variable                          | Default                    | Description                           |
+| --------------------------------- | -------------------------- | ------------------------------------- |
+| `--solaris-mega-menu-background`  | `--solaris-surface-raised` | Panel background.                     |
+| `--solaris-mega-menu-color`       | `--solaris-text-default`   | Panel foreground color.               |
+| `--solaris-mega-menu-shadow`      | `--solaris-shadow-lg`      | Panel elevation shadow.               |
+| `--solaris-mega-menu-trigger-gap` | `0.5em`                    | Gap between trigger text and chevron. |
