@@ -1,0 +1,21 @@
+<nav
+  class="mega-menu-showcase__nav"
+  [attr.aria-label]="'mega-menu.persistent' | translate"
+  solaris-mega-menu-anchor
+>
+  <a class="mega-menu-showcase__brand" href="/">{{
+    'mega-menu.brand' | translate
+  }}</a>
+  <solaris-mega-menu panelWidth="anchor" [persistentOnClick]="true">
+    <button solaris-mega-menu-trigger class="mega-menu-showcase__trigger">
+      {{ 'mega-menu.persistent-trigger' | translate }}
+    </button>
+    <ng-template solaris-mega-menu-panel
+      ><div
+        class="mega-menu-showcase__panel mega-menu-showcase__panel--compact"
+      >
+        {{ 'mega-menu.persistent-content' | translate }}
+      </div></ng-template
+    >
+  </solaris-mega-menu>
+</nav>

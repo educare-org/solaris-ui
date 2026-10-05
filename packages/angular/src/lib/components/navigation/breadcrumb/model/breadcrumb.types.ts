@@ -1,5 +1,7 @@
 export type SolarisBreadcrumbSize = 'sm' | 'md' | 'lg';
 
+export type SolarisBreadcrumbDensity = 'compact' | 'normal' | 'comfortable';
+
 export type SolarisBreadcrumbSeparator = 'slash' | 'chevron' | 'dot';
 
 export type SolarisBreadcrumbOverflowPosition =
@@ -29,6 +31,7 @@ export interface SolarisBreadcrumbNavigateEvent {
 
 export interface SolarisBreadcrumbConfig {
   size?: SolarisBreadcrumbSize;
+  density?: SolarisBreadcrumbDensity;
   separator?: SolarisBreadcrumbSeparator;
   maxVisibleItems?: number | null;
   overflowPosition?: SolarisBreadcrumbOverflowPosition;

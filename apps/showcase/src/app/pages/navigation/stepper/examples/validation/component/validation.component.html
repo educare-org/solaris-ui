@@ -1,0 +1,48 @@
+<solaris-stepper
+  #stepper
+  [(activeIndex)]="activeStep"
+  [linear]="true"
+  (stepBlocked)="onBlocked($event)"
+>
+  <solaris-step
+    [labelKey]="'stepper.example.validation.step-one'"
+    [canExit]="canLeaveAccount"
+    [error]="accountError()"
+  >
+    <solaris-stepper-content>
+      <solaris-checkbox
+        [labelKey]="'stepper.example.validation.confirm'"
+        [(ngModel)]="confirmed"
+        (ngModelChange)="onConfirmedChange()"
+      />
+      @if (accountError()) {
+        <p class="validation-hint">
+          {{ 'stepper.example.validation.hint' | translate }}
+        </p>
+      }
+    </solaris-stepper-content>
+  </solaris-step>
+  <solaris-step [labelKey]="'stepper.example.validation.step-two'" />
+  <solaris-step [labelKey]="'stepper.example.validation.step-three'" />
+
+  <solaris-stepper-actions align="space-between">
+    <button
+      type="button"
+      solaris-button
+      appearance="ghost"
+      [disabled]="activeStep() === 0"
+      (click)="stepper.goToStep(activeStep() - 1)"
+    >
+      Back
+    </button>
+    <button
+      type="button"
+      solaris-button
+      color="primary"
+      [disabled]="activeStep() >= 2"
+      (click)="stepper.goToStep(activeStep() + 1)"
+    >
+      Next
+    </button>
+  </solaris-stepper-actions>
+</solaris-stepper>

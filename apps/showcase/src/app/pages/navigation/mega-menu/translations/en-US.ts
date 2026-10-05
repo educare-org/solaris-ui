@@ -60,4 +60,27 @@ export const EN_US_MEGA_MENU: Record<string, string> = {
   'mega-menu.event-idle': 'No event emitted yet.',
   'mega-menu.event-opened': 'Opened event emitted.',
   'mega-menu.event-closed': 'Closed event emitted.',
+
+  'mega-menu.section.examples': 'Examples',
+  'mega-menu.section.appearance': 'Appearance',
+  'mega-menu.section.width': 'Panel width',
+  'mega-menu.section.behavior': 'Behavior',
+  'mega-menu.section.controlled': 'Controlled state',
+  'mega-menu.section.keyboard': 'Keyboard',
+  'mega-menu.section.responsive': 'Responsive',
+  'mega-menu.section.installation': 'Installation',
+  'mega-menu.section.props': 'Props',
+  'mega-menu.examples.note':
+    'Start with the full navigation bar, then explore appearance, width, and keyboard below.',
+  'mega-menu.keyboard': 'Keyboard navigation',
+  'mega-menu.keyboard-aria-label': 'Keyboard navigation demo',
+  'mega-menu.keyboard-note':
+    'Focus a trigger and use ArrowLeft and ArrowRight to move between triggers, ArrowDown to open and enter the panel, Home and End to jump, Escape to close.',
+  'mega-menu.responsive-note':
+    'Mega Menu is a desktop pattern. Below your breakpoint, replace the trigger bar with a drawer or menu instead of squeezing panels.',
+  'mega-menu.installation.note':
+    'Install the single Solaris package, then import the component.',
+  'mega-menu.props.note': 'Props table coming soon with the table component.',
+  'mega-menu.ai.prompt':
+    "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.",
 };

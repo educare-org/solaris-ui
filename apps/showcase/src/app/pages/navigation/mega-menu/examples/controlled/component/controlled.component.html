@@ -1,0 +1,33 @@
+<div class="mega-menu-showcase__row">
+  <button solaris-button appearance="outline" (click)="toggleControlledMenu()">
+    {{ 'mega-menu.toggle-controlled' | translate }}
+  </button>
+  <span class="mega-menu-showcase__event">{{ lastEventKey | translate }}</span>
+</div>
+<nav
+  class="mega-menu-showcase__nav"
+  [attr.aria-label]="'mega-menu.controlled' | translate"
+  solaris-mega-menu-anchor
+>
+  <a class="mega-menu-showcase__brand" href="/">{{
+    'mega-menu.brand' | translate
+  }}</a>
+  <solaris-mega-menu
+    panelWidth="anchor"
+    [(open)]="controlledOpen"
+    (opened)="onMenuOpened()"
+    (closed)="onMenuClosed()"
+    [persistentOnClick]="true"
+  >
+    <button solaris-mega-menu-trigger class="mega-menu-showcase__trigger">
+      {{ 'mega-menu.controlled-trigger' | translate }}
+    </button>
+    <ng-template solaris-mega-menu-panel
+      ><div
+        class="mega-menu-showcase__panel mega-menu-showcase__panel--compact"
+      >
+        {{ 'mega-menu.controlled-content' | translate }}
+      </div></ng-template
+    >
+  </solaris-mega-menu>
+</nav>

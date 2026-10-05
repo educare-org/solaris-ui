@@ -4,6 +4,29 @@
 
 Mega Menu provides a connected overlay for navigation content. It is anchored to a navigation container, opened by a semantic button, and can coordinate sibling menus through an optional group.
 
+## When to use / not to use
+
+- Use for rich multi-column desktop navigation (product catalogs, docs hubs,
+  marketing sites with grouped destinations and editorial content).
+- Use a group when sibling triggers share one navigation bar, so only one
+  panel stays open.
+- Do not use for a single link or a flat list — prefer plain links or
+  breadcrumb.
+- Do not use as the mobile navigation — collapse to a drawer or menu on
+  small breakpoints instead (see Limitations).
+
+## Limitations (v1)
+
+- No `size`/`density` inputs by design — the panel is an overlay, not a
+  control; spacing comes from the projected content.
+- No nested mega menus and no lazy panel loading.
+- No mobile drawer fallback — consumers switch to a drawer/menu at their
+  breakpoint.
+- Panel semantics come from the projected content (links, headings);
+  the panel itself exposes no `role` or label.
+- Roving `ArrowLeft`/`ArrowRight` follows the document direction and flips
+  automatically under `[dir="rtl"]`.
+
 ## API
 
 ### SolarisMegaMenuComponent
@@ -37,6 +60,9 @@ Mega Menu provides a connected overlay for navigation content. It is anchored to
 - The trigger receives `aria-controls`, `aria-expanded`, and `aria-haspopup` automatically.
 - Escape closes the menu and restores focus to its trigger.
 - Moving focus outside both the trigger and panel closes the menu.
+- `ArrowDown` opens the panel and moves focus to its first link or button.
+- `ArrowLeft`/`ArrowRight` move focus between sibling triggers (RTL-aware),
+  `Home`/`End` jump to the first/last trigger; focusing a trigger opens it.
 - The panel supports pointer hover with configurable open and close delays.
 - Motion is disabled when the user requests reduced motion.
 

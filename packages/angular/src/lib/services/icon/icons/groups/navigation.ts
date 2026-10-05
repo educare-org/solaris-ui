@@ -374,7 +374,7 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
     elements: [
       {
         type: 'path',
-        d: 'M18 6 6 18',
+        d: 'm15 1.5-6.5 21',
       },
     ],
   },

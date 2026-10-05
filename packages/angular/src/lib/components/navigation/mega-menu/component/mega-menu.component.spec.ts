@@ -267,6 +267,69 @@ describe('SolarisMegaMenuComponent', () => {
     expect(getPanel()).toBeNull();
   });
 
+  it('moves focus between triggers with ArrowRight and opens the focused menu', () => {
+    const fixture = TestBed.createComponent(GroupTestHost);
+    fixture.detectChanges();
+
+    getTrigger(fixture).dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }),
+    );
+    (document.activeElement as HTMLElement | null)?.dispatchEvent(
+      new Event('focusin', { bubbles: true }),
+    );
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(getTrigger(fixture, 1));
+    expect(getPanel()?.textContent).toContain('Resources panel');
+  });
+
+  it('wraps focus with ArrowLeft', () => {
+    const fixture = TestBed.createComponent(GroupTestHost);
+    fixture.detectChanges();
+
+    getTrigger(fixture).dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }),
+    );
+    fixture.detectChanges();
+
+    expect(document.activeElement).toBe(getTrigger(fixture, 1));
+  });
+
+  it('jumps to the first and last triggers with Home and End', () => {
+    const fixture = TestBed.createComponent(GroupTestHost);
+    fixture.detectChanges();
+
+    getTrigger(fixture, 1).dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Home', bubbles: true }),
+    );
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(getTrigger(fixture));
+
+    getTrigger(fixture).dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'End', bubbles: true }),
+    );
+    fixture.detectChanges();
+    expect(document.activeElement).toBe(getTrigger(fixture, 1));
+  });
+
+  it('moves focus into the panel on ArrowDown', async () => {
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.detectChanges();
+
+    getTrigger(fixture).dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
+    );
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(getPanel()).toBeTruthy();
+    expect(document.activeElement?.tagName).toBe('A');
+    expect(
+      overlayContainer.getContainerElement().contains(document.activeElement),
+    ).toBe(true);
+  });
+
   it('closes on Escape and restores trigger focus', () => {
     const fixture = TestBed.createComponent(TestHost);
     fixture.detectChanges();

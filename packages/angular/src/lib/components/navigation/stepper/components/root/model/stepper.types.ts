@@ -10,6 +10,7 @@ export type SolarisStepperStatus =
   | 'pending'
   | 'active'
   | 'completed'
+  | 'warning'
   | 'error'
   | 'disabled';
 
@@ -29,4 +30,12 @@ export interface SolarisStepperChangeEvent {
 export interface SolarisStepClickEvent {
   index: number;
   label: string | undefined;
+}
+
+export type SolarisStepperBlockReason = 'enter' | 'exit';
+
+export interface SolarisStepperBlockedEvent {
+  index: number;
+  from: number;
+  reason: SolarisStepperBlockReason;
 }

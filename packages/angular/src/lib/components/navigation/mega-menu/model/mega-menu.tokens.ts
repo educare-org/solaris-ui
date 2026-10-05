@@ -12,6 +12,7 @@ export interface SolarisMegaMenuControl {
   scheduleOpen(): void;
   scheduleClose(): void;
   cancelScheduledClose(): void;
+  focusFirstPanelItem(): void;
 }
 
 export interface SolarisMegaMenuGroupControl {

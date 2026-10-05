@@ -516,6 +516,8 @@ export type { SolarisStepperContentTransition } from './lib/components/navigatio
 export type { SolarisStepperActionsAlign } from './lib/components/navigation/stepper/components/root/model/stepper.types';
 export type { SolarisStepperChangeEvent } from './lib/components/navigation/stepper/components/root/model/stepper.types';
 export type { SolarisStepClickEvent } from './lib/components/navigation/stepper/components/root/model/stepper.types';
+export type { SolarisStepperBlockReason } from './lib/components/navigation/stepper/components/root/model/stepper.types';
+export type { SolarisStepperBlockedEvent } from './lib/components/navigation/stepper/components/root/model/stepper.types';
 
 export { SolarisSegmentedControlComponent } from './lib/components/navigation/segmented-control/component/segmented-control.component';
 export { SolarisSegmentedItemComponent } from './lib/components/navigation/segmented-control/item/segmented-item.component';
@@ -535,6 +537,7 @@ export type {
 export { SolarisBreadcrumbComponent } from './lib/components/navigation/breadcrumb/component/breadcrumb.component';
 export type {
   SolarisBreadcrumbSize,
+  SolarisBreadcrumbDensity,
   SolarisBreadcrumbSeparator,
   SolarisBreadcrumbOverflowPosition,
   SolarisBreadcrumbValue,

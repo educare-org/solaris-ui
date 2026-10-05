@@ -62,4 +62,27 @@ export const PT_BR_MEGA_MENU: Record<string, string> = {
   'mega-menu.event-idle': 'Nenhum evento emitido ainda.',
   'mega-menu.event-opened': 'Evento de abertura emitido.',
   'mega-menu.event-closed': 'Evento de fechamento emitido.',
+
+  'mega-menu.section.examples': 'Exemplos',
+  'mega-menu.section.appearance': 'Aparência',
+  'mega-menu.section.width': 'Largura do painel',
+  'mega-menu.section.behavior': 'Comportamento',
+  'mega-menu.section.controlled': 'Estado controlado',
+  'mega-menu.section.keyboard': 'Teclado',
+  'mega-menu.section.responsive': 'Responsivo',
+  'mega-menu.section.installation': 'Instalação',
+  'mega-menu.section.props': 'Props',
+  'mega-menu.examples.note':
+    'Comece pela barra de navegação completa e explore aparência, largura e teclado abaixo.',
+  'mega-menu.keyboard': 'Navegação por teclado',
+  'mega-menu.keyboard-aria-label': 'Demonstração de navegação por teclado',
+  'mega-menu.keyboard-note':
+    'Foque um gatilho e use ArrowLeft e ArrowRight para alternar entre gatilhos, ArrowDown para abrir e entrar no painel, Home e End para saltar, Escape para fechar.',
+  'mega-menu.responsive-note':
+    'Mega Menu é um padrão desktop. Abaixo do seu breakpoint, troque a barra de gatilhos por um drawer ou menu em vez de espremer painéis.',
+  'mega-menu.installation.note':
+    'Instale o pacote único Solaris e importe o componente.',
+  'mega-menu.props.note': 'Tabela de props em breve com o componente table.',
+  'mega-menu.ai.prompt':
+    'Estou olhando a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usá-lo. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela.',
 };

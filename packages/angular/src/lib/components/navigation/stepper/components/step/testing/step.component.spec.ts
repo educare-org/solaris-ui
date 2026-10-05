@@ -89,6 +89,50 @@ describe('SolarisStepComponent', () => {
     expect(errorStep).toBeTruthy();
   });
 
+  it('should render warning status', () => {
+    configureBase();
+    @Component({
+      standalone: true,
+      imports: [SolarisStepperComponent, SolarisStepComponent],
+      template: `
+        <solaris-stepper [activeIndex]="0">
+          <solaris-step label="Active" />
+          <solaris-step label="Caution" status="warning" />
+        </solaris-stepper>
+      `,
+    })
+    class TestHost {}
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.detectChanges();
+    fixture.detectChanges();
+    const warningStep = fixture.nativeElement.querySelector(
+      '[data-status="warning"]',
+    );
+    expect(warningStep).toBeTruthy();
+  });
+
+  it('should prefer error over warning', () => {
+    configureBase();
+    @Component({
+      standalone: true,
+      imports: [SolarisStepperComponent, SolarisStepComponent],
+      template: `
+        <solaris-stepper [activeIndex]="0">
+          <solaris-step label="Active" />
+          <solaris-step label="Issue" [error]="true" [warning]="true" />
+        </solaris-stepper>
+      `,
+    })
+    class TestHost {}
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.detectChanges();
+    fixture.detectChanges();
+    const steps = fixture.nativeElement.querySelectorAll(
+      '.solaris-stepper__step',
+    );
+    expect(steps[steps.length - 1]?.getAttribute('data-status')).toBe('error');
+  });
+
   it('should have aria-disabled when disabled', () => {
     configureBase();
     @Component({
@@ -166,8 +210,98 @@ describe('SolarisStepComponent', () => {
     fixture.detectChanges();
     fixture.detectChanges();
     const button = fixture.nativeElement.querySelector(
-      '.solaris-stepper__indicator-button',
+      '.solaris-stepper__step-button',
     );
     expect(button).toBeTruthy();
+  });
+
+  it('should render the whole header as a single button when clickable', () => {
+    configureBase();
+    @Component({
+      standalone: true,
+      imports: [SolarisStepperComponent, SolarisStepComponent],
+      template: `
+        <solaris-stepper>
+          <solaris-step label="First" />
+          <solaris-step label="Second" />
+        </solaris-stepper>
+      `,
+    })
+    class TestHost {}
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.detectChanges();
+    fixture.detectChanges();
+    const button = fixture.nativeElement.querySelector(
+      '.solaris-stepper__step-button',
+    );
+    expect(button?.textContent).toContain('First');
+    expect(button?.querySelector('.solaris-stepper__indicator')).toBeTruthy();
+  });
+
+  it('should not render a status badge without optional or status text', () => {
+    configureBase();
+    @Component({
+      standalone: true,
+      imports: [SolarisStepperComponent, SolarisStepComponent],
+      template: `
+        <solaris-stepper>
+          <solaris-step label="First" />
+          <solaris-step label="Second" />
+        </solaris-stepper>
+      `,
+    })
+    class TestHost {}
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.detectChanges();
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement.querySelector('.solaris-stepper__status-badge'),
+    ).toBeNull();
+  });
+
+  it('should render status text in the badge', () => {
+    configureBase();
+    @Component({
+      standalone: true,
+      imports: [SolarisStepperComponent, SolarisStepComponent],
+      template: `
+        <solaris-stepper>
+          <solaris-step
+            label="Shipment"
+            status="warning"
+            statusText="Delayed"
+          />
+        </solaris-stepper>
+      `,
+    })
+    class TestHost {}
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.detectChanges();
+    fixture.detectChanges();
+    const badge = fixture.nativeElement.querySelector(
+      '.solaris-stepper__status-text',
+    );
+    expect(badge?.textContent?.trim()).toBe('Delayed');
+  });
+
+  it('should expose the label as title for truncated labels', () => {
+    configureBase();
+    @Component({
+      standalone: true,
+      imports: [SolarisStepperComponent, SolarisStepComponent],
+      template: `
+        <solaris-stepper>
+          <solaris-step label="Shipment" />
+        </solaris-stepper>
+      `,
+    })
+    class TestHost {}
+    const fixture = TestBed.createComponent(TestHost);
+    fixture.detectChanges();
+    fixture.detectChanges();
+    const label = fixture.nativeElement.querySelector(
+      '.solaris-stepper__label',
+    );
+    expect(label?.getAttribute('title')).toBe('Shipment');
   });
 });

@@ -15,4 +15,6 @@ export type {
   SolarisStepperActionsAlign,
   SolarisStepperChangeEvent,
   SolarisStepClickEvent,
+  SolarisStepperBlockReason,
+  SolarisStepperBlockedEvent,
 } from './components/root/model/stepper.types';

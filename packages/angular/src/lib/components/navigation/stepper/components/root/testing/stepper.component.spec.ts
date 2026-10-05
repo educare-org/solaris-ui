@@ -169,6 +169,56 @@ class CompactStepperTestHostComponent {
   readonly activeIndex = signal(0);
 }
 
+@Component({
+  standalone: true,
+  imports: [SolarisStepperComponent, SolarisStepComponent],
+  template: `
+    <solaris-stepper
+      [activeIndex]="activeIndex()"
+      (activeIndexChange)="activeIndex.set($event)"
+      (stepBlocked)="onBlocked($event)"
+    >
+      <solaris-step label="A" [canExit]="canExit" />
+      <solaris-step label="B" [canEnter]="canEnter" />
+    </solaris-stepper>
+  `,
+})
+class GuardStepperTestHostComponent {
+  readonly activeIndex = signal(0);
+  canEnter: (() => boolean) | undefined;
+  canExit: (() => boolean) | undefined;
+  lastBlocked:
+    | { index: number; from: number; reason: 'enter' | 'exit' }
+    | undefined;
+
+  onBlocked(event: {
+    index: number;
+    from: number;
+    reason: 'enter' | 'exit';
+  }): void {
+    this.lastBlocked = event;
+  }
+}
+
+@Component({
+  standalone: true,
+  imports: [SolarisStepperComponent, SolarisStepComponent],
+  template: `
+    <solaris-stepper
+      [activeIndex]="activeIndex()"
+      (activeIndexChange)="activeIndex.set($event)"
+      [linear]="true"
+    >
+      <solaris-step label="A" status="completed" />
+      <solaris-step label="B" status="warning" />
+      <solaris-step label="C" status="pending" />
+    </solaris-stepper>
+  `,
+})
+class LinearWarningStepperTestHostComponent {
+  readonly activeIndex = signal(1);
+}
+
 function qAll(
   fixture: ComponentFixture<unknown>,
   selector: string,
@@ -261,7 +311,7 @@ describe('SolarisStepperComponent', () => {
     configureBase();
     const fixture = TestBed.createComponent(TestHostComponent);
     fixture.detectChanges();
-    const buttons = qAll(fixture, '.solaris-stepper__indicator-button');
+    const buttons = qAll(fixture, '.solaris-stepper__step-button');
     if (buttons.length > 2) {
       buttons[2].click();
       fixture.detectChanges();
@@ -297,6 +347,72 @@ describe('SolarisStepperComponent', () => {
     expect(stepper.getAttribute('data-density')).toBe('compact');
   });
 
+  it('should default data-density to the theme density', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(TestHostComponent);
+    fixture.detectChanges();
+    const stepper = fixture.nativeElement.querySelector('solaris-stepper');
+    expect(stepper.getAttribute('data-size')).toBe('md');
+    expect(stepper.getAttribute('data-density')).toBe('normal');
+  });
+
+  it('should block navigation when canEnter denies and emit stepBlocked', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(GuardStepperTestHostComponent);
+    fixture.componentInstance.canEnter = () => false;
+    fixture.detectChanges();
+    const buttons = qAll(fixture, '.solaris-stepper__step-button');
+    buttons[1].click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.activeIndex()).toBe(0);
+    expect(fixture.componentInstance.lastBlocked).toEqual({
+      index: 1,
+      from: 0,
+      reason: 'enter',
+    });
+  });
+
+  it('should block navigation when canExit denies and emit stepBlocked', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(GuardStepperTestHostComponent);
+    fixture.componentInstance.canExit = () => false;
+    fixture.detectChanges();
+    const buttons = qAll(fixture, '.solaris-stepper__step-button');
+    buttons[1].click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.activeIndex()).toBe(0);
+    expect(fixture.componentInstance.lastBlocked).toEqual({
+      index: 1,
+      from: 0,
+      reason: 'exit',
+    });
+  });
+
+  it('should allow navigation when guards approve', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(GuardStepperTestHostComponent);
+    fixture.componentInstance.canEnter = () => true;
+    fixture.componentInstance.canExit = () => true;
+    fixture.detectChanges();
+    const buttons = qAll(fixture, '.solaris-stepper__step-button');
+    buttons[1].click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.activeIndex()).toBe(1);
+    expect(fixture.componentInstance.lastBlocked).toBeUndefined();
+  });
+
+  it('should allow going back to a warning step in linear mode', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(
+      LinearWarningStepperTestHostComponent,
+    );
+    fixture.detectChanges();
+    const buttons = qAll(fixture, '.solaris-stepper__step-button');
+    buttons[0].click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.activeIndex()).toBe(0);
+  });
+
   it('should have navigation role', () => {
     configureBase();
     const fixture = TestBed.createComponent(TestHostComponent);
@@ -314,7 +430,7 @@ describe('SolarisStepperComponent', () => {
     );
     expect(activeStep).toBeTruthy();
     const indicator = activeStep?.querySelector(
-      '.solaris-stepper__indicator-button',
+      '.solaris-stepper__step-button',
     );
     if (indicator) {
       expect(indicator.getAttribute('aria-current')).toBe('step');

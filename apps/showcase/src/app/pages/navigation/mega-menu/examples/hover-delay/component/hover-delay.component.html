@@ -1,0 +1,25 @@
+<nav
+  class="mega-menu-showcase__nav"
+  [attr.aria-label]="'mega-menu.hover-delay' | translate"
+  solaris-mega-menu-anchor
+>
+  <a class="mega-menu-showcase__brand" href="/">{{
+    'mega-menu.brand' | translate
+  }}</a>
+  <solaris-mega-menu
+    panelWidth="anchor"
+    [hoverOpenDelay]="400"
+    [hoverCloseDelay]="400"
+  >
+    <button solaris-mega-menu-trigger class="mega-menu-showcase__trigger">
+      {{ 'mega-menu.delayed-trigger' | translate }}
+    </button>
+    <ng-template solaris-mega-menu-panel
+      ><div
+        class="mega-menu-showcase__panel mega-menu-showcase__panel--compact"
+      >
+        {{ 'mega-menu.delayed-content' | translate }}
+      </div></ng-template
+    >
+  </solaris-mega-menu>
+</nav>

@@ -220,6 +220,16 @@ export class SolarisMegaMenuComponent implements SolarisMegaMenuControl {
     this.clearCloseTimer();
   }
 
+  focusFirstPanelItem(): void {
+    queueMicrotask(() => {
+      this.overlayRef?.overlayElement
+        .querySelector<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        )
+        ?.focus();
+    });
+  }
+
   protected onPanelPointerEnter(): void {
     this.cancelScheduledClose();
   }

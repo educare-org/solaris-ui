@@ -7,6 +7,26 @@ links back to parent levels. It supports text-only, icon-only, and icon + text
 items, optional overflow, separator variants, and optional previous/next pager
 buttons.
 
+## When to use / not to use
+
+- Use for deep hierarchies where users need to return to parent levels
+  (settings, organization, file browsers, multi-level catalogs).
+- Use the first item as home (icon + label) so the trail always has a stable
+  entry point.
+- Do not use for flat navigation with a single level — prefer tabs or a plain
+  link list.
+- Do not use for sequential flows with validation (checkout, onboarding) —
+  prefer stepper.
+
+## Limitations (v1)
+
+- No `routerLink` binding — items expose `href` plus the `navigate` output and
+  the shell/router resolves the route.
+- No automatic responsive collapsing — overflow requires explicit
+  `maxVisibleItems` + `overflowPosition`.
+- No SEO/`json-ld` emission — the component renders navigation only.
+- The pager exposes previous/next only (no first/last or dropdown jump).
+
 ## API
 
 ### Inputs
@@ -15,6 +35,7 @@ buttons.
 | ------------------ | ---------------------------------------- | ---------- | ------------------------------------------------ |
 | `items`            | `SolarisBreadcrumbItem[]`                | required   | Ordered breadcrumb trail.                        |
 | `size`             | `'sm' \| 'md' \| 'lg'`                   | `'md'`     | Component size.                                  |
+| `density`          | `'compact' \| 'normal' \| 'comfortable'` | theme      | Spacing density, falls back to the theme.        |
 | `separator`        | `'slash' \| 'chevron' \| 'dot'`          | `'slash'`  | Icon separator rendered between visible items.   |
 | `maxVisibleItems`  | `number \| null`                         | `null`     | Maximum visible crumb items before overflow.     |
 | `overflowPosition` | `'none' \| 'start' \| 'middle' \| 'end'` | `'none'`   | Hidden segment position when overflow is active. |
@@ -63,18 +84,25 @@ Overflow is disabled by default. Set both `maxVisibleItems` and
 The current item is always visible. The ellipsis trigger opens a dropdown menu
 with the hidden items in their original order.
 
-## Size and Separator Variants
+## Size and Density
 
-Use `size` to scale the breadcrumb's text, icons, separators, and pager
-controls together.
+`size` scales text, icons, separators, and pager controls together
+(`sm`: compact navigation and toolbars, `md`: default page navigation,
+`lg`: prominent hierarchical context). `density` controls the gap between
+items only (`compact`: `spacing-2`, `normal`: `spacing-3`,
+`comfortable`: `spacing-4`) — the breadcrumb uses its own spacing scale
+and does not derive from `--solaris-control-height-*`.
 
-| Size | Use case                         |
-| ---- | -------------------------------- |
-| `sm` | Compact navigation and toolbars. |
-| `md` | Default page navigation.         |
-| `lg` | Prominent hierarchical context.  |
+| Size | Font | Label max-width |
+| ---- | ---- | --------------- |
+| `sm` | `sm` | `120px`         |
+| `md` | `md` | `200px`         |
+| `lg` | `lg` | `280px`         |
 
-Use `separator` to match the hierarchy's visual language:
+Labels longer than the max-width truncate with an ellipsis and expose the
+full label through the native `title` tooltip.
+
+## Separator Variants
 
 | Separator | Appearance     |
 | --------- | -------------- |
@@ -95,16 +123,17 @@ Use `separator` to match the hierarchy's visual language:
 
 ## CSS Variables
 
-| Variable                              | Default                  | Description                     |
-| ------------------------------------- | ------------------------ | ------------------------------- |
-| `--solaris-breadcrumb-font-size`      | `--solaris-font-size-md` | Text size.                      |
-| `--solaris-breadcrumb-link-color`     | `--solaris-primary-base` | Link color.                     |
-| `--solaris-breadcrumb-text-color`     | `--solaris-text-default` | Text/current item color.        |
-| `--solaris-breadcrumb-muted-color`    | `--solaris-text-muted`   | Separator and muted icon color. |
-| `--solaris-breadcrumb-icon-size`      | `--solaris-spacing-4`    | Item icon size.                 |
-| `--solaris-breadcrumb-separator-size` | `--solaris-spacing-3`    | Separator icon size.            |
-| `--solaris-breadcrumb-gap`            | `--solaris-spacing-1`    | Gap between inline parts.       |
-| `--solaris-breadcrumb-pager-size`     | `--solaris-spacing-5`    | Optional pager button size.     |
+| Variable                               | Default                  | Description                     |
+| -------------------------------------- | ------------------------ | ------------------------------- |
+| `--solaris-breadcrumb-font-size`       | `--solaris-font-size-md` | Text size.                      |
+| `--solaris-breadcrumb-link-color`      | `--solaris-text-muted`   | Link color.                     |
+| `--solaris-breadcrumb-text-color`      | `--solaris-text-default` | Text/current item color.        |
+| `--solaris-breadcrumb-muted-color`     | `--solaris-text-muted`   | Separator and muted icon color. |
+| `--solaris-breadcrumb-icon-size`       | `--solaris-font-size-sm` | Item icon size.                 |
+| `--solaris-breadcrumb-separator-size`  | `--solaris-font-size-sm` | Separator icon size.            |
+| `--solaris-breadcrumb-gap`             | `--solaris-spacing-3`    | Gap between inline parts.       |
+| `--solaris-breadcrumb-pager-size`      | `--solaris-spacing-5`    | Optional pager button size.     |
+| `--solaris-breadcrumb-label-max-width` | `200px`                  | Label truncation width.         |
 
 ## Examples
 
