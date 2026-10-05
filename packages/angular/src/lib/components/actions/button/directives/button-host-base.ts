@@ -23,20 +23,6 @@ import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisSpinnerComponent } from '../../../feedback/spinner';
 
-/**
- * Shared host behavior for `[solaris-button]` and `[solaris-icon-button]`.
- *
- * Lives under `button/directives` (instead of a forbidden `shared` folder)
- * because both directives already depend on the `button-group` context and
- * the spinner, so no new architectural dependency direction is introduced.
- *
- * Subclasses declare their own typed `input()`s (button vs icon-button
- * unions are structurally identical) and call {@link setupButtonHost} at the
- * end of their constructor, once their input signals exist. Reading subclass
- * inputs inside a base-class constructor would run before subclass field
- * initializers, so the setup is intentionally a method and not base
- * constructor logic.
- */
 @Directive()
 export abstract class SolarisButtonHostBase {
   abstract readonly size: Signal<string>;
@@ -121,11 +107,6 @@ export abstract class SolarisButtonHostBase {
     this.elementRef.nativeElement.tagName === 'BUTTON';
   protected readonly isAnchor = this.elementRef.nativeElement.tagName === 'A';
 
-  /**
-   * Applies default `type`, SSR `data-*` placeholders and reactive wiring.
-   * Must be called from the subclass constructor (not from this base
-   * constructor) so subclass `input()` signals are already initialized.
-   */
   protected setupButtonHost(): void {
     const el = this.elementRef.nativeElement;
     const initialType = el.getAttribute('type');
