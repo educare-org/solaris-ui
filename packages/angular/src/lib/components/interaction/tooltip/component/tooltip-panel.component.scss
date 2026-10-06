@@ -6,19 +6,19 @@
   --solaris-tooltip-shadow: var(--solaris-shadow-sm);
   --solaris-tooltip-radius: var(--solaris-radius-md);
   --solaris-tooltip-offset: var(--solaris-spacing-1);
-  --solaris-tooltip-color: var(--solaris-text-default);
+  --solaris-tooltip-color: var(--solaris-neutral-text-body);
   --solaris-tooltip-icon-size: var(--solaris-font-size-md);
   --solaris-tooltip-arrow-size: var(--solaris-font-size-xs);
   --solaris-tooltip-padding-block: var(--solaris-spacing-3);
   --solaris-tooltip-padding-inline: var(--solaris-spacing-5);
-  --solaris-tooltip-background: var(--solaris-surface-raised);
+  --solaris-tooltip-background: var(--solaris-neutral-default);
 
   outline: none;
   display: block;
 }
 
 .solaris-tooltip-panel__container {
-  --solaris-tooltip-background: var(--solaris-surface-raised);
+  --solaris-tooltip-background: var(--solaris-neutral-default);
 
   display: flex;
   outline: none;
@@ -224,7 +224,7 @@
 }
 
 .solaris-tooltip-panel__container[data-appearance='outline'] {
-  --solaris-tooltip-border-color: var(--solaris-border-default);
+  --solaris-tooltip-border-color: var(--solaris-neutral-border-default);
   --solaris-tooltip-border-width: var(--solaris-border-width-sm);
 
   background: var(--solaris-tooltip-background);
@@ -243,10 +243,10 @@
 .solaris-tooltip-panel__container[data-appearance='inverse'] {
   --solaris-tooltip-border-width: 0;
   --solaris-tooltip-border-color: transparent;
-  --solaris-tooltip-background: var(--solaris-text-default);
+  --solaris-tooltip-background: var(--solaris-neutral-text-body);
 
   border: 0;
-  color: var(--solaris-surface-raised);
+  color: var(--solaris-neutral-default);
   background: var(--solaris-tooltip-background);
 }
 

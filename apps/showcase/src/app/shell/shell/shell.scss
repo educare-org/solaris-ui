@@ -1,8 +1,8 @@
 :host {
   display: block;
   min-height: 100vh;
-  background: var(--solaris-surface-base);
-  color: var(--solaris-text-default);
+  background: var(--solaris-neutral-page);
+  color: var(--solaris-neutral-text-body);
 }
 
 .shell__skip-link {
@@ -24,8 +24,8 @@
   clip-path: none;
   padding: var(--solaris-spacing-2) var(--solaris-spacing-4);
   border-radius: var(--solaris-radius-md);
-  background: var(--solaris-primary-base);
-  color: var(--solaris-text-inverse);
+  background: var(--solaris-primary-solid);
+  color: var(--solaris-neutral-text-inverse);
   font-size: var(--solaris-font-size-sm);
   font-weight: var(--solaris-font-weight-medium);
   text-decoration: none;

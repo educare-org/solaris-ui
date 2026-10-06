@@ -126,7 +126,7 @@ The ring variant renders one subtle background track circle and one continuous a
 
 ## Backdrop
 
-When `backdrop` is `true`, the spinner renders as a fixed overlay covering the viewport with a `--solaris-backdrop` background. The indicator and label are centered in a column. Body scroll is locked while the backdrop is visible (opt out with `[lockScroll]="false"`).
+When `backdrop` is `true`, the spinner renders as a fixed overlay covering the viewport with a `--solaris-neutral-backdrop` background. The indicator and label are centered in a column. Body scroll is locked while the backdrop is visible (opt out with `[lockScroll]="false"`).
 
 ```html
 <solaris-spinner size="xl" backdrop label="Loading application..." />
@@ -151,15 +151,15 @@ Set `--solaris-spinner-overlay-background` on the spinner to veil the zone (defa
 
 ## Colors
 
-| Color     | Token                            |
-| --------- | -------------------------------- |
-| `neutral` | `--solaris-text-muted`           |
-| `primary` | `--solaris-primary-base`         |
-| `success` | `--solaris-success-base`         |
-| `warning` | `--solaris-warning-base`         |
-| `danger`  | `--solaris-danger-base`          |
-| `info`    | `--solaris-info-base`            |
-| `custom`  | `--solaris-spinner-custom-color` |
+| Color     | Token                              |
+| --------- | ---------------------------------- |
+| `neutral` | `--solaris-neutral-text-secondary` |
+| `primary` | `--solaris-primary-solid`          |
+| `success` | `--solaris-success-solid`          |
+| `warning` | `--solaris-warning-solid`          |
+| `danger`  | `--solaris-danger-solid`           |
+| `info`    | `--solaris-info-solid`             |
+| `custom`  | `--solaris-spinner-custom-color`   |
 
 When `color="custom"`, define `--solaris-spinner-custom-color` in your theme to use your own brand color.
 
@@ -179,10 +179,10 @@ The track is the indicator color at a reduced opacity (`--solaris-spinner-track-
 | -------------------------------------- | -------------------------------- | ----------------------------------------- |
 | `--solaris-spinner-size`               | `--solaris-spacing-6`            | Indicator size.                           |
 | `--solaris-spinner-thickness`          | `15` (viewBox units)             | Stroke thickness.                         |
-| `--solaris-spinner-color`              | `--solaris-primary-base`         | Indicator color.                          |
+| `--solaris-spinner-color`              | `--solaris-primary-solid`        | Indicator color.                          |
 | `--solaris-spinner-track-color`        | `--solaris-spinner-color`        | Static track color.                       |
 | `--solaris-spinner-track-opacity`      | `--solaris-opacity-20`           | Static track opacity.                     |
-| `--solaris-spinner-custom-color`       | `--solaris-primary-base`         | Custom color override.                    |
+| `--solaris-spinner-custom-color`       | `--solaris-primary-solid`        | Custom color override.                    |
 | `--solaris-spinner-label-font-size`    | `--solaris-font-size-sm`         | Visible label size (size-driven).         |
 | `--solaris-spinner-percent-font-size`  | `--solaris-font-size-md`         | Percent size in `progress` (size-driven). |
 | `--solaris-spinner-gap`                | `--solaris-spacing-3`            | Indicator-to-text gap (density-driven).   |

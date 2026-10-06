@@ -4,19 +4,19 @@
   --solaris-code-block-button-background: transparent;
   --solaris-code-block-button-border-color: transparent;
   --solaris-code-block-radius: var(--solaris-radius-sm);
-  --solaris-code-block-text: var(--solaris-text-default);
-  --solaris-code-block-muted-text: var(--solaris-text-muted);
+  --solaris-code-block-text: var(--solaris-neutral-text-body);
+  --solaris-code-block-muted-text: var(--solaris-neutral-text-secondary);
   --solaris-code-block-font-size: var(--solaris-font-size-sm);
   --solaris-code-block-action-size: var(--solaris-spacing-10);
   --solaris-code-block-padding-block: var(--solaris-spacing-2);
-  --solaris-code-block-background: var(--solaris-surface-muted);
+  --solaris-code-block-background: var(--solaris-neutral-sunken);
   --solaris-code-block-padding-inline: var(--solaris-spacing-6);
-  --solaris-code-block-border-color: var(--solaris-border-subtle);
+  --solaris-code-block-border-color: var(--solaris-neutral-border-subtle);
   --solaris-code-block-line-height: var(--solaris-line-height-sm);
   --solaris-code-block-action-icon-size: var(--solaris-font-size-sm);
   --solaris-code-block-inline-padding-block: var(--solaris-spacing-3);
   --solaris-code-block-inline-padding-inline: var(--solaris-spacing-4);
-  --solaris-code-block-header-background: var(--solaris-surface-raised);
+  --solaris-code-block-header-background: var(--solaris-neutral-default);
   --solaris-code-block-collapsed-max-height: calc(
     var(--solaris-code-block-collapsed-lines, 8) *
       var(--solaris-line-height-sm) * var(--solaris-code-block-font-size) +
@@ -73,13 +73,13 @@
 }
 
 :host([data-appearance='surface']) {
-  --solaris-code-block-header-background: var(--solaris-bg-page);
-  --solaris-code-block-background: var(--solaris-surface-raised);
+  --solaris-code-block-header-background: var(--solaris-neutral-page);
+  --solaris-code-block-background: var(--solaris-neutral-default);
 }
 
 :host([data-appearance='outline']) {
-  --solaris-code-block-background: var(--solaris-surface-raised);
-  --solaris-code-block-header-background: var(--solaris-surface-raised);
+  --solaris-code-block-background: var(--solaris-neutral-default);
+  --solaris-code-block-header-background: var(--solaris-neutral-default);
 }
 
 .solaris-code-block__frame {
@@ -91,7 +91,7 @@
 }
 
 .solaris-code-block__inline-shell {
-  background: var(--solaris-bg-page);
+  background: var(--solaris-neutral-page);
   padding-inline: var(--solaris-spacing-4) 0;
   border: var(--solaris-border-width-sm) solid
     var(--solaris-code-block-border-color);
@@ -183,7 +183,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   text-transform: lowercase;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   margin-top: var(--solaris-spacing-2);
   font-size: var(--solaris-font-size-xs);
   line-height: var(--solaris-line-height-none);
@@ -294,7 +294,7 @@
 .solaris-code-block__toggle-button {
   cursor: pointer;
   appearance: none;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   border-radius: var(--solaris-radius-sm);
   background: var(--solaris-code-block-button-background);
   border: var(--solaris-border-width-sm) solid
@@ -352,12 +352,12 @@
 
 .solaris-code-block__icon-button:hover,
 .solaris-code-block__toggle-button:hover {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
 }
 
 .solaris-code-block__icon-button:active,
 .solaris-code-block__toggle-button:active {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
 }
 
 .solaris-code-block__icon-button:focus-visible,
@@ -393,28 +393,28 @@
 }
 
 [data-token-kind='comment'] {
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
 }
 
 [data-token-kind='annotation'],
 [data-token-kind='keyword'],
 [data-token-kind='tag'] {
-  color: var(--solaris-primary-text);
+  color: var(--solaris-primary-foreground);
 }
 
 [data-token-kind='string'] {
-  color: var(--solaris-success-text);
+  color: var(--solaris-success-foreground);
 }
 
 [data-token-kind='number'],
 [data-token-kind='attribute'],
 [data-token-kind='property'] {
-  color: var(--solaris-warning-text);
+  color: var(--solaris-warning-foreground);
 }
 
 [data-token-kind='builtin'],
 [data-token-kind='variable'] {
-  color: var(--solaris-info-text);
+  color: var(--solaris-info-foreground);
 }
 
 [data-token-kind='operator'] {

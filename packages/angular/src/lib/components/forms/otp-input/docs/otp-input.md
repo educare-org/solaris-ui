@@ -139,14 +139,14 @@ are detected via `projectedSuffixAction` (`hasSuffixAction` on Form Field):
 | Token                                         | Default                                          | Description                          |
 | --------------------------------------------- | ------------------------------------------------ | ------------------------------------ |
 | `--solaris-otp-input-gap`                     | `var(--solaris-spacing-2)`                       | Gap between boxes.                   |
-| `--solaris-otp-input-separator-color`         | `var(--solaris-text-muted)`                      | Separator `-` color.                 |
+| `--solaris-otp-input-separator-color`         | `var(--solaris-neutral-text-secondary)`          | Separator `-` color.                 |
 | `--solaris-otp-input-box-radius`              | `var(--solaris-radius-sm)`                       | Box radius.                          |
-| `--solaris-otp-input-box-border-color`        | `var(--solaris-border-subtle)`                   | Box border.                          |
+| `--solaris-otp-input-box-border-color`        | `var(--solaris-neutral-border-subtle)`           | Box border.                          |
 | `--solaris-otp-input-box-border-width`        | `var(--solaris-border-width-sm)`                 | Box border width.                    |
 | `--solaris-otp-input-box-background`          | `transparent`                                    | Box background.                      |
-| `--solaris-otp-input-box-color`               | `var(--solaris-text-default)`                    | Box text color.                      |
-| `--solaris-otp-input-box-active-border-color` | `var(--solaris-border-strong)`                   | Active box border (no outline ring). |
-| `--solaris-otp-input-box-error-border-color`  | `var(--solaris-danger-base)`                     | Invalid border.                      |
+| `--solaris-otp-input-box-color`               | `var(--solaris-neutral-text-body)`               | Box text color.                      |
+| `--solaris-otp-input-box-active-border-color` | `var(--solaris-neutral-border-strong)`           | Active box border (no outline ring). |
+| `--solaris-otp-input-box-error-border-color`  | `var(--solaris-danger-solid)`                    | Invalid border.                      |
 | `--solaris-otp-input-box-width`               | `calc(var(--solaris-density-min-height) * 0.90)` | Box width.                           |
 | `--solaris-otp-input-box-height`              | `calc(var(--solaris-density-min-height) * 1.15)` | Box height.                          |
 

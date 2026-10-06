@@ -90,7 +90,7 @@ The icon inherits the current text color via `currentColor`:
 
 ```css
 .my-icon-container {
-  color: var(--solaris-primary-base);
+  color: var(--solaris-primary-solid);
 }
 ```
 

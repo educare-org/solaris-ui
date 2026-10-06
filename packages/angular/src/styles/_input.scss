@@ -1,20 +1,20 @@
 input[solaris-input] {
   --solaris-input-radius: var(--solaris-radius-sm);
   --solaris-input-height: var(--solaris-spacing-10);
-  --solaris-input-color: var(--solaris-text-default);
+  --solaris-input-color: var(--solaris-neutral-text-body);
   --solaris-input-padding-x: var(--solaris-spacing-3);
   --solaris-input-padding-y: var(--solaris-spacing-2);
   --solaris-input-font-size: var(--solaris-font-size-md);
-  --solaris-input-background: var(--solaris-surface-base);
+  --solaris-input-background: var(--solaris-neutral-default);
   --solaris-input-line-height: var(--solaris-line-height-md);
-  --solaris-input-border-color: var(--solaris-border-default);
+  --solaris-input-border-color: var(--solaris-neutral-border-default);
   --solaris-input-disabled-opacity: var(--solaris-opacity-50);
   --solaris-input-border-width: var(--solaris-border-width-sm);
-  --solaris-input-placeholder-color: var(--solaris-text-muted);
-  --solaris-input-focus-ring-color: var(--solaris-primary-base);
+  --solaris-input-placeholder-color: var(--solaris-neutral-text-secondary);
+  --solaris-input-focus-ring-color: var(--solaris-primary-solid);
   --solaris-input-focus-ring-width: var(--solaris-focus-ring-width);
-  --solaris-input-invalid-border-color: var(--solaris-danger-base);
-  --solaris-input-readonly-background: var(--solaris-surface-muted);
+  --solaris-input-invalid-border-color: var(--solaris-danger-solid);
+  --solaris-input-readonly-background: var(--solaris-neutral-sunken);
 
   margin: 0;
   width: 100%;
@@ -91,38 +91,38 @@ input[solaris-input]:-webkit-autofill {
 }
 
 input[solaris-input][data-appearance='outline'] {
-  --solaris-input-color: var(--solaris-text-default);
-  --solaris-input-background: var(--solaris-surface-base);
-  --solaris-input-border-color: var(--solaris-border-subtle);
+  --solaris-input-color: var(--solaris-neutral-text-body);
+  --solaris-input-background: var(--solaris-neutral-default);
+  --solaris-input-border-color: var(--solaris-neutral-border-subtle);
   --solaris-input-disabled-opacity: var(--solaris-opacity-50);
   --solaris-input-border-width: var(--solaris-border-width-sm);
-  --solaris-input-placeholder-color: var(--solaris-text-muted);
-  --solaris-input-focus-ring-color: var(--solaris-primary-base);
-  --solaris-input-invalid-border-color: var(--solaris-danger-base);
-  --solaris-input-readonly-background: var(--solaris-surface-muted);
+  --solaris-input-placeholder-color: var(--solaris-neutral-text-secondary);
+  --solaris-input-focus-ring-color: var(--solaris-primary-solid);
+  --solaris-input-invalid-border-color: var(--solaris-danger-solid);
+  --solaris-input-readonly-background: var(--solaris-neutral-sunken);
 }
 
 input[solaris-input][data-appearance='surface'] {
-  --solaris-input-color: var(--solaris-text-default);
-  --solaris-input-background: var(--solaris-surface-subtle);
-  --solaris-input-border-color: var(--solaris-border-subtle);
+  --solaris-input-color: var(--solaris-neutral-text-body);
+  --solaris-input-background: var(--solaris-neutral-subtle);
+  --solaris-input-border-color: var(--solaris-neutral-border-subtle);
   --solaris-input-disabled-opacity: var(--solaris-opacity-50);
   --solaris-input-border-width: 0;
-  --solaris-input-placeholder-color: var(--solaris-text-muted);
-  --solaris-input-focus-ring-color: var(--solaris-primary-base);
-  --solaris-input-invalid-border-color: var(--solaris-danger-base);
-  --solaris-input-readonly-background: var(--solaris-surface-base);
+  --solaris-input-placeholder-color: var(--solaris-neutral-text-secondary);
+  --solaris-input-focus-ring-color: var(--solaris-primary-solid);
+  --solaris-input-invalid-border-color: var(--solaris-danger-solid);
+  --solaris-input-readonly-background: var(--solaris-neutral-default);
 }
 
 input[solaris-input][data-appearance='filled'] {
-  --solaris-input-border-color: var(--solaris-border-subtle);
-  --solaris-input-color: var(--solaris-text-default);
-  --solaris-input-background: var(--solaris-surface-subtle);
+  --solaris-input-border-color: var(--solaris-neutral-border-subtle);
+  --solaris-input-color: var(--solaris-neutral-text-body);
+  --solaris-input-background: var(--solaris-neutral-subtle);
   --solaris-input-disabled-opacity: var(--solaris-opacity-50);
-  --solaris-input-placeholder-color: var(--solaris-text-muted);
-  --solaris-input-focus-ring-color: var(--solaris-primary-base);
-  --solaris-input-invalid-border-color: var(--solaris-danger-base);
-  --solaris-input-readonly-background: var(--solaris-surface-muted);
+  --solaris-input-placeholder-color: var(--solaris-neutral-text-secondary);
+  --solaris-input-focus-ring-color: var(--solaris-primary-solid);
+  --solaris-input-invalid-border-color: var(--solaris-danger-solid);
+  --solaris-input-readonly-background: var(--solaris-neutral-sunken);
   --solaris-input-border-width: var(--solaris-border-width-sm);
 }
 

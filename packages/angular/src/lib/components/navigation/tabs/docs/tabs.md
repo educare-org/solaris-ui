@@ -360,32 +360,32 @@ Not yet implemented:
 
 Container (`solaris-tabs`) tokens:
 
-| Token                            | Default                          | Description                                      |
-| -------------------------------- | -------------------------------- | ------------------------------------------------ |
-| `--solaris-tabs-gap`             | `0`                              | Gap between tabs                                 |
-| `--solaris-tabs-border-color`    | `var(--solaris-border-subtle)`   | Tablist border color                             |
-| `--solaris-tabs-indicator-color` | `var(--solaris-primary-base)`    | Active indicator color                           |
-| `--solaris-tabs-indicator-size`  | `var(--solaris-border-width-md)` | Active indicator thickness                       |
-| `--solaris-tabs-separator-gap`   | `var(--solaris-spacing-3)`       | Gap between vertical tabs and the separator line |
-| `--solaris-tabs-panel-padding`   | `var(--solaris-spacing-4)`       | Panel padding                                    |
+| Token                            | Default                                | Description                                      |
+| -------------------------------- | -------------------------------------- | ------------------------------------------------ |
+| `--solaris-tabs-gap`             | `0`                                    | Gap between tabs                                 |
+| `--solaris-tabs-border-color`    | `var(--solaris-neutral-border-subtle)` | Tablist border color                             |
+| `--solaris-tabs-indicator-color` | `var(--solaris-primary-solid)`         | Active indicator color                           |
+| `--solaris-tabs-indicator-size`  | `var(--solaris-border-width-md)`       | Active indicator thickness                       |
+| `--solaris-tabs-separator-gap`   | `var(--solaris-spacing-3)`             | Gap between vertical tabs and the separator line |
+| `--solaris-tabs-panel-padding`   | `var(--solaris-spacing-4)`             | Panel padding                                    |
 
 Tab (`solaris-tab`) tokens:
 
-| Token                             | Default                          | Description            |
-| --------------------------------- | -------------------------------- | ---------------------- |
-| `--solaris-tab-color`             | `var(--solaris-text-default)`    | Tab text color         |
-| `--solaris-tab-active-color`      | `var(--solaris-primary-text)`    | Active tab text color  |
-| `--solaris-tab-hover-background`  | `var(--solaris-surface-subtle)`  | Tab hover background   |
-| `--solaris-tab-active-background` | `var(--solaris-primary-surface)` | Active tab background  |
-| `--solaris-tab-border-color`      | `var(--solaris-border-subtle)`   | Enclosed border color  |
-| `--solaris-tab-height`            | driven by `size` × `density`     | Tab minimum height     |
-| `--solaris-tab-padding-x`         | driven by `size` × `density`     | Tab horizontal padding |
-| `--solaris-tab-padding-y`         | driven by `size` × `density`     | Tab vertical padding   |
-| `--solaris-tab-gap`               | driven by `size` × `density`     | Gap inside tab         |
-| `--solaris-tab-font-size`         | driven by `size`                 | Tab font size          |
-| `--solaris-tab-icon-size`         | driven by `size` × `density`     | Tab icon size          |
+| Token                             | Default                                | Description            |
+| --------------------------------- | -------------------------------------- | ---------------------- |
+| `--solaris-tab-color`             | `var(--solaris-neutral-text-body)`     | Tab text color         |
+| `--solaris-tab-active-color`      | `var(--solaris-primary-foreground)`    | Active tab text color  |
+| `--solaris-tab-hover-background`  | `var(--solaris-neutral-subtle)`        | Tab hover background   |
+| `--solaris-tab-active-background` | `var(--solaris-primary-soft)`          | Active tab background  |
+| `--solaris-tab-border-color`      | `var(--solaris-neutral-border-subtle)` | Enclosed border color  |
+| `--solaris-tab-height`            | driven by `size` × `density`           | Tab minimum height     |
+| `--solaris-tab-padding-x`         | driven by `size` × `density`           | Tab horizontal padding |
+| `--solaris-tab-padding-y`         | driven by `size` × `density`           | Tab vertical padding   |
+| `--solaris-tab-gap`               | driven by `size` × `density`           | Gap inside tab         |
+| `--solaris-tab-font-size`         | driven by `size`                       | Tab font size          |
+| `--solaris-tab-icon-size`         | driven by `size` × `density`           | Tab icon size          |
 
 With `color="neutral"`, `--solaris-tabs-indicator-color` becomes
-`var(--solaris-text-strong)`, `--solaris-tab-active-color` becomes
-`var(--solaris-text-strong)`, and `--solaris-tab-active-background` becomes
-`var(--solaris-surface-muted)`.
+`var(--solaris-neutral-text-heading)`, `--solaris-tab-active-color` becomes
+`var(--solaris-neutral-text-heading)`, and `--solaris-tab-active-background` becomes
+`var(--solaris-neutral-sunken)`.

@@ -1,21 +1,21 @@
 :host {
   --solaris-avatar-size: var(--solaris-spacing-12);
   --solaris-avatar-radius: var(--solaris-radius-full);
-  --solaris-avatar-background: var(--solaris-surface-muted);
-  --solaris-avatar-color: var(--solaris-text-default);
+  --solaris-avatar-background: var(--solaris-neutral-sunken);
+  --solaris-avatar-color: var(--solaris-neutral-text-body);
   --solaris-avatar-font-size: var(--solaris-font-size-sm);
-  --solaris-avatar-ring-color: var(--solaris-surface-base);
+  --solaris-avatar-ring-color: var(--solaris-neutral-default);
   --solaris-avatar-knockout: var(--solaris-spacing-3);
   --solaris-avatar-ring-offset: var(--solaris-spacing-4);
   --solaris-avatar-status-size: var(--solaris-spacing-5);
   --solaris-avatar-count-height: var(--solaris-spacing-7);
   --solaris-avatar-count-padding-x: var(--solaris-spacing-4);
   --solaris-avatar-count-font-size: var(--solaris-font-size-xs);
-  --solaris-avatar-count-background: var(--solaris-danger-base);
+  --solaris-avatar-count-background: var(--solaris-danger-solid);
   --solaris-avatar-count-color: var(--solaris-danger-on-solid);
   --solaris-avatar-verified-size: var(--solaris-spacing-9);
   --solaris-avatar-organization-size: var(--solaris-spacing-7);
-  --solaris-avatar-status-color: var(--solaris-text-muted);
+  --solaris-avatar-status-color: var(--solaris-neutral-text-secondary);
   --solaris-avatar-ring-width: var(--solaris-border-width-lg);
 
   flex-shrink: 0;
@@ -98,103 +98,103 @@
 }
 
 :host([data-status='online']) {
-  --solaris-avatar-status-color: var(--solaris-success-base);
+  --solaris-avatar-status-color: var(--solaris-success-solid);
 }
 
 :host([data-status='away']) {
-  --solaris-avatar-status-color: var(--solaris-warning-base);
+  --solaris-avatar-status-color: var(--solaris-warning-solid);
 }
 
 :host([data-status='busy']) {
-  --solaris-avatar-status-color: var(--solaris-danger-base);
+  --solaris-avatar-status-color: var(--solaris-danger-solid);
 }
 
 :host([data-status='dnd']) {
-  --solaris-avatar-status-color: var(--solaris-danger-base);
+  --solaris-avatar-status-color: var(--solaris-danger-solid);
 }
 
 :host([data-status='offline']) {
-  --solaris-avatar-status-color: var(--solaris-border-default);
+  --solaris-avatar-status-color: var(--solaris-neutral-border-default);
 }
 
 :host([data-palette='0']) {
-  --solaris-avatar-background: var(--solaris-warning-surface);
-  --solaris-avatar-color: var(--solaris-warning-text);
-  --solaris-avatar-mesh-a: var(--solaris-warning-base);
-  --solaris-avatar-mesh-b: var(--solaris-danger-base);
-  --solaris-avatar-mesh-c: var(--solaris-danger-base);
+  --solaris-avatar-background: var(--solaris-warning-soft);
+  --solaris-avatar-color: var(--solaris-warning-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-warning-solid);
+  --solaris-avatar-mesh-b: var(--solaris-danger-solid);
+  --solaris-avatar-mesh-c: var(--solaris-danger-solid);
 }
 
 :host([data-palette='1']) {
-  --solaris-avatar-background: var(--solaris-info-surface);
-  --solaris-avatar-color: var(--solaris-info-text);
-  --solaris-avatar-mesh-a: var(--solaris-info-base);
-  --solaris-avatar-mesh-b: var(--solaris-success-base);
-  --solaris-avatar-mesh-c: var(--solaris-primary-base);
+  --solaris-avatar-background: var(--solaris-info-soft);
+  --solaris-avatar-color: var(--solaris-info-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-info-solid);
+  --solaris-avatar-mesh-b: var(--solaris-success-solid);
+  --solaris-avatar-mesh-c: var(--solaris-primary-solid);
 }
 
 :host([data-palette='2']) {
-  --solaris-avatar-background: var(--solaris-success-surface);
-  --solaris-avatar-color: var(--solaris-success-text);
-  --solaris-avatar-mesh-a: var(--solaris-success-base);
-  --solaris-avatar-mesh-b: var(--solaris-warning-base);
-  --solaris-avatar-mesh-c: var(--solaris-success-base);
+  --solaris-avatar-background: var(--solaris-success-soft);
+  --solaris-avatar-color: var(--solaris-success-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-success-solid);
+  --solaris-avatar-mesh-b: var(--solaris-warning-solid);
+  --solaris-avatar-mesh-c: var(--solaris-success-solid);
 }
 
 :host([data-palette='3']) {
-  --solaris-avatar-background: var(--solaris-primary-surface);
-  --solaris-avatar-color: var(--solaris-primary-text);
-  --solaris-avatar-mesh-a: var(--solaris-primary-base);
-  --solaris-avatar-mesh-b: var(--solaris-danger-base);
-  --solaris-avatar-mesh-c: var(--solaris-info-base);
+  --solaris-avatar-background: var(--solaris-primary-soft);
+  --solaris-avatar-color: var(--solaris-primary-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-primary-solid);
+  --solaris-avatar-mesh-b: var(--solaris-danger-solid);
+  --solaris-avatar-mesh-c: var(--solaris-info-solid);
 }
 
 :host([data-palette='4']) {
-  --solaris-avatar-background: var(--solaris-surface-muted);
-  --solaris-avatar-color: var(--solaris-text-default);
-  --solaris-avatar-mesh-a: var(--solaris-text-muted);
-  --solaris-avatar-mesh-b: var(--solaris-border-default);
-  --solaris-avatar-mesh-c: var(--solaris-text-muted);
+  --solaris-avatar-background: var(--solaris-neutral-sunken);
+  --solaris-avatar-color: var(--solaris-neutral-text-body);
+  --solaris-avatar-mesh-a: var(--solaris-neutral-text-secondary);
+  --solaris-avatar-mesh-b: var(--solaris-neutral-border-default);
+  --solaris-avatar-mesh-c: var(--solaris-neutral-text-secondary);
 }
 
 :host([data-palette='5']) {
-  --solaris-avatar-background: var(--solaris-orange-surface);
-  --solaris-avatar-color: var(--solaris-orange-text);
-  --solaris-avatar-mesh-a: var(--solaris-orange-base);
-  --solaris-avatar-mesh-b: var(--solaris-danger-base);
-  --solaris-avatar-mesh-c: var(--solaris-warning-base);
+  --solaris-avatar-background: var(--solaris-accent-soft);
+  --solaris-avatar-color: var(--solaris-accent-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-accent-solid);
+  --solaris-avatar-mesh-b: var(--solaris-danger-solid);
+  --solaris-avatar-mesh-c: var(--solaris-warning-solid);
 }
 
 :host([data-palette='6']) {
-  --solaris-avatar-background: var(--solaris-danger-surface);
-  --solaris-avatar-color: var(--solaris-danger-text);
-  --solaris-avatar-mesh-a: var(--solaris-danger-base);
-  --solaris-avatar-mesh-b: var(--solaris-orange-base);
-  --solaris-avatar-mesh-c: var(--solaris-warning-base);
+  --solaris-avatar-background: var(--solaris-danger-soft);
+  --solaris-avatar-color: var(--solaris-danger-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-danger-solid);
+  --solaris-avatar-mesh-b: var(--solaris-accent-solid);
+  --solaris-avatar-mesh-c: var(--solaris-warning-solid);
 }
 
 :host([data-palette='7']) {
-  --solaris-avatar-background: var(--solaris-primary-surface);
-  --solaris-avatar-color: var(--solaris-primary-text);
-  --solaris-avatar-mesh-a: var(--solaris-primary-base);
-  --solaris-avatar-mesh-b: var(--solaris-info-base);
-  --solaris-avatar-mesh-c: var(--solaris-success-base);
+  --solaris-avatar-background: var(--solaris-primary-soft);
+  --solaris-avatar-color: var(--solaris-primary-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-primary-solid);
+  --solaris-avatar-mesh-b: var(--solaris-info-solid);
+  --solaris-avatar-mesh-c: var(--solaris-success-solid);
 }
 
 :host([data-palette='8']) {
-  --solaris-avatar-background: var(--solaris-info-surface);
-  --solaris-avatar-color: var(--solaris-info-text);
-  --solaris-avatar-mesh-a: var(--solaris-info-base);
-  --solaris-avatar-mesh-b: var(--solaris-primary-base);
-  --solaris-avatar-mesh-c: var(--solaris-orange-base);
+  --solaris-avatar-background: var(--solaris-info-soft);
+  --solaris-avatar-color: var(--solaris-info-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-info-solid);
+  --solaris-avatar-mesh-b: var(--solaris-primary-solid);
+  --solaris-avatar-mesh-c: var(--solaris-accent-solid);
 }
 
 :host([data-palette='9']) {
-  --solaris-avatar-mesh-c: var(--solaris-text-muted);
-  --solaris-avatar-color: var(--solaris-text-default);
-  --solaris-avatar-mesh-b: var(--solaris-text-subtle);
-  --solaris-avatar-mesh-a: var(--solaris-border-strong);
-  --solaris-avatar-background: var(--solaris-surface-muted);
+  --solaris-avatar-mesh-c: var(--solaris-neutral-text-secondary);
+  --solaris-avatar-color: var(--solaris-neutral-text-body);
+  --solaris-avatar-mesh-b: var(--solaris-neutral-text-tertiary);
+  --solaris-avatar-mesh-a: var(--solaris-neutral-border-strong);
+  --solaris-avatar-background: var(--solaris-neutral-sunken);
 }
 
 .solaris-avatar__action {
@@ -277,8 +277,8 @@
 }
 
 :host([data-empty]) {
-  --solaris-avatar-background: var(--solaris-surface-muted);
-  --solaris-avatar-color: var(--solaris-text-muted);
+  --solaris-avatar-background: var(--solaris-neutral-sunken);
+  --solaris-avatar-color: var(--solaris-neutral-text-secondary);
 }
 
 .solaris-avatar__count {
@@ -395,13 +395,13 @@
 
 .solaris-avatar__seal {
   stroke-width: 10;
-  fill: var(--solaris-info-base);
+  fill: var(--solaris-info-solid);
   stroke: var(--solaris-avatar-ring-color);
 }
 
 .solaris-avatar__seal-check {
   fill: none;
-  stroke: var(--solaris-text-default);
+  stroke: var(--solaris-neutral-text-body);
   stroke-width: 10;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -437,8 +437,8 @@
   // Ring shape cut out of a filled box via mask compositing; the mask color
   // only needs full opacity, so a text token is reused (never rendered).
   -webkit-mask:
-    linear-gradient(var(--solaris-text-default) 0 0) content-box,
-    linear-gradient(var(--solaris-text-default) 0 0);
+    linear-gradient(var(--solaris-neutral-text-body) 0 0) content-box,
+    linear-gradient(var(--solaris-neutral-text-body) 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
@@ -446,16 +446,16 @@
 :host([data-active]) .solaris-avatar__ring {
   background: conic-gradient(
     from 210deg,
-    var(--solaris-primary-active),
-    var(--solaris-info-base),
-    var(--solaris-primary-hover),
-    var(--solaris-primary-base),
-    var(--solaris-primary-active)
+    var(--solaris-primary-solid-active),
+    var(--solaris-info-solid),
+    var(--solaris-primary-solid-hover),
+    var(--solaris-primary-solid),
+    var(--solaris-primary-solid-active)
   );
 }
 
 :host([data-loading]) .solaris-avatar__track {
-  background: var(--solaris-border-default);
+  background: var(--solaris-neutral-border-default);
 }
 
 :host([data-loading]) .solaris-avatar__bar {
@@ -463,8 +463,8 @@
     from 0deg,
     transparent 0%,
     transparent 55%,
-    var(--solaris-primary-base) 82%,
-    var(--solaris-primary-hover) 100%
+    var(--solaris-primary-solid) 82%,
+    var(--solaris-primary-solid-hover) 100%
   );
   animation: solaris-avatar-spin var(--solaris-motion-duration-slower)
     var(--solaris-motion-easing-standard) infinite;
@@ -479,7 +479,7 @@
 @media (prefers-reduced-motion: reduce) {
   :host([data-loading]) .solaris-avatar__bar {
     animation: none;
-    background: var(--solaris-primary-base);
+    background: var(--solaris-primary-solid);
   }
 }
 

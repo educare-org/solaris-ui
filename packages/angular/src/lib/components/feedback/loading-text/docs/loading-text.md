@@ -63,12 +63,12 @@ Loading Text inherits the surrounding `font-size`/`line-height` by default — i
 
 | Color     | Token                                 |
 | --------- | ------------------------------------- |
-| `neutral` | `--solaris-text-muted`                |
-| `primary` | `--solaris-primary-base`              |
-| `success` | `--solaris-success-base`              |
-| `warning` | `--solaris-warning-base`              |
-| `danger`  | `--solaris-danger-base`               |
-| `info`    | `--solaris-info-base`                 |
+| `neutral` | `--solaris-neutral-text-secondary`    |
+| `primary` | `--solaris-primary-solid`             |
+| `success` | `--solaris-success-solid`             |
+| `warning` | `--solaris-warning-solid`             |
+| `danger`  | `--solaris-danger-solid`              |
+| `info`    | `--solaris-info-solid`                |
 | `custom`  | `--solaris-loading-text-custom-color` |
 
 When `color="custom"`, define `--solaris-loading-text-custom-color` in your theme to use your own brand color.
@@ -84,10 +84,10 @@ When `color="custom"`, define `--solaris-loading-text-custom-color` in your them
 
 | Token                                       | Default                            | Description                                                |
 | ------------------------------------------- | ---------------------------------- | ---------------------------------------------------------- |
-| `--solaris-loading-text-color`              | `--solaris-text-default`           | Base text color.                                           |
-| `--solaris-loading-text-shimmer-color`      | `--solaris-text-inverse`           | Shimmer highlight color.                                   |
+| `--solaris-loading-text-color`              | `--solaris-neutral-text-body`      | Base text color.                                           |
+| `--solaris-loading-text-shimmer-color`      | `--solaris-neutral-text-inverse`   | Shimmer highlight color.                                   |
 | `--solaris-loading-text-shimmer-opacity`    | `--solaris-opacity-40`             | Shimmer overlay opacity.                                   |
-| `--solaris-loading-text-custom-color`       | `--solaris-primary-base`           | Custom color override.                                     |
+| `--solaris-loading-text-custom-color`       | `--solaris-primary-solid`          | Custom color override.                                     |
 | `--solaris-loading-text-font-size`          | `inherit`                          | Font size (inherits context; `size` overrides).            |
 | `--solaris-loading-text-line-height`        | `inherit`                          | Line height (inherits context; `density` overrides).       |
 | `--solaris-loading-text-dot-size`           | `0.25em`                           | Pulsing dots diameter (scales with text).                  |

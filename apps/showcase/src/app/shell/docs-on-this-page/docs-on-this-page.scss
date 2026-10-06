@@ -11,7 +11,7 @@
 
 .docs-on-this-page__title {
   margin: var(--solaris-spacing-0);
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
   font-size: var(--solaris-font-size-sm);
   font-weight: var(--solaris-font-weight-semibold);
 }
@@ -37,7 +37,7 @@
 .docs-on-this-page__link {
   display: block;
   text-decoration: none;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-font-size-xs);
   padding: var(--solaris-spacing-1) var(--solaris-spacing-3);
   transition: color var(--solaris-motion-duration-normal)
@@ -45,7 +45,7 @@
 }
 
 .docs-on-this-page__link:hover {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
 }
 
 .docs-on-this-page__link:focus-visible {
@@ -55,6 +55,6 @@
 }
 
 .docs-on-this-page__item[data-active='true'] .docs-on-this-page__link {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
   font-weight: var(--solaris-font-weight-semibold);
 }

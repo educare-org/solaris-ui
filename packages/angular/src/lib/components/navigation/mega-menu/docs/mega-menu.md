@@ -109,9 +109,9 @@ resize the whole trigger proportionally.
 
 ## CSS Variables
 
-| Variable                          | Default                    | Description                           |
-| --------------------------------- | -------------------------- | ------------------------------------- |
-| `--solaris-mega-menu-background`  | `--solaris-surface-raised` | Panel background.                     |
-| `--solaris-mega-menu-color`       | `--solaris-text-default`   | Panel foreground color.               |
-| `--solaris-mega-menu-shadow`      | `--solaris-shadow-lg`      | Panel elevation shadow.               |
-| `--solaris-mega-menu-trigger-gap` | `0.5em`                    | Gap between trigger text and chevron. |
+| Variable                          | Default                       | Description                           |
+| --------------------------------- | ----------------------------- | ------------------------------------- |
+| `--solaris-mega-menu-background`  | `--solaris-neutral-default`   | Panel background.                     |
+| `--solaris-mega-menu-color`       | `--solaris-neutral-text-body` | Panel foreground color.               |
+| `--solaris-mega-menu-shadow`      | `--solaris-shadow-lg`         | Panel elevation shadow.               |
+| `--solaris-mega-menu-trigger-gap` | `0.5em`                       | Gap between trigger text and chevron. |

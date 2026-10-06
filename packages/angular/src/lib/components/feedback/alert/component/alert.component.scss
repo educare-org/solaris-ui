@@ -3,23 +3,23 @@
   --solaris-alert-close-offset: 0;
   --solaris-alert-close-background: transparent;
   --solaris-alert-gap: var(--solaris-density-gap-md);
-  --solaris-alert-color: var(--solaris-info-text);
+  --solaris-alert-color: var(--solaris-info-foreground);
   --solaris-alert-radius: var(--solaris-radius-md);
   --solaris-alert-padding: var(--solaris-density-padding-md);
-  --solaris-alert-icon-color: var(--solaris-info-base);
+  --solaris-alert-icon-color: var(--solaris-info-solid);
   --solaris-alert-content-gap: var(--solaris-density-gap-md);
   --solaris-alert-actions-gap: var(--solaris-density-gap-md);
-  --solaris-alert-close-color: var(--solaris-text-muted);
+  --solaris-alert-close-color: var(--solaris-neutral-text-secondary);
   --solaris-alert-font-size: var(--solaris-font-size-sm);
   --solaris-alert-icon-size: var(--solaris-font-size-lg);
   --solaris-alert-title-font-size: var(--solaris-font-size-md);
   --solaris-alert-close-size: var(--solaris-font-size-md);
-  --solaris-alert-background: var(--solaris-info-surface);
-  --solaris-alert-title-color: var(--solaris-text-strong);
+  --solaris-alert-background: var(--solaris-info-soft);
+  --solaris-alert-title-color: var(--solaris-neutral-text-heading);
   --solaris-alert-border-color: var(--solaris-info-border);
   --solaris-alert-border-width: var(--solaris-border-width-sm);
   --solaris-alert-close-icon-size: var(--solaris-font-size-md);
-  --solaris-alert-description-color: var(--solaris-text-default);
+  --solaris-alert-description-color: var(--solaris-neutral-text-body);
   --solaris-alert-first-line-height: var(--solaris-line-height-md);
   --solaris-alert-first-line-font-size: var(--solaris-alert-font-size);
 
@@ -112,12 +112,12 @@
     var(--solaris-motion-easing-standard);
 
   &:hover {
-    color: var(--solaris-text-default);
+    color: var(--solaris-neutral-text-body);
   }
 
   &:focus-visible {
     outline-offset: var(--solaris-focus-ring-offset);
-    outline: var(--solaris-focus-ring-width) solid var(--solaris-primary-base);
+    outline: var(--solaris-focus-ring-width) solid var(--solaris-primary-solid);
   }
 }
 
@@ -215,61 +215,61 @@
 }
 
 :host([data-variant='neutral'][data-appearance='tonal']) {
-  --solaris-alert-color: var(--solaris-text-default);
-  --solaris-alert-icon-color: var(--solaris-text-muted);
-  --solaris-alert-background: var(--solaris-surface-muted);
+  --solaris-alert-color: var(--solaris-neutral-text-body);
+  --solaris-alert-icon-color: var(--solaris-neutral-text-secondary);
+  --solaris-alert-background: var(--solaris-neutral-sunken);
   --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='neutral'][data-appearance='outline']) {
   --solaris-alert-background: transparent;
-  --solaris-alert-color: var(--solaris-text-default);
-  --solaris-alert-icon-color: var(--solaris-text-muted);
-  --solaris-alert-border-color: var(--solaris-border-default);
+  --solaris-alert-color: var(--solaris-neutral-text-body);
+  --solaris-alert-icon-color: var(--solaris-neutral-text-secondary);
+  --solaris-alert-border-color: var(--solaris-neutral-border-default);
 }
 
 :host([data-variant='neutral'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-text-default);
-  --solaris-alert-icon-color: var(--solaris-text-muted);
-  --solaris-alert-background: var(--solaris-surface-muted);
-  --solaris-alert-border-color: var(--solaris-border-default);
+  --solaris-alert-color: var(--solaris-neutral-text-body);
+  --solaris-alert-icon-color: var(--solaris-neutral-text-secondary);
+  --solaris-alert-background: var(--solaris-neutral-sunken);
+  --solaris-alert-border-color: var(--solaris-neutral-border-default);
 }
 
 :host([data-variant='neutral'][data-appearance='solid']) {
   --solaris-alert-border-color: transparent;
-  --solaris-alert-color: var(--solaris-text-strong);
-  --solaris-alert-icon-color: var(--solaris-text-strong);
-  --solaris-alert-background: var(--solaris-surface-base);
-  --solaris-alert-close-color: var(--solaris-text-strong);
-  --solaris-alert-title-color: var(--solaris-text-strong);
-  --solaris-alert-description-color: var(--solaris-text-default);
+  --solaris-alert-color: var(--solaris-neutral-text-heading);
+  --solaris-alert-icon-color: var(--solaris-neutral-text-heading);
+  --solaris-alert-background: var(--solaris-neutral-default);
+  --solaris-alert-close-color: var(--solaris-neutral-text-heading);
+  --solaris-alert-title-color: var(--solaris-neutral-text-heading);
+  --solaris-alert-description-color: var(--solaris-neutral-text-body);
 }
 
 :host([data-variant='info'][data-appearance='tonal']) {
-  --solaris-alert-color: var(--solaris-info-text);
-  --solaris-alert-icon-color: var(--solaris-info-base);
-  --solaris-alert-background: var(--solaris-info-surface);
+  --solaris-alert-color: var(--solaris-info-foreground);
+  --solaris-alert-icon-color: var(--solaris-info-solid);
+  --solaris-alert-background: var(--solaris-info-soft);
   --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='info'][data-appearance='outline']) {
   --solaris-alert-background: transparent;
-  --solaris-alert-color: var(--solaris-info-text);
-  --solaris-alert-icon-color: var(--solaris-info-base);
+  --solaris-alert-color: var(--solaris-info-foreground);
+  --solaris-alert-icon-color: var(--solaris-info-solid);
   --solaris-alert-border-color: var(--solaris-info-border);
 }
 
 :host([data-variant='info'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-info-text);
-  --solaris-alert-icon-color: var(--solaris-info-base);
-  --solaris-alert-background: var(--solaris-info-surface);
+  --solaris-alert-color: var(--solaris-info-foreground);
+  --solaris-alert-icon-color: var(--solaris-info-solid);
+  --solaris-alert-background: var(--solaris-info-soft);
   --solaris-alert-border-color: var(--solaris-info-border);
 }
 
 :host([data-variant='info'][data-appearance='solid']) {
   --solaris-alert-border-color: transparent;
   --solaris-alert-color: var(--solaris-info-on-solid);
-  --solaris-alert-background: var(--solaris-info-base);
+  --solaris-alert-background: var(--solaris-info-solid);
   --solaris-alert-icon-color: var(--solaris-info-on-solid);
   --solaris-alert-close-color: var(--solaris-info-on-solid);
   --solaris-alert-title-color: var(--solaris-info-on-solid);
@@ -277,30 +277,30 @@
 }
 
 :host([data-variant='success'][data-appearance='tonal']) {
-  --solaris-alert-color: var(--solaris-success-text);
-  --solaris-alert-icon-color: var(--solaris-success-base);
-  --solaris-alert-background: var(--solaris-success-surface);
+  --solaris-alert-color: var(--solaris-success-foreground);
+  --solaris-alert-icon-color: var(--solaris-success-solid);
+  --solaris-alert-background: var(--solaris-success-soft);
   --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='success'][data-appearance='outline']) {
   --solaris-alert-background: transparent;
-  --solaris-alert-color: var(--solaris-success-text);
-  --solaris-alert-icon-color: var(--solaris-success-base);
+  --solaris-alert-color: var(--solaris-success-foreground);
+  --solaris-alert-icon-color: var(--solaris-success-solid);
   --solaris-alert-border-color: var(--solaris-success-border);
 }
 
 :host([data-variant='success'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-success-text);
-  --solaris-alert-background: var(--solaris-success-surface);
-  --solaris-alert-icon-color: var(--solaris-success-base);
+  --solaris-alert-color: var(--solaris-success-foreground);
+  --solaris-alert-background: var(--solaris-success-soft);
+  --solaris-alert-icon-color: var(--solaris-success-solid);
   --solaris-alert-border-color: var(--solaris-success-border);
 }
 
 :host([data-variant='success'][data-appearance='solid']) {
   --solaris-alert-border-color: transparent;
   --solaris-alert-color: var(--solaris-success-on-solid);
-  --solaris-alert-background: var(--solaris-success-base);
+  --solaris-alert-background: var(--solaris-success-solid);
   --solaris-alert-icon-color: var(--solaris-success-on-solid);
   --solaris-alert-close-color: var(--solaris-success-on-solid);
   --solaris-alert-title-color: var(--solaris-success-on-solid);
@@ -308,30 +308,30 @@
 }
 
 :host([data-variant='warning'][data-appearance='tonal']) {
-  --solaris-alert-color: var(--solaris-warning-text);
-  --solaris-alert-icon-color: var(--solaris-warning-base);
-  --solaris-alert-background: var(--solaris-warning-surface);
+  --solaris-alert-color: var(--solaris-warning-foreground);
+  --solaris-alert-icon-color: var(--solaris-warning-solid);
+  --solaris-alert-background: var(--solaris-warning-soft);
   --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='warning'][data-appearance='outline']) {
   --solaris-alert-background: transparent;
-  --solaris-alert-color: var(--solaris-warning-text);
-  --solaris-alert-icon-color: var(--solaris-warning-base);
+  --solaris-alert-color: var(--solaris-warning-foreground);
+  --solaris-alert-icon-color: var(--solaris-warning-solid);
   --solaris-alert-border-color: var(--solaris-warning-border);
 }
 
 :host([data-variant='warning'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-warning-text);
-  --solaris-alert-icon-color: var(--solaris-warning-base);
-  --solaris-alert-background: var(--solaris-warning-surface);
+  --solaris-alert-color: var(--solaris-warning-foreground);
+  --solaris-alert-icon-color: var(--solaris-warning-solid);
+  --solaris-alert-background: var(--solaris-warning-soft);
   --solaris-alert-border-color: var(--solaris-warning-border);
 }
 
 :host([data-variant='warning'][data-appearance='solid']) {
   --solaris-alert-border-color: transparent;
   --solaris-alert-color: var(--solaris-warning-on-solid);
-  --solaris-alert-background: var(--solaris-warning-base);
+  --solaris-alert-background: var(--solaris-warning-solid);
   --solaris-alert-icon-color: var(--solaris-warning-on-solid);
   --solaris-alert-close-color: var(--solaris-warning-on-solid);
   --solaris-alert-title-color: var(--solaris-warning-on-solid);
@@ -339,30 +339,30 @@
 }
 
 :host([data-variant='danger'][data-appearance='tonal']) {
-  --solaris-alert-color: var(--solaris-danger-text);
-  --solaris-alert-icon-color: var(--solaris-danger-base);
-  --solaris-alert-background: var(--solaris-danger-surface);
+  --solaris-alert-color: var(--solaris-danger-foreground);
+  --solaris-alert-icon-color: var(--solaris-danger-solid);
+  --solaris-alert-background: var(--solaris-danger-soft);
   --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='danger'][data-appearance='outline']) {
   --solaris-alert-background: transparent;
-  --solaris-alert-color: var(--solaris-danger-text);
-  --solaris-alert-icon-color: var(--solaris-danger-base);
+  --solaris-alert-color: var(--solaris-danger-foreground);
+  --solaris-alert-icon-color: var(--solaris-danger-solid);
   --solaris-alert-border-color: var(--solaris-danger-border);
 }
 
 :host([data-variant='danger'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-danger-text);
-  --solaris-alert-icon-color: var(--solaris-danger-base);
-  --solaris-alert-background: var(--solaris-danger-surface);
+  --solaris-alert-color: var(--solaris-danger-foreground);
+  --solaris-alert-icon-color: var(--solaris-danger-solid);
+  --solaris-alert-background: var(--solaris-danger-soft);
   --solaris-alert-border-color: var(--solaris-danger-border);
 }
 
 :host([data-variant='danger'][data-appearance='solid']) {
   --solaris-alert-border-color: transparent;
   --solaris-alert-color: var(--solaris-danger-on-solid);
-  --solaris-alert-background: var(--solaris-danger-base);
+  --solaris-alert-background: var(--solaris-danger-solid);
   --solaris-alert-icon-color: var(--solaris-danger-on-solid);
   --solaris-alert-close-color: var(--solaris-danger-on-solid);
   --solaris-alert-title-color: var(--solaris-danger-on-solid);
@@ -372,19 +372,19 @@
 :host([data-variant='custom']) {
   --solaris-alert-color: var(
     --solaris-alert-custom-color,
-    var(--solaris-text-default)
+    var(--solaris-neutral-text-body)
   );
   --solaris-alert-icon-color: var(
     --solaris-alert-custom-icon-color,
-    var(--solaris-text-muted)
+    var(--solaris-neutral-text-secondary)
   );
   --solaris-alert-background: var(
     --solaris-alert-custom-background,
-    var(--solaris-surface-base)
+    var(--solaris-neutral-default)
   );
   --solaris-alert-border-color: var(
     --solaris-alert-custom-border-color,
-    var(--solaris-border-default)
+    var(--solaris-neutral-border-default)
   );
 }
 

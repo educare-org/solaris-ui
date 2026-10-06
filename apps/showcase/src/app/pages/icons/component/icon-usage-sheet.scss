@@ -18,25 +18,26 @@
   justify-content: center;
   width: var(--solaris-spacing-16);
   height: var(--solaris-spacing-16);
-  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
   border-radius: var(--solaris-radius-md);
-  background-color: var(--solaris-surface-subtle);
+  background-color: var(--solaris-neutral-subtle);
   background-image:
     linear-gradient(
       to right,
-      var(--solaris-border-subtle) var(--solaris-border-width-sm),
+      var(--solaris-neutral-border-subtle) var(--solaris-border-width-sm),
       transparent var(--solaris-border-width-sm)
     ),
     linear-gradient(
       to bottom,
-      var(--solaris-border-subtle) var(--solaris-border-width-sm),
+      var(--solaris-neutral-border-subtle) var(--solaris-border-width-sm),
       transparent var(--solaris-border-width-sm)
     );
   background-size: var(--solaris-spacing-2) var(--solaris-spacing-2);
 }
 
 .icon-usage-sheet__preview-icon {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
 }
 
 .icon-usage-sheet__info {
@@ -48,14 +49,14 @@
 
 .icon-usage-sheet__title {
   margin: 0;
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
   font: var(--solaris-font-weight-semibold) var(--solaris-font-size-lg) /
     var(--solaris-line-height-sm) var(--solaris-font-family-sans);
 }
 
 .icon-usage-sheet__note {
   margin: 0;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
 }
@@ -65,9 +66,10 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--solaris-spacing-4);
-  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
   border-radius: var(--solaris-radius-md);
-  background: var(--solaris-surface-muted);
+  background: var(--solaris-neutral-sunken);
   padding: var(--solaris-spacing-3) var(--solaris-spacing-4);
 
   pre {
@@ -77,6 +79,6 @@
 
   code {
     font-family: var(--solaris-font-family-mono, monospace);
-    color: var(--solaris-text-strong);
+    color: var(--solaris-neutral-text-heading);
   }
 }

@@ -29,7 +29,7 @@
 
 [solaris-button].solaris-date-range-picker__calendar-trigger,
 .solaris-date-range-picker__calendar-trigger {
-  color: var(--solaris-text-muted) !important;
+  color: var(--solaris-neutral-text-secondary) !important;
   background: transparent !important;
   cursor: pointer;
 }
@@ -38,7 +38,7 @@
 [solaris-button].solaris-date-range-picker__calendar-trigger:active,
 .solaris-date-range-picker__calendar-trigger:hover,
 .solaris-date-range-picker__calendar-trigger:active {
-  color: var(--solaris-text-strong) !important;
+  color: var(--solaris-neutral-text-heading) !important;
   background: transparent !important;
 }
 
@@ -62,13 +62,13 @@
   background: transparent;
   width: var(--solaris-font-size-lg);
   height: var(--solaris-font-size-lg);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   transition: color var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
 
 .solaris-date-range-picker__clear:hover {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -94,7 +94,7 @@
   min-width: 0;
   padding: 0;
   border: 0;
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
   text-align: start;
   background: transparent;
   cursor: pointer;
@@ -113,7 +113,7 @@
 
 .solaris-date-range-picker__trigger:disabled {
   cursor: not-allowed;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
 }
 
 .solaris-date-range-picker__inputs {
@@ -127,7 +127,7 @@
 }
 
 .solaris-date-range-picker__separator {
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
 }
 
 .solaris-date-range-picker__panel {
@@ -144,7 +144,7 @@
   padding-block: var(--solaris-spacing-3);
   padding-inline: var(--solaris-spacing-3) var(--solaris-spacing-4);
   border-inline-end: var(--solaris-border-width-sm) solid
-    var(--solaris-border-subtle);
+    var(--solaris-neutral-border-subtle);
 }
 
 .solaris-date-range-picker__preset {
@@ -153,7 +153,7 @@
   padding: 0 var(--solaris-spacing-2);
   border: 0;
   border-radius: var(--solaris-radius-sm);
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
   text-align: start;
   background: transparent;
   cursor: pointer;
@@ -162,7 +162,7 @@
 }
 
 .solaris-date-range-picker__preset:hover {
-  background: var(--solaris-surface-subtle);
+  background: var(--solaris-neutral-subtle);
 }
 
 .solaris-date-range-picker__preset[data-active]::after {
@@ -170,7 +170,7 @@
   inset-block: 0;
   inset-inline-start: calc(var(--solaris-spacing-3) * -1);
   width: var(--solaris-border-width-md);
-  background: var(--solaris-primary-base);
+  background: var(--solaris-primary-solid);
   content: '';
 }
 
@@ -192,7 +192,7 @@
 .solaris-date-range-picker__calendar-divider {
   align-self: stretch;
   width: var(--solaris-border-width-sm);
-  background: var(--solaris-border-subtle);
+  background: var(--solaris-neutral-border-subtle);
 }
 
 .solaris-date-range-picker__footer {
@@ -202,7 +202,7 @@
   justify-content: space-between;
   padding: var(--solaris-spacing-3);
   border-block-start: var(--solaris-border-width-sm) solid
-    var(--solaris-border-subtle);
+    var(--solaris-neutral-border-subtle);
 }
 
 .solaris-date-range-picker__actions {
@@ -234,7 +234,7 @@
     overscroll-behavior-inline: contain;
     padding-inline: var(--solaris-spacing-1);
     border-block-end: var(--solaris-border-width-sm) solid
-      var(--solaris-border-subtle);
+      var(--solaris-neutral-border-subtle);
     border-inline-end: 0;
   }
 

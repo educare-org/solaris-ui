@@ -2,13 +2,14 @@
   margin: 0;
   font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
 }
 
 code {
   padding: var(--solaris-spacing-025) var(--solaris-spacing-1);
-  background: var(--solaris-surface-raised);
-  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
+  background: var(--solaris-neutral-default);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
   border-radius: var(--solaris-radius-sm);
   font-size: 0.875em;
 }

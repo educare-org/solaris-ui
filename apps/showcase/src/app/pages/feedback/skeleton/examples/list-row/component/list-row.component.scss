@@ -3,9 +3,10 @@
   align-items: center;
   gap: var(--solaris-spacing-3);
   padding: var(--solaris-spacing-3);
-  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
   border-radius: var(--solaris-radius-md);
-  background: var(--solaris-surface-subtle);
+  background: var(--solaris-neutral-subtle);
 }
 
 .skeleton-list-row-example__lines {

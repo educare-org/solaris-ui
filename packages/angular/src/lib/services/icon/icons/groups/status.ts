@@ -32,13 +32,9 @@ export const STATUS_ICONS: SolarisIconDefinition[] = [
     name: 'danger',
     viewBox: '0 0 24 24',
     elements: [
-      {
-        type: 'polygon',
-        points:
-          '7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86',
-      },
-      { type: 'path', d: 'm15 9-6 6' },
-      { type: 'path', d: 'm9 9 6 6' },
+      { type: 'circle', cx: 12, cy: 12, r: 10 },
+      { type: 'line', x1: 12, y1: 8, x2: 12, y2: 12 },
+      { type: 'line', x1: 12, y1: 16, x2: 12.01, y2: 16 },
     ],
   },
   {

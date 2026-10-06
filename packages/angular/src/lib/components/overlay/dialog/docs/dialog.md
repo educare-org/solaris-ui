@@ -239,7 +239,7 @@ mobile).
 
 ## Appearance
 
-- `surface`: Borderless surface background (`--solaris-surface-base`) with shadow, no border.
+- `surface`: Borderless surface background (`--solaris-neutral-default`) with shadow, no border.
 - `outline`: Default. Surface background with visible border.
 
 ## Close button

@@ -6,10 +6,10 @@
     linear-gradient(90deg, rgb(17 24 39 / 85%), rgb(17 24 39 / 55%)),
     radial-gradient(
       circle at 85% 50%,
-      var(--solaris-primary-base),
+      var(--solaris-primary-solid),
       transparent 60%
     ),
-    var(--solaris-surface-reverse);
+    var(--solaris-neutral-inverse);
 }
 
 .announcement-image-bg-example__banner a {

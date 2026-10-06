@@ -47,10 +47,10 @@ Default: `horizontal`
 
 ## Appearance
 
-| Appearance | Visual                                                                  |
-| ---------- | ----------------------------------------------------------------------- |
-| `subtle`   | Thin border (`--solaris-border-width-sm`) in `--solaris-border-default` |
-| `strong`   | Thick border (`--solaris-border-width-lg`) in `--solaris-border-strong` |
+| Appearance | Visual                                                                          |
+| ---------- | ------------------------------------------------------------------------------- |
+| `subtle`   | Thin border (`--solaris-border-width-sm`) in `--solaris-neutral-border-default` |
+| `strong`   | Thick border (`--solaris-border-width-lg`) in `--solaris-neutral-border-strong` |
 
 Default: `subtle`
 

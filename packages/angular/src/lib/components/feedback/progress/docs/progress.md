@@ -57,11 +57,11 @@ Progress uses an adapted `size` × `density` matrix: `size` drives the bar thick
 
 ## Status
 
-| Status      | Bar color                |
-| ----------- | ------------------------ |
-| `active`    | `color` input            |
-| `success`   | `--solaris-success-base` |
-| `exception` | `--solaris-danger-base`  |
+| Status      | Bar color                 |
+| ----------- | ------------------------- |
+| `active`    | `color` input             |
+| `success`   | `--solaris-success-solid` |
+| `exception` | `--solaris-danger-solid`  |
 
 ```html
 <solaris-progress value="100" status="success" label="Complete" /> <solaris-progress value="65" status="exception" label="Upload failed" showPercent />
@@ -79,15 +79,15 @@ The buffer renders the bar color at `--solaris-progress-buffer-opacity` behind t
 
 ## Colors
 
-| Color     | Token                             |
-| --------- | --------------------------------- |
-| `neutral` | `--solaris-text-muted`            |
-| `primary` | `--solaris-primary-base`          |
-| `success` | `--solaris-success-base`          |
-| `warning` | `--solaris-warning-base`          |
-| `danger`  | `--solaris-danger-base`           |
-| `info`    | `--solaris-info-base`             |
-| `custom`  | `--solaris-progress-custom-color` |
+| Color     | Token                              |
+| --------- | ---------------------------------- |
+| `neutral` | `--solaris-neutral-text-secondary` |
+| `primary` | `--solaris-primary-solid`          |
+| `success` | `--solaris-success-solid`          |
+| `warning` | `--solaris-warning-solid`          |
+| `danger`  | `--solaris-danger-solid`           |
+| `info`    | `--solaris-info-solid`             |
+| `custom`  | `--solaris-progress-custom-color`  |
 
 When `color="custom"`, define `--solaris-progress-custom-color` in your theme to use your own brand color.
 
@@ -104,11 +104,11 @@ When `color="custom"`, define `--solaris-progress-custom-color` in your theme to
 | --------------------------------------- | -------------------------------- | ---------------------------- |
 | `--solaris-progress-height`             | `--solaris-spacing-2`            | Bar thickness.               |
 | `--solaris-progress-radius`             | `--solaris-radius-full`          | Bar radius.                  |
-| `--solaris-progress-color`              | `--solaris-primary-base`         | Fill color.                  |
-| `--solaris-progress-custom-color`       | `--solaris-primary-base`         | Custom color override.       |
-| `--solaris-progress-track-color`        | `--solaris-surface-muted`        | Track background.            |
+| `--solaris-progress-color`              | `--solaris-primary-solid`        | Fill color.                  |
+| `--solaris-progress-custom-color`       | `--solaris-primary-solid`        | Custom color override.       |
+| `--solaris-progress-track-color`        | `--solaris-neutral-sunken`       | Track background.            |
 | `--solaris-progress-buffer-opacity`     | `--solaris-opacity-40`           | Buffer fill opacity.         |
-| `--solaris-progress-stripe-color`       | `--solaris-text-inverse`         | Stripe line color.           |
+| `--solaris-progress-stripe-color`       | `--solaris-neutral-text-inverse` | Stripe line color.           |
 | `--solaris-progress-label-font-size`    | `--solaris-font-size-sm`         | Label size (density-driven). |
 | `--solaris-progress-animation-duration` | `--solaris-motion-duration-slow` | Indeterminate duration.      |
 

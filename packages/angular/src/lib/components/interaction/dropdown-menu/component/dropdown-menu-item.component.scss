@@ -3,14 +3,18 @@
   --solaris-dropdown-menu-item-radius: var(--solaris-radius-sm);
   --solaris-dropdown-menu-item-padding-y: var(--solaris-spacing-2);
   --solaris-dropdown-menu-item-padding-x: var(--solaris-spacing-4);
-  --solaris-dropdown-menu-item-label-color: var(--solaris-text-default);
-  --solaris-dropdown-menu-item-danger-color: var(--solaris-danger-text);
-  --solaris-dropdown-menu-item-shortcut-color: var(--solaris-text-muted);
-  --solaris-dropdown-menu-item-danger-hover: var(--solaris-danger-surface);
-  --solaris-dropdown-menu-item-description-color: var(--solaris-text-muted);
-  --solaris-dropdown-menu-item-focus-ring-color: var(--solaris-primary-base);
-  --solaris-dropdown-menu-item-hover-background: var(--solaris-surface-muted);
-  --solaris-dropdown-menu-item-focus-background: var(--solaris-surface-subtle);
+  --solaris-dropdown-menu-item-label-color: var(--solaris-neutral-text-body);
+  --solaris-dropdown-menu-item-danger-color: var(--solaris-danger-foreground);
+  --solaris-dropdown-menu-item-shortcut-color: var(
+    --solaris-neutral-text-secondary
+  );
+  --solaris-dropdown-menu-item-danger-hover: var(--solaris-danger-soft);
+  --solaris-dropdown-menu-item-description-color: var(
+    --solaris-neutral-text-secondary
+  );
+  --solaris-dropdown-menu-item-focus-ring-color: var(--solaris-primary-solid);
+  --solaris-dropdown-menu-item-hover-background: var(--solaris-neutral-sunken);
+  --solaris-dropdown-menu-item-focus-background: var(--solaris-neutral-subtle);
 
   display: flex;
   outline: none;
@@ -66,7 +70,7 @@
   justify-content: center;
   width: var(--solaris-spacing-8);
   height: var(--solaris-spacing-8);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
 }
 
 :host([data-color='danger']) .solaris-dropdown-menu-item__leading {
@@ -86,9 +90,9 @@
 }
 
 .solaris-dropdown-menu-item__checkbox--checked {
-  color: var(--solaris-primary-text);
-  background: var(--solaris-primary-base);
-  border-color: var(--solaris-primary-base);
+  color: var(--solaris-primary-foreground);
+  background: var(--solaris-primary-solid);
+  border-color: var(--solaris-primary-solid);
 }
 
 .solaris-dropdown-menu-item__checkbox-icon {
@@ -114,14 +118,14 @@
 }
 
 .solaris-dropdown-menu-item__radio--checked {
-  border-color: var(--solaris-primary-base);
+  border-color: var(--solaris-primary-solid);
 }
 
 .solaris-dropdown-menu-item__radio-dot {
   border-radius: 50%;
   width: var(--solaris-spacing-2);
   height: var(--solaris-spacing-2);
-  background: var(--solaris-primary-base);
+  background: var(--solaris-primary-solid);
 }
 
 .solaris-dropdown-menu-item__content {

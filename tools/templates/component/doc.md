@@ -30,12 +30,12 @@ Describe each visual variant this component exposes (`appearance`, `size`, `dens
 
 ## CSS Variables
 
-| Variable                   | Default                  | Description      |
-| -------------------------- | ------------------------ | ---------------- |
-| `--solaris-$name$-color`   | `--solaris-text-default` | Text color       |
-| `--solaris-$name$-bg`      | `--solaris-surface-base` | Background color |
-| `--solaris-$name$-radius`  | `--solaris-radius-md`    | Border radius    |
-| `--solaris-$name$-padding` | `--solaris-spacing-3`    | Inner padding    |
+| Variable                   | Default                       | Description      |
+| -------------------------- | ----------------------------- | ---------------- |
+| `--solaris-$name$-color`   | `--solaris-neutral-text-body` | Text color       |
+| `--solaris-$name$-bg`      | `--solaris-neutral-default`   | Background color |
+| `--solaris-$name$-radius`  | `--solaris-radius-md`         | Border radius    |
+| `--solaris-$name$-padding` | `--solaris-spacing-3`         | Inner padding    |
 
 Remove this section if the component defines no `--solaris-*` tokens.
 

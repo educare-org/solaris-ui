@@ -1,16 +1,16 @@
 :host {
   --solaris-segmented-item-gap: var(--solaris-spacing-5);
   --solaris-segmented-item-radius: var(--solaris-radius-sm);
-  --solaris-segmented-item-color: var(--solaris-text-default);
+  --solaris-segmented-item-color: var(--solaris-neutral-text-body);
   --solaris-segmented-item-padding-y: var(--solaris-spacing-2);
   --solaris-segmented-item-padding-x: var(--solaris-spacing-5);
   --solaris-segmented-item-icon-size: var(--solaris-font-size-sm);
   --solaris-segmented-item-font-size: var(--solaris-font-size-sm);
   --solaris-segmented-item-border-radius: var(--solaris-radius-sm);
   --solaris-segmented-item-line-height: var(--solaris-line-height-sm);
-  --solaris-segmented-item-selected-color: var(--solaris-text-strong);
+  --solaris-segmented-item-selected-color: var(--solaris-neutral-text-heading);
   --solaris-segmented-item-font-weight: var(--solaris-font-weight-medium);
-  --solaris-segmented-item-hover-background: var(--solaris-surface-subtle);
+  --solaris-segmented-item-hover-background: var(--solaris-neutral-subtle);
 
   border: none;
   cursor: pointer;
@@ -56,7 +56,7 @@
 :host(:focus-visible) {
   outline-offset: var(--solaris-border-width-md);
   border-radius: var(--solaris-segmented-item-radius);
-  outline: var(--solaris-border-width-md) solid var(--solaris-primary-base);
+  outline: var(--solaris-border-width-md) solid var(--solaris-primary-solid);
 }
 
 :host-context(solaris-segmented-control[data-size][data-density]) {
@@ -67,7 +67,7 @@
 }
 
 :host-context(solaris-segmented-control[data-invalid]):focus-visible {
-  outline-color: var(--solaris-danger-base);
+  outline-color: var(--solaris-danger-solid);
 }
 
 :host([data-selected='true']) {
@@ -117,11 +117,11 @@
 :host-context(
   solaris-segmented-control[data-appearance='surface'][data-selected='true']
 ) {
-  --solaris-segmented-item-color: var(--solaris-text-strong);
+  --solaris-segmented-item-color: var(--solaris-neutral-text-heading);
 }
 
 :host-context(solaris-segmented-control[data-appearance='outline']) {
-  --solaris-segmented-item-color: var(--solaris-text-default);
+  --solaris-segmented-item-color: var(--solaris-neutral-text-body);
 }
 
 :host-context(solaris-segmented-control[data-full-width='true']) {

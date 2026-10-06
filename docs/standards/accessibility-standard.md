@@ -27,12 +27,12 @@ out of the box.
 
 These tokens do NOT meet WCAG AA for certain uses:
 
-| Token                    | Value   | Ratio vs white | Issue                                           |
-| ------------------------ | ------- | -------------- | ----------------------------------------------- |
-| `--solaris-primary-base` | #4282fb | ~2.8:1         | Use as text on white only at ≥18px              |
-| `--solaris-text-subtle`  | #7a7d84 | ~4.1:1         | Fails AA for normal text; use for captions only |
-| `--solaris-info-base`    | #5f9be4 | ~2.6:1         | Use for large UI elements or backgrounds only   |
-| `--solaris-warning-base` | #f1d008 | ~1.1:1         | Background only; never use for text             |
+| Token                             | Value   | Ratio vs white | Issue                                           |
+| --------------------------------- | ------- | -------------- | ----------------------------------------------- |
+| `--solaris-primary-solid`         | #4282fb | ~2.8:1         | Use as text on white only at ≥18px              |
+| `--solaris-neutral-text-tertiary` | #7a7d84 | ~4.1:1         | Fails AA for normal text; use for captions only |
+| `--solaris-info-solid`            | #5f9be4 | ~2.6:1         | Use for large UI elements or backgrounds only   |
+| `--solaris-warning-solid`         | #f1d008 | ~1.1:1         | Background only; never use for text             |
 
 ### Color usage rules
 

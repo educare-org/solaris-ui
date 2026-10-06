@@ -2,9 +2,9 @@
   --solaris-checkbox-group-gap: var(--solaris-spacing-3);
   --solaris-checkbox-group-row-gap: var(--solaris-spacing-3);
   --solaris-checkbox-group-column-gap: var(--solaris-spacing-3);
-  --solaris-checkbox-group-label-color: var(--solaris-text-strong);
-  --solaris-checkbox-group-hint-color: var(--solaris-text-muted);
-  --solaris-checkbox-group-error-color: var(--solaris-danger-text);
+  --solaris-checkbox-group-label-color: var(--solaris-neutral-text-heading);
+  --solaris-checkbox-group-hint-color: var(--solaris-neutral-text-secondary);
+  --solaris-checkbox-group-error-color: var(--solaris-danger-foreground);
   --solaris-checkbox-group-select-all-gap: var(--solaris-spacing-2);
   --solaris-checkbox-group-label-font-size: var(--solaris-font-size-sm);
   --solaris-checkbox-group-label-line-height: var(--solaris-line-height-md);
@@ -28,7 +28,7 @@
 }
 
 .solaris-checkbox-group__required {
-  color: var(--solaris-danger-base);
+  color: var(--solaris-danger-solid);
   margin-inline-start: var(--solaris-spacing-1);
 }
 

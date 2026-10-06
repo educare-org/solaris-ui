@@ -242,17 +242,17 @@ change does not affect them.
 
 Popover uses CSS custom properties for visual customization:
 
-| Token                            | Default                    | Description         |
-| -------------------------------- | -------------------------- | ------------------- |
-| `--solaris-popover-background`   | `--solaris-surface-raised` | Panel background    |
-| `--solaris-popover-color`        | `--solaris-text-default`   | Text color          |
-| `--solaris-popover-border-color` | `transparent`              | Border color        |
-| `--solaris-popover-border-width` | `0`                        | Border width        |
-| `--solaris-popover-radius`       | `--solaris-radius-md`      | Border radius       |
-| `--solaris-popover-padding`      | `--solaris-spacing-3`      | Inner padding       |
-| `--solaris-popover-shadow`       | `--solaris-shadow-lg`      | Box shadow          |
-| `--solaris-popover-min-width`    | `auto`                     | Minimum panel width |
-| `--solaris-popover-max-width`    | `none`                     | Maximum panel width |
+| Token                            | Default                       | Description         |
+| -------------------------------- | ----------------------------- | ------------------- |
+| `--solaris-popover-background`   | `--solaris-neutral-default`   | Panel background    |
+| `--solaris-popover-color`        | `--solaris-neutral-text-body` | Text color          |
+| `--solaris-popover-border-color` | `transparent`                 | Border color        |
+| `--solaris-popover-border-width` | `0`                           | Border width        |
+| `--solaris-popover-radius`       | `--solaris-radius-md`         | Border radius       |
+| `--solaris-popover-padding`      | `--solaris-spacing-3`         | Inner padding       |
+| `--solaris-popover-shadow`       | `--solaris-shadow-lg`         | Box shadow          |
+| `--solaris-popover-min-width`    | `auto`                        | Minimum panel width |
+| `--solaris-popover-max-width`    | `none`                        | Maximum panel width |
 
 ## Accessibility
 

@@ -213,7 +213,7 @@ propagates to children like `size`.
 ## Unselected options
 
 Inside a group, options that are not selected render faded: the label
-text uses `--solaris-text-muted` and the control circle uses
+text uses `--solaris-neutral-text-secondary` and the control circle uses
 `--solaris-radio-unselected-opacity`. The selected option keeps full
 color, so the current choice stands out at a glance. Hovering an
 unselected option restores its full color with a short transition.

@@ -1,8 +1,10 @@
 :host {
   --solaris-avatar-profile-gap: var(--solaris-spacing-6);
   --solaris-avatar-profile-title-size: var(--solaris-font-size-sm);
-  --solaris-avatar-profile-title-color: var(--solaris-text-default);
-  --solaris-avatar-profile-subtitle-color: var(--solaris-text-muted);
+  --solaris-avatar-profile-title-color: var(--solaris-neutral-text-body);
+  --solaris-avatar-profile-subtitle-color: var(
+    --solaris-neutral-text-secondary
+  );
   --solaris-avatar-profile-subtitle-size: var(--solaris-font-size-xs);
   --solaris-avatar-profile-max-width: calc(
     var(--solaris-spacing-18) + var(--solaris-spacing-10)

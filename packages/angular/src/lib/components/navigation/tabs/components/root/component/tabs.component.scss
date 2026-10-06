@@ -3,8 +3,8 @@
   --solaris-tabs-gap: var(--solaris-spacing-4);
   --solaris-tabs-badge-gap: var(--solaris-spacing-4);
   --solaris-tabs-panel-padding: var(--solaris-spacing-4);
-  --solaris-tabs-border-color: var(--solaris-border-subtle);
-  --solaris-tabs-indicator-color: var(--solaris-primary-base);
+  --solaris-tabs-border-color: var(--solaris-neutral-border-subtle);
+  --solaris-tabs-indicator-color: var(--solaris-primary-solid);
   --solaris-tabs-indicator-size: var(--solaris-border-width-md);
   --solaris-tabs-separator-gap: var(--solaris-spacing-3);
 
@@ -13,7 +13,7 @@
 }
 
 :host([data-color='neutral']) {
-  --solaris-tabs-indicator-color: var(--solaris-text-strong);
+  --solaris-tabs-indicator-color: var(--solaris-neutral-text-heading);
 }
 
 :host([data-orientation='vertical']) {

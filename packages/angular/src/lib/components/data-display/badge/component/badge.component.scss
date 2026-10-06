@@ -2,7 +2,7 @@
   --solaris-badge-height: var(--solaris-spacing-9);
   --solaris-badge-gap: var(--solaris-density-gap-sm);
   --solaris-badge-radius: var(--solaris-radius-full);
-  --solaris-badge-color: var(--solaris-text-default);
+  --solaris-badge-color: var(--solaris-neutral-text-body);
   --solaris-badge-offset-x: var(--solaris-spacing-0);
   --solaris-badge-offset-y: var(--solaris-spacing-0);
   --solaris-badge-padding-y: var(--solaris-spacing-0);
@@ -11,10 +11,10 @@
   --solaris-badge-font-size: var(--solaris-font-size-sm);
   --solaris-badge-min-width: var(--solaris-badge-height);
   --solaris-badge-min-height: var(--solaris-badge-height);
-  --solaris-badge-background: var(--solaris-surface-muted);
+  --solaris-badge-background: var(--solaris-neutral-sunken);
   --solaris-badge-count-padding-x: var(--solaris-spacing-4);
   --solaris-badge-line-height: var(--solaris-line-height-sm);
-  --solaris-badge-border-color: var(--solaris-border-default);
+  --solaris-badge-border-color: var(--solaris-neutral-border-default);
   --solaris-badge-dot-size: calc(
     var(--solaris-spacing-5) + var(--solaris-spacing-2)
   );
@@ -84,7 +84,7 @@
   display: block;
   flex-shrink: 0;
   background: currentcolor;
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
   width: var(--solaris-badge-dot-size);
   height: var(--solaris-badge-dot-size);
   border-radius: var(--solaris-radius-full);
@@ -242,27 +242,27 @@
 }
 
 :host([data-dot][data-color='neutral']) .solaris-badge__dot {
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
 }
 
 :host([data-dot][data-color='primary']) .solaris-badge__dot {
-  color: var(--solaris-primary-base);
+  color: var(--solaris-primary-solid);
 }
 
 :host([data-dot][data-color='success']) .solaris-badge__dot {
-  color: var(--solaris-success-base);
+  color: var(--solaris-success-solid);
 }
 
 :host([data-dot][data-color='warning']) .solaris-badge__dot {
-  color: var(--solaris-warning-base);
+  color: var(--solaris-warning-solid);
 }
 
 :host([data-dot][data-color='danger']) .solaris-badge__dot {
-  color: var(--solaris-danger-base);
+  color: var(--solaris-danger-solid);
 }
 
 :host([data-dot][data-color='info']) .solaris-badge__dot {
-  color: var(--solaris-info-base);
+  color: var(--solaris-info-solid);
 }
 
 :host([data-dot][data-color='custom']) .solaris-badge__dot {
@@ -382,123 +382,123 @@
 }
 
 :host([data-color='neutral'][data-appearance='solid']) {
-  --solaris-badge-color: var(--solaris-text-inverse);
-  --solaris-badge-background: var(--solaris-text-default);
+  --solaris-badge-color: var(--solaris-neutral-text-inverse);
+  --solaris-badge-background: var(--solaris-neutral-text-body);
 }
 
 :host([data-color='neutral'][data-appearance='tonal']) {
-  --solaris-badge-color: var(--solaris-text-default);
-  --solaris-badge-background: var(--solaris-surface-muted);
-  --solaris-badge-border-color: var(--solaris-border-default);
+  --solaris-badge-color: var(--solaris-neutral-text-body);
+  --solaris-badge-background: var(--solaris-neutral-sunken);
+  --solaris-badge-border-color: var(--solaris-neutral-border-default);
 }
 
 :host([data-color='neutral'][data-appearance='outline']) {
-  --solaris-badge-color: var(--solaris-text-default);
-  --solaris-badge-border-color: var(--solaris-border-default);
+  --solaris-badge-color: var(--solaris-neutral-text-body);
+  --solaris-badge-border-color: var(--solaris-neutral-border-default);
 }
 
 :host([data-color='neutral'][data-appearance='ghost']) {
-  --solaris-badge-color: var(--solaris-text-muted);
+  --solaris-badge-color: var(--solaris-neutral-text-secondary);
 }
 
 :host([data-color='primary'][data-appearance='solid']) {
-  --solaris-badge-color: var(--solaris-primary-text);
-  --solaris-badge-background: var(--solaris-primary-base);
+  --solaris-badge-color: var(--solaris-primary-foreground);
+  --solaris-badge-background: var(--solaris-primary-solid);
 }
 
 :host([data-color='primary'][data-appearance='tonal']) {
-  --solaris-badge-color: var(--solaris-primary-text);
-  --solaris-badge-background: var(--solaris-primary-surface);
+  --solaris-badge-color: var(--solaris-primary-foreground);
+  --solaris-badge-background: var(--solaris-primary-soft);
   --solaris-badge-border-color: var(--solaris-primary-border);
 }
 
 :host([data-color='primary'][data-appearance='outline']) {
-  --solaris-badge-color: var(--solaris-primary-text);
+  --solaris-badge-color: var(--solaris-primary-foreground);
   --solaris-badge-border-color: var(--solaris-primary-border);
 }
 
 :host([data-color='primary'][data-appearance='ghost']) {
-  --solaris-badge-color: var(--solaris-primary-text);
+  --solaris-badge-color: var(--solaris-primary-foreground);
 }
 
 :host([data-color='success'][data-appearance='solid']) {
   --solaris-badge-color: var(--solaris-success-on-solid);
-  --solaris-badge-background: var(--solaris-success-base);
+  --solaris-badge-background: var(--solaris-success-solid);
 }
 
 :host([data-color='success'][data-appearance='tonal']) {
-  --solaris-badge-color: var(--solaris-success-text);
-  --solaris-badge-background: var(--solaris-success-surface);
+  --solaris-badge-color: var(--solaris-success-foreground);
+  --solaris-badge-background: var(--solaris-success-soft);
   --solaris-badge-border-color: var(--solaris-success-border);
 }
 
 :host([data-color='success'][data-appearance='outline']) {
-  --solaris-badge-color: var(--solaris-success-text);
+  --solaris-badge-color: var(--solaris-success-foreground);
   --solaris-badge-border-color: var(--solaris-success-border);
 }
 
 :host([data-color='success'][data-appearance='ghost']) {
-  --solaris-badge-color: var(--solaris-success-text);
+  --solaris-badge-color: var(--solaris-success-foreground);
 }
 
 :host([data-color='warning'][data-appearance='solid']) {
   --solaris-badge-color: var(--solaris-warning-on-solid);
-  --solaris-badge-background: var(--solaris-warning-base);
+  --solaris-badge-background: var(--solaris-warning-solid);
 }
 
 :host([data-color='warning'][data-appearance='tonal']) {
-  --solaris-badge-color: var(--solaris-warning-text);
-  --solaris-badge-background: var(--solaris-warning-surface);
+  --solaris-badge-color: var(--solaris-warning-foreground);
+  --solaris-badge-background: var(--solaris-warning-soft);
   --solaris-badge-border-color: var(--solaris-warning-border);
 }
 
 :host([data-color='warning'][data-appearance='outline']) {
-  --solaris-badge-color: var(--solaris-warning-text);
+  --solaris-badge-color: var(--solaris-warning-foreground);
   --solaris-badge-border-color: var(--solaris-warning-border);
 }
 
 :host([data-color='warning'][data-appearance='ghost']) {
-  --solaris-badge-color: var(--solaris-warning-text);
+  --solaris-badge-color: var(--solaris-warning-foreground);
 }
 
 :host([data-color='danger'][data-appearance='solid']) {
   --solaris-badge-color: var(--solaris-danger-on-solid);
-  --solaris-badge-background: var(--solaris-danger-base);
+  --solaris-badge-background: var(--solaris-danger-solid);
 }
 
 :host([data-color='danger'][data-appearance='tonal']) {
-  --solaris-badge-color: var(--solaris-danger-text);
-  --solaris-badge-background: var(--solaris-danger-surface);
+  --solaris-badge-color: var(--solaris-danger-foreground);
+  --solaris-badge-background: var(--solaris-danger-soft);
   --solaris-badge-border-color: var(--solaris-danger-border);
 }
 
 :host([data-color='danger'][data-appearance='outline']) {
-  --solaris-badge-color: var(--solaris-danger-text);
+  --solaris-badge-color: var(--solaris-danger-foreground);
   --solaris-badge-border-color: var(--solaris-danger-border);
 }
 
 :host([data-color='danger'][data-appearance='ghost']) {
-  --solaris-badge-color: var(--solaris-danger-text);
+  --solaris-badge-color: var(--solaris-danger-foreground);
 }
 
 :host([data-color='info'][data-appearance='solid']) {
   --solaris-badge-color: var(--solaris-info-on-solid);
-  --solaris-badge-background: var(--solaris-info-base);
+  --solaris-badge-background: var(--solaris-info-solid);
 }
 
 :host([data-color='info'][data-appearance='tonal']) {
-  --solaris-badge-color: var(--solaris-info-text);
-  --solaris-badge-background: var(--solaris-info-surface);
+  --solaris-badge-color: var(--solaris-info-foreground);
+  --solaris-badge-background: var(--solaris-info-soft);
   --solaris-badge-border-color: var(--solaris-info-border);
 }
 
 :host([data-color='info'][data-appearance='outline']) {
-  --solaris-badge-color: var(--solaris-info-text);
+  --solaris-badge-color: var(--solaris-info-foreground);
   --solaris-badge-border-color: var(--solaris-info-border);
 }
 
 :host([data-color='info'][data-appearance='ghost']) {
-  --solaris-badge-color: var(--solaris-info-text);
+  --solaris-badge-color: var(--solaris-info-foreground);
 }
 
 :host([data-color='custom']) {

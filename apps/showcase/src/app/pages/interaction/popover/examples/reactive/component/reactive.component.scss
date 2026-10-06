@@ -3,7 +3,8 @@
   max-height: calc(var(--solaris-spacing-18) + var(--solaris-spacing-15));
   position: relative;
   padding: var(--solaris-spacing-4);
-  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
   border-radius: var(--solaris-radius-md);
 }
 
@@ -13,6 +14,6 @@
 
 .popover-reactive-example__hint {
   margin-top: var(--solaris-spacing-4);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-font-size-sm);
 }

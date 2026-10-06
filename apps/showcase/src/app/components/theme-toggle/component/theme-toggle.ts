@@ -16,7 +16,13 @@ import {
 import { ShowcaseColorScheme, STORAGE_KEY } from '../model/theme-toggle.model';
 
 function isColorScheme(value: unknown): value is ShowcaseColorScheme {
-  return value === 'light' || value === 'dark' || value === 'system';
+  return (
+    value === 'light' ||
+    value === 'dark' ||
+    value === 'system' ||
+    value === 'high-contrast' ||
+    value === 'high-contrast-dark'
+  );
 }
 
 @Component({
@@ -66,7 +72,7 @@ export class ShowcaseThemeToggle {
       // no-op
     }
     const current = this.document.documentElement.dataset['theme'];
-    if (current === 'light' || current === 'dark') {
+    if (isColorScheme(current)) {
       return current;
     }
     return 'system';

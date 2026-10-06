@@ -143,7 +143,7 @@ Does not open on user interaction. Opens only via `open()` or the controlled inp
 
 ### outline (default)
 
-Surface background + border. Not transparent. Uses tokens `--solaris-surface-raised`, `--solaris-border-default`.
+Surface background + border. Not transparent. Uses tokens `--solaris-neutral-default`, `--solaris-neutral-border-default`.
 
 ### surface
 

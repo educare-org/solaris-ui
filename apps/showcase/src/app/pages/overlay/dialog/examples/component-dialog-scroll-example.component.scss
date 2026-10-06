@@ -7,7 +7,7 @@
 .component-dialog-scroll-example__section {
   padding-block-end: var(--solaris-spacing-4);
   border-bottom: var(--solaris-border-width-sm) solid
-    var(--solaris-border-subtle);
+    var(--solaris-neutral-border-subtle);
 }
 
 .component-dialog-scroll-example__section:last-child {
@@ -17,7 +17,7 @@
 
 .component-dialog-scroll-example__heading {
   margin: 0 0 var(--solaris-spacing-1);
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
   font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
 }
@@ -26,5 +26,5 @@
   margin: 0;
   font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
 }

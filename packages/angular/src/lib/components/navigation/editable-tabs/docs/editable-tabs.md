@@ -100,21 +100,21 @@ Custom actions can be added through `SolarisEditableTabAction[]`.
 
 Editable Tabs inherits all base Tabs styling tokens. Additional component-level CSS variables:
 
-| Variable                                            | Default                      | Description                                                |
-| --------------------------------------------------- | ---------------------------- | ---------------------------------------------------------- |
-| `--solaris-editable-tabs-action-size`               | `--solaris-spacing-5`        | Action trigger size                                        |
-| `--solaris-editable-tabs-action-radius`             | `--solaris-radius-sm`        | Action trigger border radius                               |
-| `--solaris-editable-tabs-action-color`              | `--solaris-text-muted`       | Action trigger icon color                                  |
-| `--solaris-editable-tabs-action-hover-color`        | `--solaris-text-default`     | Action trigger hover color                                 |
-| `--solaris-editable-tabs-action-hover-background`   | `--solaris-surface-subtle`   | Action trigger hover background                            |
-| `--solaris-editable-tabs-rename-input-min-width`    | `--solaris-spacing-16`       | Rename input minimum width                                 |
-| `--solaris-editable-tabs-rename-input-padding`      | `--solaris-spacing-1`        | Rename input padding                                       |
-| `--solaris-editable-tabs-rename-input-radius`       | `--solaris-radius-sm`        | Rename input border radius                                 |
-| `--solaris-editable-tabs-rename-input-font-size`    | `inherit`                    | Rename input font size                                     |
-| `--solaris-editable-tabs-rename-input-border-color` | `--solaris-primary-base`     | Rename input border color                                  |
-| `--solaris-editable-tabs-rename-input-background`   | `--solaris-surface-base`     | Rename input background                                    |
-| `--solaris-editable-tabs-rename-input-height`       | driven by `size` × `density` | Rename input height (follows `--solaris-control-height-*`) |
-| `--solaris-editable-tabs-drop-indicator-z-index`    | `--solaris-z-index-content`  | Drop indicator stacking order during drag reorder          |
+| Variable                                            | Default                            | Description                                                |
+| --------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------- |
+| `--solaris-editable-tabs-action-size`               | `--solaris-spacing-5`              | Action trigger size                                        |
+| `--solaris-editable-tabs-action-radius`             | `--solaris-radius-sm`              | Action trigger border radius                               |
+| `--solaris-editable-tabs-action-color`              | `--solaris-neutral-text-secondary` | Action trigger icon color                                  |
+| `--solaris-editable-tabs-action-hover-color`        | `--solaris-neutral-text-body`      | Action trigger hover color                                 |
+| `--solaris-editable-tabs-action-hover-background`   | `--solaris-neutral-subtle`         | Action trigger hover background                            |
+| `--solaris-editable-tabs-rename-input-min-width`    | `--solaris-spacing-16`             | Rename input minimum width                                 |
+| `--solaris-editable-tabs-rename-input-padding`      | `--solaris-spacing-1`              | Rename input padding                                       |
+| `--solaris-editable-tabs-rename-input-radius`       | `--solaris-radius-sm`              | Rename input border radius                                 |
+| `--solaris-editable-tabs-rename-input-font-size`    | `inherit`                          | Rename input font size                                     |
+| `--solaris-editable-tabs-rename-input-border-color` | `--solaris-primary-solid`          | Rename input border color                                  |
+| `--solaris-editable-tabs-rename-input-background`   | `--solaris-neutral-default`        | Rename input background                                    |
+| `--solaris-editable-tabs-rename-input-height`       | driven by `size` × `density`       | Rename input height (follows `--solaris-control-height-*`) |
+| `--solaris-editable-tabs-drop-indicator-z-index`    | `--solaris-z-index-content`        | Drop indicator stacking order during drag reorder          |
 
 ## Examples
 

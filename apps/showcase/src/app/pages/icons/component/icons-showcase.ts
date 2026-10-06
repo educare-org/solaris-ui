@@ -70,12 +70,13 @@ export class IconsShowcasePage {
   protected readonly iconColor = signal<string | null>(null);
 
   protected readonly colorSwatches: IconColorSwatch[] = [
-    { label: 'primary', value: 'var(--solaris-primary-base)' },
-    { label: 'success', value: 'var(--solaris-success-base)' },
-    { label: 'warning', value: 'var(--solaris-warning-base)' },
-    { label: 'danger', value: 'var(--solaris-danger-base)' },
-    { label: 'info', value: 'var(--solaris-info-base)' },
-    { label: 'orange', value: 'var(--solaris-orange-base)' },
+    { label: 'primary', value: 'var(--solaris-primary-solid)' },
+    { label: 'success', value: 'var(--solaris-success-solid)' },
+    { label: 'warning', value: 'var(--solaris-warning-solid)' },
+    { label: 'danger', value: 'var(--solaris-danger-solid)' },
+    { label: 'info', value: 'var(--solaris-info-solid)' },
+    { label: 'accent', value: 'var(--solaris-accent-solid)' },
+    { label: 'violet', value: 'var(--solaris-violet-solid)' },
   ];
 
   protected readonly iconWidthCss = computed(() => `${this.iconWidth()}px`);
@@ -86,7 +87,7 @@ export class IconsShowcasePage {
   protected readonly colorHex = computed(() => {
     const color = this.iconColor();
     if (!color) {
-      return this.resolveTokenHex('--solaris-text-strong');
+      return this.resolveTokenHex('--solaris-neutral-text-heading');
     }
     if (color.startsWith('var(')) {
       return this.resolveTokenHex(color.slice(4, -1));

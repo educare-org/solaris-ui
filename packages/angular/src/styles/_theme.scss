@@ -50,6 +50,16 @@ $-default-config: (
       color-scheme: dark;
       @include color.solaris-dark-tokens;
     }
+  } @else if $color-scheme == high-contrast {
+    :root:not([data-theme]) {
+      color-scheme: light;
+      @include color.solaris-high-contrast-tokens;
+    }
+  } @else if $color-scheme == high-contrast-dark {
+    :root:not([data-theme]) {
+      color-scheme: dark;
+      @include color.solaris-high-contrast-dark-tokens;
+    }
   } @else {
     :root {
       color-scheme: light dark;

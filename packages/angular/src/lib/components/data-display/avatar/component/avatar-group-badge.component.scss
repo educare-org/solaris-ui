@@ -3,9 +3,11 @@
   --solaris-avatar-group-badge-overlap: var(--solaris-spacing-4);
   --solaris-avatar-group-badge-padding-y: var(--solaris-spacing-3);
   --solaris-avatar-group-badge-padding-x: var(--solaris-spacing-5);
-  --solaris-avatar-group-badge-background: var(--solaris-surface-muted);
-  --solaris-avatar-group-badge-border-color: var(--solaris-border-default);
-  --solaris-avatar-group-badge-color: var(--solaris-text-default);
+  --solaris-avatar-group-badge-background: var(--solaris-neutral-sunken);
+  --solaris-avatar-group-badge-border-color: var(
+    --solaris-neutral-border-default
+  );
+  --solaris-avatar-group-badge-color: var(--solaris-neutral-text-body);
   --solaris-avatar-group-badge-font-size: var(--solaris-font-size-sm);
   --solaris-avatar-group-badge-hover-lift: var(--solaris-spacing-3);
   --solaris-avatar-group-badge-dim-opacity: var(--solaris-opacity-60);
@@ -160,7 +162,7 @@ button.solaris-avatar-group-badge__pill {
   border: var(--solaris-border-width-sm) solid
     var(--solaris-avatar-group-badge-border-color);
   border-radius: var(--solaris-radius-full);
-  background: var(--solaris-surface-base);
+  background: var(--solaris-neutral-default);
   color: var(--solaris-avatar-group-badge-color);
   font-size: var(--solaris-font-size-xs);
   font-weight: var(--solaris-font-weight-medium);

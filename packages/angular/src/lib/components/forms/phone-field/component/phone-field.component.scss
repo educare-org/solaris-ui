@@ -1,7 +1,7 @@
 :host {
   --solaris-phone-field-country-gap: var(--solaris-spacing-1);
   --solaris-phone-field-country-padding-inline: var(--solaris-spacing-2);
-  --solaris-phone-field-dial-code-color: var(--solaris-text-muted);
+  --solaris-phone-field-dial-code-color: var(--solaris-neutral-text-secondary);
   --solaris-phone-field-flag-size: var(--solaris-font-size-xs);
   --solaris-phone-field-chevron-size: var(--solaris-font-size-2xs);
   --solaris-phone-field-country-font-size: var(--solaris-font-size-xs);
@@ -18,13 +18,13 @@
   gap: var(--solaris-phone-field-country-gap);
   padding-inline: var(--solaris-phone-field-country-padding-inline);
   cursor: pointer;
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
   font-size: var(--solaris-phone-field-country-font-size);
   line-height: var(--solaris-line-height-md);
 
   &:focus-visible {
     outline-offset: var(--solaris-focus-ring-offset);
-    outline: var(--solaris-focus-ring-width) solid var(--solaris-primary-base);
+    outline: var(--solaris-focus-ring-width) solid var(--solaris-primary-solid);
   }
 
   &[disabled] {
@@ -51,7 +51,7 @@
 
 :host .solaris-phone-field__country .solaris-phone-field__chevron {
   flex-shrink: 0;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   block-size: var(--solaris-phone-field-chevron-size);
   inline-size: var(--solaris-phone-field-chevron-size);
   transition: transform var(--solaris-motion-duration-normal)
@@ -181,13 +181,13 @@
   background: transparent;
   width: var(--solaris-font-size-lg);
   height: var(--solaris-font-size-lg);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   transition: color var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
 
 .solaris-phone-field__clear:hover {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
 }
 
 @media (prefers-reduced-motion: reduce) {

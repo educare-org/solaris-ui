@@ -3,16 +3,18 @@
   --solaris-stepper-step-gap: var(--solaris-spacing-4);
   --solaris-stepper-card-shadow: var(--solaris-shadow-sm);
   --solaris-stepper-indicator-size: var(--solaris-spacing-9);
-  --solaris-stepper-label-color: var(--solaris-text-default);
-  --solaris-stepper-indicator-color: var(--solaris-text-subtle);
-  --solaris-stepper-description-color: var(--solaris-text-muted);
-  --solaris-stepper-card-background: var(--solaris-surface-base);
-  --solaris-stepper-connector-color: var(--solaris-border-subtle);
+  --solaris-stepper-label-color: var(--solaris-neutral-text-body);
+  --solaris-stepper-indicator-color: var(--solaris-neutral-text-tertiary);
+  --solaris-stepper-description-color: var(--solaris-neutral-text-secondary);
+  --solaris-stepper-card-background: var(--solaris-neutral-default);
+  --solaris-stepper-connector-color: var(--solaris-neutral-border-subtle);
   --solaris-stepper-connector-size: var(--solaris-border-width-md);
-  --solaris-stepper-card-border-color: var(--solaris-border-subtle);
-  --solaris-stepper-indicator-background: var(--solaris-surface-muted);
-  --solaris-stepper-connector-active-color: var(--solaris-primary-base);
-  --solaris-stepper-dashed-connector-color: var(--solaris-border-subtle);
+  --solaris-stepper-card-border-color: var(--solaris-neutral-border-subtle);
+  --solaris-stepper-indicator-background: var(--solaris-neutral-sunken);
+  --solaris-stepper-connector-active-color: var(--solaris-primary-solid);
+  --solaris-stepper-dashed-connector-color: var(
+    --solaris-neutral-border-subtle
+  );
   --solaris-stepper-label-max-width: 160px;
 
   display: block;
@@ -115,27 +117,27 @@
 
 .solaris-stepper__step-button:focus-visible {
   outline-offset: var(--solaris-spacing-2);
-  outline: var(--solaris-spacing-2) solid var(--solaris-primary-base);
+  outline: var(--solaris-spacing-2) solid var(--solaris-primary-solid);
 }
 
 .solaris-stepper__step[data-status='active'] .solaris-stepper__indicator {
-  color: var(--solaris-primary-text);
-  background: var(--solaris-primary-base);
+  color: var(--solaris-primary-foreground);
+  background: var(--solaris-primary-solid);
 }
 
 .solaris-stepper__step[data-status='completed'] .solaris-stepper__indicator {
   color: var(--solaris-success-on-solid);
-  background: var(--solaris-success-base);
+  background: var(--solaris-success-solid);
 }
 
 .solaris-stepper__step[data-status='error'] .solaris-stepper__indicator {
   color: var(--solaris-danger-on-solid);
-  background: var(--solaris-danger-base);
+  background: var(--solaris-danger-solid);
 }
 
 .solaris-stepper__step[data-status='warning'] .solaris-stepper__indicator {
   color: var(--solaris-warning-on-solid);
-  background: var(--solaris-warning-base);
+  background: var(--solaris-warning-solid);
 }
 
 .solaris-stepper__step[data-status='disabled'] .solaris-stepper__indicator {
@@ -188,18 +190,18 @@
 }
 
 .solaris-stepper__optional-text {
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   border-radius: var(--solaris-radius-sm);
-  background: var(--solaris-surface-subtle);
+  background: var(--solaris-neutral-subtle);
   padding: var(--solaris-spacing-1) var(--solaris-spacing-2);
   font: var(--solaris-font-weight-regular) var(--solaris-font-size-xs) / 1
     var(--solaris-font-family-sans);
 }
 
 .solaris-stepper__status-text {
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   border-radius: var(--solaris-radius-sm);
-  background: var(--solaris-surface-subtle);
+  background: var(--solaris-neutral-subtle);
   padding: var(--solaris-spacing-1) var(--solaris-spacing-2);
   font: var(--solaris-font-weight-regular) var(--solaris-font-size-xs) / 1
     var(--solaris-font-family-sans);
@@ -263,7 +265,7 @@
 :host([data-appearance='card'])
   .solaris-stepper__step--active
   .solaris-stepper__step-static {
-  border-color: var(--solaris-primary-base);
+  border-color: var(--solaris-primary-solid);
   outline-offset: var(--solaris-focus-ring-offset);
   outline: var(--solaris-focus-ring-width) solid var(--solaris-focus-ring-color);
 }
@@ -296,20 +298,20 @@
 
 :host([data-appearance='dashed'])
   .solaris-stepper__step[data-status='completed'] {
-  background: var(--solaris-success-base);
+  background: var(--solaris-success-solid);
 }
 
 :host([data-appearance='dashed']) .solaris-stepper__step[data-status='active'] {
-  background: var(--solaris-primary-base);
+  background: var(--solaris-primary-solid);
 }
 
 :host([data-appearance='dashed']) .solaris-stepper__step[data-status='error'] {
-  background: var(--solaris-danger-base);
+  background: var(--solaris-danger-solid);
 }
 
 :host([data-appearance='dashed'])
   .solaris-stepper__step[data-status='warning'] {
-  background: var(--solaris-warning-base);
+  background: var(--solaris-warning-solid);
 }
 
 :host([data-appearance='dashed']) .solaris-stepper__step--clickable {

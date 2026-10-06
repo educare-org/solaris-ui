@@ -123,17 +123,17 @@ full label through the native `title` tooltip.
 
 ## CSS Variables
 
-| Variable                               | Default                  | Description                     |
-| -------------------------------------- | ------------------------ | ------------------------------- |
-| `--solaris-breadcrumb-font-size`       | `--solaris-font-size-md` | Text size.                      |
-| `--solaris-breadcrumb-link-color`      | `--solaris-text-muted`   | Link color.                     |
-| `--solaris-breadcrumb-text-color`      | `--solaris-text-default` | Text/current item color.        |
-| `--solaris-breadcrumb-muted-color`     | `--solaris-text-muted`   | Separator and muted icon color. |
-| `--solaris-breadcrumb-icon-size`       | `--solaris-font-size-sm` | Item icon size.                 |
-| `--solaris-breadcrumb-separator-size`  | `--solaris-font-size-sm` | Separator icon size.            |
-| `--solaris-breadcrumb-gap`             | `--solaris-spacing-3`    | Gap between inline parts.       |
-| `--solaris-breadcrumb-pager-size`      | `--solaris-spacing-5`    | Optional pager button size.     |
-| `--solaris-breadcrumb-label-max-width` | `200px`                  | Label truncation width.         |
+| Variable                               | Default                            | Description                     |
+| -------------------------------------- | ---------------------------------- | ------------------------------- |
+| `--solaris-breadcrumb-font-size`       | `--solaris-font-size-md`           | Text size.                      |
+| `--solaris-breadcrumb-link-color`      | `--solaris-neutral-text-secondary` | Link color.                     |
+| `--solaris-breadcrumb-text-color`      | `--solaris-neutral-text-body`      | Text/current item color.        |
+| `--solaris-breadcrumb-muted-color`     | `--solaris-neutral-text-secondary` | Separator and muted icon color. |
+| `--solaris-breadcrumb-icon-size`       | `--solaris-font-size-sm`           | Item icon size.                 |
+| `--solaris-breadcrumb-separator-size`  | `--solaris-font-size-sm`           | Separator icon size.            |
+| `--solaris-breadcrumb-gap`             | `--solaris-spacing-3`              | Gap between inline parts.       |
+| `--solaris-breadcrumb-pager-size`      | `--solaris-spacing-5`              | Optional pager button size.     |
+| `--solaris-breadcrumb-label-max-width` | `200px`                            | Label truncation width.         |
 
 ## Examples
 

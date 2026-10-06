@@ -5,14 +5,14 @@
   --solaris-icon-button-hover-border-color: transparent;
   --solaris-icon-button-radius: var(--solaris-radius-sm);
   --solaris-icon-button-active-border-color: transparent;
-  --solaris-icon-button-color: var(--solaris-text-inverse);
-  --solaris-icon-button-hover-color: var(--solaris-text-inverse);
-  --solaris-icon-button-active-color: var(--solaris-text-inverse);
-  --solaris-icon-button-background: var(--solaris-surface-reverse);
+  --solaris-icon-button-color: var(--solaris-neutral-text-inverse);
+  --solaris-icon-button-hover-color: var(--solaris-neutral-text-inverse);
+  --solaris-icon-button-active-color: var(--solaris-neutral-text-inverse);
+  --solaris-icon-button-background: var(--solaris-neutral-inverse);
   --solaris-icon-button-disabled-opacity: var(--solaris-opacity-50);
-  --solaris-icon-button-focus-ring-color: var(--solaris-text-default);
-  --solaris-icon-button-hover-background: var(--solaris-surface-reverse-subtle);
-  --solaris-icon-button-active-background: var(--solaris-surface-reverse-muted);
+  --solaris-icon-button-focus-ring-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-hover-background: var(--solaris-neutral-inverse-subtle);
+  --solaris-icon-button-active-background: var(--solaris-neutral-inverse-muted);
 
   --solaris-icon-button-custom-color: initial;
   --solaris-icon-button-custom-background: initial;
@@ -71,7 +71,7 @@
 [solaris-icon-button][aria-disabled='true'] {
   cursor: not-allowed;
   pointer-events: all;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   opacity: var(--solaris-icon-button-disabled-opacity);
 }
 
@@ -145,324 +145,330 @@
 }
 
 [solaris-icon-button][data-color='neutral'][data-appearance='solid'] {
-  --solaris-icon-button-color: var(--solaris-text-inverse);
-  --solaris-icon-button-hover-color: var(--solaris-text-inverse);
-  --solaris-icon-button-active-color: var(--solaris-text-inverse);
-  --solaris-icon-button-background: var(--solaris-surface-reverse);
-  --solaris-icon-button-hover-background: var(--solaris-surface-reverse-subtle);
-  --solaris-icon-button-active-background: var(--solaris-surface-reverse-muted);
-  --solaris-icon-button-focus-ring-color: var(--solaris-text-default);
+  --solaris-icon-button-color: var(--solaris-neutral-text-inverse);
+  --solaris-icon-button-hover-color: var(--solaris-neutral-text-inverse);
+  --solaris-icon-button-active-color: var(--solaris-neutral-text-inverse);
+  --solaris-icon-button-background: var(--solaris-neutral-inverse);
+  --solaris-icon-button-hover-background: var(--solaris-neutral-inverse-subtle);
+  --solaris-icon-button-active-background: var(--solaris-neutral-inverse-muted);
+  --solaris-icon-button-focus-ring-color: var(--solaris-neutral-text-body);
 }
 
 [solaris-icon-button][data-color='neutral'][data-appearance='outline'] {
-  --solaris-icon-button-color: var(--solaris-text-default);
-  --solaris-icon-button-hover-color: var(--solaris-text-inverse);
-  --solaris-icon-button-active-color: var(--solaris-text-inverse);
-  --solaris-icon-button-border-color: var(--solaris-border-default);
-  --solaris-icon-button-focus-ring-color: var(--solaris-text-default);
-  --solaris-icon-button-hover-border-color: var(--solaris-border-strong);
-  --solaris-icon-button-hover-background: var(--solaris-surface-reverse);
-  --solaris-icon-button-active-background: var(--solaris-surface-reverse-muted);
+  --solaris-icon-button-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-hover-color: var(--solaris-neutral-text-inverse);
+  --solaris-icon-button-active-color: var(--solaris-neutral-text-inverse);
+  --solaris-icon-button-border-color: var(--solaris-neutral-border-default);
+  --solaris-icon-button-focus-ring-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-hover-border-color: var(
+    --solaris-neutral-border-strong
+  );
+  --solaris-icon-button-hover-background: var(--solaris-neutral-inverse);
+  --solaris-icon-button-active-background: var(--solaris-neutral-inverse-muted);
 }
 
 [solaris-icon-button][data-color='neutral'][data-appearance='ghost'] {
-  --solaris-icon-button-color: var(--solaris-text-default);
-  --solaris-icon-button-hover-color: var(--solaris-text-default);
-  --solaris-icon-button-active-color: var(--solaris-text-default);
-  --solaris-icon-button-focus-ring-color: var(--solaris-text-default);
-  --solaris-icon-button-hover-background: var(--solaris-surface-muted);
-  --solaris-icon-button-active-background: var(--solaris-surface-muted);
+  --solaris-icon-button-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-hover-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-active-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-focus-ring-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-hover-background: var(--solaris-neutral-sunken);
+  --solaris-icon-button-active-background: var(--solaris-neutral-sunken);
 }
 
 [solaris-icon-button][data-color='neutral'][data-appearance='tonal'] {
-  --solaris-icon-button-color: var(--solaris-text-default);
-  --solaris-icon-button-background: var(--solaris-surface-muted);
-  --solaris-icon-button-hover-color: var(--solaris-text-default);
-  --solaris-icon-button-active-color: var(--solaris-text-default);
-  --solaris-icon-button-border-color: var(--solaris-border-default);
-  --solaris-icon-button-focus-ring-color: var(--solaris-text-default);
-  --solaris-icon-button-hover-border-color: var(--solaris-border-strong);
-  --solaris-icon-button-active-border-color: var(--solaris-border-strong);
-  --solaris-icon-button-hover-background: var(--solaris-surface-muted);
-  --solaris-icon-button-active-background: var(--solaris-surface-muted);
+  --solaris-icon-button-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-background: var(--solaris-neutral-sunken);
+  --solaris-icon-button-hover-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-active-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-border-color: var(--solaris-neutral-border-default);
+  --solaris-icon-button-focus-ring-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-hover-border-color: var(
+    --solaris-neutral-border-strong
+  );
+  --solaris-icon-button-active-border-color: var(
+    --solaris-neutral-border-strong
+  );
+  --solaris-icon-button-hover-background: var(--solaris-neutral-sunken);
+  --solaris-icon-button-active-background: var(--solaris-neutral-sunken);
 }
 
 [solaris-icon-button][data-color='neutral'][data-appearance='surface'] {
-  --solaris-icon-button-color: var(--solaris-text-default);
-  --solaris-icon-button-background: var(--solaris-surface-muted);
-  --solaris-icon-button-hover-color: var(--solaris-text-default);
-  --solaris-icon-button-active-color: var(--solaris-text-default);
-  --solaris-icon-button-focus-ring-color: var(--solaris-text-default);
-  --solaris-icon-button-hover-background: var(--solaris-surface-subtle);
-  --solaris-icon-button-active-background: var(--solaris-surface-subtle);
+  --solaris-icon-button-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-background: var(--solaris-neutral-sunken);
+  --solaris-icon-button-hover-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-active-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-focus-ring-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-hover-background: var(--solaris-neutral-subtle);
+  --solaris-icon-button-active-background: var(--solaris-neutral-subtle);
 }
 
 [solaris-icon-button][data-color='primary'][data-appearance='solid'] {
   --solaris-icon-button-color: var(--solaris-primary-on-solid);
-  --solaris-icon-button-background: var(--solaris-primary-base);
-  --solaris-icon-button-hover-color: var(--solaris-primary-text);
-  --solaris-icon-button-active-color: var(--solaris-primary-text);
+  --solaris-icon-button-background: var(--solaris-primary-solid);
+  --solaris-icon-button-hover-color: var(--solaris-primary-foreground);
+  --solaris-icon-button-active-color: var(--solaris-primary-foreground);
   --solaris-icon-button-border-color: var(--solaris-primary-border);
-  --solaris-icon-button-focus-ring-color: var(--solaris-primary-base);
-  --solaris-icon-button-hover-background: var(--solaris-primary-hover);
-  --solaris-icon-button-active-background: var(--solaris-primary-active);
+  --solaris-icon-button-focus-ring-color: var(--solaris-primary-solid);
+  --solaris-icon-button-hover-background: var(--solaris-primary-solid-hover);
+  --solaris-icon-button-active-background: var(--solaris-primary-solid-active);
 }
 
 [solaris-icon-button][data-color='primary'][data-appearance='outline'] {
-  --solaris-icon-button-color: var(--solaris-primary-base);
-  --solaris-icon-button-hover-color: var(--solaris-primary-text);
-  --solaris-icon-button-active-color: var(--solaris-primary-text);
+  --solaris-icon-button-color: var(--solaris-primary-solid);
+  --solaris-icon-button-hover-color: var(--solaris-primary-foreground);
+  --solaris-icon-button-active-color: var(--solaris-primary-foreground);
   --solaris-icon-button-border-color: var(--solaris-primary-border);
-  --solaris-icon-button-focus-ring-color: var(--solaris-primary-base);
-  --solaris-icon-button-hover-background: var(--solaris-primary-hover);
-  --solaris-icon-button-active-background: var(--solaris-primary-active);
+  --solaris-icon-button-focus-ring-color: var(--solaris-primary-solid);
+  --solaris-icon-button-hover-background: var(--solaris-primary-solid-hover);
+  --solaris-icon-button-active-background: var(--solaris-primary-solid-active);
 }
 
 [solaris-icon-button][data-color='primary'][data-appearance='ghost'] {
-  --solaris-icon-button-color: var(--solaris-primary-base);
-  --solaris-icon-button-hover-color: var(--solaris-primary-text);
-  --solaris-icon-button-active-color: var(--solaris-primary-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-primary-base);
-  --solaris-icon-button-hover-background: var(--solaris-primary-surface);
-  --solaris-icon-button-active-background: var(--solaris-primary-surface);
+  --solaris-icon-button-color: var(--solaris-primary-solid);
+  --solaris-icon-button-hover-color: var(--solaris-primary-foreground);
+  --solaris-icon-button-active-color: var(--solaris-primary-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-primary-solid);
+  --solaris-icon-button-hover-background: var(--solaris-primary-soft);
+  --solaris-icon-button-active-background: var(--solaris-primary-soft);
 }
 
 [solaris-icon-button][data-color='primary'][data-appearance='tonal'] {
-  --solaris-icon-button-color: var(--solaris-primary-text);
-  --solaris-icon-button-hover-color: var(--solaris-primary-text);
-  --solaris-icon-button-active-color: var(--solaris-primary-text);
-  --solaris-icon-button-background: var(--solaris-primary-surface);
+  --solaris-icon-button-color: var(--solaris-primary-foreground);
+  --solaris-icon-button-hover-color: var(--solaris-primary-foreground);
+  --solaris-icon-button-active-color: var(--solaris-primary-foreground);
+  --solaris-icon-button-background: var(--solaris-primary-soft);
   --solaris-icon-button-border-color: var(--solaris-primary-border);
-  --solaris-icon-button-focus-ring-color: var(--solaris-primary-base);
-  --solaris-icon-button-hover-background: var(--solaris-primary-surface);
-  --solaris-icon-button-hover-border-color: var(--solaris-primary-base);
-  --solaris-icon-button-active-background: var(--solaris-primary-surface);
-  --solaris-icon-button-active-border-color: var(--solaris-primary-base);
+  --solaris-icon-button-focus-ring-color: var(--solaris-primary-solid);
+  --solaris-icon-button-hover-background: var(--solaris-primary-soft);
+  --solaris-icon-button-hover-border-color: var(--solaris-primary-solid);
+  --solaris-icon-button-active-background: var(--solaris-primary-soft);
+  --solaris-icon-button-active-border-color: var(--solaris-primary-solid);
 }
 
 [solaris-icon-button][data-color='primary'][data-appearance='surface'] {
-  --solaris-icon-button-color: var(--solaris-primary-text);
-  --solaris-icon-button-hover-color: var(--solaris-primary-text);
-  --solaris-icon-button-active-color: var(--solaris-primary-text);
-  --solaris-icon-button-background: var(--solaris-primary-surface);
-  --solaris-icon-button-focus-ring-color: var(--solaris-primary-base);
-  --solaris-icon-button-hover-background: var(--solaris-primary-surface);
-  --solaris-icon-button-active-background: var(--solaris-primary-surface);
+  --solaris-icon-button-color: var(--solaris-primary-foreground);
+  --solaris-icon-button-hover-color: var(--solaris-primary-foreground);
+  --solaris-icon-button-active-color: var(--solaris-primary-foreground);
+  --solaris-icon-button-background: var(--solaris-primary-soft);
+  --solaris-icon-button-focus-ring-color: var(--solaris-primary-solid);
+  --solaris-icon-button-hover-background: var(--solaris-primary-soft);
+  --solaris-icon-button-active-background: var(--solaris-primary-soft);
   --solaris-icon-button-active-border-color: var(--solaris-primary-border);
 }
 
 [solaris-icon-button][data-color='success'][data-appearance='solid'] {
   --solaris-icon-button-color: var(--solaris-success-on-solid);
-  --solaris-icon-button-background: var(--solaris-success-base);
+  --solaris-icon-button-background: var(--solaris-success-solid);
   --solaris-icon-button-border-color: var(--solaris-success-border);
   --solaris-icon-button-hover-color: var(--solaris-success-on-solid);
   --solaris-icon-button-active-color: var(--solaris-success-on-solid);
-  --solaris-icon-button-focus-ring-color: var(--solaris-success-base);
-  --solaris-icon-button-hover-background: var(--solaris-success-hover);
-  --solaris-icon-button-active-background: var(--solaris-success-active);
+  --solaris-icon-button-focus-ring-color: var(--solaris-success-solid);
+  --solaris-icon-button-hover-background: var(--solaris-success-solid-hover);
+  --solaris-icon-button-active-background: var(--solaris-success-solid-active);
 }
 
 [solaris-icon-button][data-color='success'][data-appearance='outline'] {
-  --solaris-icon-button-color: var(--solaris-success-text);
+  --solaris-icon-button-color: var(--solaris-success-foreground);
   --solaris-icon-button-border-color: var(--solaris-success-border);
   --solaris-icon-button-hover-color: var(--solaris-success-on-solid);
   --solaris-icon-button-active-color: var(--solaris-success-on-solid);
-  --solaris-icon-button-focus-ring-color: var(--solaris-success-base);
-  --solaris-icon-button-hover-background: var(--solaris-success-hover);
-  --solaris-icon-button-active-background: var(--solaris-success-active);
+  --solaris-icon-button-focus-ring-color: var(--solaris-success-solid);
+  --solaris-icon-button-hover-background: var(--solaris-success-solid-hover);
+  --solaris-icon-button-active-background: var(--solaris-success-solid-active);
 }
 
 [solaris-icon-button][data-color='success'][data-appearance='ghost'] {
-  --solaris-icon-button-color: var(--solaris-success-text);
-  --solaris-icon-button-hover-color: var(--solaris-success-text);
-  --solaris-icon-button-active-color: var(--solaris-success-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-success-base);
-  --solaris-icon-button-hover-background: var(--solaris-success-surface);
-  --solaris-icon-button-active-background: var(--solaris-success-surface);
+  --solaris-icon-button-color: var(--solaris-success-foreground);
+  --solaris-icon-button-hover-color: var(--solaris-success-foreground);
+  --solaris-icon-button-active-color: var(--solaris-success-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-success-solid);
+  --solaris-icon-button-hover-background: var(--solaris-success-soft);
+  --solaris-icon-button-active-background: var(--solaris-success-soft);
 }
 
 [solaris-icon-button][data-color='success'][data-appearance='tonal'] {
-  --solaris-icon-button-color: var(--solaris-success-text);
-  --solaris-icon-button-background: var(--solaris-success-surface);
+  --solaris-icon-button-color: var(--solaris-success-foreground);
+  --solaris-icon-button-background: var(--solaris-success-soft);
   --solaris-icon-button-border-color: var(--solaris-success-border);
-  --solaris-icon-button-hover-color: var(--solaris-success-text);
-  --solaris-icon-button-active-color: var(--solaris-success-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-success-base);
-  --solaris-icon-button-hover-background: var(--solaris-success-surface);
-  --solaris-icon-button-hover-border-color: var(--solaris-success-base);
-  --solaris-icon-button-active-background: var(--solaris-success-surface);
-  --solaris-icon-button-active-border-color: var(--solaris-success-base);
+  --solaris-icon-button-hover-color: var(--solaris-success-foreground);
+  --solaris-icon-button-active-color: var(--solaris-success-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-success-solid);
+  --solaris-icon-button-hover-background: var(--solaris-success-soft);
+  --solaris-icon-button-hover-border-color: var(--solaris-success-solid);
+  --solaris-icon-button-active-background: var(--solaris-success-soft);
+  --solaris-icon-button-active-border-color: var(--solaris-success-solid);
 }
 
 [solaris-icon-button][data-color='success'][data-appearance='surface'] {
-  --solaris-icon-button-color: var(--solaris-success-text);
-  --solaris-icon-button-background: var(--solaris-success-surface);
-  --solaris-icon-button-hover-color: var(--solaris-success-text);
-  --solaris-icon-button-active-color: var(--solaris-success-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-success-base);
-  --solaris-icon-button-hover-background: var(--solaris-success-surface);
-  --solaris-icon-button-active-background: var(--solaris-success-surface);
+  --solaris-icon-button-color: var(--solaris-success-foreground);
+  --solaris-icon-button-background: var(--solaris-success-soft);
+  --solaris-icon-button-hover-color: var(--solaris-success-foreground);
+  --solaris-icon-button-active-color: var(--solaris-success-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-success-solid);
+  --solaris-icon-button-hover-background: var(--solaris-success-soft);
+  --solaris-icon-button-active-background: var(--solaris-success-soft);
   --solaris-icon-button-active-border-color: var(--solaris-success-border);
 }
 
 [solaris-icon-button][data-color='warning'][data-appearance='solid'] {
   --solaris-icon-button-color: var(--solaris-warning-on-solid);
-  --solaris-icon-button-background: var(--solaris-warning-base);
+  --solaris-icon-button-background: var(--solaris-warning-solid);
   --solaris-icon-button-border-color: var(--solaris-warning-border);
   --solaris-icon-button-hover-color: var(--solaris-warning-on-solid);
   --solaris-icon-button-active-color: var(--solaris-warning-on-solid);
-  --solaris-icon-button-focus-ring-color: var(--solaris-warning-base);
-  --solaris-icon-button-hover-background: var(--solaris-warning-hover);
-  --solaris-icon-button-active-background: var(--solaris-warning-active);
+  --solaris-icon-button-focus-ring-color: var(--solaris-warning-solid);
+  --solaris-icon-button-hover-background: var(--solaris-warning-solid-hover);
+  --solaris-icon-button-active-background: var(--solaris-warning-solid-active);
 }
 
 [solaris-icon-button][data-color='warning'][data-appearance='outline'] {
-  --solaris-icon-button-color: var(--solaris-warning-text);
+  --solaris-icon-button-color: var(--solaris-warning-foreground);
   --solaris-icon-button-border-color: var(--solaris-warning-border);
   --solaris-icon-button-hover-color: var(--solaris-warning-on-solid);
   --solaris-icon-button-active-color: var(--solaris-warning-on-solid);
-  --solaris-icon-button-focus-ring-color: var(--solaris-warning-base);
-  --solaris-icon-button-hover-background: var(--solaris-warning-hover);
-  --solaris-icon-button-active-background: var(--solaris-warning-active);
+  --solaris-icon-button-focus-ring-color: var(--solaris-warning-solid);
+  --solaris-icon-button-hover-background: var(--solaris-warning-solid-hover);
+  --solaris-icon-button-active-background: var(--solaris-warning-solid-active);
 }
 
 [solaris-icon-button][data-color='warning'][data-appearance='ghost'] {
-  --solaris-icon-button-color: var(--solaris-warning-text);
-  --solaris-icon-button-hover-color: var(--solaris-warning-text);
-  --solaris-icon-button-active-color: var(--solaris-warning-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-warning-base);
-  --solaris-icon-button-hover-background: var(--solaris-warning-surface);
-  --solaris-icon-button-active-background: var(--solaris-warning-surface);
+  --solaris-icon-button-color: var(--solaris-warning-foreground);
+  --solaris-icon-button-hover-color: var(--solaris-warning-foreground);
+  --solaris-icon-button-active-color: var(--solaris-warning-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-warning-solid);
+  --solaris-icon-button-hover-background: var(--solaris-warning-soft);
+  --solaris-icon-button-active-background: var(--solaris-warning-soft);
 }
 
 [solaris-icon-button][data-color='warning'][data-appearance='tonal'] {
-  --solaris-icon-button-color: var(--solaris-warning-text);
-  --solaris-icon-button-background: var(--solaris-warning-surface);
+  --solaris-icon-button-color: var(--solaris-warning-foreground);
+  --solaris-icon-button-background: var(--solaris-warning-soft);
   --solaris-icon-button-border-color: var(--solaris-warning-border);
-  --solaris-icon-button-hover-color: var(--solaris-warning-text);
-  --solaris-icon-button-active-color: var(--solaris-warning-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-warning-base);
-  --solaris-icon-button-hover-background: var(--solaris-warning-surface);
-  --solaris-icon-button-hover-border-color: var(--solaris-warning-base);
-  --solaris-icon-button-active-background: var(--solaris-warning-surface);
-  --solaris-icon-button-active-border-color: var(--solaris-warning-base);
+  --solaris-icon-button-hover-color: var(--solaris-warning-foreground);
+  --solaris-icon-button-active-color: var(--solaris-warning-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-warning-solid);
+  --solaris-icon-button-hover-background: var(--solaris-warning-soft);
+  --solaris-icon-button-hover-border-color: var(--solaris-warning-solid);
+  --solaris-icon-button-active-background: var(--solaris-warning-soft);
+  --solaris-icon-button-active-border-color: var(--solaris-warning-solid);
 }
 
 [solaris-icon-button][data-color='warning'][data-appearance='surface'] {
-  --solaris-icon-button-color: var(--solaris-warning-text);
-  --solaris-icon-button-background: var(--solaris-warning-surface);
-  --solaris-icon-button-hover-color: var(--solaris-warning-text);
-  --solaris-icon-button-active-color: var(--solaris-warning-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-warning-base);
-  --solaris-icon-button-hover-background: var(--solaris-warning-surface);
-  --solaris-icon-button-active-background: var(--solaris-warning-surface);
+  --solaris-icon-button-color: var(--solaris-warning-foreground);
+  --solaris-icon-button-background: var(--solaris-warning-soft);
+  --solaris-icon-button-hover-color: var(--solaris-warning-foreground);
+  --solaris-icon-button-active-color: var(--solaris-warning-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-warning-solid);
+  --solaris-icon-button-hover-background: var(--solaris-warning-soft);
+  --solaris-icon-button-active-background: var(--solaris-warning-soft);
   --solaris-icon-button-active-border-color: var(--solaris-warning-border);
 }
 
 [solaris-icon-button][data-color='danger'][data-appearance='solid'] {
   --solaris-icon-button-color: var(--solaris-danger-on-solid);
-  --solaris-icon-button-background: var(--solaris-danger-base);
+  --solaris-icon-button-background: var(--solaris-danger-solid);
   --solaris-icon-button-border-color: var(--solaris-danger-border);
   --solaris-icon-button-hover-color: var(--solaris-danger-on-solid);
   --solaris-icon-button-active-color: var(--solaris-danger-on-solid);
-  --solaris-icon-button-focus-ring-color: var(--solaris-danger-base);
-  --solaris-icon-button-hover-background: var(--solaris-danger-hover);
-  --solaris-icon-button-active-background: var(--solaris-danger-active);
+  --solaris-icon-button-focus-ring-color: var(--solaris-danger-solid);
+  --solaris-icon-button-hover-background: var(--solaris-danger-solid-hover);
+  --solaris-icon-button-active-background: var(--solaris-danger-solid-active);
 }
 
 [solaris-icon-button][data-color='danger'][data-appearance='outline'] {
-  --solaris-icon-button-color: var(--solaris-danger-text);
+  --solaris-icon-button-color: var(--solaris-danger-foreground);
   --solaris-icon-button-border-color: var(--solaris-danger-border);
   --solaris-icon-button-hover-color: var(--solaris-danger-on-solid);
   --solaris-icon-button-active-color: var(--solaris-danger-on-solid);
-  --solaris-icon-button-focus-ring-color: var(--solaris-danger-base);
-  --solaris-icon-button-hover-background: var(--solaris-danger-hover);
-  --solaris-icon-button-active-background: var(--solaris-danger-active);
+  --solaris-icon-button-focus-ring-color: var(--solaris-danger-solid);
+  --solaris-icon-button-hover-background: var(--solaris-danger-solid-hover);
+  --solaris-icon-button-active-background: var(--solaris-danger-solid-active);
 }
 
 [solaris-icon-button][data-color='danger'][data-appearance='ghost'] {
-  --solaris-icon-button-color: var(--solaris-danger-text);
-  --solaris-icon-button-hover-color: var(--solaris-danger-text);
-  --solaris-icon-button-active-color: var(--solaris-danger-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-danger-base);
-  --solaris-icon-button-hover-background: var(--solaris-danger-surface);
-  --solaris-icon-button-active-background: var(--solaris-danger-surface);
+  --solaris-icon-button-color: var(--solaris-danger-foreground);
+  --solaris-icon-button-hover-color: var(--solaris-danger-foreground);
+  --solaris-icon-button-active-color: var(--solaris-danger-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-danger-solid);
+  --solaris-icon-button-hover-background: var(--solaris-danger-soft);
+  --solaris-icon-button-active-background: var(--solaris-danger-soft);
 }
 
 [solaris-icon-button][data-color='danger'][data-appearance='tonal'] {
-  --solaris-icon-button-color: var(--solaris-danger-text);
-  --solaris-icon-button-background: var(--solaris-danger-surface);
+  --solaris-icon-button-color: var(--solaris-danger-foreground);
+  --solaris-icon-button-background: var(--solaris-danger-soft);
   --solaris-icon-button-border-color: var(--solaris-danger-border);
-  --solaris-icon-button-hover-color: var(--solaris-danger-text);
-  --solaris-icon-button-active-color: var(--solaris-danger-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-danger-base);
-  --solaris-icon-button-hover-background: var(--solaris-danger-surface);
-  --solaris-icon-button-hover-border-color: var(--solaris-danger-base);
-  --solaris-icon-button-active-background: var(--solaris-danger-surface);
-  --solaris-icon-button-active-border-color: var(--solaris-danger-base);
+  --solaris-icon-button-hover-color: var(--solaris-danger-foreground);
+  --solaris-icon-button-active-color: var(--solaris-danger-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-danger-solid);
+  --solaris-icon-button-hover-background: var(--solaris-danger-soft);
+  --solaris-icon-button-hover-border-color: var(--solaris-danger-solid);
+  --solaris-icon-button-active-background: var(--solaris-danger-soft);
+  --solaris-icon-button-active-border-color: var(--solaris-danger-solid);
 }
 
 [solaris-icon-button][data-color='danger'][data-appearance='surface'] {
-  --solaris-icon-button-color: var(--solaris-danger-text);
-  --solaris-icon-button-background: var(--solaris-danger-surface);
-  --solaris-icon-button-hover-color: var(--solaris-danger-text);
-  --solaris-icon-button-active-color: var(--solaris-danger-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-danger-base);
-  --solaris-icon-button-hover-background: var(--solaris-danger-surface);
-  --solaris-icon-button-active-background: var(--solaris-danger-surface);
+  --solaris-icon-button-color: var(--solaris-danger-foreground);
+  --solaris-icon-button-background: var(--solaris-danger-soft);
+  --solaris-icon-button-hover-color: var(--solaris-danger-foreground);
+  --solaris-icon-button-active-color: var(--solaris-danger-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-danger-solid);
+  --solaris-icon-button-hover-background: var(--solaris-danger-soft);
+  --solaris-icon-button-active-background: var(--solaris-danger-soft);
   --solaris-icon-button-active-border-color: var(--solaris-danger-border);
 }
 
 [solaris-icon-button][data-color='info'][data-appearance='solid'] {
-  --solaris-icon-button-color: var(--solaris-info-text);
-  --solaris-icon-button-background: var(--solaris-info-base);
-  --solaris-icon-button-hover-color: var(--solaris-info-text);
-  --solaris-icon-button-active-color: var(--solaris-info-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-info-base);
-  --solaris-icon-button-hover-background: var(--solaris-info-hover);
-  --solaris-icon-button-active-background: var(--solaris-info-active);
+  --solaris-icon-button-color: var(--solaris-info-foreground);
+  --solaris-icon-button-background: var(--solaris-info-solid);
+  --solaris-icon-button-hover-color: var(--solaris-info-foreground);
+  --solaris-icon-button-active-color: var(--solaris-info-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-info-solid);
+  --solaris-icon-button-hover-background: var(--solaris-info-solid-hover);
+  --solaris-icon-button-active-background: var(--solaris-info-solid-active);
 }
 
 [solaris-icon-button][data-color='info'][data-appearance='outline'] {
-  --solaris-icon-button-color: var(--solaris-info-text);
-  --solaris-icon-button-hover-color: var(--solaris-info-text);
-  --solaris-icon-button-active-color: var(--solaris-info-text);
+  --solaris-icon-button-color: var(--solaris-info-foreground);
+  --solaris-icon-button-hover-color: var(--solaris-info-foreground);
+  --solaris-icon-button-active-color: var(--solaris-info-foreground);
   --solaris-icon-button-border-color: var(--solaris-info-border);
-  --solaris-icon-button-focus-ring-color: var(--solaris-info-base);
-  --solaris-icon-button-hover-background: var(--solaris-info-hover);
-  --solaris-icon-button-active-background: var(--solaris-info-active);
+  --solaris-icon-button-focus-ring-color: var(--solaris-info-solid);
+  --solaris-icon-button-hover-background: var(--solaris-info-solid-hover);
+  --solaris-icon-button-active-background: var(--solaris-info-solid-active);
 }
 
 [solaris-icon-button][data-color='info'][data-appearance='ghost'] {
-  --solaris-icon-button-color: var(--solaris-info-text);
-  --solaris-icon-button-hover-color: var(--solaris-info-text);
-  --solaris-icon-button-active-color: var(--solaris-info-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-info-base);
-  --solaris-icon-button-hover-background: var(--solaris-info-surface);
-  --solaris-icon-button-active-background: var(--solaris-info-surface);
+  --solaris-icon-button-color: var(--solaris-info-foreground);
+  --solaris-icon-button-hover-color: var(--solaris-info-foreground);
+  --solaris-icon-button-active-color: var(--solaris-info-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-info-solid);
+  --solaris-icon-button-hover-background: var(--solaris-info-soft);
+  --solaris-icon-button-active-background: var(--solaris-info-soft);
 }
 
 [solaris-icon-button][data-color='info'][data-appearance='tonal'] {
-  --solaris-icon-button-color: var(--solaris-info-text);
-  --solaris-icon-button-background: var(--solaris-info-surface);
+  --solaris-icon-button-color: var(--solaris-info-foreground);
+  --solaris-icon-button-background: var(--solaris-info-soft);
   --solaris-icon-button-border-color: var(--solaris-info-border);
-  --solaris-icon-button-hover-color: var(--solaris-info-text);
-  --solaris-icon-button-active-color: var(--solaris-info-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-info-base);
-  --solaris-icon-button-hover-background: var(--solaris-info-surface);
-  --solaris-icon-button-hover-border-color: var(--solaris-info-base);
-  --solaris-icon-button-active-background: var(--solaris-info-surface);
-  --solaris-icon-button-active-border-color: var(--solaris-info-base);
+  --solaris-icon-button-hover-color: var(--solaris-info-foreground);
+  --solaris-icon-button-active-color: var(--solaris-info-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-info-solid);
+  --solaris-icon-button-hover-background: var(--solaris-info-soft);
+  --solaris-icon-button-hover-border-color: var(--solaris-info-solid);
+  --solaris-icon-button-active-background: var(--solaris-info-soft);
+  --solaris-icon-button-active-border-color: var(--solaris-info-solid);
 }
 
 [solaris-icon-button][data-color='info'][data-appearance='surface'] {
-  --solaris-icon-button-color: var(--solaris-info-text);
-  --solaris-icon-button-background: var(--solaris-info-surface);
-  --solaris-icon-button-hover-color: var(--solaris-info-text);
-  --solaris-icon-button-active-color: var(--solaris-info-text);
-  --solaris-icon-button-focus-ring-color: var(--solaris-info-base);
-  --solaris-icon-button-hover-background: var(--solaris-info-surface);
-  --solaris-icon-button-active-background: var(--solaris-info-surface);
+  --solaris-icon-button-color: var(--solaris-info-foreground);
+  --solaris-icon-button-background: var(--solaris-info-soft);
+  --solaris-icon-button-hover-color: var(--solaris-info-foreground);
+  --solaris-icon-button-active-color: var(--solaris-info-foreground);
+  --solaris-icon-button-focus-ring-color: var(--solaris-info-solid);
+  --solaris-icon-button-hover-background: var(--solaris-info-soft);
+  --solaris-icon-button-active-background: var(--solaris-info-soft);
   --solaris-icon-button-active-border-color: var(--solaris-info-border);
 }
 
@@ -481,27 +487,27 @@
   );
   --solaris-icon-button-color: var(
     --solaris-icon-button-custom-color,
-    var(--solaris-text-default)
+    var(--solaris-neutral-text-body)
   );
   --solaris-icon-button-background: var(
     --solaris-icon-button-custom-background,
-    var(--solaris-surface-base)
+    var(--solaris-neutral-default)
   );
   --solaris-icon-button-hover-color: var(
     --solaris-icon-button-custom-hover-color,
-    var(--solaris-icon-button-custom-color, var(--solaris-text-default))
+    var(--solaris-icon-button-custom-color, var(--solaris-neutral-text-body))
   );
   --solaris-icon-button-active-color: var(
     --solaris-icon-button-custom-active-color,
-    var(--solaris-icon-button-custom-color, var(--solaris-text-default))
+    var(--solaris-icon-button-custom-color, var(--solaris-neutral-text-body))
   );
   --solaris-icon-button-focus-ring-color: var(
     --solaris-icon-button-custom-color,
-    var(--solaris-text-default)
+    var(--solaris-neutral-text-body)
   );
   --solaris-icon-button-border-color: var(
     --solaris-icon-button-custom-border-color,
-    var(--solaris-border-default)
+    var(--solaris-neutral-border-default)
   );
 }
 
@@ -676,27 +682,27 @@
 }
 
 [solaris-icon-button][data-chromeless][data-appearance='solid'][data-color='neutral'] {
-  --solaris-icon-button-color: var(--solaris-text-default);
+  --solaris-icon-button-color: var(--solaris-neutral-text-body);
 }
 
 [solaris-icon-button][data-chromeless][data-appearance='solid'][data-color='primary'] {
-  --solaris-icon-button-color: var(--solaris-primary-base);
+  --solaris-icon-button-color: var(--solaris-primary-solid);
 }
 
 [solaris-icon-button][data-chromeless][data-appearance='solid'][data-color='success'] {
-  --solaris-icon-button-color: var(--solaris-success-text);
+  --solaris-icon-button-color: var(--solaris-success-foreground);
 }
 
 [solaris-icon-button][data-chromeless][data-appearance='solid'][data-color='warning'] {
-  --solaris-icon-button-color: var(--solaris-warning-text);
+  --solaris-icon-button-color: var(--solaris-warning-foreground);
 }
 
 [solaris-icon-button][data-chromeless][data-appearance='solid'][data-color='danger'] {
-  --solaris-icon-button-color: var(--solaris-danger-text);
+  --solaris-icon-button-color: var(--solaris-danger-foreground);
 }
 
 [solaris-icon-button][data-chromeless][data-appearance='solid'][data-color='info'] {
-  --solaris-icon-button-color: var(--solaris-info-text);
+  --solaris-icon-button-color: var(--solaris-info-foreground);
 }
 
 [solaris-icon-button][data-shape='wide'] {

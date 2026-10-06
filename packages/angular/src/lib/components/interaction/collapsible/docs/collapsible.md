@@ -66,16 +66,16 @@ JIT/unit-test consumers of the published bundle.
 
 ## CSS Variables
 
-| Variable                                         | Default                    | Description                     |
-| ------------------------------------------------ | -------------------------- | ------------------------------- |
-| `--solaris-collapsible-trigger-padding`          | spacing tokens             | Padding of the trigger.         |
-| `--solaris-collapsible-trigger-gap`              | `--solaris-spacing-2`      | Gap between label and chevron.  |
-| `--solaris-collapsible-trigger-color`            | `--solaris-text-default`   | Trigger text color.             |
-| `--solaris-collapsible-trigger-hover-background` | `--solaris-surface-subtle` | Trigger hover background.       |
-| `--solaris-collapsible-icon-size`                | `--solaris-spacing-4`      | Chevron icon size.              |
-| `--solaris-collapsible-panel-padding`            | `--solaris-spacing-3`      | Inner padding of the panel.     |
-| `--solaris-collapsible-radius`                   | `--solaris-radius-sm`      | Border radius of the container. |
-| `--solaris-collapsible-border-color`             | `--solaris-border-subtle`  | Container border color.         |
+| Variable                                         | Default                           | Description                     |
+| ------------------------------------------------ | --------------------------------- | ------------------------------- |
+| `--solaris-collapsible-trigger-padding`          | spacing tokens                    | Padding of the trigger.         |
+| `--solaris-collapsible-trigger-gap`              | `--solaris-spacing-2`             | Gap between label and chevron.  |
+| `--solaris-collapsible-trigger-color`            | `--solaris-neutral-text-body`     | Trigger text color.             |
+| `--solaris-collapsible-trigger-hover-background` | `--solaris-neutral-subtle`        | Trigger hover background.       |
+| `--solaris-collapsible-icon-size`                | `--solaris-spacing-4`             | Chevron icon size.              |
+| `--solaris-collapsible-panel-padding`            | `--solaris-spacing-3`             | Inner padding of the panel.     |
+| `--solaris-collapsible-radius`                   | `--solaris-radius-sm`             | Border radius of the container. |
+| `--solaris-collapsible-border-color`             | `--solaris-neutral-border-subtle` | Container border color.         |
 
 ## Examples
 

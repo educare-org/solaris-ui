@@ -22,7 +22,7 @@
   align-items: center;
   display: inline-flex;
   gap: var(--solaris-spacing-2);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   margin: var(--solaris-spacing-0);
   padding: var(--solaris-spacing-0);
   font-size: var(--solaris-font-size-sm);
@@ -30,13 +30,13 @@
 
 .docs-page-header__breadcrumb-link {
   text-decoration: none;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   border-radius: var(--solaris-radius-sm);
 }
 
 .docs-page-header__breadcrumb-link:hover {
   text-decoration: underline;
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
 }
 
 .docs-page-header__breadcrumb-link:focus-visible {
@@ -46,7 +46,7 @@
 }
 
 .docs-page-header__breadcrumb-separator {
-  color: var(--solaris-border-strong);
+  color: var(--solaris-neutral-border-strong);
 }
 
 .docs-page-header__title-row {
@@ -66,7 +66,7 @@
 
 .docs-page-header__title {
   margin: var(--solaris-spacing-0);
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
   font-size: var(--solaris-font-size-3xl);
   line-height: var(--solaris-line-height-sm);
   font-weight: var(--solaris-font-weight-bold);
@@ -74,7 +74,7 @@
 
 .docs-page-header__description {
   margin: var(--solaris-spacing-0);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
   max-width: calc(var(--solaris-spacing-16) * 9);

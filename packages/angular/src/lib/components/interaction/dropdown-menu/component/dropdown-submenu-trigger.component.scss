@@ -3,18 +3,22 @@
   --solaris-dropdown-submenu-trigger-radius: var(--solaris-radius-sm);
   --solaris-dropdown-submenu-trigger-padding-y: var(--solaris-spacing-2);
   --solaris-dropdown-submenu-trigger-padding-x: var(--solaris-spacing-4);
-  --solaris-dropdown-submenu-trigger-label-color: var(--solaris-text-default);
-  --solaris-dropdown-submenu-trigger-danger-color: var(--solaris-danger-text);
-  --solaris-dropdown-submenu-trigger-danger-hover: var(
-    --solaris-danger-surface
+  --solaris-dropdown-submenu-trigger-label-color: var(
+    --solaris-neutral-text-body
   );
+  --solaris-dropdown-submenu-trigger-danger-color: var(
+    --solaris-danger-foreground
+  );
+  --solaris-dropdown-submenu-trigger-danger-hover: var(--solaris-danger-soft);
   --solaris-dropdown-submenu-trigger-focus-ring-color: var(
-    --solaris-primary-base
+    --solaris-primary-solid
   );
   --solaris-dropdown-submenu-trigger-hover-background: var(
-    --solaris-surface-muted
+    --solaris-neutral-sunken
   );
-  --solaris-dropdown-submenu-trigger-trailing-color: var(--solaris-text-muted);
+  --solaris-dropdown-submenu-trigger-trailing-color: var(
+    --solaris-neutral-text-secondary
+  );
 
   display: flex;
   outline: none;
@@ -78,7 +82,7 @@
   justify-content: center;
   width: var(--solaris-spacing-5);
   height: var(--solaris-spacing-5);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
 }
 
 :host([data-color='danger']) .solaris-dropdown-submenu-trigger__leading {

@@ -1,19 +1,21 @@
 :host {
   --solaris-otp-input-gap: var(--solaris-spacing-2);
   --solaris-otp-input-box-radius: var(--solaris-radius-sm);
-  --solaris-otp-input-box-border-color: var(--solaris-border-subtle);
+  --solaris-otp-input-box-border-color: var(--solaris-neutral-border-subtle);
   --solaris-otp-input-box-border-width: var(--solaris-border-width-sm);
   --solaris-otp-input-box-background: transparent;
-  --solaris-otp-input-box-color: var(--solaris-text-default);
-  --solaris-otp-input-box-active-border-color: var(--solaris-border-strong);
-  --solaris-otp-input-box-error-border-color: var(--solaris-danger-base);
+  --solaris-otp-input-box-color: var(--solaris-neutral-text-body);
+  --solaris-otp-input-box-active-border-color: var(
+    --solaris-neutral-border-strong
+  );
+  --solaris-otp-input-box-error-border-color: var(--solaris-danger-solid);
   --solaris-otp-input-box-width: calc(
     var(--solaris-control-height-normal-md) * 0.9
   );
   --solaris-otp-input-box-height: calc(
     var(--solaris-control-height-normal-md) * 1.15
   );
-  --solaris-otp-input-separator-color: var(--solaris-text-muted);
+  --solaris-otp-input-separator-color: var(--solaris-neutral-text-secondary);
   --solaris-otp-input-box-font-size: var(--solaris-font-size-sm);
 
   display: block;
@@ -108,12 +110,12 @@
 }
 
 :host([data-appearance='surface']) {
-  --solaris-otp-input-box-background: var(--solaris-surface-subtle);
+  --solaris-otp-input-box-background: var(--solaris-neutral-subtle);
   --solaris-otp-input-box-border-width: 0;
 }
 
 :host([data-appearance='filled']) {
-  --solaris-otp-input-box-background: var(--solaris-surface-subtle);
+  --solaris-otp-input-box-background: var(--solaris-neutral-subtle);
   --solaris-otp-input-box-border-width: var(--solaris-border-width-sm);
 }
 

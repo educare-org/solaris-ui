@@ -3,11 +3,11 @@
   --solaris-progress-fill-width: 100%;
   --solaris-progress-height: var(--solaris-spacing-2);
   --solaris-progress-radius: var(--solaris-radius-full);
-  --solaris-progress-color: var(--solaris-primary-base);
-  --solaris-progress-custom-color: var(--solaris-primary-base);
-  --solaris-progress-track-color: var(--solaris-surface-muted);
+  --solaris-progress-color: var(--solaris-primary-solid);
+  --solaris-progress-custom-color: var(--solaris-primary-solid);
+  --solaris-progress-track-color: var(--solaris-neutral-sunken);
   --solaris-progress-buffer-opacity: var(--solaris-opacity-40);
-  --solaris-progress-stripe-color: var(--solaris-text-inverse);
+  --solaris-progress-stripe-color: var(--solaris-neutral-text-inverse);
   --solaris-progress-label-font-size: var(--solaris-font-size-sm);
   --solaris-progress-gap: var(--solaris-spacing-3);
   --solaris-progress-animation-duration: var(--solaris-motion-duration-slower);
@@ -16,7 +16,7 @@
   align-items: center;
   gap: var(--solaris-progress-gap);
   box-sizing: border-box;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   font-family: var(--solaris-font-family-sans);
 }
 
@@ -142,35 +142,35 @@
 }
 
 :host([data-status='success']) {
-  --solaris-progress-color: var(--solaris-success-base);
+  --solaris-progress-color: var(--solaris-success-solid);
 }
 
 :host([data-status='exception']) {
-  --solaris-progress-color: var(--solaris-danger-base);
+  --solaris-progress-color: var(--solaris-danger-solid);
 }
 
 :host([data-color='neutral']) {
-  --solaris-progress-color: var(--solaris-text-muted);
+  --solaris-progress-color: var(--solaris-neutral-text-secondary);
 }
 
 :host([data-color='primary']) {
-  --solaris-progress-color: var(--solaris-primary-base);
+  --solaris-progress-color: var(--solaris-primary-solid);
 }
 
 :host([data-color='success']) {
-  --solaris-progress-color: var(--solaris-success-base);
+  --solaris-progress-color: var(--solaris-success-solid);
 }
 
 :host([data-color='warning']) {
-  --solaris-progress-color: var(--solaris-warning-base);
+  --solaris-progress-color: var(--solaris-warning-solid);
 }
 
 :host([data-color='danger']) {
-  --solaris-progress-color: var(--solaris-danger-base);
+  --solaris-progress-color: var(--solaris-danger-solid);
 }
 
 :host([data-color='info']) {
-  --solaris-progress-color: var(--solaris-info-base);
+  --solaris-progress-color: var(--solaris-info-solid);
 }
 
 :host([data-color='custom']) {

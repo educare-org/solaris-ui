@@ -3,9 +3,10 @@
   flex-direction: column;
   gap: var(--solaris-spacing-4);
   padding: var(--solaris-spacing-4);
-  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
   border-radius: var(--solaris-radius-md);
-  background: var(--solaris-surface-subtle);
+  background: var(--solaris-neutral-subtle);
 }
 
 .skeleton-media-block-example__text {

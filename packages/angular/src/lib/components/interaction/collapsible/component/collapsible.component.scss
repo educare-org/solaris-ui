@@ -2,8 +2,8 @@
   --solaris-collapsible-radius: var(--solaris-radius-md);
   --solaris-collapsible-icon-size: var(--solaris-spacing-4);
   --solaris-collapsible-trigger-gap: var(--solaris-spacing-2);
-  --solaris-collapsible-trigger-color: var(--solaris-text-muted);
-  --solaris-collapsible-border-color: var(--solaris-border-subtle);
+  --solaris-collapsible-trigger-color: var(--solaris-neutral-text-secondary);
+  --solaris-collapsible-border-color: var(--solaris-neutral-border-subtle);
   --solaris-collapsible-trigger-font-size: var(--solaris-font-size-md);
   --solaris-collapsible-trigger-font-weight: var(--solaris-font-weight-medium);
   --solaris-collapsible-trigger-padding: var(--solaris-spacing-2)
@@ -39,7 +39,7 @@
 }
 
 .solaris-collapsible__trigger:hover:not(:disabled) {
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
 }
 
 .solaris-collapsible__trigger:focus-visible {
@@ -92,7 +92,7 @@
 .solaris-collapsible__panel-inner {
   min-height: 0;
   overflow: hidden;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-font-size-sm);
   padding: 0 var(--solaris-spacing-5) var(--solaris-spacing-3);
 }

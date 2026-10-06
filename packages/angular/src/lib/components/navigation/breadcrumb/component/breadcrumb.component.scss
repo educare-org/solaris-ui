@@ -2,11 +2,11 @@
   --solaris-breadcrumb-label-max-width: 200px;
   --solaris-breadcrumb-gap: var(--solaris-spacing-3);
   --solaris-breadcrumb-pager-size: var(--solaris-spacing-5);
-  --solaris-breadcrumb-link-color: var(--solaris-text-muted);
+  --solaris-breadcrumb-link-color: var(--solaris-neutral-text-secondary);
   --solaris-breadcrumb-icon-size: var(--solaris-font-size-sm);
   --solaris-breadcrumb-font-size: var(--solaris-font-size-md);
-  --solaris-breadcrumb-muted-color: var(--solaris-text-muted);
-  --solaris-breadcrumb-text-color: var(--solaris-text-default);
+  --solaris-breadcrumb-muted-color: var(--solaris-neutral-text-secondary);
+  --solaris-breadcrumb-text-color: var(--solaris-neutral-text-body);
   --solaris-breadcrumb-separator-size: var(--solaris-font-size-sm);
 
   display: block;
@@ -136,7 +136,7 @@
 
 .solaris-breadcrumb__link:hover {
   text-decoration: underline;
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
 }
 
 .solaris-breadcrumb__link:focus-visible {
@@ -229,7 +229,7 @@
 }
 
 .solaris-breadcrumb__pager-button:hover:not(:disabled) {
-  background: var(--solaris-surface-subtle);
+  background: var(--solaris-neutral-subtle);
   color: var(--solaris-breadcrumb-text-color);
 }
 

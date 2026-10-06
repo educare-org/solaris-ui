@@ -1,14 +1,14 @@
 :host {
   --solaris-form-field-control-color: initial;
   --solaris-form-field-control-radius: initial;
-  --solaris-form-field-hint-color: var(--solaris-text-muted);
+  --solaris-form-field-hint-color: var(--solaris-neutral-text-secondary);
   --solaris-form-field-control-gap: var(--solaris-spacing-4);
   --solaris-form-field-action-inset: var(--solaris-spacing-3);
-  --solaris-form-field-error-color: var(--solaris-danger-text);
-  --solaris-form-field-prefix-color: var(--solaris-text-muted);
-  --solaris-form-field-suffix-color: var(--solaris-text-muted);
-  --solaris-form-field-label-color: var(--solaris-text-default);
-  --solaris-form-field-optional-color: var(--solaris-text-muted);
+  --solaris-form-field-error-color: var(--solaris-danger-foreground);
+  --solaris-form-field-prefix-color: var(--solaris-neutral-text-secondary);
+  --solaris-form-field-suffix-color: var(--solaris-neutral-text-secondary);
+  --solaris-form-field-label-color: var(--solaris-neutral-text-body);
+  --solaris-form-field-optional-color: var(--solaris-neutral-text-secondary);
   --solaris-form-field-font-size: var(--solaris-density-font-size);
   --solaris-form-field-hint-font-size: var(--solaris-font-size-xs);
   --solaris-form-field-disabled-opacity: var(--solaris-opacity-50);
@@ -19,17 +19,19 @@
   --solaris-form-field-error-line-height: var(--solaris-line-height-sm);
   --solaris-form-field-hint-line-height: var(--solaris-line-height-sm);
   --solaris-form-field-message-margin-top: var(--solaris-spacing-1);
-  --solaris-form-field-focus-ring-color: var(--solaris-primary-base);
+  --solaris-form-field-focus-ring-color: var(--solaris-primary-solid);
   --solaris-form-field-label-margin-bottom: var(--solaris-spacing-1);
-  --solaris-form-field-error-border-color: var(--solaris-danger-base);
+  --solaris-form-field-error-border-color: var(--solaris-danger-solid);
   --solaris-form-field-optional-font-size: var(--solaris-font-size-xs);
   --solaris-form-field-counter-font-size: var(--solaris-font-size-xs);
   --solaris-form-field-counter-line-height: var(--solaris-line-height-sm);
-  --solaris-form-field-required-color: var(--solaris-danger-base);
-  --solaris-form-field-control-background: var(--solaris-surface-base);
-  --solaris-form-field-readonly-background: var(--solaris-surface-muted);
+  --solaris-form-field-required-color: var(--solaris-danger-solid);
+  --solaris-form-field-control-background: var(--solaris-neutral-default);
+  --solaris-form-field-readonly-background: var(--solaris-neutral-sunken);
   --solaris-form-field-focus-ring-width: var(--solaris-focus-ring-width);
-  --solaris-form-field-control-border-color: var(--solaris-border-subtle);
+  --solaris-form-field-control-border-color: var(
+    --solaris-neutral-border-subtle
+  );
   --solaris-form-field-label-font-weight: var(--solaris-font-weight-medium);
   --solaris-form-field-control-border-width: var(--solaris-border-width-sm);
   --solaris-form-field-control-height: var(--solaris-control-height-normal-md);
@@ -87,11 +89,11 @@
 }
 
 .solaris-form-field__character-counter[data-severity='warning'] {
-  color: var(--solaris-warning-text);
+  color: var(--solaris-warning-foreground);
 }
 
 .solaris-form-field__character-counter[data-severity='danger'] {
-  color: var(--solaris-danger-text);
+  color: var(--solaris-danger-foreground);
 }
 
 .solaris-form-field__control-wrapper {
@@ -175,7 +177,7 @@
   block-size: var(--solaris-form-field-affix-size);
   min-inline-size: var(--solaris-form-field-affix-size);
   border-inline-end: var(--solaris-border-width-sm) solid
-    var(--solaris-border-subtle);
+    var(--solaris-neutral-border-subtle);
   transition: color var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
@@ -197,7 +199,7 @@
 
 .solaris-form-field__affix--prefix:hover,
 .solaris-form-field__affix--suffix:hover {
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
 }
 
 .solaris-form-field__affix--suffix[data-variant='action']:hover {
@@ -439,38 +441,46 @@
 }
 
 :host([data-disabled]) {
-  --solaris-form-field-control-color: var(--solaris-text-muted);
-  --solaris-form-field-control-background: var(--solaris-surface-muted);
+  --solaris-form-field-control-color: var(--solaris-neutral-text-secondary);
+  --solaris-form-field-control-background: var(--solaris-neutral-sunken);
 
   cursor: not-allowed;
   opacity: var(--solaris-form-field-disabled-opacity);
 }
 
 :host([data-readonly]) {
-  --solaris-form-field-control-border-color: var(--solaris-border-subtle);
+  --solaris-form-field-control-border-color: var(
+    --solaris-neutral-border-subtle
+  );
   --solaris-form-field-control-background: var(
     --solaris-form-field-readonly-background
   );
 }
 
 :host([data-appearance='outline']) {
-  --solaris-form-field-control-background: var(--solaris-surface-base);
-  --solaris-form-field-readonly-background: var(--solaris-surface-muted);
-  --solaris-form-field-control-border-color: var(--solaris-border-subtle);
+  --solaris-form-field-control-background: var(--solaris-neutral-default);
+  --solaris-form-field-readonly-background: var(--solaris-neutral-sunken);
+  --solaris-form-field-control-border-color: var(
+    --solaris-neutral-border-subtle
+  );
   --solaris-form-field-control-border-width: var(--solaris-border-width-sm);
 }
 
 :host([data-appearance='surface']) {
   --solaris-form-field-control-border-width: 0;
-  --solaris-form-field-readonly-background: var(--solaris-surface-base);
-  --solaris-form-field-control-background: var(--solaris-surface-subtle);
-  --solaris-form-field-control-border-color: var(--solaris-border-subtle);
+  --solaris-form-field-readonly-background: var(--solaris-neutral-default);
+  --solaris-form-field-control-background: var(--solaris-neutral-subtle);
+  --solaris-form-field-control-border-color: var(
+    --solaris-neutral-border-subtle
+  );
 }
 
 :host([data-appearance='filled']) {
-  --solaris-form-field-control-background: var(--solaris-surface-subtle);
-  --solaris-form-field-readonly-background: var(--solaris-surface-muted);
-  --solaris-form-field-control-border-color: var(--solaris-border-subtle);
+  --solaris-form-field-control-background: var(--solaris-neutral-subtle);
+  --solaris-form-field-readonly-background: var(--solaris-neutral-sunken);
+  --solaris-form-field-control-border-color: var(
+    --solaris-neutral-border-subtle
+  );
   --solaris-form-field-control-border-width: var(--solaris-border-width-sm);
 }
 

@@ -13,12 +13,12 @@
   flex-direction: column;
   height: calc(100vh - var(--solaris-spacing-15));
   gap: var(--solaris-spacing-5);
-  background: var(--solaris-surface-base);
+  background: var(--solaris-neutral-default);
   width: calc(var(--solaris-spacing-18) * 2.5);
   border-right: var(--solaris-border-width-sm) solid
-    var(--solaris-border-subtle);
+    var(--solaris-neutral-border-subtle);
   font-family: var(--solaris-font-family-sans), system-ui;
-  scrollbar-color: var(--solaris-border-subtle) transparent;
+  scrollbar-color: var(--solaris-neutral-border-subtle) transparent;
   padding: var(--solaris-spacing-12) var(--solaris-spacing-6);
 }
 
@@ -31,17 +31,17 @@
 }
 
 .shell-sidebar::-webkit-scrollbar-thumb {
-  background: var(--solaris-border-soft);
+  background: var(--solaris-neutral-border-subtle);
   border-radius: var(--solaris-radius-full);
 }
 
 .shell-sidebar::-webkit-scrollbar-thumb:hover {
-  background: var(--solaris-border-strong);
+  background: var(--solaris-neutral-border-strong);
 }
 
 .shell-sidebar__empty {
   margin: 0;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-font-size-sm);
 }
 
@@ -54,7 +54,7 @@
 .shell-sidebar__section-title {
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   opacity: var(--solaris-opacity-80);
   font-size: var(--solaris-font-size-xs);
   margin: 0 0 0 var(--solaris-spacing-6);
@@ -76,7 +76,7 @@
   font: inherit;
   gap: var(--solaris-spacing-2);
   justify-content: space-between;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   margin-left: var(--solaris-spacing-7);
   margin-right: var(--solaris-spacing-4);
   font-size: var(--solaris-font-size-sm);
@@ -91,8 +91,8 @@
 }
 
 .shell-sidebar__subgroup-toggle:hover {
-  color: var(--solaris-text-strong);
-  background: var(--solaris-surface-subtle);
+  color: var(--solaris-neutral-text-heading);
+  background: var(--solaris-neutral-subtle);
 }
 
 .shell-sidebar__subgroup-toggle:focus-visible {
@@ -108,7 +108,7 @@
 
 .shell-sidebar__subgroup-toggle[aria-expanded='true']
   .shell-sidebar__subgroup-label {
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
 }
 
 .shell-sidebar__subgroup-chevron,
@@ -209,7 +209,8 @@
 .shell-sidebar__list--nested {
   margin-top: var(--solaris-border-width-md);
   padding-left: var(--solaris-spacing-3);
-  border-left: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
+  border-left: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
 }
 
 .shell-sidebar__item {
@@ -232,7 +233,7 @@
 .shell-sidebar__link {
   display: block;
   text-decoration: none;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   margin-left: var(--solaris-spacing-10);
   margin-right: var(--solaris-spacing-4);
   font-size: var(--solaris-font-size-xs);
@@ -247,8 +248,8 @@
 }
 
 .shell-sidebar__link:hover {
-  color: var(--solaris-text-strong);
-  background: var(--solaris-surface-subtle);
+  color: var(--solaris-neutral-text-heading);
+  background: var(--solaris-neutral-subtle);
 }
 
 .shell-sidebar__link:focus-visible {
@@ -258,8 +259,8 @@
 }
 
 .shell-sidebar__link--active {
-  color: var(--solaris-text-strong);
-  background: var(--solaris-surface-subtle);
+  color: var(--solaris-neutral-text-heading);
+  background: var(--solaris-neutral-subtle);
   font-weight: var(--solaris-font-weight-medium);
 }
 
@@ -278,7 +279,7 @@
   background: transparent;
   gap: var(--solaris-spacing-2);
   justify-content: space-between;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-font-size-xs);
   margin-left: var(--solaris-spacing-10);
   margin-right: var(--solaris-spacing-4);
@@ -295,8 +296,8 @@
 }
 
 .shell-sidebar__sublink-toggle:hover {
-  color: var(--solaris-text-strong);
-  background: var(--solaris-surface-subtle);
+  color: var(--solaris-neutral-text-heading);
+  background: var(--solaris-neutral-subtle);
 }
 
 .shell-sidebar__sublink-toggle:focus-visible {
@@ -307,7 +308,7 @@
 
 .shell-sidebar__sublink-toggle[aria-expanded='true']
   .shell-sidebar__sublink-label {
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
 }
 
 .shell-sidebar__sublink-panel .shell-sidebar__link {
@@ -360,7 +361,7 @@
     transform: translateX(-100%);
     box-shadow: var(--solaris-shadow-lg);
     border-right: var(--solaris-border-width-sm) solid
-      var(--solaris-border-subtle);
+      var(--solaris-neutral-border-subtle);
     transition: transform var(--solaris-motion-duration-normal);
   }
 

@@ -137,9 +137,9 @@ When not provided, Code Block inherits density from `SolarisThemeService`.
 | `--solaris-code-block-button-border-color`  | Action button border.          |
 | `--solaris-code-block-collapsed-max-height` | Collapsed viewport max height. |
 
-Token-kind colors map to semantic text tokens (`--solaris-primary-text`,
-`--solaris-success-text`, `--solaris-warning-text`, `--solaris-info-text`,
-`--solaris-text-muted`). Shiki-provided colors arrive inline per token and take
+Token-kind colors map to semantic text tokens (`--solaris-primary-foreground`,
+`--solaris-success-foreground`, `--solaris-warning-foreground`, `--solaris-info-foreground`,
+`--solaris-neutral-text-secondary`). Shiki-provided colors arrive inline per token and take
 precedence when present.
 
 ## Accessibility

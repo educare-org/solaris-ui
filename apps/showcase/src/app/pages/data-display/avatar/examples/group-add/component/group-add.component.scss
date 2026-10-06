@@ -11,14 +11,15 @@
   display: inline-flex;
   justify-content: center;
   background: transparent;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   width: var(--solaris-spacing-12);
   height: var(--solaris-spacing-12);
   padding: var(--solaris-spacing-0);
   font-size: var(--solaris-font-size-lg);
   border-radius: var(--solaris-radius-full);
   font-family: var(--solaris-font-family-sans), system-ui;
-  border: var(--solaris-border-width-md) dashed var(--solaris-border-strong);
+  border: var(--solaris-border-width-md) dashed
+    var(--solaris-neutral-border-strong);
   transition:
     color var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
@@ -27,8 +28,8 @@
 }
 
 .group-add-example__add:hover {
-  color: var(--solaris-text-default);
-  border-color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-body);
+  border-color: var(--solaris-neutral-text-secondary);
 }
 
 .group-add-example__add:focus-visible {

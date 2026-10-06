@@ -10,8 +10,8 @@
   --solaris-radio-disabled-opacity: var(--solaris-opacity-50);
   --solaris-radio-label-font-size: var(--solaris-font-size-md);
   --solaris-radio-label-line-height: var(--solaris-line-height-md);
-  --solaris-radio-description-color: var(--solaris-text-muted);
-  --solaris-radio-focus-ring-color: var(--solaris-primary-base);
+  --solaris-radio-description-color: var(--solaris-neutral-text-secondary);
+  --solaris-radio-focus-ring-color: var(--solaris-primary-solid);
   --solaris-radio-unselected-opacity: var(--solaris-opacity-70);
   --solaris-radio-description-font-size: var(--solaris-font-size-xs);
   --solaris-radio-description-line-height: var(--solaris-line-height-sm);
@@ -94,7 +94,7 @@
 }
 
 .solaris-radio__required {
-  color: var(--solaris-danger-base);
+  color: var(--solaris-danger-solid);
   margin-inline-start: var(--solaris-spacing-1);
 }
 
@@ -110,7 +110,7 @@
 
 :host-context(solaris-radio-group):not([data-checked])
   .solaris-radio__label-text {
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
 }
 
 :host-context(solaris-radio-group):not([data-checked]) .solaris-radio__control {
@@ -219,7 +219,7 @@
 :host([data-appearance='surface']) {
   --solaris-radio-border-color: transparent;
   --solaris-radio-ring-width: var(--solaris-spacing-0);
-  --solaris-radio-background: var(--solaris-surface-muted);
+  --solaris-radio-background: var(--solaris-neutral-sunken);
 }
 
 :host([data-appearance='surface'][data-checked]) {
@@ -228,68 +228,68 @@
 }
 
 :host([data-color='neutral']) {
-  --solaris-radio-border-color: var(--solaris-border-default);
+  --solaris-radio-border-color: var(--solaris-neutral-border-default);
 }
 
 :host([data-color='neutral'][data-checked]) {
-  --solaris-radio-dot-color: var(--solaris-text-default);
-  --solaris-radio-ring-color: var(--solaris-text-default);
-  --solaris-radio-border-color: var(--solaris-text-default);
+  --solaris-radio-dot-color: var(--solaris-neutral-text-body);
+  --solaris-radio-ring-color: var(--solaris-neutral-text-body);
+  --solaris-radio-border-color: var(--solaris-neutral-text-body);
 }
 
 :host([data-color='primary']) {
   --solaris-radio-border-color: var(--solaris-primary-border);
-  --solaris-radio-focus-ring-color: var(--solaris-primary-base);
+  --solaris-radio-focus-ring-color: var(--solaris-primary-solid);
 }
 
 :host([data-color='primary'][data-checked]) {
-  --solaris-radio-dot-color: var(--solaris-primary-base);
-  --solaris-radio-ring-color: var(--solaris-primary-base);
-  --solaris-radio-border-color: var(--solaris-primary-base);
+  --solaris-radio-dot-color: var(--solaris-primary-solid);
+  --solaris-radio-ring-color: var(--solaris-primary-solid);
+  --solaris-radio-border-color: var(--solaris-primary-solid);
 }
 
 :host([data-color='success']) {
   --solaris-radio-border-color: var(--solaris-success-border);
-  --solaris-radio-focus-ring-color: var(--solaris-success-base);
+  --solaris-radio-focus-ring-color: var(--solaris-success-solid);
 }
 
 :host([data-color='success'][data-checked]) {
-  --solaris-radio-dot-color: var(--solaris-success-base);
-  --solaris-radio-ring-color: var(--solaris-success-base);
-  --solaris-radio-border-color: var(--solaris-success-base);
+  --solaris-radio-dot-color: var(--solaris-success-solid);
+  --solaris-radio-ring-color: var(--solaris-success-solid);
+  --solaris-radio-border-color: var(--solaris-success-solid);
 }
 
 :host([data-color='warning']) {
   --solaris-radio-border-color: var(--solaris-warning-border);
-  --solaris-radio-focus-ring-color: var(--solaris-warning-base);
+  --solaris-radio-focus-ring-color: var(--solaris-warning-solid);
 }
 
 :host([data-color='warning'][data-checked]) {
-  --solaris-radio-dot-color: var(--solaris-warning-base);
-  --solaris-radio-ring-color: var(--solaris-warning-base);
-  --solaris-radio-border-color: var(--solaris-warning-base);
+  --solaris-radio-dot-color: var(--solaris-warning-solid);
+  --solaris-radio-ring-color: var(--solaris-warning-solid);
+  --solaris-radio-border-color: var(--solaris-warning-solid);
 }
 
 :host([data-color='danger']) {
   --solaris-radio-border-color: var(--solaris-danger-border);
-  --solaris-radio-focus-ring-color: var(--solaris-danger-base);
+  --solaris-radio-focus-ring-color: var(--solaris-danger-solid);
 }
 
 :host([data-color='danger'][data-checked]) {
-  --solaris-radio-dot-color: var(--solaris-danger-base);
-  --solaris-radio-ring-color: var(--solaris-danger-base);
-  --solaris-radio-border-color: var(--solaris-danger-base);
+  --solaris-radio-dot-color: var(--solaris-danger-solid);
+  --solaris-radio-ring-color: var(--solaris-danger-solid);
+  --solaris-radio-border-color: var(--solaris-danger-solid);
 }
 
 :host([data-color='info']) {
   --solaris-radio-border-color: var(--solaris-info-border);
-  --solaris-radio-focus-ring-color: var(--solaris-info-base);
+  --solaris-radio-focus-ring-color: var(--solaris-info-solid);
 }
 
 :host([data-color='info'][data-checked]) {
-  --solaris-radio-dot-color: var(--solaris-info-base);
-  --solaris-radio-ring-color: var(--solaris-info-base);
-  --solaris-radio-border-color: var(--solaris-info-base);
+  --solaris-radio-dot-color: var(--solaris-info-solid);
+  --solaris-radio-ring-color: var(--solaris-info-solid);
+  --solaris-radio-border-color: var(--solaris-info-solid);
 }
 
 :host([data-color='custom']) {
@@ -310,29 +310,29 @@
 :host([data-color='primary'])
   .solaris-radio__label:hover
   .solaris-radio__control {
-  border-color: var(--solaris-primary-hover);
+  border-color: var(--solaris-primary-solid-hover);
 }
 
 :host([data-color='success'])
   .solaris-radio__label:hover
   .solaris-radio__control {
-  border-color: var(--solaris-success-hover);
+  border-color: var(--solaris-success-solid-hover);
 }
 
 :host([data-color='warning'])
   .solaris-radio__label:hover
   .solaris-radio__control {
-  border-color: var(--solaris-warning-hover);
+  border-color: var(--solaris-warning-solid-hover);
 }
 
 :host([data-color='danger'])
   .solaris-radio__label:hover
   .solaris-radio__control {
-  border-color: var(--solaris-danger-hover);
+  border-color: var(--solaris-danger-solid-hover);
 }
 
 :host([data-color='info']) .solaris-radio__label:hover .solaris-radio__control {
-  border-color: var(--solaris-info-hover);
+  border-color: var(--solaris-info-solid-hover);
 }
 
 .solaris-radio__input:focus-visible + .solaris-radio__control {
@@ -342,18 +342,18 @@
 }
 
 :host([data-invalid]) {
-  --solaris-radio-border-color: var(--solaris-danger-base);
-  --solaris-radio-focus-ring-color: var(--solaris-danger-base);
+  --solaris-radio-border-color: var(--solaris-danger-solid);
+  --solaris-radio-focus-ring-color: var(--solaris-danger-solid);
 }
 
 :host([data-invalid][data-checked]) {
-  --solaris-radio-dot-color: var(--solaris-danger-base);
-  --solaris-radio-ring-color: var(--solaris-danger-base);
-  --solaris-radio-border-color: var(--solaris-danger-base);
+  --solaris-radio-dot-color: var(--solaris-danger-solid);
+  --solaris-radio-ring-color: var(--solaris-danger-solid);
+  --solaris-radio-border-color: var(--solaris-danger-solid);
 }
 
 :host([data-invalid]) .solaris-radio__label:hover .solaris-radio__control {
-  border-color: var(--solaris-danger-base);
+  border-color: var(--solaris-danger-solid);
 }
 
 :host([data-disabled]) {
@@ -375,9 +375,9 @@
 :host([data-readonly]),
 :host([data-readonly][data-checked]) {
   --solaris-radio-readonly-opacity: 0.65;
-  --solaris-radio-dot-color: var(--solaris-text-muted);
-  --solaris-radio-ring-color: var(--solaris-text-muted);
-  --solaris-radio-border-color: var(--solaris-border-subtle);
+  --solaris-radio-dot-color: var(--solaris-neutral-text-secondary);
+  --solaris-radio-ring-color: var(--solaris-neutral-text-secondary);
+  --solaris-radio-border-color: var(--solaris-neutral-border-subtle);
 }
 
 :host([data-readonly]) .solaris-radio__label {

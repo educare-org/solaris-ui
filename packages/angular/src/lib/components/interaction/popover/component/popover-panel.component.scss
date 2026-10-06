@@ -6,8 +6,8 @@
   --solaris-popover-radius: var(--solaris-radius-md);
   --solaris-popover-shadow: var(--solaris-shadow-lg);
   --solaris-popover-padding: var(--solaris-spacing-3);
-  --solaris-popover-color: var(--solaris-text-default);
-  --solaris-popover-background: var(--solaris-surface-raised);
+  --solaris-popover-color: var(--solaris-neutral-text-body);
+  --solaris-popover-background: var(--solaris-neutral-default);
 
   width: 100%;
   outline: none;
@@ -36,12 +36,13 @@
 :host([data-appearance='surface']) {
   --solaris-popover-border-width: 0;
   --solaris-popover-border-color: transparent;
-  --solaris-popover-background: var(--solaris-surface-raised);
+  --solaris-popover-background: var(--solaris-neutral-default);
 }
 
 :host([data-appearance='outline']) .solaris-popover-panel__container {
-  background: var(--solaris-surface-base);
-  border: var(--solaris-border-width-sm) solid var(--solaris-border-subtle);
+  background: var(--solaris-neutral-default);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
 }
 
 :host([data-padding='none']) {

@@ -1,10 +1,10 @@
 :host {
   --solaris-spinner-size: var(--solaris-spacing-8);
   --solaris-spinner-thickness: 15;
-  --solaris-spinner-color: var(--solaris-primary-base);
+  --solaris-spinner-color: var(--solaris-primary-solid);
   --solaris-spinner-track-color: var(--solaris-spinner-color);
   --solaris-spinner-track-opacity: var(--solaris-opacity-20);
-  --solaris-spinner-custom-color: var(--solaris-primary-base);
+  --solaris-spinner-custom-color: var(--solaris-primary-solid);
   --solaris-spinner-animation-duration: var(--solaris-motion-duration-slow);
   --solaris-spinner-animation-easing: var(--solaris-motion-easing-linear);
   --solaris-spinner-stacked-step: 0;
@@ -131,7 +131,7 @@
 .solaris-spinner__description {
   font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
 }
 
 :host([data-size='sm']) {
@@ -181,27 +181,27 @@
 }
 
 :host([data-color='neutral']) {
-  --solaris-spinner-color: var(--solaris-text-muted);
+  --solaris-spinner-color: var(--solaris-neutral-text-secondary);
 }
 
 :host([data-color='primary']) {
-  --solaris-spinner-color: var(--solaris-primary-base);
+  --solaris-spinner-color: var(--solaris-primary-solid);
 }
 
 :host([data-color='success']) {
-  --solaris-spinner-color: var(--solaris-success-base);
+  --solaris-spinner-color: var(--solaris-success-solid);
 }
 
 :host([data-color='warning']) {
-  --solaris-spinner-color: var(--solaris-warning-base);
+  --solaris-spinner-color: var(--solaris-warning-solid);
 }
 
 :host([data-color='danger']) {
-  --solaris-spinner-color: var(--solaris-danger-base);
+  --solaris-spinner-color: var(--solaris-danger-solid);
 }
 
 :host([data-color='info']) {
-  --solaris-spinner-color: var(--solaris-info-base);
+  --solaris-spinner-color: var(--solaris-info-solid);
 }
 
 :host([data-color='custom']) {
@@ -227,7 +227,7 @@
   gap: var(--solaris-spacing-4);
   box-sizing: border-box;
   padding: var(--solaris-spacing-6);
-  background: var(--solaris-backdrop);
+  background: var(--solaris-neutral-backdrop);
   text-align: center;
 }
 
@@ -248,7 +248,7 @@
 }
 
 :host([data-backdrop]) .solaris-spinner__label {
-  color: var(--solaris-text-inverse);
+  color: var(--solaris-neutral-text-inverse);
 }
 
 @media (prefers-reduced-motion: reduce) {

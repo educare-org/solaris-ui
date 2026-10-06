@@ -13,6 +13,7 @@ Solaris uses CSS custom properties (tokens) for all visual properties. Themes ar
   /* dark tokens */
 }
 [data-theme='high-contrast'],
+[data-theme='high-contrast-dark'],
 [data-high-contrast='true'] {
   /* high-contrast tokens */
 }
@@ -26,9 +27,9 @@ Override any token in your own CSS:
 
 ```css
 .my-component {
-  --solaris-primary-base: #7c3aed;
-  --solaris-primary-hover: #6d28d9;
-  --solaris-primary-active: #5b21b6;
+  --solaris-primary-solid: #7c3aed;
+  --solaris-primary-solid-hover: #6d28d9;
+  --solaris-primary-solid-active: #5b21b6;
 }
 ```
 
@@ -36,14 +37,14 @@ All children of `.my-component` will use the overridden colors.
 
 ### Common overridable tokens
 
-| Category | Example tokens                                                                |
-| -------- | ----------------------------------------------------------------------------- |
-| Colors   | `--solaris-primary-*`, `--solaris-surface-*`, `--solaris-text-*`              |
-| Spacing  | `--solaris-spacing-0` through `--solaris-spacing-18`                          |
-| Radius   | `--solaris-radius-sm`, `--solaris-radius-md`, `--solaris-radius-lg`           |
-| Font     | `--solaris-font-size-*`, `--solaris-font-weight-*`, `--solaris-font-family-*` |
-| Shadow   | `--solaris-shadow-sm`, `--solaris-shadow-md`, `--solaris-shadow-lg`           |
-| Opacity  | `--solaris-opacity-*`                                                         |
+| Category | Example tokens                                                                                                                                                                   |
+| -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Colors   | `--solaris-primary-*`, `--solaris-neutral-*`, `--solaris-success-*`, `--solaris-warning-*`, `--solaris-danger-*`, `--solaris-info-*`, `--solaris-accent-*`, `--solaris-violet-*` |
+| Spacing  | `--solaris-spacing-0` through `--solaris-spacing-18`                                                                                                                             |
+| Radius   | `--solaris-radius-sm`, `--solaris-radius-md`, `--solaris-radius-lg`                                                                                                              |
+| Font     | `--solaris-font-size-*`, `--solaris-font-weight-*`, `--solaris-font-family-*`                                                                                                    |
+| Shadow   | `--solaris-shadow-sm`, `--solaris-shadow-md`, `--solaris-shadow-lg`                                                                                                              |
+| Opacity  | `--solaris-opacity-*`                                                                                                                                                            |
 
 ## Creating a custom color scheme
 
@@ -51,17 +52,17 @@ All children of `.my-component` will use the overridden colors.
 
 ```css
 [data-theme='brand'] {
-  --solaris-bg-page: #fafafa;
-  --solaris-surface-base: #ffffff;
-  --solaris-surface-subtle: #f5f3ff;
-  --solaris-surface-muted: #ede9fe;
-  --solaris-text-strong: #1e1b4b;
-  --solaris-text-default: #312e81;
-  --solaris-primary-base: #7c3aed;
-  --solaris-primary-hover: #6d28d9;
-  --solaris-primary-active: #5b21b6;
-  --solaris-primary-surface: #f5f3ff;
-  --solaris-primary-text: #ffffff;
+  --solaris-neutral-page: #fafafa;
+  --solaris-neutral-default: #ffffff;
+  --solaris-neutral-subtle: #f5f3ff;
+  --solaris-neutral-sunken: #ede9fe;
+  --solaris-neutral-text-heading: #1e1b4b;
+  --solaris-neutral-text-body: #312e81;
+  --solaris-primary-solid: #7c3aed;
+  --solaris-primary-solid-hover: #6d28d9;
+  --solaris-primary-solid-active: #5b21b6;
+  --solaris-primary-soft: #f5f3ff;
+  --solaris-primary-foreground: #ffffff;
 }
 ```
 
@@ -82,9 +83,9 @@ document.documentElement.setAttribute('data-theme', 'brand');
 ```css
 @media (prefers-color-scheme: dark) {
   [data-theme='brand'] {
-    --solaris-bg-page: #0f0a1a;
-    --solaris-surface-base: #1a1025;
-    --solaris-text-default: #ddd6fe;
+    --solaris-neutral-page: #0f0a1a;
+    --solaris-neutral-default: #1a1025;
+    --solaris-neutral-text-body: #ddd6fe;
     /* ... */
   }
 }
@@ -96,11 +97,11 @@ Copy the pattern from `packages/angular/src/styles/token/color/_dark.scss`:
 
 ```scss
 @mixin my-dark-tokens {
-  --solaris-bg-page: #0a0a0a;
-  --solaris-surface-base: #141414;
-  --solaris-surface-subtle: #1e1e1e;
-  --solaris-text-strong: #f5f5f5;
-  --solaris-text-default: #e0e0e0;
+  --solaris-neutral-page: #0a0a0a;
+  --solaris-neutral-default: #141414;
+  --solaris-neutral-subtle: #1e1e1e;
+  --solaris-neutral-text-heading: #f5f5f5;
+  --solaris-neutral-text-body: #e0e0e0;
   /* ... override all tokens */
 }
 

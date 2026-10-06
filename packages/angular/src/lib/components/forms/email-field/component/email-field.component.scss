@@ -19,13 +19,13 @@
   background: transparent;
   width: var(--solaris-font-size-lg);
   height: var(--solaris-font-size-lg);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   transition: color var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
 
 .solaris-email-field__clear:hover {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
 }
 
 @media (prefers-reduced-motion: reduce) {

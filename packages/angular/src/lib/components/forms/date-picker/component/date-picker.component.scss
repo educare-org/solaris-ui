@@ -8,7 +8,7 @@
 
 [solaris-button].solaris-date-picker__calendar-trigger,
 .solaris-date-picker__calendar-trigger {
-  color: var(--solaris-text-muted) !important;
+  color: var(--solaris-neutral-text-secondary) !important;
   background: transparent !important;
   cursor: pointer;
 }
@@ -17,7 +17,7 @@
 [solaris-button].solaris-date-picker__calendar-trigger:active,
 .solaris-date-picker__calendar-trigger:hover,
 .solaris-date-picker__calendar-trigger:active {
-  color: var(--solaris-text-strong) !important;
+  color: var(--solaris-neutral-text-heading) !important;
   background: transparent !important;
 }
 
@@ -41,13 +41,13 @@
   background: transparent;
   width: var(--solaris-font-size-lg);
   height: var(--solaris-font-size-lg);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   transition: color var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
 
 .solaris-date-picker__clear:hover {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -184,14 +184,14 @@ Default messages use `solaris.phone-field.*` translation keys with English fallb
 `SolarisPhoneFieldComponent` defines the following tokens. The prefix sizes (flag, chevron,
 font, padding) scale with the field density.
 
-| Token                                          | Default                       | Description                             |
-| ---------------------------------------------- | ----------------------------- | --------------------------------------- |
-| `--solaris-phone-field-country-gap`            | `var(--solaris-spacing-1)`    | Gap inside the country button.          |
-| `--solaris-phone-field-country-padding-inline` | `var(--solaris-spacing-2)`    | Country button horizontal padding.      |
-| `--solaris-phone-field-country-font-size`      | `var(--solaris-font-size-sm)` | Country button and dial-code font size. |
-| `--solaris-phone-field-dial-code-color`        | `var(--solaris-text-muted)`   | Dial-code prefix color.                 |
-| `--solaris-phone-field-flag-size`              | `var(--solaris-font-size-sm)` | Flag size.                              |
-| `--solaris-phone-field-chevron-size`           | `var(--solaris-font-size-xs)` | Country button chevron size.            |
+| Token                                          | Default                                 | Description                             |
+| ---------------------------------------------- | --------------------------------------- | --------------------------------------- |
+| `--solaris-phone-field-country-gap`            | `var(--solaris-spacing-1)`              | Gap inside the country button.          |
+| `--solaris-phone-field-country-padding-inline` | `var(--solaris-spacing-2)`              | Country button horizontal padding.      |
+| `--solaris-phone-field-country-font-size`      | `var(--solaris-font-size-sm)`           | Country button and dial-code font size. |
+| `--solaris-phone-field-dial-code-color`        | `var(--solaris-neutral-text-secondary)` | Dial-code prefix color.                 |
+| `--solaris-phone-field-flag-size`              | `var(--solaris-font-size-sm)`           | Flag size.                              |
+| `--solaris-phone-field-chevron-size`           | `var(--solaris-font-size-xs)`           | Country button chevron size.            |
 
 ## Accessibility
 

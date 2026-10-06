@@ -3,12 +3,12 @@
   --solaris-dialog-panel-min-width: calc(
     var(--solaris-spacing-18) * 3 + var(--solaris-spacing-7)
   );
-  --solaris-dialog-backdrop-bg: var(--solaris-backdrop);
-  --solaris-dialog-panel-bg: var(--solaris-surface-base);
+  --solaris-dialog-backdrop-bg: var(--solaris-neutral-backdrop);
+  --solaris-dialog-panel-bg: var(--solaris-neutral-default);
   --solaris-dialog-z-index: var(--solaris-z-index-modal);
   --solaris-dialog-panel-shadow: var(--solaris-shadow-lg);
   --solaris-dialog-panel-radius: var(--solaris-radius-lg);
-  --solaris-dialog-panel-border: var(--solaris-border-default);
+  --solaris-dialog-panel-border: var(--solaris-neutral-border-default);
   --solaris-dialog-close-icon-size: var(--solaris-font-size-md);
   --solaris-dialog-panel-max-width: calc(100vw - var(--solaris-spacing-8));
   --solaris-dialog-panel-max-height: calc(100dvh - var(--solaris-spacing-8));
@@ -183,7 +183,7 @@
   right: var(--solaris-spacing-3);
   width: var(--solaris-spacing-4);
   height: var(--solaris-spacing-4);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   padding: var(--solaris-spacing-0);
   font-size: var(--solaris-font-size-lg);
   transition: color var(--solaris-motion-duration-normal)
@@ -191,7 +191,7 @@
 }
 
 .solaris-dialog-container__close:hover {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
 }
 
 .solaris-dialog-container__close solaris-icon,
