@@ -1,0 +1,7 @@
+<solaris-table [data]="pageRows()" [columns]="columns" rowId="id" />
+<solaris-pagination
+  [pageIndex]="pageIndex()"
+  [pageSize]="pageSize()"
+  [total]="total"
+  (pageChange)="onPageChange($event)"
+/>

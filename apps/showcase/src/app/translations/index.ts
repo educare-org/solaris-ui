@@ -9,6 +9,7 @@ import { LOADING_TEXT_TRANSLATIONS } from '../pages/feedback/loading-text/transl
 import { CARD_TRANSLATIONS } from '../pages/data-display/card/translations';
 import { CODE_BLOCK_TRANSLATIONS } from '../pages/data-display/code-block/translations';
 import { PREVIEW_CODE_TRANSLATIONS } from '../pages/data-display/preview-code/translations';
+import { TABLE_TRANSLATIONS } from '../pages/data-display/table/translations';
 import { ALERT_TRANSLATIONS } from '../pages/feedback/alert/translations';
 import { BUTTON_TRANSLATIONS } from '../pages/actions/button/translations';
 import { ICON_BUTTON_TRANSLATIONS } from '../pages/actions/icon-button/translations';
@@ -44,6 +45,7 @@ import { DROPDOWN_MENU_TRANSLATIONS } from '../pages/interaction/dropdown-menu/t
 import { COLLAPSIBLE_TRANSLATIONS } from '../pages/interaction/collapsible/translations';
 import { ACCORDION_TRANSLATIONS } from '../pages/interaction/accordion/translations';
 import { EDITABLE_TABS_TRANSLATIONS } from '../pages/navigation/editable-tabs/translations';
+import { PAGINATION_TRANSLATIONS } from '../pages/navigation/pagination/translations';
 import { ICONS_TRANSLATIONS } from '../pages/icons/translations';
 import { MEGA_MENU_TRANSLATIONS } from '../pages/navigation/mega-menu/translations';
 
@@ -59,6 +61,7 @@ const PAGE_MODULES = [
   CARD_TRANSLATIONS,
   CODE_BLOCK_TRANSLATIONS,
   PREVIEW_CODE_TRANSLATIONS,
+  TABLE_TRANSLATIONS,
   ALERT_TRANSLATIONS,
   BUTTON_TRANSLATIONS,
   ICON_BUTTON_TRANSLATIONS,
@@ -94,6 +97,7 @@ const PAGE_MODULES = [
   COLLAPSIBLE_TRANSLATIONS,
   ACCORDION_TRANSLATIONS,
   EDITABLE_TABS_TRANSLATIONS,
+  PAGINATION_TRANSLATIONS,
   ICONS_TRANSLATIONS,
   MEGA_MENU_TRANSLATIONS,
 ];

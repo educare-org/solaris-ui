@@ -1,0 +1,285 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="table.title"
+    descriptionKey="table.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="table.section.examples">
+    <p class="table-showcase__note">{{ 'table.examples.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-section anchor="basic" titleKey="table.section.basic">
+    <p class="table-showcase__note">{{ 'table.basic.note' | translate }}</p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="basicCode"
+      language="html"
+    >
+      <app-basic-table-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="sorting" titleKey="table.section.sorting">
+    <p class="table-showcase__note">{{ 'table.sorting.note' | translate }}</p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="sortingCode"
+      language="html"
+    >
+      <solaris-table
+        [data]="basicRows"
+        [columns]="basicColumns"
+        rowId="id"
+        [(sort)]="sort"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="selection" titleKey="table.section.selection">
+    <p class="table-showcase__note">{{ 'table.selection.note' | translate }}</p>
+    <div class="table-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectionMode"
+        [ariaLabel]="'table.section.selection' | translate"
+      >
+        <solaris-tab value="none"
+          >{{ 'table.selection.tab.none' | translate }}</solaris-tab
+        >
+        <solaris-tab value="single"
+          >{{ 'table.selection.tab.single' | translate }}</solaris-tab
+        >
+        <solaris-tab value="multiple"
+          >{{ 'table.selection.tab.multiple' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="selectionCode"
+      language="html"
+    >
+      <solaris-table
+        [data]="basicRows"
+        [columns]="basicColumns"
+        rowId="id"
+        [selectionMode]="selectionMode()"
+        [(selectedRowIds)]="selectedRowIds"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="custom-cells" titleKey="table.section.custom-cells">
+    <p class="table-showcase__note">
+      {{ 'table.custom-cells.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="customCellsCode"
+      language="html"
+    >
+      <solaris-table [data]="basicRows" [columns]="customColumns" rowId="id">
+        <ng-template solaris-table-cell="score" let-value="value">
+          <strong>{{ value }}</strong>
+        </ng-template>
+        <ng-template solaris-table-header="city" let-column>
+          <em>{{ column.id }}</em>
+        </ng-template>
+      </solaris-table>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="people" titleKey="table.section.people">
+    <p class="table-showcase__note">{{ 'table.people.note' | translate }}</p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="peopleCode"
+      language="html"
+    >
+      <app-people-table-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="row-dialog" titleKey="table.section.row-dialog">
+    <p class="table-showcase__note">
+      {{ 'table.row-dialog.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="rowDialogCode"
+      language="html"
+    >
+      <app-row-dialog-table-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="responsive" titleKey="table.section.responsive">
+    <p class="table-showcase__note">
+      {{ 'table.responsive.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="responsiveCode"
+      language="html"
+    >
+      <solaris-table
+        [data]="basicRows"
+        [columns]="fullColumns"
+        rowId="id"
+        [expandable]="true"
+      >
+        <ng-template solaris-table-detail="score-detail" let-row>
+          Score {{ row.score }} of 1000 · joined {{ row.joined }}
+        </ng-template>
+        <ng-template solaris-table-detail="city-detail" let-row>
+          Based in {{ row.city }} · {{ row.age }} years old
+        </ng-template>
+      </solaris-table>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="mobile" titleKey="table.section.mobile">
+    <p class="table-showcase__note">{{ 'table.mobile.note' | translate }}</p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="mobileCode"
+      language="html"
+    >
+      <div class="table-showcase__phone">
+        <solaris-table
+          [data]="basicRows"
+          [columns]="fullColumns"
+          rowId="id"
+          [expandable]="true"
+          [mobile]="true"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="layout" titleKey="table.section.layout">
+    <p class="table-showcase__note">{{ 'table.layout.note' | translate }}</p>
+    <div class="table-showcase__controls">
+      <solaris-tabs
+        [(value)]="layoutMode"
+        [ariaLabel]="'table.section.layout' | translate"
+      >
+        <solaris-tab value="auto"
+          >{{ 'table.layout.tab.auto' | translate }}</solaris-tab
+        >
+        <solaris-tab value="full"
+          >{{ 'table.layout.tab.full' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="layoutCode"
+      language="html"
+    >
+      <solaris-table
+        [data]="basicRows"
+        [columns]="basicColumns"
+        rowId="id"
+        [fullWidth]="layoutMode() === 'full'"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="table.section.states">
+    <p class="table-showcase__note">{{ 'table.states.note' | translate }}</p>
+    <div class="table-showcase__controls">
+      <solaris-tabs
+        [(value)]="stateTab"
+        [ariaLabel]="'table.section.states' | translate"
+      >
+        <solaris-tab value="loading"
+          >{{ 'table.states.tab.loading' | translate }}</solaris-tab
+        >
+        <solaris-tab value="empty"
+          >{{ 'table.states.tab.empty' | translate }}</solaris-tab
+        >
+        <solaris-tab value="error"
+          >{{ 'table.states.tab.error' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="statesCode"
+      language="html"
+    >
+      @if (stateTab() === 'loading') {
+      <solaris-table
+        [data]="[]"
+        [columns]="basicColumns"
+        rowId="id"
+        [loading]="true"
+      />
+      } @else if (stateTab() === 'error') {
+      <solaris-table
+        [data]="[]"
+        [columns]="basicColumns"
+        rowId="id"
+        error="Unable to load data"
+      />
+      } @else {
+      <solaris-table [data]="[]" [columns]="basicColumns" rowId="id" />
+      }
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="server" titleKey="table.section.server">
+    <p class="table-showcase__note">{{ 'table.server.note' | translate }}</p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="serverCode"
+      language="html"
+    >
+      <solaris-table
+        [data]="serverSource"
+        [columns]="basicColumns"
+        rowId="id"
+        [(sort)]="sort"
+      />
+      <button type="button" (click)="reloadServer()">Reload</button>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="with-pagination"
+    titleKey="table.section.with-pagination"
+  >
+    <p class="table-showcase__note">
+      {{ 'table.with-pagination.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="withPaginationCode"
+      language="html"
+    >
+      <app-with-pagination-table-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="installation" titleKey="table.section.installation">
+    <p class="table-showcase__note">
+      {{ 'table.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="table.section.props">
+    <p class="table-showcase__note">{{ 'table.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

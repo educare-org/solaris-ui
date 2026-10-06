@@ -11,6 +11,7 @@ import { BRAND_ICONS } from './groups/brands';
 import { THEME_ICONS } from './groups/theme';
 import { MEDIA_ICONS } from './groups/media';
 import { DATA_ICONS } from './groups/data';
+import { TABLE_ICONS } from './groups/table';
 
 export const SOLARIS_BUILT_IN_ICONS: SolarisIconDefinition[] = [
   ...COMMUNICATION_ICONS,
@@ -22,6 +23,7 @@ export const SOLARIS_BUILT_IN_ICONS: SolarisIconDefinition[] = [
   ...MEDIA_ICONS,
   ...BRAND_ICONS,
   ...DATA_ICONS,
+  ...TABLE_ICONS,
   ...PEOPLE_ICONS,
   ...DOCUMENTS_ICONS,
   ...LANGUAGES_ICONS,

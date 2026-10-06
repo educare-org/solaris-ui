@@ -271,30 +271,31 @@ Follows the `solaris-badge` semantics exactly:
 
 ## CSS Variables
 
-| Token                                | Purpose                           |
-| ------------------------------------ | --------------------------------- |
-| `--solaris-avatar-size`              | Outer size (per `size`)           |
-| `--solaris-avatar-radius`            | Border radius (per `radius`)      |
-| `--solaris-avatar-background`        | Fallback surface (per palette)    |
-| `--solaris-avatar-color`             | Initials/icon color (per palette) |
-| `--solaris-avatar-font-size`         | Initials size (per `size`)        |
-| `--solaris-avatar-ring-color`        | Separator ring around markers     |
-| `--solaris-avatar-knockout`          | Knockout width around markers     |
-| `--solaris-avatar-ring-offset`       | Gap between avatar and rings      |
-| `--solaris-avatar-status-size`       | Status dot diameter               |
-| `--solaris-avatar-status-color`      | Status dot fill (per `status`)    |
-| `--solaris-avatar-count-height`      | Counter height                    |
-| `--solaris-avatar-count-background`  | Counter fill                      |
-| `--solaris-avatar-count-color`       | Counter text                      |
-| `--solaris-avatar-verified-size`     | Verified seal diameter            |
-| `--solaris-avatar-ring-width`        | Active/loading ring thickness     |
-| `--solaris-avatar-organization-size` | Organization emblem box           |
-| `--solaris-avatar-mesh-a/b/c`        | Generative mesh spot fills        |
-| `--solaris-avatar-group-overlap`     | Group overlap (px)                |
-| `--solaris-avatar-group-size`        | Overflow pill size (per `size`)   |
-| `--solaris-avatar-group-hover-lift`  | Group hover lift distance         |
-| `--solaris-avatar-group-dim-opacity` | Group sibling dim opacity         |
-| `--solaris-avatar-profile-max-width` | Title/subtitle truncation width   |
+| Token                                  | Purpose                                                                                  |
+| -------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `--solaris-avatar-size`                | Outer size (per `size`)                                                                  |
+| `--solaris-avatar-radius`              | Border radius (per `radius`)                                                             |
+| `--solaris-avatar-background`          | Fallback surface (per palette)                                                           |
+| `--solaris-avatar-color`               | Initials/icon color (per palette)                                                        |
+| `--solaris-avatar-font-size`           | Initials size (per `size`)                                                               |
+| `--solaris-avatar-ring-color`          | Separator ring around markers                                                            |
+| `--solaris-avatar-knockout`            | Knockout width around markers                                                            |
+| `--solaris-avatar-ring-offset`         | Gap between avatar and rings                                                             |
+| `--solaris-avatar-status-size`         | Status dot diameter                                                                      |
+| `--solaris-avatar-status-color`        | Status dot fill (per `status`)                                                           |
+| `--solaris-avatar-count-height`        | Counter height                                                                           |
+| `--solaris-avatar-count-background`    | Counter fill                                                                             |
+| `--solaris-avatar-count-color`         | Counter text                                                                             |
+| `--solaris-avatar-verified-size`       | Verified seal diameter                                                                   |
+| `--solaris-avatar-ring-width`          | Active/loading ring thickness                                                            |
+| `--solaris-avatar-organization-size`   | Organization emblem box                                                                  |
+| `--solaris-avatar-mesh-a/b/c`          | Generative mesh spot fills                                                               |
+| `--solaris-avatar-group-overlap`       | Group overlap (px)                                                                       |
+| `--solaris-avatar-group-size`          | Overflow pill size (per `size`)                                                          |
+| `--solaris-avatar-group-hover-lift`    | Group hover lift distance                                                                |
+| `--solaris-avatar-group-dim-opacity`   | Group sibling dim opacity                                                                |
+| `--solaris-avatar-profile-max-width`   | Title/subtitle truncation width                                                          |
+| `--solaris-avatar-profile-line-height` | Title/subtitle line height (per `size`: `1` default, `1.15` at `sm`, `1.5` at `lg`/`xl`) |
 
 Generative palettes pair `--solaris-*-surface` backgrounds with the matching
 `--solaris-*-text` initials color, so text contrast holds by token design. The

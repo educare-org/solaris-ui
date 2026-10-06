@@ -1,0 +1,162 @@
+import { DOCUMENT } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
+
+import {
+  SolarisCodeBlockComponent,
+  SolarisPreviewCodeComponent,
+  SolarisTableCellDirective,
+  SolarisTableComponent,
+  SolarisTableDetailDirective,
+  SolarisTableHeaderDirective,
+  SolarisTabComponent,
+  SolarisTabsComponent,
+  SolarisTranslatePipe,
+  SolarisTranslateService,
+  createServerTableDataSource,
+  type SolarisTableSelectionMode,
+  type SolarisTableSort,
+} from '@solaris-ui/angular';
+
+import { ShowcaseDocsPageFooter } from '../../../../shell/docs-page-footer/docs-page-footer';
+import { ShowcaseDocsPageHeader } from '../../../../shell/docs-page-header/docs-page-header';
+import { ShowcaseDocsPageLayout } from '../../../../shell/docs-page-layout/docs-page-layout';
+import { ShowcaseDocsSection } from '../../../../shell/docs-section/docs-section';
+
+import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
+import {
+  TABLE_CUSTOM_CELLS_CODE,
+  TABLE_LAYOUT_CODE,
+  TABLE_MOBILE_CODE,
+  TABLE_PEOPLE_CODE,
+  TABLE_RESPONSIVE_CODE,
+  TABLE_ROW_DIALOG_CODE,
+  TABLE_SELECTION_CODE,
+  TABLE_SERVER_CODE,
+  TABLE_SHOWCASE_BASIC_CODE,
+  TABLE_SHOWCASE_BASIC_COLUMNS,
+  TABLE_SHOWCASE_BREADCRUMBS,
+  TABLE_SHOWCASE_CUSTOM_COLUMNS,
+  TABLE_SHOWCASE_FULL_COLUMNS,
+  TABLE_SHOWCASE_IMPORT_CODE,
+  TABLE_SHOWCASE_INSTALL_COMMANDS,
+  TABLE_SHOWCASE_NEXT,
+  TABLE_SHOWCASE_PREV,
+  TABLE_SHOWCASE_ROWS,
+  TABLE_SHOWCASE_SLUG,
+  TABLE_SHOWCASE_TOC_ITEMS,
+  TABLE_SORTING_CODE,
+  TABLE_STATES_CODE,
+  TABLE_TRANSLATION_PREFIX,
+  TABLE_WITH_PAGINATION_CODE,
+} from '../model/table-showcase.data';
+
+import { BasicTableExample } from '../examples/basic/component/basic.component';
+import { PeopleTableExample } from '../examples/people/component/people.component';
+import { RowDialogTableExample } from '../examples/row-dialog/component/row-dialog.component';
+import { WithPaginationTableExample } from '../examples/with-pagination/component/with-pagination.component';
+
+@Component({
+  standalone: true,
+  imports: [
+    SolarisTableComponent,
+    SolarisTableCellDirective,
+    SolarisTableDetailDirective,
+    SolarisTableHeaderDirective,
+    SolarisPreviewCodeComponent,
+    SolarisCodeBlockComponent,
+    SolarisTabComponent,
+    SolarisTabsComponent,
+    SolarisTranslatePipe,
+    ShowcaseDocsPageFooter,
+    ShowcaseDocsPageHeader,
+    ShowcaseDocsPageLayout,
+    ShowcaseDocsSection,
+    BasicTableExample,
+    PeopleTableExample,
+    RowDialogTableExample,
+    WithPaginationTableExample,
+  ],
+  templateUrl: './table-showcase.html',
+  styleUrls: ['./table-showcase.scss'],
+})
+export class TableShowcasePage {
+  private readonly translateService = inject(SolarisTranslateService);
+  private readonly document = inject(DOCUMENT);
+
+  protected readonly breadcrumbs = TABLE_SHOWCASE_BREADCRUMBS;
+  protected readonly prev = TABLE_SHOWCASE_PREV;
+  protected readonly next = TABLE_SHOWCASE_NEXT;
+  protected readonly tocItems = TABLE_SHOWCASE_TOC_ITEMS;
+
+  protected readonly installCommands = TABLE_SHOWCASE_INSTALL_COMMANDS;
+  protected readonly importCode = TABLE_SHOWCASE_IMPORT_CODE;
+  protected readonly basicCode = TABLE_SHOWCASE_BASIC_CODE;
+  protected readonly sortingCode = TABLE_SORTING_CODE;
+  protected readonly selectionCode = TABLE_SELECTION_CODE;
+  protected readonly customCellsCode = TABLE_CUSTOM_CELLS_CODE;
+  protected readonly peopleCode = TABLE_PEOPLE_CODE;
+  protected readonly rowDialogCode = TABLE_ROW_DIALOG_CODE;
+  protected readonly responsiveCode = TABLE_RESPONSIVE_CODE;
+  protected readonly mobileCode = TABLE_MOBILE_CODE;
+  protected readonly layoutCode = TABLE_LAYOUT_CODE;
+  protected readonly layoutMode = signal<'auto' | 'full'>('auto');
+  protected readonly statesCode = TABLE_STATES_CODE;
+  protected readonly serverCode = TABLE_SERVER_CODE;
+  protected readonly withPaginationCode = TABLE_WITH_PAGINATION_CODE;
+
+  protected readonly basicRows = TABLE_SHOWCASE_ROWS.slice(0, 5);
+  protected readonly basicColumns = TABLE_SHOWCASE_BASIC_COLUMNS;
+  protected readonly fullColumns = TABLE_SHOWCASE_FULL_COLUMNS;
+  protected readonly customColumns = TABLE_SHOWCASE_CUSTOM_COLUMNS;
+
+  protected readonly sort = signal<SolarisTableSort | null>(null);
+  protected readonly selectionMode =
+    signal<SolarisTableSelectionMode>('multiple');
+  protected readonly selectedRowIds = signal<readonly string[]>([]);
+  protected readonly stateTab = signal<'loading' | 'empty' | 'error'>(
+    'loading',
+  );
+
+  private readonly pageActions = createShowcasePageActions(
+    this.translateService,
+    this.document,
+    {
+      translationPrefix: TABLE_TRANSLATION_PREFIX,
+      slug: TABLE_SHOWCASE_SLUG,
+      importCode: TABLE_SHOWCASE_IMPORT_CODE,
+    },
+  );
+
+  private readonly serverRows = signal(TABLE_SHOWCASE_ROWS.slice(0, 8));
+  private readonly serverTotal = signal<number | undefined>(32);
+  private readonly serverLoading = signal(false);
+  protected readonly serverSource = createServerTableDataSource(
+    this.serverRows,
+    this.serverTotal,
+    this.serverLoading,
+  );
+
+  protected reloadServer(): void {
+    this.serverLoading.set(true);
+    setTimeout(() => {
+      this.serverRows.set(TABLE_SHOWCASE_ROWS.slice(0, 8));
+      this.serverLoading.set(false);
+    }, 800);
+  }
+
+  protected copyPageAsMarkdown(): void {
+    this.pageActions.copyPageAsMarkdown();
+  }
+
+  protected downloadPageAsMarkdown(): void {
+    this.pageActions.downloadPageAsMarkdown();
+  }
+
+  protected openInChatGpt(): void {
+    this.pageActions.openInChatGpt();
+  }
+
+  protected openInClaude(): void {
+    this.pageActions.openInClaude();
+  }
+}

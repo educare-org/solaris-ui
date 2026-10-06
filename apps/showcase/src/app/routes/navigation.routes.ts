@@ -46,6 +46,13 @@ export const navigationRoutes: Route[] = [
             '../pages/navigation/editable-tabs/component/editable-tabs-showcase'
           ).then((m) => m.EditableTabsShowcasePage),
       },
+      {
+        path: 'pagination',
+        loadComponent: () =>
+          import(
+            '../pages/navigation/pagination/component/pagination-showcase'
+          ).then((m) => m.PaginationShowcasePage),
+      },
     ],
   },
 ];

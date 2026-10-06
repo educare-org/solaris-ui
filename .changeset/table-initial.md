@@ -1,0 +1,5 @@
+---
+'@educarehq/solaris-ui': minor
+---
+
+Add `solaris-table` lean data table with text/number/date/checkbox/custom columns, client/server `SolarisTableDataSource`, tri-state sort cycle with independently animated `sort-asc`/`sort-desc` arrows plus `aria-sort` and live announcements, two-way `selectedRowIds` with tri-state header checkbox (single mode trims to one row on mode switch), cell/header/empty/error/loading/per-column-detail slots, priority-based expandable detail rows in a trailing Actions column with smooth open/close, card layout on mobile with per-field sort, smooth row hover, `mobile` forced-card mode, `fullWidth` fixed layout, `cellPadding` vertical rhythm, and inherited density. Reuses `solaris-checkbox`, `solaris-skeleton`, and the `sort`/`sort-asc`/`sort-desc` icons. Follow-ups: filters/toolbar/search, badge/avatar/progress/actions/currency column types, column-visibility UI, CSV export, sticky first column, resize/reorder, virtual scroll, inline editing, hierarchical sub-rows, and the separate `gradebook` component.

@@ -64,6 +64,51 @@ export type {
   SolarisBadgeOffset,
 } from './lib/components/data-display/badge/model/badge.types';
 
+export { SolarisTableComponent } from './lib/components/data-display/table/component/table.component';
+export {
+  SolarisTableCellDirective,
+  SolarisTableDetailDirective,
+  SolarisTableHeaderDirective,
+  SolarisTableEmptyDirective,
+  SolarisTableErrorDirective,
+  SolarisTableLoadingDirective,
+} from './lib/components/data-display/table/directives/table-cell.directive';
+export {
+  SOLARIS_TABLE_COLUMN_TYPES,
+  SOLARIS_TABLE_CELL_PADDINGS,
+  SOLARIS_TABLE_SELECTION_MODES,
+} from './lib/components/data-display/table/model/table.types';
+export type {
+  SolarisTableAlign,
+  SolarisTableCellContext,
+  SolarisTableCellPadding,
+  SolarisTableColumn,
+  SolarisTableColumnType,
+  SolarisTableDataSource,
+  SolarisTableDensity,
+  SolarisTableResolvedRow,
+  SolarisTableRowClickEvent,
+  SolarisTableSelectionChange,
+  SolarisTableSelectionMode,
+  SolarisTableSort,
+  SolarisTableSortDirection,
+  SolarisTableViewColumn,
+  SolarisTableViewRow,
+} from './lib/components/data-display/table/model/table.types';
+export {
+  createClientTableDataSource,
+  createServerTableDataSource,
+  clampPageIndex,
+  isTableDataSource,
+  resolveCellValue,
+  resolveDisplayValue,
+  resolveRowId,
+  resolveRows,
+  resolveSortValue,
+  sliceRows,
+  sortRows,
+} from './lib/components/data-display/table/model/table-state';
+
 export {
   SolarisAvatarComponent,
   type SolarisAvatarImageDecoding,
@@ -565,6 +610,13 @@ export type {
   SolarisBreadcrumbNavigateEvent,
   SolarisBreadcrumbConfig,
 } from './lib/components/navigation/breadcrumb/model/breadcrumb.types';
+
+export { SolarisPaginationComponent } from './lib/components/navigation/pagination/component/pagination.component';
+export type {
+  SolarisPageChange,
+  SolarisPaginationDensity,
+  SolarisPaginationState,
+} from './lib/components/navigation/pagination/model/pagination.types';
 
 export { SolarisCodeBlockComponent } from './lib/components/data-display/code-block/component/code-block.component';
 export {

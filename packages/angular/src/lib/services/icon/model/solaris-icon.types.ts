@@ -92,6 +92,9 @@ export type SolarisBuiltInIcon =
   | 'trophy'
   | 'square-plus'
   | 'table'
+  | 'sort'
+  | 'sort-asc'
+  | 'sort-desc'
   | 'chart-spline'
   | 'markdown';
 

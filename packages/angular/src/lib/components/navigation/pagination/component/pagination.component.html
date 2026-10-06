@@ -1,0 +1,66 @@
+<nav class="solaris-pagination__nav" [attr.aria-label]="resolvedAriaLabel()">
+  @if (showPageSize()) {
+    <label class="solaris-pagination__page-size">
+      <span class="solaris-pagination__page-size-label">
+        {{ resolvedRowsPerPageLabel() }}
+      </span>
+      <solaris-select
+        class="solaris-pagination__select"
+        [value]="normalizedPageSize()"
+        [ariaLabel]="resolvedRowsPerPageLabel()"
+        (valueChange)="handlePageSizeChange($event)"
+      >
+        @for (option of normalizedPageSizeOptions(); track option) {
+          <solaris-option [value]="option">{{ option }}</solaris-option>
+        }
+      </solaris-select>
+    </label>
+  }
+  @if (showRangeLabel() && resolvedRangeLabel()) {
+    <span class="solaris-pagination__range" role="status">
+      {{ resolvedRangeLabel() }}
+    </span>
+  }
+  <div class="solaris-pagination__controls" role="group">
+    @if (showFirstLast()) {
+      <button
+        type="button"
+        class="solaris-pagination__button"
+        (click)="goToFirstPage()"
+        [disabled]="!canGoToPrevious()"
+        [attr.aria-label]="resolvedFirstPageLabel()"
+      >
+        <solaris-icon name="chevron-first" [decorative]="true" />
+      </button>
+    }
+    <button
+      type="button"
+      class="solaris-pagination__button"
+      (click)="goToPreviousPage()"
+      [disabled]="!canGoToPrevious()"
+      [attr.aria-label]="resolvedPreviousPageLabel()"
+    >
+      <solaris-icon name="chevron-left" [decorative]="true" />
+    </button>
+    <button
+      type="button"
+      class="solaris-pagination__button"
+      (click)="goToNextPage()"
+      [disabled]="!canGoToNext()"
+      [attr.aria-label]="resolvedNextPageLabel()"
+    >
+      <solaris-icon name="chevron-right" [decorative]="true" />
+    </button>
+    @if (showFirstLast()) {
+      <button
+        type="button"
+        class="solaris-pagination__button"
+        (click)="goToLastPage()"
+        [disabled]="!canGoToLast()"
+        [attr.aria-label]="resolvedLastPageLabel()"
+      >
+        <solaris-icon name="chevron-last" [decorative]="true" />
+      </button>
+    }
+  </div>
+</nav>

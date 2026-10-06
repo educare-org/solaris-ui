@@ -337,6 +337,26 @@ describe('SolarisIconRegistryService', () => {
     expect(retrieved?.viewBox).toBe(original?.viewBox);
   });
 
+  it('should have table sort icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of ['sort', 'sort-asc', 'sort-desc']) {
+      expect(service.hasIcon(name)).toBe(true);
+      const icon = service.getIcon(name);
+      expect(icon?.elements.length).toBeGreaterThan(0);
+      expect(icon?.viewBox).toBe('0 0 24 24');
+      expect(icon?.strokeWidth).toBe(1.8);
+    }
+
+    expect(service.getIcon('sort')?.elements.length).toBe(4);
+    expect(service.getIcon('sort-asc')?.elements.length).toBe(2);
+    expect(service.getIcon('sort-desc')?.elements.length).toBe(2);
+  });
+
   it('should be injectable without provideSolarisIcons', () => {
     TestBed.configureTestingModule({});
 

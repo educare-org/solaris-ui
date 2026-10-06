@@ -39,6 +39,13 @@ export const dataDisplayRoutes: Route[] = [
             '../pages/data-display/preview-code/component/preview-code-showcase'
           ).then((m) => m.PreviewCodeShowcasePage),
       },
+      {
+        path: 'table',
+        loadComponent: () =>
+          import('../pages/data-display/table/component/table-showcase').then(
+            (m) => m.TableShowcasePage,
+          ),
+      },
     ],
   },
 ];

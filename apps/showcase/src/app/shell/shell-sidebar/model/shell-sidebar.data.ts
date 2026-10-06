@@ -87,6 +87,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
             labelKey: 'shell.sidebar.item.preview-code',
             route: '/data-display/preview-code',
           },
+          {
+            labelKey: 'shell.sidebar.item.table',
+            route: '/data-display/table',
+          },
         ],
       },
       {
@@ -274,6 +278,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
           {
             labelKey: 'shell.sidebar.item.editable-tabs',
             route: '/navigation/editable-tabs',
+          },
+          {
+            labelKey: 'shell.sidebar.item.pagination',
+            route: '/navigation/pagination',
           },
         ],
       },

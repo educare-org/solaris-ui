@@ -1,0 +1,91 @@
+:host {
+  --solaris-pagination-gap: 12px;
+  --solaris-pagination-min-height: 36px;
+  --solaris-pagination-range-color: var(--solaris-neutral-text-secondary);
+  --solaris-pagination-button-size: 32px;
+
+  display: block;
+  box-sizing: border-box;
+  color: var(--solaris-neutral-text-body);
+  font-family: var(--solaris-font-family-sans), system-ui;
+  font-size: var(--solaris-font-size-sm);
+}
+
+.solaris-pagination__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--solaris-pagination-gap);
+  min-height: var(--solaris-pagination-min-height);
+}
+
+.solaris-pagination__page-size {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.solaris-pagination__page-size-label {
+  color: var(--solaris-pagination-range-color);
+  white-space: nowrap;
+}
+
+.solaris-pagination__range {
+  color: var(--solaris-pagination-range-color);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.solaris-pagination__controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.solaris-pagination__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--solaris-pagination-button-size);
+  height: var(--solaris-pagination-button-size);
+  padding: 0;
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-default);
+  border-radius: var(--solaris-radius-sm);
+  background: var(--solaris-neutral-default);
+  color: inherit;
+  cursor: pointer;
+  transition:
+    background var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard),
+    opacity var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-pagination__button:hover:not(:disabled) {
+  background: var(--solaris-neutral-subtle);
+}
+
+.solaris-pagination__button:disabled {
+  cursor: not-allowed;
+  opacity: var(--solaris-opacity-40);
+}
+
+.solaris-pagination__button:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-pagination__button {
+    transition: none;
+  }
+}
+
+@media (width <= 1023px) {
+  .solaris-pagination__nav {
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+}

@@ -1,6 +1,7 @@
 :host {
   --solaris-avatar-profile-gap: var(--solaris-spacing-6);
   --solaris-avatar-profile-title-size: var(--solaris-font-size-sm);
+  --solaris-avatar-profile-line-height: var(--solaris-line-height-none);
   --solaris-avatar-profile-title-color: var(--solaris-neutral-text-body);
   --solaris-avatar-profile-subtitle-color: var(
     --solaris-neutral-text-secondary
@@ -22,6 +23,7 @@
 :host([data-size='sm']) {
   --solaris-avatar-profile-title-size: var(--solaris-font-size-xs);
   --solaris-avatar-profile-subtitle-size: var(--solaris-font-size-xs);
+  --solaris-avatar-profile-line-height: var(--solaris-line-height-2xs);
 }
 
 :host([data-size='lg']),
@@ -29,6 +31,7 @@
   --solaris-avatar-profile-gap: var(--solaris-spacing-6);
   --solaris-avatar-profile-title-size: var(--solaris-font-size-md);
   --solaris-avatar-profile-subtitle-size: var(--solaris-font-size-sm);
+  --solaris-avatar-profile-line-height: var(--solaris-line-height-md);
 }
 
 .solaris-avatar-profile__identity {
@@ -66,8 +69,8 @@ button.solaris-avatar-profile__identity {
 }
 
 .solaris-avatar-profile__title-row {
-  display: inline-flex;
   align-items: center;
+  display: inline-flex;
   gap: var(--solaris-spacing-3);
   min-width: var(--solaris-spacing-0);
 }
@@ -76,20 +79,20 @@ button.solaris-avatar-profile__identity {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  line-height: var(--solaris-line-height-sm);
   font-weight: var(--solaris-font-weight-medium);
   color: var(--solaris-avatar-profile-title-color);
   max-width: var(--solaris-avatar-profile-max-width);
   font-size: var(--solaris-avatar-profile-title-size);
+  line-height: var(--solaris-avatar-profile-line-height);
 }
 
 .solaris-avatar-profile__subtitle {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  line-height: var(--solaris-line-height-sm);
   max-width: var(--solaris-avatar-profile-max-width);
   color: var(--solaris-avatar-profile-subtitle-color);
+  line-height: var(--solaris-avatar-profile-line-height);
   font-size: var(--solaris-avatar-profile-subtitle-size);
 }
 
