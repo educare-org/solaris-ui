@@ -199,23 +199,23 @@
 }
 
 .solaris-tooltip-panel__close {
-  opacity: var(--solaris-opacity-70);
+  padding: 0;
   border: none;
   flex-shrink: 0;
   color: inherit;
   cursor: pointer;
   background: none;
-  padding: 0;
   border-radius: 50%;
   align-items: center;
   display: inline-flex;
-  margin-top: var(--solaris-tooltip-offset);
   justify-content: center;
-  font-size: var(--solaris-tooltip-icon-size);
-  transition: opacity var(--solaris-motion-duration-fast)
-    var(--solaris-motion-easing-standard);
+  opacity: var(--solaris-opacity-70);
   width: var(--solaris-tooltip-icon-size);
   height: var(--solaris-tooltip-icon-size);
+  margin-top: var(--solaris-tooltip-offset);
+  font-size: var(--solaris-tooltip-icon-size);
+  transition: opacity var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 
   &:hover,
   &:focus-visible {

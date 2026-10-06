@@ -40,7 +40,7 @@
     var(--solaris-stepper-indicator-size) /
       2 - var(--solaris-stepper-connector-size) / 2
   );
-  transition: background var(--solaris-motion-duration-fast)
+  transition: background var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
 
@@ -107,11 +107,11 @@
   font: var(--solaris-font-weight-semibold) var(--solaris-font-size-sm) / 1
     var(--solaris-font-family-sans);
   transition:
-    background var(--solaris-motion-duration-fast)
+    background var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
-    color var(--solaris-motion-duration-fast)
+    color var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
-    box-shadow var(--solaris-motion-duration-fast)
+    box-shadow var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard);
 }
 
@@ -159,8 +159,8 @@
   min-width: 0;
   flex-direction: column;
   justify-content: center;
-  min-height: var(--solaris-stepper-indicator-size);
   gap: var(--solaris-spacing-1);
+  min-height: var(--solaris-stepper-indicator-size);
 }
 
 :host([data-orientation='vertical']) .solaris-stepper__label-group {
@@ -253,9 +253,9 @@
   border: var(--solaris-border-width-sm) solid
     var(--solaris-stepper-card-border-color);
   transition:
-    box-shadow var(--solaris-motion-duration-fast)
+    box-shadow var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
-    border-color var(--solaris-motion-duration-fast)
+    border-color var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard);
 }
 

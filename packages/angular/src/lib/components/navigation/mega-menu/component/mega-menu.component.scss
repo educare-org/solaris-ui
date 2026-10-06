@@ -89,7 +89,7 @@
   color: var(--solaris-mega-menu-color);
   box-shadow: var(--solaris-mega-menu-shadow);
   background: var(--solaris-mega-menu-background);
-  animation: solaris-mega-menu-enter var(--solaris-motion-duration-fast)
+  animation: solaris-mega-menu-enter var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-decelerate);
 }
 

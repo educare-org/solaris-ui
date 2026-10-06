@@ -56,9 +56,9 @@
   color: inherit;
   cursor: pointer;
   transition:
-    background var(--solaris-motion-duration-fast)
+    background var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
-    opacity var(--solaris-motion-duration-fast)
+    opacity var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard);
 }
 

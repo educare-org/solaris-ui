@@ -130,13 +130,13 @@
 
   .solaris-dialog-flow__step--active {
     opacity: 1;
-    transition: opacity var(--solaris-motion-duration-fast)
+    transition: opacity var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard);
   }
 
   .solaris-dialog-flow__step--exit {
     opacity: 0;
-    transition: opacity var(--solaris-motion-duration-fast)
+    transition: opacity var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard);
   }
 }
@@ -148,12 +148,12 @@
 
 :host-context([data-reduced-motion='true']) .solaris-dialog-flow__step--active {
   opacity: 1;
-  transition: opacity var(--solaris-motion-duration-fast)
+  transition: opacity var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
 
 :host-context([data-reduced-motion='true']) .solaris-dialog-flow__step--exit {
   opacity: 0;
-  transition: opacity var(--solaris-motion-duration-fast)
+  transition: opacity var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }

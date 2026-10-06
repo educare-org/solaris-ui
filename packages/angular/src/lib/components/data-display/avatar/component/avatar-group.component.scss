@@ -49,9 +49,9 @@
   box-shadow: 0 0 0 var(--solaris-spacing-3)
     var(--solaris-avatar-group-overflow-border-color);
   transition:
-    transform var(--solaris-motion-duration-fast)
+    transform var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
-    opacity var(--solaris-motion-duration-fast)
+    opacity var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard);
 }
 

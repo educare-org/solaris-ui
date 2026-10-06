@@ -31,9 +31,9 @@ input[solaris-input] {
   border: var(--solaris-input-border-width) solid
     var(--solaris-input-border-color);
   transition:
-    border-color var(--solaris-motion-duration-fast)
+    border-color var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
-    box-shadow var(--solaris-motion-duration-fast)
+    box-shadow var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard);
 }
 
