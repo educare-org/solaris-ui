@@ -9,24 +9,36 @@ export {
 } from './directives/table-cell.directive';
 export type {
   SolarisTableAlign,
+  SolarisTableAppearance,
   SolarisTableCellContext,
   SolarisTableCellPadding,
   SolarisTableColumn,
   SolarisTableColumnType,
   SolarisTableDataSource,
   SolarisTableDensity,
+  SolarisTableDetailVariant,
+  SolarisTableExpandMode,
+  SolarisTableLayout,
   SolarisTableResolvedRow,
   SolarisTableRowClickEvent,
   SolarisTableSelectionChange,
   SolarisTableSelectionMode,
   SolarisTableSort,
   SolarisTableSortDirection,
+  SolarisTableStripedMode,
   SolarisTableViewColumn,
   SolarisTableViewRow,
 } from './model/table.types';
-export { SOLARIS_TABLE_COLUMN_TYPES } from './model/table.types';
-export { SOLARIS_TABLE_CELL_PADDINGS } from './model/table.types';
-export { SOLARIS_TABLE_SELECTION_MODES } from './model/table.types';
+export {
+  SOLARIS_TABLE_APPEARANCES,
+  SOLARIS_TABLE_CELL_PADDINGS,
+  SOLARIS_TABLE_COLUMN_TYPES,
+  SOLARIS_TABLE_DETAIL_VARIANTS,
+  SOLARIS_TABLE_EXPAND_MODES,
+  SOLARIS_TABLE_LAYOUTS,
+  SOLARIS_TABLE_SELECTION_MODES,
+  SOLARIS_TABLE_STRIPED_MODES,
+} from './model/table.types';
 export {
   createClientTableDataSource,
   createServerTableDataSource,

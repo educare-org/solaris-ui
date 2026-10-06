@@ -417,7 +417,7 @@ describe('SolarisTableComponent', () => {
     expect(element.textContent).toContain('Beto');
   });
 
-  it('should sort from card labels in mobile layout', () => {
+  it('should not render sort buttons in card layout', () => {
     TestBed.configureTestingModule({});
     const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
     fixture.componentRef.setInput('columns', COLUMNS);
@@ -427,20 +427,152 @@ describe('SolarisTableComponent', () => {
     fixture.componentRef.setInput('mobile', true);
     fixture.detectChanges();
     const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelector('.solaris-table__card-sort')).toBeFalsy();
+    expect(
+      element.querySelectorAll('.solaris-table__card-label').length,
+    ).toBeGreaterThan(0);
+    expect(element.getAttribute('data-card-layout')).toBeTruthy();
+  });
+
+  it('should support layout=card as an alias of mobile', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('expandable', true);
+    fixture.componentRef.setInput('layout', 'card');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelector('table')).toBeFalsy();
+    expect(element.getAttribute('data-layout')).toBe('card');
+  });
+
+  it('should expose appearance and striped-mode as data attributes', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('appearance', 'surface');
+    fixture.componentRef.setInput('striped', true);
+    fixture.componentRef.setInput('stripedMode', 'odd');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.getAttribute('data-appearance')).toBe('surface');
+    expect(element.getAttribute('data-striped-mode')).toBe('odd');
+  });
+
+  it('should render the error state inside the table chrome', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('error', 'Boom');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelector('table')).toBeTruthy();
+    expect(
+      element.querySelector(
+        'tbody tr.solaris-table__row--error [role="alert"]',
+      ),
+    ).toBeTruthy();
+  });
+
+  it('should expand cell details in a row below without opening the row', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(CellDetailHostComponent);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    const button = element.querySelector(
+      '.solaris-table__cell-expand',
+    ) as HTMLButtonElement;
+    expect(button.getAttribute('aria-expanded')).toBe('false');
+    button.click();
+    fixture.detectChanges();
+    expect(button.getAttribute('aria-expanded')).toBe('true');
+    const cellDetail = element.querySelector(
+      '.solaris-table__row--cell-detail',
+    );
+    expect(cellDetail).toBeTruthy();
+    expect(cellDetail?.textContent).toContain('Score 30 details');
+    expect(
+      element.querySelector(
+        '.solaris-table__row--detail:not(.solaris-table__row--cell-detail)',
+      ),
+    ).toBeFalsy();
+  });
+
+  it('should render free detail areas without term chrome', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(FreeDetailHostComponent);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
     (
-      element.querySelectorAll(
-        '.solaris-table__card-sort',
-      )[0] as HTMLButtonElement
+      element.querySelector('.solaris-table__cell-expand') as HTMLButtonElement
     ).click();
     fixture.detectChanges();
-    expect(fixture.componentInstance.sort()).toEqual({
-      columnId: 'name',
-      direction: 'asc',
-    });
-    const firstValue = element.querySelector(
-      '.solaris-table__card .solaris-table__card-value',
+    const free = element.querySelector('.solaris-table__detail-free');
+    expect(free).toBeTruthy();
+    expect(free?.textContent).toContain('Free:30');
+    expect(
+      element.querySelector(
+        '.solaris-table__row--cell-detail .solaris-table__detail-term',
+      ),
+    ).toBeFalsy();
+  });
+
+  it('should hide card labels when hideCardLabel is set', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      { id: 'name', header: 'Name', accessor: 'name', hideCardLabel: true },
+      { id: 'age', header: 'Age', accessor: 'age', type: 'number' },
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('expandable', true);
+    fixture.componentRef.setInput('layout', 'card');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    const labels = Array.from(
+      element.querySelectorAll('.solaris-table__card-label'),
+    ).map((label) => label.textContent?.trim());
+    expect(labels).not.toContain('Name');
+    expect(labels).toContain('Age');
+    expect(
+      element.querySelector('.solaris-table__card-field[data-hidelabel]'),
+    ).toBeTruthy();
+  });
+
+  it('should sort custom values through sortValueOf', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      {
+        id: 'name',
+        header: 'Name',
+        accessor: 'name',
+        sortable: true,
+        sortValueOf: (row: Person) => row.age,
+      },
+      { id: 'age', header: 'Age', accessor: 'age', type: 'number' },
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    (
+      element.querySelector(
+        '.solaris-table__head-cell[data-column-id="name"] button',
+      ) as HTMLButtonElement
+    ).click();
+    fixture.detectChanges();
+    const firstCell = element.querySelector(
+      'tbody tr.solaris-table__row .solaris-table__cell[data-column-id="name"]',
     );
-    expect(firstValue?.textContent?.trim()).toBe('Ana');
+    expect(firstCell?.textContent?.trim()).toContain('Ana');
   });
 
   it('should select rows from cards in mobile layout', () => {
@@ -577,4 +709,69 @@ class DetailHostComponent {
 })
 class StateSlotHostComponent {
   readonly columns: readonly SolarisTableColumn<Person>[] = COLUMNS;
+}
+
+@Component({
+  standalone: true,
+  imports: [SolarisTableComponent, SolarisTableDetailDirective],
+  template: `
+    <solaris-table
+      [data]="rows"
+      [columns]="columns"
+      rowId="id"
+      [expandable]="true"
+      expandMode="cell"
+    >
+      <ng-template solaris-table-detail="score-detail" let-row>
+        Score {{ row.age }} details
+      </ng-template>
+    </solaris-table>
+  `,
+})
+class CellDetailHostComponent {
+  readonly rows: readonly Person[] = ROWS;
+  readonly columns: readonly SolarisTableColumn<Person>[] = [
+    { id: 'name', header: 'Name', accessor: 'name' },
+    {
+      id: 'age',
+      header: 'Age',
+      accessor: 'age',
+      type: 'number',
+      expandable: true,
+      detailTemplateId: 'score-detail',
+    },
+  ];
+}
+
+@Component({
+  standalone: true,
+  imports: [SolarisTableComponent, SolarisTableDetailDirective],
+  template: `
+    <solaris-table
+      [data]="rows"
+      [columns]="columns"
+      rowId="id"
+      [expandable]="true"
+      expandMode="cell"
+    >
+      <ng-template solaris-table-detail="free-detail" let-row>
+        Free:{{ row.age }}
+      </ng-template>
+    </solaris-table>
+  `,
+})
+class FreeDetailHostComponent {
+  readonly rows: readonly Person[] = ROWS;
+  readonly columns: readonly SolarisTableColumn<Person>[] = [
+    { id: 'name', header: 'Name', accessor: 'name' },
+    {
+      id: 'age',
+      header: 'Age',
+      accessor: 'age',
+      type: 'number',
+      expandable: true,
+      detailVariant: 'free',
+      detailTemplateId: 'free-detail',
+    },
+  ];
 }

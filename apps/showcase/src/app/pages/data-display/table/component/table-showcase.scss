@@ -22,3 +22,35 @@
     var(--solaris-neutral-border-default);
   border-radius: var(--solaris-radius-lg);
 }
+
+.points-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.points-detail__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--solaris-spacing-3);
+  padding-block: var(--solaris-spacing-1);
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.points-detail__row + .points-detail__row {
+  border-top: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
+}
+
+.points-detail__gain {
+  color: var(--solaris-success-foreground);
+}
+
+.points-detail__loss {
+  color: var(--solaris-danger-foreground);
+}
+
+.points-detail__row--total {
+  color: var(--solaris-neutral-text-body);
+  font-weight: var(--solaris-font-weight-semibold);
+}

@@ -1,12 +1,27 @@
 import {
+  SOLARIS_TABLE_APPEARANCES,
   SOLARIS_TABLE_COLUMN_TYPES,
+  SOLARIS_TABLE_EXPAND_MODES,
+  SOLARIS_TABLE_LAYOUTS,
   SOLARIS_TABLE_SELECTION_MODES,
+  SOLARIS_TABLE_STRIPED_MODES,
+  type SolarisTableAppearance,
   type SolarisTableColumnType,
+  type SolarisTableExpandMode,
+  type SolarisTableLayout,
   type SolarisTableSelectionMode,
   type SolarisTableSort,
+  type SolarisTableStripedMode,
 } from './table.types';
 
-export { SOLARIS_TABLE_COLUMN_TYPES, SOLARIS_TABLE_SELECTION_MODES };
+export {
+  SOLARIS_TABLE_APPEARANCES,
+  SOLARIS_TABLE_COLUMN_TYPES,
+  SOLARIS_TABLE_EXPAND_MODES,
+  SOLARIS_TABLE_LAYOUTS,
+  SOLARIS_TABLE_SELECTION_MODES,
+  SOLARIS_TABLE_STRIPED_MODES,
+};
 
 const columnTypes = new Set<SolarisTableColumnType>(SOLARIS_TABLE_COLUMN_TYPES);
 const selectionModes = new Set<SolarisTableSelectionMode>(
@@ -52,6 +67,64 @@ export const TABLE_SORTED_ANNOUNCE_KEY =
 export const TABLE_SORTED_ANNOUNCE =
   'Table sorted by {{column}}, {{direction}}';
 export const TABLE_SORTED_CLEARED_ANNOUNCE = 'Table sorting cleared';
+export const TABLE_EXPAND_CELL_LABEL_KEY =
+  'solaris.dataDisplay.table.expandCell';
+export const TABLE_EXPAND_CELL_LABEL =
+  'Expand details for {{column}} in row {{rowId}}';
+export const TABLE_COLLAPSE_CELL_LABEL_KEY =
+  'solaris.dataDisplay.table.collapseCell';
+export const TABLE_COLLAPSE_CELL_LABEL =
+  'Collapse details for {{column}} in row {{rowId}}';
+
+export const DEFAULT_SOLARIS_TABLE_APPEARANCE: SolarisTableAppearance =
+  'outline';
+export const DEFAULT_SOLARIS_TABLE_STRIPED_MODE: SolarisTableStripedMode =
+  'even';
+export const DEFAULT_SOLARIS_TABLE_LAYOUT: SolarisTableLayout = 'auto';
+export const DEFAULT_SOLARIS_TABLE_EXPAND_MODE: SolarisTableExpandMode = 'row';
+
+const appearances = new Set<SolarisTableAppearance>(SOLARIS_TABLE_APPEARANCES);
+const stripedModes = new Set<SolarisTableStripedMode>(
+  SOLARIS_TABLE_STRIPED_MODES,
+);
+const layouts = new Set<SolarisTableLayout>(SOLARIS_TABLE_LAYOUTS);
+const expandModes = new Set<SolarisTableExpandMode>(SOLARIS_TABLE_EXPAND_MODES);
+
+export function normalizeTableAppearance(
+  value: string | null | undefined,
+): SolarisTableAppearance {
+  return appearances.has(value as SolarisTableAppearance)
+    ? (value as SolarisTableAppearance)
+    : DEFAULT_SOLARIS_TABLE_APPEARANCE;
+}
+
+export function normalizeTableStripedMode(
+  value: string | null | undefined,
+): SolarisTableStripedMode {
+  return stripedModes.has(value as SolarisTableStripedMode)
+    ? (value as SolarisTableStripedMode)
+    : DEFAULT_SOLARIS_TABLE_STRIPED_MODE;
+}
+
+export function normalizeTableLayout(
+  value: string | null | undefined,
+): SolarisTableLayout {
+  return layouts.has(value as SolarisTableLayout)
+    ? (value as SolarisTableLayout)
+    : DEFAULT_SOLARIS_TABLE_LAYOUT;
+}
+
+export function normalizeTableExpandMode(
+  value: string | null | undefined,
+): SolarisTableExpandMode {
+  return expandModes.has(value as SolarisTableExpandMode)
+    ? (value as SolarisTableExpandMode)
+    : DEFAULT_SOLARIS_TABLE_EXPAND_MODE;
+}
+
+export function cellExpansionKey(rowId: string, columnId: string): string {
+  return `${rowId}::${columnId}`;
+}
 
 export function normalizeTableColumnType(
   value: string | null | undefined,

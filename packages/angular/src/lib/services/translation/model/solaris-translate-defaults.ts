@@ -130,6 +130,25 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.avatar.verified': 'Verified',
       'solaris.avatar.notifications': '{{count}} notifications',
       'solaris.avatar.overflowMore': '{{count}} more people',
+
+      'solaris.dataDisplay.table.ariaLabel': 'Data table',
+      'solaris.dataDisplay.table.emptyText': 'No results found',
+      'solaris.dataDisplay.table.loadingText': 'Loading data',
+      'solaris.dataDisplay.table.errorText': 'Unable to load data',
+      'solaris.dataDisplay.table.selectAllVisible': 'Select all visible rows',
+      'solaris.dataDisplay.table.actionsColumn': 'Actions',
+      'solaris.dataDisplay.table.selectRow': 'Select row {{rowId}}',
+      'solaris.dataDisplay.table.sortAsc': 'Sort {{column}} ascending',
+      'solaris.dataDisplay.table.sortDesc': 'Sort {{column}} descending',
+      'solaris.dataDisplay.table.sortClear': 'Clear sorting for {{column}}',
+      'solaris.dataDisplay.table.expandRow': 'Expand row {{rowId}}',
+      'solaris.dataDisplay.table.collapseRow': 'Collapse row {{rowId}}',
+      'solaris.dataDisplay.table.sortedAnnounce':
+        'Table sorted by {{column}}, {{direction}}',
+      'solaris.dataDisplay.table.expandCell':
+        'Expand details for {{column}} in row {{rowId}}',
+      'solaris.dataDisplay.table.collapseCell':
+        'Collapse details for {{column}} in row {{rowId}}',
     },
     'pt-BR': {
       'solaris.button.loading': 'Carregando...',
@@ -256,6 +275,29 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.avatar.verified': 'Verificado',
       'solaris.avatar.notifications': '{{count}} notificações',
       'solaris.avatar.overflowMore': '{{count}} pessoas a mais',
+
+      'solaris.dataDisplay.table.ariaLabel': 'Tabela de dados',
+      'solaris.dataDisplay.table.emptyText': 'Nenhum resultado encontrado',
+      'solaris.dataDisplay.table.loadingText': 'Carregando dados',
+      'solaris.dataDisplay.table.errorText':
+        'Não foi possível carregar os dados',
+      'solaris.dataDisplay.table.selectAllVisible':
+        'Selecionar todas as linhas visíveis',
+      'solaris.dataDisplay.table.actionsColumn': 'Ações',
+      'solaris.dataDisplay.table.selectRow': 'Selecionar linha {{rowId}}',
+      'solaris.dataDisplay.table.sortAsc':
+        'Ordenar {{column}} em ordem crescente',
+      'solaris.dataDisplay.table.sortDesc':
+        'Ordenar {{column}} em ordem decrescente',
+      'solaris.dataDisplay.table.sortClear': 'Limpar ordenação de {{column}}',
+      'solaris.dataDisplay.table.expandRow': 'Expandir linha {{rowId}}',
+      'solaris.dataDisplay.table.collapseRow': 'Recolher linha {{rowId}}',
+      'solaris.dataDisplay.table.sortedAnnounce':
+        'Tabela ordenada por {{column}}, {{direction}}',
+      'solaris.dataDisplay.table.expandCell':
+        'Expandir detalhes de {{column}} na linha {{rowId}}',
+      'solaris.dataDisplay.table.collapseCell':
+        'Recolher detalhes de {{column}} na linha {{rowId}}',
     },
   },
   useBrowserLocale: true,

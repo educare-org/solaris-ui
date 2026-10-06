@@ -31,6 +31,34 @@ export const SOLARIS_TABLE_CELL_PADDINGS = ['none', 'sm', 'md', 'lg'] as const;
 export type SolarisTableCellPadding =
   (typeof SOLARIS_TABLE_CELL_PADDINGS)[number];
 
+export const SOLARIS_TABLE_APPEARANCES = [
+  'outline',
+  'surface',
+  'soft',
+  'plain',
+] as const;
+
+export type SolarisTableAppearance = (typeof SOLARIS_TABLE_APPEARANCES)[number];
+
+export const SOLARIS_TABLE_STRIPED_MODES = ['even', 'odd'] as const;
+
+export type SolarisTableStripedMode =
+  (typeof SOLARIS_TABLE_STRIPED_MODES)[number];
+
+export const SOLARIS_TABLE_LAYOUTS = ['auto', 'card'] as const;
+
+export type SolarisTableLayout = (typeof SOLARIS_TABLE_LAYOUTS)[number];
+
+export const SOLARIS_TABLE_EXPAND_MODES = ['row', 'cell', 'both'] as const;
+
+export type SolarisTableExpandMode =
+  (typeof SOLARIS_TABLE_EXPAND_MODES)[number];
+
+export const SOLARIS_TABLE_DETAIL_VARIANTS = ['list', 'free'] as const;
+
+export type SolarisTableDetailVariant =
+  (typeof SOLARIS_TABLE_DETAIL_VARIANTS)[number];
+
 export interface SolarisTableSort {
   readonly columnId: string;
   readonly direction: SolarisTableSortDirection;
@@ -52,6 +80,9 @@ export interface SolarisTableColumn<T = unknown> {
   readonly headerAlign?: SolarisTableAlign;
   readonly hidden?: boolean;
   readonly priority?: number;
+  readonly expandable?: boolean;
+  readonly detailVariant?: SolarisTableDetailVariant;
+  readonly hideCardLabel?: boolean;
   readonly cellTemplateId?: string;
   readonly headerTemplateId?: string;
   readonly detailTemplateId?: string;

@@ -145,6 +145,95 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section anchor="cell-expand" titleKey="table.section.cell-expand">
+    <p class="table-showcase__note">
+      {{ 'table.cell-expand.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="cellExpandCode"
+      language="html"
+    >
+      <solaris-table
+        [data]="basicRows"
+        [columns]="cellColumns"
+        rowId="id"
+        [expandable]="true"
+        expandMode="cell"
+      >
+        <ng-template solaris-table-detail="score-breakdown" let-row>
+          <div class="points-detail">
+            <div class="points-detail__row">
+              <span>Pontos ganhos</span>
+              <strong class="points-detail__gain"> +{{ row.score }} </strong>
+            </div>
+            <div class="points-detail__row">
+              <span>Pontos perdidos</span>
+              <strong class="points-detail__loss">
+                -{{ 1000 - row.score }}
+              </strong>
+            </div>
+            <div class="points-detail__row points-detail__row--total">
+              <span>Saldo total</span>
+              <strong>{{ row.score }}</strong>
+            </div>
+          </div>
+        </ng-template>
+        <ng-template solaris-table-detail="city-detail" let-row>
+          Based in {{ row.city }} · {{ row.age }} years old
+        </ng-template>
+      </solaris-table>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="appearance" titleKey="table.section.appearance">
+    <p class="table-showcase__note">
+      {{ 'table.appearance.note' | translate }}
+    </p>
+    <div class="table-showcase__controls">
+      <solaris-tabs
+        [(value)]="appearance"
+        [ariaLabel]="'table.section.appearance' | translate"
+      >
+        @for (item of appearances; track item) {
+        <solaris-tab [value]="item">{{ item }}</solaris-tab>
+        }
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="stripedMode"
+        [ariaLabel]="'table.section.appearance' | translate"
+      >
+        <solaris-tab value="even">even</solaris-tab>
+        <solaris-tab value="odd">odd</solaris-tab>
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="appearanceCode"
+      language="html"
+    >
+      <solaris-table
+        [data]="basicRows"
+        [columns]="basicColumns"
+        rowId="id"
+        [appearance]="appearance()"
+        [striped]="true"
+        [stripedMode]="stripedMode()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="wide" titleKey="table.section.wide">
+    <p class="table-showcase__note">{{ 'table.wide.note' | translate }}</p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="basicCode"
+      language="html"
+    >
+      <solaris-table [data]="basicRows" [columns]="wideColumns" rowId="id" />
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section anchor="mobile" titleKey="table.section.mobile">
     <p class="table-showcase__note">{{ 'table.mobile.note' | translate }}</p>
     <solaris-preview-code
@@ -158,8 +247,20 @@
           [columns]="fullColumns"
           rowId="id"
           [expandable]="true"
-          [mobile]="true"
+          layout="card"
         />
+      </div>
+    </solaris-preview-code>
+    <p class="table-showcase__note">
+      {{ 'table.mobile-composed.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="mobileComposedCode"
+      language="html"
+    >
+      <div class="table-showcase__phone">
+        <app-mobile-composed-table-example />
       </div>
     </solaris-preview-code>
   </app-docs-section>
@@ -228,7 +329,7 @@
         [data]="[]"
         [columns]="basicColumns"
         rowId="id"
-        error="Unable to load data"
+        errorKey="solaris.dataDisplay.table.errorText"
       />
       } @else {
       <solaris-table [data]="[]" [columns]="basicColumns" rowId="id" />

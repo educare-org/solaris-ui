@@ -52,8 +52,19 @@ export class PeopleTableExample {
       accessor: 'status',
       sortable: true,
       cellTemplateId: 'status',
+      align: 'center',
+      headerAlign: 'center',
+      sortValueOf: (row) =>
+        row.status === 'active' ? 0 : row.status === 'pending' ? 1 : 2,
     },
-    { id: 'age', header: 'Age', accessor: 'age', type: 'number' },
+    {
+      id: 'age',
+      header: 'Age',
+      accessor: 'age',
+      type: 'number',
+      align: 'end',
+      headerAlign: 'end',
+    },
   ];
   protected readonly rows: readonly TeamMember[] = [
     {

@@ -11,6 +11,9 @@ export const PT_BR_TABLE: Record<string, string> = {
   'table.section.people': 'Pessoas',
   'table.section.row-dialog': 'Diálogo de linha',
   'table.section.responsive': 'Responsivo',
+  'table.section.cell-expand': 'Expansão por célula',
+  'table.section.appearance': 'Aparência',
+  'table.section.wide': 'Muitas colunas',
   'table.section.mobile': 'Mobile',
   'table.section.layout': 'Layout',
   'table.section.states': 'Estados',
@@ -44,8 +47,16 @@ export const PT_BR_TABLE: Record<string, string> = {
     'Instale o pacote único do Solaris e importe o componente.',
   'table.props.note': 'Tabela de propriedades em breve.',
 
+  'table.cell-expand.note':
+    'Colunas com expandable ou detail template exibem um chevron ao lado do valor e abrem uma linha de detalhe abaixo só com aquela coluna.',
+  'table.appearance.note':
+    'Variantes outline, surface, soft e plain com zebra even ou odd.',
+  'table.wide.note':
+    'Tabelas largas rolam horizontalmente no viewport. Use fullWidth para distribuir as colunas.',
   'table.mobile.note':
-    'Tabela em largura de telefone em cards sem arrastar. Ordene pelos rótulos e force em qualquer lugar com mobile.',
+    'Tabela em largura de telefone em cards sem arrastar. Ordenação fica na futura barra de filtros; cards mostram rótulos simples.',
+  'table.mobile-composed.note':
+    'Cards compõem células de avatar, badge e ações como a tabela desktop.',
   'table.layout.note':
     'Auto dimensiona colunas pelo conteúdo. Full width distribui pelo container.',
   'table.layout.tab.auto': 'Auto',

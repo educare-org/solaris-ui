@@ -11,6 +11,9 @@ export const EN_US_TABLE: Record<string, string> = {
   'table.section.people': 'People',
   'table.section.row-dialog': 'Row dialog',
   'table.section.responsive': 'Responsive',
+  'table.section.cell-expand': 'Cell expansion',
+  'table.section.appearance': 'Appearance',
+  'table.section.wide': 'Many columns',
   'table.section.mobile': 'Mobile',
   'table.section.layout': 'Layout',
   'table.section.states': 'States',
@@ -44,8 +47,16 @@ export const EN_US_TABLE: Record<string, string> = {
     'Install the single Solaris package, then import the component.',
   'table.props.note': 'Props table coming soon.',
 
+  'table.cell-expand.note':
+    'Columns with expandable or a detail template render a chevron next to the value and open a detail row below with only that column.',
+  'table.appearance.note':
+    'Outline, surface, soft, and plain variants with even or odd striping.',
+  'table.wide.note':
+    'Wide tables scroll horizontally inside the viewport. Use fullWidth to distribute columns instead.',
   'table.mobile.note':
-    'Phone-width table rendered as cards with no horizontal dragging. Sort from the field labels and force it anywhere with mobile.',
+    'Phone-width table rendered as cards with no horizontal dragging. Sorting lives in the future filter bar; cards show plain labels.',
+  'table.mobile-composed.note':
+    'Cards compose avatar, badge, and action cells like the desktop table.',
   'table.layout.note':
     'Auto sizes columns to content. Full width distributes them across the container.',
   'table.layout.tab.auto': 'Auto',

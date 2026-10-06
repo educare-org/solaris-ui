@@ -70,4 +70,14 @@ export class SolarisTableHarness extends ComponentHarness {
       await target.click();
     }
   }
+
+  async toggleCellExpanded(rowIndex: number, columnId: string): Promise<void> {
+    const buttons = await this.locatorForAll(
+      `tbody tr.solaris-table__row .solaris-table__cell[data-column-id="${columnId}"] .solaris-table__cell-expand`,
+    )();
+    const target = buttons[rowIndex];
+    if (target) {
+      await target.click();
+    }
+  }
 }

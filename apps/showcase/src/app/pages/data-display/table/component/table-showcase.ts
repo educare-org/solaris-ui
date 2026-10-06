@@ -13,8 +13,10 @@ import {
   SolarisTranslatePipe,
   SolarisTranslateService,
   createServerTableDataSource,
+  type SolarisTableAppearance,
   type SolarisTableSelectionMode,
   type SolarisTableSort,
+  type SolarisTableStripedMode,
 } from '@solaris-ui/angular';
 
 import { ShowcaseDocsPageFooter } from '../../../../shell/docs-page-footer/docs-page-footer';
@@ -24,17 +26,22 @@ import { ShowcaseDocsSection } from '../../../../shell/docs-section/docs-section
 
 import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
 import {
+  TABLE_APPEARANCE_CODE,
+  TABLE_CELL_EXPAND_CODE,
   TABLE_CUSTOM_CELLS_CODE,
   TABLE_LAYOUT_CODE,
   TABLE_MOBILE_CODE,
+  TABLE_MOBILE_COMPOSED_CODE,
   TABLE_PEOPLE_CODE,
   TABLE_RESPONSIVE_CODE,
   TABLE_ROW_DIALOG_CODE,
   TABLE_SELECTION_CODE,
   TABLE_SERVER_CODE,
+  TABLE_SHOWCASE_APPEARANCES,
   TABLE_SHOWCASE_BASIC_CODE,
   TABLE_SHOWCASE_BASIC_COLUMNS,
   TABLE_SHOWCASE_BREADCRUMBS,
+  TABLE_SHOWCASE_CELL_COLUMNS,
   TABLE_SHOWCASE_CUSTOM_COLUMNS,
   TABLE_SHOWCASE_FULL_COLUMNS,
   TABLE_SHOWCASE_IMPORT_CODE,
@@ -44,6 +51,7 @@ import {
   TABLE_SHOWCASE_ROWS,
   TABLE_SHOWCASE_SLUG,
   TABLE_SHOWCASE_TOC_ITEMS,
+  TABLE_SHOWCASE_WIDE_COLUMNS,
   TABLE_SORTING_CODE,
   TABLE_STATES_CODE,
   TABLE_TRANSLATION_PREFIX,
@@ -51,6 +59,7 @@ import {
 } from '../model/table-showcase.data';
 
 import { BasicTableExample } from '../examples/basic/component/basic.component';
+import { MobileComposedTableExample } from '../examples/mobile-composed/component/mobile-composed.component';
 import { PeopleTableExample } from '../examples/people/component/people.component';
 import { RowDialogTableExample } from '../examples/row-dialog/component/row-dialog.component';
 import { WithPaginationTableExample } from '../examples/with-pagination/component/with-pagination.component';
@@ -72,6 +81,7 @@ import { WithPaginationTableExample } from '../examples/with-pagination/componen
     ShowcaseDocsPageLayout,
     ShowcaseDocsSection,
     BasicTableExample,
+    MobileComposedTableExample,
     PeopleTableExample,
     RowDialogTableExample,
     WithPaginationTableExample,
@@ -97,7 +107,14 @@ export class TableShowcasePage {
   protected readonly peopleCode = TABLE_PEOPLE_CODE;
   protected readonly rowDialogCode = TABLE_ROW_DIALOG_CODE;
   protected readonly responsiveCode = TABLE_RESPONSIVE_CODE;
+  protected readonly cellExpandCode = TABLE_CELL_EXPAND_CODE;
+  protected readonly appearanceCode = TABLE_APPEARANCE_CODE;
+  protected readonly appearances = TABLE_SHOWCASE_APPEARANCES;
+  protected readonly appearance = signal<SolarisTableAppearance>('surface');
+  protected readonly stripedMode = signal<SolarisTableStripedMode>('even');
+  protected readonly wideColumns = TABLE_SHOWCASE_WIDE_COLUMNS;
   protected readonly mobileCode = TABLE_MOBILE_CODE;
+  protected readonly mobileComposedCode = TABLE_MOBILE_COMPOSED_CODE;
   protected readonly layoutCode = TABLE_LAYOUT_CODE;
   protected readonly layoutMode = signal<'auto' | 'full'>('auto');
   protected readonly statesCode = TABLE_STATES_CODE;
@@ -107,6 +124,7 @@ export class TableShowcasePage {
   protected readonly basicRows = TABLE_SHOWCASE_ROWS.slice(0, 5);
   protected readonly basicColumns = TABLE_SHOWCASE_BASIC_COLUMNS;
   protected readonly fullColumns = TABLE_SHOWCASE_FULL_COLUMNS;
+  protected readonly cellColumns = TABLE_SHOWCASE_CELL_COLUMNS;
   protected readonly customColumns = TABLE_SHOWCASE_CUSTOM_COLUMNS;
 
   protected readonly sort = signal<SolarisTableSort | null>(null);

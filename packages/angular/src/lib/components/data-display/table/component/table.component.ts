@@ -34,12 +34,16 @@ import {
   TABLE_ACTIONS_COLUMN_LABEL_KEY,
   TABLE_ARIA_LABEL_FALLBACK_KEY,
   TABLE_ARIA_LABEL_FALLBACK_TEXT,
+  TABLE_COLLAPSE_CELL_LABEL,
+  TABLE_COLLAPSE_CELL_LABEL_KEY,
   TABLE_COLLAPSE_ROW_LABEL,
   TABLE_COLLAPSE_ROW_LABEL_KEY,
   TABLE_EMPTY_TEXT,
   TABLE_EMPTY_TEXT_KEY,
   TABLE_ERROR_TEXT,
   TABLE_ERROR_TEXT_KEY,
+  TABLE_EXPAND_CELL_LABEL,
+  TABLE_EXPAND_CELL_LABEL_KEY,
   TABLE_EXPAND_ROW_LABEL,
   TABLE_EXPAND_ROW_LABEL_KEY,
   TABLE_LOADING_TEXT,
@@ -57,11 +61,16 @@ import {
   TABLE_SORT_CLEAR_LABEL_KEY,
   TABLE_SORT_DESC_LABEL,
   TABLE_SORT_DESC_LABEL_KEY,
+  cellExpansionKey,
   interpolateTableText,
   normalizeOptionalString,
+  normalizeTableAppearance,
   normalizeTableColumnType,
+  normalizeTableExpandMode,
+  normalizeTableLayout,
   normalizeTableSelectionMode,
   normalizeTableSort,
+  normalizeTableStripedMode,
 } from '../model/table.defaults';
 import {
   isTableDataSource,
@@ -71,16 +80,20 @@ import {
   sortRows,
 } from '../model/table-state';
 import type {
+  SolarisTableAppearance,
   SolarisTableCellContext,
   SolarisTableCellPadding,
   SolarisTableColumn,
   SolarisTableDataSource,
   SolarisTableDensity,
+  SolarisTableExpandMode,
+  SolarisTableLayout,
   SolarisTableResolvedRow,
   SolarisTableRowClickEvent,
   SolarisTableSelectionChange,
   SolarisTableSelectionMode,
   SolarisTableSort,
+  SolarisTableStripedMode,
   SolarisTableViewColumn,
   SolarisTableViewRow,
 } from '../model/table.types';
@@ -107,12 +120,17 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-appearance]': 'normalizedAppearance()',
     '[attr.data-striped]': 'striped() || undefined',
+    '[attr.data-striped-mode]': 'normalizedStripedMode()',
     '[attr.data-hover]': 'hover() || undefined',
     '[attr.data-sticky-header]': 'stickyHeader() || undefined',
     '[attr.data-selectable]': 'isSelectable() || undefined',
     '[attr.data-expandable]': 'expandable() || undefined',
-    '[attr.data-mobile]': 'mobile() || undefined',
+    '[attr.data-expand-mode]': 'normalizedExpandMode()',
+    '[attr.data-mobile]': 'isMobileLayout() || undefined',
+    '[attr.data-layout]': 'normalizedLayout()',
+    '[attr.data-card-layout]': 'isCardLayout() || undefined',
     '[attr.data-fullwidth]': 'fullWidth() || undefined',
     '[attr.data-cell-padding]': 'cellPadding()',
   },
@@ -154,11 +172,21 @@ export class SolarisTableComponent<T = unknown> {
   readonly loadingText = input<string | null>(null);
   readonly loadingTextKey = input<string | null>(null);
   readonly striped = input(false, { transform: booleanAttribute });
+  readonly stripedMode = input<SolarisTableStripedMode>('even');
   readonly stickyHeader = input(true, { transform: booleanAttribute });
   readonly hover = input(true, { transform: booleanAttribute });
   readonly rowClickable = input(false, { transform: booleanAttribute });
   readonly expandable = input(false, { transform: booleanAttribute });
+  readonly expandMode = input<SolarisTableExpandMode>('row');
+  readonly appearance = input<SolarisTableAppearance>('outline');
   readonly mobile = input(false, { transform: booleanAttribute });
+  readonly layout = input<SolarisTableLayout>('auto');
+  readonly cardTitleOf = input<((row: T) => string | null) | undefined>(
+    undefined,
+  );
+  readonly cardSubtitleOf = input<((row: T) => string | null) | undefined>(
+    undefined,
+  );
   readonly fullWidth = input(false, { transform: booleanAttribute });
   readonly cellPadding = input<SolarisTableCellPadding>('none');
   readonly density = input<SolarisTableDensity | undefined>(undefined);
@@ -176,12 +204,45 @@ export class SolarisTableComponent<T = unknown> {
     normalizeTableSelectionMode(this.selectionMode()),
   );
 
+  protected readonly normalizedAppearance = computed(() =>
+    normalizeTableAppearance(this.appearance()),
+  );
+
+  protected readonly normalizedStripedMode = computed(() =>
+    normalizeTableStripedMode(this.stripedMode()),
+  );
+
+  protected readonly normalizedExpandMode = computed(() =>
+    normalizeTableExpandMode(this.expandMode()),
+  );
+
+  protected readonly normalizedLayout = computed(() => {
+    if (this.mobile()) {
+      return 'card' as SolarisTableLayout;
+    }
+    return normalizeTableLayout(this.layout());
+  });
+
+  protected readonly isMobileLayout = computed(
+    () => this.normalizedLayout() === 'card',
+  );
+
   protected readonly isSelectable = computed(
     () => this.normalizedSelectionMode() !== 'none',
   );
 
+  protected readonly isRowExpandable = computed(() => {
+    const mode = this.normalizedExpandMode();
+    return this.expandable() && (mode === 'row' || mode === 'both');
+  });
+
+  protected readonly isCellExpandable = computed(() => {
+    const mode = this.normalizedExpandMode();
+    return this.expandable() && (mode === 'cell' || mode === 'both');
+  });
+
   protected readonly isCardLayout = computed(
-    () => this.expandable() && (this.mobile() || this.narrowViewport()),
+    () => this.expandable() && (this.isMobileLayout() || this.narrowViewport()),
   );
 
   protected readonly cardColumns = computed(() =>
@@ -194,6 +255,7 @@ export class SolarisTableComponent<T = unknown> {
 
   private readonly narrowViewport = signal(false);
   private readonly expandedRowIds = signal<readonly string[]>([]);
+  private readonly expandedCells = signal<readonly string[]>([]);
   private readonly collapsingRowIds = signal<readonly string[]>([]);
   private readonly openedRowIds = signal<readonly string[]>([]);
   private readonly collapseTimers = new Map<
@@ -293,6 +355,14 @@ export class SolarisTableComponent<T = unknown> {
       (column) =>
         (column.priority !== undefined ||
           column.detailTemplateId !== undefined) &&
+        column.type !== 'checkbox',
+    ),
+  );
+
+  protected readonly cellExpandableColumns = computed(() =>
+    this.userColumns().filter(
+      (column) =>
+        (column.expandable === true || column.detailTemplateId !== undefined) &&
         column.type !== 'checkbox',
     ),
   );
@@ -434,8 +504,107 @@ export class SolarisTableComponent<T = unknown> {
   protected readonly sortAnnouncement = signal('');
 
   protected readonly detailColumnCount = computed(
-    () => this.renderedColumns().length + (this.expandable() ? 1 : 0),
+    () => this.renderedColumns().length + (this.isRowExpandable() ? 1 : 0),
   );
+
+  protected isCellExpandableColumn(column: SolarisTableViewColumn<T>): boolean {
+    if (!this.isCellExpandable() || column.type === 'checkbox') {
+      return false;
+    }
+    return column.expandable === true || column.detailTemplateId !== undefined;
+  }
+
+  protected isCellExpanded(
+    row: SolarisTableViewRow<T>,
+    column: SolarisTableViewColumn<T>,
+  ): boolean {
+    return this.expandedCells().includes(
+      cellExpansionKey(row.rowId, column.id),
+    );
+  }
+
+  protected cellDetailId(
+    row: SolarisTableViewRow<T>,
+    columnIndex: number,
+  ): string {
+    return `${this.hostId}-cell-detail-${row.rowId}-${columnIndex}`;
+  }
+
+  protected cellDetailRowId(rowIndex: number): string {
+    return `${this.hostId}-cell-detail-row-${rowIndex}`;
+  }
+
+  protected expandedCellColumns(
+    row: SolarisTableViewRow<T>,
+  ): readonly SolarisTableViewColumn<T>[] {
+    if (!this.isCellExpandable()) {
+      return [];
+    }
+    const expanded = new Set(this.expandedCells());
+    return this.userColumns().filter(
+      (column) =>
+        column.type !== 'checkbox' &&
+        expanded.has(cellExpansionKey(row.rowId, column.id)),
+    );
+  }
+
+  protected hasExpandedCells(row: SolarisTableViewRow<T>): boolean {
+    return this.expandedCellColumns(row).length > 0;
+  }
+
+  protected toggleCellExpanded(
+    row: SolarisTableViewRow<T>,
+    column: SolarisTableViewColumn<T>,
+  ): void {
+    if (!this.isCellExpandableColumn(column)) {
+      return;
+    }
+    const key = cellExpansionKey(row.rowId, column.id);
+    const current = this.expandedCells();
+    this.expandedCells.set(
+      current.includes(key)
+        ? current.filter((entry) => entry !== key)
+        : [...current, key],
+    );
+  }
+
+  protected resolveCellExpandLabel(
+    row: SolarisTableViewRow<T>,
+    column: SolarisTableViewColumn<T>,
+  ): string {
+    const columnLabel = this.resolveColumnHeader(column);
+    const expanded = this.isCellExpanded(row, column);
+    return interpolateTableText(
+      this.resolveText(
+        null,
+        expanded ? TABLE_COLLAPSE_CELL_LABEL_KEY : TABLE_EXPAND_CELL_LABEL_KEY,
+        expanded ? TABLE_COLLAPSE_CELL_LABEL : TABLE_EXPAND_CELL_LABEL,
+      ),
+      { column: columnLabel, rowId: row.rowId },
+    );
+  }
+
+  protected resolveCardTitle(row: SolarisTableViewRow<T>): string | null {
+    const custom = this.cardTitleOf?.();
+    if (custom) {
+      const value = custom(row.row);
+      if (value !== null && value.trim() !== '') {
+        return value;
+      }
+    }
+    return null;
+  }
+
+  protected resolveCardSubtitle(row: SolarisTableViewRow<T>): string | null {
+    const custom = this.cardSubtitleOf?.();
+    if (custom) {
+      const value = custom(row.row);
+      if (value !== null && value.trim() !== '') {
+        return value;
+      }
+    }
+    return null;
+  }
 
   protected trackByColumnId(
     index: number,
