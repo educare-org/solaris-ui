@@ -19,6 +19,7 @@ import {
 import { SolarisTranslateService } from '../../../../services/translation';
 
 import type {
+  SolarisAvatarProfileTextSize,
   SolarisAvatarSize,
   SolarisAvatarStatus,
 } from '../model/avatar.types';
@@ -35,6 +36,7 @@ import { SolarisBadgeComponent } from '../../badge';
   host: {
     class: 'solaris-avatar-profile',
     '[attr.data-size]': 'size()',
+    '[attr.data-text-size]': 'effectiveTextSize()',
     '[attr.data-compact]': 'compact() || undefined',
     '[attr.role]': 'hostRole()',
     '[attr.aria-label]': 'hostAriaLabel()',
@@ -46,6 +48,9 @@ export class SolarisAvatarProfileComponent implements AfterViewInit, OnDestroy {
   readonly name = input<string | undefined>(undefined);
   readonly userId = input<string | undefined>(undefined);
   readonly size = input<SolarisAvatarSize>('md');
+  readonly textSize = input<SolarisAvatarProfileTextSize | undefined>(
+    undefined,
+  );
 
   readonly title = input<string | undefined>(undefined);
   readonly titleKey = input<string | undefined>(undefined);
@@ -112,6 +117,23 @@ export class SolarisAvatarProfileComponent implements AfterViewInit, OnDestroy {
         ? this.translateService.translate(this.ariaLabelKey() as string)
         : undefined) ??
       this.resolvedTitle(),
+  );
+
+  protected readonly effectiveTextSize = computed<SolarisAvatarProfileTextSize>(
+    () => {
+      const override = this.textSize();
+      if (override === 'xs' || override === 'sm' || override === 'md') {
+        return override;
+      }
+      const size = this.size();
+      if (size === 'xs' || size === 'sm') {
+        return 'xs';
+      }
+      if (size === 'md') {
+        return 'sm';
+      }
+      return 'md';
+    },
   );
 
   protected readonly isLink = computed(() => this.href() !== undefined);

@@ -19,15 +19,13 @@
   font-family: var(--solaris-font-family-sans), system-ui;
 }
 
-:host([data-size='xs']),
-:host([data-size='sm']) {
+:host([data-text-size='xs']) {
   --solaris-avatar-profile-title-size: var(--solaris-font-size-xs);
   --solaris-avatar-profile-subtitle-size: var(--solaris-font-size-xs);
   --solaris-avatar-profile-line-height: var(--solaris-line-height-2xs);
 }
 
-:host([data-size='lg']),
-:host([data-size='xl']) {
+:host([data-text-size='md']) {
   --solaris-avatar-profile-gap: var(--solaris-spacing-6);
   --solaris-avatar-profile-title-size: var(--solaris-font-size-md);
   --solaris-avatar-profile-subtitle-size: var(--solaris-font-size-sm);

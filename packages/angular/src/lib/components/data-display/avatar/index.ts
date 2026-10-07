@@ -19,6 +19,7 @@ export type {
   SolarisAvatarFallback,
   SolarisAvatarGroupMemberEvent,
   SolarisAvatarGroupUser,
+  SolarisAvatarProfileTextSize,
   SolarisAvatarRadius,
   SolarisAvatarSize,
   SolarisAvatarStatus,

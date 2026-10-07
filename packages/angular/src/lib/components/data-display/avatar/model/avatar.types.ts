@@ -1,5 +1,7 @@
 export type SolarisAvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
+export type SolarisAvatarProfileTextSize = 'xs' | 'sm' | 'md';
+
 export type SolarisAvatarRadius = 'full' | 'md' | 'sm' | 'square';
 
 export type SolarisAvatarStatus =

@@ -157,4 +157,23 @@ describe('SolarisAvatarProfileComponent', () => {
       el.querySelector('.solaris-avatar-profile__actions button'),
     ).toBeTruthy();
   });
+
+  it('should map image size to text size by default', () => {
+    const fixture = TestBed.createComponent(SolarisAvatarProfileComponent);
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.detectChanges();
+    expect(
+      (fixture.nativeElement as HTMLElement).getAttribute('data-text-size'),
+    ).toBe('xs');
+  });
+
+  it('should allow an explicit text size override', () => {
+    const fixture = TestBed.createComponent(SolarisAvatarProfileComponent);
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.componentRef.setInput('textSize', 'sm');
+    fixture.detectChanges();
+    expect(
+      (fixture.nativeElement as HTMLElement).getAttribute('data-text-size'),
+    ).toBe('sm');
+  });
 });
