@@ -1,7 +1,7 @@
 :host {
   --solaris-table-color: var(--solaris-neutral-text-body);
   --solaris-table-background: var(--solaris-neutral-default);
-  --solaris-table-header-font-size: var(--solaris-font-size-sm);
+  --solaris-table-header-font-size: var(--solaris-font-size-xs);
   --solaris-table-cell-padding-normal: var(--solaris-spacing-6);
   --solaris-table-row-height-compact: var(--solaris-spacing-11);
   --solaris-table-cell-padding-compact: var(--solaris-spacing-5);
@@ -64,6 +64,26 @@
   overflow: hidden;
   border-radius: var(--solaris-radius-md);
   border: var(--solaris-border-width-sm) solid var(--solaris-table-border-color);
+}
+
+:host([data-radius='none']) .solaris-table__frame {
+  border-radius: var(--solaris-spacing-0);
+}
+
+:host([data-radius='sm']) .solaris-table__frame {
+  border-radius: var(--solaris-radius-sm);
+}
+
+:host([data-radius='lg']) .solaris-table__frame {
+  border-radius: var(--solaris-radius-lg);
+}
+
+:host([data-appearance='grid'])
+  .solaris-table__head-cell
+  + .solaris-table__head-cell,
+:host([data-appearance='grid']) .solaris-table__cell + .solaris-table__cell {
+  border-inline-start: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
 }
 
 :host([data-appearance='surface']) .solaris-table__frame {
@@ -161,6 +181,19 @@
 :host([data-fullwidth]) .solaris-table__table {
   min-width: 100%;
   table-layout: fixed;
+}
+
+.solaris-table__head-label {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--solaris-spacing-3);
+}
+
+.solaris-table__head-icon {
+  flex-shrink: 0;
+  align-self: center;
+  line-height: 1;
+  font-size: var(--solaris-font-size-sm);
 }
 
 .solaris-table__head-cell {
@@ -332,7 +365,7 @@
   align-items: center;
   display: inline-flex;
   background: transparent;
-  gap: var(--solaris-spacing-5);
+  gap: var(--solaris-spacing-3);
   border: var(--solaris-spacing-0);
   padding: var(--solaris-spacing-0);
   border-radius: var(--solaris-radius-sm);
@@ -347,10 +380,12 @@
 .solaris-table__sort-indicator {
   flex-shrink: 0;
   position: relative;
+  top: var(--solaris-spacing-1);
+  align-self: center;
   display: inline-flex;
-  width: calc(var(--solaris-spacing-6) + var(--solaris-spacing-4));
-  height: calc(var(--solaris-spacing-6) + var(--solaris-spacing-4));
-  font-size: calc(var(--solaris-spacing-6) + var(--solaris-spacing-4));
+  width: var(--solaris-spacing-7);
+  height: var(--solaris-spacing-7);
+  font-size: var(--solaris-spacing-7);
 }
 
 .solaris-table__sort-part {
@@ -459,6 +494,54 @@
 .solaris-table__cell--empty {
   text-align: center;
   color: var(--solaris-neutral-text-secondary);
+}
+
+.solaris-table__cell--add {
+  padding: var(--solaris-spacing-0);
+}
+
+.solaris-table__add-row {
+  font: inherit;
+  width: 100%;
+  cursor: pointer;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  background: transparent;
+  gap: var(--solaris-spacing-3);
+  border: var(--solaris-spacing-0);
+  padding: var(--solaris-spacing-5) var(--solaris-table-cell-padding-x);
+  border-radius: var(--solaris-radius-sm);
+  color: var(--solaris-neutral-text-secondary);
+  font-weight: var(--solaris-font-weight-medium);
+}
+
+.solaris-table__add-row:hover {
+  background: var(--solaris-table-hover-background);
+}
+
+.solaris-table__add-row:focus-visible {
+  outline-offset: calc(var(--solaris-focus-ring-offset) * -1);
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+}
+
+.solaris-table__add-row-icon {
+  flex-shrink: 0;
+  font-size: var(--solaris-font-size-sm);
+}
+
+.solaris-table__row--add .solaris-table__cell--add {
+  border-bottom: var(--solaris-spacing-0);
+  border-top: var(--solaris-border-width-sm) dashed
+    var(--solaris-neutral-border-subtle);
+}
+
+.solaris-table__add-row--card {
+  margin-top: var(--solaris-spacing-6);
+  border: var(--solaris-border-width-sm) dashed
+    var(--solaris-neutral-border-default);
+  border-radius: var(--solaris-radius-md);
 }
 
 .solaris-table__row--detail .solaris-table__cell--detail {

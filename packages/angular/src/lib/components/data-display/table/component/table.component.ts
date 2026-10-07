@@ -34,6 +34,8 @@ import {
   SOLARIS_TABLE_SELECTION_COLUMN_ID,
   TABLE_ACTIONS_COLUMN_LABEL,
   TABLE_ACTIONS_COLUMN_LABEL_KEY,
+  TABLE_ADD_ROW_LABEL,
+  TABLE_ADD_ROW_LABEL_KEY,
   TABLE_ARIA_LABEL_FALLBACK_KEY,
   TABLE_ARIA_LABEL_FALLBACK_TEXT,
   TABLE_COLLAPSE_CELL_LABEL,
@@ -69,7 +71,9 @@ import {
   normalizeTableAppearance,
   normalizeTableColumnType,
   normalizeTableExpandMode,
+  normalizeTableIconPosition,
   normalizeTableLayout,
+  normalizeTableRadius,
   normalizeTableSelectionMode,
   normalizeTableSort,
   normalizeTableStripedMode,
@@ -90,6 +94,7 @@ import type {
   SolarisTableDensity,
   SolarisTableExpandMode,
   SolarisTableLayout,
+  SolarisTableRadius,
   SolarisTableResolvedRow,
   SolarisTableRowClickEvent,
   SolarisTableSelectionChange,
@@ -125,6 +130,7 @@ import {
   host: {
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-appearance]': 'normalizedAppearance()',
+    '[attr.data-radius]': 'normalizedRadius()',
     '[attr.data-striped]': 'striped() || undefined',
     '[attr.data-striped-mode]': 'normalizedStripedMode()',
     '[attr.data-hover]': 'hover() || undefined',
@@ -185,6 +191,10 @@ export class SolarisTableComponent<T = unknown> {
   readonly expandable = input(false, { transform: booleanAttribute });
   readonly expandMode = input<SolarisTableExpandMode>('row');
   readonly appearance = input<SolarisTableAppearance>('outline');
+  readonly radius = input<SolarisTableRadius>('md');
+  readonly showAddRow = input(false, { transform: booleanAttribute });
+  readonly addRowLabel = input<string | null>(null);
+  readonly addRowLabelKey = input<string | null>(null);
   readonly mobile = input(false, { transform: booleanAttribute });
   readonly layout = input<SolarisTableLayout>('auto');
   readonly cardTitleOf = input<((row: T) => string | null) | undefined>(
@@ -201,6 +211,7 @@ export class SolarisTableComponent<T = unknown> {
 
   readonly selectionChange = output<SolarisTableSelectionChange<T>>();
   readonly rowClick = output<SolarisTableRowClickEvent<T>>();
+  readonly addRowRequest = output<void>();
 
   protected readonly effectiveDensity = computed(
     () => this.density() ?? this.themeService.density,
@@ -212,6 +223,10 @@ export class SolarisTableComponent<T = unknown> {
 
   protected readonly normalizedAppearance = computed(() =>
     normalizeTableAppearance(this.appearance()),
+  );
+
+  protected readonly normalizedRadius = computed(() =>
+    normalizeTableRadius(this.radius()),
   );
 
   protected readonly normalizedStripedMode = computed(() =>
@@ -255,10 +270,6 @@ export class SolarisTableComponent<T = unknown> {
     this.userColumns().filter((column) => column.type !== 'checkbox'),
   );
 
-  protected readonly isBrowser = computed(() =>
-    isPlatformBrowser(this.platformId),
-  );
-
   private readonly narrowViewport = signal(false);
   private readonly expandedRowIds = signal<readonly string[]>([]);
   private readonly expandedCells = signal<readonly string[]>([]);
@@ -279,7 +290,7 @@ export class SolarisTableComponent<T = unknown> {
     const view = isPlatformBrowser(this.platformId)
       ? this.document.defaultView
       : null;
-    if (typeof view?.matchMedia !== 'undefined') {
+    if (view?.matchMedia !== undefined) {
       const query = view.matchMedia('(max-width: 720px)');
       this.narrowViewport.set(query.matches);
       const listener = (event: MediaQueryListEvent): void => {
@@ -365,14 +376,6 @@ export class SolarisTableComponent<T = unknown> {
       (column) =>
         (column.priority !== undefined ||
           column.detailTemplateId !== undefined) &&
-        column.type !== 'checkbox',
-    ),
-  );
-
-  protected readonly cellExpandableColumns = computed(() =>
-    this.userColumns().filter(
-      (column) =>
-        (column.expandable === true || column.detailTemplateId !== undefined) &&
         column.type !== 'checkbox',
     ),
   );
@@ -480,6 +483,14 @@ export class SolarisTableComponent<T = unknown> {
     ).trim(),
   );
 
+  protected readonly resolvedAddRowLabel = computed(() =>
+    this.resolveText(
+      this.addRowLabel(),
+      this.addRowLabelKey() ?? TABLE_ADD_ROW_LABEL_KEY,
+      TABLE_ADD_ROW_LABEL,
+    ).trim(),
+  );
+
   protected readonly hasError = computed(
     () => this.resolvedErrorText().length > 0 && !this.effectiveLoading(),
   );
@@ -558,20 +569,6 @@ export class SolarisTableComponent<T = unknown> {
     );
   }
 
-  protected collapsingCellColumns(
-    row: SolarisTableViewRow<T>,
-  ): readonly SolarisTableViewColumn<T>[] {
-    if (!this.isCellExpandable()) {
-      return [];
-    }
-    const collapsing = new Set(this.collapsingCells());
-    return this.userColumns().filter(
-      (column) =>
-        column.type !== 'checkbox' &&
-        collapsing.has(cellExpansionKey(row.rowId, column.id)),
-    );
-  }
-
   protected visibleCellColumns(
     row: SolarisTableViewRow<T>,
   ): readonly SolarisTableViewColumn<T>[] {
@@ -587,10 +584,6 @@ export class SolarisTableComponent<T = unknown> {
         column.type !== 'checkbox' &&
         visible.has(cellExpansionKey(row.rowId, column.id)),
     );
-  }
-
-  protected hasExpandedCells(row: SolarisTableViewRow<T>): boolean {
-    return this.expandedCellColumns(row).length > 0;
   }
 
   protected isCellDetailRowVisible(row: SolarisTableViewRow<T>): boolean {
@@ -734,6 +727,26 @@ export class SolarisTableComponent<T = unknown> {
 
   protected resolveColumnHeader(column: SolarisTableViewColumn<T>): string {
     return this.resolveText(column.header, column.headerKey, column.id).trim();
+  }
+
+  protected resolveColumnIcon(
+    column: SolarisTableViewColumn<T>,
+  ): string | null {
+    const icon = column.icon?.trim();
+    return icon && icon.length > 0 ? icon : null;
+  }
+
+  protected resolveColumnIconPosition(
+    column: SolarisTableViewColumn<T>,
+  ): 'start' | 'end' {
+    return normalizeTableIconPosition(column.iconPosition);
+  }
+
+  protected handleAddRow(): void {
+    if (!this.showAddRow() || this.effectiveLoading()) {
+      return;
+    }
+    this.addRowRequest.emit();
   }
 
   protected resolveColumnWidthStyles(

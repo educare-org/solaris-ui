@@ -80,4 +80,16 @@ export class SolarisTableHarness extends ComponentHarness {
       await target.click();
     }
   }
+
+  async addRowVisible(): Promise<boolean> {
+    const rows = await this.locatorForAll(
+      'tbody tr.solaris-table__row--add, .solaris-table__add-row',
+    )();
+    return rows.length > 0;
+  }
+
+  async clickAddRow(): Promise<void> {
+    const button = await this.locatorFor('.solaris-table__add-row')();
+    await button.click();
+  }
 }

@@ -743,6 +743,81 @@ class CellDetailHostComponent {
   ];
 }
 
+describe('SolarisTableComponent polish', () => {
+  it('should expose radius on the host', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('radius', 'lg');
+    fixture.detectChanges();
+    expect(
+      (fixture.nativeElement as HTMLElement).getAttribute('data-radius'),
+    ).toBe('lg');
+  });
+
+  it('should render column icons on both positions', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      { id: 'name', header: 'Name', accessor: 'name', icon: 'user' },
+      {
+        id: 'age',
+        header: 'Age',
+        accessor: 'age',
+        type: 'number',
+        icon: 'calendar',
+        iconPosition: 'end',
+      },
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelectorAll('.solaris-table__head-icon').length).toBe(
+      2,
+    );
+  });
+
+  it('should emit addRowRequest from the add row', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('showAddRow', true);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    const button = element.querySelector(
+      '.solaris-table__add-row',
+    ) as HTMLButtonElement;
+    expect(button).toBeTruthy();
+    let emitted = 0;
+    fixture.componentRef.instance.addRowRequest.subscribe(() => {
+      emitted += 1;
+    });
+    button.click();
+    expect(emitted).toBe(1);
+  });
+
+  it('should hide the add row while loading', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('showAddRow', true);
+    fixture.componentRef.setInput('loading', true);
+    fixture.detectChanges();
+    expect(
+      (fixture.nativeElement as HTMLElement).querySelector(
+        '.solaris-table__add-row',
+      ),
+    ).toBeFalsy();
+  });
+});
+
 @Component({
   standalone: true,
   imports: [SolarisTableComponent, SolarisTableDetailDirective],

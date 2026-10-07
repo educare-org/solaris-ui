@@ -23,47 +23,51 @@ Table displays structured rows and columns with sorting, selection, and loading/
 
 **Selector:** `solaris-table`
 
-| Input                            | Type                                                  | Default     | Description                                                                          |
-| -------------------------------- | ----------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------ |
-| `data`                           | `SolarisTableDataSource<T> \| readonly T[]`           | `[]`        | Rows or an external data source (server mode)                                        |
-| `columns`                        | `readonly SolarisTableColumn<T>[]`                    | `[]`        | Column definitions                                                                   |
-| `rowId`                          | `keyof T \| ((row, index) => string)`                 | required    | Stable row identity                                                                  |
-| `sort`                           | `SolarisTableSort \| null` (model)                    | `null`      | Controlled sort state (cycle null → asc → desc → null)                               |
-| `selectedRowIds`                 | `readonly string[]` (model)                           | `[]`        | Two-way selected row ids                                                             |
-| `selectionMode`                  | `'none' \| 'single' \| 'multiple'`                    | `'none'`    | Selection behavior                                                                   |
-| `loading`                        | `boolean`                                             | `false`     | Loading state (skeleton rows)                                                        |
-| `error` / `errorKey`             | `string \| null`                                      | `null`      | Error state text (rendered inside the table chrome, keeps headers)                   |
-| `emptyText` / `emptyTextKey`     | `string \| null`                                      | `null`      | Empty state text (default covers en-US/pt-BR)                                        |
-| `loadingText` / `loadingTextKey` | `string \| null`                                      | `null`      | Loading announcement text                                                            |
-| `appearance`                     | `'outline' \| 'surface' \| 'soft' \| 'plain'`         | `'outline'` | `outline` bordered, `surface` solid header, `soft` borderless, `plain` dividers only |
-| `striped`                        | `boolean`                                             | `false`     | Zebra rows                                                                           |
-| `stripedMode`                    | `'even' \| 'odd'`                                     | `'even'`    | Which rows get the zebra background                                                  |
-| `stickyHeader`                   | `boolean`                                             | `true`      | Sticky header                                                                        |
-| `hover`                          | `boolean`                                             | `true`      | Row hover highlight                                                                  |
-| `rowClickable`                   | `boolean`                                             | `false`     | Row action button in the first cell                                                  |
-| `expandable`                     | `boolean`                                             | `false`     | Enables row and/or cell expansion                                                    |
-| `expandMode`                     | `'row' \| 'cell' \| 'both'`                           | `'row'`     | `row` detail row for priority columns, `cell` inline chevron per expandable column   |
-| `layout`                         | `'auto' \| 'card'`                                    | `'auto'`    | `card` forces the card layout regardless of viewport (requires `expandable`)         |
-| `mobile`                         | `boolean`                                             | `false`     | Deprecated alias of `layout="card"`                                                  |
-| `cardTitleOf` / `cardSubtitleOf` | `(row) => string \| null`                             | —           | Optional card header lines in card layout                                            |
-| `fullWidth`                      | `boolean`                                             | `false`     | Fixed table layout distributing columns across the container                         |
-| `cellPadding`                    | `'none' \| 'sm' \| 'md' \| 'lg'`                      | `'none'`    | Extra vertical cell breathing room (spacing-3/5/6)                                   |
-| `density`                        | `'compact' \| 'normal' \| 'comfortable' \| undefined` | inherited   | Density variant                                                                      |
-| `ariaLabel` / `ariaLabelKey`     | `string \| undefined`                                 | `undefined` | Accessible table name                                                                |
+| Input                                           | Type                                                    | Default     | Description                                                                                                 |
+| ----------------------------------------------- | ------------------------------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------- |
+| `data`                                          | `SolarisTableDataSource<T> \| readonly T[]`             | `[]`        | Rows or an external data source (server mode)                                                               |
+| `columns`                                       | `readonly SolarisTableColumn<T>[]`                      | `[]`        | Column definitions                                                                                          |
+| `rowId`                                         | `keyof T \| ((row, index) => string)`                   | required    | Stable row identity                                                                                         |
+| `sort`                                          | `SolarisTableSort \| null` (model)                      | `null`      | Controlled sort state (cycle null → asc → desc → null)                                                      |
+| `selectedRowIds`                                | `readonly string[]` (model)                             | `[]`        | Two-way selected row ids                                                                                    |
+| `selectionMode`                                 | `'none' \| 'single' \| 'multiple'`                      | `'none'`    | Selection behavior                                                                                          |
+| `loading`                                       | `boolean`                                               | `false`     | Loading state (skeleton rows)                                                                               |
+| `error` / `errorKey`                            | `string \| null`                                        | `null`      | Error state text (rendered inside the table chrome, keeps headers)                                          |
+| `emptyText` / `emptyTextKey`                    | `string \| null`                                        | `null`      | Empty state text (default covers en-US/pt-BR)                                                               |
+| `loadingText` / `loadingTextKey`                | `string \| null`                                        | `null`      | Loading announcement text                                                                                   |
+| `appearance`                                    | `'outline' \| 'surface' \| 'soft' \| 'plain' \| 'grid'` | `'outline'` | `outline` bordered, `surface` solid header, `soft` borderless, `plain` dividers only, `grid` full cell grid |
+| `radius`                                        | `'none' \| 'sm' \| 'md' \| 'lg'`                        | `'md'`      | Frame corner radius                                                                                         |
+| `showAddRow` / `addRowLabel` / `addRowLabelKey` | `boolean` / `string \| null`                            | `false`     | Inline creation row emitting `addRowRequest`; toolbar action buttons stay separate                          |
+| `striped`                                       | `boolean`                                               | `false`     | Zebra rows                                                                                                  |
+| `stripedMode`                                   | `'even' \| 'odd'`                                       | `'even'`    | Which rows get the zebra background                                                                         |
+| `stickyHeader`                                  | `boolean`                                               | `true`      | Sticky header                                                                                               |
+| `hover`                                         | `boolean`                                               | `true`      | Row hover highlight                                                                                         |
+| `rowClickable`                                  | `boolean`                                               | `false`     | Row action button in the first cell                                                                         |
+| `expandable`                                    | `boolean`                                               | `false`     | Enables row and/or cell expansion                                                                           |
+| `expandMode`                                    | `'row' \| 'cell' \| 'both'`                             | `'row'`     | `row` detail row for priority columns, `cell` inline chevron per expandable column                          |
+| `layout`                                        | `'auto' \| 'card'`                                      | `'auto'`    | `card` forces the card layout regardless of viewport (requires `expandable`)                                |
+| `mobile`                                        | `boolean`                                               | `false`     | Deprecated alias of `layout="card"`                                                                         |
+| `cardTitleOf` / `cardSubtitleOf`                | `(row) => string \| null`                               | —           | Optional card header lines in card layout                                                                   |
+| `fullWidth`                                     | `boolean`                                               | `false`     | Fixed table layout distributing columns across the container                                                |
+| `cellPadding`                                   | `'none' \| 'sm' \| 'md' \| 'lg'`                        | `'none'`    | Extra vertical cell breathing room (spacing-3/5/6)                                                          |
+| `density`                                       | `'compact' \| 'normal' \| 'comfortable' \| undefined`   | inherited   | Density variant                                                                                             |
+| `ariaLabel` / `ariaLabelKey`                    | `string \| undefined`                                   | `undefined` | Accessible table name                                                                                       |
 
-| Output                 | Type                             | Description                                |
-| ---------------------- | -------------------------------- | ------------------------------------------ |
-| `sortChange`           | `SolarisTableSort \| null`       | Emitted on sort cycle (model output)       |
-| `selectedRowIdsChange` | `readonly string[]`              | Emitted on selection change (model output) |
-| `selectionChange`      | `SolarisTableSelectionChange<T>` | Selected rows, ids, and changed row        |
-| `rowClick`             | `SolarisTableRowClickEvent<T>`   | Row action button activation               |
+| Output                 | Type                             | Description                                  |
+| ---------------------- | -------------------------------- | -------------------------------------------- |
+| `addRowRequest`        | `void`                           | Emitted by the inline add row (`showAddRow`) |
+| `sortChange`           | `SolarisTableSort \| null`       | Emitted on sort cycle (model output)         |
+| `selectedRowIdsChange` | `readonly string[]`              | Emitted on selection change (model output)   |
+| `selectionChange`      | `SolarisTableSelectionChange<T>` | Selected rows, ids, and changed row          |
+| `rowClick`             | `SolarisTableRowClickEvent<T>`   | Row action button activation                 |
 
 ### Column
 
 | Field                                    | Type                                                     | Description                                                                        |
 | ---------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------- |
 | `id`                                     | `string`                                                 | Unique column id                                                                   |
-| `header` / `headerKey`                   | `string`                                                 | Header text                                                                        |
+| `header` / `headerKey`                   | `string`                                                 | Header text (`xs`, smaller than row text)                                          |
+| `icon` / `iconPosition`                  | `string` / `'start' \| 'end'`                            | Decorative header icon shortcut; `headerTemplateId` stays for rich headers         |
 | `type`                                   | `'text' \| 'number' \| 'date' \| 'checkbox' \| 'custom'` | Rendering and sort semantics                                                       |
 | `accessor`                               | `keyof T \| ((row) => unknown)`                          | Raw value                                                                          |
 | `displayValueOf`                         | `(row) => string \| null`                                | Displayed text                                                                     |
@@ -174,6 +178,22 @@ Default: inherited from the theme system via `effectiveDensity` (`density() ?? t
 ```html
 <solaris-table [data]="rows" [columns]="columns" rowId="id" [(sort)]="sort" [(selectedRowIds)]="selected" selectionMode="multiple" />
 
+<solaris-table [data]="rows" [columns]="columns" rowId="id" appearance="grid" radius="lg" />
+
+<solaris-table [data]="rows" [columns]="columns" rowId="id" [showAddRow]="true" (addRowRequest)="onAddRow()" />
+```
+
+Toolbar custom actions use the leading/trailing slots; they are independent
+from the inline add row:
+
+```html
+<solaris-table-toolbar [columns]="columns" [(filter)]="filter">
+  <ng-template solaris-table-toolbar-trailing>
+    <button solaris-button appearance="solid">New</button>
+  </ng-template>
+</solaris-table-toolbar>
+```
+
 <ng-template solaris-table-cell="actions" let-row>
   <button type="button" (click)="edit(row)">Edit</button>
 </ng-template>
@@ -181,9 +201,10 @@ Default: inherited from the theme system via `effectiveDensity` (`density() ?? t
 
 ```html
 <!-- Avatar + badge composition with vertical rhythm -->
+<!-- Tables use avatar size="sm" textSize="sm" with cellPadding="lg" -->
 <solaris-table [data]="rows" [columns]="columns" rowId="id" cellPadding="lg">
   <ng-template solaris-table-cell="person" let-row>
-    <solaris-avatar-profile size="xs" [title]="row.name" [subtitle]="row.email" />
+    <solaris-avatar-profile size="sm" textSize="sm" [title]="row.name" [subtitle]="row.email" />
   </ng-template>
   <ng-template solaris-table-cell="status" let-row>
     <solaris-badge size="sm" appearance="solid" [color]="statusColorOf(row.status)"> {{ row.status }} </solaris-badge>

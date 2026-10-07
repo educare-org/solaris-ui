@@ -197,6 +197,21 @@
               </li>
             }
           </ul>
+          @if (showAddRow() && !effectiveLoading() && !hasError()) {
+            <button
+              type="button"
+              class="solaris-table__add-row solaris-table__add-row--card"
+              (click)="handleAddRow()"
+              [attr.aria-label]="resolvedAddRowLabel()"
+            >
+              <solaris-icon
+                class="solaris-table__add-row-icon"
+                name="plus"
+                [decorative]="true"
+              />
+              <span>{{ resolvedAddRowLabel() }}</span>
+            </button>
+          }
         }
       </div>
     } @else {
@@ -261,9 +276,27 @@
                       (click)="toggleSort(column)"
                       [attr.aria-label]="sortButtonLabel(column)"
                     >
+                      @if (resolveColumnIcon(column); as headerIcon) {
+                        @if (resolveColumnIconPosition(column) === 'start') {
+                          <solaris-icon
+                            class="solaris-table__head-icon"
+                            [name]="headerIcon"
+                            [decorative]="true"
+                          />
+                        }
+                      }
                       <span class="solaris-table__sort-button-text">
                         {{ resolveColumnHeader(column) }}
                       </span>
+                      @if (resolveColumnIcon(column); as headerIconEnd) {
+                        @if (resolveColumnIconPosition(column) === 'end') {
+                          <solaris-icon
+                            class="solaris-table__head-icon"
+                            [name]="headerIconEnd"
+                            [decorative]="true"
+                          />
+                        }
+                      }
                       <ng-container
                         *ngTemplateOutlet="
                           sortArrows;
@@ -282,7 +315,27 @@
                     ></ng-container>
                   } @else {
                     <span class="solaris-table__head-label">
-                      {{ resolveColumnHeader(column) }}
+                      @if (resolveColumnIcon(column); as labelIcon) {
+                        @if (resolveColumnIconPosition(column) === 'start') {
+                          <solaris-icon
+                            class="solaris-table__head-icon"
+                            [name]="labelIcon"
+                            [decorative]="true"
+                          />
+                        }
+                      }
+                      <span class="solaris-table__head-label-text">{{
+                        resolveColumnHeader(column)
+                      }}</span>
+                      @if (resolveColumnIcon(column); as labelIconEnd) {
+                        @if (resolveColumnIconPosition(column) === 'end') {
+                          <solaris-icon
+                            class="solaris-table__head-icon"
+                            [name]="labelIconEnd"
+                            [decorative]="true"
+                          />
+                        }
+                      }
                     </span>
                   }
                 }
@@ -658,6 +711,28 @@
                 </tr>
               }
             }
+          }
+          @if (showAddRow() && !effectiveLoading() && !hasError()) {
+            <tr class="solaris-table__row solaris-table__row--add">
+              <td
+                class="solaris-table__cell solaris-table__cell--add"
+                [attr.colspan]="detailColumnCount()"
+              >
+                <button
+                  type="button"
+                  class="solaris-table__add-row"
+                  (click)="handleAddRow()"
+                  [attr.aria-label]="resolvedAddRowLabel()"
+                >
+                  <solaris-icon
+                    class="solaris-table__add-row-icon"
+                    name="plus"
+                    [decorative]="true"
+                  />
+                  <span>{{ resolvedAddRowLabel() }}</span>
+                </button>
+              </td>
+            </tr>
           }
         </tbody>
       </table>

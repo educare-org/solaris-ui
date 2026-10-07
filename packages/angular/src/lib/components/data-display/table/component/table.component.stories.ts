@@ -97,6 +97,51 @@ export const CellExpandable: Story = {
   } as Partial<SolarisTableComponent<Record<string, unknown>>>,
 };
 
+export const Grid: Story = {
+  args: {
+    columns: COLUMNS,
+    data: ROWS,
+    rowId: 'name',
+    appearance: 'grid',
+  } as Partial<SolarisTableComponent<Record<string, unknown>>>,
+};
+
+export const Radius: Story = {
+  args: {
+    columns: COLUMNS,
+    data: ROWS,
+    rowId: 'name',
+    radius: 'lg',
+  } as Partial<SolarisTableComponent<Record<string, unknown>>>,
+};
+
+export const IconHeader: Story = {
+  args: {
+    columns: [
+      { id: 'name', header: 'Name', accessor: 'name' as const, icon: 'user' },
+      {
+        id: 'age',
+        header: 'Age',
+        accessor: 'age' as const,
+        type: 'number' as const,
+        icon: 'calendar',
+        iconPosition: 'end',
+      },
+    ],
+    data: ROWS,
+    rowId: 'name',
+  } as Partial<SolarisTableComponent<Record<string, unknown>>>,
+};
+
+export const AddRow: Story = {
+  args: {
+    columns: COLUMNS,
+    data: ROWS,
+    rowId: 'name',
+    showAddRow: true,
+  } as Partial<SolarisTableComponent<Record<string, unknown>>>,
+};
+
 export const Wide: Story = {
   args: {
     columns: [

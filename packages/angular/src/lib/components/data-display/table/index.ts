@@ -20,7 +20,9 @@ export type {
   SolarisTableDensity,
   SolarisTableDetailVariant,
   SolarisTableExpandMode,
+  SolarisTableIconPosition,
   SolarisTableLayout,
+  SolarisTableRadius,
   SolarisTableResolvedRow,
   SolarisTableRowClickEvent,
   SolarisTableSelectionChange,
@@ -38,6 +40,7 @@ export {
   SOLARIS_TABLE_DETAIL_VARIANTS,
   SOLARIS_TABLE_EXPAND_MODES,
   SOLARIS_TABLE_LAYOUTS,
+  SOLARIS_TABLE_RADII,
   SOLARIS_TABLE_SELECTION_MODES,
   SOLARIS_TABLE_STRIPED_MODES,
 } from './model/table.types';

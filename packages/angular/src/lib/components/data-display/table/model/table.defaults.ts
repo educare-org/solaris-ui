@@ -3,12 +3,15 @@ import {
   SOLARIS_TABLE_COLUMN_TYPES,
   SOLARIS_TABLE_EXPAND_MODES,
   SOLARIS_TABLE_LAYOUTS,
+  SOLARIS_TABLE_RADII,
   SOLARIS_TABLE_SELECTION_MODES,
   SOLARIS_TABLE_STRIPED_MODES,
   type SolarisTableAppearance,
   type SolarisTableColumnType,
   type SolarisTableExpandMode,
+  type SolarisTableIconPosition,
   type SolarisTableLayout,
+  type SolarisTableRadius,
   type SolarisTableSelectionMode,
   type SolarisTableSort,
   type SolarisTableStripedMode,
@@ -19,6 +22,7 @@ export {
   SOLARIS_TABLE_COLUMN_TYPES,
   SOLARIS_TABLE_EXPAND_MODES,
   SOLARIS_TABLE_LAYOUTS,
+  SOLARIS_TABLE_RADII,
   SOLARIS_TABLE_SELECTION_MODES,
   SOLARIS_TABLE_STRIPED_MODES,
 };
@@ -75,6 +79,8 @@ export const TABLE_COLLAPSE_CELL_LABEL_KEY =
   'solaris.dataDisplay.table.collapseCell';
 export const TABLE_COLLAPSE_CELL_LABEL =
   'Collapse details for {{column}} in row {{rowId}}';
+export const TABLE_ADD_ROW_LABEL_KEY = 'solaris.dataDisplay.table.addRow';
+export const TABLE_ADD_ROW_LABEL = 'Add row';
 
 export const DEFAULT_SOLARIS_TABLE_APPEARANCE: SolarisTableAppearance =
   'outline';
@@ -82,7 +88,11 @@ export const DEFAULT_SOLARIS_TABLE_STRIPED_MODE: SolarisTableStripedMode =
   'even';
 export const DEFAULT_SOLARIS_TABLE_LAYOUT: SolarisTableLayout = 'auto';
 export const DEFAULT_SOLARIS_TABLE_EXPAND_MODE: SolarisTableExpandMode = 'row';
+export const DEFAULT_SOLARIS_TABLE_RADIUS: SolarisTableRadius = 'md';
+export const DEFAULT_SOLARIS_TABLE_ICON_POSITION: SolarisTableIconPosition =
+  'start';
 
+const radii = new Set<SolarisTableRadius>(SOLARIS_TABLE_RADII);
 const appearances = new Set<SolarisTableAppearance>(SOLARIS_TABLE_APPEARANCES);
 const stripedModes = new Set<SolarisTableStripedMode>(
   SOLARIS_TABLE_STRIPED_MODES,
@@ -120,6 +130,20 @@ export function normalizeTableExpandMode(
   return expandModes.has(value as SolarisTableExpandMode)
     ? (value as SolarisTableExpandMode)
     : DEFAULT_SOLARIS_TABLE_EXPAND_MODE;
+}
+
+export function normalizeTableRadius(
+  value: string | null | undefined,
+): SolarisTableRadius {
+  return radii.has(value as SolarisTableRadius)
+    ? (value as SolarisTableRadius)
+    : DEFAULT_SOLARIS_TABLE_RADIUS;
+}
+
+export function normalizeTableIconPosition(
+  value: string | null | undefined,
+): SolarisTableIconPosition {
+  return value === 'end' ? 'end' : DEFAULT_SOLARIS_TABLE_ICON_POSITION;
 }
 
 export function cellExpansionKey(rowId: string, columnId: string): string {

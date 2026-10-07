@@ -149,6 +149,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
         'Expand details for {{column}} in row {{rowId}}',
       'solaris.dataDisplay.table.collapseCell':
         'Collapse details for {{column}} in row {{rowId}}',
+      'solaris.dataDisplay.table.addRow': 'Add row',
 
       'solaris.dataDisplay.tableFilter.ariaLabel': 'Table filters',
       'solaris.dataDisplay.tableFilter.searchPlaceholder': 'Search',
@@ -352,6 +353,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
         'Expandir detalhes de {{column}} na linha {{rowId}}',
       'solaris.dataDisplay.table.collapseCell':
         'Recolher detalhes de {{column}} na linha {{rowId}}',
+      'solaris.dataDisplay.table.addRow': 'Adicionar linha',
 
       'solaris.dataDisplay.tableFilter.ariaLabel': 'Filtros da tabela',
       'solaris.dataDisplay.tableFilter.searchPlaceholder': 'Buscar',

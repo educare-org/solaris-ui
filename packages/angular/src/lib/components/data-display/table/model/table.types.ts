@@ -36,9 +36,16 @@ export const SOLARIS_TABLE_APPEARANCES = [
   'surface',
   'soft',
   'plain',
+  'grid',
 ] as const;
 
 export type SolarisTableAppearance = (typeof SOLARIS_TABLE_APPEARANCES)[number];
+
+export const SOLARIS_TABLE_RADII = ['none', 'sm', 'md', 'lg'] as const;
+
+export type SolarisTableRadius = (typeof SOLARIS_TABLE_RADII)[number];
+
+export type SolarisTableIconPosition = 'start' | 'end';
 
 export const SOLARIS_TABLE_STRIPED_MODES = ['even', 'odd'] as const;
 
@@ -79,6 +86,8 @@ export interface SolarisTableColumn<T = unknown> {
   readonly align?: SolarisTableAlign;
   readonly headerAlign?: SolarisTableAlign;
   readonly hidden?: boolean;
+  readonly icon?: string;
+  readonly iconPosition?: SolarisTableIconPosition;
   readonly priority?: number;
   readonly expandable?: boolean;
   readonly detailVariant?: SolarisTableDetailVariant;
