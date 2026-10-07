@@ -96,6 +96,9 @@ export class SolarisDialogComponent<TResult = unknown> {
   protected readonly footerSeparator = computed(
     () => this.options().footerSeparator ?? true,
   );
+  protected readonly collapseFooterSeparator = computed(
+    () => this.hasActions() && this.headerSeparator() && this.footerSeparator(),
+  );
   protected readonly actionsShape = computed(() => this.options().actionsShape);
   protected readonly actionsDensity = computed(
     () => this.options().actionsDensity,

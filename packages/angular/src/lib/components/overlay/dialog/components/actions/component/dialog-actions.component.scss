@@ -17,6 +17,10 @@
     var(--solaris-dialog-actions-border-color);
 }
 
+:host([data-separator][data-adjacent-header]) {
+  border-top: none;
+}
+
 :host([data-scrolled]) {
   box-shadow: var(--solaris-dialog-actions-scrolled-shadow);
 }

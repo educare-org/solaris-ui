@@ -105,6 +105,39 @@ describe('SolarisDialogComponent', () => {
     expect(actionsEl?.getAttribute('data-separator')).toBeNull();
   });
 
+  it('should collapse the actions separator when header and actions are adjacent without body', () => {
+    const fixture = createFixture({
+      title: 'Ada 1',
+      description: 'Age 22',
+      actions: [{ label: 'Close', close: true }],
+    });
+    fixture.detectChanges();
+    const actionsEl = q(fixture, 'solaris-dialog-actions');
+    expect(actionsEl?.getAttribute('data-adjacent-header')).toBe('');
+  });
+
+  it('should not collapse the actions separator when footerSeparator is false', () => {
+    const fixture = createFixture({
+      title: 'Ada 1',
+      actions: [{ label: 'Close', close: true }],
+      footerSeparator: false,
+    });
+    fixture.detectChanges();
+    const actionsEl = q(fixture, 'solaris-dialog-actions');
+    expect(actionsEl?.hasAttribute('data-adjacent-header')).toBe(false);
+  });
+
+  it('should not collapse the actions separator when headerSeparator is false', () => {
+    const fixture = createFixture({
+      title: 'Ada 1',
+      actions: [{ label: 'Close', close: true }],
+      headerSeparator: false,
+    });
+    fixture.detectChanges();
+    const actionsEl = q(fixture, 'solaris-dialog-actions');
+    expect(actionsEl?.hasAttribute('data-adjacent-header')).toBe(false);
+  });
+
   it('should render actions with solaris-button directive', () => {
     const fixture = createFixture({
       title: 'Test',

@@ -1,10 +1,12 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { Component } from '@angular/core';
 import { configureSolarisTesting } from '../../../../../../testing/solaris-test-utilities';
 import { provideSolaris } from '../../../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../../../services/icon/icons/solaris-built-in-icons';
 import { SolarisDialogRef } from '../../../service/dialog-ref';
 import { SOLARIS_DIALOG_REF } from '../../../token/dialog-data.token';
 import { SolarisDialogActionsComponent } from '../component/dialog-actions.component';
+import { SolarisDialogHeaderComponent } from '../../header/component/dialog-header.component';
 import type { SolarisDialogAction } from '../../root/model/dialog.types';
 
 function createDialogRef(): SolarisDialogRef<string> {
@@ -310,6 +312,79 @@ describe('SolarisDialogActionsComponent', () => {
       scrollParent.scrollTop = prevScrollTop;
       restoreScrollMetrics(scrollParent, prevClientHeight, prevScrollHeight);
     }
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [SolarisDialogHeaderComponent, SolarisDialogActionsComponent],
+  template: `
+    <solaris-dialog-header
+      title="Ada 1"
+      description="Age 22"
+      [separator]="headerSeparator"
+    />
+    @if (bodyText) {
+      <p>{{ bodyText }}</p>
+    }
+    <solaris-dialog-actions
+      [actions]="[{ label: 'Close', close: true }]"
+      [separator]="actionsSeparator"
+    />
+  `,
+})
+class AdjacentHeaderActionsHostComponent {
+  headerSeparator = true;
+  actionsSeparator = true;
+  bodyText?: string;
+}
+
+describe('SolarisDialogActionsComponent adjacent header separator', () => {
+  function createAdjacentFixture(
+    config: Partial<AdjacentHeaderActionsHostComponent> = {},
+  ): ComponentFixture<AdjacentHeaderActionsHostComponent> {
+    configureSolarisTesting();
+    TestBed.configureTestingModule({
+      imports: [AdjacentHeaderActionsHostComponent],
+      providers: [
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+        { provide: SOLARIS_DIALOG_REF, useValue: createDialogRef() },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(AdjacentHeaderActionsHostComponent);
+    Object.assign(fixture.componentInstance, config);
+    fixture.detectChanges();
+    fixture.detectChanges();
+    return fixture;
+  }
+
+  function actionsOf(
+    fixture: ComponentFixture<AdjacentHeaderActionsHostComponent>,
+  ): HTMLElement {
+    return (fixture.nativeElement as HTMLElement).querySelector(
+      'solaris-dialog-actions',
+    ) as HTMLElement;
+  }
+
+  it('should collapse the separator when header and actions are adjacent without body', () => {
+    const fixture = createAdjacentFixture();
+    expect(actionsOf(fixture).getAttribute('data-adjacent-header')).toBe('');
+  });
+
+  it('should keep the separator when the header separator is off', () => {
+    const fixture = createAdjacentFixture({ headerSeparator: false });
+    expect(actionsOf(fixture).hasAttribute('data-adjacent-header')).toBe(false);
+  });
+
+  it('should keep the separator when its own separator is off', () => {
+    const fixture = createAdjacentFixture({ actionsSeparator: false });
+    expect(actionsOf(fixture).hasAttribute('data-adjacent-header')).toBe(false);
+  });
+
+  it('should keep the separator when body content sits between header and actions', () => {
+    const fixture = createAdjacentFixture({ bodyText: 'Body content' });
+    expect(actionsOf(fixture).hasAttribute('data-adjacent-header')).toBe(false);
   });
 });
 

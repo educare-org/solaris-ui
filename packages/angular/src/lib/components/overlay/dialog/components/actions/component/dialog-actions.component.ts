@@ -83,6 +83,7 @@ export class SolarisDialogActionsComponent<TResult = unknown>
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
+    this.collapseSeparatorWhenAdjacentToHeader();
     this.observeScrollParent();
   }
 
@@ -99,6 +100,12 @@ export class SolarisDialogActionsComponent<TResult = unknown>
     this.destroyRef.onDestroy(() => {
       scrollParent.removeEventListener('scroll', update);
     });
+  }
+
+  private collapseSeparatorWhenAdjacentToHeader(): void {
+    if (this.separator() && followsHeaderSeparator(this.hostElement)) {
+      this.hostElement.setAttribute('data-adjacent-header', '');
+    }
   }
 
   protected resolvedLabel(action: SolarisDialogAction<TResult>): string {
@@ -141,4 +148,12 @@ function findScrollParent(element: HTMLElement): HTMLElement | null {
 
 function hasMoreBelow(element: HTMLElement): boolean {
   return element.scrollTop + element.clientHeight < element.scrollHeight - 1;
+}
+
+function followsHeaderSeparator(element: HTMLElement): boolean {
+  const previous = element.previousElementSibling as HTMLElement | null;
+  return (
+    previous?.tagName === 'SOLARIS-DIALOG-HEADER' &&
+    previous.hasAttribute('data-separator')
+  );
 }
