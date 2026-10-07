@@ -24,7 +24,7 @@ export const PAGINATION_ROWS_PER_PAGE_LABEL_KEY =
 export const PAGINATION_ROWS_PER_PAGE_LABEL = 'Rows per page';
 export const PAGINATION_RANGE_LABEL_KEY =
   'solaris.navigation.pagination.rangeLabel';
-export const PAGINATION_RANGE_LABEL = 'Page {{start}} of {{end}}';
+export const PAGINATION_RANGE_LABEL = '{{start}}–{{end}} of {{total}}';
 export const PAGINATION_RANGE_LABEL_COMPACT_KEY =
   'solaris.navigation.pagination.rangeLabelCompact';
 export const PAGINATION_RANGE_LABEL_COMPACT = '{{start}}–{{end}}';

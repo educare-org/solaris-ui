@@ -21,13 +21,13 @@ test.describe('Pagination', () => {
 
   test('navigates pages with first/prev/next/last', async ({ page }) => {
     const basicSection = page.locator('#basic');
-    await expect(basicSection.getByText('Page 1 of 10')).toBeVisible();
+    await expect(basicSection.getByText('1–10 of 95')).toBeVisible();
     await basicSection.getByRole('button', { name: 'Next page' }).click();
-    await expect(basicSection.getByText('Page 2 of 10')).toBeVisible();
+    await expect(basicSection.getByText('11–20 of 95')).toBeVisible();
     await basicSection.getByRole('button', { name: 'Last page' }).click();
-    await expect(basicSection.getByText('Page 10 of 10')).toBeVisible();
+    await expect(basicSection.getByText('91–95 of 95')).toBeVisible();
     await basicSection.getByRole('button', { name: 'First page' }).click();
-    await expect(basicSection.getByText('Page 1 of 10')).toBeVisible();
+    await expect(basicSection.getByText('1–10 of 95')).toBeVisible();
   });
 
   test('renders the compact range for unknown totals', async ({ page }) => {

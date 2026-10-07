@@ -3,6 +3,7 @@ import {
   input,
   computed,
   signal,
+  linkedSignal,
   output,
   effect,
   forwardRef,
@@ -147,6 +148,7 @@ export class SolarisSelectComponent
   readonly searchable = input<boolean>(false);
   readonly searchPlaceholderKey = input<string>();
   readonly panelMinWidth = input<string | number>();
+  readonly triggerMinWidth = input<string | number>();
   readonly panelMaxWidth = input<string | number>();
   readonly density = input<SolarisSelectDensity>();
   readonly size = input<SolarisSelectSize>('md');
@@ -173,7 +175,7 @@ export class SolarisSelectComponent
 
   protected readonly panelId = nextIdFor('solaris-select-panel');
   protected readonly panelOpen = signal(false);
-  protected readonly internalValue = signal<unknown>(undefined);
+  protected readonly internalValue = linkedSignal(() => this.value());
   protected readonly internalFocused = signal(false);
   protected readonly internalDisabled = signal(false);
   protected readonly searchQuery = signal('');
@@ -214,7 +216,7 @@ export class SolarisSelectComponent
 
   protected readonly popoverAppearance = computed(() => {
     const a = this.appearance();
-    return a === 'filled' ? 'surface' : a;
+    return a === 'filled' || a === 'minimal' ? 'surface' : a;
   });
 
   protected readonly canOpen = computed(() => {
@@ -250,6 +252,15 @@ export class SolarisSelectComponent
     if (longest === 0) return 0;
     const charWidth = this.size() === 'sm' ? 8 : this.size() === 'lg' ? 10 : 9;
     return Math.ceil(longest * charWidth * 1.15 + 50);
+  });
+
+  protected readonly resolvedTriggerMinWidth = computed(() => {
+    const override = this.triggerMinWidth();
+    if (override !== undefined && override !== null && override !== '') {
+      return typeof override === 'number' ? `${override}px` : override;
+    }
+    const floor = this.contentMinWidth();
+    return floor > 0 ? `${floor}px` : null;
   });
 
   protected readonly effectivePanelMinWidth = computed(() => {

@@ -484,6 +484,13 @@
   --solaris-form-field-control-border-width: var(--solaris-border-width-sm);
 }
 
+:host([data-appearance='minimal']) {
+  --solaris-form-field-control-background: transparent;
+  --solaris-form-field-readonly-background: transparent;
+  --solaris-form-field-control-border-color: transparent;
+  --solaris-form-field-control-border-width: 0;
+}
+
 :host([data-invalid]) {
   --solaris-form-field-control-border-color: var(
     --solaris-form-field-error-border-color

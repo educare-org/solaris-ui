@@ -47,7 +47,7 @@ Table displays structured rows and columns with sorting, selection, and loading/
 | `mobile`                         | `boolean`                                             | `false`     | Deprecated alias of `layout="card"`                                                  |
 | `cardTitleOf` / `cardSubtitleOf` | `(row) => string \| null`                             | —           | Optional card header lines in card layout                                            |
 | `fullWidth`                      | `boolean`                                             | `false`     | Fixed table layout distributing columns across the container                         |
-| `cellPadding`                    | `'none' \| 'sm' \| 'md' \| 'lg'`                      | `'none'`    | Extra vertical cell breathing room (4/8/12px)                                        |
+| `cellPadding`                    | `'none' \| 'sm' \| 'md' \| 'lg'`                      | `'none'`    | Extra vertical cell breathing room (spacing-3/5/6)                                   |
 | `density`                        | `'compact' \| 'normal' \| 'comfortable' \| undefined` | inherited   | Density variant                                                                      |
 | `ariaLabel` / `ariaLabelKey`     | `string \| undefined`                                 | `undefined` | Accessible table name                                                                |
 
@@ -90,6 +90,21 @@ Table displays structured rows and columns with sorting, selection, and loading/
 | `ng-template[solaris-table-error]`   | Error state (wins over `error`)                                                                                       |
 | `ng-template[solaris-table-loading]` | Loading state (wins over skeleton rows)                                                                               |
 | `ng-template[solaris-table-detail]`  | Per-column detail content (`templateId`, same context as cells; may host a nested `solaris-table appearance="plain"`) |
+| `ng-template[solaris-table-footer]`  | Optional footer inside the frame (e.g. `solaris-pagination`); nothing renders when absent                             |
+
+## Footer
+
+Project `ng-template[solaris-table-footer]` to render a footer row inside `.solaris-table__frame`, below the viewport — the pagination then shares the table border instead of sitting outside it:
+
+```html
+<solaris-table [data]="pageRows" [columns]="columns" rowId="id">
+  <ng-template solaris-table-footer>
+    <solaris-pagination [pageIndex]="pageIndex" [pageSize]="pageSize" [total]="total" (pageChange)="onPageChange($event)" />
+  </ng-template>
+</solaris-table>
+```
+
+The footer has a top divider and the table cell padding; tables without a footer render exactly as before. In card layout the footer drops its divider and padding so it stacks cleanly below the cards.
 
 ## Sorting
 
@@ -143,16 +158,16 @@ Default: inherited from the theme system via `effectiveDensity` (`density() ?? t
 
 ## CSS Variables
 
-| Token                                      | Purpose                                        |
-| ------------------------------------------ | ---------------------------------------------- |
-| `--solaris-table-row-height-compact`       | Row height in compact density (36px)           |
-| `--solaris-table-row-height-normal`        | Row height in normal density (44px)            |
-| `--solaris-table-row-height-comfortable`   | Row height in comfortable density (52px)       |
-| `--solaris-table-cell-padding-compact`     | Cell horizontal padding in compact density     |
-| `--solaris-table-cell-padding-normal`      | Cell horizontal padding in normal density      |
-| `--solaris-table-cell-padding-comfortable` | Cell horizontal padding in comfortable density |
-| `--solaris-table-header-background`        | Header background                              |
-| `--solaris-table-min-width`                | Table minimum width (720px)                    |
+| Token                                      | Purpose                                                    |
+| ------------------------------------------ | ---------------------------------------------------------- |
+| `--solaris-table-row-height-compact`       | Row height in compact density (`--solaris-spacing-11`)     |
+| `--solaris-table-row-height-normal`        | Row height in normal density (spacing-12 + spacing-3)      |
+| `--solaris-table-row-height-comfortable`   | Row height in comfortable density (spacing-13 + spacing-3) |
+| `--solaris-table-cell-padding-compact`     | Cell horizontal padding in compact density                 |
+| `--solaris-table-cell-padding-normal`      | Cell horizontal padding in normal density                  |
+| `--solaris-table-cell-padding-comfortable` | Cell horizontal padding in comfortable density             |
+| `--solaris-table-header-background`        | Header background                                          |
+| `--solaris-table-min-width`                | Table minimum width (720px)                                |
 
 ## Examples
 

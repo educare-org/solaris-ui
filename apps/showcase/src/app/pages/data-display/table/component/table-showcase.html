@@ -361,12 +361,39 @@
     <p class="table-showcase__note">
       {{ 'table.with-pagination.note' | translate }}
     </p>
+    <div class="table-showcase__controls">
+      <solaris-tabs
+        [(value)]="paginationTab"
+        [ariaLabel]="'table.section.with-pagination' | translate"
+      >
+        <solaris-tab value="default"
+          >{{ 'table.with-pagination.tab.default' | translate }}</solaris-tab
+        >
+        <solaris-tab value="description"
+          >{{ 'table.with-pagination.tab.description' | translate
+          }}</solaris-tab
+        >
+        <solaris-tab value="mobile"
+          >{{ 'table.with-pagination.tab.mobile' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
     <solaris-preview-code
       [previewAlign]="'stretch'"
       [code]="withPaginationCode"
       language="html"
     >
-      <app-with-pagination-table-example />
+      @if (paginationTab() === 'mobile') {
+      <div class="table-showcase__phone">
+        <app-with-pagination-table-example layout="card" />
+      </div>
+      } @else {
+      <app-with-pagination-table-example
+        [description]="
+            paginationTab() === 'description' ? 'Task management' : undefined
+          "
+      />
+      }
     </solaris-preview-code>
   </app-docs-section>
 

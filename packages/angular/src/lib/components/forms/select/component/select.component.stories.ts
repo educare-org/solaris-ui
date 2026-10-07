@@ -38,3 +38,10 @@ export const Suffix: Story = {
 export const Disabled: Story = {
   args: { label: 'Disabled', placeholder: 'Cannot open', disabled: true },
 };
+export const Minimal: Story = {
+  args: {
+    label: 'Minimal',
+    placeholder: 'Select...',
+    appearance: 'minimal',
+  },
+};

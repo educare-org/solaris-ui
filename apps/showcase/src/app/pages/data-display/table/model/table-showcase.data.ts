@@ -435,13 +435,16 @@ export const TABLE_LAYOUT_CODE = [
 ].join('\n');
 
 export const TABLE_WITH_PAGINATION_CODE = [
-  '<solaris-table [data]="pageRows()" [columns]="columns" rowId="id" />',
-  '<solaris-pagination',
-  '  [pageIndex]="pageIndex()"',
-  '  [pageSize]="pageSize()"',
-  '  [total]="total"',
-  '  (pageChange)="onPageChange($event)"',
-  '/>',
+  '<solaris-table [data]="pageRows()" [columns]="columns" rowId="id">',
+  '  <ng-template solaris-table-footer>',
+  '    <solaris-pagination',
+  '      [pageIndex]="pageIndex()"',
+  '      [pageSize]="pageSize()"',
+  '      [total]="total"',
+  '      (pageChange)="onPageChange($event)"',
+  '    />',
+  '  </ng-template>',
+  '</solaris-table>',
 ].join('\n');
 
 export const TABLE_SHOWCASE_CUSTOM_COLUMNS: readonly SolarisTableColumn<ShowcasePerson>[] =

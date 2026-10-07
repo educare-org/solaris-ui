@@ -49,9 +49,11 @@ test.describe('Table', () => {
 
   test('combines table and pagination', async ({ page }) => {
     const combinedSection = page.locator('#with-pagination');
-    await expect(combinedSection.locator('solaris-pagination')).toBeVisible();
-    await expect(combinedSection.getByText('Page 1 of 4')).toBeVisible();
+    await expect(
+      combinedSection.locator('.solaris-table__footer solaris-pagination'),
+    ).toBeVisible();
+    await expect(combinedSection.getByText('1–10 of 32')).toBeVisible();
     await combinedSection.getByRole('button', { name: 'Next page' }).click();
-    await expect(combinedSection.getByText('Page 2 of 4')).toBeVisible();
+    await expect(combinedSection.getByText('11–20 of 32')).toBeVisible();
   });
 });

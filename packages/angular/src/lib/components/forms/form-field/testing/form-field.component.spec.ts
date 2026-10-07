@@ -113,7 +113,7 @@ describe('SolarisFormFieldComponent', () => {
 
   it('should apply all appearances', () => {
     const el = createFixture();
-    const values = ['outline', 'surface', 'filled'] as const;
+    const values = ['outline', 'surface', 'filled', 'minimal'] as const;
     for (const v of values) {
       fixture.componentRef.setInput('appearance', v);
       fixture.detectChanges();

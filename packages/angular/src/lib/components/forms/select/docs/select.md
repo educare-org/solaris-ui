@@ -51,43 +51,44 @@ Select v1 does not implement:
 
 ### Inputs
 
-| Input                        | Type                                      | Default     | Description                                   |
-| ---------------------------- | ----------------------------------------- | ----------- | --------------------------------------------- |
-| `value`                      | `unknown`                                 | —           | The selected value                            |
-| `placeholder`                | `string`                                  | —           | Placeholder text                              |
-| `placeholderKey`             | `string`                                  | —           | i18n key for placeholder                      |
-| `searchable`                 | `boolean`                                 | `false`     | Enables local search input                    |
-| `searchPlaceholder`          | `string`                                  | —           | Search input placeholder                      |
-| `searchPlaceholderKey`       | `string`                                  | —           | i18n key for search placeholder               |
-| `clearable`                  | `boolean`                                 | `false`     | Shows clear button when value is set          |
-| `disabled`                   | `boolean`                                 | `false`     | Disables the select                           |
-| `readonly`                   | `boolean`                                 | `false`     | Readonly mode (value preserved, not editable) |
-| `invalid`                    | `boolean \| undefined`                    | `undefined` | Manual invalid state                          |
-| `loading`                    | `boolean`                                 | `false`     | Shows loading state in panel                  |
-| `loadingText`                | `string`                                  | —           | Loading text                                  |
-| `loadingTextKey`             | `string`                                  | —           | i18n key for loading text                     |
-| `emptyText`                  | `string`                                  | —           | Text when no options available                |
-| `emptyTextKey`               | `string`                                  | —           | i18n key for empty text                       |
-| `clearLabel`                 | `string`                                  | —           | Custom aria-label for clear button            |
-| `clearLabelKey`              | `string`                                  | —           | i18n key for clear button label               |
-| `noResultsText`              | `string`                                  | —           | Text when search returns no results           |
-| `noResultsTextKey`           | `string`                                  | —           | i18n key for no results text                  |
-| `compareWith`                | `(a: unknown, b: unknown) => boolean`     | `Object.is` | Custom comparison function for object values  |
-| `displayWith`                | `(value: unknown) => string \| undefined` | —           | Custom display function for trigger text      |
-| `appearance`                 | `'outline' \| 'surface' \| 'filled'`      | `'outline'` | Visual appearance                             |
-| `density`                    | `'compact' \| 'normal' \| 'comfortable'`  | inherited   | Density variant                               |
-| `radius`                     | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`  | `'sm'`      | Border radius                                 |
-| `label` / `labelKey`         | `string`                                  | —           | Label text (used standalone)                  |
-| `hint` / `hintKey`           | `string`                                  | —           | Hint text (used standalone)                   |
-| `error` / `errorKey`         | `string`                                  | —           | Error text (used standalone)                  |
-| `panelMaxHeight`             | `string \| number`                        | `'320px'`   | Max height of the dropdown panel              |
-| `panelMinWidth`              | `string \| number`                        | —           | Min width of the dropdown panel               |
-| `panelMaxWidth`              | `string \| number`                        | —           | Max width of the dropdown panel               |
-| `panelMatchTriggerWidth`     | `boolean`                                 | `true`      | Match panel width to trigger width            |
-| `ariaLabel` / `ariaLabelKey` | `string`                                  | —           | Accessible label                              |
-| `ariaLabelledby`             | `string`                                  | —           | ID of labelling element                       |
-| `prefix`                     | `SolarisIconName`                         | —           | Prefix icon in the leading affix slot         |
-| `suffix`                     | `SolarisIconName`                         | —           | Suffix icon in the trailing affix slot        |
+| Input                        | Type                                              | Default     | Description                                                                                      |
+| ---------------------------- | ------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------ |
+| `value`                      | `unknown`                                         | —           | The selected value                                                                               |
+| `placeholder`                | `string`                                          | —           | Placeholder text                                                                                 |
+| `placeholderKey`             | `string`                                          | —           | i18n key for placeholder                                                                         |
+| `searchable`                 | `boolean`                                         | `false`     | Enables local search input                                                                       |
+| `searchPlaceholder`          | `string`                                          | —           | Search input placeholder                                                                         |
+| `searchPlaceholderKey`       | `string`                                          | —           | i18n key for search placeholder                                                                  |
+| `clearable`                  | `boolean`                                         | `false`     | Shows clear button when value is set                                                             |
+| `disabled`                   | `boolean`                                         | `false`     | Disables the select                                                                              |
+| `readonly`                   | `boolean`                                         | `false`     | Readonly mode (value preserved, not editable)                                                    |
+| `invalid`                    | `boolean \| undefined`                            | `undefined` | Manual invalid state                                                                             |
+| `loading`                    | `boolean`                                         | `false`     | Shows loading state in panel                                                                     |
+| `loadingText`                | `string`                                          | —           | Loading text                                                                                     |
+| `loadingTextKey`             | `string`                                          | —           | i18n key for loading text                                                                        |
+| `emptyText`                  | `string`                                          | —           | Text when no options available                                                                   |
+| `emptyTextKey`               | `string`                                          | —           | i18n key for empty text                                                                          |
+| `clearLabel`                 | `string`                                          | —           | Custom aria-label for clear button                                                               |
+| `clearLabelKey`              | `string`                                          | —           | i18n key for clear button label                                                                  |
+| `noResultsText`              | `string`                                          | —           | Text when search returns no results                                                              |
+| `noResultsTextKey`           | `string`                                          | —           | i18n key for no results text                                                                     |
+| `compareWith`                | `(a: unknown, b: unknown) => boolean`             | `Object.is` | Custom comparison function for object values                                                     |
+| `displayWith`                | `(value: unknown) => string \| undefined`         | —           | Custom display function for trigger text                                                         |
+| `appearance`                 | `'outline' \| 'surface' \| 'filled' \| 'minimal'` | `'outline'` | Visual appearance (`minimal` renders a borderless trigger; the panel keeps the `surface` chrome) |
+| `density`                    | `'compact' \| 'normal' \| 'comfortable'`          | inherited   | Density variant                                                                                  |
+| `radius`                     | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`          | `'sm'`      | Border radius                                                                                    |
+| `label` / `labelKey`         | `string`                                          | —           | Label text (used standalone)                                                                     |
+| `hint` / `hintKey`           | `string`                                          | —           | Hint text (used standalone)                                                                      |
+| `error` / `errorKey`         | `string`                                          | —           | Error text (used standalone)                                                                     |
+| `panelMaxHeight`             | `string \| number`                                | `'320px'`   | Max height of the dropdown panel                                                                 |
+| `panelMinWidth`              | `string \| number`                                | —           | Min width of the dropdown panel                                                                  |
+| `triggerMinWidth`            | `string \| number`                                | —           | Explicit trigger min-width (overrides the widest-option floor; `0` removes it)                   |
+| `panelMaxWidth`              | `string \| number`                                | —           | Max width of the dropdown panel                                                                  |
+| `panelMatchTriggerWidth`     | `boolean`                                         | `true`      | Match panel width to trigger width                                                               |
+| `ariaLabel` / `ariaLabelKey` | `string`                                          | —           | Accessible label                                                                                 |
+| `ariaLabelledby`             | `string`                                          | —           | ID of labelling element                                                                          |
+| `prefix`                     | `SolarisIconName`                                 | —           | Prefix icon in the leading affix slot                                                            |
+| `suffix`                     | `SolarisIconName`                                 | —           | Suffix icon in the trailing affix slot                                                           |
 
 ### Outputs
 
@@ -132,13 +133,18 @@ When not provided, Select inherits density from the theme system.
 
 Select tokens can be customized on the host or a parent element:
 
-| Token                                | Purpose                       |
-| ------------------------------------ | ----------------------------- |
-| `--solaris-select-value-color`       | Selected value text color     |
-| `--solaris-select-font-size`         | Font size                     |
-| `--solaris-select-line-height`       | Line height                   |
-| `--solaris-select-placeholder-color` | Placeholder text color        |
-| `--solaris-select-icon-color`        | Dropdown and clear icon color |
+| Token                                          | Purpose                                             |
+| ---------------------------------------------- | --------------------------------------------------- |
+| `--solaris-select-value-color`                 | Selected value text color                           |
+| `--solaris-select-font-size`                   | Font size                                           |
+| `--solaris-select-line-height`                 | Line height                                         |
+| `--solaris-select-trigger-gap`                 | Gap between value and actions                       |
+| `--solaris-select-dropdown-icon-size`          | Dropdown chevron size                               |
+| `--solaris-select-value-min-width`             | Minimum width of the value (e.g. room for N digits) |
+| `--solaris-select-value-flex`                  | Flex of the value wrapper (`1` fills the trigger)   |
+| `--solaris-select-actions-margin-inline-start` | Offset of the actions (chevron) from the value      |
+| `--solaris-select-placeholder-color`           | Placeholder text color                              |
+| `--solaris-select-icon-color`                  | Dropdown and clear icon color                       |
 
 ## Searchable
 
@@ -161,6 +167,8 @@ Like a native `<select>`, the trigger never shrinks below the widest option:
 `min-width`, backing the panel `min-width` when no explicit `panelMinWidth`
 is given. Opening a searchable select therefore never resizes the trigger,
 and the `matchTriggerWidth` panel always fits the longest option.
+Pass `triggerMinWidth` (e.g. `0` for compact numeric triggers such as the
+pagination page-size selector) to override the floor.
 
 ## Clearable
 

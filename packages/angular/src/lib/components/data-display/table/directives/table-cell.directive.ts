@@ -59,3 +59,11 @@ export class SolarisTableErrorDirective {
 export class SolarisTableLoadingDirective {
   readonly templateRef = inject(TemplateRef<Record<string, unknown>>);
 }
+
+@Directive({
+  standalone: true,
+  selector: 'ng-template[solaris-table-footer]',
+})
+export class SolarisTableFooterDirective {
+  readonly templateRef = inject(TemplateRef<Record<string, unknown>>);
+}

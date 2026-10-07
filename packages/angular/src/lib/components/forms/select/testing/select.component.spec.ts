@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
@@ -1934,7 +1934,10 @@ describe('SolarisSelectComponent', () => {
       standalone: true,
       imports: [SolarisSelectComponent, SolarisOptionComponent],
       template: `
-        <solaris-select [panelMinWidth]="panelMinWidth">
+        <solaris-select
+          [panelMinWidth]="panelMinWidth"
+          [triggerMinWidth]="triggerMinWidth"
+        >
           <solaris-option value="br" label="Brasil" />
           <solaris-option value="us" label="Estados Unidos" />
           <solaris-option value="pt" label="Portugal" />
@@ -1948,6 +1951,7 @@ describe('SolarisSelectComponent', () => {
     })
     class MinWidthHost {
       panelMinWidth: string | number | undefined;
+      triggerMinWidth: string | number | undefined;
     }
 
     it('should estimate the floor from the longest option label', () => {
@@ -1976,6 +1980,20 @@ describe('SolarisSelectComponent', () => {
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
       expect(select.effectivePanelMinWidth()).toBe(195);
+    });
+
+    it('should prefer an explicit triggerMinWidth input', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.componentInstance.triggerMinWidth = 0;
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.resolvedTriggerMinWidth()).toBe('0px');
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-select__trigger',
+      );
+      expect(trigger.style.minWidth).toBe('0px');
     });
 
     it('should prefer an explicit panelMinWidth input', () => {
@@ -2007,6 +2025,62 @@ describe('SolarisSelectComponent', () => {
         .componentInstance as any;
       expect(select.contentMinWidth()).toBe(0);
       expect(select.effectivePanelMinWidth()).toBeUndefined();
+    });
+  });
+
+  describe('value input', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select [value]="selected()" [appearance]="appearance">
+          <solaris-option [value]="10">10</solaris-option>
+          <solaris-option [value]="25">25</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class ValueInputHost {
+      readonly selected = signal<unknown>(25);
+      appearance: 'outline' | 'minimal' = 'outline';
+    }
+
+    it('should display the value input without forms', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ValueInputHost);
+      fixture.detectChanges();
+      const valueEl = fixture.nativeElement.querySelector(
+        '.solaris-select__value-text',
+      );
+      expect(valueEl).toBeTruthy();
+      expect(valueEl.textContent.trim()).toBe('25');
+    });
+
+    it('should update when the value input changes', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ValueInputHost);
+      fixture.detectChanges();
+      fixture.componentInstance.selected.set(10);
+      fixture.detectChanges();
+      const valueEl = fixture.nativeElement.querySelector(
+        '.solaris-select__value-text',
+      );
+      expect(valueEl.textContent.trim()).toBe('10');
+    });
+
+    it('should apply minimal appearance to the form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ValueInputHost);
+      fixture.componentInstance.appearance = 'minimal';
+      fixture.detectChanges();
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField?.getAttribute('data-appearance')).toBe('minimal');
     });
   });
 });

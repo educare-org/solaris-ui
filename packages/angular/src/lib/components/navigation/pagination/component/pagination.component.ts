@@ -1,13 +1,17 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  PLATFORM_ID,
   booleanAttribute,
   computed,
   inject,
   input,
   output,
+  signal,
 } from '@angular/core';
 
+import { NgTemplateOutlet, isPlatformBrowser } from '@angular/common';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisSelectComponent } from '../../../forms/select';
@@ -47,6 +51,7 @@ import type {
   selector: 'solaris-pagination',
   standalone: true,
   imports: [
+    NgTemplateOutlet,
     SolarisSelectComponent,
     SolarisOptionComponent,
     SolarisIconComponent,
@@ -56,6 +61,7 @@ import type {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-narrow]': 'narrowViewport() ? "" : null',
   },
 })
 export class SolarisPaginationComponent {
@@ -63,6 +69,10 @@ export class SolarisPaginationComponent {
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
+
+  protected readonly narrowViewport = signal(false);
 
   readonly pageIndex = input<number>(DEFAULT_SOLARIS_PAGINATION_PAGE_INDEX);
   readonly pageSize = input<number>(DEFAULT_SOLARIS_PAGINATION_PAGE_SIZE);
@@ -89,8 +99,27 @@ export class SolarisPaginationComponent {
   readonly rangeLabelKey = input<string | undefined>(undefined);
   readonly rangeLabelCompact = input<string | undefined>(undefined);
   readonly rangeLabelCompactKey = input<string | undefined>(undefined);
+  readonly description = input<string | undefined>(undefined);
+  readonly descriptionKey = input<string | undefined>(undefined);
 
   readonly pageChange = output<SolarisPageChange>();
+
+  constructor() {
+    if (
+      isPlatformBrowser(this.platformId) &&
+      typeof window.matchMedia !== 'undefined'
+    ) {
+      const query = window.matchMedia('(max-width: 720px)');
+      this.narrowViewport.set(query.matches);
+      const listener = (event: MediaQueryListEvent): void => {
+        this.narrowViewport.set(event.matches);
+      };
+      query.addEventListener('change', listener);
+      this.destroyRef.onDestroy(() =>
+        query.removeEventListener('change', listener),
+      );
+    }
+  }
 
   protected readonly effectiveDensity = computed(
     () => this.density() ?? this.themeService.density,
@@ -202,9 +231,9 @@ export class SolarisPaginationComponent {
     if (total !== undefined && total <= 0) {
       return '';
     }
+    const pageSize = this.normalizedPageSize();
+    const start = this.clampedPageIndex() * pageSize + 1;
     if (total === undefined) {
-      const pageSize = this.normalizedPageSize();
-      const start = this.clampedPageIndex() * pageSize + 1;
       return interpolatePaginationText(
         this.resolveText(
           this.rangeLabelCompact(),
@@ -221,12 +250,16 @@ export class SolarisPaginationComponent {
         PAGINATION_RANGE_LABEL,
       ),
       {
-        start: this.clampedPageIndex() + 1,
-        end: Math.max(1, this.totalPages() ?? 1),
+        start,
+        end: Math.min(start + pageSize - 1, total),
         total,
       },
     );
   });
+
+  protected readonly resolvedDescription = computed(() =>
+    this.resolveText(this.description(), this.descriptionKey(), '').trim(),
+  );
 
   protected goToFirstPage(): void {
     this.updatePageIndex(0);

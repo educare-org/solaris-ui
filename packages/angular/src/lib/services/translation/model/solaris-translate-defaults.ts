@@ -149,6 +149,16 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
         'Expand details for {{column}} in row {{rowId}}',
       'solaris.dataDisplay.table.collapseCell':
         'Collapse details for {{column}} in row {{rowId}}',
+
+      'solaris.navigation.pagination.ariaLabel': 'Pagination',
+      'solaris.navigation.pagination.firstPage': 'First page',
+      'solaris.navigation.pagination.previousPage': 'Previous page',
+      'solaris.navigation.pagination.nextPage': 'Next page',
+      'solaris.navigation.pagination.lastPage': 'Last page',
+      'solaris.navigation.pagination.rowsPerPageLabel': 'Rows per page',
+      'solaris.navigation.pagination.rangeLabel':
+        '{{start}}–{{end}} of {{total}}',
+      'solaris.navigation.pagination.rangeLabelCompact': '{{start}}–{{end}}',
     },
     'pt-BR': {
       'solaris.button.loading': 'Carregando...',
@@ -298,6 +308,16 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
         'Expandir detalhes de {{column}} na linha {{rowId}}',
       'solaris.dataDisplay.table.collapseCell':
         'Recolher detalhes de {{column}} na linha {{rowId}}',
+
+      'solaris.navigation.pagination.ariaLabel': 'Paginação',
+      'solaris.navigation.pagination.firstPage': 'Primeira página',
+      'solaris.navigation.pagination.previousPage': 'Página anterior',
+      'solaris.navigation.pagination.nextPage': 'Próxima página',
+      'solaris.navigation.pagination.lastPage': 'Última página',
+      'solaris.navigation.pagination.rowsPerPageLabel': 'Linhas por página',
+      'solaris.navigation.pagination.rangeLabel':
+        '{{start}}–{{end}} de {{total}}',
+      'solaris.navigation.pagination.rangeLabelCompact': '{{start}}–{{end}}',
     },
   },
   useBrowserLocale: true,

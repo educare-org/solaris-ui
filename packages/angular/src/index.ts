@@ -72,6 +72,7 @@ export {
   SolarisTableEmptyDirective,
   SolarisTableErrorDirective,
   SolarisTableLoadingDirective,
+  SolarisTableFooterDirective,
 } from './lib/components/data-display/table/directives/table-cell.directive';
 export {
   SOLARIS_TABLE_APPEARANCES,

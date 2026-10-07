@@ -1,4 +1,8 @@
-export type SolarisSelectAppearance = 'outline' | 'surface' | 'filled';
+export type SolarisSelectAppearance =
+  | 'outline'
+  | 'surface'
+  | 'filled'
+  | 'minimal';
 
 export type SolarisSelectSize = 'sm' | 'md' | 'lg';
 

@@ -28,3 +28,12 @@ export const UnknownTotal: Story = {
     await expect(canvas.getByText(/21–30/gi)).toBeTruthy();
   },
 };
+
+export const WithDescription: Story = {
+  args: {
+    pageIndex: 0,
+    pageSize: 10,
+    total: 95,
+    description: 'Task management',
+  } as Partial<SolarisPaginationComponent>,
+};

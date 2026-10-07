@@ -42,7 +42,10 @@ export const EN_US_TABLE: Record<string, string> = {
   'table.server.note':
     'A simulated server owns rows, total, and loading through SolarisTableDataSource.',
   'table.with-pagination.note':
-    'Table and pagination are separate components composed by the consumer.',
+    'Pagination is projected into the table footer slot, so it shares the table border.',
+  'table.with-pagination.tab.default': 'Default',
+  'table.with-pagination.tab.description': 'With description',
+  'table.with-pagination.tab.mobile': 'Mobile',
   'table.installation.note':
     'Install the single Solaris package, then import the component.',
   'table.props.note': 'Props table coming soon.',

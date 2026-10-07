@@ -120,6 +120,9 @@ export class TableShowcasePage {
   protected readonly statesCode = TABLE_STATES_CODE;
   protected readonly serverCode = TABLE_SERVER_CODE;
   protected readonly withPaginationCode = TABLE_WITH_PAGINATION_CODE;
+  protected readonly paginationTab = signal<
+    'default' | 'description' | 'mobile'
+  >('default');
 
   protected readonly basicRows = TABLE_SHOWCASE_ROWS.slice(0, 5);
   protected readonly basicColumns = TABLE_SHOWCASE_BASIC_COLUMNS;

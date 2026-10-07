@@ -5,6 +5,7 @@ import {
   PLATFORM_ID,
   booleanAttribute,
   computed,
+  contentChild,
   contentChildren,
   effect,
   inject,
@@ -102,6 +103,7 @@ import {
   SolarisTableDetailDirective,
   SolarisTableEmptyDirective,
   SolarisTableErrorDirective,
+  SolarisTableFooterDirective,
   SolarisTableHeaderDirective,
   SolarisTableLoadingDirective,
 } from '../directives/table-cell.directive';
@@ -155,6 +157,7 @@ export class SolarisTableComponent<T = unknown> {
   readonly emptyTemplate = contentChildren(SolarisTableEmptyDirective);
   readonly errorTemplate = contentChildren(SolarisTableErrorDirective);
   readonly loadingTemplate = contentChildren(SolarisTableLoadingDirective);
+  readonly footerTemplate = contentChild(SolarisTableFooterDirective);
 
   readonly data = input<SolarisTableDataSource<T> | readonly T[]>([]);
   readonly columns = input<readonly SolarisTableColumn<T>[]>([]);
@@ -340,9 +343,9 @@ export class SolarisTableComponent<T = unknown> {
       {
         id: SOLARIS_TABLE_SELECTION_COLUMN_ID,
         type: 'checkbox',
-        width: '44px',
-        minWidth: '44px',
-        maxWidth: '44px',
+        width: 'calc(var(--solaris-spacing-12) + var(--solaris-spacing-3))',
+        minWidth: 'calc(var(--solaris-spacing-12) + var(--solaris-spacing-3))',
+        maxWidth: 'calc(var(--solaris-spacing-12) + var(--solaris-spacing-3))',
         align: 'center',
         headerAlign: 'center',
       } as SolarisTableViewColumn<T>,

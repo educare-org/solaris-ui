@@ -658,4 +658,9 @@
       </table>
     }
   </div>
+  @if (footerTemplate()) {
+    <div class="solaris-table__footer">
+      <ng-container *ngTemplateOutlet="footerTemplate()?.templateRef" />
+    </div>
+  }
 </div>

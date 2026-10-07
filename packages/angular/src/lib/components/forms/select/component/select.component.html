@@ -49,7 +49,7 @@
     #triggerEl
     class="solaris-select__trigger"
     [id]="elementId() + '--trigger'"
-    [style.min-width.px]="contentMinWidth() || null"
+    [style.min-width]="resolvedTriggerMinWidth()"
     solaris-form-field-trigger
     role="combobox"
     tabindex="0"
