@@ -7,7 +7,8 @@
 >
   <ng-template solaris-table-cell="person" let-row>
     <solaris-avatar-profile
-      size="xs"
+      size="sm"
+      textSize="sm"
       [title]="row.name"
       [subtitle]="row.city"
     />
@@ -23,7 +24,7 @@
   </ng-template>
   <ng-template solaris-table-cell="actions" let-row>
     <button type="button" solaris-button appearance="ghost" size="sm">
-      Details
+      {{ 'table.action.details' | translate }}
     </button>
   </ng-template>
 </solaris-table>

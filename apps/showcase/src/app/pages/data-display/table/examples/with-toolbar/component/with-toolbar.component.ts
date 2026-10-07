@@ -1,11 +1,14 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 
 import {
+  SolarisButtonDirective,
   SolarisPaginationComponent,
   SolarisTableComponent,
   SolarisTableFooterDirective,
   SolarisTableToolbarComponent,
   SolarisTableToolbarDirective,
+  SolarisTableToolbarLeadingDirective,
+  SolarisTableToolbarTrailingDirective,
   SolarisTranslateService,
   applyOrderedVisibleColumns,
   applyTableFilters,
@@ -37,9 +40,12 @@ type ShowcaseFilterColumn = SolarisTableColumn<ShowcasePerson> &
   standalone: true,
   selector: 'app-with-toolbar-table-example',
   imports: [
+    SolarisButtonDirective,
     SolarisTableComponent,
     SolarisTableToolbarDirective,
     SolarisTableToolbarComponent,
+    SolarisTableToolbarLeadingDirective,
+    SolarisTableToolbarTrailingDirective,
     SolarisTableFooterDirective,
     SolarisPaginationComponent,
   ],
@@ -53,20 +59,20 @@ export class WithToolbarTableExample {
   protected readonly allColumns: readonly ShowcaseFilterColumn[] = [
     {
       id: 'name',
-      header: this.translate('table.with-toolbar.col.name', 'Name'),
+      headerKey: 'table.col.name',
       accessor: 'name',
       sortable: true,
     },
     {
       id: 'age',
-      header: this.translate('table.with-toolbar.col.age', 'Age'),
+      headerKey: 'table.col.age',
       accessor: 'age',
       type: 'number',
       sortable: true,
     },
     {
       id: 'city',
-      header: this.translate('table.with-toolbar.col.city', 'City'),
+      headerKey: 'table.col.city',
       accessor: 'city',
       sortable: true,
       filterOptions: TABLE_SHOWCASE_CITY_OPTIONS,

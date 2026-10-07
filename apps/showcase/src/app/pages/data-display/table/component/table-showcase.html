@@ -76,28 +76,10 @@
     </solaris-preview-code>
   </app-docs-section>
 
-  <app-docs-section anchor="custom-cells" titleKey="table.section.custom-cells">
+  <app-docs-section anchor="composition" titleKey="table.section.composition">
     <p class="table-showcase__note">
-      {{ 'table.custom-cells.note' | translate }}
+      {{ 'table.composition.note' | translate }}
     </p>
-    <solaris-preview-code
-      [previewAlign]="'stretch'"
-      [code]="customCellsCode"
-      language="html"
-    >
-      <solaris-table [data]="basicRows" [columns]="customColumns" rowId="id">
-        <ng-template solaris-table-cell="score" let-value="value">
-          <strong>{{ value }}</strong>
-        </ng-template>
-        <ng-template solaris-table-header="city" let-column>
-          <em>{{ column.id }}</em>
-        </ng-template>
-      </solaris-table>
-    </solaris-preview-code>
-  </app-docs-section>
-
-  <app-docs-section anchor="people" titleKey="table.section.people">
-    <p class="table-showcase__note">{{ 'table.people.note' | translate }}</p>
     <solaris-preview-code
       [previewAlign]="'stretch'"
       [code]="peopleCode"
@@ -234,23 +216,53 @@
     </solaris-preview-code>
   </app-docs-section>
 
-  <app-docs-section anchor="mobile" titleKey="table.section.mobile">
-    <p class="table-showcase__note">{{ 'table.mobile.note' | translate }}</p>
+  <app-docs-section anchor="add-row" titleKey="table.section.add-row">
+    <p class="table-showcase__note">{{ 'table.add-row.note' | translate }}</p>
     <solaris-preview-code
       [previewAlign]="'stretch'"
-      [code]="mobileCode"
+      [code]="addRowCode"
       language="html"
     >
-      <div class="table-showcase__phone">
-        <solaris-table
-          [data]="basicRows"
-          [columns]="fullColumns"
-          rowId="id"
-          [expandable]="true"
-          layout="card"
-        />
-      </div>
+      <solaris-table
+        [data]="addRowRows()"
+        [columns]="basicColumns"
+        rowId="id"
+        [showAddRow]="true"
+        (addRowRequest)="onAddRow()"
+      />
     </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="with-tabs" titleKey="table.section.with-tabs">
+    <p class="table-showcase__note">{{ 'table.with-tabs.note' | translate }}</p>
+    <div class="table-showcase__controls">
+      <solaris-tabs
+        [(value)]="datasetTab"
+        [ariaLabel]="'table.section.with-tabs' | translate"
+      >
+        <solaris-tab value="all"
+          >{{ 'table.with-tabs.tab.all' | translate }}</solaris-tab
+        >
+        <solaris-tab value="recent"
+          >{{ 'table.with-tabs.tab.recent' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="withTabsCode"
+      language="html"
+    >
+      <solaris-table
+        [data]="datasetRows()"
+        [columns]="basicColumns"
+        rowId="id"
+        [(sort)]="sort"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="mobile" titleKey="table.section.mobile">
     <p class="table-showcase__note">
       {{ 'table.mobile-composed.note' | translate }}
     </p>

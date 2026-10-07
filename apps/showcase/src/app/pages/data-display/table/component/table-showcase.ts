@@ -1,13 +1,11 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 
 import {
   SolarisCodeBlockComponent,
   SolarisPreviewCodeComponent,
-  SolarisTableCellDirective,
   SolarisTableComponent,
   SolarisTableDetailDirective,
-  SolarisTableHeaderDirective,
   SolarisTabComponent,
   SolarisTabsComponent,
   SolarisTranslatePipe,
@@ -26,13 +24,13 @@ import { ShowcaseDocsSection } from '../../../../shell/docs-section/docs-section
 
 import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
 import {
+  TABLE_ADD_ROW_CODE,
   TABLE_APPEARANCE_CODE,
   TABLE_CELL_EXPAND_CODE,
-  TABLE_CUSTOM_CELLS_CODE,
   TABLE_LAYOUT_CODE,
-  TABLE_MOBILE_CODE,
   TABLE_MOBILE_COMPOSED_CODE,
   TABLE_PEOPLE_CODE,
+  TABLE_WITH_TABS_CODE,
   TABLE_RESPONSIVE_CODE,
   TABLE_ROW_DIALOG_CODE,
   TABLE_SELECTION_CODE,
@@ -42,7 +40,6 @@ import {
   TABLE_SHOWCASE_BASIC_COLUMNS,
   TABLE_SHOWCASE_BREADCRUMBS,
   TABLE_SHOWCASE_CELL_COLUMNS,
-  TABLE_SHOWCASE_CUSTOM_COLUMNS,
   TABLE_SHOWCASE_FULL_COLUMNS,
   TABLE_SHOWCASE_IMPORT_CODE,
   TABLE_SHOWCASE_INSTALL_COMMANDS,
@@ -70,9 +67,7 @@ import { WithToolbarTableExample } from '../examples/with-toolbar/component/with
   standalone: true,
   imports: [
     SolarisTableComponent,
-    SolarisTableCellDirective,
     SolarisTableDetailDirective,
-    SolarisTableHeaderDirective,
     SolarisPreviewCodeComponent,
     SolarisCodeBlockComponent,
     SolarisTabComponent,
@@ -106,8 +101,9 @@ export class TableShowcasePage {
   protected readonly basicCode = TABLE_SHOWCASE_BASIC_CODE;
   protected readonly sortingCode = TABLE_SORTING_CODE;
   protected readonly selectionCode = TABLE_SELECTION_CODE;
-  protected readonly customCellsCode = TABLE_CUSTOM_CELLS_CODE;
   protected readonly peopleCode = TABLE_PEOPLE_CODE;
+  protected readonly addRowCode = TABLE_ADD_ROW_CODE;
+  protected readonly withTabsCode = TABLE_WITH_TABS_CODE;
   protected readonly rowDialogCode = TABLE_ROW_DIALOG_CODE;
   protected readonly responsiveCode = TABLE_RESPONSIVE_CODE;
   protected readonly cellExpandCode = TABLE_CELL_EXPAND_CODE;
@@ -116,8 +112,13 @@ export class TableShowcasePage {
   protected readonly appearance = signal<SolarisTableAppearance>('surface');
   protected readonly stripedMode = signal<SolarisTableStripedMode>('even');
   protected readonly wideColumns = TABLE_SHOWCASE_WIDE_COLUMNS;
-  protected readonly mobileCode = TABLE_MOBILE_CODE;
   protected readonly mobileComposedCode = TABLE_MOBILE_COMPOSED_CODE;
+  protected readonly datasetTab = signal<'all' | 'recent'>('all');
+  protected readonly datasetRows = computed(() =>
+    this.datasetTab() === 'recent'
+      ? TABLE_SHOWCASE_ROWS.slice(5, 10)
+      : TABLE_SHOWCASE_ROWS.slice(0, 5),
+  );
   protected readonly layoutCode = TABLE_LAYOUT_CODE;
   protected readonly layoutMode = signal<'auto' | 'full'>('auto');
   protected readonly statesCode = TABLE_STATES_CODE;
@@ -132,7 +133,17 @@ export class TableShowcasePage {
   protected readonly basicColumns = TABLE_SHOWCASE_BASIC_COLUMNS;
   protected readonly fullColumns = TABLE_SHOWCASE_FULL_COLUMNS;
   protected readonly cellColumns = TABLE_SHOWCASE_CELL_COLUMNS;
-  protected readonly customColumns = TABLE_SHOWCASE_CUSTOM_COLUMNS;
+
+  protected readonly addRowRows = signal(TABLE_SHOWCASE_ROWS.slice(0, 5));
+
+  protected onAddRow(): void {
+    const current = this.addRowRows();
+    const next =
+      TABLE_SHOWCASE_ROWS[current.length % TABLE_SHOWCASE_ROWS.length];
+    if (next && !current.some((row) => row.id === next.id)) {
+      this.addRowRows.set([...current, next]);
+    }
+  }
 
   protected readonly sort = signal<SolarisTableSort | null>(null);
   protected readonly selectionMode =

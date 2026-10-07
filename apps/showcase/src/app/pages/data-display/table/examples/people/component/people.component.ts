@@ -41,25 +41,27 @@ export class PeopleTableExample {
   protected readonly columns: readonly SolarisTableColumn<TeamMember>[] = [
     {
       id: 'person',
-      header: 'Person',
+      headerKey: 'table.col.person',
       accessor: 'name',
       sortable: true,
       cellTemplateId: 'person',
+      icon: 'user',
     },
     {
       id: 'status',
-      header: 'Status',
+      headerKey: 'table.col.status',
       accessor: 'status',
       sortable: true,
       cellTemplateId: 'status',
       align: 'center',
       headerAlign: 'center',
+      icon: 'badge',
       sortValueOf: (row) =>
         row.status === 'active' ? 0 : row.status === 'pending' ? 1 : 2,
     },
     {
       id: 'age',
-      header: 'Age',
+      headerKey: 'table.col.age',
       accessor: 'age',
       type: 'number',
       align: 'end',

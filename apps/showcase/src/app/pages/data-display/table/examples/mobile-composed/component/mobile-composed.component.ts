@@ -6,6 +6,7 @@ import {
   SolarisButtonDirective,
   SolarisTableCellDirective,
   SolarisTableComponent,
+  SolarisTranslatePipe,
   type SolarisBadgeColor,
   type SolarisTableColumn,
 } from '@solaris-ui/angular';
@@ -40,6 +41,7 @@ function statusOf(score: number): MemberStatus {
     SolarisAvatarProfileComponent,
     SolarisBadgeComponent,
     SolarisButtonDirective,
+    SolarisTranslatePipe,
   ],
   templateUrl: './mobile-composed.component.html',
 })
@@ -47,7 +49,7 @@ export class MobileComposedTableExample {
   protected readonly columns: readonly SolarisTableColumn<ShowcasePerson>[] = [
     {
       id: 'person',
-      header: 'Person',
+      headerKey: 'table.col.person',
       accessor: 'name',
       sortable: true,
       cellTemplateId: 'person',
@@ -55,7 +57,7 @@ export class MobileComposedTableExample {
     },
     {
       id: 'status',
-      header: 'Status',
+      headerKey: 'table.col.status',
       accessor: 'score',
       sortable: true,
       cellTemplateId: 'status',
@@ -70,7 +72,7 @@ export class MobileComposedTableExample {
     },
     {
       id: 'age',
-      header: 'Age',
+      headerKey: 'table.col.age',
       accessor: 'age',
       type: 'number',
       align: 'end',
@@ -78,7 +80,7 @@ export class MobileComposedTableExample {
     },
     {
       id: 'actions',
-      header: 'Actions',
+      headerKey: 'table.col.actions',
       cellTemplateId: 'actions',
       align: 'end',
       headerAlign: 'end',

@@ -38,13 +38,14 @@ export const TABLE_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'basic', labelKey: 'table.section.basic' },
   { anchor: 'sorting', labelKey: 'table.section.sorting' },
   { anchor: 'selection', labelKey: 'table.section.selection' },
-  { anchor: 'custom-cells', labelKey: 'table.section.custom-cells' },
-  { anchor: 'people', labelKey: 'table.section.people' },
+  { anchor: 'composition', labelKey: 'table.section.composition' },
   { anchor: 'row-dialog', labelKey: 'table.section.row-dialog' },
   { anchor: 'responsive', labelKey: 'table.section.responsive' },
   { anchor: 'cell-expand', labelKey: 'table.section.cell-expand' },
   { anchor: 'appearance', labelKey: 'table.section.appearance' },
   { anchor: 'wide', labelKey: 'table.section.wide' },
+  { anchor: 'add-row', labelKey: 'table.section.add-row' },
+  { anchor: 'with-tabs', labelKey: 'table.section.with-tabs' },
   { anchor: 'mobile', labelKey: 'table.section.mobile' },
   { anchor: 'layout', labelKey: 'table.section.layout' },
   { anchor: 'states', labelKey: 'table.section.states' },
@@ -114,18 +115,33 @@ export const TABLE_SHOWCASE_ROWS: readonly ShowcasePerson[] = FIRST_NAMES.map(
 
 export const TABLE_SHOWCASE_BASIC_COLUMNS: readonly SolarisTableColumn<ShowcasePerson>[] =
   [
-    { id: 'name', header: 'Name', accessor: 'name', sortable: true },
+    {
+      id: 'name',
+      headerKey: 'table.col.name',
+      accessor: 'name',
+      sortable: true,
+    },
     {
       id: 'age',
-      header: 'Age',
+      headerKey: 'table.col.age',
       accessor: 'age',
       type: 'number',
       sortable: true,
     },
-    { id: 'city', header: 'City', accessor: 'city', sortable: true },
+    {
+      id: 'city',
+      headerKey: 'table.col.city',
+      accessor: 'city',
+      sortable: true,
+    },
   ];
 
 export const TABLE_PEOPLE_CODE = [
+  'const columns = [',
+  "  { id: 'person', headerKey: 'table.col.person', icon: 'user', cellTemplateId: 'person' },",
+  "  { id: 'status', headerKey: 'table.col.status', icon: 'badge', cellTemplateId: 'status' },",
+  '];',
+  '',
   '<solaris-table [data]="rows" [columns]="columns" rowId="id">',
   '  <ng-template solaris-table-cell="person" let-row>',
   '    <solaris-avatar-profile [title]="row.name" [subtitle]="row.email" />',
@@ -150,24 +166,29 @@ export const TABLE_ROW_DIALOG_CODE = [
 
 export const TABLE_SHOWCASE_FULL_COLUMNS: readonly SolarisTableColumn<ShowcasePerson>[] =
   [
-    { id: 'name', header: 'Name', accessor: 'name', sortable: true },
+    {
+      id: 'name',
+      headerKey: 'table.col.name',
+      accessor: 'name',
+      sortable: true,
+    },
     {
       id: 'age',
-      header: 'Age',
+      headerKey: 'table.col.age',
       accessor: 'age',
       type: 'number',
       sortable: true,
     },
     {
       id: 'joined',
-      header: 'Joined',
+      headerKey: 'table.col.joined',
       accessor: 'joined',
       type: 'date',
       sortable: true,
     },
     {
       id: 'score',
-      header: 'Score',
+      headerKey: 'table.col.score',
       accessor: 'score',
       type: 'number',
       sortable: true,
@@ -177,7 +198,7 @@ export const TABLE_SHOWCASE_FULL_COLUMNS: readonly SolarisTableColumn<ShowcasePe
     },
     {
       id: 'city',
-      header: 'City',
+      headerKey: 'table.col.city',
       accessor: 'city',
       sortable: true,
       priority: 3,
@@ -216,12 +237,22 @@ export const TABLE_SELECTION_CODE = [
   '/>',
 ].join('\n');
 
-export const TABLE_CUSTOM_CELLS_CODE = [
-  '<solaris-table [data]="rows" [columns]="columns" rowId="id">',
-  '  <ng-template solaris-table-cell="score" let-value="value">',
-  '    <strong>{{ value }}</strong>',
-  '  </ng-template>',
-  '</solaris-table>',
+export const TABLE_ADD_ROW_CODE = [
+  '<solaris-table',
+  '  [data]="rows"',
+  '  [columns]="columns"',
+  '  rowId="id"',
+  '  [showAddRow]="true"',
+  '  (addRowRequest)="onAddRow()"',
+  '/>',
+].join('\n');
+
+export const TABLE_WITH_TABS_CODE = [
+  '<solaris-tabs [(value)]="tab">',
+  '  <solaris-tab value="all">All</solaris-tab>',
+  '  <solaris-tab value="recent">Recent</solaris-tab>',
+  '</solaris-tabs>',
+  '<solaris-table [data]="rows()" [columns]="columns" rowId="id" />',
 ].join('\n');
 
 export const TABLE_RESPONSIVE_CODE = [
@@ -256,16 +287,6 @@ export const TABLE_SERVER_CODE = [
   '/>',
 ].join('\n');
 
-export const TABLE_MOBILE_CODE = [
-  '<solaris-table',
-  '  [data]="rows"',
-  '  [columns]="columns"',
-  '  rowId="id"',
-  '  [expandable]="true"',
-  '  layout="card"',
-  '/>',
-].join('\n');
-
 export const TABLE_MOBILE_COMPOSED_CODE = [
   '<solaris-table',
   '  [data]="rows"',
@@ -292,24 +313,29 @@ export const TABLE_MOBILE_COMPOSED_CODE = [
 
 export const TABLE_SHOWCASE_CELL_COLUMNS: readonly SolarisTableColumn<ShowcasePerson>[] =
   [
-    { id: 'name', header: 'Name', accessor: 'name', sortable: true },
+    {
+      id: 'name',
+      headerKey: 'table.col.name',
+      accessor: 'name',
+      sortable: true,
+    },
     {
       id: 'age',
-      header: 'Age',
+      headerKey: 'table.col.age',
       accessor: 'age',
       type: 'number',
       sortable: true,
     },
     {
       id: 'joined',
-      header: 'Joined',
+      headerKey: 'table.col.joined',
       accessor: 'joined',
       type: 'date',
       sortable: true,
     },
     {
       id: 'score',
-      header: 'Score',
+      headerKey: 'table.col.score',
       accessor: 'score',
       type: 'number',
       sortable: true,
@@ -319,7 +345,7 @@ export const TABLE_SHOWCASE_CELL_COLUMNS: readonly SolarisTableColumn<ShowcasePe
     },
     {
       id: 'city',
-      header: 'City',
+      headerKey: 'table.col.city',
       accessor: 'city',
       sortable: true,
       expandable: true,
@@ -354,24 +380,6 @@ export const TABLE_CELL_EXPAND_CODE = [
   '</solaris-table>',
 ].join('\n');
 
-export const TABLE_SUBTABLE_CODE = [
-  '<solaris-table',
-  '  [data]="rows"',
-  '  [columns]="columns"',
-  '  rowId="id"',
-  '  [expandable]="true"',
-  '>',
-  '  <ng-template solaris-table-detail="units-detail" let-row>',
-  '    <solaris-table',
-  '      [data]="row.units"',
-  '      [columns]="unitColumns"',
-  '      rowId="id"',
-  '      appearance="plain"',
-  '    />',
-  '  </ng-template>',
-  '</solaris-table>',
-].join('\n');
-
 export const TABLE_APPEARANCE_CODE = [
   '<solaris-table',
   '  [data]="rows"',
@@ -385,10 +393,15 @@ export const TABLE_APPEARANCE_CODE = [
 
 export const TABLE_SHOWCASE_WIDE_COLUMNS: readonly SolarisTableColumn<ShowcasePerson>[] =
   [
-    { id: 'name', header: 'Name', accessor: 'name', sortable: true },
+    {
+      id: 'name',
+      headerKey: 'table.col.name',
+      accessor: 'name',
+      sortable: true,
+    },
     {
       id: 'age',
-      header: 'Age',
+      headerKey: 'table.col.age',
       accessor: 'age',
       type: 'number',
       sortable: true,
@@ -397,26 +410,54 @@ export const TABLE_SHOWCASE_WIDE_COLUMNS: readonly SolarisTableColumn<ShowcasePe
     },
     {
       id: 'joined',
-      header: 'Joined',
+      headerKey: 'table.col.joined',
       accessor: 'joined',
       type: 'date',
       sortable: true,
     },
     {
       id: 'score',
-      header: 'Score',
+      headerKey: 'table.col.score',
       accessor: 'score',
       type: 'number',
       sortable: true,
       align: 'end',
       headerAlign: 'end',
     },
-    { id: 'city', header: 'City', accessor: 'city', sortable: true },
-    { id: 'level', header: 'Level', accessor: 'score', type: 'number' },
-    { id: 'team', header: 'Team', accessor: 'city' },
-    { id: 'track', header: 'Track', accessor: 'joined', type: 'date' },
-    { id: 'grade', header: 'Grade', accessor: 'age', type: 'number' },
-    { id: 'office', header: 'Office', accessor: 'city' },
+    {
+      id: 'city',
+      headerKey: 'table.col.city',
+      accessor: 'city',
+      sortable: true,
+    },
+    {
+      id: 'level',
+      headerKey: 'table.col.level',
+      accessor: 'score',
+      type: 'number',
+    },
+    {
+      id: 'team',
+      headerKey: 'table.col.team',
+      accessor: 'city',
+    },
+    {
+      id: 'track',
+      headerKey: 'table.col.track',
+      accessor: 'joined',
+      type: 'date',
+    },
+    {
+      id: 'grade',
+      headerKey: 'table.col.grade',
+      accessor: 'age',
+      type: 'number',
+    },
+    {
+      id: 'office',
+      headerKey: 'table.col.office',
+      accessor: 'city',
+    },
   ];
 
 export const TABLE_SHOWCASE_APPEARANCES = [
@@ -424,6 +465,7 @@ export const TABLE_SHOWCASE_APPEARANCES = [
   'surface',
   'soft',
   'plain',
+  'grid',
 ] as const;
 
 export const TABLE_LAYOUT_CODE = [
@@ -477,23 +519,5 @@ export const TABLE_WITH_PAGINATION_CODE = [
   '  </ng-template>',
   '</solaris-table>',
 ].join('\n');
-
-export const TABLE_SHOWCASE_CUSTOM_COLUMNS: readonly SolarisTableColumn<ShowcasePerson>[] =
-  [
-    { id: 'name', header: 'Name', accessor: 'name' },
-    {
-      id: 'score',
-      header: 'Score',
-      accessor: 'score',
-      type: 'number',
-      cellTemplateId: 'score',
-    },
-    {
-      id: 'city',
-      header: 'City',
-      accessor: 'city',
-      headerTemplateId: 'city',
-    },
-  ];
 
 export { SHOWCASE_INSTALL_COMMANDS as TABLE_SHOWCASE_INSTALL_COMMANDS } from '../../../shared/showcase-page-utils';

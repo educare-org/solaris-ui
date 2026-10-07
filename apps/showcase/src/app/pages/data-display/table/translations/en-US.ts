@@ -7,13 +7,14 @@ export const EN_US_TABLE: Record<string, string> = {
   'table.section.basic': 'Basic',
   'table.section.sorting': 'Sorting',
   'table.section.selection': 'Selection',
-  'table.section.custom-cells': 'Custom cells',
-  'table.section.people': 'People',
+  'table.section.composition': 'Composition',
   'table.section.row-dialog': 'Row dialog',
   'table.section.responsive': 'Responsive',
   'table.section.cell-expand': 'Cell expansion',
   'table.section.appearance': 'Appearance',
   'table.section.wide': 'Many columns',
+  'table.section.add-row': 'Add row',
+  'table.section.with-tabs': 'With tabs',
   'table.section.mobile': 'Mobile',
   'table.section.layout': 'Layout',
   'table.section.states': 'States',
@@ -24,23 +25,39 @@ export const EN_US_TABLE: Record<string, string> = {
     'Search, filters, saved views, export and column management projected inside the table frame, with pagination in the footer.',
   'table.with-toolbar.view.all': 'All contacts',
   'table.with-toolbar.view.adults': 'Age 30+',
-  'table.with-toolbar.col.name': 'Name',
-  'table.with-toolbar.col.age': 'Age',
-  'table.with-toolbar.col.city': 'City',
   'table.section.installation': 'Installation',
   'table.section.props': 'Props',
 
   'table.examples.note':
     'Start with the default table, then explore sorting, selection, and states below.',
+  'table.col.name': 'Name',
+  'table.col.age': 'Age',
+  'table.col.city': 'City',
+  'table.col.joined': 'Joined',
+  'table.col.score': 'Score',
+  'table.col.person': 'Person',
+  'table.col.status': 'Status',
+  'table.col.actions': 'Actions',
+  'table.col.details': 'Details',
+  'table.col.level': 'Level',
+  'table.col.team': 'Team',
+  'table.col.track': 'Track',
+  'table.col.grade': 'Grade',
+  'table.col.office': 'Office',
+  'table.action.details': 'Details',
   'table.basic.note': 'Text, number, and date columns with optional sorting.',
   'table.sorting.note':
     'Click a column header to cycle null, ascending, descending. Changes are announced to screen readers.',
   'table.selection.note':
     'Single swaps the selection, multiple toggles. The header checkbox is tri-state.',
-  'table.custom-cells.note':
-    'Cell and header templates render custom content with full row context.',
-  'table.people.note':
-    'Avatar and badge columns compose existing components through custom cell templates.',
+  'table.composition.note':
+    'Avatar and badge columns compose existing components through cell templates. Use column.icon for simple header icons without a template.',
+  'table.add-row.note':
+    'Inline creation row. It only emits addRowRequest; action buttons in the toolbar stay separate.',
+  'table.with-tabs.note':
+    'Tabs switch datasets while each table keeps its own sort.',
+  'table.with-tabs.tab.all': 'All',
+  'table.with-tabs.tab.recent': 'Recent',
   'table.row-dialog.note':
     'Cell buttons open a dialog for quick details without leaving the table.',
   'table.responsive.note':
@@ -61,13 +78,11 @@ export const EN_US_TABLE: Record<string, string> = {
   'table.cell-expand.note':
     'Columns with expandable or a detail template render a chevron next to the value and open a detail row below with only that column.',
   'table.appearance.note':
-    'Outline, surface, soft, and plain variants with even or odd striping.',
+    'Outline, surface, soft, plain, and grid variants with even or odd striping and frame radius.',
   'table.wide.note':
     'Wide tables scroll horizontally inside the viewport. Use fullWidth to distribute columns instead.',
-  'table.mobile.note':
-    'Phone-width table rendered as cards with no horizontal dragging. Sorting lives in the future filter bar; cards show plain labels.',
   'table.mobile-composed.note':
-    'Cards compose avatar, badge, and action cells like the desktop table.',
+    'Phone-width cards composing avatar, badge, and actions with no horizontal dragging.',
   'table.layout.note':
     'Auto sizes columns to content. Full width distributes them across the container.',
   'table.layout.tab.auto': 'Auto',

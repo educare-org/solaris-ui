@@ -16,7 +16,18 @@
       exportFilename="contacts"
       persistenceKey="showcase-contacts-toolbar"
       (viewCreate)="onCreateView($event)"
-    />
+    >
+      <ng-template solaris-table-toolbar-trailing>
+        <button type="button" solaris-button appearance="outline" size="sm">
+          Audit
+        </button>
+      </ng-template>
+      <ng-template solaris-table-toolbar-leading>
+        <button type="button" solaris-button appearance="solid" size="sm">
+          New
+        </button>
+      </ng-template>
+    </solaris-table-toolbar>
   </ng-template>
   <ng-template solaris-table-footer>
     <solaris-pagination

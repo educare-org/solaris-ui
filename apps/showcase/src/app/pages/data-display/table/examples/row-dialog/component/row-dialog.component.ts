@@ -5,6 +5,7 @@ import {
   SolarisDialogService,
   SolarisTableCellDirective,
   SolarisTableComponent,
+  SolarisTranslatePipe,
   type SolarisTableColumn,
 } from '@solaris-ui/angular';
 
@@ -18,6 +19,7 @@ import { TABLE_SHOWCASE_ROWS } from '../../../model/table-showcase.data';
     SolarisTableComponent,
     SolarisTableCellDirective,
     SolarisButtonDirective,
+    SolarisTranslatePipe,
   ],
   templateUrl: './row-dialog.component.html',
 })
@@ -25,11 +27,20 @@ export class RowDialogTableExample {
   private readonly dialogService = inject(SolarisDialogService);
 
   protected readonly columns: readonly SolarisTableColumn<ShowcasePerson>[] = [
-    { id: 'name', header: 'Name', accessor: 'name', sortable: true },
-    { id: 'city', header: 'City', accessor: 'city' },
+    {
+      id: 'name',
+      headerKey: 'table.col.name',
+      accessor: 'name',
+      sortable: true,
+    },
+    {
+      id: 'city',
+      headerKey: 'table.col.city',
+      accessor: 'city',
+    },
     {
       id: 'details',
-      header: 'Details',
+      headerKey: 'table.col.details',
       cellTemplateId: 'details',
     },
   ];

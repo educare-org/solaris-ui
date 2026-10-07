@@ -7,13 +7,14 @@ export const PT_BR_TABLE: Record<string, string> = {
   'table.section.basic': 'Básico',
   'table.section.sorting': 'Ordenação',
   'table.section.selection': 'Seleção',
-  'table.section.custom-cells': 'Células personalizadas',
-  'table.section.people': 'Pessoas',
+  'table.section.composition': 'Composição',
   'table.section.row-dialog': 'Diálogo de linha',
   'table.section.responsive': 'Responsivo',
   'table.section.cell-expand': 'Expansão por célula',
   'table.section.appearance': 'Aparência',
   'table.section.wide': 'Muitas colunas',
+  'table.section.add-row': 'Adicionar linha',
+  'table.section.with-tabs': 'Com abas',
   'table.section.mobile': 'Mobile',
   'table.section.layout': 'Layout',
   'table.section.states': 'Estados',
@@ -24,23 +25,39 @@ export const PT_BR_TABLE: Record<string, string> = {
     'Busca, filtros, views salvas, exportação e gestão de colunas projetados dentro do frame da tabela, com paginação no rodapé.',
   'table.with-toolbar.view.all': 'Todos os contatos',
   'table.with-toolbar.view.adults': 'Idade 30+',
-  'table.with-toolbar.col.name': 'Nome',
-  'table.with-toolbar.col.age': 'Idade',
-  'table.with-toolbar.col.city': 'Cidade',
   'table.section.installation': 'Instalação',
   'table.section.props': 'Propriedades',
 
   'table.examples.note':
     'Comece pela tabela padrão e explore ordenação, seleção e estados abaixo.',
+  'table.col.name': 'Nome',
+  'table.col.age': 'Idade',
+  'table.col.city': 'Cidade',
+  'table.col.joined': 'Admissão',
+  'table.col.score': 'Pontuação',
+  'table.col.person': 'Pessoa',
+  'table.col.status': 'Status',
+  'table.col.actions': 'Ações',
+  'table.col.details': 'Detalhes',
+  'table.col.level': 'Nível',
+  'table.col.team': 'Equipe',
+  'table.col.track': 'Trilha',
+  'table.col.grade': 'Nota',
+  'table.col.office': 'Escritório',
+  'table.action.details': 'Detalhes',
   'table.basic.note': 'Colunas de texto, número e data com ordenação opcional.',
   'table.sorting.note':
     'Clique no cabeçalho para alternar nulo, ascendente, descendente. Mudanças são anunciadas a leitores de tela.',
   'table.selection.note':
     'Single troca a seleção, multiple alterna. O checkbox do cabeçalho é tri-state.',
-  'table.custom-cells.note':
-    'Templates de célula e cabeçalho renderizam conteúdo customizado com contexto da linha.',
-  'table.people.note':
-    'Colunas de avatar e badge compõem componentes existentes via templates de célula.',
+  'table.composition.note':
+    'Colunas de avatar e badge compõem componentes existentes via templates. Use column.icon para ícones simples sem template.',
+  'table.add-row.note':
+    'Linha de criação inline. Emite só addRowRequest; botões do toolbar ficam separados.',
+  'table.with-tabs.note':
+    'Abas trocam datasets com sort independente por tabela.',
+  'table.with-tabs.tab.all': 'Todos',
+  'table.with-tabs.tab.recent': 'Recentes',
   'table.row-dialog.note':
     'Botões de célula abrem um dialog com detalhes sem sair da tabela.',
   'table.responsive.note':
@@ -61,13 +78,11 @@ export const PT_BR_TABLE: Record<string, string> = {
   'table.cell-expand.note':
     'Colunas com expandable ou detail template exibem um chevron ao lado do valor e abrem uma linha de detalhe abaixo só com aquela coluna.',
   'table.appearance.note':
-    'Variantes outline, surface, soft e plain com zebra even ou odd.',
+    'Variantes outline, surface, soft, plain e grid com zebra even ou odd e radius do frame.',
   'table.wide.note':
     'Tabelas largas rolam horizontalmente no viewport. Use fullWidth para distribuir as colunas.',
-  'table.mobile.note':
-    'Tabela em largura de telefone em cards sem arrastar. Ordenação fica na futura barra de filtros; cards mostram rótulos simples.',
   'table.mobile-composed.note':
-    'Cards compõem células de avatar, badge e ações como a tabela desktop.',
+    'Cards em largura de telefone com avatar, badge e ações sem arrastar.',
   'table.layout.note':
     'Auto dimensiona colunas pelo conteúdo. Full width distribui pelo container.',
   'table.layout.tab.auto': 'Auto',

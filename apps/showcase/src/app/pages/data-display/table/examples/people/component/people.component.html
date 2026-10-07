@@ -1,7 +1,8 @@
 <solaris-table [data]="rows" [columns]="columns" rowId="id" cellPadding="lg">
   <ng-template solaris-table-cell="person" let-row>
     <solaris-avatar-profile
-      size="xs"
+      size="sm"
+      textSize="sm"
       [title]="row.name"
       [subtitle]="row.email"
     />
