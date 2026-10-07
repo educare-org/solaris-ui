@@ -20,14 +20,16 @@ export const SOLARIS_TABLE_FILTER_OPERATORS = [
 export type SolarisTableFilterOperator =
   (typeof SOLARIS_TABLE_FILTER_OPERATORS)[number];
 
+export interface SolarisTableFilterRangeValue {
+  readonly from?: string | number | null;
+  readonly to?: string | number | null;
+}
+
 export type SolarisTableFilterConditionValue =
   | string
   | number
   | readonly string[]
-  | {
-      readonly from?: string | number | null;
-      readonly to?: string | number | null;
-    }
+  | SolarisTableFilterRangeValue
   | null;
 
 export interface SolarisTableFilterCondition {

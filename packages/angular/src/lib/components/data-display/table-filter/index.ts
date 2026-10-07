@@ -1,5 +1,9 @@
 export { SolarisTableToolbarComponent } from './component/table-toolbar/table-toolbar.component';
 export {
+  SolarisTableToolbarLeadingDirective,
+  SolarisTableToolbarTrailingDirective,
+} from './component/table-toolbar/table-toolbar-slots.directive';
+export {
   SolarisColumnManagerComponent,
   type SolarisColumnManagerSave,
 } from './component/column-manager/column-manager.component';
@@ -11,6 +15,7 @@ export {
   type SolarisTableFilterConditionValue,
   type SolarisTableFilterOperator,
   type SolarisTableFilterOption,
+  type SolarisTableFilterRangeValue,
   type SolarisTableFilterState,
   type SolarisTableFilterableColumn,
   type SolarisTableToolbarExportDisplay,

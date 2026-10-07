@@ -59,6 +59,27 @@ action group. The active-filter count uses `solaris-badge`. Condition editors us
 standalone `solaris-select` / `solaris-multi-select` label API (never nested in a
 `form-field`); plain text/number/date/range editors use `solaris-form-field`.
 
+### Custom actions (`leading` / `trailing` slots)
+
+Standard zones stay input-driven; extra buttons project through slots so the toolbar
+never needs a new input per action:
+
+```html
+<solaris-table-toolbar [columns]="columns" [(filter)]="filter">
+  <ng-template solaris-table-toolbar-leading>
+    <button solaris-button appearance="solid" size="sm">New</button>
+  </ng-template>
+  <ng-template solaris-table-toolbar-trailing>
+    <button solaris-button appearance="outline" size="sm">Audit</button>
+  </ng-template>
+</solaris-table-toolbar>
+```
+
+Disposition: `leading` renders left before search (primary creation, stable first
+position, first on wrap); `trailing` renders right after the built-ins with a divider
+(secondary actions). Keep at most two custom buttons; beyond that use a
+`solaris-dropdown-menu`. Zones wrap on narrow viewports with search full-width first.
+
 ### SolarisColumnManagerComponent
 
 **Selector:** `solaris-column-manager`

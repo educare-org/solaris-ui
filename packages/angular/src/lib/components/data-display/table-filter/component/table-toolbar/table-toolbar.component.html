@@ -34,6 +34,11 @@
   </div>
 }
 <div class="solaris-table-toolbar__controls">
+  @if (leadingTemplate(); as leading) {
+    <div class="solaris-table-toolbar__leading">
+      <ng-container *ngTemplateOutlet="leading.templateRef" />
+    </div>
+  }
   @if (showSearch()) {
     <solaris-form-field
       class="solaris-table-toolbar__search"
@@ -139,6 +144,11 @@
       >
         {{ resolveColumnsButtonLabel() }}
       </button>
+    }
+    @if (trailingTemplate(); as trailing) {
+      <div class="solaris-table-toolbar__trailing">
+        <ng-container *ngTemplateOutlet="trailing.templateRef" />
+      </div>
     }
   </div>
 </div>

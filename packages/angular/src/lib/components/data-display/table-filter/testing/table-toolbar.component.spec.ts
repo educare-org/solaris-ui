@@ -256,4 +256,11 @@ describe('SolarisTableToolbarComponent chips animation', () => {
     fixture.detectChanges();
     expect(root.querySelector('.solaris-table-toolbar__chips')).toBeNull();
   });
+
+  it('should render without leading or trailing slots by default', () => {
+    const fixture = createFixture();
+    const root = fixture.nativeElement as HTMLElement;
+    expect(root.querySelector('.solaris-table-toolbar__leading')).toBeNull();
+    expect(root.querySelector('.solaris-table-toolbar__trailing')).toBeNull();
+  });
 });

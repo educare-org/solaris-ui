@@ -85,6 +85,7 @@ export {
   SOLARIS_TABLE_DETAIL_VARIANTS,
   SOLARIS_TABLE_EXPAND_MODES,
   SOLARIS_TABLE_LAYOUTS,
+  SOLARIS_TABLE_RADII,
   SOLARIS_TABLE_SELECTION_MODES,
   SOLARIS_TABLE_STRIPED_MODES,
 } from './lib/components/data-display/table/model/table.types';
@@ -99,7 +100,9 @@ export type {
   SolarisTableDensity,
   SolarisTableDetailVariant,
   SolarisTableExpandMode,
+  SolarisTableIconPosition,
   SolarisTableLayout,
+  SolarisTableRadius,
   SolarisTableResolvedRow,
   SolarisTableRowClickEvent,
   SolarisTableSelectionChange,
@@ -138,6 +141,7 @@ export type {
   SolarisAvatarFallback,
   SolarisAvatarGroupMemberEvent,
   SolarisAvatarGroupUser,
+  SolarisAvatarProfileTextSize,
   SolarisAvatarRadius,
   SolarisAvatarSize,
   SolarisAvatarStatus,
@@ -628,6 +632,10 @@ export type {
 
 export { SolarisTableToolbarComponent } from './lib/components/data-display/table-filter/component/table-toolbar/table-toolbar.component';
 export {
+  SolarisTableToolbarLeadingDirective,
+  SolarisTableToolbarTrailingDirective,
+} from './lib/components/data-display/table-filter/component/table-toolbar/table-toolbar-slots.directive';
+export {
   SolarisColumnManagerComponent,
   type SolarisColumnManagerSave,
 } from './lib/components/data-display/table-filter/component/column-manager/column-manager.component';
@@ -641,6 +649,7 @@ export type {
   SolarisTableFilterConditionValue,
   SolarisTableFilterOperator,
   SolarisTableFilterOption,
+  SolarisTableFilterRangeValue,
   SolarisTableFilterState,
   SolarisTableFilterableColumn,
   SolarisTableToolbarExportDisplay,

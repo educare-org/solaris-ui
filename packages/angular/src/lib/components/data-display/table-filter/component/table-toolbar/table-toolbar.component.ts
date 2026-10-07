@@ -1,26 +1,28 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
-  DOCUMENT,
-  DestroyRef,
-  PLATFORM_ID,
-  booleanAttribute,
   computed,
+  contentChild,
+  DestroyRef,
+  DOCUMENT,
   effect,
   inject,
   input,
   model,
+  OnInit,
   output,
+  PLATFORM_ID,
   signal,
   untracked,
   viewChild,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, NgTemplateOutlet } from '@angular/common';
 
 import { SolarisTranslateService } from '../../../../../services/translation';
 import {
-  SolarisExportService,
   type SolarisExporter,
+  SolarisExportService,
 } from '../../../../../services/export';
 import { SolarisThemeService } from '../../../../../services/theme';
 import { SolarisIconComponent } from '../../../../icon';
@@ -38,58 +40,57 @@ import {
 } from '../../../../interaction/popover';
 import {
   SolarisDropdownMenuComponent,
-  SolarisDropdownMenuTriggerDirective,
   SolarisDropdownMenuItemComponent,
   SolarisDropdownMenuLabelComponent,
+  SolarisDropdownMenuTriggerDirective,
 } from '../../../../interaction/dropdown-menu';
-import { nextIdFor } from '../../../../../core';
 
 import {
+  defaultOperatorForColumn,
   FILTER_ADD_CONDITION_LABEL,
   FILTER_ADD_CONDITION_LABEL_KEY,
   FILTER_ARIA_LABEL_FALLBACK_KEY,
   FILTER_ARIA_LABEL_FALLBACK_TEXT,
   FILTER_BUTTON_LABEL,
   FILTER_BUTTON_LABEL_KEY,
+  FILTER_CHIPS_COLLAPSE_DURATION_MS,
   FILTER_CLEAR_ALL_LABEL,
   FILTER_CLEAR_ALL_LABEL_KEY,
-  FILTER_CHIPS_COLLAPSE_DURATION_MS,
-  FILTER_COLUMNS_BUTTON_LABEL_KEY,
-  FILTER_COLUMNS_BUTTON,
   FILTER_COLUMN_LABEL,
   FILTER_COLUMN_LABEL_KEY,
+  FILTER_COLUMNS_BUTTON,
+  FILTER_COLUMNS_BUTTON_LABEL_KEY,
   FILTER_CREATE_VIEW_LABEL,
   FILTER_CREATE_VIEW_LABEL_KEY,
   FILTER_CREATE_VIEW_NAME_LABEL,
   FILTER_CREATE_VIEW_NAME_LABEL_KEY,
   FILTER_CREATE_VIEW_NAME_PLACEHOLDER,
   FILTER_CREATE_VIEW_NAME_PLACEHOLDER_KEY,
-  FILTER_EXPORT_LABEL,
-  FILTER_EXPORT_LABEL_KEY,
   FILTER_EXPORT_FORMAT_LABEL,
   FILTER_EXPORT_FORMAT_LABEL_KEY,
+  FILTER_EXPORT_LABEL,
+  FILTER_EXPORT_LABEL_KEY,
   FILTER_NO_CONDITIONS_LABEL,
   FILTER_NO_CONDITIONS_LABEL_KEY,
   FILTER_OPERATOR_LABEL,
   FILTER_OPERATOR_LABEL_KEY,
-  FILTER_OPERATOR_LABELS,
   FILTER_OPERATOR_LABEL_KEYS,
+  FILTER_OPERATOR_LABELS,
   FILTER_REMOVE_CONDITION_LABEL,
   FILTER_REMOVE_CONDITION_LABEL_KEY,
   FILTER_REMOVE_SEARCH_LABEL,
   FILTER_REMOVE_SEARCH_LABEL_KEY,
+  FILTER_SAVE_LABEL,
+  FILTER_SAVE_LABEL_KEY,
   FILTER_SEARCH_DEBOUNCE_MS,
   FILTER_SEARCH_LABEL,
   FILTER_SEARCH_LABEL_KEY,
-  FILTER_SAVE_LABEL,
-  FILTER_SAVE_LABEL_KEY,
   FILTER_SEARCH_PLACEHOLDER,
   FILTER_SEARCH_PLACEHOLDER_KEY,
   FILTER_VALUE_LABEL,
   FILTER_VALUE_LABEL_KEY,
   FILTER_VIEWS_LABEL,
   FILTER_VIEWS_LABEL_KEY,
-  defaultOperatorForColumn,
   interpolateFilterText,
   isListOperator,
   isRangeOperator,
@@ -100,10 +101,11 @@ import {
 } from '../../model/filter.defaults';
 import type {
   SolarisTableExportEvent,
+  SolarisTableFilterableColumn,
   SolarisTableFilterCondition,
   SolarisTableFilterOperator,
+  SolarisTableFilterRangeValue,
   SolarisTableFilterState,
-  SolarisTableFilterableColumn,
   SolarisTableToolbarExportDisplay,
   SolarisTableView,
 } from '../../model/filter.types';
@@ -122,6 +124,10 @@ import {
   SolarisColumnManagerComponent,
   type SolarisColumnManagerSave,
 } from '../column-manager/column-manager.component';
+import {
+  SolarisTableToolbarLeadingDirective,
+  SolarisTableToolbarTrailingDirective,
+} from './table-toolbar-slots.directive';
 
 interface PersistedToolbarState {
   readonly filter?: Partial<SolarisTableFilterState>;
@@ -132,6 +138,7 @@ interface PersistedToolbarState {
   selector: 'solaris-table-toolbar',
   standalone: true,
   imports: [
+    NgTemplateOutlet,
     SolarisIconComponent,
     SolarisButtonDirective,
     SolarisIconButtonDirective,
@@ -158,7 +165,7 @@ interface PersistedToolbarState {
     '[attr.aria-label]': 'resolvedAriaLabel()',
   },
 })
-export class SolarisTableToolbarComponent<T = unknown> {
+export class SolarisTableToolbarComponent<T = unknown> implements OnInit {
   protected readonly themeService = inject(SolarisThemeService);
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
@@ -167,8 +174,6 @@ export class SolarisTableToolbarComponent<T = unknown> {
   private readonly destroyRef = inject(DestroyRef);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);
-
-  protected readonly searchInputId = nextIdFor('solaris-table-toolbar-search');
 
   readonly columns = input<readonly SolarisTableFilterableColumn<T>[]>([]);
   readonly filter = model<SolarisTableFilterState>(
@@ -193,6 +198,11 @@ export class SolarisTableToolbarComponent<T = unknown> {
 
   readonly viewCreate = output<string>();
   readonly exported = output<SolarisTableExportEvent<T>>();
+
+  readonly leadingTemplate = contentChild(SolarisTableToolbarLeadingDirective);
+  readonly trailingTemplate = contentChild(
+    SolarisTableToolbarTrailingDirective,
+  );
 
   private readonly columnsTrigger = viewChild('columnsTrigger', {
     read: SolarisPopoverTriggerDirective,
@@ -293,16 +303,15 @@ export class SolarisTableToolbarComponent<T = unknown> {
       this.chipsOpen.set(true);
       return;
     }
-    const first = requestAnimationFrame(() => {
-      const second = requestAnimationFrame(() => {
+
+    this.chipsOpenFrame = requestAnimationFrame(() => {
+      this.chipsOpenFrame = requestAnimationFrame(() => {
         this.chipsOpenFrame = null;
         if (this.hasActiveFilters()) {
           this.chipsOpen.set(true);
         }
       });
-      this.chipsOpenFrame = second;
     });
-    this.chipsOpenFrame = first;
   }
 
   private closeChips(): void {
@@ -384,11 +393,6 @@ export class SolarisTableToolbarComponent<T = unknown> {
     this.exporters().length === 1 ? this.exporters()[0] : null,
   );
 
-  protected readonly activeView = computed(
-    () =>
-      this.views().find((view) => view.id === this.selectedViewId()) ?? null,
-  );
-
   protected readonly orderedVisibleColumns = computed(() =>
     applyOrderedVisibleColumns(this.columns(), this.filter()),
   );
@@ -440,21 +444,18 @@ export class SolarisTableToolbarComponent<T = unknown> {
       return '';
     }
     if (isListOperator(condition.operator)) {
-      const list = Array.isArray(condition.value)
-        ? condition.value
-        : condition.value === null ||
-            condition.value === undefined ||
-            condition.value === ''
-          ? []
-          : [condition.value];
-      return list.map((entry) => String(entry)).join(', ');
+      const raw = condition.value;
+      if (Array.isArray(raw)) {
+        return raw.map(String).join(', ');
+      }
+      if (raw === null || raw === undefined || raw === '') {
+        return '';
+      }
+      return String(raw);
     }
     if (isRangeOperator(condition.operator)) {
       const range = condition.value as
-        | {
-            readonly from?: string | number | null;
-            readonly to?: string | number | null;
-          }
+        | SolarisTableFilterRangeValue
         | null
         | undefined;
       const from = range?.from ?? '';
@@ -575,10 +576,7 @@ export class SolarisTableToolbarComponent<T = unknown> {
     if (!current) {
       return;
     }
-    const range = (current.value ?? {}) as {
-      readonly from?: string | null;
-      readonly to?: string | null;
-    };
+    const range = (current.value ?? {}) as SolarisTableFilterRangeValue;
     this.patchCondition(index, {
       columnId: current.columnId,
       operator: current.operator,
@@ -694,10 +692,7 @@ export class SolarisTableToolbarComponent<T = unknown> {
     side: 'from' | 'to',
   ): string {
     const range = condition.value as
-      | {
-          readonly from?: string | number | null;
-          readonly to?: string | number | null;
-        }
+      | SolarisTableFilterRangeValue
       | null
       | undefined;
     const part = side === 'from' ? range?.from : range?.to;
