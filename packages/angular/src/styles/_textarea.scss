@@ -12,6 +12,12 @@ textarea[solaris-textarea] {
   --solaris-textarea-placeholder-color: var(--solaris-neutral-text-secondary);
   --solaris-textarea-focus-ring-color: var(--solaris-primary-solid);
   --solaris-textarea-focus-ring-width: var(--solaris-focus-ring-width);
+  --solaris-textarea-focus-ring-shadow: 0 0 0
+    var(--solaris-textarea-focus-ring-width)
+    var(--solaris-textarea-focus-ring-color);
+  --solaris-textarea-error-ring-shadow: 0 0 0
+    var(--solaris-textarea-focus-ring-width)
+    var(--solaris-textarea-invalid-border-color);
   --solaris-textarea-invalid-border-color: var(--solaris-danger-solid);
   --solaris-textarea-readonly-background: var(--solaris-neutral-sunken);
   --solaris-textarea-min-height: calc(
@@ -45,10 +51,8 @@ textarea[solaris-textarea]::placeholder {
 }
 
 textarea[solaris-textarea]:focus-visible {
-  // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized color. Hardcoded spread required by design.
   border-color: var(--solaris-textarea-focus-ring-color);
-  box-shadow: 0 0 0 var(--solaris-textarea-focus-ring-width)
-    var(--solaris-textarea-focus-ring-color);
+  box-shadow: var(--solaris-textarea-focus-ring-shadow);
 }
 
 textarea[solaris-textarea][data-invalid] {
@@ -56,10 +60,8 @@ textarea[solaris-textarea][data-invalid] {
 }
 
 textarea[solaris-textarea][data-invalid]:focus-visible {
-  // SOLARIS_TOKEN_EXCEPTION: Invalid state focus ring box-shadow uses CSS var. Hardcoded spread required by design.
   border-color: var(--solaris-textarea-invalid-border-color);
-  box-shadow: 0 0 0 var(--solaris-textarea-focus-ring-width)
-    var(--solaris-textarea-invalid-border-color);
+  box-shadow: var(--solaris-textarea-error-ring-shadow);
 }
 
 textarea[solaris-textarea]:disabled {

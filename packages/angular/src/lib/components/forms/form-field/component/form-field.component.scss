@@ -29,6 +29,12 @@
   --solaris-form-field-control-background: var(--solaris-neutral-default);
   --solaris-form-field-readonly-background: var(--solaris-neutral-sunken);
   --solaris-form-field-focus-ring-width: var(--solaris-focus-ring-width);
+  --solaris-form-field-focus-ring-shadow: 0 0 0
+    var(--solaris-form-field-focus-ring-width)
+    var(--solaris-form-field-focus-ring-color);
+  --solaris-form-field-error-ring-shadow: 0 0 0
+    var(--solaris-form-field-focus-ring-width)
+    var(--solaris-form-field-error-border-color);
   --solaris-form-field-control-border-color: var(
     --solaris-neutral-border-subtle
   );
@@ -138,7 +144,6 @@
   .solaris-form-field__control-wrapper[data-connected-side='bottom'],
 :host([data-focused])
   .solaris-form-field__control-wrapper[data-connected-side='top'] {
-  // SOLARIS_TOKEN_EXCEPTION: Connected panel merges with the trigger; the outer focus ring would cut through the panel junction, so only the border color indicates focus while open.
   box-shadow: none;
 }
 
@@ -435,9 +440,7 @@
 }
 
 :host([data-focused]) .solaris-form-field__control-wrapper {
-  // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized color. Hardcoded spread is required by design.
-  box-shadow: 0 0 0 var(--solaris-form-field-focus-ring-width)
-    var(--solaris-form-field-focus-ring-color);
+  box-shadow: var(--solaris-form-field-focus-ring-shadow);
 }
 
 :host([data-disabled]) {
@@ -498,15 +501,12 @@
 }
 
 :host([data-invalid][data-focused]) .solaris-form-field__control-wrapper {
-  // SOLARIS_TOKEN_EXCEPTION: Invalid state focus ring box-shadow uses CSS var. Hardcoded spread required by design.
-  box-shadow: 0 0 0 var(--solaris-form-field-focus-ring-width)
-    var(--solaris-form-field-error-border-color);
+  box-shadow: var(--solaris-form-field-error-ring-shadow);
 }
 
 :host([data-invalid][data-focused])
   .solaris-form-field__control-wrapper[data-connected-side='bottom'],
 :host([data-invalid][data-focused])
   .solaris-form-field__control-wrapper[data-connected-side='top'] {
-  // SOLARIS_TOKEN_EXCEPTION: Same connected-panel exception as above, using the error color border only while open.
   box-shadow: none;
 }

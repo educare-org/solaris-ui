@@ -50,12 +50,13 @@ These tokens do NOT meet WCAG AA for certain uses:
 
 Solaris provides system-wide focus ring tokens:
 
-| Token                         | Default      | Dark          | High-contrast |
-| ----------------------------- | ------------ | ------------- | ------------- |
-| `--solaris-focus-ring-width`  | 2px          | 2px           | 3px           |
-| `--solaris-focus-ring-offset` | 2px          | 2px           | 2px           |
-| `--solaris-focus-ring-color`  | primary-base | primary-hover | #000000       |
-| `--solaris-focus-ring-style`  | solid        | solid         | solid         |
+| Token                         | Default                                                                 | Dark                                                                    | High-contrast                                                           |
+| ----------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `--solaris-focus-ring-width`  | 2px                                                                     | 2px                                                                     | 3px                                                                     |
+| `--solaris-focus-ring-offset` | 2px                                                                     | 2px                                                                     | 2px                                                                     |
+| `--solaris-focus-ring-color`  | primary-base                                                            | primary-hover                                                           | #000000                                                                 |
+| `--solaris-focus-ring-style`  | solid                                                                   | solid                                                                   | solid                                                                   |
+| `--solaris-focus-ring-shadow` | `0 0 0 var(--solaris-focus-ring-width) var(--solaris-focus-ring-color)` | `0 0 0 var(--solaris-focus-ring-width) var(--solaris-focus-ring-color)` | `0 0 0 var(--solaris-focus-ring-width) var(--solaris-focus-ring-color)` |
 
 ### Requirements per component
 

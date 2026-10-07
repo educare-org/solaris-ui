@@ -94,8 +94,6 @@
   &:focus {
     outline: none;
     border-color: var(--solaris-otp-input-box-active-border-color);
-
-    // SOLARIS_TOKEN_EXCEPTION: removing the focus ring on OTP boxes is intentional; the active box signals with a lighter border instead.
     box-shadow: none;
   }
 

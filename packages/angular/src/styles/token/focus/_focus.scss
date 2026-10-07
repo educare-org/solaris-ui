@@ -3,6 +3,8 @@
   --solaris-focus-ring-offset: 2px;
   --solaris-focus-ring-color: var(--solaris-primary-solid);
   --solaris-focus-ring-style: solid;
+  --solaris-focus-ring-shadow: 0 0 0 var(--solaris-focus-ring-width)
+    var(--solaris-focus-ring-color);
 }
 
 [data-theme='dark'] {

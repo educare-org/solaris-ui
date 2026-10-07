@@ -1,6 +1,9 @@
 :host {
-  // SOLARIS_TOKEN_EXCEPTION: derived primary alpha; no alpha token exists for this pattern.
-  --solaris-primary-solid-alpha: #4282fb4d;
+  --solaris-primary-solid-alpha: color-mix(
+    in srgb,
+    var(--solaris-primary-solid) 30%,
+    transparent
+  );
   --solaris-editable-tabs-rename-input-font-size: inherit;
   --solaris-editable-tabs-action-size: var(--solaris-spacing-5);
   --solaris-editable-tabs-action-radius: var(--solaris-radius-sm);
@@ -10,7 +13,6 @@
   --solaris-editable-tabs-action-hover-color: var(--solaris-neutral-text-body);
   --solaris-editable-tabs-rename-input-min-width: var(--solaris-spacing-16);
 
-  // SOLARIS_TOKEN_EXCEPTION: derived primary alpha for the rename input highlight; no alpha token exists for this pattern.
   --solaris-editable-tabs-rename-input-background: var(
     --solaris-neutral-default
   );
@@ -23,6 +25,8 @@
   --solaris-editable-tabs-rename-input-border-color: var(
     --solaris-primary-solid
   );
+  --solaris-editable-tabs-rename-input-focus-ring-shadow: 0 0 0
+    var(--solaris-border-width-sm) var(--solaris-primary-solid-alpha);
   --solaris-editable-tabs-drop-indicator-z-index: var(
     --solaris-z-index-content
   );
@@ -239,9 +243,7 @@
 }
 
 .solaris-editable-tabs__rename-input:focus {
-  // SOLARIS_TOKEN_EXCEPTION: outline focus ring built from border-width + color tokens
-  box-shadow: 0 0 0 var(--solaris-border-width-sm)
-    var(--solaris-primary-solid-alpha);
+  box-shadow: var(--solaris-editable-tabs-rename-input-focus-ring-shadow);
 }
 
 :host([data-size='sm'][data-density='compact']) {

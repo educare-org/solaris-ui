@@ -13,6 +13,10 @@ input[solaris-input] {
   --solaris-input-placeholder-color: var(--solaris-neutral-text-secondary);
   --solaris-input-focus-ring-color: var(--solaris-primary-solid);
   --solaris-input-focus-ring-width: var(--solaris-focus-ring-width);
+  --solaris-input-focus-ring-shadow: 0 0 0 var(--solaris-input-focus-ring-width)
+    var(--solaris-input-focus-ring-color);
+  --solaris-input-error-ring-shadow: 0 0 0 var(--solaris-input-focus-ring-width)
+    var(--solaris-input-invalid-border-color);
   --solaris-input-invalid-border-color: var(--solaris-danger-solid);
   --solaris-input-readonly-background: var(--solaris-neutral-sunken);
 
@@ -43,10 +47,8 @@ input[solaris-input]::placeholder {
 }
 
 input[solaris-input]:focus-visible {
-  // SOLARIS_TOKEN_EXCEPTION: Focus ring box-shadow uses CSS var with tokenized color. Hardcoded spread is required by design.
   border-color: var(--solaris-input-focus-ring-color);
-  box-shadow: 0 0 0 var(--solaris-input-focus-ring-width)
-    var(--solaris-input-focus-ring-color);
+  box-shadow: var(--solaris-input-focus-ring-shadow);
 }
 
 input[solaris-input][data-invalid] {
@@ -54,10 +56,8 @@ input[solaris-input][data-invalid] {
 }
 
 input[solaris-input][data-invalid]:focus-visible {
-  // SOLARIS_TOKEN_EXCEPTION: Invalid state focus ring box-shadow uses CSS var. Hardcoded spread required by design.
   border-color: var(--solaris-input-invalid-border-color);
-  box-shadow: 0 0 0 var(--solaris-input-focus-ring-width)
-    var(--solaris-input-invalid-border-color);
+  box-shadow: var(--solaris-input-error-ring-shadow);
 }
 
 input[solaris-input]:disabled {
