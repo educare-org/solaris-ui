@@ -83,6 +83,7 @@ export type SolarisBuiltInIcon =
   | 'notepad'
   | 'book-user'
   | 'file-text'
+  | 'json'
   | 'receipt'
   | 'notebook-pen'
   | 'notebook-text'

@@ -1,0 +1,94 @@
+<section
+  class="solaris-column-manager"
+  role="group"
+  [attr.aria-labelledby]="titleId"
+>
+  <header class="solaris-column-manager__header">
+    <span class="solaris-column-manager__title" [attr.id]="titleId">
+      {{ resolveTitle() }}
+    </span>
+    <button
+      type="button"
+      solaris-button
+      appearance="ghost"
+      size="sm"
+      (click)="handleReset()"
+      [disabled]="isResetDisabled()"
+    >
+      {{ resolveResetLabel() }}
+    </button>
+  </header>
+  <ul class="solaris-column-manager__list">
+    @for (column of orderedColumns(); track column.id; let index = $index) {
+      <li
+        class="solaris-column-manager__item"
+        draggable="true"
+        [attr.data-dragging]="draggedId() === column.id || undefined"
+        [attr.data-drop-target]="dropTargetId() === column.id || undefined"
+        (dragstart)="onDragStart(column.id, $event)"
+        (dragover)="onDragOver(column.id, $event)"
+        (drop)="onDrop(column.id, $event)"
+        (dragend)="onDragEnd()"
+      >
+        <span class="solaris-column-manager__grip" aria-hidden="true">
+          <solaris-icon name="grip-vertical" [decorative]="true" />
+        </span>
+        <solaris-checkbox
+          radius="sm"
+          [checked]="isVisible(column.id)"
+          [ariaLabel]="resolveColumnLabel(column)"
+          (checkedChange)="toggleVisibility(column.id, $event)"
+        />
+        <span class="solaris-column-manager__label">
+          {{ resolveColumnLabel(column) }}
+        </span>
+        <span class="solaris-column-manager__moves">
+          <button
+            type="button"
+            solaris-icon-button
+            appearance="ghost"
+            size="sm"
+            (click)="moveUp(column.id)"
+            [disabled]="index === 0"
+            [ariaLabel]="moveUpLabel(column.id)"
+          >
+            <solaris-icon name="chevron-up" [decorative]="true" />
+          </button>
+          <button
+            type="button"
+            solaris-icon-button
+            appearance="ghost"
+            size="sm"
+            (click)="moveDown(column.id)"
+            [disabled]="index === orderedColumns().length - 1"
+            [ariaLabel]="moveDownLabel(column.id)"
+          >
+            <solaris-icon name="chevron-down" [decorative]="true" />
+          </button>
+        </span>
+      </li>
+    }
+  </ul>
+  <footer class="solaris-column-manager__footer">
+    <button
+      type="button"
+      solaris-button
+      appearance="outline"
+      size="sm"
+      (click)="handleCancel()"
+    >
+      {{ resolveCancelLabel() }}
+    </button>
+    <button
+      type="button"
+      solaris-button
+      appearance="solid"
+      color="primary"
+      size="sm"
+      (click)="handleSave()"
+      [disabled]="isSaveDisabled()"
+    >
+      {{ resolveSaveLabel() }}
+    </button>
+  </footer>
+</section>

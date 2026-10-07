@@ -35,7 +35,7 @@ export class WithPaginationTableExample {
   private readonly allRows: readonly ShowcasePerson[] = TABLE_SHOWCASE_ROWS;
 
   protected readonly pageIndex = signal(0);
-  protected readonly pageSize = signal(10);
+  protected readonly pageSize = signal(5);
 
   protected readonly pageRows = computed(() =>
     sliceRows(

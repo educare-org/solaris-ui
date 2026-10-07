@@ -50,6 +50,7 @@ export const TABLE_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'states', labelKey: 'table.section.states' },
   { anchor: 'server', labelKey: 'table.section.server' },
   { anchor: 'with-pagination', labelKey: 'table.section.with-pagination' },
+  { anchor: 'with-toolbar', labelKey: 'table.section.with-toolbar' },
   { anchor: 'installation', labelKey: 'table.section.installation' },
   { anchor: 'props', labelKey: 'table.section.props' },
 ];
@@ -432,6 +433,36 @@ export const TABLE_LAYOUT_CODE = [
   '  rowId="id"',
   '  [fullWidth]="true"',
   '/>',
+].join('\n');
+
+export const TABLE_SHOWCASE_CITY_OPTIONS = CITIES.map((city) => ({
+  value: city,
+  label: city,
+}));
+
+export const TABLE_WITH_TOOLBAR_CODE = [
+  '<solaris-table [data]="pageRows()" [columns]="orderedVisible()" rowId="id">',
+  '  <ng-template solaris-table-toolbar>',
+  '    <solaris-table-toolbar',
+  '      [columns]="allColumns"',
+  '      [(filter)]="filter"',
+  '      [views]="views"',
+  '      [(selectedViewId)]="selectedViewId"',
+  '      [exporters]="exporters"',
+  '      [exportRows]="filteredRows()"',
+  '      exportFilename="contacts"',
+  '      (viewCreate)="onCreateView($event)"',
+  '    />',
+  '  </ng-template>',
+  '  <ng-template solaris-table-footer>',
+  '    <solaris-pagination',
+  '      [pageIndex]="pageIndex()"',
+  '      [pageSize]="pageSize()"',
+  '      [total]="filteredRows().length"',
+  '      (pageChange)="onPageChange($event)"',
+  '    />',
+  '  </ng-template>',
+  '</solaris-table>',
 ].join('\n');
 
 export const TABLE_WITH_PAGINATION_CODE = [

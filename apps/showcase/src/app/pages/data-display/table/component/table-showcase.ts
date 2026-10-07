@@ -56,6 +56,7 @@ import {
   TABLE_STATES_CODE,
   TABLE_TRANSLATION_PREFIX,
   TABLE_WITH_PAGINATION_CODE,
+  TABLE_WITH_TOOLBAR_CODE,
 } from '../model/table-showcase.data';
 
 import { BasicTableExample } from '../examples/basic/component/basic.component';
@@ -63,6 +64,7 @@ import { MobileComposedTableExample } from '../examples/mobile-composed/componen
 import { PeopleTableExample } from '../examples/people/component/people.component';
 import { RowDialogTableExample } from '../examples/row-dialog/component/row-dialog.component';
 import { WithPaginationTableExample } from '../examples/with-pagination/component/with-pagination.component';
+import { WithToolbarTableExample } from '../examples/with-toolbar/component/with-toolbar.component';
 
 @Component({
   standalone: true,
@@ -85,6 +87,7 @@ import { WithPaginationTableExample } from '../examples/with-pagination/componen
     PeopleTableExample,
     RowDialogTableExample,
     WithPaginationTableExample,
+    WithToolbarTableExample,
   ],
   templateUrl: './table-showcase.html',
   styleUrls: ['./table-showcase.scss'],
@@ -120,6 +123,7 @@ export class TableShowcasePage {
   protected readonly statesCode = TABLE_STATES_CODE;
   protected readonly serverCode = TABLE_SERVER_CODE;
   protected readonly withPaginationCode = TABLE_WITH_PAGINATION_CODE;
+  protected readonly withToolbarCode = TABLE_WITH_TOOLBAR_CODE;
   protected readonly paginationTab = signal<
     'default' | 'description' | 'mobile'
   >('default');

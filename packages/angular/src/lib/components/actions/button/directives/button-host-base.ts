@@ -2,6 +2,7 @@
 // SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.getAttribute/setAttribute/removeAttribute is the standard Angular approach to handle default button type and the loading aria-label (imperatively managed so consumer labels are preserved and restored).
 // SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.insertBefore required to render the spinner component inside a native button host (directive has no template).
 // SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.setAttribute required for default <button> type behavior.
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.setAttribute required to pre-stamp data-* variant attributes in ngOnInit (before host bindings apply on first change detection), so the correct variant styles exist before first paint and no solid-to-ghost background transition flashes. Host bindings remain the source of truth afterwards.
 // SECURITY_EXCEPTION_FILE: createComponent required to render the spinner component inside a native button host (directive has no template).
 import {
   computed,
@@ -178,6 +179,39 @@ export abstract class SolarisButtonHostBase {
     this.destroyRef.onDestroy(() => {
       this.detachSpinner();
     });
+  }
+
+  ngOnInit(): void {
+    this.stampInitialDataAttributes();
+  }
+
+  private stampInitialDataAttributes(): void {
+    const el = this.elementRef.nativeElement;
+    if (!el.hasAttribute('data-appearance')) {
+      el.setAttribute('data-appearance', this.resolvedAppearance());
+    }
+    if (!el.hasAttribute('data-color')) {
+      el.setAttribute('data-color', this.resolvedColor());
+    }
+    if (!el.hasAttribute('data-radius')) {
+      el.setAttribute('data-radius', this.resolvedRadius());
+    }
+    if (!el.hasAttribute('data-shape')) {
+      el.setAttribute('data-shape', this.resolvedShape());
+    }
+    if (!el.hasAttribute('data-size')) {
+      el.setAttribute('data-size', this.effectiveSize());
+    }
+    if (!el.hasAttribute('data-density')) {
+      const density = this.effectiveDensity();
+      if (density !== undefined && density !== null) {
+        el.setAttribute('data-density', density);
+      }
+    }
+    const group = this.groupPlacement();
+    if (group !== null && !el.hasAttribute('data-group')) {
+      el.setAttribute('data-group', group);
+    }
   }
 
   private managedLoadingLabel = false;

@@ -107,6 +107,7 @@ import {
   SolarisTableFooterDirective,
   SolarisTableHeaderDirective,
   SolarisTableLoadingDirective,
+  SolarisTableToolbarDirective,
 } from '../directives/table-cell.directive';
 
 @Component({
@@ -159,6 +160,7 @@ export class SolarisTableComponent<T = unknown> {
   readonly errorTemplate = contentChildren(SolarisTableErrorDirective);
   readonly loadingTemplate = contentChildren(SolarisTableLoadingDirective);
   readonly footerTemplate = contentChild(SolarisTableFooterDirective);
+  readonly toolbarTemplate = contentChild(SolarisTableToolbarDirective);
 
   readonly data = input<SolarisTableDataSource<T> | readonly T[]>([]);
   readonly columns = input<readonly SolarisTableColumn<T>[]>([]);
@@ -260,6 +262,8 @@ export class SolarisTableComponent<T = unknown> {
   private readonly narrowViewport = signal(false);
   private readonly expandedRowIds = signal<readonly string[]>([]);
   private readonly expandedCells = signal<readonly string[]>([]);
+  private readonly openedCells = signal<readonly string[]>([]);
+  private readonly collapsingCells = signal<readonly string[]>([]);
   private readonly collapsingRowIds = signal<readonly string[]>([]);
   private readonly openedRowIds = signal<readonly string[]>([]);
   private readonly collapseTimers = new Map<
@@ -554,8 +558,54 @@ export class SolarisTableComponent<T = unknown> {
     );
   }
 
+  protected collapsingCellColumns(
+    row: SolarisTableViewRow<T>,
+  ): readonly SolarisTableViewColumn<T>[] {
+    if (!this.isCellExpandable()) {
+      return [];
+    }
+    const collapsing = new Set(this.collapsingCells());
+    return this.userColumns().filter(
+      (column) =>
+        column.type !== 'checkbox' &&
+        collapsing.has(cellExpansionKey(row.rowId, column.id)),
+    );
+  }
+
+  protected visibleCellColumns(
+    row: SolarisTableViewRow<T>,
+  ): readonly SolarisTableViewColumn<T>[] {
+    if (!this.isCellExpandable()) {
+      return [];
+    }
+    const visible = new Set([
+      ...this.expandedCells(),
+      ...this.collapsingCells(),
+    ]);
+    return this.userColumns().filter(
+      (column) =>
+        column.type !== 'checkbox' &&
+        visible.has(cellExpansionKey(row.rowId, column.id)),
+    );
+  }
+
   protected hasExpandedCells(row: SolarisTableViewRow<T>): boolean {
     return this.expandedCellColumns(row).length > 0;
+  }
+
+  protected isCellDetailRowVisible(row: SolarisTableViewRow<T>): boolean {
+    return this.visibleCellColumns(row).length > 0;
+  }
+
+  protected isCellDetailRowOpen(row: SolarisTableViewRow<T>): boolean {
+    const expanded = this.expandedCellColumns(row);
+    if (expanded.length === 0) {
+      return false;
+    }
+    const opened = new Set(this.openedCells());
+    return expanded.some((column) =>
+      opened.has(cellExpansionKey(row.rowId, column.id)),
+    );
   }
 
   protected toggleCellExpanded(
@@ -566,12 +616,71 @@ export class SolarisTableComponent<T = unknown> {
       return;
     }
     const key = cellExpansionKey(row.rowId, column.id);
-    const current = this.expandedCells();
-    this.expandedCells.set(
-      current.includes(key)
-        ? current.filter((entry) => entry !== key)
-        : [...current, key],
-    );
+    if (this.expandedCells().includes(key)) {
+      this.cancelPendingCellOpen(key);
+      this.expandedCells.set(
+        this.expandedCells().filter((entry) => entry !== key),
+      );
+      this.openedCells.set(this.openedCells().filter((entry) => entry !== key));
+      if (this.expandedCellColumns(row).length > 0) {
+        const pending = this.collapseTimers.get(key);
+        if (pending !== undefined) {
+          clearTimeout(pending);
+          this.collapseTimers.delete(key);
+        }
+        this.collapsingCells.set(
+          this.collapsingCells().filter((entry) => entry !== key),
+        );
+        return;
+      }
+      this.collapsingCells.set([...this.collapsingCells(), key]);
+      const pending = this.collapseTimers.get(key);
+      if (pending !== undefined) {
+        clearTimeout(pending);
+      }
+      const timer = setTimeout(
+        () => {
+          this.collapseTimers.delete(key);
+          this.collapsingCells.set(
+            this.collapsingCells().filter((entry) => entry !== key),
+          );
+        },
+        this.prefersReducedMotion() ? 0 : DETAIL_COLLAPSE_DURATION_MS,
+      );
+      this.collapseTimers.set(key, timer);
+      return;
+    }
+    const pending = this.collapseTimers.get(key);
+    if (pending !== undefined) {
+      clearTimeout(pending);
+      this.collapseTimers.delete(key);
+      this.collapsingCells.set(
+        this.collapsingCells().filter((entry) => entry !== key),
+      );
+    }
+    this.expandedCells.set([...this.expandedCells(), key]);
+    if (!isPlatformBrowser(this.platformId)) {
+      this.openedCells.set([...this.openedCells(), key]);
+      return;
+    }
+    const first = requestAnimationFrame(() => {
+      const second = requestAnimationFrame(() => {
+        this.openFrames.delete(key);
+        if (this.expandedCells().includes(key)) {
+          this.openedCells.set([...this.openedCells(), key]);
+        }
+      });
+      this.openFrames.set(key, second);
+    });
+    this.openFrames.set(key, first);
+  }
+
+  private cancelPendingCellOpen(key: string): void {
+    const frame = this.openFrames.get(key);
+    if (frame !== undefined) {
+      cancelAnimationFrame(frame);
+      this.openFrames.delete(key);
+    }
   }
 
   protected resolveCellExpandLabel(

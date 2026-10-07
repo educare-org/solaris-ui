@@ -1,0 +1,384 @@
+@if (showViews() && views().length > 0) {
+  <div
+    class="solaris-table-toolbar__views"
+    role="tablist"
+    [attr.aria-label]="resolveViewsLabel()"
+  >
+    @for (view of views(); track view.id) {
+      <button
+        type="button"
+        role="tab"
+        solaris-button
+        appearance="ghost"
+        size="sm"
+        (click)="selectView(view)"
+        [pressed]="view.id === selectedViewId()"
+        [attr.aria-selected]="view.id === selectedViewId()"
+      >
+        {{ resolveViewName(view) }}
+      </button>
+    }
+    <button
+      type="button"
+      solaris-button
+      appearance="ghost"
+      size="sm"
+      icon="plus"
+      #createViewTrigger
+      solaris-popover-trigger
+      [solarisPopoverTriggerFor]="createViewPanel"
+      [ariaLabel]="resolveCreateViewLabel()"
+    >
+      {{ resolveCreateViewLabel() }}
+    </button>
+  </div>
+}
+<div class="solaris-table-toolbar__controls">
+  @if (showSearch()) {
+    <solaris-form-field
+      class="solaris-table-toolbar__search"
+      size="sm"
+      prefix="search"
+    >
+      <input
+        solaris-input
+        type="search"
+        [value]="searchDraft()"
+        [placeholder]="resolveSearchPlaceholder()"
+        [attr.aria-label]="resolveSearchLabel()"
+        (input)="handleSearchInput($any($event.target).value)"
+      />
+    </solaris-form-field>
+  }
+  <div class="solaris-table-toolbar__actions">
+    @if (showFilter()) {
+      <button
+        type="button"
+        solaris-button
+        appearance="outline"
+        size="sm"
+        icon="filter"
+        solaris-popover-trigger
+        [solarisPopoverTriggerFor]="filterPanel"
+        [pressed]="hasActiveFilters()"
+        [ariaLabel]="resolveFilterButtonLabel()"
+      >
+        <span>{{ resolveFilterButtonLabel() }}</span>
+        <span
+          class="solaris-table-toolbar__count"
+          [attr.data-open]="activeCount() > 0 || undefined"
+        >
+          <span class="solaris-table-toolbar__count-inner">
+            <solaris-badge
+              size="sm"
+              color="primary"
+              appearance="solid"
+              role="status"
+              [count]="activeCount()"
+            />
+          </span>
+        </span>
+      </button>
+    }
+    @if (showExport()) {
+      @if (singleExporter(); as exporter) {
+        <button
+          type="button"
+          solaris-button
+          appearance="outline"
+          size="sm"
+          icon="download"
+          (click)="handleExport(exporter)"
+          [ariaLabel]="resolveExporterLabel(exporter)"
+          [attr.title]="resolveExporterLabel(exporter)"
+        >
+          @if (normalizedExportDisplay() === 'icon-label') {
+            <span>{{ resolveExportLabel() }}</span>
+          }
+        </button>
+      } @else {
+        <button
+          type="button"
+          solaris-button
+          appearance="outline"
+          size="sm"
+          icon="download"
+          solaris-dropdown-menu-trigger
+          [solarisDropdownMenuTriggerFor]="exportMenu"
+          [ariaLabel]="resolveExportLabel()"
+          [attr.title]="resolveExportLabel()"
+        >
+          @if (normalizedExportDisplay() === 'icon-label') {
+            <span>{{ resolveExportLabel() }}</span>
+          }
+        </button>
+        <solaris-dropdown-menu #exportMenu>
+          <solaris-dropdown-menu-label [label]="resolveExportFormatLabel()" />
+          @for (exporter of exporters(); track exporter.id) {
+            <solaris-dropdown-menu-item
+              [label]="resolveExporterLabel(exporter)"
+              [icon]="exporter.icon"
+              (itemSelected)="handleExport(exporter)"
+            />
+          }
+        </solaris-dropdown-menu>
+      }
+    }
+    @if (showColumnManager()) {
+      <button
+        type="button"
+        solaris-button
+        appearance="outline"
+        size="sm"
+        icon="columns"
+        #columnsTrigger
+        solaris-popover-trigger
+        [solarisPopoverTriggerFor]="columnsPanel"
+        [ariaLabel]="resolveColumnsButtonLabel()"
+        [attr.title]="resolveColumnsButtonLabel()"
+      >
+        {{ resolveColumnsButtonLabel() }}
+      </button>
+    }
+  </div>
+</div>
+@if (chipsRendered()) {
+  <div
+    class="solaris-table-toolbar__chips"
+    [attr.data-open]="chipsOpen() || undefined"
+  >
+    <div class="solaris-table-toolbar__chips-inner">
+      @if (displayedSearch().trim() !== '') {
+        <button
+          type="button"
+          solaris-button
+          appearance="tonal"
+          size="sm"
+          radius="full"
+          icon="x"
+          iconPosition="end"
+          (click)="clearSearch()"
+          [ariaLabel]="resolveRemoveSearchLabel()"
+        >
+          {{ displayedSearch() }}
+        </button>
+      }
+      @for (
+        condition of displayedConditions();
+        track $index;
+        let conditionIndex = $index
+      ) {
+        <button
+          type="button"
+          solaris-button
+          appearance="tonal"
+          size="sm"
+          radius="full"
+          icon="x"
+          iconPosition="end"
+          (click)="removeCondition(conditionIndex)"
+          [ariaLabel]="removeConditionLabel(condition)"
+        >
+          {{ chipLabel(condition) }}
+        </button>
+      }
+      <button
+        type="button"
+        solaris-button
+        appearance="ghost"
+        size="sm"
+        (click)="clearAll()"
+      >
+        {{ resolveClearAllLabel() }}
+      </button>
+    </div>
+  </div>
+}
+<ng-template solaris-popover #createViewPanel="solarisPopover">
+  <div class="solaris-table-toolbar__create-view">
+    <solaris-form-field size="sm" [label]="resolveCreateViewNameLabel()">
+      <input
+        solaris-input
+        type="text"
+        [value]="viewNameDraft()"
+        [placeholder]="resolveCreateViewNamePlaceholder()"
+        [attr.aria-label]="resolveCreateViewNameLabel()"
+        (input)="handleViewNameInput($any($event.target).value)"
+        (keydown.enter)="handleCreateView()"
+      />
+    </solaris-form-field>
+    <button
+      type="button"
+      solaris-button
+      appearance="solid"
+      color="primary"
+      size="sm"
+      (click)="handleCreateView()"
+      [disabled]="viewNameDraft().trim() === ''"
+    >
+      {{ resolveSaveLabel() }}
+    </button>
+  </div>
+</ng-template>
+<ng-template solaris-popover #filterPanel="solarisPopover">
+  <div class="solaris-table-toolbar__panel">
+    @if (filter().conditions.length === 0) {
+      <p class="solaris-table-toolbar__empty">
+        {{ resolveNoConditionsLabel() }}
+      </p>
+    }
+    @for (
+      condition of filter().conditions;
+      track $index;
+      let conditionIndex = $index
+    ) {
+      <div class="solaris-table-toolbar__condition">
+        <solaris-select
+          class="solaris-table-toolbar__field"
+          size="sm"
+          [label]="resolveColumnFieldLabel()"
+          [value]="condition.columnId"
+          [triggerMinWidth]="0"
+          [panelMinWidth]="0"
+          (valueChange)="
+            updateConditionColumn(conditionIndex, toStringValue($event))
+          "
+        >
+          @for (column of filterableColumns(); track column.id) {
+            <solaris-option [value]="column.id">
+              {{ resolveColumnLabel(column) }}
+            </solaris-option>
+          }
+        </solaris-select>
+        <solaris-select
+          class="solaris-table-toolbar__field"
+          size="sm"
+          [label]="resolveOperatorFieldLabel()"
+          [value]="condition.operator"
+          [triggerMinWidth]="0"
+          [panelMinWidth]="0"
+          (valueChange)="
+            updateConditionOperator(conditionIndex, toStringValue($event))
+          "
+        >
+          @for (operator of operatorsFor(columnOf(condition)); track operator) {
+            <solaris-option [value]="operator">
+              {{ operatorLabel(operator) }}
+            </solaris-option>
+          }
+        </solaris-select>
+        @if (columnOf(condition); as conditionColumn) {
+          @if (!isValueless(condition.operator)) {
+            @if (isList(condition.operator)) {
+              <solaris-multi-select
+                class="solaris-table-toolbar__field"
+                size="sm"
+                [label]="resolveValueFieldLabel()"
+                [value]="listValue(condition)"
+                [panelMinWidth]="0"
+                (valueChange)="
+                  updateConditionValue(conditionIndex, $any($event))
+                "
+              >
+                @for (
+                  option of conditionColumn.filterOptions ?? [];
+                  track option.value
+                ) {
+                  <solaris-option [value]="option.value">
+                    {{ option.label ?? option.value }}
+                  </solaris-option>
+                }
+              </solaris-multi-select>
+            } @else if (isRange(condition.operator)) {
+              <solaris-form-field
+                class="solaris-table-toolbar__field"
+                size="sm"
+                [label]="resolveValueFieldLabel()"
+              >
+                <span class="solaris-table-toolbar__range">
+                  <input
+                    solaris-input
+                    [type]="inputTypeFor(conditionColumn)"
+                    [value]="rangePart(condition, 'from')"
+                    [attr.aria-label]="resolveValueFieldLabel()"
+                    (input)="
+                      updateConditionRange(
+                        conditionIndex,
+                        'from',
+                        $any($event.target).value
+                      )
+                    "
+                  />
+                  <input
+                    solaris-input
+                    [type]="inputTypeFor(conditionColumn)"
+                    [value]="rangePart(condition, 'to')"
+                    [attr.aria-label]="resolveValueFieldLabel()"
+                    (input)="
+                      updateConditionRange(
+                        conditionIndex,
+                        'to',
+                        $any($event.target).value
+                      )
+                    "
+                  />
+                </span>
+              </solaris-form-field>
+            } @else {
+              <solaris-form-field
+                class="solaris-table-toolbar__field"
+                size="sm"
+                [label]="resolveValueFieldLabel()"
+              >
+                <input
+                  solaris-input
+                  [type]="inputTypeFor(conditionColumn)"
+                  [value]="singleValueText(condition)"
+                  [attr.aria-label]="resolveValueFieldLabel()"
+                  (input)="
+                    updateConditionValue(
+                      conditionIndex,
+                      $any($event.target).value
+                    )
+                  "
+                />
+              </solaris-form-field>
+            }
+          }
+        }
+        <button
+          type="button"
+          solaris-icon-button
+          appearance="ghost"
+          size="sm"
+          (click)="removeCondition(conditionIndex)"
+          [ariaLabel]="removeConditionLabel(condition)"
+        >
+          <solaris-icon name="x" [decorative]="true" />
+        </button>
+      </div>
+    }
+    <button
+      size="sm"
+      icon="plus"
+      type="button"
+      solaris-button
+      appearance="outline"
+      (click)="addCondition()"
+      [disabled]="filterableColumns().length === 0"
+    >
+      {{ resolveAddConditionLabel() }}
+    </button>
+  </div>
+</ng-template>
+<ng-template solaris-popover #columnsPanel="solarisPopover">
+  <solaris-column-manager
+    [columns]="columns()"
+    [density]="density()"
+    [order]="filter().columnOrder"
+    (save)="handleColumnSave($event)"
+    (cancelled)="closeColumnsPanel()"
+    (resetRequest)="handleColumnReset()"
+    [visibility]="filter().columnVisibility"
+  />
+</ng-template>

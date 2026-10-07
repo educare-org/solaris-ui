@@ -1,0 +1,29 @@
+<solaris-table
+  rowId="id"
+  [fullWidth]="true"
+  [data]="pageRows()"
+  [columns]="orderedVisibleColumns()"
+>
+  <ng-template solaris-table-toolbar>
+    <solaris-table-toolbar
+      [columns]="allColumns"
+      [(filter)]="filter"
+      [views]="views()"
+      [(selectedViewId)]="selectedViewId"
+      [exporters]="exporters"
+      [exportRows]="filteredRows()"
+      exportDisplay="icon-label"
+      exportFilename="contacts"
+      persistenceKey="showcase-contacts-toolbar"
+      (viewCreate)="onCreateView($event)"
+    />
+  </ng-template>
+  <ng-template solaris-table-footer>
+    <solaris-pagination
+      [pageIndex]="pageIndex()"
+      [pageSize]="pageSize()"
+      [total]="filteredRows().length"
+      (pageChange)="onPageChange($event)"
+    />
+  </ng-template>
+</solaris-table>

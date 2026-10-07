@@ -7,6 +7,7 @@ export {
   SolarisTableErrorDirective,
   SolarisTableLoadingDirective,
   SolarisTableFooterDirective,
+  SolarisTableToolbarDirective,
 } from './directives/table-cell.directive';
 export type {
   SolarisTableAlign,

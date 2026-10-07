@@ -1005,6 +1005,26 @@ describe('SolarisButtonDirective data-* aliases', () => {
   });
 });
 
+describe('SolarisButtonDirective first-paint stamping', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisButtonDirective],
+    template: `<button solaris-button appearance="ghost" size="sm">
+      Clear
+    </button>`,
+  })
+  class StaticGhostHost {}
+
+  it('should stamp static variant attributes so no solid flash paints', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(StaticGhostHost);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-appearance')).toBe('ghost');
+    expect(el.getAttribute('data-size')).toBe('sm');
+  });
+});
+
 describe('SolarisButtonIconDirective', () => {
   @Component({
     standalone: true,

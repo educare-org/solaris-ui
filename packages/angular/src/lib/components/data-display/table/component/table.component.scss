@@ -119,6 +119,19 @@
   overflow-x: auto;
 }
 
+.solaris-table__toolbar {
+  background: var(--solaris-table-background);
+  padding: var(--solaris-spacing-5) var(--solaris-table-cell-padding-x);
+  border-bottom: var(--solaris-border-width-sm) solid
+    var(--solaris-table-border-color);
+}
+
+:host([data-card-layout]) .solaris-table__toolbar {
+  background: transparent;
+  border-bottom: var(--solaris-spacing-0);
+  padding-inline: var(--solaris-spacing-0);
+}
+
 .solaris-table__footer {
   background: var(--solaris-table-background);
   padding: var(--solaris-spacing-5) var(--solaris-table-cell-padding-x);

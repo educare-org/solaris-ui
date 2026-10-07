@@ -76,6 +76,7 @@ export {
   SolarisTableErrorDirective,
   SolarisTableLoadingDirective,
   SolarisTableFooterDirective,
+  SolarisTableToolbarDirective,
 } from './lib/components/data-display/table/directives/table-cell.directive';
 export {
   SOLARIS_TABLE_APPEARANCES,
@@ -624,6 +625,73 @@ export type {
   SolarisBreadcrumbNavigateEvent,
   SolarisBreadcrumbConfig,
 } from './lib/components/navigation/breadcrumb/model/breadcrumb.types';
+
+export { SolarisTableToolbarComponent } from './lib/components/data-display/table-filter/component/table-toolbar/table-toolbar.component';
+export {
+  SolarisColumnManagerComponent,
+  type SolarisColumnManagerSave,
+} from './lib/components/data-display/table-filter/component/column-manager/column-manager.component';
+export {
+  SOLARIS_TABLE_FILTER_OPERATORS,
+  SOLARIS_TABLE_TOOLBAR_EXPORT_DISPLAYS,
+} from './lib/components/data-display/table-filter/model/filter.types';
+export type {
+  SolarisTableExportEvent,
+  SolarisTableFilterCondition,
+  SolarisTableFilterConditionValue,
+  SolarisTableFilterOperator,
+  SolarisTableFilterOption,
+  SolarisTableFilterState,
+  SolarisTableFilterableColumn,
+  SolarisTableToolbarExportDisplay,
+  SolarisTableView,
+} from './lib/components/data-display/table-filter/model/filter.types';
+export {
+  activeTableFilterCount,
+  applyColumnOrder,
+  applyColumnVisibility,
+  applyOrderedVisibleColumns,
+  applyTableFilters,
+  createEmptyTableFilterState,
+  insertColumnBefore,
+  isTableFilterActive,
+  isValidCondition,
+  matchesTableFilterCondition,
+  moveColumnInOrder,
+  normalizeTableFilterState,
+  orderFromColumns,
+  parseTableFilterState,
+  readPersistedTableFilterState,
+  resolveFilterDisplayText,
+  resolveFilterValue,
+  serializeTableFilterState,
+  writePersistedTableFilterState,
+} from './lib/components/data-display/table-filter/model/filter-state';
+export {
+  SolarisExportService,
+  resolveExportFilename,
+  buildCsvContent,
+  buildJsonContent,
+  createCsvExporter,
+  createJsonExporter,
+  escapeCsvCell,
+  provideSolarisExport,
+  SOLARIS_CSV_DELIMITER_PRESETS,
+  SOLARIS_EXPORTERS,
+  SOLARIS_EXPORT_CONFIG,
+  DEFAULT_SOLARIS_EXPORT_MAX_ROWS,
+} from './lib/services/export/index';
+export type {
+  SolarisCsvDelimiter,
+  SolarisCsvDelimiterPreset,
+  SolarisCsvOptions,
+  SolarisExportColumn,
+  SolarisExportConfig,
+  SolarisExportRequest,
+  SolarisExportResult,
+  SolarisExporter,
+  SolarisJsonOptions,
+} from './lib/services/export/index';
 
 export { SolarisPaginationComponent } from './lib/components/navigation/pagination/component/pagination.component';
 export type {

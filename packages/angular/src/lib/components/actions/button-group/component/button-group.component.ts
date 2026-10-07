@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   input,
   computed,
   inject,
@@ -44,8 +45,31 @@ export class SolarisButtonGroupComponent {
   readonly attached = input<boolean>(true);
 
   protected readonly themeService = inject(SolarisThemeService);
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   readonly effectiveDensity = computed(() => {
     return this.density() ?? this.themeService.density;
   });
+
+  ngOnInit(): void {
+    // Pre-stamp host attributes before first paint so attached styling
+    // (border, orientation) never flashes from the unstyled base. Host
+    // bindings remain the source of truth afterwards.
+    const el = this.elementRef.nativeElement;
+    if (!el.hasAttribute('data-orientation')) {
+      el.setAttribute('data-orientation', this.orientation());
+    }
+    if (!el.hasAttribute('data-size')) {
+      el.setAttribute('data-size', this.size());
+    }
+    if (!el.hasAttribute('data-density')) {
+      el.setAttribute('data-density', this.effectiveDensity());
+    }
+    if (this.attached() && !el.hasAttribute('data-attached')) {
+      el.setAttribute('data-attached', '');
+    }
+    if (this.fullWidth() && !el.hasAttribute('data-full-width')) {
+      el.setAttribute('data-full-width', '');
+    }
+  }
 }

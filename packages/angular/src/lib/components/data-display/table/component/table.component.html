@@ -7,6 +7,11 @@
   </div>
 }
 <div class="solaris-table__frame">
+  @if (toolbarTemplate()) {
+    <div class="solaris-table__toolbar">
+      <ng-container *ngTemplateOutlet="toolbarTemplate()?.templateRef" />
+    </div>
+  }
   <div
     class="solaris-table__viewport"
     role="region"
@@ -487,11 +492,11 @@
                   </td>
                 }
               </tr>
-              @if (isCellExpandable() && hasExpandedCells(row)) {
+              @if (isCellExpandable() && isCellDetailRowVisible(row)) {
                 <tr
                   class="solaris-table__row solaris-table__row--detail solaris-table__row--cell-detail"
                   [attr.id]="cellDetailRowId(rowIndex)"
-                  data-open
+                  [attr.data-open]="isCellDetailRowOpen(row) || undefined"
                   data-detail="cell"
                 >
                   <td
@@ -502,7 +507,7 @@
                       <div class="solaris-table__detail-inner">
                         <dl class="solaris-table__detail-list">
                           @for (
-                            column of expandedCellColumns(row);
+                            column of visibleCellColumns(row);
                             track trackByColumnId($index, column)
                           ) {
                             @if (column.detailVariant === 'free') {

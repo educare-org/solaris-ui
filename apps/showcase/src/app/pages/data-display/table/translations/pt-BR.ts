@@ -19,6 +19,14 @@ export const PT_BR_TABLE: Record<string, string> = {
   'table.section.states': 'Estados',
   'table.section.server': 'Dados do servidor',
   'table.section.with-pagination': 'Com paginação',
+  'table.section.with-toolbar': 'Com toolbar',
+  'table.with-toolbar.note':
+    'Busca, filtros, views salvas, exportação e gestão de colunas projetados dentro do frame da tabela, com paginação no rodapé.',
+  'table.with-toolbar.view.all': 'Todos os contatos',
+  'table.with-toolbar.view.adults': 'Idade 30+',
+  'table.with-toolbar.col.name': 'Nome',
+  'table.with-toolbar.col.age': 'Idade',
+  'table.with-toolbar.col.city': 'Cidade',
   'table.section.installation': 'Instalação',
   'table.section.props': 'Propriedades',
 
