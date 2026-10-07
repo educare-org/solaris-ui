@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  DOCUMENT,
   PLATFORM_ID,
   booleanAttribute,
   computed,
@@ -267,13 +268,15 @@ export class SolarisTableComponent<T = unknown> {
   >();
   private readonly openFrames = new Map<string, number>();
   private readonly destroyRef = inject(DestroyRef);
+  private readonly document = inject(DOCUMENT);
 
   constructor() {
-    if (
-      isPlatformBrowser(this.platformId) &&
-      typeof window.matchMedia !== 'undefined'
-    ) {
-      const query = window.matchMedia('(max-width: 720px)');
+    // SECURITY_EXCEPTION: narrow-viewport tracking uses matchMedia via the Angular DOCUMENT token (defaultView) instead of the global window; SSR-safe via isPlatformBrowser guard; matchMedia has no Renderer2 alternative; read-only query with the change listener removed on destroy; covered by narrow-viewport tests.
+    const view = isPlatformBrowser(this.platformId)
+      ? this.document.defaultView
+      : null;
+    if (typeof view?.matchMedia !== 'undefined') {
+      const query = view.matchMedia('(max-width: 720px)');
       this.narrowViewport.set(query.matches);
       const listener = (event: MediaQueryListEvent): void => {
         this.narrowViewport.set(event.matches);
@@ -900,10 +903,12 @@ export class SolarisTableComponent<T = unknown> {
     if (!isPlatformBrowser(this.platformId)) {
       return false;
     }
-    return (
-      typeof window.matchMedia !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    );
+    // SECURITY_EXCEPTION: reads the OS reduced-motion preference via the Angular DOCUMENT token (defaultView.matchMedia); SSR-safe via the isPlatformBrowser guard above; matchMedia has no Renderer2 alternative; read-only query, covered by reduced-motion tests.
+    const view = this.document.defaultView;
+    if (!view || typeof view.matchMedia !== 'function') {
+      return false;
+    }
+    return view.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
   protected detailRowId(index: number): string {

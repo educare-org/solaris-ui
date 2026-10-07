@@ -1,10 +1,10 @@
-// SECURITY_EXCEPTION_FILE: window.matchMedia is the only browser API for reduced motion detection. Guarded by isPlatformBrowser. Tested.
 import {
   Injectable,
   inject,
   signal,
   type Signal,
   PLATFORM_ID,
+  DOCUMENT,
   type WritableSignal,
   DestroyRef,
 } from '@angular/core';
@@ -20,6 +20,7 @@ let nextId = 0;
 export class SolarisAccessibilityService {
   private readonly config: SolarisAccessibilityConfig;
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
   private readonly reducedMotionSignal: WritableSignal<boolean>;
 
   constructor() {
@@ -32,16 +33,21 @@ export class SolarisAccessibilityService {
       this.config.respectSystemPreference &&
       isPlatformBrowser(this.platformId)
     ) {
-      const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
-      this.reducedMotionSignal = signal(mql.matches);
+      // SECURITY_EXCEPTION: reduced-motion detection uses matchMedia via the Angular DOCUMENT token (defaultView) instead of the global window; SSR-safe via isPlatformBrowser guard; matchMedia has no Renderer2 alternative; read-only query with the change listener removed on destroy; covered by accessibility service tests.
+      const view = this.document.defaultView;
+      const mql =
+        view && typeof view.matchMedia === 'function'
+          ? view.matchMedia('(prefers-reduced-motion: reduce)')
+          : null;
+      this.reducedMotionSignal = signal(mql?.matches ?? false);
 
       const handler = (event: MediaQueryListEvent): void => {
         this.reducedMotionSignal.set(event.matches);
       };
-      mql.addEventListener('change', handler);
+      mql?.addEventListener('change', handler);
 
       inject(DestroyRef).onDestroy(() => {
-        mql.removeEventListener('change', handler);
+        mql?.removeEventListener('change', handler);
       });
     } else {
       this.reducedMotionSignal = signal(false);

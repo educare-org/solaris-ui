@@ -1,6 +1,6 @@
 <ng-template #pageSizeTemplate>
   @if (showPageSize()) {
-    <label class="solaris-pagination__page-size">
+    <label class="solaris-pagination__page-size" [for]="pageSizeSelectId">
       @if (!narrowViewport()) {
         <span class="solaris-pagination__page-size-label">
           {{ resolvedRowsPerPageLabel() }}
@@ -8,6 +8,7 @@
       }
       <solaris-select
         class="solaris-pagination__select"
+        [attr.id]="pageSizeSelectId"
         [appearance]="narrowViewport() ? 'outline' : 'minimal'"
         size="sm"
         [value]="normalizedPageSize()"

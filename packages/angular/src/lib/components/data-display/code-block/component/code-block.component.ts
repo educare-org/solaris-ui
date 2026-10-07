@@ -614,10 +614,10 @@ export class SolarisCodeBlockComponent implements OnDestroy {
     ) {
       return true;
     }
+    const view = this.document.defaultView;
     return (
-      typeof window !== 'undefined' &&
-      typeof window.matchMedia === 'function' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      typeof view?.matchMedia === 'function' &&
+      view.matchMedia('(prefers-reduced-motion: reduce)').matches
     );
   }
 
@@ -753,9 +753,8 @@ export class SolarisCodeBlockComponent implements OnDestroy {
         return 'light';
       }
       if (
-        typeof window !== 'undefined' &&
-        typeof window.matchMedia === 'function' &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches
+        this.document.defaultView?.matchMedia?.('(prefers-color-scheme: dark)')
+          ?.matches === true
       ) {
         return 'dark';
       }
@@ -789,7 +788,7 @@ export class SolarisCodeBlockComponent implements OnDestroy {
       return false;
     }
     try {
-      const clipboard = window.navigator.clipboard;
+      const clipboard = this.document.defaultView?.navigator.clipboard;
       if (!clipboard?.writeText) {
         return false;
       }

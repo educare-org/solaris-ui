@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  DOCUMENT,
   PLATFORM_ID,
   booleanAttribute,
   computed,
@@ -17,6 +18,8 @@ import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisSelectComponent } from '../../../forms/select';
 import { SolarisOptionComponent } from '../../../forms/option';
 import { SolarisIconComponent } from '../../../icon';
+
+import { nextIdFor } from '../../../../core';
 
 import {
   DEFAULT_SOLARIS_PAGINATION_PAGE_INDEX,
@@ -71,6 +74,11 @@ export class SolarisPaginationComponent {
   });
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly document = inject(DOCUMENT);
+
+  protected readonly pageSizeSelectId = nextIdFor(
+    'solaris-pagination-page-size',
+  );
 
   protected readonly narrowViewport = signal(false);
 
@@ -105,11 +113,12 @@ export class SolarisPaginationComponent {
   readonly pageChange = output<SolarisPageChange>();
 
   constructor() {
-    if (
-      isPlatformBrowser(this.platformId) &&
-      typeof window.matchMedia !== 'undefined'
-    ) {
-      const query = window.matchMedia('(max-width: 720px)');
+    // SECURITY_EXCEPTION: narrow-viewport tracking uses matchMedia via the Angular DOCUMENT token (defaultView) instead of the global window; SSR-safe via isPlatformBrowser guard; matchMedia has no Renderer2 alternative; read-only query with the change listener removed on destroy; covered by narrow-viewport tests.
+    const view = isPlatformBrowser(this.platformId)
+      ? this.document.defaultView
+      : null;
+    if (typeof view?.matchMedia !== 'undefined') {
+      const query = view.matchMedia('(max-width: 720px)');
       this.narrowViewport.set(query.matches);
       const listener = (event: MediaQueryListEvent): void => {
         this.narrowViewport.set(event.matches);

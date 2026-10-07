@@ -1,11 +1,12 @@
-// SECURITY_EXCEPTION_FILE: document.querySelector required to find rename input. SSR-safe via guard.
 import {
   Component,
+  ElementRef,
   input,
   output,
   model,
   computed,
   signal,
+  viewChild,
   viewChildren,
   inject,
   ChangeDetectionStrategy,
@@ -134,6 +135,8 @@ export class SolarisEditableTabsComponent {
   });
 
   readonly menuComponents = viewChildren(SolarisDropdownMenuComponent);
+  protected readonly renameInputRef =
+    viewChild<ElementRef<HTMLInputElement>>('renameInput');
   readonly tabMenuRefs = computed(() => {
     this.tabs();
     return this.menuComponents();
@@ -236,9 +239,8 @@ export class SolarisEditableTabsComponent {
     this.renameValue.set(tab.label ?? '');
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        const input = document.querySelector(
-          `.solaris-editable-tabs__rename-input`,
-        ) as HTMLInputElement | null;
+        // SECURITY_EXCEPTION: focusing the rename input requires the native method; resolved via viewChild template ref (scoped to this component, no global query).
+        const input = this.renameInputRef()?.nativeElement;
         if (input) {
           input.focus();
           input.select();
