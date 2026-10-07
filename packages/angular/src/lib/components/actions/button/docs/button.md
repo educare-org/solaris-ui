@@ -167,6 +167,21 @@ own combination (e.g. `normal-sm`, never `compact-lg`).
 Density is inherited from the theme when not explicitly set. Fallback is `normal`.
 The host exposes `data-size` and `data-density` (effective) attributes.
 
+### `data-*` attributes as inputs (SSR-safe)
+
+Every variant input also accepts its `data-*` attribute form
+(`data-size`, `data-density`, `data-appearance`, `data-color`, `data-shape`,
+`data-radius`). The attribute wins over the same-named input and, inside a
+`solaris-button-group`, the group still wins over both. Prefer the attribute
+form in server-rendered HTML: it paints correctly with CSS alone, before
+hydration runs, avoiding a flash of default variants on reload.
+
+Inside an attached `solaris-button-group`, the button carries
+`data-group="horizontal"` (or `"vertical"`, from the group context). That
+attribute scopes the attached styling (square middle, flush edge radius,
+divider, hover lift) to group members only, so standalone buttons are
+never affected.
+
 ## Radius
 
 | Radius | Value                       |

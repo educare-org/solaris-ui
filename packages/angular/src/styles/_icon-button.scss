@@ -1,3 +1,34 @@
+:root {
+  --solaris-button-group-icon-item-flex: 0 0 auto;
+  --solaris-button-group-icon-item-shadow: none;
+  --solaris-button-group-icon-separator-in-use: var(
+    --solaris-button-group-separator-color
+  );
+  --solaris-icon-button-custom-color: var(--solaris-neutral-text-body);
+  --solaris-icon-button-custom-background: var(--solaris-neutral-default);
+  --solaris-icon-button-custom-border-color: var(
+    --solaris-neutral-border-default
+  );
+  --solaris-icon-button-custom-hover-color: var(
+    --solaris-icon-button-custom-color
+  );
+  --solaris-icon-button-custom-active-color: var(
+    --solaris-icon-button-custom-color
+  );
+  --solaris-icon-button-custom-hover-background: var(
+    --solaris-icon-button-custom-background
+  );
+  --solaris-icon-button-custom-active-background: var(
+    --solaris-icon-button-custom-background
+  );
+  --solaris-icon-button-custom-hover-border-color: var(
+    --solaris-icon-button-custom-border-color
+  );
+  --solaris-icon-button-custom-active-border-color: var(
+    --solaris-icon-button-custom-border-color
+  );
+}
+
 [solaris-icon-button] {
   --solaris-icon-button-border-width: 0;
   --solaris-icon-button-border-color: transparent;
@@ -14,18 +45,8 @@
   --solaris-icon-button-hover-background: var(--solaris-neutral-inverse-subtle);
   --solaris-icon-button-active-background: var(--solaris-neutral-inverse-muted);
 
-  --solaris-icon-button-custom-color: initial;
-  --solaris-icon-button-custom-background: initial;
-  --solaris-icon-button-custom-hover-color: initial;
-  --solaris-icon-button-custom-border-color: initial;
-  --solaris-icon-button-custom-active-color: initial;
-  --solaris-icon-button-custom-hover-background: initial;
-  --solaris-icon-button-custom-active-background: initial;
-  --solaris-icon-button-custom-hover-border-color: initial;
-  --solaris-icon-button-custom-active-border-color: initial;
-
   padding: 0;
-  flex-shrink: 0;
+  flex: var(--solaris-button-group-icon-item-flex);
   cursor: pointer;
   user-select: none;
   position: relative;
@@ -42,11 +63,21 @@
   line-height: var(--solaris-line-height-none);
   border-radius: var(--solaris-icon-button-radius);
   background: var(--solaris-icon-button-background);
+  box-shadow: var(--solaris-button-group-icon-item-shadow);
   font-family: var(--solaris-font-family-sans), system-ui;
   border: var(--solaris-icon-button-border-width) solid
     var(--solaris-icon-button-border-color);
-  transition: all var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
+  transition:
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    filter var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 }
 
 [solaris-icon-button]:hover {
@@ -122,8 +153,38 @@
   transform: translate(50%, -50%);
 }
 
+[solaris-icon-button][data-group]:first-child {
+  border-start-start-radius: max(
+    var(--solaris-button-group-flush-inline),
+    var(--solaris-button-group-flush-block)
+  );
+  border-end-start-radius: var(--solaris-button-group-flush-inline);
+  border-start-end-radius: var(--solaris-button-group-flush-block);
+}
+
+[solaris-icon-button][data-group]:last-child {
+  border-start-end-radius: var(--solaris-button-group-flush-inline);
+  border-end-start-radius: var(--solaris-button-group-flush-block);
+  border-end-end-radius: max(
+    var(--solaris-button-group-flush-inline),
+    var(--solaris-button-group-flush-block)
+  );
+  box-shadow: none;
+}
+
+[solaris-icon-button][data-group]:only-child {
+  border-radius: max(
+    var(--solaris-button-group-flush-inline),
+    var(--solaris-button-group-flush-block)
+  );
+  box-shadow: none;
+}
+
 [solaris-icon-button][data-appearance='solid'] {
   --solaris-icon-button-border-width: 0;
+  --solaris-button-group-icon-separator-in-use: var(
+    --solaris-button-group-separator-on-solid
+  );
 }
 
 [solaris-icon-button][data-appearance='outline'] {
@@ -486,29 +547,21 @@
   --solaris-icon-button-active-border-color: var(
     --solaris-icon-button-custom-active-border-color
   );
-  --solaris-icon-button-color: var(
-    --solaris-icon-button-custom-color,
-    var(--solaris-neutral-text-body)
-  );
+  --solaris-icon-button-color: var(--solaris-icon-button-custom-color);
   --solaris-icon-button-background: var(
-    --solaris-icon-button-custom-background,
-    var(--solaris-neutral-default)
+    --solaris-icon-button-custom-background
   );
   --solaris-icon-button-hover-color: var(
-    --solaris-icon-button-custom-hover-color,
-    var(--solaris-icon-button-custom-color, var(--solaris-neutral-text-body))
+    --solaris-icon-button-custom-hover-color
   );
   --solaris-icon-button-active-color: var(
-    --solaris-icon-button-custom-active-color,
-    var(--solaris-icon-button-custom-color, var(--solaris-neutral-text-body))
+    --solaris-icon-button-custom-active-color
   );
   --solaris-icon-button-focus-ring-color: var(
-    --solaris-icon-button-custom-color,
-    var(--solaris-neutral-text-body)
+    --solaris-icon-button-custom-color
   );
   --solaris-icon-button-border-color: var(
-    --solaris-icon-button-custom-border-color,
-    var(--solaris-neutral-border-default)
+    --solaris-icon-button-custom-border-color
   );
 }
 
@@ -710,4 +763,33 @@
   width: auto;
   min-width: var(--solaris-icon-button-size);
   padding-inline: calc(var(--solaris-density-padding-lg) * 2.5);
+}
+
+[solaris-icon-button][data-group='horizontal'][data-appearance] {
+  --solaris-icon-button-radius: 0;
+  --solaris-icon-button-border-width: 0;
+  --solaris-icon-button-border-color: transparent;
+  --solaris-icon-button-hover-border-color: transparent;
+  --solaris-icon-button-active-border-color: transparent;
+  --solaris-button-group-icon-item-shadow: inset
+    calc(-1 * var(--solaris-border-width-sm)) 0 0 0
+    var(--solaris-button-group-icon-separator-in-use);
+}
+
+[solaris-icon-button][data-group='vertical'][data-appearance] {
+  --solaris-icon-button-radius: 0;
+  --solaris-icon-button-border-width: 0;
+  --solaris-icon-button-border-color: transparent;
+  --solaris-icon-button-hover-border-color: transparent;
+  --solaris-icon-button-active-border-color: transparent;
+  --solaris-button-group-icon-item-shadow: inset 0
+    calc(-1 * var(--solaris-border-width-sm)) 0 0
+    var(--solaris-button-group-icon-separator-in-use);
+}
+
+[solaris-icon-button][data-group]:hover:not(
+    [disabled],
+    [aria-disabled='true']
+  ) {
+  filter: brightness(1.07);
 }

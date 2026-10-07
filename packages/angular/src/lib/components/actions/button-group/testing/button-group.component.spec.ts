@@ -411,4 +411,54 @@ describe('SolarisButtonGroupComponent with content projection', () => {
     expect(buttons[0].getAttribute('data-density')).toBe('compact');
     expect(iconButtons[0].getAttribute('data-density')).toBe('compact');
   });
+
+  @Component({
+    standalone: true,
+    imports: [
+      SolarisButtonGroupComponent,
+      SolarisButtonDirective,
+      SolarisIconButtonDirective,
+    ],
+    template: `
+      <solaris-button-group aria-label="Actions" size="sm" density="compact">
+        <button solaris-button data-size="lg" data-density="comfortable">
+          Edit
+        </button>
+        <button solaris-icon-button data-size="lg" aria-label="More">M</button>
+      </solaris-button-group>
+    `,
+  })
+  class DataAttributeHostComponent {}
+
+  it('should force group size over data-* attributes', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(DataAttributeHostComponent);
+    fixture.detectChanges();
+    const group = fixture.nativeElement.querySelector('solaris-button-group');
+    const buttons = group.querySelectorAll('[solaris-button]');
+    const iconButtons = group.querySelectorAll('[solaris-icon-button]');
+    expect(buttons[0].getAttribute('data-size')).toBe('sm');
+    expect(buttons[0].getAttribute('data-density')).toBe('compact');
+    expect(iconButtons[0].getAttribute('data-size')).toBe('sm');
+  });
+
+  it('should mark children with data-group when attached', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(DataAttributeHostComponent);
+    fixture.detectChanges();
+    const group = fixture.nativeElement.querySelector('solaris-button-group');
+    const buttons = group.querySelectorAll('[solaris-button]');
+    const iconButtons = group.querySelectorAll('[solaris-icon-button]');
+    expect(buttons[0].getAttribute('data-group')).toBe('horizontal');
+    expect(iconButtons[0].getAttribute('data-group')).toBe('horizontal');
+  });
+
+  it('should not mark children with data-group when separated', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(AttachedFalseHostComponent);
+    fixture.detectChanges();
+    const group = fixture.nativeElement.querySelector('solaris-button-group');
+    const buttons = group.querySelectorAll('[solaris-button]');
+    expect(buttons[0].hasAttribute('data-group')).toBe(false);
+  });
 });

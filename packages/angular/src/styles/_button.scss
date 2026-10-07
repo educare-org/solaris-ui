@@ -1,3 +1,28 @@
+:root {
+  --solaris-button-group-item-flex: 0 1 auto;
+  --solaris-button-group-item-shadow: none;
+  --solaris-button-group-separator-in-use: var(
+    --solaris-button-group-separator-color
+  );
+  --solaris-button-custom-color: var(--solaris-neutral-text-body);
+  --solaris-button-custom-background: var(--solaris-neutral-default);
+  --solaris-button-custom-border-color: var(--solaris-neutral-border-default);
+  --solaris-button-custom-hover-color: var(--solaris-button-custom-color);
+  --solaris-button-custom-active-color: var(--solaris-button-custom-color);
+  --solaris-button-custom-hover-background: var(
+    --solaris-button-custom-background
+  );
+  --solaris-button-custom-active-background: var(
+    --solaris-button-custom-background
+  );
+  --solaris-button-custom-hover-border-color: var(
+    --solaris-button-custom-border-color
+  );
+  --solaris-button-custom-active-border-color: var(
+    --solaris-button-custom-border-color
+  );
+}
+
 [solaris-button] {
   --solaris-button-border-width: 0;
   --solaris-button-border-color: transparent;
@@ -12,26 +37,16 @@
   --solaris-button-padding-y: var(--solaris-spacing-2);
   --solaris-button-min-width: var(--solaris-spacing-16);
   --solaris-button-font-size: var(--solaris-font-size-md);
-  --solaris-button-hover-color: var(--solaris-neutral-text-inverse);
-  --solaris-button-active-color: var(--solaris-neutral-text-inverse);
   --solaris-button-background: var(--solaris-neutral-inverse);
-  --solaris-button-icon-padding-end: var(--solaris-spacing-2);
   --solaris-button-disabled-opacity: var(--solaris-opacity-50);
   --solaris-button-icon-padding-start: var(--solaris-spacing-4);
-  --solaris-button-focus-ring-color: var(--solaris-neutral-text-body);
   --solaris-button-font-weight: var(--solaris-font-weight-medium);
+  --solaris-button-hover-color: var(--solaris-neutral-text-inverse);
+  --solaris-button-active-color: var(--solaris-neutral-text-inverse);
+  --solaris-button-focus-ring-color: var(--solaris-neutral-text-body);
+  --solaris-button-icon-padding-end: var(--solaris-density-padding-lg);
   --solaris-button-hover-background: var(--solaris-neutral-inverse-subtle);
   --solaris-button-active-background: var(--solaris-neutral-inverse-muted);
-
-  --solaris-button-custom-color: initial;
-  --solaris-button-custom-background: initial;
-  --solaris-button-custom-hover-color: initial;
-  --solaris-button-custom-border-color: initial;
-  --solaris-button-custom-active-color: initial;
-  --solaris-button-custom-hover-background: initial;
-  --solaris-button-custom-active-background: initial;
-  --solaris-button-custom-hover-border-color: initial;
-  --solaris-button-custom-active-border-color: initial;
 
   cursor: pointer;
   user-select: none;
@@ -43,18 +58,29 @@
   gap: var(--solaris-button-gap);
   color: var(--solaris-button-color);
   height: var(--solaris-button-height);
+  flex: var(--solaris-button-group-item-flex);
   line-height: var(--solaris-line-height-sm);
   min-width: var(--solaris-button-min-width);
   font-size: var(--solaris-button-font-size);
   border-radius: var(--solaris-button-radius);
   background: var(--solaris-button-background);
+  box-shadow: var(--solaris-button-group-item-shadow);
   font-weight: var(--solaris-button-font-weight);
   font-family: var(--solaris-font-family-sans), system-ui;
   padding: var(--solaris-button-padding-y) var(--solaris-button-padding-x);
   border: var(--solaris-button-border-width) solid
     var(--solaris-button-border-color);
-  transition: all var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
+  transition:
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    filter var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 }
 
 [solaris-button]:hover {
@@ -104,6 +130,34 @@
 
 [solaris-button][data-full-width] {
   width: 100%;
+  max-width: 100%;
+}
+
+[solaris-button][data-group]:first-child {
+  border-start-start-radius: max(
+    var(--solaris-button-group-flush-inline),
+    var(--solaris-button-group-flush-block)
+  );
+  border-end-start-radius: var(--solaris-button-group-flush-inline);
+  border-start-end-radius: var(--solaris-button-group-flush-block);
+}
+
+[solaris-button][data-group]:last-child {
+  border-start-end-radius: var(--solaris-button-group-flush-inline);
+  border-end-start-radius: var(--solaris-button-group-flush-block);
+  border-end-end-radius: max(
+    var(--solaris-button-group-flush-inline),
+    var(--solaris-button-group-flush-block)
+  );
+  box-shadow: none;
+}
+
+[solaris-button][data-group]:only-child {
+  border-radius: max(
+    var(--solaris-button-group-flush-inline),
+    var(--solaris-button-group-flush-block)
+  );
+  box-shadow: none;
 }
 
 [solaris-button] [solaris-button-icon] {
@@ -131,6 +185,9 @@
 
 [solaris-button][data-appearance='solid'] {
   --solaris-button-border-width: var(--solaris-border-width-sm);
+  --solaris-button-group-separator-in-use: var(
+    --solaris-button-group-separator-on-solid
+  );
 }
 
 [solaris-button][data-appearance='outline'] {
@@ -487,123 +544,105 @@
   --solaris-button-active-border-color: var(
     --solaris-button-custom-active-border-color
   );
-  --solaris-button-color: var(
-    --solaris-button-custom-color,
-    var(--solaris-neutral-text-body)
-  );
-  --solaris-button-background: var(
-    --solaris-button-custom-background,
-    var(--solaris-neutral-default)
-  );
-  --solaris-button-focus-ring-color: var(
-    --solaris-button-custom-color,
-    var(--solaris-neutral-text-body)
-  );
-  --solaris-button-border-color: var(
-    --solaris-button-custom-border-color,
-    var(--solaris-neutral-border-default)
-  );
-  --solaris-button-hover-color: var(
-    --solaris-button-custom-hover-color,
-    var(--solaris-button-custom-color, var(--solaris-neutral-text-body))
-  );
-  --solaris-button-active-color: var(
-    --solaris-button-custom-active-color,
-    var(--solaris-button-custom-color, var(--solaris-neutral-text-body))
-  );
+  --solaris-button-color: var(--solaris-button-custom-color);
+  --solaris-button-background: var(--solaris-button-custom-background);
+  --solaris-button-focus-ring-color: var(--solaris-button-custom-color);
+  --solaris-button-border-color: var(--solaris-button-custom-border-color);
+  --solaris-button-hover-color: var(--solaris-button-custom-hover-color);
+  --solaris-button-active-color: var(--solaris-button-custom-active-color);
 }
 
 [solaris-button][data-size='sm'][data-density='compact'] {
   --solaris-button-gap: var(--solaris-density-gap-md);
-  --solaris-button-height: var(--solaris-control-height-compact-sm);
-  --solaris-button-padding-x: var(--solaris-density-padding-lg);
-  --solaris-button-padding-y: var(--solaris-spacing-1);
+  --solaris-button-padding-y: var(--solaris-spacing-3);
   --solaris-button-min-width: var(--solaris-spacing-16);
   --solaris-button-icon-size: var(--solaris-font-size-xs);
   --solaris-button-font-size: var(--solaris-font-size-xs);
+  --solaris-button-padding-x: var(--solaris-density-padding-lg);
   --solaris-button-font-weight: var(--solaris-font-weight-medium);
+  --solaris-button-height: var(--solaris-control-height-compact-sm);
 }
 
 [solaris-button][data-size='md'][data-density='compact'] {
   --solaris-button-gap: var(--solaris-density-gap-md);
-  --solaris-button-height: var(--solaris-control-height-compact-md);
-  --solaris-button-padding-x: var(--solaris-density-padding-lg);
-  --solaris-button-padding-y: var(--solaris-spacing-1);
+  --solaris-button-padding-y: var(--solaris-spacing-3);
   --solaris-button-min-width: var(--solaris-spacing-16);
   --solaris-button-icon-size: var(--solaris-font-size-sm);
   --solaris-button-font-size: var(--solaris-font-size-sm);
+  --solaris-button-padding-x: var(--solaris-density-padding-lg);
   --solaris-button-font-weight: var(--solaris-font-weight-medium);
+  --solaris-button-height: var(--solaris-control-height-compact-md);
 }
 
 [solaris-button][data-size='lg'][data-density='compact'] {
   --solaris-button-gap: var(--solaris-density-gap-md);
-  --solaris-button-height: var(--solaris-control-height-compact-lg);
-  --solaris-button-padding-x: var(--solaris-density-padding-lg);
-  --solaris-button-padding-y: var(--solaris-spacing-1);
+  --solaris-button-padding-y: var(--solaris-spacing-3);
   --solaris-button-min-width: var(--solaris-spacing-16);
   --solaris-button-icon-size: var(--solaris-font-size-sm);
   --solaris-button-font-size: var(--solaris-font-size-md);
+  --solaris-button-padding-x: var(--solaris-density-padding-lg);
   --solaris-button-font-weight: var(--solaris-font-weight-medium);
+  --solaris-button-height: var(--solaris-control-height-compact-lg);
 }
 
 [solaris-button][data-size='sm'][data-density='normal'] {
   --solaris-button-gap: var(--solaris-density-gap-md);
-  --solaris-button-height: var(--solaris-control-height-normal-sm);
-  --solaris-button-padding-x: var(--solaris-density-padding-lg);
-  --solaris-button-padding-y: var(--solaris-spacing-2);
+  --solaris-button-padding-y: var(--solaris-spacing-4);
   --solaris-button-min-width: var(--solaris-spacing-16);
   --solaris-button-icon-size: var(--solaris-font-size-sm);
   --solaris-button-font-size: var(--solaris-font-size-xs);
+  --solaris-button-padding-x: var(--solaris-density-padding-lg);
   --solaris-button-font-weight: var(--solaris-font-weight-medium);
+  --solaris-button-height: var(--solaris-control-height-normal-sm);
 }
 
 [solaris-button][data-size='md'][data-density='normal'] {
   --solaris-button-gap: var(--solaris-density-gap-md);
-  --solaris-button-height: var(--solaris-control-height-normal-md);
-  --solaris-button-padding-x: var(--solaris-density-padding-lg);
-  --solaris-button-padding-y: var(--solaris-spacing-2);
+  --solaris-button-padding-y: var(--solaris-spacing-4);
   --solaris-button-min-width: var(--solaris-spacing-16);
   --solaris-button-icon-size: var(--solaris-font-size-sm);
   --solaris-button-font-size: var(--solaris-font-size-sm);
+  --solaris-button-padding-x: var(--solaris-density-padding-lg);
   --solaris-button-font-weight: var(--solaris-font-weight-medium);
+  --solaris-button-height: var(--solaris-control-height-normal-md);
 }
 
 [solaris-button][data-size='lg'][data-density='normal'] {
   --solaris-button-gap: var(--solaris-density-gap-md);
-  --solaris-button-height: var(--solaris-control-height-normal-lg);
-  --solaris-button-padding-x: var(--solaris-density-padding-lg);
-  --solaris-button-padding-y: var(--solaris-spacing-2);
+  --solaris-button-padding-y: var(--solaris-spacing-4);
   --solaris-button-min-width: var(--solaris-spacing-16);
   --solaris-button-icon-size: var(--solaris-font-size-sm);
   --solaris-button-font-size: var(--solaris-font-size-md);
+  --solaris-button-padding-x: var(--solaris-density-padding-lg);
   --solaris-button-font-weight: var(--solaris-font-weight-medium);
+  --solaris-button-height: var(--solaris-control-height-normal-lg);
 }
 
 [solaris-button][data-size='sm'][data-density='comfortable'] {
   --solaris-button-gap: var(--solaris-density-gap-md);
-  --solaris-button-height: var(--solaris-control-height-comfortable-sm);
-  --solaris-button-padding-x: var(--solaris-density-padding-lg);
-  --solaris-button-padding-y: var(--solaris-spacing-2);
+  --solaris-button-padding-y: var(--solaris-spacing-4);
   --solaris-button-min-width: var(--solaris-spacing-17);
   --solaris-button-icon-size: var(--solaris-font-size-sm);
   --solaris-button-font-size: var(--solaris-font-size-xs);
+  --solaris-button-padding-x: var(--solaris-density-padding-lg);
   --solaris-button-font-weight: var(--solaris-font-weight-semibold);
+  --solaris-button-height: var(--solaris-control-height-comfortable-sm);
 }
 
 [solaris-button][data-size='md'][data-density='comfortable'] {
   --solaris-button-gap: var(--solaris-density-gap-md);
-  --solaris-button-height: var(--solaris-control-height-comfortable-md);
-  --solaris-button-padding-x: var(--solaris-density-padding-lg);
-  --solaris-button-padding-y: var(--solaris-spacing-2);
+  --solaris-button-padding-y: var(--solaris-spacing-4);
   --solaris-button-min-width: var(--solaris-spacing-17);
   --solaris-button-icon-size: var(--solaris-font-size-sm);
   --solaris-button-font-size: var(--solaris-font-size-sm);
+  --solaris-button-padding-x: var(--solaris-density-padding-lg);
   --solaris-button-font-weight: var(--solaris-font-weight-semibold);
+  --solaris-button-height: var(--solaris-control-height-comfortable-md);
 }
 
 [solaris-button][data-size='lg'][data-density='comfortable'] {
   --solaris-button-gap: var(--solaris-density-gap-md);
-  --solaris-button-padding-y: var(--solaris-spacing-2);
+  --solaris-button-padding-y: var(--solaris-spacing-4);
   --solaris-button-min-width: var(--solaris-spacing-17);
   --solaris-button-icon-size: var(--solaris-font-size-sm);
   --solaris-button-font-size: var(--solaris-font-size-md);
@@ -659,4 +698,30 @@
 
 [solaris-button][data-radius='full'] {
   --solaris-button-radius: var(--solaris-radius-full);
+}
+
+[solaris-button][data-group='horizontal'][data-appearance] {
+  --solaris-button-radius: 0;
+  --solaris-button-border-width: 0;
+  --solaris-button-border-color: transparent;
+  --solaris-button-hover-border-color: transparent;
+  --solaris-button-active-border-color: transparent;
+  --solaris-button-group-item-shadow: inset
+    calc(-1 * var(--solaris-border-width-sm)) 0 0 0
+    var(--solaris-button-group-separator-in-use);
+}
+
+[solaris-button][data-group='vertical'][data-appearance] {
+  --solaris-button-radius: 0;
+  --solaris-button-border-width: 0;
+  --solaris-button-border-color: transparent;
+  --solaris-button-hover-border-color: transparent;
+  --solaris-button-active-border-color: transparent;
+  --solaris-button-group-item-shadow: inset 0
+    calc(-1 * var(--solaris-border-width-sm)) 0 0
+    var(--solaris-button-group-separator-in-use);
+}
+
+[solaris-button][data-group]:hover:not([disabled], [aria-disabled='true']) {
+  filter: brightness(1.07);
 }

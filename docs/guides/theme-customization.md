@@ -117,6 +117,39 @@ Copy the pattern from `packages/angular/src/styles/token/color/_dark.scss`:
 3. Update the component's docs to list the new token
 4. If the token is a new category, add it to `token-rules.json`
 
+## SSR: matching density on server and client
+
+`SolarisThemeService.density` resolves in this order: explicit
+`SOLARIS_THEME_CONFIG` density, the `data-density-default` attribute on
+`<html>`, the `--solaris-density-default` CSS custom property, then
+`normal`. The server cannot read computed CSS, so SSR apps must provide one
+of the first two — otherwise the server renders `normal` and hydration
+flashes to the real density.
+
+In the consumer app, write the attribute on `<html>` with the same value
+used in the `theme()` SCSS mixin. A server-side `APP_INITIALIZER` works:
+
+```typescript
+import { APP_INITIALIZER, DOCUMENT } from '@angular/core';
+import { SOLARIS_DENSITY_DEFAULT_ATTRIBUTE } from '@solaris-ui/angular';
+
+{
+  provide: APP_INITIALIZER,
+  multi: true,
+  deps: [DOCUMENT],
+  useFactory: (document: Document) => () => {
+    document.documentElement.setAttribute(
+      SOLARIS_DENSITY_DEFAULT_ATTRIBUTE,
+      'compact',
+    );
+  },
+}
+```
+
+The client reads the same attribute, so both sides agree before styles
+load. When density varies per user, resolve the value per request (cookie
+or profile) instead of hardcoding it.
+
 ## Best practices
 
 - Override at the highest level possible (usually `:root` or `[data-theme]`)

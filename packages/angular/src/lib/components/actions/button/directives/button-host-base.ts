@@ -12,6 +12,7 @@ import {
   ElementRef,
   EnvironmentInjector,
   inject,
+  input,
   PLATFORM_ID,
   type ComponentRef,
   type Signal,
@@ -40,18 +41,66 @@ export abstract class SolarisButtonHostBase {
 
   protected readonly themeService = inject(SolarisThemeService);
 
+  readonly dataSize = input<string | undefined>(undefined, {
+    alias: 'data-size',
+  });
+  readonly dataDensity = input<string | undefined>(undefined, {
+    alias: 'data-density',
+  });
+  readonly dataAppearance = input<string | undefined>(undefined, {
+    alias: 'data-appearance',
+  });
+  readonly dataColor = input<string | undefined>(undefined, {
+    alias: 'data-color',
+  });
+  readonly dataShape = input<string | undefined>(undefined, {
+    alias: 'data-shape',
+  });
+  readonly dataRadius = input<string | undefined>(undefined, {
+    alias: 'data-radius',
+  });
+
   private readonly groupContext = inject(SOLARIS_BUTTON_GROUP_CONTEXT, {
     optional: true,
     skipSelf: true,
   });
 
+  protected readonly resolvedSize = computed(
+    () => this.dataSize() ?? this.size(),
+  );
+
+  protected readonly resolvedAppearance = computed(
+    () => this.dataAppearance() ?? this.appearance(),
+  );
+
+  protected readonly resolvedColor = computed(
+    () => this.dataColor() ?? this.color(),
+  );
+
+  protected readonly resolvedShape = computed(
+    () => this.dataShape() ?? this.shape(),
+  );
+
+  protected readonly resolvedRadius = computed(
+    () => this.dataRadius() ?? this.radius(),
+  );
+
   protected readonly effectiveSize = computed(() => {
-    return this.groupContext?.size() ?? this.size();
+    return this.groupContext?.size() ?? this.resolvedSize();
+  });
+
+  protected readonly groupPlacement = computed(() => {
+    const group = this.groupContext;
+    if (!group || !group.attached()) {
+      return null;
+    }
+    return group.orientation();
   });
 
   protected readonly effectiveDensity = computed(() => {
     return (
       this.groupContext?.effectiveDensity() ??
+      this.dataDensity() ??
       this.density() ??
       this.themeService.density
     );
@@ -112,25 +161,6 @@ export abstract class SolarisButtonHostBase {
     const initialType = el.getAttribute('type');
     if (this.isButton && initialType === null) {
       el.setAttribute('type', 'button');
-    }
-
-    if (!el.hasAttribute('data-appearance')) {
-      el.setAttribute('data-appearance', this.appearance());
-    }
-    if (!el.hasAttribute('data-color')) {
-      el.setAttribute('data-color', this.color());
-    }
-    if (!el.hasAttribute('data-radius')) {
-      el.setAttribute('data-radius', this.radius());
-    }
-    if (!el.hasAttribute('data-shape')) {
-      el.setAttribute('data-shape', this.shape());
-    }
-    if (!el.hasAttribute('data-size')) {
-      el.setAttribute('data-size', this.effectiveSize());
-    }
-    if (!el.hasAttribute('data-density')) {
-      el.setAttribute('data-density', this.effectiveDensity());
     }
 
     effect(() => {

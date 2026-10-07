@@ -931,6 +931,80 @@ describe('SolarisButtonDirective with icon input', () => {
   });
 });
 
+describe('SolarisButtonDirective data-* aliases', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisButtonDirective],
+    template: `<button
+      solaris-button
+      data-size="sm"
+      data-density="compact"
+      data-appearance="outline"
+      data-color="primary"
+      data-radius="lg"
+      data-shape="wide"
+    >
+      Aliased
+    </button>`,
+  })
+  class DataAliasHost {}
+
+  @Component({
+    standalone: true,
+    imports: [SolarisButtonDirective],
+    template: `<button solaris-button size="lg" data-size="sm">
+      Precedence
+    </button>`,
+  })
+  class DataPrecedenceHost {}
+
+  @Component({
+    standalone: true,
+    imports: [SolarisButtonDirective],
+    template: `<button solaris-button>Plain</button>`,
+  })
+  class PlainHost {}
+
+  it('should honor data-* attributes as variant inputs', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(DataAliasHost);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-size')).toBe('sm');
+    expect(el.getAttribute('data-density')).toBe('compact');
+    expect(el.getAttribute('data-appearance')).toBe('outline');
+    expect(el.getAttribute('data-color')).toBe('primary');
+    expect(el.getAttribute('data-radius')).toBe('lg');
+    expect(el.getAttribute('data-shape')).toBe('wide');
+  });
+
+  it('should prefer data-size over the size input', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(DataPrecedenceHost);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-size')).toBe('sm');
+  });
+
+  it('should not stamp variant attributes before the first change detection', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(PlainHost);
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.hasAttribute('data-appearance')).toBe(false);
+    expect(el.hasAttribute('data-size')).toBe(false);
+    expect(el.hasAttribute('data-density')).toBe(false);
+  });
+
+  it('should apply input defaults on the first change detection', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(PlainHost);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-appearance')).toBe('solid');
+    expect(el.getAttribute('data-size')).toBe('md');
+  });
+});
+
 describe('SolarisButtonIconDirective', () => {
   @Component({
     standalone: true,

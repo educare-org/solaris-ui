@@ -27,7 +27,10 @@ export type {
   SolarisDensity,
   SolarisReducedMotionPreference,
 } from './lib/services/theme/model/solaris-theme.types';
-export { SolarisThemeService } from './lib/services/theme/service/solaris-theme.service';
+export {
+  SolarisThemeService,
+  SOLARIS_DENSITY_DEFAULT_ATTRIBUTE,
+} from './lib/services/theme/service/solaris-theme.service';
 export { SOLARIS_THEME_CONFIG } from './lib/services/theme/token/solaris-theme.tokens';
 
 export { SolarisIconComponent } from './lib/components/icon/component/solaris-icon.component';

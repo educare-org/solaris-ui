@@ -941,3 +941,28 @@ describe('SolarisIconButtonDirective', () => {
     });
   });
 });
+
+describe('SolarisIconButtonDirective data-* aliases', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisIconButtonDirective],
+    template: `<button
+      solaris-icon-button
+      aria-label="Aliased"
+      data-size="lg"
+      data-appearance="ghost"
+    >
+      Aliased
+    </button>`,
+  })
+  class DataAliasHost {}
+
+  it('should honor data-* attributes as variant inputs', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(DataAliasHost);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
+    expect(el.getAttribute('data-size')).toBe('lg');
+    expect(el.getAttribute('data-appearance')).toBe('ghost');
+  });
+});
