@@ -2,8 +2,8 @@
   <button
     type="button"
     class="shell-header__menu-button"
-    [attr.aria-expanded]="menuExpanded().toString()"
     aria-controls="showcase-sidebar-nav"
+    [attr.aria-expanded]="menuExpanded().toString()"
     [attr.aria-label]="
       (menuExpanded() ? 'shell.menu.close' : 'shell.menu.open') | translate
     "
@@ -26,9 +26,9 @@
   <div class="shell-header__actions">
     <solaris-form-field density="compact" prefix="search">
       <input
-        solaris-input
+        radius="md"
         type="search"
-        density="compact"
+        solaris-input
         [value]="searchQuery()"
         [attr.aria-label]="'shell.search.label' | translate"
         (keydown.escape)="clearSearch()"

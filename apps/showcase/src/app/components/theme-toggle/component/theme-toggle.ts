@@ -9,25 +9,32 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 
 import {
+  SolarisIconButtonDirective,
+  SolarisIconComponent,
   SolarisSegmentedControlComponent,
   SolarisSegmentedItemComponent,
+  SolarisTranslatePipe,
 } from '@solaris-ui/angular';
 
-import { ShowcaseColorScheme, STORAGE_KEY } from '../model/theme-toggle.model';
+import {
+  HIGH_CONTRAST_STORAGE_KEY,
+  STORAGE_KEY,
+  type ShowcaseBaseTheme,
+} from '../model/theme-toggle.model';
 
-function isColorScheme(value: unknown): value is ShowcaseColorScheme {
-  return (
-    value === 'light' ||
-    value === 'dark' ||
-    value === 'system' ||
-    value === 'high-contrast' ||
-    value === 'high-contrast-dark'
-  );
+function isBaseTheme(value: unknown): value is ShowcaseBaseTheme {
+  return value === 'light' || value === 'dark' || value === 'system';
 }
 
 @Component({
   standalone: true,
-  imports: [SolarisSegmentedControlComponent, SolarisSegmentedItemComponent],
+  imports: [
+    SolarisSegmentedControlComponent,
+    SolarisSegmentedItemComponent,
+    SolarisIconButtonDirective,
+    SolarisIconComponent,
+    SolarisTranslatePipe,
+  ],
   selector: 'app-theme-toggle',
   templateUrl: './theme-toggle.html',
   styleUrls: ['./theme-toggle.scss'],
@@ -38,59 +45,130 @@ export class ShowcaseThemeToggle {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
 
-  protected readonly activeTheme = signal<ShowcaseColorScheme>('system');
+  protected readonly baseTheme = signal<ShowcaseBaseTheme>('system');
+  protected readonly highContrast = signal<boolean>(false);
 
   constructor() {
     if (!this.isBrowser) {
       return;
     }
-    const initial = this.readStoredTheme();
-    this.activeTheme.set(initial);
-    this.applyTheme(initial);
+    const { base, highContrast } = this.readStoredTheme();
+    this.baseTheme.set(base);
+    this.highContrast.set(highContrast);
+    this.applyTheme(base, highContrast);
   }
 
   protected setTheme(theme: unknown): void {
-    if (!isColorScheme(theme)) {
+    if (!isBaseTheme(theme)) {
       return;
     }
-    this.activeTheme.set(theme);
+    this.baseTheme.set(theme);
+    this.persistAndApply();
+  }
+
+  protected toggleHighContrast(): void {
+    this.highContrast.update((value) => !value);
+    this.persistAndApply();
+  }
+
+  private persistAndApply(): void {
     if (!this.isBrowser) {
       return;
     }
-    this.writeStoredTheme(theme);
-    this.applyTheme(theme);
+    const base = this.baseTheme();
+    const highContrast = this.highContrast();
+    this.writeStoredTheme(base, highContrast);
+    this.applyTheme(base, highContrast);
   }
 
-  private readStoredTheme(): ShowcaseColorScheme {
+  private readStoredTheme(): {
+    base: ShowcaseBaseTheme;
+    highContrast: boolean;
+  } {
+    let base: ShowcaseBaseTheme = 'system';
+    let highContrast = false;
+
     try {
       const stored =
         this.document.defaultView?.localStorage.getItem(STORAGE_KEY);
-      if (isColorScheme(stored)) {
-        return stored;
+      if (isBaseTheme(stored)) {
+        base = stored;
+      } else if (stored === 'high-contrast') {
+        base = 'light';
+        highContrast = true;
+      } else if (stored === 'high-contrast-dark') {
+        base = 'dark';
+        highContrast = true;
+      } else {
+        const current = this.document.documentElement.dataset['theme'];
+        if (isBaseTheme(current)) {
+          base = current;
+        } else if (current === 'high-contrast') {
+          base = 'light';
+          highContrast = true;
+        } else if (current === 'high-contrast-dark') {
+          base = 'dark';
+          highContrast = true;
+        }
       }
     } catch {
       // no-op
     }
-    const current = this.document.documentElement.dataset['theme'];
-    if (isColorScheme(current)) {
-      return current;
+
+    try {
+      const storedContrast = this.document.defaultView?.localStorage.getItem(
+        HIGH_CONTRAST_STORAGE_KEY,
+      );
+      if (storedContrast === 'true') {
+        highContrast = true;
+      } else if (storedContrast === 'false') {
+        highContrast = false;
+      }
+    } catch {
+      // no-op
     }
-    return 'system';
+
+    return { base, highContrast };
   }
 
-  private writeStoredTheme(theme: ShowcaseColorScheme): void {
+  private writeStoredTheme(
+    base: ShowcaseBaseTheme,
+    highContrast: boolean,
+  ): void {
     try {
-      this.document.defaultView?.localStorage.setItem(STORAGE_KEY, theme);
+      this.document.defaultView?.localStorage.setItem(STORAGE_KEY, base);
+      this.document.defaultView?.localStorage.setItem(
+        HIGH_CONTRAST_STORAGE_KEY,
+        String(highContrast),
+      );
     } catch {
       // no-op
     }
   }
 
-  private applyTheme(theme: ShowcaseColorScheme): void {
-    if (theme === 'system') {
-      delete this.document.documentElement.dataset['theme'];
-    } else {
-      this.document.documentElement.dataset['theme'] = theme;
+  private applyTheme(base: ShowcaseBaseTheme, highContrast: boolean): void {
+    if (!highContrast) {
+      if (base === 'system') {
+        delete this.document.documentElement.dataset['theme'];
+      } else {
+        this.document.documentElement.dataset['theme'] = base;
+      }
+      return;
     }
+
+    if (base === 'light') {
+      this.document.documentElement.dataset['theme'] = 'high-contrast';
+      return;
+    }
+    if (base === 'dark') {
+      this.document.documentElement.dataset['theme'] = 'high-contrast-dark';
+      return;
+    }
+    const prefersDark = this.document.defaultView?.matchMedia?.(
+      '(prefers-color-scheme: dark)',
+    )?.matches;
+    this.document.documentElement.dataset['theme'] = prefersDark
+      ? 'high-contrast-dark'
+      : 'high-contrast';
   }
 }

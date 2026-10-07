@@ -14,6 +14,7 @@ export const EN_US_SHELL: Record<string, string> = {
   'shell.theme.light': 'Light theme',
   'shell.theme.dark': 'Dark theme',
   'shell.theme.system': 'System theme',
+  'shell.theme.high-contrast': 'High contrast',
   'shell.sidebar.section.getting-started': 'Get started',
   'shell.sidebar.section.foundation': 'Foundation',
   'shell.sidebar.section.components': 'Components',

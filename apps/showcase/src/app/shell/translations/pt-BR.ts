@@ -14,6 +14,7 @@ export const PT_BR_SHELL: Record<string, string> = {
   'shell.theme.light': 'Tema claro',
   'shell.theme.dark': 'Tema escuro',
   'shell.theme.system': 'Tema do sistema',
+  'shell.theme.high-contrast': 'Alto contraste',
   'shell.sidebar.section.getting-started': 'Comece aqui',
   'shell.sidebar.section.foundation': 'Fundação',
   'shell.sidebar.section.components': 'Componentes',

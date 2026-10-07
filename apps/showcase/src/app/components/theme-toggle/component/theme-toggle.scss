@@ -1,3 +1,9 @@
 :host {
   display: inline-flex;
 }
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--solaris-spacing-5);
+}
