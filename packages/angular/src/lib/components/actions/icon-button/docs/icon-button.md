@@ -34,7 +34,6 @@ Icon Button is implemented as a **directive** (`[solaris-icon-button]`), not a c
 
 - When the action needs visible text label → use `[solaris-button]`
 - When you need multiple icon buttons grouped → use `solaris-button-group`
-- When you need toggle/pressed state → Toggle Button (not available in v1)
 - When you need a menu trigger → Menu Button (not available in v1)
 
 ## API
@@ -43,21 +42,22 @@ Icon Button is implemented as a **directive** (`[solaris-icon-button]`), not a c
 
 Selector: `[solaris-icon-button]`
 
-| Input             | Type                                                                                 | Default     | Description                     |
-| ----------------- | ------------------------------------------------------------------------------------ | ----------- | ------------------------------- |
-| `appearance`      | `'solid' \| 'outline' \| 'ghost' \| 'tonal' \| 'surface'`                            | `'solid'`   | Visual style                    |
-| `color`           | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'` | Semantic color                  |
-| `size`            | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Control size                    |
-| `radius`          | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                           | `'md'`      | Border radius                   |
-| `density`         | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited   | Spacing density                 |
-| `shape`           | `'normal' \| 'wide'`                                                                 | `'normal'`  | Button shape                    |
-| `chromeless`      | `boolean`                                                                            | `false`     | Icon without button chrome      |
-| `loading`         | `boolean`                                                                            | `false`     | Loading state                   |
-| `disabled`        | `boolean`                                                                            | `false`     | Disabled state                  |
-| `ariaLabel`       | `string \| undefined`                                                                | —           | Accessible name input           |
-| `ariaLabelKey`    | `string \| undefined`                                                                | —           | i18n key for accessible name    |
-| `loadingLabel`    | `string`                                                                             | —           | Accessible label during loading |
-| `loadingLabelKey` | `string`                                                                             | —           | i18n key for loading label      |
+| Input             | Type                                                                                 | Default     | Description                            |
+| ----------------- | ------------------------------------------------------------------------------------ | ----------- | -------------------------------------- |
+| `appearance`      | `'solid' \| 'outline' \| 'ghost' \| 'tonal' \| 'surface'`                            | `'solid'`   | Visual style                           |
+| `pressed`         | `boolean \| undefined`                                                               | —           | Toggle state (`aria-pressed` when set) |
+| `color`           | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'` | Semantic color                         |
+| `size`            | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Control size                           |
+| `radius`          | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                           | `'md'`      | Border radius                          |
+| `density`         | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited   | Spacing density                        |
+| `shape`           | `'normal' \| 'wide'`                                                                 | `'normal'`  | Button shape                           |
+| `chromeless`      | `boolean`                                                                            | `false`     | Icon without button chrome             |
+| `loading`         | `boolean`                                                                            | `false`     | Loading state                          |
+| `disabled`        | `boolean`                                                                            | `false`     | Disabled state                         |
+| `ariaLabel`       | `string \| undefined`                                                                | —           | Accessible name input                  |
+| `ariaLabelKey`    | `string \| undefined`                                                                | —           | i18n key for accessible name           |
+| `loadingLabel`    | `string`                                                                             | —           | Accessible label during loading        |
+| `loadingLabelKey` | `string`                                                                             | —           | i18n key for loading label             |
 
 ### SolarisIconButtonBadgeDirective
 
@@ -191,6 +191,7 @@ The decorative icon does not contribute to the accessible name.
 - **Default**: Normal appearance.
 - **Hover**: Background change (varies by appearance/color).
 - **Active**: Holds the hover treatment for `ghost`, `tonal` and `surface` (no solid flash, no icon color inversion); `solid` and `outline` commit to the solid active background.
+- **Pressed**: `pressed="true"` sets `data-pressed` (active-background treatment) and `aria-pressed="true"`.
 - **Focus-visible**: Focus ring using `focus-visible` (not `:focus`).
 - **Disabled**: Reduced opacity, no interaction.
 - **Loading**: Spinner indicator, no interaction.
@@ -285,6 +286,7 @@ The following CSS variables can be customized:
 - Decorative icon uses `decorative="true"` (equivalent to `aria-hidden="true"`).
 - Accessible name requirement enforced.
 - Loading state preserves accessible name.
+- Pressed toggle exposes `aria-pressed` (only when `pressed` is set).
 - Disabled anchor is not keyboard navigable.
 - Badge is visual only; accessible name must be set on the button.
 
@@ -332,6 +334,11 @@ The following CSS variables can be customized:
   <solaris-badge solaris-icon-button-badge variant="count" color="primary" size="sm" radius="full">3</solaris-badge>
 </button>
 
+<!-- Pressed (toggle) -->
+<button solaris-icon-button [pressed]="true" color="primary" aria-label="Starred">
+  <solaris-icon name="star" decorative="true" />
+</button>
+
 <!-- Loading -->
 <button solaris-icon-button [loading]="true" aria-label="Saving">
   <solaris-icon name="check" decorative="true" />
@@ -340,7 +347,6 @@ The following CSS variables can be customized:
 
 ## Limitations (v1)
 
-- No toggle/pressed/selected state.
 - No embedded tooltip.
 - No automatic menu/dropdown semantics.
 - No Button Group.

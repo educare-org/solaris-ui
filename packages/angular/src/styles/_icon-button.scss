@@ -56,7 +56,8 @@
 }
 
 [solaris-icon-button]:active,
-[solaris-icon-button][data-active] {
+[solaris-icon-button][data-active],
+[solaris-icon-button][data-pressed] {
   color: var(--solaris-icon-button-active-color);
   background: var(--solaris-icon-button-active-background);
   border-color: var(--solaris-icon-button-active-border-color);

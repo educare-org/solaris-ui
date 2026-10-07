@@ -231,6 +231,19 @@ describe('SolarisIconRegistryService', () => {
     }
   });
 
+  it('should have theme icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of ['sun', 'moon', 'monitor', 'contrast']) {
+      expect(service.hasIcon(name)).toBe(true);
+      expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
+    }
+  });
+
   it('should return undefined for unregistered icons', () => {
     TestBed.configureTestingModule({
       providers: [provideSolarisIcons()],

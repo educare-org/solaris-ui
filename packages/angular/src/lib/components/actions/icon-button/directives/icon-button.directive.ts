@@ -1,4 +1,4 @@
-import { Directive, input, HostListener } from '@angular/core';
+import { Directive, computed, input, HostListener } from '@angular/core';
 
 import type {
   SolarisIconButtonSize,
@@ -22,6 +22,8 @@ import { SolarisButtonHostBase } from '../../button/directives/button-host-base'
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-loading]': 'loading() || undefined',
+    '[attr.aria-pressed]': 'computedAriaPressed()',
+    '[attr.data-pressed]': 'pressed() || undefined',
     '[attr.aria-busy]': 'loading() ? "true" : null',
     '[attr.data-chromeless]': 'chromeless() || undefined',
     '[tabindex]': 'isAnchor && isEffectivelyDisabled() ? "-1" : null',
@@ -32,6 +34,7 @@ import { SolarisButtonHostBase } from '../../button/directives/button-host-base'
 export class SolarisIconButtonDirective extends SolarisButtonHostBase {
   readonly density = input<SolarisIconButtonDensity | undefined>(undefined);
   readonly appearance = input<SolarisIconButtonAppearance>('solid');
+  readonly pressed = input<boolean | undefined>(undefined);
   readonly color = input<SolarisIconButtonColor>('neutral');
   readonly shape = input<SolarisIconButtonShape>('normal');
   readonly radius = input<SolarisIconButtonRadius>('md');
@@ -43,6 +46,14 @@ export class SolarisIconButtonDirective extends SolarisButtonHostBase {
   readonly loading = input<boolean>(false);
   readonly loadingLabelKey = input<string>();
   readonly loadingLabel = input<string>();
+
+  protected readonly computedAriaPressed = computed<string | null>(() => {
+    const pressed = this.pressed();
+    if (pressed == null) {
+      return null;
+    }
+    return pressed ? 'true' : 'false';
+  });
 
   constructor() {
     super();

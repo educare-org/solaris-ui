@@ -494,6 +494,52 @@ describe('SolarisIconButtonDirective', () => {
     });
   });
 
+  describe('pressed', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisIconButtonDirective],
+      template: `<button
+        solaris-icon-button
+        [pressed]="pressed"
+        aria-label="Test"
+      >
+        Test
+      </button>`,
+    })
+    class TestHost {
+      pressed: boolean | undefined = undefined;
+    }
+
+    it('should not render aria-pressed when pressed is unset', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
+      expect(el.hasAttribute('aria-pressed')).toBe(false);
+      expect(el.hasAttribute('data-pressed')).toBe(false);
+    });
+
+    it('should render aria-pressed true and data-pressed when pressed', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.pressed = true;
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
+      expect(el.getAttribute('aria-pressed')).toBe('true');
+      expect(el.hasAttribute('data-pressed')).toBe(true);
+    });
+
+    it('should render aria-pressed false without data-pressed when unpressed', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.pressed = false;
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
+      expect(el.getAttribute('aria-pressed')).toBe('false');
+      expect(el.hasAttribute('data-pressed')).toBe(false);
+    });
+  });
+
   describe('loading', () => {
     @Component({
       standalone: true,
