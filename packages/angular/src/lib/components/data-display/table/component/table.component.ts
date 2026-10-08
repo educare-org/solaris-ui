@@ -81,6 +81,7 @@ import {
 import {
   isTableDataSource,
   resolveCellValue,
+  resolveFooterValue,
   resolveRowId,
   resolveRows,
   sortRows,
@@ -93,6 +94,7 @@ import type {
   SolarisTableDataSource,
   SolarisTableDensity,
   SolarisTableExpandMode,
+  SolarisTableFooterCellContext,
   SolarisTableLayout,
   SolarisTableRadius,
   SolarisTableResolvedRow,
@@ -109,6 +111,7 @@ import {
   SolarisTableDetailDirective,
   SolarisTableEmptyDirective,
   SolarisTableErrorDirective,
+  SolarisTableFooterCellDirective,
   SolarisTableFooterDirective,
   SolarisTableHeaderDirective,
   SolarisTableLoadingDirective,
@@ -135,6 +138,7 @@ import {
     '[attr.data-striped-mode]': 'normalizedStripedMode()',
     '[attr.data-hover]': 'hover() || undefined',
     '[attr.data-sticky-header]': 'stickyHeader() || undefined',
+    '[attr.data-sticky-first-column]': 'stickyFirstColumn() || undefined',
     '[attr.data-selectable]': 'isSelectable() || undefined',
     '[attr.data-expandable]': 'expandable() || undefined',
     '[attr.data-expand-mode]': 'normalizedExpandMode()',
@@ -162,6 +166,9 @@ export class SolarisTableComponent<T = unknown> {
   readonly cellTemplates = contentChildren(SolarisTableCellDirective);
   readonly headerTemplates = contentChildren(SolarisTableHeaderDirective);
   readonly detailTemplates = contentChildren(SolarisTableDetailDirective);
+  readonly footerCellTemplates = contentChildren(
+    SolarisTableFooterCellDirective,
+  );
   readonly emptyTemplate = contentChildren(SolarisTableEmptyDirective);
   readonly errorTemplate = contentChildren(SolarisTableErrorDirective);
   readonly loadingTemplate = contentChildren(SolarisTableLoadingDirective);
@@ -186,6 +193,7 @@ export class SolarisTableComponent<T = unknown> {
   readonly striped = input(false, { transform: booleanAttribute });
   readonly stripedMode = input<SolarisTableStripedMode>('even');
   readonly stickyHeader = input(true, { transform: booleanAttribute });
+  readonly stickyFirstColumn = input(false, { transform: booleanAttribute });
   readonly hover = input(true, { transform: booleanAttribute });
   readonly rowClickable = input(false, { transform: booleanAttribute });
   readonly expandable = input(false, { transform: booleanAttribute });
@@ -361,9 +369,9 @@ export class SolarisTableComponent<T = unknown> {
       {
         id: SOLARIS_TABLE_SELECTION_COLUMN_ID,
         type: 'checkbox',
-        width: 'calc(var(--solaris-spacing-12) + var(--solaris-spacing-3))',
-        minWidth: 'calc(var(--solaris-spacing-12) + var(--solaris-spacing-3))',
-        maxWidth: 'calc(var(--solaris-spacing-12) + var(--solaris-spacing-3))',
+        width: 'var(--solaris-table-selection-col-width)',
+        minWidth: 'var(--solaris-table-selection-col-width)',
+        maxWidth: 'var(--solaris-table-selection-col-width)',
         align: 'center',
         headerAlign: 'center',
       } as SolarisTableViewColumn<T>,
@@ -500,6 +508,28 @@ export class SolarisTableComponent<T = unknown> {
       !this.effectiveLoading() &&
       !this.hasError() &&
       this.visibleRows().length === 0,
+  );
+
+  protected readonly footerRows = computed((): readonly T[] =>
+    this.visibleRows().map((row) => row.row),
+  );
+
+  protected readonly hasFooterDefinition = computed(() =>
+    this.userColumns().some(
+      (column) =>
+        normalizeOptionalString(column.footer) !== null ||
+        normalizeOptionalString(column.footerKey) !== null ||
+        column.footerValueOf !== undefined ||
+        normalizeOptionalString(column.footerTemplateId) !== null,
+    ),
+  );
+
+  protected readonly showFooter = computed(
+    () =>
+      this.hasFooterDefinition() &&
+      !this.effectiveLoading() &&
+      !this.hasError() &&
+      this.visibleRows().length > 0,
   );
 
   protected readonly allVisibleRowsSelected = computed(() => {
@@ -723,6 +753,16 @@ export class SolarisTableComponent<T = unknown> {
 
   protected trackByRowId(index: number, row: SolarisTableViewRow<T>): string {
     return `${index}-${row.rowId}`;
+  }
+
+  protected isStickyStartColumn(columnIndex: number): boolean {
+    if (!this.stickyFirstColumn()) {
+      return false;
+    }
+    if (!this.isSelectable()) {
+      return columnIndex === 0;
+    }
+    return columnIndex <= 1;
   }
 
   protected resolveColumnHeader(column: SolarisTableViewColumn<T>): string {
@@ -1107,6 +1147,58 @@ export class SolarisTableComponent<T = unknown> {
         (template) => template.templateId() === column.detailTemplateId,
       ) ?? null
     );
+  }
+
+  protected resolveFooterCellTemplate(
+    column: SolarisTableViewColumn<T>,
+  ): SolarisTableFooterCellDirective | null {
+    if (!column.footerTemplateId) {
+      return null;
+    }
+    return (
+      this.footerCellTemplates().find(
+        (template) => template.templateId() === column.footerTemplateId,
+      ) ?? null
+    );
+  }
+
+  protected resolveFooterText(column: SolarisTableViewColumn<T>): string {
+    const aggregated = resolveFooterValue(this.footerRows(), column);
+    if (aggregated !== null) {
+      return aggregated;
+    }
+    const staticText = this.resolveText(
+      column.footer,
+      column.footerKey,
+      '',
+    ).trim();
+    return staticText === '' ? '—' : staticText;
+  }
+
+  protected resolveFooterAlign(
+    column: SolarisTableViewColumn<T>,
+  ): 'start' | 'center' | 'end' {
+    return column.footerAlign ?? column.align ?? 'start';
+  }
+
+  protected resolveFooterTitle(
+    column: SolarisTableViewColumn<T>,
+  ): string | null {
+    if (column.type === 'checkbox' && this.isSelectable()) {
+      return null;
+    }
+    if (this.resolveFooterCellTemplate(column)) {
+      return null;
+    }
+    const text = this.resolveFooterText(column);
+    return text === '—' ? null : text;
+  }
+
+  protected footerCellContext(
+    column: SolarisTableViewColumn<T>,
+  ): SolarisTableFooterCellContext<T> {
+    const rows = this.footerRows();
+    return { $implicit: rows, rows, column };
   }
 
   protected customCellContext(

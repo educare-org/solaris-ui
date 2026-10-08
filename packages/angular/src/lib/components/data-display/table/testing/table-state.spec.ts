@@ -6,6 +6,7 @@ import {
   createServerTableDataSource,
   resolveCellValue,
   resolveDisplayValue,
+  resolveFooterValue,
   resolveRowId,
   resolveRows,
   resolveSortValue,
@@ -209,5 +210,33 @@ describe('adapters', () => {
 
   it('should expose resolveSortValue', () => {
     expect(resolveSortValue(ROWS[0], COLUMNS[0])).toBe('beto');
+  });
+});
+
+describe('resolveFooterValue', () => {
+  it('should return null without footerValueOf', () => {
+    expect(resolveFooterValue(ROWS, COLUMNS[0])).toBe(null);
+  });
+
+  it('should aggregate over all rows', () => {
+    const column: SolarisTableColumn<Person> = {
+      id: 'age',
+      header: 'Age',
+      accessor: 'age',
+      type: 'number',
+      footerValueOf: (rows) =>
+        `avg ${rows.reduce((sum, row) => sum + (row.age ?? 0), 0) / rows.length}`,
+    };
+    expect(resolveFooterValue(ROWS, column)).toBe('avg 18.333333333333332');
+  });
+
+  it('should return null for blank aggregates', () => {
+    const column: SolarisTableColumn<Person> = {
+      id: 'age',
+      header: 'Age',
+      accessor: 'age',
+      footerValueOf: () => '   ',
+    };
+    expect(resolveFooterValue(ROWS, column)).toBe(null);
   });
 });

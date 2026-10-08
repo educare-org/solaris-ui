@@ -41,6 +41,7 @@ Table displays structured rows and columns with sorting, selection, and loading/
 | `striped`                                       | `boolean`                                               | `false`     | Zebra rows                                                                                                  |
 | `stripedMode`                                   | `'even' \| 'odd'`                                       | `'even'`    | Which rows get the zebra background                                                                         |
 | `stickyHeader`                                  | `boolean`                                               | `true`      | Sticky header                                                                                               |
+| `stickyFirstColumn`                             | `boolean`                                               | `false`     | Pins the first data column (plus selection when selectable) to the viewport start                           |
 | `hover`                                         | `boolean`                                               | `true`      | Row hover highlight                                                                                         |
 | `rowClickable`                                  | `boolean`                                               | `false`     | Row action button in the first cell                                                                         |
 | `expandable`                                    | `boolean`                                               | `false`     | Enables row and/or cell expansion                                                                           |
@@ -72,6 +73,10 @@ Table displays structured rows and columns with sorting, selection, and loading/
 | `accessor`                               | `keyof T \| ((row) => unknown)`                          | Raw value                                                                          |
 | `displayValueOf`                         | `(row) => string \| null`                                | Displayed text                                                                     |
 | `sortValueOf`                            | `(row) => string \| number \| null`                      | Comparable value (e.g. badge/status `active → 0, pending → 1, blocked → 2`)        |
+| `footer` / `footerKey`                   | `string`                                                 | Static footer aggregate text                                                       |
+| `footerValueOf`                          | `(rows) => string \| null`                               | Footer aggregate over visible rows (e.g. average, total)                           |
+| `footerAlign`                            | `'start' \| 'center' \| 'end'`                           | Footer alignment (defaults to `align`)                                             |
+| `footerTemplateId`                       | `string`                                                 | Footer cell slot template id                                                       |
 | `sortable`                               | `boolean`                                                | Enables the sort button                                                            |
 | `expandable`                             | `boolean`                                                | Renders an inline chevron when `expandMode` includes `cell`                        |
 | `detailVariant`                          | `'list' \| 'free'`                                       | Free-form detail area without the label column (`free` skips term/value chrome)    |
@@ -86,15 +91,16 @@ Table displays structured rows and columns with sorting, selection, and loading/
 
 ### Slots
 
-| Directive                            | Description                                                                                                           |
-| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| `ng-template[solaris-table-cell]`    | Custom cell (`templateId`, context `{$implicit, row, rowId, value, column, index}`)                                   |
-| `ng-template[solaris-table-header]`  | Custom header (`templateId`)                                                                                          |
-| `ng-template[solaris-table-empty]`   | Empty state (wins over `emptyText`)                                                                                   |
-| `ng-template[solaris-table-error]`   | Error state (wins over `error`)                                                                                       |
-| `ng-template[solaris-table-loading]` | Loading state (wins over skeleton rows)                                                                               |
-| `ng-template[solaris-table-detail]`  | Per-column detail content (`templateId`, same context as cells; may host a nested `solaris-table appearance="plain"`) |
-| `ng-template[solaris-table-footer]`  | Optional footer inside the frame (e.g. `solaris-pagination`); nothing renders when absent                             |
+| Directive                                | Description                                                                                                           |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `ng-template[solaris-table-cell]`        | Custom cell (`templateId`, context `{$implicit, row, rowId, value, column, index}`)                                   |
+| `ng-template[solaris-table-header]`      | Custom header (`templateId`)                                                                                          |
+| `ng-template[solaris-table-empty]`       | Empty state (wins over `emptyText`)                                                                                   |
+| `ng-template[solaris-table-error]`       | Error state (wins over `error`)                                                                                       |
+| `ng-template[solaris-table-loading]`     | Loading state (wins over skeleton rows)                                                                               |
+| `ng-template[solaris-table-detail]`      | Per-column detail content (`templateId`, same context as cells; may host a nested `solaris-table appearance="plain"`) |
+| `ng-template[solaris-table-footer-cell]` | Custom footer cell (`templateId` matching `footerTemplateId`, context `{$implicit, rows, column}`)                    |
+| `ng-template[solaris-table-footer]`      | Optional footer inside the frame (e.g. `solaris-pagination`); nothing renders when absent                             |
 
 ## Footer
 
@@ -115,6 +121,35 @@ The footer has a top divider and the table cell padding; tables without a footer
 The sort indicator overlays the `sort-asc` and `sort-desc` arrows in an 18px box. Each arrow animates independently: the active direction switches to the body color at full opacity and nudges toward its direction (`translateY(-2px)` for ascending, `translateY(2px)` for descending, both with a slight scale), while the other stays muted. Transitions follow `--solaris-motion-duration-normal` and are disabled under `prefers-reduced-motion`.
 
 Custom ordering (badges, status pills, enums) goes through `sortValueOf` — the displayed text stays human-readable while sorting uses your comparable value.
+
+## Sticky first column
+
+`stickyFirstColumn` pins the leading column to the viewport start (`data-sticky="start"`) so row identity stays visible in wide tables. With `selectionMode` other than `none`, the selection checkbox column pins alongside it with the selection width as offset. DOM order never changes, so screen readers and keyboard order are unaffected. Card layout ignores it (cards stack vertically with no horizontal scroll).
+
+```html
+<solaris-table [data]="rows" [columns]="wideColumns" rowId="id" [stickyFirstColumn]="true" />
+```
+
+## Footer aggregates
+
+A column with `footer`, `footerKey`, `footerValueOf`, or `footerTemplateId` renders a semantic `<tfoot>` after the body rows. `footerValueOf` receives the visible rows and returns display-ready text (format with `Intl` in the callback); static `footer`/`footerKey` covers labels like `Average`. The footer cell template wins over text. The footer hides while loading, on error, or when empty, and card layout ignores it.
+
+```html
+<solaris-table [data]="rows" [columns]="aggregateColumns" rowId="id" />
+```
+
+```typescript
+const aggregateColumns = [
+  { id: 'name', header: 'Name', accessor: 'name', footer: 'Average' },
+  {
+    id: 'score',
+    header: 'Score',
+    accessor: 'score',
+    type: 'number',
+    footerValueOf: (rows) => new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 }).format(rows.reduce((sum, row) => sum + row.score, 0) / rows.length),
+  },
+];
+```
 
 ## Expandable rows
 

@@ -13,6 +13,8 @@ export const PT_BR_TABLE: Record<string, string> = {
   'table.section.cell-expand': 'Expansão por célula',
   'table.section.appearance': 'Aparência',
   'table.section.wide': 'Muitas colunas',
+  'table.section.sticky-column': 'Coluna fixa',
+  'table.section.footer': 'Agregados do rodapé',
   'table.section.add-row': 'Adicionar linha',
   'table.section.with-tabs': 'Com abas',
   'table.section.mobile': 'Mobile',
@@ -81,6 +83,13 @@ export const PT_BR_TABLE: Record<string, string> = {
     'Variantes outline, surface, soft, plain e grid com zebra even ou odd e radius do frame.',
   'table.wide.note':
     'Tabelas largas rolam horizontalmente no viewport. Use fullWidth para distribuir as colunas.',
+  'table.sticky-column.note':
+    'Fixa a primeira coluna durante a rolagem horizontal, mantendo a identidade da linha visível.',
+  'table.sticky-column.tab.on': 'Fixa',
+  'table.sticky-column.tab.off': 'Desligada',
+  'table.footer.note':
+    'Agregados sobre as linhas visíveis em um rodapé semântico. O gradebook constrói suas médias sobre este contrato.',
+  'table.footer.average': 'Média',
   'table.mobile-composed.note':
     'Cards em largura de telefone com avatar, badge e ações sem arrastar.',
   'table.layout.note':

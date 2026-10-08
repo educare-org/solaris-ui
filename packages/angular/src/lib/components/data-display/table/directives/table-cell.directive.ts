@@ -70,6 +70,18 @@ export class SolarisTableFooterDirective {
 
 @Directive({
   standalone: true,
+  selector: 'ng-template[solaris-table-footer-cell]',
+})
+export class SolarisTableFooterCellDirective {
+  readonly templateId = input.required<string>({
+    alias: 'solaris-table-footer-cell',
+  });
+
+  readonly templateRef = inject(TemplateRef<Record<string, unknown>>);
+}
+
+@Directive({
+  standalone: true,
   selector: 'ng-template[solaris-table-toolbar]',
 })
 export class SolarisTableToolbarDirective {

@@ -44,6 +44,8 @@ export const TABLE_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'cell-expand', labelKey: 'table.section.cell-expand' },
   { anchor: 'appearance', labelKey: 'table.section.appearance' },
   { anchor: 'wide', labelKey: 'table.section.wide' },
+  { anchor: 'sticky-column', labelKey: 'table.section.sticky-column' },
+  { anchor: 'footer', labelKey: 'table.section.footer' },
   { anchor: 'add-row', labelKey: 'table.section.add-row' },
   { anchor: 'with-tabs', labelKey: 'table.section.with-tabs' },
   { anchor: 'mobile', labelKey: 'table.section.mobile' },
@@ -254,6 +256,65 @@ export const TABLE_WITH_TABS_CODE = [
   '</solaris-tabs>',
   '<solaris-table [data]="rows()" [columns]="columns" rowId="id" />',
 ].join('\n');
+
+export const TABLE_STICKY_CODE = [
+  '<solaris-table',
+  '  [data]="rows"',
+  '  [columns]="columns"',
+  '  rowId="id"',
+  '  [stickyFirstColumn]="true"',
+  '/>',
+].join('\n');
+
+export const TABLE_FOOTER_CODE = [
+  'const columns = [',
+  "  { id: 'name', header: 'Name', footerKey: 'table.footer.average' },",
+  '  {',
+  "    id: 'score',",
+  "    header: 'Score',",
+  "    type: 'number',",
+  '    footerValueOf: (rows) => formatAverage(rows),',
+  '  },',
+  '];',
+  '',
+  '<solaris-table [data]="rows" [columns]="columns" rowId="id" />',
+].join('\n');
+
+export const TABLE_SHOWCASE_FOOTER_COLUMNS: readonly SolarisTableColumn<ShowcasePerson>[] =
+  [
+    {
+      id: 'name',
+      headerKey: 'table.col.name',
+      accessor: 'name',
+      footerKey: 'table.footer.average',
+    },
+    {
+      id: 'age',
+      headerKey: 'table.col.age',
+      accessor: 'age',
+      type: 'number',
+      align: 'end',
+      headerAlign: 'end',
+      footerAlign: 'end',
+      footerValueOf: (rows) =>
+        new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 }).format(
+          rows.reduce((sum, row) => sum + row.age, 0) / rows.length,
+        ),
+    },
+    {
+      id: 'score',
+      headerKey: 'table.col.score',
+      accessor: 'score',
+      type: 'number',
+      align: 'end',
+      headerAlign: 'end',
+      footerAlign: 'end',
+      footerValueOf: (rows) =>
+        new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(
+          rows.reduce((sum, row) => sum + row.score, 0) / rows.length,
+        ),
+    },
+  ];
 
 export const TABLE_RESPONSIVE_CODE = [
   '<solaris-table',

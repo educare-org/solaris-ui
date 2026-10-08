@@ -159,3 +159,40 @@ export const Wide: Story = {
     rowId: 'name',
   } as Partial<SolarisTableComponent<Record<string, unknown>>>,
 };
+
+export const StickyColumn: Story = {
+  args: {
+    columns: [
+      ...COLUMNS,
+      { id: 'city', header: 'City', accessor: 'name' as const },
+      { id: 'joined', header: 'Joined', accessor: 'name' as const },
+      { id: 'score', header: 'Score', accessor: 'age' as const },
+    ],
+    data: ROWS,
+    rowId: 'name',
+    stickyFirstColumn: true,
+  } as Partial<SolarisTableComponent<Record<string, unknown>>>,
+};
+
+export const FooterAggregates: Story = {
+  args: {
+    columns: [
+      {
+        id: 'name',
+        header: 'Name',
+        accessor: 'name' as const,
+        footer: 'Average',
+      },
+      {
+        id: 'age',
+        header: 'Age',
+        accessor: 'age' as const,
+        type: 'number' as const,
+        footerValueOf: (rows: readonly Record<string, unknown>[]) =>
+          `avg ${rows.reduce((sum, row) => sum + Number(row['age'] ?? 0), 0) / rows.length}`,
+      },
+    ],
+    data: ROWS,
+    rowId: 'name',
+  } as Partial<SolarisTableComponent<Record<string, unknown>>>,
+};

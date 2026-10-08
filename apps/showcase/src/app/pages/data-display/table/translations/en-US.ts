@@ -13,6 +13,8 @@ export const EN_US_TABLE: Record<string, string> = {
   'table.section.cell-expand': 'Cell expansion',
   'table.section.appearance': 'Appearance',
   'table.section.wide': 'Many columns',
+  'table.section.sticky-column': 'Sticky column',
+  'table.section.footer': 'Footer aggregates',
   'table.section.add-row': 'Add row',
   'table.section.with-tabs': 'With tabs',
   'table.section.mobile': 'Mobile',
@@ -81,6 +83,13 @@ export const EN_US_TABLE: Record<string, string> = {
     'Outline, surface, soft, plain, and grid variants with even or odd striping and frame radius.',
   'table.wide.note':
     'Wide tables scroll horizontally inside the viewport. Use fullWidth to distribute columns instead.',
+  'table.sticky-column.note':
+    'Pins the first column while the table scrolls horizontally, keeping row identity visible.',
+  'table.sticky-column.tab.on': 'Pinned',
+  'table.sticky-column.tab.off': 'Off',
+  'table.footer.note':
+    'Aggregates over visible rows rendered in a semantic footer. The gradebook builds its averages on this contract.',
+  'table.footer.average': 'Average',
   'table.mobile-composed.note':
     'Phone-width cards composing avatar, badge, and actions with no horizontal dragging.',
   'table.layout.note':

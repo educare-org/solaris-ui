@@ -224,7 +224,8 @@
           <tr class="solaris-table__head-row" aria-rowindex="1">
             @for (
               column of renderedColumns();
-              track trackByColumnId($index, column)
+              track trackByColumnId($index, column);
+              let columnIndex = $index
             ) {
               <th
                 class="solaris-table__head-cell"
@@ -234,6 +235,9 @@
                 [attr.data-column-type]="column.type"
                 [attr.data-column-id]="column.id"
                 [attr.data-priority]="column.priority ?? null"
+                [attr.data-sticky]="
+                  isStickyStartColumn(columnIndex) ? 'start' : null
+                "
                 [attr.aria-sort]="getAriaSort(column)"
                 [style]="resolveColumnWidthStyles(column)"
                 scope="col"
@@ -444,6 +448,9 @@
                     [attr.data-column-type]="column.type"
                     [attr.data-column-id]="column.id"
                     [attr.data-priority]="column.priority ?? null"
+                    [attr.data-sticky]="
+                      isStickyStartColumn(columnIndex) ? 'start' : null
+                    "
                     [attr.data-selected]="row.selected || undefined"
                     [attr.data-cell-expanded]="
                       isCellExpanded(row, column) || undefined
@@ -735,6 +742,48 @@
             </tr>
           }
         </tbody>
+        @if (showFooter()) {
+          <tfoot class="solaris-table__foot">
+            <tr class="solaris-table__foot-row">
+              @for (
+                column of renderedColumns();
+                track trackByColumnId($index, column);
+                let columnIndex = $index
+              ) {
+                <td
+                  class="solaris-table__cell solaris-table__cell--footer"
+                  [attr.data-align]="resolveFooterAlign(column)"
+                  [attr.data-column-type]="column.type"
+                  [attr.data-column-id]="column.id"
+                  [attr.data-sticky]="
+                    isStickyStartColumn(columnIndex) ? 'start' : null
+                  "
+                  [attr.title]="resolveFooterTitle(column)"
+                >
+                  @if (column.type !== 'checkbox' || !isSelectable()) {
+                    @if (resolveFooterCellTemplate(column); as footerSlot) {
+                      <ng-container
+                        *ngTemplateOutlet="
+                          footerSlot.templateRef;
+                          context: footerCellContext(column)
+                        "
+                      ></ng-container>
+                    } @else {
+                      <span class="solaris-table__cell-text">{{
+                        resolveFooterText(column)
+                      }}</span>
+                    }
+                  }
+                </td>
+              }
+              @if (isRowExpandable()) {
+                <td
+                  class="solaris-table__cell solaris-table__cell--footer solaris-table__cell--expand"
+                ></td>
+              }
+            </tr>
+          </tfoot>
+        }
       </table>
     }
   </div>

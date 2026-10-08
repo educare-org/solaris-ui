@@ -76,6 +76,7 @@ export {
   SolarisTableErrorDirective,
   SolarisTableLoadingDirective,
   SolarisTableFooterDirective,
+  SolarisTableFooterCellDirective,
   SolarisTableToolbarDirective,
 } from './lib/components/data-display/table/directives/table-cell.directive';
 export {
@@ -100,6 +101,7 @@ export type {
   SolarisTableDensity,
   SolarisTableDetailVariant,
   SolarisTableExpandMode,
+  SolarisTableFooterCellContext,
   SolarisTableIconPosition,
   SolarisTableLayout,
   SolarisTableRadius,
@@ -120,6 +122,7 @@ export {
   isTableDataSource,
   resolveCellValue,
   resolveDisplayValue,
+  resolveFooterValue,
   resolveRowId,
   resolveRows,
   resolveSortValue,

@@ -216,6 +216,51 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section
+    anchor="sticky-column"
+    titleKey="table.section.sticky-column"
+  >
+    <p class="table-showcase__note">
+      {{ 'table.sticky-column.note' | translate }}
+    </p>
+    <div class="table-showcase__controls">
+      <solaris-tabs
+        [(value)]="stickyTab"
+        [ariaLabel]="'table.section.sticky-column' | translate"
+      >
+        <solaris-tab value="on"
+          >{{ 'table.sticky-column.tab.on' | translate }}</solaris-tab
+        >
+        <solaris-tab value="off"
+          >{{ 'table.sticky-column.tab.off' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="stickyCode"
+      language="html"
+    >
+      <solaris-table
+        [data]="basicRows"
+        [columns]="wideColumns"
+        rowId="id"
+        [stickyFirstColumn]="stickyTab() === 'on'"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="footer" titleKey="table.section.footer">
+    <p class="table-showcase__note">{{ 'table.footer.note' | translate }}</p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="footerCode"
+      language="html"
+    >
+      <solaris-table [data]="basicRows" [columns]="footerColumns" rowId="id" />
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section anchor="add-row" titleKey="table.section.add-row">
     <p class="table-showcase__note">{{ 'table.add-row.note' | translate }}</p>
     <solaris-preview-code

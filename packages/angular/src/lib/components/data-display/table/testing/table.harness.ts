@@ -92,4 +92,30 @@ export class SolarisTableHarness extends ComponentHarness {
     const button = await this.locatorFor('.solaris-table__add-row')();
     await button.click();
   }
+
+  async isFirstColumnSticky(): Promise<boolean> {
+    const cells = await this.locatorForAll('[data-sticky="start"]')();
+    return cells.length > 0;
+  }
+
+  async getStickyCellCount(): Promise<number> {
+    const cells = await this.locatorForAll('[data-sticky="start"]')();
+    return cells.length;
+  }
+
+  async footerVisible(): Promise<boolean> {
+    const footers = await this.locatorForAll('tfoot.solaris-table__foot')();
+    return footers.length > 0;
+  }
+
+  async footerText(columnId: string): Promise<string | null> {
+    const cells = await this.locatorForAll(
+      `tfoot.solaris-table__foot .solaris-table__cell[data-column-id="${columnId}"]`,
+    )();
+    const cell = cells[0];
+    if (!cell) {
+      return null;
+    }
+    return cell.text();
+  }
 }

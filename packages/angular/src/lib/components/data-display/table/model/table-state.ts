@@ -70,6 +70,18 @@ export function resolveSortValue<T>(
   return normalizeComparable(resolveCellValue(row, column), column.type);
 }
 
+export function resolveFooterValue<T>(
+  rows: readonly T[],
+  column: SolarisTableColumn<T>,
+): string | null {
+  const custom = column.footerValueOf?.(rows);
+  if (custom === undefined || custom === null) {
+    return null;
+  }
+  const trimmed = custom.trim();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
 export function resolveRows<T>(
   data: readonly T[],
   rowId: keyof T | ((row: T, index: number) => string),

@@ -95,6 +95,11 @@ export interface SolarisTableColumn<T = unknown> {
   readonly cellTemplateId?: string;
   readonly headerTemplateId?: string;
   readonly detailTemplateId?: string;
+  readonly footer?: string;
+  readonly footerKey?: string;
+  readonly footerValueOf?: (rows: readonly T[]) => string | null;
+  readonly footerAlign?: SolarisTableAlign;
+  readonly footerTemplateId?: string;
   readonly locale?: string;
   readonly dateFormat?: string;
   readonly numberFormat?: Intl.NumberFormatOptions;
@@ -142,4 +147,10 @@ export interface SolarisTableCellContext<T = unknown> {
   readonly value: unknown;
   readonly column: SolarisTableColumn<T>;
   readonly index: number;
+}
+
+export interface SolarisTableFooterCellContext<T = unknown> {
+  readonly $implicit: readonly T[];
+  readonly rows: readonly T[];
+  readonly column: SolarisTableColumn<T>;
 }

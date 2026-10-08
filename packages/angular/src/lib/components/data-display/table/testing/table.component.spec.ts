@@ -6,6 +6,7 @@ import {
   SolarisTableCellDirective,
   SolarisTableDetailDirective,
   SolarisTableEmptyDirective,
+  SolarisTableFooterCellDirective,
   SolarisTableHeaderDirective,
 } from '../directives/table-cell.directive';
 import type { SolarisTableColumn } from '../model/table.types';
@@ -816,6 +817,180 @@ describe('SolarisTableComponent polish', () => {
       ),
     ).toBeFalsy();
   });
+
+  it('should not mark sticky cells by default', () => {
+    const { element } = createFixture();
+    expect(element.hasAttribute('data-sticky-first-column')).toBe(false);
+    expect(element.querySelector('[data-sticky="start"]')).toBeFalsy();
+  });
+
+  it('should pin the first column when stickyFirstColumn is true', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('stickyFirstColumn', true);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.hasAttribute('data-sticky-first-column')).toBe(true);
+    expect(
+      element.querySelector(
+        '.solaris-table__head-cell[data-column-id="name"][data-sticky="start"]',
+      ),
+    ).toBeTruthy();
+    expect(
+      element.querySelector(
+        '.solaris-table__head-cell[data-column-id="age"][data-sticky="start"]',
+      ),
+    ).toBeFalsy();
+    const stickyBodyCells = element.querySelectorAll(
+      'tbody tr.solaris-table__row .solaris-table__cell[data-column-id="name"][data-sticky="start"]',
+    );
+    expect(stickyBodyCells.length).toBe(2);
+  });
+
+  it('should pin the selection and first data columns together', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('selectionMode', 'multiple');
+    fixture.componentRef.setInput('stickyFirstColumn', true);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    const stickyHeaders = element.querySelectorAll(
+      'thead .solaris-table__head-cell[data-sticky="start"]',
+    );
+    expect(stickyHeaders.length).toBe(2);
+  });
+
+  it('should not render sticky cells in card layout', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('expandable', true);
+    fixture.componentRef.setInput('layout', 'card');
+    fixture.componentRef.setInput('stickyFirstColumn', true);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelector('[data-sticky="start"]')).toBeFalsy();
+  });
+
+  it('should not render a footer without footer definitions', () => {
+    const { element } = createFixture();
+    expect(element.querySelector('tfoot.solaris-table__foot')).toBeFalsy();
+  });
+
+  it('should render static footer text with em-dash fallback', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      { id: 'name', header: 'Name', accessor: 'name', footer: 'Average' },
+      { id: 'age', header: 'Age', accessor: 'age', type: 'number' },
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    const footer = element.querySelector('tfoot.solaris-table__foot');
+    expect(footer).toBeTruthy();
+    expect(
+      footer?.querySelector('[data-column-id="name"]')?.textContent?.trim(),
+    ).toBe('Average');
+    expect(
+      footer?.querySelector('[data-column-id="age"]')?.textContent?.trim(),
+    ).toBe('—');
+  });
+
+  it('should aggregate footer values over visible rows', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      { id: 'name', header: 'Name', accessor: 'name', footer: 'Count' },
+      {
+        id: 'age',
+        header: 'Age',
+        accessor: 'age',
+        type: 'number',
+        footerValueOf: (rows: readonly Person[]) =>
+          `avg ${(rows.reduce((sum, row) => sum + row.age, 0) / rows.length).toFixed(1)}`,
+      },
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(
+      element
+        .querySelector('tfoot.solaris-table__foot [data-column-id="age"]')
+        ?.textContent?.trim(),
+    ).toBe('avg 27.5');
+  });
+
+  it('should hide the footer while loading, on error, or when empty', () => {
+    const footerColumns: readonly SolarisTableColumn<Person>[] = [
+      { id: 'name', header: 'Name', accessor: 'name', footer: 'Average' },
+    ];
+    for (const props of [
+      { loading: true, data: ROWS, error: null },
+      { loading: false, data: ROWS, error: 'Unable to load data' },
+      { loading: false, data: [], error: null },
+    ]) {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+      fixture.componentRef.setInput('columns', footerColumns);
+      fixture.componentRef.setInput('data', props.data);
+      fixture.componentRef.setInput('rowId', 'id');
+      fixture.componentRef.setInput('loading', props.loading);
+      if (props.error) {
+        fixture.componentRef.setInput('error', props.error);
+      }
+      fixture.detectChanges();
+      expect(
+        (fixture.nativeElement as HTMLElement).querySelector(
+          'tfoot.solaris-table__foot',
+        ),
+      ).toBeFalsy();
+      TestBed.resetTestingModule();
+    }
+  });
+
+  it('should prefer the footer cell template over footer text', () => {
+    TestBed.configureTestingModule({
+      imports: [FooterCellHostComponent],
+    });
+    const fixture = TestBed.createComponent(FooterCellHostComponent);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(
+      element
+        .querySelector('tfoot.solaris-table__foot [data-column-id="age"]')
+        ?.textContent?.trim(),
+    ).toBe('total 2');
+  });
+
+  it('should pin sticky footer cells with the first column', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      { id: 'name', header: 'Name', accessor: 'name', footer: 'Average' },
+      { id: 'age', header: 'Age', accessor: 'age', type: 'number' },
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('stickyFirstColumn', true);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(
+      element.querySelector(
+        'tfoot.solaris-table__foot [data-column-id="name"][data-sticky="start"]',
+      ),
+    ).toBeTruthy();
+  });
 });
 
 @Component({
@@ -847,6 +1022,32 @@ class FreeDetailHostComponent {
       expandable: true,
       detailVariant: 'free',
       detailTemplateId: 'free-detail',
+    },
+  ];
+}
+
+@Component({
+  standalone: true,
+  imports: [SolarisTableComponent, SolarisTableFooterCellDirective],
+  template: `
+    <solaris-table [data]="rows" [columns]="columns" rowId="id">
+      <ng-template solaris-table-footer-cell="age-total" let-rows>
+        total {{ rows.length }}
+      </ng-template>
+    </solaris-table>
+  `,
+})
+class FooterCellHostComponent {
+  readonly rows: readonly Person[] = ROWS;
+  readonly columns: readonly SolarisTableColumn<Person>[] = [
+    { id: 'name', header: 'Name', accessor: 'name', footer: 'Count' },
+    {
+      id: 'age',
+      header: 'Age',
+      accessor: 'age',
+      type: 'number',
+      footer: 'Ignored',
+      footerTemplateId: 'age-total',
     },
   ];
 }

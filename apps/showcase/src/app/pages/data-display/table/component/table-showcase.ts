@@ -27,19 +27,20 @@ import {
   TABLE_ADD_ROW_CODE,
   TABLE_APPEARANCE_CODE,
   TABLE_CELL_EXPAND_CODE,
+  TABLE_FOOTER_CODE,
   TABLE_LAYOUT_CODE,
   TABLE_MOBILE_COMPOSED_CODE,
   TABLE_PEOPLE_CODE,
-  TABLE_WITH_TABS_CODE,
   TABLE_RESPONSIVE_CODE,
   TABLE_ROW_DIALOG_CODE,
   TABLE_SELECTION_CODE,
-  TABLE_SERVER_CODE,
+  TABLE_WITH_TABS_CODE,
   TABLE_SHOWCASE_APPEARANCES,
   TABLE_SHOWCASE_BASIC_CODE,
   TABLE_SHOWCASE_BASIC_COLUMNS,
   TABLE_SHOWCASE_BREADCRUMBS,
   TABLE_SHOWCASE_CELL_COLUMNS,
+  TABLE_SHOWCASE_FOOTER_COLUMNS,
   TABLE_SHOWCASE_FULL_COLUMNS,
   TABLE_SHOWCASE_IMPORT_CODE,
   TABLE_SHOWCASE_INSTALL_COMMANDS,
@@ -51,6 +52,8 @@ import {
   TABLE_SHOWCASE_WIDE_COLUMNS,
   TABLE_SORTING_CODE,
   TABLE_STATES_CODE,
+  TABLE_SERVER_CODE,
+  TABLE_STICKY_CODE,
   TABLE_TRANSLATION_PREFIX,
   TABLE_WITH_PAGINATION_CODE,
   TABLE_WITH_TOOLBAR_CODE,
@@ -112,6 +115,10 @@ export class TableShowcasePage {
   protected readonly appearance = signal<SolarisTableAppearance>('surface');
   protected readonly stripedMode = signal<SolarisTableStripedMode>('even');
   protected readonly wideColumns = TABLE_SHOWCASE_WIDE_COLUMNS;
+  protected readonly stickyCode = TABLE_STICKY_CODE;
+  protected readonly stickyTab = signal<'on' | 'off'>('on');
+  protected readonly footerCode = TABLE_FOOTER_CODE;
+  protected readonly footerColumns = TABLE_SHOWCASE_FOOTER_COLUMNS;
   protected readonly mobileComposedCode = TABLE_MOBILE_COMPOSED_CODE;
   protected readonly datasetTab = signal<'all' | 'recent'>('all');
   protected readonly datasetRows = computed(() =>
