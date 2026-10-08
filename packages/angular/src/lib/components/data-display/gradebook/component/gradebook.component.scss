@@ -1,0 +1,84 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.solaris-gradebook__editor {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--solaris-radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.solaris-gradebook__editor::-webkit-outer-spin-button,
+.solaris-gradebook__editor::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.solaris-gradebook__editor:focus-visible {
+  outline: var(--solaris-focus-ring-width) solid var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-gradebook__locked {
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.solaris-gradebook__cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--solaris-spacing-4);
+  font-variant-numeric: tabular-nums;
+}
+
+.solaris-gradebook__value {
+  min-width: var(--solaris-spacing-8);
+}
+
+.solaris-gradebook__sr-only {
+  position: absolute;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+  width: var(--solaris-spacing-1);
+  height: var(--solaris-spacing-1);
+}
+
+.solaris-gradebook__status-dot {
+  width: var(--solaris-spacing-5);
+  height: var(--solaris-spacing-5);
+  flex-shrink: 0;
+  border-radius: var(--solaris-radius-full);
+  background: var(--solaris-neutral-text-tertiary);
+}
+
+.solaris-gradebook__cell[data-status='late'] .solaris-gradebook__status-dot {
+  background: var(--solaris-warning-solid);
+}
+
+.solaris-gradebook__cell[data-status='missing'] .solaris-gradebook__status-dot {
+  background: var(--solaris-danger-solid);
+}
+
+.solaris-gradebook__cell[data-status='excused'] .solaris-gradebook__status-dot {
+  background: var(--solaris-neutral-text-tertiary);
+}
+
+.solaris-gradebook__head-hint {
+  text-decoration: underline dotted;
+  text-underline-offset: var(--solaris-spacing-1);
+}

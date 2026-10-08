@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+.solaris-gradebook-legend__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-2) var(--solaris-spacing-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.solaris-gradebook-legend__item {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-2);
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.solaris-gradebook-legend__label {
+  color: var(--solaris-neutral-text-secondary);
+}

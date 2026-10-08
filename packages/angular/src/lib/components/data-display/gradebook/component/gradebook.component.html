@@ -1,0 +1,231 @@
+<solaris-table
+  [data]="data()"
+  [columns]="resolvedColumns()"
+  [headerGroups]="headerGroups()"
+  [rowId]="rowId()"
+  [(sort)]="sort"
+  [(selectedRowIds)]="selectedRowIds"
+  [selectionMode]="selectionMode()"
+  [loading]="loading()"
+  [error]="error()"
+  [errorKey]="errorKey()"
+  [emptyText]="emptyText()"
+  [emptyTextKey]="emptyTextKey()"
+  [loadingText]="loadingText()"
+  [loadingTextKey]="loadingTextKey()"
+  [appearance]="appearance()"
+  [radius]="radius()"
+  [striped]="striped()"
+  [stripedMode]="stripedMode()"
+  [stickyFirstColumn]="stickyFirstColumn()"
+  [stickyLastColumn]="stickyLastColumn()"
+  [hover]="hover()"
+  [rowClickable]="rowClickable()"
+  [expandable]="expandable()"
+  [expandMode]="expandMode()"
+  [layout]="layout()"
+  [cardTitleOf]="resolvedCardTitleOf()"
+  [cardSubtitleOf]="cardSubtitleOf()"
+  [fullWidth]="fullWidth()"
+  [cellPadding]="cellPadding()"
+  [density]="density()"
+  [ariaLabel]="ariaLabel()"
+  [ariaLabelKey]="ariaLabelKey()"
+  (selectionChange)="selectionChange.emit($event)"
+  (rowClick)="rowClick.emit($event)"
+  (editStart)="onEditStart($event)"
+  (editEnd)="onEditEnd($event)"
+>
+  <ng-template
+    let-row
+    let-value="value"
+    let-column="column"
+    let-rowId="rowId"
+    let-close="close"
+    solaris-table-cell-editor="solaris-gradebook-editor"
+  >
+    @if (isCellLocked(row, column)) {
+      <span class="solaris-gradebook__locked">{{
+        lockedCellText(row, column)
+      }}</span>
+    } @else {
+      <input
+        class="solaris-gradebook__editor"
+        solarisGradebookAutofocus
+        [type]="editorInputType()"
+        min="0"
+        [attr.max]="editorMax(column)"
+        [value]="editorRawValue(value)"
+        [attr.aria-label]="resolvedEditorLabel()"
+        (change)="
+          commitEditor(row, rowId, column, $any($event.target).value, close)
+        "
+        (paste)="handlePaste($any($event), assignmentIdOf(column), rowId)"
+        (blur)="close()"
+        (keydown.enter)="
+          $event.stopPropagation();
+          commitEditor(row, rowId, column, $any($event.target).value, close)
+        "
+      />
+    }
+  </ng-template>
+  <ng-template solaris-table-cell="solaris-gradebook-status" let-value="value">
+    <solaris-badge size="sm" appearance="ghost" [color]="statusColor(value)">
+      {{ value }}
+    </solaris-badge>
+  </ng-template>
+  <ng-template
+    solaris-table-cell="solaris-gradebook-cell"
+    let-row="row"
+    let-column="column"
+  >
+    <span
+      class="solaris-gradebook__cell"
+      [attr.data-status]="cellStatusAttr(row, column)"
+    >
+      @if (cellStatusAttr(row, column) !== 'graded') {
+        <span class="solaris-gradebook__status-dot" aria-hidden="true"></span>
+        <span class="solaris-gradebook__sr-only">{{
+          cellStatusLabel(row, column)
+        }}</span>
+      }
+      <span class="solaris-gradebook__value">{{
+        formattedCellText(row, column)
+      }}</span>
+    </span>
+  </ng-template>
+  <ng-template
+    solaris-table-header="solaris-gradebook-header"
+    let-column="column"
+  >
+    <span
+      class="solaris-gradebook__head-hint"
+      [solarisTooltip]="headerHint(column)"
+      >{{ headerLabel(column) }}</span
+    >
+  </ng-template>
+  @for (slot of cellTemplates(); track slot.templateId()) {
+    <ng-template
+      [solaris-table-cell]="slot.templateId()"
+      let-row
+      let-rowId="rowId"
+      let-value="value"
+      let-column="column"
+      let-index="index"
+    >
+      <ng-container
+        *ngTemplateOutlet="
+          slot.templateRef;
+          context: {
+            $implicit: row,
+            row: row,
+            rowId: rowId,
+            value: value,
+            column: column,
+            index: index,
+          }
+        "
+      />
+    </ng-template>
+  }
+  @for (slot of headerTemplates(); track slot.templateId()) {
+    <ng-template [solaris-table-header]="slot.templateId()" let-column="column">
+      <ng-container
+        *ngTemplateOutlet="
+          slot.templateRef;
+          context: { $implicit: column, column: column }
+        "
+      />
+    </ng-template>
+  }
+  @for (slot of detailTemplates(); track slot.templateId()) {
+    <ng-template
+      [solaris-table-detail]="slot.templateId()"
+      let-row
+      let-rowId="rowId"
+      let-value="value"
+      let-column="column"
+      let-index="index"
+    >
+      <ng-container
+        *ngTemplateOutlet="
+          slot.templateRef;
+          context: {
+            $implicit: row,
+            row: row,
+            rowId: rowId,
+            value: value,
+            column: column,
+            index: index,
+          }
+        "
+      />
+    </ng-template>
+  }
+  @for (slot of footerCellTemplates(); track slot.templateId()) {
+    <ng-template
+      [solaris-table-footer-cell]="slot.templateId()"
+      let-rows="rows"
+      let-column="column"
+    >
+      <ng-container
+        *ngTemplateOutlet="
+          slot.templateRef;
+          context: { $implicit: rows, rows: rows, column: column }
+        "
+      />
+    </ng-template>
+  }
+  @for (slot of editorTemplates(); track slot.templateId()) {
+    <ng-template
+      [solaris-table-cell-editor]="slot.templateId()"
+      let-row
+      let-rowId="rowId"
+      let-value="value"
+      let-column="column"
+      let-index="index"
+      let-close="close"
+    >
+      <ng-container
+        *ngTemplateOutlet="
+          slot.templateRef;
+          context: {
+            $implicit: row,
+            row: row,
+            rowId: rowId,
+            value: value,
+            column: column,
+            index: index,
+            close: close,
+          }
+        "
+      />
+    </ng-template>
+  }
+  @if (emptyTemplate(); as emptySlot) {
+    <ng-template solaris-table-empty>
+      <ng-container *ngTemplateOutlet="emptySlot.templateRef" />
+    </ng-template>
+  }
+  @if (errorTemplate(); as errorSlot) {
+    <ng-template solaris-table-error>
+      <ng-container *ngTemplateOutlet="errorSlot.templateRef" />
+    </ng-template>
+  }
+  @if (loadingTemplate(); as loadingSlot) {
+    <ng-template solaris-table-loading>
+      <ng-container *ngTemplateOutlet="loadingSlot.templateRef" />
+    </ng-template>
+  }
+  @if (footerTemplate(); as footerSlot) {
+    <ng-template solaris-table-footer>
+      <ng-container *ngTemplateOutlet="footerSlot.templateRef" />
+    </ng-template>
+  }
+  @if (toolbarTemplate(); as toolbarSlot) {
+    <ng-template solaris-table-toolbar>
+      <ng-container *ngTemplateOutlet="toolbarSlot.templateRef" />
+    </ng-template>
+  }
+  <ng-content />
+</solaris-table>

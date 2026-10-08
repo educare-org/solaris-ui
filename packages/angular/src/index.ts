@@ -137,6 +137,54 @@ export {
 } from './lib/components/data-display/table/model/table-state';
 
 export {
+  SolarisGradebookComponent,
+  SOLARIS_GRADEBOOK_CELL_TEMPLATE_ID,
+  SOLARIS_GRADEBOOK_EDITOR_TEMPLATE_ID,
+  SOLARIS_GRADEBOOK_HEADER_TEMPLATE_ID,
+  SOLARIS_GRADEBOOK_IDENTITY_COLUMN_ID,
+  SOLARIS_GRADEBOOK_STATUS_TEMPLATE_ID,
+} from './lib/components/data-display/gradebook/component/gradebook.component';
+export { SolarisGradebookLegendComponent } from './lib/components/data-display/gradebook/component/gradebook-legend.component';
+export type {
+  SolarisGradebookAggregate,
+  SolarisGradebookAssignment,
+  SolarisGradebookBand,
+  SolarisGradebookBulkCommit,
+  SolarisGradebookCellStatus,
+  SolarisGradebookColumn,
+  SolarisGradebookCommitEvent,
+  SolarisGradebookComputed,
+  SolarisGradebookEditEvent,
+  SolarisGradebookEditableOf,
+  SolarisGradebookIdentity,
+  SolarisGradebookLegendItem,
+  SolarisGradebookRounding,
+  SolarisGradebookRow,
+  SolarisGradebookScale,
+  SolarisGradebookScaleDef,
+  SolarisGradebookScoresOf,
+} from './lib/components/data-display/gradebook/model/gradebook.types';
+export {
+  SOLARIS_GRADEBOOK_AGGREGATES,
+  SOLARIS_GRADEBOOK_CELL_STATUSES,
+  SOLARIS_GRADEBOOK_CONCEPT_SCALE,
+  SOLARIS_GRADEBOOK_SCALES,
+  SOLARIS_GRADEBOOK_SCORE_10_SCALE,
+  SOLARIS_GRADEBOOK_SCORE_100_SCALE,
+  aggregateGradeValues,
+  buildGradebookColumns,
+  computeRowGrade,
+  defaultScoresOf,
+  formatAggregateValue,
+  formatGradeCell,
+  gradebookAssignmentIdOf,
+  isPassingGrade,
+  normalizeGradeValue,
+  resolveGradeBand,
+  resolveGradebookScale,
+} from './lib/components/data-display/gradebook/model/gradebook.types';
+
+export {
   SolarisAvatarComponent,
   type SolarisAvatarImageDecoding,
   type SolarisAvatarImageLoading,
