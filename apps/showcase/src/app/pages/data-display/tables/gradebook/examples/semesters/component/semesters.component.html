@@ -1,0 +1,28 @@
+<solaris-tabs
+  [(value)]="stickyMode"
+  [ariaLabel]="'gradebook.semesters.sticky.label' | translate"
+>
+  <solaris-tab value="both">{{
+    'gradebook.semesters.sticky.both' | translate
+  }}</solaris-tab>
+  <solaris-tab value="first">{{
+    'gradebook.semesters.sticky.first' | translate
+  }}</solaris-tab>
+  <solaris-tab value="none">{{
+    'gradebook.semesters.sticky.none' | translate
+  }}</solaris-tab>
+</solaris-tabs>
+<p class="semesters-hint">
+  {{ 'gradebook.semesters.scroll.hint' | translate }}
+</p>
+<div class="semesters-scroll">
+  <solaris-gradebook
+    [data]="rows"
+    [columns]="columns"
+    [headerGroups]="groups"
+    [identity]="identity"
+    [stickyFirstColumn]="stickyFirst()"
+    [stickyLastColumn]="stickyLast()"
+    rowId="id"
+  />
+</div>

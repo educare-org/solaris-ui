@@ -1,0 +1,182 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="gradebook.title"
+    descriptionKey="gradebook.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="gradebook.section.examples">
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.examples.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-section anchor="basic" titleKey="gradebook.section.basic">
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.basic.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="basicCode"
+      language="html"
+    >
+      <app-basic-gradebook-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="semesters" titleKey="gradebook.section.semesters">
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.semesters.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="semestersCode"
+      language="html"
+    >
+      <app-semesters-gradebook-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="scales" titleKey="gradebook.section.scales">
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.scales.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="scalesCode"
+      language="html"
+    >
+      <app-scales-gradebook-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="statuses" titleKey="gradebook.section.statuses">
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.statuses.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="statusesCode"
+      language="html"
+    >
+      <app-statuses-gradebook-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="totals" titleKey="gradebook.section.totals">
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.totals.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="totalsCode"
+      language="html"
+    >
+      <app-totals-gradebook-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="editing" titleKey="gradebook.section.editing">
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.editing.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="editingCode"
+      language="html"
+    >
+      <app-editing-gradebook-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="breakdown" titleKey="gradebook.section.breakdown">
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.breakdown.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="breakdownCode"
+      language="html"
+    >
+      <app-breakdown-gradebook-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="layout" titleKey="gradebook.section.layout">
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.layout.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="layoutCode"
+      language="html"
+    >
+      <app-layout-gradebook-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="server" titleKey="gradebook.section.server">
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.server.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="serverCode"
+      language="html"
+    >
+      <app-server-gradebook-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="composed" titleKey="gradebook.section.composed">
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.composed.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="composedCode"
+      language="html"
+    >
+      <app-composed-gradebook-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="legend" titleKey="gradebook.section.legend">
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.legend.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="legendCode"
+      language="html"
+    >
+      <app-legend-gradebook-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="gradebook.section.installation"
+  >
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="gradebook.section.props">
+    <p class="gradebook-showcase__note">
+      {{ 'gradebook.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

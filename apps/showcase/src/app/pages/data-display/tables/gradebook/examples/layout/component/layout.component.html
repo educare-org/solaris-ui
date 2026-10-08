@@ -1,0 +1,19 @@
+<solaris-tabs
+  [value]="fullWidth() ? 'full' : 'auto'"
+  (valueChange)="fullWidth.set($event === 'full')"
+  [ariaLabel]="'gradebook.layout.label' | translate"
+>
+  <solaris-tab value="auto">{{
+    'gradebook.layout.tab.auto' | translate
+  }}</solaris-tab>
+  <solaris-tab value="full">{{
+    'gradebook.layout.tab.full' | translate
+  }}</solaris-tab>
+</solaris-tabs>
+<solaris-gradebook
+  [data]="rows"
+  [columns]="columns"
+  [identity]="identity"
+  [fullWidth]="fullWidth()"
+  rowId="id"
+/>

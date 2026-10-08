@@ -1,0 +1,21 @@
+<solaris-tabs
+  [(value)]="selectedScale"
+  [ariaLabel]="'gradebook.scales.label' | translate"
+>
+  <solaris-tab value="score-100">0–100</solaris-tab>
+  <solaris-tab value="score-10">0–10</solaris-tab>
+  <solaris-tab value="concept">{{
+    'gradebook.scales.tab.concept' | translate
+  }}</solaris-tab>
+  <solaris-tab value="custom">{{
+    'gradebook.scales.tab.banded' | translate
+  }}</solaris-tab>
+</solaris-tabs>
+<solaris-gradebook
+  [data]="dataset().rows"
+  [columns]="dataset().columns"
+  [identity]="identity"
+  [scale]="dataset().scale"
+  [scaleDef]="dataset().scaleDef"
+  rowId="id"
+/>
