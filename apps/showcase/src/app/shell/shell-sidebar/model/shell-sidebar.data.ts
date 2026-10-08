@@ -88,8 +88,17 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
             route: '/data-display/preview-code',
           },
           {
-            labelKey: 'shell.sidebar.item.table',
-            route: '/data-display/table',
+            labelKey: 'shell.sidebar.item.tables',
+            children: [
+              {
+                labelKey: 'shell.sidebar.item.table',
+                route: '/data-display/tables/table',
+              },
+              {
+                labelKey: 'shell.sidebar.item.gradebook',
+                route: '/data-display/tables/gradebook',
+              },
+            ],
           },
         ],
       },

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Table', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/data-display/table');
+    await page.goto('/data-display/tables/table');
     await expect(page.locator('#main-content h1')).toBeVisible();
   });
 

@@ -38,6 +38,8 @@ export const PT_BR_SHELL: Record<string, string> = {
   'shell.sidebar.item.code-block': 'Bloco de código',
   'shell.sidebar.item.preview-code': 'Prévia com código',
   'shell.sidebar.item.table': 'Table',
+  'shell.sidebar.item.tables': 'Tabelas',
+  'shell.sidebar.item.gradebook': 'Gradebook',
   'shell.sidebar.item.alert': 'Alerta',
   'shell.sidebar.item.toast': 'Toast',
   'shell.sidebar.item.loading': 'Carregamento',

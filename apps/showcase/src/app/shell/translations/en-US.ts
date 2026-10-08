@@ -38,6 +38,8 @@ export const EN_US_SHELL: Record<string, string> = {
   'shell.sidebar.item.code-block': 'Code block',
   'shell.sidebar.item.preview-code': 'Preview code',
   'shell.sidebar.item.table': 'Table',
+  'shell.sidebar.item.tables': 'Tables',
+  'shell.sidebar.item.gradebook': 'Gradebook',
   'shell.sidebar.item.alert': 'Alert',
   'shell.sidebar.item.toast': 'Toast',
   'shell.sidebar.item.loading': 'Loading',

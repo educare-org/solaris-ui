@@ -41,10 +41,27 @@ export const dataDisplayRoutes: Route[] = [
       },
       {
         path: 'table',
-        loadComponent: () =>
-          import('../pages/data-display/table/component/table-showcase').then(
-            (m) => m.TableShowcasePage,
-          ),
+        redirectTo: 'tables/table',
+        pathMatch: 'full',
+      },
+      {
+        path: 'tables',
+        children: [
+          {
+            path: 'table',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/table/component/table-showcase'
+              ).then((m) => m.TableShowcasePage),
+          },
+          {
+            path: 'gradebook',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/tables/gradebook/component/gradebook-showcase'
+              ).then((m) => m.GradebookShowcasePage),
+          },
+        ],
       },
     ],
   },

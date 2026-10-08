@@ -23,7 +23,7 @@ export const PREVIEW_CODE_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 
 export const PREVIEW_CODE_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
   labelKey: 'shell.sidebar.item.table',
-  route: '/data-display/table',
+  route: '/data-display/tables/table',
 };
 
 export const PREVIEW_CODE_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

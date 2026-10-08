@@ -22,7 +22,7 @@ export const TABLE_TRANSLATION_PREFIX = 'table';
 
 export const TABLE_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
   { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-  { labelKey: 'shell.sidebar.group.data-display', route: '/configuration' },
+  { labelKey: 'shell.sidebar.item.tables' },
   { labelKey: 'shell.sidebar.item.table' },
 ];
 
@@ -32,8 +32,8 @@ export const TABLE_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const TABLE_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.alert',
-  route: '/feedback/alert',
+  labelKey: 'shell.sidebar.item.gradebook',
+  route: '/data-display/tables/gradebook',
 };
 
 export const TABLE_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
