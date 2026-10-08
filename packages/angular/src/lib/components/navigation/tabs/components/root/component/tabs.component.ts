@@ -110,7 +110,6 @@ export class SolarisTabsComponent
 
   readonly tabChange = output<SolarisTabsChangeEvent>();
   readonly tabClick = output<SolarisTabClickEvent>();
-  readonly valueChange = output<SolarisTabsValue>();
 
   readonly value = model<SolarisTabsValue>(undefined);
   protected readonly instanceId = nextIdFor('solaris-tabs');
@@ -151,7 +150,6 @@ export class SolarisTabsComponent
       const current = this.value();
       const previous = this.previousValue();
       if (current !== previous && previous !== undefined) {
-        this.valueChange.emit(current);
         this.tabChange.emit({
           value: current,
           previousValue: previous,

@@ -120,7 +120,6 @@ export class SolarisEditableTabsComponent {
     undefined,
   );
 
-  readonly valueChange = output<unknown>();
   readonly tabRenameRequested = output<SolarisEditableTabRenameEvent>();
   readonly tabRename = output<SolarisEditableTabRenameEvent>();
   readonly tabRemoveRequested = output<SolarisEditableTabRemoveEvent>();
@@ -170,7 +169,6 @@ export class SolarisEditableTabsComponent {
 
   protected onValueChange(newValue: unknown): void {
     this.value.set(newValue);
-    this.valueChange.emit(newValue);
   }
 
   protected hasActions(tab: SolarisEditableTabData): boolean {
