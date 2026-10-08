@@ -339,9 +339,7 @@
                     scope="colgroup"
                     [attr.colspan]="span.columns.length"
                     [attr.data-sticky]="
-                      isSpanSticky(span.startIndex, span.columns.length)
-                        ? 'start'
-                        : null
+                      spanStickyOf(span.startIndex, span.columns.length)
                     "
                   >
                     <span class="solaris-table__head-label">
@@ -361,9 +359,7 @@
                     [attr.data-column-type]="span.columns[0].type"
                     [attr.data-column-id]="span.columns[0].id"
                     [attr.data-priority]="span.columns[0].priority ?? null"
-                    [attr.data-sticky]="
-                      isStickyStartColumn(span.startIndex) ? 'start' : null
-                    "
+                    [attr.data-sticky]="stickyOf(span.startIndex)"
                     [attr.aria-sort]="getAriaSort(span.columns[0])"
                     [style]="resolveColumnWidthStyles(span.columns[0])"
                   >
@@ -410,8 +406,9 @@
                   [attr.data-column-type]="column.type"
                   [attr.data-column-id]="column.id"
                   [attr.data-priority]="column.priority ?? null"
-                  [attr.data-sticky]="
-                    isStickyStartColumn(columnIndex) ? 'start' : null
+                  [attr.data-sticky]="stickyOf(columnIndex)"
+                  [attr.data-group-start]="
+                    isGroupStart(columnIndex) || undefined
                   "
                   [attr.aria-sort]="getAriaSort(column)"
                   [style]="resolveColumnWidthStyles(column)"
@@ -529,9 +526,7 @@
                     [attr.data-column-type]="column.type"
                     [attr.data-column-id]="column.id"
                     [attr.data-priority]="column.priority ?? null"
-                    [attr.data-sticky]="
-                      isStickyStartColumn(columnIndex) ? 'start' : null
-                    "
+                    [attr.data-sticky]="stickyOf(columnIndex)"
                     [attr.data-selected]="row.selected || undefined"
                     [attr.data-cell-expanded]="
                       isCellExpanded(row, column) || undefined
@@ -860,9 +855,7 @@
                   [attr.data-align]="resolveFooterAlign(column)"
                   [attr.data-column-type]="column.type"
                   [attr.data-column-id]="column.id"
-                  [attr.data-sticky]="
-                    isStickyStartColumn(columnIndex) ? 'start' : null
-                  "
+                  [attr.data-sticky]="stickyOf(columnIndex)"
                   [attr.title]="resolveFooterTitle(column)"
                 >
                   @if (column.type !== 'checkbox' || !isSelectable()) {

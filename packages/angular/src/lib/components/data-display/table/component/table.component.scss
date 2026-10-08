@@ -89,6 +89,20 @@
     var(--solaris-neutral-border-subtle);
 }
 
+:host([data-appearance='grid'])
+  .solaris-table__head-row:not(.solaris-table__head-row--group)
+  .solaris-table__head-cell[data-group-start] {
+  border-inline-start: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
+}
+
+:host([data-appearance='grid'])
+  .solaris-table__head-row--group
+  .solaris-table__head-cell
+  + .solaris-table__head-cell {
+  border-inline-start-color: var(--solaris-neutral-border-subtle);
+}
+
 :host([data-appearance='surface']) .solaris-table__frame {
   background: var(--solaris-neutral-default);
 }
@@ -191,11 +205,46 @@
   z-index: var(--solaris-z-index-raised);
 }
 
+:host([data-sticky-last-column]:not([data-card-layout]))
+  .solaris-table__head-cell[data-sticky='end'],
+:host([data-sticky-last-column]:not([data-card-layout]))
+  .solaris-table__body
+  .solaris-table__cell[data-sticky='end'],
+:host([data-sticky-last-column]:not([data-card-layout]))
+  .solaris-table__foot
+  .solaris-table__cell[data-sticky='end'] {
+  position: sticky;
+  right: var(--solaris-spacing-0);
+}
+
+:host([data-sticky-last-column]:not([data-card-layout]))
+  .solaris-table__head-cell[data-sticky='end'] {
+  z-index: var(--solaris-z-index-raised);
+}
+
+:host([data-sticky-last-column]:not([data-card-layout]))
+  .solaris-table__body
+  .solaris-table__cell[data-sticky='end'] {
+  z-index: var(--solaris-z-index-content);
+  background: var(--solaris-table-background);
+  border-inline-start: var(--solaris-border-width-sm) solid
+    var(--solaris-table-border-color);
+}
+
+:host([data-sticky-last-column]:not([data-card-layout]))
+  .solaris-table__foot
+  .solaris-table__cell[data-sticky='end'] {
+  z-index: var(--solaris-z-index-content);
+  background: var(--solaris-neutral-subtle);
+}
+
 :host([data-sticky-first-column]:not([data-card-layout]))
   .solaris-table__body
   .solaris-table__cell[data-sticky='start'] {
   z-index: var(--solaris-z-index-content);
   background: var(--solaris-table-background);
+  box-shadow: var(--solaris-border-width-sm) var(--solaris-spacing-0)
+    var(--solaris-spacing-0) var(--solaris-table-border-color);
 }
 
 :host([data-sticky-first-column]:not([data-card-layout]))
@@ -272,7 +321,13 @@
 }
 
 .solaris-table__cell-main--editing {
-  width: 100%;
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding: var(--solaris-spacing-0) var(--solaris-table-cell-padding-x);
 }
 
 .solaris-table__head-icon {

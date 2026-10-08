@@ -145,6 +145,7 @@ import {
     '[attr.data-hover]': 'hover() || undefined',
     '[attr.data-sticky-header]': 'stickyHeader() || undefined',
     '[attr.data-sticky-first-column]': 'stickyFirstColumn() || undefined',
+    '[attr.data-sticky-last-column]': 'stickyLastColumn() || undefined',
     '[attr.data-selectable]': 'isSelectable() || undefined',
     '[attr.data-expandable]': 'expandable() || undefined',
     '[attr.data-expand-mode]': 'normalizedExpandMode()',
@@ -202,6 +203,7 @@ export class SolarisTableComponent<T = unknown> {
   readonly stripedMode = input<SolarisTableStripedMode>('even');
   readonly stickyHeader = input(true, { transform: booleanAttribute });
   readonly stickyFirstColumn = input(false, { transform: booleanAttribute });
+  readonly stickyLastColumn = input(false, { transform: booleanAttribute });
   readonly hover = input(true, { transform: booleanAttribute });
   readonly rowClickable = input(false, { transform: booleanAttribute });
   readonly expandable = input(false, { transform: booleanAttribute });
@@ -814,6 +816,25 @@ export class SolarisTableComponent<T = unknown> {
     return columnIndex <= 1;
   }
 
+  protected isStickyEndColumn(columnIndex: number): boolean {
+    if (!this.stickyLastColumn()) {
+      return false;
+    }
+    const total = this.renderedColumns().length;
+    const endCount = this.isRowExpandable() ? 2 : 1;
+    return columnIndex >= total - endCount;
+  }
+
+  protected stickyOf(columnIndex: number): string | null {
+    if (this.isStickyStartColumn(columnIndex)) {
+      return 'start';
+    }
+    if (this.isStickyEndColumn(columnIndex)) {
+      return 'end';
+    }
+    return null;
+  }
+
   protected isGroupedColumn(column: SolarisTableViewColumn<T>): boolean {
     return this.groupedColumnIds().has(column.id);
   }
@@ -824,6 +845,34 @@ export class SolarisTableComponent<T = unknown> {
     }
     const stickyCount = this.isSelectable() ? 2 : 1;
     return startIndex < stickyCount && startIndex + span <= stickyCount;
+  }
+
+  protected isSpanStickyEnd(startIndex: number, span: number): boolean {
+    if (!this.stickyLastColumn()) {
+      return false;
+    }
+    const total = this.renderedColumns().length;
+    const endCount = this.isRowExpandable() ? 2 : 1;
+    return startIndex >= total - endCount && startIndex + span <= total;
+  }
+
+  protected spanStickyOf(startIndex: number, span: number): string | null {
+    if (this.isSpanSticky(startIndex, span)) {
+      return 'start';
+    }
+    if (this.isSpanStickyEnd(startIndex, span)) {
+      return 'end';
+    }
+    return null;
+  }
+
+  protected isGroupStart(columnIndex: number): boolean {
+    if (!this.hasHeaderGroups()) {
+      return false;
+    }
+    return this.headerSpans().some(
+      (span) => span.group !== null && span.startIndex === columnIndex,
+    );
   }
 
   protected resolveHeaderGroupText(group: SolarisTableHeaderGroup): string {
