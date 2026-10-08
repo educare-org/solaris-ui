@@ -261,6 +261,56 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section
+    anchor="header-groups"
+    titleKey="table.section.header-groups"
+  >
+    <p class="table-showcase__note">
+      {{ 'table.header-groups.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="groupsCode"
+      language="html"
+    >
+      <solaris-table
+        [data]="basicRows"
+        [columns]="groupedColumns"
+        [headerGroups]="demoGroups"
+        rowId="id"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="cell-editing" titleKey="table.section.cell-editing">
+    <p class="table-showcase__note">
+      {{ 'table.cell-editing.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="cellEditingCode"
+      language="html"
+    >
+      <solaris-table
+        [data]="editableRows()"
+        [columns]="editableColumns"
+        rowId="id"
+      >
+        <ng-template
+          solaris-table-cell-editor="name-editor"
+          let-row
+          let-close="close"
+        >
+          <input
+            [value]="row.name"
+            (change)="rename(row.id, $event); close()"
+            [attr.aria-label]="row.name"
+          />
+        </ng-template>
+      </solaris-table>
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section anchor="add-row" titleKey="table.section.add-row">
     <p class="table-showcase__note">{{ 'table.add-row.note' | translate }}</p>
     <solaris-preview-code

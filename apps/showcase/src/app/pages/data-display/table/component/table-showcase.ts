@@ -5,6 +5,7 @@ import {
   SolarisCodeBlockComponent,
   SolarisPreviewCodeComponent,
   SolarisTableComponent,
+  SolarisTableCellEditorDirective,
   SolarisTableDetailDirective,
   SolarisTabComponent,
   SolarisTabsComponent,
@@ -26,8 +27,10 @@ import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
 import {
   TABLE_ADD_ROW_CODE,
   TABLE_APPEARANCE_CODE,
+  TABLE_CELL_EDITING_CODE,
   TABLE_CELL_EXPAND_CODE,
   TABLE_FOOTER_CODE,
+  TABLE_GROUPS_CODE,
   TABLE_LAYOUT_CODE,
   TABLE_MOBILE_COMPOSED_CODE,
   TABLE_PEOPLE_CODE,
@@ -40,8 +43,11 @@ import {
   TABLE_SHOWCASE_BASIC_COLUMNS,
   TABLE_SHOWCASE_BREADCRUMBS,
   TABLE_SHOWCASE_CELL_COLUMNS,
+  TABLE_SHOWCASE_EDITABLE_COLUMNS,
   TABLE_SHOWCASE_FOOTER_COLUMNS,
   TABLE_SHOWCASE_FULL_COLUMNS,
+  TABLE_SHOWCASE_GROUPED_COLUMNS,
+  TABLE_SHOWCASE_GROUPS,
   TABLE_SHOWCASE_IMPORT_CODE,
   TABLE_SHOWCASE_INSTALL_COMMANDS,
   TABLE_SHOWCASE_NEXT,
@@ -70,6 +76,7 @@ import { WithToolbarTableExample } from '../examples/with-toolbar/component/with
   standalone: true,
   imports: [
     SolarisTableComponent,
+    SolarisTableCellEditorDirective,
     SolarisTableDetailDirective,
     SolarisPreviewCodeComponent,
     SolarisCodeBlockComponent,
@@ -119,6 +126,29 @@ export class TableShowcasePage {
   protected readonly stickyTab = signal<'on' | 'off'>('on');
   protected readonly footerCode = TABLE_FOOTER_CODE;
   protected readonly footerColumns = TABLE_SHOWCASE_FOOTER_COLUMNS;
+  protected readonly groupsCode = TABLE_GROUPS_CODE;
+  protected readonly demoGroups = TABLE_SHOWCASE_GROUPS;
+  protected readonly groupedColumns = TABLE_SHOWCASE_GROUPED_COLUMNS;
+  protected readonly cellEditingCode = TABLE_CELL_EDITING_CODE;
+  protected readonly editableColumns = TABLE_SHOWCASE_EDITABLE_COLUMNS;
+  protected readonly editableRows = signal(TABLE_SHOWCASE_ROWS.slice(0, 5));
+
+  protected rename(rowId: string, event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const name = input?.value.trim() ?? '';
+    if (name === '') {
+      return;
+    }
+    const nextName: string = name;
+    this.editableRows.update((rows) => {
+      return rows.map((row) => {
+        if (row.id !== rowId) {
+          return row;
+        }
+        return { ...row, name: nextName };
+      });
+    });
+  }
   protected readonly mobileComposedCode = TABLE_MOBILE_COMPOSED_CODE;
   protected readonly datasetTab = signal<'all' | 'recent'>('all');
   protected readonly datasetRows = computed(() =>

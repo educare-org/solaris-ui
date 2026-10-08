@@ -220,132 +220,213 @@
         [attr.aria-label]="resolvedTableAriaLabel()"
         [attr.aria-rowcount]="total() ?? -1"
       >
+        <ng-template #headerCellContent let-column="column">
+          @if (column.type === 'checkbox') {
+            @if (normalizedSelectionMode() === 'multiple') {
+              <solaris-checkbox
+                radius="sm"
+                [checked]="allVisibleRowsSelected()"
+                [indeterminate]="someVisibleRowsSelected()"
+                [ariaLabel]="resolvedSelectAllLabel()"
+                (checkedChange)="toggleSelectAllVisibleRows()"
+              />
+            }
+          } @else if (isColumnSortable(column)) {
+            @if (resolveHeaderTemplate(column); as headerSlot) {
+              <button
+                type="button"
+                class="solaris-table__sort-button"
+                (click)="toggleSort(column)"
+                [attr.aria-label]="sortButtonLabel(column)"
+              >
+                <ng-container
+                  *ngTemplateOutlet="
+                    headerSlot.templateRef;
+                    context: { $implicit: column, column }
+                  "
+                ></ng-container>
+                <ng-container
+                  *ngTemplateOutlet="
+                    sortArrows;
+                    context: { $implicit: column, column }
+                  "
+                ></ng-container>
+              </button>
+            } @else {
+              <button
+                type="button"
+                class="solaris-table__sort-button"
+                (click)="toggleSort(column)"
+                [attr.aria-label]="sortButtonLabel(column)"
+              >
+                @if (resolveColumnIcon(column); as headerIcon) {
+                  @if (resolveColumnIconPosition(column) === 'start') {
+                    <solaris-icon
+                      class="solaris-table__head-icon"
+                      [name]="headerIcon"
+                      [decorative]="true"
+                    />
+                  }
+                }
+                <span class="solaris-table__sort-button-text">
+                  {{ resolveColumnHeader(column) }}
+                </span>
+                @if (resolveColumnIcon(column); as headerIconEnd) {
+                  @if (resolveColumnIconPosition(column) === 'end') {
+                    <solaris-icon
+                      class="solaris-table__head-icon"
+                      [name]="headerIconEnd"
+                      [decorative]="true"
+                    />
+                  }
+                }
+                <ng-container
+                  *ngTemplateOutlet="
+                    sortArrows;
+                    context: { $implicit: column, column }
+                  "
+                ></ng-container>
+              </button>
+            }
+          } @else {
+            @if (resolveHeaderTemplate(column); as headerSlot) {
+              <ng-container
+                *ngTemplateOutlet="
+                  headerSlot.templateRef;
+                  context: { $implicit: column, column }
+                "
+              ></ng-container>
+            } @else {
+              <span class="solaris-table__head-label">
+                @if (resolveColumnIcon(column); as labelIcon) {
+                  @if (resolveColumnIconPosition(column) === 'start') {
+                    <solaris-icon
+                      class="solaris-table__head-icon"
+                      [name]="labelIcon"
+                      [decorative]="true"
+                    />
+                  }
+                }
+                <span class="solaris-table__head-label-text">{{
+                  resolveColumnHeader(column)
+                }}</span>
+                @if (resolveColumnIcon(column); as labelIconEnd) {
+                  @if (resolveColumnIconPosition(column) === 'end') {
+                    <solaris-icon
+                      class="solaris-table__head-icon"
+                      [name]="labelIconEnd"
+                      [decorative]="true"
+                    />
+                  }
+                }
+              </span>
+            }
+          }
+        </ng-template>
         <thead class="solaris-table__head">
-          <tr class="solaris-table__head-row" aria-rowindex="1">
+          @if (hasHeaderGroups()) {
+            <tr
+              class="solaris-table__head-row solaris-table__head-row--group"
+              aria-rowindex="1"
+            >
+              @for (
+                span of headerSpans();
+                track span.group?.id ?? span.columns[0].id
+              ) {
+                @if (span.group !== null) {
+                  <th
+                    class="solaris-table__head-cell solaris-table__head-cell--group"
+                    scope="colgroup"
+                    [attr.colspan]="span.columns.length"
+                    [attr.data-sticky]="
+                      isSpanSticky(span.startIndex, span.columns.length)
+                        ? 'start'
+                        : null
+                    "
+                  >
+                    <span class="solaris-table__head-label">
+                      {{ resolveHeaderGroupText(span.group) }}
+                    </span>
+                  </th>
+                } @else {
+                  <th
+                    class="solaris-table__head-cell"
+                    scope="col"
+                    rowspan="2"
+                    [attr.data-align]="
+                      span.columns[0].headerAlign ??
+                      span.columns[0].align ??
+                      'start'
+                    "
+                    [attr.data-column-type]="span.columns[0].type"
+                    [attr.data-column-id]="span.columns[0].id"
+                    [attr.data-priority]="span.columns[0].priority ?? null"
+                    [attr.data-sticky]="
+                      isStickyStartColumn(span.startIndex) ? 'start' : null
+                    "
+                    [attr.aria-sort]="getAriaSort(span.columns[0])"
+                    [style]="resolveColumnWidthStyles(span.columns[0])"
+                  >
+                    <ng-container
+                      *ngTemplateOutlet="
+                        headerCellContent;
+                        context: {
+                          $implicit: span.columns[0],
+                          column: span.columns[0],
+                        }
+                      "
+                    />
+                  </th>
+                }
+              }
+              @if (isRowExpandable()) {
+                <th
+                  class="solaris-table__head-cell solaris-table__head-cell--expand"
+                  scope="col"
+                  rowspan="2"
+                >
+                  <span class="solaris-table__head-label">
+                    {{ resolvedExpandColumnLabel() }}
+                  </span>
+                </th>
+              }
+            </tr>
+          }
+          <tr
+            class="solaris-table__head-row"
+            [attr.aria-rowindex]="hasHeaderGroups() ? 2 : 1"
+          >
             @for (
               column of renderedColumns();
               track trackByColumnId($index, column);
               let columnIndex = $index
             ) {
-              <th
-                class="solaris-table__head-cell"
-                [attr.data-align]="
-                  column.headerAlign ?? column.align ?? 'start'
-                "
-                [attr.data-column-type]="column.type"
-                [attr.data-column-id]="column.id"
-                [attr.data-priority]="column.priority ?? null"
-                [attr.data-sticky]="
-                  isStickyStartColumn(columnIndex) ? 'start' : null
-                "
-                [attr.aria-sort]="getAriaSort(column)"
-                [style]="resolveColumnWidthStyles(column)"
-                scope="col"
-              >
-                @if (column.type === 'checkbox') {
-                  @if (normalizedSelectionMode() === 'multiple') {
-                    <solaris-checkbox
-                      radius="sm"
-                      [checked]="allVisibleRowsSelected()"
-                      [indeterminate]="someVisibleRowsSelected()"
-                      [ariaLabel]="resolvedSelectAllLabel()"
-                      (checkedChange)="toggleSelectAllVisibleRows()"
-                    />
-                  }
-                } @else if (isColumnSortable(column)) {
-                  @if (resolveHeaderTemplate(column); as headerSlot) {
-                    <button
-                      type="button"
-                      class="solaris-table__sort-button"
-                      (click)="toggleSort(column)"
-                      [attr.aria-label]="sortButtonLabel(column)"
-                    >
-                      <ng-container
-                        *ngTemplateOutlet="
-                          headerSlot.templateRef;
-                          context: { $implicit: column, column }
-                        "
-                      ></ng-container>
-                      <ng-container
-                        *ngTemplateOutlet="
-                          sortArrows;
-                          context: { $implicit: column, column }
-                        "
-                      ></ng-container>
-                    </button>
-                  } @else {
-                    <button
-                      type="button"
-                      class="solaris-table__sort-button"
-                      (click)="toggleSort(column)"
-                      [attr.aria-label]="sortButtonLabel(column)"
-                    >
-                      @if (resolveColumnIcon(column); as headerIcon) {
-                        @if (resolveColumnIconPosition(column) === 'start') {
-                          <solaris-icon
-                            class="solaris-table__head-icon"
-                            [name]="headerIcon"
-                            [decorative]="true"
-                          />
-                        }
-                      }
-                      <span class="solaris-table__sort-button-text">
-                        {{ resolveColumnHeader(column) }}
-                      </span>
-                      @if (resolveColumnIcon(column); as headerIconEnd) {
-                        @if (resolveColumnIconPosition(column) === 'end') {
-                          <solaris-icon
-                            class="solaris-table__head-icon"
-                            [name]="headerIconEnd"
-                            [decorative]="true"
-                          />
-                        }
-                      }
-                      <ng-container
-                        *ngTemplateOutlet="
-                          sortArrows;
-                          context: { $implicit: column, column }
-                        "
-                      ></ng-container>
-                    </button>
-                  }
-                } @else {
-                  @if (resolveHeaderTemplate(column); as headerSlot) {
-                    <ng-container
-                      *ngTemplateOutlet="
-                        headerSlot.templateRef;
-                        context: { $implicit: column, column }
-                      "
-                    ></ng-container>
-                  } @else {
-                    <span class="solaris-table__head-label">
-                      @if (resolveColumnIcon(column); as labelIcon) {
-                        @if (resolveColumnIconPosition(column) === 'start') {
-                          <solaris-icon
-                            class="solaris-table__head-icon"
-                            [name]="labelIcon"
-                            [decorative]="true"
-                          />
-                        }
-                      }
-                      <span class="solaris-table__head-label-text">{{
-                        resolveColumnHeader(column)
-                      }}</span>
-                      @if (resolveColumnIcon(column); as labelIconEnd) {
-                        @if (resolveColumnIconPosition(column) === 'end') {
-                          <solaris-icon
-                            class="solaris-table__head-icon"
-                            [name]="labelIconEnd"
-                            [decorative]="true"
-                          />
-                        }
-                      }
-                    </span>
-                  }
-                }
-              </th>
+              @if (!hasHeaderGroups() || isGroupedColumn(column)) {
+                <th
+                  class="solaris-table__head-cell"
+                  [attr.data-align]="
+                    column.headerAlign ?? column.align ?? 'start'
+                  "
+                  [attr.data-column-type]="column.type"
+                  [attr.data-column-id]="column.id"
+                  [attr.data-priority]="column.priority ?? null"
+                  [attr.data-sticky]="
+                    isStickyStartColumn(columnIndex) ? 'start' : null
+                  "
+                  [attr.aria-sort]="getAriaSort(column)"
+                  [style]="resolveColumnWidthStyles(column)"
+                  scope="col"
+                >
+                  <ng-container
+                    *ngTemplateOutlet="
+                      headerCellContent;
+                      context: { $implicit: column, column }
+                    "
+                  />
+                </th>
+              }
             }
-            @if (isRowExpandable()) {
+            @if (isRowExpandable() && !hasHeaderGroups()) {
               <th
                 class="solaris-table__head-cell solaris-table__head-cell--expand"
                 scope="col"
@@ -434,7 +515,7 @@
               <tr
                 class="solaris-table__row"
                 [attr.data-selected]="row.selected || undefined"
-                [attr.aria-rowindex]="rowIndex + 2"
+                [attr.aria-rowindex]="rowIndex + headerRowCount() + 1"
                 [attr.aria-selected]="isSelectable() ? row.selected : null"
               >
                 @for (
@@ -455,9 +536,33 @@
                     [attr.data-cell-expanded]="
                       isCellExpanded(row, column) || undefined
                     "
+                    [attr.data-editable]="isEditableColumn(column) || undefined"
+                    [attr.tabindex]="
+                      isEditableColumn(column) && !isEditingCell(row, column)
+                        ? '0'
+                        : null
+                    "
                     [attr.title]="resolveCellTitle(row, column)"
+                    (dblclick)="startEditing(row, column, $event)"
+                    (keydown.enter)="startEditing(row, column, $event)"
+                    (keydown.escape)="stopEditing(row, column)"
                   >
-                    @if (column.type === 'checkbox' && isSelectable()) {
+                    @if (
+                      isEditingCell(row, column) &&
+                        resolveEditorTemplate(column);
+                      as editorSlot
+                    ) {
+                      <span
+                        class="solaris-table__cell-main solaris-table__cell-main--editing"
+                      >
+                        <ng-container
+                          *ngTemplateOutlet="
+                            editorSlot.templateRef;
+                            context: cellEditorContext(row, column)
+                          "
+                        ></ng-container>
+                      </span>
+                    } @else if (column.type === 'checkbox' && isSelectable()) {
                       <solaris-checkbox
                         radius="sm"
                         [checked]="row.selected"

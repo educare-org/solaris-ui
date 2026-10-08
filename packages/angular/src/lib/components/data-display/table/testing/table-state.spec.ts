@@ -7,6 +7,7 @@ import {
   resolveCellValue,
   resolveDisplayValue,
   resolveFooterValue,
+  resolveHeaderGroupSpans,
   resolveRowId,
   resolveRows,
   resolveSortValue,
@@ -238,5 +239,55 @@ describe('resolveFooterValue', () => {
       footerValueOf: () => '   ',
     };
     expect(resolveFooterValue(ROWS, column)).toBe(null);
+  });
+});
+
+describe('resolveHeaderGroupSpans', () => {
+  it('should return single spans without groups', () => {
+    const spans = resolveHeaderGroupSpans<Person, SolarisTableColumn<Person>>(
+      COLUMNS,
+      [],
+    );
+    expect(spans.length).toBe(2);
+    expect(spans.every((span) => span.group === null)).toBe(true);
+  });
+
+  it('should merge consecutive columns of the same group', () => {
+    const spans = resolveHeaderGroupSpans<Person, SolarisTableColumn<Person>>(
+      [
+        { id: 'a', headerGroup: 'g' },
+        { id: 'b', headerGroup: 'g' },
+        { id: 'c' },
+      ],
+      [{ id: 'g', header: 'Group' }],
+    );
+    expect(spans.length).toBe(2);
+    expect(spans[0].group?.id).toBe('g');
+    expect(spans[0].columns.map((column) => column.id)).toEqual(['a', 'b']);
+    expect(spans[1].group).toBe(null);
+  });
+
+  it('should split non-consecutive columns of the same group', () => {
+    const spans = resolveHeaderGroupSpans<Person, SolarisTableColumn<Person>>(
+      [
+        { id: 'a', headerGroup: 'g' },
+        { id: 'b' },
+        { id: 'c', headerGroup: 'g' },
+      ],
+      [{ id: 'g', header: 'Group' }],
+    );
+    expect(spans.length).toBe(3);
+    expect(spans[0].group?.id).toBe('g');
+    expect(spans[1].group).toBe(null);
+    expect(spans[2].group?.id).toBe('g');
+  });
+
+  it('should treat unknown group ids as ungrouped', () => {
+    const spans = resolveHeaderGroupSpans<Person, SolarisTableColumn<Person>>(
+      [{ id: 'a', headerGroup: 'missing' }],
+      [],
+    );
+    expect(spans.length).toBe(1);
+    expect(spans[0].group).toBe(null);
   });
 });

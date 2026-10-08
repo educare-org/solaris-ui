@@ -71,6 +71,20 @@ export interface SolarisTableSort {
   readonly direction: SolarisTableSortDirection;
 }
 
+export interface SolarisTableHeaderGroup {
+  readonly id: string;
+  readonly header?: string;
+  readonly headerKey?: string;
+}
+
+export interface SolarisTableHeaderGroupSpan<
+  T = unknown,
+  C extends SolarisTableColumn<T> = SolarisTableColumn<T>,
+> {
+  readonly group: SolarisTableHeaderGroup | null;
+  readonly columns: readonly C[];
+}
+
 export interface SolarisTableColumn<T = unknown> {
   readonly id: string;
   readonly header?: string;
@@ -100,6 +114,8 @@ export interface SolarisTableColumn<T = unknown> {
   readonly footerValueOf?: (rows: readonly T[]) => string | null;
   readonly footerAlign?: SolarisTableAlign;
   readonly footerTemplateId?: string;
+  readonly headerGroup?: string;
+  readonly editorTemplateId?: string;
   readonly locale?: string;
   readonly dateFormat?: string;
   readonly numberFormat?: Intl.NumberFormatOptions;
@@ -152,5 +168,21 @@ export interface SolarisTableCellContext<T = unknown> {
 export interface SolarisTableFooterCellContext<T = unknown> {
   readonly $implicit: readonly T[];
   readonly rows: readonly T[];
+  readonly column: SolarisTableColumn<T>;
+}
+
+export interface SolarisTableCellEditorContext<T = unknown> {
+  readonly $implicit: T;
+  readonly row: T;
+  readonly rowId: string;
+  readonly value: unknown;
+  readonly column: SolarisTableColumn<T>;
+  readonly index: number;
+  readonly close: () => void;
+}
+
+export interface SolarisTableCellEditEvent<T = unknown> {
+  readonly row: T;
+  readonly rowId: string;
   readonly column: SolarisTableColumn<T>;
 }

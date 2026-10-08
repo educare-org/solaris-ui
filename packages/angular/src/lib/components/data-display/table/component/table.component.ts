@@ -82,6 +82,7 @@ import {
   isTableDataSource,
   resolveCellValue,
   resolveFooterValue,
+  resolveHeaderGroupSpans,
   resolveRowId,
   resolveRows,
   sortRows,
@@ -89,12 +90,16 @@ import {
 import type {
   SolarisTableAppearance,
   SolarisTableCellContext,
+  SolarisTableCellEditorContext,
+  SolarisTableCellEditEvent,
   SolarisTableCellPadding,
   SolarisTableColumn,
   SolarisTableDataSource,
   SolarisTableDensity,
   SolarisTableExpandMode,
   SolarisTableFooterCellContext,
+  SolarisTableHeaderGroup,
+  SolarisTableHeaderGroupSpan,
   SolarisTableLayout,
   SolarisTableRadius,
   SolarisTableResolvedRow,
@@ -108,6 +113,7 @@ import type {
 } from '../model/table.types';
 import {
   SolarisTableCellDirective,
+  SolarisTableCellEditorDirective,
   SolarisTableDetailDirective,
   SolarisTableEmptyDirective,
   SolarisTableErrorDirective,
@@ -169,6 +175,7 @@ export class SolarisTableComponent<T = unknown> {
   readonly footerCellTemplates = contentChildren(
     SolarisTableFooterCellDirective,
   );
+  readonly editorTemplates = contentChildren(SolarisTableCellEditorDirective);
   readonly emptyTemplate = contentChildren(SolarisTableEmptyDirective);
   readonly errorTemplate = contentChildren(SolarisTableErrorDirective);
   readonly loadingTemplate = contentChildren(SolarisTableLoadingDirective);
@@ -177,6 +184,7 @@ export class SolarisTableComponent<T = unknown> {
 
   readonly data = input<SolarisTableDataSource<T> | readonly T[]>([]);
   readonly columns = input<readonly SolarisTableColumn<T>[]>([]);
+  readonly headerGroups = input<readonly SolarisTableHeaderGroup[]>([]);
   readonly rowId = input.required<
     keyof T | ((row: T, index: number) => string)
   >();
@@ -220,6 +228,8 @@ export class SolarisTableComponent<T = unknown> {
   readonly selectionChange = output<SolarisTableSelectionChange<T>>();
   readonly rowClick = output<SolarisTableRowClickEvent<T>>();
   readonly addRowRequest = output<void>();
+  readonly editStart = output<SolarisTableCellEditEvent<T>>();
+  readonly editEnd = output<SolarisTableCellEditEvent<T>>();
 
   protected readonly effectiveDensity = computed(
     () => this.density() ?? this.themeService.density,
@@ -532,6 +542,45 @@ export class SolarisTableComponent<T = unknown> {
       this.visibleRows().length > 0,
   );
 
+  protected readonly headerSpans = computed(
+    (): readonly (SolarisTableHeaderGroupSpan<T, SolarisTableViewColumn<T>> & {
+      readonly startIndex: number;
+    })[] => {
+      const spans = resolveHeaderGroupSpans<T, SolarisTableViewColumn<T>>(
+        this.renderedColumns(),
+        this.headerGroups(),
+      );
+      let startIndex = 0;
+      return spans.map((span) => {
+        const view = { ...span, startIndex };
+        startIndex += span.columns.length;
+        return view;
+      });
+    },
+  );
+
+  protected readonly hasHeaderGroups = computed(() =>
+    this.headerSpans().some((span) => span.group !== null),
+  );
+
+  protected readonly headerRowCount = computed(() =>
+    this.hasHeaderGroups() ? 2 : 1,
+  );
+
+  protected readonly groupedColumnIds = computed(
+    (): ReadonlySet<string> =>
+      new Set(
+        this.headerSpans()
+          .filter((span) => span.group !== null)
+          .flatMap((span) => span.columns.map((column) => column.id)),
+      ),
+  );
+
+  private readonly editingCell = signal<{
+    rowId: string;
+    columnId: string;
+  } | null>(null);
+
   protected readonly allVisibleRowsSelected = computed(() => {
     const visibleRows = this.visibleRows();
     if (!visibleRows.length || this.normalizedSelectionMode() !== 'multiple') {
@@ -763,6 +812,98 @@ export class SolarisTableComponent<T = unknown> {
       return columnIndex === 0;
     }
     return columnIndex <= 1;
+  }
+
+  protected isGroupedColumn(column: SolarisTableViewColumn<T>): boolean {
+    return this.groupedColumnIds().has(column.id);
+  }
+
+  protected isSpanSticky(startIndex: number, span: number): boolean {
+    if (!this.stickyFirstColumn()) {
+      return false;
+    }
+    const stickyCount = this.isSelectable() ? 2 : 1;
+    return startIndex < stickyCount && startIndex + span <= stickyCount;
+  }
+
+  protected resolveHeaderGroupText(group: SolarisTableHeaderGroup): string {
+    return this.resolveText(group.header, group.headerKey, group.id).trim();
+  }
+
+  protected isEditableColumn(column: SolarisTableViewColumn<T>): boolean {
+    return (
+      normalizeOptionalString(column.editorTemplateId) !== null &&
+      column.type !== 'checkbox'
+    );
+  }
+
+  protected isEditingCell(
+    row: SolarisTableViewRow<T>,
+    column: SolarisTableViewColumn<T>,
+  ): boolean {
+    const editing = this.editingCell();
+    return (
+      editing !== null &&
+      editing.rowId === row.rowId &&
+      editing.columnId === column.id
+    );
+  }
+
+  protected startEditing(
+    row: SolarisTableViewRow<T>,
+    column: SolarisTableViewColumn<T>,
+    event?: Event,
+  ): void {
+    if (!this.isEditableColumn(column) || this.isEditingCell(row, column)) {
+      return;
+    }
+    const target = event?.target as HTMLElement | null;
+    if (
+      target?.closest?.('button, input, select, textarea, a, [contenteditable]')
+    ) {
+      return;
+    }
+    this.editingCell.set({ rowId: row.rowId, columnId: column.id });
+    this.editStart.emit({ row: row.row, rowId: row.rowId, column });
+  }
+
+  protected stopEditing(
+    row: SolarisTableViewRow<T>,
+    column: SolarisTableViewColumn<T>,
+  ): void {
+    if (!this.isEditingCell(row, column)) {
+      return;
+    }
+    this.editingCell.set(null);
+    this.editEnd.emit({ row: row.row, rowId: row.rowId, column });
+  }
+
+  protected resolveEditorTemplate(
+    column: SolarisTableViewColumn<T>,
+  ): SolarisTableCellEditorDirective | null {
+    if (!column.editorTemplateId) {
+      return null;
+    }
+    return (
+      this.editorTemplates().find(
+        (template) => template.templateId() === column.editorTemplateId,
+      ) ?? null
+    );
+  }
+
+  protected cellEditorContext(
+    row: SolarisTableViewRow<T>,
+    column: SolarisTableViewColumn<T>,
+  ): SolarisTableCellEditorContext<T> {
+    return {
+      $implicit: row.row,
+      row: row.row,
+      rowId: row.rowId,
+      value: resolveCellValue(row.row, column),
+      column,
+      index: row.index,
+      close: () => this.stopEditing(row, column),
+    };
   }
 
   protected resolveColumnHeader(column: SolarisTableViewColumn<T>): string {

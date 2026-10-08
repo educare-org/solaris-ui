@@ -1,6 +1,7 @@
 export { SolarisTableComponent } from './component/table.component';
 export {
   SolarisTableCellDirective,
+  SolarisTableCellEditorDirective,
   SolarisTableDetailDirective,
   SolarisTableHeaderDirective,
   SolarisTableEmptyDirective,
@@ -14,6 +15,8 @@ export type {
   SolarisTableAlign,
   SolarisTableAppearance,
   SolarisTableCellContext,
+  SolarisTableCellEditEvent,
+  SolarisTableCellEditorContext,
   SolarisTableCellPadding,
   SolarisTableColumn,
   SolarisTableColumnType,
@@ -22,6 +25,8 @@ export type {
   SolarisTableDetailVariant,
   SolarisTableExpandMode,
   SolarisTableFooterCellContext,
+  SolarisTableHeaderGroup,
+  SolarisTableHeaderGroupSpan,
   SolarisTableIconPosition,
   SolarisTableLayout,
   SolarisTableRadius,
@@ -54,6 +59,7 @@ export {
   resolveCellValue,
   resolveDisplayValue,
   resolveFooterValue,
+  resolveHeaderGroupSpans,
   resolveRowId,
   resolveRows,
   resolveSortValue,

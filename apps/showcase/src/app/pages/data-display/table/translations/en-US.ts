@@ -15,6 +15,8 @@ export const EN_US_TABLE: Record<string, string> = {
   'table.section.wide': 'Many columns',
   'table.section.sticky-column': 'Sticky column',
   'table.section.footer': 'Footer aggregates',
+  'table.section.header-groups': 'Header groups',
+  'table.section.cell-editing': 'Cell editing',
   'table.section.add-row': 'Add row',
   'table.section.with-tabs': 'With tabs',
   'table.section.mobile': 'Mobile',
@@ -90,6 +92,11 @@ export const EN_US_TABLE: Record<string, string> = {
   'table.footer.note':
     'Aggregates over visible rows rendered in a semantic footer. The gradebook builds its averages on this contract.',
   'table.footer.average': 'Average',
+  'table.header-groups.note':
+    'Consecutive columns merge under one group label; ungrouped columns span both rows.',
+  'table.cell-editing.note':
+    'Enter or double-click edits in place; Escape closes. Committing values is owned by the consumer.',
+  'table.group.metrics': 'Metrics',
   'table.mobile-composed.note':
     'Phone-width cards composing avatar, badge, and actions with no horizontal dragging.',
   'table.layout.note':

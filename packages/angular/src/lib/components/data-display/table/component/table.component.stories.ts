@@ -196,3 +196,21 @@ export const FooterAggregates: Story = {
     rowId: 'name',
   } as Partial<SolarisTableComponent<Record<string, unknown>>>,
 };
+
+export const HeaderGroups: Story = {
+  args: {
+    columns: [
+      { id: 'name', header: 'Name', accessor: 'name' as const },
+      {
+        id: 'age',
+        header: 'Age',
+        accessor: 'age' as const,
+        type: 'number' as const,
+        headerGroup: 'metrics',
+      },
+    ],
+    headerGroups: [{ id: 'metrics', header: 'Metrics' }],
+    data: ROWS,
+    rowId: 'name',
+  } as Partial<SolarisTableComponent<Record<string, unknown>>>,
+};

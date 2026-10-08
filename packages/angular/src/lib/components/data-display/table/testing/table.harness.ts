@@ -118,4 +118,29 @@ export class SolarisTableHarness extends ComponentHarness {
     }
     return cell.text();
   }
+
+  async groupHeaderVisible(): Promise<boolean> {
+    const rows = await this.locatorForAll(
+      'thead tr.solaris-table__head-row--group',
+    )();
+    return rows.length > 0;
+  }
+
+  async groupHeaderText(groupIndex: number): Promise<string | null> {
+    const headers = await this.locatorForAll(
+      'thead tr.solaris-table__head-row--group th[scope="colgroup"]',
+    )();
+    const header = headers[groupIndex];
+    if (!header) {
+      return null;
+    }
+    return header.text();
+  }
+
+  async editingCellCount(): Promise<number> {
+    const markers = await this.locatorForAll(
+      '.solaris-table__cell-main--editing',
+    )();
+    return markers.length;
+  }
 }

@@ -250,6 +250,31 @@
   gap: var(--solaris-spacing-3);
 }
 
+.solaris-table__head-row--group .solaris-table__head-cell {
+  text-align: center;
+  border-bottom: var(--solaris-border-width-sm) solid
+    var(--solaris-table-border-color);
+}
+
+.solaris-table__head-row--group .solaris-table__head-label {
+  justify-content: center;
+  width: 100%;
+}
+
+.solaris-table__cell[data-editable] {
+  cursor: text;
+}
+
+.solaris-table__cell[data-editable]:focus-visible {
+  outline-offset: calc(var(--solaris-focus-ring-offset) * -1);
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+}
+
+.solaris-table__cell-main--editing {
+  width: 100%;
+}
+
 .solaris-table__head-icon {
   flex-shrink: 0;
   align-self: center;

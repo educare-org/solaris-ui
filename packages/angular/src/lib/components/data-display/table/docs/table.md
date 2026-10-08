@@ -42,6 +42,7 @@ Table displays structured rows and columns with sorting, selection, and loading/
 | `stripedMode`                                   | `'even' \| 'odd'`                                       | `'even'`    | Which rows get the zebra background                                                                         |
 | `stickyHeader`                                  | `boolean`                                               | `true`      | Sticky header                                                                                               |
 | `stickyFirstColumn`                             | `boolean`                                               | `false`     | Pins the first data column (plus selection when selectable) to the viewport start                           |
+| `headerGroups`                                  | `readonly SolarisTableHeaderGroup[]`                    | `[]`        | Two-level grouped headers (`id`, `header`/`headerKey`); columns opt in via `headerGroup`                    |
 | `hover`                                         | `boolean`                                               | `true`      | Row hover highlight                                                                                         |
 | `rowClickable`                                  | `boolean`                                               | `false`     | Row action button in the first cell                                                                         |
 | `expandable`                                    | `boolean`                                               | `false`     | Enables row and/or cell expansion                                                                           |
@@ -54,13 +55,14 @@ Table displays structured rows and columns with sorting, selection, and loading/
 | `density`                                       | `'compact' \| 'normal' \| 'comfortable' \| undefined`   | inherited   | Density variant                                                                                             |
 | `ariaLabel` / `ariaLabelKey`                    | `string \| undefined`                                   | `undefined` | Accessible table name                                                                                       |
 
-| Output                 | Type                             | Description                                  |
-| ---------------------- | -------------------------------- | -------------------------------------------- |
-| `addRowRequest`        | `void`                           | Emitted by the inline add row (`showAddRow`) |
-| `sortChange`           | `SolarisTableSort \| null`       | Emitted on sort cycle (model output)         |
-| `selectedRowIdsChange` | `readonly string[]`              | Emitted on selection change (model output)   |
-| `selectionChange`      | `SolarisTableSelectionChange<T>` | Selected rows, ids, and changed row          |
-| `rowClick`             | `SolarisTableRowClickEvent<T>`   | Row action button activation                 |
+| Output                  | Type                             | Description                                           |
+| ----------------------- | -------------------------------- | ----------------------------------------------------- |
+| `addRowRequest`         | `void`                           | Emitted by the inline add row (`showAddRow`)          |
+| `sortChange`            | `SolarisTableSort \| null`       | Emitted on sort cycle (model output)                  |
+| `selectedRowIdsChange`  | `readonly string[]`              | Emitted on selection change (model output)            |
+| `selectionChange`       | `SolarisTableSelectionChange<T>` | Selected rows, ids, and changed row                   |
+| `rowClick`              | `SolarisTableRowClickEvent<T>`   | Row action button activation                          |
+| `editStart` / `editEnd` | `SolarisTableCellEditEvent<T>`   | Cell editing opened/closed (`{ row, rowId, column }`) |
 
 ### Column
 
@@ -77,6 +79,8 @@ Table displays structured rows and columns with sorting, selection, and loading/
 | `footerValueOf`                          | `(rows) => string \| null`                               | Footer aggregate over visible rows (e.g. average, total)                           |
 | `footerAlign`                            | `'start' \| 'center' \| 'end'`                           | Footer alignment (defaults to `align`)                                             |
 | `footerTemplateId`                       | `string`                                                 | Footer cell slot template id                                                       |
+| `headerGroup`                            | `string`                                                 | Groups the column under `headerGroups` by id (consecutive columns merge)           |
+| `editorTemplateId`                       | `string`                                                 | Cell editor slot template id (Enter/double-click edits, Escape closes)             |
 | `sortable`                               | `boolean`                                                | Enables the sort button                                                            |
 | `expandable`                             | `boolean`                                                | Renders an inline chevron when `expandMode` includes `cell`                        |
 | `detailVariant`                          | `'list' \| 'free'`                                       | Free-form detail area without the label column (`free` skips term/value chrome)    |
@@ -91,16 +95,17 @@ Table displays structured rows and columns with sorting, selection, and loading/
 
 ### Slots
 
-| Directive                                | Description                                                                                                           |
-| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `ng-template[solaris-table-cell]`        | Custom cell (`templateId`, context `{$implicit, row, rowId, value, column, index}`)                                   |
-| `ng-template[solaris-table-header]`      | Custom header (`templateId`)                                                                                          |
-| `ng-template[solaris-table-empty]`       | Empty state (wins over `emptyText`)                                                                                   |
-| `ng-template[solaris-table-error]`       | Error state (wins over `error`)                                                                                       |
-| `ng-template[solaris-table-loading]`     | Loading state (wins over skeleton rows)                                                                               |
-| `ng-template[solaris-table-detail]`      | Per-column detail content (`templateId`, same context as cells; may host a nested `solaris-table appearance="plain"`) |
-| `ng-template[solaris-table-footer-cell]` | Custom footer cell (`templateId` matching `footerTemplateId`, context `{$implicit, rows, column}`)                    |
-| `ng-template[solaris-table-footer]`      | Optional footer inside the frame (e.g. `solaris-pagination`); nothing renders when absent                             |
+| Directive                                | Description                                                                                                            |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `ng-template[solaris-table-cell]`        | Custom cell (`templateId`, context `{$implicit, row, rowId, value, column, index}`)                                    |
+| `ng-template[solaris-table-header]`      | Custom header (`templateId`)                                                                                           |
+| `ng-template[solaris-table-empty]`       | Empty state (wins over `emptyText`)                                                                                    |
+| `ng-template[solaris-table-error]`       | Error state (wins over `error`)                                                                                        |
+| `ng-template[solaris-table-loading]`     | Loading state (wins over skeleton rows)                                                                                |
+| `ng-template[solaris-table-detail]`      | Per-column detail content (`templateId`, same context as cells; may host a nested `solaris-table appearance="plain"`)  |
+| `ng-template[solaris-table-footer-cell]` | Custom footer cell (`templateId` matching `footerTemplateId`, context `{$implicit, rows, column}`)                     |
+| `ng-template[solaris-table-cell-editor]` | Cell editor (`templateId` matching `editorTemplateId`, context `{$implicit, row, rowId, value, column, index, close}`) |
+| `ng-template[solaris-table-footer]`      | Optional footer inside the frame (e.g. `solaris-pagination`); nothing renders when absent                              |
 
 ## Footer
 
@@ -149,6 +154,34 @@ const aggregateColumns = [
     footerValueOf: (rows) => new Intl.NumberFormat('en-US', { maximumFractionDigits: 1 }).format(rows.reduce((sum, row) => sum + row.score, 0) / rows.length),
   },
 ];
+```
+
+## Header groups
+
+`headerGroups` renders a second header row: consecutive columns sharing a known `headerGroup` id merge under one `th scope="colgroup"` (`colspan`), while ungrouped columns span both rows (`rowspan="2"`). Sorting, selection, and sticky columns keep working; unknown group ids render ungrouped. Card layout ignores groups.
+
+```html
+<solaris-table [data]="rows" [columns]="groupedColumns" [headerGroups]="groups" rowId="id" />
+```
+
+```typescript
+const groups = [{ id: 'metrics', header: 'Metrics' }];
+const groupedColumns = [
+  { id: 'name', header: 'Name', accessor: 'name' },
+  { id: 'score', header: 'Score', accessor: 'score', type: 'number', headerGroup: 'metrics' },
+];
+```
+
+## Cell editing
+
+A column with `editorTemplateId` is editable: Enter or double-click opens the `solaris-table-cell-editor` template in place, Escape (or the context `close()`) ends editing. The table owns only the editing state — committing values stays with the consumer (update `data` on your own events). `editStart`/`editEnd` carry `{ row, rowId, column }`. Card layout shows plain text (no inline editors).
+
+```html
+<solaris-table [data]="rows" [columns]="columns" rowId="id" (editEnd)="onEditEnd($event)">
+  <ng-template solaris-table-cell-editor="name-editor" let-row let-close="close">
+    <input [value]="row.name" (change)="rename(row, $event); close()" />
+  </ng-template>
+</solaris-table>
 ```
 
 ## Expandable rows

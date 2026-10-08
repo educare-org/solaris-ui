@@ -3,7 +3,10 @@ import type {
   ShowcaseDocsPageNav,
 } from '../../../../shell/docs-page-header/docs-page-header';
 import type { ShowcaseTocItem } from '../../../../shell/docs-on-this-page/model/toc-item';
-import type { SolarisTableColumn } from '@solaris-ui/angular';
+import type {
+  SolarisTableColumn,
+  SolarisTableHeaderGroup,
+} from '@solaris-ui/angular';
 
 export interface ShowcasePerson {
   readonly id: string;
@@ -46,6 +49,8 @@ export const TABLE_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'wide', labelKey: 'table.section.wide' },
   { anchor: 'sticky-column', labelKey: 'table.section.sticky-column' },
   { anchor: 'footer', labelKey: 'table.section.footer' },
+  { anchor: 'header-groups', labelKey: 'table.section.header-groups' },
+  { anchor: 'cell-editing', labelKey: 'table.section.cell-editing' },
   { anchor: 'add-row', labelKey: 'table.section.add-row' },
   { anchor: 'with-tabs', labelKey: 'table.section.with-tabs' },
   { anchor: 'mobile', labelKey: 'table.section.mobile' },
@@ -279,6 +284,74 @@ export const TABLE_FOOTER_CODE = [
   '',
   '<solaris-table [data]="rows" [columns]="columns" rowId="id" />',
 ].join('\n');
+
+export const TABLE_GROUPS_CODE = [
+  "const groups = [{ id: 'metrics', header: 'Metrics' }];",
+  'const columns = [',
+  "  { id: 'name', header: 'Name' },",
+  "  { id: 'score', header: 'Score', headerGroup: 'metrics' },",
+  '];',
+  '',
+  '<solaris-table',
+  '  [data]="rows"',
+  '  [columns]="columns"',
+  '  [headerGroups]="groups"',
+  '  rowId="id"',
+  '/>',
+].join('\n');
+
+export const TABLE_CELL_EDITING_CODE = [
+  '<solaris-table [data]="rows()" [columns]="columns" rowId="id">',
+  '  <ng-template solaris-table-cell-editor="name-editor" let-row let-close="close">',
+  '    <input [value]="row.name" (change)="rename(row.id, $event); close()" />',
+  '  </ng-template>',
+  '</solaris-table>',
+].join('\n');
+
+export const TABLE_SHOWCASE_GROUPS: readonly SolarisTableHeaderGroup[] = [
+  { id: 'metrics', headerKey: 'table.group.metrics' },
+];
+
+export const TABLE_SHOWCASE_GROUPED_COLUMNS: readonly SolarisTableColumn<ShowcasePerson>[] =
+  [
+    { id: 'name', headerKey: 'table.col.name', accessor: 'name' },
+    {
+      id: 'age',
+      headerKey: 'table.col.age',
+      accessor: 'age',
+      type: 'number',
+      align: 'end',
+      headerAlign: 'end',
+      headerGroup: 'metrics',
+    },
+    {
+      id: 'score',
+      headerKey: 'table.col.score',
+      accessor: 'score',
+      type: 'number',
+      align: 'end',
+      headerAlign: 'end',
+      headerGroup: 'metrics',
+    },
+  ];
+
+export const TABLE_SHOWCASE_EDITABLE_COLUMNS: readonly SolarisTableColumn<ShowcasePerson>[] =
+  [
+    {
+      id: 'name',
+      headerKey: 'table.col.name',
+      accessor: 'name',
+      editorTemplateId: 'name-editor',
+    },
+    {
+      id: 'age',
+      headerKey: 'table.col.age',
+      accessor: 'age',
+      type: 'number',
+      align: 'end',
+      headerAlign: 'end',
+    },
+  ];
 
 export const TABLE_SHOWCASE_FOOTER_COLUMNS: readonly SolarisTableColumn<ShowcasePerson>[] =
   [

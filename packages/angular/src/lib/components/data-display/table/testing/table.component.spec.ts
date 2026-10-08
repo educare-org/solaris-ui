@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { SolarisTableComponent } from '../component/table.component';
 import {
   SolarisTableCellDirective,
+  SolarisTableCellEditorDirective,
   SolarisTableDetailDirective,
   SolarisTableEmptyDirective,
   SolarisTableFooterCellDirective,
@@ -991,6 +992,197 @@ describe('SolarisTableComponent polish', () => {
       ),
     ).toBeTruthy();
   });
+
+  it('should not render a group row without header groups', () => {
+    const { element } = createFixture();
+    expect(
+      element.querySelector('thead tr.solaris-table__head-row--group'),
+    ).toBeFalsy();
+  });
+
+  it('should render grouped headers with colspan and rowspan', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      { id: 'name', header: 'Name', accessor: 'name' },
+      {
+        id: 'age',
+        header: 'Age',
+        accessor: 'age',
+        type: 'number',
+        headerGroup: 'metrics',
+      },
+    ]);
+    fixture.componentRef.setInput('headerGroups', [
+      { id: 'metrics', header: 'Metrics' },
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    const groupRow = element.querySelector(
+      'thead tr.solaris-table__head-row--group',
+    );
+    expect(groupRow).toBeTruthy();
+    expect(
+      groupRow?.querySelector('th[scope="colgroup"]')?.getAttribute('colspan'),
+    ).toBe('1');
+    expect(
+      groupRow?.querySelector('th[scope="colgroup"]')?.textContent?.trim(),
+    ).toBe('Metrics');
+    expect(
+      groupRow
+        ?.querySelector('th[data-column-id="name"]')
+        ?.getAttribute('rowspan'),
+    ).toBe('2');
+    const columnRowCells = element.querySelectorAll(
+      'thead tr.solaris-table__head-row:not(.solaris-table__head-row--group) th[data-column-id]',
+    );
+    expect(columnRowCells.length).toBe(1);
+    expect(
+      element.querySelector('tbody tr.solaris-table__row[aria-rowindex="3"]'),
+    ).toBeTruthy();
+  });
+
+  it('should merge consecutive columns of the same group', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      {
+        id: 'name',
+        header: 'Name',
+        accessor: 'name',
+        headerGroup: 'identity',
+      },
+      {
+        id: 'age',
+        header: 'Age',
+        accessor: 'age',
+        type: 'number',
+        headerGroup: 'identity',
+      },
+    ]);
+    fixture.componentRef.setInput('headerGroups', [
+      { id: 'identity', header: 'Identity' },
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(
+      element
+        .querySelector(
+          'thead tr.solaris-table__head-row--group th[scope="colgroup"]',
+        )
+        ?.getAttribute('colspan'),
+    ).toBe('2');
+  });
+
+  it('should ignore unknown header group ids', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      { id: 'name', header: 'Name', accessor: 'name', headerGroup: 'nope' },
+      { id: 'age', header: 'Age', accessor: 'age', type: 'number' },
+    ]);
+    fixture.componentRef.setInput('headerGroups', []);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.detectChanges();
+    expect(
+      (fixture.nativeElement as HTMLElement).querySelector(
+        'thead tr.solaris-table__head-row--group',
+      ),
+    ).toBeFalsy();
+  });
+
+  it('should keep sort working on grouped columns', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      {
+        id: 'name',
+        header: 'Name',
+        accessor: 'name',
+        sortable: true,
+        headerGroup: 'identity',
+      },
+      { id: 'age', header: 'Age', accessor: 'age', type: 'number' },
+    ]);
+    fixture.componentRef.setInput('headerGroups', [
+      { id: 'identity', header: 'Identity' },
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    (
+      element.querySelector(
+        'thead tr.solaris-table__head-row:not(.solaris-table__head-row--group) [data-column-id="name"] button',
+      ) as HTMLButtonElement
+    ).click();
+    fixture.detectChanges();
+    expect(
+      element
+        .querySelector(
+          'tbody tr.solaris-table__row .solaris-table__cell[data-column-id="name"]',
+        )
+        ?.textContent?.trim(),
+    ).toBe('Ana');
+  });
+
+  it('should not mark cells editable without an editor template', () => {
+    const { element } = createFixture();
+    expect(element.querySelector('[data-editable]')).toBeFalsy();
+  });
+
+  it('should edit a cell through the editor template', () => {
+    TestBed.configureTestingModule({
+      imports: [CellEditorHostComponent],
+    });
+    const fixture = TestBed.createComponent(CellEditorHostComponent);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    const cell = element.querySelector(
+      'tbody tr.solaris-table__row .solaris-table__cell[data-column-id="name"]',
+    ) as HTMLElement;
+    expect(cell.hasAttribute('data-editable')).toBe(true);
+    expect(cell.getAttribute('tabindex')).toBe('0');
+    cell.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+    fixture.detectChanges();
+    expect(
+      element.querySelector('.solaris-table__cell-main--editing'),
+    ).toBeTruthy();
+    expect(fixture.componentInstance.started.length).toBe(1);
+    expect(fixture.componentInstance.started[0].column.id).toBe('name');
+    cell.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
+    );
+    fixture.detectChanges();
+    expect(
+      element.querySelector('.solaris-table__cell-main--editing'),
+    ).toBeFalsy();
+    expect(fixture.componentInstance.ended.length).toBe(1);
+  });
+
+  it('should ignore editing on columns without editorTemplateId', () => {
+    TestBed.configureTestingModule({
+      imports: [CellEditorHostComponent],
+    });
+    const fixture = TestBed.createComponent(CellEditorHostComponent);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    const cell = element.querySelector(
+      'tbody tr.solaris-table__row .solaris-table__cell[data-column-id="age"]',
+    ) as HTMLElement;
+    expect(cell.hasAttribute('data-editable')).toBe(false);
+    cell.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+    fixture.detectChanges();
+    expect(
+      element.querySelector('.solaris-table__cell-main--editing'),
+    ).toBeFalsy();
+    expect(fixture.componentInstance.started.length).toBe(0);
+  });
 });
 
 @Component({
@@ -1050,4 +1242,36 @@ class FooterCellHostComponent {
       footerTemplateId: 'age-total',
     },
   ];
+}
+
+@Component({
+  standalone: true,
+  imports: [SolarisTableComponent, SolarisTableCellEditorDirective],
+  template: `
+    <solaris-table
+      [data]="rows"
+      [columns]="columns"
+      rowId="id"
+      (editStart)="started.push($event)"
+      (editEnd)="ended.push($event)"
+    >
+      <ng-template solaris-table-cell-editor="name-editor" let-row>
+        editing {{ row.name }}
+      </ng-template>
+    </solaris-table>
+  `,
+})
+class CellEditorHostComponent {
+  readonly rows: readonly Person[] = ROWS;
+  readonly columns: readonly SolarisTableColumn<Person>[] = [
+    {
+      id: 'name',
+      header: 'Name',
+      accessor: 'name',
+      editorTemplateId: 'name-editor',
+    },
+    { id: 'age', header: 'Age', accessor: 'age', type: 'number' },
+  ];
+  readonly started: { column: SolarisTableColumn<Person> }[] = [];
+  readonly ended: { column: SolarisTableColumn<Person> }[] = [];
 }

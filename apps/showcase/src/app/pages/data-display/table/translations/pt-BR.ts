@@ -15,6 +15,8 @@ export const PT_BR_TABLE: Record<string, string> = {
   'table.section.wide': 'Muitas colunas',
   'table.section.sticky-column': 'Coluna fixa',
   'table.section.footer': 'Agregados do rodapé',
+  'table.section.header-groups': 'Grupos de cabeçalho',
+  'table.section.cell-editing': 'Edição de célula',
   'table.section.add-row': 'Adicionar linha',
   'table.section.with-tabs': 'Com abas',
   'table.section.mobile': 'Mobile',
@@ -90,6 +92,11 @@ export const PT_BR_TABLE: Record<string, string> = {
   'table.footer.note':
     'Agregados sobre as linhas visíveis em um rodapé semântico. O gradebook constrói suas médias sobre este contrato.',
   'table.footer.average': 'Média',
+  'table.header-groups.note':
+    'Colunas consecutivas se fundem sob um rótulo de grupo; colunas avulsas ocupam as duas linhas.',
+  'table.cell-editing.note':
+    'Enter ou duplo-clique edita no lugar; Escape fecha. Confirmar valores é responsabilidade do consumidor.',
+  'table.group.metrics': 'Métricas',
   'table.mobile-composed.note':
     'Cards em largura de telefone com avatar, badge e ações sem arrastar.',
   'table.layout.note':

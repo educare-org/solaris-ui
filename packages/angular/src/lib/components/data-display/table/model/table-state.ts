@@ -3,6 +3,8 @@ import { computed, signal, type Signal } from '@angular/core';
 import type {
   SolarisTableColumn,
   SolarisTableDataSource,
+  SolarisTableHeaderGroup,
+  SolarisTableHeaderGroupSpan,
   SolarisTableResolvedRow,
   SolarisTableSort,
 } from './table.types';
@@ -80,6 +82,30 @@ export function resolveFooterValue<T>(
   }
   const trimmed = custom.trim();
   return trimmed.length > 0 ? trimmed : null;
+}
+
+export function resolveHeaderGroupSpans<T, C extends SolarisTableColumn<T>>(
+  columns: readonly C[],
+  groups: readonly SolarisTableHeaderGroup[],
+): readonly SolarisTableHeaderGroupSpan<T, C>[] {
+  const known = new Map(groups.map((group) => [group.id, group]));
+  const spans: {
+    group: SolarisTableHeaderGroup | null;
+    columns: C[];
+  }[] = [];
+  for (const column of columns) {
+    const group =
+      column.headerGroup !== undefined
+        ? (known.get(column.headerGroup) ?? null)
+        : null;
+    const current = spans[spans.length - 1];
+    if (group !== null && current?.group?.id === group.id) {
+      current.columns.push(column);
+    } else {
+      spans.push({ group, columns: [column] });
+    }
+  }
+  return spans;
 }
 
 export function resolveRows<T>(

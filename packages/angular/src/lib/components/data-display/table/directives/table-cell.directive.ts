@@ -82,6 +82,18 @@ export class SolarisTableFooterCellDirective {
 
 @Directive({
   standalone: true,
+  selector: 'ng-template[solaris-table-cell-editor]',
+})
+export class SolarisTableCellEditorDirective {
+  readonly templateId = input.required<string>({
+    alias: 'solaris-table-cell-editor',
+  });
+
+  readonly templateRef = inject(TemplateRef<Record<string, unknown>>);
+}
+
+@Directive({
+  standalone: true,
   selector: 'ng-template[solaris-table-toolbar]',
 })
 export class SolarisTableToolbarDirective {
