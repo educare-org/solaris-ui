@@ -1,4 +1,6 @@
-## '@educarehq/solaris-ui': minor
+---
+'@educarehq/solaris-ui': minor
+---
 
 Stacked (nested) dialogs, edge-docked sheets and validated dialog flows.
 
