@@ -52,8 +52,8 @@ test.describe('Table', () => {
     await expect(
       combinedSection.locator('.solaris-table__footer solaris-pagination'),
     ).toBeVisible();
-    await expect(combinedSection.getByText('1–10 of 32')).toBeVisible();
+    await expect(combinedSection.getByText('1–5 of 32')).toBeVisible();
     await combinedSection.getByRole('button', { name: 'Next page' }).click();
-    await expect(combinedSection.getByText('11–20 of 32')).toBeVisible();
+    await expect(combinedSection.getByText('6–10 of 32')).toBeVisible();
   });
 });

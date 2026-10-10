@@ -2,7 +2,7 @@ import { AfterViewInit, Directive, ElementRef, inject } from '@angular/core';
 
 @Directive({
   standalone: true,
-  selector: 'input[solarisGradebookAutofocus]',
+  selector: 'input[solaris-gradebook-autofocus]',
 })
 export class GradebookAutofocusDirective implements AfterViewInit {
   private readonly elementRef =
