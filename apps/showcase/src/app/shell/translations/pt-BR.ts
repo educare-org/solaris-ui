@@ -40,6 +40,7 @@ export const PT_BR_SHELL: Record<string, string> = {
   'shell.sidebar.item.table': 'Table',
   'shell.sidebar.item.tables': 'Tabelas',
   'shell.sidebar.item.gradebook': 'Gradebook',
+  'shell.sidebar.item.record-grid': 'Grade de registros',
   'shell.sidebar.item.alert': 'Alerta',
   'shell.sidebar.item.toast': 'Toast',
   'shell.sidebar.item.loading': 'Carregamento',

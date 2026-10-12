@@ -31,8 +31,8 @@ export const GRADEBOOK_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const GRADEBOOK_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.alert',
-  route: '/feedback/alert',
+  labelKey: 'shell.sidebar.item.record-grid',
+  route: '/data-display/tables/record-grid',
 };
 
 export const GRADEBOOK_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

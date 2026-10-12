@@ -98,6 +98,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
                 labelKey: 'shell.sidebar.item.gradebook',
                 route: '/data-display/tables/gradebook',
               },
+              {
+                labelKey: 'shell.sidebar.item.record-grid',
+                route: '/data-display/tables/record-grid',
+              },
             ],
           },
         ],

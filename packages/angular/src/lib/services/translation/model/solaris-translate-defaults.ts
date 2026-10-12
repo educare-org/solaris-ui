@@ -151,6 +151,22 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
         'Collapse details for {{column}} in row {{rowId}}',
       'solaris.dataDisplay.table.addRow': 'Add row',
 
+      'solaris.dataDisplay.recordGrid.ariaLabel': 'Record grid',
+      'solaris.dataDisplay.recordGrid.emptyText': 'No records found',
+      'solaris.dataDisplay.recordGrid.loadingText': 'Loading records',
+      'solaris.dataDisplay.recordGrid.errorText': 'Unable to load records',
+      'solaris.dataDisplay.recordGrid.selectAllVisible':
+        'Select all visible rows',
+      'solaris.dataDisplay.recordGrid.selectRow': 'Select row {{rowId}}',
+      'solaris.dataDisplay.recordGrid.sortAsc': 'Sort {{column}} ascending',
+      'solaris.dataDisplay.recordGrid.sortDesc': 'Sort {{column}} descending',
+      'solaris.dataDisplay.recordGrid.sortClear':
+        'Clear sorting for {{column}}',
+      'solaris.dataDisplay.recordGrid.sortedAnnounce':
+        'Sorted by {{column}} {{direction}}',
+      'solaris.dataDisplay.recordGrid.commitAll': 'Commit all drafts',
+      'solaris.dataDisplay.recordGrid.discardAll': 'Discard all drafts',
+
       'solaris.dataDisplay.tableFilter.ariaLabel': 'Table filters',
       'solaris.dataDisplay.tableFilter.searchPlaceholder': 'Search',
       'solaris.dataDisplay.tableFilter.searchLabel': 'Search table',
@@ -354,6 +370,25 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.dataDisplay.table.collapseCell':
         'Recolher detalhes de {{column}} na linha {{rowId}}',
       'solaris.dataDisplay.table.addRow': 'Adicionar linha',
+
+      'solaris.dataDisplay.recordGrid.ariaLabel': 'Grade de registros',
+      'solaris.dataDisplay.recordGrid.emptyText': 'Nenhum registro encontrado',
+      'solaris.dataDisplay.recordGrid.loadingText': 'Carregando registros',
+      'solaris.dataDisplay.recordGrid.errorText':
+        'Não foi possível carregar os registros',
+      'solaris.dataDisplay.recordGrid.selectAllVisible':
+        'Selecionar todas as linhas visíveis',
+      'solaris.dataDisplay.recordGrid.selectRow': 'Selecionar linha {{rowId}}',
+      'solaris.dataDisplay.recordGrid.sortAsc':
+        'Ordenar {{column}} em ordem crescente',
+      'solaris.dataDisplay.recordGrid.sortDesc':
+        'Ordenar {{column}} em ordem decrescente',
+      'solaris.dataDisplay.recordGrid.sortClear':
+        'Limpar ordenação de {{column}}',
+      'solaris.dataDisplay.recordGrid.sortedAnnounce':
+        'Ordenado por {{column}} {{direction}}',
+      'solaris.dataDisplay.recordGrid.commitAll': 'Confirmar rascunhos',
+      'solaris.dataDisplay.recordGrid.discardAll': 'Descartar rascunhos',
 
       'solaris.dataDisplay.tableFilter.ariaLabel': 'Filtros da tabela',
       'solaris.dataDisplay.tableFilter.searchPlaceholder': 'Buscar',

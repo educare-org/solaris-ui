@@ -40,6 +40,7 @@ export const EN_US_SHELL: Record<string, string> = {
   'shell.sidebar.item.table': 'Table',
   'shell.sidebar.item.tables': 'Tables',
   'shell.sidebar.item.gradebook': 'Gradebook',
+  'shell.sidebar.item.record-grid': 'Record grid',
   'shell.sidebar.item.alert': 'Alert',
   'shell.sidebar.item.toast': 'Toast',
   'shell.sidebar.item.loading': 'Loading',

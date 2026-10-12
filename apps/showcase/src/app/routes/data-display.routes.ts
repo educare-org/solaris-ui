@@ -61,6 +61,13 @@ export const dataDisplayRoutes: Route[] = [
                 '../pages/data-display/tables/gradebook/component/gradebook-showcase'
               ).then((m) => m.GradebookShowcasePage),
           },
+          {
+            path: 'record-grid',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/tables/record-grid/component/record-grid-showcase'
+              ).then((m) => m.RecordGridShowcasePage),
+          },
         ],
       },
     ],

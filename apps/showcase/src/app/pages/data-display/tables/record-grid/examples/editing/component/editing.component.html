@@ -1,0 +1,13 @@
+<solaris-record-grid
+  [data]="rows"
+  [columns]="columns"
+  rowId="id"
+  (recordCommit)="onRecordCommit($event)"
+/>
+@if (commitLog().length > 0) {
+  <ul class="record-grid-editing-log">
+    @for (entry of commitLog(); track entry) {
+      <li>{{ entry }}</li>
+    }
+  </ul>
+}
