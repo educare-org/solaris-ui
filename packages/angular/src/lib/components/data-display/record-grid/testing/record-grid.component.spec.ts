@@ -320,4 +320,196 @@ describe('SolarisRecordGridComponent', () => {
     expect(element.getAttribute('data-striped-mode')).toBe('odd');
     expect(element.getAttribute('data-cell-padding')).toBe('lg');
   });
+
+  it('should show the error state from errorKey alone', () => {
+    const { element } = createFixture({
+      errorKey: 'solaris.dataDisplay.recordGrid.errorText',
+    });
+    const alert = element.querySelector(
+      '.solaris-record-grid__state[role="alert"]',
+    );
+    expect(alert).not.toBeNull();
+    expect(
+      element.querySelector('table.solaris-record-grid__table'),
+    ).toBeNull();
+  });
+
+  it('should hide the empty state while a resolved error is shown', () => {
+    const { element } = createFixture({ error: 'Backend exploded' });
+    expect(
+      element.querySelector('.solaris-record-grid__state[role="alert"]'),
+    ).not.toBeNull();
+    expect(element.textContent).toContain('Backend exploded');
+    expect(
+      element.querySelector('table.solaris-record-grid__table'),
+    ).toBeNull();
+  });
+
+  it('should render a functional select-all checkbox with header groups', () => {
+    const grouped = COLUMNS.map((column) =>
+      column.id === 'present' || column.id === 'project'
+        ? { ...column, headerGroup: 'scores' }
+        : column,
+    );
+    const { fixture, element } = createFixture({
+      columns: grouped,
+      selectionMode: 'multiple',
+      headerGroups: [{ id: 'scores', header: 'Scores' }],
+    });
+    fixture.detectChanges();
+    const selectAll = element.querySelector(
+      'thead tr.solaris-record-grid__head-row--group th[rowspan="2"] solaris-checkbox input',
+    ) as HTMLInputElement | null;
+    expect(selectAll).not.toBeNull();
+    selectAll?.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.selectedRowIds()).toEqual(['a', 'b', 'c']);
+  });
+
+  it('should omit aria-sort on non-sortable columns', () => {
+    const columns: readonly SolarisRecordGridColumn<FixtureRow>[] = [
+      { id: 'student', header: 'Student', accessor: 'student' },
+      ...COLUMNS.slice(1),
+    ];
+    const { element } = createFixture({ columns });
+    const header = element.querySelector('thead th[data-column-id="student"]');
+    expect(header?.getAttribute('aria-sort')).toBeNull();
+  });
+
+  it('should keep aria-colindex continuous on the grouped second header row', () => {
+    const grouped = COLUMNS.map((column) =>
+      column.id === 'present' || column.id === 'project'
+        ? { ...column, headerGroup: 'scores' }
+        : column,
+    );
+    const { element } = createFixture({
+      columns: grouped,
+      selectionMode: 'multiple',
+      headerGroups: [{ id: 'scores', header: 'Scores' }],
+    });
+    const secondRow = element.querySelectorAll(
+      'thead tr.solaris-record-grid__head-row',
+    )[1];
+    const cells = Array.from(
+      secondRow?.querySelectorAll('th[data-column-id]') ?? [],
+    ) as HTMLElement[];
+    expect(cells.length).toBe(2);
+    const indexes = cells.map((cell) => cell.getAttribute('aria-colindex'));
+    expect(indexes).toEqual(['3', '4']);
+    expect(new Set(indexes).size).toBe(cells.length);
+  });
+
+  it('should not report select-all states in single mode with a prefilled model', () => {
+    const { fixture } = createFixture({
+      selectionMode: 'single',
+      selectedRowIds: ['a'],
+    });
+    fixture.detectChanges();
+    const instance = fixture.componentInstance as unknown as {
+      allVisibleRowsSelected: () => boolean;
+      someVisibleRowsSelected: () => boolean;
+    };
+    expect(instance.allVisibleRowsSelected()).toBe(false);
+    expect(instance.someVisibleRowsSelected()).toBe(false);
+  });
+
+  it('should keep the first data column sticky when selection is enabled', () => {
+    const { element } = createFixture({
+      selectionMode: 'multiple',
+      stickyFirstColumn: true,
+    });
+    const header = element.querySelector('thead th[data-column-id="student"]');
+    expect(header?.getAttribute('data-sticky')).toBe('start');
+  });
+
+  it('should collapse table borders into single lines', () => {
+    const { element } = createFixture();
+    const table = element.querySelector(
+      'table.solaris-record-grid__table',
+    ) as HTMLElement;
+    expect(getComputedStyle(table).borderCollapse).toBe('collapse');
+  });
+
+  it('should keep editor text aligned with its cell', () => {
+    const columns: readonly SolarisRecordGridColumn<FixtureRow>[] = COLUMNS.map(
+      (column) =>
+        column.id === 'present' ? { ...column, align: 'end' as const } : column,
+    );
+    const { fixture, element } = createFixture({ columns });
+    const cell = element.querySelector(
+      'tbody tr.solaris-record-grid__row td[data-column-id="present"] button.solaris-record-grid__cell-button',
+    ) as HTMLButtonElement;
+    cell.click();
+    fixture.detectChanges();
+    const input = element.querySelector(
+      'input.solaris-record-grid__editor',
+    ) as HTMLInputElement;
+    const td = element.querySelector(
+      'tbody tr.solaris-record-grid__row td[data-column-id="present"]',
+    ) as HTMLElement;
+    expect(input).not.toBeNull();
+    expect(getComputedStyle(td).textAlign).toBe('end');
+    expect(getComputedStyle(input).textAlign).toBe('inherit');
+  });
+
+  it('should not open editors on rowspan origins', () => {
+    const columns: readonly SolarisRecordGridColumn<FixtureRow>[] = [
+      {
+        id: 'section',
+        header: 'Section',
+        accessor: 'section',
+        rowspanOf: (_row, index) => (index === 0 ? 2 : 1),
+      },
+      ...COLUMNS,
+    ];
+    const { fixture, element } = createFixture({ columns });
+    const origin = element.querySelector(
+      'tbody tr.solaris-record-grid__row td[data-column-id="section"]',
+    ) as HTMLElement | null;
+    expect(origin).not.toBeNull();
+    expect(
+      origin?.querySelector('button.solaris-record-grid__cell-button'),
+    ).toBeNull();
+    origin?.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+    fixture.detectChanges();
+    expect(
+      element.querySelector('input.solaris-record-grid__editor'),
+    ).toBeNull();
+  });
+
+  it('should not open editors on colspan origins', () => {
+    const columns: readonly SolarisRecordGridColumn<FixtureRow>[] = COLUMNS.map(
+      (column) =>
+        column.id === 'student' ? { ...column, colspanOf: () => 2 } : column,
+    );
+    const { fixture, element } = createFixture({ columns });
+    const origin = element.querySelector(
+      'tbody tr.solaris-record-grid__row td[data-column-id="student"]',
+    ) as HTMLElement | null;
+    expect(origin).not.toBeNull();
+    expect(origin?.getAttribute('colspan')).toBe('2');
+    expect(
+      origin?.querySelector('button.solaris-record-grid__cell-button'),
+    ).toBeNull();
+    origin?.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+    fixture.detectChanges();
+    expect(
+      element.querySelector('input.solaris-record-grid__editor'),
+    ).toBeNull();
+  });
+
+  it('should render draftbar actions with solaris-button aligned to the end', () => {
+    const { fixture, element } = createFixture();
+    const cell = element.querySelector(
+      'tbody tr.solaris-record-grid__row td[data-column-id="present"] button.solaris-record-grid__cell-button',
+    ) as HTMLButtonElement;
+    cell.click();
+    fixture.detectChanges();
+    const bar = element.querySelector(
+      '.solaris-record-grid__draftbar',
+    ) as HTMLElement;
+    expect(bar).not.toBeNull();
+    expect(getComputedStyle(bar).justifyContent).toBe('flex-end');
+    expect(bar.querySelectorAll('button[solaris-button]').length).toBe(2);
+  });
 });

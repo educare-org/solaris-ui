@@ -73,7 +73,9 @@ Extends `SolarisTableColumn` with `sectionId`, `computed` (`from`, `by`,
 `SolarisRecordGridFormulaError` on cycles or unknown columns) →
 `resolveRecordValues` (topological order; computed cells never open the editor).
 `resolveBodySpans` merges origins and skips covered cells; hidden columns are
-excluded. `resolveSectionGroups` groups rows in first-seen order.
+excluded. Merged span origins (`rowSpan`/`colSpan` > 1) render as text and
+never open the editor; the write target would be ambiguous.
+`resolveSectionGroups` groups rows in first-seen order.
 
 ### Future contracts (specified, not implemented)
 

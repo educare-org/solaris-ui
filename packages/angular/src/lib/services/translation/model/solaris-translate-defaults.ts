@@ -145,6 +145,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.dataDisplay.table.collapseRow': 'Collapse row {{rowId}}',
       'solaris.dataDisplay.table.sortedAnnounce':
         'Table sorted by {{column}}, {{direction}}',
+      'solaris.dataDisplay.table.sortedCleared': 'Table sorting cleared',
       'solaris.dataDisplay.table.expandCell':
         'Expand details for {{column}} in row {{rowId}}',
       'solaris.dataDisplay.table.collapseCell':
@@ -164,8 +165,15 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
         'Clear sorting for {{column}}',
       'solaris.dataDisplay.recordGrid.sortedAnnounce':
         'Sorted by {{column}} {{direction}}',
+      'solaris.dataDisplay.recordGrid.sortedCleared':
+        'Record grid sorting cleared',
       'solaris.dataDisplay.recordGrid.commitAll': 'Commit all drafts',
       'solaris.dataDisplay.recordGrid.discardAll': 'Discard all drafts',
+
+      'solaris.dataDisplay.gradebook.editorLabel': 'Edit grade',
+      'solaris.dataDisplay.gradebook.status.missing': 'Missing',
+      'solaris.dataDisplay.gradebook.status.late': 'Late',
+      'solaris.dataDisplay.gradebook.status.excused': 'Excused',
 
       'solaris.dataDisplay.tableFilter.ariaLabel': 'Table filters',
       'solaris.dataDisplay.tableFilter.searchPlaceholder': 'Search',
@@ -365,6 +373,7 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.dataDisplay.table.collapseRow': 'Recolher linha {{rowId}}',
       'solaris.dataDisplay.table.sortedAnnounce':
         'Tabela ordenada por {{column}}, {{direction}}',
+      'solaris.dataDisplay.table.sortedCleared': 'Ordenação da tabela limpa',
       'solaris.dataDisplay.table.expandCell':
         'Expandir detalhes de {{column}} na linha {{rowId}}',
       'solaris.dataDisplay.table.collapseCell':
@@ -387,8 +396,15 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
         'Limpar ordenação de {{column}}',
       'solaris.dataDisplay.recordGrid.sortedAnnounce':
         'Ordenado por {{column}} {{direction}}',
+      'solaris.dataDisplay.recordGrid.sortedCleared':
+        'Ordenação da grade limpa',
       'solaris.dataDisplay.recordGrid.commitAll': 'Confirmar rascunhos',
       'solaris.dataDisplay.recordGrid.discardAll': 'Descartar rascunhos',
+
+      'solaris.dataDisplay.gradebook.editorLabel': 'Editar nota',
+      'solaris.dataDisplay.gradebook.status.missing': 'Nota faltante',
+      'solaris.dataDisplay.gradebook.status.late': 'Entrega atrasada',
+      'solaris.dataDisplay.gradebook.status.excused': 'Dispensada',
 
       'solaris.dataDisplay.tableFilter.ariaLabel': 'Filtros da tabela',
       'solaris.dataDisplay.tableFilter.searchPlaceholder': 'Buscar',

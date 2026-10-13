@@ -70,6 +70,8 @@ export const TABLE_SORTED_ANNOUNCE_KEY =
   'solaris.dataDisplay.table.sortedAnnounce';
 export const TABLE_SORTED_ANNOUNCE =
   'Table sorted by {{column}}, {{direction}}';
+export const TABLE_SORTED_CLEARED_ANNOUNCE_KEY =
+  'solaris.dataDisplay.table.sortedCleared';
 export const TABLE_SORTED_CLEARED_ANNOUNCE = 'Table sorting cleared';
 export const TABLE_EXPAND_CELL_LABEL_KEY =
   'solaris.dataDisplay.table.expandCell';

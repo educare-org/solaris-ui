@@ -82,7 +82,9 @@ export const SOLARIS_GRADEBOOK_IDENTITY_COLUMN_ID =
   'solaris-gradebook-identity';
 
 const GRADEBOOK_EDITOR_LABEL_FALLBACK = 'Edit grade';
-const GRADEBOOK_EDITOR_LABEL_FALLBACK_KEY = 'gradebook.editor.label';
+const GRADEBOOK_EDITOR_LABEL_FALLBACK_KEY =
+  'solaris.dataDisplay.gradebook.editorLabel';
+const GRADEBOOK_EDITOR_LABEL_LEGACY_KEY = 'gradebook.editor.label';
 
 const GRADEBOOK_STATUS_LABELS: Record<SolarisGradebookCellStatus, string> = {
   graded: '',
@@ -600,6 +602,14 @@ export class SolarisGradebookComponent<T = unknown> {
       if (translated !== key) {
         return translated;
       }
+      if (key === GRADEBOOK_EDITOR_LABEL_FALLBACK_KEY) {
+        const legacy = this.translateService.translate(
+          GRADEBOOK_EDITOR_LABEL_LEGACY_KEY,
+        );
+        if (legacy !== GRADEBOOK_EDITOR_LABEL_LEGACY_KEY) {
+          return legacy;
+        }
+      }
     }
     if (this.editorLabelKey()) {
       return key;
@@ -629,11 +639,16 @@ export class SolarisGradebookComponent<T = unknown> {
   }
 
   private statusText(status: SolarisGradebookCellStatus): string {
-    const key = `gradebook.status.${status}`;
     if (this.translateService) {
+      const key = `solaris.dataDisplay.gradebook.status.${status}`;
       const translated = this.translateService.translate(key);
       if (translated !== key) {
         return translated;
+      }
+      const legacyKey = `gradebook.status.${status}`;
+      const legacy = this.translateService.translate(legacyKey);
+      if (legacy !== legacyKey) {
+        return legacy;
       }
     }
     return GRADEBOOK_STATUS_LABELS[status] ?? status;

@@ -483,6 +483,37 @@ describe('SolarisGradebookComponent', () => {
       element.querySelector('.solaris-table__footer solaris-pagination'),
     ).toBeTruthy();
   });
+
+  it('should resolve editor and status text through solaris keys with documented fallbacks', () => {
+    const { fixture } = createFixture({ editorLabel: 'Custom editor' });
+    const instance = fixture.componentInstance as unknown as {
+      resolvedEditorLabel: () => string;
+    };
+    expect(instance.resolvedEditorLabel()).toBe('Custom editor');
+    fixture.componentRef.setInput('editorLabel', null);
+    fixture.detectChanges();
+    expect(instance.resolvedEditorLabel()).toBe('Edit grade');
+  });
+
+  it('should register solaris gradebook and sortedCleared keys in both locales', async () => {
+    const { SOLARIS_TRANSLATE_DEFAULT_CONFIG } = await import(
+      '../../../../services/translation/model/solaris-translate-defaults'
+    );
+    const en = SOLARIS_TRANSLATE_DEFAULT_CONFIG.translations['en-US'];
+    const pt = SOLARIS_TRANSLATE_DEFAULT_CONFIG.translations['pt-BR'];
+    for (const key of [
+      'solaris.dataDisplay.gradebook.editorLabel',
+      'solaris.dataDisplay.gradebook.status.missing',
+      'solaris.dataDisplay.gradebook.status.late',
+      'solaris.dataDisplay.gradebook.status.excused',
+      'solaris.dataDisplay.table.sortedCleared',
+      'solaris.dataDisplay.recordGrid.sortedCleared',
+    ]) {
+      expect(en[key]).toBeTruthy();
+      expect(pt[key]).toBeTruthy();
+    }
+    expect(pt['solaris.dataDisplay.gradebook.editorLabel']).toBe('Editar nota');
+  });
 });
 
 @Component({

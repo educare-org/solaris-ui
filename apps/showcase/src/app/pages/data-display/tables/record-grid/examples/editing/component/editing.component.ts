@@ -2,6 +2,9 @@ import { Component, signal } from '@angular/core';
 
 import {
   SolarisRecordGridComponent,
+  SolarisTabComponent,
+  SolarisTabsComponent,
+  SolarisTranslatePipe,
   type SolarisRecordGridColumn,
   type SolarisRecordGridCommit,
 } from '@solaris-ui/angular';
@@ -27,7 +30,12 @@ function rangeValidator(
 @Component({
   standalone: true,
   selector: 'app-editing-record-grid-example',
-  imports: [SolarisRecordGridComponent],
+  imports: [
+    SolarisRecordGridComponent,
+    SolarisTabComponent,
+    SolarisTabsComponent,
+    SolarisTranslatePipe,
+  ],
   templateUrl: './editing.component.html',
   styleUrls: ['./editing.component.scss'],
 })
@@ -69,6 +77,7 @@ export class EditingRecordGridExample {
       },
     ];
 
+  protected readonly mode = signal<'editable' | 'readonly'>('editable');
   protected readonly commitLog = signal<readonly string[]>([]);
 
   protected onRecordCommit(

@@ -120,8 +120,8 @@
 .solaris-record-grid__table {
   width: 100%;
   min-width: var(--solaris-table-min-width);
-  border-collapse: separate;
-  border-spacing: var(--solaris-spacing-0);
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
 }
 
 :host([data-fullwidth]) .solaris-record-grid__table {
@@ -316,7 +316,7 @@
   background: transparent;
   color: inherit;
   font: inherit;
-  font-variant-numeric: tabular-nums;
+  text-align: inherit;
 }
 
 .solaris-record-grid__editor:focus-visible {
@@ -357,6 +357,21 @@
   font-weight: var(--solaris-font-weight-medium);
 }
 
+.solaris-record-grid__body
+  .solaris-record-grid__row:last-child
+  .solaris-record-grid__cell {
+  border-bottom: var(--solaris-spacing-0);
+}
+
+.solaris-record-grid__foot .solaris-record-grid__cell {
+  border-top: var(--solaris-border-width-sm) solid
+    var(--solaris-table-border-color);
+}
+
+.solaris-record-grid__foot-row:last-child .solaris-record-grid__cell {
+  border-bottom: var(--solaris-spacing-0);
+}
+
 .solaris-record-grid__toolbar,
 .solaris-record-grid__footer {
   padding: var(--solaris-spacing-3) var(--solaris-table-cell-padding-x);
@@ -369,26 +384,11 @@
 
 .solaris-record-grid__draftbar {
   display: flex;
+  justify-content: flex-end;
   gap: var(--solaris-spacing-3);
   padding: var(--solaris-spacing-3) var(--solaris-table-cell-padding-x);
   border-top: var(--solaris-border-width-sm) solid
     var(--solaris-table-border-color);
-}
-
-.solaris-record-grid__draftbar-button {
-  padding: var(--solaris-spacing-2) var(--solaris-spacing-4);
-  border: var(--solaris-border-width-sm) solid var(--solaris-table-border-color);
-  border-radius: var(--solaris-radius-sm);
-  background: var(--solaris-table-background);
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-
-.solaris-record-grid__draftbar-button:focus-visible {
-  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
-    var(--solaris-focus-ring-color);
-  outline-offset: var(--solaris-focus-ring-offset);
 }
 
 .solaris-record-grid__state {
@@ -449,6 +449,6 @@
   .solaris-record-grid__cell[data-sticky='start'] {
   z-index: var(--solaris-z-index-content);
   background: var(--solaris-table-background);
-  box-shadow: var(--solaris-border-width-sm) var(--solaris-spacing-0)
-    var(--solaris-spacing-0) var(--solaris-table-border-color);
+  border-inline-end: var(--solaris-border-width-sm) solid
+    var(--solaris-table-border-color);
 }

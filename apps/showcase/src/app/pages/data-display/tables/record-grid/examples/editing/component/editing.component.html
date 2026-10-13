@@ -1,7 +1,19 @@
+<solaris-tabs
+  [(value)]="mode"
+  [ariaLabel]="'record-grid.editing.tabs.label' | translate"
+>
+  <solaris-tab value="editable">{{
+    'record-grid.editing.tab.editable' | translate
+  }}</solaris-tab>
+  <solaris-tab value="readonly">{{
+    'record-grid.editing.tab.readonly' | translate
+  }}</solaris-tab>
+</solaris-tabs>
 <solaris-record-grid
   [data]="rows"
   [columns]="columns"
   rowId="id"
+  [readonly]="mode() === 'readonly'"
   (recordCommit)="onRecordCommit($event)"
 />
 @if (commitLog().length > 0) {

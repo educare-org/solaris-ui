@@ -36,6 +36,8 @@ export const RECORD_GRID_SORT_CLEAR_LABEL = 'Clear sorting for {{column}}';
 export const RECORD_GRID_SORTED_ANNOUNCE_KEY =
   'solaris.dataDisplay.recordGrid.sortedAnnounce';
 export const RECORD_GRID_SORTED_ANNOUNCE = 'Sorted by {{column}} {{direction}}';
+export const RECORD_GRID_SORTED_CLEARED_ANNOUNCE_KEY =
+  'solaris.dataDisplay.recordGrid.sortedCleared';
 export const RECORD_GRID_SORTED_CLEARED_ANNOUNCE =
   'Record grid sorting cleared';
 export const RECORD_GRID_COMMIT_ALL_LABEL_KEY =

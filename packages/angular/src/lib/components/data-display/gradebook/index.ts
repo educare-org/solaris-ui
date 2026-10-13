@@ -7,6 +7,7 @@ export {
   SOLARIS_GRADEBOOK_STATUS_TEMPLATE_ID,
 } from './component/gradebook.component';
 export { SolarisGradebookLegendComponent } from './component/gradebook-legend.component';
+export { GradebookAutofocusDirective } from './directives/gradebook-autofocus.directive';
 export type {
   SolarisGradebookAggregate,
   SolarisGradebookAssignment,

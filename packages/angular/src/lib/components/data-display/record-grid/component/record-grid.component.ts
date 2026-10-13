@@ -16,10 +16,11 @@ import { NgTemplateOutlet } from '@angular/common';
 
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
+import { SolarisButtonDirective } from '../../../actions/button';
 import { SolarisCheckboxComponent } from '../../../forms/checkbox';
 import { SolarisIconComponent } from '../../../icon';
 import { SolarisSkeletonComponent } from '../../../feedback/skeleton';
-import { GradebookAutofocusDirective } from '../../gradebook/directives/gradebook-autofocus.directive';
+import { GradebookAutofocusDirective } from '../../gradebook';
 import {
   SolarisTableCellDirective,
   SolarisTableEmptyDirective,
@@ -36,6 +37,7 @@ import {
 } from '../../table';
 import {
   interpolateTableText,
+  normalizeOptionalString,
   normalizeTableSelectionMode,
 } from '../../table/model/table.defaults';
 import type {
@@ -88,6 +90,7 @@ import {
   RECORD_GRID_SORTED_ANNOUNCE,
   RECORD_GRID_SORTED_ANNOUNCE_KEY,
   RECORD_GRID_SORTED_CLEARED_ANNOUNCE,
+  RECORD_GRID_SORTED_CLEARED_ANNOUNCE_KEY,
   RECORD_GRID_SORT_ASC_LABEL,
   RECORD_GRID_SORT_ASC_LABEL_KEY,
   RECORD_GRID_SORT_CLEAR_LABEL,
@@ -102,6 +105,7 @@ import {
   imports: [
     NgTemplateOutlet,
     GradebookAutofocusDirective,
+    SolarisButtonDirective,
     SolarisCheckboxComponent,
     SolarisIconComponent,
     SolarisSkeletonComponent,
@@ -292,7 +296,9 @@ export class SolarisRecordGridComponent<T = unknown> {
 
   protected readonly isCardLayout = computed(() => this.layout() === 'card');
 
-  protected readonly hasError = computed(() => this.error() !== null);
+  protected readonly hasError = computed(
+    () => this.resolvedErrorText().length > 0 && !this.loading(),
+  );
   protected readonly hasEmptyState = computed(
     () =>
       !this.loading() && !this.hasError() && this.sortedEntries().length === 0,
@@ -300,17 +306,22 @@ export class SolarisRecordGridComponent<T = unknown> {
 
   protected readonly allVisibleRowsSelected = computed(() => {
     const entries = this.sortedEntries();
-    if (entries.length === 0) {
+    if (entries.length === 0 || this.normalizedSelectionMode() !== 'multiple') {
       return false;
     }
     return entries.every((entry) => entry.selected);
   });
 
   protected readonly someVisibleRowsSelected = computed(() => {
+    if (this.normalizedSelectionMode() !== 'multiple') {
+      return false;
+    }
     const entries = this.sortedEntries();
-    return (
-      !this.allVisibleRowsSelected() && entries.some((entry) => entry.selected)
-    );
+    if (entries.length === 0) {
+      return false;
+    }
+    const selectedCount = entries.filter((entry) => entry.selected).length;
+    return selectedCount > 0 && selectedCount < entries.length;
   });
 
   protected readonly draftCount = computed(
@@ -403,11 +414,17 @@ export class SolarisRecordGridComponent<T = unknown> {
   }
 
   protected resolvedErrorText(): string {
+    if (
+      normalizeOptionalString(this.error()) === null &&
+      normalizeOptionalString(this.errorKey()) === null
+    ) {
+      return '';
+    }
     return this.resolveText(
       this.error(),
       this.errorKey() ?? RECORD_GRID_ERROR_TEXT_KEY,
       RECORD_GRID_ERROR_TEXT,
-    );
+    ).trim();
   }
 
   protected resolvedSelectAllLabel(): string {
@@ -510,7 +527,10 @@ export class SolarisRecordGridComponent<T = unknown> {
     return sort.direction;
   }
 
-  protected getAriaSort(column: SolarisRecordGridColumn<T>): string {
+  protected getAriaSort(column: SolarisRecordGridColumn<T>): string | null {
+    if (!this.isColumnSortable(column)) {
+      return null;
+    }
     const direction = this.currentSortDirection(column.id);
     if (direction === 'asc') {
       return 'ascending';
@@ -519,6 +539,14 @@ export class SolarisRecordGridComponent<T = unknown> {
       return 'descending';
     }
     return 'none';
+  }
+
+  protected headerColIndex(column: SolarisRecordGridColumn<T>): number {
+    const offset = this.isSelectable() ? 2 : 1;
+    const position = this.visibleColumns().findIndex(
+      (candidate) => candidate.id === column.id,
+    );
+    return (position < 0 ? 0 : position) + offset;
   }
 
   protected sortButtonLabel(column: SolarisRecordGridColumn<T>): string {
@@ -569,7 +597,13 @@ export class SolarisRecordGridComponent<T = unknown> {
     }
     this.sort.set(nextSort);
     if (!nextSort) {
-      this.sortAnnouncement.set(RECORD_GRID_SORTED_CLEARED_ANNOUNCE);
+      this.sortAnnouncement.set(
+        this.resolveText(
+          null,
+          RECORD_GRID_SORTED_CLEARED_ANNOUNCE_KEY,
+          RECORD_GRID_SORTED_CLEARED_ANNOUNCE,
+        ),
+      );
       return;
     }
     this.sortAnnouncement.set(
@@ -587,8 +621,18 @@ export class SolarisRecordGridComponent<T = unknown> {
   protected isCellEditable(
     _entry: SolarisRecordGridEntry<T>,
     column: SolarisRecordGridColumn<T>,
+    cell?: SolarisRecordGridSpanCell<T>,
   ): boolean {
-    return !(this.readonly() || this.disabled() || this.isComputed(column));
+    if (this.readonly() || this.disabled() || this.isComputed(column)) {
+      return false;
+    }
+    if (
+      cell !== undefined &&
+      (cell.covered || cell.rowSpan > 1 || cell.colSpan > 1)
+    ) {
+      return false;
+    }
+    return true;
   }
 
   protected draftKey(rowId: string, columnId: string): string {
@@ -610,8 +654,9 @@ export class SolarisRecordGridComponent<T = unknown> {
   protected openEditor(
     entry: SolarisRecordGridEntry<T>,
     column: SolarisRecordGridColumn<T>,
+    cell?: SolarisRecordGridSpanCell<T>,
   ): void {
-    if (!this.isCellEditable(entry, column)) {
+    if (!this.isCellEditable(entry, column, cell)) {
       return;
     }
     const key = this.draftKey(entry.rowId, column.id);
@@ -828,24 +873,24 @@ export class SolarisRecordGridComponent<T = unknown> {
 
   protected resolveHeaderTemplate(
     column: SolarisRecordGridColumn<T>,
-  ): SolarisTableCellDirective | undefined {
+  ): SolarisTableHeaderDirective | undefined {
     if (column.headerTemplateId === undefined) {
       return undefined;
     }
     return this.headerTemplates().find(
       (template) => template.templateId() === column.headerTemplateId,
-    ) as unknown as SolarisTableCellDirective | undefined;
+    );
   }
 
   protected resolveFooterCellTemplate(
     column: SolarisRecordGridColumn<T>,
-  ): SolarisTableCellDirective | undefined {
+  ): SolarisTableFooterCellDirective | undefined {
     if (column.footerTemplateId === undefined) {
       return undefined;
     }
     return this.footerCellTemplates().find(
       (template) => template.templateId() === column.footerTemplateId,
-    ) as unknown as SolarisTableCellDirective | undefined;
+    );
   }
 
   protected readonly sectionFooterGroups = computed(
@@ -882,9 +927,7 @@ export class SolarisRecordGridComponent<T = unknown> {
 
   protected isStickyColumn(columnId: string): boolean {
     return (
-      this.stickyFirstColumn() &&
-      !this.isSelectable() &&
-      this.visibleColumns()[0]?.id === columnId
+      this.stickyFirstColumn() && this.visibleColumns()[0]?.id === columnId
     );
   }
 

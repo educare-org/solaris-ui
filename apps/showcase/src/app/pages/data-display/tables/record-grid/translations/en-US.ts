@@ -25,6 +25,9 @@ export const EN_US_RECORD_GRID: Record<string, string> = {
     'Total and final columns react to edits; final weights total twice against project.',
   'record-grid.editing.note':
     'Values must stay between 0 and 10; every commit lands in the log below the grid.',
+  'record-grid.editing.tabs.label': 'Editing mode',
+  'record-grid.editing.tab.editable': 'Editable',
+  'record-grid.editing.tab.readonly': 'Read-only',
   'record-grid.layout.note':
     'Auto sizes columns to content. Card collapses rows into consolidated fields.',
   'record-grid.installation.note':

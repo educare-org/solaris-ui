@@ -59,6 +59,7 @@ import {
   TABLE_SORTED_ANNOUNCE,
   TABLE_SORTED_ANNOUNCE_KEY,
   TABLE_SORTED_CLEARED_ANNOUNCE,
+  TABLE_SORTED_CLEARED_ANNOUNCE_KEY,
   TABLE_SORT_ASC_LABEL,
   TABLE_SORT_ASC_LABEL_KEY,
   TABLE_SORT_CLEAR_LABEL,
@@ -1074,7 +1075,13 @@ export class SolarisTableComponent<T = unknown> {
     nextSort: SolarisTableSort | null,
   ): void {
     if (!nextSort) {
-      this.sortAnnouncement.set(TABLE_SORTED_CLEARED_ANNOUNCE);
+      this.sortAnnouncement.set(
+        this.resolveText(
+          null,
+          TABLE_SORTED_CLEARED_ANNOUNCE_KEY,
+          TABLE_SORTED_CLEARED_ANNOUNCE,
+        ),
+      );
       return;
     }
     const columnLabel = this.resolveColumnHeader(column);

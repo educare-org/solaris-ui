@@ -161,9 +161,17 @@ describe('ShowcaseShellSidebar', () => {
     expect(groups.get('Feedback')).toBe('true');
     expect(groups.get('Actions')).toBe('false');
 
-    const sublink = fixture.debugElement.query(
-      By.css('.shell-sidebar__sublink'),
-    );
+    const sublink = fixture.debugElement
+      .queryAll(By.css('.shell-sidebar__sublink'))
+      .find(
+        (candidate) =>
+          candidate
+            .query(By.css('.shell-sidebar__sublink-label'))
+            ?.nativeElement.textContent.trim() === 'Loading',
+      );
+    if (sublink === undefined) {
+      throw new Error('Loading sub-link not found');
+    }
     expect(sublink.attributes['data-open']).toBe('true');
     expect(
       sublink.query(By.css('.shell-sidebar__sublink-toggle')).attributes[
@@ -207,10 +215,17 @@ describe('ShowcaseShellSidebar', () => {
   });
 
   it('should render loading modes as an expandable sub-link', () => {
-    const sublink = fixture.debugElement.query(
-      By.css('.shell-sidebar__sublink'),
-    );
-    expect(sublink).toBeTruthy();
+    const sublink = fixture.debugElement
+      .queryAll(By.css('.shell-sidebar__sublink'))
+      .find(
+        (candidate) =>
+          candidate
+            .query(By.css('.shell-sidebar__sublink-label'))
+            ?.nativeElement.textContent.trim() === 'Loading',
+      );
+    if (sublink === undefined) {
+      throw new Error('Loading sub-link not found');
+    }
     expect(sublink.attributes['data-open']).toBe('false');
 
     const toggle = sublink.query(By.css('.shell-sidebar__sublink-toggle'));

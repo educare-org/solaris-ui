@@ -82,9 +82,13 @@
                   scope="col"
                   rowspan="2"
                 >
-                  <span class="solaris-record-grid__visually-hidden">{{
-                    resolvedSelectAllLabel()
-                  }}</span>
+                  <solaris-checkbox
+                    radius="sm"
+                    [checked]="allVisibleRowsSelected()"
+                    [indeterminate]="someVisibleRowsSelected()"
+                    [ariaLabel]="resolvedSelectAllLabel()"
+                    (checkedChange)="toggleSelectAllVisibleRows()"
+                  />
                 </th>
               }
               @for (span of groupSpans(); track span.group?.id ?? $index) {
@@ -110,7 +114,7 @@
                         isStickyColumn(column.id) ? 'start' : null
                       "
                       [attr.aria-sort]="getAriaSort(column)"
-                      [attr.aria-colindex]="$index + (isSelectable() ? 2 : 1)"
+                      [attr.aria-colindex]="headerColIndex(column)"
                     >
                       <ng-container
                         *ngTemplateOutlet="
@@ -154,6 +158,7 @@
                         isStickyColumn(column.id) ? 'start' : null
                       "
                       [attr.aria-sort]="getAriaSort(column)"
+                      [attr.aria-colindex]="headerColIndex(column)"
                     >
                       <ng-container
                         *ngTemplateOutlet="
@@ -174,8 +179,11 @@
                   class="solaris-record-grid__head-cell"
                   scope="col"
                   [attr.data-column-id]="column.id"
+                  [attr.data-sticky]="
+                    isStickyColumn(column.id) ? 'start' : null
+                  "
                   [attr.aria-sort]="getAriaSort(column)"
-                  [attr.aria-colindex]="$index + (isSelectable() ? 2 : 1)"
+                  [attr.aria-colindex]="headerColIndex(column)"
                 >
                   <ng-container
                     *ngTemplateOutlet="
@@ -241,7 +249,7 @@
                       isStickyColumn(cell.column.id) ? 'start' : null
                     "
                     [attr.data-editable]="
-                      isCellEditable(entry, cell.column) || undefined
+                      isCellEditable(entry, cell.column, cell) || undefined
                     "
                     [attr.data-invalid]="
                       draftError(entry.rowId, cell.column.id) !== null ||
@@ -253,7 +261,7 @@
                     [attr.aria-colindex]="
                       ariaColIndex(spanCells(entryIndex), cellPosition)
                     "
-                    (dblclick)="openEditor(entry, cell.column)"
+                    (dblclick)="openEditor(entry, cell.column, cell)"
                   >
                     @if (isEditing(entry.rowId, cell.column.id)) {
                       <div class="solaris-record-grid__cell-main--editing">
@@ -326,18 +334,18 @@
                           }
                         "
                       />
-                    } @else if (isCellEditable(entry, cell.column)) {
+                    } @else if (isCellEditable(entry, cell.column, cell)) {
                       <button
                         type="button"
                         class="solaris-record-grid__cell-button"
-                        (click)="openEditor(entry, cell.column)"
+                        (click)="openEditor(entry, cell.column, cell)"
                       >
                         {{ cellText(entry, cell.column) }}
                       </button>
                     } @else {
-                      <span class="solaris-record-grid__cell-text">{{
-                        cellText(entry, cell.column)
-                      }}</span>
+                      <span class="solaris-record-grid__cell-text">
+                        {{ cellText(entry, cell.column) }}
+                      </span>
                     }
                   </td>
                 }
@@ -393,14 +401,18 @@
     <div class="solaris-record-grid__draftbar">
       <button
         type="button"
-        class="solaris-record-grid__draftbar-button"
+        solaris-button
+        appearance="outline"
+        size="sm"
         (click)="commitAll()"
       >
         {{ commitAllLabel() }}
       </button>
       <button
         type="button"
-        class="solaris-record-grid__draftbar-button"
+        solaris-button
+        appearance="outline"
+        size="sm"
         (click)="discardAll()"
       >
         {{ discardAllLabel() }}

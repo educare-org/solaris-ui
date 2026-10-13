@@ -25,6 +25,9 @@ export const PT_BR_RECORD_GRID: Record<string, string> = {
     'Colunas de total e final reagem às edições; a final pondera o total em dobro contra o projeto.',
   'record-grid.editing.note':
     'Valores precisam ficar entre 0 e 10; cada commit aparece no log abaixo da grade.',
+  'record-grid.editing.tabs.label': 'Modo de edição',
+  'record-grid.editing.tab.editable': 'Editável',
+  'record-grid.editing.tab.readonly': 'Somente leitura',
   'record-grid.layout.note':
     'Auto dimensiona as colunas pelo conteúdo. Card colapsa as linhas em campos consolidados.',
   'record-grid.installation.note':
