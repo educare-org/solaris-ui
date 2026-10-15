@@ -62,6 +62,7 @@ export const EN_US_SHELL: Record<string, string> = {
   'shell.sidebar.item.email-field': 'Email field',
   'shell.sidebar.item.phone-field': 'Phone field',
   'shell.sidebar.item.otp-input': 'OTP input',
+  'shell.sidebar.item.file-upload': 'File upload',
   'shell.sidebar.item.checkbox': 'Checkbox',
   'shell.sidebar.item.checkbox-group': 'Checkbox group',
   'shell.sidebar.item.radio': 'Radio',

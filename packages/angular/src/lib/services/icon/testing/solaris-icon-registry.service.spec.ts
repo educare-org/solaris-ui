@@ -34,6 +34,7 @@ describe('SolarisIconRegistryService', () => {
     const service = TestBed.inject(SolarisIconRegistryService);
 
     for (const name of [
+      'rotate-ccw',
       'headphones',
       'headphones-off',
       'timer',
@@ -43,6 +44,8 @@ describe('SolarisIconRegistryService', () => {
       'route',
       'mouse-pointer-click',
       'rss',
+      'upload',
+      'minus',
     ]) {
       expect(service.hasIcon(name)).toBe(true);
       expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);

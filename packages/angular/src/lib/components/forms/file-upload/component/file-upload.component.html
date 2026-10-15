@@ -1,0 +1,217 @@
+<solaris-form-field
+  [control]="this"
+  [hint]="hint()"
+  [label]="label()"
+  [radius]="radius()"
+  [density]="effectiveDensity()"
+  [size]="size()"
+  [hintKey]="hintKey()"
+  [labelKey]="labelKey()"
+  [errorKey]="errorKey()"
+  [required]="requiredInput()"
+  [optional]="optional()"
+  [readonly]="readonlyInput()"
+  appearance="minimal"
+  [invalid]="isFieldInvalid()"
+  [error]="error() || computedError()"
+  [disabled]="isEffectivelyDisabled()"
+  [loading]="loading()"
+>
+  <div
+    class="solaris-file-upload__body"
+    (dragenter)="onDragEnter($event)"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+  >
+    @if (variant() === 'dropzone') {
+      <button
+        type="button"
+        class="solaris-file-upload__dropzone"
+        [disabled]="isEffectivelyDisabled()"
+        [attr.aria-describedby]="ariaDescribedBy()"
+        (click)="openPicker()"
+        (focus)="onTriggerFocus()"
+        (blur)="onTriggerBlur()"
+      >
+        <solaris-icon
+          class="solaris-file-upload__icon"
+          name="upload"
+          [decorative]="true"
+        />
+        <span class="solaris-file-upload__headline">{{
+          dragOver() ? dropActiveLabelText() : dropzoneLabelText()
+        }}</span>
+        @if (!dragOver() && dropzoneHintText()) {
+          <span class="solaris-file-upload__hint">{{
+            dropzoneHintText()
+          }}</span>
+        }
+        @if (!dragOver()) {
+          <span class="solaris-file-upload__browse">{{
+            browseLabelText()
+          }}</span>
+        }
+      </button>
+    } @else if (variant() === 'avatar') {
+      <button
+        type="button"
+        class="solaris-file-upload__avatar"
+        [disabled]="isEffectivelyDisabled()"
+        [attr.aria-label]="avatarLabelText()"
+        [attr.aria-describedby]="ariaDescribedBy()"
+        (click)="openPicker()"
+        (focus)="onTriggerFocus()"
+        (blur)="onTriggerBlur()"
+      >
+        <span class="solaris-file-upload__avatar-circle" aria-hidden="true">
+          @if (avatarPreview()) {
+            <img
+              class="solaris-file-upload__avatar-image"
+              [src]="avatarPreview()"
+              alt=""
+            />
+          } @else {
+            <solaris-icon
+              class="solaris-file-upload__avatar-icon"
+              name="user"
+              [decorative]="true"
+            />
+          }
+          <span class="solaris-file-upload__avatar-badge">
+            <solaris-icon name="camera" [decorative]="true" />
+          </span>
+        </span>
+        <span class="solaris-file-upload__avatar-texts">
+          <span class="solaris-file-upload__avatar-headline">
+            {{ dragOver() ? dropActiveLabelText() : avatarHeadlineText() }}
+            @if (!dragOver()) {
+              <span class="solaris-file-upload__avatar-browse">{{
+                avatarBrowseText()
+              }}</span>
+            }
+          </span>
+          @if (!dragOver() && avatarSupportsText()) {
+            <span class="solaris-file-upload__avatar-hint">{{
+              avatarSupportsText()
+            }}</span>
+          }
+        </span>
+      </button>
+    } @else if (variant() === 'field') {
+      <button
+        type="button"
+        class="solaris-file-upload__field"
+        [disabled]="isEffectivelyDisabled()"
+        [attr.aria-describedby]="ariaDescribedBy()"
+        (click)="openPicker()"
+        (focus)="onTriggerFocus()"
+        (blur)="onTriggerBlur()"
+      >
+        <solaris-icon
+          class="solaris-file-upload__field-icon"
+          name="upload"
+          [decorative]="true"
+        />
+        <span class="solaris-file-upload__field-text">{{
+          dragOver() ? dropActiveLabelText() : fieldLabelText()
+        }}</span>
+      </button>
+    } @else {
+      <button
+        type="button"
+        class="solaris-file-upload__trigger"
+        [disabled]="isEffectivelyDisabled()"
+        [attr.aria-describedby]="ariaDescribedBy()"
+        (click)="openPicker()"
+        (focus)="onTriggerFocus()"
+        (blur)="onTriggerBlur()"
+      >
+        <solaris-icon
+          class="solaris-file-upload__trigger-icon"
+          name="upload"
+          [decorative]="true"
+        />
+        <span>{{ browseLabelText() }}</span>
+      </button>
+    }
+    <input
+      #fileInput
+      class="solaris-file-upload__native"
+      type="file"
+      tabindex="-1"
+      aria-hidden="true"
+      [attr.accept]="accept() ?? null"
+      [attr.name]="name() ?? null"
+      [multiple]="multiple()"
+      [disabled]="isEffectivelyDisabled()"
+      (change)="onFileSelected($event)"
+      (cancel)="onPickerCancelled()"
+    />
+    @if (items().length > 0 && variant() !== 'avatar') {
+      <solaris-file-list
+        [items]="items()"
+        [maxSize]="maxSize()"
+        [label]="listLabel()"
+        [labelKey]="listLabelKey()"
+        [removeLabel]="removeLabel()"
+        [removeLabelKey]="removeLabelKey()"
+        [retryLabel]="retryLabel()"
+        [retryLabelKey]="retryLabelKey()"
+        (removed)="onItemRemoved($event)"
+        (retried)="onItemRetried($event)"
+      />
+    }
+  </div>
+  <span
+    class="solaris-file-upload__announcement"
+    role="status"
+    aria-live="polite"
+    >{{ announcement() }}</span
+  >
+</solaris-form-field>
+@if (allowUrl()) {
+  <solaris-divider
+    class="solaris-file-upload__divider"
+    labelKey="solaris.file-upload.or"
+  />
+  <solaris-form-field
+    [label]="urlLabelText()"
+    [radius]="radius()"
+    [density]="effectiveDensity()"
+    [size]="size()"
+    [appearance]="appearance()"
+    [disabled]="isEffectivelyDisabled()"
+    [readonly]="readonlyInput()"
+    [hasSuffix]="true"
+    [hasSuffixAction]="true"
+  >
+    <input
+      solaris-input
+      type="url"
+      inputmode="url"
+      autocomplete="off"
+      spellcheck="false"
+      [size]="size()"
+      [density]="effectiveDensity()"
+      [radius]="radius()"
+      [appearance]="urlInputAppearance()"
+      [value]="urlValue()"
+      [attr.placeholder]="urlPlaceholderText()"
+      [disabled]="urlControlsDisabled()"
+      (input)="onUrlInput($event)"
+      (keydown.enter)="addFromUrl()"
+    />
+    <button
+      type="button"
+      solaris-button
+      appearance="ghost"
+      solaris-form-suffix
+      solaris-form-suffix-action
+      [disabled]="urlControlsDisabled()"
+      (click)="addFromUrl()"
+    >
+      {{ urlAddText() }}
+    </button>
+  </solaris-form-field>
+}

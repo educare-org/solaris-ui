@@ -536,6 +536,42 @@ export type {
   SolarisOtpInputSize,
 } from './lib/components/forms/otp-input/model/otp-input.types';
 
+export { SolarisFileUploadComponent } from './lib/components/forms/file-upload/component/file-upload.component';
+export { SolarisFileListComponent } from './lib/components/forms/file-upload/component/file-list.component';
+export { SolarisFileListItemComponent } from './lib/components/forms/file-upload/component/file-list-item.component';
+export { SolarisImageEditorComponent } from './lib/components/forms/file-upload/component/image-editor.component';
+export { XhrFileUploadHandler } from './lib/components/forms/file-upload/service/xhr-file-upload.handler';
+export { SolarisFileUploadHandler } from './lib/components/forms/file-upload/model/file-upload.types';
+export { SOLARIS_FILE_UPLOAD_HANDLER } from './lib/components/forms/file-upload/model/file-upload.tokens';
+export {
+  SOLARIS_FILE_UPLOAD_DEFAULT_MAX_FILES,
+  SOLARIS_FILE_UPLOAD_DEFAULT_MAX_SIZE,
+} from './lib/components/forms/file-upload/model/file-upload.defaults';
+export type {
+  SolarisFileRejected,
+  SolarisFileUploadAppearance,
+  SolarisFileUploadCompleted,
+  SolarisFileUploadDensity,
+  SolarisFileUploadError,
+  SolarisFileUploadFailed,
+  SolarisFileUploadItem,
+  SolarisFileUploadOptions,
+  SolarisFileUploadProgress,
+  SolarisFileUploadRadius,
+  SolarisFileUploadResponse,
+  SolarisFileUploadSize,
+  SolarisFileUploadStatus,
+  SolarisFileUploadVariant,
+  SolarisFileUrlFailed,
+} from './lib/components/forms/file-upload/model/file-upload.types';
+export type {
+  SolarisImageEditorAspect,
+  SolarisImageEditorData,
+  SolarisImageEditorFormat,
+  SolarisImageEditorRotation,
+  SolarisImageEditorShape,
+} from './lib/components/forms/file-upload/model/image-editor.types';
+
 export { SolarisPopoverDirective } from './lib/components/interaction/popover/directives/popover.directive';
 export { SolarisPopoverTriggerDirective } from './lib/components/interaction/popover/directives/popover-trigger.directive';
 export { SolarisPopoverPanelComponent } from './lib/components/interaction/popover/component/popover-panel.component';

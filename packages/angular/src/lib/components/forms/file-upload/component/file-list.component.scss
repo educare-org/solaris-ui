@@ -1,0 +1,8 @@
+:host {
+  --solaris-file-list-gap: var(--solaris-spacing-2);
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  gap: var(--solaris-file-list-gap);
+}

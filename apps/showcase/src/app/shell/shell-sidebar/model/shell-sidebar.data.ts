@@ -138,12 +138,12 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
         labelKey: 'shell.sidebar.group.forms',
         items: [
           {
-            labelKey: 'shell.sidebar.item.form-field',
-            route: '/forms/form-field',
-          },
-          {
             labelKey: 'shell.sidebar.item.text-fields',
             children: [
+              {
+                labelKey: 'shell.sidebar.item.form-field',
+                route: '/forms/form-field',
+              },
               { labelKey: 'shell.sidebar.item.input', route: '/forms/input' },
               {
                 labelKey: 'shell.sidebar.item.textarea',
@@ -166,6 +166,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
                 route: '/forms/otp-input',
               },
             ],
+          },
+          {
+            labelKey: 'shell.sidebar.item.file-upload',
+            route: '/forms/file-upload',
           },
           {
             labelKey: 'shell.sidebar.item.selection-controls',

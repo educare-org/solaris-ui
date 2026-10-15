@@ -15,8 +15,8 @@ export const CHECKBOX_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   ];
 
 export const CHECKBOX_SHOWCASE_PREV: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.otp-input',
-  route: '/forms/otp-input',
+  labelKey: 'shell.sidebar.item.file-upload',
+  route: '/forms/file-upload',
 };
 
 export const CHECKBOX_SHOWCASE_NEXT: ShowcaseDocsPageNav = {

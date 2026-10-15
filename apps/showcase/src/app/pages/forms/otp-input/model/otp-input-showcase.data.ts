@@ -20,8 +20,8 @@ export const OTP_INPUT_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const OTP_INPUT_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.checkbox',
-  route: '/forms/checkbox',
+  labelKey: 'shell.sidebar.item.file-upload',
+  route: '/forms/file-upload',
 };
 
 export const OTP_INPUT_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

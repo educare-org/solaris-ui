@@ -1,0 +1,12 @@
+@for (item of items(); track item.id) {
+  <solaris-file-list-item
+    [item]="item"
+    [maxSize]="maxSize()"
+    [removeLabel]="removeLabel()"
+    [removeLabelKey]="removeLabelKey()"
+    [retryLabel]="retryLabel()"
+    [retryLabelKey]="retryLabelKey()"
+    (removed)="removed.emit($event)"
+    (retried)="retried.emit($event)"
+  />
+}

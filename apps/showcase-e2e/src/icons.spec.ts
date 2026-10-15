@@ -13,7 +13,7 @@ test.describe('Icons', () => {
   });
 
   test('lists all built-in icons', async () => {
-    await expect(icons.gridItems()).toHaveCount(156);
+    await expect(icons.gridItems()).toHaveCount(157);
   });
 
   test('filters icons by search', async () => {

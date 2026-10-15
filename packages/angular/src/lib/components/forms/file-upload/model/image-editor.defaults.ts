@@ -1,0 +1,30 @@
+import type { SolarisImageEditorAspect } from './image-editor.types';
+
+export const SOLARIS_IMAGE_EDITOR_DEFAULT_ASPECTS: readonly SolarisImageEditorAspect[] =
+  Object.freeze(['free', '1:1', '4:3', '3:4', '16:9', '9:16'] as const);
+
+export const SOLARIS_IMAGE_EDITOR_DEFAULT_SHAPE = 'rect';
+
+export const SOLARIS_IMAGE_EDITOR_DEFAULT_FORMAT = 'image/png';
+
+export const SOLARIS_IMAGE_EDITOR_DEFAULT_QUALITY = 0.92;
+
+export const SOLARIS_IMAGE_EDITOR_DEFAULT_MAX_DIMENSION = 2048;
+
+export const SOLARIS_IMAGE_EDITOR_VIEW_MAX_WIDTH = 560;
+
+export const SOLARIS_IMAGE_EDITOR_VIEW_MAX_HEIGHT = 380;
+
+export const SOLARIS_IMAGE_EDITOR_VIEW_MIN_WIDTH = 320;
+
+export const SOLARIS_IMAGE_EDITOR_VIEW_MIN_HEIGHT = 240;
+
+export const SOLARIS_IMAGE_EDITOR_ZOOM_MIN = 1;
+
+export const SOLARIS_IMAGE_EDITOR_ZOOM_MAX = 3;
+
+export const SOLARIS_IMAGE_EDITOR_ZOOM_STEP = 0.25;
+
+export const SOLARIS_IMAGE_EDITOR_PAN_KEYBOARD_STEP = 10;
+
+export const SOLARIS_IMAGE_EDITOR_PAN_KEYBOARD_FAST_STEP = 50;

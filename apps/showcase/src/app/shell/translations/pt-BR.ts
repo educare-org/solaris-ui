@@ -62,6 +62,7 @@ export const PT_BR_SHELL: Record<string, string> = {
   'shell.sidebar.item.email-field': 'Campo de e-mail',
   'shell.sidebar.item.phone-field': 'Campo de telefone',
   'shell.sidebar.item.otp-input': 'Entrada OTP',
+  'shell.sidebar.item.file-upload': 'Envio de arquivos',
   'shell.sidebar.item.checkbox': 'Checkbox',
   'shell.sidebar.item.checkbox-group': 'Grupo de checkboxes',
   'shell.sidebar.item.radio': 'Rádio',

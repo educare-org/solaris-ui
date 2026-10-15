@@ -1,0 +1,243 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="file-upload.title"
+    descriptionKey="file-upload.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="file-upload.section.examples">
+    <p class="file-upload-showcase__note">
+      {{ 'file-upload.examples.note' | translate }}
+    </p>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="basicCode"
+      language="html"
+    >
+      <app-basic-file-upload-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="modes" titleKey="file-upload.section.modes">
+    <p class="file-upload-showcase__note">
+      {{ 'file-upload.modes.note' | translate }}
+    </p>
+    <div class="file-upload-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'file-upload.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'file-upload.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'file-upload.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'file-upload.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'file-upload.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'file-upload.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'file-upload.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'file-upload.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-tabs
+      [(value)]="selectedVariant"
+      [ariaLabel]="'file-upload.section.modes' | translate"
+    >
+      <solaris-tab value="dropzone"
+        >{{ 'file-upload.mode.dropzone' | translate }}</solaris-tab
+      >
+      <solaris-tab value="button"
+        >{{ 'file-upload.mode.button' | translate }}</solaris-tab
+      >
+      <solaris-tab value="avatar"
+        >{{ 'file-upload.mode.avatar' | translate }}</solaris-tab
+      >
+      <solaris-tab value="field"
+        >{{ 'file-upload.mode.field' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="dropzone">
+        <solaris-preview-code
+          previewAlign="stretch"
+          [code]="dropzoneCode()"
+          language="html"
+        >
+          <solaris-file-upload
+            [label]="'file-upload.examples.label' | translate"
+            variant="dropzone"
+            [size]="selectedSize()"
+            [density]="selectedDensity()"
+            (fileRejected)="onFileRejected($event)"
+          ></solaris-file-upload>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="button">
+        <solaris-preview-code
+          previewAlign="stretch"
+          [code]="buttonCode()"
+          language="html"
+        >
+          <solaris-file-upload
+            [label]="'file-upload.modes.button-label' | translate"
+            variant="button"
+            [size]="selectedSize()"
+            [density]="selectedDensity()"
+            (fileRejected)="onFileRejected($event)"
+          ></solaris-file-upload>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="avatar">
+        <solaris-preview-code
+          previewAlign="stretch"
+          [code]="avatarCode()"
+          language="html"
+        >
+          <app-avatar-file-upload-example
+            [size]="selectedSize()"
+            [density]="selectedDensity()"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="field">
+        <solaris-preview-code
+          previewAlign="stretch"
+          [code]="fieldCode()"
+          language="html"
+        >
+          <solaris-file-upload
+            [label]="'file-upload.modes.field-label' | translate"
+            variant="field"
+            [size]="selectedSize()"
+            [density]="selectedDensity()"
+            (fileRejected)="onFileRejected($event)"
+          ></solaris-file-upload>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="upload" titleKey="file-upload.section.upload">
+    <p class="file-upload-showcase__note">
+      {{ 'file-upload.upload.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedUploadMode"
+      [ariaLabel]="'file-upload.section.upload' | translate"
+    >
+      <solaris-tab value="auto"
+        >{{ 'file-upload.upload.auto' | translate }}</solaris-tab
+      >
+      <solaris-tab value="manual"
+        >{{ 'file-upload.upload.manual' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="auto">
+        <solaris-preview-code
+          previewAlign="stretch"
+          [code]="uploadAutoCode"
+          language="html"
+        >
+          <app-upload-auto-file-upload-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="manual">
+        <solaris-preview-code
+          previewAlign="stretch"
+          [code]="uploadManualCode"
+          language="html"
+        >
+          <app-upload-manual-file-upload-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="url" titleKey="file-upload.section.url">
+    <p class="file-upload-showcase__note">
+      {{ 'file-upload.url.note' | translate }}
+    </p>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="urlCode"
+      language="html"
+    >
+      <solaris-file-upload
+        [label]="'file-upload.examples.label' | translate"
+        [allowUrl]="true"
+        (fileRejected)="onFileRejected($event)"
+      ></solaris-file-upload>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="editor" titleKey="file-upload.section.editor">
+    <p class="file-upload-showcase__note">
+      {{ 'file-upload.editor.note' | translate }}
+    </p>
+    <div class="file-upload-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedShape"
+        [ariaLabel]="'file-upload.editor.shape' | translate"
+      >
+        <solaris-tab value="rect"
+          >{{ 'file-upload.editor.shape-rect' | translate }}</solaris-tab
+        >
+        <solaris-tab value="circle"
+          >{{ 'file-upload.editor.shape-circle' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedAspect"
+        [ariaLabel]="'file-upload.section.editor' | translate"
+      >
+        <solaris-tab value="free"
+          >{{ 'file-upload.editor.aspect-free' | translate }}</solaris-tab
+        >
+        <solaris-tab value="1:1">1:1</solaris-tab>
+        <solaris-tab value="16:9">16:9</solaris-tab>
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="editorCode()" language="typescript">
+      <app-file-upload-editor-example
+        [aspect]="selectedAspect()"
+        [shape]="selectedShape()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="file-upload.section.installation"
+  >
+    <p class="file-upload-showcase__note">
+      {{ 'file-upload.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="file-upload.section.props">
+    <p class="file-upload-showcase__note">
+      {{ 'file-upload.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

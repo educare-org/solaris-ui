@@ -1,0 +1,509 @@
+:host {
+  --solaris-file-upload-gap: var(--solaris-spacing-3);
+  --solaris-file-upload-dropzone-padding: var(--solaris-spacing-8);
+  --solaris-file-upload-dropzone-min-height: calc(
+    var(--solaris-spacing-18) + var(--solaris-spacing-12)
+  );
+  --solaris-file-upload-dropzone-icon-size: var(--solaris-font-size-xl);
+  --solaris-file-upload-dropzone-radius: var(--solaris-radius-md);
+  --solaris-file-upload-dropzone-background: var(--solaris-neutral-default);
+  --solaris-file-upload-dropzone-border-color: var(
+    --solaris-neutral-border-strong
+  );
+  --solaris-file-upload-dropzone-border-width: 1px;
+  --solaris-file-upload-dragover-border-color: var(--solaris-primary-solid);
+  --solaris-file-upload-dragover-background: var(--solaris-primary-soft);
+  --solaris-file-upload-headline-font-size: var(--solaris-font-size-sm);
+  --solaris-file-upload-hint-font-size: var(--solaris-font-size-xs);
+  --solaris-file-upload-browse-font-size: var(--solaris-font-size-sm);
+  --solaris-file-upload-browse-color: var(--solaris-primary-solid);
+  --solaris-file-upload-trigger-padding: var(--solaris-spacing-2)
+    var(--solaris-spacing-4);
+  --solaris-file-upload-trigger-radius: var(--solaris-radius-md);
+  --solaris-file-upload-trigger-background: var(--solaris-neutral-default);
+  --solaris-file-upload-trigger-border-color: var(
+    --solaris-neutral-border-strong
+  );
+  --solaris-file-upload-avatar-icon-size: var(--solaris-font-size-xl);
+  --solaris-file-upload-avatar-badge-size: var(--solaris-spacing-8);
+
+  display: block;
+  box-sizing: border-box;
+
+  // The host must fill its parent even as a flex/grid item: otherwise its
+  // width resolves from content and swapping to the shorter drag-over text
+  // visibly shrinks the panel.
+  width: 100%;
+  min-width: 0;
+}
+
+.solaris-file-upload__body {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  gap: var(--solaris-file-upload-gap);
+}
+
+.solaris-file-upload__dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--solaris-file-upload-dropzone-min-height);
+  padding: var(--solaris-file-upload-dropzone-padding);
+  cursor: pointer;
+  text-align: center;
+  gap: var(--solaris-spacing-2);
+  border: var(--solaris-file-upload-dropzone-border-width) dashed
+    var(--solaris-file-upload-dropzone-border-color);
+  border-radius: var(--solaris-file-upload-dropzone-radius);
+  background: var(--solaris-file-upload-dropzone-background);
+  color: var(--solaris-neutral-text-body);
+  font-family: var(--solaris-font-family-sans);
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+:host([data-appearance='surface']) .solaris-file-upload__dropzone {
+  --solaris-file-upload-dropzone-background: var(--solaris-neutral-subtle);
+  --solaris-file-upload-dropzone-border-color: var(
+    --solaris-neutral-border-default
+  );
+}
+
+:host([data-appearance='filled']) .solaris-file-upload__dropzone {
+  --solaris-file-upload-dropzone-background: var(--solaris-neutral-sunken);
+  --solaris-file-upload-dropzone-border-color: var(
+    --solaris-neutral-border-default
+  );
+}
+
+:host([data-appearance='minimal']) .solaris-file-upload__dropzone {
+  --solaris-file-upload-dropzone-background: transparent;
+  --solaris-file-upload-dropzone-border-color: var(
+    --solaris-neutral-border-default
+  );
+}
+
+:host([data-dragover]) .solaris-file-upload__dropzone {
+  border-color: var(--solaris-file-upload-dragover-border-color);
+  border-style: solid;
+  background: var(--solaris-file-upload-dragover-background);
+}
+
+:host([data-size='sm'][data-density='compact']) {
+  --solaris-file-upload-dropzone-padding: var(--solaris-spacing-6);
+  --solaris-file-upload-dropzone-min-height: calc(
+    var(--solaris-spacing-18) + var(--solaris-spacing-7)
+  );
+  --solaris-file-upload-dropzone-icon-size: var(--solaris-font-size-lg);
+  --solaris-file-upload-headline-font-size: var(--solaris-font-size-xs);
+  --solaris-file-upload-hint-font-size: var(--solaris-font-size-2xs);
+  --solaris-file-upload-browse-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='md'][data-density='compact']) {
+  --solaris-file-upload-dropzone-padding: var(--solaris-spacing-6);
+  --solaris-file-upload-dropzone-min-height: calc(
+    var(--solaris-spacing-18) + var(--solaris-spacing-10)
+  );
+  --solaris-file-upload-dropzone-icon-size: var(--solaris-font-size-xl);
+  --solaris-file-upload-headline-font-size: var(--solaris-font-size-sm);
+  --solaris-file-upload-hint-font-size: var(--solaris-font-size-xs);
+  --solaris-file-upload-browse-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-file-upload-dropzone-padding: var(--solaris-spacing-6);
+  --solaris-file-upload-dropzone-min-height: calc(
+    var(--solaris-spacing-18) + var(--solaris-spacing-12)
+  );
+  --solaris-file-upload-dropzone-icon-size: var(--solaris-font-size-2xl);
+  --solaris-file-upload-headline-font-size: var(--solaris-font-size-md);
+  --solaris-file-upload-hint-font-size: var(--solaris-font-size-sm);
+  --solaris-file-upload-browse-font-size: var(--solaris-font-size-md);
+}
+
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-file-upload-dropzone-padding: var(--solaris-spacing-8);
+  --solaris-file-upload-dropzone-min-height: calc(
+    var(--solaris-spacing-18) + var(--solaris-spacing-10)
+  );
+  --solaris-file-upload-dropzone-icon-size: var(--solaris-font-size-lg);
+  --solaris-file-upload-headline-font-size: var(--solaris-font-size-xs);
+  --solaris-file-upload-hint-font-size: var(--solaris-font-size-2xs);
+  --solaris-file-upload-browse-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='md'][data-density='normal']) {
+  --solaris-file-upload-dropzone-padding: var(--solaris-spacing-8);
+  --solaris-file-upload-dropzone-min-height: calc(
+    var(--solaris-spacing-18) + var(--solaris-spacing-12)
+  );
+  --solaris-file-upload-dropzone-icon-size: var(--solaris-font-size-xl);
+  --solaris-file-upload-headline-font-size: var(--solaris-font-size-sm);
+  --solaris-file-upload-hint-font-size: var(--solaris-font-size-xs);
+  --solaris-file-upload-browse-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-file-upload-dropzone-padding: var(--solaris-spacing-8);
+  --solaris-file-upload-dropzone-min-height: calc(
+    var(--solaris-spacing-18) + var(--solaris-spacing-16)
+  );
+  --solaris-file-upload-dropzone-icon-size: var(--solaris-font-size-2xl);
+  --solaris-file-upload-headline-font-size: var(--solaris-font-size-md);
+  --solaris-file-upload-hint-font-size: var(--solaris-font-size-sm);
+  --solaris-file-upload-browse-font-size: var(--solaris-font-size-md);
+}
+
+:host([data-size='sm'][data-density='comfortable']) {
+  --solaris-file-upload-dropzone-padding: var(--solaris-spacing-10);
+  --solaris-file-upload-dropzone-min-height: calc(
+    var(--solaris-spacing-18) + var(--solaris-spacing-12)
+  );
+  --solaris-file-upload-dropzone-icon-size: var(--solaris-font-size-lg);
+  --solaris-file-upload-headline-font-size: var(--solaris-font-size-xs);
+  --solaris-file-upload-hint-font-size: var(--solaris-font-size-2xs);
+  --solaris-file-upload-browse-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='md'][data-density='comfortable']) {
+  --solaris-file-upload-dropzone-padding: var(--solaris-spacing-10);
+  --solaris-file-upload-dropzone-min-height: calc(
+    var(--solaris-spacing-18) + var(--solaris-spacing-16)
+  );
+  --solaris-file-upload-dropzone-icon-size: var(--solaris-font-size-xl);
+  --solaris-file-upload-headline-font-size: var(--solaris-font-size-sm);
+  --solaris-file-upload-hint-font-size: var(--solaris-font-size-xs);
+  --solaris-file-upload-browse-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-file-upload-dropzone-padding: var(--solaris-spacing-10);
+  --solaris-file-upload-dropzone-min-height: calc(
+    var(--solaris-spacing-16) + var(--solaris-spacing-18)
+  );
+  --solaris-file-upload-dropzone-icon-size: var(--solaris-font-size-2xl);
+  --solaris-file-upload-headline-font-size: var(--solaris-font-size-md);
+  --solaris-file-upload-hint-font-size: var(--solaris-font-size-sm);
+  --solaris-file-upload-browse-font-size: var(--solaris-font-size-md);
+}
+
+.solaris-file-upload__dropzone:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-file-upload__dropzone:disabled {
+  cursor: not-allowed;
+  opacity: var(--solaris-opacity-40);
+}
+
+.solaris-file-upload__icon {
+  width: var(--solaris-file-upload-dropzone-icon-size);
+  height: var(--solaris-file-upload-dropzone-icon-size);
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.solaris-file-upload__headline {
+  font-size: var(--solaris-file-upload-headline-font-size);
+  font-weight: var(--solaris-font-weight-medium);
+  line-height: var(--solaris-line-height-md);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.solaris-file-upload__hint {
+  font-size: var(--solaris-file-upload-hint-font-size);
+  line-height: var(--solaris-line-height-md);
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.solaris-file-upload__browse {
+  font-size: var(--solaris-file-upload-browse-font-size);
+  font-weight: var(--solaris-font-weight-medium);
+  line-height: var(--solaris-line-height-md);
+  color: var(--solaris-file-upload-browse-color);
+}
+
+.solaris-file-upload__trigger {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  box-sizing: border-box;
+  gap: var(--solaris-spacing-2);
+  padding: var(--solaris-file-upload-trigger-padding);
+  border: 1px solid var(--solaris-file-upload-trigger-border-color);
+  border-radius: var(--solaris-file-upload-trigger-radius);
+  background: var(--solaris-file-upload-trigger-background);
+  color: var(--solaris-neutral-text-body);
+  font-family: var(--solaris-font-family-sans);
+  font-size: var(--solaris-file-upload-browse-font-size);
+  font-weight: var(--solaris-font-weight-medium);
+  line-height: var(--solaris-line-height-md);
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-file-upload__trigger:hover {
+  --solaris-file-upload-trigger-background: var(--solaris-neutral-subtle);
+  --solaris-file-upload-trigger-border-color: var(
+    --solaris-neutral-border-default
+  );
+}
+
+.solaris-file-upload__trigger:active {
+  --solaris-file-upload-trigger-background: var(--solaris-neutral-sunken);
+}
+
+.solaris-file-upload__trigger:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-file-upload__trigger:disabled {
+  cursor: not-allowed;
+  opacity: var(--solaris-opacity-40);
+}
+
+.solaris-file-upload__trigger-icon {
+  width: var(--solaris-font-size-md);
+  height: var(--solaris-font-size-md);
+}
+
+.solaris-file-upload__field {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: var(--solaris-form-field-control-height);
+  gap: var(--solaris-spacing-2);
+  padding: 0 var(--solaris-spacing-4);
+  border: var(--solaris-file-upload-dropzone-border-width) dashed
+    var(--solaris-file-upload-dropzone-border-color);
+  border-radius: var(--solaris-file-upload-dropzone-radius);
+  background: var(--solaris-file-upload-dropzone-background);
+  color: var(--solaris-neutral-text-body);
+  font-family: var(--solaris-font-family-sans);
+  font-size: var(--solaris-file-upload-browse-font-size);
+  font-weight: var(--solaris-font-weight-medium);
+  line-height: var(--solaris-line-height-md);
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+:host([data-dragover]) .solaris-file-upload__field {
+  border-color: var(--solaris-file-upload-dragover-border-color);
+  border-style: solid;
+  background: var(--solaris-file-upload-dragover-background);
+}
+
+.solaris-file-upload__field:hover {
+  --solaris-file-upload-dropzone-background: var(--solaris-neutral-subtle);
+}
+
+.solaris-file-upload__field:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-file-upload__field:disabled {
+  cursor: not-allowed;
+  opacity: var(--solaris-opacity-40);
+}
+
+.solaris-file-upload__field-icon {
+  flex: none;
+  width: var(--solaris-font-size-md);
+  height: var(--solaris-font-size-md);
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.solaris-file-upload__field-text {
+  overflow: hidden;
+  min-width: 0;
+  flex: 1;
+  text-align: start;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.solaris-file-upload__avatar {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: calc(var(--solaris-form-field-control-height) * 2);
+  gap: var(--solaris-spacing-4);
+  padding: var(--solaris-spacing-4);
+  border: var(--solaris-file-upload-dropzone-border-width) dashed
+    var(--solaris-file-upload-dropzone-border-color);
+  border-radius: var(--solaris-file-upload-dropzone-radius);
+  background: var(--solaris-file-upload-dropzone-background);
+  color: var(--solaris-neutral-text-body);
+  font-family: var(--solaris-font-family-sans);
+  text-align: start;
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-file-upload__avatar:hover {
+  --solaris-file-upload-dropzone-background: var(--solaris-neutral-subtle);
+}
+
+:host([data-dragover]) .solaris-file-upload__avatar {
+  border-color: var(--solaris-file-upload-dragover-border-color);
+  border-style: solid;
+  background: var(--solaris-file-upload-dragover-background);
+}
+
+.solaris-file-upload__avatar:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-file-upload__avatar:disabled {
+  cursor: not-allowed;
+  opacity: var(--solaris-opacity-40);
+}
+
+.solaris-file-upload__avatar-circle {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  width: calc(var(--solaris-form-field-control-height) * 1.5);
+  height: calc(var(--solaris-form-field-control-height) * 1.5);
+  border-radius: 50%;
+  background: var(--solaris-primary-soft);
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.solaris-file-upload__avatar-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.solaris-file-upload__avatar-icon {
+  width: var(--solaris-file-upload-avatar-icon-size);
+  height: var(--solaris-file-upload-avatar-icon-size);
+}
+
+.solaris-file-upload__avatar-badge {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--solaris-file-upload-avatar-badge-size);
+  height: var(--solaris-file-upload-avatar-badge-size);
+  border-radius: 50%;
+  background: var(--solaris-primary-solid);
+  color: var(--solaris-primary-on-solid);
+
+  solaris-icon {
+    width: var(--solaris-font-size-sm);
+    height: var(--solaris-font-size-sm);
+  }
+}
+
+.solaris-file-upload__avatar-texts {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+  gap: var(--solaris-spacing-1);
+}
+
+.solaris-file-upload__avatar-headline {
+  overflow: hidden;
+  font-size: var(--solaris-file-upload-hint-font-size);
+  font-weight: var(--solaris-font-weight-medium);
+  line-height: var(--solaris-line-height-md);
+  color: var(--solaris-neutral-text-heading);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.solaris-file-upload__avatar-browse {
+  font-size: var(--solaris-file-upload-hint-font-size);
+  font-weight: var(--solaris-font-weight-medium);
+  line-height: var(--solaris-line-height-md);
+  color: var(--solaris-file-upload-browse-color);
+}
+
+.solaris-file-upload__avatar-hint {
+  overflow: hidden;
+  font-size: var(--solaris-file-upload-hint-font-size);
+  line-height: var(--solaris-line-height-md);
+  color: var(--solaris-neutral-text-secondary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.solaris-file-upload__native {
+  position: absolute;
+  overflow: hidden;
+  width: var(--solaris-spacing-1);
+  height: var(--solaris-spacing-1);
+  padding: 0;
+  margin: -1px;
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+.solaris-file-upload__announcement {
+  position: absolute;
+  overflow: hidden;
+  width: var(--solaris-spacing-1);
+  height: var(--solaris-spacing-1);
+  padding: 0;
+  margin: -1px;
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+.solaris-file-upload__divider {
+  margin-top: var(--solaris-file-upload-gap);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-file-upload__dropzone,
+  .solaris-file-upload__trigger,
+  .solaris-file-upload__field,
+  .solaris-file-upload__avatar {
+    transition: none;
+  }
+}

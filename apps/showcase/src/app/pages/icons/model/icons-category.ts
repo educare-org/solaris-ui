@@ -87,6 +87,7 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'lock',
       'refresh',
       'refresh-back',
+      'rotate-ccw',
       'repeat',
       'repeat-1',
       'repeat-off',

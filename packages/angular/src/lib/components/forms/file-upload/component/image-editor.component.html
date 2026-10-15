@@ -1,0 +1,119 @@
+<div class="solaris-image-editor__stage">
+  @if (loading()) {
+    <p class="solaris-image-editor__status" role="status">{{ titleText() }}…</p>
+  } @else if (loadError()) {
+    <p class="solaris-image-editor__error" role="alert">
+      {{ loadErrorText() }}
+    </p>
+  } @else {
+    <div
+      role="group"
+      tabindex="0"
+      (pointerup)="onPanEnd($event)"
+      [attr.aria-label]="panLabel()"
+      (pointermove)="onPanMove($event)"
+      (pointercancel)="onPanEnd($event)"
+      (pointerdown)="onPanStart($event)"
+      (keydown)="onViewportKeydown($event)"
+      (wheel)="onZoomWheel($event)"
+      class="solaris-image-editor__viewport"
+    >
+      <canvas #preview class="solaris-image-editor__canvas"></canvas>
+      <solaris-badge
+        size="sm"
+        color="neutral"
+        appearance="solid"
+        aria-hidden="true"
+        [truncate]="false"
+        class="solaris-image-editor__hint"
+        >{{ dragHintText() }}</solaris-badge
+      >
+    </div>
+    <div
+      class="solaris-image-editor__overlay"
+      (pointerdown)="onOverlayPointerDown($event)"
+    >
+      <button
+        type="button"
+        (click)="rotate()"
+        appearance="ghost"
+        solaris-icon-button
+        color="custom"
+        size="sm"
+        radius="full"
+        [disabled]="loadError()"
+        [attr.aria-label]="rotateLabel()"
+      >
+        <solaris-icon name="rotate-ccw" [decorative]="true" />
+      </button>
+      <button
+        type="button"
+        appearance="ghost"
+        (click)="zoomOut()"
+        solaris-icon-button
+        color="custom"
+        size="sm"
+        radius="full"
+        [disabled]="!canZoomOut()"
+        [attr.aria-label]="zoomOutLabel()"
+      >
+        <solaris-icon name="minus" [decorative]="true" />
+      </button>
+      <input
+        type="range"
+        [min]="zoomMin"
+        [max]="zoomMax"
+        [step]="zoomStep"
+        [value]="zoom()"
+        [disabled]="loadError()"
+        (input)="onZoomInput($event)"
+        [attr.aria-label]="zoomLabel()"
+        class="solaris-image-editor__slider"
+        [attr.aria-valuetext]="zoomPercent()"
+      />
+      <span class="solaris-image-editor__zoom" aria-hidden="true">
+        {{ zoomPercent() }}
+      </span>
+      <button
+        type="button"
+        appearance="ghost"
+        (click)="zoomIn()"
+        solaris-icon-button
+        color="custom"
+        size="sm"
+        radius="full"
+        [disabled]="!canZoomIn()"
+        [attr.aria-label]="zoomInLabel()"
+      >
+        <solaris-icon name="plus" [decorative]="true" />
+      </button>
+      <button
+        type="button"
+        solaris-button
+        (click)="reset()"
+        appearance="ghost"
+        color="custom"
+        size="sm"
+        class="solaris-image-editor__reset"
+        [disabled]="!canReset()"
+      >
+        <span>{{ resetText() }}</span>
+      </button>
+    </div>
+  }
+</div>
+<solaris-dialog-footer align="end">
+  <button type="button" solaris-button appearance="ghost" (click)="cancel()">
+    {{ cancelText() }}
+  </button>
+  <button
+    type="button"
+    solaris-button
+    color="primary"
+    class="solaris-image-editor__save"
+    [disabled]="loadError() || saving()"
+    (click)="save()"
+  >
+    {{ saveText() }}
+  </button>
+</solaris-dialog-footer>
