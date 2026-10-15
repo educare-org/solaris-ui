@@ -134,7 +134,6 @@ export function clampOffset(
 ): SolarisPanOffset {
   const limitX = Math.max(0, (sourceWidth - cropWidth) / 2);
   const limitY = Math.max(0, (sourceHeight - cropHeight) / 2);
-  // The `+ 0` normalizes -0 to +0 so clamped origins stay strictly zero.
   return {
     x: Math.min(limitX, Math.max(-limitX, offset.x)) + 0,
     y: Math.min(limitY, Math.max(-limitY, offset.y)) + 0,
@@ -307,6 +306,8 @@ function createCanvas(): HTMLCanvasElement {
   return canvas;
 }
 
+// SOLARIS_TOKEN_EXCEPTION: Canvas2D fill/stroke colors cannot read CSS vars (--solaris-*);
+// the crop-mask dim + rule-of-thirds grid must stay fixed rgba so they contrast on any photo.
 const MASK_DIM_COLOR = 'rgba(0, 0, 0, 0.35)';
 const MASK_GRID_COLOR = 'rgba(255, 255, 255, 0.75)';
 
@@ -477,6 +478,8 @@ export async function renderEditedImage(
   const sx = (source.width - cropSize.width) / 2 + offset.x;
   const sy = (source.height - cropSize.height) / 2 + offset.y;
   if (options.format === 'image/jpeg') {
+    // SOLARIS_TOKEN_EXCEPTION: JPEG has no alpha channel and Canvas2D fillStyle cannot read
+    // CSS vars, so the opaque white base is required (photo-paper default, not a theme surface).
     resultCtx.fillStyle = '#ffffff';
     resultCtx.fillRect(0, 0, out.width, out.height);
   }

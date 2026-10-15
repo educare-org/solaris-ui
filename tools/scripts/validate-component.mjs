@@ -48,20 +48,46 @@ function walk(dir, ext, out = []) {
   return out;
 }
 
-function checkContent(filePath, pattern, message) {
-  if (!existsSync(filePath)) return;
-  const content = readFileSync(filePath, 'utf-8');
-  if (pattern.test(content)) {
-    errors.push(`${filePath.split(/[/\\]/).pop()}: ${message}`);
-  }
+function baseName(filePath) {
+  return filePath.split(/[/\\]/).pop();
 }
 
-function validateComponent(compDir) {
-  const name = compDir.split(/[/\\]/).pop();
+function extractInlineTemplate(content) {
+  const idx = content.indexOf('template:');
+  if (idx === -1) return null;
+  const rest = content.slice(idx + 'template:'.length).trimStart();
+  const quote = rest[0];
+  if (quote !== "'" && quote !== '"' && quote !== '`') return null;
+  const end = rest.indexOf(quote, 1);
+  if (end === -1) return null;
+  return rest.slice(1, end).trim();
+}
 
-  console.log(`\n  Validating: ${name}`);
+const NG_CONTENT_SHAPES = new Set([
+  '<ng-content/>',
+  '<ng-content>',
+  '<ng-content></ng-content>',
+]);
 
-  // Directory structure
+function isPassthroughBody(body) {
+  const compact = body.replace(/\s+/g, '');
+  if (NG_CONTENT_SHAPES.has(compact)) return true;
+  if (
+    !compact.startsWith('<ng-template') ||
+    !compact.endsWith('</ng-template>')
+  ) {
+    return false;
+  }
+  const openEnd = compact.indexOf('>');
+  if (openEnd === -1) return false;
+  const inner = compact.slice(
+    openEnd + 1,
+    compact.length - '</ng-template>'.length,
+  );
+  return NG_CONTENT_SHAPES.has(inner);
+}
+
+function checkStructure(compDir, name) {
   const hasSourceDir = ['component', 'directives', 'components'].some((d) =>
     existsSync(join(compDir, d)),
   );
@@ -79,73 +105,88 @@ function validateComponent(compDir) {
   if (!hasDocs) errors.push(`${name}: missing docs/ directory`);
   if (!hasIndex) errors.push(`${name}: missing index.ts`);
 
-  // Component files
+  return { hasSourceDir, hasDocs };
+}
+
+function checkInlineTemplate(tsFile, content) {
+  if (content.includes('templateUrl')) return;
+  const body = extractInlineTemplate(content);
+  if (body === null || body === '') return;
+  if (!isPassthroughBody(body)) {
+    errors.push(`${tsFile}: uses inline template (use templateUrl instead)`);
+  }
+}
+
+function checkRawColors(tsFile, content) {
+  // Honors SOLARIS_TOKEN_EXCEPTION, e.g. Canvas2D colors that cannot read
+  // CSS vars — see 03-standards-decision.
+  const lines = content.split('\n');
+  const hasUnexceptedColor = lines.some((line, i) => {
+    if (!/#[0-9a-fA-F]{3,8}/.test(line) && !/rgba?\(/.test(line)) {
+      return false;
+    }
+    return !lines
+      .slice(Math.max(0, i - 3), i + 1)
+      .some((l) => l.includes('SOLARIS_TOKEN_EXCEPTION'));
+  });
+  if (hasUnexceptedColor) {
+    warnings.push(
+      `${tsFile}: contains raw color values (use --solaris-* tokens)`,
+    );
+  }
+}
+
+function checkTsFile(filePath) {
+  const tsFile = baseName(filePath);
+  const content = readFileSync(filePath, 'utf-8');
+
+  if (content.includes('NgModule')) {
+    errors.push(`${tsFile}: contains NgModule (must be standalone)`);
+  }
+
+  if (/@Input\(\)/.test(content)) {
+    errors.push(
+      `${tsFile}: uses @Input() decorator (use input() signal instead)`,
+    );
+  }
+
+  if (/@Output\(\)/.test(content)) {
+    errors.push(
+      `${tsFile}: uses @Output() decorator (use output() signal instead)`,
+    );
+  }
+
+  checkInlineTemplate(tsFile, content);
+
+  if (/styles:\s*\[?['`]/.test(content)) {
+    errors.push(`${tsFile}: uses inline styles (use styleUrls instead)`);
+  }
+
+  checkRawColors(tsFile, content);
+}
+
+function validateComponent(compDir) {
+  const name = baseName(compDir);
+
+  console.log(`\n  Validating: ${name}`);
+
+  const { hasSourceDir, hasDocs } = checkStructure(compDir, name);
+
   if (hasSourceDir) {
     const tsFiles = walk(compDir, '.ts').filter(
       (f) => !f.includes('.spec.') && !f.includes('.stories.'),
     );
 
     for (const filePath of tsFiles) {
-      const tsFile = filePath.split(/[/\\]/).pop();
-      const content = readFileSync(filePath, 'utf-8');
-
-      // Check for NgModule
-      if (content.includes('NgModule')) {
-        errors.push(`${tsFile}: contains NgModule (must be standalone)`);
-      }
-
-      // Check for @Input decorator
-      if (/@Input\(\)/.test(content)) {
-        errors.push(
-          `${tsFile}: uses @Input() decorator (use input() signal instead)`,
-        );
-      }
-
-      // Check for @Output decorator
-      if (/@Output\(\)/.test(content)) {
-        errors.push(
-          `${tsFile}: uses @Output() decorator (use output() signal instead)`,
-        );
-      }
-
-      // Check for inline template
-      const isPassthroughTemplate =
-        /template:\s*['`]\s*(<ng-template[^>]*>\s*)?<ng-content\s*\/?>\s*(<\/ng-template>)?\s*['`]/.test(
-          content,
-        );
-      const isEmptyTemplate = /template:\s*['`]\s*['`]/.test(content);
-      if (
-        /template:\s*['`]/.test(content) &&
-        !content.includes('templateUrl') &&
-        !isPassthroughTemplate &&
-        !isEmptyTemplate
-      ) {
-        errors.push(
-          `${tsFile}: uses inline template (use templateUrl instead)`,
-        );
-      }
-
-      // Check for inline styles
-      if (/styles:\s*\[?['`]/.test(content)) {
-        errors.push(`${tsFile}: uses inline styles (use styleUrls instead)`);
-      }
-
-      // Check for raw color values
-      if (/#[0-9a-fA-F]{3,8}/.test(content) || /rgba?\(/.test(content)) {
-        warnings.push(
-          `${tsFile}: contains raw color values (use --solaris-* tokens)`,
-        );
-      }
+      checkTsFile(filePath);
     }
   }
 
-  // Spec files
   const specFiles = walk(compDir, '.spec.ts');
   if (specFiles.length === 0) {
     errors.push(`${name}: no spec files found`);
   }
 
-  // Docs
   if (hasDocs) {
     validateDocs(compDir, name);
   }
@@ -199,61 +240,66 @@ function validateDocs(compDir, name) {
   }
 }
 
+function validateTarget(target) {
+  const dir = join(COMPONENTS_BASE, target.replace(/[/\\]/g, '/'));
+  if (!existsSync(dir)) {
+    console.error(`  ❌ Component not found: ${target}`);
+    process.exit(1);
+  }
+  validateComponent(dir);
+}
+
+function isComponentDir(dir) {
+  return (
+    existsSync(join(dir, 'component')) || existsSync(join(dir, 'index.ts'))
+  );
+}
+
+function validateCategory(catDir) {
+  if (isComponentDir(catDir)) {
+    validateComponent(catDir);
+    return;
+  }
+
+  for (const comp of readdirSync(catDir)) {
+    const compDir = join(catDir, comp);
+    if (isComponentDir(compDir)) {
+      validateComponent(compDir);
+    }
+  }
+}
+
+function printReport() {
+  console.log('\n═══════════════════════════════════════');
+  if (errors.length === 0 && warnings.length === 0) {
+    console.log('  ✅ All components pass validation');
+    return;
+  }
+  if (errors.length > 0) {
+    console.log(`  ❌ ${errors.length} error(s):`);
+    errors.forEach((e) => console.log(`     - ${e}`));
+  }
+  if (warnings.length > 0) {
+    console.log(`  ⚠ ${warnings.length} warning(s):`);
+    warnings.forEach((w) => console.log(`     - ${w}`));
+  }
+}
+
 function main() {
-  const args = process.argv.slice(2);
-  const target = args[0];
+  const target = process.argv.slice(2)[0];
 
   console.log('Solaris UI — Component Validation');
 
   if (target) {
-    const dir = join(COMPONENTS_BASE, target.replace(/[/\\]/g, '/'));
-    if (!existsSync(dir)) {
-      console.error(`  ❌ Component not found: ${target}`);
-      process.exit(1);
-    }
-    validateComponent(dir);
+    validateTarget(target);
   } else {
-    // Validate all components
     for (const category of CATEGORIES) {
       const catDir = join(COMPONENTS_BASE, category);
-      if (!existsSync(catDir)) continue;
-
-      // A category may itself be a component unit (e.g. icon has component/
-      // and index.ts at the category root) rather than containing subfolders.
-      if (
-        existsSync(join(catDir, 'component')) ||
-        existsSync(join(catDir, 'index.ts'))
-      ) {
-        validateComponent(catDir);
-        continue;
-      }
-
-      const components = readdirSync(catDir);
-      for (const comp of components) {
-        const compDir = join(catDir, comp);
-        if (
-          existsSync(join(compDir, 'component')) ||
-          existsSync(join(compDir, 'index.ts'))
-        ) {
-          validateComponent(compDir);
-        }
-      }
+      if (existsSync(catDir)) validateCategory(catDir);
     }
   }
 
-  console.log('\n═══════════════════════════════════════');
-  if (errors.length === 0 && warnings.length === 0) {
-    console.log('  ✅ All components pass validation');
-  } else {
-    if (errors.length > 0) {
-      console.log(`  ❌ ${errors.length} error(s):`);
-      errors.forEach((e) => console.log(`     - ${e}`));
-    }
-    if (warnings.length > 0) {
-      console.log(`  ⚠ ${warnings.length} warning(s):`);
-      warnings.forEach((w) => console.log(`     - ${w}`));
-    }
-  }
+  printReport();
 
   process.exit(errors.length > 0 ? 1 : 0);
 }
