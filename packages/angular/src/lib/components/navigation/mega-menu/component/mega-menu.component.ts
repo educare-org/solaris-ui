@@ -42,7 +42,11 @@ import type {
   SolarisMegaMenuAppearance,
 } from '../model/mega-menu.types';
 
-// SECURITY_EXCEPTION_FILE: ElementRef and injected DOCUMENT support focus restoration, overlay geometry, and browser-only event listeners. Angular bindings cannot express these imperative DOM APIs; component specs cover open, close, focus, and viewport behavior.
+// SECURITY_EXCEPTION_FILE: hostElement.nativeElement.querySelector('[solaris-mega-menu-trigger]') scopes focus restoration + outside-click + geometry to this menu host (no global query); read-only except .focus() on close(true); Renderer2 has no focus/query API; covered by mega-menu focus/close specs.
+// SECURITY_EXCEPTION_FILE: hostElement.nativeElement.ownerDocument.activeElement/defaultView reads focus + viewport width for focus-out and panel geometry; read-only via injected ElementRef ownerDocument (SSR-safe: browser-only effect guarded by isPlatformBrowser).
+// SECURITY_EXCEPTION_FILE: injected DOCUMENT addEventListener/removeEventListener('pointerdown', capture) implements outside-click close with cleanup on destroy/detach; Angular host bindings cannot listen on document capture phase; covered by outside-click specs.
+// SECURITY_EXCEPTION_FILE: injected DOCUMENT createElement('span') builds the anchor underline + 4 backdrop regions (no user HTML, static class names only); Angular template cannot express CDK-backdrop children; removed on detach/destroy.
+// SECURITY_EXCEPTION_FILE: injected DOCUMENT defaultView.innerWidth/innerHeight sizes panel + backdrop geometry; read-only measurement with 0 fallback; no Renderer2 alternative; covered by viewport/geometry specs.
 
 const MEGA_MENU_ANCHOR_ERROR =
   'SolarisMegaMenuComponent requires an ancestor with the [solaris-mega-menu-anchor] directive. The anchor defines the menu panel position and width, and the interactive area excluded from the backdrop. Add solaris-mega-menu-anchor to the navigation container that wraps this mega menu.';

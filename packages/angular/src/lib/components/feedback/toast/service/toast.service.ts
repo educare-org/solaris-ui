@@ -1,5 +1,5 @@
-// SECURITY_EXCEPTION_FILE: nativeElement required for dynamic container. SSR-safe.
-// SECURITY_EXCEPTION_FILE: document.body.appendChild for root-level attachment. SSR-safe.
+// SECURITY_EXCEPTION_FILE: ComponentRef.location.nativeElement reads the dynamically created toast container host element for root-level attachment (createComponent has no template anchor); no user HTML involved; covered by toast service specs.
+// SECURITY_EXCEPTION_FILE: injected DOCUMENT body.appendChild attaches the toast container at root level; SSR-safe via isPlatformBrowser guard in getContainer; detached via ApplicationRef/view cleanup; no Renderer2 alternative for dynamic root components.
 import {
   Injectable,
   inject,

@@ -3,7 +3,7 @@
 // SECURITY_EXCEPTION_FILE: querySelector required to find descendant form-field control wrapper. SSR-safe via injected ElementRef.
 // SECURITY_EXCEPTION_FILE: nativeElement.querySelector required to find panel container in attached overlay. CDK overlay provides no typed API for this.
 // SECURITY_EXCEPTION_FILE: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement.offsetWidth ÔÇö required for matchTriggerWidth.
+// SECURITY_EXCEPTION_FILE: nativeElement.offsetWidth required for matchTriggerWidth. Read-only measurement.
 // SECURITY_EXCEPTION_FILE: getBoundingClientRect and style required to size fit-content panels after projection.
 // SECURITY_EXCEPTION_FILE: this.document.contains() to safely verify trigger still exists before focus.
 import {

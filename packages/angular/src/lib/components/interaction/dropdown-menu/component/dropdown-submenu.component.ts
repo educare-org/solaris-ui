@@ -1,10 +1,10 @@
-// SECURITY_EXCEPTION_FILE: nativeElement required to store submenu reference. SSR-safe via ElementRef.
-// SECURITY_EXCEPTION_FILE: nativeElement.addEventListener required for custom events. SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement required for hover detection via ElementRef. Read-only, SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement.dispatchEvent required for custom event. SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement.parentElement required to traverse DOM. Read-only, SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement identity comparison. Read-only, SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
+// SECURITY_EXCEPTION_FILE: host nativeElement stores the '__solarisSubmenu' back-reference for sibling/child coordination (no global lookup; scoped to this host); covered by dropdown-submenu specs.
+// SECURITY_EXCEPTION_FILE: host nativeElement.addEventListener('solaris-submenu-child-opened/closed') coordinates nested hover timers; custom events only, removed via DestroyRef; Renderer2 has no typed custom-event API here.
+// SECURITY_EXCEPTION_FILE: host nativeElement.matches(':hover') + overlayElement.matches(':hover') implements hover-intent detection (read-only style state); no layout write, no user HTML.
+// SECURITY_EXCEPTION_FILE: host nativeElement.dispatchEvent(new CustomEvent('solaris-submenu-child-*', {bubbles, composed})) notifies ancestors of child state; static event names, no user data in transit.
+// SECURITY_EXCEPTION_FILE: host nativeElement.parentElement.querySelectorAll(':scope > solaris-dropdown-submenu') closes sibling submenus (scoped DOM traversal, identity-compared, no innerHTML); covered by sibling-close specs.
+// SECURITY_EXCEPTION_FILE: triggerElement.contains(target)/overlayElement.contains(target) implements outside-click containment (read-only Node check); listener removed on detach/destroy.
+// SECURITY_EXCEPTION_FILE: overlayElement.querySelectorAll('solaris-dropdown-submenu') detects open child submenus via the scoped back-reference (read-only, no document query).
 import {
   Component,
   ElementRef,
