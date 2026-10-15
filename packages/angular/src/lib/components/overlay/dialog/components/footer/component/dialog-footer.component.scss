@@ -28,8 +28,8 @@
 .solaris-dialog-footer__inner {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--solaris-spacing-3);
-  padding: var(--solaris-spacing-3);
+  gap: var(--solaris-spacing-5);
+  padding: var(--solaris-spacing-5);
 }
 
 :host([data-density='compact']) .solaris-dialog-footer__inner {
