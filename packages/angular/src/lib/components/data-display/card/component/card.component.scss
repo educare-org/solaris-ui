@@ -321,3 +321,25 @@
   grid-column: 2;
   min-width: 0;
 }
+
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. Cards print as ink-safe paper surfaces on every theme (dark glass
+// and tonal washes would flood the page): background pins to #fff, text to
+// #000, blur/shadows drop, and the action row (screen-only buttons) hides.
+// Screen rendering is untouched.
+@media print {
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink card surface for print.
+  :host {
+    overflow: visible;
+    background: #fff;
+    color: #000;
+    border-color: #000;
+    box-shadow: none;
+    backdrop-filter: none;
+    break-inside: avoid;
+  }
+
+  ::ng-deep .solaris-card-actions {
+    display: none;
+  }
+}

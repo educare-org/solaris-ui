@@ -452,3 +452,77 @@
   border-inline-end: var(--solaris-border-width-sm) solid
     var(--solaris-table-border-color);
 }
+
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. Print must stay ink-safe on every theme (including dark and
+// high-contrast): theme tokens resolve to dark surfaces there, so the print
+// baseline pins paper #fff / ink #000, drops draft/error washes, expands the
+// viewport, and hides pagination/draft chrome. Screen rendering is untouched.
+@media print {
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for the print host.
+  :host {
+    background: #fff;
+    color: #000;
+    box-shadow: none;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink frame edge for print.
+  .solaris-record-grid__frame {
+    overflow: visible;
+    max-height: none;
+    border-color: #000;
+    box-shadow: none;
+  }
+
+  .solaris-record-grid__viewport {
+    overflow: visible;
+    max-height: none;
+  }
+
+  .solaris-record-grid__table {
+    min-width: 0;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tfoot {
+    display: table-footer-group;
+  }
+
+  :host([data-sticky-first-column])
+    .solaris-record-grid__head-cell[data-sticky='start'],
+  :host([data-sticky-first-column])
+    .solaris-record-grid__body
+    .solaris-record-grid__cell[data-sticky='start'] {
+    position: static;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink rows for print.
+  .solaris-record-grid__body .solaris-record-grid__row,
+  .solaris-record-grid__head-cell,
+  .solaris-record-grid__cell,
+  .solaris-record-grid__card,
+  .solaris-record-grid__section-row .solaris-record-grid__section-cell {
+    background: #fff;
+    color: #000;
+    box-shadow: none;
+  }
+
+  // Draft and error washes are screen affordances; print keeps the text
+  // with an underlined error marker instead of the tinted wash.
+  // SOLARIS_TOKEN_EXCEPTION(print): ink error marker for print.
+  .solaris-record-grid__cell-error {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  // Interactive-only chrome never prints: pagination footer, draft bar,
+  // and cell edit buttons. Print from the committed records (see docs).
+  .solaris-record-grid__footer,
+  .solaris-record-grid__draftbar,
+  .solaris-record-grid__cell-button {
+    display: none;
+  }
+}

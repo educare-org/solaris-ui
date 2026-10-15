@@ -232,6 +232,15 @@ It does not:
 - CardMedia preserves alt attributes of projected images.
 - Footer separator is visual only; semantic grouping must be conveyed through content structure.
 
+## ERP operations (consumer guidance)
+
+No business logic lives in the card; the patterns below stay in consumer code.
+
+- **States**: compose states with siblings — `solaris-skeleton` for loading placeholders, `solaris-badge` for status, empty text in `solaris-card-content`. The card itself is chrome, not state.
+- **Keyboard-first**: the card is non-interactive by default. Clickable cards (`href`) are a single native link — Tab reaches the overlay, Enter follows it. Never nest buttons or links inside a clickable card; use `solaris-card-actions` with explicit controls on non-interactive cards.
+- **i18n growth**: `pt-BR`/`es` titles and descriptions run ~30% longer than `en-US`. Title and description directives wrap — never fix card heights to English text or clip with `overflow: hidden` on text containers.
+- **Print**: the print baseline is ink-safe (paper background, ink text and border, glass blur and shadows removed, action row hidden, `break-inside: avoid` keeps a card on one page). Hide dashboard chrome (filters, nav) in the consumer print stylesheet and print the content cards.
+
 ## Examples
 
 ```html

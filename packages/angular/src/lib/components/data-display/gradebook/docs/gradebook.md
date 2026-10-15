@@ -137,12 +137,25 @@ const columns = [
 - **Audit trail**: every `gradeCommit` / `gradeBulkCommit` should be appendable
   to an institutional log `{ rowId, assignmentId, previousValue, value,
 at, actor }`. The component emits enough to build it; persisting stays with
-  the consumer (same boundary as grades).
+  the consumer (same boundary as grades). Log ids only — never student names,
+  emails, or other PII. The `actor` comes from the consumer's auth context,
+  never from the component.
 - **Draft vs published**: a future `publishState` (`'draft' | 'published'`)
   input will mark whether the matrix is being edited or is visible to
   students/guardians. Until then, gate visibility in the consumer.
 - These stay out of `record-grid`: no merged body cells, no reactive formulas
   across arbitrary columns — only the declared `computed.from` dependencies.
+
+## ERP operations (consumer guidance)
+
+No business logic lives in the gradebook; the patterns below stay in consumer code.
+
+- **States**: `loading` / `error` / `emptyText` (+ `*Key`) mirror the table, including slot overrides forwarded to the inner table. Show the empty state for classes without enrolled students, the error state when the grade service fails.
+- **Bulk actions**: `bulkEnabled` + `selectionMode="multiple"` commit one value across selected rows via `gradeBulkCommit`; `enablePaste` accepts TSV paste with per-cell `gradePasteError`. Confirm bulk writes before applying — the component never persists.
+- **Keyboard-first**: Enter or double-click opens a cell editor, change/Enter commits, Escape or blur closes without committing. Tab moves across cells in reading order; `editableOf` locks view-only cells to text (no focus trap).
+- **1000+ rows**: never render unbounded. Page large cohorts with `solaris-pagination` in the table footer slot over a server `SolarisTableDataSource`, or split by class/section. Bulk commit operates on the selected ids within the loaded page.
+- **i18n growth**: `pt-BR`/`es` headers run ~30% longer than `en-US`. Header groups and assessment hints wrap or truncate with tooltips — never clip, never fix widths to English text.
+- **Print**: the print baseline is ink-safe (paper background, editor chrome neutralized, status dots as ink outlines; the inner table expands scrollers and hides pagination nav). Print published matrices from the full source rows, not the current page.
 
 ### SolarisGradebookLegendComponent
 

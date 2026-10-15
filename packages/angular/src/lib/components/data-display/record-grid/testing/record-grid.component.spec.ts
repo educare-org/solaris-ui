@@ -92,6 +92,19 @@ describe('SolarisRecordGridComponent', () => {
     expect(cellText(rows[1] as HTMLElement, 'present')).toBe('—');
   });
 
+  it('should expose cell text as title and omit it for empty cells', () => {
+    const { element } = createFixture();
+    const rows = bodyRows(element);
+    const total = rows[0]?.querySelector(
+      'td[data-column-id="total"] .solaris-record-grid__cell-text',
+    );
+    expect(total?.getAttribute('title')).toBe('15');
+    const empty = rows[1]?.querySelector(
+      'td[data-column-id="present"] .solaris-record-grid__cell-button',
+    );
+    expect(empty?.getAttribute('title')).toBeNull();
+  });
+
   it('should sort with nulls last', () => {
     const { fixture, element } = createFixture();
     fixture.componentRef.setInput('sort', {

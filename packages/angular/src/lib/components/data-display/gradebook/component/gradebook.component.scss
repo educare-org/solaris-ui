@@ -82,3 +82,40 @@
   text-decoration: underline dotted;
   text-underline-offset: var(--solaris-spacing-1);
 }
+
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. The grid chrome itself (frame, viewport, sticky, footer nav) is
+// ink-proofed by the inner solaris-table print baseline; this block only
+// neutralizes gradebook-owned ink: editor chrome, status dots, and locked
+// text. Screen rendering is untouched.
+@media print {
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for the print host.
+  :host {
+    background: #fff;
+    color: #000;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink editor for print.
+  .solaris-gradebook__editor {
+    background: #fff;
+    color: #000;
+    box-shadow: none;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): ink text for print.
+  .solaris-gradebook__locked {
+    color: #000;
+  }
+
+  // Status dots are never color-only on screen (title + SR label carry the
+  // meaning); in print they render as ink outlines so the row still scans.
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink dot for print.
+  .solaris-gradebook__status-dot {
+    background: #fff;
+    border: var(--solaris-border-width-sm) solid #000;
+  }
+
+  .solaris-gradebook__head-hint {
+    text-decoration: underline;
+  }
+}

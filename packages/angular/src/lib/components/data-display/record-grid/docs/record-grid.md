@@ -80,9 +80,23 @@ never open the editor; the write target would be ambiguous.
 ### Future contracts (specified, not implemented)
 
 - **Audit trail**: every `recordCommit` is appendable to an institutional log;
-  persisting stays with the consumer.
+  persisting stays with the consumer. Log `{ rowId, columnId, previousValue,
+value, at }` with the actor from the consumer's auth context — never row PII
+  (names, emails, document numbers). `recordsChange` carries the working copy;
+  the committed diff is the auditable unit.
 - These stay out of `solaris-table` and `solaris-gradebook`: merged body cells,
   internal commit, and reactive formulas across arbitrary columns.
+
+## ERP operations (consumer guidance)
+
+No business logic lives in the record grid; the patterns below stay in consumer code.
+
+- **States**: `loading` / `error`+`errorKey` / `emptyText`+`emptyTextKey` mirror the table, with the same slot overrides. Validate with `validateOf` (column wins over global); invalid drafts show an inline `role="alert"` message and never commit.
+- **Bulk actions**: `selectionMode="multiple"` selects rows for batch flows; `commitAll()` / `discardAll()` flush or drop the open draft. Each commit emits the audit-ready `recordCommit` diff — apply it to the consumer store, then persist.
+- **Keyboard-first**: editable cells are text buttons (Enter opens, Escape discards, Enter commits); keyboard skips merged-span covered cells so tab order stays continuous. `aria-invalid` + `aria-describedby` announce validation.
+- **1000+ rows**: never render unbounded. Page attendance sheets with `solaris-pagination` in the footer slot (per class/section), or serve server pages. The grid edits the loaded working copy only.
+- **i18n growth**: `pt-BR`/`es` section headers and labels run ~30% longer than `en-US`. Terms wrap, values align end — never clip, never fix widths to English text.
+- **Print**: the print baseline is ink-safe (paper background, draft/error washes removed with an underlined error marker, pagination footer and draft bar hidden, viewport expanded, sticky reset). Print from committed records, not open drafts.
 
 ### Slots
 

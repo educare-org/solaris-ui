@@ -478,6 +478,14 @@ export class SolarisRecordGridComponent<T = unknown> {
     return text.length > 0 ? text : '—';
   }
 
+  protected resolveCellTitle(
+    entry: SolarisRecordGridEntry<T>,
+    column: SolarisRecordGridColumn<T>,
+  ): string | null {
+    const text = this.cellText(entry, column);
+    return text === '—' ? null : text;
+  }
+
   protected footerText(
     rows: readonly T[],
     column: SolarisRecordGridColumn<T>,

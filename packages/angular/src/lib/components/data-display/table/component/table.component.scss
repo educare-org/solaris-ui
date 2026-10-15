@@ -989,3 +989,77 @@
   .solaris-table__cell[data-priority] {
   display: none;
 }
+
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. Print must stay ink-safe on every theme (including dark and
+// high-contrast): theme tokens resolve to dark surfaces there, so the print
+// baseline pins paper #fff / ink #000, drops shadows, and expands scrollers.
+// Screen rendering is untouched.
+@media print {
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for the print host.
+  :host {
+    background: #fff;
+    color: #000;
+    box-shadow: none;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink frame edge for print.
+  .solaris-table__frame {
+    overflow: visible;
+    max-height: none;
+    border-color: #000;
+    box-shadow: none;
+  }
+
+  .solaris-table__viewport {
+    overflow: visible;
+    max-height: none;
+  }
+
+  .solaris-table__table {
+    min-width: 0;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tfoot {
+    display: table-footer-group;
+  }
+
+  // Sticky positioning breaks paged media; fall back to static so every
+  // column prints in reading order.
+  :host([data-sticky-header]) .solaris-table__head-cell,
+  :host([data-sticky-first-column]:not([data-card-layout]))
+    .solaris-table__head-cell[data-sticky='start'],
+  :host([data-sticky-first-column]:not([data-card-layout]))
+    .solaris-table__body
+    .solaris-table__cell[data-sticky='start'],
+  :host([data-sticky-last-column]:not([data-card-layout]))
+    .solaris-table__head-cell[data-sticky='end'],
+  :host([data-sticky-last-column]:not([data-card-layout]))
+    .solaris-table__body
+    .solaris-table__cell[data-sticky='end'] {
+    position: static;
+  }
+
+  // Ink-safe rows: drop hover/selected/stripe washes, keep the text.
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink rows for print.
+  .solaris-table__body .solaris-table__row,
+  .solaris-table__head-cell,
+  .solaris-table__cell,
+  .solaris-table__card {
+    background: #fff;
+    color: #000;
+    box-shadow: none;
+  }
+
+  .solaris-table__footer,
+  .solaris-table__add-row,
+  .solaris-table__row-button,
+  .solaris-table__expand-button,
+  .solaris-table__cell-expand {
+    display: none;
+  }
+}

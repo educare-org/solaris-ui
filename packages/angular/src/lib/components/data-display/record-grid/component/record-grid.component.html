@@ -338,12 +338,16 @@
                       <button
                         type="button"
                         class="solaris-record-grid__cell-button"
+                        [attr.title]="resolveCellTitle(entry, cell.column)"
                         (click)="openEditor(entry, cell.column, cell)"
                       >
                         {{ cellText(entry, cell.column) }}
                       </button>
                     } @else {
-                      <span class="solaris-record-grid__cell-text">
+                      <span
+                        class="solaris-record-grid__cell-text"
+                        [attr.title]="resolveCellTitle(entry, cell.column)"
+                      >
                         {{ cellText(entry, cell.column) }}
                       </span>
                     }
