@@ -57,6 +57,50 @@ export const localeHolidays: BuiltInLocaleHolidays = {
       name: 'Natal',
       nameKey: 'solaris.calendar.holidays.christmas',
     },
+    // School observances (non-statutory): the primary consumers are
+    // educational institutions, so these dates render as holiday chips.
+    {
+      month: 3,
+      day: 15,
+      name: 'Dia da Escola',
+      nameKey: 'solaris.calendar.holidays.school-day',
+    },
+    {
+      month: 4,
+      day: 19,
+      name: 'Dia dos Povos Indígenas',
+      nameKey: 'solaris.calendar.holidays.indigenous-peoples-day',
+    },
+    {
+      month: 4,
+      day: 22,
+      name: 'Descobrimento do Brasil',
+      nameKey: 'solaris.calendar.holidays.discovery-day',
+    },
+    {
+      month: 5,
+      day: 13,
+      name: 'Abolição da Escravatura',
+      nameKey: 'solaris.calendar.holidays.abolition-day',
+    },
+    {
+      month: 8,
+      day: 11,
+      name: 'Dia do Estudante',
+      nameKey: 'solaris.calendar.holidays.students-day',
+    },
+    {
+      month: 9,
+      day: 21,
+      name: 'Dia da Árvore',
+      nameKey: 'solaris.calendar.holidays.tree-day',
+    },
+    {
+      month: 10,
+      day: 15,
+      name: 'Dia dos Professores',
+      nameKey: 'solaris.calendar.holidays.teachers-day',
+    },
   ],
   weekday: [],
   movable: [

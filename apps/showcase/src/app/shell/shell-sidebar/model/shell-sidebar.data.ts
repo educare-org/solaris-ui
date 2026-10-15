@@ -311,6 +311,15 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
           },
         ],
       },
+      {
+        labelKey: 'shell.sidebar.group.scheduling',
+        items: [
+          {
+            labelKey: 'shell.sidebar.item.month-view',
+            route: '/scheduling/month-view',
+          },
+        ],
+      },
     ],
   },
 ];

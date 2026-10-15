@@ -1,0 +1,121 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="month-view.title"
+    descriptionKey="month-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="month-view.section.examples">
+    <p class="month-view-showcase__note">
+      {{ 'month-view.examples.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <div class="month-view-showcase__toolbar">
+        <button type="button" (click)="shiftMonth(-1)">
+          {{ 'month-view.toolbar.previous' | translate }}
+        </button>
+        <button type="button" (click)="goToday()">
+          {{ 'month-view.toolbar.today' | translate }}
+        </button>
+        <button type="button" (click)="shiftMonth(1)">
+          {{ 'month-view.toolbar.next' | translate }}
+        </button>
+        <strong>{{ monthLabel() }}</strong>
+      </div>
+      <!-- maxVisiblePerDay caps the SSR/mobile overflow; on desktop the rows auto-fit the square cell. -->
+      <solaris-calendar-month-view
+        [locale]="demoLocale()"
+        timeZone="America/Sao_Paulo"
+        [(focusedDate)]="focusedDate"
+        [events]="events"
+        [tasks]="tasks"
+        [holidays]="holidays()"
+        [maxVisiblePerDay]="1"
+        (daySelect)="onDaySelect($event)"
+        (eventOpen)="onEventOpen($event)"
+        (moreOpen)="onMoreOpen($event)"
+        (taskToggle)="onTaskToggle($event)"
+      />
+      <p data-testid="event-log">{{ log() }}</p>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="month-view.section.size-density"
+  >
+    <p class="month-view-showcase__note">
+      {{ 'month-view.size-density.note' | translate }}
+    </p>
+    <div class="month-view-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'month-view.section.size-density' | translate"
+      >
+        <solaris-tab value="sm">sm</solaris-tab>
+        <solaris-tab value="md">md</solaris-tab>
+        <solaris-tab value="lg">lg</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'month-view.section.size-density' | translate"
+      >
+        <solaris-tab value="compact">compact</solaris-tab>
+        <solaris-tab value="normal">normal</solaris-tab>
+        <solaris-tab value="comfortable">comfortable</solaris-tab>
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-calendar-month-view
+        [locale]="demoLocale()"
+        timeZone="America/Sao_Paulo"
+        focusedDate="2026-10-15"
+        [events]="events"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="locales" titleKey="month-view.section.locales">
+    <p class="month-view-showcase__note">
+      {{ 'month-view.locales.note' | translate }}
+    </p>
+    <div class="month-view-showcase__controls">
+      <solaris-tabs
+        [value]="demoLocale()"
+        (valueChange)="selectLocale($event)"
+        [ariaLabel]="'month-view.section.locales' | translate"
+      >
+        <solaris-tab value="pt-BR">pt-BR</solaris-tab>
+        <solaris-tab value="en-US">en-US</solaris-tab>
+        <solaris-tab value="es">es</solaris-tab>
+      </solaris-tabs>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="month-view.section.installation"
+  >
+    <p class="month-view-showcase__note">
+      {{ 'month-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="month-view.section.props">
+    <p class="month-view-showcase__note">
+      {{ 'month-view.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" />
+</app-docs-page-layout>

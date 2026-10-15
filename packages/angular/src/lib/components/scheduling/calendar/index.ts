@@ -59,3 +59,11 @@ export {
   isBuiltInHolidaysLoaded,
   preloadBuiltInHolidays,
 } from './holidays/builtin/built-in-holidays';
+export { SolarisCalendarMonthViewComponent } from './month-view/component/month-view.component';
+export type {
+  SolarisMonthViewDensity,
+  SolarisMonthViewEventOpen,
+  SolarisMonthViewItem,
+  SolarisMonthViewItemKind,
+  SolarisMonthViewSize,
+} from './month-view/model/month-view.types';

@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 
 import { configurationRoutes } from './routes/configuration.routes';
+import { schedulingRoutes } from './routes/scheduling.routes';
 import { dataDisplayRoutes } from './routes/data-display.routes';
 import { interactionRoutes } from './routes/interaction.routes';
 import { navigationRoutes } from './routes/navigation.routes';
@@ -23,4 +24,5 @@ export const appRoutes: Route[] = [
   ...overlayRoutes,
   ...formsRoutes,
   ...iconsRoutes,
+  ...schedulingRoutes,
 ];

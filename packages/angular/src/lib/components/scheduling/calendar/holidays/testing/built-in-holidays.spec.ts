@@ -48,6 +48,25 @@ describe('Solaris built-in holidays', () => {
     }
   });
 
+  it('serves pt-BR school observances across three years', () => {
+    const provider = builtInHolidays();
+    const expected: Record<string, string> = {
+      'solaris.calendar.holidays.school-day': '-03-15',
+      'solaris.calendar.holidays.indigenous-peoples-day': '-04-19',
+      'solaris.calendar.holidays.discovery-day': '-04-22',
+      'solaris.calendar.holidays.abolition-day': '-05-13',
+      'solaris.calendar.holidays.students-day': '-08-11',
+      'solaris.calendar.holidays.tree-day': '-09-21',
+      'solaris.calendar.holidays.teachers-day': '-10-15',
+    };
+    for (const year of [2024, 2025, 2026]) {
+      const found = byKey(provider.holidays(yearRange(year), 'pt-BR'));
+      for (const [key, suffix] of Object.entries(expected)) {
+        expect(found.get(key)).toBe(`${year}${suffix}`);
+      }
+    }
+  });
+
   it('serves pt-BR movable holidays from the Easter computus', () => {
     const provider = builtInHolidays();
     const expected: Record<number, { carnival: string; goodFriday: string }> = {

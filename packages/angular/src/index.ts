@@ -1027,6 +1027,7 @@ export {
   toSolarisDateTimeValue,
   SOLARIS_RECURRENCE_MAX_RESULTS,
 } from './lib/components/scheduling/calendar/index';
+export { SolarisCalendarMonthViewComponent } from './lib/components/scheduling/calendar/index';
 export type {
   BuiltInLocaleHolidays,
   ExpandSolarisRecurrenceOptions,
@@ -1034,6 +1035,11 @@ export type {
   MovableHolidayRule,
   SolarisHolidayProvider,
   SolarisHolidayRange,
+  SolarisMonthViewDensity,
+  SolarisMonthViewEventOpen,
+  SolarisMonthViewItem,
+  SolarisMonthViewItemKind,
+  SolarisMonthViewSize,
   WeekdayHolidayRule,
 } from './lib/components/scheduling/calendar/index';
 

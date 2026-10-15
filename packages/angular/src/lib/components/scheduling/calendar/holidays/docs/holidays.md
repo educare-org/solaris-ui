@@ -25,6 +25,10 @@ key; consumers may override either field.
   national since Lei 14.759/2023), US federal, Spain national. Movables derive
   from the C0 Easter computus (Carnival/Good Friday/Easter/Corpus Christi
   where observed).
+- `pt-BR` additionally bundles school observances (Dia da Escola, Povos
+  Indígenas, Descobrimento, Abolição, Estudante, Árvore, Professores):
+  non-statutory dates rendered as holiday chips because the primary consumers
+  are educational institutions.
 - State/municipal holidays (Brazil has thousands) and autonomous-community
   holidays (Spain) are intentionally out; add them via `extend([...])` or a
   custom provider.
