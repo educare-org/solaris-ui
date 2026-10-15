@@ -28,7 +28,7 @@
   --solaris-button-border-color: transparent;
   --solaris-button-gap: var(--solaris-spacing-2);
   --solaris-button-hover-border-color: transparent;
-  --solaris-button-radius: var(--solaris-radius-sm);
+  --solaris-button-radius: var(--solaris-radius-md);
   --solaris-button-active-border-color: transparent;
   --solaris-button-height: var(--solaris-spacing-10);
   --solaris-button-color: var(--solaris-neutral-text-inverse);
@@ -265,8 +265,8 @@
 [solaris-button][data-color='primary'][data-appearance='solid'] {
   --solaris-button-color: var(--solaris-primary-on-solid);
   --solaris-button-background: var(--solaris-primary-solid);
-  --solaris-button-hover-color: var(--solaris-primary-foreground);
-  --solaris-button-active-color: var(--solaris-primary-foreground);
+  --solaris-button-hover-color: var(--solaris-primary-on-solid);
+  --solaris-button-active-color: var(--solaris-primary-on-solid);
   --solaris-button-border-color: var(--solaris-primary-border);
   --solaris-button-focus-ring-color: var(--solaris-primary-solid);
   --solaris-button-hover-background: var(--solaris-primary-solid-hover);
@@ -275,8 +275,8 @@
 
 [solaris-button][data-color='primary'][data-appearance='outline'] {
   --solaris-button-color: var(--solaris-primary-solid);
-  --solaris-button-hover-color: var(--solaris-primary-foreground);
-  --solaris-button-active-color: var(--solaris-primary-foreground);
+  --solaris-button-hover-color: var(--solaris-primary-on-solid);
+  --solaris-button-active-color: var(--solaris-primary-on-solid);
   --solaris-button-border-color: var(--solaris-primary-border);
   --solaris-button-focus-ring-color: var(--solaris-primary-solid);
   --solaris-button-hover-background: var(--solaris-primary-solid-hover);
@@ -479,10 +479,10 @@
 }
 
 [solaris-button][data-color='info'][data-appearance='solid'] {
-  --solaris-button-color: var(--solaris-info-foreground);
+  --solaris-button-color: var(--solaris-info-on-solid);
   --solaris-button-background: var(--solaris-info-solid);
-  --solaris-button-hover-color: var(--solaris-info-foreground);
-  --solaris-button-active-color: var(--solaris-info-foreground);
+  --solaris-button-hover-color: var(--solaris-info-on-solid);
+  --solaris-button-active-color: var(--solaris-info-on-solid);
   --solaris-button-focus-ring-color: var(--solaris-info-solid);
   --solaris-button-hover-background: var(--solaris-info-solid-hover);
   --solaris-button-active-background: var(--solaris-info-solid-active);
@@ -490,8 +490,8 @@
 
 [solaris-button][data-color='info'][data-appearance='outline'] {
   --solaris-button-color: var(--solaris-info-foreground);
-  --solaris-button-hover-color: var(--solaris-info-foreground);
-  --solaris-button-active-color: var(--solaris-info-foreground);
+  --solaris-button-hover-color: var(--solaris-info-on-solid);
+  --solaris-button-active-color: var(--solaris-info-on-solid);
   --solaris-button-border-color: var(--solaris-info-border);
   --solaris-button-focus-ring-color: var(--solaris-info-solid);
   --solaris-button-hover-background: var(--solaris-info-solid-hover);

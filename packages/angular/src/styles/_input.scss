@@ -51,6 +51,10 @@ input[solaris-input]:focus-visible {
   box-shadow: var(--solaris-input-focus-ring-shadow);
 }
 
+input[solaris-input]:hover:not(:disabled, [readonly]) {
+  border-color: var(--solaris-neutral-border-strong);
+}
+
 input[solaris-input][data-invalid] {
   border-color: var(--solaris-input-invalid-border-color);
 }

@@ -95,17 +95,26 @@
   cursor: pointer;
   background: none;
   flex-shrink: 0;
+  position: relative;
   align-items: center;
   justify-content: center;
   margin-left: auto;
   padding: var(--solaris-spacing-0);
   width: var(--solaris-dialog-media-size);
   height: var(--solaris-dialog-media-size);
+  min-width: var(--solaris-spacing-9);
+  min-height: var(--solaris-spacing-9);
   border-radius: var(--solaris-radius-sm);
   color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-font-size-lg);
   transition: color var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-decelerate);
+}
+
+.solaris-dialog-header__close::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
 }
 
 .solaris-dialog-header__close:hover {

@@ -54,7 +54,7 @@ export type SolarisDialogButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
 
 export type SolarisDialogButtonIconPosition = 'start' | 'end';
 
-export type SolarisDialogRadius = SolarisDialogButtonRadius;
+export type SolarisDialogRadius = 'none' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type SolarisDialogDensity = SolarisDialogButtonDensity;
 

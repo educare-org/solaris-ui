@@ -433,6 +433,13 @@
   --solaris-form-field-control-radius: var(--solaris-radius-full);
 }
 
+:host(:not([data-disabled], [data-readonly], [data-focused], [data-invalid]))
+  .solaris-form-field__control-wrapper:hover {
+  --solaris-form-field-control-border-color: var(
+    --solaris-neutral-border-strong
+  );
+}
+
 :host([data-focused]) {
   --solaris-form-field-control-border-color: var(
     --solaris-form-field-focus-ring-color

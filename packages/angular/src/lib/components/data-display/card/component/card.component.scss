@@ -111,7 +111,7 @@
   border-radius: inherit;
   z-index: var(--solaris-z-index-decorative);
   background:
-    radial-gradient(circle at 72% 58%, #ff6e185c, transparent 34%),
+    radial-gradient(circle at 72% 58%, #ffffff1f, transparent 34%),
     radial-gradient(circle at 22% 16%, #ffffff2e, transparent 30%),
     linear-gradient(135deg, #ffffff2e, transparent 42%); // SOLARIS_TOKEN_EXCEPTION: glass ::before gradient needs translucent colors
 }

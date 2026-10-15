@@ -23,9 +23,8 @@
 }
 
 :host solaris-form-field ::ng-deep .solaris-form-field__control-wrapper {
+  border: 0 transparent;
   background: transparent;
-  border: 0;
-  border-color: transparent;
 }
 
 :host([data-radius='none']) {
@@ -104,6 +103,10 @@
   &[disabled] {
     cursor: not-allowed;
     opacity: var(--solaris-opacity-50);
+  }
+
+  &:hover:not([disabled]) {
+    border-color: var(--solaris-otp-input-box-active-border-color);
   }
 }
 

@@ -10,7 +10,7 @@
   --solaris-file-upload-dropzone-border-color: var(
     --solaris-neutral-border-strong
   );
-  --solaris-file-upload-dropzone-border-width: 1px;
+  --solaris-file-upload-dropzone-border-width: var(--solaris-border-width-sm);
   --solaris-file-upload-dragover-border-color: var(--solaris-primary-solid);
   --solaris-file-upload-dragover-background: var(--solaris-primary-soft);
   --solaris-file-upload-headline-font-size: var(--solaris-font-size-sm);
@@ -27,43 +27,39 @@
   --solaris-file-upload-avatar-icon-size: var(--solaris-font-size-xl);
   --solaris-file-upload-avatar-badge-size: var(--solaris-spacing-8);
 
-  display: block;
-  box-sizing: border-box;
-
-  // The host must fill its parent even as a flex/grid item: otherwise its
-  // width resolves from content and swapping to the shorter drag-over text
-  // visibly shrinks the panel.
   width: 100%;
   min-width: 0;
+  display: block;
+  box-sizing: border-box;
 }
 
 .solaris-file-upload__body {
+  width: 100%;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 100%;
-  min-width: 0;
   gap: var(--solaris-file-upload-gap);
 }
 
 .solaris-file-upload__dropzone {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
   width: 100%;
-  min-height: var(--solaris-file-upload-dropzone-min-height);
-  padding: var(--solaris-file-upload-dropzone-padding);
+  display: flex;
   cursor: pointer;
   text-align: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
   gap: var(--solaris-spacing-2);
-  border: var(--solaris-file-upload-dropzone-border-width) dashed
-    var(--solaris-file-upload-dropzone-border-color);
-  border-radius: var(--solaris-file-upload-dropzone-radius);
-  background: var(--solaris-file-upload-dropzone-background);
   color: var(--solaris-neutral-text-body);
   font-family: var(--solaris-font-family-sans);
+  padding: var(--solaris-file-upload-dropzone-padding);
+  border-radius: var(--solaris-file-upload-dropzone-radius);
+  background: var(--solaris-file-upload-dropzone-background);
+  min-height: var(--solaris-file-upload-dropzone-min-height);
+  border: var(--solaris-file-upload-dropzone-border-width) dashed
+    var(--solaris-file-upload-dropzone-border-color);
   transition:
     background-color var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
@@ -93,9 +89,9 @@
 }
 
 :host([data-dragover]) .solaris-file-upload__dropzone {
-  border-color: var(--solaris-file-upload-dragover-border-color);
   border-style: solid;
   background: var(--solaris-file-upload-dragover-background);
+  border-color: var(--solaris-file-upload-dragover-border-color);
 }
 
 :host([data-size='sm'][data-density='compact']) {
@@ -242,7 +238,8 @@
   box-sizing: border-box;
   gap: var(--solaris-spacing-2);
   padding: var(--solaris-file-upload-trigger-padding);
-  border: 1px solid var(--solaris-file-upload-trigger-border-color);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-file-upload-trigger-border-color);
   border-radius: var(--solaris-file-upload-trigger-radius);
   background: var(--solaris-file-upload-trigger-background);
   color: var(--solaris-neutral-text-body);

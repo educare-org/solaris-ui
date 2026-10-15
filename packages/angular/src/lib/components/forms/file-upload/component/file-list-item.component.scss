@@ -17,7 +17,8 @@
   padding: var(--solaris-file-list-item-padding);
   background: var(--solaris-file-list-item-background);
   border-radius: var(--solaris-file-list-item-radius);
-  border: 1px solid var(--solaris-file-list-item-border-color);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-file-list-item-border-color);
 }
 
 .solaris-file-list-item__icon {

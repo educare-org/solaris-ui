@@ -55,6 +55,10 @@ textarea[solaris-textarea]:focus-visible {
   box-shadow: var(--solaris-textarea-focus-ring-shadow);
 }
 
+textarea[solaris-textarea]:hover:not(:disabled, [readonly]) {
+  border-color: var(--solaris-neutral-border-strong);
+}
+
 textarea[solaris-textarea][data-invalid] {
   border-color: var(--solaris-textarea-invalid-border-color);
 }

@@ -238,14 +238,14 @@ describe('SolarisDialogService', () => {
       title: 'Test',
       headerSeparator: false,
       footerSeparator: false,
-      radius: 'full',
+      radius: 'xl',
     });
     TestBed.inject(ApplicationRef).tick();
 
     const container = lastDialogContainer();
     expect(container?.getAttribute('data-header-separator')).toBeNull();
     expect(container?.getAttribute('data-footer-separator')).toBeNull();
-    expect(container?.getAttribute('data-radius')).toBe('full');
+    expect(container?.getAttribute('data-radius')).toBe('xl');
     ref.close();
   });
 

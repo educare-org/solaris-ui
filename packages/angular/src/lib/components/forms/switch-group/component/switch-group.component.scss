@@ -91,10 +91,7 @@
 }
 
 :host([data-invalid]) {
-  --solaris-switch-group-label-color: var(
-    --solaris-text-danger,
-    var(--solaris-neutral-text-heading)
-  );
+  --solaris-switch-group-label-color: var(--solaris-danger-foreground);
   --solaris-switch-group-error-color: var(--solaris-danger-foreground);
 }
 
