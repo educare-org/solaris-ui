@@ -94,7 +94,7 @@ mode
 data
 config
 changed
-selected
+selected (bare — always use the `selected` + `selectedChange` pair)
 ```
 
 Prefer precise names:

@@ -39,12 +39,16 @@ if (!fileExists(libDir)) {
           walk(fullPath);
         }
       } else if (/\.(ts|html)$/.test(entry.name)) {
+        // Dictionary values are data, not violations (03-standards-decision.md):
+        // the translate defaults file holds the localized strings themselves.
+        // Stories are consumer demo content, correctly excluded.
         if (
           entry.name.endsWith('.spec.ts') ||
           entry.name.endsWith('.test.ts') ||
-          entry.name.endsWith('.stories.ts')
+          entry.name.endsWith('.stories.ts') ||
+          entry.name === 'solaris-translate-defaults.ts'
         ) {
-          return;
+          continue;
         }
         files.push(fullPath);
       }

@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && pnpm nx serve showcase --port=4300",
-    "dev": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && pnpm nx serve showcase --port=4300",
-    "showcase": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && pnpm nx serve showcase --port=4300",
+    "dev": "pnpm start",
+    "showcase": "pnpm start",
     "build": "pnpm nx run-many -t build",
     "build:lib": "pnpm nx build angular && pnpm build:schematics",
     "build:schematics": "pnpm nx run angular:build:schematics",

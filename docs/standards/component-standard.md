@@ -76,10 +76,10 @@ button/
     button.component.ts
     button.component.html
     button.component.scss
-    button.component.spec.ts
   model/
     button.types.ts
   testing/
+    button.component.spec.ts
     button.harness.ts
   docs/
     button.md
@@ -87,6 +87,10 @@ button/
 ```
 
 The structure must not be inflated when not needed.
+Specs and harnesses live in `testing/` (never beside the component file).
+`directives/`, `service/`, and `token/` folders live alongside only when the
+component needs them, per `docs/architecture/architecture.md` (accepted, not
+a violation).
 
 ## Public API
 
@@ -107,10 +111,10 @@ density
 disabled
 loading
 pressed
-selected
-valueChange
 selectedChange
 openedChange
+valueChange
+selected (+ selectedChange as a pair — bare `selected` input alone is forbidden)
 ```
 
 Bad:
@@ -169,6 +173,9 @@ Components must use:
 - Solaris tokens;
 - px-based values;
 - local component styles.
+- `data-*` attributes for variants (`data-size`, `data-color`,
+  `data-variant`, `data-appearance`, `data-density`) — never CSS classes
+  for variants.
 
 Raw values are forbidden unless technically justified.
 

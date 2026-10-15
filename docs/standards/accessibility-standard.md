@@ -85,18 +85,20 @@ Focus management is required for these patterns:
 
 ## 3. Touch targets
 
-### Minimum sizes (WCAG 2.2)
+### Minimum sizes (WCAG 2.2 AA + Solaris target)
 
-| Target type                | Minimum size               |
-| -------------------------- | -------------------------- |
-| Pointer targets (default)  | 24×24 CSS px               |
-| Essential targets (inline) | no minimum                 |
-| Density compact            | 44×44 CSS px (recommended) |
+| Target type                | Minimum size | Source               |
+| -------------------------- | ------------ | -------------------- |
+| WCAG 2.2 AA floor          | 24×24 CSS px | WCAG 2.5.8           |
+| Solaris target (default)   | 44×44 CSS px | Solaris (exceeds AA) |
+| Essential targets (inline) | no minimum   | WCAG exception       |
 
-All interactive controls should target 44×44px (`--solaris-density-min-height`
+All interactive controls must target 44×44px (`--solaris-density-min-height`
 
-- `--solaris-density-padding-*`), which aligns with the normal density
-  mode (compact is accepted as a tradeoff for dense layouts).
+- `--solaris-density-padding-*`). A 24px optical size is allowed ONLY with a
+  documented 44px hit area. `compact` density is an accepted tradeoff for dense
+  layouts: it may render below 44px visually, but the 44px hit area (or the
+  deliberate exception) must be documented per component.
 
 ---
 

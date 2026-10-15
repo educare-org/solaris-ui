@@ -38,8 +38,12 @@ Consumers may customize Solaris through supported options only:
 ```txt
 colorScheme: light | dark | system
 density: compact | normal | comfortable
-radius: none | sm | md | lg | xl
+radius: none | sm | md | lg | xl | full
 ```
+
+`radius: xl | full` is forbidden on textual inputs (see
+`docs/architecture/forms-foundation-contract.md` §12.3 — textual fields allow
+only `none | sm | md | lg`); allowed elsewhere.
 
 Custom arbitrary values are not allowed unless explicitly supported.
 
@@ -103,6 +107,8 @@ Consumer customization must happen through documented setup contracts.
 - hardcoded component spacing;
 - hardcoded component font sizes;
 - hardcoded component radii;
+- CSS classes for variants — use `data-size`, `data-color`, `data-variant`,
+  `data-appearance`, `data-density` attributes instead;
 - deep selectors against Solaris internals;
 - CSS that depends on private DOM structure;
 - global CSS leakage;

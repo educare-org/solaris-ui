@@ -78,6 +78,11 @@ defaultLocale
 fallbackLocale
 ```
 
+Scope: `colorScheme/density/radius` are visual tokens governed by
+`docs/standards/styling-and-tokens.md` (`radius: xl | full` forbidden on
+textual inputs). `typographyScale/reducedMotion/defaultLocale/fallbackLocale`
+are provider/setup contracts (not token overrides) and remain valid here.
+
 ## Forbidden customization
 
 Consumers must not customize Solaris through:
