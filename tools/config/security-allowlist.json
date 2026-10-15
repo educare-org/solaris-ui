@@ -1,6 +1,6 @@
 {
   "packages/angular/src/lib/components/actions/button/directives/button-host-base.ts": {
-    "patterns": 9,
+    "patterns": 10,
     "reviewed": "2026-10-15"
   },
   "packages/angular/src/lib/components/actions/button/directives/button.directive.ts": {
