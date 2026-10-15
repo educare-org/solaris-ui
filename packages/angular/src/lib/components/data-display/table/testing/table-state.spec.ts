@@ -291,3 +291,143 @@ describe('resolveHeaderGroupSpans', () => {
     expect(spans[0].group).toBe(null);
   });
 });
+
+describe('coverage - resolveDisplayValue null inputs', () => {
+  it('should return null for null cell values', () => {
+    expect(
+      resolveDisplayValue({ id: 'x', name: 'Zed', age: null }, COLUMNS[1]),
+    ).toBe(null);
+  });
+
+  it('should return null for undefined cell values', () => {
+    const row = { id: 'x', name: undefined as unknown as string, age: 1 };
+    expect(resolveDisplayValue(row, COLUMNS[0])).toBe(null);
+  });
+});
+
+describe('coverage - normalizeComparable empty strings', () => {
+  it('should normalize blank strings to null', () => {
+    expect(resolveSortValue({ id: 'x', name: '   ', age: 1 }, COLUMNS[0])).toBe(
+      null,
+    );
+  });
+
+  it('should sort blank names last', () => {
+    const rows = resolveRows([...ROWS, { id: 'z', name: '', age: 20 }], 'id');
+    const sorted = sortRows(rows, COLUMNS, {
+      columnId: 'name',
+      direction: 'asc',
+    });
+    expect(sorted[sorted.length - 1].rowId).toBe('z');
+  });
+});
+
+describe('coverage - sortRows null stability', () => {
+  it('should keep the original order when both values are null', () => {
+    const rows = resolveRows(
+      [
+        { id: 'm', name: 'Zed', age: null },
+        { id: 'n', name: 'Amy', age: null },
+      ],
+      'id',
+    );
+    const sorted = sortRows(rows, COLUMNS, {
+      columnId: 'age',
+      direction: 'asc',
+    });
+    expect(sorted.map((row) => row.rowId)).toEqual(['m', 'n']);
+  });
+});
+
+describe('coverage - toDateValue via date columns', () => {
+  interface DatedRow {
+    id: string;
+    when: unknown;
+  }
+
+  const DATE_COLUMN: SolarisTableColumn<DatedRow> = {
+    id: 'when',
+    header: 'When',
+    accessor: 'when',
+    type: 'date',
+    sortable: true,
+  };
+
+  function dated(
+    entries: readonly { id: string; when: unknown }[],
+  ): ReturnType<typeof resolveRows<DatedRow>> {
+    return resolveRows(
+      entries.map((entry) => ({ id: entry.id, when: entry.when })),
+      'id',
+    );
+  }
+
+  it('should use the timestamp for Date instances', () => {
+    const date = new Date('2024-03-01T00:00:00.000Z');
+    expect(resolveSortValue({ id: 'a', when: date }, DATE_COLUMN)).toBe(
+      date.getTime(),
+    );
+  });
+
+  it('should return null for invalid dates', () => {
+    expect(
+      resolveSortValue({ id: 'a', when: new Date('not-a-date') }, DATE_COLUMN),
+    ).toBe(null);
+  });
+
+  it('should keep finite numbers and drop non-finite numbers', () => {
+    expect(
+      resolveSortValue({ id: 'a', when: 1700000000000 }, DATE_COLUMN),
+    ).toBe(1700000000000);
+    expect(resolveSortValue({ id: 'a', when: Number.NaN }, DATE_COLUMN)).toBe(
+      null,
+    );
+    expect(
+      resolveSortValue(
+        { id: 'a', when: Number.POSITIVE_INFINITY },
+        DATE_COLUMN,
+      ),
+    ).toBe(null);
+  });
+
+  it('should return null for blank strings', () => {
+    expect(resolveSortValue({ id: 'a', when: '' }, DATE_COLUMN)).toBe(null);
+    expect(resolveSortValue({ id: 'a', when: '   ' }, DATE_COLUMN)).toBe(null);
+  });
+
+  it('should parse date strings to timestamps', () => {
+    expect(resolveSortValue({ id: 'a', when: '2024-05-01' }, DATE_COLUMN)).toBe(
+      Date.parse('2024-05-01'),
+    );
+  });
+
+  it('should fall back to the lowercased string for unparseable input', () => {
+    expect(resolveSortValue({ id: 'a', when: 'NOT-A-DATE' }, DATE_COLUMN)).toBe(
+      'not-a-date',
+    );
+  });
+
+  it('should return null for other value kinds', () => {
+    expect(resolveSortValue({ id: 'a', when: true }, DATE_COLUMN)).toBe(null);
+    expect(resolveSortValue({ id: 'a', when: {} }, DATE_COLUMN)).toBe(null);
+    expect(resolveSortValue({ id: 'a', when: null }, DATE_COLUMN)).toBe(null);
+    expect(resolveSortValue({ id: 'a', when: undefined }, DATE_COLUMN)).toBe(
+      null,
+    );
+  });
+
+  it('should sort valid dates before fallback strings and nulls last', () => {
+    const sorted = sortRows(
+      dated([
+        { id: 'a', when: 'not-a-date-zzz' },
+        { id: 'b', when: new Date('2024-01-02T00:00:00.000Z') },
+        { id: 'c', when: '2024-01-01T00:00:00.000Z' },
+        { id: 'd', when: null },
+        { id: 'e', when: Number.NaN },
+      ]),
+      [DATE_COLUMN],
+      { columnId: 'when', direction: 'asc' },
+    );
+    expect(sorted.map((row) => row.rowId)).toEqual(['c', 'b', 'a', 'd', 'e']);
+  });
+});

@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { DOCUMENT } from '@angular/common';
+import { vi } from 'vitest';
 
 import { SolarisTableComponent } from '../component/table.component';
+import { DETAIL_COLLAPSE_DURATION_MS } from '../model/table.defaults';
 import {
   SolarisTableCellDirective,
   SolarisTableCellEditorDirective,
@@ -11,6 +14,10 @@ import {
   SolarisTableHeaderDirective,
 } from '../directives/table-cell.directive';
 import type { SolarisTableColumn } from '../model/table.types';
+import type {
+  SolarisTableViewColumn,
+  SolarisTableViewRow,
+} from '../model/table.types';
 
 interface Person {
   id: string;
@@ -1275,3 +1282,697 @@ class CellEditorHostComponent {
   readonly started: { column: SolarisTableColumn<Person> }[] = [];
   readonly ended: { column: SolarisTableColumn<Person> }[] = [];
 }
+
+interface TableCoverageInternals {
+  cellDetailId(row: SolarisTableViewRow<Person>, columnIndex: number): string;
+  cellDetailRowId(rowIndex: number): string;
+  allVisibleRowsSelected(): boolean;
+  someVisibleRowsSelected(): boolean;
+  expandedCellColumns(
+    row: SolarisTableViewRow<Person>,
+  ): readonly SolarisTableViewColumn<Person>[];
+  visibleCellColumns(
+    row: SolarisTableViewRow<Person>,
+  ): readonly SolarisTableViewColumn<Person>[];
+  isCellExpanded(
+    row: SolarisTableViewRow<Person>,
+    column: SolarisTableViewColumn<Person>,
+  ): boolean;
+  isCellDetailRowOpen(row: SolarisTableViewRow<Person>): boolean;
+  isCellDetailRowVisible(row: SolarisTableViewRow<Person>): boolean;
+  toggleCellExpanded(
+    row: SolarisTableViewRow<Person>,
+    column: SolarisTableViewColumn<Person>,
+  ): void;
+  toggleRowExpanded(row: SolarisTableViewRow<Person>): void;
+  prefersReducedMotion(): boolean;
+  userColumns(): readonly SolarisTableViewColumn<Person>[];
+  visibleRows(): readonly SolarisTableViewRow<Person>[];
+  openedCells(): readonly string[];
+  isEditingCell(
+    row: SolarisTableViewRow<Person>,
+    column: SolarisTableViewColumn<Person>,
+  ): boolean;
+  startEditing(
+    row: SolarisTableViewRow<Person>,
+    column: SolarisTableViewColumn<Person>,
+    event?: Event,
+  ): void;
+  stopEditing(
+    row: SolarisTableViewRow<Person>,
+    column: SolarisTableViewColumn<Person>,
+  ): void;
+  resolveEditorTemplate(column: SolarisTableViewColumn<Person>): unknown;
+  toggleSort(column: SolarisTableViewColumn<Person>): void;
+  handleAddRow(): void;
+}
+
+function internalsOf(fixture: {
+  componentInstance: unknown;
+}): TableCoverageInternals {
+  return fixture.componentInstance as TableCoverageInternals;
+}
+
+function viewRow(rowId: string): SolarisTableViewRow<Person> {
+  return { rowId } as SolarisTableViewRow<Person>;
+}
+
+function stubAnimationFrames(): {
+  queue: Map<number, FrameRequestCallback>;
+  cancelled: number[];
+  restore(): void;
+} {
+  const queue = new Map<number, FrameRequestCallback>();
+  const cancelled: number[] = [];
+  let nextId = 0;
+  const originalRequest = globalThis.requestAnimationFrame;
+  const originalCancel = globalThis.cancelAnimationFrame;
+  globalThis.requestAnimationFrame = ((
+    callback: FrameRequestCallback,
+  ): number => {
+    nextId += 1;
+    queue.set(nextId, callback);
+    return nextId;
+  }) as typeof requestAnimationFrame;
+  globalThis.cancelAnimationFrame = ((id: number): void => {
+    cancelled.push(id);
+    queue.delete(id);
+  }) as typeof cancelAnimationFrame;
+  return {
+    queue,
+    cancelled,
+    restore(): void {
+      globalThis.requestAnimationFrame = originalRequest;
+      globalThis.cancelAnimationFrame = originalCancel;
+    },
+  };
+}
+
+function flushAnimationFrames(queue: Map<number, FrameRequestCallback>): void {
+  while (queue.size > 0) {
+    const pending = [...queue.values()];
+    queue.clear();
+    for (const callback of pending) {
+      callback(16);
+    }
+  }
+}
+
+function stubMatchMedia(matches: (query: string) => boolean): () => void {
+  TestBed.configureTestingModule({});
+  const doc = TestBed.inject(DOCUMENT);
+  const view = doc.defaultView as unknown as {
+    matchMedia: unknown;
+  };
+  const original = view.matchMedia;
+  const listeners = new Map<string, (event: { matches: boolean }) => void>();
+  const removed: string[] = [];
+  view.matchMedia = ((query: string) => ({
+    matches: matches(query),
+    media: query,
+    addEventListener: (
+      type: string,
+      listener: (event: { matches: boolean }) => void,
+    ): void => {
+      listeners.set(type, listener);
+    },
+    removeEventListener: (type: string): void => {
+      removed.push(type);
+      listeners.delete(type);
+    },
+    dispatchChange(next: boolean): void {
+      listeners.get('change')?.({ matches: next });
+    },
+  })) as unknown as typeof view.matchMedia;
+  return () => {
+    view.matchMedia = original;
+  };
+}
+
+describe('SolarisTableComponent cell detail ids', () => {
+  it('should build stable cell detail ids per row and column', () => {
+    const { fixture } = createFixture();
+    const internals = internalsOf(fixture);
+    const row = viewRow('b');
+    const first = internals.cellDetailId(row, 0);
+    expect(first).toBe(internals.cellDetailId(row, 0));
+    expect(first).toContain('b');
+    expect(first).not.toBe(internals.cellDetailId(row, 1));
+    expect(internals.cellDetailRowId(2)).toContain('2');
+  });
+});
+
+describe('SolarisTableComponent selection flags', () => {
+  it('should report selection flags only in multiple mode with visible rows', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.detectChanges();
+    const internals = internalsOf(fixture);
+    expect(internals.allVisibleRowsSelected()).toBe(false);
+    expect(internals.someVisibleRowsSelected()).toBe(false);
+
+    fixture.componentRef.setInput('selectionMode', 'multiple');
+    fixture.detectChanges();
+    expect(internals.allVisibleRowsSelected()).toBe(false);
+    expect(internals.someVisibleRowsSelected()).toBe(false);
+
+    fixture.componentRef.setInput('selectedRowIds', ['b']);
+    fixture.detectChanges();
+    expect(internals.allVisibleRowsSelected()).toBe(false);
+    expect(internals.someVisibleRowsSelected()).toBe(true);
+
+    fixture.componentRef.setInput('selectedRowIds', ['b', 'a']);
+    fixture.detectChanges();
+    expect(internals.allVisibleRowsSelected()).toBe(true);
+    expect(internals.someVisibleRowsSelected()).toBe(false);
+  });
+
+  it('should report no selection flags without visible rows', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', []);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('selectionMode', 'multiple');
+    fixture.detectChanges();
+    const internals = internalsOf(fixture);
+    expect(internals.allVisibleRowsSelected()).toBe(false);
+    expect(internals.someVisibleRowsSelected()).toBe(false);
+  });
+
+  it('should keep an explicit checkbox column instead of injecting one', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      { id: 'select', header: '', type: 'checkbox' },
+      ...COLUMNS,
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('selectionMode', 'multiple');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelectorAll('thead solaris-checkbox').length).toBe(1);
+  });
+});
+
+describe('SolarisTableComponent cell expansion', () => {
+  it('should report no expanded cell columns outside cell expand mode', () => {
+    const { fixture } = createFixture();
+    const internals = internalsOf(fixture);
+    const row = viewRow('b');
+    const column = { id: 'name' } as SolarisTableViewColumn<Person>;
+    expect(internals.expandedCellColumns(row)).toEqual([]);
+    expect(internals.visibleCellColumns(row)).toEqual([]);
+    expect(internals.isCellDetailRowOpen(row)).toBe(false);
+    expect(internals.isCellExpanded(row, column)).toBe(false);
+    internals.toggleCellExpanded(row, column);
+    expect(internals.isCellExpanded(row, column)).toBe(false);
+  });
+
+  it('should open cell details on the next frames and collapse after the duration', () => {
+    vi.useFakeTimers();
+    const frames = stubAnimationFrames();
+    try {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(CellDetailHostComponent);
+      fixture.detectChanges();
+      const element = fixture.nativeElement as HTMLElement;
+      const button = element.querySelector(
+        '.solaris-table__cell-expand',
+      ) as HTMLButtonElement;
+      button.click();
+      fixture.detectChanges();
+      expect(button.getAttribute('aria-expanded')).toBe('true');
+
+      flushAnimationFrames(frames.queue);
+      fixture.detectChanges();
+      expect(
+        element.querySelector('.solaris-table__row--cell-detail[data-open]'),
+      ).toBeTruthy();
+
+      button.click();
+      fixture.detectChanges();
+      expect(button.getAttribute('aria-expanded')).toBe('false');
+      expect(
+        element.querySelector('.solaris-table__row--cell-detail'),
+      ).toBeTruthy();
+      vi.advanceTimersByTime(DETAIL_COLLAPSE_DURATION_MS);
+      fixture.detectChanges();
+      expect(
+        element.querySelector('.solaris-table__row--cell-detail'),
+      ).toBeFalsy();
+      fixture.destroy();
+    } finally {
+      frames.restore();
+      vi.useRealTimers();
+    }
+  });
+
+  it('should cancel a pending cell open and collapse immediately under reduced motion', () => {
+    vi.useFakeTimers();
+    const frames = stubAnimationFrames();
+    const restoreMatchMedia = stubMatchMedia(() => true);
+    try {
+      const fixture = TestBed.createComponent(CellDetailHostComponent);
+      fixture.detectChanges();
+      const element = fixture.nativeElement as HTMLElement;
+      const button = element.querySelector(
+        '.solaris-table__cell-expand',
+      ) as HTMLButtonElement;
+      button.click();
+      fixture.detectChanges();
+      expect(frames.queue.size).toBeGreaterThan(0);
+
+      button.click();
+      fixture.detectChanges();
+      expect(frames.cancelled.length).toBeGreaterThan(0);
+      expect(frames.queue.size).toBe(0);
+      vi.advanceTimersByTime(0);
+      fixture.detectChanges();
+      expect(
+        element.querySelector('.solaris-table__row--cell-detail'),
+      ).toBeFalsy();
+      fixture.destroy();
+    } finally {
+      restoreMatchMedia();
+      frames.restore();
+      vi.useRealTimers();
+    }
+  });
+
+  it('should keep the cell detail row while other cells stay expanded', () => {
+    const frames = stubAnimationFrames();
+    try {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+      fixture.componentRef.setInput('columns', [
+        {
+          id: 'name',
+          header: 'Name',
+          accessor: 'name',
+          expandable: true,
+          detailTemplateId: 'name-detail',
+        },
+        {
+          id: 'age',
+          header: 'Age',
+          accessor: 'age',
+          type: 'number',
+          expandable: true,
+          detailTemplateId: 'age-detail',
+        },
+      ]);
+      fixture.componentRef.setInput('data', ROWS);
+      fixture.componentRef.setInput('rowId', 'id');
+      fixture.componentRef.setInput('expandable', true);
+      fixture.componentRef.setInput('expandMode', 'cell');
+      fixture.detectChanges();
+      const internals = internalsOf(fixture);
+      const row = internals.visibleRows()[0];
+      const [nameColumn, ageColumn] = internals.userColumns();
+      internals.toggleCellExpanded(row, nameColumn);
+      internals.toggleCellExpanded(row, ageColumn);
+      internals.toggleCellExpanded(row, nameColumn);
+      fixture.detectChanges();
+      expect(internals.isCellDetailRowVisible(row)).toBe(true);
+      expect(
+        internals.visibleCellColumns(row).map((column) => column.id),
+      ).toEqual(['age']);
+    } finally {
+      frames.restore();
+    }
+  });
+
+  it('should clear a pending cell collapse when expanding again', () => {
+    vi.useFakeTimers();
+    const frames = stubAnimationFrames();
+    try {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(CellDetailHostComponent);
+      fixture.detectChanges();
+      const element = fixture.nativeElement as HTMLElement;
+      const button = element.querySelector(
+        '.solaris-table__cell-expand',
+      ) as HTMLButtonElement;
+      button.click();
+      fixture.detectChanges();
+      button.click();
+      fixture.detectChanges();
+      expect(
+        element.querySelector('.solaris-table__row--cell-detail'),
+      ).toBeTruthy();
+
+      button.click();
+      fixture.detectChanges();
+      expect(button.getAttribute('aria-expanded')).toBe('true');
+      vi.advanceTimersByTime(DETAIL_COLLAPSE_DURATION_MS);
+      fixture.detectChanges();
+      expect(
+        element.querySelector('.solaris-table__row--cell-detail'),
+      ).toBeTruthy();
+      fixture.destroy();
+    } finally {
+      frames.restore();
+      vi.useRealTimers();
+    }
+  });
+
+  it('should open cell details synchronously outside the browser', () => {
+    TestBed.configureTestingModule({
+      providers: [{ provide: PLATFORM_ID, useValue: 'server' }],
+    });
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      { id: 'name', header: 'Name', accessor: 'name' },
+      {
+        id: 'age',
+        header: 'Age',
+        accessor: 'age',
+        type: 'number',
+        expandable: true,
+        detailTemplateId: 'age-detail',
+      },
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('expandable', true);
+    fixture.componentRef.setInput('expandMode', 'cell');
+    fixture.detectChanges();
+    const internals = internalsOf(fixture);
+    const row = internals.visibleRows()[0];
+    const ageColumn = internals.userColumns()[1];
+    internals.toggleCellExpanded(row, ageColumn);
+    expect(internals.isCellExpanded(row, ageColumn)).toBe(true);
+    expect(internals.openedCells().length).toBe(1);
+  });
+});
+
+describe('SolarisTableComponent row expansion lifecycle', () => {
+  it('should cancel a pending row open when collapsing before the frame runs', () => {
+    vi.useFakeTimers();
+    const frames = stubAnimationFrames();
+    try {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+      fixture.componentRef.setInput('columns', [
+        { id: 'name', header: 'Name', accessor: 'name' },
+        { id: 'age', header: 'Age', accessor: 'age', priority: 2 },
+      ]);
+      fixture.componentRef.setInput('data', ROWS);
+      fixture.componentRef.setInput('rowId', 'id');
+      fixture.componentRef.setInput('expandable', true);
+      fixture.detectChanges();
+      const element = fixture.nativeElement as HTMLElement;
+      const button = element.querySelector(
+        '.solaris-table__expand-button',
+      ) as HTMLButtonElement;
+      button.click();
+      fixture.detectChanges();
+      expect(button.getAttribute('aria-expanded')).toBe('true');
+      expect(frames.queue.size).toBeGreaterThan(0);
+
+      button.click();
+      fixture.detectChanges();
+      expect(frames.cancelled.length).toBeGreaterThan(0);
+      expect(button.getAttribute('aria-expanded')).toBe('false');
+      expect(element.querySelector('.solaris-table__row--detail')).toBeTruthy();
+
+      button.click();
+      fixture.detectChanges();
+      expect(button.getAttribute('aria-expanded')).toBe('true');
+      flushAnimationFrames(frames.queue);
+      fixture.detectChanges();
+
+      button.click();
+      fixture.detectChanges();
+      vi.advanceTimersByTime(DETAIL_COLLAPSE_DURATION_MS);
+      fixture.detectChanges();
+      expect(element.querySelector('.solaris-table__row--detail')).toBeFalsy();
+      fixture.destroy();
+    } finally {
+      frames.restore();
+      vi.useRealTimers();
+    }
+  });
+});
+
+describe('SolarisTableComponent reduced motion', () => {
+  it('should honor the OS reduced-motion preference', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.detectChanges();
+    const internals = internalsOf(fixture);
+    const doc = TestBed.inject(DOCUMENT);
+    const view = doc.defaultView as unknown as {
+      matchMedia(query: string): { matches: boolean } | undefined;
+    };
+    const original = view.matchMedia;
+    expect(internals.prefersReducedMotion()).toBe(false);
+    view.matchMedia = () => ({ matches: true });
+    expect(internals.prefersReducedMotion()).toBe(true);
+    view.matchMedia = undefined as unknown as typeof original;
+    expect(internals.prefersReducedMotion()).toBe(false);
+    view.matchMedia = original;
+  });
+
+  it('should track the narrow viewport through matchMedia', () => {
+    const restoreMatchMedia = stubMatchMedia(
+      (query) => query === '(max-width: 720px)',
+    );
+    try {
+      const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+      fixture.componentRef.setInput('columns', COLUMNS);
+      fixture.componentRef.setInput('data', ROWS);
+      fixture.componentRef.setInput('rowId', 'id');
+      fixture.componentRef.setInput('expandable', true);
+      fixture.detectChanges();
+      const element = fixture.nativeElement as HTMLElement;
+      expect(element.querySelector('table')).toBeFalsy();
+      fixture.destroy();
+    } finally {
+      restoreMatchMedia();
+    }
+  });
+});
+
+describe('SolarisTableComponent date cells', () => {
+  interface DatedRow {
+    id: string;
+    hired: unknown;
+  }
+
+  const DATE_COLUMNS: readonly SolarisTableColumn<DatedRow>[] = [
+    { id: 'hired', header: 'Hired', accessor: 'hired', type: 'date' },
+  ];
+
+  function createDateFixture(rows: readonly DatedRow[]) {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<DatedRow>);
+    fixture.componentRef.setInput('columns', DATE_COLUMNS);
+    fixture.componentRef.setInput('data', rows);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.detectChanges();
+    return {
+      fixture,
+      element: fixture.nativeElement as HTMLElement,
+    };
+  }
+
+  it('should format date cells with the locale medium date', () => {
+    const { element } = createDateFixture([
+      { id: 'a', hired: new Date(2026, 2, 4) },
+    ]);
+    expect(
+      element
+        .querySelector(
+          'tbody tr.solaris-table__row .solaris-table__cell[data-column-id="hired"]',
+        )
+        ?.textContent?.trim(),
+    ).toBe('Mar 4, 2026');
+  });
+
+  it('should fall back to raw text when a date value cannot be formatted', () => {
+    const { element } = createDateFixture([{ id: 'a', hired: 'not-a-date' }]);
+    expect(
+      element
+        .querySelector(
+          'tbody tr.solaris-table__row .solaris-table__cell[data-column-id="hired"]',
+        )
+        ?.textContent?.trim(),
+    ).toBe('not-a-date');
+  });
+});
+
+describe('SolarisTableComponent sticky group headers', () => {
+  it('should pin trailing group headers when stickyLastColumn is true', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      { id: 'name', header: 'Name', accessor: 'name' },
+      {
+        id: 'age',
+        header: 'Age',
+        accessor: 'age',
+        type: 'number',
+        headerGroup: 'metrics',
+      },
+    ]);
+    fixture.componentRef.setInput('headerGroups', [
+      { id: 'metrics', header: 'Metrics' },
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('stickyLastColumn', true);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(
+      element
+        .querySelector('th[scope="colgroup"]')
+        ?.getAttribute('data-sticky'),
+    ).toBe('end');
+  });
+
+  it('should pin leading grouped headers with the sticky first columns', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      {
+        id: 'name',
+        header: 'Name',
+        accessor: 'name',
+        headerGroup: 'identity',
+      },
+      { id: 'age', header: 'Age', accessor: 'age', type: 'number' },
+    ]);
+    fixture.componentRef.setInput('headerGroups', [
+      { id: 'identity', header: 'Identity' },
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('selectionMode', 'multiple');
+    fixture.componentRef.setInput('stickyFirstColumn', true);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(
+      element
+        .querySelector('th[scope="colgroup"]')
+        ?.getAttribute('data-sticky'),
+    ).toBe('start');
+  });
+});
+
+describe('SolarisTableComponent editing and action guards', () => {
+  function createEditableFixture() {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', [
+      {
+        id: 'name',
+        header: 'Name',
+        accessor: 'name',
+        editorTemplateId: 'name-editor',
+      },
+      { id: 'age', header: 'Age', accessor: 'age', type: 'number' },
+    ]);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.detectChanges();
+    return fixture;
+  }
+
+  it('should ignore edit requests from interactive targets', () => {
+    const fixture = createEditableFixture();
+    const internals = internalsOf(fixture);
+    const row = internals.visibleRows()[0];
+    const nameColumn = internals.userColumns()[0];
+    internals.startEditing(row, nameColumn, {
+      target: { closest: (): boolean => true },
+    } as unknown as Event);
+    expect(internals.isEditingCell(row, nameColumn)).toBe(false);
+  });
+
+  it('should ignore stopEditing and resolveEditorTemplate without an editor', () => {
+    const fixture = createEditableFixture();
+    const internals = internalsOf(fixture);
+    const row = internals.visibleRows()[0];
+    const ageColumn = internals.userColumns()[1];
+    const ended: unknown[] = [];
+    fixture.componentInstance.editEnd.subscribe((event) => ended.push(event));
+    expect(internals.resolveEditorTemplate(ageColumn)).toBe(null);
+    internals.stopEditing(row, ageColumn);
+    expect(ended).toEqual([]);
+  });
+
+  it('should ignore sort toggles on non-sortable columns', () => {
+    const { fixture } = createFixture();
+    const internals = internalsOf(fixture);
+    internals.toggleSort({ id: 'name' } as SolarisTableViewColumn<Person>);
+    expect(fixture.componentInstance.sort()).toBe(null);
+  });
+
+  it('should not emit addRowRequest while loading', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('showAddRow', true);
+    fixture.componentRef.setInput('loading', true);
+    fixture.detectChanges();
+    const internals = internalsOf(fixture);
+    let emitted = 0;
+    fixture.componentInstance.addRowRequest.subscribe(() => {
+      emitted += 1;
+    });
+    internals.handleAddRow();
+    expect(emitted).toBe(0);
+  });
+});
+
+describe('SolarisTableComponent card titles', () => {
+  it('should render custom card titles and subtitles', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('expandable', true);
+    fixture.componentRef.setInput('mobile', true);
+    fixture.componentRef.setInput('cardTitleOf', (row: Person) => row.name);
+    fixture.componentRef.setInput(
+      'cardSubtitleOf',
+      (row: Person) => `${row.age} years`,
+    );
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(
+      element.querySelector('.solaris-table__card-title')?.textContent,
+    ).toContain('Beto');
+    expect(
+      element.querySelector('.solaris-table__card-subtitle')?.textContent,
+    ).toContain('30 years');
+  });
+
+  it('should ignore blank custom card titles and subtitles', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('expandable', true);
+    fixture.componentRef.setInput('mobile', true);
+    fixture.componentRef.setInput('cardTitleOf', () => '   ');
+    fixture.componentRef.setInput('cardSubtitleOf', () => null);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelector('.solaris-table__card-title')).toBeFalsy();
+    expect(element.querySelector('.solaris-table__card-subtitle')).toBeFalsy();
+  });
+});

@@ -176,6 +176,17 @@ Every variant input also accepts its `data-*` attribute form
 form in server-rendered HTML: it paints correctly with CSS alone, before
 hydration runs, avoiding a flash of default variants on reload.
 
+### Post-hydration transitions (`data-hydrated`)
+
+Color, background, border, shadow, and filter transitions are enabled only
+once the directive stamps `data-hydrated` (browser-only, in
+`afterNextRender` — never rendered on the server, so SSR hydration cannot
+diverge on it). The initial paint always applies with `transition: none`:
+no appearance/color/size/density change animates from the neutral base.
+When `data-size` is present but `data-density` has not resolved yet (theme
+CSS still loading, group context attaching), normal-density geometry is
+assumed so the resolved density lands without a jump.
+
 Inside an attached `solaris-button-group`, the button carries
 `data-group="horizontal"` (or `"vertical"`, from the group context). That
 attribute scopes the attached styling (square middle, flush edge radius,

@@ -3,13 +3,20 @@ import { TestBed } from '@angular/core/testing';
 import type { ComponentFixture } from '@angular/core/testing';
 
 import { createServerTableDataSource } from '../../table';
-import { SolarisTableFooterDirective } from '../../table/directives/table-cell.directive';
+import {
+  SolarisTableFooterCellDirective,
+  SolarisTableFooterDirective,
+} from '../../table/directives/table-cell.directive';
 import { SolarisPaginationComponent } from '../../../navigation/pagination/component/pagination.component';
-import { SolarisGradebookComponent } from '../component/gradebook.component';
+import {
+  SOLARIS_GRADEBOOK_IDENTITY_COLUMN_ID,
+  SolarisGradebookComponent,
+} from '../component/gradebook.component';
 import type {
   SolarisGradebookColumn,
   SolarisGradebookRow,
 } from '../model/gradebook.types';
+import { SolarisTranslateService } from '../../../../services/translation';
 
 interface FixtureRow extends SolarisGradebookRow {
   id: string;
@@ -540,4 +547,698 @@ class GradebookFooterHostComponent {
   protected readonly columns = COLUMNS;
   protected readonly pageIndex = signal(0);
   protected readonly pageSize = signal(3);
+}
+
+type GradebookResolvedColumn = {
+  readonly id: string;
+  readonly sortValueOf?: (row: FixtureRow) => unknown;
+  readonly displayValueOf?: (row: FixtureRow) => unknown;
+};
+
+type GradebookTestApi = {
+  commitEditor(
+    row: FixtureRow,
+    rowId: string,
+    column: GradebookResolvedColumn,
+    text: string,
+    close: () => void,
+  ): void;
+  handlePaste(
+    event: ClipboardEvent,
+    assignmentId: string,
+    startRowId: string,
+  ): void;
+  headerLabel(column: GradebookResolvedColumn): string;
+  headerHint(column: GradebookResolvedColumn): string | undefined;
+  cellStatusAttr(
+    row: FixtureRow,
+    column: GradebookResolvedColumn,
+  ): string | null;
+  cellStatusLabel(
+    row: FixtureRow,
+    column: GradebookResolvedColumn,
+  ): string | null;
+  isCellLocked(row: FixtureRow, column: GradebookResolvedColumn): boolean;
+  resolvedEditorLabel(): string;
+  resolvedColumns(): readonly GradebookResolvedColumn[];
+  resolvedCardTitleOf(): ((row: FixtureRow) => string | null) | undefined;
+  commitBulk(
+    rowIds: readonly string[],
+    assignmentId: string,
+    value: number | null,
+  ): void;
+};
+
+function gradebookApiOf(
+  fixture: ComponentFixture<SolarisGradebookComponent<FixtureRow>>,
+): GradebookTestApi {
+  return fixture.componentInstance as unknown as GradebookTestApi;
+}
+
+function firstFixtureRow(): FixtureRow {
+  const row = ROWS[0];
+  expect(row).toBeDefined();
+  return row as FixtureRow;
+}
+
+function gradeColumnOf(
+  fixture: ComponentFixture<SolarisGradebookComponent<FixtureRow>>,
+): GradebookResolvedColumn {
+  const column = gradebookApiOf(fixture)
+    .resolvedColumns()
+    .find((candidate) => candidate.id === 'gs1');
+  expect(column).toBeDefined();
+  return column as GradebookResolvedColumn;
+}
+
+function createTranslatedFixture(
+  translations: Record<string, string>,
+  overrides: Record<string, unknown> = {},
+): {
+  fixture: ComponentFixture<SolarisGradebookComponent<FixtureRow>>;
+  element: HTMLElement;
+} {
+  TestBed.configureTestingModule({
+    providers: [
+      {
+        provide: SolarisTranslateService,
+        useValue: {
+          locale: 'en-US',
+          translate: (key: string): string => translations[key] ?? key,
+        },
+      },
+    ],
+  });
+  const fixture = TestBed.createComponent(
+    SolarisGradebookComponent<FixtureRow>,
+  );
+  fixture.componentRef.setInput('columns', COLUMNS);
+  fixture.componentRef.setInput('data', ROWS);
+  fixture.componentRef.setInput('rowId', 'id');
+  for (const [key, value] of Object.entries(overrides)) {
+    fixture.componentRef.setInput(key, value);
+  }
+  fixture.detectChanges();
+  return { fixture, element: fixture.nativeElement as HTMLElement };
+}
+
+function statusColumns(
+  accessor: () => string,
+): readonly SolarisGradebookColumn<FixtureRow>[] {
+  return [
+    { id: 'name', header: 'Disciplina', accessor: 'name' },
+    { id: 'result', header: 'Situação', status: true, accessor },
+  ];
+}
+
+function fakePaste(text: string | null): {
+  event: ClipboardEvent;
+  prevented(): boolean;
+} {
+  let prevented = false;
+  const event = {
+    preventDefault: (): void => {
+      prevented = true;
+    },
+    clipboardData: text === null ? undefined : { getData: (): string => text },
+  } as unknown as ClipboardEvent;
+  return {
+    event,
+    prevented: (): boolean => prevented,
+  };
+}
+
+function commitWithText(
+  fixture: ComponentFixture<SolarisGradebookComponent<FixtureRow>>,
+  text: string,
+): { committed: unknown[]; closed: boolean } {
+  const committed: unknown[] = [];
+  fixture.componentInstance.gradeCommit.subscribe((event) =>
+    committed.push(event),
+  );
+  let closed = false;
+  gradebookApiOf(fixture).commitEditor(
+    firstFixtureRow(),
+    'a',
+    gradeColumnOf(fixture),
+    text,
+    () => {
+      closed = true;
+    },
+  );
+  return { committed, closed };
+}
+
+describe('SolarisGradebookComponent status colors', () => {
+  it('should map exame to warning', () => {
+    const { element } = createFixture({
+      columns: statusColumns(() => 'Exame'),
+    });
+    expect(
+      element
+        .querySelector('td[data-column-id="result"] solaris-badge')
+        ?.getAttribute('data-color'),
+    ).toBe('warning');
+  });
+
+  it('should map recuperação to warning', () => {
+    const { element } = createFixture({
+      columns: statusColumns(() => 'Recuperação'),
+    });
+    expect(
+      element
+        .querySelector('td[data-column-id="result"] solaris-badge')
+        ?.getAttribute('data-color'),
+    ).toBe('warning');
+  });
+
+  it('should map reprovado to danger', () => {
+    const { element } = createFixture({
+      columns: statusColumns(() => 'Reprovado'),
+    });
+    expect(
+      element
+        .querySelector('td[data-column-id="result"] solaris-badge')
+        ?.getAttribute('data-color'),
+    ).toBe('danger');
+  });
+
+  it('should fall back to neutral for unknown status text', () => {
+    const { element } = createFixture({
+      columns: statusColumns(() => 'Cursando'),
+    });
+    const badge = element.querySelector(
+      'td[data-column-id="result"] solaris-badge',
+    );
+    expect(badge?.getAttribute('data-color')).toBe('neutral');
+    expect(badge?.textContent?.trim()).toContain('Cursando');
+  });
+
+  it('should prefer a custom statusColorOf over defaults', () => {
+    const { element } = createFixture({
+      columns: statusColumns(() => 'Aprovado'),
+      statusColorOf: () => 'warning' as const,
+    });
+    expect(
+      element
+        .querySelector('td[data-column-id="result"] solaris-badge')
+        ?.getAttribute('data-color'),
+    ).toBe('warning');
+  });
+});
+
+describe('SolarisGradebookComponent translated headers', () => {
+  const keyed = [
+    {
+      id: 'name',
+      headerKey: 'gradebook.code',
+      hintKey: 'gradebook.code.hint',
+      accessor: 'name',
+    },
+  ] as readonly SolarisGradebookColumn<FixtureRow>[];
+
+  function namedColumnOf(
+    fixture: ComponentFixture<SolarisGradebookComponent<FixtureRow>>,
+  ): GradebookResolvedColumn {
+    const column = gradebookApiOf(fixture)
+      .resolvedColumns()
+      .find((candidate) => candidate.id === 'name');
+    expect(column).toBeDefined();
+    return column as GradebookResolvedColumn;
+  }
+
+  it('should resolve header labels through the translation service', () => {
+    const { fixture } = createTranslatedFixture(
+      { 'gradebook.code': 'Código' },
+      { columns: keyed },
+    );
+    expect(gradebookApiOf(fixture).headerLabel(namedColumnOf(fixture))).toBe(
+      'Código',
+    );
+  });
+
+  it('should fall back to the key and column id without translations', () => {
+    const { fixture } = createTranslatedFixture({}, { columns: keyed });
+    const api = gradebookApiOf(fixture);
+    expect(api.headerLabel(namedColumnOf(fixture))).toBe('gradebook.code');
+    expect(api.headerLabel({ id: 'plain' })).toBe('plain');
+  });
+
+  it('should resolve header hints through the translation service', () => {
+    const { fixture } = createTranslatedFixture(
+      { 'gradebook.code.hint': 'Dica da coluna' },
+      { columns: keyed },
+    );
+    expect(gradebookApiOf(fixture).headerHint(namedColumnOf(fixture))).toBe(
+      'Dica da coluna',
+    );
+  });
+
+  it('should fall back to the hint key without translations', () => {
+    const { fixture } = createTranslatedFixture({}, { columns: keyed });
+    expect(gradebookApiOf(fixture).headerHint(namedColumnOf(fixture))).toBe(
+      'gradebook.code.hint',
+    );
+  });
+});
+
+describe('SolarisGradebookComponent editor commit', () => {
+  it('should commit null and close on blank input', () => {
+    const { fixture } = createFixture();
+    const { committed, closed } = commitWithText(fixture, '   ');
+    expect(committed).toHaveLength(1);
+    expect(committed[0]).toMatchObject({
+      rowId: 'a',
+      assignmentId: 'gs1',
+      value: null,
+    });
+    expect(closed).toBe(true);
+  });
+
+  it('should ignore unparseable input without closing', () => {
+    const { fixture } = createFixture();
+    const { committed, closed } = commitWithText(fixture, 'not-a-grade');
+    expect(committed).toHaveLength(0);
+    expect(closed).toBe(false);
+  });
+
+  it('should clamp negative input to zero', () => {
+    const { fixture } = createFixture();
+    const { committed, closed } = commitWithText(fixture, '-3');
+    expect(committed).toHaveLength(1);
+    expect(committed[0]).toMatchObject({ value: 0 });
+    expect(closed).toBe(true);
+  });
+
+  it('should clamp input above maxScore', () => {
+    const { fixture } = createFixture();
+    const { committed, closed } = commitWithText(fixture, '99');
+    expect(committed).toHaveLength(1);
+    expect(committed[0]).toMatchObject({ value: 20 });
+    expect(closed).toBe(true);
+  });
+
+  it('should parse comma decimal separators', () => {
+    const { fixture } = createFixture();
+    const { committed, closed } = commitWithText(fixture, '17,5');
+    expect(committed).toHaveLength(1);
+    expect(committed[0]).toMatchObject({ value: 17.5 });
+    expect(closed).toBe(true);
+  });
+});
+
+describe('SolarisGradebookComponent editor label', () => {
+  it('should resolve the fallback key through translations', () => {
+    const { fixture } = createTranslatedFixture({
+      'solaris.dataDisplay.gradebook.editorLabel': 'Nota',
+    });
+    expect(gradebookApiOf(fixture).resolvedEditorLabel()).toBe('Nota');
+  });
+
+  it('should resolve the legacy key when the fallback key is missing', () => {
+    const { fixture } = createTranslatedFixture({
+      'gradebook.editor.label': 'Nota (legado)',
+    });
+    expect(gradebookApiOf(fixture).resolvedEditorLabel()).toBe('Nota (legado)');
+  });
+
+  it('should echo a custom editorLabelKey without translations', () => {
+    const { fixture } = createTranslatedFixture(
+      {},
+      { editorLabelKey: 'custom.editor.key' },
+    );
+    expect(gradebookApiOf(fixture).resolvedEditorLabel()).toBe(
+      'custom.editor.key',
+    );
+  });
+});
+
+describe('SolarisGradebookComponent cell status', () => {
+  it('should return a null status for non-grade columns', () => {
+    const { fixture } = createFixture();
+    expect(
+      gradebookApiOf(fixture).cellStatusAttr(firstFixtureRow(), {
+        id: 'name',
+      }),
+    ).toBeNull();
+  });
+
+  it('should return a null label for graded cells', () => {
+    const { fixture } = createFixture();
+    expect(
+      gradebookApiOf(fixture).cellStatusLabel(
+        firstFixtureRow(),
+        gradeColumnOf(fixture),
+      ),
+    ).toBeNull();
+  });
+
+  it('should translate status labels through solaris keys', () => {
+    const { fixture } = createTranslatedFixture(
+      { 'solaris.dataDisplay.gradebook.status.late': 'Atrasada' },
+      { gradeStatusOf: () => 'late' },
+    );
+    expect(
+      gradebookApiOf(fixture).cellStatusLabel(
+        firstFixtureRow(),
+        gradeColumnOf(fixture),
+      ),
+    ).toBe('Atrasada');
+  });
+
+  it('should translate status labels through legacy keys', () => {
+    const { fixture } = createTranslatedFixture(
+      { 'gradebook.status.late': 'Atrasada (legado)' },
+      { gradeStatusOf: () => 'late' },
+    );
+    expect(
+      gradebookApiOf(fixture).cellStatusLabel(
+        firstFixtureRow(),
+        gradeColumnOf(fixture),
+      ),
+    ).toBe('Atrasada (legado)');
+  });
+
+  it('should fall back to built-in status labels', () => {
+    const { fixture } = createTranslatedFixture(
+      {},
+      { gradeStatusOf: () => 'late' },
+    );
+    expect(
+      gradebookApiOf(fixture).cellStatusLabel(
+        firstFixtureRow(),
+        gradeColumnOf(fixture),
+      ),
+    ).toBe('Late');
+  });
+
+  it('should lock every cell when readonly', () => {
+    const { fixture } = createFixture({ readonly: true });
+    expect(
+      gradebookApiOf(fixture).isCellLocked(
+        firstFixtureRow(),
+        gradeColumnOf(fixture),
+      ),
+    ).toBe(true);
+  });
+
+  it('should lock every cell when disabled', () => {
+    const { fixture } = createFixture({ disabled: true });
+    expect(
+      gradebookApiOf(fixture).isCellLocked(
+        firstFixtureRow(),
+        gradeColumnOf(fixture),
+      ),
+    ).toBe(true);
+  });
+});
+
+describe('SolarisGradebookComponent aggregates and identity', () => {
+  it('should render no digits when an average has no values', () => {
+    const { element } = createFixture({
+      columns: [
+        { id: 'name', header: 'Disciplina', accessor: 'name' },
+        {
+          id: 'gs1',
+          header: 'GS1',
+          assignmentId: 'gs1',
+          maxScore: 20,
+          aggregate: 'average',
+          accessor: () => null,
+        },
+      ],
+    });
+    const foot = element.querySelector('tfoot.solaris-table__foot');
+    expect(foot).toBeTruthy();
+    expect(foot?.textContent ?? '').not.toMatch(/\d/);
+  });
+
+  it('should format concept aggregates as letters', () => {
+    const { element } = createFixture({
+      scale: 'concept',
+      columns: [
+        { id: 'name', header: 'Disciplina', accessor: 'name' },
+        {
+          id: 'gs1',
+          header: 'GS1',
+          assignmentId: 'gs1',
+          maxScore: 4,
+          aggregate: 'average',
+          accessor: (row: FixtureRow) => (row.id === 'a' ? 4 : 2),
+        },
+      ],
+    });
+    expect(
+      element.querySelector('tfoot.solaris-table__foot')?.textContent,
+    ).toContain('B');
+  });
+
+  it('should sort excused grades as null', () => {
+    const { fixture } = createFixture({ gradeStatusOf: () => 'excused' });
+    expect(gradeColumnOf(fixture).sortValueOf?.(firstFixtureRow())).toBeNull();
+  });
+
+  it('should resolve identity display and sort values', () => {
+    const { fixture } = createFixture({
+      identity: {
+        header: 'Disciplina',
+        displayValueOf: (row: FixtureRow) => row.name,
+      },
+    });
+    const identity = gradebookApiOf(fixture)
+      .resolvedColumns()
+      .find(
+        (candidate) => candidate.id === SOLARIS_GRADEBOOK_IDENTITY_COLUMN_ID,
+      );
+    expect(identity?.displayValueOf?.(firstFixtureRow())).toBe('Java Advanced');
+    expect(identity?.sortValueOf?.(firstFixtureRow())).toBe('Java Advanced');
+  });
+
+  it('should prefer an explicit card title over identity', () => {
+    const { fixture } = createFixture({ cardTitleOf: () => 'Card title' });
+    expect(
+      gradebookApiOf(fixture).resolvedCardTitleOf()?.(firstFixtureRow()),
+    ).toBe('Card title');
+  });
+});
+
+describe('SolarisGradebookComponent bulk guards', () => {
+  function bulkWith(
+    overrides: Record<string, unknown>,
+    rowIds: readonly string[],
+    assignmentId: string,
+  ): unknown[] {
+    const { fixture } = createFixture(overrides);
+    const bulk: unknown[] = [];
+    fixture.componentInstance.gradeBulkCommit.subscribe((event) =>
+      bulk.push(event),
+    );
+    gradebookApiOf(fixture).commitBulk(rowIds, assignmentId, 19);
+    return bulk;
+  }
+
+  it('should ignore bulk commits when bulk is disabled', () => {
+    expect(bulkWith({}, ['a', 'b'], 'gs1')).toHaveLength(0);
+  });
+
+  it('should ignore bulk commits when readonly', () => {
+    expect(
+      bulkWith({ bulkEnabled: true, readonly: true }, ['a', 'b'], 'gs1'),
+    ).toHaveLength(0);
+  });
+
+  it('should ignore bulk commits for unknown assignments', () => {
+    expect(bulkWith({ bulkEnabled: true }, ['a'], 'nope')).toHaveLength(0);
+  });
+
+  it('should ignore bulk commits without matching rows', () => {
+    expect(bulkWith({ bulkEnabled: true }, ['zzz'], 'gs1')).toHaveLength(0);
+  });
+
+  it('should resolve rows from a server source with a function rowId', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(
+      SolarisGradebookComponent<FixtureRow>,
+    );
+    const source = createServerTableDataSource<FixtureRow>(
+      signal(ROWS),
+      signal(ROWS.length),
+      signal(false),
+    );
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', source);
+    fixture.componentRef.setInput('rowId', (row: FixtureRow) => row.id);
+    fixture.componentRef.setInput('bulkEnabled', true);
+    fixture.detectChanges();
+    const bulk: unknown[] = [];
+    fixture.componentInstance.gradeBulkCommit.subscribe((event) =>
+      bulk.push(event),
+    );
+    gradebookApiOf(fixture).commitBulk(['b'], 'gs1', 12);
+    expect(bulk).toHaveLength(1);
+    expect(bulk[0]).toMatchObject({
+      assignmentId: 'gs1',
+      value: 12,
+      rowIds: ['b'],
+    });
+  });
+});
+
+describe('SolarisGradebookComponent paste', () => {
+  function pasteWith(
+    text: string | null,
+    overrides: Record<string, unknown>,
+    assignmentId = 'gs1',
+    startRowId = 'a',
+  ): {
+    committed: unknown[];
+    errors: unknown[];
+    prevented: boolean;
+  } {
+    const { fixture } = createFixture(overrides);
+    const committed: unknown[] = [];
+    const errors: unknown[] = [];
+    fixture.componentInstance.gradeCommit.subscribe((event) =>
+      committed.push(event),
+    );
+    fixture.componentInstance.gradePasteError.subscribe((event) =>
+      errors.push(event),
+    );
+    const paste = fakePaste(text);
+    gradebookApiOf(fixture).handlePaste(paste.event, assignmentId, startRowId);
+    return { committed, errors, prevented: paste.prevented() };
+  }
+
+  it('should ignore paste when disabled', () => {
+    const { committed, errors, prevented } = pasteWith('15', {});
+    expect(committed).toHaveLength(0);
+    expect(errors).toHaveLength(0);
+    expect(prevented).toBe(false);
+  });
+
+  it('should ignore paste when readonly', () => {
+    const { committed, errors, prevented } = pasteWith('15', {
+      enablePaste: true,
+      readonly: true,
+    });
+    expect(committed).toHaveLength(0);
+    expect(errors).toHaveLength(0);
+    expect(prevented).toBe(false);
+  });
+
+  it('should ignore paste without clipboard data', () => {
+    const { committed, errors, prevented } = pasteWith(null, {
+      enablePaste: true,
+    });
+    expect(committed).toHaveLength(0);
+    expect(errors).toHaveLength(0);
+    expect(prevented).toBe(false);
+  });
+
+  it('should ignore paste with empty clipboard text', () => {
+    const { committed, errors, prevented } = pasteWith('', {
+      enablePaste: true,
+    });
+    expect(committed).toHaveLength(0);
+    expect(errors).toHaveLength(0);
+    expect(prevented).toBe(false);
+  });
+
+  it('should ignore paste with only blank lines', () => {
+    const { committed, errors, prevented } = pasteWith('  \n\t \n', {
+      enablePaste: true,
+    });
+    expect(committed).toHaveLength(0);
+    expect(errors).toHaveLength(0);
+    expect(prevented).toBe(false);
+  });
+
+  it('should commit tab-separated values across rows from the start row', () => {
+    const { committed, errors, prevented } = pasteWith('15\textra\n17', {
+      enablePaste: true,
+    });
+    expect(errors).toHaveLength(0);
+    expect(prevented).toBe(true);
+    expect(committed).toHaveLength(2);
+    expect(committed[0]).toMatchObject({
+      rowId: 'a',
+      assignmentId: 'gs1',
+      value: 15,
+    });
+    expect(committed[1]).toMatchObject({
+      rowId: 'b',
+      assignmentId: 'gs1',
+      value: 17,
+    });
+  });
+
+  it('should stop pasting at the last visible row', () => {
+    const { committed } = pasteWith(
+      '15\n17',
+      { enablePaste: true },
+      'gs1',
+      'b',
+    );
+    expect(committed).toHaveLength(1);
+    expect(committed[0]).toMatchObject({ rowId: 'b', value: 15 });
+  });
+
+  it('should emit paste errors for unparseable cells', () => {
+    const { committed, errors, prevented } = pasteWith('oops', {
+      enablePaste: true,
+    });
+    expect(committed).toHaveLength(0);
+    expect(prevented).toBe(true);
+    expect(errors).toHaveLength(1);
+    expect(errors[0]).toMatchObject({
+      rowId: 'a',
+      assignmentId: 'gs1',
+      text: 'oops',
+    });
+  });
+
+  it('should throw for unknown paste assignments', () => {
+    const { fixture } = createFixture({ enablePaste: true });
+    expect(() =>
+      gradebookApiOf(fixture).handlePaste(fakePaste('15').event, 'nope', 'a'),
+    ).toThrow('Unknown assignment nope');
+  });
+});
+
+describe('SolarisGradebookComponent footer cells', () => {
+  it('should project footer-cell templates into the table footer', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(GradebookFooterCellHostComponent);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(
+      element.querySelector('tfoot.solaris-table__foot')?.textContent,
+    ).toContain('2 notas');
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [SolarisGradebookComponent, SolarisTableFooterCellDirective],
+  template: `
+    <solaris-gradebook [data]="rows()" [columns]="columns" rowId="id">
+      <ng-template solaris-table-footer-cell="gs1-total" let-rows="rows">
+        {{ rows.length }} notas
+      </ng-template>
+    </solaris-gradebook>
+  `,
+})
+class GradebookFooterCellHostComponent {
+  protected readonly rows = signal<readonly FixtureRow[]>(ROWS);
+  protected readonly columns: readonly SolarisGradebookColumn<FixtureRow>[] = [
+    { id: 'name', header: 'Disciplina', accessor: 'name', footer: 'Total' },
+    {
+      id: 'gs1',
+      header: 'GS1',
+      assignmentId: 'gs1',
+      maxScore: 20,
+      footerTemplateId: 'gs1-total',
+      accessor: (row: FixtureRow) => row.scores['gs1'] ?? null,
+    },
+  ];
 }

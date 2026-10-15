@@ -67,6 +67,13 @@
   font-family: var(--solaris-font-family-sans), system-ui;
   border: var(--solaris-icon-button-border-width) solid
     var(--solaris-icon-button-border-color);
+}
+
+[solaris-icon-button]:not([data-hydrated]) {
+  transition: none;
+}
+
+[solaris-icon-button][data-hydrated] {
   transition: all var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
@@ -636,6 +643,24 @@
   font-size: var(--solaris-font-size-md);
 }
 
+[solaris-icon-button][data-size='sm']:not([data-density]) {
+  --solaris-icon-button-size: var(--solaris-control-height-normal-sm);
+
+  font-size: var(--solaris-font-size-xs);
+}
+
+[solaris-icon-button][data-size='md']:not([data-density]) {
+  --solaris-icon-button-size: var(--solaris-control-height-normal-md);
+
+  font-size: var(--solaris-font-size-sm);
+}
+
+[solaris-icon-button][data-size='lg']:not([data-density]) {
+  --solaris-icon-button-size: var(--solaris-control-height-normal-lg);
+
+  font-size: var(--solaris-font-size-md);
+}
+
 [solaris-icon-button][data-appearance='surface']:not(
     [data-color='neutral']
   ):hover {
@@ -685,8 +710,12 @@
 }
 
 [solaris-icon-button][data-chromeless] solaris-icon {
+  transition: none;
   width: calc(var(--solaris-icon-button-size) * 0.6);
   height: calc(var(--solaris-icon-button-size) * 0.6);
+}
+
+[solaris-icon-button][data-chromeless][data-hydrated] solaris-icon {
   transition: transform var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }

@@ -966,3 +966,32 @@ describe('SolarisIconButtonDirective data-* aliases', () => {
     expect(el.getAttribute('data-appearance')).toBe('ghost');
   });
 });
+
+describe('SolarisIconButtonDirective hydration marker', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisIconButtonDirective],
+    template: `<button
+      solaris-icon-button
+      appearance="ghost"
+      size="lg"
+      aria-label="Close"
+    >
+      Close
+    </button>`,
+  })
+  class HydrationHost {}
+
+  it('should stamp data-hydrated after the first render with variants resolved', async () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(HydrationHost);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
+    expect(el.getAttribute('data-appearance')).toBe('ghost');
+    expect(el.getAttribute('data-size')).toBe('lg');
+    expect(el.getAttribute('data-density')).toBe('normal');
+    expect(el.hasAttribute('data-hydrated')).toBe(true);
+  });
+});

@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Component, provideZonelessChangeDetection } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { vi } from 'vitest';
 
 import { SolarisPhoneFieldComponent } from '../component/phone-field.component';
 import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
@@ -462,6 +463,317 @@ describe('SolarisPhoneFieldComponent', () => {
       expect(
         fixture.nativeElement.querySelector('.solaris-phone-field__clear'),
       ).toBeNull();
+    });
+  });
+
+  describe('control contract getters', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisPhoneFieldComponent, ReactiveFormsModule],
+      template: `<solaris-phone-field
+        label="Phone"
+        [readonly]="true"
+      ></solaris-phone-field>`,
+    })
+    class ReadonlyHost {}
+
+    @Component({
+      standalone: true,
+      imports: [SolarisPhoneFieldComponent, ReactiveFormsModule],
+      template: `<solaris-phone-field
+        label="Phone"
+        [invalid]="true"
+      ></solaris-phone-field>`,
+    })
+    class InvalidHost {}
+
+    it('exposes focused from focus and blur events', async () => {
+      const { fixture, input, component } = await setup(BasicHost);
+      expect(component.focused).toBe(false);
+      expect(component.invalid).toBe(false);
+      input.dispatchEvent(new Event('focus', { bubbles: true }));
+      fixture.detectChanges();
+      expect(component.focused).toBe(true);
+      expect(component.invalid).toBe(false);
+      input.dispatchEvent(new Event('blur', { bubbles: true }));
+      fixture.detectChanges();
+      expect(component.focused).toBe(false);
+    });
+
+    it('exposes disabled from input', async () => {
+      const { component } = await setup(DisabledHost);
+      expect(component.disabled).toBe(true);
+    });
+
+    it('reflects setDisabledState in disabled', async () => {
+      const { component } = await setup(BasicHost);
+      expect(component.disabled).toBe(false);
+      component.setDisabledState(true);
+      expect(component.disabled).toBe(true);
+      component.setDisabledState(false);
+      expect(component.disabled).toBe(false);
+    });
+
+    it('exposes readonly from input and locks interaction', async () => {
+      const { input, countryButton, component } = await setup(ReadonlyHost);
+      expect(component.readonly).toBe(true);
+      expect(input.readOnly).toBe(true);
+      expect(countryButton.disabled).toBe(true);
+    });
+
+    it('defaults readonly and required to false', async () => {
+      const { component } = await setup(BasicHost);
+      expect(component.readonly).toBe(false);
+      expect(component.required).toBe(false);
+    });
+
+    it('exposes required from input', async () => {
+      const { component } = await setup(RequiredHost);
+      expect(component.required).toBe(true);
+    });
+
+    it('exposes invalid from manual input', async () => {
+      const { component } = await setup(InvalidHost);
+      expect(component.invalid).toBe(true);
+    });
+
+    it('round-trips described-by ids through the control contract', async () => {
+      const { input, component } = await setup(BasicHost);
+      expect(component.describedByIds).toEqual([]);
+      expect(component.ariaDescribedBy()).toBeNull();
+      expect(input.getAttribute('aria-describedby')).toBeNull();
+      component.setDescribedByIds(['hint-1', 'hint-2']);
+      expect(component.describedByIds).toEqual(['hint-1', 'hint-2']);
+      expect(component.ariaDescribedBy()).toBe('hint-1 hint-2');
+      component.setDescribedByIds([]);
+      expect(component.describedByIds).toEqual([]);
+      expect(component.ariaDescribedBy()).toBeNull();
+    });
+  });
+
+  describe('focus and input click', () => {
+    it('focuses the inner input', async () => {
+      const { input, component } = await setup(BasicHost);
+      const spy = vi.spyOn(input, 'focus');
+      component.focus();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('falls back to the host element when the input is unavailable', async () => {
+      const { fixture, component } = await setup(BasicHost);
+      expect(component.inputElementRef()).toBeTruthy();
+      vi.spyOn(component, 'inputElementRef').mockReturnValue(undefined);
+      const host = fixture.nativeElement.querySelector(
+        'solaris-phone-field',
+      ) as HTMLElement;
+      const spy = vi.spyOn(host, 'focus');
+      component.focus();
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it('stops propagation on input click', async () => {
+      const { input } = await setup(BasicHost);
+      const event = new Event('click', { bubbles: true });
+      const stop = vi.spyOn(event, 'stopPropagation');
+      input.dispatchEvent(event);
+      expect(stop).toHaveBeenCalled();
+    });
+  });
+
+  describe('country panel interactions', () => {
+    it('toggles the panel when interaction is allowed', async () => {
+      const { component } = await setup(BasicHost);
+      const trigger = component.popoverTrigger();
+      expect(trigger).toBeTruthy();
+      const toggle = vi.spyOn(trigger, 'toggle');
+      const event = new Event('click', { bubbles: true });
+      const stop = vi.spyOn(event, 'stopPropagation');
+      component.onCountryToggle(event);
+      expect(stop).toHaveBeenCalled();
+      expect(toggle).toHaveBeenCalled();
+    });
+
+    it('does not toggle the panel when disabled', async () => {
+      const { component } = await setup(DisabledHost);
+      const trigger = component.popoverTrigger();
+      const toggle = vi.spyOn(trigger, 'toggle');
+      component.onCountryToggle(new Event('click', { bubbles: true }));
+      expect(toggle).not.toHaveBeenCalled();
+    });
+
+    it('closes the country panel on request', async () => {
+      const { component } = await setup(BasicHost);
+      const trigger = component.popoverTrigger();
+      const close = vi.spyOn(trigger, 'close');
+      component.closeCountryPanel();
+      expect(close).toHaveBeenCalled();
+    });
+
+    it('tracks panel open state from popover events', async () => {
+      const { fixture, countryButton, component } = await setup(BasicHost);
+      const trigger = component.popoverTrigger();
+      expect(component.panelOpen()).toBe(false);
+      trigger.solarisPopoverOpened.emit();
+      fixture.detectChanges();
+      expect(component.panelOpen()).toBe(true);
+      expect(countryButton.getAttribute('aria-expanded')).toBe('true');
+      trigger.solarisPopoverClosed.emit();
+      fixture.detectChanges();
+      expect(component.panelOpen()).toBe(false);
+      expect(countryButton.getAttribute('aria-expanded')).toBe('false');
+    });
+
+    it('uses surface popover appearance for non-outline appearances', async () => {
+      await TestBed.configureTestingModule({
+        imports: [SolarisPhoneFieldComponent],
+        providers: [provideZonelessChangeDetection(), provideSolarisTesting()],
+      }).compileComponents();
+      const fixture = TestBed.createComponent(SolarisPhoneFieldComponent);
+      const component: any = fixture.componentInstance;
+      fixture.componentRef.setInput('appearance', 'filled');
+      fixture.detectChanges();
+      expect(component.popoverAppearance()).toBe('surface');
+      fixture.componentRef.setInput('appearance', 'outline');
+      fixture.detectChanges();
+      expect(component.popoverAppearance()).toBe('outline');
+    });
+  });
+
+  describe('text and list computeds', () => {
+    async function setupDirect(): Promise<{ fixture: any; component: any }> {
+      await TestBed.configureTestingModule({
+        imports: [SolarisPhoneFieldComponent],
+        providers: [provideZonelessChangeDetection(), provideSolarisTesting()],
+      }).compileComponents();
+      const fixture = TestBed.createComponent(SolarisPhoneFieldComponent);
+      fixture.detectChanges();
+      return { fixture, component: fixture.componentInstance };
+    }
+
+    it('restricts the country list when countryList is provided', async () => {
+      const { fixture, component } = await setupDirect();
+      fixture.componentRef.setInput('countryList', ['BR', 'US']);
+      fixture.detectChanges();
+      const codes = component
+        .countries()
+        .map((country: { code: string }) => country.code);
+      expect(codes).toHaveLength(2);
+      expect(codes).toContain('BR');
+      expect(codes).toContain('US');
+    });
+
+    it('resolves the clear aria label from key, text, and default', async () => {
+      const { fixture, component } = await setupDirect();
+      fixture.componentRef.setInput('clearLabelKey', 'greeting');
+      fixture.detectChanges();
+      expect(component.clearAriaLabel()).toBe('Hello, {{name}}');
+      fixture.componentRef.setInput('clearLabelKey', undefined);
+      fixture.componentRef.setInput('clearLabel', 'Custom clear');
+      fixture.detectChanges();
+      expect(component.clearAriaLabel()).toBe('Custom clear');
+    });
+
+    it('honors an explicit max length', async () => {
+      const { fixture, component } = await setupDirect();
+      fixture.componentRef.setInput('maxLength', 5);
+      fixture.detectChanges();
+      expect(component.effectiveMaxLength()).toBe(5);
+    });
+
+    it('resolves placeholder and panel texts from keys, text, and defaults', async () => {
+      const { fixture, component } = await setupDirect();
+      fixture.componentRef.setInput('placeholderKey', 'greeting');
+      fixture.componentRef.setInput('searchPlaceholderKey', 'greeting');
+      fixture.componentRef.setInput('emptyTextKey', 'greeting');
+      fixture.componentRef.setInput('noResultsTextKey', 'greeting');
+      fixture.componentRef.setInput('countryButtonLabelKey', 'greeting');
+      fixture.detectChanges();
+      for (const actual of [
+        component.placeholderText(),
+        component.searchPlaceholderText(),
+        component.emptyTextValue(),
+        component.noResultsTextValue(),
+        component.countryButtonLabelText(),
+      ]) {
+        expect(actual).toBe('Hello, {{name}}');
+      }
+
+      fixture.componentRef.setInput('placeholderKey', undefined);
+      fixture.componentRef.setInput('searchPlaceholderKey', undefined);
+      fixture.componentRef.setInput('searchPlaceholder', 'Find country');
+      fixture.componentRef.setInput('emptyTextKey', undefined);
+      fixture.componentRef.setInput('emptyText', 'Nothing here');
+      fixture.componentRef.setInput('noResultsTextKey', undefined);
+      fixture.componentRef.setInput('noResultsText', 'Zero matches');
+      fixture.componentRef.setInput('countryButtonLabelKey', undefined);
+      fixture.componentRef.setInput('countryButtonLabel', 'Pick country');
+      fixture.detectChanges();
+      expect(component.searchPlaceholderText()).toBe('Find country');
+      expect(component.emptyTextValue()).toBe('Nothing here');
+      expect(component.noResultsTextValue()).toBe('Zero matches');
+      expect(component.countryButtonLabelText()).toBe('Pick country');
+
+      fixture.componentRef.setInput('searchPlaceholder', undefined);
+      fixture.componentRef.setInput('emptyText', undefined);
+      fixture.componentRef.setInput('noResultsText', undefined);
+      fixture.componentRef.setInput('countryButtonLabel', undefined);
+      fixture.detectChanges();
+      expect(component.searchPlaceholderText()).toBe('Search country or code');
+      expect(component.emptyTextValue()).toBe('No countries available');
+      expect(component.noResultsTextValue()).toBe('No results found');
+      expect(component.countryButtonLabelText()).toBe('Select country code');
+    });
+
+    it('resolves error text from translation keys with key fallback', async () => {
+      const { fixture, component } = await setupDirect();
+      expect(component.translateKey('greeting')).toBe('Hello, {{name}}');
+      expect(component.translateKey('phone-field.missing.key')).toBeUndefined();
+      expect(component.translateKey(undefined)).toBeUndefined();
+      fixture.componentRef.setInput('errorKey', 'greeting');
+      fixture.detectChanges();
+      expect(component.computedError()).toBe('Hello, {{name}}');
+      fixture.componentRef.setInput('errorKey', 'phone-field.missing.key');
+      fixture.detectChanges();
+      expect(component.computedError()).toBe('');
+    });
+  });
+
+  describe('value sync and country selection', () => {
+    it('syncs the value input into internal and display values', async () => {
+      await TestBed.configureTestingModule({
+        imports: [SolarisPhoneFieldComponent],
+        providers: [provideZonelessChangeDetection(), provideSolarisTesting()],
+      }).compileComponents();
+      const fixture = TestBed.createComponent(SolarisPhoneFieldComponent);
+      const component: any = fixture.componentInstance;
+      fixture.componentRef.setInput('label', 'Phone');
+      fixture.componentRef.setInput('value', '+5511999998888');
+      fixture.detectChanges();
+      expect(component.internalValue()).toBe('+5511999998888');
+      expect(component.displayValue()).toContain('99999-8888');
+      const input = fixture.debugElement.query(By.css('input[solaris-input]'))
+        .nativeElement as HTMLInputElement;
+      expect(input.value).toContain('99999-8888');
+    });
+
+    it('updates the stored E.164 value when a country is selected with digits present', async () => {
+      const { fixture, input, component } = await setup(DefaultCountryHost);
+      input.value = '2015550123';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      fixture.detectChanges();
+      const us = component
+        .countries()
+        .find((country: { code: string }) => country.code === 'US');
+      expect(us).toBeTruthy();
+      let emitted: string | undefined;
+      const sub = component.valueChange.subscribe(
+        (value: string) => (emitted = value),
+      );
+      component.selectCountry(us);
+      sub.unsubscribe();
+      fixture.detectChanges();
+      expect(component.internalValue()).toBe('+12015550123');
+      expect(emitted).toBe('+12015550123');
     });
   });
 });

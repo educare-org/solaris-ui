@@ -70,17 +70,15 @@
   padding: var(--solaris-button-padding-y) var(--solaris-button-padding-x);
   border: var(--solaris-button-border-width) solid
     var(--solaris-button-border-color);
-  transition:
-    color var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard),
-    background-color var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard),
-    border-color var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard),
-    box-shadow var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard),
-    filter var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard);
+}
+
+[solaris-button]:not([data-hydrated]) {
+  transition: none;
+}
+
+[solaris-button][data-hydrated] {
+  transition: all var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
 }
 
 [solaris-button]:hover {
@@ -649,6 +647,44 @@
   --solaris-button-padding-x: var(--solaris-density-padding-lg);
   --solaris-button-font-weight: var(--solaris-font-weight-semibold);
   --solaris-button-height: var(--solaris-control-height-comfortable-lg);
+}
+
+// Density late-resolution fallback: when data-size is stamped but
+// data-density has not resolved yet (theme CSS still loading, group context
+// attaching), assume the normal-density geometry so the first paint does
+// not jump when the resolved density arrives. Applied with
+// transition: none (pre-hydration gate above), so no animated flash.
+[solaris-button][data-size='sm']:not([data-density]) {
+  --solaris-button-gap: var(--solaris-density-gap-md);
+  --solaris-button-padding-y: var(--solaris-spacing-4);
+  --solaris-button-min-width: var(--solaris-spacing-16);
+  --solaris-button-icon-size: var(--solaris-font-size-sm);
+  --solaris-button-font-size: var(--solaris-font-size-xs);
+  --solaris-button-padding-x: var(--solaris-density-padding-lg);
+  --solaris-button-font-weight: var(--solaris-font-weight-medium);
+  --solaris-button-height: var(--solaris-control-height-normal-sm);
+}
+
+[solaris-button][data-size='md']:not([data-density]) {
+  --solaris-button-gap: var(--solaris-density-gap-md);
+  --solaris-button-padding-y: var(--solaris-spacing-4);
+  --solaris-button-min-width: var(--solaris-spacing-16);
+  --solaris-button-icon-size: var(--solaris-font-size-sm);
+  --solaris-button-font-size: var(--solaris-font-size-sm);
+  --solaris-button-padding-x: var(--solaris-density-padding-lg);
+  --solaris-button-font-weight: var(--solaris-font-weight-medium);
+  --solaris-button-height: var(--solaris-control-height-normal-md);
+}
+
+[solaris-button][data-size='lg']:not([data-density]) {
+  --solaris-button-gap: var(--solaris-density-gap-md);
+  --solaris-button-padding-y: var(--solaris-spacing-4);
+  --solaris-button-min-width: var(--solaris-spacing-16);
+  --solaris-button-icon-size: var(--solaris-font-size-sm);
+  --solaris-button-font-size: var(--solaris-font-size-md);
+  --solaris-button-padding-x: var(--solaris-density-padding-lg);
+  --solaris-button-font-weight: var(--solaris-font-weight-medium);
+  --solaris-button-height: var(--solaris-control-height-normal-lg);
 }
 
 [solaris-button][data-appearance='surface']:not([data-color='neutral']):hover {

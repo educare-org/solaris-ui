@@ -3,8 +3,10 @@
 // SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.insertBefore required to render the spinner component inside a native button host (directive has no template).
 // SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.setAttribute required for default <button> type behavior.
 // SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.setAttribute required to pre-stamp data-* variant attributes in ngOnInit (before host bindings apply on first change detection), so the correct variant styles exist before first paint and no solid-to-ghost background transition flashes. Host bindings remain the source of truth afterwards.
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.setAttribute required to stamp the browser-only data-hydrated marker in afterNextRender (post-hydration transitions); host bindings would render on the server and diverge during hydration.
 // SECURITY_EXCEPTION_FILE: createComponent required to render the spinner component inside a native button host (directive has no template).
 import {
+  afterNextRender,
   computed,
   createComponent,
   DestroyRef,
@@ -92,7 +94,7 @@ export abstract class SolarisButtonHostBase {
 
   protected readonly groupPlacement = computed(() => {
     const group = this.groupContext;
-    if (!group || !group.attached()) {
+    if (!group?.attached()) {
       return null;
     }
     return group.orientation();
@@ -162,6 +164,19 @@ export abstract class SolarisButtonHostBase {
     const initialType = el.getAttribute('type');
     if (this.isButton && initialType === null) {
       el.setAttribute('type', 'button');
+    }
+
+    // Post-hydration transition gate (Phase 6 flash fix). `data-hydrated`
+    // is stamped browser-only AFTER the first render, so the initial paint
+    // (CSR pre-boot, SSR HTML, or density late-resolution) applies variant
+    // styles with `transition: none` and never animates from the neutral
+    // base. `afterNextRender` never runs on the server, so SSR HTML matches
+    // the first client render and hydration never diverges on this marker.
+    // SECURITY_EXCEPTION: write-only setAttribute on the own host element for the post-hydration marker; direct DOM is required because host bindings would render on the server and diverge during hydration.
+    if (isPlatformBrowser(this.platformId)) {
+      afterNextRender(() => {
+        this.elementRef.nativeElement.setAttribute('data-hydrated', '');
+      });
     }
 
     effect(() => {

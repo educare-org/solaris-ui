@@ -206,4 +206,400 @@ describe('SolarisDateRangePickerComponent', () => {
       expect(element).toBeTruthy();
     });
   });
+
+  describe('form-control contract + CVA bridge', () => {
+    it('exposes focused/disabled/readonly/invalid/required getters', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      expect(fixture.componentInstance.focused).toBe(false);
+      expect(fixture.componentInstance.disabled).toBe(false);
+      expect(fixture.componentInstance.readonly).toBe(false);
+      expect(fixture.componentInstance.required).toBe(false);
+      expect(fixture.componentInstance.invalid).toBe(false);
+
+      instance.onFocus();
+      expect(fixture.componentInstance.focused).toBe(true);
+
+      fixture.componentRef.setInput('disabled', true);
+      fixture.componentRef.setInput('readonly', true);
+      fixture.componentRef.setInput('required', true);
+      fixture.componentRef.setInput('invalid', true);
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.disabled).toBe(true);
+      expect(fixture.componentInstance.readonly).toBe(true);
+      expect(fixture.componentInstance.required).toBe(true);
+      expect(fixture.componentInstance.invalid).toBe(true);
+    });
+
+    it('reflects programmatic disabled state via setDisabledState', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.setDisabledState(true);
+      fixture.detectChanges();
+      expect(fixture.componentInstance.disabled).toBe(true);
+      instance.setDisabledState(false);
+      fixture.detectChanges();
+      expect(fixture.componentInstance.disabled).toBe(false);
+    });
+
+    it('focuses the trigger button via focus()', () => {
+      const element = createFixture();
+      (fixture.componentInstance as any).focus();
+      const trigger = element.querySelector(
+        '.solaris-date-range-picker__trigger',
+      ) as HTMLButtonElement;
+      expect(document.activeElement).toBe(trigger);
+    });
+
+    it('propagates value changes via registerOnChange', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      const seen: unknown[] = [];
+      instance.registerOnChange((value: unknown) => {
+        seen.push(value);
+      });
+      instance.writeValue({ start: '2025-01-12', end: '2025-01-16' });
+      instance.clearPending();
+      // Apply the cleared pending range so onChange fires deterministically.
+      instance.apply();
+      expect(seen).toHaveLength(1);
+      expect(seen[0]).toEqual({ start: null, end: null });
+    });
+
+    it('notifies touch once via registerOnTouched + onBlur', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      let touches = 0;
+      instance.registerOnTouched(() => {
+        touches += 1;
+      });
+      instance.onBlur();
+      instance.onBlur();
+      expect(touches).toBe(1);
+      expect((instance.touched as () => boolean)()).toBe(true);
+    });
+
+    it('marks required empty range invalid only after touch', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      fixture.componentRef.setInput('required', true);
+      fixture.detectChanges();
+      expect(fixture.componentInstance.invalid).toBe(false);
+      instance.onBlur();
+      fixture.detectChanges();
+      expect(fixture.componentInstance.invalid).toBe(true);
+    });
+  });
+
+  describe('manual input parsing (onInput) + selectability', () => {
+    const inputEvent = (value: string): Event =>
+      ({ target: { value } }) as unknown as Event;
+
+    it('applies a valid start input and marks the preset custom', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.onInput('start', inputEvent('01/12/2025'));
+      expect(instance.parseError()).toBe(false);
+      expect(instance.pending().start).toBe('2025-01-12');
+      expect(instance.activePresetId()).toBe('custom');
+      expect(instance.startDisplay()).toBe('01/12/2025');
+    });
+
+    it('applies a valid end input after a start', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.onInput('start', inputEvent('01/12/2025'));
+      instance.onInput('end', inputEvent('01/16/2025'));
+      expect(instance.parseError()).toBe(false);
+      expect(instance.pending()).toEqual({
+        start: '2025-01-12',
+        end: '2025-01-16',
+      });
+    });
+
+    it('clears the pending part on empty input without parse error', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.onInput('start', inputEvent('01/12/2025'));
+      instance.onInput('start', inputEvent('   '));
+      expect(instance.pending().start).toBeNull();
+      expect(instance.parseError()).toBe(false);
+    });
+
+    it('flags unparseable text as a parse error', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.onInput('start', inputEvent('not-a-date'));
+      expect(instance.parseError()).toBe(true);
+    });
+
+    it('flags out-of-order manual ranges as a parse error', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.onInput('start', inputEvent('01/16/2025'));
+      instance.onInput('end', inputEvent('01/12/2025'));
+      expect(instance.parseError()).toBe(true);
+    });
+
+    it('rejects dates below min via isSelectable', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      fixture.componentRef.setInput('min', '2025-01-15');
+      fixture.detectChanges();
+      instance.onInput('start', inputEvent('01/12/2025'));
+      expect(instance.parseError()).toBe(true);
+    });
+
+    it('rejects dates above max via isSelectable', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      fixture.componentRef.setInput('max', '2025-01-10');
+      fixture.detectChanges();
+      instance.onInput('start', inputEvent('01/12/2025'));
+      expect(instance.parseError()).toBe(true);
+    });
+
+    it('rejects disabled dates via isSelectable', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      fixture.componentRef.setInput('disabledDates', ['2025-01-12']);
+      fixture.detectChanges();
+      instance.onInput('start', inputEvent('01/12/2025'));
+      expect(instance.parseError()).toBe(true);
+    });
+
+    it('rejects future dates when disableFuture is set', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      fixture.componentRef.setInput('disableFuture', true);
+      fixture.detectChanges();
+      instance.onInput('start', inputEvent('01/12/2999'));
+      expect(instance.parseError()).toBe(true);
+    });
+
+    it('rejects past dates when disablePast is set', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      fixture.componentRef.setInput('disablePast', true);
+      fixture.detectChanges();
+      instance.onInput('start', inputEvent('01/12/2000'));
+      expect(instance.parseError()).toBe(true);
+    });
+  });
+
+  describe('focus, keyboard and panel inputs', () => {
+    it('toggles focused state on onFocus/onBlur', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.onFocus();
+      expect(instance.focusedState()).toBe(true);
+      instance.onBlur();
+      expect(instance.focusedState()).toBe(false);
+    });
+
+    it('stops propagation on input click', () => {
+      createFixture();
+      let stopped = 0;
+      const event = {
+        stopPropagation: (): void => {
+          stopped += 1;
+        },
+      } as unknown as MouseEvent;
+      (fixture.componentInstance as any).onInputClick(event);
+      expect(stopped).toBe(1);
+    });
+
+    it('ignores non-Alt+ArrowDown keys on trigger keydown', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      const event = {
+        altKey: false,
+        key: 'Enter',
+        preventDefault: (): void => {
+          throw new Error('should not prevent default');
+        },
+      } as unknown as KeyboardEvent;
+      instance.onInputKeydown(event);
+      expect(instance.panelOpen()).toBe(false);
+    });
+
+    it('handles Alt+ArrowDown on the trigger without throwing', () => {
+      createFixture();
+      let prevented = 0;
+      const event = {
+        altKey: true,
+        key: 'ArrowDown',
+        preventDefault: (): void => {
+          prevented += 1;
+        },
+      } as unknown as KeyboardEvent;
+      (fixture.componentInstance as any).onInputKeydown(event);
+      expect(prevented).toBe(1);
+    });
+
+    it('resets panel inputs and parse error on Escape', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.onInput('start', {
+        target: { value: 'not-a-date' },
+      } as unknown as Event);
+      expect(instance.parseError()).toBe(true);
+      let prevented = 0;
+      (fixture.componentInstance as any).onPanelInputKeydown({
+        key: 'Escape',
+        preventDefault: (): void => {
+          prevented += 1;
+        },
+      } as unknown as KeyboardEvent);
+      expect(prevented).toBe(1);
+      expect(instance.parseError()).toBe(false);
+    });
+
+    it('ignores non-Escape keys in panel inputs', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.parseError.set(true);
+      (fixture.componentInstance as any).onPanelInputKeydown({
+        key: 'Enter',
+        preventDefault: (): void => {
+          throw new Error('should not prevent default');
+        },
+      } as unknown as KeyboardEvent);
+      expect(instance.parseError()).toBe(true);
+    });
+  });
+
+  describe('calendar selection and panel actions', () => {
+    it('starts a new pending range on first selectDate', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.selectDate('2025-01-12');
+      expect(instance.pending()).toEqual({
+        start: '2025-01-12',
+        end: null,
+      });
+      expect(instance.activePresetId()).toBe('custom');
+    });
+
+    it('completes the range in order on second selectDate', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.selectDate('2025-01-12');
+      instance.selectDate('2025-01-16');
+      expect(instance.pending()).toEqual({
+        start: '2025-01-12',
+        end: '2025-01-16',
+      });
+    });
+
+    it('swaps reversed calendar picks so start stays first', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.selectDate('2025-01-16');
+      instance.selectDate('2025-01-12');
+      expect(instance.pending()).toEqual({
+        start: '2025-01-12',
+        end: '2025-01-16',
+      });
+    });
+
+    it('restarts the range when picking with a complete pending range', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.selectDate('2025-01-12');
+      instance.selectDate('2025-01-16');
+      instance.selectDate('2025-02-01');
+      expect(instance.pending()).toEqual({
+        start: '2025-02-01',
+        end: null,
+      });
+    });
+
+    it('updates the displayed month via setDisplayedMonth', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.setDisplayedMonth({ year: 2025, month: 5 });
+      expect(instance.displayedMonth()).toEqual({ year: 2025, month: 5 });
+    });
+
+    it('marks custom active via selectCustom', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.activePresetId.set('today');
+      instance.selectCustom();
+      expect(instance.activePresetId()).toBe('custom');
+    });
+
+    it('clears the pending range via clearPending', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.selectDate('2025-01-12');
+      instance.clearPending();
+      expect(instance.pending()).toEqual({ start: null, end: null });
+      expect(instance.parseError()).toBe(false);
+      expect(instance.activePresetId()).toBe('custom');
+    });
+
+    it('restores the applied value via cancel', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.writeValue({ start: '2025-01-12', end: '2025-01-16' });
+      instance.selectDate('2025-02-01');
+      expect(instance.pending().start).toBe('2025-02-01');
+      instance.cancel();
+      expect(instance.pending()).toEqual({
+        start: '2025-01-12',
+        end: '2025-01-16',
+      });
+    });
+  });
+
+  describe('labels and error text branches', () => {
+    it('prefers explicit error and errorKey text', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      fixture.componentRef.setInput('error', 'Boom');
+      fixture.detectChanges();
+      expect(instance.errorText()).toBe('Boom');
+      fixture.componentRef.setInput('error', undefined);
+      fixture.componentRef.setInput(
+        'errorKey',
+        'solaris.date-picker.open-calendar',
+      );
+      fixture.detectChanges();
+      expect(instance.errorText()).toBeTruthy();
+    });
+
+    it('reports the invalid-range message on parse error', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      instance.parseError.set(true);
+      fixture.detectChanges();
+      expect(instance.errorText()).toBeTruthy();
+    });
+
+    it('reports the required message when required without parse error', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      fixture.componentRef.setInput('required', true);
+      fixture.detectChanges();
+      expect(instance.errorText()).toBeTruthy();
+    });
+
+    it('resolves the clear aria label from key, text, then default', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      expect(instance.clearAriaLabel()).toBe('Clear');
+      fixture.componentRef.setInput('clearLabel', 'Limpar');
+      fixture.detectChanges();
+      expect(instance.clearAriaLabel()).toBe('Limpar');
+      fixture.componentRef.setInput(
+        'clearLabelKey',
+        'solaris.date-picker.open-calendar',
+      );
+      fixture.detectChanges();
+      expect(instance.clearAriaLabel()).toBeTruthy();
+    });
+  });
 });

@@ -1025,6 +1025,41 @@ describe('SolarisButtonDirective first-paint stamping', () => {
   });
 });
 
+describe('SolarisButtonDirective hydration marker', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisButtonDirective],
+    template: `<button solaris-button appearance="ghost" size="sm">
+      Clear
+    </button>`,
+  })
+  class HydrationHost {}
+
+  it('should stamp data-hydrated after the first render with variants resolved', async () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(HydrationHost);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-appearance')).toBe('ghost');
+    expect(el.getAttribute('data-size')).toBe('sm');
+    expect(el.getAttribute('data-density')).toBe('normal');
+    expect(el.hasAttribute('data-hydrated')).toBe(true);
+  });
+
+  it('should keep variant attributes stable when hydrated', async () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(HydrationHost);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-appearance')).toBe('ghost');
+    expect(el.hasAttribute('data-hydrated')).toBe(true);
+  });
+});
+
 describe('SolarisButtonIconDirective', () => {
   @Component({
     standalone: true,
