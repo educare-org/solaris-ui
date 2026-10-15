@@ -41,3 +41,21 @@ export {
   SOLARIS_RECURRENCE_MAX_RESULTS,
 } from './model/recurrence.utils';
 export { computeEasterSunday } from './model/easter.utils';
+export type {
+  BuiltInLocaleHolidays,
+  FixedHolidayRule,
+  MovableHolidayRule,
+  SolarisHolidayProvider,
+  SolarisHolidayRange,
+  WeekdayHolidayRule,
+} from './holidays/model/holidays.types';
+export {
+  lastWeekdayOfMonth,
+  nthWeekdayOfMonth,
+  expandLocaleYearHolidays,
+} from './holidays/model/holiday-expansion.utils';
+export {
+  builtInHolidays,
+  isBuiltInHolidaysLoaded,
+  preloadBuiltInHolidays,
+} from './holidays/builtin/built-in-holidays';

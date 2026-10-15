@@ -981,6 +981,62 @@ export type { SolarisTestingOptions } from './lib/testing/provide-solaris-testin
 export { configureSolarisTesting } from './lib/testing/solaris-test-utilities';
 export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';
 
+export type {
+  SolarisCalendarEvent,
+  SolarisCalendarEventColor,
+  SolarisCalendarItemKind,
+  SolarisCalendarOccurrence,
+  SolarisCalendarTask,
+  SolarisCalendarWeekStart,
+  SolarisHoliday,
+  SolarisRecurrence,
+  SolarisRecurrenceFrequency,
+  SolarisRecurrenceOverride,
+} from './lib/components/scheduling/calendar/index';
+export type {
+  SolarisCivilDate,
+  SolarisCivilTime,
+  SolarisZonedWall,
+} from './lib/components/scheduling/calendar/index';
+export {
+  addDaysPreservingSolarisWall,
+  addDaysToSolarisDate,
+  addMinutesToSolarisDateTime,
+  builtInHolidays,
+  compareSolarisDateTimes,
+  computeEasterSunday,
+  diffSolarisDateTimeMinutes,
+  expandLocaleYearHolidays,
+  expandSolarisRecurrence,
+  getTimeZoneOffsetMinutes,
+  getWeekdayInZone,
+  getZonedWall,
+  isBuiltInHolidaysLoaded,
+  isSolarisDateTimeValue,
+  isSolarisDateValue,
+  lastWeekdayOfMonth,
+  nthWeekdayOfMonth,
+  parseSolarisDateParts,
+  parseSolarisDateTimeMs,
+  preloadBuiltInHolidays,
+  resolveSolarisWallTimeMs,
+  startOfSolarisDay,
+  startOfSolarisMonth,
+  startOfSolarisWeek,
+  toSolarisDateInZone,
+  toSolarisDateTimeValue,
+  SOLARIS_RECURRENCE_MAX_RESULTS,
+} from './lib/components/scheduling/calendar/index';
+export type {
+  BuiltInLocaleHolidays,
+  ExpandSolarisRecurrenceOptions,
+  FixedHolidayRule,
+  MovableHolidayRule,
+  SolarisHolidayProvider,
+  SolarisHolidayRange,
+  WeekdayHolidayRule,
+} from './lib/components/scheduling/calendar/index';
+
 export { nextIdFor, resolveElementId } from './lib/core/utils/id';
 
 export { provideSolaris } from './lib/providers/provide-solaris';
