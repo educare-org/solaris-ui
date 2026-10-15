@@ -121,6 +121,17 @@ if (!fileExists(libDir)) {
         trimmed.includes('aria-label') ||
         trimmed.includes('ariaLabel')
       ) {
+        const window = lines.slice(Math.max(0, i - 2), i + 3).join('\n');
+        if (
+          window.includes('labelKey') ||
+          window.includes('titleKey') ||
+          window.includes('placeholderKey') ||
+          window.includes('ariaLabelKey') ||
+          window.includes('LabelKey') ||
+          window.includes('TitleKey')
+        ) {
+          continue;
+        }
         if (
           !trimmed.includes('Key') &&
           !trimmed.includes('translate') &&

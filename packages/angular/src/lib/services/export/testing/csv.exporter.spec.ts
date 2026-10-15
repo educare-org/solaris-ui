@@ -80,6 +80,8 @@ describe('createCsvExporter', () => {
     expect(exporter.id).toBe('csv');
     expect(exporter.extension).toBe('csv');
     expect(exporter.icon).toBe('file-text');
+    expect(exporter.labelKey).toBe('solaris.export.csv');
+    expect(exporter.label).toBe('Export CSV');
     const content = exporter.buildContent({
       rows: ROWS.slice(0, 1),
       columns: [{ id: 'name', header: 'Name', accessor: 'name' }],

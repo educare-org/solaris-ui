@@ -28,12 +28,12 @@
   </div>
 }
 <div class="solaris-dropdown-menu-item__content">
-  @if (label()) {
-    <span class="solaris-dropdown-menu-item__label">{{ label() }}</span>
+  @if (resolvedLabel()) {
+    <span class="solaris-dropdown-menu-item__label">{{ resolvedLabel() }}</span>
   }
-  @if (description()) {
+  @if (resolvedDescription()) {
     <span class="solaris-dropdown-menu-item__description">
-      {{ description() }}
+      {{ resolvedDescription() }}
     </span>
   }
 </div>

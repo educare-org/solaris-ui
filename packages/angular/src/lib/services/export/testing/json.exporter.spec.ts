@@ -30,6 +30,8 @@ describe('createJsonExporter', () => {
     expect(exporter.id).toBe('json');
     expect(exporter.extension).toBe('json');
     expect(exporter.icon).toBe('json');
+    expect(exporter.labelKey).toBe('solaris.export.json');
+    expect(exporter.label).toBe('Export JSON');
     expect(exporter.mime).toContain('application/json');
   });
 });

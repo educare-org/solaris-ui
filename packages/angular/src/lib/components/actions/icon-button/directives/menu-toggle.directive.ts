@@ -35,8 +35,14 @@ export class SolarisMenuToggleDirective {
   readonly openLabel = input<string | undefined>(undefined, {
     alias: 'solarisMenuToggleOpenLabel',
   });
+  readonly openLabelKey = input<string | undefined>(undefined, {
+    alias: 'solarisMenuToggleOpenLabelKey',
+  });
   readonly closeLabel = input<string | undefined>(undefined, {
     alias: 'solarisMenuToggleCloseLabel',
+  });
+  readonly closeLabelKey = input<string | undefined>(undefined, {
+    alias: 'solarisMenuToggleCloseLabelKey',
   });
 
   protected readonly resolvedAriaLabel = computed(() => {
@@ -45,6 +51,13 @@ export class SolarisMenuToggleDirective {
       return label;
     }
 
+    const customKey = this.open() ? this.closeLabelKey() : this.openLabelKey();
+    if (customKey) {
+      const custom = this.translateService?.translate(customKey);
+      if (custom && custom !== customKey) {
+        return custom;
+      }
+    }
     const key = this.open()
       ? 'solaris.menuToggle.close'
       : 'solaris.menuToggle.open';

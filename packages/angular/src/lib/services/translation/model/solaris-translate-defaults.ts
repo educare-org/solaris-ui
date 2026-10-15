@@ -38,6 +38,9 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.toast.expand': 'Expand',
       'solaris.toast.collapse': 'Collapse',
 
+      'solaris.alert.close': 'Close alert',
+      'solaris.announcement.close': 'Dismiss announcement',
+
       'solaris.menuToggle.open': 'Open menu',
       'solaris.menuToggle.close': 'Close menu',
 
@@ -323,6 +326,12 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.toast.expand': 'Expandir',
       'solaris.toast.collapse': 'Recolher',
 
+      'solaris.alert.close': 'Fechar alerta',
+      'solaris.announcement.close': 'Dispensar anúncio',
+
+      'solaris.menuToggle.open': 'Abrir menu',
+      'solaris.menuToggle.close': 'Fechar menu',
+
       'solaris.dialog.close': 'Fechar',
       'solaris.dialog.confirm': 'Confirmar',
       'solaris.dialog.cancel': 'Cancelar',
@@ -587,6 +596,14 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.navigation.pagination.rangeLabel':
         '{{start}}–{{end}} de {{total}}',
       'solaris.navigation.pagination.rangeLabelCompact': '{{start}}–{{end}}',
+    },
+    es: {
+      'solaris.alert.close': 'Cerrar alerta',
+      'solaris.announcement.close': 'Descartar anuncio',
+      'solaris.export.csv': 'Exportar CSV',
+      'solaris.export.json': 'Exportar JSON',
+      'solaris.menuToggle.open': 'Abrir menú',
+      'solaris.menuToggle.close': 'Cerrar menú',
     },
   },
   useBrowserLocale: true,

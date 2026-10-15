@@ -15,6 +15,7 @@ import { SolarisIconComponent } from '../../../icon';
 import type { SolarisDropdownMenuItemColor } from '../model/dropdown-menu.types';
 import { SOLARIS_DROPDOWN_NAVIGABLE_ITEM } from '../model/dropdown-menu-navigation';
 import { SolarisDropdownSubmenuComponent } from './dropdown-submenu.component';
+import { SolarisTranslateService } from '../../../../services/translation';
 
 @Component({
   selector: 'solaris-dropdown-submenu-trigger',
@@ -46,6 +47,9 @@ export class SolarisDropdownSubmenuTriggerComponent {
   private readonly submenu = inject(SolarisDropdownSubmenuComponent, {
     optional: true,
   });
+  private readonly translateService = inject(SolarisTranslateService, {
+    optional: true,
+  });
 
   readonly icon = input<string | undefined>(undefined);
   readonly label = input<string | undefined>(undefined);
@@ -62,6 +66,15 @@ export class SolarisDropdownSubmenuTriggerComponent {
   });
 
   protected readonly hasLeadingContent = computed(() => !!this.icon());
+
+  protected readonly resolvedLabel = computed(() => {
+    const key = this.labelKey();
+    if (key && this.translateService) {
+      const translated = this.translateService.translate(key);
+      if (translated !== key) return translated;
+    }
+    return this.label();
+  });
 
   @HostListener('click')
   handleClick(): void {

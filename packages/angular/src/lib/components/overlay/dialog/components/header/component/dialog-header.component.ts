@@ -17,6 +17,7 @@ import { isPlatformBrowser } from '@angular/common';
 import type { SolarisDialogVariant } from '../../root/model/dialog.types';
 import { SOLARIS_DIALOG_REF } from '../../../token/dialog-data.token';
 import type { SolarisDialogRef } from '../../../service/dialog-ref';
+import { SolarisTranslateService } from '../../../../../../services/translation';
 import { SolarisIconComponent } from '../../../../../icon';
 import { nextIdFor } from '../../../../../../core';
 
@@ -42,10 +43,15 @@ export class SolarisDialogHeaderComponent implements AfterViewInit {
     inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly destroyRef = inject(DestroyRef);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly translateService = inject(SolarisTranslateService, {
+    optional: true,
+  });
 
   readonly icon = input<string>();
   readonly title = input<string>();
+  readonly titleKey = input<string>();
   readonly description = input<string>();
+  readonly descriptionKey = input<string>();
   readonly iconDecorative = input<boolean>(false);
   readonly variant = input<SolarisDialogVariant>('neutral');
   readonly separator = input<boolean, unknown>(true, {
@@ -55,7 +61,33 @@ export class SolarisDialogHeaderComponent implements AfterViewInit {
     transform: booleanAttribute,
   });
   readonly closeLabel = input<string>('Close');
+  readonly closeLabelKey = input<string>();
   readonly scrolled = input<boolean>();
+
+  protected readonly resolvedTitle = computed(() => {
+    const titleKey = this.titleKey();
+    if (titleKey) {
+      return this.translateService?.translate(titleKey) ?? this.title();
+    }
+    return this.title();
+  });
+  protected readonly resolvedDescription = computed(() => {
+    const descriptionKey = this.descriptionKey();
+    if (descriptionKey) {
+      return (
+        this.translateService?.translate(descriptionKey) ?? this.description()
+      );
+    }
+    return this.description();
+  });
+  protected readonly resolvedCloseLabel = computed(() => {
+    const closeLabelKey = this.closeLabelKey();
+    const closeLabel = this.closeLabel() ?? 'Close';
+    if (closeLabelKey) {
+      return this.translateService?.translate(closeLabelKey) ?? closeLabel;
+    }
+    return closeLabel;
+  });
 
   protected readonly internalScrolled = signal(false);
   protected readonly effectiveScrolled = computed(
@@ -68,8 +100,8 @@ export class SolarisDialogHeaderComponent implements AfterViewInit {
   protected readonly titleId = `${this.idPrefix}-title`;
   protected readonly descriptionId = `${this.idPrefix}-description`;
 
-  protected readonly hasTitle = () => !!this.title();
-  protected readonly hasDescription = () => !!this.description();
+  protected readonly hasTitle = () => !!this.resolvedTitle();
+  protected readonly hasDescription = () => !!this.resolvedDescription();
   protected readonly hasIcon = () => !!this.icon();
   protected readonly showClose = () => this.closeable();
 

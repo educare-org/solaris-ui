@@ -6,8 +6,10 @@
   }
   <div class="solaris-dropdown-submenu-trigger__content">
     <ng-content></ng-content>
-    @if (label()) {
-      <span class="solaris-dropdown-submenu-trigger__label">{{ label() }}</span>
+    @if (resolvedLabel()) {
+      <span class="solaris-dropdown-submenu-trigger__label">{{
+        resolvedLabel()
+      }}</span>
     }
   </div>
   <div class="solaris-dropdown-submenu-trigger__trailing">

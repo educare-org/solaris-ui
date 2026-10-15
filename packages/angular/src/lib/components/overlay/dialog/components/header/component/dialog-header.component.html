@@ -8,7 +8,7 @@
 
     @if (hasTitle()) {
       <h2 class="solaris-dialog-header__title" [attr.id]="titleId">
-        {{ title() }}
+        {{ resolvedTitle() }}
       </h2>
     }
 
@@ -17,7 +17,7 @@
         type="button"
         data-dialog-close
         (click)="closeDialog()"
-        [attr.aria-label]="closeLabel()"
+        [attr.aria-label]="resolvedCloseLabel()"
         class="solaris-dialog-header__close"
       >
         <solaris-icon name="x" [decorative]="true" />
@@ -27,7 +27,7 @@
 
   @if (hasDescription()) {
     <p class="solaris-dialog-header__description" [attr.id]="descriptionId">
-      {{ description() }}
+      {{ resolvedDescription() }}
     </p>
   }
 </div>

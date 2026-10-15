@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 
 import { SolarisIconComponent } from '../../../icon';
+import { SolarisTranslateService } from '../../../../services/translation';
 
 import type {
   SolarisDropdownMenuItemColor,
@@ -47,6 +48,9 @@ import { SOLARIS_DROPDOWN_NAVIGABLE_ITEM } from '../model/dropdown-menu-navigati
 })
 export class SolarisDropdownMenuItemComponent {
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly translateService = inject(SolarisTranslateService, {
+    optional: true,
+  });
 
   readonly color = input<SolarisDropdownMenuItemColor>('neutral');
   readonly type = input<SolarisDropdownMenuItemType>('item');
@@ -63,6 +67,24 @@ export class SolarisDropdownMenuItemComponent {
   readonly disabled = input<boolean>(false);
 
   readonly itemSelected = output<void>();
+
+  protected readonly resolvedLabel = computed(() => {
+    const key = this.labelKey();
+    if (key && this.translateService) {
+      const translated = this.translateService.translate(key);
+      if (translated !== key) return translated;
+    }
+    return this.label();
+  });
+
+  protected readonly resolvedDescription = computed(() => {
+    const key = this.descriptionKey();
+    if (key && this.translateService) {
+      const translated = this.translateService.translate(key);
+      if (translated !== key) return translated;
+    }
+    return this.description();
+  });
 
   protected readonly computedRole = computed<string>(() => {
     const t = this.type();
