@@ -546,7 +546,7 @@ export class SolarisRecordGridComponent<T = unknown> {
     const position = this.visibleColumns().findIndex(
       (candidate) => candidate.id === column.id,
     );
-    return (position < 0 ? 0 : position) + offset;
+    return Math.max(position, 0) + offset;
   }
 
   protected sortButtonLabel(column: SolarisRecordGridColumn<T>): string {
@@ -626,13 +626,10 @@ export class SolarisRecordGridComponent<T = unknown> {
     if (this.readonly() || this.disabled() || this.isComputed(column)) {
       return false;
     }
-    if (
+    return !(
       cell !== undefined &&
       (cell.covered || cell.rowSpan > 1 || cell.colSpan > 1)
-    ) {
-      return false;
-    }
-    return true;
+    );
   }
 
   protected draftKey(rowId: string, columnId: string): string {
