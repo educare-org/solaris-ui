@@ -1,12 +1,17 @@
 import {
   appendFiles,
+  clampProgress,
   createUploadItem,
   fileNameFromUrl,
   formatFileSize,
+  isHttpUrl,
   matchesAccept,
   removeUploadItem,
+  sanitizeFileName,
+  sniffFileKind,
   updateUploadItem,
   validateIncomingFile,
+  validateSourceDimensions,
 } from '../model/upload-state';
 
 function makeFile(name: string, size: number, type: string): File {
@@ -210,6 +215,136 @@ describe('upload-state', () => {
     it('falls back for urls without a file segment', () => {
       expect(fileNameFromUrl('https://cdn.example/')).toBe('remote-file');
       expect(fileNameFromUrl('not-a-url')).toBe('remote-file');
+    });
+
+    it('sanitizes hostile segments', () => {
+      expect(fileNameFromUrl('https://cdn.example/%2E%2E%2Fevil.sh')).toBe(
+        'evil.sh',
+      );
+    });
+  });
+
+  describe('sanitizeFileName', () => {
+    it('keeps innocent names untouched', () => {
+      expect(sanitizeFileName('report final (2).pdf')).toBe(
+        'report final (2).pdf',
+      );
+    });
+
+    it('strips path traversal and separators', () => {
+      expect(sanitizeFileName('../../etc/passwd')).toBe('etc-passwd');
+      expect(sanitizeFileName('C:\\Windows\\evil.exe')).toBe(
+        'C:-Windows-evil.exe',
+      );
+    });
+
+    it('strips control characters and dot files', () => {
+      expect(sanitizeFileName('a\u0000b.pdf')).toBe('ab.pdf');
+      expect(sanitizeFileName('...profile')).toBe('profile');
+    });
+
+    it('falls back for empty names and caps length keeping the extension', () => {
+      expect(sanitizeFileName('   ')).toBe('file');
+      const long = `${'a'.repeat(200)}.pdf`;
+      const safe = sanitizeFileName(long);
+      expect(safe.length).toBeLessThanOrEqual(120);
+      expect(safe.endsWith('.pdf')).toBe(true);
+    });
+  });
+
+  describe('isHttpUrl', () => {
+    it('accepts https and rejects dangerous schemes', () => {
+      expect(isHttpUrl('https://cdn.example/f.png', false)).toBe(true);
+      expect(isHttpUrl('http://localhost/f.png', false)).toBe(false);
+      expect(isHttpUrl('http://localhost/f.png', true)).toBe(true);
+      expect(isHttpUrl('javascript:alert(1)', true)).toBe(false);
+      expect(isHttpUrl('file:///etc/passwd', true)).toBe(false);
+      expect(isHttpUrl('data:image/png;base64,xx', true)).toBe(false);
+      expect(isHttpUrl('not a url', true)).toBe(false);
+    });
+
+    it('rejects urls carrying credentials', () => {
+      expect(isHttpUrl('https://user:pass@cdn.example/f.png', false)).toBe(
+        false,
+      );
+    });
+  });
+
+  describe('clampProgress', () => {
+    it('bounds handler-reported progress to 0-100', () => {
+      expect(clampProgress(42.4)).toBe(42);
+      expect(clampProgress(150)).toBe(100);
+      expect(clampProgress(-10)).toBe(0);
+      expect(clampProgress(NaN)).toBe(0);
+      expect(clampProgress(Infinity)).toBe(0);
+    });
+  });
+
+  describe('sniffFileKind', () => {
+    function fileWithHead(
+      bytes: readonly number[],
+      name: string,
+      type: string,
+    ): File {
+      const content = new Uint8Array(bytes);
+      const file = new File([content], name, { type });
+      Object.defineProperty(file, 'slice', {
+        value: () => ({
+          arrayBuffer: () => Promise.resolve(content.buffer as ArrayBuffer),
+        }),
+        configurable: true,
+      });
+      return file;
+    }
+
+    it('detects png, jpeg and pdf magic bytes', async () => {
+      const png = fileWithHead(
+        [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a],
+        'a.png',
+        'image/png',
+      );
+      const spoofed = fileWithHead(
+        [0x25, 0x50, 0x44, 0x46, 0x2d, 0x31, 0x2e, 0x34],
+        'photo.png',
+        'image/png',
+      );
+      await expect(sniffFileKind(png)).resolves.toBe('png');
+      await expect(sniffFileKind(spoofed)).resolves.toBe('pdf');
+    });
+
+    it('returns null for unknown or empty content', async () => {
+      const mystery = fileWithHead(
+        [1, 2, 3, 4],
+        'x.bin',
+        'application/octet-stream',
+      );
+      await expect(sniffFileKind(mystery)).resolves.toBeNull();
+    });
+
+    it('returns null when the head is unreadable', async () => {
+      const unreadable = makeFile('x.bin', 4, 'application/octet-stream');
+      Object.defineProperty(unreadable, 'slice', {
+        value: () => ({
+          arrayBuffer: () => Promise.reject(new Error('denied')),
+        }),
+        configurable: true,
+      });
+      await expect(sniffFileKind(unreadable)).resolves.toBeNull();
+    });
+  });
+
+  describe('validateSourceDimensions', () => {
+    it('refuses absurd sources before canvas allocation', () => {
+      expect(validateSourceDimensions(4000, 3000, 8000, 30_000_000)).toBeNull();
+      expect(validateSourceDimensions(9000, 100, 8000, 30_000_000)).toBe(
+        'too-large',
+      );
+      expect(validateSourceDimensions(7000, 7000, 8000, 30_000_000)).toBe(
+        'too-large',
+      );
+      expect(validateSourceDimensions(0, 100, 8000, 30_000_000)).toBe(
+        'too-large',
+      );
     });
   });
 

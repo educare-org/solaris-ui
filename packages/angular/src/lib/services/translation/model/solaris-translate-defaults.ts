@@ -125,6 +125,10 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.file-upload.announce.addedSingular': '1 file added.',
       'solaris.file-upload.announce.addedPlural': '{{count}} files added.',
       'solaris.file-upload.announce.removed': 'Removed {{name}}.',
+      'solaris.file-upload.announce.rejectedSingular':
+        '1 file rejected: {{name}}.',
+      'solaris.file-upload.announce.rejectedPlural':
+        '{{count}} files rejected.',
       'solaris.file-upload.announce.uploaded': 'Upload complete: {{name}}.',
       'solaris.file-upload.announce.failed': 'Upload failed: {{name}}.',
       'solaris.file-upload.or': 'or',
@@ -137,6 +141,9 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.file-upload.url.placeholder': 'https://example.com/file.pdf',
       'solaris.file-upload.url.add': 'Add',
       'solaris.file-upload.url.error': 'Could not load a file from this URL.',
+      'solaris.file-upload.url.invalid': 'Enter a valid https URL.',
+      'solaris.file-upload.url.too-large':
+        'The remote file exceeds the {{size}} limit.',
 
       'solaris.image-editor.title': 'Edit image',
       'solaris.image-editor.save': 'Save',
@@ -403,6 +410,10 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.file-upload.announce.addedPlural':
         '{{count}} arquivos adicionados.',
       'solaris.file-upload.announce.removed': 'Removido {{name}}.',
+      'solaris.file-upload.announce.rejectedSingular':
+        '1 arquivo rejeitado: {{name}}.',
+      'solaris.file-upload.announce.rejectedPlural':
+        '{{count}} arquivos rejeitados.',
       'solaris.file-upload.announce.uploaded': 'Envio concluído: {{name}}.',
       'solaris.file-upload.announce.failed': 'Falha no envio: {{name}}.',
       'solaris.file-upload.or': 'ou',
@@ -416,6 +427,9 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.file-upload.url.add': 'Adicionar',
       'solaris.file-upload.url.error':
         'Não foi possível carregar um arquivo desta URL.',
+      'solaris.file-upload.url.invalid': 'Insira uma URL https válida.',
+      'solaris.file-upload.url.too-large':
+        'O arquivo remoto excede o limite de {{size}}.',
 
       'solaris.image-editor.title': 'Editar imagem',
       'solaris.image-editor.save': 'Salvar',

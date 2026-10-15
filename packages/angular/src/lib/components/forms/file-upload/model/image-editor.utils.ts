@@ -31,10 +31,6 @@ export interface SolarisSceneOptions {
   readonly offset: SolarisPanOffset;
   readonly viewWidth: number;
   readonly viewHeight: number;
-  /**
-   * When true the crop window shows framing guides (rule of thirds).
-   * The component sets this while the user drags the image.
-   */
   readonly active?: boolean;
 }
 
@@ -163,12 +159,6 @@ export function cropViewRect(
   };
 }
 
-/**
- * Fits the view box to the photo aspect inside a max box (with a minimum
- * floor) so the stage hugs the image instead of letterboxing it. The
- * preview canvas then matches the photo proportions and no side gutters
- * are painted.
- */
 export function fitViewSize(
   sourceWidth: number,
   sourceHeight: number,
@@ -230,15 +220,43 @@ export function objectUrlFor(source: string | File): {
   readonly revoke: () => void;
 } {
   if (typeof source === 'string') {
+    if (!isLoadableImageUrl(source)) {
+      throw new Error(
+        'Only http(s), blob: or data:image: sources can be edited.',
+      );
+    }
     return { url: source, revoke: () => undefined };
   }
   const url = URL.createObjectURL(source);
   return { url, revoke: () => URL.revokeObjectURL(url) };
 }
 
-export function loadImageElement(url: string): Promise<HTMLImageElement> {
+function isLoadableImageUrl(rawUrl: string): boolean {
+  const trimmed = rawUrl.trim().toLowerCase();
+  if (trimmed.startsWith('blob:')) {
+    return true;
+  }
+  if (trimmed.startsWith('data:image/')) {
+    return true;
+  }
+  try {
+    const parsed = new URL(rawUrl);
+    return parsed.protocol === 'https:' || parsed.protocol === 'http:';
+  } catch {
+    return false;
+  }
+}
+
+export function loadImageElement(
+  url: string,
+  options: { readonly crossOrigin?: boolean } = {},
+): Promise<HTMLImageElement> {
   return new Promise<HTMLImageElement>((resolve, reject) => {
     const image = new Image();
+    if (options.crossOrigin ?? true) {
+      image.crossOrigin = 'anonymous';
+    }
+    image.referrerPolicy = 'no-referrer';
     image.onload = () => resolve(image);
     image.onerror = () =>
       reject(new Error('Could not load the image element.'));
@@ -279,8 +297,16 @@ function canvasToBlob(
   });
 }
 
-// Mask overlay colors are intentionally fixed: the dim and the guides
-// must contrast arbitrary user photos, which no theme token can guarantee.
+function createCanvas(): HTMLCanvasElement {
+  // SECURITY_EXCEPTION: offscreen canvas is the only raster pipeline available; no Angular abstraction exists; SSR-safe via the undefined guard (server has no document); covered by image-editor utils specs.
+  const doc = typeof document !== 'undefined' ? document : undefined;
+  const canvas = doc?.createElement('canvas');
+  if (!canvas) {
+    throw new Error('Canvas 2D is not available.');
+  }
+  return canvas;
+}
+
 const MASK_DIM_COLOR = 'rgba(0, 0, 0, 0.35)';
 const MASK_GRID_COLOR = 'rgba(255, 255, 255, 0.75)';
 
@@ -322,7 +348,6 @@ function paintMask(
     return;
   }
 
-  // Framing guides (rule of thirds) visible only while repositioning.
   context.save();
   if (shape === 'circle') {
     context.beginPath();
@@ -431,7 +456,7 @@ export async function renderEditedImage(
 
   const naturalWidth = image.naturalWidth || image.width;
   const naturalHeight = image.naturalHeight || image.height;
-  const staging = document.createElement('canvas');
+  const staging = createCanvas();
   staging.width = source.width;
   staging.height = source.height;
   const stagingCtx = staging.getContext('2d');
@@ -442,7 +467,7 @@ export async function renderEditedImage(
   stagingCtx.rotate((options.rotation * Math.PI) / 180);
   stagingCtx.drawImage(image, -naturalWidth / 2, -naturalHeight / 2);
 
-  const result = document.createElement('canvas');
+  const result = createCanvas();
   result.width = out.width;
   result.height = out.height;
   const resultCtx = result.getContext('2d');

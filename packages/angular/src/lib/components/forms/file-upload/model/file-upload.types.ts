@@ -50,6 +50,10 @@ export interface SolarisFileUploadOptions {
   readonly url: string;
   readonly signal: AbortSignal;
   readonly onProgress: (percent: number) => void;
+  readonly headers?: Readonly<Record<string, string>>;
+  readonly withCredentials?: boolean;
+  readonly timeoutMs?: number;
+  readonly fieldName?: string;
 }
 
 export interface SolarisFileUploadResponse {
@@ -66,6 +70,10 @@ export interface SolarisFileUploadFailed {
   readonly error: Extract<SolarisFileUploadError, 'upload-failed' | 'aborted'>;
 }
 
+export interface SolarisFileUploadCancelled {
+  readonly itemId: string;
+}
+
 export interface SolarisFileUrlFailed {
   readonly url: string;
   readonly error: string;
@@ -76,9 +84,17 @@ export interface SolarisFileUploadProgress {
   readonly progress: number;
 }
 
+export interface SolarisFileUrlFetchOptions {
+  readonly signal: AbortSignal;
+  readonly maxBytes: number;
+  readonly timeoutMs: number;
+}
+
 export abstract class SolarisFileUploadHandler {
   abstract upload(
     file: File,
     options: SolarisFileUploadOptions,
   ): Promise<SolarisFileUploadResponse>;
+
+  fetchUrl?(url: string, options: SolarisFileUrlFetchOptions): Promise<File>;
 }

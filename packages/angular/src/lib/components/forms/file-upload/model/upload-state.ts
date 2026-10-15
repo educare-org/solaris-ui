@@ -172,12 +172,139 @@ export function fileNameFromUrl(rawUrl: string): string {
   try {
     const parsed = new URL(rawUrl);
     const segments = parsed.pathname.split('/').filter((part) => part !== '');
-    const last = segments[segments.length - 1];
+    const last = segments.at(-1);
     if (last) {
-      return decodeURIComponent(last);
+      return sanitizeFileName(decodeURIComponent(last));
     }
   } catch {
     // Invalid URLs fall through to the default name below.
   }
   return 'remote-file';
+}
+
+export const SOLARIS_SAFE_FILE_NAME_MAX_LENGTH = 120;
+
+export function sanitizeFileName(
+  rawName: string,
+  maxLength = SOLARIS_SAFE_FILE_NAME_MAX_LENGTH,
+): string {
+  const noSeparators = rawName.replace(/[/\\]+/g, '-');
+  // eslint-disable-next-line no-control-regex
+  const noControls = noSeparators.replace(/[\x00-\x1f\x7f]+/g, '');
+  const trimmed = noControls
+    .trim()
+    .replace(/^[.\- ]+/, '')
+    .trim();
+  const fallback = trimmed.length > 0 ? trimmed : 'file';
+  if (fallback.length <= maxLength) {
+    return fallback;
+  }
+  const dot = fallback.lastIndexOf('.');
+  const stem = dot > 0 ? fallback.slice(0, dot) : fallback;
+  const extension = dot > 0 ? fallback.slice(dot) : '';
+  const cappedExtension = extension.slice(0, 16);
+  const stemBudget = Math.max(1, maxLength - cappedExtension.length);
+  return `${stem.slice(0, stemBudget)}${cappedExtension}`;
+}
+
+export function isHttpUrl(rawUrl: string, allowHttp: boolean): boolean {
+  let parsed: URL;
+  try {
+    parsed = new URL(rawUrl);
+  } catch {
+    return false;
+  }
+  if (parsed.username.length > 0 || parsed.password.length > 0) {
+    return false;
+  }
+  if (parsed.protocol === 'https:') {
+    return true;
+  }
+  return allowHttp && parsed.protocol === 'http:';
+}
+
+export function clampProgress(value: number): number {
+  if (!Number.isFinite(value)) {
+    return 0;
+  }
+  return Math.min(100, Math.max(0, Math.round(value)));
+}
+
+const FILE_MAGIC_SIGNATURES: ReadonlyArray<{
+  readonly kind: string;
+  readonly bytes: readonly number[];
+  readonly offset?: number;
+}> = [
+  { kind: 'png', bytes: [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a] },
+  { kind: 'jpeg', bytes: [0xff, 0xd8, 0xff] },
+  { kind: 'gif', bytes: [0x47, 0x49, 0x46, 0x38] },
+  { kind: 'pdf', bytes: [0x25, 0x50, 0x44, 0x46] },
+  { kind: 'zip', bytes: [0x50, 0x4b, 0x03, 0x04] },
+];
+
+export async function sniffFileKind(file: File): Promise<string | null> {
+  const bytes = await readHeadBytes(file, 12);
+  if (!bytes) {
+    return null;
+  }
+  for (const signature of FILE_MAGIC_SIGNATURES) {
+    const offset = signature.offset ?? 0;
+    if (
+      signature.bytes.every((value, index) => bytes[offset + index] === value)
+    ) {
+      return signature.kind;
+    }
+  }
+  if (
+    bytes.length >= 12 &&
+    bytes[0] === 0x52 &&
+    bytes[1] === 0x49 &&
+    bytes[2] === 0x46 &&
+    bytes[3] === 0x46 &&
+    bytes[8] === 0x57 &&
+    bytes[9] === 0x45 &&
+    bytes[10] === 0x42 &&
+    bytes[11] === 0x50
+  ) {
+    return 'webp';
+  }
+  return null;
+}
+
+async function readHeadBytes(
+  file: File,
+  length: number,
+): Promise<Uint8Array | null> {
+  const slice = file.slice(0, length);
+  if (typeof slice.arrayBuffer !== 'function') {
+    return null;
+  }
+  try {
+    return new Uint8Array(await slice.arrayBuffer());
+  } catch {
+    return null;
+  }
+}
+
+export function validateSourceDimensions(
+  width: number,
+  height: number,
+  maxDimension: number,
+  maxPixels: number,
+): 'too-large' | null {
+  if (
+    !Number.isFinite(width) ||
+    !Number.isFinite(height) ||
+    width <= 0 ||
+    height <= 0
+  ) {
+    return 'too-large';
+  }
+  if (width > maxDimension || height > maxDimension) {
+    return 'too-large';
+  }
+  if (width * height > maxPixels) {
+    return 'too-large';
+  }
+  return null;
 }

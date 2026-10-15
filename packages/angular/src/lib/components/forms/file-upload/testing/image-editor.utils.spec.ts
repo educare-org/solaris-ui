@@ -8,11 +8,30 @@ import {
   editedFileName,
   fitViewSize,
   nextRotation,
+  objectUrlFor,
   outputSize,
   rotatedSize,
 } from '../model/image-editor.utils';
 
 describe('image-editor.utils', () => {
+  describe('objectUrlFor', () => {
+    it('accepts https, blob and image data urls', () => {
+      expect(objectUrlFor('https://cdn.example/photo.png').url).toBe(
+        'https://cdn.example/photo.png',
+      );
+      expect(objectUrlFor('blob:preview').url).toBe('blob:preview');
+      expect(objectUrlFor('data:image/png;base64,xx').url).toBe(
+        'data:image/png;base64,xx',
+      );
+    });
+
+    it('refuses executable or opaque schemes', () => {
+      expect(() => objectUrlFor('javascript:alert(1)')).toThrow();
+      expect(() => objectUrlFor('file:///etc/passwd')).toThrow();
+      expect(() => objectUrlFor('data:text/html,<h1>x</h1>')).toThrow();
+    });
+  });
+
   describe('aspectRatioValue', () => {
     it('maps aspects to ratios', () => {
       expect(aspectRatioValue('1:1')).toBe(1);

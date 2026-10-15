@@ -42,7 +42,11 @@ selector: <solaris-file-list-item>   (single file row with progress and actions)
 | `maxSize`                                | `number`                                          | `10485760`   | Maximum size per file in bytes, 10 MB (`undefined` = unlimited)                       |
 | `uploadUrl`                              | `string`                                          | —            | POST target for automatic upload; when absent, files stay selected                    |
 | `autoUpload`                             | `boolean`                                         | `true`       | Start uploading to `uploadUrl` as soon as files are added                             |
+| `maxConcurrent`                          | `number`                                          | `3`          | Parallel uploads; extras queue as `ready` (minimum 1)                                 |
 | `allowUrl`                               | `boolean`                                         | `false`      | Show a URL row to attach remote files via download                                    |
+| `allowHttp`                              | `boolean`                                         | `false`      | Allow `http:` URL imports (dev only; production stays `https:`)                       |
+| `maxDownloadSize`                        | `number`                                          | `maxSize`    | Refuse URL downloads larger than this, in bytes                                       |
+| `urlTimeoutMs`                           | `number`                                          | `15000`      | Abort URL downloads after this many milliseconds                                      |
 | `urlLabel` / `urlLabelKey`               | `string`                                          | —            | Accessible label override for the URL input                                           |
 | `urlPlaceholder` / `urlPlaceholderKey`   | `string`                                          | —            | Placeholder override for the URL input                                                |
 | `urlAddLabel` / `urlAddLabelKey`         | `string`                                          | —            | Add button text override for the URL row                                              |
@@ -85,6 +89,7 @@ selector: <solaris-file-list-item>   (single file row with progress and actions)
 | `uploadProgress`  | `SolarisFileUploadProgress`      | `{ itemId, progress }` (0–100) during upload                              |
 | `uploadCompleted` | `SolarisFileUploadCompleted`     | `{ itemId, url? }` when an upload finishes                                |
 | `uploadFailed`    | `SolarisFileUploadFailed`        | `{ itemId, error }` (`upload-failed` or `aborted`)                        |
+| `cancelled`       | `SolarisFileUploadCancelled`     | `{ itemId }` when an in-flight upload is aborted (remove/clear)           |
 | `urlAdded`        | `File`                           | File downloaded from a URL and added to the selection                     |
 | `urlFailed`       | `SolarisFileUrlFailed`           | `{ url, error }` when a URL download fails                                |
 
@@ -226,11 +231,15 @@ Transfers run through `SolarisFileUploadHandler`:
 ```typescript
 abstract class SolarisFileUploadHandler {
   abstract upload(file: File, options: SolarisFileUploadOptions): Promise<SolarisFileUploadResponse>;
+  fetchUrl?(url: string, options: SolarisFileUrlFetchOptions): Promise<File>;
 }
 ```
 
 - Without `uploadUrl`, no transfer runs: files stay `ready` and the form value carries the `File[]`.
 - With `uploadUrl`, the default `XhrFileUploadHandler` (XHR + `FormData`, progress events, `AbortSignal` support) POSTs each file and reads an optional `{ url }` JSON response.
+- `SolarisFileUploadOptions` also carries optional `headers`, `withCredentials`, `timeoutMs`, and `fieldName` (default `'file'`).
+- At most `maxConcurrent` (default 3) uploads run at once; the rest queue as `ready` and start as slots free.
+- URL imports (`allowUrl`) run through `handler.fetchUrl?.()` or the built-in bounded downloader: `https:` only (unless `allowHttp`), `maxDownloadSize` enforced while streaming, `urlTimeoutMs` abort, no credentials sent. Subscribe to `cancelled` to clean up server-side orphans left by aborted uploads.
 - Override per component tree:
 
 ```typescript
@@ -240,6 +249,18 @@ abstract class SolarisFileUploadHandler {
 ## Form Field integration
 
 File Upload delegates to `solaris-form-field`: the main shell is borderless (`minimal`) and provides label, hint, error text, required/optional markers, density, radius, invalid/disabled/readonly state, and `aria-describedby` management. The URL section is a second, full field that owns the `appearance` input.
+
+## Security
+
+Client-side checks are UX, not protection. Every file that reaches your server must be re-validated there:
+
+- Re-check type by content (magic bytes), not by `File.type` or extension — both are attacker-controlled. Optional helper: `sniffFileKind(file)` recognises PNG/JPEG/GIF/PDF/ZIP/WEBP headers.
+- Re-check size and count limits; reject empty files.
+- Never persist the raw `File.name` to disk or render it as HTML. The component sanitizes the multipart filename (`sanitizeFileName`: no path separators, no control chars, 120-char cap) — apply the same rule server-side and store uploads under generated ids.
+- Serve user uploads with `Content-Disposition: attachment` and `X-Content-Type-Options: nosniff` so a disguised `evil.html` cannot execute as stored XSS when opened.
+- Treat `item.url` values returned by the server as untrusted: the handler only accepts `http(s)` URLs and drops anything else.
+- URL imports fetch with the end user's browser: only `https:` is allowed by default, downloads are size- and time-bounded, and no cookies are sent. Add an explicit host allowlist in a custom `fetchUrl` when imports must be restricted.
+- Scan uploads with antivirus before publishing (hook, not included).
 
 ## Accessibility
 
@@ -256,7 +277,7 @@ File Upload delegates to `solaris-form-field`: the main shell is borderless (`mi
 
 ## Limitations (v1)
 
-- No upload queue or concurrency control: with `autoUpload`, all files start at once (follow-up).
+- Upload queue is bounded (`maxConcurrent`, default 3) but not yet configurable per-priority.
 - No chunked/resumable uploads (follow-up).
 - No clipboard paste support (follow-up).
 - URL download requires the remote server to allow CORS.

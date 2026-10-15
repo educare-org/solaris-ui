@@ -550,6 +550,7 @@ export {
 export type {
   SolarisFileRejected,
   SolarisFileUploadAppearance,
+  SolarisFileUploadCancelled,
   SolarisFileUploadCompleted,
   SolarisFileUploadDensity,
   SolarisFileUploadError,
@@ -563,6 +564,7 @@ export type {
   SolarisFileUploadStatus,
   SolarisFileUploadVariant,
   SolarisFileUrlFailed,
+  SolarisFileUrlFetchOptions,
 } from './lib/components/forms/file-upload/model/file-upload.types';
 export type {
   SolarisImageEditorAspect,

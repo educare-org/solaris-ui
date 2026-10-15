@@ -13,20 +13,33 @@ export {
   SOLARIS_IMAGE_EDITOR_DEFAULT_ASPECTS,
   SOLARIS_IMAGE_EDITOR_DEFAULT_FORMAT,
   SOLARIS_IMAGE_EDITOR_DEFAULT_MAX_DIMENSION,
+  SOLARIS_IMAGE_EDITOR_DEFAULT_MAX_SOURCE_DIMENSION,
+  SOLARIS_IMAGE_EDITOR_DEFAULT_MAX_SOURCE_PIXELS,
   SOLARIS_IMAGE_EDITOR_DEFAULT_QUALITY,
   SOLARIS_IMAGE_EDITOR_ZOOM_MAX,
   SOLARIS_IMAGE_EDITOR_ZOOM_MIN,
   SOLARIS_IMAGE_EDITOR_ZOOM_STEP,
 } from './model/image-editor.defaults';
 export {
+  SOLARIS_REMOTE_FILE_DEFAULT_TIMEOUT_MS,
+  fetchRemoteFile,
+} from './model/remote-file';
+export type { SolarisRemoteFileRequest } from './model/remote-file';
+export {
   appendFiles,
+  clampProgress,
   createUploadItem,
   fileNameFromUrl,
   formatFileSize,
+  isHttpUrl,
   matchesAccept,
   removeUploadItem,
+  sanitizeFileName,
+  sniffFileKind,
   updateUploadItem,
+  validateSourceDimensions,
 } from './model/upload-state';
+export { SOLARIS_SAFE_FILE_NAME_MAX_LENGTH } from './model/upload-state';
 export type { SolarisUploadItemPatch } from './model/upload-state';
 export type {
   SolarisImageDimensions,
@@ -54,6 +67,7 @@ export {
 export type {
   SolarisFileRejected,
   SolarisFileUploadAppearance,
+  SolarisFileUploadCancelled,
   SolarisFileUploadCompleted,
   SolarisFileUploadDensity,
   SolarisFileUploadError,
@@ -67,6 +81,7 @@ export type {
   SolarisFileUploadStatus,
   SolarisFileUploadVariant,
   SolarisFileUrlFailed,
+  SolarisFileUrlFetchOptions,
 } from './model/file-upload.types';
 export type {
   SolarisImageEditorAspect,

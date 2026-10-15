@@ -22,6 +22,7 @@
     (dragenter)="onDragEnter($event)"
     (dragover)="onDragOver($event)"
     (dragleave)="onDragLeave($event)"
+    (dragend)="onDragEnd()"
     (drop)="onDrop($event)"
   >
     @if (variant() === 'dropzone') {

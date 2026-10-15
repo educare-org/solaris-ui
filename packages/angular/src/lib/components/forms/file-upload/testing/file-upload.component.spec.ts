@@ -957,6 +957,179 @@ describe('SolarisFileUploadComponent', () => {
     });
   });
 
+  describe('security hardening', () => {
+    afterEach(() => {
+      vi.unstubAllGlobals();
+    });
+
+    it('refuses non-http(s) urls without fetching', async () => {
+      const fixture = TestBed.createComponent(UrlHost);
+      fixture.detectChanges();
+      const instance = uploadInstance(fixture);
+      const failed: unknown[] = [];
+      instance.urlFailed.subscribe((value) => failed.push(value));
+      const fetchSpy = vi.fn();
+      vi.stubGlobal('fetch', fetchSpy);
+      const urlInput = fixture.debugElement.query(By.css('input[type="url"]'));
+      urlInput.nativeElement.value = 'javascript:alert(1)';
+      urlInput.triggerEventHandler('input', {
+        target: urlInput.nativeElement,
+      });
+      fixture.debugElement
+        .query(By.css('button[solaris-form-suffix-action]'))
+        .nativeElement.click();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      expect(fetchSpy).not.toHaveBeenCalled();
+      expect(failed).toHaveLength(1);
+      expect((failed[0] as { error: string }).error).toBe('invalid-url');
+    });
+
+    it('refuses remote files over the download limit', async () => {
+      const fixture = TestBed.createComponent(UrlHost);
+      fixture.detectChanges();
+      const instance = uploadInstance(fixture);
+      const added: File[] = [];
+      instance.urlAdded.subscribe((file) => added.push(file));
+      vi.stubGlobal(
+        'fetch',
+        vi.fn().mockResolvedValue(
+          new Response(new Blob(['tiny']), {
+            status: 200,
+            headers: { 'Content-Length': '999999999' },
+          }),
+        ),
+      );
+      const urlInput = fixture.debugElement.query(By.css('input[type="url"]'));
+      urlInput.nativeElement.value = 'https://cdn.example/huge.bin';
+      urlInput.triggerEventHandler('input', {
+        target: urlInput.nativeElement,
+      });
+      fixture.debugElement
+        .query(By.css('button[solaris-form-suffix-action]'))
+        .nativeElement.click();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      expect(added).toHaveLength(0);
+      expect(
+        fixture.debugElement.query(By.css('.solaris-file-upload__announcement'))
+          .nativeElement.textContent,
+      ).toContain('exceeds');
+    });
+
+    it('announces rejected files in the live region', () => {
+      const fixture = TestBed.createComponent(ConstrainedHost);
+      fixture.detectChanges();
+      setNativeFiles(
+        fixture.debugElement.query(By.css('input[type="file"]'))
+          .nativeElement as HTMLInputElement,
+        [makeFile('huge.png', 900, 'image/png')],
+      );
+      fixture.detectChanges();
+      expect(
+        fixture.debugElement.query(By.css('.solaris-file-upload__announcement'))
+          .nativeElement.textContent,
+      ).toContain('rejected');
+    });
+
+    it('emits cancelled when an in-flight upload is removed', async () => {
+      const fixture = TestBed.createComponent(UploadHost);
+      fixture.detectChanges();
+      const instance = uploadInstance(fixture);
+      const cancelled: unknown[] = [];
+      instance.cancelled.subscribe((value) => cancelled.push(value));
+      mockHandler.holdUntilReleased = true;
+      setNativeFiles(
+        fixture.debugElement.query(By.css('input[type="file"]'))
+          .nativeElement as HTMLInputElement,
+        [makeFile('f.pdf')],
+      );
+      await fixture.whenStable();
+      fixture.detectChanges();
+      fixture.debugElement
+        .query(By.css('.solaris-file-list-item__action[aria-label^="Remove"]'))
+        .nativeElement.click();
+      mockHandler.release();
+      await fixture.whenStable();
+      fixture.detectChanges();
+      expect(cancelled).toEqual([{ itemId: expect.any(String) }]);
+    });
+
+    it('clamps out-of-range progress from custom handlers', async () => {
+      const fixture = TestBed.createComponent(UploadHost);
+      fixture.detectChanges();
+      const instance = uploadInstance(fixture);
+      const progresses: unknown[] = [];
+      instance.uploadProgress.subscribe((value) => progresses.push(value));
+      mockHandler.progressSteps = [150];
+      setNativeFiles(
+        fixture.debugElement.query(By.css('input[type="file"]'))
+          .nativeElement as HTMLInputElement,
+        [makeFile('f.pdf')],
+      );
+      await fixture.whenStable();
+      expect(progresses).toEqual([
+        { itemId: expect.any(String), progress: 100 },
+      ]);
+    });
+
+    it('queues uploads beyond maxConcurrent', async () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisFileUploadComponent, ReactiveFormsModule],
+        template: `<solaris-file-upload
+          label="Attachments"
+          uploadUrl="/api/uploads"
+          [maxConcurrent]="1"
+        ></solaris-file-upload>`,
+        providers: [
+          { provide: SOLARIS_FILE_UPLOAD_HANDLER, useValue: mockHandler },
+        ],
+      })
+      class QueuedHost {}
+      const fixture = TestBed.createComponent(QueuedHost);
+      fixture.detectChanges();
+      mockHandler.holdUntilReleased = true;
+      setNativeFiles(
+        fixture.debugElement.query(By.css('input[type="file"]'))
+          .nativeElement as HTMLInputElement,
+        [makeFile('a.pdf'), makeFile('b.pdf')],
+      );
+      await fixture.whenStable();
+      fixture.detectChanges();
+      expect(mockHandler.calls).toHaveLength(1);
+      mockHandler.release();
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      await fixture.whenStable();
+      fixture.detectChanges();
+      expect(mockHandler.calls).toHaveLength(2);
+    });
+
+    it('ignores retry for items that are not failed', async () => {
+      const fixture = TestBed.createComponent(UploadHost);
+      fixture.detectChanges();
+      const instance = uploadInstance(fixture);
+      mockHandler.holdUntilReleased = true;
+      setNativeFiles(
+        fixture.debugElement.query(By.css('input[type="file"]'))
+          .nativeElement as HTMLInputElement,
+        [makeFile('f.pdf')],
+      );
+      await fixture.whenStable();
+      expect(mockHandler.calls).toHaveLength(1);
+      const peek = instance as unknown as {
+        items(): Array<{ id: string }>;
+        onItemRetried(id: string): void;
+      };
+      const id = peek.items()[0]?.id ?? '';
+      peek.onItemRetried(id);
+      await fixture.whenStable();
+      expect(mockHandler.calls).toHaveLength(1);
+      mockHandler.release();
+      await fixture.whenStable();
+    });
+  });
+
   describe('url section', () => {
     afterEach(() => {
       vi.unstubAllGlobals();

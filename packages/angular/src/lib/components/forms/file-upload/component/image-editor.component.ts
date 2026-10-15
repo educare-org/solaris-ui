@@ -33,6 +33,8 @@ import {
   SOLARIS_IMAGE_EDITOR_DEFAULT_ASPECTS,
   SOLARIS_IMAGE_EDITOR_DEFAULT_FORMAT,
   SOLARIS_IMAGE_EDITOR_DEFAULT_MAX_DIMENSION,
+  SOLARIS_IMAGE_EDITOR_DEFAULT_MAX_SOURCE_DIMENSION,
+  SOLARIS_IMAGE_EDITOR_DEFAULT_MAX_SOURCE_PIXELS,
   SOLARIS_IMAGE_EDITOR_DEFAULT_QUALITY,
   SOLARIS_IMAGE_EDITOR_DEFAULT_SHAPE,
   SOLARIS_IMAGE_EDITOR_PAN_KEYBOARD_FAST_STEP,
@@ -60,6 +62,7 @@ import {
   rotatedSize,
 } from '../model/image-editor.utils';
 import type { SolarisPanOffset } from '../model/image-editor.utils';
+import { validateSourceDimensions } from '../model/upload-state';
 import { SolarisButtonDirective } from '../../../actions/button';
 import { SolarisIconButtonDirective } from '../../../actions/icon-button';
 
@@ -125,6 +128,12 @@ export class SolarisImageEditorComponent implements OnDestroy {
   readonly quality = input<number>(SOLARIS_IMAGE_EDITOR_DEFAULT_QUALITY);
   readonly maxDimension = input<number>(
     SOLARIS_IMAGE_EDITOR_DEFAULT_MAX_DIMENSION,
+  );
+  readonly maxSourceDimension = input<number>(
+    SOLARIS_IMAGE_EDITOR_DEFAULT_MAX_SOURCE_DIMENSION,
+  );
+  readonly maxSourcePixels = input<number>(
+    SOLARIS_IMAGE_EDITOR_DEFAULT_MAX_SOURCE_PIXELS,
   );
   readonly title = input<string>();
   readonly titleKey = input<string>();
@@ -521,7 +530,6 @@ export class SolarisImageEditorComponent implements OnDestroy {
   }
 
   protected onOverlayPointerDown(event: Event): void {
-    // Controls sit above the pan viewport: never start a drag from them.
     event.stopPropagation();
   }
 
@@ -565,6 +573,20 @@ export class SolarisImageEditorComponent implements OnDestroy {
       if (token !== this.loadToken) {
         return;
       }
+      const decodedWidth = native.naturalWidth || native.width;
+      const decodedHeight = native.naturalHeight || native.height;
+      if (
+        validateSourceDimensions(
+          decodedWidth,
+          decodedHeight,
+          this.maxSourceDimension(),
+          this.maxSourcePixels(),
+        ) !== null
+      ) {
+        this.loading.set(false);
+        this.loadError.set(true);
+        return;
+      }
       this.nativeImage = native;
       this.zoom.set(SOLARIS_IMAGE_EDITOR_ZOOM_MIN);
       this.rotation.set(0);
@@ -582,6 +604,7 @@ export class SolarisImageEditorComponent implements OnDestroy {
   }
 
   private paintPreview(): void {
+    // SECURITY_EXCEPTION: reading the preview canvas ref requires nativeElement; scoped to this component's template ref; covered by image-editor specs.
     const canvas = this.previewRef()?.nativeElement;
     const native = this.nativeImage;
     if (!canvas || !native || this.loadError()) {

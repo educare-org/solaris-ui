@@ -16,6 +16,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import type {
   SolarisFileRejected,
   SolarisFileUploadAppearance,
+  SolarisFileUploadCancelled,
   SolarisFileUploadCompleted,
   SolarisFileUploadDensity,
   SolarisFileUploadFailed,
@@ -33,12 +34,17 @@ import {
 import { SOLARIS_FILE_UPLOAD_HANDLER } from '../model/file-upload.tokens';
 import {
   appendFiles,
+  clampProgress,
   createUploadItem,
-  fileNameFromUrl,
   formatFileSize,
+  isHttpUrl,
   removeUploadItem,
   updateUploadItem,
 } from '../model/upload-state';
+import {
+  SOLARIS_REMOTE_FILE_DEFAULT_TIMEOUT_MS,
+  fetchRemoteFile,
+} from '../model/remote-file';
 import { XhrFileUploadHandler } from '../service/xhr-file-upload.handler';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { resolveElementId } from '../../../../core';
@@ -123,7 +129,11 @@ export class SolarisFileUploadComponent
   );
   readonly uploadUrl = input<string>();
   readonly autoUpload = input<boolean>(true);
+  readonly maxConcurrent = input<number>(3);
   readonly allowUrl = input<boolean>(false);
+  readonly allowHttp = input<boolean>(false);
+  readonly maxDownloadSize = input<number | undefined>(undefined);
+  readonly urlTimeoutMs = input<number>(SOLARIS_REMOTE_FILE_DEFAULT_TIMEOUT_MS);
   readonly hintKey = input<string>();
   readonly hint = input<string>('');
   readonly labelKey = input<string>();
@@ -178,6 +188,7 @@ export class SolarisFileUploadComponent
   readonly uploadProgress = output<SolarisFileUploadProgress>();
   readonly uploadCompleted = output<SolarisFileUploadCompleted>();
   readonly uploadFailed = output<SolarisFileUploadFailed>();
+  readonly cancelled = output<SolarisFileUploadCancelled>();
   readonly urlAdded = output<File>();
   readonly urlFailed = output<SolarisFileUrlFailed>();
 
@@ -194,6 +205,7 @@ export class SolarisFileUploadComponent
 
   private dragDepth = 0;
   private readonly abortControllers = new Map<string, AbortController>();
+  private urlAbortController: AbortController | null = null;
 
   protected readonly effectiveDensity = computed<SolarisFileUploadDensity>(
     () => {
@@ -253,6 +265,7 @@ export class SolarisFileUploadComponent
   }
 
   focus(): void {
+    // SECURITY_EXCEPTION: resolving the trigger requires a scoped querySelector on the own host element; read-only, no global lookup; covered by focus() specs.
     const trigger = this.elementRef.nativeElement.querySelector<HTMLElement>(
       '.solaris-file-upload__dropzone, .solaris-file-upload__trigger, .solaris-file-upload__avatar, .solaris-file-upload__field',
     );
@@ -444,7 +457,7 @@ export class SolarisFileUploadComponent
         .split(',')
         .map((entry) => {
           const cleaned = entry.trim().replace(/^\./, '');
-          const wildcard = cleaned.match(/^([A-Za-z0-9-]+)\/\*$/);
+          const wildcard = new RegExp(/^([A-Za-z0-9-]+)\/\*$/).exec(cleaned);
           if (wildcard) {
             const family = wildcard[1].toLowerCase();
             if (family === 'image') {
@@ -528,6 +541,8 @@ export class SolarisFileUploadComponent
   });
 
   writeValue(files: readonly File[] | null): void {
+    this.urlAbortController?.abort();
+    this.urlAbortController = null;
     this.cancelAllUploads();
     this.items.set((files ?? []).map((file) => createUploadItem(file)));
     this.syncAvatarPreview();
@@ -552,16 +567,32 @@ export class SolarisFileUploadComponent
     }
     for (const item of this.items()) {
       if (item.status === 'ready' || item.status === 'error') {
-        this.startUpload(item);
+        this.items.set(
+          updateUploadItem(this.items(), item.id, {
+            status: 'ready',
+            progress: item.status === 'error' ? 0 : item.progress,
+            error: undefined,
+            url: undefined,
+          }),
+        );
       }
     }
+    this.pumpQueue();
   }
 
   clear(): void {
+    const uploading = this.items()
+      .filter((item) => item.status === 'uploading')
+      .map((item) => item.id);
+    this.urlAbortController?.abort();
+    this.urlAbortController = null;
     this.cancelAllUploads();
     this.resetNativeInput();
     this.items.set([]);
     this.syncAvatarPreview();
+    for (const itemId of uploading) {
+      this.cancelled.emit({ itemId });
+    }
     this.emitFiles();
   }
 
@@ -569,6 +600,7 @@ export class SolarisFileUploadComponent
     if (this.isEffectivelyDisabled() || this.readonlyInput()) {
       return;
     }
+    // SECURITY_EXCEPTION: reading the file input ref requires nativeElement; scoped to this component's template ref; covered by picker specs.
     const native = this.fileInputRef()?.nativeElement;
     if (native) {
       // SECURITY_EXCEPTION: opening the native file picker requires the click() method; no declarative alternative exists.
@@ -594,33 +626,75 @@ export class SolarisFileUploadComponent
 
   protected async addFromUrl(): Promise<void> {
     const rawUrl = this.urlValue().trim();
-    if (rawUrl.length === 0) {
+    if (rawUrl.length === 0 || this.urlLoading()) {
       return;
     }
     if (this.isEffectivelyDisabled() || this.readonlyInput()) {
       return;
     }
     this.markTouched();
+    if (!isHttpUrl(rawUrl, this.allowHttp())) {
+      this.announcement.set(
+        this.translateService.translate('solaris.file-upload.url.invalid'),
+      );
+      this.urlFailed.emit({ url: rawUrl, error: 'invalid-url' });
+      return;
+    }
+    this.urlAbortController?.abort();
+    const controller = new AbortController();
+    this.urlAbortController = controller;
     this.urlLoading.set(true);
     try {
-      const response = await fetch(rawUrl);
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}.`);
+      const handler = this.customHandler?.fetchUrl?.bind(this.customHandler);
+      const maxBytes =
+        this.maxDownloadSize() ??
+        this.maxSize() ??
+        SOLARIS_FILE_UPLOAD_DEFAULT_MAX_SIZE;
+      const file = handler
+        ? await handler(rawUrl, {
+            signal: controller.signal,
+            maxBytes,
+            timeoutMs: this.urlTimeoutMs(),
+          })
+        : await fetchRemoteFile(rawUrl, {
+            signal: controller.signal,
+            maxBytes,
+            timeoutMs: this.urlTimeoutMs(),
+            allowHttp: this.allowHttp(),
+          });
+      if (controller.signal.aborted) {
+        return;
       }
-      const blob = await response.blob();
-      const file = new File([blob], fileNameFromUrl(rawUrl), {
-        type: blob.type,
-      });
       this.handleFiles([file]);
       this.urlValue.set('');
       this.urlAdded.emit(file);
     } catch (error) {
+      if (controller.signal.aborted) {
+        return;
+      }
       const message = error instanceof Error ? error.message : String(error);
+      const tooLarge = message.includes('exceeds');
       this.announcement.set(
-        this.translateService.translate('solaris.file-upload.url.error'),
+        this.translateService.translate(
+          tooLarge
+            ? 'solaris.file-upload.url.too-large'
+            : 'solaris.file-upload.url.error',
+          tooLarge
+            ? {
+                size: formatFileSize(
+                  this.maxDownloadSize() ??
+                    this.maxSize() ??
+                    SOLARIS_FILE_UPLOAD_DEFAULT_MAX_SIZE,
+                ),
+              }
+            : undefined,
+        ),
       );
       this.urlFailed.emit({ url: rawUrl, error: message });
     } finally {
+      if (this.urlAbortController === controller) {
+        this.urlAbortController = null;
+      }
       this.urlLoading.set(false);
     }
   }
@@ -659,6 +733,11 @@ export class SolarisFileUploadComponent
     }
   }
 
+  protected onDragEnd(): void {
+    this.dragDepth = 0;
+    this.dragOver.set(false);
+  }
+
   protected onDrop(event: DragEvent): void {
     event.preventDefault();
     this.dragDepth = 0;
@@ -674,9 +753,13 @@ export class SolarisFileUploadComponent
 
   protected onItemRemoved(id: string): void {
     const target = this.items().find((item) => item.id === id);
+    const wasUploading = target?.status === 'uploading';
     this.abortUpload(id);
     this.items.set(removeUploadItem(this.items(), id));
     this.syncAvatarPreview();
+    if (wasUploading && target) {
+      this.cancelled.emit({ itemId: id });
+    }
     if (target) {
       this.announcement.set(
         this.translateService.translate(
@@ -686,22 +769,23 @@ export class SolarisFileUploadComponent
       );
     }
     this.emitFiles();
+    this.pumpQueue();
   }
 
   protected onItemRetried(id: string): void {
     const target = this.items().find((item) => item.id === id);
-    if (!target || !this.uploadUrl()) {
+    if (target?.status !== 'error' || !this.uploadUrl()) {
       return;
     }
     this.items.set(
       updateUploadItem(this.items(), id, {
-        status: 'uploading',
+        status: 'ready',
         progress: 0,
         error: undefined,
         url: undefined,
       }),
     );
-    this.runUpload(target);
+    this.pumpQueue();
   }
 
   private handleFiles(incoming: File[]): void {
@@ -722,6 +806,7 @@ export class SolarisFileUploadComponent
     this.syncAvatarPreview();
     if (result.rejected.length > 0) {
       this.fileRejected.emit(result.rejected);
+      this.announcement.set(this.rejectedAnnouncement(result.rejected));
     }
     const added = result.items.length - previousCount;
     if (added === 1) {
@@ -740,28 +825,52 @@ export class SolarisFileUploadComponent
     }
     this.emitFiles();
     if (this.uploadUrl() && this.autoUpload()) {
-      for (const item of result.items) {
-        if (item.status === 'ready') {
-          this.startUpload(item);
-        }
-      }
+      this.pumpQueue();
     }
   }
 
-  private startUpload(item: SolarisFileUploadItem): void {
+  private rejectedAnnouncement(
+    rejected: readonly SolarisFileRejected[],
+  ): string {
+    if (rejected.length === 1 && rejected[0]) {
+      return this.translateService.translate(
+        'solaris.file-upload.announce.rejectedSingular',
+        { name: rejected[0].file.name },
+      );
+    }
+    return this.translateService.translate(
+      'solaris.file-upload.announce.rejectedPlural',
+      { count: rejected.length },
+    );
+  }
+
+  private pumpQueue(): void {
     const url = this.uploadUrl();
     if (!url) {
       return;
     }
-    this.items.set(
-      updateUploadItem(this.items(), item.id, {
-        status: 'uploading',
-        progress: 0,
-        error: undefined,
-        url: undefined,
-      }),
-    );
-    this.runUpload(item);
+    const limit = Math.max(1, Math.floor(this.maxConcurrent() || 1));
+    for (;;) {
+      const active = this.items().filter(
+        (item) => item.status === 'uploading',
+      ).length;
+      if (active >= limit) {
+        return;
+      }
+      const next = this.items().find((item) => item.status === 'ready');
+      if (!next) {
+        return;
+      }
+      this.items.set(
+        updateUploadItem(this.items(), next.id, {
+          status: 'uploading',
+          progress: 0,
+          error: undefined,
+          url: undefined,
+        }),
+      );
+      this.runUpload(next);
+    }
   }
 
   private runUpload(item: SolarisFileUploadItem): void {
@@ -780,8 +889,11 @@ export class SolarisFileUploadComponent
           if (!this.hasItem(item.id)) {
             return;
           }
-          this.items.set(updateUploadItem(this.items(), item.id, { progress }));
-          this.uploadProgress.emit({ itemId: item.id, progress });
+          const safe = clampProgress(progress);
+          this.items.set(
+            updateUploadItem(this.items(), item.id, { progress: safe }),
+          );
+          this.uploadProgress.emit({ itemId: item.id, progress: safe });
         },
       })
       .then((response) => {
@@ -803,6 +915,7 @@ export class SolarisFileUploadComponent
             { name: item.file.name },
           ),
         );
+        this.pumpQueue();
       })
       .catch(() => {
         this.abortControllers.delete(item.id);
@@ -823,6 +936,7 @@ export class SolarisFileUploadComponent
             { name: item.file.name },
           ),
         );
+        this.pumpQueue();
       });
   }
 
@@ -859,6 +973,8 @@ export class SolarisFileUploadComponent
   }
 
   ngOnDestroy(): void {
+    this.urlAbortController?.abort();
+    this.urlAbortController = null;
     this.cancelAllUploads();
     this.revokeAvatarPreview();
   }
@@ -889,6 +1005,7 @@ export class SolarisFileUploadComponent
   }
 
   private resetNativeInput(): void {
+    // SECURITY_EXCEPTION: reading the file input ref requires nativeElement; scoped to this component's template ref; covered by selection specs.
     const native = this.fileInputRef()?.nativeElement;
     if (native) {
       try {

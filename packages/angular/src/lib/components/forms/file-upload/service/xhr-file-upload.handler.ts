@@ -5,6 +5,7 @@ import type {
   SolarisFileUploadOptions,
   SolarisFileUploadResponse,
 } from '../model/file-upload.types';
+import { isHttpUrl, sanitizeFileName } from '../model/upload-state';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +16,17 @@ export class XhrFileUploadHandler implements SolarisFileUploadHandler {
     options: SolarisFileUploadOptions,
   ): Promise<SolarisFileUploadResponse> {
     return new Promise<SolarisFileUploadResponse>((resolve, reject) => {
+      if (!isHttpUrl(options.url, true)) {
+        reject(new Error('Upload URLs must use the http or https protocol.'));
+        return;
+      }
       const request = new XMLHttpRequest();
       const formData = new FormData();
-      formData.append('file', file, file.name);
+      formData.append(
+        options.fieldName ?? 'file',
+        file,
+        sanitizeFileName(file.name),
+      );
 
       const onAbort = (): void => {
         request.abort();
@@ -28,6 +37,13 @@ export class XhrFileUploadHandler implements SolarisFileUploadHandler {
         return;
       }
       options.signal.addEventListener('abort', onAbort, { once: true });
+
+      if (options.timeoutMs !== undefined) {
+        request.timeout = options.timeoutMs;
+      }
+      if (options.withCredentials === true) {
+        request.withCredentials = true;
+      }
 
       request.upload.addEventListener('progress', (event) => {
         if (event.lengthComputable && event.total > 0) {
@@ -52,12 +68,21 @@ export class XhrFileUploadHandler implements SolarisFileUploadHandler {
         options.signal.removeEventListener('abort', onAbort);
         reject(new Error('Upload failed due to a network error.'));
       });
+      request.addEventListener('timeout', () => {
+        options.signal.removeEventListener('abort', onAbort);
+        reject(new DOMException('Upload timed out.', 'TimeoutError'));
+      });
       request.addEventListener('abort', () => {
         options.signal.removeEventListener('abort', onAbort);
         reject(new DOMException('Upload aborted.', 'AbortError'));
       });
 
       request.open('POST', options.url);
+      if (options.headers) {
+        for (const [name, value] of Object.entries(options.headers)) {
+          request.setRequestHeader(name, value);
+        }
+      }
       request.send(formData);
     });
   }
@@ -73,7 +98,10 @@ export class XhrFileUploadHandler implements SolarisFileUploadHandler {
           'url' in payload &&
           typeof (payload as { url: unknown }).url === 'string'
         ) {
-          return { url: (payload as { url: string }).url };
+          const url = (payload as { url: string }).url;
+          if (isHttpUrl(url, true)) {
+            return { url };
+          }
         }
       } catch {
         return {};

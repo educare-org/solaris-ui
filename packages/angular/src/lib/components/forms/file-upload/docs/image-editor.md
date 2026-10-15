@@ -34,6 +34,8 @@ selector: <solaris-image-editor>
 | `format`                         | `'image/png' \| 'image/jpeg'`                           | `'image/png'` | Export format                                                |
 | `quality`                        | `number`                                                | `0.92`        | JPEG quality (0–1)                                           |
 | `maxDimension`                   | `number`                                                | `2048`        | Longest exported edge in px                                  |
+| `maxSourceDimension`             | `number`                                                | `8000`        | Refuse sources larger than this per side (bomb guard)        |
+| `maxSourcePixels`                | `number`                                                | `30000000`    | Refuse sources above this pixel count (bomb guard)           |
 | `title` / `titleKey`             | `string`                                                | —             | Toolbar/heading text                                         |
 | `saveLabel` / `saveLabelKey`     | `string`                                                | —             | Save button text                                             |
 | `cancelLabel` / `cancelLabelKey` | `string`                                                | —             | Cancel button text                                           |
@@ -117,6 +119,9 @@ Inline usage relies on `[image]` + `(saved)` / `(cancelled)` instead; both paths
 - Rotation in 90° steps only.
 - No filters, flips, or annotations.
 - Export capped by `maxDimension` (default 2048px).
+- Sources above `maxSourceDimension`/`maxSourcePixels` are refused (decompression-bomb guard).
+- String sources must be `https:`/`http:`, `blob:`, or `data:image:`; anything else (e.g. `javascript:`) is refused.
+- Remote images load with anonymous CORS and no referrer; hosts without `Access-Control-Allow-Origin` fail closed.
 - Requires Canvas 2D; environments without it report a load error.
 
 ## Examples
