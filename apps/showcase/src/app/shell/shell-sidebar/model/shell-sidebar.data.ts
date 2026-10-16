@@ -56,6 +56,19 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
         ],
       },
       {
+        labelKey: 'shell.sidebar.group.calendar',
+        items: [
+          {
+            labelKey: 'shell.sidebar.item.month-view',
+            route: '/scheduling/month-view',
+          },
+          {
+            labelKey: 'shell.sidebar.item.week-view',
+            route: '/scheduling/week-view',
+          },
+        ],
+      },
+      {
         labelKey: 'shell.sidebar.group.content',
         items: [
           {
@@ -308,15 +321,6 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
           {
             labelKey: 'shell.sidebar.item.dialog',
             route: '/overlay/dialog',
-          },
-        ],
-      },
-      {
-        labelKey: 'shell.sidebar.group.scheduling',
-        items: [
-          {
-            labelKey: 'shell.sidebar.item.month-view',
-            route: '/scheduling/month-view',
           },
         ],
       },

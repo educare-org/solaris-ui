@@ -29,6 +29,7 @@ import {
   MONTH_VIEW_SHOWCASE_BREADCRUMBS,
   MONTH_VIEW_SHOWCASE_IMPORT_CODE,
   MONTH_VIEW_SHOWCASE_INSTALL_COMMANDS,
+  MONTH_VIEW_SHOWCASE_NEXT,
   MONTH_VIEW_SHOWCASE_PREV,
   MONTH_VIEW_SHOWCASE_SLUG,
   MONTH_VIEW_SHOWCASE_TOC_ITEMS,
@@ -107,6 +108,7 @@ export class MonthViewShowcasePage implements OnInit {
 
   protected readonly breadcrumbs = MONTH_VIEW_SHOWCASE_BREADCRUMBS;
   protected readonly prev = MONTH_VIEW_SHOWCASE_PREV;
+  protected readonly next = MONTH_VIEW_SHOWCASE_NEXT;
   protected readonly tocItems = MONTH_VIEW_SHOWCASE_TOC_ITEMS;
 
   protected readonly installCommands = MONTH_VIEW_SHOWCASE_INSTALL_COMMANDS;

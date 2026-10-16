@@ -67,3 +67,23 @@ export type {
   SolarisMonthViewItemKind,
   SolarisMonthViewSize,
 } from './month-view/model/month-view.types';
+export { SolarisCalendarWeekViewComponent } from './week-view/component/week-view.component';
+export {
+  clipSpanToDay,
+  layoutOverlappingSpans,
+} from './week-view/model/week-view-layout.utils';
+export type {
+  SolarisWeekDaySegment,
+  SolarisWeekOverlapPlacement,
+  SolarisWeekOverlapSpan,
+} from './week-view/model/week-view-layout.utils';
+export type {
+  SolarisWeekViewAllDayItem,
+  SolarisWeekViewAllDayKind,
+  SolarisWeekViewBlock,
+  SolarisWeekViewDensity,
+  SolarisWeekViewEventOpen,
+  SolarisWeekViewSize,
+  SolarisWeekViewSlotSelect,
+  SolarisWeekViewVisibleDays,
+} from './week-view/model/week-view.types';

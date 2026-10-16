@@ -1028,6 +1028,11 @@ export {
   SOLARIS_RECURRENCE_MAX_RESULTS,
 } from './lib/components/scheduling/calendar/index';
 export { SolarisCalendarMonthViewComponent } from './lib/components/scheduling/calendar/index';
+export { SolarisCalendarWeekViewComponent } from './lib/components/scheduling/calendar/index';
+export {
+  clipSpanToDay,
+  layoutOverlappingSpans,
+} from './lib/components/scheduling/calendar/index';
 export type {
   BuiltInLocaleHolidays,
   ExpandSolarisRecurrenceOptions,
@@ -1040,6 +1045,17 @@ export type {
   SolarisMonthViewItem,
   SolarisMonthViewItemKind,
   SolarisMonthViewSize,
+  SolarisWeekDaySegment,
+  SolarisWeekOverlapPlacement,
+  SolarisWeekOverlapSpan,
+  SolarisWeekViewAllDayItem,
+  SolarisWeekViewAllDayKind,
+  SolarisWeekViewBlock,
+  SolarisWeekViewDensity,
+  SolarisWeekViewEventOpen,
+  SolarisWeekViewSize,
+  SolarisWeekViewSlotSelect,
+  SolarisWeekViewVisibleDays,
   WeekdayHolidayRule,
 } from './lib/components/scheduling/calendar/index';
 

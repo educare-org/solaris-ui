@@ -6,6 +6,13 @@
   --solaris-calendar-month-view-border: var(--solaris-neutral-border-subtle);
   --solaris-calendar-month-view-day-size: var(--solaris-spacing-9);
   --solaris-calendar-month-view-chip-font-size: 12px;
+  --solaris-calendar-month-view-transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    filter var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 
   display: grid;
   gap: 0;
@@ -86,6 +93,7 @@
 }
 
 .solaris-calendar-month-view__cell[data-active] {
+  // SOLARIS_TOKEN_EXCEPTION: inset ring is a selection indicator sized by the border token, not an elevation shadow.
   box-shadow: inset 0 0 0 var(--solaris-border-width-md)
     var(--solaris-primary-border);
 }
@@ -108,6 +116,7 @@
   color: var(--solaris-neutral-text-body);
   font: var(--solaris-font-weight-medium) var(--solaris-font-size-2xs) /
     var(--solaris-line-height-none) var(--solaris-font-family-sans);
+  transition: var(--solaris-calendar-month-view-transition);
 }
 
 .solaris-calendar-month-view__day:hover {
@@ -174,6 +183,7 @@
   font: var(--solaris-font-weight-regular)
     var(--solaris-calendar-month-view-chip-font-size) /
     var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+  transition: var(--solaris-calendar-month-view-transition);
 }
 
 span.solaris-calendar-month-view__chip {
@@ -226,6 +236,7 @@ button.solaris-calendar-month-view__chip:focus-visible {
 }
 
 .solaris-calendar-month-view__chip[data-selected] {
+  // SOLARIS_TOKEN_EXCEPTION: inset ring is a selection indicator sized by the border token, not an elevation shadow.
   box-shadow: inset 0 0 0 var(--solaris-border-width-md)
     var(--solaris-primary-border);
 }
@@ -252,7 +263,7 @@ button.solaris-calendar-month-view__chip:focus-visible {
   flex: none;
   width: var(--solaris-spacing-3);
   height: var(--solaris-spacing-3);
-  border-radius: var(--solaris-radius-xs);
+  border-radius: var(--solaris-radius-sm);
   border: var(--solaris-border-width-sm) solid currentcolor;
   display: inline-flex;
   align-items: center;
@@ -288,6 +299,7 @@ button.solaris-calendar-month-view__chip:focus-visible {
   font: var(--solaris-font-weight-medium)
     var(--solaris-calendar-month-view-chip-font-size) /
     var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+  transition: var(--solaris-calendar-month-view-transition);
 }
 
 .solaris-calendar-month-view__more:hover {

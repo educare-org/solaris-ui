@@ -11,6 +11,13 @@ export const schedulingRoutes: Route[] = [
             '../pages/scheduling/month-view/component/month-view-showcase'
           ).then((m) => m.MonthViewShowcasePage),
       },
+      {
+        path: 'week-view',
+        loadComponent: () =>
+          import(
+            '../pages/scheduling/week-view/component/week-view-showcase'
+          ).then((m) => m.WeekViewShowcasePage),
+      },
     ],
   },
 ];

@@ -53,7 +53,8 @@ Today carries `aria-current="date"`.
 ## Visual variants
 
 `size` scales the day circle and chip text; `density` scales cell height.
-Weekends collapse to five columns via `showWeekends`.
+Weekends collapse to five columns via `showWeekends`. Hover states animate
+with `--solaris-motion-duration-normal` (instant under reduced motion).
 
 ## CSS Variables
 

@@ -14,13 +14,13 @@ export const DIVIDER_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
 ];
 
 export const DIVIDER_SHOWCASE_PREV: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.button-group',
-  route: '/actions/button-group',
+  labelKey: 'shell.sidebar.item.week-view',
+  route: '/scheduling/week-view',
 };
 
 export const DIVIDER_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.badge',
-  route: '/data-display/badge',
+  labelKey: 'shell.sidebar.item.avatar',
+  route: '/data-display/avatar',
 };
 
 export const DIVIDER_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

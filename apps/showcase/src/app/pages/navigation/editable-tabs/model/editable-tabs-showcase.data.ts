@@ -15,13 +15,13 @@ export const EDITABLE_TABS_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb
   ];
 
 export const EDITABLE_TABS_SHOWCASE_PREV: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.tabs',
-  route: '/navigation/tabs',
+  labelKey: 'shell.sidebar.item.segmented-control',
+  route: '/navigation/segmented-control',
 };
 
 export const EDITABLE_TABS_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.breadcrumb',
-  route: '/navigation/breadcrumb',
+  labelKey: 'shell.sidebar.item.pagination',
+  route: '/navigation/pagination',
 };
 
 export const EDITABLE_TABS_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

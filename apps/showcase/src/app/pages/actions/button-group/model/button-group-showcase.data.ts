@@ -20,8 +20,8 @@ export const BUTTON_GROUP_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const BUTTON_GROUP_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.divider',
-  route: '/content/divider',
+  labelKey: 'shell.sidebar.item.month-view',
+  route: '/scheduling/month-view',
 };
 
 export const BUTTON_GROUP_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

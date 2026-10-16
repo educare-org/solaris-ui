@@ -1,0 +1,23 @@
+.week-view-showcase__note {
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.week-view-showcase__toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-4);
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.week-view-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-4);
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+solaris-calendar-week-view {
+  flex: 1 1 100%;
+  min-width: 0;
+  max-width: 100%;
+}

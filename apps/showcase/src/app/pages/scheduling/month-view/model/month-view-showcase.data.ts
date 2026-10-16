@@ -12,13 +12,18 @@ export const MONTH_VIEW_TRANSLATION_PREFIX = 'month-view';
 export const MONTH_VIEW_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
     { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.scheduling', route: '/configuration' },
+    { labelKey: 'shell.sidebar.group.calendar', route: '/configuration' },
     { labelKey: 'shell.sidebar.item.month-view' },
   ];
 
 export const MONTH_VIEW_SHOWCASE_PREV: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.dialog',
-  route: '/overlay/dialog',
+  labelKey: 'shell.sidebar.item.button-group',
+  route: '/actions/button-group',
+};
+
+export const MONTH_VIEW_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
+  labelKey: 'shell.sidebar.item.week-view',
+  route: '/scheduling/week-view',
 };
 
 export const MONTH_VIEW_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

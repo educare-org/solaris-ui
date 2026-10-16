@@ -16,11 +16,14 @@ export const DIALOG_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
 ];
 
 export const DIALOG_SHOWCASE_PREV: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.editable-tabs',
-  route: '/navigation/editable-tabs',
+  labelKey: 'shell.sidebar.item.pagination',
+  route: '/navigation/pagination',
 };
 
-export const DIALOG_SHOWCASE_NEXT: ShowcaseDocsPageNav | undefined = undefined;
+export const DIALOG_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
+  labelKey: 'shell.sidebar.item.configuration',
+  route: '/configuration',
+};
 
 export const DIALOG_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'examples', labelKey: 'dialog.section.examples' },

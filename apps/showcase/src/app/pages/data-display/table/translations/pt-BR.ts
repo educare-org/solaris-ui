@@ -8,7 +8,7 @@ export const PT_BR_TABLE: Record<string, string> = {
   'table.section.sorting': 'Ordenação',
   'table.section.selection': 'Seleção',
   'table.section.composition': 'Composição',
-  'table.section.row-dialog': 'Diálogo de linha',
+  'table.section.row-dialog': 'Dialog de linha',
   'table.section.responsive': 'Responsivo',
   'table.section.cell-expand': 'Expansão por célula',
   'table.section.appearance': 'Aparência',

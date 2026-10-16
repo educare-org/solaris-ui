@@ -4,6 +4,7 @@
     descriptionKey="month-view.description"
     [breadcrumbs]="breadcrumbs"
     [prev]="prev"
+    [next]="next"
     [copyable]="true"
     (copyPage)="copyPageAsMarkdown()"
     (viewMarkdown)="downloadPageAsMarkdown()"
@@ -117,5 +118,5 @@
     </p>
   </app-docs-section>
 
-  <app-docs-page-footer [prev]="prev" />
+  <app-docs-page-footer [prev]="prev" [next]="next" />
 </app-docs-page-layout>

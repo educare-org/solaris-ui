@@ -54,6 +54,7 @@ describe('ShowcaseShellSidebar', () => {
       .map((el) => el.nativeElement.textContent.trim());
     expect(labels).toEqual([
       'Actions',
+      'Calendar',
       'Content',
       'Data display',
       'Feedback',
