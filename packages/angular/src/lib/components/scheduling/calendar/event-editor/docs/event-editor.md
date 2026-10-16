@@ -140,7 +140,7 @@ zones stay editor-level display context.
   hidden from agenda guests.
 - `color` is a select whose options pair the token-driven swatch with the
   color name; it shares a row with `visibility`.
-- `reminders` is a stack of up to 5 notifications (`minutesBefore`), each a
+- `reminders` is a stack of zero or up to 5 notifications (`minutesBefore`), each a
   preset select (at start, 5/10/15/30 min, 1 h, 1 day) with a `Custom…` option
   revealing a minutes number input, plus add/remove controls.
 - The delete scope uses the framework `solaris-radio-group` +

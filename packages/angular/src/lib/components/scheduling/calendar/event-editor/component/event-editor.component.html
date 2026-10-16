@@ -420,7 +420,7 @@
               type="button"
               appearance="ghost"
               solaris-icon-button
-              [disabled]="disabled() || reminders().length <= 1"
+              [disabled]="disabled()"
               class="solaris-calendar-event-editor__reminder-remove"
               [attr.aria-label]="
                 'solaris.calendar.editorReminderRemove' | translate
@@ -447,10 +447,10 @@
 
   @if (isRecurring()) {
     <solaris-radio-group
-      class="solaris-calendar-event-editor__section"
-      [label]="'solaris.calendar.editorDeleteScope' | translate"
+      orientation="horizontal"
       [ngModel]="deleteScope()"
       (ngModelChange)="onDeleteScope($event)"
+      [label]="'solaris.calendar.editorDeleteScope' | translate"
     >
       <solaris-radio value="this">{{
         'solaris.calendar.editorDeleteThis' | translate

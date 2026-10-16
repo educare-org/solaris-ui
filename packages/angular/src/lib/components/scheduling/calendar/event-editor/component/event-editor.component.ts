@@ -409,6 +409,7 @@ export class SolarisCalendarEventEditorComponent implements OnInit {
   }
 
   protected removeReminder(key: number): void {
+    if (this.disabled()) return;
     this.reminders.update((rows) => rows.filter((row) => row.key !== key));
   }
 
