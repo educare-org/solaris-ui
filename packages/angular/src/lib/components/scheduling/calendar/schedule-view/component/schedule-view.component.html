@@ -4,7 +4,6 @@
     type="button"
     solaris-icon-button
     appearance="outline"
-    class="solaris-calendar-schedule-view__nav"
     [ariaLabel]="previousLabel()"
     (click)="shiftWindow(-1)"
   >
@@ -16,7 +15,6 @@
     solaris-button
     (click)="goToday()"
     appearance="outline"
-    class="solaris-calendar-schedule-view__today"
   >
     {{ todayLabel() }}
   </button>
@@ -25,7 +23,6 @@
     type="button"
     solaris-icon-button
     appearance="outline"
-    class="solaris-calendar-schedule-view__nav"
     [ariaLabel]="nextLabel()"
     (click)="shiftWindow(1)"
   >
