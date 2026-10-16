@@ -11,6 +11,13 @@ available in the panel footer.
 The ControlValueAccessor value is `{ start, end }`, where both dates are ISO
 date-only strings (`YYYY-MM-DD`) or `null`.
 
+## Typing with automatic mask
+
+The footer inputs apply the locale date mask while typing, so separators do
+not need to be typed: writing `16102026` in `pt-BR` becomes `16/10/2026`
+(`dd/MM/yyyy`). The order and the separator always follow `locale` (for
+example `MM/dd/yyyy` in `en-US`).
+
 ## API
 
 | Input               | Description                                                                    |

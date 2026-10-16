@@ -104,6 +104,86 @@ export function formatSolarisDate(
   }).format(date);
 }
 
+export type SolarisDatePart = 'day' | 'month' | 'year';
+
+export interface SolarisLocalizedDateInfo {
+  order: SolarisDatePart[];
+  separator: string;
+}
+
+const DATE_PART_SIZES: Record<SolarisDatePart, number> = {
+  day: 2,
+  month: 2,
+  year: 4,
+};
+
+export function getLocalizedSolarisDateInfo(
+  locale: string,
+): SolarisLocalizedDateInfo {
+  const fallback: SolarisLocalizedDateInfo = {
+    order: ['day', 'month', 'year'],
+    separator: '/',
+  };
+  try {
+    const parts = new Intl.DateTimeFormat(locale, {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+      timeZone: 'UTC',
+    }).formatToParts(new Date(Date.UTC(2006, 10, 22)));
+    const order = parts
+      .filter(
+        (part) =>
+          part.type === 'day' || part.type === 'month' || part.type === 'year',
+      )
+      .map((part) => part.type as SolarisDatePart);
+    if (order.length !== 3) return fallback;
+    let seen = 0;
+    let separator = '';
+    for (const part of parts) {
+      if (
+        part.type === 'day' ||
+        part.type === 'month' ||
+        part.type === 'year'
+      ) {
+        seen += 1;
+        continue;
+      }
+      if (part.type === 'literal' && seen > 0 && seen < 3 && !separator) {
+        separator = part.value;
+      }
+    }
+    return { order, separator: separator || '/' };
+  } catch {
+    return fallback;
+  }
+}
+
+/**
+ * Applies the locale date mask (`dd/MM/yyyy` in `pt-BR`) while the user types.
+ * Only digits are kept (max 8) and the locale separator is inserted
+ * progressively, so `16102026` becomes `16/10/2026`.
+ */
+export function maskLocalizedSolarisDateInput(
+  value: string,
+  locale: string,
+): string {
+  const digits = value.replace(/\D/g, '').slice(0, 8);
+  if (!digits) return '';
+
+  const { order, separator } = getLocalizedSolarisDateInfo(locale);
+  const chunks: string[] = [];
+  let cursor = 0;
+  for (const part of order) {
+    const chunk = digits.slice(cursor, cursor + DATE_PART_SIZES[part]);
+    cursor += DATE_PART_SIZES[part];
+    if (!chunk) break;
+    chunks.push(chunk);
+    if (cursor >= digits.length) break;
+  }
+  return chunks.join(separator);
+}
+
 export function localeFirstDay(locale: string): SolarisWeekStartsOn {
   try {
     const weekInfo = (
@@ -128,21 +208,39 @@ export function parseLocalizedSolarisDate(
   const normalized = value.trim();
   if (!normalized) return null;
 
-  const parts = new Intl.DateTimeFormat(locale, {
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric',
-    timeZone: 'UTC',
-  }).formatToParts(new Date(Date.UTC(2006, 10, 22)));
-  const order = parts
-    .filter(
-      (part) =>
-        part.type === 'day' || part.type === 'month' || part.type === 'year',
-    )
-    .map((part) => part.type);
-  const values = normalized.match(/\d+/g);
+  const { order } = getLocalizedSolarisDateInfo(locale);
+  let values: string[] | null = normalized.match(/\d+/g);
+  if (!values) return null;
+
+  if (values.length === 1 && values[0].length === 8) {
+    const digits = values[0];
+    const sliced: string[] = [];
+    let cursor = 0;
+    for (const part of order) {
+      const size = DATE_PART_SIZES[part];
+      sliced.push(digits.slice(cursor, cursor + size));
+      cursor += size;
+    }
+    const byPart = Object.fromEntries(
+      order.map((part, index) => [part, sliced[index]]),
+    );
+    values = order.map((part) => byPart[part]);
+  }
 
   if (!values || values.length !== 3 || order.length !== 3) return null;
+
+  const rawByPart = Object.fromEntries(
+    order.map((part, index) => [part, values[index]]),
+  ) as Record<SolarisDatePart, string>;
+  if (
+    rawByPart['year'].length !== 4 ||
+    rawByPart['day'].length < 1 ||
+    rawByPart['day'].length > 2 ||
+    rawByPart['month'].length < 1 ||
+    rawByPart['month'].length > 2
+  ) {
+    return null;
+  }
 
   const parsed = Object.fromEntries(
     order.map((part, index) => [part, Number(values[index])]),

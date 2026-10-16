@@ -250,4 +250,48 @@ describe('SolarisDatePickerComponent', () => {
       ).toBeTruthy();
     });
   });
+
+  describe('automatic date mask', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisDatePickerComponent, ReactiveFormsModule],
+      template: `<solaris-date-picker
+        label="Date"
+        locale="pt-BR"
+      ></solaris-date-picker>`,
+      providers: [provideSolarisTesting()],
+    })
+    class MaskHost {}
+
+    function setupMask() {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MaskHost);
+      fixture.detectChanges();
+      const picker = fixture.debugElement.query(
+        By.directive(SolarisDatePickerComponent),
+      ).componentInstance as SolarisDatePickerComponent;
+      const input = fixture.nativeElement.querySelector(
+        'input[solaris-input]',
+      ) as HTMLInputElement;
+      return { fixture, picker, input };
+    }
+
+    it('masks 16102026 as 16/10/2026 and commits the ISO value', () => {
+      const { fixture, picker, input } = setupMask();
+      input.value = '16102026';
+      input.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+      expect(input.value).toBe('16/10/2026');
+      expect((picker as any).value()).toBe('2026-10-16');
+      expect((picker as any).parseError()).toBe(false);
+    });
+
+    it('masks progressively while typing', () => {
+      const { fixture, input } = setupMask();
+      input.value = '161';
+      input.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+      expect(input.value).toBe('16/1');
+    });
+  });
 });
