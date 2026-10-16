@@ -1,0 +1,177 @@
+.solaris-calendar-event-editor {
+  width: 100%;
+  min-width: 0;
+  display: block;
+  box-sizing: border-box;
+}
+
+.solaris-calendar-event-editor__body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-8);
+  padding: var(--solaris-spacing-8);
+}
+
+.solaris-calendar-event-editor__row {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3);
+}
+
+.solaris-calendar-event-editor__row > .solaris-calendar-event-editor__field {
+  flex: 1 1 calc(var(--solaris-spacing-18) * 1.25);
+}
+
+.solaris-calendar-event-editor__row
+  > .solaris-calendar-event-editor__field--time {
+  flex: 0 1 var(--solaris-spacing-18);
+}
+
+.solaris-calendar-event-editor__section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+}
+
+.solaris-calendar-event-editor__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-2);
+}
+
+.solaris-calendar-event-editor__chip {
+  border: 0;
+  cursor: pointer;
+  min-width: var(--solaris-spacing-9);
+  color: var(--solaris-neutral-text-body);
+  border-radius: var(--solaris-radius-full);
+  background: var(--solaris-neutral-subtle);
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-xs) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+}
+
+.solaris-calendar-event-editor__chip[data-selected] {
+  color: var(--solaris-primary-foreground);
+  background: var(--solaris-primary-soft);
+}
+
+.solaris-calendar-event-editor__chip:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-calendar-event-editor__chip:disabled {
+  cursor: not-allowed;
+  opacity: var(--solaris-opacity-50);
+}
+
+.solaris-calendar-event-editor__tz-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--solaris-spacing-2) var(--solaris-spacing-4);
+}
+
+.solaris-calendar-event-editor__reminder-list {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--solaris-spacing-2);
+}
+
+.solaris-calendar-event-editor__reminder-row {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--solaris-spacing-2);
+}
+
+.solaris-calendar-event-editor__reminder-select {
+  flex: 1 1 calc(var(--solaris-spacing-18) * 1.25);
+  min-width: 0;
+}
+
+.solaris-calendar-event-editor__reminder-custom {
+  min-width: 0;
+  flex: 0 1 var(--solaris-spacing-18);
+}
+
+.solaris-calendar-event-editor__reminder-remove {
+  flex: 0 0 auto;
+}
+
+.solaris-calendar-event-editor__swatch {
+  width: var(--solaris-spacing-4);
+  height: var(--solaris-spacing-4);
+  flex: 0 0 auto;
+  border-radius: var(--solaris-radius-full);
+  background: var(--solaris-info-solid);
+}
+
+.solaris-calendar-event-editor__swatch[data-color='primary'] {
+  background: var(--solaris-primary-solid);
+}
+
+.solaris-calendar-event-editor__swatch[data-color='success'] {
+  background: var(--solaris-success-solid);
+}
+
+.solaris-calendar-event-editor__swatch[data-color='warning'] {
+  background: var(--solaris-warning-solid);
+}
+
+.solaris-calendar-event-editor__swatch[data-color='danger'] {
+  background: var(--solaris-danger-solid);
+}
+
+.solaris-calendar-event-editor__swatch[data-color='info'] {
+  background: var(--solaris-info-solid);
+}
+
+.solaris-calendar-event-editor__swatch[data-color='accent'] {
+  background: var(--solaris-accent-solid);
+}
+
+.solaris-calendar-event-editor__swatch[data-color='violet'] {
+  background: var(--solaris-violet-solid);
+}
+
+.solaris-calendar-event-editor__swatch[data-color='neutral'] {
+  background: var(--solaris-neutral-text-secondary);
+}
+
+.solaris-calendar-event-editor__error {
+  margin: 0;
+  color: var(--solaris-danger-foreground);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-xs) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+}
+
+.solaris-calendar-event-editor__actions {
+  display: inline-flex;
+  gap: var(--solaris-spacing-2);
+}
+
+:host([data-size='sm']) .solaris-calendar-event-editor__body {
+  gap: var(--solaris-spacing-3);
+  padding: var(--solaris-spacing-3);
+}
+
+:host([data-size='lg']) .solaris-calendar-event-editor__body {
+  gap: var(--solaris-spacing-5);
+  padding: var(--solaris-spacing-5);
+}
+
+:host([data-density='compact']) .solaris-calendar-event-editor__body {
+  gap: var(--solaris-spacing-2);
+}

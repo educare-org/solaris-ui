@@ -227,7 +227,7 @@ export function parseLocalizedSolarisDate(
     values = order.map((part) => byPart[part]);
   }
 
-  if (!values || values.length !== 3 || order.length !== 3) return null;
+  if (values?.length !== 3 || order.length !== 3) return null;
 
   const rawByPart = Object.fromEntries(
     order.map((part, index) => [part, values[index]]),

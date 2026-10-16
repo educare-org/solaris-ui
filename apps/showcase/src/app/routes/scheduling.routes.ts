@@ -32,6 +32,13 @@ export const schedulingRoutes: Route[] = [
             '../pages/scheduling/schedule-view/component/schedule-view-showcase'
           ).then((m) => m.ScheduleViewShowcasePage),
       },
+      {
+        path: 'event-editor',
+        loadComponent: () =>
+          import(
+            '../pages/scheduling/event-editor/component/event-editor-showcase'
+          ).then((m) => m.EventEditorShowcasePage),
+      },
     ],
   },
 ];

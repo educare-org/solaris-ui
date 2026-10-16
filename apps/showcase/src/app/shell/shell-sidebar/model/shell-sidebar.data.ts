@@ -74,6 +74,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
             labelKey: 'shell.sidebar.item.schedule-view',
             route: '/scheduling/schedule-view',
           },
+          {
+            labelKey: 'shell.sidebar.item.event-editor',
+            route: '/scheduling/event-editor',
+          },
         ],
       },
       {

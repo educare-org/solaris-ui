@@ -34,6 +34,7 @@ import { MONTH_VIEW_TRANSLATIONS } from '../pages/scheduling/month-view/translat
 import { WEEK_VIEW_TRANSLATIONS } from '../pages/scheduling/week-view/translations';
 import { YEAR_VIEW_TRANSLATIONS } from '../pages/scheduling/year-view/translations';
 import { SCHEDULE_VIEW_TRANSLATIONS } from '../pages/scheduling/schedule-view/translations';
+import { EVENT_EDITOR_TRANSLATIONS } from '../pages/scheduling/event-editor/translations';
 import { SWITCH_TRANSLATIONS } from '../pages/forms/switch/translations';
 import { SWITCH_GROUP_TRANSLATIONS } from '../pages/forms/switch-group/translations';
 import { OPTION_TRANSLATIONS } from '../pages/forms/option/translations';
@@ -93,6 +94,7 @@ const PAGE_MODULES = [
   WEEK_VIEW_TRANSLATIONS,
   YEAR_VIEW_TRANSLATIONS,
   SCHEDULE_VIEW_TRANSLATIONS,
+  EVENT_EDITOR_TRANSLATIONS,
   SWITCH_TRANSLATIONS,
   SWITCH_GROUP_TRANSLATIONS,
   OPTION_TRANSLATIONS,
