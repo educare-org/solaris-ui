@@ -18,6 +18,20 @@ export const schedulingRoutes: Route[] = [
             '../pages/scheduling/week-view/component/week-view-showcase'
           ).then((m) => m.WeekViewShowcasePage),
       },
+      {
+        path: 'year-view',
+        loadComponent: () =>
+          import(
+            '../pages/scheduling/year-view/component/year-view-showcase'
+          ).then((m) => m.YearViewShowcasePage),
+      },
+      {
+        path: 'schedule-view',
+        loadComponent: () =>
+          import(
+            '../pages/scheduling/schedule-view/component/schedule-view-showcase'
+          ).then((m) => m.ScheduleViewShowcasePage),
+      },
     ],
   },
 ];

@@ -1,0 +1,153 @@
+<div class="solaris-calendar-schedule-view__toolbar">
+  <button
+    size="sm"
+    type="button"
+    solaris-icon-button
+    appearance="outline"
+    class="solaris-calendar-schedule-view__nav"
+    [ariaLabel]="previousLabel()"
+    (click)="shiftWindow(-1)"
+  >
+    <solaris-icon name="chevron-left" [decorative]="true" />
+  </button>
+  <button
+    size="sm"
+    type="button"
+    solaris-button
+    (click)="goToday()"
+    appearance="outline"
+    class="solaris-calendar-schedule-view__today"
+  >
+    {{ todayLabel() }}
+  </button>
+  <button
+    size="sm"
+    type="button"
+    solaris-icon-button
+    appearance="outline"
+    class="solaris-calendar-schedule-view__nav"
+    [ariaLabel]="nextLabel()"
+    (click)="shiftWindow(1)"
+  >
+    <solaris-icon name="chevron-right" [decorative]="true" />
+  </button>
+  <strong class="solaris-calendar-schedule-view__range">
+    {{ rangeLabel() }}
+  </strong>
+</div>
+<div
+  class="solaris-calendar-schedule-view__list"
+  role="list"
+  tabindex="0"
+  [attr.aria-label]="rangeLabel()"
+  [attr.aria-activedescendant]="activeGroupId()"
+  (keydown)="onListKeydown($event)"
+  (focus)="onListFocus()"
+  (blur)="onListBlur()"
+>
+  @if (groups().length === 0) {
+    <div class="solaris-calendar-schedule-view__empty" data-empty="">
+      <p class="solaris-calendar-schedule-view__empty-title">
+        {{ emptyTitle() }}
+      </p>
+      <p class="solaris-calendar-schedule-view__empty-hint">
+        {{ emptyHint() }}
+      </p>
+    </div>
+  }
+  @for (group of groups(); track group.date) {
+    <div
+      role="listitem"
+      [attr.data-date]="group.date"
+      class="solaris-calendar-schedule-view__day"
+      [attr.data-today]="isToday(group.date) ? '' : null"
+      [attr.data-weekend]="isWeekend(group.date) ? '' : null"
+      [attr.data-active]="
+        activeGroupId() === groupId(group.date) && listFocused() ? '' : null
+      "
+    >
+      <button
+        tabindex="-1"
+        type="button"
+        [id]="groupId(group.date)"
+        class="solaris-calendar-schedule-view__dayhead"
+        [attr.aria-label]="dayAriaLabel(group.date, group.items.length)"
+        [attr.aria-current]="isToday(group.date) ? 'date' : null"
+        (click)="openDay(group.date)"
+      >
+        <span
+          class="solaris-calendar-schedule-view__weekday"
+          aria-hidden="true"
+        >
+          {{ weekdayName(group.date) }}
+        </span>
+        <span
+          class="solaris-calendar-schedule-view__daynumber"
+          aria-hidden="true"
+        >
+          {{ dayNumber(group.date) }}
+        </span>
+      </button>
+      <div class="solaris-calendar-schedule-view__items">
+        @for (item of group.items; track itemKey(item)) {
+          @if (item.kind === 'task') {
+            <button
+              type="button"
+              class="solaris-calendar-schedule-view__item"
+              data-item=""
+              [attr.data-kind]="item.kind"
+              [attr.data-color]="item.color"
+              [attr.data-completed]="item.completed ? '' : null"
+              [attr.data-selected]="isSelected(item) ? '' : null"
+              role="checkbox"
+              [attr.aria-checked]="item.completed"
+              [attr.aria-label]="itemAriaLabel(item)"
+              [solarisTooltip]="itemAriaLabel(item)"
+              (click)="toggleTask(item)"
+            >
+              <span
+                class="solaris-calendar-schedule-view__check"
+                aria-hidden="true"
+              ></span>
+              <span class="solaris-calendar-schedule-view__item-text">
+                {{ item.title }}
+              </span>
+            </button>
+          } @else if (item.kind === 'holiday') {
+            <span
+              class="solaris-calendar-schedule-view__item"
+              [attr.data-kind]="item.kind"
+              [attr.data-color]="item.color"
+            >
+              <span class="solaris-calendar-schedule-view__item-text">
+                {{ item.title }}
+              </span>
+            </span>
+          } @else {
+            <button
+              type="button"
+              class="solaris-calendar-schedule-view__item"
+              data-item=""
+              [attr.data-kind]="item.kind"
+              [attr.data-color]="item.color"
+              [attr.data-selected]="isSelected(item) ? '' : null"
+              [attr.aria-label]="itemAriaLabel(item)"
+              [solarisTooltip]="itemAriaLabel(item)"
+              (click)="activateItem(item, group.date)"
+            >
+              @if (item.time !== null) {
+                <span class="solaris-calendar-schedule-view__item-time">
+                  {{ item.time }}
+                </span>
+              }
+              <span class="solaris-calendar-schedule-view__item-text">
+                {{ item.title }}
+              </span>
+            </button>
+          }
+        }
+      </div>
+    </div>
+  }
+</div>
+<span solaris-visually-hidden role="status">{{ announcement() }}</span>

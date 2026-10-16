@@ -1,0 +1,131 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="schedule-view.title"
+    descriptionKey="schedule-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="schedule-view.section.examples">
+    <p class="schedule-view-showcase__note">
+      {{ 'schedule-view.examples.note' | translate }}
+    </p>
+    <div class="schedule-view-showcase__controls">
+      <solaris-tabs
+        [value]="demoWindow()"
+        (valueChange)="selectWindow($event)"
+        [ariaLabel]="'schedule-view.window.label' | translate"
+      >
+        <solaris-tab value="7">7</solaris-tab>
+        <solaris-tab value="14">14</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [value]="demoDataset()"
+        (valueChange)="selectDataset($event)"
+        [ariaLabel]="'schedule-view.dataset.label' | translate"
+      >
+        <solaris-tab value="sample"
+          >{{ 'schedule-view.dataset.sample' | translate }}</solaris-tab
+        >
+        <solaris-tab value="stress"
+          >{{ 'schedule-view.dataset.stress' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <solaris-calendar-schedule-view
+        [locale]="demoLocale()"
+        timeZone="America/Sao_Paulo"
+        [(focusedDate)]="focusedDate"
+        [windowDays]="windowDays()"
+        [events]="events()"
+        [tasks]="tasks()"
+        [holidays]="holidays()"
+        (daySelect)="onDaySelect($event)"
+        (eventOpen)="onEventOpen($event)"
+        (taskToggle)="onTaskToggle($event)"
+      />
+      <p data-testid="event-log">{{ log() }}</p>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="schedule-view.section.size-density"
+  >
+    <p class="schedule-view-showcase__note">
+      {{ 'schedule-view.size-density.note' | translate }}
+    </p>
+    <div class="schedule-view-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'schedule-view.section.size-density' | translate"
+      >
+        <solaris-tab value="sm">sm</solaris-tab>
+        <solaris-tab value="md">md</solaris-tab>
+        <solaris-tab value="lg">lg</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'schedule-view.section.size-density' | translate"
+      >
+        <solaris-tab value="compact">compact</solaris-tab>
+        <solaris-tab value="normal">normal</solaris-tab>
+        <solaris-tab value="comfortable">comfortable</solaris-tab>
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-calendar-schedule-view
+        [locale]="demoLocale()"
+        timeZone="America/Sao_Paulo"
+        focusedDate="2026-10-15"
+        [windowDays]="windowDays()"
+        [events]="events()"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="locales" titleKey="schedule-view.section.locales">
+    <p class="schedule-view-showcase__note">
+      {{ 'schedule-view.locales.note' | translate }}
+    </p>
+    <div class="schedule-view-showcase__controls">
+      <solaris-tabs
+        [value]="demoLocale()"
+        (valueChange)="selectLocale($event)"
+        [ariaLabel]="'schedule-view.section.locales' | translate"
+      >
+        <solaris-tab value="pt-BR">pt-BR</solaris-tab>
+        <solaris-tab value="en-US">en-US</solaris-tab>
+        <solaris-tab value="es">es</solaris-tab>
+      </solaris-tabs>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="schedule-view.section.installation"
+  >
+    <p class="schedule-view-showcase__note">
+      {{ 'schedule-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="schedule-view.section.props">
+    <p class="schedule-view-showcase__note">
+      {{ 'schedule-view.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

@@ -1029,6 +1029,8 @@ export {
 } from './lib/components/scheduling/calendar/index';
 export { SolarisCalendarMonthViewComponent } from './lib/components/scheduling/calendar/index';
 export { SolarisCalendarWeekViewComponent } from './lib/components/scheduling/calendar/index';
+export { SolarisCalendarYearViewComponent } from './lib/components/scheduling/calendar/index';
+export { SolarisCalendarScheduleViewComponent } from './lib/components/scheduling/calendar/index';
 export {
   clipSpanToDay,
   layoutOverlappingSpans,
@@ -1056,6 +1058,16 @@ export type {
   SolarisWeekViewSize,
   SolarisWeekViewSlotSelect,
   SolarisWeekViewVisibleDays,
+  SolarisYearViewDay,
+  SolarisYearViewDensity,
+  SolarisYearViewMonth,
+  SolarisYearViewSize,
+  SolarisScheduleViewDensity,
+  SolarisScheduleViewEventOpen,
+  SolarisScheduleViewGroup,
+  SolarisScheduleViewItem,
+  SolarisScheduleViewItemKind,
+  SolarisScheduleViewSize,
   WeekdayHolidayRule,
 } from './lib/components/scheduling/calendar/index';
 

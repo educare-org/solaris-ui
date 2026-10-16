@@ -1,0 +1,16 @@
+.schedule-view-showcase__note {
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.schedule-view-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-4);
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+solaris-calendar-schedule-view {
+  flex: 1 1 100%;
+  min-width: 0;
+  max-width: 100%;
+}

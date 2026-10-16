@@ -90,6 +90,8 @@ export const PT_BR_SHELL: Record<string, string> = {
   'shell.sidebar.item.dialog': 'Dialog',
   'shell.sidebar.item.month-view': 'Visão mensal',
   'shell.sidebar.item.week-view': 'Visão semanal',
+  'shell.sidebar.item.year-view': 'Visão anual',
+  'shell.sidebar.item.schedule-view': 'Agenda',
   'docs.on-this-page.title': 'Nesta página',
   'docs.page-header.breadcrumb-label': 'Trilha de navegação',
   'docs.page-header.page-actions': 'Ações da página',

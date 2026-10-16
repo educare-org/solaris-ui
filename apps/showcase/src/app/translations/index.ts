@@ -32,6 +32,8 @@ import { SELECTION_CARD_TRANSLATIONS } from '../pages/forms/selection-card/trans
 import { DATE_PICKER_TRANSLATIONS } from '../pages/forms/date-picker/translations';
 import { MONTH_VIEW_TRANSLATIONS } from '../pages/scheduling/month-view/translations';
 import { WEEK_VIEW_TRANSLATIONS } from '../pages/scheduling/week-view/translations';
+import { YEAR_VIEW_TRANSLATIONS } from '../pages/scheduling/year-view/translations';
+import { SCHEDULE_VIEW_TRANSLATIONS } from '../pages/scheduling/schedule-view/translations';
 import { SWITCH_TRANSLATIONS } from '../pages/forms/switch/translations';
 import { SWITCH_GROUP_TRANSLATIONS } from '../pages/forms/switch-group/translations';
 import { OPTION_TRANSLATIONS } from '../pages/forms/option/translations';
@@ -89,6 +91,8 @@ const PAGE_MODULES = [
   DATE_PICKER_TRANSLATIONS,
   MONTH_VIEW_TRANSLATIONS,
   WEEK_VIEW_TRANSLATIONS,
+  YEAR_VIEW_TRANSLATIONS,
+  SCHEDULE_VIEW_TRANSLATIONS,
   SWITCH_TRANSLATIONS,
   SWITCH_GROUP_TRANSLATIONS,
   OPTION_TRANSLATIONS,

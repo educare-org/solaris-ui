@@ -67,7 +67,23 @@ export type {
   SolarisMonthViewItemKind,
   SolarisMonthViewSize,
 } from './month-view/model/month-view.types';
+export type {
+  SolarisYearViewDay,
+  SolarisYearViewDensity,
+  SolarisYearViewMonth,
+  SolarisYearViewSize,
+} from './year-view/model/year-view.types';
+export type {
+  SolarisScheduleViewDensity,
+  SolarisScheduleViewEventOpen,
+  SolarisScheduleViewGroup,
+  SolarisScheduleViewItem,
+  SolarisScheduleViewItemKind,
+  SolarisScheduleViewSize,
+} from './schedule-view/model/schedule-view.types';
 export { SolarisCalendarWeekViewComponent } from './week-view/component/week-view.component';
+export { SolarisCalendarYearViewComponent } from './year-view/component/year-view.component';
+export { SolarisCalendarScheduleViewComponent } from './schedule-view/component/schedule-view.component';
 export {
   clipSpanToDay,
   layoutOverlappingSpans,

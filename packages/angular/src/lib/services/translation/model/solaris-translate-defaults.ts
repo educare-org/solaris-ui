@@ -204,6 +204,12 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.calendar.nowLine': 'Current time',
       'solaris.calendar.timedEvent': '{{timeRange}}, {{title}}',
       'solaris.calendar.timeSlot': '{{date}} at {{time}}',
+      'solaris.calendar.scheduleEmpty': 'No events scheduled',
+      'solaris.calendar.scheduleEmptyHint':
+        'Events in this window will appear here.',
+      'solaris.calendar.previousDays': 'Show previous {{count}} days',
+      'solaris.calendar.nextDays': 'Show next {{count}} days',
+      'solaris.calendar.today': 'Today',
 
       'solaris.dataDisplay.table.ariaLabel': 'Data table',
       'solaris.dataDisplay.table.emptyText': 'No results found',
@@ -510,6 +516,12 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.calendar.nowLine': 'Hora atual',
       'solaris.calendar.timedEvent': '{{timeRange}}, {{title}}',
       'solaris.calendar.timeSlot': '{{date}} às {{time}}',
+      'solaris.calendar.scheduleEmpty': 'Nenhum evento agendado',
+      'solaris.calendar.scheduleEmptyHint':
+        'Os eventos deste período aparecerão aqui.',
+      'solaris.calendar.previousDays': 'Mostrar {{count}} dias anteriores',
+      'solaris.calendar.nextDays': 'Mostrar próximos {{count}} dias',
+      'solaris.calendar.today': 'Hoje',
 
       'solaris.dataDisplay.table.ariaLabel': 'Tabela de dados',
       'solaris.dataDisplay.table.emptyText': 'Nenhum resultado encontrado',
@@ -636,6 +648,12 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.calendar.nowLine': 'Hora actual',
       'solaris.calendar.timedEvent': '{{timeRange}}, {{title}}',
       'solaris.calendar.timeSlot': '{{date}} a las {{time}}',
+      'solaris.calendar.scheduleEmpty': 'No hay eventos programados',
+      'solaris.calendar.scheduleEmptyHint':
+        'Los eventos de este período aparecerán aquí.',
+      'solaris.calendar.previousDays': 'Mostrar los {{count}} días anteriores',
+      'solaris.calendar.nextDays': 'Mostrar los próximos {{count}} días',
+      'solaris.calendar.today': 'Hoy',
     },
   },
   useBrowserLocale: true,

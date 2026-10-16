@@ -14,8 +14,8 @@ export const DIVIDER_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
 ];
 
 export const DIVIDER_SHOWCASE_PREV: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.week-view',
-  route: '/scheduling/week-view',
+  labelKey: 'shell.sidebar.item.schedule-view',
+  route: '/scheduling/schedule-view',
 };
 
 export const DIVIDER_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
