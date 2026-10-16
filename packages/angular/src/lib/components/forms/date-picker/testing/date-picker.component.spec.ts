@@ -97,6 +97,17 @@ describe('SolarisDatePickerComponent', () => {
       ) as HTMLElement;
       expect(affix.getAttribute('data-variant')).toBe('action');
     });
+
+    it('forwards size and density to the calendar trigger', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      const trigger = getInnerField(fixture).querySelector(
+        '.solaris-date-picker__calendar-trigger',
+      ) as HTMLElement;
+      expect(trigger.getAttribute('data-size')).toBe('lg');
+      expect(trigger.getAttribute('data-density')).toBe('compact');
+    });
   });
 
   describe('clearable + dates parity (P5 B/C)', () => {

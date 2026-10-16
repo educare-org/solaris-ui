@@ -61,6 +61,8 @@
     solaris-form-suffix
     solaris-form-suffix-action
     class="solaris-date-picker__calendar-trigger"
+    [size]="size()"
+    [density]="effectiveDensity()"
     [attr.aria-label]="calendarButtonLabelText()"
     [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
   >
