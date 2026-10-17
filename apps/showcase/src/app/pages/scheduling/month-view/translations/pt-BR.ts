@@ -5,10 +5,13 @@ export const PT_BR_MONTH_VIEW: Record<string, string> = {
   'month-view.section.examples': 'Exemplos',
   'month-view.section.size-density': 'Tamanho e densidade',
   'month-view.section.locales': 'Locales',
+  'month-view.section.drag': 'Arrastar e soltar',
   'month-view.section.installation': 'Instalação',
   'month-view.section.props': 'Propriedades',
   'month-view.examples.note':
     'Use a barra de ferramentas para trocar de mês. A grade expande recorrências, feriados vêm do provider built-in e o log abaixo mostra os eventos emitidos.',
+  'month-view.drag.note':
+    'Arraste um intervalo de dias vazios para propor criação, ou arraste um chip para outro dia para propor mover. Paridade de teclado: setas movem a proposta, Enter confirma, Escape cancela. A lib nunca muta o array — propostas caem no log abaixo.',
   'month-view.toolbar.previous': 'Mês anterior',
   'month-view.toolbar.today': 'Hoje',
   'month-view.toolbar.next': 'Próximo mês',

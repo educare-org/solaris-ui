@@ -12,6 +12,8 @@ import {
   builtInHolidays,
   preloadBuiltInHolidays,
   type SolarisCalendarEvent,
+  type SolarisCalendarEventCreateProposal,
+  type SolarisCalendarEventMoveProposal,
   type SolarisCalendarTask,
   type SolarisHoliday,
   type SolarisMonthViewDensity,
@@ -27,6 +29,7 @@ import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
 import {
   MONTH_VIEW_SHOWCASE_BASIC_CODE,
   MONTH_VIEW_SHOWCASE_BREADCRUMBS,
+  MONTH_VIEW_SHOWCASE_DRAG_CODE,
   MONTH_VIEW_SHOWCASE_IMPORT_CODE,
   MONTH_VIEW_SHOWCASE_INSTALL_COMMANDS,
   MONTH_VIEW_SHOWCASE_NEXT,
@@ -114,6 +117,7 @@ export class MonthViewShowcasePage implements OnInit {
   protected readonly installCommands = MONTH_VIEW_SHOWCASE_INSTALL_COMMANDS;
   protected readonly importCode = MONTH_VIEW_SHOWCASE_IMPORT_CODE;
   protected readonly basicCode = MONTH_VIEW_SHOWCASE_BASIC_CODE;
+  protected readonly dragCode = MONTH_VIEW_SHOWCASE_DRAG_CODE;
 
   private readonly pageActions = createShowcasePageActions(
     this.translateService,
@@ -134,6 +138,7 @@ export class MonthViewShowcasePage implements OnInit {
   protected readonly selectedDensity =
     signal<SolarisMonthViewDensity>('comfortable');
   protected readonly log = signal('');
+  protected readonly dragLog = signal('');
 
   protected readonly monthLabel = computed(() => {
     const parts = this.focusedDate().split('-').map(Number);
@@ -196,6 +201,16 @@ export class MonthViewShowcasePage implements OnInit {
 
   protected onTaskToggle(id: string): void {
     this.log.set(`task:${id}`);
+  }
+
+  protected onEventCreate(proposal: SolarisCalendarEventCreateProposal): void {
+    this.dragLog.set(`create:${proposal.start}→${proposal.end}`);
+  }
+
+  protected onEventMove(proposal: SolarisCalendarEventMoveProposal): void {
+    this.dragLog.set(
+      `move:${proposal.id}@${proposal.start}→${proposal.end}#${proposal.occurrenceScope}`,
+    );
   }
 
   protected copyPageAsMarkdown(): void {

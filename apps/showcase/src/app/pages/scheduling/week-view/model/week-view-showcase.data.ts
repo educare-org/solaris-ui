@@ -28,6 +28,7 @@ export const WEEK_VIEW_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
 
 export const WEEK_VIEW_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'examples', labelKey: 'week-view.section.examples' },
+  { anchor: 'drag', labelKey: 'week-view.section.drag' },
   { anchor: 'size-density', labelKey: 'week-view.section.size-density' },
   { anchor: 'locales', labelKey: 'week-view.section.locales' },
   { anchor: 'installation', labelKey: 'week-view.section.installation' },
@@ -48,6 +49,20 @@ export const WEEK_VIEW_SHOWCASE_BASIC_CODE = [
   '  [holidays]="holidays"',
   '  (slotSelect)="onSlotSelect($event)"',
   '  (eventOpen)="onEventOpen($event)"',
+  '/>',
+].join('\n');
+
+export const WEEK_VIEW_SHOWCASE_DRAG_CODE = [
+  '<solaris-calendar-week-view',
+  '  locale="pt-BR"',
+  '  timeZone="America/Sao_Paulo"',
+  '  [(focusedDate)]="focusedDate"',
+  '  [visibleDays]="7"',
+  '  [events]="events"',
+  '  [snapStepMinutes]="30"',
+  '  (eventCreate)="onEventCreate($event)"',
+  '  (eventMove)="onEventMove($event)"',
+  '  (eventResize)="onEventResize($event)"',
   '/>',
 ].join('\n');
 

@@ -210,6 +210,18 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.calendar.previousDays': 'Show previous {{count}} days',
       'solaris.calendar.nextDays': 'Show next {{count}} days',
       'solaris.calendar.today': 'Today',
+      'solaris.calendar.dragCreateStart':
+        'Creating an event from {{start}} to {{end}}. Release to confirm, Escape to cancel.',
+      'solaris.calendar.dragMoveStart':
+        'Moving {{title}} from {{start}}. Release to confirm, Escape to cancel.',
+      'solaris.calendar.dragResizeStart':
+        'Resizing {{title}} from {{start}}. Release to confirm, Escape to cancel.',
+      'solaris.calendar.dragChange': '{{label}}',
+      'solaris.calendar.dragCreateCommit':
+        'Event created from {{start}} to {{end}}.',
+      'solaris.calendar.dragMoveCommit': '{{title}} moved to {{label}}.',
+      'solaris.calendar.dragResizeCommit': '{{title}} resized to {{label}}.',
+      'solaris.calendar.dragCancel': 'Drag cancelled. No changes were made.',
 
       'solaris.dataDisplay.table.ariaLabel': 'Data table',
       'solaris.dataDisplay.table.emptyText': 'No results found',
@@ -522,6 +534,20 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.calendar.previousDays': 'Mostrar {{count}} dias anteriores',
       'solaris.calendar.nextDays': 'Mostrar próximos {{count}} dias',
       'solaris.calendar.today': 'Hoje',
+      'solaris.calendar.dragCreateStart':
+        'Criando um evento de {{start}} a {{end}}. Solte para confirmar, Escape para cancelar.',
+      'solaris.calendar.dragMoveStart':
+        'Movendo {{title}} de {{start}}. Solte para confirmar, Escape para cancelar.',
+      'solaris.calendar.dragResizeStart':
+        'Redimensionando {{title}} de {{start}}. Solte para confirmar, Escape para cancelar.',
+      'solaris.calendar.dragChange': '{{label}}',
+      'solaris.calendar.dragCreateCommit':
+        'Evento criado de {{start}} a {{end}}.',
+      'solaris.calendar.dragMoveCommit': '{{title}} movido para {{label}}.',
+      'solaris.calendar.dragResizeCommit':
+        '{{title}} redimensionado para {{label}}.',
+      'solaris.calendar.dragCancel':
+        'Arrasto cancelado. Nenhuma alteração foi feita.',
 
       'solaris.dataDisplay.table.ariaLabel': 'Tabela de dados',
       'solaris.dataDisplay.table.emptyText': 'Nenhum resultado encontrado',
@@ -654,6 +680,20 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
       'solaris.calendar.previousDays': 'Mostrar los {{count}} días anteriores',
       'solaris.calendar.nextDays': 'Mostrar los próximos {{count}} días',
       'solaris.calendar.today': 'Hoy',
+      'solaris.calendar.dragCreateStart':
+        'Creando un evento del {{start}} al {{end}}. Suelte para confirmar, Escape para cancelar.',
+      'solaris.calendar.dragMoveStart':
+        'Moviendo {{title}} del {{start}}. Suelte para confirmar, Escape para cancelar.',
+      'solaris.calendar.dragResizeStart':
+        'Redimensionando {{title}} del {{start}}. Suelte para confirmar, Escape para cancelar.',
+      'solaris.calendar.dragChange': '{{label}}',
+      'solaris.calendar.dragCreateCommit':
+        'Evento creado del {{start}} al {{end}}.',
+      'solaris.calendar.dragMoveCommit': '{{title}} movido al {{label}}.',
+      'solaris.calendar.dragResizeCommit':
+        '{{title}} redimensionado al {{label}}.',
+      'solaris.calendar.dragCancel':
+        'Arrastre cancelado. No se realizaron cambios.',
     },
   },
   useBrowserLocale: true,

@@ -72,6 +72,28 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section anchor="drag" titleKey="week-view.section.drag">
+    <p class="week-view-showcase__note">
+      {{ 'week-view.drag.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="dragCode" language="html">
+      <solaris-calendar-week-view
+        [locale]="demoLocale()"
+        timeZone="America/Sao_Paulo"
+        [(focusedDate)]="focusedDate"
+        [visibleDays]="visibleDays()"
+        [events]="events"
+        [tasks]="tasks"
+        [holidays]="holidays()"
+        [snapStepMinutes]="30"
+        (eventCreate)="onEventCreate($event)"
+        (eventMove)="onEventMove($event)"
+        (eventResize)="onEventResize($event)"
+      />
+      <p data-testid="drag-log">{{ dragLog() }}</p>
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section
     anchor="size-density"
     titleKey="week-view.section.size-density"

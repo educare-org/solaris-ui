@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { expect, fireEvent, within } from 'storybook/test';
 
 import type { SolarisCalendarEvent } from '../../model/calendar.types';
 import { SolarisCalendarMonthViewComponent } from './month-view.component';
@@ -87,5 +88,50 @@ export const Portuguese: Story = {
     ...Default.args,
     locale: 'pt-BR',
     weekStartsOn: 1,
+  },
+};
+
+export const DragDisabled: Story = {
+  args: {
+    ...Default.args,
+    dragDisabled: true,
+  },
+};
+
+export const DragGhost: Story = {
+  args: {
+    ...Default.args,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const chip = canvas.getByRole('button', { name: /Team standup/ });
+    chip.focus();
+    fireEvent.keyDown(chip, { key: 'ArrowRight' });
+    await expect(canvasElement.querySelector('[data-ghost]')).not.toBeNull();
+    await expect(
+      canvasElement
+        .querySelector('.solaris-calendar-month-view')
+        ?.getAttribute('data-dragging'),
+    ).toBe('');
+  },
+};
+
+export const DragKeyboardMove: Story = {
+  args: {
+    ...Default.args,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const chip = canvas.getByRole('button', { name: /Team standup/ });
+    chip.focus();
+    fireEvent.keyDown(chip, { key: 'ArrowRight' });
+    await expect(canvasElement.querySelector('[data-ghost]')).not.toBeNull();
+    fireEvent.keyDown(chip, { key: 'Enter' });
+    await expect(canvasElement.querySelector('[data-ghost]')).toBeNull();
+    await expect(
+      canvasElement
+        .querySelector('.solaris-calendar-month-view')
+        ?.getAttribute('data-dragging'),
+    ).toBeNull();
   },
 };

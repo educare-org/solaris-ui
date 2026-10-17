@@ -9,21 +9,29 @@ import {
   signal,
 } from '@angular/core';
 
-import { nextIdFor } from '../../../../../core/utils/id';
+import { nextIdFor } from '../../../../../core';
 import { SolarisButtonDirective } from '../../../../actions/button';
 import { SolarisIconButtonDirective } from '../../../../actions/icon-button';
 import { SolarisIconComponent } from '../../../../icon';
 import { todaySolarisDate } from '../../../../forms/date/model/date.utils';
 import { SolarisTooltipDirective } from '../../../../interaction/tooltip';
-import { SolarisVisuallyHiddenDirective } from '../../../../../services/accessibility/directives/visually-hidden.directive';
+import { SolarisVisuallyHiddenDirective } from '../../../../../services/accessibility';
 import { SolarisTranslateService } from '../../../../../services/translation';
 import {
   addDaysToSolarisDate,
+  defaultSolarisTimeZone,
+  isSolarisWeekend,
   parseSolarisDateParts,
   parseSolarisDateTimeMs,
   toSolarisDateInZone,
 } from '../../model/calendar-datetime.utils';
-import { expandSolarisRecurrence } from '../../model/recurrence.utils';
+import { resolveCalendarFallback } from '../../model/strings/calendar-strings';
+import {
+  compareCivilDates,
+  expandEventSpans,
+  spanDates,
+  taskDueCivil,
+} from '../../model/calendar-span.utils';
 import type {
   SolarisCalendarEvent,
   SolarisCalendarTask,
@@ -37,68 +45,7 @@ import type {
   SolarisScheduleViewSize,
 } from '../model/schedule-view.types';
 
-const MAX_SPAN_DAYS = 500;
 const MAX_WINDOW_DAYS = 31;
-
-const CALENDAR_FALLBACKS: Record<string, Record<string, string>> = {
-  en: {
-    dayItems: '{{date}}, {{count}} items',
-    task: '{{title}}, task {{state}}',
-    taskCompleted: 'completed',
-    taskOpen: 'not completed',
-    scheduleEmpty: 'No events scheduled',
-    scheduleEmptyHint: 'Events in this window will appear here.',
-    previousDays: 'Show previous {{count}} days',
-    nextDays: 'Show next {{count}} days',
-    today: 'Today',
-  },
-  pt: {
-    dayItems: '{{date}}, {{count}} itens',
-    task: '{{title}}, tarefa {{state}}',
-    taskCompleted: 'concluída',
-    taskOpen: 'não concluída',
-    scheduleEmpty: 'Nenhum evento agendado',
-    scheduleEmptyHint: 'Os eventos deste período aparecerão aqui.',
-    previousDays: 'Mostrar {{count}} dias anteriores',
-    nextDays: 'Mostrar próximos {{count}} dias',
-    today: 'Hoje',
-  },
-  es: {
-    dayItems: '{{date}}, {{count}} eventos',
-    task: '{{title}}, tarea {{state}}',
-    taskCompleted: 'completada',
-    taskOpen: 'no completada',
-    scheduleEmpty: 'No hay eventos programados',
-    scheduleEmptyHint: 'Los eventos de este período aparecerán aquí.',
-    previousDays: 'Mostrar los {{count}} días anteriores',
-    nextDays: 'Mostrar los próximos {{count}} días',
-    today: 'Hoy',
-  },
-};
-
-function languageOf(locale: string): string {
-  const base = locale.split('-')[0].toLowerCase();
-  if (base === 'pt' || base === 'es') return base;
-  return 'en';
-}
-
-function renderTemplate(
-  template: string,
-  params: Record<string, string>,
-): string {
-  return template.replace(/\{\{\s*(\w+)\s*\}\}/g, (match, key: string) => {
-    const value = params[key];
-    return value === undefined ? match : value;
-  });
-}
-
-function defaultTimeZone(): string {
-  try {
-    return Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
-  } catch {
-    return 'UTC';
-  }
-}
 
 function validAnchor(value: string): string {
   if (parseSolarisDateParts(value) !== null) return value;
@@ -108,109 +55,6 @@ function validAnchor(value: string): string {
 function normalizeWindow(value: number): number {
   if (!Number.isFinite(value)) return 7;
   return Math.min(MAX_WINDOW_DAYS, Math.max(1, Math.round(value)));
-}
-
-function civilWeekday(value: string): number | null {
-  const parts = parseSolarisDateParts(value);
-  if (parts === null) return null;
-  return new Date(Date.UTC(parts.year, parts.month - 1, parts.day)).getUTCDay();
-}
-
-function isWeekendCivil(value: string): boolean {
-  const weekday = civilWeekday(value);
-  return weekday === 0 || weekday === 6;
-}
-
-interface EventSpan {
-  occurrenceStart: string;
-  startCivil: string;
-  endCivil: string;
-}
-
-function singleEventSpan(
-  event: SolarisCalendarEvent,
-  timeZone: string,
-): EventSpan | null {
-  const startMs = parseSolarisDateTimeMs(event.start);
-  let startCivil: string | null = null;
-  if (startMs !== null) {
-    startCivil = toSolarisDateInZone(event.start, timeZone);
-  } else if (parseSolarisDateParts(event.start) !== null) {
-    startCivil = event.start;
-  }
-  if (startCivil === null) return null;
-  if (event.end === undefined) {
-    return { occurrenceStart: event.start, startCivil, endCivil: startCivil };
-  }
-  const endMs = parseSolarisDateTimeMs(event.end);
-  const endCivil =
-    endMs === null
-      ? parseSolarisDateParts(event.end) !== null
-        ? event.end
-        : null
-      : toSolarisDateInZone(event.end, timeZone);
-  if (endCivil === null || endCivil < startCivil) return null;
-  return { occurrenceStart: event.start, startCivil, endCivil };
-}
-
-function expandEventSpans(
-  event: SolarisCalendarEvent,
-  timeZone: string,
-  rangeStart: string,
-  rangeEnd: string,
-): EventSpan[] {
-  if (event.recurrence === undefined) {
-    const single = singleEventSpan(event, timeZone);
-    return single === null ? [] : [single];
-  }
-  const startMs = parseSolarisDateTimeMs(event.start);
-  const startValid =
-    startMs !== null || parseSolarisDateParts(event.start) !== null;
-  if (!startValid) return [];
-  const spans: EventSpan[] = [];
-  for (const occurrence of expandSolarisRecurrence({
-    start: event.start,
-    end: event.end,
-    recurrence: event.recurrence,
-    timeZone,
-    rangeStart,
-    rangeEnd,
-  })) {
-    const occurrenceMs = parseSolarisDateTimeMs(occurrence.start);
-    const startCivil =
-      occurrenceMs === null
-        ? occurrence.start
-        : toSolarisDateInZone(occurrence.start, timeZone);
-    if (startCivil === null) continue;
-    const endMs = parseSolarisDateTimeMs(occurrence.end);
-    const endCivil =
-      endMs === null
-        ? occurrence.start
-        : (toSolarisDateInZone(occurrence.end, timeZone) ?? startCivil);
-    spans.push({ occurrenceStart: occurrence.start, startCivil, endCivil });
-  }
-  return spans;
-}
-
-function spanDates(from: string, to: string): string[] {
-  const dates: string[] = [];
-  let current: string | null = from;
-  let guard = 0;
-  while (current !== null && current <= to && guard < MAX_SPAN_DAYS) {
-    dates.push(current);
-    current = addDaysToSolarisDate(current, 1);
-    guard += 1;
-  }
-  return dates;
-}
-
-function taskDueCivil(
-  task: SolarisCalendarTask,
-  timeZone: string,
-): string | null {
-  if (parseSolarisDateParts(task.due) !== null) return task.due;
-  if (parseSolarisDateTimeMs(task.due) === null) return null;
-  return toSolarisDateInZone(task.due, timeZone);
 }
 
 function itemWeight(item: SolarisScheduleViewItem): number {
@@ -259,7 +103,7 @@ export class SolarisCalendarScheduleViewComponent {
   readonly events = input<SolarisCalendarEvent[]>([]);
   readonly tasks = input<SolarisCalendarTask[]>([]);
   readonly holidays = input<SolarisHoliday[]>([]);
-  readonly timeZone = input<string>(defaultTimeZone());
+  readonly timeZone = input<string>(defaultSolarisTimeZone());
   readonly locale = input.required<string>();
   readonly windowDays = input<number>(7);
   readonly density = input<SolarisScheduleViewDensity>('comfortable');
@@ -300,21 +144,18 @@ export class SolarisCalendarScheduleViewComponent {
       if (list === undefined) buckets.set(date, [item]);
       else list.push(item);
     };
-    this.collectEvents(buckets, push, start, end);
-    this.collectTasks(buckets, push);
-    this.collectHolidays(buckets, push);
-    return Array.from(buckets.entries())
-      .sort((first, second) =>
-        first[0] < second[0] ? -1 : first[0] > second[0] ? 1 : 0,
-      )
-      .map(([date, items]) => ({
-        date,
-        items: items.sort(compareScheduleItems),
-      }));
+    this.collectEvents(push, start, end);
+    this.collectTasks(push);
+    this.collectHolidays(push);
+    const entries = Array.from(buckets.entries());
+    entries.sort((first, second) => compareCivilDates(first[0], second[0]));
+    return entries.map(([date, items]) => {
+      items.sort(compareScheduleItems);
+      return { date, items };
+    });
   });
 
   private collectEvents(
-    buckets: Map<string, SolarisScheduleViewItem[]>,
     push: (date: string, item: SolarisScheduleViewItem) => void,
     rangeStart: string,
     rangeEnd: string,
@@ -361,7 +202,6 @@ export class SolarisCalendarScheduleViewComponent {
   }
 
   private collectTasks(
-    buckets: Map<string, SolarisScheduleViewItem[]>,
     push: (date: string, item: SolarisScheduleViewItem) => void,
   ): void {
     for (const task of this.tasks()) {
@@ -382,7 +222,6 @@ export class SolarisCalendarScheduleViewComponent {
   }
 
   private collectHolidays(
-    buckets: Map<string, SolarisScheduleViewItem[]>,
     push: (date: string, item: SolarisScheduleViewItem) => void,
   ): void {
     for (const holiday of this.holidays()) {
@@ -437,15 +276,13 @@ export class SolarisCalendarScheduleViewComponent {
   }
 
   protected isWeekend(date: string): boolean {
-    return isWeekendCivil(date);
+    return isSolarisWeekend(date);
   }
 
   private resolveText(key: string, params: Record<string, string>): string {
     const service = this.translateService;
     if (service) return service.translate(key, params);
-    const templates = CALENDAR_FALLBACKS[languageOf(this.locale())];
-    const fallback = CALENDAR_FALLBACKS['en'];
-    return renderTemplate(templates[key] ?? fallback[key], params);
+    return resolveCalendarFallback(this.locale(), key, params);
   }
 
   protected previousLabel(): string {
@@ -652,6 +489,7 @@ export class SolarisCalendarScheduleViewComponent {
   private groupEdge(edge: 'start' | 'end'): string | null {
     const groups = this.groups();
     if (groups.length === 0) return null;
-    return (edge === 'start' ? groups[0] : groups[groups.length - 1]).date;
+    const edgeGroup = edge === 'start' ? groups.at(0) : groups.at(-1);
+    return edgeGroup?.date ?? null;
   }
 }

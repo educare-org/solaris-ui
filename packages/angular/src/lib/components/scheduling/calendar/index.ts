@@ -20,27 +20,66 @@ export {
   addDaysToSolarisDate,
   addMinutesToSolarisDateTime,
   compareSolarisDateTimes,
+  defaultSolarisTimeZone,
   diffSolarisDateTimeMinutes,
   getTimeZoneOffsetMinutes,
   getWeekdayInZone,
   getZonedWall,
+  isSolarisWeekend,
   isSolarisDateTimeValue,
   isSolarisDateValue,
   parseSolarisDateParts,
   parseSolarisDateTimeMs,
   resolveSolarisWallTimeMs,
+  shiftSolarisCivilMonth,
+  solarisCivilWeekday,
   startOfSolarisDay,
   startOfSolarisMonth,
   startOfSolarisWeek,
   toSolarisDateInZone,
   toSolarisDateTimeValue,
 } from './model/calendar-datetime.utils';
+export type { SolarisCalendarEventSpan } from './model/calendar-span.types';
+export {
+  compareCivilDates,
+  expandEventSpans,
+  resolveSpanEndCivil,
+  singleEventSpan,
+  spanDates,
+  taskDueCivil,
+  SOLARIS_CALENDAR_MAX_SPAN_DAYS,
+} from './model/calendar-span.utils';
 export type { ExpandSolarisRecurrenceOptions } from './model/recurrence.utils';
 export {
   expandSolarisRecurrence,
   SOLARIS_RECURRENCE_MAX_RESULTS,
 } from './model/recurrence.utils';
 export { computeEasterSunday } from './model/easter.utils';
+export type {
+  SolarisCalendarDragOccurrenceScope,
+  SolarisCalendarEventCreateProposal,
+  SolarisCalendarEventMoveProposal,
+  SolarisCalendarEventResizeProposal,
+  SolarisMonthMoveArgs,
+  SolarisWeekCreateArgs,
+  SolarisWeekMoveArgs,
+  SolarisWeekResizeArgs,
+} from './model/calendar-drag.types';
+export {
+  buildMonthCreateProposal,
+  buildMonthMoveProposal,
+  buildWeekCreateProposal,
+  buildWeekMoveProposal,
+  buildWeekResizeProposal,
+  diffSolarisCivilDays,
+  normalizeDragSnapStep,
+  resolveDragOccurrenceScope,
+  snapMinutesToStep,
+  SOLARIS_CALENDAR_DRAG_DEFAULT_STEP,
+  SOLARIS_CALENDAR_DRAG_MAX_STEP,
+  SOLARIS_CALENDAR_DRAG_MIN_STEP,
+  SOLARIS_DAY_MINUTES,
+} from './model/calendar-drag.utils';
 export type {
   BuiltInLocaleHolidays,
   FixedHolidayRule,

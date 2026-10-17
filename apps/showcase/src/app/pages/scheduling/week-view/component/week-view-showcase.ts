@@ -12,6 +12,9 @@ import {
   builtInHolidays,
   preloadBuiltInHolidays,
   type SolarisCalendarEvent,
+  type SolarisCalendarEventCreateProposal,
+  type SolarisCalendarEventMoveProposal,
+  type SolarisCalendarEventResizeProposal,
   type SolarisCalendarTask,
   type SolarisHoliday,
   type SolarisWeekViewDensity,
@@ -28,6 +31,7 @@ import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
 import {
   WEEK_VIEW_SHOWCASE_BASIC_CODE,
   WEEK_VIEW_SHOWCASE_BREADCRUMBS,
+  WEEK_VIEW_SHOWCASE_DRAG_CODE,
   WEEK_VIEW_SHOWCASE_IMPORT_CODE,
   WEEK_VIEW_SHOWCASE_INSTALL_COMMANDS,
   WEEK_VIEW_SHOWCASE_NEXT,
@@ -116,6 +120,7 @@ export class WeekViewShowcasePage implements OnInit {
   protected readonly installCommands = WEEK_VIEW_SHOWCASE_INSTALL_COMMANDS;
   protected readonly importCode = WEEK_VIEW_SHOWCASE_IMPORT_CODE;
   protected readonly basicCode = WEEK_VIEW_SHOWCASE_BASIC_CODE;
+  protected readonly dragCode = WEEK_VIEW_SHOWCASE_DRAG_CODE;
 
   private readonly pageActions = createShowcasePageActions(
     this.translateService,
@@ -138,6 +143,7 @@ export class WeekViewShowcasePage implements OnInit {
   protected readonly selectedDensity =
     signal<SolarisWeekViewDensity>('comfortable');
   protected readonly log = signal('');
+  protected readonly dragLog = signal('');
 
   protected readonly visibleDays = computed(
     () => Number(this.demoDays()) as SolarisWeekViewVisibleDays,
@@ -218,6 +224,22 @@ export class WeekViewShowcasePage implements OnInit {
 
   protected onTaskToggle(id: string): void {
     this.log.set(`task:${id}`);
+  }
+
+  protected onEventCreate(proposal: SolarisCalendarEventCreateProposal): void {
+    this.dragLog.set(`create:${proposal.start}→${proposal.end}`);
+  }
+
+  protected onEventMove(proposal: SolarisCalendarEventMoveProposal): void {
+    this.dragLog.set(
+      `move:${proposal.id}@${proposal.start}→${proposal.end}#${proposal.occurrenceScope}`,
+    );
+  }
+
+  protected onEventResize(proposal: SolarisCalendarEventResizeProposal): void {
+    this.dragLog.set(
+      `resize:${proposal.id}@${proposal.start}→${proposal.end}#${proposal.occurrenceScope}`,
+    );
   }
 
   protected copyPageAsMarkdown(): void {

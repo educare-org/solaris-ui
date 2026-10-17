@@ -316,3 +316,38 @@ export function startOfSolarisWeek(
   });
   return toSolarisDateTimeValue(resolved, timeZone);
 }
+
+export function defaultSolarisTimeZone(): string {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
+  } catch {
+    return 'UTC';
+  }
+}
+
+export function solarisCivilWeekday(value: string): number | null {
+  const parts = parseSolarisDateParts(value);
+  if (parts === null) return null;
+  return new Date(Date.UTC(parts.year, parts.month - 1, parts.day)).getUTCDay();
+}
+
+export function isSolarisWeekend(value: string): boolean {
+  const weekday = solarisCivilWeekday(value);
+  return weekday === 0 || weekday === 6;
+}
+
+export function shiftSolarisCivilMonth(
+  value: string,
+  delta: number,
+): string | null {
+  const parts = parseSolarisDateParts(value);
+  if (parts === null) return null;
+  const index = parts.year * 12 + (parts.month - 1) + delta;
+  const year = Math.floor(index / 12);
+  const month = (index % 12) + 1;
+  const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  const day = Math.min(parts.day, lastDay);
+  const paddedDay = String(day).padStart(2, '0');
+  const paddedMonth = String(month).padStart(2, '0');
+  return `${String(year).padStart(4, '0')}-${paddedMonth}-${paddedDay}`;
+}

@@ -490,6 +490,85 @@ button.solaris-calendar-week-view__chip:focus-visible {
   text-overflow: ellipsis;
 }
 
+// why: resize handles are pointer-only affordances; keyboard resize uses the block itself.
+.solaris-calendar-week-view__handle {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--solaris-spacing-3);
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+.solaris-calendar-week-view__handle[data-edge='start'] {
+  top: 0;
+}
+
+.solaris-calendar-week-view__handle[data-edge='end'] {
+  bottom: 0;
+}
+
+// why: the drag ghost previews the pending proposal with tokens + opacity only.
+.solaris-calendar-week-view__lane[data-drag-target] {
+  // SOLARIS_TOKEN_EXCEPTION: inset ring is a selection indicator sized by the border token, not an elevation shadow.
+  box-shadow: inset 0 0 0 var(--solaris-border-width-md)
+    var(--solaris-primary-border);
+}
+
+.solaris-calendar-week-view__block[data-dragging] {
+  opacity: var(--solaris-opacity-60);
+  pointer-events: none;
+}
+
+.solaris-calendar-week-view__chip[data-dragging] {
+  opacity: var(--solaris-opacity-60);
+  pointer-events: none;
+}
+
+.solaris-calendar-week-view__ghost {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: var(--solaris-primary-soft);
+  color: var(--solaris-primary-foreground);
+  opacity: var(--solaris-opacity-70);
+  border: var(--solaris-border-width-sm) dashed var(--solaris-primary-border);
+  border-radius: var(--solaris-radius-md);
+  padding: var(--solaris-spacing-1) var(--solaris-spacing-2);
+  font: var(--solaris-font-weight-medium)
+    var(--solaris-calendar-week-view-block-font-size) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+
+  // why: the ghost is the visible proposal preview; it always carries a ring.
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: calc(var(--solaris-focus-ring-offset) * -1);
+  pointer-events: none;
+  z-index: var(--solaris-z-index-content);
+}
+
+.solaris-calendar-week-view__ghost[data-ghost-kind='allday'] {
+  position: static;
+  flex: 0 0 auto;
+}
+
+.solaris-calendar-week-view__ghost-text {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.solaris-calendar-week-view__block[data-event] {
+  touch-action: none;
+}
+
+.solaris-calendar-week-view__chip[data-kind='event'] {
+  touch-action: none;
+}
+
 .solaris-calendar-week-view__now {
   position: absolute;
   left: 0;
@@ -512,6 +591,10 @@ button.solaris-calendar-week-view__chip:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .solaris-calendar-week-view__now {
+    transition: none;
+  }
+
+  .solaris-calendar-week-view__ghost {
     transition: none;
   }
 }

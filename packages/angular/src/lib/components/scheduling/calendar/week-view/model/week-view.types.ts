@@ -34,8 +34,64 @@ export interface SolarisWeekViewBlock {
   title: string;
   color: SolarisCalendarEventColor;
   occurrenceStart: string;
+  occurrenceEnd: string;
   startMs: number;
   endMs: number;
   column: number;
   columns: number;
+}
+
+export interface SolarisWeekDayColumn {
+  date: string;
+  blocks: SolarisWeekViewBlock[];
+  allDay: SolarisWeekViewAllDayItem[];
+  nowTop: number | null;
+}
+
+export interface SolarisWeekTimedPart {
+  id: string;
+  title: string;
+  color: SolarisWeekViewBlock['color'];
+  occurrenceStart: string;
+  occurrenceEnd: string;
+  startMs: number;
+  endMs: number;
+}
+
+export interface SolarisWeekFocusedSlot {
+  date: string;
+  hour: number;
+}
+
+export type SolarisWeekDragMode = 'create' | 'move' | 'resize';
+
+export type SolarisWeekDragOrigin = 'pointer' | 'keyboard';
+
+export type SolarisWeekResizeEdge = 'start' | 'end';
+
+export interface SolarisWeekDragSession {
+  origin: SolarisWeekDragOrigin;
+  mode: SolarisWeekDragMode;
+  allDay: boolean;
+  anchorDate: string;
+  anchorMinutes: number;
+  currentDate: string;
+  currentMinutes: number;
+  edge: SolarisWeekResizeEdge | null;
+  eventId: string | null;
+  occurrenceStart: string | null;
+  occurrenceEnd: string | null;
+  title: string;
+}
+
+export interface SolarisWeekDragCandidate extends SolarisWeekDragSession {
+  pointerId: number;
+  startX: number;
+  startY: number;
+}
+
+export interface SolarisWeekGhostSegment {
+  date: string;
+  top: number;
+  height: number;
 }

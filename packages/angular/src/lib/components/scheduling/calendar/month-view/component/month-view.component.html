@@ -30,11 +30,15 @@
         <div
           class="solaris-calendar-month-view__cell"
           role="gridcell"
+          [attr.data-date]="day.value"
           [attr.data-outside-month]="day.inCurrentMonth ? null : ''"
           [attr.data-today]="isToday(day.value) ? '' : null"
+          [attr.data-dragging]="isDragCell(day.value) ? '' : null"
+          [attr.data-drag-target]="isDragTarget(day.value) ? '' : null"
           [attr.data-active]="
             isActiveDay(day.value) && gridFocused() ? '' : null
           "
+          (pointerdown)="onCellPointerDown($event, day.value)"
         >
           <button
             type="button"
@@ -90,9 +94,13 @@
                   data-chip=""
                   [attr.data-kind]="item.kind"
                   [attr.data-color]="item.color"
+                  [attr.data-occurrence]="item.occurrenceStart"
+                  [attr.data-dragging]="isDragSource(item) ? '' : null"
                   [attr.data-selected]="isSelected(item) ? '' : null"
                   [attr.aria-label]="chipAriaLabel(item)"
                   (click)="openEvent(item)"
+                  (pointerdown)="onChipPointerDown($event, item, day.value)"
+                  (keydown)="onChipKeydown($event, item)"
                 >
                   @if (item.time !== null) {
                     <span class="solaris-calendar-month-view__chip-time">
@@ -181,6 +189,18 @@
                   }
                 </div>
               </ng-template>
+            }
+            @if (dragGhostDate() === day.value) {
+              <div
+                class="solaris-calendar-month-view__ghost"
+                data-ghost=""
+                [attr.data-mode]="dragSession()?.mode ?? null"
+                aria-hidden="true"
+              >
+                <span class="solaris-calendar-month-view__ghost-text">
+                  {{ dragGhostText() }}
+                </span>
+              </div>
             }
           </div>
         </div>

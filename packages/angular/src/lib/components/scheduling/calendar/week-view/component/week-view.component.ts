@@ -10,9 +10,10 @@ import {
   OnInit,
   output,
   signal,
+  viewChildren,
 } from '@angular/core';
 
-import { nextIdFor } from '../../../../../core/utils/id';
+import { nextIdFor } from '../../../../../core';
 import {
   localeFirstDay,
   todaySolarisDate,
@@ -22,16 +23,20 @@ import {
   SolarisPopoverTriggerDirective,
 } from '../../../../interaction/popover';
 import { SolarisTooltipDirective } from '../../../../interaction/tooltip';
-import { SolarisVisuallyHiddenDirective } from '../../../../../services/accessibility/directives/visually-hidden.directive';
+import { SolarisVisuallyHiddenDirective } from '../../../../../services/accessibility';
 import { SolarisTranslateService } from '../../../../../services/translation';
 import {
   addDaysToSolarisDate,
+  defaultSolarisTimeZone,
   getZonedWall,
+  isSolarisWeekend,
   parseSolarisDateParts,
   parseSolarisDateTimeMs,
   resolveSolarisWallTimeMs,
+  solarisCivilWeekday,
   toSolarisDateInZone,
 } from '../../model/calendar-datetime.utils';
+import { resolveCalendarFallback } from '../../model/strings/calendar-strings';
 import { expandSolarisRecurrence } from '../../model/recurrence.utils';
 import type {
   SolarisCalendarEvent,
@@ -44,6 +49,27 @@ import {
   layoutOverlappingSpans,
 } from '../model/week-view-layout.utils';
 import type {
+  SolarisCalendarEventCreateProposal,
+  SolarisCalendarEventMoveProposal,
+  SolarisCalendarEventResizeProposal,
+} from '../../model/calendar-drag.types';
+import {
+  buildMonthCreateProposal,
+  buildMonthMoveProposal,
+  buildWeekCreateProposal,
+  buildWeekMoveProposal,
+  buildWeekResizeProposal,
+  diffSolarisCivilDays,
+  normalizeDragSnapStep,
+  snapMinutesToStep,
+} from '../../model/calendar-drag.utils';
+import type {
+  SolarisWeekDayColumn,
+  SolarisWeekDragCandidate,
+  SolarisWeekDragSession,
+  SolarisWeekFocusedSlot,
+  SolarisWeekGhostSegment,
+  SolarisWeekTimedPart,
   SolarisWeekViewAllDayItem,
   SolarisWeekViewBlock,
   SolarisWeekViewDensity,
@@ -52,128 +78,16 @@ import type {
   SolarisWeekViewSlotSelect,
   SolarisWeekViewVisibleDays,
 } from '../model/week-view.types';
-
-const MS_PER_DAY = 86_400_000;
-const HOURS_PER_DAY = 24;
-const NOW_REFRESH_MS = 60_000;
-
-const CALENDAR_FALLBACKS: Record<string, Record<string, string>> = {
-  en: {
-    more: '{{count}} more',
-    dayItems: '{{date}}, {{count}} items',
-    moreItems: '{{count}} more items on {{date}}',
-    task: '{{title}}, task {{state}}',
-    taskCompleted: 'completed',
-    taskOpen: 'not completed',
-    allDay: 'All day',
-    nowLine: 'Current time',
-    timedEvent: '{{timeRange}}, {{title}}',
-    timeSlot: '{{date}} at {{time}}',
-  },
-  pt: {
-    more: 'Mais {{count}}',
-    dayItems: '{{date}}, {{count}} itens',
-    moreItems: '{{count}} itens a mais em {{date}}',
-    task: '{{title}}, tarefa {{state}}',
-    taskCompleted: 'concluída',
-    taskOpen: 'não concluída',
-    allDay: 'Dia inteiro',
-    nowLine: 'Hora atual',
-    timedEvent: '{{timeRange}}, {{title}}',
-    timeSlot: '{{date}} às {{time}}',
-  },
-  es: {
-    more: '{{count}} más',
-    dayItems: '{{date}}, {{count}} eventos',
-    moreItems: '{{count}} eventos más el {{date}}',
-    task: '{{title}}, tarea {{state}}',
-    taskCompleted: 'completada',
-    taskOpen: 'no completada',
-    allDay: 'Todo el día',
-    nowLine: 'Hora actual',
-    timedEvent: '{{timeRange}}, {{title}}',
-    timeSlot: '{{date}} a las {{time}}',
-  },
-};
-
-function languageOf(locale: string): string {
-  const base = locale.split('-')[0].toLowerCase();
-  if (base === 'pt' || base === 'es') return base;
-  return 'en';
-}
-
-function renderTemplate(
-  template: string,
-  params: Record<string, string>,
-): string {
-  return template.replace(/\{\{\s*(\w+)\s*\}\}/g, (match, key: string) => {
-    const value = params[key];
-    return value === undefined ? match : value;
-  });
-}
-
-function defaultTimeZone(): string {
-  try {
-    return Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
-  } catch {
-    return 'UTC';
-  }
-}
-
-function reducedMotionPreferred(): boolean {
-  return (
-    typeof window !== 'undefined' &&
-    typeof window.matchMedia === 'function' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  );
-}
-
-function civilWeekday(value: string): number | null {
-  const parts = parseSolarisDateParts(value);
-  if (parts === null) return null;
-  return new Date(Date.UTC(parts.year, parts.month - 1, parts.day)).getUTCDay();
-}
-
-function isWeekendCivil(value: string): boolean {
-  const weekday = civilWeekday(value);
-  return weekday === 0 || weekday === 6;
-}
-
-function normalizeVisibleDays(value: unknown): SolarisWeekViewVisibleDays {
-  if (value === 1 || value === 3 || value === 4 || value === 7) return value;
-  return 7;
-}
-
-function pad2(value: number): string {
-  return String(value).padStart(2, '0');
-}
-
-function allDayWeight(item: SolarisWeekViewAllDayItem): number {
-  if (item.kind === 'holiday') return 0;
-  if (item.kind === 'event') return 1;
-  return 2;
-}
-
-interface WeekDayColumn {
-  date: string;
-  blocks: SolarisWeekViewBlock[];
-  allDay: SolarisWeekViewAllDayItem[];
-  nowTop: number | null;
-}
-
-interface TimedPart {
-  id: string;
-  title: string;
-  color: SolarisWeekViewBlock['color'];
-  occurrenceStart: string;
-  startMs: number;
-  endMs: number;
-}
-
-interface FocusedSlot {
-  date: string;
-  hour: number;
-}
+import {
+  allDayWeight,
+  normalizeVisibleDays,
+  reducedMotionPreferred,
+  WEEK_VIEW_DRAG_ACTIVATION_PX,
+  WEEK_VIEW_HOURS_PER_DAY,
+  WEEK_VIEW_MS_PER_DAY,
+  WEEK_VIEW_NOW_REFRESH_MS,
+  weekViewPad2,
+} from '../model/week-view.utils';
 
 @Component({
   selector: 'solaris-calendar-week-view',
@@ -192,6 +106,8 @@ interface FocusedSlot {
     '[attr.data-density]': 'density()',
     '[attr.data-size]': 'size()',
     '[attr.data-days]': 'laneCount()',
+    '[attr.data-dragging]': 'dragSession() ? "" : null',
+    '[attr.data-resizing]': 'resizeActive() ? "" : null',
   },
 })
 export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
@@ -200,7 +116,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
   readonly events = input<SolarisCalendarEvent[]>([]);
   readonly tasks = input<SolarisCalendarTask[]>([]);
   readonly holidays = input<SolarisHoliday[]>([]);
-  readonly timeZone = input<string>(defaultTimeZone());
+  readonly timeZone = input<string>(defaultSolarisTimeZone());
   readonly locale = input.required<string>();
   readonly weekStartsOn = input<SolarisCalendarWeekStart>();
   readonly showWeekends = input(true);
@@ -211,12 +127,17 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
   readonly showAllDay = input(true);
   readonly moreLabel = input<string>();
   readonly moreLabelKey = input<string>();
+  readonly dragDisabled = input(false);
+  readonly snapStepMinutes = input(30);
 
   readonly daySelect = output<string>();
   readonly slotSelect = output<SolarisWeekViewSlotSelect>();
   readonly eventOpen = output<SolarisWeekViewEventOpen>();
   readonly moreOpen = output<string>();
   readonly taskToggle = output<string>();
+  readonly eventCreate = output<SolarisCalendarEventCreateProposal>();
+  readonly eventMove = output<SolarisCalendarEventMoveProposal>();
+  readonly eventResize = output<SolarisCalendarEventResizeProposal>();
 
   private readonly instanceId = nextIdFor('solaris-week-view');
   private readonly translateService = inject(SolarisTranslateService, {
@@ -226,11 +147,29 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
   protected readonly announcement = signal('');
   protected readonly gridFocused = signal(false);
   protected readonly nowMs = signal(Date.now());
-  protected readonly focusedSlot = signal<FocusedSlot>({
+  protected readonly focusedSlot = signal<SolarisWeekFocusedSlot>({
     date: '',
     hour: 9,
   });
   private nowTimer: ReturnType<typeof setInterval> | null = null;
+
+  // why: pointer drag state lives outside signals until the move threshold passes.
+  protected readonly dragSession = signal<SolarisWeekDragSession | null>(null);
+  private readonly blockTooltips = viewChildren(SolarisTooltipDirective);
+  private dragCandidate: SolarisWeekDragCandidate | null = null;
+  private dragSuppressClick = false;
+  private dragMoveListener: ((event: PointerEvent) => void) | null = null;
+  private dragUpListener: ((event: PointerEvent) => void) | null = null;
+  private dragCancelListener: (() => void) | null = null;
+  private dragKeyListener: ((event: KeyboardEvent) => void) | null = null;
+
+  protected readonly normalizedStep = computed(() =>
+    normalizeDragSnapStep(this.snapStepMinutes()),
+  );
+
+  protected resizeActive(): boolean {
+    return this.dragSession()?.mode === 'resize';
+  }
 
   constructor() {
     effect(() => {
@@ -245,7 +184,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
     if (reducedMotionPreferred()) return;
     this.nowTimer = setInterval(() => {
       this.nowMs.set(Date.now());
-    }, NOW_REFRESH_MS);
+    }, WEEK_VIEW_NOW_REFRESH_MS);
   }
 
   ngOnDestroy(): void {
@@ -253,6 +192,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
       clearInterval(this.nowTimer);
       this.nowTimer = null;
     }
+    this.detachDragListeners();
   }
 
   protected readonly normalizedDays = computed(() =>
@@ -265,7 +205,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
 
   protected readonly anchorDate = computed(() => {
     if (this.normalizedDays() === 7) {
-      const weekday = civilWeekday(this.focusedDate());
+      const weekday = solarisCivilWeekday(this.focusedDate());
       if (weekday === null) return this.focusedDate();
       const back = (weekday - this.resolvedWeekStartsOn() + 7) % 7;
       return (
@@ -282,7 +222,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
     let candidate: string | null = this.anchorDate();
     for (let guard = 0; guard < count + 8; guard += 1) {
       if (candidate === null || dates.length >= count) break;
-      if (this.showWeekends() || !isWeekendCivil(candidate)) {
+      if (this.showWeekends() || !isSolarisWeekend(candidate)) {
         dates.push(candidate);
       }
       candidate = addDaysToSolarisDate(candidate, 1);
@@ -295,7 +235,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
     let candidate: string | null = this.anchorDate();
     for (let guard = 0; guard < 7; guard += 1) {
       if (candidate === null) break;
-      if (this.showWeekends() || !isWeekendCivil(candidate)) {
+      if (this.showWeekends() || !isSolarisWeekend(candidate)) {
         dates.push(candidate);
       }
       candidate = addDaysToSolarisDate(candidate, 1);
@@ -304,17 +244,17 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
   }
 
   protected readonly hours = computed(() =>
-    Array.from({ length: HOURS_PER_DAY }, (_, hour) => hour),
+    Array.from({ length: WEEK_VIEW_HOURS_PER_DAY }, (_, hour) => hour),
   );
 
   protected readonly todayInZone = computed(
     () => toSolarisDateInZone(this.nowMs(), this.timeZone()) ?? '',
   );
 
-  protected readonly columns = computed<WeekDayColumn[]>(() => {
+  protected readonly columns = computed<SolarisWeekDayColumn[]>(() => {
     const dates = this.visibleDates();
     const timeZone = this.timeZone();
-    const result: WeekDayColumn[] = dates.map((date) => ({
+    const result: SolarisWeekDayColumn[] = dates.map((date) => ({
       date,
       blocks: [],
       allDay: [],
@@ -329,11 +269,13 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
 
   protected readonly rangeLabel = computed(() => {
     const dates = this.visibleDates();
-    if (dates.length === 0) return '';
-    return `${this.formatDay(dates[0])} – ${this.formatDay(dates[dates.length - 1])}`;
+    const first = dates.at(0);
+    const last = dates.at(-1);
+    if (first === undefined || last === undefined) return '';
+    return `${this.formatDay(first)} – ${this.formatDay(last)}`;
   });
 
-  protected readonly activeSlot = computed<FocusedSlot>(() => {
+  protected readonly activeSlot = computed<SolarisWeekFocusedSlot>(() => {
     const dates = this.visibleDates();
     const slot = this.focusedSlot();
     if (dates.includes(slot.date)) return slot;
@@ -366,7 +308,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
     const start = this.dayStartMs(next, timeZone);
     if (start !== null) return start;
     const fallback = this.dayStartMs(date, timeZone);
-    return fallback === null ? null : fallback + MS_PER_DAY;
+    return fallback === null ? null : fallback + WEEK_VIEW_MS_PER_DAY;
   }
 
   private timedOccurrences(
@@ -374,10 +316,14 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
     rangeStart: string,
     rangeEnd: string,
     timeZone: string,
-  ): Array<{ start: string; startMs: number; endMs: number }> {
+  ): Array<{ start: string; end: string; startMs: number; endMs: number }> {
     if (event.recurrence !== undefined) {
-      const found: Array<{ start: string; startMs: number; endMs: number }> =
-        [];
+      const found: Array<{
+        start: string;
+        end: string;
+        startMs: number;
+        endMs: number;
+      }> = [];
       for (const occurrence of expandSolarisRecurrence({
         start: event.start,
         end: event.end,
@@ -390,14 +336,19 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
         const startMs = parseSolarisDateTimeMs(occurrence.start);
         const endMs = parseSolarisDateTimeMs(occurrence.end);
         if (startMs === null || endMs === null) continue;
-        found.push({ start: occurrence.start, startMs, endMs });
+        found.push({
+          start: occurrence.start,
+          end: occurrence.end,
+          startMs,
+          endMs,
+        });
       }
       return found;
     }
     const startMs = parseSolarisDateTimeMs(event.start);
     const endMs = parseSolarisDateTimeMs(event.end);
     if (startMs === null || endMs === null) return [];
-    return [{ start: event.start, startMs, endMs }];
+    return [{ start: event.start, end: event.end, startMs, endMs }];
   }
 
   private isAllDayEvent(event: SolarisCalendarEvent): boolean {
@@ -435,13 +386,20 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
     return dates;
   }
 
-  private collectTimed(result: WeekDayColumn[], timeZone: string): void {
-    if (result.length === 0) return;
-    const rangeStart = result[0].date;
+  private compareTitles(first: string, second: string): number {
+    if (first < second) return -1;
+    if (first > second) return 1;
+    return 0;
+  }
+
+  private collectTimed(result: SolarisWeekDayColumn[], timeZone: string): void {
+    const firstColumn = result.at(0);
+    const lastColumn = result.at(-1);
+    if (firstColumn === undefined || lastColumn === undefined) return;
+    const rangeStart = firstColumn.date;
     const rangeEnd =
-      addDaysToSolarisDate(result[result.length - 1].date, 1) ??
-      result[result.length - 1].date;
-    const byDate = new Map<string, TimedPart[]>();
+      addDaysToSolarisDate(lastColumn.date, 1) ?? lastColumn.date;
+    const byDate = new Map<string, SolarisWeekTimedPart[]>();
     for (const event of this.events()) {
       if (this.isAllDayEvent(event)) continue;
       for (const occurrence of this.timedOccurrences(
@@ -460,11 +418,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
           (first, second) =>
             first.startMs - second.startMs ||
             first.endMs - second.endMs ||
-            (first.title < second.title
-              ? -1
-              : first.title > second.title
-                ? 1
-                : 0),
+            this.compareTitles(first.title, second.title),
         );
       const placements = layoutOverlappingSpans(parts);
       const start = this.dayStartMs(column.date, timeZone);
@@ -475,6 +429,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
         title: part.title,
         color: part.color,
         occurrenceStart: part.occurrenceStart,
+        occurrenceEnd: part.occurrenceEnd,
         startMs: part.startMs,
         endMs: part.endMs,
         column: placements[index].column,
@@ -484,10 +439,10 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
   }
 
   private clipToColumns(
-    byDate: Map<string, TimedPart[]>,
-    result: WeekDayColumn[],
+    byDate: Map<string, SolarisWeekTimedPart[]>,
+    result: SolarisWeekDayColumn[],
     event: SolarisCalendarEvent,
-    occurrence: { start: string; startMs: number; endMs: number },
+    occurrence: { start: string; end: string; startMs: number; endMs: number },
     timeZone: string,
   ): void {
     for (const column of result) {
@@ -502,11 +457,12 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
       );
       if (clipped === null) continue;
       const list = byDate.get(column.date);
-      const part: TimedPart = {
+      const part: SolarisWeekTimedPart = {
         id: event.id,
         title: event.title,
         color: event.color ?? 'info',
         occurrenceStart: occurrence.start,
+        occurrenceEnd: occurrence.end,
         startMs: clipped.startMs,
         endMs: clipped.endMs,
       };
@@ -515,7 +471,10 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  private collectAllDay(result: WeekDayColumn[], timeZone: string): void {
+  private collectAllDay(
+    result: SolarisWeekDayColumn[],
+    timeZone: string,
+  ): void {
     if (!this.showAllDay()) return;
     const push = (date: string, item: SolarisWeekViewAllDayItem): void => {
       const column = result.find((entry) => entry.date === date);
@@ -568,11 +527,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
       column.allDay.sort(
         (first, second) =>
           allDayWeight(first) - allDayWeight(second) ||
-          (first.title < second.title
-            ? -1
-            : first.title > second.title
-              ? 1
-              : 0),
+          this.compareTitles(first.title, second.title),
       );
     }
   }
@@ -589,7 +544,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
     return toSolarisDateInZone(task.due, timeZone);
   }
 
-  private applyNowLine(result: WeekDayColumn[], timeZone: string): void {
+  private applyNowLine(result: SolarisWeekDayColumn[], timeZone: string): void {
     const today = this.todayInZone();
     const now = this.nowMs();
     for (const column of result) {
@@ -611,7 +566,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
   }
 
   protected slotId(date: string, hour: number): string {
-    return `${this.instanceId}-slot-${date}-${pad2(hour)}`;
+    return `${this.instanceId}-slot-${date}-${weekViewPad2(hour)}`;
   }
 
   protected blockId(block: SolarisWeekViewBlock): string {
@@ -720,9 +675,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
   private resolveText(key: string, params: Record<string, string>): string {
     const service = this.translateService;
     if (service) return service.translate(key, params);
-    const templates = CALENDAR_FALLBACKS[languageOf(this.locale())];
-    const fallback = CALENDAR_FALLBACKS['en'];
-    return renderTemplate(templates[key] ?? fallback[key], params);
+    return resolveCalendarFallback(this.locale(), key, params);
   }
 
   protected allDayLabel(): string {
@@ -764,7 +717,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
   }
 
   protected slotTime(hour: number): string {
-    return `${pad2(hour)}:00`;
+    return `${weekViewPad2(hour)}:00`;
   }
 
   protected blockAriaLabel(block: SolarisWeekViewBlock): string {
@@ -799,23 +752,1141 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
     });
   }
 
+  protected timedGhostFor(
+    date: string,
+  ): { top: number; height: number } | null {
+    return (
+      this.timedGhostSegments().find((segment) => segment.date === date) ?? null
+    );
+  }
+
+  protected timedGhostText(): string {
+    const session = this.dragSession();
+    if (session === null || session.allDay) return '';
+    const range = this.dragRangeMs(session);
+    if (range === null) return '';
+    return this.timedLabel(range.startMs, range.endMs, null);
+  }
+
+  protected timedGhostMode(): string | null {
+    return this.dragSession()?.mode ?? null;
+  }
+
+  protected allDayGhostDate(): string | null {
+    const session = this.dragSession();
+    if (!session?.allDay) return null;
+    return session.currentDate;
+  }
+
+  protected allDayGhostText(): string {
+    const session = this.dragSession();
+    if (!session?.allDay) return '';
+    return this.dragLabel(session);
+  }
+
+  protected isBlockDragSource(block: SolarisWeekViewBlock): boolean {
+    const session = this.dragSession();
+    return (
+      session !== null &&
+      session.mode !== 'create' &&
+      session.eventId === block.id &&
+      session.occurrenceStart === block.occurrenceStart
+    );
+  }
+
+  protected isAllDayDragSource(item: SolarisWeekViewAllDayItem): boolean {
+    const session = this.dragSession();
+    return (
+      session !== null &&
+      session.allDay &&
+      session.mode === 'move' &&
+      session.eventId === item.id &&
+      session.occurrenceStart === item.occurrenceStart
+    );
+  }
+
+  protected isDragLane(date: string): boolean {
+    const session = this.dragSession();
+    if (session === null || session.allDay) return false;
+    return session.currentDate === date;
+  }
+
+  protected timedGhostSegments(): SolarisWeekGhostSegment[] {
+    const session = this.dragSession();
+    if (session === null || session.allDay) return [];
+    const range = this.dragRangeMs(session);
+    if (range === null) return [];
+    const timeZone = this.timeZone();
+    const segments: SolarisWeekGhostSegment[] = [];
+    for (const date of this.visibleDates()) {
+      const start = this.dayStartMs(date, timeZone);
+      const end = this.dayEndMs(date, timeZone);
+      if (start === null || end === null || end <= start) continue;
+      const segStart = Math.max(range.startMs, start);
+      const segEnd = Math.min(range.endMs, end);
+      if (segEnd <= segStart) continue;
+      segments.push({
+        date,
+        top: ((segStart - start) / (end - start)) * 100,
+        height: ((segEnd - segStart) / (end - start)) * 100,
+      });
+    }
+    return segments;
+  }
+
+  private dragRangeMs(
+    session: SolarisWeekDragSession,
+  ): { startMs: number; endMs: number } | null {
+    const endpoints = this.dragRangeEndpoints(session);
+    if (endpoints === null) return null;
+    const startMs = parseSolarisDateTimeMs(endpoints.start);
+    const endMs = parseSolarisDateTimeMs(endpoints.end);
+    if (startMs === null || endMs === null || endMs <= startMs) return null;
+    return { startMs, endMs };
+  }
+
+  private dragRangeEndpoints(
+    session: SolarisWeekDragSession,
+  ): { start: string; end: string } | null {
+    const created = this.createRangeEndpoints(session);
+    if (created !== null) return created;
+    const existing = this.existingRangeEndpoints(session);
+    if (existing !== null) return existing;
+    const fallbackStart = session.occurrenceStart;
+    const fallbackEnd = session.occurrenceEnd;
+    if (fallbackStart === null || fallbackEnd === null) return null;
+    return { start: fallbackStart, end: fallbackEnd };
+  }
+
+  private createRangeEndpoints(
+    session: SolarisWeekDragSession,
+  ): { start: string; end: string } | null {
+    if (session.mode !== 'create' || session.allDay) return null;
+    const proposal = buildWeekCreateProposal({
+      anchorDate: session.anchorDate,
+      anchorMinutes: session.anchorMinutes,
+      currentDate: session.currentDate,
+      currentMinutes: session.currentMinutes,
+      stepMinutes: this.normalizedStep(),
+      timeZone: this.timeZone(),
+    });
+    if (proposal === null) return null;
+    return { start: proposal.start, end: proposal.end };
+  }
+
+  private existingRangeEndpoints(
+    session: SolarisWeekDragSession,
+  ): { start: string; end: string } | null {
+    if (
+      session.eventId === null ||
+      session.occurrenceStart === null ||
+      session.occurrenceEnd === null
+    ) {
+      return null;
+    }
+    const record = this.findDragEvent(session.eventId);
+    if (record === null || session.allDay) return null;
+    if (session.mode === 'move')
+      return this.moveRangeEndpoints(session, record);
+    return this.resizeRangeEndpoints(session, record);
+  }
+
+  private moveRangeEndpoints(
+    session: SolarisWeekDragSession,
+    record: SolarisCalendarEvent,
+  ): { start: string; end: string } | null {
+    const dayDelta = diffSolarisCivilDays(
+      session.anchorDate,
+      session.currentDate,
+    );
+    if (dayDelta === null || session.occurrenceStart === null) return null;
+    if (session.occurrenceEnd === null) return null;
+    const proposal = buildWeekMoveProposal({
+      event: record,
+      occurrenceStart: session.occurrenceStart,
+      occurrenceEnd: session.occurrenceEnd,
+      dayDelta,
+      minuteDelta: session.currentMinutes - session.anchorMinutes,
+      timeZone: this.timeZone(),
+    });
+    if (proposal === null) return null;
+    return { start: proposal.start, end: proposal.end };
+  }
+
+  private resizeRangeEndpoints(
+    session: SolarisWeekDragSession,
+    record: SolarisCalendarEvent,
+  ): { start: string; end: string } | null {
+    if (session.edge === null) return null;
+    if (session.occurrenceStart === null || session.occurrenceEnd === null) {
+      return null;
+    }
+    const dayDelta = diffSolarisCivilDays(
+      session.anchorDate,
+      session.currentDate,
+    );
+    if (dayDelta === null) return null;
+    const proposal = buildWeekResizeProposal({
+      event: record,
+      occurrenceStart: session.occurrenceStart,
+      occurrenceEnd: session.occurrenceEnd,
+      edge: session.edge,
+      minuteDelta: session.currentMinutes - session.anchorMinutes,
+      dayDelta,
+      minMinutes: this.normalizedStep(),
+      timeZone: this.timeZone(),
+    });
+    if (proposal === null) return null;
+    return { start: proposal.start, end: proposal.end };
+  }
+
+  private dragLabel(session: SolarisWeekDragSession): string {
+    if (!session.allDay) {
+      const range = this.dragRangeMs(session);
+      if (range === null) return session.title;
+      return this.timedLabel(range.startMs, range.endMs, session.title);
+    }
+    if (session.mode === 'move') {
+      return `${session.title}, ${this.formatDay(session.currentDate)}`;
+    }
+    const [low = session.anchorDate, high = session.currentDate] = [
+      session.anchorDate,
+      session.currentDate,
+    ].sort((first, second) => this.compareTitles(first, second));
+    const range =
+      low === high
+        ? this.formatDay(low)
+        : `${this.formatDay(low)} – ${this.formatDay(high)}`;
+    return session.title === '' ? range : `${session.title}, ${range}`;
+  }
+
+  private timedLabel(
+    startMs: number,
+    endMs: number,
+    title: string | null,
+  ): string {
+    const timeZone = this.timeZone();
+    const startDate = toSolarisDateInZone(startMs, timeZone) ?? '';
+    const endDate = toSolarisDateInZone(endMs, timeZone) ?? '';
+    const dayPart =
+      startDate === endDate
+        ? this.formatDay(startDate)
+        : `${this.formatDay(startDate)} – ${this.formatDay(endDate)}`;
+    const base = `${dayPart}, ${this.formatTime(startMs)} – ${this.formatTime(endMs)}`;
+    return title === null || title === '' ? base : `${title}, ${base}`;
+  }
+
+  private instantLabel(value: string): string {
+    const instant = parseSolarisDateTimeMs(value);
+    if (instant === null) {
+      return parseSolarisDateParts(value) !== null
+        ? this.formatDay(value)
+        : value;
+    }
+    return this.timedLabel(instant, instant, null);
+  }
+
+  private findDragEvent(id: string): SolarisCalendarEvent | null {
+    return this.events().find((event) => event.id === id) ?? null;
+  }
+
+  private consumeSuppressClick(): boolean {
+    if (!this.dragSuppressClick) return false;
+    this.dragSuppressClick = false;
+    return true;
+  }
+
+  private snapMinutes(minutes: number): number {
+    return snapMinutesToStep(minutes, this.normalizedStep());
+  }
+
+  private minutesFromPointer(
+    cell: HTMLElement | null,
+    hour: number,
+    clientY: number,
+  ): number | null {
+    if (cell === null) return hour * 60;
+    const rect = cell.getBoundingClientRect();
+    if (rect.height <= 0) return hour * 60;
+    const offset = ((clientY ?? 0) - rect.top) / rect.height;
+    return Math.min(1_440, Math.max(0, Math.round(hour * 60 + offset * 60)));
+  }
+
+  private slotTargetFromPoint(
+    clientX: number,
+    clientY: number,
+  ): { date: string; minutes: number } | null {
+    if (typeof document === 'undefined') return null;
+    const element = document.elementFromPoint(clientX, clientY);
+    if (!(element instanceof HTMLElement)) return null;
+    const cell = element.closest('.solaris-calendar-week-view__slotcell');
+    if (!(cell instanceof HTMLElement)) return null;
+    const date = cell.getAttribute('data-date');
+    const hourRaw = cell.getAttribute('data-hour');
+    if (date === null || parseSolarisDateParts(date) === null) return null;
+    const hour = hourRaw === null ? 0 : Number(hourRaw);
+    if (!Number.isInteger(hour) || hour < 0 || hour > 23) return null;
+    const minutes = this.minutesFromPointer(cell, hour, clientY);
+    if (minutes === null) return null;
+    return { date, minutes: this.snapMinutes(minutes) };
+  }
+
+  private allDayTargetFromPoint(
+    clientX: number,
+    clientY: number,
+  ): string | null {
+    if (typeof document === 'undefined') return null;
+    const element = document.elementFromPoint(clientX, clientY);
+    if (!(element instanceof HTMLElement)) return null;
+    const cell = element.closest('.solaris-calendar-week-view__allday-cell');
+    if (!(cell instanceof HTMLElement)) return null;
+    const date = cell.getAttribute('data-date');
+    if (date === null || parseSolarisDateParts(date) === null) return null;
+    return date;
+  }
+
+  protected onSlotPointerDown(
+    event: PointerEvent,
+    date: string,
+    hour: number,
+  ): void {
+    if (
+      this.dragDisabled() ||
+      this.dragSession() !== null ||
+      this.dragCandidate !== null
+    ) {
+      return;
+    }
+    if (!event.isPrimary) return;
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    const cell = event.currentTarget;
+    if (!(cell instanceof HTMLElement)) return;
+    const minutes = this.minutesFromPointer(cell, hour, event.clientY ?? 0);
+    if (minutes === null) return;
+    this.armDragCandidate({
+      origin: 'pointer',
+      mode: 'create',
+      allDay: false,
+      anchorDate: date,
+      anchorMinutes: this.snapMinutes(minutes),
+      currentDate: date,
+      currentMinutes: this.snapMinutes(minutes),
+      edge: null,
+      eventId: null,
+      occurrenceStart: null,
+      occurrenceEnd: null,
+      title: '',
+      pointerId: event.pointerId,
+      startX: event.clientX ?? 0,
+      startY: event.clientY ?? 0,
+    });
+  }
+
+  protected onAllDayCellPointerDown(event: PointerEvent, date: string): void {
+    if (
+      this.dragDisabled() ||
+      this.dragSession() !== null ||
+      this.dragCandidate !== null
+    ) {
+      return;
+    }
+    if (!event.isPrimary) return;
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    const target = event.target as HTMLElement | null;
+    if (target?.closest('button,[data-ghost]') !== null) return;
+    this.armDragCandidate({
+      origin: 'pointer',
+      mode: 'create',
+      allDay: true,
+      anchorDate: date,
+      anchorMinutes: 0,
+      currentDate: date,
+      currentMinutes: 0,
+      edge: null,
+      eventId: null,
+      occurrenceStart: null,
+      occurrenceEnd: null,
+      title: '',
+      pointerId: event.pointerId,
+      startX: event.clientX ?? 0,
+      startY: event.clientY ?? 0,
+    });
+  }
+
+  protected onBlockPointerDown(
+    event: PointerEvent,
+    block: SolarisWeekViewBlock,
+    date: string,
+  ): void {
+    if (
+      this.dragDisabled() ||
+      this.dragSession() !== null ||
+      this.dragCandidate !== null
+    ) {
+      return;
+    }
+    if (!event.isPrimary) return;
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    const target = event.target as HTMLElement | null;
+    if (target?.closest('[data-edge]') !== null) return;
+    if (this.findDragEvent(block.id) === null) return;
+    event.stopPropagation();
+    this.armDragCandidate({
+      origin: 'pointer',
+      mode: 'move',
+      allDay: false,
+      anchorDate: date,
+      anchorMinutes: this.snapMinutes(
+        this.wallMinutes(block.startMs, this.timeZone()),
+      ),
+      currentDate: date,
+      currentMinutes: this.snapMinutes(
+        this.wallMinutes(block.startMs, this.timeZone()),
+      ),
+      edge: null,
+      eventId: block.id,
+      occurrenceStart: block.occurrenceStart,
+      occurrenceEnd: block.occurrenceEnd,
+      title: block.title,
+      pointerId: event.pointerId,
+      startX: event.clientX ?? 0,
+      startY: event.clientY ?? 0,
+    });
+  }
+
+  protected onAllDayChipPointerDown(
+    event: PointerEvent,
+    item: SolarisWeekViewAllDayItem,
+    date: string,
+  ): void {
+    if (
+      this.dragDisabled() ||
+      item.kind !== 'event' ||
+      item.id === null ||
+      this.dragSession() !== null ||
+      this.dragCandidate !== null
+    ) {
+      return;
+    }
+    if (!event.isPrimary) return;
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    if (this.findDragEvent(item.id) === null) return;
+    event.stopPropagation();
+    this.armDragCandidate({
+      origin: 'pointer',
+      mode: 'move',
+      allDay: true,
+      anchorDate: date,
+      anchorMinutes: 0,
+      currentDate: date,
+      currentMinutes: 0,
+      edge: null,
+      eventId: item.id,
+      occurrenceStart: item.occurrenceStart,
+      occurrenceEnd: item.occurrenceStart,
+      title: item.title,
+      pointerId: event.pointerId,
+      startX: event.clientX ?? 0,
+      startY: event.clientY ?? 0,
+    });
+  }
+
+  protected onResizePointerDown(
+    event: PointerEvent,
+    block: SolarisWeekViewBlock,
+    edge: 'start' | 'end',
+  ): void {
+    if (
+      this.dragDisabled() ||
+      this.dragSession() !== null ||
+      this.dragCandidate !== null
+    ) {
+      return;
+    }
+    if (!event.isPrimary) return;
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+    if (this.findDragEvent(block.id) === null) return;
+    event.stopPropagation();
+    event.preventDefault();
+    const edgeValue =
+      edge === 'start' ? block.occurrenceStart : block.occurrenceEnd;
+    const edgeMs = parseSolarisDateTimeMs(edgeValue);
+    if (edgeMs === null) return;
+    const timeZone = this.timeZone();
+    this.armDragCandidate({
+      origin: 'pointer',
+      mode: 'resize',
+      allDay: false,
+      anchorDate: toSolarisDateInZone(edgeMs, timeZone) ?? '',
+      anchorMinutes: this.wallMinutes(edgeMs, timeZone),
+      currentDate: toSolarisDateInZone(edgeMs, timeZone) ?? '',
+      currentMinutes: this.snapMinutes(this.wallMinutes(edgeMs, timeZone)),
+      edge,
+      eventId: block.id,
+      occurrenceStart: block.occurrenceStart,
+      occurrenceEnd: block.occurrenceEnd,
+      title: block.title,
+      pointerId: event.pointerId,
+      startX: event.clientX ?? 0,
+      startY: event.clientY ?? 0,
+    });
+  }
+
+  private wallMinutes(instantMs: number, timeZone: string): number {
+    const wall = getZonedWall(timeZone, instantMs);
+    return wall.hour * 60 + wall.minute;
+  }
+
+  protected onBlockKeydown(
+    event: KeyboardEvent,
+    block: SolarisWeekViewBlock,
+    date: string,
+  ): void {
+    if (this.dragDisabled()) return;
+    const session = this.dragSession();
+    if (session !== null) {
+      if (
+        session.origin !== 'keyboard' ||
+        session.eventId !== block.id ||
+        session.occurrenceStart !== block.occurrenceStart
+      ) {
+        return;
+      }
+      event.preventDefault();
+      if (event.key === 'Enter' || event.key === ' ') {
+        this.commitDragSession();
+        return;
+      }
+      if (event.key === 'Escape') {
+        this.cancelDragSession();
+        return;
+      }
+      this.stepKeyboardSession(session, event.key);
+      return;
+    }
+    if (
+      event.key !== 'ArrowLeft' &&
+      event.key !== 'ArrowRight' &&
+      event.key !== 'ArrowUp' &&
+      event.key !== 'ArrowDown'
+    ) {
+      return;
+    }
+    const record = this.findDragEvent(block.id);
+    if (record === null) return;
+    event.preventDefault();
+    if (event.shiftKey) {
+      this.startKeyboardResize(record, block);
+    } else {
+      this.startKeyboardMove(record, block, date);
+    }
+    const started = this.dragSession();
+    if (started === null) return;
+    this.stepKeyboardSession(started, event.key);
+  }
+
+  protected onAllDayChipKeydown(
+    event: KeyboardEvent,
+    item: SolarisWeekViewAllDayItem,
+    date: string,
+  ): void {
+    if (this.dragDisabled() || item.kind !== 'event' || item.id === null) {
+      return;
+    }
+    const session = this.dragSession();
+    if (session !== null) {
+      this.handleAllDayDragKey(event, session, item);
+      return;
+    }
+    this.startAllDayKeyboardMove(event, item, date);
+  }
+
+  private handleAllDayDragKey(
+    event: KeyboardEvent,
+    session: SolarisWeekDragSession,
+    item: SolarisWeekViewAllDayItem,
+  ): void {
+    if (
+      session.origin !== 'keyboard' ||
+      !session.allDay ||
+      session.eventId !== item.id ||
+      session.occurrenceStart !== item.occurrenceStart
+    ) {
+      return;
+    }
+    event.preventDefault();
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.commitDragSession();
+      return;
+    }
+    if (event.key === 'Escape') {
+      this.cancelDragSession();
+      return;
+    }
+    this.stepAllDaySession(session, event.key);
+  }
+
+  private stepAllDaySession(
+    session: SolarisWeekDragSession,
+    key: string,
+  ): void {
+    if (key !== 'ArrowLeft' && key !== 'ArrowRight') return;
+    const next = this.stepVisible(
+      session.currentDate,
+      key === 'ArrowLeft' ? -1 : 1,
+    );
+    if (next === null) return;
+    const updated = { ...session, currentDate: next };
+    this.dragSession.set(updated);
+    this.announceDragChange(updated);
+  }
+
+  private announceDragChange(session: SolarisWeekDragSession): void {
+    this.announcement.set(
+      this.resolveText('solaris.calendar.dragChange', {
+        label: this.dragLabel(session),
+      }),
+    );
+  }
+
+  private startAllDayKeyboardMove(
+    event: KeyboardEvent,
+    item: SolarisWeekViewAllDayItem,
+    date: string,
+  ): void {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    if (item.id === null) return;
+    const record = this.findDragEvent(item.id);
+    if (record === null) return;
+    event.preventDefault();
+    this.activateDragSession(
+      {
+        origin: 'keyboard',
+        mode: 'move',
+        allDay: true,
+        anchorDate: date,
+        anchorMinutes: 0,
+        currentDate: date,
+        currentMinutes: 0,
+        edge: null,
+        eventId: item.id,
+        occurrenceStart: item.occurrenceStart,
+        occurrenceEnd: item.occurrenceStart,
+        title: item.title,
+      },
+      'keyboard',
+    );
+    const next = this.stepVisible(date, event.key === 'ArrowLeft' ? -1 : 1);
+    if (next === null) return;
+    const started = this.dragSession();
+    if (started === null) return;
+    const updated = { ...started, currentDate: next };
+    this.dragSession.set(updated);
+    this.announceDragChange(updated);
+  }
+
+  private startKeyboardMove(
+    record: SolarisCalendarEvent,
+    block: SolarisWeekViewBlock,
+    date: string,
+  ): void {
+    const timeZone = this.timeZone();
+    const civil = toSolarisDateInZone(block.occurrenceStart, timeZone) ?? date;
+    this.activateDragSession(
+      {
+        origin: 'keyboard',
+        mode: 'move',
+        allDay: false,
+        anchorDate: civil,
+        anchorMinutes: this.wallMinutes(block.startMs, timeZone),
+        currentDate: civil,
+        currentMinutes: this.snapMinutes(
+          this.wallMinutes(block.startMs, timeZone),
+        ),
+        edge: null,
+        eventId: record.id,
+        occurrenceStart: block.occurrenceStart,
+        occurrenceEnd: block.occurrenceEnd,
+        title: block.title,
+      },
+      'keyboard',
+    );
+  }
+
+  private startKeyboardResize(
+    record: SolarisCalendarEvent,
+    block: SolarisWeekViewBlock,
+  ): void {
+    const timeZone = this.timeZone();
+    const edgeMs = parseSolarisDateTimeMs(block.occurrenceEnd);
+    if (edgeMs === null) return;
+    const civil = toSolarisDateInZone(edgeMs, timeZone) ?? '';
+    const minutes = this.wallMinutes(edgeMs, timeZone);
+    this.activateDragSession(
+      {
+        origin: 'keyboard',
+        mode: 'resize',
+        allDay: false,
+        anchorDate: civil,
+        anchorMinutes: minutes,
+        currentDate: civil,
+        currentMinutes: this.snapMinutes(minutes),
+        edge: 'end',
+        eventId: record.id,
+        occurrenceStart: block.occurrenceStart,
+        occurrenceEnd: block.occurrenceEnd,
+        title: block.title,
+      },
+      'keyboard',
+    );
+  }
+
+  private stepKeyboardSession(
+    session: SolarisWeekDragSession,
+    key: string,
+  ): void {
+    const step = this.normalizedStep();
+    let currentDate = session.currentDate;
+    let currentMinutes = session.currentMinutes;
+    if (key === 'ArrowLeft') {
+      currentDate = this.stepVisible(currentDate, -1) ?? currentDate;
+    } else if (key === 'ArrowRight') {
+      currentDate = this.stepVisible(currentDate, 1) ?? currentDate;
+    } else if (key === 'ArrowUp') {
+      currentMinutes -= step;
+    } else if (key === 'ArrowDown') {
+      currentMinutes += step;
+    } else {
+      return;
+    }
+    currentMinutes = Math.min(1_440, Math.max(0, currentMinutes));
+    const updated = { ...session, currentDate, currentMinutes };
+    this.dragSession.set(updated);
+    this.announcement.set(
+      this.resolveText('solaris.calendar.dragChange', {
+        label: this.dragLabel(updated),
+      }),
+    );
+  }
+
+  private activateDragSession(
+    candidate: Omit<
+      SolarisWeekDragCandidate,
+      'pointerId' | 'startX' | 'startY'
+    >,
+    origin: 'pointer' | 'keyboard',
+  ): void {
+    const session: SolarisWeekDragSession = {
+      origin,
+      mode: candidate.mode,
+      allDay: candidate.allDay,
+      anchorDate: candidate.anchorDate,
+      anchorMinutes: candidate.anchorMinutes,
+      currentDate: candidate.currentDate,
+      currentMinutes: candidate.currentMinutes,
+      edge: candidate.edge,
+      eventId: candidate.eventId,
+      occurrenceStart: candidate.occurrenceStart,
+      occurrenceEnd: candidate.occurrenceEnd,
+      title: candidate.title,
+    };
+    this.dragSession.set(session);
+    // why: the drag source keeps DOM focus during the session, which would
+    // otherwise keep its hover tooltip open (and stale) over the ghost.
+    this.closeBlockTooltips();
+    if (session.mode === 'create') {
+      this.announcement.set(
+        this.resolveText('solaris.calendar.dragCreateStart', {
+          start: this.dragLabel({
+            ...session,
+            currentDate: session.anchorDate,
+            currentMinutes: session.anchorMinutes,
+          }),
+          end: this.dragLabel({
+            ...session,
+            currentDate: session.anchorDate,
+            currentMinutes: session.anchorMinutes,
+          }),
+        }),
+      );
+    } else if (session.mode === 'move') {
+      this.announcement.set(
+        this.resolveText('solaris.calendar.dragMoveStart', {
+          title: session.title,
+          start: this.dragLabel(session),
+        }),
+      );
+    } else {
+      this.announcement.set(
+        this.resolveText('solaris.calendar.dragResizeStart', {
+          title: session.title,
+          start: this.dragLabel(session),
+        }),
+      );
+    }
+  }
+
+  private closeBlockTooltips(): void {
+    for (const tooltip of this.blockTooltips()) tooltip.close();
+  }
+
+  private armDragCandidate(
+    candidate:
+      | SolarisWeekDragCandidate
+      | (Omit<SolarisWeekDragCandidate, 'pointerId' | 'startX' | 'startY'> & {
+          pointerId: number;
+          startX: number;
+          startY: number;
+        }),
+  ): void {
+    this.dragCandidate = candidate as SolarisWeekDragCandidate;
+    if (typeof window === 'undefined') return;
+    this.dragMoveListener = (event: PointerEvent) => {
+      this.onDragPointerMove(event);
+    };
+    this.dragUpListener = (event: PointerEvent) => {
+      this.onDragPointerUp(event);
+    };
+    this.dragCancelListener = () => {
+      this.cancelDragSession();
+    };
+    this.dragKeyListener = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        this.cancelDragSession();
+      }
+    };
+    window.addEventListener('pointermove', this.dragMoveListener);
+    window.addEventListener('pointerup', this.dragUpListener);
+    window.addEventListener('pointercancel', this.dragCancelListener);
+    window.addEventListener('keydown', this.dragKeyListener);
+  }
+
+  private detachDragListeners(): void {
+    if (typeof window === 'undefined') return;
+    if (this.dragMoveListener !== null) {
+      window.removeEventListener('pointermove', this.dragMoveListener);
+      this.dragMoveListener = null;
+    }
+    if (this.dragUpListener !== null) {
+      window.removeEventListener('pointerup', this.dragUpListener);
+      this.dragUpListener = null;
+    }
+    if (this.dragCancelListener !== null) {
+      window.removeEventListener('pointercancel', this.dragCancelListener);
+      this.dragCancelListener = null;
+    }
+    if (this.dragKeyListener !== null) {
+      window.removeEventListener('keydown', this.dragKeyListener);
+      this.dragKeyListener = null;
+    }
+  }
+
+  private onDragPointerMove(event: PointerEvent): void {
+    const candidate = this.dragCandidate;
+    if (candidate === null || !event.isPrimary) return;
+    if (event.pointerId !== candidate.pointerId) return;
+    if (this.dragSession() === null) {
+      const movedX = (event.clientX ?? 0) - candidate.startX;
+      const movedY = (event.clientY ?? 0) - candidate.startY;
+      if (Math.hypot(movedX, movedY) < WEEK_VIEW_DRAG_ACTIVATION_PX) return;
+      this.activateDragSession(candidate, 'pointer');
+    }
+    this.updateDragTarget(event.clientX ?? 0, event.clientY ?? 0);
+  }
+
+  private updateDragTarget(clientX: number, clientY: number): void {
+    const session = this.dragSession();
+    if (session === null) return;
+    if (session.allDay) {
+      const date = this.allDayTargetFromPoint(clientX, clientY);
+      if (date === null || date === session.currentDate) return;
+      const updated = { ...session, currentDate: date };
+      this.dragSession.set(updated);
+      this.announcement.set(
+        this.resolveText('solaris.calendar.dragChange', {
+          label: this.dragLabel(updated),
+        }),
+      );
+      return;
+    }
+    const target = this.slotTargetFromPoint(clientX, clientY);
+    if (target === null) return;
+    if (
+      target.date === session.currentDate &&
+      target.minutes === session.currentMinutes
+    ) {
+      return;
+    }
+    const updated = {
+      ...session,
+      currentDate: target.date,
+      currentMinutes: target.minutes,
+    };
+    this.dragSession.set(updated);
+    this.announcement.set(
+      this.resolveText('solaris.calendar.dragChange', {
+        label: this.dragLabel(updated),
+      }),
+    );
+  }
+
+  private onDragPointerUp(event: PointerEvent): void {
+    if (this.dragCandidate === null || !event.isPrimary) return;
+    if (event.pointerId !== this.dragCandidate.pointerId) return;
+    if (this.dragSession() === null) {
+      this.detachDragListeners();
+      this.dragCandidate = null;
+      return;
+    }
+    this.commitDragSession();
+  }
+
+  private commitDragSession(): void {
+    const session = this.dragSession();
+    this.detachDragListeners();
+    this.dragCandidate = null;
+    this.dragSession.set(null);
+    if (session === null) return;
+    this.dragSuppressClick = true;
+    if (session.mode === 'create') {
+      this.commitCreateSession(session);
+      return;
+    }
+    this.commitExistingSession(session);
+  }
+
+  private commitCreateSession(session: SolarisWeekDragSession): void {
+    if (session.allDay) this.commitCreateAllDay(session);
+    else this.commitCreateTimed(session);
+  }
+
+  private commitCreateAllDay(session: SolarisWeekDragSession): void {
+    const proposal = buildMonthCreateProposal(
+      session.anchorDate,
+      session.currentDate,
+    );
+    if (proposal === null) {
+      this.announceDragCancel();
+      return;
+    }
+    this.eventCreate.emit(proposal);
+    this.announcement.set(
+      this.resolveText('solaris.calendar.dragCreateCommit', {
+        start: this.formatDay(proposal.start),
+        end: this.formatDay(proposal.end),
+      }),
+    );
+  }
+
+  private commitCreateTimed(session: SolarisWeekDragSession): void {
+    const proposal = buildWeekCreateProposal({
+      anchorDate: session.anchorDate,
+      anchorMinutes: session.anchorMinutes,
+      currentDate: session.currentDate,
+      currentMinutes: session.currentMinutes,
+      stepMinutes: this.normalizedStep(),
+      timeZone: this.timeZone(),
+    });
+    if (proposal === null) {
+      this.announceDragCancel();
+      return;
+    }
+    this.eventCreate.emit(proposal);
+    this.announcement.set(
+      this.resolveText('solaris.calendar.dragCreateCommit', {
+        start: this.instantLabel(proposal.start),
+        end: this.instantLabel(proposal.end),
+      }),
+    );
+  }
+
+  private commitExistingSession(session: SolarisWeekDragSession): void {
+    const record =
+      session.eventId === null ? null : this.findDragEvent(session.eventId);
+    if (
+      record === null ||
+      session.occurrenceStart === null ||
+      session.occurrenceEnd === null
+    ) {
+      this.announceDragCancel();
+      return;
+    }
+    if (session.allDay) {
+      this.commitAllDayMove(session, record);
+      return;
+    }
+    if (session.mode === 'move') {
+      this.commitTimedMove(session, record);
+      return;
+    }
+    this.commitTimedResize(session, record);
+  }
+
+  private commitAllDayMove(
+    session: SolarisWeekDragSession,
+    record: SolarisCalendarEvent,
+  ): void {
+    if (session.occurrenceStart === null) {
+      this.announceDragCancel();
+      return;
+    }
+    const proposal = buildMonthMoveProposal({
+      event: record,
+      occurrenceStart: session.occurrenceStart,
+      targetDate: session.currentDate,
+      originDate: session.anchorDate,
+      timeZone: this.timeZone(),
+    });
+    if (proposal === null) {
+      this.announceDragCancel();
+      return;
+    }
+    this.eventMove.emit(proposal);
+    this.announcement.set(
+      this.resolveText('solaris.calendar.dragMoveCommit', {
+        title: session.title,
+        label: this.formatDay(session.currentDate),
+      }),
+    );
+  }
+
+  private commitTimedMove(
+    session: SolarisWeekDragSession,
+    record: SolarisCalendarEvent,
+  ): void {
+    if (session.occurrenceStart === null || session.occurrenceEnd === null) {
+      this.announceDragCancel();
+      return;
+    }
+    const dayDelta = diffSolarisCivilDays(
+      session.anchorDate,
+      session.currentDate,
+    );
+    if (dayDelta === null) {
+      this.announceDragCancel();
+      return;
+    }
+    const proposal = buildWeekMoveProposal({
+      event: record,
+      occurrenceStart: session.occurrenceStart,
+      occurrenceEnd: session.occurrenceEnd,
+      dayDelta,
+      minuteDelta: session.currentMinutes - session.anchorMinutes,
+      timeZone: this.timeZone(),
+    });
+    if (proposal === null) {
+      this.announceDragCancel();
+      return;
+    }
+    this.eventMove.emit(proposal);
+    this.announcement.set(
+      this.resolveText('solaris.calendar.dragMoveCommit', {
+        title: session.title,
+        label: this.commitRangeLabel(
+          proposal.start,
+          proposal.end,
+          session.currentDate,
+        ),
+      }),
+    );
+  }
+
+  private commitTimedResize(
+    session: SolarisWeekDragSession,
+    record: SolarisCalendarEvent,
+  ): void {
+    if (
+      session.edge === null ||
+      session.occurrenceStart === null ||
+      session.occurrenceEnd === null
+    ) {
+      this.announceDragCancel();
+      return;
+    }
+    const dayDelta = diffSolarisCivilDays(
+      session.anchorDate,
+      session.currentDate,
+    );
+    if (dayDelta === null) {
+      this.announceDragCancel();
+      return;
+    }
+    const proposal = buildWeekResizeProposal({
+      event: record,
+      occurrenceStart: session.occurrenceStart,
+      occurrenceEnd: session.occurrenceEnd,
+      edge: session.edge,
+      minuteDelta: session.currentMinutes - session.anchorMinutes,
+      dayDelta,
+      minMinutes: this.normalizedStep(),
+      timeZone: this.timeZone(),
+    });
+    if (proposal === null) {
+      this.announceDragCancel();
+      return;
+    }
+    this.eventResize.emit(proposal);
+    this.announcement.set(
+      this.resolveText('solaris.calendar.dragResizeCommit', {
+        title: session.title,
+        label: this.commitRangeLabel(
+          proposal.start,
+          proposal.end,
+          session.currentDate,
+        ),
+      }),
+    );
+  }
+
+  private commitRangeLabel(
+    start: string,
+    end: string,
+    fallbackDate: string,
+  ): string {
+    const startMs = parseSolarisDateTimeMs(start);
+    const endMs = parseSolarisDateTimeMs(end);
+    if (startMs !== null && endMs !== null) {
+      return this.timedLabel(startMs, endMs, null);
+    }
+    return this.formatDay(fallbackDate);
+  }
+
+  private announceDragCancel(): void {
+    this.announcement.set(this.resolveText('solaris.calendar.dragCancel', {}));
+  }
+
+  private cancelDragSession(): void {
+    const hadSession = this.dragSession() !== null;
+    this.detachDragListeners();
+    this.dragCandidate = null;
+    this.dragSession.set(null);
+    if (!hadSession) return;
+    this.dragSuppressClick = true;
+    this.announcement.set(this.resolveText('solaris.calendar.dragCancel', {}));
+  }
+
   protected openDay(date: string): void {
+    if (this.consumeSuppressClick()) return;
     this.daySelect.emit(date);
     this.announcement.set(this.dayAriaLabel(date));
   }
 
   protected selectSlot(date: string, hour: number): void {
+    if (this.consumeSuppressClick()) return;
     const time = this.slotTime(hour);
     this.slotSelect.emit({ date, time });
     this.announcement.set(this.slotAriaLabel(date, hour));
   }
 
   protected openEvent(block: SolarisWeekViewBlock): void {
+    if (this.consumeSuppressClick()) return;
     this.eventOpen.emit({ id: block.id, start: block.occurrenceStart });
     this.announcement.set(this.blockAriaLabel(block));
   }
 
   protected openMore(date: string): void {
+    if (this.consumeSuppressClick()) return;
     this.moreOpen.emit(date);
     this.announcement.set(this.dayAriaLabel(date));
   }
@@ -824,6 +1895,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
     item: SolarisWeekViewAllDayItem,
     date: string,
   ): void {
+    if (this.consumeSuppressClick()) return;
     if (item.kind === 'task') {
       this.toggleTask(item);
       return;
@@ -837,6 +1909,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
   }
 
   protected toggleTask(item: SolarisWeekViewAllDayItem): void {
+    if (this.consumeSuppressClick()) return;
     if (item.id === null) return;
     this.taskToggle.emit(item.id);
     this.announcement.set(this.allDayAriaLabel(item));
@@ -851,67 +1924,150 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
   }
 
   protected onGridKeydown(event: KeyboardEvent): void {
-    const target = event.target;
-    if (
-      target instanceof HTMLElement &&
-      target.closest('[data-event]') !== null
-    ) {
+    if (this.isEventTarget(event.target)) return;
+    const session = this.dragSession();
+    if (session !== null && session.origin === 'keyboard' && !session.allDay) {
+      this.handleActiveKeyboardDrag(event, session);
       return;
     }
+    this.handleGridShortcut(event);
+  }
+
+  private isEventTarget(target: EventTarget | null): boolean {
+    return (
+      target instanceof HTMLElement && target.closest('[data-event]') !== null
+    );
+  }
+
+  private isArrowKey(key: string): boolean {
+    return (
+      key === 'ArrowLeft' ||
+      key === 'ArrowRight' ||
+      key === 'ArrowUp' ||
+      key === 'ArrowDown'
+    );
+  }
+
+  private handleActiveKeyboardDrag(
+    event: KeyboardEvent,
+    session: SolarisWeekDragSession,
+  ): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      this.commitDragSession();
+      return;
+    }
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      this.cancelDragSession();
+      return;
+    }
+    if (session.mode !== 'create') return;
+    this.stepKeyboardCreate(event.key);
+    if (this.isArrowKey(event.key)) event.preventDefault();
+  }
+
+  private handleGridShortcut(event: KeyboardEvent): void {
     const slot = this.activeSlot();
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       this.selectSlot(slot.date, slot.hour);
       return;
     }
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      this.moveFocus(slot, -1, 0);
+    if (this.tryStartKeyboardCreate(event, slot)) return;
+    this.moveGridFocus(event, slot);
+  }
+
+  private tryStartKeyboardCreate(
+    event: KeyboardEvent,
+    slot: SolarisWeekFocusedSlot,
+  ): boolean {
+    if (this.dragDisabled() || !event.shiftKey || !this.isArrowKey(event.key)) {
+      return false;
+    }
+    event.preventDefault();
+    this.startKeyboardCreate(slot);
+    this.stepKeyboardCreate(event.key);
+    return true;
+  }
+
+  private moveGridFocus(
+    event: KeyboardEvent,
+    slot: SolarisWeekFocusedSlot,
+  ): void {
+    const moves: Record<string, () => void> = {
+      ArrowLeft: () => this.moveFocus(slot, -1, 0),
+      ArrowRight: () => this.moveFocus(slot, 1, 0),
+      ArrowUp: () => this.moveFocus(slot, 0, -1),
+      ArrowDown: () => this.moveFocus(slot, 0, 1),
+      Home: () => this.jumpEdge('start', slot.hour),
+      End: () => this.jumpEdge('end', slot.hour),
+      PageUp: () => this.moveFocus(slot, -7, 0),
+      PageDown: () => this.moveFocus(slot, 7, 0),
+    };
+    const move = moves[event.key];
+    if (move === undefined) return;
+    event.preventDefault();
+    move();
+  }
+
+  private startKeyboardCreate(slot: SolarisWeekFocusedSlot): void {
+    const anchorMinutes = this.snapMinutes(slot.hour * 60);
+    this.activateDragSession(
+      {
+        origin: 'keyboard',
+        mode: 'create',
+        allDay: false,
+        anchorDate: slot.date,
+        anchorMinutes,
+        currentDate: slot.date,
+        currentMinutes: anchorMinutes,
+        edge: null,
+        eventId: null,
+        occurrenceStart: null,
+        occurrenceEnd: null,
+        title: '',
+      },
+      'keyboard',
+    );
+  }
+
+  private stepKeyboardCreate(key: string): void {
+    const session = this.dragSession();
+    if (session?.mode !== 'create' || session.allDay) {
       return;
     }
-    if (event.key === 'ArrowRight') {
-      event.preventDefault();
-      this.moveFocus(slot, 1, 0);
+    const step = this.normalizedStep();
+    let currentDate = session.currentDate;
+    let currentMinutes = session.currentMinutes;
+    if (key === 'ArrowLeft') {
+      currentDate = this.stepVisible(currentDate, -1) ?? currentDate;
+    } else if (key === 'ArrowRight') {
+      currentDate = this.stepVisible(currentDate, 1) ?? currentDate;
+    } else if (key === 'ArrowUp') {
+      currentMinutes -= step;
+    } else if (key === 'ArrowDown') {
+      currentMinutes += step;
+    } else {
       return;
     }
-    if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      this.moveFocus(slot, 0, -1);
-      return;
-    }
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      this.moveFocus(slot, 0, 1);
-      return;
-    }
-    if (event.key === 'Home') {
-      event.preventDefault();
-      this.jumpEdge('start', slot.hour);
-      return;
-    }
-    if (event.key === 'End') {
-      event.preventDefault();
-      this.jumpEdge('end', slot.hour);
-      return;
-    }
-    if (event.key === 'PageUp') {
-      event.preventDefault();
-      this.moveFocus(slot, -7, 0);
-      return;
-    }
-    if (event.key === 'PageDown') {
-      event.preventDefault();
-      this.moveFocus(slot, 7, 0);
-    }
+    currentMinutes = Math.min(1_440, Math.max(0, currentMinutes));
+    const updated = { ...session, currentDate, currentMinutes };
+    this.dragSession.set(updated);
+    this.announcement.set(
+      this.resolveText('solaris.calendar.dragChange', {
+        label: this.dragLabel(updated),
+      }),
+    );
   }
 
   private moveFocus(
-    slot: FocusedSlot,
+    slot: SolarisWeekFocusedSlot,
     dayDelta: number,
     hourDelta: number,
   ): void {
     const hour = Math.min(
-      HOURS_PER_DAY - 1,
+      WEEK_VIEW_HOURS_PER_DAY - 1,
       Math.max(0, slot.hour + hourDelta),
     );
     if (dayDelta === 0) {
@@ -929,8 +2085,8 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
 
   private jumpEdge(edge: 'start' | 'end', hour: number): void {
     const dates = this.visibleDates();
-    if (dates.length === 0) return;
-    const date = edge === 'start' ? dates[0] : dates[dates.length - 1];
+    const date = edge === 'start' ? dates.at(0) : dates.at(-1);
+    if (date === undefined) return;
     this.focusedSlot.set({ date, hour });
     this.focusedDate.set(date);
   }
@@ -940,7 +2096,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
     let candidate = addDaysToSolarisDate(current, delta);
     for (let guard = 0; guard < 9; guard += 1) {
       if (candidate === null) return null;
-      if (this.showWeekends() || !isWeekendCivil(candidate)) return candidate;
+      if (this.showWeekends() || !isSolarisWeekend(candidate)) return candidate;
       candidate = addDaysToSolarisDate(candidate, direction);
     }
     return null;
@@ -948,6 +2104,6 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
 
   protected nowText(): string {
     const wall = getZonedWall(this.timeZone(), this.nowMs());
-    return `${this.nowLineLabel()} ${pad2(wall.hour)}:${pad2(wall.minute)}`;
+    return `${this.nowLineLabel()} ${weekViewPad2(wall.hour)}:${weekViewPad2(wall.minute)}`;
   }
 }

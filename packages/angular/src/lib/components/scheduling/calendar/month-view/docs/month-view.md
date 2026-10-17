@@ -3,7 +3,8 @@
 ## Purpose
 
 Six-week month grid rendering event chips, all-day rows, tasks, and holidays
-with a `+n more` popover, selection, and full keyboard navigation.
+with a `+n more` popover, selection, drag-create/drag-move proposals, and
+full keyboard navigation.
 
 ## API
 

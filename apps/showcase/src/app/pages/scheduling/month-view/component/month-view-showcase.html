@@ -47,6 +47,26 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section anchor="drag" titleKey="month-view.section.drag">
+    <p class="month-view-showcase__note">
+      {{ 'month-view.drag.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="dragCode" language="html">
+      <solaris-calendar-month-view
+        [locale]="demoLocale()"
+        timeZone="America/Sao_Paulo"
+        [(focusedDate)]="focusedDate"
+        [events]="events"
+        [tasks]="tasks"
+        [holidays]="holidays()"
+        [maxVisiblePerDay]="1"
+        (eventCreate)="onEventCreate($event)"
+        (eventMove)="onEventMove($event)"
+      />
+      <p data-testid="drag-log">{{ dragLog() }}</p>
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section
     anchor="size-density"
     titleKey="month-view.section.size-density"

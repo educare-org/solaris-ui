@@ -54,7 +54,9 @@
           <div
             class="solaris-calendar-week-view__allday-cell"
             role="gridcell"
+            [attr.data-date]="column.date"
             [attr.aria-label]="dayAriaLabel(column.date)"
+            (pointerdown)="onAllDayCellPointerDown($event, column.date)"
           >
             @for (item of visibleAllDay(column.date); track allDayKey(item)) {
               @if (item.kind === 'task') {
@@ -97,15 +99,34 @@
                   data-chip=""
                   [attr.data-kind]="item.kind"
                   [attr.data-color]="item.color"
+                  [attr.data-occurrence]="item.occurrenceStart"
+                  [attr.data-dragging]="isAllDayDragSource(item) ? '' : null"
                   [attr.data-selected]="isSelectedAllDay(item) ? '' : null"
                   [attr.aria-label]="allDayAriaLabel(item)"
                   (click)="activateAllDay(item, column.date)"
+                  (pointerdown)="
+                    onAllDayChipPointerDown($event, item, column.date)
+                  "
+                  (keydown)="onAllDayChipKeydown($event, item, column.date)"
                 >
                   <span class="solaris-calendar-week-view__chip-text">
                     {{ item.title }}
                   </span>
                 </button>
               }
+            }
+            @if (allDayGhostDate() === column.date) {
+              <div
+                class="solaris-calendar-week-view__ghost"
+                data-ghost=""
+                data-ghost-kind="allday"
+                [attr.data-mode]="dragSession()?.mode ?? null"
+                aria-hidden="true"
+              >
+                <span class="solaris-calendar-week-view__ghost-text">
+                  {{ allDayGhostText() }}
+                </span>
+              </div>
             }
             @if (hiddenAllDay(column.date).length > 0) {
               <button
@@ -202,7 +223,13 @@
             {{ hourLabel(hour) }}
           </span>
           @for (column of columns(); track column.date) {
-            <div class="solaris-calendar-week-view__slotcell" role="gridcell">
+            <div
+              class="solaris-calendar-week-view__slotcell"
+              role="gridcell"
+              [attr.data-date]="column.date"
+              [attr.data-hour]="hour"
+              (pointerdown)="onSlotPointerDown($event, column.date, hour)"
+            >
               <button
                 type="button"
                 class="solaris-calendar-week-view__slot"
@@ -220,7 +247,10 @@
         [style.grid-template-columns]="laneTemplate()"
       >
         @for (column of columns(); track column.date) {
-          <div class="solaris-calendar-week-view__lane">
+          <div
+            class="solaris-calendar-week-view__lane"
+            [attr.data-drag-target]="isDragLane(column.date) ? '' : null"
+          >
             @for (block of column.blocks; track blockId(block)) {
               <button
                 type="button"
@@ -228,6 +258,8 @@
                 data-event=""
                 [id]="blockId(block)"
                 [attr.data-color]="block.color"
+                [attr.data-occurrence]="block.occurrenceStart"
+                [attr.data-dragging]="isBlockDragSource(block) ? '' : null"
                 [attr.data-selected]="isSelectedBlock(block) ? '' : null"
                 [attr.aria-label]="blockAriaLabel(block)"
                 [solarisTooltip]="blockAriaLabel(block)"
@@ -236,11 +268,40 @@
                 [style.left.%]="blockLeft(block)"
                 [style.width]="blockWidth(block)"
                 (click)="openEvent(block)"
+                (pointerdown)="onBlockPointerDown($event, block, column.date)"
+                (keydown)="onBlockKeydown($event, block, column.date)"
               >
+                <span
+                  class="solaris-calendar-week-view__handle"
+                  data-edge="start"
+                  aria-hidden="true"
+                  (pointerdown)="onResizePointerDown($event, block, 'start')"
+                ></span>
                 <span class="solaris-calendar-week-view__block-title">
                   {{ block.title }}
                 </span>
+                <span
+                  class="solaris-calendar-week-view__handle"
+                  data-edge="end"
+                  aria-hidden="true"
+                  (pointerdown)="onResizePointerDown($event, block, 'end')"
+                ></span>
               </button>
+            }
+            @if (timedGhostFor(column.date); as ghost) {
+              <div
+                class="solaris-calendar-week-view__ghost"
+                data-ghost=""
+                data-ghost-kind="timed"
+                [attr.data-mode]="timedGhostMode()"
+                aria-hidden="true"
+                [style.top.%]="ghost.top"
+                [style.height.%]="ghost.height"
+              >
+                <span class="solaris-calendar-week-view__ghost-text">
+                  {{ timedGhostText() }}
+                </span>
+              </div>
             }
           </div>
         }

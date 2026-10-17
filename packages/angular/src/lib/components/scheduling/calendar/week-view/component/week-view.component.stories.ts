@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/angular';
+import { expect, fireEvent, within } from 'storybook/test';
 
 import type { SolarisCalendarEvent } from '../../model/calendar.types';
 import { SolarisCalendarWeekViewComponent } from './week-view.component';
@@ -117,5 +118,65 @@ export const Portuguese: Story = {
     ...Default.args,
     locale: 'pt-BR',
     weekStartsOn: 1,
+  },
+};
+
+export const DragDisabled: Story = {
+  args: {
+    ...Default.args,
+    dragDisabled: true,
+  },
+};
+
+export const DragGhost: Story = {
+  args: {
+    ...Default.args,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const block = canvas.getByRole('button', { name: /Team standup/ });
+    block.focus();
+    fireEvent.keyDown(block, { key: 'ArrowRight' });
+    await expect(canvasElement.querySelector('[data-ghost]')).not.toBeNull();
+    await expect(
+      canvasElement
+        .querySelector('.solaris-calendar-week-view')
+        ?.getAttribute('data-dragging'),
+    ).toBe('');
+  },
+};
+
+export const DragKeyboardMove: Story = {
+  args: {
+    ...Default.args,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const block = canvas.getByRole('button', { name: /Team standup/ });
+    block.focus();
+    fireEvent.keyDown(block, { key: 'ArrowRight' });
+    await expect(canvasElement.querySelector('[data-ghost]')).not.toBeNull();
+    fireEvent.keyDown(block, { key: 'Enter' });
+    await expect(canvasElement.querySelector('[data-ghost]')).toBeNull();
+  },
+};
+
+export const DragKeyboardResize: Story = {
+  args: {
+    ...Default.args,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const block = canvas.getByRole('button', { name: /Team standup/ });
+    block.focus();
+    fireEvent.keyDown(block, { key: 'ArrowDown', shiftKey: true });
+    await expect(canvasElement.querySelector('[data-ghost]')).not.toBeNull();
+    await expect(
+      canvasElement
+        .querySelector('.solaris-calendar-week-view')
+        ?.getAttribute('data-resizing'),
+    ).toBe('');
+    fireEvent.keyDown(block, { key: 'Enter' });
+    await expect(canvasElement.querySelector('[data-ghost]')).toBeNull();
   },
 };

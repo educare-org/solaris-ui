@@ -9,20 +9,27 @@ import {
   signal,
 } from '@angular/core';
 
-import { nextIdFor } from '../../../../../core/utils/id';
+import { nextIdFor } from '../../../../../core';
 import {
   localeFirstDay,
   todaySolarisDate,
 } from '../../../../forms/date/model/date.utils';
-import { SolarisVisuallyHiddenDirective } from '../../../../../services/accessibility/directives/visually-hidden.directive';
+import { SolarisVisuallyHiddenDirective } from '../../../../../services/accessibility';
 import { SolarisTranslateService } from '../../../../../services/translation';
 import {
   addDaysToSolarisDate,
+  defaultSolarisTimeZone,
+  isSolarisWeekend,
   parseSolarisDateParts,
-  parseSolarisDateTimeMs,
-  toSolarisDateInZone,
+  shiftSolarisCivilMonth,
+  solarisCivilWeekday,
 } from '../../model/calendar-datetime.utils';
-import { expandSolarisRecurrence } from '../../model/recurrence.utils';
+import { resolveCalendarFallback } from '../../model/strings/calendar-strings';
+import {
+  expandEventSpans,
+  spanDates,
+  taskDueCivil,
+} from '../../model/calendar-span.utils';
 import type {
   SolarisCalendarEvent,
   SolarisCalendarTask,
@@ -36,58 +43,10 @@ import type {
   SolarisYearViewSize,
 } from '../model/year-view.types';
 
-const MAX_SPAN_DAYS = 500;
 const MAX_DOTS = 3;
-
-const CALENDAR_FALLBACKS: Record<string, Record<string, string>> = {
-  en: {
-    dayItems: '{{date}}, {{count}} items',
-  },
-  pt: {
-    dayItems: '{{date}}, {{count}} itens',
-  },
-  es: {
-    dayItems: '{{date}}, {{count}} eventos',
-  },
-};
-
-function languageOf(locale: string): string {
-  const base = locale.split('-')[0].toLowerCase();
-  if (base === 'pt' || base === 'es') return base;
-  return 'en';
-}
-
-function renderTemplate(
-  template: string,
-  params: Record<string, string>,
-): string {
-  return template.replace(/\{\{\s*(\w+)\s*\}\}/g, (match, key: string) => {
-    const value = params[key];
-    return value === undefined ? match : value;
-  });
-}
-
-function defaultTimeZone(): string {
-  try {
-    return Intl.DateTimeFormat().resolvedOptions().timeZone ?? 'UTC';
-  } catch {
-    return 'UTC';
-  }
-}
 
 function pad2(value: number): string {
   return String(value).padStart(2, '0');
-}
-
-function civilWeekday(value: string): number | null {
-  const parts = parseSolarisDateParts(value);
-  if (parts === null) return null;
-  return new Date(Date.UTC(parts.year, parts.month - 1, parts.day)).getUTCDay();
-}
-
-function isWeekendCivil(value: string): boolean {
-  const weekday = civilWeekday(value);
-  return weekday === 0 || weekday === 6;
 }
 
 function yearOf(value: string): number {
@@ -95,17 +54,6 @@ function yearOf(value: string): number {
   if (parts !== null) return parts.year;
   const today = parseSolarisDateParts(todaySolarisDate());
   return today === null ? 1970 : today.year;
-}
-
-function shiftCivilMonth(value: string, delta: number): string | null {
-  const parts = parseSolarisDateParts(value);
-  if (parts === null) return null;
-  const index = parts.year * 12 + (parts.month - 1) + delta;
-  const year = Math.floor(index / 12);
-  const month = (index % 12) + 1;
-  const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate();
-  const day = Math.min(parts.day, lastDay);
-  return `${String(year).padStart(4, '0')}-${pad2(month)}-${pad2(day)}`;
 }
 
 function civilDateOf(year: number, month: number, day: number): string {
@@ -165,98 +113,6 @@ function visibleColumns(
   );
 }
 
-interface EventSpan {
-  occurrenceStart: string;
-  startCivil: string;
-  endCivil: string;
-}
-
-function singleEventSpan(
-  event: SolarisCalendarEvent,
-  timeZone: string,
-): EventSpan | null {
-  const startMs = parseSolarisDateTimeMs(event.start);
-  let startCivil: string | null = null;
-  if (startMs !== null) {
-    startCivil = toSolarisDateInZone(event.start, timeZone);
-  } else if (parseSolarisDateParts(event.start) !== null) {
-    startCivil = event.start;
-  }
-  if (startCivil === null) return null;
-  if (event.end === undefined) {
-    return { occurrenceStart: event.start, startCivil, endCivil: startCivil };
-  }
-  const endMs = parseSolarisDateTimeMs(event.end);
-  const endCivil =
-    endMs === null
-      ? parseSolarisDateParts(event.end) !== null
-        ? event.end
-        : null
-      : toSolarisDateInZone(event.end, timeZone);
-  if (endCivil === null || endCivil < startCivil) return null;
-  return { occurrenceStart: event.start, startCivil, endCivil };
-}
-
-function expandEventSpans(
-  event: SolarisCalendarEvent,
-  timeZone: string,
-  rangeStart: string,
-  rangeEnd: string,
-): EventSpan[] {
-  if (event.recurrence === undefined) {
-    const single = singleEventSpan(event, timeZone);
-    return single === null ? [] : [single];
-  }
-  const startMs = parseSolarisDateTimeMs(event.start);
-  const startValid =
-    startMs !== null || parseSolarisDateParts(event.start) !== null;
-  if (!startValid) return [];
-  const spans: EventSpan[] = [];
-  for (const occurrence of expandSolarisRecurrence({
-    start: event.start,
-    end: event.end,
-    recurrence: event.recurrence,
-    timeZone,
-    rangeStart,
-    rangeEnd,
-  })) {
-    const occurrenceMs = parseSolarisDateTimeMs(occurrence.start);
-    const startCivil =
-      occurrenceMs === null
-        ? occurrence.start
-        : toSolarisDateInZone(occurrence.start, timeZone);
-    if (startCivil === null) continue;
-    const endMs = parseSolarisDateTimeMs(occurrence.end);
-    const endCivil =
-      endMs === null
-        ? occurrence.start
-        : (toSolarisDateInZone(occurrence.end, timeZone) ?? startCivil);
-    spans.push({ occurrenceStart: occurrence.start, startCivil, endCivil });
-  }
-  return spans;
-}
-
-function spanDates(from: string, to: string): string[] {
-  const dates: string[] = [];
-  let current: string | null = from;
-  let guard = 0;
-  while (current !== null && current <= to && guard < MAX_SPAN_DAYS) {
-    dates.push(current);
-    current = addDaysToSolarisDate(current, 1);
-    guard += 1;
-  }
-  return dates;
-}
-
-function taskDueCivil(
-  task: SolarisCalendarTask,
-  timeZone: string,
-): string | null {
-  if (parseSolarisDateParts(task.due) !== null) return task.due;
-  if (parseSolarisDateTimeMs(task.due) === null) return null;
-  return toSolarisDateInZone(task.due, timeZone);
-}
-
 @Component({
   selector: 'solaris-calendar-year-view',
   standalone: true,
@@ -275,7 +131,7 @@ export class SolarisCalendarYearViewComponent {
   readonly events = input<SolarisCalendarEvent[]>([]);
   readonly tasks = input<SolarisCalendarTask[]>([]);
   readonly holidays = input<SolarisHoliday[]>([]);
-  readonly timeZone = input<string>(defaultTimeZone());
+  readonly timeZone = input<string>(defaultSolarisTimeZone());
   readonly locale = input.required<string>();
   readonly weekStartsOn = input<SolarisCalendarWeekStart>();
   readonly showWeekends = input(true);
@@ -402,7 +258,7 @@ export class SolarisCalendarYearViewComponent {
               total: entry?.total ?? 0,
               holiday: entry?.holiday ?? false,
               outside: !value.startsWith(prefix),
-              color: entry !== undefined && entry.holiday ? 'warning' : null,
+              color: entry?.holiday ? 'warning' : null,
             } satisfies SolarisYearViewDay;
           }),
         ),
@@ -444,9 +300,7 @@ export class SolarisCalendarYearViewComponent {
   private resolveText(key: string, params: Record<string, string>): string {
     const service = this.translateService;
     if (service) return service.translate(key, params);
-    const templates = CALENDAR_FALLBACKS[languageOf(this.locale())];
-    const fallback = CALENDAR_FALLBACKS['en'];
-    return renderTemplate(templates[key] ?? fallback[key], params);
+    return resolveCalendarFallback(this.locale(), key, params);
   }
 
   protected formatDay(value: string): string {
@@ -501,8 +355,8 @@ export class SolarisCalendarYearViewComponent {
     if (key === 'ArrowDown') return this.stepVisible(current, 7);
     if (key === 'Home') return this.weekEdge(current, 'start');
     if (key === 'End') return this.weekEdge(current, 'end');
-    if (key === 'PageUp') return shiftCivilMonth(current, -1);
-    if (key === 'PageDown') return shiftCivilMonth(current, 1);
+    if (key === 'PageUp') return shiftSolarisCivilMonth(current, -1);
+    if (key === 'PageDown') return shiftSolarisCivilMonth(current, 1);
     return null;
   }
 
@@ -511,14 +365,14 @@ export class SolarisCalendarYearViewComponent {
     let candidate = addDaysToSolarisDate(current, delta);
     for (let guard = 0; guard < 9; guard += 1) {
       if (candidate === null) return null;
-      if (this.showWeekends() || !isWeekendCivil(candidate)) return candidate;
+      if (this.showWeekends() || !isSolarisWeekend(candidate)) return candidate;
       candidate = addDaysToSolarisDate(candidate, direction);
     }
     return null;
   }
 
   private weekEdge(current: string, edge: 'start' | 'end'): string | null {
-    const weekday = civilWeekday(current);
+    const weekday = solarisCivilWeekday(current);
     if (weekday === null) return null;
     const start = this.resolvedWeekStartsOn();
     if (edge === 'start') {
