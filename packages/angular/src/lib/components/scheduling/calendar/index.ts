@@ -5,6 +5,8 @@ export type {
   SolarisCalendarOccurrence,
   SolarisCalendarTask,
   SolarisCalendarWeekStart,
+  SolarisEventReminder,
+  SolarisEventVisibility,
   SolarisHoliday,
   SolarisRecurrence,
   SolarisRecurrenceFrequency,
@@ -140,6 +142,25 @@ export {
   shiftShellDate,
   visibleDaysForView,
 } from './shell/model/shell.utils';
+export { SolarisCalendarEventEditorComponent } from './event-editor/component/event-editor.component';
+export { SolarisEventEditorTimezoneDialogComponent } from './event-editor/component/event-editor-timezone-dialog.component';
+export type {
+  SolarisEventEditorTimezoneData,
+  SolarisEventEditorTimezoneResult,
+} from './event-editor/component/event-editor-timezone-dialog.component';
+export type {
+  SolarisEventDeleteRequest,
+  SolarisEventDeleteScope,
+  SolarisEventEditorData,
+  SolarisEventEditorDensity,
+  SolarisEventEditorEndsMode,
+  SolarisEventEditorFreq,
+  SolarisEventEditorItemKind,
+  SolarisEventEditorReminderRow,
+  SolarisEventEditorSize,
+} from './event-editor/model/event-editor.types';
+export type { SolarisEventDeleteResolution } from './event-editor/model/event-delete.utils';
+export { resolveSolarisEventDelete } from './event-editor/model/event-delete.utils';
 export {
   clipSpanToDay,
   layoutOverlappingSpans,

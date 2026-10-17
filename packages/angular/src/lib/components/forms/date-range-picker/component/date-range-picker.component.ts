@@ -35,6 +35,7 @@ import {
   addSolarisMonths,
   compareSolarisDates,
   formatSolarisDate,
+  maskLocalizedSolarisDateInput,
   monthForSolarisDate,
   parseLocalizedSolarisDate,
   parseSolarisDate,
@@ -324,7 +325,8 @@ export class SolarisDateRangePickerComponent
 
   protected onInput(part: 'start' | 'end', event: Event): void {
     this.activePresetId.set('custom');
-    const text = (event.target as HTMLInputElement).value;
+    const input = event.target as HTMLInputElement;
+    const text = this.applyDateMask(input, input.value);
     const parsed = parseLocalizedSolarisDate(text, this.resolvedLocale());
     if (part === 'start') this.startDisplay.set(text);
     else this.endDisplay.set(text);
@@ -348,6 +350,24 @@ export class SolarisDateRangePickerComponent
     }
     this.parseError.set(false);
     this.updatePending(next);
+  }
+
+  private applyDateMask(input: HTMLInputElement, raw: string): string {
+    if (!raw || !/\d/.test(raw) || /[A-Za-z]/.test(raw)) return raw;
+    const masked = maskLocalizedSolarisDateInput(raw, this.resolvedLocale());
+    if (masked === raw) return raw;
+    const caret = input.selectionStart ?? raw.length;
+    const digitsBeforeCaret = raw.slice(0, caret).replace(/\D/g, '').length;
+    // SECURITY_EXCEPTION: syncing the native input value keeps the caret usable while typing; no declarative alternative.
+    input.value = masked;
+    let position = 0;
+    let seen = 0;
+    while (position < masked.length && seen < digitsBeforeCaret) {
+      if (/\d/.test(masked[position])) seen += 1;
+      position += 1;
+    }
+    input.setSelectionRange(position, position);
+    return masked;
   }
 
   protected onFocus(): void {

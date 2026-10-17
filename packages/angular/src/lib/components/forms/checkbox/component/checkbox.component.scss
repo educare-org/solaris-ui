@@ -8,9 +8,9 @@
   --solaris-checkbox-border-width: var(--solaris-spacing-1);
   --solaris-checkbox-border-color: var(--solaris-primary-border);
   --solaris-checkbox-disabled-opacity: var(--solaris-opacity-50);
-  --solaris-checkbox-label-font-size: var(--solaris-font-size-md);
+  --solaris-checkbox-label-font-size: var(--solaris-font-size-sm);
   --solaris-checkbox-focus-ring-color: var(--solaris-primary-solid);
-  --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
+  --solaris-checkbox-label-line-height: var(--solaris-line-height-sm);
   --solaris-checkbox-description-color: var(--solaris-neutral-text-secondary);
   --solaris-checkbox-description-font-size: var(--solaris-font-size-xs);
   --solaris-checkbox-description-line-height: var(--solaris-line-height-sm);
@@ -27,7 +27,6 @@
 
 .solaris-checkbox__label {
   cursor: pointer;
-  user-select: none;
   position: relative;
   align-items: center;
   display: inline-flex;
@@ -51,6 +50,7 @@
   align-items: center;
   box-sizing: border-box;
   justify-content: center;
+  user-select: none;
   width: var(--solaris-checkbox-size);
   color: var(--solaris-checkbox-color);
   height: var(--solaris-checkbox-size);
@@ -75,9 +75,18 @@
 }
 
 .solaris-checkbox__label-text {
-  color: inherit;
+  user-select: text;
+  color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-checkbox-label-font-size);
   line-height: var(--solaris-checkbox-label-line-height);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-checkbox__label:hover .solaris-checkbox__label-text,
+:host([data-checked]) .solaris-checkbox__label-text,
+:host([data-indeterminate]) .solaris-checkbox__label-text {
+  color: inherit;
 }
 
 .solaris-checkbox__content {
@@ -90,6 +99,7 @@
   color: var(--solaris-checkbox-description-color);
   font-size: var(--solaris-checkbox-description-font-size);
   line-height: var(--solaris-checkbox-description-line-height);
+  user-select: text;
 }
 
 .solaris-checkbox__required {
@@ -102,7 +112,7 @@
   --solaris-checkbox-size: var(--solaris-spacing-7);
   --solaris-checkbox-icon-size: var(--solaris-spacing-5);
   --solaris-checkbox-border-width: var(--solaris-spacing-1);
-  --solaris-checkbox-label-font-size: var(--solaris-font-size-sm);
+  --solaris-checkbox-label-font-size: var(--solaris-font-size-xs);
   --solaris-checkbox-label-line-height: var(--solaris-line-height-sm);
 }
 
@@ -110,8 +120,8 @@
   --solaris-checkbox-gap: var(--solaris-spacing-5);
   --solaris-checkbox-icon-size: var(--solaris-spacing-6);
   --solaris-checkbox-border-width: var(--solaris-spacing-1);
-  --solaris-checkbox-label-font-size: var(--solaris-font-size-md);
-  --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
+  --solaris-checkbox-label-font-size: var(--solaris-font-size-sm);
+  --solaris-checkbox-label-line-height: var(--solaris-line-height-sm);
   --solaris-checkbox-size: calc(
     var(--solaris-spacing-7) + var(--solaris-spacing-2)
   );
@@ -122,8 +132,8 @@
   --solaris-checkbox-size: var(--solaris-spacing-8);
   --solaris-checkbox-icon-size: var(--solaris-spacing-7);
   --solaris-checkbox-border-width: var(--solaris-spacing-2);
-  --solaris-checkbox-label-font-size: var(--solaris-font-size-lg);
-  --solaris-checkbox-label-line-height: var(--solaris-line-height-lg);
+  --solaris-checkbox-label-font-size: var(--solaris-font-size-md);
+  --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
 }
 
 :host([data-size='sm'][data-density='normal']) {
@@ -131,7 +141,7 @@
   --solaris-checkbox-size: var(--solaris-spacing-7);
   --solaris-checkbox-icon-size: var(--solaris-spacing-5);
   --solaris-checkbox-border-width: var(--solaris-spacing-1);
-  --solaris-checkbox-label-font-size: var(--solaris-font-size-sm);
+  --solaris-checkbox-label-font-size: var(--solaris-font-size-xs);
   --solaris-checkbox-label-line-height: var(--solaris-line-height-sm);
 }
 
@@ -140,16 +150,16 @@
   --solaris-checkbox-size: var(--solaris-spacing-8);
   --solaris-checkbox-icon-size: var(--solaris-spacing-6);
   --solaris-checkbox-border-width: var(--solaris-spacing-1);
-  --solaris-checkbox-label-font-size: var(--solaris-font-size-md);
-  --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
+  --solaris-checkbox-label-font-size: var(--solaris-font-size-sm);
+  --solaris-checkbox-label-line-height: var(--solaris-line-height-sm);
 }
 
 :host([data-size='lg'][data-density='normal']) {
   --solaris-checkbox-gap: var(--solaris-spacing-6);
   --solaris-checkbox-icon-size: var(--solaris-spacing-7);
   --solaris-checkbox-border-width: var(--solaris-spacing-2);
-  --solaris-checkbox-label-font-size: var(--solaris-font-size-lg);
-  --solaris-checkbox-label-line-height: var(--solaris-line-height-lg);
+  --solaris-checkbox-label-font-size: var(--solaris-font-size-md);
+  --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
   --solaris-checkbox-size: calc(
     var(--solaris-spacing-8) + var(--solaris-spacing-2)
   );
@@ -159,7 +169,7 @@
   --solaris-checkbox-gap: var(--solaris-spacing-7);
   --solaris-checkbox-icon-size: var(--solaris-spacing-5);
   --solaris-checkbox-border-width: var(--solaris-spacing-1);
-  --solaris-checkbox-label-font-size: var(--solaris-font-size-sm);
+  --solaris-checkbox-label-font-size: var(--solaris-font-size-xs);
   --solaris-checkbox-label-line-height: var(--solaris-line-height-sm);
   --solaris-checkbox-size: calc(
     var(--solaris-spacing-7) + var(--solaris-spacing-2)
@@ -170,8 +180,8 @@
   --solaris-checkbox-gap: var(--solaris-spacing-7);
   --solaris-checkbox-icon-size: var(--solaris-spacing-6);
   --solaris-checkbox-border-width: var(--solaris-spacing-1);
-  --solaris-checkbox-label-font-size: var(--solaris-font-size-md);
-  --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
+  --solaris-checkbox-label-font-size: var(--solaris-font-size-sm);
+  --solaris-checkbox-label-line-height: var(--solaris-line-height-sm);
   --solaris-checkbox-size: calc(
     var(--solaris-spacing-8) + var(--solaris-spacing-2)
   );
@@ -182,8 +192,8 @@
   --solaris-checkbox-size: var(--solaris-spacing-9);
   --solaris-checkbox-icon-size: var(--solaris-spacing-7);
   --solaris-checkbox-border-width: var(--solaris-spacing-2);
-  --solaris-checkbox-label-font-size: var(--solaris-font-size-lg);
-  --solaris-checkbox-label-line-height: var(--solaris-line-height-lg);
+  --solaris-checkbox-label-font-size: var(--solaris-font-size-md);
+  --solaris-checkbox-label-line-height: var(--solaris-line-height-md);
 }
 
 :host([data-appearance='outline']) {

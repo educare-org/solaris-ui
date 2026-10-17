@@ -95,6 +95,7 @@ export const EN_US_SHELL: Record<string, string> = {
   'shell.sidebar.item.shell': 'Calendar shell',
   'shell.sidebar.item.holidays': 'Holidays',
   'shell.sidebar.item.print': 'Calendar print',
+  'shell.sidebar.item.event-editor': 'Event editor',
   'docs.on-this-page.title': 'On this page',
   'docs.page-header.breadcrumb-label': 'Breadcrumb',
   'docs.page-header.page-actions': 'Page actions',

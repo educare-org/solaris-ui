@@ -29,8 +29,22 @@ solaris-form-field .solaris-form-suffix {
   line-height: var(--solaris-line-height-none);
 }
 
-solaris-form-field .solaris-form-field__affix--suffix [solaris-icon-button] {
-  --solaris-icon-button-size: inherit;
+solaris-form-field[data-size][data-density]
+  .solaris-form-field__affix--prefix
+  [solaris-icon-button],
+solaris-form-field[data-size][data-density]
+  .solaris-form-field__affix--suffix
+  [solaris-icon-button] {
+  --solaris-icon-button-size: var(--solaris-form-field-affix-size);
+}
+
+solaris-form-field[data-size][data-density]
+  .solaris-form-field__affix--prefix
+  [solaris-icon-button]::after,
+solaris-form-field[data-size][data-density]
+  .solaris-form-field__affix--suffix
+  [solaris-icon-button]::after {
+  content: none;
 }
 
 solaris-form-field solaris-icon.solaris-form-prefix,

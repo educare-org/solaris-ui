@@ -21,8 +21,8 @@ export const PRINT_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const PRINT_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.divider',
-  route: '/content/divider',
+  labelKey: 'shell.sidebar.item.event-editor',
+  route: '/scheduling/event-editor',
 };
 
 export const PRINT_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

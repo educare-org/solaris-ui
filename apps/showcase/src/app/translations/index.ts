@@ -37,6 +37,7 @@ import { SCHEDULE_VIEW_TRANSLATIONS } from '../pages/scheduling/schedule-view/tr
 import { SHELL_VIEW_TRANSLATIONS } from '../pages/scheduling/shell/translations';
 import { HOLIDAYS_VIEW_TRANSLATIONS } from '../pages/scheduling/holidays/translations';
 import { PRINT_VIEW_TRANSLATIONS } from '../pages/scheduling/print/translations';
+import { EVENT_EDITOR_TRANSLATIONS } from '../pages/scheduling/event-editor/translations';
 import { SWITCH_TRANSLATIONS } from '../pages/forms/switch/translations';
 import { SWITCH_GROUP_TRANSLATIONS } from '../pages/forms/switch-group/translations';
 import { OPTION_TRANSLATIONS } from '../pages/forms/option/translations';
@@ -99,6 +100,7 @@ const PAGE_MODULES = [
   SHELL_VIEW_TRANSLATIONS,
   HOLIDAYS_VIEW_TRANSLATIONS,
   PRINT_VIEW_TRANSLATIONS,
+  EVENT_EDITOR_TRANSLATIONS,
   SWITCH_TRANSLATIONS,
   SWITCH_GROUP_TRANSLATIONS,
   OPTION_TRANSLATIONS,

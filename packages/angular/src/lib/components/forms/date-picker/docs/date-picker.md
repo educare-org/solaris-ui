@@ -10,6 +10,15 @@ Date Picker collects one calendar date using a locale-aware text field and a
 The ControlValueAccessor value is a date-only ISO string (`YYYY-MM-DD`). The
 visible format follows `locale`, then the configured Solaris locale.
 
+## Typing with automatic mask
+
+The text field applies the locale date mask while typing, so separators do
+not need to be typed: writing `16102026` in `pt-BR` becomes `16/10/2026`
+(`dd/MM/yyyy`). The order and the separator always follow `locale` (for
+example `MM/dd/yyyy` in `en-US`), and pasting eight continuous digits is
+parsed the same way. Only complete years (`yyyy`) are committed; partial
+years keep the field in an error state until the date is complete.
+
 ## API
 
 | Input                    | Description                                                                                 |

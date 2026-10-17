@@ -1,0 +1,500 @@
+<div class="solaris-calendar-event-editor__body">
+  <solaris-segmented-control
+    [fullWidth]="true"
+    [value]="itemKind()"
+    [disabled]="disabled()"
+    ariaLabelKey="solaris.calendar.editorKindLabel"
+    (valueChange)="onItemKind($event)"
+  >
+    <solaris-segmented-item
+      value="event"
+      [label]="'solaris.calendar.editorKindEvent' | translate"
+    />
+    <solaris-segmented-item
+      value="task"
+      [label]="'solaris.calendar.editorKindTask' | translate"
+    />
+    <solaris-segmented-item
+      value="schedule"
+      [label]="'solaris.calendar.editorKindSchedule' | translate"
+    />
+  </solaris-segmented-control>
+
+  <solaris-form-field
+    [required]="true"
+    [invalid]="titleInvalid()"
+    [disabled]="disabled()"
+    [label]="'solaris.calendar.editorTitle' | translate"
+    [error]="
+      titleInvalid() ? ('solaris.calendar.editorTitleRequired' | translate) : ''
+    "
+  >
+    <input
+      solaris-input
+      data-autofocus
+      type="text"
+      autocomplete="off"
+      maxlength="200"
+      [value]="title()"
+      [disabled]="disabled()"
+      [attr.aria-label]="'solaris.calendar.editorTitle' | translate"
+      [attr.aria-invalid]="titleInvalid()"
+      (input)="onTitleInput($any($event.target).value)"
+    />
+  </solaris-form-field>
+
+  <solaris-form-field
+    [label]="'solaris.calendar.editorDescription' | translate"
+    [disabled]="disabled()"
+  >
+    <textarea
+      solaris-textarea
+      rows="3"
+      maxlength="2000"
+      [value]="description()"
+      [disabled]="disabled()"
+      [attr.aria-label]="'solaris.calendar.editorDescription' | translate"
+      (input)="onDescriptionInput($any($event.target).value)"
+    ></textarea>
+  </solaris-form-field>
+
+  @if (!isTask()) {
+    <solaris-form-field
+      [disabled]="disabled()"
+      class="solaris-calendar-event-editor__field"
+      [label]="'solaris.calendar.editorMeetingLink' | translate"
+      [hint]="'solaris.calendar.editorMeetingLinkHint' | translate"
+    >
+      <input
+        solaris-input
+        type="url"
+        autocomplete="off"
+        maxlength="2048"
+        placeholder="https://"
+        [value]="meetingUrl()"
+        [disabled]="disabled()"
+        [attr.aria-label]="'solaris.calendar.editorMeetingLink' | translate"
+        (input)="onMeetingUrlInput($any($event.target).value)"
+      />
+    </solaris-form-field>
+  }
+
+  <div class="solaris-calendar-event-editor__row">
+    <solaris-date-picker
+      class="solaris-calendar-event-editor__field"
+      [label]="'solaris.calendar.editorStartDate' | translate"
+      [locale]="locale()"
+      [ngModel]="startDate()"
+      [disabled]="disabled()"
+      [invalid]="rangeInvalid()"
+      (valueChange)="onStartDate($event)"
+    />
+    @if (!allDay()) {
+      <solaris-form-field
+        class="solaris-calendar-event-editor__field solaris-calendar-event-editor__field--time"
+        [label]="'solaris.calendar.editorStartTime' | translate"
+        [disabled]="disabled()"
+      >
+        <input
+          solaris-input
+          type="time"
+          [value]="startTime()"
+          [disabled]="disabled()"
+          [attr.aria-label]="'solaris.calendar.editorStartTime' | translate"
+          (input)="startTime.set($any($event.target).value)"
+        />
+      </solaris-form-field>
+    }
+  </div>
+
+  @if (!isTask()) {
+    <div class="solaris-calendar-event-editor__row">
+      <solaris-date-picker
+        class="solaris-calendar-event-editor__field"
+        [label]="'solaris.calendar.editorEndDate' | translate"
+        [locale]="locale()"
+        [ngModel]="endDate()"
+        [disabled]="disabled()"
+        [invalid]="rangeInvalid()"
+        (valueChange)="onEndDate($event)"
+      />
+      @if (!allDay()) {
+        <solaris-form-field
+          class="solaris-calendar-event-editor__field solaris-calendar-event-editor__field--time"
+          [label]="'solaris.calendar.editorEndTime' | translate"
+          [disabled]="disabled()"
+        >
+          <input
+            solaris-input
+            type="time"
+            [value]="endTime()"
+            [disabled]="disabled()"
+            [attr.aria-label]="'solaris.calendar.editorEndTime' | translate"
+            (input)="endTime.set($any($event.target).value)"
+          />
+        </solaris-form-field>
+      }
+    </div>
+  }
+
+  @if (rangeInvalid()) {
+    <solaris-form-error class="solaris-calendar-event-editor__error">
+      {{ 'solaris.calendar.editorInvalidRange' | translate }}
+    </solaris-form-error>
+  }
+
+  <div class="solaris-calendar-event-editor__tz-row">
+    <solaris-checkbox
+      [checked]="allDay()"
+      [disabled]="disabled()"
+      (checkedChange)="onAllDay($event)"
+    >
+      {{ 'solaris.calendar.editorAllDay' | translate }}
+    </solaris-checkbox>
+
+    @if (!separateTimeZones()) {
+      <button
+        type="button"
+        solaris-button
+        appearance="ghost"
+        size="sm"
+        [disabled]="disabled()"
+        (click)="onTimeZoneChange()"
+      >
+        {{ 'solaris.calendar.editorChangeTimeZone' | translate }}
+      </button>
+    }
+  </div>
+
+  @if (!isTask()) {
+    <fieldset
+      [disabled]="disabled()"
+      class="solaris-calendar-event-editor__section"
+    >
+      <solaris-select
+        [label]="'solaris.calendar.editorFreq' | translate"
+        [value]="freq()"
+        [disabled]="disabled()"
+        (valueChange)="onFreq($event)"
+      >
+        <solaris-option
+          value="none"
+          [label]="'solaris.calendar.editorFreqNone' | translate"
+        />
+        <solaris-option
+          value="daily"
+          [label]="'solaris.calendar.editorFreqDaily' | translate"
+        />
+        <solaris-option
+          value="weekly"
+          [label]="'solaris.calendar.editorFreqWeekly' | translate"
+        />
+        <solaris-option
+          value="monthly"
+          [label]="'solaris.calendar.editorFreqMonthly' | translate"
+        />
+        <solaris-option
+          value="yearly"
+          [label]="'solaris.calendar.editorFreqYearly' | translate"
+        />
+        <solaris-option
+          value="custom"
+          [label]="'solaris.calendar.editorFreqCustom' | translate"
+        />
+      </solaris-select>
+
+      @if (effectiveFreq() === 'weekly') {
+        <div
+          class="solaris-calendar-event-editor__chips"
+          role="group"
+          [attr.aria-label]="'solaris.calendar.editorWeekdays' | translate"
+        >
+          @for (day of weekdayOrder(); track day) {
+            <button
+              type="button"
+              class="solaris-calendar-event-editor__chip"
+              [attr.aria-pressed]="isWeekdaySelected(day)"
+              [attr.data-selected]="isWeekdaySelected(day) ? '' : null"
+              [disabled]="disabled()"
+              (click)="toggleWeekday(day)"
+            >
+              {{ weekdayName(day) }}
+            </button>
+          }
+        </div>
+      }
+
+      @if (isCustomRecurrence()) {
+        <solaris-select
+          [label]="'solaris.calendar.editorCustomFreq' | translate"
+          [value]="customFreq()"
+          [disabled]="disabled()"
+          (valueChange)="onCustomFreq($event)"
+        >
+          <solaris-option
+            value="daily"
+            [label]="'solaris.calendar.editorFreqDaily' | translate"
+          />
+          <solaris-option
+            value="weekly"
+            [label]="'solaris.calendar.editorFreqWeekly' | translate"
+          />
+          <solaris-option
+            value="monthly"
+            [label]="'solaris.calendar.editorFreqMonthly' | translate"
+          />
+          <solaris-option
+            value="yearly"
+            [label]="'solaris.calendar.editorFreqYearly' | translate"
+          />
+        </solaris-select>
+
+        <solaris-form-field
+          class="solaris-calendar-event-editor__field"
+          [label]="'solaris.calendar.editorInterval' | translate"
+          [hint]="'solaris.calendar.editorIntervalUnit' | translate"
+          [disabled]="disabled()"
+        >
+          <input
+            solaris-input
+            type="number"
+            min="1"
+            max="99"
+            step="1"
+            [value]="interval()"
+            [disabled]="disabled()"
+            [attr.aria-label]="'solaris.calendar.editorInterval' | translate"
+            (input)="onIntervalInput($any($event.target).value)"
+          />
+        </solaris-form-field>
+
+        <solaris-select
+          [label]="'solaris.calendar.editorEnds' | translate"
+          [value]="endsMode()"
+          [disabled]="disabled()"
+          (valueChange)="onEndsMode($event)"
+        >
+          <solaris-option
+            value="never"
+            [label]="'solaris.calendar.editorEndsNever' | translate"
+          />
+          <solaris-option
+            value="count"
+            [label]="'solaris.calendar.editorEndsCount' | translate"
+          />
+          <solaris-option
+            value="until"
+            [label]="'solaris.calendar.editorEndsUntil' | translate"
+          />
+        </solaris-select>
+
+        @if (endsMode() === 'count') {
+          <solaris-form-field
+            class="solaris-calendar-event-editor__field"
+            [label]="'solaris.calendar.editorEndsCountLabel' | translate"
+            [disabled]="disabled()"
+          >
+            <input
+              solaris-input
+              type="number"
+              min="1"
+              max="999"
+              step="1"
+              [value]="endsCount()"
+              [disabled]="disabled()"
+              [attr.aria-label]="
+                'solaris.calendar.editorEndsCountLabel' | translate
+              "
+              (input)="onCountInput($any($event.target).value)"
+            />
+          </solaris-form-field>
+        }
+        @if (endsMode() === 'until') {
+          <solaris-date-picker
+            class="solaris-calendar-event-editor__field"
+            [label]="'solaris.calendar.editorEndsUntilLabel' | translate"
+            [locale]="locale()"
+            [ngModel]="endsUntil()"
+            [disabled]="disabled()"
+            (valueChange)="onEndsUntil($event)"
+          />
+        }
+        @if (recurrenceInvalid()) {
+          <solaris-form-error class="solaris-calendar-event-editor__error">
+            {{ 'solaris.calendar.editorInvalidRecurrence' | translate }}
+          </solaris-form-error>
+        }
+      }
+    </fieldset>
+
+    <div class="solaris-calendar-event-editor__row">
+      <solaris-select
+        [value]="visibility()"
+        [disabled]="disabled()"
+        (valueChange)="onVisibility($event)"
+        class="solaris-calendar-event-editor__field"
+        [label]="'solaris.calendar.editorVisibility' | translate"
+      >
+        <solaris-option
+          value="public"
+          [label]="'solaris.calendar.editorVisibilityPublic' | translate"
+        />
+        <solaris-option
+          value="private"
+          [label]="'solaris.calendar.editorVisibilityPrivate' | translate"
+        />
+      </solaris-select>
+
+      <solaris-select
+        class="solaris-calendar-event-editor__field"
+        [label]="'solaris.calendar.editorColor' | translate"
+        [value]="color()"
+        [disabled]="disabled()"
+        (valueChange)="onColor($event)"
+      >
+        @for (option of colorOptions; track option) {
+          <solaris-option [value]="option" [label]="colorName(option)">
+            <span
+              aria-hidden="true"
+              solaris-option-leading
+              [attr.data-color]="option"
+              class="solaris-calendar-event-editor__swatch"
+            ></span>
+          </solaris-option>
+        }
+      </solaris-select>
+    </div>
+
+    <fieldset
+      [disabled]="disabled()"
+      class="solaris-calendar-event-editor__section"
+    >
+      <div class="solaris-calendar-event-editor__reminder-list">
+        @for (row of reminders(); track row.key) {
+          <div class="solaris-calendar-event-editor__reminder-row">
+            <solaris-select
+              [disabled]="disabled()"
+              [value]="reminderSelectValue(row)"
+              class="solaris-calendar-event-editor__reminder-select"
+              [label]="'solaris.calendar.editorReminders' | translate"
+              [ariaLabel]="'solaris.calendar.editorReminders' | translate"
+              (valueChange)="onReminderPreset(row.key, $event)"
+            >
+              @for (preset of reminderPresets; track preset) {
+                <solaris-option
+                  [value]="'' + preset"
+                  [label]="reminderLabel(preset)"
+                />
+              }
+              <solaris-option
+                value="custom"
+                [label]="'solaris.calendar.editorReminderCustom' | translate"
+              />
+            </solaris-select>
+            @if (row.custom) {
+              <solaris-form-field
+                [disabled]="disabled()"
+                class="solaris-calendar-event-editor__reminder-custom"
+                [label]="
+                  'solaris.calendar.editorReminderCustomLabel' | translate
+                "
+              >
+                <input
+                  solaris-input
+                  type="number"
+                  min="0"
+                  max="40320"
+                  step="1"
+                  [value]="row.minutes"
+                  [disabled]="disabled()"
+                  [attr.aria-label]="
+                    'solaris.calendar.editorReminderCustomLabel' | translate
+                  "
+                  (input)="
+                    onReminderCustomMinutes(row.key, $any($event.target).value)
+                  "
+                />
+              </solaris-form-field>
+            }
+            <button
+              type="button"
+              appearance="ghost"
+              solaris-icon-button
+              [disabled]="disabled()"
+              class="solaris-calendar-event-editor__reminder-remove"
+              [attr.aria-label]="
+                'solaris.calendar.editorReminderRemove' | translate
+              "
+              [attr.title]="'solaris.calendar.editorReminderRemove' | translate"
+              (click)="removeReminder(row.key)"
+            >
+              <solaris-icon name="x"></solaris-icon>
+            </button>
+          </div>
+        }
+      </div>
+      <button
+        type="button"
+        solaris-button
+        appearance="ghost"
+        [disabled]="disabled() || reminders().length >= maxReminders"
+        (click)="addReminder()"
+      >
+        {{ 'solaris.calendar.editorReminderAdd' | translate }}
+      </button>
+    </fieldset>
+  }
+
+  @if (isRecurring()) {
+    <solaris-radio-group
+      orientation="horizontal"
+      [ngModel]="deleteScope()"
+      (ngModelChange)="onDeleteScope($event)"
+      [label]="'solaris.calendar.editorDeleteScope' | translate"
+    >
+      <solaris-radio value="this">{{
+        'solaris.calendar.editorDeleteThis' | translate
+      }}</solaris-radio>
+      <solaris-radio value="following">{{
+        'solaris.calendar.editorDeleteFollowing' | translate
+      }}</solaris-radio>
+      <solaris-radio value="all">{{
+        'solaris.calendar.editorDeleteAll' | translate
+      }}</solaris-radio>
+    </solaris-radio-group>
+  }
+</div>
+
+<solaris-dialog-footer align="space-between">
+  <button
+    type="button"
+    solaris-button
+    appearance="ghost"
+    color="danger"
+    [disabled]="disabled()"
+    (click)="onDelete()"
+  >
+    {{ 'solaris.calendar.editorDelete' | translate }}
+  </button>
+  <span class="solaris-calendar-event-editor__actions">
+    <button
+      type="button"
+      solaris-button
+      appearance="ghost"
+      (click)="onCancel()"
+    >
+      {{ 'solaris.calendar.editorCancel' | translate }}
+    </button>
+    <button
+      type="button"
+      solaris-button
+      color="primary"
+      [disabled]="saveDisabled()"
+      (click)="onSave()"
+    >
+      {{ 'solaris.calendar.editorSave' | translate }}
+    </button>
+  </span>
+</solaris-dialog-footer>
+
+<span solaris-visually-hidden role="status">{{ announcement() }}</span>

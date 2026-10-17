@@ -25,6 +25,12 @@ export interface SolarisRecurrence {
   monthDay?: number;
 }
 
+export interface SolarisEventReminder {
+  minutesBefore: number;
+}
+
+export type SolarisEventVisibility = 'public' | 'private';
+
 export interface SolarisCalendarEvent {
   id: string;
   kind: 'event';
@@ -37,6 +43,11 @@ export interface SolarisCalendarEvent {
   recurrence?: SolarisRecurrence;
   recurrenceExceptionDates?: string[];
   calendarId?: string;
+  visibility?: SolarisEventVisibility;
+  reminders?: SolarisEventReminder[];
+  description?: string;
+  meetingUrl?: string;
+  scheduleSlot?: boolean;
 }
 
 export interface SolarisCalendarTask {
@@ -46,6 +57,7 @@ export interface SolarisCalendarTask {
   titleKey?: string;
   due: string;
   completed: boolean;
+  description?: string;
 }
 
 export interface SolarisHoliday {

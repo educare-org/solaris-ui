@@ -53,6 +53,13 @@ export const schedulingRoutes: Route[] = [
             (m) => m.PrintShowcasePage,
           ),
       },
+      {
+        path: 'event-editor',
+        loadComponent: () =>
+          import(
+            '../pages/scheduling/event-editor/component/event-editor-showcase'
+          ).then((m) => m.EventEditorShowcasePage),
+      },
     ],
   },
 ];

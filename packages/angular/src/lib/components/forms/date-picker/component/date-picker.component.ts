@@ -33,6 +33,7 @@ import { SolarisDateCalendarComponent } from '../../date/component/calendar.comp
 import {
   compareSolarisDates,
   formatSolarisDate,
+  maskLocalizedSolarisDateInput,
   monthForSolarisDate,
   parseLocalizedSolarisDate,
   parseSolarisDate,
@@ -297,7 +298,9 @@ export class SolarisDatePickerComponent
   }
 
   protected onInput(event: Event): void {
-    const text = (event.target as HTMLInputElement).value;
+    const input = event.target as HTMLInputElement;
+    const raw = input.value;
+    const text = this.applyDateMask(input, raw);
     this.displayValue.set(text);
     const parsed = parseLocalizedSolarisDate(text, this.resolvedLocale());
 
@@ -387,6 +390,24 @@ export class SolarisDatePickerComponent
 
   protected setDisplayedMonth(month: SolarisCalendarMonth): void {
     this.displayedMonth.set(month);
+  }
+
+  private applyDateMask(input: HTMLInputElement, raw: string): string {
+    if (!raw || !/\d/.test(raw) || /[A-Za-z]/.test(raw)) return raw;
+    const masked = maskLocalizedSolarisDateInput(raw, this.resolvedLocale());
+    if (masked === raw) return raw;
+    const caret = input.selectionStart ?? raw.length;
+    const digitsBeforeCaret = raw.slice(0, caret).replace(/\D/g, '').length;
+    // SECURITY_EXCEPTION: syncing the native input value keeps the caret usable while typing; no declarative alternative.
+    input.value = masked;
+    let position = 0;
+    let seen = 0;
+    while (position < masked.length && seen < digitsBeforeCaret) {
+      if (/\d/.test(masked[position])) seen += 1;
+      position += 1;
+    }
+    input.setSelectionRange(position, position);
+    return masked;
   }
 
   private commitValue(value: SolarisDateValue | null): void {

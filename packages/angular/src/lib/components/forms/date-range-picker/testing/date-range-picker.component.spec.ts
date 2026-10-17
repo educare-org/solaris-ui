@@ -386,6 +386,20 @@ describe('SolarisDateRangePickerComponent', () => {
       instance.onInput('start', inputEvent('01/12/2000'));
       expect(instance.parseError()).toBe(true);
     });
+
+    it('masks continuous digits following the locale order', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      const target = {
+        value: '01122025',
+        selectionStart: 8,
+        setSelectionRange: () => undefined,
+      };
+      instance.onInput('start', { target } as unknown as Event);
+      expect(target.value).toBe('01/12/2025');
+      expect(instance.parseError()).toBe(false);
+      expect(instance.pending().start).toBe('2025-01-12');
+    });
   });
 
   describe('focus, keyboard and panel inputs', () => {

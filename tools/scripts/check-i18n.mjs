@@ -39,11 +39,13 @@ if (!fileExists(libDir)) {
           walk(fullPath);
         }
       } else if (/\.(ts|html)$/.test(entry.name)) {
+        const normalized = fullPath.split(path.sep).join('/');
         if (
           entry.name.endsWith('.spec.ts') ||
           entry.name.endsWith('.test.ts') ||
           entry.name.endsWith('.stories.ts') ||
-          entry.name === 'solaris-translate-defaults.ts'
+          entry.name === 'solaris-translate-defaults.ts' ||
+          normalized.includes('services/translation/model/i18n/')
         ) {
           continue;
         }

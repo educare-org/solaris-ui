@@ -57,6 +57,8 @@
     solaris-form-suffix
     solaris-form-suffix-action
     class="solaris-date-range-picker__calendar-trigger"
+    [size]="size()"
+    [density]="effectiveDensity()"
     [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
     [attr.aria-label]="calendarLabel()"
   >
