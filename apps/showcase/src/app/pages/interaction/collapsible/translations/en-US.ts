@@ -1,6 +1,36 @@
 export const EN_US_COLLAPSIBLE: Record<string, string> = {
+  'collapsible.title': 'Collapsible',
   'collapsible.description':
     'Disclosure primitive that toggles the visibility of a content region with an accessible trigger.',
+  'collapsible.section.examples': 'Examples',
+  'collapsible.section.appearance': 'Appearance',
+  'collapsible.section.size-density': 'Size & density',
+  'collapsible.section.controlled': 'Controlled open state',
+  'collapsible.section.states': 'States',
+  'collapsible.section.leading-icon': 'Leading icon',
+  'collapsible.section.installation': 'Installation',
+  'collapsible.section.props': 'Props',
+  'collapsible.examples.note':
+    'Start with the default collapsible, then explore appearances and sizes below.',
+  'collapsible.appearance.note':
+    'Boxed renders a bordered card; lined renders a flat row with a divider under the trigger.',
+  'collapsible.appearance.boxed': 'Boxed',
+  'collapsible.appearance.lined': 'Lined',
+  'collapsible.size-density.note':
+    'Size and density work together in the component. Combine both controls to see every combination.',
+  'collapsible.size.sm': 'Small',
+  'collapsible.size.md': 'Medium',
+  'collapsible.size.lg': 'Large',
+  'collapsible.density.compact': 'Compact',
+  'collapsible.density.normal': 'Normal',
+  'collapsible.density.comfortable': 'Comfortable',
+  'collapsible.leading-icon.note':
+    'Optional icon glued to the label, rendered before the expand chevron.',
+  'collapsible.installation.note':
+    'Install the single Solaris package, then import the component.',
+  'collapsible.props.note': 'Props table coming soon with the table component.',
+  'collapsible.ai.prompt':
+    "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.",
   'collapsible.basic': 'Basic',
   'collapsible.basic-note':
     'The trigger toggles the panel. Focus the trigger and press Enter or Space to toggle via keyboard.',

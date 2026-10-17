@@ -1,98 +1,179 @@
-<div class="collapsible-showcase">
-  <header class="collapsible-showcase__header">
-    <h1 class="collapsible-showcase__title">Collapsible</h1>
-    <p class="collapsible-showcase__description">
-      {{ 'collapsible.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="collapsible.title"
+    descriptionKey="collapsible.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="collapsible-showcase__section">
-    <h2 class="collapsible-showcase__section-title">
-      {{ 'collapsible.basic' | translate }}
-    </h2>
+  <app-docs-section anchor="examples" titleKey="collapsible.section.examples">
     <p class="collapsible-showcase__note">
-      {{ 'collapsible.basic-note' | translate }}
+      {{ 'collapsible.examples.note' | translate }}
     </p>
-    <solaris-collapsible [label]="'collapsible.basic-details' | translate">
-      <p>{{ 'collapsible.basic-content' | translate }}</p>
-    </solaris-collapsible>
-  </section>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <solaris-collapsible [label]="'collapsible.basic-details' | translate">
+        <p>{{ 'collapsible.basic-content' | translate }}</p>
+      </solaris-collapsible>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="collapsible-showcase__section">
-    <h2 class="collapsible-showcase__section-title">
-      {{ 'collapsible.controlled' | translate }}
-    </h2>
+  <app-docs-section
+    anchor="appearance"
+    titleKey="collapsible.section.appearance"
+  >
+    <p class="collapsible-showcase__note">
+      {{ 'collapsible.appearance.note' | translate }}
+    </p>
+    <div class="collapsible-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedAppearance"
+        [ariaLabel]="'collapsible.section.appearance' | translate"
+      >
+        @for (appearance of appearances; track appearance) {
+        <solaris-tab [value]="appearance"
+          >{{ 'collapsible.appearance.' + appearance | translate }}</solaris-tab
+        >
+        }
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="appearanceCode()" language="html">
+      <solaris-collapsible
+        [appearance]="selectedAppearance()"
+        [label]="'collapsible.basic-details' | translate"
+      >
+        <p>{{ 'collapsible.basic-content' | translate }}</p>
+      </solaris-collapsible>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="collapsible.section.size-density"
+  >
+    <p class="collapsible-showcase__note">
+      {{ 'collapsible.size-density.note' | translate }}
+    </p>
+    <div class="collapsible-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'collapsible.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'collapsible.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'collapsible.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'collapsible.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'collapsible.section.size-density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'collapsible.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'collapsible.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'collapsible.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-collapsible
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+        [label]="'collapsible.basic-details' | translate"
+      >
+        <p>{{ 'collapsible.basic-content' | translate }}</p>
+      </solaris-collapsible>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="controlled"
+    titleKey="collapsible.section.controlled"
+  >
     <p class="collapsible-showcase__note">
       {{ 'collapsible.controlled-note' | translate }}
     </p>
-    <p class="collapsible-showcase__state">
-      {{ controlledOpen ? ('collapsible.controlled-state' | translate) :
+    <p class="collapsible-showcase__note">
+      {{ controlledOpen() ? ('collapsible.controlled-state' | translate) :
       ('collapsible.controlled-state-closed' | translate) }}
     </p>
-    <solaris-collapsible
-      [(open)]="controlledOpen"
-      [label]="'collapsible.controlled-label' | translate"
-    >
-      <p>{{ 'collapsible.controlled-content' | translate }}</p>
-    </solaris-collapsible>
-  </section>
+    <div class="collapsible-showcase__controls">
+      <button solaris-button type="button" (click)="toggleControlled()">
+        {{ 'collapsible.controlled-toggle' | translate }}
+      </button>
+    </div>
+    <solaris-preview-code [code]="controlledCode" language="html">
+      <solaris-collapsible
+        [(open)]="controlledOpen"
+        [label]="'collapsible.controlled-label' | translate"
+      >
+        <p>{{ 'collapsible.controlled-content' | translate }}</p>
+      </solaris-collapsible>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="collapsible-showcase__section">
-    <h2 class="collapsible-showcase__section-title">
-      {{ 'collapsible.open-on-init' | translate }}
-    </h2>
+  <app-docs-section anchor="states" titleKey="collapsible.section.states">
     <p class="collapsible-showcase__note">
       {{ 'collapsible.open-on-init-note' | translate }}
     </p>
-    <solaris-collapsible
-      [open]="true"
-      [label]="'collapsible.open-on-init-label' | translate"
-    >
-      <p>{{ 'collapsible.open-on-init-content' | translate }}</p>
-    </solaris-collapsible>
-  </section>
-
-  <section class="collapsible-showcase__section">
-    <h2 class="collapsible-showcase__section-title">
-      {{ 'collapsible.disabled' | translate }}
-    </h2>
-    <p class="collapsible-showcase__note">
-      {{ 'collapsible.disabled-note' | translate }}
-    </p>
-    <solaris-collapsible
-      [label]="'collapsible.disabled-label' | translate"
-      [disabled]="true"
-    >
-      <p>{{ 'collapsible.disabled-content' | translate }}</p>
-    </solaris-collapsible>
-  </section>
-
-  <section class="collapsible-showcase__section">
-    <h2 class="collapsible-showcase__section-title">
-      {{ 'collapsible.sizes' | translate }}
-    </h2>
-    <p class="collapsible-showcase__note">
-      {{ 'collapsible.sizes-note' | translate }}
-    </p>
     <div class="collapsible-showcase__stack">
-      @for (size of sizes; track size) {
       <solaris-collapsible
-        [size]="size"
-        [label]="'collapsible.size-' + size | translate"
+        [open]="true"
+        [label]="'collapsible.open-on-init-label' | translate"
       >
-        <p>{{ 'collapsible.size-' + size + '-content' | translate }}</p>
+        <p>{{ 'collapsible.open-on-init-content' | translate }}</p>
       </solaris-collapsible>
-      }
+      <solaris-collapsible
+        [label]="'collapsible.disabled-label' | translate"
+        [disabled]="true"
+      >
+        <p>{{ 'collapsible.disabled-content' | translate }}</p>
+      </solaris-collapsible>
     </div>
-  </section>
+  </app-docs-section>
 
-  <section class="collapsible-showcase__section">
-    <h2 class="collapsible-showcase__section-title">Leading icon</h2>
+  <app-docs-section
+    anchor="leading-icon"
+    titleKey="collapsible.section.leading-icon"
+  >
     <p class="collapsible-showcase__note">
-      Optional icon glued to the label, rendered before the expand chevron.
+      {{ 'collapsible.leading-icon.note' | translate }}
     </p>
     <solaris-collapsible label="Profile" leadingIcon="user">
       <p>Hidden content.</p>
     </solaris-collapsible>
-  </section>
-</div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="collapsible.section.installation"
+  >
+    <p class="collapsible-showcase__note">
+      {{ 'collapsible.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="collapsible.section.props">
+    <p class="collapsible-showcase__note">
+      {{ 'collapsible.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   input,
   model,
   computed,
@@ -10,6 +11,7 @@ import {
 
 import { SolarisCollapsibleComponent } from '../../collapsible';
 import { nextIdFor } from '../../../../core';
+import { SolarisThemeService } from '../../../../services/theme';
 
 import {
   SOLARIS_ACCORDION,
@@ -20,6 +22,7 @@ import type {
   SolarisAccordionAppearance,
   SolarisAccordionType,
   SolarisAccordionSize,
+  SolarisAccordionDensity,
   SolarisAccordionValue,
   SolarisAccordionModel,
 } from '../model/accordion.types';
@@ -42,13 +45,17 @@ import type {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-type]': 'type()',
     '[attr.data-size]': 'size()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-disabled]': 'disabled() ? "" : null',
   },
 })
 export class SolarisAccordionComponent implements SolarisAccordionControl {
+  protected readonly themeService = inject(SolarisThemeService);
+
   readonly appearance = input<SolarisAccordionAppearance>('boxed');
   readonly type = input<SolarisAccordionType>('single');
   readonly size = input<SolarisAccordionSize>('md');
+  readonly density = input<SolarisAccordionDensity | undefined>(undefined);
   readonly disabled = input<boolean, boolean>(false, {
     transform: booleanAttribute,
   });
@@ -63,6 +70,10 @@ export class SolarisAccordionComponent implements SolarisAccordionControl {
   protected readonly items = contentChildren(SolarisCollapsibleComponent);
 
   private readonly instanceId = nextIdFor('solaris-accordion');
+
+  readonly effectiveDensity = computed<SolarisAccordionDensity>(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   protected readonly resolvedValue = computed<
     SolarisAccordionModel | undefined

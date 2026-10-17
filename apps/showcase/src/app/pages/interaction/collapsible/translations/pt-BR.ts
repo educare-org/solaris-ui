@@ -1,6 +1,37 @@
 export const PT_BR_COLLAPSIBLE: Record<string, string> = {
+  'collapsible.title': 'Collapsible',
   'collapsible.description':
     'Primitiva de disclosure que alterna a visibilidade de uma região de conteúdo com um gatilho acessível.',
+  'collapsible.section.examples': 'Exemplos',
+  'collapsible.section.appearance': 'Aparência',
+  'collapsible.section.size-density': 'Tamanho e densidade',
+  'collapsible.section.controlled': 'Estado aberto controlado',
+  'collapsible.section.states': 'Estados',
+  'collapsible.section.leading-icon': 'Ícone inicial',
+  'collapsible.section.installation': 'Instalação',
+  'collapsible.section.props': 'Propriedades',
+  'collapsible.examples.note':
+    'Comece com o collapsible padrão e explore aparências e tamanhos abaixo.',
+  'collapsible.appearance.note':
+    'Boxed renderiza um cartão com borda; lined renderiza uma linha plana com divisor abaixo do gatilho.',
+  'collapsible.appearance.boxed': 'Boxed',
+  'collapsible.appearance.lined': 'Lined',
+  'collapsible.size-density.note':
+    'Tamanho e densidade funcionam juntos no componente. Combine os dois controles para ver cada combinação.',
+  'collapsible.size.sm': 'Pequeno',
+  'collapsible.size.md': 'Médio',
+  'collapsible.size.lg': 'Grande',
+  'collapsible.density.compact': 'Compacta',
+  'collapsible.density.normal': 'Normal',
+  'collapsible.density.comfortable': 'Confortável',
+  'collapsible.leading-icon.note':
+    'Ícone opcional colado ao rótulo, renderizado antes do chevron de expansão.',
+  'collapsible.installation.note':
+    'Instale o pacote único Solaris e importe o componente.',
+  'collapsible.props.note':
+    'Tabela de propriedades em breve, com o componente de tabela.',
+  'collapsible.ai.prompt':
+    'Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar.',
   'collapsible.basic': 'Básico',
   'collapsible.basic-note':
     'O gatilho alterna o painel. Foque o gatilho e pressione Enter ou Espaço para alternar pelo teclado.',

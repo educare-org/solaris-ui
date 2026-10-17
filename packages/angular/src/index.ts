@@ -940,6 +940,7 @@ export type {
 export { SolarisCollapsibleComponent } from './lib/components/interaction/collapsible/component/collapsible.component';
 export type {
   SolarisCollapsibleSize,
+  SolarisCollapsibleDensity,
   SolarisCollapsibleAppearance,
   SolarisCollapsibleValue,
   SolarisCollapsibleConfig,
@@ -950,6 +951,7 @@ export type {
   SolarisAccordionAppearance,
   SolarisAccordionType,
   SolarisAccordionSize,
+  SolarisAccordionDensity,
   SolarisAccordionValue,
   SolarisAccordionModel,
   SolarisAccordionConfig,

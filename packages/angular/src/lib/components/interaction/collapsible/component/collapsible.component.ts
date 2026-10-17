@@ -12,10 +12,12 @@ import { NgTemplateOutlet } from '@angular/common';
 
 import type {
   SolarisCollapsibleSize,
+  SolarisCollapsibleDensity,
   SolarisCollapsibleAppearance,
   SolarisCollapsibleValue,
 } from '../model/collapsible.types';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisIconComponent } from '../../../icon';
 import { resolveElementId } from '../../../../core';
 import { SOLARIS_ACCORDION } from '../../accordion/model/accordion.tokens';
@@ -29,7 +31,8 @@ import { SOLARIS_ACCORDION } from '../../accordion/model/accordion.tokens';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'solaris-collapsible',
-    '[attr.data-size]': 'size()',
+    '[attr.data-size]': 'effectiveSize()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-appearance]': 'effectiveAppearance()',
     '[attr.data-open]': 'isOpen() ? "" : null',
     '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
@@ -40,6 +43,7 @@ export class SolarisCollapsibleComponent {
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
+  protected readonly themeService = inject(SolarisThemeService);
   private readonly accordionControl = inject(SOLARIS_ACCORDION, {
     optional: true,
   });
@@ -54,6 +58,7 @@ export class SolarisCollapsibleComponent {
     transform: booleanAttribute,
   });
   readonly size = input<SolarisCollapsibleSize>('md');
+  readonly density = input<SolarisCollapsibleDensity | undefined>(undefined);
   readonly appearance = input<SolarisCollapsibleAppearance>('boxed');
   readonly icon = input<string>();
   readonly leadingIcon = input<string | undefined>(undefined);
@@ -86,6 +91,20 @@ export class SolarisCollapsibleComponent {
   protected readonly effectiveAppearance = computed(() => {
     return this.accordionControl?.appearance() ?? this.appearance();
   });
+
+  protected readonly effectiveSize = computed<SolarisCollapsibleSize>(() => {
+    return this.accordionControl?.size() ?? this.size();
+  });
+
+  protected readonly effectiveDensity = computed<SolarisCollapsibleDensity>(
+    () => {
+      return (
+        this.accordionControl?.effectiveDensity() ??
+        this.density() ??
+        this.themeService.density
+      );
+    },
+  );
 
   protected readonly headingLevel = computed(() => {
     return this.accordionControl?.headingLevel() ?? 0;

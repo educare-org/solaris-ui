@@ -17,16 +17,17 @@ projected inside it.
 
 #### Inputs
 
-| Input          | Type                                               | Default          | Description                                                                                                               |
-| -------------- | -------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `appearance`   | `'boxed' \| 'lined'`                               | `'boxed'`        | Visual mode. `boxed` renders each item as a bordered card; `lined` renders a flat list with a divider under each trigger. |
-| `type`         | `'single' \| 'multiple'`                           | `'single'`       | Whether one or many panels can be open at once.                                                                           |
-| `value`        | `SolarisAccordionValue \| SolarisAccordionValue[]` | —                | Two-way binding with the open value(s).                                                                                   |
-| `disabled`     | `boolean`                                          | `false`          | Disables all items.                                                                                                       |
-| `allowToggle`  | `boolean`                                          | `true`           | In `single` mode, whether the open panel can be collapsed. When `false`, the open trigger is `aria-disabled`.             |
-| `size`         | `'sm' \| 'md' \| 'lg'`                             | `'md'`           | Density variant.                                                                                                          |
-| `headingLevel` | `number` (`2`–`6`)                                 | `3`              | Heading level (`h2`–`h6`) used for each item header.                                                                      |
-| `expandIcon`   | `string`                                           | `'chevron-down'` | Icon rendered at the end of each trigger.                                                                                 |
+| Input          | Type                                                  | Default          | Description                                                                                                               |
+| -------------- | ----------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `appearance`   | `'boxed' \| 'lined'`                                  | `'boxed'`        | Visual mode. `boxed` renders each item as a bordered card; `lined` renders a flat list with a divider under each trigger. |
+| `type`         | `'single' \| 'multiple'`                              | `'single'`       | Whether one or many panels can be open at once.                                                                           |
+| `value`        | `SolarisAccordionValue \| SolarisAccordionValue[]`    | —                | Two-way binding with the open value(s).                                                                                   |
+| `disabled`     | `boolean`                                             | `false`          | Disables all items.                                                                                                       |
+| `allowToggle`  | `boolean`                                             | `true`           | In `single` mode, whether the open panel can be collapsed. When `false`, the open trigger is `aria-disabled`.             |
+| `size`         | `'sm' \| 'md' \| 'lg'`                                | `'md'`           | Label, icon, and padding step. Propagated to every item; wins over per-item `size`.                                       |
+| `density`      | `'compact' \| 'normal' \| 'comfortable' \| undefined` | `undefined`      | Spacing density (falls back to theme density). Propagated to every item.                                                  |
+| `headingLevel` | `number` (`2`–`6`)                                    | `3`              | Heading level (`h2`–`h6`) used for each item header.                                                                      |
+| `expandIcon`   | `string`                                              | `'chevron-down'` | Icon rendered at the end of each trigger.                                                                                 |
 
 #### Outputs
 
@@ -42,16 +43,18 @@ for the full API; the relevant inputs are:
 
 #### Inputs
 
-| Input          | Type               | Default | Description                                                             |
-| -------------- | ------------------ | ------- | ----------------------------------------------------------------------- |
-| `value`        | `string \| number` | —       | Unique identifier for the section (required inside an accordion).       |
-| `label`        | `string`           | —       | Visible heading text.                                                   |
-| `labelKey`     | `string`           | —       | i18n key resolved for the heading text.                                 |
-| `ariaLabel`    | `string`           | —       | Accessible name when no visible label.                                  |
-| `ariaLabelKey` | `string`           | —       | i18n key resolved for the accessible name.                              |
-| `disabled`     | `boolean`          | `false` | Disables this item.                                                     |
-| `icon`         | `string`           | —       | Per-item icon override for the trigger.                                 |
-| `leadingIcon`  | `string`           | —       | Optional icon rendered at the start of the trigger, glued to the label. |
+| Input          | Type                                                  | Default     | Description                                                                   |
+| -------------- | ----------------------------------------------------- | ----------- | ----------------------------------------------------------------------------- |
+| `value`        | `string \| number`                                    | —           | Unique identifier for the section (required inside an accordion).             |
+| `label`        | `string`                                              | —           | Visible heading text.                                                         |
+| `labelKey`     | `string`                                              | —           | i18n key resolved for the heading text.                                       |
+| `ariaLabel`    | `string`                                              | —           | Accessible name when no visible label.                                        |
+| `ariaLabelKey` | `string`                                              | —           | i18n key resolved for the accessible name.                                    |
+| `disabled`     | `boolean`                                             | `false`     | Disables this item.                                                           |
+| `size`         | `'sm' \| 'md' \| 'lg'`                                | `'md'`      | Ignored inside an accordion — the container `size` wins (standalone only).    |
+| `density`      | `'compact' \| 'normal' \| 'comfortable' \| undefined` | `undefined` | Ignored inside an accordion — the container `density` wins (standalone only). |
+| `icon`         | `string`                                              | —           | Per-item icon override for the trigger.                                       |
+| `leadingIcon`  | `string`                                              | —           | Optional icon rendered at the start of the trigger, glued to the label.       |
 
 ## Import rule
 
@@ -84,16 +87,19 @@ that breaks JIT/unit-test consumers of the published bundle.
 - **Appearance**: `boxed` (each item is a bordered card) or `lined` (flat list
   with a divider under each trigger, except the last item).
 - **Type**: `single` (one open at a time) or `multiple` (several open).
-- **Size**: `sm`, `md`, `lg` control the reserved density.
+- **Size × density**: the container `size`/`density` propagate to every item
+  (see Collapsible for the 9-combination matrix); the trigger `min-height`
+  always equals its `--solaris-control-height-<density>-<size>` ladder token,
+  and the section gap follows the density gap tier.
 
 ## CSS Variables
 
 The item styling is provided by `solaris-collapsible`; see its documentation
 for the full variable list. Container-specific spacing:
 
-| Variable                  | Default               | Description           |
-| ------------------------- | --------------------- | --------------------- |
-| `--solaris-accordion-gap` | `--solaris-spacing-2` | Gap between sections. |
+| Variable                  | Default                    | Description                          |
+| ------------------------- | -------------------------- | ------------------------------------ |
+| `--solaris-accordion-gap` | `--solaris-density-gap-md` | Gap between sections (density tier). |
 
 ## Examples
 

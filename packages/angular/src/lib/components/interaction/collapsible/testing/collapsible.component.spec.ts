@@ -231,6 +231,39 @@ describe('SolarisCollapsibleComponent', () => {
     });
   });
 
+  describe('density', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisCollapsibleComponent],
+      template: `<solaris-collapsible density="comfortable" label="Details" />`,
+    })
+    class ComfortableHost {}
+
+    it('should default to the theme density', () => {
+      expect(getHost().getAttribute('data-density')).toBe('normal');
+    });
+
+    it('should reflect the density input', () => {
+      const comfortableFixture = TestBed.createComponent(ComfortableHost);
+      comfortableFixture.detectChanges();
+      const hostEl = comfortableFixture.nativeElement.querySelector(
+        'solaris-collapsible',
+      ) as HTMLElement;
+      expect(hostEl.getAttribute('data-density')).toBe('comfortable');
+    });
+
+    it('should follow the theme density when it changes', () => {
+      TestBed.resetTestingModule();
+      configureSolarisTesting({ theme: { density: 'compact' } });
+      const themedFixture = TestBed.createComponent(TestHostComponent);
+      themedFixture.detectChanges();
+      const hostEl = themedFixture.nativeElement.querySelector(
+        'solaris-collapsible',
+      ) as HTMLElement;
+      expect(hostEl.getAttribute('data-density')).toBe('compact');
+    });
+  });
+
   describe('appearance', () => {
     it('should default to boxed', () => {
       expect(getHost().getAttribute('data-appearance')).toBe('boxed');

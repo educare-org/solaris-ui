@@ -1,8 +1,16 @@
 :host {
-  --solaris-accordion-gap: var(--solaris-spacing-2);
+  --solaris-accordion-gap: var(--solaris-density-gap-md);
 
   display: block;
   box-sizing: border-box;
+}
+
+:host([data-density='compact']) {
+  --solaris-accordion-gap: var(--solaris-density-gap-sm);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-accordion-gap: var(--solaris-density-gap-lg);
 }
 
 .solaris-accordion__inner {

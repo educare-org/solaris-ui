@@ -1,41 +1,19 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.collapsible-showcase {
-  @include layout.page;
-}
-
-.collapsible-showcase__header {
-  @include layout.header;
-}
-
-.collapsible-showcase__title {
-  @include layout.title;
-}
-
-.collapsible-showcase__description {
-  @include layout.description;
-}
-
-.collapsible-showcase__section {
-  @include layout.section-card;
-}
-
-.collapsible-showcase__section-title {
-  @include layout.section-title;
-}
-
 .collapsible-showcase__note {
   @include layout.note;
-}
 
-.collapsible-showcase__state {
-  @include layout.note;
-
-  margin-bottom: 0;
+  margin-bottom: var(--solaris-spacing-4);
 }
 
 .collapsible-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
+}
+
+.collapsible-showcase__controls {
   display: flex;
-  flex-direction: column;
-  gap: var(--solaris-spacing-7);
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
 }

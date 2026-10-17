@@ -3,6 +3,7 @@ export type {
   SolarisAccordionAppearance,
   SolarisAccordionType,
   SolarisAccordionSize,
+  SolarisAccordionDensity,
   SolarisAccordionValue,
   SolarisAccordionModel,
   SolarisAccordionConfig,

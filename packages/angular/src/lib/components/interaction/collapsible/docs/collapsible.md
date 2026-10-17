@@ -10,19 +10,20 @@ a collapsible panel. It is the base primitive for Accordion.
 
 ### Inputs
 
-| Input          | Type                   | Default          | Description                                                                      |
-| -------------- | ---------------------- | ---------------- | -------------------------------------------------------------------------------- |
-| `open`         | `boolean`              | `false`          | Two-way binding that controls the open state (standalone mode).                  |
-| `value`        | `string \| number`     | —                | Unique identifier used when controlled by an Accordion.                          |
-| `appearance`   | `'boxed' \| 'lined'`   | `'boxed'`        | Visual mode. `boxed` is a bordered card; `lined` is a divider under the trigger. |
-| `label`        | `string`               | —                | Visible trigger text.                                                            |
-| `labelKey`     | `string`               | —                | i18n key resolved for the trigger text.                                          |
-| `ariaLabel`    | `string`               | —                | Accessible name used when no visible label.                                      |
-| `ariaLabelKey` | `string`               | —                | i18n key resolved for the accessible name.                                       |
-| `disabled`     | `boolean`              | `false`          | Disables the trigger interaction.                                                |
-| `size`         | `'sm' \| 'md' \| 'lg'` | `'md'`           | Reserved for density variants.                                                   |
-| `icon`         | `string`               | `'chevron-down'` | Icon rendered at the end of the trigger.                                         |
-| `leadingIcon`  | `string`               | —                | Optional icon rendered at the start of the trigger, glued to the label.          |
+| Input          | Type                                                  | Default          | Description                                                                                                              |
+| -------------- | ----------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `open`         | `boolean`                                             | `false`          | Two-way binding that controls the open state (standalone mode).                                                          |
+| `value`        | `string \| number`                                    | —                | Unique identifier used when controlled by an Accordion.                                                                  |
+| `appearance`   | `'boxed' \| 'lined'`                                  | `'boxed'`        | Visual mode. `boxed` is a bordered card; `lined` is a divider under the trigger.                                         |
+| `label`        | `string`                                              | —                | Visible trigger text.                                                                                                    |
+| `labelKey`     | `string`                                              | —                | i18n key resolved for the trigger text.                                                                                  |
+| `ariaLabel`    | `string`                                              | —                | Accessible name used when no visible label.                                                                              |
+| `ariaLabelKey` | `string`                                              | —                | i18n key resolved for the accessible name.                                                                               |
+| `disabled`     | `boolean`                                             | `false`          | Disables the trigger interaction.                                                                                        |
+| `size`         | `'sm' \| 'md' \| 'lg'`                                | `'md'`           | Label, icon, and padding step. Combines with `density` into a 3×3 matrix.                                                |
+| `density`      | `'compact' \| 'normal' \| 'comfortable' \| undefined` | `undefined`      | Spacing density. Standalone it falls back to the theme density; inside an accordion the container `density` always wins. |
+| `icon`         | `string`                                              | `'chevron-down'` | Icon rendered at the end of the trigger.                                                                                 |
+| `leadingIcon`  | `string`                                              | —                | Optional icon rendered at the start of the trigger, glued to the label.                                                  |
 
 ### Outputs
 
@@ -35,8 +36,10 @@ a collapsible panel. It is the base primitive for Accordion.
 When a `solaris-collapsible` is projected inside a `solaris-accordion`, it acts
 as an accordion section: the open state is owned by the container, a heading is
 rendered around the trigger, and `value` is used for identification. In that
-mode `open`/`openChange` are ignored and the `appearance`, `headingLevel`, and
-`expandIcon` are inherited from the container.
+mode `open`/`openChange` are ignored and the `appearance`, `size`, `density`,
+`headingLevel`, and `expandIcon` are inherited from the container — per-item
+`size`/`density` inputs never win over the container, so every section renders
+with the same outer geometry.
 
 ## Import rule
 
@@ -62,20 +65,40 @@ JIT/unit-test consumers of the published bundle.
 
 - **Appearance**: `boxed` (bordered card) or `lined` (divider under the
   trigger, except the last sibling).
-- **Size**: `sm`, `md`, `lg` control the reserved density of the component.
+- **Size × density**: `size` selects the label/icon/padding step
+  (`sm`: 16px label + 18px chevron, `md`: 18px + 20px, `lg`: 20px + 24px);
+  the effective density resolves the padding/gap tier
+  (`--solaris-density-padding-*` / `--solaris-density-gap-*`) and the
+  trigger `min-height` always equals its
+  `--solaris-control-height-<density>-<size>` ladder token
+  (28→52px in 4px steps), so a default (`md`) trigger aligns with sibling
+  controls. All 9 `size × density` combinations resolve distinctly.
+  Standalone, density falls back to the theme density.
+
+## Density
+
+| Value         | Effect                                                        |
+| ------------- | ------------------------------------------------------------- |
+| `compact`     | Reduced padding, gap, and trigger height                      |
+| `comfortable` | Increased padding, gap, and trigger height                    |
+| `undefined`   | Inherits from the accordion container, then the theme density |
 
 ## CSS Variables
 
-| Variable                                         | Default                           | Description                     |
-| ------------------------------------------------ | --------------------------------- | ------------------------------- |
-| `--solaris-collapsible-trigger-padding`          | spacing tokens                    | Padding of the trigger.         |
-| `--solaris-collapsible-trigger-gap`              | `--solaris-spacing-2`             | Gap between label and chevron.  |
-| `--solaris-collapsible-trigger-color`            | `--solaris-neutral-text-body`     | Trigger text color.             |
-| `--solaris-collapsible-trigger-hover-background` | `--solaris-neutral-subtle`        | Trigger hover background.       |
-| `--solaris-collapsible-icon-size`                | `--solaris-spacing-4`             | Chevron icon size.              |
-| `--solaris-collapsible-panel-padding`            | `--solaris-spacing-3`             | Inner padding of the panel.     |
-| `--solaris-collapsible-radius`                   | `--solaris-radius-sm`             | Border radius of the container. |
-| `--solaris-collapsible-border-color`             | `--solaris-neutral-border-subtle` | Container border color.         |
+| Variable                                     | Default                                             | Description                                                                         |
+| -------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `--solaris-collapsible-trigger-min-height`   | `--solaris-control-height-normal-md`                | Trigger min-height (ladder token of the active combination).                        |
+| `--solaris-collapsible-trigger-padding-y`    | spacing tokens                                      | Vertical padding of the trigger.                                                    |
+| `--solaris-collapsible-trigger-padding-x`    | `--solaris-density-padding-md`                      | Horizontal padding of the trigger (and panel indent).                               |
+| `--solaris-collapsible-trigger-gap`          | `--solaris-density-gap-md`                          | Gap between label and chevron.                                                      |
+| `--solaris-collapsible-trigger-font-size`    | `--solaris-font-size-md`                            | Trigger label font size (driven by `size`).                                         |
+| `--solaris-collapsible-trigger-color`        | `--solaris-neutral-text-secondary`                  | Trigger text color (body on hover).                                                 |
+| `--solaris-collapsible-icon-size`            | `--solaris-font-size-lg`                            | Chevron and leading icon size (driven by `size`).                                   |
+| `--solaris-collapsible-panel-font-size`      | `--solaris-font-size-sm`                            | Panel body font size (driven by `size`).                                            |
+| `--solaris-collapsible-panel-padding-x`      | trigger horizontal padding                          | Panel horizontal indent (follows the trigger).                                      |
+| `--solaris-collapsible-panel-padding-bottom` | `0` collapsed / `--solaris-density-padding-md` open | Panel bottom padding. Zero while collapsed so no content leaks from the zero track. |
+| `--solaris-collapsible-radius`               | `--solaris-radius-md`                               | Border radius of the container.                                                     |
+| `--solaris-collapsible-border-color`         | `--solaris-neutral-border-subtle`                   | Container border color.                                                             |
 
 ## Examples
 

@@ -1,6 +1,43 @@
 export const PT_BR_ACCORDION: Record<string, string> = {
+  'accordion.title': 'Accordion',
   'accordion.description':
     'Seções expansíveis empilhadas verticalmente com modos de expansão único ou múltiplo.',
+  'accordion.section.examples': 'Exemplos',
+  'accordion.section.modes': 'Modos de expansão',
+  'accordion.section.appearance': 'Aparência',
+  'accordion.section.size-density': 'Tamanho e densidade',
+  'accordion.section.behavior': 'Comportamento',
+  'accordion.section.leading-icon': 'Ícone inicial',
+  'accordion.section.installation': 'Instalação',
+  'accordion.section.props': 'Propriedades',
+  'accordion.examples.note':
+    'Comece com o accordion padrão de expansão única e explore modos e aparências abaixo.',
+  'accordion.modes.note':
+    'Único mantém uma seção aberta por vez; múltiplo alterna cada seção de forma independente.',
+  'accordion.mode.single': 'Único',
+  'accordion.mode.multiple': 'Múltiplo',
+  'accordion.appearance.note':
+    'Boxed renderiza cada item como cartão com borda; lined renderiza uma lista plana com divisores.',
+  'accordion.appearance.boxed': 'Boxed',
+  'accordion.appearance.lined': 'Lined',
+  'accordion.size-density.note':
+    'Tamanho e densidade pertencem ao contêiner e se propagam para cada item, então todas as seções têm a mesma geometria.',
+  'accordion.size.sm': 'Pequeno',
+  'accordion.size.md': 'Médio',
+  'accordion.size.lg': 'Grande',
+  'accordion.density.compact': 'Compacta',
+  'accordion.density.normal': 'Normal',
+  'accordion.density.comfortable': 'Confortável',
+  'accordion.behavior.note':
+    'Trave o modo único para que a seção aberta não possa ser recolhida, ou ajuste o nível de título dos cabeçalhos.',
+  'accordion.leading-icon.note':
+    'Ícone por item colado ao rótulo, renderizado antes do chevron de expansão.',
+  'accordion.installation.note':
+    'Instale o pacote único Solaris e importe o componente.',
+  'accordion.props.note':
+    'Tabela de propriedades em breve, com o componente de tabela.',
+  'accordion.ai.prompt':
+    'Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar.',
   'accordion.single': 'Expansão única',
   'accordion.single-note':
     'Apenas uma seção fica aberta por vez. Abrir uma seção fecha a anterior.',
