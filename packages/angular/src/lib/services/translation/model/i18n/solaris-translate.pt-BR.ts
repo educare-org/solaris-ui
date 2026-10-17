@@ -209,6 +209,31 @@ export const SOLARIS_TRANSLATE_PT_BR: Record<string, string> = {
   'solaris.calendar.previousDays': 'Mostrar {{count}} dias anteriores',
   'solaris.calendar.nextDays': 'Mostrar próximos {{count}} dias',
   'solaris.calendar.today': 'Hoje',
+  'solaris.calendar.dragCreateStart':
+    'Criando um evento de {{start}} a {{end}}. Solte para confirmar, Escape para cancelar.',
+  'solaris.calendar.dragMoveStart':
+    'Movendo {{title}} de {{start}}. Solte para confirmar, Escape para cancelar.',
+  'solaris.calendar.dragResizeStart':
+    'Redimensionando {{title}} de {{start}}. Solte para confirmar, Escape para cancelar.',
+  'solaris.calendar.dragChange': '{{label}}',
+  'solaris.calendar.dragCreateCommit': 'Evento criado de {{start}} a {{end}}.',
+  'solaris.calendar.dragMoveCommit': '{{title}} movido para {{label}}.',
+  'solaris.calendar.dragResizeCommit':
+    '{{title}} redimensionado para {{label}}.',
+  'solaris.calendar.dragCancel':
+    'Arrasto cancelado. Nenhuma alteração foi feita.',
+  'solaris.calendar.shellPrevious': 'Anterior',
+  'solaris.calendar.shellNext': 'Próximo',
+  'solaris.calendar.viewDay': 'Dia',
+  'solaris.calendar.viewWeek': 'Semana',
+  'solaris.calendar.viewMonth': 'Mês',
+  'solaris.calendar.viewYear': 'Ano',
+  'solaris.calendar.viewSchedule': 'Agenda',
+  'solaris.calendar.viewCustom': 'Personalizado',
+  'solaris.calendar.showWeekends': 'Mostrar fins de semana',
+  'solaris.calendar.timeZoneLabel': 'Fuso horário: {{zone}} ({{offset}})',
+  'solaris.calendar.customDays': 'Dias personalizados',
+  'solaris.calendar.miniMonthLabel': 'Calendário de {{month}}',
   'solaris.calendar.editorTitle': 'Título',
   'solaris.calendar.editorTitleRequired': 'Informe um título.',
   'solaris.calendar.editorStartDate': 'Data inicial',
