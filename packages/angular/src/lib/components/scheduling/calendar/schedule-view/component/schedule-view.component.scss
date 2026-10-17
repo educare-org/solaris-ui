@@ -277,3 +277,20 @@ button.solaris-calendar-schedule-view__item:focus-visible {
     transition: none;
   }
 }
+
+@media print {
+  .solaris-calendar-schedule-view__toolbar {
+    display: none;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for the print list.
+  .solaris-calendar-schedule-view__list {
+    overflow: visible;
+    background: #fff;
+    color: #000;
+  }
+
+  .solaris-calendar-schedule-view__list * {
+    box-shadow: none;
+  }
+}

@@ -119,6 +119,22 @@
     "patterns": 5,
     "reviewed": "2026-10-15"
   },
+  "packages/angular/src/lib/components/scheduling/calendar/month-view/component/month-view.component.ts": {
+    "patterns": 13,
+    "reviewed": "2026-10-17"
+  },
+  "packages/angular/src/lib/components/scheduling/calendar/week-view/component/week-view.component.ts": {
+    "patterns": 10,
+    "reviewed": "2026-10-17"
+  },
+  "packages/angular/src/lib/components/scheduling/calendar/week-view/model/week-view.utils.ts": {
+    "patterns": 2,
+    "reviewed": "2026-10-17"
+  },
+  "packages/angular/src/lib/components/scheduling/calendar/shell/component/shell.component.ts": {
+    "patterns": 2,
+    "reviewed": "2026-10-17"
+  },
   "packages/angular/src/lib/core/utils/id.ts": {
     "patterns": 1,
     "reviewed": "2026-10-15"

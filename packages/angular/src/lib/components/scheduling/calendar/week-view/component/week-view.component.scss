@@ -598,3 +598,20 @@ button.solaris-calendar-week-view__chip:focus-visible {
     transition: none;
   }
 }
+
+@media print {
+  .solaris-calendar-week-view__scroll {
+    overflow: visible;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for the print grid.
+  .solaris-calendar-week-view__grid,
+  .solaris-calendar-week-view__scroll {
+    background: #fff;
+    color: #000;
+  }
+
+  .solaris-calendar-week-view__grid * {
+    box-shadow: none;
+  }
+}

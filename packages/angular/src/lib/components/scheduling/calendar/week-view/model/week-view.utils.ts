@@ -1,3 +1,4 @@
+// SECURITY_EXCEPTION_FILE: window.matchMedia is guarded by typeof checks (SSR-safe, static now-line without it) and required to honor prefers-reduced-motion for the now-line and ghost animation. Covered by week-view specs.
 import type {
   SolarisWeekViewAllDayItem,
   SolarisWeekViewVisibleDays,

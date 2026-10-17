@@ -392,3 +392,26 @@ button.solaris-calendar-month-view__chip[data-kind='event'] {
     transition: none;
   }
 }
+
+@media print {
+  .solaris-calendar-month-view__grid {
+    overflow: visible;
+  }
+
+  .solaris-calendar-month-view__panel {
+    position: static;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for the print grid.
+  .solaris-calendar-month-view__grid,
+  .solaris-calendar-month-view__cell {
+    background: #fff;
+    color: #000;
+  }
+
+  .solaris-calendar-month-view__cell,
+  .solaris-calendar-month-view__chip,
+  .solaris-calendar-month-view__ghost {
+    box-shadow: none;
+  }
+}

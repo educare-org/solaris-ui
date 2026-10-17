@@ -1048,6 +1048,17 @@ export { SolarisCalendarMonthViewComponent } from './lib/components/scheduling/c
 export { SolarisCalendarWeekViewComponent } from './lib/components/scheduling/calendar/index';
 export { SolarisCalendarYearViewComponent } from './lib/components/scheduling/calendar/index';
 export { SolarisCalendarScheduleViewComponent } from './lib/components/scheduling/calendar/index';
+export { SolarisCalendarComponent } from './lib/components/scheduling/calendar/index';
+export {
+  formatTimeZoneOffset,
+  isNarrowViewport,
+  normalizeCustomDays,
+  normalizeShellView,
+  resolveEffectiveView,
+  resolveMiniMonth,
+  shiftShellDate,
+  visibleDaysForView,
+} from './lib/components/scheduling/calendar/index';
 export {
   clipSpanToDay,
   layoutOverlappingSpans,
@@ -1093,6 +1104,10 @@ export type {
   SolarisScheduleViewItem,
   SolarisScheduleViewItemKind,
   SolarisScheduleViewSize,
+  SolarisCalendarDensity,
+  SolarisCalendarResponsiveFallback,
+  SolarisCalendarSize,
+  SolarisCalendarView,
   WeekdayHolidayRule,
 } from './lib/components/scheduling/calendar/index';
 

@@ -22,8 +22,8 @@ export const SCHEDULE_VIEW_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const SCHEDULE_VIEW_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.divider',
-  route: '/content/divider',
+  labelKey: 'shell.sidebar.item.shell',
+  route: '/scheduling/shell',
 };
 
 export const SCHEDULE_VIEW_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

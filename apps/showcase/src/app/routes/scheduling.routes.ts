@@ -32,6 +32,27 @@ export const schedulingRoutes: Route[] = [
             '../pages/scheduling/schedule-view/component/schedule-view-showcase'
           ).then((m) => m.ScheduleViewShowcasePage),
       },
+      {
+        path: 'shell',
+        loadComponent: () =>
+          import('../pages/scheduling/shell/component/shell-showcase').then(
+            (m) => m.ShellShowcasePage,
+          ),
+      },
+      {
+        path: 'holidays',
+        loadComponent: () =>
+          import(
+            '../pages/scheduling/holidays/component/holidays-showcase'
+          ).then((m) => m.HolidaysShowcasePage),
+      },
+      {
+        path: 'print',
+        loadComponent: () =>
+          import('../pages/scheduling/print/component/print-showcase').then(
+            (m) => m.PrintShowcasePage,
+          ),
+      },
     ],
   },
 ];

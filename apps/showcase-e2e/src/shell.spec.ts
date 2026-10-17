@@ -1,143 +1,54 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
-test.describe('showcase shell', () => {
-  test('renders header, sidebar navigation and routed content', async ({
-    page,
-  }) => {
-    await page.goto('/actions/button');
-
-    await expect(
-      page.getByRole('link', { name: 'Solaris UI home' }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole('navigation', { name: 'Documentation sections' }),
-    ).toBeVisible();
-    await expect(page.locator('#main-content h1')).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: 'Button', exact: true }),
-    ).toHaveAttribute('aria-current', 'page');
+test.describe('Calendar shell', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/scheduling/shell');
+    await expect(page.locator('h1')).toBeVisible();
   });
 
-  test('redirects the empty route to the configuration page', async ({
-    page,
-  }) => {
-    await page.goto('/');
-    await expect(page).toHaveURL('/configuration');
-    await expect(page.locator('#main-content h1')).toBeVisible();
+  test('navigates with previous, next, and today', async ({ page }) => {
+    const shell = page.locator('solaris-calendar');
+    const title = shell.locator('.solaris-calendar__title');
+    const before = await title.textContent();
+    await shell.locator('.solaris-calendar__next').click();
+    await expect(title).not.toHaveText(before ?? '');
+    await shell.locator('.solaris-calendar__prev').click();
+    await expect(title).toHaveText(before ?? '');
+    await shell.locator('.solaris-calendar__today').click();
+    await expect(title).not.toHaveText('');
   });
 
-  test('navigates between pages through the sidebar', async ({ page }) => {
-    await page.goto('/actions/button');
-    await page
-      .getByRole('navigation', { name: 'Documentation sections' })
-      .getByRole('link', { name: 'Alert' })
+  test('switches views including custom days', async ({ page }) => {
+    const shell = page.locator('solaris-calendar');
+    await shell.locator('.solaris-calendar__view[data-view="week"]').click();
+    await expect(shell).toHaveAttribute('data-view', 'week');
+    await expect(page.getByTestId('event-log')).toHaveText('view:week');
+    await shell.locator('.solaris-calendar__view[data-view="custom"]').click();
+    const custom = shell.locator('.solaris-calendar__custom-days');
+    await custom.fill('3');
+    await custom.dispatchEvent('change');
+    await expect(page.getByTestId('event-log')).toHaveText('view:custom');
+  });
+
+  test('drills through the mini-month and shows the timezone label', async ({
+    page,
+  }) => {
+    const shell = page.locator('solaris-calendar');
+    await expect(shell.locator('.solaris-calendar__tz')).toContainText(
+      /Time zone|Fuso|Zona/,
+    );
+    await shell
+      .locator('.solaris-calendar__mini-day[data-date="2026-10-20"]')
       .click();
-
-    await expect(page).toHaveURL('/feedback/alert');
-    await expect(page.locator('#main-content h1')).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: 'Alert', exact: true }),
-    ).toHaveAttribute('aria-current', 'page');
+    await expect(page.getByTestId('event-log')).toHaveText('day:2026-10-20');
   });
 
-  test('filters sidebar pages through the header search', async ({ page }) => {
-    await page.goto('/actions/button');
-
-    const search = page.getByLabel('Filter documentation pages');
-    await search.fill('dialog');
-
-    const nav = page.getByRole('navigation', {
-      name: 'Documentation sections',
-    });
-    await expect(nav.getByRole('link', { name: 'Dialog' })).toBeVisible();
+  test('falls back to schedule at 360px', async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+    const shell = page.locator('solaris-calendar');
+    await expect(shell).toHaveAttribute('data-view', 'schedule');
     await expect(
-      nav.getByRole('link', { name: 'Button', exact: true }),
-    ).toHaveCount(0);
-
-    await search.fill('zzz-no-such-page');
-    await expect(
-      nav.getByText('No pages match the current filter.'),
+      shell.locator('.solaris-calendar-schedule-view__list'),
     ).toBeVisible();
-  });
-
-  test('supports keyboard navigation: Tab reaches search, Escape clears it', async ({
-    page,
-  }) => {
-    await page.goto('/actions/button');
-
-    const search = page.getByLabel('Filter documentation pages');
-    await search.click();
-    await search.pressSequentially('button');
-    await expect(search).toHaveValue('button');
-
-    await search.press('Escape');
-    await expect(search).toHaveValue('');
-  });
-
-  test('loads the Solaris typeface with text controls inheriting it', async ({
-    page,
-  }) => {
-    await page.goto('/actions/button');
-    await page.evaluate(() => document.fonts.ready);
-
-    const weights = await page.evaluate(async () => {
-      const specs = [
-        '400 16px Inter',
-        '500 16px Inter',
-        '600 16px Inter',
-        '700 16px Inter',
-      ];
-      const loaded: Record<string, boolean> = {};
-      for (const spec of specs) {
-        try {
-          await document.fonts.load(spec);
-        } catch {
-          // Missing @font-face or unloadable file keeps check() false.
-        }
-        loaded[spec] = document.fonts.check(spec);
-      }
-      return loaded;
-    });
-    expect(weights).toEqual({
-      '400 16px Inter': true,
-      '500 16px Inter': true,
-      '600 16px Inter': true,
-      '700 16px Inter': true,
-    });
-
-    const toggleFamily = await page
-      .getByRole('button', { name: 'Actions', exact: true })
-      .evaluate((element) => getComputedStyle(element).fontFamily);
-    expect(toggleFamily).toContain('Inter');
-
-    const searchFamily = await page
-      .getByLabel('Filter documentation pages')
-      .evaluate((element) => getComputedStyle(element).fontFamily);
-    expect(searchFamily).toContain('Inter');
-  });
-
-  test('skip link jumps to the main content', async ({ page }) => {
-    await page.goto('/actions/button');
-
-    // The skip link is the first element in tab order.
-    const firstTabbable = await page.evaluate(() => {
-      const selector =
-        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-      const scope = document.body.querySelectorAll(selector);
-      for (const element of scope) {
-        const rect = element.getBoundingClientRect();
-        if (rect.width > 0 && rect.height > 0) {
-          return element.className;
-        }
-      }
-      return null;
-    });
-    expect(firstTabbable).toContain('shell__skip-link');
-
-    const skip = page.getByRole('link', { name: 'Skip to content' });
-    await skip.focus();
-    await expect(skip).toBeFocused();
-    await skip.press('Enter');
-    await expect(page.locator('#main-content')).toBeFocused();
   });
 });

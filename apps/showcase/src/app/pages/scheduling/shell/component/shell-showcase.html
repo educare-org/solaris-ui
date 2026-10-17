@@ -1,0 +1,63 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="shell-view.title"
+    descriptionKey="shell-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="shell-view.section.examples">
+    <p class="shell-showcase__note">
+      {{ 'shell-view.examples.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <solaris-calendar
+        locale="pt-BR"
+        [view]="view()"
+        (viewChange)="onViewChange($event)"
+        [focusedDate]="focusedDate()"
+        (focusedDateChange)="focusedDate.set($event)"
+        [events]="events"
+        [tasks]="tasks"
+        [holidays]="holidays()"
+        (daySelect)="onDaySelect($event)"
+        (viewChange)="onViewChange($event)"
+      />
+      <p data-testid="event-log">{{ log() }}</p>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="responsive"
+    titleKey="shell-view.section.responsive"
+  >
+    <p class="shell-showcase__note">
+      {{ 'shell-view.responsive.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="shell-view.section.installation"
+  >
+    <p class="shell-showcase__note">
+      {{ 'shell-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="shell-view.section.props">
+    <p class="shell-showcase__note">
+      {{ 'shell-view.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

@@ -74,6 +74,18 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
             labelKey: 'shell.sidebar.item.schedule-view',
             route: '/scheduling/schedule-view',
           },
+          {
+            labelKey: 'shell.sidebar.item.shell',
+            route: '/scheduling/shell',
+          },
+          {
+            labelKey: 'shell.sidebar.item.holidays',
+            route: '/scheduling/holidays',
+          },
+          {
+            labelKey: 'shell.sidebar.item.print',
+            route: '/scheduling/print',
+          },
         ],
       },
       {

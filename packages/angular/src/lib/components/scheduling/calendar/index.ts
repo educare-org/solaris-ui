@@ -123,6 +123,23 @@ export type {
 export { SolarisCalendarWeekViewComponent } from './week-view/component/week-view.component';
 export { SolarisCalendarYearViewComponent } from './year-view/component/year-view.component';
 export { SolarisCalendarScheduleViewComponent } from './schedule-view/component/schedule-view.component';
+export { SolarisCalendarComponent } from './shell/component/shell.component';
+export type {
+  SolarisCalendarDensity,
+  SolarisCalendarResponsiveFallback,
+  SolarisCalendarSize,
+  SolarisCalendarView,
+} from './shell/model/shell.types';
+export {
+  formatTimeZoneOffset,
+  isNarrowViewport,
+  normalizeCustomDays,
+  normalizeShellView,
+  resolveEffectiveView,
+  resolveMiniMonth,
+  shiftShellDate,
+  visibleDaysForView,
+} from './shell/model/shell.utils';
 export {
   clipSpanToDay,
   layoutOverlappingSpans,

@@ -1,0 +1,175 @@
+.solaris-calendar {
+  display: block;
+}
+
+.solaris-calendar__toolbar {
+  --solaris-calendar-shell-border: var(--solaris-neutral-border-subtle);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-5);
+  padding: var(--solaris-spacing-5);
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-neutral-default);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-calendar-shell-border);
+}
+
+.solaris-calendar__nav {
+  display: flex;
+  gap: var(--solaris-spacing-2);
+}
+
+.solaris-calendar__mini-day:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-calendar__view[data-active] {
+  //
+}
+
+.solaris-calendar__title {
+  color: var(--solaris-neutral-text-body);
+  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-md) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.solaris-calendar__views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-4);
+}
+
+.solaris-calendar__body {
+  display: grid;
+  gap: var(--solaris-spacing-4);
+  margin-top: var(--solaris-spacing-4);
+  grid-template-columns: calc(var(--solaris-spacing-9) * 10) minmax(0, 1fr);
+}
+
+.solaris-calendar__side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  padding: var(--solaris-spacing-3);
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-neutral-default);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
+}
+
+.solaris-calendar__mini-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-4);
+  justify-content: space-between;
+}
+
+.solaris-calendar__mini {
+  display: grid;
+  gap: var(--solaris-spacing-2);
+}
+
+.solaris-calendar__mini-week {
+  display: grid;
+  gap: var(--solaris-spacing-2);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.solaris-calendar__side:has(
+    .solaris-calendar__mini-week:nth-child(1):last-child
+  )
+  .solaris-calendar__mini-week {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.solaris-calendar__mini-day {
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+  padding: var(--solaris-spacing-2);
+  color: var(--solaris-neutral-text-body);
+  border-radius: var(--solaris-radius-full);
+}
+
+.solaris-calendar__mini-day[data-today] {
+  background: var(--solaris-primary-solid);
+  color: var(--solaris-primary-foreground);
+}
+
+.solaris-calendar__mini-day[data-active] {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+}
+
+.solaris-calendar__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-1);
+  color: var(--solaris-neutral-text-secondary);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-xs) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+}
+
+.solaris-calendar__tz-select {
+  width: 100%;
+}
+
+.solaris-calendar__custom-days {
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
+  border-radius: var(--solaris-radius-md);
+  padding: var(--solaris-spacing-2);
+  background: var(--solaris-neutral-default);
+  color: var(--solaris-neutral-text-body);
+}
+
+.solaris-calendar__main {
+  min-width: 0;
+}
+
+@media (width <= 640px) {
+  .solaris-calendar__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .solaris-calendar__side {
+    order: 2;
+  }
+}
+
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. Print must stay ink-safe on every theme (including dark and
+// high-contrast): theme tokens resolve to dark surfaces there, so the print
+// baseline pins paper #fff / ink #000 and drops shadows. Screen rendering
+// is untouched.
+@media print {
+  .solaris-calendar__toolbar,
+  .solaris-calendar__side {
+    display: none;
+  }
+
+  .solaris-calendar__body {
+    display: block;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for the print host.
+  .solaris-calendar,
+  .solaris-calendar__main {
+    background: #fff;
+    color: #000;
+  }
+
+  .solaris-calendar__main * {
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-calendar__mini-day {
+    transition: none;
+  }
+}

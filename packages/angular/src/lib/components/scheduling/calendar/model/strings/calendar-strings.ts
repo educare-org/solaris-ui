@@ -25,7 +25,19 @@ export type SolarisCalendarStringKey =
   | 'dragCreateCommit'
   | 'dragMoveCommit'
   | 'dragResizeCommit'
-  | 'dragCancel';
+  | 'dragCancel'
+  | 'shellPrevious'
+  | 'shellNext'
+  | 'viewDay'
+  | 'viewWeek'
+  | 'viewMonth'
+  | 'viewYear'
+  | 'viewSchedule'
+  | 'viewCustom'
+  | 'showWeekends'
+  | 'timeZoneLabel'
+  | 'customDays'
+  | 'miniMonthLabel';
 
 export type SolarisCalendarStringLanguage = 'en' | 'pt' | 'es';
 

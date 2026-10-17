@@ -32,7 +32,8 @@
       <solaris-calendar-year-view
         [locale]="demoLocale()"
         timeZone="America/Sao_Paulo"
-        [(focusedDate)]="focusedDate"
+        [focusedDate]="focusedDate()"
+        (focusedDateChange)="focusedDate.set($event)"
         [events]="events"
         [tasks]="tasks"
         [holidays]="holidays()"
@@ -49,7 +50,8 @@
     <solaris-calendar-month-view
       [locale]="demoLocale()"
       timeZone="America/Sao_Paulo"
-      [(focusedDate)]="focusedDate"
+      [focusedDate]="focusedDate()"
+      (focusedDateChange)="focusedDate.set($event)"
       [events]="events"
       [tasks]="tasks"
       [holidays]="holidays()"
@@ -67,7 +69,8 @@
     </p>
     <div class="year-view-showcase__controls">
       <solaris-tabs
-        [(value)]="selectedSize"
+        [value]="selectedSize()"
+        (valueChange)="selectedSize.set($any($event))"
         [ariaLabel]="'year-view.section.size-density' | translate"
       >
         <solaris-tab value="sm">sm</solaris-tab>
@@ -75,7 +78,8 @@
         <solaris-tab value="lg">lg</solaris-tab>
       </solaris-tabs>
       <solaris-tabs
-        [(value)]="selectedDensity"
+        [value]="selectedDensity()"
+        (valueChange)="selectedDensity.set($any($event))"
         [ariaLabel]="'year-view.section.size-density' | translate"
       >
         <solaris-tab value="compact">compact</solaris-tab>

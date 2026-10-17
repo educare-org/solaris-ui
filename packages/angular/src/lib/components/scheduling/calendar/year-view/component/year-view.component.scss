@@ -193,3 +193,16 @@
     min-width: 0;
   }
 }
+
+@media print {
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for the print grid.
+  .solaris-calendar-year-view__grid {
+    overflow: visible;
+    background: #fff;
+    color: #000;
+  }
+
+  .solaris-calendar-year-view__grid * {
+    box-shadow: none;
+  }
+}

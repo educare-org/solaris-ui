@@ -1,3 +1,5 @@
+// SECURITY_EXCEPTION_FILE: document.elementFromPoint is the only API mapping pointer coordinates to the hovered slot/lane during drag; guarded by typeof document, HTMLElement checks, and data-date/data-hour validation. Covered by week-view-drag specs.
+// SECURITY_EXCEPTION_FILE: window.addEventListener/removeEventListener/setInterval/matchMedia are guarded by typeof checks (SSR-safe) and required for pointer-drag sessions, the tz now-line timer, and reduced-motion detection; Renderer2 has no window-level equivalent. Covered by week-view specs.
 import {
   ChangeDetectionStrategy,
   Component,
@@ -102,42 +104,42 @@ import {
   styleUrls: ['./week-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'solaris-calendar-week-view',
-    '[attr.data-density]': 'density()',
     '[attr.data-size]': 'size()',
     '[attr.data-days]': 'laneCount()',
+    '[attr.data-density]': 'density()',
+    class: 'solaris-calendar-week-view',
     '[attr.data-dragging]': 'dragSession() ? "" : null',
     '[attr.data-resizing]': 'resizeActive() ? "" : null',
   },
 })
 export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
-  readonly focusedDate = model<string>(todaySolarisDate());
   readonly visibleDays = input<SolarisWeekViewVisibleDays>(7);
-  readonly events = input<SolarisCalendarEvent[]>([]);
-  readonly tasks = input<SolarisCalendarTask[]>([]);
-  readonly holidays = input<SolarisHoliday[]>([]);
-  readonly timeZone = input<string>(defaultSolarisTimeZone());
-  readonly locale = input.required<string>();
-  readonly weekStartsOn = input<SolarisCalendarWeekStart>();
-  readonly showWeekends = input(true);
   readonly density = input<SolarisWeekViewDensity>('comfortable');
+  readonly weekStartsOn = input<SolarisCalendarWeekStart>();
   readonly size = input<SolarisWeekViewSize>('md');
+  readonly events = input<SolarisCalendarEvent[]>([]);
   readonly selectedId = input<string | null>(null);
+  readonly tasks = input<SolarisCalendarTask[]>([]);
+  readonly timeZone = input<string>(defaultSolarisTimeZone());
+  readonly focusedDate = model<string>(todaySolarisDate());
+  readonly holidays = input<SolarisHoliday[]>([]);
+  readonly dragDisabled = input(false);
   readonly maxVisiblePerDay = input(3);
+  readonly snapStepMinutes = input(30);
+  readonly moreLabelKey = input<string>();
+  readonly showWeekends = input(true);
   readonly showAllDay = input(true);
   readonly moreLabel = input<string>();
-  readonly moreLabelKey = input<string>();
-  readonly dragDisabled = input(false);
-  readonly snapStepMinutes = input(30);
+  readonly locale = input.required<string>();
 
-  readonly daySelect = output<string>();
-  readonly slotSelect = output<SolarisWeekViewSlotSelect>();
-  readonly eventOpen = output<SolarisWeekViewEventOpen>();
   readonly moreOpen = output<string>();
+  readonly daySelect = output<string>();
   readonly taskToggle = output<string>();
-  readonly eventCreate = output<SolarisCalendarEventCreateProposal>();
+  readonly eventOpen = output<SolarisWeekViewEventOpen>();
+  readonly slotSelect = output<SolarisWeekViewSlotSelect>();
   readonly eventMove = output<SolarisCalendarEventMoveProposal>();
   readonly eventResize = output<SolarisCalendarEventResizeProposal>();
+  readonly eventCreate = output<SolarisCalendarEventCreateProposal>();
 
   private readonly instanceId = nextIdFor('solaris-week-view');
   private readonly translateService = inject(SolarisTranslateService, {
@@ -153,7 +155,6 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
   });
   private nowTimer: ReturnType<typeof setInterval> | null = null;
 
-  // why: pointer drag state lives outside signals until the move threshold passes.
   protected readonly dragSession = signal<SolarisWeekDragSession | null>(null);
   private readonly blockTooltips = viewChildren(SolarisTooltipDirective);
   private dragCandidate: SolarisWeekDragCandidate | null = null;
@@ -1491,8 +1492,6 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
       title: candidate.title,
     };
     this.dragSession.set(session);
-    // why: the drag source keeps DOM focus during the session, which would
-    // otherwise keep its hover tooltip open (and stale) over the ghost.
     this.closeBlockTooltips();
     if (session.mode === 'create') {
       this.announcement.set(
