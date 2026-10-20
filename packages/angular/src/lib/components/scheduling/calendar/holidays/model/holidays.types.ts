@@ -7,6 +7,10 @@ export interface SolarisHolidayRange {
 
 export interface SolarisHolidayProvider {
   holidays(range: SolarisHolidayRange, locale: string): SolarisHoliday[];
+  holidaysAsync?(
+    range: SolarisHolidayRange,
+    locale: string,
+  ): Promise<SolarisHoliday[]>;
   extend(extra: SolarisHoliday[]): SolarisHolidayProvider;
 }
 

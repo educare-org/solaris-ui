@@ -110,6 +110,11 @@ export const SOLARIS_TRANSLATE_ES: Record<string, string> = {
   'solaris.calendar.editorDescription': 'Descripción',
   'solaris.calendar.editorMeetingLink': 'Enlace de la reunión',
   'solaris.calendar.editorMeetingLinkHint': 'Meet, Teams u otro enlace',
+  'solaris.calendar.editorAttendees': 'Invitados',
+  'solaris.calendar.editorAttendeesHint': 'Correos separados por comas',
+  'solaris.calendar.editorResources': 'Recursos',
+  'solaris.calendar.editorResourcesHint':
+    'Ids de sala o equipo, separados por comas',
   'solaris.calendar.editorColor': 'Color',
   'solaris.calendar.editorColorPrimary': 'Primario',
   'solaris.calendar.editorColorSuccess': 'Éxito',

@@ -5,6 +5,11 @@ export type {
   SolarisCalendarOccurrence,
   SolarisCalendarTask,
   SolarisCalendarWeekStart,
+  SolarisCalendarSource,
+  SolarisCalendarResource,
+  SolarisCalendarResourceKind,
+  SolarisEventAttendee,
+  SolarisAttendeeStatus,
   SolarisEventReminder,
   SolarisEventVisibility,
   SolarisHoliday,
@@ -100,6 +105,12 @@ export {
   isBuiltInHolidaysLoaded,
   preloadBuiltInHolidays,
 } from './holidays/builtin/built-in-holidays';
+export {
+  clearSolarisHolidayCache,
+  fetchSolarisHolidays,
+  mergeSolarisHolidays,
+  withAsyncHolidays,
+} from './holidays/model/holiday-async.utils';
 export { SolarisCalendarMonthViewComponent } from './month-view/component/month-view.component';
 export type {
   SolarisMonthViewDensity,
@@ -127,6 +138,23 @@ export { SolarisCalendarWeekViewComponent } from './week-view/component/week-vie
 export { SolarisCalendarYearViewComponent } from './year-view/component/year-view.component';
 export { SolarisCalendarScheduleViewComponent } from './schedule-view/component/schedule-view.component';
 export { SolarisCalendarComponent } from './shell/component/shell.component';
+export {
+  filterSolarisByCalendars,
+  findSolarisConflicts,
+  isSolarisFree,
+} from './model/calendar-availability.utils';
+export {
+  exportSolarisToIcs,
+  parseSolarisFromIcs,
+} from './model/calendar-ics.utils';
+export {
+  getSolarisDueReminders,
+  nextSolarisReminderMs,
+} from './model/calendar-reminders.utils';
+export {
+  searchSolarisCalendar,
+  inspectSolarisCalendar,
+} from './model/calendar-search.utils';
 export { SolarisCalendarEditorDialogComponent } from './shell/component/calendar-editor-dialog.component';
 export type {
   SolarisCalendarDensity,

@@ -298,6 +298,11 @@ export const SOLARIS_TRANSLATE_PT_BR: Record<string, string> = {
   'solaris.calendar.editorDescription': 'Descrição',
   'solaris.calendar.editorMeetingLink': 'Link da reunião',
   'solaris.calendar.editorMeetingLinkHint': 'Meet, Teams ou outro link',
+  'solaris.calendar.editorAttendees': 'Convidados',
+  'solaris.calendar.editorAttendeesHint': 'Emails separados por vírgula',
+  'solaris.calendar.editorResources': 'Recursos',
+  'solaris.calendar.editorResourcesHint':
+    'Ids de sala ou equipamento, separados por vírgula',
   'solaris.calendar.editorColor': 'Cor',
   'solaris.calendar.editorColorPrimary': 'Primária',
   'solaris.calendar.editorColorSuccess': 'Sucesso',

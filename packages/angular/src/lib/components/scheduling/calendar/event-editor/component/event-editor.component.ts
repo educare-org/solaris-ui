@@ -84,6 +84,32 @@ import {
 import { SolarisIconButtonDirective } from '../../../../actions/icon-button';
 import { SolarisIconComponent } from '../../../../icon';
 
+function parseAttendeeEmails(value: string): { email: string }[] {
+  const seen = new Set<string>();
+  const output: { email: string }[] = [];
+  for (const raw of value.split(/[,;\n]/)) {
+    const email = raw.trim();
+    if (email.length === 0 || !email.includes('@')) continue;
+    const key = email.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    output.push({ email });
+  }
+  return output;
+}
+
+function parseResourceIds(value: string): string[] {
+  const seen = new Set<string>();
+  const output: string[] = [];
+  for (const raw of value.split(/[,;\n]/)) {
+    const id = raw.trim();
+    if (id.length === 0 || seen.has(id)) continue;
+    seen.add(id);
+    output.push(id);
+  }
+  return output;
+}
+
 @Component({
   selector: 'solaris-calendar-event-editor',
   standalone: true,
@@ -146,6 +172,8 @@ export class SolarisCalendarEventEditorComponent implements OnInit {
   protected readonly title = signal('');
   protected readonly description = signal('');
   protected readonly meetingUrl = signal('');
+  protected readonly attendeesText = signal('');
+  protected readonly resourcesText = signal('');
   protected readonly startDate = signal<string | null>(null);
   protected readonly startTime = signal('09:00');
   protected readonly endDate = signal<string | null>(null);
@@ -274,6 +302,14 @@ export class SolarisCalendarEventEditorComponent implements OnInit {
 
   protected onMeetingUrlInput(value: string): void {
     this.meetingUrl.set(value);
+  }
+
+  protected onAttendeesInput(value: string): void {
+    this.attendeesText.set(value);
+  }
+
+  protected onResourcesInput(value: string): void {
+    this.resourcesText.set(value);
   }
 
   protected onStartDate(value: string | null): void {
@@ -606,6 +642,8 @@ export class SolarisCalendarEventEditorComponent implements OnInit {
     const { start, end, startDate } = this.draftRange();
     const description = this.description().trim() || undefined;
     const meetingUrl = this.meetingUrl().trim() || undefined;
+    const attendees = parseAttendeeEmails(this.attendeesText());
+    const resources = parseResourceIds(this.resourcesText());
 
     const draft: SolarisCalendarEvent = {
       id: source.id,
@@ -622,6 +660,8 @@ export class SolarisCalendarEventEditorComponent implements OnInit {
       description,
       meetingUrl,
       scheduleSlot: this.itemKind() === 'schedule' ? true : undefined,
+      ...(attendees.length > 0 ? { attendees } : {}),
+      ...(resources.length > 0 ? { resources } : {}),
       ...(source.kind === 'event' && source.calendarId !== undefined
         ? { calendarId: source.calendarId }
         : {}),
@@ -664,6 +704,14 @@ export class SolarisCalendarEventEditorComponent implements OnInit {
     this.description.set(source.description ?? '');
     this.meetingUrl.set(
       source.kind === 'event' ? (source.meetingUrl ?? '') : '',
+    );
+    this.attendeesText.set(
+      source.kind === 'event'
+        ? (source.attendees ?? []).map((attendee) => attendee.email).join(', ')
+        : '',
+    );
+    this.resourcesText.set(
+      source.kind === 'event' ? (source.resources ?? []).join(', ') : '',
     );
     this.color.set(source.kind === 'event' ? (source.color ?? 'info') : 'info');
     this.visibility.set(

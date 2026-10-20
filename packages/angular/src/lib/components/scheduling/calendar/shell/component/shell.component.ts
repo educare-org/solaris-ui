@@ -35,8 +35,11 @@ import {
   parseSolarisDateParts,
 } from '../../model/calendar-datetime.utils';
 import { resolveCalendarFallback } from '../../model/strings/calendar-strings';
+import { filterSolarisByCalendars } from '../../model/calendar-availability.utils';
+import { searchSolarisCalendar } from '../../model/calendar-search.utils';
 import type {
   SolarisCalendarEvent,
+  SolarisCalendarSource,
   SolarisCalendarTask,
   SolarisCalendarWeekStart,
   SolarisHoliday,
@@ -128,6 +131,9 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
     input<SolarisCalendarResponsiveFallback>('schedule');
   readonly editable = input<boolean>(false);
   readonly editorDisabled = input<boolean>(false);
+  readonly sources = input<SolarisCalendarSource[]>([]);
+  readonly visibleCalendarIds = input<string[] | null>(null);
+  readonly query = input<string>('');
   readonly timeZones = input<string[]>([
     'America/Sao_Paulo',
     'America/New_York',
@@ -166,6 +172,21 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
   protected readonly resolvedHolidays = computed(() =>
     this.showHolidays() ? this.holidays() : [],
   );
+
+  protected readonly visibleEvents = computed(() => {
+    const byCalendar = filterSolarisByCalendars(
+      this.events(),
+      this.visibleCalendarIds(),
+    );
+    const needle = this.query().trim();
+    if (needle.length === 0) return byCalendar;
+    const hits = new Set(
+      searchSolarisCalendar(byCalendar, [], needle, byCalendar.length).map(
+        (hit) => `${hit.kind}:${hit.id}`,
+      ),
+    );
+    return byCalendar.filter((event) => hits.has(`event:${event.id}`));
+  });
 
   protected readonly normalizedView = computed(() =>
     normalizeShellView(this.view()),

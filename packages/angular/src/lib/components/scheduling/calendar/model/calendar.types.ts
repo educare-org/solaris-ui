@@ -23,6 +23,9 @@ export interface SolarisRecurrence {
   until?: string;
   byWeekday?: number[];
   monthDay?: number;
+  byMonthDay?: number[];
+  byMonth?: number[];
+  bySetPos?: number[];
 }
 
 export interface SolarisEventReminder {
@@ -30,6 +33,33 @@ export interface SolarisEventReminder {
 }
 
 export type SolarisEventVisibility = 'public' | 'private';
+
+export type SolarisAttendeeStatus =
+  | 'needsAction'
+  | 'accepted'
+  | 'declined'
+  | 'tentative';
+
+export interface SolarisEventAttendee {
+  email: string;
+  displayName?: string;
+  status?: SolarisAttendeeStatus;
+}
+
+export type SolarisCalendarResourceKind = 'room' | 'equipment' | 'person';
+
+export interface SolarisCalendarResource {
+  id: string;
+  kind: SolarisCalendarResourceKind;
+  title: string;
+}
+
+export interface SolarisCalendarSource {
+  id: string;
+  title: string;
+  color?: SolarisCalendarEventColor;
+  visible?: boolean;
+}
 
 export interface SolarisCalendarEvent {
   id: string;
@@ -48,6 +78,8 @@ export interface SolarisCalendarEvent {
   description?: string;
   meetingUrl?: string;
   scheduleSlot?: boolean;
+  attendees?: SolarisEventAttendee[];
+  resources?: string[];
 }
 
 export interface SolarisCalendarTask {

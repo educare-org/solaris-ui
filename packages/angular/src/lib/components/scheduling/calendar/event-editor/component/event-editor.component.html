@@ -79,6 +79,43 @@
     </solaris-form-field>
   }
 
+  @if (!isTask()) {
+    <solaris-form-field
+      [disabled]="disabled()"
+      class="solaris-calendar-event-editor__field"
+      [label]="'solaris.calendar.editorAttendees' | translate"
+      [hint]="'solaris.calendar.editorAttendeesHint' | translate"
+    >
+      <input
+        solaris-input
+        type="text"
+        autocomplete="off"
+        maxlength="2000"
+        [value]="attendeesText()"
+        [disabled]="disabled()"
+        [attr.aria-label]="'solaris.calendar.editorAttendees' | translate"
+        (input)="onAttendeesInput($any($event.target).value)"
+      />
+    </solaris-form-field>
+    <solaris-form-field
+      [disabled]="disabled()"
+      class="solaris-calendar-event-editor__field"
+      [label]="'solaris.calendar.editorResources' | translate"
+      [hint]="'solaris.calendar.editorResourcesHint' | translate"
+    >
+      <input
+        solaris-input
+        type="text"
+        autocomplete="off"
+        maxlength="500"
+        [value]="resourcesText()"
+        [disabled]="disabled()"
+        [attr.aria-label]="'solaris.calendar.editorResources' | translate"
+        (input)="onResourcesInput($any($event.target).value)"
+      />
+    </solaris-form-field>
+  }
+
   <div class="solaris-calendar-event-editor__row">
     <solaris-date-picker
       class="solaris-calendar-event-editor__field"

@@ -74,6 +74,9 @@ interface ExpansionState {
   untilCivil: string | null;
   interval: number;
   monthDay: number;
+  byMonthDay: number[];
+  byMonth: number[];
+  bySetPos: number[];
   freq: SolarisRecurrence['freq'];
   anchorWeekday: number;
   byWeekday: number[];
@@ -282,6 +285,36 @@ function normalizeByWeekday(
   return unique;
 }
 
+function normalizeBySetPos(value: readonly number[] | undefined): number[] {
+  if (value === undefined) return [];
+  return [
+    ...new Set(
+      value.filter(
+        (pos) => Number.isInteger(pos) && pos >= -5 && pos <= 5 && pos !== 0,
+      ),
+    ),
+  ].sort((a, b) => a - b);
+}
+
+function normalizeByMonthDay(value: readonly number[] | undefined): number[] {
+  if (value === undefined) return [];
+  return [
+    ...new Set(
+      value.filter((day) => Number.isInteger(day) && day >= 1 && day <= 31),
+    ),
+  ].sort((a, b) => a - b);
+}
+
+function normalizeByMonth(value: readonly number[] | undefined): number[] {
+  if (value === undefined) return [];
+  return [
+    ...new Set(
+      value.filter(
+        (month) => Number.isInteger(month) && month >= 1 && month <= 12,
+      ),
+    ),
+  ].sort((a, b) => a - b);
+}
 function normalizeMonthDay(
   value: number | undefined,
   fallback: number,
@@ -514,6 +547,9 @@ function createExpansionState(
     interval,
     freq: recurrence.freq,
     monthDay: normalizeMonthDay(recurrence.monthDay, anchorCivil.day),
+    byMonthDay: normalizeByMonthDay(recurrence.byMonthDay),
+    byMonth: normalizeByMonth(recurrence.byMonth),
+    bySetPos: normalizeBySetPos(recurrence.bySetPos),
     anchorWeekday,
     byWeekday: normalizeByWeekday(recurrence.byWeekday, anchorWeekday),
     anchorMonthIndex: anchorCivil.year * 12 + (anchorCivil.month - 1),
@@ -553,36 +589,111 @@ function resolveCandidate(
   return { instant, offset: state.hintOffset };
 }
 
+function monthWeekdayMatches(
+  year: number,
+  month: number,
+  weekdays: number[],
+): CivilDate[] {
+  const total = daysInCivilMonth(year, month);
+  const output: CivilDate[] = [];
+  for (let day = 1; day <= total; day += 1) {
+    const weekday = weekdayOfCivil({ year, month, day });
+    if (weekdays.includes(weekday)) output.push({ year, month, day });
+  }
+  return output;
+}
+
+function applySetPos(dates: CivilDate[], positions: number[]): CivilDate[] {
+  if (positions.length === 0) return dates;
+  const picked: CivilDate[] = [];
+  for (const pos of positions) {
+    const index = pos > 0 ? pos - 1 : dates.length + pos;
+    const match = dates[index];
+    if (match !== undefined) picked.push(match);
+  }
+  return picked.sort(compareCivil);
+}
+
+function dailyCandidates(state: ExpansionState, ordinal: number): CivilDate[] {
+  return [addDaysCivil(state.anchorCivil, ordinal * state.interval)];
+}
+
+function weeklyCandidates(state: ExpansionState, ordinal: number): CivilDate[] {
+  const base = addDaysCivil(state.anchorCivil, ordinal * state.interval * 7);
+  return state.byWeekday
+    .map((day) => addDaysCivil(base, (day - state.anchorWeekday + 7) % 7))
+    .filter((date) => compareCivil(date, state.anchorCivil) >= 0);
+}
+
+function monthIndexToYearMonth(index: number): { year: number; month: number } {
+  return { year: Math.floor(index / 12), month: (index % 12) + 1 };
+}
+
+function monthlyCandidates(
+  state: ExpansionState,
+  ordinal: number,
+): CivilDate[] {
+  const { year, month } = monthIndexToYearMonth(
+    state.anchorMonthIndex + ordinal * state.interval,
+  );
+  if (state.byMonth.length > 0 && !state.byMonth.includes(month)) return [];
+  if (state.byMonthDay.length > 0) {
+    return state.byMonthDay
+      .filter((day) => day <= daysInCivilMonth(year, month))
+      .map((day) => ({ year, month, day }));
+  }
+  if (state.bySetPos.length > 0) {
+    return applySetPos(
+      monthWeekdayMatches(year, month, state.byWeekday),
+      state.bySetPos,
+    );
+  }
+  if (state.monthDay > daysInCivilMonth(year, month)) return [];
+  return [{ year, month, day: state.monthDay }];
+}
+
+function yearlyMonthCandidates(
+  state: ExpansionState,
+  year: number,
+  month: number,
+): CivilDate[] {
+  if (state.byMonthDay.length > 0) {
+    return state.byMonthDay
+      .filter((day) => day <= daysInCivilMonth(year, month))
+      .map((day) => ({ year, month, day }));
+  }
+  if (state.bySetPos.length > 0) {
+    return applySetPos(
+      monthWeekdayMatches(year, month, state.byWeekday),
+      state.bySetPos,
+    );
+  }
+  if (state.monthDay > daysInCivilMonth(year, month)) return [];
+  return [{ year, month, day: state.monthDay }];
+}
+
+function yearlyCandidates(state: ExpansionState, ordinal: number): CivilDate[] {
+  const year = state.anchorCivil.year + ordinal * state.interval;
+  const months =
+    state.byMonth.length > 0 ? state.byMonth : [state.anchorCivil.month];
+  return months
+    .flatMap((month) => yearlyMonthCandidates(state, year, month))
+    .sort(compareCivil);
+}
+
 function candidatesForOrdinal(
   state: ExpansionState,
   ordinal: number,
 ): CivilDate[] {
   switch (state.freq) {
     case 'daily':
-      return [addDaysCivil(state.anchorCivil, ordinal * state.interval)];
-    case 'weekly': {
-      const base = addDaysCivil(
-        state.anchorCivil,
-        ordinal * state.interval * 7,
-      );
-      return state.byWeekday
-        .map((day) => addDaysCivil(base, (day - state.anchorWeekday + 7) % 7))
-        .filter((date) => compareCivil(date, state.anchorCivil) >= 0);
-    }
-    case 'monthly': {
-      const index = state.anchorMonthIndex + ordinal * state.interval;
-      const year = Math.floor(index / 12);
-      const month = (index % 12) + 1;
-      if (state.monthDay > daysInCivilMonth(year, month)) return [];
-      return [{ year, month, day: state.monthDay }];
-    }
-    case 'yearly': {
-      const year = state.anchorCivil.year + ordinal * state.interval;
-      if (state.monthDay > daysInCivilMonth(year, state.anchorCivil.month)) {
-        return [];
-      }
-      return [{ year, month: state.anchorCivil.month, day: state.monthDay }];
-    }
+      return dailyCandidates(state, ordinal);
+    case 'weekly':
+      return weeklyCandidates(state, ordinal);
+    case 'monthly':
+      return monthlyCandidates(state, ordinal);
+    case 'yearly':
+      return yearlyCandidates(state, ordinal);
   }
 }
 
