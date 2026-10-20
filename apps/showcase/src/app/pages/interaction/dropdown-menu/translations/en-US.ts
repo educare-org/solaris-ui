@@ -1,6 +1,24 @@
 export const EN_US_DROPDOWN_MENU: Record<string, string> = {
+  'dropdown-menu.title': 'Dropdown menu',
   'dropdown-menu.description':
     'Displays a list of actions or commands in an overlay triggered by a button or other interactive element.',
+  'dropdown-menu.section.examples': 'Examples',
+  'dropdown-menu.section.content': 'Content',
+  'dropdown-menu.section.groups': 'Groups',
+  'dropdown-menu.section.states': 'States',
+  'dropdown-menu.section.appearance': 'Appearance',
+  'dropdown-menu.section.submenus': 'Submenus',
+  'dropdown-menu.section.keyboard': 'Keyboard',
+  'dropdown-menu.section.installation': 'Installation',
+  'dropdown-menu.section.props': 'Props',
+  'dropdown-menu.examples.note':
+    'Start with the basic menu, then explore content, groups, and submenus below.',
+  'dropdown-menu.installation.note':
+    'Install the single Solaris package and import the components.',
+  'dropdown-menu.props.note':
+    'Props table coming soon with the table component.',
+  'dropdown-menu.ai.prompt':
+    "I'm looking at the Solaris documentation for {{component}} ({{url}}). Help me use, understand concepts, give examples, and debug based on it.",
   'dropdown-menu.basic': 'Basic',
   'dropdown-menu.basic-note':
     'Click the button to open the dropdown menu with simple actions.',

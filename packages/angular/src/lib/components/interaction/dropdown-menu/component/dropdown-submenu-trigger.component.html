@@ -1,7 +1,7 @@
 <div class="solaris-dropdown-submenu-trigger__wrapper">
   @if (hasLeadingContent()) {
     <div class="solaris-dropdown-submenu-trigger__leading">
-      <solaris-icon [name]="icon()!" aria-hidden="true" />
+      <solaris-icon [name]="icon()!" [decorative]="iconDecorative()" />
     </div>
   }
   <div class="solaris-dropdown-submenu-trigger__content">
@@ -13,6 +13,6 @@
     }
   </div>
   <div class="solaris-dropdown-submenu-trigger__trailing">
-    <solaris-icon name="chevron-right" aria-hidden="true" />
+    <solaris-icon name="chevron-right" [decorative]="true" />
   </div>
 </div>

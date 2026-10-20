@@ -8,6 +8,7 @@ import {
   inject,
   HostListener,
   forwardRef,
+  booleanAttribute,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
@@ -62,7 +63,9 @@ export class SolarisDropdownMenuItemComponent {
   readonly shortcut = input<string | undefined>(undefined);
   readonly label = input<string | undefined>(undefined);
   readonly icon = input<string | undefined>(undefined);
-  readonly iconDecorative = input<boolean>(false);
+  readonly iconDecorative = input<boolean, boolean>(true, {
+    transform: booleanAttribute,
+  });
   readonly value = input<unknown>(undefined);
   readonly disabled = input<boolean>(false);
 

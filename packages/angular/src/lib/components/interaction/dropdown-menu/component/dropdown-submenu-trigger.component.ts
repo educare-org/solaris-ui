@@ -7,6 +7,7 @@ import {
   input,
   computed,
   forwardRef,
+  booleanAttribute,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
@@ -52,6 +53,9 @@ export class SolarisDropdownSubmenuTriggerComponent {
   });
 
   readonly icon = input<string | undefined>(undefined);
+  readonly iconDecorative = input<boolean, boolean>(true, {
+    transform: booleanAttribute,
+  });
   readonly label = input<string | undefined>(undefined);
   readonly labelKey = input<string | undefined>(undefined);
   readonly disabled = input<boolean>(false);

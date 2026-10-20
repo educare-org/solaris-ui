@@ -1,5 +1,5 @@
 :host {
-  --solaris-dropdown-submenu-trigger-gap: var(--solaris-spacing-2);
+  --solaris-dropdown-submenu-trigger-gap: var(--solaris-spacing-4);
   --solaris-dropdown-submenu-trigger-radius: var(--solaris-radius-sm);
   --solaris-dropdown-submenu-trigger-padding-y: var(--solaris-spacing-2);
   --solaris-dropdown-submenu-trigger-padding-x: var(--solaris-spacing-4);
@@ -80,8 +80,8 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: var(--solaris-spacing-5);
-  height: var(--solaris-spacing-5);
+  width: var(--solaris-spacing-8);
+  height: var(--solaris-spacing-8);
   color: var(--solaris-neutral-text-secondary);
 }
 
@@ -105,8 +105,8 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: var(--solaris-spacing-4);
-  height: var(--solaris-spacing-4);
+  width: var(--solaris-spacing-6);
+  height: var(--solaris-spacing-6);
   margin-inline-start: var(--solaris-spacing-4);
   color: var(--solaris-dropdown-submenu-trigger-trailing-color);
 }

@@ -1,6 +1,24 @@
 export const PT_BR_DROPDOWN_MENU: Record<string, string> = {
+  'dropdown-menu.title': 'Menu suspenso',
   'dropdown-menu.description':
     'Exibe uma lista de ações ou comandos em um painel sobreposto acionado por um botão ou outro elemento interativo.',
+  'dropdown-menu.section.examples': 'Exemplos',
+  'dropdown-menu.section.content': 'Conteúdo',
+  'dropdown-menu.section.groups': 'Grupos',
+  'dropdown-menu.section.states': 'Estados',
+  'dropdown-menu.section.appearance': 'Aparência',
+  'dropdown-menu.section.submenus': 'Submenus',
+  'dropdown-menu.section.keyboard': 'Teclado',
+  'dropdown-menu.section.installation': 'Instalação',
+  'dropdown-menu.section.props': 'Props',
+  'dropdown-menu.examples.note':
+    'Comece pelo menu básico e explore conteúdos, grupos e submenus abaixo.',
+  'dropdown-menu.installation.note':
+    'Instale o pacote único Solaris e importe os componentes.',
+  'dropdown-menu.props.note':
+    'Tabela de props em breve, com o componente de tabela.',
+  'dropdown-menu.ai.prompt':
+    'Estou olhando a documentação Solaris de {{component}} ({{url}}). Me ajude a usar, entender conceitos, dar exemplos e debugar com base nela.',
   'dropdown-menu.basic': 'Básico',
   'dropdown-menu.basic-note':
     'Clique no botão para abrir o menu suspenso com ações simples.',

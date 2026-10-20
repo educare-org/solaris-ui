@@ -86,13 +86,14 @@
   justify-content: center;
   background: transparent;
   border-radius: var(--solaris-radius-sm);
-  border: var(--solaris-border-width-sm) solid var(--solaris-primary-border);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-default);
 }
 
 .solaris-dropdown-menu-item__checkbox--checked {
-  color: var(--solaris-primary-foreground);
-  background: var(--solaris-primary-solid);
-  border-color: var(--solaris-primary-solid);
+  color: var(--solaris-neutral-text-inverse);
+  background: var(--solaris-neutral-text-body);
+  border-color: var(--solaris-neutral-text-body);
 }
 
 .solaris-dropdown-menu-item__checkbox-icon {
@@ -114,18 +115,19 @@
   box-sizing: border-box;
   background: transparent;
   justify-content: center;
-  border: var(--solaris-spacing-2) solid var(--solaris-primary-border);
+  border: var(--solaris-border-width-md) solid
+    var(--solaris-neutral-border-default);
 }
 
 .solaris-dropdown-menu-item__radio--checked {
-  border-color: var(--solaris-primary-solid);
+  border-color: var(--solaris-neutral-text-body);
 }
 
 .solaris-dropdown-menu-item__radio-dot {
   border-radius: 50%;
-  width: var(--solaris-spacing-2);
-  height: var(--solaris-spacing-2);
-  background: var(--solaris-primary-solid);
+  width: var(--solaris-spacing-5);
+  height: var(--solaris-spacing-5);
+  background: var(--solaris-neutral-text-body);
 }
 
 .solaris-dropdown-menu-item__content {
