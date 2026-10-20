@@ -185,6 +185,23 @@ export class SolarisToastComponent {
     return this.translate('solaris.toast.closesIn', { seconds: String(secs) });
   });
 
+  /**
+   * Hidden width sizer for the countdown message. It always renders the
+   * plural template with the starting (longest) second count, stacked in the
+   * same grid cell as the visible text, so the `N segundos` → `1 segundo`
+   * transition never shrinks the footer. No magic-number widths needed and
+   * it follows the active locale automatically.
+   */
+  protected readonly countdownSizerText = computed(() => {
+    const totalSeconds = Math.ceil(this.entry().resolvedDuration / 1000);
+    if (!Number.isFinite(totalSeconds) || totalSeconds <= 1) {
+      return this.translate('solaris.toast.closesInOne');
+    }
+    return this.translate('solaris.toast.closesIn', {
+      seconds: String(totalSeconds),
+    });
+  });
+
   protected readonly showTitle = computed(() => !!this.entry().resolvedTitle);
   protected readonly showDescription = computed(
     () => !!this.entry().resolvedDescription,

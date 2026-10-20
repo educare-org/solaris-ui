@@ -98,8 +98,16 @@
 
 @if (showCountdownText()) {
   <div class="solaris-toast__countdown-text" aria-hidden="true">
-    <span class="solaris-toast__countdown-message">{{ countdownText() }}</span>
-    &nbsp;
+    <span class="solaris-toast__countdown-message">
+      <span
+        class="solaris-toast__countdown-sizer"
+        aria-hidden="true"
+        >{{ countdownSizerText() }}</span
+      >
+      <span class="solaris-toast__countdown-value">{{
+        countdownText()
+      }}</span>
+    </span>
     <button
       type="button"
       tabindex="-1"

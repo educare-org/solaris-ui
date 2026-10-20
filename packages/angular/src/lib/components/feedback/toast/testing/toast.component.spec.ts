@@ -291,6 +291,22 @@ describe('SolarisToastComponent', () => {
     expect(getToastEl(fixture).getAttribute('data-icon-size')).toBe('md');
   });
 
+  it('should derive default icon-size from size when iconSize is not set', () => {
+    service.show({ title: 'Small', size: 'sm' });
+    let fixture = createFixture(service.entries()[0].id);
+    expect(getToastEl(fixture).getAttribute('data-icon-size')).toBe('sm');
+    service.dismissAll();
+    service.show({ title: 'Large', size: 'lg' });
+    fixture = createFixture(service.entries()[0].id);
+    expect(getToastEl(fixture).getAttribute('data-icon-size')).toBe('lg');
+  });
+
+  it('should prefer explicit iconSize over size-derived default', () => {
+    service.show({ title: 'Test', size: 'sm', iconSize: 'lg' });
+    const fixture = createFixture(service.entries()[0].id);
+    expect(getToastEl(fixture).getAttribute('data-icon-size')).toBe('lg');
+  });
+
   it('should set data-media-shape on host', () => {
     service.show({ title: 'Test', mediaShape: 'square' });
     const fixture = createFixture(service.entries()[0].id);
@@ -402,7 +418,7 @@ describe('SolarisToastComponent', () => {
     });
     const fixture = createFixture(service.entries()[0].id);
     const btn = q('.solaris-toast__countdown-toggle', fixture)!;
-    const msg = q('.solaris-toast__countdown-message', fixture)!;
+    const msg = q('.solaris-toast__countdown-value', fixture)!;
     const originalText = msg.textContent!.trim();
     btn.click();
     fixture.detectChanges();
@@ -421,7 +437,7 @@ describe('SolarisToastComponent', () => {
     fixture.detectChanges();
     btn.click();
     fixture.detectChanges();
-    const msg = q('.solaris-toast__countdown-message', fixture)!;
+    const msg = q('.solaris-toast__countdown-value', fixture)!;
     expect(msg.textContent!.trim()).toContain('This message will close in');
   });
 
@@ -463,8 +479,19 @@ describe('SolarisToastComponent', () => {
       duration: 1000,
     });
     const fixture = createFixture(service.entries()[0].id);
-    const msg = q('.solaris-toast__countdown-message', fixture)!;
+    const msg = q('.solaris-toast__countdown-value', fixture)!;
     expect(msg.textContent!.trim()).toContain('1 second');
+  });
+
+  it('should render a hidden sizer with the longest countdown text', () => {
+    service.show({
+      title: 'Test',
+      countdown: 'text',
+      duration: 5000,
+    });
+    const fixture = createFixture(service.entries()[0].id);
+    const sizer = q('.solaris-toast__countdown-sizer', fixture)!;
+    expect(sizer.textContent!.trim()).toContain('5 seconds');
   });
 
   it('should apply data-size and data-density from entry', () => {

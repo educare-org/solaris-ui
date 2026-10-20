@@ -163,6 +163,22 @@ describe('SolarisToastService', () => {
     expect(entry.resolvedCountdown).toBe('text');
   });
 
+  it('should derive default iconSize from size when not set', () => {
+    service.show({ title: 'Small', size: 'sm' });
+    expect(service.entries()[0].resolvedIconSize).toBe('sm');
+    service.dismissAll();
+    service.show({ title: 'Default' });
+    expect(service.entries()[0].resolvedIconSize).toBe('md');
+    service.dismissAll();
+    service.show({ title: 'Large', size: 'lg' });
+    expect(service.entries()[0].resolvedIconSize).toBe('lg');
+  });
+
+  it('should prefer explicit iconSize over size-derived default', () => {
+    service.show({ title: 'Test', size: 'sm', iconSize: 'lg' });
+    expect(service.entries()[0].resolvedIconSize).toBe('lg');
+  });
+
   it('should generate ids via nextIdFor', () => {
     const a = service.show({ title: 'A' });
     const b = service.show({ title: 'B' });

@@ -21,7 +21,7 @@ import {
   SOLARIS_TOAST_CONTAINER,
 } from '../token/toast.tokens';
 import { SolarisToastContainerComponent } from '../container/toast-container.component';
-import { nextIdFor } from '../../../../core/utils/id';
+import { nextIdFor } from '../../../../core';
 import { SolarisThemeService } from '../../../../services/theme';
 
 import type {
@@ -33,6 +33,8 @@ import type {
   SolarisToastPosition,
   SolarisToastCountdown,
   SolarisToastEntry,
+  SolarisToastIconSize,
+  SolarisToastSize,
   SolarisToastPromiseMessages,
 } from '../model/toast.types';
 
@@ -161,7 +163,8 @@ export class SolarisToastService {
       resolvedCollapseLabelKey: options.collapseLabelKey,
       resolvedCountdown: countdown,
       resolvedActionsAlign: options.actionsAlign ?? cfg.actionsAlign ?? 'end',
-      resolvedIconSize: options.iconSize ?? cfg.iconSize ?? 'md',
+      resolvedIconSize:
+        options.iconSize ?? cfg.iconSize ?? defaultIconSizeForSize(size),
       resolvedMediaShape: options.mediaShape ?? cfg.mediaShape ?? 'circle',
     };
   }
@@ -303,6 +306,18 @@ function resolveRole(
   if (override) return override;
   if (variant === 'warning' || variant === 'danger') return 'alert';
   return 'status';
+}
+
+function defaultIconSizeForSize(size: SolarisToastSize): SolarisToastIconSize {
+  switch (size) {
+    case 'sm':
+      return 'sm';
+    case 'lg':
+      return 'lg';
+    case 'md':
+    default:
+      return 'md';
+  }
 }
 
 function resolveDefaultIcon(variant: SolarisToastVariant): string {

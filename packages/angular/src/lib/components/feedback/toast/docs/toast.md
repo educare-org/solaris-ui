@@ -79,7 +79,7 @@ bootstrapApplication(AppComponent, {
 | newestOnTop  | `boolean`                                   | `true`      | Show newest toast at the top of the stack |
 | countdown    | `'bar' \| 'text' \| 'both' \| false`        | `'text'`    | Default countdown display                 |
 | actionsAlign | `'start' \| 'center' \| 'end' \| 'stretch'` | `'end'`     | Default actions alignment                 |
-| iconSize     | `'sm' \| 'md' \| 'lg'`                      | `'md'`      | Default icon size                         |
+| iconSize     | `'sm' \| 'md' \| 'lg'`                      | size-derived | Default icon size (follows card `size` unless set: `sm`→`sm`, `md`→`md`, `lg`→`lg`) |
 | mediaShape   | `'circle' \| 'rounded' \| 'square'`         | `'circle'`  | Default media container shape             |
 
 ### SolarisToastService
@@ -133,7 +133,7 @@ bootstrapApplication(AppComponent, {
 | collapseLabelKey  | `string`                                    | `undefined`                 | Collapse button i18n key          |
 | countdown         | `'bar' \| 'text' \| 'both' \| false`        | Provider default (`'text'`) | Countdown display                 |
 | actionsAlign      | `'start' \| 'center' \| 'end' \| 'stretch'` | `'end'`                     | Action buttons alignment          |
-| iconSize          | `'sm' \| 'md' \| 'lg'`                      | `'md'`                      | Icon container size               |
+| iconSize          | `'sm' \| 'md' \| 'lg'`                      | Size-derived                | Icon container size (explicit value overrides the `size` default) |
 | mediaShape        | `'circle' \| 'rounded' \| 'square'`         | `'circle'`                  | Media container shape             |
 
 ### SolarisToastRef
@@ -233,9 +233,13 @@ this.toast.info({
 - `countdown` controls display: `'bar'`, `'text'`, `'both'`, or `false` (default `'text'`).
 - The outline border wraps the whole card including the countdown footer;
   a 1px divider separates the footer from the content.
-- Countdown text never truncates with ellipsis — the footer is single-line
-  and the card min-width (380/460/540 by size) fits the full message plus
-  the pause toggle (it only wraps on screens under 640px).
+- Countdown text uses the card description size and never changes the card
+  width while ticking: a hidden sizer renders the plural template with the
+  starting (longest) second count stacked in the same grid cell as the
+  visible text, so the `N segundos` → `1 segundo` (singular) transition does
+  not shrink the card and cause a flick — with no hardcoded widths, so it
+  follows any locale. The footer is single-line with ellipsis as a safety net
+  (it only wraps on screens under 640px).
 - Countdown starts at 100% and reduces to 0%.
 - Auto-dismiss occurs when countdown reaches 0.
 - Hover/focus pauses the countdown.
@@ -273,8 +277,9 @@ Toast follows the adapted `size x density` matrix (card scale, no
 `control-height` ladder — toast is a service-driven overlay, not a form
 control):
 
-- `size`: `sm` (420px max, 380px min, title xs) | `md` (520px max, 460px min,
-  title sm, default) | `lg` (600px max, 540px min, title md). Per-toast via
+- `size`: `sm` (420px max, 380px min, title xs / description 2xs) |
+  `md` (520px max, 460px min, title sm / description xs, default) |
+  `lg` (600px max, 540px min, title md / description sm). Per-toast via
   `size` or global via provider.
 - `density`: `compact` (root gap 4px, content gap 2px, 4px progress) |
   `normal` (root gap 6px, content gap 4px, 6px progress, default from
@@ -284,7 +289,11 @@ control):
   6/8/12, comfortable 8/12/12.
 - Host exposes `data-size` + `data-density` (effective). Action buttons
   inherit the toast `size`.
-- `iconSize` (`sm|md|lg`) still overrides the media container only.
+- `iconSize` (`sm|md|lg`) defaults from the card `size` (`sm`→`sm: 16px/14px`,
+  `md`→`md: 20px/16px`, `lg`→`lg: 24px/18px`) so the glyph matches the title
+  size instead of looking bigger; an explicit per-toast or provider `iconSize`
+  still overrides the media container only. The close glyph also scales with
+  `size` (`xs/sm/md`) while its hit box stays at 24–28px.
 
 ---
 
@@ -412,16 +421,16 @@ Rules:
 
 The icon is rendered inside a media container that can be sized and shaped:
 
-| Option       | Type                                | Default    | Description           |
-| ------------ | ----------------------------------- | ---------- | --------------------- |
-| `iconSize`   | `'sm' \| 'md' \| 'lg'`              | `'md'`     | Media container size  |
-| `mediaShape` | `'circle' \| 'rounded' \| 'square'` | `'circle'` | Media container shape |
+| Option       | Type                                | Default        | Description                                        |
+| ------------ | ----------------------------------- | -------------- | -------------------------------------------------- |
+| `iconSize`   | `'sm' \| 'md' \| 'lg'`              | Size-derived   | Media container size (explicit value overrides)    |
+| `mediaShape` | `'circle' \| 'rounded' \| 'square'` | `'circle'`     | Media container shape                              |
 
 Sizes:
 
-- `sm`: 20px container, 16px icon
-- `md`: 24px container (default), 20px icon
-- `lg`: 32px container, 24px icon
+- `sm`: 16px container, 14px icon (default for `size: 'sm'`)
+- `md`: 20px container (default), 16px icon (default for `size: 'md'`)
+- `lg`: 24px container, 18px icon (default for `size: 'lg'`)
 
 ```typescript
 this.toast.success({
@@ -575,7 +584,7 @@ ref.update({
 | `--solaris-toast-bar-width`             | Variant bar width (3px)                    |
 | `--solaris-toast-countdown-padding`     | Countdown footer padding                   |
 | `--solaris-toast-title-font-size`       | Title size (xs/sm/md by size)              |
-| `--solaris-toast-description-font-size` | Description size (xs/sm by size)           |
+| `--solaris-toast-description-font-size` | Description size (2xs/xs/sm by size)       |
 | `--solaris-toast-z-index`               | Z-index                                    |
 | `--solaris-toast-progress-color`        | Progress bar color                         |
 | `--solaris-toast-media-size`            | Media container size                       |
