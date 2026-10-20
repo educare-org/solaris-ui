@@ -68,6 +68,7 @@ import { SolarisIconComponent } from '../../../../../icon';
     '[attr.data-sheet]': 'hostSheet',
     '[attr.data-header-separator]': 'hostHeaderSeparator',
     '[attr.data-footer-separator]': 'hostFooterSeparator',
+    '[attr.data-closing]': 'closing() ? "" : null',
   },
 })
 export class SolarisDialogContainerComponent implements AfterViewInit {
@@ -88,6 +89,12 @@ export class SolarisDialogContainerComponent implements AfterViewInit {
   readonly externalComponentConfig = input<SolarisDialogComponentConfig | null>(
     null,
   );
+  /**
+   * Set by `SolarisDialogService` when `DialogRef.close()` fires.
+   * Drives the `[data-closing]` exit animation; the overlay detaches after
+   * `SOLARIS_MOTION_EXIT_MS`. State/outputs stay synchronous.
+   */
+  readonly closing = input<boolean>(false);
 
   private readonly _componentHost = viewChild('componentHost', {
     read: ViewContainerRef,

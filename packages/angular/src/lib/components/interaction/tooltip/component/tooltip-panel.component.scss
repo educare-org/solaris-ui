@@ -39,6 +39,14 @@
   padding-inline: var(--solaris-tooltip-padding-inline);
   border: var(--solaris-tooltip-border-width) solid
     var(--solaris-tooltip-border-color);
+  animation: solaris-motion-tooltip-enter var(--solaris-motion-duration-fast)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+.solaris-tooltip-panel__container[data-closing] {
+  pointer-events: none;
+  animation: solaris-motion-tooltip-exit var(--solaris-motion-duration-fast)
+    var(--solaris-motion-easing-accelerate) both;
 }
 
 .solaris-tooltip-panel__arrow {
@@ -310,7 +318,19 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .solaris-tooltip-panel__container {
+    animation: none;
+  }
+
   .solaris-tooltip-panel__close {
     transition: none;
   }
+}
+
+:host-context([data-reduced-motion='true']) .solaris-tooltip-panel__container {
+  animation: none;
+}
+
+:host-context([data-reduced-motion='true']) .solaris-tooltip-panel__close {
+  transition: none;
 }

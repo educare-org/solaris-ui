@@ -6,6 +6,7 @@ import {
   type Provider,
   Type,
   signal,
+  type ComponentRef,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
@@ -27,6 +28,7 @@ import type {
   SolarisDialogConfig,
   SolarisDialogPlacement,
 } from '../components/root/model/dialog.types';
+import { scheduleMotionClose } from '../../../../core/utils/motion-close';
 
 let nextDialogId = 0;
 
@@ -41,6 +43,8 @@ export class SolarisDialogService {
   private readonly openDialogs = new Set<{
     ref: SolarisDialogRef;
     overlayRef: OverlayRef;
+    containerRef: ComponentRef<SolarisDialogContainerComponent>;
+    closeTimeout: ReturnType<typeof setTimeout> | null;
   }>();
 
   private readonly topmostIdSignal = signal<string | null>(null);
@@ -85,10 +89,15 @@ export class SolarisDialogService {
     const componentRef = overlayRef.attach(portal);
     componentRef.setInput('simpleOptions', mergedOptions);
 
-    this.trackDialog(ref as unknown as SolarisDialogRef, overlayRef, {
-      restoreFocus: mergedOptions.restoreFocus ?? true,
-      previouslyFocused: this.document.activeElement as HTMLElement | null,
-    });
+    this.trackDialog(
+      ref as unknown as SolarisDialogRef,
+      overlayRef,
+      componentRef,
+      {
+        restoreFocus: mergedOptions.restoreFocus ?? true,
+        previouslyFocused: this.document.activeElement as HTMLElement | null,
+      },
+    );
 
     return ref;
   }
@@ -118,10 +127,15 @@ export class SolarisDialogService {
     componentRef.setInput('externalComponent', component);
     componentRef.setInput('externalComponentConfig', mergedConfig);
 
-    this.trackDialog(ref as unknown as SolarisDialogRef, overlayRef, {
-      restoreFocus: mergedConfig.restoreFocus ?? true,
-      previouslyFocused: this.document.activeElement as HTMLElement | null,
-    });
+    this.trackDialog(
+      ref as unknown as SolarisDialogRef,
+      overlayRef,
+      componentRef,
+      {
+        restoreFocus: mergedConfig.restoreFocus ?? true,
+        previouslyFocused: this.document.activeElement as HTMLElement | null,
+      },
+    );
 
     return ref;
   }
@@ -221,34 +235,68 @@ export class SolarisDialogService {
   private trackDialog(
     ref: SolarisDialogRef,
     overlayRef: OverlayRef,
+    containerRef: ComponentRef<SolarisDialogContainerComponent>,
     focus: {
       restoreFocus: boolean;
       previouslyFocused: HTMLElement | null;
     },
   ): void {
-    const entry = { ref, overlayRef };
+    const entry: {
+      ref: SolarisDialogRef;
+      overlayRef: OverlayRef;
+      containerRef: ComponentRef<SolarisDialogContainerComponent>;
+      closeTimeout: ReturnType<typeof setTimeout> | null;
+    } = { ref, overlayRef, containerRef, closeTimeout: null };
     this.openDialogs.add(entry);
     this.updateTopmost();
 
     ref.afterClosed().subscribe(() => {
-      overlayRef.detach();
-      overlayRef.dispose();
+      // API-level close stays synchronous (counts, topmost, focus).
+      // Only the overlay detach is delayed for the exit animation.
       this.openDialogs.delete(entry);
       this.updateTopmost();
-      this.restoreFocus(focus);
+      this.restoreFocus(focus, overlayRef);
+      // Mark closing synchronously (same tick as the detach timer) so the CSS
+      // exit starts immediately. The `closing` input mirrors the state for
+      // bindings/tests, but it only lands after change detection — too late
+      // to start the animation without a visible snap.
+      overlayRef.overlayElement
+        .querySelector('solaris-dialog-container')
+        ?.setAttribute('data-closing', '');
+      overlayRef.overlayElement
+        .querySelector('solaris-dialog-container')
+        ?.setAttribute('aria-hidden', 'true');
+      containerRef.setInput('closing', true);
+      entry.closeTimeout = scheduleMotionClose(() => {
+        entry.closeTimeout = null;
+        overlayRef.detach();
+        overlayRef.dispose();
+      });
     });
   }
 
-  private restoreFocus(focus: {
-    restoreFocus: boolean;
-    previouslyFocused: HTMLElement | null;
-  }): void {
+  private restoreFocus(
+    focus: {
+      restoreFocus: boolean;
+      previouslyFocused: HTMLElement | null;
+    },
+    overlayRef: OverlayRef,
+  ): void {
     if (!focus.restoreFocus) return;
     const target = focus.previouslyFocused;
     if (!target || typeof target.focus !== 'function') return;
     if (!this.document.contains(target)) return;
     const activeElement = this.document.activeElement as HTMLElement | null;
-    if (activeElement && activeElement !== this.document.body) return;
+    // The closing panel is still mounted (detach is delayed for the exit
+    // animation), so focus inside it must count as reclaimable.
+    const focusInClosingOverlay =
+      !!activeElement && overlayRef.overlayElement.contains(activeElement);
+    if (
+      activeElement &&
+      activeElement !== this.document.body &&
+      !focusInClosingOverlay
+    )
+      return;
     target.focus();
   }
 

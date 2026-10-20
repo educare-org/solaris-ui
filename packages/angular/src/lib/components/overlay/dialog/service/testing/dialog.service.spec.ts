@@ -6,6 +6,7 @@ import { configureSolarisTesting } from '../../../../../testing/solaris-test-uti
 
 import { SolarisDialogService } from '../dialog.service';
 import { SolarisDialogRef } from '../dialog-ref';
+import { SOLARIS_MOTION_DETACH_MS } from '../../../../../core/utils/motion-close';
 import { SOLARIS_DIALOG_DATA } from '../../token/dialog-data.token';
 import { SOLARIS_DIALOG_REF } from '../../token/dialog-data.token';
 
@@ -21,8 +22,14 @@ class TestDialogComponent {
 }
 
 function lastDialogContainer(): Element | null {
-  const containers = document.querySelectorAll('.solaris-dialog-container');
+  const containers = document.querySelectorAll(
+    '.solaris-dialog-container:not([data-closing])',
+  );
   return containers.length > 0 ? containers[containers.length - 1] : null;
+}
+
+function allDialogContainers(): NodeListOf<Element> {
+  return document.querySelectorAll('.solaris-dialog-container');
 }
 
 describe('SolarisDialogService', () => {
@@ -334,5 +341,26 @@ describe('SolarisDialogService', () => {
     expect(container?.getAttribute('data-sheet')).toBeNull();
     expect(container?.getAttribute('data-placement')).toBe('center');
     ref.close();
+  });
+
+  it('should keep the container mounted with data-closing for the exit animation', async () => {
+    const ref = service.open({ title: 'Test' });
+    TestBed.inject(ApplicationRef).tick();
+    expect(service.openCount).toBe(1);
+
+    ref.close();
+    // API-level close is synchronous even though the DOM detaches later.
+    expect(service.openCount).toBe(0);
+
+    TestBed.inject(ApplicationRef).tick();
+    const containers = allDialogContainers();
+    expect(containers.length).toBe(1);
+    expect(containers[0]?.hasAttribute('data-closing')).toBe(true);
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, SOLARIS_MOTION_DETACH_MS + 50),
+    );
+    TestBed.inject(ApplicationRef).tick();
+    expect(allDialogContainers().length).toBe(0);
   });
 });

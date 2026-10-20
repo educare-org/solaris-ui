@@ -1,0 +1,148 @@
+/// Solaris UI — Shared motion mixins.
+///
+/// Opt-in helpers for enter/exit animations. Default consumption remains plain
+/// CSS custom properties; use these mixins when a component needs the standard
+/// overlay/dialog/backdrop/tooltip motion without copy-pasting declarations.
+///
+/// Every animation mixin only sets `animation`. Pair it with the reduced-motion
+/// guard (`solaris-motion-reduced-off`) following the collapsible pattern:
+/// `@media (prefers-reduced-motion: reduce)` + `:host-context([data-reduced-motion='true'])`.
+
+/// Standard overlay (popover, dropdown, select panels, mega-menu) enter.
+@mixin solaris-motion-overlay-enter(
+  $duration: var(--solaris-motion-duration-normal),
+  $easing: var(--solaris-motion-easing-decelerate)
+) {
+  animation: solaris-motion-overlay-enter $duration $easing both;
+}
+
+/// Standard overlay exit. Runs on `[data-closing]` (see motion refactor docs).
+@mixin solaris-motion-overlay-exit(
+  $duration: var(
+      --solaris-motion-duration-exit,
+      var(--solaris-motion-duration-fast)
+    ),
+  $easing: var(--solaris-motion-easing-accelerate)
+) {
+  animation: solaris-motion-overlay-exit $duration $easing both;
+}
+
+/// Overlay enter for panels attached above the trigger (`data-connected-side="top"`).
+@mixin solaris-motion-overlay-enter-top(
+  $duration: var(--solaris-motion-duration-normal),
+  $easing: var(--solaris-motion-easing-decelerate)
+) {
+  animation: solaris-motion-overlay-enter-top $duration $easing both;
+}
+
+/// Overlay exit for panels attached above the trigger.
+@mixin solaris-motion-overlay-exit-top(
+  $duration: var(
+      --solaris-motion-duration-exit,
+      var(--solaris-motion-duration-fast)
+    ),
+  $easing: var(--solaris-motion-easing-accelerate)
+) {
+  animation: solaris-motion-overlay-exit-top $duration $easing both;
+}
+
+/// Dialog panel enter (scale + fade, no slide — the panel is large).
+@mixin solaris-motion-dialog-enter(
+  $duration: var(--solaris-motion-duration-normal),
+  $easing: var(--solaris-motion-easing-decelerate)
+) {
+  animation: solaris-motion-dialog-enter $duration $easing both;
+}
+
+/// Dialog panel exit.
+@mixin solaris-motion-dialog-exit(
+  $duration: var(
+      --solaris-motion-duration-exit,
+      var(--solaris-motion-duration-fast)
+    ),
+  $easing: var(--solaris-motion-easing-accelerate)
+) {
+  animation: solaris-motion-dialog-exit $duration $easing both;
+}
+
+/// Backdrop fade enter.
+@mixin solaris-motion-backdrop-enter(
+  $duration: var(--solaris-motion-duration-normal),
+  $easing: var(--solaris-motion-easing-decelerate)
+) {
+  animation: solaris-motion-backdrop-enter $duration $easing both;
+}
+
+/// Backdrop fade exit.
+@mixin solaris-motion-backdrop-exit(
+  $duration: var(
+      --solaris-motion-duration-exit,
+      var(--solaris-motion-duration-fast)
+    ),
+  $easing: var(--solaris-motion-easing-accelerate)
+) {
+  animation: solaris-motion-backdrop-exit $duration $easing both;
+}
+
+/// Tooltip enter (fast by design — tooltips are ephemeral).
+@mixin solaris-motion-tooltip-enter(
+  $duration: var(--solaris-motion-duration-fast),
+  $easing: var(--solaris-motion-easing-decelerate)
+) {
+  animation: solaris-motion-tooltip-enter $duration $easing both;
+}
+
+/// Tooltip exit.
+@mixin solaris-motion-tooltip-exit(
+  $duration: var(--solaris-motion-duration-fast),
+  $easing: var(--solaris-motion-easing-accelerate)
+) {
+  animation: solaris-motion-tooltip-exit $duration $easing both;
+}
+
+/// Side drawer enter (dialog placements left/right). Slides 8px from the edge.
+@mixin solaris-motion-drawer-enter-left(
+  $duration: var(--solaris-motion-duration-normal),
+  $easing: var(--solaris-motion-easing-decelerate)
+) {
+  animation: solaris-motion-drawer-enter-left $duration $easing both;
+}
+
+/// Side drawer exit (left edge).
+@mixin solaris-motion-drawer-exit-left(
+  $duration: var(
+      --solaris-motion-duration-exit,
+      var(--solaris-motion-duration-fast)
+    ),
+  $easing: var(--solaris-motion-easing-accelerate)
+) {
+  animation: solaris-motion-drawer-exit-left $duration $easing both;
+}
+
+/// Side drawer enter (right edge).
+@mixin solaris-motion-drawer-enter-right(
+  $duration: var(--solaris-motion-duration-normal),
+  $easing: var(--solaris-motion-easing-decelerate)
+) {
+  animation: solaris-motion-drawer-enter-right $duration $easing both;
+}
+
+/// Side drawer exit (right edge).
+@mixin solaris-motion-drawer-exit-right(
+  $duration: var(
+      --solaris-motion-duration-exit,
+      var(--solaris-motion-duration-fast)
+    ),
+  $easing: var(--solaris-motion-easing-accelerate)
+) {
+  animation: solaris-motion-drawer-exit-right $duration $easing both;
+}
+
+/// Reduced-motion guard. Disables animation/transition on the including selector.
+/// Component must ALSO mirror it under `:host-context([data-reduced-motion='true'])`.
+@mixin solaris-motion-reduced-off {
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    transition: none;
+  }
+}

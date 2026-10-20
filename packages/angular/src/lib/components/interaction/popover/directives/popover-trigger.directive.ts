@@ -42,6 +42,10 @@ import {
   getPrimaryPosition,
   getFallbackPositions,
 } from '../model/popover-position';
+import {
+  scheduleMotionClose,
+  cancelMotionClose,
+} from '../../../../core/utils/motion-close';
 
 import type {
   SolarisPopoverPlacement,
@@ -84,6 +88,7 @@ export class SolarisPopoverTriggerDirective {
   private panelComponentRef: ComponentRef<SolarisPopoverPanelComponent> | null =
     null;
   private fitContentSizeTimeout: ReturnType<typeof setTimeout> | null = null;
+  private closeTimeout: ReturnType<typeof setTimeout> | null = null;
   private connectedSide: 'top' | 'bottom' = 'bottom';
 
   readonly solarisPopoverTriggerFor = input<
@@ -242,6 +247,7 @@ export class SolarisPopoverTriggerDirective {
       return;
     }
 
+    this.cancelPendingClose();
     this.previousActiveElement = this.document.activeElement as HTMLElement;
     this.createOverlay();
     this.attachPanel();
@@ -257,11 +263,17 @@ export class SolarisPopoverTriggerDirective {
       return;
     }
 
-    this.detachPanel();
+    // State and outputs stay synchronous; only the overlay detach is delayed
+    // so the [data-closing] exit animation can play (motion-standard).
+    this.markPanelClosing();
     this.restoreFocus();
     this.isOpen.set(false);
     this.solarisPopoverClosed.emit();
     this.solarisPopoverOpenChange.emit(false);
+    this.closeTimeout = scheduleMotionClose(() => {
+      this.closeTimeout = null;
+      this.detachPanel();
+    });
   }
 
   toggle(): void {
@@ -476,7 +488,19 @@ export class SolarisPopoverTriggerDirective {
     this.removeOutsideClickHandler();
   }
 
+  private markPanelClosing(): void {
+    this.panelContainerRef?.setAttribute('data-closing', '');
+    this.panelContainerRef?.setAttribute('aria-hidden', 'true');
+  }
+
+  private cancelPendingClose(): void {
+    this.closeTimeout = cancelMotionClose(this.closeTimeout);
+    this.panelContainerRef?.removeAttribute('data-closing');
+    this.panelContainerRef?.removeAttribute('aria-hidden');
+  }
+
   private disposeOverlay(): void {
+    this.cancelPendingClose();
     if (this.fitContentSizeTimeout) {
       clearTimeout(this.fitContentSizeTimeout);
       this.fitContentSizeTimeout = null;

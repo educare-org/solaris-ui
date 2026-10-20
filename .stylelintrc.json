@@ -36,6 +36,15 @@
     "rule-empty-line-before": null,
     "comment-empty-line-before": null,
     "no-descending-specificity": null,
+    "declaration-property-value-disallowed-list": [
+      {
+        "transition": ["all"],
+        "transition-property": ["all"]
+      },
+      {
+        "message": "Use explicit transition properties with solaris motion tokens, never 'all' (see docs/standards/motion-standard.md)."
+      }
+    ],
     "property-no-vendor-prefix": null,
     "value-no-vendor-prefix": null,
     "value-keyword-case": [

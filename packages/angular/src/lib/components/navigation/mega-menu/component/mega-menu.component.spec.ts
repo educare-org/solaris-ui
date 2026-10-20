@@ -7,6 +7,7 @@ import { SolarisMegaMenuAnchorDirective } from '../directives/mega-menu-anchor.d
 import { SolarisMegaMenuPanelDirective } from '../directives/mega-menu-panel.directive';
 import { SolarisMegaMenuTriggerDirective } from '../directives/mega-menu-trigger.directive';
 import { SolarisMegaMenuComponent } from './mega-menu.component';
+import { SOLARIS_MOTION_DETACH_MS } from '../../../../core/utils/motion-close';
 
 describe('SolarisMegaMenuComponent', () => {
   let overlayContainer: OverlayContainer;
@@ -92,7 +93,23 @@ describe('SolarisMegaMenuComponent', () => {
   const getPanel = (): HTMLElement | null =>
     overlayContainer
       .getContainerElement()
+      .querySelector<HTMLElement>(
+        '.solaris-mega-menu__panel:not([data-closing])',
+      );
+
+  const getAnyPanel = (): HTMLElement | null =>
+    overlayContainer
+      .getContainerElement()
       .querySelector<HTMLElement>('.solaris-mega-menu__panel');
+
+  const flushMotionClose = async <T>(
+    fixture: ComponentFixture<T>,
+  ): Promise<void> => {
+    await new Promise((resolve) =>
+      setTimeout(resolve, SOLARIS_MOTION_DETACH_MS + 50),
+    );
+    fixture.detectChanges();
+  };
 
   const getTrigger = <T>(
     fixture: ComponentFixture<T>,
@@ -177,7 +194,7 @@ describe('SolarisMegaMenuComponent', () => {
     expect(overlayPane?.style.width).toBe('480px');
   });
 
-  it('aligns the active underline with the anchor bottom edge', () => {
+  it('aligns the active underline with the anchor bottom edge', async () => {
     const fixture = TestBed.createComponent(TestHost);
     fixture.detectChanges();
     const anchor = (
@@ -205,6 +222,7 @@ describe('SolarisMegaMenuComponent', () => {
 
     clickTrigger(fixture);
 
+    await flushMotionClose(fixture);
     expect(
       anchor.querySelector('.solaris-mega-menu-anchor__underline'),
     ).toBeNull();
@@ -232,7 +250,7 @@ describe('SolarisMegaMenuComponent', () => {
     );
   });
 
-  it('renders an anchor-excluding backdrop and closes when it is clicked', () => {
+  it('renders an anchor-excluding backdrop and closes when it is clicked', async () => {
     const fixture = TestBed.createComponent(TestHost);
     fixture.componentInstance.backdrop = true;
     fixture.detectChanges();
@@ -262,7 +280,7 @@ describe('SolarisMegaMenuComponent', () => {
     topRegion?.dispatchEvent(
       new MouseEvent('click', { bubbles: true, cancelable: true }),
     );
-    fixture.detectChanges();
+    await flushMotionClose(fixture);
 
     expect(getPanel()).toBeNull();
   });
@@ -330,7 +348,7 @@ describe('SolarisMegaMenuComponent', () => {
     ).toBe(true);
   });
 
-  it('closes on Escape and restores trigger focus', () => {
+  it('closes on Escape and restores trigger focus', async () => {
     const fixture = TestBed.createComponent(TestHost);
     fixture.detectChanges();
     const trigger = getTrigger(fixture);
@@ -340,18 +358,21 @@ describe('SolarisMegaMenuComponent', () => {
       new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
     );
     fixture.detectChanges();
+    // Exit animation: panel stays mounted with data-closing, then detaches.
+    expect(getAnyPanel()?.getAttribute('data-closing')).toBe('');
+    await flushMotionClose(fixture);
 
     expect(getPanel()).toBeNull();
     expect(document.activeElement).toBe(trigger);
   });
 
-  it('closes on a pointer down outside the trigger and panel', () => {
+  it('closes on a pointer down outside the trigger and panel', async () => {
     const fixture = TestBed.createComponent(TestHost);
     fixture.detectChanges();
 
     clickTrigger(fixture);
     document.body.dispatchEvent(new Event('pointerdown', { bubbles: true }));
-    fixture.detectChanges();
+    await flushMotionClose(fixture);
 
     expect(getPanel()).toBeNull();
   });
@@ -386,7 +407,7 @@ describe('SolarisMegaMenuComponent', () => {
     expect(getPanel()).toBeTruthy();
   });
 
-  it('keeps only one menu in a group open', () => {
+  it('keeps only one menu in a group open', async () => {
     const fixture = TestBed.createComponent(GroupTestHost);
     fixture.detectChanges();
 
@@ -395,6 +416,7 @@ describe('SolarisMegaMenuComponent', () => {
 
     clickTrigger(fixture, 1);
     expect(getPanel()?.textContent).toContain('Resources panel');
+    await flushMotionClose(fixture);
     expect(
       overlayContainer
         .getContainerElement()
@@ -402,12 +424,13 @@ describe('SolarisMegaMenuComponent', () => {
     ).toBe(1);
   });
 
-  it('keeps one backdrop visible when switching menus in a group', () => {
+  it('keeps one backdrop visible when switching menus in a group', async () => {
     const fixture = TestBed.createComponent(GroupTestHost);
     fixture.detectChanges();
 
     clickTrigger(fixture);
     clickTrigger(fixture, 1);
+    await flushMotionClose(fixture);
 
     expect(
       overlayContainer

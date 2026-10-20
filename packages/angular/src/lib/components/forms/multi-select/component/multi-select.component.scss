@@ -227,6 +227,9 @@
   overflow-y: auto;
   flex-direction: column;
   overscroll-behavior: contain;
+  animation: solaris-motion-overlay-enter-top
+    var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 .solaris-multi-select__search-input {
@@ -438,11 +441,19 @@
   .solaris-multi-select__clear {
     transition: none;
   }
+
+  .solaris-multi-select__panel {
+    animation: none;
+  }
 }
 
 [data-reduced-motion='true'] {
   .solaris-multi-select__dropdown-icon,
   .solaris-multi-select__clear {
     transition: none;
+  }
+
+  .solaris-multi-select__panel {
+    animation: none;
   }
 }

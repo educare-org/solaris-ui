@@ -63,8 +63,11 @@
   border-radius: calc(var(--solaris-switch-track-height) / 2);
   border: var(--solaris-switch-track-border-width) solid
     var(--solaris-switch-track-border-color);
-  transition: all var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 }
 
 .solaris-switch__thumb {
@@ -86,8 +89,13 @@
   background-color: var(--solaris-switch-thumb-background);
   border: var(--solaris-switch-thumb-border-width) solid
     var(--solaris-switch-thumb-border-color);
-  transition: all var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
+  transition:
+    left var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 }
 
 .solaris-switch__thumb-text {

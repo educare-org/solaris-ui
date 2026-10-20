@@ -27,6 +27,10 @@ import {
 import { TemplatePortal } from '@angular/cdk/portal';
 
 import { nextIdFor } from '../../../../core';
+import {
+  scheduleMotionClose,
+  cancelMotionClose,
+} from '../../../../core/utils/motion-close';
 import { SolarisMegaMenuPanelDirective } from '../directives/mega-menu-panel.directive';
 import { getMegaMenuPanelWidth } from '../model/mega-menu-geometry';
 import {
@@ -108,6 +112,7 @@ export class SolarisMegaMenuComponent implements SolarisMegaMenuControl {
   private overlayRef: OverlayRef | null = null;
   private scheduledOpen: ReturnType<typeof setTimeout> | null = null;
   private scheduledClose: ReturnType<typeof setTimeout> | null = null;
+  private closeTimeout: ReturnType<typeof setTimeout> | null = null;
   private outsideClickCleanup: (() => void) | null = null;
   private resizeObserver: ResizeObserver | null = null;
   private viewportResizeCleanup: (() => void) | null = null;
@@ -236,6 +241,10 @@ export class SolarisMegaMenuComponent implements SolarisMegaMenuControl {
 
   protected onPanelPointerEnter(): void {
     this.cancelScheduledClose();
+    // Revive a panel caught mid-exit: reopening cancels the delayed detach.
+    if (!this.isOpen() && this.overlayRef?.hasAttached()) {
+      this.openState.set(true);
+    }
   }
 
   protected onPanelPointerLeave(): void {
@@ -266,6 +275,7 @@ export class SolarisMegaMenuComponent implements SolarisMegaMenuControl {
   }
 
   private attachPanel(): void {
+    this.cancelMotionClose();
     const panel = this.panel();
     if (!panel || this.overlayRef?.hasAttached()) {
       return;
@@ -288,6 +298,23 @@ export class SolarisMegaMenuComponent implements SolarisMegaMenuControl {
     if (!this.overlayRef?.hasAttached()) {
       return;
     }
+    if (this.closeTimeout !== null) {
+      return;
+    }
+
+    // State stays synchronous (openState is already false); only the overlay
+    // detach is delayed so the [data-closing] exit animation can play.
+    this.markPanelClosing();
+    this.closeTimeout = scheduleMotionClose(() => {
+      this.closeTimeout = null;
+      this.finishDetach();
+    });
+  }
+
+  private finishDetach(): void {
+    if (!this.overlayRef?.hasAttached()) {
+      return;
+    }
 
     this.clearBackdrop();
     const backdrop = this.overlayRef.backdropElement;
@@ -300,6 +327,23 @@ export class SolarisMegaMenuComponent implements SolarisMegaMenuControl {
     this.stopGeometryObserver();
     this.clearAnchorUnderline();
     this.closed.emit();
+  }
+
+  private markPanelClosing(): void {
+    const panel = this.overlayRef?.overlayElement.querySelector(
+      '.solaris-mega-menu__panel',
+    );
+    panel?.setAttribute('data-closing', '');
+    panel?.setAttribute('aria-hidden', 'true');
+  }
+
+  private cancelMotionClose(): void {
+    this.closeTimeout = cancelMotionClose(this.closeTimeout);
+    const panel = this.overlayRef?.overlayElement.querySelector(
+      '.solaris-mega-menu__panel',
+    );
+    panel?.removeAttribute('data-closing');
+    panel?.removeAttribute('aria-hidden');
   }
 
   private createOverlay(): OverlayRef {
@@ -550,6 +594,7 @@ export class SolarisMegaMenuComponent implements SolarisMegaMenuControl {
   private clearTimers(): void {
     this.clearOpenTimer();
     this.clearCloseTimer();
+    this.cancelMotionClose();
   }
 
   private clearOpenTimer(): void {

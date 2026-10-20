@@ -160,8 +160,15 @@
   font: var(--solaris-font-weight-regular)
     var(--solaris-calendar-schedule-view-item-font-size) /
     var(--solaris-line-height-sm) var(--solaris-font-family-sans);
-  transition: all var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
+  transition:
+    filter var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 }
 
 span.solaris-calendar-schedule-view__item {

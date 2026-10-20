@@ -89,8 +89,16 @@
   color: var(--solaris-mega-menu-color);
   box-shadow: var(--solaris-mega-menu-shadow);
   background: var(--solaris-mega-menu-background);
-  animation: solaris-mega-menu-enter var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-decelerate);
+  animation: solaris-motion-overlay-enter-top
+    var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+.solaris-mega-menu__panel[data-closing] {
+  pointer-events: none;
+  animation: solaris-motion-overlay-exit-top
+    var(--solaris-motion-duration-exit, var(--solaris-motion-duration-fast))
+    var(--solaris-motion-easing-accelerate) both;
 }
 
 .cdk-overlay-backdrop.solaris-mega-menu-backdrop {
@@ -127,18 +135,6 @@
   right: 0;
 }
 
-@keyframes solaris-mega-menu-enter {
-  from {
-    opacity: 0;
-    transform: translateY(calc(-1 * var(--solaris-spacing-1)));
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   [solaris-mega-menu-trigger],
   .solaris-mega-menu-anchor__underline,
@@ -147,4 +143,9 @@
     animation: none;
     transition: none;
   }
+}
+
+// NOTE: ViewEncapsulation.None here, so the app-level attribute (no :host-context).
+[data-reduced-motion='true'] .solaris-mega-menu__panel {
+  animation: none;
 }

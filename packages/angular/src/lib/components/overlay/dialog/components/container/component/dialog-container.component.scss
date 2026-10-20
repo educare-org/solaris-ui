@@ -91,6 +91,18 @@
   align-items: center;
   justify-content: center;
   background: var(--solaris-dialog-backdrop-bg);
+  animation: solaris-motion-backdrop-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+:host([data-closing]) {
+  pointer-events: none;
+}
+
+:host([data-closing]) .solaris-dialog-backdrop {
+  animation: solaris-motion-backdrop-exit
+    var(--solaris-motion-duration-exit, var(--solaris-motion-duration-fast))
+    var(--solaris-motion-easing-accelerate) both;
 }
 
 :host([data-placement='top']) .solaris-dialog-backdrop {
@@ -164,8 +176,70 @@
   );
   border-radius: var(--solaris-dialog-panel-radius);
   max-height: var(--solaris-dialog-panel-max-height);
-  animation: solaris-dialog-enter var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-decelerate);
+  animation: solaris-motion-dialog-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+:host([data-closing]) .solaris-dialog-panel {
+  animation: solaris-motion-dialog-exit
+    var(--solaris-motion-duration-exit, var(--solaris-motion-duration-fast))
+    var(--solaris-motion-easing-accelerate) both;
+}
+
+// Edge placements slide from their own side instead of scaling.
+:host([data-placement='top']) .solaris-dialog-panel,
+:host([data-placement='top-left']) .solaris-dialog-panel,
+:host([data-placement='top-right']) .solaris-dialog-panel {
+  animation: solaris-motion-overlay-enter-top
+    var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+:host([data-placement='top'][data-closing]) .solaris-dialog-panel,
+:host([data-placement='top-left'][data-closing]) .solaris-dialog-panel,
+:host([data-placement='top-right'][data-closing]) .solaris-dialog-panel {
+  animation: solaris-motion-overlay-exit-top
+    var(--solaris-motion-duration-exit, var(--solaris-motion-duration-fast))
+    var(--solaris-motion-easing-accelerate) both;
+}
+
+:host([data-placement='bottom']) .solaris-dialog-panel,
+:host([data-placement='bottom-left']) .solaris-dialog-panel,
+:host([data-placement='bottom-right']) .solaris-dialog-panel {
+  animation: solaris-motion-overlay-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+:host([data-placement='bottom'][data-closing]) .solaris-dialog-panel,
+:host([data-placement='bottom-left'][data-closing]) .solaris-dialog-panel,
+:host([data-placement='bottom-right'][data-closing]) .solaris-dialog-panel {
+  animation: solaris-motion-overlay-exit
+    var(--solaris-motion-duration-exit, var(--solaris-motion-duration-fast))
+    var(--solaris-motion-easing-accelerate) both;
+}
+
+:host([data-placement='left']) .solaris-dialog-panel {
+  animation: solaris-motion-drawer-enter-left
+    var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+:host([data-placement='left'][data-closing]) .solaris-dialog-panel {
+  animation: solaris-motion-drawer-exit-left
+    var(--solaris-motion-duration-exit, var(--solaris-motion-duration-fast))
+    var(--solaris-motion-easing-accelerate) both;
+}
+
+:host([data-placement='right']) .solaris-dialog-panel {
+  animation: solaris-motion-drawer-enter-right
+    var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+:host([data-placement='right'][data-closing]) .solaris-dialog-panel {
+  animation: solaris-motion-drawer-exit-right
+    var(--solaris-motion-duration-exit, var(--solaris-motion-duration-fast))
+    var(--solaris-motion-easing-accelerate) both;
 }
 
 .solaris-dialog-panel__body {
@@ -221,12 +295,21 @@
     var(--solaris-dialog-panel-border);
 }
 
+// Fullscreen fades only; scale/slide would flash the viewport edges.
 :host([data-fullscreen]) .solaris-dialog-panel {
   width: 100vw;
   height: 100dvh;
   max-width: 100vw;
   border-radius: 0;
   max-height: 100dvh;
+  animation: solaris-motion-backdrop-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+:host([data-fullscreen][data-closing]) .solaris-dialog-panel {
+  animation: solaris-motion-backdrop-exit
+    var(--solaris-motion-duration-exit, var(--solaris-motion-duration-fast))
+    var(--solaris-motion-easing-accelerate) both;
 }
 
 :host([data-sheet][data-placement='bottom']) .solaris-dialog-backdrop {
@@ -280,23 +363,14 @@
   }
 }
 
-@keyframes solaris-dialog-enter {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
+  .solaris-dialog-backdrop,
   .solaris-dialog-panel {
     animation: none;
   }
 }
 
+:host-context([data-reduced-motion='true']) .solaris-dialog-backdrop,
 :host-context([data-reduced-motion='true']) .solaris-dialog-panel {
   animation: none;
 }

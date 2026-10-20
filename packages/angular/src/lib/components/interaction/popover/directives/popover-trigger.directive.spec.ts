@@ -5,6 +5,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 
 import { SolarisPopoverDirective } from './popover.directive';
 import { SolarisPopoverTriggerDirective } from './popover-trigger.directive';
+import { SOLARIS_MOTION_DETACH_MS } from '../../../../core/utils/motion-close';
 
 describe('SolarisPopoverTriggerDirective', () => {
   let overlayContainer: OverlayContainer;
@@ -38,6 +39,15 @@ describe('SolarisPopoverTriggerDirective', () => {
     fixture.detectChanges();
   };
 
+  const flushMotionClose = async <T>(
+    fixture: ComponentFixture<T>,
+  ): Promise<void> => {
+    await new Promise((resolve) =>
+      setTimeout(resolve, SOLARIS_MOTION_DETACH_MS + 50),
+    );
+    fixture.detectChanges();
+  };
+
   describe('basic open/close', () => {
     @Component({
       standalone: true,
@@ -63,7 +73,7 @@ describe('SolarisPopoverTriggerDirective', () => {
       expect(panel?.textContent?.trim()).toContain('Content');
     });
 
-    it('should close popover on second click (toggle)', () => {
+    it('should close popover on second click (toggle)', async () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
 
@@ -71,10 +81,11 @@ describe('SolarisPopoverTriggerDirective', () => {
       expect(getPanelContent()).toBeTruthy();
 
       triggerClick(fixture);
+      await flushMotionClose(fixture);
       expect(getPanelContent()).toBeNull();
     });
 
-    it('should close popover when close() is called', () => {
+    it('should close popover when close() is called', async () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
 
@@ -87,10 +98,13 @@ describe('SolarisPopoverTriggerDirective', () => {
 
       triggerDirective.close();
       fixture.detectChanges();
+      // Exit animation: panel stays mounted with data-closing, then detaches.
+      expect(getPanelContent()?.getAttribute('data-closing')).toBe('');
+      await flushMotionClose(fixture);
       expect(getPanelContent()).toBeNull();
     });
 
-    it('should toggle open/close state', () => {
+    it('should toggle open/close state', async () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
 
@@ -103,7 +117,7 @@ describe('SolarisPopoverTriggerDirective', () => {
       expect(getPanelContent()).toBeTruthy();
 
       triggerDirective.toggle();
-      fixture.detectChanges();
+      await flushMotionClose(fixture);
       expect(getPanelContent()).toBeNull();
     });
   });
@@ -212,7 +226,7 @@ describe('SolarisPopoverTriggerDirective', () => {
       closeOnEscape = true;
     }
 
-    it('should close on Escape when closeOnEscape is true', () => {
+    it('should close on Escape when closeOnEscape is true', async () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       triggerClick(fixture);
@@ -224,7 +238,7 @@ describe('SolarisPopoverTriggerDirective', () => {
       triggerEl.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
       );
-      fixture.detectChanges();
+      await flushMotionClose(fixture);
       expect(getPanelContent()).toBeNull();
     });
 
@@ -269,7 +283,7 @@ describe('SolarisPopoverTriggerDirective', () => {
       closeOnOutsideClick = true;
     }
 
-    it('should close on outside click when closeOnOutsideClick is true', () => {
+    it('should close on outside click when closeOnOutsideClick is true', async () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       triggerClick(fixture);
@@ -277,7 +291,7 @@ describe('SolarisPopoverTriggerDirective', () => {
 
       const outsideArea = fixture.nativeElement.querySelector('.outside-area');
       outsideArea.click();
-      fixture.detectChanges();
+      await flushMotionClose(fixture);
       expect(getPanelContent()).toBeNull();
     });
 
@@ -740,7 +754,7 @@ describe('SolarisPopoverTriggerDirective', () => {
       expect(origin).toBe(wrapper);
     });
 
-    it('should remove data-connected-side from trigger and wrapper on close', () => {
+    it('should remove data-connected-side from trigger and wrapper on close', async () => {
       const fixture = TestBed.createComponent(TopConnectedHost);
       fixture.detectChanges();
 
@@ -760,7 +774,7 @@ describe('SolarisPopoverTriggerDirective', () => {
       expect(wrapper.getAttribute('data-connected-side')).toBe('bottom');
 
       triggerDirective.close();
-      fixture.detectChanges();
+      await flushMotionClose(fixture);
 
       expect(triggerEl.hasAttribute('data-connected-side')).toBe(false);
       expect(wrapper.hasAttribute('data-connected-side')).toBe(false);

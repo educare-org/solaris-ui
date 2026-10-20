@@ -74,8 +74,15 @@
 }
 
 [solaris-icon-button][data-hydrated] {
-  transition: all var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
+  transition:
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 }
 
 [solaris-icon-button]:hover {

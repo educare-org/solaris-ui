@@ -4,6 +4,9 @@
 
 .solaris-date-picker__panel {
   width: calc((var(--solaris-spacing-17) * 2) + var(--solaris-spacing-16));
+  animation: solaris-motion-overlay-enter-top
+    var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 [solaris-button].solaris-date-picker__calendar-trigger,
@@ -51,12 +54,20 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .solaris-date-picker__panel {
+    animation: none;
+  }
+
   .solaris-date-picker__clear {
     transition: none;
   }
 }
 
 [data-reduced-motion='true'] {
+  .solaris-date-picker__panel {
+    animation: none;
+  }
+
   .solaris-date-picker__clear {
     transition: none;
   }

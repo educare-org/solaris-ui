@@ -27,6 +27,27 @@
   background: var(--solaris-popover-background);
   border: var(--solaris-popover-border-width) solid
     var(--solaris-popover-border-color);
+  animation: solaris-motion-overlay-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+.solaris-popover-panel__container[data-connected-side='top'] {
+  animation: solaris-motion-overlay-enter-top
+    var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+.solaris-popover-panel__container[data-closing] {
+  pointer-events: none;
+  animation: solaris-motion-overlay-exit
+    var(--solaris-motion-duration-exit, var(--solaris-motion-duration-fast))
+    var(--solaris-motion-easing-accelerate) both;
+}
+
+.solaris-popover-panel__container[data-closing][data-connected-side='top'] {
+  animation: solaris-motion-overlay-exit-top
+    var(--solaris-motion-duration-exit, var(--solaris-motion-duration-fast))
+    var(--solaris-motion-easing-accelerate) both;
 }
 
 :host([data-scrollable]) .solaris-popover-panel__container {
@@ -92,4 +113,16 @@
   box-shadow: none;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-popover-panel__container {
+    animation: none;
+    transition: none;
+  }
+}
+
+:host-context([data-reduced-motion='true']) .solaris-popover-panel__container {
+  animation: none;
+  transition: none;
 }

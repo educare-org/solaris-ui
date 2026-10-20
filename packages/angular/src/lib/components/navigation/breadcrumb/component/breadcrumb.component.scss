@@ -130,8 +130,11 @@
 .solaris-breadcrumb__link {
   border-radius: var(--solaris-radius-sm);
   color: var(--solaris-breadcrumb-link-color);
-  transition: all var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
+  transition:
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 }
 
 .solaris-breadcrumb__link:hover {

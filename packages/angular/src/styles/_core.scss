@@ -7,7 +7,10 @@
 ///   @use '@solaris-ui/angular/styles' as solaris;
 ///   @include solaris.core();
 
+@use 'token/motion/motion-keyframes' as motion-keyframes;
+
 @mixin core() {
   // Uses browser default font-size (100%).
   // No root font-size override needed.
+  @include motion-keyframes.solaris-motion-keyframes;
 }

@@ -1,9 +1,11 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component, ViewChild } from '@angular/core';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 import { SolarisDropdownMenuTriggerDirective } from '../directives/dropdown-menu-trigger.directive';
 import { SolarisDropdownMenuComponent } from '../component/dropdown-menu.component';
 import { SolarisDropdownMenuItemComponent } from '../component/dropdown-menu-item.component';
+import { SOLARIS_MOTION_DETACH_MS } from '../../../../core/utils/motion-close';
 import type { SolarisDropdownMenuPlacement } from '../model/dropdown-menu.types';
 
 @Component({
@@ -373,6 +375,35 @@ describe('SolarisDropdownMenuTriggerDirective', () => {
     fixture.componentInstance.trigger.close();
     fixture.detectChanges();
     expect(document.activeElement).toBe(el);
+  });
+
+  it('should keep the panel mounted with data-closing for the exit animation', async () => {
+    const overlayContainer = TestBed.inject(OverlayContainer);
+    const getPanel = (): Element | null =>
+      overlayContainer
+        .getContainerElement()
+        .querySelector(
+          '.solaris-dropdown-menu-overlay .solaris-popover-panel__container',
+        );
+
+    const el = fixture.nativeElement.querySelector(
+      '[solaris-dropdown-menu-trigger]',
+    );
+    el.click();
+    fixture.detectChanges();
+    expect(getPanel()).toBeTruthy();
+
+    el.click();
+    fixture.detectChanges();
+    // State is synchronous; only the overlay detach is delayed.
+    expect(fixture.componentInstance.trigger['isOpen']()).toBe(false);
+    expect(getPanel()?.getAttribute('data-closing')).toBe('');
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, SOLARIS_MOTION_DETACH_MS + 50),
+    );
+    fixture.detectChanges();
+    expect(getPanel()).toBeNull();
   });
 });
 

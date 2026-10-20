@@ -36,6 +36,10 @@ import {
   getPrimaryPosition,
   getFallbackPositions,
 } from '../../popover/model/popover-position';
+import {
+  scheduleMotionClose,
+  cancelMotionClose,
+} from '../../../../core/utils/motion-close';
 
 import { SolarisDropdownMenuComponent } from '../component/dropdown-menu.component';
 
@@ -76,6 +80,8 @@ export class SolarisDropdownMenuTriggerDirective {
   private attachedMenu: SolarisDropdownMenuComponent | null = null;
   private positionStrategy: FlexibleConnectedPositionStrategy | null = null;
   private focusTimeout: ReturnType<typeof setTimeout> | null = null;
+  private closeTimeout: ReturnType<typeof setTimeout> | null = null;
+  private panelContainerRef: HTMLElement | null = null;
 
   protected readonly isOpen = signal(false);
 
@@ -189,6 +195,7 @@ export class SolarisDropdownMenuTriggerDirective {
       return;
     }
 
+    this.cancelPendingClose();
     this.previousActiveElement = this.document.activeElement as HTMLElement;
     this.createOverlay();
     this.attachMenu();
@@ -204,11 +211,17 @@ export class SolarisDropdownMenuTriggerDirective {
       return;
     }
 
-    this.detachMenu();
+    // State and outputs stay synchronous; only the overlay detach is delayed
+    // so the [data-closing] exit animation can play (motion-standard).
+    this.markPanelClosing();
     this.restoreFocus();
     this.isOpen.set(false);
     this.menuClosed.emit();
     this.openChange.emit(false);
+    this.closeTimeout = scheduleMotionClose(() => {
+      this.closeTimeout = null;
+      this.detachMenu();
+    });
   }
 
   toggle(): void {
@@ -321,6 +334,9 @@ export class SolarisDropdownMenuTriggerDirective {
     );
 
     this.overlayRef.attach(portal);
+    this.panelContainerRef = this.overlayRef.overlayElement.querySelector(
+      '.solaris-popover-panel__container',
+    );
 
     this.attachedMenu = menu;
 
@@ -345,11 +361,24 @@ export class SolarisDropdownMenuTriggerDirective {
     this.attachedMenu = null;
   }
 
+  private markPanelClosing(): void {
+    this.panelContainerRef?.setAttribute('data-closing', '');
+    this.panelContainerRef?.setAttribute('aria-hidden', 'true');
+  }
+
+  private cancelPendingClose(): void {
+    this.closeTimeout = cancelMotionClose(this.closeTimeout);
+    this.panelContainerRef?.removeAttribute('data-closing');
+    this.panelContainerRef?.removeAttribute('aria-hidden');
+  }
+
   private disposeOverlay(): void {
+    this.cancelPendingClose();
     if (this.focusTimeout !== null) {
       clearTimeout(this.focusTimeout);
       this.focusTimeout = null;
     }
+    this.panelContainerRef = null;
     if (this.overlayRef) {
       try {
         this.overlayRef.dispose();

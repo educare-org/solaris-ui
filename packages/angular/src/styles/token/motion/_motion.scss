@@ -14,4 +14,7 @@
 
   --solaris-motion-scale-active: 0.97;
   --solaris-motion-scale-enter: 0.95;
+
+  --solaris-motion-duration-exit: var(--solaris-motion-duration-fast);
+  --solaris-motion-translate-sm: 4px;
 }

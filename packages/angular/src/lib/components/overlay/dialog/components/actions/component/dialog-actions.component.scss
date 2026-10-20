@@ -32,18 +32,6 @@
   padding: var(--solaris-spacing-5);
 }
 
-:host([data-density='compact']) .solaris-dialog-actions__inner {
-  gap: var(--solaris-spacing-1);
-}
-
-:host([data-density='normal']) .solaris-dialog-actions__inner {
-  gap: var(--solaris-spacing-2);
-}
-
-:host([data-density='comfortable']) .solaris-dialog-actions__inner {
-  gap: var(--solaris-spacing-3);
-}
-
 :host([data-align='start']) .solaris-dialog-actions__inner {
   justify-content: flex-start;
 }
