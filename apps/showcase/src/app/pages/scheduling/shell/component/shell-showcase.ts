@@ -7,12 +7,19 @@ import {
   SolarisPreviewCodeComponent,
   SolarisTranslatePipe,
   SolarisTranslateService,
+  SolarisVisuallyHiddenDirective,
   builtInHolidays,
   preloadBuiltInHolidays,
+  resolveSolarisEventDelete,
   type SolarisCalendarEvent,
+  type SolarisCalendarEventCreateProposal,
+  type SolarisCalendarEventMoveProposal,
+  type SolarisCalendarEventResizeProposal,
   type SolarisCalendarTask,
   type SolarisCalendarView,
+  type SolarisEventDeleteRequest,
   type SolarisHoliday,
+  type SolarisMonthViewTaskMove,
 } from '@solaris-ui/angular';
 
 import { ShowcaseDocsPageFooter } from '../../../../shell/docs-page-footer/docs-page-footer';
@@ -32,6 +39,12 @@ import {
   SHELL_SHOWCASE_TOC_ITEMS,
   SHELL_TRANSLATION_PREFIX,
 } from '../model/shell-showcase.data';
+
+function todayLocalDate(): string {
+  const now = new Date();
+  const pad = (value: number): string => String(value).padStart(2, '0');
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+}
 
 const SHOWCASE_EVENTS: SolarisCalendarEvent[] = [
   {
@@ -69,6 +82,7 @@ const SHOWCASE_TASKS: SolarisCalendarTask[] = [
     SolarisCodeBlockComponent,
     SolarisPreviewCodeComponent,
     SolarisTranslatePipe,
+    SolarisVisuallyHiddenDirective,
     ShowcaseDocsPageFooter,
     ShowcaseDocsPageHeader,
     ShowcaseDocsPageLayout,
@@ -100,11 +114,14 @@ export class ShellShowcasePage implements OnInit {
     },
   );
 
-  protected readonly events = SHOWCASE_EVENTS;
-  protected readonly tasks = SHOWCASE_TASKS;
+  protected readonly events = signal<SolarisCalendarEvent[]>([
+    ...SHOWCASE_EVENTS,
+  ]);
+  protected readonly tasks = signal<SolarisCalendarTask[]>([...SHOWCASE_TASKS]);
   protected readonly holidays = signal<SolarisHoliday[]>([]);
   protected readonly view = signal<SolarisCalendarView>('month');
-  protected readonly focusedDate = signal('2026-10-15');
+  protected readonly focusedDate = signal(todayLocalDate());
+  protected readonly timeZone = signal('America/Sao_Paulo');
   protected readonly log = signal('');
 
   ngOnInit(): void {
@@ -113,6 +130,102 @@ export class ShellShowcasePage implements OnInit {
 
   protected onDaySelect(date: string): void {
     this.log.set(`day:${date}`);
+  }
+
+  protected onSlotSelect(slot: { date: string; time: string }): void {
+    this.log.set(`slot:${slot.date}:${slot.time}`);
+  }
+
+  protected onEventOpen(open: { id: string; start: string }): void {
+    this.log.set(`event:${open.id}@${open.start}`);
+  }
+
+  protected onEventSave(
+    draft: SolarisCalendarEvent | SolarisCalendarTask,
+  ): void {
+    if (draft.kind === 'task') {
+      this.tasks.update((tasks) =>
+        tasks.some((task) => task.id === draft.id)
+          ? tasks.map((task) => (task.id === draft.id ? draft : task))
+          : [...tasks, draft],
+      );
+    } else {
+      this.events.update((events) =>
+        events.some((event) => event.id === draft.id)
+          ? events.map((event) => (event.id === draft.id ? draft : event))
+          : [...events, draft],
+      );
+    }
+    this.log.set(`save:${draft.id}:${draft.title}`);
+  }
+
+  protected onEventDelete(request: SolarisEventDeleteRequest): void {
+    const source = this.events().find((item) => item.id === request.eventId);
+    if (!source) {
+      this.log.set(`delete:${request.eventId}:${request.scope}:missing`);
+      return;
+    }
+    const resolved = resolveSolarisEventDelete(
+      source,
+      request.occurrenceStart,
+      request.scope,
+      this.timeZone(),
+    );
+    if (resolved.action === 'remove') {
+      this.events.update((items) =>
+        items.filter((item) => item.id !== source.id),
+      );
+      this.log.set(`delete:${request.eventId}:${request.scope}:removed`);
+    } else {
+      this.events.update((items) =>
+        items.map((item) => (item.id === source.id ? resolved.event : item)),
+      );
+      this.log.set(`delete:${request.eventId}:${request.scope}:updated`);
+    }
+  }
+
+  protected onEventCreate(proposal: SolarisCalendarEventCreateProposal): void {
+    this.log.set(`create:${proposal.start}`);
+  }
+
+  protected onEventMove(proposal: SolarisCalendarEventMoveProposal): void {
+    this.events.update((events) =>
+      events.map((event) =>
+        event.id === proposal.id
+          ? { ...event, start: proposal.start, end: proposal.end }
+          : event,
+      ),
+    );
+    this.log.set(`move:${proposal.id}`);
+  }
+
+  protected onEventResize(proposal: SolarisCalendarEventResizeProposal): void {
+    this.events.update((events) =>
+      events.map((event) =>
+        event.id === proposal.id
+          ? { ...event, start: proposal.start, end: proposal.end }
+          : event,
+      ),
+    );
+    this.log.set(`resize:${proposal.id}`);
+  }
+
+  protected onTaskToggle(id: string): void {
+    this.tasks.update((tasks) =>
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task,
+      ),
+    );
+    this.log.set(`task:${id}`);
+  }
+
+  protected onTaskMove(move: SolarisMonthViewTaskMove): void {
+    this.tasks.update((tasks) =>
+      tasks.map((task) =>
+        task.id === move.id ? { ...task, due: move.due } : task,
+      ),
+    );
+    this.log.set(`task-move:${move.id}`);
   }
 
   protected onViewChange(view: SolarisCalendarView): void {

@@ -17,9 +17,10 @@ export const PT_BR_ACCORDION: Record<string, string> = {
   'accordion.mode.single': 'Único',
   'accordion.mode.multiple': 'Múltiplo',
   'accordion.appearance.note':
-    'Boxed renderiza cada item como cartão com borda; lined renderiza uma lista plana com divisores.',
+    'Boxed renderiza cada item como cartão com borda; lined renderiza uma lista plana com divisores; plain não tem bordas.',
   'accordion.appearance.boxed': 'Boxed',
   'accordion.appearance.lined': 'Lined',
+  'accordion.appearance.plain': 'Plain',
   'accordion.size-density.note':
     'Tamanho e densidade pertencem ao contêiner e se propagam para cada item, então todas as seções têm a mesma geometria.',
   'accordion.size.sm': 'Pequeno',

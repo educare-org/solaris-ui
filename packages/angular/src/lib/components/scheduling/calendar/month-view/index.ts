@@ -5,4 +5,5 @@ export type {
   SolarisMonthViewItem,
   SolarisMonthViewItemKind,
   SolarisMonthViewSize,
+  SolarisMonthViewTaskMove,
 } from './model/month-view.types';

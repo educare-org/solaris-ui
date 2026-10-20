@@ -28,8 +28,6 @@ test.describe('Week view drag', () => {
   ): Promise<void> {
     const source = slot(scope, fromDate, fromHour);
     const target = slot(scope, toDate, toHour);
-    // why: page.mouse does not auto-scroll like locator.click; without this
-    // the coordinates land below the fold and the cell never sees pointerdown.
     await source.scrollIntoViewIfNeeded();
     const fromBox = await source.boundingBox();
     const toBox = await target.boundingBox();

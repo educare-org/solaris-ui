@@ -6,7 +6,9 @@
   --solaris-calendar-year-view-border: var(--solaris-neutral-border-subtle);
   --solaris-calendar-year-view-day-size: var(--solaris-spacing-7);
   --solaris-calendar-year-view-day-font-size: var(--solaris-font-size-2xs);
-  --solaris-calendar-year-view-month-min: calc(var(--solaris-spacing-18) * 1.5);
+  --solaris-calendar-year-view-month-min: calc(
+    var(--solaris-spacing-18) + var(--solaris-spacing-9)
+  );
   --solaris-calendar-year-view-transition:
     background-color var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
@@ -22,6 +24,7 @@
     minmax(var(--solaris-calendar-year-view-month-min), 1fr)
   );
   width: 100%;
+  box-sizing: border-box;
   border: var(--solaris-border-width-sm) solid
     var(--solaris-calendar-year-view-border);
   border-radius: var(--solaris-radius-md);

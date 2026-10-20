@@ -1,6 +1,9 @@
 export { SolarisCalendarComponent } from './component/shell.component';
+export { SolarisCalendarEditorDialogComponent } from './component/calendar-editor-dialog.component';
 export type {
   SolarisCalendarDensity,
+  SolarisCalendarEditorDialogData,
+  SolarisCalendarEditorDialogResult,
   SolarisCalendarResponsiveFallback,
   SolarisCalendarSize,
   SolarisCalendarShellEventOpen,

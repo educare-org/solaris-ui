@@ -334,7 +334,11 @@ button.solaris-calendar-month-view__chip:focus-visible {
   }
 }
 
-// why: the drag ghost previews the pending proposal with tokens + opacity only.
+:host([data-dragging]) .solaris-calendar-month-view__grid {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 .solaris-calendar-month-view__cell[data-dragging] {
   background: var(--solaris-primary-soft);
 }
@@ -351,28 +355,26 @@ button.solaris-calendar-month-view__chip:focus-visible {
 }
 
 .solaris-calendar-month-view__ghost {
+  width: 100%;
   display: flex;
   flex: 0 0 auto;
-  align-items: center;
-  box-sizing: border-box;
-  width: 100%;
-  min-height: var(--solaris-spacing-6);
   overflow: hidden;
-  background: var(--solaris-primary-soft);
-  color: var(--solaris-primary-foreground);
+  align-items: center;
+  pointer-events: none;
+  box-sizing: border-box;
   opacity: var(--solaris-opacity-70);
-  border: var(--solaris-border-width-sm) dashed var(--solaris-primary-border);
+  min-height: var(--solaris-spacing-6);
+  background: var(--solaris-primary-soft);
   border-radius: var(--solaris-radius-md);
+  color: var(--solaris-primary-foreground);
   padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
+  outline-offset: calc(var(--solaris-focus-ring-offset) * -1);
+  border: var(--solaris-border-width-sm) dashed var(--solaris-primary-border);
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
   font: var(--solaris-font-weight-medium)
     var(--solaris-calendar-month-view-chip-font-size) /
     var(--solaris-line-height-sm) var(--solaris-font-family-sans);
-
-  // why: the ghost is the visible proposal preview; it always carries a ring.
-  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
-    var(--solaris-focus-ring-color);
-  outline-offset: calc(var(--solaris-focus-ring-offset) * -1);
-  pointer-events: none;
 }
 
 .solaris-calendar-month-view__ghost-text {
@@ -396,6 +398,15 @@ button.solaris-calendar-month-view__chip[data-kind='event'] {
 @media print {
   .solaris-calendar-month-view__grid {
     overflow: visible;
+    box-sizing: border-box;
+  }
+
+  // Square cells size rows by page width, pushing the grid (plus agenda)
+  // onto a second sheet in landscape. Content-sized rows keep a typical
+  // month on one page in both orientations.
+  .solaris-calendar-month-view__cell {
+    aspect-ratio: auto;
+    min-height: var(--solaris-spacing-15);
   }
 
   .solaris-calendar-month-view__panel {
@@ -405,8 +416,21 @@ button.solaris-calendar-month-view__chip[data-kind='event'] {
   // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for the print grid.
   .solaris-calendar-month-view__grid,
   .solaris-calendar-month-view__cell {
-    background: #fff;
     color: #000;
+    background: #fff;
+  }
+
+  // Outside-month wash must also pin to paper: its screen rule
+  // (class + attribute) outranks the rule above, printing near-black
+  // cells on dark themes.
+  .solaris-calendar-month-view__cell[data-outside-month] {
+    background: #fff;
+  }
+
+  .solaris-calendar-month-view__cell[data-outside-month]
+    .solaris-calendar-month-view__day {
+    color: #000;
+    opacity: 1;
   }
 
   .solaris-calendar-month-view__cell,

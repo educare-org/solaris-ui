@@ -1051,6 +1051,7 @@ export { SolarisCalendarWeekViewComponent } from './lib/components/scheduling/ca
 export { SolarisCalendarYearViewComponent } from './lib/components/scheduling/calendar/index';
 export { SolarisCalendarScheduleViewComponent } from './lib/components/scheduling/calendar/index';
 export { SolarisCalendarComponent } from './lib/components/scheduling/calendar/index';
+export { SolarisCalendarEditorDialogComponent } from './lib/components/scheduling/calendar/index';
 export {
   formatTimeZoneOffset,
   isNarrowViewport,
@@ -1084,6 +1085,7 @@ export type {
   SolarisMonthViewItem,
   SolarisMonthViewItemKind,
   SolarisMonthViewSize,
+  SolarisMonthViewTaskMove,
   SolarisWeekCreateArgs,
   SolarisWeekDaySegment,
   SolarisWeekMoveArgs,
@@ -1109,6 +1111,8 @@ export type {
   SolarisScheduleViewItemKind,
   SolarisScheduleViewSize,
   SolarisCalendarDensity,
+  SolarisCalendarEditorDialogData,
+  SolarisCalendarEditorDialogResult,
   SolarisCalendarResponsiveFallback,
   SolarisCalendarSize,
   SolarisCalendarView,

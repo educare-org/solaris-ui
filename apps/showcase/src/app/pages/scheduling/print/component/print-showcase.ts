@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 
 import {
   SolarisCalendarMonthViewComponent,
@@ -30,6 +30,7 @@ import {
   PRINT_SHOWCASE_SLUG,
   PRINT_SHOWCASE_TOC_ITEMS,
   PRINT_TRANSLATION_PREFIX,
+  SHOWCASE_PRINT_BODY_CLASS,
 } from '../model/print-showcase.data';
 
 const SHOWCASE_EVENTS: SolarisCalendarEvent[] = [
@@ -59,7 +60,7 @@ const SHOWCASE_EVENTS: SolarisCalendarEvent[] = [
   templateUrl: './print-showcase.html',
   styleUrls: ['./print-showcase.scss'],
 })
-export class PrintShowcasePage {
+export class PrintShowcasePage implements OnInit, OnDestroy {
   private readonly translateService = inject(SolarisTranslateService);
   private readonly document = inject(DOCUMENT);
 
@@ -95,6 +96,14 @@ export class PrintShowcasePage {
         ),
       );
     });
+  }
+
+  ngOnInit(): void {
+    this.document.body.classList.add(SHOWCASE_PRINT_BODY_CLASS);
+  }
+
+  ngOnDestroy(): void {
+    this.document.body.classList.remove(SHOWCASE_PRINT_BODY_CLASS);
   }
 
   protected printPreview(): void {

@@ -1,4 +1,4 @@
-export type SolarisAccordionAppearance = 'boxed' | 'lined';
+export type SolarisAccordionAppearance = 'boxed' | 'lined' | 'plain';
 
 export type SolarisAccordionType = 'single' | 'multiple';
 

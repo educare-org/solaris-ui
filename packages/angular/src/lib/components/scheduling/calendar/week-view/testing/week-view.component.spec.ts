@@ -364,6 +364,88 @@ describe('SolarisCalendarWeekViewComponent', () => {
     expect(opened).toBe('2026-10-15');
   });
 
+  it('reserves the last all-day row for the more button on overflow', () => {
+    createFixture();
+    fixture.componentRef.setInput('events', [
+      {
+        id: 'a1',
+        kind: 'event',
+        title: 'First',
+        start: '2026-10-15',
+        allDay: true,
+      },
+      {
+        id: 'a2',
+        kind: 'event',
+        title: 'Second',
+        start: '2026-10-15',
+        allDay: true,
+      },
+      {
+        id: 'a3',
+        kind: 'event',
+        title: 'Third',
+        start: '2026-10-15',
+        allDay: true,
+      },
+      {
+        id: 'a4',
+        kind: 'event',
+        title: 'Fourth',
+        start: '2026-10-15',
+        allDay: true,
+      },
+    ]);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    const cell = element.querySelector(
+      '.solaris-calendar-week-view__allday-cell[data-date="2026-10-15"]',
+    ) as HTMLElement;
+    expect(
+      cell.querySelectorAll('.solaris-calendar-week-view__chip'),
+    ).toHaveLength(2);
+    const more = cell.querySelector(
+      '.solaris-calendar-week-view__more',
+    ) as HTMLButtonElement;
+    expect(more.textContent).toContain('2');
+  });
+
+  it('shows every all-day chip without a more button when the row fits', () => {
+    createFixture();
+    fixture.componentRef.setInput('events', [
+      {
+        id: 'a1',
+        kind: 'event',
+        title: 'First',
+        start: '2026-10-15',
+        allDay: true,
+      },
+      {
+        id: 'a2',
+        kind: 'event',
+        title: 'Second',
+        start: '2026-10-15',
+        allDay: true,
+      },
+      {
+        id: 'a3',
+        kind: 'event',
+        title: 'Third',
+        start: '2026-10-15',
+        allDay: true,
+      },
+    ]);
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    const cell = element.querySelector(
+      '.solaris-calendar-week-view__allday-cell[data-date="2026-10-15"]',
+    ) as HTMLElement;
+    expect(
+      cell.querySelectorAll('.solaris-calendar-week-view__chip'),
+    ).toHaveLength(3);
+    expect(cell.querySelector('.solaris-calendar-week-view__more')).toBeNull();
+  });
+
   it('renders hour labels in a 12-hour clock', () => {
     const element = createFixture();
     const gutters = Array.from(

@@ -357,4 +357,18 @@ describe('SolarisCalendarScheduleViewComponent', () => {
       (fixture.nativeElement as HTMLElement).querySelector('[data-empty]'),
     ).not.toBeNull();
   });
+
+  it('shows the toolbar by default and hides it when showToolbar is false', () => {
+    const element = createFixture();
+    expect(
+      element.querySelector('.solaris-calendar-schedule-view__toolbar'),
+    ).not.toBeNull();
+    fixture.componentRef.setInput('showToolbar', false);
+    fixture.detectChanges();
+    expect(
+      (fixture.nativeElement as HTMLElement).querySelector(
+        '.solaris-calendar-schedule-view__toolbar',
+      ),
+    ).toBeNull();
+  });
 });

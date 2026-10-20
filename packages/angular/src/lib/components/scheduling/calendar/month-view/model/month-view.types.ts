@@ -11,6 +11,11 @@ export interface SolarisMonthViewEventOpen {
   start: string;
 }
 
+export interface SolarisMonthViewTaskMove {
+  id: string;
+  due: string;
+}
+
 export interface SolarisMonthViewItem {
   kind: SolarisMonthViewItemKind;
   id: string | null;
@@ -41,6 +46,7 @@ export type SolarisMonthDragMode = 'create' | 'move';
 export interface SolarisMonthDragSession {
   origin: SolarisMonthDragOrigin;
   mode: SolarisMonthDragMode;
+  itemKind: 'event' | 'task';
   anchorDate: string;
   grabDate: string;
   currentDate: string;
@@ -52,6 +58,7 @@ export interface SolarisMonthDragSession {
 
 export interface SolarisMonthDragCandidate {
   mode: SolarisMonthDragMode;
+  itemKind: 'event' | 'task';
   anchorDate: string;
   grabDate: string;
   eventId: string | null;

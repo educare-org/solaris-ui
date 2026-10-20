@@ -1,0 +1,13 @@
+<solaris-calendar-event-editor
+  [event]="data.event"
+  [occurrenceStart]="data.occurrenceStart"
+  [timeZone]="timeZone()"
+  [timeZoneOptions]="data.timeZoneOptions"
+  [locale]="data.locale"
+  [size]="data.size"
+  [density]="data.density"
+  (eventSave)="onSave($event)"
+  (eventDelete)="onDelete($event)"
+  (eventCancel)="onCancel()"
+  (timeZoneChange)="onTimeZoneChange($event)"
+/>

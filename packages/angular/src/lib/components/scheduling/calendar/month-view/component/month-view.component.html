@@ -63,10 +63,13 @@
                   [attr.data-color]="item.color"
                   [attr.data-completed]="item.completed ? '' : null"
                   [attr.data-selected]="isSelected(item) ? '' : null"
+                  [attr.data-dragging]="isDragSource(item) ? '' : null"
                   role="checkbox"
                   [attr.aria-checked]="item.completed"
                   [attr.aria-label]="chipAriaLabel(item)"
                   (click)="toggleTask(item)"
+                  (pointerdown)="onChipPointerDown($event, item, day.value)"
+                  (keydown)="onChipKeydown($event, item)"
                 >
                   <span
                     class="solaris-calendar-month-view__check"

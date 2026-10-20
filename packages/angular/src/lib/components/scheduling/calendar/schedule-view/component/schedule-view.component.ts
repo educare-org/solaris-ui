@@ -44,40 +44,11 @@ import type {
   SolarisScheduleViewItem,
   SolarisScheduleViewSize,
 } from '../model/schedule-view.types';
-
-const MAX_WINDOW_DAYS = 31;
-
-function validAnchor(value: string): string {
-  if (parseSolarisDateParts(value) !== null) return value;
-  return todaySolarisDate();
-}
-
-function normalizeWindow(value: number): number {
-  if (!Number.isFinite(value)) return 7;
-  return Math.min(MAX_WINDOW_DAYS, Math.max(1, Math.round(value)));
-}
-
-function itemWeight(item: SolarisScheduleViewItem): number {
-  if (item.kind === 'holiday') return 0;
-  if (item.kind === 'event' && item.allDay) return 1;
-  if (item.kind === 'event') return 2;
-  return 3;
-}
-
-function compareScheduleItems(
-  first: SolarisScheduleViewItem,
-  second: SolarisScheduleViewItem,
-): number {
-  const weight = itemWeight(first) - itemWeight(second);
-  if (weight !== 0) return weight;
-  if (first.sortKey !== second.sortKey) {
-    if (first.sortKey < second.sortKey) return -1;
-    return 1;
-  }
-  if (first.title < second.title) return -1;
-  if (first.title > second.title) return 1;
-  return 0;
-}
+import {
+  compareScheduleItems,
+  normalizeScheduleWindow,
+  validScheduleAnchor,
+} from '../model/schedule-view.utils';
 
 @Component({
   selector: 'solaris-calendar-schedule-view',
@@ -109,6 +80,7 @@ export class SolarisCalendarScheduleViewComponent {
   readonly density = input<SolarisScheduleViewDensity>('comfortable');
   readonly size = input<SolarisScheduleViewSize>('md');
   readonly selectedId = input<string | null>(null);
+  readonly showToolbar = input<boolean>(true);
 
   readonly daySelect = output<string>();
   readonly eventOpen = output<SolarisScheduleViewEventOpen>();
@@ -124,10 +96,12 @@ export class SolarisCalendarScheduleViewComponent {
   protected readonly activeDate = signal<string | null>(null);
 
   protected readonly windowSize = computed(() =>
-    normalizeWindow(this.windowDays()),
+    normalizeScheduleWindow(this.windowDays()),
   );
 
-  protected readonly anchor = computed(() => validAnchor(this.focusedDate()));
+  protected readonly anchor = computed(() =>
+    validScheduleAnchor(this.focusedDate()),
+  );
 
   protected readonly windowEnd = computed(
     () =>

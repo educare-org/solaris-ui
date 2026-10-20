@@ -118,7 +118,6 @@ describe('SolarisCalendarWeekViewComponent drag', () => {
     expect(moved?.occurrenceStart).toBe('2026-10-15T09:00:00-03:00');
     expect(moved?.occurrenceScope).toBe('single');
     expect(element.getAttribute('data-dragging')).toBeNull();
-    // why: the Enter commit must not re-trigger the block click behavior.
     expect(opened).toBeUndefined();
     expect(
       (fixture.nativeElement as HTMLElement).querySelector('[role="status"]')
@@ -154,7 +153,6 @@ describe('SolarisCalendarWeekViewComponent drag', () => {
     instance.eventCreate.subscribe((value) => {
       created = value;
     });
-    // why: the active slot follows focusedDate, so creation starts on 2026-10-15.
     const gridElement = grid(element);
     keydown(gridElement, 'ArrowDown', true);
     expect(element.querySelector('[data-ghost]')).not.toBeNull();
@@ -255,6 +253,36 @@ describe('SolarisCalendarWeekViewComponent drag', () => {
     expect(moved?.occurrenceScope).toBe('occurrence');
     expect(moved?.start).toBe('2026-10-14T10:00:00-03:00');
     expect(moved?.end).toBe('2026-10-14T11:00:00-03:00');
+  });
+
+  it('clears the native text selection when a drag activates', () => {
+    const element = createFixture();
+    const removeAllRanges = vi.fn();
+    const getSelection = vi.spyOn(window, 'getSelection').mockReturnValue({
+      isCollapsed: false,
+      removeAllRanges,
+    } as unknown as Selection);
+    try {
+      keydown(standupBlock(element), 'ArrowRight');
+      expect(removeAllRanges).toHaveBeenCalled();
+    } finally {
+      getSelection.mockRestore();
+    }
+  });
+
+  it('leaves a collapsed selection untouched when a drag activates', () => {
+    const element = createFixture();
+    const removeAllRanges = vi.fn();
+    const getSelection = vi.spyOn(window, 'getSelection').mockReturnValue({
+      isCollapsed: true,
+      removeAllRanges,
+    } as unknown as Selection);
+    try {
+      keydown(standupBlock(element), 'ArrowRight');
+      expect(removeAllRanges).not.toHaveBeenCalled();
+    } finally {
+      getSelection.mockRestore();
+    }
   });
 
   it('blocks drag interactions when disabled', () => {

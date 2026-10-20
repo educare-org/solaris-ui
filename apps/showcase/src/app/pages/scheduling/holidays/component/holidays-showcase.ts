@@ -74,7 +74,6 @@ export class HolidaysShowcasePage implements OnInit {
   protected readonly focusedDate = signal('2026-10-15');
   protected readonly demoLocale = signal<DemoLocale>('pt-BR');
 
-  // why: OnInit.ngOnInit must stay void; the holiday preload runs detached.
   ngOnInit(): void {
     void this.refreshHolidays();
   }

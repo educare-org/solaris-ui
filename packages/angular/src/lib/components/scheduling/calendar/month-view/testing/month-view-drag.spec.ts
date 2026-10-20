@@ -1,5 +1,5 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { configureSolarisTesting } from '../../../../../testing/solaris-test-utilities';
 import type {
@@ -7,6 +7,8 @@ import type {
   SolarisCalendarEventMoveProposal,
 } from '../../model/calendar-drag.types';
 import type { SolarisCalendarEvent } from '../../model/calendar.types';
+import type { SolarisCalendarTask } from '../../model/calendar.types';
+import type { SolarisMonthViewTaskMove } from '../model/month-view.types';
 import { SolarisCalendarMonthViewComponent } from '../component/month-view.component';
 
 const EVENTS: SolarisCalendarEvent[] = [
@@ -29,6 +31,15 @@ const EVENTS: SolarisCalendarEvent[] = [
   },
 ];
 
+const TASKS: SolarisCalendarTask[] = [
+  {
+    id: 'report',
+    kind: 'task',
+    title: 'Send status report',
+    due: '2026-10-16',
+    completed: false,
+  },
+];
 describe('SolarisCalendarMonthViewComponent drag', () => {
   let fixture: ComponentFixture<SolarisCalendarMonthViewComponent>;
 
@@ -39,6 +50,7 @@ describe('SolarisCalendarMonthViewComponent drag', () => {
     fixture.componentRef.setInput('timeZone', 'America/Sao_Paulo');
     fixture.componentRef.setInput('focusedDate', '2026-10-15');
     fixture.componentRef.setInput('events', EVENTS);
+    fixture.componentRef.setInput('tasks', TASKS);
     fixture.detectChanges();
     return fixture.nativeElement as HTMLElement;
   };
@@ -102,7 +114,6 @@ describe('SolarisCalendarMonthViewComponent drag', () => {
     expect(moved?.occurrenceStart).toBe('2026-10-15T09:00:00-03:00');
     expect(moved?.occurrenceScope).toBe('single');
     expect(element.getAttribute('data-dragging')).toBeNull();
-    // why: the Enter commit must not re-trigger the chip click behavior.
     expect(opened).toBeUndefined();
     expect(
       (fixture.nativeElement as HTMLElement).querySelector('[role="status"]')
@@ -214,6 +225,21 @@ describe('SolarisCalendarMonthViewComponent drag', () => {
     expect(element.getAttribute('data-dragging')).toBeNull();
   });
 
+  it('clears the native text selection when a drag activates', () => {
+    const element = createFixture();
+    const removeAllRanges = vi.fn();
+    const getSelection = vi.spyOn(window, 'getSelection').mockReturnValue({
+      isCollapsed: false,
+      removeAllRanges,
+    } as unknown as Selection);
+    try {
+      chipKeydown(firstEventChip(element), 'ArrowRight');
+      expect(removeAllRanges).toHaveBeenCalled();
+    } finally {
+      getSelection.mockRestore();
+    }
+  });
+
   it('ignores incomplete proposals on the same day', () => {
     createFixture();
     const instance = fixture.componentRef.instance;
@@ -221,11 +247,77 @@ describe('SolarisCalendarMonthViewComponent drag', () => {
     instance.eventMove.subscribe((value) => {
       moved = value;
     });
-    // why: Left then Right returns to the origin — the commit must be a no-op.
     const chip = firstEventChip(fixture.nativeElement as HTMLElement);
     chipKeydown(chip, 'ArrowLeft');
     chipKeydown(chip, 'ArrowRight');
     chipKeydown(chip, 'Enter');
+    expect(moved).toBeUndefined();
+  });
+
+  it('moves a task chip with the keyboard and emits taskMove', () => {
+    const element = createFixture();
+    const instance = fixture.componentRef.instance;
+    let moved: SolarisMonthViewTaskMove | undefined;
+    let toggled: string | undefined;
+    instance.taskMove.subscribe((value) => {
+      moved = value;
+    });
+    instance.taskToggle.subscribe((value) => {
+      toggled = value;
+    });
+    const chip = Array.from(
+      element.querySelectorAll('[data-kind="task"]'),
+    ).find((candidate) =>
+      candidate.getAttribute('aria-label')?.includes('Send status report'),
+    );
+    if (chip === undefined) throw new Error('task chip not found');
+    chipKeydown(chip as HTMLElement, 'ArrowRight');
+    expect(element.getAttribute('data-dragging')).toBe('');
+    chipKeydown(chip as HTMLElement, 'Enter');
+    expect(moved).toEqual({ id: 'report', due: '2026-10-17' });
+    expect(toggled).toBeUndefined();
+    expect(element.getAttribute('data-dragging')).toBeNull();
+  });
+
+  it('keeps plain task clicks toggling without emitting taskMove', () => {
+    const element = createFixture();
+    const instance = fixture.componentRef.instance;
+    let moved: SolarisMonthViewTaskMove | undefined;
+    let toggled: string | undefined;
+    instance.taskMove.subscribe((value) => {
+      moved = value;
+    });
+    instance.taskToggle.subscribe((value) => {
+      toggled = value;
+    });
+    const chip = Array.from(
+      element.querySelectorAll('[data-kind="task"]'),
+    ).find((candidate) =>
+      candidate.getAttribute('aria-label')?.includes('Send status report'),
+    );
+    if (chip === undefined) throw new Error('task chip not found');
+    (chip as HTMLButtonElement).click();
+    fixture.detectChanges();
+    expect(toggled).toBe('report');
+    expect(moved).toBeUndefined();
+  });
+
+  it('ignores task moves back to the origin day', () => {
+    const element = createFixture();
+    const instance = fixture.componentRef.instance;
+    let moved: SolarisMonthViewTaskMove | undefined;
+    instance.taskMove.subscribe((value) => {
+      moved = value;
+    });
+    const chip = Array.from(
+      element.querySelectorAll('[data-kind="task"]'),
+    ).find((candidate) =>
+      candidate.getAttribute('aria-label')?.includes('Send status report'),
+    );
+    if (chip === undefined) throw new Error('task chip not found');
+    chipKeydown(chip as HTMLElement, 'ArrowLeft');
+    chipKeydown(chip as HTMLElement, 'ArrowRight');
+    chipKeydown(chip as HTMLElement, 'Enter');
     expect(moved).toBeUndefined();
   });
 });

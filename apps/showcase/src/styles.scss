@@ -34,3 +34,89 @@ body {
   line-height: var(--solaris-line-height-md);
   font-family: var(--solaris-font-family-sans), system-ui;
 }
+
+// Calendar print isolation. Active only while the print showcase page is
+// mounted (it toggles `showcase-print-calendars` on <body>), so no other
+// route is affected. Kept here instead of print-showcase.scss because
+// emulated encapsulation cannot reach the shell/docs chrome from component
+// CSS, and this repo does not use ::ng-deep.
+@media print {
+  body.showcase-print-calendars {
+    .shell__header,
+    .shell__sidebar,
+    .shell__skip-link,
+    .docs-page-header,
+    .docs-page-layout__aside,
+    app-docs-page-footer,
+    .docs-section__title,
+    .print-showcase__note,
+    .print-showcase__print-button,
+    .solaris-preview-code__toolbar,
+    .solaris-preview-code__panel--code,
+    app-docs-section[anchor='installation'],
+    app-docs-section[anchor='props'] {
+      display: none;
+    }
+
+    // Flatten every screen scroll/flex container: in print they reserve
+    // blank pages and clip the grids (visible scrollbar in the output).
+    // Block layout + visible overflow lets month/agenda flow across pages.
+    app-shell {
+      display: block;
+      min-height: 0;
+    }
+
+    .shell__body {
+      display: block;
+    }
+
+    .shell__main {
+      display: block;
+      padding: 0;
+      overflow: visible;
+    }
+
+    .docs-page-layout {
+      display: block;
+    }
+
+    .docs-page-layout__content {
+      display: block;
+      padding: 0;
+    }
+
+    .solaris-preview-code__frame {
+      display: block;
+    }
+
+    .solaris-preview-code__preview-surface {
+      display: block;
+      overflow: visible;
+      min-block-size: 0;
+      padding: 0;
+      border: 0;
+      background: #fff;
+    }
+
+    .print-showcase__preview {
+      display: block;
+      overflow: visible;
+    }
+
+    // Screen gap comes from grid `gap` (grid items are blockified);
+    // print uses block layout and the calendar hosts are inline, so
+    // blockify them and restore the same spacing between month/agenda.
+    .print-showcase__preview > * {
+      display: block;
+    }
+
+    .print-showcase__preview > * + * {
+      margin-top: var(--solaris-spacing-4);
+    }
+
+    .solaris-calendar-month-view__grid,
+    .solaris-calendar-schedule-view__list {
+      overflow: visible;
+    }
+  }
+}

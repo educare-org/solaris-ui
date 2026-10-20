@@ -13,9 +13,10 @@ export const EN_US_COLLAPSIBLE: Record<string, string> = {
   'collapsible.examples.note':
     'Start with the default collapsible, then explore appearances and sizes below.',
   'collapsible.appearance.note':
-    'Boxed renders a bordered card; lined renders a flat row with a divider under the trigger.',
+    'Boxed renders a bordered card; lined renders a flat row with a divider under the trigger; plain has no borders.',
   'collapsible.appearance.boxed': 'Boxed',
   'collapsible.appearance.lined': 'Lined',
+  'collapsible.appearance.plain': 'Plain',
   'collapsible.size-density.note':
     'Size and density work together in the component. Combine both controls to see every combination.',
   'collapsible.size.sm': 'Small',

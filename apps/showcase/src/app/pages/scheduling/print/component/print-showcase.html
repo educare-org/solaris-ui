@@ -17,7 +17,11 @@
       {{ 'print-view.examples.note' | translate }}
     </p>
     <solaris-preview-code [code]="basicCode" language="html">
-      <button type="button" (click)="printPreview()">
+      <button
+        type="button"
+        class="print-showcase__print-button"
+        (click)="printPreview()"
+      >
         {{ 'print-view.print.button' | translate }}
       </button>
       <div class="print-showcase__preview">

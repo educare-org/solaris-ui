@@ -9,6 +9,11 @@ export const PRINT_SHOWCASE_SLUG = 'print';
 
 export const PRINT_TRANSLATION_PREFIX = 'print-view';
 
+// Marker applied to <body> while the print page is mounted. Global
+// `@media print` rules key off it so only this route isolates the
+// calendars for printing; no other showcase page is affected.
+export const SHOWCASE_PRINT_BODY_CLASS = 'showcase-print-calendars';
+
 export const PRINT_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
   { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
   { labelKey: 'shell.sidebar.group.calendar', route: '/configuration' },

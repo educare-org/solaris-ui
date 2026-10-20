@@ -13,6 +13,7 @@ export type SolarisCalendarStringKey =
   | 'nowLine'
   | 'timedEvent'
   | 'timeSlot'
+  | 'newEvent'
   | 'scheduleEmpty'
   | 'scheduleEmptyHint'
   | 'previousDays'
@@ -35,9 +36,12 @@ export type SolarisCalendarStringKey =
   | 'viewSchedule'
   | 'viewCustom'
   | 'showWeekends'
-  | 'timeZoneLabel'
+  | 'showHolidays'
+  | 'displayOptions'
+  | 'timeZone'
   | 'customDays'
-  | 'miniMonthLabel';
+  | 'shellNavigation'
+  | 'miniCalendar';
 
 export type SolarisCalendarStringLanguage = 'en' | 'pt' | 'es';
 

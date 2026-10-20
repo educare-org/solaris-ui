@@ -12,13 +12,13 @@ import {
   signal,
 } from '@angular/core';
 
-import { nextIdFor } from '../../../../../core';
 import { SolarisButtonDirective } from '../../../../actions/button';
 import { SolarisIconButtonDirective } from '../../../../actions/icon-button';
 import { SolarisCheckboxComponent } from '../../../../forms/checkbox';
 import { SolarisOptionComponent } from '../../../../forms/option';
 import { SolarisSelectComponent } from '../../../../forms/select';
 import { SolarisIconComponent } from '../../../../icon';
+import { SolarisCollapsibleComponent } from '../../../../interaction/collapsible';
 import {
   addSolarisMonths,
   getCalendarDays,
@@ -28,6 +28,7 @@ import {
 import { SolarisVisuallyHiddenDirective } from '../../../../../services/accessibility';
 import { SolarisTranslateService } from '../../../../../services/translation';
 import {
+  addDaysToSolarisDate,
   defaultSolarisTimeZone,
   isSolarisWeekend,
   parseSolarisDateParts,
@@ -39,6 +40,10 @@ import type {
   SolarisCalendarWeekStart,
   SolarisHoliday,
 } from '../../model/calendar.types';
+import type { SolarisEventDeleteRequest } from '../../event-editor';
+import { SolarisDialogService } from '../../../../overlay/dialog';
+import type { SolarisDialogRef } from '../../../../overlay/dialog';
+import { SolarisCalendarEditorDialogComponent } from './calendar-editor-dialog.component';
 import type {
   SolarisCalendarEventCreateProposal,
   SolarisCalendarEventMoveProposal,
@@ -46,10 +51,15 @@ import type {
 } from '../../model/calendar-drag.types';
 import type { SolarisWeekViewSlotSelect } from '../../week-view';
 import { SolarisCalendarWeekViewComponent } from '../../week-view';
+import type { SolarisMonthViewTaskMove } from '../../month-view';
 import { SolarisCalendarYearViewComponent } from '../../year-view';
 import { SolarisCalendarMonthViewComponent } from '../../month-view';
 import { SolarisCalendarScheduleViewComponent } from '../../schedule-view';
 import {
+  capitalizeCalendarFirst,
+  buildSolarisCreateDraft,
+  buildSolarisSlotDraft,
+  formatFriendlyTimeZone,
   formatTimeZoneOffset,
   normalizeCustomDays,
   normalizeShellView,
@@ -60,6 +70,8 @@ import {
 import {
   SOLARIS_CALENDAR_NARROW_BREAKPOINT_PX,
   type SolarisCalendarDensity,
+  type SolarisCalendarEditorDialogData,
+  type SolarisCalendarEditorDialogResult,
   type SolarisCalendarResponsiveFallback,
   type SolarisCalendarSize,
   type SolarisCalendarView,
@@ -82,6 +94,7 @@ const MINI_WEEK_LENGTH = 7;
     SolarisSelectComponent,
     SolarisOptionComponent,
     SolarisCheckboxComponent,
+    SolarisCollapsibleComponent,
   ],
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss'],
@@ -104,10 +117,13 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
   readonly locale = input.required<string>();
   readonly weekStartsOn = input<SolarisCalendarWeekStart>();
   readonly showWeekends = model<boolean>(true);
+  readonly showHolidays = model<boolean>(true);
   readonly density = input<SolarisCalendarDensity>('comfortable');
   readonly size = input<SolarisCalendarSize>('md');
   readonly responsiveFallback =
     input<SolarisCalendarResponsiveFallback>('schedule');
+  readonly editable = input<boolean>(false);
+  readonly editorDisabled = input<boolean>(false);
   readonly timeZones = input<string[]>([
     'America/Sao_Paulo',
     'America/New_York',
@@ -120,12 +136,18 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
   readonly eventOpen = output<{ id: string; start: string }>();
   readonly slotSelect = output<SolarisWeekViewSlotSelect>();
   readonly taskToggle = output<string>();
+  readonly taskMove = output<SolarisMonthViewTaskMove>();
   readonly eventCreate = output<SolarisCalendarEventCreateProposal>();
   readonly eventMove = output<SolarisCalendarEventMoveProposal>();
   readonly eventResize = output<SolarisCalendarEventResizeProposal>();
+  readonly eventSave = output<SolarisCalendarEvent | SolarisCalendarTask>();
+  readonly eventDelete = output<SolarisEventDeleteRequest>();
+  readonly eventCancel = output<void>();
 
-  private readonly instanceId = nextIdFor('solaris-calendar');
   private readonly translateService = inject(SolarisTranslateService, {
+    optional: true,
+  });
+  private readonly dialogService = inject(SolarisDialogService, {
     optional: true,
   });
   private narrowQuery: MediaQueryList | null = null;
@@ -136,7 +158,10 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
   protected readonly isNarrow = signal(false);
   protected readonly announcement = signal('');
   protected readonly miniOffset = signal(0);
-  protected readonly timeZoneLabelId = `${this.instanceId}-tz-label`;
+
+  protected readonly resolvedHolidays = computed(() =>
+    this.showHolidays() ? this.holidays() : [],
+  );
 
   protected readonly normalizedView = computed(() =>
     normalizeShellView(this.view()),
@@ -176,14 +201,28 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
         timeZone: 'UTC',
       }).format(new Date(Date.UTC(ref.year, 0, 1)));
     }
-    if (view === 'day' || view === 'schedule') {
-      return new Intl.DateTimeFormat(this.locale(), {
+    if (view === 'schedule') {
+      const anchor = parts !== null ? focused : todaySolarisDate();
+      const last = addDaysToSolarisDate(anchor, 6) ?? anchor;
+      return `${this.formatScheduleDay(anchor)} – ${this.formatScheduleDay(last)}`;
+    }
+    if (view === 'day') {
+      const date = new Date(Date.UTC(ref.year, ref.month - 1, ref.day));
+      const formatter = new Intl.DateTimeFormat(this.locale(), {
         weekday: 'long',
         day: 'numeric',
         month: 'long',
         year: 'numeric',
         timeZone: 'UTC',
-      }).format(new Date(Date.UTC(ref.year, ref.month - 1, ref.day)));
+      });
+      return formatter
+        .formatToParts(date)
+        .map((part) =>
+          part.type === 'month'
+            ? capitalizeCalendarFirst(part.value)
+            : part.value,
+        )
+        .join('');
     }
     return new Intl.DateTimeFormat(this.locale(), {
       month: 'long',
@@ -192,11 +231,21 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
     }).format(new Date(Date.UTC(ref.year, ref.month - 1, 1)));
   });
 
-  protected readonly timeZoneLabel = computed(() =>
-    this.resolveText('solaris.calendar.timeZoneLabel', {
-      zone: this.timeZone(),
-      offset: formatTimeZoneOffset(this.timeZone(), Date.now()),
-    }),
+  protected timeZoneLabel(zone: string): string {
+    return formatFriendlyTimeZone(zone, this.locale(), Date.now());
+  }
+
+  private formatScheduleDay(date: string): string {
+    return new Intl.DateTimeFormat(this.locale(), {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'short',
+      timeZone: 'UTC',
+    }).format(new Date(`${date}T00:00:00Z`));
+  }
+
+  protected readonly timeZoneOffset = computed(() =>
+    formatTimeZoneOffset(this.timeZone(), Date.now()),
   );
 
   protected readonly miniLabel = computed(() => {
@@ -204,14 +253,11 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
       resolveMiniMonth(this.focusedDate()),
       this.miniOffset(),
     );
-    const label = new Intl.DateTimeFormat(this.locale(), {
+    return new Intl.DateTimeFormat(this.locale(), {
       month: 'long',
       year: 'numeric',
       timeZone: 'UTC',
     }).format(new Date(Date.UTC(shifted.year, shifted.month, 1)));
-    return this.resolveText('solaris.calendar.miniMonthLabel', {
-      month: label,
-    });
   });
 
   protected readonly miniCells = computed(() => {
@@ -234,6 +280,26 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
     return rows;
   });
 
+  protected readonly miniWeekdays = computed(() => {
+    const formatter = new Intl.DateTimeFormat(this.locale(), {
+      weekday: 'narrow',
+      timeZone: 'UTC',
+    });
+    const sunday = new Date(Date.UTC(2023, 0, 1));
+    const names = Array.from({ length: 7 }, (_, index) => {
+      const date = new Date(sunday);
+      date.setUTCDate(sunday.getUTCDate() + index);
+      return formatter.format(date);
+    });
+    const start = this.resolvedWeekStartsOn();
+    const ordered = [...names.slice(start), ...names.slice(0, start)];
+    if (this.showWeekends()) return ordered;
+    return ordered.filter((_, index) => {
+      const weekday = (start + index) % 7;
+      return weekday !== 0 && weekday !== 6;
+    });
+  });
+
   protected readonly viewOptions = computed(() =>
     (['day', 'week', 'month', 'year', 'schedule', 'custom'] as const).map(
       (option) => ({
@@ -242,6 +308,8 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
       }),
     ),
   );
+
+  protected readonly customDaysOptions = [1, 2, 3, 4, 5, 6, 7];
 
   ngOnInit(): void {
     if (
@@ -267,14 +335,6 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
       this.narrowQuery.removeEventListener('change', this.onNarrowChange);
     }
     this.narrowQuery = null;
-  }
-
-  protected viewId(option: string): string {
-    return `${this.instanceId}-view-${option}`;
-  }
-
-  protected isActiveView(option: string): boolean {
-    return this.normalizedView() === option;
   }
 
   protected isToday(value: string): boolean {
@@ -304,28 +364,12 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected previousText(): string {
-    return this.resolveText('solaris.calendar.shellPrevious', {});
+  protected text(key: string): string {
+    return this.resolveText(key, {});
   }
 
-  protected nextText(): string {
-    return this.resolveText('solaris.calendar.shellNext', {});
-  }
-
-  protected todayText(): string {
-    return this.resolveText('solaris.calendar.today', {});
-  }
-
-  protected weekendsText(): string {
-    return this.resolveText('solaris.calendar.showWeekends', {});
-  }
-
-  protected customDaysText(): string {
-    return this.resolveText('solaris.calendar.customDays', {});
-  }
-
-  protected selectView(option: string): void {
-    const next = normalizeShellView(option);
+  protected selectView(value: unknown): void {
+    const next = normalizeShellView(value);
     this.view.set(next);
     this.viewChange.emit(next);
     this.announcement.set(this.viewLabel(next));
@@ -360,8 +404,8 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
     this.announcement.set(this.titleLabel());
   }
 
-  protected onCustomDays(value: string): void {
-    const numeric = Number(value);
+  protected onCustomDays(value: unknown): void {
+    const numeric = typeof value === 'number' ? value : Number(value);
     if (Number.isFinite(numeric)) {
       this.customDays.set(normalizeCustomDays(numeric));
     }
@@ -380,11 +424,102 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
     this.daySelect.emit(date);
   }
 
+  protected handleEventOpen(open: { id: string; start: string }): void {
+    this.eventOpen.emit(open);
+    if (!this.editable() || this.editorDisabled()) return;
+    this.openEditor(open);
+  }
+
+  protected handleEventCreate(
+    proposal: SolarisCalendarEventCreateProposal,
+  ): void {
+    this.eventCreate.emit(proposal);
+    if (!this.editable() || this.editorDisabled()) return;
+    const draft = buildSolarisCreateDraft(proposal);
+    if (draft === null) return;
+    this.openCreateEditor(draft);
+  }
+
+  protected handleSlotSelect(slot: SolarisWeekViewSlotSelect): void {
+    this.slotSelect.emit(slot);
+    if (!this.editable() || this.editorDisabled()) return;
+    const draft = buildSolarisSlotDraft(slot.date, slot.time, this.timeZone());
+    if (draft === null) return;
+    this.focusedDate.set(slot.date);
+    this.openCreateEditor(draft);
+  }
+
+  private openEditor(open: { id: string; start: string }): void {
+    const source = this.events().find((item) => item.id === open.id) ?? null;
+    if (source === null) return;
+    const dialog = this.dialogService;
+    if (!dialog) return;
+    const data: SolarisCalendarEditorDialogData = {
+      event: source,
+      occurrenceStart: open.start,
+      timeZone: this.timeZone(),
+      timeZoneOptions: this.timeZones(),
+      locale: this.locale(),
+      size: this.size(),
+      density: this.density(),
+    };
+    const ref = dialog.openComponent<
+      SolarisCalendarEditorDialogComponent,
+      SolarisCalendarEditorDialogResult,
+      SolarisCalendarEditorDialogData
+    >(SolarisCalendarEditorDialogComponent, {
+      title: source.title,
+      width: '560px',
+      data,
+    });
+    this.forwardEditorResult(ref);
+  }
+
+  private openCreateEditor(draft: SolarisCalendarEvent): void {
+    const dialog = this.dialogService;
+    if (!dialog) return;
+    const data: SolarisCalendarEditorDialogData = {
+      event: draft,
+      occurrenceStart: null,
+      timeZone: this.timeZone(),
+      timeZoneOptions: this.timeZones(),
+      locale: this.locale(),
+      size: this.size(),
+      density: this.density(),
+    };
+    const ref = dialog.openComponent<
+      SolarisCalendarEditorDialogComponent,
+      SolarisCalendarEditorDialogResult,
+      SolarisCalendarEditorDialogData
+    >(SolarisCalendarEditorDialogComponent, {
+      title: draft.title || this.resolveText('solaris.calendar.newEvent', {}),
+      width: '560px',
+      data,
+    });
+    this.forwardEditorResult(ref);
+  }
+
+  private forwardEditorResult(
+    ref: SolarisDialogRef<SolarisCalendarEditorDialogResult>,
+  ): void {
+    ref.afterClosed().subscribe((result) => {
+      if (!result) {
+        this.eventCancel.emit();
+        return;
+      }
+      if (result.kind === 'save' && result.event) {
+        this.eventSave.emit(result.event);
+      } else if (result.kind === 'delete' && result.request) {
+        this.eventDelete.emit(result.request);
+      } else {
+        this.eventCancel.emit();
+      }
+    });
+  }
+
   private resolveText(key: string, params: Record<string, string>): string {
     const service = this.translateService;
     if (service) return service.translate(key, params);
     return resolveCalendarFallback(this.locale(), key, params);
   }
-
-  // why: keep the template free of date math; the shell never mutates events.
 }

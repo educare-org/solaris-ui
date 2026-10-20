@@ -81,9 +81,15 @@ input[solaris-input]::-webkit-search-results-decoration {
   -webkit-appearance: none;
 }
 
-input[solaris-input]::-webkit-inner-spin-button,
-input[solaris-input]::-webkit-outer-spin-button {
-  opacity: 1;
+input[solaris-input][type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[solaris-input][type='number']::-webkit-inner-spin-button,
+input[solaris-input][type='number']::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
 }
 
 input[solaris-input]:autofill,
@@ -286,6 +292,19 @@ solaris-form-field[data-loading] input[solaris-input] {
   padding-inline-end: calc(
     var(--solaris-form-field-affix-size) + var(--solaris-form-field-control-gap)
   );
+}
+
+solaris-form-field input[solaris-input][type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+solaris-form-field
+  input[solaris-input][type='number']::-webkit-inner-spin-button,
+solaris-form-field
+  input[solaris-input][type='number']::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
 }
 
 solaris-form-field input[solaris-input]::-webkit-search-decoration,

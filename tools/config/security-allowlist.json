@@ -120,11 +120,11 @@
     "reviewed": "2026-10-15"
   },
   "packages/angular/src/lib/components/scheduling/calendar/month-view/component/month-view.component.ts": {
-    "patterns": 13,
+    "patterns": 14,
     "reviewed": "2026-10-17"
   },
   "packages/angular/src/lib/components/scheduling/calendar/week-view/component/week-view.component.ts": {
-    "patterns": 10,
+    "patterns": 13,
     "reviewed": "2026-10-17"
   },
   "packages/angular/src/lib/components/scheduling/calendar/week-view/model/week-view.utils.ts": {

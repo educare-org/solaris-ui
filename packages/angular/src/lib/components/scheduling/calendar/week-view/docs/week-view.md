@@ -8,24 +8,24 @@ blocks, a time-zone aware now-line, and click selection without drag
 
 ## API
 
-| Input              | Description                                                                                                   |
-| ------------------ | ------------------------------------------------------------------------------------------------------------- |
-| `focusedDate`      | Two-way date-only string driving the visible range and the active slot.                                       |
-| `visibleDays`      | `1` / `3` / `4` / `7` (default). `7` anchors to the locale week start; smaller values start at `focusedDate`. |
-| `events`           | Consumer-owned array; recurrence expands inside the lib, never mutated.                                       |
-| `tasks`            | Tasks with `due` dates rendered in the all-day row with inline check-off via `taskToggle`.                    |
-| `holidays`         | Resolved holidays (wire `builtInHolidays()` + preload in the shell).                                          |
-| `timeZone`         | Display zone (defaults to the consumer locale zone). Blocks and the now-line render in this zone.             |
-| `locale`           | BCP 47 locale for weekday, hour, and helper-text formatting.                                                  |
-| `weekStartsOn`     | `0`–`6` override (default: locale first day).                                                                 |
-| `showWeekends`     | Hides Saturday/Sunday columns when `false`; navigation skips them.                                            |
-| `showAllDay`       | Shows the all-day row when `true` (default); hiding it also hides all-day events, tasks, and holidays.        |
-| `density`          | `'compact'` / `'normal'` / `'comfortable'` (default); scales the hour height.                                 |
-| `size`             | `'sm'` / `'md'` (default) / `'lg'`; scales chip and block text.                                               |
-| `selectedId`       | Highlights one event/task block or chip.                                                                      |
-| `maxVisiblePerDay` | All-day chips before the overflow button (default `3`).                                                       |
-| `moreLabel`        | Full-text override for the overflow button.                                                                   |
-| `moreLabelKey`     | Translation key for the overflow button (`{{count}}` param).                                                  |
+| Input              | Description                                                                                                                                                                      |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `focusedDate`      | Two-way date-only string driving the visible range and the active slot.                                                                                                          |
+| `visibleDays`      | `1` / `3` / `4` / `7` (default). `7` anchors to the locale week start; smaller values start at `focusedDate`.                                                                    |
+| `events`           | Consumer-owned array; recurrence expands inside the lib, never mutated.                                                                                                          |
+| `tasks`            | Tasks with `due` dates rendered in the all-day row with inline check-off via `taskToggle`.                                                                                       |
+| `holidays`         | Resolved holidays (wire `builtInHolidays()` + preload in the shell).                                                                                                             |
+| `timeZone`         | Display zone (defaults to the consumer locale zone). Blocks and the now-line render in this zone.                                                                                |
+| `locale`           | BCP 47 locale for weekday, hour, and helper-text formatting.                                                                                                                     |
+| `weekStartsOn`     | `0`–`6` override (default: locale first day).                                                                                                                                    |
+| `showWeekends`     | Hides Saturday/Sunday columns when `false`; navigation skips them.                                                                                                               |
+| `showAllDay`       | Shows the all-day row when `true` (default); hiding it also hides all-day events, tasks, and holidays.                                                                           |
+| `density`          | `'compact'` / `'normal'` / `'comfortable'` (default); scales the hour height.                                                                                                    |
+| `size`             | `'sm'` / `'md'` (default) / `'lg'`; scales chip and block text.                                                                                                                  |
+| `selectedId`       | Highlights one event/task block or chip.                                                                                                                                         |
+| `maxVisiblePerDay` | Initial chips before the overflow button (default `3`). In the browser the visible rows auto-fit the row budget, so the more button only appears when markings exceed what fits. |
+| `moreLabel`        | Full-text override for the overflow button.                                                                                                                                      |
+| `moreLabelKey`     | Translation key for the overflow button (`{{count}}` param).                                                                                                                     |
 
 | Output       | Description                                                                      |
 | ------------ | -------------------------------------------------------------------------------- |

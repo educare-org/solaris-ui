@@ -1,10 +1,13 @@
 // SECURITY_EXCEPTION_FILE: document.elementFromPoint is the only API mapping pointer coordinates to the hovered slot/lane during drag; guarded by typeof document, HTMLElement checks, and data-date/data-hour validation. Covered by week-view-drag specs.
-// SECURITY_EXCEPTION_FILE: window.addEventListener/removeEventListener/setInterval/matchMedia are guarded by typeof checks (SSR-safe) and required for pointer-drag sessions, the tz now-line timer, and reduced-motion detection; Renderer2 has no window-level equivalent. Covered by week-view specs.
+// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement reads host and cell geometry for the all-day auto-fit (no Angular abstraction exposes layout rects).
+// SECURITY_EXCEPTION_FILE: window.addEventListener/removeEventListener/setInterval/matchMedia/getSelection are guarded by typeof checks (SSR-safe) and required for pointer-drag sessions, the tz now-line timer, reduced-motion detection, and clearing the native text-selection highlight when a drag activates; Renderer2 has no window-level equivalent. Covered by week-view specs.
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
+  ElementRef,
   inject,
   input,
   model,
@@ -112,7 +115,9 @@ import {
     '[attr.data-resizing]': 'resizeActive() ? "" : null',
   },
 })
-export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
+export class SolarisCalendarWeekViewComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   readonly visibleDays = input<SolarisWeekViewVisibleDays>(7);
   readonly density = input<SolarisWeekViewDensity>('comfortable');
   readonly weekStartsOn = input<SolarisCalendarWeekStart>();
@@ -142,12 +147,16 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
   readonly eventCreate = output<SolarisCalendarEventCreateProposal>();
 
   private readonly instanceId = nextIdFor('solaris-week-view');
+  private readonly host = inject(ElementRef);
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
 
   protected readonly announcement = signal('');
   protected readonly gridFocused = signal(false);
+  protected readonly fittedAllDayRows = signal<number | null>(null);
+  private allDayResizeObserver: ResizeObserver | null = null;
+  private allDayFitRaf: number | undefined;
   protected readonly nowMs = signal(Date.now());
   protected readonly focusedSlot = signal<SolarisWeekFocusedSlot>({
     date: '',
@@ -179,6 +188,13 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
       const slot = this.focusedSlot();
       if (slot.date !== focus) this.focusedSlot.set({ ...slot, date: focus });
     });
+    effect(() => {
+      this.columns();
+      this.density();
+      this.size();
+      this.maxVisiblePerDay();
+      this.scheduleAllDayFit();
+    });
   }
 
   ngOnInit(): void {
@@ -188,12 +204,30 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
     }, WEEK_VIEW_NOW_REFRESH_MS);
   }
 
+  ngAfterViewInit(): void {
+    this.scheduleAllDayFit();
+    if (typeof ResizeObserver === 'undefined') return;
+    this.allDayResizeObserver = new ResizeObserver(() => {
+      this.scheduleAllDayFit();
+    });
+    this.allDayResizeObserver.observe(this.host.nativeElement as HTMLElement);
+  }
+
   ngOnDestroy(): void {
     if (this.nowTimer !== null) {
       clearInterval(this.nowTimer);
       this.nowTimer = null;
     }
     this.detachDragListeners();
+    this.allDayResizeObserver?.disconnect();
+    this.allDayResizeObserver = null;
+    if (
+      this.allDayFitRaf !== undefined &&
+      typeof cancelAnimationFrame !== 'undefined'
+    ) {
+      cancelAnimationFrame(this.allDayFitRaf);
+      this.allDayFitRaf = undefined;
+    }
   }
 
   protected readonly normalizedDays = computed(() =>
@@ -654,15 +688,57 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
   }
 
   protected visibleAllDay(date: string): SolarisWeekViewAllDayItem[] {
-    const column = this.columns().find((entry) => entry.date === date);
-    const all = column?.allDay ?? [];
-    return all.slice(0, Math.max(0, this.maxVisiblePerDay()));
+    const all = this.allDayItems(date);
+    return all.slice(0, this.allDayLimit(all.length));
   }
 
   protected hiddenAllDay(date: string): SolarisWeekViewAllDayItem[] {
-    const column = this.columns().find((entry) => entry.date === date);
-    const all = column?.allDay ?? [];
-    return all.slice(Math.max(0, this.maxVisiblePerDay()));
+    const all = this.allDayItems(date);
+    const limit = this.allDayLimit(all.length);
+    return limit >= all.length ? [] : all.slice(limit);
+  }
+
+  private allDayLimit(total: number): number {
+    const measured = this.fittedAllDayRows();
+    const capacity = measured ?? Math.max(0, this.maxVisiblePerDay());
+    if (total <= capacity) return total;
+    return Math.max(0, capacity - 1);
+  }
+
+  private scheduleAllDayFit(): void {
+    if (typeof requestAnimationFrame === 'undefined') {
+      this.fitAllDayRows();
+      return;
+    }
+    if (this.allDayFitRaf !== undefined)
+      cancelAnimationFrame(this.allDayFitRaf);
+    this.allDayFitRaf = requestAnimationFrame(() => {
+      this.allDayFitRaf = undefined;
+      this.fitAllDayRows();
+    });
+  }
+
+  private fitAllDayRows(): void {
+    if (typeof getComputedStyle === 'undefined') return;
+    const host = this.host.nativeElement as HTMLElement | null;
+    if (!host || typeof host.querySelector !== 'function') return;
+    const cell = host.querySelector(
+      '.solaris-calendar-week-view__allday-cell',
+    ) as HTMLElement | null;
+    if (!cell) return;
+    const cellStyles = getComputedStyle(cell);
+    const budget = Number.parseFloat(cellStyles.maxHeight) || 0;
+    if (budget <= 0) return;
+    const gap = Number.parseFloat(cellStyles.rowGap || cellStyles.gap) || 0;
+    const chip = host.querySelector(
+      '.solaris-calendar-week-view__chip',
+    ) as HTMLElement | null;
+    if (!chip) return;
+    const chipHeight = chip.getBoundingClientRect().height;
+    if (!chipHeight) return;
+    this.fittedAllDayRows.set(
+      Math.max(1, Math.floor((budget + gap) / (chipHeight + gap))),
+    );
   }
 
   protected allDayItems(date: string): SolarisWeekViewAllDayItem[] {
@@ -1477,6 +1553,7 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
     >,
     origin: 'pointer' | 'keyboard',
   ): void {
+    this.clearNativeSelection();
     const session: SolarisWeekDragSession = {
       origin,
       mode: candidate.mode,
@@ -1522,6 +1599,14 @@ export class SolarisCalendarWeekViewComponent implements OnInit, OnDestroy {
           start: this.dragLabel(session),
         }),
       );
+    }
+  }
+
+  private clearNativeSelection(): void {
+    if (typeof window === 'undefined') return;
+    const selection = window.getSelection?.();
+    if (selection && !selection.isCollapsed) {
+      selection.removeAllRanges();
     }
   }
 

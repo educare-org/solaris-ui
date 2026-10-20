@@ -1,5 +1,5 @@
 // SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular API to observe the host for the square-cell fit measurement and to query rendered cell geometry (no Angular abstraction exposes layout rects).
-// SECURITY_EXCEPTION_FILE: window.matchMedia/requestAnimationFrame/addEventListener are guarded by typeof checks (SSR-safe early returns) and required for pointer-drag sessions, resize observation, and frame-throttled measuring; Renderer2 has no pointer-capture/window-listener equivalent for window-level move/up/cancel during drag. Covered by month-view and month-view-drag specs.
+// SECURITY_EXCEPTION_FILE: window.matchMedia/requestAnimationFrame/addEventListener/getSelection are guarded by typeof checks (SSR-safe early returns) and required for pointer-drag sessions, resize observation, frame-throttled measuring, and clearing the native text-selection highlight when a drag activates; Renderer2 has no pointer-capture/window-listener equivalent for window-level move/up/cancel during drag. Covered by month-view and month-view-drag specs.
 // SECURITY_EXCEPTION_FILE: document.elementFromPoint is the only API mapping pointer coordinates to the hovered day cell during drag; guarded to HTMLElement + closest('[data-date]') with date validation. Covered by drag specs.
 import {
   AfterViewInit,
@@ -62,6 +62,7 @@ import type {
   SolarisMonthViewEventOpen,
   SolarisMonthViewItem,
   SolarisMonthViewSize,
+  SolarisMonthViewTaskMove,
 } from '../model/month-view.types';
 import {
   compareMonthItems,
@@ -115,6 +116,7 @@ export class SolarisCalendarMonthViewComponent
   readonly eventOpen = output<SolarisMonthViewEventOpen>();
   readonly moreOpen = output<string>();
   readonly taskToggle = output<string>();
+  readonly taskMove = output<SolarisMonthViewTaskMove>();
   readonly eventCreate = output<SolarisCalendarEventCreateProposal>();
   readonly eventMove = output<SolarisCalendarEventMoveProposal>();
 
@@ -167,8 +169,6 @@ export class SolarisCalendarMonthViewComponent
 
   protected readonly announcement = signal('');
   protected readonly gridFocused = signal(false);
-
-  // why: pointer drag state lives outside signals until the move threshold passes.
   protected readonly dragSession = signal<SolarisMonthDragSession | null>(null);
   private dragCandidate: SolarisMonthDragCandidate | null = null;
   private dragSuppressClick = false;
@@ -381,9 +381,6 @@ export class SolarisCalendarMonthViewComponent
 
   private rowLimit(total: number): number {
     const capacity = this.fittedRows();
-    // Measured square cell wins: show everything that fits and only then
-    // collapse the last row into the more button. While unmeasured
-    // (SSR/tests) fall back to the consumer cap.
     if (capacity === null) return Math.max(0, this.maxVisiblePerDay());
     if (total <= capacity) return total;
     return Math.max(0, capacity - 1);
@@ -405,8 +402,6 @@ export class SolarisCalendarMonthViewComponent
     if (typeof getComputedStyle === 'undefined') return;
     const host = this.host.nativeElement as HTMLElement | null;
     if (!host || typeof host.querySelector !== 'function') return;
-    // The compact stylesheet drops the square cells: keep the consumer
-    // `maxVisiblePerDay` cap there instead of fit-measuring.
     if (
       typeof window !== 'undefined' &&
       typeof window.matchMedia === 'function' &&
@@ -442,8 +437,6 @@ export class SolarisCalendarMonthViewComponent
     ) as HTMLElement | null;
     const chipHeight = chip?.getBoundingClientRect().height ?? 0;
     if (!chipHeight) return;
-    // Square cell: height equals width (border-box), so derive capacity
-    // from the measured width instead of the rendered (possibly stretched) height.
     const available = cellWidth - padTop - padBottom - dayHeight - cellGap;
     if (available <= 0) {
       this.fittedRows.set(1);
@@ -549,7 +542,10 @@ export class SolarisCalendarMonthViewComponent
     const session = this.dragSession();
     if (session === null) return false;
 
-    const [low, high] = [session.anchorDate, session.currentDate].sort();
+    const { anchorDate, currentDate } = session;
+
+    const low = anchorDate < currentDate ? anchorDate : currentDate;
+    const high = anchorDate > currentDate ? anchorDate : currentDate;
 
     return date >= low && date <= high;
   }
@@ -566,6 +562,18 @@ export class SolarisCalendarMonthViewComponent
 
   private findDragEvent(id: string): SolarisCalendarEvent | null {
     return this.events().find((event) => event.id === id) ?? null;
+  }
+
+  private clearNativeSelection(): void {
+    if (typeof window === 'undefined') return;
+    const selection = window.getSelection?.();
+    if (selection && !selection.isCollapsed) {
+      selection.removeAllRanges();
+    }
+  }
+
+  private findDragTask(id: string): SolarisCalendarTask | null {
+    return this.tasks().find((task) => task.id === id) ?? null;
   }
 
   private itemCivilDate(item: SolarisMonthViewItem): string | null {
@@ -614,6 +622,7 @@ export class SolarisCalendarMonthViewComponent
     }
     this.armDragCandidate({
       mode: 'create',
+      itemKind: 'event',
       anchorDate: date,
       grabDate: date,
       eventId: null,
@@ -633,7 +642,7 @@ export class SolarisCalendarMonthViewComponent
   ): void {
     if (
       this.dragDisabled() ||
-      item.kind !== 'event' ||
+      (item.kind !== 'event' && item.kind !== 'task') ||
       item.id === null ||
       this.dragSession() !== null ||
       this.dragCandidate !== null
@@ -642,12 +651,14 @@ export class SolarisCalendarMonthViewComponent
     }
     if (!event.isPrimary) return;
     if (event.pointerType === 'mouse' && event.button !== 0) return;
-    if (this.findDragEvent(item.id) === null) return;
+    if (item.kind === 'event' && this.findDragEvent(item.id) === null) return;
+    if (item.kind === 'task' && this.findDragTask(item.id) === null) return;
     const origin = this.itemCivilDate(item);
     if (origin === null) return;
     event.stopPropagation();
     this.armDragCandidate({
       mode: 'move',
+      itemKind: item.kind,
       anchorDate: origin,
       grabDate: parseSolarisDateParts(grabDate) !== null ? grabDate : origin,
       eventId: item.id,
@@ -664,7 +675,11 @@ export class SolarisCalendarMonthViewComponent
     event: KeyboardEvent,
     item: SolarisMonthViewItem,
   ): void {
-    if (item.kind !== 'event' || item.id === null || this.dragDisabled()) {
+    if (
+      (item.kind !== 'event' && item.kind !== 'task') ||
+      item.id === null ||
+      this.dragDisabled()
+    ) {
       return;
     }
     if (!isMonthDragKey(event.key)) {
@@ -709,12 +724,14 @@ export class SolarisCalendarMonthViewComponent
     item: SolarisMonthViewItem,
   ): void {
     if (!isMonthArrowKey(event.key) || item.id === null) return;
+    if (item.kind !== 'event' && item.kind !== 'task') return;
     const origin = this.itemCivilDate(item);
     if (origin === null) return;
     event.preventDefault();
     this.activateDragSession(
       {
         mode: 'move',
+        itemKind: item.kind,
         anchorDate: origin,
         grabDate: origin,
         eventId: item.id,
@@ -803,9 +820,11 @@ export class SolarisCalendarMonthViewComponent
     candidate: SolarisMonthDragCandidate,
     origin: 'pointer' | 'keyboard',
   ): void {
+    this.clearNativeSelection();
     this.dragSession.set({
       origin,
       mode: candidate.mode,
+      itemKind: candidate.itemKind,
       anchorDate: candidate.anchorDate,
       grabDate: candidate.grabDate,
       currentDate: candidate.anchorDate,
@@ -880,7 +899,6 @@ export class SolarisCalendarMonthViewComponent
     this.dragCandidate = null;
     this.dragSession.set(null);
     if (session === null) return;
-    // why: the click synthesized after a drag must not re-trigger open/select.
     this.dragSuppressClick = true;
     if (session.mode === 'create') {
       const proposal = buildMonthCreateProposal(
@@ -904,6 +922,24 @@ export class SolarisCalendarMonthViewComponent
     }
     const record =
       session.eventId === null ? null : this.findDragEvent(session.eventId);
+    if (session.itemKind === 'task') {
+      const task =
+        session.eventId === null ? null : this.findDragTask(session.eventId);
+      if (task === null || session.currentDate === session.anchorDate) {
+        this.announcement.set(
+          this.resolveText('solaris.calendar.dragCancel', {}),
+        );
+        return;
+      }
+      this.taskMove.emit({ id: task.id, due: session.currentDate });
+      this.announcement.set(
+        this.resolveText('solaris.calendar.dragMoveCommit', {
+          title: session.title,
+          label: this.formatDay(session.currentDate),
+        }),
+      );
+      return;
+    }
     if (record === null || session.occurrenceStart === null) {
       this.announcement.set(
         this.resolveText('solaris.calendar.dragCancel', {}),
@@ -938,7 +974,6 @@ export class SolarisCalendarMonthViewComponent
     this.dragCandidate = null;
     this.dragSession.set(null);
     if (!hadSession) return;
-    // why: cancelling after activation still synthesizes a click on some browsers.
     this.dragSuppressClick = true;
     this.announcement.set(this.resolveText('solaris.calendar.dragCancel', {}));
   }
@@ -1044,6 +1079,7 @@ export class SolarisCalendarMonthViewComponent
     this.activateDragSession(
       {
         mode: 'create',
+        itemKind: 'event',
         anchorDate: current,
         grabDate: current,
         eventId: null,

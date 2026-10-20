@@ -9,18 +9,19 @@ shell `responsiveFallback` below 640px. Click selection only; drag is C6.
 
 ## API
 
-| Input         | Description                                                                                       |
-| ------------- | ------------------------------------------------------------------------------------------------- |
-| `focusedDate` | Two-way date-only string anchoring the visible window (`focusedDate` never shifts on day clicks). |
-| `events`      | Consumer-owned array; recurrence expands inside the window only, never mutated.                   |
-| `tasks`       | Tasks with `due` dates rendered with inline check-off via `taskToggle`.                           |
-| `holidays`    | Resolved holidays (wire `builtInHolidays()` + preload in the shell).                              |
-| `timeZone`    | Display zone (defaults to the consumer locale zone).                                              |
-| `locale`      | BCP 47 locale for day, time, and helper-text formatting.                                          |
-| `windowDays`  | Days per window, clamped `1`–`31` (default `7`).                                                  |
-| `density`     | `'compact'` / `'normal'` / `'comfortable'` (default); scales day padding.                         |
-| `size`        | `'sm'` / `'md'` (default) / `'lg'`; scales day circles and item text.                             |
-| `selectedId`  | Highlights one event/task item.                                                                   |
+| Input         | Description                                                                                                               |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `focusedDate` | Two-way date-only string anchoring the visible window (`focusedDate` never shifts on day clicks).                         |
+| `events`      | Consumer-owned array; recurrence expands inside the window only, never mutated.                                           |
+| `tasks`       | Tasks with `due` dates rendered with inline check-off via `taskToggle`.                                                   |
+| `holidays`    | Resolved holidays (wire `builtInHolidays()` + preload in the shell).                                                      |
+| `timeZone`    | Display zone (defaults to the consumer locale zone).                                                                      |
+| `locale`      | BCP 47 locale for day, time, and helper-text formatting.                                                                  |
+| `windowDays`  | Days per window, clamped `1`–`31` (default `7`).                                                                          |
+| `showToolbar` | Shows the prev/today/next + range toolbar (default `true`); set `false` when embedded in the shell which owns navigation. |
+| `density`     | `'compact'` / `'normal'` / `'comfortable'` (default); scales day padding.                                                 |
+| `size`        | `'sm'` / `'md'` (default) / `'lg'`; scales day circles and item text.                                                     |
+| `selectedId`  | Highlights one event/task item.                                                                                           |
 
 | Output       | Description                                          |
 | ------------ | ---------------------------------------------------- |

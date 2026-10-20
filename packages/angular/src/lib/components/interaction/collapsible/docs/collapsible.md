@@ -14,7 +14,7 @@ a collapsible panel. It is the base primitive for Accordion.
 | -------------- | ----------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `open`         | `boolean`                                             | `false`          | Two-way binding that controls the open state (standalone mode).                                                          |
 | `value`        | `string \| number`                                    | —                | Unique identifier used when controlled by an Accordion.                                                                  |
-| `appearance`   | `'boxed' \| 'lined'`                                  | `'boxed'`        | Visual mode. `boxed` is a bordered card; `lined` is a divider under the trigger.                                         |
+| `appearance`   | `'boxed' \| 'lined' \| 'plain'`                       | `'boxed'`        | Visual mode. `boxed` is a bordered card; `lined` is a divider under the trigger; `plain` has no chrome.                  |
 | `label`        | `string`                                              | —                | Visible trigger text.                                                                                                    |
 | `labelKey`     | `string`                                              | —                | i18n key resolved for the trigger text.                                                                                  |
 | `ariaLabel`    | `string`                                              | —                | Accessible name used when no visible label.                                                                              |
@@ -63,8 +63,8 @@ JIT/unit-test consumers of the published bundle.
 
 ## Visual variants
 
-- **Appearance**: `boxed` (bordered card) or `lined` (divider under the
-  trigger, except the last sibling).
+- **Appearance**: `boxed` (bordered card), `lined` (divider under the
+  trigger) or `plain` (no borders).
 - **Size × density**: `size` selects the label/icon/padding step
   (`sm`: 16px label + 18px chevron, `md`: 18px + 20px, `lg`: 20px + 24px);
   the effective density resolves the padding/gap tier

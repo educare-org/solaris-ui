@@ -2,7 +2,7 @@ export type SolarisCollapsibleSize = 'sm' | 'md' | 'lg';
 
 export type SolarisCollapsibleDensity = 'compact' | 'normal' | 'comfortable';
 
-export type SolarisCollapsibleAppearance = 'boxed' | 'lined';
+export type SolarisCollapsibleAppearance = 'boxed' | 'lined' | 'plain';
 
 export type SolarisCollapsibleValue = string | number;
 

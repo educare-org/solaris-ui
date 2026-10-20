@@ -1,13 +1,23 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
 import { describe, expect, it, vi } from 'vitest';
 
 import { configureSolarisTesting } from '../../../../../testing/solaris-test-utilities';
 import { SolarisTranslateService } from '../../../../../services/translation';
+import { SolarisDialogService } from '../../../../overlay/dialog';
+import {
+  SOLARIS_DIALOG_DATA,
+  SOLARIS_DIALOG_REF,
+} from '../../../../overlay/dialog';
+import { SolarisCalendarEditorDialogComponent } from '../component/calendar-editor-dialog.component';
 import { SolarisCalendarComponent } from '../component/shell.component';
 import {
+  buildSolarisCreateDraft,
+  buildSolarisSlotDraft,
   formatTimeZoneOffset,
   isNarrowViewport,
+  newSolarisCreateId,
   normalizeCustomDays,
   normalizeShellView,
   resolveEffectiveView,
@@ -108,6 +118,74 @@ describe('shell utils', () => {
     expect(normalizeShellView(7)).toBe('month');
     expect(normalizeShellView('')).toBe('month');
   });
+
+  it('builds unique create ids', () => {
+    const first = newSolarisCreateId();
+    const second = newSolarisCreateId();
+    expect(first.startsWith('event-')).toBe(true);
+    expect(second.startsWith('event-')).toBe(true);
+    expect(first).not.toBe(second);
+  });
+
+  it('builds a create draft from drag proposals', () => {
+    const allDay = buildSolarisCreateDraft({
+      start: '2026-10-20',
+      end: '2026-10-21',
+      allDay: true,
+    });
+    expect(allDay).toMatchObject({
+      kind: 'event',
+      title: '',
+      start: '2026-10-20',
+      end: '2026-10-21',
+      allDay: true,
+    });
+    const timed = buildSolarisCreateDraft({
+      start: '2026-10-20T09:00:00-03:00',
+      end: '2026-10-20T10:00:00-03:00',
+      allDay: false,
+    });
+    expect(timed).toMatchObject({ kind: 'event', allDay: false });
+    expect(allDay?.id).not.toBe(timed?.id);
+  });
+
+  it('rejects invalid create proposals', () => {
+    expect(
+      buildSolarisCreateDraft({ start: '', end: '', allDay: true }),
+    ).toBeNull();
+    expect(
+      buildSolarisCreateDraft({
+        start: '2026-10-21',
+        end: '2026-10-20',
+        allDay: true,
+      }),
+    ).toBeNull();
+    expect(
+      buildSolarisCreateDraft({
+        start: '2026-10-20T10:00:00-03:00',
+        end: '2026-10-20T09:00:00-03:00',
+        allDay: false,
+      }),
+    ).toBeNull();
+  });
+
+  it('builds a one-hour slot draft in the shell time zone', () => {
+    const draft = buildSolarisSlotDraft(
+      '2026-10-20',
+      '09:00',
+      'America/Sao_Paulo',
+    );
+    expect(draft).not.toBeNull();
+    expect(draft).toMatchObject({ kind: 'event', title: '', allDay: false });
+    expect(draft?.start).toContain('T09:00');
+    expect(draft?.end).toContain('T10:00');
+  });
+
+  it('rejects invalid slot drafts', () => {
+    expect(buildSolarisSlotDraft('not-a-date', '09:00', 'UTC')).toBeNull();
+    expect(buildSolarisSlotDraft('2026-10-20', 'nope', 'UTC')).toBeNull();
+    expect(buildSolarisSlotDraft('2026-10-20', '25:00', 'UTC')).toBeNull();
+  });
 });
 
 describe('SolarisCalendarComponent', () => {
@@ -125,9 +203,44 @@ describe('SolarisCalendarComponent', () => {
 
   it('renders toolbar, switcher, mini-month, and the month grid', () => {
     const element = createFixture();
+    const instance = fixture.componentRef.instance;
     expect(element.querySelector('.solaris-calendar__toolbar')).not.toBeNull();
     expect(element.querySelector('.solaris-calendar__today')).not.toBeNull();
-    expect(element.querySelectorAll('.solaris-calendar__view')).toHaveLength(6);
+    expect(
+      element.querySelector('solaris-select.solaris-calendar__views-select'),
+    ).not.toBeNull();
+    expect(
+      (
+        instance as unknown as {
+          viewOptions: () => readonly { value: string }[];
+        }
+      ).viewOptions(),
+    ).toHaveLength(6);
+    expect(
+      element
+        .querySelector('.solaris-calendar__mini-title')
+        ?.textContent?.trim(),
+    ).toBe('October 2026');
+    expect(
+      element
+        .querySelector('.solaris-calendar__mini-prev')
+        ?.getAttribute('data-radius'),
+    ).toBe('full');
+    expect(
+      element
+        .querySelector('.solaris-calendar__mini-next')
+        ?.getAttribute('data-radius'),
+    ).toBe('full');
+    expect(
+      element
+        .querySelector('.solaris-calendar__nav')
+        ?.getAttribute('aria-label'),
+    ).toBe('Calendar navigation');
+    expect(
+      element
+        .querySelector('.solaris-calendar__side')
+        ?.getAttribute('aria-label'),
+    ).toBe('Mini calendar');
     expect(
       element.querySelector('.solaris-calendar-month-view__grid'),
     ).not.toBeNull();
@@ -135,21 +248,21 @@ describe('SolarisCalendarComponent', () => {
   });
 
   it('switches views and emits viewChange', () => {
-    const element = createFixture();
+    createFixture();
     const instance = fixture.componentRef.instance;
     let changed: string | undefined;
     instance.viewChange.subscribe((value) => {
       changed = value as string;
     });
-    (
-      element.querySelector(
-        '.solaris-calendar__view[data-view="week"]',
-      ) as HTMLButtonElement
-    ).click();
+    fixture.debugElement
+      .query(By.css('solaris-select.solaris-calendar__views-select'))
+      .triggerEventHandler('valueChange', 'week');
     fixture.detectChanges();
     expect(changed).toBe('week');
     expect(
-      element.querySelector('.solaris-calendar-week-view__grid'),
+      (fixture.nativeElement as HTMLElement).querySelector(
+        '.solaris-calendar-week-view__grid',
+      ),
     ).not.toBeNull();
   });
 
@@ -191,7 +304,7 @@ describe('SolarisCalendarComponent', () => {
   });
 
   it('toggles weekends and custom days', () => {
-    const element = createFixture();
+    createFixture();
     const instance = fixture.componentRef.instance;
     const weekends = fixture.debugElement.query(
       By.css('solaris-checkbox.solaris-calendar__weekends'),
@@ -200,13 +313,49 @@ describe('SolarisCalendarComponent', () => {
     weekends.triggerEventHandler('checkedChange', false);
     fixture.detectChanges();
     expect(instance.showWeekends()).toBe(false);
-    const custom = element.querySelector(
-      '.solaris-calendar__custom-days',
-    ) as HTMLInputElement;
-    custom.value = '3';
-    custom.dispatchEvent(new Event('change', { bubbles: true }));
+    const holidays = fixture.debugElement.query(
+      By.css('solaris-checkbox.solaris-calendar__holidays-toggle'),
+    );
+    expect(holidays).not.toBeNull();
+    holidays.triggerEventHandler('checkedChange', false);
+    fixture.detectChanges();
+    expect(instance.showHolidays()).toBe(false);
+    expect(
+      (
+        instance as unknown as { resolvedHolidays: () => unknown[] }
+      ).resolvedHolidays(),
+    ).toEqual([]);
+    instance.view.set('custom');
+    fixture.detectChanges();
+    fixture.debugElement
+      .query(By.css('solaris-select.solaris-calendar__custom-days'))
+      .triggerEventHandler('valueChange', 3);
     fixture.detectChanges();
     expect(instance.customDays()).toBe(3);
+  });
+
+  it('hides the custom-days control outside the custom view', () => {
+    const element = createFixture();
+    expect(element.querySelector('.solaris-calendar__custom-days')).toBeNull();
+    fixture.componentRef.instance.view.set('custom');
+    fixture.detectChanges();
+    expect(
+      element.querySelector('.solaris-calendar__custom-days'),
+    ).not.toBeNull();
+  });
+
+  it('forwards task moves from the month view', () => {
+    createFixture();
+    const instance = fixture.componentRef.instance;
+    let moved: unknown;
+    instance.taskMove.subscribe((value) => {
+      moved = value;
+    });
+    fixture.debugElement
+      .query(By.css('solaris-calendar-month-view'))
+      .triggerEventHandler('taskMove', { id: 'report', due: '2026-10-20' });
+    fixture.detectChanges();
+    expect(moved).toEqual({ id: 'report', due: '2026-10-20' });
   });
 
   it('falls back to schedule on narrow viewports', () => {
@@ -230,16 +379,19 @@ describe('SolarisCalendarComponent', () => {
     ).not.toBeNull();
   });
 
-  it('renders the timezone label and select', () => {
+  it('renders the timezone select with label and offset hint', () => {
     const element = createFixture();
-    expect(element.querySelector('.solaris-calendar__tz')).not.toBeNull();
+    const instance = fixture.componentRef.instance;
+    instance.view.set('custom');
+    fixture.detectChanges();
     const select = fixture.debugElement.query(
       By.css('solaris-select.solaris-calendar__tz-select'),
     );
     expect(select).not.toBeNull();
+    expect(element.textContent).toContain('Time zone');
     select.triggerEventHandler('valueChange', 'UTC');
     fixture.detectChanges();
-    expect(fixture.componentRef.instance.timeZone()).toBe('UTC');
+    expect(instance.timeZone()).toBe('UTC');
   });
 
   it('renders day, year, and custom views', () => {
@@ -271,22 +423,23 @@ describe('SolarisCalendarComponent', () => {
   });
 
   it('covers control edges and forwarding', () => {
-    const element = createFixture();
+    createFixture();
     const instance = fixture.componentRef.instance;
-    const custom = element.querySelector(
-      '.solaris-calendar__custom-days',
-    ) as HTMLInputElement;
-    custom.value = 'abc';
-    custom.dispatchEvent(new Event('change', { bubbles: true }));
+    instance.view.set('custom');
     fixture.detectChanges();
-    expect(instance.customDays()).toBe(1);
+    const customDays = fixture.debugElement.query(
+      By.css('solaris-select.solaris-calendar__custom-days'),
+    );
+    customDays.triggerEventHandler('valueChange', 'abc');
+    fixture.detectChanges();
+    expect(instance.customDays()).toBe(4);
     (
-      instance as unknown as { onCustomDays: (value: string) => void }
+      instance as unknown as { onCustomDays: (value: unknown) => void }
     ).onCustomDays('abc');
     fixture.detectChanges();
-    expect(instance.customDays()).toBe(1);
+    expect(instance.customDays()).toBe(4);
     (
-      instance as unknown as { onCustomDays: (value: string) => void }
+      instance as unknown as { onCustomDays: (value: unknown) => void }
     ).onCustomDays('3');
     fixture.detectChanges();
     expect(instance.customDays()).toBe(3);
@@ -319,6 +472,7 @@ describe('SolarisCalendarComponent', () => {
       '2026-10-20',
     );
     expect(forwarded).toBe('2026-10-20');
+    instance.view.set('month');
     fixture.componentRef.setInput('weekStartsOn', 1);
     fixture.componentRef.setInput('responsiveFallback', null);
     fixture.detectChanges();
@@ -420,5 +574,421 @@ describe('SolarisCalendarComponent', () => {
     expect(
       element.querySelector('.solaris-calendar__today')?.textContent,
     ).toContain('Hoje');
+  });
+
+  it('hides the embedded schedule toolbar and shows the window range in the title', () => {
+    const element = createFixture();
+    const instance = fixture.componentRef.instance;
+    instance.view.set('schedule');
+    fixture.detectChanges();
+    expect(
+      element.querySelector('.solaris-calendar-schedule-view__toolbar'),
+    ).toBeNull();
+    expect(
+      element.querySelector('.solaris-calendar__title')?.textContent,
+    ).toContain('–');
+  });
+
+  it('renders a weekday header and mutes days outside the mini month', () => {
+    const element = createFixture();
+    const header = element.querySelectorAll('.solaris-calendar__mini-weekday');
+    expect(header).toHaveLength(7);
+    expect(
+      element.querySelector('.solaris-calendar__mini-day[data-outside-month]'),
+    ).not.toBeNull();
+  });
+});
+
+describe('SolarisCalendarComponent editable', () => {
+  let fixture: ComponentFixture<SolarisCalendarComponent>;
+
+  const createEditableFixture = (dialogResult?: unknown) => {
+    TestBed.resetTestingModule();
+    const openComponent = vi.fn(() => ({
+      afterClosed: () => of(dialogResult),
+    }));
+    configureSolarisTesting(undefined, {
+      providers: [
+        { provide: SolarisDialogService, useValue: { openComponent } },
+      ],
+    });
+    fixture = TestBed.createComponent(SolarisCalendarComponent);
+    fixture.componentRef.setInput('locale', 'en-US');
+    fixture.componentRef.setInput('focusedDate', '2026-10-15');
+    fixture.componentRef.setInput('events', [
+      {
+        id: 'standup',
+        kind: 'event',
+        title: 'Team standup',
+        start: '2026-10-15T09:00:00-03:00',
+        end: '2026-10-15T09:30:00-03:00',
+      },
+    ]);
+    fixture.componentRef.setInput('editable', true);
+    fixture.detectChanges();
+    return openComponent;
+  };
+
+  it('emits eventOpen without a dialog when editable is false', () => {
+    TestBed.resetTestingModule();
+    const openComponent = vi.fn();
+    configureSolarisTesting(undefined, {
+      providers: [
+        { provide: SolarisDialogService, useValue: { openComponent } },
+      ],
+    });
+    fixture = TestBed.createComponent(SolarisCalendarComponent);
+    fixture.componentRef.setInput('locale', 'en-US');
+    fixture.componentRef.setInput('focusedDate', '2026-10-15');
+    fixture.detectChanges();
+    const instance = fixture.componentRef.instance;
+    let opened: unknown;
+    instance.eventOpen.subscribe((value) => {
+      opened = value;
+    });
+    (
+      instance as unknown as {
+        handleEventOpen: (open: { id: string; start: string }) => void;
+      }
+    ).handleEventOpen({ id: 'standup', start: '2026-10-15T09:00:00-03:00' });
+    expect(opened).toEqual({
+      id: 'standup',
+      start: '2026-10-15T09:00:00-03:00',
+    });
+    expect(openComponent).not.toHaveBeenCalled();
+  });
+
+  it('opens the editor with the current data on click', () => {
+    const openComponent = createEditableFixture(undefined);
+    const instance = fixture.componentRef.instance;
+    (
+      instance as unknown as {
+        handleEventOpen: (open: { id: string; start: string }) => void;
+      }
+    ).handleEventOpen({ id: 'standup', start: '2026-10-15T09:00:00-03:00' });
+    expect(openComponent).toHaveBeenCalledTimes(1);
+    const [component, config] = openComponent.mock.calls[0] as unknown as [
+      typeof SolarisCalendarEditorDialogComponent,
+      { title: string; width: string; data: Record<string, unknown> },
+    ];
+    expect(component).toBe(SolarisCalendarEditorDialogComponent);
+    expect(config.title).toBe('Team standup');
+    expect(config.width).toBe('560px');
+    expect(config.data).toMatchObject({
+      occurrenceStart: '2026-10-15T09:00:00-03:00',
+      locale: 'en-US',
+    });
+    expect((config.data['event'] as { id: string }).id).toBe('standup');
+  });
+
+  it('forwards editor save to eventSave without mutating the input', () => {
+    const draft = {
+      id: 'standup',
+      kind: 'event',
+      title: 'Updated standup',
+      start: '2026-10-15T09:00:00-03:00',
+      end: '2026-10-15T09:30:00-03:00',
+    } as const;
+    const openComponent = createEditableFixture({ kind: 'save', event: draft });
+    const instance = fixture.componentRef.instance;
+    let saved: unknown;
+    instance.eventSave.subscribe((value) => {
+      saved = value;
+    });
+    (
+      instance as unknown as {
+        handleEventOpen: (open: { id: string; start: string }) => void;
+      }
+    ).handleEventOpen({ id: 'standup', start: '2026-10-15T09:00:00-03:00' });
+    expect(openComponent).toHaveBeenCalledTimes(1);
+    expect(saved).toEqual(draft);
+  });
+
+  it('forwards editor delete scope to eventDelete', () => {
+    const request = {
+      scope: 'this',
+      eventId: 'standup',
+      occurrenceStart: '2026-10-15T09:00:00-03:00',
+    } as const;
+    const openComponent = createEditableFixture({
+      kind: 'delete',
+      request,
+    });
+    const instance = fixture.componentRef.instance;
+    let deleted: unknown;
+    instance.eventDelete.subscribe((value) => {
+      deleted = value;
+    });
+    (
+      instance as unknown as {
+        handleEventOpen: (open: { id: string; start: string }) => void;
+      }
+    ).handleEventOpen({ id: 'standup', start: '2026-10-15T09:00:00-03:00' });
+    expect(openComponent).toHaveBeenCalledTimes(1);
+    expect(deleted).toEqual(request);
+  });
+
+  it('emits eventCancel when the dialog closes without a result', () => {
+    const openComponent = createEditableFixture(undefined);
+    const instance = fixture.componentRef.instance;
+    let cancelled = 0;
+    instance.eventCancel.subscribe(() => {
+      cancelled += 1;
+    });
+    (
+      instance as unknown as {
+        handleEventOpen: (open: { id: string; start: string }) => void;
+      }
+    ).handleEventOpen({ id: 'standup', start: '2026-10-15T09:00:00-03:00' });
+    expect(openComponent).toHaveBeenCalledTimes(1);
+    expect(cancelled).toBe(1);
+  });
+
+  it('skips the dialog for unknown ids and when editorDisabled', () => {
+    const openComponent = createEditableFixture(undefined);
+    const instance = fixture.componentRef.instance;
+    (
+      instance as unknown as {
+        handleEventOpen: (open: { id: string; start: string }) => void;
+      }
+    ).handleEventOpen({ id: 'missing', start: '2026-10-15T09:00:00-03:00' });
+    expect(openComponent).not.toHaveBeenCalled();
+    fixture.componentRef.setInput('editorDisabled', true);
+    fixture.detectChanges();
+    (
+      instance as unknown as {
+        handleEventOpen: (open: { id: string; start: string }) => void;
+      }
+    ).handleEventOpen({ id: 'standup', start: '2026-10-15T09:00:00-03:00' });
+    expect(openComponent).not.toHaveBeenCalled();
+  });
+
+  it('opens the create dialog from a drag proposal and forwards save', () => {
+    const draft = {
+      id: 'event-created-1',
+      kind: 'event',
+      title: 'Created from drag',
+      start: '2026-10-20',
+      end: '2026-10-21',
+      allDay: true,
+    } as const;
+    const openComponent = createEditableFixture({
+      kind: 'save',
+      event: draft,
+    });
+    const instance = fixture.componentRef.instance;
+    let created: unknown;
+    let saved: unknown;
+    instance.eventCreate.subscribe((value) => {
+      created = value;
+    });
+    instance.eventSave.subscribe((value) => {
+      saved = value;
+    });
+    (
+      instance as unknown as {
+        handleEventCreate: (proposal: {
+          start: string;
+          end: string;
+          allDay: boolean;
+        }) => void;
+      }
+    ).handleEventCreate({
+      start: '2026-10-20',
+      end: '2026-10-21',
+      allDay: true,
+    });
+    expect(created).toEqual({
+      start: '2026-10-20',
+      end: '2026-10-21',
+      allDay: true,
+    });
+    expect(openComponent).toHaveBeenCalledTimes(1);
+    const [component, config] = openComponent.mock.calls[0] as unknown as [
+      typeof SolarisCalendarEditorDialogComponent,
+      { title: string; width: string; data: Record<string, unknown> },
+    ];
+    expect(component).toBe(SolarisCalendarEditorDialogComponent);
+    expect(config.title).toBe('New event');
+    expect(config.data).toMatchObject({
+      occurrenceStart: null,
+      locale: 'en-US',
+    });
+    expect((config.data['event'] as { start: string }).start).toBe(
+      '2026-10-20',
+    );
+    expect(saved).toEqual(draft);
+  });
+
+  it('opens the create dialog from a slot click with a one-hour draft', () => {
+    const openComponent = createEditableFixture(undefined);
+    const instance = fixture.componentRef.instance;
+    let selected: unknown;
+    instance.slotSelect.subscribe((value) => {
+      selected = value;
+    });
+    (
+      instance as unknown as {
+        handleSlotSelect: (slot: { date: string; time: string }) => void;
+      }
+    ).handleSlotSelect({ date: '2026-10-20', time: '09:00' });
+    expect(selected).toEqual({ date: '2026-10-20', time: '09:00' });
+    expect(instance.focusedDate()).toBe('2026-10-20');
+    expect(openComponent).toHaveBeenCalledTimes(1);
+    const [, config] = openComponent.mock.calls[0] as unknown as [
+      typeof SolarisCalendarEditorDialogComponent,
+      { title: string; width: string; data: Record<string, unknown> },
+    ];
+    const event = config.data['event'] as {
+      start: string;
+      end: string;
+      allDay: boolean;
+    };
+    expect(event.allDay).toBe(false);
+    expect(event.start).toContain('T09:00');
+    expect(event.end).toContain('T10:00');
+  });
+
+  it('emits create and slot proposals without a dialog when not editable', () => {
+    TestBed.resetTestingModule();
+    const openComponent = vi.fn();
+    configureSolarisTesting(undefined, {
+      providers: [
+        { provide: SolarisDialogService, useValue: { openComponent } },
+      ],
+    });
+    fixture = TestBed.createComponent(SolarisCalendarComponent);
+    fixture.componentRef.setInput('locale', 'en-US');
+    fixture.componentRef.setInput('focusedDate', '2026-10-15');
+    fixture.detectChanges();
+    const instance = fixture.componentRef.instance;
+    let created: unknown;
+    let selected: unknown;
+    instance.eventCreate.subscribe((value) => {
+      created = value;
+    });
+    instance.slotSelect.subscribe((value) => {
+      selected = value;
+    });
+    (
+      instance as unknown as {
+        handleEventCreate: (proposal: {
+          start: string;
+          end: string;
+          allDay: boolean;
+        }) => void;
+        handleSlotSelect: (slot: { date: string; time: string }) => void;
+      }
+    ).handleEventCreate({
+      start: '2026-10-20',
+      end: '2026-10-21',
+      allDay: true,
+    });
+    (
+      instance as unknown as {
+        handleSlotSelect: (slot: { date: string; time: string }) => void;
+      }
+    ).handleSlotSelect({ date: '2026-10-20', time: '09:00' });
+    expect(created).toEqual({
+      start: '2026-10-20',
+      end: '2026-10-21',
+      allDay: true,
+    });
+    expect(selected).toEqual({ date: '2026-10-20', time: '09:00' });
+    expect(openComponent).not.toHaveBeenCalled();
+  });
+
+  it('skips the create dialog for invalid proposals and slots', () => {
+    const openComponent = createEditableFixture(undefined);
+    const instance = fixture.componentRef.instance;
+    (
+      instance as unknown as {
+        handleEventCreate: (proposal: {
+          start: string;
+          end: string;
+          allDay: boolean;
+        }) => void;
+        handleSlotSelect: (slot: { date: string; time: string }) => void;
+      }
+    ).handleEventCreate({ start: '', end: '', allDay: true });
+    (
+      instance as unknown as {
+        handleSlotSelect: (slot: { date: string; time: string }) => void;
+      }
+    ).handleSlotSelect({ date: 'not-a-date', time: '09:00' });
+    expect(openComponent).not.toHaveBeenCalled();
+    fixture.componentRef.setInput('editorDisabled', true);
+    fixture.detectChanges();
+    (
+      instance as unknown as {
+        handleEventCreate: (proposal: {
+          start: string;
+          end: string;
+          allDay: boolean;
+        }) => void;
+      }
+    ).handleEventCreate({
+      start: '2026-10-20',
+      end: '2026-10-21',
+      allDay: true,
+    });
+    expect(openComponent).not.toHaveBeenCalled();
+  });
+});
+
+describe('SolarisCalendarEditorDialogComponent', () => {
+  it('closes with save, delete, and cancel results', () => {
+    TestBed.resetTestingModule();
+    const close = vi.fn();
+    configureSolarisTesting(undefined, {
+      providers: [
+        {
+          provide: SOLARIS_DIALOG_DATA,
+          useValue: {
+            event: {
+              id: 'standup',
+              kind: 'event',
+              title: 'Team standup',
+              start: '2026-10-15T09:00:00-03:00',
+              end: '2026-10-15T09:30:00-03:00',
+            },
+            occurrenceStart: '2026-10-15T09:00:00-03:00',
+            timeZone: 'America/Sao_Paulo',
+            timeZoneOptions: ['America/Sao_Paulo'],
+            locale: 'en-US',
+            size: 'md',
+            density: 'comfortable',
+          },
+        },
+        { provide: SOLARIS_DIALOG_REF, useValue: { close } },
+      ],
+    });
+    const fixtureDialog = TestBed.createComponent(
+      SolarisCalendarEditorDialogComponent,
+    );
+    fixtureDialog.detectChanges();
+    const instance = fixtureDialog.componentRef.instance as unknown as {
+      onSave: (event: unknown) => void;
+      onDelete: (request: unknown) => void;
+      onCancel: () => void;
+      onTimeZoneChange: (zone: string) => void;
+      timeZone: { (): string; set: (value: string) => void };
+    };
+    instance.onSave({ id: 'a' });
+    instance.onDelete({ eventId: 'a' });
+    instance.onCancel();
+    expect(close).toHaveBeenNthCalledWith(1, {
+      kind: 'save',
+      event: { id: 'a' },
+    });
+    expect(close).toHaveBeenNthCalledWith(2, {
+      kind: 'delete',
+      request: { eventId: 'a' },
+    });
+    expect(close).toHaveBeenNthCalledWith(3, { kind: 'cancel' });
+    instance.onTimeZoneChange('UTC');
+    expect(instance.timeZone()).toBe('UTC');
+    instance.onTimeZoneChange('');
+    expect(instance.timeZone()).toBe('UTC');
   });
 });

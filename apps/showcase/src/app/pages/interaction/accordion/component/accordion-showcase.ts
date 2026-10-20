@@ -80,6 +80,7 @@ export class AccordionShowcasePage {
   protected readonly appearances: readonly SolarisAccordionAppearance[] = [
     'boxed',
     'lined',
+    'plain',
   ];
 
   protected singleValue: string | undefined;

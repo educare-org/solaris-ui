@@ -83,6 +83,13 @@ describe('SolarisCollapsibleComponent', () => {
   @Component({
     standalone: true,
     imports: [SolarisCollapsibleComponent],
+    template: `<solaris-collapsible appearance="plain" label="Details" />`,
+  })
+  class PlainHost {}
+
+  @Component({
+    standalone: true,
+    imports: [SolarisCollapsibleComponent],
     template: `<solaris-collapsible label="Details" leadingIcon="user" />`,
   })
   class LeadingIconHost {}
@@ -276,6 +283,15 @@ describe('SolarisCollapsibleComponent', () => {
         'solaris-collapsible',
       ) as HTMLElement;
       expect(hostEl.getAttribute('data-appearance')).toBe('lined');
+    });
+
+    it('should reflect the plain appearance input', () => {
+      const plainFixture = TestBed.createComponent(PlainHost);
+      plainFixture.detectChanges();
+      const hostEl = plainFixture.nativeElement.querySelector(
+        'solaris-collapsible',
+      ) as HTMLElement;
+      expect(hostEl.getAttribute('data-appearance')).toBe('plain');
     });
   });
 

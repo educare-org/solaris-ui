@@ -16,20 +16,35 @@
     <p class="shell-showcase__note">
       {{ 'shell-view.examples.note' | translate }}
     </p>
-    <solaris-preview-code [code]="basicCode" language="html">
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      previewAlign="stretch"
+    >
       <solaris-calendar
         locale="pt-BR"
         [view]="view()"
         (viewChange)="onViewChange($event)"
         [focusedDate]="focusedDate()"
         (focusedDateChange)="focusedDate.set($event)"
-        [events]="events"
-        [tasks]="tasks"
+        [timeZone]="timeZone()"
+        (timeZoneChange)="timeZone.set($event)"
+        [events]="events()"
+        [tasks]="tasks()"
         [holidays]="holidays()"
+        [editable]="true"
         (daySelect)="onDaySelect($event)"
-        (viewChange)="onViewChange($event)"
+        (slotSelect)="onSlotSelect($event)"
+        (eventOpen)="onEventOpen($event)"
+        (eventSave)="onEventSave($event)"
+        (eventDelete)="onEventDelete($event)"
+        (eventCreate)="onEventCreate($event)"
+        (eventMove)="onEventMove($event)"
+        (eventResize)="onEventResize($event)"
+        (taskToggle)="onTaskToggle($event)"
+        (taskMove)="onTaskMove($event)"
       />
-      <p data-testid="event-log">{{ log() }}</p>
+      <p data-testid="event-log" solaris-visually-hidden>{{ log() }}</p>
     </solaris-preview-code>
   </app-docs-section>
 

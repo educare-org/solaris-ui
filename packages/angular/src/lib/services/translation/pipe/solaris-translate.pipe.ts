@@ -8,12 +8,14 @@ import { SolarisTranslateService } from '../service/solaris-translate.service';
   pure: true,
 })
 export class SolarisTranslatePipe implements PipeTransform {
-  private readonly translateService = inject(SolarisTranslateService);
+  private readonly translateService = inject(SolarisTranslateService, {
+    optional: true,
+  });
 
   transform(
     key: string,
     params?: Record<string, string | number | boolean>,
   ): string {
-    return this.translateService.translate(key, params);
+    return this.translateService?.translate(key, params) ?? key;
   }
 }

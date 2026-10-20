@@ -1,40 +1,42 @@
-<div class="solaris-calendar-schedule-view__toolbar">
-  <button
-    size="sm"
-    type="button"
-    solaris-icon-button
-    appearance="outline"
-    class="solaris-calendar-schedule-view__nav"
-    [ariaLabel]="previousLabel()"
-    (click)="shiftWindow(-1)"
-  >
-    <solaris-icon name="chevron-left" [decorative]="true" />
-  </button>
-  <button
-    size="sm"
-    type="button"
-    solaris-button
-    (click)="goToday()"
-    appearance="outline"
-    class="solaris-calendar-schedule-view__today"
-  >
-    {{ todayLabel() }}
-  </button>
-  <button
-    size="sm"
-    type="button"
-    solaris-icon-button
-    appearance="outline"
-    class="solaris-calendar-schedule-view__nav"
-    [ariaLabel]="nextLabel()"
-    (click)="shiftWindow(1)"
-  >
-    <solaris-icon name="chevron-right" [decorative]="true" />
-  </button>
-  <strong class="solaris-calendar-schedule-view__range">
-    {{ rangeLabel() }}
-  </strong>
-</div>
+@if (showToolbar()) {
+  <div class="solaris-calendar-schedule-view__toolbar">
+    <button
+      size="sm"
+      type="button"
+      solaris-icon-button
+      appearance="outline"
+      class="solaris-calendar-schedule-view__nav"
+      [ariaLabel]="previousLabel()"
+      (click)="shiftWindow(-1)"
+    >
+      <solaris-icon name="chevron-left" [decorative]="true" />
+    </button>
+    <button
+      size="sm"
+      type="button"
+      solaris-button
+      (click)="goToday()"
+      appearance="outline"
+      class="solaris-calendar-schedule-view__today"
+    >
+      {{ todayLabel() }}
+    </button>
+    <button
+      size="sm"
+      type="button"
+      solaris-icon-button
+      appearance="outline"
+      class="solaris-calendar-schedule-view__nav"
+      [ariaLabel]="nextLabel()"
+      (click)="shiftWindow(1)"
+    >
+      <solaris-icon name="chevron-right" [decorative]="true" />
+    </button>
+    <strong class="solaris-calendar-schedule-view__range">
+      {{ rangeLabel() }}
+    </strong>
+  </div>
+}
 <div
   class="solaris-calendar-schedule-view__list"
   role="list"

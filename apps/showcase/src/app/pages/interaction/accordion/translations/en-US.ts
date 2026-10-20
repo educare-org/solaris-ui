@@ -17,9 +17,10 @@ export const EN_US_ACCORDION: Record<string, string> = {
   'accordion.mode.single': 'Single',
   'accordion.mode.multiple': 'Multiple',
   'accordion.appearance.note':
-    'Boxed renders each item as a bordered card; lined renders a flat list with dividers.',
+    'Boxed renders each item as a bordered card; lined renders a flat list with dividers; plain has no borders.',
   'accordion.appearance.boxed': 'Boxed',
   'accordion.appearance.lined': 'Lined',
+  'accordion.appearance.plain': 'Plain',
   'accordion.size-density.note':
     'Size and density are owned by the container and propagate to every item, so all sections share the same geometry.',
   'accordion.size.sm': 'Small',

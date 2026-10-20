@@ -79,6 +79,7 @@ export class CollapsibleShowcasePage {
   protected readonly appearances: readonly SolarisCollapsibleAppearance[] = [
     'boxed',
     'lined',
+    'plain',
   ];
 
   protected readonly selectedAppearance =

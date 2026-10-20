@@ -26,4 +26,14 @@ describe('SolarisTranslatePipe', () => {
     const result = pipe.transform('nonexistent');
     expect(result).toBe('nonexistent');
   });
+
+  it('returns key when the translate service is absent', () => {
+    TestBed.resetTestingModule();
+    const fallback = TestBed.runInInjectionContext(
+      () => new SolarisTranslatePipe(),
+    );
+    expect(fallback.transform('solaris.calendar.today')).toBe(
+      'solaris.calendar.today',
+    );
+  });
 });

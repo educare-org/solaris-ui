@@ -13,9 +13,10 @@ export const PT_BR_COLLAPSIBLE: Record<string, string> = {
   'collapsible.examples.note':
     'Comece com o collapsible padrão e explore aparências e tamanhos abaixo.',
   'collapsible.appearance.note':
-    'Boxed renderiza um cartão com borda; lined renderiza uma linha plana com divisor abaixo do gatilho.',
+    'Boxed renderiza um cartão com borda; lined renderiza uma linha plana com divisor abaixo do gatilho; plain não tem bordas.',
   'collapsible.appearance.boxed': 'Boxed',
   'collapsible.appearance.lined': 'Lined',
+  'collapsible.appearance.plain': 'Plain',
   'collapsible.size-density.note':
     'Tamanho e densidade funcionam juntos no componente. Combine os dois controles para ver cada combinação.',
   'collapsible.size.sm': 'Pequeno',

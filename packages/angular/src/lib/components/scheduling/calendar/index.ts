@@ -107,6 +107,7 @@ export type {
   SolarisMonthViewItem,
   SolarisMonthViewItemKind,
   SolarisMonthViewSize,
+  SolarisMonthViewTaskMove,
 } from './month-view/model/month-view.types';
 export type {
   SolarisYearViewDay,
@@ -126,8 +127,11 @@ export { SolarisCalendarWeekViewComponent } from './week-view/component/week-vie
 export { SolarisCalendarYearViewComponent } from './year-view/component/year-view.component';
 export { SolarisCalendarScheduleViewComponent } from './schedule-view/component/schedule-view.component';
 export { SolarisCalendarComponent } from './shell/component/shell.component';
+export { SolarisCalendarEditorDialogComponent } from './shell/component/calendar-editor-dialog.component';
 export type {
   SolarisCalendarDensity,
+  SolarisCalendarEditorDialogData,
+  SolarisCalendarEditorDialogResult,
   SolarisCalendarResponsiveFallback,
   SolarisCalendarSize,
   SolarisCalendarView,

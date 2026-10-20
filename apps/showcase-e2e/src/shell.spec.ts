@@ -20,23 +20,30 @@ test.describe('Calendar shell', () => {
 
   test('switches views including custom days', async ({ page }) => {
     const shell = page.locator('solaris-calendar');
-    await shell.locator('.solaris-calendar__view[data-view="week"]').click();
+    const views = shell.locator(
+      'solaris-select.solaris-calendar__views-select',
+    );
+    await views.getByRole('combobox').click();
+    await page.getByRole('option', { name: /Semana|Week/ }).click();
     await expect(shell).toHaveAttribute('data-view', 'week');
     await expect(page.getByTestId('event-log')).toHaveText('view:week');
-    await shell.locator('.solaris-calendar__view[data-view="custom"]').click();
-    const custom = shell.locator('.solaris-calendar__custom-days');
-    await custom.fill('3');
-    await custom.dispatchEvent('change');
+    await views.getByRole('combobox').click();
+    await page.getByRole('option', { name: /Personalizado|Custom/ }).click();
+    const custom = shell.locator(
+      'solaris-select.solaris-calendar__custom-days',
+    );
+    await custom.getByRole('combobox').click();
+    await page.getByRole('option', { name: '3', exact: true }).click();
     await expect(page.getByTestId('event-log')).toHaveText('view:custom');
   });
 
-  test('drills through the mini-month and shows the timezone label', async ({
+  test('drills through the mini-month and shows the timezone control', async ({
     page,
   }) => {
     const shell = page.locator('solaris-calendar');
-    await expect(shell.locator('.solaris-calendar__tz')).toContainText(
-      /Time zone|Fuso|Zona/,
-    );
+    await expect(
+      shell.locator('solaris-select.solaris-calendar__tz-select'),
+    ).toContainText(/Fuso horário|Time zone/);
     await shell
       .locator('.solaris-calendar__mini-day[data-date="2026-10-20"]')
       .click();

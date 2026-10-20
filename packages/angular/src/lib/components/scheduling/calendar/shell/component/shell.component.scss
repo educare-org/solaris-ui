@@ -1,5 +1,8 @@
-.solaris-calendar {
+:host {
   display: block;
+  width: 100%;
+  container-type: inline-size;
+  container-name: solaris-calendar;
 }
 
 .solaris-calendar__toolbar {
@@ -8,12 +11,19 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--solaris-spacing-5);
+  gap: var(--solaris-spacing-10);
+  justify-content: space-between;
   padding: var(--solaris-spacing-5);
   border-radius: var(--solaris-radius-md);
   background: var(--solaris-neutral-default);
   border: var(--solaris-border-width-sm) solid
     var(--solaris-calendar-shell-border);
+}
+
+.solaris-calendar__nav-left-side {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-5);
 }
 
 .solaris-calendar__nav {
@@ -27,14 +37,21 @@
   outline-offset: var(--solaris-focus-ring-offset);
 }
 
-.solaris-calendar__view[data-active] {
-  //
-}
-
 .solaris-calendar__title {
   color: var(--solaris-neutral-text-body);
-  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-md) /
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-md) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.solaris-calendar__title::first-letter,
+.solaris-calendar__mini-title::first-letter {
+  text-transform: uppercase;
+}
+
+.solaris-calendar__mini-title {
+  color: var(--solaris-neutral-text-body);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
 }
 
 .solaris-calendar__views {
@@ -43,18 +60,28 @@
   gap: var(--solaris-spacing-4);
 }
 
+.solaris-calendar__views-select {
+  min-width: var(--solaris-spacing-18);
+}
+
 .solaris-calendar__body {
   display: grid;
   gap: var(--solaris-spacing-4);
   margin-top: var(--solaris-spacing-4);
-  grid-template-columns: calc(var(--solaris-spacing-9) * 10) minmax(0, 1fr);
+  grid-template-columns: calc(var(--solaris-spacing-10) * 9) minmax(0, 1fr);
+}
+
+@container solaris-calendar (max-width: 640px) {
+  :host([data-view='year']) .solaris-calendar__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .solaris-calendar__side {
   display: flex;
   flex-direction: column;
-  gap: var(--solaris-spacing-3);
-  padding: var(--solaris-spacing-3);
+  gap: var(--solaris-spacing-6);
+  padding: var(--solaris-spacing-4);
   border-radius: var(--solaris-radius-md);
   background: var(--solaris-neutral-default);
   border: var(--solaris-border-width-sm) solid
@@ -86,13 +113,32 @@
   grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
+.solaris-calendar__mini-weekday {
+  text-align: center;
+  color: var(--solaris-neutral-text-secondary);
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-xs) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+}
+
 .solaris-calendar__mini-day {
   border: 0;
+  padding: 0;
   cursor: pointer;
+  align-items: center;
+  justify-self: center;
+  display: inline-flex;
+  justify-content: center;
   background: transparent;
-  padding: var(--solaris-spacing-2);
+  width: var(--solaris-spacing-9);
+  height: var(--solaris-spacing-9);
   color: var(--solaris-neutral-text-body);
   border-radius: var(--solaris-radius-full);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-xs) /
+    var(--solaris-line-height-none) var(--solaris-font-family-sans);
+}
+
+.solaris-calendar__mini-day[data-outside-month] {
+  color: var(--solaris-neutral-text-secondary);
 }
 
 .solaris-calendar__mini-day[data-today] {
@@ -116,15 +162,6 @@
 
 .solaris-calendar__tz-select {
   width: 100%;
-}
-
-.solaris-calendar__custom-days {
-  border: var(--solaris-border-width-sm) solid
-    var(--solaris-neutral-border-subtle);
-  border-radius: var(--solaris-radius-md);
-  padding: var(--solaris-spacing-2);
-  background: var(--solaris-neutral-default);
-  color: var(--solaris-neutral-text-body);
 }
 
 .solaris-calendar__main {
@@ -159,8 +196,8 @@
   // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for the print host.
   .solaris-calendar,
   .solaris-calendar__main {
-    background: #fff;
     color: #000;
+    background: #fff;
   }
 
   .solaris-calendar__main * {

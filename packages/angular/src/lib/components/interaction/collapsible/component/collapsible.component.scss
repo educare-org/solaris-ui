@@ -127,10 +127,6 @@
     var(--solaris-collapsible-border-color);
 }
 
-:host([data-appearance='lined']):last-child .solaris-collapsible__trigger {
-  border-bottom: none;
-}
-
 :host([data-size='sm'][data-density='compact']) {
   --solaris-collapsible-trigger-min-height: var(
     --solaris-control-height-compact-sm

@@ -1,9 +1,14 @@
 import {
   addDaysToSolarisDate,
+  addMinutesToSolarisDateTime,
   getTimeZoneOffsetMinutes,
   parseSolarisDateParts,
+  resolveSolarisWallTimeMs,
   shiftSolarisCivilMonth,
+  toSolarisDateTimeValue,
 } from '../../model/calendar-datetime.utils';
+import type { SolarisCalendarEvent } from '../../model/calendar.types';
+import type { SolarisCalendarEventCreateProposal } from '../../model/calendar-drag.types';
 import {
   SOLARIS_CALENDAR_CUSTOM_DAYS_MAX,
   SOLARIS_CALENDAR_CUSTOM_DAYS_MIN,
@@ -13,14 +18,10 @@ import {
   type SolarisCalendarView,
 } from './shell.types';
 
-// why: pure view/date math lives here so the shell component stays thin and
-// the branch coverage bar (≥90% on new code) is provable with unit specs.
 export function normalizeShellView(value: unknown): SolarisCalendarView {
   if (typeof value === 'string') {
     const candidate = value as SolarisCalendarView;
-    if (
-      SOLARIS_CALENDAR_VIEWS.some((allowed) => allowed === candidate) === true
-    ) {
+    if (SOLARIS_CALENDAR_VIEWS.includes(candidate)) {
       return candidate;
     }
   }
@@ -29,8 +30,7 @@ export function normalizeShellView(value: unknown): SolarisCalendarView {
 
 export function normalizeCustomDays(value: unknown): number {
   const numeric = typeof value === 'string' ? Number(value) : value;
-  if (typeof numeric !== 'number' || Number.isFinite(numeric) === false)
-    return 4;
+  if (typeof numeric !== 'number' || !Number.isFinite(numeric)) return 4;
   const rounded = Math.round(numeric);
   if (rounded < SOLARIS_CALENDAR_CUSTOM_DAYS_MIN) {
     return SOLARIS_CALENDAR_CUSTOM_DAYS_MIN;
@@ -120,12 +120,50 @@ export function formatTimeZoneOffset(
   instantMs: number,
 ): string {
   const minutes = getTimeZoneOffsetMinutes(timeZone, instantMs);
-  const sign = minutes <= 0 ? '+' : '-';
+  const sign = minutes < 0 ? '-' : '+';
   const absolute = Math.abs(minutes);
   const hours = Math.floor(absolute / 60);
   const rest = absolute % 60;
   const padded = (value: number): string => String(value).padStart(2, '0');
   return `GMT${sign}${padded(hours)}:${padded(rest)}`;
+}
+
+const FRIENDLY_TIME_ZONE_CITIES: Record<
+  string,
+  { en: string; pt: string; es: string }
+> = {
+  'America/Sao_Paulo': { en: 'São Paulo', pt: 'São Paulo', es: 'São Paulo' },
+  'America/New_York': { en: 'New York', pt: 'Nova York', es: 'Nueva York' },
+  'Europe/Berlin': { en: 'Berlin', pt: 'Berlim', es: 'Berlín' },
+  UTC: { en: 'UTC', pt: 'UTC', es: 'UTC' },
+};
+
+function timeZoneFallbackLanguage(locale: string): 'en' | 'pt' | 'es' {
+  const base = locale.split('-')[0].toLowerCase();
+  if (base === 'pt' || base === 'es') return base;
+  return 'en';
+}
+
+export function resolveTimeZoneCity(zone: string, locale: string): string {
+  const known = FRIENDLY_TIME_ZONE_CITIES[zone];
+  if (known !== undefined) return known[timeZoneFallbackLanguage(locale)];
+  const last = zone.split('/').pop() ?? zone;
+  return last.replace(/_/g, ' ');
+}
+
+export function formatFriendlyTimeZone(
+  zone: string,
+  locale: string,
+  instantMs: number,
+): string {
+  if (zone === 'UTC') return 'UTC';
+  const city = resolveTimeZoneCity(zone, locale);
+  return `${city} (${formatTimeZoneOffset(zone, instantMs)})`;
+}
+
+export function capitalizeCalendarFirst(value: string): string {
+  if (value.length === 0) return value;
+  return value.slice(0, 1).toUpperCase() + value.slice(1);
 }
 
 export function resolveMiniMonth(focusedDate: string): {
@@ -135,4 +173,90 @@ export function resolveMiniMonth(focusedDate: string): {
   const parts = parseSolarisDateParts(focusedDate);
   if (parts !== null) return { year: parts.year, month: parts.month - 1 };
   return { year: 2026, month: 9 };
+}
+
+let createIdCounter = 0;
+
+export function newSolarisCreateId(): string {
+  try {
+    const cryptoRef = typeof crypto !== 'undefined' ? crypto : undefined;
+    if (cryptoRef !== undefined && typeof cryptoRef.randomUUID === 'function') {
+      return `event-${cryptoRef.randomUUID()}`;
+    }
+  } catch {
+    // Fall through to the counter fallback below (SSR-safe, no throw).
+  }
+  createIdCounter += 1;
+  return `event-new-${Date.now().toString(36)}-${createIdCounter}`;
+}
+
+function isValidProposalRange(
+  proposal: SolarisCalendarEventCreateProposal,
+): boolean {
+  if (proposal.allDay) {
+    return (
+      parseSolarisDateParts(proposal.start) !== null &&
+      parseSolarisDateParts(proposal.end) !== null &&
+      proposal.end >= proposal.start
+    );
+  }
+  return proposal.end > proposal.start;
+}
+
+export function buildSolarisCreateDraft(
+  proposal: SolarisCalendarEventCreateProposal,
+): SolarisCalendarEvent | null {
+  if (typeof proposal.start !== 'string' || proposal.start.length === 0) {
+    return null;
+  }
+  if (typeof proposal.end !== 'string' || proposal.end.length === 0) {
+    return null;
+  }
+  if (!isValidProposalRange(proposal)) return null;
+  return {
+    id: newSolarisCreateId(),
+    kind: 'event',
+    title: '',
+    start: proposal.start,
+    end: proposal.end,
+    allDay: proposal.allDay,
+  };
+}
+
+const SLOT_TIME_PATTERN = /^(\d{2}):(\d{2})$/;
+const SLOT_DURATION_MINUTES = 60;
+
+export function buildSolarisSlotDraft(
+  date: string,
+  time: string,
+  timeZone: string,
+): SolarisCalendarEvent | null {
+  const parts = parseSolarisDateParts(date);
+  if (parts === null) return null;
+  const match = SLOT_TIME_PATTERN.exec(time);
+  if (match === null) return null;
+  const hour = Number(match[1]);
+  const minute = Number(match[2]);
+  if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return null;
+  const startMs = resolveSolarisWallTimeMs(timeZone, {
+    ...parts,
+    hour,
+    minute,
+    second: 0,
+  });
+  const start = toSolarisDateTimeValue(startMs, timeZone);
+  const end = addMinutesToSolarisDateTime(
+    start,
+    SLOT_DURATION_MINUTES,
+    timeZone,
+  );
+  if (end === null) return null;
+  return {
+    id: newSolarisCreateId(),
+    kind: 'event',
+    title: '',
+    start,
+    end,
+    allDay: false,
+  };
 }

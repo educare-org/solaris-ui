@@ -3,8 +3,8 @@
 ## Purpose
 
 Six-week month grid rendering event chips, all-day rows, tasks, and holidays
-with a `+n more` popover, selection, drag-create/drag-move proposals, and
-full keyboard navigation.
+with a `+n more` popover, selection, drag-create/drag-move proposals (events
+and task chips can be dragged to another day), and full keyboard navigation.
 
 ## API
 
@@ -25,12 +25,13 @@ full keyboard navigation.
 | `moreLabel`        | Full-text override for the overflow button.                                                                                                                                       |
 | `moreLabelKey`     | Translation key for the overflow button (`{{count}}` param).                                                                                                                      |
 
-| Output       | Description                                          |
-| ------------ | ---------------------------------------------------- |
-| `daySelect`  | Date-only string of the activated day.               |
-| `eventOpen`  | `{ id, start }` of the activated occurrence.         |
-| `moreOpen`   | Date-only string whose overflow popover opened.      |
-| `taskToggle` | Id of the toggled task (consumer flips `completed`). |
+| Output       | Description                                                                  |
+| ------------ | ---------------------------------------------------------------------------- |
+| `daySelect`  | Date-only string of the activated day.                                       |
+| `eventOpen`  | `{ id, start }` of the activated occurrence.                                 |
+| `moreOpen`   | Date-only string whose overflow popover opened.                              |
+| `taskToggle` | Id of the toggled task (consumer flips `completed`).                         |
+| `taskMove`   | `{ id, due }` when a task chip is dragged to another day (consumer applies). |
 
 User-facing strings resolve through `SolarisTranslateService`
 (`solaris.calendar.*`, English/Portuguese/Spanish bundled) with `locale`-based
