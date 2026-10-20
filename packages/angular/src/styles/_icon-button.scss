@@ -710,9 +710,6 @@
   --solaris-icon-button-hover-border-color: var(--solaris-info-border);
 }
 
-// Chromeless keeps the size-matrix footprint (same box as a regular
-// icon-button, so it aligns in rows) with no background or border, and a
-// larger glyph that scales with the box across size x density.
 [solaris-icon-button][data-chromeless] {
   padding: 0;
   border: 0;

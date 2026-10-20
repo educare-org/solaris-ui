@@ -59,7 +59,7 @@
   color: var(--solaris-button-color);
   height: var(--solaris-button-height);
   flex: var(--solaris-button-group-item-flex);
-  line-height: var(--solaris-line-height-sm);
+  line-height: var(--solaris-line-height-none);
   min-width: var(--solaris-button-min-width);
   font-size: var(--solaris-button-font-size);
   border-radius: var(--solaris-button-radius);
@@ -670,11 +670,6 @@
   --solaris-button-height: var(--solaris-control-height-comfortable-lg);
 }
 
-// Density late-resolution fallback: when data-size is stamped but
-// data-density has not resolved yet (theme CSS still loading, group context
-// attaching), assume the normal-density geometry so the first paint does
-// not jump when the resolved density arrives. Applied with
-// transition: none (pre-hydration gate above), so no animated flash.
 [solaris-button][data-size='sm']:not([data-density]) {
   --solaris-button-gap: var(--solaris-density-gap-md);
   --solaris-button-padding-y: var(--solaris-spacing-4);

@@ -109,7 +109,7 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   readonly readonly = input<boolean | undefined>();
   readonly density = input<SolarisFormFieldDensity>();
   readonly size = input<SolarisFormFieldSize>('md');
-  readonly radius = input<SolarisFormFieldRadius>('sm');
+  readonly radius = input<SolarisFormFieldRadius>('md');
   readonly appearance = input<SolarisFormFieldAppearance>('outline');
   readonly control = input<SolarisFormControl | undefined>(undefined);
 
