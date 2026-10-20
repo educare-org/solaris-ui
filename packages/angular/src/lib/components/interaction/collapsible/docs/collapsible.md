@@ -10,26 +10,34 @@ a collapsible panel. It is the base primitive for Accordion.
 
 ### Inputs
 
-| Input          | Type                                                  | Default          | Description                                                                                                              |
-| -------------- | ----------------------------------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `open`         | `boolean`                                             | `false`          | Two-way binding that controls the open state (standalone mode).                                                          |
-| `value`        | `string \| number`                                    | —                | Unique identifier used when controlled by an Accordion.                                                                  |
-| `appearance`   | `'boxed' \| 'lined' \| 'plain'`                       | `'boxed'`        | Visual mode. `boxed` is a bordered card; `lined` is a divider under the trigger; `plain` has no chrome.                  |
-| `label`        | `string`                                              | —                | Visible trigger text.                                                                                                    |
-| `labelKey`     | `string`                                              | —                | i18n key resolved for the trigger text.                                                                                  |
-| `ariaLabel`    | `string`                                              | —                | Accessible name used when no visible label.                                                                              |
-| `ariaLabelKey` | `string`                                              | —                | i18n key resolved for the accessible name.                                                                               |
-| `disabled`     | `boolean`                                             | `false`          | Disables the trigger interaction.                                                                                        |
-| `size`         | `'sm' \| 'md' \| 'lg'`                                | `'md'`           | Label, icon, and padding step. Combines with `density` into a 3×3 matrix.                                                |
-| `density`      | `'compact' \| 'normal' \| 'comfortable' \| undefined` | `undefined`      | Spacing density. Standalone it falls back to the theme density; inside an accordion the container `density` always wins. |
-| `icon`         | `string`                                              | `'chevron-down'` | Icon rendered at the end of the trigger.                                                                                 |
-| `leadingIcon`  | `string`                                              | —                | Optional icon rendered at the start of the trigger, glued to the label.                                                  |
+| Input                     | Type                                                  | Default                              | Description                                                                                                                                            |
+| ------------------------- | ----------------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `open`                    | `boolean`                                             | `false`                              | Two-way binding that controls the open state (standalone mode).                                                                                        |
+| `value`                   | `string \| number`                                    | —                                    | Unique identifier used when controlled by an Accordion.                                                                                                |
+| `appearance`              | `'boxed' \| 'lined' \| 'plain'`                       | `'boxed'`                            | Visual mode. `boxed` is a bordered card; `lined` is a divider under the trigger; `plain` has no chrome.                                                |
+| `label`                   | `string`                                              | —                                    | Visible trigger text.                                                                                                                                  |
+| `labelKey`                | `string`                                              | —                                    | i18n key resolved for the trigger text.                                                                                                                |
+| `ariaLabel`               | `string`                                              | —                                    | Accessible name used when no visible label.                                                                                                            |
+| `ariaLabelKey`            | `string`                                              | —                                    | i18n key resolved for the accessible name.                                                                                                             |
+| `disabled`                | `boolean`                                             | `false`                              | Disables the trigger interaction.                                                                                                                      |
+| `size`                    | `'sm' \| 'md' \| 'lg'`                                | `'md'`                               | Label, icon, and padding step. Combines with `density` into a 3×3 matrix.                                                                              |
+| `density`                 | `'compact' \| 'normal' \| 'comfortable' \| undefined` | `undefined`                          | Spacing density. Standalone it falls back to the theme density; inside an accordion the container `density` always wins.                               |
+| `icon`                    | `string`                                              | `'chevron-down'`                     | Icon rendered at the end of the trigger.                                                                                                               |
+| `leadingIcon`             | `string`                                              | —                                    | Optional icon rendered at the start of the trigger, glued to the label.                                                                                |
+| `showAddAction`           | `boolean`                                             | `false`                              | Shows an add (`plus`) button at the end of the header, before the chevron. Opens the creation dialog.                                                  |
+| `addActionLabel`          | `string`                                              | i18n `solaris.collapsible.addAction` | Accessible label of the add button.                                                                                                                    |
+| `addActionLabelKey`       | `string`                                              | —                                    | i18n key resolved for the add button label.                                                                                                            |
+| `addActionIcon`           | `string`                                              | `'plus'`                             | Icon of the add button.                                                                                                                                |
+| `iconOptions`             | `readonly SolarisCollapsibleIconOption[]`             | `[]`                                 | Icon choices offered in the creation dialog (`{ value, label?, labelKey? }`). Empty lists all built-in icons (searchable) with a preview of each icon. |
+| `addActionDialogTitle`    | `string`                                              | i18n `solaris.collapsible.add.title` | Title of the creation dialog.                                                                                                                          |
+| `addActionDialogTitleKey` | `string`                                              | —                                    | i18n key resolved for the dialog title.                                                                                                                |
 
 ### Outputs
 
-| Output       | Type      | Description                          |
-| ------------ | --------- | ------------------------------------ |
-| `openChange` | `boolean` | Emitted when the open state changes. |
+| Output         | Type                          | Description                                                                        |
+| -------------- | ----------------------------- | ---------------------------------------------------------------------------------- |
+| `openChange`   | `boolean`                     | Emitted when the open state changes.                                               |
+| `addSubmitted` | `SolarisCollapsibleAddResult` | Emitted when the creation dialog confirms (`{ label, description, leadingIcon }`). |
 
 ## Controlled mode (Accordion)
 
@@ -133,3 +141,31 @@ JIT/unit-test consumers of the published bundle.
   <p>Hidden content.</p>
 </solaris-collapsible>
 ```
+
+### Add action with creation dialog
+
+```html
+<solaris-collapsible label="Section A" [showAddAction]="true" addActionLabel="Add section" [iconOptions]="[{ value: 'file-text', label: 'Document' }]" (addSubmitted)="onAdd($event)">
+  <p>Content A.</p>
+</solaris-collapsible>
+```
+
+```ts
+onAdd(event: SolarisCollapsibleAddResult): void {
+  this.sections.push({
+    value: crypto.randomUUID(),
+    label: event.label,
+    leadingIcon: event.leadingIcon,
+    description: event.description,
+  });
+}
+```
+
+The add button sits at the end of the header, immediately left of the chevron.
+Activating it opens `SolarisCollapsibleAddDialogComponent` (via `SolarisDialogService`)
+with icon, title, and description fields — title and description are required.
+The icon select lists every built-in icon with a preview (searchable), unless
+`iconOptions` overrides the list; its first option is always "None" (no icon).
+The `label`, `description`, and `leadingIcon` of the `addSubmitted` payload map
+directly onto a new `solaris-collapsible` (or accordion section); the consumer
+owns the list and appends the new item.

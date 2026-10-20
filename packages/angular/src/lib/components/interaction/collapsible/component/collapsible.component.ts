@@ -7,6 +7,7 @@ import {
   computed,
   booleanAttribute,
   ChangeDetectionStrategy,
+  output,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 
@@ -15,12 +16,16 @@ import type {
   SolarisCollapsibleDensity,
   SolarisCollapsibleAppearance,
   SolarisCollapsibleValue,
+  SolarisCollapsibleIconOption,
+  SolarisCollapsibleAddResult,
 } from '../model/collapsible.types';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisIconComponent } from '../../../icon';
 import { resolveElementId } from '../../../../core';
-import { SOLARIS_ACCORDION } from '../../accordion/model/accordion.tokens';
+import { SOLARIS_ACCORDION } from '../../accordion';
+import { SolarisDialogService } from '../../../overlay/dialog';
+import { SolarisCollapsibleAddDialogComponent } from '../dialog/component/collapsible-add-dialog.component';
 
 @Component({
   selector: 'solaris-collapsible',
@@ -36,6 +41,7 @@ import { SOLARIS_ACCORDION } from '../../accordion/model/accordion.tokens';
     '[attr.data-appearance]': 'effectiveAppearance()',
     '[attr.data-open]': 'isOpen() ? "" : null',
     '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
+    '[attr.data-add]': 'showAddAction() ? "" : null',
   },
 })
 export class SolarisCollapsibleComponent {
@@ -45,6 +51,9 @@ export class SolarisCollapsibleComponent {
   });
   protected readonly themeService = inject(SolarisThemeService);
   private readonly accordionControl = inject(SOLARIS_ACCORDION, {
+    optional: true,
+  });
+  private readonly dialogService = inject(SolarisDialogService, {
     optional: true,
   });
 
@@ -65,6 +74,17 @@ export class SolarisCollapsibleComponent {
   readonly leadingIconDecorative = input<boolean, boolean>(true, {
     transform: booleanAttribute,
   });
+  readonly showAddAction = input<boolean, boolean>(false, {
+    transform: booleanAttribute,
+  });
+  readonly addActionLabel = input<string>();
+  readonly addActionLabelKey = input<string>();
+  readonly addActionIcon = input<string>('plus');
+  readonly iconOptions = input<readonly SolarisCollapsibleIconOption[]>([]);
+  readonly addActionDialogTitle = input<string>();
+  readonly addActionDialogTitleKey = input<string>();
+
+  readonly addSubmitted = output<SolarisCollapsibleAddResult>();
 
   protected readonly baseId = computed(() => {
     return resolveElementId(this.elementRef, 'solaris-collapsible');
@@ -149,6 +169,28 @@ export class SolarisCollapsibleComponent {
     return this.ariaLabel();
   });
 
+  protected readonly addActionText = computed(() => {
+    const key = this.addActionLabelKey();
+    if (key && this.translateService) {
+      const translated = this.translateService.translate(key);
+      if (translated !== key) {
+        return translated;
+      }
+    }
+    if (this.addActionLabel()) {
+      return this.addActionLabel();
+    }
+    if (this.translateService) {
+      const fallback = this.translateService.translate(
+        'solaris.collapsible.addAction',
+      );
+      if (fallback !== 'solaris.collapsible.addAction') {
+        return fallback;
+      }
+    }
+    return 'Add item';
+  });
+
   protected toggle(): void {
     if (this.isEffectivelyDisabled()) {
       return;
@@ -158,5 +200,34 @@ export class SolarisCollapsibleComponent {
       return;
     }
     this.open.set(!this.open());
+  }
+
+  protected openAddDialog(event: MouseEvent): void {
+    event.stopPropagation();
+    event.preventDefault();
+    if (this.isEffectivelyDisabled() || !this.dialogService) {
+      return;
+    }
+    const ref = this.dialogService.openComponent<
+      SolarisCollapsibleAddDialogComponent,
+      SolarisCollapsibleAddResult | undefined,
+      {
+        iconOptions: readonly SolarisCollapsibleIconOption[];
+        title?: string;
+        titleKey?: string;
+      }
+    >(SolarisCollapsibleAddDialogComponent, {
+      width: '480px',
+      data: {
+        iconOptions: this.iconOptions(),
+        title: this.addActionDialogTitle(),
+        titleKey: this.addActionDialogTitleKey(),
+      },
+    });
+    ref.afterClosed().subscribe((result) => {
+      if (result) {
+        this.addSubmitted.emit(result);
+      }
+    });
   }
 }

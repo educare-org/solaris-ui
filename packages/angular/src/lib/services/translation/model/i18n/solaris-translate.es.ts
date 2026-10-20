@@ -129,4 +129,18 @@ export const SOLARIS_TRANSLATE_ES: Record<string, string> = {
   'solaris.calendar.editorInvalidRecurrence':
     'Complete los campos de recurrencia.',
   'solaris.calendar.editorInvalid': 'El evento tiene campos inválidos.',
+
+  'solaris.collapsible.add.title': 'Añadir sección',
+  'solaris.collapsible.add.titleLabel': 'Título',
+  'solaris.collapsible.add.descriptionLabel': 'Descripción',
+  'solaris.collapsible.add.iconLabel': 'Icono',
+  'solaris.collapsible.add.noIcon': 'Ninguno',
+  'solaris.collapsible.add.cancel': 'Cancelar',
+  'solaris.collapsible.add.confirm': 'Añadir',
+  'solaris.collapsible.add.required': 'Obligatorio',
+  'solaris.collapsible.addAction': 'Añadir elemento',
+  'solaris.collapsibleInput.placeholder': 'Pregunte cualquier otra cosa',
+  'solaris.collapsibleInput.submit': 'Enviar pregunta',
+  'solaris.collapsibleInput.stop': 'Detener',
+  'solaris.collapsibleInput.loading': 'Leyendo la documentación',
 };

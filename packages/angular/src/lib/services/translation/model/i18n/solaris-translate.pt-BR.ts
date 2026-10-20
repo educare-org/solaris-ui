@@ -418,4 +418,18 @@ export const SOLARIS_TRANSLATE_PT_BR: Record<string, string> = {
   'solaris.navigation.pagination.rowsPerPageLabel': 'Linhas por página',
   'solaris.navigation.pagination.rangeLabel': '{{start}}–{{end}} de {{total}}',
   'solaris.navigation.pagination.rangeLabelCompact': '{{start}}–{{end}}',
+
+  'solaris.collapsible.add.title': 'Adicionar seção',
+  'solaris.collapsible.add.titleLabel': 'Título',
+  'solaris.collapsible.add.descriptionLabel': 'Descrição',
+  'solaris.collapsible.add.iconLabel': 'Ícone',
+  'solaris.collapsible.add.noIcon': 'Nenhum',
+  'solaris.collapsible.add.cancel': 'Cancelar',
+  'solaris.collapsible.add.confirm': 'Adicionar',
+  'solaris.collapsible.add.required': 'Obrigatório',
+  'solaris.collapsible.addAction': 'Adicionar item',
+  'solaris.collapsibleInput.placeholder': 'Pergunte outra coisa',
+  'solaris.collapsibleInput.submit': 'Enviar pergunta',
+  'solaris.collapsibleInput.stop': 'Parar',
+  'solaris.collapsibleInput.loading': 'Lendo a documentação',
 };

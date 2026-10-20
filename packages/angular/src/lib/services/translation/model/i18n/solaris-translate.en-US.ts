@@ -400,4 +400,18 @@ export const SOLARIS_TRANSLATE_EN_US: Record<string, string> = {
   'solaris.navigation.pagination.rowsPerPageLabel': 'Rows per page',
   'solaris.navigation.pagination.rangeLabel': '{{start}}–{{end}} of {{total}}',
   'solaris.navigation.pagination.rangeLabelCompact': '{{start}}–{{end}}',
+
+  'solaris.collapsible.add.title': 'Add section',
+  'solaris.collapsible.add.titleLabel': 'Title',
+  'solaris.collapsible.add.descriptionLabel': 'Description',
+  'solaris.collapsible.add.iconLabel': 'Icon',
+  'solaris.collapsible.add.noIcon': 'None',
+  'solaris.collapsible.add.cancel': 'Cancel',
+  'solaris.collapsible.add.confirm': 'Add',
+  'solaris.collapsible.add.required': 'Required',
+  'solaris.collapsible.addAction': 'Add item',
+  'solaris.collapsibleInput.placeholder': 'Ask anything else',
+  'solaris.collapsibleInput.submit': 'Send question',
+  'solaris.collapsibleInput.stop': 'Stop',
+  'solaris.collapsibleInput.loading': 'Reading the docs',
 };
