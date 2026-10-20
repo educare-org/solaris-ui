@@ -15,6 +15,7 @@ import {
   type SolarisCalendarEvent,
   type SolarisCalendarTask,
   type SolarisEventDeleteRequest,
+  type SolarisEventSaveRequest,
 } from '@solaris-ui/angular';
 
 import { ShowcaseDocsPageFooter } from '../../../../shell/docs-page-footer/docs-page-footer';
@@ -36,8 +37,10 @@ import {
   EVENT_EDITOR_TRANSLATION_PREFIX,
 } from '../model/event-editor-showcase.data';
 import { EventEditorDemoDialogComponent } from './event-editor-demo-dialog.component';
-import type { EventEditorDemoData } from './event-editor-demo-dialog.component';
-import type { EventEditorDemoResult } from './event-editor-demo-dialog.component';
+import type {
+  EventEditorDemoData,
+  EventEditorDemoResult,
+} from './event-editor-demo-dialog.component';
 
 const SHOWCASE_SINGLE: SolarisCalendarEvent = {
   id: 'planning',
@@ -116,7 +119,7 @@ export class EventEditorShowcasePage {
       this.events()[0],
   );
 
-  protected async selectLocale(locale: unknown): Promise<void> {
+  protected selectLocale(locale: unknown): void {
     if (locale !== 'pt-BR' && locale !== 'en-US' && locale !== 'es') return;
     this.demoLocale.set(locale);
   }
@@ -143,8 +146,15 @@ export class EventEditorShowcasePage {
   }
 
   protected onInlineSave(
-    event: SolarisCalendarEvent | SolarisCalendarTask,
+    input: SolarisEventSaveRequest | SolarisCalendarEvent | SolarisCalendarTask,
   ): void {
+    const event =
+      typeof input === 'object' &&
+      input !== null &&
+      'event' in input &&
+      'scope' in input
+        ? (input as SolarisEventSaveRequest).event
+        : (input as SolarisCalendarEvent | SolarisCalendarTask);
     const color = event.kind === 'event' ? (event.color ?? 'none') : 'none';
     this.log.set(`save:${event.id}:${event.title}:${color}`);
   }
@@ -178,12 +188,13 @@ export class EventEditorShowcasePage {
       },
     });
     ref.afterClosed().subscribe((result) => {
-      if (result?.kind === 'save' && result.event) {
-        const color =
-          result.event.kind === 'event'
-            ? (result.event.color ?? 'none')
-            : 'none';
-        this.log.set(`save:${result.event.id}:${result.event.title}:${color}`);
+      const saved =
+        result?.kind === 'save'
+          ? (result.saveRequest?.event ?? result.event ?? null)
+          : null;
+      if (saved) {
+        const color = saved.kind === 'event' ? (saved.color ?? 'none') : 'none';
+        this.log.set(`save:${saved.id}:${saved.title}:${color}`);
       } else if (result?.kind === 'delete' && result.request) {
         this.applyDelete(result.request);
       } else {

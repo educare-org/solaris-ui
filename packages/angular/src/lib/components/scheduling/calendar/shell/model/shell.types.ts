@@ -5,6 +5,7 @@ import type {
   SolarisCalendarWeekStart,
 } from '../../model/calendar.types';
 import type { SolarisEventDeleteRequest } from '../../event-editor/model/event-editor.types';
+import type { SolarisEventSaveRequest } from '../../event-editor/model/event-editor.types';
 
 export type SolarisCalendarView =
   | 'day'
@@ -39,6 +40,7 @@ export interface SolarisCalendarEditorDialogResult {
   readonly kind: 'save' | 'delete' | 'cancel';
   readonly event?: SolarisCalendarEvent | SolarisCalendarTask;
   readonly request?: SolarisEventDeleteRequest;
+  readonly saveRequest?: SolarisEventSaveRequest;
 }
 
 export interface SolarisCalendarShellSlotSelect {

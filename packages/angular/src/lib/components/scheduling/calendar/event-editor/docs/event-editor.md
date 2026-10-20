@@ -32,14 +32,14 @@ dialog, with `invalid`/`disabled` states following the forms-security rules.
 | `density`         | `'compact'` / `'normal'` / `'comfortable'` (default); scales body gaps.                                                          |
 | `disabled`        | Disables every field and action.                                                                                                 |
 
-| Output              | Description                                                                                                                                                                                                                              |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `eventSave`         | Immutable draft: `SolarisCalendarEvent` for event/schedule kinds, `SolarisCalendarTask` for tasks.                                                                                                                                       |
-| `eventDelete`       | `{ scope, eventId, occurrenceStart }` (maps to `delete(scope)` in 03-api-design).                                                                                                                                                        |
-| `eventCancel`       | Cancel without changes (maps to `cancel` in 03-api-design).                                                                                                                                                                              |
-| `timeZoneChange`    | Selected start display zone (input-mirroring: the consumer writes it back to the `timeZone` input; the lib never mutates it). Falls back to emitting the current zone when no `SolarisDialogService` is available (e.g. isolated tests). |
-| `timeZoneEndChange` | Selected end display zone from the separate-zones select or the swap action (mirrored back to `timeZoneEnd`).                                                                                                                            |
-| `itemKindChange`    | Item kind selected in the segmented control (`event` / `task` / `schedule`).                                                                                                                                                             |
+| Output              | Description                                                                                                                                                                                                                                   |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `eventSave`         | Immutable save request: `{ event, scope, occurrenceStart }` — `event` is a `SolarisCalendarEvent` for event/schedule kinds or `SolarisCalendarTask` for tasks; `scope` is the selected save scope (`'all'` when no occurrence scope applies). |
+| `eventDelete`       | `{ scope, eventId, occurrenceStart }` (maps to `delete(scope)` in 03-api-design).                                                                                                                                                             |
+| `eventCancel`       | Cancel without changes (maps to `cancel` in 03-api-design).                                                                                                                                                                                   |
+| `timeZoneChange`    | Selected start display zone (input-mirroring: the consumer writes it back to the `timeZone` input; the lib never mutates it). Falls back to emitting the current zone when no `SolarisDialogService` is available (e.g. isolated tests).      |
+| `timeZoneEndChange` | Selected end display zone from the separate-zones select or the swap action (mirrored back to `timeZoneEnd`).                                                                                                                                 |
+| `itemKindChange`    | Item kind selected in the segmented control (`event` / `task` / `schedule`).                                                                                                                                                                  |
 
 User-facing strings resolve through `SolarisTranslateService`
 (`solaris.calendar.editor*`, English/Portuguese/Spanish bundled) with
@@ -87,6 +87,60 @@ const ref = this.dialogService.openComponent(SolarisCalendarEventEditorComponent
 ```html
 <solaris-calendar-event-editor locale="pt-BR" timeZone="America/Sao_Paulo" [event]="draft" [occurrenceStart]="occurrence" (eventSave)="onSave($event)" (eventDelete)="onDelete($event)" (eventCancel)="onCancel()" />
 ```
+
+Saving an edited occurrence (consumer side, immutable):
+
+```ts
+import { resolveSolarisEventSave } from '@solaris-ui/angular';
+
+onSave(request: SolarisEventSaveRequest): void {
+  if (request.event.kind === 'task') {
+    this.tasks.update((items) =>
+      items.some((item) => item.id === request.event.id)
+        ? items.map((item) => (item.id === request.event.id ? request.event : item))
+        : [...items, request.event as SolarisCalendarTask],
+    );
+    return;
+  }
+  const source = this.events().find((item) => item.id === request.event.id);
+  if (!source || source.recurrence === undefined || request.scope === 'all' || request.occurrenceStart === null) {
+    const draft = request.event as SolarisCalendarEvent;
+    this.events.update((items) =>
+      items.some((item) => item.id === draft.id)
+        ? items.map((item) => (item.id === draft.id ? draft : item))
+        : [...items, draft],
+    );
+    return;
+  }
+  const resolved = resolveSolarisEventSave(source, request.occurrenceStart, request.event as SolarisCalendarEvent, request.scope, this.timeZone());
+  if (resolved === null) return;
+  const ids = new Set(resolved.map((item) => item.id));
+  this.events.update((items) => [
+    ...items.filter((item) => item.id !== source.id && !ids.has(item.id)),
+    ...resolved,
+  ]);
+}
+```
+
+### Save scope resolution
+
+Use `resolveSolarisEventSave(source, occurrenceStart, draft, scope, timeZone)`:
+
+- `this` → keeps the series with the occurrence civil date appended to
+  `recurrenceExceptionDates` (exDate) and returns a detached single event
+  (new id, recurrence stripped) positioned on the occurrence date.
+- `following` → truncates the series by setting `recurrence.until` just
+  before the occurrence (same datetime/civil-day rule as delete) and returns
+  the following part starting on the occurrence date. Splitting from the
+  first occurrence returns only the following part.
+- `all` (or a non-recurring event) → returns the draft as-is.
+
+The helper is pure and immutable: inputs are never mutated, invalid inputs
+return `null` instead of throwing. The editor shows the scope radios only
+when `occurrenceStart` is set on a recurring series (reusing the
+`editorDeleteScope`/`editorDeleteThis`/`editorDeleteFollowing`/`editorDeleteAll`
+keys), and always emits the scope with `eventSave` (`'all'` otherwise, so
+non-recurring consumers can ignore the scope).
 
 Resolving a delete (consumer side, immutable):
 

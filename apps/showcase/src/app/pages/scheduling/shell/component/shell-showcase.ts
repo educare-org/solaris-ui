@@ -11,6 +11,7 @@ import {
   builtInHolidays,
   preloadBuiltInHolidays,
   resolveSolarisEventDelete,
+  resolveSolarisEventSave,
   type SolarisCalendarEvent,
   type SolarisCalendarEventCreateProposal,
   type SolarisCalendarEventMoveProposal,
@@ -18,6 +19,7 @@ import {
   type SolarisCalendarTask,
   type SolarisCalendarView,
   type SolarisEventDeleteRequest,
+  type SolarisEventSaveRequest,
   type SolarisHoliday,
   type SolarisMonthViewTaskMove,
 } from '@solaris-ui/angular';
@@ -141,21 +143,61 @@ export class ShellShowcasePage implements OnInit {
   }
 
   protected onEventSave(
-    draft: SolarisCalendarEvent | SolarisCalendarTask,
+    input: SolarisEventSaveRequest | SolarisCalendarEvent | SolarisCalendarTask,
   ): void {
+    const request: SolarisEventSaveRequest =
+      typeof input === 'object' &&
+      input !== null &&
+      'event' in input &&
+      'scope' in input
+        ? (input as SolarisEventSaveRequest)
+        : {
+            event: input as SolarisCalendarEvent | SolarisCalendarTask,
+            scope: 'all',
+            occurrenceStart: null,
+          };
+    const draft = request.event;
     if (draft.kind === 'task') {
       this.tasks.update((tasks) =>
         tasks.some((task) => task.id === draft.id)
           ? tasks.map((task) => (task.id === draft.id ? draft : task))
           : [...tasks, draft],
       );
-    } else {
-      this.events.update((events) =>
-        events.some((event) => event.id === draft.id)
-          ? events.map((event) => (event.id === draft.id ? draft : event))
-          : [...events, draft],
-      );
+      this.log.set(`save:${draft.id}:${draft.title}`);
+      return;
     }
+    const source = this.events().find((item) => item.id === draft.id) ?? null;
+    if (
+      source?.recurrence !== undefined &&
+      request.scope !== 'all' &&
+      request.occurrenceStart !== null
+    ) {
+      const resolved = resolveSolarisEventSave(
+        source,
+        request.occurrenceStart,
+        draft,
+        request.scope,
+        this.timeZone(),
+      );
+      if (resolved === null) {
+        this.log.set(`save:${draft.id}:invalid`);
+        return;
+      }
+      const resolvedIds = new Set(resolved.map((item) => item.id));
+      this.events.update((events) => {
+        const kept = events.filter(
+          (item) => item.id !== source.id && !resolvedIds.has(item.id),
+        );
+        return [...kept, ...resolved];
+      });
+      this.log.set(`save:${draft.id}:${draft.title}`);
+      return;
+    }
+    this.events.update((events) =>
+      events.some((event) => event.id === draft.id)
+        ? events.map((event) => (event.id === draft.id ? draft : event))
+        : [...events, draft],
+    );
     this.log.set(`save:${draft.id}:${draft.title}`);
   }
 

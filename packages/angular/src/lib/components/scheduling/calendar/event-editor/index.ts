@@ -14,6 +14,8 @@ export type {
   SolarisEventEditorItemKind,
   SolarisEventEditorReminderRow,
   SolarisEventEditorSize,
+  SolarisEventSaveRequest,
 } from './model/event-editor.types';
 export type { SolarisEventDeleteResolution } from './model/event-delete.utils';
 export { resolveSolarisEventDelete } from './model/event-delete.utils';
+export { resolveSolarisEventSave } from './model/event-save.utils';

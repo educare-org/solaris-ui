@@ -1064,6 +1064,7 @@ export {
 } from './lib/components/scheduling/calendar/index';
 export { SolarisCalendarEventEditorComponent } from './lib/components/scheduling/calendar/index';
 export { resolveSolarisEventDelete } from './lib/components/scheduling/calendar/index';
+export { resolveSolarisEventSave } from './lib/components/scheduling/calendar/index';
 export {
   clipSpanToDay,
   layoutOverlappingSpans,
@@ -1122,6 +1123,7 @@ export type {
   SolarisEventEditorData,
   SolarisEventEditorDensity,
   SolarisEventEditorSize,
+  SolarisEventSaveRequest,
   WeekdayHolidayRule,
 } from './lib/components/scheduling/calendar/index';
 

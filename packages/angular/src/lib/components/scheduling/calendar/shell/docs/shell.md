@@ -47,7 +47,7 @@ hides its internal toolbar (`[showToolbar]="false"`) to avoid duplicated navigat
 | `eventCreate` | Drag-create proposal (consumer applies). In `editable` mode the shell also opens the create dialog with the proposed range. |
 | `eventMove`   | Drag-move proposal (consumer applies).                                                                                      |
 | `eventResize` | Drag-resize proposal (consumer applies).                                                                                    |
-| `eventSave`   | Immutable editor draft (consumer replaces the event).                                                                       |
+| `eventSave`   | Immutable save request `{ event, scope, occurrenceStart }` (consumer resolves via `resolveSolarisEventSave`).               |
 | `eventDelete` | `{ scope, eventId, occurrenceStart }` (consumer resolves via `resolveSolarisEventDelete`).                                  |
 | `eventCancel` | Editor dialog closed without changes.                                                                                       |
 
@@ -78,7 +78,8 @@ Click-to-edit (opt-in, lib never mutates the consumer array):
 ```
 
 ```ts
-onSave(draft: SolarisCalendarEvent | SolarisCalendarTask): void {
+onSave(request: SolarisEventSaveRequest): void {
+  const draft = request.event;
   if (draft.kind === 'task') {
     this.tasks.update((items) =>
       items.some((item) => item.id === draft.id)
@@ -87,11 +88,33 @@ onSave(draft: SolarisCalendarEvent | SolarisCalendarTask): void {
     );
     return;
   }
-  this.events.update((items) =>
-    items.some((item) => item.id === draft.id)
-      ? items.map((item) => (item.id === draft.id ? (draft as SolarisCalendarEvent) : item))
-      : [...items, draft as SolarisCalendarEvent],
+  const source = this.events().find((item) => item.id === draft.id);
+  if (
+    !source ||
+    source.recurrence === undefined ||
+    request.scope === 'all' ||
+    request.occurrenceStart === null
+  ) {
+    this.events.update((items) =>
+      items.some((item) => item.id === draft.id)
+        ? items.map((item) => (item.id === draft.id ? (draft as SolarisCalendarEvent) : item))
+        : [...items, draft as SolarisCalendarEvent],
+    );
+    return;
+  }
+  const resolved = resolveSolarisEventSave(
+    source,
+    request.occurrenceStart,
+    draft as SolarisCalendarEvent,
+    request.scope,
+    this.timeZone(),
   );
+  if (resolved === null) return;
+  const ids = new Set(resolved.map((item) => item.id));
+  this.events.update((items) => [
+    ...items.filter((item) => item.id !== source.id && !ids.has(item.id)),
+    ...resolved,
+  ]);
 }
 
 onDelete(request: SolarisEventDeleteRequest): void {
@@ -113,7 +136,10 @@ When `editable` is `true`, the shell looks up the clicked `{ id, start }` in
 current data (`occurrenceStart` = clicked occurrence, `timeZone`/`locale`/`size`/`density`
 forwarded), and re-emits `eventSave`/`eventDelete`/`eventCancel`. `eventOpen`
 is always emitted first for logging/telemetry. Without `SolarisDialogService`
-(or when the id is unknown) the shell only emits `eventOpen`.
+(or when the id is unknown) the shell only emits `eventOpen`. Saving emits
+`eventSave` as `{ event, scope, occurrenceStart }` — the consumer resolves
+scoped occurrence edits via `resolveSolarisEventSave` (legacy `{ kind: 'save', event }`
+dialog results are wrapped as `{ event, scope: 'all', occurrenceStart: null }`).
 
 Click-to-create (same `editable` opt-in): slot clicks (`slotSelect`, one-hour
 draft from `{ date, time }` in the shell `timeZone`, slot date focused first)
@@ -121,8 +147,11 @@ and drag-create proposals (`eventCreate`, all-day or timed range) open the
 create dialog with an empty-title draft (`occurrenceStart: null`, dialog title
 falls back to `solaris.calendar.newEvent`). The proposals are still emitted
 first, so non-editable consumers keep working. Saving emits `eventSave` with
-the filled draft — the consumer upserts by `id` (append when unknown) and the
-calendar re-renders from the updated array.
+`{ event, scope: 'all', occurrenceStart: null }` — the consumer upserts by `id`
+(append when unknown) and the calendar re-renders from the updated array.
+Scoped occurrence saves (`scope` `'this'`/`'following'` with an
+`occurrenceStart`) resolve via `resolveSolarisEventSave` into the updated
+series plus the detached/following event.
 
 ## Visual variants
 

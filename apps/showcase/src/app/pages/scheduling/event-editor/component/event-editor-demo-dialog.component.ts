@@ -8,6 +8,7 @@ import {
   type SolarisCalendarTask,
   type SolarisDialogRef,
   type SolarisEventDeleteRequest,
+  type SolarisEventSaveRequest,
 } from '@solaris-ui/angular';
 
 export interface EventEditorDemoData {
@@ -21,6 +22,7 @@ export interface EventEditorDemoResult {
   kind: 'save' | 'delete' | 'cancel';
   event?: SolarisCalendarEvent | SolarisCalendarTask;
   request?: SolarisEventDeleteRequest;
+  saveRequest?: SolarisEventSaveRequest;
 }
 
 const DEMO_TIME_ZONES = [
@@ -53,8 +55,8 @@ export class EventEditorDemoDialogComponent {
 
   protected readonly timeZone = signal(this.data.timeZone);
 
-  protected onSave(event: SolarisCalendarEvent | SolarisCalendarTask): void {
-    this.dialogRef.close({ kind: 'save', event });
+  protected onSave(request: SolarisEventSaveRequest): void {
+    this.dialogRef.close({ kind: 'save', saveRequest: request });
   }
 
   protected onDelete(request: SolarisEventDeleteRequest): void {

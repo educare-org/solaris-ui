@@ -689,6 +689,37 @@ describe('SolarisCalendarComponent editable', () => {
       start: '2026-10-15T09:00:00-03:00',
       end: '2026-10-15T09:30:00-03:00',
     } as const;
+    const saveRequest = {
+      event: draft,
+      scope: 'this',
+      occurrenceStart: '2026-10-15T09:00:00-03:00',
+    } as const;
+    const openComponent = createEditableFixture({
+      kind: 'save',
+      saveRequest,
+    });
+    const instance = fixture.componentRef.instance;
+    let saved: unknown;
+    instance.eventSave.subscribe((value) => {
+      saved = value;
+    });
+    (
+      instance as unknown as {
+        handleEventOpen: (open: { id: string; start: string }) => void;
+      }
+    ).handleEventOpen({ id: 'standup', start: '2026-10-15T09:00:00-03:00' });
+    expect(openComponent).toHaveBeenCalledTimes(1);
+    expect(saved).toEqual(saveRequest);
+  });
+
+  it('wraps legacy editor save drafts with scope all for backward compat', () => {
+    const draft = {
+      id: 'standup',
+      kind: 'event',
+      title: 'Updated standup',
+      start: '2026-10-15T09:00:00-03:00',
+      end: '2026-10-15T09:30:00-03:00',
+    } as const;
     const openComponent = createEditableFixture({ kind: 'save', event: draft });
     const instance = fixture.componentRef.instance;
     let saved: unknown;
@@ -701,7 +732,11 @@ describe('SolarisCalendarComponent editable', () => {
       }
     ).handleEventOpen({ id: 'standup', start: '2026-10-15T09:00:00-03:00' });
     expect(openComponent).toHaveBeenCalledTimes(1);
-    expect(saved).toEqual(draft);
+    expect(saved).toEqual({
+      event: draft,
+      scope: 'all',
+      occurrenceStart: null,
+    });
   });
 
   it('forwards editor delete scope to eventDelete', () => {
@@ -817,7 +852,11 @@ describe('SolarisCalendarComponent editable', () => {
     expect((config.data['event'] as { start: string }).start).toBe(
       '2026-10-20',
     );
-    expect(saved).toEqual(draft);
+    expect(saved).toEqual({
+      event: draft,
+      scope: 'all',
+      occurrenceStart: null,
+    });
   });
 
   it('opens the create dialog from a slot click with a one-hour draft', () => {
@@ -974,12 +1013,20 @@ describe('SolarisCalendarEditorDialogComponent', () => {
       onTimeZoneChange: (zone: string) => void;
       timeZone: { (): string; set: (value: string) => void };
     };
-    instance.onSave({ id: 'a' });
+    instance.onSave({
+      event: { id: 'a' },
+      scope: 'this',
+      occurrenceStart: '2026-10-15T09:00:00-03:00',
+    });
     instance.onDelete({ eventId: 'a' });
     instance.onCancel();
     expect(close).toHaveBeenNthCalledWith(1, {
       kind: 'save',
-      event: { id: 'a' },
+      saveRequest: {
+        event: { id: 'a' },
+        scope: 'this',
+        occurrenceStart: '2026-10-15T09:00:00-03:00',
+      },
     });
     expect(close).toHaveBeenNthCalledWith(2, {
       kind: 'delete',

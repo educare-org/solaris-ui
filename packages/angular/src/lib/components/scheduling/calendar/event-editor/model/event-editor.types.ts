@@ -1,5 +1,6 @@
 import type {
   SolarisCalendarEvent,
+  SolarisCalendarTask,
   SolarisRecurrenceFrequency,
 } from '../../model/calendar.types';
 
@@ -28,6 +29,12 @@ export interface SolarisEventDeleteRequest {
   readonly scope: SolarisEventDeleteScope;
   readonly eventId: string;
   readonly occurrenceStart: string | null;
+}
+
+export interface SolarisEventSaveRequest {
+  readonly scope: SolarisEventDeleteScope;
+  readonly occurrenceStart: string | null;
+  readonly event: SolarisCalendarEvent | SolarisCalendarTask;
 }
 
 export interface SolarisEventEditorData {

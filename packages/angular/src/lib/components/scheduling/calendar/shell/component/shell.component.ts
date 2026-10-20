@@ -40,7 +40,10 @@ import type {
   SolarisCalendarWeekStart,
   SolarisHoliday,
 } from '../../model/calendar.types';
-import type { SolarisEventDeleteRequest } from '../../event-editor';
+import type {
+  SolarisEventDeleteRequest,
+  SolarisEventSaveRequest,
+} from '../../event-editor';
 import { SolarisDialogService } from '../../../../overlay/dialog';
 import type { SolarisDialogRef } from '../../../../overlay/dialog';
 import { SolarisCalendarEditorDialogComponent } from './calendar-editor-dialog.component';
@@ -140,7 +143,7 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
   readonly eventCreate = output<SolarisCalendarEventCreateProposal>();
   readonly eventMove = output<SolarisCalendarEventMoveProposal>();
   readonly eventResize = output<SolarisCalendarEventResizeProposal>();
-  readonly eventSave = output<SolarisCalendarEvent | SolarisCalendarTask>();
+  readonly eventSave = output<SolarisEventSaveRequest>();
   readonly eventDelete = output<SolarisEventDeleteRequest>();
   readonly eventCancel = output<void>();
 
@@ -507,8 +510,18 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
         this.eventCancel.emit();
         return;
       }
-      if (result.kind === 'save' && result.event) {
-        this.eventSave.emit(result.event);
+      if (result.kind === 'save') {
+        if (result.saveRequest) {
+          this.eventSave.emit(result.saveRequest);
+        } else if (result.event) {
+          this.eventSave.emit({
+            event: result.event,
+            scope: 'all',
+            occurrenceStart: null,
+          });
+        } else {
+          this.eventCancel.emit();
+        }
       } else if (result.kind === 'delete' && result.request) {
         this.eventDelete.emit(result.request);
       } else {

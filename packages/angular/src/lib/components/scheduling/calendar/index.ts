@@ -162,9 +162,11 @@ export type {
   SolarisEventEditorItemKind,
   SolarisEventEditorReminderRow,
   SolarisEventEditorSize,
+  SolarisEventSaveRequest,
 } from './event-editor/model/event-editor.types';
 export type { SolarisEventDeleteResolution } from './event-editor/model/event-delete.utils';
 export { resolveSolarisEventDelete } from './event-editor/model/event-delete.utils';
+export { resolveSolarisEventSave } from './event-editor/model/event-save.utils';
 export {
   clipSpanToDay,
   layoutOverlappingSpans,

@@ -10,12 +10,11 @@ import {
   SOLARIS_DIALOG_REF,
   type SolarisDialogRef,
 } from '../../../../overlay/dialog';
-import { SolarisCalendarEventEditorComponent } from '../../event-editor/component/event-editor.component';
+import { SolarisCalendarEventEditorComponent } from '../../event-editor';
 import type {
-  SolarisCalendarEvent,
-  SolarisCalendarTask,
-} from '../../model/calendar.types';
-import type { SolarisEventDeleteRequest } from '../../event-editor/model/event-editor.types';
+  SolarisEventDeleteRequest,
+  SolarisEventSaveRequest,
+} from '../../event-editor';
 import type {
   SolarisCalendarEditorDialogData,
   SolarisCalendarEditorDialogResult,
@@ -38,8 +37,8 @@ export class SolarisCalendarEditorDialogComponent {
 
   protected readonly timeZone = signal(this.data.timeZone);
 
-  protected onSave(event: SolarisCalendarEvent | SolarisCalendarTask): void {
-    this.dialogRef.close({ kind: 'save', event });
+  protected onSave(request: SolarisEventSaveRequest): void {
+    this.dialogRef.close({ kind: 'save', saveRequest: request });
   }
 
   protected onDelete(request: SolarisEventDeleteRequest): void {

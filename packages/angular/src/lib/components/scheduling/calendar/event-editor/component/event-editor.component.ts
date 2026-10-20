@@ -12,8 +12,10 @@ import { FormsModule } from '@angular/forms';
 
 import { SolarisButtonDirective } from '../../../../actions/button';
 import { SolarisCheckboxComponent } from '../../../../forms/checkbox';
-import { SolarisFormFieldComponent } from '../../../../forms/form-field';
-import { SolarisFormErrorComponent } from '../../../../forms/form-field/component/form-error.component';
+import {
+  SolarisFormFieldComponent,
+  SolarisFormErrorComponent,
+} from '../../../../forms/form-field';
 import { SolarisInputDirective } from '../../../../forms/input';
 import { SolarisDatePickerComponent } from '../../../../forms/date-picker';
 import { SolarisSelectComponent } from '../../../../forms/select';
@@ -60,6 +62,7 @@ import type {
   SolarisEventEditorItemKind,
   SolarisEventEditorReminderRow,
   SolarisEventEditorSize,
+  SolarisEventSaveRequest,
 } from '../model/event-editor.types';
 import {
   SOLARIS_EVENT_EDITOR_COLOR_OPTIONS,
@@ -127,7 +130,7 @@ export class SolarisCalendarEventEditorComponent implements OnInit {
   readonly disabled = input<boolean>(false);
   readonly timeZoneOptions = input<readonly string[] | undefined>(undefined);
 
-  readonly eventSave = output<SolarisCalendarEvent | SolarisCalendarTask>();
+  readonly eventSave = output<SolarisEventSaveRequest>();
   readonly eventDelete = output<SolarisEventDeleteRequest>();
   readonly eventCancel = output<void>();
   readonly timeZoneChange = output<string>();
@@ -172,15 +175,16 @@ export class SolarisCalendarEventEditorComponent implements OnInit {
 
   protected readonly isTask = computed(() => this.itemKind() === 'task');
 
-  protected readonly isRecurring = computed(() => {
-    const source = this.event();
-    if (source.kind !== 'event') return false;
-    return source.recurrence !== undefined || this.freq() !== 'none';
-  });
-
   protected readonly isCustomRecurrence = computed(
     () => this.freq() === 'custom',
   );
+
+  protected readonly showScope = computed(() => {
+    const source = this.event();
+    if (source.kind !== 'event') return false;
+    if (source.recurrence === undefined) return false;
+    return this.occurrenceStart() !== null;
+  });
 
   protected readonly effectiveFreq =
     computed<SolarisRecurrenceFrequency | null>(() => {
@@ -443,7 +447,11 @@ export class SolarisCalendarEventEditorComponent implements OnInit {
       );
       return;
     }
-    this.eventSave.emit(this.buildDraft());
+    this.eventSave.emit({
+      event: this.buildDraft(),
+      scope: this.showScope() ? this.deleteScope() : 'all',
+      occurrenceStart: this.occurrenceStart(),
+    });
   }
 
   protected onDelete(): void {
@@ -645,13 +653,13 @@ export class SolarisCalendarEventEditorComponent implements OnInit {
   }
 
   private hydrate(source: SolarisCalendarEvent | SolarisCalendarTask): void {
-    this.itemKind.set(
-      source.kind === 'task'
-        ? 'task'
-        : source.scheduleSlot === true
-          ? 'schedule'
-          : 'event',
-    );
+    let itemKind: SolarisEventEditorItemKind = 'event';
+    if (source.kind === 'task') {
+      itemKind = 'task';
+    } else if (source.scheduleSlot === true) {
+      itemKind = 'schedule';
+    }
+    this.itemKind.set(itemKind);
     this.title.set(source.title);
     this.description.set(source.description ?? '');
     this.meetingUrl.set(

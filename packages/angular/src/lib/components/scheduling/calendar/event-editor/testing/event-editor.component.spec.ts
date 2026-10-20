@@ -9,6 +9,7 @@ import type {
   SolarisCalendarTask,
 } from '../../model/calendar.types';
 import type { SolarisEventDeleteRequest } from '../model/event-editor.types';
+import type { SolarisEventSaveRequest } from '../model/event-editor.types';
 import { SolarisCalendarEventEditorComponent } from '../component/event-editor.component';
 
 const SINGLE: SolarisCalendarEvent = {
@@ -99,7 +100,8 @@ describe('SolarisCalendarEventEditorComponent', () => {
     fixture.detectChanges();
     saveButton(element).click();
     expect(spy).toHaveBeenCalledTimes(1);
-    const draft = spy.mock.calls[0][0] as SolarisCalendarEvent;
+    const saved = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    const draft = saved.event as SolarisCalendarEvent;
     expect(draft.title).toBe('Renamed planning');
     expect(draft).not.toBe(SINGLE);
     expect(SINGLE.title).toBe('Sprint planning');
@@ -187,7 +189,8 @@ describe('SolarisCalendarEventEditorComponent', () => {
     const spy = vi.fn();
     fixture.componentInstance.eventSave.subscribe(spy);
     saveButton(element).click();
-    const draft = spy.mock.calls[0][0] as SolarisCalendarEvent;
+    const saved = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    const draft = saved.event as SolarisCalendarEvent;
     expect(draft.color).toBe('accent');
   });
 
@@ -202,7 +205,8 @@ describe('SolarisCalendarEventEditorComponent', () => {
     const spy = vi.fn();
     fixture.componentInstance.eventSave.subscribe(spy);
     saveButton(element).click();
-    const draft = spy.mock.calls[0][0] as SolarisCalendarEvent;
+    const saved = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    const draft = saved.event as SolarisCalendarEvent;
     expect(draft.color).toBe('violet');
   });
 
@@ -310,7 +314,8 @@ describe('SolarisCalendarEventEditorComponent', () => {
     fixture.detectChanges();
     saveButton(element).click();
     expect(spy).toHaveBeenCalledTimes(1);
-    const draft = spy.mock.calls[0][0] as SolarisCalendarTask;
+    const savedTask = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    const draft = savedTask.event as SolarisCalendarTask;
     expect(draft.kind).toBe('task');
     expect(draft.title).toBe('Sprint planning');
     expect(draft.completed).toBe(false);
@@ -328,7 +333,8 @@ describe('SolarisCalendarEventEditorComponent', () => {
     const spy = vi.fn();
     fixture.componentInstance.eventSave.subscribe(spy);
     saveButton(element).click();
-    const draft = spy.mock.calls[0][0] as SolarisCalendarEvent;
+    const saved = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    const draft = saved.event as SolarisCalendarEvent;
     expect(draft.kind).toBe('event');
     expect(draft.scheduleSlot).toBe(true);
   });
@@ -338,7 +344,8 @@ describe('SolarisCalendarEventEditorComponent', () => {
     const spy = vi.fn();
     fixture.componentInstance.eventSave.subscribe(spy);
     saveButton(element).click();
-    const draft = spy.mock.calls[0][0] as SolarisCalendarEvent;
+    const saved = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    const draft = saved.event as SolarisCalendarEvent;
     expect(draft.visibility).toBe('public');
     expect(element.textContent).not.toContain('Default visibility');
   });
@@ -358,7 +365,8 @@ describe('SolarisCalendarEventEditorComponent', () => {
     const spy = vi.fn();
     fixture.componentInstance.eventSave.subscribe(spy);
     saveButton(element).click();
-    const draft = spy.mock.calls[0][0] as SolarisCalendarEvent;
+    const saved = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    const draft = saved.event as SolarisCalendarEvent;
     expect(draft.description).toBe('Sprint goals');
     expect(draft.meetingUrl).toBe('https://meet.example/abc');
   });
@@ -412,7 +420,8 @@ describe('SolarisCalendarEventEditorComponent', () => {
     fixture.componentInstance.eventSave.subscribe(spy);
     saveButton(element).click();
     expect(spy).toHaveBeenCalledTimes(1);
-    const draft = spy.mock.calls[0][0] as SolarisCalendarEvent;
+    const saved = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    const draft = saved.event as SolarisCalendarEvent;
     expect(draft.recurrence?.freq).toBe('weekly');
     expect(draft.recurrence?.byWeekday).toEqual([4]);
     expect(draft.recurrence?.count).toBe(8);
@@ -430,7 +439,8 @@ describe('SolarisCalendarEventEditorComponent', () => {
     const spy = vi.fn();
     fixture.componentInstance.eventSave.subscribe(spy);
     saveButton(element).click();
-    const draft = spy.mock.calls[0][0] as SolarisCalendarEvent;
+    const saved = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    const draft = saved.event as SolarisCalendarEvent;
     expect(draft.recurrence?.freq).toBe('monthly');
     expect(draft.recurrence?.monthDay).toBe(15);
     expect(draft.recurrence?.interval).toBe(2);
@@ -450,7 +460,8 @@ describe('SolarisCalendarEventEditorComponent', () => {
     const spy = vi.fn();
     fixture.componentInstance.eventSave.subscribe(spy);
     saveButton(element).click();
-    const draft = spy.mock.calls[0][0] as SolarisCalendarEvent;
+    const saved = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    const draft = saved.event as SolarisCalendarEvent;
     expect(draft.start).toBe('2026-10-20');
     expect(draft.end).toBe('2026-10-22');
     expect(draft.allDay).toBe(true);
@@ -506,7 +517,8 @@ describe('SolarisCalendarEventEditorComponent', () => {
     const spy = vi.fn();
     fixture.componentInstance.eventSave.subscribe(spy);
     saveButton(element).click();
-    const draft = spy.mock.calls[0][0] as SolarisCalendarEvent;
+    const saved = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    const draft = saved.event as SolarisCalendarEvent;
     expect(draft.visibility).toBe('private');
     expect(draft.reminders).toEqual([
       { minutesBefore: 5 },
@@ -523,5 +535,51 @@ describe('SolarisCalendarEventEditorComponent', () => {
     ).onTimeZoneChange();
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy.mock.calls[0][0]).toBe('America/Sao_Paulo');
+  });
+
+  it('hides the scope radios for non-recurring events and saves with scope all', () => {
+    const element = createFixture({ event: SINGLE });
+    expect(element.querySelector('solaris-radio-group')).toBeNull();
+    const spy = vi.fn();
+    fixture.componentInstance.eventSave.subscribe(spy);
+    saveButton(element).click();
+    const saved = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    expect(saved.scope).toBe('all');
+    expect(saved.occurrenceStart).toBeNull();
+  });
+
+  it('hides the scope radios for recurring series without an occurrence', () => {
+    const element = createFixture({ event: RECURRING });
+    expect(element.querySelector('solaris-radio-group')).toBeNull();
+    const spy = vi.fn();
+    fixture.componentInstance.eventSave.subscribe(spy);
+    saveButton(element).click();
+    const saved = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    expect(saved.scope).toBe('all');
+  });
+
+  it('emits the selected scope with save for an edited occurrence', () => {
+    const element = createFixture({
+      event: RECURRING,
+      occurrenceStart: '2026-10-22T09:00:00-03:00',
+    });
+    expect(element.querySelector('solaris-radio-group')).not.toBeNull();
+    const radios = Array.from(
+      element.querySelectorAll('solaris-radio-group solaris-radio'),
+    );
+    expect(radios.length).toBe(3);
+    const followingInput = radios[1].querySelector(
+      'input[type="radio"]',
+    ) as HTMLInputElement;
+    followingInput.click();
+    fixture.detectChanges();
+    const spy = vi.fn();
+    fixture.componentInstance.eventSave.subscribe(spy);
+    saveButton(element).click();
+    expect(spy).toHaveBeenCalledTimes(1);
+    const saved = spy.mock.calls[0][0] as SolarisEventSaveRequest;
+    expect(saved.scope).toBe('following');
+    expect(saved.occurrenceStart).toBe('2026-10-22T09:00:00-03:00');
+    expect((saved.event as SolarisCalendarEvent).id).toBe('standup');
   });
 });

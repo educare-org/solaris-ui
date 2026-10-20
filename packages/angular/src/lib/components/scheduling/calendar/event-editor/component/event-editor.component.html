@@ -445,7 +445,7 @@
     </fieldset>
   }
 
-  @if (isRecurring()) {
+  @if (showScope()) {
     <solaris-radio-group
       orientation="horizontal"
       [ngModel]="deleteScope()"
