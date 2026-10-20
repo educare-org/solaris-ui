@@ -93,9 +93,9 @@ describe('SolarisSwitchComponent', () => {
     expect(el.getAttribute('data-appearance')).toBe('outline');
   });
 
-  it('should have default color primary', () => {
+  it('should have default color neutral', () => {
     const el = createFixture();
-    expect(el.getAttribute('data-color')).toBe('primary');
+    expect(el.getAttribute('data-color')).toBe('neutral');
   });
 
   it('should support all colors', () => {

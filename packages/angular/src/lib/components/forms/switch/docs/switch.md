@@ -43,7 +43,7 @@ Switch is a form control component that represents a binary on/off configuration
 | `required`       | `boolean`                                                                            | `false`            | Required validation                                        |
 | `invalid`        | `boolean \| undefined`                                                               | `undefined`        | Invalid state                                              |
 | `appearance`     | `'outline' \| 'surface'`                                                             | `'surface'`        | Visual appearance                                          |
-| `color`          | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'`        | Semantic color                                             |
+| `color`          | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'`        | Semantic color                                             |
 | `size`           | `'sm' \| 'md' \| 'lg'`                                                               | inherited (`'md'`) | Size variant (own input wins over group)                   |
 | `density`        | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited          | Density variant (own input wins over group, then theme)    |
 | `icon`           | `SolarisIconName`                                                                    | —                  | Decorative icon inside the thumb (`icon` wins over `text`) |
@@ -124,8 +124,8 @@ Invalid applies error styling. When used inside Form Field, the invalid state is
 
 | Color     | Usage                              |
 | --------- | ---------------------------------- |
-| `primary` | Default active state (default)     |
-| `neutral` | Neutral configuration              |
+| `neutral` | Neutral configuration (default)    |
+| `primary` | Default active state               |
 | `success` | Positive state                     |
 | `warning` | Cautious activation                |
 | `danger`  | Critical/destructive toggle        |

@@ -33,6 +33,8 @@
   background: var(--solaris-alert-background);
   border: var(--solaris-alert-border-width) solid
     var(--solaris-alert-border-color);
+  animation: solaris-motion-overlay-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 :host([data-has-title]) {
@@ -407,12 +409,18 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none;
+  }
+
   .solaris-alert__close {
     transition: none;
   }
 }
 
 :host-context([data-reduced-motion='true']) {
+  animation: none;
+
   .solaris-alert__close {
     transition: none;
   }

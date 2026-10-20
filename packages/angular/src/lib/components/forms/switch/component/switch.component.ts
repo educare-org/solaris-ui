@@ -20,7 +20,7 @@ import { SolarisFormControl } from '../../form-field/model/form-control.contract
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisIconComponent } from '../../../icon';
-import { SOLARIS_SWITCH_GROUP } from '../../switch-group/model/switch-group.token';
+import { SOLARIS_SWITCH_GROUP } from '../../switch-group';
 import { resolveElementId } from '../../../../core';
 
 import type { SolarisIconName } from '../../../../services/icon';
@@ -104,7 +104,7 @@ export class SolarisSwitchComponent
     alias: 'invalid',
   });
   readonly appearance = input<SolarisSwitchAppearance>('surface');
-  readonly color = input<SolarisSwitchColor>('primary');
+  readonly color = input<SolarisSwitchColor>('neutral');
   readonly size = input<SolarisSwitchSize | undefined>(undefined);
   readonly density = input<SolarisSwitchDensity>();
   readonly icon = input<SolarisIconName | undefined>(undefined);
@@ -210,7 +210,7 @@ export class SolarisSwitchComponent
   protected readonly thumbText = computed(() => {
     if (this.icon()) return null;
     const text = this.text()?.trim();
-    return text ? text : null;
+    return text || null;
   });
 
   get id(): string {

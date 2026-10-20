@@ -101,13 +101,13 @@
 }
 
 .solaris-tabs__panels--fade > ::ng-deep solaris-tab-panel[data-active='true'] {
-  animation: solaris-tabs-fade-in var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
+  animation: solaris-motion-backdrop-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 .solaris-tabs__panels--slide > ::ng-deep solaris-tab-panel[data-active='true'] {
   animation: solaris-tabs-slide-in-right var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 .solaris-tabs__panels--slide-from-left
@@ -169,19 +169,10 @@
   }
 }
 
-@keyframes solaris-tabs-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 @keyframes solaris-tabs-slide-in-right {
   from {
     opacity: 0;
-    transform: translateX(var(--solaris-spacing-4));
+    transform: translateX(var(--solaris-motion-translate-sm));
   }
   to {
     opacity: 1;
@@ -192,7 +183,7 @@
 @keyframes solaris-tabs-slide-in-left {
   from {
     opacity: 0;
-    transform: translateX(calc(-1 * var(--solaris-spacing-4)));
+    transform: translateX(calc(-1 * var(--solaris-motion-translate-sm)));
   }
   to {
     opacity: 1;

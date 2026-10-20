@@ -138,6 +138,30 @@
   animation: solaris-motion-drawer-exit-right $duration $easing both;
 }
 
+/// Press feedback (buttons, icon-buttons). Include on the host; pair with
+/// `solaris-motion-press-active` under `:active` / `[data-active]` / `[data-pressed]`.
+/// Components with existing color transitions keep their own `transition` list and
+/// only add the `transform` line plus the active-state mixin (see `_button.scss`).
+@mixin solaris-motion-press {
+  transition: transform var(--solaris-motion-duration-fast)
+    var(--solaris-motion-easing-standard);
+}
+
+/// Press feedback (active state, under `:active`).
+@mixin solaris-motion-press-active {
+  transform: scale(var(--solaris-motion-scale-active));
+}
+
+/// Pop-in for small selection indicators (checkbox icon, radio dot).
+/// The target node is inserted on check, so the enter replays per toggle with
+/// zero TS. Skipped under reduced motion via the standard doubled guard.
+@mixin solaris-motion-pop-in(
+  $duration: var(--solaris-motion-duration-fast),
+  $easing: var(--solaris-motion-easing-decelerate)
+) {
+  animation: solaris-motion-pop-in $duration $easing both;
+}
+
 /// Reduced-motion guard. Disables animation/transition on the including selector.
 /// Component must ALSO mirror it under `:host-context([data-reduced-motion='true'])`.
 @mixin solaris-motion-reduced-off {

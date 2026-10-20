@@ -22,8 +22,8 @@ Defined in `packages/angular/src/styles/token/motion/_motion.scss`:
 | `--solaris-motion-easing-accelerate` | cubic-bezier(0.4, 0, 1, 1)              | every exit                                    |
 | `--solaris-motion-easing-spring`     | cubic-bezier(0.175, 0.885, 0.32, 1.275) | opt-in only, avoid where vestibular-sensitive |
 | `--solaris-motion-easing-linear`     | linear                                  | rotations, progress                           |
-| `--solaris-motion-scale-enter`       | 0.95                                    | shared enter scale                            |
-| `--solaris-motion-scale-active`      | 0.97                                    | press feedback (Phase 3)                      |
+| `--solaris-motion-scale-enter`       | 0.96                                    | shared enter scale                            |
+| `--solaris-motion-scale-active`      | 0.99                                    | press feedback (Phase 3)                      |
 
 ## Shared keyframes and mixins
 
@@ -31,7 +31,7 @@ Defined in `packages/angular/src/styles/token/motion/_motion.scss`:
   globally by `core()`. Names: `solaris-motion-overlay-enter/exit[-top]`,
   `solaris-motion-dialog-enter/exit`, `solaris-motion-backdrop-enter/exit`,
   `solaris-motion-tooltip-enter/exit`, `solaris-motion-drawer-enter/exit-left/right`
-  (dialog side placements).
+  (dialog side placements), `solaris-motion-pop-in` (checkbox/radio check pop).
 - Mixins live in `token/motion/_motion-mixins.scss`, re-exported for consumers as
   `@solaris-ui/angular/styles/motion`. Components may keep using raw
   `var(--solaris-motion-*)` declarations; mixins are preferred for overlays.
@@ -127,3 +127,29 @@ clipped by the frame. The inline lock also zeroes `min-block-size`
 (the preview surface enforces a min-height that would otherwise clamp the
 locked height and kill the transition) and pins `border-box` (exact
 border-box math on boxes without it); all reverted on finish/destroy.
+
+## Micro-interactions (Phase 3)
+
+Subtle, `fast`-only, `opacity` + `transform` only. Every block ships with the
+doubled reduced-motion guard (rule 5).
+
+- Press: `transform: scale(var(--solaris-motion-scale-active))` (0.99) under
+  `:active` / `[data-active]` / `[data-pressed]`, with `transition: transform`
+  in `fast` + `standard` (`solaris-motion-press` / `solaris-motion-press-active`
+  mixins; components with existing color transitions keep their own list and add
+  the `transform` line). Adopters: `solaris-button`, `solaris-icon-button`.
+  The `icon-button[data-chromeless]` icon scale (1.12 hover / 0.9 active) is an
+  older, stronger treatment kept as-is (already reduced-motion guarded).
+- Check pop: `solaris-motion-pop-in` (`fast` + `decelerate`, `both`) on the
+  incoming indicator node (checkbox `.solaris-checkbox__icon`, radio
+  `.solaris-radio__dot`). Both nodes are inserted by `@if` on check, so the
+  enter replays per toggle with zero TS.
+- Tabs indicator: same sliding treatment as `segmented-control`
+  (`transform`/`width`/`height` in `normal` + `standard`, gated by
+  `indicatorReady()` so the first paint does not glide). Tab panels reuse the
+  shared fade (`backdrop-enter`, `normal` + `decelerate`, `both`); the
+  directional slides stay local (`tabs-slide-in-right/left`) with `both` +
+  `decelerate` + `--solaris-motion-translate-sm`.
+- Alert enter: `solaris-motion-overlay-enter` (`normal` + `decelerate`, `both`)
+  on `:host`. Enter-only by design — dismissal is owned by the consumer
+  (`*ngIf`), with no hook for a `data-closing` exit.

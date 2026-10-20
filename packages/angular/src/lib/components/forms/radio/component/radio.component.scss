@@ -77,6 +77,8 @@
   width: var(--solaris-radio-dot-size);
   height: var(--solaris-radio-dot-size);
   background: var(--solaris-radio-dot-color);
+  animation: solaris-motion-pop-in var(--solaris-motion-duration-fast)
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 .solaris-radio__label-text {
@@ -400,4 +402,16 @@
 
 :host([data-readonly][data-checked]) .solaris-radio__dot {
   background: var(--solaris-radio-dot-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-radio__dot {
+    animation: none;
+  }
+}
+
+:host-context([data-reduced-motion='true']) {
+  .solaris-radio__dot {
+    animation: none;
+  }
 }

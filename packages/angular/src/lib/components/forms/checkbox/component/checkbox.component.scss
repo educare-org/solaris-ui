@@ -74,6 +74,12 @@
   height: var(--solaris-checkbox-icon-size);
 }
 
+:host([data-checked]) .solaris-checkbox__icon,
+:host([data-indeterminate]) .solaris-checkbox__icon {
+  animation: solaris-motion-pop-in var(--solaris-motion-duration-fast)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
 .solaris-checkbox__label-text {
   user-select: text;
   color: var(--solaris-neutral-text-secondary);
@@ -414,4 +420,16 @@
 
 :host([data-radius='xl']) {
   --solaris-checkbox-radius: var(--solaris-radius-full);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-checkbox__icon {
+    animation: none;
+  }
+}
+
+:host-context([data-reduced-motion='true']) {
+  .solaris-checkbox__icon {
+    animation: none;
+  }
 }
