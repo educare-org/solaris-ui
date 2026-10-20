@@ -291,8 +291,8 @@ button.solaris-calendar-month-view__chip:focus-visible {
   text-overflow: ellipsis;
   text-align: left;
   margin-top: auto;
-  min-height: var(--solaris-spacing-6);
   background: transparent;
+  min-height: var(--solaris-spacing-6);
   color: var(--solaris-neutral-text-secondary);
   border-radius: var(--solaris-radius-md);
   padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
@@ -423,10 +423,12 @@ button.solaris-calendar-month-view__chip[data-kind='event'] {
   // Outside-month wash must also pin to paper: its screen rule
   // (class + attribute) outranks the rule above, printing near-black
   // cells on dark themes.
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for outside-month cells.
   .solaris-calendar-month-view__cell[data-outside-month] {
     background: #fff;
   }
 
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for outside-month day numbers.
   .solaris-calendar-month-view__cell[data-outside-month]
     .solaris-calendar-month-view__day {
     color: #000;
