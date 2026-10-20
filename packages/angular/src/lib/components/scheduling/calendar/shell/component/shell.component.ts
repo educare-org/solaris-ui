@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  HostListener,
   inject,
   input,
   model,
@@ -394,6 +395,84 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
     this.focusedDate.set(today);
     this.miniOffset.set(0);
     this.announcement.set(this.titleLabel());
+  }
+
+  // Why: window-level parity with Google Calendar (N/T/1-5/[/]) without stealing
+  // keystrokes from form controls or the editor dialog.
+  @HostListener('window:keydown', ['$event'])
+  protected onWindowKeydown(event: KeyboardEvent): void {
+    if (this.isShortcutGuarded(event)) return;
+    const key = event.key.toLowerCase();
+    if (key === 'n') {
+      this.openCreateAtFocusedDate();
+      event.preventDefault();
+      return;
+    }
+    if (key === 't') {
+      this.goToday();
+      event.preventDefault();
+      return;
+    }
+    const viewForDigit: Record<string, SolarisCalendarView> = {
+      '1': 'day',
+      '2': 'week',
+      '3': 'month',
+      '4': 'year',
+      '5': 'schedule',
+    };
+    const digitView = viewForDigit[event.key];
+    if (digitView !== undefined) {
+      this.selectView(digitView);
+      event.preventDefault();
+      return;
+    }
+    if (event.key === '[') {
+      this.shift(-1);
+      event.preventDefault();
+      return;
+    }
+    if (event.key === ']') {
+      this.shift(1);
+      event.preventDefault();
+    }
+  }
+
+  // Why: typing in inputs/selects/contenteditable or interacting with an open
+  // dialog must never trigger shell navigation or creation.
+  private isShortcutGuarded(event: KeyboardEvent): boolean {
+    if (event.defaultPrevented) return true;
+    if (event.ctrlKey || event.metaKey || event.altKey) return true;
+    if ((this.dialogService?.openCount ?? 0) > 0) return true;
+    const target = event.target as HTMLElement | null;
+    if (target === null || typeof target.tagName !== 'string') return false;
+    const tag = target.tagName.toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+    if (target.isContentEditable) return true;
+    if (typeof target.closest !== 'function') return false;
+    if (
+      target.closest(
+        'input,textarea,select,[contenteditable],[contenteditable="true"]',
+      ) !== null
+    )
+      return true;
+    return target.closest('[role="dialog"]') !== null;
+  }
+
+  // Why: N creates an all-day draft anchored at the visible date; the shell
+  // emits the proposal first so non-editable consumers keep working.
+  private openCreateAtFocusedDate(): void {
+    if (!this.editable() || this.editorDisabled()) return;
+    const focused = this.focusedDate();
+    const proposal: SolarisCalendarEventCreateProposal = {
+      start: focused,
+      end: focused,
+      allDay: true,
+    };
+    this.eventCreate.emit(proposal);
+    const draft = buildSolarisCreateDraft(proposal);
+    if (draft === null) return;
+    this.openCreateEditor(draft);
+    this.announcement.set(this.resolveText('solaris.calendar.newEvent', {}));
   }
 
   protected shiftMini(delta: number): void {

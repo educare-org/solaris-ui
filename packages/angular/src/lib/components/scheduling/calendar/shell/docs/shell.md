@@ -65,6 +65,31 @@ checkboxes. View changes and date shifts are announced
 through a polite live region. Narrow fallback keeps the schedule `list`
 semantics (arrows + `Enter`, `PageUp`/`PageDown` paginate).
 
+## Keyboard shortcuts
+
+Window-level `keydown` parity with Google Calendar. Every action announces
+through the polite live region (`viewLabel`/`titleLabel`/`newEvent`, resolved
+via `SolarisTranslateService` in en/pt-BR/es with `locale` fallbacks).
+
+| Key                         | Action                                                                                                                        |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `N`                         | Create dialog with an all-day draft at `focusedDate` (`editable` only, respects `editorDisabled`; emits `eventCreate` first). |
+| `T`                         | Go to today.                                                                                                                  |
+| `1` / `2` / `3` / `4` / `5` | `day` / `week` / `month` / `year` / `schedule` (emits `viewChange`).                                                          |
+| `[` / `]`                   | Shift the visible range ∓1 (`shift(-1)` / `shift(1)`).                                                                        |
+
+Guards: shortcuts are skipped when the event target is an
+`input`/`textarea`/`select` (including nested controls), is `contenteditable`,
+or lives inside `[role="dialog"]`, when `SolarisDialogService.openCount > 0`,
+or when `Ctrl`/`Meta`/`Alt` is pressed. Typing in the editor title input
+therefore never triggers a shortcut, and the dialog focus-trap stays
+unaffected.
+
+Delete is explicitly OUT: the shell keeps no selected-event state, so there
+is nothing for `Delete` to remove. Deletion stays inside the editor dialog
+(`delete` with `this`/`following`/`all` scope → `eventDelete`), where the
+target occurrence is unambiguous.
+
 ## Examples
 
 ```html

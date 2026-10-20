@@ -975,6 +975,260 @@ describe('SolarisCalendarComponent editable', () => {
   });
 });
 
+describe('SolarisCalendarComponent keyboard shortcuts', () => {
+  let fixture: ComponentFixture<SolarisCalendarComponent>;
+
+  type ShortcutInstance = SolarisCalendarComponent & {
+    onWindowKeydown: (event: KeyboardEvent) => void;
+    announcement: () => string;
+  };
+
+  const createShortcutFixture = (options?: {
+    editable?: boolean;
+    editorDisabled?: boolean;
+    openCount?: number;
+    dialogResult?: unknown;
+  }): {
+    instance: ShortcutInstance;
+    openComponent: ReturnType<typeof vi.fn>;
+  } => {
+    TestBed.resetTestingModule();
+    const openComponent = vi.fn(() => ({
+      afterClosed: () => of(options?.dialogResult),
+    }));
+    configureSolarisTesting(undefined, {
+      providers: [
+        {
+          provide: SolarisDialogService,
+          useValue: { openComponent, openCount: options?.openCount ?? 0 },
+        },
+      ],
+    });
+    fixture = TestBed.createComponent(SolarisCalendarComponent);
+    fixture.componentRef.setInput('locale', 'en-US');
+    fixture.componentRef.setInput('focusedDate', '2026-10-15');
+    fixture.componentRef.setInput('editable', options?.editable ?? false);
+    if (options?.editorDisabled !== undefined) {
+      fixture.componentRef.setInput('editorDisabled', options.editorDisabled);
+    }
+    fixture.detectChanges();
+    return {
+      instance: fixture.componentRef.instance as unknown as ShortcutInstance,
+      openComponent,
+    };
+  };
+
+  const keyEvent = (
+    key: string,
+    target?: HTMLElement | null,
+    init?: KeyboardEventInit,
+  ): KeyboardEvent => {
+    const event = new KeyboardEvent('keydown', {
+      key,
+      bubbles: true,
+      ...init,
+    });
+    if (target !== undefined) {
+      Object.defineProperty(event, 'target', { value: target });
+    }
+    return event;
+  };
+
+  const bodyTarget = (): HTMLElement => {
+    const body = document.createElement('div');
+    body.textContent = 'calendar body';
+    return body;
+  };
+
+  it('opens the create dialog at the focused date on N when editable', () => {
+    const { instance, openComponent } = createShortcutFixture({
+      editable: true,
+    });
+    let created: unknown;
+    instance.eventCreate.subscribe((value) => {
+      created = value;
+    });
+    instance.onWindowKeydown(keyEvent('n', bodyTarget()));
+    expect(created).toEqual({
+      start: '2026-10-15',
+      end: '2026-10-15',
+      allDay: true,
+    });
+    expect(openComponent).toHaveBeenCalledTimes(1);
+    expect(instance.announcement()).toBe('New event');
+  });
+
+  it('treats uppercase N as the create shortcut', () => {
+    const { instance, openComponent } = createShortcutFixture({
+      editable: true,
+    });
+    instance.onWindowKeydown(keyEvent('N', bodyTarget()));
+    expect(openComponent).toHaveBeenCalledTimes(1);
+  });
+
+  it('ignores N when not editable, when the editor is disabled, or for an invalid date', () => {
+    const readonlyCase = createShortcutFixture({ editable: false });
+    readonlyCase.instance.onWindowKeydown(keyEvent('n', bodyTarget()));
+    expect(readonlyCase.openComponent).not.toHaveBeenCalled();
+
+    const disabledCase = createShortcutFixture({
+      editable: true,
+      editorDisabled: true,
+    });
+    disabledCase.instance.onWindowKeydown(keyEvent('n', bodyTarget()));
+    expect(disabledCase.openComponent).not.toHaveBeenCalled();
+
+    const invalidCase = createShortcutFixture({ editable: true });
+    fixture.componentRef.setInput('focusedDate', 'not-a-date');
+    fixture.detectChanges();
+    invalidCase.instance.onWindowKeydown(keyEvent('n', bodyTarget()));
+    expect(invalidCase.openComponent).not.toHaveBeenCalled();
+  });
+
+  it('goes to today on T and announces the title', () => {
+    const { instance } = createShortcutFixture();
+    instance.focusedDate.set('2026-09-01');
+    fixture.detectChanges();
+    const event = keyEvent('t', bodyTarget());
+    const prevented = vi.spyOn(event, 'preventDefault');
+    instance.onWindowKeydown(event);
+    expect(instance.focusedDate()).not.toBe('2026-09-01');
+    expect(instance.announcement().length).toBeGreaterThan(0);
+    expect(prevented).toHaveBeenCalled();
+  });
+
+  it('switches day/week/month/year/schedule on 1-5', () => {
+    const { instance } = createShortcutFixture();
+    const changes: string[] = [];
+    instance.viewChange.subscribe((value) => {
+      changes.push(value as string);
+    });
+    const expectations: Array<[string, string]> = [
+      ['1', 'day'],
+      ['2', 'week'],
+      ['3', 'month'],
+      ['4', 'year'],
+      ['5', 'schedule'],
+    ];
+    for (const [digit, view] of expectations) {
+      instance.onWindowKeydown(keyEvent(digit, bodyTarget()));
+      expect(instance.view()).toBe(view);
+      expect(instance.announcement().length).toBeGreaterThan(0);
+    }
+    expect(changes).toEqual(['day', 'week', 'month', 'year', 'schedule']);
+  });
+
+  it('shifts the visible range on [ and ]', () => {
+    const { instance } = createShortcutFixture();
+    instance.view.set('day');
+    instance.focusedDate.set('2026-10-15');
+    fixture.detectChanges();
+    instance.onWindowKeydown(keyEvent('[', bodyTarget()));
+    expect(instance.focusedDate()).toBe('2026-10-14');
+    instance.onWindowKeydown(keyEvent(']', bodyTarget()));
+    expect(instance.focusedDate()).toBe('2026-10-15');
+    expect(instance.announcement().length).toBeGreaterThan(0);
+  });
+
+  it('ignores unknown keys without side effects', () => {
+    const { instance, openComponent } = createShortcutFixture({
+      editable: true,
+    });
+    const before = instance.focusedDate();
+    const announcementBefore = instance.announcement();
+    instance.onWindowKeydown(keyEvent('q', bodyTarget()));
+    instance.onWindowKeydown(keyEvent('Delete', bodyTarget()));
+    instance.onWindowKeydown(keyEvent('Backspace', bodyTarget()));
+    expect(instance.focusedDate()).toBe(before);
+    expect(instance.announcement()).toBe(announcementBefore);
+    expect(openComponent).not.toHaveBeenCalled();
+  });
+
+  it('never triggers while typing in the editor title input', () => {
+    const { instance, openComponent } = createShortcutFixture({
+      editable: true,
+    });
+    const title = document.createElement('input');
+    title.type = 'text';
+    const before = instance.focusedDate();
+    for (const key of ['n', 't', '1', '[', ']']) {
+      instance.onWindowKeydown(keyEvent(key, title));
+    }
+    expect(instance.focusedDate()).toBe(before);
+    expect(openComponent).not.toHaveBeenCalled();
+  });
+
+  it('skips shortcuts from textarea, select, and contenteditable targets', () => {
+    const { instance, openComponent } = createShortcutFixture({
+      editable: true,
+    });
+    const textarea = document.createElement('textarea');
+    const select = document.createElement('select');
+    const editableDiv = document.createElement('div');
+    editableDiv.contentEditable = 'true';
+    const nested = document.createElement('div');
+    const nestedInput = document.createElement('input');
+    nestedInput.type = 'text';
+    nested.appendChild(nestedInput);
+    const before = instance.focusedDate();
+    instance.onWindowKeydown(keyEvent('n', textarea));
+    instance.onWindowKeydown(keyEvent('t', select));
+    instance.onWindowKeydown(keyEvent('1', editableDiv));
+    instance.onWindowKeydown(keyEvent('n', nestedInput));
+    expect(instance.focusedDate()).toBe(before);
+    expect(openComponent).not.toHaveBeenCalled();
+  });
+
+  it('skips shortcuts when a dialog is open or the target lives in a dialog', () => {
+    const guarded = createShortcutFixture({ editable: true, openCount: 1 });
+    guarded.instance.onWindowKeydown(keyEvent('n', bodyTarget()));
+    expect(guarded.openComponent).not.toHaveBeenCalled();
+
+    const { instance, openComponent } = createShortcutFixture({
+      editable: true,
+    });
+    const dialogHost = document.createElement('div');
+    dialogHost.setAttribute('role', 'dialog');
+    const dialogButton = document.createElement('button');
+    dialogButton.textContent = 'dialog action';
+    dialogHost.appendChild(dialogButton);
+    instance.onWindowKeydown(keyEvent('t', dialogButton));
+    expect(openComponent).not.toHaveBeenCalled();
+  });
+
+  it('skips shortcuts with modifiers or a prevented default', () => {
+    const { instance, openComponent } = createShortcutFixture({
+      editable: true,
+    });
+    const before = instance.focusedDate();
+    instance.onWindowKeydown(keyEvent('n', bodyTarget(), { ctrlKey: true }));
+    instance.onWindowKeydown(keyEvent('n', bodyTarget(), { metaKey: true }));
+    instance.onWindowKeydown(keyEvent('n', bodyTarget(), { altKey: true }));
+    const prevented = keyEvent('n', bodyTarget(), { cancelable: true });
+    prevented.preventDefault();
+    instance.onWindowKeydown(prevented);
+    expect(instance.focusedDate()).toBe(before);
+    expect(openComponent).not.toHaveBeenCalled();
+  });
+
+  it('handles edge targets without throwing', () => {
+    const { instance } = createShortcutFixture();
+    // Why: window keydown can surface document-level targets without tagName.
+    const noTarget = new KeyboardEvent('keydown', { key: 't', bubbles: true });
+    instance.onWindowKeydown(noTarget);
+    const tagless = new KeyboardEvent('keydown', { key: 'q', bubbles: true });
+    Object.defineProperty(tagless, 'target', { value: {} });
+    instance.onWindowKeydown(tagless);
+    const noClosest = new KeyboardEvent('keydown', {
+      key: 'q',
+      bubbles: true,
+    });
+    Object.defineProperty(noClosest, 'target', { value: { tagName: 'DIV' } });
+    instance.onWindowKeydown(noClosest);
+    expect(instance.focusedDate().length).toBeGreaterThan(0);
+  });
+});
+
 describe('SolarisCalendarEditorDialogComponent', () => {
   it('closes with save, delete, and cancel results', () => {
     TestBed.resetTestingModule();

@@ -58,4 +58,81 @@ test.describe('Calendar shell', () => {
       shell.locator('.solaris-calendar-schedule-view__list'),
     ).toBeVisible();
   });
+
+  test('supports keyboard shortcuts for views, navigation, and today', async ({
+    page,
+  }) => {
+    const shell = page.locator('solaris-calendar');
+    const title = shell.locator('.solaris-calendar__title');
+    await page.locator('h1').click();
+
+    await page.keyboard.press('2');
+    await expect(shell).toHaveAttribute('data-view', 'week');
+    await expect(page.getByTestId('event-log')).toHaveText('view:week');
+
+    await page.keyboard.press('1');
+    await expect(shell).toHaveAttribute('data-view', 'day');
+
+    await page.keyboard.press('3');
+    await expect(shell).toHaveAttribute('data-view', 'month');
+
+    await page.keyboard.press('4');
+    await expect(shell).toHaveAttribute('data-view', 'year');
+
+    await page.keyboard.press('5');
+    await expect(shell).toHaveAttribute('data-view', 'schedule');
+
+    await page.keyboard.press('3');
+    await expect(shell).toHaveAttribute('data-view', 'month');
+    const before = await title.textContent();
+    await page.keyboard.press(']');
+    await expect(title).not.toHaveText(before ?? '');
+    await page.keyboard.press('[');
+    await expect(title).toHaveText(before ?? '');
+
+    await page.keyboard.press(']');
+    await page.keyboard.press('t');
+    await expect(title).not.toHaveText('');
+  });
+
+  test('opens the create dialog on N and keeps the focus trap intact', async ({
+    page,
+  }) => {
+    await page.locator('h1').click();
+    await page.keyboard.press('n');
+    const panel = page.locator('.solaris-dialog-panel');
+    await expect(panel).toBeVisible();
+    const title = panel.locator('input[type="text"]').first();
+    await title.click();
+    await expect(title).toBeFocused();
+    for (let index = 0; index < 10; index += 1) {
+      await page.keyboard.press('Tab');
+      const focused = await page.evaluate(() => {
+        const active = document.activeElement;
+        if (!active) return false;
+        return Boolean(active.closest('.solaris-dialog-panel'));
+      });
+      expect(focused).toBe(true);
+    }
+    await page.keyboard.press('Escape');
+    await expect(panel).toBeHidden();
+  });
+
+  test('ignores shortcuts while typing in the editor title input', async ({
+    page,
+  }) => {
+    const shell = page.locator('solaris-calendar');
+    await page.locator('h1').click();
+    await page.keyboard.press('n');
+    const panel = page.locator('.solaris-dialog-panel');
+    await expect(panel).toBeVisible();
+    const title = panel.locator('input[type="text"]').first();
+    await title.click();
+    await title.fill('n');
+    await expect(shell).toHaveAttribute('data-view', 'month');
+    await expect(page.getByTestId('event-log')).not.toHaveText('view:week');
+    await expect(panel).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(panel).toBeHidden();
+  });
 });
