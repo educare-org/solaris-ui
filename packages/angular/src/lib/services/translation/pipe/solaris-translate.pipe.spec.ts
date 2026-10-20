@@ -1,4 +1,5 @@
 import { SolarisTranslatePipe } from './solaris-translate.pipe';
+import { SolarisTranslateService } from '../service/solaris-translate.service';
 import { TestBed } from '@angular/core/testing';
 import { provideSolarisTranslateTesting } from '../testing/solaris-translate-testing.provider';
 
@@ -29,6 +30,9 @@ describe('SolarisTranslatePipe', () => {
 
   it('returns key when the translate service is absent', () => {
     TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [{ provide: SolarisTranslateService, useValue: null }],
+    });
     const fallback = TestBed.runInInjectionContext(
       () => new SolarisTranslatePipe(),
     );
