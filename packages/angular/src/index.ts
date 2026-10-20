@@ -938,13 +938,26 @@ export type {
 } from './lib/components/interaction/dropdown-menu/model/dropdown-submenu.types';
 
 export { SolarisCollapsibleComponent } from './lib/components/interaction/collapsible/component/collapsible.component';
+export { SolarisCollapsibleAddDialogComponent } from './lib/components/interaction/collapsible/dialog/component/collapsible-add-dialog.component';
 export type {
   SolarisCollapsibleSize,
   SolarisCollapsibleDensity,
   SolarisCollapsibleAppearance,
   SolarisCollapsibleValue,
   SolarisCollapsibleConfig,
+  SolarisCollapsibleIconOption,
+  SolarisCollapsibleAddResult,
+  SolarisCollapsibleAddDialogData,
 } from './lib/components/interaction/collapsible/model/collapsible.types';
+
+export { SolarisCollapsibleInputComponent } from './lib/components/interaction/collapsible-input/component/collapsible-input.component';
+export type {
+  SolarisCollapsibleInputSize,
+  SolarisCollapsibleInputDensity,
+  SolarisCollapsibleInputAppearance,
+  SolarisCollapsibleInputValue,
+  SolarisCollapsibleInputConfig,
+} from './lib/components/interaction/collapsible-input/model/collapsible-input.types';
 
 export { SolarisAccordionComponent } from './lib/components/interaction/accordion/component/accordion.component';
 export type {

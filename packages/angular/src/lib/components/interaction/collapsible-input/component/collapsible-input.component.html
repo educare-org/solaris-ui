@@ -1,0 +1,57 @@
+<div class="solaris-collapsible-input__header-row">
+  <solaris-icon
+    [name]="leadingIcon()"
+    class="solaris-collapsible-input__leading-icon"
+    [decorative]="true"
+  />
+  <form class="solaris-collapsible-input__form" (ngSubmit)="submit($event)">
+    <input
+      type="text"
+      class="solaris-collapsible-input__field"
+      [id]="triggerId()"
+      [value]="query()"
+      (input)="onQueryInput($event)"
+      [placeholder]="placeholderText()"
+      [attr.aria-label]="submittedQuery() ?? placeholderText()"
+      [attr.aria-controls]="panelId()"
+      [attr.aria-expanded]="isOpen()"
+      [attr.aria-busy]="loading() ? 'true' : null"
+      [disabled]="isEffectivelyDisabled()"
+      autocomplete="off"
+      (keydown)="onKeydown($event)"
+    />
+  </form>
+  <button
+    type="button"
+    class="solaris-collapsible-input__action"
+    [attr.aria-label]="actionLabel()"
+    [disabled]="isEffectivelyDisabled() || (!loading() && !canSubmit())"
+    (click)="onActionClick($event)"
+  >
+    @if (loading()) {
+      <solaris-icon [name]="stopIcon()" [decorative]="true" />
+    } @else {
+      <solaris-icon [name]="submitIcon()" [decorative]="true" />
+    }
+  </button>
+</div>
+
+@if (loading()) {
+  <div class="solaris-collapsible-input__status" aria-live="polite">
+    <solaris-spinner size="sm" />
+    <span>{{ loadingText() }}</span>
+  </div>
+}
+
+<div
+  class="solaris-collapsible-input__panel"
+  [id]="panelId()"
+  role="region"
+  [attr.aria-labelledby]="triggerId()"
+  [attr.aria-hidden]="isOpen() ? null : 'true'"
+  [attr.inert]="isOpen() ? null : ''"
+>
+  <div class="solaris-collapsible-input__panel-inner">
+    <ng-content />
+  </div>
+</div>

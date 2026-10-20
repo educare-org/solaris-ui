@@ -56,6 +56,14 @@ for the full API; the relevant inputs are:
 | `icon`         | `string`                                              | —           | Per-item icon override for the trigger.                                       |
 | `leadingIcon`  | `string`                                              | —           | Optional icon rendered at the start of the trigger, glued to the label.       |
 
+### `solaris-collapsible-input` — question row
+
+An interactive last row for FAQ-style accordions (see the Collapsible-input
+documentation for the full API). It participates in the same `single`/`multiple`
+open-state ownership via `value`, and inherits `appearance`, `size`, and
+`density` from the container. The container projects both
+`solaris-collapsible` and `solaris-collapsible-input` children.
+
 ## Import rule
 
 The accordion control token (`SOLARIS_ACCORDION`) lives in
@@ -139,5 +147,20 @@ for the full variable list. Container-specific spacing:
   <solaris-collapsible value="b" label="Section B">
     <p>Content B.</p>
   </solaris-collapsible>
+</solaris-accordion>
+```
+
+### FAQ with a question row
+
+```html
+<solaris-accordion [(value)]="openValue">
+  <solaris-collapsible value="a" label="Section A">
+    <p>Content A.</p>
+  </solaris-collapsible>
+  <solaris-collapsible-input value="ask" [(query)]="faqQuery" [loading]="isAsking" (submitted)="askAi($event)" (cancelled)="cancelAi()">
+    @if (aiAnswer) {
+    <div>{{ aiAnswer }}</div>
+    }
+  </solaris-collapsible-input>
 </solaris-accordion>
 ```
