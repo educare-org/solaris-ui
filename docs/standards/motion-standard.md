@@ -81,3 +81,49 @@ Defined in `packages/angular/src/styles/token/motion/_motion.scss`:
 Panels attached below the trigger use `*-enter/exit`; panels attached above
 (`data-connected-side="top"`) use `*-enter-top/exit-top` so the slide always
 originates from the trigger.
+
+## Expand/collapse (Phase 2)
+
+Uniform pattern, reference: `collapsible` (`collapsible-input` mirrors it,
+accordion items are `collapsible` instances so they inherit it):
+
+- Outer panel: `display: grid; grid-template-rows: 0fr` →
+  `[data-open]: 1fr`, `transition: grid-template-rows normal + standard`.
+- Inner content: `overflow: hidden` + `opacity: 0 → 1`,
+  `transition: opacity normal + standard` (components keep their own
+  padding transitions alongside).
+- Chevron/icon: `transition: transform normal + standard`;
+  `[data-open]: rotate(180deg)`.
+- Opt-in mixins in `token/motion/_motion-mixins.scss`:
+  `solaris-motion-expand-panel[-open]`, `solaris-motion-expand-inner[-open]`,
+  `solaris-motion-chevron[-open]` (components may keep raw declarations;
+  mixins are preferred for new code).
+- Doubled reduced-motion guard (media + `:host-context`) on every block.
+
+Adopters: table detail-row (`detail-wrapper`/`detail-inner` + expand
+buttons), table-toolbar chips/count (`chips` reuses `overlay-enter-top`
+with `both` instead of its former local keyframe), code-block fade
+(reuses `backdrop-enter` with `both` instead of its former local keyframe —
+the viewport keeps its JS pixel `max-height` animation, which already
+honours reduced motion, because the viewport is a scroll region, not a
+plain panel). Switching commands in a `command`-variant code-block replays
+a `fast` + `decelerate` fade (`backdrop-enter`, `both`) on the incoming
+`<pre>` content via a `--swap` class remove/reflow/add cycle (skipped
+under reduced motion — state still swaps instantly; text has no border
+ring, so no conflict). `preview-code` tab switches glide instead of
+fading: each switch inserts a fresh panel node whose content is revealed
+collapsible-style while the frame tweens `height` old→new px over `normal` +
+`standard` — no opacity is animated, so the border ring stays complete at
+every frame (any translucency would read as a broken ring). Details:
+uncontrolled mode only (controlled parents own the timing;
+destroy/navigation release the lock): measure, swap + sync render, lock,
+tween, release to auto on `transitionend` (fallback timer +100ms). The
+bordered box of the incoming panel (preview surface or code frame) is
+locked in parallel via inline styles — a stylesheet class cannot reach
+inside another component's template (code frame) through view
+encapsulation, while custom properties inherit, so the tween stays
+token-driven — keeping its border complete while growing instead of being
+clipped by the frame. The inline lock also zeroes `min-block-size`
+(the preview surface enforces a min-height that would otherwise clamp the
+locked height and kill the transition) and pins `border-box` (exact
+border-box math on boxes without it); all reverted on finish/destroy.

@@ -146,3 +146,44 @@
     transition: none;
   }
 }
+
+/// Expand/collapse panel (closed state). Open state uses
+/// `solaris-motion-expand-panel-open` under `[data-open]`.
+/// Reference: `collapsible.component.scss` (grid 0fr→1fr + inner opacity).
+@mixin solaris-motion-expand-panel {
+  display: grid;
+  grid-template-rows: minmax(0, 0fr);
+  transition: grid-template-rows var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+/// Expand/collapse panel (open state, under `[data-open]`).
+@mixin solaris-motion-expand-panel-open {
+  grid-template-rows: minmax(0, 1fr);
+}
+
+/// Expand/collapse inner content (closed state). Keeps `overflow: hidden` +
+/// `opacity: 0`; components keep their own padding declarations/transitions.
+@mixin solaris-motion-expand-inner {
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+/// Expand/collapse inner content (open state, under `[data-open]`).
+@mixin solaris-motion-expand-inner-open {
+  opacity: 1;
+}
+
+/// Expand/collapse chevron (closed state, on the icon).
+@mixin solaris-motion-chevron {
+  transition: transform var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+/// Expand/collapse chevron (open state, under `[data-open]`).
+@mixin solaris-motion-chevron-open {
+  transform: rotate(180deg);
+}

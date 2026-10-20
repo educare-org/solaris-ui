@@ -31,6 +31,12 @@ export const DEFAULT_PREVIEW_CODE_MIN_HEIGHT: SolarisPreviewCodeMinHeight =
 export const DEFAULT_PREVIEW_CODE_PADDING: SolarisPreviewCodePadding = 'md';
 export const DEFAULT_PREVIEW_CODE_COLLAPSED_LINES = 8;
 
+/**
+ * Mirrors `--solaris-motion-duration-normal`: the tab-switch height tween
+ * runs 300ms in CSS, and the TS fallback timer below adds a 100ms buffer.
+ */
+export const PREVIEW_CODE_TAB_HEIGHT_MS = 300;
+
 export const DEFAULT_PREVIEW_CODE_ARIA_LABEL_KEY =
   'solaris.previewCode.ariaLabel';
 export const DEFAULT_PREVIEW_CODE_ARIA_LABEL_TEXT = 'Preview code';

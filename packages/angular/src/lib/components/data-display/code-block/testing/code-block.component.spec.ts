@@ -72,6 +72,12 @@ describe('SolarisCodeBlockComponent', () => {
     return fixture.nativeElement.querySelector('code') as HTMLElement;
   }
 
+  function preElement(): HTMLElement | null {
+    return fixture.nativeElement.querySelector(
+      '.solaris-code-block__pre',
+    ) as HTMLElement | null;
+  }
+
   function viewport(): HTMLElement | null {
     return fixture.nativeElement.querySelector(
       '.solaris-code-block__viewport',
@@ -519,6 +525,52 @@ describe('SolarisCodeBlockComponent', () => {
 
     expect(codeElement().textContent).toBe('pnpm add x');
     expect(emitted).toEqual(['pnpm']);
+  });
+
+  it('should replay a content swap fade when switching commands', async () => {
+    createComponent({
+      variant: 'command',
+      commands: [
+        { id: 'pnpm', label: 'pnpm', code: 'pnpm add x', language: 'shell' },
+        { id: 'npm', label: 'npm', code: 'npm install x', language: 'shell' },
+      ],
+    });
+    expect(
+      preElement()?.classList.contains('solaris-code-block__pre--swap'),
+    ).toBe(false);
+
+    selectorItems()[1]?.click();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(codeElement().textContent).toBe('npm install x');
+    expect(
+      preElement()?.classList.contains('solaris-code-block__pre--swap'),
+    ).toBe(true);
+  });
+
+  it('should skip the swap fade under reduced motion', async () => {
+    document.documentElement.setAttribute('data-reduced-motion', 'true');
+    try {
+      createComponent({
+        variant: 'command',
+        commands: [
+          { id: 'pnpm', label: 'pnpm', code: 'pnpm add x', language: 'shell' },
+          { id: 'npm', label: 'npm', code: 'npm install x', language: 'shell' },
+        ],
+      });
+
+      selectorItems()[1]?.click();
+      await fixture.whenStable();
+      fixture.detectChanges();
+
+      expect(codeElement().textContent).toBe('npm install x');
+      expect(
+        preElement()?.classList.contains('solaris-code-block__pre--swap'),
+      ).toBe(false);
+    } finally {
+      document.documentElement.removeAttribute('data-reduced-motion');
+    }
   });
 
   it('should render the command selector only with multiple commands', () => {

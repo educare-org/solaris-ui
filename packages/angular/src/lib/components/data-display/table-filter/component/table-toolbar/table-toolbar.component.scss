@@ -135,20 +135,9 @@
 .solaris-table-toolbar__chips[data-open]
   .solaris-table-toolbar__chips-inner
   > * {
-  animation: solaris-table-toolbar-chips-in
-    var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard);
-}
-
-@keyframes solaris-table-toolbar-chips-in {
-  from {
-    opacity: 0;
-    transform: translateY(calc(var(--solaris-spacing-2) * -1));
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(var(--solaris-spacing-0));
-  }
+  animation: solaris-motion-overlay-enter-top
+    var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 .solaris-table-toolbar__panel {
@@ -195,6 +184,20 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .solaris-table-toolbar__views,
+  .solaris-table-toolbar__count,
+  .solaris-table-toolbar__count-inner,
+  .solaris-table-toolbar__chips,
+  .solaris-table-toolbar__chips-inner,
+  .solaris-table-toolbar__chips[data-open]
+    .solaris-table-toolbar__chips-inner
+    > * {
+    transition: none;
+    animation: none;
+  }
+}
+
+:host-context([data-reduced-motion='true']) {
   .solaris-table-toolbar__views,
   .solaris-table-toolbar__count,
   .solaris-table-toolbar__count-inner,

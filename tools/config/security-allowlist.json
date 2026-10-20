@@ -28,8 +28,8 @@
     "reviewed": "2026-10-15"
   },
   "packages/angular/src/lib/components/data-display/code-block/component/code-block.component.ts": {
-    "patterns": 9,
-    "reviewed": "2026-10-15"
+    "patterns": 10,
+    "reviewed": "2026-10-20"
   },
   "packages/angular/src/lib/components/feedback/spinner/component/spinner.component.ts": {
     "patterns": 2,

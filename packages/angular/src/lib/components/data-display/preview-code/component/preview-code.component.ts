@@ -1,12 +1,19 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   computed,
+  DOCUMENT,
+  ElementRef,
   inject,
   input,
+  OnDestroy,
   output,
+  PLATFORM_ID,
   signal,
+  viewChild,
 } from '@angular/core';
 
 import { SolarisThemeService } from '../../../../services/theme';
@@ -46,6 +53,7 @@ import {
   normalizePreviewCodeRadius,
   normalizePreviewCodeSize,
   normalizePreviewCodeTab,
+  PREVIEW_CODE_TAB_HEIGHT_MS,
 } from '../model/preview-code.defaults';
 import type {
   SolarisPreviewCodeAlign,
@@ -61,6 +69,10 @@ import type {
 } from '../model/preview-code.types';
 
 let nextPreviewCodeId = 0;
+
+const FRAME_SIZING_CLASS = 'solaris-preview-code__frame--tab-sizing';
+const TAB_BOX_SELECTOR =
+  '.solaris-preview-code__preview-surface, .solaris-code-block__frame';
 
 @Component({
   selector: 'solaris-preview-code',
@@ -85,11 +97,19 @@ let nextPreviewCodeId = 0;
     '[attr.data-preview-min-height]': 'previewMinHeight()',
   },
 })
-export class SolarisPreviewCodeComponent {
+export class SolarisPreviewCodeComponent implements OnDestroy {
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
   private readonly themeService = inject(SolarisThemeService);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
+  private readonly frameRef = viewChild<ElementRef<HTMLElement>>('frame');
+
+  private tabHeightAnimationId = 0;
+  private tabHeightTimer: ReturnType<typeof setTimeout> | null = null;
 
   private readonly activeTabState = signal<SolarisPreviewCodeTab | null>(null);
   private readonly selectedCodeFileIdState = signal<string | null>(null);
@@ -299,10 +319,161 @@ export class SolarisPreviewCodeComponent {
       return;
     }
     const nextTab = normalizePreviewCodeTab(value);
-    if (this.activeTab() === null) {
-      this.activeTabState.set(nextTab);
+    if (nextTab === this.resolvedActiveTab() || this.activeTab() !== null) {
+      // Same tab, or controlled mode (the parent owns the state, so the new
+      // content arrives in a later cycle and cannot be measured here):
+      // keep today's exact behavior — state/outputs only, fade-only visuals.
+      if (this.activeTab() === null) {
+        this.activeTabState.set(nextTab);
+      }
+      this.activeTabChange.emit(nextTab);
+      return;
     }
+    // SECURITY_EXCEPTION: measures the frame owned by this component via viewChild (undefined on the server); no Angular abstraction exposes layout metrics; read-only getBoundingClientRect locked to the tab-switch height tween; covered by preview-code height specs.
+    const frameElement = this.frameRef()?.nativeElement ?? null;
+    const startHeight = frameElement?.getBoundingClientRect().height ?? 0;
+    const startPanelHeight =
+      frameElement
+        ?.querySelector('.solaris-preview-code__panel')
+        ?.getBoundingClientRect().height ?? 0;
+    this.activeTabState.set(nextTab);
     this.activeTabChange.emit(nextTab);
+    // Render the incoming panel synchronously so the tween below measures
+    // the new content (not the outgoing one mid-flight).
+    this.changeDetectorRef.detectChanges();
+    this.animateTabHeight(startHeight, startPanelHeight);
+  }
+
+  /**
+   * Tweens the frame height between the outgoing and incoming panels so the
+   * tab switch glides instead of jumping, revealing the incoming content
+   * collapsible-style with its border complete at every frame (no opacity
+   * is animated — any translucency would read as a broken border ring).
+   * Locks an explicit pixel height, transitions to the measured end height,
+   * then releases back to auto. The bordered box of the incoming panel
+   * (preview surface or code frame) is locked in parallel via inline styles
+   * so it grows instead of being clipped by the frame. Skipped when heights
+   * match, off the browser, or under reduced motion (instant swap).
+   */
+  private animateTabHeight(
+    startHeight: number,
+    startPanelHeight: number,
+  ): void {
+    this.tabHeightAnimationId++;
+    this.clearTabHeightTimer();
+    const animationId = this.tabHeightAnimationId;
+    // SECURITY_EXCEPTION: frame element owned by this component via viewChild (undefined on the server); direct DOM writes (inline height + sizing class) have no Renderer2 path that supports measured FLIP tweens; reverted on finish/destroy; covered by preview-code height specs.
+    const frame = this.frameRef()?.nativeElement ?? null;
+    if (
+      frame === null ||
+      !isPlatformBrowser(this.platformId) ||
+      this.reducedMotionEnabled() ||
+      !(startHeight > 0)
+    ) {
+      return;
+    }
+    const endHeight = frame.getBoundingClientRect().height;
+    if (!Number.isFinite(endHeight) || Math.abs(endHeight - startHeight) < 1) {
+      return;
+    }
+    const box = frame.querySelector(TAB_BOX_SELECTOR);
+    const boxElement = box instanceof HTMLElement ? box : null;
+    const endBoxHeight = boxElement?.getBoundingClientRect().height ?? 0;
+    const tweenBox =
+      boxElement !== null &&
+      startPanelHeight > 0 &&
+      Number.isFinite(endBoxHeight) &&
+      Math.abs(endBoxHeight - startPanelHeight) >= 1;
+    frame.style.height = `${startHeight}px`;
+    void frame.offsetHeight;
+    frame.classList.add(FRAME_SIZING_CLASS);
+    frame.style.height = `${endHeight}px`;
+    if (tweenBox && boxElement !== null) {
+      // Inline styles (not a CSS class): the box may live inside another
+      // component's template (code frame), where this stylesheet cannot
+      // reach through view encapsulation. Custom properties inherit through
+      // the DOM, so the tween stays token-driven. Reverted below.
+      // minBlockSize 0: the preview surface enforces a min-height that would
+      // otherwise clamp the locked height and kill the transition; boxSizing
+      // keeps the measured border-box height exact on boxes without it.
+      boxElement.style.height = `${startPanelHeight}px`;
+      boxElement.style.minBlockSize = '0px';
+      boxElement.style.boxSizing = 'border-box';
+      boxElement.style.overflow = 'hidden';
+      boxElement.style.transition = `height var(--solaris-motion-duration-normal) var(--solaris-motion-easing-standard)`;
+      void boxElement.offsetHeight;
+      boxElement.style.height = `${endBoxHeight}px`;
+    }
+    const finish = (): void => {
+      if (this.tabHeightAnimationId !== animationId) {
+        return;
+      }
+      frame.style.height = '';
+      frame.classList.remove(FRAME_SIZING_CLASS);
+      if (boxElement !== null) {
+        boxElement.style.height = '';
+        boxElement.style.minBlockSize = '';
+        boxElement.style.boxSizing = '';
+        boxElement.style.overflow = '';
+        boxElement.style.transition = '';
+      }
+    };
+    const onTransitionEnd = (event: TransitionEvent): void => {
+      if (event.propertyName !== 'height') {
+        return;
+      }
+      frame.removeEventListener('transitionend', onTransitionEnd);
+      this.clearTabHeightTimer();
+      finish();
+    };
+    frame.addEventListener('transitionend', onTransitionEnd);
+    this.tabHeightTimer = setTimeout(() => {
+      frame.removeEventListener('transitionend', onTransitionEnd);
+      finish();
+    }, PREVIEW_CODE_TAB_HEIGHT_MS + 100);
+  }
+
+  private reducedMotionEnabled(): boolean {
+    // SECURITY_EXCEPTION: reads the data-reduced-motion flag via the Angular DOCUMENT token; SSR-safe via injected DOCUMENT and the isPlatformBrowser guard at the call site; no Renderer2 alternative for attribute reads; covered by reduced-motion specs.
+    if (
+      this.document.documentElement.getAttribute('data-reduced-motion') ===
+      'true'
+    ) {
+      return true;
+    }
+    // SECURITY_EXCEPTION: reads the OS reduced-motion preference via the Angular DOCUMENT token (defaultView.matchMedia); SSR-safe via the isPlatformBrowser guard at the call site; matchMedia has no Renderer2 alternative; read-only query.
+    const view = this.document.defaultView;
+    return (
+      typeof view?.matchMedia === 'function' &&
+      view.matchMedia('(prefers-reduced-motion: reduce)').matches
+    );
+  }
+
+  private clearTabHeightTimer(): void {
+    if (this.tabHeightTimer == null) {
+      return;
+    }
+    clearTimeout(this.tabHeightTimer);
+    this.tabHeightTimer = null;
+  }
+
+  ngOnDestroy(): void {
+    this.tabHeightAnimationId++;
+    this.clearTabHeightTimer();
+    // SECURITY_EXCEPTION: frame element owned by this component via viewChild; cleanup of the inline height + sizing class on destroy; mirrors the finish path above.
+    const frame = this.frameRef()?.nativeElement;
+    if (frame) {
+      frame.style.height = '';
+      frame.classList.remove(FRAME_SIZING_CLASS);
+      const box = frame.querySelector(TAB_BOX_SELECTOR);
+      if (box instanceof HTMLElement) {
+        box.style.height = '';
+        box.style.minBlockSize = '';
+        box.style.boxSizing = '';
+        box.style.overflow = '';
+        box.style.transition = '';
+      }
+    }
   }
 
   protected handleCodeFileChange(value: string | null): void {

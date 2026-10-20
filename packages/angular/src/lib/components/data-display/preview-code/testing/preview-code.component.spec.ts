@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
 import { SolarisPreviewCodeComponent } from '../component/preview-code.component';
@@ -126,6 +127,12 @@ describe('SolarisPreviewCodeComponent', () => {
     return element().querySelector('solaris-code-block');
   }
 
+  function frame(): HTMLElement {
+    return element().querySelector(
+      '.solaris-preview-code__frame',
+    ) as HTMLElement;
+  }
+
   function segmentedItems(): NodeListOf<HTMLElement> {
     return element().querySelectorAll(
       'solaris-segmented-item',
@@ -166,6 +173,77 @@ describe('SolarisPreviewCodeComponent', () => {
     expect(previewCode().getAttribute('data-active-tab')).toBe('code');
     expect(fixture.componentInstance.changedTabs).toEqual(['code']);
     expect(codeBlock()).not.toBeNull();
+  });
+
+  it('leaves no height locks behind when heights cannot be measured', () => {
+    createHost();
+    segmentedItems()[1].click();
+    fixture.detectChanges();
+    expect(previewCode().getAttribute('data-active-tab')).toBe('code');
+    expect(frame().style.height).toBe('');
+    expect(
+      frame().classList.contains('solaris-preview-code__frame--tab-sizing'),
+    ).toBe(false);
+  });
+
+  it('tweens the frame height between tabs of different heights', async () => {
+    createHost();
+    const target = frame();
+    const outgoingPanel = element().querySelector(
+      '.solaris-preview-code__panel--preview',
+    ) as Element;
+    const rectOf = (height: number): DOMRect =>
+      ({
+        height,
+        width: 100,
+        x: 0,
+        y: 0,
+        top: 0,
+        left: 0,
+        right: 100,
+        bottom: height,
+        toJSON: () => ({}),
+      }) as DOMRect;
+    const heights = new Map<Element, number[]>([
+      [target, [400, 120]],
+      [outgoingPanel, [340]],
+    ]);
+    const measure = vi
+      .spyOn(Element.prototype, 'getBoundingClientRect')
+      .mockImplementation(function (this: Element) {
+        if (this.classList?.contains('solaris-code-block__frame')) {
+          return rectOf(60);
+        }
+        return rectOf(heights.get(this)?.shift() ?? 0);
+      });
+
+    segmentedItems()[1].click();
+    const box = element().querySelector(
+      '.solaris-code-block__frame',
+    ) as HTMLElement;
+    expect(
+      target.classList.contains('solaris-preview-code__frame--tab-sizing'),
+    ).toBe(true);
+    expect(target.style.height).toBe('120px');
+    expect(box.style.height).toBe('60px');
+    expect(box.style.minBlockSize).toBe('0px');
+    expect(box.style.boxSizing).toBe('border-box');
+    expect(box.style.overflow).toBe('hidden');
+    expect(box.style.transition).toContain('height');
+    fixture.detectChanges();
+    expect(previewCode().getAttribute('data-active-tab')).toBe('code');
+    await new Promise((resolve) => setTimeout(resolve, 450));
+    fixture.detectChanges();
+    expect(target.style.height).toBe('');
+    expect(
+      target.classList.contains('solaris-preview-code__frame--tab-sizing'),
+    ).toBe(false);
+    expect(box.style.height).toBe('');
+    expect(box.style.minBlockSize).toBe('');
+    expect(box.style.boxSizing).toBe('');
+    expect(box.style.overflow).toBe('');
+    expect(box.style.transition).toBe('');
+    measure.mockRestore();
   });
 
   it('keeps controlled activeTab and still emits on user intent', () => {

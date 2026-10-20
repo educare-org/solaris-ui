@@ -135,12 +135,20 @@
 .solaris-collapsible-input__panel-inner {
   min-height: 0;
   overflow: hidden;
+  opacity: 0;
   color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-collapsible-input-panel-font-size);
   padding: 0 var(--solaris-collapsible-input-panel-padding-x)
     var(--solaris-collapsible-input-panel-padding-bottom);
-  transition: padding-bottom var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
+  transition:
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    padding-bottom var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+:host([data-open]) .solaris-collapsible-input__panel-inner {
+  opacity: 1;
 }
 
 :host([data-open]) {

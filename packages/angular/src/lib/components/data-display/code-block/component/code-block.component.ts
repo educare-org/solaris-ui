@@ -75,6 +75,7 @@ import {
 let nextCodeBlockId = 0;
 
 const VIEWPORT_ANIMATING_CLASS = 'solaris-code-block__viewport--animating';
+const CONTENT_SWAP_CLASS = 'solaris-code-block__pre--swap';
 
 @Component({
   selector: 'solaris-code-block',
@@ -467,8 +468,41 @@ export class SolarisCodeBlockComponent implements OnDestroy {
     if (this.editingState()) {
       this.cancelEditing();
     }
+    const previous = this.selectedCommandState();
     this.selectedCommandState.set(value);
     this.selectedCommandChange.emit(value);
+    if (previous === value) {
+      return;
+    }
+    // Render the new command synchronously so the swap fade below replays
+    // on the incoming content (not on the outgoing one mid-flight).
+    this.changeDetectorRef.detectChanges();
+    this.replayContentSwap();
+  }
+
+  /**
+   * Replays a short fade on the incoming command content. The swap rewrites
+   * text in place (no node is recreated), so the animation class is removed,
+   * the frame forced, and re-added — the same replay technique used by
+   * `animateViewportHeight`. Skipped under reduced motion (state still swaps
+   * instantly).
+   */
+  private replayContentSwap(): void {
+    if (
+      !isPlatformBrowser(this.platformId) ||
+      this.reducedMotionEnabled() ||
+      this.isEditing()
+    ) {
+      return;
+    }
+    const viewport = this.viewportRef()?.nativeElement ?? null;
+    const pre = viewport?.querySelector('.solaris-code-block__pre') ?? null;
+    if (!(pre instanceof HTMLElement)) {
+      return;
+    }
+    pre.classList.remove(CONTENT_SWAP_CLASS);
+    void pre.offsetWidth;
+    pre.classList.add(CONTENT_SWAP_CLASS);
   }
 
   protected async handleCopy(): Promise<void> {

@@ -157,12 +157,20 @@
 .solaris-collapsible__panel-inner {
   min-height: 0;
   overflow: hidden;
+  opacity: 0;
   color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-collapsible-panel-font-size);
   padding: 0 var(--solaris-collapsible-panel-padding-x)
     var(--solaris-collapsible-panel-padding-bottom);
-  transition: padding-bottom var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
+  transition:
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    padding-bottom var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+:host([data-open]) .solaris-collapsible__panel-inner {
+  opacity: 1;
 }
 
 :host([data-open]) {
