@@ -356,3 +356,8 @@
     transition: none;
   }
 }
+
+:host-context([data-reduced-motion='true'])
+  .solaris-segmented-control__indicator {
+  transition: none;
+}

@@ -99,11 +99,12 @@
 @if (showCountdownText()) {
   <div class="solaris-toast__countdown-text" aria-hidden="true">
     <span class="solaris-toast__countdown-message">{{ countdownText() }}</span>
+    &nbsp;
     <button
       type="button"
-      class="solaris-toast__countdown-toggle"
-      (click)="togglePause()"
       tabindex="-1"
+      (click)="togglePause()"
+      class="solaris-toast__countdown-toggle"
     >
       {{ pauseButtonLabel() }}
     </button>

@@ -408,10 +408,20 @@
   .solaris-radio__dot {
     animation: none;
   }
+
+  .solaris-radio__control,
+  .solaris-radio__label-text {
+    transition: none;
+  }
 }
 
 :host-context([data-reduced-motion='true']) {
   .solaris-radio__dot {
     animation: none;
+  }
+
+  .solaris-radio__control,
+  .solaris-radio__label-text {
+    transition: none;
   }
 }

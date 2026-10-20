@@ -426,10 +426,20 @@
   .solaris-checkbox__icon {
     animation: none;
   }
+
+  .solaris-checkbox__control,
+  .solaris-checkbox__label-text {
+    transition: none;
+  }
 }
 
 :host-context([data-reduced-motion='true']) {
   .solaris-checkbox__icon {
     animation: none;
+  }
+
+  .solaris-checkbox__control,
+  .solaris-checkbox__label-text {
+    transition: none;
   }
 }

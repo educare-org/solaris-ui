@@ -153,3 +153,17 @@ doubled reduced-motion guard (rule 5).
 - Alert enter: `solaris-motion-overlay-enter` (`normal` + `decelerate`, `both`)
   on `:host`. Enter-only by design — dismissal is owned by the consumer
   (`*ngIf`), with no hook for a `data-closing` exit.
+- Toast enter: local `solaris-toast-enter` (`normal` + `decelerate`, `both`)
+  on `:host` (slide distance is larger than `translate-sm` — stacked toasts
+  read better with a longer travel; easing and fill follow rule 2).
+  Enter-only by design — dismissal removes the entry from the service
+  signal synchronously (`dismiss()` / `dismissAll()`), with no overlay
+  chrome to delay only the detach (same rationale as alert, documented
+  decision — no `data-closing` exit).
+- Reduced-motion completeness: `segmented-control` ships the
+  `:host-context([data-reduced-motion])` mirror on the indicator;
+  checkbox/radio guards cover the pre-existing `__control` / `__label-text`
+  transitions as well as the pop animation; toast guards cover `animation`
+  - `transition` under the standard (unqualified) `host-context` mirror —
+    the flag lives on `documentElement`, so a `body[...]`-qualified mirror
+    never matches.

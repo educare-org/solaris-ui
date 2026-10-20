@@ -50,7 +50,7 @@
   border: var(--solaris-toast-border-width) solid
     var(--solaris-toast-border-color);
   animation: solaris-toast-enter var(--solaris-motion-duration-normal)
-    var(--solaris-motion-easing-standard);
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 .solaris-toast__root {
@@ -505,20 +505,34 @@
 @media (prefers-reduced-motion: reduce) {
   :host {
     animation: none;
+    transition: none;
   }
 
   :host([data-variant='loading']) .solaris-toast__icon {
     animation: none;
   }
+
+  .solaris-toast__trailing-btn,
+  .solaris-toast__expand-icon,
+  .solaris-toast__progress-bar {
+    transition: none;
+  }
 }
 
-:host-context(body[data-reduced-motion='true']) {
+:host-context([data-reduced-motion='true']) {
   animation: none;
+  transition: none;
 }
 
-:host-context(body[data-reduced-motion='true']):host([data-variant='loading'])
+:host-context([data-reduced-motion='true']):host([data-variant='loading'])
   .solaris-toast__icon {
   animation: none;
+}
+
+:host-context([data-reduced-motion='true']) .solaris-toast__trailing-btn,
+:host-context([data-reduced-motion='true']) .solaris-toast__expand-icon,
+:host-context([data-reduced-motion='true']) .solaris-toast__progress-bar {
+  transition: none;
 }
 
 @media (width <= 640px) {
