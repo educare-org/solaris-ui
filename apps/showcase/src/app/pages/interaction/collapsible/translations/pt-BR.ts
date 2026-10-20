@@ -27,6 +27,11 @@ export const PT_BR_COLLAPSIBLE: Record<string, string> = {
   'collapsible.density.comfortable': 'Confortável',
   'collapsible.leading-icon.note':
     'Ícone opcional colado ao rótulo, renderizado antes do chevron de expansão.',
+  'collapsible.section.add-item': 'Adicionar item',
+  'collapsible.add-item.note':
+    'O botão de adição abre um dialog de criação (ícone primeiro, depois título e descrição obrigatórios). O select de ícone lista todo o catálogo built-in com pré-visualização, a menos que iconOptions sobrescreva. Confirmar emite o payload — o host abaixo o adiciona como nova seção.',
+  'collapsible.add-item.action': 'Adicionar seção',
+  'collapsible.add-item.added': 'Seções adicionadas',
   'collapsible.installation.note':
     'Instale o pacote único Solaris e importe o componente.',
   'collapsible.props.note':

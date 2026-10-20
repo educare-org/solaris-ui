@@ -31,6 +31,7 @@ export const COLLAPSIBLE_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'controlled', labelKey: 'collapsible.section.controlled' },
   { anchor: 'states', labelKey: 'collapsible.section.states' },
   { anchor: 'leading-icon', labelKey: 'collapsible.section.leading-icon' },
+  { anchor: 'add-item', labelKey: 'collapsible.section.add-item' },
   { anchor: 'installation', labelKey: 'collapsible.section.installation' },
   { anchor: 'props', labelKey: 'collapsible.section.props' },
 ];
@@ -46,6 +47,18 @@ export const COLLAPSIBLE_SHOWCASE_BASIC_CODE = [
 export const COLLAPSIBLE_SHOWCASE_CONTROLLED_CODE = [
   '<solaris-collapsible [(open)]="isOpen" label="Controlled collapsible">',
   '  <p>This panel is controlled by the host component.</p>',
+  '</solaris-collapsible>',
+].join('\n');
+
+export const COLLAPSIBLE_SHOWCASE_ADD_CODE = [
+  '<solaris-collapsible',
+  '  label="Profile"',
+  '  leadingIcon="user"',
+  '  [showAddAction]="true"',
+  '  addActionLabel="Add section"',
+  `  (addSubmitted)="onAdd($event)"`,
+  '>',
+  '  <p>Profile content.</p>',
   '</solaris-collapsible>',
 ].join('\n');
 

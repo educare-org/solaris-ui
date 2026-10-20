@@ -31,13 +31,15 @@ export const ACCORDION_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'size-density', labelKey: 'accordion.section.size-density' },
   { anchor: 'behavior', labelKey: 'accordion.section.behavior' },
   { anchor: 'leading-icon', labelKey: 'accordion.section.leading-icon' },
+  { anchor: 'question', labelKey: 'accordion.section.question' },
   { anchor: 'installation', labelKey: 'accordion.section.installation' },
   { anchor: 'props', labelKey: 'accordion.section.props' },
 ];
 
 export const ACCORDION_SHOWCASE_IMPORT_CODE = `import {
   SolarisAccordionComponent,
-  SolarisCollapsibleComponent
+  SolarisCollapsibleComponent,
+  SolarisCollapsibleInputComponent
 } from '@solaris-ui/angular';`;
 
 export const ACCORDION_SHOWCASE_BASIC_CODE = [
@@ -59,6 +61,25 @@ export const ACCORDION_SHOWCASE_MULTIPLE_CODE = [
   '  <solaris-collapsible value="b" label="Teams">',
   '    <p>Invite members here.</p>',
   '  </solaris-collapsible>',
+  '</solaris-accordion>',
+].join('\n');
+
+export const ACCORDION_SHOWCASE_QUESTION_CODE = [
+  '<solaris-accordion [(value)]="openValue">',
+  '  <solaris-collapsible value="a" label="What is Solaris?">',
+  '    <p>A design system for Educare.</p>',
+  '  </solaris-collapsible>',
+  '  <solaris-collapsible-input',
+  '    value="ask"',
+  '    [(query)]="faqQuery"',
+  '    [loading]="isAsking"',
+  '    (submitted)="askAi($event)"',
+  '    (cancelled)="cancelAi()"',
+  '  >',
+  '    @if (aiAnswer) {',
+  '      <div>{{ aiAnswer }}</div>',
+  '    }',
+  '  </solaris-collapsible-input>',
   '</solaris-accordion>',
 ].join('\n');
 

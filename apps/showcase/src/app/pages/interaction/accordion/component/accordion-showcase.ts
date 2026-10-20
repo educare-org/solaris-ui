@@ -5,6 +5,7 @@ import {
   SolarisAccordionComponent,
   SolarisCodeBlockComponent,
   SolarisCollapsibleComponent,
+  SolarisCollapsibleInputComponent,
   SolarisPreviewCodeComponent,
   SolarisTabComponent,
   SolarisTabsComponent,
@@ -30,6 +31,7 @@ import {
   ACCORDION_SHOWCASE_MULTIPLE_CODE,
   ACCORDION_SHOWCASE_NEXT,
   ACCORDION_SHOWCASE_PREV,
+  ACCORDION_SHOWCASE_QUESTION_CODE,
   ACCORDION_SHOWCASE_SLUG,
   ACCORDION_SHOWCASE_TOC_ITEMS,
   ACCORDION_TRANSLATION_PREFIX,
@@ -41,6 +43,7 @@ import {
     SolarisAccordionComponent,
     SolarisCodeBlockComponent,
     SolarisCollapsibleComponent,
+    SolarisCollapsibleInputComponent,
     SolarisPreviewCodeComponent,
     SolarisTabComponent,
     SolarisTabsComponent,
@@ -66,6 +69,7 @@ export class AccordionShowcasePage {
   protected readonly importCode = ACCORDION_SHOWCASE_IMPORT_CODE;
   protected readonly basicCode = ACCORDION_SHOWCASE_BASIC_CODE;
   protected readonly multipleCode = ACCORDION_SHOWCASE_MULTIPLE_CODE;
+  protected readonly questionCode = ACCORDION_SHOWCASE_QUESTION_CODE;
 
   private readonly pageActions = createShowcasePageActions(
     this.translateService,
@@ -85,6 +89,13 @@ export class AccordionShowcasePage {
 
   protected singleValue: string | undefined;
   protected multipleValues: string[] = [];
+  protected faqValue: string | undefined;
+
+  protected readonly faqQuery = signal('');
+  protected readonly faqLoading = signal(false);
+  protected readonly faqAnswer = signal<string | null>(null);
+
+  private faqTimer: ReturnType<typeof setTimeout> | undefined;
 
   protected readonly selectedMode = signal<SolarisAccordionType>('single');
   protected readonly selectedAppearance =
@@ -109,6 +120,28 @@ export class AccordionShowcasePage {
 
   protected downloadPageAsMarkdown(): void {
     this.pageActions.downloadPageAsMarkdown();
+  }
+
+  protected askFaq(question: string): void {
+    this.cancelFaqTimer();
+    this.faqAnswer.set(null);
+    this.faqLoading.set(true);
+    this.faqTimer = setTimeout(() => {
+      this.faqAnswer.set(question);
+      this.faqLoading.set(false);
+    }, 1200);
+  }
+
+  protected cancelFaq(): void {
+    this.cancelFaqTimer();
+    this.faqLoading.set(false);
+  }
+
+  private cancelFaqTimer(): void {
+    if (this.faqTimer !== undefined) {
+      clearTimeout(this.faqTimer);
+      this.faqTimer = undefined;
+    }
   }
 
   protected openInChatGpt(): void {

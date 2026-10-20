@@ -246,6 +246,36 @@
     </solaris-accordion>
   </app-docs-section>
 
+  <app-docs-section anchor="question" titleKey="accordion.section.question">
+    <p class="accordion-showcase__note">
+      {{ 'accordion.question.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="questionCode" language="html">
+      <solaris-accordion [(value)]="faqValue">
+        <solaris-collapsible
+          value="solaris"
+          [label]="'accordion.faq-q1' | translate"
+        >
+          <p>{{ 'accordion.faq-q1-content' | translate }}</p>
+        </solaris-collapsible>
+        <solaris-collapsible-input
+          value="ask"
+          [(query)]="faqQuery"
+          [loading]="faqLoading()"
+          (submitted)="askFaq($event)"
+          (cancelled)="cancelFaq()"
+        >
+          @if (faqAnswer()) {
+          <p>
+            {{ 'accordion.faq-answer-prefix' | translate }} "{{ faqAnswer() }}":
+            {{ 'accordion.faq-answer-body' | translate }}
+          </p>
+          }
+        </solaris-collapsible-input>
+      </solaris-accordion>
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section
     anchor="installation"
     titleKey="accordion.section.installation"

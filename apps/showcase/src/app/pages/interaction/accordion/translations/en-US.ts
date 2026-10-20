@@ -8,6 +8,14 @@ export const EN_US_ACCORDION: Record<string, string> = {
   'accordion.section.size-density': 'Size & density',
   'accordion.section.behavior': 'Behavior',
   'accordion.section.leading-icon': 'Leading icon',
+  'accordion.section.question': 'Question row',
+  'accordion.question.note':
+    'The last row is a question field. Submitting freezes the question as its label and shows a loading status; the host below simulates an AI backend with a delayed answer. Plug any backend into (submitted) and project the answer.',
+  'accordion.faq-q1': 'What is Solaris?',
+  'accordion.faq-q1-content': 'A design system for Educare.',
+  'accordion.faq-answer-prefix': 'Answer to',
+  'accordion.faq-answer-body':
+    'This is a simulated answer. Connect your AI backend to resolve real questions.',
   'accordion.section.installation': 'Installation',
   'accordion.section.props': 'Props',
   'accordion.examples.note':

@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 
 import {
+  SolarisAccordionComponent,
   SolarisButtonDirective,
   SolarisCodeBlockComponent,
   SolarisCollapsibleComponent,
@@ -10,6 +11,7 @@ import {
   SolarisTabsComponent,
   SolarisTranslatePipe,
   SolarisTranslateService,
+  type SolarisCollapsibleAddResult,
   type SolarisCollapsibleAppearance,
   type SolarisCollapsibleDensity,
   type SolarisCollapsibleSize,
@@ -22,6 +24,7 @@ import { ShowcaseDocsSection } from '../../../../shell/docs-section/docs-section
 
 import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
 import {
+  COLLAPSIBLE_SHOWCASE_ADD_CODE,
   COLLAPSIBLE_SHOWCASE_BASIC_CODE,
   COLLAPSIBLE_SHOWCASE_BREADCRUMBS,
   COLLAPSIBLE_SHOWCASE_CONTROLLED_CODE,
@@ -34,9 +37,17 @@ import {
   COLLAPSIBLE_TRANSLATION_PREFIX,
 } from '../model/collapsible-showcase.data';
 
+interface AddedShowcaseSection {
+  id: string;
+  label: string;
+  description: string;
+  leadingIcon?: string;
+}
+
 @Component({
   standalone: true,
   imports: [
+    SolarisAccordionComponent,
     SolarisButtonDirective,
     SolarisCodeBlockComponent,
     SolarisCollapsibleComponent,
@@ -65,6 +76,11 @@ export class CollapsibleShowcasePage {
   protected readonly importCode = COLLAPSIBLE_SHOWCASE_IMPORT_CODE;
   protected readonly basicCode = COLLAPSIBLE_SHOWCASE_BASIC_CODE;
   protected readonly controlledCode = COLLAPSIBLE_SHOWCASE_CONTROLLED_CODE;
+  protected readonly addCode = COLLAPSIBLE_SHOWCASE_ADD_CODE;
+
+  protected readonly addedSections = signal<readonly AddedShowcaseSection[]>(
+    [],
+  );
 
   private readonly pageActions = createShowcasePageActions(
     this.translateService,
@@ -101,6 +117,19 @@ export class CollapsibleShowcasePage {
 
   protected toggleControlled(): void {
     this.controlledOpen.update((open) => !open);
+  }
+
+  protected onAddSection(event: SolarisCollapsibleAddResult): void {
+    const id = `added-${this.addedSections().length + 1}`;
+    this.addedSections.update((sections) => [
+      ...sections,
+      {
+        id,
+        label: event.label,
+        description: event.description,
+        leadingIcon: event.leadingIcon ?? undefined,
+      },
+    ]);
   }
 
   protected copyPageAsMarkdown(): void {

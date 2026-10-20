@@ -8,6 +8,14 @@ export const PT_BR_ACCORDION: Record<string, string> = {
   'accordion.section.size-density': 'Tamanho e densidade',
   'accordion.section.behavior': 'Comportamento',
   'accordion.section.leading-icon': 'Ícone inicial',
+  'accordion.section.question': 'Linha de pergunta',
+  'accordion.question.note':
+    'A última linha é um campo de pergunta. Enviar congela a pergunta como rótulo e mostra o status de carregamento; o host abaixo simula um backend de IA com resposta atrasada. Plugue qualquer backend no (submitted) e projete a resposta.',
+  'accordion.faq-q1': 'O que é Solaris?',
+  'accordion.faq-q1-content': 'Um design system para a Educare.',
+  'accordion.faq-answer-prefix': 'Resposta para',
+  'accordion.faq-answer-body':
+    'Esta é uma resposta simulada. Conecte seu backend de IA para responder perguntas reais.',
   'accordion.section.installation': 'Instalação',
   'accordion.section.props': 'Propriedades',
   'accordion.examples.note':

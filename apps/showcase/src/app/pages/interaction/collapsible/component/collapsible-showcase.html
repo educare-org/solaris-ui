@@ -158,6 +158,39 @@
     </solaris-collapsible>
   </app-docs-section>
 
+  <app-docs-section anchor="add-item" titleKey="collapsible.section.add-item">
+    <p class="collapsible-showcase__note">
+      {{ 'collapsible.add-item.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="addCode" language="html">
+      <solaris-collapsible
+        label="Profile"
+        leadingIcon="user"
+        [showAddAction]="true"
+        [addActionLabel]="'collapsible.add-item.action' | translate"
+        (addSubmitted)="onAddSection($event)"
+      >
+        <p>Hidden content.</p>
+      </solaris-collapsible>
+    </solaris-preview-code>
+    @if (addedSections().length > 0) {
+    <p class="collapsible-showcase__note">
+      {{ 'collapsible.add-item.added' | translate }}
+    </p>
+    <solaris-accordion>
+      @for (section of addedSections(); track section.id) {
+      <solaris-collapsible
+        [value]="section.id"
+        [label]="section.label"
+        [leadingIcon]="section.leadingIcon"
+      >
+        <p>{{ section.description }}</p>
+      </solaris-collapsible>
+      }
+    </solaris-accordion>
+    }
+  </app-docs-section>
+
   <app-docs-section
     anchor="installation"
     titleKey="collapsible.section.installation"

@@ -27,6 +27,11 @@ export const EN_US_COLLAPSIBLE: Record<string, string> = {
   'collapsible.density.comfortable': 'Comfortable',
   'collapsible.leading-icon.note':
     'Optional icon glued to the label, rendered before the expand chevron.',
+  'collapsible.section.add-item': 'Add item',
+  'collapsible.add-item.note':
+    'The add button opens a creation dialog (icon first, then required title and description). The icon select lists the full built-in catalog with a preview, unless iconOptions overrides it. Confirming emits the payload — the host below appends it as a new section.',
+  'collapsible.add-item.action': 'Add section',
+  'collapsible.add-item.added': 'Added sections',
   'collapsible.installation.note':
     'Install the single Solaris package, then import the component.',
   'collapsible.props.note': 'Props table coming soon with the table component.',
