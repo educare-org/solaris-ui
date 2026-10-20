@@ -401,9 +401,6 @@ button.solaris-calendar-month-view__chip[data-kind='event'] {
     box-sizing: border-box;
   }
 
-  // Square cells size rows by page width, pushing the grid (plus agenda)
-  // onto a second sheet in landscape. Content-sized rows keep a typical
-  // month on one page in both orientations.
   .solaris-calendar-month-view__cell {
     aspect-ratio: auto;
     min-height: var(--solaris-spacing-15);
@@ -420,9 +417,6 @@ button.solaris-calendar-month-view__chip[data-kind='event'] {
     background: #fff;
   }
 
-  // Outside-month wash must also pin to paper: its screen rule
-  // (class + attribute) outranks the rule above, printing near-black
-  // cells on dark themes.
   // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for outside-month cells.
   .solaris-calendar-month-view__cell[data-outside-month] {
     background: #fff;
