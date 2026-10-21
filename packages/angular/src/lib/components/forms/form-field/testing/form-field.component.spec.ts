@@ -41,9 +41,9 @@ describe('SolarisFormFieldComponent', () => {
     expect(el.getAttribute('data-appearance')).toBe('outline');
   });
 
-  it('should have default radius sm', () => {
+  it('should have default radius md', () => {
     const el = createFixture();
-    expect(el.getAttribute('data-radius')).toBe('sm');
+    expect(el.getAttribute('data-radius')).toBe('md');
   });
 
   it('should have default density normal', () => {

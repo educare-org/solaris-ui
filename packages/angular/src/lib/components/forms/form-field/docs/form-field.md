@@ -69,7 +69,7 @@ Selector: `solaris-form-field`
 | `appearance`       | `'outline' \| 'surface' \| 'filled'`     | `'outline'` | Visual style                                                  |
 | `size`             | `'sm' \| 'md' \| 'lg'`                   | `'md'`      | Control size (outer height follows the size × density matrix) |
 | `density`          | `'compact' \| 'normal' \| 'comfortable'` | inherited   | Spacing density                                               |
-| `radius`           | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'sm'`      | Border radius                                                 |
+| `radius`           | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`      | Border radius                                                 |
 | `prefix`           | `SolarisIconName`                        | —           | Prefix icon rendered in the leading affix slot                |
 | `suffix`           | `SolarisIconName`                        | —           | Suffix icon rendered in the trailing affix slot               |
 | `loading`          | `boolean`                                | `false`     | Shows a spinner in the suffix slot, suppresses suffix content |
