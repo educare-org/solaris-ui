@@ -20,7 +20,7 @@ import { SolarisFormControl } from '../../form-field/model/form-control.contract
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisIconComponent } from '../../../icon';
-import { SOLARIS_SWITCH_GROUP } from '../../switch-group';
+import { SOLARIS_SWITCH_GROUP } from '../../switch-group/model/switch-group.token';
 import { resolveElementId } from '../../../../core';
 
 import type { SolarisIconName } from '../../../../services/icon';

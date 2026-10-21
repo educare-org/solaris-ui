@@ -21,7 +21,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
-import { SolarisSwitchComponent } from '../../switch';
+import { SolarisSwitchComponent } from '../../switch/component/switch.component';
 import { SOLARIS_SWITCH_GROUP } from '../model/switch-group.token';
 import { resolveElementId } from '../../../../core';
 

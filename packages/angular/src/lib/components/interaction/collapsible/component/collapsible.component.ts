@@ -23,7 +23,7 @@ import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisIconComponent } from '../../../icon';
 import { resolveElementId } from '../../../../core';
-import { SOLARIS_ACCORDION } from '../../accordion';
+import { SOLARIS_ACCORDION } from '../../accordion/model/accordion.tokens';
 import { SolarisDialogService } from '../../../overlay/dialog';
 import { SolarisCollapsibleAddDialogComponent } from '../dialog/component/collapsible-add-dialog.component';
 

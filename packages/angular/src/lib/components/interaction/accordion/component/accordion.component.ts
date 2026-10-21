@@ -9,7 +9,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { SolarisCollapsibleComponent } from '../../collapsible';
+import { SolarisCollapsibleComponent } from '../../collapsible/component/collapsible.component';
 import { nextIdFor } from '../../../../core';
 import { SolarisThemeService } from '../../../../services/theme';
 
