@@ -144,7 +144,7 @@
 /// only add the `transform` line plus the active-state mixin (see `_button.scss`).
 @mixin solaris-motion-press {
   transition: transform var(--solaris-motion-duration-fast)
-    var(--solaris-motion-easing-standard);
+    var(--solaris-motion-easing-decelerate);
 }
 
 /// Press feedback (active state, under `:active`).

@@ -87,7 +87,7 @@
     box-shadow var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
     transform var(--solaris-motion-duration-fast)
-      var(--solaris-motion-easing-standard);
+      var(--solaris-motion-easing-decelerate);
 }
 
 [solaris-button]:hover {
