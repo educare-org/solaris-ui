@@ -1,0 +1,25 @@
+{
+  "solaris": {
+    "dataDisplay": {
+      "table": {
+        "actionsColumn": "Actions",
+        "addRow": "Add row",
+        "ariaLabel": "Data table",
+        "collapseCell": "Collapse details for {{column}} in row {{rowId}}",
+        "collapseRow": "Collapse row {{rowId}}",
+        "emptyText": "No results found",
+        "errorText": "Unable to load data",
+        "expandCell": "Expand details for {{column}} in row {{rowId}}",
+        "expandRow": "Expand row {{rowId}}",
+        "loadingText": "Loading data",
+        "selectAllVisible": "Select all visible rows",
+        "selectRow": "Select row {{rowId}}",
+        "sortAsc": "Sort {{column}} ascending",
+        "sortClear": "Clear sorting for {{column}}",
+        "sortDesc": "Sort {{column}} descending",
+        "sortedAnnounce": "Table sorted by {{column}}, {{direction}}",
+        "sortedCleared": "Table sorting cleared"
+      }
+    }
+  }
+}

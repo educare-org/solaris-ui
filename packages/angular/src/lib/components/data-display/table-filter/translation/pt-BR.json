@@ -1,0 +1,49 @@
+{
+  "solaris": {
+    "dataDisplay": {
+      "tableFilter": {
+        "addCondition": "Adicionar filtro",
+        "ariaLabel": "Filtros da tabela",
+        "clearAll": "Limpar tudo",
+        "columnLabel": "Coluna",
+        "columnMoveDown": "Mover {{column}} para baixo",
+        "columnMoveUp": "Mover {{column}} para cima",
+        "columnsButton": "Personalizar colunas",
+        "columnsCancel": "Cancelar",
+        "columnsReset": "Redefinir",
+        "columnsSave": "Salvar",
+        "columnsTitle": "Personalizar colunas",
+        "createView": "Criar visão",
+        "createViewName": "Nome da visão",
+        "createViewNamePlaceholder": "Minha visão",
+        "exportButton": "Exportar",
+        "exportFormat": "Formato",
+        "filterButton": "Filtros",
+        "noConditions": "Nenhum filtro aplicado",
+        "operator": {
+          "between": "entre",
+          "contains": "contém",
+          "equals": "é",
+          "gt": "maior que",
+          "gte": "maior ou igual a",
+          "in": "é um de",
+          "isEmpty": "está vazio",
+          "isNotEmpty": "não está vazio",
+          "lt": "menor que",
+          "lte": "menor ou igual a",
+          "notEquals": "não é",
+          "notIn": "não é nenhum de",
+          "startsWith": "começa com"
+        },
+        "operatorLabel": "Operador",
+        "removeCondition": "Remover filtro de {{column}}",
+        "removeSearch": "Limpar busca",
+        "save": "Salvar",
+        "searchLabel": "Buscar na tabela",
+        "searchPlaceholder": "Buscar",
+        "valueLabel": "Valor",
+        "viewsLabel": "Visões"
+      }
+    }
+  }
+}

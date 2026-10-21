@@ -1,0 +1,10 @@
+{
+  "solaris": {
+    "breadcrumb": {
+      "label": "Migas de pan",
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "showMore": "Mostrar más elementos"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "solaris": {
+    "dataDisplay": {
+      "table": {
+        "actionsColumn": "Acciones",
+        "addRow": "Agregar fila",
+        "ariaLabel": "Tabla de datos",
+        "collapseCell": "Contraer detalles de {{column}} en la fila {{rowId}}",
+        "collapseRow": "Contraer fila {{rowId}}",
+        "emptyText": "No se encontraron resultados",
+        "errorText": "No se pudieron cargar los datos",
+        "expandCell": "Expandir detalles de {{column}} en la fila {{rowId}}",
+        "expandRow": "Expandir fila {{rowId}}",
+        "loadingText": "Cargando datos",
+        "selectAllVisible": "Seleccionar todas las filas visibles",
+        "selectRow": "Seleccionar fila {{rowId}}",
+        "sortAsc": "Ordenar {{column}} de forma ascendente",
+        "sortClear": "Quitar orden de {{column}}",
+        "sortDesc": "Ordenar {{column}} de forma descendente",
+        "sortedAnnounce": "Tabla ordenada por {{column}}, {{direction}}",
+        "sortedCleared": "Orden de la tabla eliminado"
+      }
+    }
+  }
+}

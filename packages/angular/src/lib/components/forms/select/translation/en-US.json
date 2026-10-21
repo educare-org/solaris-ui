@@ -1,0 +1,13 @@
+{
+  "solaris": {
+    "select": {
+      "clear": "Clear selection",
+      "empty": "No options available",
+      "loading": "Loading...",
+      "noResults": "No results found",
+      "search": {
+        "placeholder": "Search..."
+      }
+    }
+  }
+}

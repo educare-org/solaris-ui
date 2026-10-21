@@ -1,0 +1,21 @@
+{
+  "solaris": {
+    "dataDisplay": {
+      "recordGrid": {
+        "ariaLabel": "Cuadrícula de registros",
+        "commitAll": "Confirmar todos los borradores",
+        "discardAll": "Descartar todos los borradores",
+        "emptyText": "No se encontraron registros",
+        "errorText": "No se pudieron cargar los registros",
+        "loadingText": "Cargando registros",
+        "selectAllVisible": "Seleccionar todas las filas visibles",
+        "selectRow": "Seleccionar fila {{rowId}}",
+        "sortAsc": "Ordenar {{column}} de forma ascendente",
+        "sortClear": "Quitar orden de {{column}}",
+        "sortDesc": "Ordenar {{column}} de forma descendente",
+        "sortedAnnounce": "Ordenado por {{column}} {{direction}}",
+        "sortedCleared": "Orden de la cuadrícula eliminado"
+      }
+    }
+  }
+}

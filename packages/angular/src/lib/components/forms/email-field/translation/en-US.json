@@ -1,0 +1,11 @@
+{
+  "solaris": {
+    "email-field": {
+      "allowedDomain": "Email domain is not allowed.",
+      "blockedDomain": "Email domain is blocked.",
+      "clear": "Clear email",
+      "invalid": "Enter a valid email address.",
+      "required": "Email is required."
+    }
+  }
+}

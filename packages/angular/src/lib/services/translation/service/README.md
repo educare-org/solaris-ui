@@ -99,6 +99,29 @@ translate.instant('greeting', { name: 'Kaique' }); // alias for translate()
 <h1>{{ 'greeting' | translate: { name: 'Kaique' } }}</h1>
 ```
 
+## Dictionaries
+
+Source of truth is JSON, split per component. Each package owns exactly
+`en-US.json`, `pt-BR.json`, `es-419.json` plus an `index.ts` that only
+imports the three files and exports the per-locale map — no translated
+string lives in TypeScript:
+
+```
+components/forms/select/translation/
+  en-US.json
+  pt-BR.json
+  es-419.json
+  index.ts
+```
+
+`model/solaris-translate-defaults.ts` imports every package and deep-merges
+them per locale, then flattens once at load (`flattenTranslations`), so the
+service, pipe and validators keep operating on dotted keys
+(`solaris.select.empty`) with zero runtime cost. Dictionaries stay nested
+(`{ "solaris": { "select": { "empty": "..." } } }`), values are always
+literals (no `@:` links), keys are sorted, and values intentionally equal to
+`en-US` must be listed in `packages/angular/src/lib/translation-terms.allowlist.json`.
+
 ## SSR safety
 
 No direct browser API access. `navigator`/`localStorage` guarded by `isPlatformBrowser` (plus `typeof` guards); persistence failures (private mode, quota) are swallowed — the in-memory locale still applies.

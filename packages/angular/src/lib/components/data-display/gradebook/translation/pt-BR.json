@@ -1,0 +1,14 @@
+{
+  "solaris": {
+    "dataDisplay": {
+      "gradebook": {
+        "editorLabel": "Editar nota",
+        "status": {
+          "excused": "Dispensada",
+          "late": "Entrega atrasada",
+          "missing": "Nota faltante"
+        }
+      }
+    }
+  }
+}

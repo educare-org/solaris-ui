@@ -1,0 +1,16 @@
+{
+  "solaris": {
+    "editableTabs": {
+      "cancelRename": "Cancelar cambio de nombre",
+      "confirmRename": "Confirmar cambio de nombre",
+      "moveDown": "Mover hacia abajo",
+      "moveLeft": "Mover a la izquierda",
+      "moveRight": "Mover a la derecha",
+      "moveUp": "Mover hacia arriba",
+      "remove": "Quitar",
+      "rename": "Renombrar",
+      "setAsDefault": "Establecer como predeterminada",
+      "tabActions": "Acciones de la pestaña"
+    }
+  }
+}

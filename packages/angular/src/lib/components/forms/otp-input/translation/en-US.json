@@ -1,0 +1,9 @@
+{
+  "solaris": {
+    "otp-input": {
+      "box": "Digit {{current}} of {{total}}",
+      "invalid": "Enter a valid code.",
+      "required": "Code is required."
+    }
+  }
+}

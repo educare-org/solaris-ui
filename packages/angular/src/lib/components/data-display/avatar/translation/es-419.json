@@ -1,0 +1,17 @@
+{
+  "solaris": {
+    "avatar": {
+      "notifications": "{{count}} notificaciones",
+      "offHours": "Fuera del horario laboral",
+      "overflowMore": "{{count}} personas más",
+      "status": {
+        "away": "Ausente",
+        "busy": "Ocupado",
+        "dnd": "No molestar",
+        "offline": "Desconectado",
+        "online": "En línea"
+      },
+      "verified": "Verificado"
+    }
+  }
+}

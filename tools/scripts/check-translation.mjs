@@ -21,6 +21,12 @@ const FORBIDDEN_CONSTS = [
 
 function findTranslationDirs() {
   const roots = ['packages/angular/src/lib', 'apps/showcase/src/app'];
+  // Fase 3: o agregador central (serviço) não carrega mais dicionários próprios —
+  // ele importa os pacotes de components/**/translation e faz merge profundo.
+  // Não validar a pasta do serviço como pacote de dicionário.
+  const skipped = new Set([
+    path.normalize('packages/angular/src/lib/services/translation'),
+  ]);
   const found = [];
   function walk(dir) {
     for (const entry of readdirSafe(dir)) {
@@ -28,6 +34,10 @@ function findTranslationDirs() {
       if (!entry.isDirectory()) continue;
       if (entry.name === 'node_modules' || entry.name.startsWith('.')) continue;
       if (entry.name === 'translation') {
+        if (skipped.has(path.normalize(fullPath))) {
+          walk(fullPath);
+          continue;
+        }
         found.push(fullPath);
         continue;
       }
