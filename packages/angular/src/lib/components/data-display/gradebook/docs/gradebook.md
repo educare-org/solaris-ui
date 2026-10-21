@@ -154,7 +154,7 @@ No business logic lives in the gradebook; the patterns below stay in consumer co
 - **Bulk actions**: `bulkEnabled` + `selectionMode="multiple"` commit one value across selected rows via `gradeBulkCommit`; `enablePaste` accepts TSV paste with per-cell `gradePasteError`. Confirm bulk writes before applying — the component never persists.
 - **Keyboard-first**: Enter or double-click opens a cell editor, change/Enter commits, Escape or blur closes without committing. Tab moves across cells in reading order; `editableOf` locks view-only cells to text (no focus trap).
 - **1000+ rows**: never render unbounded. Page large cohorts with `solaris-pagination` in the table footer slot over a server `SolarisTableDataSource`, or split by class/section. Bulk commit operates on the selected ids within the loaded page.
-- **i18n growth**: `pt-BR`/`es` headers run ~30% longer than `en-US`. Header groups and assessment hints wrap or truncate with tooltips — never clip, never fix widths to English text.
+- **translation growth**: `pt-BR`/`es-419` headers run ~30% longer than `en-US`. Header groups and assessment hints wrap or truncate with tooltips — never clip, never fix widths to English text.
 - **Print**: the print baseline is ink-safe (paper background, editor chrome neutralized, status dots as ink outlines; the inner table expands scrollers and hides pagination nav). Print published matrices from the full source rows, not the current page.
 
 ### SolarisGradebookLegendComponent

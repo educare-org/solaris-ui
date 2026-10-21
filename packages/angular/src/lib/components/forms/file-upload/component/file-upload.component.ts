@@ -408,7 +408,7 @@ export class SolarisFileUploadComponent
     if (key) {
       return this.translateService.translate(key);
     }
-    return this.translateService.translate('solaris.file-upload.avatar');
+    return this.translateService.translate('solaris.file-upload.avatar.label');
   });
 
   protected readonly avatarHeadlineText = computed(() => {

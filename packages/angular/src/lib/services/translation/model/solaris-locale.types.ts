@@ -3,7 +3,7 @@ type LiteralUnion<T extends U, U = string> = T | (U & {});
 export type SolarisBuiltInLocale =
   | 'pt-BR'
   | 'en-US'
-  | 'es'
+  | 'es-419'
   | 'zh'
   | 'ru'
   | 'de'

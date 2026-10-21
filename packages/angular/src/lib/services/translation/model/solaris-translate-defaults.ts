@@ -1,19 +1,33 @@
 import type { SolarisTranslateConfig } from './solaris-translate-config.interface';
-import { SOLARIS_TRANSLATE_EN_US } from './i18n/solaris-translate.en-US';
-import { SOLARIS_TRANSLATE_PT_BR } from './i18n/solaris-translate.pt-BR';
-import { SOLARIS_TRANSLATE_ES } from './i18n/solaris-translate.es';
+import type { SolarisTranslationMap } from './solaris-translation.types';
+import enUS from '../en-US.json';
+import ptBR from '../pt-BR.json';
+import es419 from '../es-419.json';
 
-export { SOLARIS_TRANSLATE_EN_US } from './i18n/solaris-translate.en-US';
-export { SOLARIS_TRANSLATE_PT_BR } from './i18n/solaris-translate.pt-BR';
-export { SOLARIS_TRANSLATE_ES } from './i18n/solaris-translate.es';
+type TranslationTree = string | { [key: string]: TranslationTree };
+
+function flattenTranslations(
+  tree: TranslationTree,
+  prefix = '',
+  out: SolarisTranslationMap = {},
+): SolarisTranslationMap {
+  if (typeof tree === 'string') {
+    out[prefix] = tree;
+    return out;
+  }
+  for (const [key, value] of Object.entries(tree)) {
+    flattenTranslations(value, prefix ? `${prefix}.${key}` : key, out);
+  }
+  return out;
+}
 
 export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
   locale: 'en-US',
   fallbackLocale: 'en-US',
   translations: {
-    'en-US': SOLARIS_TRANSLATE_EN_US,
-    'pt-BR': SOLARIS_TRANSLATE_PT_BR,
-    es: SOLARIS_TRANSLATE_ES,
+    'en-US': flattenTranslations(enUS as TranslationTree),
+    'pt-BR': flattenTranslations(ptBR as TranslationTree),
+    'es-419': flattenTranslations(es419 as TranslationTree),
   },
   useBrowserLocale: true,
 };

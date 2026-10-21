@@ -51,7 +51,7 @@ interface SolarisTranslateConfig {
 
 ### Built-in locales
 
-`pt-BR`, `en-US`, `es`, `zh`, `ru`, `de`, `fr`, `ja`
+`pt-BR`, `en-US`, `es-419`
 
 Custom locales allowed via string — no type restriction.
 

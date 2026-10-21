@@ -29,9 +29,9 @@ describe('SolarisTranslateService', () => {
       TestBed.configureTestingModule({
         providers: [
           provideSolarisTranslateTesting({
-            locale: 'es',
+            locale: 'es-419',
             translations: {
-              es: {},
+              'es-419': {},
               'pt-BR': { greeting: 'Olá, {{name}}' },
             },
           }),

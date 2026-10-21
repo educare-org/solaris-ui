@@ -227,7 +227,7 @@ No business logic lives in the table; the patterns below stay in consumer code.
 - **Keyboard-first**: sort, selection, expand, and row actions are real `<button>`s — Tab reaches them, Enter/Space activates. Keep row order stable so screen-reader and keyboard order match.
 - **1000+ rows**: never render unbounded. Page with `solaris-pagination` in the `solaris-table-footer` slot over a `SolarisTableDataSource` (server mode), or cap client rows per page. The table renders only the rows it receives.
 - **Audit trail**: log `selectionChange`/`sortChange`/`rowClick` with row ids and timestamps in the consumer. Never log cell PII (names, emails, grades) — ids only.
-- **i18n growth**: `pt-BR`/`es` labels run ~30% longer than `en-US`. Headers and cells truncate with ellipsis and expose the full value in `title`; never fix column widths to English text.
+- **translation growth**: `pt-BR`/`es-419` labels run ~30% longer than `en-US`. Headers and cells truncate with ellipsis and expose the full value in `title`; never fix column widths to English text.
 - **Print**: the print baseline is ink-safe (paper background, hidden pagination footer, row actions, and expand buttons; scrollers expanded; sticky reset to static). Print from the full source rows, not the current page — open a print view with all rows, then call print.
 
 ## Accessibility

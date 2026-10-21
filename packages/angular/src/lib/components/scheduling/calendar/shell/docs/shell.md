@@ -69,7 +69,7 @@ semantics (arrows + `Enter`, `PageUp`/`PageDown` paginate).
 
 Window-level `keydown` parity with Google Calendar. Every action announces
 through the polite live region (`viewLabel`/`titleLabel`/`newEvent`, resolved
-via `SolarisTranslateService` in en/pt-BR/es with `locale` fallbacks).
+via `SolarisTranslateService` in en-US/pt-BR/es-419 with `locale` fallbacks).
 
 | Key                         | Action                                                                                                                        |
 | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |

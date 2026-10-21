@@ -95,7 +95,7 @@ No business logic lives in the record grid; the patterns below stay in consumer 
 - **Bulk actions**: `selectionMode="multiple"` selects rows for batch flows; `commitAll()` / `discardAll()` flush or drop the open draft. Each commit emits the audit-ready `recordCommit` diff — apply it to the consumer store, then persist.
 - **Keyboard-first**: editable cells are text buttons (Enter opens, Escape discards, Enter commits); keyboard skips merged-span covered cells so tab order stays continuous. `aria-invalid` + `aria-describedby` announce validation.
 - **1000+ rows**: never render unbounded. Page attendance sheets with `solaris-pagination` in the footer slot (per class/section), or serve server pages. The grid edits the loaded working copy only.
-- **i18n growth**: `pt-BR`/`es` section headers and labels run ~30% longer than `en-US`. Terms wrap, values align end — never clip, never fix widths to English text.
+- **translation growth**: `pt-BR`/`es-419` section headers and labels run ~30% longer than `en-US`. Terms wrap, values align end — never clip, never fix widths to English text.
 - **Print**: the print baseline is ink-safe (paper background, draft/error washes removed with an underlined error marker, pagination footer and draft bar hidden, viewport expanded, sticky reset). Print from committed records, not open drafts.
 
 ### Slots

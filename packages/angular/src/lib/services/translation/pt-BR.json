@@ -1,0 +1,480 @@
+{
+  "solaris": {
+    "button": {
+      "loading": "Carregando..."
+    },
+    "spinner": {
+      "loading": "Carregando..."
+    },
+    "progress": {
+      "indeterminate": "Progresso indeterminado"
+    },
+    "loadingText": {
+      "loading": "Carregando..."
+    },
+    "stepper": {
+      "optional": "Opcional"
+    },
+    "select": {
+      "loading": "Carregando...",
+      "empty": "Nenhuma opção disponível",
+      "noResults": "Nenhum resultado encontrado",
+      "clear": "Limpar seleção",
+      "search": {
+        "placeholder": "Buscar..."
+      }
+    },
+    "multiSelect": {
+      "selectedCount": {
+        "singular": "1 selecionado",
+        "plural": "{{ count }} selecionados"
+      },
+      "search": {
+        "placeholder": "Buscar..."
+      },
+      "loading": "Carregando...",
+      "empty": "Nenhuma opção disponível",
+      "noResults": "Nenhum resultado encontrado",
+      "clear": "Limpar seleção",
+      "selectAll": "Selecionar todos",
+      "removeChip": "Remover"
+    },
+    "toast": {
+      "close": "Fechar",
+      "progress": "Progresso",
+      "remaining": "Tempo restante",
+      "closesIn": "Esta mensagem irá fechar em {{seconds}} segundos.",
+      "closesInOne": "Esta mensagem irá fechar em 1 segundo.",
+      "paused": "Pausado.",
+      "pause": "Clique para pausar",
+      "continue": "Clique para continuar",
+      "expand": "Expandir",
+      "collapse": "Recolher"
+    },
+    "alert": {
+      "close": "Fechar alerta"
+    },
+    "announcement": {
+      "close": "Dispensar anúncio"
+    },
+    "menuToggle": {
+      "open": "Abrir menu",
+      "close": "Fechar menu"
+    },
+    "dialog": {
+      "close": "Fechar",
+      "confirm": "Confirmar",
+      "cancel": "Cancelar",
+      "discard": "Descartar",
+      "save": "Salvar",
+      "continue": "Continuar",
+      "back": "Voltar",
+      "next": "Próximo",
+      "finish": "Finalizar"
+    },
+    "editableTabs": {
+      "tabActions": "Ações da aba",
+      "rename": "Renomear",
+      "moveLeft": "Mover para esquerda",
+      "moveRight": "Mover para direita",
+      "moveUp": "Mover para cima",
+      "moveDown": "Mover para baixo",
+      "setAsDefault": "Definir como padrão",
+      "remove": "Remover",
+      "confirmRename": "Confirmar renomeação",
+      "cancelRename": "Cancelar renomeação"
+    },
+    "breadcrumb": {
+      "label": "Trilha de navegação",
+      "showMore": "Mostrar mais itens",
+      "previous": "Anterior",
+      "next": "Próximo"
+    },
+    "form-field": {
+      "optional": "Opcional"
+    },
+    "email-field": {
+      "required": "E-mail é obrigatório.",
+      "invalid": "Insira um e-mail válido.",
+      "allowedDomain": "Domínio de e-mail não permitido.",
+      "blockedDomain": "Domínio de e-mail não permitido.",
+      "clear": "Limpar e-mail"
+    },
+    "password-field": {
+      "toggle": {
+        "hide": "Ocultar senha",
+        "show": "Mostrar senha"
+      },
+      "error": {
+        "required": "Senha é obrigatória."
+      },
+      "requirement": {
+        "minLength": "Pelo menos {{count}} caracteres.",
+        "maxLength": "No máximo {{count}} caracteres.",
+        "lowercase": "Uma letra minúscula.",
+        "uppercase": "Uma letra maiúscula.",
+        "number": "Um número.",
+        "symbol": "Um símbolo.",
+        "noWhitespace": "Sem espaços."
+      },
+      "strength": {
+        "weak": "Fraca",
+        "medium": "Média",
+        "strong": "Forte"
+      }
+    },
+    "phone-field": {
+      "required": "O número de telefone é obrigatório.",
+      "invalid": "Insira um número de telefone válido.",
+      "search": {
+        "placeholder": "Buscar país ou código"
+      },
+      "empty": "Nenhum país disponível",
+      "noResults": "Nenhum resultado encontrado",
+      "country": "Selecionar código do país",
+      "clear": "Limpar telefone"
+    },
+    "otp-input": {
+      "required": "O código é obrigatório.",
+      "invalid": "Insira um código válido.",
+      "box": "Dígito {{current}} de {{total}}"
+    },
+    "file-upload": {
+      "dropzone": "Arraste e solte os arquivos aqui ou",
+      "field": "Arraste ou procure o arquivo",
+      "drop-active": "Solte o arquivo aqui",
+      "browse": "procurar arquivos",
+      "up-to": "Até {{size}}",
+      "list": "Arquivos selecionados",
+      "required": "Selecione ao menos um arquivo.",
+      "remove": "Remover {{name}}",
+      "retry": "Tentar enviar {{name}} novamente",
+      "status": {
+        "ready": "Pronto para envio",
+        "uploading": "Enviando",
+        "success": "Enviado",
+        "error": "Falha no envio"
+      },
+      "error": {
+        "max-size": "O arquivo excede o tamanho máximo de {{size}}.",
+        "max-files": "Máximo de {{count}} arquivos permitido.",
+        "type-not-allowed": "Tipo de arquivo não permitido.",
+        "upload-failed": "Não foi possível enviar {{name}}."
+      },
+      "announce": {
+        "addedSingular": "1 arquivo adicionado.",
+        "addedPlural": "{{count}} arquivos adicionados.",
+        "removed": "Removido {{name}}.",
+        "rejectedSingular": "1 arquivo rejeitado: {{name}}.",
+        "rejectedPlural": "{{count}} arquivos rejeitados.",
+        "uploaded": "Envio concluído: {{name}}.",
+        "failed": "Falha no envio: {{name}}."
+      },
+      "or": "ou",
+      "avatar": {
+        "label": "Foto de perfil",
+        "drop": "Solte sua foto aqui ou",
+        "browse": "Selecione um arquivo",
+        "images": "imagens",
+        "supports": "Suporta: {{types}}"
+      },
+      "url": {
+        "label": "URL do arquivo",
+        "placeholder": "https://exemplo.com/arquivo.pdf",
+        "add": "Adicionar",
+        "error": "Não foi possível carregar um arquivo desta URL.",
+        "invalid": "Insira uma URL https válida.",
+        "too-large": "O arquivo remoto excede o limite de {{size}}."
+      }
+    },
+    "image-editor": {
+      "title": "Editar imagem",
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "zoom-in": "Aproximar",
+      "zoom-out": "Afastar",
+      "rotate": "Girar 90 graus",
+      "aspect": "Proporção {{aspect}}",
+      "aspect-free": "Livre",
+      "load-error": "Não foi possível carregar a imagem. Tente outro arquivo.",
+      "zoom": "Zoom",
+      "pan": "Prévia da imagem. Arraste para mover. Use as setas para mover e mais, menos ou a roda do mouse para o zoom.",
+      "shape-rect": "Retângulo",
+      "shape-circle": "Círculo",
+      "reset": "Redefinir",
+      "drag-to-reposition": "Arraste para reposicionar a imagem"
+    },
+    "date-picker": {
+      "placeholder": "DD/MM/AAAA",
+      "open-calendar": "Abrir calendário",
+      "previous-month": "Mês anterior",
+      "next-month": "Próximo mês",
+      "invalid": "Informe uma data válida.",
+      "required": "A data é obrigatória.",
+      "clear": "Limpar data"
+    },
+    "date-range-picker": {
+      "start": "Data inicial",
+      "end": "Data final",
+      "placeholder": "Selecione um intervalo",
+      "custom": "Customizado",
+      "invalid": "Informe um intervalo de datas válido.",
+      "required": "As datas inicial e final são obrigatórias.",
+      "clear": "Limpar",
+      "cancel": "Cancelar",
+      "apply": "Aplicar",
+      "presets": "Atalhos de período"
+    },
+    "avatar": {
+      "status": {
+        "online": "Online",
+        "away": "Ausente",
+        "busy": "Ocupado",
+        "dnd": "Não perturbe",
+        "offline": "Offline"
+      },
+      "offHours": "Fora do horário de trabalho",
+      "verified": "Verificado",
+      "notifications": "{{count}} notificações",
+      "overflowMore": "{{count}} pessoas a mais"
+    },
+    "calendar": {
+      "more": "Mais {{count}}",
+      "dayItems": "{{date}}, {{count}} itens",
+      "moreItems": "{{count}} itens a mais em {{date}}",
+      "task": "{{title}}, tarefa {{state}}",
+      "taskCompleted": "concluída",
+      "taskOpen": "não concluída",
+      "allDay": "Dia inteiro",
+      "nowLine": "Hora atual",
+      "timedEvent": "{{timeRange}}, {{title}}",
+      "timeSlot": "{{date}} às {{time}}",
+      "newEvent": "Novo evento",
+      "scheduleEmpty": "Nenhum evento agendado",
+      "scheduleEmptyHint": "Os eventos deste período aparecerão aqui.",
+      "previousDays": "Mostrar {{count}} dias anteriores",
+      "nextDays": "Mostrar próximos {{count}} dias",
+      "today": "Hoje",
+      "dragCreateStart": "Criando um evento de {{start}} a {{end}}. Solte para confirmar, Escape para cancelar.",
+      "dragMoveStart": "Movendo {{title}} de {{start}}. Solte para confirmar, Escape para cancelar.",
+      "dragResizeStart": "Redimensionando {{title}} de {{start}}. Solte para confirmar, Escape para cancelar.",
+      "dragChange": "{{label}}",
+      "dragCreateCommit": "Evento criado de {{start}} a {{end}}.",
+      "dragMoveCommit": "{{title}} movido para {{label}}.",
+      "dragResizeCommit": "{{title}} redimensionado para {{label}}.",
+      "dragCancel": "Arrasto cancelado. Nenhuma alteração foi feita.",
+      "shellPrevious": "Anterior",
+      "shellNext": "Próximo",
+      "viewDay": "Dia",
+      "viewWeek": "Semana",
+      "viewMonth": "Mês",
+      "viewYear": "Ano",
+      "viewSchedule": "Agenda",
+      "viewCustom": "Personalizado",
+      "showWeekends": "Mostrar fins de semana",
+      "showHolidays": "Mostrar feriados",
+      "displayOptions": "Opções de exibição",
+      "customDays": "Dias exibidos",
+      "shellNavigation": "Navegação do calendário",
+      "miniCalendar": "Minicalendário",
+      "timeZone": "Fuso horário",
+      "editorTitle": "Título",
+      "editorTitleRequired": "Informe um título.",
+      "editorStartDate": "Data inicial",
+      "editorStartTime": "Hora inicial",
+      "editorEndDate": "Data final",
+      "editorEndTime": "Hora final",
+      "editorAllDay": "Dia inteiro",
+      "editorFreq": "Repete",
+      "editorFreqNone": "Não se repete",
+      "editorFreqDaily": "Diariamente",
+      "editorFreqWeekly": "Semanalmente",
+      "editorFreqMonthly": "Mensalmente",
+      "editorFreqYearly": "Anualmente",
+      "editorFreqCustom": "Personalizada",
+      "editorCustomFreq": "Frequência personalizada",
+      "editorInterval": "Repetir a cada",
+      "editorIntervalUnit": "quantidade do intervalo, mínimo 1",
+      "editorWeekdays": "Repetir em",
+      "editorEnds": "Termina",
+      "editorEndsNever": "Nunca",
+      "editorEndsCount": "Após ocorrências",
+      "editorEndsUntil": "Em data",
+      "editorEndsCountLabel": "Número de ocorrências",
+      "editorEndsUntilLabel": "Data final",
+      "editorTimeZone": "Fuso horário",
+      "editorSave": "Salvar",
+      "editorCancel": "Cancelar",
+      "editorDelete": "Excluir",
+      "editorDeleteScope": "Excluir evento recorrente",
+      "editorDeleteThis": "Este evento",
+      "editorDeleteFollowing": "Este e seguintes",
+      "editorDeleteAll": "Todos os eventos",
+      "editorChangeTimeZone": "Alterar fuso horário",
+      "editorVisibility": "Visibilidade",
+      "editorVisibilityPublic": "Público",
+      "editorVisibilityPrivate": "Privado",
+      "editorReminders": "Notificações",
+      "editorReminderAdd": "Adicionar notificação",
+      "editorReminderRemove": "Remover notificação",
+      "editorReminderAtStart": "Quando o evento começa",
+      "editorReminderMinutes": "{{count}} minutos antes",
+      "editorReminderHour": "1 hora antes",
+      "editorReminderDay": "1 dia antes",
+      "editorReminderCustom": "Personalizar…",
+      "editorReminderCustomLabel": "Minutos antes",
+      "editorTimezoneTitle": "Escolher fuso horário",
+      "editorTimezoneSearch": "Buscar fusos horários",
+      "editorTimezoneEmpty": "Nenhum fuso encontrado",
+      "editorKindLabel": "Tipo de item",
+      "editorKindEvent": "Evento",
+      "editorKindTask": "Tarefa",
+      "editorKindSchedule": "Agendamento",
+      "editorSeparateZones": "Usar fusos horários de início e de término separados",
+      "editorStartTimeZone": "Fuso horário de início do evento",
+      "editorEndTimeZone": "Fuso horário de término do evento",
+      "editorSwapZones": "Trocar fusos horários",
+      "editorDescription": "Descrição",
+      "editorMeetingLink": "Link da reunião",
+      "editorMeetingLinkHint": "Meet, Teams ou outro link",
+      "editorAttendees": "Convidados",
+      "editorAttendeesHint": "Emails separados por vírgula",
+      "editorResources": "Recursos",
+      "editorResourcesHint": "Ids de sala ou equipamento, separados por vírgula",
+      "editorColor": "Cor",
+      "editorColorPrimary": "Primária",
+      "editorColorSuccess": "Sucesso",
+      "editorColorWarning": "Alerta",
+      "editorColorDanger": "Perigo",
+      "editorColorInfo": "Informação",
+      "editorColorAccent": "Destaque",
+      "editorColorViolet": "Violeta",
+      "editorColorNeutral": "Neutra",
+      "editorInvalidRange": "O fim deve ser igual ou posterior ao início.",
+      "editorInvalidRecurrence": "Complete os campos de recorrência.",
+      "editorInvalid": "O evento tem campos inválidos."
+    },
+    "dataDisplay": {
+      "table": {
+        "ariaLabel": "Tabela de dados",
+        "emptyText": "Nenhum resultado encontrado",
+        "loadingText": "Carregando dados",
+        "errorText": "Não foi possível carregar os dados",
+        "selectAllVisible": "Selecionar todas as linhas visíveis",
+        "actionsColumn": "Ações",
+        "selectRow": "Selecionar linha {{rowId}}",
+        "sortAsc": "Ordenar {{column}} em ordem crescente",
+        "sortDesc": "Ordenar {{column}} em ordem decrescente",
+        "sortClear": "Limpar ordenação de {{column}}",
+        "expandRow": "Expandir linha {{rowId}}",
+        "collapseRow": "Recolher linha {{rowId}}",
+        "sortedAnnounce": "Tabela ordenada por {{column}}, {{direction}}",
+        "sortedCleared": "Ordenação da tabela limpa",
+        "expandCell": "Expandir detalhes de {{column}} na linha {{rowId}}",
+        "collapseCell": "Recolher detalhes de {{column}} na linha {{rowId}}",
+        "addRow": "Adicionar linha"
+      },
+      "recordGrid": {
+        "ariaLabel": "Grade de registros",
+        "emptyText": "Nenhum registro encontrado",
+        "loadingText": "Carregando registros",
+        "errorText": "Não foi possível carregar os registros",
+        "selectAllVisible": "Selecionar todas as linhas visíveis",
+        "selectRow": "Selecionar linha {{rowId}}",
+        "sortAsc": "Ordenar {{column}} em ordem crescente",
+        "sortDesc": "Ordenar {{column}} em ordem decrescente",
+        "sortClear": "Limpar ordenação de {{column}}",
+        "sortedAnnounce": "Ordenado por {{column}} {{direction}}",
+        "sortedCleared": "Ordenação da grade limpa",
+        "commitAll": "Confirmar rascunhos",
+        "discardAll": "Descartar rascunhos"
+      },
+      "gradebook": {
+        "editorLabel": "Editar nota",
+        "status": {
+          "missing": "Nota faltante",
+          "late": "Entrega atrasada",
+          "excused": "Dispensada"
+        }
+      },
+      "tableFilter": {
+        "ariaLabel": "Filtros da tabela",
+        "searchPlaceholder": "Buscar",
+        "searchLabel": "Buscar na tabela",
+        "filterButton": "Filtros",
+        "addCondition": "Adicionar filtro",
+        "clearAll": "Limpar tudo",
+        "columnLabel": "Coluna",
+        "operatorLabel": "Operador",
+        "valueLabel": "Valor",
+        "removeCondition": "Remover filtro de {{column}}",
+        "removeSearch": "Limpar busca",
+        "noConditions": "Nenhum filtro aplicado",
+        "viewsLabel": "Visões",
+        "createView": "Criar visão",
+        "createViewName": "Nome da visão",
+        "createViewNamePlaceholder": "Minha visão",
+        "save": "Salvar",
+        "exportButton": "Exportar",
+        "exportFormat": "Formato",
+        "columnsButton": "Personalizar colunas",
+        "columnsTitle": "Personalizar colunas",
+        "columnsReset": "Redefinir",
+        "columnsCancel": "Cancelar",
+        "columnsSave": "Salvar",
+        "columnMoveUp": "Mover {{column}} para cima",
+        "columnMoveDown": "Mover {{column}} para baixo",
+        "operator": {
+          "contains": "contém",
+          "equals": "é",
+          "notEquals": "não é",
+          "startsWith": "começa com",
+          "isEmpty": "está vazio",
+          "isNotEmpty": "não está vazio",
+          "gt": "maior que",
+          "gte": "maior ou igual a",
+          "lt": "menor que",
+          "lte": "menor ou igual a",
+          "between": "entre",
+          "in": "é um de",
+          "notIn": "não é nenhum de"
+        }
+      }
+    },
+    "export": {
+      "csv": "Exportar CSV",
+      "json": "Exportar JSON"
+    },
+    "navigation": {
+      "pagination": {
+        "ariaLabel": "Paginação",
+        "firstPage": "Primeira página",
+        "previousPage": "Página anterior",
+        "nextPage": "Próxima página",
+        "lastPage": "Última página",
+        "rowsPerPageLabel": "Linhas por página",
+        "rangeLabel": "{{start}}–{{end}} de {{total}}",
+        "rangeLabelCompact": "{{start}}–{{end}}"
+      }
+    },
+    "collapsible": {
+      "add": {
+        "title": "Adicionar seção",
+        "titleLabel": "Título",
+        "descriptionLabel": "Descrição",
+        "iconLabel": "Ícone",
+        "noIcon": "Nenhum",
+        "cancel": "Cancelar",
+        "confirm": "Adicionar",
+        "required": "Obrigatório"
+      },
+      "addAction": "Adicionar item"
+    },
+    "collapsibleInput": {
+      "placeholder": "Pergunte outra coisa",
+      "submit": "Enviar pergunta",
+      "stop": "Parar",
+      "loading": "Lendo a documentação"
+    }
+  }
+}
