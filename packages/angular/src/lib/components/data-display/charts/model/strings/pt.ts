@@ -1,0 +1,21 @@
+import type { SolarisChartStringKey } from './chart-strings';
+
+export const solarisChartStringsPt: Record<SolarisChartStringKey, string> = {
+  viewLine: 'Linha',
+  viewBar: 'Barra',
+  viewPie: 'Pizza',
+  period1D: '1D',
+  period7D: '7D',
+  period1M: '1M',
+  period3M: '3M',
+  periodYTD: 'YTD',
+  periodAll: 'Todo o período',
+  legendToggle: 'Alternar série {{label}}',
+  others: 'Outros',
+  total: 'Total',
+  emptyTitle: 'Sem dados para exibir',
+  emptyMessage: 'Os dados deste período aparecerão aqui.',
+  errorTitle: 'Falha ao carregar o gráfico',
+  errorRetry: 'Tentar novamente',
+  seriesSummary: '{{label}}: {{count}} pontos, pico {{max}}',
+};

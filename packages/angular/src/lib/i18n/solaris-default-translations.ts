@@ -6,6 +6,7 @@ import { AVATAR_TRANSLATION } from '../components/data-display/avatar/translatio
 import { BREADCRUMB_TRANSLATION } from '../components/navigation/breadcrumb/translation';
 import { BUTTON_TRANSLATION } from '../components/actions/button/translation';
 import { CALENDAR_TRANSLATION } from '../components/scheduling/calendar/translation';
+import { CHART_TRANSLATION } from '../components/data-display/charts/translation';
 import { COLLAPSIBLE_INPUT_TRANSLATION } from '../components/interaction/collapsible-input/translation';
 import { COLLAPSIBLE_TRANSLATION } from '../components/interaction/collapsible/translation';
 import { DATE_PICKER_TRANSLATION } from '../components/forms/date-picker/translation';
@@ -86,6 +87,7 @@ const TRANSLATION_PACKAGES: readonly Record<string, TranslationTree>[] = [
   DATE_RANGE_PICKER_TRANSLATION,
   AVATAR_TRANSLATION,
   CALENDAR_TRANSLATION,
+  CHART_TRANSLATION,
   TABLE_TRANSLATION,
   RECORD_GRID_TRANSLATION,
   GRADEBOOK_TRANSLATION,

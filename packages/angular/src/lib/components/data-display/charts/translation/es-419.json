@@ -1,0 +1,23 @@
+{
+  "solaris": {
+    "chart": {
+      "viewLine": "Línea",
+      "viewBar": "Barras",
+      "viewPie": "Circular",
+      "period1D": "1D",
+      "period7D": "7D",
+      "period1M": "1M",
+      "period3M": "3M",
+      "periodYTD": "YTD",
+      "periodAll": "Todo el período",
+      "legendToggle": "Alternar serie {{label}}",
+      "others": "Otros",
+      "total": "Total",
+      "emptyTitle": "Sin datos para mostrar",
+      "emptyMessage": "Los datos de este período aparecerán aquí.",
+      "errorTitle": "Error al cargar el gráfico",
+      "errorRetry": "Reintentar",
+      "seriesSummary": "{{label}}: {{count}} puntos, pico {{max}}"
+    }
+  }
+}

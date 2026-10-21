@@ -185,6 +185,37 @@ export {
   resolveGradebookScale,
 } from './lib/components/data-display/gradebook/model/gradebook.types';
 
+export type {
+  SolarisChartInterpolation,
+  SolarisChartPeriod,
+  SolarisChartPoint,
+  SolarisChartReferenceLine,
+  SolarisChartSeries,
+  SolarisChartSeriesColor,
+  SolarisChartSlice,
+  SolarisChartView,
+} from './lib/components/data-display/charts/index';
+export {
+  SOLARIS_CHART_PALETTE,
+  chartFallbackLanguage,
+  groupSmallChartSlices,
+  isChartSeriesEmpty,
+  normalizeStacked100,
+  resolveChartDomain,
+  resolveChartFallback,
+  resolveChartSeriesColor,
+  resolveChartTicks,
+  solarisChartColorVar,
+  solarisChartSoftVar,
+  visibleChartSeries,
+} from './lib/components/data-display/charts/index';
+export type {
+  SolarisChartDomain,
+  SolarisChartDomainOptions,
+  SolarisChartStringKey,
+  SolarisChartStringLanguage,
+} from './lib/components/data-display/charts/index';
+
 export { SolarisRecordGridComponent } from './lib/components/data-display/record-grid/component/record-grid.component';
 export {
   SOLARIS_RECORD_GRID_CELL_TEMPLATE_ID,

@@ -1,0 +1,21 @@
+import type { SolarisChartStringKey } from './chart-strings';
+
+export const solarisChartStringsEn: Record<SolarisChartStringKey, string> = {
+  viewLine: 'Line',
+  viewBar: 'Bar',
+  viewPie: 'Pie',
+  period1D: '1D',
+  period7D: '7D',
+  period1M: '1M',
+  period3M: '3M',
+  periodYTD: 'YTD',
+  periodAll: 'All time',
+  legendToggle: 'Toggle {{label}} series',
+  others: 'Others',
+  total: 'Total',
+  emptyTitle: 'No data to display',
+  emptyMessage: 'Data for this period will appear here.',
+  errorTitle: 'Chart failed to load',
+  errorRetry: 'Try again',
+  seriesSummary: '{{label}}: {{count}} points, peak {{max}}',
+};
