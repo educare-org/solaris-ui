@@ -1,6 +1,6 @@
 :host {
   --solaris-alert-icon-offset: calc(var(--solaris-border-width-sm) * -1);
-  --solaris-alert-close-offset: 0;
+  --solaris-alert-close-offset: 0px;
   --solaris-alert-close-background: transparent;
   --solaris-alert-gap: var(--solaris-density-gap-md);
   --solaris-alert-color: var(--solaris-info-foreground);
@@ -38,8 +38,8 @@
 }
 
 :host([data-has-title]) {
-  --solaris-alert-icon-offset: 0;
-  --solaris-alert-close-offset: 0;
+  --solaris-alert-icon-offset: 0px;
+  --solaris-alert-close-offset: 0px;
   --solaris-alert-first-line-height: var(--solaris-line-height-sm);
   --solaris-alert-first-line-font-size: var(--solaris-alert-title-font-size);
 }
