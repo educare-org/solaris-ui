@@ -5,7 +5,7 @@ import { SolarisTranslateService } from '../service/solaris-translate.service';
 @Pipe({
   name: 'translate',
   standalone: true,
-  pure: true,
+  pure: false,
 })
 export class SolarisTranslatePipe implements PipeTransform {
   private readonly translateService = inject(SolarisTranslateService, {

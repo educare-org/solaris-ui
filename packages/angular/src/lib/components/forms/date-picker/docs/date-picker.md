@@ -81,7 +81,7 @@ Extra suffix actions compose beside it and are detected via
 - `Alt` + `ArrowDown` opens the calendar; Escape resets a dirty query to the
   committed value, or closes the calendar when the query is pristine.
 - The clear button follows the select pattern (`canClear = clearable &&
-hasValue && !disabled && !readonly`) and emits `cleared`.
+value !== null && !disabled && !readonly`) and emits `cleared`.
 - Roving `ArrowUp`/`ArrowDown`/`Home`/`End` inside the calendar grid is a
   follow-up (keyboard moves month-by-month via the navigation buttons in v1).
 - Form Field associates labels, hints, and errors with the editable input.

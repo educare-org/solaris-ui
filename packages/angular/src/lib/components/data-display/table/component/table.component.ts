@@ -1466,6 +1466,6 @@ export class SolarisTableComponent<T = unknown> {
   }
 
   private locale(): string {
-    return this.translateService?.locale ?? 'en-US';
+    return this.translateService?.locale() ?? 'en-US';
   }
 }

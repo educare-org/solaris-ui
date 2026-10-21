@@ -16,9 +16,9 @@ import { SolarisTranslateService } from '../../../../services/translation';
 import { GradebookAutofocusDirective } from '../directives/gradebook-autofocus.directive';
 import { SolarisBadgeComponent } from '../../badge';
 import type { SolarisBadgeColor } from '../../badge';
-import { SolarisTooltipDirective } from '../../../interaction/tooltip/directive/tooltip.directive';
-import { SolarisTableComponent } from '../../table/component/table.component';
+import { SolarisTooltipDirective } from '../../../interaction/tooltip';
 import {
+  SolarisTableComponent,
   SolarisTableCellDirective,
   SolarisTableCellEditorDirective,
   SolarisTableDetailDirective,
@@ -29,9 +29,9 @@ import {
   SolarisTableHeaderDirective,
   SolarisTableLoadingDirective,
   SolarisTableToolbarDirective,
-} from '../../table/directives/table-cell.directive';
-import { resolveCellValue } from '../../table/model/table-state';
-import { isTableDataSource } from '../../table/model/table-state';
+  resolveCellValue,
+  isTableDataSource,
+} from '../../table';
 import type {
   SolarisTableAppearance,
   SolarisTableCellEditEvent,
@@ -48,7 +48,7 @@ import type {
   SolarisTableSelectionMode,
   SolarisTableSort,
   SolarisTableStripedMode,
-} from '../../table/model/table.types';
+} from '../../table';
 import {
   aggregateGradeValues,
   computeRowGrade,
@@ -250,7 +250,7 @@ export class SolarisGradebookComponent<T = unknown> {
   protected readonly resolvedColumns = computed(
     (): readonly SolarisTableColumn<T>[] => {
       const scale = this.effectiveScale();
-      const locale = this.translateService?.locale ?? 'en-US';
+      const locale = this.translateService?.locale() ?? 'en-US';
       const editable = this.editable();
       const identity = this.identity();
       const resolved: SolarisTableColumn<T>[] = [];
@@ -488,7 +488,7 @@ export class SolarisGradebookComponent<T = unknown> {
   }
 
   protected lockedCellText(row: T, column: SolarisTableColumn<T>): string {
-    const locale = this.translateService?.locale ?? 'en-US';
+    const locale = this.translateService?.locale() ?? 'en-US';
     return (
       formatGradeCell(
         row,

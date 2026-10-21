@@ -242,7 +242,7 @@ export class SolarisRecordGridComponent<T = unknown> {
       if (column?.sortable !== true) {
         return entries;
       }
-      const locale = this.translateService?.locale ?? 'en-US';
+      const locale = this.translateService?.locale() ?? 'en-US';
       const multiplier = sort.direction === 'asc' ? 1 : -1;
       return entries
         .map((entry, stableIndex) => ({ entry, stableIndex }))
@@ -467,7 +467,7 @@ export class SolarisRecordGridComponent<T = unknown> {
       }
       try {
         return new Intl.NumberFormat(
-          this.translateService?.locale ?? 'en-US',
+          this.translateService?.locale() ?? 'en-US',
           column.numberFormat ?? { maximumFractionDigits: 2 },
         ).format(value);
       } catch {

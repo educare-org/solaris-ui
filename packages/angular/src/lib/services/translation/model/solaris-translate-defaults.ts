@@ -30,4 +30,5 @@ export const SOLARIS_TRANSLATE_DEFAULT_CONFIG: SolarisTranslateConfig = {
     'es-419': flattenTranslations(es419 as TranslationTree),
   },
   useBrowserLocale: true,
+  persistKey: 'solaris:locale',
 };

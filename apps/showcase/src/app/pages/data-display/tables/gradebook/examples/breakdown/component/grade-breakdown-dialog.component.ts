@@ -11,17 +11,7 @@ import {
   SolarisTranslateService,
 } from '@solaris-ui/angular';
 
-export interface GradeBreakdownPart {
-  readonly labelKey: string;
-  readonly value: number | null;
-  readonly weight: string;
-}
-
-export interface GradeBreakdownData {
-  readonly subject: string;
-  readonly parts: readonly GradeBreakdownPart[];
-  readonly result: number | null;
-}
+import type { GradeBreakdownData } from '../model/grade-breakdown.data';
 
 @Component({
   standalone: true,
@@ -48,7 +38,7 @@ export class GradeBreakdownDialogComponent {
     if (value === null || value === undefined) {
       return '—';
     }
-    return new Intl.NumberFormat(this.translateService?.locale ?? 'pt-BR', {
+    return new Intl.NumberFormat(this.translateService?.locale() ?? 'pt-BR', {
       maximumFractionDigits: 1,
     }).format(value);
   }

@@ -623,7 +623,7 @@ function createTranslatedFixture(
       {
         provide: SolarisTranslateService,
         useValue: {
-          locale: 'en-US',
+          locale: signal('en-US'),
           translate: (key: string): string => translations[key] ?? key,
         },
       },

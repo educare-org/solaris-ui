@@ -20,6 +20,7 @@ export function provideSolarisTranslateTesting(
       },
     },
     useBrowserLocale: false,
+    persistKey: false,
   };
 
   return [

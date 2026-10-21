@@ -109,7 +109,6 @@ export class SolarisPhoneFieldComponent
   protected readonly inputElementRef =
     viewChild<ElementRef<HTMLInputElement>>('inputElement');
   protected readonly popoverTrigger = viewChild(SolarisPopoverTriggerDirective);
-  protected readonly projectedPrefix = contentChild(SolarisFormPrefixDirective);
   protected readonly projectedSuffix = contentChild(SolarisFormSuffixDirective);
   protected readonly projectedSuffixAction = contentChild(
     SolarisFormSuffixActionDirective,
@@ -188,7 +187,7 @@ export class SolarisPhoneFieldComponent
   private readonly popoverSubscriptions: (() => void)[] = [];
 
   protected readonly allCountries = computed(() => {
-    return this.countryListFactory(this.translateService.locale);
+    return this.countryListFactory(this.translateService.locale());
   });
 
   protected readonly countries = computed(() => {
@@ -496,7 +495,7 @@ export class SolarisPhoneFieldComponent
     this.popoverSubscriptions.forEach((fn) => fn());
   }
 
-  writeValue(value: string | null | undefined): void {
+  writeValue(value: string | null | undefined = ''): void {
     const safe = value ?? '';
     this.internalValue.set(safe);
     this.applyDisplayFromValue(safe);

@@ -30,7 +30,7 @@ import { SolarisInputDirective } from '../../input';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import type { SolarisIconName } from '../../../../services/icon';
-import { SolarisDateCalendarComponent } from '../../date/component/calendar.component';
+import { SolarisDateCalendarComponent } from '../../date';
 import {
   addSolarisMonths,
   compareSolarisDates,
@@ -159,14 +159,18 @@ export class SolarisDateRangePickerComponent
   protected readonly panelOpen = signal(false);
   protected readonly activePresetId = signal('custom');
   protected readonly displayedMonth = signal<SolarisCalendarMonth>(
-    monthForSolarisDate(todaySolarisDate())!,
+    // todaySolarisDate() is always parseable; the fallback only satisfies the type checker.
+    monthForSolarisDate(todaySolarisDate()) ?? {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth(),
+    },
   );
   private readonly describedBy = signal<string[]>([]);
   private onChange: (value: SolarisDateRange) => void = () => undefined;
   private onTouched: () => void = () => undefined;
 
   protected readonly resolvedLocale = computed(
-    () => this.locale() ?? this.translateService.locale,
+    () => this.locale() ?? this.translateService.locale(),
   );
   protected readonly effectiveDensity = computed<SolarisDateRangePickerDensity>(
     () => this.density() ?? this.themeService.density,
@@ -504,9 +508,11 @@ export class SolarisDateRangePickerComponent
   }
   private isSelectable(value: SolarisDateValue): boolean {
     const today = todaySolarisDate();
+    const min = this.min();
+    const max = this.max();
     return (
-      (!this.min() || value >= this.min()!) &&
-      (!this.max() || value <= this.max()!) &&
+      (!min || value >= min) &&
+      (!max || value <= max) &&
       (!this.disablePast() || compareSolarisDates(value, today) >= 0) &&
       (!this.disableFuture() || compareSolarisDates(value, today) <= 0) &&
       !this.disabledDates().includes(value)

@@ -247,7 +247,7 @@ export class ConfigurationPage {
   ];
 
   get locale(): string {
-    return this.translateService.locale as string;
+    return this.translateService.locale();
   }
 
   get fallbackLocale(): string {

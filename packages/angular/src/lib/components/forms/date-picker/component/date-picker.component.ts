@@ -29,7 +29,7 @@ import { SolarisInputDirective } from '../../input';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import type { SolarisIconName } from '../../../../services/icon';
-import { SolarisDateCalendarComponent } from '../../date/component/calendar.component';
+import { SolarisDateCalendarComponent } from '../../date';
 import {
   compareSolarisDates,
   formatSolarisDate,
@@ -152,7 +152,11 @@ export class SolarisDatePickerComponent
   protected readonly parseError = signal(false);
   protected readonly panelOpen = signal(false);
   protected readonly displayedMonth = signal<SolarisCalendarMonth>(
-    monthForSolarisDate(todaySolarisDate())!,
+    // todaySolarisDate() is always parseable; the fallback only satisfies the type checker.
+    monthForSolarisDate(todaySolarisDate()) ?? {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth(),
+    },
   );
   private readonly describedBy = signal<string[]>([]);
 
@@ -160,7 +164,7 @@ export class SolarisDatePickerComponent
   private onTouched: () => void = () => undefined;
 
   protected readonly resolvedLocale = computed(
-    () => this.locale() ?? this.translateService.locale,
+    () => this.locale() ?? this.translateService.locale(),
   );
   protected readonly effectiveDensity = computed<SolarisDatePickerDensity>(
     () => this.density() ?? this.themeService.density,
@@ -179,11 +183,10 @@ export class SolarisDatePickerComponent
       (this.requiredInput() && this.touched() && !this.value())
     );
   });
-  protected readonly hasValue = computed(() => this.value() !== null);
   protected readonly canClear = computed(() => {
     return (
       this.clearable() &&
-      this.hasValue() &&
+      this.value() !== null &&
       !this.isEffectivelyDisabled() &&
       !this.isEffectivelyReadonly()
     );
@@ -317,7 +320,8 @@ export class SolarisDatePickerComponent
 
     this.parseError.set(false);
     this.commitValue(parsed);
-    this.displayedMonth.set(monthForSolarisDate(parsed)!);
+    const month = monthForSolarisDate(parsed);
+    if (month) this.displayedMonth.set(month);
   }
 
   protected onInputFocus(): void {
@@ -419,9 +423,11 @@ export class SolarisDatePickerComponent
 
   private isSelectable(value: SolarisDateValue): boolean {
     const today = todaySolarisDate();
+    const min = this.min();
+    const max = this.max();
     return (
-      (!this.min() || value >= this.min()!) &&
-      (!this.max() || value <= this.max()!) &&
+      (!min || value >= min) &&
+      (!max || value <= max) &&
       (!this.disablePast() || compareSolarisDates(value, today) >= 0) &&
       (!this.disableFuture() || compareSolarisDates(value, today) <= 0) &&
       !this.disabledDates().includes(value)

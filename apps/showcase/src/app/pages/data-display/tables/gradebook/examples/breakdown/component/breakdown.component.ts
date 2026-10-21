@@ -18,10 +18,8 @@ import {
   type ShowcaseSubject,
 } from '../../../model/gradebook-showcase.data';
 
-import {
-  GradeBreakdownDialogComponent,
-  type GradeBreakdownData,
-} from './grade-breakdown-dialog.component';
+import { GradeBreakdownDialogComponent } from './grade-breakdown-dialog.component';
+import type { GradeBreakdownData } from '../model/grade-breakdown.data';
 
 const MP_BREAKDOWN_CELL_TEMPLATE_ID = 'mp-breakdown';
 
@@ -62,7 +60,7 @@ export class BreakdownGradebookExample {
     if (!Number.isFinite(numeric)) {
       return String(value);
     }
-    return new Intl.NumberFormat(this.translateService?.locale ?? 'pt-BR', {
+    return new Intl.NumberFormat(this.translateService?.locale() ?? 'pt-BR', {
       maximumFractionDigits: 1,
     }).format(numeric);
   }
