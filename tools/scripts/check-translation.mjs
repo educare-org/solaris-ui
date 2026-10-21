@@ -21,7 +21,7 @@ const FORBIDDEN_CONSTS = [
 
 function findTranslationDirs() {
   const roots = ['packages/angular/src/lib', 'apps/showcase/src/app'];
-  // Fase 3: o agregador central (serviço) não carrega mais dicionários próprios —
+  // Fase 3: o agregador central (lib/i18n) não carrega dicionários próprios —
   // ele importa os pacotes de components/**/translation e faz merge profundo.
   // Não validar a pasta do serviço como pacote de dicionário.
   const skipped = new Set([
