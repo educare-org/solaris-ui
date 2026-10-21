@@ -1,0 +1,54 @@
+{
+  "icons": {
+    "animated": {
+      "menu-toggle": {
+        "closed": "Menu closed",
+        "description": "An icon button with two lines that transforms into an X. Use it to open and close side navigation.",
+        "open": "Menu open",
+        "title": "Menu / close"
+      },
+      "title": "Animated controls"
+    },
+    "categories": "Categories",
+    "category": {
+      "actions": "Actions",
+      "all": "All",
+      "animated": "Animated",
+      "brands": "Brands",
+      "communication": "Communication",
+      "data": "Data",
+      "documents": "Documents",
+      "layout": "Layout",
+      "media": "Media",
+      "navigation": "Navigation",
+      "people": "People",
+      "status": "Status",
+      "theme": "Theme"
+    },
+    "close": "Close usage panel",
+    "color": {
+      "danger": "Danger",
+      "info": "Info",
+      "inherit": "Inherit",
+      "label": "Color",
+      "orange": "Orange",
+      "primary": "Primary",
+      "success": "Success",
+      "warning": "Warning"
+    },
+    "copied": "Copied!",
+    "copy": "Copy",
+    "customizer": "Customizer",
+    "customizer-note": "Adjust the width and color applied to every icon rendered on this page.",
+    "description": "Browse all built-in icons. Use the search box or category filters to find an icon, then click it to see how to use it.",
+    "explore": "Explore icons",
+    "no-results": "No icons match your search.",
+    "result-count": "{{count}} icons",
+    "search-label": "Search",
+    "search-placeholder": "Search icons",
+    "title": "Icons",
+    "usage": "Usage",
+    "usage-note": "Render the icon with the SolarisIconComponent. Set decorative when it is purely visual.",
+    "width": "Width"
+  }
+}

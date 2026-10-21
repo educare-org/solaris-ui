@@ -1,0 +1,129 @@
+{
+  "select": {
+    "affix": {
+      "action": {
+        "button-label": "Alternar Cargando",
+        "label": "Rol",
+        "placeholder": "Selecciona un rol"
+      },
+      "note": "El contenido de prefijo y sufijo se reproyecta en el Form Field interno. Las acciones de sufijo requieren tanto solaris-form-suffix como solaris-form-suffix-action en el mismo elemento.",
+      "prefix": {
+        "label": "País",
+        "placeholder": "Selecciona un país"
+      },
+      "suffix": {
+        "icon-label": "Más información",
+        "label": "Rol",
+        "placeholder": "Selecciona un rol"
+      },
+      "suffix-input": {
+        "label": "Rol con icono de sufijo",
+        "placeholder": "Selecciona un rol"
+      }
+    },
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "clearable": {
+      "label": "Status",
+      "note": "Cuando tiene opción de borrado, aparece un botón de borrado una vez que se selecciona un valor. Borrar emite el evento cleared.",
+      "output": "Eventos de borrado",
+      "placeholder": "Selecciona un Status"
+    },
+    "country": {
+      "br": "Brasil",
+      "pt": "Portugal",
+      "us": "Estados Unidos"
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Control de formulario de selección única con búsqueda local, selección con opción de borrado y soporte de opciones enriquecidas. Renderizado mediante Form Field con estado Cargando superpuesto.",
+    "error": {
+      "invalid": "Este campo tiene un error.",
+      "required": "La selección es obligatoria."
+    },
+    "examples": {
+      "basic": {
+        "label": "Rol",
+        "placeholder": "Selecciona un rol"
+      },
+      "note": "Selección única básica con etiqueta, placeholder y opciones propios."
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa el select con sus componentes option."
+    },
+    "objects": {
+      "label": "Plan",
+      "note": "Para valores de objeto, proporciona compareWith para comparar valores y displayWith para mostrar el texto del activador.",
+      "placeholder": "Selecciona un plan"
+    },
+    "option": {
+      "active": "Activo",
+      "admin": "Administrador",
+      "inactive": "Inactivo",
+      "student": "Estudiante",
+      "teacher": "Profesor"
+    },
+    "plan": {
+      "basic": "Básico",
+      "pro": "Pro"
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "none": "Ninguno",
+      "note": "Radio se transfiere al Form Field interno. Escala global: md corresponde a 4px, lg a 8px y xl se muestra como Pill.",
+      "sm": "Pequeño",
+      "xl": "Pill"
+    },
+    "searchable": {
+      "label": "País",
+      "note": "La búsqueda local filtra las opciones por etiqueta, descripción y contenido de texto. La selección se mantiene al filtrar.",
+      "placeholder": "Selecciona un país",
+      "search-placeholder": "Buscar país..."
+    },
+    "section": {
+      "affix": "Afijo",
+      "appearance": "Apariencia",
+      "clearable": "Con opción de borrado",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "props": "Props",
+      "radius": "Radio",
+      "searchable": "Con búsqueda",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "label": "Rol",
+      "note": "Tamaño y densidad se combinan en una matriz de 3x3: el Form Field interno define la altura externa, el disparador mantiene la fuente y el espaciado sincronizados.",
+      "placeholder": "Selecciona un rol"
+    },
+    "states": {
+      "default": "Predeterminado",
+      "disabled": "Deshabilitado",
+      "invalid": "No válido",
+      "loading": "Cargando",
+      "readonly": "Solo lectura"
+    },
+    "title": "Seleccionar"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "translate": {
+    "api": {
+      "addTranslations": "Merges new keys into a locale map at runtime.",
+      "availableLocales": "Lists locales with a loaded translation map.",
+      "has": "Checks whether a key exists, optionally in another locale.",
+      "normalizeLocale": "Maps pt, en-GB or es-MX style tags to pt-BR, en-US, es-419.",
+      "resetLocale": "Clears the explicit choice and the stored value.",
+      "setLocale": "Normalizes, persists and activates a locale.",
+      "translate": "Looks up a key with interpolation (alias: instant)."
+    },
+    "demo": {
+      "countLabel": "Count",
+      "greeting": "Hello, {{name}}!",
+      "items": {
+        "plural": "{{count}} items",
+        "singular": "1 item"
+      },
+      "nameLabel": "Name"
+    },
+    "description": "Runtime translation for component text and dynamic content. The active locale is a signal: every template using the translate pipe re-renders with no reload.",
+    "install": {
+      "code": "TypeScript",
+      "template": "Template"
+    },
+    "locale": {
+      "current": "Current locale"
+    },
+    "runtime": {
+      "addButton": "Register custom key",
+      "customLabel": "Custom key value"
+    },
+    "section": {
+      "api": "API reference",
+      "apiDesc": "Public surface of SolarisTranslateService plus the provider configuration.",
+      "fallback": "Fallback chain",
+      "fallbackDesc": "Missing keys resolve through locale, fallbackLocale, en-US, an optional resolver, then the raw key. The sentence below only exists in en-US, so it renders in English on every locale.",
+      "install": "Installation",
+      "interpolation": "Interpolation and plurals",
+      "interpolationDesc": "Parameters use {{name}} with optional spaces. There is no ICU plural yet: the convention is .singular / .plural keys with {{count}}.",
+      "locale": "Live locale switching",
+      "localeDesc": "Pick a locale. setLocale() normalizes, persists and notifies every translate pipe.",
+      "runtime": "Runtime extension",
+      "runtimeDesc": "Pages can register keys after load, e.g. for lazy content. The button registers translate.demo.custom for the current locale."
+    },
+    "title": "Translation service",
+    "useWhen": "Use the service for component-level text, dynamic content and quick locale switching. It does not replace @angular/localize for static extraction workflows."
+  }
+}

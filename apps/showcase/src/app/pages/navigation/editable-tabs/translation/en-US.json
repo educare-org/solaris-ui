@@ -1,0 +1,67 @@
+{
+  "editableTabs": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "basic": "Basic Editable Tabs",
+    "compact": "Compact Density",
+    "custom-actions": "Custom Actions",
+    "default-event": "Set as Default Event",
+    "description": "Editable Tabs allow users to rename, remove, reorder, and manage tab sets using the existing Tabs and Dropdown Menu foundation.",
+    "drag-reorder": "Drag to reorder",
+    "example": {
+      "basic": {
+        "active-tab": "Active tab: {{ value }}"
+      },
+      "custom-actions": {
+        "last-action": "Last action: {{ action }}"
+      },
+      "default-event": {
+        "description": "Default tab: {{ value }} (not persisted by Solaris)"
+      },
+      "drag-reorder": {
+        "description": "Drag a tab and drop it at a new position. The drop indicator shows where the tab will land."
+      },
+      "locked": {
+        "description": "The \"General\" tab is locked — it cannot be renamed, removed, or moved."
+      },
+      "move": {
+        "description": "Move tabs left/right using the action menu, or drag and drop a tab to a new position. Edge tabs have their menu move actions disabled."
+      },
+      "remove": {
+        "description": "Remove tabs via the action menu. The last tab cannot be removed (minTabs=1)."
+      },
+      "rename": {
+        "description": "Click the ellipsis icon on a tab, select \"Rename\", type a new name, and press Enter."
+      }
+    },
+    "examples": {
+      "note": "Start with the default editable tabs, then explore management actions and variants below. Tabs can also be reordered by drag and drop when dragToReorder is enabled."
+    },
+    "icons-and-badges": "Icons and Badges",
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "locked": "Locked Tab",
+    "management": {
+      "note": "Rename, remove and reorder actions live in the tab action menu. Drag and drop emits the same tabMove event as the menu actions."
+    },
+    "move": "Move Left/Right",
+    "note": "Editable Tabs does not persist state internally. All persistence decisions (localStorage, backend, route params, user profile, tenant settings) are delegated to the consumer through events.",
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "remove": "Remove Behavior",
+    "rename": "Inline Rename",
+    "section": {
+      "examples": "Examples",
+      "features": "Features",
+      "installation": "Installation",
+      "layout": "Layout",
+      "management": "Rename, remove and move",
+      "props": "Props"
+    },
+    "title": "Editable Tabs",
+    "vertical": "Vertical Orientation"
+  }
+}

@@ -4,8 +4,9 @@ import { By } from '@angular/platform-browser';
 
 import { provideSolarisTranslateTesting } from '@solaris-ui/angular';
 
-import { SHELL_TRANSLATIONS } from '../translations';
+import { SHELL_TRANSLATIONS } from '../translation';
 import { ShowcaseDocsPageLayout } from './docs-page-layout';
+import { flattenTestTranslations } from '../../shared/testing/flatten-test-translations';
 
 @Component({
   standalone: true,
@@ -32,7 +33,13 @@ describe('ShowcaseDocsPageLayout', () => {
     await TestBed.configureTestingModule({
       imports: [LayoutHost],
       providers: [
-        provideSolarisTranslateTesting({ translations: SHELL_TRANSLATIONS }),
+        provideSolarisTranslateTesting({
+          translations: {
+            'en-US': flattenTestTranslations(SHELL_TRANSLATIONS['en-US']),
+            'pt-BR': flattenTestTranslations(SHELL_TRANSLATIONS['pt-BR']),
+            'es-419': flattenTestTranslations(SHELL_TRANSLATIONS['es-419']),
+          },
+        }),
       ],
     }).compileComponents();
     const layoutFixture = TestBed.createComponent(LayoutHost);

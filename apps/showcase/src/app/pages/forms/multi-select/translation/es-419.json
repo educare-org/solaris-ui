@@ -1,0 +1,126 @@
+{
+  "multiSelect": {
+    "affix": {
+      "action": {
+        "button-label": "Alternar Cargando",
+        "label": "Países",
+        "placeholder": "Selecciona países"
+      },
+      "note": "El contenido de prefijo y sufijo se reproyecta en el Form Field interno. Las acciones de sufijo requieren tanto solaris-form-suffix como solaris-form-suffix-action en el mismo elemento.",
+      "prefix": {
+        "label": "Países",
+        "placeholder": "Selecciona países"
+      },
+      "suffix": {
+        "icon-label": "Más información",
+        "label": "Países",
+        "placeholder": "Selecciona países"
+      },
+      "suffix-input": {
+        "label": "Países con icono de sufijo",
+        "placeholder": "Selecciona países"
+      }
+    },
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "chips": {
+      "label": "Países",
+      "placeholder": "Selecciona países"
+    },
+    "clearable": {
+      "label": "Países",
+      "note": "Con opción de borrado, aparece un botón de borrado cuando la selección no está vacía. Al borrar se emite el evento cleared.",
+      "output": "Eventos de borrado",
+      "placeholder": "Selecciona países"
+    },
+    "country": {
+      "br": "Brasil",
+      "pt": "Portugal",
+      "us": "Estados Unidos"
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Control de formulario de selección múltiple con búsqueda local, seleccionar todo y visualización en chips. Representado a través de Form Field con estado de carga superpuesto.",
+    "error": {
+      "invalid": "Este campo tiene un error.",
+      "required": "Selecciona al menos una opción."
+    },
+    "examples": {
+      "basic": {
+        "label": "Países",
+        "placeholder": "Selecciona países"
+      },
+      "note": "Selección múltiple básica con etiqueta, placeholder y opciones propios."
+    },
+    "fruit": {
+      "apple": "Manzana",
+      "banana": "Plátano",
+      "orange": "Naranja"
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa el multi-select con sus componentes de option."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "none": "Ninguno",
+      "note": "Radio se transfiere al Form Field interno. Escala global: md corresponde a 4px, lg a 8px y xl se muestra como Pill.",
+      "sm": "Pequeño",
+      "xl": "Pill"
+    },
+    "searchable": {
+      "label": "Países",
+      "note": "La búsqueda local filtra las opciones por etiqueta, descripción y contenido de texto. La selección se mantiene al filtrar.",
+      "placeholder": "Selecciona países",
+      "search-placeholder": "Buscar países..."
+    },
+    "section": {
+      "affix": "Afijo",
+      "appearance": "Apariencia",
+      "clearable": "Con opción de borrado",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "props": "Props",
+      "radius": "Radio",
+      "searchable": "Con búsqueda",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados"
+    },
+    "select-all": {
+      "label": "Frutas",
+      "placeholder": "Selecciona frutas"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "label": "Países",
+      "note": "Tamaño y densidad se combinan en una matriz de 3x3: el Form Field interno define la altura externa, el disparador mantiene la fuente y el espaciado sincronizados.",
+      "placeholder": "Selecciona países"
+    },
+    "states": {
+      "default": "Predeterminado",
+      "disabled": "Deshabilitado",
+      "invalid": "No válido",
+      "loading": "Cargando",
+      "readonly": "Solo lectura"
+    },
+    "title": "Multi Select"
+  }
+}

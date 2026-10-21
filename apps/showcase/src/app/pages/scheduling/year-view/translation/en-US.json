@@ -1,0 +1,37 @@
+{
+  "year-view": {
+    "description": "Twelve mini-months with density dots. Activating a day drills into the month view.",
+    "drill": {
+      "note": "The month view below shares the same focused date: drill from the year grid and watch the month follow, then pick a day to finish the drill."
+    },
+    "examples": {
+      "note": "Use the toolbar to change years. Density dots summarize each day; activating a day sets the focused date and the log below shows the drill event."
+    },
+    "installation": {
+      "note": "Install the package and import the standalone year view component."
+    },
+    "locales": {
+      "note": "Months, weekdays, and helper texts follow the selected locale."
+    },
+    "props": {
+      "note": "Pass events (the lib expands recurrence without mutating the array), tasks, and resolved holidays. Drill-down emits daySelect and moves focusedDate."
+    },
+    "section": {
+      "drill": "Drill-down",
+      "examples": "Examples",
+      "installation": "Installation",
+      "locales": "Locales",
+      "props": "Props",
+      "size-density": "Size and density"
+    },
+    "size-density": {
+      "note": "Size drives day numbers while density drives mini-month gaps."
+    },
+    "title": "Year View",
+    "toolbar": {
+      "next": "Next year",
+      "previous": "Previous year",
+      "today": "Today"
+    }
+  }
+}

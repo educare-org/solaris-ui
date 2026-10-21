@@ -1,0 +1,24 @@
+{
+  "shell-view": {
+    "description": "Toolbar, mini-mes, cambiador de vista, etiqueta de zona horaria y fallback adaptable que componen cada vista del calendario.",
+    "examples": {
+      "note": "Cambia de vista, mueve la fecha enfocada, alterna los fines de semana y cambia la zona horaria. Las propuestas aparecen en el registro siguiente."
+    },
+    "installation": {
+      "note": "Instala el paquete e importa el componente independiente del shell del calendario."
+    },
+    "props": {
+      "note": "El shell posee las señales de vista y focusedDate y reenvía eventos, tareas y festivos a la vista activa."
+    },
+    "responsive": {
+      "note": "En 640px o menos, el shell proyecta la agenda de forma predeterminada. Redimensiona la ventana o establece responsiveFallback en null para deshabilitarlo."
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "props": "Props",
+      "responsive": "Fallback adaptable"
+    },
+    "title": "Shell del calendario"
+  }
+}

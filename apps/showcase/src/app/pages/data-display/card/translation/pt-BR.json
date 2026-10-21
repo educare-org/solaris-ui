@@ -1,0 +1,112 @@
+{
+  "card": {
+    "ai": {
+      "prompt": "Estou olhando a documentação Solaris do componente {{component}} ({{url}}). Me ajude a usar, entender conceitos, dar exemplos e debugar com base nela."
+    },
+    "appearance": {
+      "glass": "Glass",
+      "outline": "Outline",
+      "surface": "Surface",
+      "tonal": "Tonal"
+    },
+    "clickable": {
+      "note": "Definir href transforma toda a superfície em um único link nativo. Um card é um destino; nunca aninhe botões ou links dentro."
+    },
+    "composition": {
+      "note": "Card com ações explícitas e seu skeleton de carregamento em um toggle.",
+      "toggle": {
+        "off": "Mostrar conteúdo",
+        "on": "Simular carregamento"
+      }
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Componente de superfície para agrupar conteúdo relacionado, com tiers de padding opcionais e variante clicável.",
+    "example": {
+      "appearance": {
+        "glass-description": "Translúcido com desfoque.",
+        "glass-title": "Glass",
+        "outline-description": "Card com borda visível.",
+        "outline-title": "Outline",
+        "surface-description": "Aparência padrão do card.",
+        "surface-title": "Surface",
+        "tonal-description": "Card com tonalidade sutil.",
+        "tonal-title": "Tonal"
+      },
+      "basic": {
+        "badge": "Desenvolvimento",
+        "comments": "8 comentários",
+        "description": "Adicione um campo no portal para permitir que o usuário conecte sua conta do Slack.",
+        "title": "Integração Slack",
+        "tomorrow": "Amanhã"
+      },
+      "clickable": {
+        "description": "Toda a superfície é um único link. Ative com Enter.",
+        "label": "Abrir o recurso de analytics",
+        "title": "Analytics"
+      },
+      "media": {
+        "badge": "Ativo",
+        "description": "Conteúdo posicionado abaixo da área de mídia com badge e rodapé.",
+        "preview": "Pré-visualização de mídia",
+        "title": "Card com Mídia",
+        "updated": "Atualizado há 2 dias"
+      },
+      "radius": {
+        "lg": "Grande",
+        "none": "Nenhum",
+        "sm": "Pequeno",
+        "xl": "Extra grande"
+      },
+      "with-actions": {
+        "description": "Prefira ações explícitas quando o card precisa de mais de um destino.",
+        "primary": "Conectar",
+        "secondary": "Saiba mais",
+        "title": "Integração Slack"
+      }
+    },
+    "examples": {
+      "note": "Comece pelo card padrão e explore aparências e variantes abaixo."
+    },
+    "installation": {
+      "note": "Instale o pacote único Solaris e importe o componente."
+    },
+    "media": {
+      "start": "Lateral",
+      "top": "Topo"
+    },
+    "padding": {
+      "lg": "Grande",
+      "md": "Médio",
+      "none": "Nenhum",
+      "sm": "Pequeno"
+    },
+    "padding-density": {
+      "note": "Padding seleciona o tier de espaçamento e density resolve seu valor. Combine os dois controles para ver todas as combinações."
+    },
+    "props": {
+      "note": "Tabela de props em breve, com o componente de tabela."
+    },
+    "radius": {
+      "lg": "Grande",
+      "none": "Nenhum",
+      "sm": "Pequeno",
+      "xl": "Extra grande"
+    },
+    "section": {
+      "appearances": "Aparências",
+      "clickable": "Card clicável",
+      "composition": "Composição",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "media": "Mídia",
+      "padding-density": "Padding & densidade",
+      "props": "Props",
+      "radius": "Arredondamento"
+    },
+    "title": "Card"
+  }
+}

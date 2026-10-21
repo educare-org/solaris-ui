@@ -1,0 +1,102 @@
+{
+  "accordion": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar."
+    },
+    "appearance": {
+      "boxed": "Boxed",
+      "lined": "Lined",
+      "note": "Boxed renderiza cada item como cartão com borda; lined renderiza uma lista plana com divisores; plain não tem bordas.",
+      "plain": "Plain"
+    },
+    "behavior": {
+      "note": "Trave o modo único para que a seção aberta não possa ser recolhida, ou ajuste o nível de título dos cabeçalhos."
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Seções expansíveis empilhadas verticalmente com modos de expansão único ou múltiplo.",
+    "examples": {
+      "note": "Comece com o accordion padrão de expansão única e explore modos e aparências abaixo."
+    },
+    "faq-answer-body": "Esta é uma resposta simulada. Conecte seu backend de IA para responder perguntas reais.",
+    "faq-answer-prefix": "Resposta para",
+    "faq-q1": "O que é Solaris?",
+    "faq-q1-content": "Um design system para a Educare.",
+    "heading-a": "Seção um",
+    "heading-a-content": "Renderizada como h4.",
+    "heading-b": "Seção dois",
+    "heading-b-content": "Renderizada como h4.",
+    "heading-level": "Nível de título",
+    "heading-level-note": "O nível do título controla a tag de cabeçalho usada em cada seção.",
+    "installation": {
+      "note": "Instale o pacote único Solaris e importe o componente."
+    },
+    "item-account": "Conta",
+    "item-account-content": "Gerencie suas informações pessoais e preferências de perfil.",
+    "item-notifications": "Notificações",
+    "item-notifications-content": "Escolha quais alertas e lembretes você recebe por e-mail.",
+    "item-security": "Segurança",
+    "item-security-content": "Revise dispositivos, sessões ativas e opções de recuperação.",
+    "leading-icon": {
+      "note": "Ícone por item colado ao rótulo, renderizado antes do chevron de expansão."
+    },
+    "line-1": "Geral",
+    "line-1-content": "Configurações gerais da conta.",
+    "line-2": "Aparência",
+    "line-2-content": "Preferências de tema claro e escuro.",
+    "line-3": "Privacidade",
+    "line-3-content": "Compartilhamento de dados e controles de consentimento.",
+    "lined": "Aparência com linhas",
+    "lined-note": "Uma lista plana com um divisor abaixo de cada gatilho, sem cartões com borda.",
+    "locked": "Modo único bloqueado",
+    "locked-note": "Com allowToggle desabilitado, a seção aberta não pode ser recolhida.",
+    "mode": {
+      "multiple": "Múltiplo",
+      "single": "Único"
+    },
+    "modes": {
+      "note": "Único mantém uma seção aberta por vez; múltiplo alterna cada seção de forma independente."
+    },
+    "multi-a": "Cobrança",
+    "multi-a-content": "Consulte faturas e atualize seu método de pagamento padrão.",
+    "multi-b": "Equipes",
+    "multi-b-content": "Convide membros e gerencie papéis da sua organização.",
+    "multiple": "Expansão múltipla",
+    "multiple-note": "As seções alternam de forma independente quando o tipo é múltiplo.",
+    "props": {
+      "note": "Tabela de propriedades em breve, com o componente de tabela."
+    },
+    "question": {
+      "note": "A última linha é um campo de pergunta. Enviar congela a pergunta como rótulo e mostra o status de carregamento; o host abaixo simula um backend de IA com resposta atrasada. Plugue qualquer backend no (submitted) e projete a resposta."
+    },
+    "req-1": "Termos",
+    "req-1-content": "Leia os termos de serviço.",
+    "req-2": "Consentimento",
+    "req-2-content": "Revise o formulário de consentimento.",
+    "section": {
+      "appearance": "Aparência",
+      "behavior": "Comportamento",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "leading-icon": "Ícone inicial",
+      "modes": "Modos de expansão",
+      "props": "Propriedades",
+      "question": "Linha de pergunta",
+      "size-density": "Tamanho e densidade"
+    },
+    "single": "Expansão única",
+    "single-note": "Apenas uma seção fica aberta por vez. Abrir uma seção fecha a anterior.",
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Tamanho e densidade pertencem ao contêiner e se propagam para cada item, então todas as seções têm a mesma geometria."
+    },
+    "title": "Accordion"
+  }
+}

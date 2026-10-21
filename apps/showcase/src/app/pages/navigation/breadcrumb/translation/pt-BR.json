@@ -1,0 +1,81 @@
+{
+  "breadcrumb": {
+    "ai": {
+      "prompt": "Estou olhando a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usá-lo. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "analytics": "Analíticos",
+    "basic": "Trilha básica",
+    "basic-note": "Uma hierarquia simples com links nos níveis anteriores e texto na página atual.",
+    "campuses": "Campi",
+    "current": "Página atual",
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Navegação hierárquica com links, ícones, separadores, overflow e controles opcionais de voltar/avançar.",
+    "enrollment": "Matrícula",
+    "example": {
+      "truncation": {
+        "current": "Listagem detalhada de estudantes",
+        "long-one": "Relatório consolidado de desempenho acadêmico",
+        "long-two": "Estatísticas trimestrais de matrícula por campus"
+      }
+    },
+    "examples": {
+      "note": "Comece pela trilha padrão e explore separadores, densidade e overflow abaixo."
+    },
+    "home": "Início",
+    "icons": "Ícones e texto",
+    "icons-note": "Itens podem ser apenas texto, apenas ícone ou combinar ícone e texto.",
+    "installation": {
+      "note": "Instale o pacote único Solaris e importe o componente."
+    },
+    "navigation": "Botões de navegação opcionais",
+    "navigation-note": "Botões com chevron para voltar e avançar podem ser exibidos ao lado do breadcrumb.",
+    "organization": "Organização",
+    "overflow": {
+      "end": "Fim",
+      "label": "Posições de overflow",
+      "middle": "Meio",
+      "start": "Início"
+    },
+    "overflow-note": "Limite os itens visíveis e recolha o início, meio ou fim em um menu de reticências.",
+    "products": "Produtos",
+    "props": {
+      "note": "Tabela de props em breve com o componente table."
+    },
+    "section": {
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "navigation": "Navegação",
+      "overflow": "Overflow",
+      "props": "Props",
+      "separators": "Separadores",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "truncation": "Truncamento"
+    },
+    "security": "Segurança",
+    "separator": {
+      "chevron": "Chevron",
+      "dot": "Ponto",
+      "slash": "Slash"
+    },
+    "separators": "Variações de separador",
+    "separators-note": "Escolha separadores com slash, chevron ou ponto central.",
+    "settings": "Configurações",
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "O tamanho escala texto e ícones enquanto a densidade controla o espaçamento entre itens. Combine os dois controles para ver todas as combinações."
+    },
+    "students": "Estudantes",
+    "title": "Breadcrumb",
+    "truncation-note": "Rótulos longos são truncados com reticências e exibem o texto completo no tooltip nativo."
+  }
+}

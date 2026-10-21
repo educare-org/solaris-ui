@@ -1,0 +1,88 @@
+{
+  "skeleton": {
+    "advanced": {
+      "aspect-ratio": "Aspect ratio",
+      "delay": "Delay",
+      "duration": "Duration",
+      "note": "Delay avoids flashing on fast loads; aspect ratio keeps media placeholders proportional without fixed heights; duration tunes the animation speed."
+    },
+    "animation": {
+      "none": "None",
+      "pulse": "Pulse",
+      "wave": "Wave"
+    },
+    "animations-desc": "Pulse fades, wave shimmers (right-to-left under RTL), none stays static.",
+    "composition": {
+      "note": "Reusable loading presets composed from skeleton primitives. Each demo is wrapped in an aria-busy region."
+    },
+    "delay": {
+      "replay": "Replay delay"
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Non-interactive loading placeholder component for content in a loading state.",
+    "duration": {
+      "default": "Default",
+      "fast": "Fast",
+      "slow": "Slow"
+    },
+    "examples": {
+      "note": "Text, rectangular, and circular placeholders. The snippet shows the minimal template."
+    },
+    "installation": {
+      "note": "Install the single Solaris UI package and import the skeleton component."
+    },
+    "lines": {
+      "five": "5 lines",
+      "three": "3 lines",
+      "two": "2 lines"
+    },
+    "multiline": {
+      "note": "Multi-line text uses deterministic widths with a shorter last line. The snippet reflects the current selection."
+    },
+    "preset": {
+      "dashboard": "Dashboard",
+      "dashboard-label": "Loading dashboard card",
+      "list-label": "Loading list row",
+      "list-row": "List row",
+      "media-block": "Media block",
+      "media-label": "Loading media block",
+      "profile": "Profile",
+      "profile-label": "Loading profile"
+    },
+    "props": {
+      "note": "Full props reference lives in the component documentation."
+    },
+    "section": {
+      "advanced": "Advanced",
+      "animations": "Animations",
+      "composition": "Composition",
+      "density": "Density",
+      "examples": "Examples",
+      "installation": "Installation",
+      "multiline": "Multi-line",
+      "props": "Props",
+      "size-density": "Size & Density",
+      "sizes": "Sizes",
+      "variants": "Variants"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Every size × density × variant cell is an explicit rule on its own px scale. The snippet reflects the current selection."
+    },
+    "title": "Skeleton",
+    "variant": {
+      "circular": "Circular",
+      "rectangular": "Rectangular",
+      "text": "Text"
+    },
+    "variants-desc": "Text lines, rectangular blocks, and circular avatars."
+  }
+}

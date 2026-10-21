@@ -1,0 +1,108 @@
+{
+  "option": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "demo": {
+      "admin": {
+        "description": "Acesso completo ao sistema.",
+        "label": "Administrador"
+      },
+      "student": {
+        "description": "Acesso apenas ao próprio perfil.",
+        "label": "Aluno"
+      },
+      "teacher": {
+        "description": "Gerenciar turmas e alunos.",
+        "label": "Professor"
+      }
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Option e Option Group são primitives para listas selecionáveis controladas por componentes pais como Select, Multi Select e Autocomplete.",
+    "examples": {
+      "list-label": "Papéis",
+      "note": "Itens de lista standalone com label e descrição. A seleção é controlada pelo componente pai."
+    },
+    "group": {
+      "academic": "Acadêmico",
+      "classes": "Turmas",
+      "grades": "Notas",
+      "item1": "Item em manutenção 1",
+      "item2": "Item em manutenção 2",
+      "list-label": "Papéis agrupados",
+      "maintenance": "Manutenção",
+      "note": "Option Group rotula um conjunto de opções com role=\"group\" e propaga disabled para todas as opções filhas.",
+      "students": "Alunos"
+    },
+    "indicator": {
+      "hidden": "Oculto",
+      "shown": "Visível"
+    },
+    "indicators": {
+      "note": "O indicador de seleção é opt-in. Sem ele, a opção selecionada mantém o estado, mas não renderiza checkmark nem checkbox."
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe os componentes de option e option group."
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "section": {
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "indicators": "Indicadores de seleção",
+      "installation": "Instalação",
+      "option-group": "Grupo de opções",
+      "props": "Propriedades",
+      "selection-modes": "Modos de seleção",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "slots": "Slots",
+      "states": "Estados"
+    },
+    "selection-mode": {
+      "multiple": "Múltiplo",
+      "none": "Nenhum",
+      "single": "Único"
+    },
+    "selection-modes": {
+      "note": "O modo de seleção é apenas visual: o componente pai é dono da alternância e dos valores. None oculta a semântica de seleção, single mostra checkmark, multiple mostra indicador tipo checkbox."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Tamanho e densidade ajustam apenas fonte e espaçamento. Option não tem altura de controle: dimensiona-se pelo conteúdo dentro da lista pai."
+    },
+    "slots": {
+      "language": {
+        "meta": "Portuguese",
+        "portuguese": "Português"
+      },
+      "list-label": "Planos e configurações",
+      "note": "Os slots leading, label, description, meta e trailing compõem linhas ricas sem inputs dedicados de ícone ou badge.",
+      "plan": {
+        "billing": "Anual",
+        "description": "Para grandes equipes",
+        "enterprise": "Plano Enterprise",
+        "popular": "Popular"
+      },
+      "settings": {
+        "label": "Configurações"
+      }
+    },
+    "states": {
+      "another": "Outra opção",
+      "available": "Disponível",
+      "note": "Opções desabilitadas renderizam com opacidade reduzida, expõem aria-disabled e ignoram interação de ponteiro.",
+      "unavailable": "Indisponível"
+    },
+    "title": "Option"
+  }
+}

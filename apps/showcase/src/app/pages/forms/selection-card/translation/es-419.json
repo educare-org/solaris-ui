@@ -1,0 +1,78 @@
+{
+  "selection-card": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "glass": "Glass",
+      "outline": "Outline",
+      "surface": "Surface",
+      "tonal": "Tonal"
+    },
+    "cards-grid": {
+      "note": "Las tarjetas componen un Grid estilo checkbox mediante un radio group: el grupo posee el único valor seleccionado."
+    },
+    "color": {
+      "custom": "Personalizado",
+      "danger": "Peligro",
+      "info": "Info",
+      "neutral": "Neutro",
+      "note": "La Surface seleccionada, el borde y el indicador siguen el color semántico.",
+      "primary": "Primario",
+      "success": "Éxito",
+      "warning": "Advertencia"
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Control de formulario para opciones seleccionables con objetivo de tamaño tarjeta, modos radio y Switch, Layouts de medios, tamaños y estados.",
+    "examples": {
+      "note": "Una opción seleccionable con contenido de apoyo. El input nativo cubre toda la Surface de la tarjeta."
+    },
+    "form-field-hint": "Selecciona un plan para continuar.",
+    "form-field-label": "Plan",
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa los componentes selection card."
+    },
+    "media": {
+      "note": "Los medios se muestran en ancho completo en la parte superior o como miniatura lateral al inicio.",
+      "start": "Inicio",
+      "top": "Superior"
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "appearances": "Apariencias",
+      "cards-grid": "Grid de tarjetas",
+      "color": "Color",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "form": "Integración con formularios",
+      "installation": "Instalación",
+      "media": "Layout de medios",
+      "props": "Props",
+      "selection": "Modo de selección",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados"
+    },
+    "selected-label": "Seleccionado:",
+    "selection": {
+      "note": "Las tarjetas radio pertenecen a un radio group; las tarjetas Switch son alternancias booleanas independientes renderizadas en el pie.",
+      "radio": "Radio",
+      "switch": "Switch"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en una matriz de 3x3: la densidad controla el espacio y el relleno, el tamaño controla el indicador, la miniatura de medios y el Switch interno."
+    },
+    "title": "Selection Card"
+  }
+}

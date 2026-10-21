@@ -1,0 +1,65 @@
+{
+  "button-group": {
+    "anchor": "Soporte de ancla",
+    "attached": {
+      "false": "Separado",
+      "note": "Con attached=true los elementos forman un único bloque con divisores suaves. Con attached=false cada elemento conserva su propio radio y un espacio los separa.",
+      "true": "Adjunto"
+    },
+    "attached-false": "Separado (attached=false)",
+    "badge": "Composición de Badge",
+    "basic": {
+      "note": "Agrupa acciones relacionadas. El grupo es responsable del Layout y la unión visual; cada hijo es responsable de su propia apariencia y estado."
+    },
+    "basic-horizontal": "Grupo horizontal básico",
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Componente que agrupa acciones relacionadas con Layout controlado y unión visual.",
+    "full-width": "Ancho completo",
+    "future-note": "Componentes futuros",
+    "future-note-text": "Button Group no es Segmented Control, Toggle Group, Split Button ni Dropdown Button. Segmented Control selecciona una opción de un conjunto pequeño. Toggle Group controla el estado activado/desactivado. Split Button combina una acción principal con un menú desplegable. Dropdown Button abre un menú. Estos son componentes/patrones separados que se crearán en futuras versiones.",
+    "horizontal-disabled": "Horizontal con deshabilitado",
+    "installation": {
+      "note": "Instala el paquete único de Solaris e importa el componente."
+    },
+    "loading": "Estado Cargando",
+    "mixed": "Grupo mixto (botón + botón de icono)",
+    "mixed-note": "Esto es solo agrupación visual. El comportamiento de split button/dropdown será un componente separado en el futuro.",
+    "orientation": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Tabla de Props próximamente, con el componente de tabla."
+    },
+    "section": {
+      "attached": "Adjunto",
+      "basic": "Básico",
+      "density": "Densidad",
+      "full-width": "Ancho completo",
+      "installation": "Instalación",
+      "mixed": "Grupo mixto",
+      "orientation": "Orientación",
+      "props": "Props",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "El tamaño y la densidad del grupo se aplican a cada hijo, estandarizando la altura exterior de cada elemento."
+    },
+    "states": {
+      "note": "Deshabilitado y Cargando pertenecen a cada hijo. El grupo solo garantiza el Layout correcto."
+    },
+    "title": "Grupo de botones",
+    "vertical-icon": "Grupo vertical de iconos"
+  }
+}

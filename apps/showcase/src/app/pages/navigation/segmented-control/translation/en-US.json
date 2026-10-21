@@ -1,0 +1,176 @@
+{
+  "segmented-control": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "appearances": "Appearances",
+    "basic": "Basic",
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "label": "Density",
+      "normal": "Normal"
+    },
+    "description": "Segmented Control for switching between a small number of related options.",
+    "disabled-group": "Disabled Group",
+    "disabled-item": "Disabled Item",
+    "equal-width": "Equal Width",
+    "example": {
+      "appearances": {
+        "outline-x": "Option X",
+        "outline-y": "Option Y",
+        "outline-z": "Option Z",
+        "surface-a": "Option A",
+        "surface-b": "Option B",
+        "surface-c": "Option C"
+      },
+      "basic": {
+        "monthly": "Monthly",
+        "yearly": "Yearly"
+      },
+      "density": {
+        "comfortable": "Comfortable",
+        "compact": "Compact",
+        "normal": "Normal"
+      },
+      "disabled-group": {
+        "a": "Option A",
+        "b": "Option B",
+        "c": "Option C"
+      },
+      "disabled-item": {
+        "disabled": "Disabled",
+        "enabled": "Enabled"
+      },
+      "equal-width": {
+        "long": "Long",
+        "medium": "Medium",
+        "short": "Short"
+      },
+      "full-width": {
+        "a": "Option A",
+        "b": "Option B",
+        "c": "Option C"
+      },
+      "icon-only": {
+        "grid-view": "Grid view",
+        "list-view": "List view",
+        "view-mode": "View mode"
+      },
+      "invalid": {
+        "a": "Option A",
+        "b": "Option B",
+        "error": "Select an option to continue.",
+        "group-label": "Plan",
+        "validate": "Validate"
+      },
+      "long-labels": {
+        "notifications": "Notifications & Alerts",
+        "system-preferences": "System Preferences",
+        "user-settings": "User Settings"
+      },
+      "many-options": {
+        "critical": "Critical",
+        "high": "High",
+        "low": "Low",
+        "medium": "Medium",
+        "none": "None"
+      },
+      "no-indicator": {
+        "a": "Option A",
+        "b": "Option B"
+      },
+      "radius": {
+        "full": "Radius Full",
+        "lg": "Radius LG",
+        "md": "Radius MD",
+        "sm": "Radius SM"
+      },
+      "reactive-forms": {
+        "dark": "Dark",
+        "light": "Light",
+        "system": "System"
+      },
+      "readonly": {
+        "a": "Option A",
+        "b": "Option B"
+      },
+      "sizes": {
+        "large": "Large",
+        "medium": "Medium",
+        "small": "Small"
+      },
+      "vertical": {
+        "general": "General",
+        "notifications": "Notifications",
+        "security": "Security"
+      },
+      "with-badge": {
+        "all": "All",
+        "issues": "Issues",
+        "pull-requests": "Pull Requests"
+      },
+      "with-icons": {
+        "grid": "Grid",
+        "kanban": "Kanban",
+        "list": "List"
+      }
+    },
+    "examples": {
+      "note": "Start with the default control, then explore appearances and variants below."
+    },
+    "full-width": "Full Width",
+    "icon-only": "Icon Only",
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "invalid": "Invalid",
+    "long-labels": "Long Labels",
+    "many-options": "Many Options",
+    "no-indicator": "Indicator Disabled",
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "radius": {
+      "full": "Full",
+      "label": "Radius",
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "reactive-forms": "Reactive Forms",
+    "readonly": "Readonly",
+    "section": {
+      "appearances": "Appearances",
+      "density": "Density",
+      "examples": "Examples",
+      "features": "Features",
+      "forms": "Forms",
+      "installation": "Installation",
+      "layout": "Layout",
+      "orientation": "Orientation",
+      "props": "Props",
+      "radius": "Radius",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density work together in the component. Combine both controls to see all 9 combinations."
+    },
+    "sizes": "Sizes",
+    "title": "Segmented Control",
+    "vertical": "Vertical",
+    "with-badge": "With Badge / Projected Content",
+    "with-icons": "With Icons"
+  }
+}

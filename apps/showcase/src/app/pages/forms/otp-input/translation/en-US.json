@@ -1,0 +1,108 @@
+{
+  "otp-input": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "label": "Verification code",
+      "note": "The boxes carry the appearance themselves while the Form Field control wrapper stays clean.",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "basic": {
+      "hint": "Enter the 6-digit code we sent you.",
+      "label": "Verification code"
+    },
+    "char-type": {
+      "alphanumeric": "Alphanumeric",
+      "label": "Verification code",
+      "note": "Numeric accepts digits only; alphanumeric accepts uppercase letters and digits, including on paste.",
+      "numeric": "Numeric"
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "A form control for one-time passwords with configurable min/max length, keyboard navigation, paste support, masking and visual grouping.",
+    "examples": {
+      "note": "Type a code to see boxes fill and focus advance. There is no loading state: boxes render immediately."
+    },
+    "form": {
+      "completed": "Code completed!",
+      "empty": "(empty)",
+      "hint": "Enter a code between 4 and 6 digits.",
+      "label": "Reactive code",
+      "note": "Uses formControlName with Validators.required and solarisOtpValidator(4, 6). Completed fires when the value reaches maxLength.",
+      "status": "Valid: {{valid}} | Touched: {{touched}} | Value: {{value}}"
+    },
+    "installation": {
+      "note": "Install the Solaris UI package and import the OTP input component with its validator."
+    },
+    "length": {
+      "4": "4 digits",
+      "6": "6 digits",
+      "8": "8 digits",
+      "label": "Verification code",
+      "note": "The number of boxes follows maxLength. Min length is enforced by validation, not by the layout."
+    },
+    "masking": {
+      "hint": "Characters are hidden as you type.",
+      "label": "Masked code",
+      "note": "Masked boxes display a bullet while the value keeps the real characters."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "appearance": "Appearance",
+      "char-type": "Character type",
+      "density": "Density",
+      "examples": "Examples",
+      "form": "Form integration",
+      "installation": "Installation",
+      "length": "Length",
+      "masking": "Masking",
+      "props": "Props",
+      "separator": "Separator",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States",
+      "suffix-action": "Suffix action"
+    },
+    "separator": {
+      "hint": "Grouped every 3 digits for readability.",
+      "label": "Grouped code",
+      "note": "A decorative separator groups boxes visually every N characters without affecting the value."
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "label": "Verification code",
+      "note": "Size and density scale the boxes together through the shared Form Field contract."
+    },
+    "states": {
+      "disabled": {
+        "label": "Disabled code"
+      },
+      "invalid": {
+        "error": "Enter a valid code.",
+        "label": "Invalid code"
+      },
+      "note": "Disabled and readonly block editing; manual invalid forces the error style with a custom message.",
+      "readonly": {
+        "label": "Confirmed code"
+      }
+    },
+    "suffix-action": {
+      "button": "Resend",
+      "label": "Code",
+      "note": "Extra suffix actions (for example a resend-code button) compose beside the boxes and switch the suffix affix to the action variant."
+    },
+    "title": "OTP Input"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "editableTabs": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar."
+    },
+    "basic": "Abas Editáveis Básicas",
+    "compact": "Densidade Compacta",
+    "custom-actions": "Ações Personalizadas",
+    "default-event": "Evento de Definir como Padrão",
+    "description": "Abas Editáveis permitem que usuários renomeiem, removam, reordenem e gerenciem conjuntos de abas usando a fundação existente de Abas e Dropdown Menu.",
+    "drag-reorder": "Arrastar para reordenar",
+    "example": {
+      "basic": {
+        "active-tab": "Aba ativa: {{ value }}"
+      },
+      "custom-actions": {
+        "last-action": "Última ação: {{ action }}"
+      },
+      "default-event": {
+        "description": "Aba padrão: {{ value }} (não persistida pelo Solaris)"
+      },
+      "drag-reorder": {
+        "description": "Arraste uma aba e solte na nova posição. O indicador mostra onde a aba será inserida."
+      },
+      "locked": {
+        "description": "A aba \"General\" está bloqueada — não pode ser renomeada, removida ou movida."
+      },
+      "move": {
+        "description": "Mova abas para esquerda/direita pelo menu de ações ou arraste e solte em uma nova posição. Abas nas extremidades têm as ações de mover do menu desabilitadas."
+      },
+      "remove": {
+        "description": "Remova abas pelo menu de ações. A última aba não pode ser removida (minTabs=1)."
+      },
+      "rename": {
+        "description": "Clique no ícone de reticências em uma aba, selecione \"Renomear\", digite um novo nome e pressione Enter."
+      }
+    },
+    "examples": {
+      "note": "Comece pelas abas editáveis padrão e explore as ações de gerenciamento e variantes abaixo. As abas também podem ser reordenadas arrastando quando dragToReorder está ativo."
+    },
+    "icons-and-badges": "Ícones e Badges",
+    "installation": {
+      "note": "Instale o pacote único Solaris e importe o componente."
+    },
+    "locked": "Aba Bloqueada",
+    "management": {
+      "note": "As ações de renomear, remover e reordenar ficam no menu de ações da aba. Arrastar e soltar emite o mesmo evento tabMove das ações do menu."
+    },
+    "move": "Mover Esquerda/Direita",
+    "note": "Abas Editáveis não persistem estado internamente. Todas as decisões de persistência (localStorage, backend, parâmetros de rota, perfil de usuário, configurações de tenant) são delegadas ao consumidor através de eventos.",
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "remove": "Comportamento de Remoção",
+    "rename": "Renomeação Inline",
+    "section": {
+      "examples": "Exemplos",
+      "features": "Recursos",
+      "installation": "Instalação",
+      "layout": "Layout",
+      "management": "Renomear, remover e mover",
+      "props": "Propriedades"
+    },
+    "title": "Abas Editáveis",
+    "vertical": "Orientação Vertical"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "event-editor": {
+    "description": "Formulario de eventos alojado en dialog con editor de recurrencia y eliminación con alcance. La forma predeterminada de crear y editar eventos.",
+    "dialog": {
+      "new": "Nuevo evento"
+    },
+    "examples": {
+      "note": "Abre el editor mediante el servicio de dialog. Guardar emite un borrador inmutable; eliminar emite una solicitud de alcance resuelta con resolveSolarisEventDelete; el array del consumidor nunca se muta."
+    },
+    "installation": {
+      "note": "Instala el paquete e importa el componente independiente del editor de eventos."
+    },
+    "locales": {
+      "note": "Título, fechas, recurrencia y alcance de eliminación siguen el idioma seleccionado."
+    },
+    "open": {
+      "new": "Nuevo evento",
+      "recurring": "Editar evento recurrente",
+      "single": "Editar evento único"
+    },
+    "props": {
+      "note": "Pasa el evento de origen (nunca mutado), la ocurrencia editada, la zona horaria y el idioma. Las salidas son eventSave, eventDelete(scope) y eventCancel."
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "locales": "Idiomas",
+      "props": "Props"
+    },
+    "title": "Editor de eventos"
+  }
+}

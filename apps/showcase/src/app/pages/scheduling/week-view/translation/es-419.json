@@ -1,0 +1,45 @@
+{
+  "week-view": {
+    "allday": {
+      "label": "Fila de todo el día",
+      "off": "Apagado",
+      "on": "Sí"
+    },
+    "days": {
+      "label": "Días visibles"
+    },
+    "description": "Cuadrícula horaria con uno a siete días visibles, fila de todo el día, bloques de eventos superpuestos y línea de ahora en la zona horaria mostrada.",
+    "drag": {
+      "note": "Arrastra un intervalo vacío para proponer una creación, arrastra un bloque para proponer un movimiento, o arrastra sus bordes superior/inferior para proponer un cambio de tamaño. Paridad de teclado: las flechas mueven, Shift+flechas cambian el tamaño, Enter confirma, Escape cancela. La lib nunca muta el array: las propuestas aparecen en el registro siguiente."
+    },
+    "examples": {
+      "note": "Usa la barra de herramientas para mover el intervalo visible y alternar entre Layouts de día, 3 días, 4 días y semana. Hacer clic en un horario emite la hora local en la zona mostrada; el registro siguiente muestra los eventos emitidos."
+    },
+    "installation": {
+      "note": "Instala el paquete e importa el componente independiente de la vista semanal."
+    },
+    "locales": {
+      "note": "Días de la semana, horas y textos de ayuda siguen el idioma seleccionado."
+    },
+    "props": {
+      "note": "Pasa eventos (la lib expande la recurrencia sin mutar el array), tareas, festivos resueltos y la zona horaria de visualización. Arrastrar propone creaciones, movimientos y cambios de tamaño con paso de ajuste; las vistas anual y de agenda siguen siendo solo de clic y teclado."
+    },
+    "section": {
+      "drag": "Arrastrar y soltar",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "locales": "Idiomas",
+      "props": "Props",
+      "size-density": "Tamaño y densidad"
+    },
+    "size-density": {
+      "note": "El tamaño determina el texto de los bloques, mientras que la densidad determina la altura de la hora."
+    },
+    "title": "Vista semanal",
+    "toolbar": {
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "today": "Hoy"
+    }
+  }
+}

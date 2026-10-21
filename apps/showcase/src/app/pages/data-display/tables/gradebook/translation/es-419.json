@@ -1,0 +1,144 @@
+{
+  "gradebook": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "basic": {
+      "note": "Columna de identidad con primera celda fija, columnas de calificaciones con máximos y promedios en pie de página."
+    },
+    "breakdown": {
+      "dialog": {
+        "close": "Cerrar",
+        "result": "MP final",
+        "title": "Desglose de calificaciones"
+      },
+      "note": "MP combina FT+AT, GS1 y GS2; “+” abre un diálogo con las partes y el resultado.",
+      "open": {
+        "label": "Ver desglose de calificación"
+      }
+    },
+    "col": {
+      "ftat": "FT + AT",
+      "gs1": "GS1",
+      "gs2": "GS2",
+      "mp": "MP",
+      "result": "SITUAÇÃO",
+      "subject": "Asignatura"
+    },
+    "composed": {
+      "note": "La paginación se proyecta en el slot de pie de página de la tabla, por lo que comparte el borde de Calificaciones."
+    },
+    "description": "Matriz de calificaciones con grupos de semestre, Badges de resultado y edición de calificaciones Inline.",
+    "editing": {
+      "bulk": {
+        "apply": "Aplicar a {{count}} seleccionados",
+        "assignment": "Tarea",
+        "hint": "Selecciona filas, ingresa la calificación y aplícala en masa. También puedes pegar una columna de Excel directamente en el editor.",
+        "value": "Calificación"
+      },
+      "note": "Enter o doble clic en una calificación para editar; al confirmar se actualizan las filas del consumidor. Con selección Múltiple usa confirmación masiva; con pegado activado puedes pegar valores desde Excel."
+    },
+    "editor": {
+      "label": "Editar calificación"
+    },
+    "examples": {
+      "note": "Empieza con Calificaciones predeterminado y luego explora semestres, edición y datos del servidor a continuación."
+    },
+    "group": {
+      "result": "Resultado",
+      "semester1": "1.er Semestre",
+      "semester2": "2.º Semestre"
+    },
+    "hint": {
+      "gs1": "Global Solution, calificación del proyecto de hasta 20 puntos.",
+      "gs2": "Global Solution del segundo semestre, calificación del proyecto de hasta 20 puntos."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "layout": {
+      "label": "Layout de columnas",
+      "note": "Auto ajusta las columnas al contenido. Ancho completo las distribuye en todo el contenedor.",
+      "tab": {
+        "auto": "Auto",
+        "full": "Ancho completo"
+      }
+    },
+    "legend": {
+      "approved": "Aprobado",
+      "exam": "Examen",
+      "label": "Leyenda de resultados",
+      "missing": "Calificación faltante",
+      "note": "Una leyenda con puntos explica los Badges de resultado y Status de un vistazo."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente."
+    },
+    "scales": {
+      "label": "Escala de calificaciones",
+      "note": "Cambia la escala de calificaciones; formato, análisis y ordenamiento siguen la escala activa.",
+      "tab": {
+        "banded": "Con bandas",
+        "concept": "Concepto"
+      }
+    },
+    "section": {
+      "basic": "Básico",
+      "breakdown": "Desglose de calificaciones",
+      "composed": "Con paginación",
+      "editing": "Edición",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "layout": "Layout",
+      "legend": "Leyenda",
+      "props": "Props",
+      "scales": "Escalas",
+      "semesters": "Semestres",
+      "server": "Datos del servidor",
+      "statuses": "Status de celda",
+      "totals": "Totales"
+    },
+    "semesters": {
+      "note": "Las columnas consecutivas de calificaciones se fusionan bajo grupos de semestre (1st y 2nd); el grupo de resultado incluye MP y SITUAÇÃO. Usa las pestañas para fijar la primera columna, ambos bordes o ninguno.",
+      "scroll": {
+        "hint": "Desplaza la tabla lateralmente para ver las columnas fijas en acción."
+      },
+      "sticky": {
+        "both": "Primera y última",
+        "first": "Solo la primera",
+        "label": "Columnas fijas",
+        "none": "Ninguno"
+      }
+    },
+    "server": {
+      "note": "Un servidor simulado gestiona las filas, el total y Cargando a través de SolarisTableDataSource."
+    },
+    "status": {
+      "excused": "Dispensado",
+      "late": "Atrasado",
+      "missing": "Faltante"
+    },
+    "statuses": {
+      "note": "Cada celda incluye un Status (graded, late, missing, excused) con un punto sutil junto al número y una etiqueta para lector de pantalla; nunca solo por color."
+    },
+    "title": "Calificaciones",
+    "totals": {
+      "aggregate": {
+        "average": "Promedio",
+        "label": "Agregación de pie de página",
+        "max": "Máximo",
+        "sum": "Suma"
+      },
+      "max": {
+        "label": "Mostrar columnas MÁX"
+      },
+      "note": "El pie de página puede calcularse dentro de Calificaciones con aggregate (average, sum, min, max, median o weighted); un footerValueOf explícito siempre prevalece. La columna MP se calcula por fila a partir de GS1 y GS2, sin escritura. Activa las columnas MÁX y cambia el redondeo para ver el efecto en el pie.",
+      "rounding": {
+        "down": "Siempre hacia abajo",
+        "label": "Redondeo",
+        "standard": "Predeterminado de escala",
+        "up": "Siempre hacia arriba"
+      }
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "otp-input": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "label": "Código de verificación",
+      "note": "Las casillas llevan la apariencia mientras el wrapper de control de Form Field permanece limpio.",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "basic": {
+      "hint": "Introduce el código de 6 dígitos que te enviamos.",
+      "label": "Código de verificación"
+    },
+    "char-type": {
+      "alphanumeric": "Alfanumérico",
+      "label": "Código de verificación",
+      "note": "Numérico acepta solo dígitos; alfanumérico acepta letras mayúsculas y dígitos, incluso al pegar.",
+      "numeric": "Numérico"
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Un control de formulario para contraseñas de un solo uso con longitud mín./máx. configurable, navegación por teclado, soporte de pegado, enmascaramiento y agrupación visual.",
+    "examples": {
+      "note": "Escribe un código para ver cómo se llenan las casillas y avanza el foco. No hay estado Cargando: las casillas se muestran de inmediato."
+    },
+    "form": {
+      "completed": "¡Código completo!",
+      "empty": "(vacío)",
+      "hint": "Introduce un código de entre 4 y 6 dígitos.",
+      "label": "Código reactivo",
+      "note": "Usa formControlName con Validators.required y solarisOtpValidator(4, 6). Completed se dispara cuando el valor alcanza maxLength.",
+      "status": "Válido: {{valid}} | Tocado: {{touched}} | Valor: {{value}}"
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa el componente OTP input con su validador."
+    },
+    "length": {
+      "4": "4 dígitos",
+      "6": "6 dígitos",
+      "8": "8 dígitos",
+      "label": "Código de verificación",
+      "note": "El número de casillas sigue maxLength. La longitud mínima se garantiza por validación, no por el Layout."
+    },
+    "masking": {
+      "hint": "Los caracteres se ocultan mientras escribes.",
+      "label": "Código enmascarado",
+      "note": "Las casillas enmascaradas muestran una viñeta mientras el valor conserva los caracteres reales."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "appearance": "Apariencia",
+      "char-type": "Tipo de carácter",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "form": "Integración con formularios",
+      "installation": "Instalación",
+      "length": "Longitud",
+      "masking": "Enmascaramiento",
+      "props": "Props",
+      "separator": "Separador",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados",
+      "suffix-action": "Acción de sufijo"
+    },
+    "separator": {
+      "hint": "Agrupado cada 3 dígitos para facilitar la lectura.",
+      "label": "Código agrupado",
+      "note": "Un separador decorativo agrupa visualmente las casillas cada N caracteres sin afectar el valor."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "label": "Código de verificación",
+      "note": "Tamaño y densidad escalan las casillas en conjunto a través del contrato compartido de Form Field."
+    },
+    "states": {
+      "disabled": {
+        "label": "Código deshabilitado"
+      },
+      "invalid": {
+        "error": "Introduce un código válido.",
+        "label": "Código no válido"
+      },
+      "note": "Deshabilitado y Solo lectura bloquean la edición; No válido manual fuerza el estilo de Error con un mensaje personalizado.",
+      "readonly": {
+        "label": "Código confirmado"
+      }
+    },
+    "suffix-action": {
+      "button": "Reenviar",
+      "label": "Code",
+      "note": "Las acciones de sufijo adicionales (por ejemplo un botón de reenvío de código) se componen junto a las casillas y cambian el afijo de sufijo a la variante de acción."
+    },
+    "title": "OTP Input"
+  }
+}

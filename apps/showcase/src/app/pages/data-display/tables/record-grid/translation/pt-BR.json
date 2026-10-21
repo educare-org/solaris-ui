@@ -1,0 +1,67 @@
+{
+  "record-grid": {
+    "ai": {
+      "prompt": "Estou olhando a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar."
+    },
+    "basic": {
+      "note": "Colunas de lançamento editáveis com total computado; Enter ou duplo-clique edita a célula."
+    },
+    "col": {
+      "final": "Final",
+      "note": "Observação",
+      "present": "Presença",
+      "project": "Projeto",
+      "shift": "Turno",
+      "student": "Estudante",
+      "total": "Total"
+    },
+    "description": "Folha de lançamento com seções, células mescladas e edição controlada com commit interno.",
+    "editing": {
+      "note": "Valores precisam ficar entre 0 e 10; cada commit aparece no log abaixo da grade.",
+      "tab": {
+        "editable": "Editável",
+        "readonly": "Somente leitura"
+      },
+      "tabs": {
+        "label": "Modo de edição"
+      }
+    },
+    "examples": {
+      "note": "Comece pela grade padrão e explore seções, mesclagem e edição abaixo."
+    },
+    "formulas": {
+      "note": "Colunas de total e final reagem às edições; a final pondera o total em dobro contra o projeto."
+    },
+    "installation": {
+      "note": "Instale o pacote único Solaris e importe o componente."
+    },
+    "layout": {
+      "note": "Auto dimensiona as colunas pelo conteúdo. Card colapsa as linhas em campos consolidados."
+    },
+    "merging": {
+      "note": "A célula de turno cobre as linhas da seção e observações preenchem a coluna de projeto."
+    },
+    "props": {
+      "note": "Tabela de props em breve."
+    },
+    "section": {
+      "basic": "Básico",
+      "editing": "Edição",
+      "examples": "Exemplos",
+      "formulas": "Fórmulas",
+      "installation": "Instalação",
+      "layout": "Layout",
+      "merging": "Mesclagem",
+      "props": "Props",
+      "sections": "Seções"
+    },
+    "sections": {
+      "note": "Turnos da manhã e da noite como divisórias de seção com médias por grupo no rodapé."
+    },
+    "shift": {
+      "evening": "Turno da noite",
+      "morning": "Turno da manhã"
+    },
+    "title": "Grade de registros"
+  }
+}

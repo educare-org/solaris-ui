@@ -1,0 +1,65 @@
+{
+  "preview-code": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "align": {
+      "center": "Centro",
+      "start": "Inicio",
+      "stretch": "Estirar"
+    },
+    "controlled": {
+      "note": "Vincula activeTab y activeTabChange para un estado de pestaña controlado."
+    },
+    "description": "Vista previa en vivo con su código fuente, cambio de pestañas y compatibilidad con varios archivos.",
+    "examples": {
+      "note": "Empieza con la vista previa predeterminada y luego explora pestañas y archivos a continuación."
+    },
+    "expandable": {
+      "note": "El Code largo se contrae después de cuatro líneas y se expande a pedido."
+    },
+    "files": {
+      "note": "Alterna entre archivos en el panel de Code; los id desconocidos vuelven al primero."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "layout": {
+      "note": "Alineación, altura mínima y relleno ajustan la Surface de vista previa."
+    },
+    "minHeight": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño",
+      "xl": "Extragrande"
+    },
+    "padding": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "controlled": "Pestaña controlada",
+      "examples": "Ejemplos",
+      "expandable": "Code expandible",
+      "files": "Múltiples archivos",
+      "installation": "Instalación",
+      "layout": "Layout de vista previa",
+      "props": "Props"
+    },
+    "title": "Preview Code"
+  },
+  "solaris": {
+    "previewCode": {
+      "ariaLabel": "Vista previa con código",
+      "code": "Code",
+      "fileSelector": {
+        "ariaLabel": "Archivos de Code"
+      },
+      "preview": "Vista previa"
+    }
+  }
+}

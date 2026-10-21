@@ -1,0 +1,68 @@
+{
+  "loading-text": {
+    "clamp": {
+      "note": "Clamp long captions to N lines with ellipsis. The snippet reflects the current selection.",
+      "off": "No clamp",
+      "three": "3 lines",
+      "two": "2 lines"
+    },
+    "color": {
+      "custom": "Custom",
+      "danger": "Danger",
+      "info": "Info",
+      "neutral": "Neutral",
+      "primary": "Primary",
+      "success": "Success",
+      "warning": "Warning"
+    },
+    "colors-desc": "Semantic colors, plus custom via --solaris-loading-text-custom-color.",
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Animated loading caption that sweeps a shimmer across short text to communicate an in-progress operation.",
+    "dots": {
+      "note": "Three decorative pulsing dots after the text — hidden from assistive technology, static under reduced motion."
+    },
+    "examples": {
+      "note": "Default text and custom text. The snippet shows the minimal template."
+    },
+    "installation": {
+      "note": "Install the single Solaris UI package and import the loading-text component."
+    },
+    "props": {
+      "note": "Full props reference lives in the component documentation."
+    },
+    "section": {
+      "clamp": "Line clamp",
+      "colors": "Colors",
+      "density": "Density",
+      "dots": "Pulsing dots",
+      "examples": "Examples",
+      "installation": "Installation",
+      "props": "Props",
+      "size-density": "Size & Density",
+      "sizes": "Sizes",
+      "speeds": "Speeds"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small",
+      "xl": "Extra large"
+    },
+    "size-density": {
+      "note": "By default the text inherits the surrounding font-size/line-height. size/density below are opt-in fixed overrides. The snippet reflects the current selection."
+    },
+    "speed": {
+      "fast": "Fast",
+      "normal": "Normal",
+      "slow": "Slow"
+    },
+    "speeds": {
+      "note": "Shimmer sweep speed. The snippet reflects the current selection."
+    },
+    "title": "Loading Text"
+  }
+}

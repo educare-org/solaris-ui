@@ -1,0 +1,82 @@
+{
+  "mega-menu": {
+    "accessibility": "Accesibilidad",
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "anchor-width": "Ancho del ancla",
+    "anchor-width-content": "Este panel coincide con el ancho del encabezado.",
+    "appearance": "Apariencia",
+    "appearance-note": "Underline es el predeterminado. Text usa texto atenuado hasta que su disparador esté activo.",
+    "basic": "Básico",
+    "basic-aria-label": "Navegación principal",
+    "basic-note": "Pasar el cursor, enfocar o hacer clic en un disparador. Un grupo mantiene solo un panel abierto a la vez.",
+    "brand": "SOLARIS",
+    "build": "Crear",
+    "configuration": "Configuración",
+    "controlled": "Estado controlado",
+    "controlled-content": "Este panel está vinculado con estado open bidireccional.",
+    "controlled-note": "El modelo open admite control programático además de la interacción con el disparador.",
+    "controlled-trigger": "Disparador controlado",
+    "delayed-content": "Contenido del panel con retraso",
+    "delayed-trigger": "Disparador con retraso",
+    "description": "Una superposición de navegación para grupos de destinos relacionados y contenido editorial.",
+    "event-closed": "Evento de cierre emitido.",
+    "event-idle": "Ningún evento emitido aún.",
+    "event-opened": "Evento de apertura emitido.",
+    "examples": {
+      "note": "Comenzar con la barra de navegación completa y luego explorar apariencia, ancho y teclado a continuación."
+    },
+    "feature-description": "Componer paneles enriquecidos sin imponer semántica de menú a los enlaces.",
+    "feature-kicker": "Nuevo patrón",
+    "feature-title": "Navegación orientada al contenido",
+    "feedback": "Feedback",
+    "forms": "Formularios",
+    "foundation": "Fundación",
+    "hover-delay": "Retraso de hover",
+    "hover-delay-note": "Este disparador espera 400 ms antes de abrirse y cerrarse con el movimiento del puntero.",
+    "icons": "Iconos",
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "keyboard": "Navegación por teclado",
+    "keyboard-aria-label": "Demostración de navegación por teclado",
+    "keyboard-note": "Enfoca un disparador y usa ArrowLeft y ArrowRight para moverte entre disparadores, ArrowDown para abrir y entrar al panel, Home y End para saltar, Escape para cerrar.",
+    "layout": "Primitivas de Layout",
+    "learn": "Aprender",
+    "navigation": "Navegación",
+    "panel-content": "Contenido del panel",
+    "persistent": "Persistente al hacer clic",
+    "persistent-content": "Hacer clic de nuevo en el disparador o hacer clic fuera para cerrar.",
+    "persistent-note": "Hacer clic en este disparador mantiene su panel abierto después de que el puntero sale.",
+    "persistent-trigger": "Mantener abierto",
+    "products": "Productos",
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "resources": "Recursos",
+    "responsive-note": "Mega Menu es un patrón de escritorio. Debajo de tu breakpoint, reemplaza la barra de disparadores con un drawer o menú en lugar de comprimir paneles.",
+    "section": {
+      "appearance": "Apariencia",
+      "behavior": "Comportamiento",
+      "controlled": "Estado controlado",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "keyboard": "Teclado",
+      "props": "Props",
+      "responsive": "Adaptable",
+      "width": "Ancho del panel"
+    },
+    "text": "Texto",
+    "theming": "Temas",
+    "title": "Mega Menu",
+    "toggle-controlled": "Alternar menú controlado",
+    "trigger-width": "Ancho del disparador",
+    "trigger-width-content": "Este panel coincide con el ancho del disparador.",
+    "underline": "Subrayado",
+    "viewport-width": "Ancho del viewport",
+    "viewport-width-content": "Este panel abarca el viewport.",
+    "width": "Ancho del panel",
+    "width-note": "Elige un panel alineado al disparador, a su ancla o al viewport."
+  }
+}

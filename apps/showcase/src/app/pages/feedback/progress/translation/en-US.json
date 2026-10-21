@@ -1,0 +1,74 @@
+{
+  "progress": {
+    "animated": {
+      "note": "The bar transitions smoothly as the value updates. Click play to watch it run from 0 to 100."
+    },
+    "buffer": {
+      "note": "Buffer renders the expected value behind the fill — useful for streaming and chunked uploads."
+    },
+    "color": {
+      "custom": "Custom",
+      "danger": "Danger",
+      "info": "Info",
+      "neutral": "Neutral",
+      "primary": "Primary",
+      "success": "Success",
+      "warning": "Warning"
+    },
+    "colors-desc": "Semantic colors, plus custom via --solaris-progress-custom-color.",
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Linear bar that communicates the progress of a task, either with a measurable determinate value or as an indeterminate indicator when the duration is unknown.",
+    "examples": {
+      "note": "Determinate value, label with percent, and indeterminate mode. The snippet shows the minimal template."
+    },
+    "indeterminate": {
+      "note": "Use indeterminate when the duration is unknown. The bar slides until the process finishes."
+    },
+    "installation": {
+      "note": "Install the single Solaris UI package and import the progress component."
+    },
+    "play": "Play",
+    "props": {
+      "note": "Full props reference lives in the component documentation."
+    },
+    "section": {
+      "animated": "Animated determinate",
+      "buffer": "Buffer",
+      "colors": "Colors",
+      "density": "Density",
+      "examples": "Examples",
+      "indeterminate": "Indeterminate",
+      "installation": "Installation",
+      "props": "Props",
+      "size-density": "Size & Density",
+      "sizes": "Sizes",
+      "status": "Status",
+      "stripes": "Stripes"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Adapted matrix: size drives the bar thickness, density only scales the label. The snippet reflects the current selection."
+    },
+    "status": {
+      "active": "Active",
+      "exception": "Exception",
+      "note": "Active follows the color input; success and exception tint the bar. The snippet reflects the current selection.",
+      "success": "Success"
+    },
+    "stripes": {
+      "animated": "Animated",
+      "none": "None",
+      "note": "Diagonal stripes, optionally animated. Animation stays static under reduced motion. The snippet reflects the current selection.",
+      "striped": "Striped"
+    },
+    "title": "Progress"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "file-upload": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Dropzone, button, avatar, and field control for selecting local files, with validation, per-file progress, URL attach, upload modes, and an image editor.",
+    "editor": {
+      "aspect-free": "Free",
+      "dialog-title": "Edit photo",
+      "note": "Open the editor in a dialog, position the image under the mask, and save. Saving emits a new image file.",
+      "open": "Edit photo",
+      "saved": "Saved {{name}} ({{size}} bytes).",
+      "shape": "Mask shape",
+      "shape-circle": "Circle",
+      "shape-rect": "Rectangle"
+    },
+    "examples": {
+      "label": "Attachments",
+      "note": "Dropzone with drag and drop, validation, and a file list. Files stay selected until you wire an upload URL."
+    },
+    "installation": {
+      "note": "Install the Solaris UI package and import the file upload and image editor components."
+    },
+    "mode": {
+      "avatar": "Avatar",
+      "button": "Button",
+      "dropzone": "Dropzone",
+      "field": "Field"
+    },
+    "modes": {
+      "avatar-label": "Profile photo",
+      "avatar-saved": "Photo saved: {{name}}.",
+      "button-label": "Avatar photo",
+      "field-label": "Attachment",
+      "note": "Dropzone is a full panel with drag and drop; button is a compact trigger, avatar is a photo panel with editor wiring, and field is a single-line row at the form-field height for forms. Tune size and density to preview every variant across scenarios."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "density": "Density",
+      "editor": "Image editor",
+      "examples": "Examples",
+      "installation": "Installation",
+      "modes": "Modes",
+      "props": "Props",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "upload": "Upload modes",
+      "url": "Attach by URL"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3x3 matrix: the dropzone panel adjusts min-height, padding, typography and icon, and keeps the same size while dragging over."
+    },
+    "title": "File upload",
+    "upload": {
+      "auto": "Automatic",
+      "manual": "Manual",
+      "note": "Automatic uploads start immediately with progress; manual uploads wait for uploadAll(). Both demos below use a simulated handler."
+    },
+    "url": {
+      "note": "With allowUrl, a URL row downloads a remote file into the selection, running the same validation."
+    }
+  }
+}

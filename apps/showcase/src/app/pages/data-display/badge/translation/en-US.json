@@ -1,0 +1,94 @@
+{
+  "badge": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "ghost": "Ghost",
+      "outline": "Outline",
+      "solid": "Solid",
+      "tonal": "Tonal"
+    },
+    "appearances": {
+      "note": "Combine appearance and color to set the visual weight and the semantic meaning of the badge."
+    },
+    "color": {
+      "danger": "Danger",
+      "info": "Info",
+      "neutral": "Neutral",
+      "primary": "Primary",
+      "success": "Success",
+      "warning": "Warning"
+    },
+    "count": {
+      "note": "Counts above max render as \"{max}+\" with the full value in the title tooltip. Zero hides the badge unless showZero is set."
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Non-interactive badge component for status, labels, and counts.",
+    "dot": {
+      "note": "Dots signal presence or unread state without a number. Pulse adds a live ring and respects reduced motion.",
+      "tab": {
+        "dot": "Dot",
+        "pulse": "Pulse"
+      }
+    },
+    "example": {
+      "demo": "Badge",
+      "status": {
+        "active": "Active",
+        "error": "Error",
+        "info": "Info",
+        "pending": "Pending"
+      }
+    },
+    "examples": {
+      "note": "Start with the default badge, then explore appearances and variants below."
+    },
+    "icons": {
+      "note": "Icons scale with the badge size. Icon-only badges need an accessible label.",
+      "tab": {
+        "icon-only": "Icon only"
+      }
+    },
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "placement": {
+      "note": "Placed badges anchor to the corner of a positioned ancestor — wrap the target in position: relative."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "appearances": "Appearances",
+      "colors": "Colors",
+      "count": "Count",
+      "density": "Density",
+      "dot": "Dot",
+      "examples": "Examples",
+      "icons": "Icons",
+      "installation": "Installation",
+      "placement": "Placement",
+      "props": "Props",
+      "size-density": "Size & density",
+      "sizes": "Sizes"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density work together in the component. Combine both controls to see every combination.",
+      "tab": {
+        "count": "Count",
+        "standard": "Standard"
+      }
+    },
+    "title": "Badge"
+  }
+}

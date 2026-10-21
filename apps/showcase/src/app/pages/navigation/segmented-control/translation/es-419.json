@@ -1,0 +1,176 @@
+{
+  "segmented-control": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "appearances": "Apariencias",
+    "basic": "Básico",
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "label": "Densidad",
+      "normal": "Normal"
+    },
+    "description": "Control segmentado para cambiar entre un número pequeño de opciones relacionadas.",
+    "disabled-group": "Grupo deshabilitado",
+    "disabled-item": "Elemento deshabilitado",
+    "equal-width": "Ancho igual",
+    "example": {
+      "appearances": {
+        "outline-x": "Opción X",
+        "outline-y": "Opción Y",
+        "outline-z": "Opción Z",
+        "surface-a": "Opción A",
+        "surface-b": "Opción B",
+        "surface-c": "Opción C"
+      },
+      "basic": {
+        "monthly": "Mensual",
+        "yearly": "Anual"
+      },
+      "density": {
+        "comfortable": "Cómodo",
+        "compact": "Compacto",
+        "normal": "Normal"
+      },
+      "disabled-group": {
+        "a": "Opción A",
+        "b": "Opción B",
+        "c": "Opción C"
+      },
+      "disabled-item": {
+        "disabled": "Deshabilitado",
+        "enabled": "Habilitado"
+      },
+      "equal-width": {
+        "long": "Largo",
+        "medium": "Mediano",
+        "short": "Corto"
+      },
+      "full-width": {
+        "a": "Opción A",
+        "b": "Opción B",
+        "c": "Opción C"
+      },
+      "icon-only": {
+        "grid-view": "Vista de cuadrícula",
+        "list-view": "Vista de lista",
+        "view-mode": "Modo de vista"
+      },
+      "invalid": {
+        "a": "Opción A",
+        "b": "Opción B",
+        "error": "Selecciona una opción para continuar.",
+        "group-label": "Plan",
+        "validate": "Validar"
+      },
+      "long-labels": {
+        "notifications": "Notificaciones y alertas",
+        "system-preferences": "Preferencias del sistema",
+        "user-settings": "Configuración de usuario"
+      },
+      "many-options": {
+        "critical": "Crítico",
+        "high": "Alta",
+        "low": "Baja",
+        "medium": "Mediano",
+        "none": "Ninguno"
+      },
+      "no-indicator": {
+        "a": "Opción A",
+        "b": "Opción B"
+      },
+      "radius": {
+        "full": "Radio completo",
+        "lg": "Radio LG",
+        "md": "Radio MD",
+        "sm": "Radio SM"
+      },
+      "reactive-forms": {
+        "dark": "Oscuro",
+        "light": "Claro",
+        "system": "Sistema"
+      },
+      "readonly": {
+        "a": "Opción A",
+        "b": "Opción B"
+      },
+      "sizes": {
+        "large": "Grande",
+        "medium": "Mediano",
+        "small": "Pequeño"
+      },
+      "vertical": {
+        "general": "General",
+        "notifications": "Notificaciones",
+        "security": "Seguridad"
+      },
+      "with-badge": {
+        "all": "Todos",
+        "issues": "Incidencias",
+        "pull-requests": "Pull requests"
+      },
+      "with-icons": {
+        "grid": "Grid",
+        "kanban": "Kanban",
+        "list": "Lista"
+      }
+    },
+    "examples": {
+      "note": "Comenzar con el control predeterminado y luego explorar apariencias y variantes a continuación."
+    },
+    "full-width": "Ancho completo",
+    "icon-only": "Solo icono",
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "invalid": "No válido",
+    "long-labels": "Etiquetas largas",
+    "many-options": "Muchas opciones",
+    "no-indicator": "Indicador deshabilitado",
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "radius": {
+      "full": "Completo",
+      "label": "Radio",
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "reactive-forms": "Reactive Forms",
+    "readonly": "Solo lectura",
+    "section": {
+      "appearances": "Apariencias",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "features": "Funciones",
+      "forms": "Formularios",
+      "installation": "Instalación",
+      "layout": "Layout",
+      "orientation": "Orientación",
+      "props": "Props",
+      "radius": "Radio",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "El tamaño y la densidad funcionan juntos en el componente. Combina ambos controles para ver las 9 combinaciones."
+    },
+    "sizes": "Tamaños",
+    "title": "Control segmentado",
+    "vertical": "Vertical",
+    "with-badge": "Con Badge / Contenido proyectado",
+    "with-icons": "Con Iconos"
+  }
+}

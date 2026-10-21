@@ -1,0 +1,83 @@
+{
+  "code-block": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "basic": {
+      "note": "Bloque de Code predeterminado con resaltado de TypeScript y acción de copiar."
+    },
+    "commands": {
+      "note": "Variante de comando con selector de administrador de paquetes."
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto"
+    },
+    "description": "Fragmentos de Code en bloque e Inline con resaltado, copia y contenido largo expandible.",
+    "editable": {
+      "note": "Edición Inline: el botón de lápiz se convierte en guardar y emite el nuevo Code. Esc cancela, Ctrl+Enter guarda."
+    },
+    "examples": {
+      "note": "Empieza con el bloque predeterminado y luego explora Layouts y variantes a continuación."
+    },
+    "expandable": {
+      "note": "El contenido largo se contrae después de cuatro líneas y se expande a pedido."
+    },
+    "eyebrow": "Visualización de datos",
+    "highlighting": {
+      "note": "Resaltado alternativo integrado de forma predeterminada; Shiki está disponible mediante un proveedor opcional."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "layout": {
+      "block": "Bloque",
+      "inline": "Inline"
+    },
+    "layouts": {
+      "note": "Layout Inline para referencias dentro del texto, Layout de bloque para ejemplos."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "appearances": "Apariencias",
+      "basic": "Básico",
+      "commands": "Comandos",
+      "density": "Densidad",
+      "editable": "Editable",
+      "examples": "Ejemplos",
+      "expandable": "Expandible",
+      "highlighting": "Resaltado",
+      "installation": "Instalación",
+      "layouts": "Layouts",
+      "props": "Props",
+      "sizes": "Tamaños"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "title": "Code Block"
+  },
+  "solaris": {
+    "codeBlock": {
+      "ariaLabel": "Bloque de código",
+      "cancel": "Cancelar edición",
+      "collapse": "Contraer Code",
+      "commandSelector": {
+        "ariaLabel": "Selector de comandos"
+      },
+      "copied": "Code copiado",
+      "copy": "Copiar Code",
+      "edit": "Editar Code",
+      "expand": "Expandir Code",
+      "save": "Guardar cambios"
+    }
+  }
+}

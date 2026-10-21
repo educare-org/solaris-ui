@@ -1,0 +1,100 @@
+{
+  "toast": {
+    "actions": "Actions",
+    "actions-desc": "Action buttons that can execute callbacks and optionally close the toast.",
+    "actions-description": "You have unsaved changes. Do you want to continue?",
+    "actions-dismiss": "Dismiss",
+    "actions-title": "Unsaved changes",
+    "actions-undo": "Undo",
+    "appearance-desc": "Toast with {{appearance}} appearance.",
+    "appearance-outline": "Outline",
+    "appearance-surface": "Surface",
+    "appearance-title": "Appearance: {{appearance}}",
+    "appearances": "Appearances",
+    "appearances-desc": "Surface (default) and outline appearances.",
+    "basic-desc": "The institution has been registered successfully.",
+    "basic-title": "Registration created",
+    "complete-desc": "Your request has been processed.",
+    "complete-title": "Complete!",
+    "countdown": "Countdown",
+    "countdown-bar": "Bar",
+    "countdown-both": "Bar + Text",
+    "countdown-demo-title": "Countdown {{countdown}}",
+    "countdown-desc": "Real countdown showing remaining time until auto-dismiss.",
+    "countdown-text": "Text",
+    "countdown-text-desc": "This toast shows countdown as text only.",
+    "danger": "Danger",
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Temporary non-blocking feedback component for confirming actions, displaying system messages, or notifying users of events.",
+    "examples": {
+      "note": "Each demo fires a real toast. The snippet shows the minimal service call."
+    },
+    "info": "Info",
+    "installation": {
+      "note": "Install the single Solaris UI package and import the toast service."
+    },
+    "loading": "Loading",
+    "loading-desc": "Please wait while we process your request.",
+    "loading-title": "Processing...",
+    "neutral": "Neutral",
+    "persistent": "Persistent",
+    "persistent-desc": "Persistent toasts require manual dismissal and do not auto-dismiss.",
+    "position-bottom-center": "Bottom Center",
+    "position-bottom-end": "Bottom End",
+    "position-bottom-start": "Bottom Start",
+    "position-desc": "Toast positioned at {{position}}.",
+    "position-title": "Position: {{position}}",
+    "position-top-center": "Top Center",
+    "position-top-end": "Top End",
+    "position-top-start": "Top Start",
+    "positions": "Positions",
+    "positions-desc": "Toast can be positioned in any corner or center-top/bottom.",
+    "progress": "Progress",
+    "progress-complete-description": "Your file has been uploaded successfully.",
+    "progress-complete-title": "Upload complete!",
+    "progress-demo-desc": "Your file is being uploaded.",
+    "progress-desc": "Visual progress indicator for operations with known duration, plus promise toasts.",
+    "progress-title": "Uploading...",
+    "progress-trigger": "Simulate upload",
+    "promise-trigger": "Run promise toast",
+    "props": {
+      "note": "Full props reference lives in the component documentation."
+    },
+    "section": {
+      "actions": "Actions",
+      "appearance": "Appearance",
+      "countdown": "Countdown",
+      "density": "Density",
+      "examples": "Examples",
+      "installation": "Installation",
+      "positions": "Positions",
+      "progress": "Progress",
+      "props": "Props",
+      "size-density": "Size & Density",
+      "sizes": "Sizes",
+      "variants": "Variants"
+    },
+    "show": "Show",
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Card scale follows the adapted size × density matrix. The snippet reflects the current selection."
+    },
+    "size-density-demo-desc": "Card scale follows the adapted size × density matrix.",
+    "size-density-title": "Size {{size}} / density {{density}}",
+    "success": "Success",
+    "title": "Toast",
+    "variant-desc": "This is a {{variant}} toast message.",
+    "variant-title": "Toast {{variant}}",
+    "variants": "Variants",
+    "variants-desc": "Neutral, info, success, warning, danger, and loading variants.",
+    "warning": "Warning"
+  }
+}

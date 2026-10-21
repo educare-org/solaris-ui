@@ -3,8 +3,9 @@ import { By } from '@angular/platform-browser';
 
 import { provideSolarisTranslateTesting } from '@solaris-ui/angular';
 
-import { SHELL_TRANSLATIONS } from '../../../shell/translations';
+import { SHELL_TRANSLATIONS } from '../../../shell/translation';
 import { ShowcaseThemeToggle } from '../component/theme-toggle';
+import { flattenTestTranslations } from '../../../shared/testing/flatten-test-translations';
 
 describe('ShowcaseThemeToggle', () => {
   let fixture: ComponentFixture<ShowcaseThemeToggle>;
@@ -16,7 +17,11 @@ describe('ShowcaseThemeToggle', () => {
       imports: [ShowcaseThemeToggle],
       providers: [
         provideSolarisTranslateTesting({
-          translations: SHELL_TRANSLATIONS,
+          translations: {
+            'en-US': flattenTestTranslations(SHELL_TRANSLATIONS['en-US']),
+            'pt-BR': flattenTestTranslations(SHELL_TRANSLATIONS['pt-BR']),
+            'es-419': flattenTestTranslations(SHELL_TRANSLATIONS['es-419']),
+          },
         }),
       ],
     }).compileComponents();
@@ -92,7 +97,11 @@ describe('ShowcaseThemeToggle', () => {
       imports: [ShowcaseThemeToggle],
       providers: [
         provideSolarisTranslateTesting({
-          translations: SHELL_TRANSLATIONS,
+          translations: {
+            'en-US': flattenTestTranslations(SHELL_TRANSLATIONS['en-US']),
+            'pt-BR': flattenTestTranslations(SHELL_TRANSLATIONS['pt-BR']),
+            'es-419': flattenTestTranslations(SHELL_TRANSLATIONS['es-419']),
+          },
         }),
       ],
     }).compileComponents();
@@ -159,7 +168,11 @@ describe('ShowcaseThemeToggle', () => {
       imports: [ShowcaseThemeToggle],
       providers: [
         provideSolarisTranslateTesting({
-          translations: SHELL_TRANSLATIONS,
+          translations: {
+            'en-US': flattenTestTranslations(SHELL_TRANSLATIONS['en-US']),
+            'pt-BR': flattenTestTranslations(SHELL_TRANSLATIONS['pt-BR']),
+            'es-419': flattenTestTranslations(SHELL_TRANSLATIONS['es-419']),
+          },
         }),
       ],
     }).compileComponents();

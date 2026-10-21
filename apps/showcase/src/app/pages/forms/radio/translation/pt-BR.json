@@ -1,0 +1,72 @@
+{
+  "radio": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "outline": "Contorno",
+      "surface": "Superfície"
+    },
+    "color": {
+      "custom": "Customizada",
+      "danger": "Perigo",
+      "info": "Informação",
+      "neutral": "Neutra",
+      "note": "O ponto marcado segue a cor semântica.",
+      "primary": "Primária",
+      "success": "Sucesso",
+      "warning": "Atenção"
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": {
+      "label": "Controle de formulário para seleção única com input nativo, múltiplas aparências, cores, tamanhos, descrição, posição do rótulo e estados.",
+      "note": "Texto secundário sob o rótulo, exposto à tecnologia assistiva via aria-describedby."
+    },
+    "examples": {
+      "note": "Uma única opção dentro de um conjunto de escolhas mutuamente exclusivas. O input nativo permanece acessível."
+    },
+    "form-field-hint": "Selecione uma opção.",
+    "form-field-label": "Plano",
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe os componentes de radio."
+    },
+    "label-layout": {
+      "note": "O rótulo fica após o controle por padrão; start espelha a linha."
+    },
+    "label-position": {
+      "end": "Fim",
+      "start": "Início"
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "section": {
+      "appearances": "Aparências",
+      "color": "Cor",
+      "density": "Densidade",
+      "description": "Descrição",
+      "examples": "Exemplos",
+      "form": "Integração com formulários",
+      "installation": "Instalação",
+      "label-layout": "Posição do rótulo",
+      "props": "Propriedades",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados"
+    },
+    "selected-label": "Selecionado:",
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em uma matriz 3x3: ambos alteram o círculo de controle, a densidade também altera o espaçamento do rótulo."
+    },
+    "title": "Radio"
+  }
+}

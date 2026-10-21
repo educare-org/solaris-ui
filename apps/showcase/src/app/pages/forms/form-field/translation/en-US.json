@@ -1,0 +1,112 @@
+{
+  "form-field": {
+    "action": {
+      "cta": "Register",
+      "label": "Email"
+    },
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "counter": {
+      "label": "Limited to 20 characters",
+      "note": "Automatically shown when maxlength is set on the native input, or when a Validators.maxLength error is active on the control."
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Visual, semantic, and accessible shell for form controls with label, hint, error, prefix, suffix, and state visualisation.",
+    "error": {
+      "custom": "This field has a custom error.",
+      "email": "Please enter a valid email address.",
+      "projected": "Projected: please enter a valid email."
+    },
+    "examples": {
+      "note": "Label provided via input attribute. The wrapper owns the outer height through the 3x3 size x density matrix."
+    },
+    "hint": {
+      "password": "Use at least 8 characters with a number and a symbol.",
+      "projected": "Projected: use at least 8 characters."
+    },
+    "installation": {
+      "note": "Install the Solaris UI package and import the form field with an input directive."
+    },
+    "label": {
+      "custom": "Custom Label",
+      "custom-error": "Custom Error",
+      "email": "Email",
+      "name": "Name",
+      "nickname": "Nickname",
+      "password": "Password",
+      "phone": "Phone",
+      "price": "Price",
+      "required-email": "Required Email",
+      "search": "Search"
+    },
+    "loading": {
+      "label": "Postal code",
+      "note": "Renders a spinner in the suffix slot while async work runs. Loading suppresses any other suffix content and sets aria-busy on the field.",
+      "toggle": "Toggle loading"
+    },
+    "optional": {
+      "label": "(optional)"
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "radius": {
+      "lg": "Large",
+      "md": "Medium",
+      "none": "None",
+      "note": "The control wrapper supports none, sm (default), md, lg, and xl radius values. Global scale: md maps to 4px, lg to 8px, and xl renders as a pill.",
+      "sm": "Small",
+      "xl": "Pill"
+    },
+    "section": {
+      "appearances": "Appearances",
+      "counter": "Character counter",
+      "density": "Density",
+      "error": "Error",
+      "examples": "Examples",
+      "hint": "Hint",
+      "installation": "Installation",
+      "label": "Label",
+      "loading": "Loading",
+      "optional": "Optional marker",
+      "prefix-suffix": "Prefix and suffix",
+      "props": "Props",
+      "radius": "Radius",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States",
+      "validation": "Validation"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size (sm, md, lg) combined with density selects one of the 9 control-height tokens, so the outer height always matches the matrix."
+    },
+    "states": {
+      "disabled": "Disabled Field",
+      "disabled-value": "Cannot edit",
+      "readonly": "Readonly Field",
+      "readonly-value": "Read only value"
+    },
+    "suffix": {
+      "usd": "USD"
+    },
+    "title": "Form Field",
+    "validation": {
+      "note": "Required field with Reactive Forms. Error appears after interaction and blur, but not while focused. Manual invalid overrides automatic detection."
+    }
+  }
+}

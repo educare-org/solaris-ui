@@ -5,8 +5,9 @@ import { provideRouter } from '@angular/router';
 
 import { provideSolarisTranslateTesting } from '@solaris-ui/angular';
 
-import { SHELL_TRANSLATIONS } from './shell/translations';
+import { SHELL_TRANSLATIONS } from './shell/translation';
 import { App } from './app';
+import { flattenTestTranslations } from './shared/testing/flatten-test-translations';
 
 @Component({ standalone: true, template: '' })
 class DummyPage {}
@@ -16,7 +17,13 @@ describe('App', () => {
     await TestBed.configureTestingModule({
       imports: [App],
       providers: [
-        provideSolarisTranslateTesting({ translations: SHELL_TRANSLATIONS }),
+        provideSolarisTranslateTesting({
+          translations: {
+            'en-US': flattenTestTranslations(SHELL_TRANSLATIONS['en-US']),
+            'pt-BR': flattenTestTranslations(SHELL_TRANSLATIONS['pt-BR']),
+            'es-419': flattenTestTranslations(SHELL_TRANSLATIONS['es-419']),
+          },
+        }),
         provideRouter([{ path: '**', component: DummyPage }]),
       ],
     }).compileComponents();

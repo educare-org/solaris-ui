@@ -1,0 +1,32 @@
+{
+  "event-editor": {
+    "description": "Formulário de evento em dialog com editor de recorrência e exclusão com escopo. O padrão para criar e editar eventos.",
+    "dialog": {
+      "new": "Novo evento"
+    },
+    "examples": {
+      "note": "Abra o editor via dialog service. Salvar emite um rascunho imutável; excluir emite um pedido de escopo resolvido com resolveSolarisEventDelete; o array do consumidor nunca é mutado."
+    },
+    "installation": {
+      "note": "Instale o pacote e importe o componente standalone do editor de evento."
+    },
+    "locales": {
+      "note": "Título, datas, recorrência e escopo de exclusão seguem o locale selecionado."
+    },
+    "open": {
+      "new": "Novo evento",
+      "recurring": "Editar evento recorrente",
+      "single": "Editar evento único"
+    },
+    "props": {
+      "note": "Passe o evento de origem (nunca mutado), a ocorrência editada, o fuso e o locale. Saídas: eventSave, eventDelete(scope) e eventCancel."
+    },
+    "section": {
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "locales": "Locales",
+      "props": "Propriedades"
+    },
+    "title": "Editor de evento"
+  }
+}

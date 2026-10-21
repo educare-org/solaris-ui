@@ -1,0 +1,110 @@
+{
+  "password-field": {
+    "affix": {
+      "action": "Generar",
+      "action-label": "Contraseña con acción",
+      "note": "Iconos de prefijo y sufijo mediante inputs. La alternancia integrada ya es una suffix action: sin divisor, variante de acción y un icono dimensionado por la matriz 9-combo de tamaño x densidad.",
+      "prefix-label": "Contraseña con prefijo"
+    },
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "demo": {
+      "label": "Contraseña",
+      "placeholder": "Introduce tu contraseña"
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Preset de Form Field para contraseñas con alternancia de visibilidad integrada, validación por política, lista de requisitos e indicador de fuerza. Compone Form Field + Input.",
+    "error": {
+      "invalid": "Este campo tiene un error."
+    },
+    "examples": {
+      "note": "Campo de contraseña básico con autocomplete para el contexto de inicio de sesión."
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa el componente password field."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "none": "Ninguno",
+      "note": "El Radio se delega al Form Field interno: md equivale a 8px y lg se muestra como Pill.",
+      "sm": "Pequeño"
+    },
+    "requirements": {
+      "hint": "Crea una contraseña fuerte.",
+      "note": "Proporciona una política con [showRequirements] para la lista de verificación y [showStrength] para el medidor heurístico. minLength y maxLength se integran en la política efectiva. Funciona con Reactive Forms a través de ControlValueAccessor y solarisPasswordValidator.",
+      "registration-label": "Nueva contraseña",
+      "strength-label": "Contraseña con fuerza"
+    },
+    "section": {
+      "affix": "Prefijo, sufijo y acciones",
+      "appearances": "Apariencias",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "props": "Props",
+      "radius": "Radio",
+      "requirements": "Requisitos y fuerza",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados",
+      "toggle": "Alternancia de visibilidad"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en una matriz de 3x3: el Form Field interno controla la altura exterior mientras el preset mantiene sincronizadas la fuente y el relleno. El icono de alternancia escala con la misma matriz."
+    },
+    "states": {
+      "default": "Predeterminado",
+      "disabled": "Deshabilitado",
+      "invalid": "No válido",
+      "loading": "Cargando",
+      "note": "Deshabilitado y solo lectura son reales, no solo visuales. Cargando muestra un Spinner superpuesto en el slot de sufijo sin desplazar el Layout.",
+      "readonly": "Solo lectura"
+    },
+    "title": "Password Field",
+    "toggle": {
+      "hidden-label": "Contraseña sin alternancia",
+      "note": "La alternancia integrada es una suffix action: sin divisor, variante de acción y un icono dimensionado por la matriz 9-combo de tamaño x densidad. Ocúltala con [showToggle]=\"false\" y enlaza [visible] para un campo controlado."
+    }
+  },
+  "solaris": {
+    "password-field": {
+      "requirement": {
+        "lowercase": "Una letra minúscula.",
+        "maxLength": "Como máximo {{count}} caracteres.",
+        "minLength": "Al menos {{count}} caracteres.",
+        "noWhitespace": "Sin espacios.",
+        "number": "Un número.",
+        "symbol": "Un símbolo.",
+        "uppercase": "Una letra mayúscula."
+      },
+      "strength": {
+        "medium": "Mediano",
+        "strong": "Fuerte",
+        "weak": "Débil"
+      },
+      "toggle": {
+        "hide": "Ocultar contraseña",
+        "show": "Mostrar contraseña"
+      }
+    }
+  }
+}

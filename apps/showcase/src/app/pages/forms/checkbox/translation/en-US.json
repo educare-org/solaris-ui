@@ -1,0 +1,82 @@
+{
+  "checkbox": {
+    "accept-label": "Accept",
+    "accept-status": "Accepted:",
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "color": {
+      "custom": "Custom",
+      "danger": "Danger",
+      "info": "Info",
+      "neutral": "Neutral",
+      "note": "The checked box follows the semantic color.",
+      "primary": "Primary",
+      "success": "Success",
+      "warning": "Warning"
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": {
+      "label": "Form control for boolean selection with native input, indeterminate state, multiple appearances, colors, sizes, and states.",
+      "large-label": "SMS notifications",
+      "large-text": "Get urgent alerts by text message.",
+      "note": "Description renders muted supporting text under the label and scales with size.",
+      "small-label": "Email notifications",
+      "small-text": "Get updates about your account."
+    },
+    "examples": {
+      "note": "A boolean toggle with a native input. The visual box stays in sync with the input state."
+    },
+    "form-field-hint": "You must accept the terms to continue.",
+    "form-field-label": "Accept terms",
+    "indeterminate": {
+      "note": "Indeterminate is a visual state separate from checked. Clicking clears indeterminate and sets checked."
+    },
+    "installation": {
+      "note": "Install the Solaris UI package and import the checkbox component."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "radius": {
+      "full": "Full",
+      "lg": "Large",
+      "md": "Medium",
+      "note": "The control box supports sm (default), md, lg, xl, and full radius values. Full is an alias of xl.",
+      "sm": "Small",
+      "xl": "Extra large"
+    },
+    "section": {
+      "appearances": "Appearances",
+      "color": "Color",
+      "density": "Density",
+      "description": "Description",
+      "examples": "Examples",
+      "form": "Form integration",
+      "indeterminate": "Indeterminate",
+      "installation": "Installation",
+      "props": "Props",
+      "radius": "Radius",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3x3 matrix: both change the control box, density also changes the label gap."
+    },
+    "title": "Checkbox"
+  }
+}

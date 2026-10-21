@@ -1,0 +1,170 @@
+{
+  "tabs": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "enclosed": "Enclosed",
+      "pills": "Pills",
+      "underline": "Underline"
+    },
+    "basic": "Basic Underline Tabs",
+    "color": {
+      "neutral": "Neutral",
+      "note": "Neutral keeps docs and dense headers quiet. It only swaps the indicator, the active text, and the active background.",
+      "primary": "Primary"
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "label": "Density",
+      "normal": "Normal"
+    },
+    "density-comfortable": "Comfortable",
+    "density-compact": "Compact",
+    "density-normal": "Normal",
+    "description": "Tab component for organizing content into switchable panels.",
+    "disabled": "Disabled Tab",
+    "enclosed": "Enclosed Appearance",
+    "example": {
+      "disabled": {
+        "tab-disabled-1": "Disabled tab",
+        "tab-disabled-2": "Also disabled",
+        "tab-enabled-1": "Enabled 1",
+        "tab-enabled-2": "Enabled 2"
+      },
+      "enclosed": {
+        "panel-activity": "Recent activity feed panel.",
+        "panel-details": "Details panel with item information.",
+        "panel-settings": "Configuration settings panel.",
+        "tab-activity": "Activity",
+        "tab-details": "Details",
+        "tab-settings": "Settings"
+      },
+      "full-width": {
+        "tab-analytics": "Analytics",
+        "tab-export": "Export",
+        "tab-overview": "Overview",
+        "tab-reports": "Reports"
+      },
+      "future-editable": {
+        "text": "Editable Tabs (close, rename, reorder, \"...\" action menu) will be implemented after the Dropdown Menu component is complete. The current Tabs architecture is prepared for this future extension with stable value tracking, metadata, icon, badge, and disabled support.",
+        "title": "Editable Tabs"
+      },
+      "icons-and-badges": {
+        "tab-actions": "Actions",
+        "tab-code": "Code",
+        "tab-issues": "Issues",
+        "tab-pull-requests": "Pull requests"
+      },
+      "manual-activation": {
+        "instruction": "Use Arrow keys to move focus, Enter/Space to activate.",
+        "panel-step-1": "Step 1 content. Focus another tab and press Enter to switch.",
+        "panel-step-2": "Step 2 content. Manual activation allows reviewing tabs first.",
+        "panel-step-3": "Step 3 content.",
+        "tab-step-1": "Step 1",
+        "tab-step-2": "Step 2",
+        "tab-step-3": "Step 3"
+      },
+      "pills": {
+        "panel-active": "Active items panel.",
+        "panel-archived": "Archived items panel.",
+        "panel-drafts": "Drafts panel.",
+        "tab-active": "Active",
+        "tab-archived": "Archived",
+        "tab-drafts": "Drafts"
+      },
+      "reduced-motion": {
+        "text": "All tab content transitions respect `prefers-reduced-motion` and the `[data-reduced-motion]` attribute. When reduced motion is preferred, fade and slide animations are disabled, falling back to instant content switching without animation."
+      },
+      "sizes": {
+        "large": "Large",
+        "medium": "Medium",
+        "small": "Small"
+      },
+      "transition-fade": {
+        "panel-a": "Section A — fades in smoothly.",
+        "panel-b": "Section B — content fades in.",
+        "panel-c": "Section C — fade transition active.",
+        "tab-a": "Section A",
+        "tab-b": "Section B",
+        "tab-c": "Section C"
+      },
+      "transition-slide": {
+        "panel-first": "First panel — slides in from right when coming from left.",
+        "panel-second": "Second panel — slides in from right or left.",
+        "panel-third": "Third panel — slides in from left when coming from right.",
+        "tab-first": "First",
+        "tab-second": "Second",
+        "tab-third": "Third"
+      },
+      "vertical": {
+        "panel-general": "General settings panel.",
+        "panel-notifications": "Notification preferences panel.",
+        "panel-privacy": "Privacy settings panel.",
+        "panel-security": "Security settings panel.",
+        "tab-general": "General",
+        "tab-notifications": "Notifications",
+        "tab-privacy": "Privacy",
+        "tab-security": "Security"
+      },
+      "with-panels": {
+        "panel-actions": "Actions content panel. View CI/CD pipeline status.",
+        "panel-code": "Code content panel. Write and review your code here.",
+        "panel-issues": "Issues content panel. Track and manage issues.",
+        "panel-pull-requests": "Pull requests content panel. Review open PRs.",
+        "tab-actions": "Actions",
+        "tab-code": "Code",
+        "tab-issues": "Issues",
+        "tab-pull-requests": "Pull requests"
+      }
+    },
+    "examples": {
+      "note": "Start with the default tabs, then explore appearances and variants below."
+    },
+    "full-width": "Full Width Tabs",
+    "future-editable": "Future: Editable Tabs",
+    "icons-and-badges": "Icons and Badges",
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "manual-activation": "Manual Activation",
+    "pills": "Pills Appearance",
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "reduced-motion": "Reduced Motion",
+    "scrollable": "Scrollable Tabs",
+    "section": {
+      "appearances": "Appearances",
+      "color": "Color",
+      "density": "Density",
+      "examples": "Examples",
+      "features": "Features",
+      "installation": "Installation",
+      "layout": "Layout",
+      "orientation": "Orientation",
+      "props": "Props",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States",
+      "transitions": "Transitions"
+    },
+    "shape": "Shape",
+    "shape-normal": "Normal",
+    "shape-wide": "Wide",
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density work together in the component. Combine all three controls to see every combination."
+    },
+    "title": "Tabs",
+    "transition-fade": "Content Transition — Fade",
+    "transition-slide": "Content Transition — Slide",
+    "vertical": "Vertical Tabs",
+    "with-panels": "Tabs with Panels"
+  }
+}

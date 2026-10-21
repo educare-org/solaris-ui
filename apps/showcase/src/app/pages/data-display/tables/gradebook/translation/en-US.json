@@ -1,0 +1,144 @@
+{
+  "gradebook": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "basic": {
+      "note": "Identity column with sticky first cell, grade columns with maxima, and footer averages."
+    },
+    "breakdown": {
+      "dialog": {
+        "close": "Close",
+        "result": "Final MP",
+        "title": "Grade breakdown"
+      },
+      "note": "MP combines FT+AT, GS1 and GS2; “+” opens a dialog with the parts and the result.",
+      "open": {
+        "label": "View grade breakdown"
+      }
+    },
+    "col": {
+      "ftat": "FT + AT",
+      "gs1": "GS1",
+      "gs2": "GS2",
+      "mp": "MP",
+      "result": "SITUAÇÃO",
+      "subject": "Subject"
+    },
+    "composed": {
+      "note": "Pagination is projected into the table footer slot, so it shares the gradebook border."
+    },
+    "description": "Grade matrix with semester groups, result badges, and inline grade editing.",
+    "editing": {
+      "bulk": {
+        "apply": "Apply to {{ count }} selected",
+        "assignment": "Assignment",
+        "hint": "Select rows, enter the grade, and apply it in bulk. You can also paste an Excel column straight into the editor.",
+        "value": "Grade"
+      },
+      "note": "Enter or double-click a grade to edit; committing updates the rows owned by the consumer. With multiple selection use bulk commit; with paste enabled you can paste values from Excel."
+    },
+    "editor": {
+      "label": "Edit grade"
+    },
+    "examples": {
+      "note": "Start with the default gradebook, then explore semesters, editing, and server data below."
+    },
+    "group": {
+      "result": "Resultado",
+      "semester1": "1º Semestre",
+      "semester2": "2º Semestre"
+    },
+    "hint": {
+      "gs1": "Global Solution, project grade up to 20 points.",
+      "gs2": "Second-semester Global Solution, project grade up to 20 points."
+    },
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "layout": {
+      "label": "Column layout",
+      "note": "Auto sizes columns to content. Full width distributes them across the container.",
+      "tab": {
+        "auto": "Auto",
+        "full": "Full width"
+      }
+    },
+    "legend": {
+      "approved": "Approved",
+      "exam": "Exam",
+      "label": "Result legend",
+      "missing": "Missing grade",
+      "note": "A dotted legend explains result and status badges at a glance."
+    },
+    "props": {
+      "note": "Props table coming soon."
+    },
+    "scales": {
+      "label": "Grade scale",
+      "note": "Switch the grade scale; formatting, parsing, and sorting follow the active scale.",
+      "tab": {
+        "banded": "Banded",
+        "concept": "Concept"
+      }
+    },
+    "section": {
+      "basic": "Basic",
+      "breakdown": "Grade breakdown",
+      "composed": "With pagination",
+      "editing": "Editing",
+      "examples": "Examples",
+      "installation": "Installation",
+      "layout": "Layout",
+      "legend": "Legend",
+      "props": "Props",
+      "scales": "Scales",
+      "semesters": "Semesters",
+      "server": "Server data",
+      "statuses": "Cell status",
+      "totals": "Totals"
+    },
+    "semesters": {
+      "note": "Consecutive grade columns merge under semester groups (1st and 2nd); the result group carries MP and SITUAÇÃO. Use the tabs to pin the first column, both edges, or none.",
+      "scroll": {
+        "hint": "Scroll the table sideways to see the sticky columns in action."
+      },
+      "sticky": {
+        "both": "First and last",
+        "first": "First only",
+        "label": "Sticky columns",
+        "none": "None"
+      }
+    },
+    "server": {
+      "note": "A simulated server owns rows, total, and loading through SolarisTableDataSource."
+    },
+    "status": {
+      "excused": "Excused",
+      "late": "Late",
+      "missing": "Missing"
+    },
+    "statuses": {
+      "note": "Each cell carries a status (graded, late, missing, excused) with a subtle dot next to the number and a screen-reader label; never color-only."
+    },
+    "title": "Gradebook",
+    "totals": {
+      "aggregate": {
+        "average": "Average",
+        "label": "Footer aggregation",
+        "max": "Max",
+        "sum": "Sum"
+      },
+      "max": {
+        "label": "Show MÁX columns"
+      },
+      "note": "The footer can be computed inside the gradebook with aggregate (average, sum, min, max, median, or weighted); an explicit footerValueOf always wins. The MP column is computed per row from GS1 and GS2, with no typing. Enable the MÁX columns and switch rounding to see the footer effect.",
+      "rounding": {
+        "down": "Always down",
+        "label": "Rounding",
+        "standard": "Scale default",
+        "up": "Always up"
+      }
+    }
+  }
+}

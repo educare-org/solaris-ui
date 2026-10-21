@@ -1,0 +1,42 @@
+{
+  "pagination": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "basic": {
+      "note": "Controles first, previous, next e last com range Page X of Y."
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal",
+      "note": "Densidade é herdada do tema, a menos que sobrescrita."
+    },
+    "description": "Paginação standalone com seleção de page-size e suporte a total desconhecido.",
+    "examples": {
+      "note": "Comece pela paginação com total conhecido, depois explore page-size e modo cursor."
+    },
+    "installation": {
+      "note": "Instale o pacote único do Solaris e importe o componente."
+    },
+    "page-size": {
+      "note": "Page sizes usam solaris-select. Trocar o tamanho volta para a primeira página."
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve."
+    },
+    "section": {
+      "basic": "Básico",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "page-size": "Tamanho da página",
+      "props": "Propriedades",
+      "unknown-total": "Total desconhecido"
+    },
+    "title": "Pagination",
+    "unknown-total": {
+      "note": "Sem total, o range é compacto e next segue hasMore."
+    }
+  }
+}

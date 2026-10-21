@@ -1,64 +1,101 @@
-import { CONFIGURATION_TRANSLATIONS } from '../pages/configuration/translations';
-import { SHELL_TRANSLATIONS } from '../shell/translations';
-import { BADGE_TRANSLATIONS } from '../pages/data-display/badge/translations';
-import { AVATAR_TRANSLATIONS } from '../pages/data-display/avatar/translations';
-import { SKELETON_TRANSLATIONS } from '../pages/feedback/skeleton/translations';
-import { SPINNER_TRANSLATIONS } from '../pages/feedback/spinner/translations';
-import { PROGRESS_TRANSLATIONS } from '../pages/feedback/progress/translations';
-import { LOADING_TEXT_TRANSLATIONS } from '../pages/feedback/loading-text/translations';
-import { CARD_TRANSLATIONS } from '../pages/data-display/card/translations';
-import { CODE_BLOCK_TRANSLATIONS } from '../pages/data-display/code-block/translations';
-import { PREVIEW_CODE_TRANSLATIONS } from '../pages/data-display/preview-code/translations';
-import { TABLE_TRANSLATIONS } from '../pages/data-display/table/translations';
-import { GRADEBOOK_TRANSLATIONS } from '../pages/data-display/tables/gradebook/translations';
-import { RECORD_GRID_TRANSLATIONS } from '../pages/data-display/tables/record-grid/translations';
-import { ALERT_TRANSLATIONS } from '../pages/feedback/alert/translations';
-import { BUTTON_TRANSLATIONS } from '../pages/actions/button/translations';
-import { ICON_BUTTON_TRANSLATIONS } from '../pages/actions/icon-button/translations';
-import { BUTTON_GROUP_TRANSLATIONS } from '../pages/actions/button-group/translations';
-import { FORM_FIELD_TRANSLATIONS } from '../pages/forms/form-field/translations';
-import { INPUT_TRANSLATIONS } from '../pages/forms/input/translations';
-import { PASSWORD_FIELD_TRANSLATIONS } from '../pages/forms/password-field/translations';
-import { EMAIL_FIELD_TRANSLATIONS } from '../pages/forms/email-field/translations';
-import { PHONE_FIELD_TRANSLATIONS } from '../pages/forms/phone-field/translations';
-import { OTP_INPUT_TRANSLATIONS } from '../pages/forms/otp-input/translations';
-import { FILE_UPLOAD_TRANSLATIONS } from '../pages/forms/file-upload/translations';
-import { TEXTAREA_TRANSLATIONS } from '../pages/forms/textarea/translations';
-import { CHECKBOX_TRANSLATIONS } from '../pages/forms/checkbox/translations';
-import { CHECKBOX_GROUP_TRANSLATIONS } from '../pages/forms/checkbox-group/translations';
-import { RADIO_TRANSLATIONS } from '../pages/forms/radio/translations';
-import { RADIO_GROUP_TRANSLATIONS } from '../pages/forms/radio-group/translations';
-import { SELECTION_CARD_TRANSLATIONS } from '../pages/forms/selection-card/translations';
-import { DATE_PICKER_TRANSLATIONS } from '../pages/forms/date-picker/translations';
-import { MONTH_VIEW_TRANSLATIONS } from '../pages/scheduling/month-view/translations';
-import { WEEK_VIEW_TRANSLATIONS } from '../pages/scheduling/week-view/translations';
-import { YEAR_VIEW_TRANSLATIONS } from '../pages/scheduling/year-view/translations';
-import { SCHEDULE_VIEW_TRANSLATIONS } from '../pages/scheduling/schedule-view/translations';
-import { SHELL_VIEW_TRANSLATIONS } from '../pages/scheduling/shell/translations';
-import { HOLIDAYS_VIEW_TRANSLATIONS } from '../pages/scheduling/holidays/translations';
-import { PRINT_VIEW_TRANSLATIONS } from '../pages/scheduling/print/translations';
-import { EVENT_EDITOR_TRANSLATIONS } from '../pages/scheduling/event-editor/translations';
-import { SWITCH_TRANSLATIONS } from '../pages/forms/switch/translations';
-import { SWITCH_GROUP_TRANSLATIONS } from '../pages/forms/switch-group/translations';
-import { OPTION_TRANSLATIONS } from '../pages/forms/option/translations';
-import { SELECT_TRANSLATIONS } from '../pages/forms/select/translations';
-import { MULTI_SELECT_TRANSLATIONS } from '../pages/forms/multi-select/translations';
-import { POPOVER_TRANSLATIONS } from '../pages/interaction/popover/translations';
-import { TOOLTIP_TRANSLATIONS } from '../pages/interaction/tooltip/translations';
-import { TOAST_TRANSLATIONS } from '../pages/feedback/toast/translations';
-import { DIALOG_TRANSLATIONS } from '../pages/overlay/dialog/translations';
-import { STEPPER_TRANSLATIONS } from '../pages/navigation/stepper/translations';
-import { TABS_TRANSLATIONS } from '../pages/navigation/tabs/translations';
-import { BREADCRUMB_TRANSLATIONS } from '../pages/navigation/breadcrumb/translations';
-import { SEGMENTED_CONTROL_TRANSLATIONS } from '../pages/navigation/segmented-control/translations';
-import { DIVIDER_TRANSLATIONS } from '../pages/content/divider/translations';
-import { DROPDOWN_MENU_TRANSLATIONS } from '../pages/interaction/dropdown-menu/translations';
-import { COLLAPSIBLE_TRANSLATIONS } from '../pages/interaction/collapsible/translations';
-import { ACCORDION_TRANSLATIONS } from '../pages/interaction/accordion/translations';
-import { EDITABLE_TABS_TRANSLATIONS } from '../pages/navigation/editable-tabs/translations';
-import { PAGINATION_TRANSLATIONS } from '../pages/navigation/pagination/translations';
-import { ICONS_TRANSLATIONS } from '../pages/icons/translations';
-import { MEGA_MENU_TRANSLATIONS } from '../pages/navigation/mega-menu/translations';
+import { CONFIGURATION_TRANSLATIONS } from '../pages/configuration/translation';
+import { SHELL_TRANSLATIONS } from '../shell/translation';
+import { BADGE_TRANSLATIONS } from '../pages/data-display/badge/translation';
+import { AVATAR_TRANSLATIONS } from '../pages/data-display/avatar/translation';
+import { SKELETON_TRANSLATIONS } from '../pages/feedback/skeleton/translation';
+import { SPINNER_TRANSLATIONS } from '../pages/feedback/spinner/translation';
+import { PROGRESS_TRANSLATIONS } from '../pages/feedback/progress/translation';
+import { LOADING_TEXT_TRANSLATIONS } from '../pages/feedback/loading-text/translation';
+import { CARD_TRANSLATIONS } from '../pages/data-display/card/translation';
+import { CODE_BLOCK_TRANSLATIONS } from '../pages/data-display/code-block/translation';
+import { PREVIEW_CODE_TRANSLATIONS } from '../pages/data-display/preview-code/translation';
+import { TABLE_TRANSLATIONS } from '../pages/data-display/table/translation';
+import { GRADEBOOK_TRANSLATIONS } from '../pages/data-display/tables/gradebook/translation';
+import { RECORD_GRID_TRANSLATIONS } from '../pages/data-display/tables/record-grid/translation';
+import { ALERT_TRANSLATIONS } from '../pages/feedback/alert/translation';
+import { BUTTON_TRANSLATIONS } from '../pages/actions/button/translation';
+import { ICON_BUTTON_TRANSLATIONS } from '../pages/actions/icon-button/translation';
+import { BUTTON_GROUP_TRANSLATIONS } from '../pages/actions/button-group/translation';
+import { FORM_FIELD_TRANSLATIONS } from '../pages/forms/form-field/translation';
+import { INPUT_TRANSLATIONS } from '../pages/forms/input/translation';
+import { PASSWORD_FIELD_TRANSLATIONS } from '../pages/forms/password-field/translation';
+import { EMAIL_FIELD_TRANSLATIONS } from '../pages/forms/email-field/translation';
+import { PHONE_FIELD_TRANSLATIONS } from '../pages/forms/phone-field/translation';
+import { OTP_INPUT_TRANSLATIONS } from '../pages/forms/otp-input/translation';
+import { FILE_UPLOAD_TRANSLATIONS } from '../pages/forms/file-upload/translation';
+import { TEXTAREA_TRANSLATIONS } from '../pages/forms/textarea/translation';
+import { CHECKBOX_TRANSLATIONS } from '../pages/forms/checkbox/translation';
+import { CHECKBOX_GROUP_TRANSLATIONS } from '../pages/forms/checkbox-group/translation';
+import { RADIO_TRANSLATIONS } from '../pages/forms/radio/translation';
+import { RADIO_GROUP_TRANSLATIONS } from '../pages/forms/radio-group/translation';
+import { SELECTION_CARD_TRANSLATIONS } from '../pages/forms/selection-card/translation';
+import { DATE_PICKER_TRANSLATIONS } from '../pages/forms/date-picker/translation';
+import { MONTH_VIEW_TRANSLATIONS } from '../pages/scheduling/month-view/translation';
+import { WEEK_VIEW_TRANSLATIONS } from '../pages/scheduling/week-view/translation';
+import { YEAR_VIEW_TRANSLATIONS } from '../pages/scheduling/year-view/translation';
+import { SCHEDULE_VIEW_TRANSLATIONS } from '../pages/scheduling/schedule-view/translation';
+import { SHELL_VIEW_TRANSLATIONS } from '../pages/scheduling/shell/translation';
+import { HOLIDAYS_VIEW_TRANSLATIONS } from '../pages/scheduling/holidays/translation';
+import { PRINT_VIEW_TRANSLATIONS } from '../pages/scheduling/print/translation';
+import { EVENT_EDITOR_TRANSLATIONS } from '../pages/scheduling/event-editor/translation';
+import { SWITCH_TRANSLATIONS } from '../pages/forms/switch/translation';
+import { SWITCH_GROUP_TRANSLATIONS } from '../pages/forms/switch-group/translation';
+import { OPTION_TRANSLATIONS } from '../pages/forms/option/translation';
+import { SELECT_TRANSLATIONS } from '../pages/forms/select/translation';
+import { MULTI_SELECT_TRANSLATIONS } from '../pages/forms/multi-select/translation';
+import { POPOVER_TRANSLATIONS } from '../pages/interaction/popover/translation';
+import { TOOLTIP_TRANSLATIONS } from '../pages/interaction/tooltip/translation';
+import { TOAST_TRANSLATIONS } from '../pages/feedback/toast/translation';
+import { DIALOG_TRANSLATIONS } from '../pages/overlay/dialog/translation';
+import { STEPPER_TRANSLATIONS } from '../pages/navigation/stepper/translation';
+import { TABS_TRANSLATIONS } from '../pages/navigation/tabs/translation';
+import { BREADCRUMB_TRANSLATIONS } from '../pages/navigation/breadcrumb/translation';
+import { SEGMENTED_CONTROL_TRANSLATIONS } from '../pages/navigation/segmented-control/translation';
+import { DIVIDER_TRANSLATIONS } from '../pages/content/divider/translation';
+import { DROPDOWN_MENU_TRANSLATIONS } from '../pages/interaction/dropdown-menu/translation';
+import { COLLAPSIBLE_TRANSLATIONS } from '../pages/interaction/collapsible/translation';
+import { ACCORDION_TRANSLATIONS } from '../pages/interaction/accordion/translation';
+import { EDITABLE_TABS_TRANSLATIONS } from '../pages/navigation/editable-tabs/translation';
+import { PAGINATION_TRANSLATIONS } from '../pages/navigation/pagination/translation';
+import { ICONS_TRANSLATIONS } from '../pages/icons/translation';
+import { MEGA_MENU_TRANSLATIONS } from '../pages/navigation/mega-menu/translation';
+import { TRANSLATE_TRANSLATIONS } from '../pages/services/translate/translation';
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function deepMergeTranslations(
+  target: Record<string, unknown>,
+  source: Record<string, unknown>,
+): Record<string, unknown> {
+  for (const [key, value] of Object.entries(source)) {
+    const current = target[key];
+    if (isRecord(value) && current !== undefined && isRecord(current)) {
+      target[key] = deepMergeTranslations({ ...current }, value);
+    } else {
+      target[key] = value;
+    }
+  }
+  return target;
+}
+
+function flattenTranslations(
+  tree: unknown,
+  prefix = '',
+  out: Record<string, string> = {},
+): Record<string, string> {
+  if (typeof tree === 'string') {
+    out[prefix] = tree;
+    return out;
+  }
+  if (isRecord(tree)) {
+    for (const [key, value] of Object.entries(tree)) {
+      flattenTranslations(value, prefix ? `${prefix}.${key}` : key, out);
+    }
+  }
+  return out;
+}
 
 const PAGE_MODULES = [
   SHELL_TRANSLATIONS,
@@ -122,15 +159,18 @@ const PAGE_MODULES = [
   PAGINATION_TRANSLATIONS,
   ICONS_TRANSLATIONS,
   MEGA_MENU_TRANSLATIONS,
+  TRANSLATE_TRANSLATIONS,
 ];
 
 export const SHOWCASE_TRANSLATIONS: Record<string, Record<string, string>> = {};
 
-for (const module of PAGE_MODULES) {
-  for (const locale of Object.keys(module)) {
-    if (!SHOWCASE_TRANSLATIONS[locale]) {
-      SHOWCASE_TRANSLATIONS[locale] = {};
+for (const locale of ['en-US', 'pt-BR', 'es-419']) {
+  let merged: Record<string, unknown> = {};
+  for (const module of PAGE_MODULES) {
+    const tree = (module as Record<string, unknown>)[locale];
+    if (isRecord(tree)) {
+      merged = deepMergeTranslations(merged, tree);
     }
-    Object.assign(SHOWCASE_TRANSLATIONS[locale], module[locale]);
   }
+  SHOWCASE_TRANSLATIONS[locale] = flattenTranslations(merged);
 }

@@ -1,0 +1,170 @@
+{
+  "tabs": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar."
+    },
+    "appearance": {
+      "enclosed": "Enclosed",
+      "pills": "Pills",
+      "underline": "Sublinhado"
+    },
+    "basic": "Abas Básicas com Sublinhado",
+    "color": {
+      "neutral": "Neutra",
+      "note": "Neutral mantém docs e cabeçalhos densos discretos. Troca apenas o indicador, o texto ativo e o fundo ativo.",
+      "primary": "Primária"
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacto",
+      "label": "Densidade",
+      "normal": "Normal"
+    },
+    "density-comfortable": "Confortável",
+    "density-compact": "Compacto",
+    "density-normal": "Normal",
+    "description": "Componente de Abas para organizar conteúdo em painéis alternáveis.",
+    "disabled": "Aba Desabilitada",
+    "enclosed": "Aparência Enclosed",
+    "example": {
+      "disabled": {
+        "tab-disabled-1": "Aba desabilitada",
+        "tab-disabled-2": "Também desabilitada",
+        "tab-enabled-1": "Habilitado 1",
+        "tab-enabled-2": "Habilitado 2"
+      },
+      "enclosed": {
+        "panel-activity": "Painel de feed de atividade recente.",
+        "panel-details": "Painel de detalhes com informações do item.",
+        "panel-settings": "Painel de configurações.",
+        "tab-activity": "Atividade",
+        "tab-details": "Detalhes",
+        "tab-settings": "Configurações"
+      },
+      "full-width": {
+        "tab-analytics": "Analytics",
+        "tab-export": "Exportar",
+        "tab-overview": "Visão Geral",
+        "tab-reports": "Relatórios"
+      },
+      "future-editable": {
+        "text": "Abas Editáveis (fechar, renomear, reordenar, menu de ações \"...\") serão implementadas após o componente Dropdown Menu estar completo. A arquitetura atual de Abas está preparada para esta extensão futura com rastreamento estável de valor, metadados, suporte a ícone, badge e desabilitado.",
+        "title": "Abas Editáveis"
+      },
+      "icons-and-badges": {
+        "tab-actions": "Ações",
+        "tab-code": "Código",
+        "tab-issues": "Issues",
+        "tab-pull-requests": "Pull requests"
+      },
+      "manual-activation": {
+        "instruction": "Use as setas para mover o foco, Enter/Space para ativar.",
+        "panel-step-1": "Conteúdo da Etapa 1. Foque em outra aba e pressione Enter para alternar.",
+        "panel-step-2": "Conteúdo da Etapa 2. A ativação manual permite revisar as abas primeiro.",
+        "panel-step-3": "Conteúdo da Etapa 3.",
+        "tab-step-1": "Etapa 1",
+        "tab-step-2": "Etapa 2",
+        "tab-step-3": "Etapa 3"
+      },
+      "pills": {
+        "panel-active": "Painel de itens ativos.",
+        "panel-archived": "Painel de itens arquivados.",
+        "panel-drafts": "Painel de rascunhos.",
+        "tab-active": "Ativos",
+        "tab-archived": "Arquivados",
+        "tab-drafts": "Rascunhos"
+      },
+      "reduced-motion": {
+        "text": "Todas as transições de conteúdo das abas respeitam `prefers-reduced-motion` e o atributo `[data-reduced-motion]`. Quando a preferência por movimento reduzido está ativa, as animações fade e slide são desabilitadas, retornando à troca instantânea de conteúdo sem animação."
+      },
+      "sizes": {
+        "large": "Grande",
+        "medium": "Média",
+        "small": "Pequena"
+      },
+      "transition-fade": {
+        "panel-a": "Seção A — aparece suavemente.",
+        "panel-b": "Seção B — o conteúdo aparece gradualmente.",
+        "panel-c": "Seção C — transição fade ativa.",
+        "tab-a": "Seção A",
+        "tab-b": "Seção B",
+        "tab-c": "Seção C"
+      },
+      "transition-slide": {
+        "panel-first": "Primeiro painel — desliza da direita quando vindo da esquerda.",
+        "panel-second": "Segundo painel — desliza da direita ou da esquerda.",
+        "panel-third": "Terceiro painel — desliza da esquerda quando vindo da direita.",
+        "tab-first": "Primeira",
+        "tab-second": "Segunda",
+        "tab-third": "Terceira"
+      },
+      "vertical": {
+        "panel-general": "Painel de configurações gerais.",
+        "panel-notifications": "Painel de preferências de notificações.",
+        "panel-privacy": "Painel de configurações de privacidade.",
+        "panel-security": "Painel de configurações de segurança.",
+        "tab-general": "Geral",
+        "tab-notifications": "Notificações",
+        "tab-privacy": "Privacidade",
+        "tab-security": "Segurança"
+      },
+      "with-panels": {
+        "panel-actions": "Painel de ações. Veja o status de CI/CD.",
+        "panel-code": "Painel de código. Escreva e revise seu código aqui.",
+        "panel-issues": "Painel de issues. Acompanhe e gerencie issues.",
+        "panel-pull-requests": "Painel de pull requests. Revise PRs abertos.",
+        "tab-actions": "Ações",
+        "tab-code": "Código",
+        "tab-issues": "Issues",
+        "tab-pull-requests": "Pull requests"
+      }
+    },
+    "examples": {
+      "note": "Comece pelas abas padrão e explore aparências e variantes abaixo."
+    },
+    "full-width": "Abas em Largura Total",
+    "future-editable": "Futuro: Abas Editáveis",
+    "icons-and-badges": "Ícones e Badges",
+    "installation": {
+      "note": "Instale o pacote único Solaris e importe o componente."
+    },
+    "manual-activation": "Ativação Manual",
+    "pills": "Aparência Pills",
+    "props": {
+      "note": "Tabela de props em breve com o componente de tabela."
+    },
+    "reduced-motion": "Movimento Reduzido",
+    "scrollable": "Abas com Rolagem",
+    "section": {
+      "appearances": "Aparências",
+      "color": "Cor",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "features": "Recursos",
+      "installation": "Instalação",
+      "layout": "Layout",
+      "orientation": "Orientação",
+      "props": "Props",
+      "size-density": "Tamanho & densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados",
+      "transitions": "Transições"
+    },
+    "shape": "Formato",
+    "shape-normal": "Normal",
+    "shape-wide": "Alongado",
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Tamanho e densidade funcionam juntos no componente. Combine os três controles para ver todas as combinações."
+    },
+    "title": "Abas",
+    "transition-fade": "Transição de Conteúdo — Fade",
+    "transition-slide": "Transição de Conteúdo — Slide",
+    "vertical": "Abas Verticais",
+    "with-panels": "Abas com Painéis"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "radio": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "color": {
+      "custom": "Custom",
+      "danger": "Danger",
+      "info": "Info",
+      "neutral": "Neutral",
+      "note": "The checked dot follows the semantic color.",
+      "primary": "Primary",
+      "success": "Success",
+      "warning": "Warning"
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": {
+      "label": "Form control for single selection with native input, multiple appearances, colors, sizes, description, label position, and states.",
+      "note": "Secondary text under the label, exposed to assistive technology via aria-describedby."
+    },
+    "examples": {
+      "note": "A single option within a set of mutually exclusive choices. The native input stays accessible."
+    },
+    "form-field-hint": "Select one option.",
+    "form-field-label": "Plan",
+    "installation": {
+      "note": "Install the Solaris UI package and import the radio components."
+    },
+    "label-layout": {
+      "note": "The label sits after the control by default; start mirrors the row."
+    },
+    "label-position": {
+      "end": "End",
+      "start": "Start"
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "appearances": "Appearances",
+      "color": "Color",
+      "density": "Density",
+      "description": "Description",
+      "examples": "Examples",
+      "form": "Form integration",
+      "installation": "Installation",
+      "label-layout": "Label position",
+      "props": "Props",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States"
+    },
+    "selected-label": "Selected:",
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3x3 matrix: both change the control circle, density also changes the label gap."
+    },
+    "title": "Radio"
+  }
+}

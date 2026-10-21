@@ -350,4 +350,19 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
       },
     ],
   },
+  {
+    labelKey: 'shell.sidebar.section.services',
+    items: [],
+    groups: [
+      {
+        labelKey: 'shell.sidebar.group.translation',
+        items: [
+          {
+            labelKey: 'shell.sidebar.item.translate',
+            route: '/services/translate',
+          },
+        ],
+      },
+    ],
+  },
 ];

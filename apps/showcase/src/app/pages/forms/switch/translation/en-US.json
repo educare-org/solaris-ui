@@ -1,0 +1,85 @@
+{
+  "switch": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "color": {
+      "custom": "Custom",
+      "danger": "Danger",
+      "info": "Info",
+      "neutral": "Neutral",
+      "note": "The checked track follows the semantic color.",
+      "primary": "Primary",
+      "success": "Success",
+      "warning": "Warning"
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": {
+      "label": "Form control for binary on/off configuration with native input, role=\"switch\", readonly, and full Angular Forms integration.",
+      "large-label": "SMS notifications",
+      "large-text": "Get urgent alerts by text message.",
+      "note": "Description renders muted supporting text under the label and scales with size.",
+      "small-label": "Email notifications",
+      "small-text": "Get updates about your account."
+    },
+    "enable-label": "Enable feature",
+    "enable-status": "Enabled:",
+    "examples": {
+      "note": "Toggle a setting on or off. The state is also exposed to assistive technology via role=\"switch\"."
+    },
+    "form-field-error": "You must enable notifications.",
+    "form-field-hint": "These options affect your account.",
+    "form-field-label": "Receive notifications",
+    "group": {
+      "note": "Children inherit the group size and density unless they set their own. Here the group is large and compact, and SMS overrides size back to small."
+    },
+    "installation": {
+      "note": "Install the Solaris UI package and import the switch components."
+    },
+    "no": "No",
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "appearances": "Appearances",
+      "color": "Color",
+      "density": "Density",
+      "description": "Description",
+      "examples": "Examples",
+      "form": "Form integration",
+      "group": "Switch group",
+      "installation": "Installation",
+      "props": "Props",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States",
+      "thumb-content": "Thumb content"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3×3 matrix: both change the track and thumb, density also changes the label gap."
+    },
+    "thumb": {
+      "icon": "Icon",
+      "none": "None",
+      "text": "Text"
+    },
+    "thumb-content": {
+      "note": "Decorative icon or short text (max 2 characters) inside the thumb. Icon wins when both are set; neither affects the accessible name."
+    },
+    "title": "Switch",
+    "yes": "Yes"
+  }
+}

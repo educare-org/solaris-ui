@@ -1,0 +1,61 @@
+{
+  "configuration": {
+    "a11y-note": "El contenido visualmente oculto permanece disponible para lectores de pantalla y no se elimina del árbol de accesibilidad.",
+    "eyebrow": "Configuración",
+    "hero-description": "Esta área muestra providers, tokens, temas, i18n, accesibilidad e iconos que definen la base de Solaris.",
+    "hero-title": "Contratos de configuración de Solaris",
+    "label": {
+      "color-scheme": "Esquema de colores",
+      "density": "Densidad",
+      "fallback": "Traducción: clave faltante (usa fallbackLocale)",
+      "fallback-locale": "Idioma de fallback",
+      "font-display": "Display (marca)",
+      "font-family-tokens": "Tokens de familia tipográfica",
+      "font-mono": "Mono (Code)",
+      "font-sans": "Sans (UI)",
+      "font-serif": "Serif (editorial)",
+      "font-size-tokens": "Tokens de tamaño de fuente",
+      "interpolation": "Traducción: saludo con interpolación",
+      "locale": "Idioma actual",
+      "missing": "Traducción: clave inexistente (devuelve la clave)",
+      "reduced-motion": "Movimiento reducido",
+      "reduced-motion-pref": "Preferencia de movimiento reducido",
+      "reduced-motion-value": "Movimiento reducido activado: {{value}}",
+      "unit-strategy": "Estrategia de unidades",
+      "visually-hidden": "Ejemplo de directiva visualmente oculta"
+    },
+    "meta": {
+      "color-scheme": "Esquema de colores",
+      "density": "Densidad",
+      "fallback-locale": "Fallback",
+      "locale": "Idioma",
+      "reduced-motion": "Movimiento reducido"
+    },
+    "section": {
+      "a11y": "Accesibilidad",
+      "a11y-desc": "Compatibilidad con movimiento reducido y contenido visualmente oculto para tecnologías de asistencia.",
+      "i18n": "Internacionalización",
+      "i18n-desc": "Base de traducción con detección de idioma, interpolación y resolución de fallback.",
+      "icons": "Iconos",
+      "icons-desc": "Los iconos se registran mediante definición estructurada, no mediante cadena SVG sin procesar.",
+      "setup": "Configuración del consumidor",
+      "setup-desc": "Configuración recomendada para aplicaciones que usan Solaris.",
+      "theme": "Tema",
+      "theme-desc": "Combinación de colores, densidad, preferencia de movimiento reducido y estrategia de unidades.",
+      "tokens": "Tokens",
+      "tokens-desc": "Vista previa visual de tokens de diseño disponibles a través del sistema de temas de Solaris.",
+      "typography": "Tipografía",
+      "typography-desc": "Tokens de familia y tamaño de fuente que definen la escala tipográfica de Solaris."
+    },
+    "text": {
+      "font-demo": "Solaris muestra sus tokens de fuente.",
+      "font-size-demo": "El veloz murciélago hindú comía feliz cardillo y kiwi.",
+      "sr-only": "Este texto solo está disponible para lectores de pantalla.",
+      "unit-strategy": "Solaris usa tokens de diseño basados en px para que la representación sea determinista, sin importar el tamaño de fuente raíz del consumidor.",
+      "visible": "Este texto está visible."
+    },
+    "typography-note": "Solaris define tokens de fuente; la aplicación consumidora decide cómo cargar los archivos de fuente."
+  },
+  "farewell": "Adiós",
+  "greeting": "Hola, {{name}}"
+}

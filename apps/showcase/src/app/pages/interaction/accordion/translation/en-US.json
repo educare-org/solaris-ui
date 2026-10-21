@@ -1,0 +1,102 @@
+{
+  "accordion": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "boxed": "Boxed",
+      "lined": "Lined",
+      "note": "Boxed renders each item as a bordered card; lined renders a flat list with dividers; plain has no borders.",
+      "plain": "Plain"
+    },
+    "behavior": {
+      "note": "Lock single mode so the open section cannot be collapsed, or set the heading level of every section header."
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Vertically stacked expandable sections with single or multiple expand modes.",
+    "examples": {
+      "note": "Start with the default single-expand accordion, then explore modes and appearances below."
+    },
+    "faq-answer-body": "This is a simulated answer. Connect your AI backend to resolve real questions.",
+    "faq-answer-prefix": "Answer to",
+    "faq-q1": "What is Solaris?",
+    "faq-q1-content": "A design system for Educare.",
+    "heading-a": "Section one",
+    "heading-a-content": "Rendered as an h4.",
+    "heading-b": "Section two",
+    "heading-b-content": "Rendered as an h4.",
+    "heading-level": "Heading level",
+    "heading-level-note": "The heading level input controls the header tag used for each section.",
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "item-account": "Account",
+    "item-account-content": "Manage your personal information and profile preferences.",
+    "item-notifications": "Notifications",
+    "item-notifications-content": "Choose which alerts and reminders you receive by email.",
+    "item-security": "Security",
+    "item-security-content": "Review sign-in devices, active sessions, and recovery options.",
+    "leading-icon": {
+      "note": "Per-item icon glued to the label, rendered before the expand chevron."
+    },
+    "line-1": "General",
+    "line-1-content": "General account settings.",
+    "line-2": "Appearance",
+    "line-2-content": "Light and dark theme preferences.",
+    "line-3": "Privacy",
+    "line-3-content": "Data sharing and consent controls.",
+    "lined": "Lined appearance",
+    "lined-note": "A flat list with a divider under each trigger instead of bordered cards.",
+    "locked": "Locked single mode",
+    "locked-note": "With allowToggle disabled, the open section cannot be collapsed.",
+    "mode": {
+      "multiple": "Multiple",
+      "single": "Single"
+    },
+    "modes": {
+      "note": "Single keeps one section open at a time; multiple toggles each section independently."
+    },
+    "multi-a": "Billing",
+    "multi-a-content": "View invoices and update your default payment method.",
+    "multi-b": "Teams",
+    "multi-b-content": "Invite members and manage roles for your organization.",
+    "multiple": "Multiple expand",
+    "multiple-note": "Sections toggle independently when the type is multiple.",
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "question": {
+      "note": "The last row is a question field. Submitting freezes the question as its label and shows a loading status; the host below simulates an AI backend with a delayed answer. Plug any backend into (submitted) and project the answer."
+    },
+    "req-1": "Terms",
+    "req-1-content": "Read the terms of service.",
+    "req-2": "Consent",
+    "req-2-content": "Review the consent form.",
+    "section": {
+      "appearance": "Appearance",
+      "behavior": "Behavior",
+      "examples": "Examples",
+      "installation": "Installation",
+      "leading-icon": "Leading icon",
+      "modes": "Expand modes",
+      "props": "Props",
+      "question": "Question row",
+      "size-density": "Size & density"
+    },
+    "single": "Single expand",
+    "single-note": "Only one section stays open at a time. Opening a section closes the previous one.",
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density are owned by the container and propagate to every item, so all sections share the same geometry."
+    },
+    "title": "Accordion"
+  }
+}

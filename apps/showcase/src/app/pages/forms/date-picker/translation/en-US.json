@@ -1,0 +1,117 @@
+{
+  "date-picker": {
+    "affix-action": {
+      "note": "The built-in calendar button is a suffix action. Extra suffix actions compose beside it, for example a clear button."
+    },
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "label": "Invoice date",
+      "note": "Appearance follows the Form Field contract and also styles the calendar trigger.",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "basic": {
+      "hint": "Type a date or open the calendar.",
+      "label": "Invoice date"
+    },
+    "bounds": {
+      "hint": "Choose a date within the permitted period.",
+      "label": "Delivery date"
+    },
+    "calendar-options": {
+      "label": "Start date",
+      "note": "Week starts on the locale first day unless weekStartsOn overrides it. disablePast and disableFuture bound selection to today, and dateFormat switches day/month padding between 2-digit and numeric."
+    },
+    "clearable": {
+      "label": "Invoice date",
+      "note": "With clearable, a clear button appears when a date is set and emits cleared on click. It stays hidden while disabled, readonly, or loading."
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Locale-aware dates with manual entry and calendar selection. Also covers the Date Range Picker for start and end periods.",
+    "examples": {
+      "note": "Type a date manually or open the calendar popover. The value is a date-only ISO string."
+    },
+    "installation": {
+      "note": "Install the Solaris UI package and import the date picker components."
+    },
+    "locale-bounds": {
+      "note": "Display and typing follow the locale. Min, max, and disabled dates bound the calendar and reject out-of-range input."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "range": {
+      "basic": {
+        "hint": "Choose start and end dates, then apply.",
+        "label": "Reporting period"
+      },
+      "note": "Date Range Picker collects a start and end date with presets, a pending panel, and Apply/Cancel. Size, density, loading, and suffix actions work the same as the single picker.",
+      "preset": {
+        "last-7-days": "Last 7 days",
+        "this-month": "This month",
+        "today": "Today"
+      },
+      "presets": {
+        "hint": "Pick a shortcut or choose custom dates.",
+        "label": "Reporting period with shortcuts"
+      }
+    },
+    "section": {
+      "affix-action": "Calendar trigger and suffix actions",
+      "appearance": "Appearance",
+      "calendar-options": "Calendar options",
+      "clearable": "Clearable",
+      "date-range": "Date range",
+      "density": "Density",
+      "examples": "Examples",
+      "installation": "Installation",
+      "locale-bounds": "Locale and bounds",
+      "props": "Props",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "label": "Invoice date",
+      "note": "Size and density flow into the inner Form Field and input together, keeping label, field, and calendar trigger in sync."
+    },
+    "states": {
+      "disabled": {
+        "hint": "This field is disabled.",
+        "label": "Unavailable date"
+      },
+      "invalid": {
+        "error": "Complete this field to continue.",
+        "label": "Required date"
+      },
+      "loading": {
+        "hint": "Resolving available dates.",
+        "label": "Loading date"
+      },
+      "note": "Disabled blocks interaction, invalid surfaces a manual error, and loading shows the field skeleton while options resolve."
+    },
+    "suffix-action": {
+      "clear": "Clear date",
+      "hint": "Use the clear action to reset the value.",
+      "label": "Invoice date"
+    },
+    "title": "Date Picker"
+  },
+  "solaris": {
+    "date-picker": {
+      "clear": "Clear date"
+    }
+  }
+}

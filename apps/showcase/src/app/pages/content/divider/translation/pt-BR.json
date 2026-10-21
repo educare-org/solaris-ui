@@ -1,0 +1,96 @@
+{
+  "divider": {
+    "ai": {
+      "prompt": "Estou olhando a documentação Solaris UI de {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "strong": "Forte",
+      "subtle": "Sutil"
+    },
+    "basic": "Divisor Básico",
+    "basic-note": "Divisor horizontal padrão com aparência sutil.",
+    "content-above": "Conteúdo acima do divisor",
+    "content-above-short": "Conteúdo acima",
+    "content-below": "Conteúdo abaixo do divisor",
+    "content-below-short": "Conteúdo abaixo",
+    "custom-length": "Comprimento Personalizado",
+    "custom-length-note": "Define uma largura fixa para divisores horizontais.",
+    "delete": "Excluir",
+    "description": "Separa visualmente grupos de conteúdo, ações ou seções.",
+    "dropdown": "Divisor em Menu Suspenso",
+    "dropdown-note": "O divisor funciona perfeitamente dentro de menus suspensos.",
+    "duplicate": "Duplicar",
+    "edit": "Editar",
+    "examples": {
+      "note": "Comece com o divisor padrão e explore aparências e variantes abaixo."
+    },
+    "file": "Arquivo",
+    "help": "Ajuda",
+    "inset": "Variações de Recuo",
+    "inset-both": "Recuo em ambos",
+    "inset-end": "Recuo no fim",
+    "inset-note": "Controla o recuo das bordas com start, end ou both.",
+    "inset-start": "Recuo no início",
+    "installation": {
+      "note": "Instale o pacote único Solaris e importe o componente."
+    },
+    "label": {
+      "center": "Centro",
+      "end": "Fim",
+      "keyed": "Texto traduzido",
+      "note": "Texto é suportado apenas em divisores horizontais; divisores verticais o ignoram.",
+      "start": "Início"
+    },
+    "layout": {
+      "inset": "Recuo",
+      "length": "Comprimento",
+      "spacing": "Espaçamento"
+    },
+    "open-menu": "Abrir Menu",
+    "orientation": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Tabela de props em breve, com o componente de tabela."
+    },
+    "section": {
+      "appearance": "Aparência",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "label": "Texto",
+      "layout": "Layout",
+      "orientation": "Orientação",
+      "props": "Props",
+      "usage": "Uso",
+      "variant": "Variante"
+    },
+    "spacing": "Variações de Espaçamento",
+    "spacing-lg": "Espaçamento lg",
+    "spacing-md": "Espaçamento md",
+    "spacing-none": "Espaçamento none",
+    "spacing-note": "Controla a margem ao redor do divisor com none, sm, md e lg.",
+    "spacing-sm": "Espaçamento sm",
+    "strong": "Aparência Forte",
+    "strong-note": "Borda mais visível usando o token de destaque.",
+    "text-position": {
+      "center": "Centro",
+      "end": "Fim",
+      "start": "Início"
+    },
+    "title": "Divisor",
+    "variant": {
+      "dashed": "Tracejada",
+      "dotted": "Pontilhada",
+      "note": "A variante combina com a aparência: a aparência controla peso e cor, a variante controla apenas o estilo da linha.",
+      "solid": "Sólida"
+    },
+    "vertical": "Divisor Vertical",
+    "vertical-note": "Use orientation=\"vertical\" para separação vertical em barras de ferramentas e layouts.",
+    "view": "Exibir",
+    "width-200": "Largura 200px",
+    "width-50": "Largura 50%",
+    "with-label": "Com Texto",
+    "with-label-note": "Adicione texto entre as linhas do divisor com label ou labelKey, alinhado via textPosition."
+  }
+}

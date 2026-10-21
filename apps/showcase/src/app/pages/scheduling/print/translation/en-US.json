@@ -1,0 +1,23 @@
+{
+  "print-view": {
+    "description": "Ink-safe print stylesheets and a print preview for month and agenda exports.",
+    "examples": {
+      "note": "Use the browser print dialog to export a PDF. Toolbars and side panels hide automatically; scrollers expand and shadows flatten."
+    },
+    "installation": {
+      "note": "No extra install — print CSS ships with the calendar shell and views."
+    },
+    "print": {
+      "button": "Print preview"
+    },
+    "props": {
+      "note": "Month prints the 6x7 grid; narrow viewports print the schedule agenda via the shell fallback."
+    },
+    "section": {
+      "examples": "Examples",
+      "installation": "Installation",
+      "props": "Props"
+    },
+    "title": "Calendar Print"
+  }
+}

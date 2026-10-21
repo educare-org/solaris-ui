@@ -1,0 +1,112 @@
+{
+  "form-field": {
+    "action": {
+      "cta": "Registrar",
+      "label": "E-mail"
+    },
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "counter": {
+      "label": "Limitado a 20 caracteres",
+      "note": "Se muestra automáticamente cuando maxlength está establecido en el input nativo, o cuando hay un error Validators.maxLength activo en el control."
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Contenedor visual, semántico y accesible para controles de formulario con etiqueta, hint, prefijo, sufijo y visualización de estado.",
+    "error": {
+      "custom": "Este campo tiene un error personalizado.",
+      "email": "Ingresa una dirección de correo electrónico válida.",
+      "projected": "Proyectado: ingresa un correo válido."
+    },
+    "examples": {
+      "note": "Etiqueta proporcionada vía atributo input. El wrapper define la altura externa mediante la matriz 3x3 de tamaño x densidad."
+    },
+    "hint": {
+      "password": "Usa al menos 8 caracteres con un número y un símbolo.",
+      "projected": "Proyectado: usa al menos 8 caracteres."
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa el form field con una directiva input."
+    },
+    "label": {
+      "custom": "Etiqueta personalizada",
+      "custom-error": "Error personalizado",
+      "email": "E-mail",
+      "name": "Nombre",
+      "nickname": "Apodo",
+      "password": "Contraseña",
+      "phone": "Teléfono",
+      "price": "Precio",
+      "required-email": "Correo electrónico obligatorio",
+      "search": "Buscar"
+    },
+    "loading": {
+      "label": "Código postal",
+      "note": "Muestra un spinner en el slot de sufijo mientras se ejecuta trabajo asíncrono. Cargando suprime cualquier otro contenido de sufijo y establece aria-busy en el campo.",
+      "toggle": "Alternar Cargando"
+    },
+    "optional": {
+      "label": "(opcional)"
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "none": "Ninguno",
+      "note": "El wrapper del control admite valores de radio none, sm (predeterminado), md, lg y xl. Escala global: md equivale a 4px, lg a 8px y xl se muestra como pill.",
+      "sm": "Pequeño",
+      "xl": "Pill"
+    },
+    "section": {
+      "appearances": "Apariencias",
+      "counter": "Contador de caracteres",
+      "density": "Densidad",
+      "error": "Error",
+      "examples": "Ejemplos",
+      "hint": "Hint",
+      "installation": "Instalación",
+      "label": "Etiqueta",
+      "loading": "Cargando",
+      "optional": "Marcador opcional",
+      "prefix-suffix": "Prefijo y sufijo",
+      "props": "Props",
+      "radius": "Radio",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados",
+      "validation": "Validación"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño (sm, md, lg) combinado con densidad selecciona uno de los 9 tokens de altura de control, por lo que la altura externa siempre coincide con la matriz."
+    },
+    "states": {
+      "disabled": "Campo deshabilitado",
+      "disabled-value": "No se puede editar",
+      "readonly": "Campo de solo lectura",
+      "readonly-value": "Valor de solo lectura"
+    },
+    "suffix": {
+      "usd": "USD"
+    },
+    "title": "Form Field",
+    "validation": {
+      "note": "Campo obligatorio con Reactive Forms. El error aparece después de la interacción y blur, pero no con foco. Lo no válido manual prevalece sobre la detección automática."
+    }
+  }
+}

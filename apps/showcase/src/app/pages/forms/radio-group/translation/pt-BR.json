@@ -1,0 +1,53 @@
+{
+  "radio-group": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Controle de formulário para seleção única em um conjunto de opções mutuamente exclusivas. Os filhos herdam tamanho e densidade do grupo.",
+    "examples": {
+      "note": "Um único valor compartilhado por radios mutuamente exclusivos. Os filhos herdam tamanho e densidade do grupo, salvo configuração própria."
+    },
+    "form-field-hint": "Selecione um plano para continuar.",
+    "form-field-label": "Plano",
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe os componentes de radio group."
+    },
+    "layout": {
+      "grid": "Grade",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "section": {
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "form": "Integração com formulários",
+      "installation": "Instalação",
+      "layouts": "Layouts",
+      "props": "Propriedades",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados",
+      "validation": "Validação"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "O grupo detém tamanho e densidade; cada filho segue, salvo sobrescrita."
+    },
+    "title": "Radio Group",
+    "validation": {
+      "note": "Seleção obrigatória validada em tempo real: toque no grupo sem escolher para ver o erro."
+    }
+  }
+}

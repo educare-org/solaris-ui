@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 
 import { configurationRoutes } from './routes/configuration.routes';
+import { servicesRoutes } from './routes/services.routes';
 import { schedulingRoutes } from './routes/scheduling.routes';
 import { dataDisplayRoutes } from './routes/data-display.routes';
 import { interactionRoutes } from './routes/interaction.routes';
@@ -15,6 +16,7 @@ import { iconsRoutes } from './routes/icons.routes';
 export const appRoutes: Route[] = [
   { path: '', pathMatch: 'full', redirectTo: '/configuration' },
   ...configurationRoutes,
+  ...servicesRoutes,
   ...interactionRoutes,
   ...dataDisplayRoutes,
   ...navigationRoutes,

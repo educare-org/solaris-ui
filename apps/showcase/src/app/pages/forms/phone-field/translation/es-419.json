@@ -1,0 +1,98 @@
+{
+  "phone-field": {
+    "affix": {
+      "action": "Verificar",
+      "action-label": "Teléfono con acción",
+      "note": "El slot de prefijo pertenece al selector de país. Los iconos de sufijo usan el input suffix; el contenido interactivo usa el slot suffix-action con [solaris-form-suffix] y [solaris-form-suffix-action].",
+      "suffix-label": "Teléfono con sufijo"
+    },
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "clearable": {
+      "label": "Teléfono",
+      "note": "Con la opción de borrado, aparece un botón de borrado cuando el campo tiene un valor y emite cleared al hacer clic. Permanece oculto cuando está deshabilitado, en solo lectura o Cargando."
+    },
+    "countries": {
+      "note": "Abre el botón de prefijo para buscar y elegir un país. Pasa countryList para restringir las opciones y [searchable]=\"false\" para ocultar el cuadro de búsqueda.",
+      "plain-label": "Teléfono sin búsqueda",
+      "restricted-label": "Teléfono con países restringidos"
+    },
+    "demo": {
+      "label": "Teléfono"
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Preset de Form Field para números de teléfono con selector de país con búsqueda, formato mientras escribes y un único valor E.164. Compone Form Field + Input.",
+    "error": {
+      "invalid": "Este campo tiene un error."
+    },
+    "examples": {
+      "note": "Escribe un número para verlo formateado mientras escribes. El valor se normaliza a E.164 cuando es válido."
+    },
+    "form": {
+      "hint": "Prefiere un número de celular.",
+      "label": "Teléfono",
+      "note": "Funciona con Reactive Forms a través de ControlValueAccessor. El valor del modelo es una única cadena E.164; combínalo con solarisPhoneValidator."
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa el componente phone field."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "none": "Ninguno",
+      "note": "Radio sigue la escala global: md corresponde a 4px, lg a 8px y xl se muestra como Pill.",
+      "sm": "Pequeño",
+      "xl": "Pill"
+    },
+    "section": {
+      "affix": "Sufijo y acciones",
+      "appearances": "Apariencias",
+      "clearable": "Con opción de borrado",
+      "countries": "Países y búsqueda",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "form": "Integración con formularios",
+      "installation": "Instalación",
+      "props": "Props",
+      "radius": "Radio",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en una matriz de 3x3: el Form Field interno define la altura externa, mientras el preset mantiene la fuente y el espaciado sincronizados."
+    },
+    "states": {
+      "default": "Predeterminado",
+      "disabled": "Deshabilitado",
+      "invalid": "No válido",
+      "loading": "Cargando",
+      "note": "Deshabilitado y solo lectura son reales, no solo visuales. Cargando muestra un Spinner superpuesto en el slot de sufijo sin desplazar el Layout.",
+      "readonly": "Solo lectura"
+    },
+    "title": "Phone Field"
+  },
+  "solaris": {
+    "phone-field": {
+      "clear": "Borrar número de teléfono"
+    }
+  }
+}

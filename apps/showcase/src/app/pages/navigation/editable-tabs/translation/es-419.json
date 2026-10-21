@@ -1,0 +1,67 @@
+{
+  "editableTabs": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "basic": "Pestañas editables básicas",
+    "compact": "Densidad Compacta",
+    "custom-actions": "Acciones personalizadas",
+    "default-event": "Establecer como evento predeterminado",
+    "description": "Las pestañas editables permiten a los usuarios renombrar, quitar, reordenar y gestionar conjuntos de pestañas usando la base existente de Tabs y Dropdown Menu.",
+    "drag-reorder": "Arrastrar para reordenar",
+    "example": {
+      "basic": {
+        "active-tab": "Pestaña activa: {{value}}"
+      },
+      "custom-actions": {
+        "last-action": "Última acción: {{action}}"
+      },
+      "default-event": {
+        "description": "Pestaña predeterminada: {{value}} (no conservada por Solaris)"
+      },
+      "drag-reorder": {
+        "description": "Arrastra una pestaña y suéltala en una nueva posición. El indicador de destino muestra dónde quedará la pestaña."
+      },
+      "locked": {
+        "description": "La pestaña \"General\" está bloqueada: no se puede renombrar, quitar ni mover."
+      },
+      "move": {
+        "description": "Mover pestañas a la izquierda/derecha usando el menú de acciones, o arrastrar y soltar una pestaña a una nueva posición. Las pestañas de los bordes tienen deshabilitadas las acciones de mover del menú."
+      },
+      "remove": {
+        "description": "Quitar pestañas mediante el menú de acciones. La última pestaña no se puede quitar (minTabs=1)."
+      },
+      "rename": {
+        "description": "Haz clic en el icono de puntos suspensivos de una pestaña, selecciona \"Cambiar nombre\", escribe un nombre nuevo y presiona Enter."
+      }
+    },
+    "examples": {
+      "note": "Comenzar con las pestañas editables predeterminadas y luego explorar las acciones de gestión y variantes siguientes. Las pestañas también se pueden reordenar arrastrando y soltando cuando dragToReorder está habilitado."
+    },
+    "icons-and-badges": "Iconos y Badges",
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "locked": "Pestaña bloqueada",
+    "management": {
+      "note": "Las acciones de cambiar nombre, quitar y reordenar están en el menú de acciones de la pestaña. Arrastrar y soltar emite el mismo evento tabMove que las acciones del menú."
+    },
+    "move": "Mover a la izquierda/derecha",
+    "note": "Las Editable Tabs no conservan el estado internamente. Todas las decisiones de persistencia (localStorage, backend, parámetros de ruta, perfil de usuario, configuración de tenant) se delegan al consumidor mediante eventos.",
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "remove": "Comportamiento al quitar",
+    "rename": "Cambio de nombre en línea",
+    "section": {
+      "examples": "Ejemplos",
+      "features": "Funciones",
+      "installation": "Instalación",
+      "layout": "Layout",
+      "management": "Cambiar nombre, quitar y mover",
+      "props": "Props"
+    },
+    "title": "Pestañas editables",
+    "vertical": "Orientación vertical"
+  }
+}

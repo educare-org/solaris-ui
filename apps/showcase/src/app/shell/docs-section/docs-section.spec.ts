@@ -3,8 +3,9 @@ import { By } from '@angular/platform-browser';
 
 import { provideSolarisTranslateTesting } from '@solaris-ui/angular';
 
-import { SHELL_TRANSLATIONS } from '../translations';
+import { SHELL_TRANSLATIONS } from '../translation';
 import { ShowcaseDocsSection } from './docs-section';
+import { flattenTestTranslations } from '../../shared/testing/flatten-test-translations';
 
 describe('ShowcaseDocsSection', () => {
   let fixture: ComponentFixture<ShowcaseDocsSection>;
@@ -13,7 +14,13 @@ describe('ShowcaseDocsSection', () => {
     await TestBed.configureTestingModule({
       imports: [ShowcaseDocsSection],
       providers: [
-        provideSolarisTranslateTesting({ translations: SHELL_TRANSLATIONS }),
+        provideSolarisTranslateTesting({
+          translations: {
+            'en-US': flattenTestTranslations(SHELL_TRANSLATIONS['en-US']),
+            'pt-BR': flattenTestTranslations(SHELL_TRANSLATIONS['pt-BR']),
+            'es-419': flattenTestTranslations(SHELL_TRANSLATIONS['es-419']),
+          },
+        }),
       ],
     }).compileComponents();
     fixture = TestBed.createComponent(ShowcaseDocsSection);

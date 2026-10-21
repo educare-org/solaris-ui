@@ -1,0 +1,49 @@
+{
+  "translate": {
+    "api": {
+      "addTranslations": "Mescla novas chaves ao mapa de um locale em runtime.",
+      "availableLocales": "Lista locales com mapa de tradução carregado.",
+      "has": "Verifica se uma chave existe, opcionalmente em outro locale.",
+      "normalizeLocale": "Mapeia tags como pt, en-GB ou es-MX para pt-BR, en-US, es-419.",
+      "resetLocale": "Limpa a escolha explícita e o valor gravado.",
+      "setLocale": "Normaliza, persiste e ativa um locale.",
+      "translate": "Busca uma chave com interpolação (alias: instant)."
+    },
+    "demo": {
+      "countLabel": "Quantidade",
+      "greeting": "Olá, {{name}}!",
+      "items": {
+        "plural": "{{count}} itens",
+        "singular": "1 item"
+      },
+      "nameLabel": "Nome"
+    },
+    "description": "Tradução em runtime para textos de componentes e conteúdo dinâmico. O locale ativo é um signal: todo template com o pipe translate atualiza sem reload.",
+    "install": {
+      "code": "TypeScript",
+      "template": "Template"
+    },
+    "locale": {
+      "current": "Locale atual"
+    },
+    "runtime": {
+      "addButton": "Registrar chave customizada",
+      "customLabel": "Valor da chave customizada"
+    },
+    "section": {
+      "api": "Referência da API",
+      "apiDesc": "Superfície pública do SolarisTranslateService mais a configuração do provider.",
+      "fallback": "Cadeia de fallback",
+      "fallbackDesc": "Chaves ausentes resolvem em locale, fallbackLocale, en-US, um resolver opcional e então a chave crua. A frase abaixo só existe em en-US, então aparece em inglês em todos os locales.",
+      "install": "Instalação",
+      "interpolation": "Interpolação e plurais",
+      "interpolationDesc": "Parâmetros usam {{name}} com espaços opcionais. Ainda sem plural ICU: a convenção é chaves .singular / .plural com {{count}}.",
+      "locale": "Troca de locale ao vivo",
+      "localeDesc": "Escolha um locale. O setLocale() normaliza, persiste e avisa todos os pipes translate.",
+      "runtime": "Extensão em runtime",
+      "runtimeDesc": "Páginas podem registrar chaves após o carregamento, ex. para conteúdo lazy. O botão registra translate.demo.custom no locale atual."
+    },
+    "title": "Serviço de translation",
+    "useWhen": "Use o serviço para textos de componente, conteúdo dinâmico e troca rápida de locale. Ele não substitui o @angular/localize em fluxos de extração estática."
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "textarea": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "counter": {
+      "label": "Limited to 100 characters",
+      "note": "Automatically shown when maxlength is set on the textarea.",
+      "placeholder": "Type your message..."
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Styling and integration directive for native <textarea>. Works standalone and integrated with Form Field.",
+    "error": {
+      "invalid": "This field has an error."
+    },
+    "examples": {
+      "note": "Standalone textarea with its own visual shell. Placeholder is an example, never a label replacement."
+    },
+    "form": {
+      "hint": "Autosaved as draft.",
+      "label": "Notes",
+      "placeholder": "Notes for the team"
+    },
+    "form-field": {
+      "hint": "Write an objective description.",
+      "label": "Description",
+      "note": "Label, hint, and visual shell managed by Form Field. Height is delegated to the Form Field wrapper; the textarea keeps text, caret, selection, and placeholder.",
+      "placeholder": "Observations"
+    },
+    "installation": {
+      "note": "Install the Solaris UI package and import the textarea directive with Form Field."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "radius": {
+      "lg": "Large",
+      "md": "Medium",
+      "none": "None",
+      "note": "Radius is owned by Form Field when projected; the standalone textarea exposes the same none, sm, md, lg, and xl values. Global scale: md maps to 4px, lg to 8px, and xl renders as a pill.",
+      "sm": "Small",
+      "xl": "Pill"
+    },
+    "resize": {
+      "both": "Both",
+      "both-placeholder": "Resize both directions",
+      "horizontal": "Horizontal",
+      "horizontal-placeholder": "Resize horizontally only",
+      "none": "None",
+      "none-placeholder": "Not resizable",
+      "note": "Resize handle follows the resize input. Horizontal and both modes resize the Form Field wrapper; the textarea itself never shows a second handle.",
+      "vertical": "Vertical",
+      "vertical-placeholder": "Resize vertically only"
+    },
+    "rows": {
+      "label": "With rows=4",
+      "note": "Textarea respects the native rows attribute.",
+      "placeholder": "This textarea has rows=4"
+    },
+    "section": {
+      "appearances": "Appearances",
+      "counter": "Character counter",
+      "density": "Density",
+      "examples": "Examples",
+      "form": "Form integration",
+      "form-field": "With Form Field",
+      "installation": "Installation",
+      "props": "Props",
+      "radius": "Radius",
+      "resize": "Resize",
+      "rows": "Rows",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3x3 matrix: Form Field owns the outer height, the textarea keeps its own font and padding in sync."
+    },
+    "states": {
+      "default": "Default",
+      "disabled": "Disabled",
+      "invalid": "Invalid",
+      "readonly": "Readonly",
+      "readonly-value": "Readonly text content"
+    },
+    "title": "Textarea"
+  }
+}

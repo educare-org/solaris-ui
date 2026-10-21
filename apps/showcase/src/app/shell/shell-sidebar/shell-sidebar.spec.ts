@@ -6,8 +6,9 @@ import { provideRouter } from '@angular/router';
 
 import { provideSolarisTranslateTesting } from '@solaris-ui/angular';
 
-import { SHELL_TRANSLATIONS } from '../translations';
+import { SHELL_TRANSLATIONS } from '../translation';
 import { ShowcaseShellSidebar } from './shell-sidebar';
+import { flattenTestTranslations } from '../../shared/testing/flatten-test-translations';
 
 @Component({ standalone: true, template: '' })
 class DummyPage {}
@@ -20,7 +21,13 @@ describe('ShowcaseShellSidebar', () => {
     await TestBed.configureTestingModule({
       imports: [ShowcaseShellSidebar],
       providers: [
-        provideSolarisTranslateTesting({ translations: SHELL_TRANSLATIONS }),
+        provideSolarisTranslateTesting({
+          translations: {
+            'en-US': flattenTestTranslations(SHELL_TRANSLATIONS['en-US']),
+            'pt-BR': flattenTestTranslations(SHELL_TRANSLATIONS['pt-BR']),
+            'es-419': flattenTestTranslations(SHELL_TRANSLATIONS['es-419']),
+          },
+        }),
         provideRouter([
           { path: 'actions/button', component: DummyPage },
           { path: 'feedback/alert', component: DummyPage },
@@ -45,7 +52,12 @@ describe('ShowcaseShellSidebar', () => {
     const titles = fixture.debugElement
       .queryAll(By.css('.shell-sidebar__section-title'))
       .map((el) => el.nativeElement.textContent.trim());
-    expect(titles).toEqual(['Get started', 'Foundation', 'Components']);
+    expect(titles).toEqual([
+      'Get started',
+      'Foundation',
+      'Components',
+      'Services',
+    ]);
   });
 
   it('should render discreet sub-groups inside the components section', () => {
@@ -62,6 +74,7 @@ describe('ShowcaseShellSidebar', () => {
       'Interaction',
       'Navigation',
       'Overlay',
+      'Translation',
     ]);
   });
 

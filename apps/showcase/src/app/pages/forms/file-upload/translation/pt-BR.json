@@ -1,0 +1,75 @@
+{
+  "file-upload": {
+    "ai": {
+      "prompt": "Estou olhando a documentação Solaris UI de {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Controle de dropzone, botão, avatar e campo para selecionar arquivos locais, com validação, progresso por arquivo, anexo por URL, modos de envio e editor de imagem.",
+    "editor": {
+      "aspect-free": "Livre",
+      "dialog-title": "Editar foto",
+      "note": "Abra o editor em um dialog, posicione a imagem sob a máscara e salve. Salvar emite um novo arquivo de imagem.",
+      "open": "Editar foto",
+      "saved": "Salvo {{name}} ({{size}} bytes).",
+      "shape": "Formato da máscara",
+      "shape-circle": "Círculo",
+      "shape-rect": "Retângulo"
+    },
+    "examples": {
+      "label": "Anexos",
+      "note": "Dropzone com arrastar e soltar, validação e lista de arquivos. Os arquivos ficam selecionados até você configurar uma URL de envio."
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe os componentes de envio de arquivos e editor de imagem."
+    },
+    "mode": {
+      "avatar": "Avatar",
+      "button": "Botão",
+      "dropzone": "Dropzone",
+      "field": "Campo"
+    },
+    "modes": {
+      "avatar-label": "Foto de perfil",
+      "avatar-saved": "Foto salva: {{name}}.",
+      "button-label": "Foto de perfil",
+      "field-label": "Anexo",
+      "note": "Dropzone é um painel completo com arrastar e soltar; botão é um gatilho compacto, avatar é um painel de foto com editor e campo é uma linha única na altura do form-field para formulários. Ajuste tamanho e densidade para ver cada variante nos diferentes cenários."
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve, com o componente de tabela."
+    },
+    "section": {
+      "density": "Densidade",
+      "editor": "Editor de imagem",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "modes": "Modos",
+      "props": "Propriedades",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "upload": "Modos de envio",
+      "url": "Anexar por URL"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em uma matriz 3x3: o painel do dropzone ajusta altura mínima, espaçamento, tipografia e ícone, e mantém o mesmo tamanho durante o arraste."
+    },
+    "title": "Envio de arquivos",
+    "upload": {
+      "auto": "Automático",
+      "manual": "Manual",
+      "note": "Envios automáticos começam na hora com progresso; manuais aguardam uploadAll(). Ambas as demos usam um handler simulado."
+    },
+    "url": {
+      "note": "Com allowUrl, uma linha de URL baixa um arquivo remoto para a seleção, passando pela mesma validação."
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "toast": {
+    "actions": "Acciones",
+    "actions-desc": "Botones de acción que pueden ejecutar callbacks y opcionalmente cerrar el toast.",
+    "actions-description": "Tienes cambios sin guardar. ¿Quieres continuar?",
+    "actions-dismiss": "Descartar",
+    "actions-title": "Cambios sin guardar",
+    "actions-undo": "Deshacer",
+    "appearance-desc": "Toast con apariencia {{appearance}}.",
+    "appearance-outline": "Outline",
+    "appearance-surface": "Surface",
+    "appearance-title": "Apariencia: {{appearance}}",
+    "appearances": "Apariencias",
+    "appearances-desc": "Apariencias Surface (predeterminado) y Outline.",
+    "basic-desc": "La institución se ha registrado correctamente.",
+    "basic-title": "Matrícula creada",
+    "complete-desc": "Tu solicitud se ha procesado.",
+    "complete-title": "¡Completo!",
+    "countdown": "Cuenta regresiva",
+    "countdown-bar": "Barra",
+    "countdown-both": "Barra + Texto",
+    "countdown-demo-title": "Cuenta regresiva {{countdown}}",
+    "countdown-desc": "Cuenta regresiva real que muestra el tiempo restante hasta el descarte automático.",
+    "countdown-text": "Texto",
+    "countdown-text-desc": "Este toast muestra la cuenta regresiva solo como texto.",
+    "danger": "Peligro",
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Componente de comentarios temporal no bloqueante para confirmar acciones, mostrar mensajes del sistema o notificar a los usuarios sobre eventos.",
+    "examples": {
+      "note": "Cada demo activa un toast real. El snippet muestra la llamada mínima del servicio."
+    },
+    "info": "Info",
+    "installation": {
+      "note": "Instala el paquete único de Solaris UI e importa el servicio toast."
+    },
+    "loading": "Cargando",
+    "loading-desc": "Espera mientras procesamos tu solicitud.",
+    "loading-title": "Procesando...",
+    "neutral": "Neutro",
+    "persistent": "Persistente",
+    "persistent-desc": "Los toasts persistentes requieren descarte manual y no se descartan automáticamente.",
+    "position-bottom-center": "Inferior Centro",
+    "position-bottom-end": "Inferior Fin",
+    "position-bottom-start": "Inferior Inicio",
+    "position-desc": "Toast colocado en {{position}}.",
+    "position-title": "Posición: {{position}}",
+    "position-top-center": "Superior Centro",
+    "position-top-end": "Superior Fin",
+    "position-top-start": "Superior Inicio",
+    "positions": "Posiciones",
+    "positions-desc": "Toast se puede colocar en cualquier esquina o en el centro superior/inferior.",
+    "progress": "Progreso",
+    "progress-complete-description": "Tu archivo se ha subido correctamente.",
+    "progress-complete-title": "¡Carga completa!",
+    "progress-demo-desc": "Tu archivo se está subiendo.",
+    "progress-desc": "Indicador visual de progreso para operaciones con duración conocida, además de promise toasts.",
+    "progress-title": "Subiendo...",
+    "progress-trigger": "Simular carga",
+    "promise-trigger": "Ejecutar promise toast",
+    "props": {
+      "note": "La referencia completa de Props está en la documentación del componente."
+    },
+    "section": {
+      "actions": "Acciones",
+      "appearance": "Apariencia",
+      "countdown": "Cuenta regresiva",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "positions": "Posiciones",
+      "progress": "Progreso",
+      "props": "Props",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "variants": "Variantes"
+    },
+    "show": "Mostrar",
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "La escala de la tarjeta sigue la matriz adaptada de tamaño × densidad. El snippet refleja la selección actual."
+    },
+    "size-density-demo-desc": "La escala de la tarjeta sigue la matriz adaptada de tamaño × densidad.",
+    "size-density-title": "Tamaño {{size}} / densidad {{density}}",
+    "success": "Éxito",
+    "title": "Toast",
+    "variant-desc": "Este es un mensaje toast {{variant}}.",
+    "variant-title": "Toast {{variant}}",
+    "variants": "Variantes",
+    "variants-desc": "Variantes neutral, info, success, warning, danger y loading.",
+    "warning": "Advertencia"
+  }
+}

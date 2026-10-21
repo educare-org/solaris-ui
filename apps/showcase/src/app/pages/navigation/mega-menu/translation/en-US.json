@@ -1,0 +1,82 @@
+{
+  "mega-menu": {
+    "accessibility": "Accessibility",
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "anchor-width": "Anchor width",
+    "anchor-width-content": "This panel matches the header width.",
+    "appearance": "Appearance",
+    "appearance-note": "Underline is the default. Text uses muted text until its trigger is active.",
+    "basic": "Basic",
+    "basic-aria-label": "Primary navigation",
+    "basic-note": "Hover, focus, or click a trigger. A group keeps only one panel open at a time.",
+    "brand": "SOLARIS",
+    "build": "Build",
+    "configuration": "Configuration",
+    "controlled": "Controlled state",
+    "controlled-content": "This panel is bound with two-way open state.",
+    "controlled-note": "The open model supports programmatic control in addition to trigger interaction.",
+    "controlled-trigger": "Controlled trigger",
+    "delayed-content": "Delayed panel content",
+    "delayed-trigger": "Delayed trigger",
+    "description": "A navigation overlay for groups of related destinations and editorial content.",
+    "event-closed": "Closed event emitted.",
+    "event-idle": "No event emitted yet.",
+    "event-opened": "Opened event emitted.",
+    "examples": {
+      "note": "Start with the full navigation bar, then explore appearance, width, and keyboard below."
+    },
+    "feature-description": "Compose rich panels without imposing menu semantics on links.",
+    "feature-kicker": "New pattern",
+    "feature-title": "Content-led navigation",
+    "feedback": "Feedback",
+    "forms": "Forms",
+    "foundation": "Foundation",
+    "hover-delay": "Hover delay",
+    "hover-delay-note": "This trigger waits 400 ms before opening and closing on pointer movement.",
+    "icons": "Icons",
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "keyboard": "Keyboard navigation",
+    "keyboard-aria-label": "Keyboard navigation demo",
+    "keyboard-note": "Focus a trigger and use ArrowLeft and ArrowRight to move between triggers, ArrowDown to open and enter the panel, Home and End to jump, Escape to close.",
+    "layout": "Layout primitives",
+    "learn": "Learn",
+    "navigation": "Navigation",
+    "panel-content": "Panel content",
+    "persistent": "Persistent on click",
+    "persistent-content": "Click the trigger again or click outside to close.",
+    "persistent-note": "Clicking this trigger keeps its panel open after the pointer leaves.",
+    "persistent-trigger": "Keep open",
+    "products": "Products",
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "resources": "Resources",
+    "responsive-note": "Mega Menu is a desktop pattern. Below your breakpoint, replace the trigger bar with a drawer or menu instead of squeezing panels.",
+    "section": {
+      "appearance": "Appearance",
+      "behavior": "Behavior",
+      "controlled": "Controlled state",
+      "examples": "Examples",
+      "installation": "Installation",
+      "keyboard": "Keyboard",
+      "props": "Props",
+      "responsive": "Responsive",
+      "width": "Panel width"
+    },
+    "text": "Text",
+    "theming": "Theming",
+    "title": "Mega Menu",
+    "toggle-controlled": "Toggle controlled menu",
+    "trigger-width": "Trigger width",
+    "trigger-width-content": "This panel matches the trigger width.",
+    "underline": "Underline",
+    "viewport-width": "Viewport width",
+    "viewport-width-content": "This panel spans the viewport.",
+    "width": "Panel width",
+    "width-note": "Choose a panel aligned to the trigger, its anchor, or the viewport."
+  }
+}

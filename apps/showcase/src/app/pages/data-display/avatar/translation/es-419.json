@@ -1,0 +1,94 @@
+{
+  "avatar": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "badge": {
+      "note": "Los conteos superiores al máximo se muestran como \"{max}+\" con el valor completo en la información sobre herramientas del título. Cero oculta el contador salvo que showZero esté activado."
+    },
+    "description": "Bloque de identidad con foto, iniciales generativas, presencia, conteos, grupo y perfil.",
+    "example": {
+      "action": "Editar foto",
+      "add-member": "Añadir miembro",
+      "add-random": "Añadir miembro aleatorio",
+      "empty": "Vacío",
+      "generative": "Generativo",
+      "group-badge": {
+        "label": "Equipo de diseño"
+      },
+      "highlight": "Resaltar avatar",
+      "member-clicked": "Miembro clicado",
+      "menu-opened": "Menú abierto mediante Pill +N",
+      "photo": "Foto",
+      "profile": {
+        "badge": "PRO",
+        "email": "davis@example.com",
+        "name": "Amelia Davis"
+      },
+      "tooltip-hint": "Amelia Davis — Online"
+    },
+    "examples": {
+      "note": "Empieza con fotos reales (URL remotas con elegante alternativa generativa), luego la alternativa generativa y el marcador vacío. Amplía el grupo con el botón discontinuo de añadir — los miembros solo viven en memoria y se restablecen al recargar."
+    },
+    "group": {
+      "note": "Los grupos superponen miembros y truncan con una Pill +N enfocable que abre un menú del consumidor. Pasa el cursor para ver la información sobre herramientas del miembro; navega con las teclas de flecha y actívala con Enter."
+    },
+    "group-badge": {
+      "note": "Una Pill con un mini grupo de miembros y una etiqueta de texto. El marcador +N es texto estático, por lo que la propia Pill puede ser un enlace o un botón."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa la familia."
+    },
+    "integrations": {
+      "note": "Los avatares nunca implementan superposiciones: pasa el cursor sobre el avatar para ver la información reutilizada y abre la lista de miembros del grupo mediante un menú desplegable del consumidor. La Pill +N sigue siendo enfocable con el teclado."
+    },
+    "overlays": {
+      "note": "Verificado, organización y marcadores de acción reutilizan Slots — la información sobre herramientas y los menús vienen del consumidor."
+    },
+    "profile": {
+      "note": "Los perfiles combinan identidad con título, subtítulo y un Badge opcional. El modo Compacto muestra solo el avatar."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "badge": "Badge de conteo",
+      "examples": "Ejemplos",
+      "group": "Grupo",
+      "group-badge": "Badge de grupo",
+      "installation": "Instalación",
+      "integrations": "Integraciones",
+      "overlays": "Superposiciones",
+      "profile": "Perfil",
+      "props": "Props",
+      "size-radius": "Tamaño y radio",
+      "states": "Estados",
+      "status": "Status"
+    },
+    "size-radius": {
+      "note": "Los tamaños son fijos en px; el radio sigue al host, incluido cada marcador."
+    },
+    "states": {
+      "note": "Activo muestra un anillo continuo; Cargando muestra un arco animado que se detiene con movimiento reducido."
+    },
+    "status": {
+      "away": "Ausente",
+      "busy": "Ocupado",
+      "dnd": "No molestar",
+      "note": "El punto se representa según el Status. Fuerza el horario no laboral para obtener una vista previa del emblema z sin cambiar el color de Status.",
+      "offline": "Offline",
+      "online": "Online"
+    },
+    "title": "Avatar",
+    "toggle": {
+      "compact": "Compacto",
+      "full": "Completo",
+      "hide-zero": "Ocultar cero",
+      "off-hours": "Fuera de horario",
+      "on-hours": "En horario",
+      "plain": "Sin sello",
+      "show-zero": "Mostrar cero",
+      "verified": "Verificado"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "icons": {
+    "animated": {
+      "menu-toggle": {
+        "closed": "Menu fechado",
+        "description": "Um icon button com duas linhas que alterna para um X. Use-o para abrir e fechar uma navegação lateral.",
+        "open": "Menu aberto",
+        "title": "Menu / Fechar"
+      },
+      "title": "Controles animados"
+    },
+    "categories": "Categorias",
+    "category": {
+      "actions": "Ações",
+      "all": "Todos",
+      "animated": "Animados",
+      "brands": "Marcas",
+      "communication": "Comunicação",
+      "data": "Dados",
+      "documents": "Documentos",
+      "layout": "Layout",
+      "media": "Mídia",
+      "navigation": "Navegação",
+      "people": "Pessoas",
+      "status": "Status",
+      "theme": "Tema"
+    },
+    "close": "Fechar painel de uso",
+    "color": {
+      "danger": "Perigo",
+      "info": "Info",
+      "inherit": "Padrão",
+      "label": "Cor",
+      "orange": "Laranja",
+      "primary": "Primária",
+      "success": "Sucesso",
+      "warning": "Aviso"
+    },
+    "copied": "Copiado!",
+    "copy": "Copiar",
+    "customizer": "Personalizar",
+    "customizer-note": "Ajuste a largura e a cor aplicadas a todos os ícones renderizados nesta página.",
+    "description": "Explore todos os ícones nativos. Use a busca ou os filtros de categoria para encontrar um ícone e clique nele para ver como usar.",
+    "explore": "Explorar ícones",
+    "no-results": "Nenhum ícone corresponde à sua busca.",
+    "result-count": "{{count}} ícones",
+    "search-label": "Busca",
+    "search-placeholder": "Buscar ícones",
+    "title": "Ícones",
+    "usage": "Como usar",
+    "usage-note": "Renderize o ícone com o SolarisIconComponent. Use decorative quando ele for puramente visual.",
+    "width": "Largura"
+  }
+}

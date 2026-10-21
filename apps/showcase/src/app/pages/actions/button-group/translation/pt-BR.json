@@ -1,0 +1,65 @@
+{
+  "button-group": {
+    "anchor": "Suporte a âncora",
+    "attached": {
+      "false": "Separado",
+      "note": "Com attached=true os itens formam um bloco único com divisórias suaves. Com attached=false cada item mantém o próprio raio e há separação entre eles.",
+      "true": "Unido"
+    },
+    "attached-false": "Separado (attached=false)",
+    "badge": "Composição com badge",
+    "basic": {
+      "note": "Agrupe ações relacionadas. O grupo cuida do layout e da união visual; cada filho cuida da própria aparência e estado."
+    },
+    "basic-horizontal": "Grupo horizontal básico",
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Componente que agrupa ações relacionadas com layout controlado e união visual.",
+    "full-width": "Largura total",
+    "future-note": "Componentes futuros",
+    "future-note-text": "Button Group não é Segmented Control, Toggle Group, Split Button ou Dropdown Button. Segmented Control seleciona uma opção de um conjunto pequeno. Toggle Group controla estado liga/desliga. Split Button combina ação principal com menu. Dropdown Button abre um menu. Estes são componentes/padrões separados que serão construídos em versões futuras.",
+    "horizontal-disabled": "Horizontal com desabilitado",
+    "installation": {
+      "note": "Instale o pacote único do Solaris e importe o componente."
+    },
+    "loading": "Estado de carregamento",
+    "mixed": "Grupo misto (botão + botão de ícone)",
+    "mixed-note": "Este é apenas agrupamento visual. Split button/dropdown behavior serão componentes separados no futuro.",
+    "orientation": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Tabela de props em breve, com o componente tabela."
+    },
+    "section": {
+      "attached": "União (attached)",
+      "basic": "Básico",
+      "density": "Densidade",
+      "full-width": "Largura total",
+      "installation": "Instalação",
+      "mixed": "Grupo misto",
+      "orientation": "Orientação",
+      "props": "Props",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "O size e a density do grupo são forçados em todos os filhos, padronizando a altura externa de cada item."
+    },
+    "states": {
+      "note": "Desabilitado e loading pertencem a cada filho. O grupo só garante o layout correto."
+    },
+    "title": "Grupo de botões",
+    "vertical-icon": "Grupo vertical de ícones"
+  }
+}

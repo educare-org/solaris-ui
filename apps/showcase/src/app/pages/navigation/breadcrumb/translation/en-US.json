@@ -1,0 +1,81 @@
+{
+  "breadcrumb": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "analytics": "Analytics",
+    "basic": "Basic trail",
+    "basic-note": "A simple hierarchy with links for parent levels and text for the current page.",
+    "campuses": "Campuses",
+    "current": "Current page",
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Hierarchical navigation with links, icons, separators, overflow, and optional previous/next controls.",
+    "enrollment": "Enrollment",
+    "example": {
+      "truncation": {
+        "current": "Detailed student listing",
+        "long-one": "Consolidated academic performance report",
+        "long-two": "Quarterly enrollment statistics by campus"
+      }
+    },
+    "examples": {
+      "note": "Start with the default trail, then explore separators, density, and overflow below."
+    },
+    "home": "Home",
+    "icons": "Icons and text",
+    "icons-note": "Items can be text-only, icon-only, or combine icon and text.",
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "navigation": "Optional navigation buttons",
+    "navigation-note": "Previous and next chevron buttons can be displayed next to the breadcrumb.",
+    "organization": "Organization",
+    "overflow": {
+      "end": "End",
+      "label": "Overflow positions",
+      "middle": "Middle",
+      "start": "Start"
+    },
+    "overflow-note": "Limit visible items and collapse the start, middle, or end segment into an ellipsis menu.",
+    "products": "Products",
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "density": "Density",
+      "examples": "Examples",
+      "installation": "Installation",
+      "navigation": "Navigation",
+      "overflow": "Overflow",
+      "props": "Props",
+      "separators": "Separators",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "truncation": "Truncation"
+    },
+    "security": "Security",
+    "separator": {
+      "chevron": "Chevron",
+      "dot": "Dot",
+      "slash": "Slash"
+    },
+    "separators": "Separator variants",
+    "separators-note": "Choose slash, chevron, or center-dot separators.",
+    "settings": "Settings",
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size scales text and icons while density controls the gap between items. Combine both controls to see every combination."
+    },
+    "students": "Students",
+    "title": "Breadcrumb",
+    "truncation-note": "Long labels truncate with an ellipsis and expose the full text through the native tooltip."
+  }
+}

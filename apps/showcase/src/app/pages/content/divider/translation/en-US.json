@@ -1,0 +1,96 @@
+{
+  "divider": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "strong": "Strong",
+      "subtle": "Subtle"
+    },
+    "basic": "Basic Divider",
+    "basic-note": "Default horizontal divider with subtle appearance.",
+    "content-above": "Content above the divider",
+    "content-above-short": "Content above",
+    "content-below": "Content below the divider",
+    "content-below-short": "Content below",
+    "custom-length": "Custom Length",
+    "custom-length-note": "Set a fixed width for horizontal dividers.",
+    "delete": "Delete",
+    "description": "Visually separates groups of content, actions, or sections.",
+    "dropdown": "Divider in Dropdown Menu",
+    "dropdown-note": "Divider works seamlessly inside dropdown menus.",
+    "duplicate": "Duplicate",
+    "edit": "Edit",
+    "examples": {
+      "note": "Start with the default divider, then explore appearances and variants below."
+    },
+    "file": "File",
+    "help": "Help",
+    "inset": "Inset Variations",
+    "inset-both": "Inset both",
+    "inset-end": "Inset end",
+    "inset-note": "Control indentation from edges with start, end, or both.",
+    "inset-start": "Inset start",
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "label": {
+      "center": "Center",
+      "end": "End",
+      "keyed": "Translated label",
+      "note": "Label is only supported on horizontal dividers; vertical dividers ignore it.",
+      "start": "Start"
+    },
+    "layout": {
+      "inset": "Inset",
+      "length": "Length",
+      "spacing": "Spacing"
+    },
+    "open-menu": "Open Menu",
+    "orientation": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "appearance": "Appearance",
+      "examples": "Examples",
+      "installation": "Installation",
+      "label": "Label",
+      "layout": "Layout",
+      "orientation": "Orientation",
+      "props": "Props",
+      "usage": "Usage",
+      "variant": "Variant"
+    },
+    "spacing": "Spacing Variations",
+    "spacing-lg": "Spacing lg",
+    "spacing-md": "Spacing md",
+    "spacing-none": "Spacing none",
+    "spacing-note": "Control margin around the divider with none, sm, md, and lg.",
+    "spacing-sm": "Spacing sm",
+    "strong": "Strong Appearance",
+    "strong-note": "More visible border using the strong token.",
+    "text-position": {
+      "center": "Center",
+      "end": "End",
+      "start": "Start"
+    },
+    "title": "Divider",
+    "variant": {
+      "dashed": "Dashed",
+      "dotted": "Dotted",
+      "note": "Variant composes with appearance: appearance controls weight and color, variant controls only the line style.",
+      "solid": "Solid"
+    },
+    "vertical": "Vertical Divider",
+    "vertical-note": "Use orientation=\"vertical\" for vertical separation in toolbars and layouts.",
+    "view": "View",
+    "width-200": "200px width",
+    "width-50": "50% width",
+    "with-label": "With Label",
+    "with-label-note": "Add text between the divider lines with label or labelKey, aligned via textPosition."
+  }
+}

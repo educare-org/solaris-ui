@@ -1,0 +1,96 @@
+{
+  "divider": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "strong": "Fuerte",
+      "subtle": "Sutil"
+    },
+    "basic": "Divisor Básico",
+    "basic-note": "Divisor horizontal predeterminado con apariencia sutil.",
+    "content-above": "Contenido encima del divisor",
+    "content-above-short": "Contenido superior",
+    "content-below": "Contenido debajo del divisor",
+    "content-below-short": "Contenido inferior",
+    "custom-length": "Longitud Personalizada",
+    "custom-length-note": "Define un ancho fijo para divisores horizontales.",
+    "delete": "Eliminar",
+    "description": "Separa visualmente grupos de contenido, acciones o secciones.",
+    "dropdown": "Divisor en menú desplegable",
+    "dropdown-note": "El divisor funciona perfectamente dentro de los menús desplegables.",
+    "duplicate": "Duplicar",
+    "edit": "Editar",
+    "examples": {
+      "note": "Empieza con el divisor predeterminado y luego explora apariencias y variantes a continuación."
+    },
+    "file": "Archivo",
+    "help": "Ayuda",
+    "inset": "Variaciones de Inset",
+    "inset-both": "Inset ambos",
+    "inset-end": "Inset Fin",
+    "inset-note": "Controla la sangría desde los bordes con Inicio, Fin o ambos.",
+    "inset-start": "Inset Inicio",
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "label": {
+      "center": "Centro",
+      "end": "Fin",
+      "keyed": "Etiqueta traducida",
+      "note": "La etiqueta solo es compatible con divisores horizontales; los divisores verticales la ignoran.",
+      "start": "Inicio"
+    },
+    "layout": {
+      "inset": "Inset",
+      "length": "Longitud",
+      "spacing": "Espaciado"
+    },
+    "open-menu": "Abrir menú",
+    "orientation": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "appearance": "Apariencia",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "label": "Etiqueta",
+      "layout": "Layout",
+      "orientation": "Orientación",
+      "props": "Props",
+      "usage": "Uso",
+      "variant": "Variante"
+    },
+    "spacing": "Variaciones de espaciado",
+    "spacing-lg": "Espaciado lg",
+    "spacing-md": "Espaciado md",
+    "spacing-none": "Espaciado none",
+    "spacing-note": "Controla el margen alrededor del divisor con Ninguno, sm, md y lg.",
+    "spacing-sm": "Espaciado sm",
+    "strong": "Apariencia Fuerte",
+    "strong-note": "Borde más visible usando el token Fuerte.",
+    "text-position": {
+      "center": "Centro",
+      "end": "Fin",
+      "start": "Inicio"
+    },
+    "title": "Divisor",
+    "variant": {
+      "dashed": "Discontinuo",
+      "dotted": "Punteado",
+      "note": "La variante se combina con la apariencia: la apariencia controla el grosor y el color, la variante controla solo el estilo de línea.",
+      "solid": "Sólido"
+    },
+    "vertical": "Divisor Vertical",
+    "vertical-note": "Usa orientation=\"vertical\" para la separación vertical en barras de herramientas y Layouts.",
+    "view": "Ver",
+    "width-200": "200px de ancho",
+    "width-50": "50% de ancho",
+    "with-label": "Con Etiqueta",
+    "with-label-note": "Añade texto entre las líneas del divisor con label o labelKey, alineado mediante textPosition."
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "avatar": {
+    "ai": {
+      "prompt": "Estou olhando a documentação Solaris do {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "badge": {
+      "note": "Contagens acima do máximo renderizam \"{max}+\" com o valor cheio no tooltip de título. Zero oculta o contador, salvo com showZero."
+    },
+    "description": "Bloco de identidade com foto, iniciais generativas, presença, contagens, grupo e perfil.",
+    "example": {
+      "action": "Editar foto",
+      "add-member": "Adicionar membro",
+      "add-random": "Adicionar membro aleatório",
+      "empty": "Vazio",
+      "generative": "Generativo",
+      "group-badge": {
+        "label": "Time de design"
+      },
+      "highlight": "Destacar avatar",
+      "member-clicked": "Membro clicado",
+      "menu-opened": "Menu aberto via pill +N",
+      "photo": "Foto",
+      "profile": {
+        "badge": "PRO",
+        "email": "davis@example.com",
+        "name": "Amelia Davis"
+      },
+      "tooltip-hint": "Amelia Davis — Online"
+    },
+    "examples": {
+      "note": "Comece com fotos reais (URLs remotas com fallback generativo elegante), depois o fallback generativo e o placeholder vazio. Aumente o grupo com o botão tracejado de adicionar — os membros vivem só em memória e zeram ao recarregar."
+    },
+    "group": {
+      "note": "Grupos sobrepõem membros e truncam com uma pill +N focável que abre um menu do consumidor. Passe o mouse para ver o tooltip do membro; navegue com as setas e ative com Enter."
+    },
+    "group-badge": {
+      "note": "Uma pill com mini cluster de membros e um texto. O marcador +N é texto estático, então a pill pode ser link ou botão."
+    },
+    "installation": {
+      "note": "Instale o pacote único Solaris e importe a família."
+    },
+    "integrations": {
+      "note": "Avatares nunca implementam overlays: passe o mouse para ver o tooltip reusado e abra a lista de membros via menu dropdown do consumidor. A pill +N continua focável por teclado."
+    },
+    "overlays": {
+      "note": "Verificado, organização e ação usam slots — tooltips e menus vêm do consumidor."
+    },
+    "profile": {
+      "note": "Perfis combinam identidade com título, subtítulo e selo opcional. O modo compacto renderiza só o avatar."
+    },
+    "props": {
+      "note": "Tabela de props em breve, com o componente tabela."
+    },
+    "section": {
+      "badge": "Contador",
+      "examples": "Exemplos",
+      "group": "Grupo",
+      "group-badge": "Selo do grupo",
+      "installation": "Instalação",
+      "integrations": "Integrações",
+      "overlays": "Sobreposições",
+      "profile": "Perfil",
+      "props": "Props",
+      "size-radius": "Tamanho e raio",
+      "states": "Estados",
+      "status": "Status"
+    },
+    "size-radius": {
+      "note": "Tamanhos são fixos em px; o raio acompanha o host, incluindo cada marcador."
+    },
+    "states": {
+      "note": "Ativo renderiza um anel contínuo; carregando renderiza um arco animado que para com reduced motion."
+    },
+    "status": {
+      "away": "Ausente",
+      "busy": "Ocupado",
+      "dnd": "Não perturbe",
+      "note": "O ponto reflete o status. Force o fora-de-horário para ver o emblema z sem alterar a cor do status.",
+      "offline": "Offline",
+      "online": "Online"
+    },
+    "title": "Avatar",
+    "toggle": {
+      "compact": "Compacto",
+      "full": "Completo",
+      "hide-zero": "Ocultar zero",
+      "off-hours": "Fora de horário",
+      "on-hours": "Em horário",
+      "plain": "Sem selo",
+      "show-zero": "Mostrar zero",
+      "verified": "Verificado"
+    }
+  }
+}

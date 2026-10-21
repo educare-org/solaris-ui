@@ -1,0 +1,107 @@
+{
+  "alert": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "anatomy": {
+      "note": "Title presence is auto-detected — no hasTitle input needed. Actions wrap links or buttons."
+    },
+    "announcement": {
+      "basic": "Basic",
+      "image-bg": "Image background",
+      "note": "Full-bleed site banner for the top of the page. Free content, sticky by default, with optional persistent dismissal.",
+      "persistent": "Persistent"
+    },
+    "appearance": {
+      "outline": "Outline",
+      "solid": "Solid",
+      "surface": "Surface",
+      "tonal": "Tonal"
+    },
+    "closable": {
+      "note": "Close emits dismissed but never removes the alert. The consumer controls removal."
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Contextual inline message component for communicating state, warning, promotional content, or feedback. Includes the Announcement site banner.",
+    "example": {
+      "anatomy": {
+        "action": "Review changes",
+        "text": "This configuration may affect active users. Review before applying.",
+        "title": "Attention"
+      },
+      "announcement-basic": {
+        "link": "See what's new →",
+        "text": "New features just dropped in September Early Access."
+      },
+      "announcement-image-bg": {
+        "link": "Shop now",
+        "text": "Limited offer — ends Sunday."
+      },
+      "announcement-persistent": {
+        "note": "Dismiss persists in localStorage. Reload the page — the banner stays hidden.",
+        "show": "Show banner again",
+        "text": "Sign up before July 31, start spending or deposit funds and get a gift card."
+      },
+      "basic": {
+        "text": "Changes are saved automatically."
+      },
+      "closable": {
+        "closed": "Alert was dismissed. Click to show again.",
+        "message": "This alert can be dismissed.",
+        "show": "Show alert"
+      },
+      "live": {
+        "assertive": "Payment failed. Try again."
+      }
+    },
+    "examples": {
+      "note": "Start with the default alert, then explore appearances and variants below."
+    },
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "live": {
+      "note": "Off stays silent, polite announces without interrupting, assertive interrupts for critical errors."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "anatomy": "Anatomy",
+      "announcement": "Announcement",
+      "closable": "Closable",
+      "density": "Density",
+      "examples": "Examples",
+      "installation": "Installation",
+      "live": "Live region",
+      "props": "Props",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "variants": "Variants & appearances"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density work together in the component. Combine both controls to see every combination."
+    },
+    "title": "Alert",
+    "variant": {
+      "custom": "Custom",
+      "danger": "Danger",
+      "info": "Info",
+      "neutral": "Neutral",
+      "success": "Success",
+      "warning": "Warning"
+    },
+    "variants": {
+      "note": "Combine both controls to preview every variant and appearance."
+    }
+  }
+}

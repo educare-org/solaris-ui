@@ -1,0 +1,82 @@
+{
+  "checkbox": {
+    "accept-label": "Aceptar",
+    "accept-status": "Aceptado:",
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "color": {
+      "custom": "Personalizado",
+      "danger": "Peligro",
+      "info": "Info",
+      "neutral": "Neutro",
+      "note": "La casilla marcada sigue el color semántico.",
+      "primary": "Primario",
+      "success": "Éxito",
+      "warning": "Advertencia"
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": {
+      "label": "Control de formulario para selección booleana con input nativo, estado indeterminado, múltiples apariencias, colores, tamaños y estados.",
+      "large-label": "Notificaciones por SMS",
+      "large-text": "Recibe alertas urgentes por mensaje de texto.",
+      "note": "Descripción muestra un texto de apoyo atenuado debajo de la etiqueta y escala con el tamaño.",
+      "small-label": "Notificaciones por correo electrónico",
+      "small-text": "Recibe novedades sobre tu cuenta."
+    },
+    "examples": {
+      "note": "Un interruptor booleano con un input nativo. La casilla visual se mantiene sincronizada con el estado del input."
+    },
+    "form-field-hint": "Debes aceptar los términos para continuar.",
+    "form-field-label": "Aceptar términos",
+    "indeterminate": {
+      "note": "Indeterminado es un estado visual separado de marcado. Al hacer clic se borra lo indeterminado y se marca."
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa el componente checkbox."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "radius": {
+      "full": "Completo",
+      "lg": "Grande",
+      "md": "Mediano",
+      "note": "La casilla de control admite valores de radio sm (predeterminado), md, lg, xl y full. Full es un alias de xl.",
+      "sm": "Pequeño",
+      "xl": "Extragrande"
+    },
+    "section": {
+      "appearances": "Apariencias",
+      "color": "Color",
+      "density": "Densidad",
+      "description": "Descripción",
+      "examples": "Ejemplos",
+      "form": "Integración con formularios",
+      "indeterminate": "Indeterminado",
+      "installation": "Instalación",
+      "props": "Props",
+      "radius": "Radio",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en una matriz de 3x3: ambos cambian la casilla de control, density también cambia el espacio de la etiqueta."
+    },
+    "title": "Checkbox"
+  }
+}

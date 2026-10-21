@@ -1,0 +1,36 @@
+{
+  "schedule-view": {
+    "dataset": {
+      "label": "Dataset",
+      "sample": "Exemplo",
+      "stress": "1000 eventos"
+    },
+    "description": "Agenda cronológica agrupada por dia com paginação por janela. O padrão abaixo de 640px.",
+    "examples": {
+      "note": "Pagine pela barra dentro da agenda. Só a janela visível renderiza: troque para o dataset de 1000 eventos e veja o DOM continuar limitado."
+    },
+    "installation": {
+      "note": "Instale o pacote e importe o componente standalone da agenda."
+    },
+    "locales": {
+      "note": "Dias, horas e textos auxiliares seguem o locale selecionado."
+    },
+    "props": {
+      "note": "Passe eventos (a recorrência expande só dentro da janela, sem mutar o array), tarefas e feriados resolvidos. Cliques em dias nunca movem a âncora; a paginação é explícita."
+    },
+    "section": {
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "locales": "Locales",
+      "props": "Propriedades",
+      "size-density": "Tamanho e densidade"
+    },
+    "size-density": {
+      "note": "Tamanho controla selos de dia e texto dos itens; densidade controla o preenchimento do dia."
+    },
+    "title": "Agenda",
+    "window": {
+      "label": "Dias por janela"
+    }
+  }
+}

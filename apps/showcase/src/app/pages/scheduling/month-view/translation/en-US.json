@@ -1,0 +1,37 @@
+{
+  "month-view": {
+    "description": "Six-week grid with events, tasks, and holidays, keyboard navigation, and an overflow popover.",
+    "drag": {
+      "note": "Drag an empty day span to propose a create, or drag a chip to another day to propose a move. Keyboard parity: arrows move the proposal, Enter confirms, Escape cancels. The lib never mutates the array — proposals land in the log below."
+    },
+    "examples": {
+      "note": "Use the toolbar to change months. The grid expands recurrences, holidays come from the built-in provider, and the log below shows emitted events."
+    },
+    "installation": {
+      "note": "Install the package and import the standalone month view component."
+    },
+    "locales": {
+      "note": "Weekdays, months, and helper texts follow the selected locale."
+    },
+    "props": {
+      "note": "Pass events (the lib expands recurrence without mutating the array), tasks, resolved holidays, and the display time zone."
+    },
+    "section": {
+      "drag": "Drag and drop",
+      "examples": "Examples",
+      "installation": "Installation",
+      "locales": "Locales",
+      "props": "Props",
+      "size-density": "Size and density"
+    },
+    "size-density": {
+      "note": "Size and density drive the day circle, chip text, and cell height."
+    },
+    "title": "Month View",
+    "toolbar": {
+      "next": "Next month",
+      "previous": "Previous month",
+      "today": "Today"
+    }
+  }
+}

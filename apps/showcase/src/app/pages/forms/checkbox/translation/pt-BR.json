@@ -1,0 +1,82 @@
+{
+  "checkbox": {
+    "accept-label": "Aceitar",
+    "accept-status": "Aceito:",
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "outline": "Contorno",
+      "surface": "Superfície"
+    },
+    "color": {
+      "custom": "Customizada",
+      "danger": "Perigo",
+      "info": "Informação",
+      "neutral": "Neutra",
+      "note": "A caixa marcada segue a cor semântica.",
+      "primary": "Primária",
+      "success": "Sucesso",
+      "warning": "Atenção"
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": {
+      "label": "Controle de formulário para seleção booleana com input nativo, estado indeterminado, múltiplas aparências, cores, tamanhos e estados.",
+      "large-label": "Notificações por SMS",
+      "large-text": "Receba alertas urgentes por mensagem.",
+      "note": "Description renderiza um texto de apoio esmaecido sob o label e escala com o size.",
+      "small-label": "Notificações por e-mail",
+      "small-text": "Receba novidades sobre sua conta."
+    },
+    "examples": {
+      "note": "Uma alternância booleana com input nativo. A caixa visual acompanha o estado do input."
+    },
+    "form-field-hint": "Você precisa aceitar os termos para continuar.",
+    "form-field-label": "Aceitar termos",
+    "indeterminate": {
+      "note": "Indeterminado é um estado visual separado do marcado. Clicar limpa o indeterminado e marca a caixa."
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe o componente de checkbox."
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "radius": {
+      "full": "Total",
+      "lg": "Grande",
+      "md": "Médio",
+      "note": "A caixa de controle suporta raios sm (padrão), md, lg, xl e full. Full é um alias de xl.",
+      "sm": "Pequeno",
+      "xl": "Extragrande"
+    },
+    "section": {
+      "appearances": "Aparências",
+      "color": "Cor",
+      "density": "Densidade",
+      "description": "Descrição",
+      "examples": "Exemplos",
+      "form": "Integração com formulários",
+      "indeterminate": "Indeterminado",
+      "installation": "Instalação",
+      "props": "Propriedades",
+      "radius": "Raio",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em uma matriz 3x3: ambos alteram a caixa de controle, a densidade também altera o espaçamento do rótulo."
+    },
+    "title": "Checkbox"
+  }
+}

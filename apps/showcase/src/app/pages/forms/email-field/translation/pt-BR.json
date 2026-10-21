@@ -1,0 +1,108 @@
+{
+  "email-field": {
+    "affix": {
+      "action": "Verificar",
+      "action-label": "E-mail com ação",
+      "icons-label": "E-mail com ícones",
+      "note": "Ícones de prefixo e sufixo via inputs; conteúdo arbitrário via [solaris-form-prefix] / [solaris-form-suffix]. Conteúdo interativo usa o slot suffix-action com [solaris-form-suffix] e [solaris-form-suffix-action].",
+      "projected-label": "E-mail com prefixo projetado"
+    },
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "clearable": {
+      "label": "E-mail",
+      "note": "Com clearable, um botão de limpar aparece quando o campo tem valor e emite cleared ao clicar. Ele fica oculto quando desabilitado, readonly ou loading."
+    },
+    "demo": {
+      "label": "E-mail",
+      "placeholder": "nome@empresa.com"
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Preset de Form Field para entrada de e-mail com padrões específicos, validação e filtro de domínios. Compõe Form Field + Input.",
+    "error": {
+      "invalid": "Este campo tem um erro.",
+      "invalid-email": "Insira um e-mail válido.",
+      "required": "E-mail é obrigatório."
+    },
+    "examples": {
+      "note": "Campo de e-mail básico com teclado de e-mail, autocomplete e validação no blur."
+    },
+    "form": {
+      "hint": "Digite seu endereço de e-mail.",
+      "label": "E-mail obrigatório",
+      "note": "Funciona com Reactive Forms via ControlValueAccessor. Combine com solarisEmailValidator para validação independente do template."
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe o componente de email field."
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Médio",
+      "none": "Nenhum",
+      "note": "O raio segue a escala global: md equivale a 4px, lg a 8px e xl vira pill.",
+      "sm": "Pequeno",
+      "xl": "Pill"
+    },
+    "section": {
+      "affix": "Prefixo, sufixo e ações",
+      "appearances": "Aparências",
+      "clearable": "Limpável",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "form": "Integração com formulários",
+      "installation": "Instalação",
+      "props": "Propriedades",
+      "radius": "Raio",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados",
+      "validation": "Validação e domínios"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em uma matriz 3x3: o Form Field interno define a altura externa enquanto o preset mantém fonte e espaçamento sincronizados."
+    },
+    "states": {
+      "default": "Padrão",
+      "disabled": "Desabilitado",
+      "invalid": "Inválido",
+      "loading": "Carregando",
+      "note": "Disabled e readonly são reais, não apenas visuais. Loading renderiza um overlay de spinner no slot de sufixo sem deslocar o layout.",
+      "readonly": "Somente leitura"
+    },
+    "title": "Email Field",
+    "validation": {
+      "allowed-label": "E-mail corporativo",
+      "blocked-label": "E-mail",
+      "hint": "Use seu e-mail institucional.",
+      "normalize-label": "E-mail (minúsculo)",
+      "note": "Listas de domínios permitidos e bloqueados com normalização opcional para minúsculas no blur. A validação roda após o blur, nunca com foco."
+    }
+  },
+  "solaris": {
+    "email-field": {
+      "allowedDomain": "Domínio de e-mail não permitido.",
+      "blockedDomain": "Domínio de e-mail não permitido.",
+      "clear": "Limpar e-mail",
+      "invalid": "Informe um e-mail válido.",
+      "required": "O e-mail é obrigatório."
+    }
+  }
+}

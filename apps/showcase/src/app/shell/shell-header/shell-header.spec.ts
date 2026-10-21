@@ -4,8 +4,9 @@ import { provideRouter } from '@angular/router';
 
 import { provideSolarisTranslateTesting } from '@solaris-ui/angular';
 
-import { SHELL_TRANSLATIONS } from '../translations';
+import { SHELL_TRANSLATIONS } from '../translation';
 import { ShowcaseShellHeader } from './shell-header';
+import { flattenTestTranslations } from '../../shared/testing/flatten-test-translations';
 
 describe('ShowcaseShellHeader', () => {
   let fixture: ComponentFixture<ShowcaseShellHeader>;
@@ -14,7 +15,13 @@ describe('ShowcaseShellHeader', () => {
     await TestBed.configureTestingModule({
       imports: [ShowcaseShellHeader],
       providers: [
-        provideSolarisTranslateTesting({ translations: SHELL_TRANSLATIONS }),
+        provideSolarisTranslateTesting({
+          translations: {
+            'en-US': flattenTestTranslations(SHELL_TRANSLATIONS['en-US']),
+            'pt-BR': flattenTestTranslations(SHELL_TRANSLATIONS['pt-BR']),
+            'es-419': flattenTestTranslations(SHELL_TRANSLATIONS['es-419']),
+          },
+        }),
         provideRouter([]),
       ],
     }).compileComponents();

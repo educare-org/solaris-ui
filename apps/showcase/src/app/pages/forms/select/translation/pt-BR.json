@@ -1,0 +1,129 @@
+{
+  "select": {
+    "affix": {
+      "action": {
+        "button-label": "Alternar carregamento",
+        "label": "Perfil",
+        "placeholder": "Selecione um perfil"
+      },
+      "note": "Conteúdo de prefixo e sufixo é reprojetado para o Form Field interno. Ações de sufixo exigem solaris-form-suffix e solaris-form-suffix-action no mesmo elemento.",
+      "prefix": {
+        "label": "País",
+        "placeholder": "Selecione um país"
+      },
+      "suffix": {
+        "icon-label": "Mais informações",
+        "label": "Perfil",
+        "placeholder": "Selecione um perfil"
+      },
+      "suffix-input": {
+        "label": "Perfil com ícone de sufixo",
+        "placeholder": "Selecione um perfil"
+      }
+    },
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "clearable": {
+      "label": "Status",
+      "note": "Quando limpável, um botão de limpar aparece após selecionar um valor. Limpar emite o evento cleared.",
+      "output": "Eventos de limpeza",
+      "placeholder": "Selecione um status"
+    },
+    "country": {
+      "br": "Brasil",
+      "pt": "Portugal",
+      "us": "Estados Unidos"
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Controle de formulário de seleção única com busca local, seleção limpável e suporte a opções ricas. Renderizado pelo Form Field com estado de carregamento em overlay.",
+    "error": {
+      "invalid": "Este campo tem um erro.",
+      "required": "Seleção é obrigatória."
+    },
+    "examples": {
+      "basic": {
+        "label": "Perfil",
+        "placeholder": "Selecione um perfil"
+      },
+      "note": "Seleção única básica com label, placeholder e opções próprios."
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe o select com seus componentes de opção."
+    },
+    "objects": {
+      "label": "Plano",
+      "note": "Para valores objeto, informe compareWith para comparar valores e displayWith para renderizar o texto do gatilho.",
+      "placeholder": "Selecione um plano"
+    },
+    "option": {
+      "active": "Ativo",
+      "admin": "Administrador",
+      "inactive": "Inativo",
+      "student": "Aluno",
+      "teacher": "Professor"
+    },
+    "plan": {
+      "basic": "Basic",
+      "pro": "Pro"
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Médio",
+      "none": "Nenhum",
+      "note": "O raio é repassado ao Form Field interno. Escala global: md equivale a 4px, lg a 8px e xl vira pill.",
+      "sm": "Pequeno",
+      "xl": "Pill"
+    },
+    "searchable": {
+      "label": "País",
+      "note": "A busca local filtra opções por label, descrição e conteúdo de texto. A seleção permanece ao filtrar.",
+      "placeholder": "Selecione um país",
+      "search-placeholder": "Buscar país..."
+    },
+    "section": {
+      "affix": "Afixo",
+      "appearance": "Aparência",
+      "clearable": "Com limpeza",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "props": "Propriedades",
+      "radius": "Raio",
+      "searchable": "Com busca",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "label": "Perfil",
+      "note": "Tamanho e densidade combinam em uma matriz 3x3: o Form Field interno define a altura externa, o gatilho mantém fonte e espaçamento sincronizados.",
+      "placeholder": "Selecione um perfil"
+    },
+    "states": {
+      "default": "Padrão",
+      "disabled": "Desabilitado",
+      "invalid": "Inválido",
+      "loading": "Carregando",
+      "readonly": "Somente leitura"
+    },
+    "title": "Select"
+  }
+}

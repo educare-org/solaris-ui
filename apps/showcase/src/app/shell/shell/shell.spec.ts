@@ -6,8 +6,9 @@ import { provideRouter } from '@angular/router';
 
 import { provideSolarisTranslateTesting } from '@solaris-ui/angular';
 
-import { SHELL_TRANSLATIONS } from '../translations';
+import { SHELL_TRANSLATIONS } from '../translation';
 import { ShowcaseShell } from './shell';
+import { flattenTestTranslations } from '../../shared/testing/flatten-test-translations';
 
 @Component({ standalone: true, template: '<h1>Dummy page</h1>' })
 class DummyPage {}
@@ -20,7 +21,13 @@ describe('ShowcaseShell', () => {
     await TestBed.configureTestingModule({
       imports: [ShowcaseShell],
       providers: [
-        provideSolarisTranslateTesting({ translations: SHELL_TRANSLATIONS }),
+        provideSolarisTranslateTesting({
+          translations: {
+            'en-US': flattenTestTranslations(SHELL_TRANSLATIONS['en-US']),
+            'pt-BR': flattenTestTranslations(SHELL_TRANSLATIONS['pt-BR']),
+            'es-419': flattenTestTranslations(SHELL_TRANSLATIONS['es-419']),
+          },
+        }),
         provideRouter([
           { path: 'actions/button', component: DummyPage },
           { path: 'feedback/alert', component: DummyPage },

@@ -1,0 +1,75 @@
+{
+  "file-upload": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Control de dropzone, botón, avatar y campo para seleccionar archivos locales, con validación, progreso por archivo, adjunto por URL, modos de carga y editor de imágenes.",
+    "editor": {
+      "aspect-free": "Libre",
+      "dialog-title": "Editar foto",
+      "note": "Abre el editor en un diálogo, coloca la imagen bajo la máscara y guarda. Al guardar se emite un nuevo archivo de imagen.",
+      "open": "Editar foto",
+      "saved": "Guardado {{name}} ({{size}} bytes).",
+      "shape": "Forma de máscara",
+      "shape-circle": "Círculo",
+      "shape-rect": "Rectángulo"
+    },
+    "examples": {
+      "label": "Adjuntos",
+      "note": "Dropzone con arrastrar y soltar, validación y lista de archivos. Los archivos quedan seleccionados hasta que configures una URL de carga."
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa los componentes file upload y image editor."
+    },
+    "mode": {
+      "avatar": "Avatar",
+      "button": "Botón",
+      "dropzone": "Dropzone",
+      "field": "Campo"
+    },
+    "modes": {
+      "avatar-label": "Foto de perfil",
+      "avatar-saved": "Foto guardada: {{name}}.",
+      "button-label": "Foto de avatar",
+      "field-label": "Adjunto",
+      "note": "Dropzone es un panel completo con arrastrar y soltar; button es un activador compacto, avatar es un panel de foto con conexión al editor y field es una fila de una sola línea a la altura de form-field para formularios. Ajusta tamaño y densidad para obtener una vista previa de cada variante en los escenarios."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "density": "Densidad",
+      "editor": "Editor de imágenes",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "modes": "Modos",
+      "props": "Props",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "upload": "Modos de carga",
+      "url": "Adjuntar por URL"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en una matriz de 3x3: el panel dropzone ajusta min-height, padding, tipografía e icono, y mantiene el mismo tamaño al arrastrar encima."
+    },
+    "title": "Carga de archivos",
+    "upload": {
+      "auto": "Automático",
+      "manual": "Manual",
+      "note": "Las cargas automáticas empiezan de inmediato con progreso; las manuales esperan a uploadAll(). Ambas demos a continuación usan un handler simulado."
+    },
+    "url": {
+      "note": "Con allowUrl, una fila de URL descarga un archivo remoto a la selección, con la misma validación."
+    }
+  }
+}
