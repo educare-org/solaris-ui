@@ -1,0 +1,34 @@
+{
+  "chart-shell-view": {
+    "description": "Card con KPI, selector de vista, filtro de período, estados y leyenda para componer todos los tipos de gráficos.",
+    "examples": {
+      "note": "Cambie de vista, cambie el período, alterne series en la leyenda y abra el menú de acciones. Cada interacción aparece en el registro.",
+      "toggleLoading": "Simular carga",
+      "toggleHidden": "Ocultar una serie",
+      "title": "Actividad semanal de los agentes",
+      "heroLabel": "tareas",
+      "interval1D": "04 de may. de 2026",
+      "interval7D": "28 de abr. → 04 de may. de 2026",
+      "interval1M": "abr. de 2026",
+      "interval3M": "feb. → abr. de 2026",
+      "intervalYTD": "ene. → abr. de 2026",
+      "intervalAll": "Todo el período"
+    },
+    "installation": {
+      "note": "Instale el paquete e importe el componente standalone del shell de gráficos."
+    },
+    "props": {
+      "note": "El shell controla los models de vista y período y emite toggles, acciones y retry. Nunca busca datos ni muta el arreglo de series."
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "props": "Props",
+      "states": "Estados"
+    },
+    "states": {
+      "note": "La carga muestra skeletons, los errores muestran acción de reintento y los datos vacíos muestran texto de orientación."
+    },
+    "title": "Shell de Gráficos"
+  }
+}

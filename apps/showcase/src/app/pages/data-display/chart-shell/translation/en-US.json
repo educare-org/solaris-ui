@@ -1,0 +1,34 @@
+{
+  "chart-shell-view": {
+    "description": "Card wrapper with hero KPI, view switcher, period filter, states, and legend composing every chart type.",
+    "examples": {
+      "note": "Switch views, change the period, toggle legend series, and open the actions menu. Every interaction lands in the log below.",
+      "toggleLoading": "Simulate loading",
+      "toggleHidden": "Hide a series",
+      "title": "Weekly agent activity",
+      "heroLabel": "tasks",
+      "interval1D": "May 04, 2026",
+      "interval7D": "Apr 28, 2026 → May 04, 2026",
+      "interval1M": "Apr 2026",
+      "interval3M": "Feb → Apr 2026",
+      "intervalYTD": "Jan → Apr 2026",
+      "intervalAll": "All time"
+    },
+    "installation": {
+      "note": "Install the package and import the standalone chart shell component."
+    },
+    "props": {
+      "note": "The shell owns view and period models and emits toggles, actions, and retry. It never fetches and never mutates the series array."
+    },
+    "section": {
+      "examples": "Examples",
+      "installation": "Installation",
+      "props": "Props",
+      "states": "States"
+    },
+    "states": {
+      "note": "Loading shows skeletons, errors show a retry action, and empty data shows guidance text."
+    },
+    "title": "Chart Shell"
+  }
+}

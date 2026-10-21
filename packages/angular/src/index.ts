@@ -215,6 +215,15 @@ export type {
   SolarisChartStringKey,
   SolarisChartStringLanguage,
 } from './lib/components/data-display/charts/index';
+export { SolarisChartShellComponent } from './lib/components/data-display/charts/index';
+export type {
+  SolarisChartShellAction,
+  SolarisChartShellActionOption,
+  SolarisChartShellDensity,
+  SolarisChartShellPeriodOption,
+  SolarisChartShellSize,
+  SolarisChartShellViewOption,
+} from './lib/components/data-display/charts/index';
 
 export { SolarisRecordGridComponent } from './lib/components/data-display/record-grid/component/record-grid.component';
 export {

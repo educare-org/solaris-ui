@@ -26,6 +26,13 @@ export const dataDisplayRoutes: Route[] = [
           ),
       },
       {
+        path: 'chart-shell',
+        loadComponent: () =>
+          import(
+            '../pages/data-display/chart-shell/component/chart-shell-showcase'
+          ).then((m) => m.ChartShellShowcasePage),
+      },
+      {
         path: 'code-block',
         loadComponent: () =>
           import(

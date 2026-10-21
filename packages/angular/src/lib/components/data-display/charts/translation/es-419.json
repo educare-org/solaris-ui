@@ -17,7 +17,11 @@
       "emptyMessage": "Los datos de este período aparecerán aquí.",
       "errorTitle": "Error al cargar el gráfico",
       "errorRetry": "Reintentar",
-      "seriesSummary": "{{label}}: {{count}} puntos, pico {{max}}"
+      "seriesSummary": "{{label}}: {{count}} puntos, pico {{max}}",
+      "viewSwitcher": "Tipo de gráfico",
+      "actionsMenu": "Acciones del gráfico",
+      "actionsExport": "Exportar",
+      "actionsFullscreen": "Pantalla completa"
     }
   }
 }

@@ -71,7 +71,7 @@ export function resolveChartTicks(
   const safeMaxTicks = Math.max(2, Math.floor(maxTicks));
   let lower = min;
   let upper = max;
-  if (lower >= upper) {
+  if (!(lower < upper)) {
     const center = Number.isFinite(lower) ? lower : 0;
     lower = center - 1;
     upper = center + 1;

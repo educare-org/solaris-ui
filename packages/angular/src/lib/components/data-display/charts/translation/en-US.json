@@ -17,7 +17,11 @@
       "emptyMessage": "Data for this period will appear here.",
       "errorTitle": "Chart failed to load",
       "errorRetry": "Try again",
-      "seriesSummary": "{{label}}: {{count}} points, peak {{max}}"
+      "seriesSummary": "{{label}}: {{count}} points, peak {{max}}",
+      "viewSwitcher": "Chart view",
+      "actionsMenu": "Chart actions",
+      "actionsExport": "Export",
+      "actionsFullscreen": "Fullscreen"
     }
   }
 }

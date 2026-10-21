@@ -32,3 +32,12 @@ export {
   chartFallbackLanguage,
   resolveChartFallback,
 } from './model/strings/chart-strings';
+export { SolarisChartShellComponent } from './chart-shell/component/chart-shell.component';
+export type {
+  SolarisChartShellAction,
+  SolarisChartShellActionOption,
+  SolarisChartShellDensity,
+  SolarisChartShellPeriodOption,
+  SolarisChartShellSize,
+  SolarisChartShellViewOption,
+} from './chart-shell/model/chart-shell.types';

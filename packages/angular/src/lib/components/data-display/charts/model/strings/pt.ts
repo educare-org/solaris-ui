@@ -18,4 +18,8 @@ export const solarisChartStringsPt: Record<SolarisChartStringKey, string> = {
   errorTitle: 'Falha ao carregar o gráfico',
   errorRetry: 'Tentar novamente',
   seriesSummary: '{{label}}: {{count}} pontos, pico {{max}}',
+  viewSwitcher: 'Tipo de gráfico',
+  actionsMenu: 'Ações do gráfico',
+  actionsExport: 'Exportar',
+  actionsFullscreen: 'Tela cheia',
 };

@@ -19,7 +19,11 @@ export type SolarisChartStringKey =
   | 'emptyMessage'
   | 'errorTitle'
   | 'errorRetry'
-  | 'seriesSummary';
+  | 'seriesSummary'
+  | 'viewSwitcher'
+  | 'actionsMenu'
+  | 'actionsExport'
+  | 'actionsFullscreen';
 
 export type SolarisChartStringLanguage = 'en' | 'pt' | 'es';
 

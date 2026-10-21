@@ -7,6 +7,7 @@ import { SPINNER_TRANSLATIONS } from '../pages/feedback/spinner/translation';
 import { PROGRESS_TRANSLATIONS } from '../pages/feedback/progress/translation';
 import { LOADING_TEXT_TRANSLATIONS } from '../pages/feedback/loading-text/translation';
 import { CARD_TRANSLATIONS } from '../pages/data-display/card/translation';
+import { CHART_SHELL_TRANSLATIONS } from '../pages/data-display/chart-shell/translation';
 import { CODE_BLOCK_TRANSLATIONS } from '../pages/data-display/code-block/translation';
 import { PREVIEW_CODE_TRANSLATIONS } from '../pages/data-display/preview-code/translation';
 import { TABLE_TRANSLATIONS } from '../pages/data-display/table/translation';
@@ -107,6 +108,7 @@ const PAGE_MODULES = [
   PROGRESS_TRANSLATIONS,
   LOADING_TEXT_TRANSLATIONS,
   CARD_TRANSLATIONS,
+  CHART_SHELL_TRANSLATIONS,
   CODE_BLOCK_TRANSLATIONS,
   PREVIEW_CODE_TRANSLATIONS,
   TABLE_TRANSLATIONS,

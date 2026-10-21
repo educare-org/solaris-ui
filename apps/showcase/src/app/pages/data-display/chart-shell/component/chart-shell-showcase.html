@@ -1,0 +1,79 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="chart-shell-view.title"
+    descriptionKey="chart-shell-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="examples"
+    titleKey="chart-shell-view.section.examples"
+  >
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.examples.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        heroValue="12,450"
+        [heroLabel]="'chart-shell-view.examples.heroLabel' | translate"
+        [intervalLabel]="intervalLabel()"
+        [view]="view()"
+        [period]="period()"
+        [series]="series()"
+        [loading]="loading()"
+        (viewChange)="onViewChange($event)"
+        (periodChange)="onPeriodChange($event)"
+        (seriesToggle)="onSeriesToggle($event)"
+        (actionRequest)="onActionRequest($event)"
+      >
+        <div class="chart-shell-showcase__placeholder">line · bar · pie</div>
+      </solaris-chart-shell>
+      <p data-testid="event-log">{{ log() }}</p>
+    </solaris-preview-code>
+    <button type="button" (click)="toggleLoading()">
+      {{ 'chart-shell-view.examples.toggleLoading' | translate }}
+    </button>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="chart-shell-view.section.states">
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.states.note' | translate }}
+    </p>
+    <solaris-chart-shell
+      locale="pt-BR"
+      [title]="'chart-shell-view.examples.title' | translate"
+      [series]="[]"
+    />
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="chart-shell-view.section.installation"
+  >
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block [code]="importCode" language="ts" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="chart-shell-view.section.props">
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

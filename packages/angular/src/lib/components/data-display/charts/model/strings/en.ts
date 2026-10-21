@@ -18,4 +18,8 @@ export const solarisChartStringsEn: Record<SolarisChartStringKey, string> = {
   errorTitle: 'Chart failed to load',
   errorRetry: 'Try again',
   seriesSummary: '{{label}}: {{count}} points, peak {{max}}',
+  viewSwitcher: 'Chart view',
+  actionsMenu: 'Chart actions',
+  actionsExport: 'Export',
+  actionsFullscreen: 'Fullscreen',
 };

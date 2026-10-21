@@ -82,6 +82,35 @@ describe('Solaris chart scale utilities', () => {
     expect(Math.max(...ticks)).toBeGreaterThan(5);
   });
 
+  it('clamps invalid padding ratios to zero', () => {
+    expect(resolveChartDomain([0, 100], { paddingRatio: Number.NaN })).toEqual({
+      min: 0,
+      max: 100,
+    });
+    expect(resolveChartDomain([0, 100], { paddingRatio: -0.5 })).toEqual({
+      min: 0,
+      max: 100,
+    });
+  });
+
+  it('resolves ticks with wide steps above a fraction of five', () => {
+    expect(resolveChartTicks(0, 28, 5)).toEqual([0, 10, 20, 30]);
+  });
+
+  it('resolves ticks with unit steps', () => {
+    expect(resolveChartTicks(0, 4, 5)).toEqual([0, 1, 2, 3, 4]);
+  });
+
+  it('resolves ticks for non-finite bounds', () => {
+    const ticks = resolveChartTicks(Number.NaN, Number.NaN, 5);
+    expect(Math.min(...ticks)).toBeLessThan(0);
+    expect(Math.max(...ticks)).toBeGreaterThan(0);
+  });
+
+  it('returns empty output for empty stacks', () => {
+    expect(normalizeStacked100([])).toEqual([]);
+  });
+
   it('normalizes stacks to 100 per category', () => {
     const result = normalizeStacked100([
       [30, 0, null],
@@ -127,6 +156,22 @@ describe('Solaris chart scale utilities', () => {
       { id: 'others', label: 'Outros', value: 5 },
     ]);
     expect(slices).toHaveLength(4);
+  });
+
+  it('treats non-plottable slice values as zero when grouping', () => {
+    const result = groupSmallChartSlices(
+      [
+        { id: 'a', label: 'A', value: 90 },
+        { id: 'b', label: 'B', value: Number.NaN },
+        { id: 'c', label: 'C', value: 10 },
+      ],
+      0.05,
+      'Outros',
+    );
+    expect(result).toEqual([
+      { id: 'a', label: 'A', value: 90 },
+      { id: 'c', label: 'C', value: 10 },
+    ]);
   });
 
   it('returns grouped input untouched when nothing is small or total is zero', () => {

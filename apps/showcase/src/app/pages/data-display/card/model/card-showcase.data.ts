@@ -19,8 +19,8 @@ export const CARD_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const CARD_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.code-block',
-  route: '/data-display/code-block',
+  labelKey: 'shell.sidebar.item.chart-shell',
+  route: '/data-display/chart-shell',
 };
 
 export const CARD_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

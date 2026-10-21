@@ -30,8 +30,7 @@ import { SolarisFormControl } from '../../form-field/model/form-control.contract
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisOptionGroupComponent } from '../../option-group';
-import { SolarisOptionComponent } from '../../option';
-import { SOLARIS_OPTION_PARENT } from '../../option/token/option.tokens';
+import { SolarisOptionComponent, SOLARIS_OPTION_PARENT } from '../../option';
 import { SolarisIconComponent } from '../../../icon';
 import {
   SolarisPopoverDirective,
@@ -153,7 +152,7 @@ export class SolarisSelectComponent
   readonly density = input<SolarisSelectDensity>();
   readonly size = input<SolarisSelectSize>('md');
   readonly panelMatchTriggerWidth = input<boolean>(true);
-  readonly radius = input<SolarisSelectRadius>('sm');
+  readonly radius = input<SolarisSelectRadius>('md');
   readonly disabledInput = input(false, { alias: 'disabled' });
   readonly readonlyInput = input(false, { alias: 'readonly' });
   readonly requiredInput = input(false, { alias: 'required' });

@@ -15,12 +15,6 @@ export interface ShowcaseSidebarNavSection {
   readonly groups: readonly ShowcaseSidebarNavGroup[];
 }
 
-/**
- * Sidebar navigation derived from `apps/showcase/src/app/routes/*.routes.ts`.
- * Top-level sections split pages by route type (getting started, foundation,
- * components); inside the components section, groups are discreet collapsible
- * sub-groups. Keep routes in sync with the route files when adding pages.
- */
 export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
   {
     labelKey: 'shell.sidebar.section.getting-started',
@@ -115,6 +109,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
           {
             labelKey: 'shell.sidebar.item.card',
             route: '/data-display/card',
+          },
+          {
+            labelKey: 'shell.sidebar.item.chart-shell',
+            route: '/data-display/chart-shell',
           },
           {
             labelKey: 'shell.sidebar.item.code-block',

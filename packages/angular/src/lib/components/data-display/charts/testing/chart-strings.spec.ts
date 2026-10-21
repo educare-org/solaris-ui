@@ -29,6 +29,16 @@ describe('Solaris chart strings', () => {
     );
   });
 
+  it('accepts keys without the service prefix', () => {
+    expect(resolveChartFallback('en-US', 'viewLine', {})).toBe('Line');
+  });
+
+  it('keeps placeholders without matching params', () => {
+    expect(
+      resolveChartFallback('en-US', 'solaris.chart.legendToggle', {}),
+    ).toBe('Toggle {{label}} series');
+  });
+
   it('maps base languages for the service fallback', () => {
     expect(chartFallbackLanguage('pt-BR')).toBe('pt');
     expect(chartFallbackLanguage('es-MX')).toBe('es');
