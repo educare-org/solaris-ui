@@ -66,21 +66,21 @@ bootstrapApplication(AppComponent, {
 
 **Config:**
 
-| Property     | Type                                        | Default     | Description                               |
-| ------------ | ------------------------------------------- | ----------- | ----------------------------------------- |
-| position     | `SolarisToastPosition`                      | `'top-end'` | Where toasts are positioned               |
-| duration     | `number`                                    | `5000`      | Default auto-dismiss duration in ms       |
-| limit        | `number`                                    | `5`         | Maximum visible toasts                    |
-| appearance   | `SolarisToastAppearance`                    | `'surface'` | Default appearance                        |
-| size         | `SolarisToastSize`                          | `'md'`      | Default card size                         |
-| density      | `SolarisToastDensity`                       | theme       | Default density (falls back to theme)     |
-| pauseOnHover | `boolean`                                   | `true`      | Pause dismiss timer on hover              |
-| pauseOnFocus | `boolean`                                   | `true`      | Pause dismiss timer on focus              |
-| newestOnTop  | `boolean`                                   | `true`      | Show newest toast at the top of the stack |
-| countdown    | `'bar' \| 'text' \| 'both' \| false`        | `'text'`    | Default countdown display                 |
-| actionsAlign | `'start' \| 'center' \| 'end' \| 'stretch'` | `'end'`     | Default actions alignment                 |
+| Property     | Type                                        | Default      | Description                                                                         |
+| ------------ | ------------------------------------------- | ------------ | ----------------------------------------------------------------------------------- |
+| position     | `SolarisToastPosition`                      | `'top-end'`  | Where toasts are positioned                                                         |
+| duration     | `number`                                    | `5000`       | Default auto-dismiss duration in ms                                                 |
+| limit        | `number`                                    | `5`          | Maximum visible toasts                                                              |
+| appearance   | `SolarisToastAppearance`                    | `'surface'`  | Default appearance                                                                  |
+| size         | `SolarisToastSize`                          | `'md'`       | Default card size                                                                   |
+| density      | `SolarisToastDensity`                       | theme        | Default density (falls back to theme)                                               |
+| pauseOnHover | `boolean`                                   | `true`       | Pause dismiss timer on hover                                                        |
+| pauseOnFocus | `boolean`                                   | `true`       | Pause dismiss timer on focus                                                        |
+| newestOnTop  | `boolean`                                   | `true`       | Show newest toast at the top of the stack                                           |
+| countdown    | `'bar' \| 'text' \| 'both' \| false`        | `'text'`     | Default countdown display                                                           |
+| actionsAlign | `'start' \| 'center' \| 'end' \| 'stretch'` | `'end'`      | Default actions alignment                                                           |
 | iconSize     | `'sm' \| 'md' \| 'lg'`                      | size-derived | Default icon size (follows card `size` unless set: `sm`→`sm`, `md`→`md`, `lg`→`lg`) |
-| mediaShape   | `'circle' \| 'rounded' \| 'square'`         | `'circle'`  | Default media container shape             |
+| mediaShape   | `'circle' \| 'rounded' \| 'square'`         | `'circle'`   | Default media container shape                                                       |
 
 ### SolarisToastService
 
@@ -101,40 +101,40 @@ bootstrapApplication(AppComponent, {
 
 ### SolarisToastOptions
 
-| Property          | Type                                        | Default                     | Description                       |
-| ----------------- | ------------------------------------------- | --------------------------- | --------------------------------- |
-| id                | `string`                                    | Auto-generated              | Unique toast identifier           |
-| variant           | `SolarisToastVariant`                       | `'neutral'`                 | Semantic variant                  |
-| appearance        | `SolarisToastAppearance`                    | Provider default            | Visual appearance                 |
-| size              | `SolarisToastSize`                          | Provider default            | Card size                         |
-| density           | `SolarisToastDensity`                       | Provider/theme              | Density (padding/gap/typography)  |
-| title             | `string`                                    | `undefined`                 | Toast title text                  |
-| titleKey          | `string`                                    | `undefined`                 | Toast title i18n key              |
-| description       | `string`                                    | `undefined`                 | Toast description text            |
-| descriptionKey    | `string`                                    | `undefined`                 | Toast description i18n key        |
-| icon              | `string`                                    | Variant default             | Custom icon name                  |
-| iconDecorative    | `boolean`                                   | `true`                      | Icon is decorative (aria-hidden)  |
-| closeable         | `boolean`                                   | `true`                      | Show close button                 |
-| closeLabel        | `string`                                    | `undefined`                 | Close button accessible label     |
-| closeLabelKey     | `string`                                    | `undefined`                 | Close button i18n key             |
-| duration          | `number`                                    | Provider default            | Auto-dismiss duration (ms)        |
-| persistent        | `boolean`                                   | `false`                     | Prevent auto-dismiss              |
-| progress          | `number`                                    | `undefined`                 | Process progress 0-100            |
-| actions           | `SolarisToastAction[]`                      | `undefined`                 | Action buttons                    |
-| data              | `unknown`                                   | `undefined`                 | Arbitrary data for consumer use   |
-| ariaLive          | `'polite' \| 'assertive' \| 'off'`          | Auto                        | Override aria-live                |
-| role              | `'status' \| 'alert'`                       | Auto                        | Override role                     |
-| expandable        | `boolean`                                   | `false`                     | Allow description expand/collapse |
-| defaultExpanded   | `boolean`                                   | `false`                     | Start expanded                    |
-| maxCollapsedLines | `number`                                    | `2`                         | Lines to show when collapsed      |
-| expandLabel       | `string`                                    | `undefined`                 | Expand button accessible label    |
-| expandLabelKey    | `string`                                    | `undefined`                 | Expand button i18n key            |
-| collapseLabel     | `string`                                    | `undefined`                 | Collapse button accessible label  |
-| collapseLabelKey  | `string`                                    | `undefined`                 | Collapse button i18n key          |
-| countdown         | `'bar' \| 'text' \| 'both' \| false`        | Provider default (`'text'`) | Countdown display                 |
-| actionsAlign      | `'start' \| 'center' \| 'end' \| 'stretch'` | `'end'`                     | Action buttons alignment          |
+| Property          | Type                                        | Default                     | Description                                                       |
+| ----------------- | ------------------------------------------- | --------------------------- | ----------------------------------------------------------------- |
+| id                | `string`                                    | Auto-generated              | Unique toast identifier                                           |
+| variant           | `SolarisToastVariant`                       | `'neutral'`                 | Semantic variant                                                  |
+| appearance        | `SolarisToastAppearance`                    | Provider default            | Visual appearance                                                 |
+| size              | `SolarisToastSize`                          | Provider default            | Card size                                                         |
+| density           | `SolarisToastDensity`                       | Provider/theme              | Density (padding/gap/typography)                                  |
+| title             | `string`                                    | `undefined`                 | Toast title text                                                  |
+| titleKey          | `string`                                    | `undefined`                 | Toast title i18n key                                              |
+| description       | `string`                                    | `undefined`                 | Toast description text                                            |
+| descriptionKey    | `string`                                    | `undefined`                 | Toast description i18n key                                        |
+| icon              | `string`                                    | Variant default             | Custom icon name                                                  |
+| iconDecorative    | `boolean`                                   | `true`                      | Icon is decorative (aria-hidden)                                  |
+| closeable         | `boolean`                                   | `true`                      | Show close button                                                 |
+| closeLabel        | `string`                                    | `undefined`                 | Close button accessible label                                     |
+| closeLabelKey     | `string`                                    | `undefined`                 | Close button i18n key                                             |
+| duration          | `number`                                    | Provider default            | Auto-dismiss duration (ms)                                        |
+| persistent        | `boolean`                                   | `false`                     | Prevent auto-dismiss                                              |
+| progress          | `number`                                    | `undefined`                 | Process progress 0-100                                            |
+| actions           | `SolarisToastAction[]`                      | `undefined`                 | Action buttons                                                    |
+| data              | `unknown`                                   | `undefined`                 | Arbitrary data for consumer use                                   |
+| ariaLive          | `'polite' \| 'assertive' \| 'off'`          | Auto                        | Override aria-live                                                |
+| role              | `'status' \| 'alert'`                       | Auto                        | Override role                                                     |
+| expandable        | `boolean`                                   | `false`                     | Allow description expand/collapse                                 |
+| defaultExpanded   | `boolean`                                   | `false`                     | Start expanded                                                    |
+| maxCollapsedLines | `number`                                    | `2`                         | Lines to show when collapsed                                      |
+| expandLabel       | `string`                                    | `undefined`                 | Expand button accessible label                                    |
+| expandLabelKey    | `string`                                    | `undefined`                 | Expand button i18n key                                            |
+| collapseLabel     | `string`                                    | `undefined`                 | Collapse button accessible label                                  |
+| collapseLabelKey  | `string`                                    | `undefined`                 | Collapse button i18n key                                          |
+| countdown         | `'bar' \| 'text' \| 'both' \| false`        | Provider default (`'text'`) | Countdown display                                                 |
+| actionsAlign      | `'start' \| 'center' \| 'end' \| 'stretch'` | `'end'`                     | Action buttons alignment                                          |
 | iconSize          | `'sm' \| 'md' \| 'lg'`                      | Size-derived                | Icon container size (explicit value overrides the `size` default) |
-| mediaShape        | `'circle' \| 'rounded' \| 'square'`         | `'circle'`                  | Media container shape             |
+| mediaShape        | `'circle' \| 'rounded' \| 'square'`         | `'circle'`                  | Media container shape                                             |
 
 ### SolarisToastRef
 
@@ -421,10 +421,10 @@ Rules:
 
 The icon is rendered inside a media container that can be sized and shaped:
 
-| Option       | Type                                | Default        | Description                                        |
-| ------------ | ----------------------------------- | -------------- | -------------------------------------------------- |
-| `iconSize`   | `'sm' \| 'md' \| 'lg'`              | Size-derived   | Media container size (explicit value overrides)    |
-| `mediaShape` | `'circle' \| 'rounded' \| 'square'` | `'circle'`     | Media container shape                              |
+| Option       | Type                                | Default      | Description                                     |
+| ------------ | ----------------------------------- | ------------ | ----------------------------------------------- |
+| `iconSize`   | `'sm' \| 'md' \| 'lg'`              | Size-derived | Media container size (explicit value overrides) |
+| `mediaShape` | `'circle' \| 'rounded' \| 'square'` | `'circle'`   | Media container shape                           |
 
 Sizes:
 
