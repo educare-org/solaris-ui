@@ -27,6 +27,14 @@
     "patterns": 2,
     "reviewed": "2026-10-15"
   },
+  "packages/angular/src/lib/components/data-display/charts/bar-chart/component/bar-chart.component.ts": {
+    "patterns": 3,
+    "reviewed": "2026-10-22"
+  },
+  "packages/angular/src/lib/components/data-display/charts/line-chart/component/line-chart.component.ts": {
+    "patterns": 8,
+    "reviewed": "2026-10-22"
+  },
   "packages/angular/src/lib/components/data-display/code-block/component/code-block.component.ts": {
     "patterns": 10,
     "reviewed": "2026-10-20"
