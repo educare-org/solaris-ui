@@ -78,6 +78,14 @@
             [referenceLines]="referenceLines()"
             (pointSelect)="onBarPointSelect($event)"
           />
+          } @else if (view() === 'pie') {
+          <solaris-pie-chart
+            locale="pt-BR"
+            variant="donut"
+            [series]="series()"
+            [showValues]="true"
+            (sliceSelect)="onSliceSelect($event)"
+          />
           } @else {
           <solaris-line-chart
             locale="pt-BR"

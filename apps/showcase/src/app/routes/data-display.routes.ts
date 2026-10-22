@@ -54,6 +54,13 @@ export const dataDisplayRoutes: Route[] = [
                 '../pages/data-display/charts/bar-chart/component/bar-chart-showcase'
               ).then((m) => m.BarChartShowcasePage),
           },
+          {
+            path: 'pie-chart',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/pie-chart/component/pie-chart-showcase'
+              ).then((m) => m.PieChartShowcasePage),
+          },
         ],
       },
       {

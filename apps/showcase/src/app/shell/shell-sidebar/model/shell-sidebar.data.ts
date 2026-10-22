@@ -125,6 +125,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
                 labelKey: 'shell.sidebar.item.bar-chart',
                 route: '/data-display/charts/bar-chart',
               },
+              {
+                labelKey: 'shell.sidebar.item.pie-chart',
+                route: '/data-display/charts/pie-chart',
+              },
             ],
           },
           {

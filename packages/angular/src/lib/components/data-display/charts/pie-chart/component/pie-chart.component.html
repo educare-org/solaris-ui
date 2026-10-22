@@ -1,0 +1,222 @@
+<div class="solaris-pie-chart__frame" (mouseleave)="onSlicesLeave()">
+  <div class="solaris-pie-chart__canvas">
+    <svg
+      class="solaris-pie-chart__svg"
+      [attr.viewBox]="`0 0 ${viewWidth()} ${viewHeight()}`"
+      [attr.hidden]="isEmpty() ? '' : null"
+      preserveAspectRatio="xMidYMid meet"
+      role="img"
+      [attr.aria-label]="summary()"
+    >
+      <defs>
+        @for (slice of frame().slices; track slice.id) {
+          <radialGradient
+            [attr.id]="gradientId(slice.id)"
+            gradientUnits="userSpaceOnUse"
+            [attr.cx]="sliceGradient(slice.id).x"
+            [attr.cy]="sliceGradient(slice.id).y"
+            [attr.r]="sliceGradient(slice.id).r"
+          >
+            <stop
+              offset="0%"
+              [style.stop-color]="slice.colorVar"
+              stop-opacity="1"
+            />
+            <stop
+              offset="65%"
+              [style.stop-color]="
+                'color-mix(in srgb, ' + slice.colorVar + ' 92%, black)'
+              "
+              stop-opacity="1"
+            />
+            <stop
+              offset="100%"
+              [style.stop-color]="
+                'color-mix(in srgb, ' + slice.colorVar + ' 80%, black)'
+              "
+              stop-opacity="1"
+            />
+          </radialGradient>
+        }
+      </defs>
+
+      @if (variant() === 'gauge' && displayGauge(); as gaugeGeometry) {
+        <path
+          class="solaris-pie-chart__gauge-track"
+          [attr.d]="gaugeGeometry.trackPath"
+          fill="none"
+        />
+        @if (frame().slices[0]; as first) {
+          <path
+            class="solaris-pie-chart__gauge-value"
+            [attr.d]="gaugeGeometry.valuePath"
+            [style.stroke]="gaugeGeometry.colorVar"
+            fill="none"
+            [attr.data-slice]="first.id"
+            [attr.data-active]="isMarkActive(first.id) ? '' : null"
+            [attr.tabindex]="markTabIndex(first.id)"
+            [attr.aria-label]="gaugeAriaLabel()"
+            (focus)="onSliceFocus(first.id)"
+            (blur)="onSliceBlur()"
+            (mouseenter)="onSliceHover(first.id)"
+            (keydown)="onSliceKeydown($event, first.id)"
+            (click)="onSliceActivate(first.id)"
+          />
+        }
+        @if (gaugeTargetTick(); as tick) {
+          <line
+            class="solaris-pie-chart__gauge-target"
+            [attr.x1]="tick.x1"
+            [attr.y1]="tick.y1"
+            [attr.x2]="tick.x2"
+            [attr.y2]="tick.y2"
+          />
+        }
+        <text
+          class="solaris-pie-chart__gauge-min"
+          [attr.x]="gaugeCenter().x - 124"
+          [attr.y]="gaugeCenter().y + 4"
+          text-anchor="middle"
+        >
+          {{ formatSliceValue(gaugeGeometry.min) }}
+        </text>
+        <text
+          class="solaris-pie-chart__gauge-max"
+          [attr.x]="gaugeCenter().x + 124"
+          [attr.y]="gaugeCenter().y + 4"
+          text-anchor="middle"
+        >
+          {{ formatSliceValue(gaugeGeometry.max) }}
+        </text>
+        <text
+          class="solaris-pie-chart__gauge-value-text"
+          [attr.x]="gaugeCenter().x"
+          [attr.y]="gaugeCenter().y - 28"
+          text-anchor="middle"
+        >
+          {{ centerValue() ?? formatSliceValue(gaugeGeometry.value) }}
+        </text>
+        <text
+          class="solaris-pie-chart__gauge-label"
+          [attr.x]="gaugeCenter().x"
+          [attr.y]="gaugeCenter().y - 10"
+          text-anchor="middle"
+        >
+          {{ centerLabel() ?? '' }}
+        </text>
+      } @else {
+        @for (slice of displayFrame().slices; track slice.id) {
+          <path
+            class="solaris-pie-chart__slice"
+            [attr.fill]="'url(#' + gradientId(slice.id) + ')'"
+            [attr.data-slice]="slice.id"
+            [attr.data-active]="isMarkActive(slice.id) ? '' : null"
+            [attr.data-dimmed]="isMarkDimmed(slice.id) ? '' : null"
+            [attr.d]="slice.path"
+            [attr.tabindex]="markTabIndex(slice.id)"
+            [attr.aria-label]="sliceAriaLabel(slice.id)"
+            (focus)="onSliceFocus(slice.id)"
+            (blur)="onSliceBlur()"
+            (mouseenter)="onSliceHover(slice.id)"
+            (keydown)="onSliceKeydown($event, slice.id)"
+            (click)="onSliceActivate(slice.id)"
+          />
+        }
+        @if (variant() === 'donut') {
+          <text
+            class="solaris-pie-chart__center-value"
+            [attr.x]="frame().centerX"
+            [attr.y]="frame().centerY - 2"
+            text-anchor="middle"
+          >
+            {{ centerDisplay().value }}
+          </text>
+          <text
+            class="solaris-pie-chart__center-label"
+            [attr.x]="frame().centerX"
+            [attr.y]="frame().centerY + 16"
+            text-anchor="middle"
+          >
+            {{ centerDisplay().label }}
+          </text>
+        }
+        @if (showValues()) {
+          @for (slice of displayFrame().slices; track slice.id) {
+            @if (labelPosition(slice.id); as label) {
+              <text
+                class="solaris-pie-chart__value"
+                [attr.x]="label.x"
+                [attr.y]="label.y"
+                text-anchor="middle"
+              >
+                {{ formatPercent(slice.fraction) }}
+              </text>
+            }
+          }
+        }
+      }
+    </svg>
+
+    @if (tooltip(); as tip) {
+      <div
+        class="solaris-pie-chart__tooltip"
+        aria-hidden="true"
+        [style.left.%]="tip.leftPercent"
+        [style.top.%]="tip.topPercent"
+        [attr.data-side]="tip.side"
+      >
+        <div class="solaris-pie-chart__tooltip-card">
+          <div class="solaris-pie-chart__tooltip-header">
+            <span class="solaris-pie-chart__tooltip-heading">{{
+              tip.label
+            }}</span>
+          </div>
+          <span class="solaris-pie-chart__tooltip-row">
+            <span class="solaris-pie-chart__tooltip-value">
+              {{ tip.formattedValue }} · {{ tip.percent }}
+            </span>
+          </span>
+          @if (tip.total !== null) {
+            <span class="solaris-pie-chart__tooltip-total">
+              <span class="solaris-pie-chart__tooltip-total-label"
+                >{{ tip.totalLabel }}:</span
+              >
+              <span>{{ tip.total }}</span>
+            </span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (isEmpty()) {
+    <div class="solaris-pie-chart__empty">
+      <p class="solaris-pie-chart__empty-title">{{ emptyTitle() }}</p>
+      <p class="solaris-pie-chart__empty-message">{{ emptyMessage() }}</p>
+    </div>
+  }
+
+  <div class="solaris-pie-chart__data">
+    <table>
+      <caption>
+        {{
+          summary()
+        }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">{{ centerDisplay().label }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (slice of frame().slices; track slice.id) {
+          <tr>
+            <th scope="row">{{ slice.label }}</th>
+            <td>{{ formatSliceValue(slice.value) }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

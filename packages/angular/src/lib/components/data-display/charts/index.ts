@@ -103,6 +103,48 @@ export type {
   SolarisSparklineDensity,
   SolarisSparklineSize,
 } from './sparkline/model/sparkline.types';
+export { SolarisPieChartComponent } from './pie-chart/component/pie-chart.component';
+export type {
+  SolarisPieChartDensity,
+  SolarisPieChartFrame,
+  SolarisPieChartFrameOptions,
+  SolarisPieChartGaugeGeometry,
+  SolarisPieChartInputs,
+  SolarisPieChartSize,
+  SolarisPieChartSliceEvent,
+  SolarisPieChartSliceGeometry,
+  SolarisPieChartValueFormatter,
+  SolarisPieChartVariant,
+} from './pie-chart/model/chart-pie.types';
+export {
+  SOLARIS_GAUGE_CHART_HEIGHT,
+  SOLARIS_GAUGE_CHART_RADIUS,
+  SOLARIS_GAUGE_CHART_STROKE,
+  SOLARIS_GAUGE_CHART_WIDTH,
+  SOLARIS_PIE_CHART_DONUT_RATIO,
+  SOLARIS_PIE_CHART_GRADIENT_RADIUS_RATIO,
+  SOLARIS_PIE_CHART_HEIGHT,
+  SOLARIS_PIE_CHART_RADIUS,
+  SOLARIS_PIE_CHART_TOOLTIP_OFFSET,
+  SOLARIS_PIE_CHART_WIDTH,
+  SOLARIS_PIE_ENTER_GAUGE_DURATION_MS,
+  SOLARIS_PIE_ENTER_SLICE_DELAY_MS,
+  SOLARIS_PIE_ENTER_SLICE_DURATION_MS,
+  buildGaugeGeometry,
+  buildPieChartFrame,
+  easeOutCubic,
+  gaugeAnchorPoint,
+  gaugeArcPath,
+  gaugeTargetTick,
+  pieEnterTotalMs,
+  pieSliceAnchorPoint,
+  pieSliceEnterProgress,
+  pieSliceLabelPosition,
+  pieSlicePath,
+  pieTooltipSide,
+  seriesToPieSlices,
+} from './pie-chart/model/chart-pie.utils';
+export type { SolarisPieTooltipSide } from './pie-chart/model/chart-pie.utils';
 export { SolarisChartShellComponent } from './chart-shell/component/chart-shell.component';
 export type {
   SolarisChartShellAction,

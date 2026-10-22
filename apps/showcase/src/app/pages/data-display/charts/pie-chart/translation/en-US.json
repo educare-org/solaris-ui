@@ -1,0 +1,63 @@
+{
+  "pie-chart-view": {
+    "description": "Pie, donut with a center total and a semicircular gauge with a target, plus a compact score ring — slices group into Others and select a drill-down detail.",
+    "examples": {
+      "note": "Switch variants and select slices in the log below.",
+      "keyboardNote": "Slices are keyboard-focusable: Tab to a slice, arrows to move, Enter to select.",
+      "variantLabel": "Variant",
+      "pie": "Pie",
+      "donut": "Donut",
+      "gauge": "Gauge",
+      "seriesFundamental": "Elementary",
+      "seriesMedio": "High school",
+      "seriesEja": "Adult education",
+      "seriesIntegral": "Full-time",
+      "seriesNoturno": "Evening",
+      "seriesEad": "Online"
+    },
+    "grouping": {
+      "note": "Slices below minSlicePercent group into a single Others slice, translated by the chart."
+    },
+    "gauge": {
+      "note": "The gauge maps one value onto a semicircular track between gaugeMin and gaugeMax; gaugeTarget paints the goal tick.",
+      "seriesAttendance": "Attendance"
+    },
+    "scoreRing": {
+      "note": "A compact donut with a single slice and centerValue/centerLabel works as a score ring for report cards.",
+      "average": "Average",
+      "seriesScore": "Score"
+    },
+    "drillDown": {
+      "note": "sliceSelect carries the slice id — the consumer resolves the per-class breakdown below without the chart fetching anything.",
+      "classA": "Class A",
+      "classB": "Class B",
+      "classC": "Class C",
+      "colClass": "Class",
+      "colStudents": "Students"
+    },
+    "empty": {
+      "note": "With no plottable data, the chart hides the SVG and renders a localized empty message instead of an empty circle."
+    },
+    "installation": {
+      "note": "Install the package and import the standalone pie chart component."
+    },
+    "props": {
+      "note": "Inputs, possible values and defaults. The sliceSelect output emits the selected slice id for drill-down.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
+    },
+    "section": {
+      "examples": "Examples",
+      "grouping": "Grouping into Others",
+      "gauge": "Gauge",
+      "scoreRing": "Score ring",
+      "drillDown": "Drill-down",
+      "empty": "Empty state",
+      "installation": "Installation",
+      "props": "Props"
+    },
+    "title": "Pie chart"
+  }
+}

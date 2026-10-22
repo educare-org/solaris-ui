@@ -10,6 +10,7 @@ import { CARD_TRANSLATIONS } from '../pages/data-display/card/translation';
 import { CHART_SHELL_TRANSLATIONS } from '../pages/data-display/charts/shell/translation';
 import { LINE_CHART_TRANSLATIONS } from '../pages/data-display/charts/line-chart/translation';
 import { BAR_CHART_TRANSLATIONS } from '../pages/data-display/charts/bar-chart/translation';
+import { PIE_CHART_TRANSLATIONS } from '../pages/data-display/charts/pie-chart/translation';
 import { CODE_BLOCK_TRANSLATIONS } from '../pages/data-display/code-block/translation';
 import { PREVIEW_CODE_TRANSLATIONS } from '../pages/data-display/preview-code/translation';
 import { TABLE_TRANSLATIONS } from '../pages/data-display/table/translation';
@@ -113,6 +114,7 @@ const PAGE_MODULES = [
   CHART_SHELL_TRANSLATIONS,
   LINE_CHART_TRANSLATIONS,
   BAR_CHART_TRANSLATIONS,
+  PIE_CHART_TRANSLATIONS,
   CODE_BLOCK_TRANSLATIONS,
   PREVIEW_CODE_TRANSLATIONS,
   TABLE_TRANSLATIONS,

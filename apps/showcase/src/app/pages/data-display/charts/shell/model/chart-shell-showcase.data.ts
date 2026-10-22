@@ -48,6 +48,6 @@ export const CHART_SHELL_SHOWCASE_BASIC_CODE = [
   '  (seriesToggle)="onSeriesToggle($event)"',
   '  (actionRequest)="onAction($event)"',
   '>',
-  '  <!-- projected chart: line, bar (pie lands in H4) -->',
+  '  <!-- projected chart: line, bar, pie -->',
   '</solaris-chart-shell>',
 ].join('\n');

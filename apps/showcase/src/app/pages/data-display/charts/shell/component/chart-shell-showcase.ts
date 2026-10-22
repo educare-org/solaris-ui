@@ -16,6 +16,7 @@ import {
   SolarisCodeBlockComponent,
   SolarisIconComponent,
   SolarisLineChartComponent,
+  SolarisPieChartComponent,
   SolarisPreviewCodeComponent,
   SolarisSparklineComponent,
   SolarisTranslatePipe,
@@ -269,6 +270,7 @@ const PERIOD_INTERVAL_KEYS: Readonly<Record<SolarisChartPeriod, string>> = {
     SolarisChartShellComponent,
     SolarisIconComponent,
     SolarisLineChartComponent,
+    SolarisPieChartComponent,
     SolarisSparklineComponent,
     SolarisCodeBlockComponent,
     SolarisPreviewCodeComponent,
@@ -309,7 +311,6 @@ export class ChartShellShowcasePage implements OnDestroy {
   protected readonly period = signal<SolarisChartPeriod>('7D');
   protected readonly displayMode = signal<SolarisChartDisplayMode>('timeline');
   protected readonly hiddenIds = signal<readonly string[]>([]);
-  // Linhas em saída animada: continuam na tabela até o fade terminar.
   protected readonly leavingIds = signal<readonly string[]>([]);
   protected readonly loading = signal(false);
   protected readonly fullscreenOpen = signal(false);
@@ -456,9 +457,6 @@ export class ChartShellShowcasePage implements OnDestroy {
     return translated !== key ? translated : this.period();
   });
 
-  // Rótulos "naturais" por período — o consumidor configura como quiser via
-  // `availablePeriods` (rótulo, valores extras, desabilitados).
-  // `all` é minúsculo no tipo, mas as chaves usam `All` maiúsculo.
   protected readonly periodOptions = computed(() =>
     (['1D', '7D', '1M', '3M', 'YTD', 'all'] as const).map((value) => ({
       value,
@@ -500,11 +498,9 @@ export class ChartShellShowcasePage implements OnDestroy {
       this.leaveTimers.delete(id);
     }
     if (hidden) {
-      // Volta imediata: cancela a saída e reexibe (com animação de entrada).
       this.leavingIds.update((ids) => ids.filter((entry) => entry !== id));
       this.hiddenIds.update((ids) => ids.filter((entry) => entry !== id));
     } else {
-      // Saída fluida: mantém a linha visível por 220ms e só então oculta.
       this.leavingIds.update((ids) => (ids.includes(id) ? ids : [...ids, id]));
       this.leaveTimers.set(
         id,
@@ -526,6 +522,10 @@ export class ChartShellShowcasePage implements OnDestroy {
 
   protected onBarPointSelect(event: SolarisBarChartPointEvent): void {
     this.onPointSelect(event);
+  }
+
+  protected onSliceSelect(id: string): void {
+    this.log.set(`slice:${id}`);
   }
 
   protected onDisplayModeChange(mode: SolarisChartDisplayMode): void {

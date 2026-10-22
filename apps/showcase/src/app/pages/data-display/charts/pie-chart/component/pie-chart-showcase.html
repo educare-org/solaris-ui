@@ -1,0 +1,247 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="pie-chart-view.title"
+    descriptionKey="pie-chart-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="examples"
+    titleKey="pie-chart-view.section.examples"
+  >
+    <p class="pie-chart-showcase__note">
+      {{ 'pie-chart-view.examples.note' | translate }}
+    </p>
+    <p class="pie-chart-showcase__note">
+      {{ 'pie-chart-view.examples.keyboardNote' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="variant"
+      [ariaLabel]="'pie-chart-view.examples.variantLabel' | translate"
+    >
+      <solaris-tab [value]="'pie'"
+        >{{ 'pie-chart-view.examples.pie' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'donut'"
+        >{{ 'pie-chart-view.examples.donut' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'gauge'"
+        >{{ 'pie-chart-view.examples.gauge' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #variantsCard>
+        @if (variant() === 'gauge') {
+        <solaris-pie-chart
+          [locale]="chartLocale()"
+          variant="gauge"
+          [slices]="gaugeSlices()"
+          [gaugeMin]="0"
+          [gaugeMax]="100"
+          [gaugeTarget]="90"
+          [centerLabel]="'pie-chart-view.gauge.seriesAttendance' | translate"
+          (sliceSelect)="onSliceSelect($event)"
+        />
+        } @else {
+        <solaris-pie-chart
+          [locale]="chartLocale()"
+          [variant]="variant()"
+          [slices]="slices()"
+          [showValues]="true"
+          (sliceSelect)="onSliceSelect($event)"
+        />
+        } @if (log()) {
+        <p class="pie-chart-showcase__log" data-testid="pie-event-log">
+          {{ log() }}
+        </p>
+        }
+      </ng-template>
+      <div class="pie-chart-showcase__demo">
+        <ng-container *ngTemplateOutlet="variantsCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="grouping"
+    titleKey="pie-chart-view.section.grouping"
+  >
+    <p class="pie-chart-showcase__note">
+      {{ 'pie-chart-view.grouping.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #groupingCard>
+        <solaris-pie-chart
+          [locale]="chartLocale()"
+          variant="donut"
+          [slices]="groupedSlices()"
+          [minSlicePercent]="3"
+          [showValues]="true"
+          (sliceSelect)="onSliceSelect($event)"
+        />
+      </ng-template>
+      <div class="pie-chart-showcase__demo">
+        <ng-container *ngTemplateOutlet="groupingCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="gauge" titleKey="pie-chart-view.section.gauge">
+    <p class="pie-chart-showcase__note">
+      {{ 'pie-chart-view.gauge.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="gaugeCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #gaugeCard>
+        <solaris-pie-chart
+          [locale]="chartLocale()"
+          variant="gauge"
+          [slices]="gaugeSlices()"
+          [gaugeMin]="0"
+          [gaugeMax]="100"
+          [gaugeTarget]="90"
+          [centerLabel]="'pie-chart-view.gauge.seriesAttendance' | translate"
+          (sliceSelect)="onSliceSelect($event)"
+        />
+      </ng-template>
+      <div class="pie-chart-showcase__demo">
+        <ng-container *ngTemplateOutlet="gaugeCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="score-ring"
+    titleKey="pie-chart-view.section.scoreRing"
+  >
+    <p class="pie-chart-showcase__note">
+      {{ 'pie-chart-view.scoreRing.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #scoreCard>
+        <solaris-pie-chart
+          [locale]="chartLocale()"
+          variant="donut"
+          size="sm"
+          [slices]="scoreSlices()"
+          centerValue="7.5"
+          [centerLabel]="'pie-chart-view.scoreRing.average' | translate"
+          (sliceSelect)="onSliceSelect($event)"
+        />
+      </ng-template>
+      <div class="pie-chart-showcase__demo">
+        <ng-container *ngTemplateOutlet="scoreCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="drill-down"
+    titleKey="pie-chart-view.section.drillDown"
+  >
+    <p class="pie-chart-showcase__note">
+      {{ 'pie-chart-view.drillDown.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #drillCard>
+        <solaris-pie-chart
+          [locale]="chartLocale()"
+          variant="donut"
+          [slices]="groupedSlices()"
+          [minSlicePercent]="3"
+          (sliceSelect)="onSliceSelect($event)"
+        />
+        @if (drillDetail(); as detail) {
+        <div class="pie-chart-showcase__detail" data-testid="pie-drill-detail">
+          <p class="pie-chart-showcase__detail-title">
+            {{ detail.label }} — {{ detail.value }}
+          </p>
+          <solaris-table
+            [data]="detail.rows"
+            [columns]="detailColumns()"
+            rowId="class"
+            appearance="soft"
+          />
+        </div>
+        }
+      </ng-template>
+      <div class="pie-chart-showcase__demo">
+        <ng-container *ngTemplateOutlet="drillCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="empty" titleKey="pie-chart-view.section.empty">
+    <p class="pie-chart-showcase__note">
+      {{ 'pie-chart-view.empty.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="emptyCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #emptyCard>
+        <solaris-pie-chart
+          [locale]="chartLocale()"
+          variant="donut"
+          [slices]="[]"
+        />
+      </ng-template>
+      <div class="pie-chart-showcase__demo">
+        <ng-container *ngTemplateOutlet="emptyCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="pie-chart-view.section.installation"
+  >
+    <p class="pie-chart-showcase__note">
+      {{ 'pie-chart-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block [code]="importCode" language="ts" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="pie-chart-view.section.props">
+    <p class="pie-chart-showcase__note">
+      {{ 'pie-chart-view.props.note' | translate }}
+    </p>
+    <div class="pie-chart-showcase__table-wrap">
+      <solaris-table
+        [data]="propsRows"
+        [columns]="propsColumns()"
+        rowId="prop"
+        appearance="soft"
+      />
+    </div>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

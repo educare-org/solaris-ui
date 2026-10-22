@@ -92,6 +92,21 @@ test.describe('Chart shell', () => {
     );
   });
 
+  test('projects the pie chart when the pie view is selected', async ({
+    page,
+  }) => {
+    const shell = page.locator('solaris-chart-shell').first();
+    await shell.locator('.solaris-chart-shell__view-select').click();
+    await page.getByRole('option', { name: 'Pie' }).click();
+    const pie = shell.locator('solaris-pie-chart');
+    await expect(pie).toBeVisible();
+    await expect(shell).toHaveAttribute('data-view', 'pie');
+    const firstSlice = pie.locator('[data-slice]').first();
+    await firstSlice.focus();
+    await page.keyboard.press('Enter');
+    await expect(page.getByTestId('event-log')).toHaveText('slice:automation');
+  });
+
   test('redirects the legacy chart-shell path to charts/shell', async ({
     page,
   }) => {
