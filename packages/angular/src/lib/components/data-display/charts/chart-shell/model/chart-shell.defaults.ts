@@ -1,12 +1,17 @@
 import type {
+  SolarisChartDisplayMode,
   SolarisChartPeriod,
   SolarisChartView,
 } from '../../model/chart.types';
 import type {
   SolarisChartShellActionOption,
+  SolarisChartShellDisplayModeOption,
   SolarisChartShellPeriodOption,
   SolarisChartShellViewOption,
 } from './chart-shell.types';
+
+export const DEFAULT_SHELL_DISPLAY_MODES: readonly SolarisChartShellDisplayModeOption[] =
+  [{ value: 'timeline' }, { value: 'list' }];
 
 export const DEFAULT_SHELL_VIEWS: readonly SolarisChartShellViewOption[] = [
   { value: 'line' },
@@ -42,6 +47,12 @@ export const SHELL_PERIOD_LABEL_KEYS: Record<SolarisChartPeriod, string> = {
   YTD: 'solaris.chart.periodYTD',
   all: 'solaris.chart.periodAll',
 };
+
+export const SHELL_DISPLAY_LABEL_KEYS: Record<SolarisChartDisplayMode, string> =
+  {
+    timeline: 'solaris.chart.displayTimeline',
+    list: 'solaris.chart.displayList',
+  };
 
 export const SHELL_ACTION_LABEL_KEYS: Record<string, string> = {
   export: 'solaris.chart.actionsExport',

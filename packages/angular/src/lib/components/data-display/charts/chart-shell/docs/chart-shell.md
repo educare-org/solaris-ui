@@ -12,7 +12,11 @@ array: it emits `viewChange`/`periodChange` (two-way `model`s),
 ## API
 
 Inputs: `title`/`titleKey`, `description`/`descriptionKey`, `heroValue`,
-`heroLabel`/`heroLabelKey`, `intervalLabel`/`intervalLabelKey` (consumer-owned:
+`heroLabel`/`heroLabelKey` (the label renders above the value, Image-2 style),
+`heroDelta` (consumer-owned delta text, e.g. `+11,4%`) with
+`heroDeltaDirection: 'up' | 'down' | 'flat'` (semantic badge with a caret
+icon and a translated trend `aria-label`; hidden without `heroDelta`),
+`intervalLabel`/`intervalLabelKey` (consumer-owned:
 the shell never derives dates — update it on `periodChange`, e.g. after
 fetching the new window, as the showcase does per period),
 `series` (required, immutable), `view = model('line')`,

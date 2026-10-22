@@ -4,15 +4,38 @@
     "examples": {
       "note": "Switch views, change the period, toggle legend series, and open the actions menu. Every interaction lands in the log below.",
       "toggleLoading": "Simulate loading",
+      "fullscreenClose": "Close fullscreen",
+      "periodLabel1D": "1 day",
+      "periodLabel7D": "7 days",
+      "periodLabel1M": "1 month",
+      "periodLabel3M": "3 months",
+      "periodLabelYTD": "This year",
+      "periodLabelAll": "All",
       "toggleHidden": "Hide a series",
       "title": "Weekly agent activity",
       "heroLabel": "tasks",
       "interval1D": "May 04, 2026",
       "interval7D": "Apr 28, 2026 → May 04, 2026",
       "interval1M": "Apr 2026",
-      "interval3M": "Feb → Apr 2026",
-      "intervalYTD": "Jan → Apr 2026",
-      "intervalAll": "All time"
+      "interval3M": "Aug → Oct 2026",
+      "intervalYTD": "Jan → Oct 2026",
+      "intervalAll": "All time",
+      "listSeries": "Series",
+      "listTotal": "Total",
+      "lineNote": "Dots are keyboard-focusable: Tab to a dot, use the arrow keys to move, Enter to select.",
+      "lineAverage": "Average",
+      "kpiUsers": "Active users",
+      "kpiChurn": "Churn",
+      "seriesAutomation": "Task automation",
+      "seriesQueries": "User queries",
+      "seriesSystem": "System actions",
+      "deltaUsers7D": "+12.4%",
+      "deltaUsers1M": "+25.2%",
+      "deltaChurn7D": "-8.1%",
+      "deltaChurn1M": "-22.5%"
+    },
+    "kpis": {
+      "note": "Indicator cards with delta badges and trend sparklines. Deltas use semantic badges; direction is also stated in the sparkline accessible label."
     },
     "installation": {
       "note": "Install the package and import the standalone chart shell component."
@@ -22,6 +45,7 @@
     },
     "section": {
       "examples": "Examples",
+      "kpis": "Indicators",
       "installation": "Installation",
       "props": "Props",
       "states": "States"

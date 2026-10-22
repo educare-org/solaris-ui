@@ -4,15 +4,38 @@
     "examples": {
       "note": "Troque de visão, mude o período, alterne séries na legenda e abra o menu de ações. Toda interação aparece no log abaixo.",
       "toggleLoading": "Simular carregamento",
+      "fullscreenClose": "Fechar tela cheia",
+      "periodLabel1D": "1 dia",
+      "periodLabel7D": "7 dias",
+      "periodLabel1M": "1 mês",
+      "periodLabel3M": "3 meses",
+      "periodLabelYTD": "Este ano",
+      "periodLabelAll": "Tudo",
       "toggleHidden": "Ocultar uma série",
       "title": "Atividade semanal dos agentes",
       "heroLabel": "tarefas",
       "interval1D": "04 de mai. de 2026",
       "interval7D": "28 de abr. → 04 de mai. de 2026",
       "interval1M": "abr. de 2026",
-      "interval3M": "fev. → abr. de 2026",
-      "intervalYTD": "jan. → abr. de 2026",
-      "intervalAll": "Todo o período"
+      "interval3M": "ago. → out. de 2026",
+      "intervalYTD": "jan. → out. de 2026",
+      "intervalAll": "Todo o período",
+      "listSeries": "Série",
+      "listTotal": "Total",
+      "lineNote": "Os pontos são focáveis pelo teclado: Tab até um ponto, setas para mover, Enter para selecionar.",
+      "lineAverage": "Média",
+      "kpiUsers": "Usuários ativos",
+      "kpiChurn": "Evasão",
+      "seriesAutomation": "Automação de tarefas",
+      "seriesQueries": "Consultas de usuários",
+      "seriesSystem": "Ações do sistema",
+      "deltaUsers7D": "+12,4%",
+      "deltaUsers1M": "+25,2%",
+      "deltaChurn7D": "-8,1%",
+      "deltaChurn1M": "-22,5%"
+    },
+    "kpis": {
+      "note": "Cartões de indicador com delta e sparkline de tendência. O delta usa badge semântico; a direção também está no rótulo acessível do sparkline."
     },
     "installation": {
       "note": "Instale o pacote e importe o componente standalone do shell de gráficos."
@@ -22,6 +45,7 @@
     },
     "section": {
       "examples": "Exemplos",
+      "kpis": "Indicadores",
       "installation": "Instalação",
       "props": "Props",
       "states": "Estados"

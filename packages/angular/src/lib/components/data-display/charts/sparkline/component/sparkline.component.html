@@ -1,0 +1,23 @@
+<svg
+  class="solaris-sparkline__svg"
+  [attr.viewBox]="`0 0 ${viewWidth} ${viewHeight}`"
+  preserveAspectRatio="xMidYMid meet"
+  role="img"
+  [attr.aria-label]="ariaLabel()"
+>
+  @if (geometry().areaPath !== '') {
+    <path
+      class="solaris-sparkline__area"
+      [attr.d]="geometry().areaPath"
+      [style.fill]="strokeColor()"
+    />
+  }
+  @if (geometry().linePath !== '') {
+    <path
+      class="solaris-sparkline__line"
+      [attr.d]="geometry().linePath"
+      [style.stroke]="strokeColor()"
+      fill="none"
+    />
+  }
+</svg>

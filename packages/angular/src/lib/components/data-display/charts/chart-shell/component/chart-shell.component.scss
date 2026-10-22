@@ -1,4 +1,4 @@
-.solaris-chart-shell {
+:host {
   --solaris-chart-shell-gap: var(--solaris-spacing-7);
   --solaris-chart-shell-legend-gap: var(--solaris-spacing-5);
   --solaris-chart-shell-hero-size: var(--solaris-font-size-2xl);
@@ -11,12 +11,14 @@
 
 .solaris-chart-shell__topbar {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
-  gap: var(--solaris-chart-shell-gap);
+  gap: var(--solaris-spacing-5) var(--solaris-chart-shell-gap);
 }
 
 .solaris-chart-shell__heading {
   display: flex;
+  flex: 1 1 auto;
   min-width: 0;
   flex-direction: column;
   gap: var(--solaris-spacing-3);
@@ -40,8 +42,9 @@
 
 .solaris-chart-shell__hero {
   display: flex;
-  align-items: baseline;
-  gap: var(--solaris-spacing-5);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--solaris-spacing-3);
 }
 
 .solaris-chart-shell__hero-value {
@@ -57,42 +60,84 @@
 
 .solaris-chart-shell__periods {
   display: block;
-  margin-block: var(--solaris-chart-shell-gap) var(--solaris-spacing-0);
+}
+
+.solaris-chart-shell__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--solaris-spacing-5);
+  margin-block: var(--solaris-chart-shell-gap);
+}
+
+.solaris-chart-shell__display {
+  display: block;
 }
 
 .solaris-chart-shell__canvas {
-  min-height: 220px;
+  min-height: calc(var(--solaris-spacing-12) * 5.5);
   margin-block-start: var(--solaris-chart-shell-gap);
 }
 
 .solaris-chart-shell__legend {
   display: flex;
   flex-wrap: wrap;
+  align-items: baseline;
   gap: var(--solaris-chart-shell-legend-gap);
   margin-block-start: var(--solaris-chart-shell-gap);
 }
 
+.solaris-chart-shell__legend-title {
+  color: var(--solaris-chart-shell-label-color);
+  font-size: var(--solaris-chart-shell-label-size);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
 .solaris-chart-shell__legend-item {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--solaris-spacing-4);
-  padding: 0;
-  border: 0;
-  background: transparent;
   cursor: pointer;
+  align-items: center;
+  display: inline-flex;
+  background: transparent;
+  gap: var(--solaris-spacing-4);
+  border-radius: var(--solaris-radius-md);
+  border: var(--solaris-border-width-sm) solid transparent;
+  padding: var(--solaris-spacing-3) var(--solaris-spacing-4);
   color: var(--solaris-neutral-text-body);
   font-size: var(--solaris-chart-shell-label-size);
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+
+  &:hover {
+    background: var(--solaris-neutral-subtle);
+    border-color: var(--solaris-neutral-border-default);
+  }
+
+  &:focus-visible {
+    outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+      var(--solaris-focus-ring-color);
+    outline-offset: var(--solaris-focus-ring-offset);
+  }
 
   &[data-hidden] {
     opacity: var(--solaris-opacity-50);
   }
+
+  &[data-hidden] .solaris-chart-shell__legend-label {
+    text-decoration: line-through;
+  }
 }
 
 .solaris-chart-shell__legend-dot {
+  flex: none;
+  border-radius: var(--solaris-radius-full);
   width: var(--solaris-chart-shell-dot-size);
   height: var(--solaris-chart-shell-dot-size);
-  border-radius: var(--solaris-radius-full);
-  flex: none;
 }
 
 .solaris-chart-shell__loading,
@@ -100,10 +145,10 @@
 .solaris-chart-shell__empty {
   display: flex;
   flex-direction: column;
-  gap: var(--solaris-spacing-5);
-  min-height: 220px;
   align-items: flex-start;
   justify-content: center;
+  gap: var(--solaris-spacing-5);
+  min-height: calc(var(--solaris-spacing-12) * 5.5);
 }
 
 .solaris-chart-shell__error-title,
@@ -120,6 +165,11 @@
   color: var(--solaris-chart-shell-label-color);
 }
 
+.solaris-chart-shell__empty {
+  align-items: center;
+  text-align: center;
+}
+
 .solaris-chart-shell__announcement {
   position: absolute;
   width: 1px;
@@ -127,4 +177,12 @@
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-chart-shell__legend-item,
+  .solaris-chart-shell__periods,
+  .solaris-chart-shell__display {
+    transition: none;
+  }
 }

@@ -24,28 +24,157 @@
       language="html"
       previewAlign="stretch"
     >
-      <solaris-chart-shell
-        locale="pt-BR"
-        [title]="'chart-shell-view.examples.title' | translate"
-        heroValue="12,450"
-        [heroLabel]="'chart-shell-view.examples.heroLabel' | translate"
-        [intervalLabel]="intervalLabel()"
-        [view]="view()"
-        [period]="period()"
-        [series]="series()"
-        [loading]="loading()"
-        (viewChange)="onViewChange($event)"
-        (periodChange)="onPeriodChange($event)"
-        (seriesToggle)="onSeriesToggle($event)"
-        (actionRequest)="onActionRequest($event)"
+      <ng-template #chartCard>
+        <solaris-chart-shell
+          locale="pt-BR"
+          [title]="'chart-shell-view.examples.title' | translate"
+          [heroValue]="heroValue()"
+          [heroLabel]="'chart-shell-view.examples.heroLabel' | translate"
+          [heroDelta]="heroDelta()"
+          [heroDeltaDirection]="heroDeltaDirection()"
+          [intervalLabel]="intervalLabel()"
+          [view]="view()"
+          [period]="period()"
+          [(displayMode)]="displayMode"
+          [availablePeriods]="periodOptions()"
+          [series]="series()"
+          [loading]="loading()"
+          (viewChange)="onViewChange($event)"
+          (periodChange)="onPeriodChange($event)"
+          (displayModeChange)="onDisplayModeChange($event)"
+          (seriesToggle)="onSeriesToggle($event)"
+          (actionRequest)="onActionRequest($event)"
+        >
+          @if (displayMode() === 'list') {
+          <table class="chart-shell-showcase__list">
+            <thead>
+              <tr>
+                <th scope="col">
+                  {{ 'chart-shell-view.examples.listSeries' | translate }}
+                </th>
+                <th scope="col">
+                  {{ 'chart-shell-view.examples.listTotal' | translate }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (entry of series(); track entry.id) { @if (entry.hidden !==
+              true || isLeaving(entry.id)) {
+              <tr
+                class="chart-shell-showcase__list-row"
+                [class.is-leaving]="isLeaving(entry.id)"
+              >
+                <th scope="row">{{ entry.label }}</th>
+                <td>{{ seriesTotal(entry) }}</td>
+              </tr>
+              } }
+            </tbody>
+          </table>
+          } @else {
+          <solaris-line-chart
+            locale="pt-BR"
+            [series]="series()"
+            [xLabels]="xLabels()"
+            [tooltipSubtitle]="tooltipSubtitle()"
+            [referenceLines]="referenceLines()"
+            (pointSelect)="onPointSelect($event)"
+          />
+          }
+        </solaris-chart-shell>
+      </ng-template>
+      <div class="chart-shell-showcase__demo">
+        <p class="chart-shell-showcase__note">
+          {{ 'chart-shell-view.examples.lineNote' | translate }}
+        </p>
+        <ng-container *ngTemplateOutlet="chartCard" />
+        <p class="chart-shell-showcase__log" data-testid="event-log">
+          {{ log() }}
+        </p>
+      </div>
+      @if (fullscreenOpen()) {
+      <div
+        class="chart-shell-showcase__fullscreen"
+        role="dialog"
+        aria-modal="true"
+        [attr.aria-label]="'chart-shell-view.examples.title' | translate"
+        (keydown.escape)="closeFullscreen()"
       >
-        <div class="chart-shell-showcase__placeholder">line · bar · pie</div>
-      </solaris-chart-shell>
-      <p data-testid="event-log">{{ log() }}</p>
+        <div
+          class="chart-shell-showcase__fullscreen-backdrop"
+          (click)="closeFullscreen()"
+          aria-hidden="true"
+        ></div>
+        <div class="chart-shell-showcase__fullscreen-panel">
+          <div class="chart-shell-showcase__fullscreen-header">
+            <span class="chart-shell-showcase__fullscreen-title">
+              {{ 'chart-shell-view.examples.title' | translate }}
+            </span>
+            <button
+              type="button"
+              class="chart-shell-showcase__fullscreen-close"
+              (click)="closeFullscreen()"
+              [attr.aria-label]="
+                  'chart-shell-view.examples.fullscreenClose' | translate
+                "
+            >
+              <solaris-icon name="x" [decorative]="true" />
+            </button>
+          </div>
+          <ng-container *ngTemplateOutlet="chartCard" />
+        </div>
+      </div>
+      }
     </solaris-preview-code>
     <button type="button" (click)="toggleLoading()">
       {{ 'chart-shell-view.examples.toggleLoading' | translate }}
     </button>
+  </app-docs-section>
+
+  <app-docs-section anchor="kpis" titleKey="chart-shell-view.section.kpis">
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.kpis.note' | translate }}
+    </p>
+    <div class="chart-shell-showcase__kpis">
+      <div class="chart-shell-showcase__kpi">
+        <span class="chart-shell-showcase__kpi-label">
+          {{ 'chart-shell-view.examples.kpiUsers' | translate }}
+        </span>
+        <span class="chart-shell-showcase__kpi-value">{{ usersValue() }}</span>
+        <solaris-badge color="success" size="sm">
+          <solaris-icon
+            solaris-badge-icon
+            name="caret-up"
+            [decorative]="true"
+          />
+          {{ (isWeeklyWindow() ? 'chart-shell-view.examples.deltaUsers7D' :
+          'chart-shell-view.examples.deltaUsers1M' ) | translate }}
+        </solaris-badge>
+        <solaris-sparkline
+          [points]="usersSpark()"
+          [ariaLabel]="'chart-shell-view.examples.kpiUsers' | translate"
+        />
+      </div>
+      <div class="chart-shell-showcase__kpi">
+        <span class="chart-shell-showcase__kpi-label">
+          {{ 'chart-shell-view.examples.kpiChurn' | translate }}
+        </span>
+        <span class="chart-shell-showcase__kpi-value">{{ churnValue() }}</span>
+        <solaris-badge color="danger" size="sm">
+          <solaris-icon
+            solaris-badge-icon
+            name="caret-down"
+            [decorative]="true"
+          />
+          {{ (isWeeklyWindow() ? 'chart-shell-view.examples.deltaChurn7D' :
+          'chart-shell-view.examples.deltaChurn1M' ) | translate }}
+        </solaris-badge>
+        <solaris-sparkline
+          [points]="churnSpark()"
+          [positiveIsGood]="false"
+          [ariaLabel]="'chart-shell-view.examples.kpiChurn' | translate"
+        />
+      </div>
+    </div>
   </app-docs-section>
 
   <app-docs-section anchor="states" titleKey="chart-shell-view.section.states">

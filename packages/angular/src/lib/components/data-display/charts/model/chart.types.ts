@@ -4,6 +4,8 @@ export type SolarisChartView = 'line' | 'bar' | 'pie';
 
 export type SolarisChartPeriod = '1D' | '7D' | '1M' | '3M' | 'YTD' | 'all';
 
+export type SolarisChartDisplayMode = 'timeline' | 'list';
+
 export type SolarisChartSeriesColor =
   | 'primary'
   | 'accent'

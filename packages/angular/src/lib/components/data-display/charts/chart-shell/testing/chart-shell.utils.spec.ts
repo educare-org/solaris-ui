@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { isChartPeriod, isChartView } from '../model/chart-shell.utils';
+import {
+  isChartDisplayMode,
+  isChartPeriod,
+  isChartView,
+} from '../model/chart-shell.utils';
 
 describe('Solaris chart shell utils', () => {
   it('identifies chart views', () => {
@@ -17,5 +21,12 @@ describe('Solaris chart shell utils', () => {
     }
     expect(isChartPeriod('never')).toBe(false);
     expect(isChartPeriod(undefined)).toBe(false);
+  });
+
+  it('identifies display modes', () => {
+    expect(isChartDisplayMode('timeline')).toBe(true);
+    expect(isChartDisplayMode('list')).toBe(true);
+    expect(isChartDisplayMode('grid')).toBe(false);
+    expect(isChartDisplayMode(undefined)).toBe(false);
   });
 });

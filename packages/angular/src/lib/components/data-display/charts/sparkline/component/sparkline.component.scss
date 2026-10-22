@@ -1,0 +1,29 @@
+:host {
+  display: inline-block;
+  width: var(--solaris-spacing-17);
+  max-width: 100%;
+}
+
+.solaris-sparkline__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.solaris-sparkline__line {
+  stroke-width: var(--solaris-border-width-md);
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.solaris-sparkline__area {
+  stroke: none;
+  opacity: var(--solaris-opacity-20);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-sparkline__line,
+  .solaris-sparkline__area {
+    transition: none;
+  }
+}

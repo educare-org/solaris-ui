@@ -11,16 +11,14 @@ test.describe('Chart shell', () => {
   }) => {
     const shell = page.locator('solaris-chart-shell').first();
     await expect(shell.locator('.solaris-chart-shell__hero-value')).toHaveText(
-      '12,450',
+      '2,3 mil',
     );
     await expect(
       shell.locator('.solaris-chart-shell__legend-item'),
     ).toHaveCount(3);
     const canvas = shell.locator('.solaris-chart-shell__canvas');
     await expect(canvas).toHaveAttribute('role', 'img');
-    await expect(canvas.getAttribute('aria-label')).resolves.toContain(
-      'Task Automation',
-    );
+    await expect(canvas.getAttribute('aria-label')).resolves.toMatch(/automa/i);
   });
 
   test('toggles legend series with mouse and keyboard', async ({ page }) => {
@@ -36,7 +34,7 @@ test.describe('Chart shell', () => {
 
   test('changes period through the segmented filter', async ({ page }) => {
     const shell = page.locator('solaris-chart-shell').first();
-    await shell.locator('solaris-segmented-item', { hasText: '1M' }).click();
+    await shell.locator('solaris-segmented-item', { hasText: '1 mês' }).click();
     await expect(page.getByTestId('event-log')).toHaveText('period:1M');
   });
 
@@ -53,6 +51,29 @@ test.describe('Chart shell', () => {
     await shell.locator('[solaris-dropdown-menu-trigger]').click();
     await page.getByRole('menuitem', { name: /Export/ }).click();
     await expect(page.getByTestId('event-log')).toHaveText('action:export');
+  });
+
+  test('selects line dots with the keyboard', async ({ page }) => {
+    const line = page.locator('solaris-line-chart').first();
+    const firstDot = line.locator('circle[data-dot]').first();
+    await firstDot.focus();
+    await expect(line.locator('.solaris-line-chart__tooltip')).toBeVisible();
+    await page.keyboard.press('Enter');
+    await expect(page.getByTestId('event-log')).toHaveText(
+      'point:automation:0',
+    );
+  });
+
+  test('moves between line dots with arrow keys', async ({ page }) => {
+    const line = page.locator('solaris-line-chart').first();
+    const dots = line.locator('circle[data-dot]');
+    await dots.first().focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(dots.nth(1)).toHaveAttribute('tabindex', '0');
+    await page.keyboard.press('Enter');
+    await expect(page.getByTestId('event-log')).toHaveText(
+      'point:automation:1',
+    );
   });
 
   test('stacks legend below canvas at 360px', async ({ page }) => {

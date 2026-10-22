@@ -46,6 +46,10 @@ describe('SolarisIconRegistryService', () => {
       'rss',
       'upload',
       'minus',
+      'caret-up',
+      'caret-down',
+      'caret-left',
+      'caret-right',
     ]) {
       expect(service.hasIcon(name)).toBe(true);
       expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);

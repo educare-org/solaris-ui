@@ -1,7 +1,15 @@
 import type {
+  SolarisChartDisplayMode,
   SolarisChartPeriod,
   SolarisChartView,
 } from '../../model/chart.types';
+
+export interface SolarisChartShellDisplayModeOption {
+  readonly value: SolarisChartDisplayMode;
+  readonly label?: string;
+  readonly labelKey?: string;
+  readonly disabled?: boolean;
+}
 
 export interface SolarisChartShellViewOption {
   readonly value: SolarisChartView;
@@ -29,3 +37,5 @@ export interface SolarisChartShellActionOption {
 export type SolarisChartShellSize = 'sm' | 'md' | 'lg';
 
 export type SolarisChartShellDensity = 'compact' | 'normal' | 'comfortable';
+
+export type SolarisChartShellTrend = 'up' | 'down' | 'flat';

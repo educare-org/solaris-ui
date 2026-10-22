@@ -186,6 +186,7 @@ export {
 } from './lib/components/data-display/gradebook/model/gradebook.types';
 
 export type {
+  SolarisChartDisplayMode,
   SolarisChartInterpolation,
   SolarisChartPeriod,
   SolarisChartPoint,
@@ -197,9 +198,19 @@ export type {
 } from './lib/components/data-display/charts/index';
 export {
   SOLARIS_CHART_PALETTE,
+  SOLARIS_LINE_CHART_HEIGHT,
+  SOLARIS_LINE_CHART_PADDING,
+  SOLARIS_LINE_CHART_WIDTH,
+  SOLARIS_SPARKLINE_HEIGHT,
+  SOLARIS_SPARKLINE_WIDTH,
+  buildLineChartFrame,
+  buildSparklineGeometry,
+  buildSvgAreaPath,
+  buildSvgLinePath,
   chartFallbackLanguage,
   groupSmallChartSlices,
   isChartSeriesEmpty,
+  lineChartYPosition,
   normalizeStacked100,
   resolveChartDomain,
   resolveChartFallback,
@@ -207,6 +218,7 @@ export {
   resolveChartTicks,
   solarisChartColorVar,
   solarisChartSoftVar,
+  sumLineChartValuesAt,
   visibleChartSeries,
 } from './lib/components/data-display/charts/index';
 export type {
@@ -214,14 +226,41 @@ export type {
   SolarisChartDomainOptions,
   SolarisChartStringKey,
   SolarisChartStringLanguage,
+  SolarisLineChartDomain,
+  SolarisLineChartDotGeometry,
+  SolarisLineChartFrame,
+  SolarisLineChartFrameOptions,
+  SolarisLineChartPadding,
+  SolarisLineChartPixel,
+  SolarisLineChartPlot,
+  SolarisLineChartSeriesGeometry,
+  SolarisLineChartTickGeometry,
+  SolarisSparklineGeometry,
+  SolarisSparklineGeometryOptions,
 } from './lib/components/data-display/charts/index';
 export { SolarisChartShellComponent } from './lib/components/data-display/charts/index';
+export { SolarisLineChartComponent } from './lib/components/data-display/charts/index';
+export { SolarisSparklineComponent } from './lib/components/data-display/charts/index';
+export type {
+  SolarisLineChartDensity,
+  SolarisLineChartPointEvent,
+  SolarisLineChartSize,
+  SolarisLineChartTooltip,
+  SolarisLineChartTooltipRow,
+  SolarisLineChartValueFormatter,
+} from './lib/components/data-display/charts/index';
+export type {
+  SolarisSparklineDensity,
+  SolarisSparklineSize,
+} from './lib/components/data-display/charts/index';
 export type {
   SolarisChartShellAction,
   SolarisChartShellActionOption,
   SolarisChartShellDensity,
+  SolarisChartShellDisplayModeOption,
   SolarisChartShellPeriodOption,
   SolarisChartShellSize,
+  SolarisChartShellTrend,
   SolarisChartShellViewOption,
 } from './lib/components/data-display/charts/index';
 

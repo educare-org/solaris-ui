@@ -77,6 +77,50 @@ export const NAVIGATION_ICONS: SolarisIconDefinition[] = [
     ],
   },
   {
+    name: 'caret-down',
+    viewBox: '0 0 24 24',
+    fill: 'currentColor',
+    elements: [
+      {
+        type: 'path',
+        d: 'M3.83 6.46h16.34c0.46 0 0.78 0.6 0.42 1.02L12.6 17.26c-0.28 0.37-0.88 0.37-1.15 0L3.37 7.48C3.05 7.06 3.33 6.46 3.83 6.46Z',
+      },
+    ],
+  },
+  {
+    name: 'caret-left',
+    viewBox: '0 0 24 24',
+    fill: 'currentColor',
+    elements: [
+      {
+        type: 'path',
+        d: 'M17.54 3.83v16.34c0 0.46-0.6 0.78-1.02 0.42L6.74 12.6c-0.37-0.28-0.37-0.88 0-1.15L16.52 3.37c0.41-0.32 1.02-0.04 1.02 0.46Z',
+      },
+    ],
+  },
+  {
+    name: 'caret-right',
+    viewBox: '0 0 24 24',
+    fill: 'currentColor',
+    elements: [
+      {
+        type: 'path',
+        d: 'M6.46 20.17V3.83c0-0.46 0.6-0.78 1.02-0.42l9.78 7.98c0.37 0.28 0.37 0.88 0 1.15l-9.78 8.08c-0.42 0.33-1.02 0.05-1.02-0.45Z',
+      },
+    ],
+  },
+  {
+    name: 'caret-up',
+    viewBox: '0 0 24 24',
+    fill: 'currentColor',
+    elements: [
+      {
+        type: 'path',
+        d: 'M20.17 17.54H3.83c-0.46 0-0.78-0.6-0.42-1.02l7.98-9.78c0.28-0.37 0.88-0.37 1.15 0l8.08 9.78c0.33 0.42 0.05 1.02-0.45 1.02Z',
+      },
+    ],
+  },
+  {
     name: 'code',
     viewBox: '0 0 24 24',
     fill: 'none',

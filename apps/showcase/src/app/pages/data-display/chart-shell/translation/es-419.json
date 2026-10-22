@@ -4,15 +4,38 @@
     "examples": {
       "note": "Cambie de vista, cambie el período, alterne series en la leyenda y abra el menú de acciones. Cada interacción aparece en el registro.",
       "toggleLoading": "Simular carga",
+      "fullscreenClose": "Cerrar pantalla completa",
+      "periodLabel1D": "1 día",
+      "periodLabel7D": "7 días",
+      "periodLabel1M": "1 mes",
+      "periodLabel3M": "3 meses",
+      "periodLabelYTD": "Este año",
+      "periodLabelAll": "Todo",
       "toggleHidden": "Ocultar una serie",
       "title": "Actividad semanal de los agentes",
       "heroLabel": "tareas",
       "interval1D": "04 de may. de 2026",
       "interval7D": "28 de abr. → 04 de may. de 2026",
       "interval1M": "abr. de 2026",
-      "interval3M": "feb. → abr. de 2026",
-      "intervalYTD": "ene. → abr. de 2026",
-      "intervalAll": "Todo el período"
+      "interval3M": "ago. → oct. de 2026",
+      "intervalYTD": "ene. → oct. de 2026",
+      "intervalAll": "Todo el período",
+      "listSeries": "Serie",
+      "listTotal": "Total",
+      "lineNote": "Los puntos se pueden enfocar con el teclado: Tab hasta un punto, flechas para moverse, Enter para seleccionar.",
+      "lineAverage": "Promedio",
+      "kpiUsers": "Usuarios activos",
+      "kpiChurn": "Abandono",
+      "seriesAutomation": "Automatización de tareas",
+      "seriesQueries": "Consultas de usuarios",
+      "seriesSystem": "Acciones del sistema",
+      "deltaUsers7D": "+12,4%",
+      "deltaUsers1M": "+25,2%",
+      "deltaChurn7D": "-8,1%",
+      "deltaChurn1M": "-22,5%"
+    },
+    "kpis": {
+      "note": "Tarjetas de indicadores con deltas y sparklines de tendencia. Los deltas usan badges semánticos; la dirección también está en la etiqueta accesible del sparkline."
     },
     "installation": {
       "note": "Instale el paquete e importe el componente standalone del shell de gráficos."
@@ -22,6 +45,7 @@
     },
     "section": {
       "examples": "Ejemplos",
+      "kpis": "Indicadores",
       "installation": "Instalación",
       "props": "Props",
       "states": "Estados"

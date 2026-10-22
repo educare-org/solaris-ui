@@ -306,6 +306,20 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
     return `${ids}|${frame.xPositions.length}|${Math.round(frame.domain.min)}:${Math.round(frame.domain.max)}`;
   });
 
+  private playTransition(
+    node: Element,
+    keyframes: Keyframe[],
+    options: KeyframeAnimationOptions,
+  ): Animation | null {
+    // Test doubles may stub animate() without returning an Animation.
+    if (typeof node.animate !== 'function') return null;
+    const played = node.animate(keyframes, options) as
+      | Animation
+      | null
+      | undefined;
+    return played ?? null;
+  }
+
   private playDataTransition(): void {
     if (!isPlatformBrowser(this.platformId)) return;
     if (typeof requestAnimationFrame === 'undefined') return;
@@ -330,15 +344,15 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
         this.slideTransitionOut(native);
         const enterTimer = setTimeout(() => {
           seriesGroup.style.opacity = '';
-          this.transitionAnimations.push(
-            group.animate(
-              [
-                { opacity: '0', transform: 'translateX(-56px)' },
-                { opacity: '1', transform: 'translateX(0)' },
-              ],
-              { duration: 340, easing: 'cubic-bezier(0.2, 0, 0, 1)' },
-            ),
+          const entered = this.playTransition(
+            group,
+            [
+              { opacity: '0', transform: 'translateX(-56px)' },
+              { opacity: '1', transform: 'translateX(0)' },
+            ],
+            { duration: 340, easing: 'cubic-bezier(0.2, 0, 0, 1)' },
           );
+          if (entered) this.transitionAnimations.push(entered);
         }, 300);
         this.transitionTimers.push(enterTimer);
         const axesTimer = setTimeout(() => {
@@ -367,8 +381,9 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
     const data =
       '.solaris-line-chart__line, .solaris-line-chart__area, .solaris-line-chart__dots-row, .solaris-line-chart__pen, .solaris-line-chart__selection-guide';
     const sliding = this.buildTransitionLayer(frame, snapshot, axes);
-    if (sliding && typeof sliding.animate === 'function') {
-      const out = sliding.animate(
+    if (sliding) {
+      const out = this.playTransition(
+        sliding,
         [
           { opacity: '1', transform: 'translateX(0)' },
           { opacity: '0', transform: 'translateX(56px)' },
@@ -379,22 +394,30 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
           fill: 'forwards',
         },
       );
-      this.transitionAnimations.push(out);
-      out.onfinish = (): void => {
-        sliding.remove();
-      };
+      if (out) {
+        this.transitionAnimations.push(out);
+        out.onfinish = (): void => {
+          sliding.remove();
+        };
+      }
     }
     const fading = this.buildTransitionLayer(frame, snapshot, data);
-    if (fading && typeof fading.animate === 'function') {
-      const out = fading.animate([{ opacity: '1' }, { opacity: '0' }], {
-        duration: 260,
-        easing: 'ease-out',
-        fill: 'forwards',
-      });
-      this.transitionAnimations.push(out);
-      out.onfinish = (): void => {
-        fading.remove();
-      };
+    if (fading) {
+      const out = this.playTransition(
+        fading,
+        [{ opacity: '1' }, { opacity: '0' }],
+        {
+          duration: 260,
+          easing: 'ease-out',
+          fill: 'forwards',
+        },
+      );
+      if (out) {
+        this.transitionAnimations.push(out);
+        out.onfinish = (): void => {
+          fading.remove();
+        };
+      }
     }
     const fallback = setTimeout(() => {
       sliding?.remove();
@@ -483,10 +506,18 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
       return;
     }
     axes.forEach((node) => {
-      const fade = node.animate([{ opacity: '0' }, { opacity: '1' }], {
-        duration: 220,
-        easing: 'ease-out',
-      });
+      const fade = this.playTransition(
+        node,
+        [{ opacity: '0' }, { opacity: '1' }],
+        {
+          duration: 220,
+          easing: 'ease-out',
+        },
+      );
+      if (!fade) {
+        node.style.opacity = '';
+        return;
+      }
       this.transitionAnimations.push(fade);
       fade.onfinish = (): void => {
         node.style.opacity = '';
@@ -508,11 +539,15 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
       `.solaris-line-chart__dots-row${selector}`,
     );
     if (dotsRow) {
-      if (typeof dotsRow.animate === 'function') {
-        const fade = dotsRow.animate([{ opacity: '0' }, { opacity: '1' }], {
+      const fade = this.playTransition(
+        dotsRow,
+        [{ opacity: '0' }, { opacity: '1' }],
+        {
           duration: 220,
           easing: 'ease-out',
-        });
+        },
+      );
+      if (fade) {
         this.transitionAnimations.push(fade);
         fade.onfinish = (): void => {
           (dotsRow as SVGGElement).style.opacity = '';
@@ -523,14 +558,15 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
     }
     const area = native.querySelector(`.solaris-line-chart__area${selector}`);
     if (area) {
-      if (typeof area.animate === 'function') {
-        const slide = area.animate(
-          [
-            { opacity: '0', transform: 'translateY(-10px)' },
-            { opacity: '1', transform: 'translateY(0)' },
-          ],
-          { duration: 300, easing: 'ease-out' },
-        );
+      const slide = this.playTransition(
+        area,
+        [
+          { opacity: '0', transform: 'translateY(-10px)' },
+          { opacity: '1', transform: 'translateY(0)' },
+        ],
+        { duration: 300, easing: 'ease-out' },
+      );
+      if (slide) {
         this.transitionAnimations.push(slide);
         slide.onfinish = (): void => {
           const el = area as SVGPathElement;
@@ -585,7 +621,8 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
       const delay =
         baseDelay + (staggered ? seriesIndex * 90 : seriesIndex * 140);
       const timer = setTimeout(() => {
-        const draw = path.animate(
+        const draw = this.playTransition(
+          path,
           [{ strokeDashoffset: `${length}` }, { strokeDashoffset: '0' }],
           {
             duration,
@@ -593,7 +630,7 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
             fill: 'forwards',
           },
         );
-        this.transitionAnimations.push(draw);
+        if (draw) this.transitionAnimations.push(draw);
         let done = false;
         const finish = (): void => {
           if (done) return;
@@ -602,7 +639,7 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
           path.style.strokeDashoffset = '';
           reveal();
         };
-        draw.onfinish = finish;
+        if (draw) draw.onfinish = finish;
         const fallback = setTimeout(finish, duration + delay + 100);
         this.transitionTimers.push(fallback);
         this.runPenDot(native, penLayer, path, length, duration);

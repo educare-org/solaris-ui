@@ -21,6 +21,10 @@ import {
   SolarisCardHeaderDirective,
   SolarisCardTitleDirective,
 } from '../../../card';
+import {
+  SolarisBadgeComponent,
+  SolarisBadgeIconDirective,
+} from '../../../badge';
 import { SolarisIconComponent } from '../../../../icon';
 import {
   SolarisDropdownMenuComponent,
@@ -41,6 +45,7 @@ import {
 import { resolveChartSeriesColor } from '../../model/chart-palette';
 import { resolveChartFallback } from '../../model/strings/chart-strings';
 import type {
+  SolarisChartDisplayMode,
   SolarisChartPeriod,
   SolarisChartSeries,
   SolarisChartView,
@@ -48,18 +53,26 @@ import type {
 
 import {
   DEFAULT_SHELL_ACTIONS,
+  DEFAULT_SHELL_DISPLAY_MODES,
   DEFAULT_SHELL_PERIODS,
   DEFAULT_SHELL_VIEWS,
   SHELL_ACTION_LABEL_KEYS,
+  SHELL_DISPLAY_LABEL_KEYS,
   SHELL_PERIOD_LABEL_KEYS,
   SHELL_VIEW_LABEL_KEYS,
 } from '../model/chart-shell.defaults';
-import { isChartPeriod, isChartView } from '../model/chart-shell.utils';
+import {
+  isChartDisplayMode,
+  isChartPeriod,
+  isChartView,
+} from '../model/chart-shell.utils';
 import type {
   SolarisChartShellActionOption,
   SolarisChartShellDensity,
+  SolarisChartShellDisplayModeOption,
   SolarisChartShellPeriodOption,
   SolarisChartShellSize,
+  SolarisChartShellTrend,
   SolarisChartShellViewOption,
 } from '../model/chart-shell.types';
 
@@ -67,6 +80,8 @@ import type {
   selector: 'solaris-chart-shell',
   standalone: true,
   imports: [
+    SolarisBadgeComponent,
+    SolarisBadgeIconDirective,
     SolarisButtonDirective,
     SolarisCardComponent,
     SolarisCardHeaderDirective,
@@ -94,6 +109,7 @@ import type {
     '[attr.data-view]': 'view()',
     '[attr.data-loading]': 'loading() || undefined',
     '[attr.data-empty]': 'isEmpty() || undefined',
+    '[attr.data-display-mode]': 'displayMode()',
   },
 })
 export class SolarisChartShellComponent {
@@ -104,6 +120,10 @@ export class SolarisChartShellComponent {
   readonly heroValue = input<string | undefined>(undefined);
   readonly heroLabel = input<string | undefined>(undefined);
   readonly heroLabelKey = input<string | undefined>(undefined);
+  readonly heroDelta = input<string | undefined>(undefined);
+  readonly heroDeltaDirection = input<SolarisChartShellTrend | undefined>(
+    undefined,
+  );
   readonly intervalLabel = input<string | undefined>(undefined);
   readonly intervalLabelKey = input<string | undefined>(undefined);
 
@@ -111,12 +131,16 @@ export class SolarisChartShellComponent {
 
   readonly view = model<SolarisChartView>('line');
   readonly period = model<SolarisChartPeriod>('7D');
+  readonly displayMode = model<SolarisChartDisplayMode>('timeline');
 
   readonly availableViews =
     input<readonly SolarisChartShellViewOption[]>(DEFAULT_SHELL_VIEWS);
   readonly availablePeriods = input<readonly SolarisChartShellPeriodOption[]>(
     DEFAULT_SHELL_PERIODS,
   );
+  readonly availableDisplayModes = input<
+    readonly SolarisChartShellDisplayModeOption[]
+  >(DEFAULT_SHELL_DISPLAY_MODES);
   readonly actions = input<readonly SolarisChartShellActionOption[]>(
     DEFAULT_SHELL_ACTIONS,
   );
@@ -125,6 +149,9 @@ export class SolarisChartShellComponent {
     transform: booleanAttribute,
   });
   readonly showPeriodFilter = input<boolean, unknown>(true, {
+    transform: booleanAttribute,
+  });
+  readonly showDisplaySwitcher = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
   readonly showLegend = input<boolean, unknown>(true, {
@@ -151,6 +178,7 @@ export class SolarisChartShellComponent {
   readonly retry = output<void>();
   readonly viewChange = output<SolarisChartView>();
   readonly periodChange = output<SolarisChartPeriod>();
+  readonly displayModeChange = output<SolarisChartDisplayMode>();
 
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
@@ -203,6 +231,55 @@ export class SolarisChartShellComponent {
     return this.showLegend() && this.series().length > 0;
   });
 
+  protected readonly fullscreenAction = computed(() =>
+    this.actions().find((action) => action.value === 'fullscreen'),
+  );
+
+  protected readonly menuActions = computed(() =>
+    this.actions().filter((action) => action.value !== 'fullscreen'),
+  );
+
+  protected readonly hasDisplaySwitcher = computed(() => {
+    return (
+      this.showDisplaySwitcher() && this.availableDisplayModes().length > 1
+    );
+  });
+
+  protected readonly trendBadgeColor = computed(() => {
+    switch (this.heroDeltaDirection()) {
+      case 'up':
+        return 'success';
+      case 'down':
+        return 'danger';
+      default:
+        return 'neutral';
+    }
+  });
+
+  protected readonly trendIcon = computed(() => {
+    switch (this.heroDeltaDirection()) {
+      case 'up':
+        return 'caret-up';
+      case 'down':
+        return 'caret-down';
+      default:
+        return null;
+    }
+  });
+
+  protected readonly trendAriaLabel = computed(() => {
+    const delta = this.heroDelta();
+    if (delta === undefined) return undefined;
+    const direction = this.heroDeltaDirection();
+    const key =
+      direction === 'up'
+        ? 'solaris.chart.trendUp'
+        : direction === 'down'
+          ? 'solaris.chart.trendDown'
+          : 'solaris.chart.trendFlat';
+    return `${this.translate(key, {})}: ${delta}`;
+  });
+
   protected readonly chartSummary = computed(() => {
     const parts = visibleChartSeries(this.series()).map((entry) => {
       const plottable = entry.points.filter(
@@ -239,6 +316,15 @@ export class SolarisChartShellComponent {
     return this.translate(SHELL_PERIOD_LABEL_KEYS[option.value], {});
   }
 
+  protected displayModeOptionLabel(
+    option: SolarisChartShellDisplayModeOption,
+  ): string {
+    if (option.label !== undefined) return option.label;
+    if (option.labelKey !== undefined)
+      return this.translate(option.labelKey, {});
+    return this.translate(SHELL_DISPLAY_LABEL_KEYS[option.value], {});
+  }
+
   protected actionOptionLabel(option: SolarisChartShellActionOption): string {
     if (option.label !== undefined) return option.label;
     if (option.labelKey !== undefined)
@@ -264,6 +350,15 @@ export class SolarisChartShellComponent {
     this.period.set(value);
     this.periodChange.emit(value);
     this.announcement.set(this.periodOptionLabel({ value }));
+  }
+
+  protected onDisplayModeSelect(value: unknown): void {
+    if (!isChartDisplayMode(value)) return;
+    if (!this.availableDisplayModes().some((option) => option.value === value))
+      return;
+    this.displayMode.set(value);
+    this.displayModeChange.emit(value);
+    this.announcement.set(this.displayModeOptionLabel({ value }));
   }
 
   protected onLegendToggle(entry: SolarisChartSeries): void {

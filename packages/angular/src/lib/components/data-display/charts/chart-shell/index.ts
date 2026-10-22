@@ -13,6 +13,7 @@ export type {
   SolarisChartShellDensity,
   SolarisChartShellPeriodOption,
   SolarisChartShellSize,
+  SolarisChartShellTrend,
   SolarisChartShellViewOption,
 } from './model/chart-shell.types';
 export { isChartPeriod, isChartView } from './model/chart-shell.utils';

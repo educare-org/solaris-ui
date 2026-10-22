@@ -71,6 +71,63 @@ describe('SolarisChartShellComponent', () => {
     ).toContain('Apr 28');
   });
 
+  it('should stack the hero label above the value with an optional trend delta', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('heroValue', '1,3 mil');
+    fixture.componentRef.setInput('heroLabel', 'tarefas');
+    fixture.componentRef.setInput('heroDelta', '+11,4%');
+    fixture.componentRef.setInput('heroDeltaDirection', 'up');
+    fixture.detectChanges();
+    const hero = el.querySelector('.solaris-chart-shell__hero');
+    expect(hero?.textContent).toContain('tarefas');
+    const badge = el.querySelector('solaris-badge');
+    expect(badge?.textContent).toContain('+11,4%');
+    expect(badge?.getAttribute('aria-label')).toContain('Rising');
+    const icon = fixture.debugElement.query(
+      By.css('.solaris-chart-shell__hero solaris-icon'),
+    );
+    expect(icon.componentInstance.name()).toBe('caret-up');
+    expect(icon.componentInstance.decorative()).toBe(true);
+  });
+
+  it('should render a danger badge for a downward trend', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('heroValue', '1,3 mil');
+    fixture.componentRef.setInput('heroDelta', '-8,1%');
+    fixture.componentRef.setInput('heroDeltaDirection', 'down');
+    fixture.detectChanges();
+    const badge = el.querySelector('solaris-badge');
+    expect(badge?.getAttribute('aria-label')).toContain('Falling');
+    const icon = fixture.debugElement.query(
+      By.css('.solaris-chart-shell__hero solaris-icon'),
+    );
+    expect(icon.componentInstance.name()).toBe('caret-down');
+  });
+
+  it('should translate the trend label through the fallback strings', () => {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({
+      providers: [{ provide: SolarisTranslateService, useValue: null }],
+    });
+    const fallback = TestBed.createComponent(SolarisChartShellComponent);
+    fallback.componentRef.setInput('locale', 'pt-BR');
+    fallback.componentRef.setInput('series', SERIES);
+    fallback.componentRef.setInput('heroValue', '1,3 mil');
+    fallback.componentRef.setInput('heroDelta', '-8,1%');
+    fallback.componentRef.setInput('heroDeltaDirection', 'down');
+    fallback.detectChanges();
+    const badge = (fallback.nativeElement as HTMLElement).querySelector(
+      'solaris-badge',
+    );
+    expect(badge?.getAttribute('aria-label')).toContain('Em queda');
+  });
+
+  it('should hide the trend badge without delta input', () => {
+    const el = createFixture();
+    fixture.detectChanges();
+    expect(el.querySelector('solaris-badge')).toBeNull();
+  });
+
   it('should expose defaults on the host', () => {
     const el = createFixture();
     expect(el.getAttribute('data-size')).toBe('md');
@@ -85,6 +142,13 @@ describe('SolarisChartShellComponent', () => {
     expect(buttons[0].getAttribute('aria-pressed')).toBe('true');
     expect(buttons[1].getAttribute('aria-pressed')).toBe('false');
     expect(buttons[1].hasAttribute('data-hidden')).toBe(true);
+  });
+
+  it('should label the legend as a filter', () => {
+    const el = createFixture();
+    expect(
+      el.querySelector('.solaris-chart-shell__legend-title')?.textContent,
+    ).toContain('Filter by:');
   });
 
   it('should emit seriesToggle without mutating the consumer array', () => {
@@ -178,7 +242,59 @@ describe('SolarisChartShellComponent', () => {
 
   it('should render the period filter with six options by default', () => {
     const el = createFixture();
-    expect(el.querySelectorAll('solaris-segmented-item')).toHaveLength(6);
+    expect(
+      el.querySelectorAll(
+        '.solaris-chart-shell__periods solaris-segmented-item',
+      ),
+    ).toHaveLength(6);
+  });
+
+  it('should render display and period filters side by side by default', () => {
+    const el = createFixture();
+    expect(
+      el.querySelector(
+        '.solaris-chart-shell__filters .solaris-chart-shell__display',
+      ),
+    ).toBeTruthy();
+    expect(
+      el.querySelectorAll(
+        '.solaris-chart-shell__display solaris-segmented-item',
+      ),
+    ).toHaveLength(2);
+  });
+
+  it('should update the display mode through the switcher', () => {
+    createFixture();
+    const modes: string[] = [];
+    fixture.componentInstance.displayModeChange.subscribe((mode) =>
+      modes.push(mode as string),
+    );
+    const control = fixture.debugElement.query(
+      By.css('solaris-segmented-control.solaris-chart-shell__display'),
+    );
+    control.triggerEventHandler('valueChange', 'list');
+    fixture.detectChanges();
+    expect(modes).toEqual(['list']);
+    expect(
+      (fixture.nativeElement as HTMLElement).getAttribute('data-display-mode'),
+    ).toBe('list');
+  });
+
+  it('should expose a dedicated fullscreen button outside the menu', () => {
+    const el = createFixture();
+    const requested: string[] = [];
+    fixture.componentInstance.actionRequest.subscribe((action) =>
+      requested.push(action),
+    );
+    const buttons = Array.from(
+      el.querySelectorAll<HTMLElement>(
+        '.solaris-chart-shell__toolbar button[solaris-icon-button]',
+      ),
+    );
+    expect(buttons.length).toBeGreaterThanOrEqual(2);
+    buttons[0].click();
+    fixture.detectChanges();
+    expect(requested).toEqual(['fullscreen']);
   });
 
   it('should update the period model through the filter', () => {
@@ -188,7 +304,7 @@ describe('SolarisChartShellComponent', () => {
       periods.push(period as SolarisChartPeriod),
     );
     const items = fixture.debugElement.queryAll(
-      By.css('solaris-segmented-item'),
+      By.css('.solaris-chart-shell__periods solaris-segmented-item'),
     );
     items[2].nativeElement.click();
     fixture.detectChanges();
@@ -278,13 +394,13 @@ describe('SolarisChartShellComponent', () => {
   it('should ignore unknown periods', () => {
     createFixture();
     const control = fixture.debugElement.query(
-      By.css('solaris-segmented-control'),
+      By.css('solaris-segmented-control.solaris-chart-shell__periods'),
     );
     control.triggerEventHandler('valueChange', 'never');
     fixture.detectChanges();
     expect(
       fixture.debugElement
-        .query(By.css('solaris-segmented-control'))
+        .query(By.css('solaris-segmented-control.solaris-chart-shell__periods'))
         .componentInstance.value(),
     ).toBe('7D');
   });
@@ -297,7 +413,7 @@ describe('SolarisChartShellComponent', () => {
     ]);
     fixture.detectChanges();
     const control = fixture.debugElement.query(
-      By.css('solaris-segmented-control'),
+      By.css('solaris-segmented-control.solaris-chart-shell__periods'),
     );
     control.triggerEventHandler('valueChange', '1M');
     fixture.detectChanges();
@@ -308,6 +424,7 @@ describe('SolarisChartShellComponent', () => {
     const el = createFixture();
     fixture.componentRef.setInput('showViewSwitcher', false);
     fixture.componentRef.setInput('showPeriodFilter', false);
+    fixture.componentRef.setInput('showDisplaySwitcher', false);
     fixture.componentRef.setInput('showLegend', false);
     fixture.componentRef.setInput('showActions', false);
     fixture.detectChanges();
