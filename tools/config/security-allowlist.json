@@ -35,6 +35,10 @@
     "patterns": 8,
     "reviewed": "2026-10-22"
   },
+  "packages/angular/src/lib/components/data-display/charts/pie-chart/component/pie-chart.component.ts": {
+    "patterns": 1,
+    "reviewed": "2026-10-22"
+  },
   "packages/angular/src/lib/components/data-display/code-block/component/code-block.component.ts": {
     "patterns": 10,
     "reviewed": "2026-10-20"
