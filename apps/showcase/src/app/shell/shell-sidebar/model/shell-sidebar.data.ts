@@ -111,8 +111,21 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
             route: '/data-display/card',
           },
           {
-            labelKey: 'shell.sidebar.item.chart-shell',
-            route: '/data-display/chart-shell',
+            labelKey: 'shell.sidebar.item.charts',
+            children: [
+              {
+                labelKey: 'shell.sidebar.item.chart-shell',
+                route: '/data-display/charts/shell',
+              },
+              {
+                labelKey: 'shell.sidebar.item.line-chart',
+                route: '/data-display/charts/line-chart',
+              },
+              {
+                labelKey: 'shell.sidebar.item.bar-chart',
+                route: '/data-display/charts/bar-chart',
+              },
+            ],
           },
           {
             labelKey: 'shell.sidebar.item.code-block',

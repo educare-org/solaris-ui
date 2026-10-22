@@ -11,6 +11,7 @@ import {
 import {
   SolarisBadgeComponent,
   SolarisBadgeIconDirective,
+  SolarisBarChartComponent,
   SolarisChartShellComponent,
   SolarisCodeBlockComponent,
   SolarisIconComponent,
@@ -19,6 +20,7 @@ import {
   SolarisSparklineComponent,
   SolarisTranslatePipe,
   SolarisTranslateService,
+  type SolarisBarChartPointEvent,
   type SolarisChartDisplayMode,
   type SolarisChartPeriod,
   type SolarisChartSeries,
@@ -27,12 +29,12 @@ import {
   type SolarisLineChartPointEvent,
 } from '@solaris-ui/angular';
 
-import { ShowcaseDocsPageFooter } from '../../../../shell/docs-page-footer/docs-page-footer';
-import { ShowcaseDocsPageHeader } from '../../../../shell/docs-page-header/docs-page-header';
-import { ShowcaseDocsPageLayout } from '../../../../shell/docs-page-layout/docs-page-layout';
-import { ShowcaseDocsSection } from '../../../../shell/docs-section/docs-section';
+import { ShowcaseDocsPageFooter } from '../../../../../shell/docs-page-footer/docs-page-footer';
+import { ShowcaseDocsPageHeader } from '../../../../../shell/docs-page-header/docs-page-header';
+import { ShowcaseDocsPageLayout } from '../../../../../shell/docs-page-layout/docs-page-layout';
+import { ShowcaseDocsSection } from '../../../../../shell/docs-section/docs-section';
 
-import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
+import { createShowcasePageActions } from '../../../../shared/showcase-page-utils';
 import {
   CHART_SHELL_SHOWCASE_BASIC_CODE,
   CHART_SHELL_SHOWCASE_BREADCRUMBS,
@@ -263,6 +265,7 @@ const PERIOD_INTERVAL_KEYS: Readonly<Record<SolarisChartPeriod, string>> = {
     NgTemplateOutlet,
     SolarisBadgeComponent,
     SolarisBadgeIconDirective,
+    SolarisBarChartComponent,
     SolarisChartShellComponent,
     SolarisIconComponent,
     SolarisLineChartComponent,
@@ -519,6 +522,10 @@ export class ChartShellShowcasePage implements OnDestroy {
 
   protected onPointSelect(event: SolarisLineChartPointEvent): void {
     this.log.set(`point:${event.seriesId}:${event.index}`);
+  }
+
+  protected onBarPointSelect(event: SolarisBarChartPointEvent): void {
+    this.onPointSelect(event);
   }
 
   protected onDisplayModeChange(mode: SolarisChartDisplayMode): void {

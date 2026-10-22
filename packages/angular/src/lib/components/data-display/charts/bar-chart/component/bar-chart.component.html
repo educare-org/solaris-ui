@@ -1,0 +1,317 @@
+<div class="solaris-bar-chart__frame" (mouseleave)="onMarksLeave()">
+  <svg
+    class="solaris-bar-chart__svg"
+    [attr.viewBox]="`0 0 ${frame().width} ${frame().height}`"
+    [attr.hidden]="isEmpty() ? '' : null"
+    [style.min-width.px]="minSvgWidth()"
+    preserveAspectRatio="xMidYMid meet"
+    role="img"
+    [attr.aria-label]="summary()"
+  >
+    <defs>
+      @for (row of frame().series; track row.id) {
+        <linearGradient
+          [attr.id]="gradientId(row.id)"
+          x1="0"
+          y1="0"
+          [attr.x2]="orientation() === 'horizontal' ? '1' : '0'"
+          [attr.y2]="orientation() === 'horizontal' ? '0' : '1'"
+        >
+          <stop
+            offset="0%"
+            [style.stop-color]="
+              'color-mix(in srgb, ' + row.colorVar + ' 55%, transparent)'
+            "
+            stop-opacity="1"
+          />
+          <stop
+            offset="100%"
+            [style.stop-color]="row.colorVar"
+            stop-opacity="1"
+          />
+        </linearGradient>
+      }
+      <linearGradient
+        [attr.id]="guideGradientId()"
+        x1="0"
+        y1="0"
+        [attr.x2]="orientation() === 'horizontal' ? '1' : '0'"
+        [attr.y2]="orientation() === 'horizontal' ? '0' : '1'"
+      >
+        <stop
+          offset="0%"
+          [style.stop-color]="'var(--solaris-neutral-subtle)'"
+          stop-opacity="0"
+        />
+        <stop
+          offset="100%"
+          [style.stop-color]="'var(--solaris-neutral-subtle)'"
+          stop-opacity="1"
+        />
+      </linearGradient>
+      <linearGradient
+        [attr.id]="guideGradientReverseId()"
+        x1="0"
+        y1="0"
+        [attr.x2]="orientation() === 'horizontal' ? '1' : '0'"
+        [attr.y2]="orientation() === 'horizontal' ? '0' : '1'"
+      >
+        <stop
+          offset="0%"
+          [style.stop-color]="'var(--solaris-neutral-subtle)'"
+          stop-opacity="1"
+        />
+        <stop
+          offset="100%"
+          [style.stop-color]="'var(--solaris-neutral-subtle)'"
+          stop-opacity="0"
+        />
+      </linearGradient>
+    </defs>
+
+    @for (tick of frame().valueTicks; track tick.value) {
+      @if (orientation() === 'vertical') {
+        <line
+          class="solaris-bar-chart__grid"
+          [attr.x1]="frame().plot.left"
+          [attr.x2]="frame().plot.left + frame().plot.width"
+          [attr.y1]="tick.position"
+          [attr.y2]="tick.position"
+        />
+        <text
+          class="solaris-bar-chart__tick"
+          [attr.x]="frame().plot.left - 8"
+          [attr.y]="tick.position + 4"
+          text-anchor="end"
+        >
+          {{ formatTick(tick.value) }}
+        </text>
+      } @else {
+        <line
+          class="solaris-bar-chart__grid"
+          [attr.x1]="tick.position"
+          [attr.x2]="tick.position"
+          [attr.y1]="frame().plot.top"
+          [attr.y2]="frame().plot.top + frame().plot.height"
+        />
+        <text
+          class="solaris-bar-chart__tick"
+          [attr.x]="tick.position"
+          [attr.y]="frame().height - 8"
+          text-anchor="middle"
+        >
+          {{ formatTick(tick.value) }}
+        </text>
+      }
+    }
+
+    @if (selectionGuide(); as guide) {
+      <rect
+        class="solaris-bar-chart__selection-guide"
+        [attr.fill]="guideFillId()"
+        [attr.x]="guide.x"
+        [attr.y]="guide.y"
+        [attr.width]="guide.width"
+        [attr.height]="guide.height"
+        [attr.data-hidden]="guide.visible ? null : ''"
+        [style.transform-origin]="guide.origin"
+      />
+    }
+
+    @for (row of frame().series; track row.id) {
+      <g class="solaris-bar-chart__series" [attr.data-series]="row.id">
+        @for (bar of row.bars; track bar.index) {
+          <path
+            class="solaris-bar-chart__bar"
+            [attr.fill]="'url(#' + gradientId(row.id) + ')'"
+            [attr.data-bar]="bar.seriesId + ':' + bar.index"
+            [attr.data-active]="
+              isMarkActive(bar.seriesId, bar.index) ? '' : null
+            "
+            [attr.data-dimmed]="
+              isMarkDimmed(bar.seriesId, bar.index) ? '' : null
+            "
+            [attr.d]="barPath(bar)"
+            [attr.tabindex]="markTabIndexFor(bar.seriesId, bar.index)"
+            [attr.aria-label]="barAriaLabel(row.label, bar.index, bar.value)"
+            [style.animation-delay]="barEnterDelay(bar.seriesId, bar.index)"
+            [style.transition-delay]="
+              morphGrow() ? '0s, 0s, 0s, ' + morphGrowDelay(bar.seriesId) : null
+            "
+            (focus)="onMarkFocus(markFor(bar.seriesId, bar.index))"
+            (blur)="onMarksLeave()"
+            (mouseenter)="onBarHover(markFor(bar.seriesId, bar.index))"
+            (keydown)="onMarkKeydown($event, markFor(bar.seriesId, bar.index))"
+            (click)="onMarkActivate(markFor(bar.seriesId, bar.index))"
+          />
+          @if (showValues() && !morphing()) {
+            <text
+              class="solaris-bar-chart__value"
+              [attr.x]="barValueLabel(bar).x"
+              [attr.y]="barValueLabel(bar).y"
+              [attr.text-anchor]="barValueLabel(bar).anchor"
+              [style.animation-delay]="morphGrowDelay(bar.seriesId)"
+            >
+              {{ formatBarValue(bar.value) }}
+            </text>
+          }
+        }
+      </g>
+    }
+
+    @for (view of referenceViews(); track $index) {
+      @if (orientation() === 'vertical') {
+        <line
+          class="solaris-bar-chart__reference"
+          [style.stroke]="view.color"
+          [attr.x1]="frame().plot.left"
+          [attr.x2]="frame().plot.left + frame().plot.width"
+          [attr.y1]="view.position"
+          [attr.y2]="view.position"
+        />
+        @if (view.reference.label !== undefined) {
+          <text
+            class="solaris-bar-chart__reference-label"
+            [style.fill]="view.color"
+            [attr.x]="frame().plot.left + frame().plot.width - 2"
+            [attr.y]="view.labelPosition"
+            text-anchor="end"
+          >
+            {{ view.reference.label }}
+          </text>
+        }
+      } @else {
+        <line
+          class="solaris-bar-chart__reference"
+          [style.stroke]="view.color"
+          [attr.x1]="view.position"
+          [attr.x2]="view.position"
+          [attr.y1]="frame().plot.top"
+          [attr.y2]="frame().plot.top + frame().plot.height"
+        />
+        @if (view.reference.label !== undefined) {
+          <text
+            class="solaris-bar-chart__reference-label"
+            [style.fill]="view.color"
+            [attr.x]="view.position + 4"
+            [attr.y]="frame().plot.top + 12"
+            text-anchor="start"
+          >
+            {{ view.reference.label }}
+          </text>
+        }
+      }
+    }
+
+    @for (label of resolvedXLabels(); track $index; let last = $last) {
+      @if ($index % labelEvery() === 0 || last) {
+        @if (orientation() === 'vertical') {
+          <text
+            class="solaris-bar-chart__tick solaris-bar-chart__tick--category"
+            [attr.x]="frame().categoryCenters[$index]"
+            [attr.y]="frame().height - 8"
+            [attr.data-active]="isAxisActive($index) ? '' : null"
+            text-anchor="middle"
+            (mouseenter)="onAxisHover($index)"
+          >
+            {{ label }}
+          </text>
+        } @else {
+          <text
+            class="solaris-bar-chart__tick solaris-bar-chart__tick--category"
+            [attr.x]="frame().plot.left - 8"
+            [attr.y]="categoryCenterY($index)"
+            [attr.data-active]="isAxisActive($index) ? '' : null"
+            text-anchor="end"
+            (mouseenter)="onAxisHover($index)"
+          >
+            {{ truncatedLabel(label) }}
+          </text>
+        }
+      }
+      @if (axisHitFor($index); as hit) {
+        <rect
+          class="solaris-bar-chart__axis-hit"
+          [attr.x]="hit.x"
+          [attr.y]="hit.y"
+          [attr.width]="hit.width"
+          [attr.height]="hit.height"
+          (mouseenter)="onAxisHover($index)"
+        />
+      }
+    }
+  </svg>
+
+  @if (isEmpty()) {
+    <div class="solaris-bar-chart__empty">
+      <p class="solaris-bar-chart__empty-title">{{ emptyTitle() }}</p>
+      <p class="solaris-bar-chart__empty-message">{{ emptyMessage() }}</p>
+    </div>
+  }
+
+  @if (tooltip(); as tip) {
+    <div
+      class="solaris-bar-chart__tooltip"
+      aria-hidden="true"
+      [style.left.%]="tip.leftPercent"
+    >
+      <div class="solaris-bar-chart__tooltip-card">
+        <div class="solaris-bar-chart__tooltip-header">
+          <span class="solaris-bar-chart__tooltip-heading">{{
+            tip.heading
+          }}</span>
+        </div>
+        @for (row of tip.rows; track row.seriesId) {
+          <span class="solaris-bar-chart__tooltip-row">
+            <span
+              class="solaris-bar-chart__tooltip-dot"
+              [style.background-color]="row.colorVar"
+            ></span>
+            <span class="solaris-bar-chart__tooltip-label"
+              >{{ row.label }}:</span
+            >
+            <span class="solaris-bar-chart__tooltip-value">
+              {{ row.formattedValue }}
+            </span>
+          </span>
+        }
+        @if (tip.total !== null && tip.rows.length > 1) {
+          <span class="solaris-bar-chart__tooltip-total">
+            <span class="solaris-bar-chart__tooltip-total-label"
+              >{{ tip.totalLabel }}:</span
+            >
+            <span>{{ tip.total }}</span>
+          </span>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="solaris-bar-chart__data">
+    <table>
+      <caption>
+        {{
+          summary()
+        }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          @for (entry of visibleSeries(); track entry.id) {
+            <th scope="col">{{ entry.label }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (label of resolvedXLabels(); track $index; let rowIndex = $index) {
+          <tr>
+            <th scope="row">{{ label }}</th>
+            @for (entry of visibleSeries(); track entry.id) {
+              <td>{{ entry.points[rowIndex]?.y ?? '' }}</td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

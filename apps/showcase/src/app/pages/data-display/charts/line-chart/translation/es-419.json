@@ -1,0 +1,28 @@
+{
+  "line-chart-view": {
+    "description": "Gráfico de líneas suavizadas o rectas, con área, puntos enfocables, tooltip con total y línea de referencia.",
+    "examples": {
+      "note": "Pase series inmutables y reciba la selección de puntos en el registro.",
+      "keyboardNote": "Los puntos se pueden enfocar con el teclado: Tab hasta un punto, flechas para moverse, Enter para seleccionar.",
+      "average": "Promedio",
+      "seriesAutomation": "Automatización de tareas",
+      "seriesQueries": "Consultas de usuarios"
+    },
+    "installation": {
+      "note": "Instale el paquete e importe el componente standalone del gráfico de líneas."
+    },
+    "props": {
+      "note": "Entradas, valores posibles y valor por defecto. La salida pointSelect emite el punto seleccionado.",
+      "colProp": "Propiedad",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Defecto"
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "props": "Props"
+    },
+    "title": "Gráfico de líneas"
+  }
+}

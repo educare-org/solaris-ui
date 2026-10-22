@@ -70,6 +70,14 @@
               } }
             </tbody>
           </table>
+          } @else if (view() === 'bar') {
+          <solaris-bar-chart
+            locale="pt-BR"
+            [series]="series()"
+            [xLabels]="xLabels()"
+            [referenceLines]="referenceLines()"
+            (pointSelect)="onBarPointSelect($event)"
+          />
           } @else {
           <solaris-line-chart
             locale="pt-BR"
@@ -87,9 +95,11 @@
           {{ 'chart-shell-view.examples.lineNote' | translate }}
         </p>
         <ng-container *ngTemplateOutlet="chartCard" />
+        @if (log()) {
         <p class="chart-shell-showcase__log" data-testid="event-log">
           {{ log() }}
         </p>
+        }
       </div>
       @if (fullscreenOpen()) {
       <div

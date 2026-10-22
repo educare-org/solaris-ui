@@ -1,8 +1,8 @@
 import type {
   ShowcaseDocsBreadcrumb,
   ShowcaseDocsPageNav,
-} from '../../../../shell/docs-page-header/docs-page-header';
-import type { ShowcaseTocItem } from '../../../../shell/docs-on-this-page/model/toc-item';
+} from '../../../../../shell/docs-page-header/docs-page-header';
+import type { ShowcaseTocItem } from '../../../../../shell/docs-on-this-page/model/toc-item';
 
 export const CHART_SHELL_SHOWCASE_SLUG = 'chart-shell';
 
@@ -11,7 +11,7 @@ export const CHART_SHELL_TRANSLATION_PREFIX = 'chart-shell-view';
 export const CHART_SHELL_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
     { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.data-display', route: '/configuration' },
+    { labelKey: 'shell.sidebar.item.charts' },
     { labelKey: 'shell.sidebar.item.chart-shell' },
   ];
 
@@ -21,8 +21,8 @@ export const CHART_SHELL_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const CHART_SHELL_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.code-block',
-  route: '/data-display/code-block',
+  labelKey: 'shell.sidebar.item.line-chart',
+  route: '/data-display/charts/line-chart',
 };
 
 export const CHART_SHELL_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
@@ -48,6 +48,6 @@ export const CHART_SHELL_SHOWCASE_BASIC_CODE = [
   '  (seriesToggle)="onSeriesToggle($event)"',
   '  (actionRequest)="onAction($event)"',
   '>',
-  '  <!-- projected chart (line/bar/pie in later phases) -->',
+  '  <!-- projected chart: line, bar (pie lands in H4) -->',
   '</solaris-chart-shell>',
 ].join('\n');

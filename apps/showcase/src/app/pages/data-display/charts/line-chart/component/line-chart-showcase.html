@@ -1,0 +1,74 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="line-chart-view.title"
+    descriptionKey="line-chart-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="examples"
+    titleKey="line-chart-view.section.examples"
+  >
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.examples.note' | translate }}
+    </p>
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.examples.keyboardNote' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #chartCard>
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="series()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+      </ng-template>
+      <div class="line-chart-showcase__demo">
+        <ng-container *ngTemplateOutlet="chartCard" />
+        @if (log()) {
+        <p class="line-chart-showcase__log" data-testid="line-event-log">
+          {{ log() }}
+        </p>
+        }
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="line-chart-view.section.installation"
+  >
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block [code]="importCode" language="ts" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="line-chart-view.section.props">
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.props.note' | translate }}
+    </p>
+    <div class="line-chart-showcase__table-wrap">
+      <solaris-table
+        [data]="propsRows"
+        [columns]="propsColumns()"
+        rowId="prop"
+        appearance="soft"
+      />
+    </div>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

@@ -1,0 +1,60 @@
+{
+  "bar-chart-view": {
+    "description": "Barras verticales u horizontales, agrupadas, apiladas o 100%, con línea de referencia, etiquetas de valor, tooltip, estado vacío y tabla de datos.",
+    "examples": {
+      "note": "Cambie el diseño y seleccione barras en el registro.",
+      "keyboardNote": "Las barras se pueden enfocar con el teclado: Tab hasta una barra, flechas para moverse, Enter para seleccionar.",
+      "layoutLabel": "Diseño",
+      "grouped": "Agrupadas",
+      "stacked": "Apiladas",
+      "stacked100": "100% apiladas",
+      "average": "Promedio",
+      "seriesAutomation": "Automatización de tareas",
+      "seriesQueries": "Consultas de usuarios",
+      "seriesSystem": "Acciones del sistema",
+      "seriesIncome": "Ingresos",
+      "seriesExpenses": "Gastos",
+      "days": {
+        "mon": "Lun",
+        "tue": "Mar",
+        "wed": "Mié",
+        "thu": "Jue",
+        "fri": "Vie",
+        "sat": "Sáb",
+        "sun": "Dom"
+      }
+    },
+    "horizontal": {
+      "note": "En horizontal, las etiquetas largas se truncan y la altura crece con las categorías."
+    },
+    "values": {
+      "note": "Con showValues, cada barra muestra su valor con formato junto al extremo; las etiquetas siguen a valueFormat y se ocultan durante la transición de diseño."
+    },
+    "diverging": {
+      "note": "Los valores negativos crecen bajo el eje, con etiquetas debajo de la barra; positivos y negativos comparten una escala con el cero al centro."
+    },
+    "empty": {
+      "note": "Sin datos graficables, el gráfico oculta el SVG y muestra un mensaje localizado en lugar de ejes vacíos."
+    },
+    "installation": {
+      "note": "Instale el paquete e importe el componente standalone del gráfico de barras."
+    },
+    "props": {
+      "note": "Entradas, valores posibles y valor por defecto. La salida pointSelect emite la categoría seleccionada.",
+      "colProp": "Propiedad",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Defecto"
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "horizontal": "Horizontal",
+      "values": "Etiquetas de valor",
+      "diverging": "Divergente (negativos)",
+      "empty": "Estado vacío",
+      "installation": "Instalación",
+      "props": "Props"
+    },
+    "title": "Gráfico de barras"
+  }
+}

@@ -27,10 +27,34 @@ export const dataDisplayRoutes: Route[] = [
       },
       {
         path: 'chart-shell',
-        loadComponent: () =>
-          import(
-            '../pages/data-display/chart-shell/component/chart-shell-showcase'
-          ).then((m) => m.ChartShellShowcasePage),
+        redirectTo: 'charts/shell',
+        pathMatch: 'full',
+      },
+      {
+        path: 'charts',
+        children: [
+          {
+            path: 'shell',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/shell/component/chart-shell-showcase'
+              ).then((m) => m.ChartShellShowcasePage),
+          },
+          {
+            path: 'line-chart',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/line-chart/component/line-chart-showcase'
+              ).then((m) => m.LineChartShowcasePage),
+          },
+          {
+            path: 'bar-chart',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/bar-chart/component/bar-chart-showcase'
+              ).then((m) => m.BarChartShowcasePage),
+          },
+        ],
       },
       {
         path: 'code-block',

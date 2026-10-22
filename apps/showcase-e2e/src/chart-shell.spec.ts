@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test.describe('Chart shell', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/data-display/chart-shell');
+    await page.goto('/data-display/charts/shell');
     await expect(page.locator('h1')).toBeVisible();
   });
 
@@ -74,6 +74,29 @@ test.describe('Chart shell', () => {
     await expect(page.getByTestId('event-log')).toHaveText(
       'point:automation:1',
     );
+  });
+
+  test('projects the bar chart when the bar view is selected', async ({
+    page,
+  }) => {
+    const shell = page.locator('solaris-chart-shell').first();
+    await shell.locator('.solaris-chart-shell__view-select').click();
+    await page.getByRole('option', { name: 'Bar' }).click();
+    const bar = shell.locator('solaris-bar-chart');
+    await expect(bar).toBeVisible();
+    const firstBar = bar.locator('[data-bar]').first();
+    await firstBar.focus();
+    await page.keyboard.press('Enter');
+    await expect(page.getByTestId('event-log')).toHaveText(
+      'point:automation:0',
+    );
+  });
+
+  test('redirects the legacy chart-shell path to charts/shell', async ({
+    page,
+  }) => {
+    await page.goto('/data-display/chart-shell');
+    await expect(page).toHaveURL(/\/data-display\/charts\/shell$/);
   });
 
   test('stacks legend below canvas at 360px', async ({ page }) => {

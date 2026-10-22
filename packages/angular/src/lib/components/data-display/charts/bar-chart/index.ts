@@ -1,0 +1,30 @@
+export { SolarisBarChartComponent } from './component/bar-chart.component';
+export type {
+  SolarisBarChartBarGeometry,
+  SolarisBarChartDensity,
+  SolarisBarChartDomain,
+  SolarisBarChartFrame,
+  SolarisBarChartFrameOptions,
+  SolarisBarChartInputs,
+  SolarisBarChartLayout,
+  SolarisBarChartOrientation,
+  SolarisBarChartPadding,
+  SolarisBarChartPlot,
+  SolarisBarChartPointEvent,
+  SolarisBarChartSeriesGeometry,
+  SolarisBarChartSize,
+  SolarisBarChartTickGeometry,
+  SolarisBarChartTooltip,
+  SolarisBarChartTooltipRow,
+  SolarisBarChartValueFormatter,
+} from './model/chart-bar.types';
+export {
+  SOLARIS_BAR_CHART_HEIGHT,
+  SOLARIS_BAR_CHART_HORIZONTAL_PADDING,
+  SOLARIS_BAR_CHART_PADDING,
+  SOLARIS_BAR_CHART_WIDTH,
+  barChartValuePosition,
+  buildBarChartFrame,
+  resolveBarLabelEvery,
+  truncateBarCategoryLabel,
+} from './model/chart-bar.utils';

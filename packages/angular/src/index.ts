@@ -197,12 +197,18 @@ export type {
   SolarisChartView,
 } from './lib/components/data-display/charts/index';
 export {
+  SOLARIS_BAR_CHART_HEIGHT,
+  SOLARIS_BAR_CHART_HORIZONTAL_PADDING,
+  SOLARIS_BAR_CHART_PADDING,
+  SOLARIS_BAR_CHART_WIDTH,
   SOLARIS_CHART_PALETTE,
   SOLARIS_LINE_CHART_HEIGHT,
   SOLARIS_LINE_CHART_PADDING,
   SOLARIS_LINE_CHART_WIDTH,
   SOLARIS_SPARKLINE_HEIGHT,
   SOLARIS_SPARKLINE_WIDTH,
+  barChartValuePosition,
+  buildBarChartFrame,
   buildLineChartFrame,
   buildSparklineGeometry,
   buildSvgAreaPath,
@@ -212,6 +218,7 @@ export {
   isChartSeriesEmpty,
   lineChartYPosition,
   normalizeStacked100,
+  resolveBarLabelEvery,
   resolveChartDomain,
   resolveChartFallback,
   resolveChartSeriesColor,
@@ -219,9 +226,14 @@ export {
   solarisChartColorVar,
   solarisChartSoftVar,
   sumLineChartValuesAt,
+  truncateBarCategoryLabel,
   visibleChartSeries,
 } from './lib/components/data-display/charts/index';
 export type {
+  SolarisBarChartBarGeometry,
+  SolarisBarChartDomain,
+  SolarisBarChartFrame,
+  SolarisBarChartFrameOptions,
   SolarisChartDomain,
   SolarisChartDomainOptions,
   SolarisChartStringKey,
@@ -239,6 +251,7 @@ export type {
   SolarisSparklineGeometryOptions,
 } from './lib/components/data-display/charts/index';
 export { SolarisChartShellComponent } from './lib/components/data-display/charts/index';
+export { SolarisBarChartComponent } from './lib/components/data-display/charts/index';
 export { SolarisLineChartComponent } from './lib/components/data-display/charts/index';
 export { SolarisSparklineComponent } from './lib/components/data-display/charts/index';
 export type {
@@ -248,6 +261,16 @@ export type {
   SolarisLineChartTooltip,
   SolarisLineChartTooltipRow,
   SolarisLineChartValueFormatter,
+} from './lib/components/data-display/charts/index';
+export type {
+  SolarisBarChartDensity,
+  SolarisBarChartLayout,
+  SolarisBarChartOrientation,
+  SolarisBarChartPointEvent,
+  SolarisBarChartSize,
+  SolarisBarChartTooltip,
+  SolarisBarChartTooltipRow,
+  SolarisBarChartValueFormatter,
 } from './lib/components/data-display/charts/index';
 export type {
   SolarisSparklineDensity,
