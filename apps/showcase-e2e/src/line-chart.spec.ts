@@ -16,6 +16,9 @@ test.describe('Line chart', () => {
 
   test('selects line dots with the keyboard', async ({ page }) => {
     const line = page.locator('solaris-line-chart').first();
+    await expect(line).toHaveAttribute('data-transition', 'idle', {
+      timeout: 10000,
+    });
     const firstDot = line.locator('circle[data-dot]').first();
     await firstDot.focus();
     await expect(line.locator('.solaris-line-chart__tooltip')).toBeVisible();

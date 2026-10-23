@@ -30,6 +30,23 @@ Pure geometry lives in `model/chart-line.utils.ts` (`buildLineChartFrame`,
 `buildSvgLinePath`, `buildSvgAreaPath`, `sumLineChartValuesAt`,
 `lineChartYPosition`) and is SSR-safe with zero dependencies.
 
+## Transitions
+
+Period/data changes run a deterministic `idle → exiting → rescaling → entering → idle`
+sequence driven by staged (rendered) series, labels and reference lines, so the
+requested dataset never leaks into the view early. EXIT erases each line with a
+pen stroke (`stroke-dashoffset` 0 → length, last point first) with dots/areas
+fading in reverse order; RESCALE fades axes out, swaps the staged data, then
+fades the new axes in while the series stay hidden; ENTER draws each line
+(`stroke-dashoffset` length → 0, first point first) with a pen dot riding
+`getPointAtLength`; each dot governs itself through a backwards-filled reveal,
+so markers track the virtual pen tip instead of flashing early or popping in
+together, and areas fade with the stroke.
+Rapid changes coalesce to the latest pending dataset (generation-guarded
+cancellation, no overlapped old/new curves); tooltips and the selection guide
+stay disabled until `idle`; `prefers-reduced-motion` applies the new data
+synchronously without animation.
+
 ## Accessibility
 
 The SVG carries `role="img"` with a synthesized summary (`ariaLabel`

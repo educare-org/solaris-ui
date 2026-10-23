@@ -87,6 +87,7 @@
             [attr.data-series]="row.geometry.id"
             [attr.d]="row.geometry.areaPath"
             [attr.fill]="'url(#' + gradientId(row.geometry.id) + ')'"
+            [style.opacity]="markersOpacity()"
           />
         }
         <path
@@ -127,6 +128,7 @@
         <g
           class="solaris-line-chart__dots-row"
           [attr.data-series]="row.geometry.id"
+          [style.opacity]="markersOpacity()"
         >
           @for (dot of row.dots; track dot.index) {
             <circle

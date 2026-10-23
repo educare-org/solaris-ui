@@ -1,8 +1,3 @@
-import type {
-  SolarisChartReferenceLine,
-  SolarisChartSeries,
-} from '../../model/chart.types';
-
 export type SolarisLineChartSize = 'sm' | 'md' | 'lg';
 
 export type SolarisLineChartDensity = 'compact' | 'normal' | 'comfortable';
@@ -29,9 +24,4 @@ export interface SolarisLineChartTooltip {
   readonly rows: readonly SolarisLineChartTooltipRow[];
   readonly total: string | null;
   readonly totalLabel: string;
-}
-
-export interface SolarisLineChartInputs {
-  readonly series: readonly SolarisChartSeries[];
-  readonly referenceLines?: readonly SolarisChartReferenceLine[];
 }

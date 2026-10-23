@@ -141,6 +141,50 @@ test.describe('Chart shell', () => {
     await expect(rows).toHaveCount(2);
   });
 
+  test('sequences the line transition without leaving overlays', async ({
+    page,
+  }) => {
+    const shell = page.locator('solaris-chart-shell').first();
+    await shell.locator('solaris-segmented-item', { hasText: /1 m/i }).click();
+    await expect(page.getByTestId('event-log')).toHaveText('period:month');
+    await expect(
+      shell.locator('svg.solaris-line-chart__svg').first(),
+    ).toBeVisible();
+    await expect(
+      shell.locator('.solaris-line-chart__transition-overlay'),
+    ).toHaveCount(0);
+  });
+
+  test('animates list rows in two phases before removal', async ({ page }) => {
+    const section = page.locator('app-docs-section[anchor="display"]');
+    await section.getByRole('tab', { name: 'List' }).click();
+    await expect(section.locator('.chart-shell-showcase__list')).toBeVisible();
+    await expect(
+      section.locator('.chart-shell-showcase__list-row'),
+    ).toHaveCount(3);
+    await section.locator('.solaris-chart-shell__legend-item').first().click();
+    await page.waitForSelector('.chart-shell-showcase__list-row.is-leaving', {
+      timeout: 2000,
+    });
+    await expect(
+      section.locator('.chart-shell-showcase__list-row'),
+    ).toHaveCount(2);
+  });
+
+  test('fades incoming content when switching display modes', async ({
+    page,
+  }) => {
+    const section = page.locator('app-docs-section[anchor="display"]');
+    await section.getByRole('tab', { name: 'List' }).click();
+    const list = section.locator('.chart-shell-showcase__list');
+    await expect(list).toBeVisible();
+    await expect(
+      list.evaluate((node) => getComputedStyle(node).animationName),
+    ).resolves.toContain('chart-shell-display-enter');
+    await section.getByRole('tab', { name: 'Timeline' }).click();
+    await expect(section.locator('solaris-line-chart')).toBeVisible();
+  });
+
   test('redirects the legacy chart-shell path to charts/shell', async ({
     page,
   }) => {

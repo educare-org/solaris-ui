@@ -387,7 +387,7 @@ export class ChartShellShowcasePage implements OnDestroy {
             ids.includes(id) ? ids : [...ids, id],
           );
           this.leavingIds.update((ids) => ids.filter((entry) => entry !== id));
-        }, 220),
+        }, 300),
       );
     }
     this.log.set(`toggle:${id}`);

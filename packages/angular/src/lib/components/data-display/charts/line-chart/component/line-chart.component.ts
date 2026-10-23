@@ -1,14 +1,13 @@
 // SECURITY_EXCEPTION_FILE: nativeElement is used only as a ResizeObserver target
-// to measure content width for x-label thinning and as a scoped query root to
-// move focus between SVG dots. innerHTML receives only a sanitized clone of the
-// component's own rendered SVG (no user markup: Angular-escaped text, tabindex
-// stripped, dash styles reset) for the slide-out snapshot; style writes target
-// only presentation attributes of that snapshot/transition. SSR-safe via
+// to measure content width for x-label thinning and as a scoped query root for
+// transition animations and dot focus moves. Style writes target only
+// presentation attributes of the component's own SVG. SSR-safe via
 // isPlatformBrowser and typeof guards.
 import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   NgZone,
@@ -48,20 +47,26 @@ import type {
   SolarisLineChartTooltip,
   SolarisLineChartValueFormatter,
 } from '../model/line-chart.types';
+import {
+  SOLARIS_LINE_CHART_AXES_SELECTOR,
+  SOLARIS_LINE_CHART_DOT_FADE_MS,
+  SOLARIS_LINE_CHART_EASING_DECELERATE,
+  SOLARIS_LINE_CHART_EASING_STANDARD,
+  SOLARIS_LINE_CHART_ENTER_MS,
+  SOLARIS_LINE_CHART_EXIT_MS,
+  SOLARIS_LINE_CHART_RESCALE_FADE_MS,
+  nextLineChartInstanceId,
+  type SolarisLineChartDotView,
+  type SolarisLineChartTransitionPhase,
+} from '../model/line-chart.utils';
 
-interface SolarisLineChartDotView {
-  readonly seriesId: string;
-  readonly index: number;
-  readonly position: number;
-  readonly value: number;
-  readonly cx: number;
-  readonly cy: number;
+interface SolarisLineChartPendingRequest {
+  readonly series: readonly SolarisChartSeries[];
+  readonly xLabels: readonly string[] | undefined;
+  readonly referenceLines: readonly SolarisChartReferenceLine[];
+  readonly interpolation: SolarisChartInterpolation;
+  readonly step: boolean;
 }
-
-let solarisLineChartInstanceCount = 0;
-
-const SOLARIS_LINE_CHART_AXES_SELECTOR =
-  '.solaris-line-chart__grid, .solaris-line-chart__tick, .solaris-line-chart__reference, .solaris-line-chart__reference-label';
 
 @Component({
   selector: 'solaris-line-chart',
@@ -74,6 +79,7 @@ const SOLARIS_LINE_CHART_AXES_SELECTOR =
     '[attr.data-size]': 'size()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-interpolation]': 'effectiveInterpolation()',
+    '[attr.data-transition]': 'transitionPhase()',
   },
 })
 export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
@@ -107,27 +113,47 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly elementRef = inject(ElementRef);
   private readonly ngZone = inject(NgZone);
+  private readonly cdr = inject(ChangeDetectorRef);
   protected readonly themeService = inject(SolarisThemeService);
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
 
-  protected readonly gradientPrefix = `solaris-line-chart-${(solarisLineChartInstanceCount += 1)}`;
+  protected readonly gradientPrefix = `solaris-line-chart-${nextLineChartInstanceId()}`;
   protected readonly viewWidth = SOLARIS_LINE_CHART_WIDTH;
   protected readonly viewHeight = SOLARIS_LINE_CHART_HEIGHT;
 
   private resizeObserver: ResizeObserver | null = null;
   private readonly measuredWidth = signal<number | null>(null);
   protected readonly hoveredIndex = signal<number | null>(null);
+  private readonly renderedSeries = signal<readonly SolarisChartSeries[]>([]);
+  private readonly renderedXLabels = signal<readonly string[] | undefined>(
+    undefined,
+  );
+  private readonly renderedReferenceLines = signal<
+    readonly SolarisChartReferenceLine[]
+  >([]);
+  private readonly renderedInterpolation =
+    signal<SolarisChartInterpolation>('smooth');
+  private readonly renderedStep = signal<boolean>(false);
+  protected readonly transitionPhase =
+    signal<SolarisLineChartTransitionPhase>('idle');
 
-  constructor() {
-    effect(() => {
-      this.transitionKey();
-      untracked(() => this.playDataTransition());
-    });
-  }
+  /**
+   * Declarative marker gate: dots and areas are born hidden whenever a new
+   * dataset is rendered during RESCALE, before any imperative ENTER prep runs.
+   * During EXIT/ENTER/IDLE the rows stay out of the way and each dot governs
+   * itself through its own backwards-filled reveal animation.
+   */
+  protected readonly markersOpacity = computed(() =>
+    this.transitionPhase() === 'rescaling' ? '0' : '',
+  );
 
-  private transitionSnapshot: string | null = null;
+  private pendingRequest: SolarisLineChartPendingRequest | null = null;
+  private transitionGen = 0;
+  private loopRunning = false;
+  private viewReady = false;
+
   private transitionTimers: ReturnType<typeof setTimeout>[] = [];
   private transitionFrames: number[] = [];
   private transitionAnimations: Animation[] = [];
@@ -140,21 +166,42 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
     position: number;
   } | null>(null);
 
-  ngAfterViewInit(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-    if (typeof ResizeObserver === 'undefined') return;
-    const native = this.elementRef.nativeElement as HTMLElement;
-    this.resizeObserver = new ResizeObserver((entries) => {
-      const width = entries[0]?.contentRect.width ?? native.clientWidth ?? null;
-      this.ngZone.run(() => this.measuredWidth.set(width));
+  constructor() {
+    effect(() => {
+      const request: SolarisLineChartPendingRequest = {
+        series: this.series(),
+        xLabels: this.xLabels(),
+        referenceLines: this.referenceLines(),
+        interpolation: this.interpolation(),
+        step: this.step(),
+      };
+      untracked(() => this.handleDataRequest(request));
     });
-    this.resizeObserver.observe(native);
+  }
+
+  ngAfterViewInit(): void {
+    this.viewReady = true;
+    if (isPlatformBrowser(this.platformId)) {
+      if (typeof ResizeObserver !== 'undefined') {
+        const native = this.elementRef.nativeElement as HTMLElement;
+        this.resizeObserver = new ResizeObserver((entries) => {
+          const width =
+            entries[0]?.contentRect.width ?? native.clientWidth ?? null;
+          this.ngZone.run(() => this.measuredWidth.set(width));
+        });
+        this.resizeObserver.observe(native);
+      }
+      if (this.pendingRequest !== null || this.renderedSeries().length === 0) {
+        void this.runTransitionLoop();
+      }
+    }
   }
 
   ngOnDestroy(): void {
     this.resizeObserver?.disconnect();
     this.resizeObserver = null;
-    this.cancelDataTransition();
+    this.transitionGen += 1;
+    this.cancelTransitionAnimations();
   }
 
   protected readonly effectiveDensity = computed(() => {
@@ -166,13 +213,13 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
   );
 
   protected readonly visibleSeries = computed(() =>
-    visibleChartSeries(this.series()),
+    visibleChartSeries(this.renderedSeries()),
   );
 
   protected readonly frame = computed(() =>
-    buildLineChartFrame(this.series(), {
-      interpolation: this.interpolation(),
-      step: this.step(),
+    buildLineChartFrame(this.renderedSeries(), {
+      interpolation: this.renderedInterpolation(),
+      step: this.renderedStep(),
     }),
   );
 
@@ -186,7 +233,7 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
   });
 
   protected readonly resolvedXLabels = computed(() => {
-    const custom = this.xLabels();
+    const custom = this.renderedXLabels();
     if (custom !== undefined) return [...custom];
     const first = this.visibleSeries()[0];
     if (!first) return [];
@@ -249,7 +296,7 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
     const { domain, plot } = this.frame();
     const top = plot.top;
     const bottom = plot.top + plot.height;
-    return this.referenceLines()
+    return this.renderedReferenceLines()
       .map((reference) => ({
         reference,
         y: lineChartYPosition(reference.value, domain, plot),
@@ -265,6 +312,7 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
   });
 
   protected readonly tooltip = computed<SolarisLineChartTooltip | null>(() => {
+    if (this.transitionPhase() !== 'idle') return null;
     const index = this.hoveredIndex();
     if (index === null) return null;
     const format = this.resolvedYFormat();
@@ -298,20 +346,141 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
     };
   });
 
-  protected readonly transitionKey = computed(() => {
-    const frame = this.frame();
-    const ids = this.visibleSeries()
-      .map((entry) => entry.id)
-      .join(',');
-    return `${ids}|${frame.xPositions.length}|${Math.round(frame.domain.min)}:${Math.round(frame.domain.max)}`;
-  });
+  private isReducedMotion(): boolean {
+    return (
+      typeof matchMedia !== 'undefined' &&
+      matchMedia('(prefers-reduced-motion: reduce)').matches
+    );
+  }
+
+  private handleDataRequest(request: SolarisLineChartPendingRequest): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      this.applyRequestSync(request);
+      return;
+    }
+    if (this.isReducedMotion()) {
+      this.transitionGen += 1;
+      this.pendingRequest = null;
+      this.cancelTransitionAnimations();
+      this.applyRequestSync(request);
+      this.transitionPhase.set('idle');
+      return;
+    }
+    this.pendingRequest = request;
+    if (this.loopRunning) {
+      this.transitionGen += 1;
+      this.cancelTransitionAnimations();
+      return;
+    }
+    if (!this.viewReady) return;
+    void this.runTransitionLoop();
+  }
+
+  private applyRequestSync(request: SolarisLineChartPendingRequest): void {
+    this.renderedSeries.set(request.series);
+    this.renderedXLabels.set(request.xLabels);
+    this.renderedReferenceLines.set(request.referenceLines);
+    this.renderedInterpolation.set(request.interpolation);
+    this.renderedStep.set(request.step);
+    try {
+      this.cdr.detectChanges();
+    } catch {
+      // Ignore: detectChanges may be unavailable during construction/SSR.
+    }
+  }
+
+  private async runTransitionLoop(): Promise<void> {
+    if (this.loopRunning) return;
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.loopRunning = true;
+    try {
+      await this.drainPendingRequests();
+    } finally {
+      this.loopRunning = false;
+      this.resumeOrDrainAfterLoop();
+    }
+  }
+
+  private async drainPendingRequests(): Promise<void> {
+    const next = this.takePendingRequest();
+    if (next === null) return;
+    const gen = this.claimTransitionGen();
+    this.hoveredIndex.set(null);
+    await this.runSingleTransition(next, gen);
+    if (this.pendingRequest !== null) {
+      await this.drainPendingRequests();
+    }
+  }
+
+  private takePendingRequest(): SolarisLineChartPendingRequest | null {
+    const next = this.pendingRequest;
+    this.pendingRequest = null;
+    return next;
+  }
+
+  private claimTransitionGen(): number {
+    const gen = this.transitionGen + 1;
+    this.transitionGen = gen;
+    return gen;
+  }
+
+  private async runSingleTransition(
+    next: SolarisLineChartPendingRequest,
+    gen: number,
+  ): Promise<void> {
+    if (this.renderedSeries().length === 0) {
+      await this.runInitialTransition(next, gen);
+      return;
+    }
+    await this.runUpdateTransition(next, gen);
+  }
+
+  private async runInitialTransition(
+    next: SolarisLineChartPendingRequest,
+    gen: number,
+  ): Promise<void> {
+    this.applyRequestSync(next);
+    this.transitionPhase.set('entering');
+    this.prepareEnterState(this.elementRef.nativeElement as HTMLElement);
+    const entered = await this.doEnter(gen);
+    if (!entered || this.pendingRequest !== null) return;
+    this.transitionPhase.set('idle');
+    this.releaseFinishedTransitionResources();
+  }
+
+  private async runUpdateTransition(
+    next: SolarisLineChartPendingRequest,
+    gen: number,
+  ): Promise<void> {
+    this.transitionPhase.set('exiting');
+    const exited = await this.doExit(gen);
+    if (!exited || this.pendingRequest !== null) return;
+    this.transitionPhase.set('rescaling');
+    const rescaled = await this.doRescale(gen, next);
+    if (!rescaled || this.pendingRequest !== null) return;
+    this.transitionPhase.set('entering');
+    const entered = await this.doEnter(gen);
+    if (!entered || this.pendingRequest !== null) return;
+    this.transitionPhase.set('idle');
+    this.releaseFinishedTransitionResources();
+  }
+
+  private resumeOrDrainAfterLoop(): void {
+    if (this.pendingRequest === null) return;
+    if (isPlatformBrowser(this.platformId) && !this.isReducedMotion()) {
+      void this.runTransitionLoop();
+      return;
+    }
+    const drained = this.takePendingRequest();
+    if (drained) this.applyRequestSync(drained);
+    this.transitionPhase.set('idle');
+  }
 
   private playTransition(
     node: Element,
     keyframes: Keyframe[],
     options: KeyframeAnimationOptions,
   ): Animation | null {
-    // Test doubles may stub animate() without returning an Animation.
     if (typeof node.animate !== 'function') return null;
     const played = node.animate(keyframes, options) as
       | Animation
@@ -320,209 +489,56 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
     return played ?? null;
   }
 
-  private playDataTransition(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
-    if (typeof requestAnimationFrame === 'undefined') return;
-    if (typeof document === 'undefined') return;
-    if (
-      typeof matchMedia !== 'undefined' &&
-      matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) {
-      return;
+  private sleep(ms: number): Promise<void> {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => resolve(), ms);
+    });
+  }
+
+  private async waitForAnimations(
+    animations: readonly (Animation | null)[],
+    gen: number,
+    timeoutMs: number,
+  ): Promise<boolean> {
+    const live = animations.filter((item): item is Animation => item !== null);
+    if (live.length === 0) {
+      if (timeoutMs > 0) await this.sleep(Math.min(timeoutMs, 32));
+      return this.isCurrentGen(gen);
     }
-    requestAnimationFrame(() => {
-      const native = this.elementRef.nativeElement as HTMLElement;
-      const group = native.querySelector('.solaris-line-chart__series-group');
-      if (!group || typeof group.animate !== 'function') return;
-      this.cancelDataTransition();
-      const isUpdate = this.transitionSnapshot !== null;
-      this.setRowVisibility(native, false);
-      if (isUpdate) {
-        const seriesGroup = group as SVGGElement;
-        seriesGroup.style.opacity = '0';
-        this.setAxesVisibility(native, false);
-        this.slideTransitionOut(native);
-        const enterTimer = setTimeout(() => {
-          seriesGroup.style.opacity = '';
-          const entered = this.playTransition(
-            group,
-            [
-              { opacity: '0', transform: 'translateX(-56px)' },
-              { opacity: '1', transform: 'translateX(0)' },
-            ],
-            { duration: 340, easing: 'cubic-bezier(0.2, 0, 0, 1)' },
-          );
-          if (entered) this.transitionAnimations.push(entered);
-        }, 300);
-        this.transitionTimers.push(enterTimer);
-        const axesTimer = setTimeout(() => {
-          this.revealAxes(native);
-        }, 280);
-        this.transitionTimers.push(axesTimer);
-      }
-      this.drawLines(
-        native,
-        isUpdate ? 650 : 1000,
-        isUpdate,
-        isUpdate ? 300 : 0,
-      );
-      const svg = native.querySelector('svg.solaris-line-chart__svg');
-      this.transitionSnapshot =
-        svg instanceof SVGSVGElement ? this.snapshotSvg(svg) : null;
-    });
-  }
-
-  private slideTransitionOut(native: HTMLElement): void {
-    const snapshot = this.transitionSnapshot;
-    if (!snapshot) return;
-    const frame = native.querySelector('.solaris-line-chart__frame');
-    if (!frame || typeof frame.animate !== 'function') return;
-    const axes = SOLARIS_LINE_CHART_AXES_SELECTOR;
-    const data =
-      '.solaris-line-chart__line, .solaris-line-chart__area, .solaris-line-chart__dots-row, .solaris-line-chart__pen, .solaris-line-chart__selection-guide';
-    const sliding = this.buildTransitionLayer(frame, snapshot, axes);
-    if (sliding) {
-      const out = this.playTransition(
-        sliding,
-        [
-          { opacity: '1', transform: 'translateX(0)' },
-          { opacity: '0', transform: 'translateX(56px)' },
-        ],
-        {
-          duration: 300,
-          easing: 'cubic-bezier(0.2, 0, 0, 1)',
-          fill: 'forwards',
-        },
-      );
-      if (out) {
-        this.transitionAnimations.push(out);
-        out.onfinish = (): void => {
-          sliding.remove();
-        };
-      }
-    }
-    const fading = this.buildTransitionLayer(frame, snapshot, data);
-    if (fading) {
-      const out = this.playTransition(
-        fading,
-        [{ opacity: '1' }, { opacity: '0' }],
-        {
-          duration: 260,
-          easing: 'ease-out',
-          fill: 'forwards',
-        },
-      );
-      if (out) {
-        this.transitionAnimations.push(out);
-        out.onfinish = (): void => {
-          fading.remove();
-        };
-      }
-    }
-    const fallback = setTimeout(() => {
-      sliding?.remove();
-      fading?.remove();
-    }, 450);
-    this.transitionTimers.push(fallback);
-  }
-
-  private buildTransitionLayer(
-    frame: Element,
-    snapshot: string,
-    removeSelector: string,
-  ): HTMLDivElement | null {
-    const overlay = document.createElement('div');
-    overlay.className = 'solaris-line-chart__transition-overlay';
-    overlay.setAttribute('aria-hidden', 'true');
-    overlay.style.position = 'absolute';
-    overlay.style.top = '0';
-    overlay.style.right = '0';
-    overlay.style.bottom = '0';
-    overlay.style.left = '0';
-    overlay.style.overflow = 'hidden';
-    overlay.style.pointerEvents = 'none';
-    overlay.innerHTML = snapshot;
-    overlay.querySelectorAll(removeSelector).forEach((node) => node.remove());
-    frame.appendChild(overlay);
-    return overlay;
-  }
-
-  private snapshotSvg(svg: SVGSVGElement): string {
-    const clone = svg.cloneNode(true) as SVGSVGElement;
-    clone
-      .querySelectorAll('[tabindex]')
-      .forEach((node) => node.removeAttribute('tabindex'));
-    clone
-      .querySelectorAll<SVGPathElement>('.solaris-line-chart__line')
-      .forEach((path) => {
-        path.style.strokeDasharray = '';
-        path.style.strokeDashoffset = '';
-      });
-    clone
-      .querySelectorAll('.solaris-line-chart__pen')
-      .forEach((node) => node.remove());
-    clone.querySelectorAll('.solaris-line-chart__dots-row').forEach((node) => {
-      (node as SVGGElement).style.opacity = '';
-    });
-    clone.querySelectorAll('.solaris-line-chart__area').forEach((node) => {
-      const area = node as SVGPathElement;
-      area.style.opacity = '';
-      area.style.transform = '';
-    });
-    clone.querySelectorAll(SOLARIS_LINE_CHART_AXES_SELECTOR).forEach((node) => {
-      (node as SVGGElement).style.opacity = '';
-    });
-    return clone.outerHTML;
-  }
-
-  private setRowVisibility(native: ParentNode | null, visible: boolean): void {
-    if (!native) return;
-    const value = visible ? '' : '0';
-    native.querySelectorAll('.solaris-line-chart__dots-row').forEach((row) => {
-      (row as SVGGElement).style.opacity = value;
-    });
-    native.querySelectorAll('.solaris-line-chart__area').forEach((area) => {
-      (area as SVGPathElement).style.opacity = value;
-    });
-  }
-
-  private setAxesVisibility(native: ParentNode | null, visible: boolean): void {
-    if (!native) return;
-    const value = visible ? '' : '0';
-    native
-      .querySelectorAll(SOLARIS_LINE_CHART_AXES_SELECTOR)
-      .forEach((node) => {
-        (node as SVGGElement).style.opacity = value;
-      });
-  }
-
-  private revealAxes(native: HTMLElement): void {
-    const axes = Array.from(
-      native.querySelectorAll<SVGGElement>(SOLARIS_LINE_CHART_AXES_SELECTOR),
+    const settled = Promise.allSettled(
+      live.map((animation) => this.animationSettled(animation)),
     );
-    if (axes.length === 0) return;
-    if (axes.some((node) => typeof node.animate !== 'function')) {
-      this.setAxesVisibility(native, true);
-      return;
+    await Promise.race([settled, this.sleep(timeoutMs + 200)]);
+    return this.isCurrentGen(gen);
+  }
+
+  private async animationSettled(animation: Animation): Promise<void> {
+    try {
+      await animation.finished;
+    } catch {
+      // Ignore: canceled animations reject.
     }
-    axes.forEach((node) => {
-      const fade = this.playTransition(
-        node,
-        [{ opacity: '0' }, { opacity: '1' }],
-        {
-          duration: 220,
-          easing: 'ease-out',
-        },
-      );
-      if (!fade) {
-        node.style.opacity = '';
-        return;
-      }
-      this.transitionAnimations.push(fade);
-      fade.onfinish = (): void => {
-        node.style.opacity = '';
-      };
-    });
+  }
+
+  private isCurrentGen(gen: number): boolean {
+    return this.transitionGen === gen && this.pendingRequest === null;
+  }
+
+  private seriesPaths(native: HTMLElement): SVGPathElement[] {
+    return Array.from(
+      native.querySelectorAll<SVGPathElement>(
+        '.solaris-line-chart__series-group .solaris-line-chart__line',
+      ),
+    ).filter((path) => (path.getAttribute('d') ?? '') !== '');
+  }
+
+  private pathLength(path: SVGPathElement): number {
+    try {
+      const length = path.getTotalLength();
+      return Number.isFinite(length) && length > 0 ? length : 0;
+    } catch {
+      return 0;
+    }
   }
 
   private seriesSelector(seriesId: string): string {
@@ -533,129 +549,407 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
     return `[data-series="${safe}"]`;
   }
 
-  private revealRow(native: HTMLElement, seriesId: string): void {
-    const selector = this.seriesSelector(seriesId);
-    const dotsRow = native.querySelector(
-      `.solaris-line-chart__dots-row${selector}`,
+  private setSeriesGroupVisibility(
+    native: HTMLElement | null,
+    visible: boolean,
+  ): void {
+    const group = native?.querySelector('.solaris-line-chart__series-group');
+    if (group) (group as SVGGElement).style.opacity = visible ? '' : '0';
+  }
+
+  private setAxesVisibility(
+    native: HTMLElement | null,
+    visible: boolean,
+  ): void {
+    if (!native) return;
+    native
+      .querySelectorAll(SOLARIS_LINE_CHART_AXES_SELECTOR)
+      .forEach((node) => {
+        (node as SVGGElement).style.opacity = visible ? '' : '0';
+      });
+  }
+
+  private setRowsVisibility(
+    native: HTMLElement | null,
+    visible: boolean,
+  ): void {
+    if (!native) return;
+    const value = visible ? '' : '0';
+    native.querySelectorAll('.solaris-line-chart__dots-row').forEach((row) => {
+      (row as SVGGElement).style.opacity = value;
+    });
+    native.querySelectorAll('.solaris-line-chart__area').forEach((area) => {
+      (area as SVGPathElement).style.opacity = value;
+    });
+  }
+
+  private clearLineDash(native: HTMLElement | null): void {
+    native
+      ?.querySelectorAll<SVGPathElement>('.solaris-line-chart__line')
+      .forEach((path) => {
+        path.style.strokeDasharray = '';
+        path.style.strokeDashoffset = '';
+      });
+  }
+
+  private restoreVisibleState(native: HTMLElement | null): void {
+    this.clearLineDash(native);
+    this.setRowsVisibility(native, true);
+    this.setAxesVisibility(native, true);
+    this.setSeriesGroupVisibility(native as HTMLElement, true);
+  }
+
+  private prepareEnterState(native: HTMLElement): void {
+    this.setRowsVisibility(native, false);
+    const paths = this.seriesPaths(native);
+    if (paths.length === 0) {
+      return;
+    }
+    this.setSeriesGroupVisibility(native, true);
+    for (const path of paths) {
+      const length = this.pathLength(path);
+      if (length <= 0) continue;
+      path.style.strokeDasharray = `${length}`;
+      path.style.strokeDashoffset = `${length}`;
+    }
+  }
+
+  private async doExit(gen: number): Promise<boolean> {
+    const native = this.elementRef.nativeElement as HTMLElement;
+    const group = native.querySelector('.solaris-line-chart__series-group');
+    if (!group) return this.transitionGen === gen;
+    if ((group as SVGGElement).style.opacity === '0') {
+      return this.isCurrentGen(gen);
+    }
+    const paths = this.seriesPaths(native);
+    if (paths.length === 0) {
+      this.setSeriesGroupVisibility(native, false);
+      return this.isCurrentGen(gen);
+    }
+    const animations: (Animation | null)[] = [];
+    this.fadeOutPaths(native, paths, animations);
+    this.fadeOutAreas(native, animations);
+    const completed = await this.waitForAnimations(
+      animations,
+      gen,
+      SOLARIS_LINE_CHART_EXIT_MS,
     );
-    if (dotsRow) {
-      const fade = this.playTransition(
-        dotsRow,
-        [{ opacity: '0' }, { opacity: '1' }],
+    if (!completed) return false;
+    this.setSeriesGroupVisibility(native, false);
+    return true;
+  }
+
+  private fadeOutPaths(
+    native: HTMLElement,
+    paths: SVGPathElement[],
+    animations: (Animation | null)[],
+  ): void {
+    for (const path of paths) {
+      this.fadeOutSinglePath(native, path, animations);
+    }
+  }
+
+  private fadeOutSinglePath(
+    native: HTMLElement,
+    path: SVGPathElement,
+    animations: (Animation | null)[],
+  ): void {
+    const length = this.pathLength(path);
+    if (length <= 0) return;
+    path.style.strokeDasharray = `${length}`;
+    path.style.strokeDashoffset = '0';
+    this.trackAnimation(
+      animations,
+      this.playTransition(
+        path,
+        [{ strokeDashoffset: '0' }, { strokeDashoffset: `${length}` }],
         {
-          duration: 220,
-          easing: 'ease-out',
+          duration: SOLARIS_LINE_CHART_EXIT_MS,
+          easing: SOLARIS_LINE_CHART_EASING_STANDARD,
+          fill: 'forwards',
+        },
+      ),
+      () => {
+        path.style.strokeDashoffset = `${length}`;
+      },
+    );
+    this.fadeOutPathDots(native, path, animations);
+    this.runPenDot(native, path, length, SOLARIS_LINE_CHART_EXIT_MS, true);
+  }
+
+  private fadeOutPathDots(
+    native: HTMLElement,
+    path: SVGPathElement,
+    animations: (Animation | null)[],
+  ): void {
+    const seriesId = path.getAttribute('data-series') ?? '';
+    if (!seriesId) return;
+    const dots = Array.from(
+      native.querySelectorAll(
+        `.solaris-line-chart__dots-row${this.seriesSelector(seriesId)} circle`,
+      ),
+    );
+    const total = dots.length;
+    dots.forEach((dot, position) => {
+      this.fadeOutSingleDot(dot, total, position, animations);
+    });
+  }
+
+  private fadeOutSingleDot(
+    dot: Element,
+    total: number,
+    position: number,
+    animations: (Animation | null)[],
+  ): void {
+    const delay =
+      total <= 1
+        ? 0
+        : ((total - 1 - position) / total) *
+          (SOLARIS_LINE_CHART_EXIT_MS - SOLARIS_LINE_CHART_DOT_FADE_MS);
+    this.trackAnimation(
+      animations,
+      this.playTransition(dot, [{ opacity: '1' }, { opacity: '0' }], {
+        duration: SOLARIS_LINE_CHART_DOT_FADE_MS,
+        delay: Math.max(0, delay),
+        easing: SOLARIS_LINE_CHART_EASING_DECELERATE,
+        fill: 'forwards',
+      }),
+      () => {
+        (dot as SVGGElement).style.opacity = '0';
+      },
+    );
+  }
+
+  private fadeOutAreas(
+    native: HTMLElement,
+    animations: (Animation | null)[],
+  ): void {
+    const areas = Array.from(
+      native.querySelectorAll('.solaris-line-chart__area'),
+    );
+    for (const area of areas) {
+      this.trackAnimation(
+        animations,
+        this.playTransition(area, [{ opacity: '1' }, { opacity: '0' }], {
+          duration: SOLARIS_LINE_CHART_EXIT_MS,
+          easing: SOLARIS_LINE_CHART_EASING_DECELERATE,
+          fill: 'forwards',
+        }),
+        () => {
+          (area as SVGPathElement).style.opacity = '0';
         },
       );
-      if (fade) {
-        this.transitionAnimations.push(fade);
-        fade.onfinish = (): void => {
-          (dotsRow as SVGGElement).style.opacity = '';
-        };
-      } else {
-        (dotsRow as SVGGElement).style.opacity = '';
-      }
     }
-    const area = native.querySelector(`.solaris-line-chart__area${selector}`);
-    if (area) {
-      const slide = this.playTransition(
-        area,
-        [
-          { opacity: '0', transform: 'translateY(-10px)' },
-          { opacity: '1', transform: 'translateY(0)' },
-        ],
-        { duration: 300, easing: 'ease-out' },
+  }
+
+  private trackAnimation(
+    animations: (Animation | null)[],
+    animation: Animation | null,
+    fallback: () => void,
+  ): void {
+    if (animation) {
+      animations.push(animation);
+      this.transitionAnimations.push(animation);
+      return;
+    }
+    fallback();
+  }
+
+  private async doRescale(
+    gen: number,
+    next: SolarisLineChartPendingRequest,
+  ): Promise<boolean> {
+    const native = this.elementRef.nativeElement as HTMLElement;
+    this.setSeriesGroupVisibility(native, false);
+    const axes = Array.from(
+      native.querySelectorAll(SOLARIS_LINE_CHART_AXES_SELECTOR),
+    );
+    const outAnims = axes.map((node) => {
+      const fade = this.playTransition(
+        node,
+        [{ opacity: '1' }, { opacity: '0' }],
+        {
+          duration: Math.round(SOLARIS_LINE_CHART_RESCALE_FADE_MS / 2),
+          easing: SOLARIS_LINE_CHART_EASING_DECELERATE,
+          fill: 'forwards',
+        },
       );
-      if (slide) {
-        this.transitionAnimations.push(slide);
-        slide.onfinish = (): void => {
-          const el = area as SVGPathElement;
-          el.style.opacity = '';
-          el.style.transform = '';
-        };
+      if (fade) this.transitionAnimations.push(fade);
+      return fade;
+    });
+    const fadedOut = await this.waitForAnimations(
+      outAnims,
+      gen,
+      SOLARIS_LINE_CHART_RESCALE_FADE_MS,
+    );
+    if (!fadedOut) return false;
+    this.ngZone.run(() => {
+      this.renderedSeries.set(next.series);
+      this.renderedXLabels.set(next.xLabels);
+      this.renderedReferenceLines.set(next.referenceLines);
+      this.renderedInterpolation.set(next.interpolation);
+      this.renderedStep.set(next.step);
+    });
+    try {
+      this.cdr.detectChanges();
+    } catch {
+      // Ignore: tests or SSR may drive change detection manually.
+    }
+    await this.sleep(0);
+    if (this.transitionGen !== gen || this.pendingRequest !== null) {
+      return false;
+    }
+    this.prepareEnterState(native);
+    const freshAxes = Array.from(
+      native.querySelectorAll<SVGGElement>(SOLARIS_LINE_CHART_AXES_SELECTOR),
+    );
+    freshAxes.forEach((node) => {
+      node.style.opacity = '0';
+    });
+    const inAnims = freshAxes.map((node) => {
+      const fade = this.playTransition(
+        node,
+        [{ opacity: '0' }, { opacity: '1' }],
+        {
+          duration: SOLARIS_LINE_CHART_RESCALE_FADE_MS,
+          easing: SOLARIS_LINE_CHART_EASING_DECELERATE,
+          fill: 'forwards',
+        },
+      );
+      if (fade) this.transitionAnimations.push(fade);
+      return fade;
+    });
+    const fadedIn = await this.waitForAnimations(
+      inAnims,
+      gen,
+      SOLARIS_LINE_CHART_RESCALE_FADE_MS,
+    );
+    if (!fadedIn) return false;
+    freshAxes.forEach((node) => {
+      node.style.opacity = '';
+    });
+    return true;
+  }
+
+  private revealPathDots(
+    dots: Element[],
+    animations: (Animation | null)[],
+    immediate: boolean,
+  ): void {
+    const total = dots.length;
+    dots.forEach((dot, position) => {
+      const delay =
+        immediate || total <= 1
+          ? 0
+          : (position / total) *
+            (SOLARIS_LINE_CHART_ENTER_MS - SOLARIS_LINE_CHART_DOT_FADE_MS);
+      this.trackAnimation(
+        animations,
+        this.playTransition(dot, [{ opacity: '0' }, { opacity: '1' }], {
+          duration: SOLARIS_LINE_CHART_DOT_FADE_MS,
+          delay: Math.max(0, delay),
+          easing: SOLARIS_LINE_CHART_EASING_DECELERATE,
+          fill: 'both',
+        }),
+        () => {
+          (dot as SVGGElement).style.opacity = '';
+        },
+      );
+    });
+  }
+
+  private async doEnter(gen: number): Promise<boolean> {
+    const native = this.elementRef.nativeElement as HTMLElement;
+    this.setSeriesGroupVisibility(native, true);
+    this.setRowsVisibility(native, true);
+    const paths = this.seriesPaths(native);
+    if (paths.length === 0) {
+      this.restoreVisibleState(native);
+      return this.transitionGen === gen && this.pendingRequest === null;
+    }
+    const animations: (Animation | null)[] = [];
+    for (const path of paths) {
+      const seriesId = path.getAttribute('data-series') ?? '';
+      const dots = seriesId
+        ? Array.from(
+            native.querySelectorAll(
+              `.solaris-line-chart__dots-row${this.seriesSelector(seriesId)} circle`,
+            ),
+          )
+        : [];
+      const length = this.pathLength(path);
+      if (length <= 0) {
+        this.revealPathDots(dots, animations, true);
+        continue;
+      }
+      path.style.strokeDasharray = `${length}`;
+      path.style.strokeDashoffset = `${length}`;
+      const draw = this.playTransition(
+        path,
+        [{ strokeDashoffset: `${length}` }, { strokeDashoffset: '0' }],
+        {
+          duration: SOLARIS_LINE_CHART_ENTER_MS,
+          easing: SOLARIS_LINE_CHART_EASING_STANDARD,
+          fill: 'forwards',
+        },
+      );
+      if (draw) {
+        animations.push(draw);
+        this.transitionAnimations.push(draw);
+      } else {
+        path.style.strokeDasharray = '';
+        path.style.strokeDashoffset = '';
+      }
+      this.revealPathDots(dots, animations, false);
+      this.runPenDot(native, path, length, SOLARIS_LINE_CHART_ENTER_MS, false);
+    }
+    const areas = Array.from(
+      native.querySelectorAll('.solaris-line-chart__area'),
+    );
+    for (const area of areas) {
+      const reveal = this.playTransition(
+        area,
+        [{ opacity: '0' }, { opacity: '1' }],
+        {
+          duration: SOLARIS_LINE_CHART_ENTER_MS,
+          easing: SOLARIS_LINE_CHART_EASING_DECELERATE,
+          fill: 'forwards',
+        },
+      );
+      if (reveal) {
+        animations.push(reveal);
+        this.transitionAnimations.push(reveal);
       } else {
         (area as SVGPathElement).style.opacity = '';
       }
     }
-  }
-
-  private drawLines(
-    native: HTMLElement,
-    duration: number,
-    staggered: boolean,
-    baseDelay = 0,
-  ): void {
-    const group = native.querySelector('.solaris-line-chart__series-group');
-    const penLayer = native.querySelector('.solaris-line-chart__pen-layer');
-    if (!group || !penLayer) {
-      this.setRowVisibility(native, true);
-      return;
-    }
-    const paths = Array.from(
-      group.querySelectorAll<SVGPathElement>('.solaris-line-chart__line'),
+    const completed = await this.waitForAnimations(
+      animations,
+      gen,
+      SOLARIS_LINE_CHART_ENTER_MS,
     );
-    if (paths.length === 0) {
-      this.setRowVisibility(native, true);
-      return;
-    }
-    paths.forEach((path, seriesIndex) => {
-      const seriesId = path.getAttribute('data-series') ?? `${seriesIndex}`;
-      const reveal = (): void => this.revealRow(native, seriesId);
-      if (!path.getAttribute('d')) {
-        reveal();
-        return;
-      }
-      let length = 0;
-      try {
-        length = path.getTotalLength();
-      } catch {
-        reveal();
-        return;
-      }
-      if (!(length > 0) || typeof path.animate !== 'function') {
-        reveal();
-        return;
-      }
-      path.style.strokeDasharray = `${length}`;
-      path.style.strokeDashoffset = `${length}`;
-      const delay =
-        baseDelay + (staggered ? seriesIndex * 90 : seriesIndex * 140);
-      const timer = setTimeout(() => {
-        const draw = this.playTransition(
-          path,
-          [{ strokeDashoffset: `${length}` }, { strokeDashoffset: '0' }],
-          {
-            duration,
-            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-            fill: 'forwards',
-          },
-        );
-        if (draw) this.transitionAnimations.push(draw);
-        let done = false;
-        const finish = (): void => {
-          if (done) return;
-          done = true;
-          path.style.strokeDasharray = '';
-          path.style.strokeDashoffset = '';
-          reveal();
-        };
-        if (draw) draw.onfinish = finish;
-        const fallback = setTimeout(finish, duration + delay + 100);
-        this.transitionTimers.push(fallback);
-        this.runPenDot(native, penLayer, path, length, duration);
-      }, delay);
-      this.transitionTimers.push(timer);
-    });
+    this.clearLineDash(native);
+    native
+      .querySelectorAll('.solaris-line-chart__pen')
+      .forEach((node) => node.remove());
+    this.setRowsVisibility(native, true);
+    this.setSeriesGroupVisibility(native, true);
+    this.setAxesVisibility(native, true);
+    return completed;
   }
 
   private runPenDot(
     native: HTMLElement,
-    penLayer: Element,
     path: SVGPathElement,
     length: number,
     duration: number,
+    reverse: boolean,
   ): void {
     if (typeof document === 'undefined') return;
+    if (typeof requestAnimationFrame === 'undefined') return;
+    const penLayer = native.querySelector('.solaris-line-chart__pen-layer');
+    if (!penLayer) return;
+    if (this.isReducedMotion()) return;
     const pen = document.createElementNS(
       'http://www.w3.org/2000/svg',
       'circle',
@@ -678,8 +972,11 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
       const raw = (now - start) / duration;
       const progress = Math.min(1, Math.max(0, raw));
       const eased = this.easeDrawIn(progress);
+      const distance = reverse ? (1 - eased) * length : eased * length;
       try {
-        const point = path.getPointAtLength(eased * length);
+        const point = path.getPointAtLength(
+          Math.min(length, Math.max(0, distance)),
+        );
         pen.setAttribute('cx', `${point.x}`);
         pen.setAttribute('cy', `${point.y}`);
       } catch {
@@ -725,7 +1022,19 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
     );
   }
 
-  private cancelDataTransition(): void {
+  private hideSeriesForAbort(): void {
+    const native = this.elementRef.nativeElement as HTMLElement | null;
+    this.setSeriesGroupVisibility(native, false);
+    this.setRowsVisibility(native, false);
+  }
+
+  private releaseFinishedTransitionResources(): void {
+    this.transitionTimers = [];
+    this.transitionFrames = [];
+    this.transitionAnimations = [];
+  }
+
+  private cancelTransitionAnimations(): void {
     for (const timer of this.transitionTimers) clearTimeout(timer);
     this.transitionTimers = [];
     for (const frame of this.transitionFrames) cancelAnimationFrame(frame);
@@ -740,23 +1049,12 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
     this.transitionAnimations = [];
     const native = this.elementRef.nativeElement as HTMLElement | null;
     native
-      ?.querySelectorAll(
-        '.solaris-line-chart__transition-overlay, .solaris-line-chart__pen',
-      )
+      ?.querySelectorAll('.solaris-line-chart__pen')
       .forEach((node) => node.remove());
-    native
-      ?.querySelectorAll<SVGPathElement>('.solaris-line-chart__line')
-      .forEach((path) => {
-        path.style.strokeDasharray = '';
-        path.style.strokeDashoffset = '';
-      });
-    this.setRowVisibility(native, true);
-    this.setAxesVisibility(native, true);
-    const group = native?.querySelector('.solaris-line-chart__series-group');
-    if (group) (group as SVGGElement).style.opacity = '';
   }
 
   protected readonly selectionGuide = computed(() => {
+    if (this.transitionPhase() !== 'idle') return null;
     const index = this.hoveredIndex();
     if (index === null) return null;
     const frame = this.frame();
@@ -817,6 +1115,7 @@ export class SolarisLineChartComponent implements AfterViewInit, OnDestroy {
   }
 
   protected onDotFocus(dot: SolarisLineChartDotView): void {
+    if (this.transitionPhase() !== 'idle') return;
     this.focusedDot.set({ seriesId: dot.seriesId, position: dot.position });
     this.hoveredIndex.set(dot.index);
   }
