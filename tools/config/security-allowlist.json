@@ -32,8 +32,8 @@
     "reviewed": "2026-10-22"
   },
   "packages/angular/src/lib/components/data-display/charts/line-chart/component/line-chart.component.ts": {
-    "patterns": 8,
-    "reviewed": "2026-10-22"
+    "patterns": 10,
+    "reviewed": "2026-10-23"
   },
   "packages/angular/src/lib/components/data-display/charts/pie-chart/component/pie-chart.component.ts": {
     "patterns": 1,
