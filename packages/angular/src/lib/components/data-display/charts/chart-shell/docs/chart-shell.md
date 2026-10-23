@@ -55,6 +55,14 @@ tokens and honors `prefers-reduced-motion` via the inherited components.
 use the categorical palette tokens; hidden entries dim to
 `--solaris-opacity-50`. Light, dark and high-contrast come from tokens.
 
+## Print
+
+`@media print` hides the toolbar and period/display filters, pins the
+canvas to paper with hero/interval/legend text in ink, and drops shadows
+for ink-safe output (calendar C7 pattern). Projected charts apply their
+own print rules (tooltips hidden, scroll flattened). Pair with the browser
+`window.print()` preview to export chart PDFs.
+
 ## CSS Variables
 
 No component-specific color tokens. Layout uses spacing/typography tokens;

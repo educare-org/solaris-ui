@@ -224,6 +224,37 @@
   }
 }
 
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. Print must stay ink-safe on every theme (including dark and
+// high-contrast): theme tokens resolve to dark surfaces there, so the print
+// baseline pins paper #fff / ink #000. Screen rendering is untouched.
+@media print {
+  .solaris-heatmap__scroll {
+    overflow-x: visible;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): static paper host for the gutter.
+  .solaris-heatmap__gutter {
+    position: static;
+    background: #fff;
+  }
+
+  .solaris-heatmap__tooltip {
+    display: none;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): ink for gutter/column text on paper.
+  .solaris-heatmap__gutter-label,
+  .solaris-heatmap__scale-label {
+    color: #000;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): ink for SVG column text on paper.
+  .solaris-heatmap__column {
+    fill: #000;
+  }
+}
+
 @keyframes solaris-heatmap-enter {
   from {
     opacity: 0;

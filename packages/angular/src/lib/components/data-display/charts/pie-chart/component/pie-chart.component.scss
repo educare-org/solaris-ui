@@ -260,6 +260,37 @@
   }
 }
 
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. Print must stay ink-safe on every theme (including dark and
+// high-contrast): theme tokens resolve to dark surfaces there, so the print
+// baseline pins paper #fff / ink #000. Screen rendering is untouched.
+@media print {
+  .solaris-pie-chart__tooltip {
+    display: none;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper host for the donut hole.
+  .solaris-pie-chart__canvas {
+    background: #fff;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): ink for center/gauge text on paper.
+  .solaris-pie-chart__center-value,
+  .solaris-pie-chart__gauge-value-text,
+  .solaris-pie-chart__center-label,
+  .solaris-pie-chart__gauge-label,
+  .solaris-pie-chart__gauge-min,
+  .solaris-pie-chart__gauge-max {
+    fill: #000;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): ink for empty-state text on paper.
+  .solaris-pie-chart__empty-title,
+  .solaris-pie-chart__empty-message {
+    color: #000;
+  }
+}
+
 @keyframes solaris-pie-chart-fade-enter {
   from {
     opacity: 0;

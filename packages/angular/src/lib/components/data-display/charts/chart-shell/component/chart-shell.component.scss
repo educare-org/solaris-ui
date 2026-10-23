@@ -186,3 +186,33 @@
     transition: none;
   }
 }
+
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. Print must stay ink-safe on every theme (including dark and
+// high-contrast): theme tokens resolve to dark surfaces there, so the print
+// baseline pins paper #fff / ink #000 and drops shadows. Screen rendering
+// is untouched.
+@media print {
+  .solaris-chart-shell__toolbar,
+  .solaris-chart-shell__filters {
+    display: none;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper host for the projected chart.
+  .solaris-chart-shell__canvas {
+    background: #fff;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): ink for hero/interval/legend text.
+  .solaris-chart-shell__hero-value,
+  .solaris-chart-shell__hero-label,
+  .solaris-chart-shell__interval,
+  .solaris-chart-shell__legend-label,
+  .solaris-chart-shell__legend-title {
+    color: #000;
+  }
+
+  .solaris-chart-shell__canvas * {
+    box-shadow: none;
+  }
+}

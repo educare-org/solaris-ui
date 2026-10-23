@@ -88,3 +88,36 @@ high-contrast) come from the referenced tokens, never from drum-specific CSS.
 This phase introduces no component CSS. Renderers must consume
 `--solaris-*-solid` for series strokes/fills, `--solaris-*-soft` for area
 fills, grid/border/text tokens for axes, and motion tokens for animations.
+
+## Release (phase H6)
+
+Family close-out. Pages per type plus the combined page already ship from
+H1–H5; H6 adds ink-safe print, release docs and the release changeset.
+No new TypeScript in this phase (SCSS/docs only).
+
+Showcase map (`apps/showcase`, `/data-display/charts/`):
+
+- `shell/` — combined page: one immutable `series()` feeds `line|bar|pie`
+  through the shell view switcher (Image-3 parity: hero KPI, interval,
+  view dropdown, clickable legend, donut total + side values), plus KPI
+  sparklines, states and fullscreen.
+- `line-chart/`, `bar-chart/`, `pie-chart/`, `heatmap/`, `radar/` — one
+  page per type with realistic educational data, event logs and empty states.
+- Heatmap/radar stay out of the shell view switcher by design: matrix and
+  axes contracts differ from x/y series.
+
+Print (`@media print`, calendar C7 pattern):
+
+| Component     | Hides on paper                                                 | Pins paper/ink                         | Flattens                         |
+| ------------- | -------------------------------------------------------------- | -------------------------------------- | -------------------------------- |
+| `chart-shell` | toolbar, period/display filters                                | canvas paper, hero/interval/legend ink | —                                |
+| `line-chart`  | tooltip                                                        | frame paper, tick ink                  | —                                |
+| `bar-chart`   | tooltip                                                        | svg paper, tick ink                    | horizontal scroll                |
+| `pie-chart`   | tooltip                                                        | canvas paper, center/gauge/empty ink   | —                                |
+| `heatmap`     | tooltip                                                        | gutter paper, gutter/column ink        | horizontal scroll, sticky gutter |
+| `radar`       | tooltip                                                        | frame paper, axis/legend ink           | —                                |
+| `sparkline`   | — (no print rules: pure inline SVG, no chrome, text or scroll) | —                                      | —                                |
+
+Series/cell fills keep their data-encoded token colors on paper; heatmap
+low-intensity cells and radar polygons print as-screen, so light theme is
+recommended for printouts.

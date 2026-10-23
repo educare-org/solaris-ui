@@ -251,3 +251,29 @@
     animation: none;
   }
 }
+
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. Print must stay ink-safe on every theme (including dark and
+// high-contrast): theme tokens resolve to dark surfaces there, so the print
+// baseline pins paper #fff / ink #000. Screen rendering is untouched.
+@media print {
+  .solaris-radar__tooltip {
+    display: none;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper host for the legend/chart area.
+  .solaris-radar__frame {
+    background: #fff;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): ink for SVG axis text on paper.
+  .solaris-radar__axis-label {
+    fill: #000;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): ink for legend text on paper.
+  .solaris-radar__legend-item,
+  .solaris-radar__legend-title {
+    color: #000;
+  }
+}
