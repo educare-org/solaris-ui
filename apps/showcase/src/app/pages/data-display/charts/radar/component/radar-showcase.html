@@ -1,0 +1,124 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="radar-view.title"
+    descriptionKey="radar-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="radar-view.section.examples">
+    <p class="radar-showcase__note">
+      {{ 'radar-view.examples.note' | translate }}
+    </p>
+    <p class="radar-showcase__note">
+      {{ 'radar-view.examples.keyboardNote' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #profileCard>
+        <solaris-radar
+          [locale]="chartLocale()"
+          [axes]="axes()"
+          [series]="series()"
+          [max]="10"
+          (vertexSelect)="onVertexSelect($event)"
+          (seriesToggle)="onSeriesToggle($event)"
+        />
+        @if (log()) {
+        <p class="radar-showcase__log" data-testid="radar-event-log">
+          {{ log() }}
+        </p>
+        }
+      </ng-template>
+      <div class="radar-showcase__demo">
+        <ng-container *ngTemplateOutlet="profileCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="many-series"
+    titleKey="radar-view.section.manySeries"
+  >
+    <p class="radar-showcase__note">
+      {{ 'radar-view.manySeries.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="manyCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #manyCard>
+        <solaris-radar
+          [locale]="chartLocale()"
+          [axes]="manyAxes()"
+          [series]="manySeries()"
+          [max]="10"
+          (vertexSelect)="onVertexSelect($event)"
+          (seriesToggle)="onSeriesToggle($event)"
+        />
+        @if (log()) {
+        <p class="radar-showcase__log" data-testid="radar-many-log">
+          {{ log() }}
+        </p>
+        }
+      </ng-template>
+      <div class="radar-showcase__demo">
+        <ng-container *ngTemplateOutlet="manyCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="empty" titleKey="radar-view.section.empty">
+    <p class="radar-showcase__note">
+      {{ 'radar-view.empty.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="emptyCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #emptyCard>
+        <solaris-radar [locale]="chartLocale()" [axes]="axes()" [series]="[]" />
+      </ng-template>
+      <div class="radar-showcase__demo">
+        <ng-container *ngTemplateOutlet="emptyCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="radar-view.section.installation"
+  >
+    <p class="radar-showcase__note">
+      {{ 'radar-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block [code]="importCode" language="ts" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="radar-view.section.props">
+    <p class="radar-showcase__note">
+      {{ 'radar-view.props.note' | translate }}
+    </p>
+    <div class="radar-showcase__table-wrap">
+      <solaris-table
+        [data]="propsRows"
+        [columns]="propsColumns()"
+        rowId="prop"
+        appearance="soft"
+      />
+    </div>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

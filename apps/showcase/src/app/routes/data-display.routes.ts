@@ -61,6 +61,20 @@ export const dataDisplayRoutes: Route[] = [
                 '../pages/data-display/charts/pie-chart/component/pie-chart-showcase'
               ).then((m) => m.PieChartShowcasePage),
           },
+          {
+            path: 'heatmap',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/heatmap/component/heatmap-showcase'
+              ).then((m) => m.HeatmapShowcasePage),
+          },
+          {
+            path: 'radar',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/radar/component/radar-showcase'
+              ).then((m) => m.RadarShowcasePage),
+          },
         ],
       },
       {

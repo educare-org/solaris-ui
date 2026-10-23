@@ -1,0 +1,56 @@
+{
+  "radar-view": {
+    "description": "Competency profile per class on shared axes — overlaid polygons with an integrated legend, focusable vertices and per-vertex tooltips.",
+    "examples": {
+      "note": "Toggle series in the legend and select vertices in the log below.",
+      "keyboardNote": "Vertices are keyboard-focusable: Tab to a vertex, arrows to move across axes, Enter to select.",
+      "axisReading": "Reading",
+      "axisWriting": "Writing",
+      "axisMath": "Math",
+      "axisScience": "Science",
+      "axisSocial": "Social-emotional",
+      "seriesClassA": "Class A",
+      "seriesClassB": "Class B"
+    },
+    "manySeries": {
+      "note": "Ten axes with six classes: use the filter legend to isolate a class and compare profiles without leaving the chart.",
+      "axisReading": "Reading",
+      "axisWriting": "Writing",
+      "axisMath": "Math",
+      "axisScience": "Science",
+      "axisSocial": "Social-emotional",
+      "axisArts": "Arts",
+      "axisSports": "Sports",
+      "axisTech": "Tech",
+      "axisMusic": "Music",
+      "axisEnglish": "English",
+      "seriesClassA": "Class A",
+      "seriesClassB": "Class B",
+      "seriesClassC": "Class C",
+      "seriesClassD": "Class D",
+      "seriesClassE": "Class E",
+      "seriesClassF": "Class F"
+    },
+    "empty": {
+      "note": "With no visible series, the chart hides the SVG and renders a localized empty message instead of an empty web."
+    },
+    "installation": {
+      "note": "Install the package and import the standalone radar component."
+    },
+    "props": {
+      "note": "Inputs, possible values and defaults. vertexSelect emits the selected vertex; seriesToggle emits the toggled series id.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
+    },
+    "section": {
+      "examples": "Examples",
+      "manySeries": "Many axes and series",
+      "empty": "Empty state",
+      "installation": "Installation",
+      "props": "Props"
+    },
+    "title": "Radar"
+  }
+}

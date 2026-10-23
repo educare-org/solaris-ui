@@ -1,0 +1,235 @@
+:host {
+  --solaris-heatmap-label-size: var(--solaris-font-size-2xs);
+  --solaris-heatmap-gutter-size: var(--solaris-font-size-2xs);
+  --solaris-heatmap-tooltip-radius: var(--solaris-radius-md);
+  --solaris-heatmap-tooltip-shadow: var(--solaris-shadow-sm);
+  --solaris-heatmap-tooltip-color: var(--solaris-neutral-text-body);
+  --solaris-heatmap-label-color: var(--solaris-neutral-text-secondary);
+  --solaris-heatmap-gutter-color: var(--solaris-neutral-text-secondary);
+  --solaris-heatmap-gutter-background: var(--solaris-neutral-default);
+  --solaris-heatmap-tooltip-background: var(--solaris-neutral-default);
+  --solaris-heatmap-tooltip-border-color: var(--solaris-neutral-border-default);
+
+  display: block;
+}
+
+.solaris-heatmap__frame {
+  position: relative;
+}
+
+.solaris-heatmap__scroll {
+  overflow-x: auto;
+}
+
+.solaris-heatmap__inner {
+  display: inline-flex;
+  align-items: flex-start;
+}
+
+.solaris-heatmap__gutter {
+  top: 0;
+  position: sticky;
+  left: 0;
+  z-index: var(--solaris-z-index-content);
+  background: var(--solaris-heatmap-gutter-background);
+}
+
+.solaris-heatmap__gutter-label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  white-space: nowrap;
+  padding-right: var(--solaris-spacing-4);
+  color: var(--solaris-heatmap-gutter-color);
+  font-size: var(--solaris-heatmap-gutter-size);
+}
+
+.solaris-heatmap__canvas {
+  position: relative;
+  width: max-content;
+}
+
+.solaris-heatmap__svg {
+  display: block;
+  shape-rendering: geometricprecision;
+}
+
+.solaris-heatmap__svg[hidden] {
+  display: none;
+}
+
+.solaris-heatmap__column {
+  fill: var(--solaris-heatmap-label-color);
+  font-size: var(--solaris-heatmap-label-size);
+}
+
+.solaris-heatmap__cell {
+  cursor: pointer;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    filter var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+  animation: solaris-heatmap-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+.solaris-heatmap__cell:hover {
+  filter: brightness(1.07);
+}
+
+.solaris-heatmap__cell[data-active] {
+  opacity: var(--solaris-opacity-90);
+}
+
+.solaris-heatmap__cell[data-empty] {
+  cursor: default;
+}
+
+.solaris-heatmap__cell:focus {
+  outline: none;
+}
+
+.solaris-heatmap__cell:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-heatmap__tooltip {
+  top: 0;
+  left: 0;
+  position: absolute;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: var(--solaris-z-index-content);
+  max-width: calc(100% - var(--solaris-spacing-7));
+}
+
+.solaris-heatmap__tooltip[data-side='top'] {
+  transform: translate(-50%, -100%);
+}
+
+.solaris-heatmap__tooltip[data-side='bottom'] {
+  transform: translate(-50%, 0);
+}
+
+.solaris-heatmap__tooltip[data-side='left'] {
+  transform: translate(-100%, -50%);
+}
+
+.solaris-heatmap__tooltip[data-side='right'] {
+  transform: translate(0, -50%);
+}
+
+.solaris-heatmap__tooltip-card {
+  display: flex;
+  max-width: 100%;
+  width: max-content;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  min-width: var(--solaris-spacing-16);
+  color: var(--solaris-heatmap-tooltip-color);
+  font-size: var(--solaris-heatmap-label-size);
+  box-shadow: var(--solaris-heatmap-tooltip-shadow);
+  border-radius: var(--solaris-heatmap-tooltip-radius);
+  background: var(--solaris-heatmap-tooltip-background);
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-heatmap-tooltip-border-color);
+  animation: solaris-motion-tooltip-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+.solaris-heatmap__tooltip-heading {
+  font-weight: var(--solaris-font-weight-semibold);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.solaris-heatmap__tooltip-value {
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.solaris-heatmap__empty {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--solaris-spacing-2);
+  min-height: calc(var(--solaris-spacing-12) * 4);
+  padding: var(--solaris-spacing-6) var(--solaris-spacing-5);
+}
+
+.solaris-heatmap__empty-title {
+  margin: 0;
+  font-size: var(--solaris-font-size-xs);
+  color: var(--solaris-neutral-text-heading);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.solaris-heatmap__empty-message {
+  margin: 0;
+  color: var(--solaris-heatmap-label-color);
+  font-size: var(--solaris-heatmap-label-size);
+}
+
+.solaris-heatmap__scale {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-2);
+  margin-top: var(--solaris-spacing-4);
+}
+
+.solaris-heatmap__scale-segments {
+  display: flex;
+  gap: var(--solaris-spacing-2);
+}
+
+.solaris-heatmap__scale-segment {
+  flex: 1;
+  height: var(--solaris-spacing-4);
+  border-radius: var(--solaris-radius-sm);
+}
+
+.solaris-heatmap__scale-ticks {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.solaris-heatmap__scale-label {
+  color: var(--solaris-heatmap-label-color);
+  font-size: var(--solaris-heatmap-label-size);
+  font-variant-numeric: tabular-nums;
+}
+
+.solaris-heatmap__data {
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  position: absolute;
+  clip-path: inset(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-heatmap__cell,
+  .solaris-heatmap__tooltip-card {
+    transition: none;
+    animation: none;
+  }
+}
+
+@keyframes solaris-heatmap-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "radar-view": {
+    "description": "Perfil por competencia de cada clase en ejes compartidos — polígonos superpuestos con leyenda integrada, vértices enfocables y tooltips por vértice.",
+    "examples": {
+      "note": "Alterne series en la leyenda y seleccione vértices en el registro.",
+      "keyboardNote": "Los vértices se pueden enfocar con el teclado: Tab hasta un vértice, flechas para moverse entre ejes, Enter para seleccionar.",
+      "axisReading": "Lectura",
+      "axisWriting": "Escritura",
+      "axisMath": "Matemáticas",
+      "axisScience": "Ciencias",
+      "axisSocial": "Socioemocional",
+      "seriesClassA": "Clase A",
+      "seriesClassB": "Clase B"
+    },
+    "manySeries": {
+      "note": "Diez ejes con seis clases: use la leyenda de filtro para aislar una clase y comparar perfiles sin salir del gráfico.",
+      "axisReading": "Lectura",
+      "axisWriting": "Escritura",
+      "axisMath": "Matemáticas",
+      "axisScience": "Ciencias",
+      "axisSocial": "Socioemocional",
+      "axisArts": "Artes",
+      "axisSports": "Deportes",
+      "axisTech": "Tecnología",
+      "axisMusic": "Música",
+      "axisEnglish": "Inglés",
+      "seriesClassA": "Clase A",
+      "seriesClassB": "Clase B",
+      "seriesClassC": "Clase C",
+      "seriesClassD": "Clase D",
+      "seriesClassE": "Clase E",
+      "seriesClassF": "Clase F"
+    },
+    "empty": {
+      "note": "Sin series visibles, el gráfico oculta el SVG y muestra un mensaje localizado en lugar de una red vacía."
+    },
+    "installation": {
+      "note": "Instale el paquete e importe el componente standalone del radar."
+    },
+    "props": {
+      "note": "Entradas, valores posibles y valor por defecto. vertexSelect emite el vértice; seriesToggle emite el id de la serie alternada.",
+      "colProp": "Propiedad",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Defecto"
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "manySeries": "Muchos ejes y series",
+      "empty": "Estado vacío",
+      "installation": "Instalación",
+      "props": "Props"
+    },
+    "title": "Radar"
+  }
+}

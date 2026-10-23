@@ -1,0 +1,44 @@
+{
+  "heatmap-view": {
+    "description": "Grade semanal de frequência por dia e horário — a intensidade segue o token primário, períodos vazios ficam neutros e cada célula é focável pelo teclado.",
+    "examples": {
+      "note": "Selecione células no log abaixo; horários sem aula mostram um traço.",
+      "keyboardNote": "As células são focáveis pelo teclado: Tab até uma célula, setas para mover entre dias e horários, Enter para selecionar.",
+      "dayMon": "Segunda",
+      "dayTue": "Terça",
+      "dayWed": "Quarta",
+      "dayThu": "Quinta",
+      "dayFri": "Sexta"
+    },
+    "scale": {
+      "note": "Com showScale o gráfico pinta uma barra de intensidade segmentada em 5 faixas (0–20, 20–40, 40–60, 60–80, 80–100) abaixo da grade; esta matriz mistura semanas fortes e fracas, incluindo valores próximos de 0, com alguns períodos sem aula.",
+      "seriesClassA": "Turma A",
+      "seriesClassB": "Turma B",
+      "seriesClassC": "Turma C",
+      "seriesClassD": "Turma D",
+      "seriesClassE": "Turma E",
+      "seriesClassF": "Turma F"
+    },
+    "empty": {
+      "note": "Sem dados plotáveis, o gráfico oculta o SVG e exibe uma mensagem localizada em vez de uma grade vazia."
+    },
+    "installation": {
+      "note": "Instale o pacote e importe o componente standalone do mapa de calor."
+    },
+    "props": {
+      "note": "Entradas, valores possíveis e padrão de cada prop. A saída cellSelect emite a linha e a coluna selecionadas.",
+      "colProp": "Propriedade",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Padrão"
+    },
+    "section": {
+      "examples": "Exemplos",
+      "scale": "Escala de intensidade",
+      "empty": "Estado vazio",
+      "installation": "Instalação",
+      "props": "Props"
+    },
+    "title": "Mapa de calor"
+  }
+}

@@ -1,0 +1,149 @@
+<div class="solaris-heatmap__frame" (mouseleave)="onCellsLeave()">
+  <div class="solaris-heatmap__scroll">
+    <div class="solaris-heatmap__inner">
+      <div class="solaris-heatmap__gutter" aria-hidden="true">
+        <div
+          class="solaris-heatmap__gutter-head"
+          [style.height.px]="frame().headerHeight"
+        ></div>
+        @for (row of rows(); track row.id) {
+          <div
+            class="solaris-heatmap__gutter-label"
+            [style.height.px]="frame().rowHeight"
+          >
+            {{ row.label }}
+          </div>
+        }
+      </div>
+      <div class="solaris-heatmap__canvas">
+        <svg
+          class="solaris-heatmap__svg"
+          [attr.width]="frame().width"
+          [attr.height]="frame().height"
+          [attr.viewBox]="`0 0 ${frame().width} ${frame().height}`"
+          [attr.hidden]="isEmpty() ? '' : null"
+          role="img"
+          [attr.aria-label]="summary()"
+        >
+          @for (label of columns(); track label; let columnIndex = $index) {
+            <text
+              class="solaris-heatmap__column"
+              [attr.x]="columnCenter(columnIndex)"
+              [attr.y]="columnBaseline()"
+              text-anchor="middle"
+            >
+              {{ label }}
+            </text>
+          }
+          @for (
+            cell of frame().cells;
+            track cell.rowId + ':' + cell.columnIndex
+          ) {
+            <rect
+              class="solaris-heatmap__cell"
+              [attr.x]="cell.x"
+              [attr.y]="cell.y"
+              [attr.width]="cell.width"
+              [attr.height]="cell.height"
+              rx="3"
+              [attr.fill]="cellFill(cell.rowId, cell.columnIndex)"
+              [attr.data-cell]="cellKey(cell.rowId, cell.columnIndex)"
+              [attr.data-active]="
+                isMarkActive(cell.rowId, cell.columnIndex) ? '' : null
+              "
+              [attr.data-empty]="cell.value === null ? '' : null"
+              [attr.tabindex]="markTabIndex(cell.rowId, cell.columnIndex)"
+              [attr.aria-label]="cellAriaLabel(cell.rowId, cell.columnIndex)"
+              [style.animation-delay.ms]="
+                enterDelay(
+                  cell.rowIndex * frame().columnCount + cell.columnIndex
+                )
+              "
+              (focus)="onCellFocus(cell.rowId, cell.columnIndex)"
+              (blur)="onCellBlur()"
+              (mouseenter)="onCellHover(cell.rowId, cell.columnIndex)"
+              (keydown)="onCellKeydown($event, cell.rowId, cell.columnIndex)"
+              (click)="onCellActivate(cell.rowId, cell.columnIndex)"
+            />
+          }
+        </svg>
+
+        @if (tooltip(); as tip) {
+          <div
+            class="solaris-heatmap__tooltip"
+            aria-hidden="true"
+            [style.left.%]="tip.leftPercent"
+            [style.top.%]="tip.topPercent"
+            [attr.data-side]="tip.side"
+          >
+            <div class="solaris-heatmap__tooltip-card">
+              <span class="solaris-heatmap__tooltip-heading">
+                {{ tip.rowLabel }} · {{ tip.columnLabel }}
+              </span>
+              <span class="solaris-heatmap__tooltip-value">
+                @if (tip.formattedValue === null) {
+                  —
+                } @else {
+                  {{ tip.formattedValue }}
+                }
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  @if (isEmpty()) {
+    <div class="solaris-heatmap__empty">
+      <p class="solaris-heatmap__empty-title">{{ emptyTitle() }}</p>
+      <p class="solaris-heatmap__empty-message">{{ emptyMessage() }}</p>
+    </div>
+  }
+
+  @if (showScale() && !isEmpty()) {
+    <div class="solaris-heatmap__scale" aria-hidden="true">
+      <div class="solaris-heatmap__scale-segments">
+        @for (segment of scaleSegments(); track $index) {
+          <span
+            class="solaris-heatmap__scale-segment"
+            [style.background]="segment.fill"
+          ></span>
+        }
+      </div>
+      <div class="solaris-heatmap__scale-ticks">
+        @for (tick of scaleTicks(); track $index) {
+          <span class="solaris-heatmap__scale-label">{{ tick }}</span>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="solaris-heatmap__data">
+    <table>
+      <caption>
+        {{
+          summary()
+        }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          @for (label of columns(); track label) {
+            <th scope="col">{{ label }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of tableRows(); track row.label) {
+          <tr>
+            <th scope="row">{{ row.label }}</th>
+            @for (value of row.values; track $index) {
+              <td>{{ value }}</td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

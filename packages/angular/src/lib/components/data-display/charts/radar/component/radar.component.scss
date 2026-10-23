@@ -1,0 +1,253 @@
+:host {
+  --solaris-radar-label-size: var(--solaris-font-size-2xs);
+  --solaris-radar-legend-size: var(--solaris-font-size-2xs);
+  --solaris-radar-tooltip-radius: var(--solaris-radius-md);
+  --solaris-radar-tooltip-shadow: var(--solaris-shadow-sm);
+  --solaris-radar-tooltip-color: var(--solaris-neutral-text-body);
+  --solaris-radar-label-color: var(--solaris-neutral-text-secondary);
+  --solaris-radar-grid-color: var(--solaris-neutral-border-default);
+  --solaris-radar-legend-color: var(--solaris-neutral-text-body);
+  --solaris-radar-tooltip-background: var(--solaris-neutral-default);
+  --solaris-radar-tooltip-border-color: var(--solaris-neutral-border-default);
+
+  display: block;
+}
+
+.solaris-radar__frame {
+  position: relative;
+}
+
+.solaris-radar__legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--solaris-spacing-4);
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.solaris-radar__legend-title {
+  color: var(--solaris-radar-label-color);
+  font-size: var(--solaris-radar-legend-size);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.solaris-radar__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--solaris-spacing-3);
+  padding: var(--solaris-spacing-3) var(--solaris-spacing-4);
+  border-radius: var(--solaris-radius-md);
+  border: var(--solaris-border-width-sm) solid transparent;
+  background: transparent;
+  cursor: pointer;
+  color: var(--solaris-radar-legend-color);
+  font-size: var(--solaris-radar-legend-size);
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-radar__legend-item:hover {
+  background: var(--solaris-neutral-subtle);
+  border-color: var(--solaris-neutral-border-default);
+}
+
+.solaris-radar__legend-item:focus {
+  outline: none;
+}
+
+.solaris-radar__legend-item:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-radar__legend-item[data-hidden] {
+  opacity: var(--solaris-opacity-50);
+}
+
+.solaris-radar__legend-item[data-hidden] .solaris-radar__legend-label {
+  text-decoration: line-through;
+}
+
+.solaris-radar__legend-swatch {
+  display: inline-block;
+  width: var(--solaris-spacing-4);
+  height: var(--solaris-spacing-4);
+  border-radius: var(--solaris-radius-sm);
+}
+
+.solaris-radar__canvas {
+  position: relative;
+  margin-inline: auto;
+  max-width: calc(var(--solaris-spacing-12) * 10);
+}
+
+.solaris-radar__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+  shape-rendering: geometricprecision;
+}
+
+.solaris-radar__svg[hidden] {
+  display: none;
+}
+
+.solaris-radar__ring {
+  fill: none;
+  stroke: var(--solaris-radar-grid-color);
+}
+
+.solaris-radar__axis {
+  stroke: var(--solaris-radar-grid-color);
+}
+
+.solaris-radar__axis-label {
+  fill: var(--solaris-radar-label-color);
+  font-size: var(--solaris-radar-label-size);
+}
+
+.solaris-radar__polygon {
+  stroke-width: 2;
+  stroke-linejoin: round;
+  transition:
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    points var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+:host([data-entering]) .solaris-radar__polygon,
+:host([data-entering]) .solaris-radar__vertex {
+  transition: none;
+}
+
+.solaris-radar__vertex {
+  cursor: pointer;
+  transition:
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    filter var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-radar__vertex:hover {
+  filter: brightness(1.07);
+}
+
+.solaris-radar__vertex[data-active] {
+  opacity: var(--solaris-opacity-90);
+}
+
+.solaris-radar__vertex:focus {
+  outline: none;
+}
+
+.solaris-radar__vertex:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-radar__tooltip {
+  top: 0;
+  left: 0;
+  position: absolute;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: var(--solaris-z-index-content);
+  max-width: calc(100% - var(--solaris-spacing-7));
+}
+
+.solaris-radar__tooltip[data-side='top'] {
+  transform: translate(-50%, -100%);
+}
+
+.solaris-radar__tooltip[data-side='bottom'] {
+  transform: translate(-50%, 0);
+}
+
+.solaris-radar__tooltip[data-side='left'] {
+  transform: translate(-100%, -50%);
+}
+
+.solaris-radar__tooltip[data-side='right'] {
+  transform: translate(0, -50%);
+}
+
+.solaris-radar__tooltip-card {
+  display: flex;
+  max-width: 100%;
+  width: max-content;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  min-width: var(--solaris-spacing-16);
+  color: var(--solaris-radar-tooltip-color);
+  font-size: var(--solaris-radar-label-size);
+  box-shadow: var(--solaris-radar-tooltip-shadow);
+  border-radius: var(--solaris-radar-tooltip-radius);
+  background: var(--solaris-radar-tooltip-background);
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-radar-tooltip-border-color);
+  animation: solaris-motion-tooltip-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+.solaris-radar__tooltip-heading {
+  font-weight: var(--solaris-font-weight-semibold);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.solaris-radar__tooltip-value {
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.solaris-radar__empty {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--solaris-spacing-2);
+  min-height: calc(var(--solaris-spacing-12) * 4);
+  padding: var(--solaris-spacing-6) var(--solaris-spacing-5);
+}
+
+.solaris-radar__empty-title {
+  margin: 0;
+  font-size: var(--solaris-font-size-xs);
+  color: var(--solaris-neutral-text-heading);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.solaris-radar__empty-message {
+  margin: 0;
+  color: var(--solaris-radar-label-color);
+  font-size: var(--solaris-radar-label-size);
+}
+
+.solaris-radar__data {
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  position: absolute;
+  clip-path: inset(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-radar__polygon,
+  .solaris-radar__vertex,
+  .solaris-radar__tooltip-card {
+    transition: none;
+    animation: none;
+  }
+}

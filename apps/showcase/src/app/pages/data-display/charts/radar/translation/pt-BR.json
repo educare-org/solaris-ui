@@ -1,0 +1,56 @@
+{
+  "radar-view": {
+    "description": "Perfil por competência de cada turma em eixos compartilhados — polígonos sobrepostos com legenda integrada, vértices focáveis e tooltips por vértice.",
+    "examples": {
+      "note": "Alterne séries na legenda e selecione vértices no log abaixo.",
+      "keyboardNote": "Os vértices são focáveis pelo teclado: Tab até um vértice, setas para mover entre eixos, Enter para selecionar.",
+      "axisReading": "Leitura",
+      "axisWriting": "Escrita",
+      "axisMath": "Matemática",
+      "axisScience": "Ciências",
+      "axisSocial": "Socioemocional",
+      "seriesClassA": "Turma A",
+      "seriesClassB": "Turma B"
+    },
+    "manySeries": {
+      "note": "Dez eixos com seis turmas: use a legenda de filtro para isolar uma turma e comparar perfis sem sair do gráfico.",
+      "axisReading": "Leitura",
+      "axisWriting": "Escrita",
+      "axisMath": "Matemática",
+      "axisScience": "Ciências",
+      "axisSocial": "Socioemocional",
+      "axisArts": "Artes",
+      "axisSports": "Esportes",
+      "axisTech": "Tecnologia",
+      "axisMusic": "Música",
+      "axisEnglish": "Inglês",
+      "seriesClassA": "Turma A",
+      "seriesClassB": "Turma B",
+      "seriesClassC": "Turma C",
+      "seriesClassD": "Turma D",
+      "seriesClassE": "Turma E",
+      "seriesClassF": "Turma F"
+    },
+    "empty": {
+      "note": "Sem séries visíveis, o gráfico oculta o SVG e exibe uma mensagem localizada em vez de uma teia vazia."
+    },
+    "installation": {
+      "note": "Instale o pacote e importe o componente standalone do radar."
+    },
+    "props": {
+      "note": "Entradas, valores possíveis e padrão de cada prop. vertexSelect emite o vértice; seriesToggle emite o id da série alternada.",
+      "colProp": "Propriedade",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Padrão"
+    },
+    "section": {
+      "examples": "Exemplos",
+      "manySeries": "Muitos eixos e séries",
+      "empty": "Estado vazio",
+      "installation": "Instalação",
+      "props": "Props"
+    },
+    "title": "Radar"
+  }
+}

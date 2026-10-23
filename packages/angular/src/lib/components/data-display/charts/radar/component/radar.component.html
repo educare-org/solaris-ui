@@ -1,0 +1,165 @@
+<div class="solaris-radar__frame" (mouseleave)="onVerticesLeave()">
+  <div class="solaris-radar__legend">
+    <span class="solaris-radar__legend-title" aria-hidden="true">
+      {{ legendFilterLabel() }}
+    </span>
+    @for (geometry of frame().series; track geometry.id) {
+      <button
+        type="button"
+        class="solaris-radar__legend-item"
+        [attr.data-legend]="geometry.id"
+        [attr.data-hidden]="isSeriesHidden(geometry.id) ? '' : null"
+        [attr.aria-pressed]="legendPressed(geometry.id)"
+        [attr.aria-label]="legendToggleLabel(geometry.label)"
+        (click)="onLegendToggle(geometry.id)"
+      >
+        <span
+          class="solaris-radar__legend-swatch"
+          [style.background]="geometry.colorVar"
+          aria-hidden="true"
+        ></span>
+        <span class="solaris-radar__legend-label">{{ geometry.label }}</span>
+      </button>
+    }
+  </div>
+  <div class="solaris-radar__canvas">
+    <svg
+      class="solaris-radar__svg"
+      [attr.viewBox]="`0 0 ${frame().width} ${frame().height}`"
+      [attr.hidden]="isEmpty() ? '' : null"
+      preserveAspectRatio="xMidYMid meet"
+      role="img"
+      [attr.aria-label]="summary()"
+    >
+      @for (ring of displayFrame().rings; track $index) {
+        <polygon
+          class="solaris-radar__ring"
+          [attr.points]="ring.map((point) => `${point.x},${point.y}`).join(' ')"
+        />
+      }
+      @for (
+        end of displayFrame().axisEnds;
+        track $index;
+        let axisIndex = $index
+      ) {
+        <line
+          class="solaris-radar__axis"
+          [attr.x1]="displayFrame().centerX"
+          [attr.y1]="displayFrame().centerY"
+          [attr.x2]="end.x"
+          [attr.y2]="end.y"
+        />
+        <text
+          class="solaris-radar__axis-label"
+          [attr.x]="axisLabelPosition(axisIndex).x"
+          [attr.y]="axisLabelPosition(axisIndex).y"
+          text-anchor="middle"
+        >
+          {{ axes()[axisIndex] }}
+        </text>
+      }
+      @for (geometry of displayFrame().series; track geometry.id) {
+        <polygon
+          class="solaris-radar__polygon"
+          [attr.points]="
+            geometry.points.map((point) => `${point.x},${point.y}`).join(' ')
+          "
+          [style.fill]="seriesFill(geometry.colorVar)"
+          [style.stroke]="geometry.colorVar"
+          [attr.data-series]="geometry.id"
+        />
+        @if (showVertices()) {
+          @for (
+            vertex of geometry.vertices;
+            track vertex.seriesId + ':' + vertex.axisIndex
+          ) {
+            <circle
+              class="solaris-radar__vertex"
+              [attr.cx]="vertex.x"
+              [attr.cy]="vertex.y"
+              r="4"
+              [style.fill]="geometry.colorVar"
+              [attr.data-vertex]="vertexKey(vertex.seriesId, vertex.axisIndex)"
+              [attr.data-active]="
+                isMarkActive(vertex.seriesId, vertex.axisIndex) ? '' : null
+              "
+              [attr.tabindex]="markTabIndex(vertex.seriesId, vertex.axisIndex)"
+              [attr.aria-label]="
+                vertexAriaLabel(vertex.seriesId, vertex.axisIndex)
+              "
+              (focus)="onVertexFocus(vertex.seriesId, vertex.axisIndex)"
+              (blur)="onVertexBlur()"
+              (mouseenter)="onVertexHover(vertex.seriesId, vertex.axisIndex)"
+              (keydown)="
+                onVertexKeydown($event, vertex.seriesId, vertex.axisIndex)
+              "
+              (click)="onVertexActivate(vertex.seriesId, vertex.axisIndex)"
+            />
+          }
+        }
+      }
+    </svg>
+
+    @if (tooltip(); as tip) {
+      <div
+        class="solaris-radar__tooltip"
+        aria-hidden="true"
+        [style.left.%]="tip.leftPercent"
+        [style.top.%]="tip.topPercent"
+        [attr.data-side]="tip.side"
+      >
+        <div class="solaris-radar__tooltip-card">
+          <span class="solaris-radar__tooltip-heading">
+            {{ tip.seriesLabel }} · {{ tip.axisLabel }}
+          </span>
+          <span class="solaris-radar__tooltip-value">
+            @if (tip.formattedValue === null) {
+              —
+            } @else {
+              {{ tip.formattedValue }}
+            }
+          </span>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (isEmpty()) {
+    <div class="solaris-radar__empty">
+      <p class="solaris-radar__empty-title">{{ emptyTitle() }}</p>
+      <p class="solaris-radar__empty-message">{{ emptyMessage() }}</p>
+    </div>
+  }
+
+  <div class="solaris-radar__data">
+    <table>
+      <caption>
+        {{
+          summary()
+        }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          @for (geometry of frame().series; track geometry.id) {
+            <th scope="col">{{ geometry.label }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (label of axes(); track label; let axisIndex = $index) {
+          <tr>
+            <th scope="row">{{ label }}</th>
+            @for (geometry of frame().series; track geometry.id) {
+              <td>
+                {{
+                  formatVertexValue(geometry.vertices[axisIndex]?.value ?? null)
+                }}
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -21,8 +21,8 @@ export const PIE_CHART_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const PIE_CHART_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.code-block',
-  route: '/data-display/code-block',
+  labelKey: 'shell.sidebar.item.heatmap',
+  route: '/data-display/charts/heatmap',
 };
 
 export const PIE_CHART_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

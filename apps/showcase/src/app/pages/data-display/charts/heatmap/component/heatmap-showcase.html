@@ -1,0 +1,124 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="heatmap-view.title"
+    descriptionKey="heatmap-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="heatmap-view.section.examples">
+    <p class="heatmap-showcase__note">
+      {{ 'heatmap-view.examples.note' | translate }}
+    </p>
+    <p class="heatmap-showcase__note">
+      {{ 'heatmap-view.examples.keyboardNote' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #attendanceCard>
+        <solaris-heatmap
+          [locale]="chartLocale()"
+          [rows]="rows()"
+          [columns]="columns"
+          [max]="100"
+          (cellSelect)="onCellSelect($event)"
+        />
+        @if (log()) {
+        <p class="heatmap-showcase__log" data-testid="heat-event-log">
+          {{ log() }}
+        </p>
+        }
+      </ng-template>
+      <div class="heatmap-showcase__demo">
+        <ng-container *ngTemplateOutlet="attendanceCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="scale" titleKey="heatmap-view.section.scale">
+    <p class="heatmap-showcase__note">
+      {{ 'heatmap-view.scale.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="scaleCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #scaleCard>
+        <solaris-heatmap
+          [locale]="chartLocale()"
+          [rows]="scaleRows()"
+          [columns]="scaleColumns"
+          [max]="100"
+          [showScale]="true"
+          (cellSelect)="onCellSelect($event)"
+        />
+        @if (log()) {
+        <p class="heatmap-showcase__log" data-testid="heat-scale-log">
+          {{ log() }}
+        </p>
+        }
+      </ng-template>
+      <div class="heatmap-showcase__demo">
+        <ng-container *ngTemplateOutlet="scaleCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="empty" titleKey="heatmap-view.section.empty">
+    <p class="heatmap-showcase__note">
+      {{ 'heatmap-view.empty.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="emptyCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #emptyCard>
+        <solaris-heatmap
+          [locale]="chartLocale()"
+          [rows]="[]"
+          [columns]="columns"
+        />
+      </ng-template>
+      <div class="heatmap-showcase__demo">
+        <ng-container *ngTemplateOutlet="emptyCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="heatmap-view.section.installation"
+  >
+    <p class="heatmap-showcase__note">
+      {{ 'heatmap-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block [code]="importCode" language="ts" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="heatmap-view.section.props">
+    <p class="heatmap-showcase__note">
+      {{ 'heatmap-view.props.note' | translate }}
+    </p>
+    <div class="heatmap-showcase__table-wrap">
+      <solaris-table
+        [data]="propsRows"
+        [columns]="propsColumns()"
+        rowId="prop"
+        appearance="soft"
+      />
+    </div>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

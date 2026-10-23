@@ -1,0 +1,44 @@
+{
+  "heatmap-view": {
+    "description": "Cuadrícula semanal de asistencia por día y horario — la intensidad sigue el token primario, los períodos vacíos quedan neutros y cada celda se puede enfocar con el teclado.",
+    "examples": {
+      "note": "Seleccione celdas en el registro; los horarios sin clase muestran un guion.",
+      "keyboardNote": "Las celdas se pueden enfocar con el teclado: Tab hasta una celda, flechas para moverse entre días y horarios, Enter para seleccionar.",
+      "dayMon": "Lunes",
+      "dayTue": "Martes",
+      "dayWed": "Miércoles",
+      "dayThu": "Jueves",
+      "dayFri": "Viernes"
+    },
+    "scale": {
+      "note": "Con showScale el gráfico pinta una barra de intensidad segmentada en 5 rangos (0–20, 20–40, 40–60, 60–80, 80–100) bajo la cuadrícula; esta matriz mezcla semanas fuertes y débiles, incluyendo valores cercanos a 0, con algunos períodos sin clase.",
+      "seriesClassA": "Clase A",
+      "seriesClassB": "Clase B",
+      "seriesClassC": "Clase C",
+      "seriesClassD": "Clase D",
+      "seriesClassE": "Clase E",
+      "seriesClassF": "Clase F"
+    },
+    "empty": {
+      "note": "Sin datos graficables, el gráfico oculta el SVG y muestra un mensaje localizado en lugar de una cuadrícula vacía."
+    },
+    "installation": {
+      "note": "Instale el paquete e importe el componente standalone del mapa de calor."
+    },
+    "props": {
+      "note": "Entradas, valores posibles y valor por defecto. La salida cellSelect emite la fila y la columna seleccionadas.",
+      "colProp": "Propiedad",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Defecto"
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "scale": "Escala de intensidad",
+      "empty": "Estado vacío",
+      "installation": "Instalación",
+      "props": "Props"
+    },
+    "title": "Mapa de calor"
+  }
+}
