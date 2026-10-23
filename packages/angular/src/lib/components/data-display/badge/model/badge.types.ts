@@ -1,4 +1,9 @@
-export type SolarisBadgeAppearance = 'solid' | 'tonal' | 'outline' | 'ghost';
+export type SolarisBadgeAppearance =
+  | 'solid'
+  | 'tonal'
+  | 'surface'
+  | 'outline'
+  | 'ghost';
 
 export type SolarisBadgeColor =
   | 'neutral'

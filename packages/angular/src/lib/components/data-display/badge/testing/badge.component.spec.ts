@@ -130,7 +130,7 @@ describe('SolarisBadgeComponent', () => {
 
   it('should support all appearances', () => {
     const el = createFixture();
-    const values = ['solid', 'tonal', 'outline', 'ghost'] as const;
+    const values = ['solid', 'tonal', 'surface', 'outline', 'ghost'] as const;
     for (const v of values) {
       fixture.componentRef.setInput('appearance', v);
       fixture.detectChanges();

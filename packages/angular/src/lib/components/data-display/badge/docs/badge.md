@@ -28,7 +28,7 @@ Badge displays short informational content such as status labels, counts, or sem
 
 | Input          | Type                                                                                 | Default      | Description                                        |
 | -------------- | ------------------------------------------------------------------------------------ | ------------ | -------------------------------------------------- |
-| `appearance`   | `'solid' \| 'tonal' \| 'outline' \| 'ghost'`                                         | `'tonal'`    | Visual appearance                                  |
+| `appearance`   | `'solid' \| 'tonal' \| 'surface' \| 'outline' \| 'ghost'`                            | `'tonal'`    | Visual appearance                                  |
 | `color`        | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'`  | Semantic color                                     |
 | `size`         | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`       | Size variant                                       |
 | `radius`       | `'sm' \| 'md' \| 'full'`                                                             | `'full'`     | Border radius                                      |
@@ -55,12 +55,13 @@ Marks an element inside the badge as the icon slot. Sizing comes from
 
 ## Appearances
 
-| Appearance | Visual                                  |
-| ---------- | --------------------------------------- |
-| `solid`    | Filled background, high visual weight   |
-| `tonal`    | Low-intensity background, medium weight |
-| `outline`  | Transparent background, visible border  |
-| `ghost`    | No background or border, text only      |
+| Appearance | Visual                                   |
+| ---------- | ---------------------------------------- |
+| `solid`    | Filled background, high visual weight    |
+| `tonal`    | Low-intensity background, visible border |
+| `surface`  | Low-intensity background, no border      |
+| `outline`  | Transparent background, visible border   |
+| `ghost`    | No background or border, text only       |
 
 Default: `tonal`
 
@@ -255,6 +256,7 @@ General component tokens available for advanced customization:
 <!-- Appearances -->
 <solaris-badge appearance="solid">Solid</solaris-badge>
 <solaris-badge appearance="tonal">Tonal</solaris-badge>
+<solaris-badge appearance="surface">Surface</solaris-badge>
 <solaris-badge appearance="outline">Outline</solaris-badge>
 <solaris-badge appearance="ghost">Ghost</solaris-badge>
 
@@ -318,6 +320,6 @@ General component tokens available for advanced customization:
 - No link support.
 - No routerLink.
 - No avatar or flag mode.
-- No glass or surface appearance.
+- No glass appearance.
 - No harness in v1 (may be added later if pattern proves useful for simple components).
 - Custom color is only available via CSS variables, not arbitrary input props.

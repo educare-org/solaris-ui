@@ -42,6 +42,7 @@ export const BADGE_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
 export const BADGE_SHOWCASE_APPEARANCES: readonly SolarisBadgeAppearance[] = [
   'solid',
   'tonal',
+  'surface',
   'outline',
   'ghost',
 ];

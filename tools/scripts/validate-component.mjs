@@ -24,6 +24,7 @@ const CATEGORIES = [
   'data-display',
   'interaction',
   'icon',
+  'scheduling',
 ];
 
 const REQUIRED_DOC_SECTIONS = ['Purpose', 'API', 'Accessibility', 'Examples'];
@@ -246,6 +247,16 @@ function validateTarget(target) {
     console.error(`  ❌ Component not found: ${target}`);
     process.exit(1);
   }
+  if (isFamilyDir(dir)) {
+    for (const childDir of getChildComponents(dir)) {
+      validateComponent(childDir);
+    }
+    return;
+  }
+  if (!hasOwnSourceDir(dir) && !existsSync(join(dir, 'index.ts'))) {
+    validateCategory(dir);
+    return;
+  }
   validateComponent(dir);
 }
 
@@ -253,6 +264,34 @@ function isComponentDir(dir) {
   return (
     existsSync(join(dir, 'component')) || existsSync(join(dir, 'index.ts'))
   );
+}
+
+function hasOwnSourceDir(dir) {
+  return ['component', 'directives', 'components'].some((d) =>
+    existsSync(join(dir, d)),
+  );
+}
+
+function isDirectory(dir) {
+  try {
+    return statSync(dir).isDirectory();
+  } catch {
+    return false;
+  }
+}
+
+function getChildComponents(dir) {
+  if (!existsSync(dir) || !isDirectory(dir)) return [];
+  return readdirSync(dir)
+    .map((entry) => join(dir, entry))
+    .filter((full) => isDirectory(full))
+    .filter(
+      (full) => hasOwnSourceDir(full) && existsSync(join(full, 'index.ts')),
+    );
+}
+
+function isFamilyDir(dir) {
+  return !hasOwnSourceDir(dir) && getChildComponents(dir).length > 0;
 }
 
 function validateCategory(catDir) {
@@ -263,7 +302,12 @@ function validateCategory(catDir) {
 
   for (const comp of readdirSync(catDir)) {
     const compDir = join(catDir, comp);
-    if (isComponentDir(compDir)) {
+    if (!isDirectory(compDir)) continue;
+    if (isFamilyDir(compDir)) {
+      for (const childDir of getChildComponents(compDir)) {
+        validateComponent(childDir);
+      }
+    } else if (isComponentDir(compDir)) {
       validateComponent(compDir);
     }
   }
