@@ -20,6 +20,22 @@
     "gaps": {
       "note": "Pontos nulos ou indefinidos interrompem a linha em vez de interpolar. Entrada vazia renderiza um quadro vazio que mantém seu rótulo."
     },
+    "card": {
+      "note": "Trio de KPI sobre solaris-card: título, valor, badge de delta e sparkline. A cor do badge segue deltaDirection cruzado com positiveIsGood; a direção continua no rótulo acessível."
+    },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em matriz 3×3: sm reduz herói e canvas, lg amplia, md é o padrão. A densidade refina gaps de legenda e espessura do traço."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "density": {
+      "compact": "Compacta",
+      "normal": "Normal",
+      "comfortable": "Confortável"
+    },
     "states": {
       "note": "Dados vazios renderizam um quadro vazio com seu rótulo acessível. Sparklines não têm visuais de loading ou erro — o card de KPI é dono desses estados."
     },
@@ -36,6 +52,10 @@
     "section": {
       "examples": "Exemplos",
       "kpis": "Indicadores",
+      "card": "Cartão",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "density": "Densidade",
       "gaps": "Falhas",
       "states": "Estados",
       "installation": "Instalação",

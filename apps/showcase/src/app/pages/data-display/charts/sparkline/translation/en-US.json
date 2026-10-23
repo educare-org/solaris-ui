@@ -20,6 +20,22 @@
     "gaps": {
       "note": "Null and undefined points break the line instead of interpolating. An empty input renders an empty frame that still carries its label."
     },
+    "card": {
+      "note": "KPI trio on solaris-card: title, value, delta badge and sparkline. Badge color follows deltaDirection crossed with positiveIsGood; direction stays in the accessible label."
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3×3 matrix: sm shrinks hero and canvas, lg grows them, md is the default. Density refines legend gaps and stroke weight."
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "density": {
+      "compact": "Compact",
+      "normal": "Normal",
+      "comfortable": "Comfortable"
+    },
     "states": {
       "note": "Empty data renders an empty frame with its accessible label. Sparklines have no loading or error visuals — the KPI card owns those states."
     },
@@ -36,6 +52,10 @@
     "section": {
       "examples": "Examples",
       "kpis": "Indicators",
+      "card": "Card",
+      "size-density": "Size and density",
+      "sizes": "Sizes",
+      "density": "Density",
       "gaps": "Gaps",
       "states": "States",
       "installation": "Installation",

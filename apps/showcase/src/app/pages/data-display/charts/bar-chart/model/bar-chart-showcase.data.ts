@@ -31,6 +31,7 @@ export const BAR_CHART_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'values', labelKey: 'bar-chart-view.section.values' },
   { anchor: 'diverging', labelKey: 'bar-chart-view.section.diverging' },
   { anchor: 'empty', labelKey: 'bar-chart-view.section.empty' },
+  { anchor: 'size-density', labelKey: 'bar-chart-view.section.size-density' },
   { anchor: 'installation', labelKey: 'bar-chart-view.section.installation' },
   { anchor: 'props', labelKey: 'bar-chart-view.section.props' },
 ];

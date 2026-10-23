@@ -42,3 +42,23 @@ export const WithGaps: Story = {
     positiveIsGood: true,
   },
 };
+
+export const Card: Story = {
+  args: {
+    points: [820, 940, 880, 1010, 990, 1120, 1240],
+    ariaLabel: 'Active users trend, rising',
+    appearance: 'card',
+    title: 'Active users',
+    value: '12,480',
+    delta: '+8.2%',
+  },
+};
+
+export const SizeDensity: Story = {
+  args: {
+    points: [820, 940, 880, 1010, 990, 1120, 1240],
+    ariaLabel: 'Active users trend, rising',
+    size: 'lg',
+    density: 'comfortable',
+  },
+};

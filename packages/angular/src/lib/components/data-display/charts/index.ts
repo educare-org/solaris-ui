@@ -100,6 +100,8 @@ export {
 } from './bar-chart/model/chart-bar.utils';
 export { SolarisSparklineComponent } from './sparkline/component/sparkline.component';
 export type {
+  SolarisSparklineAppearance,
+  SolarisSparklineDeltaDirection,
   SolarisSparklineDensity,
   SolarisSparklineSize,
 } from './sparkline/model/sparkline.types';

@@ -18,6 +18,19 @@
     "gaps": {
       "note": "Null points break the line instead of interpolating. Dots stay keyboard-focusable; the average reference line still renders."
     },
+    "size-density": {
+      "note": "Size and density combine into a 3×3 matrix: sm compacts labels and canvas, lg expands them, md is the default. Density refines gaps and stroke weight."
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "density": {
+      "compact": "Compact",
+      "normal": "Normal",
+      "comfortable": "Comfortable"
+    },
     "installation": {
       "note": "Install the package and import the standalone line chart component."
     },
@@ -32,6 +45,9 @@
       "examples": "Examples",
       "interpolation": "Interpolation",
       "gaps": "Gaps",
+      "size-density": "Size and density",
+      "sizes": "Sizes",
+      "density": "Density",
       "installation": "Installation",
       "props": "Props"
     },

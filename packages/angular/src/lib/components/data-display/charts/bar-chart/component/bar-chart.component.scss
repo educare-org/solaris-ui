@@ -14,6 +14,24 @@
   display: block;
 }
 
+:host([data-size='sm']) {
+  --solaris-bar-chart-label-size: var(--solaris-font-size-3xs);
+}
+
+:host([data-size='lg']) {
+  --solaris-bar-chart-label-size: var(--solaris-font-size-xs);
+}
+
+:host([data-density='compact']) .solaris-bar-chart__empty {
+  min-height: 120px;
+  gap: var(--solaris-spacing-1);
+}
+
+:host([data-density='comfortable']) .solaris-bar-chart__empty {
+  min-height: 200px;
+  gap: var(--solaris-spacing-3);
+}
+
 .solaris-bar-chart__frame {
   position: relative;
   overflow-x: auto;

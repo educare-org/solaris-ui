@@ -12,6 +12,10 @@ export const SOLARIS_CHART_PALETTE: readonly SolarisChartSeriesColor[] = [
 ];
 
 export function solarisChartColorVar(color: SolarisChartSeriesColor): string {
+  // Warning solid (#f1d008 light, 1.53:1 on white) fails WCAG 3:1 for
+  // graphics; the foreground token passes on light (5.51:1) and dark (3.25:1
+  // on #171717), so chart strokes use it instead of the solid.
+  if (color === 'warning') return `var(--solaris-warning-foreground)`;
   return `var(--solaris-${color}-solid)`;
 }
 

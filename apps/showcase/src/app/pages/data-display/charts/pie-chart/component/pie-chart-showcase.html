@@ -220,6 +220,61 @@
   </app-docs-section>
 
   <app-docs-section
+    anchor="size-density"
+    titleKey="pie-chart-view.section.size-density"
+  >
+    <p class="pie-chart-showcase__note">
+      {{ 'pie-chart-view.size-density.note' | translate }}
+    </p>
+    <div class="pie-chart-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'pie-chart-view.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'pie-chart-view.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'pie-chart-view.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'pie-chart-view.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'pie-chart-view.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'pie-chart-view.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'pie-chart-view.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'pie-chart-view.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [code]="sizeDensityCode()"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="pie-chart-showcase__demo">
+        <solaris-pie-chart
+          [locale]="chartLocale()"
+          variant="donut"
+          [slices]="slices()"
+          [showValues]="true"
+          [size]="selectedSize()"
+          [density]="selectedDensity()"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
     anchor="installation"
     titleKey="pie-chart-view.section.installation"
   >

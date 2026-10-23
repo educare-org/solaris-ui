@@ -22,6 +22,19 @@
     "empty": {
       "note": "Sem dados plotáveis, o gráfico oculta o SVG e exibe uma mensagem localizada em vez de uma grade vazia."
     },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em matriz 3×3: sm compacta rótulos e canvas, lg expande, md é o padrão. A densidade refina gaps e espessura do traço."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "density": {
+      "compact": "Compacta",
+      "normal": "Normal",
+      "comfortable": "Confortável"
+    },
     "installation": {
       "note": "Instale o pacote e importe o componente standalone do mapa de calor."
     },
@@ -36,6 +49,9 @@
       "examples": "Exemplos",
       "scale": "Escala de intensidade",
       "empty": "Estado vazio",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "density": "Densidade",
       "installation": "Instalação",
       "props": "Props"
     },

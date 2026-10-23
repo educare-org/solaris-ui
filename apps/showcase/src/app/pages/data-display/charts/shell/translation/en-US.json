@@ -41,6 +41,19 @@
       "timeline": "Timeline",
       "list": "List"
     },
+    "size-density": {
+      "note": "Size and density combine into a 3×3 matrix: sm compacts labels and canvas, lg expands them, md is the default. Density refines gaps and stroke weight."
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "density": {
+      "compact": "Compact",
+      "normal": "Normal",
+      "comfortable": "Comfortable"
+    },
     "installation": {
       "note": "Install the package and import the standalone chart shell component."
     },
@@ -55,6 +68,9 @@
       "examples": "Examples",
       "views": "Views",
       "display": "Display",
+      "size-density": "Size and density",
+      "sizes": "Sizes",
+      "density": "Density",
       "installation": "Installation",
       "props": "Props",
       "states": "States"

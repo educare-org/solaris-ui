@@ -11,7 +11,9 @@ import {
   SolarisTranslatePipe,
   SolarisTranslateService,
   type SolarisChartSeries,
+  type SolarisLineChartDensity,
   type SolarisLineChartPointEvent,
+  type SolarisLineChartSize,
   type SolarisTableColumn,
 } from '@solaris-ui/angular';
 
@@ -164,6 +166,21 @@ export class LineChartShowcasePage {
     this.interpolationTab() === 'linear' ? 'linear' : 'smooth',
   );
   protected readonly step = computed(() => this.interpolationTab() === 'step');
+
+  protected readonly selectedSize = signal<SolarisLineChartSize>('md');
+  protected readonly selectedDensity =
+    signal<SolarisLineChartDensity>('normal');
+
+  protected readonly sizeDensityCode = computed(() =>
+    [
+      '<solaris-line-chart',
+      '  locale="pt-BR"',
+      '  [series]="series()"',
+      `  size="${this.selectedSize()}"`,
+      `  density="${this.selectedDensity()}"`,
+      '/>',
+    ].join('\n'),
+  );
 
   protected readonly series = computed<readonly SolarisChartSeries[]>(() =>
     (Object.keys(SERIES_LABEL_KEYS) as (keyof typeof SERIES_LABEL_KEYS)[]).map(

@@ -28,6 +28,8 @@ export const SPARKLINE_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
 export const SPARKLINE_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'examples', labelKey: 'sparkline-view.section.examples' },
   { anchor: 'kpis', labelKey: 'sparkline-view.section.kpis' },
+  { anchor: 'card', labelKey: 'sparkline-view.section.card' },
+  { anchor: 'size-density', labelKey: 'sparkline-view.section.size-density' },
   { anchor: 'gaps', labelKey: 'sparkline-view.section.gaps' },
   { anchor: 'states', labelKey: 'sparkline-view.section.states' },
   { anchor: 'installation', labelKey: 'sparkline-view.section.installation' },
@@ -62,6 +64,26 @@ export const SPARKLINE_SHOWCASE_KPI_CODE = [
   '    ariaLabel="Churn trend, falling"',
   '  />',
   '</div>',
+].join('\n');
+
+export const SPARKLINE_SHOWCASE_CARD_CODE = [
+  '<solaris-sparkline',
+  '  appearance="card"',
+  '  [points]="usersSpark"',
+  '  title="Active users"',
+  '  value="12,480"',
+  '  delta="+12.4%"',
+  '  ariaLabel="Active users trend, rising"',
+  '/>',
+  '<solaris-sparkline',
+  '  appearance="card"',
+  '  [points]="churnSpark"',
+  '  [positiveIsGood]="false"',
+  '  title="Churn"',
+  '  value="3.1%"',
+  '  delta="-8.1%"',
+  '  ariaLabel="Churn trend, falling is good"',
+  '/>',
 ].join('\n');
 
 export const SPARKLINE_SHOWCASE_GAPS_CODE = [

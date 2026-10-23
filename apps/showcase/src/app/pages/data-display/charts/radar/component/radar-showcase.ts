@@ -5,10 +5,14 @@ import {
   SolarisCodeBlockComponent,
   SolarisPreviewCodeComponent,
   SolarisRadarComponent,
+  SolarisTabComponent,
   SolarisTableComponent,
+  SolarisTabsComponent,
   SolarisTranslatePipe,
   SolarisTranslateService,
+  type SolarisRadarDensity,
   type SolarisRadarSeries,
+  type SolarisRadarSize,
   type SolarisTableColumn,
 } from '@solaris-ui/angular';
 
@@ -57,7 +61,9 @@ function toPascalCase(id: string): string {
     SolarisCodeBlockComponent,
     SolarisPreviewCodeComponent,
     SolarisRadarComponent,
+    SolarisTabComponent,
     SolarisTableComponent,
+    SolarisTabsComponent,
     SolarisTranslatePipe,
     ShowcaseDocsPageFooter,
     ShowcaseDocsPageHeader,
@@ -81,6 +87,22 @@ export class RadarShowcasePage {
   protected readonly emptyCode = RADAR_SHOWCASE_EMPTY_CODE;
   protected readonly manyCode = RADAR_SHOWCASE_MANY_CODE;
   protected readonly log = signal('');
+
+  protected readonly selectedSize = signal<SolarisRadarSize>('md');
+  protected readonly selectedDensity = signal<SolarisRadarDensity>('normal');
+
+  protected readonly sizeDensityCode = computed(() =>
+    [
+      '<solaris-radar',
+      '  [locale]="chartLocale()"',
+      '  [axes]="axes()"',
+      '  [series]="series()"',
+      '  [max]="10"',
+      `  size="${this.selectedSize()}"`,
+      `  density="${this.selectedDensity()}"`,
+      '/>',
+    ].join('\n'),
+  );
 
   protected readonly chartLocale = computed(() =>
     this.translateService.locale(),

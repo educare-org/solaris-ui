@@ -8,6 +8,14 @@
   width: 100%;
 }
 
+.chart-shell-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
+}
+
 .chart-shell-showcase__actions {
   margin: 0 0 var(--solaris-spacing-7);
 }

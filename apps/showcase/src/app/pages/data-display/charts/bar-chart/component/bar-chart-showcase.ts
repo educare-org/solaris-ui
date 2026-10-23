@@ -10,8 +10,10 @@ import {
   SolarisTabsComponent,
   SolarisTranslatePipe,
   SolarisTranslateService,
+  type SolarisBarChartDensity,
   type SolarisBarChartLayout,
   type SolarisBarChartPointEvent,
+  type SolarisBarChartSize,
   type SolarisChartSeries,
   type SolarisTableColumn,
 } from '@solaris-ui/angular';
@@ -186,6 +188,21 @@ export class BarChartShowcasePage {
   protected readonly emptyCode = BAR_CHART_SHOWCASE_EMPTY_CODE;
   protected readonly layout = signal<SolarisBarChartLayout>('grouped');
   protected readonly log = signal('');
+
+  protected readonly selectedSize = signal<SolarisBarChartSize>('md');
+  protected readonly selectedDensity = signal<SolarisBarChartDensity>('normal');
+
+  protected readonly sizeDensityCode = computed(() =>
+    [
+      '<solaris-bar-chart',
+      '  [locale]="chartLocale()"',
+      '  [series]="series()"',
+      '  layout="grouped"',
+      `  size="${this.selectedSize()}"`,
+      `  density="${this.selectedDensity()}"`,
+      '/>',
+    ].join('\n'),
+  );
 
   protected readonly chartLocale = computed(() =>
     this.translateService.locale(),

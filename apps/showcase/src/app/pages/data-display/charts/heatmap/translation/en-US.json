@@ -22,6 +22,19 @@
     "empty": {
       "note": "With no plottable data, the chart hides the SVG and renders a localized empty message instead of an empty grid."
     },
+    "size-density": {
+      "note": "Size and density combine into a 3×3 matrix: sm compacts labels and canvas, lg expands them, md is the default. Density refines gaps and stroke weight."
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "density": {
+      "compact": "Compact",
+      "normal": "Normal",
+      "comfortable": "Comfortable"
+    },
     "installation": {
       "note": "Install the package and import the standalone heatmap component."
     },
@@ -36,6 +49,9 @@
       "examples": "Examples",
       "scale": "Intensity scale",
       "empty": "Empty state",
+      "size-density": "Size and density",
+      "sizes": "Sizes",
+      "density": "Density",
       "installation": "Installation",
       "props": "Props"
     },

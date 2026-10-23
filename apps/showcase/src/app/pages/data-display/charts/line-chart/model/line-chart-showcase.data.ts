@@ -32,6 +32,7 @@ export const LINE_CHART_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
     labelKey: 'line-chart-view.section.interpolation',
   },
   { anchor: 'gaps', labelKey: 'line-chart-view.section.gaps' },
+  { anchor: 'size-density', labelKey: 'line-chart-view.section.size-density' },
   { anchor: 'installation', labelKey: 'line-chart-view.section.installation' },
   { anchor: 'props', labelKey: 'line-chart-view.section.props' },
 ];

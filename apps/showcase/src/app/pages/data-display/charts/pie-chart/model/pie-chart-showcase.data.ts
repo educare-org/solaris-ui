@@ -32,6 +32,7 @@ export const PIE_CHART_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'score-ring', labelKey: 'pie-chart-view.section.scoreRing' },
   { anchor: 'drill-down', labelKey: 'pie-chart-view.section.drillDown' },
   { anchor: 'empty', labelKey: 'pie-chart-view.section.empty' },
+  { anchor: 'size-density', labelKey: 'pie-chart-view.section.size-density' },
   { anchor: 'installation', labelKey: 'pie-chart-view.section.installation' },
   { anchor: 'props', labelKey: 'pie-chart-view.section.props' },
 ];

@@ -38,6 +38,19 @@
     "empty": {
       "note": "Sin datos graficables, el gráfico oculta el SVG y muestra un mensaje localizado en lugar de un círculo vacío."
     },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en matriz 3×3: sm compacta etiquetas y lienzo, lg los expande, md es el valor por defecto. La densidad refina gaps y grosor del trazo."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "density": {
+      "compact": "Compacto",
+      "normal": "Normal",
+      "comfortable": "Cómodo"
+    },
     "installation": {
       "note": "Instale el paquete e importe el componente standalone del gráfico circular."
     },
@@ -55,6 +68,9 @@
       "scoreRing": "Anillo de nota",
       "drillDown": "Desglose",
       "empty": "Estado vacío",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "density": "Densidad",
       "installation": "Instalación",
       "props": "Props"
     },

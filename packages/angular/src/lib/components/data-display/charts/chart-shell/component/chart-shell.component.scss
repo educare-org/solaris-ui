@@ -75,6 +75,43 @@
   display: block;
 }
 
+:host([data-size='sm']) {
+  --solaris-chart-shell-gap: var(--solaris-spacing-5);
+  --solaris-chart-shell-legend-gap: var(--solaris-spacing-4);
+  --solaris-chart-shell-hero-size: var(--solaris-font-size-xl);
+  --solaris-chart-shell-label-size: var(--solaris-font-size-2xs);
+  --solaris-chart-shell-dot-size: var(--solaris-spacing-4);
+}
+
+:host([data-size='lg']) {
+  --solaris-chart-shell-gap: var(--solaris-spacing-8);
+  --solaris-chart-shell-hero-size: var(--solaris-font-size-3xl);
+  --solaris-chart-shell-label-size: var(--solaris-font-size-sm);
+  --solaris-chart-shell-dot-size: var(--solaris-spacing-6);
+}
+
+:host([data-size='sm']) .solaris-chart-shell__canvas,
+:host([data-size='sm']) .solaris-chart-shell__loading,
+:host([data-size='sm']) .solaris-chart-shell__error,
+:host([data-size='sm']) .solaris-chart-shell__empty {
+  min-height: calc(var(--solaris-spacing-12) * 4.5);
+}
+
+:host([data-size='lg']) .solaris-chart-shell__canvas,
+:host([data-size='lg']) .solaris-chart-shell__loading,
+:host([data-size='lg']) .solaris-chart-shell__error,
+:host([data-size='lg']) .solaris-chart-shell__empty {
+  min-height: calc(var(--solaris-spacing-12) * 6.5);
+}
+
+:host([data-density='compact']) {
+  --solaris-chart-shell-legend-gap: var(--solaris-spacing-3);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-chart-shell-legend-gap: var(--solaris-spacing-6);
+}
+
 .solaris-chart-shell__canvas {
   min-height: calc(var(--solaris-spacing-12) * 5.5);
   margin-block-start: var(--solaris-chart-shell-gap);

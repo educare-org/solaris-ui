@@ -13,6 +13,24 @@
   display: block;
 }
 
+:host([data-size='sm']) {
+  --solaris-heatmap-label-size: var(--solaris-font-size-3xs);
+  --solaris-heatmap-gutter-size: var(--solaris-font-size-3xs);
+}
+
+:host([data-size='lg']) {
+  --solaris-heatmap-label-size: var(--solaris-font-size-xs);
+  --solaris-heatmap-gutter-size: var(--solaris-font-size-xs);
+}
+
+:host([data-density='compact']) .solaris-heatmap__empty {
+  min-height: calc(var(--solaris-spacing-12) * 3);
+}
+
+:host([data-density='comfortable']) .solaris-heatmap__empty {
+  min-height: calc(var(--solaris-spacing-12) * 5);
+}
+
 .solaris-heatmap__frame {
   position: relative;
 }

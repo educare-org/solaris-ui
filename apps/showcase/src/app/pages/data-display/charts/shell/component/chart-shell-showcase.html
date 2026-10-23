@@ -343,6 +343,58 @@
   </app-docs-section>
 
   <app-docs-section
+    anchor="size-density"
+    titleKey="chart-shell-view.section.size-density"
+  >
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.size-density.note' | translate }}
+    </p>
+    <div class="chart-shell-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'chart-shell-view.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'chart-shell-view.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'chart-shell-view.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'chart-shell-view.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'chart-shell-view.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'chart-shell-view.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'chart-shell-view.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'chart-shell-view.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [code]="sizeDensityCode()"
+      language="html"
+      previewAlign="stretch"
+    >
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [series]="series()"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
     anchor="installation"
     titleKey="chart-shell-view.section.installation"
   >

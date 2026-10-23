@@ -28,6 +28,7 @@ export const HEATMAP_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'examples', labelKey: 'heatmap-view.section.examples' },
   { anchor: 'scale', labelKey: 'heatmap-view.section.scale' },
   { anchor: 'empty', labelKey: 'heatmap-view.section.empty' },
+  { anchor: 'size-density', labelKey: 'heatmap-view.section.size-density' },
   { anchor: 'installation', labelKey: 'heatmap-view.section.installation' },
   { anchor: 'props', labelKey: 'heatmap-view.section.props' },
 ];

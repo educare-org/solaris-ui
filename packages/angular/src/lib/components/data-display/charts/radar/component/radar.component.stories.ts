@@ -94,3 +94,14 @@ export const Empty: Story = {
     series: [],
   },
 };
+
+export const SizeDensity: Story = {
+  args: {
+    locale: 'en-US',
+    axes: AXES,
+    max: 10,
+    size: 'lg',
+    density: 'comfortable',
+    series: [{ id: 'class-a', label: 'Class A', values: [8.5, 7, 9, 6.5, 8] }],
+  },
+};

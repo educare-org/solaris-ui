@@ -18,6 +18,19 @@
     "gaps": {
       "note": "Pontos nulos interrompem a linha em vez de interpolar. Os pontos continuam focáveis pelo teclado; a linha de média continua visível."
     },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em matriz 3×3: sm compacta rótulos e canvas, lg expande, md é o padrão. A densidade refina gaps e espessura do traço."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "density": {
+      "compact": "Compacta",
+      "normal": "Normal",
+      "comfortable": "Confortável"
+    },
     "installation": {
       "note": "Instale o pacote e importe o componente standalone do gráfico de linhas."
     },
@@ -32,6 +45,9 @@
       "examples": "Exemplos",
       "interpolation": "Interpolação",
       "gaps": "Falhas",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "density": "Densidade",
       "installation": "Instalação",
       "props": "Props"
     },

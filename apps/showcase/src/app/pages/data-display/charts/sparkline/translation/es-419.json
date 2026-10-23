@@ -20,6 +20,22 @@
     "gaps": {
       "note": "Los puntos nulos o indefinidos interrumpen la línea en lugar de interpolar. Una entrada vacía muestra un marco vacío que conserva su etiqueta."
     },
+    "card": {
+      "note": "Trío de KPI sobre solaris-card: título, valor, badge de delta y sparkline. El color del badge sigue deltaDirection cruzado con positiveIsGood; la dirección sigue en la etiqueta accesible."
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en matriz 3×3: sm reduce héroe y lienzo, lg los amplía, md es el valor por defecto. La densidad refina gaps de leyenda y grosor del trazo."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "density": {
+      "compact": "Compacto",
+      "normal": "Normal",
+      "comfortable": "Cómodo"
+    },
     "states": {
       "note": "Los datos vacíos muestran un marco vacío con su etiqueta accesible. Los sparklines no tienen estados de carga o error — la tarjeta KPI es dueña de esos estados."
     },
@@ -36,6 +52,10 @@
     "section": {
       "examples": "Ejemplos",
       "kpis": "Indicadores",
+      "card": "Tarjeta",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "density": "Densidad",
       "gaps": "Vacíos",
       "states": "Estados",
       "installation": "Instalación",

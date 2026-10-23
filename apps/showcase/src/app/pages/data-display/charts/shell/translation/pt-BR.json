@@ -41,6 +41,19 @@
       "timeline": "Linha do tempo",
       "list": "Lista"
     },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em matriz 3×3: sm compacta rótulos e canvas, lg expande, md é o padrão. A densidade refina gaps e espessura do traço."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "density": {
+      "compact": "Compacta",
+      "normal": "Normal",
+      "comfortable": "Confortável"
+    },
     "installation": {
       "note": "Instale o pacote e importe o componente standalone do shell de gráficos."
     },
@@ -55,6 +68,9 @@
       "examples": "Exemplos",
       "views": "Visões",
       "display": "Exibição",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "density": "Densidade",
       "installation": "Instalação",
       "props": "Props",
       "states": "Estados"

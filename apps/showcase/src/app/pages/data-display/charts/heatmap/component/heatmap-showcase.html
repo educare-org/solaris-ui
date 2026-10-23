@@ -97,6 +97,61 @@
   </app-docs-section>
 
   <app-docs-section
+    anchor="size-density"
+    titleKey="heatmap-view.section.size-density"
+  >
+    <p class="heatmap-showcase__note">
+      {{ 'heatmap-view.size-density.note' | translate }}
+    </p>
+    <div class="heatmap-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'heatmap-view.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'heatmap-view.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'heatmap-view.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'heatmap-view.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'heatmap-view.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'heatmap-view.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'heatmap-view.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'heatmap-view.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [code]="sizeDensityCode()"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="heatmap-showcase__demo">
+        <solaris-heatmap
+          [locale]="chartLocale()"
+          [rows]="rows()"
+          [columns]="columns"
+          [max]="100"
+          [size]="selectedSize()"
+          [density]="selectedDensity()"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
     anchor="installation"
     titleKey="heatmap-view.section.installation"
   >

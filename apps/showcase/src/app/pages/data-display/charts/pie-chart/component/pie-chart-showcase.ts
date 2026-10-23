@@ -11,6 +11,8 @@ import {
   SolarisTranslatePipe,
   SolarisTranslateService,
   type SolarisChartSlice,
+  type SolarisPieChartDensity,
+  type SolarisPieChartSize,
   type SolarisPieChartVariant,
   type SolarisTableColumn,
 } from '@solaris-ui/angular';
@@ -78,6 +80,22 @@ export class PieChartShowcasePage {
   protected readonly variant = signal<SolarisPieChartVariant>('donut');
   protected readonly log = signal('');
   protected readonly selectedSlice = signal<string | null>(null);
+
+  protected readonly selectedSize = signal<SolarisPieChartSize>('md');
+  protected readonly selectedDensity = signal<SolarisPieChartDensity>('normal');
+
+  protected readonly sizeDensityCode = computed(() =>
+    [
+      '<solaris-pie-chart',
+      '  [locale]="chartLocale()"',
+      '  variant="donut"',
+      '  [slices]="slices()"',
+      '  [showValues]="true"',
+      `  size="${this.selectedSize()}"`,
+      `  density="${this.selectedDensity()}"`,
+      '/>',
+    ].join('\n'),
+  );
 
   protected readonly chartLocale = computed(() =>
     this.translateService.locale(),

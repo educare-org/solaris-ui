@@ -14,6 +14,24 @@
   display: block;
 }
 
+:host([data-size='sm']) {
+  --solaris-line-chart-label-size: var(--solaris-font-size-3xs);
+  --solaris-line-chart-line-width: var(--solaris-border-width-sm);
+}
+
+:host([data-size='lg']) {
+  --solaris-line-chart-label-size: var(--solaris-font-size-xs);
+  --solaris-line-chart-line-width: var(--solaris-border-width-lg);
+}
+
+:host([data-density='compact']) {
+  --solaris-line-chart-label-size: var(--solaris-font-size-3xs);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-line-chart-label-size: var(--solaris-font-size-xs);
+}
+
 .solaris-line-chart__frame {
   position: relative;
 }

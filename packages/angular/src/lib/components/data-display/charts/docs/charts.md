@@ -41,6 +41,11 @@ Palette (`model/chart-palette.ts`):
 - `solarisChartColorVar(color)` / `solarisChartSoftVar(color)` — token
   variable references; `resolveChartSeriesColor(index, override?)` cycles
   the palette. No raw colors anywhere.
+- Contrast audit (V2-C, light theme vs white): every entry passes WCAG 3:1
+  for graphics except `warning` solid (`#f1d008`, 1.53:1). Chart strokes
+  therefore map `warning` to `var(--solaris-warning-foreground)` (5.51:1 on
+  white, 3.25:1 on the dark surface), keeping the categorical order while
+  staying AA. Dark-theme `warning` solid already passes on dark surfaces.
 
 Strings (`model/strings/*`, `translation/*.json`): `solaris.chart.*` keys
 (view/period labels, legend toggle, others, total, empty/error states,

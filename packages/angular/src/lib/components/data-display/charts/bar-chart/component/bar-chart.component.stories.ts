@@ -194,3 +194,24 @@ export const HorizontalGrouped: Story = {
     ],
   },
 };
+
+export const SizeDensity: Story = {
+  args: {
+    locale: 'en-US',
+    orientation: 'vertical',
+    layout: 'grouped',
+    size: 'lg',
+    density: 'comfortable',
+    xLabels: WEEK,
+    series: [
+      {
+        id: 'automation',
+        label: 'Automation',
+        points: WEEK.map((day, index) => ({
+          x: day,
+          y: [1820, 2050, 1740, 2210, 1980, 1890, 2400][index],
+        })),
+      },
+    ],
+  },
+};

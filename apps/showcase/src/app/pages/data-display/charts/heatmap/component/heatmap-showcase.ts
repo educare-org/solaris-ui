@@ -5,11 +5,15 @@ import {
   SolarisCodeBlockComponent,
   SolarisHeatmapComponent,
   SolarisPreviewCodeComponent,
+  SolarisTabComponent,
   SolarisTableComponent,
+  SolarisTabsComponent,
   SolarisTranslatePipe,
   SolarisTranslateService,
   type SolarisHeatmapCellEvent,
+  type SolarisHeatmapDensity,
   type SolarisHeatmapRow,
+  type SolarisHeatmapSize,
   type SolarisTableColumn,
 } from '@solaris-ui/angular';
 
@@ -52,7 +56,9 @@ import {
     SolarisCodeBlockComponent,
     SolarisHeatmapComponent,
     SolarisPreviewCodeComponent,
+    SolarisTabComponent,
     SolarisTableComponent,
+    SolarisTabsComponent,
     SolarisTranslatePipe,
     ShowcaseDocsPageFooter,
     ShowcaseDocsPageHeader,
@@ -76,6 +82,22 @@ export class HeatmapShowcasePage {
   protected readonly emptyCode = HEATMAP_SHOWCASE_EMPTY_CODE;
   protected readonly scaleCode = HEATMAP_SHOWCASE_SCALE_CODE;
   protected readonly log = signal('');
+
+  protected readonly selectedSize = signal<SolarisHeatmapSize>('md');
+  protected readonly selectedDensity = signal<SolarisHeatmapDensity>('normal');
+
+  protected readonly sizeDensityCode = computed(() =>
+    [
+      '<solaris-heatmap',
+      '  [locale]="chartLocale()"',
+      '  [rows]="rows()"',
+      '  [columns]="columns"',
+      '  [max]="100"',
+      `  size="${this.selectedSize()}"`,
+      `  density="${this.selectedDensity()}"`,
+      '/>',
+    ].join('\n'),
+  );
 
   protected readonly chartLocale = computed(() =>
     this.translateService.locale(),

@@ -109,3 +109,25 @@ export const Stepped: Story = {
     ],
   },
 };
+
+export const SizeDensity: Story = {
+  args: {
+    locale: 'en-US',
+    interpolation: 'smooth',
+    area: true,
+    showDots: true,
+    size: 'lg',
+    density: 'comfortable',
+    xLabels: WEEK,
+    series: [
+      {
+        id: 'revenue',
+        label: 'Revenue',
+        points: WEEK.map((day, index) => ({
+          x: day,
+          y: [1839, 2100, 1950, 2400, 2280, 1900, 2600][index],
+        })),
+      },
+    ],
+  },
+};

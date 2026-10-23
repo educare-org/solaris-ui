@@ -116,6 +116,60 @@
   </app-docs-section>
 
   <app-docs-section
+    anchor="size-density"
+    titleKey="line-chart-view.section.size-density"
+  >
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.size-density.note' | translate }}
+    </p>
+    <div class="line-chart-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'line-chart-view.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'line-chart-view.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'line-chart-view.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'line-chart-view.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'line-chart-view.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'line-chart-view.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'line-chart-view.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'line-chart-view.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [code]="sizeDensityCode()"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="line-chart-showcase__demo">
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="series()"
+          [referenceLines]="referenceLines()"
+          [size]="selectedSize()"
+          [density]="selectedDensity()"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
     anchor="installation"
     titleKey="line-chart-view.section.installation"
   >

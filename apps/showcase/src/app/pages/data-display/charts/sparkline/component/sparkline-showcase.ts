@@ -1,14 +1,18 @@
 import { DOCUMENT } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 
 import {
   SolarisBadgeComponent,
   SolarisCodeBlockComponent,
   SolarisPreviewCodeComponent,
   SolarisSparklineComponent,
+  SolarisTabComponent,
   SolarisTableComponent,
+  SolarisTabsComponent,
   SolarisTranslatePipe,
   SolarisTranslateService,
+  type SolarisSparklineDensity,
+  type SolarisSparklineSize,
   type SolarisTableColumn,
 } from '@solaris-ui/angular';
 
@@ -21,6 +25,7 @@ import { createShowcasePageActions } from '../../../../shared/showcase-page-util
 import {
   SPARKLINE_SHOWCASE_BASIC_CODE,
   SPARKLINE_SHOWCASE_BREADCRUMBS,
+  SPARKLINE_SHOWCASE_CARD_CODE,
   SPARKLINE_SHOWCASE_EMPTY_CODE,
   SPARKLINE_SHOWCASE_GAPS_CODE,
   SPARKLINE_SHOWCASE_IMPORT_CODE,
@@ -43,7 +48,9 @@ import {
     SolarisCodeBlockComponent,
     SolarisPreviewCodeComponent,
     SolarisSparklineComponent,
+    SolarisTabComponent,
     SolarisTableComponent,
+    SolarisTabsComponent,
     SolarisTranslatePipe,
     ShowcaseDocsPageFooter,
     ShowcaseDocsPageHeader,
@@ -65,8 +72,28 @@ export class SparklineShowcasePage {
   protected readonly importCode = SPARKLINE_SHOWCASE_IMPORT_CODE;
   protected readonly basicCode = SPARKLINE_SHOWCASE_BASIC_CODE;
   protected readonly kpiCode = SPARKLINE_SHOWCASE_KPI_CODE;
+  protected readonly cardCode = SPARKLINE_SHOWCASE_CARD_CODE;
   protected readonly gapsCode = SPARKLINE_SHOWCASE_GAPS_CODE;
   protected readonly emptyCode = SPARKLINE_SHOWCASE_EMPTY_CODE;
+
+  protected readonly selectedSize = signal<SolarisSparklineSize>('md');
+  protected readonly selectedDensity =
+    signal<SolarisSparklineDensity>('normal');
+
+  protected readonly sizeDensityCode = computed(() =>
+    [
+      '<solaris-sparkline',
+      '  appearance="card"',
+      '  [points]="usersSpark"',
+      '  title="Active users"',
+      '  value="12,480"',
+      '  delta="+12.4%"',
+      `  size="${this.selectedSize()}"`,
+      `  density="${this.selectedDensity()}"`,
+      '  ariaLabel="Active users trend, rising"',
+      '/>',
+    ].join('\n'),
+  );
 
   protected readonly risingPoints: readonly number[] = [3, 5, 4, 8, 7, 10];
   protected readonly fallingPoints: readonly number[] = [10, 8, 9, 5, 4, 3];

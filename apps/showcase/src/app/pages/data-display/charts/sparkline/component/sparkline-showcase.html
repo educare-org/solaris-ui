@@ -86,6 +86,94 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section anchor="card" titleKey="sparkline-view.section.card">
+    <p class="sparkline-showcase__note">
+      {{ 'sparkline-view.card.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="cardCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="sparkline-showcase__cards">
+        <solaris-sparkline
+          appearance="card"
+          [points]="usersSpark"
+          [title]="'sparkline-view.kpis.kpiUsers' | translate"
+          value="12,480"
+          [delta]="'sparkline-view.kpis.deltaUsers' | translate"
+          [ariaLabel]="'sparkline-view.kpis.usersLabel' | translate"
+        />
+        <solaris-sparkline
+          appearance="card"
+          [points]="churnSpark"
+          [positiveIsGood]="false"
+          [title]="'sparkline-view.kpis.kpiChurn' | translate"
+          value="3.1%"
+          [delta]="'sparkline-view.kpis.deltaChurn' | translate"
+          [ariaLabel]="'sparkline-view.kpis.churnLabel' | translate"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="sparkline-view.section.size-density"
+  >
+    <p class="sparkline-showcase__note">
+      {{ 'sparkline-view.size-density.note' | translate }}
+    </p>
+    <div class="sparkline-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'sparkline-view.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'sparkline-view.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'sparkline-view.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'sparkline-view.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'sparkline-view.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'sparkline-view.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'sparkline-view.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'sparkline-view.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [code]="sizeDensityCode()"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="sparkline-showcase__cards">
+        <solaris-sparkline
+          appearance="card"
+          [points]="usersSpark"
+          [title]="'sparkline-view.kpis.kpiUsers' | translate"
+          value="12,480"
+          [delta]="'sparkline-view.kpis.deltaUsers' | translate"
+          [size]="selectedSize()"
+          [density]="selectedDensity()"
+          [ariaLabel]="'sparkline-view.kpis.usersLabel' | translate"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section anchor="gaps" titleKey="sparkline-view.section.gaps">
     <p class="sparkline-showcase__note">
       {{ 'sparkline-view.gaps.note' | translate }}

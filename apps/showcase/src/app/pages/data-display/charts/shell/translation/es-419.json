@@ -41,6 +41,19 @@
       "timeline": "Línea de tiempo",
       "list": "Lista"
     },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en matriz 3×3: sm compacta etiquetas y lienzo, lg los expande, md es el valor por defecto. La densidad refina gaps y grosor del trazo."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "density": {
+      "compact": "Compacto",
+      "normal": "Normal",
+      "comfortable": "Cómodo"
+    },
     "installation": {
       "note": "Instale el paquete e importe el componente standalone del shell de gráficos."
     },
@@ -55,6 +68,9 @@
       "examples": "Ejemplos",
       "views": "Vistas",
       "display": "Visualización",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "density": "Densidad",
       "installation": "Instalación",
       "props": "Props",
       "states": "Estados"

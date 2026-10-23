@@ -61,3 +61,29 @@ export const Empty: Story = {
     series: [],
   },
 };
+
+export const SizeDensity: Story = {
+  args: {
+    locale: 'en-US',
+    title: 'Weekly Agent Activity',
+    intervalLabel: 'Apr 28, 2026 → May 04, 2026',
+    heroValue: '12,450',
+    heroLabel: 'tasks',
+    view: 'line',
+    period: 'week',
+    size: 'lg',
+    density: 'comfortable',
+    series: [
+      {
+        id: 'automation',
+        label: 'Task Automation',
+        points: [
+          { x: 28, y: 180 },
+          { x: 29, y: 210 },
+          { x: 30, y: 150 },
+          { x: 1, y: 190 },
+        ],
+      },
+    ],
+  },
+};

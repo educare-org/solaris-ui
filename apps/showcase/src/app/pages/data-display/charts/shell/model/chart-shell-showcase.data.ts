@@ -30,6 +30,7 @@ export const CHART_SHELL_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'views', labelKey: 'chart-shell-view.section.views' },
   { anchor: 'display', labelKey: 'chart-shell-view.section.display' },
   { anchor: 'states', labelKey: 'chart-shell-view.section.states' },
+  { anchor: 'size-density', labelKey: 'chart-shell-view.section.size-density' },
   { anchor: 'installation', labelKey: 'chart-shell-view.section.installation' },
   { anchor: 'props', labelKey: 'chart-shell-view.section.props' },
 ];

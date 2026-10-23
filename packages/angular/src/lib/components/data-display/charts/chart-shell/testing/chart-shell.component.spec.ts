@@ -135,6 +135,20 @@ describe('SolarisChartShellComponent', () => {
     expect(el.hasAttribute('data-loading')).toBe(false);
   });
 
+  it('should reflect size and density on the host', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('size', 'lg');
+    fixture.componentRef.setInput('density', 'comfortable');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-size')).toBe('lg');
+    expect(el.getAttribute('data-density')).toBe('comfortable');
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.componentRef.setInput('density', 'compact');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-size')).toBe('sm');
+    expect(el.getAttribute('data-density')).toBe('compact');
+  });
+
   it('should render one legend button per series with pressed state', () => {
     const el = createFixture();
     const buttons = legendButtons(el);

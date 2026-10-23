@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,6 +7,12 @@ import {
   input,
 } from '@angular/core';
 
+import { SolarisBadgeComponent } from '../../../badge';
+import {
+  SolarisCardComponent,
+  SolarisCardContentDirective,
+  SolarisCardHeaderDirective,
+} from '../../../card';
 import {
   SOLARIS_SPARKLINE_HEIGHT,
   SOLARIS_SPARKLINE_WIDTH,
@@ -13,6 +20,8 @@ import {
 } from '../../model/chart-line.utils';
 import type { SolarisChartInterpolation } from '../../model/chart.types';
 import type {
+  SolarisSparklineAppearance,
+  SolarisSparklineDeltaDirection,
   SolarisSparklineDensity,
   SolarisSparklineSize,
 } from '../model/sparkline.types';
@@ -20,6 +29,13 @@ import type {
 @Component({
   selector: 'solaris-sparkline',
   standalone: true,
+  imports: [
+    NgTemplateOutlet,
+    SolarisBadgeComponent,
+    SolarisCardComponent,
+    SolarisCardContentDirective,
+    SolarisCardHeaderDirective,
+  ],
   templateUrl: './sparkline.component.html',
   styleUrls: ['./sparkline.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,6 +43,7 @@ import type {
     class: 'solaris-sparkline',
     '[attr.data-size]': 'size()',
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-appearance]': 'appearance()',
     '[attr.data-trend]': 'geometry().trend',
   },
 })
@@ -39,6 +56,13 @@ export class SolarisSparklineComponent {
   readonly ariaLabel = input.required<string>();
   readonly size = input<SolarisSparklineSize>('md');
   readonly density = input<SolarisSparklineDensity | undefined>(undefined);
+  readonly appearance = input<SolarisSparklineAppearance>('plain');
+  readonly title = input<string | undefined>(undefined);
+  readonly value = input<string | undefined>(undefined);
+  readonly delta = input<string | undefined>(undefined);
+  readonly deltaDirection = input<SolarisSparklineDeltaDirection | undefined>(
+    undefined,
+  );
 
   protected readonly viewWidth = SOLARIS_SPARKLINE_WIDTH;
   protected readonly viewHeight = SOLARIS_SPARKLINE_HEIGHT;
@@ -62,5 +86,20 @@ export class SolarisSparklineComponent {
     return good
       ? 'var(--solaris-success-solid)'
       : 'var(--solaris-danger-solid)';
+  });
+
+  protected readonly effectiveDeltaDirection =
+    computed<SolarisSparklineDeltaDirection>(
+      () => this.deltaDirection() ?? this.geometry().trend,
+    );
+
+  protected readonly deltaBadgeColor = computed(() => {
+    const direction = this.effectiveDeltaDirection();
+    if (direction === 'flat') return 'neutral';
+    const risingIsGood = this.positiveIsGood();
+    const good =
+      (direction === 'up' && risingIsGood) ||
+      (direction === 'down' && !risingIsGood);
+    return good ? 'success' : 'danger';
   });
 }

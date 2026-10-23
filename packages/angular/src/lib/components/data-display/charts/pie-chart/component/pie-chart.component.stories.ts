@@ -89,3 +89,13 @@ export const Empty: Story = {
     slices: [],
   },
 };
+
+export const SizeDensity: Story = {
+  args: {
+    locale: 'en-US',
+    variant: 'donut',
+    size: 'lg',
+    density: 'comfortable',
+    slices: ENROLLMENT,
+  },
+};

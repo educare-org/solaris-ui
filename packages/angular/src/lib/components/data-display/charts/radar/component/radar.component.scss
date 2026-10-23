@@ -13,6 +13,24 @@
   display: block;
 }
 
+:host([data-size='sm']) {
+  --solaris-radar-label-size: var(--solaris-font-size-3xs);
+  --solaris-radar-legend-size: var(--solaris-font-size-3xs);
+}
+
+:host([data-size='lg']) {
+  --solaris-radar-label-size: var(--solaris-font-size-xs);
+  --solaris-radar-legend-size: var(--solaris-font-size-xs);
+}
+
+:host([data-density='compact']) .solaris-radar__empty {
+  min-height: calc(var(--solaris-spacing-12) * 3);
+}
+
+:host([data-density='comfortable']) .solaris-radar__empty {
+  min-height: calc(var(--solaris-spacing-12) * 5);
+}
+
 .solaris-radar__frame {
   position: relative;
 }

@@ -28,6 +28,7 @@ export const RADAR_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'examples', labelKey: 'radar-view.section.examples' },
   { anchor: 'many-series', labelKey: 'radar-view.section.manySeries' },
   { anchor: 'empty', labelKey: 'radar-view.section.empty' },
+  { anchor: 'size-density', labelKey: 'radar-view.section.size-density' },
   { anchor: 'installation', labelKey: 'radar-view.section.installation' },
   { anchor: 'props', labelKey: 'radar-view.section.props' },
 ];

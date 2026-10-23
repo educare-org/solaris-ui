@@ -1,0 +1,5 @@
+---
+'@educarehq/solaris-ui': minor
+---
+
+V2-C (charts design system): real `size` (`sm/md/lg`) and `density` (`compact/normal/comfortable`) effects in all chart SCSS (`chart-shell`, `line`, `bar`, `pie`, `heatmap`, `radar`, `sparkline`) with `md`/`normal` pixel-identical to the previous rendering; `solaris-sparkline` gains `appearance="card"` (KPI trio `title`/`value`/`delta` + badge over `solaris-card`, badge color from `deltaDirection` crossed with `positiveIsGood`; card host sizes to content instead of the fixed 96px); chart palette maps `warning` to `var(--solaris-warning-foreground)` so series strokes keep 3:1 contrast on the light theme (solid `#f1d008` was 1.53:1 on white). Stories `SizeDensity` for every chart plus sparkline `Card`; showcases `charts/{shell,line-chart,bar-chart,pie-chart,heatmap,radar,sparkline}/` each gain a `Size and density` section (live size×density tabs + computed `preview-code`, icon-button/line-chart pattern; `sizes`/`density`/notes in en-US/pt-BR/es-419); sparkline page additionally gains the `Card` section (2-card grid) after the KPIs cleanup.

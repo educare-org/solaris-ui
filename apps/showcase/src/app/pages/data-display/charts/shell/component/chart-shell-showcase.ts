@@ -26,6 +26,8 @@ import {
   type SolarisChartDisplayMode,
   type SolarisChartPeriod,
   type SolarisChartSeries,
+  type SolarisChartShellDensity,
+  type SolarisChartShellSize,
   type SolarisChartShellTrend,
   type SolarisChartView,
   type SolarisLineChartPointEvent,
@@ -129,6 +131,22 @@ export class ChartShellShowcasePage implements OnDestroy {
   protected readonly fullscreenOpen = signal(false);
   protected readonly log = signal('');
   protected readonly stateLog = signal('');
+
+  protected readonly selectedSize = signal<SolarisChartShellSize>('md');
+  protected readonly selectedDensity =
+    signal<SolarisChartShellDensity>('normal');
+
+  protected readonly sizeDensityCode = computed(() =>
+    [
+      '<solaris-chart-shell',
+      '  locale="pt-BR"',
+      `  [title]="'chart-shell-view.examples.title' | translate"`,
+      '  [series]="series()"',
+      `  size="${this.selectedSize()}"`,
+      `  density="${this.selectedDensity()}"`,
+      '/>',
+    ].join('\n'),
+  );
 
   protected readonly dataset = computed(() => PERIOD_DATASETS[this.period()]);
 

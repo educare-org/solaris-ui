@@ -22,6 +22,15 @@ describe('Solaris chart palette', () => {
     expect(solarisChartSoftVar('danger')).toBe('var(--solaris-danger-soft)');
   });
 
+  it('maps warning to the foreground token for light-theme contrast', () => {
+    expect(solarisChartColorVar('warning')).toBe(
+      'var(--solaris-warning-foreground)',
+    );
+    expect(resolveChartSeriesColor(4)).toBe(
+      'var(--solaris-warning-foreground)',
+    );
+  });
+
   it('cycles positionally and honors explicit overrides', () => {
     expect(resolveChartSeriesColor(0)).toBe('var(--solaris-primary-solid)');
     expect(resolveChartSeriesColor(SOLARIS_CHART_PALETTE.length)).toBe(

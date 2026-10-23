@@ -93,3 +93,14 @@ export const Empty: Story = {
     columns: COLUMNS,
   },
 };
+
+export const SizeDensity: Story = {
+  args: {
+    locale: 'en-US',
+    rows: ATTENDANCE,
+    columns: COLUMNS,
+    max: 100,
+    size: 'lg',
+    density: 'comfortable',
+  },
+};

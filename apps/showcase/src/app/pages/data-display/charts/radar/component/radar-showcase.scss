@@ -8,6 +8,14 @@
   gap: var(--solaris-spacing-7);
 }
 
+.radar-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
+}
+
 .radar-showcase__log {
   margin: 0;
   min-height: var(--solaris-spacing-9);

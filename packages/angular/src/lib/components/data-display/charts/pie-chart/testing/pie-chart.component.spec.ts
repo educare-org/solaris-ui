@@ -470,6 +470,20 @@ describe('SolarisPieChartComponent', () => {
     }
   });
 
+  it('reflects size and density on the host', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('size', 'lg');
+    fixture.componentRef.setInput('density', 'comfortable');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-size')).toBe('lg');
+    expect(el.getAttribute('data-density')).toBe('comfortable');
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.componentRef.setInput('density', 'compact');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-size')).toBe('sm');
+    expect(el.getAttribute('data-density')).toBe('compact');
+  });
+
   it('never mutates the consumer slices', () => {
     const frozen = SLICES.map((slice) => Object.freeze({ ...slice }));
     const snapshot = JSON.stringify(frozen);

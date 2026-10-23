@@ -73,4 +73,79 @@ describe('SolarisSparklineComponent', () => {
     expect(el.querySelector('.solaris-sparkline__line')).toBeNull();
     expect(el.getAttribute('data-trend')).toBe('flat');
   });
+
+  it('reflects size and density on the host', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('size', 'lg');
+    fixture.componentRef.setInput('density', 'comfortable');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-size')).toBe('lg');
+    expect(el.getAttribute('data-density')).toBe('comfortable');
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.componentRef.setInput('density', 'compact');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-size')).toBe('sm');
+    expect(el.getAttribute('data-density')).toBe('compact');
+  });
+
+  it('renders a KPI card with value, delta badge and sparkline', () => {
+    const el = createFixture([3, 5, 4, 8]);
+    fixture.componentRef.setInput('appearance', 'card');
+    fixture.componentRef.setInput('title', 'Active users');
+    fixture.componentRef.setInput('value', '12,480');
+    fixture.componentRef.setInput('delta', '+8.2%');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-appearance')).toBe('card');
+    expect(el.querySelector('solaris-card')).not.toBeNull();
+    expect(el.textContent).toContain('Active users');
+    expect(el.textContent).toContain('12,480');
+    const badge = el.querySelector('solaris-badge');
+    expect(badge?.textContent).toContain('+8.2%');
+    expect(badge?.getAttribute('data-color')).toBe('success');
+    expect(el.querySelector('.solaris-sparkline__line')).not.toBeNull();
+  });
+
+  it('inverts the delta badge when positive is not good', () => {
+    const el = createFixture([8, 5, 4, 3]);
+    fixture.componentRef.setInput('appearance', 'card');
+    fixture.componentRef.setInput('delta', '-12%');
+    fixture.componentRef.setInput('positiveIsGood', false);
+    fixture.detectChanges();
+    expect(el.querySelector('solaris-badge')?.getAttribute('data-color')).toBe(
+      'success',
+    );
+  });
+
+  it('renders a neutral badge for a flat delta', () => {
+    const el = createFixture([4, 4, 4]);
+    fixture.componentRef.setInput('appearance', 'card');
+    fixture.componentRef.setInput('delta', '0%');
+    fixture.detectChanges();
+    expect(el.querySelector('solaris-badge')?.getAttribute('data-color')).toBe(
+      'neutral',
+    );
+  });
+
+  it('renders a bare card with a danger badge for a bad fall', () => {
+    const el = createFixture([8, 5, 4, 3]);
+    fixture.componentRef.setInput('appearance', 'card');
+    fixture.componentRef.setInput('delta', '-3.1%');
+    fixture.detectChanges();
+    expect(el.querySelector('.solaris-sparkline__card-title')).toBeNull();
+    expect(el.querySelector('.solaris-sparkline__card-value')).toBeNull();
+    expect(el.querySelector('solaris-badge')?.getAttribute('data-color')).toBe(
+      'danger',
+    );
+  });
+
+  it('honors an explicit delta direction override', () => {
+    const el = createFixture([3, 5, 4, 8]);
+    fixture.componentRef.setInput('appearance', 'card');
+    fixture.componentRef.setInput('delta', '+1.0%');
+    fixture.componentRef.setInput('deltaDirection', 'down');
+    fixture.detectChanges();
+    expect(el.querySelector('solaris-badge')?.getAttribute('data-color')).toBe(
+      'danger',
+    );
+  });
 });
