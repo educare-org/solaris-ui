@@ -24,34 +24,48 @@
       "listTotal": "Total",
       "lineNote": "Dots are keyboard-focusable: Tab to a dot, use the arrow keys to move, Enter to select.",
       "lineAverage": "Average",
-      "kpiUsers": "Active users",
-      "kpiChurn": "Churn",
       "seriesAutomation": "Task automation",
       "seriesQueries": "User queries",
-      "seriesSystem": "System actions",
-      "deltaUsers7D": "+12.4%",
-      "deltaUsers1M": "+25.2%",
-      "deltaChurn7D": "-8.1%",
-      "deltaChurn1M": "-22.5%"
+      "seriesSystem": "System actions"
     },
-    "kpis": {
-      "note": "Indicator cards with delta badges and trend sparklines. Deltas use semantic badges; direction is also stated in the sparkline accessible label."
+    "views": {
+      "note": "The shell projects any chart into the same card. Use the tabs to switch the projected view; legend, hero, and period keep working.",
+      "label": "Chart view",
+      "line": "Line",
+      "bar": "Bar",
+      "pie": "Pie"
+    },
+    "display": {
+      "note": "Timeline renders the projected chart; list renders a totals table from the same series. The legend keeps toggling series in both modes.",
+      "label": "Display mode",
+      "timeline": "Timeline",
+      "list": "List"
     },
     "installation": {
       "note": "Install the package and import the standalone chart shell component."
     },
     "props": {
-      "note": "The shell owns view and period models and emits toggles, actions, and retry. It never fetches and never mutates the series array."
+      "note": "The shell owns view and period models and emits toggles, actions, and retry. It never fetches and never mutates the series array.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
     },
     "section": {
       "examples": "Examples",
-      "kpis": "Indicators",
+      "views": "Views",
+      "display": "Display",
       "installation": "Installation",
       "props": "Props",
       "states": "States"
     },
     "states": {
-      "note": "Loading shows skeletons, errors show a retry action, and empty data shows guidance text."
+      "note": "Loading shows skeletons, errors show a retry action, and empty data shows guidance text. Use the tabs to switch states; retry lands in the log below.",
+      "label": "Shell state",
+      "empty": "Empty",
+      "loading": "Loading",
+      "error": "Error",
+      "errorMessage": "Could not load the data."
     },
     "title": "Chart Shell"
   }

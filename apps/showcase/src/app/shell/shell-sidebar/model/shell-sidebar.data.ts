@@ -1,19 +1,4 @@
-export interface ShowcaseSidebarNavItem {
-  readonly labelKey: string;
-  readonly route?: string;
-  readonly children?: readonly ShowcaseSidebarNavItem[];
-}
-
-export interface ShowcaseSidebarNavGroup {
-  readonly labelKey: string;
-  readonly items: readonly ShowcaseSidebarNavItem[];
-}
-
-export interface ShowcaseSidebarNavSection {
-  readonly labelKey: string;
-  readonly items: readonly ShowcaseSidebarNavItem[];
-  readonly groups: readonly ShowcaseSidebarNavGroup[];
-}
+import type { ShowcaseSidebarNavSection } from './shell-sidebar.model';
 
 export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
   {
@@ -136,6 +121,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
               {
                 labelKey: 'shell.sidebar.item.radar',
                 route: '/data-display/charts/radar',
+              },
+              {
+                labelKey: 'shell.sidebar.item.sparkline',
+                route: '/data-display/charts/sparkline',
               },
             ],
           },

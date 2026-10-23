@@ -49,3 +49,9 @@ come from tokens (see stories `Rising`, `Falling`, `FallingIsGood`,
 The stroke uses the semantic color var directly; the area reuses it at
 `--solaris-opacity-20`. Width pins to `--solaris-spacing-17`. No hex, no
 fallback.
+
+## Follow-ups
+
+The `charts/sparkline` showcase (KPI cards migrated from the chart shell,
+gaps, states) is provisional: revisit it after the next sparkline component
+changes (interpolation options, empty-state guidance) land.

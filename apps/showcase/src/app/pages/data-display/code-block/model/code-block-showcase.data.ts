@@ -15,8 +15,8 @@ export const CODE_BLOCK_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] 
   ];
 
 export const CODE_BLOCK_SHOWCASE_PREV: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.radar',
-  route: '/data-display/charts/radar',
+  labelKey: 'shell.sidebar.item.sparkline',
+  route: '/data-display/charts/sparkline',
 };
 
 export const CODE_BLOCK_SHOWCASE_NEXT: ShowcaseDocsPageNav = {

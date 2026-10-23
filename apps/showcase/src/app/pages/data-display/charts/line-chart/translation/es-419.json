@@ -8,6 +8,16 @@
       "seriesAutomation": "Automatización de tareas",
       "seriesQueries": "Consultas de usuarios"
     },
+    "interpolation": {
+      "note": "Curvas suaves, segmentos rectos o escalones comparten los mismos puntos, línea de promedio y soporte de teclado. Use las pestañas para cambiar.",
+      "label": "Interpolación",
+      "smooth": "Suave",
+      "linear": "Lineal",
+      "step": "Escalón"
+    },
+    "gaps": {
+      "note": "Los puntos nulos interrumpen la línea en lugar de interpolar. Los puntos siguen siendo enfocables; la línea de promedio sigue visible."
+    },
     "installation": {
       "note": "Instale el paquete e importe el componente standalone del gráfico de líneas."
     },
@@ -20,6 +30,8 @@
     },
     "section": {
       "examples": "Ejemplos",
+      "interpolation": "Interpolación",
+      "gaps": "Vacíos",
       "installation": "Instalación",
       "props": "Props"
     },

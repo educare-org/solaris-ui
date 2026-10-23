@@ -20,8 +20,8 @@ export const RADAR_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const RADAR_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.code-block',
-  route: '/data-display/code-block',
+  labelKey: 'shell.sidebar.item.sparkline',
+  route: '/data-display/charts/sparkline',
 };
 
 export const RADAR_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

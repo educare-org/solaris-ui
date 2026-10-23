@@ -5,7 +5,9 @@ import {
   SolarisCodeBlockComponent,
   SolarisLineChartComponent,
   SolarisPreviewCodeComponent,
+  SolarisTabComponent,
   SolarisTableComponent,
+  SolarisTabsComponent,
   SolarisTranslatePipe,
   SolarisTranslateService,
   type SolarisChartSeries,
@@ -22,7 +24,9 @@ import { createShowcasePageActions } from '../../../../shared/showcase-page-util
 import {
   LINE_CHART_SHOWCASE_BASIC_CODE,
   LINE_CHART_SHOWCASE_BREADCRUMBS,
+  LINE_CHART_SHOWCASE_GAPS_CODE,
   LINE_CHART_SHOWCASE_IMPORT_CODE,
+  LINE_CHART_SHOWCASE_INTERPOLATION_CODE,
   LINE_CHART_SHOWCASE_NEXT,
   LINE_CHART_SHOWCASE_PREV,
   LINE_CHART_SHOWCASE_SLUG,
@@ -127,7 +131,9 @@ const PROP_ROWS: readonly LineChartPropRow[] = [
     SolarisCodeBlockComponent,
     SolarisLineChartComponent,
     SolarisPreviewCodeComponent,
+    SolarisTabComponent,
     SolarisTableComponent,
+    SolarisTabsComponent,
     SolarisTranslatePipe,
     ShowcaseDocsPageFooter,
     ShowcaseDocsPageHeader,
@@ -148,7 +154,16 @@ export class LineChartShowcasePage {
   protected readonly installCommands = ['pnpm add @solaris-ui/angular'];
   protected readonly importCode = LINE_CHART_SHOWCASE_IMPORT_CODE;
   protected readonly basicCode = LINE_CHART_SHOWCASE_BASIC_CODE;
+  protected readonly interpolationCode = LINE_CHART_SHOWCASE_INTERPOLATION_CODE;
+  protected readonly gapsCode = LINE_CHART_SHOWCASE_GAPS_CODE;
   protected readonly log = signal('');
+  protected readonly interpolationTab = signal<'smooth' | 'linear' | 'step'>(
+    'smooth',
+  );
+  protected readonly interpolation = computed<'smooth' | 'linear'>(() =>
+    this.interpolationTab() === 'linear' ? 'linear' : 'smooth',
+  );
+  protected readonly step = computed(() => this.interpolationTab() === 'step');
 
   protected readonly series = computed<readonly SolarisChartSeries[]>(() =>
     (Object.keys(SERIES_LABEL_KEYS) as (keyof typeof SERIES_LABEL_KEYS)[]).map(
@@ -171,6 +186,22 @@ export class LineChartShowcasePage {
       ),
     },
   ]);
+
+  protected readonly gapSeries = computed<readonly SolarisChartSeries[]>(() =>
+    (Object.keys(SERIES_LABEL_KEYS) as (keyof typeof SERIES_LABEL_KEYS)[]).map(
+      (id) => ({
+        id,
+        label: this.translateService.translate(SERIES_LABEL_KEYS[id]),
+        points: WEEK_XS.map((x, index) => ({
+          x,
+          y:
+            index === 2 || index === 5
+              ? null
+              : (WEEK_VALUES[id][index] ?? null),
+        })),
+      }),
+    ),
+  );
 
   protected readonly propsColumns = computed(
     (): readonly SolarisTableColumn<LineChartPropRow>[] => [

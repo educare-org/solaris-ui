@@ -203,29 +203,31 @@
     </div>
   }
 
-  <table class="solaris-line-chart__data">
-    <caption>
-      {{
-        summary()
-      }}
-    </caption>
-    <thead>
-      <tr>
-        <th scope="col"></th>
-        @for (entry of visibleSeries(); track entry.id) {
-          <th scope="col">{{ entry.label }}</th>
-        }
-      </tr>
-    </thead>
-    <tbody>
-      @for (label of resolvedXLabels(); track $index; let rowIndex = $index) {
+  <div class="solaris-line-chart__data">
+    <table>
+      <caption>
+        {{
+          summary()
+        }}
+      </caption>
+      <thead>
         <tr>
-          <th scope="row">{{ label }}</th>
+          <th scope="col"></th>
           @for (entry of visibleSeries(); track entry.id) {
-            <td>{{ entry.points[rowIndex]?.y ?? '' }}</td>
+            <th scope="col">{{ entry.label }}</th>
           }
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @for (label of resolvedXLabels(); track $index; let rowIndex = $index) {
+          <tr>
+            <th scope="row">{{ label }}</th>
+            @for (entry of visibleSeries(); track entry.id) {
+              <td>{{ entry.points[rowIndex]?.y ?? '' }}</td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </div>

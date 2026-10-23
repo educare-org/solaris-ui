@@ -75,6 +75,13 @@ export const dataDisplayRoutes: Route[] = [
                 '../pages/data-display/charts/radar/component/radar-showcase'
               ).then((m) => m.RadarShowcasePage),
           },
+          {
+            path: 'sparkline',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/sparkline/component/sparkline-showcase'
+              ).then((m) => m.SparklineShowcasePage),
+          },
         ],
       },
       {

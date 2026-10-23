@@ -24,4 +24,18 @@ test.describe('Line chart', () => {
       'point:automation:0',
     );
   });
+
+  test('switches interpolation through tabs', async ({ page }) => {
+    const section = page.locator('app-docs-section[anchor="interpolation"]');
+    await section.getByRole('tab', { name: 'Linear' }).click();
+    await expect(section.locator('solaris-line-chart')).toHaveAttribute(
+      'data-interpolation',
+      'linear',
+    );
+    await section.getByRole('tab', { name: 'Step' }).click();
+    await expect(section.locator('solaris-line-chart')).toHaveAttribute(
+      'data-interpolation',
+      'step',
+    );
+  });
 });

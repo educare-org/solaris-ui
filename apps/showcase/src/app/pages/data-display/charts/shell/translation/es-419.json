@@ -24,34 +24,48 @@
       "listTotal": "Total",
       "lineNote": "Los puntos se pueden enfocar con el teclado: Tab hasta un punto, flechas para moverse, Enter para seleccionar.",
       "lineAverage": "Promedio",
-      "kpiUsers": "Usuarios activos",
-      "kpiChurn": "Abandono",
       "seriesAutomation": "Automatización de tareas",
       "seriesQueries": "Consultas de usuarios",
-      "seriesSystem": "Acciones del sistema",
-      "deltaUsers7D": "+12,4%",
-      "deltaUsers1M": "+25,2%",
-      "deltaChurn7D": "-8,1%",
-      "deltaChurn1M": "-22,5%"
+      "seriesSystem": "Acciones del sistema"
     },
-    "kpis": {
-      "note": "Tarjetas de indicadores con deltas y sparklines de tendencia. Los deltas usan badges semánticos; la dirección también está en la etiqueta accesible del sparkline."
+    "views": {
+      "note": "El shell proyecta cualquier gráfico en la misma tarjeta. Use las pestañas para cambiar la vista proyectada; la leyenda, el hero y el período siguen funcionando.",
+      "label": "Vista del gráfico",
+      "line": "Línea",
+      "bar": "Barras",
+      "pie": "Dona"
+    },
+    "display": {
+      "note": "La línea de tiempo muestra el gráfico proyectado; la lista muestra una tabla de totales de las mismas series. La leyenda sigue alternando series en ambos modos.",
+      "label": "Modo de visualización",
+      "timeline": "Línea de tiempo",
+      "list": "Lista"
     },
     "installation": {
       "note": "Instale el paquete e importe el componente standalone del shell de gráficos."
     },
     "props": {
-      "note": "El shell controla los models de vista y período y emite toggles, acciones y retry. Nunca busca datos ni muta el arreglo de series."
+      "note": "El shell controla los models de vista y período y emite toggles, acciones y retry. Nunca busca datos ni muta el arreglo de series.",
+      "colProp": "Propiedad",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Por defecto"
     },
     "section": {
       "examples": "Ejemplos",
-      "kpis": "Indicadores",
+      "views": "Vistas",
+      "display": "Visualización",
       "installation": "Instalación",
       "props": "Props",
       "states": "Estados"
     },
     "states": {
-      "note": "La carga muestra skeletons, los errores muestran acción de reintento y los datos vacíos muestran texto de orientación."
+      "note": "La carga muestra skeletons, los errores muestran acción de reintento y los datos vacíos muestran texto de orientación. Use las pestañas para cambiar de estado; el reintento aparece en el registro.",
+      "label": "Estado del shell",
+      "empty": "Vacío",
+      "loading": "Cargando",
+      "error": "Error",
+      "errorMessage": "No se pudieron cargar los datos."
     },
     "title": "Shell de Gráficos"
   }

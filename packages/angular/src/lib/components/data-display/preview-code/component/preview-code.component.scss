@@ -1,14 +1,14 @@
 :host {
   --solaris-preview-code-gap: var(--solaris-spacing-6);
   --solaris-preview-code-radius: var(--solaris-radius-md);
-  --solaris-preview-code-text: var(--solaris-neutral-text-body);
-  --solaris-preview-code-muted-text: var(--solaris-neutral-text-secondary);
   --solaris-preview-code-min-height: var(--solaris-spacing-18);
+  --solaris-preview-code-text: var(--solaris-neutral-text-body);
   --solaris-preview-code-padding-block: var(--solaris-spacing-9);
   --solaris-preview-code-padding-inline: var(--solaris-spacing-9);
   --solaris-preview-code-background: var(--solaris-neutral-sunken);
-  --solaris-preview-code-border-color: var(--solaris-neutral-border-subtle);
   --solaris-preview-code-preview-background: var(--solaris-neutral-page);
+  --solaris-preview-code-muted-text: var(--solaris-neutral-text-secondary);
+  --solaris-preview-code-border-color: var(--solaris-neutral-border-subtle);
 
   display: grid;
   min-inline-size: 0;
@@ -118,21 +118,21 @@
 }
 
 .solaris-preview-code__preview-surface {
-  box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
+  min-inline-size: 0;
+  overflow: auto clip;
   align-items: center;
+  max-inline-size: 100%;
+  box-sizing: border-box;
   justify-content: center;
   gap: var(--solaris-spacing-3);
-  min-inline-size: 0;
-  max-inline-size: 100%;
-  min-block-size: var(--solaris-preview-code-min-height);
-  overflow: auto;
   color: var(--solaris-preview-code-text);
+  border-radius: var(--solaris-preview-code-radius);
+  min-block-size: var(--solaris-preview-code-min-height);
   background: var(--solaris-preview-code-preview-background);
   border: var(--solaris-border-width-sm) solid
     var(--solaris-preview-code-border-color);
-  border-radius: var(--solaris-preview-code-radius);
   padding: var(--solaris-preview-code-padding-block)
     var(--solaris-preview-code-padding-inline);
 }

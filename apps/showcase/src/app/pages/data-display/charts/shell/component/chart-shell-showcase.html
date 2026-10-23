@@ -19,6 +19,11 @@
     <p class="chart-shell-showcase__note">
       {{ 'chart-shell-view.examples.note' | translate }}
     </p>
+    <div class="chart-shell-showcase__actions">
+      <button type="button" solaris-button (click)="toggleLoading()">
+        {{ 'chart-shell-view.examples.toggleLoading' | translate }}
+      </button>
+    </div>
     <solaris-preview-code
       [code]="basicCode"
       language="html"
@@ -103,11 +108,6 @@
           {{ 'chart-shell-view.examples.lineNote' | translate }}
         </p>
         <ng-container *ngTemplateOutlet="chartCard" />
-        @if (log()) {
-        <p class="chart-shell-showcase__log" data-testid="event-log">
-          {{ log() }}
-        </p>
-        }
       </div>
       @if (fullscreenOpen()) {
       <div
@@ -143,67 +143,203 @@
       </div>
       }
     </solaris-preview-code>
-    <button type="button" (click)="toggleLoading()">
-      {{ 'chart-shell-view.examples.toggleLoading' | translate }}
-    </button>
+    @if (log()) {
+    <p class="chart-shell-showcase__log" data-testid="event-log">{{ log() }}</p>
+    }
   </app-docs-section>
 
-  <app-docs-section anchor="kpis" titleKey="chart-shell-view.section.kpis">
+  <app-docs-section anchor="views" titleKey="chart-shell-view.section.views">
     <p class="chart-shell-showcase__note">
-      {{ 'chart-shell-view.kpis.note' | translate }}
+      {{ 'chart-shell-view.views.note' | translate }}
     </p>
-    <div class="chart-shell-showcase__kpis">
-      <div class="chart-shell-showcase__kpi">
-        <span class="chart-shell-showcase__kpi-label">
-          {{ 'chart-shell-view.examples.kpiUsers' | translate }}
-        </span>
-        <span class="chart-shell-showcase__kpi-value">{{ usersValue() }}</span>
-        <solaris-badge color="success" size="sm">
-          <solaris-icon
-            solaris-badge-icon
-            name="caret-up"
-            [decorative]="true"
-          />
-          {{ (isWeeklyWindow() ? 'chart-shell-view.examples.deltaUsers7D' :
-          'chart-shell-view.examples.deltaUsers1M' ) | translate }}
-        </solaris-badge>
-        <solaris-sparkline
-          [points]="usersSpark()"
-          [ariaLabel]="'chart-shell-view.examples.kpiUsers' | translate"
+    <solaris-tabs
+      [(value)]="viewsTab"
+      [ariaLabel]="'chart-shell-view.views.label' | translate"
+    >
+      <solaris-tab [value]="'line'"
+        >{{ 'chart-shell-view.views.line' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'bar'"
+        >{{ 'chart-shell-view.views.bar' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'pie'"
+        >{{ 'chart-shell-view.views.pie' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      [code]="viewsCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [heroValue]="heroValue()"
+        [heroLabel]="'chart-shell-view.examples.heroLabel' | translate"
+        [heroDelta]="heroDelta()"
+        [heroDeltaDirection]="heroDeltaDirection()"
+        [intervalLabel]="intervalLabel()"
+        [view]="viewsTab()"
+        [period]="period()"
+        [availablePeriods]="periodOptions()"
+        [series]="series()"
+        (viewChange)="viewsTab.set($event)"
+        (periodChange)="onPeriodChange($event)"
+        (seriesToggle)="onSeriesToggle($event)"
+        (actionRequest)="onActionRequest($event)"
+      >
+        @if (viewsTab() === 'bar') {
+        <solaris-bar-chart
+          locale="pt-BR"
+          [series]="series()"
+          [xLabels]="xLabels()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onBarPointSelect($event)"
         />
-      </div>
-      <div class="chart-shell-showcase__kpi">
-        <span class="chart-shell-showcase__kpi-label">
-          {{ 'chart-shell-view.examples.kpiChurn' | translate }}
-        </span>
-        <span class="chart-shell-showcase__kpi-value">{{ churnValue() }}</span>
-        <solaris-badge color="danger" size="sm">
-          <solaris-icon
-            solaris-badge-icon
-            name="caret-down"
-            [decorative]="true"
-          />
-          {{ (isWeeklyWindow() ? 'chart-shell-view.examples.deltaChurn7D' :
-          'chart-shell-view.examples.deltaChurn1M' ) | translate }}
-        </solaris-badge>
-        <solaris-sparkline
-          [points]="churnSpark()"
-          [positiveIsGood]="false"
-          [ariaLabel]="'chart-shell-view.examples.kpiChurn' | translate"
+        } @else if (viewsTab() === 'pie') {
+        <solaris-pie-chart
+          locale="pt-BR"
+          variant="donut"
+          [series]="series()"
+          [showValues]="true"
+          (sliceSelect)="onSliceSelect($event)"
         />
-      </div>
-    </div>
+        } @else {
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="series()"
+          [xLabels]="xLabels()"
+          [tooltipSubtitle]="tooltipSubtitle()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+        }
+      </solaris-chart-shell>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="display"
+    titleKey="chart-shell-view.section.display"
+  >
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.display.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="displayTab"
+      [ariaLabel]="'chart-shell-view.display.label' | translate"
+    >
+      <solaris-tab [value]="'timeline'"
+        >{{ 'chart-shell-view.display.timeline' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'list'"
+        >{{ 'chart-shell-view.display.list' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      [code]="displayCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [heroValue]="heroValue()"
+        [intervalLabel]="intervalLabel()"
+        [(displayMode)]="displayTab"
+        [series]="series()"
+        (seriesToggle)="onSeriesToggle($event)"
+      >
+        @if (displayTab() === 'list') {
+        <table class="chart-shell-showcase__list">
+          <thead>
+            <tr>
+              <th scope="col">
+                {{ 'chart-shell-view.examples.listSeries' | translate }}
+              </th>
+              <th scope="col">
+                {{ 'chart-shell-view.examples.listTotal' | translate }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (entry of series(); track entry.id) { @if (entry.hidden !==
+            true || isLeaving(entry.id)) {
+            <tr
+              class="chart-shell-showcase__list-row"
+              [class.is-leaving]="isLeaving(entry.id)"
+            >
+              <th scope="row">{{ entry.label }}</th>
+              <td>{{ seriesTotal(entry) }}</td>
+            </tr>
+            } }
+          </tbody>
+        </table>
+        } @else {
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="series()"
+          [xLabels]="xLabels()"
+          [tooltipSubtitle]="tooltipSubtitle()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+        }
+      </solaris-chart-shell>
+    </solaris-preview-code>
   </app-docs-section>
 
   <app-docs-section anchor="states" titleKey="chart-shell-view.section.states">
     <p class="chart-shell-showcase__note">
       {{ 'chart-shell-view.states.note' | translate }}
     </p>
-    <solaris-chart-shell
-      locale="pt-BR"
-      [title]="'chart-shell-view.examples.title' | translate"
-      [series]="[]"
-    />
+    <solaris-tabs
+      [(value)]="stateTab"
+      [ariaLabel]="'chart-shell-view.states.label' | translate"
+    >
+      <solaris-tab [value]="'empty'"
+        >{{ 'chart-shell-view.states.empty' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'loading'"
+        >{{ 'chart-shell-view.states.loading' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'error'"
+        >{{ 'chart-shell-view.states.error' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      [code]="stateCode()"
+      language="html"
+      previewAlign="stretch"
+    >
+      @if (stateTab() === 'loading') {
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [series]="series()"
+        [loading]="true"
+      />
+      } @else if (stateTab() === 'error') {
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [series]="series()"
+        [error]="stateError()"
+        (retry)="onRetry()"
+      />
+      } @else {
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [series]="[]"
+      />
+      }
+    </solaris-preview-code>
+    @if (stateLog()) {
+    <p class="chart-shell-showcase__log" data-testid="state-event-log">
+      {{ stateLog() }}
+    </p>
+    }
   </app-docs-section>
 
   <app-docs-section
@@ -220,6 +356,14 @@
     <p class="chart-shell-showcase__note">
       {{ 'chart-shell-view.props.note' | translate }}
     </p>
+    <div class="chart-shell-showcase__table-wrap">
+      <solaris-table
+        [data]="propsRows"
+        [columns]="propsColumns()"
+        rowId="prop"
+        appearance="soft"
+      />
+    </div>
   </app-docs-section>
 
   <app-docs-page-footer [prev]="prev" [next]="next" />

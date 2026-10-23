@@ -165,7 +165,8 @@
   color: var(--solaris-chart-shell-label-color);
 }
 
-.solaris-chart-shell__empty {
+.solaris-chart-shell__empty,
+.solaris-chart-shell__error {
   align-items: center;
   text-align: center;
 }

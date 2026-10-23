@@ -8,6 +8,16 @@
       "seriesAutomation": "Task automation",
       "seriesQueries": "User queries"
     },
+    "interpolation": {
+      "note": "Smooth curves, straight segments, or step edges share the same dots, average line, and keyboard support. Use the tabs to switch.",
+      "label": "Interpolation",
+      "smooth": "Smooth",
+      "linear": "Linear",
+      "step": "Step"
+    },
+    "gaps": {
+      "note": "Null points break the line instead of interpolating. Dots stay keyboard-focusable; the average reference line still renders."
+    },
     "installation": {
       "note": "Install the package and import the standalone line chart component."
     },
@@ -20,6 +30,8 @@
     },
     "section": {
       "examples": "Examples",
+      "interpolation": "Interpolation",
+      "gaps": "Gaps",
       "installation": "Installation",
       "props": "Props"
     },

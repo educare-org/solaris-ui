@@ -1,0 +1,46 @@
+{
+  "sparkline-view": {
+    "description": "Mini línea de tendencia sin etiquetas para tarjetas KPI: color semántico según la tendencia, vacíos omitidos, sin teclado.",
+    "examples": {
+      "note": "La subida se lee como éxito, la bajada como peligro. La dirección también está en la etiqueta accesible — el color nunca es la única señal.",
+      "rising": "Usuarios activos",
+      "falling": "Abandono",
+      "risingLabel": "Tendencia de usuarios activos, al alza",
+      "fallingLabel": "Tendencia de abandono, a la baja"
+    },
+    "kpis": {
+      "note": "Tarjetas de indicadores con deltas y sparklines de tendencia, migradas del shell de gráficos. Los deltas usan badges semánticos; la dirección también está en la etiqueta accesible.",
+      "kpiUsers": "Usuarios activos",
+      "kpiChurn": "Abandono",
+      "deltaUsers": "+12,4%",
+      "deltaChurn": "-8,1%",
+      "usersLabel": "Tendencia de usuarios activos, al alza",
+      "churnLabel": "Tendencia de abandono, a la baja es bueno"
+    },
+    "gaps": {
+      "note": "Los puntos nulos o indefinidos interrumpen la línea en lugar de interpolar. Una entrada vacía muestra un marco vacío que conserva su etiqueta."
+    },
+    "states": {
+      "note": "Los datos vacíos muestran un marco vacío con su etiqueta accesible. Los sparklines no tienen estados de carga o error — la tarjeta KPI es dueña de esos estados."
+    },
+    "installation": {
+      "note": "Instale el paquete e importe el componente standalone del sparkline."
+    },
+    "props": {
+      "note": "Entradas y valores por defecto. Los sparklines son presentacionales: sin outputs, sin paradas de teclado, sin tooltip.",
+      "colProp": "Propiedad",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Defecto"
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "kpis": "Indicadores",
+      "gaps": "Vacíos",
+      "states": "Estados",
+      "installation": "Instalación",
+      "props": "Props"
+    },
+    "title": "Sparkline"
+  }
+}

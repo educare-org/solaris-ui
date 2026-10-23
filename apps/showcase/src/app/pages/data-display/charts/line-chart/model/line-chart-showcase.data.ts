@@ -27,6 +27,11 @@ export const LINE_CHART_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
 
 export const LINE_CHART_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'examples', labelKey: 'line-chart-view.section.examples' },
+  {
+    anchor: 'interpolation',
+    labelKey: 'line-chart-view.section.interpolation',
+  },
+  { anchor: 'gaps', labelKey: 'line-chart-view.section.gaps' },
   { anchor: 'installation', labelKey: 'line-chart-view.section.installation' },
   { anchor: 'props', labelKey: 'line-chart-view.section.props' },
 ];
@@ -38,6 +43,25 @@ export const LINE_CHART_SHOWCASE_BASIC_CODE = [
   '<solaris-line-chart',
   '  locale="en-US"',
   '  [series]="series"',
+  '  [referenceLines]="[{ value: 120, label: \'Average\' }]"',
+  '  (pointSelect)="onPointSelect($event)"',
+  '/>',
+].join('\n');
+
+export const LINE_CHART_SHOWCASE_INTERPOLATION_CODE = [
+  '<solaris-line-chart',
+  '  locale="en-US"',
+  '  [series]="series"',
+  '  [interpolation]="interpolation"',
+  '  [step]="step"',
+  '  (pointSelect)="onPointSelect($event)"',
+  '/>',
+].join('\n');
+
+export const LINE_CHART_SHOWCASE_GAPS_CODE = [
+  '<solaris-line-chart',
+  '  locale="en-US"',
+  '  [series]="gapSeries"',
   '  [referenceLines]="[{ value: 120, label: \'Average\' }]"',
   '  (pointSelect)="onPointSelect($event)"',
   '/>',

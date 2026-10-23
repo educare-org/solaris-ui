@@ -8,6 +8,16 @@
       "seriesAutomation": "Automação de tarefas",
       "seriesQueries": "Consultas de usuários"
     },
+    "interpolation": {
+      "note": "Curvas suaves, segmentos retos ou degraus compartilham os mesmos pontos, linha de média e suporte a teclado. Use as abas para alternar.",
+      "label": "Interpolação",
+      "smooth": "Suave",
+      "linear": "Linear",
+      "step": "Degrau"
+    },
+    "gaps": {
+      "note": "Pontos nulos interrompem a linha em vez de interpolar. Os pontos continuam focáveis pelo teclado; a linha de média continua visível."
+    },
     "installation": {
       "note": "Instale o pacote e importe o componente standalone do gráfico de linhas."
     },
@@ -20,6 +30,8 @@
     },
     "section": {
       "examples": "Exemplos",
+      "interpolation": "Interpolação",
+      "gaps": "Falhas",
       "installation": "Instalação",
       "props": "Props"
     },

@@ -13,6 +13,7 @@ import { BAR_CHART_TRANSLATIONS } from '../pages/data-display/charts/bar-chart/t
 import { PIE_CHART_TRANSLATIONS } from '../pages/data-display/charts/pie-chart/translation';
 import { HEATMAP_TRANSLATIONS } from '../pages/data-display/charts/heatmap/translation';
 import { RADAR_TRANSLATIONS } from '../pages/data-display/charts/radar/translation';
+import { SPARKLINE_TRANSLATIONS } from '../pages/data-display/charts/sparkline/translation';
 import { CODE_BLOCK_TRANSLATIONS } from '../pages/data-display/code-block/translation';
 import { PREVIEW_CODE_TRANSLATIONS } from '../pages/data-display/preview-code/translation';
 import { TABLE_TRANSLATIONS } from '../pages/data-display/table/translation';
@@ -119,6 +120,7 @@ const PAGE_MODULES = [
   PIE_CHART_TRANSLATIONS,
   HEATMAP_TRANSLATIONS,
   RADAR_TRANSLATIONS,
+  SPARKLINE_TRANSLATIONS,
   CODE_BLOCK_TRANSLATIONS,
   PREVIEW_CODE_TRANSLATIONS,
   TABLE_TRANSLATIONS,

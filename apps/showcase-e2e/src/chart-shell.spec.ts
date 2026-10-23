@@ -107,6 +107,40 @@ test.describe('Chart shell', () => {
     await expect(page.getByTestId('event-log')).toHaveText('slice:automation');
   });
 
+  test('switches projected views through tabs', async ({ page }) => {
+    const section = page.locator('app-docs-section[anchor="views"]');
+    await section.getByRole('tab', { name: 'Bar' }).click();
+    await expect(section.locator('solaris-chart-shell')).toHaveAttribute(
+      'data-view',
+      'bar',
+    );
+    await expect(
+      section.locator('solaris-chart-shell solaris-bar-chart'),
+    ).toBeVisible();
+  });
+
+  test('switches shell states through tabs and retries from error', async ({
+    page,
+  }) => {
+    const section = page.locator('app-docs-section[anchor="states"]');
+    await section.getByRole('tab', { name: 'Loading' }).click();
+    await expect(
+      section.locator('.solaris-chart-shell__loading'),
+    ).toBeVisible();
+    await section.getByRole('tab', { name: 'Error' }).click();
+    await section.locator('.solaris-chart-shell__error button').click();
+    await expect(section.getByTestId('state-event-log')).toHaveText('retry');
+  });
+
+  test('removes toggled series from the list display', async ({ page }) => {
+    const section = page.locator('app-docs-section[anchor="display"]');
+    await section.getByRole('tab', { name: 'List' }).click();
+    const rows = section.locator('.chart-shell-showcase__list-row');
+    await expect(rows).toHaveCount(3);
+    await section.locator('.solaris-chart-shell__legend-item').first().click();
+    await expect(rows).toHaveCount(2);
+  });
+
   test('redirects the legacy chart-shell path to charts/shell', async ({
     page,
   }) => {

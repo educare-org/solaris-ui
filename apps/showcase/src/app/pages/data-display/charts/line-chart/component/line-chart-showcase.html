@@ -37,13 +37,82 @@
       </ng-template>
       <div class="line-chart-showcase__demo">
         <ng-container *ngTemplateOutlet="chartCard" />
-        @if (log()) {
-        <p class="line-chart-showcase__log" data-testid="line-event-log">
-          {{ log() }}
-        </p>
-        }
       </div>
     </solaris-preview-code>
+    @if (log()) {
+    <p class="line-chart-showcase__log" data-testid="line-event-log">
+      {{ log() }}
+    </p>
+    }
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="interpolation"
+    titleKey="line-chart-view.section.interpolation"
+  >
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.interpolation.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="interpolationTab"
+      [ariaLabel]="'line-chart-view.interpolation.label' | translate"
+    >
+      <solaris-tab [value]="'smooth'"
+        >{{ 'line-chart-view.interpolation.smooth' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'linear'"
+        >{{ 'line-chart-view.interpolation.linear' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'step'"
+        >{{ 'line-chart-view.interpolation.step' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      [code]="interpolationCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="line-chart-showcase__demo">
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="series()"
+          [interpolation]="interpolation()"
+          [step]="step()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+      </div>
+    </solaris-preview-code>
+    @if (log()) {
+    <p class="line-chart-showcase__log" data-testid="line-interpolation-log">
+      {{ log() }}
+    </p>
+    }
+  </app-docs-section>
+
+  <app-docs-section anchor="gaps" titleKey="line-chart-view.section.gaps">
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.gaps.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="gapsCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="line-chart-showcase__demo">
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="gapSeries()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+      </div>
+    </solaris-preview-code>
+    @if (log()) {
+    <p class="line-chart-showcase__log" data-testid="line-gaps-log">
+      {{ log() }}
+    </p>
+    }
   </app-docs-section>
 
   <app-docs-section

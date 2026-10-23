@@ -185,10 +185,13 @@
 
 .solaris-line-chart__data {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  contain: strict;
   overflow: hidden;
-  clip-path: inset(50%);
+  clip-path: inset(0);
   white-space: nowrap;
 }
 
