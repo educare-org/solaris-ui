@@ -1,5 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement required as querySelectorAll/focus target for roving tabindex and arrow-key navigation between member actions, and as ResizeObserver/MutationObserver target to detect label overflow for the automatic title. Read-only DOM traversal with no innerHTML; SSR-safe via isPlatformBrowser guard and typeof checks.
-// SECURITY_EXCEPTION_FILE: nativeElement.querySelector('.solaris-avatar-group-badge__label') with read-only scrollWidth/clientWidth/textContent required to measure truncation overflow for the accessible title. Text is only read (never written via innerHTML, no XSS risk); SSR-safe via isPlatformBrowser guard.
 import { isPlatformBrowser, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewChecked,

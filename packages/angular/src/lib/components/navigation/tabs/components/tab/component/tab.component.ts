@@ -1,5 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.closest('[dir]') required to resolve the effective text direction for arrow-key navigation (RTL-aware). Read-only DOM access, SSR-safe via isPlatformBrowser guard with injected DOCUMENT fallback.
-// SECURITY_EXCEPTION_FILE: this.document.documentElement/dir required to resolve the page-level direction when no closer [dir] ancestor exists. SSR-safe via injected DOCUMENT token and isPlatformBrowser guard.
 import {
   input,
   inject,

@@ -1,5 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement required as querySelectorAll/focus target for roving tabindex and arrow-key navigation between member actions and the overflow button. Read-only DOM traversal with no innerHTML; SSR-safe via isPlatformBrowser guard.
-// SECURITY_EXCEPTION_FILE: ownerDocument.activeElement and closest('[dir]') required to preserve roving focus and RTL arrow direction. SSR-safe via isPlatformBrowser guard.
 import { isPlatformBrowser } from '@angular/common';
 import {
   AfterViewChecked,

@@ -1,5 +1,3 @@
-// SECURITY_EXCEPTION_FILE: getComputedStyle(document.documentElement) reads the --solaris-density-default CSS custom property set by the theme() SCSS mixin. This is the only way to connect SCSS-configured density to the runtime; it is SSR-safe via the injected DOCUMENT token and isPlatformBrowser guard.
-// SECURITY_EXCEPTION_FILE: documentElement.getAttribute(data-density-default) reads the SSR-safe density default written by the consumer server, so server and client resolve the same density before styles load.
 import { Injectable, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID, DOCUMENT } from '@angular/core';

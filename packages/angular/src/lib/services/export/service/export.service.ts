@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: file download uses Blob + URL.createObjectURL via the Angular DOCUMENT token (defaultView) instead of the global window; SSR-safe via isPlatformBrowser guard; Blob/URL have no Renderer2 alternative; anchor click is revoked immediately after download.
 import { DOCUMENT, Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 

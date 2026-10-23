@@ -1,10 +1,3 @@
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.tagName is the standard Angular API to differentiate <button> vs <a> for correct disabled/type behavior.
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.getAttribute/setAttribute/removeAttribute is the standard Angular approach to handle default button type and the loading aria-label (imperatively managed so consumer labels are preserved and restored).
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.insertBefore required to render the spinner component inside a native button host (directive has no template).
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.setAttribute required for default <button> type behavior.
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.setAttribute required to pre-stamp data-* variant attributes in ngOnInit (before host bindings apply on first change detection), so the correct variant styles exist before first paint and no solid-to-ghost background transition flashes. Host bindings remain the source of truth afterwards.
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.setAttribute required to stamp the browser-only data-hydrated marker in afterNextRender (post-hydration transitions); host bindings would render on the server and diverge during hydration.
-// SECURITY_EXCEPTION_FILE: createComponent required to render the spinner component inside a native button host (directive has no template).
 import {
   afterNextRender,
   computed,

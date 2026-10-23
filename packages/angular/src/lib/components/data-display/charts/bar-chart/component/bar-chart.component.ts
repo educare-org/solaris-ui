@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement is used only as a ResizeObserver
 // target to measure content size for x-label thinning and as a scoped query
 // root to move focus between SVG bars. No innerHTML is used; style writes
 // target only presentation attributes of the component's own SVG. SSR-safe

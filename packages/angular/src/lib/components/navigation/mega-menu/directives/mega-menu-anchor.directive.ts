@@ -5,8 +5,6 @@ import {
   type SolarisMegaMenuAnchorControl,
 } from '../model/mega-menu.tokens';
 
-// SECURITY_EXCEPTION_FILE: The CDK connected overlay requires the anchor HTMLElement as its positioning origin. Exposing the injected host avoids document lookup; mega-menu component specs cover anchored positioning.
-
 @Directive({
   selector: '[solaris-mega-menu-anchor]',
   standalone: true,

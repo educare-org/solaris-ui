@@ -12,8 +12,6 @@ import {
   type SolarisPopoverPanelData,
 } from '../token/popover.tokens';
 
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() and querySelector are required for autoFocus behavior. Standard DOM API, read-only and SSR-safe via ElementRef.
-
 @Component({
   selector: 'solaris-popover-panel',
   standalone: true,

@@ -1,5 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement required as ResizeObserver/MutationObserver target to detect title/subtitle overflow for the automatic title tooltip. Standard DOM API with no Angular abstraction; SSR-safe via isPlatformBrowser guard and typeof checks.
-// SECURITY_EXCEPTION_FILE: nativeElement.querySelector('.solaris-avatar-profile__title, .solaris-avatar-profile__subtitle') with read-only scrollWidth/clientWidth/textContent required to measure truncation overflow for the accessible title. Text is only read (never written via innerHTML, no XSS risk); SSR-safe via isPlatformBrowser guard.
 import { isPlatformBrowser, NgTemplateOutlet } from '@angular/common';
 import {
   AfterViewInit,

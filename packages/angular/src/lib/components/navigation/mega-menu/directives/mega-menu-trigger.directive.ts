@@ -2,8 +2,6 @@ import { Directive, ElementRef, HostListener, inject } from '@angular/core';
 
 import { SOLARIS_MEGA_MENU } from '../model/mega-menu.tokens';
 
-// SECURITY_EXCEPTION_FILE: Native host access sets the semantic button type; directive specs cover trigger semantics and interaction.
-
 @Directive({
   selector: 'button[solaris-mega-menu-trigger]',
   standalone: true,

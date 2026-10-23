@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement required to check projected content. SSR-safe read-only operation.
 import {
   input,
   inject,

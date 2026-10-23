@@ -1,7 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement required to query tab elements for programmatic focus. Read-only, SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement required to query tablist for indicator measurement. Read-only, SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement required for ResizeObserver target. Standard DOM API, SSR-safe with typeof guard.
-// SECURITY_EXCEPTION_FILE: nativeElement required for MutationObserver target. Standard DOM API, SSR-safe with typeof guard.
 import {
   Component,
   input,

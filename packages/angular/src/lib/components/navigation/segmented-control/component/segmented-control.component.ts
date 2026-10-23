@@ -1,7 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.querySelector required to find item DOM element for programmatic focus. Standard DOM method, SSR-safe with guard.
-// SECURITY_EXCEPTION_FILE: nativeElement.querySelector required to measure indicator position for animation. Read-only measurement, SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement required for ResizeObserver target. Standard DOM API, SSR-safe with typeof guard.
-// SECURITY_EXCEPTION_FILE: nativeElement required for MutationObserver target. Standard DOM API, SSR-safe with typeof guard.
 import {
   Component,
   input,

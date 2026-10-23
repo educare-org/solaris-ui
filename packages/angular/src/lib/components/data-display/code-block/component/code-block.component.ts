@@ -1,7 +1,3 @@
-// SECURITY_EXCEPTION_FILE: document.documentElement.getAttribute required to read the data-theme flag for Shiki theme selection. SSR-safe via injected DOCUMENT token and isPlatformBrowser guard.
-// SECURITY_EXCEPTION_FILE: window.matchMedia required to resolve the system color scheme for Shiki theme selection. SSR-safe via isPlatformBrowser and typeof guards.
-// SECURITY_EXCEPTION_FILE: window.navigator.clipboard required for copy-to-clipboard; no Angular abstraction exists. SSR-safe via isPlatformBrowser guard with try/catch and graceful failure when unavailable.
-// SECURITY_EXCEPTION_FILE: nativeElement access required to measure viewport heights for the expand/collapse animation and to move focus into the editor and back; no Angular abstraction exposes layout metrics. SSR-safe via viewChild (undefined on the server) and isPlatformBrowser guards.
 import { isPlatformBrowser } from '@angular/common';
 import {
   booleanAttribute,

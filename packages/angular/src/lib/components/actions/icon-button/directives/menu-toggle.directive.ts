@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement reads the host button's disabled and loading state before toggling.
 import {
   Directive,
   ElementRef,

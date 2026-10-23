@@ -1,6 +1,3 @@
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular API to observe the host for the square-cell fit measurement and to query rendered cell geometry (no Angular abstraction exposes layout rects).
-// SECURITY_EXCEPTION_FILE: window.matchMedia/requestAnimationFrame/addEventListener/getSelection are guarded by typeof checks (SSR-safe early returns) and required for pointer-drag sessions, resize observation, frame-throttled measuring, and clearing the native text-selection highlight when a drag activates; Renderer2 has no pointer-capture/window-listener equivalent for window-level move/up/cancel during drag. Covered by month-view and month-view-drag specs.
-// SECURITY_EXCEPTION_FILE: document.elementFromPoint is the only API mapping pointer coordinates to the hovered day cell during drag; guarded to HTMLElement + closest('[data-date]') with date validation. Covered by drag specs.
 import {
   AfterViewInit,
   ChangeDetectionStrategy,

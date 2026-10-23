@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: document.body.style.overflow required for backdrop scroll-lock. SSR-safe via injected DOCUMENT token and isPlatformBrowser guard; previous value restored on toggle and destroy.
 import {
   Component,
   inject,

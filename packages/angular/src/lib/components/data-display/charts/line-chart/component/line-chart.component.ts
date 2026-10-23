@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement is used only as a ResizeObserver target
 // to measure content width for x-label thinning and as a scoped query root for
 // transition animations and dot focus moves. document.createElementNS creates
 // only the component's own SVG pen-dot (static tag/attrs, no user markup).

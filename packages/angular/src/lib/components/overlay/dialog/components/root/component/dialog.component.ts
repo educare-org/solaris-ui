@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular API to read the host element for capture-phase scroll listener tracking bodyScrolled state. SSR-safe via afterNextRender with DestroyRef cleanup. No alternative exists.
 import {
   Component,
   input,

@@ -42,6 +42,7 @@
     [disabled]="!canOpen()"
     (click)="onCountryToggle($event)"
   >
+    <!-- SECURITY_EXCEPTION: flag SVG already vetted by solarisSafeHtml pipe (isTrustedFlagSvg). -->
     <span
       class="solaris-phone-field__flag"
       [innerHTML]="selectedFlag() | solarisSafeHtml"

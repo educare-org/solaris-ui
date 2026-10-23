@@ -51,6 +51,7 @@
           [attr.data-selected]="selectedCode() === country.code ? '' : null"
           [attr.aria-selected]="selectedCode() === country.code"
         >
+          <!-- SECURITY_EXCEPTION: flag SVG already vetted by solarisSafeHtml pipe (isTrustedFlagSvg). -->
           <span
             class="solaris-phone-country-list__flag"
             [innerHTML]="country.flag | solarisSafeHtml"

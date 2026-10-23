@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required for programmatic focus. No alternative exists.
 import {
   Component,
   input,

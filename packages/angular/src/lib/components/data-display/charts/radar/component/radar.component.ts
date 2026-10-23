@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement is used only as a scoped query
 // root to move focus between SVG vertices. No innerHTML is used; style writes
 // target only presentation attributes of the component's own SVG.
 import { isPlatformBrowser } from '@angular/common';

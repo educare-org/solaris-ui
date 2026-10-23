@@ -1,8 +1,3 @@
-// SECURITY_EXCEPTION_FILE: this.document.activeElement required for restoreFocus. SSR-safe via injected DOCUMENT.
-// SECURITY_EXCEPTION_FILE: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
-// SECURITY_EXCEPTION_FILE: document.querySelectorAll required to find other dropdown overlays for outside-click. SSR-safe via injected DOCUMENT.
-// SECURITY_EXCEPTION_FILE: nativeElement.offsetWidth required for matchTriggerWidth. Read-only measurement.
-// SECURITY_EXCEPTION_FILE: this.document.contains() to safely verify trigger still exists before focus.
 import {
   Directive,
   ElementRef,

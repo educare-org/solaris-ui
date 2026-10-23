@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: window.matchMedia is guarded by typeof checks (SSR-safe early return in ngOnInit) and required for the ≤640px responsive fallback to the schedule agenda; matchMedia listeners are removed in ngOnDestroy. Covered by shell component specs.
 import {
   ChangeDetectionStrategy,
   Component,

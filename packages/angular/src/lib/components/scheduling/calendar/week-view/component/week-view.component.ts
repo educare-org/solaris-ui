@@ -1,6 +1,3 @@
-// SECURITY_EXCEPTION_FILE: document.elementFromPoint is the only API mapping pointer coordinates to the hovered slot/lane during drag; guarded by typeof document, HTMLElement checks, and data-date/data-hour validation. Covered by week-view-drag specs.
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement reads host and cell geometry for the all-day auto-fit (no Angular abstraction exposes layout rects).
-// SECURITY_EXCEPTION_FILE: window.addEventListener/removeEventListener/setInterval/matchMedia/getSelection are guarded by typeof checks (SSR-safe) and required for pointer-drag sessions, the tz now-line timer, reduced-motion detection, and clearing the native text-selection highlight when a drag activates; Renderer2 has no window-level equivalent. Covered by week-view specs.
 import {
   AfterViewInit,
   ChangeDetectionStrategy,

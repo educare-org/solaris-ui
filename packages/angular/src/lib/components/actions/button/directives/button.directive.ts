@@ -1,5 +1,3 @@
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement.textContent read is required for the dev-mode icon-only a11y guard (no Angular abstraction exposes projected text).
-// SECURITY_EXCEPTION_FILE: createComponent/insertBefore/appendChild required to render the icon component inside a native button host (directive has no template).
 import {
   Directive,
   input,

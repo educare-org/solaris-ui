@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular API to read the panel element for focus management (panel.focus() and [data-autofocus] lookup). No alternative exists.
 import {
   afterEveryRender,
   AfterViewInit,
