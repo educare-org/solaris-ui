@@ -97,12 +97,18 @@
 .chart-shell-showcase__demo solaris-line-chart,
 .chart-shell-showcase__demo solaris-bar-chart,
 .chart-shell-showcase__demo solaris-pie-chart,
+.chart-shell-showcase__demo solaris-heatmap,
+.chart-shell-showcase__demo solaris-radar,
 app-docs-section[anchor='display'] solaris-line-chart,
 app-docs-section[anchor='display'] solaris-bar-chart,
 app-docs-section[anchor='display'] solaris-pie-chart,
 app-docs-section[anchor='views'] solaris-line-chart,
 app-docs-section[anchor='views'] solaris-bar-chart,
-app-docs-section[anchor='views'] solaris-pie-chart {
+app-docs-section[anchor='views'] solaris-pie-chart,
+app-docs-section[anchor='combos'] solaris-line-chart,
+app-docs-section[anchor='combos'] solaris-bar-chart,
+app-docs-section[anchor='combos'] solaris-heatmap,
+app-docs-section[anchor='combos'] solaris-radar {
   display: block;
   animation: chart-shell-display-enter var(--solaris-motion-duration-fast)
     var(--solaris-motion-easing-decelerate) both;
@@ -143,68 +149,6 @@ app-docs-section[anchor='views'] solaris-pie-chart {
 :host-context([data-reduced-motion='true']) .chart-shell-showcase__list::after {
   animation: none;
   transition: none;
-}
-
-.chart-shell-showcase__fullscreen {
-  position: fixed;
-  inset: 0;
-  z-index: var(--solaris-z-index-modal);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: var(--solaris-spacing-10);
-  overflow-y: auto;
-}
-
-.chart-shell-showcase__fullscreen-backdrop {
-  position: fixed;
-  inset: 0;
-  background: var(--solaris-neutral-backdrop);
-}
-
-.chart-shell-showcase__fullscreen-panel {
-  overflow-y: auto;
-  position: relative;
-  width: min(1120px, 100%);
-  max-height: calc(100vh - var(--solaris-spacing-10) * 2);
-  border: var(--solaris-border-width-sm) solid
-    var(--solaris-neutral-border-default);
-  border-radius: var(--solaris-radius-lg);
-  background: var(--solaris-neutral-default);
-  padding: var(--solaris-spacing-10);
-  box-shadow: var(--solaris-shadow-lg);
-}
-
-.chart-shell-showcase__fullscreen-header {
-  display: flex;
-  align-items: center;
-  gap: var(--solaris-spacing-5);
-  justify-content: space-between;
-  margin-bottom: var(--solaris-spacing-7);
-}
-
-.chart-shell-showcase__fullscreen-title {
-  font-size: var(--solaris-font-size-md);
-  color: var(--solaris-neutral-text-heading);
-  font-weight: var(--solaris-font-weight-semibold);
-}
-
-.chart-shell-showcase__fullscreen-close {
-  cursor: pointer;
-  align-items: center;
-  display: inline-flex;
-  justify-content: center;
-  background: transparent;
-  width: var(--solaris-spacing-12);
-  height: var(--solaris-spacing-12);
-  color: var(--solaris-neutral-text-body);
-  border-radius: var(--solaris-radius-full);
-  border: var(--solaris-border-width-sm) solid
-    var(--solaris-neutral-border-default);
-}
-
-.chart-shell-showcase__fullscreen-close:hover {
-  background: var(--solaris-neutral-subtle);
 }
 
 @keyframes chart-shell-list-row-enter {
@@ -270,7 +214,11 @@ app-docs-section[anchor='views'] solaris-pie-chart {
   app-docs-section[anchor='display'] solaris-pie-chart,
   app-docs-section[anchor='views'] solaris-line-chart,
   app-docs-section[anchor='views'] solaris-bar-chart,
-  app-docs-section[anchor='views'] solaris-pie-chart {
+  app-docs-section[anchor='views'] solaris-pie-chart,
+  app-docs-section[anchor='combos'] solaris-line-chart,
+  app-docs-section[anchor='combos'] solaris-bar-chart,
+  app-docs-section[anchor='combos'] solaris-heatmap,
+  app-docs-section[anchor='combos'] solaris-radar {
     animation: none;
     transition: none;
   }

@@ -1,6 +1,6 @@
 export type SolarisChartInterpolation = 'smooth' | 'linear' | 'step';
 
-export type SolarisChartView = 'line' | 'bar' | 'pie';
+export type SolarisChartView = 'line' | 'bar' | 'pie' | 'heatmap' | 'radar';
 
 export type SolarisChartPeriod =
   | 'day'

@@ -1,22 +1,17 @@
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { Component, OnDestroy, computed, inject, signal } from '@angular/core';
 
 import {
   SolarisBarChartComponent,
   SolarisButtonDirective,
   SolarisChartShellComponent,
   SolarisCodeBlockComponent,
-  SolarisIconComponent,
+  SolarisDialogService,
+  SolarisHeatmapComponent,
   SolarisLineChartComponent,
   SolarisPieChartComponent,
   SolarisPreviewCodeComponent,
+  SolarisRadarComponent,
   SolarisTabComponent,
   SolarisTableComponent,
   SolarisTabsComponent,
@@ -29,8 +24,11 @@ import {
   type SolarisChartShellDensity,
   type SolarisChartShellSize,
   type SolarisChartShellTrend,
+  type SolarisChartShellViewOption,
   type SolarisChartView,
+  type SolarisHeatmapRow,
   type SolarisLineChartPointEvent,
+  type SolarisRadarSeries,
   type SolarisTableColumn,
 } from '@solaris-ui/angular';
 
@@ -40,6 +38,7 @@ import { ShowcaseDocsPageLayout } from '../../../../../shell/docs-page-layout/do
 import { ShowcaseDocsSection } from '../../../../../shell/docs-section/docs-section';
 
 import { createShowcasePageActions } from '../../../../shared/showcase-page-utils';
+import { ChartShellFullscreenDialogComponent } from './chart-shell-fullscreen-dialog.component';
 import {
   CHART_SHELL_SHOWCASE_BASIC_CODE,
   CHART_SHELL_SHOWCASE_BREADCRUMBS,
@@ -73,9 +72,11 @@ import {
     SolarisBarChartComponent,
     SolarisButtonDirective,
     SolarisChartShellComponent,
-    SolarisIconComponent,
+    SolarisHeatmapComponent,
     SolarisLineChartComponent,
     SolarisPieChartComponent,
+    SolarisPreviewCodeComponent,
+    SolarisRadarComponent,
     SolarisCodeBlockComponent,
     SolarisPreviewCodeComponent,
     SolarisTabComponent,
@@ -92,8 +93,8 @@ import {
 })
 export class ChartShellShowcasePage implements OnDestroy {
   private readonly translateService = inject(SolarisTranslateService);
-  private readonly elementRef = inject(ElementRef);
   private readonly document = inject(DOCUMENT);
+  private readonly dialogService = inject(SolarisDialogService);
   private readonly leaveTimers = new Map<
     string,
     ReturnType<typeof setTimeout>
@@ -102,7 +103,6 @@ export class ChartShellShowcasePage implements OnDestroy {
   ngOnDestroy(): void {
     for (const timer of this.leaveTimers.values()) clearTimeout(timer);
     this.leaveTimers.clear();
-    this.document.body.style.overflow = '';
   }
 
   protected readonly breadcrumbs = CHART_SHELL_SHOWCASE_BREADCRUMBS;
@@ -128,7 +128,6 @@ export class ChartShellShowcasePage implements OnDestroy {
   protected readonly hiddenIds = signal<readonly string[]>([]);
   protected readonly leavingIds = signal<readonly string[]>([]);
   protected readonly loading = signal(false);
-  protected readonly fullscreenOpen = signal(false);
   protected readonly log = signal('');
   protected readonly stateLog = signal('');
 
@@ -306,6 +305,64 @@ export class ChartShellShowcasePage implements OnDestroy {
     );
   });
 
+  protected readonly combosView = signal<SolarisChartView>('heatmap');
+
+  protected readonly combosViews: readonly SolarisChartShellViewOption[] = [
+    { value: 'line' },
+    { value: 'bar' },
+    { value: 'heatmap' },
+    { value: 'radar' },
+  ];
+
+  protected readonly combosColumns = computed<readonly string[]>(() =>
+    this.dataset().xs.map((x) => String(x)),
+  );
+
+  protected readonly heatmapRows = computed<readonly SolarisHeatmapRow[]>(() =>
+    this.visibleSeries().map((entry) => ({
+      id: entry.id,
+      label: entry.label,
+      values: entry.points.map((point) => point.y),
+    })),
+  );
+
+  protected readonly radarAxes = computed<readonly string[]>(() =>
+    this.dataset()
+      .xs.slice(0, 6)
+      .map((x) => String(x)),
+  );
+
+  protected readonly radarSeries = computed<readonly SolarisRadarSeries[]>(() =>
+    this.visibleSeries().map((entry) => ({
+      id: entry.id,
+      label: entry.label,
+      color: entry.color,
+      values: entry.points.slice(0, 6).map((point) => point.y),
+    })),
+  );
+
+  protected readonly fullscreenDescription = computed(() =>
+    this.translateService.translate('chart-shell-view.fullscreen.description'),
+  );
+
+  protected readonly combosCode = computed(() =>
+    [
+      '<solaris-chart-shell',
+      '  locale="pt-BR"',
+      '  [view]="combosView()"',
+      '  [availableViews]="combosViews"',
+      '  [series]="series()"',
+      '  (viewChange)="combosView.set($event)"',
+      '>',
+      '  @if (combosView() === "heatmap") {',
+      '    <solaris-heatmap [rows]="heatmapRows()" [columns]="combosColumns()" locale="pt-BR" />',
+      '  } @else if (combosView() === "radar") {',
+      '    <solaris-radar [axes]="radarAxes()" [series]="radarSeries()" locale="pt-BR" />',
+      '  }',
+      '</solaris-chart-shell>',
+    ].join('\n'),
+  );
+
   protected isLeaving(id: string): boolean {
     return this.leavingIds().includes(id);
   }
@@ -359,6 +416,11 @@ export class ChartShellShowcasePage implements OnDestroy {
 
   protected onViewChange(view: SolarisChartView): void {
     this.view.set(view);
+    this.log.set(`view:${view}`);
+  }
+
+  protected onCombosViewChange(view: SolarisChartView): void {
+    this.combosView.set(view);
     this.log.set(`view:${view}`);
   }
 
@@ -416,32 +478,34 @@ export class ChartShellShowcasePage implements OnDestroy {
 
   protected onActionRequest(action: string): void {
     if (action === 'fullscreen') {
-      if (this.fullscreenOpen()) {
-        this.closeFullscreen();
-      } else {
-        this.openFullscreen();
-      }
+      this.openFullscreenDialog();
       return;
     }
     this.log.set(`action:${action}`);
   }
 
-  private openFullscreen(): void {
-    this.fullscreenOpen.set(true);
+  private openFullscreenDialog(): void {
     this.log.set('action:fullscreen');
-    this.document.body.style.overflow = 'hidden';
-    if (typeof window === 'undefined') return;
-    window.setTimeout(() => {
-      const host = this.elementRef.nativeElement as HTMLElement;
-      host
-        .querySelector<HTMLElement>('.chart-shell-showcase__fullscreen-close')
-        ?.focus();
-    }, 0);
-  }
-
-  protected closeFullscreen(): void {
-    this.fullscreenOpen.set(false);
-    this.document.body.style.overflow = '';
+    this.dialogService.openComponent(ChartShellFullscreenDialogComponent, {
+      title: this.translateService.translate('chart-shell-view.examples.title'),
+      description: this.fullscreenDescription(),
+      width: 'min(1120px, calc(100vw - 2rem))',
+      data: {
+        title: this.translateService.translate(
+          'chart-shell-view.examples.title',
+        ),
+        description: this.fullscreenDescription(),
+        intervalLabel: this.intervalLabel(),
+        heroValue: this.heroValue(),
+        heroLabel: this.translateService.translate(
+          'chart-shell-view.examples.heroLabel',
+        ),
+        heroDelta: this.heroDelta(),
+        heroDeltaDirection: this.heroDeltaDirection(),
+        series: [...this.visibleSeries()],
+        locale: 'pt-BR',
+      },
+    });
   }
 
   protected toggleLoading(): void {

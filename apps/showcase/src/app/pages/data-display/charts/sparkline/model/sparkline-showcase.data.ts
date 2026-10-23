@@ -21,8 +21,8 @@ export const SPARKLINE_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const SPARKLINE_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.code-block',
-  route: '/data-display/code-block',
+  labelKey: 'shell.sidebar.item.chart-cards',
+  route: '/data-display/charts/cards',
 };
 
 export const SPARKLINE_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

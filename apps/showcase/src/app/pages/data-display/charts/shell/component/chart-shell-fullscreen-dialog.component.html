@@ -1,0 +1,46 @@
+<div class="chart-shell-fullscreen-dialog">
+  <solaris-chart-shell
+    locale="pt-BR"
+    [title]="data.title"
+    [description]="data.description"
+    [heroValue]="data.heroValue"
+    [heroLabel]="data.heroLabel"
+    [heroDelta]="data.heroDelta"
+    [heroDeltaDirection]="data.heroDeltaDirection"
+    [intervalLabel]="data.intervalLabel"
+    [series]="data.series"
+    [showActions]="false"
+  >
+    <solaris-line-chart locale="pt-BR" [series]="data.series" />
+  </solaris-chart-shell>
+
+  <p class="chart-shell-fullscreen-dialog__extended">
+    {{ 'chart-shell-view.fullscreen.extended' | translate }}
+  </p>
+
+  <table class="chart-shell-fullscreen-dialog__table">
+    <caption>
+      {{
+        'chart-shell-view.fullscreen.tableCaption' | translate
+      }}
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">
+          {{ 'chart-shell-view.examples.listSeries' | translate }}
+        </th>
+        <th scope="col">
+          {{ 'chart-shell-view.examples.listTotal' | translate }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of totals(); track row.id) {
+        <tr>
+          <th scope="row">{{ row.label }}</th>
+          <td>{{ row.total }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

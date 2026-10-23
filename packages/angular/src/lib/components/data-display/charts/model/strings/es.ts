@@ -4,6 +4,8 @@ export const solarisChartStringsEs: Record<SolarisChartStringKey, string> = {
   viewLine: 'Línea',
   viewBar: 'Barras',
   viewPie: 'Circular',
+  viewHeatmap: 'Mapa de calor',
+  viewRadar: 'Radar',
   periodDay: '1 día',
   periodWeek: '7 días',
   periodMonth: '1 mes',

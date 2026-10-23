@@ -236,9 +236,9 @@ describe('SolarisChartShellComponent', () => {
     expect(el.getAttribute('data-view')).toBe('bar');
   });
 
-  it('should ignore unknown or unavailable views', () => {
+  it('should ignore unknown views', () => {
     const el = createFixture();
-    selectView('radar');
+    selectView('scatter');
     expect(el.getAttribute('data-view')).toBe('line');
     fixture.componentRef.setInput('availableViews', [
       { value: 'line' },
@@ -252,6 +252,20 @@ describe('SolarisChartShellComponent', () => {
     expect(
       el.querySelector('solaris-select.solaris-chart-shell__view-select'),
     ).toBeNull();
+  });
+
+  it('should accept heatmap and radar as opt-in N1 views', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('availableViews', [
+      { value: 'line' },
+      { value: 'heatmap' },
+      { value: 'radar' },
+    ]);
+    fixture.detectChanges();
+    selectView('heatmap');
+    expect(el.getAttribute('data-view')).toBe('heatmap');
+    selectView('radar');
+    expect(el.getAttribute('data-view')).toBe('radar');
   });
 
   it('should render the period filter with six options by default', () => {

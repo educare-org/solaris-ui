@@ -82,6 +82,13 @@ export const dataDisplayRoutes: Route[] = [
                 '../pages/data-display/charts/sparkline/component/sparkline-showcase'
               ).then((m) => m.SparklineShowcasePage),
           },
+          {
+            path: 'cards',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/cards/component/cards-showcase'
+              ).then((m) => m.ChartCardsShowcasePage),
+          },
         ],
       },
       {

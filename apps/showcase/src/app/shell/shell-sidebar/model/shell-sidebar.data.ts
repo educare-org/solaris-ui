@@ -126,6 +126,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
                 labelKey: 'shell.sidebar.item.sparkline',
                 route: '/data-display/charts/sparkline',
               },
+              {
+                labelKey: 'shell.sidebar.item.chart-cards',
+                route: '/data-display/charts/cards',
+              },
             ],
           },
           {

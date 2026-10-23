@@ -109,39 +109,6 @@
         </p>
         <ng-container *ngTemplateOutlet="chartCard" />
       </div>
-      @if (fullscreenOpen()) {
-      <div
-        class="chart-shell-showcase__fullscreen"
-        role="dialog"
-        aria-modal="true"
-        [attr.aria-label]="'chart-shell-view.examples.title' | translate"
-        (keydown.escape)="closeFullscreen()"
-      >
-        <div
-          class="chart-shell-showcase__fullscreen-backdrop"
-          (click)="closeFullscreen()"
-          aria-hidden="true"
-        ></div>
-        <div class="chart-shell-showcase__fullscreen-panel">
-          <div class="chart-shell-showcase__fullscreen-header">
-            <span class="chart-shell-showcase__fullscreen-title">
-              {{ 'chart-shell-view.examples.title' | translate }}
-            </span>
-            <button
-              type="button"
-              class="chart-shell-showcase__fullscreen-close"
-              (click)="closeFullscreen()"
-              [attr.aria-label]="
-                  'chart-shell-view.examples.fullscreenClose' | translate
-                "
-            >
-              <solaris-icon name="x" [decorative]="true" />
-            </button>
-          </div>
-          <ng-container *ngTemplateOutlet="chartCard" />
-        </div>
-      </div>
-      }
     </solaris-preview-code>
     @if (log()) {
     <p class="chart-shell-showcase__log" data-testid="event-log">{{ log() }}</p>
@@ -203,6 +170,83 @@
           [series]="series()"
           [showValues]="true"
           (sliceSelect)="onSliceSelect($event)"
+        />
+        } @else {
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="series()"
+          [xLabels]="xLabels()"
+          [tooltipSubtitle]="tooltipSubtitle()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+        }
+      </solaris-chart-shell>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="combos" titleKey="chart-shell-view.section.combos">
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.combos.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="combosView"
+      [ariaLabel]="'chart-shell-view.combos.label' | translate"
+    >
+      <solaris-tab [value]="'line'"
+        >{{ 'chart-shell-view.views.line' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'bar'"
+        >{{ 'chart-shell-view.views.bar' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'heatmap'"
+        >{{ 'chart-shell-view.combos.heatmap' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'radar'"
+        >{{ 'chart-shell-view.combos.radar' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      [code]="combosCode()"
+      language="html"
+      previewAlign="stretch"
+    >
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [heroValue]="heroValue()"
+        [heroLabel]="'chart-shell-view.examples.heroLabel' | translate"
+        [heroDelta]="heroDelta()"
+        [heroDeltaDirection]="heroDeltaDirection()"
+        [intervalLabel]="intervalLabel()"
+        [view]="combosView()"
+        [availableViews]="combosViews"
+        [availablePeriods]="periodOptions()"
+        [series]="series()"
+        (viewChange)="onCombosViewChange($event)"
+        (periodChange)="onPeriodChange($event)"
+        (seriesToggle)="onSeriesToggle($event)"
+        (actionRequest)="onActionRequest($event)"
+      >
+        @if (combosView() === 'heatmap') {
+        <solaris-heatmap
+          locale="pt-BR"
+          [rows]="heatmapRows()"
+          [columns]="combosColumns()"
+        />
+        } @else if (combosView() === 'radar') {
+        <solaris-radar
+          locale="pt-BR"
+          [axes]="radarAxes()"
+          [series]="radarSeries()"
+        />
+        } @else if (combosView() === 'bar') {
+        <solaris-bar-chart
+          locale="pt-BR"
+          [series]="series()"
+          [xLabels]="xLabels()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onBarPointSelect($event)"
         />
         } @else {
         <solaris-line-chart

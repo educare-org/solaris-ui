@@ -35,6 +35,17 @@
       "bar": "Barra",
       "pie": "Pizza"
     },
+    "combos": {
+      "note": "Mapa de calor e radar são visões N1 opt-in: adicione em availableViews e projete o gráfico correspondente no slot do shell. Legenda e período continuam funcionando; o contrato de dados difere (matriz/eixos em vez de séries x/y).",
+      "label": "Visão combinada",
+      "heatmap": "Mapa de calor",
+      "radar": "Radar"
+    },
+    "fullscreen": {
+      "description": "Atividade semanal dos agentes com o dialog de tela cheia: contexto estendido e tabela de dados visível.",
+      "extended": "A tela cheia abre em um dialog com as mesmas séries, descrição estendida e tabela de totais para paridade com leitor de tela e impressão.",
+      "tableCaption": "Totais das séries em tela cheia"
+    },
     "display": {
       "note": "Linha do tempo renderiza o gráfico projetado; lista renderiza uma tabela de totais das mesmas séries. A legenda continua alternando séries nos dois modos.",
       "label": "Modo de exibição",
@@ -67,6 +78,7 @@
     "section": {
       "examples": "Exemplos",
       "views": "Visões",
+      "combos": "Combos",
       "display": "Exibição",
       "size-density": "Tamanho e densidade",
       "sizes": "Tamanhos",

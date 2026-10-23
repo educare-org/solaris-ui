@@ -4,6 +4,8 @@
       "viewLine": "Line",
       "viewBar": "Bar",
       "viewPie": "Pie",
+      "viewHeatmap": "Heatmap",
+      "viewRadar": "Radar",
       "periodDay": "1 day",
       "periodWeek": "7 days",
       "periodMonth": "1 month",

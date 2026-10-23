@@ -37,6 +37,8 @@ export const SHELL_VIEW_LABEL_KEYS: Record<SolarisChartView, string> = {
   line: 'solaris.chart.viewLine',
   bar: 'solaris.chart.viewBar',
   pie: 'solaris.chart.viewPie',
+  heatmap: 'solaris.chart.viewHeatmap',
+  radar: 'solaris.chart.viewRadar',
 };
 
 export const SHELL_PERIOD_LABEL_KEYS: Record<SolarisChartPeriod, string> = {

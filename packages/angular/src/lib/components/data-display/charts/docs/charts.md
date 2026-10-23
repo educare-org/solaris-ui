@@ -19,7 +19,7 @@ Types (`model/chart.types.ts`):
 - `SolarisChartSlice` — `{ id, label, value }` for pie/donut input.
 - `SolarisChartReferenceLine` — `{ value, label?, color? }` (e.g. class average).
 - `SolarisChartInterpolation` — `'smooth' | 'linear' | 'step'`.
-- `SolarisChartView` — `'line' | 'bar' | 'pie'` (shell switcher).
+- `SolarisChartView` — `'line' | 'bar' | 'pie' | 'heatmap' | 'radar'` (shell switcher; `heatmap|radar` are opt-in N1 combos).
 - `SolarisChartPeriod` — `'day' | 'week' | 'month' | 'quarter' | 'year' | 'all'`.
 
 Scale utils (`model/chart-scale.utils.ts`, pure, SSR-safe, zero dependencies):
@@ -108,8 +108,10 @@ Showcase map (`apps/showcase`, `/data-display/charts/`):
   sparklines, states and fullscreen.
 - `line-chart/`, `bar-chart/`, `pie-chart/`, `heatmap/`, `radar/` — one
   page per type with realistic educational data, event logs and empty states.
-- Heatmap/radar stay out of the shell view switcher by design: matrix and
-  axes contracts differ from x/y series.
+- Heatmap/radar are opt-in N1 shell views: pass them via `availableViews`
+  and project `<solaris-heatmap>` / `<solaris-radar>` through the shell
+  `<ng-content />` slot (matrix and axes contracts differ from x/y series,
+  so they stay out of the default view list).
 
 Print (`@media print`, calendar C7 pattern):
 

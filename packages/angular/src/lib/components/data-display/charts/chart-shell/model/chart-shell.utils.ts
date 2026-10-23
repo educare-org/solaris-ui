@@ -11,7 +11,13 @@ export function isChartDisplayMode(
 }
 
 export function isChartView(value: unknown): value is SolarisChartView {
-  return value === 'line' || value === 'bar' || value === 'pie';
+  return (
+    value === 'line' ||
+    value === 'bar' ||
+    value === 'pie' ||
+    value === 'heatmap' ||
+    value === 'radar'
+  );
 }
 
 export function isChartPeriod(value: unknown): value is SolarisChartPeriod {

@@ -53,6 +53,34 @@ test.describe('Chart shell', () => {
     await expect(page.getByTestId('event-log')).toHaveText('action:export');
   });
 
+  test('opens fullscreen in a dialog with focus trap and closes via Escape', async ({
+    page,
+  }) => {
+    const shell = page.locator('solaris-chart-shell').first();
+    await shell
+      .locator('.solaris-chart-shell__toolbar button[solaris-icon-button]')
+      .first()
+      .click();
+    const panel = page.locator('.solaris-dialog-panel');
+    await expect(panel).toBeVisible();
+    await expect(panel).toHaveAttribute('role', 'dialog');
+    await expect(panel).toHaveAttribute('aria-modal', 'true');
+    await expect(page.getByTestId('event-log')).toHaveText('action:fullscreen');
+    await expect(
+      panel.locator('.chart-shell-fullscreen-dialog__table'),
+    ).toBeVisible();
+    await expect
+      .poll(async () =>
+        page.evaluate(() => {
+          const dialog = document.querySelector('.solaris-dialog-panel');
+          return dialog ? dialog.contains(document.activeElement) : false;
+        }),
+      )
+      .toBe(true);
+    await page.keyboard.press('Escape');
+    await expect(panel).toHaveCount(0);
+  });
+
   test('selects line dots with the keyboard', async ({ page }) => {
     const line = page.locator('solaris-line-chart').first();
     const firstDot = line.locator('circle[data-dot]').first();

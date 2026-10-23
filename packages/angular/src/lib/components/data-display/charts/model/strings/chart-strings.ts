@@ -6,6 +6,8 @@ export type SolarisChartStringKey =
   | 'viewLine'
   | 'viewBar'
   | 'viewPie'
+  | 'viewHeatmap'
+  | 'viewRadar'
   | 'periodDay'
   | 'periodWeek'
   | 'periodMonth'

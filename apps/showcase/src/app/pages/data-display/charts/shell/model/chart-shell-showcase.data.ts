@@ -28,6 +28,7 @@ export const CHART_SHELL_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
 export const CHART_SHELL_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'examples', labelKey: 'chart-shell-view.section.examples' },
   { anchor: 'views', labelKey: 'chart-shell-view.section.views' },
+  { anchor: 'combos', labelKey: 'chart-shell-view.section.combos' },
   { anchor: 'display', labelKey: 'chart-shell-view.section.display' },
   { anchor: 'states', labelKey: 'chart-shell-view.section.states' },
   { anchor: 'size-density', labelKey: 'chart-shell-view.section.size-density' },

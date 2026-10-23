@@ -1,0 +1,69 @@
+.chart-shell-fullscreen-dialog {
+  display: grid;
+  gap: var(--solaris-spacing-7);
+  padding: var(--solaris-spacing-7);
+}
+
+.chart-shell-fullscreen-dialog solaris-chart-shell {
+  min-height: var(--solaris-chart-shell-fullscreen-height, 60vh);
+}
+
+.chart-shell-fullscreen-dialog__extended {
+  margin: 0;
+  color: var(--solaris-neutral-text-body);
+  font-size: var(--solaris-font-size-sm);
+}
+
+.chart-shell-fullscreen-dialog__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--solaris-font-size-xs);
+  color: var(--solaris-neutral-text-body);
+}
+
+.chart-shell-fullscreen-dialog__table caption {
+  text-align: start;
+  margin-bottom: var(--solaris-spacing-4);
+  color: var(--solaris-neutral-text-secondary);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.chart-shell-fullscreen-dialog__table th,
+.chart-shell-fullscreen-dialog__table td {
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5);
+  border-bottom: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-default);
+  text-align: start;
+}
+
+.chart-shell-fullscreen-dialog__table thead th:last-child,
+.chart-shell-fullscreen-dialog__table tbody td {
+  text-align: end;
+}
+
+.chart-shell-fullscreen-dialog__table tbody th {
+  color: var(--solaris-neutral-text-heading);
+  font-weight: var(--solaris-font-weight-regular);
+}
+
+.chart-shell-fullscreen-dialog__table tbody td {
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+@media print {
+  .chart-shell-fullscreen-dialog solaris-chart-shell {
+    min-height: auto;
+  }
+
+  .chart-shell-fullscreen-dialog__extended,
+  .chart-shell-fullscreen-dialog__table caption,
+  .chart-shell-fullscreen-dialog__table tbody th,
+  .chart-shell-fullscreen-dialog__table tbody td,
+  .chart-shell-fullscreen-dialog__table thead th {
+    color: #000;
+  }
+
+  .chart-shell-fullscreen-dialog__table {
+    background: #fff;
+  }
+}
