@@ -45,7 +45,7 @@ import type {
 })
 export class SolarisTextareaDirective extends SolarisFormControl {
   readonly appearance = input<SolarisTextareaAppearance>('outline');
-  readonly radius = input<SolarisTextareaRadius>('sm');
+  readonly radius = input<SolarisTextareaRadius>('md');
   readonly size = input<SolarisTextareaSize>();
   readonly density = input<SolarisTextareaDensity>();
 

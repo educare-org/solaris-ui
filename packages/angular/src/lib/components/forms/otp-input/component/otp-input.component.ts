@@ -119,7 +119,7 @@ export class SolarisOtpInputComponent
   readonly appearance = input<SolarisOtpInputAppearance>('outline');
   readonly density = input<SolarisOtpInputDensity>();
   readonly size = input<SolarisOtpInputSize>('md');
-  readonly radius = input<SolarisOtpInputRadius>('sm');
+  readonly radius = input<SolarisOtpInputRadius>('md');
 
   readonly valueChange = output<string>();
   readonly completed = output<void>();

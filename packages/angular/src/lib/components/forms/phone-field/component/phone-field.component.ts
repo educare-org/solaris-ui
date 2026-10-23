@@ -140,7 +140,7 @@ export class SolarisPhoneFieldComponent
   });
   readonly density = input<SolarisPhoneFieldDensity>();
   readonly size = input<SolarisPhoneFieldSize>('md');
-  readonly radius = input<SolarisPhoneFieldRadius>('sm');
+  readonly radius = input<SolarisPhoneFieldRadius>('md');
   readonly appearance = input<SolarisPhoneFieldAppearance>('outline');
   readonly maxLength = input<number | undefined>();
   readonly suffix = input<SolarisIconName>();

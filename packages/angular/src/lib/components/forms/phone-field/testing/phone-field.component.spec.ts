@@ -163,9 +163,9 @@ describe('SolarisPhoneFieldComponent', () => {
       expect(input.getAttribute('placeholder')).toBeTruthy();
     });
 
-    it('has default radius sm', async () => {
+    it('has default radius md', async () => {
       const { component } = await setup(BasicHost);
-      expect(component.radius()).toBe('sm');
+      expect(component.radius()).toBe('md');
     });
 
     it('respects an explicit placeholder', async () => {

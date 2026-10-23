@@ -121,11 +121,11 @@ describe('SolarisOtpInputComponent', () => {
       expect(host.nativeElement.getAttribute('data-density')).toBeTruthy();
     });
 
-    it('has default radius sm reflected on the host', async () => {
+    it('has default radius md reflected on the host', async () => {
       const { fixture, component } = await setup(BasicHost);
-      expect(component.radius()).toBe('sm');
+      expect(component.radius()).toBe('md');
       const host = fixture.debugElement.query(By.css('solaris-otp-input'));
-      expect(host.nativeElement.getAttribute('data-radius')).toBe('sm');
+      expect(host.nativeElement.getAttribute('data-radius')).toBe('md');
     });
   });
 
@@ -285,12 +285,12 @@ describe('SolarisOtpInputComponent', () => {
       expect(field.getAttribute('data-appearance')).toBe('filled');
     });
 
-    it('keeps default radius sm on the host', async () => {
+    it('keeps default radius md on the host', async () => {
       const { fixture } = await setup(BasicHost);
       const host = fixture.nativeElement.querySelector(
         'solaris-otp-input',
       ) as HTMLElement;
-      expect(host.getAttribute('data-radius')).toBe('sm');
+      expect(host.getAttribute('data-radius')).toBe('md');
     });
 
     it('forwards loading to the inner form field and disables boxes', async () => {

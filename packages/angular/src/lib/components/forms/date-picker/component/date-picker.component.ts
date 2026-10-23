@@ -118,7 +118,7 @@ export class SolarisDatePickerComponent
   readonly max = input<SolarisDateValue>();
   readonly disabledDates = input<readonly SolarisDateValue[]>([]);
   readonly appearance = input<SolarisDatePickerAppearance>('outline');
-  readonly radius = input<SolarisDatePickerRadius>('sm');
+  readonly radius = input<SolarisDatePickerRadius>('md');
   readonly density = input<SolarisDatePickerDensity>();
   readonly size = input<SolarisDatePickerSize>('md');
   readonly requiredInput = input(false, { alias: 'required' });

@@ -160,7 +160,7 @@ export class SolarisMultiSelectComponent
   readonly density = input<SolarisMultiSelectDensity>();
   readonly size = input<SolarisMultiSelectSize>('md');
   readonly panelMatchTriggerWidth = input<boolean>(true);
-  readonly radius = input<SolarisMultiSelectRadius>('sm');
+  readonly radius = input<SolarisMultiSelectRadius>('md');
   readonly disabledInput = input(false, { alias: 'disabled' });
   readonly readonlyInput = input(false, { alias: 'readonly' });
   readonly requiredInput = input(false, { alias: 'required' });

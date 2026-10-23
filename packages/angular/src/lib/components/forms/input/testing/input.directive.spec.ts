@@ -47,12 +47,12 @@ describe('SolarisInputDirective', () => {
       expect(el.getAttribute('data-size')).toBe('md');
     });
 
-    it('should have default radius sm', () => {
+    it('should have default radius md', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-input]');
-      expect(el.getAttribute('data-radius')).toBe('sm');
+      expect(el.getAttribute('data-radius')).toBe('md');
     });
 
     it('should have default density normal', () => {

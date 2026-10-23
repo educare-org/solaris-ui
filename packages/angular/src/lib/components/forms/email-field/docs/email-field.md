@@ -71,7 +71,7 @@ The preset exists for the common case where you want email validation, proper au
 | `clearLabel` / `clearLabelKey` | `string`                                 | —           | Accessible label override for the clear button                  |
 | `appearance`                   | `'outline' \| 'surface' \| 'filled'`     | `'outline'` | Visual appearance                                               |
 | `density`                      | `'compact' \| 'normal' \| 'comfortable'` | —           | Inherited from theme; fallback `normal`                         |
-| `radius`                       | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'sm'`      | Border radius                                                   |
+| `radius`                       | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`      | Border radius                                                   |
 | `autocomplete`                 | `string`                                 | `'email'`   | Autocomplete attribute                                          |
 | `name`                         | `string`                                 | —           | Native name attribute                                           |
 | `id`                           | `string`                                 | —           | Native id attribute                                             |

@@ -45,7 +45,7 @@ import { SUPPORTED_TYPES, UNSUPPORTED_TYPES } from '../model/input.defaults';
 })
 export class SolarisInputDirective extends SolarisFormControl {
   readonly appearance = input<SolarisInputAppearance>('outline');
-  readonly radius = input<SolarisInputRadius>('sm');
+  readonly radius = input<SolarisInputRadius>('md');
   readonly size = input<SolarisInputSize>();
   readonly density = input<SolarisInputDensity>();
 

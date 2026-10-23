@@ -59,7 +59,7 @@ use the prefix/suffix slots. The OTP boxes live inside the control area.
 | `appearance`                         | `SolarisOtpInputAppearance` | `'outline'`                                            | `outline` / `surface` / `filled`.          |
 | `size`                               | `SolarisOtpInputSize`       | `'md'`                                                 | `sm` / `md` / `lg`.                        |
 | `density`                            | `SolarisOtpInputDensity`    | —                                                      | `compact` / `normal` / `comfortable`.      |
-| `radius`                             | `SolarisOtpInputRadius`     | `'sm'`                                                 | `none` / `sm` / `md` / `lg` / `xl` (pill). |
+| `radius`                             | `SolarisOtpInputRadius`     | `'md'`                                                 | `none` / `sm` / `md` / `lg` / `xl` (pill). |
 
 ### Outputs
 
@@ -170,7 +170,7 @@ apply to the boxes as well.
 ## Size, density, radius, and appearance repasse
 
 `size` (default `'md'`), `density` (default: inherited theme density),
-`radius` (default `'sm'`), and `appearance` (default `'outline'`) are
+`radius` (default `'md'`), and `appearance` (default `'outline'`) are
 repassed together to the inner `solaris-form-field` and scale the boxes
 through the shared Form Field contract. The host exposes `data-size`,
 `data-density`, `data-appearance`, and `data-radius`.

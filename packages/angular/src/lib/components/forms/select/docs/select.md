@@ -76,7 +76,7 @@ Select v1 does not implement:
 | `displayWith`                | `(value: unknown) => string \| undefined`         | —           | Custom display function for trigger text                                                         |
 | `appearance`                 | `'outline' \| 'surface' \| 'filled' \| 'minimal'` | `'outline'` | Visual appearance (`minimal` renders a borderless trigger; the panel keeps the `surface` chrome) |
 | `density`                    | `'compact' \| 'normal' \| 'comfortable'`          | inherited   | Density variant                                                                                  |
-| `radius`                     | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`          | `'sm'`      | Border radius                                                                                    |
+| `radius`                     | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`          | `'md'`      | Border radius                                                                                    |
 | `label` / `labelKey`         | `string`                                          | —           | Label text (used standalone)                                                                     |
 | `hint` / `hintKey`           | `string`                                          | —           | Hint text (used standalone)                                                                      |
 | `error` / `errorKey`         | `string`                                          | —           | Error text (used standalone)                                                                     |

@@ -76,7 +76,7 @@ selector: <solaris-file-list-item>   (single file row with progress and actions)
 | `appearance`                             | `'outline' \| 'surface' \| 'filled' \| 'minimal'` | `'outline'`  | Dropzone surface treatment + URL field appearance (main shell is borderless)          |
 | `density`                                | `'compact' \| 'normal' \| 'comfortable'`          | —            | Inherited from theme; fallback `normal`                                               |
 | `size`                                   | `'sm' \| 'md' \| 'lg'`                            | `'md'`       | Control size                                                                          |
-| `radius`                                 | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`          | `'sm'`       | Border radius                                                                         |
+| `radius`                                 | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`          | `'md'`       | Border radius                                                                         |
 | `name`                                   | `string`                                          | —            | Native name attribute of the hidden file input                                        |
 | `id`                                     | `string`                                          | —            | Native id attribute                                                                   |
 

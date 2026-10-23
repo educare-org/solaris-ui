@@ -513,13 +513,13 @@ describe('SolarisEmailFieldComponent', () => {
       expect(emailField.componentInstance.radius()).toBe('lg');
     });
 
-    it('has default radius sm', () => {
+    it('has default radius md', () => {
       const fixture = TestBed.createComponent(BasicHost);
       fixture.detectChanges();
       const emailField = fixture.debugElement.query(
         By.directive(SolarisEmailFieldComponent),
       );
-      expect(emailField.componentInstance.radius()).toBe('sm');
+      expect(emailField.componentInstance.radius()).toBe('md');
     });
 
     it('applies disabled to input', () => {

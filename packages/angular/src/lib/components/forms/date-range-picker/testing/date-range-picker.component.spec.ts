@@ -16,9 +16,9 @@ describe('SolarisDateRangePickerComponent', () => {
     return fixture.nativeElement as HTMLElement;
   };
 
-  it('has default radius sm', () => {
+  it('has default radius md', () => {
     createFixture();
-    expect(fixture.componentInstance.radius()).toBe('sm');
+    expect(fixture.componentInstance.radius()).toBe('md');
   });
 
   it('has default size md (P4 Lote C)', () => {

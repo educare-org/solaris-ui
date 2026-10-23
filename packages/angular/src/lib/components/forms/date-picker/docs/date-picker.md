@@ -37,7 +37,7 @@ years keep the field in an error state until the date is complete.
 | `appearance`             | `'outline'` (default) / `'surface'` / `'filled'`.                                           |
 | `size`                   | `'sm'` / `'md'` (default) / `'lg'`.                                                         |
 | `density`                | `'compact'` / `'normal'` / `'comfortable'` (default: inherited theme density).              |
-| `radius`                 | `'none'` / `'sm'` (default) / `'md'` / `'lg'` / `'xl'` (pill).                              |
+| `radius`                 | `'none'` / `'sm'` / `'md'` (default) / `'lg'` / `'xl'` (pill).                              |
 | `loading`                | Shows the field skeleton while dates resolve.                                               |
 | `calendarButtonLabel`    | Accessible label override for the calendar trigger, with matching `calendarButtonLabelKey`. |
 

@@ -180,7 +180,7 @@ export class SolarisFileUploadComponent
   readonly fieldLabelKey = input<string>();
   readonly density = input<SolarisFileUploadDensity>();
   readonly size = input<SolarisFileUploadSize>('md');
-  readonly radius = input<SolarisFileUploadRadius>('sm');
+  readonly radius = input<SolarisFileUploadRadius>('md');
   readonly appearance = input<SolarisFileUploadAppearance>('outline');
 
   readonly filesChange = output<readonly File[]>();

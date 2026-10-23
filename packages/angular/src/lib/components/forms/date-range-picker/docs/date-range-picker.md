@@ -36,7 +36,7 @@ example `MM/dd/yyyy` in `en-US`).
 | `appearance`        | `'outline'` (default) / `'surface'` / `'filled'`.                              |
 | `size`              | `'sm'` / `'md'` (default) / `'lg'`.                                            |
 | `density`           | `'compact'` / `'normal'` / `'comfortable'` (default: inherited theme density). |
-| `radius`            | `'none'` / `'sm'` (default) / `'md'` / `'lg'` / `'xl'` (pill).                 |
+| `radius`            | `'none'` / `'sm'` / `'md'` (default) / `'lg'` / `'xl'` (pill).                 |
 | `loading`           | Shows the field skeleton while dates resolve.                                  |
 
 Type aliases: `SolarisDateRangePickerAppearance`,

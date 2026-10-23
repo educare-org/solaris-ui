@@ -126,7 +126,7 @@ export class SolarisPasswordFieldComponent
   readonly appearance = input<SolarisPasswordFieldAppearance>('outline');
   readonly density = input<SolarisPasswordFieldDensity>();
   readonly size = input<SolarisPasswordFieldSize>('md');
-  readonly radius = input<SolarisPasswordFieldRadius>('sm');
+  readonly radius = input<SolarisPasswordFieldRadius>('md');
   readonly fullWidth = input<boolean>(true);
   readonly prefix = input<SolarisIconName>();
   readonly suffix = input<SolarisIconName>();

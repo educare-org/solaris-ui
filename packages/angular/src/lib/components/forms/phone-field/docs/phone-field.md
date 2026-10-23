@@ -65,7 +65,7 @@ Country names are localized with the native `Intl.DisplayNames` API (no translat
 | `invalid`                                      | `boolean                      | undefined`  | —                                                                | Manual invalid override. |
 | `appearance`                                   | `SolarisPhoneFieldAppearance` | `'outline'` | `outline` / `surface` / `filled`.                                |
 | `density`                                      | `SolarisPhoneFieldDensity`    | —           | `compact` / `normal` / `comfortable`.                            |
-| `radius`                                       | `SolarisPhoneFieldRadius`     | `'sm'`      | `none` / `sm` / `md` / `lg` / `xl` (pill).                       |
+| `radius`                                       | `SolarisPhoneFieldRadius`     | `'md'`      | `none` / `sm` / `md` / `lg` / `xl` (pill).                       |
 | `id`                                           | `string`                      | —           | Native input id.                                                 |
 | `name`                                         | `string`                      | —           | Native input name.                                               |
 | `autocomplete`                                 | `string`                      | `'tel'`     | Native autocomplete hint.                                        |

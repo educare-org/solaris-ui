@@ -96,8 +96,8 @@ When omitted, density is inherited from the theme.
 ### Radius
 
 - `none` (sharp corners)
-- `sm` (2px, default)
-- `md` (4px)
+- `sm` (2px)
+- `md` (4px, default)
 - `lg` (8px)
 - `xl` (pill)
 

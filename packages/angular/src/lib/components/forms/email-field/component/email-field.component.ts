@@ -127,7 +127,7 @@ export class SolarisEmailFieldComponent
   readonly blockedDomains = input<string[] | undefined>();
   readonly density = input<SolarisEmailFieldDensity>();
   readonly size = input<SolarisEmailFieldSize>('md');
-  readonly radius = input<SolarisEmailFieldRadius>('sm');
+  readonly radius = input<SolarisEmailFieldRadius>('md');
   readonly appearance = input<SolarisEmailFieldAppearance>('outline');
   readonly maxLength = input<number | undefined>();
   readonly validateDomain = input<boolean, boolean>(false, {

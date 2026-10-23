@@ -622,13 +622,13 @@ describe('SolarisPasswordFieldComponent', () => {
       expect(passwordField.componentInstance.radius()).toBe('lg');
     });
 
-    it('has default radius sm', () => {
+    it('has default radius md', () => {
       const fixture = TestBed.createComponent(BasicHost);
       fixture.detectChanges();
       const passwordField = fixture.debugElement.query(
         By.directive(SolarisPasswordFieldComponent),
       );
-      expect(passwordField.componentInstance.radius()).toBe('sm');
+      expect(passwordField.componentInstance.radius()).toBe('md');
     });
 
     it('applies disabled to input and toggle', () => {
