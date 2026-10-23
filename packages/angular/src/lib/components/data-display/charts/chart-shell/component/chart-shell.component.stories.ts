@@ -19,7 +19,7 @@ export const Line: Story = {
     heroValue: '12,450',
     heroLabel: 'tasks',
     view: 'line',
-    period: '7D',
+    period: 'week',
     series: [
       {
         id: 'automation',

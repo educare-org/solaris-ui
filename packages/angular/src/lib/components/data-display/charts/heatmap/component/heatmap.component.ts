@@ -25,33 +25,17 @@ import {
   heatmapCellFill,
   heatmapCellKey,
   heatmapEnterDelayMs,
+  sameMark,
 } from '../model/chart-heatmap.utils';
 import type {
   SolarisHeatmapCellEvent,
   SolarisHeatmapDensity,
+  SolarisHeatmapFocusMark,
+  SolarisHeatmapHoverMark,
   SolarisHeatmapRow,
   SolarisHeatmapSize,
   SolarisHeatmapValueFormatter,
 } from '../model/chart-heatmap.types';
-
-interface SolarisHeatmapFocusMark {
-  readonly rowId: string;
-  readonly columnIndex: number;
-  readonly position: number;
-}
-
-interface SolarisHeatmapHoverMark {
-  readonly rowId: string;
-  readonly columnIndex: number;
-}
-
-function sameMark(
-  left: SolarisHeatmapHoverMark | null,
-  right: SolarisHeatmapHoverMark | null,
-): boolean {
-  if (left === null || right === null) return left === right;
-  return left.rowId === right.rowId && left.columnIndex === right.columnIndex;
-}
 
 @Component({
   selector: 'solaris-heatmap',

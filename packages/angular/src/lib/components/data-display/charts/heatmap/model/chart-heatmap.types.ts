@@ -65,3 +65,14 @@ export interface SolarisHeatmapInputs {
   readonly rows: readonly SolarisHeatmapRow[];
   readonly columns: readonly string[];
 }
+
+export interface SolarisHeatmapFocusMark {
+  readonly rowId: string;
+  readonly columnIndex: number;
+  readonly position: number;
+}
+
+export interface SolarisHeatmapHoverMark {
+  readonly rowId: string;
+  readonly columnIndex: number;
+}

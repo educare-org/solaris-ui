@@ -12,6 +12,7 @@ import {
   heatmapIntensity,
   heatmapTooltipSide,
   resolveHeatmapMax,
+  sameMark,
 } from '../model/chart-heatmap.utils';
 import type { SolarisHeatmapRow } from '../model/chart-heatmap.types';
 
@@ -175,5 +176,46 @@ describe('chart-heatmap.utils', () => {
     expect(clampHeatmapPercent(2)).toBe(14);
     expect(clampHeatmapPercent(97)).toBe(86);
     expect(clampHeatmapPercent(Number.NaN)).toBe(50);
+  });
+
+  describe('sameMark', () => {
+    it('returns true for null/null', () => {
+      expect(sameMark(null, null)).toBe(true);
+    });
+
+    it('returns false for null/mark', () => {
+      expect(sameMark(null, { rowId: 'mon', columnIndex: 0 })).toBe(false);
+    });
+
+    it('returns false for mark/null', () => {
+      expect(sameMark({ rowId: 'mon', columnIndex: 0 }, null)).toBe(false);
+    });
+
+    it('returns true for equal marks', () => {
+      expect(
+        sameMark(
+          { rowId: 'mon', columnIndex: 1 },
+          { rowId: 'mon', columnIndex: 1 },
+        ),
+      ).toBe(true);
+    });
+
+    it('returns false for a different row', () => {
+      expect(
+        sameMark(
+          { rowId: 'mon', columnIndex: 1 },
+          { rowId: 'tue', columnIndex: 1 },
+        ),
+      ).toBe(false);
+    });
+
+    it('returns false for a different column', () => {
+      expect(
+        sameMark(
+          { rowId: 'mon', columnIndex: 0 },
+          { rowId: 'mon', columnIndex: 1 },
+        ),
+      ).toBe(false);
+    });
   });
 });

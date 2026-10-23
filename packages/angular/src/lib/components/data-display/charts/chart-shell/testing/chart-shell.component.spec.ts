@@ -308,7 +308,7 @@ describe('SolarisChartShellComponent', () => {
     );
     items[2].nativeElement.click();
     fixture.detectChanges();
-    expect(periods).toEqual(['1M']);
+    expect(periods).toEqual(['month']);
   });
 
   it('should render literal description and aria label inputs', () => {
@@ -369,8 +369,8 @@ describe('SolarisChartShellComponent', () => {
       { value: 'bar', labelKey: 'solaris.chart.viewBar' },
     ]);
     fixture.componentRef.setInput('availablePeriods', [
-      { value: '7D', label: 'Semana!' },
-      { value: '1M', labelKey: 'solaris.chart.period1M' },
+      { value: 'week', label: 'Semana!' },
+      { value: 'month', labelKey: 'solaris.chart.periodMonth' },
     ]);
     fixture.componentRef.setInput('actions', [
       { value: 'export', label: 'Export!' },
@@ -402,22 +402,22 @@ describe('SolarisChartShellComponent', () => {
       fixture.debugElement
         .query(By.css('solaris-segmented-control.solaris-chart-shell__periods'))
         .componentInstance.value(),
-    ).toBe('7D');
+    ).toBe('week');
   });
 
   it('should ignore valid but unavailable periods', () => {
     createFixture();
     fixture.componentRef.setInput('availablePeriods', [
-      { value: '7D' },
-      { value: '1D' },
+      { value: 'week' },
+      { value: 'day' },
     ]);
     fixture.detectChanges();
     const control = fixture.debugElement.query(
       By.css('solaris-segmented-control.solaris-chart-shell__periods'),
     );
-    control.triggerEventHandler('valueChange', '1M');
+    control.triggerEventHandler('valueChange', 'month');
     fixture.detectChanges();
-    expect(control.componentInstance.value()).toBe('7D');
+    expect(control.componentInstance.value()).toBe('week');
   });
 
   it('should hide toolbar blocks behind show flags', () => {

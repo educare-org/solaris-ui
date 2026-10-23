@@ -16,7 +16,7 @@ describe('Solaris chart shell utils', () => {
   });
 
   it('identifies chart periods', () => {
-    for (const period of ['1D', '7D', '1M', '3M', 'YTD', 'all']) {
+    for (const period of ['day', 'week', 'month', 'quarter', 'year', 'all']) {
       expect(isChartPeriod(period)).toBe(true);
     }
     expect(isChartPeriod('never')).toBe(false);

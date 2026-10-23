@@ -20,7 +20,7 @@ icon and a translated trend `aria-label`; hidden without `heroDelta`),
 the shell never derives dates — update it on `periodChange`, e.g. after
 fetching the new window, as the showcase does per period),
 `series` (required, immutable), `view = model('line')`,
-`period = model('7D')`, `availableViews`, `availablePeriods`,
+`period = model('week')`, `availableViews`, `availablePeriods`,
 `actions` (default `export` + `fullscreen`), `showViewSwitcher`,
 `showPeriodFilter`, `showLegend`, `showActions`, `loading`, `error`/`errorKey`,
 `size`, `density` (falls back to the theme), `locale` (required, following

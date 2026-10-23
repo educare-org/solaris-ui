@@ -20,7 +20,7 @@ Types (`model/chart.types.ts`):
 - `SolarisChartReferenceLine` — `{ value, label?, color? }` (e.g. class average).
 - `SolarisChartInterpolation` — `'smooth' | 'linear' | 'step'`.
 - `SolarisChartView` — `'line' | 'bar' | 'pie'` (shell switcher).
-- `SolarisChartPeriod` — `'1D' | '7D' | '1M' | '3M' | 'YTD' | 'all'`.
+- `SolarisChartPeriod` — `'day' | 'week' | 'month' | 'quarter' | 'year' | 'all'`.
 
 Scale utils (`model/chart-scale.utils.ts`, pure, SSR-safe, zero dependencies):
 

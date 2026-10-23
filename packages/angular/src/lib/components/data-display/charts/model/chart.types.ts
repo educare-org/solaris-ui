@@ -2,7 +2,13 @@ export type SolarisChartInterpolation = 'smooth' | 'linear' | 'step';
 
 export type SolarisChartView = 'line' | 'bar' | 'pie';
 
-export type SolarisChartPeriod = '1D' | '7D' | '1M' | '3M' | 'YTD' | 'all';
+export type SolarisChartPeriod =
+  | 'day'
+  | 'week'
+  | 'month'
+  | 'quarter'
+  | 'year'
+  | 'all';
 
 export type SolarisChartDisplayMode = 'timeline' | 'list';
 

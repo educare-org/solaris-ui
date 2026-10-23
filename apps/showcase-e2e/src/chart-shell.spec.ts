@@ -34,8 +34,8 @@ test.describe('Chart shell', () => {
 
   test('changes period through the segmented filter', async ({ page }) => {
     const shell = page.locator('solaris-chart-shell').first();
-    await shell.locator('solaris-segmented-item', { hasText: '1 mês' }).click();
-    await expect(page.getByTestId('event-log')).toHaveText('period:1M');
+    await shell.locator('solaris-segmented-item', { hasText: /1 m/i }).click();
+    await expect(page.getByTestId('event-log')).toHaveText('period:month');
   });
 
   test('switches views through the select', async ({ page }) => {

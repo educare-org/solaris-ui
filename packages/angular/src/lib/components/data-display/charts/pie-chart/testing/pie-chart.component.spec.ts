@@ -112,7 +112,7 @@ describe('SolarisPieChartComponent', () => {
       expect(el.querySelector('.solaris-pie-chart__value')).toBeNull();
       vi.advanceTimersByTime(200);
       fixture.detectChanges();
-      expect(paths(el)[0].getAttribute('d') === '').toBe(false);
+      expect(paths(el)[0].getAttribute('d')).not.toBe('');
       expect(el.querySelector('.solaris-pie-chart__value')).toBeNull();
       vi.advanceTimersByTime(1000);
       fixture.detectChanges();
@@ -143,11 +143,11 @@ describe('SolarisPieChartComponent', () => {
       vi.advanceTimersByTime(200);
       fixture.detectChanges();
       const partial = value?.getAttribute('d') ?? '';
-      expect(partial === '').toBe(false);
+      expect(partial).not.toBe('');
       vi.advanceTimersByTime(600);
       fixture.detectChanges();
       const full = value?.getAttribute('d') ?? '';
-      expect(full === '').toBe(false);
+      expect(full).not.toBe('');
       expect(full).not.toBe(partial);
       expect(
         el.querySelector('.solaris-pie-chart__gauge-target'),
@@ -168,7 +168,7 @@ describe('SolarisPieChartComponent', () => {
       fixture.detectChanges();
       expect(el.hasAttribute('data-entering')).toBe(false);
       expect(el.querySelector('.solaris-pie-chart__value')).not.toBeNull();
-      expect(paths(el)[0].getAttribute('d') === '').toBe(false);
+      expect(paths(el)[0].getAttribute('d')).not.toBe('');
     } finally {
       window.matchMedia = original;
     }
@@ -384,8 +384,6 @@ describe('SolarisPieChartComponent', () => {
     paths(el)[0].dispatchEvent(new FocusEvent('focus'));
     fixture.detectChanges();
     const tooltip = el.querySelector('.solaris-pie-chart__tooltip');
-    // Fundamental sits on the right edge: the box opens to its right,
-    // fully outside the ring instead of straddling it.
     expect(tooltip?.getAttribute('data-side')).toBe('right');
   });
 
@@ -436,6 +434,40 @@ describe('SolarisPieChartComponent', () => {
     expect(() => server.detectChanges()).not.toThrow();
     const el = server.nativeElement as HTMLElement;
     expect(el.querySelectorAll('[data-slice]')).toHaveLength(4);
+  });
+
+  it('keeps center labels on secondary text and slice percents on light text', async () => {
+    const { readFileSync } = await import('node:fs');
+    const { fileURLToPath } = await import('node:url');
+    const { dirname, resolve } = await import('node:path');
+    const here = dirname(fileURLToPath(import.meta.url));
+    const scss = readFileSync(
+      resolve(here, '../component/pie-chart.component.scss'),
+      'utf8',
+    );
+    expect(scss).toContain(
+      '--solaris-pie-chart-label-color: var(--solaris-neutral-text-secondary)',
+    );
+    const screen = scss.split('@media print')[0];
+    const rules = screen.split('}');
+    const centerFills = rules.filter(
+      (rule) =>
+        rule.includes('.solaris-pie-chart__center-label') &&
+        rule.includes('fill:'),
+    );
+    expect(centerFills.length).toBeGreaterThan(0);
+    for (const rule of centerFills) {
+      expect(rule).toContain('var(--solaris-pie-chart-label-color)');
+      expect(rule).not.toContain('var(--solaris-neutral-text-light)');
+    }
+    const valueFills = rules.filter(
+      (rule) =>
+        rule.includes('.solaris-pie-chart__value') && rule.includes('fill:'),
+    );
+    expect(valueFills.length).toBeGreaterThan(0);
+    for (const rule of valueFills) {
+      expect(rule).toContain('var(--solaris-neutral-text-light)');
+    }
   });
 
   it('never mutates the consumer slices', () => {

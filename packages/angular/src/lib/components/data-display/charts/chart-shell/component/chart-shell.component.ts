@@ -130,7 +130,7 @@ export class SolarisChartShellComponent {
   readonly series = input.required<readonly SolarisChartSeries[]>();
 
   readonly view = model<SolarisChartView>('line');
-  readonly period = model<SolarisChartPeriod>('7D');
+  readonly period = model<SolarisChartPeriod>('week');
   readonly displayMode = model<SolarisChartDisplayMode>('timeline');
 
   readonly availableViews =
@@ -270,14 +270,7 @@ export class SolarisChartShellComponent {
   protected readonly trendAriaLabel = computed(() => {
     const delta = this.heroDelta();
     if (delta === undefined) return undefined;
-    const direction = this.heroDeltaDirection();
-    const key =
-      direction === 'up'
-        ? 'solaris.chart.trendUp'
-        : direction === 'down'
-          ? 'solaris.chart.trendDown'
-          : 'solaris.chart.trendFlat';
-    return `${this.translate(key, {})}: ${delta}`;
+    return `${this.translate(this.trendLabelKey(), {})}: ${delta}`;
   });
 
   protected readonly chartSummary = computed(() => {
@@ -374,6 +367,13 @@ export class SolarisChartShellComponent {
 
   protected onRetry(): void {
     this.retry.emit();
+  }
+
+  private trendLabelKey(): string {
+    const direction = this.heroDeltaDirection();
+    if (direction === 'up') return 'solaris.chart.trendUp';
+    if (direction === 'down') return 'solaris.chart.trendDown';
+    return 'solaris.chart.trendFlat';
   }
 
   private translateKey(key: string | undefined): string | undefined {

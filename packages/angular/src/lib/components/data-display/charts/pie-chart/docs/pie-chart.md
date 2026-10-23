@@ -94,5 +94,6 @@ Layout pins to spacing/typography tokens
 (`--solaris-pie-chart-label-color` →
 `--solaris-neutral-text-secondary`; center value →
 `--solaris-neutral-text-heading`); series fills resolve to
-`var(--solaris-*-solid)` at runtime; focus uses `--solaris-focus-ring-*`;
+`var(--solaris-*-solid)` at runtime; in-slice percents (`.value`) use
+`--solaris-neutral-text-light` for contrast on colored slices; focus uses `--solaris-focus-ring-*`;
 motion uses `--solaris-motion-*`. No hex, no fallback.

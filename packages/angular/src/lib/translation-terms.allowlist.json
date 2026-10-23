@@ -1,13 +1,8 @@
 [
-  "1D",
-  "1M",
-  "3M",
-  "7D",
   "Color",
   "Offline",
   "Online",
   "Total",
-  "YTD",
   "Zoom",
   "{{label}}",
   "{{start}}–{{end}}",

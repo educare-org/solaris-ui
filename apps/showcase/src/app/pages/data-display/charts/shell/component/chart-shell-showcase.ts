@@ -129,7 +129,7 @@ interface ChartShellPeriodDataset {
 const PERIOD_DATASETS: Readonly<
   Record<SolarisChartPeriod, ChartShellPeriodDataset>
 > = {
-  '1D': {
+  day: {
     xs: ['8h', '10h', '12h', '14h', '16h', '18h'],
     tooltipSubtitle: '4 de mai. de 2026',
     values: {
@@ -139,7 +139,7 @@ const PERIOD_DATASETS: Readonly<
     },
     reference: 40,
   },
-  '7D': {
+  week: {
     xs: [28, 29, 30, 1, 2, 3, 4],
     xLabels: ['28', '29', '30', '01', '02', '03', '04'],
     tooltipSubtitle: WEEK_SUBTITLES,
@@ -150,7 +150,7 @@ const PERIOD_DATASETS: Readonly<
     },
     reference: 120,
   },
-  '1M': {
+  month: {
     xs: Array.from({ length: 30 }, (_, index) => index + 1),
     tooltipSubtitle: MONTH_SUBTITLES,
     values: {
@@ -160,7 +160,7 @@ const PERIOD_DATASETS: Readonly<
     },
     reference: 1500,
   },
-  '3M': {
+  quarter: {
     xs: [
       'S1',
       'S2',
@@ -187,7 +187,7 @@ const PERIOD_DATASETS: Readonly<
     },
     reference: 3200,
   },
-  YTD: {
+  year: {
     xs: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
     tooltipSubtitle: 'jan. → out. de 2026',
     xLabels: [
@@ -252,11 +252,11 @@ const SERIES_LABEL_KEYS = {
 } as const;
 
 const PERIOD_INTERVAL_KEYS: Readonly<Record<SolarisChartPeriod, string>> = {
-  '1D': 'chart-shell-view.examples.interval1D',
-  '7D': 'chart-shell-view.examples.interval7D',
-  '1M': 'chart-shell-view.examples.interval1M',
-  '3M': 'chart-shell-view.examples.interval3M',
-  YTD: 'chart-shell-view.examples.intervalYTD',
+  day: 'chart-shell-view.examples.intervalDay',
+  week: 'chart-shell-view.examples.intervalWeek',
+  month: 'chart-shell-view.examples.intervalMonth',
+  quarter: 'chart-shell-view.examples.intervalQuarter',
+  year: 'chart-shell-view.examples.intervalYear',
   all: 'chart-shell-view.examples.intervalAll',
 };
 
@@ -308,7 +308,7 @@ export class ChartShellShowcasePage implements OnDestroy {
   protected readonly basicCode = CHART_SHELL_SHOWCASE_BASIC_CODE;
 
   protected readonly view = signal<SolarisChartView>('line');
-  protected readonly period = signal<SolarisChartPeriod>('7D');
+  protected readonly period = signal<SolarisChartPeriod>('week');
   protected readonly displayMode = signal<SolarisChartDisplayMode>('timeline');
   protected readonly hiddenIds = signal<readonly string[]>([]);
   protected readonly leavingIds = signal<readonly string[]>([]);
@@ -355,7 +355,7 @@ export class ChartShellShowcasePage implements OnDestroy {
   });
 
   protected readonly isWeeklyWindow = computed(
-    () => this.period() === '7D' || this.period() === '1D',
+    () => this.period() === 'week' || this.period() === 'day',
   );
 
   protected readonly referenceLines = computed(() => [
@@ -457,14 +457,31 @@ export class ChartShellShowcasePage implements OnDestroy {
     return translated !== key ? translated : this.period();
   });
 
-  protected readonly periodOptions = computed(() =>
-    (['1D', '7D', '1M', '3M', 'YTD', 'all'] as const).map((value) => ({
-      value,
-      label: this.translateService.translate(
-        `chart-shell-view.examples.periodLabel${value === 'all' ? 'All' : value}`,
+  protected readonly periodOptions = computed(() => {
+    const labels: Record<SolarisChartPeriod, string> = {
+      day: this.translateService.translate(
+        'chart-shell-view.examples.periodLabelDay',
       ),
-    })),
-  );
+      week: this.translateService.translate(
+        'chart-shell-view.examples.periodLabelWeek',
+      ),
+      month: this.translateService.translate(
+        'chart-shell-view.examples.periodLabelMonth',
+      ),
+      quarter: this.translateService.translate(
+        'chart-shell-view.examples.periodLabelQuarter',
+      ),
+      year: this.translateService.translate(
+        'chart-shell-view.examples.periodLabelYear',
+      ),
+      all: this.translateService.translate(
+        'chart-shell-view.examples.periodLabelAll',
+      ),
+    };
+    return (['day', 'week', 'month', 'quarter', 'year', 'all'] as const).map(
+      (value) => ({ value, label: labels[value] }),
+    );
+  });
 
   protected isLeaving(id: string): boolean {
     return this.leavingIds().includes(id);

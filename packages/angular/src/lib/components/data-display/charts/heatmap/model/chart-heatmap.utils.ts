@@ -1,6 +1,7 @@
 import type {
   SolarisHeatmapFrame,
   SolarisHeatmapFrameOptions,
+  SolarisHeatmapHoverMark,
   SolarisHeatmapRow,
   SolarisHeatmapTooltipSide,
 } from './chart-heatmap.types';
@@ -143,9 +144,6 @@ export function heatmapTooltipSide(
   cellCenter: { readonly x: number; readonly y: number },
   frameCenter: { readonly x: number; readonly y: number },
 ): SolarisHeatmapTooltipSide {
-  // Dock toward the grid center so the tooltip stays inside the canvas
-  // instead of growing outward past the scrollport (which clipped edge
-  // cells and created scrollbars in the preview surface).
   const dx = cellCenter.x - frameCenter.x;
   const dy = cellCenter.y - frameCenter.y;
   if (Math.abs(dx) > Math.abs(dy)) return dx >= 0 ? 'left' : 'right';
@@ -185,4 +183,12 @@ export function heatmapAnchorPoint(
 export function clampHeatmapPercent(value: number): number {
   if (!Number.isFinite(value)) return 50;
   return Math.min(86, Math.max(14, value));
+}
+
+export function sameMark(
+  left: SolarisHeatmapHoverMark | null,
+  right: SolarisHeatmapHoverMark | null,
+): boolean {
+  if (left === null || right === null) return left === right;
+  return left.rowId === right.rowId && left.columnIndex === right.columnIndex;
 }

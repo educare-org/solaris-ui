@@ -3,8 +3,10 @@ export type {
   SolarisHeatmapCellEvent,
   SolarisHeatmapCellGeometry,
   SolarisHeatmapDensity,
+  SolarisHeatmapFocusMark,
   SolarisHeatmapFrame,
   SolarisHeatmapFrameOptions,
+  SolarisHeatmapHoverMark,
   SolarisHeatmapInputs,
   SolarisHeatmapRow,
   SolarisHeatmapSize,
@@ -31,4 +33,5 @@ export {
   heatmapIntensity,
   heatmapTooltipSide,
   resolveHeatmapMax,
+  sameMark,
 } from './model/chart-heatmap.utils';

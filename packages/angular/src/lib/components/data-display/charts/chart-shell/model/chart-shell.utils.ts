@@ -16,11 +16,11 @@ export function isChartView(value: unknown): value is SolarisChartView {
 
 export function isChartPeriod(value: unknown): value is SolarisChartPeriod {
   return (
-    value === '1D' ||
-    value === '7D' ||
-    value === '1M' ||
-    value === '3M' ||
-    value === 'YTD' ||
+    value === 'day' ||
+    value === 'week' ||
+    value === 'month' ||
+    value === 'quarter' ||
+    value === 'year' ||
     value === 'all'
   );
 }
