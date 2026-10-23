@@ -316,6 +316,7 @@ export type {
   SolarisSparklineGeometryOptions,
 } from './lib/components/data-display/charts/index';
 export { SolarisChartShellComponent } from './lib/components/data-display/charts/index';
+export { DEFAULT_SHELL_PERIODS } from './lib/components/data-display/charts/index';
 export { SolarisBarChartComponent } from './lib/components/data-display/charts/index';
 export { SolarisLineChartComponent } from './lib/components/data-display/charts/index';
 export { SolarisPieChartComponent } from './lib/components/data-display/charts/index';
@@ -384,10 +385,12 @@ export type {
   SolarisSparklineSize,
 } from './lib/components/data-display/charts/index';
 export type {
+  SolarisChartPeriodDuration,
   SolarisChartShellAction,
   SolarisChartShellActionOption,
   SolarisChartShellDensity,
   SolarisChartShellDisplayModeOption,
+  SolarisChartShellInterval,
   SolarisChartShellPeriodOption,
   SolarisChartShellSize,
   SolarisChartShellTrend,

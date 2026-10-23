@@ -2,6 +2,7 @@ import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { Component, OnDestroy, computed, inject, signal } from '@angular/core';
 
 import {
+  DEFAULT_SHELL_PERIODS,
   SolarisBarChartComponent,
   SolarisButtonDirective,
   SolarisChartShellComponent,
@@ -22,10 +23,12 @@ import {
   type SolarisChartPeriod,
   type SolarisChartSeries,
   type SolarisChartShellDensity,
+  type SolarisChartShellPeriodOption,
   type SolarisChartShellSize,
   type SolarisChartShellTrend,
   type SolarisChartShellViewOption,
   type SolarisChartView,
+  type SolarisDateValue,
   type SolarisHeatmapRow,
   type SolarisLineChartPointEvent,
   type SolarisRadarSeries,
@@ -121,6 +124,14 @@ export class ChartShellShowcasePage implements OnDestroy {
 
   protected readonly view = signal<SolarisChartView>('line');
   protected readonly period = signal<SolarisChartPeriod>('week');
+  protected readonly dataPeriod =
+    signal<Exclude<SolarisChartPeriod, 'custom'>>('week');
+  protected readonly intervalStart = signal<SolarisDateValue | null>(
+    '2026-04-28',
+  );
+  protected readonly intervalEnd = signal<SolarisDateValue | null>(
+    '2026-05-04',
+  );
   protected readonly displayMode = signal<SolarisChartDisplayMode>('timeline');
   protected readonly viewsTab = signal<SolarisChartView>('line');
   protected readonly displayTab = signal<SolarisChartDisplayMode>('timeline');
@@ -147,7 +158,9 @@ export class ChartShellShowcasePage implements OnDestroy {
     ].join('\n'),
   );
 
-  protected readonly dataset = computed(() => PERIOD_DATASETS[this.period()]);
+  protected readonly dataset = computed(
+    () => PERIOD_DATASETS[this.dataPeriod()],
+  );
 
   protected readonly series = computed<readonly SolarisChartSeries[]>(() => {
     const hidden = new Set(this.hiddenIds());
@@ -274,36 +287,53 @@ export class ChartShellShowcasePage implements OnDestroy {
   );
 
   protected readonly intervalLabel = computed(() => {
-    const key = PERIOD_INTERVAL_KEYS[this.period()];
+    const period = this.period();
+    if (period === 'custom') {
+      return this.formatCustomRange(this.intervalStart(), this.intervalEnd());
+    }
+    const key = PERIOD_INTERVAL_KEYS[period];
     const translated = this.translateService.translate(key);
-    return translated !== key ? translated : this.period();
+    return translated !== key ? translated : period;
   });
 
-  protected readonly periodOptions = computed(() => {
-    const labels: Record<SolarisChartPeriod, string> = {
-      day: this.translateService.translate(
-        'chart-shell-view.examples.periodLabelDay',
-      ),
-      week: this.translateService.translate(
-        'chart-shell-view.examples.periodLabelWeek',
-      ),
-      month: this.translateService.translate(
-        'chart-shell-view.examples.periodLabelMonth',
-      ),
-      quarter: this.translateService.translate(
-        'chart-shell-view.examples.periodLabelQuarter',
-      ),
-      year: this.translateService.translate(
-        'chart-shell-view.examples.periodLabelYear',
-      ),
-      all: this.translateService.translate(
-        'chart-shell-view.examples.periodLabelAll',
-      ),
-    };
-    return (['day', 'week', 'month', 'quarter', 'year', 'all'] as const).map(
-      (value) => ({ value, label: labels[value] }),
-    );
-  });
+  protected readonly periodOptions = computed(
+    (): readonly SolarisChartShellPeriodOption[] => {
+      const labels: Record<Exclude<SolarisChartPeriod, 'custom'>, string> = {
+        day: this.translateService.translate(
+          'chart-shell-view.examples.periodLabelDay',
+        ),
+        week: this.translateService.translate(
+          'chart-shell-view.examples.periodLabelWeek',
+        ),
+        month: this.translateService.translate(
+          'chart-shell-view.examples.periodLabelMonth',
+        ),
+        quarter: this.translateService.translate(
+          'chart-shell-view.examples.periodLabelQuarter',
+        ),
+        year: this.translateService.translate(
+          'chart-shell-view.examples.periodLabelYear',
+        ),
+        all: this.translateService.translate(
+          'chart-shell-view.examples.periodLabelAll',
+        ),
+      };
+      return (['day', 'week', 'month', 'quarter', 'year', 'all'] as const).map(
+        (value) => {
+          const preset = DEFAULT_SHELL_PERIODS.find(
+            (entry) => entry.value === value,
+          );
+          return {
+            value,
+            label: labels[value],
+            ...(preset?.fixedDuration
+              ? { fixedDuration: preset.fixedDuration }
+              : {}),
+          };
+        },
+      );
+    },
+  );
 
   protected readonly combosView = signal<SolarisChartView>('heatmap');
 
@@ -426,7 +456,25 @@ export class ChartShellShowcasePage implements OnDestroy {
 
   protected onPeriodChange(period: SolarisChartPeriod): void {
     this.period.set(period);
+    if (period !== 'custom') this.dataPeriod.set(period);
     this.log.set(`period:${period}`);
+  }
+
+  private formatCustomRange(
+    start: SolarisDateValue | null,
+    end: SolarisDateValue | null,
+  ): string {
+    const formatted = [start, end].map((value) =>
+      value === null ? '' : this.formatShowcaseDate(value),
+    );
+    if (formatted[0] && formatted[1])
+      return `${formatted[0]} → ${formatted[1]}`;
+    return formatted[0] || formatted[1];
+  }
+
+  private formatShowcaseDate(value: SolarisDateValue): string {
+    const [year, month, day] = value.split('-');
+    return `${day}/${month}/${year}`;
   }
 
   protected onSeriesToggle(id: string): void {

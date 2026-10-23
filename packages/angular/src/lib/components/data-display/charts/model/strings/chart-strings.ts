@@ -30,6 +30,8 @@ export type SolarisChartStringKey =
   | 'displayTimeline'
   | 'displayList'
   | 'displaySwitcher'
+  | 'intervalPlaceholder'
+  | 'periodCustom'
   | 'actionsMenu'
   | 'actionsExport'
   | 'actionsFullscreen';

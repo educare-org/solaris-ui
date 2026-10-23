@@ -219,13 +219,25 @@ export {
 } from './pie-chart/model/chart-pie.utils';
 export type { SolarisPieTooltipSide } from './pie-chart/model/chart-pie.utils';
 export { SolarisChartShellComponent } from './chart-shell/component/chart-shell.component';
+export { DEFAULT_SHELL_PERIODS } from './chart-shell/model/chart-shell.defaults';
 export type {
+  SolarisChartPeriodDuration,
   SolarisChartShellAction,
   SolarisChartShellActionOption,
   SolarisChartShellDensity,
   SolarisChartShellDisplayModeOption,
+  SolarisChartShellInterval,
   SolarisChartShellPeriodOption,
   SolarisChartShellSize,
   SolarisChartShellTrend,
   SolarisChartShellViewOption,
 } from './chart-shell/model/chart-shell.types';
+export {
+  addSolarisIntervalDuration,
+  isChartPeriod,
+  isChartView,
+  isSolarisIntervalDate,
+  matchChartPeriodForRange,
+  resolveChartIntervalEnd,
+  resolvePeriodPresetRange,
+} from './chart-shell/model/chart-shell.utils';

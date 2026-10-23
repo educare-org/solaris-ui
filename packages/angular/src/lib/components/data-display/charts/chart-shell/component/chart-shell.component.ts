@@ -1,13 +1,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   booleanAttribute,
   computed,
+  effect,
   inject,
   input,
   model,
   output,
   signal,
+  viewChild,
 } from '@angular/core';
 
 import { SolarisThemeService } from '../../../../../services/theme';
@@ -32,6 +35,10 @@ import {
   SolarisDropdownMenuTriggerDirective,
 } from '../../../../interaction/dropdown-menu';
 import {
+  SolarisPopoverDirective,
+  SolarisPopoverTriggerDirective,
+} from '../../../../interaction/popover';
+import {
   SolarisSegmentedControlComponent,
   SolarisSegmentedItemComponent,
 } from '../../../../navigation/segmented-control';
@@ -44,6 +51,16 @@ import {
 } from '../../model/chart-scale.utils';
 import { resolveChartSeriesColor } from '../../model/chart-palette';
 import { resolveChartFallback } from '../../model/strings/chart-strings';
+import {
+  formatSolarisDate,
+  todaySolarisDate,
+} from '../../../../forms/date/model/date.utils';
+import type {
+  SolarisDateRange,
+  SolarisDateValue,
+} from '../../../../forms/date/model/date.types';
+import type { SolarisDatePreset } from '../../../../forms/date/model/date.types';
+import { SolarisDateRangePickerComponent } from '../../../../forms/date-range-picker/component/date-range-picker.component';
 import type {
   SolarisChartDisplayMode,
   SolarisChartPeriod,
@@ -65,11 +82,15 @@ import {
   isChartDisplayMode,
   isChartPeriod,
   isChartView,
+  matchChartPeriodForRange,
+  resolveChartIntervalEnd,
+  resolvePeriodPresetRange,
 } from '../model/chart-shell.utils';
 import type {
   SolarisChartShellActionOption,
   SolarisChartShellDensity,
   SolarisChartShellDisplayModeOption,
+  SolarisChartShellInterval,
   SolarisChartShellPeriodOption,
   SolarisChartShellSize,
   SolarisChartShellTrend,
@@ -88,6 +109,7 @@ import type {
     SolarisCardTitleDirective,
     SolarisCardDescriptionDirective,
     SolarisCardContentDirective,
+    SolarisDateRangePickerComponent,
     SolarisSegmentedControlComponent,
     SolarisSegmentedItemComponent,
     SolarisSelectComponent,
@@ -98,6 +120,8 @@ import type {
     SolarisDropdownMenuComponent,
     SolarisDropdownMenuItemComponent,
     SolarisDropdownMenuTriggerDirective,
+    SolarisPopoverDirective,
+    SolarisPopoverTriggerDirective,
   ],
   templateUrl: './chart-shell.component.html',
   styleUrls: ['./chart-shell.component.scss'],
@@ -112,7 +136,7 @@ import type {
     '[attr.data-display-mode]': 'displayMode()',
   },
 })
-export class SolarisChartShellComponent {
+export class SolarisChartShellComponent implements OnDestroy {
   readonly title = input<string | undefined>(undefined);
   readonly titleKey = input<string | undefined>(undefined);
   readonly description = input<string | undefined>(undefined);
@@ -126,6 +150,13 @@ export class SolarisChartShellComponent {
   );
   readonly intervalLabel = input<string | undefined>(undefined);
   readonly intervalLabelKey = input<string | undefined>(undefined);
+  readonly intervalStart = model<SolarisDateValue | null>(null);
+  readonly intervalEnd = model<SolarisDateValue | null>(null);
+  readonly minInterval = input<SolarisDateValue | undefined>(undefined);
+  readonly maxInterval = input<SolarisDateValue | undefined>(undefined);
+  readonly showIntervalPicker = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
 
   readonly series = input.required<readonly SolarisChartSeries[]>();
 
@@ -179,11 +210,35 @@ export class SolarisChartShellComponent {
   readonly viewChange = output<SolarisChartView>();
   readonly periodChange = output<SolarisChartPeriod>();
   readonly displayModeChange = output<SolarisChartDisplayMode>();
+  readonly rangeChange = output<SolarisChartShellInterval>();
 
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
   protected readonly themeService = inject(SolarisThemeService);
+  private readonly intervalPicker =
+    viewChild<SolarisDateRangePickerComponent>('intervalPicker');
+  private readonly intervalPopover = viewChild(SolarisPopoverTriggerDirective);
+  private readonly periodsControl = viewChild('periodsControl', {
+    read: SolarisSegmentedControlComponent,
+  });
+  private intervalOpenTimer: ReturnType<typeof setTimeout> | null = null;
+
+  constructor() {
+    effect(() => {
+      this.intervalPicker()?.writeValue({
+        start: this.intervalStart(),
+        end: this.intervalEnd(),
+      });
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.intervalOpenTimer !== null) {
+      clearTimeout(this.intervalOpenTimer);
+      this.intervalOpenTimer = null;
+    }
+  }
 
   protected readonly announcement = signal('');
 
@@ -208,8 +263,98 @@ export class SolarisChartShellComponent {
 
   protected readonly resolvedInterval = computed(() => {
     if (this.intervalLabel() !== undefined) return this.intervalLabel();
-    return this.translateKey(this.intervalLabelKey());
+    if (this.intervalLabelKey() !== undefined)
+      return this.translateKey(this.intervalLabelKey());
+    const start = this.intervalStart();
+    const end = this.intervalEnd();
+    if (start === null && end === null) return undefined;
+    const locale = this.locale();
+    const formattedStart = start ? formatSolarisDate(start, locale) : undefined;
+    const formattedEnd = end ? formatSolarisDate(end, locale) : undefined;
+    if (formattedStart && formattedEnd)
+      return `${formattedStart} → ${formattedEnd}`;
+    return formattedStart ?? formattedEnd;
   });
+
+  protected readonly activePeriodOption = computed(() =>
+    this.effectivePeriods().find((option) => option.value === this.period()),
+  );
+
+  protected readonly effectivePeriods = computed(
+    (): readonly SolarisChartShellPeriodOption[] => {
+      const options = this.availablePeriods();
+      if (!this.isAutoCustom()) return options;
+      const iconOption: SolarisChartShellPeriodOption = {
+        value: 'custom',
+        icon: 'calendar',
+      };
+      const allIndex = options.findIndex((option) => option.value === 'all');
+      if (allIndex === -1) return [...options, iconOption];
+      return [
+        ...options.slice(0, allIndex),
+        iconOption,
+        ...options.slice(allIndex),
+      ];
+    },
+  );
+
+  protected readonly leadingPeriods = computed(
+    (): readonly SolarisChartShellPeriodOption[] => {
+      if (!this.isAutoCustom()) return this.effectivePeriods();
+      const options = this.effectivePeriods();
+      const customIndex = options.findIndex(
+        (option) => option.value === 'custom',
+      );
+      return customIndex === -1 ? options : options.slice(0, customIndex);
+    },
+  );
+
+  protected readonly trailingPeriods = computed(
+    (): readonly SolarisChartShellPeriodOption[] => {
+      if (!this.isAutoCustom()) return [];
+      const options = this.effectivePeriods();
+      const customIndex = options.findIndex(
+        (option) => option.value === 'custom',
+      );
+      return customIndex === -1 ? [] : options.slice(customIndex + 1);
+    },
+  );
+
+  protected readonly isAutoCustom = computed(
+    () =>
+      this.isIntervalInteractive() &&
+      !this.availablePeriods().some((option) => option.value === 'custom'),
+  );
+
+  protected readonly intervalPresets = computed(
+    (): readonly SolarisDatePreset[] => {
+      const anchor = this.intervalStart() ?? todaySolarisDate();
+      const presets: SolarisDatePreset[] = [];
+      for (const option of this.availablePeriods()) {
+        const range = resolvePeriodPresetRange(option, anchor);
+        if (!range) continue;
+        presets.push({
+          id: option.value,
+          label: this.periodOptionLabel(option),
+          range,
+        });
+      }
+      return presets;
+    },
+  );
+
+  protected readonly isIntervalInteractive = computed(
+    () =>
+      this.showIntervalPicker() ||
+      this.intervalStart() !== null ||
+      this.intervalEnd() !== null,
+  );
+
+  protected readonly intervalPlaceholder = computed(() =>
+    this.translate('solaris.chart.intervalPlaceholder', {}),
+  );
+
+  protected readonly intervalOpen = signal(false);
 
   protected readonly resolvedError = computed(() => {
     if (this.error() !== undefined) return this.error();
@@ -338,11 +483,78 @@ export class SolarisChartShellComponent {
 
   protected onPeriodSelect(value: unknown): void {
     if (!isChartPeriod(value)) return;
-    if (!this.availablePeriods().some((option) => option.value === value))
+    if (!this.effectivePeriods().some((option) => option.value === value))
       return;
+    if (value === 'custom' && this.isAutoCustom()) {
+      this.periodsControl()?.value.set(this.period());
+      return;
+    }
     this.period.set(value);
     this.periodChange.emit(value);
     this.announcement.set(this.periodOptionLabel({ value }));
+    const option = this.effectivePeriods().find(
+      (entry) => entry.value === value,
+    );
+    if (!option?.fixedDuration) return;
+    if (!this.isIntervalInteractive()) return;
+    const anchor = this.intervalStart() ?? todaySolarisDate();
+    const end = resolveChartIntervalEnd(anchor, option);
+    this.intervalStart.set(anchor);
+    this.intervalEnd.set(end);
+    this.emitRange();
+  }
+
+  protected onIntervalPickerChange(range: SolarisDateRange): void {
+    this.intervalStart.set(range.start);
+    this.intervalEnd.set(range.end);
+    const next =
+      matchChartPeriodForRange(
+        range.start,
+        range.end,
+        this.availablePeriods(),
+      ) ?? 'custom';
+    if (next !== this.period()) {
+      this.period.set(next);
+      this.periodChange.emit(next);
+      this.announcement.set(this.periodOptionLabel({ value: next }));
+    }
+    this.closeIntervalPicker();
+    this.emitRange();
+  }
+
+  protected closeIntervalPicker(): void {
+    this.intervalOpen.set(false);
+    this.intervalPopover()?.close();
+  }
+
+  protected toggleIntervalPicker(): void {
+    if (this.intervalOpen()) {
+      this.intervalPopover()?.close();
+      return;
+    }
+    this.openIntervalPicker();
+  }
+
+  protected openIntervalPicker(): void {
+    if (this.intervalOpen()) return;
+    if (this.intervalOpenTimer !== null) {
+      clearTimeout(this.intervalOpenTimer);
+    }
+    this.intervalOpenTimer = setTimeout(() => {
+      this.intervalOpenTimer = null;
+      this.intervalPopover()?.open();
+    }, 0);
+  }
+
+  private emitRange(): void {
+    const interval: SolarisChartShellInterval = {
+      start: this.intervalStart(),
+      end: this.intervalEnd(),
+      period: this.period(),
+    };
+    this.rangeChange.emit(interval);
+    const resolved = this.resolvedInterval();
+    if (resolved !== undefined) this.announcement.set(resolved);
   }
 
   protected onDisplayModeSelect(value: unknown): void {

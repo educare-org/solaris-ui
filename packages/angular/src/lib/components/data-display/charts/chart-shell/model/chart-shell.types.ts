@@ -3,6 +3,19 @@ import type {
   SolarisChartPeriod,
   SolarisChartView,
 } from '../../model/chart.types';
+import type { SolarisDateValue } from '../../../../forms/date/model/date.types';
+
+export interface SolarisChartPeriodDuration {
+  readonly days?: number;
+  readonly months?: number;
+  readonly years?: number;
+}
+
+export interface SolarisChartShellInterval {
+  readonly start: SolarisDateValue | null;
+  readonly end: SolarisDateValue | null;
+  readonly period: SolarisChartPeriod;
+}
 
 export interface SolarisChartShellDisplayModeOption {
   readonly value: SolarisChartDisplayMode;
@@ -23,6 +36,8 @@ export interface SolarisChartShellPeriodOption {
   readonly label?: string;
   readonly labelKey?: string;
   readonly disabled?: boolean;
+  readonly fixedDuration?: SolarisChartPeriodDuration;
+  readonly icon?: string;
 }
 
 export type SolarisChartShellAction = 'export' | 'fullscreen';

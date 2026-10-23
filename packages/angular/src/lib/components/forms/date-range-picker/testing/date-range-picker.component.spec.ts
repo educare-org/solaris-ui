@@ -616,4 +616,134 @@ describe('SolarisDateRangePickerComponent', () => {
       expect(instance.clearAriaLabel()).toBeTruthy();
     });
   });
+
+  describe('inline panel mode', () => {
+    it('highlights the preset matching the written value', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      fixture.componentRef.setInput('inline', true);
+      fixture.componentRef.setInput('presets', [
+        {
+          id: 'week',
+          label: '7 days',
+          range: { start: '2026-01-01', end: '2026-01-07' },
+        },
+      ]);
+      fixture.detectChanges();
+      fixture.componentInstance.writeValue({
+        start: '2026-01-01',
+        end: '2026-01-07',
+      });
+      expect(instance.activePresetId()).toBe('week');
+    });
+    it('renders the panel without opening a popover', () => {
+      const element = createFixture();
+      fixture.componentRef.setInput('inline', true);
+      fixture.componentInstance.writeValue({
+        start: '2026-04-28',
+        end: '2026-05-04',
+      });
+      fixture.detectChanges();
+      expect(
+        element.querySelector(':scope > .solaris-date-range-picker__panel'),
+      ).toBeTruthy();
+      expect(element.querySelector('solaris-form-field')).toBeNull();
+    });
+
+    it('emits cancelled without a popover trigger', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      let cancelled = 0;
+      fixture.componentInstance.cancelled.subscribe(() => {
+        cancelled += 1;
+      });
+      fixture.componentRef.setInput('inline', true);
+      fixture.detectChanges();
+      instance.cancel();
+      expect(cancelled).toBe(1);
+    });
+  });
+
+  describe('per-side locks', () => {
+    it('keeps the end when the end side is disabled', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      fixture.componentRef.setInput('endDisabled', true);
+      fixture.componentInstance.writeValue({
+        start: '2026-04-28',
+        end: '2026-05-04',
+      });
+      fixture.detectChanges();
+      instance.selectDate('2026-05-01');
+      expect(instance.pending()).toEqual({
+        start: '2026-05-01',
+        end: '2026-05-04',
+      });
+    });
+
+    it('applies a start-only range when the end side is disabled', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      const seen: unknown[] = [];
+      fixture.componentInstance.valueChange.subscribe((value) =>
+        seen.push(value),
+      );
+      fixture.componentRef.setInput('endDisabled', true);
+      fixture.componentInstance.writeValue({ start: null, end: null });
+      fixture.detectChanges();
+      instance.selectDate('2026-04-28');
+      instance.apply();
+      expect(seen).toEqual([{ start: '2026-04-28', end: null }]);
+    });
+
+    it('disables the end input in the panel when the end side is disabled', async () => {
+      const element = createFixture();
+      fixture.componentRef.setInput('endDisabled', true);
+      fixture.detectChanges();
+      (
+        element.querySelector(
+          '.solaris-date-range-picker__trigger',
+        ) as HTMLButtonElement
+      ).click();
+      await fixture.whenStable();
+      const endInput = document.querySelector(
+        '.solaris-date-range-picker__inputs input[aria-label="End date"]',
+      ) as HTMLInputElement;
+      expect(endInput.disabled).toBe(true);
+      expect(endInput.getAttribute('aria-disabled')).toBe('true');
+    });
+
+    it('updates only the end when the start side is disabled', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      fixture.componentRef.setInput('startDisabled', true);
+      fixture.componentInstance.writeValue({
+        start: '2026-04-28',
+        end: '2026-05-04',
+      });
+      fixture.detectChanges();
+      instance.selectDate('2026-05-10');
+      expect(instance.pending()).toEqual({
+        start: '2026-04-28',
+        end: '2026-05-10',
+      });
+    });
+
+    it('ignores calendar selection when both sides are disabled', () => {
+      createFixture();
+      const instance = fixture.componentInstance as any;
+      fixture.componentRef.setInput('startDisabled', true);
+      fixture.componentRef.setInput('endDisabled', true);
+      fixture.componentInstance.writeValue({
+        start: '2026-04-28',
+        end: '2026-05-04',
+      });
+      fixture.detectChanges();
+      instance.selectDate('2026-05-10');
+      expect(instance.pending()).toEqual({
+        start: '2026-04-28',
+        end: '2026-05-04',
+      });
+    });
+  });
 });

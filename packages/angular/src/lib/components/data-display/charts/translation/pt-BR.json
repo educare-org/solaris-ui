@@ -12,6 +12,7 @@
       "periodQuarter": "3 meses",
       "periodYear": "Este ano",
       "periodAll": "Todo o período",
+      "periodCustom": "Customizado",
       "legendToggle": "Alternar série {{label}}",
       "legendFilter": "Filtrar por:",
       "others": "Outros",
@@ -28,6 +29,7 @@
       "displayTimeline": "Linha do tempo",
       "displayList": "Lista",
       "displaySwitcher": "Modo de exibição",
+      "intervalPlaceholder": "Selecionar período",
       "actionsMenu": "Ações do gráfico",
       "actionsExport": "Exportar",
       "actionsFullscreen": "Tela cheia"

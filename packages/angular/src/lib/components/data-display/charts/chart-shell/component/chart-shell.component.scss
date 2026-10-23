@@ -30,6 +30,34 @@
   font-size: var(--solaris-chart-shell-label-size);
 }
 
+.solaris-chart-shell__interval-trigger {
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  text-align: start;
+  background: transparent;
+  color: var(--solaris-chart-shell-label-color);
+  font-size: var(--solaris-chart-shell-label-size);
+  text-decoration: underline transparent;
+  text-underline-offset: var(--solaris-spacing-2);
+  transition:
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    text-decoration-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+
+  &:hover {
+    color: var(--solaris-neutral-text-body);
+    text-decoration-color: currentcolor;
+  }
+
+  &:focus-visible {
+    outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+      var(--solaris-focus-ring-color);
+    outline-offset: var(--solaris-focus-ring-offset);
+  }
+}
+
 .solaris-chart-shell__toolbar {
   display: flex;
   margin-inline-start: auto;
@@ -220,6 +248,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .solaris-chart-shell__legend-item,
+  .solaris-chart-shell__interval-trigger,
   .solaris-chart-shell__periods,
   .solaris-chart-shell__display {
     transition: none;
@@ -246,6 +275,7 @@
   .solaris-chart-shell__hero-value,
   .solaris-chart-shell__hero-label,
   .solaris-chart-shell__interval,
+  .solaris-chart-shell__interval-trigger,
   .solaris-chart-shell__legend-label,
   .solaris-chart-shell__legend-title {
     color: #000;

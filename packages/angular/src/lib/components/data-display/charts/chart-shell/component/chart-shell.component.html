@@ -8,7 +8,17 @@
         @if (resolvedDescription(); as subheading) {
           <p solaris-card-description>{{ subheading }}</p>
         }
-        @if (resolvedInterval(); as interval) {
+        @if (isIntervalInteractive()) {
+          <button
+            type="button"
+            class="solaris-chart-shell__interval-trigger"
+            [attr.aria-haspopup]="'dialog'"
+            [attr.aria-expanded]="intervalOpen()"
+            (click)="toggleIntervalPicker()"
+          >
+            {{ resolvedInterval() ?? intervalPlaceholder() }}
+          </button>
+        } @else if (resolvedInterval(); as interval) {
           <span class="solaris-chart-shell__interval">{{ interval }}</span>
         }
       </div>
@@ -120,18 +130,44 @@
             }
           </solaris-segmented-control>
         }
-        @if (showPeriodFilter() && availablePeriods().length > 1) {
+        @if (showPeriodFilter() && effectivePeriods().length > 1) {
           <solaris-segmented-control
+            #periodsControl
             size="md"
             [value]="period()"
             class="solaris-chart-shell__periods"
             [ariaLabel]="resolvedInterval() ?? undefined"
             (valueChange)="onPeriodSelect($event)"
           >
-            @for (option of availablePeriods(); track option.value) {
+            @for (option of leadingPeriods(); track option.value) {
               <solaris-segmented-item
                 [value]="option.value"
                 [label]="periodOptionLabel(option)"
+                [icon]="option.icon"
+                [disabled]="option.disabled ?? false"
+              />
+            }
+            @if (isAutoCustom()) {
+              <solaris-segmented-item
+                [value]="'custom'"
+                [icon]="'calendar'"
+                [ariaLabel]="periodOptionLabel({ value: 'custom' })"
+                [attr.aria-haspopup]="'dialog'"
+                solaris-popover-trigger
+                [solarisPopoverTriggerFor]="intervalPanel"
+                [solarisPopoverAriaHasPopup]="'dialog'"
+                [solarisPopoverPlacement]="'bottom'"
+                [solarisPopoverAlign]="'end'"
+                (solarisPopoverOpenChange)="intervalOpen.set($event)"
+                (keydown.enter)="toggleIntervalPicker()"
+                (keydown.space)="toggleIntervalPicker()"
+              />
+            }
+            @for (option of trailingPeriods(); track option.value) {
+              <solaris-segmented-item
+                [value]="option.value"
+                [label]="periodOptionLabel(option)"
+                [icon]="option.icon"
                 [disabled]="option.disabled ?? false"
               />
             }
@@ -139,6 +175,19 @@
         }
       </div>
     }
+
+    <ng-template #intervalPanel="solarisPopover" solaris-popover>
+      <solaris-date-range-picker
+        #intervalPicker
+        inline
+        [locale]="locale()"
+        [min]="minInterval()"
+        [max]="maxInterval()"
+        [presets]="intervalPresets()"
+        (valueChange)="onIntervalPickerChange($event)"
+        (cancelled)="closeIntervalPicker()"
+      />
+    </ng-template>
 
     @if (loading()) {
       <div class="solaris-chart-shell__loading" role="status">

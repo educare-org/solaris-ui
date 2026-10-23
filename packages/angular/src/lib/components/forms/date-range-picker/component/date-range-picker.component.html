@@ -1,104 +1,110 @@
-<solaris-form-field
-  [control]="this"
-  [label]="labelText()"
-  [hint]="hintText()"
-  [error]="errorText()"
-  [appearance]="appearance()"
-  [density]="effectiveDensity()"
-  [size]="size()"
-  [radius]="radius()"
-  [invalid]="isEffectivelyInvalid()"
-  [required]="requiredInput()"
-  [disabled]="isEffectivelyDisabled()"
-  [readonly]="isEffectivelyReadonly()"
-  [loading]="loading()"
-  [hasSuffixAction]="!!projectedSuffixAction()"
-  solaris-popover-trigger
-  [solarisPopoverTriggerFor]="rangePopover"
-  [solarisPopoverDisabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
-  [solarisPopoverPlacement]="'bottom'"
-  [solarisPopoverAlign]="'start'"
-  [solarisPopoverPadding]="'none'"
-  [solarisPopoverFitContent]="true"
-  [solarisPopoverMaxWidth]="'calc(100vw - var(--solaris-spacing-4))'"
-  [solarisPopoverRadius]="radius()"
-  [solarisPopoverAriaHasPopup]="'dialog'"
-  (solarisPopoverOpened)="onPanelOpened()"
-  (solarisPopoverClosed)="onPanelClosed()"
->
-  @if (prefix(); as prefixName) {
-    <span solaris-form-prefix>
-      <solaris-icon [name]="prefixName" [decorative]="true" />
-    </span>
-  }
-  <ng-content
-    select="[solaris-form-prefix]"
-    ngProjectAs="[solaris-form-prefix]"
-  />
-  <button
-    #triggerButton
-    type="button"
-    class="solaris-date-range-picker__trigger"
-    [id]="id"
-    [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
-    [attr.aria-expanded]="panelOpen() ? 'true' : 'false'"
-    [attr.aria-describedby]="describedByIds.join(' ') || null"
-    (focus)="onFocus()"
-    (blur)="onBlur()"
-    (keydown)="onInputKeydown($event)"
-  >
-    {{ rangeDisplay() || placeholderText() }}
-  </button>
-
-  <button
-    type="button"
-    appearance="ghost"
-    solaris-icon-button
-    solaris-form-suffix
-    solaris-form-suffix-action
-    class="solaris-date-range-picker__calendar-trigger"
-    [size]="size()"
+@if (inline()) {
+  <ng-container [ngTemplateOutlet]="panelTpl" />
+} @else {
+  <solaris-form-field
+    [control]="this"
+    [label]="labelText()"
+    [hint]="hintText()"
+    [error]="errorText()"
+    [appearance]="appearance()"
     [density]="effectiveDensity()"
-    [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
-    [attr.aria-label]="calendarLabel()"
+    [size]="size()"
+    [radius]="radius()"
+    [invalid]="isEffectivelyInvalid()"
+    [required]="requiredInput()"
+    [disabled]="isEffectivelyDisabled()"
+    [readonly]="isEffectivelyReadonly()"
+    [loading]="loading()"
+    [hasSuffixAction]="!!projectedSuffixAction()"
+    solaris-popover-trigger
+    [solarisPopoverTriggerFor]="rangePopover"
+    [solarisPopoverDisabled]="
+      isEffectivelyDisabled() || isEffectivelyReadonly()
+    "
+    [solarisPopoverPlacement]="'bottom'"
+    [solarisPopoverAlign]="'start'"
+    [solarisPopoverPadding]="'none'"
+    [solarisPopoverFitContent]="true"
+    [solarisPopoverMaxWidth]="'calc(100vw - var(--solaris-spacing-4))'"
+    [solarisPopoverRadius]="radius()"
+    [solarisPopoverAriaHasPopup]="'dialog'"
+    (solarisPopoverOpened)="onPanelOpened()"
+    (solarisPopoverClosed)="onPanelClosed()"
   >
-    <solaris-icon name="calendar" [decorative]="true" />
-  </button>
-  @if (canClear() && !loading()) {
+    @if (prefix(); as prefixName) {
+      <span solaris-form-prefix>
+        <solaris-icon [name]="prefixName" [decorative]="true" />
+      </span>
+    }
+    <ng-content
+      select="[solaris-form-prefix]"
+      ngProjectAs="[solaris-form-prefix]"
+    />
+    <button
+      #triggerButton
+      type="button"
+      class="solaris-date-range-picker__trigger"
+      [id]="id"
+      [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
+      [attr.aria-expanded]="panelOpen() ? 'true' : 'false'"
+      [attr.aria-describedby]="describedByIds.join(' ') || null"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      (keydown)="onInputKeydown($event)"
+    >
+      {{ rangeDisplay() || placeholderText() }}
+    </button>
+
     <button
       type="button"
+      appearance="ghost"
+      solaris-icon-button
       solaris-form-suffix
-      class="solaris-date-range-picker__clear"
-      [attr.aria-label]="clearAriaLabel()"
+      solaris-form-suffix-action
+      class="solaris-date-range-picker__calendar-trigger"
+      [size]="size()"
+      [density]="effectiveDensity()"
       [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
-      (click)="clearValue(); $event.stopPropagation()"
-      tabindex="-1"
+      [attr.aria-label]="calendarLabel()"
     >
-      <solaris-icon name="x" [decorative]="true" />
+      <solaris-icon name="calendar" [decorative]="true" />
     </button>
-  }
-  @if (suffix(); as suffixName) {
-    <span solaris-form-suffix>
-      <solaris-icon [name]="suffixName" [decorative]="true" />
-    </span>
-  }
-  <ng-content
-    select="[solaris-form-suffix][solaris-form-suffix-action]"
-    ngProjectAs="[solaris-form-suffix-action]"
-  />
-  <ng-content
-    select="[solaris-form-suffix]"
-    ngProjectAs="[solaris-form-suffix]"
-  />
-  <ng-content
-    select="[solaris-form-label-action]"
-    ngProjectAs="[solaris-form-label-action]"
-  />
-</solaris-form-field>
+    @if (canClear() && !loading()) {
+      <button
+        type="button"
+        solaris-form-suffix
+        class="solaris-date-range-picker__clear"
+        [attr.aria-label]="clearAriaLabel()"
+        [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
+        (click)="clearValue(); $event.stopPropagation()"
+        tabindex="-1"
+      >
+        <solaris-icon name="x" [decorative]="true" />
+      </button>
+    }
+    @if (suffix(); as suffixName) {
+      <span solaris-form-suffix>
+        <solaris-icon [name]="suffixName" [decorative]="true" />
+      </span>
+    }
+    <ng-content
+      select="[solaris-form-suffix][solaris-form-suffix-action]"
+      ngProjectAs="[solaris-form-suffix-action]"
+    />
+    <ng-content
+      select="[solaris-form-suffix]"
+      ngProjectAs="[solaris-form-suffix]"
+    />
+    <ng-content
+      select="[solaris-form-label-action]"
+      ngProjectAs="[solaris-form-label-action]"
+    />
+  </solaris-form-field>
+}
 
-<ng-template #rangePopover="solarisPopover" solaris-popover>
+<ng-template #rangePopover="solarisPopover" #panelTpl solaris-popover>
   <div
-    role="dialog"
+    [attr.role]="inline() ? 'group' : 'dialog'"
     [attr.aria-label]="calendarLabel()"
     class="solaris-date-range-picker__panel"
   >
@@ -178,8 +184,9 @@
             [value]="startDisplay()"
             (click)="onInputClick($event)"
             [attr.aria-label]="startLabel()"
-            [disabled]="isEffectivelyDisabled()"
-            [readonly]="isEffectivelyReadonly()"
+            [disabled]="isStartDisabled()"
+            [readonly]="isStartReadonly()"
+            [attr.aria-disabled]="isStartDisabled() ? 'true' : null"
             (input)="onInput('start', $event)"
             (keydown)="onPanelInputKeydown($event)"
           />
@@ -198,8 +205,9 @@
             [value]="endDisplay()"
             [attr.aria-label]="endLabel()"
             (click)="onInputClick($event)"
-            [disabled]="isEffectivelyDisabled()"
-            [readonly]="isEffectivelyReadonly()"
+            [disabled]="isEndDisabled()"
+            [readonly]="isEndReadonly()"
+            [attr.aria-disabled]="isEndDisabled() ? 'true' : null"
             (input)="onInput('end', $event)"
             (keydown)="onPanelInputKeydown($event)"
           />

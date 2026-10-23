@@ -1,6 +1,7 @@
 import { By } from '@angular/platform-browser';
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 
+import { configureSolarisTesting } from '../../../../../testing/solaris-test-utilities';
 import { SolarisTranslateService } from '../../../../../services/translation';
 import { SolarisChartShellComponent } from '../component/chart-shell.component';
 import type {
@@ -553,5 +554,326 @@ describe('SolarisChartShellComponent', () => {
     expect(
       el.querySelector('.solaris-chart-shell__empty-title')?.textContent,
     ).toContain('Sem dados');
+  });
+
+  it('should derive the interval label from start and end without intervalLabel', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('intervalStart', '2026-04-28');
+    fixture.componentRef.setInput('intervalEnd', '2026-05-04');
+    fixture.detectChanges();
+    expect(
+      el.querySelector('.solaris-chart-shell__interval-trigger')?.textContent,
+    ).toContain('04/28/2026');
+  });
+
+  it('should render a clickable interval trigger instead of the static label', () => {
+    configureSolarisTesting();
+    const shell = TestBed.createComponent(SolarisChartShellComponent);
+    shell.componentRef.setInput('locale', 'en-US');
+    shell.componentRef.setInput('series', SERIES);
+    shell.componentRef.setInput('intervalStart', '2026-04-28');
+    shell.componentRef.setInput('intervalEnd', '2026-05-04');
+    shell.detectChanges();
+    const el = shell.nativeElement as HTMLElement;
+    const trigger = el.querySelector(
+      '.solaris-chart-shell__interval-trigger',
+    ) as HTMLButtonElement;
+    expect(trigger).toBeTruthy();
+    expect(trigger.textContent).toContain('04/28/2026');
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    expect(el.querySelector('.solaris-chart-shell__interval')).toBeNull();
+    expect(el.querySelector('solaris-date-range-picker')).toBeNull();
+  });
+
+  it('should toggle the range picker below the filters', async () => {
+    configureSolarisTesting();
+    const shell = TestBed.createComponent(SolarisChartShellComponent);
+    shell.componentRef.setInput('locale', 'en-US');
+    shell.componentRef.setInput('series', SERIES);
+    shell.componentRef.setInput('intervalStart', '2026-04-28');
+    shell.componentRef.setInput('intervalEnd', '2026-05-04');
+    shell.detectChanges();
+    const el = shell.nativeElement as HTMLElement;
+    const trigger = el.querySelector(
+      '.solaris-chart-shell__interval-trigger',
+    ) as HTMLButtonElement;
+    const panel = () =>
+      document.querySelector(
+        'solaris-date-range-picker .solaris-date-range-picker__panel',
+      );
+    trigger.click();
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    shell.detectChanges();
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    expect(panel()).toBeTruthy();
+    trigger.click();
+    shell.detectChanges();
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    await new Promise((resolve) => setTimeout(resolve, 350));
+    expect(panel()).toBeNull();
+  });
+
+  it('should keep the static interval label without dates', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('intervalLabel', 'Apr 28 → May 04');
+    fixture.detectChanges();
+    expect(
+      el.querySelector('.solaris-chart-shell__interval')?.textContent,
+    ).toContain('Apr 28');
+    expect(
+      el.querySelector('.solaris-chart-shell__interval-trigger'),
+    ).toBeNull();
+  });
+
+  it('should keep both picker sides editable for fixed-duration periods', async () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('intervalStart', '2026-04-28');
+    fixture.componentRef.setInput('intervalEnd', '2026-05-04');
+    fixture.detectChanges();
+    (
+      el.querySelector(
+        '.solaris-chart-shell__interval-trigger',
+      ) as HTMLButtonElement
+    ).click();
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    fixture.detectChanges();
+    const inputs = Array.from(
+      document.querySelectorAll(
+        'solaris-date-range-picker .solaris-date-range-picker__panel input',
+      ),
+    ) as HTMLInputElement[];
+    expect(inputs).toHaveLength(2);
+    expect(inputs.every((input) => !input.disabled)).toBe(true);
+    (fixture.componentInstance as any).closeIntervalPicker();
+    await new Promise((resolve) => setTimeout(resolve, 350));
+  });
+
+  it('should recompute the end when the period segment changes', () => {
+    createFixture();
+    const ranges: unknown[] = [];
+    fixture.componentInstance.rangeChange.subscribe((range) =>
+      ranges.push(range),
+    );
+    fixture.componentRef.setInput('intervalStart', '2026-04-28');
+    fixture.componentRef.setInput('intervalEnd', '2026-05-04');
+    fixture.detectChanges();
+    const control = fixture.debugElement.query(
+      By.css('solaris-segmented-control.solaris-chart-shell__periods'),
+    );
+    control.triggerEventHandler('valueChange', 'month');
+    fixture.detectChanges();
+    expect(fixture.componentInstance.intervalEnd()).toBe('2026-05-28');
+    expect(ranges).toEqual([
+      { start: '2026-04-28', end: '2026-05-28', period: 'month' },
+    ]);
+  });
+
+  it('should keep a freely edited end and fall back to custom', () => {
+    createFixture();
+    const ranges: unknown[] = [];
+    fixture.componentInstance.rangeChange.subscribe((range) =>
+      ranges.push(range),
+    );
+    (fixture.componentInstance as any).onIntervalPickerChange({
+      start: '2026-04-28',
+      end: '2026-05-10',
+    });
+    expect(fixture.componentInstance.intervalEnd()).toBe('2026-05-10');
+    expect(fixture.componentInstance.period()).toBe('custom');
+    expect(ranges).toEqual([
+      { start: '2026-04-28', end: '2026-05-10', period: 'custom' },
+    ]);
+  });
+
+  it('should keep both picker dates for open periods', () => {
+    createFixture();
+    fixture.componentRef.setInput('availablePeriods', [{ value: 'all' }]);
+    fixture.componentRef.setInput('period', 'all');
+    fixture.detectChanges();
+    (fixture.componentInstance as any).onIntervalPickerChange({
+      start: '2026-01-01',
+      end: '2026-12-31',
+    });
+    expect(fixture.componentInstance.intervalStart()).toBe('2026-01-01');
+    expect(fixture.componentInstance.intervalEnd()).toBe('2026-12-31');
+  });
+
+  it('should switch the period to the matching preset on picker apply', () => {
+    createFixture();
+    const periods: unknown[] = [];
+    fixture.componentInstance.periodChange.subscribe((period) =>
+      periods.push(period),
+    );
+    fixture.componentRef.setInput('availablePeriods', [
+      { value: 'month', fixedDuration: { months: 1 } },
+      { value: 'all' },
+    ]);
+    fixture.componentRef.setInput('period', 'all');
+    fixture.detectChanges();
+    (fixture.componentInstance as any).onIntervalPickerChange({
+      start: '2026-04-28',
+      end: '2026-05-28',
+    });
+    expect(fixture.componentInstance.period()).toBe('month');
+    expect(periods).toEqual(['month']);
+  });
+
+  it('should adopt the preset period instead of recomputing a locked end', () => {
+    createFixture();
+    const periods: unknown[] = [];
+    fixture.componentInstance.periodChange.subscribe((period) =>
+      periods.push(period),
+    );
+    fixture.componentRef.setInput('intervalStart', '2026-01-01');
+    fixture.componentRef.setInput('intervalEnd', '2026-01-07');
+    fixture.detectChanges();
+    (fixture.componentInstance as any).onIntervalPickerChange({
+      start: '2026-01-01',
+      end: '2026-02-01',
+    });
+    expect(fixture.componentInstance.intervalEnd()).toBe('2026-02-01');
+    expect(fixture.componentInstance.period()).toBe('month');
+    expect(periods).toEqual(['month']);
+  });
+
+  it('should fall back to a custom period for unmatched ranges', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('period', 'all');
+    fixture.componentRef.setInput('intervalStart', '2026-05-06');
+    fixture.componentRef.setInput('intervalEnd', '2026-05-27');
+    fixture.detectChanges();
+    (fixture.componentInstance as any).onIntervalPickerChange({
+      start: '2026-05-06',
+      end: '2026-05-27',
+    });
+    fixture.detectChanges();
+    expect(fixture.componentInstance.period()).toBe('custom');
+    const items = Array.from(
+      el.querySelectorAll(
+        '.solaris-chart-shell__periods solaris-segmented-item',
+      ),
+    );
+    expect(items).toHaveLength(7);
+  });
+
+  it('should expose presets anchored at the current start', () => {
+    createFixture();
+    fixture.componentRef.setInput('intervalStart', '2026-04-28');
+    fixture.componentRef.setInput('intervalEnd', '2026-05-04');
+    fixture.detectChanges();
+    const presets = (fixture.componentInstance as any).intervalPresets();
+    const ids = presets.map((preset: { id: string }) => preset.id);
+    expect(ids).toContain('week');
+    expect(ids).toContain('month');
+    expect(ids).not.toContain('all');
+    expect(
+      presets.find((preset: { id: string }) => preset.id === 'week').range,
+    ).toEqual({ start: '2026-04-28', end: '2026-05-04' });
+  });
+
+  it('should append an icon-only custom option before all when interactive', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('intervalStart', '2026-04-28');
+    fixture.componentRef.setInput('intervalEnd', '2026-05-04');
+    fixture.detectChanges();
+    const items = fixture.debugElement.queryAll(
+      By.css('.solaris-chart-shell__periods solaris-segmented-item'),
+    );
+    expect(items.map((item) => item.componentInstance.value())).toEqual([
+      'day',
+      'week',
+      'month',
+      'quarter',
+      'year',
+      'custom',
+      'all',
+    ]);
+    const custom = items[5];
+    expect(custom.componentInstance.icon()).toBe('calendar');
+    expect(
+      (custom.nativeElement as HTMLElement).getAttribute('aria-label'),
+    ).toContain('Custom');
+    expect(
+      el.querySelectorAll(
+        '.solaris-chart-shell__periods solaris-segmented-item',
+      ),
+    ).toHaveLength(7);
+  });
+
+  it('should toggle the picker without selecting when the icon is clicked', async () => {
+    configureSolarisTesting();
+    const shell = TestBed.createComponent(SolarisChartShellComponent);
+    shell.componentRef.setInput('locale', 'en-US');
+    shell.componentRef.setInput('series', SERIES);
+    shell.componentRef.setInput('intervalStart', '2026-04-28');
+    shell.componentRef.setInput('intervalEnd', '2026-05-04');
+    shell.detectChanges();
+    const el = shell.nativeElement as HTMLElement;
+    const items = shell.debugElement.queryAll(
+      By.css('.solaris-chart-shell__periods solaris-segmented-item'),
+    );
+    const panel = () =>
+      document.querySelector(
+        'solaris-date-range-picker .solaris-date-range-picker__panel',
+      );
+    (items[5].nativeElement as HTMLElement).click();
+    shell.detectChanges();
+    expect(shell.componentInstance.period()).toBe('week');
+    expect(items[1].componentInstance.isSelected()).toBe(true);
+    expect(items[5].componentInstance.isSelected()).toBe(false);
+    expect(panel()).toBeTruthy();
+    (items[5].nativeElement as HTMLElement).click();
+    shell.detectChanges();
+    await new Promise((resolve) => setTimeout(resolve, 350));
+    expect(panel()).toBeNull();
+  });
+
+  it('should open the picker from the keyboard on the icon', async () => {
+    configureSolarisTesting();
+    const shell = TestBed.createComponent(SolarisChartShellComponent);
+    shell.componentRef.setInput('locale', 'en-US');
+    shell.componentRef.setInput('series', SERIES);
+    shell.componentRef.setInput('intervalStart', '2026-04-28');
+    shell.componentRef.setInput('intervalEnd', '2026-05-04');
+    shell.detectChanges();
+    const items = shell.debugElement.queryAll(
+      By.css('.solaris-chart-shell__periods solaris-segmented-item'),
+    );
+    items[5].nativeElement.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }),
+    );
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    shell.detectChanges();
+    expect(shell.componentInstance.period()).toBe('week');
+    expect(
+      document.querySelector(
+        'solaris-date-range-picker .solaris-date-range-picker__panel',
+      ),
+    ).toBeTruthy();
+    (shell.componentInstance as any).closeIntervalPicker();
+    await new Promise((resolve) => setTimeout(resolve, 350));
+  });
+
+  it('should select a consumer-provided custom option normally', () => {
+    createFixture();
+    fixture.componentRef.setInput('availablePeriods', [
+      { value: 'week' },
+      { value: 'custom', label: 'Manual' },
+    ]);
+    fixture.componentRef.setInput('intervalStart', '2026-04-28');
+    fixture.componentRef.setInput('intervalEnd', '2026-05-04');
+    fixture.detectChanges();
+    const items = fixture.debugElement.queryAll(
+      By.css('.solaris-chart-shell__periods solaris-segmented-item'),
+    );
+    (items[1].nativeElement as HTMLElement).click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.period()).toBe('custom');
+    expect(
+      document.querySelector(
+        'solaris-date-range-picker .solaris-date-range-picker__panel',
+      ),
+    ).toBeNull();
+    (fixture.componentInstance as any).closeIntervalPicker();
   });
 });

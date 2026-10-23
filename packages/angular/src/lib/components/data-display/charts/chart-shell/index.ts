@@ -8,12 +8,21 @@ export {
   SHELL_VIEW_LABEL_KEYS,
 } from './model/chart-shell.defaults';
 export type {
+  SolarisChartPeriodDuration,
   SolarisChartShellAction,
   SolarisChartShellActionOption,
   SolarisChartShellDensity,
+  SolarisChartShellInterval,
   SolarisChartShellPeriodOption,
   SolarisChartShellSize,
   SolarisChartShellTrend,
   SolarisChartShellViewOption,
 } from './model/chart-shell.types';
 export { isChartPeriod, isChartView } from './model/chart-shell.utils';
+export {
+  addSolarisIntervalDuration,
+  isSolarisIntervalDate,
+  matchChartPeriodForRange,
+  resolveChartIntervalEnd,
+  resolvePeriodPresetRange,
+} from './model/chart-shell.utils';

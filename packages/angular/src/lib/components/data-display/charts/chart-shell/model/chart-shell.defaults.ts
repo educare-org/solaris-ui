@@ -20,10 +20,10 @@ export const DEFAULT_SHELL_VIEWS: readonly SolarisChartShellViewOption[] = [
 ];
 
 export const DEFAULT_SHELL_PERIODS: readonly SolarisChartShellPeriodOption[] = [
-  { value: 'day' },
-  { value: 'week' },
-  { value: 'month' },
-  { value: 'quarter' },
+  { value: 'day', fixedDuration: { days: 0 } },
+  { value: 'week', fixedDuration: { days: 6 } },
+  { value: 'month', fixedDuration: { months: 1 } },
+  { value: 'quarter', fixedDuration: { months: 3 } },
   { value: 'year' },
   { value: 'all' },
 ];
@@ -48,6 +48,7 @@ export const SHELL_PERIOD_LABEL_KEYS: Record<SolarisChartPeriod, string> = {
   quarter: 'solaris.chart.periodQuarter',
   year: 'solaris.chart.periodYear',
   all: 'solaris.chart.periodAll',
+  custom: 'solaris.chart.periodCustom',
 };
 
 export const SHELL_DISPLAY_LABEL_KEYS: Record<SolarisChartDisplayMode, string> =

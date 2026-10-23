@@ -8,7 +8,8 @@ export type SolarisChartPeriod =
   | 'month'
   | 'quarter'
   | 'year'
-  | 'all';
+  | 'all'
+  | 'custom';
 
 export type SolarisChartDisplayMode = 'timeline' | 'list';
 

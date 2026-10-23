@@ -54,6 +54,32 @@ export const Loading: Story = {
   },
 };
 
+export const FunctionalInterval: Story = {
+  args: {
+    locale: 'en-US',
+    title: 'Weekly Agent Activity',
+    heroValue: '12,450',
+    heroLabel: 'tasks',
+    view: 'line',
+    period: 'week',
+    showIntervalPicker: true,
+    intervalStart: '2026-04-28',
+    intervalEnd: '2026-05-04',
+    series: [
+      {
+        id: 'automation',
+        label: 'Task Automation',
+        points: [
+          { x: 28, y: 180 },
+          { x: 29, y: 210 },
+          { x: 30, y: 150 },
+          { x: 1, y: 190 },
+        ],
+      },
+    ],
+  },
+};
+
 export const Empty: Story = {
   args: {
     locale: 'en-US',

@@ -80,7 +80,7 @@ export interface ChartShellPeriodDataset {
 }
 
 export const PERIOD_DATASETS: Readonly<
-  Record<SolarisChartPeriod, ChartShellPeriodDataset>
+  Record<Exclude<SolarisChartPeriod, 'custom'>, ChartShellPeriodDataset>
 > = {
   day: {
     xs: ['8h', '10h', '12h', '14h', '16h', '18h'],
@@ -205,7 +205,7 @@ export const SERIES_LABEL_KEYS = {
 } as const;
 
 export const PERIOD_INTERVAL_KEYS: Readonly<
-  Record<SolarisChartPeriod, string>
+  Record<Exclude<SolarisChartPeriod, 'custom'>, string>
 > = {
   day: 'chart-shell-view.examples.intervalDay',
   week: 'chart-shell-view.examples.intervalWeek',

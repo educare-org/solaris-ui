@@ -1,7 +1,9 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  booleanAttribute,
   computed,
   contentChild,
   forwardRef,
@@ -63,6 +65,7 @@ const EMPTY_RANGE: SolarisDateRange = { start: null, end: null };
   selector: 'solaris-date-range-picker',
   standalone: true,
   imports: [
+    NgTemplateOutlet,
     SolarisButtonDirective,
     SolarisDateCalendarComponent,
     SolarisFormFieldComponent,
@@ -122,6 +125,18 @@ export class SolarisDateRangePickerComponent
   readonly min = input<SolarisDateValue>();
   readonly max = input<SolarisDateValue>();
   readonly disabledDates = input<readonly SolarisDateValue[]>([]);
+  readonly startDisabled = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
+  readonly endDisabled = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
+  readonly startReadonly = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
+  readonly endReadonly = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
   readonly presets = input<readonly SolarisDatePreset[]>([]);
   readonly appearance = input<SolarisDateRangePickerAppearance>('outline');
   readonly radius = input<SolarisDateRangePickerRadius>('md');
@@ -135,6 +150,9 @@ export class SolarisDateRangePickerComponent
     alias: 'invalid',
   });
   readonly clearable = input<boolean>(false);
+  readonly inline = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
   readonly clearLabel = input<string>();
   readonly clearLabelKey = input<string>();
   readonly prefix = input<SolarisIconName>();
@@ -147,6 +165,7 @@ export class SolarisDateRangePickerComponent
   readonly valueChange = output<SolarisDateRange>();
   readonly openedChange = output<boolean>();
   readonly cleared = output<void>();
+  readonly cancelled = output<void>();
 
   protected readonly value = signal<SolarisDateRange>(EMPTY_RANGE);
   protected readonly pending = signal<SolarisDateRange>(EMPTY_RANGE);
@@ -180,6 +199,18 @@ export class SolarisDateRangePickerComponent
   );
   protected readonly isEffectivelyReadonly = computed(() =>
     this.readonlyInput(),
+  );
+  protected readonly isStartDisabled = computed(
+    () => this.isEffectivelyDisabled() || this.startDisabled(),
+  );
+  protected readonly isEndDisabled = computed(
+    () => this.isEffectivelyDisabled() || this.endDisabled(),
+  );
+  protected readonly isStartReadonly = computed(
+    () => this.isEffectivelyReadonly() || this.startReadonly(),
+  );
+  protected readonly isEndReadonly = computed(
+    () => this.isEffectivelyReadonly() || this.endReadonly(),
   );
   protected readonly isEffectivelyInvalid = computed(() => {
     const manual = this.manualInvalid();
@@ -309,6 +340,7 @@ export class SolarisDateRangePickerComponent
     const normalized = this.normalizeRange(value ?? EMPTY_RANGE);
     this.value.set(normalized);
     this.pending.set(normalized);
+    this.activePresetId.set(this.presetIdForRange(normalized));
     this.updateDisplays(normalized);
     const month = normalized.start
       ? monthForSolarisDate(normalized.start)
@@ -328,6 +360,10 @@ export class SolarisDateRangePickerComponent
   }
 
   protected onInput(part: 'start' | 'end', event: Event): void {
+    if (part === 'start' && (this.isStartDisabled() || this.isStartReadonly()))
+      return;
+    if (part === 'end' && (this.isEndDisabled() || this.isEndReadonly()))
+      return;
     this.activePresetId.set('custom');
     const input = event.target as HTMLInputElement;
     const text = this.applyDateMask(input, input.value);
@@ -419,6 +455,25 @@ export class SolarisDateRangePickerComponent
   protected selectDate(value: SolarisDateValue): void {
     this.activePresetId.set('custom');
     const range = this.pending();
+    const startLocked = this.isStartDisabled() || this.isStartReadonly();
+    const endLocked = this.isEndDisabled() || this.isEndReadonly();
+    if (endLocked && !startLocked) {
+      this.updatePending({ start: value, end: range.end });
+      return;
+    }
+    if (startLocked && !endLocked) {
+      if (!range.start) {
+        this.updatePending({ start: null, end: value });
+        return;
+      }
+      this.updatePending(
+        compareSolarisDates(value, range.start) < 0
+          ? { start: value, end: range.start }
+          : { start: range.start, end: value },
+      );
+      return;
+    }
+    if (startLocked && endLocked) return;
     if (!range.start || range.end) {
       this.updatePending({ start: value, end: null });
       return;
@@ -464,11 +519,15 @@ export class SolarisDateRangePickerComponent
   protected cancel(): void {
     this.pending.set(this.value());
     this.updateDisplays(this.value());
+    this.cancelled.emit();
     this.popoverTrigger()?.close();
   }
   protected apply(): void {
     const range = this.pending();
-    if (range.start && !range.end) return;
+    const endLocked = this.isEndDisabled() || this.isEndReadonly();
+    const startLocked = this.isStartDisabled() || this.isStartReadonly();
+    if (range.start && !range.end && !endLocked) return;
+    if (range.end && !range.start && !startLocked) return;
     this.value.set(range);
     this.onChange(range);
     this.valueChange.emit(range);

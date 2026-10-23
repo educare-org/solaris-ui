@@ -20,24 +20,27 @@ example `MM/dd/yyyy` in `en-US`).
 
 ## API
 
-| Input               | Description                                                                    |
-| ------------------- | ------------------------------------------------------------------------------ |
-| `locale`            | BCP 47 locale override used for display and typing.                            |
-| `min` / `max`       | Inclusive ISO date bounds.                                                     |
-| `disabledDates`     | ISO dates unavailable for selection.                                           |
-| `disablePast`       | Disables dates before today.                                                   |
-| `disableFuture`     | Disables dates after today.                                                    |
-| `weekStartsOn`      | `0`–`6` first weekday override (default: locale first day, Sunday fallback).   |
-| `dateFormat`        | `'2-digit'` (default) / `'numeric'` day+month display padding.                 |
-| `clearable`         | Shows a trigger clear (`x`) button when a range is set; emits `cleared`.       |
-| `clearLabel`        | Accessible label override for the trigger clear button (`clearLabelKey`).      |
-| `prefix` / `suffix` | Icon names rendered in the Form Field affixes.                                 |
-| `presets`           | Translated or direct-text predefined ranges, shown as shortcuts.               |
-| `appearance`        | `'outline'` (default) / `'surface'` / `'filled'`.                              |
-| `size`              | `'sm'` / `'md'` (default) / `'lg'`.                                            |
-| `density`           | `'compact'` / `'normal'` / `'comfortable'` (default: inherited theme density). |
-| `radius`            | `'none'` / `'sm'` / `'md'` (default) / `'lg'` / `'xl'` (pill).                 |
-| `loading`           | Shows the field skeleton while dates resolve.                                  |
+| Input                           | Description                                                                                                                                                     |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `locale`                        | BCP 47 locale override used for display and typing.                                                                                                             |
+| `min` / `max`                   | Inclusive ISO date bounds.                                                                                                                                      |
+| `disabledDates`                 | ISO dates unavailable for selection.                                                                                                                            |
+| `disablePast`                   | Disables dates before today.                                                                                                                                    |
+| `disableFuture`                 | Disables dates after today.                                                                                                                                     |
+| `weekStartsOn`                  | `0`–`6` first weekday override (default: locale first day, Sunday fallback).                                                                                    |
+| `dateFormat`                    | `'2-digit'` (default) / `'numeric'` day+month display padding.                                                                                                  |
+| `startDisabled` / `endDisabled` | Disables only the start or the end side (input, typing and calendar selection). Apply accepts a start-only range when the end is disabled.                      |
+| `startReadonly` / `endReadonly` | Read-only variant of the per-side lock (focusable, not editable). The chart shell leaves both sides editable.                                                   |
+| `inline`                        | Renders only the panel (calendars, inputs, actions) without the field trigger or popover, for hosts that own the trigger; pairs with `valueChange`/`cancelled`. |
+| `clearable`                     | Shows a trigger clear (`x`) button when a range is set; emits `cleared`.                                                                                        |
+| `clearLabel`                    | Accessible label override for the trigger clear button (`clearLabelKey`).                                                                                       |
+| `prefix` / `suffix`             | Icon names rendered in the Form Field affixes.                                                                                                                  |
+| `presets`                       | Translated or direct-text predefined ranges, shown as shortcuts.                                                                                                |
+| `appearance`                    | `'outline'` (default) / `'surface'` / `'filled'`.                                                                                                               |
+| `size`                          | `'sm'` / `'md'` (default) / `'lg'`.                                                                                                                             |
+| `density`                       | `'compact'` / `'normal'` / `'comfortable'` (default: inherited theme density).                                                                                  |
+| `radius`                        | `'none'` / `'sm'` / `'md'` (default) / `'lg'` / `'xl'` (pill).                                                                                                  |
+| `loading`                       | Shows the field skeleton while dates resolve.                                                                                                                   |
 
 Type aliases: `SolarisDateRangePickerAppearance`,
 `SolarisDateRangePickerDensity`, `SolarisDateRangePickerRadius`,
