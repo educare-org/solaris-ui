@@ -5,7 +5,6 @@ const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
 
 export default defineConfig({
   testDir: './src',
-  retries: process.env['CI'] ? 1 : 0,
   use: {
     baseURL,
     trace: 'on-first-retry',
