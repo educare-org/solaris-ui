@@ -38,17 +38,28 @@
     },
     "copied": "Copiado!",
     "copy": "Copiar",
+    "copy-angular": "Copiar Angular",
+    "copy-svg": "Copiar SVG",
     "customizer": "Personalizar",
-    "customizer-note": "Ajuste a largura e a cor aplicadas a todos os ícones renderizados nesta página.",
+    "customizer-note": "Ajuste a variante, a largura, a espessura e a cor aplicadas a todos os ícones renderizados nesta página.",
     "description": "Explore todos os ícones nativos. Use a busca ou os filtros de categoria para encontrar um ícone e clique nele para ver como usar.",
+    "edit-in-studio": "Editar no studio",
     "explore": "Explorar ícones",
+    "fallback": "Adaptado",
     "no-results": "Nenhum ícone corresponde à sua busca.",
     "result-count": "{{count}} ícones",
     "search-label": "Busca",
-    "search-placeholder": "Buscar ícones",
+    "search-placeholder": "Buscar ícones por nome ou palavra-chave",
+    "stroke": "Espessura",
     "title": "Ícones",
     "usage": "Como usar",
     "usage-note": "Renderize o ícone com o SolarisIconComponent. Use decorative quando ele for puramente visual.",
+    "variant": {
+      "duotone": "Duotone",
+      "label": "Variante",
+      "outline": "Outline",
+      "solid": "Sólido"
+    },
     "width": "Largura"
   }
 }

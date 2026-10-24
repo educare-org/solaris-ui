@@ -37,8 +37,17 @@ export { SolarisIconComponent } from './lib/components/icon/component/solaris-ic
 export { SolarisAnimatedIconComponent } from './lib/components/icon/component/solaris-animated-icon.component';
 export type { SolarisAnimatedIconName } from './lib/components/icon/model/icon.types';
 export { SolarisIconRegistryService } from './lib/services/icon/service/solaris-icon-registry.service';
+export {
+  sanitizeIconSvgInner,
+  isSafeIconSvgInner,
+} from './lib/services/icon/service/solaris-icon-sanitizer';
+export { iconElementsToInner } from './lib/services/icon/service/solaris-icon-serializer';
 export { SOLARIS_ICONS_CONFIG } from './lib/services/icon/token/solaris-icon.tokens';
 export { SOLARIS_BUILT_IN_ICONS } from './lib/services/icon/icons/solaris-built-in-icons';
+export { SOLARIS_ICONS_METADATA } from './lib/services/icon/icons/generated/solaris-icons-metadata';
+export { SOLARIS_OUTLINE_SVG } from './lib/services/icon/icons/generated/solaris-icons-outline-svg';
+export { SOLARIS_SOLID_SVG } from './lib/services/icon/icons/generated/solaris-icons-solid-svg';
+export { SOLARIS_DUOTONE_SVG } from './lib/services/icon/icons/generated/solaris-icons-duotone-svg';
 export type { SolarisIconDefinition } from './lib/services/icon/model/solaris-icon-definition.interface';
 export type {
   SvgElement,
@@ -52,6 +61,12 @@ export type {
   SolarisIconName,
   SolarisBuiltInIcon,
 } from './lib/services/icon/model/solaris-icon.types';
+export type {
+  SolarisIconVariant,
+  SolarisIconClass,
+  SolarisIconMetadata,
+  SolarisIconVariantContent,
+} from './lib/services/icon/model/solaris-icon-variant.types';
 export type { SolarisIconsConfig } from './lib/services/icon/token/solaris-icon.tokens';
 
 export { SolarisBadgeComponent } from './lib/components/data-display/badge/component/badge.component';

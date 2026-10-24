@@ -44,7 +44,10 @@ export class IconsPageObject {
   }
 
   copyButtonIcon(): Locator {
-    return this.page.locator('.icon-usage-sheet__copy solaris-icon');
+    return this.page
+      .locator('.icon-usage-sheet__copy')
+      .first()
+      .locator('solaris-icon');
   }
 
   copyButtonCopiedState(): Locator {
@@ -60,11 +63,37 @@ export class IconsPageObject {
   }
 
   usageSnippet(): Locator {
-    return this.page.locator('.icon-usage-sheet__code code');
+    return this.page.locator('.icon-usage-sheet__code code').first();
+  }
+
+  svgSnippet(): Locator {
+    return this.page.locator('.icon-usage-sheet__code code').nth(1);
   }
 
   copyButton(): Locator {
-    return this.page.locator('.icon-usage-sheet__copy');
+    return this.page.locator('.icon-usage-sheet__copy').first();
+  }
+
+  copySvgButton(): Locator {
+    return this.page.locator('.icon-usage-sheet__copy').nth(1);
+  }
+
+  variantTab(name: string): Locator {
+    return this.page
+      .locator('.icons-showcase__customizer')
+      .getByRole('tab', { name });
+  }
+
+  strokeSlider(): Locator {
+    return this.page.getByRole('slider', { name: 'Icon stroke width' });
+  }
+
+  fallbackBadges(): Locator {
+    return this.page.locator('.icons-showcase__item-badge');
+  }
+
+  itemSvg(name: string): Locator {
+    return this.iconItem(name).locator('svg');
   }
 
   widthSlider(): Locator {

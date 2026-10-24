@@ -38,17 +38,28 @@
     },
     "copied": "Copied!",
     "copy": "Copy",
+    "copy-angular": "Copy Angular",
+    "copy-svg": "Copy SVG",
     "customizer": "Customizer",
-    "customizer-note": "Adjust the width and color applied to every icon rendered on this page.",
+    "customizer-note": "Adjust the variant, width, stroke and color applied to every icon rendered on this page.",
     "description": "Browse all built-in icons. Use the search box or category filters to find an icon, then click it to see how to use it.",
+    "edit-in-studio": "Edit in studio",
     "explore": "Explore icons",
+    "fallback": "Adapted",
     "no-results": "No icons match your search.",
     "result-count": "{{count}} icons",
     "search-label": "Search",
-    "search-placeholder": "Search icons",
+    "search-placeholder": "Search icons by name or keyword",
+    "stroke": "Stroke",
     "title": "Icons",
     "usage": "Usage",
     "usage-note": "Render the icon with the SolarisIconComponent. Set decorative when it is purely visual.",
+    "variant": {
+      "duotone": "Duotone",
+      "label": "Variant",
+      "outline": "Outline",
+      "solid": "Solid"
+    },
     "width": "Width"
   }
 }

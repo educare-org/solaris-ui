@@ -41,6 +41,45 @@
       </div>
 
       <div class="icons-showcase__customizer-field">
+        <span class="icons-showcase__customizer-label" id="icons-variant-label">
+          {{ 'icons.variant.label' | translate }}
+        </span>
+        <solaris-tabs
+          appearance="pills"
+          [(value)]="selectedVariant"
+          [ariaLabel]="'icons.variant.label' | translate"
+        >
+          @for (variant of iconVariants; track variant) {
+          <solaris-tab
+            [value]="variant"
+            [label]="'icons.variant.' + variant | translate"
+          ></solaris-tab>
+          }
+        </solaris-tabs>
+      </div>
+
+      <div class="icons-showcase__customizer-field">
+        <label class="icons-showcase__customizer-label" for="icons-stroke">
+          {{ 'icons.stroke' | translate }}
+        </label>
+        <div class="icons-showcase__customizer-range">
+          <input
+            id="icons-stroke"
+            type="range"
+            min="1"
+            max="3"
+            step="0.25"
+            [value]="iconStrokeWidth()"
+            (input)="onStrokeChange($event)"
+            aria-label="Icon stroke width"
+          />
+          <code class="icons-showcase__customizer-value"
+            >{{ iconStrokeWidth() }}</code
+          >
+        </div>
+      </div>
+
+      <div class="icons-showcase__customizer-field">
         <span class="icons-showcase__customizer-label" id="icons-color-label">
           {{ 'icons.color.label' | translate }}
         </span>
@@ -198,6 +237,8 @@
         >
           <solaris-icon
             [name]="icon.name"
+            [variant]="selectedVariant()"
+            [strokeWidth]="iconStrokeWidth()"
             [decorative]="true"
             class="icons-showcase__item-icon"
             [style.width]="iconWidthCss()"
@@ -205,6 +246,11 @@
             [style.color]="iconColor() ?? null"
           />
           <code class="icons-showcase__item-name">{{ icon.name }}</code>
+          @if (icon.isFallback) {
+          <span class="icons-showcase__item-badge"
+            >{{ 'icons.fallback' | translate }}</span
+          >
+          }
         </button>
         } @empty {
         <p class="icons-showcase__empty">
