@@ -8,7 +8,7 @@
     "sourceMap": false,
     "inlineSources": false,
     "module": "commonjs",
-    "moduleResolution": "node10"
+    "moduleResolution": "bundler"
   },
   "include": ["schematics/**/*.ts"],
   "exclude": ["schematics/**/*.spec.ts"]

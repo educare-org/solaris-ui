@@ -4,11 +4,7 @@ import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { configureSolarisTesting } from '../../../../../testing/solaris-test-utilities';
 import { SolarisTranslateService } from '../../../../../services/translation';
 import { SolarisChartShellComponent } from '../component/chart-shell.component';
-import type {
-  SolarisChartPeriod,
-  SolarisChartSeries,
-  SolarisChartView,
-} from '../../model/chart.types';
+import type { SolarisChartSeries } from '../../model/chart.types';
 
 const SERIES: readonly SolarisChartSeries[] = [
   {
@@ -228,12 +224,8 @@ describe('SolarisChartShellComponent', () => {
 
   it('should update the view model through the switcher', () => {
     const el = createFixture();
-    const views: SolarisChartView[] = [];
-    fixture.componentInstance.viewChange.subscribe((view) =>
-      views.push(view as SolarisChartView),
-    );
     selectView('bar');
-    expect(views).toEqual(['bar']);
+    expect(fixture.componentInstance.view()).toBe('bar');
     expect(el.getAttribute('data-view')).toBe('bar');
   });
 
@@ -294,16 +286,12 @@ describe('SolarisChartShellComponent', () => {
 
   it('should update the display mode through the switcher', () => {
     createFixture();
-    const modes: string[] = [];
-    fixture.componentInstance.displayModeChange.subscribe((mode) =>
-      modes.push(mode as string),
-    );
     const control = fixture.debugElement.query(
       By.css('solaris-segmented-control.solaris-chart-shell__display'),
     );
     control.triggerEventHandler('valueChange', 'list');
     fixture.detectChanges();
-    expect(modes).toEqual(['list']);
+    expect(fixture.componentInstance.displayMode()).toBe('list');
     expect(
       (fixture.nativeElement as HTMLElement).getAttribute('data-display-mode'),
     ).toBe('list');
@@ -328,16 +316,12 @@ describe('SolarisChartShellComponent', () => {
 
   it('should update the period model through the filter', () => {
     createFixture();
-    const periods: SolarisChartPeriod[] = [];
-    fixture.componentInstance.periodChange.subscribe((period) =>
-      periods.push(period as SolarisChartPeriod),
-    );
     const items = fixture.debugElement.queryAll(
       By.css('.solaris-chart-shell__periods solaris-segmented-item'),
     );
     items[2].nativeElement.click();
     fixture.detectChanges();
-    expect(periods).toEqual(['month']);
+    expect(fixture.componentInstance.period()).toBe('month');
   });
 
   it('should render literal description and aria label inputs', () => {
@@ -700,10 +684,6 @@ describe('SolarisChartShellComponent', () => {
 
   it('should switch the period to the matching preset on picker apply', () => {
     createFixture();
-    const periods: unknown[] = [];
-    fixture.componentInstance.periodChange.subscribe((period) =>
-      periods.push(period),
-    );
     fixture.componentRef.setInput('availablePeriods', [
       { value: 'month', fixedDuration: { months: 1 } },
       { value: 'all' },
@@ -715,15 +695,10 @@ describe('SolarisChartShellComponent', () => {
       end: '2026-05-28',
     });
     expect(fixture.componentInstance.period()).toBe('month');
-    expect(periods).toEqual(['month']);
   });
 
   it('should adopt the preset period instead of recomputing a locked end', () => {
     createFixture();
-    const periods: unknown[] = [];
-    fixture.componentInstance.periodChange.subscribe((period) =>
-      periods.push(period),
-    );
     fixture.componentRef.setInput('intervalStart', '2026-01-01');
     fixture.componentRef.setInput('intervalEnd', '2026-01-07');
     fixture.detectChanges();
@@ -733,7 +708,6 @@ describe('SolarisChartShellComponent', () => {
     });
     expect(fixture.componentInstance.intervalEnd()).toBe('2026-02-01');
     expect(fixture.componentInstance.period()).toBe('month');
-    expect(periods).toEqual(['month']);
   });
 
   it('should fall back to a custom period for unmatched ranges', () => {

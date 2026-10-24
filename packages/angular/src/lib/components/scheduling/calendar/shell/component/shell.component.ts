@@ -140,7 +140,6 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
     'UTC',
   ]);
 
-  readonly viewChange = output<SolarisCalendarView>();
   readonly daySelect = output<string>();
   readonly eventOpen = output<{ id: string; start: string }>();
   readonly slotSelect = output<SolarisWeekViewSlotSelect>();
@@ -395,7 +394,6 @@ export class SolarisCalendarComponent implements OnInit, OnDestroy {
   protected selectView(value: unknown): void {
     const next = normalizeShellView(value);
     this.view.set(next);
-    this.viewChange.emit(next);
     this.announcement.set(this.viewLabel(next));
   }
 

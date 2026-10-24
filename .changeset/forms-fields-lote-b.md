@@ -1,5 +1,0 @@
----
-'@educarehq/solaris-ui': minor
----
-
-P4 Lote B: `solaris-select` and `solaris-multi-select` forward `loading` to the inner Form Field (overlay spinner, `aria-busy`, zero layout shift) and re-project `[solaris-form-suffix]` + `[solaris-form-suffix-action]` (action requires both attributes to cross `ngProjectAs`; presets bridge the variant through a single-hop `contentChild` into the new Form Field `hasSuffixAction` input, since content queries do not see transitively projected directives). `clearable` verified on both selects (already shipped, now covered by specs). `solaris-option`/`solaris-option-group` stay `control-height`-free (font/padding only, no `var()` fallbacks) with theme-density defaults and explicit-wins specs. Re-export the missing `*Size` aliases (`Select`, `MultiSelect`, `DatePicker`, `EmailField`, `PasswordField`, `PhoneField`, `OtpInput`). Rebuild the select, multi-select, and option showcases on the docs-page-layout pattern (option-group covered as a section of the option page), with mirrored en-US + pt-BR i18n. Follow-up: textarea `autoGrow` + `maxRows` stays docs-only.

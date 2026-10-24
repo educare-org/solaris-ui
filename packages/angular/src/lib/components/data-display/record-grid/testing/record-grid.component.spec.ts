@@ -1038,18 +1038,12 @@ describe('SolarisRecordGridComponent coverage: drafts', () => {
     ).toBe('Grid is locked');
   });
 
-  it('should sync the records model and emit recordsChange on commit', () => {
+  it('should sync the records model on commit', () => {
     const { fixture, element } = createCoverageFixture({ records: ROWS });
-    const emitted: (readonly FixtureRow[])[] = [];
-    fixture.componentInstance.recordsChange.subscribe((rows) =>
-      emitted.push(rows),
-    );
     const input = openPresentEditor(fixture, element) as HTMLInputElement;
     input.value = '9';
     input.dispatchEvent(new Event('change'));
     fixture.detectChanges();
-    expect(emitted.length).toBe(1);
-    expect(emitted[0]?.[0]?.present).toBe(9);
     expect(fixture.componentInstance.records()?.[0]?.present).toBe(9);
   });
 });

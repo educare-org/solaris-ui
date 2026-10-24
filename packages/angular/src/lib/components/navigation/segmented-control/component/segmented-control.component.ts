@@ -121,7 +121,6 @@ export class SolarisSegmentedControlComponent
   readonly orientation =
     input<SolarisSegmentedControlOrientation>('horizontal');
 
-  readonly valueChange = output<unknown>();
   readonly segmentedChange = output<SolarisSegmentedControlChangeEvent>();
 
   protected readonly instanceId = nextIdFor('solaris-segmented-control');
@@ -236,7 +235,6 @@ export class SolarisSegmentedControlComponent
     const newValue = item.value();
     if (this.compareFn()(newValue, previousValue)) return;
     this.value.set(newValue);
-    this.valueChange.emit(newValue);
     this.segmentedChange.emit({ value: newValue, previousValue });
     this.onChange(newValue);
     this.markAsTouched();

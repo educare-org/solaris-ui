@@ -186,7 +186,6 @@ export class SolarisRecordGridComponent<T = unknown> {
   readonly selectionChange = output<SolarisTableSelectionChange<T>>();
   readonly rowClick = output<SolarisTableRowClickEvent<T>>();
   readonly recordCommit = output<SolarisRecordGridCommit<T>>();
-  readonly recordsChange = output<readonly T[]>();
 
   protected readonly editingKey = signal<string | null>(null);
   protected readonly drafts = signal<Record<string, string>>({});
@@ -783,10 +782,7 @@ export class SolarisRecordGridComponent<T = unknown> {
 
   private applyWorkingRows(nextRows: readonly T[]): void {
     this.workingRows.set(nextRows);
-    if (this.records() !== undefined) {
-      this.records.set(nextRows);
-    }
-    this.recordsChange.emit(nextRows);
+    this.records.set(nextRows);
   }
 
   protected toggleRowSelection(entry: SolarisRecordGridEntry<T>): void {

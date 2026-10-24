@@ -25,7 +25,8 @@
       "executor": "@nx/angular:unit-test",
       "options": {
         "watch": false,
-        "runnerConfig": true
+        "runnerConfig": true,
+        "exclude": ["**/*.ssr.spec.ts"]
       }
     },
     "test:coverage": {
@@ -48,6 +49,16 @@
         "commands": [
           "pnpm build:schematics",
           "vitest run --config packages/angular/vitest.schematics.config.ts"
+        ],
+        "parallel": false
+      }
+    },
+    "test:ssr": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx build angular",
+          "vitest run --config packages/angular/vitest.ssr.config.ts"
         ],
         "parallel": false
       }
