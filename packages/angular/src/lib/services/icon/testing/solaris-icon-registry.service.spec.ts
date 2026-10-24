@@ -385,4 +385,39 @@ describe('SolarisIconRegistryService', () => {
     expect(service.hasIcon('check')).toBe(true);
     expect(service.hasIcon('x')).toBe(true);
   });
+
+  it('should reject extraIcons with invalid names', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        provideSolarisIcons({
+          extraIcons: [
+            {
+              name: 'evil<script>',
+              viewBox: '0 0 24 24',
+              elements: [{ type: 'path', d: 'M0 0h24v24H0z' }],
+            },
+          ],
+        }),
+      ],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    expect(service.hasIcon('evil<script>')).toBe(false);
+  });
+
+  it('should reject icons with unsafe element values', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+    service.registerIcon({
+      name: 'unsafe-icon',
+      viewBox: '0 0 24 24',
+      elements: [{ type: 'path', d: 'M0 0h24v24H0z javascript:alert(1)' }],
+    });
+
+    expect(service.hasIcon('unsafe-icon')).toBe(false);
+  });
 });

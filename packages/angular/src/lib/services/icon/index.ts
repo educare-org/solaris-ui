@@ -16,4 +16,10 @@ export type {
   SolarisIconName,
   SolarisBuiltInIcon,
 } from './model/solaris-icon.types';
+export type {
+  SolarisIconVariant,
+  SolarisIconClass,
+  SolarisIconMetadata,
+  SolarisIconVariantContent,
+} from './model/solaris-icon-variant.types';
 export type { SolarisIconsConfig } from './token/solaris-icon.tokens';
