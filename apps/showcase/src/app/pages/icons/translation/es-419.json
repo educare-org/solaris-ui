@@ -1,0 +1,64 @@
+{
+  "icons": {
+    "animated": {
+      "menu-toggle": {
+        "closed": "Menú cerrado",
+        "description": "Un botón de icono con dos líneas que se transforma en una X. Úsalo para abrir y cerrar la navegación lateral.",
+        "open": "Menú abierto",
+        "title": "Menú / cerrar"
+      },
+      "title": "Controles animados"
+    },
+    "categories": "Categorías",
+    "category": {
+      "actions": "Acciones",
+      "all": "Todos",
+      "animated": "Animado",
+      "brands": "Marcas",
+      "communication": "Comunicación",
+      "data": "Datos",
+      "documents": "Documentos",
+      "layout": "Layout",
+      "media": "Multimedia",
+      "navigation": "Navegación",
+      "people": "Personas",
+      "status": "Status",
+      "theme": "Tema"
+    },
+    "close": "Cerrar panel de uso",
+    "color": {
+      "danger": "Peligro",
+      "info": "Info",
+      "inherit": "Heredar",
+      "label": "Color",
+      "orange": "Naranja",
+      "primary": "Primario",
+      "success": "Éxito",
+      "warning": "Advertencia"
+    },
+    "copied": "¡Copiado!",
+    "copy": "Copiar",
+    "copy-angular": "Copiar Angular",
+    "copy-svg": "Copiar SVG",
+    "customizer": "Personalizador",
+    "customizer-note": "Ajusta la variante, el ancho, el grosor y el color aplicados a cada icono mostrado en esta página.",
+    "description": "Explora todos los iconos integrados. Usa el cuadro de búsqueda o los filtros de categoría para encontrar un icono y haz clic en él para ver cómo usarlo.",
+    "edit-in-studio": "Editar en el studio",
+    "explore": "Explorar iconos",
+    "no-results": "Ningún icono coincide con tu búsqueda.",
+    "result-count": "{{count}} iconos",
+    "search-label": "Buscar",
+    "search-placeholder": "Buscar iconos por nombre o palabra clave",
+    "stroke": "Grosor",
+    "title": "Iconos",
+    "usage": "Uso",
+    "usage-note": "Renderiza el icono con SolarisIconComponent. Define decorative cuando sea puramente visual.",
+    "variant": {
+      "duotone": "Duotone",
+      "label": "Variante",
+      "outline": "Outline",
+      "solid": "Sólido"
+    },
+    "width": "Ancho"
+  }
+}

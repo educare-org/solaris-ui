@@ -1,46 +1,19 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.phone-field-showcase {
-  @include layout.page;
-}
-
-.phone-field-showcase__header {
-  @include layout.header;
-}
-
-.phone-field-showcase__title {
-  @include layout.title;
-}
-
-.phone-field-showcase__description {
-  @include layout.description;
-}
-
-.phone-field-showcase__section {
-  @include layout.section-card;
-}
-
-.phone-field-showcase__section-title {
-  @include layout.section-title;
-}
-
 .phone-field-showcase__note {
   @include layout.note;
 
-  margin-bottom: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.phone-field-showcase__demo {
+.phone-field-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
+}
+
+.phone-field-showcase__controls {
   display: flex;
-  flex-direction: column;
-  gap: var(--solaris-spacing-3);
-  margin-bottom: var(--solaris-spacing-3);
-}
-
-.phone-field-showcase__demo--row {
-  flex-flow: row wrap;
-}
-
-form {
-  width: 100%;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
 }

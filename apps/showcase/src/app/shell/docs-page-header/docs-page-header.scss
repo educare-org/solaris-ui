@@ -1,0 +1,81 @@
+:host {
+  display: block;
+}
+
+.docs-page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+}
+
+.docs-page-header__breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  align-items: center;
+  gap: var(--solaris-spacing-2);
+  margin: var(--solaris-spacing-0);
+  padding: var(--solaris-spacing-0);
+}
+
+.docs-page-header__breadcrumb-item {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--solaris-spacing-2);
+  color: var(--solaris-neutral-text-secondary);
+  margin: var(--solaris-spacing-0);
+  padding: var(--solaris-spacing-0);
+  font-size: var(--solaris-font-size-sm);
+}
+
+.docs-page-header__breadcrumb-link {
+  text-decoration: none;
+  color: var(--solaris-neutral-text-secondary);
+  border-radius: var(--solaris-radius-sm);
+}
+
+.docs-page-header__breadcrumb-link:hover {
+  text-decoration: underline;
+  color: var(--solaris-neutral-text-heading);
+}
+
+.docs-page-header__breadcrumb-link:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.docs-page-header__breadcrumb-separator {
+  color: var(--solaris-neutral-border-strong);
+}
+
+.docs-page-header__title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-4);
+  justify-content: space-between;
+}
+
+.docs-page-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-8);
+}
+
+.docs-page-header__title {
+  margin: var(--solaris-spacing-0);
+  color: var(--solaris-neutral-text-heading);
+  font-size: var(--solaris-font-size-3xl);
+  line-height: var(--solaris-line-height-sm);
+  font-weight: var(--solaris-font-weight-bold);
+}
+
+.docs-page-header__description {
+  margin: var(--solaris-spacing-0);
+  color: var(--solaris-neutral-text-secondary);
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-md);
+  max-width: calc(var(--solaris-spacing-16) * 9);
+}

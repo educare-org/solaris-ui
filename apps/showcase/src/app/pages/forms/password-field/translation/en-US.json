@@ -1,0 +1,110 @@
+{
+  "password-field": {
+    "affix": {
+      "action": "Generate",
+      "action-label": "Password with action",
+      "note": "Prefix and suffix icons via inputs. The built-in visibility toggle is already a suffix action; custom interactive content uses the same slot with both [solaris-form-suffix] and [solaris-form-suffix-action].",
+      "prefix-label": "Password with prefix"
+    },
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "demo": {
+      "label": "Password",
+      "placeholder": "Enter your password"
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Form Field preset for passwords with built-in visibility toggle, policy validation, requirements list, and strength indicator. Composes Form Field + Input.",
+    "error": {
+      "invalid": "This field has an error."
+    },
+    "examples": {
+      "note": "Basic password field with autocomplete for the login context."
+    },
+    "installation": {
+      "note": "Install the Solaris UI package and import the password field component."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "radius": {
+      "lg": "Large",
+      "md": "Medium",
+      "none": "None",
+      "note": "Radius is delegated to the inner Form Field: md maps to 8px and lg renders as a pill.",
+      "sm": "Small"
+    },
+    "requirements": {
+      "hint": "Create a strong password.",
+      "note": "Provide a policy with [showRequirements] for the checklist and [showStrength] for the heuristic meter. minLength and maxLength fold into the effective policy. Works with Reactive Forms through ControlValueAccessor and solarisPasswordValidator.",
+      "registration-label": "New password",
+      "strength-label": "Password with strength"
+    },
+    "section": {
+      "affix": "Prefix, suffix and actions",
+      "appearances": "Appearances",
+      "density": "Density",
+      "examples": "Examples",
+      "installation": "Installation",
+      "props": "Props",
+      "radius": "Radius",
+      "requirements": "Requirements and strength",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States",
+      "toggle": "Visibility toggle"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3x3 matrix: the inner Form Field owns the outer height while the preset keeps font and padding in sync. The toggle icon scales with the same matrix."
+    },
+    "states": {
+      "default": "Default",
+      "disabled": "Disabled",
+      "invalid": "Invalid",
+      "loading": "Loading",
+      "note": "Disabled and readonly are real, not visual-only. Loading renders a spinner overlay in the suffix slot without shifting the layout.",
+      "readonly": "Readonly"
+    },
+    "title": "Password Field",
+    "toggle": {
+      "hidden-label": "Password without toggle",
+      "note": "The built-in toggle is a suffix action: no divider, action variant, and an icon sized by the 9-combo size x density matrix. Hide it with [showToggle]=\"false\" and bind [visible] for a controlled field."
+    }
+  },
+  "solaris": {
+    "password-field": {
+      "requirement": {
+        "lowercase": "One lowercase letter.",
+        "maxLength": "At most {{ count }} characters.",
+        "minLength": "At least {{ count }} characters.",
+        "noWhitespace": "No spaces.",
+        "number": "One number.",
+        "symbol": "One symbol.",
+        "uppercase": "One uppercase letter."
+      },
+      "strength": {
+        "medium": "Medium",
+        "strong": "Strong",
+        "weak": "Weak"
+      },
+      "toggle": {
+        "hide": "Hide password",
+        "show": "Show password"
+      }
+    }
+  }
+}

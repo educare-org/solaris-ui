@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 
 import { configureSolarisTesting } from '../../../../testing/solaris-test-utilities';
 import { SolarisOptionComponent } from '../component/option.component';
+import { SolarisOptionGroupComponent } from '../../option-group/component/option-group.component';
 import {
   SolarisOptionLeadingDirective,
   SolarisOptionLabelDirective,
@@ -124,29 +125,66 @@ describe('SolarisOptionComponent', () => {
     expect(el.hasAttribute('data-highlighted')).toBe(true);
   });
 
-  it('should support all sizes', () => {
-    const el = createFixture();
-    const values = ['sm', 'md', 'lg'] as const;
-    for (const v of values) {
-      fixture.componentRef.setInput('size', v);
-      fixture.detectChanges();
-      expect(el.getAttribute('data-size')).toBe(v);
-    }
-  });
-
-  it('should support all density values', () => {
-    const el = createFixture();
-    const values = ['compact', 'normal', 'comfortable'] as const;
-    for (const v of values) {
-      fixture.componentRef.setInput('density', v);
-      fixture.detectChanges();
-      expect(el.getAttribute('data-density')).toBe(v);
-    }
-  });
-
-  it('should have default size md', () => {
+  it('should default to size md standalone', () => {
     const el = createFixture();
     expect(el.getAttribute('data-size')).toBe('md');
+  });
+
+  it('should default density to the theme density standalone', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-density')).toBe('normal');
+  });
+
+  it('should inherit density from the theme when it has no parent', () => {
+    configureSolarisTesting({ theme: { density: 'compact' } });
+    const themed = TestBed.createComponent(SolarisOptionComponent);
+    themed.detectChanges();
+    expect(themed.nativeElement.getAttribute('data-density')).toBe('compact');
+  });
+
+  it('should inherit size and density from the parent option-group', () => {
+    configureSolarisTesting();
+    @Component({
+      standalone: true,
+      imports: [SolarisOptionGroupComponent, SolarisOptionComponent],
+      template: `
+        <solaris-option-group size="sm" density="compact">
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-option-group>
+      `,
+    })
+    class InheritanceHost {}
+    const hostFixture = TestBed.createComponent(InheritanceHost);
+    hostFixture.detectChanges();
+    const option = hostFixture.nativeElement.querySelector('solaris-option');
+    expect(option.getAttribute('data-size')).toBe('sm');
+    expect(option.getAttribute('data-density')).toBe('compact');
+  });
+
+  it('should resolve nested option-groups through the outer parent', () => {
+    configureSolarisTesting();
+    @Component({
+      standalone: true,
+      imports: [SolarisOptionGroupComponent, SolarisOptionComponent],
+      template: `
+        <solaris-option-group size="lg" density="comfortable">
+          <solaris-option-group>
+            <solaris-option value="a">Option A</solaris-option>
+          </solaris-option-group>
+        </solaris-option-group>
+      `,
+    })
+    class NestedHost {}
+    const hostFixture = TestBed.createComponent(NestedHost);
+    hostFixture.detectChanges();
+    const groups = hostFixture.nativeElement.querySelectorAll(
+      'solaris-option-group',
+    );
+    expect(groups[1].getAttribute('data-size')).toBe('lg');
+    expect(groups[1].getAttribute('data-density')).toBe('comfortable');
+    const option = hostFixture.nativeElement.querySelector('solaris-option');
+    expect(option.getAttribute('data-size')).toBe('lg');
+    expect(option.getAttribute('data-density')).toBe('comfortable');
   });
 
   it('should have default selectionMode none', () => {

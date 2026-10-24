@@ -1,4 +1,4 @@
 :host {
   display: block;
-  min-height: 320px;
+  min-height: calc(var(--solaris-spacing-18) * 2 + var(--solaris-spacing-15));
 }

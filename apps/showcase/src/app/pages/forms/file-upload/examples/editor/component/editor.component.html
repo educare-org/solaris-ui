@@ -1,0 +1,6 @@
+<button type="button" solaris-button (click)="openEditor()">
+  {{ 'file-upload.editor.open' | translate }}
+</button>
+@if (savedInfo()) {
+  <p>{{ savedInfo() }}</p>
+}

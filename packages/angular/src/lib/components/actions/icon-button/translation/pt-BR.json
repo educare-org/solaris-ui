@@ -1,0 +1,8 @@
+{
+  "solaris": {
+    "menuToggle": {
+      "close": "Fechar menu",
+      "open": "Abrir menu"
+    }
+  }
+}

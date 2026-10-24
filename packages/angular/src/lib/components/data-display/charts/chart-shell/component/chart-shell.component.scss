@@ -1,0 +1,287 @@
+:host {
+  --solaris-chart-shell-gap: var(--solaris-spacing-7);
+  --solaris-chart-shell-fullscreen-height: 60vh;
+  --solaris-chart-shell-legend-gap: var(--solaris-spacing-5);
+  --solaris-chart-shell-hero-size: var(--solaris-font-size-2xl);
+  --solaris-chart-shell-label-size: var(--solaris-font-size-xs);
+  --solaris-chart-shell-label-color: var(--solaris-neutral-text-secondary);
+  --solaris-chart-shell-dot-size: var(--solaris-spacing-5);
+
+  display: block;
+}
+
+.solaris-chart-shell__topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--solaris-spacing-5) var(--solaris-chart-shell-gap);
+}
+
+.solaris-chart-shell__heading {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+}
+
+.solaris-chart-shell__interval {
+  color: var(--solaris-chart-shell-label-color);
+  font-size: var(--solaris-chart-shell-label-size);
+}
+
+.solaris-chart-shell__interval-trigger {
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  text-align: start;
+  background: transparent;
+  color: var(--solaris-chart-shell-label-color);
+  font-size: var(--solaris-chart-shell-label-size);
+  text-decoration: underline transparent;
+  text-underline-offset: var(--solaris-spacing-2);
+  transition:
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    text-decoration-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+
+  &:hover {
+    color: var(--solaris-neutral-text-body);
+    text-decoration-color: currentcolor;
+  }
+
+  &:focus-visible {
+    outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+      var(--solaris-focus-ring-color);
+    outline-offset: var(--solaris-focus-ring-offset);
+  }
+}
+
+.solaris-chart-shell__toolbar {
+  display: flex;
+  margin-inline-start: auto;
+  align-items: center;
+  gap: var(--solaris-spacing-5);
+}
+
+.solaris-chart-shell__view-select {
+  min-width: var(--solaris-spacing-18);
+}
+
+.solaris-chart-shell__hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--solaris-spacing-3);
+}
+
+.solaris-chart-shell__hero-value {
+  font-size: var(--solaris-chart-shell-hero-size);
+  font-weight: var(--solaris-font-weight-bold);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.solaris-chart-shell__hero-label {
+  font-size: var(--solaris-chart-shell-label-size);
+  color: var(--solaris-chart-shell-label-color);
+}
+
+.solaris-chart-shell__periods {
+  display: block;
+}
+
+.solaris-chart-shell__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--solaris-spacing-5);
+  margin-block: var(--solaris-chart-shell-gap);
+}
+
+.solaris-chart-shell__display {
+  display: block;
+}
+
+:host([data-size='sm']) {
+  --solaris-chart-shell-gap: var(--solaris-spacing-5);
+  --solaris-chart-shell-legend-gap: var(--solaris-spacing-4);
+  --solaris-chart-shell-hero-size: var(--solaris-font-size-xl);
+  --solaris-chart-shell-label-size: var(--solaris-font-size-2xs);
+  --solaris-chart-shell-dot-size: var(--solaris-spacing-4);
+}
+
+:host([data-size='lg']) {
+  --solaris-chart-shell-gap: var(--solaris-spacing-8);
+  --solaris-chart-shell-hero-size: var(--solaris-font-size-3xl);
+  --solaris-chart-shell-label-size: var(--solaris-font-size-sm);
+  --solaris-chart-shell-dot-size: var(--solaris-spacing-6);
+}
+
+:host([data-size='sm']) .solaris-chart-shell__canvas,
+:host([data-size='sm']) .solaris-chart-shell__loading,
+:host([data-size='sm']) .solaris-chart-shell__error,
+:host([data-size='sm']) .solaris-chart-shell__empty {
+  min-height: calc(var(--solaris-spacing-12) * 4.5);
+}
+
+:host([data-size='lg']) .solaris-chart-shell__canvas,
+:host([data-size='lg']) .solaris-chart-shell__loading,
+:host([data-size='lg']) .solaris-chart-shell__error,
+:host([data-size='lg']) .solaris-chart-shell__empty {
+  min-height: calc(var(--solaris-spacing-12) * 6.5);
+}
+
+:host([data-density='compact']) {
+  --solaris-chart-shell-legend-gap: var(--solaris-spacing-3);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-chart-shell-legend-gap: var(--solaris-spacing-6);
+}
+
+.solaris-chart-shell__canvas {
+  min-height: calc(var(--solaris-spacing-12) * 5.5);
+  margin-block-start: var(--solaris-chart-shell-gap);
+}
+
+.solaris-chart-shell__legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--solaris-chart-shell-legend-gap);
+  margin-block-start: var(--solaris-chart-shell-gap);
+}
+
+.solaris-chart-shell__legend-title {
+  color: var(--solaris-chart-shell-label-color);
+  font-size: var(--solaris-chart-shell-label-size);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.solaris-chart-shell__legend-item {
+  cursor: pointer;
+  align-items: center;
+  display: inline-flex;
+  background: transparent;
+  gap: var(--solaris-spacing-4);
+  border-radius: var(--solaris-radius-md);
+  border: var(--solaris-border-width-sm) solid transparent;
+  padding: var(--solaris-spacing-3) var(--solaris-spacing-4);
+  color: var(--solaris-neutral-text-body);
+  font-size: var(--solaris-chart-shell-label-size);
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+
+  &:hover {
+    background: var(--solaris-neutral-subtle);
+    border-color: var(--solaris-neutral-border-default);
+  }
+
+  &:focus-visible {
+    outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+      var(--solaris-focus-ring-color);
+    outline-offset: var(--solaris-focus-ring-offset);
+  }
+
+  &[data-hidden] {
+    opacity: var(--solaris-opacity-50);
+  }
+
+  &[data-hidden] .solaris-chart-shell__legend-label {
+    text-decoration: line-through;
+  }
+}
+
+.solaris-chart-shell__legend-dot {
+  flex: none;
+  border-radius: var(--solaris-radius-full);
+  width: var(--solaris-chart-shell-dot-size);
+  height: var(--solaris-chart-shell-dot-size);
+}
+
+.solaris-chart-shell__loading,
+.solaris-chart-shell__error,
+.solaris-chart-shell__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--solaris-spacing-5);
+  min-height: calc(var(--solaris-spacing-12) * 5.5);
+}
+
+.solaris-chart-shell__error-title,
+.solaris-chart-shell__empty-title {
+  margin: 0;
+  font-weight: var(--solaris-font-weight-semibold);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.solaris-chart-shell__error-message,
+.solaris-chart-shell__empty-message {
+  margin: 0;
+  font-size: var(--solaris-chart-shell-label-size);
+  color: var(--solaris-chart-shell-label-color);
+}
+
+.solaris-chart-shell__empty,
+.solaris-chart-shell__error {
+  align-items: center;
+  text-align: center;
+}
+
+.solaris-chart-shell__announcement {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-chart-shell__legend-item,
+  .solaris-chart-shell__interval-trigger,
+  .solaris-chart-shell__periods,
+  .solaris-chart-shell__display {
+    transition: none;
+  }
+}
+
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. Print must stay ink-safe on every theme (including dark and
+// high-contrast): theme tokens resolve to dark surfaces there, so the print
+// baseline pins paper #fff / ink #000 and drops shadows. Screen rendering
+// is untouched.
+@media print {
+  .solaris-chart-shell__toolbar,
+  .solaris-chart-shell__filters {
+    display: none;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper host for the projected chart.
+  .solaris-chart-shell__canvas {
+    background: #fff;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): ink for hero/interval/legend text.
+  .solaris-chart-shell__hero-value,
+  .solaris-chart-shell__hero-label,
+  .solaris-chart-shell__interval,
+  .solaris-chart-shell__interval-trigger,
+  .solaris-chart-shell__legend-label,
+  .solaris-chart-shell__legend-title {
+    color: #000;
+  }
+
+  .solaris-chart-shell__canvas * {
+    box-shadow: none;
+  }
+}

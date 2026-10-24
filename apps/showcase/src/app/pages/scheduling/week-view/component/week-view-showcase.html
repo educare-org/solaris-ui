@@ -1,0 +1,174 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="week-view.title"
+    descriptionKey="week-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="week-view.section.examples">
+    <p class="week-view-showcase__note">
+      {{ 'week-view.examples.note' | translate }}
+    </p>
+    <div class="week-view-showcase__controls">
+      <solaris-tabs
+        [value]="demoDays()"
+        (valueChange)="selectDays($event)"
+        [ariaLabel]="'week-view.days.label' | translate"
+      >
+        <solaris-tab value="1">1</solaris-tab>
+        <solaris-tab value="3">3</solaris-tab>
+        <solaris-tab value="4">4</solaris-tab>
+        <solaris-tab value="7">7</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [value]="demoAllDay()"
+        (valueChange)="selectAllDay($event)"
+        [ariaLabel]="'week-view.allday.label' | translate"
+      >
+        <solaris-tab value="on"
+          >{{ 'week-view.allday.on' | translate }}</solaris-tab
+        >
+        <solaris-tab value="off"
+          >{{ 'week-view.allday.off' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <div class="week-view-showcase__toolbar">
+        <button type="button" (click)="shiftRange(-1)">
+          {{ 'week-view.toolbar.previous' | translate }}
+        </button>
+        <button type="button" (click)="goToday()">
+          {{ 'week-view.toolbar.today' | translate }}
+        </button>
+        <button type="button" (click)="shiftRange(1)">
+          {{ 'week-view.toolbar.next' | translate }}
+        </button>
+        <strong>{{ rangeLabel() }}</strong>
+      </div>
+      <solaris-calendar-week-view
+        [locale]="demoLocale()"
+        timeZone="America/Sao_Paulo"
+        [focusedDate]="focusedDate()"
+        (focusedDateChange)="focusedDate.set($event)"
+        [visibleDays]="visibleDays()"
+        [showAllDay]="showAllDay()"
+        [events]="events"
+        [tasks]="tasks"
+        [holidays]="holidays()"
+        (daySelect)="onDaySelect($event)"
+        (slotSelect)="onSlotSelect($event)"
+        (eventOpen)="onEventOpen($event)"
+        (moreOpen)="onMoreOpen($event)"
+        (taskToggle)="onTaskToggle($event)"
+      />
+      <p data-testid="event-log">{{ log() }}</p>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="drag" titleKey="week-view.section.drag">
+    <p class="week-view-showcase__note">
+      {{ 'week-view.drag.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="dragCode" language="html">
+      <solaris-calendar-week-view
+        [locale]="demoLocale()"
+        timeZone="America/Sao_Paulo"
+        [focusedDate]="focusedDate()"
+        (focusedDateChange)="focusedDate.set($event)"
+        [visibleDays]="visibleDays()"
+        [events]="events"
+        [tasks]="tasks"
+        [holidays]="holidays()"
+        [snapStepMinutes]="30"
+        (eventCreate)="onEventCreate($event)"
+        (eventMove)="onEventMove($event)"
+        (eventResize)="onEventResize($event)"
+      />
+      <p data-testid="drag-log">{{ dragLog() }}</p>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="week-view.section.size-density"
+  >
+    <p class="week-view-showcase__note">
+      {{ 'week-view.size-density.note' | translate }}
+    </p>
+    <div class="week-view-showcase__controls">
+      <solaris-tabs
+        [value]="selectedSize()"
+        (valueChange)="selectedSize.set($any($event))"
+        [ariaLabel]="'week-view.section.size-density' | translate"
+      >
+        <solaris-tab value="sm">sm</solaris-tab>
+        <solaris-tab value="md">md</solaris-tab>
+        <solaris-tab value="lg">lg</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [value]="selectedDensity()"
+        (valueChange)="selectedDensity.set($any($event))"
+        [ariaLabel]="'week-view.section.size-density' | translate"
+      >
+        <solaris-tab value="compact">compact</solaris-tab>
+        <solaris-tab value="normal">normal</solaris-tab>
+        <solaris-tab value="comfortable">comfortable</solaris-tab>
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-calendar-week-view
+        [locale]="demoLocale()"
+        timeZone="America/Sao_Paulo"
+        focusedDate="2026-10-15"
+        [visibleDays]="visibleDays()"
+        [events]="events"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="locales" titleKey="week-view.section.locales">
+    <p class="week-view-showcase__note">
+      {{ 'week-view.locales.note' | translate }}
+    </p>
+    <div class="week-view-showcase__controls">
+      <solaris-tabs
+        [value]="demoLocale()"
+        (valueChange)="selectLocale($event)"
+        [ariaLabel]="'week-view.section.locales' | translate"
+      >
+        <solaris-tab value="pt-BR">pt-BR</solaris-tab>
+        <solaris-tab value="en-US">en-US</solaris-tab>
+        <solaris-tab value="es">es</solaris-tab>
+      </solaris-tabs>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="week-view.section.installation"
+  >
+    <p class="week-view-showcase__note">
+      {{ 'week-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="week-view.section.props">
+    <p class="week-view-showcase__note">
+      {{ 'week-view.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

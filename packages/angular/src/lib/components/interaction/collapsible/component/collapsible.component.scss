@@ -1,14 +1,22 @@
 :host {
   --solaris-collapsible-radius: var(--solaris-radius-md);
-  --solaris-collapsible-icon-size: var(--solaris-spacing-4);
-  --solaris-collapsible-trigger-gap: var(--solaris-spacing-2);
-  --solaris-collapsible-trigger-color: var(--solaris-text-muted);
-  --solaris-collapsible-border-color: var(--solaris-border-subtle);
-  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-md);
+  --solaris-collapsible-trigger-color: var(--solaris-neutral-text-secondary);
+  --solaris-collapsible-border-color: var(--solaris-neutral-border-subtle);
   --solaris-collapsible-trigger-font-weight: var(--solaris-font-weight-medium);
-  --solaris-collapsible-trigger-padding: var(--solaris-spacing-2)
-    var(--solaris-spacing-3);
-  --solaris-collapsible-header-inset-top: var(--solaris-spacing-3);
+  --solaris-collapsible-trigger-min-height: var(
+    --solaris-control-height-normal-md
+  );
+  --solaris-collapsible-trigger-padding-y: var(--solaris-spacing-4);
+  --solaris-collapsible-trigger-padding-x: var(--solaris-density-padding-md);
+  --solaris-collapsible-trigger-gap: var(--solaris-density-gap-md);
+  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-md);
+  --solaris-collapsible-icon-size: var(--solaris-font-size-lg);
+  --solaris-collapsible-panel-font-size: var(--solaris-font-size-sm);
+  --solaris-collapsible-panel-padding-x: var(
+    --solaris-collapsible-trigger-padding-x
+  );
+
+  --solaris-collapsible-panel-padding-bottom: 0;
 
   display: block;
   box-sizing: border-box;
@@ -16,6 +24,12 @@
 
 .solaris-collapsible__header {
   margin: 0;
+}
+
+.solaris-collapsible__header-row {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
 }
 
 .solaris-collapsible__trigger {
@@ -28,9 +42,11 @@
   box-sizing: border-box;
   background: transparent;
   justify-content: space-between;
+  min-height: var(--solaris-collapsible-trigger-min-height);
   gap: var(--solaris-collapsible-trigger-gap);
   color: var(--solaris-collapsible-trigger-color);
-  padding: var(--solaris-collapsible-trigger-padding);
+  padding: var(--solaris-collapsible-trigger-padding-y)
+    var(--solaris-collapsible-trigger-padding-x);
   transition: color var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
   font: var(--solaris-collapsible-trigger-font-weight)
@@ -39,7 +55,7 @@
 }
 
 .solaris-collapsible__trigger:hover:not(:disabled) {
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
 }
 
 .solaris-collapsible__trigger:focus-visible {
@@ -48,6 +64,53 @@
 }
 
 .solaris-collapsible__trigger:disabled {
+  cursor: not-allowed;
+  opacity: var(--solaris-opacity-50);
+}
+
+:host([data-add]) .solaris-collapsible__trigger-label {
+  margin-right: calc(
+    var(--solaris-collapsible-icon-size) +
+      var(--solaris-collapsible-trigger-gap) * 2
+  );
+}
+
+.solaris-collapsible__add-action {
+  position: absolute;
+  top: 50%;
+  right: calc(
+    var(--solaris-collapsible-trigger-padding-x) +
+      var(--solaris-collapsible-icon-size) +
+      var(--solaris-collapsible-trigger-gap)
+  );
+  transform: translateY(-50%);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  border-radius: var(--solaris-radius-sm);
+  background: transparent;
+  color: var(--solaris-collapsible-trigger-color);
+  width: var(--solaris-collapsible-icon-size);
+  height: var(--solaris-collapsible-icon-size);
+  font-size: var(--solaris-collapsible-icon-size);
+  padding: 0;
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-collapsible__add-action:hover:not(:disabled) {
+  color: var(--solaris-neutral-text-body);
+}
+
+.solaris-collapsible__add-action:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) solid var(--solaris-focus-ring-color);
+}
+
+.solaris-collapsible__add-action:disabled {
   cursor: not-allowed;
   opacity: var(--solaris-opacity-50);
 }
@@ -62,12 +125,14 @@
 
 .solaris-collapsible__trigger-leading-icon {
   flex-shrink: 0;
+  font-size: var(--solaris-collapsible-icon-size);
   width: var(--solaris-collapsible-icon-size);
   height: var(--solaris-collapsible-icon-size);
 }
 
 .solaris-collapsible__trigger-icon {
   flex-shrink: 0;
+  font-size: var(--solaris-collapsible-icon-size);
   width: var(--solaris-collapsible-icon-size);
   height: var(--solaris-collapsible-icon-size);
   transition: transform var(--solaris-motion-duration-normal)
@@ -80,21 +145,36 @@
 
 .solaris-collapsible__panel {
   display: grid;
-  grid-template-rows: 0fr;
+  grid-template-rows: minmax(0, 0fr);
   transition: grid-template-rows var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
 
 :host([data-open]) .solaris-collapsible__panel {
-  grid-template-rows: 1fr;
+  grid-template-rows: minmax(0, 1fr);
 }
 
 .solaris-collapsible__panel-inner {
   min-height: 0;
   overflow: hidden;
-  color: var(--solaris-text-muted);
-  font-size: var(--solaris-font-size-sm);
-  padding: 0 var(--solaris-spacing-5) var(--solaris-spacing-3);
+  opacity: 0;
+  color: var(--solaris-neutral-text-secondary);
+  font-size: var(--solaris-collapsible-panel-font-size);
+  padding: 0 var(--solaris-collapsible-panel-padding-x)
+    var(--solaris-collapsible-panel-padding-bottom);
+  transition:
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    padding-bottom var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+:host([data-open]) .solaris-collapsible__panel-inner {
+  opacity: 1;
+}
+
+:host([data-open]) {
+  --solaris-collapsible-panel-padding-bottom: var(--solaris-density-padding-md);
 }
 
 :host([data-appearance='boxed']) {
@@ -103,23 +183,160 @@
     var(--solaris-collapsible-border-color);
 }
 
-:host([data-appearance='boxed']) .solaris-collapsible__header {
-  margin-top: var(--solaris-collapsible-header-inset-top);
-}
-
 :host([data-appearance='lined']) .solaris-collapsible__trigger {
   border-bottom: var(--solaris-border-width-sm) solid
     var(--solaris-collapsible-border-color);
 }
 
-:host([data-appearance='lined']):last-child .solaris-collapsible__trigger {
-  border-bottom: none;
+:host([data-size='sm'][data-density='compact']) {
+  --solaris-collapsible-trigger-min-height: var(
+    --solaris-control-height-compact-sm
+  );
+  --solaris-collapsible-trigger-padding-y: var(--solaris-spacing-3);
+  --solaris-collapsible-trigger-padding-x: var(--solaris-density-padding-sm);
+  --solaris-collapsible-trigger-gap: var(--solaris-density-gap-sm);
+  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-sm);
+  --solaris-collapsible-icon-size: var(--solaris-font-size-md);
+  --solaris-collapsible-panel-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='md'][data-density='compact']) {
+  --solaris-collapsible-trigger-min-height: var(
+    --solaris-control-height-compact-md
+  );
+  --solaris-collapsible-trigger-padding-y: var(--solaris-spacing-3);
+  --solaris-collapsible-trigger-padding-x: var(--solaris-density-padding-md);
+  --solaris-collapsible-trigger-gap: var(--solaris-density-gap-md);
+  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-md);
+  --solaris-collapsible-icon-size: var(--solaris-font-size-lg);
+  --solaris-collapsible-panel-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-collapsible-trigger-min-height: var(
+    --solaris-control-height-compact-lg
+  );
+  --solaris-collapsible-trigger-padding-y: var(--solaris-spacing-3);
+  --solaris-collapsible-trigger-padding-x: var(--solaris-density-padding-lg);
+  --solaris-collapsible-trigger-gap: var(--solaris-density-gap-lg);
+  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-lg);
+  --solaris-collapsible-icon-size: var(--solaris-font-size-xl);
+  --solaris-collapsible-panel-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-collapsible-trigger-min-height: var(
+    --solaris-control-height-normal-sm
+  );
+  --solaris-collapsible-trigger-padding-y: var(--solaris-spacing-4);
+  --solaris-collapsible-trigger-padding-x: var(--solaris-density-padding-sm);
+  --solaris-collapsible-trigger-gap: var(--solaris-density-gap-sm);
+  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-sm);
+  --solaris-collapsible-icon-size: var(--solaris-font-size-md);
+  --solaris-collapsible-panel-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='md'][data-density='normal']) {
+  --solaris-collapsible-trigger-min-height: var(
+    --solaris-control-height-normal-md
+  );
+  --solaris-collapsible-trigger-padding-y: var(--solaris-spacing-4);
+  --solaris-collapsible-trigger-padding-x: var(--solaris-density-padding-md);
+  --solaris-collapsible-trigger-gap: var(--solaris-density-gap-md);
+  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-md);
+  --solaris-collapsible-icon-size: var(--solaris-font-size-lg);
+  --solaris-collapsible-panel-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-collapsible-trigger-min-height: var(
+    --solaris-control-height-normal-lg
+  );
+  --solaris-collapsible-trigger-padding-y: var(--solaris-spacing-4);
+  --solaris-collapsible-trigger-padding-x: var(--solaris-density-padding-lg);
+  --solaris-collapsible-trigger-gap: var(--solaris-density-gap-lg);
+  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-lg);
+  --solaris-collapsible-icon-size: var(--solaris-font-size-xl);
+  --solaris-collapsible-panel-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='sm'][data-density='comfortable']) {
+  --solaris-collapsible-trigger-min-height: var(
+    --solaris-control-height-comfortable-sm
+  );
+  --solaris-collapsible-trigger-padding-y: var(--solaris-spacing-5);
+  --solaris-collapsible-trigger-padding-x: var(--solaris-density-padding-sm);
+  --solaris-collapsible-trigger-gap: var(--solaris-density-gap-sm);
+  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-sm);
+  --solaris-collapsible-icon-size: var(--solaris-font-size-md);
+  --solaris-collapsible-panel-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='md'][data-density='comfortable']) {
+  --solaris-collapsible-trigger-min-height: var(
+    --solaris-control-height-comfortable-md
+  );
+  --solaris-collapsible-trigger-padding-y: var(--solaris-spacing-5);
+  --solaris-collapsible-trigger-padding-x: var(--solaris-density-padding-md);
+  --solaris-collapsible-trigger-gap: var(--solaris-density-gap-md);
+  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-md);
+  --solaris-collapsible-icon-size: var(--solaris-font-size-lg);
+  --solaris-collapsible-panel-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-collapsible-trigger-min-height: var(
+    --solaris-control-height-comfortable-lg
+  );
+  --solaris-collapsible-trigger-padding-y: var(--solaris-spacing-5);
+  --solaris-collapsible-trigger-padding-x: var(--solaris-density-padding-lg);
+  --solaris-collapsible-trigger-gap: var(--solaris-density-gap-lg);
+  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-lg);
+  --solaris-collapsible-icon-size: var(--solaris-font-size-xl);
+  --solaris-collapsible-panel-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='sm']:not([data-density])) {
+  --solaris-collapsible-trigger-min-height: var(
+    --solaris-control-height-normal-sm
+  );
+  --solaris-collapsible-trigger-padding-y: var(--solaris-spacing-4);
+  --solaris-collapsible-trigger-padding-x: var(--solaris-density-padding-sm);
+  --solaris-collapsible-trigger-gap: var(--solaris-density-gap-sm);
+  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-sm);
+  --solaris-collapsible-icon-size: var(--solaris-font-size-md);
+  --solaris-collapsible-panel-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='md']:not([data-density])) {
+  --solaris-collapsible-trigger-min-height: var(
+    --solaris-control-height-normal-md
+  );
+  --solaris-collapsible-trigger-padding-y: var(--solaris-spacing-4);
+  --solaris-collapsible-trigger-padding-x: var(--solaris-density-padding-md);
+  --solaris-collapsible-trigger-gap: var(--solaris-density-gap-md);
+  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-md);
+  --solaris-collapsible-icon-size: var(--solaris-font-size-lg);
+  --solaris-collapsible-panel-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='lg']:not([data-density])) {
+  --solaris-collapsible-trigger-min-height: var(
+    --solaris-control-height-normal-lg
+  );
+  --solaris-collapsible-trigger-padding-y: var(--solaris-spacing-4);
+  --solaris-collapsible-trigger-padding-x: var(--solaris-density-padding-lg);
+  --solaris-collapsible-trigger-gap: var(--solaris-density-gap-lg);
+  --solaris-collapsible-trigger-font-size: var(--solaris-font-size-lg);
+  --solaris-collapsible-icon-size: var(--solaris-font-size-xl);
+  --solaris-collapsible-panel-font-size: var(--solaris-font-size-sm);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .solaris-collapsible__trigger,
   .solaris-collapsible__trigger-icon,
-  .solaris-collapsible__panel {
+  .solaris-collapsible__panel,
+  .solaris-collapsible__panel-inner {
     transition: none;
   }
 }
@@ -127,7 +344,8 @@
 :host-context([data-reduced-motion='true']) {
   .solaris-collapsible__trigger,
   .solaris-collapsible__trigger-icon,
-  .solaris-collapsible__panel {
+  .solaris-collapsible__panel,
+  .solaris-collapsible__panel-inner {
     transition: none;
   }
 }

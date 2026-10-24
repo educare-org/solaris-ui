@@ -1,0 +1,182 @@
+:host {
+  --solaris-avatar-group-badge-gap: var(--solaris-spacing-4);
+  --solaris-avatar-group-badge-overlap: var(--solaris-spacing-4);
+  --solaris-avatar-group-badge-padding-y: var(--solaris-spacing-3);
+  --solaris-avatar-group-badge-padding-x: var(--solaris-spacing-5);
+  --solaris-avatar-group-badge-background: var(--solaris-neutral-sunken);
+  --solaris-avatar-group-badge-border-color: var(
+    --solaris-neutral-border-default
+  );
+  --solaris-avatar-group-badge-color: var(--solaris-neutral-text-body);
+  --solaris-avatar-group-badge-font-size: var(--solaris-font-size-sm);
+  --solaris-avatar-group-badge-hover-lift: var(--solaris-spacing-3);
+  --solaris-avatar-group-badge-dim-opacity: var(--solaris-opacity-60);
+  --solaris-avatar-group-badge-max-width: calc(
+    var(--solaris-spacing-18) + var(--solaris-spacing-10)
+  );
+  --solaris-avatar-group-badge-more-size: var(--solaris-spacing-10);
+
+  display: inline-flex;
+  max-width: 100%;
+  font-family: var(--solaris-font-family-sans), system-ui;
+}
+
+:host([data-size='xs']) {
+  --solaris-avatar-group-badge-font-size: var(--solaris-font-size-xs);
+  --solaris-avatar-group-badge-more-size: var(--solaris-spacing-9);
+}
+
+:host([data-size='sm']) {
+  --solaris-avatar-group-badge-font-size: var(--solaris-font-size-xs);
+  --solaris-avatar-group-badge-more-size: var(--solaris-spacing-10);
+}
+
+:host([data-size='md']) {
+  --solaris-avatar-group-badge-font-size: var(--solaris-font-size-sm);
+  --solaris-avatar-group-badge-more-size: var(--solaris-spacing-12);
+}
+
+:host([data-size='lg']) {
+  --solaris-avatar-group-badge-gap: var(--solaris-spacing-5);
+  --solaris-avatar-group-badge-font-size: var(--solaris-font-size-md);
+  --solaris-avatar-group-badge-more-size: var(--solaris-spacing-13);
+}
+
+:host([data-size='xl']) {
+  --solaris-avatar-group-badge-gap: var(--solaris-spacing-5);
+  --solaris-avatar-group-badge-font-size: var(--solaris-font-size-md);
+  --solaris-avatar-group-badge-more-size: var(--solaris-spacing-15);
+}
+
+.solaris-avatar-group-badge__pill {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-width: var(--solaris-spacing-0);
+  max-width: 100%;
+  gap: var(--solaris-avatar-group-badge-gap);
+  padding: var(--solaris-avatar-group-badge-padding-y)
+    var(--solaris-avatar-group-badge-padding-x);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-avatar-group-badge-border-color);
+  border-radius: var(--solaris-radius-full);
+  background: var(--solaris-avatar-group-badge-background);
+  color: var(--solaris-avatar-group-badge-color);
+  font: inherit;
+  text-decoration: none;
+}
+
+a.solaris-avatar-group-badge__pill,
+button.solaris-avatar-group-badge__pill {
+  cursor: pointer;
+}
+
+button.solaris-avatar-group-badge__pill {
+  appearance: none;
+  font-size: var(--solaris-avatar-group-badge-font-size);
+  text-align: start;
+}
+
+.solaris-avatar-group-badge__pill:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-avatar-group-badge__avatars {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.solaris-avatar-group-badge__avatars solaris-avatar + solaris-avatar,
+.solaris-avatar-group-badge__avatars
+  solaris-avatar
+  + .solaris-avatar-group-badge__more {
+  margin-left: calc(var(--solaris-avatar-group-badge-overlap) * -1);
+}
+
+.solaris-avatar-group-badge__avatars solaris-avatar {
+  position: relative;
+
+  // SOLARIS_TOKEN_EXCEPTION: box-shadow used as a separator ring between overlapped avatars (not elevation), sized by the spacing token.
+  box-shadow: 0 0 0 var(--solaris-spacing-3)
+    var(--solaris-avatar-group-badge-background);
+  transition:
+    transform var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-avatar-group-badge__avatars:has(solaris-avatar:hover)
+  solaris-avatar:not(:hover),
+.solaris-avatar-group-badge__avatars:has(solaris-avatar:focus-within)
+  solaris-avatar:not(:focus-within) {
+  opacity: var(--solaris-avatar-group-badge-dim-opacity);
+}
+
+.solaris-avatar-group-badge__avatars solaris-avatar:hover,
+.solaris-avatar-group-badge__avatars solaris-avatar:focus-within {
+  z-index: var(--solaris-z-index-raised);
+  opacity: var(--solaris-opacity-100);
+  transform: translateY(
+    calc(var(--solaris-avatar-group-badge-hover-lift) * -1)
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-avatar-group-badge__avatars solaris-avatar {
+    transition: none;
+  }
+
+  .solaris-avatar-group-badge__avatars solaris-avatar:hover,
+  .solaris-avatar-group-badge__avatars solaris-avatar:focus-within {
+    transform: none;
+  }
+}
+
+:host-context([data-reduced-motion='true'])
+  .solaris-avatar-group-badge__avatars
+  solaris-avatar {
+  transition: none;
+}
+
+:host-context([data-reduced-motion='true'])
+  .solaris-avatar-group-badge__avatars
+  solaris-avatar:hover,
+:host-context([data-reduced-motion='true'])
+  .solaris-avatar-group-badge__avatars
+  solaris-avatar:focus-within {
+  transform: none;
+}
+
+.solaris-avatar-group-badge__more {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--solaris-avatar-group-badge-more-size);
+  height: var(--solaris-avatar-group-badge-more-size);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-avatar-group-badge-border-color);
+  border-radius: var(--solaris-radius-full);
+  background: var(--solaris-neutral-default);
+  color: var(--solaris-avatar-group-badge-color);
+  font-size: var(--solaris-font-size-xs);
+  font-weight: var(--solaris-font-weight-medium);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.solaris-avatar-group-badge__label {
+  overflow: hidden;
+  min-width: var(--solaris-spacing-0);
+  color: var(--solaris-avatar-group-badge-color);
+  font-size: var(--solaris-avatar-group-badge-font-size);
+  font-weight: var(--solaris-font-weight-medium);
+  line-height: var(--solaris-line-height-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

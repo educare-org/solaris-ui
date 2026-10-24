@@ -1,4 +1,4 @@
-@mixin page($max-width: 1920px) {
+@mixin page($max-width: calc(var(--solaris-spacing-18) * 15)) {
   margin: 0 auto;
   max-width: $max-width;
   padding: var(--solaris-spacing-8) var(--solaris-spacing-4) 0;
@@ -9,7 +9,7 @@
 }
 
 @mixin title {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
   margin: 0 0 var(--solaris-spacing-3);
   font: var(--solaris-font-weight-bold) var(--solaris-font-size-3xl) /
     var(--solaris-line-height-xs) var(--solaris-font-family-sans);
@@ -17,8 +17,8 @@
 
 @mixin description {
   margin: 0;
-  max-width: 1920px;
-  color: var(--solaris-text-muted);
+  max-width: calc(var(--solaris-spacing-18) * 15);
+  color: var(--solaris-neutral-text-secondary);
   font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
 }
@@ -26,14 +26,15 @@
 @mixin section-card {
   padding: var(--solaris-spacing-6);
   box-shadow: var(--solaris-shadow-xs);
-  background: var(--solaris-surface-base);
+  background: var(--solaris-neutral-default);
   margin-bottom: var(--solaris-spacing-8);
   border-radius: var(--solaris-radius-lg);
-  border: 1px solid var(--solaris-border-subtle);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
 }
 
 @mixin section-title {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
   margin: 0 0 var(--solaris-spacing-4);
   font: var(--solaris-font-weight-semibold) var(--solaris-font-size-xl) /
     var(--solaris-line-height-sm) var(--solaris-font-family-sans);
@@ -48,7 +49,7 @@
 
 @mixin note {
   margin-top: 0;
-  color: var(--solaris-text-muted);
-  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+  color: var(--solaris-neutral-text-secondary);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-xs) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
 }

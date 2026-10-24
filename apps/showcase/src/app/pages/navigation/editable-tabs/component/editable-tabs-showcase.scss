@@ -1,0 +1,12 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.editable-tabs-showcase__note {
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.editable-tabs-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
+}

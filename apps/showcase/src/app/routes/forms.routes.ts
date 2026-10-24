@@ -54,6 +54,13 @@ export const formsRoutes: Route[] = [
           ),
       },
       {
+        path: 'file-upload',
+        loadComponent: () =>
+          import(
+            '../pages/forms/file-upload/component/file-upload-showcase'
+          ).then((m) => m.FileUploadShowcasePage),
+      },
+      {
         path: 'checkbox',
         loadComponent: () =>
           import('../pages/forms/checkbox/component/checkbox-showcase').then(

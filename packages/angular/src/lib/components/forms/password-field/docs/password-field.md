@@ -56,10 +56,11 @@ Password Field does not replace Form Field + Input. It is an official convenienc
 | `optional`           | `boolean`                                             | `false`     | Optional field                                       |
 | `disabled`           | `boolean`                                             | `false`     | Disabled field                                       |
 | `readonly`           | `boolean`                                             | `false`     | Readonly field                                       |
+| `loading`            | `boolean`                                             | `false`     | Shows a spinner overlay via the inner Form Field     |
 | `invalid`            | `boolean \| undefined`                                | -           | Manual invalid state (overrides automatic detection) |
 | `appearance`         | `'outline' \| 'surface' \| 'filled'`                  | `'outline'` | Appearance                                           |
 | `density`            | `'compact' \| 'normal' \| 'comfortable' \| undefined` | -           | Density (inherited from theme)                       |
-| `radius`             | `'none' \| 'sm' \| 'md' \| 'lg'`                      | `'md'`      | Border radius                                        |
+| `radius`             | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`              | `'md'`      | Border radius                                        |
 | `fullWidth`          | `boolean`                                             | `true`      | Full width                                           |
 | `showToggle`         | `boolean`                                             | `true`      | Show toggle button                                   |
 | `visible`            | `boolean`                                             | `false`     | Password visible                                     |
@@ -101,12 +102,12 @@ When not provided, Password Field inherits density from the theme system.
 
 ## Radius
 
-| Radius | Effect                         |
-| ------ | ------------------------------ |
-| `none` | No border radius               |
-| `sm`   | Small border radius            |
-| `md`   | Medium border radius (default) |
-| `lg`   | Large border radius            |
+| Radius | Effect                             |
+| ------ | ---------------------------------- |
+| `none` | No border radius                   |
+| `sm`   | Small border radius (2px, default) |
+| `md`   | Medium border radius (8px)         |
+| `lg`   | Pill shape                         |
 
 ## CSS Variables
 
@@ -178,6 +179,46 @@ Error names:
 Built-in visibility toggle. Use `[showToggle]="false"` to hide it.
 
 The toggle icon is sized one typography step above the field's `--solaris-density-font-size` for every density, so it stays proportionally larger than the text and other affix icons.
+
+The toggle button is a suffix **action**: it carries both `solaris-form-suffix`
+and `solaris-form-suffix-action`, so the suffix cell renders in the `action`
+variant (hugs the content, no divider). Custom interactive content projected
+with the same two attributes shares the slot next to the toggle:
+
+```html
+<solaris-password-field label="Password" prefix="lock" [showToggle]="false">
+  <button type="button" solaris-form-suffix solaris-form-suffix-action aria-label="Generate">Generate</button>
+</solaris-password-field>
+```
+
+### Toggle icon sizing (9-combo size × density matrix)
+
+| Size | compact | normal | comfortable |
+| ---- | ------- | ------ | ----------- |
+| `sm` | `md`    | `lg`   | `xl`        |
+| `md` | `lg`    | `xl`   | `2xl`       |
+| `lg` | `xl`    | `2xl`  | `3xl`       |
+
+Values are `--solaris-font-size-*` tokens applied to the toggle `solaris-icon`.
+
+## Suffix action
+
+Projected content with **both** `[solaris-form-suffix]` and
+`[solaris-form-suffix-action]` is forwarded to the inner Form Field as a suffix
+action (see example above). Both attributes are required:
+`[solaris-form-suffix]` selects the preset forwarding slot and
+`[solaris-form-suffix-action]` selects the action styling.
+
+## Loading
+
+`loading` is forwarded to the inner `solaris-form-field`, which renders a
+spinner overlay in the suffix slot. The overlay suppresses suffix content while
+active and never changes the field width, so toggling `loading` causes no
+layout shift:
+
+```html
+<solaris-password-field label="Password" [loading]="true" value="secret123"></solaris-password-field>
+```
 
 ## Requirements list
 
@@ -259,6 +300,14 @@ An explicit manual error via `[invalid]="true"` overrides automatic detection.
 <!-- Prefix / Suffix icons -->
 <solaris-password-field label="Password" prefix="lock" />
 <solaris-password-field label="Password" suffix="check" />
+
+<!-- Suffix action (both attributes required) -->
+<solaris-password-field label="Password" prefix="lock" [showToggle]="false">
+  <button type="button" solaris-form-suffix solaris-form-suffix-action aria-label="Generate">Generate</button>
+</solaris-password-field>
+
+<!-- Loading -->
+<solaris-password-field label="Password" [loading]="true" value="secret123" />
 ```
 
 ## Limitations v1

@@ -1,0 +1,13 @@
+{
+  "solaris": {
+    "date-picker": {
+      "clear": "Limpar data",
+      "invalid": "Informe uma data válida.",
+      "next-month": "Próximo mês",
+      "open-calendar": "Abrir calendário",
+      "placeholder": "DD/MM/AAAA",
+      "previous-month": "Mês anterior",
+      "required": "A data é obrigatória."
+    }
+  }
+}

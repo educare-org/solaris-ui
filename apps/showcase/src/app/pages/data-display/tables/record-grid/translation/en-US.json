@@ -1,0 +1,67 @@
+{
+  "record-grid": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "basic": {
+      "note": "Editable launch columns with a computed total; Enter or double-click a cell to edit."
+    },
+    "col": {
+      "final": "Final",
+      "note": "Note",
+      "present": "Present",
+      "project": "Project",
+      "shift": "Shift",
+      "student": "Student",
+      "total": "Total"
+    },
+    "description": "Launch sheet with sections, merged cells, and controlled editing with internal commit.",
+    "editing": {
+      "note": "Values must stay between 0 and 10; every commit lands in the log below the grid.",
+      "tab": {
+        "editable": "Editable",
+        "readonly": "Read-only"
+      },
+      "tabs": {
+        "label": "Editing mode"
+      }
+    },
+    "examples": {
+      "note": "Start with the default record grid, then explore sections, merging, and editing below."
+    },
+    "formulas": {
+      "note": "Total and final columns react to edits; final weights total twice against project."
+    },
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "layout": {
+      "note": "Auto sizes columns to content. Card collapses rows into consolidated fields."
+    },
+    "merging": {
+      "note": "The shift cell spans its section rows and filled notes span the project column."
+    },
+    "props": {
+      "note": "Props table coming soon."
+    },
+    "section": {
+      "basic": "Basic",
+      "editing": "Editing",
+      "examples": "Examples",
+      "formulas": "Formulas",
+      "installation": "Installation",
+      "layout": "Layout",
+      "merging": "Merging",
+      "props": "Props",
+      "sections": "Sections"
+    },
+    "sections": {
+      "note": "Morning and evening shifts render as section dividers with per-group footer averages."
+    },
+    "shift": {
+      "evening": "Evening shift",
+      "morning": "Morning shift"
+    },
+    "title": "Record grid"
+  }
+}

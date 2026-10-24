@@ -1,532 +1,512 @@
-<div class="popover-showcase">
-  <header class="popover-showcase__header">
-    <h1 class="popover-showcase__title">Popover</h1>
-    <p class="popover-showcase__description">
-      {{ 'popover.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="popover.title"
+    descriptionKey="popover.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="popover-showcase__section">
-    <h2 class="popover-showcase__section-title">
-      {{ 'popover.basic' | translate }}
-    </h2>
-    <p class="popover-showcase__note">{{ 'popover.basic-note' | translate }}</p>
-    <div class="popover-showcase__row">
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="basicPopover"
-      >
-        {{ 'popover.open' | translate }}
-      </button>
-      <ng-template solaris-popover #basicPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          <p>{{ popoverContent }}</p>
-        </div>
-      </ng-template>
-    </div>
-  </section>
+  <app-docs-section anchor="examples" titleKey="popover.section.examples">
+    <p class="popover-page__note">{{ 'popover.examples.note' | translate }}</p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-popover-basic-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="popover-showcase__section">
-    <h2 class="popover-showcase__section-title">
-      {{ 'popover.placements' | translate }}
-    </h2>
-    <p class="popover-showcase__note">
+  <app-docs-section anchor="placements" titleKey="popover.section.placements">
+    <p class="popover-page__note">
       {{ 'popover.placements-note' | translate }}
     </p>
-    <div class="popover-showcase__row">
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="topPopover"
-        solarisPopoverPlacement="top"
+    <solaris-tabs
+      [(value)]="selectedPlacement"
+      [ariaLabel]="'popover.section.placements' | translate"
+    >
+      <solaris-tab value="top">{{ 'popover.top' | translate }}</solaris-tab>
+      <solaris-tab value="right">{{ 'popover.right' | translate }}</solaris-tab>
+      <solaris-tab value="bottom"
+        >{{ 'popover.bottom' | translate }}</solaris-tab
       >
-        {{ 'popover.top' | translate }}
-      </button>
-      <ng-template solaris-popover #topPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.top-content' | translate }}
-        </div>
-      </ng-template>
+      <solaris-tab value="left">{{ 'popover.left' | translate }}</solaris-tab>
+      <solaris-tab-panel value="top">
+        <solaris-preview-code [code]="placementTopCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="topPopover"
+            solarisPopoverPlacement="top"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.top' | translate }}
+          </button>
+          <ng-template solaris-popover #topPopover="solarisPopover">
+            {{ 'popover.top-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="right">
+        <solaris-preview-code [code]="placementRightCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="rightPopover"
+            solarisPopoverPlacement="right"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.right' | translate }}
+          </button>
+          <ng-template solaris-popover #rightPopover="solarisPopover">
+            {{ 'popover.right-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="bottom">
+        <solaris-preview-code [code]="placementBottomCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="bottomPopover"
+            solarisPopoverPlacement="bottom"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.bottom' | translate }}
+          </button>
+          <ng-template solaris-popover #bottomPopover="solarisPopover">
+            {{ 'popover.bottom-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="left">
+        <solaris-preview-code [code]="placementLeftCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="leftPopover"
+            solarisPopoverPlacement="left"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.left' | translate }}
+          </button>
+          <ng-template solaris-popover #leftPopover="solarisPopover">
+            {{ 'popover.left-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="rightPopover"
-        solarisPopoverPlacement="right"
-      >
-        {{ 'popover.right' | translate }}
-      </button>
-      <ng-template solaris-popover #rightPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.right-content' | translate }}
-        </div>
-      </ng-template>
-
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="bottomPopover"
-        solarisPopoverPlacement="bottom"
-      >
-        {{ 'popover.bottom' | translate }}
-      </button>
-      <ng-template solaris-popover #bottomPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.bottom-content' | translate }}
-        </div>
-      </ng-template>
-
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="leftPopover"
-        solarisPopoverPlacement="left"
-      >
-        {{ 'popover.left' | translate }}
-      </button>
-      <ng-template solaris-popover #leftPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.left-content' | translate }}
-        </div>
-      </ng-template>
-    </div>
-  </section>
-
-  <section class="popover-showcase__section">
-    <h2 class="popover-showcase__section-title">
-      {{ 'popover.alignments' | translate }}
-    </h2>
-    <p class="popover-showcase__note">
+  <app-docs-section anchor="align" titleKey="popover.section.align">
+    <p class="popover-page__note">
       {{ 'popover.alignments-note' | translate }}
     </p>
-    <div class="popover-showcase__row">
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="startPopover"
-        solarisPopoverPlacement="bottom"
-        solarisPopoverAlign="start"
+    <solaris-tabs
+      [(value)]="selectedAlign"
+      [ariaLabel]="'popover.section.align' | translate"
+    >
+      <solaris-tab value="start"
+        >{{ 'popover.align-start' | translate }}</solaris-tab
       >
-        {{ 'popover.align-start' | translate }}
-      </button>
-      <ng-template solaris-popover #startPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.align-start-content' | translate }}
-        </div>
-      </ng-template>
-
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="centerPopover"
-        solarisPopoverPlacement="bottom"
-        solarisPopoverAlign="center"
+      <solaris-tab value="center"
+        >{{ 'popover.align-center' | translate }}</solaris-tab
       >
-        {{ 'popover.align-center' | translate }}
-      </button>
-      <ng-template solaris-popover #centerPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.align-center-content' | translate }}
-        </div>
-      </ng-template>
-
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="endPopover"
-        solarisPopoverPlacement="bottom"
-        solarisPopoverAlign="end"
+      <solaris-tab value="end"
+        >{{ 'popover.align-end' | translate }}</solaris-tab
       >
-        {{ 'popover.align-end' | translate }}
-      </button>
-      <ng-template solaris-popover #endPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.align-end-content' | translate }}
-        </div>
-      </ng-template>
-    </div>
-  </section>
+      <solaris-tab-panel value="start">
+        <solaris-preview-code [code]="alignStartCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="startPopover"
+            solarisPopoverAlign="start"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.align-start' | translate }}
+          </button>
+          <ng-template solaris-popover #startPopover="solarisPopover">
+            {{ 'popover.align-start-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="center">
+        <solaris-preview-code [code]="alignCenterCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="centerPopover"
+            solarisPopoverAlign="center"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.align-center' | translate }}
+          </button>
+          <ng-template solaris-popover #centerPopover="solarisPopover">
+            {{ 'popover.align-center-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="end">
+        <solaris-preview-code [code]="alignEndCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="endPopover"
+            solarisPopoverAlign="end"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.align-end' | translate }}
+          </button>
+          <ng-template solaris-popover #endPopover="solarisPopover">
+            {{ 'popover.align-end-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="popover-showcase__section">
-    <h2 class="popover-showcase__section-title">
-      {{ 'popover.reactive' | translate }}
-    </h2>
-    <p class="popover-showcase__note">
-      {{ 'popover.reactive-note' | translate }}
-    </p>
-    <div class="popover-showcase__scroll-container">
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="reactivePopover"
-        solarisPopoverPlacement="bottom"
-        solarisPopoverAlign="start"
-      >
-        {{ 'popover.reactive-trigger' | translate }}
-      </button>
-      <ng-template solaris-popover #reactivePopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.reactive-content' | translate }}
-        </div>
-      </ng-template>
-      <p class="popover-showcase__scroll-hint">
-        {{ 'popover.scroll-hint' | translate }}
-      </p>
-    </div>
-  </section>
-
-  <section class="popover-showcase__section">
-    <h2 class="popover-showcase__section-title">
-      {{ 'popover.match-width' | translate }}
-    </h2>
-    <p class="popover-showcase__note">
-      {{ 'popover.match-width-note' | translate }}
-    </p>
-    <div class="popover-showcase__row">
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="matchWidthPopover"
-        [solarisPopoverMatchTriggerWidth]="true"
-      >
-        {{ 'popover.match-width-trigger' | translate }}
-      </button>
-      <ng-template solaris-popover #matchWidthPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.match-width-content' | translate }}
-        </div>
-      </ng-template>
-    </div>
-  </section>
-
-  <section class="popover-showcase__section">
-    <h2 class="popover-showcase__section-title">
-      {{ 'popover.width-constraints' | translate }}
-    </h2>
-    <p class="popover-showcase__note">
-      {{ 'popover.width-constraints-note' | translate }}
-    </p>
-    <div class="popover-showcase__row">
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="minWidthPopover"
-        [solarisPopoverMinWidth]="'300px'"
-      >
-        {{ 'popover.min-width' | translate }}
-      </button>
-      <ng-template solaris-popover #minWidthPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.min-width-content' | translate }}
-        </div>
-      </ng-template>
-
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="maxWidthPopover"
-        [solarisPopoverMaxWidth]="'200px'"
-      >
-        {{ 'popover.max-width' | translate }}
-      </button>
-      <ng-template solaris-popover #maxWidthPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.max-width-content' | translate }}
-        </div>
-      </ng-template>
-    </div>
-  </section>
-
-  <section class="popover-showcase__section">
-    <h2 class="popover-showcase__section-title">
-      {{ 'popover.close-behavior' | translate }}
-    </h2>
-    <p class="popover-showcase__note">
-      {{ 'popover.close-behavior-note' | translate }}
-    </p>
-    <div class="popover-showcase__row">
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="outsideClickPopover"
-        [solarisPopoverCloseOnOutsideClick]="true"
-      >
-        {{ 'popover.outside-click' | translate }}
-      </button>
-      <ng-template solaris-popover #outsideClickPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.outside-click-content' | translate }}
-        </div>
-      </ng-template>
-
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="escapePopover"
-        [solarisPopoverCloseOnEscape]="true"
-      >
-        {{ 'popover.escape-close' | translate }}
-      </button>
-      <ng-template solaris-popover #escapePopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.escape-content' | translate }}
-        </div>
-      </ng-template>
-    </div>
-  </section>
-
-  <section class="popover-showcase__section">
-    <h2 class="popover-showcase__section-title">
-      {{ 'popover.interactive' | translate }}
-    </h2>
-    <p class="popover-showcase__note">
-      {{ 'popover.interactive-note' | translate }}
-    </p>
-    <div class="popover-showcase__row">
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="interactivePopover"
-        solarisPopoverAutoFocus="first-tabbable"
-        [solarisPopoverRestoreFocus]="true"
-      >
-        {{ 'popover.interactive-trigger' | translate }}
-      </button>
-      <ng-template solaris-popover #interactivePopover="solarisPopover">
-        <div class="popover-showcase__content">
-          <p>{{ 'popover.interactive-text' | translate }}</p>
-          <div class="popover-showcase__actions">
-            <button
-              solaris-button
-              appearance="solid"
-              color="primary"
-              (click)="logAction('save')"
-            >
-              {{ 'popover.save' | translate }}
-            </button>
-            <button
-              solaris-button
-              appearance="outline"
-              (click)="logAction('cancel')"
-            >
-              {{ 'popover.cancel' | translate }}
-            </button>
-          </div>
-        </div>
-      </ng-template>
-    </div>
-  </section>
-
-  <section class="popover-showcase__section">
-    <h2 class="popover-showcase__section-title">
-      {{ 'popover.appearance' | translate }}
-    </h2>
-    <p class="popover-showcase__note">
+  <app-docs-section anchor="appearance" titleKey="popover.section.appearance">
+    <p class="popover-page__note">
       {{ 'popover.appearance-note' | translate }}
     </p>
-    <div class="popover-showcase__row">
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="surfacePopover"
-        solarisPopoverAppearance="surface"
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'popover.section.appearance' | translate"
+    >
+      <solaris-tab value="surface"
+        >{{ 'popover.surface' | translate }}</solaris-tab
       >
-        {{ 'popover.surface' | translate }}
-      </button>
-      <ng-template solaris-popover #surfacePopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.surface-content' | translate }}
-        </div>
-      </ng-template>
-
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="outlinePopover"
-        solarisPopoverAppearance="outline"
+      <solaris-tab value="outline"
+        >{{ 'popover.outline' | translate }}</solaris-tab
       >
-        {{ 'popover.outline' | translate }}
-      </button>
-      <ng-template solaris-popover #outlinePopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.outline-content' | translate }}
-        </div>
-      </ng-template>
-    </div>
-  </section>
+      <solaris-tab-panel value="surface">
+        <solaris-preview-code [code]="appearanceSurfaceCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="surfacePopover"
+            solarisPopoverAppearance="surface"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.surface' | translate }}
+          </button>
+          <ng-template solaris-popover #surfacePopover="solarisPopover">
+            {{ 'popover.surface-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="outline">
+        <solaris-preview-code [code]="appearanceOutlineCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="outlinePopover"
+            solarisPopoverAppearance="outline"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.outline' | translate }}
+          </button>
+          <ng-template solaris-popover #outlinePopover="solarisPopover">
+            {{ 'popover.outline-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="popover-showcase__section">
-    <h2 class="popover-showcase__section-title">
-      {{ 'popover.padding' | translate }}
-    </h2>
-    <p class="popover-showcase__note">
-      {{ 'popover.padding-note' | translate }}
+  <app-docs-section anchor="padding" titleKey="popover.section.padding">
+    <p class="popover-page__note">
+      {{ 'popover.padding-zero.note' | translate }}
     </p>
-    <div class="popover-showcase__row">
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="paddingNonePopover"
-        solarisPopoverPadding="none"
-      >
-        {{ 'popover.none' | translate }}
-      </button>
-      <ng-template solaris-popover #paddingNonePopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.padding-none-content' | translate }}
-        </div>
-      </ng-template>
+    <solaris-tabs
+      [(value)]="selectedPadding"
+      [ariaLabel]="'popover.section.padding' | translate"
+    >
+      <solaris-tab value="none">{{ 'popover.none' | translate }}</solaris-tab>
+      <solaris-tab value="sm">{{ 'popover.sm' | translate }}</solaris-tab>
+      <solaris-tab value="md">{{ 'popover.md' | translate }}</solaris-tab>
+      <solaris-tab value="lg">{{ 'popover.lg' | translate }}</solaris-tab>
+      <solaris-tab-panel value="none">
+        <solaris-preview-code [code]="paddingNoneCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="paddingNonePopover"
+            solarisPopoverPadding="none"
+          >
+            {{ 'popover.none' | translate }}
+          </button>
+          <ng-template solaris-popover #paddingNonePopover="solarisPopover">
+            {{ 'popover.padding-none-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="sm">
+        <solaris-preview-code [code]="paddingSmCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="paddingSmPopover"
+            solarisPopoverPadding="sm"
+          >
+            {{ 'popover.sm' | translate }}
+          </button>
+          <ng-template solaris-popover #paddingSmPopover="solarisPopover">
+            {{ 'popover.padding-sm-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="md">
+        <solaris-preview-code [code]="paddingMdCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="paddingMdPopover"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.md' | translate }}
+          </button>
+          <ng-template solaris-popover #paddingMdPopover="solarisPopover">
+            {{ 'popover.padding-md-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="lg">
+        <solaris-preview-code [code]="paddingLgCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="paddingLgPopover"
+            solarisPopoverPadding="lg"
+          >
+            {{ 'popover.lg' | translate }}
+          </button>
+          <ng-template solaris-popover #paddingLgPopover="solarisPopover">
+            {{ 'popover.padding-lg-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="paddingSmPopover"
-        solarisPopoverPadding="sm"
-      >
-        {{ 'popover.sm' | translate }}
-      </button>
-      <ng-template solaris-popover #paddingSmPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.padding-sm-content' | translate }}
-        </div>
-      </ng-template>
+  <app-docs-section anchor="radius" titleKey="popover.section.radius">
+    <p class="popover-page__note">{{ 'popover.radius-note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedRadius"
+      [ariaLabel]="'popover.section.radius' | translate"
+    >
+      <solaris-tab value="none">{{ 'popover.none' | translate }}</solaris-tab>
+      <solaris-tab value="sm">{{ 'popover.sm' | translate }}</solaris-tab>
+      <solaris-tab value="md">{{ 'popover.md' | translate }}</solaris-tab>
+      <solaris-tab value="lg">{{ 'popover.lg' | translate }}</solaris-tab>
+      <solaris-tab value="xl">{{ 'popover.xl' | translate }}</solaris-tab>
+      <solaris-tab-panel value="none">
+        <solaris-preview-code [code]="radiusNoneCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="radiusNonePopover"
+            solarisPopoverRadius="none"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.none' | translate }}
+          </button>
+          <ng-template solaris-popover #radiusNonePopover="solarisPopover">
+            {{ 'popover.radius-none-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="sm">
+        <solaris-preview-code [code]="radiusSmCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="radiusSmPopover"
+            solarisPopoverRadius="sm"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.sm' | translate }}
+          </button>
+          <ng-template solaris-popover #radiusSmPopover="solarisPopover">
+            {{ 'popover.radius-sm-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="md">
+        <solaris-preview-code [code]="radiusMdCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="radiusMdPopover"
+            solarisPopoverRadius="md"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.md' | translate }}
+          </button>
+          <ng-template solaris-popover #radiusMdPopover="solarisPopover">
+            {{ 'popover.radius-md-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="lg">
+        <solaris-preview-code [code]="radiusLgCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="radiusLgPopover"
+            solarisPopoverRadius="lg"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.lg' | translate }}
+          </button>
+          <ng-template solaris-popover #radiusLgPopover="solarisPopover">
+            {{ 'popover.radius-lg-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="xl">
+        <solaris-preview-code [code]="radiusXlCode" language="html">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="radiusXlPopover"
+            solarisPopoverRadius="xl"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.xl' | translate }}
+          </button>
+          <ng-template solaris-popover #radiusXlPopover="solarisPopover">
+            {{ 'popover.radius-xl-content' | translate }}
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="paddingMdPopover"
-        solarisPopoverPadding="md"
-      >
-        {{ 'popover.md' | translate }}
-      </button>
-      <ng-template solaris-popover #paddingMdPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.padding-md-content' | translate }}
+  <app-docs-section anchor="sizing" titleKey="popover.section.sizing">
+    <div class="popover-page__stack">
+      <solaris-preview-code [code]="matchWidthCode" language="html">
+        <app-popover-match-width-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="minMaxWidthCode" language="html">
+        <div class="popover-page__controls">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="minWidthPopover"
+            [solarisPopoverMinWidth]="'300px'"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.min-width' | translate }}
+          </button>
+          <ng-template solaris-popover #minWidthPopover="solarisPopover">
+            {{ 'popover.min-width-content' | translate }}
+          </ng-template>
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="maxWidthPopover"
+            [solarisPopoverMaxWidth]="'200px'"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.max-width' | translate }}
+          </button>
+          <ng-template solaris-popover #maxWidthPopover="solarisPopover">
+            {{ 'popover.max-width-content' | translate }}
+          </ng-template>
         </div>
-      </ng-template>
-
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="paddingLgPopover"
-        solarisPopoverPadding="lg"
-      >
-        {{ 'popover.lg' | translate }}
-      </button>
-      <ng-template solaris-popover #paddingLgPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.padding-lg-content' | translate }}
-        </div>
-      </ng-template>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="maxHeightCode" language="html">
+        <app-popover-max-height-example />
+      </solaris-preview-code>
     </div>
-  </section>
+  </app-docs-section>
 
-  <section class="popover-showcase__section">
-    <h2 class="popover-showcase__section-title">
-      {{ 'popover.radius' | translate }}
-    </h2>
-    <p class="popover-showcase__note">
-      {{ 'popover.radius-note' | translate }}
-    </p>
-    <div class="popover-showcase__row">
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="radiusNonePopover"
-        solarisPopoverRadius="none"
-      >
-        {{ 'popover.none' | translate }}
-      </button>
-      <ng-template solaris-popover #radiusNonePopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.radius-none-content' | translate }}
+  <app-docs-section anchor="behaviors" titleKey="popover.section.behaviors">
+    <div class="popover-page__stack">
+      <solaris-preview-code [code]="closeBehaviorCode" language="html">
+        <div class="popover-page__controls">
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="outsideClickPopover"
+            [solarisPopoverCloseOnOutsideClick]="true"
+            [solarisPopoverCloseOnEscape]="false"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.outside-click' | translate }}
+          </button>
+          <ng-template solaris-popover #outsideClickPopover="solarisPopover">
+            {{ 'popover.outside-click-content' | translate }}
+          </ng-template>
+          <button
+            solaris-button
+            solaris-popover-trigger
+            [solarisPopoverTriggerFor]="escapePopover"
+            [solarisPopoverCloseOnOutsideClick]="false"
+            [solarisPopoverCloseOnEscape]="true"
+            solarisPopoverPadding="md"
+          >
+            {{ 'popover.escape-close' | translate }}
+          </button>
+          <ng-template solaris-popover #escapePopover="solarisPopover">
+            {{ 'popover.escape-content' | translate }}
+          </ng-template>
         </div>
-      </ng-template>
-
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="radiusSmPopover"
-        solarisPopoverRadius="sm"
-      >
-        {{ 'popover.sm' | translate }}
-      </button>
-      <ng-template solaris-popover #radiusSmPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.radius-sm-content' | translate }}
-        </div>
-      </ng-template>
-
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="radiusMdPopover"
-        solarisPopoverRadius="md"
-      >
-        {{ 'popover.md' | translate }}
-      </button>
-      <ng-template solaris-popover #radiusMdPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.radius-md-content' | translate }}
-        </div>
-      </ng-template>
-
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="radiusLgPopover"
-        solarisPopoverRadius="lg"
-      >
-        {{ 'popover.lg' | translate }}
-      </button>
-      <ng-template solaris-popover #radiusLgPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.radius-lg-content' | translate }}
-        </div>
-      </ng-template>
-
-      <button
-        solaris-button
-        solaris-popover-trigger
-        [solarisPopoverTriggerFor]="radiusXlPopover"
-        solarisPopoverRadius="xl"
-      >
-        {{ 'popover.xl' | translate }}
-      </button>
-      <ng-template solaris-popover #radiusXlPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          {{ 'popover.radius-xl-content' | translate }}
-        </div>
-      </ng-template>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="interactiveCode" language="html">
+        <app-popover-interactive-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="reactiveCode" language="html">
+        <app-popover-reactive-example />
+      </solaris-preview-code>
     </div>
-  </section>
+  </app-docs-section>
 
-  <section class="popover-showcase__section">
-    <h2 class="popover-showcase__section-title">
-      {{ 'popover.accessibility' | translate }}
-    </h2>
-    <p class="popover-showcase__note">
+  <app-docs-section
+    anchor="accessibility"
+    titleKey="popover.section.accessibility"
+  >
+    <p class="popover-page__note">
       {{ 'popover.accessibility-note' | translate }}
     </p>
-    <div class="popover-showcase__row">
+    <solaris-preview-code [code]="accessibilityCode" language="html">
       <button
         solaris-button
         solaris-popover-trigger
         [solarisPopoverTriggerFor]="a11yPopover"
         solarisPopoverPanelRole="region"
         solarisPopoverAriaHasPopup="true"
+        solarisPopoverPadding="md"
       >
         {{ 'popover.accessibility-trigger' | translate }}
       </button>
       <ng-template solaris-popover #a11yPopover="solarisPopover">
-        <div class="popover-showcase__content">
-          <p>{{ 'popover.accessibility-content' | translate }}</p>
-          <p class="popover-showcase__note">
-            {{ 'popover.accessibility-detail' | translate }}
-          </p>
-        </div>
+        <p>{{ 'popover.accessibility-content' | translate }}</p>
+        <p class="popover-page__note">
+          {{ 'popover.accessibility-detail' | translate }}
+        </p>
       </ng-template>
-    </div>
-  </section>
-</div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="popover.section.installation"
+  >
+    <p class="popover-page__note">
+      {{ 'popover.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="popover.section.props">
+    <p class="popover-page__note">{{ 'popover.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

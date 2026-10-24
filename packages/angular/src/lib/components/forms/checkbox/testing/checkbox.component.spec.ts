@@ -4,6 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { configureSolarisTesting } from '../../../../testing/solaris-test-utilities';
 import { SolarisCheckboxComponent } from '../component/checkbox.component';
+import { SolarisCheckboxGroupComponent } from '../../checkbox-group/component/checkbox-group.component';
 import { SolarisFormFieldComponent } from '../../form-field/component/form-field.component';
 
 describe('SolarisCheckboxComponent', () => {
@@ -70,6 +71,13 @@ describe('SolarisCheckboxComponent', () => {
     expect(el.hasAttribute('data-readonly')).toBe(true);
   });
 
+  it('should reflect radius xl (pill alias) on the host', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('radius', 'xl');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-radius')).toBe('xl');
+  });
+
   it('should apply required', () => {
     createFixture();
     fixture.componentRef.setInput('required', true);
@@ -100,9 +108,9 @@ describe('SolarisCheckboxComponent', () => {
     }
   });
 
-  it('should have default color primary', () => {
+  it('should have default color neutral', () => {
     const el = createFixture();
-    expect(el.getAttribute('data-color')).toBe('primary');
+    expect(el.getAttribute('data-color')).toBe('neutral');
   });
 
   it('should support all colors', () => {
@@ -409,6 +417,58 @@ describe('SolarisCheckboxComponent label and a11y', () => {
     ) as HTMLLabelElement;
     expect(label.getAttribute('for')).toBe(input.id);
   });
+
+  it('should render description and reference it via aria-describedby', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisCheckboxComponent],
+      template: `
+        <solaris-checkbox label="Updates" description="Weekly digest" />
+      `,
+    })
+    class DescriptionHost {}
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(DescriptionHost);
+    hostFixture.detectChanges();
+    const el = hostFixture.nativeElement as HTMLElement;
+    const description = el.querySelector('.solaris-checkbox__description');
+    expect(description?.textContent).toContain('Weekly digest');
+    const input = el.querySelector(
+      'input[type="checkbox"]',
+    ) as HTMLInputElement;
+    expect(input.getAttribute('aria-describedby')).toContain(
+      description?.id ?? '',
+    );
+  });
+
+  it('should expose aria-checked mixed when indeterminate', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisCheckboxComponent);
+    hostFixture.detectChanges();
+    const input = (hostFixture.nativeElement as HTMLElement).querySelector(
+      'input[type="checkbox"]',
+    ) as HTMLInputElement;
+    expect(input.hasAttribute('aria-checked')).toBe(false);
+    hostFixture.componentRef.setInput('indeterminate', true);
+    hostFixture.detectChanges();
+    expect(input.getAttribute('aria-checked')).toBe('mixed');
+  });
+
+  it('should coerce valueless disabled attribute to true (booleanAttribute)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisCheckboxComponent],
+      template: ` <solaris-checkbox disabled /> `,
+    })
+    class DisabledAttrHost {}
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(DisabledAttrHost);
+    hostFixture.detectChanges();
+    const input = (hostFixture.nativeElement as HTMLElement).querySelector(
+      'input[type="checkbox"]',
+    ) as HTMLInputElement;
+    expect(input.disabled).toBe(true);
+  });
 });
 
 describe('SolarisCheckboxComponent with Reactive Forms', () => {
@@ -487,5 +547,152 @@ describe('SolarisCheckboxComponent inside FormField', () => {
       'solaris-form-field',
     );
     expect(formField).toBeTruthy();
+  });
+});
+
+describe('SolarisCheckboxComponent effective size', () => {
+  let fixture: ComponentFixture<SolarisCheckboxComponent>;
+
+  const createFixture = () => {
+    configureSolarisTesting();
+    fixture = TestBed.createComponent(SolarisCheckboxComponent);
+    fixture.detectChanges();
+    return fixture.nativeElement;
+  };
+
+  it('should default data-size to md without a group', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-size')).toBe('md');
+  });
+
+  it('should prefer own size over group size', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisCheckboxGroupComponent, SolarisCheckboxComponent],
+      template: `
+        <solaris-checkbox-group size="lg">
+          <solaris-checkbox value="a" size="sm">A</solaris-checkbox>
+        </solaris-checkbox-group>
+      `,
+    })
+    class OwnSizeHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(OwnSizeHost);
+    hostFixture.detectChanges();
+    const child = hostFixture.nativeElement.querySelector(
+      'solaris-checkbox',
+    ) as HTMLElement;
+    expect(child.getAttribute('data-size')).toBe('sm');
+  });
+
+  it('should inherit size and density from the group', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisCheckboxGroupComponent, SolarisCheckboxComponent],
+      template: `
+        <solaris-checkbox-group size="lg" density="compact">
+          <solaris-checkbox value="a">A</solaris-checkbox>
+        </solaris-checkbox-group>
+      `,
+    })
+    class InheritedSizeHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(InheritedSizeHost);
+    hostFixture.detectChanges();
+    const child = hostFixture.nativeElement.querySelector(
+      'solaris-checkbox',
+    ) as HTMLElement;
+    expect(child.getAttribute('data-size')).toBe('lg');
+    expect(child.getAttribute('data-density')).toBe('compact');
+  });
+
+  it('should prefer own density over group density', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisCheckboxGroupComponent, SolarisCheckboxComponent],
+      template: `
+        <solaris-checkbox-group density="compact">
+          <solaris-checkbox value="a" density="comfortable">A</solaris-checkbox>
+        </solaris-checkbox-group>
+      `,
+    })
+    class OwnDensityHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(OwnDensityHost);
+    hostFixture.detectChanges();
+    const child = hostFixture.nativeElement.querySelector(
+      'solaris-checkbox',
+    ) as HTMLElement;
+    expect(child.getAttribute('data-density')).toBe('comfortable');
+  });
+});
+
+describe('SolarisCheckboxComponent required indicator', () => {
+  it('should expose aria-required on the native input when required', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisCheckboxComponent);
+    hostFixture.componentRef.setInput('required', true);
+    hostFixture.detectChanges();
+    const input = (hostFixture.nativeElement as HTMLElement).querySelector(
+      'input[type="checkbox"]',
+    ) as HTMLInputElement;
+    expect(input.getAttribute('aria-required')).toBe('true');
+  });
+
+  it('should not expose aria-required when not required', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisCheckboxComponent);
+    hostFixture.detectChanges();
+    const input = (hostFixture.nativeElement as HTMLElement).querySelector(
+      'input[type="checkbox"]',
+    ) as HTMLInputElement;
+    expect(input.hasAttribute('aria-required')).toBe(false);
+  });
+
+  it('should render the required marker next to the label input', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisCheckboxComponent);
+    hostFixture.componentRef.setInput('label', 'Accept terms');
+    hostFixture.componentRef.setInput('required', true);
+    hostFixture.detectChanges();
+    const marker = (hostFixture.nativeElement as HTMLElement).querySelector(
+      '.solaris-checkbox__required',
+    );
+    expect(marker?.textContent).toBe('*');
+  });
+
+  it('should render the required marker next to projected content', async () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisCheckboxComponent],
+      template: `
+        <solaris-checkbox [required]="true"> Accept </solaris-checkbox>
+      `,
+    })
+    class RequiredProjectedHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(RequiredProjectedHost);
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+    hostFixture.detectChanges();
+    const marker = (hostFixture.nativeElement as HTMLElement).querySelector(
+      '.solaris-checkbox__required',
+    );
+    expect(marker?.textContent).toBe('*');
+  });
+
+  it('should not render the required marker when not required', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisCheckboxComponent);
+    hostFixture.componentRef.setInput('label', 'Accept terms');
+    hostFixture.detectChanges();
+    const marker = (hostFixture.nativeElement as HTMLElement).querySelector(
+      '.solaris-checkbox__required',
+    );
+    expect(marker).toBeFalsy();
   });
 });

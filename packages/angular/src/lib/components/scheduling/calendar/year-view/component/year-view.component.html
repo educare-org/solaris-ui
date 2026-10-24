@@ -1,0 +1,84 @@
+<div
+  class="solaris-calendar-year-view__grid"
+  role="grid"
+  tabindex="0"
+  [attr.aria-label]="yearLabel()"
+  [attr.aria-activedescendant]="activeDescendantId()"
+  (keydown)="onGridKeydown($event)"
+  (focus)="onGridFocus()"
+  (blur)="onGridBlur()"
+>
+  @for (calendarMonth of months(); track calendarMonth.month) {
+    <section
+      class="solaris-calendar-year-view__month"
+      role="rowgroup"
+      [attr.aria-label]="calendarMonth.label"
+      [attr.data-month]="calendarMonth.month"
+    >
+      <div class="solaris-calendar-year-view__title" aria-hidden="true">
+        {{ calendarMonth.title }}
+      </div>
+      <div
+        class="solaris-calendar-year-view__weekdays"
+        role="row"
+        [style.grid-template-columns]="gridTemplate()"
+      >
+        @for (name of weekdays(); track $index) {
+          <span class="solaris-calendar-year-view__weekday" role="columnheader">
+            {{ name }}
+          </span>
+        }
+      </div>
+      @for (week of calendarMonth.weeks; track $index) {
+        <div
+          class="solaris-calendar-year-view__week"
+          role="row"
+          [style.grid-template-columns]="gridTemplate()"
+        >
+          @for (day of week; track day.value) {
+            <div
+              class="solaris-calendar-year-view__cell"
+              role="gridcell"
+              [attr.data-today]="isToday(day.value) ? '' : null"
+              [attr.data-holiday]="day.holiday ? '' : null"
+              [attr.data-outside-month]="day.outside ? '' : null"
+              [attr.data-active]="
+                isActiveDay(day.value) && gridFocused() ? '' : null
+              "
+            >
+              <button
+                type="button"
+                class="solaris-calendar-year-view__day"
+                [id]="cellId(calendarMonth.month, day.value)"
+                tabindex="-1"
+                [attr.data-date]="day.value"
+                [attr.aria-label]="dayAriaLabel(day.value, day.total)"
+                [attr.aria-selected]="isActiveDay(day.value)"
+                [attr.aria-current]="isToday(day.value) ? 'date' : null"
+                (click)="openDay(day.value, day.total)"
+              >
+                <span
+                  class="solaris-calendar-year-view__number"
+                  aria-hidden="true"
+                >
+                  {{ dayNumber(day.value) }}
+                </span>
+                @if (day.total > 0) {
+                  <span
+                    class="solaris-calendar-year-view__dots"
+                    aria-hidden="true"
+                  >
+                    @for (dot of dotMarks(day.total); track $index) {
+                      <span class="solaris-calendar-year-view__dot"></span>
+                    }
+                  </span>
+                }
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </section>
+  }
+</div>
+<span solaris-visually-hidden role="status">{{ announcement() }}</span>

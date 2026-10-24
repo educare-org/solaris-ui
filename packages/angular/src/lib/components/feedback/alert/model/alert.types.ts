@@ -8,7 +8,9 @@ export type SolarisAlertVariant =
 
 export type SolarisAlertAppearance = 'tonal' | 'outline' | 'surface' | 'solid';
 
-export type SolarisAlertRadius = 'sm' | 'md' | 'lg' | 'xl';
+export type SolarisAlertRadius = 'none' | 'sm' | 'md' | 'lg' | 'xl';
+
+export type SolarisAlertSize = 'sm' | 'md' | 'lg';
 
 export type SolarisAlertDensity = 'compact' | 'normal' | 'comfortable';
 

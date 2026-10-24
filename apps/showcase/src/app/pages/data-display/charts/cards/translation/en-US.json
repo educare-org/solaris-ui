@@ -1,0 +1,46 @@
+{
+  "chart-cards-view": {
+    "title": "Chart Cards",
+    "description": "Free chart-card recipes for the Sales Report: compose solaris-card slots with sparklines and charts. Prefer chart-shell when view, period, or legend switching is needed.",
+    "section": {
+      "recipes": "Recipes",
+      "pattern": "Pattern",
+      "installation": "Installation",
+      "props": "Props"
+    },
+    "recipes": {
+      "note": "Three Sales Report recipes built on plain solaris-card slots — no new wrapper component. Every recipe pairs the visual chart with a totals table for screen readers and print.",
+      "revenueTitle": "Revenue KPI",
+      "revenueDescription": "Sales Report · 2026",
+      "revenueKpi": "R$ 1.2M",
+      "revenueDelta": "+12.4%",
+      "revenueSparkLabel": "Revenue trend, rising",
+      "channelsTitle": "Sales by channel",
+      "channelsDescription": "Q3 2026 · settled orders",
+      "targetTitle": "Monthly target",
+      "targetDescription": "Actual vs goal · 2026",
+      "channelOnline": "Online",
+      "channelRetail": "Retail",
+      "channelPartners": "Partners",
+      "listChannel": "Channel",
+      "listTotal": "Total",
+      "seriesActual": "Actual",
+      "seriesGoal": "Goal"
+    },
+    "pattern": {
+      "note": "Free chart-card = solaris-card (padding md) + header slot (title, description) + content slot (KPI row, chart, totals table). The shell owns switching (view/period/legend/display); the free card owns layout. Never nest a chart-shell inside a chart-card recipe — pick one wrapper per card.",
+      "whenFree": "Use a free card for fixed Sales Report layouts: KPI + sparkline, single chart + table, target vs goal.",
+      "whenShell": "Use chart-shell when the user switches views, periods, display modes, or toggles legend series."
+    },
+    "installation": {
+      "note": "Install the package and import the standalone card and chart components."
+    },
+    "props": {
+      "note": "The free chart-card has no component API: it is a documented composition of solaris-card slots. The table below lists the contract each recipe follows.",
+      "colProp": "Slot",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
+    }
+  }
+}

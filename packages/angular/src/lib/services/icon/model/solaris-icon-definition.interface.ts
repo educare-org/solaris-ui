@@ -2,6 +2,8 @@ export interface SvgPathElement {
   type: 'path';
   d: string;
   fill?: string;
+  fillRule?: string;
+  clipRule?: string;
   stroke?: string;
   strokeWidth?: number;
   strokeLinecap?: string;

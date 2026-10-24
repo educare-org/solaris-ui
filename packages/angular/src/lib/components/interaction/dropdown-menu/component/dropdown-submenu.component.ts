@@ -1,10 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement required to store submenu reference. SSR-safe via ElementRef.
-// SECURITY_EXCEPTION_FILE: nativeElement.addEventListener required for custom events. SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement required for hover detection via ElementRef. Read-only, SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement.dispatchEvent required for custom event. SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement.parentElement required to traverse DOM. Read-only, SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement identity comparison. Read-only, SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
 import {
   Component,
   ElementRef,
@@ -33,6 +26,10 @@ import {
   SOLARIS_POPOVER_PANEL_DATA,
   type SolarisPopoverPanelData,
 } from '../../popover/token/popover.tokens';
+import {
+  scheduleMotionClose,
+  cancelMotionClose,
+} from '../../../../core/utils/motion-close';
 
 import { SolarisDropdownMenuComponent } from './dropdown-menu.component';
 import { SolarisDropdownSubmenuTriggerComponent } from './dropdown-submenu-trigger.component';
@@ -86,6 +83,8 @@ export class SolarisDropdownSubmenuComponent {
   private openTimer: ReturnType<typeof setTimeout> | null = null;
   private closeTimer: ReturnType<typeof setTimeout> | null = null;
   private focusTimeout: ReturnType<typeof setTimeout> | null = null;
+  private closeTimeout: ReturnType<typeof setTimeout> | null = null;
+  private panelContainerRef: HTMLElement | null = null;
 
   constructor() {
     (this.elementRef.nativeElement as unknown as Record<string, unknown>)[
@@ -143,10 +142,17 @@ export class SolarisDropdownSubmenuComponent {
     if (!this.isOpen()) {
       return;
     }
-    this.detachMenu();
+    // State, focus and parent notification stay synchronous; only the overlay
+    // detach is delayed so the [data-closing] exit animation can play.
+    // It composes with closeDelay (hover intent) instead of replacing it.
+    this.markPanelClosing();
     this.isOpen.set(false);
     this.triggerChild()?.focus();
     this.notifyParentChildClosed();
+    this.closeTimeout = scheduleMotionClose(() => {
+      this.closeTimeout = null;
+      this.detachMenu();
+    });
   }
 
   onTriggerHover(): void {
@@ -545,6 +551,10 @@ export class SolarisDropdownSubmenuComponent {
 
     this.overlayRef.attach(portal);
 
+    this.panelContainerRef = this.overlayRef.overlayElement.querySelector(
+      '.solaris-popover-panel__container',
+    );
+
     this.updateOverlaySize();
 
     if (this.focusTimeout !== null) {
@@ -565,12 +575,25 @@ export class SolarisDropdownSubmenuComponent {
     this.removeKeydownHandler();
   }
 
+  private markPanelClosing(): void {
+    this.panelContainerRef?.setAttribute('data-closing', '');
+    this.panelContainerRef?.setAttribute('aria-hidden', 'true');
+  }
+
+  private cancelPendingClose(): void {
+    this.closeTimeout = cancelMotionClose(this.closeTimeout);
+    this.panelContainerRef?.removeAttribute('data-closing');
+    this.panelContainerRef?.removeAttribute('aria-hidden');
+  }
+
   private disposeOverlay(): void {
+    this.cancelPendingClose();
+    this.panelContainerRef = null;
     if (this.overlayRef) {
       try {
         this.overlayRef.dispose();
       } catch {
-        // Injector may already be destroyed during test teardown
+        // no-op
       }
       this.overlayRef = null;
     }
@@ -743,6 +766,7 @@ export class SolarisDropdownSubmenuComponent {
   private clearTimers(): void {
     this.clearOpenTimer();
     this.clearCloseTimer();
+    this.closeTimeout = cancelMotionClose(this.closeTimeout);
     if (this.focusTimeout !== null) {
       clearTimeout(this.focusTimeout);
       this.focusTimeout = null;

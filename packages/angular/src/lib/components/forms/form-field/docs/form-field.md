@@ -49,28 +49,32 @@ Selector: `solaris-form-field`
 
 #### Inputs
 
-| Input              | Type                                     | Default     | Description                                      |
-| ------------------ | ---------------------------------------- | ----------- | ------------------------------------------------ |
-| `label`            | `string`                                 | `''`        | Label text                                       |
-| `labelKey`         | `string`                                 | —           | Translation key for label                        |
-| `hint`             | `string`                                 | `''`        | Hint text                                        |
-| `hintKey`          | `string`                                 | —           | Translation key for hint                         |
-| `error`            | `string`                                 | `''`        | Error text                                       |
-| `errorKey`         | `string`                                 | —           | Translation key for error                        |
-| `required`         | `boolean`                                | `false`     | Semantic required state                          |
-| `optional`         | `boolean`                                | `false`     | Shows optional marker                            |
-| `optionalLabel`    | `string`                                 | —           | Custom optional label text                       |
-| `optionalLabelKey` | `string`                                 | —           | Translation key for optional label               |
-| `requiredLabel`    | `string`                                 | —           | Custom required label text                       |
-| `requiredLabelKey` | `string`                                 | —           | Translation key for required label               |
-| `invalid`          | `boolean \| undefined`                   | —           | Manual invalid state (overrides auto-detection)  |
-| `disabled`         | `boolean \| undefined`                   | —           | Manual disabled state (overrides auto-detection) |
-| `readonly`         | `boolean \| undefined`                   | —           | Manual readonly state (overrides auto-detection) |
-| `appearance`       | `'outline' \| 'surface' \| 'filled'`     | `'outline'` | Visual style                                     |
-| `density`          | `'compact' \| 'normal' \| 'comfortable'` | inherited   | Spacing density                                  |
-| `radius`           | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'md'`      | Border radius                                    |
-| `prefix`           | `SolarisIconName`                        | —           | Prefix icon rendered in the leading affix slot   |
-| `suffix`           | `SolarisIconName`                        | —           | Suffix icon rendered in the trailing affix slot  |
+| Input              | Type                                     | Default     | Description                                                   |
+| ------------------ | ---------------------------------------- | ----------- | ------------------------------------------------------------- |
+| `label`            | `string`                                 | `''`        | Label text                                                    |
+| `labelKey`         | `string`                                 | —           | Translation key for label                                     |
+| `hint`             | `string`                                 | `''`        | Hint text                                                     |
+| `hintKey`          | `string`                                 | —           | Translation key for hint                                      |
+| `error`            | `string`                                 | `''`        | Error text                                                    |
+| `errorKey`         | `string`                                 | —           | Translation key for error                                     |
+| `required`         | `boolean \| undefined`                   | —           | Required state (marker + native propagation)                  |
+| `optional`         | `boolean`                                | `false`     | Shows optional marker                                         |
+| `optionalLabel`    | `string`                                 | —           | Custom optional label text                                    |
+| `optionalLabelKey` | `string`                                 | —           | Translation key for optional label                            |
+| `requiredLabel`    | `string`                                 | —           | Custom required label text                                    |
+| `requiredLabelKey` | `string`                                 | —           | Translation key for required label                            |
+| `invalid`          | `boolean \| undefined`                   | —           | Manual invalid state (overrides auto-detection)               |
+| `disabled`         | `boolean \| undefined`                   | —           | Manual disabled state (overrides auto-detection)              |
+| `readonly`         | `boolean \| undefined`                   | —           | Manual readonly state (overrides auto-detection)              |
+| `appearance`       | `'outline' \| 'surface' \| 'filled'`     | `'outline'` | Visual style                                                  |
+| `size`             | `'sm' \| 'md' \| 'lg'`                   | `'md'`      | Control size (outer height follows the size × density matrix) |
+| `density`          | `'compact' \| 'normal' \| 'comfortable'` | inherited   | Spacing density                                               |
+| `radius`           | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`      | Border radius                                                 |
+| `prefix`           | `SolarisIconName`                        | —           | Prefix icon rendered in the leading affix slot                |
+| `suffix`           | `SolarisIconName`                        | —           | Suffix icon rendered in the trailing affix slot               |
+| `loading`          | `boolean`                                | `false`     | Shows a spinner in the suffix slot, suppresses suffix content |
+| `loadingLabel`     | `string`                                 | —           | Accessible label for the loading spinner                      |
+| `loadingLabelKey`  | `string`                                 | —           | Translation key for the loading spinner label                 |
 
 ### SolarisFormLabelComponent
 
@@ -101,6 +105,23 @@ Attribute directive for prefix content (text, icon, button).
 Selector: `[solaris-form-suffix]`
 
 Attribute directive for suffix content (text, icon, button).
+
+### SolarisFormSuffixActionDirective
+
+Selector: `[solaris-form-suffix-action]`
+
+Attribute directive for non-square suffix actions (e.g. a CTA button).
+The suffix cell switches to the `action` variant: it hugs the content
+instead of keeping the standardised square, and the field sizes a nested
+`[solaris-button]` to fit inside the wrapper. Combine with
+`[solaris-form-suffix]` when the content is projected through a preset
+field (`solaris-email-field`), so the outer wrapper still forwards it:
+
+```html
+<solaris-email-field prefix="mail">
+  <button solaris-button solaris-form-suffix solaris-form-suffix-action size="sm">Register</button>
+</solaris-email-field>
+```
 
 ## Label
 
@@ -189,10 +210,12 @@ If a projected `<solaris-form-error>` exists, it wins over `error`/`errorKey`.
 
 ## Required / Optional
 
-The default visual marks **optional**, not required.
-
-- `required=true`: sets semantic state. Does **not** render a required asterisk by default.
-- `optional=true`: renders a visible "(optional)" marker.
+- `required=true`: renders a `*` marker next to an inline label (decorative,
+  `aria-hidden`) and propagates `required` to the native control, mirroring
+  the checkbox/radio required indicator. A native `required` attribute on
+  the projected control is auto-detected and renders the marker too.
+- `optional=true`: renders a visible "(optional)" marker instead; it wins
+  over the required marker when both are set.
 
 ## Prefix / Suffix
 
@@ -229,6 +252,38 @@ Accepts (via projection):
 - button
 - any projected content
 
+Affix cells are standardised squares (`--solaris-form-field-affix-size`,
+derived from the size × density matrix), so every icon occupies the same
+area. The prefix cell carries a divider towards the control; the suffix
+cell has no divider. Longer text (e.g. `USD`) keeps the square as a minimum
+and grows past it instead of overflowing.
+
+For rectangular actions such as a CTA button, use
+`[solaris-form-suffix-action]` instead: the cell switches to the `action`
+variant and sizes the button to fit. Prefer a button one size step below
+the field (field `md` → button `sm`).
+
+## Loading
+
+Set `[loading]="true"` to render a spinner in the suffix slot while async
+work runs (e.g. validating a postal code). Loading suppresses any other
+suffix content, renders a square overlay at the suffix position, and sets
+`aria-busy="true"` on the field. The overlay takes no layout space, so
+toggling `loading` never changes the field width; the input reserves text
+space on the right instead. The spinner size follows the field size (`sm`/`md` → spinner `sm`,
+`lg` → spinner `md`). Pass `loadingLabel`/`loadingLabelKey` for a custom
+accessible name; otherwise the spinner falls back to its default label.
+
+```html
+<solaris-form-field label="Postal code" [loading]="true">
+  <input solaris-input formControlName="postalCode" />
+</solaris-form-field>
+```
+
+Preset fields (`solaris-email-field`, `solaris-password-field`, …) forward
+`loading` in their own refactor lot; until then, use `solaris-form-field`
+directly for loading states.
+
 ## Appearances
 
 | Value     | Description                                                            |
@@ -245,14 +300,53 @@ Accepts (via projection):
 | `normal`      | Balanced vertical spacing. Default      |
 | `comfortable` | Increased vertical spacing              |
 
+## Sizes
+
+Form Field owns the control height. `size` (`sm | md | lg`, default `md`)
+combined with `density` selects one of the 9 `--solaris-control-height-*`
+tokens, so the outer height always matches the matrix:
+
+| Size | compact | normal | comfortable |
+| ---- | ------- | ------ | ----------- |
+| `sm` | 28px    | 36px   | 44px        |
+| `md` | 32px    | 40px   | 48px        |
+| `lg` | 36px    | 44px   | 52px        |
+
+Wrapper controls (`select`, `multi-select`, `email-field`, `password-field`,
+`phone-field`, `date-picker`, `otp-input`) expose the same `size` input and
+forward it to the inner Form Field together with the effective density.
+
+Projected `solaris-input` / `solaris-textarea` controls inherit `size` and
+`density` from the enclosing field through `SOLARIS_FORM_FIELD` (own input
+→ field → default). Explicit inputs on the control always win, and
+standalone controls keep their own defaults (`md` / theme density).
+
+A projected `solaris-input` renders with zero vertical padding inside the
+field: the wrapper owns the full vertical rhythm (text is vertically
+centred), so the outer box matches the matrix token exactly in every
+combination the text line fits.
+
+### Textarea controls
+
+When the projected control is a `textarea`, the host reports
+`data-control-type="textarea"` and owns the minimum height while the
+textarea delegates to it (`height: auto`, `min-height: 0`). The `resize`
+input (`none | vertical | horizontal | both`, default `vertical`) is
+reflected as `data-control-resize`; `horizontal` and `both` resize the
+wrapper so no second handle appears on the textarea.
+
 ## Radius
 
-| Value  | Description              |
-| ------ | ------------------------ |
-| `none` | Sharp corners            |
-| `sm`   | Small rounding           |
-| `md`   | Medium rounding. Default |
-| `lg`   | Large rounding           |
+| Value  | Description                   |
+| ------ | ----------------------------- |
+| `none` | Sharp corners                 |
+| `sm`   | Small rounding (2px). Default |
+| `md`   | Medium rounding (8px)         |
+| `lg`   | Pill shape                    |
+
+Fields use their own radius scale (`md` maps to the 8px token, `lg`
+renders as a pill) so `sm` and `md` stay visually distinct. Other
+components keep the global scale.
 
 ## CSS Variables
 
@@ -270,6 +364,8 @@ General component tokens available for advanced customization:
 | `--solaris-form-field-control-background`   | Control wrapper background         |
 | `--solaris-form-field-control-border-color` | Control wrapper border color       |
 | `--solaris-form-field-control-border-width` | Control wrapper border width       |
+| `--solaris-form-field-affix-size`           | Square prefix/suffix cell size     |
+| `--solaris-form-field-action-inset`         | Vertical inset of suffix actions   |
 | `--solaris-form-field-readonly-background`  | Readonly background                |
 | `--solaris-form-field-disabled-opacity`     | Disabled opacity                   |
 | `--solaris-form-field-label-color`          | Label text color                   |
@@ -292,7 +388,7 @@ General component tokens available for advanced customization:
 
 ### Focused
 
-When the internal control is focused, the Form Field reflects the focused state with a focus ring using the primary token.
+When the internal control is focused, the Form Field reflects the focused state with a focus ring using the primary token (border color plus a `box-shadow` ring at `--solaris-form-field-focus-ring-width`). While invalid and focused, the ring uses the danger token.
 
 ### Invalid
 
@@ -407,7 +503,7 @@ Rules:
 - No global form container.
 - No glass appearance.
 - No `xl` or `full` radius for form fields (use `md` or `lg`).
-- Prefix/suffix do not have `[solaris-form-action]` (use `[solaris-form-suffix]` for actions).
+- Prefix/suffix action content uses `[solaris-form-suffix-action]` (rectangular variant of the suffix cell).
 - `aria-describedby` does not update dynamically for projected content in all edge cases.
 
 ## Upcoming components in Forms Release

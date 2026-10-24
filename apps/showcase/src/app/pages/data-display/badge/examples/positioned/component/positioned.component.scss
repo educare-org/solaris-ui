@@ -1,0 +1,17 @@
+.positioned-badge-example__anchor {
+  position: relative;
+  display: inline-flex;
+}
+
+.positioned-badge-example__avatar {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  width: var(--solaris-spacing-12);
+  height: var(--solaris-spacing-12);
+  color: var(--solaris-neutral-text-secondary);
+  background: var(--solaris-neutral-sunken);
+  border-radius: var(--solaris-radius-full);
+  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-none) var(--solaris-font-family-sans);
+}

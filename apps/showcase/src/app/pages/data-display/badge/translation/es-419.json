@@ -1,0 +1,95 @@
+{
+  "badge": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "ghost": "Ghost",
+      "outline": "Outline",
+      "solid": "Sólido",
+      "surface": "Superficie",
+      "tonal": "Tonal"
+    },
+    "appearances": {
+      "note": "Combina apariencia y color para definir el peso visual y el significado semántico del Badge."
+    },
+    "color": {
+      "danger": "Peligro",
+      "info": "Info",
+      "neutral": "Neutro",
+      "primary": "Primario",
+      "success": "Éxito",
+      "warning": "Advertencia"
+    },
+    "count": {
+      "note": "Los conteos superiores al máximo se muestran como \"{max}+\" con el valor completo en la información sobre herramientas del título. Cero oculta el Badge, salvo que showZero esté activado."
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Componente Badge no interactivo para Status, etiquetas y conteos.",
+    "dot": {
+      "note": "Los puntos indican presencia o estado no leído sin número. Pulse añade un anillo animado y respeta el movimiento reducido.",
+      "tab": {
+        "dot": "Punto",
+        "pulse": "Pulso"
+      }
+    },
+    "example": {
+      "demo": "Badge",
+      "status": {
+        "active": "Activo",
+        "error": "Error",
+        "info": "Info",
+        "pending": "Pendiente"
+      }
+    },
+    "examples": {
+      "note": "Empieza con el Badge predeterminado y luego explora apariencias y variantes a continuación."
+    },
+    "icons": {
+      "note": "Los iconos escalan con el tamaño del Badge. Los Badges solo con icono necesitan una etiqueta accesible.",
+      "tab": {
+        "icon-only": "Solo icono"
+      }
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "placement": {
+      "note": "Los Badges ubicados se anclan a la esquina de un ancestro posicionado — envuelve el objetivo en position: relative."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "appearances": "Apariencias",
+      "colors": "Colores",
+      "count": "Conteo",
+      "density": "Densidad",
+      "dot": "Punto",
+      "examples": "Ejemplos",
+      "icons": "Iconos",
+      "installation": "Instalación",
+      "placement": "Ubicación",
+      "props": "Props",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad funcionan juntos en el componente. Combina ambos controles para ver todas las combinaciones.",
+      "tab": {
+        "count": "Conteo",
+        "standard": "Estándar"
+      }
+    },
+    "title": "Badge"
+  }
+}

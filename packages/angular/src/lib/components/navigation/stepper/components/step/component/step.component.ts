@@ -33,6 +33,7 @@ export class SolarisStepComponent {
   readonly stepper = inject(SOLARIS_STEPPER, { optional: true });
 
   readonly error = input<boolean>(false);
+  readonly warning = input<boolean>(false);
   readonly optional = input<boolean>(false);
   readonly disabled = input<boolean>(false);
   readonly completed = input<boolean>(false);
@@ -42,6 +43,10 @@ export class SolarisStepComponent {
   readonly status = input<SolarisStepperStatus>('pending');
   readonly description = input<string | undefined>(undefined);
   readonly descriptionKey = input<string | undefined>(undefined);
+  readonly statusText = input<string | undefined>(undefined);
+  readonly statusTextKey = input<string | undefined>(undefined);
+  readonly canEnter = input<(() => boolean) | undefined>(undefined);
+  readonly canExit = input<(() => boolean) | undefined>(undefined);
 
   readonly index = computed(() => {
     if (this.stepper) {
@@ -60,6 +65,7 @@ export class SolarisStepComponent {
   readonly computedStatus = computed<SolarisStepperStatus>(() => {
     if (this.disabled()) return 'disabled';
     if (this.error()) return 'error';
+    if (this.warning()) return 'warning';
     if (this.isActive()) return 'active';
     if (this.completed()) return 'completed';
     return this.status();
@@ -68,9 +74,11 @@ export class SolarisStepComponent {
   readonly isInteractive = computed(() => {
     if (this.computedStatus() === 'disabled') return false;
     if (!this.stepper) return false;
+    const status = this.computedStatus();
     return !(
       this.stepper.linear() &&
-      this.computedStatus() !== 'completed' &&
+      status !== 'completed' &&
+      status !== 'warning' &&
       !this.isActive()
     );
   });
@@ -106,10 +114,22 @@ export class SolarisStepComponent {
     return 'Optional';
   });
 
+  readonly resolvedStatusText = computed(() => {
+    if (this.statusText()) return this.statusText();
+    const statusTextKey = this.statusTextKey();
+    if (statusTextKey && this.translateService) {
+      return this.translateService.translate(statusTextKey);
+    }
+    return statusTextKey ?? '';
+  });
+
   readonly showCheckIcon = computed(
     () => this.computedStatus() === 'completed' && !this.icon(),
   );
   readonly showErrorIcon = computed(
     () => this.computedStatus() === 'error' && !this.icon(),
+  );
+  readonly showWarningIcon = computed(
+    () => this.computedStatus() === 'warning' && !this.icon(),
   );
 }

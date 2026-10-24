@@ -1,22 +1,28 @@
-export type SolarisTabsOrientation = 'horizontal' | 'vertical';
-
 export type SolarisTabsAppearance = 'underline' | 'pills' | 'enclosed';
+
+export type SolarisTabsSize = 'sm' | 'md' | 'lg';
+
+export type SolarisTabsColor = 'primary' | 'neutral';
 
 export type SolarisTabsDensity = 'compact' | 'normal' | 'comfortable';
 
-export type SolarisTabsShape = 'normal' | 'wide';
+export type SolarisTabsContentTransition = 'none' | 'fade' | 'slide';
 
 export type SolarisTabsActivationMode = 'automatic' | 'manual';
 
-export type SolarisTabsContentTransition = 'none' | 'fade' | 'slide';
+export type SolarisTabsOrientation = 'horizontal' | 'vertical';
+
+export type SolarisTabsShape = 'normal' | 'wide';
+
+export type SolarisTabsValue = string | number | undefined;
 
 export interface SolarisTabsValueChangeEvent {
-  value: string | number | undefined;
+  value: SolarisTabsValue;
 }
 
 export interface SolarisTabsChangeEvent {
-  value: string | number | undefined;
-  previousValue: string | number | undefined;
+  value: SolarisTabsValue;
+  previousValue: SolarisTabsValue;
 }
 
 export interface SolarisTabClickEvent {

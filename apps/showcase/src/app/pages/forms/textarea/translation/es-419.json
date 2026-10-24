@@ -1,0 +1,102 @@
+{
+  "textarea": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "counter": {
+      "label": "Limitado a 100 caracteres",
+      "note": "Se muestra automáticamente cuando maxlength está definido en el textarea.",
+      "placeholder": "Escribe tu mensaje..."
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Directiva de estilo e integración para <textarea> nativo. Funciona de forma independiente e integrada con Form Field.",
+    "error": {
+      "invalid": "Este campo tiene un error."
+    },
+    "examples": {
+      "note": "Textarea independiente con su propio shell visual. El placeholder es un ejemplo, nunca un reemplazo de etiqueta."
+    },
+    "form": {
+      "hint": "Guardado automáticamente como borrador.",
+      "label": "Notas",
+      "placeholder": "Notas para el equipo"
+    },
+    "form-field": {
+      "hint": "Escribe una descripción objetiva.",
+      "label": "Descripción",
+      "note": "Etiqueta, sugerencia y shell visual gestionados por Form Field. La altura se delega al wrapper de Form Field; el textarea conserva texto, cursor, selección y placeholder.",
+      "placeholder": "Observaciones"
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa la directiva textarea con Form Field."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "none": "Ninguno",
+      "note": "El Radio pertenece a Form Field cuando está proyectado; el textarea independiente expone los mismos valores none, sm, md, lg y xl. Escala global: md equivale a 4px, lg a 8px y xl se muestra como Pill.",
+      "sm": "Pequeño",
+      "xl": "Pill"
+    },
+    "resize": {
+      "both": "Ambos",
+      "both-placeholder": "Redimensionar en ambas direcciones",
+      "horizontal": "Horizontal",
+      "horizontal-placeholder": "Redimensionar solo horizontalmente",
+      "none": "Ninguno",
+      "none-placeholder": "No redimensionable",
+      "note": "El controlador de redimensionamiento sigue el input resize. Los modos Horizontal y ambos redimensionan el wrapper de Form Field; el textarea nunca muestra un segundo controlador.",
+      "vertical": "Vertical",
+      "vertical-placeholder": "Redimensionar solo verticalmente"
+    },
+    "rows": {
+      "label": "Con rows=4",
+      "note": "Textarea respeta el atributo nativo rows.",
+      "placeholder": "Este textarea tiene rows=4"
+    },
+    "section": {
+      "appearances": "Apariencias",
+      "counter": "Contador de caracteres",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "form": "Integración con formularios",
+      "form-field": "Con Form Field",
+      "installation": "Instalación",
+      "props": "Props",
+      "radius": "Radio",
+      "resize": "Redimensionamiento",
+      "rows": "Filas",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en una matriz de 3x3: Form Field controla la altura exterior, el textarea mantiene sincronizadas su propia fuente y relleno."
+    },
+    "states": {
+      "default": "Predeterminado",
+      "disabled": "Deshabilitado",
+      "invalid": "No válido",
+      "readonly": "Solo lectura",
+      "readonly-value": "Contenido de texto de Solo lectura"
+    },
+    "title": "Textarea"
+  }
+}

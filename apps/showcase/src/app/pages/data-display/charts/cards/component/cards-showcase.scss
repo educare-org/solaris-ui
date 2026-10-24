@@ -1,0 +1,91 @@
+.chart-cards-showcase__note {
+  margin: 0 0 var(--solaris-spacing-7);
+}
+
+.chart-cards-showcase__recipe-title {
+  margin: var(--solaris-spacing-8) 0 var(--solaris-spacing-5);
+  font-size: var(--solaris-font-size-md);
+  font-weight: var(--solaris-font-weight-semibold);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.chart-cards-showcase__recipe-title:first-of-type {
+  margin-top: 0;
+}
+
+.chart-cards-showcase__kpi {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-4);
+  margin-bottom: var(--solaris-spacing-5);
+}
+
+.chart-cards-showcase__kpi-value {
+  font-size: var(--solaris-font-size-2xl);
+  font-weight: var(--solaris-font-weight-bold);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.chart-cards-showcase__table {
+  width: 100%;
+  margin-top: var(--solaris-spacing-7);
+  border-collapse: collapse;
+  font-size: var(--solaris-font-size-xs);
+  color: var(--solaris-neutral-text-body);
+}
+
+.chart-cards-showcase__table caption {
+  text-align: start;
+  margin-bottom: var(--solaris-spacing-4);
+  color: var(--solaris-neutral-text-secondary);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.chart-cards-showcase__table th,
+.chart-cards-showcase__table td {
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5);
+  border-bottom: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-default);
+  text-align: start;
+}
+
+.chart-cards-showcase__table thead th:last-child,
+.chart-cards-showcase__table tbody td {
+  text-align: end;
+}
+
+.chart-cards-showcase__table tbody th {
+  font-weight: var(--solaris-font-weight-regular);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.chart-cards-showcase__table tbody td {
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.chart-cards-showcase__rules {
+  margin: 0 0 var(--solaris-spacing-7);
+  padding-inline-start: var(--solaris-spacing-7);
+  display: grid;
+  gap: var(--solaris-spacing-4);
+  color: var(--solaris-neutral-text-body);
+  font-size: var(--solaris-font-size-sm);
+}
+
+.chart-cards-showcase__table-wrap {
+  overflow-x: auto;
+}
+
+@media print {
+  .chart-cards-showcase__kpi-value,
+  .chart-cards-showcase__recipe-title,
+  .chart-cards-showcase__table tbody th,
+  .chart-cards-showcase__table tbody td,
+  .chart-cards-showcase__table thead th {
+    color: #000;
+  }
+
+  .chart-cards-showcase__table {
+    background: #fff;
+  }
+}

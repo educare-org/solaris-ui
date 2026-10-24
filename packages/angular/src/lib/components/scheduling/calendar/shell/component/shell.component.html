@@ -1,0 +1,258 @@
+<div class="solaris-calendar__toolbar">
+  <div class="solaris-calendar__nav-left-side">
+    <div
+      role="group"
+      class="solaris-calendar__nav"
+      [attr.aria-label]="text('solaris.calendar.shellNavigation')"
+    >
+      <button
+        size="sm"
+        type="button"
+        solaris-icon-button
+        appearance="outline"
+        (click)="shift(-1)"
+        [ariaLabel]="text('solaris.calendar.shellPrevious')"
+        class="solaris-calendar__nav-button solaris-calendar__prev"
+      >
+        <solaris-icon name="chevron-left" [decorative]="true" />
+      </button>
+      <button
+        size="sm"
+        type="button"
+        solaris-button
+        appearance="outline"
+        (click)="goToday()"
+        class="solaris-calendar__nav-button solaris-calendar__today"
+      >
+        {{ text('solaris.calendar.today') }}
+      </button>
+      <button
+        size="sm"
+        type="button"
+        appearance="outline"
+        solaris-icon-button
+        (click)="shift(1)"
+        [ariaLabel]="text('solaris.calendar.shellNext')"
+        class="solaris-calendar__nav-button solaris-calendar__next"
+      >
+        <solaris-icon name="chevron-right" [decorative]="true" />
+      </button>
+    </div>
+    <strong class="solaris-calendar__title">{{ titleLabel() }}</strong>
+  </div>
+  <div class="solaris-calendar__views">
+    <solaris-select
+      size="sm"
+      [value]="normalizedView()"
+      (valueChange)="selectView($event)"
+      class="solaris-calendar__views-select"
+    >
+      @for (option of viewOptions(); track option.value) {
+        <solaris-option [value]="option.value">{{
+          option.label
+        }}</solaris-option>
+      }
+    </solaris-select>
+  </div>
+</div>
+
+<div class="solaris-calendar__body">
+  <aside
+    class="solaris-calendar__side"
+    [attr.aria-label]="text('solaris.calendar.miniCalendar')"
+  >
+    <div class="solaris-calendar__mini-nav">
+      <button
+        size="sm"
+        type="button"
+        solaris-icon-button
+        appearance="outline"
+        radius="full"
+        (click)="shiftMini(-1)"
+        class="solaris-calendar__mini-prev"
+        [ariaLabel]="text('solaris.calendar.shellPrevious')"
+      >
+        <solaris-icon name="chevron-left" [decorative]="true" />
+      </button>
+      <strong class="solaris-calendar__mini-title">
+        {{ miniLabel() }}
+      </strong>
+      <button
+        size="sm"
+        type="button"
+        solaris-icon-button
+        appearance="outline"
+        radius="full"
+        (click)="shiftMini(1)"
+        class="solaris-calendar__mini-next"
+        [ariaLabel]="text('solaris.calendar.shellNext')"
+      >
+        <solaris-icon name="chevron-right" [decorative]="true" />
+      </button>
+    </div>
+    <div
+      role="grid"
+      class="solaris-calendar__mini"
+      [attr.aria-label]="miniLabel()"
+    >
+      <div class="solaris-calendar__mini-week" role="row">
+        @for (name of miniWeekdays(); track $index) {
+          <span class="solaris-calendar__mini-weekday" role="columnheader">
+            {{ name }}
+          </span>
+        }
+      </div>
+      @for (week of miniRows(); track $index) {
+        <div class="solaris-calendar__mini-week" role="row">
+          @for (day of week; track day.value) {
+            <button
+              type="button"
+              role="gridcell"
+              [attr.data-date]="day.value"
+              (click)="pickMini(day.value)"
+              class="solaris-calendar__mini-day"
+              [attr.data-today]="isToday(day.value) ? '' : null"
+              [attr.data-active]="isActiveDay(day.value) ? '' : null"
+              [attr.data-outside-month]="day.inCurrentMonth ? null : ''"
+              [attr.aria-current]="isToday(day.value) ? 'date' : null"
+            >
+              {{ day.day }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+    <solaris-collapsible
+      size="sm"
+      appearance="plain"
+      class="solaris-calendar__display-options"
+      [label]="text('solaris.calendar.displayOptions')"
+    >
+      <solaris-checkbox
+        [checked]="showWeekends()"
+        class="solaris-calendar__weekends"
+        (checkedChange)="onToggleWeekends($event)"
+      >
+        {{ text('solaris.calendar.showWeekends') }}
+      </solaris-checkbox>
+      <solaris-checkbox
+        [checked]="showHolidays()"
+        class="solaris-calendar__holidays-toggle"
+        (checkedChange)="showHolidays.set($event)"
+      >
+        {{ text('solaris.calendar.showHolidays') }}
+      </solaris-checkbox>
+    </solaris-collapsible>
+    @if (normalizedView() === 'custom') {
+      <solaris-select
+        size="sm"
+        [value]="timeZone()"
+        [hint]="timeZoneOffset()"
+        (valueChange)="onTimeZone($event)"
+        class="solaris-calendar__tz-select"
+        [label]="text('solaris.calendar.timeZone')"
+      >
+        @for (zone of timeZones(); track zone) {
+          <solaris-option [value]="zone">{{
+            timeZoneLabel(zone)
+          }}</solaris-option>
+        }
+      </solaris-select>
+
+      <solaris-select
+        size="sm"
+        [value]="normalizedCustomDays()"
+        (valueChange)="onCustomDays($event)"
+        class="solaris-calendar__custom-days"
+        [label]="text('solaris.calendar.customDays')"
+      >
+        @for (days of customDaysOptions; track days) {
+          <solaris-option [value]="days">{{ days }}</solaris-option>
+        }
+      </solaris-select>
+    }
+  </aside>
+
+  <div class="solaris-calendar__main">
+    @if (effectiveView() === 'month') {
+      <solaris-calendar-month-view
+        [size]="size()"
+        [tasks]="tasks()"
+        [events]="visibleEvents()"
+        [locale]="locale()"
+        [density]="density()"
+        [timeZone]="timeZone()"
+        [focusedDate]="focusedDate()"
+        [holidays]="resolvedHolidays()"
+        [weekStartsOn]="weekStartsOn()"
+        [showWeekends]="showWeekends()"
+        (daySelect)="forwardDay($event)"
+        (taskMove)="taskMove.emit($event)"
+        (eventMove)="eventMove.emit($event)"
+        (eventOpen)="handleEventOpen($event)"
+        (taskToggle)="taskToggle.emit($event)"
+        (eventCreate)="handleEventCreate($event)"
+        (focusedDateChange)="focusedDate.set($event)"
+      />
+    } @else if (
+      effectiveView() === 'day' ||
+      effectiveView() === 'week' ||
+      effectiveView() === 'custom'
+    ) {
+      <solaris-calendar-week-view
+        [size]="size()"
+        [tasks]="tasks()"
+        [events]="visibleEvents()"
+        [locale]="locale()"
+        [density]="density()"
+        [timeZone]="timeZone()"
+        [focusedDate]="focusedDate()"
+        [holidays]="resolvedHolidays()"
+        [weekStartsOn]="weekStartsOn()"
+        [showWeekends]="showWeekends()"
+        (daySelect)="forwardDay($event)"
+        [visibleDays]="weekVisibleDays()"
+        (eventMove)="eventMove.emit($event)"
+        (eventOpen)="handleEventOpen($event)"
+        (slotSelect)="handleSlotSelect($event)"
+        (taskToggle)="taskToggle.emit($event)"
+        (eventCreate)="handleEventCreate($event)"
+        (eventResize)="eventResize.emit($event)"
+        (focusedDateChange)="focusedDate.set($event)"
+      />
+    } @else if (effectiveView() === 'year') {
+      <solaris-calendar-year-view
+        [size]="size()"
+        [tasks]="tasks()"
+        [events]="visibleEvents()"
+        [locale]="locale()"
+        [density]="density()"
+        [timeZone]="timeZone()"
+        [focusedDate]="focusedDate()"
+        [holidays]="resolvedHolidays()"
+        [weekStartsOn]="weekStartsOn()"
+        [showWeekends]="showWeekends()"
+        (daySelect)="forwardDay($event)"
+        (focusedDateChange)="focusedDate.set($event)"
+      />
+    } @else {
+      <solaris-calendar-schedule-view
+        [size]="size()"
+        [windowDays]="7"
+        [tasks]="tasks()"
+        [locale]="locale()"
+        [events]="visibleEvents()"
+        [density]="density()"
+        [timeZone]="timeZone()"
+        [focusedDate]="focusedDate()"
+        [holidays]="resolvedHolidays()"
+        [showToolbar]="false"
+        (daySelect)="forwardDay($event)"
+        (eventOpen)="handleEventOpen($event)"
+        (taskToggle)="taskToggle.emit($event)"
+        (focusedDateChange)="focusedDate.set($event)"
+      />
+    }
+  </div>
+</div>
+<span solaris-visually-hidden role="status">{{ announcement() }}</span>

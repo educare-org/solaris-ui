@@ -1,0 +1,30 @@
+<solaris-table
+  [data]="rows"
+  [columns]="columns"
+  rowId="id"
+  [expandable]="true"
+  layout="card"
+>
+  <ng-template solaris-table-cell="person" let-row>
+    <solaris-avatar-profile
+      size="sm"
+      textSize="sm"
+      [title]="row.name"
+      [subtitle]="row.city"
+    />
+  </ng-template>
+  <ng-template solaris-table-cell="status" let-row>
+    <solaris-badge
+      size="sm"
+      appearance="solid"
+      [color]="statusColorOf(row.score)"
+    >
+      {{ statusOf(row.score) }}
+    </solaris-badge>
+  </ng-template>
+  <ng-template solaris-table-cell="actions" let-row>
+    <button type="button" solaris-button appearance="ghost" size="sm">
+      {{ 'table.action.details' | translate }}
+    </button>
+  </ng-template>
+</solaris-table>

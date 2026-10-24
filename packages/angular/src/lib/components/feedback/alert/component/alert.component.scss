@@ -1,24 +1,27 @@
 :host {
-  --solaris-alert-icon-offset: -1px;
+  --solaris-alert-icon-offset: calc(var(--solaris-border-width-sm) * -1);
   --solaris-alert-close-offset: 0px;
   --solaris-alert-close-background: transparent;
-  --solaris-alert-gap: var(--solaris-spacing-3);
-  --solaris-alert-color: var(--solaris-info-text);
+  --solaris-alert-gap: var(--solaris-density-gap-md);
+  --solaris-alert-color: var(--solaris-info-foreground);
   --solaris-alert-radius: var(--solaris-radius-md);
-  --solaris-alert-padding: var(--solaris-spacing-4);
-  --solaris-alert-icon-color: var(--solaris-info-base);
-  --solaris-alert-content-gap: var(--solaris-spacing-1);
-  --solaris-alert-actions-gap: var(--solaris-spacing-2);
-  --solaris-alert-close-color: var(--solaris-text-muted);
+  --solaris-alert-padding: var(--solaris-density-padding-md);
+  --solaris-alert-icon-color: var(--solaris-info-solid);
+  --solaris-alert-content-gap: var(--solaris-density-gap-md);
+  --solaris-alert-actions-gap: var(--solaris-density-gap-md);
+  --solaris-alert-close-color: var(--solaris-neutral-text-secondary);
+  --solaris-alert-font-size: var(--solaris-font-size-sm);
   --solaris-alert-icon-size: var(--solaris-font-size-lg);
-  --solaris-alert-background: var(--solaris-info-surface);
-  --solaris-alert-title-color: var(--solaris-text-strong);
+  --solaris-alert-title-font-size: var(--solaris-font-size-md);
+  --solaris-alert-close-size: var(--solaris-font-size-md);
+  --solaris-alert-background: var(--solaris-info-soft);
+  --solaris-alert-title-color: var(--solaris-neutral-text-heading);
   --solaris-alert-border-color: var(--solaris-info-border);
   --solaris-alert-border-width: var(--solaris-border-width-sm);
   --solaris-alert-close-icon-size: var(--solaris-font-size-md);
-  --solaris-alert-description-color: var(--solaris-text-default);
+  --solaris-alert-description-color: var(--solaris-neutral-text-body);
   --solaris-alert-first-line-height: var(--solaris-line-height-md);
-  --solaris-alert-first-line-font-size: var(--solaris-font-size-sm);
+  --solaris-alert-first-line-font-size: var(--solaris-alert-font-size);
 
   display: flex;
   box-sizing: border-box;
@@ -30,13 +33,15 @@
   background: var(--solaris-alert-background);
   border: var(--solaris-alert-border-width) solid
     var(--solaris-alert-border-color);
+  animation: solaris-motion-overlay-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 :host([data-has-title]) {
   --solaris-alert-icon-offset: 0px;
   --solaris-alert-close-offset: 0px;
   --solaris-alert-first-line-height: var(--solaris-line-height-sm);
-  --solaris-alert-first-line-font-size: var(--solaris-font-size-md);
+  --solaris-alert-first-line-font-size: var(--solaris-alert-title-font-size);
 }
 
 .solaris-alert__icon {
@@ -66,7 +71,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--solaris-alert-content-gap);
-  font-size: var(--solaris-font-size-sm);
+  font-size: var(--solaris-alert-font-size);
   line-height: var(--solaris-line-height-md);
 }
 
@@ -98,8 +103,8 @@
   box-sizing: border-box;
   inset-block-start: 0.5lh;
   transform: translateY(-50%);
-  width: var(--solaris-font-size-md);
-  height: var(--solaris-font-size-md);
+  width: var(--solaris-alert-close-size);
+  height: var(--solaris-alert-close-size);
   border-radius: var(--solaris-radius-sm);
   color: var(--solaris-alert-close-color);
   background: var(--solaris-alert-close-background);
@@ -109,12 +114,12 @@
     var(--solaris-motion-easing-standard);
 
   &:hover {
-    color: var(--solaris-text-default);
+    color: var(--solaris-neutral-text-body);
   }
 
   &:focus-visible {
-    outline-offset: 2px;
-    outline: 2px solid var(--solaris-primary-base);
+    outline-offset: var(--solaris-focus-ring-offset);
+    outline: var(--solaris-focus-ring-width) solid var(--solaris-primary-solid);
   }
 }
 
@@ -125,9 +130,19 @@
   height: var(--solaris-alert-close-icon-size);
 }
 
+.solaris-alert__close::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+}
+
 ::ng-deep .solaris-alert-title {
   margin: 0;
-  font-size: var(--solaris-font-size-md);
+  font-size: var(--solaris-alert-title-font-size);
   color: var(--solaris-alert-title-color);
   line-height: var(--solaris-line-height-sm);
   font-weight: var(--solaris-font-weight-semibold);
@@ -135,7 +150,7 @@
 
 ::ng-deep .solaris-alert-description {
   margin: 0;
-  font-size: var(--solaris-font-size-sm);
+  font-size: var(--solaris-alert-font-size);
   line-height: var(--solaris-line-height-md);
   color: var(--solaris-alert-description-color);
 }
@@ -175,83 +190,98 @@
   --solaris-alert-radius: var(--solaris-radius-xl);
 }
 
-:host([data-density='compact']) {
-  --solaris-alert-gap: var(--solaris-density-gap-md);
-  --solaris-alert-padding: var(--solaris-density-padding-md);
-  --solaris-alert-content-gap: var(--solaris-density-gap-md);
-  --solaris-alert-actions-gap: var(--solaris-density-gap-md);
+:host([data-size='sm']) {
+  --solaris-alert-gap: var(--solaris-density-gap-sm);
+  --solaris-alert-padding: var(--solaris-density-padding-sm);
+  --solaris-alert-font-size: var(--solaris-font-size-xs);
+  --solaris-alert-icon-size: var(--solaris-font-size-md);
+  --solaris-alert-close-size: var(--solaris-font-size-sm);
+  --solaris-alert-content-gap: var(--solaris-density-gap-sm);
+  --solaris-alert-actions-gap: var(--solaris-density-gap-sm);
+  --solaris-alert-title-font-size: var(--solaris-font-size-sm);
+  --solaris-alert-close-icon-size: var(--solaris-font-size-sm);
 }
 
-:host([data-density='normal']) {
+:host([data-size='md']) {
   --solaris-alert-gap: var(--solaris-density-gap-md);
   --solaris-alert-padding: var(--solaris-density-padding-md);
+  --solaris-alert-font-size: var(--solaris-font-size-sm);
+  --solaris-alert-icon-size: var(--solaris-font-size-lg);
+  --solaris-alert-close-size: var(--solaris-font-size-md);
   --solaris-alert-content-gap: var(--solaris-density-gap-md);
   --solaris-alert-actions-gap: var(--solaris-density-gap-md);
+  --solaris-alert-title-font-size: var(--solaris-font-size-md);
+  --solaris-alert-close-icon-size: var(--solaris-font-size-md);
 }
 
-:host([data-density='comfortable']) {
-  --solaris-alert-gap: var(--solaris-density-gap-md);
+:host([data-size='lg']) {
+  --solaris-alert-gap: var(--solaris-density-gap-lg);
   --solaris-alert-padding: var(--solaris-density-padding-lg);
-  --solaris-alert-content-gap: var(--solaris-density-gap-md);
-  --solaris-alert-actions-gap: var(--solaris-density-gap-md);
+  --solaris-alert-font-size: var(--solaris-font-size-md);
+  --solaris-alert-icon-size: var(--solaris-font-size-xl);
+  --solaris-alert-close-size: var(--solaris-font-size-lg);
+  --solaris-alert-content-gap: var(--solaris-density-gap-lg);
+  --solaris-alert-actions-gap: var(--solaris-density-gap-lg);
+  --solaris-alert-title-font-size: var(--solaris-font-size-lg);
+  --solaris-alert-close-icon-size: var(--solaris-font-size-lg);
 }
 
 :host([data-variant='neutral'][data-appearance='tonal']) {
-  --solaris-alert-color: var(--solaris-text-default);
-  --solaris-alert-icon-color: var(--solaris-text-muted);
-  --solaris-alert-background: var(--solaris-surface-muted);
-  --solaris-alert-border-color: var(--solaris-border-default);
+  --solaris-alert-color: var(--solaris-neutral-text-body);
+  --solaris-alert-icon-color: var(--solaris-neutral-text-secondary);
+  --solaris-alert-background: var(--solaris-neutral-sunken);
+  --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='neutral'][data-appearance='outline']) {
   --solaris-alert-background: transparent;
-  --solaris-alert-color: var(--solaris-text-default);
-  --solaris-alert-icon-color: var(--solaris-text-muted);
-  --solaris-alert-border-color: var(--solaris-border-default);
+  --solaris-alert-color: var(--solaris-neutral-text-body);
+  --solaris-alert-icon-color: var(--solaris-neutral-text-secondary);
+  --solaris-alert-border-color: var(--solaris-neutral-border-default);
 }
 
 :host([data-variant='neutral'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-text-default);
-  --solaris-alert-icon-color: var(--solaris-text-muted);
-  --solaris-alert-background: var(--solaris-surface-base);
-  --solaris-alert-border-color: var(--solaris-border-subtle);
+  --solaris-alert-color: var(--solaris-neutral-text-body);
+  --solaris-alert-icon-color: var(--solaris-neutral-text-secondary);
+  --solaris-alert-background: var(--solaris-neutral-sunken);
+  --solaris-alert-border-color: var(--solaris-neutral-border-default);
 }
 
 :host([data-variant='neutral'][data-appearance='solid']) {
   --solaris-alert-border-color: transparent;
-  --solaris-alert-color: var(--solaris-text-strong);
-  --solaris-alert-icon-color: var(--solaris-text-strong);
-  --solaris-alert-background: var(--solaris-surface-base);
-  --solaris-alert-close-color: var(--solaris-text-strong);
-  --solaris-alert-title-color: var(--solaris-text-strong);
-  --solaris-alert-description-color: var(--solaris-text-default);
+  --solaris-alert-color: var(--solaris-neutral-text-heading);
+  --solaris-alert-icon-color: var(--solaris-neutral-text-heading);
+  --solaris-alert-background: var(--solaris-neutral-default);
+  --solaris-alert-close-color: var(--solaris-neutral-text-heading);
+  --solaris-alert-title-color: var(--solaris-neutral-text-heading);
+  --solaris-alert-description-color: var(--solaris-neutral-text-body);
 }
 
 :host([data-variant='info'][data-appearance='tonal']) {
-  --solaris-alert-color: var(--solaris-info-text);
-  --solaris-alert-icon-color: var(--solaris-info-base);
-  --solaris-alert-background: var(--solaris-info-surface);
-  --solaris-alert-border-color: var(--solaris-info-border);
+  --solaris-alert-color: var(--solaris-info-foreground);
+  --solaris-alert-icon-color: var(--solaris-info-solid);
+  --solaris-alert-background: var(--solaris-info-soft);
+  --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='info'][data-appearance='outline']) {
   --solaris-alert-background: transparent;
-  --solaris-alert-color: var(--solaris-info-text);
-  --solaris-alert-icon-color: var(--solaris-info-base);
+  --solaris-alert-color: var(--solaris-info-foreground);
+  --solaris-alert-icon-color: var(--solaris-info-solid);
   --solaris-alert-border-color: var(--solaris-info-border);
 }
 
 :host([data-variant='info'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-text-default);
-  --solaris-alert-icon-color: var(--solaris-info-base);
-  --solaris-alert-background: var(--solaris-surface-base);
+  --solaris-alert-color: var(--solaris-info-foreground);
+  --solaris-alert-icon-color: var(--solaris-info-solid);
+  --solaris-alert-background: var(--solaris-info-soft);
   --solaris-alert-border-color: var(--solaris-info-border);
 }
 
 :host([data-variant='info'][data-appearance='solid']) {
   --solaris-alert-border-color: transparent;
   --solaris-alert-color: var(--solaris-info-on-solid);
-  --solaris-alert-background: var(--solaris-info-base);
+  --solaris-alert-background: var(--solaris-info-solid);
   --solaris-alert-icon-color: var(--solaris-info-on-solid);
   --solaris-alert-close-color: var(--solaris-info-on-solid);
   --solaris-alert-title-color: var(--solaris-info-on-solid);
@@ -259,30 +289,30 @@
 }
 
 :host([data-variant='success'][data-appearance='tonal']) {
-  --solaris-alert-color: var(--solaris-success-text);
-  --solaris-alert-icon-color: var(--solaris-success-base);
-  --solaris-alert-background: var(--solaris-success-surface);
-  --solaris-alert-border-color: var(--solaris-success-border);
+  --solaris-alert-color: var(--solaris-success-foreground);
+  --solaris-alert-icon-color: var(--solaris-success-solid);
+  --solaris-alert-background: var(--solaris-success-soft);
+  --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='success'][data-appearance='outline']) {
   --solaris-alert-background: transparent;
-  --solaris-alert-color: var(--solaris-success-text);
-  --solaris-alert-icon-color: var(--solaris-success-base);
+  --solaris-alert-color: var(--solaris-success-foreground);
+  --solaris-alert-icon-color: var(--solaris-success-solid);
   --solaris-alert-border-color: var(--solaris-success-border);
 }
 
 :host([data-variant='success'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-text-default);
-  --solaris-alert-background: var(--solaris-surface-base);
-  --solaris-alert-icon-color: var(--solaris-success-base);
+  --solaris-alert-color: var(--solaris-success-foreground);
+  --solaris-alert-background: var(--solaris-success-soft);
+  --solaris-alert-icon-color: var(--solaris-success-solid);
   --solaris-alert-border-color: var(--solaris-success-border);
 }
 
 :host([data-variant='success'][data-appearance='solid']) {
   --solaris-alert-border-color: transparent;
   --solaris-alert-color: var(--solaris-success-on-solid);
-  --solaris-alert-background: var(--solaris-success-base);
+  --solaris-alert-background: var(--solaris-success-solid);
   --solaris-alert-icon-color: var(--solaris-success-on-solid);
   --solaris-alert-close-color: var(--solaris-success-on-solid);
   --solaris-alert-title-color: var(--solaris-success-on-solid);
@@ -290,30 +320,30 @@
 }
 
 :host([data-variant='warning'][data-appearance='tonal']) {
-  --solaris-alert-color: var(--solaris-warning-text);
-  --solaris-alert-icon-color: var(--solaris-warning-base);
-  --solaris-alert-background: var(--solaris-warning-surface);
-  --solaris-alert-border-color: var(--solaris-warning-border);
+  --solaris-alert-color: var(--solaris-warning-foreground);
+  --solaris-alert-icon-color: var(--solaris-warning-solid);
+  --solaris-alert-background: var(--solaris-warning-soft);
+  --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='warning'][data-appearance='outline']) {
   --solaris-alert-background: transparent;
-  --solaris-alert-color: var(--solaris-warning-text);
-  --solaris-alert-icon-color: var(--solaris-warning-base);
+  --solaris-alert-color: var(--solaris-warning-foreground);
+  --solaris-alert-icon-color: var(--solaris-warning-solid);
   --solaris-alert-border-color: var(--solaris-warning-border);
 }
 
 :host([data-variant='warning'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-text-default);
-  --solaris-alert-icon-color: var(--solaris-warning-base);
-  --solaris-alert-background: var(--solaris-surface-base);
+  --solaris-alert-color: var(--solaris-warning-foreground);
+  --solaris-alert-icon-color: var(--solaris-warning-solid);
+  --solaris-alert-background: var(--solaris-warning-soft);
   --solaris-alert-border-color: var(--solaris-warning-border);
 }
 
 :host([data-variant='warning'][data-appearance='solid']) {
   --solaris-alert-border-color: transparent;
   --solaris-alert-color: var(--solaris-warning-on-solid);
-  --solaris-alert-background: var(--solaris-warning-base);
+  --solaris-alert-background: var(--solaris-warning-solid);
   --solaris-alert-icon-color: var(--solaris-warning-on-solid);
   --solaris-alert-close-color: var(--solaris-warning-on-solid);
   --solaris-alert-title-color: var(--solaris-warning-on-solid);
@@ -321,30 +351,30 @@
 }
 
 :host([data-variant='danger'][data-appearance='tonal']) {
-  --solaris-alert-color: var(--solaris-danger-text);
-  --solaris-alert-icon-color: var(--solaris-danger-base);
-  --solaris-alert-background: var(--solaris-danger-surface);
-  --solaris-alert-border-color: var(--solaris-danger-border);
+  --solaris-alert-color: var(--solaris-danger-foreground);
+  --solaris-alert-icon-color: var(--solaris-danger-solid);
+  --solaris-alert-background: var(--solaris-danger-soft);
+  --solaris-alert-border-color: transparent;
 }
 
 :host([data-variant='danger'][data-appearance='outline']) {
   --solaris-alert-background: transparent;
-  --solaris-alert-color: var(--solaris-danger-text);
-  --solaris-alert-icon-color: var(--solaris-danger-base);
+  --solaris-alert-color: var(--solaris-danger-foreground);
+  --solaris-alert-icon-color: var(--solaris-danger-solid);
   --solaris-alert-border-color: var(--solaris-danger-border);
 }
 
 :host([data-variant='danger'][data-appearance='surface']) {
-  --solaris-alert-color: var(--solaris-text-default);
-  --solaris-alert-icon-color: var(--solaris-danger-base);
-  --solaris-alert-background: var(--solaris-surface-base);
+  --solaris-alert-color: var(--solaris-danger-foreground);
+  --solaris-alert-icon-color: var(--solaris-danger-solid);
+  --solaris-alert-background: var(--solaris-danger-soft);
   --solaris-alert-border-color: var(--solaris-danger-border);
 }
 
 :host([data-variant='danger'][data-appearance='solid']) {
   --solaris-alert-border-color: transparent;
   --solaris-alert-color: var(--solaris-danger-on-solid);
-  --solaris-alert-background: var(--solaris-danger-base);
+  --solaris-alert-background: var(--solaris-danger-solid);
   --solaris-alert-icon-color: var(--solaris-danger-on-solid);
   --solaris-alert-close-color: var(--solaris-danger-on-solid);
   --solaris-alert-title-color: var(--solaris-danger-on-solid);
@@ -354,19 +384,19 @@
 :host([data-variant='custom']) {
   --solaris-alert-color: var(
     --solaris-alert-custom-color,
-    var(--solaris-text-default)
+    var(--solaris-neutral-text-body)
   );
   --solaris-alert-icon-color: var(
     --solaris-alert-custom-icon-color,
-    var(--solaris-text-muted)
+    var(--solaris-neutral-text-secondary)
   );
   --solaris-alert-background: var(
     --solaris-alert-custom-background,
-    var(--solaris-surface-base)
+    var(--solaris-neutral-default)
   );
   --solaris-alert-border-color: var(
     --solaris-alert-custom-border-color,
-    var(--solaris-border-default)
+    var(--solaris-neutral-border-default)
   );
 }
 
@@ -379,12 +409,18 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none;
+  }
+
   .solaris-alert__close {
     transition: none;
   }
 }
 
 :host-context([data-reduced-motion='true']) {
+  animation: none;
+
   .solaris-alert__close {
     transition: none;
   }

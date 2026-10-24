@@ -19,6 +19,7 @@
             class="solaris-breadcrumb__link"
             [href]="slot.item.href"
             [attr.aria-label]="itemAriaLabel(slot.item)"
+            [attr.title]="itemLabel(slot.item)"
             (click)="onItemClick(slot.item, $event)"
           >
             @if (slot.item.icon) {
@@ -36,6 +37,7 @@
             [attr.aria-current]="isCurrent(slot.item) ? 'page' : null"
             [attr.aria-disabled]="isDisabled(slot.item) ? 'true' : null"
             [attr.aria-label]="itemAriaLabel(slot.item)"
+            [attr.title]="itemLabel(slot.item)"
           >
             @if (slot.item.icon) {
               <solaris-icon [name]="slot.item.icon!" [decorative]="true" />

@@ -1,4 +1,9 @@
-export type SolarisBadgeAppearance = 'solid' | 'tonal' | 'outline' | 'ghost';
+export type SolarisBadgeAppearance =
+  | 'solid'
+  | 'tonal'
+  | 'surface'
+  | 'outline'
+  | 'ghost';
 
 export type SolarisBadgeColor =
   | 'neutral'
@@ -16,3 +21,12 @@ export type SolarisBadgeRadius = 'sm' | 'md' | 'full';
 export type SolarisBadgeVariant = 'standard' | 'count';
 
 export type SolarisBadgeDensity = 'compact' | 'normal' | 'comfortable';
+
+export type SolarisBadgePlacement =
+  | 'inline'
+  | 'top-right'
+  | 'top-left'
+  | 'bottom-right'
+  | 'bottom-left';
+
+export type SolarisBadgeOffset = readonly [number, number];

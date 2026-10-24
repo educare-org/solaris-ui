@@ -1,0 +1,32 @@
+.bar-chart-showcase__note {
+  margin: 0 0 var(--solaris-spacing-7);
+}
+
+.bar-chart-showcase__demo {
+  display: grid;
+  gap: var(--solaris-spacing-7);
+  width: 100%;
+}
+
+.bar-chart-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.bar-chart-showcase__log {
+  margin: 0;
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5);
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-neutral-sunken);
+  color: var(--solaris-neutral-text-secondary);
+  font-family: var(--solaris-font-family-mono);
+  font-size: var(--solaris-font-size-xs);
+  min-height: var(--solaris-spacing-9);
+}
+
+.bar-chart-showcase__table-wrap {
+  overflow-x: auto;
+}

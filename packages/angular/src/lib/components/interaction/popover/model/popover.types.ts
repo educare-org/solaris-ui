@@ -2,7 +2,7 @@ export type SolarisPopoverPlacement = 'top' | 'right' | 'bottom' | 'left';
 
 export type SolarisPopoverAlign = 'start' | 'center' | 'end';
 
-export type SolarisPopoverAppearance = 'surface' | 'outline' | 'filled';
+export type SolarisPopoverAppearance = 'surface' | 'outline';
 
 export type SolarisPopoverPadding = 'none' | 'sm' | 'md' | 'lg';
 

@@ -960,6 +960,60 @@ describe('SolarisSegmentedControlComponent', () => {
     });
   });
 
+  describe('required without value', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisSegmentedControlComponent,
+        SolarisSegmentedItemComponent,
+      ],
+      template: `
+        <solaris-segmented-control [required]="true" [(value)]="selectedValue">
+          <solaris-segmented-item value="a">A</solaris-segmented-item>
+          <solaris-segmented-item value="b">B</solaris-segmented-item>
+        </solaris-segmented-control>
+      `,
+    })
+    class TestHost {
+      readonly selectedValue = signal<unknown>(undefined);
+    }
+
+    let fixture: ComponentFixture<TestHost>;
+    let hostElement: HTMLElement;
+
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [TestHost],
+        providers: [
+          ...provideSolarisTesting(),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+        ],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      hostElement = fixture.nativeElement.querySelector(
+        'solaris-segmented-control',
+      ) as HTMLElement;
+    });
+
+    it('is valid while untouched without value', () => {
+      expect(hostElement.getAttribute('data-invalid')).toBeNull();
+      expect(hostElement.getAttribute('aria-invalid')).toBeNull();
+    });
+
+    it('becomes invalid when touched and cleared without value', () => {
+      const items = hostElement.querySelectorAll('solaris-segmented-item');
+      (items[0] as HTMLElement).click();
+      fixture.detectChanges();
+      expect(hostElement.getAttribute('data-invalid')).toBeNull();
+      fixture.componentInstance.selectedValue.set(null);
+      fixture.detectChanges();
+      expect(hostElement.getAttribute('data-invalid')).not.toBeNull();
+      expect(hostElement.getAttribute('aria-invalid')).toBe('true');
+    });
+  });
+
   describe('disabled group', () => {
     @Component({
       standalone: true,
@@ -1054,6 +1108,104 @@ describe('SolarisSegmentedControlComponent', () => {
       );
       expect(items[0].getAttribute('data-selected')).toBe('true');
       expect(items[1].getAttribute('data-selected')).toBe('false');
+    });
+  });
+
+  describe('selected edge', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisSegmentedControlComponent,
+        SolarisSegmentedItemComponent,
+      ],
+      template: `
+        <solaris-segmented-control [(value)]="selectedValue">
+          <solaris-segmented-item value="a">A</solaris-segmented-item>
+          <solaris-segmented-item value="b">B</solaris-segmented-item>
+          <solaris-segmented-item value="c">C</solaris-segmented-item>
+        </solaris-segmented-control>
+      `,
+    })
+    class TestHost {
+      readonly selectedValue = signal<unknown>('a');
+    }
+
+    let fixture: ComponentFixture<TestHost>;
+    let hostElement: HTMLElement;
+    let testHost: TestHost;
+
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [TestHost],
+        providers: [
+          ...provideSolarisTesting(),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+        ],
+      }).compileComponents();
+
+      fixture = TestBed.createComponent(TestHost);
+      testHost = fixture.componentInstance;
+      fixture.detectChanges();
+      hostElement = fixture.nativeElement.querySelector(
+        'solaris-segmented-control',
+      ) as HTMLElement;
+    });
+
+    it('reports first when the first option is selected', () => {
+      expect(hostElement.getAttribute('data-selected-edge')).toBe('first');
+    });
+
+    it('omits the attribute when a middle option is selected', () => {
+      testHost.selectedValue.set('b');
+      fixture.detectChanges();
+      expect(hostElement.getAttribute('data-selected-edge')).toBeNull();
+    });
+
+    it('reports last when the last option is selected', () => {
+      testHost.selectedValue.set('c');
+      fixture.detectChanges();
+      expect(hostElement.getAttribute('data-selected-edge')).toBe('last');
+    });
+
+    it('omits the attribute when nothing is selected', () => {
+      testHost.selectedValue.set(undefined);
+      fixture.detectChanges();
+      expect(hostElement.getAttribute('data-selected-edge')).toBeNull();
+    });
+  });
+
+  describe('selected edge with a single option', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisSegmentedControlComponent,
+        SolarisSegmentedItemComponent,
+      ],
+      template: `
+        <solaris-segmented-control [(value)]="selectedValue">
+          <solaris-segmented-item value="a">A</solaris-segmented-item>
+        </solaris-segmented-control>
+      `,
+    })
+    class SingleOptionHost {
+      readonly selectedValue = signal<unknown>('a');
+    }
+
+    it('reports both', async () => {
+      await TestBed.configureTestingModule({
+        imports: [SingleOptionHost],
+        providers: [
+          ...provideSolarisTesting(),
+          ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+        ],
+      }).compileComponents();
+
+      const singleFixture = TestBed.createComponent(SingleOptionHost);
+      singleFixture.detectChanges();
+      const singleHost = singleFixture.nativeElement.querySelector(
+        'solaris-segmented-control',
+      ) as HTMLElement;
+      expect(singleHost.getAttribute('data-selected-edge')).toBe('both');
     });
   });
 });

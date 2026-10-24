@@ -1,7 +1,5 @@
-import { printSummary, readJson, workspaceRoot } from './shared.mjs';
+import { printSummary, readJson } from './shared.mjs';
 import { execSync } from 'node:child_process';
-import fs from 'node:fs';
-import path from 'node:path';
 
 const errors = [];
 const warnings = [];
@@ -26,8 +24,7 @@ function runCommand(label, command, required = false) {
 }
 
 function runTooling(label) {
-  const pkg = readJson('package.json');
-  const scripts = pkg.scripts || {};
+  const scripts = readJson('package.json').scripts || {};
   const exists = !!scripts[label];
 
   if (!exists) {
@@ -63,17 +60,6 @@ console.log('\n--- Check Suite ---');
 runCommand('pnpm check', 'pnpm check', true);
 
 console.log('\n--- Extended Checks ---');
-runCommand('check:tokens', 'node tools/scripts/check-tokens.mjs', false);
-runCommand('check:i18n', 'node tools/scripts/check-i18n.mjs', false);
-const nxConfig = JSON.parse(
-  fs.readFileSync(path.join(workspaceRoot, 'nx.json'), 'utf-8'),
-);
-const defaultBase = nxConfig.defaultBase || 'main';
-runCommand(
-  'changeset:status',
-  `pnpm changeset status --since=${defaultBase}`,
-  false,
-);
 runCommand('check:bundle', 'node tools/scripts/check-bundle.mjs', false);
 
 console.log('\n--- Tooling ---');
@@ -84,12 +70,13 @@ runTooling('typecheck');
 runTooling('test');
 runTooling('build');
 
-console.log('\n--- Bundle Evaluation ---');
+console.log('\n--- Bundle Evaluation (needs dist/) ---');
 runCommand(
   'check:bundle-import',
   'node tools/scripts/check-bundle-import.mjs',
   true,
 );
+runCommand('package:check', 'node tools/scripts/check-package.mjs', false);
 
 console.log('\n═══════════════════════════════════════');
 const result = printSummary('Verification Complete', errors, warnings);

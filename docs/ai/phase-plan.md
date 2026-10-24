@@ -1,5 +1,19 @@
 ﻿# Solaris UI — AI Phase Plan
 
+> HISTORY (2026-10-15, Phase 0): Phases A–D below are 100% complete and kept
+> for reference only. Active work follows `.documents/refactor/04-phased-plan.md`
+> Phases 0–8. In case of conflict, `03-standards-decision.md` wins.
+>
+> Script wiring notes (Phase 0):
+>
+> - `start` is canonical showcase serve; `dev`/`showcase` are aliases (`pnpm start`).
+> - `package:check` (`check-package.mjs`) validates `dist/packages/angular`
+>   AFTER `build:lib` — it is a post-build release gate, intentionally NOT in
+>   `check`/`verify` (which run pre-build). Run `pnpm build:lib` then
+>   `pnpm package:check` before publishing.
+> - `check:i18n` excludes `solaris-translate-defaults.ts` (dictionary data,
+>   not violations) + `.stories.ts` (consumer demo content).
+
 > Read this entire document before starting any phase.
 > Fill in the checklist below at the end of each phase.
 

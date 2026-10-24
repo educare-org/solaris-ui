@@ -87,6 +87,7 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'lock',
       'refresh',
       'refresh-back',
+      'rotate-ccw',
       'repeat',
       'repeat-1',
       'repeat-off',
@@ -184,6 +185,7 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
       'notebook-pen',
       'notebook-text',
       'sticky-note',
+      'clipboard',
     ],
   },
   {
@@ -223,6 +225,14 @@ export const ICON_CATEGORIES: SolarisIconCategory[] = [
   },
   {
     id: 'brands',
-    names: ['google', 'microsoft', 'apple', 'android', 'github'],
+    names: [
+      'google',
+      'microsoft',
+      'apple',
+      'android',
+      'github',
+      'open-ai',
+      'claude-code',
+    ],
   },
 ];

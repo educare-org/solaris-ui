@@ -1,44 +1,19 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.textarea-showcase {
-  @include layout.page;
-}
-
-.textarea-showcase__header {
-  @include layout.header;
-}
-
-.textarea-showcase__title {
-  @include layout.title;
-}
-
-.textarea-showcase__description {
-  @include layout.description;
-}
-
-.textarea-showcase__section {
-  @include layout.section-card;
-}
-
-.textarea-showcase__section-title {
-  @include layout.section-title;
-}
-
 .textarea-showcase__note {
   @include layout.note;
 
-  margin-bottom: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.textarea-showcase__demo {
-  display: flex;
-  flex-direction: column;
-  gap: var(--solaris-spacing-3);
-  margin-bottom: var(--solaris-spacing-3);
+.textarea-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
 }
 
-.textarea-showcase__row {
+.textarea-showcase__controls {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--solaris-spacing-3);
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
 }

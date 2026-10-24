@@ -16,46 +16,91 @@
       @if (isStepClickable(step)) {
         <button
           type="button"
-          class="solaris-stepper__indicator-button"
+          class="solaris-stepper__step-button"
           (click)="goToStep(i)"
           [attr.aria-current]="i === activeIndex() ? 'step' : undefined"
           [attr.aria-disabled]="step.computedStatus() === 'disabled'"
         >
-          @if (step.icon(); as iconName) {
-            <solaris-icon [name]="iconName" [decorative]="true" />
-          } @else if (step.showCheckIcon()) {
-            <solaris-icon name="check" [decorative]="true" />
-          } @else if (step.showErrorIcon()) {
-            <solaris-icon name="danger" [decorative]="true" />
-          } @else if (showStepNumbers()) {
-            <span class="solaris-stepper__number">{{ i + 1 }}</span>
+          <span class="solaris-stepper__indicator" aria-hidden="true">
+            @if (step.icon(); as iconName) {
+              <solaris-icon [name]="iconName" [decorative]="true" />
+            } @else if (step.showCheckIcon()) {
+              <solaris-icon name="check" [decorative]="true" />
+            } @else if (step.showErrorIcon()) {
+              <solaris-icon name="danger" [decorative]="true" />
+            } @else if (step.showWarningIcon()) {
+              <solaris-icon name="warning" [decorative]="true" />
+            } @else if (showStepNumbers()) {
+              <span class="solaris-stepper__number">{{ i + 1 }}</span>
+            }
+          </span>
+          <span class="solaris-stepper__label-group">
+            <span
+              class="solaris-stepper__label"
+              [attr.title]="step.resolvedLabel()"
+              >{{ step.resolvedLabel() }}</span
+            >
+            @if (step.resolvedDescription(); as desc) {
+              <span class="solaris-stepper__description">{{ desc }}</span>
+            }
+          </span>
+          @if (
+            showStepStatus() &&
+            (step.resolvedOptionalLabel() || step.resolvedStatusText())
+          ) {
+            <span class="solaris-stepper__status-badge">
+              @if (step.resolvedOptionalLabel(); as optLabel) {
+                <span class="solaris-stepper__optional-text">{{
+                  optLabel
+                }}</span>
+              } @else if (step.resolvedStatusText(); as statusText) {
+                <span class="solaris-stepper__status-text">{{
+                  statusText
+                }}</span>
+              }
+            </span>
           }
         </button>
       } @else {
-        <span class="solaris-stepper__indicator-static">
-          @if (step.icon(); as iconName) {
-            <solaris-icon [name]="iconName" [decorative]="true" />
-          } @else if (step.showCheckIcon()) {
-            <solaris-icon name="check" [decorative]="true" />
-          } @else if (step.showErrorIcon()) {
-            <solaris-icon name="danger" [decorative]="true" />
-          } @else if (showStepNumbers()) {
-            <span class="solaris-stepper__number">{{ i + 1 }}</span>
-          }
-        </span>
-      }
-
-      <div class="solaris-stepper__label-group">
-        <span class="solaris-stepper__label">{{ step.resolvedLabel() }}</span>
-        @if (step.resolvedDescription(); as desc) {
-          <span class="solaris-stepper__description">{{ desc }}</span>
-        }
-      </div>
-
-      @if (showStepStatus()) {
-        <span class="solaris-stepper__status-badge">
-          @if (step.resolvedOptionalLabel(); as optLabel) {
-            <span class="solaris-stepper__optional-text">{{ optLabel }}</span>
+        <span class="solaris-stepper__step-static">
+          <span class="solaris-stepper__indicator" aria-hidden="true">
+            @if (step.icon(); as iconName) {
+              <solaris-icon [name]="iconName" [decorative]="true" />
+            } @else if (step.showCheckIcon()) {
+              <solaris-icon name="check" [decorative]="true" />
+            } @else if (step.showErrorIcon()) {
+              <solaris-icon name="danger" [decorative]="true" />
+            } @else if (step.showWarningIcon()) {
+              <solaris-icon name="warning" [decorative]="true" />
+            } @else if (showStepNumbers()) {
+              <span class="solaris-stepper__number">{{ i + 1 }}</span>
+            }
+          </span>
+          <span class="solaris-stepper__label-group">
+            <span
+              class="solaris-stepper__label"
+              [attr.title]="step.resolvedLabel()"
+              >{{ step.resolvedLabel() }}</span
+            >
+            @if (step.resolvedDescription(); as desc) {
+              <span class="solaris-stepper__description">{{ desc }}</span>
+            }
+          </span>
+          @if (
+            showStepStatus() &&
+            (step.resolvedOptionalLabel() || step.resolvedStatusText())
+          ) {
+            <span class="solaris-stepper__status-badge">
+              @if (step.resolvedOptionalLabel(); as optLabel) {
+                <span class="solaris-stepper__optional-text">{{
+                  optLabel
+                }}</span>
+              } @else if (step.resolvedStatusText(); as statusText) {
+                <span class="solaris-stepper__status-text">{{
+                  statusText
+                }}</span>
+              }
+            </span>
           }
         </span>
       }

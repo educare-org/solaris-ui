@@ -1,0 +1,138 @@
+{
+  "button": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "ghost": "Ghost",
+      "outline": "Outline",
+      "solid": "Sólido",
+      "surface": "Surface",
+      "tonal": "Tonal"
+    },
+    "appearances": {
+      "note": "Combina una apariencia con un color. Las apariencias cubren todos los niveles de énfasis, desde CTA sólidos hasta acciones Ghost sutiles."
+    },
+    "color": {
+      "danger": "Peligro",
+      "info": "Info",
+      "neutral": "Neutro",
+      "primary": "Primario",
+      "success": "Éxito",
+      "warning": "Advertencia"
+    },
+    "custom": {
+      "note": "Personalizado no es una entrada arbitraria. Define los tokens de color personalizado en el CSS.",
+      "tab": {
+        "amber": "Ámbar",
+        "violet": "Violeta"
+      }
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Directiva de atributo que convierte botones y enlaces en botones con el tema de Solaris.",
+    "example": {
+      "anchor": {
+        "disabled": "Anclaje deshabilitado",
+        "link": "Enlace de anclaje"
+      },
+      "basic": {
+        "default": "Predeterminado",
+        "outline": "Outline",
+        "primary": "Primario"
+      },
+      "custom": {
+        "label": "Personalizado"
+      },
+      "full-width": {
+        "primary": "Iniciar sesión con correo electrónico",
+        "social": "Iniciar sesión con Google"
+      },
+      "icons": {
+        "after": "Continuar",
+        "before": "Confirmar",
+        "input-end": "Icono Input al final",
+        "input-start": "Icono Input al inicio"
+      },
+      "loading": {
+        "save": "Guardar"
+      },
+      "providers": {
+        "android": "Continuar con Android",
+        "apple": "Continuar con Apple",
+        "github": "Continuar con GitHub",
+        "google": "Continuar con Google",
+        "microsoft": "Continuar con Microsoft"
+      },
+      "states": {
+        "disabled": "Deshabilitado",
+        "favorite": "Favorito"
+      }
+    },
+    "examples": {
+      "note": "Empieza con el botón predeterminado y luego explora las apariencias y variantes a continuación."
+    },
+    "icons": {
+      "note": "Añade iconos antes o después de la etiqueta, o elige un icono de marca para el inicio de sesión social.",
+      "tab": {
+        "after": "Después",
+        "before": "Antes",
+        "input-end": "Input al final",
+        "input-start": "Input al inicio"
+      }
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa la directiva."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "appearances": "Apariencia y color",
+      "custom": "Color personalizado",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "icons": "Iconos",
+      "installation": "Instalación",
+      "layout": "Layout",
+      "props": "Props",
+      "providers": "Iconos de marca",
+      "radius": "Radio",
+      "shape": "Forma",
+      "shape-radius": "Forma y radio",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados"
+    },
+    "shape": {
+      "normal": "Normal",
+      "wide": "Ancho"
+    },
+    "shape-radius": {
+      "note": "Radio controla el redondeo de las esquinas; la forma Ancho alarga el botón horizontalmente."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en una matriz de 3×3. La altura externa siempre equivale al token control-height de la combinación."
+    },
+    "states": {
+      "tab": {
+        "disabled": "Deshabilitado",
+        "loading": "Cargando",
+        "pressed": "Presionado"
+      },
+      "toggle": {
+        "off": "Desactivar",
+        "on": "Activar"
+      }
+    },
+    "title": "Botón"
+  }
+}

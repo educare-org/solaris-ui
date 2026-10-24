@@ -4,6 +4,7 @@ import type {
   SolarisAccordionAppearance,
   SolarisAccordionType,
   SolarisAccordionSize,
+  SolarisAccordionDensity,
   SolarisAccordionValue,
   SolarisAccordionModel,
 } from './accordion.types';
@@ -13,6 +14,7 @@ export interface SolarisAccordionControl {
   appearance: Signal<SolarisAccordionAppearance>;
   type: Signal<SolarisAccordionType>;
   size: Signal<SolarisAccordionSize>;
+  effectiveDensity: Signal<SolarisAccordionDensity>;
   disabled: Signal<boolean>;
   allowToggle: Signal<boolean>;
   headingLevel: Signal<number>;

@@ -24,7 +24,8 @@
 }
 
 :host > :not(:first-child) {
-  border-top: var(--solaris-border-width-sm) solid var(--solaris-border-default);
+  border-top: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-default);
   padding-top: var(--solaris-divider-stack-gap);
   margin-top: var(--solaris-divider-stack-gap);
 }

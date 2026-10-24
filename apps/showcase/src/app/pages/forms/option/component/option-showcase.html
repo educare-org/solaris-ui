@@ -1,318 +1,288 @@
-<div class="option-showcase">
-  <header class="option-showcase__header">
-    <h1 class="option-showcase__title">{{ 'option.title' | translate }}</h1>
-    <p class="option-showcase__description">
-      {{ 'option.description' | translate }}
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="option.title"
+    descriptionKey="option.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="option.section.examples">
+    <p class="option-showcase__note">
+      {{ 'option.examples.note' | translate }}
     </p>
-  </header>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-option-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.basic' | translate }}
-    </h2>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option value="admin" [label]="'Administrador'"></solaris-option>
-      <solaris-option value="teacher" [label]="'Professor'"></solaris-option>
-      <solaris-option value="student" [label]="'Aluno'"></solaris-option>
-    </div>
-  </section>
-
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.with-description' | translate }}
-    </h2>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option
-        value="admin"
-        [label]="'Administrador'"
-        [description]="'Acesso completo ao sistema'"
-      ></solaris-option>
-      <solaris-option
-        value="teacher"
-        [label]="'Professor'"
-        [description]="'Gerenciar turmas e alunos'"
-      ></solaris-option>
-      <solaris-option
-        value="student"
-        [label]="'Aluno'"
-        [description]="'Acesso apenas ao próprio perfil'"
-      ></solaris-option>
-    </div>
-  </section>
-
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.with-leading-icon' | translate }}
-    </h2>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option value="settings">
-        <solaris-icon
-          solaris-option-leading
-          name="settings"
-          [decorative]="true"
-        />
-        <span solaris-option-label
-          >{{ 'option.configuracoes' | translate }}</span
+  <app-docs-section
+    anchor="selection-modes"
+    titleKey="option.section.selection-modes"
+  >
+    <p class="option-showcase__note">
+      {{ 'option.selection-modes.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedSelectionMode"
+      [ariaLabel]="'option.section.selection-modes' | translate"
+    >
+      <solaris-tab value="none"
+        >{{ 'option.selection-mode.none' | translate }}</solaris-tab
+      >
+      <solaris-tab value="single"
+        >{{ 'option.selection-mode.single' | translate }}</solaris-tab
+      >
+      <solaris-tab value="multiple"
+        >{{ 'option.selection-mode.multiple' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="none">
+        <solaris-preview-code [code]="selectionModeCodes.none" language="html">
+          <div
+            role="listbox"
+            [attr.aria-label]="'option.selection-mode.none' | translate"
+          >
+            <solaris-option
+              value="admin"
+              [label]="'option.demo.admin.label' | translate"
+              selectionMode="none"
+            />
+            <solaris-option
+              value="teacher"
+              [label]="'option.demo.teacher.label' | translate"
+              selectionMode="none"
+            />
+            <solaris-option
+              value="student"
+              [label]="'option.demo.student.label' | translate"
+              selectionMode="none"
+            />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="single">
+        <solaris-preview-code
+          [code]="selectionModeCodes.single"
+          language="html"
         >
-      </solaris-option>
-      <solaris-option value="help">
-        <solaris-icon
-          solaris-option-leading
-          name="help-circle"
-          [decorative]="true"
+          <div
+            role="listbox"
+            [attr.aria-label]="'option.selection-mode.single' | translate"
+          >
+            <solaris-option
+              value="admin"
+              [label]="'option.demo.admin.label' | translate"
+              selectionMode="single"
+              [showSelectionIndicator]="true"
+            />
+            <solaris-option
+              value="teacher"
+              [label]="'option.demo.teacher.label' | translate"
+              selectionMode="single"
+              [showSelectionIndicator]="true"
+              [selected]="true"
+            />
+            <solaris-option
+              value="student"
+              [label]="'option.demo.student.label' | translate"
+              selectionMode="single"
+              [showSelectionIndicator]="true"
+            />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="multiple">
+        <solaris-preview-code
+          [code]="selectionModeCodes.multiple"
+          language="html"
+        >
+          <div
+            role="listbox"
+            [attr.aria-label]="'option.selection-mode.multiple' | translate"
+          >
+            <solaris-option
+              value="admin"
+              [label]="'option.demo.admin.label' | translate"
+              selectionMode="multiple"
+              [showSelectionIndicator]="true"
+            />
+            <solaris-option
+              value="teacher"
+              [label]="'option.demo.teacher.label' | translate"
+              selectionMode="multiple"
+              [showSelectionIndicator]="true"
+              [selected]="true"
+            />
+            <solaris-option
+              value="student"
+              [label]="'option.demo.student.label' | translate"
+              selectionMode="multiple"
+              [showSelectionIndicator]="true"
+              [selected]="true"
+            />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="indicators" titleKey="option.section.indicators">
+    <p class="option-showcase__note">
+      {{ 'option.indicators.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedIndicator"
+      [ariaLabel]="'option.section.indicators' | translate"
+    >
+      <solaris-tab value="shown"
+        >{{ 'option.indicator.shown' | translate }}</solaris-tab
+      >
+      <solaris-tab value="hidden"
+        >{{ 'option.indicator.hidden' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="shown">
+        <solaris-preview-code [code]="indicatorShownCode" language="html">
+          <div
+            role="listbox"
+            [attr.aria-label]="'option.indicator.shown' | translate"
+          >
+            <solaris-option
+              value="teacher"
+              [label]="'option.demo.teacher.label' | translate"
+              selectionMode="single"
+              [showSelectionIndicator]="true"
+              [selected]="true"
+            />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="hidden">
+        <solaris-preview-code [code]="indicatorHiddenCode" language="html">
+          <div
+            role="listbox"
+            [attr.aria-label]="'option.indicator.hidden' | translate"
+          >
+            <solaris-option
+              value="teacher"
+              [label]="'option.demo.teacher.label' | translate"
+              selectionMode="single"
+              [selected]="true"
+            />
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="option.section.size-density"
+  >
+    <p class="option-showcase__note">
+      {{ 'option.size-density.note' | translate }}
+    </p>
+    <div class="option-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'option.section.sizes' | translate"
+      >
+        <solaris-tab value="sm">{{ 'option.size.sm' | translate }}</solaris-tab>
+        <solaris-tab value="md">{{ 'option.size.md' | translate }}</solaris-tab>
+        <solaris-tab value="lg">{{ 'option.size.lg' | translate }}</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'option.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'option.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'option.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'option.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-option-group
+        [label]="'option.size-density.group' | translate"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+      >
+        <solaris-option
+          value="admin"
+          [label]="'option.demo.admin.label' | translate"
         />
-        <span solaris-option-label>{{ 'option.ajuda' | translate }}</span>
-      </solaris-option>
-    </div>
-  </section>
-
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.language' | translate }}
-    </h2>
-    <p class="option-showcase__note">
-      {{ 'option.language-note' | translate }}
-    </p>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option value="pt-BR">
-        <span solaris-option-leading class="option-showcase__flag">🇧🇷</span>
-        <span solaris-option-label>Português</span>
-        <span solaris-option-meta>Portuguese</span>
-      </solaris-option>
-      <solaris-option value="en-US">
-        <span solaris-option-leading class="option-showcase__flag">🇺🇸</span>
-        <span solaris-option-label>English</span>
-        <span solaris-option-meta>Inglês</span>
-      </solaris-option>
-      <solaris-option value="es">
-        <span solaris-option-leading class="option-showcase__flag">🇪🇸</span>
-        <span solaris-option-label>Español</span>
-        <span solaris-option-meta>Espanhol</span>
-      </solaris-option>
-    </div>
-  </section>
-
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.with-badge' | translate }}
-    </h2>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option value="ai">
-        <span solaris-option-label>Inteligência Artificial</span>
-        <span solaris-option-trailing>
-          <solaris-badge color="primary" size="sm">Novo</solaris-badge>
-        </span>
-      </solaris-option>
-      <solaris-option value="beta">
-        <span solaris-option-label>Modo Experimental</span>
-        <span solaris-option-trailing>
-          <solaris-badge color="warning" size="sm">Beta</solaris-badge>
-        </span>
-      </solaris-option>
-    </div>
-  </section>
-
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.with-trailing-icon' | translate }}
-    </h2>
-    <p class="option-showcase__note">
-      {{ 'option.trailing-icon-note' | translate }}
-    </p>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option value="advanced">
-        <span solaris-option-label>Configurações Avançadas</span>
-        <span solaris-option-trailing>
-          <solaris-icon name="chevron-right" [decorative]="true" />
-        </span>
-      </solaris-option>
-    </div>
-  </section>
-
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.single-selection' | translate }}
-    </h2>
-    <p class="option-showcase__note">
-      {{ 'option.single-selection-note' | translate }}
-    </p>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option
-        value="admin"
-        [label]="'Administrador'"
-        selectionMode="single"
-        [showSelectionIndicator]="true"
-      ></solaris-option>
-      <solaris-option
-        value="teacher"
-        [label]="'Professor'"
-        selectionMode="single"
-        [showSelectionIndicator]="true"
-        [selected]="true"
-      ></solaris-option>
-      <solaris-option
-        value="student"
-        [label]="'Aluno'"
-        selectionMode="single"
-        [showSelectionIndicator]="true"
-      ></solaris-option>
-    </div>
-  </section>
-
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.multi-selection' | translate }}
-    </h2>
-    <p class="option-showcase__note">
-      {{ 'option.multi-selection-note' | translate }}
-    </p>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option
-        value="us"
-        [label]="'United States'"
-        selectionMode="multiple"
-        [showSelectionIndicator]="true"
-        [selected]="true"
-      ></solaris-option>
-      <solaris-option
-        value="br"
-        [label]="'Brazil'"
-        selectionMode="multiple"
-        [showSelectionIndicator]="true"
-        [selected]="true"
-      ></solaris-option>
-      <solaris-option
-        value="jp"
-        [label]="'Japan'"
-        selectionMode="multiple"
-        [showSelectionIndicator]="true"
-      ></solaris-option>
-      <solaris-option
-        value="fr"
-        [label]="'France'"
-        selectionMode="multiple"
-        [showSelectionIndicator]="true"
-      ></solaris-option>
-    </div>
-  </section>
-
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.disabled' | translate }}
-    </h2>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option value="available" [label]="'Disponível'"></solaris-option>
-      <solaris-option
-        value="unavailable"
-        [label]="'Indisponível'"
-        [disabled]="true"
-      ></solaris-option>
-      <solaris-option value="another" [label]="'Outra opção'"></solaris-option>
-    </div>
-  </section>
-
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.group' | translate }}
-    </h2>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option-group [label]="'Acadêmico'">
-        <solaris-option value="students" [label]="'Alunos'"></solaris-option>
-        <solaris-option value="classes" [label]="'Turmas'"></solaris-option>
-        <solaris-option value="grades" [label]="'Notas'"></solaris-option>
-      </solaris-option-group>
-
-      <solaris-option-group [label]="'Financeiro'">
-        <solaris-option value="billing" [label]="'Cobrança'"></solaris-option>
         <solaris-option
-          value="payments"
-          [label]="'Pagamentos'"
-        ></solaris-option>
-      </solaris-option-group>
-    </div>
-  </section>
-
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.disabled-group' | translate }}
-    </h2>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option-group [label]="'Manutenção'" [disabled]="true">
-        <solaris-option
-          value="item1"
-          [label]="'Item em manutenção 1'"
-        ></solaris-option>
-        <solaris-option
-          value="item2"
-          [label]="'Item em manutenção 2'"
-        ></solaris-option>
-      </solaris-option-group>
-    </div>
-  </section>
-
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.sizes' | translate }}
-    </h2>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option
-        value="sm"
-        size="sm"
-        [label]="'Small (sm)'"
-      ></solaris-option>
-      <solaris-option
-        value="md"
-        size="md"
-        [label]="'Medium (md)'"
-      ></solaris-option>
-      <solaris-option
-        value="lg"
-        size="lg"
-        [label]="'Large (lg)'"
-      ></solaris-option>
-    </div>
-  </section>
-
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.density' | translate }}
-    </h2>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option
-        value="compact"
-        density="compact"
-        [label]="'Compact'"
-      ></solaris-option>
-      <solaris-option
-        value="normal"
-        density="normal"
-        [label]="'Normal'"
-      ></solaris-option>
-      <solaris-option
-        value="comfortable"
-        density="comfortable"
-        [label]="'Comfortable'"
-      ></solaris-option>
-    </div>
-  </section>
-
-  <section class="option-showcase__section">
-    <h2 class="option-showcase__section-title">
-      {{ 'option.rich-composition' | translate }}
-    </h2>
-    <div class="option-showcase__listbox" role="listbox">
-      <solaris-option value="enterprise">
-        <solaris-icon
-          solaris-option-leading
-          name="briefcase"
-          [decorative]="true"
+          value="teacher"
+          [label]="'option.demo.teacher.label' | translate"
         />
-        <span solaris-option-label>Plano Enterprise</span>
-        <span solaris-option-description>Para grandes equipes</span>
-        <span solaris-option-trailing>
-          <solaris-badge color="primary" size="sm">Popular</solaris-badge>
-        </span>
-      </solaris-option>
-    </div>
-  </section>
-</div>
+      </solaris-option-group>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="slots" titleKey="option.section.slots">
+    <p class="option-showcase__note">{{ 'option.slots.note' | translate }}</p>
+    <solaris-preview-code [code]="slotsCode" language="html">
+      <app-slots-option-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="option.section.states">
+    <p class="option-showcase__note">{{ 'option.states.note' | translate }}</p>
+    <solaris-preview-code [code]="statesCode" language="html">
+      <div
+        role="listbox"
+        [attr.aria-label]="'option.section.states' | translate"
+      >
+        <solaris-option
+          value="available"
+          [label]="'option.states.available' | translate"
+        />
+        <solaris-option
+          value="unavailable"
+          [label]="'option.states.unavailable' | translate"
+          [disabled]="true"
+        />
+        <solaris-option
+          value="another"
+          [label]="'option.states.another' | translate"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="option-group"
+    titleKey="option.section.option-group"
+  >
+    <p class="option-showcase__note">{{ 'option.group.note' | translate }}</p>
+    <solaris-preview-code [code]="groupCode" language="html">
+      <app-option-group-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="option.section.installation"
+  >
+    <p class="option-showcase__note">
+      {{ 'option.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="option.section.props">
+    <p class="option-showcase__note">{{ 'option.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

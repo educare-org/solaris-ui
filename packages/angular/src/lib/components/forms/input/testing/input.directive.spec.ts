@@ -239,6 +239,15 @@ describe('SolarisInputDirective', () => {
       const el = fixture.nativeElement.querySelector('[solaris-input]');
       expect(el.getAttribute('data-radius')).toBe('lg');
     });
+
+    it('should support radius xl (pill)', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.radius = 'xl';
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-input]');
+      expect(el.getAttribute('data-radius')).toBe('xl');
+    });
   });
 
   describe('fullWidth', () => {
@@ -555,6 +564,122 @@ describe('SolarisInputDirective', () => {
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-input]');
       expect(el.hasAttribute('data-appearance')).toBe(true);
+    });
+  });
+
+  describe('size-density matrix', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-matrix-host' },
+      template: '<input solaris-input [size]="size" [density]="density" />',
+    })
+    class TestHost {
+      size: SolarisInputSize = 'md';
+      density: SolarisInputDensity | undefined = 'normal';
+    }
+
+    const sizes: SolarisInputSize[] = ['sm', 'md', 'lg'];
+    const densities: SolarisInputDensity[] = [
+      'compact',
+      'normal',
+      'comfortable',
+    ];
+
+    for (const size of sizes) {
+      for (const density of densities) {
+        it(`should reflect matrix combination ${size} + ${density}`, () => {
+          TestBed.configureTestingModule({});
+          const fixture = TestBed.createComponent(TestHost);
+          fixture.componentInstance.size = size;
+          fixture.componentInstance.density = density;
+          fixture.detectChanges();
+          const el = fixture.nativeElement.querySelector('[solaris-input]');
+          expect(el.getAttribute('data-size')).toBe(size);
+          expect(el.getAttribute('data-density')).toBe(density);
+        });
+      }
+    }
+  });
+
+  describe('form-field height delegation', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisInputDirective, SolarisFormFieldComponent],
+      host: { 'data-testid': 'input-delegation-host' },
+      template: `
+        <solaris-form-field label="Name" size="sm" density="compact">
+          <input solaris-input />
+        </solaris-form-field>
+      `,
+      providers: [provideSolarisTesting()],
+    })
+    class TestHost {}
+
+    @Component({
+      standalone: true,
+      imports: [SolarisInputDirective],
+      host: { 'data-testid': 'input-standalone-host' },
+      template: '<input solaris-input />',
+      providers: [provideSolarisTesting()],
+    })
+    class StandaloneHost {}
+
+    it('should accept size on form-field (P0 foundation)', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const field = fixture.nativeElement.querySelector('solaris-form-field');
+      expect(field.getAttribute('data-size')).toBe('sm');
+      expect(field.getAttribute('data-density')).toBe('compact');
+    });
+
+    it('should keep input projected inside the control wrapper', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const control = fixture.nativeElement.querySelector(
+        '.solaris-form-field__control [solaris-input]',
+      );
+      expect(control).toBeTruthy();
+    });
+
+    it('should inherit size and density from the form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-input]');
+      expect(el.getAttribute('data-size')).toBe('sm');
+      expect(el.getAttribute('data-density')).toBe('compact');
+    });
+
+    it('should prefer explicit input size and density over the field', () => {
+      TestBed.configureTestingModule({});
+      @Component({
+        standalone: true,
+        imports: [SolarisInputDirective, SolarisFormFieldComponent],
+        template: `
+          <solaris-form-field label="Name" size="sm" density="compact">
+            <input solaris-input size="lg" density="comfortable" />
+          </solaris-form-field>
+        `,
+        providers: [provideSolarisTesting()],
+      })
+      class ExplicitHost {}
+      const fixture = TestBed.createComponent(ExplicitHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-input]');
+      expect(el.getAttribute('data-size')).toBe('lg');
+      expect(el.getAttribute('data-density')).toBe('comfortable');
+    });
+
+    it('should keep input standalone-capable with its own defaults', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(StandaloneHost);
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-input]');
+      expect(el.getAttribute('data-size')).toBe('md');
+      expect(el.getAttribute('data-density')).toBe('normal');
     });
   });
 

@@ -1,0 +1,82 @@
+{
+  "mega-menu": {
+    "accessibility": "Acessibilidade",
+    "ai": {
+      "prompt": "Estou olhando a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usá-lo. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "anchor-width": "Largura da ancora",
+    "anchor-width-content": "Este painel acompanha a largura do header.",
+    "appearance": "Aparencia",
+    "appearance-note": "Underline e o padrao. Text usa texto atenuado ate o gatilho ficar ativo.",
+    "basic": "Basico",
+    "basic-aria-label": "Navegacao principal",
+    "basic-note": "Passe o cursor, foque ou clique em um gatilho. Um grupo mantem somente um painel aberto por vez.",
+    "brand": "SOLARIS",
+    "build": "Criar",
+    "configuration": "Configuracao",
+    "controlled": "Estado controlado",
+    "controlled-content": "Este painel usa vinculacao bidirecional do estado open.",
+    "controlled-note": "O modelo open aceita controle programatico alem da interacao com o gatilho.",
+    "controlled-trigger": "Gatilho controlado",
+    "delayed-content": "Conteudo do painel com atraso",
+    "delayed-trigger": "Gatilho com atraso",
+    "description": "Uma sobreposicao de navegacao para grupos de destinos relacionados e conteudo editorial.",
+    "event-closed": "Evento de fechamento emitido.",
+    "event-idle": "Nenhum evento emitido ainda.",
+    "event-opened": "Evento de abertura emitido.",
+    "examples": {
+      "note": "Comece pela barra de navegação completa e explore aparência, largura e teclado abaixo."
+    },
+    "feature-description": "Componha paineis ricos sem impor semantica de menu aos links.",
+    "feature-kicker": "Novo padrao",
+    "feature-title": "Navegacao orientada por conteudo",
+    "feedback": "Feedback",
+    "forms": "Formularios",
+    "foundation": "Fundacao",
+    "hover-delay": "Atraso de hover",
+    "hover-delay-note": "Este gatilho aguarda 400 ms para abrir e fechar ao mover o cursor.",
+    "icons": "Icones",
+    "installation": {
+      "note": "Instale o pacote único Solaris e importe o componente."
+    },
+    "keyboard": "Navegação por teclado",
+    "keyboard-aria-label": "Demonstração de navegação por teclado",
+    "keyboard-note": "Foque um gatilho e use ArrowLeft e ArrowRight para alternar entre gatilhos, ArrowDown para abrir e entrar no painel, Home e End para saltar, Escape para fechar.",
+    "layout": "Primitivos de layout",
+    "learn": "Aprender",
+    "navigation": "Navegacao",
+    "panel-content": "Conteudo do painel",
+    "persistent": "Persistente no clique",
+    "persistent-content": "Clique novamente no gatilho ou fora para fechar.",
+    "persistent-note": "Clicar neste gatilho mantem o painel aberto depois que o cursor sai.",
+    "persistent-trigger": "Manter aberto",
+    "products": "Produtos",
+    "props": {
+      "note": "Tabela de props em breve com o componente table."
+    },
+    "resources": "Recursos",
+    "responsive-note": "Mega Menu é um padrão desktop. Abaixo do seu breakpoint, troque a barra de gatilhos por um drawer ou menu em vez de espremer painéis.",
+    "section": {
+      "appearance": "Aparência",
+      "behavior": "Comportamento",
+      "controlled": "Estado controlado",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "keyboard": "Teclado",
+      "props": "Props",
+      "responsive": "Responsivo",
+      "width": "Largura do painel"
+    },
+    "text": "Texto",
+    "theming": "Temas",
+    "title": "Mega Menu",
+    "toggle-controlled": "Alternar menu controlado",
+    "trigger-width": "Largura do gatilho",
+    "trigger-width-content": "Este painel acompanha a largura do gatilho.",
+    "underline": "Underline",
+    "viewport-width": "Largura da viewport",
+    "viewport-width-content": "Este painel ocupa a viewport.",
+    "width": "Largura do painel",
+    "width-note": "Escolha um painel alinhado ao gatilho, a sua ancora ou a viewport."
+  }
+}

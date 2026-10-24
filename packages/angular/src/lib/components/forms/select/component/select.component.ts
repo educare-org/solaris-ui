@@ -1,17 +1,14 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to programmatically focus the select trigger. Standard DOM method used by Angular CDK.
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required as fallback when no triggerElement ref. Standard DOM method.
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to focus search input when panel opens. Standard DOM method.
-// SECURITY_EXCEPTION_FILE: nativeElement access needed to read option text for search filtering. Read-only, SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement.textContent needed to read option text for search filtering. Read-only, SSR-safe.
 import {
   Component,
   input,
   computed,
   signal,
+  linkedSignal,
   output,
   effect,
   forwardRef,
   inject,
+  contentChild,
   contentChildren,
   viewChild,
   ElementRef,
@@ -27,12 +24,13 @@ import {
   SolarisFormPrefixDirective,
   SolarisFormFieldTriggerDirective,
   SolarisFormFieldComponent,
+  SolarisFormSuffixActionDirective,
 } from '../../form-field';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisOptionGroupComponent } from '../../option-group';
-import { SolarisOptionComponent } from '../../option';
+import { SolarisOptionComponent, SOLARIS_OPTION_PARENT } from '../../option';
 import { SolarisIconComponent } from '../../../icon';
 import {
   SolarisPopoverDirective,
@@ -44,6 +42,7 @@ import type {
   SolarisSelectAppearance,
   SolarisSelectDensity,
   SolarisSelectRadius,
+  SolarisSelectSize,
 } from '../model/select.types';
 import type { SolarisIconName } from '../../../../services/icon';
 
@@ -68,6 +67,10 @@ import type { SolarisIconName } from '../../../../services/icon';
       provide: SolarisFormControl,
       useExisting: forwardRef(() => SolarisSelectComponent),
     },
+    {
+      provide: SOLARIS_OPTION_PARENT,
+      useExisting: forwardRef(() => SolarisSelectComponent),
+    },
   ],
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
@@ -75,6 +78,8 @@ import type { SolarisIconName } from '../../../../services/icon';
   host: {
     'solaris-select': '',
     '[attr.id]': 'elementId()',
+    '[attr.data-size]': 'size()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-open]': 'panelOpen() ? "" : null',
     '[attr.aria-label]': 'ariaLabelText() ?? null',
     '[attr.data-has-value]': 'hasValue() ? "" : null',
@@ -102,6 +107,11 @@ export class SolarisSelectComponent
     descendants: true,
   });
 
+  protected readonly projectedSuffixAction = contentChild(
+    SolarisFormSuffixActionDirective,
+    { descendants: true },
+  );
+
   protected readonly optionGroups = contentChildren(
     SolarisOptionGroupComponent,
     {
@@ -111,6 +121,7 @@ export class SolarisSelectComponent
 
   readonly hint = input<string>();
   readonly prefix = input<SolarisIconName>();
+  readonly suffix = input<SolarisIconName>();
   readonly label = input<string>();
   readonly error = input<string>();
   readonly hintKey = input<string>();
@@ -136,8 +147,10 @@ export class SolarisSelectComponent
   readonly searchable = input<boolean>(false);
   readonly searchPlaceholderKey = input<string>();
   readonly panelMinWidth = input<string | number>();
+  readonly triggerMinWidth = input<string | number>();
   readonly panelMaxWidth = input<string | number>();
   readonly density = input<SolarisSelectDensity>();
+  readonly size = input<SolarisSelectSize>('md');
   readonly panelMatchTriggerWidth = input<boolean>(true);
   readonly radius = input<SolarisSelectRadius>('md');
   readonly disabledInput = input(false, { alias: 'disabled' });
@@ -161,7 +174,7 @@ export class SolarisSelectComponent
 
   protected readonly panelId = nextIdFor('solaris-select-panel');
   protected readonly panelOpen = signal(false);
-  protected readonly internalValue = signal<unknown>(undefined);
+  protected readonly internalValue = linkedSignal(() => this.value());
   protected readonly internalFocused = signal(false);
   protected readonly internalDisabled = signal(false);
   protected readonly searchQuery = signal('');
@@ -180,7 +193,7 @@ export class SolarisSelectComponent
 
   protected readonly themeService = inject(SolarisThemeService);
 
-  protected readonly effectiveDensity = computed<SolarisSelectDensity>(() => {
+  readonly effectiveDensity = computed<SolarisSelectDensity>(() => {
     return this.density() ?? this.themeService.density;
   });
 
@@ -202,7 +215,7 @@ export class SolarisSelectComponent
 
   protected readonly popoverAppearance = computed(() => {
     const a = this.appearance();
-    return a === 'filled' ? 'surface' : a;
+    return a === 'filled' || a === 'minimal' ? 'surface' : a;
   });
 
   protected readonly canOpen = computed(() => {
@@ -220,6 +233,40 @@ export class SolarisSelectComponent
       !this.isEffectivelyDisabled() &&
       !this.isEffectivelyReadonly()
     );
+  });
+
+  private getRowLabel(option: SolarisOptionComponent): string {
+    const label = option.labelText();
+    if (label) return label;
+    return this.getOptionNativeText(option);
+  }
+
+  protected readonly contentMinWidth = computed(() => {
+    const opts = this.options();
+    if (!opts || opts.length === 0) return 0;
+    let longest = 0;
+    for (const opt of opts) {
+      longest = Math.max(longest, this.getRowLabel(opt).length);
+    }
+    if (longest === 0) return 0;
+    const charWidth = this.size() === 'sm' ? 8 : this.size() === 'lg' ? 10 : 9;
+    return Math.ceil(longest * charWidth * 1.15 + 50);
+  });
+
+  protected readonly resolvedTriggerMinWidth = computed(() => {
+    const override = this.triggerMinWidth();
+    if (override !== undefined && override !== null && override !== '') {
+      return typeof override === 'number' ? `${override}px` : override;
+    }
+    const floor = this.contentMinWidth();
+    return floor > 0 ? `${floor}px` : null;
+  });
+
+  protected readonly effectivePanelMinWidth = computed(() => {
+    const input = this.panelMinWidth();
+    if (input !== undefined) return input;
+    const floor = this.contentMinWidth();
+    return floor > 0 ? floor : undefined;
   });
 
   protected readonly selectedOption = computed<
@@ -457,8 +504,10 @@ export class SolarisSelectComponent
   focus(): void {
     const triggerEl = this.triggerElement();
     if (triggerEl) {
+      // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
       triggerEl.nativeElement.focus();
     } else {
+      // SECURITY_EXCEPTION: fallback focus on the host requires the native method.
       this.elementRef.nativeElement.focus();
     }
   }
@@ -543,6 +592,7 @@ export class SolarisSelectComponent
 
     if (this.searchable()) {
       requestAnimationFrame(() => {
+        // SECURITY_EXCEPTION: focusing the search input when the panel opens requires the native method.
         this.searchInputRef()?.nativeElement.focus();
       });
     }
@@ -808,6 +858,7 @@ export class SolarisSelectComponent
     const nativeEl = (
       option as unknown as { elementRef: ElementRef<HTMLElement> }
     ).elementRef;
+    // SECURITY_EXCEPTION: reading projected option text for search filtering requires the native textContent. Read-only.
     if (nativeEl?.nativeElement) {
       return nativeEl.nativeElement.textContent?.trim() || '';
     }

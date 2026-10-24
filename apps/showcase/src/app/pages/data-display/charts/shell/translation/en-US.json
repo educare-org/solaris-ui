@@ -1,0 +1,100 @@
+{
+  "chart-shell-view": {
+    "description": "Card wrapper with hero KPI, view switcher, period filter, states, and legend composing every chart type.",
+    "examples": {
+      "note": "Switch views, change the period, toggle legend series, and open the actions menu. Every interaction lands in the log below.",
+      "toggleLoading": "Simulate loading",
+      "fullscreenClose": "Close fullscreen",
+      "periodLabelDay": "1 day",
+      "periodLabelWeek": "7 days",
+      "periodLabelMonth": "1 month",
+      "periodLabelQuarter": "3 months",
+      "periodLabelYear": "This year",
+      "periodLabelAll": "All",
+      "toggleHidden": "Hide a series",
+      "title": "Weekly agent activity",
+      "heroLabel": "tasks",
+      "intervalDay": "May 04, 2026",
+      "intervalWeek": "Apr 28, 2026 → May 04, 2026",
+      "intervalMonth": "Apr 2026",
+      "intervalQuarter": "Aug → Oct 2026",
+      "intervalYear": "Jan → Oct 2026",
+      "intervalAll": "All time",
+      "listSeries": "Series",
+      "listTotal": "Total",
+      "lineNote": "Dots are keyboard-focusable: Tab to a dot, use the arrow keys to move, Enter to select.",
+      "lineAverage": "Average",
+      "seriesAutomation": "Task automation",
+      "seriesQueries": "User queries",
+      "seriesSystem": "System actions"
+    },
+    "views": {
+      "note": "The shell projects any chart into the same card. Use the tabs to switch the projected view; legend, hero, and period keep working.",
+      "label": "Chart view",
+      "line": "Line",
+      "bar": "Bar",
+      "pie": "Pie"
+    },
+    "combos": {
+      "note": "Heatmap and radar are opt-in N1 views: add them to availableViews and project the matching chart through the shell slot. The legend and period keep working; the data contract differs (matrix/axes instead of x/y series).",
+      "label": "Combo view",
+      "heatmap": "Heatmap",
+      "radar": "Radar"
+    },
+    "fullscreen": {
+      "description": "Weekly agent activity with the fullscreen dialog: extended context and a visible data table.",
+      "extended": "Fullscreen opens in a dialog with the same series, an extended description and a totals table for screen-reader and print parity.",
+      "tableCaption": "Series totals in fullscreen"
+    },
+    "display": {
+      "note": "Timeline renders the projected chart; list renders a totals table from the same series. The legend keeps toggling series in both modes.",
+      "label": "Display mode",
+      "timeline": "Timeline",
+      "list": "List"
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3×3 matrix: sm compacts labels and canvas, lg expands them, md is the default. Density refines gaps and stroke weight."
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "density": {
+      "compact": "Compact",
+      "normal": "Normal",
+      "comfortable": "Comfortable"
+    },
+    "installation": {
+      "note": "Install the package and import the standalone chart shell component."
+    },
+    "props": {
+      "note": "The shell owns view and period models and emits toggles, actions, and retry. It never fetches and never mutates the series array.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
+    },
+    "section": {
+      "examples": "Examples",
+      "views": "Views",
+      "combos": "Combos",
+      "display": "Display",
+      "size-density": "Size and density",
+      "sizes": "Sizes",
+      "density": "Density",
+      "installation": "Installation",
+      "props": "Props",
+      "states": "States"
+    },
+    "states": {
+      "note": "Loading shows skeletons, errors show a retry action, and empty data shows guidance text. Use the tabs to switch states; retry lands in the log below.",
+      "label": "Shell state",
+      "empty": "Empty",
+      "loading": "Loading",
+      "error": "Error",
+      "errorMessage": "Could not load the data."
+    },
+    "title": "Chart Shell"
+  }
+}

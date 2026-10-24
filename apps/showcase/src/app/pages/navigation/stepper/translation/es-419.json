@@ -1,0 +1,87 @@
+{
+  "stepper": {
+    "actions-alignment": "Alineación de acciones",
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "card": "Tarjeta",
+      "dashed": "Discontinuo",
+      "default": "Predeterminado"
+    },
+    "basic-horizontal": "Horizontal básico",
+    "basic-vertical": "Vertical básico",
+    "card": "Apariencia de tarjeta",
+    "compact-density": "Densidad Compacta",
+    "content-transition": "Transición de contenido",
+    "dashed": "Apariencia discontinua",
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Componente Stepper para flujos de varios pasos, wizards e indicación de progreso.",
+    "error": "Estado de error",
+    "example": {
+      "size-density": {
+        "step-one": "Paso 1",
+        "step-three": "Paso 3",
+        "step-two": "Paso 2"
+      },
+      "validation": {
+        "confirm": "Confirmo que mis datos son correctos",
+        "hint": "Confirmar los detalles antes de continuar al siguiente paso.",
+        "step-one": "Cuenta",
+        "step-three": "Revisión",
+        "step-two": "Institución"
+      }
+    },
+    "examples": {
+      "note": "Comenzar con el stepper predeterminado y luego explorar orientación, apariencias y validación a continuación."
+    },
+    "icon-stepper": "Stepper con iconos",
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "linear": "Stepper lineal",
+    "linear-mode": {
+      "linear": "Lineal",
+      "non-linear": "No lineal"
+    },
+    "non-linear": "Stepper no lineal",
+    "optional": "Paso opcional",
+    "orientation": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "responsive": "Adaptable",
+    "section": {
+      "appearances": "Apariencias",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "linear": "Lineal",
+      "orientation": "Orientación",
+      "props": "Props",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "status": "Status",
+      "validation": "Validación",
+      "wizard": "Wizard"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "El tamaño escala el indicador y la etiqueta, mientras que la densidad controla el espacio y el relleno del contenido. Combinar ambos controles para ver todas las combinaciones."
+    },
+    "title": "Stepper",
+    "validation-note": "Los pasos no tienen estado de formulario propio. Usa los guards canEnter y canExit para bloquear la navegación hasta que el contenido del paso sea válido; stepBlocked indica qué guard lo denegó.",
+    "wizard": "Flujo Wizard"
+  }
+}

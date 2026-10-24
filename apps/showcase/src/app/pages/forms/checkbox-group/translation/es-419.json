@@ -1,0 +1,57 @@
+{
+  "checkbox-group": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Control de formulario para selección múltiple con inputs nativos, seleccionar todo, validación de mínimo/máximo, layouts, tamaños y estados.",
+    "examples": {
+      "note": "Un conjunto de opciones relacionadas con valor de arreglo. Los hijos heredan tamaño y densidad del grupo."
+    },
+    "form-field-hint": "Selecciona al menos una opción.",
+    "form-field-label": "Intereses",
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa los componentes checkbox group."
+    },
+    "layout": {
+      "grid": "Grid",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "form": "Integración con formularios",
+      "installation": "Instalación",
+      "layouts": "Layouts",
+      "props": "Props",
+      "select-all": "Seleccionar todo",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados",
+      "validation": "Validación"
+    },
+    "select-all": {
+      "note": "La casilla de seleccionar todo refleja el grupo: sin marcar cuando está vacío, indeterminada cuando es parcial, marcada cuando todas las opciones habilitadas están seleccionadas."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se propagan a cada hijo a través del token del grupo; un hijo mantiene sus propios valores cuando se establecen explícitamente."
+    },
+    "title": "Checkbox Group",
+    "validation": {
+      "note": "Los límites de mínimo y máximo seleccionados invalidan el grupo. Max solo valida en v1; no bloquea la selección."
+    }
+  }
+}

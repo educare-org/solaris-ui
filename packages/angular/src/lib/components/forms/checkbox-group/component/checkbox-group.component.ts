@@ -1,7 +1,7 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focusin/focusout are standard DOM events for focus tracking. Same pattern used by Solaris FormField.
 import {
   Component,
   input,
+  booleanAttribute,
   output,
   computed,
   signal,
@@ -22,6 +22,7 @@ import { SolarisFormControl } from '../../form-field/model/form-control.contract
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisCheckboxComponent } from '../../checkbox';
+import { SOLARIS_CHECKBOX_GROUP } from '../model/checkbox-group.token';
 import { resolveElementId } from '../../../../core';
 
 import type {
@@ -48,6 +49,10 @@ function defaultCompare(a: unknown, b: unknown): boolean {
     },
     {
       provide: SolarisFormControl,
+      useExisting: forwardRef(() => SolarisCheckboxGroupComponent),
+    },
+    {
+      provide: SOLARIS_CHECKBOX_GROUP,
       useExisting: forwardRef(() => SolarisCheckboxGroupComponent),
     },
   ],
@@ -87,17 +92,17 @@ export class SolarisCheckboxGroupComponent
   readonly columns = input<SolarisCheckboxGroupColumns>(1);
   readonly density = input<SolarisCheckboxGroupDensity>();
   readonly size = input<SolarisCheckboxGroupSize>('md');
-  readonly disabledInput = input<boolean, boolean>(false, {
+  readonly disabledInput = input<boolean, unknown>(false, {
     alias: 'disabled',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly readonlyInput = input<boolean, boolean>(false, {
+  readonly readonlyInput = input<boolean, unknown>(false, {
     alias: 'readonly',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly requiredInput = input<boolean, boolean>(false, {
+  readonly requiredInput = input<boolean, unknown>(false, {
     alias: 'required',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
   readonly invalidInput = input<boolean | undefined>(undefined, {
     alias: 'invalid',
@@ -126,6 +131,7 @@ export class SolarisCheckboxGroupComponent
   private readonly _focused = signal(false);
   private readonly _describedByIds = signal<string[]>([]);
   private readonly cvaDisabled = signal(false);
+  private readonly cvaReadonly = signal(false);
   private readonly autoInvalid = signal(false);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -151,18 +157,17 @@ export class SolarisCheckboxGroupComponent
 
   protected readonly themeService = inject(SolarisThemeService);
 
-  protected readonly effectiveDensity = computed<SolarisCheckboxGroupDensity>(
-    () => {
-      return this.density() ?? this.themeService.density;
-    },
-  );
+  /** Public for SOLARIS_CHECKBOX_GROUP: children inherit group density. */
+  readonly effectiveDensity = computed<SolarisCheckboxGroupDensity>(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   protected readonly isEffectivelyDisabled = computed(() => {
     return this.disabledInput() || this.cvaDisabled();
   });
 
   protected readonly isEffectivelyReadonly = computed(() => {
-    return this.readonlyInput();
+    return this.readonlyInput() || this.cvaReadonly();
   });
 
   protected readonly isEffectivelyInvalid = computed(() => {
@@ -319,6 +324,10 @@ export class SolarisCheckboxGroupComponent
     this.propagateDisabledToChildren();
   }
 
+  setCvaReadonlyState(isReadonly: boolean): void {
+    this.cvaReadonly.set(isReadonly);
+  }
+
   ngAfterContentInit(): void {
     this.contentInitialized = true;
     this.attachFocusListeners();
@@ -345,6 +354,7 @@ export class SolarisCheckboxGroupComponent
     if (this.focusListenersAttached) return;
     this.focusListenersAttached = true;
 
+    // SECURITY_EXCEPTION: group focus tracking needs native focusin/focusout listeners on the host; read-only, outside Angular.
     const native = this.elementRef.nativeElement;
     this.ngZone.runOutsideAngular(() => {
       native.addEventListener('focusin', () => {

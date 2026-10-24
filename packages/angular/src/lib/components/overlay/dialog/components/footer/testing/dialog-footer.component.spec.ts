@@ -2,6 +2,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { configureSolarisTesting } from '../../../../../../testing/solaris-test-utilities';
 import { SolarisDialogFooterComponent } from '../component/dialog-footer.component';
+import { SolarisDialogHeaderComponent } from '../../header/component/dialog-header.component';
 
 @Component({
   standalone: true,
@@ -123,6 +124,71 @@ describe('SolarisDialogFooterComponent', () => {
       scrollParent.scrollTop = prevScrollTop;
       restoreScrollMetrics(scrollParent, prevClientHeight, prevScrollHeight);
     }
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [SolarisDialogHeaderComponent, SolarisDialogFooterComponent],
+  template: `
+    <solaris-dialog-header [title]="title" [separator]="headerSeparator" />
+    @if (bodyText) {
+      <p>{{ bodyText }}</p>
+    }
+    <solaris-dialog-footer [separator]="footerSeparator"
+      ><button type="button">Close</button></solaris-dialog-footer
+    >
+  `,
+})
+class AdjacentHeaderFooterHostComponent {
+  title = 'Ada 1';
+  headerSeparator = true;
+  footerSeparator = true;
+  bodyText?: string;
+}
+
+describe('SolarisDialogFooterComponent adjacent header separator', () => {
+  function createAdjacentFixture(
+    config: Partial<AdjacentHeaderFooterHostComponent> = {},
+  ): ComponentFixture<AdjacentHeaderFooterHostComponent> {
+    configureSolarisTesting();
+    TestBed.configureTestingModule({
+      imports: [AdjacentHeaderFooterHostComponent],
+    });
+
+    const fixture = TestBed.createComponent(AdjacentHeaderFooterHostComponent);
+    Object.assign(fixture.componentInstance, config);
+    fixture.detectChanges();
+    fixture.detectChanges();
+    return fixture;
+  }
+
+  function footerOf(
+    fixture: ComponentFixture<AdjacentHeaderFooterHostComponent>,
+  ): HTMLElement {
+    return (fixture.nativeElement as HTMLElement).querySelector(
+      'solaris-dialog-footer',
+    ) as HTMLElement;
+  }
+
+  it('should collapse the separator when directly below a header with separator', () => {
+    const fixture = createAdjacentFixture();
+    expect(footerOf(fixture).getAttribute('data-adjacent-header')).toBe('');
+  });
+
+  it('should keep the separator when the header separator is off', () => {
+    const fixture = createAdjacentFixture({ headerSeparator: false });
+    expect(footerOf(fixture).hasAttribute('data-adjacent-header')).toBe(false);
+  });
+
+  it('should keep the separator when its own separator is off', () => {
+    const fixture = createAdjacentFixture({ footerSeparator: false });
+    expect(footerOf(fixture).hasAttribute('data-adjacent-header')).toBe(false);
+  });
+
+  it('should keep the separator when body content sits between header and footer', () => {
+    const fixture = createAdjacentFixture({ bodyText: 'Body content' });
+    expect(footerOf(fixture).hasAttribute('data-adjacent-header')).toBe(false);
   });
 });
 

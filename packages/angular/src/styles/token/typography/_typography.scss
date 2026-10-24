@@ -1,23 +1,27 @@
 :root {
-  --solaris-font-size-2xs: 8px;
-  --solaris-font-size-xs: 12px;
-  --solaris-font-size-sm: 14px;
-  --solaris-font-size-md: 16px;
-  --solaris-font-size-lg: 18px;
-  --solaris-font-size-xl: 20px;
-  --solaris-font-size-2xl: 24px;
-  --solaris-font-size-3xl: 32px;
+  --solaris-font-size-3xs: 8px;
+  --solaris-font-size-2xs: 12px;
+  --solaris-font-size-xs: 14px;
+  --solaris-font-size-sm: 16px;
+  --solaris-font-size-md: 18px;
+  --solaris-font-size-lg: 20px;
+  --solaris-font-size-xl: 24px;
+  --solaris-font-size-2xl: 32px;
+  --solaris-font-size-3xl: 36px;
   --solaris-font-size-4xl: 48px;
 
+  --solaris-font-weight-thin: 300;
   --solaris-font-weight-regular: 400;
   --solaris-font-weight-medium: 500;
   --solaris-font-weight-semibold: 600;
   --solaris-font-weight-bold: 700;
+  --solaris-font-weight-bolder: 800;
 
   --solaris-line-height-none: 1;
-  --solaris-line-height-xs: 1.15;
-  --solaris-line-height-sm: 1.25;
-  --solaris-line-height-md: 1.4;
+  --solaris-line-height-2xs: 1.15;
+  --solaris-line-height-xs: 1.25;
+  --solaris-line-height-sm: 1.4;
+  --solaris-line-height-md: 1.5;
   --solaris-line-height-lg: 1.6;
 
   --solaris-letter-spacing-tight: -0.01em;

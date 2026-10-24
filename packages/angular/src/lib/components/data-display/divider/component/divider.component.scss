@@ -8,7 +8,7 @@
   --solaris-divider-spacing-lg: var(--solaris-spacing-5);
   --solaris-divider-inset-start: var(--solaris-spacing-3);
   --solaris-divider-text-gap: var(--solaris-spacing-3);
-  --solaris-divider-text-color: var(--solaris-text-muted);
+  --solaris-divider-text-color: var(--solaris-neutral-text-secondary);
   --solaris-divider-text-font-size: var(--solaris-font-size-sm);
 
   display: block;
@@ -26,17 +26,18 @@
 :host([data-orientation='vertical']) {
   width: 0;
   height: var(--solaris-divider-height);
-  min-height: 16px;
+  min-height: var(--solaris-spacing-7);
   align-self: stretch;
   margin-inline: var(--solaris-divider-spacing-md);
   border-left: var(--solaris-border-width-sm) solid
-    var(--solaris-border-default);
+    var(--solaris-neutral-border-default);
 }
 
 .solaris-divider__line {
   flex: 1 1 0;
   min-width: 0;
-  border-top: var(--solaris-border-width-sm) solid var(--solaris-border-default);
+  border-top: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-default);
 }
 
 :host([data-orientation='vertical']) .solaris-divider__line {
@@ -88,14 +89,34 @@
 
 :host([data-appearance='strong']) {
   .solaris-divider__line {
-    border-top-color: var(--solaris-border-strong);
+    border-top-color: var(--solaris-neutral-border-strong);
     border-top-width: var(--solaris-border-width-lg);
   }
 }
 
 :host([data-appearance='strong'][data-orientation='vertical']) {
-  border-left-color: var(--solaris-border-strong);
+  border-left-color: var(--solaris-neutral-border-strong);
   border-left-width: var(--solaris-border-width-lg);
+}
+
+:host([data-variant='dashed']) {
+  .solaris-divider__line {
+    border-top-style: dashed;
+  }
+}
+
+:host([data-variant='dotted']) {
+  .solaris-divider__line {
+    border-top-style: dotted;
+  }
+}
+
+:host([data-variant='dashed'][data-orientation='vertical']) {
+  border-left-style: dashed;
+}
+
+:host([data-variant='dotted'][data-orientation='vertical']) {
+  border-left-style: dotted;
 }
 
 :host([data-inset='start'][data-orientation='horizontal']) {

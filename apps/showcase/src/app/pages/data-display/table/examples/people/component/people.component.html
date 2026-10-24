@@ -1,0 +1,19 @@
+<solaris-table [data]="rows" [columns]="columns" rowId="id" cellPadding="lg">
+  <ng-template solaris-table-cell="person" let-row>
+    <solaris-avatar-profile
+      size="sm"
+      textSize="sm"
+      [title]="row.name"
+      [subtitle]="row.email"
+    />
+  </ng-template>
+  <ng-template solaris-table-cell="status" let-row>
+    <solaris-badge
+      size="sm"
+      appearance="solid"
+      [color]="statusColorOf(row.status)"
+    >
+      {{ row.status }}
+    </solaris-badge>
+  </ng-template>
+</solaris-table>

@@ -1,0 +1,8 @@
+{
+  "categories": ["communication"],
+  "keywords": ["feed", "news", "blog"],
+  "aliases": [],
+  "class": "redrawable",
+  "availableVariants": ["outline"],
+  "viewBox": "0 0 24 24"
+}

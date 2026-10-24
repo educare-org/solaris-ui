@@ -1,45 +1,19 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.multi-select-showcase {
-  @include layout.page;
-}
-
-.multi-select-showcase__header {
-  @include layout.header;
-}
-
-.multi-select-showcase__title {
-  @include layout.title;
-}
-
-.multi-select-showcase__description {
-  @include layout.description;
-}
-
-.multi-select-showcase__section {
-  @include layout.section-card;
-}
-
-.multi-select-showcase__section-title {
-  @include layout.section-title;
-}
-
 .multi-select-showcase__note {
   @include layout.note;
 
-  margin-bottom: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.multi-select-showcase__demo {
-  display: flex;
-  flex-direction: column;
-  gap: var(--solaris-spacing-3);
-  margin-bottom: var(--solaris-spacing-3);
+.multi-select-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
 }
 
-.multi-select-showcase__row {
+.multi-select-showcase__controls {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--solaris-spacing-3);
-  align-items: flex-start;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
 }

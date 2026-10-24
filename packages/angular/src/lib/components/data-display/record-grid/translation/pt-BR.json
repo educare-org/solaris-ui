@@ -1,0 +1,21 @@
+{
+  "solaris": {
+    "dataDisplay": {
+      "recordGrid": {
+        "ariaLabel": "Grade de registros",
+        "commitAll": "Confirmar rascunhos",
+        "discardAll": "Descartar rascunhos",
+        "emptyText": "Nenhum registro encontrado",
+        "errorText": "Não foi possível carregar os registros",
+        "loadingText": "Carregando registros",
+        "selectAllVisible": "Selecionar todas as linhas visíveis",
+        "selectRow": "Selecionar linha {{rowId}}",
+        "sortAsc": "Ordenar {{column}} em ordem crescente",
+        "sortClear": "Limpar ordenação de {{column}}",
+        "sortDesc": "Ordenar {{column}} em ordem decrescente",
+        "sortedAnnounce": "Ordenado por {{column}} {{direction}}",
+        "sortedCleared": "Ordenação da grade limpa"
+      }
+    }
+  }
+}

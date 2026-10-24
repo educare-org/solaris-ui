@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
@@ -8,6 +8,10 @@ import { SolarisTranslateService } from '../../../../services/translation/servic
 import { SolarisSelectComponent } from '../component/select.component';
 import { SolarisOptionComponent } from '../../option/component/option.component';
 import { SolarisOptionGroupComponent } from '../../option-group/component/option-group.component';
+import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
+import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
+import { SolarisFormFieldComponent } from '../../form-field/component/form-field.component';
+import { SolarisInputDirective } from '../../input/directives/input.directive';
 
 function getTestTranslations() {
   return {
@@ -708,6 +712,58 @@ describe('SolarisSelectComponent', () => {
       );
       const optionInTrigger = trigger.querySelector('solaris-option');
       expect(optionInTrigger).toBeFalsy();
+    });
+
+    it('should render the suffix icon input in the field affix (P5 B/C)', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisSelectComponent, SolarisOptionComponent],
+        template: `
+          <solaris-select suffix="mail">
+            <solaris-option value="a">Option A</solaris-option>
+          </solaris-select>
+        `,
+        providers: [
+          provideSolarisTesting({
+            translate: { translations: { 'en-US': getTestTranslations() } },
+          }),
+        ],
+      })
+      class SuffixIconHost {}
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SuffixIconHost);
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector(
+          '.solaris-form-field__affix--suffix > span[solaris-form-suffix] solaris-icon',
+        ),
+      ).toBeTruthy();
+    });
+
+    it('should accept radius xl (P5 B/C)', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisSelectComponent, SolarisOptionComponent],
+        template: `
+          <solaris-select radius="xl">
+            <solaris-option value="a">Option A</solaris-option>
+          </solaris-select>
+        `,
+        providers: [
+          provideSolarisTesting({
+            translate: { translations: { 'en-US': getTestTranslations() } },
+          }),
+        ],
+      })
+      class RadiusXlHost {}
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(RadiusXlHost);
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement
+          .querySelector('solaris-select solaris-form-field')
+          .getAttribute('data-radius'),
+      ).toBe('xl');
     });
   });
 
@@ -1675,7 +1731,6 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
-      // connected-side ownership moved to SolarisPopoverTriggerDirective
       expect((select as any).setConnectedSide).toBeUndefined();
       expect((select as any).clearConnectedSide).toBeUndefined();
       (select as any).onPanelOpened();
@@ -1693,6 +1748,840 @@ describe('SolarisSelectComponent', () => {
       const opt = (select as any).options()[0];
       const text = (select as any).getOptionNativeText(opt);
       expect(text).toBe('Apple');
+    });
+  });
+
+  describe('form-field repasse (P4 Lote B)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select size="lg" density="compact" [loading]="true">
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class RepasseHost {}
+
+    function getInnerField(fixture: any): HTMLElement {
+      return fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+    }
+
+    it('should forward size to the inner form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      expect(getInnerField(fixture).getAttribute('data-size')).toBe('lg');
+    });
+
+    it('should forward effective density to the inner form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      expect(getInnerField(fixture).getAttribute('data-density')).toBe(
+        'compact',
+      );
+    });
+
+    it('should forward loading as overlay without layout shift', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      const field = getInnerField(fixture);
+      expect(field.hasAttribute('data-loading')).toBe(true);
+      expect(field.getAttribute('aria-busy')).toBe('true');
+      expect(field.querySelector('.solaris-form-field__loading')).toBeTruthy();
+    });
+  });
+
+  describe('clearable (P4 Lote B)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select [clearable]="true" (cleared)="onCleared()">
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class ClearableHost {
+      clearedCount = 0;
+      onCleared(): void {
+        this.clearedCount += 1;
+      }
+    }
+
+    it('should not render a clear button without a value', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ClearableHost);
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector('.solaris-select__clear'),
+      ).toBeFalsy();
+    });
+
+    it('should render a clear button once a value is set and clear on click', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ClearableHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      select.writeValue('a');
+      fixture.detectChanges();
+      const clearBtn = fixture.nativeElement.querySelector(
+        '.solaris-select__clear',
+      );
+      expect(clearBtn).toBeTruthy();
+      clearBtn.click();
+      fixture.detectChanges();
+      expect(fixture.componentInstance.clearedCount).toBe(1);
+      expect(
+        fixture.nativeElement.querySelector('.solaris-select__clear'),
+      ).toBeFalsy();
+    });
+  });
+
+  describe('suffix-action projection (P4 Lote B)', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisSelectComponent,
+        SolarisOptionComponent,
+        SolarisFormFieldComponent,
+        SolarisFormSuffixDirective,
+        SolarisFormSuffixActionDirective,
+      ],
+      template: `
+        <solaris-form-field label="Direct">
+          <input solaris-input aria-label="direct" />
+          <button
+            type="button"
+            solaris-form-suffix
+            solaris-form-suffix-action
+            aria-label="Action"
+          >
+            Go
+          </button>
+        </solaris-form-field>
+        <solaris-select>
+          <button
+            type="button"
+            solaris-form-suffix
+            solaris-form-suffix-action
+            aria-label="Action"
+          >
+            Go
+          </button>
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class SuffixActionHost {}
+
+    it('should render action variant for a dual-attribute direct child (control)', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SuffixActionHost);
+      fixture.detectChanges();
+      const root = fixture.nativeElement as HTMLElement;
+      const directField = root.querySelector(
+        'solaris-form-field',
+      ) as HTMLElement;
+      const directAffix = directField.querySelector(
+        '.solaris-form-field__affix--suffix',
+      ) as HTMLElement;
+      expect(directAffix.getAttribute('data-variant')).toBe('action');
+    });
+
+    it('should cross ngProjectAs and switch the suffix affix to action variant', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SuffixActionHost);
+      fixture.detectChanges();
+      const root = fixture.nativeElement as HTMLElement;
+      const field = root.querySelector(
+        'solaris-select solaris-form-field',
+      ) as HTMLElement;
+      const btn = field.querySelector(
+        '[solaris-form-suffix-action]',
+      ) as HTMLElement;
+      expect(btn).toBeTruthy();
+      const affix = field.querySelector(
+        '.solaris-form-field__affix--suffix',
+      ) as HTMLElement;
+      expect(affix.contains(btn)).toBe(true);
+      expect(affix.getAttribute('data-variant')).toBe('action');
+    });
+  });
+
+  describe('content min width (widest option floor)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select
+          [panelMinWidth]="panelMinWidth"
+          [triggerMinWidth]="triggerMinWidth"
+        >
+          <solaris-option value="br" label="Brasil" />
+          <solaris-option value="us" label="Estados Unidos" />
+          <solaris-option value="pt" label="Portugal" />
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class MinWidthHost {
+      panelMinWidth: string | number | undefined;
+      triggerMinWidth: string | number | undefined;
+    }
+
+    it('should estimate the floor from the longest option label', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.contentMinWidth()).toBe(195);
+    });
+
+    it('should apply the floor as trigger min-width', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.detectChanges();
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-select__trigger',
+      );
+      expect(trigger.style.minWidth).toBe('195px');
+    });
+
+    it('should fall back to the floor as panel min-width', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.effectivePanelMinWidth()).toBe(195);
+    });
+
+    it('should prefer an explicit triggerMinWidth input', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.componentInstance.triggerMinWidth = 0;
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.resolvedTriggerMinWidth()).toBe('0px');
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-select__trigger',
+      );
+      expect(trigger.style.minWidth).toBe('0px');
+    });
+
+    it('should prefer an explicit panelMinWidth input', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(MinWidthHost);
+      fixture.componentInstance.panelMinWidth = 300;
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.effectivePanelMinWidth()).toBe(300);
+    });
+
+    it('should return no floor without options', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisSelectComponent],
+        template: `<solaris-select />`,
+        providers: [
+          provideSolarisTesting({
+            translate: { translations: { 'en-US': getTestTranslations() } },
+          }),
+        ],
+      })
+      class EmptyHost {}
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(EmptyHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      expect(select.contentMinWidth()).toBe(0);
+      expect(select.effectivePanelMinWidth()).toBeUndefined();
+    });
+  });
+
+  describe('value input', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select [value]="selected()" [appearance]="appearance">
+          <solaris-option [value]="10">10</solaris-option>
+          <solaris-option [value]="25">25</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class ValueInputHost {
+      readonly selected = signal<unknown>(25);
+      appearance: 'outline' | 'minimal' = 'outline';
+    }
+
+    it('should display the value input without forms', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ValueInputHost);
+      fixture.detectChanges();
+      const valueEl = fixture.nativeElement.querySelector(
+        '.solaris-select__value-text',
+      );
+      expect(valueEl).toBeTruthy();
+      expect(valueEl.textContent.trim()).toBe('25');
+    });
+
+    it('should update when the value input changes', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ValueInputHost);
+      fixture.detectChanges();
+      fixture.componentInstance.selected.set(10);
+      fixture.detectChanges();
+      const valueEl = fixture.nativeElement.querySelector(
+        '.solaris-select__value-text',
+      );
+      expect(valueEl.textContent.trim()).toBe('10');
+    });
+
+    it('should apply minimal appearance to the form field', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ValueInputHost);
+      fixture.componentInstance.appearance = 'minimal';
+      fixture.detectChanges();
+      const formField = fixture.nativeElement.querySelector(
+        'solaris-select solaris-form-field',
+      );
+      expect(formField?.getAttribute('data-appearance')).toBe('minimal');
+    });
+  });
+
+  describe('coverage - form-control contract', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select [required]="true">
+          <solaris-option value="a" label="Apple"></solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class ContractHost {}
+
+    function createContract() {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ContractHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      return { fixture, select };
+    }
+
+    it('should expose focused state via the getter', () => {
+      const { select } = createContract();
+      expect(select.focused).toBe(false);
+      (select as any).onTriggerFocus();
+      expect(select.focused).toBe(true);
+      expect((select as any).internalFocused()).toBe(true);
+    });
+
+    it('should expose invalid and required via getters', () => {
+      const { select } = createContract();
+      expect(select.required).toBe(true);
+      expect(select.invalid).toBe(false);
+      (select as any).touched.set(true);
+      expect(select.invalid).toBe(true);
+    });
+
+    it('should round-trip describedByIds', () => {
+      const { fixture, select } = createContract();
+      expect(select.describedByIds).toEqual([]);
+      select.setDescribedByIds(['hint-1', 'error-1']);
+      expect(select.describedByIds).toEqual(['hint-1', 'error-1']);
+      fixture.detectChanges();
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-select__trigger',
+      );
+      expect(trigger.getAttribute('aria-describedby')).toBe('hint-1 error-1');
+    });
+
+    it('should focus the trigger element when present', () => {
+      const { select } = createContract();
+      const trigger = (select as any).triggerElement();
+      expect(trigger).toBeTruthy();
+      const focusSpy = vi
+        .spyOn(trigger.nativeElement, 'focus')
+        .mockImplementation(() => undefined);
+      select.focus();
+      expect(focusSpy).toHaveBeenCalled();
+      focusSpy.mockRestore();
+    });
+
+    it('should toggle focus on trigger focus and blur events', () => {
+      const { fixture, select } = createContract();
+      const trigger = fixture.nativeElement.querySelector(
+        '.solaris-select__trigger',
+      );
+      trigger.dispatchEvent(new FocusEvent('focus'));
+      expect(select.focused).toBe(true);
+      trigger.dispatchEvent(new FocusEvent('blur'));
+      expect(select.focused).toBe(false);
+    });
+  });
+
+  describe('coverage - search input and panel click', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select [searchable]="true">
+          <solaris-option value="a" label="Apple"></solaris-option>
+          <solaris-option value="b" label="Banana"></solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class SearchCoverageHost {}
+
+    function createSearchCoverage() {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SearchCoverageHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      return { fixture, select };
+    }
+
+    it('should update the query and reset the active option on search input', () => {
+      const { select } = createSearchCoverage();
+      const emitted: string[] = [];
+      select.searchChange.subscribe((value) => emitted.push(value));
+      (select as any).activeOptionIndex.set(1);
+      (select as any).onSearchInput({
+        target: { value: 'App' },
+      } as unknown as Event);
+      expect((select as any).searchQuery()).toBe('App');
+      expect(emitted).toEqual(['App']);
+      expect((select as any).activeOptionIndex()).toBe(-1);
+    });
+
+    it('should close the panel on Escape with an empty query', () => {
+      const { select } = createSearchCoverage();
+      const closeSpy = vi.fn();
+      vi.spyOn(select as any, 'popoverTrigger').mockReturnValue({
+        close: closeSpy,
+      });
+      (select as any).searchQuery.set('');
+      (select as any).onSearchKeydown(
+        new KeyboardEvent('keydown', { key: 'Escape' }),
+      );
+      expect(closeSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should stop propagation on panel click', () => {
+      const { select } = createSearchCoverage();
+      const event = new MouseEvent('click', { bubbles: true });
+      const stopSpy = vi.spyOn(event, 'stopPropagation');
+      (select as any).onPanelClick(event);
+      expect(stopSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('coverage - trigger keyboard toggle and arrows', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select>
+          <solaris-option value="a">Option A</solaris-option>
+          <solaris-option value="b">Option B</solaris-option>
+          <solaris-option value="c">Option C</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class TriggerKeysHost {}
+
+    function createTriggerKeys() {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TriggerKeysHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      return { fixture, select };
+    }
+
+    function stubRafSync() {
+      const original = (
+        window as unknown as { requestAnimationFrame?: unknown }
+      ).requestAnimationFrame;
+      let calls = 0;
+      (window as unknown as Record<string, unknown>)['requestAnimationFrame'] =
+        (callback: FrameRequestCallback): number => {
+          calls += 1;
+          callback(0);
+          return 0;
+        };
+      return {
+        calls: () => calls,
+        restore: () => {
+          (window as unknown as Record<string, unknown>)[
+            'requestAnimationFrame'
+          ] = original;
+        },
+      };
+    }
+
+    it('should move to the previous option on ArrowUp with the panel open', () => {
+      const { select } = createTriggerKeys();
+      (select as any).panelOpen.set(true);
+      (select as any).activeOptionIndex.set(2);
+      (select as any).onTriggerKeydown(
+        new KeyboardEvent('keydown', { key: 'ArrowUp' }),
+      );
+      expect((select as any).activeOptionIndex()).toBe(1);
+    });
+
+    it('should open the panel on Space when closed', () => {
+      const { select } = createTriggerKeys();
+      const openSpy = vi.fn();
+      vi.spyOn(select as any, 'popoverTrigger').mockReturnValue({
+        open: openSpy,
+      });
+      (select as any).panelOpen.set(false);
+      const event = new KeyboardEvent('keydown', { key: ' ' });
+      const preventSpy = vi.spyOn(event, 'preventDefault');
+      (select as any).onTriggerKeydown(event);
+      expect(preventSpy).toHaveBeenCalled();
+      expect(openSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should open and schedule focus on ArrowDown when closed', () => {
+      const { select } = createTriggerKeys();
+      const openSpy = vi.fn();
+      vi.spyOn(select as any, 'popoverTrigger').mockReturnValue({
+        open: openSpy,
+      });
+      (select as any).panelOpen.set(false);
+      const raf = stubRafSync();
+      try {
+        (select as any).onTriggerKeydown(
+          new KeyboardEvent('keydown', { key: 'ArrowDown' }),
+        );
+        expect(openSpy).toHaveBeenCalledTimes(1);
+        expect(raf.calls()).toBe(1);
+      } finally {
+        raf.restore();
+      }
+    });
+  });
+
+  describe('coverage - popover open and close wiring', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select>
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class WiringHost {}
+
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select [searchable]="true">
+          <solaris-option value="a">Option A</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class SearchableWiringHost {}
+
+    it('should open and close through popover emissions', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(WiringHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      const trigger = select.popoverTrigger();
+      expect(trigger).toBeTruthy();
+      trigger.solarisPopoverOpened.emit();
+      expect(select.panelOpen()).toBe(true);
+      trigger.solarisPopoverClosed.emit();
+      expect(select.panelOpen()).toBe(false);
+    });
+
+    it('should focus the search input on open when searchable', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SearchableWiringHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      select.panelOpen.set(true);
+      fixture.detectChanges();
+      const input = fixture.nativeElement.querySelector(
+        '.solaris-select__search-input',
+      ) as HTMLInputElement;
+      expect(input).toBeTruthy();
+      const focusSpy = vi
+        .spyOn(input, 'focus')
+        .mockImplementation(() => undefined);
+      const original = (
+        window as unknown as { requestAnimationFrame?: unknown }
+      ).requestAnimationFrame;
+      (window as unknown as Record<string, unknown>)['requestAnimationFrame'] =
+        (callback: FrameRequestCallback): number => {
+          callback(0);
+          return 0;
+        };
+      try {
+        select.onPanelOpened();
+        expect(focusSpy).toHaveBeenCalled();
+      } finally {
+        (window as unknown as Record<string, unknown>)[
+          'requestAnimationFrame'
+        ] = original;
+        focusSpy.mockRestore();
+      }
+    });
+  });
+
+  describe('coverage - options wiring and visibility', () => {
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisSelectComponent,
+        SolarisOptionComponent,
+        SolarisOptionGroupComponent,
+      ],
+      template: `
+        <solaris-select [searchable]="true">
+          <solaris-option-group label="Fruits">
+            <solaris-option value="apple" label="Apple"></solaris-option>
+          </solaris-option-group>
+          <solaris-option-group label="Vehicles">
+            <solaris-option value="car" label="Car"></solaris-option>
+          </solaris-option-group>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class GroupVisibilityHost {}
+
+    function createGroupVisibility() {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(GroupVisibilityHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      return { fixture, select };
+    }
+
+    it('should select the option emitted through optionInteraction', () => {
+      const { select } = createGroupVisibility();
+      const options = select.options();
+      expect(options.length).toBe(2);
+      const apple = options[0];
+      apple.optionInteraction.emit({
+        option: apple,
+        event: new MouseEvent('click'),
+      });
+      expect(select.internalValue()).toBe('apple');
+    });
+
+    it('should hide groups without visible options', () => {
+      const { select } = createGroupVisibility();
+      select.panelOpen.set(true);
+      select.onSearchInput({
+        target: { value: 'apple' },
+      } as unknown as Event);
+      const groups = select.optionGroups();
+      expect(groups.length).toBe(2);
+      expect(groups.map((group: any) => group.internalHidden())).toEqual([
+        false,
+        true,
+      ]);
+    });
+
+    it('should return an empty string without a native element', () => {
+      const { select } = createGroupVisibility();
+      expect(select.getOptionNativeText({} as any)).toBe('');
+    });
+  });
+
+  describe('coverage - keyboard skipping and empty bounds', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select>
+          <solaris-option value="a">Option A</solaris-option>
+          <solaris-option value="b" [disabled]="true">Option B</solaris-option>
+          <solaris-option value="c">Option C</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class SkipDisabledHost {}
+
+    @Component({
+      standalone: true,
+      imports: [SolarisSelectComponent, SolarisOptionComponent],
+      template: `
+        <solaris-select>
+          <solaris-option value="x" [disabled]="true">Option X</solaris-option>
+          <solaris-option value="y" [disabled]="true">Option Y</solaris-option>
+        </solaris-select>
+      `,
+      providers: [
+        provideSolarisTesting({
+          translate: { translations: { 'en-US': getTestTranslations() } },
+        }),
+      ],
+    })
+    class AllDisabledHost {}
+
+    it('should skip disabled options while moving', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(SkipDisabledHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      select.panelOpen.set(true);
+      select.activeOptionIndex.set(0);
+      select.focusNextOption(1);
+      expect(select.activeOptionIndex()).toBe(2);
+    });
+
+    it('should return -1 without enabled options', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(AllDisabledHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      select.panelOpen.set(true);
+      expect(select.getFirstEnabledOptionIndex()).toBe(-1);
+      expect(select.getLastEnabledOptionIndex()).toBe(-1);
+    });
+  });
+
+  describe('coverage - embedding and option parent', () => {
+    it('should warn when wrapped in a form field', () => {
+      @Component({
+        standalone: true,
+        imports: [
+          SolarisFormFieldComponent,
+          SolarisSelectComponent,
+          SolarisOptionComponent,
+        ],
+        template: `
+          <solaris-form-field label="Wrapped">
+            <solaris-select>
+              <solaris-option value="a">Option A</solaris-option>
+            </solaris-select>
+          </solaris-form-field>
+        `,
+        providers: [provideSolarisTesting({})],
+      })
+      class WrappedHost {}
+
+      const warnSpy = vi
+        .spyOn(console, 'warn')
+        .mockImplementation(() => undefined);
+      try {
+        TestBed.configureTestingModule({});
+        const fixture = TestBed.createComponent(WrappedHost);
+        fixture.detectChanges();
+        expect(warnSpy).toHaveBeenCalledWith(
+          expect.stringContaining('already includes'),
+        );
+      } finally {
+        warnSpy.mockRestore();
+      }
+    });
+
+    it('should provide the select as the option parent', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisSelectComponent, SolarisOptionComponent],
+        template: `
+          <solaris-select size="lg">
+            <solaris-option value="a">Option A</solaris-option>
+          </solaris-select>
+        `,
+        providers: [provideSolarisTesting({})],
+      })
+      class ParentHost {}
+
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ParentHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as any;
+      const option = select.options()[0];
+      expect(option).toBeTruthy();
+      expect(option.size()).toBe('lg');
     });
   });
 });

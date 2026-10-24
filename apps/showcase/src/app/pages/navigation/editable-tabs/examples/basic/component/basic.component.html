@@ -6,7 +6,13 @@
   (tabMove)="onMove($event)"
   (defaultTabChange)="onDefaultChange($event)"
 />
-<p style="margin-top: 16px; font-size: 14px; color: var(--solaris-text-muted)">
+<p
+  style="
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--solaris-neutral-text-secondary);
+  "
+>
   {{
     'editableTabs.example.basic.active-tab' | translate: { value: activeTab() }
   }}

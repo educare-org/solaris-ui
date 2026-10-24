@@ -1,0 +1,108 @@
+{
+  "option": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "demo": {
+      "admin": {
+        "description": "Full system access.",
+        "label": "Administrator"
+      },
+      "student": {
+        "description": "Access your own profile.",
+        "label": "Student"
+      },
+      "teacher": {
+        "description": "Manage classes and students.",
+        "label": "Teacher"
+      }
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Option and Option Group are primitives for selectable lists controlled by parent components like Select, Multi Select, and Autocomplete.",
+    "examples": {
+      "list-label": "Roles",
+      "note": "Standalone list items with label and description. Selection is controlled by the parent component."
+    },
+    "group": {
+      "academic": "Academic",
+      "classes": "Classes",
+      "grades": "Grades",
+      "item1": "Maintenance item 1",
+      "item2": "Maintenance item 2",
+      "list-label": "Grouped roles",
+      "maintenance": "Maintenance",
+      "note": "Option Group labels a set of options with role=\"group\" and propagates disabled to every child option.",
+      "students": "Students"
+    },
+    "indicator": {
+      "hidden": "Hidden",
+      "shown": "Shown"
+    },
+    "indicators": {
+      "note": "The selection indicator is opt-in. Without it, a selected option keeps its selected state but renders no checkmark or checkbox."
+    },
+    "installation": {
+      "note": "Install the Solaris UI package and import the option and option group components."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "density": "Density",
+      "examples": "Examples",
+      "indicators": "Selection indicators",
+      "installation": "Installation",
+      "option-group": "Option group",
+      "props": "Props",
+      "selection-modes": "Selection modes",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "slots": "Slots",
+      "states": "States"
+    },
+    "selection-mode": {
+      "multiple": "Multiple",
+      "none": "None",
+      "single": "Single"
+    },
+    "selection-modes": {
+      "note": "Selection mode is visual only: the parent component owns toggling and values. None hides selection semantics, single shows a checkmark, multiple shows a checkbox-like indicator."
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density adjust font and padding only. Option carries no control height: it sizes to its content inside the parent list."
+    },
+    "slots": {
+      "language": {
+        "meta": "Portuguese",
+        "portuguese": "Português"
+      },
+      "list-label": "Plans and settings",
+      "note": "Leading, label, description, meta, and trailing slots compose rich rows without dedicated icon or badge inputs.",
+      "plan": {
+        "billing": "Annual",
+        "description": "For large teams",
+        "enterprise": "Enterprise plan",
+        "popular": "Popular"
+      },
+      "settings": {
+        "label": "Settings"
+      }
+    },
+    "states": {
+      "another": "Another option",
+      "available": "Available",
+      "note": "Disabled options render with reduced opacity, expose aria-disabled, and ignore pointer interaction.",
+      "unavailable": "Unavailable"
+    },
+    "title": "Option"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "holidays-view": {
+    "description": "Built-in national holidays per locale with lazy data, extension, and custom provider paths.",
+    "examples": {
+      "note": "Nationals only — state and municipal holidays come from consumer extension. The table below renders the built-in provider output for the selected year."
+    },
+    "installation": {
+      "note": "Install the package and import the built-in provider helpers."
+    },
+    "props": {
+      "note": "Unsupported locales resolve to an empty list with a warning and never throw. Extend with provider.extend([...]) or a full custom provider."
+    },
+    "section": {
+      "examples": "Examples",
+      "installation": "Installation",
+      "props": "Props"
+    },
+    "title": "Holidays"
+  }
+}

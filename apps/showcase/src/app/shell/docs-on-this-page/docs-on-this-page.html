@@ -1,0 +1,26 @@
+<nav
+  class="docs-on-this-page"
+  [attr.aria-label]="'docs.on-this-page.title' | translate"
+>
+  <p class="docs-on-this-page__title" aria-hidden="true">
+    {{ 'docs.on-this-page.title' | translate }}
+  </p>
+  <ul class="docs-on-this-page__list">
+    @for (item of displayItems(); track item.anchor) {
+    <li
+      class="docs-on-this-page__item"
+      [attr.data-level]="item.level ?? 2"
+      [attr.data-active]="item.active"
+    >
+      <a
+        class="docs-on-this-page__link"
+        [href]="'#' + item.anchor"
+        [attr.aria-current]="item.active ? 'true' : null"
+        (click)="handleAnchorClick($event, item.anchor)"
+      >
+        {{ item.labelKey ? (item.labelKey | translate) : item.label }}
+      </a>
+    </li>
+    }
+  </ul>
+</nav>

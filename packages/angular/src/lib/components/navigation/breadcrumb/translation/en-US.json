@@ -1,0 +1,10 @@
+{
+  "solaris": {
+    "breadcrumb": {
+      "label": "Breadcrumb",
+      "next": "Next",
+      "previous": "Previous",
+      "showMore": "Show more items"
+    }
+  }
+}

@@ -27,15 +27,26 @@ export type {
   SolarisDensity,
   SolarisReducedMotionPreference,
 } from './lib/services/theme/model/solaris-theme.types';
-export { SolarisThemeService } from './lib/services/theme/service/solaris-theme.service';
+export {
+  SolarisThemeService,
+  SOLARIS_DENSITY_DEFAULT_ATTRIBUTE,
+} from './lib/services/theme/service/solaris-theme.service';
 export { SOLARIS_THEME_CONFIG } from './lib/services/theme/token/solaris-theme.tokens';
 
 export { SolarisIconComponent } from './lib/components/icon/component/solaris-icon.component';
 export { SolarisAnimatedIconComponent } from './lib/components/icon/component/solaris-animated-icon.component';
 export type { SolarisAnimatedIconName } from './lib/components/icon/model/icon.types';
 export { SolarisIconRegistryService } from './lib/services/icon/service/solaris-icon-registry.service';
+export {
+  sanitizeIconSvgInner,
+  isSafeIconSvgInner,
+} from './lib/services/icon/service/solaris-icon-sanitizer';
+export { iconElementsToInner } from './lib/services/icon/service/solaris-icon-serializer';
 export { SOLARIS_ICONS_CONFIG } from './lib/services/icon/token/solaris-icon.tokens';
 export { SOLARIS_BUILT_IN_ICONS } from './lib/services/icon/icons/solaris-built-in-icons';
+export { SOLARIS_ICONS_METADATA } from './lib/services/icon/icons/generated/solaris-icons-metadata';
+export { SOLARIS_SOLID_SVG } from './lib/services/icon/icons/generated/solaris-icons-solid-svg';
+export { SOLARIS_DUOTONE_SVG } from './lib/services/icon/icons/generated/solaris-icons-duotone-svg';
 export type { SolarisIconDefinition } from './lib/services/icon/model/solaris-icon-definition.interface';
 export type {
   SvgElement,
@@ -49,6 +60,12 @@ export type {
   SolarisIconName,
   SolarisBuiltInIcon,
 } from './lib/services/icon/model/solaris-icon.types';
+export type {
+  SolarisIconVariant,
+  SolarisIconClass,
+  SolarisIconMetadata,
+  SolarisIconVariantContent,
+} from './lib/services/icon/model/solaris-icon-variant.types';
 export type { SolarisIconsConfig } from './lib/services/icon/token/solaris-icon.tokens';
 
 export { SolarisBadgeComponent } from './lib/components/data-display/badge/component/badge.component';
@@ -60,7 +77,393 @@ export type {
   SolarisBadgeRadius,
   SolarisBadgeVariant,
   SolarisBadgeDensity,
+  SolarisBadgePlacement,
+  SolarisBadgeOffset,
 } from './lib/components/data-display/badge/model/badge.types';
+
+export { SolarisTableComponent } from './lib/components/data-display/table/component/table.component';
+export {
+  SolarisTableCellDirective,
+  SolarisTableCellEditorDirective,
+  SolarisTableDetailDirective,
+  SolarisTableHeaderDirective,
+  SolarisTableEmptyDirective,
+  SolarisTableErrorDirective,
+  SolarisTableLoadingDirective,
+  SolarisTableFooterDirective,
+  SolarisTableFooterCellDirective,
+  SolarisTableToolbarDirective,
+} from './lib/components/data-display/table/directives/table-cell.directive';
+export {
+  SOLARIS_TABLE_APPEARANCES,
+  SOLARIS_TABLE_COLUMN_TYPES,
+  SOLARIS_TABLE_CELL_PADDINGS,
+  SOLARIS_TABLE_DETAIL_VARIANTS,
+  SOLARIS_TABLE_EXPAND_MODES,
+  SOLARIS_TABLE_LAYOUTS,
+  SOLARIS_TABLE_RADII,
+  SOLARIS_TABLE_SELECTION_MODES,
+  SOLARIS_TABLE_STRIPED_MODES,
+} from './lib/components/data-display/table/model/table.types';
+export type {
+  SolarisTableAlign,
+  SolarisTableAppearance,
+  SolarisTableCellContext,
+  SolarisTableCellEditEvent,
+  SolarisTableCellEditorContext,
+  SolarisTableCellPadding,
+  SolarisTableColumn,
+  SolarisTableColumnType,
+  SolarisTableDataSource,
+  SolarisTableDensity,
+  SolarisTableDetailVariant,
+  SolarisTableExpandMode,
+  SolarisTableFooterCellContext,
+  SolarisTableHeaderGroup,
+  SolarisTableHeaderGroupSpan,
+  SolarisTableIconPosition,
+  SolarisTableLayout,
+  SolarisTableRadius,
+  SolarisTableResolvedRow,
+  SolarisTableRowClickEvent,
+  SolarisTableSelectionChange,
+  SolarisTableSelectionMode,
+  SolarisTableSort,
+  SolarisTableSortDirection,
+  SolarisTableStripedMode,
+  SolarisTableViewColumn,
+  SolarisTableViewRow,
+} from './lib/components/data-display/table/model/table.types';
+export {
+  createClientTableDataSource,
+  createServerTableDataSource,
+  clampPageIndex,
+  isTableDataSource,
+  resolveCellValue,
+  resolveDisplayValue,
+  resolveFooterValue,
+  resolveHeaderGroupSpans,
+  resolveRowId,
+  resolveRows,
+  resolveSortValue,
+  sliceRows,
+  sortRows,
+} from './lib/components/data-display/table/model/table-state';
+
+export {
+  SolarisGradebookComponent,
+  SOLARIS_GRADEBOOK_CELL_TEMPLATE_ID,
+  SOLARIS_GRADEBOOK_EDITOR_TEMPLATE_ID,
+  SOLARIS_GRADEBOOK_HEADER_TEMPLATE_ID,
+  SOLARIS_GRADEBOOK_IDENTITY_COLUMN_ID,
+  SOLARIS_GRADEBOOK_STATUS_TEMPLATE_ID,
+} from './lib/components/data-display/gradebook/component/gradebook.component';
+export { SolarisGradebookLegendComponent } from './lib/components/data-display/gradebook/component/gradebook-legend.component';
+export { GradebookAutofocusDirective } from './lib/components/data-display/gradebook/directives/gradebook-autofocus.directive';
+export type {
+  SolarisGradebookAggregate,
+  SolarisGradebookAssignment,
+  SolarisGradebookBand,
+  SolarisGradebookBulkCommit,
+  SolarisGradebookCellStatus,
+  SolarisGradebookColumn,
+  SolarisGradebookCommitEvent,
+  SolarisGradebookComputed,
+  SolarisGradebookEditEvent,
+  SolarisGradebookEditableOf,
+  SolarisGradebookIdentity,
+  SolarisGradebookLegendItem,
+  SolarisGradebookRounding,
+  SolarisGradebookRow,
+  SolarisGradebookScale,
+  SolarisGradebookScaleDef,
+  SolarisGradebookScoresOf,
+} from './lib/components/data-display/gradebook/model/gradebook.types';
+export {
+  SOLARIS_GRADEBOOK_AGGREGATES,
+  SOLARIS_GRADEBOOK_CELL_STATUSES,
+  SOLARIS_GRADEBOOK_CONCEPT_SCALE,
+  SOLARIS_GRADEBOOK_SCALES,
+  SOLARIS_GRADEBOOK_SCORE_10_SCALE,
+  SOLARIS_GRADEBOOK_SCORE_100_SCALE,
+  aggregateGradeValues,
+  buildGradebookColumns,
+  computeRowGrade,
+  defaultScoresOf,
+  formatAggregateValue,
+  formatGradeCell,
+  gradebookAssignmentIdOf,
+  isPassingGrade,
+  normalizeGradeValue,
+  resolveGradeBand,
+  resolveGradebookScale,
+} from './lib/components/data-display/gradebook/model/gradebook.types';
+
+export type {
+  SolarisChartDisplayMode,
+  SolarisChartInterpolation,
+  SolarisChartPeriod,
+  SolarisChartPoint,
+  SolarisChartReferenceLine,
+  SolarisChartSeries,
+  SolarisChartSeriesColor,
+  SolarisChartSlice,
+  SolarisChartView,
+} from './lib/components/data-display/charts/index';
+export {
+  SOLARIS_BAR_CHART_HEIGHT,
+  SOLARIS_BAR_CHART_HORIZONTAL_PADDING,
+  SOLARIS_BAR_CHART_PADDING,
+  SOLARIS_BAR_CHART_WIDTH,
+  SOLARIS_CHART_PALETTE,
+  SOLARIS_GAUGE_CHART_HEIGHT,
+  SOLARIS_GAUGE_CHART_RADIUS,
+  SOLARIS_GAUGE_CHART_STROKE,
+  SOLARIS_GAUGE_CHART_WIDTH,
+  SOLARIS_HEATMAP_ANCHOR_GAP,
+  SOLARIS_HEATMAP_CELL_SIZE,
+  SOLARIS_HEATMAP_ENTER_CELL_DELAY_MS,
+  SOLARIS_HEATMAP_ENTER_MAX_DELAY_MS,
+  SOLARIS_HEATMAP_GAP,
+  SOLARIS_HEATMAP_HEADER_HEIGHT,
+  SOLARIS_HEATMAP_MAX_FILL_MIX,
+  SOLARIS_HEATMAP_MIN_FILL_MIX,
+  SOLARIS_LINE_CHART_HEIGHT,
+  SOLARIS_LINE_CHART_PADDING,
+  SOLARIS_LINE_CHART_WIDTH,
+  SOLARIS_PIE_CHART_DONUT_RATIO,
+  SOLARIS_PIE_CHART_GRADIENT_RADIUS_RATIO,
+  SOLARIS_PIE_CHART_HEIGHT,
+  SOLARIS_PIE_CHART_RADIUS,
+  SOLARIS_PIE_CHART_TOOLTIP_OFFSET,
+  SOLARIS_PIE_CHART_WIDTH,
+  SOLARIS_PIE_ENTER_GAUGE_DURATION_MS,
+  SOLARIS_PIE_ENTER_SLICE_DELAY_MS,
+  SOLARIS_PIE_ENTER_SLICE_DURATION_MS,
+  SOLARIS_RADAR_CHART_ANCHOR_OFFSET,
+  SOLARIS_RADAR_CHART_HEIGHT,
+  SOLARIS_RADAR_CHART_LABEL_OFFSET,
+  SOLARIS_RADAR_CHART_LEVELS,
+  SOLARIS_RADAR_CHART_RADIUS,
+  SOLARIS_RADAR_CHART_WIDTH,
+  SOLARIS_RADAR_ENTER_SERIES_DELAY_MS,
+  SOLARIS_RADAR_ENTER_SERIES_DURATION_MS,
+  SOLARIS_SPARKLINE_HEIGHT,
+  SOLARIS_SPARKLINE_WIDTH,
+  barChartValuePosition,
+  buildBarChartFrame,
+  buildGaugeGeometry,
+  buildHeatmapFrame,
+  buildLineChartFrame,
+  buildPieChartFrame,
+  buildRadarFrame,
+  buildSparklineGeometry,
+  buildSvgAreaPath,
+  buildSvgLinePath,
+  chartFallbackLanguage,
+  clampHeatmapPercent,
+  clampRadarPercent,
+  easeOutCubic,
+  easeOutRadar,
+  gaugeAnchorPoint,
+  gaugeArcPath,
+  gaugeTargetTick,
+  groupSmallChartSlices,
+  heatmapAnchorPoint,
+  heatmapCellFill,
+  heatmapCellKey,
+  heatmapEnterDelayMs,
+  heatmapFillMix,
+  heatmapIntensity,
+  heatmapTooltipSide,
+  isChartSeriesEmpty,
+  lineChartYPosition,
+  normalizeStacked100,
+  pieEnterTotalMs,
+  pieSliceAnchorPoint,
+  pieSliceEnterProgress,
+  pieSliceLabelPosition,
+  pieSlicePath,
+  pieTooltipSide,
+  radarAnchorPoint,
+  radarEnterProgress,
+  radarEnterTotalMs,
+  radarPolygonPath,
+  radarSeriesFill,
+  radarTooltipSide,
+  radarVertexPoint,
+  resolveBarLabelEvery,
+  resolveChartDomain,
+  resolveChartFallback,
+  resolveChartSeriesColor,
+  resolveChartTicks,
+  resolveHeatmapMax,
+  resolveRadarMax,
+  seriesToPieSlices,
+  solarisChartColorVar,
+  solarisChartSoftVar,
+  sumLineChartValuesAt,
+  truncateBarCategoryLabel,
+  visibleChartSeries,
+  visibleRadarSeries,
+} from './lib/components/data-display/charts/index';
+export type { SolarisPieTooltipSide } from './lib/components/data-display/charts/index';
+export type {
+  SolarisBarChartBarGeometry,
+  SolarisBarChartDomain,
+  SolarisBarChartFrame,
+  SolarisBarChartFrameOptions,
+  SolarisChartDomain,
+  SolarisChartDomainOptions,
+  SolarisChartStringKey,
+  SolarisChartStringLanguage,
+  SolarisLineChartDomain,
+  SolarisLineChartDotGeometry,
+  SolarisLineChartFrame,
+  SolarisLineChartFrameOptions,
+  SolarisLineChartPadding,
+  SolarisLineChartPixel,
+  SolarisLineChartPlot,
+  SolarisLineChartSeriesGeometry,
+  SolarisLineChartTickGeometry,
+  SolarisSparklineGeometry,
+  SolarisSparklineGeometryOptions,
+} from './lib/components/data-display/charts/index';
+export { SolarisChartShellComponent } from './lib/components/data-display/charts/index';
+export { DEFAULT_SHELL_PERIODS } from './lib/components/data-display/charts/index';
+export { SolarisBarChartComponent } from './lib/components/data-display/charts/index';
+export { SolarisLineChartComponent } from './lib/components/data-display/charts/index';
+export { SolarisPieChartComponent } from './lib/components/data-display/charts/index';
+export { SolarisHeatmapComponent } from './lib/components/data-display/charts/index';
+export { SolarisRadarComponent } from './lib/components/data-display/charts/index';
+export { SolarisSparklineComponent } from './lib/components/data-display/charts/index';
+export type {
+  SolarisLineChartDensity,
+  SolarisLineChartPointEvent,
+  SolarisLineChartSize,
+  SolarisLineChartTooltip,
+  SolarisLineChartTooltipRow,
+  SolarisLineChartValueFormatter,
+} from './lib/components/data-display/charts/index';
+export type {
+  SolarisBarChartDensity,
+  SolarisBarChartLayout,
+  SolarisBarChartOrientation,
+  SolarisBarChartPointEvent,
+  SolarisBarChartSize,
+  SolarisBarChartTooltip,
+  SolarisBarChartTooltipRow,
+  SolarisBarChartValueFormatter,
+} from './lib/components/data-display/charts/index';
+export type {
+  SolarisPieChartDensity,
+  SolarisPieChartFrame,
+  SolarisPieChartFrameOptions,
+  SolarisPieChartGaugeGeometry,
+  SolarisPieChartInputs,
+  SolarisPieChartSize,
+  SolarisPieChartSliceEvent,
+  SolarisPieChartSliceGeometry,
+  SolarisPieChartValueFormatter,
+  SolarisPieChartVariant,
+} from './lib/components/data-display/charts/index';
+export type {
+  SolarisHeatmapCellEvent,
+  SolarisHeatmapCellGeometry,
+  SolarisHeatmapDensity,
+  SolarisHeatmapFrame,
+  SolarisHeatmapFrameOptions,
+  SolarisHeatmapInputs,
+  SolarisHeatmapRow,
+  SolarisHeatmapSize,
+  SolarisHeatmapTooltip,
+  SolarisHeatmapTooltipSide,
+  SolarisHeatmapValueFormatter,
+} from './lib/components/data-display/charts/index';
+export type {
+  SolarisRadarDensity,
+  SolarisRadarFrame,
+  SolarisRadarFrameOptions,
+  SolarisRadarInputs,
+  SolarisRadarSeries,
+  SolarisRadarSeriesGeometry,
+  SolarisRadarSize,
+  SolarisRadarTooltip,
+  SolarisRadarTooltipSide,
+  SolarisRadarValueFormatter,
+  SolarisRadarVertexEvent,
+  SolarisRadarVertexGeometry,
+} from './lib/components/data-display/charts/index';
+export type {
+  SolarisSparklineDensity,
+  SolarisSparklineSize,
+} from './lib/components/data-display/charts/index';
+export type {
+  SolarisChartPeriodDuration,
+  SolarisChartShellAction,
+  SolarisChartShellActionOption,
+  SolarisChartShellDensity,
+  SolarisChartShellDisplayModeOption,
+  SolarisChartShellInterval,
+  SolarisChartShellPeriodOption,
+  SolarisChartShellSize,
+  SolarisChartShellTrend,
+  SolarisChartShellViewOption,
+} from './lib/components/data-display/charts/index';
+
+export { SolarisRecordGridComponent } from './lib/components/data-display/record-grid/component/record-grid.component';
+export {
+  SOLARIS_RECORD_GRID_CELL_TEMPLATE_ID,
+  SOLARIS_RECORD_GRID_FOOTER_CELL_TEMPLATE_ID,
+  SOLARIS_RECORD_GRID_HEADER_TEMPLATE_ID,
+  SOLARIS_RECORD_GRID_SELECTION_COLUMN_ID,
+} from './lib/components/data-display/record-grid/model/record-grid.defaults';
+export type {
+  SolarisRecordGridColumn,
+  SolarisRecordGridCommit,
+  SolarisRecordGridComputed,
+  SolarisRecordGridEntry,
+  SolarisRecordGridFormula,
+  SolarisRecordGridSection,
+  SolarisRecordGridSectionGroup,
+  SolarisRecordGridSpanCell,
+} from './lib/components/data-display/record-grid/model/record-grid.types';
+export {
+  SOLARIS_RECORD_GRID_FORMULAS,
+  SolarisRecordGridFormulaError,
+  buildFormulaGraph,
+  buildRecordGridColumns,
+  compareRecordSortable,
+  defaultWriteRecordValue,
+  normalizeRecordValue,
+  recordGridColumnIdOf,
+  resolveBodySpans,
+  resolveRecordValues,
+  resolveSectionGroups,
+  toRecordSortable,
+  topoSortFormulaColumns,
+} from './lib/components/data-display/record-grid/model/record-grid.types';
+
+export {
+  SolarisAvatarComponent,
+  type SolarisAvatarImageDecoding,
+  type SolarisAvatarImageLoading,
+} from './lib/components/data-display/avatar/component/avatar.component';
+export { SolarisAvatarGroupComponent } from './lib/components/data-display/avatar/component/avatar-group.component';
+export { SolarisAvatarGroupBadgeComponent } from './lib/components/data-display/avatar/component/avatar-group-badge.component';
+export { SolarisAvatarProfileComponent } from './lib/components/data-display/avatar/component/avatar-profile.component';
+export { SolarisAvatarPresenceService } from './lib/components/data-display/avatar/service/avatar-presence.service';
+export { SOLARIS_AVATAR_DEFAULT_WORKING_HOURS } from './lib/components/data-display/avatar/service/avatar-presence.service';
+export type {
+  SolarisAvatarFallback,
+  SolarisAvatarGroupMemberEvent,
+  SolarisAvatarGroupUser,
+  SolarisAvatarProfileTextSize,
+  SolarisAvatarRadius,
+  SolarisAvatarSize,
+  SolarisAvatarStatus,
+  SolarisAvatarWorkingHours,
+} from './lib/components/data-display/avatar/model/avatar.types';
 
 export { SolarisCardComponent } from './lib/components/data-display/card/component/card.component';
 export { SolarisCardHeaderDirective } from './lib/components/data-display/card/directives/card-header.directive';
@@ -73,9 +476,10 @@ export { SolarisCardDescriptionDirective } from './lib/components/data-display/c
 export type {
   SolarisCardAppearance,
   SolarisCardRadius,
-  SolarisCardSize,
+  SolarisCardPadding,
   SolarisCardDensity,
   SolarisCardGlassTexture,
+  SolarisCardMediaPosition,
 } from './lib/components/data-display/card/model/card.types';
 
 export { SolarisAlertComponent } from './lib/components/feedback/alert/component/alert.component';
@@ -86,24 +490,45 @@ export type {
   SolarisAlertVariant,
   SolarisAlertAppearance,
   SolarisAlertRadius,
+  SolarisAlertSize,
   SolarisAlertDensity,
   SolarisAlertLive,
 } from './lib/components/feedback/alert/model/alert.types';
 
+export { SolarisAnnouncementComponent } from './lib/components/feedback/announcement/component/announcement.component';
+export { SolarisAnnouncementMediaDirective } from './lib/components/feedback/announcement/directives/announcement-media.directive';
+export { SolarisAnnouncementActionsDirective } from './lib/components/feedback/announcement/directives/announcement-actions.directive';
+export {
+  isSolarisAnnouncementDismissed,
+  persistSolarisAnnouncementDismissed,
+  clearSolarisAnnouncementDismissed,
+} from './lib/components/feedback/announcement/model/announcement-storage';
+export type {
+  SolarisAnnouncementAlign,
+  SolarisAnnouncementSize,
+  SolarisAnnouncementDensity,
+  SolarisAnnouncementVariant,
+  SolarisAnnouncementAppearance,
+  SolarisAnnouncementLive,
+} from './lib/components/feedback/announcement/model/announcement.types';
+
 export { SolarisButtonDirective } from './lib/components/actions/button/directives/button.directive';
 export { SolarisButtonIconDirective } from './lib/components/actions/button/directives/button-icon.directive';
 export type {
+  SolarisButtonSize,
   SolarisButtonAppearance,
   SolarisButtonColor,
   SolarisButtonRadius,
   SolarisButtonDensity,
   SolarisButtonShape,
+  SolarisButtonIconPosition,
 } from './lib/components/actions/button/model/button.types';
 
 export { SolarisIconButtonDirective } from './lib/components/actions/icon-button/directives/icon-button.directive';
 export { SolarisIconButtonBadgeDirective } from './lib/components/actions/icon-button/directives/icon-button-badge.directive';
 export { SolarisMenuToggleDirective } from './lib/components/actions/icon-button/directives/menu-toggle.directive';
 export type {
+  SolarisIconButtonSize,
   SolarisIconButtonAppearance,
   SolarisIconButtonColor,
   SolarisIconButtonRadius,
@@ -114,6 +539,7 @@ export type {
 export { SolarisButtonGroupComponent } from './lib/components/actions/button-group/component/button-group.component';
 export type {
   SolarisButtonGroupOrientation,
+  SolarisButtonGroupSize,
   SolarisButtonGroupDensity,
 } from './lib/components/actions/button-group/model/button-group.types';
 
@@ -153,11 +579,13 @@ export { SolarisFormHintComponent } from './lib/components/forms/form-field/comp
 export { SolarisFormErrorComponent } from './lib/components/forms/form-field/component/form-error.component';
 export { SolarisFormPrefixDirective } from './lib/components/forms/form-field/directives/form-prefix.directive';
 export { SolarisFormSuffixDirective } from './lib/components/forms/form-field/directives/form-suffix.directive';
+export { SolarisFormSuffixActionDirective } from './lib/components/forms/form-field/directives/form-suffix-action.directive';
 export { SolarisFormLabelActionDirective } from './lib/components/forms/form-field/directives/form-label-action.directive';
 export type {
   SolarisFormFieldAppearance,
   SolarisFormFieldDensity,
   SolarisFormFieldRadius,
+  SolarisFormFieldSize,
 } from './lib/components/forms/form-field/model/form-field.types';
 
 export { SolarisSelectComponent } from './lib/components/forms/select/component/select.component';
@@ -165,6 +593,7 @@ export type {
   SolarisSelectAppearance,
   SolarisSelectDensity,
   SolarisSelectRadius,
+  SolarisSelectSize,
 } from './lib/components/forms/select/model/select.types';
 
 export { SolarisMultiSelectComponent } from './lib/components/forms/multi-select/component/multi-select.component';
@@ -173,6 +602,7 @@ export type {
   SolarisMultiSelectDensity,
   SolarisMultiSelectRadius,
   SolarisMultiSelectDisplayMode,
+  SolarisMultiSelectSize,
 } from './lib/components/forms/multi-select/model/multi-select.types';
 
 export { SolarisInputDirective } from './lib/components/forms/input/directives/input.directive';
@@ -207,6 +637,7 @@ export type {
   SolarisRadioColor,
   SolarisRadioSize,
   SolarisRadioDensity,
+  SolarisRadioLabelPosition,
 } from './lib/components/forms/radio/model/radio.types';
 
 export { SolarisSelectionCardComponent } from './lib/components/forms/selection-card/component/selection-card.component';
@@ -222,14 +653,25 @@ export type {
   SolarisSelectionCardDensity,
   SolarisSelectionCardRadius,
   SolarisSelectionCardSize,
+  SolarisSelectionCardSelection,
+  SolarisSelectionCardSelectionPosition,
+  SolarisSelectionCardMediaPosition,
 } from './lib/components/forms/selection-card/model/selection-card.types';
 
 export { SolarisDatePickerComponent } from './lib/components/forms/date-picker/component/date-picker.component';
 export type {
   SolarisDatePickerAppearance,
+  SolarisDatePickerDensity,
   SolarisDatePickerRadius,
+  SolarisDatePickerSize,
 } from './lib/components/forms/date-picker/model/date-picker.types';
 export { SolarisDateRangePickerComponent } from './lib/components/forms/date-range-picker/component/date-range-picker.component';
+export type {
+  SolarisDateRangePickerAppearance,
+  SolarisDateRangePickerDensity,
+  SolarisDateRangePickerRadius,
+  SolarisDateRangePickerSize,
+} from './lib/components/forms/date-range-picker/model/date-range-picker.types';
 export type {
   SolarisDatePreset,
   SolarisDateRange,
@@ -278,6 +720,7 @@ export type {
   SolarisPasswordFieldAppearance,
   SolarisPasswordFieldDensity,
   SolarisPasswordFieldRadius,
+  SolarisPasswordFieldSize,
   SolarisPasswordStrength,
 } from './lib/components/forms/password-field/model/password-field.types';
 
@@ -291,6 +734,7 @@ export type {
   SolarisEmailFieldAppearance,
   SolarisEmailFieldDensity,
   SolarisEmailFieldRadius,
+  SolarisEmailFieldSize,
 } from './lib/components/forms/email-field/model/email-field.types';
 
 export { SolarisPhoneFieldComponent } from './lib/components/forms/phone-field/component/phone-field.component';
@@ -305,6 +749,7 @@ export type {
   SolarisPhoneFieldAppearance,
   SolarisPhoneFieldDensity,
   SolarisPhoneFieldRadius,
+  SolarisPhoneFieldSize,
 } from './lib/components/forms/phone-field/model/phone-field.types';
 
 export { SolarisOtpInputComponent } from './lib/components/forms/otp-input/component/otp-input.component';
@@ -314,7 +759,46 @@ export type {
   SolarisOtpInputCharType,
   SolarisOtpInputDensity,
   SolarisOtpInputRadius,
+  SolarisOtpInputSize,
 } from './lib/components/forms/otp-input/model/otp-input.types';
+
+export { SolarisFileUploadComponent } from './lib/components/forms/file-upload/component/file-upload.component';
+export { SolarisFileListComponent } from './lib/components/forms/file-upload/component/file-list.component';
+export { SolarisFileListItemComponent } from './lib/components/forms/file-upload/component/file-list-item.component';
+export { SolarisImageEditorComponent } from './lib/components/forms/file-upload/component/image-editor.component';
+export { XhrFileUploadHandler } from './lib/components/forms/file-upload/service/xhr-file-upload.handler';
+export { SolarisFileUploadHandler } from './lib/components/forms/file-upload/model/file-upload.types';
+export { SOLARIS_FILE_UPLOAD_HANDLER } from './lib/components/forms/file-upload/model/file-upload.tokens';
+export {
+  SOLARIS_FILE_UPLOAD_DEFAULT_MAX_FILES,
+  SOLARIS_FILE_UPLOAD_DEFAULT_MAX_SIZE,
+} from './lib/components/forms/file-upload/model/file-upload.defaults';
+export type {
+  SolarisFileRejected,
+  SolarisFileUploadAppearance,
+  SolarisFileUploadCancelled,
+  SolarisFileUploadCompleted,
+  SolarisFileUploadDensity,
+  SolarisFileUploadError,
+  SolarisFileUploadFailed,
+  SolarisFileUploadItem,
+  SolarisFileUploadOptions,
+  SolarisFileUploadProgress,
+  SolarisFileUploadRadius,
+  SolarisFileUploadResponse,
+  SolarisFileUploadSize,
+  SolarisFileUploadStatus,
+  SolarisFileUploadVariant,
+  SolarisFileUrlFailed,
+  SolarisFileUrlFetchOptions,
+} from './lib/components/forms/file-upload/model/file-upload.types';
+export type {
+  SolarisImageEditorAspect,
+  SolarisImageEditorData,
+  SolarisImageEditorFormat,
+  SolarisImageEditorRotation,
+  SolarisImageEditorShape,
+} from './lib/components/forms/file-upload/model/image-editor.types';
 
 export { SolarisPopoverDirective } from './lib/components/interaction/popover/directives/popover.directive';
 export { SolarisPopoverTriggerDirective } from './lib/components/interaction/popover/directives/popover-trigger.directive';
@@ -352,20 +836,25 @@ export type {
 export { SolarisProgressComponent } from './lib/components/feedback/progress/component/progress.component';
 export type {
   SolarisProgressSize,
+  SolarisProgressDensity,
   SolarisProgressColor,
+  SolarisProgressStatus,
 } from './lib/components/feedback/progress/model/progress.types';
 
 export { SolarisLoadingTextComponent } from './lib/components/feedback/loading-text/component/loading-text.component';
 export type {
   SolarisLoadingTextSize,
+  SolarisLoadingTextDensity,
   SolarisLoadingTextColor,
   SolarisLoadingTextSpeed,
 } from './lib/components/feedback/loading-text/model/loading.types';
 
 export { SolarisSpinnerComponent } from './lib/components/feedback/spinner/component/spinner.component';
+export { SolarisLoadingZoneDirective } from './lib/components/feedback/spinner/directives/loading-zone.directive';
 export type {
   SolarisSpinnerVariant,
   SolarisSpinnerSize,
+  SolarisSpinnerDensity,
   SolarisSpinnerColor,
   SolarisSpinnerSpeed,
   SolarisSpinnerEasing,
@@ -384,6 +873,14 @@ export type { SolarisToastConfig } from './lib/components/feedback/toast/model/t
 export type { SolarisToastAction } from './lib/components/feedback/toast/model/toast.types';
 export type { SolarisToastEntry } from './lib/components/feedback/toast/model/toast.types';
 export type { SolarisToastRef } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastCountdown } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastSize } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastDensity } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastActionsAlign } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastIconSize } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastMediaShape } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastSetup } from './lib/components/feedback/toast/model/toast.types';
+export type { SolarisToastPromiseMessages } from './lib/components/feedback/toast/model/toast.types';
 
 export { SolarisDialogService } from './lib/components/overlay/dialog/service/dialog.service';
 export { SolarisDialogRef } from './lib/components/overlay/dialog/service/dialog-ref';
@@ -431,6 +928,8 @@ export type { SolarisTabsControl } from './lib/components/navigation/tabs/token/
 export type {
   SolarisTabsOrientation,
   SolarisTabsAppearance,
+  SolarisTabsSize,
+  SolarisTabsColor,
   SolarisTabsDensity,
   SolarisTabsShape,
   SolarisTabsActivationMode,
@@ -456,6 +955,8 @@ export type { SolarisStepperContentTransition } from './lib/components/navigatio
 export type { SolarisStepperActionsAlign } from './lib/components/navigation/stepper/components/root/model/stepper.types';
 export type { SolarisStepperChangeEvent } from './lib/components/navigation/stepper/components/root/model/stepper.types';
 export type { SolarisStepClickEvent } from './lib/components/navigation/stepper/components/root/model/stepper.types';
+export type { SolarisStepperBlockReason } from './lib/components/navigation/stepper/components/root/model/stepper.types';
+export type { SolarisStepperBlockedEvent } from './lib/components/navigation/stepper/components/root/model/stepper.types';
 
 export { SolarisSegmentedControlComponent } from './lib/components/navigation/segmented-control/component/segmented-control.component';
 export { SolarisSegmentedItemComponent } from './lib/components/navigation/segmented-control/item/segmented-item.component';
@@ -475,6 +976,7 @@ export type {
 export { SolarisBreadcrumbComponent } from './lib/components/navigation/breadcrumb/component/breadcrumb.component';
 export type {
   SolarisBreadcrumbSize,
+  SolarisBreadcrumbDensity,
   SolarisBreadcrumbSeparator,
   SolarisBreadcrumbOverflowPosition,
   SolarisBreadcrumbValue,
@@ -483,12 +985,153 @@ export type {
   SolarisBreadcrumbConfig,
 } from './lib/components/navigation/breadcrumb/model/breadcrumb.types';
 
+export { SolarisTableToolbarComponent } from './lib/components/data-display/table-filter/component/table-toolbar/table-toolbar.component';
+export {
+  SolarisTableToolbarLeadingDirective,
+  SolarisTableToolbarTrailingDirective,
+} from './lib/components/data-display/table-filter/component/table-toolbar/table-toolbar-slots.directive';
+export {
+  SolarisColumnManagerComponent,
+  type SolarisColumnManagerSave,
+} from './lib/components/data-display/table-filter/component/column-manager/column-manager.component';
+export {
+  SOLARIS_TABLE_FILTER_OPERATORS,
+  SOLARIS_TABLE_TOOLBAR_EXPORT_DISPLAYS,
+} from './lib/components/data-display/table-filter/model/filter.types';
+export type {
+  SolarisTableExportEvent,
+  SolarisTableFilterCondition,
+  SolarisTableFilterConditionValue,
+  SolarisTableFilterOperator,
+  SolarisTableFilterOption,
+  SolarisTableFilterRangeValue,
+  SolarisTableFilterState,
+  SolarisTableFilterableColumn,
+  SolarisTableToolbarExportDisplay,
+  SolarisTableView,
+} from './lib/components/data-display/table-filter/model/filter.types';
+export {
+  activeTableFilterCount,
+  applyColumnOrder,
+  applyColumnVisibility,
+  applyOrderedVisibleColumns,
+  applyTableFilters,
+  createEmptyTableFilterState,
+  insertColumnBefore,
+  isTableFilterActive,
+  isValidCondition,
+  matchesTableFilterCondition,
+  moveColumnInOrder,
+  normalizeTableFilterState,
+  orderFromColumns,
+  parseTableFilterState,
+  readPersistedTableFilterState,
+  resolveFilterDisplayText,
+  resolveFilterValue,
+  serializeTableFilterState,
+  writePersistedTableFilterState,
+} from './lib/components/data-display/table-filter/model/filter-state';
+export {
+  SolarisExportService,
+  resolveExportFilename,
+  buildCsvContent,
+  buildJsonContent,
+  createCsvExporter,
+  createJsonExporter,
+  escapeCsvCell,
+  provideSolarisExport,
+  SOLARIS_CSV_DELIMITER_PRESETS,
+  SOLARIS_EXPORTERS,
+  SOLARIS_EXPORT_CONFIG,
+  DEFAULT_SOLARIS_EXPORT_MAX_ROWS,
+} from './lib/services/export/index';
+export type {
+  SolarisCsvDelimiter,
+  SolarisCsvDelimiterPreset,
+  SolarisCsvOptions,
+  SolarisExportColumn,
+  SolarisExportConfig,
+  SolarisExportRequest,
+  SolarisExportResult,
+  SolarisExporter,
+  SolarisJsonOptions,
+} from './lib/services/export/index';
+
+export { SolarisPaginationComponent } from './lib/components/navigation/pagination/component/pagination.component';
+export type {
+  SolarisPageChange,
+  SolarisPaginationDensity,
+  SolarisPaginationState,
+} from './lib/components/navigation/pagination/model/pagination.types';
+
+export { SolarisCodeBlockComponent } from './lib/components/data-display/code-block/component/code-block.component';
+export {
+  DEFAULT_CODE_BLOCK_COPIED_DURATION,
+  DEFAULT_CODE_BLOCK_COLLAPSED_LINES,
+} from './lib/components/data-display/code-block/model/code-block.defaults';
+export {
+  SOLARIS_CODE_HIGHLIGHTER,
+  provideSolarisCodeHighlighter,
+} from './lib/components/data-display/code-block/model/code-block.tokens';
+export { provideSolarisShikiHighlighter } from './lib/components/data-display/code-block/shiki/code-block-shiki.provider';
+export type { SolarisShikiHighlighterConfig } from './lib/components/data-display/code-block/shiki/code-block-shiki.provider';
+export type {
+  SolarisCodeBlockAppearance,
+  SolarisCodeBlockCommand,
+  SolarisCodeBlockDensity,
+  SolarisCodeBlockLanguage,
+  SolarisCodeBlockLayout,
+  SolarisCodeBlockRadius,
+  SolarisCodeBlockResolvedCommand,
+  SolarisCodeBlockSize,
+  SolarisCodeBlockVariant,
+  SolarisCodeHighlightColorScheme,
+  SolarisCodeHighlightContext,
+  SolarisCodeHighlightLine,
+  SolarisCodeHighlightResult,
+  SolarisCodeHighlightToken,
+  SolarisCodeHighlightTokenKind,
+  SolarisCodeHighlighter,
+} from './lib/components/data-display/code-block/model/code-block.types';
+export { SolarisPreviewCodeComponent } from './lib/components/data-display/preview-code/component/preview-code.component';
+export {
+  DEFAULT_PREVIEW_CODE_ALIGN,
+  DEFAULT_PREVIEW_CODE_APPEARANCE,
+  DEFAULT_PREVIEW_CODE_COLLAPSED_LINES,
+  DEFAULT_PREVIEW_CODE_MIN_HEIGHT,
+  DEFAULT_PREVIEW_CODE_PADDING,
+  DEFAULT_PREVIEW_CODE_SIZE,
+  DEFAULT_PREVIEW_CODE_TAB,
+} from './lib/components/data-display/preview-code/model/preview-code.defaults';
+export { SOLARIS_PREVIEW_CODE_TOKENS } from './lib/components/data-display/preview-code/model/preview-code.tokens';
+export type { SolarisPreviewCodeToken } from './lib/components/data-display/preview-code/model/preview-code.tokens';
+export type {
+  SolarisPreviewCodeAlign,
+  SolarisPreviewCodeAppearance,
+  SolarisPreviewCodeDensity,
+  SolarisPreviewCodeFile,
+  SolarisPreviewCodeMinHeight,
+  SolarisPreviewCodePadding,
+  SolarisPreviewCodeRadius,
+  SolarisPreviewCodeResolvedFile,
+  SolarisPreviewCodeSize,
+  SolarisPreviewCodeTab,
+} from './lib/components/data-display/preview-code/model/preview-code.types';
+export {
+  SOLARIS_PREVIEW_CODE_ALIGNS,
+  SOLARIS_PREVIEW_CODE_MIN_HEIGHTS,
+  SOLARIS_PREVIEW_CODE_PADDINGS,
+  SOLARIS_PREVIEW_CODE_TABS,
+} from './lib/components/data-display/preview-code/model/preview-code.types';
 export { SolarisDividerComponent } from './lib/components/data-display/divider/component/divider.component';
 export type {
   SolarisDividerOrientation,
   SolarisDividerAppearance,
+  SolarisDividerVariant,
   SolarisDividerSpacing,
   SolarisDividerInset,
+  SolarisDividerLength,
+  SolarisDividerTextPosition,
 } from './lib/components/data-display/divider/model/divider.types';
 
 export { SolarisDividerStackComponent } from './lib/components/data-display/divider-stack/component/divider-stack.component';
@@ -521,18 +1164,33 @@ export type {
 } from './lib/components/interaction/dropdown-menu/model/dropdown-submenu.types';
 
 export { SolarisCollapsibleComponent } from './lib/components/interaction/collapsible/component/collapsible.component';
+export { SolarisCollapsibleAddDialogComponent } from './lib/components/interaction/collapsible/dialog/component/collapsible-add-dialog.component';
 export type {
   SolarisCollapsibleSize,
+  SolarisCollapsibleDensity,
   SolarisCollapsibleAppearance,
   SolarisCollapsibleValue,
   SolarisCollapsibleConfig,
+  SolarisCollapsibleIconOption,
+  SolarisCollapsibleAddResult,
+  SolarisCollapsibleAddDialogData,
 } from './lib/components/interaction/collapsible/model/collapsible.types';
+
+export { SolarisCollapsibleInputComponent } from './lib/components/interaction/collapsible-input/component/collapsible-input.component';
+export type {
+  SolarisCollapsibleInputSize,
+  SolarisCollapsibleInputDensity,
+  SolarisCollapsibleInputAppearance,
+  SolarisCollapsibleInputValue,
+  SolarisCollapsibleInputConfig,
+} from './lib/components/interaction/collapsible-input/model/collapsible-input.types';
 
 export { SolarisAccordionComponent } from './lib/components/interaction/accordion/component/accordion.component';
 export type {
   SolarisAccordionAppearance,
   SolarisAccordionType,
   SolarisAccordionSize,
+  SolarisAccordionDensity,
   SolarisAccordionValue,
   SolarisAccordionModel,
   SolarisAccordionConfig,
@@ -551,6 +1209,8 @@ export type { SolarisEditableTabActionEvent } from './lib/components/navigation/
 export type { SolarisEditableTabMoveDirection } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
 export type { SolarisEditableTabsOrientation } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
 export type { SolarisEditableTabsAppearance } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabsSize } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
+export type { SolarisEditableTabsColor } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
 export type { SolarisEditableTabsDensity } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
 export type { SolarisEditableTabsShape } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
 export type { SolarisEditableTabsActivationMode } from './lib/components/navigation/editable-tabs/model/editable-tabs.types';
@@ -561,6 +1221,150 @@ export type { SolarisEditableTabsRenameOnBlur } from './lib/components/navigatio
 export type { SolarisTestingOptions } from './lib/testing/provide-solaris-testing';
 export { configureSolarisTesting } from './lib/testing/solaris-test-utilities';
 export { provideSolarisTesting } from './lib/testing/provide-solaris-testing';
+
+export type {
+  SolarisCalendarEvent,
+  SolarisCalendarEventColor,
+  SolarisCalendarItemKind,
+  SolarisCalendarOccurrence,
+  SolarisCalendarTask,
+  SolarisCalendarWeekStart,
+  SolarisHoliday,
+  SolarisRecurrence,
+  SolarisRecurrenceFrequency,
+  SolarisRecurrenceOverride,
+} from './lib/components/scheduling/calendar/index';
+export type {
+  SolarisCivilDate,
+  SolarisCivilTime,
+  SolarisZonedWall,
+} from './lib/components/scheduling/calendar/index';
+export {
+  addDaysPreservingSolarisWall,
+  addDaysToSolarisDate,
+  addMinutesToSolarisDateTime,
+  builtInHolidays,
+  buildMonthCreateProposal,
+  buildMonthMoveProposal,
+  buildWeekCreateProposal,
+  buildWeekMoveProposal,
+  buildWeekResizeProposal,
+  compareSolarisDateTimes,
+  computeEasterSunday,
+  defaultSolarisTimeZone,
+  diffSolarisDateTimeMinutes,
+  diffSolarisCivilDays,
+  expandLocaleYearHolidays,
+  expandSolarisRecurrence,
+  getTimeZoneOffsetMinutes,
+  getWeekdayInZone,
+  getZonedWall,
+  isBuiltInHolidaysLoaded,
+  isSolarisDateTimeValue,
+  isSolarisDateValue,
+  isSolarisWeekend,
+  lastWeekdayOfMonth,
+  normalizeDragSnapStep,
+  nthWeekdayOfMonth,
+  parseSolarisDateParts,
+  parseSolarisDateTimeMs,
+  preloadBuiltInHolidays,
+  resolveDragOccurrenceScope,
+  resolveSolarisWallTimeMs,
+  shiftSolarisCivilMonth,
+  snapMinutesToStep,
+  solarisCivilWeekday,
+  startOfSolarisDay,
+  startOfSolarisMonth,
+  startOfSolarisWeek,
+  toSolarisDateInZone,
+  toSolarisDateTimeValue,
+  SOLARIS_CALENDAR_DRAG_DEFAULT_STEP,
+  SOLARIS_CALENDAR_DRAG_MAX_STEP,
+  SOLARIS_CALENDAR_DRAG_MIN_STEP,
+  SOLARIS_DAY_MINUTES,
+  SOLARIS_RECURRENCE_MAX_RESULTS,
+} from './lib/components/scheduling/calendar/index';
+export { SolarisCalendarMonthViewComponent } from './lib/components/scheduling/calendar/index';
+export { SolarisCalendarWeekViewComponent } from './lib/components/scheduling/calendar/index';
+export { SolarisCalendarYearViewComponent } from './lib/components/scheduling/calendar/index';
+export { SolarisCalendarScheduleViewComponent } from './lib/components/scheduling/calendar/index';
+export { SolarisCalendarComponent } from './lib/components/scheduling/calendar/index';
+export { SolarisCalendarEditorDialogComponent } from './lib/components/scheduling/calendar/index';
+export {
+  formatTimeZoneOffset,
+  isNarrowViewport,
+  normalizeCustomDays,
+  normalizeShellView,
+  resolveEffectiveView,
+  resolveMiniMonth,
+  shiftShellDate,
+  visibleDaysForView,
+} from './lib/components/scheduling/calendar/index';
+export { SolarisCalendarEventEditorComponent } from './lib/components/scheduling/calendar/index';
+export { resolveSolarisEventDelete } from './lib/components/scheduling/calendar/index';
+export { resolveSolarisEventSave } from './lib/components/scheduling/calendar/index';
+export {
+  clipSpanToDay,
+  layoutOverlappingSpans,
+} from './lib/components/scheduling/calendar/index';
+export type {
+  BuiltInLocaleHolidays,
+  ExpandSolarisRecurrenceOptions,
+  FixedHolidayRule,
+  MovableHolidayRule,
+  SolarisHolidayProvider,
+  SolarisHolidayRange,
+  SolarisCalendarDragOccurrenceScope,
+  SolarisCalendarEventCreateProposal,
+  SolarisCalendarEventMoveProposal,
+  SolarisCalendarEventResizeProposal,
+  SolarisMonthMoveArgs,
+  SolarisMonthViewDensity,
+  SolarisMonthViewEventOpen,
+  SolarisMonthViewItem,
+  SolarisMonthViewItemKind,
+  SolarisMonthViewSize,
+  SolarisMonthViewTaskMove,
+  SolarisWeekCreateArgs,
+  SolarisWeekDaySegment,
+  SolarisWeekMoveArgs,
+  SolarisWeekOverlapPlacement,
+  SolarisWeekOverlapSpan,
+  SolarisWeekViewAllDayItem,
+  SolarisWeekViewAllDayKind,
+  SolarisWeekViewBlock,
+  SolarisWeekViewDensity,
+  SolarisWeekViewEventOpen,
+  SolarisWeekViewSize,
+  SolarisWeekViewSlotSelect,
+  SolarisWeekViewVisibleDays,
+  SolarisWeekResizeArgs,
+  SolarisYearViewDay,
+  SolarisYearViewDensity,
+  SolarisYearViewMonth,
+  SolarisYearViewSize,
+  SolarisScheduleViewDensity,
+  SolarisScheduleViewEventOpen,
+  SolarisScheduleViewGroup,
+  SolarisScheduleViewItem,
+  SolarisScheduleViewItemKind,
+  SolarisScheduleViewSize,
+  SolarisCalendarDensity,
+  SolarisCalendarEditorDialogData,
+  SolarisCalendarEditorDialogResult,
+  SolarisCalendarResponsiveFallback,
+  SolarisCalendarSize,
+  SolarisCalendarView,
+  SolarisEventDeleteRequest,
+  SolarisEventDeleteResolution,
+  SolarisEventDeleteScope,
+  SolarisEventEditorData,
+  SolarisEventEditorDensity,
+  SolarisEventEditorSize,
+  SolarisEventSaveRequest,
+  WeekdayHolidayRule,
+} from './lib/components/scheduling/calendar/index';
 
 export { nextIdFor, resolveElementId } from './lib/core/utils/id';
 

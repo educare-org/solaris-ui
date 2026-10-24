@@ -2,3 +2,40 @@
   display: block;
   box-sizing: border-box;
 }
+
+.solaris-email-field__clear {
+  solaris-icon {
+    width: var(--solaris-font-size-lg);
+    height: var(--solaris-font-size-lg);
+  }
+
+  padding: 0;
+  border: none;
+  display: flex;
+  cursor: pointer;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  width: var(--solaris-font-size-lg);
+  height: var(--solaris-font-size-lg);
+  color: var(--solaris-neutral-text-secondary);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-email-field__clear:hover {
+  color: var(--solaris-neutral-text-heading);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-email-field__clear {
+    transition: none;
+  }
+}
+
+[data-reduced-motion='true'] {
+  .solaris-email-field__clear {
+    transition: none;
+  }
+}

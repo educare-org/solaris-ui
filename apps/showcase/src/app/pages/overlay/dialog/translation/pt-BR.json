@@ -1,0 +1,255 @@
+{
+  "dialog": {
+    "actions-align": "Alinhamento de ações",
+    "actions-align-desc": "As ações podem ser alinhadas ao início, centro, fim ou espaço entre.",
+    "actions-custom": "Ações customizadas",
+    "ai": {
+      "prompt": "Me ajude a usar o componente {{component}}. Página da documentação: {{url}}"
+    },
+    "align-center": "Alinhar centro",
+    "align-end": "Alinhar fim",
+    "align-space-between": "Espaço entre",
+    "align-start": "Alinhar início",
+    "appearance": "Aparência",
+    "appearance-desc": "Outline (padrão) tem fundo surface com borda visível. Surface não tem borda e tem sombra.",
+    "basic": "Dialogs básicos",
+    "basic-desc": "Dialogs simples criados via configuração open().",
+    "behavior": "Comportamento",
+    "behavior-desc": "Controle o botão de fechar, tecla Escape e clique no backdrop.",
+    "common": {
+      "cancel": "Cancelar",
+      "close": "Fechar",
+      "confirm": "Confirmar",
+      "delete": "Excluir",
+      "discard": "Descartar",
+      "finish": "Finalizar",
+      "got-it": "Entendi",
+      "learn-more": "Saiba mais",
+      "next": "Próximo",
+      "ok": "OK",
+      "previous": "Anterior",
+      "save": "Salvar",
+      "submit": "Enviar",
+      "understand": "Entendi"
+    },
+    "component": "Dialog por componente",
+    "component-desc": "Abra um dialog com um componente externo via openComponent(). O componente pode injetar SOLARIS_DIALOG_DATA e SolarisDialogRef.",
+    "demo": {
+      "open": "Abrir dialog",
+      "open-actions": "Abrir dialog das ações",
+      "open-appearance": "Abrir dialog da aparência",
+      "open-density": "Abrir dialog da densidade",
+      "open-nested": "Abrir dialog externo",
+      "open-placement": "Abrir dialog posicionado",
+      "open-sheet": "Abrir bottom sheet",
+      "open-validated-flow": "Abrir fluxo validado",
+      "open-variant": "Abrir dialog da variante"
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal",
+      "note": "O espaçamento das seções segue a densidade selecionada. O snippet reflete a seleção atual."
+    },
+    "description": "Dialog bloqueia o fluxo e exige atenção do usuário. Use para confirmações, alertas, formulários, previews, termos, revisões, fluxos em etapas, onboarding, registro, recuperação de senha e checkouts curtos.",
+    "examples": {
+      "actions-center": {
+        "desc": "As ações estão alinhadas ao centro.",
+        "title": "Ações alinhadas no centro"
+      },
+      "actions-custom": {
+        "desc": "Botões wide com raio total e densidade confortável.",
+        "title": "Dialog com ações customizadas"
+      },
+      "actions-end": {
+        "desc": "As ações estão alinhadas ao fim (direita).",
+        "title": "Ações alinhadas no fim"
+      },
+      "actions-space-between": {
+        "desc": "As ações são distribuídas com espaço entre elas.",
+        "title": "Ações com espaço entre"
+      },
+      "actions-start": {
+        "desc": "As ações estão alinhadas ao início (esquerda).",
+        "title": "Ações alinhadas no início"
+      },
+      "appearance-outline": {
+        "desc": "Outline tem fundo surface com borda visível.",
+        "title": "Aparência outline"
+      },
+      "appearance-surface": {
+        "desc": "Aparência surface padrão com sombra.",
+        "title": "Aparência surface"
+      },
+      "basic": {
+        "desc": "Este é um dialog básico com título e descrição.",
+        "title": "Título do Dialog"
+      },
+      "component": {
+        "close-pizza": "Fechar com \"Pizza!\"",
+        "desc-part1": "Este dialog foi aberto via ",
+        "desc-part2": ". Os dados foram injetados via token ",
+        "desc-part3": "."
+      },
+      "component-chrome": {
+        "desc": "Header e footer vêm do config do openComponent.",
+        "hint": "Título, descrição e ações foram fornecidos via SolarisDialogComponentConfig.",
+        "message": "Este corpo é renderizado pelo componente customizado. Só o corpo rola.",
+        "title": "Componente com chrome"
+      },
+      "confirmation": {
+        "desc": "Você tem alterações não salvas. Deseja continuar?",
+        "title": "Descartar alterações?"
+      },
+      "danger": {
+        "desc": "Esta ação não pode ser desfeita. Todos os seus dados serão permanentemente excluídos.",
+        "title": "Excluir conta"
+      },
+      "density": {
+        "desc": "O espaçamento das seções segue a densidade {{density}}.",
+        "title": "Dialog de densidade"
+      },
+      "flow": {
+        "step1-desc": "Preencha suas informações básicas para começar.",
+        "step1-list1": "Escolha um nome de usuário",
+        "step1-list2": "Defina seu endereço de email",
+        "step1-list3": "Crie uma senha segura",
+        "step1-title": "Passo 1: Criar conta",
+        "step2-desc": "Conte-nos sobre sua instituição.",
+        "step2-list1": "Nome da instituição",
+        "step2-list2": "Número de registro",
+        "step2-list3": "Detalhes do endereço",
+        "step2-title": "Passo 2: Dados da instituição",
+        "step3-desc": "Revise todas as informações antes de finalizar.",
+        "step3-list1": "Verifique os detalhes da conta",
+        "step3-list2": "Confirme os dados da instituição",
+        "step3-list3": "Aceite os termos e condições",
+        "step3-title": "Passo 3: Revisão",
+        "title": "Dialog Multi-etapas"
+      },
+      "fullscreen": {
+        "desc": "Dialog em tela cheia preenche toda a viewport.",
+        "title": "Dialog tela cheia"
+      },
+      "nested": {
+        "inner-desc": "O dialog externo continua aberto atrás. O Escape fecha só este dialog.",
+        "inner-title": "Descartar alterações?",
+        "open-inner": "Abrir dialog aninhado",
+        "outer-desc": "Este é o dialog externo. Abrir outro dialog o empilha por cima.",
+        "outer-title": "Configurações do projeto"
+      },
+      "no-backdrop-close": {
+        "desc": "Clicar fora não fechará este dialog. Use o botão abaixo.",
+        "title": "Clique no backdrop desabilitado"
+      },
+      "no-escape-close": {
+        "desc": "Pressionar Escape não fechará este dialog.",
+        "title": "Escape desabilitado"
+      },
+      "no-separators": {
+        "desc": "Separadores de cabeçalho e rodapé desabilitados.",
+        "title": "Dialog sem separadores"
+      },
+      "not-closeable": {
+        "desc": "O botão de fechar está oculto e o Escape está desabilitado.",
+        "title": "Não fechável"
+      },
+      "note": "Cada demo abre um dialog real. O snippet mostra a chamada do serviço por trás do botão.",
+      "placement": {
+        "desc": "Este dialog está ancorado na posição selecionada.",
+        "title": "Dialog posicionado"
+      },
+      "scroll": {
+        "desc": "Role para ler tudo. O header permanece fixo com sombra.",
+        "item-text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "item-title": "Seção {{index}}",
+        "title": "Termos e condições"
+      },
+      "sheet": {
+        "desc": "Este painel está ancorado à borda inferior com largura total.",
+        "title": "Sheet de filtros"
+      },
+      "validated": {
+        "name-label": "Nome",
+        "name-required": "Nome é obrigatório.",
+        "step1-desc": "Digite seu nome para liberar o próximo passo.",
+        "step1-title": "Passo 1: Seu nome",
+        "step2-desc": "Revise seu nome antes de finalizar.",
+        "step2-title": "Passo 2: Revisão",
+        "title": "Fluxo validado"
+      },
+      "variant": {
+        "desc": "Este dialog usa a variante {{variant}}.",
+        "title": "Variante {{variant}}"
+      }
+    },
+    "flow": "Dialog Flow",
+    "flow-desc": "Dialog multi-etapas com transição slide entre os steps, sem reabrir o overlay.",
+    "fullscreen": "Tela cheia",
+    "fullscreen-desc": "O painel se adapta ao conteúdo por padrão. Use tela cheia para fluxos imersivos.",
+    "installation": {
+      "note": "O dialog faz parte do pacote único do Solaris UI. Provedor do serviço uma vez."
+    },
+    "layout": "Layout",
+    "layout-desc": "Posicionamento, separadores, densidade e estilo dos botões de ação.",
+    "nested": {
+      "note": "Dialogs podem abrir sobre outros. Só o do topo reage ao Escape; os painéis abaixo ficam ocultos para tecnologia assistiva."
+    },
+    "no-backdrop-close": "Clique no backdrop desabilitado",
+    "no-escape-close": "Escape desabilitado",
+    "no-separators": "Sem separadores",
+    "not-closeable": "Não fechável",
+    "open-basic": "Abrir dialog básico",
+    "open-component": "Abrir dialog por componente",
+    "open-component-chrome": "Abrir com header/footer",
+    "open-confirmation": "Abrir dialog de confirmação",
+    "open-danger": "Abrir dialog de perigo",
+    "open-flow": "Abrir dialog flow",
+    "open-fullscreen": "Abrir dialog em tela cheia",
+    "open-scroll": "Abrir dialog rolável",
+    "outline": "Contorno",
+    "placement": {
+      "bottom-right": "Posição base-direita",
+      "center": "Posição centro",
+      "top-left": "Posição topo-esquerda",
+      "top-right": "Posição topo-direita"
+    },
+    "placement-bottom": "Posição base",
+    "placement-bottom-left": "Posição base-esquerda",
+    "placement-left": "Posição esquerda",
+    "placement-right": "Posição direita",
+    "placement-top": "Posição topo",
+    "props": {
+      "note": "A referência completa da API está na documentação do componente. As tabelas de props são geradas do código."
+    },
+    "scroll": "Conteúdo rolável",
+    "scroll-desc": "Conteúdo longo mantém o header fixo com elevação ao rolar. Role para ver a sombra e o botão de fechar centralizado.",
+    "section": {
+      "actions": "Ações",
+      "appearance": "Aparência",
+      "behavior": "Comportamento",
+      "component": "Dialogs por componente",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "flow": "Fluxo do dialog",
+      "installation": "Instalação",
+      "nested": "Dialogs aninhados",
+      "placement": "Posicionamento",
+      "props": "Propriedades",
+      "sheet": "Sheets",
+      "variants": "Variantes"
+    },
+    "sheet": {
+      "note": "Sheets ancoram o painel a uma borda com largura total. Só posicionamentos de borda suportam sheet."
+    },
+    "surface": "Superfície",
+    "title": "Dialog",
+    "variant-danger": "perigo",
+    "variant-info": "informativo",
+    "variant-neutral": "neutro",
+    "variant-success": "sucesso",
+    "variant-warning": "aviso",
+    "variants": "Variantes",
+    "variants-desc": "Variantes afetam o ícone e a cor de destaque."
+  }
+}

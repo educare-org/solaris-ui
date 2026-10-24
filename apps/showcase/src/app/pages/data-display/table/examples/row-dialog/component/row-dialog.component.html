@@ -1,0 +1,12 @@
+<solaris-table [data]="rows" [columns]="columns" rowId="id">
+  <ng-template solaris-table-cell="details" let-row>
+    <button
+      type="button"
+      solaris-button
+      appearance="ghost"
+      (click)="openDetails(row)"
+    >
+      {{ 'table.action.details' | translate }}
+    </button>
+  </ng-template>
+</solaris-table>

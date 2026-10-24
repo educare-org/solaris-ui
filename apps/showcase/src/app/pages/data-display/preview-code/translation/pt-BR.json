@@ -1,0 +1,65 @@
+{
+  "preview-code": {
+    "ai": {
+      "prompt": "Estou olhando a documentação Solaris do componente {{component}} ({{url}}). Me ajude a usar e entender o componente. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "align": {
+      "center": "Centro",
+      "start": "Início",
+      "stretch": "Esticar"
+    },
+    "controlled": {
+      "note": "Use activeTab com activeTabChange para um estado controlado."
+    },
+    "description": "Prévia viva com o código-fonte, troca de abas e suporte a múltiplos arquivos.",
+    "examples": {
+      "note": "Comece pela prévia padrão e explore abas e arquivos abaixo."
+    },
+    "expandable": {
+      "note": "Código longo recolhe após quatro linhas e expande sob demanda."
+    },
+    "files": {
+      "note": "Alterne entre arquivos no painel de código; ids desconhecidos voltam ao primeiro."
+    },
+    "installation": {
+      "note": "Instale o pacote único do Solaris e importe o componente."
+    },
+    "layout": {
+      "note": "Alinhamento, altura mínima e espaçamento ajustam a superfície."
+    },
+    "minHeight": {
+      "lg": "Grande",
+      "md": "Média",
+      "sm": "Pequena",
+      "xl": "Extra grande"
+    },
+    "padding": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "props": {
+      "note": "Tabela de props em breve, com o componente de tabela."
+    },
+    "section": {
+      "controlled": "Aba controlada",
+      "examples": "Exemplos",
+      "expandable": "Código expansível",
+      "files": "Múltiplos arquivos",
+      "installation": "Instalação",
+      "layout": "Layout da prévia",
+      "props": "Props"
+    },
+    "title": "Preview Code"
+  },
+  "solaris": {
+    "previewCode": {
+      "ariaLabel": "Prévia com código",
+      "code": "Código",
+      "fileSelector": {
+        "ariaLabel": "Arquivos de código"
+      },
+      "preview": "Prévia"
+    }
+  }
+}

@@ -1,17 +1,19 @@
-// SECURITY_EXCEPTION_FILE: document.querySelector required to find rename input. SSR-safe via guard.
 import {
   Component,
+  ElementRef,
   input,
   output,
   model,
   computed,
   signal,
+  viewChild,
   viewChildren,
   inject,
   ChangeDetectionStrategy,
   TemplateRef,
   NgZone,
   effect,
+  booleanAttribute,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 
@@ -41,6 +43,8 @@ import type {
   SolarisEditableTabMoveDirection,
   SolarisEditableTabsOrientation,
   SolarisEditableTabsAppearance,
+  SolarisEditableTabsSize,
+  SolarisEditableTabsColor,
   SolarisEditableTabsDensity,
   SolarisEditableTabsShape,
   SolarisEditableTabsActivationMode,
@@ -70,6 +74,8 @@ import type {
     class: 'solaris-editable-tabs',
     '[attr.data-orientation]': 'orientation()',
     '[attr.data-appearance]': 'appearance()',
+    '[attr.data-size]': 'size()',
+    '[attr.data-color]': 'color()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-shape]': 'shape()',
     '[attr.data-show-actions]': 'showActions()',
@@ -86,6 +92,8 @@ export class SolarisEditableTabsComponent {
   readonly defaultValue = input<unknown>(undefined);
   readonly orientation = input<SolarisEditableTabsOrientation>('horizontal');
   readonly appearance = input<SolarisEditableTabsAppearance>('underline');
+  readonly size = input<SolarisEditableTabsSize>('md');
+  readonly color = input<SolarisEditableTabsColor>('primary');
   readonly density = input<SolarisEditableTabsDensity>();
   readonly shape = input<SolarisEditableTabsShape>('normal');
   readonly activationMode =
@@ -99,6 +107,7 @@ export class SolarisEditableTabsComponent {
   readonly renamable = input<boolean>(true);
   readonly removable = input<boolean>(true);
   readonly movable = input<boolean>(true);
+  readonly dragToReorder = input(false, { transform: booleanAttribute });
   readonly defaultable = input<boolean>(true);
   readonly showActions = input<SolarisEditableTabsShowActions>('focus-hover');
   readonly renameOnBlur = input<SolarisEditableTabsRenameOnBlur>('confirm');
@@ -111,7 +120,6 @@ export class SolarisEditableTabsComponent {
     undefined,
   );
 
-  readonly valueChange = output<unknown>();
   readonly tabRenameRequested = output<SolarisEditableTabRenameEvent>();
   readonly tabRename = output<SolarisEditableTabRenameEvent>();
   readonly tabRemoveRequested = output<SolarisEditableTabRemoveEvent>();
@@ -126,6 +134,8 @@ export class SolarisEditableTabsComponent {
   });
 
   readonly menuComponents = viewChildren(SolarisDropdownMenuComponent);
+  protected readonly renameInputRef =
+    viewChild<ElementRef<HTMLInputElement>>('renameInput');
   readonly tabMenuRefs = computed(() => {
     this.tabs();
     return this.menuComponents();
@@ -135,6 +145,8 @@ export class SolarisEditableTabsComponent {
   protected readonly renamingTabId = signal<unknown | null>(null);
   protected readonly renameValue = signal<string>('');
   protected readonly defaultTabValue = signal<unknown>(undefined);
+  protected readonly draggingTabIndex = signal<number | null>(null);
+  protected readonly dropIndicatorIndex = signal<number | null>(null);
 
   protected readonly resolvedAriaLabel = computed(() => {
     if (this.ariaLabel()) return this.ariaLabel();
@@ -157,7 +169,6 @@ export class SolarisEditableTabsComponent {
 
   protected onValueChange(newValue: unknown): void {
     this.value.set(newValue);
-    this.valueChange.emit(newValue);
   }
 
   protected hasActions(tab: SolarisEditableTabData): boolean {
@@ -226,9 +237,8 @@ export class SolarisEditableTabsComponent {
     this.renameValue.set(tab.label ?? '');
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
-        const input = document.querySelector(
-          `.solaris-editable-tabs__rename-input`,
-        ) as HTMLInputElement | null;
+        // SECURITY_EXCEPTION: focusing the rename input requires the native method; resolved via viewChild template ref (scoped to this component, no global query).
+        const input = this.renameInputRef()?.nativeElement;
         if (input) {
           input.focus();
           input.select();
@@ -354,6 +364,131 @@ export class SolarisEditableTabsComponent {
 
     this.tabMoveRequested.emit(event);
     this.tabMove.emit(event);
+  }
+
+  protected isDragReorderEnabled(tab: SolarisEditableTabData): boolean {
+    if (!this.dragToReorder()) return false;
+    if (!this.editable()) return false;
+    if (!this.movable()) return false;
+    if (this.isRenaming(tab)) return false;
+    if (tab.locked && tab.movable !== true) return false;
+    if (tab.movable === false) return false;
+    if (tab.disabled) return false;
+    return true;
+  }
+
+  protected onTabDragStart(
+    event: DragEvent,
+    tab: SolarisEditableTabData,
+    index: number,
+  ): void {
+    if (!this.isDragReorderEnabled(tab)) {
+      event.preventDefault();
+      return;
+    }
+    const target = event.target as HTMLElement | null;
+    if (target?.closest?.('button, input, textarea, [contenteditable]')) {
+      event.preventDefault();
+      return;
+    }
+    this.activeMenuIndex.set(null);
+    this.draggingTabIndex.set(index);
+    this.dropIndicatorIndex.set(null);
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = 'move';
+      try {
+        event.dataTransfer.setData('text/plain', String(tab.value));
+      } catch {
+        // no-op
+      }
+    }
+  }
+
+  protected onTabDragOver(event: DragEvent, index: number): void {
+    const draggingIndex = this.draggingTabIndex();
+    if (draggingIndex === null) return;
+    if (draggingIndex === index && this.tabs().length <= 1) return;
+    const draggedTab = this.tabs()[draggingIndex];
+    if (!draggedTab || !this.isDragReorderEnabled(draggedTab)) return;
+    event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = 'move';
+    }
+    this.dropIndicatorIndex.set(this.resolveDropIndicator(event, index));
+  }
+
+  protected onTabDragLeave(): void {
+    // no-op
+  }
+
+  protected onTabDrop(
+    event: DragEvent,
+    _tab: SolarisEditableTabData,
+    index: number,
+  ): void {
+    const draggingIndex = this.draggingTabIndex();
+    if (draggingIndex === null) return;
+    event.preventDefault();
+    const indicator =
+      this.resolveDropIndicator(event, index) ?? this.dropIndicatorIndex();
+    this.dropIndicatorIndex.set(null);
+    this.draggingTabIndex.set(null);
+    if (indicator === null) return;
+    let nextIndex = indicator;
+    if (indicator > draggingIndex) {
+      nextIndex = indicator - 1;
+    }
+    if (nextIndex < 0 || nextIndex >= this.tabs().length) return;
+    if (nextIndex === draggingIndex) return;
+    const draggedTab = this.tabs()[draggingIndex];
+    if (!draggedTab || !this.isDragReorderEnabled(draggedTab)) return;
+
+    const vertical = this.orientation() === 'vertical';
+    const direction: SolarisEditableTabMoveDirection =
+      nextIndex > draggingIndex
+        ? vertical
+          ? 'down'
+          : 'right'
+        : vertical
+          ? 'up'
+          : 'left';
+
+    const moveEvent: SolarisEditableTabMoveEvent = {
+      value: draggedTab.value,
+      previousIndex: draggingIndex,
+      nextIndex,
+      direction,
+    };
+
+    this.tabMoveRequested.emit(moveEvent);
+    this.tabMove.emit(moveEvent);
+  }
+
+  protected onTabDragEnd(): void {
+    this.draggingTabIndex.set(null);
+    this.dropIndicatorIndex.set(null);
+  }
+
+  private resolveDropIndicator(
+    event: DragEvent | { clientX: number; clientY: number },
+    index: number,
+  ): number | null {
+    const draggingIndex = this.draggingTabIndex();
+    if (draggingIndex === null) return null;
+    const currentTarget = (event as DragEvent).currentTarget as
+      | HTMLElement
+      | null
+      | undefined;
+    const rect = currentTarget?.getBoundingClientRect?.();
+    if (!rect) {
+      return index;
+    }
+    if (this.orientation() === 'vertical') {
+      const midpoint = rect.top + rect.height / 2;
+      return event.clientY >= midpoint ? index + 1 : index;
+    }
+    const midpoint = rect.left + rect.width / 2;
+    return event.clientX >= midpoint ? index + 1 : index;
   }
 
   protected setAsDefault(tab: SolarisEditableTabData): void {

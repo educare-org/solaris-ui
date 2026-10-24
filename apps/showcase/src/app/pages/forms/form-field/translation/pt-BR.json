@@ -1,0 +1,112 @@
+{
+  "form-field": {
+    "action": {
+      "cta": "Cadastrar",
+      "label": "E-mail"
+    },
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "counter": {
+      "label": "Limitado a 20 caracteres",
+      "note": "Exibido automaticamente quando maxlength está definido no input nativo, ou quando um erro Validators.maxLength está ativo no controle."
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Invólucro visual, semântico e acessível para controles de formulário com label, hint, erro, prefixo, sufixo e visualização de estado.",
+    "error": {
+      "custom": "Este campo tem um erro customizado.",
+      "email": "Informe um e-mail válido.",
+      "projected": "Projetado: informe um e-mail válido."
+    },
+    "examples": {
+      "note": "Label fornecida via atributo input. O wrapper define a altura externa pela matriz 3x3 de tamanho x densidade."
+    },
+    "hint": {
+      "password": "Use ao menos 8 caracteres com número e símbolo.",
+      "projected": "Projetado: use ao menos 8 caracteres."
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe o form field com uma diretiva de input."
+    },
+    "label": {
+      "custom": "Label customizado",
+      "custom-error": "Erro customizado",
+      "email": "E-mail",
+      "name": "Nome",
+      "nickname": "Apelido",
+      "password": "Senha",
+      "phone": "Telefone",
+      "price": "Preço",
+      "required-email": "E-mail obrigatório",
+      "search": "Pesquisar"
+    },
+    "loading": {
+      "label": "CEP",
+      "note": "Exibe um spinner no slot de sufixo durante trabalho assíncrono. O loading suprime qualquer outro sufixo e define aria-busy no campo.",
+      "toggle": "Alternar carregamento"
+    },
+    "optional": {
+      "label": "(opcional)"
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Médio",
+      "none": "Nenhum",
+      "note": "O wrapper suporta raios none, sm (padrão), md, lg e xl. Escala global: md equivale a 4px, lg a 8px e xl vira pill.",
+      "sm": "Pequeno",
+      "xl": "Pill"
+    },
+    "section": {
+      "appearances": "Aparências",
+      "counter": "Contador de caracteres",
+      "density": "Densidade",
+      "error": "Erro",
+      "examples": "Exemplos",
+      "hint": "Hint",
+      "installation": "Instalação",
+      "label": "Label",
+      "loading": "Carregamento",
+      "optional": "Marcador opcional",
+      "prefix-suffix": "Prefixo e sufixo",
+      "props": "Propriedades",
+      "radius": "Raio",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados",
+      "validation": "Validação"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Tamanho (sm, md, lg) combinado com densidade seleciona um dos 9 tokens de altura, então a altura externa sempre segue a matriz."
+    },
+    "states": {
+      "disabled": "Campo desabilitado",
+      "disabled-value": "Não é possível editar",
+      "readonly": "Campo somente leitura",
+      "readonly-value": "Valor somente leitura"
+    },
+    "suffix": {
+      "usd": "USD"
+    },
+    "title": "Form Field",
+    "validation": {
+      "note": "Campo obrigatório com Reactive Forms. O erro aparece após interação e blur, mas não enquanto focado. O inválido manual sobrepõe a detecção automática."
+    }
+  }
+}

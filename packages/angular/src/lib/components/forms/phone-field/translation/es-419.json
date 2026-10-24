@@ -1,0 +1,15 @@
+{
+  "solaris": {
+    "phone-field": {
+      "clear": "Borrar número de teléfono",
+      "country": "Seleccionar código de país",
+      "empty": "No hay países disponibles",
+      "invalid": "Ingrese un número de teléfono válido.",
+      "noResults": "No se encontraron resultados",
+      "required": "El número de teléfono es obligatorio.",
+      "search": {
+        "placeholder": "Buscar país o código"
+      }
+    }
+  }
+}

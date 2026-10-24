@@ -1,0 +1,49 @@
+{
+  "solaris": {
+    "dataDisplay": {
+      "tableFilter": {
+        "addCondition": "Add filter",
+        "ariaLabel": "Table filters",
+        "clearAll": "Clear all",
+        "columnLabel": "Column",
+        "columnMoveDown": "Move {{column}} down",
+        "columnMoveUp": "Move {{column}} up",
+        "columnsButton": "Customize columns",
+        "columnsCancel": "Cancel",
+        "columnsReset": "Reset",
+        "columnsSave": "Save",
+        "columnsTitle": "Customize columns",
+        "createView": "Create view",
+        "createViewName": "View name",
+        "createViewNamePlaceholder": "My view",
+        "exportButton": "Export",
+        "exportFormat": "Format",
+        "filterButton": "Filters",
+        "noConditions": "No filters applied",
+        "operator": {
+          "between": "between",
+          "contains": "contains",
+          "equals": "is",
+          "gt": "greater than",
+          "gte": "greater than or equal",
+          "in": "is any of",
+          "isEmpty": "is empty",
+          "isNotEmpty": "is not empty",
+          "lt": "less than",
+          "lte": "less than or equal",
+          "notEquals": "is not",
+          "notIn": "is none of",
+          "startsWith": "starts with"
+        },
+        "operatorLabel": "Operator",
+        "removeCondition": "Remove filter for {{column}}",
+        "removeSearch": "Clear search",
+        "save": "Save",
+        "searchLabel": "Search table",
+        "searchPlaceholder": "Search",
+        "valueLabel": "Value",
+        "viewsLabel": "Views"
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 .example-description {
   margin-bottom: var(--solaris-spacing-3);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-font-size-sm);
 }
 
@@ -10,8 +10,8 @@
   padding: var(--solaris-spacing-4);
   border:
     1,
-    6px solid var(--solaris-border-subtle);
+    var(--solaris-spacing-4) solid var(--solaris-neutral-border-subtle);
   border-radius: var(--solaris-radius-md);
   resize: horizontal;
-  min-width: 320px;
+  min-width: calc(var(--solaris-spacing-18) * 2 + var(--solaris-spacing-15));
 }

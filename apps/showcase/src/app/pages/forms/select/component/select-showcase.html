@@ -1,468 +1,406 @@
-<div class="select-showcase">
-  <header class="select-showcase__header">
-    <h1 class="select-showcase__title">{{ 'select.title' | translate }}</h1>
-    <p class="select-showcase__description">
-      {{ 'select.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="select.title"
+    descriptionKey="select.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.basic' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select [formControl]="basicControl" label="Perfil">
+  <app-docs-section anchor="examples" titleKey="select.section.examples">
+    <p class="select-showcase__note">
+      {{ 'select.examples.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-select-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="select.section.size-density"
+  >
+    <p class="select-showcase__note">
+      {{ 'select.size-density.note' | translate }}
+    </p>
+    <div class="select-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'select.section.sizes' | translate"
+      >
+        <solaris-tab value="sm">{{ 'select.size.sm' | translate }}</solaris-tab>
+        <solaris-tab value="md">{{ 'select.size.md' | translate }}</solaris-tab>
+        <solaris-tab value="lg">{{ 'select.size.lg' | translate }}</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'select.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'select.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'select.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'select.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-select
+        [label]="'select.size-density.label' | translate"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+        [placeholder]="'select.size-density.placeholder' | translate"
+      >
         <solaris-option value="admin"
           >{{ 'select.option.admin' | translate }}</solaris-option
         >
         <solaris-option value="teacher"
           >{{ 'select.option.teacher' | translate }}</solaris-option
         >
-        <solaris-option value="student"
-          >{{ 'select.option.student' | translate }}</solaris-option
-        >
       </solaris-select>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.withIcon' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select
-        prefix="search"
-        [searchable]="true"
-        [placeholder]="'select.placeholder-country' | translate"
+  <app-docs-section anchor="appearance" titleKey="select.section.appearance">
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'select.section.appearance' | translate"
+    >
+      <solaris-tab value="outline"
+        >{{ 'select.appearance.outline' | translate }}</solaris-tab
       >
-        <solaris-option value="br"
-          >{{ 'select.country.br' | translate }}</solaris-option
-        >
-        <solaris-option value="us"
-          >{{ 'select.country.us' | translate }}</solaris-option
-        >
-        <solaris-option value="pt"
-          >{{ 'select.country.pt' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.withSuffix' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select [placeholder]="'select.placeholder-suffix' | translate">
-        <solaris-icon
-          solaris-form-suffix
-          name="help-circle"
-          [decorative]="false"
-          [attr.aria-label]="'select.suffixHelp' | translate"
-        />
-        <solaris-option value="a"
-          >{{ 'select.option.option-a' | translate }}</solaris-option
-        >
-        <solaris-option value="b"
-          >{{ 'select.option.option-b' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.placeholder-section' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select
-        [formControl]="placeholderControl"
-        [placeholder]="'select.placeholder-default' | translate"
+      <solaris-tab value="surface"
+        >{{ 'select.appearance.surface' | translate }}</solaris-tab
       >
-        <solaris-option value="1"
-          >{{ 'select.option.option1' | translate }}</solaris-option
-        >
-        <solaris-option value="2"
-          >{{ 'select.option.option2' | translate }}</solaris-option
-        >
-        <solaris-option value="3"
-          >{{ 'select.option.option3' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.searchable' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select
-        [formControl]="searchableControl"
-        [searchable]="true"
-        [placeholder]="'select.placeholder-country' | translate"
-        [searchPlaceholder]="'select.search-placeholder' | translate"
+      <solaris-tab value="filled"
+        >{{ 'select.appearance.filled' | translate }}</solaris-tab
       >
-        <solaris-option value="br"
-          >{{ 'select.country.br' | translate }}</solaris-option
-        >
-        <solaris-option value="us"
-          >{{ 'select.country.us' | translate }}</solaris-option
-        >
-        <solaris-option value="pt"
-          >{{ 'select.country.pt' | translate }}</solaris-option
-        >
-        <solaris-option value="es"
-          >{{ 'select.country.es' | translate }}</solaris-option
-        >
-        <solaris-option value="fr"
-          >{{ 'select.country.fr' | translate }}</solaris-option
-        >
-        <solaris-option value="de"
-          >{{ 'select.country.de' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
+      <solaris-tab-panel value="outline">
+        <solaris-preview-code [code]="appearanceOutlineCode" language="html">
+          <solaris-select
+            [label]="'select.appearance.outline' | translate"
+            appearance="outline"
+            [placeholder]="'select.appearance.outline' | translate"
+          >
+            <solaris-option value="admin"
+              >{{ 'select.option.admin' | translate }}</solaris-option
+            >
+            <solaris-option value="teacher"
+              >{{ 'select.option.teacher' | translate }}</solaris-option
+            >
+          </solaris-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="surface">
+        <solaris-preview-code [code]="appearanceSurfaceCode" language="html">
+          <solaris-select
+            [label]="'select.appearance.surface' | translate"
+            appearance="surface"
+            [placeholder]="'select.appearance.surface' | translate"
+          >
+            <solaris-option value="admin"
+              >{{ 'select.option.admin' | translate }}</solaris-option
+            >
+            <solaris-option value="teacher"
+              >{{ 'select.option.teacher' | translate }}</solaris-option
+            >
+          </solaris-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="filled">
+        <solaris-preview-code [code]="appearanceFilledCode" language="html">
+          <solaris-select
+            [label]="'select.appearance.filled' | translate"
+            appearance="filled"
+            [placeholder]="'select.appearance.filled' | translate"
+          >
+            <solaris-option value="admin"
+              >{{ 'select.option.admin' | translate }}</solaris-option
+            >
+            <solaris-option value="teacher"
+              >{{ 'select.option.teacher' | translate }}</solaris-option
+            >
+          </solaris-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.clearable' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
+  <app-docs-section anchor="radius" titleKey="select.section.radius">
+    <p class="select-showcase__note">{{ 'select.radius.note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedRadius"
+      [ariaLabel]="'select.section.radius' | translate"
+    >
+      <solaris-tab value="none"
+        >{{ 'select.radius.none' | translate }}</solaris-tab
+      >
+      <solaris-tab value="sm">{{ 'select.radius.sm' | translate }}</solaris-tab>
+      <solaris-tab value="md">{{ 'select.radius.md' | translate }}</solaris-tab>
+      <solaris-tab value="lg">{{ 'select.radius.lg' | translate }}</solaris-tab>
+      <solaris-tab value="xl">{{ 'select.radius.xl' | translate }}</solaris-tab>
+      <solaris-tab-panel value="none">
+        <solaris-preview-code [code]="radiusNoneCode" language="html">
+          <solaris-select
+            [label]="'select.radius.none' | translate"
+            radius="none"
+            [placeholder]="'select.radius.none' | translate"
+          >
+            <solaris-option value="admin"
+              >{{ 'select.option.admin' | translate }}</solaris-option
+            >
+          </solaris-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="sm">
+        <solaris-preview-code [code]="radiusSmCode" language="html">
+          <solaris-select
+            [label]="'select.radius.sm' | translate"
+            radius="sm"
+            [placeholder]="'select.radius.sm' | translate"
+          >
+            <solaris-option value="admin"
+              >{{ 'select.option.admin' | translate }}</solaris-option
+            >
+          </solaris-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="md">
+        <solaris-preview-code [code]="radiusMdCode" language="html">
+          <solaris-select
+            [label]="'select.radius.md' | translate"
+            radius="md"
+            [placeholder]="'select.radius.md' | translate"
+          >
+            <solaris-option value="admin"
+              >{{ 'select.option.admin' | translate }}</solaris-option
+            >
+          </solaris-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="lg">
+        <solaris-preview-code [code]="radiusLgCode" language="html">
+          <solaris-select
+            [label]="'select.radius.lg' | translate"
+            radius="lg"
+            [placeholder]="'select.radius.lg' | translate"
+          >
+            <solaris-option value="admin"
+              >{{ 'select.option.admin' | translate }}</solaris-option
+            >
+          </solaris-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="xl">
+        <solaris-preview-code [code]="radiusXlCode" language="html">
+          <solaris-select
+            [label]="'select.radius.xl' | translate"
+            radius="xl"
+            [placeholder]="'select.radius.xl' | translate"
+          >
+            <solaris-option value="admin"
+              >{{ 'select.option.admin' | translate }}</solaris-option
+            >
+          </solaris-select>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="select.section.states">
+    <solaris-preview-code [code]="statesCode" language="html">
+      <div class="select-showcase__stack">
+        <solaris-select
+          [label]="'select.states.default' | translate"
+          [placeholder]="'select.states.default' | translate"
+        >
+          <solaris-option value="admin"
+            >{{ 'select.option.admin' | translate }}</solaris-option
+          >
+        </solaris-select>
+        <solaris-select
+          [label]="'select.states.invalid' | translate"
+          [invalid]="true"
+          [error]="'select.error.invalid' | translate"
+          [placeholder]="'select.states.invalid' | translate"
+        >
+          <solaris-option value="admin"
+            >{{ 'select.option.admin' | translate }}</solaris-option
+          >
+        </solaris-select>
+        <solaris-select
+          [formControl]="disabledControl"
+          [label]="'select.states.disabled' | translate"
+          [placeholder]="'select.states.disabled' | translate"
+        >
+          <solaris-option value="admin"
+            >{{ 'select.option.admin' | translate }}</solaris-option
+          >
+        </solaris-select>
+        <solaris-select
+          [formControl]="readonlyControl"
+          [readonly]="true"
+          [label]="'select.states.readonly' | translate"
+        >
+          <solaris-option value="admin"
+            >{{ 'select.option.admin' | translate }}</solaris-option
+          >
+          <solaris-option value="teacher"
+            >{{ 'select.option.teacher' | translate }}</solaris-option
+          >
+        </solaris-select>
+        <solaris-select
+          [loading]="true"
+          [label]="'select.states.loading' | translate"
+          [placeholder]="'select.states.loading' | translate"
+        >
+          <solaris-option value="admin"
+            >{{ 'select.option.admin' | translate }}</solaris-option
+          >
+        </solaris-select>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="clearable" titleKey="select.section.clearable">
+    <p class="select-showcase__note">
+      {{ 'select.clearable.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="clearableCode" language="html">
       <solaris-select
         [formControl]="clearableControl"
         [clearable]="true"
-        [placeholder]="'select.placeholder-status' | translate"
+        [label]="'select.clearable.label' | translate"
+        [placeholder]="'select.clearable.placeholder' | translate"
+        (cleared)="onCleared()"
       >
         <solaris-option value="active"
-          >{{ 'select.status.active' | translate }}</solaris-option
+          >{{ 'select.option.active' | translate }}</solaris-option
         >
         <solaris-option value="inactive"
-          >{{ 'select.status.inactive' | translate }}</solaris-option
+          >{{ 'select.option.inactive' | translate }}</solaris-option
         >
       </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.grouped' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select
-        [formControl]="groupedControl"
-        [searchable]="true"
-        [placeholder]="'select.placeholder-module' | translate"
-      >
-        <solaris-option-group [label]="'select.group.academic' | translate">
-          <solaris-option value="students"
-            >{{ 'select.option.students' | translate }}</solaris-option
-          >
-          <solaris-option value="classes"
-            >{{ 'select.option.classes' | translate }}</solaris-option
-          >
-        </solaris-option-group>
-        <solaris-option-group [label]="'select.group.financial' | translate">
-          <solaris-option value="billing"
-            >{{ 'select.option.billing' | translate }}</solaris-option
-          >
-          <solaris-option value="payments"
-            >{{ 'select.option.payments' | translate }}</solaris-option
-          >
-        </solaris-option-group>
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.rich-options' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select [placeholder]="'select.placeholder-language' | translate">
-        <solaris-option
-          value="pt-BR"
-          [label]="'select.language.pt-br' | translate"
-          [description]="'select.language.pt-br-desc' | translate"
-        >
-          <span solaris-option-leading>🇧🇷</span>
-          <span solaris-option-trailing>
-            <solaris-badge color="primary" size="sm"
-              >{{ 'select.badge.new' | translate }}</solaris-badge
-            >
-          </span>
-        </solaris-option>
-        <solaris-option
-          value="en-US"
-          [label]="'select.language.en-us' | translate"
-          [description]="'select.language.en-us-desc' | translate"
-        >
-          <span solaris-option-leading>🇺🇸</span>
-        </solaris-option>
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.disabled-options' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select
-        [placeholder]="'select.placeholder-availability' | translate"
-      >
-        <solaris-option value="available"
-          >{{ 'select.option.available' | translate }}</solaris-option
-        >
-        <solaris-option value="unavailable" [disabled]="true"
-          >{{ 'select.option.unavailable' | translate }}</solaris-option
-        >
-        <solaris-option value="limited"
-          >{{ 'select.option.limited' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.disabled' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select
-        [formControl]="disabledControl"
-        [placeholder]="'select.placeholder-disabled' | translate"
-      >
-        <solaris-option value="admin"
-          >{{ 'select.option.admin' | translate }}</solaris-option
-        >
-        <solaris-option value="teacher"
-          >{{ 'select.option.teacher' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.readonly' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select [formControl]="readonlyControl" [readonly]="true">
-        <solaris-option value="admin"
-          >{{ 'select.option.admin' | translate }}</solaris-option
-        >
-        <solaris-option value="teacher"
-          >{{ 'select.option.teacher' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.disabled-searchable' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select
-        [formControl]="searchableDisabledControl"
-        [searchable]="true"
-        [placeholder]="'select.placeholder-disabled-searchable' | translate"
-      >
-        <solaris-option value="a"
-          >{{ 'select.option.option-a' | translate }}</solaris-option
-        >
-        <solaris-option value="b"
-          >{{ 'select.option.option-b' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.invalid-required' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select
-        [formControl]="invalidControl"
-        [invalid]="invalidControl.invalid && invalidControl.touched"
-        [error]="invalidError"
-        [placeholder]="'select.placeholder-invalid' | translate"
-      >
-        <solaris-option value="a"
-          >{{ 'select.option.option-a' | translate }}</solaris-option
-        >
-        <solaris-option value="b"
-          >{{ 'select.option.option-b' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.loading' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select
-        [loading]="loading"
-        [placeholder]="'select.placeholder-loading' | translate"
-      >
-        <solaris-option value="a"
-          >{{ 'select.option.option-a' | translate }}</solaris-option
-        >
-      </solaris-select>
-      <button class="select-showcase__toggle-btn" (click)="toggleLoading()">
-        {{ loading ? 'Stop Loading' : 'Start Loading' }}
-      </button>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.empty' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select [placeholder]="'select.placeholder-empty' | translate">
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.no-results' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select
-        [searchable]="true"
-        [placeholder]="'select.placeholder-noresults' | translate"
-      >
-        <solaris-option value="only-one"
-          >{{ 'select.option.only-one' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.density' | translate }}
-    </h2>
-    <div class="select-showcase__row">
-      <solaris-select
-        density="compact"
-        [placeholder]="'select.placeholder-compact' | translate"
-      >
-        <solaris-option value="1"
-          >{{ 'select.option.compact' | translate }}</solaris-option
-        >
-      </solaris-select>
-      <solaris-select
-        density="normal"
-        [placeholder]="'select.placeholder-normal' | translate"
-      >
-        <solaris-option value="1"
-          >{{ 'select.option.normal' | translate }}</solaris-option
-        >
-      </solaris-select>
-      <solaris-select
-        density="comfortable"
-        [placeholder]="'select.placeholder-comfortable' | translate"
-      >
-        <solaris-option value="1"
-          >{{ 'select.option.comfortable' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.radius' | translate }}
-    </h2>
-    <div class="select-showcase__row">
-      <solaris-select
-        radius="none"
-        [placeholder]="'select.placeholder-radius-none' | translate"
-      >
-        <solaris-option value="1"
-          >{{ 'select.option.radius-none' | translate }}</solaris-option
-        >
-      </solaris-select>
-      <solaris-select
-        radius="sm"
-        [placeholder]="'select.placeholder-radius-sm' | translate"
-      >
-        <solaris-option value="1"
-          >{{ 'select.option.radius-sm' | translate }}</solaris-option
-        >
-      </solaris-select>
-      <solaris-select
-        radius="md"
-        [placeholder]="'select.placeholder-radius-md' | translate"
-      >
-        <solaris-option value="1"
-          >{{ 'select.option.radius-md' | translate }}</solaris-option
-        >
-      </solaris-select>
-      <solaris-select
-        radius="lg"
-        [placeholder]="'select.placeholder-radius-lg' | translate"
-      >
-        <solaris-option value="1"
-          >{{ 'select.option.radius-lg' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.appearances' | translate }}
-    </h2>
-    <div class="select-showcase__demo">
-      <solaris-select
-        appearance="outline"
-        [placeholder]="'select.placeholder-outline' | translate"
-      >
-        <solaris-option value="1"
-          >{{ 'select.option.outline' | translate }}</solaris-option
-        >
-      </solaris-select>
-      <solaris-select
-        appearance="surface"
-        [placeholder]="'select.placeholder-surface' | translate"
-      >
-        <solaris-option value="1"
-          >{{ 'select.option.surface' | translate }}</solaris-option
-        >
-      </solaris-select>
-      <solaris-select
-        appearance="filled"
-        [placeholder]="'select.placeholder-filled' | translate"
-      >
-        <solaris-option value="1"
-          >{{ 'select.option.filled' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.object-value' | translate }}
-    </h2>
+    </solaris-preview-code>
     <p class="select-showcase__note">
-      {{ 'select.object-value-note' | translate }}
+      {{ 'select.clearable.output' | translate }}: {{ clearedCount() }}
     </p>
-    <div class="select-showcase__demo">
+  </app-docs-section>
+
+  <app-docs-section anchor="affix" titleKey="select.section.affix">
+    <p class="select-showcase__note">{{ 'select.affix.note' | translate }}</p>
+    <div class="select-showcase__stack">
+      <solaris-preview-code [code]="prefixCode" language="html">
+        <solaris-select
+          prefix="search"
+          [label]="'select.affix.prefix.label' | translate"
+          [placeholder]="'select.affix.prefix.placeholder' | translate"
+        >
+          <solaris-option value="br"
+            >{{ 'select.country.br' | translate }}</solaris-option
+          >
+          <solaris-option value="us"
+            >{{ 'select.country.us' | translate }}</solaris-option
+          >
+        </solaris-select>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="suffixCode" language="html">
+        <solaris-select
+          [label]="'select.affix.suffix.label' | translate"
+          [placeholder]="'select.affix.suffix.placeholder' | translate"
+        >
+          <solaris-option value="admin"
+            >{{ 'select.option.admin' | translate }}</solaris-option
+          >
+          <solaris-option value="teacher"
+            >{{ 'select.option.teacher' | translate }}</solaris-option
+          >
+          <solaris-icon
+            solaris-form-suffix
+            name="info"
+            [decorative]="false"
+            [attr.aria-label]="'select.affix.suffix.icon-label' | translate"
+          />
+        </solaris-select>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="suffixInputCode" language="html">
+        <solaris-select
+          suffix="info"
+          [label]="'select.affix.suffix-input.label' | translate"
+          [placeholder]="'select.affix.suffix-input.placeholder' | translate"
+        >
+          <solaris-option value="admin"
+            >{{ 'select.option.admin' | translate }}</solaris-option
+          >
+          <solaris-option value="teacher"
+            >{{ 'select.option.teacher' | translate }}</solaris-option
+          >
+        </solaris-select>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="suffixActionCode" language="html">
+        <solaris-select
+          [loading]="actionLoading()"
+          [label]="'select.affix.action.label' | translate"
+          [placeholder]="'select.affix.action.placeholder' | translate"
+        >
+          <solaris-option value="admin"
+            >{{ 'select.option.admin' | translate }}</solaris-option
+          >
+          <solaris-option value="teacher"
+            >{{ 'select.option.teacher' | translate }}</solaris-option
+          >
+          <button
+            solaris-form-suffix
+            solaris-form-suffix-action
+            type="button"
+            (click)="toggleActionLoading()"
+            [attr.aria-label]="'select.affix.action.button-label' | translate"
+          >
+            <solaris-icon name="info" [decorative]="true" />
+          </button>
+        </solaris-select>
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="searchable" titleKey="select.section.searchable">
+    <p class="select-showcase__note">
+      {{ 'select.searchable.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="searchableCode" language="html">
+      <solaris-select
+        [searchable]="true"
+        [label]="'select.searchable.label' | translate"
+        [placeholder]="'select.searchable.placeholder' | translate"
+        [searchPlaceholder]="'select.searchable.search-placeholder' | translate"
+      >
+        <solaris-option value="br"
+          >{{ 'select.country.br' | translate }}</solaris-option
+        >
+        <solaris-option value="us"
+          >{{ 'select.country.us' | translate }}</solaris-option
+        >
+        <solaris-option value="pt"
+          >{{ 'select.country.pt' | translate }}</solaris-option
+        >
+      </solaris-select>
+    </solaris-preview-code>
+    <p class="select-showcase__note">{{ 'select.objects.note' | translate }}</p>
+    <solaris-preview-code [code]="objectCode" language="html">
       <solaris-select
         [formControl]="objectControl"
         [compareWith]="comparePlan"
         [displayWith]="displayPlan"
-        [placeholder]="'select.placeholder-object' | translate"
+        [label]="'select.objects.label' | translate"
+        [placeholder]="'select.objects.placeholder' | translate"
       >
         <solaris-option
           [value]="basicPlan"
@@ -472,62 +410,24 @@
           [value]="proPlan"
           [label]="'select.plan.pro' | translate"
         ></solaris-option>
-        <solaris-option
-          [value]="enterprisePlan"
-          [label]="'select.plan.enterprise' | translate"
-        ></solaris-option>
       </solaris-select>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.form-field' | translate }}
-    </h2>
+  <app-docs-section
+    anchor="installation"
+    titleKey="select.section.installation"
+  >
     <p class="select-showcase__note">
-      {{ 'select.form-field-note' | translate }}
+      {{ 'select.installation.note' | translate }}
     </p>
-    <div class="select-showcase__demo">
-      <solaris-form-field
-        [label]="'select.form-field-label' | translate"
-        [hint]="'select.form-field-hint' | translate"
-        [error]="formFieldError"
-      >
-        <solaris-select
-          [formControl]="formFieldControl"
-          [placeholder]="'select.placeholder-form-field' | translate"
-        >
-          <solaris-option value="admin"
-            >{{ 'select.option.admin' | translate }}</solaris-option
-          >
-          <solaris-option value="teacher"
-            >{{ 'select.option.teacher' | translate }}</solaris-option
-          >
-        </solaris-select>
-      </solaris-form-field>
-    </div>
-  </section>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
 
-  <section class="select-showcase__section">
-    <h2 class="select-showcase__section-title">
-      {{ 'select.standalone' | translate }}
-    </h2>
-    <p class="select-showcase__note">
-      {{ 'select.standalone-note' | translate }}
-    </p>
-    <div class="select-showcase__demo">
-      <solaris-select
-        [label]="'select.standalone-label' | translate"
-        [hint]="'select.standalone-hint' | translate"
-        [placeholder]="'select.placeholder-standalone' | translate"
-      >
-        <solaris-option value="a"
-          >{{ 'select.option.option-a' | translate }}</solaris-option
-        >
-        <solaris-option value="b"
-          >{{ 'select.option.option-b' | translate }}</solaris-option
-        >
-      </solaris-select>
-    </div>
-  </section>
-</div>
+  <app-docs-section anchor="props" titleKey="select.section.props">
+    <p class="select-showcase__note">{{ 'select.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

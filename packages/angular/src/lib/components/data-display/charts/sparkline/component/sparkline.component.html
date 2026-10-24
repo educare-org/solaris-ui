@@ -1,0 +1,52 @@
+@if (appearance() === 'card') {
+  <solaris-card padding="md">
+    @if (title() !== undefined) {
+      <span solaris-card-header class="solaris-sparkline__card-title">{{
+        title()
+      }}</span>
+    }
+    <div solaris-card-content class="solaris-sparkline__card-body">
+      @if (value() !== undefined || delta() !== undefined) {
+        <div class="solaris-sparkline__card-row">
+          @if (value() !== undefined) {
+            <span class="solaris-sparkline__card-value">{{ value() }}</span>
+          }
+          @if (delta() !== undefined) {
+            <solaris-badge [color]="deltaBadgeColor()" size="sm">{{
+              delta()
+            }}</solaris-badge>
+          }
+        </div>
+      }
+      <ng-container *ngTemplateOutlet="sparkSvg" />
+    </div>
+  </solaris-card>
+} @else {
+  <ng-container *ngTemplateOutlet="sparkSvg" />
+}
+
+<ng-template #sparkSvg>
+  <svg
+    class="solaris-sparkline__svg"
+    [attr.viewBox]="`0 0 ${viewWidth} ${viewHeight}`"
+    preserveAspectRatio="xMidYMid meet"
+    role="img"
+    [attr.aria-label]="ariaLabel()"
+  >
+    @if (geometry().areaPath !== '') {
+      <path
+        class="solaris-sparkline__area"
+        [attr.d]="geometry().areaPath"
+        [style.fill]="strokeColor()"
+      />
+    }
+    @if (geometry().linePath !== '') {
+      <path
+        class="solaris-sparkline__line"
+        [attr.d]="geometry().linePath"
+        [style.stroke]="strokeColor()"
+        fill="none"
+      />
+    }
+  </svg>
+</ng-template>

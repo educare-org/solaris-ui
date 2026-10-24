@@ -1,0 +1,100 @@
+{
+  "chart-shell-view": {
+    "description": "Card com KPI, alternador de visão, filtro de período, estados e legenda para compor todos os tipos de gráfico.",
+    "examples": {
+      "note": "Troque de visão, mude o período, alterne séries na legenda e abra o menu de ações. Toda interação aparece no log abaixo.",
+      "toggleLoading": "Simular carregamento",
+      "fullscreenClose": "Fechar tela cheia",
+      "periodLabelDay": "1 dia",
+      "periodLabelWeek": "7 dias",
+      "periodLabelMonth": "1 mês",
+      "periodLabelQuarter": "3 meses",
+      "periodLabelYear": "Este ano",
+      "periodLabelAll": "Tudo",
+      "toggleHidden": "Ocultar uma série",
+      "title": "Atividade semanal dos agentes",
+      "heroLabel": "tarefas",
+      "intervalDay": "04 de mai. de 2026",
+      "intervalWeek": "28 de abr. → 04 de mai. de 2026",
+      "intervalMonth": "abr. de 2026",
+      "intervalQuarter": "ago. → out. de 2026",
+      "intervalYear": "jan. → out. de 2026",
+      "intervalAll": "Todo o período",
+      "listSeries": "Série",
+      "listTotal": "Total",
+      "lineNote": "Os pontos são focáveis pelo teclado: Tab até um ponto, setas para mover, Enter para selecionar.",
+      "lineAverage": "Média",
+      "seriesAutomation": "Automação de tarefas",
+      "seriesQueries": "Consultas de usuários",
+      "seriesSystem": "Ações do sistema"
+    },
+    "views": {
+      "note": "O shell projeta qualquer gráfico no mesmo card. Use as abas para trocar a visão projetada; legenda, hero e período continuam funcionando.",
+      "label": "Visão do gráfico",
+      "line": "Linha",
+      "bar": "Barra",
+      "pie": "Pizza"
+    },
+    "combos": {
+      "note": "Mapa de calor e radar são visões N1 opt-in: adicione em availableViews e projete o gráfico correspondente no slot do shell. Legenda e período continuam funcionando; o contrato de dados difere (matriz/eixos em vez de séries x/y).",
+      "label": "Visão combinada",
+      "heatmap": "Mapa de calor",
+      "radar": "Radar"
+    },
+    "fullscreen": {
+      "description": "Atividade semanal dos agentes com o dialog de tela cheia: contexto estendido e tabela de dados visível.",
+      "extended": "A tela cheia abre em um dialog com as mesmas séries, descrição estendida e tabela de totais para paridade com leitor de tela e impressão.",
+      "tableCaption": "Totais das séries em tela cheia"
+    },
+    "display": {
+      "note": "Linha do tempo renderiza o gráfico projetado; lista renderiza uma tabela de totais das mesmas séries. A legenda continua alternando séries nos dois modos.",
+      "label": "Modo de exibição",
+      "timeline": "Linha do tempo",
+      "list": "Lista"
+    },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em matriz 3×3: sm compacta rótulos e canvas, lg expande, md é o padrão. A densidade refina gaps e espessura do traço."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "density": {
+      "compact": "Compacta",
+      "normal": "Normal",
+      "comfortable": "Confortável"
+    },
+    "installation": {
+      "note": "Instale o pacote e importe o componente standalone do shell de gráficos."
+    },
+    "props": {
+      "note": "O shell controla os models de visão e período e emite toggles, ações e retry. Ele nunca busca dados nem altera o array de séries.",
+      "colProp": "Propriedade",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Padrão"
+    },
+    "section": {
+      "examples": "Exemplos",
+      "views": "Visões",
+      "combos": "Combos",
+      "display": "Exibição",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "density": "Densidade",
+      "installation": "Instalação",
+      "props": "Props",
+      "states": "Estados"
+    },
+    "states": {
+      "note": "Carregamento mostra skeletons, erros mostram ação de retry e dados vazios mostram texto de orientação. Use as abas para trocar de estado; o retry aparece no log abaixo.",
+      "label": "Estado do shell",
+      "empty": "Vazio",
+      "loading": "Carregando",
+      "error": "Erro",
+      "errorMessage": "Não foi possível carregar os dados."
+    },
+    "title": "Shell de Gráficos"
+  }
+}

@@ -1,0 +1,225 @@
+.chart-shell-showcase__note {
+  margin: 0 0 var(--solaris-spacing-7);
+}
+
+.chart-shell-showcase__demo {
+  display: grid;
+  gap: var(--solaris-spacing-7);
+  width: 100%;
+}
+
+.chart-shell-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.chart-shell-showcase__actions {
+  margin: 0 0 var(--solaris-spacing-7);
+}
+
+.chart-shell-showcase__table-wrap {
+  overflow-x: auto;
+}
+
+.chart-shell-showcase__log {
+  margin: 0;
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5);
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-neutral-sunken);
+  color: var(--solaris-neutral-text-secondary);
+  font-family: var(--solaris-font-family-mono);
+  font-size: var(--solaris-font-size-xs);
+  min-height: var(--solaris-spacing-9);
+}
+
+.chart-shell-showcase__log:empty::before {
+  content: '—';
+}
+
+.chart-shell-showcase__demo:fullscreen {
+  background: var(--solaris-neutral-default);
+  padding: var(--solaris-spacing-7);
+  overflow: auto;
+}
+
+.chart-shell-showcase__list {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  border-collapse: collapse;
+  font-size: var(--solaris-font-size-xs);
+  color: var(--solaris-neutral-text-body);
+  animation: chart-shell-display-enter var(--solaris-motion-duration-fast)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+.chart-shell-showcase__list th,
+.chart-shell-showcase__list td {
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5);
+  border-bottom: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-default);
+  text-align: start;
+}
+
+.chart-shell-showcase__list thead th {
+  color: var(--solaris-neutral-text-secondary);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.chart-shell-showcase__list thead th:last-child {
+  text-align: end;
+}
+
+.chart-shell-showcase__list tbody th {
+  font-weight: var(--solaris-font-weight-regular);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.chart-shell-showcase__list tbody td {
+  font-weight: var(--solaris-font-weight-semibold);
+  text-align: end;
+}
+
+.chart-shell-showcase__list-row {
+  transform-origin: top;
+  animation: chart-shell-list-row-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard) both;
+}
+
+.chart-shell-showcase__list-row.is-leaving {
+  animation: chart-shell-list-row-leave var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard) both;
+}
+
+.chart-shell-showcase__demo solaris-line-chart,
+.chart-shell-showcase__demo solaris-bar-chart,
+.chart-shell-showcase__demo solaris-pie-chart,
+.chart-shell-showcase__demo solaris-heatmap,
+.chart-shell-showcase__demo solaris-radar,
+app-docs-section[anchor='display'] solaris-line-chart,
+app-docs-section[anchor='display'] solaris-bar-chart,
+app-docs-section[anchor='display'] solaris-pie-chart,
+app-docs-section[anchor='views'] solaris-line-chart,
+app-docs-section[anchor='views'] solaris-bar-chart,
+app-docs-section[anchor='views'] solaris-pie-chart,
+app-docs-section[anchor='combos'] solaris-line-chart,
+app-docs-section[anchor='combos'] solaris-bar-chart,
+app-docs-section[anchor='combos'] solaris-heatmap,
+app-docs-section[anchor='combos'] solaris-radar {
+  display: block;
+  animation: chart-shell-display-enter var(--solaris-motion-duration-fast)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+@keyframes chart-shell-display-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(calc(2 * var(--solaris-motion-translate-sm)));
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chart-shell-showcase__list::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    var(--solaris-neutral-subtle) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  animation: chart-shell-display-shimmer var(--solaris-motion-duration-fast)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+:host-context([data-reduced-motion='true']) .chart-shell-showcase__list-row,
+:host-context([data-reduced-motion='true'])
+  .chart-shell-showcase__list-row.is-leaving,
+:host-context([data-reduced-motion='true']) .chart-shell-showcase__list,
+:host-context([data-reduced-motion='true']) .chart-shell-showcase__list::after {
+  animation: none;
+  transition: none;
+}
+
+@keyframes chart-shell-list-row-enter {
+  0% {
+    opacity: 0;
+    transform: translateX(calc(-2 * var(--solaris-motion-translate-sm)))
+      scaleY(0.6);
+  }
+
+  60% {
+    opacity: 0;
+    transform: translateX(calc(-2 * var(--solaris-motion-translate-sm)))
+      scaleY(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) scaleY(1);
+  }
+}
+
+@keyframes chart-shell-list-row-leave {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scaleY(1);
+  }
+
+  40% {
+    opacity: 0;
+    transform: translateX(calc(-2 * var(--solaris-motion-translate-sm)))
+      scaleY(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(calc(-2 * var(--solaris-motion-translate-sm)))
+      scaleY(0);
+  }
+}
+
+@keyframes chart-shell-display-shimmer {
+  0% {
+    opacity: 1;
+    transform: translateX(-100%);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chart-shell-showcase__list-row,
+  .chart-shell-showcase__list-row.is-leaving,
+  .chart-shell-showcase__list,
+  .chart-shell-showcase__list::after,
+  .chart-shell-showcase__demo solaris-line-chart,
+  .chart-shell-showcase__demo solaris-bar-chart,
+  .chart-shell-showcase__demo solaris-pie-chart,
+  app-docs-section[anchor='display'] solaris-line-chart,
+  app-docs-section[anchor='display'] solaris-bar-chart,
+  app-docs-section[anchor='display'] solaris-pie-chart,
+  app-docs-section[anchor='views'] solaris-line-chart,
+  app-docs-section[anchor='views'] solaris-bar-chart,
+  app-docs-section[anchor='views'] solaris-pie-chart,
+  app-docs-section[anchor='combos'] solaris-line-chart,
+  app-docs-section[anchor='combos'] solaris-bar-chart,
+  app-docs-section[anchor='combos'] solaris-heatmap,
+  app-docs-section[anchor='combos'] solaris-radar {
+    animation: none;
+    transition: none;
+  }
+}

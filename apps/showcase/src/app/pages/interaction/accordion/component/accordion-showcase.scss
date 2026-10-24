@@ -1,36 +1,19 @@
-.accordion-showcase {
-  display: flex;
-  flex-direction: column;
-  gap: var(--solaris-spacing-6);
-}
+@use '../../../../shared/showcase-layout' as layout;
 
-.accordion-showcase__header {
+.accordion-showcase__note {
+  @include layout.note;
+
   margin-bottom: var(--solaris-spacing-4);
 }
 
-.accordion-showcase__title {
-  margin: 0 0 var(--solaris-spacing-2);
-  font-size: var(--solaris-font-size-2xl);
+.accordion-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
 }
 
-.accordion-showcase__description {
-  margin: 0;
-  color: var(--solaris-text-muted);
-}
-
-.accordion-showcase__section {
+.accordion-showcase__controls {
   display: flex;
-  flex-direction: column;
-  gap: var(--solaris-spacing-3);
-}
-
-.accordion-showcase__section-title {
-  margin: 0;
-  font-size: var(--solaris-font-size-lg);
-}
-
-.accordion-showcase__note {
-  margin: 0;
-  color: var(--solaris-text-muted);
-  font-size: var(--solaris-font-size-sm);
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
 }

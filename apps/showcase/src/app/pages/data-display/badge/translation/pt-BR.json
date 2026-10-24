@@ -1,0 +1,95 @@
+{
+  "badge": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "ghost": "Fantasma",
+      "outline": "Contorno",
+      "solid": "Sólida",
+      "surface": "Superfície",
+      "tonal": "Tonal"
+    },
+    "appearances": {
+      "note": "Combine aparência e cor para definir o peso visual e o significado semântico do badge."
+    },
+    "color": {
+      "danger": "Perigo",
+      "info": "Informação",
+      "neutral": "Neutra",
+      "primary": "Primária",
+      "success": "Sucesso",
+      "warning": "Atenção"
+    },
+    "count": {
+      "note": "Contagens acima do máximo renderizam como \"{max}+\" com o valor cheio no tooltip de título. Zero oculta o badge, a menos que showZero esteja ativo."
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Componente não interativo do tipo badge para status, rótulos e contagens.",
+    "dot": {
+      "note": "Pontos sinalizam presença ou estado não lido sem número. Pulse adiciona um anel animado e respeita reduced motion.",
+      "tab": {
+        "dot": "Ponto",
+        "pulse": "Pulso"
+      }
+    },
+    "example": {
+      "demo": "Badge",
+      "status": {
+        "active": "Ativo",
+        "error": "Erro",
+        "info": "Info",
+        "pending": "Pendente"
+      }
+    },
+    "examples": {
+      "note": "Comece pelo badge padrão e explore aparências e variantes abaixo."
+    },
+    "icons": {
+      "note": "Ícones escalam com o tamanho do badge. Badges só com ícone precisam de rótulo acessível.",
+      "tab": {
+        "icon-only": "Só ícone"
+      }
+    },
+    "installation": {
+      "note": "Instale o pacote único do Solaris e importe o componente."
+    },
+    "placement": {
+      "note": "Badges posicionados se ancoram no canto de um ancestral posicionado — envolva o alvo com position: relative."
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente table."
+    },
+    "section": {
+      "appearances": "Aparências",
+      "colors": "Cores",
+      "count": "Contador",
+      "density": "Densidade",
+      "dot": "Ponto",
+      "examples": "Exemplos",
+      "icons": "Ícones",
+      "installation": "Instalação",
+      "placement": "Posicionamento",
+      "props": "Propriedades",
+      "size-density": "Tamanho & densidade",
+      "sizes": "Tamanhos"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Tamanho e densidade funcionam juntos no componente. Combine os dois controles para ver todas as combinações.",
+      "tab": {
+        "count": "Contador",
+        "standard": "Padrão"
+      }
+    },
+    "title": "Badge"
+  }
+}

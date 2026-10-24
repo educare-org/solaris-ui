@@ -1,0 +1,8 @@
+{
+  "categories": ["navigation"],
+  "keywords": ["shield", "escudo"],
+  "aliases": [],
+  "class": "fillable",
+  "availableVariants": ["outline"],
+  "viewBox": "0 0 24 24"
+}

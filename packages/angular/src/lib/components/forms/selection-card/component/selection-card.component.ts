@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,7 +18,10 @@ import { resolveElementId } from '../../../../core';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
-import { SOLARIS_RADIO_GROUP_NAME } from '../../radio-group/model/radio-group.token';
+import {
+  SOLARIS_RADIO_GROUP,
+  SOLARIS_RADIO_GROUP_NAME,
+} from '../../radio-group/model/radio-group.token';
 import {
   SOLARIS_RADIO_OPTION,
   type SolarisRadioOption,
@@ -64,7 +66,7 @@ import type {
     class: 'solaris-selection-card',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',
-    '[attr.data-size]': 'size()',
+    '[attr.data-size]': 'effectiveSize()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-selection]': 'selection()',
@@ -89,6 +91,7 @@ export class SolarisSelectionCardComponent
   private readonly translateService = inject(SolarisTranslateService);
   private readonly groupName =
     inject(SOLARIS_RADIO_GROUP_NAME, { optional: true }) ?? null;
+  private readonly group = inject(SOLARIS_RADIO_GROUP, { optional: true });
   private readonly inputElementRef =
     viewChild<ElementRef<HTMLInputElement>>('inputElement');
   private readonly media = contentChild(SolarisSelectionCardMediaDirective);
@@ -126,7 +129,7 @@ export class SolarisSelectionCardComponent
   });
   readonly appearance = input<SolarisSelectionCardAppearance>('surface');
   readonly color = input<SolarisSelectionCardColor>('neutral');
-  readonly size = input<SolarisSelectionCardSize>('md');
+  readonly size = input<SolarisSelectionCardSize | undefined>(undefined);
   readonly radius = input<SolarisSelectionCardRadius>('lg');
   readonly density = input<SolarisSelectionCardDensity>();
   readonly selection = input<SolarisSelectionCardSelection>('radio');
@@ -143,8 +146,15 @@ export class SolarisSelectionCardComponent
 
   protected readonly themeService = inject(SolarisThemeService);
 
+  protected readonly effectiveSize = computed<SolarisSelectionCardSize>(() => {
+    return this.size() ?? this.group?.size() ?? 'md';
+  });
+
   protected readonly effectiveDensity = computed<SolarisSelectionCardDensity>(
-    () => this.density() ?? this.themeService.density,
+    () =>
+      this.density() ??
+      this.group?.effectiveDensity() ??
+      this.themeService.density,
   );
 
   protected readonly hasMedia = computed(() => this.media() !== undefined);
@@ -236,6 +246,7 @@ export class SolarisSelectionCardComponent
   }
 
   focus(): void {
+    // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
     this.inputElementRef()?.nativeElement.focus();
   }
 
@@ -244,6 +255,7 @@ export class SolarisSelectionCardComponent
   });
 
   private readonly syncNativeChecked = effect(() => {
+    // SECURITY_EXCEPTION: syncing the native checked property requires the native element; data binding targets the directive host, not the input.
     const input = this.inputElementRef()?.nativeElement;
     if (input) {
       input.checked = this._checked();

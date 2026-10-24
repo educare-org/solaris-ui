@@ -2,6 +2,8 @@ export type SolarisSpinnerVariant = 'ring' | 'stacked' | 'progress';
 
 export type SolarisSpinnerSize = 'sm' | 'md' | 'lg' | 'xl';
 
+export type SolarisSpinnerDensity = 'compact' | 'normal' | 'comfortable';
+
 export type SolarisSpinnerColor =
   | 'neutral'
   | 'primary'

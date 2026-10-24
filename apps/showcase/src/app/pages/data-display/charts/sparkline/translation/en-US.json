@@ -1,0 +1,66 @@
+{
+  "sparkline-view": {
+    "description": "Label-less miniature trend line for KPI cards: semantic stroke color from the trend, gaps skipped, keyboard-free.",
+    "examples": {
+      "note": "Rising reads as success, falling as danger. Direction is also in the accessible label — color is never the only signal.",
+      "rising": "Active users",
+      "falling": "Churn",
+      "risingLabel": "Active users trend, rising",
+      "fallingLabel": "Churn trend, falling"
+    },
+    "kpis": {
+      "note": "KPI cards with delta badges and trend sparklines, migrated from the chart shell. Deltas use semantic badges; direction is also stated in the sparkline label.",
+      "kpiUsers": "Active users",
+      "kpiChurn": "Churn",
+      "deltaUsers": "+12.4%",
+      "deltaChurn": "-8.1%",
+      "usersLabel": "Active users trend, rising",
+      "churnLabel": "Churn trend, falling is good"
+    },
+    "gaps": {
+      "note": "Null and undefined points break the line instead of interpolating. An empty input renders an empty frame that still carries its label."
+    },
+    "card": {
+      "note": "KPI trio on solaris-card: title, value, delta badge and sparkline. Badge color follows deltaDirection crossed with positiveIsGood; direction stays in the accessible label."
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3×3 matrix: sm shrinks hero and canvas, lg grows them, md is the default. Density refines legend gaps and stroke weight."
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "density": {
+      "compact": "Compact",
+      "normal": "Normal",
+      "comfortable": "Comfortable"
+    },
+    "states": {
+      "note": "Empty data renders an empty frame with its accessible label. Sparklines have no loading or error visuals — the KPI card owns those states."
+    },
+    "installation": {
+      "note": "Install the package and import the standalone sparkline component."
+    },
+    "props": {
+      "note": "Inputs and defaults. Sparklines are presentational: no outputs, no keyboard stops, no tooltip.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
+    },
+    "section": {
+      "examples": "Examples",
+      "kpis": "Indicators",
+      "card": "Card",
+      "size-density": "Size and density",
+      "sizes": "Sizes",
+      "density": "Density",
+      "gaps": "Gaps",
+      "states": "States",
+      "installation": "Installation",
+      "props": "Props"
+    },
+    "title": "Sparkline"
+  }
+}

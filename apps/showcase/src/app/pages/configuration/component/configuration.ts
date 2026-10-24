@@ -51,42 +51,85 @@ export class ConfigurationPage {
 
   readonly tokenGroups: TokenGroup[] = [
     {
-      label: 'Surface',
+      label: 'Neutral surfaces',
       type: 'color',
       tokens: [
-        { name: 'surface-base', cssVar: '--solaris-surface-base' },
-        { name: 'surface-subtle', cssVar: '--solaris-surface-subtle' },
-        { name: 'surface-muted', cssVar: '--solaris-surface-muted' },
-        { name: 'surface-raised', cssVar: '--solaris-surface-raised' },
+        { name: 'neutral-page', cssVar: '--solaris-neutral-page' },
+        { name: 'neutral-default', cssVar: '--solaris-neutral-default' },
+        { name: 'neutral-subtle', cssVar: '--solaris-neutral-subtle' },
+        { name: 'neutral-sunken', cssVar: '--solaris-neutral-sunken' },
+        { name: 'neutral-overlay', cssVar: '--solaris-neutral-overlay' },
       ],
     },
     {
-      label: 'Text',
+      label: 'Neutral text',
       type: 'color',
       tokens: [
-        { name: 'text-strong', cssVar: '--solaris-text-strong' },
-        { name: 'text-default', cssVar: '--solaris-text-default' },
-        { name: 'text-muted', cssVar: '--solaris-text-muted' },
-        { name: 'text-subtle', cssVar: '--solaris-text-subtle' },
-        { name: 'text-inverse', cssVar: '--solaris-text-inverse' },
+        {
+          name: 'neutral-text-heading',
+          cssVar: '--solaris-neutral-text-heading',
+        },
+        { name: 'neutral-text-body', cssVar: '--solaris-neutral-text-body' },
+        {
+          name: 'neutral-text-secondary',
+          cssVar: '--solaris-neutral-text-secondary',
+        },
+        {
+          name: 'neutral-text-tertiary',
+          cssVar: '--solaris-neutral-text-tertiary',
+        },
+        {
+          name: 'neutral-text-inverse',
+          cssVar: '--solaris-neutral-text-inverse',
+        },
       ],
     },
     {
-      label: 'Border',
+      label: 'Neutral borders',
       type: 'border',
       tokens: [
-        { name: 'border-subtle', cssVar: '--solaris-border-subtle' },
-        { name: 'border-default', cssVar: '--solaris-border-default' },
-        { name: 'border-strong', cssVar: '--solaris-border-strong' },
+        {
+          name: 'neutral-border-subtle',
+          cssVar: '--solaris-neutral-border-subtle',
+        },
+        {
+          name: 'neutral-border-default',
+          cssVar: '--solaris-neutral-border-default',
+        },
+        {
+          name: 'neutral-border-strong',
+          cssVar: '--solaris-neutral-border-strong',
+        },
       ],
     },
     {
       label: 'Primary',
       type: 'color',
       tokens: [
-        { name: 'primary-base', cssVar: '--solaris-primary-base' },
-        { name: 'primary-surface', cssVar: '--solaris-primary-surface' },
+        { name: 'primary-solid', cssVar: '--solaris-primary-solid' },
+        { name: 'primary-soft', cssVar: '--solaris-primary-soft' },
         { name: 'primary-border', cssVar: '--solaris-primary-border' },
+        { name: 'primary-foreground', cssVar: '--solaris-primary-foreground' },
+      ],
+    },
+    {
+      label: 'Accent',
+      type: 'color',
+      tokens: [
+        { name: 'accent-solid', cssVar: '--solaris-accent-solid' },
+        { name: 'accent-soft', cssVar: '--solaris-accent-soft' },
+        { name: 'accent-border', cssVar: '--solaris-accent-border' },
+        { name: 'accent-foreground', cssVar: '--solaris-accent-foreground' },
+      ],
+    },
+    {
+      label: 'Violet',
+      type: 'color',
+      tokens: [
+        { name: 'violet-solid', cssVar: '--solaris-violet-solid' },
+        { name: 'violet-soft', cssVar: '--solaris-violet-soft' },
+        { name: 'violet-border', cssVar: '--solaris-violet-border' },
+        { name: 'violet-foreground', cssVar: '--solaris-violet-foreground' },
       ],
     },
     {
@@ -204,7 +247,7 @@ export class ConfigurationPage {
   ];
 
   get locale(): string {
-    return this.translateService.locale as string;
+    return this.translateService.locale();
   }
 
   get fallbackLocale(): string {

@@ -1,0 +1,235 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="sparkline-view.title"
+    descriptionKey="sparkline-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="examples"
+    titleKey="sparkline-view.section.examples"
+  >
+    <p class="sparkline-showcase__note">
+      {{ 'sparkline-view.examples.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="sparkline-showcase__demo">
+        <div class="sparkline-showcase__row">
+          <span class="sparkline-showcase__label">
+            {{ 'sparkline-view.examples.rising' | translate }}
+          </span>
+          <solaris-sparkline
+            [points]="risingPoints"
+            [ariaLabel]="'sparkline-view.examples.risingLabel' | translate"
+          />
+        </div>
+        <div class="sparkline-showcase__row">
+          <span class="sparkline-showcase__label">
+            {{ 'sparkline-view.examples.falling' | translate }}
+          </span>
+          <solaris-sparkline
+            [points]="fallingPoints"
+            [ariaLabel]="'sparkline-view.examples.fallingLabel' | translate"
+          />
+        </div>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="kpis" titleKey="sparkline-view.section.kpis">
+    <p class="sparkline-showcase__note">
+      {{ 'sparkline-view.kpis.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="kpiCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="sparkline-showcase__kpis">
+        <div class="sparkline-showcase__kpi">
+          <span class="sparkline-showcase__kpi-label">
+            {{ 'sparkline-view.kpis.kpiUsers' | translate }}
+          </span>
+          <solaris-badge color="success" size="sm">
+            {{ 'sparkline-view.kpis.deltaUsers' | translate }}
+          </solaris-badge>
+          <solaris-sparkline
+            [points]="usersSpark"
+            [ariaLabel]="'sparkline-view.kpis.usersLabel' | translate"
+          />
+        </div>
+        <div class="sparkline-showcase__kpi">
+          <span class="sparkline-showcase__kpi-label">
+            {{ 'sparkline-view.kpis.kpiChurn' | translate }}
+          </span>
+          <solaris-badge color="danger" size="sm">
+            {{ 'sparkline-view.kpis.deltaChurn' | translate }}
+          </solaris-badge>
+          <solaris-sparkline
+            [points]="churnSpark"
+            [positiveIsGood]="false"
+            [ariaLabel]="'sparkline-view.kpis.churnLabel' | translate"
+          />
+        </div>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="card" titleKey="sparkline-view.section.card">
+    <p class="sparkline-showcase__note">
+      {{ 'sparkline-view.card.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="cardCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="sparkline-showcase__cards">
+        <solaris-sparkline
+          appearance="card"
+          [points]="usersSpark"
+          [title]="'sparkline-view.kpis.kpiUsers' | translate"
+          value="12,480"
+          [delta]="'sparkline-view.kpis.deltaUsers' | translate"
+          [ariaLabel]="'sparkline-view.kpis.usersLabel' | translate"
+        />
+        <solaris-sparkline
+          appearance="card"
+          [points]="churnSpark"
+          [positiveIsGood]="false"
+          [title]="'sparkline-view.kpis.kpiChurn' | translate"
+          value="3.1%"
+          [delta]="'sparkline-view.kpis.deltaChurn' | translate"
+          [ariaLabel]="'sparkline-view.kpis.churnLabel' | translate"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="sparkline-view.section.size-density"
+  >
+    <p class="sparkline-showcase__note">
+      {{ 'sparkline-view.size-density.note' | translate }}
+    </p>
+    <div class="sparkline-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'sparkline-view.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'sparkline-view.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'sparkline-view.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'sparkline-view.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'sparkline-view.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'sparkline-view.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'sparkline-view.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'sparkline-view.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [code]="sizeDensityCode()"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="sparkline-showcase__cards">
+        <solaris-sparkline
+          appearance="card"
+          [points]="usersSpark"
+          [title]="'sparkline-view.kpis.kpiUsers' | translate"
+          value="12,480"
+          [delta]="'sparkline-view.kpis.deltaUsers' | translate"
+          [size]="selectedSize()"
+          [density]="selectedDensity()"
+          [ariaLabel]="'sparkline-view.kpis.usersLabel' | translate"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="gaps" titleKey="sparkline-view.section.gaps">
+    <p class="sparkline-showcase__note">
+      {{ 'sparkline-view.gaps.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="gapsCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="sparkline-showcase__demo">
+        <solaris-sparkline
+          [points]="gapPoints"
+          ariaLabel="Attendance trend with gaps"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="sparkline-view.section.states">
+    <p class="sparkline-showcase__note">
+      {{ 'sparkline-view.states.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="emptyCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="sparkline-showcase__demo">
+        <solaris-sparkline [points]="emptyPoints" ariaLabel="No data yet" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="sparkline-view.section.installation"
+  >
+    <p class="sparkline-showcase__note">
+      {{ 'sparkline-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block [code]="importCode" language="ts" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="sparkline-view.section.props">
+    <p class="sparkline-showcase__note">
+      {{ 'sparkline-view.props.note' | translate }}
+    </p>
+    <div class="sparkline-showcase__table-wrap">
+      <solaris-table
+        [data]="propsRows"
+        [columns]="propsColumns()"
+        rowId="prop"
+        appearance="soft"
+      />
+    </div>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

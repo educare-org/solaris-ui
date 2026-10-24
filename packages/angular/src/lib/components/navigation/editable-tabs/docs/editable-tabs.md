@@ -60,8 +60,13 @@ Custom actions can be added through `SolarisEditableTabAction[]`.
 ## Move behavior
 
 - Menu-based "Move left" and "Move right"
-- Drag-and-drop is not implemented in v1
-- Locked positions are respected
+- Opt-in drag and drop reordering via `[dragToReorder]="true"` (default `false`)
+- Drag and drop emits the same `tabMoveRequested`/`tabMove` events as the menu
+- Drop indicator shows the insertion point; orientation-aware (horizontal/vertical)
+- Drag is disabled for locked, disabled, renaming, or non-movable tabs
+- Drag does not start from buttons, inputs, or editable content
+- Menu move remains as the keyboard-accessible fallback
+- Locked positions are respected for menu moves
 - Actions are disabled at boundaries
 - Active selection is preserved after move
 
@@ -95,19 +100,21 @@ Custom actions can be added through `SolarisEditableTabAction[]`.
 
 Editable Tabs inherits all base Tabs styling tokens. Additional component-level CSS variables:
 
-| Variable                                            | Default                    | Description                     |
-| --------------------------------------------------- | -------------------------- | ------------------------------- |
-| `--solaris-editable-tabs-action-size`               | `--solaris-spacing-5`      | Action trigger size             |
-| `--solaris-editable-tabs-action-radius`             | `--solaris-radius-sm`      | Action trigger border radius    |
-| `--solaris-editable-tabs-action-color`              | `--solaris-text-muted`     | Action trigger icon color       |
-| `--solaris-editable-tabs-action-hover-color`        | `--solaris-text-default`   | Action trigger hover color      |
-| `--solaris-editable-tabs-action-hover-background`   | `--solaris-surface-subtle` | Action trigger hover background |
-| `--solaris-editable-tabs-rename-input-min-width`    | `--solaris-spacing-20`     | Rename input minimum width      |
-| `--solaris-editable-tabs-rename-input-padding`      | `--solaris-spacing-1`      | Rename input padding            |
-| `--solaris-editable-tabs-rename-input-radius`       | `--solaris-radius-sm`      | Rename input border radius      |
-| `--solaris-editable-tabs-rename-input-font-size`    | `inherit`                  | Rename input font size          |
-| `--solaris-editable-tabs-rename-input-border-color` | `--solaris-primary-base`   | Rename input border color       |
-| `--solaris-editable-tabs-rename-input-background`   | `--solaris-surface-base`   | Rename input background         |
+| Variable                                            | Default                            | Description                                                |
+| --------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------- |
+| `--solaris-editable-tabs-action-size`               | `--solaris-spacing-5`              | Action trigger size                                        |
+| `--solaris-editable-tabs-action-radius`             | `--solaris-radius-sm`              | Action trigger border radius                               |
+| `--solaris-editable-tabs-action-color`              | `--solaris-neutral-text-secondary` | Action trigger icon color                                  |
+| `--solaris-editable-tabs-action-hover-color`        | `--solaris-neutral-text-body`      | Action trigger hover color                                 |
+| `--solaris-editable-tabs-action-hover-background`   | `--solaris-neutral-subtle`         | Action trigger hover background                            |
+| `--solaris-editable-tabs-rename-input-min-width`    | `--solaris-spacing-16`             | Rename input minimum width                                 |
+| `--solaris-editable-tabs-rename-input-padding`      | `--solaris-spacing-1`              | Rename input padding                                       |
+| `--solaris-editable-tabs-rename-input-radius`       | `--solaris-radius-sm`              | Rename input border radius                                 |
+| `--solaris-editable-tabs-rename-input-font-size`    | `inherit`                          | Rename input font size                                     |
+| `--solaris-editable-tabs-rename-input-border-color` | `--solaris-primary-solid`          | Rename input border color                                  |
+| `--solaris-editable-tabs-rename-input-background`   | `--solaris-neutral-default`        | Rename input background                                    |
+| `--solaris-editable-tabs-rename-input-height`       | driven by `size` × `density`       | Rename input height (follows `--solaris-control-height-*`) |
+| `--solaris-editable-tabs-drop-indicator-z-index`    | `--solaris-z-index-content`        | Drop indicator stacking order during drag reorder          |
 
 ## Examples
 
@@ -153,28 +160,31 @@ const tabs = [{ value: 'tab1', label: 'Tab 1', customActions }];
 
 ### SolarisEditableTabsComponent
 
-| Input               | Type                                     | Default         | Description                            |
-| ------------------- | ---------------------------------------- | --------------- | -------------------------------------- |
-| `tabs`              | `SolarisEditableTabData[]`               | required        | Tab definitions                        |
-| `value`             | `unknown`                                | `undefined`     | Active tab value (two-way)             |
-| `defaultValue`      | `unknown`                                | `undefined`     | Initial active value                   |
-| `orientation`       | `'horizontal' \| 'vertical'`             | `'horizontal'`  | Tablist orientation                    |
-| `appearance`        | `'underline' \| 'pills' \| 'enclosed'`   | `'underline'`   | Visual appearance                      |
-| `density`           | `'compact' \| 'normal' \| 'comfortable'` | `'normal'`      | Spacing, padding, and typography scale |
-| `shape`             | `'normal' \| 'wide'`                     | `'normal'`      | Tab proportions                        |
-| `activationMode`    | `'automatic' \| 'manual'`                | `'automatic'`   | Tab activation mode                    |
-| `contentTransition` | `'none' \| 'fade' \| 'slide'`            | `'slide'`       | Panel content transition               |
-| `editable`          | `boolean`                                | `true`          | Enable editing                         |
-| `renamable`         | `boolean`                                | `true`          | Enable rename                          |
-| `removable`         | `boolean`                                | `true`          | Enable remove                          |
-| `movable`           | `boolean`                                | `true`          | Enable move                            |
-| `defaultable`       | `boolean`                                | `true`          | Enable set as default                  |
-| `showActions`       | `'hover' \| 'always' \| 'focus-hover'`   | `'focus-hover'` | When to show action trigger            |
-| `renameOnBlur`      | `'confirm' \| 'cancel'`                  | `'confirm'`     | Behavior on rename input blur          |
-| `minTabs`           | `number`                                 | `1`             | Minimum tabs before blocking           |
-| `allowEmpty`        | `boolean`                                | `false`         | Allow removing all tabs                |
-| `ariaLabel`         | `string \| undefined`                    | `undefined`     | Direct ARIA label                      |
-| `ariaLabelKey`      | `string \| undefined`                    | `undefined`     | Translation key for ARIA label         |
+| Input               | Type                                     | Default         | Description                                                                                                                                                       |
+| ------------------- | ---------------------------------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `tabs`              | `SolarisEditableTabData[]`               | required        | Tab definitions                                                                                                                                                   |
+| `value`             | `unknown`                                | `undefined`     | Active tab value (two-way)                                                                                                                                        |
+| `defaultValue`      | `unknown`                                | `undefined`     | Initial active value                                                                                                                                              |
+| `orientation`       | `'horizontal' \| 'vertical'`             | `'horizontal'`  | Tablist orientation                                                                                                                                               |
+| `appearance`        | `'underline' \| 'pills' \| 'enclosed'`   | `'underline'`   | Visual appearance                                                                                                                                                 |
+| `size`              | `'sm' \| 'md' \| 'lg'`                   | `'md'`          | Tab size (height and typography)                                                                                                                                  |
+| `color`             | `'primary' \| 'neutral'`                 | `'primary'`     | Accent color for active tab                                                                                                                                       |
+| `density`           | `'compact' \| 'normal' \| 'comfortable'` | `'normal'`      | Spacing, padding, and typography scale                                                                                                                            |
+| `shape`             | `'normal' \| 'wide'`                     | `'normal'`      | Tab proportions                                                                                                                                                   |
+| `activationMode`    | `'automatic' \| 'manual'`                | `'automatic'`   | Tab activation mode                                                                                                                                               |
+| `contentTransition` | `'none' \| 'fade' \| 'slide'`            | `'slide'`       | Panel content transition                                                                                                                                          |
+| `editable`          | `boolean`                                | `true`          | Enable editing                                                                                                                                                    |
+| `renamable`         | `boolean`                                | `true`          | Enable rename                                                                                                                                                     |
+| `removable`         | `boolean`                                | `true`          | Enable remove                                                                                                                                                     |
+| `movable`           | `boolean`                                | `true`          | Enable move                                                                                                                                                       |
+| `dragToReorder`     | `boolean`                                | `false`         | Enable drag-and-drop reorder (requires `movable`; accepts static `dragToReorder`). Disabled tabs render `draggable="false"` with no grab cursor or drop indicator |
+| `defaultable`       | `boolean`                                | `true`          | Enable set as default                                                                                                                                             |
+| `showActions`       | `'hover' \| 'always' \| 'focus-hover'`   | `'focus-hover'` | When to show action trigger                                                                                                                                       |
+| `renameOnBlur`      | `'confirm' \| 'cancel'`                  | `'confirm'`     | Behavior on rename input blur                                                                                                                                     |
+| `minTabs`           | `number`                                 | `1`             | Minimum tabs before blocking                                                                                                                                      |
+| `allowEmpty`        | `boolean`                                | `false`         | Allow removing all tabs                                                                                                                                           |
+| `ariaLabel`         | `string \| undefined`                    | `undefined`     | Direct ARIA label                                                                                                                                                 |
+| `ariaLabelKey`      | `string \| undefined`                    | `undefined`     | Translation key for ARIA label                                                                                                                                    |
 
 | Output               | Type                                   | Description                      |
 | -------------------- | -------------------------------------- | -------------------------------- |
@@ -231,9 +241,17 @@ interface SolarisEditableTabAction {
 
 Default: `underline`
 
+## Icon action swap
+
+Tabs with an `icon` replace the icon with the action trigger on hover,
+focus-within, menu-open, or when `showActions="always"`. The swap uses the
+same cross-fade + scale pattern as Code Block (`clipboard` ↔ `check`):
+both layers stay mounted and stacked, animating `opacity` and `transform`
+(`scale(0.72)` → `scale(1)`) with `--solaris-motion-duration-normal` and
+`--solaris-motion-easing-standard`. Reduced motion disables the transition.
+
 ## Non-goals (v1)
 
-- Drag-and-drop reordering
 - Persistence (localStorage, backend, route params)
 - Router integration
 - Nested editable tabs

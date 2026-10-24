@@ -1,0 +1,85 @@
+{
+  "switch": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "outline": "Contorno",
+      "surface": "Superfície"
+    },
+    "color": {
+      "custom": "Personalizada",
+      "danger": "Perigo",
+      "info": "Informativo",
+      "neutral": "Neutro",
+      "note": "O track ligado segue a cor semântica.",
+      "primary": "Primária",
+      "success": "Sucesso",
+      "warning": "Atenção"
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": {
+      "label": "Controle de formulário para configuração binária ligar/desligar com input nativo, role=\"switch\", readonly e integração completa com Angular Forms.",
+      "large-label": "Notificações por SMS",
+      "large-text": "Receba alertas urgentes por mensagem.",
+      "note": "Description renderiza um texto de apoio esmaecido sob o label e escala com o size.",
+      "small-label": "Notificações por e-mail",
+      "small-text": "Receba novidades sobre sua conta."
+    },
+    "enable-label": "Ativar recurso",
+    "enable-status": "Ativado:",
+    "examples": {
+      "note": "Alterne uma configuração entre ligado e desligado. O estado também é exposto à tecnologia assistiva via role=\"switch\"."
+    },
+    "form-field-error": "Você precisa ativar as notificações.",
+    "form-field-hint": "Essas opções afetam sua conta.",
+    "form-field-label": "Receber notificações",
+    "group": {
+      "note": "Os filhos herdam tamanho e densidade do grupo, a menos que definam os próprios. Aqui o grupo é grande e compacto, e o SMS volta o tamanho para pequeno."
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe os componentes de switch."
+    },
+    "no": "Não",
+    "props": {
+      "note": "Tabela de propriedades em breve, com o componente de tabela."
+    },
+    "section": {
+      "appearances": "Aparências",
+      "color": "Cor",
+      "density": "Densidade",
+      "description": "Descrição",
+      "examples": "Exemplos",
+      "form": "Integração com formulários",
+      "group": "Grupo de switches",
+      "installation": "Instalação",
+      "props": "Propriedades",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados",
+      "thumb-content": "Conteúdo do thumb"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em uma matriz 3×3: ambos alteram track e thumb, e a densidade também altera o espaçamento do rótulo."
+    },
+    "thumb": {
+      "icon": "Ícone",
+      "none": "Nenhum",
+      "text": "Texto"
+    },
+    "thumb-content": {
+      "note": "Ícone decorativo ou texto curto (máx. 2 caracteres) dentro do thumb. O ícone vence quando ambos são definidos; nenhum afeta o nome acessível."
+    },
+    "title": "Switch",
+    "yes": "Sim"
+  }
+}

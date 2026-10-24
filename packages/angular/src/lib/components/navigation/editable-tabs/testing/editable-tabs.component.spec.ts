@@ -128,6 +128,8 @@ class AllowEmptyTestHost {
       [(value)]="value"
       [orientation]="'vertical'"
       [appearance]="'pills'"
+      [size]="'lg'"
+      [color]="'neutral'"
       [density]="'compact'"
     />
   `,
@@ -144,6 +146,7 @@ class ConfigurableTestHost {
     <solaris-editable-tabs
       [tabs]="tabs()"
       [(value)]="value"
+      [dragToReorder]="true"
       (tabRename)="onRename($event)"
       (tabRemove)="onRemove($event)"
       (tabMove)="onMove($event)"
@@ -249,6 +252,38 @@ class PermissionsTestHost {
   readonly movable = signal(true);
   readonly defaultable = signal(true);
   readonly minTabs = signal(1);
+}
+
+@Component({
+  standalone: true,
+  imports: [SolarisEditableTabsComponent],
+  template: `
+    <solaris-editable-tabs
+      [tabs]="tabs()"
+      [(value)]="value"
+      [dragToReorder]="false"
+    />
+  `,
+})
+class DragDisabledTestHost {
+  readonly tabs = signal<SolarisEditableTabData[]>(THREE_TABS);
+  value: unknown = 'tab1';
+}
+
+@Component({
+  standalone: true,
+  imports: [SolarisEditableTabsComponent],
+  template: `
+    <solaris-editable-tabs
+      [tabs]="tabs()"
+      [(value)]="value"
+      dragToReorder="false"
+    />
+  `,
+})
+class StaticDragOffTestHost {
+  readonly tabs = signal<SolarisEditableTabData[]>(THREE_TABS);
+  value: unknown = 'tab1';
 }
 
 function configureBase(): void {
@@ -368,6 +403,50 @@ describe('SolarisEditableTabsComponent', () => {
           ?.getAttribute('data-appearance'),
       ).toBe('underline');
     });
+
+    it('should set default size to md', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(BasicTestHost);
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement
+          .querySelector('solaris-editable-tabs')
+          ?.getAttribute('data-size'),
+      ).toBe('md');
+    });
+
+    it('should set default color to primary', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(BasicTestHost);
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement
+          .querySelector('solaris-editable-tabs')
+          ?.getAttribute('data-color'),
+      ).toBe('primary');
+    });
+
+    it('should set data-size', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(ConfigurableTestHost);
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement
+          .querySelector('solaris-editable-tabs')
+          ?.getAttribute('data-size'),
+      ).toBe('lg');
+    });
+
+    it('should set data-color', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(ConfigurableTestHost);
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement
+          .querySelector('solaris-editable-tabs')
+          ?.getAttribute('data-color'),
+      ).toBe('neutral');
+    });
   });
 
   describe('action trigger', () => {
@@ -439,6 +518,22 @@ describe('SolarisEditableTabsComponent', () => {
       fixture.detectChanges();
       const innerTabs = fixture.nativeElement.querySelector('solaris-tabs');
       expect(innerTabs?.getAttribute('data-density')).toBe('compact');
+    });
+
+    it('should pass size to inner solaris-tabs', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(ConfigurableTestHost);
+      fixture.detectChanges();
+      const innerTabs = fixture.nativeElement.querySelector('solaris-tabs');
+      expect(innerTabs?.getAttribute('data-size')).toBe('lg');
+    });
+
+    it('should pass color to inner solaris-tabs', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(ConfigurableTestHost);
+      fixture.detectChanges();
+      const innerTabs = fixture.nativeElement.querySelector('solaris-tabs');
+      expect(innerTabs?.getAttribute('data-color')).toBe('neutral');
     });
   });
 
@@ -919,6 +1014,258 @@ describe('SolarisEditableTabsComponent', () => {
       const fixture = TestBed.createComponent(BasicTestHost);
       fixture.detectChanges();
       expect(fixture.componentInstance.value).toBe('tab1');
+    });
+  });
+
+  describe('drag to reorder', () => {
+    function dragEvent(overrides: Record<string, unknown> = {}): unknown {
+      return {
+        preventDefault: (): void => undefined,
+        clientX: 0,
+        clientY: 0,
+        currentTarget: null,
+        dataTransfer: { effectAllowed: '', dropEffect: '' },
+        target: document.createElement('div'),
+        ...overrides,
+      };
+    }
+
+    it('should disable drag reorder by default (opt-in)', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(BasicTestHost);
+      fixture.detectChanges();
+      const component = getComponent(fixture);
+      expect((component as any).isDragReorderEnabled(THREE_TABS[1])).toBe(
+        false,
+      );
+    });
+
+    it('should render draggable="false" by default with no grab affordance', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(BasicTestHost);
+      fixture.detectChanges();
+      const tabs = fixture.nativeElement.querySelectorAll('solaris-tab');
+      expect(tabs[1]?.getAttribute('draggable')).toBe('false');
+      expect(tabs[1]?.hasAttribute('data-draggable')).toBe(false);
+    });
+
+    it('should enable drag reorder when dragToReorder is true', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(EventsTestHost);
+      fixture.detectChanges();
+      const component = getComponent(fixture);
+      expect((component as any).isDragReorderEnabled(THREE_TABS[1])).toBe(true);
+    });
+
+    it('should set draggable attribute on tabs when enabled', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(EventsTestHost);
+      fixture.detectChanges();
+      const tabs = fixture.nativeElement.querySelectorAll('solaris-tab');
+      expect(tabs[1]?.getAttribute('draggable')).toBe('true');
+    });
+
+    it('should disable drag reorder when movable is false', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(PermissionsTestHost);
+      fixture.componentInstance.movable.set(false);
+      fixture.detectChanges();
+      const component = getComponent(fixture);
+      expect((component as any).isDragReorderEnabled(THREE_TABS[1])).toBe(
+        false,
+      );
+    });
+
+    it('should disable drag reorder with property-bound dragToReorder false', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(DragDisabledTestHost);
+      fixture.detectChanges();
+      const component = getComponent(fixture);
+      expect((component as any).isDragReorderEnabled(THREE_TABS[1])).toBe(
+        false,
+      );
+    });
+
+    it('should disable drag reorder with static dragToReorder="false" attribute', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(StaticDragOffTestHost);
+      fixture.detectChanges();
+      const component = getComponent(fixture);
+      expect((component as any).isDragReorderEnabled(THREE_TABS[1])).toBe(
+        false,
+      );
+    });
+
+    it('should render draggable="false" and no grab affordance when disabled', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(DragDisabledTestHost);
+      fixture.detectChanges();
+      const tabs = fixture.nativeElement.querySelectorAll('solaris-tab');
+      expect(tabs[1]?.getAttribute('draggable')).toBe('false');
+      expect(tabs[1]?.hasAttribute('data-draggable')).toBe(false);
+    });
+
+    it('should not show a drop indicator for a non-reorderable dragged tab', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(DragDisabledTestHost);
+      fixture.detectChanges();
+      const component = getComponent(fixture);
+      (component as any).draggingTabIndex.set(0);
+      (component as any).onTabDragOver(dragEvent() as DragEvent, 1);
+      expect((component as any).dropIndicatorIndex()).toBeNull();
+    });
+
+    it('should disable drag reorder for locked tabs', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(LockedTabTestHost);
+      fixture.detectChanges();
+      const component = getComponent(fixture);
+      expect((component as any).isDragReorderEnabled(LOCKED_TABS[0])).toBe(
+        false,
+      );
+    });
+
+    it('should disable drag reorder for disabled tabs', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(DisabledTabTestHost);
+      fixture.detectChanges();
+      const component = getComponent(fixture);
+      expect((component as any).isDragReorderEnabled(DISABLED_TABS[1])).toBe(
+        false,
+      );
+    });
+
+    it('should not start drag from buttons or inputs', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(EventsTestHost);
+      fixture.detectChanges();
+      const component = getComponent(fixture);
+      const button = document.createElement('button');
+      let prevented = false;
+      (component as any).onTabDragStart(
+        {
+          preventDefault: (): void => {
+            prevented = true;
+          },
+          target: button,
+        },
+        component['tabs']()[1],
+        1,
+      );
+      expect(prevented).toBe(true);
+      expect((component as any).draggingTabIndex()).toBeNull();
+    });
+
+    it('should emit tabMove on drop at a new position', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(EventsTestHost);
+      fixture.detectChanges();
+      const component = getComponent(fixture);
+      (component as any).onTabDragStart(
+        dragEvent() as DragEvent,
+        component['tabs']()[0],
+        0,
+      );
+      const dropEvent = dragEvent({
+        clientX: 80,
+        currentTarget: {
+          getBoundingClientRect: (): DOMRect =>
+            ({ left: 0, width: 100 }) as DOMRect,
+        },
+      });
+      (component as any).onTabDrop(
+        dropEvent as DragEvent,
+        component['tabs']()[1],
+        1,
+      );
+      fixture.detectChanges();
+      expect(fixture.componentInstance.moveEvent).toBeTruthy();
+      expect(fixture.componentInstance.moveEvent.previousIndex).toBe(0);
+      expect(fixture.componentInstance.moveEvent.nextIndex).toBe(1);
+      expect(fixture.componentInstance.moveEvent.direction).toBe('right');
+    });
+
+    it('should not emit tabMove when dropped at the same position', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(EventsTestHost);
+      fixture.detectChanges();
+      const component = getComponent(fixture);
+      (component as any).onTabDragStart(
+        dragEvent() as DragEvent,
+        component['tabs']()[1],
+        1,
+      );
+      (component as any).dropIndicatorIndex.set(1);
+      (component as any).onTabDrop(
+        dragEvent() as DragEvent,
+        component['tabs']()[1],
+        1,
+      );
+      fixture.detectChanges();
+      expect(fixture.componentInstance.moveEvent).toBeNull();
+    });
+
+    it('should clear drag state on drag end', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(EventsTestHost);
+      fixture.detectChanges();
+      const component = getComponent(fixture);
+      (component as any).onTabDragStart(
+        dragEvent() as DragEvent,
+        component['tabs']()[0],
+        0,
+      );
+      (component as any).onTabDragEnd();
+      expect((component as any).draggingTabIndex()).toBeNull();
+      expect((component as any).dropIndicatorIndex()).toBeNull();
+    });
+  });
+
+  describe('icon swap animation', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisEditableTabsComponent],
+      template: `
+        <solaris-editable-tabs
+          [tabs]="tabs()"
+          [(value)]="value"
+          [showActions]="'always'"
+        />
+      `,
+    })
+    class IconSwapTestHost {
+      readonly tabs = signal<SolarisEditableTabData[]>([
+        { value: 'code', label: 'Code', icon: 'code' },
+        { value: 'plain', label: 'Plain' },
+      ]);
+      value: unknown = 'code';
+    }
+
+    it('should render stacked swap layers for tabs with icons', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(IconSwapTestHost);
+      fixture.detectChanges();
+      const swap = fixture.nativeElement.querySelector(
+        '.solaris-editable-tabs__icon-swap',
+      );
+      expect(swap).toBeTruthy();
+      expect(
+        swap.querySelector('.solaris-editable-tabs__swap-icon--icon'),
+      ).toBeTruthy();
+      expect(
+        swap.querySelector('.solaris-editable-tabs__swap-icon--action'),
+      ).toBeTruthy();
+    });
+
+    it('should keep the plain action area for tabs without icons', () => {
+      configureBase();
+      const fixture = TestBed.createComponent(IconSwapTestHost);
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector(
+          '.solaris-editable-tabs__action-area',
+        ),
+      ).toBeTruthy();
     });
   });
 

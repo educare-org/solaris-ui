@@ -1,0 +1,27 @@
+{
+  "solaris": {
+    "password-field": {
+      "error": {
+        "required": "Senha é obrigatória."
+      },
+      "requirement": {
+        "lowercase": "Uma letra minúscula.",
+        "maxLength": "No máximo {{count}} caracteres.",
+        "minLength": "Pelo menos {{count}} caracteres.",
+        "noWhitespace": "Sem espaços.",
+        "number": "Um número.",
+        "symbol": "Um símbolo.",
+        "uppercase": "Uma letra maiúscula."
+      },
+      "strength": {
+        "medium": "Média",
+        "strong": "Forte",
+        "weak": "Fraca"
+      },
+      "toggle": {
+        "hide": "Ocultar senha",
+        "show": "Mostrar senha"
+      }
+    }
+  }
+}

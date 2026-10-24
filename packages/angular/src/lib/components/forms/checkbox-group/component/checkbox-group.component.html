@@ -1,6 +1,9 @@
 @if (labelText(); as text) {
   <span class="solaris-checkbox-group__label" [id]="labelId()">
     {{ text }}
+    @if (isEffectivelyRequired()) {
+      <span class="solaris-checkbox-group__required" aria-hidden="true">*</span>
+    }
   </span>
 }
 @if (selectAll()) {
@@ -16,7 +19,7 @@
     </solaris-checkbox>
   </div>
 }
-<div class="solaris-checkbox-group__options" role="group">
+<div class="solaris-checkbox-group__options" role="presentation">
   <ng-content />
 </div>
 @if (hintText(); as text) {

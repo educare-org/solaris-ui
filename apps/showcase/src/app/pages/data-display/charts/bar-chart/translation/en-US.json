@@ -1,0 +1,76 @@
+{
+  "bar-chart-view": {
+    "description": "Vertical or horizontal bars, grouped, stacked or 100%, with a reference line, value labels, tooltip, empty state and data table.",
+    "examples": {
+      "note": "Switch layouts and select bars in the log below.",
+      "keyboardNote": "Bars are keyboard-focusable: Tab to a bar, arrows to move, Enter to select.",
+      "layoutLabel": "Layout",
+      "grouped": "Grouped",
+      "stacked": "Stacked",
+      "stacked100": "100% stacked",
+      "average": "Average",
+      "seriesAutomation": "Task automation",
+      "seriesQueries": "User queries",
+      "seriesSystem": "System actions",
+      "seriesIncome": "Income",
+      "seriesExpenses": "Expenses",
+      "days": {
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat",
+        "sun": "Sun"
+      }
+    },
+    "horizontal": {
+      "note": "Horizontal bars truncate long labels and grow taller with more categories."
+    },
+    "values": {
+      "note": "With showValues, each bar prints its formatted value next to the tip; labels follow valueFormat and stay hidden while bars morph between layouts."
+    },
+    "diverging": {
+      "note": "Negative values grow below the baseline, with labels under the bar; positives and negatives share one scale around zero."
+    },
+    "empty": {
+      "note": "With no plottable data, the chart hides the SVG and renders a localized empty message instead of empty axes."
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3×3 matrix: sm compacts labels and canvas, lg expands them, md is the default. Density refines gaps and stroke weight."
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "density": {
+      "compact": "Compact",
+      "normal": "Normal",
+      "comfortable": "Comfortable"
+    },
+    "installation": {
+      "note": "Install the package and import the standalone bar chart component."
+    },
+    "props": {
+      "note": "Inputs, possible values and defaults. The pointSelect output emits the selected category.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
+    },
+    "section": {
+      "examples": "Examples",
+      "horizontal": "Horizontal",
+      "values": "Value labels",
+      "diverging": "Diverging (negatives)",
+      "empty": "Empty state",
+      "size-density": "Size and density",
+      "sizes": "Sizes",
+      "density": "Density",
+      "installation": "Installation",
+      "props": "Props"
+    },
+    "title": "Bar chart"
+  }
+}

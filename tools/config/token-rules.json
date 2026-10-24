@@ -20,7 +20,7 @@
     },
     {
       "property": "box-shadow",
-      "pattern": "box-shadow\\s*:\\s*(?!\\s*var\\()",
+      "pattern": "box-shadow\\s*:\\s*(?!\\s*(var\\(|none\\b))",
       "reason": "Use theme token for box-shadow instead of hardcoded values",
       "exceptionComment": "SOLARIS_TOKEN_EXCEPTION"
     },

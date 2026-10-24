@@ -6,5 +6,6 @@ export type {
   SolarisPasswordFieldAppearance,
   SolarisPasswordFieldDensity,
   SolarisPasswordFieldRadius,
+  SolarisPasswordFieldSize,
   SolarisPasswordStrength,
 } from './model/password-field.types';

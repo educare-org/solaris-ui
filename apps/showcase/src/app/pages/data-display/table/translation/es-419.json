@@ -1,0 +1,161 @@
+{
+  "table": {
+    "action": {
+      "details": "Detalles"
+    },
+    "add-row": {
+      "note": "Fila de creación Inline. Solo emite addRowRequest; los botones de acción en la barra de herramientas permanecen separados."
+    },
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "note": "Variantes Outline, Surface, soft, plain y grid con rayado par o impar y radio del marco."
+    },
+    "basic": {
+      "note": "Columnas de texto, número y fecha con ordenamiento opcional."
+    },
+    "cell-editing": {
+      "note": "Enter o doble clic edita en el lugar; Escape cierra. Confirmar valores es responsabilidad del consumidor."
+    },
+    "cell-expand": {
+      "note": "Las columnas con expandible o plantilla de detalle muestran un chevron junto al valor y abren una fila de detalle debajo solo con esa columna."
+    },
+    "col": {
+      "actions": "Acciones",
+      "age": "Edad",
+      "city": "Ciudad",
+      "details": "Detalles",
+      "grade": "Calificación",
+      "joined": "Ingreso",
+      "level": "Nivel",
+      "name": "Nombre",
+      "office": "Oficina",
+      "person": "Persona",
+      "score": "Puntuación",
+      "status": "Status",
+      "team": "Equipo",
+      "track": "Pista"
+    },
+    "composition": {
+      "note": "Las columnas de Avatar y Badge componen componentes existentes mediante plantillas de celda. Usa column.icon para iconos de encabezado simples sin plantilla."
+    },
+    "description": "Tabla de datos ligera con ordenamiento, selección y estados conectables.",
+    "examples": {
+      "note": "Empieza con la tabla predeterminada y luego explora ordenamiento, selección y estados a continuación."
+    },
+    "footer": {
+      "average": "Promedio",
+      "note": "Agregados sobre filas visibles en un pie de página semántico. Calificaciones construye sus promedios sobre este contrato."
+    },
+    "group": {
+      "metrics": "Métricas"
+    },
+    "header-groups": {
+      "note": "Las columnas consecutivas se fusionan bajo una etiqueta de grupo; las columnas no agrupadas abarcan ambas filas."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "layout": {
+      "note": "Auto ajusta las columnas al contenido. Ancho completo las distribuye en todo el contenedor.",
+      "tab": {
+        "auto": "Auto",
+        "full": "Ancho completo"
+      }
+    },
+    "mobile-composed": {
+      "note": "Tarjetas de ancho de teléfono que componen Avatar, Badge y acciones sin arrastre horizontal."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente."
+    },
+    "responsive": {
+      "note": "En Mobile (720px o menos) las columnas prioritarias se contraen en una fila de detalle expandible en la columna Acciones. Las columnas también pueden incluir su propia plantilla de detalle con información adicional."
+    },
+    "row-dialog": {
+      "note": "Los botones de celda abren un diálogo con detalles rápidos sin salir de la tabla."
+    },
+    "section": {
+      "add-row": "Añadir fila",
+      "appearance": "Apariencia",
+      "basic": "Básico",
+      "cell-editing": "Edición de celda",
+      "cell-expand": "Expansión de celda",
+      "composition": "Composición",
+      "examples": "Ejemplos",
+      "footer": "Agregados de pie de página",
+      "header-groups": "Grupos de encabezado",
+      "installation": "Instalación",
+      "layout": "Layout",
+      "mobile": "Mobile",
+      "props": "Props",
+      "responsive": "Adaptable",
+      "row-dialog": "Diálogo de fila",
+      "selection": "Selección",
+      "server": "Datos del servidor",
+      "sorting": "Ordenamiento",
+      "states": "Estados",
+      "sticky-column": "Columna fija",
+      "wide": "Muchas columnas",
+      "with-pagination": "Con paginación",
+      "with-tabs": "Con pestañas",
+      "with-toolbar": "Con barra de herramientas"
+    },
+    "selection": {
+      "note": "Único intercambia la selección, Múltiple alterna. La casilla del encabezado es de tres estados.",
+      "tab": {
+        "multiple": "Múltiple",
+        "none": "Ninguno",
+        "single": "Único"
+      }
+    },
+    "server": {
+      "note": "Un servidor simulado gestiona las filas, el total y Cargando a través de SolarisTableDataSource."
+    },
+    "sorting": {
+      "note": "Haz clic en un encabezado de columna para alternar nulo, ascendente, descendente. Los cambios se anuncian a lectores de pantalla."
+    },
+    "states": {
+      "note": "Skeletons Cargando, texto vacío y alertas de error. Los Slots prevalecen sobre el texto sin formato.",
+      "tab": {
+        "empty": "Vacío",
+        "error": "Error",
+        "loading": "Cargando"
+      }
+    },
+    "sticky-column": {
+      "note": "Fija la primera columna mientras la tabla se desplaza horizontalmente, manteniendo visible la identidad de la fila.",
+      "tab": {
+        "off": "Apagado",
+        "on": "Fijado"
+      }
+    },
+    "title": "Tabla",
+    "wide": {
+      "note": "Las tablas Anchas se desplazan horizontalmente dentro del viewport. Usa fullWidth para distribuir las columnas."
+    },
+    "with-pagination": {
+      "note": "La paginación se proyecta en el slot de pie de página de la tabla, por lo que comparte el borde de la tabla.",
+      "tab": {
+        "default": "Predeterminado",
+        "description": "Con descripción",
+        "mobile": "Mobile"
+      }
+    },
+    "with-tabs": {
+      "note": "Las pestañas cambian conjuntos de datos mientras cada tabla mantiene su propio orden.",
+      "tab": {
+        "all": "Todos",
+        "recent": "Reciente"
+      }
+    },
+    "with-toolbar": {
+      "note": "Búsqueda, filtros, vistas guardadas, exportación y gestión de columnas proyectados dentro del marco de la tabla, con paginación en el pie de página.",
+      "view": {
+        "adults": "Edad 30+",
+        "all": "Todos los contactos"
+      }
+    }
+  }
+}

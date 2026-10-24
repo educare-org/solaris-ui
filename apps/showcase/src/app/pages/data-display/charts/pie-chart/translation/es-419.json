@@ -1,0 +1,79 @@
+{
+  "pie-chart-view": {
+    "description": "Circular, dona con total en el centro y medidor semicircular con meta, además de anillo de nota compacto — las porciones pequeñas se agrupan en Otros y la selección abre el detalle.",
+    "examples": {
+      "note": "Cambie la variante y seleccione porciones en el registro.",
+      "keyboardNote": "Las porciones se pueden enfocar con el teclado: Tab hasta una porción, flechas para moverse, Enter para seleccionar.",
+      "variantLabel": "Variante",
+      "pie": "Circular",
+      "donut": "Dona",
+      "gauge": "Medidor",
+      "seriesFundamental": "Primaria",
+      "seriesMedio": "Secundaria",
+      "seriesEja": "Educación de adultos",
+      "seriesIntegral": "Tiempo completo",
+      "seriesNoturno": "Nocturno",
+      "seriesEad": "En línea"
+    },
+    "grouping": {
+      "note": "Las porciones bajo minSlicePercent se agrupan en una única porción Otros, traducida por el gráfico."
+    },
+    "gauge": {
+      "note": "El medidor proyecta un valor en un arco semicircular entre gaugeMin y gaugeMax; gaugeTarget dibuja la marca de la meta.",
+      "seriesAttendance": "Asistencia"
+    },
+    "scoreRing": {
+      "note": "Una dona compacta con una única porción y centerValue/centerLabel funciona como anillo de nota en el boletín.",
+      "average": "Promedio",
+      "seriesScore": "Nota"
+    },
+    "drillDown": {
+      "note": "sliceSelect entrega el id de la porción — el consumidor resuelve el detalle por clase sin que el gráfico busque nada.",
+      "classA": "Clase A",
+      "classB": "Clase B",
+      "classC": "Clase C",
+      "colClass": "Clase",
+      "colStudents": "Estudiantes"
+    },
+    "empty": {
+      "note": "Sin datos graficables, el gráfico oculta el SVG y muestra un mensaje localizado en lugar de un círculo vacío."
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en matriz 3×3: sm compacta etiquetas y lienzo, lg los expande, md es el valor por defecto. La densidad refina gaps y grosor del trazo."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "density": {
+      "compact": "Compacto",
+      "normal": "Normal",
+      "comfortable": "Cómodo"
+    },
+    "installation": {
+      "note": "Instale el paquete e importe el componente standalone del gráfico circular."
+    },
+    "props": {
+      "note": "Entradas, valores posibles y valor por defecto. La salida sliceSelect emite el id de la porción para el drill-down.",
+      "colProp": "Propiedad",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Defecto"
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "grouping": "Agrupación en Otros",
+      "gauge": "Medidor",
+      "scoreRing": "Anillo de nota",
+      "drillDown": "Desglose",
+      "empty": "Estado vacío",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "density": "Densidad",
+      "installation": "Instalación",
+      "props": "Props"
+    },
+    "title": "Gráfico circular"
+  }
+}

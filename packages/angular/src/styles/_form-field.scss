@@ -1,0 +1,116 @@
+solaris-form-field .solaris-form-label {
+  cursor: pointer;
+  display: inline-block;
+  color: var(--solaris-form-field-label-color);
+  font-size: var(--solaris-form-field-label-font-size);
+  font-weight: var(--solaris-form-field-label-font-weight);
+}
+
+solaris-form-field .solaris-form-label-action {
+  margin-inline-start: auto;
+  white-space: nowrap;
+}
+
+solaris-otp-input solaris-form-field[data-appearance][data-focused] {
+  --solaris-form-field-focus-ring-color: transparent;
+  --solaris-form-field-error-border-color: transparent;
+}
+
+solaris-form-field .solaris-form-prefix,
+solaris-form-field .solaris-form-suffix {
+  border: 0;
+  flex: 0 0 auto;
+  color: inherit;
+  cursor: inherit;
+  align-self: auto;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  line-height: var(--solaris-line-height-none);
+}
+
+solaris-form-field[data-size][data-density]
+  .solaris-form-field__affix--prefix
+  [solaris-icon-button],
+solaris-form-field[data-size][data-density]
+  .solaris-form-field__affix--suffix
+  [solaris-icon-button] {
+  --solaris-icon-button-size: var(--solaris-form-field-affix-size);
+}
+
+solaris-form-field[data-size][data-density]
+  .solaris-form-field__affix--prefix
+  [solaris-icon-button]::after,
+solaris-form-field[data-size][data-density]
+  .solaris-form-field__affix--suffix
+  [solaris-icon-button]::after {
+  content: none;
+}
+
+solaris-form-field solaris-icon.solaris-form-prefix,
+solaris-form-field solaris-icon.solaris-form-suffix,
+solaris-form-field .solaris-form-prefix solaris-icon,
+solaris-form-field .solaris-form-suffix solaris-icon {
+  flex: 0 0 auto;
+  color: inherit;
+  block-size: 1em;
+  inline-size: 1em;
+  font-size: var(--solaris-density-font-size);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+solaris-form-field[data-density='compact'] solaris-icon.solaris-form-prefix,
+solaris-form-field[data-density='compact'] solaris-icon.solaris-form-suffix,
+solaris-form-field[data-density='compact'] .solaris-form-prefix solaris-icon,
+solaris-form-field[data-density='compact'] .solaris-form-suffix solaris-icon {
+  font-size: var(--solaris-font-size-xs);
+}
+
+solaris-form-field[data-density='normal'] solaris-icon.solaris-form-prefix,
+solaris-form-field[data-density='normal'] solaris-icon.solaris-form-suffix,
+solaris-form-field[data-density='normal'] .solaris-form-prefix solaris-icon,
+solaris-form-field[data-density='normal'] .solaris-form-suffix solaris-icon {
+  font-size: var(--solaris-font-size-sm);
+}
+
+solaris-form-field[data-density='comfortable'] solaris-icon.solaris-form-prefix,
+solaris-form-field[data-density='comfortable'] solaris-icon.solaris-form-suffix,
+solaris-form-field[data-density='comfortable']
+  .solaris-form-prefix
+  solaris-icon,
+solaris-form-field[data-density='comfortable']
+  .solaris-form-suffix
+  solaris-icon {
+  font-size: var(--solaris-font-size-md);
+}
+
+solaris-form-field
+  .solaris-form-field__affix--suffix[data-variant='action']
+  [solaris-button] {
+  flex: none;
+  height: calc(
+    var(--solaris-form-field-control-height) -
+      (var(--solaris-border-width-sm) * 2) -
+      (var(--solaris-form-field-action-inset) * 2)
+  );
+}
+
+solaris-form-field[data-control-type='textarea'][data-control-resize='horizontal']
+  textarea[solaris-textarea] {
+  width: 100%;
+  min-width: 0;
+  resize: none;
+  display: block;
+}
+
+solaris-form-field[data-control-type='textarea'][data-control-resize='both']
+  textarea[solaris-textarea] {
+  width: 100%;
+  height: 100%;
+  resize: none;
+  min-width: 0;
+  min-height: 0;
+  display: block;
+  flex: 1 1 auto;
+}

@@ -5,4 +5,5 @@ export type {
   SolarisOtpInputCharType,
   SolarisOtpInputDensity,
   SolarisOtpInputRadius,
+  SolarisOtpInputSize,
 } from './model/otp-input.types';

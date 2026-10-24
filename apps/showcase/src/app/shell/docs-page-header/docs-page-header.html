@@ -1,0 +1,113 @@
+<header class="docs-page-header">
+  @if (breadcrumbs().length > 0) {
+  <nav
+    class="docs-page-header__breadcrumbs"
+    [attr.aria-label]="'docs.page-header.breadcrumb-label' | translate"
+  >
+    <ol class="docs-page-header__breadcrumb-list">
+      @for (crumb of breadcrumbs(); track $index; let last = $last) {
+      <li class="docs-page-header__breadcrumb-item">
+        @if (crumb.route && !last) {
+        <a class="docs-page-header__breadcrumb-link" [href]="crumb.route">
+          {{ crumb.labelKey ? (crumb.labelKey | translate) : crumb.label }}
+        </a>
+        <solaris-icon
+          [decorative]="true"
+          name="chevron-right"
+          class="docs-page-header__breadcrumb-separator"
+        />
+        } @else {
+        <span [attr.aria-current]="last ? 'page' : null">
+          {{ crumb.labelKey ? (crumb.labelKey | translate) : crumb.label }}
+        </span>
+        }
+      </li>
+      }
+    </ol>
+  </nav>
+  }
+
+  <div class="docs-page-header__title-row">
+    <h1 class="docs-page-header__title">
+      {{ titleKey() ? (titleKey()! | translate) : title() }}
+    </h1>
+
+    @if (copyable() || prev() || next()) {
+    <div class="docs-page-header__actions">
+      @if (copyable()) {
+      <solaris-button-group
+        [attr.aria-label]="'docs.page-header.page-actions' | translate"
+      >
+        <button solaris-button appearance="tonal" (click)="copyPage.emit()">
+          <solaris-icon solaris-button-icon name="copy" [decorative]="true" />
+          {{ 'docs.page-header.copy-page' | translate }}
+        </button>
+        <button
+          solaris-icon-button
+          appearance="tonal"
+          solaris-dropdown-menu-trigger
+          [solarisDropdownMenuAlign]="'end'"
+          [solarisDropdownMenuTriggerFor]="pageMenu"
+          [attr.aria-label]="'docs.page-header.open-menu' | translate"
+        >
+          <solaris-icon name="chevron-down" [decorative]="true" />
+        </button>
+      </solaris-button-group>
+      <solaris-dropdown-menu #pageMenu>
+        <solaris-dropdown-menu-item
+          icon="markdown"
+          (itemSelected)="viewMarkdown.emit()"
+          [label]="'docs.page-header.view-markdown' | translate"
+        />
+        <solaris-dropdown-menu-item
+          icon="open-ai"
+          (itemSelected)="openChatGpt.emit()"
+          [label]="'docs.page-header.open-chatgpt' | translate"
+        />
+        <solaris-dropdown-menu-item
+          icon="claude-code"
+          (itemSelected)="openClaude.emit()"
+          [label]="'docs.page-header.open-claude' | translate"
+        />
+      </solaris-dropdown-menu>
+      } @if (prev() || next()) {
+      <solaris-button-group
+        [attr.aria-label]="'docs.page-header.component-nav' | translate"
+      >
+        @if (prev(); as prevNav) {
+        <a
+          solaris-icon-button
+          [href]="prevNav.route"
+          [attr.aria-label]="
+            ('docs.page-header.prev' | translate) +
+            ': ' +
+            (prevNav.labelKey ? (prevNav.labelKey | translate) : prevNav.label)
+          "
+        >
+          <solaris-icon name="chevron-left" [decorative]="true" />
+        </a>
+        } @if (next(); as nextNav) {
+        <a
+          solaris-icon-button
+          [href]="nextNav.route"
+          [attr.aria-label]="
+            ('docs.page-header.next' | translate) +
+            ': ' +
+            (nextNav.labelKey ? (nextNav.labelKey | translate) : nextNav.label)
+          "
+        >
+          <solaris-icon name="chevron-right" [decorative]="true" />
+        </a>
+        }
+      </solaris-button-group>
+      }
+    </div>
+    }
+  </div>
+
+  @if (descriptionKey() ?? description()) {
+  <p class="docs-page-header__description">
+    {{ descriptionKey() ? (descriptionKey()! | translate) : description() }}
+  </p>
+  }
+</header>

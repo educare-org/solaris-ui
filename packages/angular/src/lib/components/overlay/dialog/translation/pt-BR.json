@@ -1,0 +1,15 @@
+{
+  "solaris": {
+    "dialog": {
+      "back": "Voltar",
+      "cancel": "Cancelar",
+      "close": "Fechar",
+      "confirm": "Confirmar",
+      "continue": "Continuar",
+      "discard": "Descartar",
+      "finish": "Finalizar",
+      "next": "Próximo",
+      "save": "Salvar"
+    }
+  }
+}

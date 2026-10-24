@@ -67,6 +67,7 @@ CDK Overlay is an implementation detail. The public API exposes only Solaris con
 | `solarisPopoverFitContent`          | `boolean`                                | `false`        | Sizes panel to its content        |
 | `solarisPopoverMinWidth`            | `string \| number \| undefined`          | `undefined`    | Minimum panel width               |
 | `solarisPopoverMaxWidth`            | `string \| number \| undefined`          | `undefined`    | Maximum panel width               |
+| `solarisPopoverMaxHeight`           | `string \| number \| undefined`          | `undefined`    | Maximum panel height (scrolls)    |
 | `solarisPopoverCloseOnOutsideClick` | `boolean`                                | `true`         | Close when clicking outside       |
 | `solarisPopoverCloseOnEscape`       | `boolean`                                | `true`         | Close on Escape key               |
 | `solarisPopoverRestoreFocus`        | `boolean`                                | `true`         | Restore focus to trigger on close |
@@ -74,8 +75,8 @@ CDK Overlay is an implementation detail. The public API exposes only Solaris con
 | `solarisPopoverScrollStrategy`      | `'reposition' \| 'close' \| 'block'`     | `'reposition'` | Behavior during scroll            |
 | `solarisPopoverPanelRole`           | `string \| undefined`                    | `undefined`    | ARIA role for the panel           |
 | `solarisPopoverAriaHasPopup`        | `string \| boolean \| undefined`         | `undefined`    | aria-haspopup value               |
-| `solarisPopoverAppearance`          | `'surface' \| 'outline'`                 | `'surface'`    | Panel visual style                |
-| `solarisPopoverPadding`             | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'md'`         | Panel padding                     |
+| `solarisPopoverAppearance`          | `'surface' \| 'outline'`                 | `'outline'`    | Panel visual style                |
+| `solarisPopoverPadding`             | `'none' \| 'sm' \| 'md' \| 'lg'`         | `'none'`       | Panel padding                     |
 | `solarisPopoverRadius`              | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`         | Panel border radius               |
 
 ### Trigger outputs
@@ -146,15 +147,38 @@ Popover uses `FlexibleConnectedPositionStrategy` from CDK, which reacts to:
 
 The default `scrollStrategy` is `reposition`, which automatically updates the panel position without closing.
 
+### Scrollable ancestors
+
+The panel follows the trigger on window scroll automatically. When the
+trigger lives inside a nested scrollable container, that container must
+opt in with `CdkScrollable` (the same requirement as Angular Material),
+otherwise the CDK scroll dispatcher does not track it:
+
+```html
+import { CdkScrollable } from '@angular/cdk/scrolling';
+
+<div class="scroll-area" cdkScrollable>
+  <button solaris-popover-trigger [solarisPopoverTriggerFor]="panel">Open</button>
+  <ng-template #panel solaris-popover>Content</ng-template>
+</div>
+```
+
 ## Offset
 
-Controls the gap between trigger and panel in pixels. Default is `8px` (equivalent to `0.5rem` at `16px` base font size).
+Controls the gap between trigger and panel in pixels. Default is `8`.
 
 ## Width constraints
 
 - `matchTriggerWidth`: sets `minWidth` to the trigger's `offsetWidth`
 - `minWidth`: accepts `number` (treated as `px`) or CSS `string` (e.g. `'10rem'`, `'200px'`)
 - `maxWidth`: same format as `minWidth`
+
+## Height constraint
+
+- `maxHeight`: accepts `number` (treated as `px`) or CSS `string`.
+  When set, the panel exposes `data-scrollable` and scrolls internally
+  (`overflow-y: auto`) instead of growing beyond the viewport.
+  Numbers are normalized to `px` (`240` → `'240px'`).
 
 ## Close behavior
 
@@ -187,38 +211,48 @@ For Select/Autocomplete usage, `autoFocus` should be `false` so the component co
 
 ## Padding
 
-| Value          | Token                           |
-| -------------- | ------------------------------- |
-| `none`         | `0`                             |
-| `sm`           | `--solaris-spacing-2` (0.5rem)  |
-| `md` (default) | `--solaris-spacing-3` (0.75rem) |
-| `lg`           | `--solaris-spacing-4` (1rem)    |
+Popover is a zero-spacing container by default (`padding="none"`), like Card
+and Dialog: it renders chrome (background, border, radius, shadow) and leaves
+content spacing to you.
+
+| Value            | Token                       |
+| ---------------- | --------------------------- |
+| `none` (default) | `0`                         |
+| `sm`             | `--solaris-spacing-2` (2px) |
+| `md`             | `--solaris-spacing-3` (4px) |
+| `lg`             | `--solaris-spacing-4` (6px) |
+
+Rule of thumb: simple text content → `padding="md"`; structured content
+(lists, menus, calendars, custom layouts) → `padding="none"` and let the
+inner component own its spacing. Internal consumers (Select, Multi-select,
+Datepicker, Phone-field) already pass explicit padding, so the default
+change does not affect them.
 
 ## Radius
 
-| Value          | Token                           |
-| -------------- | ------------------------------- |
-| `none`         | `--solaris-radius-none` (0)     |
-| `sm`           | `--solaris-radius-sm` (0.25rem) |
-| `md` (default) | `--solaris-radius-md` (0.5rem)  |
-| `lg`           | `--solaris-radius-lg` (0.75rem) |
-| `xl`           | `--solaris-radius-xl` (1rem)    |
+| Value          | Token                        |
+| -------------- | ---------------------------- |
+| `none`         | `--solaris-radius-none` (0)  |
+| `sm`           | `--solaris-radius-sm` (2px)  |
+| `md` (default) | `--solaris-radius-md` (4px)  |
+| `lg`           | `--solaris-radius-lg` (8px)  |
+| `xl`           | `--solaris-radius-xl` (12px) |
 
 ## Styling tokens
 
 Popover uses CSS custom properties for visual customization:
 
-| Token                            | Default                    | Description         |
-| -------------------------------- | -------------------------- | ------------------- |
-| `--solaris-popover-background`   | `--solaris-surface-raised` | Panel background    |
-| `--solaris-popover-color`        | `--solaris-text-default`   | Text color          |
-| `--solaris-popover-border-color` | `transparent`              | Border color        |
-| `--solaris-popover-border-width` | `0`                        | Border width        |
-| `--solaris-popover-radius`       | `--solaris-radius-md`      | Border radius       |
-| `--solaris-popover-padding`      | `--solaris-spacing-3`      | Inner padding       |
-| `--solaris-popover-shadow`       | `--solaris-shadow-lg`      | Box shadow          |
-| `--solaris-popover-min-width`    | `auto`                     | Minimum panel width |
-| `--solaris-popover-max-width`    | `none`                     | Maximum panel width |
+| Token                            | Default                       | Description         |
+| -------------------------------- | ----------------------------- | ------------------- |
+| `--solaris-popover-background`   | `--solaris-neutral-default`   | Panel background    |
+| `--solaris-popover-color`        | `--solaris-neutral-text-body` | Text color          |
+| `--solaris-popover-border-color` | `transparent`                 | Border color        |
+| `--solaris-popover-border-width` | `0`                           | Border width        |
+| `--solaris-popover-radius`       | `--solaris-radius-md`         | Border radius       |
+| `--solaris-popover-padding`      | `--solaris-spacing-3`         | Inner padding       |
+| `--solaris-popover-shadow`       | `--solaris-shadow-lg`         | Box shadow          |
+| `--solaris-popover-min-width`    | `auto`                        | Minimum panel width |
+| `--solaris-popover-max-width`    | `none`                        | Maximum panel width |
 
 ## Accessibility
 
@@ -235,7 +269,7 @@ Popover does not impose a fixed role by default.
 ### Basic popover
 
 ```html
-<button solaris-popover-trigger [solarisPopoverTriggerFor]="helpPopover">Help</button>
+<button solaris-popover-trigger [solarisPopoverTriggerFor]="helpPopover" solarisPopoverPadding="md">Help</button>
 
 <ng-template #helpPopover solaris-popover>
   <p>This panel can contain structured, interactive content.</p>

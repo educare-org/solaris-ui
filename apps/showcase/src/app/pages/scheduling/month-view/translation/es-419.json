@@ -1,0 +1,37 @@
+{
+  "month-view": {
+    "description": "Cuadrícula de seis semanas con eventos, tareas y festivos, navegación por teclado y popover de desbordamiento.",
+    "drag": {
+      "note": "Arrastra un intervalo de días vacío para proponer una creación, o arrastra un chip a otro día para proponer un movimiento. Paridad de teclado: las flechas mueven la propuesta, Enter confirma, Escape cancela. La lib nunca muta el array: las propuestas aparecen en el registro siguiente."
+    },
+    "examples": {
+      "note": "Usa la barra de herramientas para cambiar de mes. La cuadrícula expande las recurrencias, los festivos provienen del proveedor integrado y el registro siguiente muestra los eventos emitidos."
+    },
+    "installation": {
+      "note": "Instala el paquete e importa el componente independiente de la vista mensual."
+    },
+    "locales": {
+      "note": "Días de la semana, meses y textos de ayuda siguen el idioma seleccionado."
+    },
+    "props": {
+      "note": "Pasa eventos (la lib expande la recurrencia sin mutar el array), tareas, festivos resueltos y la zona horaria de visualización."
+    },
+    "section": {
+      "drag": "Arrastrar y soltar",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "locales": "Idiomas",
+      "props": "Props",
+      "size-density": "Tamaño y densidad"
+    },
+    "size-density": {
+      "note": "El tamaño y la densidad determinan el círculo del día, el texto del chip y la altura de la celda."
+    },
+    "title": "Vista mensual",
+    "toolbar": {
+      "next": "Mes siguiente",
+      "previous": "Mes anterior",
+      "today": "Hoy"
+    }
+  }
+}

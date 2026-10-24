@@ -1,0 +1,84 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="event-editor.title"
+    descriptionKey="event-editor.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="event-editor.section.examples">
+    <p class="event-editor-showcase__note">
+      {{ 'event-editor.examples.note' | translate }}
+    </p>
+    <div class="event-editor-showcase__controls">
+      <button type="button" solaris-button (click)="openSingle()">
+        {{ 'event-editor.open.single' | translate }}
+      </button>
+      <button type="button" solaris-button (click)="openRecurring()">
+        {{ 'event-editor.open.recurring' | translate }}
+      </button>
+      <button
+        type="button"
+        solaris-button
+        appearance="outline"
+        (click)="openNew()"
+      >
+        {{ 'event-editor.open.new' | translate }}
+      </button>
+    </div>
+    <solaris-preview-code [code]="dialogCode" language="typescript">
+      <solaris-calendar-event-editor
+        [locale]="demoLocale()"
+        timeZone="America/Sao_Paulo"
+        [event]="previewEvent()"
+        (eventSave)="onInlineSave($event)"
+        (eventDelete)="onInlineDelete($event)"
+        (eventCancel)="onInlineCancel()"
+      />
+      <p data-testid="event-log">{{ log() }}</p>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="locales" titleKey="event-editor.section.locales">
+    <p class="event-editor-showcase__note">
+      {{ 'event-editor.locales.note' | translate }}
+    </p>
+    <div class="event-editor-showcase__controls">
+      <solaris-tabs
+        [value]="demoLocale()"
+        (valueChange)="selectLocale($event)"
+        [ariaLabel]="'event-editor.section.locales' | translate"
+      >
+        <solaris-tab value="pt-BR">pt-BR</solaris-tab>
+        <solaris-tab value="en-US">en-US</solaris-tab>
+        <solaris-tab value="es">es</solaris-tab>
+      </solaris-tabs>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="event-editor.section.installation"
+  >
+    <p class="event-editor-showcase__note">
+      {{ 'event-editor.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+    <solaris-code-block [code]="basicCode" language="html" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="event-editor.section.props">
+    <p class="event-editor-showcase__note">
+      {{ 'event-editor.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

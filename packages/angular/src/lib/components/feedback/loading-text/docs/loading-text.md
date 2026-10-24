@@ -20,15 +20,18 @@ Loading Text is an animated loading state that displays a short text with a shim
 
 ### Inputs
 
-| Input          | Type                                                                                 | Default     | Description                                              |
-| -------------- | ------------------------------------------------------------------------------------ | ----------- | -------------------------------------------------------- |
-| `text`         | `string`                                                                             | —           | Visible text. Defaults to `solaris.loadingText.loading`. |
-| `textKey`      | `string`                                                                             | —           | i18n key for the visible text.                           |
-| `size`         | `'sm' \| 'md' \| 'lg' \| 'xl'`                                                       | `'md'`      | Font size of the loading text.                           |
-| `color`        | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'` | Text color.                                              |
-| `speed`        | `'slow' \| 'normal' \| 'fast'`                                                       | `'normal'`  | Shimmer sweep speed.                                     |
-| `ariaLabel`    | `string`                                                                             | —           | Accessible name override.                                |
-| `ariaLabelKey` | `string`                                                                             | —           | i18n key for the accessible name.                        |
+| Input          | Type                                                                                 | Default     | Description                                                                     |
+| -------------- | ------------------------------------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------- |
+| `text`         | `string`                                                                             | —           | Visible text. Defaults to `solaris.loadingText.loading`.                        |
+| `textKey`      | `string`                                                                             | —           | i18n key for the visible text.                                                  |
+| `size`         | `'sm' \| 'md' \| 'lg' \| 'xl'`                                                       | —           | Opt-in fixed font size override. Omitido = herda o `font-size` do contexto.     |
+| `density`      | `'compact' \| 'normal' \| 'comfortable'`                                             | —           | Opt-in fixed line-height override. Omitido = herda o `line-height` do contexto. |
+| `color`        | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'primary'` | Text color.                                                                     |
+| `speed`        | `'slow' \| 'normal' \| 'fast'`                                                       | `'normal'`  | Shimmer sweep speed.                                                            |
+| `maxLines`     | `number`                                                                             | `0`         | Clamps the text to N lines with ellipsis (`0` = no clamp).                      |
+| `dots`         | `boolean`                                                                            | `false`     | Appends three pulsing dots after the text (decorative, `aria-hidden`).          |
+| `ariaLabel`    | `string`                                                                             | —           | Accessible name override.                                                       |
+| `ariaLabelKey` | `string`                                                                             | —           | i18n key for the accessible name.                                               |
 
 ## Behavior
 
@@ -37,7 +40,9 @@ Loading Text is an animated loading state that displays a short text with a shim
 - The text always renders in its base color. A translucent shimmer band sweeps across it from left to right and loops infinitely, so the text never becomes invisible.
 - Under reduced motion (`prefers-reduced-motion: reduce` or `[data-reduced-motion='true']`), the animation is disabled, the shimmer overlay is hidden, and the text renders as a solid color.
 
-## Sizes
+## Sizes and density
+
+Loading Text inherits the surrounding `font-size`/`line-height` by default — it is animated body copy, not a fixed-size control. `size`/`density` are opt-in fixed overrides (omit both to inherit):
 
 | Size | Font token               |
 | ---- | ------------------------ |
@@ -58,12 +63,12 @@ Loading Text is an animated loading state that displays a short text with a shim
 
 | Color     | Token                                 |
 | --------- | ------------------------------------- |
-| `neutral` | `--solaris-text-muted`                |
-| `primary` | `--solaris-primary-base`              |
-| `success` | `--solaris-success-base`              |
-| `warning` | `--solaris-warning-base`              |
-| `danger`  | `--solaris-danger-base`               |
-| `info`    | `--solaris-info-base`                 |
+| `neutral` | `--solaris-neutral-text-secondary`    |
+| `primary` | `--solaris-primary-solid`             |
+| `success` | `--solaris-success-solid`             |
+| `warning` | `--solaris-warning-solid`             |
+| `danger`  | `--solaris-danger-solid`              |
+| `info`    | `--solaris-info-solid`                |
 | `custom`  | `--solaris-loading-text-custom-color` |
 
 When `color="custom"`, define `--solaris-loading-text-custom-color` in your theme to use your own brand color.
@@ -77,15 +82,18 @@ When `color="custom"`, define `--solaris-loading-text-custom-color` in your them
 
 ## CSS Variables
 
-| Token                                       | Default                            | Description              |
-| ------------------------------------------- | ---------------------------------- | ------------------------ |
-| `--solaris-loading-text-color`              | `--solaris-text-default`           | Base text color.         |
-| `--solaris-loading-text-shimmer-color`      | `--solaris-text-inverse`           | Shimmer highlight color. |
-| `--solaris-loading-text-shimmer-opacity`    | `--solaris-opacity-40`             | Shimmer overlay opacity. |
-| `--solaris-loading-text-custom-color`       | `--solaris-primary-base`           | Custom color override.   |
-| `--solaris-loading-text-font-size`          | `--solaris-font-size-md`           | Font size.               |
-| `--solaris-loading-text-animation-duration` | `--solaris-motion-duration-slower` | Shimmer sweep duration.  |
-| `--solaris-loading-text-animation-easing`   | `--solaris-motion-easing-linear`   | Shimmer sweep easing.    |
+| Token                                       | Default                            | Description                                                |
+| ------------------------------------------- | ---------------------------------- | ---------------------------------------------------------- |
+| `--solaris-loading-text-color`              | `--solaris-neutral-text-body`      | Base text color.                                           |
+| `--solaris-loading-text-shimmer-color`      | `--solaris-neutral-text-inverse`   | Shimmer highlight color.                                   |
+| `--solaris-loading-text-shimmer-opacity`    | `--solaris-opacity-40`             | Shimmer overlay opacity.                                   |
+| `--solaris-loading-text-custom-color`       | `--solaris-primary-solid`          | Custom color override.                                     |
+| `--solaris-loading-text-font-size`          | `inherit`                          | Font size (inherits context; `size` overrides).            |
+| `--solaris-loading-text-line-height`        | `inherit`                          | Line height (inherits context; `density` overrides).       |
+| `--solaris-loading-text-dot-size`           | `0.25em`                           | Pulsing dots diameter (scales with text).                  |
+| `--solaris-loading-text-dots-gap`           | `0.25em`                           | Gap between text/dots and between dots (scales with text). |
+| `--solaris-loading-text-animation-duration` | `--solaris-motion-duration-slower` | Shimmer sweep duration.                                    |
+| `--solaris-loading-text-animation-easing`   | `--solaris-motion-easing-linear`   | Shimmer sweep easing.                                      |
 
 ## Examples
 
@@ -127,6 +135,18 @@ When `color="custom"`, define `--solaris-loading-text-custom-color` in your them
 <solaris-loading-text text="Loading" speed="slow" />
 <solaris-loading-text text="Loading" speed="normal" />
 <solaris-loading-text text="Loading" speed="fast" />
+```
+
+### With pulsing dots
+
+```html
+<solaris-loading-text text="Uploading" dots />
+```
+
+### Clamped to two lines
+
+```html
+<solaris-loading-text text="Preparing your workspace and syncing every document…" [maxLines]="2" />
 ```
 
 ### Custom brand color

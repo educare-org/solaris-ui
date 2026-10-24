@@ -1,0 +1,108 @@
+{
+  "option": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "demo": {
+      "admin": {
+        "description": "Acceso completo al sistema.",
+        "label": "Administrador"
+      },
+      "student": {
+        "description": "Acceder a tu propio perfil.",
+        "label": "Estudiante"
+      },
+      "teacher": {
+        "description": "Gestionar clases y estudiantes.",
+        "label": "Profesor"
+      }
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Option y Option Group son primitivas para listas seleccionables controladas por componentes padre como Select, Multi Select y Autocomplete.",
+    "examples": {
+      "list-label": "Roles",
+      "note": "Elementos de lista independientes con etiqueta y descripción. La selección la controla el componente padre."
+    },
+    "group": {
+      "academic": "Académico",
+      "classes": "Clases",
+      "grades": "Calificaciones",
+      "item1": "Elemento de mantenimiento 1",
+      "item2": "Elemento de mantenimiento 2",
+      "list-label": "Roles agrupados",
+      "maintenance": "Mantenimiento",
+      "note": "Option Group etiqueta un conjunto de opciones con role=\"group\" y propaga disabled a cada opción hija.",
+      "students": "Estudiantes"
+    },
+    "indicator": {
+      "hidden": "Oculto",
+      "shown": "Visible"
+    },
+    "indicators": {
+      "note": "El indicador de selección es opcional. Sin él, una opción seleccionada mantiene su estado seleccionado pero no muestra ninguna marca de verificación ni casilla."
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa los componentes option y option group."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "indicators": "Indicadores de selección",
+      "installation": "Instalación",
+      "option-group": "Grupo de opciones",
+      "props": "Props",
+      "selection-modes": "Modos de selección",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "slots": "Slots",
+      "states": "Estados"
+    },
+    "selection-mode": {
+      "multiple": "Múltiple",
+      "none": "Ninguno",
+      "single": "Único"
+    },
+    "selection-modes": {
+      "note": "El modo de selección es solo visual: el componente padre controla la activación y los valores. Ninguno oculta la semántica de selección, Único muestra una marca de verificación, Múltiple muestra un indicador tipo casilla."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad ajustan solo la fuente y el relleno. Option no tiene altura de control: se dimensiona según su contenido dentro de la lista padre."
+    },
+    "slots": {
+      "language": {
+        "meta": "Portuguese",
+        "portuguese": "Português"
+      },
+      "list-label": "Planes y configuración",
+      "note": "Los Slots leading, label, description, meta y trailing componen filas enriquecidas sin inputs dedicados de icono o Badge.",
+      "plan": {
+        "billing": "Anual",
+        "description": "Para equipos grandes",
+        "enterprise": "Plan Enterprise",
+        "popular": "Popular"
+      },
+      "settings": {
+        "label": "Configuración"
+      }
+    },
+    "states": {
+      "another": "Otra opción",
+      "available": "Disponible",
+      "note": "Las opciones deshabilitadas se muestran con opacidad reducida, exponen aria-disabled e ignoran la interacción del puntero.",
+      "unavailable": "No disponible"
+    },
+    "title": "Opción"
+  }
+}

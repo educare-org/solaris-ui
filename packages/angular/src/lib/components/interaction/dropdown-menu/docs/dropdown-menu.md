@@ -41,7 +41,7 @@ Dropdown Menu displays a list of actions or commands in an overlay triggered by 
 | `solarisDropdownMenuPlacement`           | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'`  | Preferred placement               |
 | `solarisDropdownMenuAlign`               | `'start' \| 'center' \| 'end'`           | `'start'`   | Alignment relative to trigger     |
 | `solarisDropdownMenuOffset`              | `number`                                 | `8`         | Offset from trigger in pixels     |
-| `solarisDropdownMenuAppearance`          | `'surface' \| 'outline'`                 | `'surface'` | Panel appearance                  |
+| `solarisDropdownMenuAppearance`          | `'surface' \| 'outline'`                 | `'outline'` | Panel appearance                  |
 | `solarisDropdownMenuRadius`              | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`      | Panel border radius               |
 | `solarisDropdownMenuCloseOnSelect`       | `boolean`                                | `true`      | Close menu on item selection      |
 | `solarisDropdownMenuCloseOnEscape`       | `boolean`                                | `true`      | Close menu on Escape key          |
@@ -74,7 +74,7 @@ Dropdown Menu displays a list of actions or commands in an overlay triggered by 
 | `description`    | `string \| undefined`                                                    | `undefined` | Secondary description text      |
 | `descriptionKey` | `string \| undefined`                                                    | `undefined` | Translation key for description |
 | `icon`           | `string \| undefined`                                                    | `undefined` | Icon name                       |
-| `iconDecorative` | `boolean`                                                                | `false`     | Whether icon is decorative      |
+| `iconDecorative` | `boolean`                                                                | `true`      | Whether icon is decorative      |
 | `shortcut`       | `string \| undefined`                                                    | `undefined` | Keyboard shortcut hint text     |
 | `disabled`       | `boolean`                                                                | `false`     | Disable the item                |
 | `color`          | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'neutral'` | Semantic color                  |
@@ -107,8 +107,8 @@ Set on the trigger via `solarisDropdownMenuAppearance`.
 
 | Appearance          | Description                                       |
 | ------------------- | ------------------------------------------------- |
-| `surface` (default) | Solid background with shadow, subtle or no border |
-| `outline`           | Surface background with visible border            |
+| `surface`           | Solid background with shadow, subtle or no border |
+| `outline` (default) | Surface background with visible border            |
 
 ### Radius
 
@@ -315,13 +315,14 @@ Dropdown Submenu extends Dropdown Menu with nested menu support. A submenu trigg
 
 ### Submenu Trigger (`<solaris-dropdown-submenu-trigger>`)
 
-| Input      | Type                                                                     | Default     | Description            |
-| ---------- | ------------------------------------------------------------------------ | ----------- | ---------------------- |
-| `icon`     | `string \| undefined`                                                    | `undefined` | Leading icon name      |
-| `label`    | `string \| undefined`                                                    | `undefined` | Trigger label text     |
-| `labelKey` | `string \| undefined`                                                    | `undefined` | Translation key        |
-| `disabled` | `boolean`                                                                | `false`     | Disable the trigger    |
-| `color`    | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'neutral'` | Semantic color variant |
+| Input            | Type                                                                     | Default     | Description                |
+| ---------------- | ------------------------------------------------------------------------ | ----------- | -------------------------- |
+| `icon`           | `string \| undefined`                                                    | `undefined` | Leading icon name          |
+| `iconDecorative` | `boolean`                                                                | `true`      | Whether icon is decorative |
+| `label`          | `string \| undefined`                                                    | `undefined` | Trigger label text         |
+| `labelKey`       | `string \| undefined`                                                    | `undefined` | Translation key            |
+| `disabled`       | `boolean`                                                                | `false`     | Disable the trigger        |
+| `color`          | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'neutral'` | Semantic color variant     |
 
 ### Submenu Keyboard Navigation
 

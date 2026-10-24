@@ -5,10 +5,13 @@
   [error]="errorText()"
   [appearance]="appearance()"
   [density]="effectiveDensity()"
+  [size]="size()"
   [radius]="radius()"
   [invalid]="isEffectivelyInvalid()"
   [required]="requiredInput()"
+  [loading]="loading()"
   [hasPrefix]="!!prefix()"
+  [hasSuffixAction]="!!projectedSuffixAction()"
   solaris-popover-trigger
   [solarisPopoverDisabled]="!canOpen()"
   [solarisPopoverTriggerFor]="matchWidthPopover"
@@ -21,7 +24,7 @@
   [solarisPopoverPadding]="'none'"
   [solarisPopoverRadius]="radius()"
   [solarisPopoverTopConnected]="true"
-  [solarisPopoverMinWidth]="panelMinWidth()"
+  [solarisPopoverMinWidth]="effectivePanelMinWidth()"
   [solarisPopoverMaxWidth]="panelMaxWidth()"
   [solarisPopoverScrollStrategy]="'reposition'"
   [solarisPopoverCloseOnEscape]="false"
@@ -36,11 +39,17 @@
     select="[solaris-form-prefix]"
     ngProjectAs="[solaris-form-prefix]"
   />
+  @if (suffix(); as suffixName) {
+    <span solaris-form-suffix>
+      <solaris-icon [name]="suffixName" [decorative]="true" />
+    </span>
+  }
 
   <div
     #triggerEl
     class="solaris-multi-select__trigger"
     [id]="elementId() + '--trigger'"
+    [style.min-width.px]="contentMinWidth() || null"
     solaris-form-field-trigger
     role="combobox"
     tabindex="0"
@@ -209,7 +218,7 @@
     </div>
 
     <span class="solaris-multi-select__actions">
-      @if (canClear()) {
+      @if (canClear() && !loading()) {
         <button
           type="button"
           class="solaris-multi-select__clear"
@@ -221,15 +230,21 @@
         </button>
       }
 
-      <solaris-icon
-        class="solaris-multi-select__dropdown-icon"
-        name="chevron-down"
-        [decorative]="true"
-        size="sm"
-      />
+      @if (!loading()) {
+        <solaris-icon
+          class="solaris-multi-select__dropdown-icon"
+          name="chevron-down"
+          [decorative]="true"
+          size="sm"
+        />
+      }
     </span>
   </div>
 
+  <ng-content
+    select="[solaris-form-suffix][solaris-form-suffix-action]"
+    ngProjectAs="[solaris-form-suffix-action]"
+  />
   <ng-content
     select="[solaris-form-suffix]"
     ngProjectAs="[solaris-form-suffix]"

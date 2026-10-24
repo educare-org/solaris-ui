@@ -1,0 +1,13 @@
+.event-editor-showcase__note {
+  margin: 0 0 var(--solaris-spacing-4);
+  color: var(--solaris-neutral-text-secondary);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.event-editor-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-4);
+}

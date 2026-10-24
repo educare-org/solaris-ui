@@ -1,0 +1,54 @@
+<nav
+  class="mega-menu-showcase__nav"
+  [attr.aria-label]="'mega-menu.keyboard-aria-label' | translate"
+  solaris-mega-menu-anchor
+  solaris-mega-menu-group
+>
+  <solaris-mega-menu panelWidth="anchor">
+    <button solaris-mega-menu-trigger class="mega-menu-showcase__trigger">
+      {{ 'mega-menu.products' | translate }}
+    </button>
+    <ng-template solaris-mega-menu-panel>
+      <div class="mega-menu-showcase__panel mega-menu-showcase__panel--compact">
+        <div class="mega-menu-showcase__link-group">
+          <a href="/forms">{{ 'mega-menu.forms' | translate }}</a>
+          <a href="/navigation/tabs">{{
+            'mega-menu.navigation' | translate
+          }}</a>
+        </div>
+      </div>
+    </ng-template>
+  </solaris-mega-menu>
+  <solaris-mega-menu panelWidth="anchor">
+    <button solaris-mega-menu-trigger class="mega-menu-showcase__trigger">
+      {{ 'mega-menu.resources' | translate }}
+    </button>
+    <ng-template solaris-mega-menu-panel>
+      <div class="mega-menu-showcase__panel mega-menu-showcase__panel--compact">
+        <div class="mega-menu-showcase__link-group">
+          <a href="/configuration/accessibility">{{
+            'mega-menu.accessibility' | translate
+          }}</a>
+          <a href="/configuration">{{
+            'mega-menu.configuration' | translate
+          }}</a>
+        </div>
+      </div>
+    </ng-template>
+  </solaris-mega-menu>
+  <solaris-mega-menu panelWidth="anchor">
+    <button solaris-mega-menu-trigger class="mega-menu-showcase__trigger">
+      {{ 'mega-menu.learn' | translate }}
+    </button>
+    <ng-template solaris-mega-menu-panel>
+      <div class="mega-menu-showcase__panel mega-menu-showcase__panel--compact">
+        <div class="mega-menu-showcase__link-group">
+          <a href="/configuration/theme">{{
+            'mega-menu.theming' | translate
+          }}</a>
+          <a href="/icons">{{ 'mega-menu.icons' | translate }}</a>
+        </div>
+      </div>
+    </ng-template>
+  </solaris-mega-menu>
+</nav>

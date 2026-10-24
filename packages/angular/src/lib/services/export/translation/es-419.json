@@ -1,0 +1,8 @@
+{
+  "solaris": {
+    "export": {
+      "csv": "Exportar CSV",
+      "json": "Exportar JSON"
+    }
+  }
+}

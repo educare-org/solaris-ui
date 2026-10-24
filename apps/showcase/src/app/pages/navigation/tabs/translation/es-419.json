@@ -1,0 +1,170 @@
+{
+  "tabs": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "enclosed": "Enclosed",
+      "pills": "Pills",
+      "underline": "Subrayado"
+    },
+    "basic": "Pestañas básicas Underline",
+    "color": {
+      "neutral": "Neutro",
+      "note": "Neutro mantiene discretos los docs y los encabezados densos. Solo cambia el indicador, el texto activo y el fondo activo.",
+      "primary": "Primario"
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "label": "Densidad",
+      "normal": "Normal"
+    },
+    "density-comfortable": "Cómodo",
+    "density-compact": "Compacto",
+    "density-normal": "Normal",
+    "description": "Componente de pestañas para organizar el contenido en paneles alternables.",
+    "disabled": "Pestaña deshabilitada",
+    "enclosed": "Apariencia Enclosed",
+    "example": {
+      "disabled": {
+        "tab-disabled-1": "Pestaña deshabilitada",
+        "tab-disabled-2": "También deshabilitado",
+        "tab-enabled-1": "Habilitado 1",
+        "tab-enabled-2": "Habilitado 2"
+      },
+      "enclosed": {
+        "panel-activity": "Panel de feed de actividad reciente.",
+        "panel-details": "Panel de detalles con información del elemento.",
+        "panel-settings": "Panel de configuración.",
+        "tab-activity": "Actividad",
+        "tab-details": "Detalles",
+        "tab-settings": "Configuración"
+      },
+      "full-width": {
+        "tab-analytics": "Analíticas",
+        "tab-export": "Exportar",
+        "tab-overview": "Resumen",
+        "tab-reports": "Informes"
+      },
+      "future-editable": {
+        "text": "Pestañas editables (cerrar, renombrar, reordenar, menú de acciones \"...\") se implementarán cuando el componente Dropdown Menu esté completo. La arquitectura actual de Tabs está preparada para esta futura extensión con seguimiento estable de valores, metadatos y compatibilidad con icono, Badge y estado deshabilitado.",
+        "title": "Pestañas editables"
+      },
+      "icons-and-badges": {
+        "tab-actions": "Acciones",
+        "tab-code": "Code",
+        "tab-issues": "Incidencias",
+        "tab-pull-requests": "Pull requests"
+      },
+      "manual-activation": {
+        "instruction": "Usa las teclas de flecha para mover el foco, Enter/Espacio para activar.",
+        "panel-step-1": "Contenido del paso 1. Enfoca otra pestaña y pulsa Enter para cambiar.",
+        "panel-step-2": "Contenido del paso 2. La activación manual permite revisar primero las pestañas.",
+        "panel-step-3": "Contenido del paso 3.",
+        "tab-step-1": "Paso 1",
+        "tab-step-2": "Paso 2",
+        "tab-step-3": "Paso 3"
+      },
+      "pills": {
+        "panel-active": "Panel de elementos activos.",
+        "panel-archived": "Panel de elementos archivados.",
+        "panel-drafts": "Panel de borradores.",
+        "tab-active": "Activo",
+        "tab-archived": "Archivados",
+        "tab-drafts": "Borradores"
+      },
+      "reduced-motion": {
+        "text": "Todas las transiciones de contenido de las pestañas respetan `prefers-reduced-motion` y el atributo `[data-reduced-motion]`. Cuando se prefiere el movimiento reducido, las animaciones fade y slide se deshabilitan y se vuelve al cambio de contenido instantáneo sin animación."
+      },
+      "sizes": {
+        "large": "Grande",
+        "medium": "Mediano",
+        "small": "Pequeño"
+      },
+      "transition-fade": {
+        "panel-a": "Sección A: aparece con fundido suave.",
+        "panel-b": "Sección B: el contenido aparece con fundido.",
+        "panel-c": "Sección C: transición fade activa.",
+        "tab-a": "Sección A",
+        "tab-b": "Sección B",
+        "tab-c": "Sección C"
+      },
+      "transition-slide": {
+        "panel-first": "Primer panel: se desliza desde la derecha cuando viene desde la izquierda.",
+        "panel-second": "Segundo panel: se desliza desde la derecha o desde la izquierda.",
+        "panel-third": "Tercer panel: se desliza desde la izquierda cuando viene desde la derecha.",
+        "tab-first": "Primero",
+        "tab-second": "Segundo",
+        "tab-third": "Tercero"
+      },
+      "vertical": {
+        "panel-general": "Panel de configuración general.",
+        "panel-notifications": "Panel de preferencias de notificaciones.",
+        "panel-privacy": "Panel de configuración de privacidad.",
+        "panel-security": "Panel de configuración de seguridad.",
+        "tab-general": "General",
+        "tab-notifications": "Notificaciones",
+        "tab-privacy": "Privacidad",
+        "tab-security": "Seguridad"
+      },
+      "with-panels": {
+        "panel-actions": "Panel de contenido de acciones. Consulta el estado del pipeline de CI/CD.",
+        "panel-code": "Panel de contenido de código. Escribe y revisa tu código aquí.",
+        "panel-issues": "Panel de contenido de incidencias. Sigue y gestiona las incidencias.",
+        "panel-pull-requests": "Panel de contenido de pull requests. Revisa los PR abiertos.",
+        "tab-actions": "Acciones",
+        "tab-code": "Code",
+        "tab-issues": "Incidencias",
+        "tab-pull-requests": "Pull requests"
+      }
+    },
+    "examples": {
+      "note": "Comienza con las pestañas predeterminadas, luego explora las apariencias y variantes a continuación."
+    },
+    "full-width": "Pestañas de ancho completo",
+    "future-editable": "Futuro: Pestañas editables",
+    "icons-and-badges": "Iconos y Badges",
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "manual-activation": "Activación manual",
+    "pills": "Apariencia Pills",
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "reduced-motion": "Movimiento reducido",
+    "scrollable": "Pestañas desplazables",
+    "section": {
+      "appearances": "Apariencias",
+      "color": "Color",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "features": "Funciones",
+      "installation": "Instalación",
+      "layout": "Layout",
+      "orientation": "Orientación",
+      "props": "Props",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados",
+      "transitions": "Transiciones"
+    },
+    "shape": "Forma",
+    "shape-normal": "Normal",
+    "shape-wide": "Ancho",
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "El tamaño y la densidad funcionan juntos en el componente. Combina los tres controles para ver todas las combinaciones."
+    },
+    "title": "Pestañas",
+    "transition-fade": "Transición de contenido — Fade",
+    "transition-slide": "Transición de contenido — Slide",
+    "vertical": "Pestañas verticales",
+    "with-panels": "Pestañas con paneles"
+  }
+}

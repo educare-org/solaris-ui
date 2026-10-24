@@ -1,209 +1,425 @@
-<div class="dialog-showcase">
-  <header class="dialog-showcase__header">
-    <h1 class="dialog-showcase__title">{{ 'dialog.title' | translate }}</h1>
-    <p class="dialog-showcase__description">
-      {{ 'dialog.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="dialog.title"
+    descriptionKey="dialog.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="dialog-showcase__section">
-    <h2 class="dialog-showcase__section-title">
-      {{ 'dialog.basic' | translate }}
-    </h2>
-    <p class="dialog-showcase__section-desc">
-      {{ 'dialog.basic-desc' | translate }}
+  <app-docs-section anchor="examples" titleKey="dialog.section.examples">
+    <p class="dialog-showcase__note">
+      {{ 'dialog.examples.note' | translate }}
     </p>
-    <div class="dialog-showcase__row">
-      <button type="button" solaris-button (click)="openBasic()">
-        {{ 'dialog.open-basic' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openConfirmation()">
-        {{ 'dialog.open-confirmation' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openDanger()">
-        {{ 'dialog.open-danger' | translate }}
-      </button>
+    <div class="dialog-showcase__stack">
+      <solaris-preview-code [code]="basicCode" language="typescript">
+        <button type="button" solaris-button (click)="openBasic()">
+          {{ 'dialog.open-basic' | translate }}
+        </button>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="basicCode" language="typescript">
+        <button type="button" solaris-button (click)="openConfirmation()">
+          {{ 'dialog.open-confirmation' | translate }}
+        </button>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="basicCode" language="typescript">
+        <button type="button" solaris-button (click)="openDanger()">
+          {{ 'dialog.open-danger' | translate }}
+        </button>
+      </solaris-preview-code>
     </div>
-  </section>
+  </app-docs-section>
 
-  <section class="dialog-showcase__section">
-    <h2 class="dialog-showcase__section-title">
-      {{ 'dialog.actions-align' | translate }}
-    </h2>
-    <p class="dialog-showcase__section-desc">
-      {{ 'dialog.actions-align-desc' | translate }}
-    </p>
-    <div class="dialog-showcase__row">
-      <button type="button" solaris-button (click)="openActionsStart()">
-        {{ 'dialog.align-start' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openActionsCenter()">
-        {{ 'dialog.align-center' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openActionsEnd()">
-        {{ 'dialog.align-end' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openActionsSpaceBetween()">
-        {{ 'dialog.align-space-between' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="dialog-showcase__section">
-    <h2 class="dialog-showcase__section-title">
-      {{ 'dialog.fullscreen' | translate }}
-    </h2>
-    <p class="dialog-showcase__section-desc">
-      {{ 'dialog.fullscreen-desc' | translate }}
-    </p>
-    <div class="dialog-showcase__row">
-      <button type="button" solaris-button (click)="openFullscreen()">
-        {{ 'dialog.open-fullscreen' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="dialog-showcase__section">
-    <h2 class="dialog-showcase__section-title">
-      {{ 'dialog.appearance' | translate }}
-    </h2>
-    <p class="dialog-showcase__section-desc">
-      {{ 'dialog.appearance-desc' | translate }}
-    </p>
-    <div class="dialog-showcase__row">
-      <button type="button" solaris-button (click)="openSurface()">
-        {{ 'dialog.surface' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openOutline()">
-        {{ 'dialog.outline' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="dialog-showcase__section">
-    <h2 class="dialog-showcase__section-title">
-      {{ 'dialog.layout' | translate }}
-    </h2>
-    <p class="dialog-showcase__section-desc">
-      {{ 'dialog.layout-desc' | translate }}
-    </p>
-    <div class="dialog-showcase__row">
-      <button type="button" solaris-button (click)="openPlacement('top')">
-        {{ 'dialog.placement-top' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openPlacement('left')">
-        {{ 'dialog.placement-left' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openPlacement('right')">
-        {{ 'dialog.placement-right' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openPlacement('bottom')">
-        {{ 'dialog.placement-bottom' | translate }}
-      </button>
-      <button
-        type="button"
-        solaris-button
-        (click)="openPlacement('bottom-left')"
-      >
-        {{ 'dialog.placement-bottom-left' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openNoSeparators()">
-        {{ 'dialog.no-separators' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openActionsCustom()">
-        {{ 'dialog.actions-custom' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="dialog-showcase__section">
-    <h2 class="dialog-showcase__section-title">
-      {{ 'dialog.variants' | translate }}
-    </h2>
-    <p class="dialog-showcase__section-desc">
+  <app-docs-section anchor="variants" titleKey="dialog.section.variants">
+    <p class="dialog-showcase__note">
       {{ 'dialog.variants-desc' | translate }}
     </p>
-    <div class="dialog-showcase__row">
-      <button type="button" solaris-button (click)="openVariant('neutral')">
-        {{ 'dialog.variant-neutral' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openVariant('info')">
-        {{ 'dialog.variant-info' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openVariant('success')">
-        {{ 'dialog.variant-success' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openVariant('warning')">
-        {{ 'dialog.variant-warning' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openVariant('danger')">
-        {{ 'dialog.variant-danger' | translate }}
-      </button>
-    </div>
-  </section>
+    <solaris-tabs
+      [(value)]="selectedVariant"
+      [ariaLabel]="'dialog.section.variants' | translate"
+    >
+      <solaris-tab value="neutral">{{
+        'dialog.variant-neutral' | translate
+      }}</solaris-tab>
+      <solaris-tab value="info">{{
+        'dialog.variant-info' | translate
+      }}</solaris-tab>
+      <solaris-tab value="success">{{
+        'dialog.variant-success' | translate
+      }}</solaris-tab>
+      <solaris-tab value="warning">{{
+        'dialog.variant-warning' | translate
+      }}</solaris-tab>
+      <solaris-tab value="danger">{{
+        'dialog.variant-danger' | translate
+      }}</solaris-tab>
+      <solaris-tab-panel value="neutral">
+        <solaris-preview-code [code]="variantCode()" language="typescript">
+          <button type="button" solaris-button (click)="openVariantDemo()">
+            {{ 'dialog.demo.open-variant' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="info">
+        <solaris-preview-code [code]="variantCode()" language="typescript">
+          <button type="button" solaris-button (click)="openVariantDemo()">
+            {{ 'dialog.demo.open-variant' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="success">
+        <solaris-preview-code [code]="variantCode()" language="typescript">
+          <button type="button" solaris-button (click)="openVariantDemo()">
+            {{ 'dialog.demo.open-variant' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="warning">
+        <solaris-preview-code [code]="variantCode()" language="typescript">
+          <button type="button" solaris-button (click)="openVariantDemo()">
+            {{ 'dialog.demo.open-variant' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="danger">
+        <solaris-preview-code [code]="variantCode()" language="typescript">
+          <button type="button" solaris-button (click)="openVariantDemo()">
+            {{ 'dialog.demo.open-variant' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="dialog-showcase__section">
-    <h2 class="dialog-showcase__section-title">
-      {{ 'dialog.component' | translate }}
-    </h2>
-    <p class="dialog-showcase__section-desc">
-      {{ 'dialog.component-desc' | translate }}
+  <app-docs-section anchor="appearance" titleKey="dialog.section.appearance">
+    <p class="dialog-showcase__note">
+      {{ 'dialog.appearance-desc' | translate }}
     </p>
-    <div class="dialog-showcase__row">
-      <button type="button" solaris-button (click)="openComponent()">
-        {{ 'dialog.open-component' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openComponentWithChrome()">
-        {{ 'dialog.open-component-chrome' | translate }}
-      </button>
-    </div>
-  </section>
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'dialog.section.appearance' | translate"
+    >
+      <solaris-tab value="surface">{{
+        'dialog.surface' | translate
+      }}</solaris-tab>
+      <solaris-tab value="outline">{{
+        'dialog.outline' | translate
+      }}</solaris-tab>
+      <solaris-tab-panel value="surface">
+        <solaris-preview-code [code]="appearanceCode()" language="typescript">
+          <button type="button" solaris-button (click)="openAppearanceDemo()">
+            {{ 'dialog.demo.open-appearance' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="outline">
+        <solaris-preview-code [code]="appearanceCode()" language="typescript">
+          <button type="button" solaris-button (click)="openAppearanceDemo()">
+            {{ 'dialog.demo.open-appearance' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="dialog-showcase__section">
-    <h2 class="dialog-showcase__section-title">
-      {{ 'dialog.behavior' | translate }}
-    </h2>
-    <p class="dialog-showcase__section-desc">
+  <app-docs-section anchor="density" titleKey="dialog.section.density">
+    <p class="dialog-showcase__note">
+      {{ 'dialog.density.note' | translate }}
+    </p>
+    <div class="dialog-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'dialog.section.density' | translate"
+      >
+        <solaris-tab value="compact">{{
+          'dialog.density.compact' | translate
+        }}</solaris-tab>
+        <solaris-tab value="normal">{{
+          'dialog.density.normal' | translate
+        }}</solaris-tab>
+        <solaris-tab value="comfortable">{{
+          'dialog.density.comfortable' | translate
+        }}</solaris-tab>
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="densityCode()" language="typescript">
+      <button type="button" solaris-button (click)="openDensityDemo()">
+        {{ 'dialog.demo.open-density' | translate }}
+      </button>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="placement" titleKey="dialog.section.placement">
+    <p class="dialog-showcase__note">
+      {{ 'dialog.layout-desc' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedPlacement"
+      [ariaLabel]="'dialog.section.placement' | translate"
+    >
+      <solaris-tab value="center">{{
+        'dialog.placement.center' | translate
+      }}</solaris-tab>
+      <solaris-tab value="top">{{
+        'dialog.placement-top' | translate
+      }}</solaris-tab>
+      <solaris-tab value="bottom">{{
+        'dialog.placement-bottom' | translate
+      }}</solaris-tab>
+      <solaris-tab value="left">{{
+        'dialog.placement-left' | translate
+      }}</solaris-tab>
+      <solaris-tab value="right">{{
+        'dialog.placement-right' | translate
+      }}</solaris-tab>
+      <solaris-tab value="top-left">{{
+        'dialog.placement.top-left' | translate
+      }}</solaris-tab>
+      <solaris-tab value="top-right">{{
+        'dialog.placement.top-right' | translate
+      }}</solaris-tab>
+      <solaris-tab value="bottom-left">{{
+        'dialog.placement-bottom-left' | translate
+      }}</solaris-tab>
+      <solaris-tab value="bottom-right">{{
+        'dialog.placement.bottom-right' | translate
+      }}</solaris-tab>
+      <solaris-tab-panel value="center">
+        <solaris-preview-code [code]="placementCode()" language="typescript">
+          <button type="button" solaris-button (click)="openPlacementDemo()">
+            {{ 'dialog.demo.open-placement' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="top">
+        <solaris-preview-code [code]="placementCode()" language="typescript">
+          <button type="button" solaris-button (click)="openPlacementDemo()">
+            {{ 'dialog.demo.open-placement' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="bottom">
+        <solaris-preview-code [code]="placementCode()" language="typescript">
+          <button type="button" solaris-button (click)="openPlacementDemo()">
+            {{ 'dialog.demo.open-placement' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="left">
+        <solaris-preview-code [code]="placementCode()" language="typescript">
+          <button type="button" solaris-button (click)="openPlacementDemo()">
+            {{ 'dialog.demo.open-placement' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="right">
+        <solaris-preview-code [code]="placementCode()" language="typescript">
+          <button type="button" solaris-button (click)="openPlacementDemo()">
+            {{ 'dialog.demo.open-placement' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="top-left">
+        <solaris-preview-code [code]="placementCode()" language="typescript">
+          <button type="button" solaris-button (click)="openPlacementDemo()">
+            {{ 'dialog.demo.open-placement' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="top-right">
+        <solaris-preview-code [code]="placementCode()" language="typescript">
+          <button type="button" solaris-button (click)="openPlacementDemo()">
+            {{ 'dialog.demo.open-placement' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="bottom-left">
+        <solaris-preview-code [code]="placementCode()" language="typescript">
+          <button type="button" solaris-button (click)="openPlacementDemo()">
+            {{ 'dialog.demo.open-placement' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="bottom-right">
+        <solaris-preview-code [code]="placementCode()" language="typescript">
+          <button type="button" solaris-button (click)="openPlacementDemo()">
+            {{ 'dialog.demo.open-placement' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="sheet" titleKey="dialog.section.sheet">
+    <p class="dialog-showcase__note">
+      {{ 'dialog.sheet.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="sheetCode" language="typescript">
+      <button type="button" solaris-button (click)="openSheetDemo()">
+        {{ 'dialog.demo.open-sheet' | translate }}
+      </button>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="nested" titleKey="dialog.section.nested">
+    <p class="dialog-showcase__note">
+      {{ 'dialog.nested.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="nestedCode" language="typescript">
+      <button type="button" solaris-button (click)="openNestedDemo()">
+        {{ 'dialog.demo.open-nested' | translate }}
+      </button>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="actions" titleKey="dialog.section.actions">
+    <p class="dialog-showcase__note">
+      {{ 'dialog.actions-align-desc' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedActionsAlign"
+      [ariaLabel]="'dialog.section.actions' | translate"
+    >
+      <solaris-tab value="start">{{
+        'dialog.align-start' | translate
+      }}</solaris-tab>
+      <solaris-tab value="center">{{
+        'dialog.align-center' | translate
+      }}</solaris-tab>
+      <solaris-tab value="end">{{
+        'dialog.align-end' | translate
+      }}</solaris-tab>
+      <solaris-tab value="space-between">{{
+        'dialog.align-space-between' | translate
+      }}</solaris-tab>
+      <solaris-tab-panel value="start">
+        <solaris-preview-code [code]="actionsAlignCode()" language="typescript">
+          <button type="button" solaris-button (click)="openActionsAlignDemo()">
+            {{ 'dialog.demo.open-actions' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="center">
+        <solaris-preview-code [code]="actionsAlignCode()" language="typescript">
+          <button type="button" solaris-button (click)="openActionsAlignDemo()">
+            {{ 'dialog.demo.open-actions' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="end">
+        <solaris-preview-code [code]="actionsAlignCode()" language="typescript">
+          <button type="button" solaris-button (click)="openActionsAlignDemo()">
+            {{ 'dialog.demo.open-actions' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="space-between">
+        <solaris-preview-code [code]="actionsAlignCode()" language="typescript">
+          <button type="button" solaris-button (click)="openActionsAlignDemo()">
+            {{ 'dialog.demo.open-actions' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="behavior" titleKey="dialog.section.behavior">
+    <p class="dialog-showcase__note">
       {{ 'dialog.behavior-desc' | translate }}
     </p>
-    <div class="dialog-showcase__row">
-      <button type="button" solaris-button (click)="openNotCloseable()">
-        {{ 'dialog.not-closeable' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openNoBackdropClose()">
-        {{ 'dialog.no-backdrop-close' | translate }}
-      </button>
-      <button type="button" solaris-button (click)="openNoEscapeClose()">
-        {{ 'dialog.no-escape-close' | translate }}
-      </button>
+    <div class="dialog-showcase__stack">
+      <solaris-preview-code [code]="basicCode" language="typescript">
+        <button type="button" solaris-button (click)="openFullscreen()">
+          {{ 'dialog.open-fullscreen' | translate }}
+        </button>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="basicCode" language="typescript">
+        <button type="button" solaris-button (click)="openNotCloseable()">
+          {{ 'dialog.not-closeable' | translate }}
+        </button>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="basicCode" language="typescript">
+        <button type="button" solaris-button (click)="openNoBackdropClose()">
+          {{ 'dialog.no-backdrop-close' | translate }}
+        </button>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="basicCode" language="typescript">
+        <button type="button" solaris-button (click)="openNoEscapeClose()">
+          {{ 'dialog.no-escape-close' | translate }}
+        </button>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="basicCode" language="typescript">
+        <button type="button" solaris-button (click)="openNoSeparators()">
+          {{ 'dialog.no-separators' | translate }}
+        </button>
+      </solaris-preview-code>
     </div>
-  </section>
+  </app-docs-section>
 
-  <section class="dialog-showcase__section">
-    <h2 class="dialog-showcase__section-title">
-      {{ 'dialog.scroll' | translate }}
-    </h2>
-    <p class="dialog-showcase__section-desc">
-      {{ 'dialog.scroll-desc' | translate }}
+  <app-docs-section anchor="component" titleKey="dialog.section.component">
+    <p class="dialog-showcase__note">
+      {{ 'dialog.component-desc' | translate }}
     </p>
-    <div class="dialog-showcase__row">
-      <button type="button" solaris-button (click)="openComponentScroll()">
-        {{ 'dialog.open-scroll' | translate }}
-      </button>
+    <div class="dialog-showcase__stack">
+      <solaris-preview-code [code]="componentCode" language="typescript">
+        <button type="button" solaris-button (click)="openComponent()">
+          {{ 'dialog.open-component' | translate }}
+        </button>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="componentChromeCode" language="typescript">
+        <button
+          type="button"
+          solaris-button
+          (click)="openComponentWithChrome()"
+        >
+          {{ 'dialog.open-component-chrome' | translate }}
+        </button>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="componentCode" language="typescript">
+        <button type="button" solaris-button (click)="openComponentScroll()">
+          {{ 'dialog.open-scroll' | translate }}
+        </button>
+      </solaris-preview-code>
     </div>
-  </section>
+  </app-docs-section>
 
-  <section class="dialog-showcase__section">
-    <h2 class="dialog-showcase__section-title">
-      {{ 'dialog.flow' | translate }}
-    </h2>
-    <p class="dialog-showcase__section-desc">
+  <app-docs-section anchor="flow" titleKey="dialog.section.flow">
+    <p class="dialog-showcase__note">
       {{ 'dialog.flow-desc' | translate }}
     </p>
-    <div class="dialog-showcase__row">
-      <button type="button" solaris-button (click)="openFlow()">
-        {{ 'dialog.open-flow' | translate }}
-      </button>
+    <div class="dialog-showcase__stack">
+      <solaris-preview-code [code]="flowCode" language="typescript">
+        <button type="button" solaris-button (click)="openFlow()">
+          {{ 'dialog.open-flow' | translate }}
+        </button>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="validatedFlowCode" language="html">
+        <button type="button" solaris-button (click)="openValidatedFlow()">
+          {{ 'dialog.demo.open-validated-flow' | translate }}
+        </button>
+      </solaris-preview-code>
     </div>
-  </section>
-</div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="dialog.section.installation"
+  >
+    <p class="dialog-showcase__note">
+      {{ 'dialog.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="dialog.section.props">
+    <p class="dialog-showcase__note">{{ 'dialog.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

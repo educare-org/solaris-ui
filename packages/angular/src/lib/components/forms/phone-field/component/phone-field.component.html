@@ -1,20 +1,24 @@
 <solaris-form-field
+  [control]="this"
   [hint]="hint()"
   [label]="label()"
   [radius]="radius()"
-  [density]="density()"
+  [density]="effectiveDensity()"
+  [size]="size()"
   [hintKey]="hintKey()"
   [labelKey]="labelKey()"
   [errorKey]="errorKey()"
-  [required]="required()"
+  [required]="requiredInput()"
   [optional]="optional()"
   [readonly]="isEffectivelyReadonly()"
   [appearance]="appearance()"
   [invalid]="isFieldInvalid()"
   [error]="error() || computedError()"
   [disabled]="isEffectivelyDisabled()"
+  [loading]="loading()"
   [hasPrefix]="hasPrefix()"
   [hasSuffix]="hasSuffix()"
+  [hasSuffixAction]="!!projectedSuffixAction()"
   solaris-popover-trigger
   [solarisPopoverTriggerFor]="countryPopover"
   [solarisPopoverDisabled]="!canOpen()"
@@ -38,6 +42,7 @@
     [disabled]="!canOpen()"
     (click)="onCountryToggle($event)"
   >
+    <!-- SECURITY_EXCEPTION: flag SVG already vetted by solarisSafeHtml pipe (isTrustedFlagSvg). -->
     <span
       class="solaris-phone-field__flag"
       [innerHTML]="selectedFlag() | solarisSafeHtml"
@@ -58,12 +63,14 @@
     #inputElement
     solaris-input
     data-bwignore="true"
-    [density]="density()"
+    [density]="effectiveDensity()"
+    [size]="size()"
     (blur)="onInputBlur()"
     [readonly]="isEffectivelyReadonly()"
     (focus)="onInputFocus()"
     (click)="onInputClick($event)"
-    [attr.id]="id() ?? null"
+    [attr.id]="fieldId() ?? null"
+    [attr.aria-describedby]="ariaDescribedBy()"
     (input)="onInput($event)"
     [value]="displayValue()"
     [attr.inputmode]="'tel'"
@@ -72,15 +79,32 @@
     [attr.name]="name() ?? null"
     [attr.autocomplete]="autocomplete()"
     [disabled]="isEffectivelyDisabled()"
-    [attr.maxlength]="maxLength() ?? null"
+    [attr.maxlength]="effectiveMaxLength()"
     [attr.placeholder]="placeholderText() || null"
   />
 
+  @if (canClear() && !loading()) {
+    <button
+      type="button"
+      solaris-form-suffix
+      class="solaris-phone-field__clear"
+      [attr.aria-label]="clearAriaLabel()"
+      [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
+      (click)="clearValue(); $event.stopPropagation()"
+      tabindex="-1"
+    >
+      <solaris-icon name="x" [decorative]="true" />
+    </button>
+  }
   @if (suffix() && !projectedSuffix()) {
     <span solaris-form-suffix>
       <solaris-icon [name]="suffix() ?? ''" [decorative]="true" />
     </span>
   }
+  <ng-content
+    select="[solaris-form-suffix][solaris-form-suffix-action]"
+    ngProjectAs="[solaris-form-suffix-action]"
+  />
   <ng-content
     select="[solaris-form-suffix]"
     ngProjectAs="[solaris-form-suffix]"

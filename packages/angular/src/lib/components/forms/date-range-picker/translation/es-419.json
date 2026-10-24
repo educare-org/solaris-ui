@@ -1,0 +1,16 @@
+{
+  "solaris": {
+    "date-range-picker": {
+      "apply": "Aplicar",
+      "cancel": "Cancelar",
+      "clear": "Borrar",
+      "custom": "Personalizado",
+      "end": "Fecha de fin",
+      "invalid": "Ingrese un rango de fechas válido.",
+      "placeholder": "Seleccione un rango de fechas",
+      "presets": "Rangos rápidos",
+      "required": "Las fechas de inicio y fin son obligatorias.",
+      "start": "Fecha de inicio"
+    }
+  }
+}

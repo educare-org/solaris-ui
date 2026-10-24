@@ -1,7 +1,7 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focusin/focusout are standard DOM events for focus tracking. Same pattern used by Solaris FormField.
 import {
   Component,
   input,
+  booleanAttribute,
   output,
   computed,
   signal,
@@ -21,7 +21,10 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
-import { SOLARIS_RADIO_GROUP_NAME } from '../model/radio-group.token';
+import {
+  SOLARIS_RADIO_GROUP,
+  SOLARIS_RADIO_GROUP_NAME,
+} from '../model/radio-group.token';
 import {
   SOLARIS_RADIO_OPTION,
   type SolarisRadioOption,
@@ -64,6 +67,10 @@ function generateGroupName(): string {
       provide: SOLARIS_RADIO_GROUP_NAME,
       useFactory: () => generateGroupName(),
     },
+    {
+      provide: SOLARIS_RADIO_GROUP,
+      useExisting: forwardRef(() => SolarisRadioGroupComponent),
+    },
   ],
   templateUrl: './radio-group.component.html',
   styleUrls: ['./radio-group.component.scss'],
@@ -93,7 +100,6 @@ export class SolarisRadioGroupComponent
   private readonly translateService = inject(SolarisTranslateService);
   private readonly ngZone = inject(NgZone);
 
-  // Kept for the existing radio-specific testing surface.
   protected readonly radios = contentChildren(SolarisRadioComponent);
   private readonly radioOptions = contentChildren(SOLARIS_RADIO_OPTION);
 
@@ -102,17 +108,17 @@ export class SolarisRadioGroupComponent
   readonly columns = input<SolarisRadioGroupColumns>(1);
   readonly density = input<SolarisRadioGroupDensity>();
   readonly size = input<SolarisRadioGroupSize>('md');
-  readonly disabledInput = input<boolean, boolean>(false, {
+  readonly disabledInput = input<boolean, unknown>(false, {
     alias: 'disabled',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly readonlyInput = input<boolean, boolean>(false, {
+  readonly readonlyInput = input<boolean, unknown>(false, {
     alias: 'readonly',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly requiredInput = input<boolean, boolean>(false, {
+  readonly requiredInput = input<boolean, unknown>(false, {
     alias: 'required',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
   readonly invalidInput = input<boolean | undefined>(undefined, {
     alias: 'invalid',
@@ -136,6 +142,7 @@ export class SolarisRadioGroupComponent
   private readonly _focused = signal(false);
   private readonly _describedByIds = signal<string[]>([]);
   private readonly cvaDisabled = signal(false);
+  private readonly cvaReadonly = signal(false);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: unknown) => void = () => {};
@@ -159,18 +166,17 @@ export class SolarisRadioGroupComponent
 
   protected readonly themeService = inject(SolarisThemeService);
 
-  protected readonly effectiveDensity = computed<SolarisRadioGroupDensity>(
-    () => {
-      return this.density() ?? this.themeService.density;
-    },
-  );
+  /** Public for SOLARIS_RADIO_GROUP: children inherit group density. */
+  readonly effectiveDensity = computed<SolarisRadioGroupDensity>(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   protected readonly isEffectivelyDisabled = computed(() => {
     return this.disabledInput() || this.cvaDisabled();
   });
 
   protected readonly isEffectivelyReadonly = computed(() => {
-    return this.readonlyInput();
+    return this.readonlyInput() || this.cvaReadonly();
   });
 
   protected readonly isEffectivelyInvalid = computed(() => {
@@ -297,9 +303,11 @@ export class SolarisRadioGroupComponent
     this.propagateDisabledToRadios();
   }
 
+  setCvaReadonlyState(isReadonly: boolean): void {
+    this.cvaReadonly.set(isReadonly);
+  }
+
   private readonly _radiosEffect = effect(() => {
-    // Re-run when the projected radio set changes. The initial sync happens in
-    // ngAfterContentInit to preserve form-control writeValue ordering.
     if (!this.contentInitialized) return;
     this.radioOptions();
     this.initRadios();
@@ -326,6 +334,7 @@ export class SolarisRadioGroupComponent
     if (this.focusListenersAttached) return;
     this.focusListenersAttached = true;
 
+    // SECURITY_EXCEPTION: group focus tracking needs native focusin/focusout listeners on the host; read-only, outside Angular.
     const native = this.elementRef.nativeElement;
     this.ngZone.runOutsideAngular(() => {
       native.addEventListener('focusin', () => {

@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: Dynamic RegExp is used here with the user's own password value
 import type { SolarisPasswordStrength } from './password-field.types';
 import {
   ALPHABET,
@@ -67,10 +66,6 @@ function scorePenalties(value: string): number {
 }
 
 function hasRepeatedChars(value: string): boolean {
-  // as both input and match target. The regex pattern uses a controlled constant
-  // (REPEAT_MIN_COUNT) and only detects repeated characters in the same string.
-  // This is not a user-supplied regex pattern and cannot be exploited for ReDoS
-  // because the value is the user's own password being validated (bounded length).
   return new RegExp(String.raw`(.)\1{${REPEAT_MIN_COUNT - 1},}`).test(value);
 }
 

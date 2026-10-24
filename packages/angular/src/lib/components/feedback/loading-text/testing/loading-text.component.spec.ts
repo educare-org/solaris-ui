@@ -30,9 +30,9 @@ describe('SolarisLoadingTextComponent', () => {
     expect(el.getAttribute('aria-live')).toBe('polite');
   });
 
-  it('should have default size md', () => {
+  it('should inherit size by default (no data-size)', () => {
     const el = createFixture();
-    expect(el.getAttribute('data-size')).toBe('md');
+    expect(el.hasAttribute('data-size')).toBe(false);
   });
 
   it('should have default color primary', () => {
@@ -122,6 +122,62 @@ describe('SolarisLoadingTextComponent', () => {
   it('should expose default loading text as accessible name', () => {
     const el = createFixture();
     expect(el.getAttribute('aria-label')).toBe('Loading...');
+  });
+
+  it('should inherit density by default (no data-density)', () => {
+    const el = createFixture();
+    expect(el.hasAttribute('data-density')).toBe(false);
+  });
+
+  it('should apply explicit density values', () => {
+    const el = createFixture();
+    const values = ['compact', 'normal', 'comfortable'] as const;
+    for (const v of values) {
+      fixture.componentRef.setInput('density', v);
+      fixture.detectChanges();
+      expect(el.getAttribute('data-density')).toBe(v);
+    }
+  });
+
+  it('should render animated dots when enabled', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('text', 'Loading');
+    fixture.componentRef.setInput('dots', true);
+    fixture.detectChanges();
+    expect(el.hasAttribute('data-dots')).toBe(true);
+    const dots = el.querySelector('.solaris-loading-text__dots');
+    expect(dots).toBeTruthy();
+    expect(dots?.getAttribute('aria-hidden')).toBe('true');
+    expect(dots?.querySelectorAll('span').length).toBe(3);
+  });
+
+  it('should omit dots by default', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('text', 'Loading');
+    fixture.detectChanges();
+    expect(el.hasAttribute('data-dots')).toBe(false);
+    expect(el.querySelector('.solaris-loading-text__dots')).toBeFalsy();
+  });
+
+  it('should clamp text to max lines when set', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('text', 'Loading');
+    fixture.componentRef.setInput('maxLines', 2);
+    fixture.detectChanges();
+    const text = el.querySelector(
+      '.solaris-loading-text__text--clamped',
+    ) as HTMLElement;
+    expect(text).toBeTruthy();
+    expect(text.style.getPropertyValue('-webkit-line-clamp')).toBe('2');
+  });
+
+  it('should not clamp text by default', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('text', 'Loading');
+    fixture.detectChanges();
+    expect(
+      el.querySelector('.solaris-loading-text__text--clamped'),
+    ).toBeFalsy();
   });
 
   it('should support custom color token variable', () => {

@@ -1,8 +1,11 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
+import { of } from 'rxjs';
+import { vi } from 'vitest';
 
 import { configureSolarisTesting } from '../../../../testing/solaris-test-utilities';
 
+import { SolarisDialogService } from '../../../overlay/dialog/service/dialog.service';
 import { SolarisCollapsibleComponent } from '../component/collapsible.component';
 
 import type { SolarisCollapsibleSize } from '../model/collapsible.types';
@@ -79,6 +82,13 @@ describe('SolarisCollapsibleComponent', () => {
     template: `<solaris-collapsible appearance="lined" label="Details" />`,
   })
   class LinedHost {}
+
+  @Component({
+    standalone: true,
+    imports: [SolarisCollapsibleComponent],
+    template: `<solaris-collapsible appearance="plain" label="Details" />`,
+  })
+  class PlainHost {}
 
   @Component({
     standalone: true,
@@ -231,6 +241,39 @@ describe('SolarisCollapsibleComponent', () => {
     });
   });
 
+  describe('density', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisCollapsibleComponent],
+      template: `<solaris-collapsible density="comfortable" label="Details" />`,
+    })
+    class ComfortableHost {}
+
+    it('should default to the theme density', () => {
+      expect(getHost().getAttribute('data-density')).toBe('normal');
+    });
+
+    it('should reflect the density input', () => {
+      const comfortableFixture = TestBed.createComponent(ComfortableHost);
+      comfortableFixture.detectChanges();
+      const hostEl = comfortableFixture.nativeElement.querySelector(
+        'solaris-collapsible',
+      ) as HTMLElement;
+      expect(hostEl.getAttribute('data-density')).toBe('comfortable');
+    });
+
+    it('should follow the theme density when it changes', () => {
+      TestBed.resetTestingModule();
+      configureSolarisTesting({ theme: { density: 'compact' } });
+      const themedFixture = TestBed.createComponent(TestHostComponent);
+      themedFixture.detectChanges();
+      const hostEl = themedFixture.nativeElement.querySelector(
+        'solaris-collapsible',
+      ) as HTMLElement;
+      expect(hostEl.getAttribute('data-density')).toBe('compact');
+    });
+  });
+
   describe('appearance', () => {
     it('should default to boxed', () => {
       expect(getHost().getAttribute('data-appearance')).toBe('boxed');
@@ -243,6 +286,15 @@ describe('SolarisCollapsibleComponent', () => {
         'solaris-collapsible',
       ) as HTMLElement;
       expect(hostEl.getAttribute('data-appearance')).toBe('lined');
+    });
+
+    it('should reflect the plain appearance input', () => {
+      const plainFixture = TestBed.createComponent(PlainHost);
+      plainFixture.detectChanges();
+      const hostEl = plainFixture.nativeElement.querySelector(
+        'solaris-collapsible',
+      ) as HTMLElement;
+      expect(hostEl.getAttribute('data-appearance')).toBe('plain');
     });
   });
 
@@ -278,6 +330,127 @@ describe('SolarisCollapsibleComponent', () => {
           Node.DOCUMENT_POSITION_FOLLOWING,
       ).toBeTruthy();
     });
+  });
+});
+
+describe('SolarisCollapsibleComponent add action', () => {
+  const createAddFixture = (result?: unknown) => {
+    TestBed.resetTestingModule();
+    const openComponent = vi.fn(() => ({
+      afterClosed: () => of(result),
+    }));
+    configureSolarisTesting(undefined, {
+      providers: [
+        { provide: SolarisDialogService, useValue: { openComponent } },
+      ],
+    });
+
+    @Component({
+      standalone: true,
+      imports: [SolarisCollapsibleComponent],
+      template: `
+        <solaris-collapsible
+          label="Details"
+          [showAddAction]="true"
+          addActionLabel="Add section"
+          (addSubmitted)="onAdd($event)"
+        />
+      `,
+    })
+    class AddHost {
+      lastResult: unknown;
+      onAdd(value: unknown): void {
+        this.lastResult = value;
+      }
+    }
+
+    const addFixture = TestBed.createComponent(AddHost);
+    addFixture.detectChanges();
+    return { addFixture, openComponent };
+  };
+
+  it('should hide the add action by default', () => {
+    TestBed.resetTestingModule();
+    configureSolarisTesting();
+
+    @Component({
+      standalone: true,
+      imports: [SolarisCollapsibleComponent],
+      template: `<solaris-collapsible label="Details" />`,
+    })
+    class PlainHost {}
+
+    const fixture = TestBed.createComponent(PlainHost);
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement.querySelector('.solaris-collapsible__add-action'),
+    ).toBeNull();
+  });
+
+  it('should render the add action with an accessible label', () => {
+    const { addFixture } = createAddFixture(undefined);
+    expect(
+      addFixture.nativeElement
+        .querySelector('solaris-collapsible')
+        .hasAttribute('data-add'),
+    ).toBe(true);
+    const button = addFixture.nativeElement.querySelector(
+      '.solaris-collapsible__add-action',
+    ) as HTMLButtonElement;
+    expect(button).toBeTruthy();
+    expect(button.type).toBe('button');
+    expect(button.getAttribute('aria-label')).toBe('Add section');
+  });
+
+  it('should open the dialog without toggling on add click', () => {
+    const { addFixture, openComponent } = createAddFixture(undefined);
+    const button = addFixture.nativeElement.querySelector(
+      '.solaris-collapsible__add-action',
+    ) as HTMLButtonElement;
+    button.click();
+    addFixture.detectChanges();
+    expect(openComponent).toHaveBeenCalledTimes(1);
+    expect(
+      addFixture.nativeElement
+        .querySelector('solaris-collapsible')
+        .hasAttribute('data-open'),
+    ).toBe(false);
+  });
+
+  it('should emit the dialog result on addSubmitted', () => {
+    const result = { label: 'New', description: 'Body', leadingIcon: null };
+    const { addFixture } = createAddFixture(result);
+    const button = addFixture.nativeElement.querySelector(
+      '.solaris-collapsible__add-action',
+    ) as HTMLButtonElement;
+    button.click();
+    addFixture.detectChanges();
+    expect(
+      (addFixture.componentInstance as { lastResult: unknown }).lastResult,
+    ).toEqual(result);
+  });
+
+  it('should disable the add action when the collapsible is disabled', () => {
+    TestBed.resetTestingModule();
+    configureSolarisTesting();
+
+    @Component({
+      standalone: true,
+      imports: [SolarisCollapsibleComponent],
+      template: `<solaris-collapsible
+        label="Details"
+        [disabled]="true"
+        [showAddAction]="true"
+      />`,
+    })
+    class DisabledAddHost {}
+
+    const fixture = TestBed.createComponent(DisabledAddHost);
+    fixture.detectChanges();
+    const button = fixture.nativeElement.querySelector(
+      '.solaris-collapsible__add-action',
+    ) as HTMLButtonElement;
+    expect(button.disabled).toBe(true);
   });
 });
 

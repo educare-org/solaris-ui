@@ -1,102 +1,39 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.selection-card-showcase {
-  @include layout.page;
-}
-
-.selection-card-showcase__header {
-  @include layout.header;
-}
-
-.selection-card-showcase__title {
-  @include layout.title;
-}
-
-.selection-card-showcase__description {
-  @include layout.description;
-}
-
-.selection-card-showcase__section {
-  @include layout.section-card;
-}
-
-.selection-card-showcase__section-title {
-  @include layout.section-title;
-}
-
 .selection-card-showcase__note {
   @include layout.note;
 
-  margin-bottom: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.selection-card-showcase__single-demo {
-  max-width: calc(var(--solaris-spacing-24) * 4);
-}
-
-.selection-card-showcase__grid {
+.selection-card-showcase__stack {
   display: grid;
-  gap: var(--solaris-spacing-3);
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(calc(var(--solaris-spacing-24) * 2.5), 1fr)
-  );
+  gap: var(--solaris-spacing-4);
 }
 
-.selection-card-showcase__custom-violet {
+.selection-card-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.selection-card-showcase__custom-wrapper {
   --solaris-selection-card-custom-focus-ring-color: #7c3aed;
   --solaris-selection-card-custom-indicator-dot-color: #7c3aed;
-  --solaris-selection-card-custom-selected-background: #9f89ba;
+  --solaris-selection-card-custom-selected-background: #f3e8ff;
   --solaris-selection-card-custom-selected-border-color: #7c3aed;
   --solaris-selection-card-custom-indicator-border-color: #7c3aed;
-}
 
-.selection-card-showcase__media-placeholder {
-  height: calc(var(--solaris-spacing-24) * 1.5);
-  background: var(--solaris-primary-surface);
-}
-
-.selection-card-showcase__media-placeholder--express {
-  background: var(--solaris-info-surface);
-}
-
-.selection-card-showcase__content-copy {
-  margin: 0;
-  color: var(--solaris-text-default);
-  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
-    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+  display: inline-flex;
 }
 
 .selection-card-showcase__glass-preview {
-  overflow: hidden;
-  border-radius: var(--solaris-radius-lg);
-  background: var(--solaris-surface-muted);
+  padding: var(--solaris-spacing-6);
+  background: var(--solaris-neutral-sunken);
 }
 
-.selection-card-showcase__eyebrow {
-  margin: 0 0 var(--solaris-spacing-1);
-  color: var(--solaris-text-muted);
-  font: var(--solaris-font-weight-medium) var(--solaris-font-size-xs) /
-    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
-}
-
-.selection-card-showcase__plan-title {
-  margin: 0;
-  color: var(--solaris-text-strong);
-  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-lg) /
-    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
-}
-
-.selection-card-showcase__plan-description {
-  margin: var(--solaris-spacing-1) 0 0;
-  color: var(--solaris-text-muted);
-  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
-    var(--solaris-line-height-md) var(--solaris-font-family-sans);
-}
-
-.selection-card-showcase__value {
-  margin: var(--solaris-spacing-2) 0 0;
-  color: var(--solaris-text-muted);
-  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
-    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+.selection-card-showcase__media-placeholder {
+  min-height: var(--solaris-spacing-14);
+  background: var(--solaris-neutral-sunken);
 }

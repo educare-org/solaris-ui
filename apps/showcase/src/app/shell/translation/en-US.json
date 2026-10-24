@@ -1,0 +1,150 @@
+{
+  "docs": {
+    "on-this-page": {
+      "title": "On this page"
+    },
+    "page-header": {
+      "breadcrumb-label": "Breadcrumb",
+      "component-nav": "Component navigation",
+      "copy-page": "Copy Page",
+      "next": "Next component",
+      "open-chatgpt": "Open in ChatGPT",
+      "open-claude": "Open in Claude",
+      "open-menu": "More page actions",
+      "page-actions": "Page actions",
+      "prev": "Previous component",
+      "view-markdown": "View as Markdown"
+    },
+    "page": {
+      "next": "Next",
+      "prev": "Previous"
+    }
+  },
+  "shell": {
+    "brand": {
+      "home": "Solaris UI home",
+      "name": "Solaris UI"
+    },
+    "menu": {
+      "close": "Close navigation menu",
+      "open": "Open navigation menu"
+    },
+    "search": {
+      "label": "Filter documentation pages",
+      "no-results": "No pages match the current filter.",
+      "placeholder": "Filter pages…"
+    },
+    "sidebar": {
+      "collapse": "Collapse section",
+      "expand": "Expand section",
+      "group": {
+        "actions": "Actions",
+        "calendar": "Calendar",
+        "content": "Content",
+        "data-display": "Data display",
+        "feedback": "Feedback",
+        "forms": "Forms",
+        "interaction": "Interaction",
+        "navigation": "Navigation",
+        "overlay": "Overlay",
+        "translation": "Translation"
+      },
+      "item": {
+        "accordion": "Accordion",
+        "alert": "Alert",
+        "avatar": "Avatar",
+        "badge": "Badge",
+        "bar-chart": "Bar chart",
+        "breadcrumb": "Breadcrumb",
+        "button": "Button",
+        "button-group": "Button group",
+        "card": "Card",
+        "chart-shell": "Chart shell",
+        "chart-cards": "Chart cards",
+        "charts": "Charts",
+        "checkbox": "Checkbox",
+        "checkbox-group": "Checkbox group",
+        "checkboxes": "Checkboxes",
+        "code-block": "Code block",
+        "collapsible": "Collapsible",
+        "configuration": "Configuration",
+        "date-picker": "Date picker",
+        "dialog": "Dialog",
+        "divider": "Divider",
+        "dropdown-menu": "Dropdown menu",
+        "editable-tabs": "Editable tabs",
+        "email-field": "Email field",
+        "event-editor": "Event editor",
+        "file-upload": "File upload",
+        "form-field": "Form field",
+        "gradebook": "Gradebook",
+        "heatmap": "Heatmap",
+        "holidays": "Holidays",
+        "icon-button": "Icon button",
+        "icons": "Icons",
+        "input": "Input",
+        "line-chart": "Line chart",
+        "loading": "Loading",
+        "loading-text": "Loading text",
+        "mega-menu": "Mega menu",
+        "month-view": "Month view",
+        "multi-select": "Multi-select",
+        "option": "Option",
+        "otp-input": "OTP input",
+        "pagination": "Pagination",
+        "password-field": "Password field",
+        "phone-field": "Phone field",
+        "pickers": "Selectors and lists",
+        "pie-chart": "Pie chart",
+        "popover": "Popover",
+        "preview-code": "Preview code",
+        "print": "Calendar print",
+        "progress": "Progress",
+        "radar": "Radar",
+        "sparkline": "Sparkline",
+        "radio": "Radio",
+        "radio-group": "Radio group",
+        "radios": "Radios",
+        "record-grid": "Record grid",
+        "schedule-view": "Schedule",
+        "segmented-control": "Segmented control",
+        "select": "Select",
+        "selection-card": "Selection card",
+        "selection-controls": "Selection controls",
+        "selects": "Select fields",
+        "shell": "Calendar shell",
+        "skeleton": "Skeleton",
+        "spinner": "Spinner",
+        "stepper": "Stepper",
+        "switch": "Switch",
+        "switch-group": "Switch group",
+        "switches": "Switches",
+        "table": "Table",
+        "tables": "Tables",
+        "tabs": "Tabs",
+        "text-fields": "Text fields",
+        "textarea": "Textarea",
+        "toast": "Toast",
+        "tooltip": "Tooltip",
+        "translate": "Translate",
+        "week-view": "Week view",
+        "year-view": "Year view"
+      },
+      "nav-label": "Documentation sections",
+      "section": {
+        "components": "Components",
+        "foundation": "Foundation",
+        "getting-started": "Get started",
+        "services": "Services"
+      }
+    },
+    "skip-link": "Skip to content",
+    "theme": {
+      "dark": "Dark theme",
+      "high-contrast": "High contrast",
+      "label": "Color scheme",
+      "light": "Light theme",
+      "system": "System theme"
+    }
+  }
+}

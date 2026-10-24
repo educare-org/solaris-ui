@@ -1,0 +1,36 @@
+{
+  "schedule-view": {
+    "dataset": {
+      "label": "Dataset",
+      "sample": "Sample",
+      "stress": "1000 events"
+    },
+    "description": "Chronological day-grouped agenda with windowed pagination. The default below 640px.",
+    "examples": {
+      "note": "Paginate with the toolbar inside the agenda. Only the visible window renders: switch to the 1000-event dataset and watch the DOM stay bounded."
+    },
+    "installation": {
+      "note": "Install the package and import the standalone schedule view component."
+    },
+    "locales": {
+      "note": "Days, times, and helper texts follow the selected locale."
+    },
+    "props": {
+      "note": "Pass events (recurrence expands inside the window only, the array is never mutated), tasks, and resolved holidays. Day clicks never move the window anchor; pagination is explicit."
+    },
+    "section": {
+      "examples": "Examples",
+      "installation": "Installation",
+      "locales": "Locales",
+      "props": "Props",
+      "size-density": "Size and density"
+    },
+    "size-density": {
+      "note": "Size drives day badges and item text while density drives day padding."
+    },
+    "title": "Schedule View",
+    "window": {
+      "label": "Window days"
+    }
+  }
+}

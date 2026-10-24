@@ -1,0 +1,69 @@
+{
+  "solaris": {
+    "file-upload": {
+      "announce": {
+        "addedPlural": "{{count}} arquivos adicionados.",
+        "addedSingular": "1 arquivo adicionado.",
+        "failed": "Falha no envio: {{name}}.",
+        "rejectedPlural": "{{count}} arquivos rejeitados.",
+        "rejectedSingular": "1 arquivo rejeitado: {{name}}.",
+        "removed": "Removido {{name}}.",
+        "uploaded": "Envio concluído: {{name}}."
+      },
+      "avatar": {
+        "browse": "Selecione um arquivo",
+        "drop": "Solte sua foto aqui ou",
+        "images": "imagens",
+        "label": "Foto de perfil",
+        "supports": "Suporta: {{types}}"
+      },
+      "browse": "procurar arquivos",
+      "drop-active": "Solte o arquivo aqui",
+      "dropzone": "Arraste e solte os arquivos aqui ou",
+      "error": {
+        "max-files": "Máximo de {{count}} arquivos permitido.",
+        "max-size": "O arquivo excede o tamanho máximo de {{size}}.",
+        "type-not-allowed": "Tipo de arquivo não permitido.",
+        "upload-failed": "Não foi possível enviar {{name}}."
+      },
+      "field": "Arraste ou procure o arquivo",
+      "list": "Arquivos selecionados",
+      "or": "ou",
+      "remove": "Remover {{name}}",
+      "required": "Selecione ao menos um arquivo.",
+      "retry": "Tentar enviar {{name}} novamente",
+      "status": {
+        "error": "Falha no envio",
+        "ready": "Pronto para envio",
+        "success": "Enviado",
+        "uploading": "Enviando"
+      },
+      "up-to": "Até {{size}}",
+      "url": {
+        "add": "Adicionar",
+        "error": "Não foi possível carregar um arquivo desta URL.",
+        "invalid": "Insira uma URL https válida.",
+        "label": "URL do arquivo",
+        "placeholder": "https://exemplo.com/arquivo.pdf",
+        "too-large": "O arquivo remoto excede o limite de {{size}}."
+      }
+    },
+    "image-editor": {
+      "aspect": "Proporção {{aspect}}",
+      "aspect-free": "Livre",
+      "cancel": "Cancelar",
+      "drag-to-reposition": "Arraste para reposicionar a imagem",
+      "load-error": "Não foi possível carregar a imagem. Tente outro arquivo.",
+      "pan": "Prévia da imagem. Arraste para mover. Use as setas para mover e mais, menos ou a roda do mouse para o zoom.",
+      "reset": "Redefinir",
+      "rotate": "Girar 90 graus",
+      "save": "Salvar",
+      "shape-circle": "Círculo",
+      "shape-rect": "Retângulo",
+      "title": "Editar imagem",
+      "zoom": "Zoom",
+      "zoom-in": "Aproximar",
+      "zoom-out": "Afastar"
+    }
+  }
+}

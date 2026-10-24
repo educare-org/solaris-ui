@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular API to read the host element for scroll-parent lookup (parentElement traversal) and passive scroll listener for scrolled state. SSR-safe via isPlatformBrowser guard with DestroyRef cleanup. No alternative exists.
 import {
   Component,
   input,
@@ -55,6 +54,7 @@ export class SolarisDialogFooterComponent implements AfterViewInit {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
+    this.collapseSeparatorWhenAdjacentToHeader();
     this.observeScrollParent();
   }
 
@@ -72,6 +72,12 @@ export class SolarisDialogFooterComponent implements AfterViewInit {
       scrollParent.removeEventListener('scroll', update);
     });
   }
+
+  private collapseSeparatorWhenAdjacentToHeader(): void {
+    if (this.separator() && followsHeaderSeparator(this.hostElement)) {
+      this.hostElement.setAttribute('data-adjacent-header', '');
+    }
+  }
 }
 
 function findScrollParent(element: HTMLElement): HTMLElement | null {
@@ -88,4 +94,12 @@ function findScrollParent(element: HTMLElement): HTMLElement | null {
 
 function hasMoreBelow(element: HTMLElement): boolean {
   return element.scrollTop + element.clientHeight < element.scrollHeight - 1;
+}
+
+function followsHeaderSeparator(element: HTMLElement): boolean {
+  const previous = element.previousElementSibling as HTMLElement | null;
+  return (
+    previous?.tagName === 'SOLARIS-DIALOG-HEADER' &&
+    previous.hasAttribute('data-separator')
+  );
 }

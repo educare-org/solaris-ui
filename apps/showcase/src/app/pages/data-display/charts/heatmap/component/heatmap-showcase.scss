@@ -1,0 +1,32 @@
+.heatmap-showcase__note {
+  margin: 0 0 var(--solaris-spacing-7);
+}
+
+.heatmap-showcase__demo {
+  width: 100%;
+  display: grid;
+  gap: var(--solaris-spacing-7);
+}
+
+.heatmap-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.heatmap-showcase__log {
+  margin: 0;
+  min-height: var(--solaris-spacing-9);
+  font-size: var(--solaris-font-size-xs);
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-neutral-sunken);
+  color: var(--solaris-neutral-text-secondary);
+  font-family: var(--solaris-font-family-mono);
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5);
+}
+
+.heatmap-showcase__table-wrap {
+  overflow-x: auto;
+}

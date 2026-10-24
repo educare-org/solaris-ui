@@ -1,0 +1,56 @@
+{
+  "line-chart-view": {
+    "description": "Smooth or straight line chart with area fill, focusable dots, total tooltip and reference line.",
+    "examples": {
+      "note": "Pass immutable series and receive point selections in the log below.",
+      "keyboardNote": "Dots are keyboard-focusable: Tab to a dot, use the arrow keys to move, Enter to select.",
+      "average": "Average",
+      "seriesAutomation": "Task automation",
+      "seriesQueries": "User queries"
+    },
+    "interpolation": {
+      "note": "Smooth curves, straight segments, or step edges share the same dots, average line, and keyboard support. Use the tabs to switch.",
+      "label": "Interpolation",
+      "smooth": "Smooth",
+      "linear": "Linear",
+      "step": "Step"
+    },
+    "gaps": {
+      "note": "Null points break the line instead of interpolating. Dots stay keyboard-focusable; the average reference line still renders."
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3×3 matrix: sm compacts labels and canvas, lg expands them, md is the default. Density refines gaps and stroke weight."
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "density": {
+      "compact": "Compact",
+      "normal": "Normal",
+      "comfortable": "Comfortable"
+    },
+    "installation": {
+      "note": "Install the package and import the standalone line chart component."
+    },
+    "props": {
+      "note": "Inputs, possible values and defaults. The pointSelect output emits the selected dot.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
+    },
+    "section": {
+      "examples": "Examples",
+      "interpolation": "Interpolation",
+      "gaps": "Gaps",
+      "size-density": "Size and density",
+      "sizes": "Sizes",
+      "density": "Density",
+      "installation": "Installation",
+      "props": "Props"
+    },
+    "title": "Line chart"
+  }
+}

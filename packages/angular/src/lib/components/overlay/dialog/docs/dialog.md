@@ -89,47 +89,48 @@ class UserProfileComponent {
 
 ### SolarisDialogOptions
 
-| Property             | Type                                                                                                                 | Default            | Description                        |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------ | ---------------------------------- |
-| title                | `string`                                                                                                             | -                  | Dialog title                       |
-| titleKey             | `string`                                                                                                             | -                  | Translation key for title          |
-| description          | `string`                                                                                                             | -                  | Dialog description                 |
-| descriptionKey       | `string`                                                                                                             | -                  | Translation key for description    |
-| icon                 | `string`                                                                                                             | -                  | Icon name                          |
-| iconDecorative       | `boolean`                                                                                                            | `false`            | Whether icon is decorative         |
-| variant              | `'neutral' \| 'info' \| 'success' \| 'warning' \| 'danger'`                                                          | `'neutral'`        | Semantic variant                   |
-| appearance           | `'surface' \| 'outline'`                                                                                             | `'outline'`        | Visual appearance                  |
-| fullscreen           | `boolean`                                                                                                            | `false`            | Full-viewport panel                |
-| placement            | `'center' \| 'top' \| 'bottom' \| 'left' \| 'right' \| 'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'` | `'center'`         | Panel position                     |
-| width                | `string`                                                                                                             | -                  | Custom width                       |
-| height               | `string`                                                                                                             | -                  | Custom height                      |
-| minWidth             | `string`                                                                                                             | -                  | Minimum width                      |
-| maxWidth             | `string`                                                                                                             | -                  | Maximum width                      |
-| minHeight            | `string`                                                                                                             | -                  | Minimum height                     |
-| maxHeight            | `string`                                                                                                             | -                  | Maximum height                     |
-| closeable            | `boolean`                                                                                                            | `true`             | Show close button                  |
-| closeLabel           | `string`                                                                                                             | `'Close'`          | Close button aria-label            |
-| closeLabelKey        | `string`                                                                                                             | -                  | Translation key for close label    |
-| backdrop             | `boolean`                                                                                                            | `true`             | Show the modal backdrop            |
-| closeOnEscape        | `boolean`                                                                                                            | `true`             | Close on Escape key                |
-| closeOnBackdropClick | `boolean`                                                                                                            | `true`             | Close on backdrop click            |
-| autoFocus            | `'first-tabbable' \| 'panel' \| false`                                                                               | `'first-tabbable'` | Auto focus behavior                |
-| restoreFocus         | `boolean`                                                                                                            | `true`             | Restore focus on close             |
-| role                 | `'dialog' \| 'alertdialog'`                                                                                          | `'dialog'`         | ARIA role                          |
-| ariaLabel            | `string`                                                                                                             | -                  | ARIA label                         |
-| ariaLabelKey         | `string`                                                                                                             | -                  | Translation key for ARIA label     |
-| ariaLabelledBy       | `string`                                                                                                             | -                  | ARIA labelledby                    |
-| ariaDescribedBy      | `string`                                                                                                             | -                  | ARIA describedby                   |
-| actions              | `SolarisDialogAction[]`                                                                                              | -                  | Action buttons                     |
-| headerSeparator      | `boolean`                                                                                                            | `true`             | Show header separator line         |
-| footerSeparator      | `boolean`                                                                                                            | `true`             | Show footer separator line         |
-| radius               | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                                                           | `'lg'`             | Panel border radius                |
-| density              | `'compact' \| 'normal' \| 'comfortable'`                                                                             | theme density      | Section spacing density            |
-| actionsShape         | `'normal' \| 'wide'`                                                                                                 | -                  | Default shape for action buttons   |
-| actionsDensity       | `'compact' \| 'normal' \| 'comfortable'`                                                                             | -                  | Default density for action buttons |
-| actionsRadius        | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                                                           | -                  | Default radius for action buttons  |
-| actionsAlign         | `'start' \| 'center' \| 'end' \| 'space-between'`                                                                    | `'end'`            | Actions alignment                  |
-| actionsStack         | `'auto' \| 'horizontal' \| 'vertical'`                                                                               | `'auto'`           | Actions stacking                   |
+| Property             | Type                                                                                                                 | Default            | Description                          |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------ |
+| title                | `string`                                                                                                             | -                  | Dialog title                         |
+| titleKey             | `string`                                                                                                             | -                  | Translation key for title            |
+| description          | `string`                                                                                                             | -                  | Dialog description                   |
+| descriptionKey       | `string`                                                                                                             | -                  | Translation key for description      |
+| icon                 | `string`                                                                                                             | -                  | Icon name                            |
+| iconDecorative       | `boolean`                                                                                                            | `false`            | Whether icon is decorative           |
+| variant              | `'neutral' \| 'info' \| 'success' \| 'warning' \| 'danger'`                                                          | `'neutral'`        | Semantic variant                     |
+| appearance           | `'surface' \| 'outline'`                                                                                             | `'outline'`        | Visual appearance                    |
+| fullscreen           | `boolean`                                                                                                            | `false`            | Full-viewport panel                  |
+| placement            | `'center' \| 'top' \| 'bottom' \| 'left' \| 'right' \| 'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'` | `'center'`         | Panel position                       |
+| sheet                | `boolean`                                                                                                            | `false`            | Dock to an edge placement as a sheet |
+| width                | `string`                                                                                                             | -                  | Custom width                         |
+| height               | `string`                                                                                                             | -                  | Custom height                        |
+| minWidth             | `string`                                                                                                             | -                  | Minimum width                        |
+| maxWidth             | `string`                                                                                                             | -                  | Maximum width                        |
+| minHeight            | `string`                                                                                                             | -                  | Minimum height                       |
+| maxHeight            | `string`                                                                                                             | -                  | Maximum height                       |
+| closeable            | `boolean`                                                                                                            | `true`             | Show close button                    |
+| closeLabel           | `string`                                                                                                             | `'Close'`          | Close button aria-label              |
+| closeLabelKey        | `string`                                                                                                             | -                  | Translation key for close label      |
+| backdrop             | `boolean`                                                                                                            | `true`             | Show the modal backdrop              |
+| closeOnEscape        | `boolean`                                                                                                            | `true`             | Close on Escape key                  |
+| closeOnBackdropClick | `boolean`                                                                                                            | `true`             | Close on backdrop click              |
+| autoFocus            | `'first-tabbable' \| 'panel' \| false`                                                                               | `'first-tabbable'` | Auto focus behavior                  |
+| restoreFocus         | `boolean`                                                                                                            | `true`             | Restore focus on close               |
+| role                 | `'dialog' \| 'alertdialog'`                                                                                          | `'dialog'`         | ARIA role                            |
+| ariaLabel            | `string`                                                                                                             | -                  | ARIA label                           |
+| ariaLabelKey         | `string`                                                                                                             | -                  | Translation key for ARIA label       |
+| ariaLabelledBy       | `string`                                                                                                             | -                  | ARIA labelledby                      |
+| ariaDescribedBy      | `string`                                                                                                             | -                  | ARIA describedby                     |
+| actions              | `SolarisDialogAction[]`                                                                                              | -                  | Action buttons                       |
+| headerSeparator      | `boolean`                                                                                                            | `true`             | Show header separator line           |
+| footerSeparator      | `boolean`                                                                                                            | `true`             | Show footer separator line           |
+| radius               | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                                                           | `'lg'`             | Panel border radius                  |
+| density              | `'compact' \| 'normal' \| 'comfortable'`                                                                             | theme density      | Section spacing density              |
+| actionsShape         | `'normal' \| 'wide'`                                                                                                 | -                  | Default shape for action buttons     |
+| actionsDensity       | `'compact' \| 'normal' \| 'comfortable'`                                                                             | -                  | Default density for action buttons   |
+| actionsRadius        | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                                                           | -                  | Default radius for action buttons    |
+| actionsAlign         | `'start' \| 'center' \| 'end' \| 'space-between'`                                                                    | `'end'`            | Actions alignment                    |
+| actionsStack         | `'auto' \| 'horizontal' \| 'vertical'`                                                                               | `'auto'`           | Actions stacking                     |
 
 ### SolarisDialogAction
 
@@ -187,6 +188,7 @@ Actions are rendered using the Solaris Button directive (`[solaris-button]`).
 | appearance           | `'surface' \| 'outline'`                                                                                             | `'outline'`        | Visual appearance                                     |
 | fullscreen           | `boolean`                                                                                                            | `false`            | Full-viewport panel                                   |
 | placement            | `'center' \| 'top' \| 'bottom' \| 'left' \| 'right' \| 'top-left' \| 'top-right' \| 'bottom-left' \| 'bottom-right'` | `'center'`         | Panel position                                        |
+| sheet                | `boolean`                                                                                                            | `false`            | Dock to an edge placement as a sheet                  |
 | headerSeparator      | `boolean`                                                                                                            | `true`             | Show header separator line                            |
 | footerSeparator      | `boolean`                                                                                                            | `true`             | Show footer separator line                            |
 | radius               | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                                                           | `'lg'`             | Panel border radius                                   |
@@ -237,7 +239,7 @@ mobile).
 
 ## Appearance
 
-- `surface`: Borderless surface background (`--solaris-surface-base`) with shadow, no border.
+- `surface`: Borderless surface background (`--solaris-neutral-default`) with shadow, no border.
 - `outline`: Default. Surface background with visible border.
 
 ## Close button
@@ -308,6 +310,58 @@ For non-modal bottom sheets, set `backdrop: false` to remove the dimming
 overlay. The panel keeps its own pointer events and the page behind remains
 interactive.
 
+## Sheets
+
+Set `sheet: true` together with an edge `placement` (`top` / `bottom` /
+`left` / `right`) to dock the panel to that edge: full width (bottom/top)
+or full height (left/right), no 24px offset, radius only on the exposed
+side. `sheet` is ignored for `center`, corner placements and `fullscreen`,
+which keep the floating panel. The container reflects it as `data-sheet`
+(presence attribute).
+
+```typescript
+this.dialog.open({
+  title: 'Filters',
+  description: 'Refine the list below.',
+  placement: 'bottom',
+  sheet: true,
+  actions: [{ label: 'Apply', color: 'primary', close: true }],
+});
+```
+
+## Nested dialogs
+
+Dialogs can open on top of each other (e.g. a confirmation inside a form
+dialog). Each `open()` / `openComponent()` creates its own overlay; the
+service tracks the stack:
+
+- Only the topmost dialog reacts to Escape (`SolarisDialogService.isTopmost(ref)`,
+  `openCount`, `topmostId`).
+- Panels below the topmost get `aria-hidden="true"` so assistive
+  technology only exposes the active dialog. Focus trap, initial focus and
+  focus restore keep working per dialog.
+- Each dialog keeps its own backdrop: clicking outside the inner panel only
+  reaches the inner backdrop.
+
+```typescript
+class OuterComponent {
+  confirmDelete(): void {
+    this.dialog.open({
+      title: 'Discard changes?',
+      variant: 'warning',
+      role: 'alertdialog',
+      actions: [
+        { label: 'Keep editing', appearance: 'ghost', close: true },
+        { label: 'Discard', color: 'danger', close: true, result: 'discard' },
+      ],
+    });
+  }
+}
+```
+
+Keep nesting shallow (one level): deep stacks are hard to follow for
+sighted and screen-reader users alike.
+
 ## CSS Variables
 
 The following CSS variables can be customized. Panel and backdrop tokens are declared on the dialog container; icon and close tokens on the dialog header.
@@ -326,6 +380,7 @@ The following CSS variables can be customized. Panel and backdrop tokens are dec
 | `--solaris-dialog-z-index`                 | Stack order of the overlay                  |
 | `--solaris-dialog-icon-color`              | Header icon color                           |
 | `--solaris-dialog-icon-size`               | Header icon size                            |
+| `--solaris-dialog-close-icon-size`         | Close button icon size (header + fallback)  |
 | `--solaris-dialog-media-size`              | Header icon container size                  |
 | `--solaris-dialog-header-border-color`     | Header separator line color                 |
 | `--solaris-dialog-header-z-index`          | Header stacking above scrolled content      |
@@ -354,6 +409,8 @@ The following CSS variables can be customized. Panel and backdrop tokens are dec
   `restoreFocus: false`)
 - Escape closes the dialog when `closeOnEscape` is true
 - Backdrop click closes when `closeOnBackdropClick` is true
+- Stacked dialogs: only the topmost reacts to Escape; panels below get
+  `aria-hidden="true"`
 - Close button has `aria-label`
 - Reduced motion respected
 
@@ -376,13 +433,56 @@ Dialog Flow enables multi-step dialogs with smooth slide transitions between ste
 ```typescript
 class MyComponent {
   readonly activeStep = signal(0);
+  readonly flow = viewChild.required(SolarisDialogFlowComponent);
 
   next(): void {
-    this.activeStep.update((v) => Math.min(v + 1, 2));
+    this.flow().next();
   }
   previous(): void {
-    this.activeStep.update((v) => Math.max(v - 1, 0));
+    this.flow().previous();
   }
+}
+```
+
+### Programmatic navigation
+
+`SolarisDialogFlowComponent` exposes `next()`, `previous()` and
+`goTo(index)`. Navigation is disabled-aware: `next()` / `previous()` skip
+disabled steps, and `goTo()` ignores out-of-range and disabled targets, so
+callers can bind these directly to buttons without extra guards.
+
+### Gating steps on form validity
+
+Mark a step `[disabled]` from a form's validity signal. The step is skipped
+by `next()` / `previous()`, rejected by `goTo()`, and exposed as
+`data-disabled` on the rendered step wrapper for styling (step hosts are
+not projected into the DOM — only the footer slot is):
+
+```html
+<solaris-dialog-flow [(activeIndex)]="activeStep">
+  <solaris-dialog-step>
+    <form>…account fields…</form>
+  </solaris-dialog-step>
+
+  <solaris-dialog-step [disabled]="accountForm.invalid">
+    <form>…institution fields…</form>
+  </solaris-dialog-step>
+</solaris-dialog-flow>
+```
+
+### Syncing with the router
+
+The flow is router-agnostic by design; sync `activeIndex` with a query
+param when deep-linking matters:
+
+```typescript
+readonly activeStep = signal(
+  Number(this.route.snapshot.queryParamMap.get('step') ?? 0),
+);
+
+goToStep(index: number): void {
+  this.flow().goTo(index);
+  void this.router.navigate([], { queryParams: { step: index } });
 }
 ```
 
@@ -494,10 +594,5 @@ this.dialog.openComponent(DialogFlowExampleComponent, {
 
 ## Limitations (v1)
 
-- No nested dialogs
-- No drawer or sheet panels
 - No drag or resize
-- No glass appearance
 - No swipe gesture support for Dialog Flow
-- Dialog Flow does not include form validation integration
-- Dialog Flow does not include routing integration

@@ -1,0 +1,88 @@
+{
+  "skeleton": {
+    "advanced": {
+      "aspect-ratio": "Proporção",
+      "delay": "Delay",
+      "duration": "Duração",
+      "note": "Delay evita flash em carregamentos rápidos; aspect ratio mantém placeholders de mídia proporcionais sem alturas fixas; duration ajusta a velocidade da animação."
+    },
+    "animation": {
+      "none": "Nenhuma",
+      "pulse": "Pulse",
+      "wave": "Wave"
+    },
+    "animations-desc": "Pulse desvanece, wave cintila (da direita para a esquerda sob RTL), none fica estático.",
+    "composition": {
+      "note": "Presets de carregamento reutilizáveis compostos de primitivas skeleton. Cada demo está em uma região aria-busy."
+    },
+    "delay": {
+      "replay": "Repetir delay"
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Placeholder visual não interativo para conteúdo em estado de carregamento.",
+    "duration": {
+      "default": "Padrão",
+      "fast": "Rápida",
+      "slow": "Lenta"
+    },
+    "examples": {
+      "note": "Placeholders de texto, retangulares e circulares. O snippet mostra o template mínimo."
+    },
+    "installation": {
+      "note": "Instale o pacote único do Solaris UI e importe o componente skeleton."
+    },
+    "lines": {
+      "five": "5 linhas",
+      "three": "3 linhas",
+      "two": "2 linhas"
+    },
+    "multiline": {
+      "note": "Texto multi-linha usa larguras determinísticas com última linha mais curta. O snippet reflete a seleção atual."
+    },
+    "preset": {
+      "dashboard": "Dashboard",
+      "dashboard-label": "Carregando card do dashboard",
+      "list-label": "Carregando linha da lista",
+      "list-row": "Linha de lista",
+      "media-block": "Bloco de mídia",
+      "media-label": "Carregando bloco de mídia",
+      "profile": "Perfil",
+      "profile-label": "Carregando perfil"
+    },
+    "props": {
+      "note": "A referência completa de props está na documentação do componente."
+    },
+    "section": {
+      "advanced": "Avançado",
+      "animations": "Animações",
+      "composition": "Composição",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "multiline": "Multi-linha",
+      "props": "Propriedades",
+      "size-density": "Tamanho & Densidade",
+      "sizes": "Tamanhos",
+      "variants": "Variantes"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Cada célula tamanho × densidade × variante é uma regra explícita em escala px própria. O snippet reflete a seleção atual."
+    },
+    "title": "Skeleton",
+    "variant": {
+      "circular": "Circular",
+      "rectangular": "Retangular",
+      "text": "Texto"
+    },
+    "variants-desc": "Linhas de texto, blocos retangulares e avatares circulares."
+  }
+}

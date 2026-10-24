@@ -1,0 +1,112 @@
+{
+  "card": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "glass": "Glass",
+      "outline": "Outline",
+      "surface": "Surface",
+      "tonal": "Tonal"
+    },
+    "clickable": {
+      "note": "Definir href convierte toda la Surface en un único enlace nativo. Una tarjeta es un destino; nunca anides botones ni enlaces dentro."
+    },
+    "composition": {
+      "note": "Tarjeta con acciones explícitas y su Skeleton de carga en un interruptor.",
+      "toggle": {
+        "off": "Mostrar contenido",
+        "on": "Simular Cargando"
+      }
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Componente Surface para agrupar contenido relacionado, con niveles de relleno opcionales y una variante en la que se puede hacer clic.",
+    "example": {
+      "appearance": {
+        "glass-description": "Translúcido con desenfoque.",
+        "glass-title": "Glass",
+        "outline-description": "Tarjeta con borde visible.",
+        "outline-title": "Outline",
+        "surface-description": "Apariencia de tarjeta predeterminada.",
+        "surface-title": "Surface",
+        "tonal-description": "Tarjeta con tinte sutil.",
+        "tonal-title": "Tonal"
+      },
+      "basic": {
+        "badge": "Desarrollo",
+        "comments": "8 comentarios",
+        "description": "Añade un campo en el portal para permitir que el usuario conecte su cuenta de Slack.",
+        "title": "Integración con Slack",
+        "tomorrow": "Mañana"
+      },
+      "clickable": {
+        "description": "Toda la Surface es un único enlace. Actívalo con Enter.",
+        "label": "Abrir la función de analíticas",
+        "title": "Analíticas"
+      },
+      "media": {
+        "badge": "Activo",
+        "description": "Contenido colocado debajo del área de medios con un Badge y pie de página.",
+        "preview": "Vista previa de medios",
+        "title": "Tarjeta con medios",
+        "updated": "Actualizado hace 2 días"
+      },
+      "radius": {
+        "lg": "Grande",
+        "none": "Ninguno",
+        "sm": "Pequeño",
+        "xl": "Extragrande"
+      },
+      "with-actions": {
+        "description": "Prefiere acciones explícitas cuando una tarjeta necesita más de un destino.",
+        "primary": "Conectar",
+        "secondary": "Más información",
+        "title": "Integración con Slack"
+      }
+    },
+    "examples": {
+      "note": "Empieza con la tarjeta predeterminada y luego explora apariencias y variantes a continuación."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "media": {
+      "start": "Lateral",
+      "top": "Superior"
+    },
+    "padding": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "none": "Ninguno",
+      "sm": "Pequeño"
+    },
+    "padding-density": {
+      "note": "Padding selecciona el nivel de espaciado y la densidad resuelve su valor. Combina ambos controles para ver todas las combinaciones."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "radius": {
+      "lg": "Grande",
+      "none": "Ninguno",
+      "sm": "Pequeño",
+      "xl": "Extragrande"
+    },
+    "section": {
+      "appearances": "Apariencias",
+      "clickable": "Tarjeta en la que se puede hacer clic",
+      "composition": "Composición",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "media": "Multimedia",
+      "padding-density": "Padding y densidad",
+      "props": "Props",
+      "radius": "Radio"
+    },
+    "title": "Tarjeta"
+  }
+}

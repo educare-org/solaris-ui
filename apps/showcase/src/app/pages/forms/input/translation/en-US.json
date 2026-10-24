@@ -1,0 +1,109 @@
+{
+  "input": {
+    "affix": {
+      "price": "Price",
+      "price-placeholder": "0.00",
+      "usd": "USD"
+    },
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "aria-label": {
+      "hide": "Hide password",
+      "show": "Show password"
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Styling and integration directive for native <input> text-like fields. Works standalone and integrated with Form Field.",
+    "error": {
+      "invalid": "This field has an error.",
+      "required": "Email is required.",
+      "valid-email": "Enter a valid email."
+    },
+    "examples": {
+      "note": "Standalone input with its own visual shell: border, background, padding, radius, and focus ring."
+    },
+    "form": {
+      "hint": "Enter your email address.",
+      "label": "Required Email"
+    },
+    "form-field": {
+      "hint": "Enter your full name.",
+      "label": "Name",
+      "note": "Label, hint, and visual shell managed by Form Field. Input keeps behavior, placeholder, and value. Size on Form Field is valid and owns the outer height through the 3x3 matrix.",
+      "placeholder": "Your name"
+    },
+    "installation": {
+      "note": "Install the Solaris UI package and import the input directive with Form Field."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "radius": {
+      "lg": "Large",
+      "md": "Medium",
+      "none": "None",
+      "note": "Radius is owned by Form Field when projected; the standalone input exposes the same none, sm, md, lg, and xl values. Global scale: md maps to 4px, lg to 8px, and xl renders as a pill.",
+      "sm": "Small",
+      "xl": "Pill"
+    },
+    "section": {
+      "appearances": "Appearances",
+      "density": "Density",
+      "examples": "Examples",
+      "form": "Form integration",
+      "form-field": "With Form Field",
+      "installation": "Installation",
+      "prefix-suffix": "Prefix and suffix",
+      "props": "Props",
+      "radius": "Radius",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States",
+      "types": "Types"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3x3 matrix: Form Field owns the outer height, the input keeps its own font and padding in sync."
+    },
+    "states": {
+      "default": "Default",
+      "disabled": "Disabled",
+      "invalid": "Invalid",
+      "readonly": "Readonly",
+      "readonly-value": "Readonly value"
+    },
+    "title": "Input",
+    "types": {
+      "date": "Date",
+      "email": "Email",
+      "email-placeholder": "name@company.com",
+      "note": "Native type semantics are preserved. Unsupported types (file, color, range, checkbox, radio, buttons, hidden) warn in development.",
+      "number": "Number",
+      "number-placeholder": "42",
+      "password": "Password",
+      "password-placeholder": "Password",
+      "search": "Search",
+      "search-placeholder": "Search...",
+      "tel": "Phone",
+      "tel-placeholder": "(555) 123-4567",
+      "text": "Text",
+      "text-placeholder": "Text",
+      "time": "Time",
+      "url": "URL",
+      "url-placeholder": "https://example.com"
+    }
+  }
+}

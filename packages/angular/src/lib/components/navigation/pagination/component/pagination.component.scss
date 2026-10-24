@@ -1,0 +1,156 @@
+:host {
+  --solaris-pagination-gap: var(--solaris-spacing-6);
+  --solaris-pagination-min-height: var(--solaris-spacing-11);
+  --solaris-pagination-range-color: var(--solaris-neutral-text-secondary);
+  --solaris-pagination-button-size: var(--solaris-spacing-10);
+  --solaris-pagination-button-icon-size: var(--solaris-spacing-8);
+  --solaris-pagination-button-color: var(--solaris-neutral-text-secondary);
+
+  display: block;
+  box-sizing: border-box;
+  font-size: var(--solaris-font-size-xs);
+  color: var(--solaris-neutral-text-body);
+  font-family: var(--solaris-font-family-sans), system-ui;
+}
+
+.solaris-pagination__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--solaris-pagination-gap);
+  min-height: var(--solaris-pagination-min-height);
+}
+
+.solaris-pagination__page-size {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--solaris-spacing-5);
+}
+
+.solaris-pagination__page-size-label {
+  white-space: nowrap;
+  font-size: var(--solaris-font-size-xs);
+  color: var(--solaris-pagination-range-color);
+}
+
+.solaris-pagination__select {
+  --solaris-select-font-size: var(--solaris-font-size-xs);
+  --solaris-select-value-color: var(--solaris-pagination-range-color);
+  --solaris-select-trigger-gap: var(--solaris-spacing-3);
+  --solaris-select-dropdown-icon-size: var(--solaris-font-size-md);
+  --solaris-select-value-min-width: 3ch;
+  --solaris-select-value-flex: none;
+  --solaris-select-actions-margin-inline-start: var(--solaris-spacing-0);
+  --solaris-form-field-control-padding-x: var(--solaris-spacing-0);
+  --solaris-form-field-control-height: auto;
+  --solaris-form-field-control-gap: var(--solaris-spacing-0);
+  --solaris-form-field-message-margin-top: var(--solaris-spacing-0);
+
+  flex: none;
+  width: auto;
+  min-width: var(--solaris-spacing-0);
+}
+
+.solaris-pagination__range {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--solaris-font-size-xs);
+  color: var(--solaris-pagination-range-color);
+}
+
+.solaris-pagination__description {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--solaris-pagination-range-color);
+}
+
+.solaris-pagination__trailing {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--solaris-pagination-gap);
+  min-width: var(--solaris-spacing-0);
+}
+
+.solaris-pagination__controls {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--solaris-spacing-3);
+}
+
+.solaris-pagination__button {
+  cursor: pointer;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  background: transparent;
+  border: var(--solaris-spacing-0);
+  padding: var(--solaris-spacing-0);
+  border-radius: var(--solaris-radius-sm);
+  width: var(--solaris-pagination-button-size);
+  height: var(--solaris-pagination-button-size);
+  color: var(--solaris-pagination-button-color);
+  font-size: var(--solaris-pagination-button-icon-size);
+  transition:
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-pagination__button:hover:not(:disabled) {
+  color: var(--solaris-neutral-text-body);
+}
+
+.solaris-pagination__button:disabled {
+  cursor: not-allowed;
+  opacity: var(--solaris-opacity-40);
+}
+
+.solaris-pagination__button:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-pagination__button {
+    transition: none;
+  }
+}
+
+@media (width <= 1023px) {
+  .solaris-pagination__nav {
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+
+  .solaris-pagination__trailing {
+    flex-wrap: wrap;
+  }
+}
+
+.solaris-pagination__select solaris-option {
+  --solaris-option-padding-y: var(--solaris-spacing-4);
+  --solaris-option-padding-x: var(--solaris-spacing-3);
+  --solaris-option-gap: var(--solaris-spacing-4);
+}
+
+:host([data-narrow]) .solaris-pagination__page-size-label {
+  display: none;
+}
+
+// The table card layout can be forced on wide viewports (e.g. layout="card"
+// showcase tab), where the viewport query never matches. Hide the label
+// whenever pagination renders inside a card/mobile table footer.
+:host-context(solaris-table[data-card-layout])
+  .solaris-pagination__page-size-label,
+:host-context(solaris-table[data-mobile]) .solaris-pagination__page-size-label {
+  display: none;
+}
+
+@media (width <= 720px) {
+  .solaris-pagination__page-size-label {
+    display: none;
+  }
+}

@@ -1,0 +1,37 @@
+:host {
+  display: block;
+}
+
+.docs-page-layout {
+  display: grid;
+  align-items: start;
+  gap: var(--solaris-spacing-8);
+  grid-template-columns: minmax(0, 1fr) calc(
+      var(--solaris-spacing-18) * 2 + var(--solaris-spacing-10)
+    );
+}
+
+.docs-page-layout__content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-8);
+  padding: var(--solaris-spacing-12) var(--solaris-spacing-15);
+}
+
+.docs-page-layout__aside {
+  overflow-y: auto;
+  position: sticky;
+  top: var(--solaris-spacing-16);
+  max-height: calc(100vh - var(--solaris-spacing-17));
+}
+
+@media (width <= 1024px) {
+  .docs-page-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .docs-page-layout__aside {
+    display: none;
+  }
+}

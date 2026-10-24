@@ -1,16 +1,20 @@
 :host {
-  --solaris-dropdown-menu-item-gap: var(--solaris-spacing-2);
+  --solaris-dropdown-menu-item-gap: var(--solaris-spacing-4);
   --solaris-dropdown-menu-item-radius: var(--solaris-radius-sm);
   --solaris-dropdown-menu-item-padding-y: var(--solaris-spacing-2);
   --solaris-dropdown-menu-item-padding-x: var(--solaris-spacing-4);
-  --solaris-dropdown-menu-item-label-color: var(--solaris-text-default);
-  --solaris-dropdown-menu-item-danger-color: var(--solaris-danger-text);
-  --solaris-dropdown-menu-item-shortcut-color: var(--solaris-text-muted);
-  --solaris-dropdown-menu-item-danger-hover: var(--solaris-danger-surface);
-  --solaris-dropdown-menu-item-description-color: var(--solaris-text-muted);
-  --solaris-dropdown-menu-item-focus-ring-color: var(--solaris-primary-base);
-  --solaris-dropdown-menu-item-hover-background: var(--solaris-surface-muted);
-  --solaris-dropdown-menu-item-focus-background: var(--solaris-surface-subtle);
+  --solaris-dropdown-menu-item-label-color: var(--solaris-neutral-text-body);
+  --solaris-dropdown-menu-item-danger-color: var(--solaris-danger-foreground);
+  --solaris-dropdown-menu-item-shortcut-color: var(
+    --solaris-neutral-text-secondary
+  );
+  --solaris-dropdown-menu-item-danger-hover: var(--solaris-danger-soft);
+  --solaris-dropdown-menu-item-description-color: var(
+    --solaris-neutral-text-secondary
+  );
+  --solaris-dropdown-menu-item-focus-ring-color: var(--solaris-primary-solid);
+  --solaris-dropdown-menu-item-hover-background: var(--solaris-neutral-sunken);
+  --solaris-dropdown-menu-item-focus-background: var(--solaris-neutral-subtle);
 
   display: flex;
   outline: none;
@@ -27,7 +31,7 @@
   font-family: var(--solaris-font-family-sans), system-ui;
   padding: var(--solaris-dropdown-menu-item-padding-y)
     var(--solaris-dropdown-menu-item-padding-x);
-  transition: background var(--solaris-motion-duration-fast)
+  transition: background var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
 
@@ -36,7 +40,7 @@
 }
 
 :host(:focus) {
-  outline-offset: -2px;
+  outline-offset: calc(var(--solaris-focus-ring-offset) * -1);
   background: var(--solaris-dropdown-menu-item-hover-background);
 }
 
@@ -64,9 +68,9 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: var(--solaris-spacing-5);
-  height: var(--solaris-spacing-5);
-  color: var(--solaris-text-muted);
+  width: var(--solaris-spacing-8);
+  height: var(--solaris-spacing-8);
+  color: var(--solaris-neutral-text-secondary);
 }
 
 :host([data-color='danger']) .solaris-dropdown-menu-item__leading {
@@ -82,13 +86,14 @@
   justify-content: center;
   background: transparent;
   border-radius: var(--solaris-radius-sm);
-  border: var(--solaris-border-width-sm) solid var(--solaris-primary-border);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-default);
 }
 
 .solaris-dropdown-menu-item__checkbox--checked {
-  color: var(--solaris-primary-text);
-  background: var(--solaris-primary-base);
-  border-color: var(--solaris-primary-base);
+  color: var(--solaris-neutral-text-inverse);
+  background: var(--solaris-neutral-text-body);
+  border-color: var(--solaris-neutral-text-body);
 }
 
 .solaris-dropdown-menu-item__checkbox-icon {
@@ -98,7 +103,7 @@
   align-items: center;
   box-sizing: border-box;
   justify-content: center;
-  padding: var(--solaris-spacing-half);
+  padding: var(--solaris-spacing-2);
 }
 
 .solaris-dropdown-menu-item__radio {
@@ -110,25 +115,26 @@
   box-sizing: border-box;
   background: transparent;
   justify-content: center;
-  border: var(--solaris-spacing-half) solid var(--solaris-primary-border);
+  border: var(--solaris-border-width-md) solid
+    var(--solaris-neutral-border-default);
 }
 
 .solaris-dropdown-menu-item__radio--checked {
-  border-color: var(--solaris-primary-base);
+  border-color: var(--solaris-neutral-text-body);
 }
 
 .solaris-dropdown-menu-item__radio-dot {
   border-radius: 50%;
-  width: var(--solaris-spacing-2);
-  height: var(--solaris-spacing-2);
-  background: var(--solaris-primary-base);
+  width: var(--solaris-spacing-5);
+  height: var(--solaris-spacing-5);
+  background: var(--solaris-neutral-text-body);
 }
 
 .solaris-dropdown-menu-item__content {
   flex: 1;
   min-width: 0;
   display: flex;
-  gap: var(--solaris-spacing-half);
+  gap: var(--solaris-spacing-2);
   flex-direction: column;
 }
 

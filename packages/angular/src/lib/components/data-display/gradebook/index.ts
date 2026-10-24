@@ -1,0 +1,48 @@
+export {
+  SolarisGradebookComponent,
+  SOLARIS_GRADEBOOK_CELL_TEMPLATE_ID,
+  SOLARIS_GRADEBOOK_EDITOR_TEMPLATE_ID,
+  SOLARIS_GRADEBOOK_HEADER_TEMPLATE_ID,
+  SOLARIS_GRADEBOOK_IDENTITY_COLUMN_ID,
+  SOLARIS_GRADEBOOK_STATUS_TEMPLATE_ID,
+} from './component/gradebook.component';
+export { SolarisGradebookLegendComponent } from './component/gradebook-legend.component';
+export { GradebookAutofocusDirective } from './directives/gradebook-autofocus.directive';
+export type {
+  SolarisGradebookAggregate,
+  SolarisGradebookAssignment,
+  SolarisGradebookBand,
+  SolarisGradebookBulkCommit,
+  SolarisGradebookCellStatus,
+  SolarisGradebookColumn,
+  SolarisGradebookCommitEvent,
+  SolarisGradebookComputed,
+  SolarisGradebookEditEvent,
+  SolarisGradebookEditableOf,
+  SolarisGradebookIdentity,
+  SolarisGradebookLegendItem,
+  SolarisGradebookRounding,
+  SolarisGradebookRow,
+  SolarisGradebookScale,
+  SolarisGradebookScaleDef,
+  SolarisGradebookScoresOf,
+} from './model/gradebook.types';
+export {
+  SOLARIS_GRADEBOOK_AGGREGATES,
+  SOLARIS_GRADEBOOK_CELL_STATUSES,
+  SOLARIS_GRADEBOOK_CONCEPT_SCALE,
+  SOLARIS_GRADEBOOK_SCALES,
+  SOLARIS_GRADEBOOK_SCORE_10_SCALE,
+  SOLARIS_GRADEBOOK_SCORE_100_SCALE,
+  aggregateGradeValues,
+  buildGradebookColumns,
+  computeRowGrade,
+  defaultScoresOf,
+  formatAggregateValue,
+  formatGradeCell,
+  gradebookAssignmentIdOf,
+  isPassingGrade,
+  normalizeGradeValue,
+  resolveGradeBand,
+  resolveGradebookScale,
+} from './model/gradebook.types';

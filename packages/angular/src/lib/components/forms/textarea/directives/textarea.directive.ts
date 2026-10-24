@@ -1,10 +1,3 @@
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular directive API to read host element properties and attributes. Same approach used by Angular CDK and all Solaris directives.
-// SECURITY_EXCEPTION_FILE: nativeElement access required for host element property reads (tagName, disabled, readonly, required, focus, getAttribute). Same pattern used by Angular CDK form controls.
-// SECURITY_EXCEPTION_FILE: nativeElement.disabled is the standard DOM property to read textarea disabled state. Same approach used by Angular Forms.
-// SECURITY_EXCEPTION_FILE: nativeElement.readOnly is the standard DOM property to read textarea readonly state.
-// SECURITY_EXCEPTION_FILE: nativeElement.required is the standard DOM property to read textarea required state.
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to programmatically focus a textarea. No alternative exists.
-// SECURITY_EXCEPTION_FILE: nativeElement.tagName is the standard Angular API to validate directive host element. Same pattern used by SolarisInputDirective.
 import {
   Directive,
   input,
@@ -18,6 +11,7 @@ import {
 import { NgControl } from '@angular/forms';
 
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
+import { SOLARIS_FORM_FIELD } from '../../form-field/model/form-field.token';
 import { resolveElementId } from '../../../../core';
 import { SolarisThemeService } from '../../../../services/theme';
 
@@ -37,7 +31,7 @@ import type {
   ],
   host: {
     '[id]': 'elementId()',
-    '[attr.data-size]': 'size()',
+    '[attr.data-size]': 'effectiveSize()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-density]': 'effectiveDensity()',
@@ -52,7 +46,7 @@ import type {
 export class SolarisTextareaDirective extends SolarisFormControl {
   readonly appearance = input<SolarisTextareaAppearance>('outline');
   readonly radius = input<SolarisTextareaRadius>('md');
-  readonly size = input<SolarisTextareaSize>('md');
+  readonly size = input<SolarisTextareaSize>();
   readonly density = input<SolarisTextareaDensity>();
 
   readonly manualInvalid = input<boolean | undefined>(undefined, {
@@ -63,6 +57,7 @@ export class SolarisTextareaDirective extends SolarisFormControl {
 
   private readonly elementRef =
     inject<ElementRef<HTMLTextAreaElement>>(ElementRef);
+  // SECURITY_EXCEPTION: reading host properties (disabled, readOnly, required, tagName) requires the native element; same pattern as Angular CDK form controls. Read-only.
   private readonly textareaElement = this.elementRef.nativeElement;
   protected readonly ngControl = inject(NgControl, {
     optional: true,
@@ -77,9 +72,20 @@ export class SolarisTextareaDirective extends SolarisFormControl {
   });
 
   protected readonly themeService = inject(SolarisThemeService);
+  protected readonly formField = inject(SOLARIS_FORM_FIELD, {
+    optional: true,
+  });
+
+  protected readonly effectiveSize = computed<SolarisTextareaSize>(() => {
+    return this.size() ?? this.formField?.size() ?? 'md';
+  });
 
   protected readonly effectiveDensity = computed<SolarisTextareaDensity>(() => {
-    return this.density() ?? this.themeService.density;
+    return (
+      this.density() ??
+      this.formField?.effectiveDensity() ??
+      this.themeService.density
+    );
   });
 
   protected readonly isEffectivelyInvalid = computed(() => {

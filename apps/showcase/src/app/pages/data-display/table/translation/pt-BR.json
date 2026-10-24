@@ -1,0 +1,161 @@
+{
+  "table": {
+    "action": {
+      "details": "Detalhes"
+    },
+    "add-row": {
+      "note": "Linha de criação inline. Emite só addRowRequest; botões do toolbar ficam separados."
+    },
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "note": "Variantes outline, surface, soft, plain e grid com zebra even ou odd e radius do frame."
+    },
+    "basic": {
+      "note": "Colunas de texto, número e data com ordenação opcional."
+    },
+    "cell-editing": {
+      "note": "Enter ou duplo-clique edita no lugar; Escape fecha. Confirmar valores é responsabilidade do consumidor."
+    },
+    "cell-expand": {
+      "note": "Colunas com expandable ou detail template exibem um chevron ao lado do valor e abrem uma linha de detalhe abaixo só com aquela coluna."
+    },
+    "col": {
+      "actions": "Ações",
+      "age": "Idade",
+      "city": "Cidade",
+      "details": "Detalhes",
+      "grade": "Nota",
+      "joined": "Admissão",
+      "level": "Nível",
+      "name": "Nome",
+      "office": "Escritório",
+      "person": "Pessoa",
+      "score": "Pontuação",
+      "status": "Status",
+      "team": "Equipe",
+      "track": "Trilha"
+    },
+    "composition": {
+      "note": "Colunas de avatar e badge compõem componentes existentes via templates. Use column.icon para ícones simples sem template."
+    },
+    "description": "Tabela de dados enxuta com ordenação, seleção e estados plugáveis.",
+    "examples": {
+      "note": "Comece pela tabela padrão e explore ordenação, seleção e estados abaixo."
+    },
+    "footer": {
+      "average": "Média",
+      "note": "Agregados sobre as linhas visíveis em um rodapé semântico. O gradebook constrói suas médias sobre este contrato."
+    },
+    "group": {
+      "metrics": "Métricas"
+    },
+    "header-groups": {
+      "note": "Colunas consecutivas se fundem sob um rótulo de grupo; colunas avulsas ocupam as duas linhas."
+    },
+    "installation": {
+      "note": "Instale o pacote único do Solaris e importe o componente."
+    },
+    "layout": {
+      "note": "Auto dimensiona colunas pelo conteúdo. Full width distribui pelo container.",
+      "tab": {
+        "auto": "Auto",
+        "full": "Largura total"
+      }
+    },
+    "mobile-composed": {
+      "note": "Cards em largura de telefone com avatar, badge e ações sem arrastar."
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve."
+    },
+    "responsive": {
+      "note": "No mobile (720px ou menos) colunas com priority colapsam para uma linha de detalhe expansível na coluna Ações. Colunas também podem ter seu próprio template de detalhe com informações extras."
+    },
+    "row-dialog": {
+      "note": "Botões de célula abrem um dialog com detalhes sem sair da tabela."
+    },
+    "section": {
+      "add-row": "Adicionar linha",
+      "appearance": "Aparência",
+      "basic": "Básico",
+      "cell-editing": "Edição de célula",
+      "cell-expand": "Expansão por célula",
+      "composition": "Composição",
+      "examples": "Exemplos",
+      "footer": "Agregados do rodapé",
+      "header-groups": "Grupos de cabeçalho",
+      "installation": "Instalação",
+      "layout": "Layout",
+      "mobile": "Mobile",
+      "props": "Propriedades",
+      "responsive": "Responsivo",
+      "row-dialog": "Dialog de linha",
+      "selection": "Seleção",
+      "server": "Dados do servidor",
+      "sorting": "Ordenação",
+      "states": "Estados",
+      "sticky-column": "Coluna fixa",
+      "wide": "Muitas colunas",
+      "with-pagination": "Com paginação",
+      "with-tabs": "Com abas",
+      "with-toolbar": "Com toolbar"
+    },
+    "selection": {
+      "note": "Single troca a seleção, multiple alterna. O checkbox do cabeçalho é tri-state.",
+      "tab": {
+        "multiple": "Múltipla",
+        "none": "Nenhuma",
+        "single": "Única"
+      }
+    },
+    "server": {
+      "note": "Um servidor simulado controla linhas, total e loading via SolarisTableDataSource."
+    },
+    "sorting": {
+      "note": "Clique no cabeçalho para alternar nulo, ascendente, descendente. Mudanças são anunciadas a leitores de tela."
+    },
+    "states": {
+      "note": "Skeletons de loading, texto vazio e alerta de erro. Slots têm precedência sobre texto.",
+      "tab": {
+        "empty": "Vazia",
+        "error": "Erro",
+        "loading": "Carregando"
+      }
+    },
+    "sticky-column": {
+      "note": "Fixa a primeira coluna durante a rolagem horizontal, mantendo a identidade da linha visível.",
+      "tab": {
+        "off": "Desligada",
+        "on": "Fixa"
+      }
+    },
+    "title": "Table",
+    "wide": {
+      "note": "Tabelas largas rolam horizontalmente no viewport. Use fullWidth para distribuir as colunas."
+    },
+    "with-pagination": {
+      "note": "A paginação é projetada no slot de footer da tabela, compartilhando a mesma borda.",
+      "tab": {
+        "default": "Padrão",
+        "description": "Com descrição",
+        "mobile": "Mobile"
+      }
+    },
+    "with-tabs": {
+      "note": "Abas trocam datasets com sort independente por tabela.",
+      "tab": {
+        "all": "Todos",
+        "recent": "Recentes"
+      }
+    },
+    "with-toolbar": {
+      "note": "Busca, filtros, views salvas, exportação e gestão de colunas projetados dentro do frame da tabela, com paginação no rodapé.",
+      "view": {
+        "adults": "Idade 30+",
+        "all": "Todos os contatos"
+      }
+    }
+  }
+}

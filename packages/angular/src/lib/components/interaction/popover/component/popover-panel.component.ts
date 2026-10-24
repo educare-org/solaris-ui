@@ -12,8 +12,6 @@ import {
   type SolarisPopoverPanelData,
 } from '../token/popover.tokens';
 
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() and querySelector are required for autoFocus behavior. Standard DOM API, read-only and SSR-safe via ElementRef.
-
 @Component({
   selector: 'solaris-popover-panel',
   standalone: true,
@@ -24,6 +22,11 @@ import {
   host: {
     class: 'solaris-popover-panel',
     '[attr.tabindex]': 'data.autoFocus === "panel" ? "-1" : null',
+    '[attr.data-appearance]': 'data.appearance',
+    '[attr.data-padding]': 'data.padding',
+    '[attr.data-radius]': 'data.radius',
+    '[attr.data-scrollable]': 'data.maxHeight ? "" : null',
+    '[style.max-height]': 'data.maxHeight ?? null',
   },
 })
 export class SolarisPopoverPanelComponent implements AfterViewInit {

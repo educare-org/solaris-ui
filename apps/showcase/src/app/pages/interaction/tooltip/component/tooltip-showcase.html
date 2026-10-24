@@ -1,477 +1,421 @@
-<div class="tooltip-showcase">
-  <header class="tooltip-showcase__header">
-    <h1 class="tooltip-showcase__title">Tooltip</h1>
-    <p class="tooltip-showcase__description">
-      {{ 'tooltip.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="tooltip.title"
+    descriptionKey="tooltip.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.basic-hover' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
-      {{ 'tooltip.basic-hover-note' | translate }}
-    </p>
-    <div class="tooltip-showcase__row">
-      <button [solarisTooltip]="'tooltip.edit-item' | translate" solaris-button>
-        {{ 'tooltip.edit' | translate }}
-      </button>
-    </div>
-  </section>
+  <app-docs-section anchor="examples" titleKey="tooltip.section.examples">
+    <p class="tooltip-page__note">{{ 'tooltip.examples.note' | translate }}</p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-tooltip-basic-hover-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.icon-only' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
-      {{ 'tooltip.icon-only-note' | translate }}
-    </p>
-    <div class="tooltip-showcase__row">
-      <button
-        [solarisTooltip]="'tooltip.edit-item' | translate"
-        solaris-button
-        aria-label="{{ 'tooltip.edit' | translate }}"
+  <app-docs-section anchor="triggers" titleKey="tooltip.section.triggers">
+    <solaris-tabs
+      [(value)]="selectedTrigger"
+      [ariaLabel]="'tooltip.section.triggers' | translate"
+    >
+      <solaris-tab value="hover"
+        >{{ 'tooltip.trigger.hover' | translate }}</solaris-tab
       >
-        E
-      </button>
-      <button
-        [solarisTooltip]="'tooltip.delete-item' | translate"
-        solaris-button
-        aria-label="{{ 'tooltip.delete' | translate }}"
+      <solaris-tab value="click"
+        >{{ 'tooltip.trigger.click' | translate }}</solaris-tab
       >
-        D
-      </button>
-      <button
-        [solarisTooltip]="'tooltip.share-item' | translate"
-        solaris-button
-        aria-label="{{ 'tooltip.share' | translate }}"
+      <solaris-tab value="closeable"
+        >{{ 'tooltip.trigger.closeable' | translate }}</solaris-tab
       >
-        S
-      </button>
-    </div>
-  </section>
+      <solaris-tab value="manual"
+        >{{ 'tooltip.trigger.manual' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="hover">
+        <solaris-preview-code [code]="triggerHoverCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.edit-item' | translate"
+            solaris-button
+          >
+            {{ 'tooltip.edit' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="click">
+        <solaris-preview-code [code]="triggerClickCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.click-info' | translate"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.help' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="closeable">
+        <solaris-preview-code [code]="triggerCloseableCode" language="html">
+          <app-tooltip-click-closeable-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="manual">
+        <solaris-preview-code [code]="triggerManualCode" language="html">
+          <p class="tooltip-page__note">
+            {{ 'tooltip.trigger.manual-note' | translate }}
+          </p>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.click-trigger' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
-      {{ 'tooltip.click-trigger-note' | translate }}
-    </p>
-    <div class="tooltip-showcase__row">
-      <button
-        [solarisTooltip]="'tooltip.click-info' | translate"
-        solarisTooltipTrigger="click"
-        solaris-button
-        (solarisTooltipOpened)="onTooltipOpened()"
-        (solarisTooltipClosed)="onTooltipClosed()"
+  <app-docs-section anchor="content" titleKey="tooltip.section.content">
+    <solaris-tabs
+      [(value)]="selectedContent"
+      [ariaLabel]="'tooltip.section.content' | translate"
+    >
+      <solaris-tab value="title-body"
+        >{{ 'tooltip.content.title-body' | translate }}</solaris-tab
       >
-        {{ 'tooltip.help' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.click-closeable' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
-      {{ 'tooltip.click-closeable-note' | translate }}
-    </p>
-    <div class="tooltip-showcase__row">
-      <button
-        [solarisTooltip]="'tooltip.closeable-info' | translate"
-        solarisTooltipTrigger="click"
-        [solarisTooltipCloseable]="true"
-        solaris-button
+      <solaris-tab value="icon"
+        >{{ 'tooltip.content.icon' | translate }}</solaris-tab
       >
-        {{ 'tooltip.info' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.title-body' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
-      {{ 'tooltip.title-body-note' | translate }}
-    </p>
-    <div class="tooltip-showcase__row">
-      <button
-        [solarisTooltip]="'tooltip.pending-body' | translate"
-        [solarisTooltipTitle]="'tooltip.pending-title' | translate"
-        solaris-button
+      <solaris-tab value="template"
+        >{{ 'tooltip.content.template' | translate }}</solaris-tab
       >
-        {{ 'tooltip.status' | translate }}
-      </button>
-    </div>
-  </section>
+      <solaris-tab-panel value="title-body">
+        <solaris-preview-code [code]="contentTitleBodyCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.pending-body' | translate"
+            [solarisTooltipTitle]="'tooltip.pending-title' | translate"
+            solaris-button
+          >
+            {{ 'tooltip.status' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="icon">
+        <solaris-preview-code [code]="contentIconCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.metric-body' | translate"
+            solarisTooltipIcon="info"
+            solaris-button
+          >
+            {{ 'tooltip.help' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="template">
+        <solaris-preview-code [code]="contentTemplateCode" language="html">
+          <button
+            [solarisTooltipFor]="paymentTooltip"
+            solarisTooltipTrigger="click"
+            [solarisTooltipCloseable]="true"
+            solaris-button
+          >
+            {{ 'tooltip.learn-more' | translate }}
+          </button>
+          <ng-template #paymentTooltip>
+            <span>{{ 'tooltip.template-content' | translate }}</span>
+          </ng-template>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.icon-title-body' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
-      {{ 'tooltip.icon-title-body-note' | translate }}
-    </p>
-    <div class="tooltip-showcase__row">
-      <button
-        [solarisTooltip]="'tooltip.pending-body' | translate"
-        [solarisTooltipTitle]="'tooltip.pending-title' | translate"
-        solarisTooltipIcon="info"
-        solaris-button
-      >
-        {{ 'tooltip.info' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.icon-body' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
-      {{ 'tooltip.icon-body-note' | translate }}
-    </p>
-    <div class="tooltip-showcase__row">
-      <button
-        [solarisTooltip]="'tooltip.metric-body' | translate"
-        solarisTooltipIcon="info"
-        solaris-button
-      >
-        {{ 'tooltip.help' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.appearances' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
+  <app-docs-section anchor="appearance" titleKey="tooltip.section.appearance">
+    <p class="tooltip-page__note">
       {{ 'tooltip.appearances-note' | translate }}
     </p>
-    <div class="tooltip-showcase__row">
-      <button
-        [solarisTooltip]="'tooltip.appearance-outline' | translate"
-        solarisTooltipAppearance="outline"
-        solarisTooltipTrigger="click"
-        solaris-button
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'tooltip.section.appearance' | translate"
+    >
+      <solaris-tab value="outline"
+        >{{ 'tooltip.appearance-outline' | translate }}</solaris-tab
       >
-        {{ 'tooltip.appearance-outline' | translate }}
-      </button>
-      <button
-        [solarisTooltip]="'tooltip.appearance-surface' | translate"
-        solarisTooltipAppearance="surface"
-        solarisTooltipTrigger="click"
-        solaris-button
+      <solaris-tab value="surface"
+        >{{ 'tooltip.appearance-surface' | translate }}</solaris-tab
       >
-        {{ 'tooltip.appearance-surface' | translate }}
-      </button>
-      <button
-        [solarisTooltip]="'tooltip.appearance-inverse' | translate"
-        solarisTooltipAppearance="inverse"
-        solarisTooltipTrigger="click"
-        solaris-button
+      <solaris-tab value="inverse"
+        >{{ 'tooltip.appearance-inverse' | translate }}</solaris-tab
       >
-        {{ 'tooltip.appearance-inverse' | translate }}
-      </button>
-    </div>
-  </section>
+      <solaris-tab-panel value="outline">
+        <solaris-preview-code [code]="appearanceOutlineCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.appearance-outline' | translate"
+            solarisTooltipAppearance="outline"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.appearance-outline' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="surface">
+        <solaris-preview-code [code]="appearanceSurfaceCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.appearance-surface' | translate"
+            solarisTooltipAppearance="surface"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.appearance-surface' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="inverse">
+        <solaris-preview-code [code]="appearanceInverseCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.appearance-inverse' | translate"
+            solarisTooltipAppearance="inverse"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.appearance-inverse' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.arrow' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">{{ 'tooltip.arrow-note' | translate }}</p>
-    <div class="tooltip-showcase__row">
-      <button
-        [solarisTooltip]="'tooltip.arrow-enabled' | translate"
-        [solarisTooltipArrow]="true"
-        solarisTooltipTrigger="click"
-        solaris-button
-      >
-        {{ 'tooltip.arrow-enabled' | translate }}
-      </button>
-      <button
-        [solarisTooltip]="'tooltip.arrow-disabled' | translate"
-        [solarisTooltipArrow]="false"
-        solarisTooltipTrigger="click"
-        solaris-button
-      >
-        {{ 'tooltip.arrow-disabled' | translate }}
-      </button>
-    </div>
-  </section>
+  <app-docs-section anchor="sizes" titleKey="tooltip.section.sizes">
+    <p class="tooltip-page__note">
+      {{ 'tooltip.sizes-density.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedSize"
+      [ariaLabel]="'tooltip.section.sizes' | translate"
+    >
+      <solaris-tab value="sm">{{ 'tooltip.size-sm' | translate }}</solaris-tab>
+      <solaris-tab value="md">{{ 'tooltip.size-md' | translate }}</solaris-tab>
+      <solaris-tab value="lg">{{ 'tooltip.size-lg' | translate }}</solaris-tab>
+      <solaris-tab-panel value="sm">
+        <solaris-preview-code [code]="sizeSmCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.size-sm' | translate"
+            solarisTooltipSize="sm"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.size-sm' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="md">
+        <solaris-preview-code [code]="sizeMdCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.size-md' | translate"
+            solarisTooltipSize="md"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.size-md' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="lg">
+        <solaris-preview-code [code]="sizeLgCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.size-lg' | translate"
+            solarisTooltipSize="lg"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.size-lg' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.placements' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
+  <app-docs-section anchor="radius" titleKey="tooltip.section.radius">
+    <p class="tooltip-page__note">{{ 'tooltip.radius-note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedRadius"
+      [ariaLabel]="'tooltip.section.radius' | translate"
+    >
+      <solaris-tab value="sm"
+        >{{ 'tooltip.radius-sm' | translate }}</solaris-tab
+      >
+      <solaris-tab value="md"
+        >{{ 'tooltip.radius-md' | translate }}</solaris-tab
+      >
+      <solaris-tab value="lg"
+        >{{ 'tooltip.radius-lg' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="sm">
+        <solaris-preview-code [code]="radiusSmCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.radius-sm' | translate"
+            solarisTooltipRadius="sm"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.radius-sm' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="md">
+        <solaris-preview-code [code]="radiusMdCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.radius-md' | translate"
+            solarisTooltipRadius="md"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.radius-md' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="lg">
+        <solaris-preview-code [code]="radiusLgCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.radius-lg' | translate"
+            solarisTooltipRadius="lg"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.radius-lg' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="placement" titleKey="tooltip.section.placement">
+    <p class="tooltip-page__note">
       {{ 'tooltip.placements-note' | translate }}
     </p>
-    <div class="tooltip-showcase__row">
-      <button
-        [solarisTooltip]="'tooltip.placement-top' | translate"
-        solarisTooltipPlacement="top"
-        solarisTooltipTrigger="click"
-        solaris-button
+    <solaris-tabs
+      [(value)]="selectedPlacement"
+      [ariaLabel]="'tooltip.section.placement' | translate"
+    >
+      <solaris-tab value="top"
+        >{{ 'tooltip.placement-top' | translate }}</solaris-tab
       >
-        {{ 'tooltip.placement-top' | translate }}
-      </button>
-      <button
-        [solarisTooltip]="'tooltip.placement-bottom' | translate"
-        solarisTooltipPlacement="bottom"
-        solarisTooltipTrigger="click"
-        solaris-button
+      <solaris-tab value="bottom"
+        >{{ 'tooltip.placement-bottom' | translate }}</solaris-tab
       >
-        {{ 'tooltip.placement-bottom' | translate }}
-      </button>
-      <button
-        [solarisTooltip]="'tooltip.placement-right' | translate"
-        solarisTooltipPlacement="right"
-        solarisTooltipTrigger="click"
-        solaris-button
+      <solaris-tab value="right"
+        >{{ 'tooltip.placement-right' | translate }}</solaris-tab
       >
-        {{ 'tooltip.placement-right' | translate }}
-      </button>
-      <button
-        [solarisTooltip]="'tooltip.placement-left' | translate"
-        solarisTooltipPlacement="left"
-        solarisTooltipTrigger="click"
-        solaris-button
+      <solaris-tab value="left"
+        >{{ 'tooltip.placement-left' | translate }}</solaris-tab
       >
-        {{ 'tooltip.placement-left' | translate }}
-      </button>
-    </div>
-  </section>
+      <solaris-tab-panel value="top">
+        <solaris-preview-code [code]="placementTopCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.placement-top' | translate"
+            solarisTooltipPlacement="top"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.placement-top' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="bottom">
+        <solaris-preview-code [code]="placementBottomCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.placement-bottom' | translate"
+            solarisTooltipPlacement="bottom"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.placement-bottom' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="right">
+        <solaris-preview-code [code]="placementRightCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.placement-right' | translate"
+            solarisTooltipPlacement="right"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.placement-right' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="left">
+        <solaris-preview-code [code]="placementLeftCode" language="html">
+          <button
+            [solarisTooltip]="'tooltip.placement-left' | translate"
+            solarisTooltipPlacement="left"
+            solarisTooltipTrigger="click"
+            solaris-button
+          >
+            {{ 'tooltip.placement-left' | translate }}
+          </button>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.sizes' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">{{ 'tooltip.sizes-note' | translate }}</p>
-    <div class="tooltip-showcase__row">
+  <app-docs-section anchor="delays" titleKey="tooltip.section.delays">
+    <p class="tooltip-page__note">{{ 'tooltip.delays.note' | translate }}</p>
+    <solaris-preview-code [code]="delaysCode" language="html">
       <button
-        [solarisTooltip]="'tooltip.size-sm' | translate"
-        solarisTooltipSize="sm"
-        solarisTooltipTrigger="click"
+        [solarisTooltip]="'tooltip.delays-demo' | translate"
+        [solarisTooltipShowDelay]="300"
+        [solarisTooltipHideDelay]="100"
+        [solarisTooltipSkipDelay]="300"
         solaris-button
       >
-        {{ 'tooltip.size-sm' | translate }}
+        {{ 'tooltip.delays-demo-label' | translate }}
       </button>
-      <button
-        [solarisTooltip]="'tooltip.size-md' | translate"
-        solarisTooltipSize="md"
-        solarisTooltipTrigger="click"
-        solaris-button
-      >
-        {{ 'tooltip.size-md' | translate }}
-      </button>
-      <button
-        [solarisTooltip]="'tooltip.size-lg' | translate"
-        solarisTooltipSize="lg"
-        solarisTooltipTrigger="click"
-        solaris-button
-      >
-        {{ 'tooltip.size-lg' | translate }}
-      </button>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.radius' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
-      {{ 'tooltip.radius-note' | translate }}
-    </p>
-    <div class="tooltip-showcase__row">
-      <button
-        [solarisTooltip]="'tooltip.radius-sm' | translate"
-        solarisTooltipRadius="sm"
-        solarisTooltipTrigger="click"
-        solaris-button
-      >
-        {{ 'tooltip.radius-sm' | translate }}
-      </button>
-      <button
-        [solarisTooltip]="'tooltip.radius-md' | translate"
-        solarisTooltipRadius="md"
-        solarisTooltipTrigger="click"
-        solaris-button
-      >
-        {{ 'tooltip.radius-md' | translate }}
-      </button>
-      <button
-        [solarisTooltip]="'tooltip.radius-lg' | translate"
-        solarisTooltipRadius="lg"
-        solarisTooltipTrigger="click"
-        solaris-button
-      >
-        {{ 'tooltip.radius-lg' | translate }}
-      </button>
+  <app-docs-section anchor="states" titleKey="tooltip.section.states">
+    <div class="tooltip-page__stack">
+      <solaris-preview-code [code]="disabledCode" language="html">
+        <button
+          [solarisTooltip]="'tooltip.disabled-text' | translate"
+          [solarisTooltipDisabled]="true"
+          solaris-button
+        >
+          {{ 'tooltip.disabled' | translate }}
+        </button>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="disabledWrapperCode" language="html">
+        <app-tooltip-disabled-wrapper-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="maxWidthCode" language="html">
+        <button
+          [solarisTooltip]="'tooltip.max-width-long' | translate"
+          solarisTooltipTrigger="click"
+          [solarisTooltipMaxWidth]="'256px'"
+          solaris-button
+        >
+          {{ 'tooltip.max-width-short' | translate }}
+        </button>
+      </solaris-preview-code>
     </div>
-  </section>
-
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.max-width' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
-      {{ 'tooltip.max-width-note' | translate }}
-    </p>
-    <div class="tooltip-showcase__row">
-      <button
-        [solarisTooltip]="'tooltip.max-width-long' | translate"
-        solarisTooltipTrigger="click"
-        [solarisTooltipMaxWidth]="'256px'"
-        solaris-button
-      >
-        {{ 'tooltip.max-width-short' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.disabled' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
-      {{ 'tooltip.disabled-note' | translate }}
-    </p>
-    <div class="tooltip-showcase__row">
-      <button
-        [solarisTooltip]="'tooltip.disabled-text' | translate"
-        [solarisTooltipDisabled]="true"
-        solaris-button
-      >
-        {{ 'tooltip.disabled' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.template' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
-      {{ 'tooltip.template-note' | translate }}
-    </p>
-    <div class="tooltip-showcase__row">
-      <button
-        [solarisTooltipFor]="paymentTooltip"
-        solarisTooltipTrigger="click"
-        [solarisTooltipCloseable]="true"
-        solaris-button
-      >
-        {{ 'tooltip.learn-more' | translate }}
-      </button>
-      <ng-template #paymentTooltip>
-        <span>{{ 'tooltip.template-content' | translate }}</span>
-      </ng-template>
-    </div>
-  </section>
-
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      {{ 'tooltip.anti-pattern' | translate }}
-    </h2>
-    <p class="tooltip-showcase__note">
+    <p class="tooltip-page__note">
       {{ 'tooltip.popover-warning' | translate }}
     </p>
-    <div class="tooltip-showcase__row tooltip-showcase__row--warning">
-      <button solaris-button [disabled]="true">
-        {{ 'tooltip.popover-warning' | translate }}
-      </button>
-    </div>
-  </section>
+  </app-docs-section>
 
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      Arrow visual validation matrix
-    </h2>
-    <p class="tooltip-showcase__note">
-      All 12 placements × 3 appearances × 3 sizes. Hover or click to verify
-      arrow direction, border continuity, and no visual duplication.
+  <app-docs-section
+    anchor="installation"
+    titleKey="tooltip.section.installation"
+  >
+    <p class="tooltip-page__note">
+      {{ 'tooltip.installation.note' | translate }}
     </p>
-    <div class="tooltip-matrix">
-      @for (placement of placements; track placement) {
-      <div class="tooltip-matrix__group">
-        <h3 class="tooltip-matrix__label">{{ placement }}</h3>
-        @for (appearance of matrixAppearances; track appearance) { @for (size of
-        matrixSizes; track size) {
-        <button
-          [solarisTooltip]="'Tooltip ' + placement"
-          [solarisTooltipTitle]="'Title ' + placement"
-          [solarisTooltipPlacement]="placement"
-          [solarisTooltipAppearance]="appearance"
-          [solarisTooltipSize]="size"
-          [solarisTooltipArrow]="true"
-          solarisTooltipTrigger="click"
-          solaris-button
-          class="tooltip-matrix__btn"
-        >
-          {{ appearance }}-{{ size }}
-        </button>
-        } }
-      </div>
-      }
-    </div>
-  </section>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
 
-  <section class="tooltip-showcase__section">
-    <h2 class="tooltip-showcase__section-title">
-      Fallback edge cases (viewport boundaries)
-    </h2>
-    <p class="tooltip-showcase__note">
-      Buttons near viewport edges to force CDK fallback. Arrow should switch
-      sides accordingly.
-    </p>
-    <div class="tooltip-edges">
-      <button
-        [solarisTooltip]="'Top edge — forces bottom fallback'"
-        solarisTooltipPlacement="top"
-        solarisTooltipTrigger="click"
-        [solarisTooltipAppearance]="appearance"
-        solaris-button
-        class="tooltip-edges__top"
-      >
-        Top
-      </button>
-      <button
-        [solarisTooltip]="'Bottom edge — forces top fallback'"
-        solarisTooltipPlacement="bottom"
-        solarisTooltipTrigger="click"
-        [solarisTooltipAppearance]="appearance"
-        solaris-button
-        class="tooltip-edges__bottom"
-      >
-        Bottom
-      </button>
-      <button
-        [solarisTooltip]="'Left edge — forces right fallback'"
-        solarisTooltipPlacement="left"
-        solarisTooltipTrigger="click"
-        [solarisTooltipAppearance]="appearance"
-        solaris-button
-        class="tooltip-edges__left"
-      >
-        Left
-      </button>
-      <button
-        [solarisTooltip]="'Right edge — forces left fallback'"
-        solarisTooltipPlacement="right"
-        solarisTooltipTrigger="click"
-        [solarisTooltipAppearance]="appearance"
-        solaris-button
-        class="tooltip-edges__right"
-      >
-        Right
-      </button>
-    </div>
-  </section>
-</div>
+  <app-docs-section anchor="props" titleKey="tooltip.section.props">
+    <p class="tooltip-page__note">{{ 'tooltip.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

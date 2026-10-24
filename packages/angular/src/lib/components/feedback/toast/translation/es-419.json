@@ -1,0 +1,16 @@
+{
+  "solaris": {
+    "toast": {
+      "close": "Cerrar",
+      "closesIn": "Este mensaje se cerrará en {{seconds}} segundos.",
+      "closesInOne": "Este mensaje se cerrará en 1 segundo.",
+      "collapse": "Contraer",
+      "continue": "Clic para continuar",
+      "expand": "Expandir",
+      "pause": "Clic para pausar",
+      "paused": "En pausa.",
+      "progress": "Progreso",
+      "remaining": "Tiempo restante"
+    }
+  }
+}

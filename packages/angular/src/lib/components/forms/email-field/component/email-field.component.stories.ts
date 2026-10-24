@@ -14,6 +14,10 @@ export const Primary: Story = {
   args: {},
 };
 
+export const Clearable: Story = {
+  args: { clearable: true, value: 'user@company.com' },
+};
+
 export const Heading: Story = {
   args: {},
   play: async ({ canvas }) => {

@@ -1,0 +1,77 @@
+{
+  "spinner": {
+    "backdrop": {
+      "note": "Backdrop muestra un overlay fijo de pantalla completa y bloquea el scroll del body. Haz clic en el botón para obtener una vista previa y luego haz clic en cualquier lugar para descartarlo."
+    },
+    "color": {
+      "custom": "Personalizado",
+      "danger": "Peligro",
+      "info": "Info",
+      "neutral": "Neutro",
+      "primary": "Primario",
+      "success": "Éxito",
+      "warning": "Advertencia"
+    },
+    "colors-desc": "Colores semánticos, además de personalizado vía --solaris-spinner-custom-color.",
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Indicadores de carga que comunican una operación en curso, desde un anillo indeterminado hasta un indicador circular determinado con porcentaje.",
+    "determinate": {
+      "note": "La variante progress rellena el arco a medida que se actualiza el valor. Haz clic en reproducir para verla ir de 0 a 100, con etiqueta, porcentaje y líneas de descripción."
+    },
+    "examples": {
+      "note": "Solo indicador por defecto — la etiqueta visible solo se muestra cuando label o labelKey es explícito. El snippet muestra el template mínimo."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris UI e importa el componente spinner y la directiva loading-zone."
+    },
+    "loading-zone": {
+      "note": "Envuelve la región con solaris-loading-zone y muestra un spinner superpuesto dentro: la zona expone aria-busy y se vuelve inerte, por lo que los campos siguientes quedan deshabilitados durante la carga. Haz clic en Guardar para probarlo."
+    },
+    "play": "Reproducir",
+    "props": {
+      "note": "La referencia completa de Props está en la documentación del componente."
+    },
+    "section": {
+      "backdrop": "Backdrop",
+      "colors": "Colores",
+      "density": "Densidad",
+      "determinate": "Determinado",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "loading-zone": "Zona de carga",
+      "props": "Props",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "variants": "Variantes"
+    },
+    "show-backdrop": "Mostrar backdrop de pantalla completa",
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño",
+      "xl": "Extragrande"
+    },
+    "size-density": {
+      "note": "Matriz adaptada: size controla la geometría del indicador y la escala del tipo de etiqueta/porcentaje, density ajusta el espaciado. El snippet refleja la selección actual."
+    },
+    "title": "Spinner",
+    "variant": {
+      "progress": "Progreso",
+      "ring": "Anillo",
+      "stacked": "Apilado"
+    },
+    "variants-desc": "Ring y stacked son indeterminados; progress es el indicador circular determinado con porcentaje. Para barras lineales, usa progress.",
+    "zone": {
+      "email": "E-mail de contacto",
+      "email-hint": "A dónde se envían las notificaciones.",
+      "institution": "Institución",
+      "institution-hint": "Razón social de la institución.",
+      "save": "Guardar",
+      "saving": "Guardando…"
+    }
+  }
+}

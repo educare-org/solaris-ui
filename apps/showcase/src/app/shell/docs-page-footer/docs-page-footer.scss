@@ -1,0 +1,14 @@
+:host {
+  display: block;
+}
+
+.docs-page-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--solaris-spacing-4);
+  padding-top: var(--solaris-spacing-8);
+  border-top: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
+}

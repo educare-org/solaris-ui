@@ -1,0 +1,68 @@
+<solaris-dialog-content [density]="'comfortable'">
+  <solaris-checkbox
+    [checked]="separate()"
+    (checkedChange)="onToggleSeparate($event)"
+  >
+    {{ 'solaris.calendar.editorSeparateZones' | translate }}
+  </solaris-checkbox>
+
+  <div class="solaris-event-editor-timezone-dialog__zones">
+    <div class="solaris-event-editor-timezone-dialog__selects">
+      <solaris-select
+        data-autofocus
+        [searchable]="true"
+        [value]="selected()"
+        [triggerMinWidth]="0"
+        (valueChange)="choose($event)"
+        [label]="'solaris.calendar.editorStartTimeZone' | translate"
+      >
+        @for (choice of choices(); track choice.zone) {
+          <solaris-option [value]="choice.zone" [label]="choice.label" />
+        }
+      </solaris-select>
+      <solaris-select
+        [searchable]="true"
+        [value]="endValue()"
+        [triggerMinWidth]="0"
+        [disabled]="!separate()"
+        (valueChange)="chooseEnd($event)"
+        [label]="'solaris.calendar.editorEndTimeZone' | translate"
+      >
+        @for (choice of choices(); track choice.zone) {
+          <solaris-option [value]="choice.zone" [label]="choice.label" />
+        }
+      </solaris-select>
+    </div>
+    <button
+      type="button"
+      solaris-icon-button
+      appearance="ghost"
+      size="sm"
+      class="solaris-event-editor-timezone-dialog__swap"
+      [disabled]="!separate()"
+      ariaLabelKey="solaris.calendar.editorSwapZones"
+      [attr.title]="'solaris.calendar.editorSwapZones' | translate"
+      (click)="onSwap()"
+    >
+      <solaris-icon
+        class="solaris-event-editor-timezone-dialog__swap-icon"
+        name="arrow-left-right"
+      ></solaris-icon>
+    </button>
+  </div>
+</solaris-dialog-content>
+
+<solaris-dialog-footer>
+  <button type="button" solaris-button appearance="ghost" (click)="onCancel()">
+    {{ 'solaris.calendar.editorCancel' | translate }}
+  </button>
+  <button
+    type="button"
+    solaris-button
+    color="primary"
+    [disabled]="selected() === ''"
+    (click)="onConfirm()"
+  >
+    {{ 'solaris.calendar.editorSave' | translate }}
+  </button>
+</solaris-dialog-footer>

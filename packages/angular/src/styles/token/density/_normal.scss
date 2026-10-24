@@ -1,16 +1,16 @@
 [data-density='normal'] {
-  --solaris-density-scale: 0.875;
-  --solaris-density-padding-xs: 4px;
-  --solaris-density-padding-sm: 6px;
-  --solaris-density-padding-md: 8px;
-  --solaris-density-padding-lg: 12px;
-  --solaris-density-padding-xl: 16px;
-  --solaris-density-gap-xs: 3px;
-  --solaris-density-gap-sm: 5px;
-  --solaris-density-gap-md: 7px;
-  --solaris-density-gap-lg: 9px;
-  --solaris-density-gap-xl: 12px;
-  --solaris-density-min-width: 48px;
-  --solaris-density-min-height: 48px;
+  --solaris-density-scale: 0.75;
+  --solaris-density-padding-xs: var(--solaris-spacing-4);
+  --solaris-density-padding-sm: var(--solaris-spacing-5);
+  --solaris-density-padding-md: var(--solaris-spacing-6);
+  --solaris-density-padding-lg: var(--solaris-spacing-7);
+  --solaris-density-padding-xl: var(--solaris-spacing-8);
+  --solaris-density-gap-xs: var(--solaris-spacing-4);
+  --solaris-density-gap-sm: var(--solaris-spacing-5);
+  --solaris-density-gap-md: var(--solaris-spacing-6);
+  --solaris-density-gap-lg: var(--solaris-spacing-7);
+  --solaris-density-gap-xl: var(--solaris-spacing-8);
+  --solaris-density-min-width: var(--solaris-spacing-12);
+  --solaris-density-min-height: var(--solaris-control-height-normal-md);
   --solaris-density-font-size: var(--solaris-font-size-md);
 }

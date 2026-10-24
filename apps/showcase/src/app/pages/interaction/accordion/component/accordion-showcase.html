@@ -1,121 +1,236 @@
-<div class="accordion-showcase">
-  <header class="accordion-showcase__header">
-    <h1 class="accordion-showcase__title">Accordion</h1>
-    <p class="accordion-showcase__description">
-      {{ 'accordion.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="accordion.title"
+    descriptionKey="accordion.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="accordion-showcase__section">
-    <h2 class="accordion-showcase__section-title">
-      {{ 'accordion.single' | translate }}
-    </h2>
+  <app-docs-section anchor="examples" titleKey="accordion.section.examples">
     <p class="accordion-showcase__note">
-      {{ 'accordion.single-note' | translate }}
+      {{ 'accordion.examples.note' | translate }}
     </p>
-    <solaris-accordion [(value)]="singleValue">
-      <solaris-collapsible
-        value="account"
-        [label]="'accordion.item-account' | translate"
+    <solaris-preview-code [code]="basicCode" language="html">
+      <solaris-accordion [(value)]="singleValue">
+        <solaris-collapsible
+          value="account"
+          [label]="'accordion.item-account' | translate"
+        >
+          <p>{{ 'accordion.item-account-content' | translate }}</p>
+        </solaris-collapsible>
+        <solaris-collapsible
+          value="notifications"
+          [label]="'accordion.item-notifications' | translate"
+        >
+          <p>{{ 'accordion.item-notifications-content' | translate }}</p>
+        </solaris-collapsible>
+        <solaris-collapsible
+          value="security"
+          [label]="'accordion.item-security' | translate"
+        >
+          <p>{{ 'accordion.item-security-content' | translate }}</p>
+        </solaris-collapsible>
+      </solaris-accordion>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="modes" titleKey="accordion.section.modes">
+    <p class="accordion-showcase__note">
+      {{ 'accordion.modes.note' | translate }}
+    </p>
+    <div class="accordion-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedMode"
+        [ariaLabel]="'accordion.section.modes' | translate"
       >
-        <p>{{ 'accordion.item-account-content' | translate }}</p>
-      </solaris-collapsible>
-      <solaris-collapsible
-        value="notifications"
-        [label]="'accordion.item-notifications' | translate"
-      >
-        <p>{{ 'accordion.item-notifications-content' | translate }}</p>
-      </solaris-collapsible>
-      <solaris-collapsible
-        value="security"
-        [label]="'accordion.item-security' | translate"
-      >
-        <p>{{ 'accordion.item-security-content' | translate }}</p>
-      </solaris-collapsible>
-    </solaris-accordion>
-  </section>
+        <solaris-tab value="single"
+          >{{ 'accordion.mode.single' | translate }}</solaris-tab
+        >
+        <solaris-tab value="multiple"
+          >{{ 'accordion.mode.multiple' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    @if (selectedMode() === 'multiple') {
+    <solaris-preview-code [code]="multipleCode" language="html">
+      <solaris-accordion type="multiple" [(value)]="multipleValues">
+        <solaris-collapsible
+          value="a"
+          [label]="'accordion.multi-a' | translate"
+        >
+          <p>{{ 'accordion.multi-a-content' | translate }}</p>
+        </solaris-collapsible>
+        <solaris-collapsible
+          value="b"
+          [label]="'accordion.multi-b' | translate"
+        >
+          <p>{{ 'accordion.multi-b-content' | translate }}</p>
+        </solaris-collapsible>
+      </solaris-accordion>
+    </solaris-preview-code>
+    } @else {
+    <solaris-preview-code [code]="basicCode" language="html">
+      <solaris-accordion [(value)]="singleValue">
+        <solaris-collapsible
+          value="account"
+          [label]="'accordion.item-account' | translate"
+        >
+          <p>{{ 'accordion.item-account-content' | translate }}</p>
+        </solaris-collapsible>
+        <solaris-collapsible
+          value="security"
+          [label]="'accordion.item-security' | translate"
+        >
+          <p>{{ 'accordion.item-security-content' | translate }}</p>
+        </solaris-collapsible>
+      </solaris-accordion>
+    </solaris-preview-code>
+    }
+  </app-docs-section>
 
-  <section class="accordion-showcase__section">
-    <h2 class="accordion-showcase__section-title">
-      {{ 'accordion.multiple' | translate }}
-    </h2>
+  <app-docs-section anchor="appearance" titleKey="accordion.section.appearance">
     <p class="accordion-showcase__note">
-      {{ 'accordion.multiple-note' | translate }}
+      {{ 'accordion.appearance.note' | translate }}
     </p>
-    <solaris-accordion type="multiple" [(value)]="multipleValues">
-      <solaris-collapsible value="a" [label]="'accordion.multi-a' | translate">
-        <p>{{ 'accordion.multi-a-content' | translate }}</p>
-      </solaris-collapsible>
-      <solaris-collapsible value="b" [label]="'accordion.multi-b' | translate">
-        <p>{{ 'accordion.multi-b-content' | translate }}</p>
-      </solaris-collapsible>
-    </solaris-accordion>
-  </section>
-
-  <section class="accordion-showcase__section">
-    <h2 class="accordion-showcase__section-title">
-      {{ 'accordion.lined' | translate }}
-    </h2>
-    <p class="accordion-showcase__note">
-      {{ 'accordion.lined-note' | translate }}
-    </p>
-    <solaris-accordion appearance="lined">
-      <solaris-collapsible value="l1" [label]="'accordion.line-1' | translate">
-        <p>{{ 'accordion.line-1-content' | translate }}</p>
-      </solaris-collapsible>
-      <solaris-collapsible value="l2" [label]="'accordion.line-2' | translate">
-        <p>{{ 'accordion.line-2-content' | translate }}</p>
-      </solaris-collapsible>
-      <solaris-collapsible value="l3" [label]="'accordion.line-3' | translate">
-        <p>{{ 'accordion.line-3-content' | translate }}</p>
-      </solaris-collapsible>
-    </solaris-accordion>
-  </section>
-
-  <section class="accordion-showcase__section">
-    <h2 class="accordion-showcase__section-title">
-      {{ 'accordion.locked' | translate }}
-    </h2>
-    <p class="accordion-showcase__note">
-      {{ 'accordion.locked-note' | translate }}
-    </p>
-    <solaris-accordion [allowToggle]="false" [(value)]="singleValue">
-      <solaris-collapsible value="req1" [label]="'accordion.req-1' | translate">
-        <p>{{ 'accordion.req-1-content' | translate }}</p>
-      </solaris-collapsible>
-      <solaris-collapsible value="req2" [label]="'accordion.req-2' | translate">
-        <p>{{ 'accordion.req-2-content' | translate }}</p>
-      </solaris-collapsible>
-    </solaris-accordion>
-  </section>
-
-  <section class="accordion-showcase__section">
-    <h2 class="accordion-showcase__section-title">
-      {{ 'accordion.heading-level' | translate }}
-    </h2>
-    <p class="accordion-showcase__note">
-      {{ 'accordion.heading-level-note' | translate }}
-    </p>
-    <solaris-accordion [headingLevel]="4">
-      <solaris-collapsible
-        value="h1"
-        [label]="'accordion.heading-a' | translate"
+    <div class="accordion-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedAppearance"
+        [ariaLabel]="'accordion.section.appearance' | translate"
       >
-        <p>{{ 'accordion.heading-a-content' | translate }}</p>
-      </solaris-collapsible>
-      <solaris-collapsible
-        value="h2"
-        [label]="'accordion.heading-b' | translate"
-      >
-        <p>{{ 'accordion.heading-b-content' | translate }}</p>
-      </solaris-collapsible>
-    </solaris-accordion>
-  </section>
+        @for (appearance of appearances; track appearance) {
+        <solaris-tab [value]="appearance"
+          >{{ 'accordion.appearance.' + appearance | translate }}</solaris-tab
+        >
+        }
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="appearanceCode()" language="html">
+      <solaris-accordion [appearance]="selectedAppearance()">
+        <solaris-collapsible
+          value="l1"
+          [label]="'accordion.line-1' | translate"
+        >
+          <p>{{ 'accordion.line-1-content' | translate }}</p>
+        </solaris-collapsible>
+        <solaris-collapsible
+          value="l2"
+          [label]="'accordion.line-2' | translate"
+        >
+          <p>{{ 'accordion.line-2-content' | translate }}</p>
+        </solaris-collapsible>
+        <solaris-collapsible
+          value="l3"
+          [label]="'accordion.line-3' | translate"
+        >
+          <p>{{ 'accordion.line-3-content' | translate }}</p>
+        </solaris-collapsible>
+      </solaris-accordion>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="accordion-showcase__section">
-    <h2 class="accordion-showcase__section-title">Leading icon</h2>
+  <app-docs-section
+    anchor="size-density"
+    titleKey="accordion.section.size-density"
+  >
     <p class="accordion-showcase__note">
-      Per-item icon glued to the label, rendered before the expand chevron.
+      {{ 'accordion.size-density.note' | translate }}
+    </p>
+    <div class="accordion-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'accordion.section.size-density' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'accordion.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'accordion.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'accordion.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'accordion.section.size-density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'accordion.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'accordion.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'accordion.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-accordion [size]="selectedSize()" [density]="selectedDensity()">
+        <solaris-collapsible
+          value="account"
+          [label]="'accordion.item-account' | translate"
+        >
+          <p>{{ 'accordion.item-account-content' | translate }}</p>
+        </solaris-collapsible>
+        <solaris-collapsible
+          value="security"
+          [label]="'accordion.item-security' | translate"
+        >
+          <p>{{ 'accordion.item-security-content' | translate }}</p>
+        </solaris-collapsible>
+      </solaris-accordion>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="behavior" titleKey="accordion.section.behavior">
+    <p class="accordion-showcase__note">
+      {{ 'accordion.behavior.note' | translate }}
+    </p>
+    <div class="accordion-showcase__stack">
+      <solaris-accordion [allowToggle]="false" [(value)]="singleValue">
+        <solaris-collapsible
+          value="req1"
+          [label]="'accordion.req-1' | translate"
+        >
+          <p>{{ 'accordion.req-1-content' | translate }}</p>
+        </solaris-collapsible>
+        <solaris-collapsible
+          value="req2"
+          [label]="'accordion.req-2' | translate"
+        >
+          <p>{{ 'accordion.req-2-content' | translate }}</p>
+        </solaris-collapsible>
+      </solaris-accordion>
+      <solaris-accordion [headingLevel]="4">
+        <solaris-collapsible
+          value="h1"
+          [label]="'accordion.heading-a' | translate"
+        >
+          <p>{{ 'accordion.heading-a-content' | translate }}</p>
+        </solaris-collapsible>
+        <solaris-collapsible
+          value="h2"
+          [label]="'accordion.heading-b' | translate"
+        >
+          <p>{{ 'accordion.heading-b-content' | translate }}</p>
+        </solaris-collapsible>
+      </solaris-accordion>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="leading-icon"
+    titleKey="accordion.section.leading-icon"
+  >
+    <p class="accordion-showcase__note">
+      {{ 'accordion.leading-icon.note' | translate }}
     </p>
     <solaris-accordion>
       <solaris-collapsible value="profile" label="Profile" leadingIcon="user">
@@ -129,5 +244,54 @@
         <p>Settings content.</p>
       </solaris-collapsible>
     </solaris-accordion>
-  </section>
-</div>
+  </app-docs-section>
+
+  <app-docs-section anchor="question" titleKey="accordion.section.question">
+    <p class="accordion-showcase__note">
+      {{ 'accordion.question.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="questionCode" language="html">
+      <solaris-accordion [(value)]="faqValue">
+        <solaris-collapsible
+          value="solaris"
+          [label]="'accordion.faq-q1' | translate"
+        >
+          <p>{{ 'accordion.faq-q1-content' | translate }}</p>
+        </solaris-collapsible>
+        <solaris-collapsible-input
+          value="ask"
+          [(query)]="faqQuery"
+          [loading]="faqLoading()"
+          (submitted)="askFaq($event)"
+          (cancelled)="cancelFaq()"
+        >
+          @if (faqAnswer()) {
+          <p>
+            {{ 'accordion.faq-answer-prefix' | translate }} "{{ faqAnswer() }}":
+            {{ 'accordion.faq-answer-body' | translate }}
+          </p>
+          }
+        </solaris-collapsible-input>
+      </solaris-accordion>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="accordion.section.installation"
+  >
+    <p class="accordion-showcase__note">
+      {{ 'accordion.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="accordion.section.props">
+    <p class="accordion-showcase__note">
+      {{ 'accordion.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

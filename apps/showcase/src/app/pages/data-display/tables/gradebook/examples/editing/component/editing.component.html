@@ -1,0 +1,54 @@
+<div class="editing-toolbar">
+  <label class="editing-toolbar__field">
+    <span class="editing-toolbar__label">{{
+      'gradebook.editing.bulk.assignment' | translate
+    }}</span>
+    <select
+      class="editing-toolbar__select"
+      [value]="bulkAssignment()"
+      (change)="bulkAssignment.set($any($event.target).value)"
+      [attr.aria-label]="'gradebook.editing.bulk.assignment' | translate"
+    >
+      <option value="gs1">{{ 'gradebook.col.gs1' | translate }}</option>
+      <option value="mp">{{ 'gradebook.col.mp' | translate }}</option>
+    </select>
+  </label>
+  <label class="editing-toolbar__field">
+    <span class="editing-toolbar__label">{{
+      'gradebook.editing.bulk.value' | translate
+    }}</span>
+    <input
+      #bulkValue
+      class="editing-toolbar__input"
+      type="number"
+      min="0"
+      [attr.aria-label]="'gradebook.editing.bulk.value' | translate"
+    />
+  </label>
+  <button
+    type="button"
+    class="editing-toolbar__apply"
+    [disabled]="selectedIds().length === 0"
+    (click)="applyBulk(bulkValue.value)"
+  >
+    {{
+      'gradebook.editing.bulk.apply'
+        | translate: { count: selectedIds().length }
+    }}
+  </button>
+</div>
+<p class="editing-toolbar__hint">
+  {{ 'gradebook.editing.bulk.hint' | translate }}
+</p>
+<solaris-gradebook
+  [data]="rows()"
+  [columns]="columns"
+  [identity]="identity"
+  rowId="id"
+  selectionMode="multiple"
+  [(selectedRowIds)]="selectedIds"
+  [bulkEnabled]="true"
+  [enablePaste]="true"
+  (gradeCommit)="onCommit($event)"
+  (gradeBulkCommit)="onBulkCommit($event)"
+/>

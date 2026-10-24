@@ -1,0 +1,98 @@
+{
+  "phone-field": {
+    "affix": {
+      "action": "Verificar",
+      "action-label": "Telefone com ação",
+      "note": "O slot de prefixo pertence ao seletor de país. Ícones de sufixo via input suffix; conteúdo interativo usa o slot suffix-action com [solaris-form-suffix] e [solaris-form-suffix-action].",
+      "suffix-label": "Telefone com sufixo"
+    },
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "clearable": {
+      "label": "Telefone",
+      "note": "Com clearable, um botão de limpar aparece quando o campo tem valor e emite cleared ao clicar. Ele fica oculto quando desabilitado, readonly ou loading."
+    },
+    "countries": {
+      "note": "Abra o botão de prefixo para buscar e escolher um país. Passe countryList para restringir as opções e [searchable]=\"false\" para ocultar a busca.",
+      "plain-label": "Telefone sem busca",
+      "restricted-label": "Telefone com países restritos"
+    },
+    "demo": {
+      "label": "Telefone"
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Preset de Form Field para telefones com seletor de país pesquisável, formatação em tempo de digitação e um único valor E.164. Compõe Form Field + Input.",
+    "error": {
+      "invalid": "Este campo tem um erro."
+    },
+    "examples": {
+      "note": "Digite um número para vê-lo formatado enquanto você digita. O valor é normalizado para E.164 quando válido."
+    },
+    "form": {
+      "hint": "Prefira um número de celular.",
+      "label": "Telefone",
+      "note": "Funciona com Reactive Forms via ControlValueAccessor. O valor do modelo é uma única string E.164; combine com solarisPhoneValidator."
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe o componente de phone field."
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Médio",
+      "none": "Nenhum",
+      "note": "O raio segue a escala global: md equivale a 4px, lg a 8px e xl vira pill.",
+      "sm": "Pequeno",
+      "xl": "Pill"
+    },
+    "section": {
+      "affix": "Sufixo e ações",
+      "appearances": "Aparências",
+      "clearable": "Limpável",
+      "countries": "Países e busca",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "form": "Integração com formulários",
+      "installation": "Instalação",
+      "props": "Propriedades",
+      "radius": "Raio",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em uma matriz 3x3: o Form Field interno define a altura externa enquanto o preset mantém fonte e espaçamento sincronizados."
+    },
+    "states": {
+      "default": "Padrão",
+      "disabled": "Desabilitado",
+      "invalid": "Inválido",
+      "loading": "Carregando",
+      "note": "Disabled e readonly são reais, não apenas visuais. Loading renderiza um overlay de spinner no slot de sufixo sem deslocar o layout.",
+      "readonly": "Somente leitura"
+    },
+    "title": "Phone Field"
+  },
+  "solaris": {
+    "phone-field": {
+      "clear": "Limpar telefone"
+    }
+  }
+}

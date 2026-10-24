@@ -1,0 +1,117 @@
+{
+  "date-picker": {
+    "affix-action": {
+      "note": "O botão de calendário embutido é uma suffix action. Ações extras compõem ao lado dele, por exemplo um botão de limpar."
+    },
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "label": "Data da fatura",
+      "note": "A aparência segue o contrato do Form Field e também estiliza o gatilho do calendário.",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "basic": {
+      "hint": "Digite uma data ou abra o calendário.",
+      "label": "Data da fatura"
+    },
+    "bounds": {
+      "hint": "Escolha uma data dentro do período permitido.",
+      "label": "Data de entrega"
+    },
+    "calendar-options": {
+      "label": "Data de início",
+      "note": "A semana começa no primeiro dia do locale, salvo override via weekStartsOn. disablePast e disableFuture limitam a seleção a hoje, e dateFormat alterna o preenchimento dia/mês entre 2-digit e numeric."
+    },
+    "clearable": {
+      "label": "Data da fatura",
+      "note": "Com clearable, um botão de limpar aparece quando há data e emite cleared ao clicar. Ele fica oculto quando desabilitado, readonly ou loading."
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Datas por locale com digitação manual e seleção no calendário. Cobre também o Date Range Picker para períodos de início e fim.",
+    "examples": {
+      "note": "Digite uma data manualmente ou abra o popover do calendário. O valor é uma string ISO só de data."
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe os componentes do seletor de data."
+    },
+    "locale-bounds": {
+      "note": "Exibição e digitação seguem o locale. Min, max e disabled dates limitam o calendário e rejeitam entradas fora do intervalo."
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "range": {
+      "basic": {
+        "hint": "Escolha início e fim e depois aplique.",
+        "label": "Período do relatório"
+      },
+      "note": "Date Range Picker coleta data de início e fim com presets, painel pendente e Aplicar/Cancelar. Size, density, loading e suffix actions funcionam como no picker único.",
+      "preset": {
+        "last-7-days": "Últimos 7 dias",
+        "this-month": "Este mês",
+        "today": "Hoje"
+      },
+      "presets": {
+        "hint": "Escolha um atalho ou datas personalizadas.",
+        "label": "Período do relatório com atalhos"
+      }
+    },
+    "section": {
+      "affix-action": "Gatilho do calendário e ações de sufixo",
+      "appearance": "Aparência",
+      "calendar-options": "Opções do calendário",
+      "clearable": "Limpável",
+      "date-range": "Intervalo de datas",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "locale-bounds": "Locale e limites",
+      "props": "Propriedades",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "label": "Data da fatura",
+      "note": "Tamanho e densidade fluem juntos para o Form Field interno e o input, mantendo label, campo e gatilho do calendário sincronizados."
+    },
+    "states": {
+      "disabled": {
+        "hint": "Este campo está desabilitado.",
+        "label": "Data indisponível"
+      },
+      "invalid": {
+        "error": "Preencha este campo para continuar.",
+        "label": "Data obrigatória"
+      },
+      "loading": {
+        "hint": "Resolvendo datas disponíveis.",
+        "label": "Data carregando"
+      },
+      "note": "Desabilitado bloqueia interação, inválido exibe erro manual e loading mostra o skeleton do campo enquanto as opções carregam."
+    },
+    "suffix-action": {
+      "clear": "Limpar data",
+      "hint": "Use a ação de limpar para resetar o valor.",
+      "label": "Data da fatura"
+    },
+    "title": "Seletor de Data"
+  },
+  "solaris": {
+    "date-picker": {
+      "clear": "Limpar data"
+    }
+  }
+}

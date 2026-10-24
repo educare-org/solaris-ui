@@ -14,6 +14,14 @@ export const Primary: Story = {
   args: {},
 };
 
+export const Suffix: Story = {
+  args: { suffix: 'info' },
+};
+
+export const RadiusXl: Story = {
+  args: { radius: 'xl' },
+};
+
 export const Heading: Story = {
   args: {},
   play: async ({ canvas }) => {

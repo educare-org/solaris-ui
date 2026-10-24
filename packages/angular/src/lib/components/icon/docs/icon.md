@@ -11,12 +11,25 @@ the full icon workflow.
 
 ### Inputs
 
-| Input          | Type      | Default     | Description                                              |
-| -------------- | --------- | ----------- | -------------------------------------------------------- |
-| `name`         | `string`  | `required`  | Icon name registered in the icon registry.               |
-| `ariaLabel`    | `string`  | `undefined` | Accessible label applied as `aria-label`.                |
-| `decorative`   | `boolean` | `false`     | Hides the icon from assistive technology.                |
-| `inheritColor` | `boolean` | `true`      | Whether the icon inherits `currentColor` for its stroke. |
+| Input                 | Type                                | Default     | Description                                                              |
+| --------------------- | ----------------------------------- | ----------- | ------------------------------------------------------------------------ |
+| `name`                | `string`                            | `required`  | Icon name registered in the icon registry.                               |
+| `variant`             | `'outline' \| 'solid' \| 'duotone'` | `'outline'` | Render variant; falls back per icon when no dedicated art exists.        |
+| `size`                | `number \| string`                  | `undefined` | Host width/height (number is px); defaults to `1em` styling.             |
+| `strokeWidth`         | `number`                            | `2`         | Stroke width for line-based variants; overrides icon and global default. |
+| `absoluteStrokeWidth` | `boolean`                           | `false`     | Keeps stroke width constant when the icon scales.                        |
+| `ariaLabel`           | `string`                            | `undefined` | Accessible label applied as `aria-label`.                                |
+| `decorative`          | `boolean`                           | `true`      | Hides the icon from assistive technology.                                |
+| `inheritColor`        | `boolean`                           | `true`      | Whether the icon inherits `currentColor` for its stroke.                 |
+
+### Variants
+
+`outline` renders the line art with `currentColor`. `solid` fills `fillable`
+icons (e.g. `bookmark`) with `currentColor`; icons without dedicated solid art
+(e.g. `chart-spline`, `rss`) render a rounded-square knockout fallback and
+expose `isFallback() === true`. `duotone` renders a `currentColor` layer at
+20% opacity behind the line art. Icons with embedded brand colors always render
+their own fills regardless of variant.
 
 ### Colors
 
@@ -53,10 +66,13 @@ None.
 
 ```html
 <!-- Decorative icon -->
-<solaris-icon name="check" decorative="true" />
+<solaris-icon name="check" />
 
 <!-- Accessible icon -->
-<solaris-icon name="alert" ariaLabel="Warning" />
+<solaris-icon name="alert" [decorative]="false" ariaLabel="Warning" />
+
+<!-- Solid variant with per-instance stroke and size -->
+<solaris-icon name="bookmark" variant="solid" [size]="32" [strokeWidth]="1.5" />
 
 <!-- Custom icon registered at runtime -->
 <solaris-icon name="my-icon" />

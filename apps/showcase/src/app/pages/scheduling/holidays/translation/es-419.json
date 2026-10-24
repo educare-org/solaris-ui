@@ -1,0 +1,20 @@
+{
+  "holidays-view": {
+    "description": "Festivos nacionales integrados por idioma con datos diferidos, extensión y rutas de proveedor personalizadas.",
+    "examples": {
+      "note": "Solo nacionales: los festivos estatales y municipales provienen de la extensión del consumidor. La siguiente tabla muestra la salida del proveedor integrado para el año seleccionado."
+    },
+    "installation": {
+      "note": "Instala el paquete e importa los helpers del proveedor integrado."
+    },
+    "props": {
+      "note": "Los idiomas no compatibles devuelven una lista vacía con una advertencia y nunca lanzan errores. Extiende con provider.extend([...]) o con un proveedor totalmente personalizado."
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "props": "Props"
+    },
+    "title": "Días festivos"
+  }
+}

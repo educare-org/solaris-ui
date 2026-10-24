@@ -1,0 +1,107 @@
+{
+  "alert": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "anatomy": {
+      "note": "La presencia del título se detecta automáticamente — no se necesita la entrada hasTitle. Actions incluye enlaces o botones."
+    },
+    "announcement": {
+      "basic": "Básico",
+      "image-bg": "Fondo de imagen",
+      "note": "Banner del sitio de ancho completo para la parte superior de la página. Contenido libre, fijo por defecto, con descarte persistente opcional.",
+      "persistent": "Persistente"
+    },
+    "appearance": {
+      "outline": "Outline",
+      "solid": "Sólido",
+      "surface": "Surface",
+      "tonal": "Tonal"
+    },
+    "closable": {
+      "note": "Cerrar emite dismissed pero nunca elimina la alerta. El consumidor controla la eliminación."
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Componente de mensaje contextual en línea para comunicar estado, advertencia, contenido promocional o comentarios. Incluye el banner Announcement del sitio.",
+    "example": {
+      "anatomy": {
+        "action": "Revisar cambios",
+        "text": "Esta configuración puede afectar a los usuarios activos. Revisa antes de aplicar.",
+        "title": "Atención"
+      },
+      "announcement-basic": {
+        "link": "Ver las novedades →",
+        "text": "Las novedades acaban de llegar en el Early Access de septiembre."
+      },
+      "announcement-image-bg": {
+        "link": "Comprar ahora",
+        "text": "Oferta limitada — termina el domingo."
+      },
+      "announcement-persistent": {
+        "note": "El descarte persiste en localStorage. Recarga la página — el banner permanece oculto.",
+        "show": "Mostrar banner de nuevo",
+        "text": "Regístrate antes del 31 de julio, empieza a gastar o depositar fondos y obtén una gift card."
+      },
+      "basic": {
+        "text": "Los cambios se guardan automáticamente."
+      },
+      "closable": {
+        "closed": "La alerta se descartó. Haz clic para mostrarla de nuevo.",
+        "message": "Esta alerta se puede descartar.",
+        "show": "Mostrar alerta"
+      },
+      "live": {
+        "assertive": "El pago falló. Inténtalo de nuevo."
+      }
+    },
+    "examples": {
+      "note": "Empieza con la alerta predeterminada y luego explora las apariencias y variantes a continuación."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "live": {
+      "note": "Off permanece en silencio, polite anuncia sin interrumpir, assertive interrumpe para errores críticos."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "anatomy": "Anatomía",
+      "announcement": "Announcement",
+      "closable": "Cerrable",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "live": "Región en vivo",
+      "props": "Props",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "variants": "Variantes y apariencias"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad funcionan juntos en el componente. Combina ambos controles para ver todas las combinaciones."
+    },
+    "title": "Alerta",
+    "variant": {
+      "custom": "Personalizado",
+      "danger": "Peligro",
+      "info": "Info",
+      "neutral": "Neutro",
+      "success": "Éxito",
+      "warning": "Advertencia"
+    },
+    "variants": {
+      "note": "Combina ambos controles para obtener una vista previa de cada variante y apariencia."
+    }
+  }
+}

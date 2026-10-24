@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 import {
+  SolarisButtonDirective,
   SolarisSegmentedControlComponent,
   SolarisSegmentedItemComponent,
   SolarisTranslatePipe,
@@ -10,10 +11,18 @@ import {
   standalone: true,
   selector: 'app-segmented-invalid-example',
   imports: [
+    SolarisButtonDirective,
     SolarisSegmentedControlComponent,
     SolarisSegmentedItemComponent,
     SolarisTranslatePipe,
   ],
   templateUrl: './invalid.component.html',
+  styleUrls: ['./invalid.component.scss'],
 })
-export class SegmentedInvalidExample {}
+export class SegmentedInvalidExample {
+  protected readonly showError = signal(false);
+
+  protected validate(): void {
+    this.showError.set(true);
+  }
+}

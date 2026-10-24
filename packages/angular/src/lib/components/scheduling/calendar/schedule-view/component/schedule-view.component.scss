@@ -1,0 +1,303 @@
+.solaris-calendar-schedule-view {
+  display: block;
+}
+
+.solaris-calendar-schedule-view__toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-3);
+}
+
+.solaris-calendar-schedule-view__range {
+  margin-left: var(--solaris-spacing-4);
+  color: var(--solaris-neutral-text-body);
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.solaris-calendar-schedule-view__list {
+  --solaris-calendar-schedule-view-day-size: var(--solaris-spacing-9);
+  --solaris-calendar-schedule-view-border: var(--solaris-neutral-border-subtle);
+  --solaris-calendar-schedule-view-item-font-size: var(--solaris-font-size-xs);
+
+  width: 100%;
+  display: flex;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  flex-direction: column;
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-neutral-default);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-calendar-schedule-view-border);
+}
+
+.solaris-calendar-schedule-view__list:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-calendar-schedule-view__empty {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  gap: var(--solaris-spacing-1);
+  padding: var(--solaris-spacing-6) var(--solaris-spacing-4);
+}
+
+.solaris-calendar-schedule-view__empty-title {
+  margin: 0;
+  color: var(--solaris-neutral-text-body);
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.solaris-calendar-schedule-view__empty-hint {
+  margin: 0;
+  color: var(--solaris-neutral-text-secondary);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-xs) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+}
+
+.solaris-calendar-schedule-view__day {
+  min-width: 0;
+  display: flex;
+  gap: var(--solaris-spacing-5);
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5);
+}
+
+.solaris-calendar-schedule-view__day + .solaris-calendar-schedule-view__day {
+  border-top: var(--solaris-border-width-sm) solid
+    var(--solaris-calendar-schedule-view-border);
+}
+
+.solaris-calendar-schedule-view__day[data-active] {
+  outline: var(--solaris-border-width-md) solid var(--solaris-primary-border);
+  outline-offset: calc(var(--solaris-border-width-sm) * -1);
+}
+
+.solaris-calendar-schedule-view__dayhead {
+  border: 0;
+  flex: none;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  flex-direction: column;
+  background: transparent;
+  gap: var(--solaris-spacing-3);
+  padding: var(--solaris-spacing-3);
+  border-radius: var(--solaris-radius-md);
+  color: var(--solaris-neutral-text-body);
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-calendar-schedule-view__dayhead:hover {
+  background: var(--solaris-neutral-subtle);
+}
+
+.solaris-calendar-schedule-view__dayhead:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-calendar-schedule-view__weekday {
+  color: var(--solaris-neutral-text-secondary);
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-2xs) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+  text-transform: uppercase;
+}
+
+.solaris-calendar-schedule-view__daynumber {
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  padding: var(--solaris-spacing-1);
+  border-radius: var(--solaris-radius-full);
+  width: var(--solaris-calendar-schedule-view-day-size);
+  height: var(--solaris-calendar-schedule-view-day-size);
+  font: var(--solaris-font-weight-medium) var(--solaris-font-size-xs) /
+    var(--solaris-line-height-none) var(--solaris-font-family-sans);
+  font-variant-numeric: tabular-nums;
+}
+
+.solaris-calendar-schedule-view__day[data-today]
+  .solaris-calendar-schedule-view__daynumber {
+  color: var(--solaris-primary-foreground);
+  background: var(--solaris-primary-solid);
+}
+
+.solaris-calendar-schedule-view__items {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+}
+
+.solaris-calendar-schedule-view__item {
+  border: 0;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  max-width: 100%;
+  overflow: hidden;
+  text-align: left;
+  align-items: center;
+  box-sizing: border-box;
+  gap: var(--solaris-spacing-3);
+  min-height: var(--solaris-spacing-6);
+  background: var(--solaris-info-soft);
+  color: var(--solaris-info-foreground);
+  border-radius: var(--solaris-radius-md);
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
+  font: var(--solaris-font-weight-regular)
+    var(--solaris-calendar-schedule-view-item-font-size) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+  transition:
+    filter var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+span.solaris-calendar-schedule-view__item {
+  cursor: default;
+}
+
+button.solaris-calendar-schedule-view__item {
+  cursor: pointer;
+}
+
+.solaris-calendar-schedule-view__item[data-color='primary'] {
+  color: var(--solaris-primary-foreground);
+  background: var(--solaris-primary-soft);
+}
+
+.solaris-calendar-schedule-view__item[data-color='success'] {
+  color: var(--solaris-success-foreground);
+  background: var(--solaris-success-soft);
+}
+
+.solaris-calendar-schedule-view__item[data-color='warning'] {
+  color: var(--solaris-warning-foreground);
+  background: var(--solaris-warning-soft);
+}
+
+.solaris-calendar-schedule-view__item[data-color='danger'] {
+  color: var(--solaris-danger-foreground);
+  background: var(--solaris-danger-soft);
+}
+
+.solaris-calendar-schedule-view__item[data-color='accent'] {
+  color: var(--solaris-accent-foreground);
+  background: var(--solaris-accent-soft);
+}
+
+.solaris-calendar-schedule-view__item[data-color='violet'] {
+  color: var(--solaris-violet-foreground);
+  background: var(--solaris-violet-soft);
+}
+
+.solaris-calendar-schedule-view__item[data-color='neutral'] {
+  color: var(--solaris-neutral-text-body);
+  background: var(--solaris-neutral-subtle);
+}
+
+button.solaris-calendar-schedule-view__item:hover {
+  filter: brightness(0.97);
+}
+
+button.solaris-calendar-schedule-view__item:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-calendar-schedule-view__item[data-selected] {
+  outline-offset: calc(var(--solaris-border-width-sm) * -1);
+  outline: var(--solaris-border-width-md) solid var(--solaris-primary-border);
+}
+
+.solaris-calendar-schedule-view__item-time {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.solaris-calendar-schedule-view__item-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.solaris-calendar-schedule-view__item[data-completed]
+  .solaris-calendar-schedule-view__item-text {
+  text-decoration: line-through;
+}
+
+.solaris-calendar-schedule-view__check {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--solaris-spacing-3);
+  height: var(--solaris-spacing-3);
+  border-radius: var(--solaris-radius-sm);
+  border: var(--solaris-border-width-sm) solid currentcolor;
+}
+
+.solaris-calendar-schedule-view__item[data-completed]
+  .solaris-calendar-schedule-view__check {
+  background: currentcolor;
+}
+
+:host([data-density='compact']) .solaris-calendar-schedule-view__day {
+  gap: var(--solaris-spacing-2);
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
+}
+
+:host([data-size='sm']) .solaris-calendar-schedule-view__list {
+  --solaris-calendar-schedule-view-day-size: var(--solaris-spacing-8);
+  --solaris-calendar-schedule-view-item-font-size: 11px;
+}
+
+:host([data-size='lg']) .solaris-calendar-schedule-view__list {
+  --solaris-calendar-schedule-view-day-size: var(--solaris-spacing-10);
+  --solaris-calendar-schedule-view-item-font-size: var(--solaris-font-size-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-calendar-schedule-view__dayhead,
+  .solaris-calendar-schedule-view__item {
+    transition: none;
+  }
+}
+
+@media print {
+  .solaris-calendar-schedule-view__toolbar {
+    display: none;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for the print list.
+  .solaris-calendar-schedule-view__list {
+    overflow: visible;
+    background: #fff;
+    color: #000;
+  }
+
+  .solaris-calendar-schedule-view__list * {
+    box-shadow: none;
+  }
+}

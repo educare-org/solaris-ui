@@ -1,346 +1,433 @@
-<div class="textarea-showcase">
-  <header class="textarea-showcase__header">
-    <h1 class="textarea-showcase__title">{{ 'textarea.title' | translate }}</h1>
-    <p class="textarea-showcase__description">
-      {{ 'textarea.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="textarea.title"
+    descriptionKey="textarea.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">
-      {{ 'textarea.basic' | translate }}
-    </h2>
-    <div class="textarea-showcase__demo">
-      <textarea
-        solaris-textarea
-        [placeholder]="'textarea.placeholder.basic' | translate"
-      ></textarea>
-    </div>
-  </section>
-
-  <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">
-      {{ 'textarea.with-form-field' | translate }}
-    </h2>
+  <app-docs-section anchor="examples" titleKey="textarea.section.examples">
     <p class="textarea-showcase__note">
-      {{ 'textarea.with-form-field-note' | translate }}
+      {{ 'textarea.examples.note' | translate }}
     </p>
-    <div class="textarea-showcase__demo">
-      <solaris-form-field
-        [label]="'textarea.ff-label.desc' | translate"
-        [hint]="'textarea.ff-hint.desc' | translate"
-      >
-        <textarea solaris-textarea></textarea>
-      </solaris-form-field>
-    </div>
-  </section>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-textarea-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">
-      {{ 'textarea.appearances' | translate }}
-    </h2>
-    <div class="textarea-showcase__demo">
+  <app-docs-section anchor="form-field" titleKey="textarea.section.form-field">
+    <p class="textarea-showcase__note">
+      {{ 'textarea.form-field.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="formFieldCode" language="html">
       <solaris-form-field
-        [label]="'textarea.ff-label.outline' | translate"
-        appearance="outline"
+        [label]="'textarea.form-field.label' | translate"
+        [hint]="'textarea.form-field.hint' | translate"
       >
         <textarea
           solaris-textarea
-          appearance="outline"
-          [placeholder]="'textarea.placeholder.outline' | translate"
+          [placeholder]="'textarea.form-field.placeholder' | translate"
         ></textarea>
       </solaris-form-field>
-      <solaris-form-field
-        [label]="'textarea.ff-label.surface' | translate"
-        appearance="surface"
-      >
-        <textarea
-          solaris-textarea
-          appearance="surface"
-          [placeholder]="'textarea.placeholder.surface' | translate"
-        ></textarea>
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'textarea.ff-label.filled' | translate"
-        appearance="filled"
-      >
-        <textarea
-          solaris-textarea
-          appearance="filled"
-          [placeholder]="'textarea.placeholder.filled' | translate"
-        ></textarea>
-      </solaris-form-field>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">
-      {{ 'textarea.sizes' | translate }}
-    </h2>
-    <div class="textarea-showcase__demo">
-      <solaris-form-field
-        [label]="'textarea.ff-label.small' | translate"
-        size="sm"
+  <app-docs-section
+    anchor="appearances"
+    titleKey="textarea.section.appearances"
+  >
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'textarea.section.appearances' | translate"
+    >
+      <solaris-tab value="outline"
+        >{{ 'textarea.appearance.outline' | translate }}</solaris-tab
       >
-        <textarea
-          solaris-textarea
-          size="sm"
-          [placeholder]="'textarea.placeholder.small' | translate"
-        ></textarea>
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'textarea.ff-label.medium' | translate"
-        size="md"
+      <solaris-tab value="surface"
+        >{{ 'textarea.appearance.surface' | translate }}</solaris-tab
       >
-        <textarea
-          solaris-textarea
-          size="md"
-          [placeholder]="'textarea.placeholder.medium' | translate"
-        ></textarea>
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'textarea.ff-label.large' | translate"
-        size="lg"
+      <solaris-tab value="filled"
+        >{{ 'textarea.appearance.filled' | translate }}</solaris-tab
       >
-        <textarea
-          solaris-textarea
-          size="lg"
-          [placeholder]="'textarea.placeholder.large' | translate"
-        ></textarea>
-      </solaris-form-field>
-    </div>
-  </section>
+      <solaris-tab-panel value="outline">
+        <solaris-preview-code [code]="appearanceOutlineCode" language="html">
+          <solaris-form-field
+            [label]="'textarea.appearance.outline' | translate"
+            appearance="outline"
+          >
+            <textarea
+              solaris-textarea
+              appearance="outline"
+              [placeholder]="'textarea.appearance.outline' | translate"
+            ></textarea>
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="surface">
+        <solaris-preview-code [code]="appearanceSurfaceCode" language="html">
+          <solaris-form-field
+            [label]="'textarea.appearance.surface' | translate"
+            appearance="surface"
+          >
+            <textarea
+              solaris-textarea
+              appearance="surface"
+              [placeholder]="'textarea.appearance.surface' | translate"
+            ></textarea>
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="filled">
+        <solaris-preview-code [code]="appearanceFilledCode" language="html">
+          <solaris-form-field
+            [label]="'textarea.appearance.filled' | translate"
+            appearance="filled"
+          >
+            <textarea
+              solaris-textarea
+              appearance="filled"
+              [placeholder]="'textarea.appearance.filled' | translate"
+            ></textarea>
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">
-      {{ 'textarea.density' | translate }}
-    </h2>
-    <div class="textarea-showcase__demo">
-      <solaris-form-field
-        [label]="'textarea.ff-label.compact' | translate"
-        density="compact"
+  <app-docs-section
+    anchor="size-density"
+    titleKey="textarea.section.size-density"
+  >
+    <p class="textarea-showcase__note">
+      {{ 'textarea.size-density.note' | translate }}
+    </p>
+    <div class="textarea-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'textarea.section.sizes' | translate"
       >
-        <textarea
-          solaris-textarea
-          density="compact"
-          [placeholder]="'textarea.placeholder.compact' | translate"
-        ></textarea>
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'textarea.ff-label.normal' | translate"
-        density="normal"
-      >
-        <textarea
-          solaris-textarea
-          density="normal"
-          [placeholder]="'textarea.placeholder.normal' | translate"
-        ></textarea>
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'textarea.ff-label.comfortable' | translate"
-        density="comfortable"
-      >
-        <textarea
-          solaris-textarea
-          density="comfortable"
-          [placeholder]="'textarea.placeholder.comfortable' | translate"
-        ></textarea>
-      </solaris-form-field>
-    </div>
-  </section>
-
-  <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">
-      {{ 'textarea.radius' | translate }}
-    </h2>
-    <div class="textarea-showcase__row">
-      <solaris-form-field
-        [label]="'textarea.ff-label.none' | translate"
-        radius="none"
-      >
-        <textarea
-          solaris-textarea
-          radius="none"
-          [placeholder]="'textarea.placeholder.none-radius' | translate"
-        ></textarea>
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'textarea.ff-label.sm' | translate"
-        radius="sm"
-      >
-        <textarea
-          solaris-textarea
-          radius="sm"
-          [placeholder]="'textarea.placeholder.sm-radius' | translate"
-        ></textarea>
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'textarea.ff-label.md' | translate"
-        radius="md"
-      >
-        <textarea
-          solaris-textarea
-          radius="md"
-          [placeholder]="'textarea.placeholder.md-radius' | translate"
-        ></textarea>
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'textarea.ff-label.lg' | translate"
-        radius="lg"
-      >
-        <textarea
-          solaris-textarea
-          radius="lg"
-          [placeholder]="'textarea.placeholder.lg-radius' | translate"
-        ></textarea>
-      </solaris-form-field>
-    </div>
-  </section>
-
-  <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">
-      {{ 'textarea.states' | translate }}
-    </h2>
-    <div class="textarea-showcase__demo">
-      <solaris-form-field [label]="'textarea.ff-label.default' | translate">
-        <textarea
-          solaris-textarea
-          [placeholder]="'textarea.placeholder.default' | translate"
-        ></textarea>
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'textarea.ff-label.invalid-state' | translate"
-        [invalid]="true"
-        [error]="'textarea.ff-error.invalid' | translate"
-      >
-        <textarea
-          solaris-textarea
-          [invalid]="true"
-          [placeholder]="'textarea.placeholder.invalid-state' | translate"
-        ></textarea>
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'textarea.ff-label.disabled' | translate"
-        [disabled]="true"
-      >
-        <textarea
-          solaris-textarea
-          disabled
-          [placeholder]="'textarea.placeholder.disabled' | translate"
-        ></textarea>
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'textarea.ff-label.readonly' | translate"
-        [readonly]="true"
-      >
-        <textarea solaris-textarea readonly>
-{{
-          'textarea.readonly-value' | translate
-        }}</textarea
+        <solaris-tab value="sm"
+          >{{ 'textarea.size.sm' | translate }}</solaris-tab
         >
-      </solaris-form-field>
+        <solaris-tab value="md"
+          >{{ 'textarea.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'textarea.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'textarea.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'textarea.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'textarea.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'textarea.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
     </div>
-  </section>
-
-  <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">
-      {{ 'textarea.resize' | translate }}
-    </h2>
-    <div class="textarea-showcase__demo">
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
       <solaris-form-field
-        [label]="'textarea.ff-label.not-resizable' | translate"
+        [label]="'textarea.form-field.label' | translate"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
       >
         <textarea
           solaris-textarea
-          resize="none"
-          [placeholder]="'textarea.placeholder.not-resizable' | translate"
+          [size]="selectedSize()"
+          [density]="selectedDensity()"
+          [placeholder]="'textarea.form-field.placeholder' | translate"
         ></textarea>
       </solaris-form-field>
-      <solaris-form-field [label]="'textarea.ff-label.vertical' | translate">
-        <textarea
-          solaris-textarea
-          resize="vertical"
-          [placeholder]="'textarea.placeholder.vertical' | translate"
-        ></textarea>
-      </solaris-form-field>
-      <solaris-form-field [label]="'textarea.ff-label.horizontal' | translate">
-        <textarea
-          solaris-textarea
-          resize="horizontal"
-          [placeholder]="'textarea.placeholder.horizontal' | translate"
-        ></textarea>
-      </solaris-form-field>
-      <solaris-form-field [label]="'textarea.ff-label.both' | translate">
-        <textarea
-          solaris-textarea
-          resize="both"
-          [placeholder]="'textarea.placeholder.both' | translate"
-        ></textarea>
-      </solaris-form-field>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">
-      {{ 'textarea.rows' | translate }}
-    </h2>
+  <app-docs-section anchor="radius" titleKey="textarea.section.radius">
     <p class="textarea-showcase__note">
-      {{ 'textarea.rows-note' | translate }}
+      {{ 'textarea.radius.note' | translate }}
     </p>
-    <div class="textarea-showcase__demo">
-      <solaris-form-field [label]="'textarea.ff-label.with-rows' | translate">
+    <solaris-tabs
+      [(value)]="selectedRadius"
+      [ariaLabel]="'textarea.section.radius' | translate"
+    >
+      <solaris-tab value="none"
+        >{{ 'textarea.radius.none' | translate }}</solaris-tab
+      >
+      <solaris-tab value="sm"
+        >{{ 'textarea.radius.sm' | translate }}</solaris-tab
+      >
+      <solaris-tab value="md"
+        >{{ 'textarea.radius.md' | translate }}</solaris-tab
+      >
+      <solaris-tab value="lg"
+        >{{ 'textarea.radius.lg' | translate }}</solaris-tab
+      >
+      <solaris-tab value="xl"
+        >{{ 'textarea.radius.xl' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="none">
+        <solaris-preview-code [code]="radiusNoneCode" language="html">
+          <solaris-form-field
+            [label]="'textarea.radius.none' | translate"
+            radius="none"
+          >
+            <textarea
+              solaris-textarea
+              radius="none"
+              [placeholder]="'textarea.radius.none' | translate"
+            ></textarea>
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="sm">
+        <solaris-preview-code [code]="radiusSmCode" language="html">
+          <solaris-form-field
+            [label]="'textarea.radius.sm' | translate"
+            radius="sm"
+          >
+            <textarea
+              solaris-textarea
+              radius="sm"
+              [placeholder]="'textarea.radius.sm' | translate"
+            ></textarea>
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="md">
+        <solaris-preview-code [code]="radiusMdCode" language="html">
+          <solaris-form-field
+            [label]="'textarea.radius.md' | translate"
+            radius="md"
+          >
+            <textarea
+              solaris-textarea
+              radius="md"
+              [placeholder]="'textarea.radius.md' | translate"
+            ></textarea>
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="lg">
+        <solaris-preview-code [code]="radiusLgCode" language="html">
+          <solaris-form-field
+            [label]="'textarea.radius.lg' | translate"
+            radius="lg"
+          >
+            <textarea
+              solaris-textarea
+              radius="lg"
+              [placeholder]="'textarea.radius.lg' | translate"
+            ></textarea>
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="xl">
+        <solaris-preview-code [code]="radiusXlCode" language="html">
+          <solaris-form-field
+            [label]="'textarea.radius.xl' | translate"
+            radius="xl"
+          >
+            <textarea
+              solaris-textarea
+              radius="xl"
+              [placeholder]="'textarea.radius.xl' | translate"
+            ></textarea>
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="textarea.section.states">
+    <solaris-preview-code [code]="statesCode" language="html">
+      <div class="textarea-showcase__stack">
+        <solaris-form-field [label]="'textarea.states.default' | translate">
+          <textarea
+            solaris-textarea
+            [placeholder]="'textarea.states.default' | translate"
+          ></textarea>
+        </solaris-form-field>
+        <solaris-form-field
+          [label]="'textarea.states.invalid' | translate"
+          [invalid]="true"
+          [error]="'textarea.error.invalid' | translate"
+        >
+          <textarea
+            solaris-textarea
+            [invalid]="true"
+            [placeholder]="'textarea.states.invalid' | translate"
+          ></textarea>
+        </solaris-form-field>
+        <solaris-form-field
+          [label]="'textarea.states.disabled' | translate"
+          [disabled]="true"
+        >
+          <textarea
+            solaris-textarea
+            disabled
+            [placeholder]="'textarea.states.disabled' | translate"
+          ></textarea>
+        </solaris-form-field>
+        <solaris-form-field
+          [label]="'textarea.states.readonly' | translate"
+          [readonly]="true"
+        >
+          <textarea solaris-textarea readonly>
+{{
+            'textarea.states.readonly-value' | translate
+          }}</textarea
+          >
+        </solaris-form-field>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="resize" titleKey="textarea.section.resize">
+    <p class="textarea-showcase__note">
+      {{ 'textarea.resize.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedResize"
+      [ariaLabel]="'textarea.section.resize' | translate"
+    >
+      <solaris-tab value="none"
+        >{{ 'textarea.resize.none' | translate }}</solaris-tab
+      >
+      <solaris-tab value="vertical"
+        >{{ 'textarea.resize.vertical' | translate }}</solaris-tab
+      >
+      <solaris-tab value="horizontal"
+        >{{ 'textarea.resize.horizontal' | translate }}</solaris-tab
+      >
+      <solaris-tab value="both"
+        >{{ 'textarea.resize.both' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="none">
+        <solaris-preview-code [code]="resizeCodes.none" language="html">
+          <solaris-form-field [label]="'textarea.resize.none' | translate">
+            <textarea
+              solaris-textarea
+              resize="none"
+              [placeholder]="'textarea.resize.none-placeholder' | translate"
+            ></textarea>
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="vertical">
+        <solaris-preview-code [code]="resizeCodes.vertical" language="html">
+          <solaris-form-field [label]="'textarea.resize.vertical' | translate">
+            <textarea
+              solaris-textarea
+              resize="vertical"
+              [placeholder]="'textarea.resize.vertical-placeholder' | translate"
+            ></textarea>
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="horizontal">
+        <solaris-preview-code [code]="resizeCodes.horizontal" language="html">
+          <solaris-form-field
+            [label]="'textarea.resize.horizontal' | translate"
+          >
+            <textarea
+              solaris-textarea
+              resize="horizontal"
+              [placeholder]="
+                'textarea.resize.horizontal-placeholder' | translate
+              "
+            ></textarea>
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="both">
+        <solaris-preview-code [code]="resizeCodes.both" language="html">
+          <solaris-form-field [label]="'textarea.resize.both' | translate">
+            <textarea
+              solaris-textarea
+              resize="both"
+              [placeholder]="'textarea.resize.both-placeholder' | translate"
+            ></textarea>
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="rows" titleKey="textarea.section.rows">
+    <p class="textarea-showcase__note">
+      {{ 'textarea.rows.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="rowsCode" language="html">
+      <solaris-form-field [label]="'textarea.rows.label' | translate">
         <textarea
           solaris-textarea
           rows="4"
-          [placeholder]="'textarea.placeholder.with-rows' | translate"
+          [placeholder]="'textarea.rows.placeholder' | translate"
         ></textarea>
       </solaris-form-field>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">
-      {{ 'textarea.placeholder-note' | translate }}
-    </h2>
+  <app-docs-section
+    anchor="character-counter"
+    titleKey="textarea.section.counter"
+  >
     <p class="textarea-showcase__note">
-      {{ 'textarea.placeholder-note-text' | translate }}
+      {{ 'textarea.counter.note' | translate }}
     </p>
-    <div class="textarea-showcase__demo">
-      <solaris-form-field
-        [label]="'textarea.ff-label.notes-example' | translate"
-      >
-        <textarea
-          solaris-textarea
-          [placeholder]="'textarea.placeholder.notes-example' | translate"
-        ></textarea>
-      </solaris-form-field>
-    </div>
-  </section>
-
-  <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">
-      {{ 'textarea.character-counter' | translate }}
-    </h2>
-    <p class="textarea-showcase__note">
-      {{ 'textarea.character-counter-note' | translate }}
-    </p>
-    <div class="textarea-showcase__demo">
-      <solaris-form-field [label]="'textarea.ff-label.maxlength' | translate">
+    <solaris-preview-code [code]="counterCode" language="html">
+      <solaris-form-field [label]="'textarea.counter.label' | translate">
         <textarea
           solaris-textarea
           maxlength="100"
-          [placeholder]="'textarea.placeholder.maxlength' | translate"
+          [placeholder]="'textarea.counter.placeholder' | translate"
         ></textarea>
       </solaris-form-field>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="textarea-showcase__section">
-    <h2 class="textarea-showcase__section-title">
-      {{ 'textarea.rich-text-note' | translate }}
-    </h2>
+  <app-docs-section anchor="form" titleKey="textarea.section.form">
+    <solaris-preview-code [code]="reactiveCode" language="html">
+      <solaris-form-field
+        [label]="'textarea.form.label' | translate"
+        [hint]="'textarea.form.hint' | translate"
+      >
+        <textarea
+          solaris-textarea
+          [formControl]="notesControl"
+          [placeholder]="'textarea.form.placeholder' | translate"
+        ></textarea>
+      </solaris-form-field>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="textarea.section.installation"
+  >
     <p class="textarea-showcase__note">
-      {{ 'textarea.rich-text-note-text' | translate }}
+      {{ 'textarea.installation.note' | translate }}
     </p>
-  </section>
-</div>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="textarea.section.props">
+    <p class="textarea-showcase__note">
+      {{ 'textarea.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

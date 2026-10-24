@@ -1,0 +1,10 @@
+<solaris-file-upload
+  label="Documents"
+  uploadUrl="https://uploads.example.invalid"
+  [autoUpload]="false"
+  (fileRejected)="onFileRejected($event)"
+  #uploader
+></solaris-file-upload>
+<button type="button" solaris-button (click)="uploader.uploadAll()">
+  Send
+</button>

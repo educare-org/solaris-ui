@@ -1,0 +1,17 @@
+{
+  "solaris": {
+    "collapsible": {
+      "add": {
+        "cancel": "Cancelar",
+        "confirm": "Añadir",
+        "descriptionLabel": "Descripción",
+        "iconLabel": "Icono",
+        "noIcon": "Ninguno",
+        "required": "Obligatorio",
+        "title": "Añadir sección",
+        "titleLabel": "Título"
+      },
+      "addAction": "Añadir elemento"
+    }
+  }
+}

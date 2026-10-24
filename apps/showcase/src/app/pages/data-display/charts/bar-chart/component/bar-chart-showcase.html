@@ -1,0 +1,241 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="bar-chart-view.title"
+    descriptionKey="bar-chart-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="examples"
+    titleKey="bar-chart-view.section.examples"
+  >
+    <p class="bar-chart-showcase__note">
+      {{ 'bar-chart-view.examples.note' | translate }}
+    </p>
+    <p class="bar-chart-showcase__note">
+      {{ 'bar-chart-view.examples.keyboardNote' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="layout"
+      [ariaLabel]="'bar-chart-view.examples.layoutLabel' | translate"
+    >
+      <solaris-tab [value]="'grouped'"
+        >{{ 'bar-chart-view.examples.grouped' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'stacked'"
+        >{{ 'bar-chart-view.examples.stacked' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'stacked-100'"
+        >{{ 'bar-chart-view.examples.stacked100' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #layoutsCard>
+        <solaris-bar-chart
+          [locale]="chartLocale()"
+          [series]="series()"
+          [layout]="layout()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+        @if (log()) {
+        <p class="bar-chart-showcase__log" data-testid="bar-event-log">
+          {{ log() }}
+        </p>
+        }
+      </ng-template>
+      <div class="bar-chart-showcase__demo">
+        <ng-container *ngTemplateOutlet="layoutsCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="horizontal"
+    titleKey="bar-chart-view.section.horizontal"
+  >
+    <p class="bar-chart-showcase__note">
+      {{ 'bar-chart-view.horizontal.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="horizontalCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #horizontalCard>
+        <solaris-bar-chart
+          [locale]="chartLocale()"
+          orientation="horizontal"
+          [series]="series()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+      </ng-template>
+      <div class="bar-chart-showcase__demo">
+        <ng-container *ngTemplateOutlet="horizontalCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="values" titleKey="bar-chart-view.section.values">
+    <p class="bar-chart-showcase__note">
+      {{ 'bar-chart-view.values.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="valuesCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #valuesCard>
+        <solaris-bar-chart
+          [locale]="chartLocale()"
+          [series]="series()"
+          layout="grouped"
+          [referenceLines]="referenceLines()"
+          [showValues]="true"
+          (pointSelect)="onPointSelect($event)"
+        />
+      </ng-template>
+      <div class="bar-chart-showcase__demo">
+        <ng-container *ngTemplateOutlet="valuesCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="diverging"
+    titleKey="bar-chart-view.section.diverging"
+  >
+    <p class="bar-chart-showcase__note">
+      {{ 'bar-chart-view.diverging.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="divergingCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #divergingCard>
+        <solaris-bar-chart
+          [locale]="chartLocale()"
+          [series]="divergingSeries()"
+          layout="grouped"
+          [showValues]="true"
+          (pointSelect)="onPointSelect($event)"
+        />
+      </ng-template>
+      <div class="bar-chart-showcase__demo">
+        <ng-container *ngTemplateOutlet="divergingCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="empty" titleKey="bar-chart-view.section.empty">
+    <p class="bar-chart-showcase__note">
+      {{ 'bar-chart-view.empty.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="emptyCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #emptyCard>
+        <solaris-bar-chart [locale]="chartLocale()" [series]="[]" />
+      </ng-template>
+      <div class="bar-chart-showcase__demo">
+        <ng-container *ngTemplateOutlet="emptyCard" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="bar-chart-view.section.size-density"
+  >
+    <p class="bar-chart-showcase__note">
+      {{ 'bar-chart-view.size-density.note' | translate }}
+    </p>
+    <div class="bar-chart-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'bar-chart-view.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'bar-chart-view.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'bar-chart-view.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'bar-chart-view.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'bar-chart-view.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'bar-chart-view.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'bar-chart-view.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'bar-chart-view.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [code]="sizeDensityCode()"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="bar-chart-showcase__demo">
+        <solaris-bar-chart
+          [locale]="chartLocale()"
+          [series]="series()"
+          layout="grouped"
+          [referenceLines]="referenceLines()"
+          [size]="selectedSize()"
+          [density]="selectedDensity()"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="bar-chart-view.section.installation"
+  >
+    <p class="bar-chart-showcase__note">
+      {{ 'bar-chart-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block [code]="importCode" language="ts" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="bar-chart-view.section.props">
+    <p class="bar-chart-showcase__note">
+      {{ 'bar-chart-view.props.note' | translate }}
+    </p>
+    <div class="bar-chart-showcase__table-wrap">
+      <solaris-table
+        [data]="propsRows"
+        [columns]="propsColumns()"
+        rowId="prop"
+        appearance="soft"
+      />
+    </div>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

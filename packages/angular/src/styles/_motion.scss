@@ -1,0 +1,14 @@
+/// Solaris UI — Motion API (consumers).
+///
+/// Re-exports the shared motion mixins. Keyframes themselves are emitted
+/// globally by `core()`, so consumers only need this module when authoring
+/// custom CSS that should follow the Solaris motion language.
+///
+/// Usage:
+///   @use '@solaris-ui/angular/styles/motion' as motion;
+///
+///   .my-panel {
+///     @include motion.solaris-motion-overlay-enter;
+///   }
+
+@forward 'token/motion/motion-mixins';

@@ -1,0 +1,38 @@
+.breakdown-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--solaris-spacing-3);
+  width: 100%;
+  max-width: 100%;
+}
+
+.breakdown-cell__value {
+  font-variant-numeric: tabular-nums;
+}
+
+.breakdown-cell__trigger {
+  line-height: 1;
+  flex-shrink: 0;
+  cursor: pointer;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  background: transparent;
+  border: var(--solaris-spacing-0);
+  padding: var(--solaris-spacing-2);
+  font-size: var(--solaris-font-size-2xs);
+  border-radius: var(--solaris-radius-sm);
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.breakdown-cell__trigger:hover {
+  background: var(--solaris-neutral-subtle);
+  color: var(--solaris-neutral-text-body);
+}
+
+.breakdown-cell__trigger:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}

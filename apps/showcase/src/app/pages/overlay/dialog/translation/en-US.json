@@ -1,0 +1,255 @@
+{
+  "dialog": {
+    "actions-align": "Actions alignment",
+    "actions-align-desc": "Actions can be aligned to start, center, end, or space-between.",
+    "actions-custom": "Custom actions",
+    "ai": {
+      "prompt": "Help me use the {{component}} component. Docs page: {{url}}"
+    },
+    "align-center": "Align center",
+    "align-end": "Align end",
+    "align-space-between": "Space between",
+    "align-start": "Align start",
+    "appearance": "Appearance",
+    "appearance-desc": "Outline (default) has surface background with visible border. Surface is borderless with shadow.",
+    "basic": "Basic dialogs",
+    "basic-desc": "Simple dialogs created via open() configuration.",
+    "behavior": "Behavior",
+    "behavior-desc": "Control close button, Escape key, and backdrop click.",
+    "common": {
+      "cancel": "Cancel",
+      "close": "Close",
+      "confirm": "Confirm",
+      "delete": "Delete",
+      "discard": "Discard",
+      "finish": "Finish",
+      "got-it": "Got it",
+      "learn-more": "Learn more",
+      "next": "Next",
+      "ok": "OK",
+      "previous": "Previous",
+      "save": "Save",
+      "submit": "Submit",
+      "understand": "I understand"
+    },
+    "component": "Component dialog",
+    "component-desc": "Open a dialog with an external component via openComponent(). The component can inject SOLARIS_DIALOG_DATA and SolarisDialogRef.",
+    "demo": {
+      "open": "Open dialog",
+      "open-actions": "Open actions dialog",
+      "open-appearance": "Open appearance dialog",
+      "open-density": "Open density dialog",
+      "open-nested": "Open outer dialog",
+      "open-placement": "Open placement dialog",
+      "open-sheet": "Open bottom sheet",
+      "open-validated-flow": "Open validated flow",
+      "open-variant": "Open variant dialog"
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal",
+      "note": "Section spacing follows the selected density. The snippet reflects the current selection."
+    },
+    "description": "Dialog blocks the flow and demands user attention. Use for confirmations, alerts, forms, previews, terms, reviews, multi-step flows, onboarding, registration, password recovery, and short checkouts.",
+    "examples": {
+      "actions-center": {
+        "desc": "Actions are aligned to the center.",
+        "title": "Actions aligned center"
+      },
+      "actions-custom": {
+        "desc": "Wide full-radius buttons with comfortable density.",
+        "title": "Dialog with custom actions"
+      },
+      "actions-end": {
+        "desc": "Actions are aligned to the end (right).",
+        "title": "Actions aligned end"
+      },
+      "actions-space-between": {
+        "desc": "Actions are distributed with space between.",
+        "title": "Actions space between"
+      },
+      "actions-start": {
+        "desc": "Actions are aligned to the start (left).",
+        "title": "Actions aligned start"
+      },
+      "appearance-outline": {
+        "desc": "Outline has surface background with visible border.",
+        "title": "Outline appearance"
+      },
+      "appearance-surface": {
+        "desc": "Default surface appearance with shadow.",
+        "title": "Surface appearance"
+      },
+      "basic": {
+        "desc": "This is a basic dialog with title and description.",
+        "title": "Dialog Title"
+      },
+      "component": {
+        "close-pizza": "Close with \"Pizza!\"",
+        "desc-part1": "This dialog was opened via ",
+        "desc-part2": ". The data was injected via ",
+        "desc-part3": " token."
+      },
+      "component-chrome": {
+        "desc": "Header and footer come from the openComponent config.",
+        "hint": "Title, description and actions were provided via SolarisDialogComponentConfig.",
+        "message": "This body is rendered by the custom component. Only the body scrolls.",
+        "title": "Component with chrome"
+      },
+      "confirmation": {
+        "desc": "You have unsaved changes. Do you want to continue?",
+        "title": "Discard changes?"
+      },
+      "danger": {
+        "desc": "This action cannot be undone. All your data will be permanently deleted.",
+        "title": "Delete account"
+      },
+      "density": {
+        "desc": "Section spacing follows the {{density}} density.",
+        "title": "Density dialog"
+      },
+      "flow": {
+        "step1-desc": "Fill in your basic information to get started.",
+        "step1-list1": "Choose a username",
+        "step1-list2": "Set your email address",
+        "step1-list3": "Create a secure password",
+        "step1-title": "Step 1: Create account",
+        "step2-desc": "Tell us about your institution.",
+        "step2-list1": "Institution name",
+        "step2-list2": "Registration number",
+        "step2-list3": "Address details",
+        "step2-title": "Step 2: Institution data",
+        "step3-desc": "Review all information before finishing.",
+        "step3-list1": "Check your account details",
+        "step3-list2": "Verify institution data",
+        "step3-list3": "Accept terms and conditions",
+        "step3-title": "Step 3: Review",
+        "title": "Multi-step Dialog"
+      },
+      "fullscreen": {
+        "desc": "Fullscreen dialog fills the entire viewport.",
+        "title": "Fullscreen dialog"
+      },
+      "nested": {
+        "inner-desc": "The outer dialog stays open behind. Escape closes only this dialog.",
+        "inner-title": "Discard changes?",
+        "open-inner": "Open nested dialog",
+        "outer-desc": "This is the outer dialog. Opening another dialog stacks it on top.",
+        "outer-title": "Project settings"
+      },
+      "no-backdrop-close": {
+        "desc": "Clicking outside will not close this dialog. Use the button below.",
+        "title": "Backdrop click disabled"
+      },
+      "no-escape-close": {
+        "desc": "Pressing Escape will not close this dialog.",
+        "title": "Escape disabled"
+      },
+      "no-separators": {
+        "desc": "Header and footer separators are disabled.",
+        "title": "Dialog without separators"
+      },
+      "not-closeable": {
+        "desc": "The close button is hidden and Escape is disabled.",
+        "title": "Not closeable"
+      },
+      "note": "Every demo opens a live dialog. The snippet shows the service call behind the button.",
+      "placement": {
+        "desc": "This dialog is anchored to the selected placement.",
+        "title": "Placed dialog"
+      },
+      "scroll": {
+        "desc": "Scroll to read everything. The header stays pinned with a shadow.",
+        "item-text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "item-title": "Section {{index}}",
+        "title": "Terms and conditions"
+      },
+      "sheet": {
+        "desc": "This panel is docked to the bottom edge with full width.",
+        "title": "Filter sheet"
+      },
+      "validated": {
+        "name-label": "Name",
+        "name-required": "Name is required.",
+        "step1-desc": "Type your name to unlock the next step.",
+        "step1-title": "Step 1: Your name",
+        "step2-desc": "Review your name before finishing.",
+        "step2-title": "Step 2: Review",
+        "title": "Validated flow"
+      },
+      "variant": {
+        "desc": "This dialog uses the {{variant}} variant.",
+        "title": "{{variant}} variant"
+      }
+    },
+    "flow": "Dialog Flow",
+    "flow-desc": "Multi-step dialog with slide transition between steps, without reopening the overlay.",
+    "fullscreen": "Fullscreen",
+    "fullscreen-desc": "The panel adapts to its content by default. Use fullscreen for immersive flows.",
+    "installation": {
+      "note": "The dialog is part of the single Solaris UI package. Provide the dialog service once."
+    },
+    "layout": "Layout",
+    "layout-desc": "Placement, separators, density, and action button style.",
+    "nested": {
+      "note": "Dialogs can open on top of each other. Only the topmost reacts to Escape; panels below are hidden from assistive technology."
+    },
+    "no-backdrop-close": "Backdrop close disabled",
+    "no-escape-close": "Escape disabled",
+    "no-separators": "No separators",
+    "not-closeable": "Not closeable",
+    "open-basic": "Open basic dialog",
+    "open-component": "Open component dialog",
+    "open-component-chrome": "Open with header/footer",
+    "open-confirmation": "Open confirmation dialog",
+    "open-danger": "Open danger/alert dialog",
+    "open-flow": "Open dialog flow",
+    "open-fullscreen": "Open fullscreen dialog",
+    "open-scroll": "Open scrollable dialog",
+    "outline": "Outline",
+    "placement": {
+      "bottom-right": "Placement bottom-right",
+      "center": "Placement center",
+      "top-left": "Placement top-left",
+      "top-right": "Placement top-right"
+    },
+    "placement-bottom": "Placement bottom",
+    "placement-bottom-left": "Placement bottom-left",
+    "placement-left": "Placement left",
+    "placement-right": "Placement right",
+    "placement-top": "Placement top",
+    "props": {
+      "note": "Full API reference lives in the component docs. Props tables are generated from the source."
+    },
+    "scroll": "Scrollable content",
+    "scroll-desc": "Long content keeps the header pinned with scrolled elevation. Scroll to see the shadow and the centered close button.",
+    "section": {
+      "actions": "Actions",
+      "appearance": "Appearance",
+      "behavior": "Behavior",
+      "component": "Component dialogs",
+      "density": "Density",
+      "examples": "Examples",
+      "flow": "Dialog flow",
+      "installation": "Installation",
+      "nested": "Nested dialogs",
+      "placement": "Placement",
+      "props": "Properties",
+      "sheet": "Sheets",
+      "variants": "Variants"
+    },
+    "sheet": {
+      "note": "Sheets dock the panel to an edge placement with full-edge span. Only edge placements support sheet."
+    },
+    "surface": "Surface",
+    "title": "Dialog",
+    "variant-danger": "danger",
+    "variant-info": "info",
+    "variant-neutral": "neutral",
+    "variant-success": "success",
+    "variant-warning": "warning",
+    "variants": "Variants",
+    "variants-desc": "Variants affect icon and accent color."
+  }
+}

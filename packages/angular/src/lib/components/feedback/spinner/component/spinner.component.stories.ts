@@ -7,10 +7,12 @@ const meta: Meta<SolarisSpinnerComponent> = {
   args: {
     variant: 'ring',
     size: 'md',
+    density: undefined,
     color: 'primary',
     speed: 'normal',
     easing: 'linear',
     backdrop: false,
+    overlay: false,
   },
   argTypes: {
     variant: {
@@ -20,6 +22,10 @@ const meta: Meta<SolarisSpinnerComponent> = {
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg', 'xl'],
+    },
+    density: {
+      control: 'select',
+      options: ['compact', 'normal', 'comfortable'],
     },
     color: {
       control: 'select',
@@ -49,6 +55,9 @@ const meta: Meta<SolarisSpinnerComponent> = {
       ],
     },
     backdrop: {
+      control: 'boolean',
+    },
+    overlay: {
       control: 'boolean',
     },
     value: {
@@ -121,6 +130,21 @@ export const Backdrop: Story = {
     size: 'xl',
     backdrop: true,
     label: 'Loading application...',
+  },
+};
+
+export const Overlay: Story = {
+  args: {
+    overlay: true,
+    label: 'Saving…',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Render inside a [solarisLoadingZone] container to center the spinner over a busy region (form, card) while its fields stay inert.',
+      },
+    },
   },
 };
 

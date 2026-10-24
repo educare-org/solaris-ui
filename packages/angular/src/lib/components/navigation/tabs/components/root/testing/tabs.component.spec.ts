@@ -133,6 +133,43 @@ class ManualActivationTabsTestHostComponent {
 
 @Component({
   standalone: true,
+  imports: [SolarisTabsComponent, SolarisTabComponent],
+  template: `
+    <solaris-tabs
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [size]="'lg'"
+      [color]="'neutral'"
+    >
+      <solaris-tab value="a" label="A" />
+      <solaris-tab value="b" label="B" />
+    </solaris-tabs>
+  `,
+})
+class SizedColoredTabsTestHostComponent {
+  readonly value = signal<string | number | undefined>('a');
+}
+
+@Component({
+  standalone: true,
+  imports: [SolarisTabsComponent, SolarisTabComponent],
+  template: `
+    <solaris-tabs
+      [value]="value()"
+      (valueChange)="value.set($event)"
+      [disabled]="true"
+    >
+      <solaris-tab value="a" label="A" />
+      <solaris-tab value="b" label="B" />
+    </solaris-tabs>
+  `,
+})
+class DisabledGroupTabsTestHostComponent {
+  readonly value = signal<string | number | undefined>('a');
+}
+
+@Component({
+  standalone: true,
   imports: [
     SolarisTabsComponent,
     SolarisTabComponent,
@@ -282,20 +319,121 @@ describe('SolarisTabsComponent', () => {
     expect(host?.getAttribute('data-full-width')).toBe('true');
   });
 
-  it('should apply scrollable attribute', () => {
+  it('should apply scrollable attribute when enabled', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(BasicTabsTestHostComponent);
+    fixture.detectChanges();
+    const host = fixture.nativeElement.querySelector('solaris-tabs');
+    expect(host?.hasAttribute('data-scrollable')).toBe(true);
+  });
+
+  it('should omit scrollable attribute when disabled', () => {
     configureBase();
     const fixture = TestBed.createComponent(ScrollableTabsTestHostComponent);
     fixture.detectChanges();
     const host = fixture.nativeElement.querySelector('solaris-tabs');
-    expect(host?.getAttribute('data-scrollable')).toBe('false');
+    expect(host?.hasAttribute('data-scrollable')).toBe(false);
   });
 
-  it('should apply showIndicator attribute', () => {
+  it('should omit showIndicator attribute when disabled', () => {
     configureBase();
     const fixture = TestBed.createComponent(NoIndicatorTabsTestHostComponent);
     fixture.detectChanges();
     const host = fixture.nativeElement.querySelector('solaris-tabs');
-    expect(host?.getAttribute('data-show-indicator')).toBe('false');
+    expect(host?.hasAttribute('data-show-indicator')).toBe(false);
+  });
+
+  it('should apply showIndicator attribute by default', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(BasicTabsTestHostComponent);
+    fixture.detectChanges();
+    const host = fixture.nativeElement.querySelector('solaris-tabs');
+    expect(host?.hasAttribute('data-show-indicator')).toBe(true);
+  });
+
+  it('should apply size md and color neutral by default', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(BasicTabsTestHostComponent);
+    fixture.detectChanges();
+    const host = fixture.nativeElement.querySelector('solaris-tabs');
+    expect(host?.getAttribute('data-size')).toBe('md');
+    expect(host?.getAttribute('data-color')).toBe('neutral');
+  });
+
+  it('should apply size and color attributes', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(SizedColoredTabsTestHostComponent);
+    fixture.detectChanges();
+    const host = fixture.nativeElement.querySelector('solaris-tabs');
+    expect(host?.getAttribute('data-size')).toBe('lg');
+    expect(host?.getAttribute('data-color')).toBe('neutral');
+  });
+
+  it('should fall back to theme density when density is not set', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(BasicTabsTestHostComponent);
+    fixture.detectChanges();
+    const host = fixture.nativeElement.querySelector('solaris-tabs');
+    expect(host?.getAttribute('data-density')).toBe('normal');
+  });
+
+  it('should apply fitContent attribute by default', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(BasicTabsTestHostComponent);
+    fixture.detectChanges();
+    const host = fixture.nativeElement.querySelector('solaris-tabs');
+    expect(host?.hasAttribute('data-fit-content')).toBe(true);
+  });
+
+  it('should expose disabled state on host and tablist', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(DisabledGroupTabsTestHostComponent);
+    fixture.detectChanges();
+    const host = fixture.nativeElement.querySelector('solaris-tabs');
+    expect(host?.hasAttribute('data-disabled')).toBe(true);
+    expect(host?.getAttribute('aria-disabled')).toBe('true');
+    const tablist = fixture.nativeElement.querySelector(
+      '.solaris-tabs__tablist',
+    );
+    expect(tablist?.getAttribute('aria-disabled')).toBe('true');
+  });
+
+  it('should not set aria-disabled on tablist by default', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(BasicTabsTestHostComponent);
+    fixture.detectChanges();
+    const tablist = fixture.nativeElement.querySelector(
+      '.solaris-tabs__tablist',
+    );
+    expect(tablist?.hasAttribute('aria-disabled')).toBe(false);
+  });
+
+  it('should not set aria-label on tablist by default', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(BasicTabsTestHostComponent);
+    fixture.detectChanges();
+    const tablist = fixture.nativeElement.querySelector(
+      '.solaris-tabs__tablist',
+    );
+    expect(tablist?.hasAttribute('aria-label')).toBe(false);
+  });
+
+  it('should render the indicator by default', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(BasicTabsTestHostComponent);
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement.querySelector('.solaris-tabs__indicator'),
+    ).toBeTruthy();
+  });
+
+  it('should not render the indicator when showIndicator is false', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(NoIndicatorTabsTestHostComponent);
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement.querySelector('.solaris-tabs__indicator'),
+    ).toBeNull();
   });
 
   it('should have tablist with role and aria-orientation', () => {
@@ -351,6 +489,62 @@ describe('SolarisTabsComponent', () => {
     expect(fixture.componentInstance.value()).toBe('c');
   });
 
+  it('should wrap around from last to first tab with ArrowRight', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(BasicTabsTestHostComponent);
+    fixture.componentInstance.value.set('c');
+    fixture.detectChanges();
+    const tabs = qAll(fixture, 'solaris-tab');
+    tabs[2].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+    fixture.detectChanges();
+    expect(fixture.componentInstance.value()).toBe('a');
+  });
+
+  it('should wrap around from first to last tab with ArrowLeft', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(BasicTabsTestHostComponent);
+    fixture.detectChanges();
+    const tabs = qAll(fixture, 'solaris-tab');
+    tabs[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }));
+    fixture.detectChanges();
+    expect(fixture.componentInstance.value()).toBe('c');
+  });
+
+  it('should wrap around while skipping disabled tabs', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(DisabledTabTestHostComponent);
+    fixture.detectChanges();
+    const tabs = qAll(fixture, 'solaris-tab');
+    tabs[2].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+    fixture.detectChanges();
+    expect(fixture.componentInstance.value()).toBe('a');
+    tabs[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }));
+    fixture.detectChanges();
+    expect(fixture.componentInstance.value()).toBe('c');
+  });
+
+  it('should flip ArrowLeft/ArrowRight in RTL', () => {
+    configureBase();
+    document.documentElement.setAttribute('dir', 'rtl');
+    try {
+      const fixture = TestBed.createComponent(BasicTabsTestHostComponent);
+      fixture.detectChanges();
+      const tabs = qAll(fixture, 'solaris-tab');
+      tabs[0].dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowRight' }),
+      );
+      fixture.detectChanges();
+      expect(fixture.componentInstance.value()).toBe('c');
+      const rerendered = qAll(fixture, 'solaris-tab');
+      rerendered[2].dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowLeft' }),
+      );
+      fixture.detectChanges();
+      expect(fixture.componentInstance.value()).toBe('a');
+    } finally {
+      document.documentElement.removeAttribute('dir');
+    }
+  });
   it('should ignore disabled tabs in keyboard navigation', () => {
     configureBase();
     const fixture = TestBed.createComponent(DisabledTabTestHostComponent);

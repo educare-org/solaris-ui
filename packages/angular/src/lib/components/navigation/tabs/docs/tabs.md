@@ -58,6 +58,8 @@ The content panel associated with a tab. Only the active panel is visible.
 | `defaultValue`      | `string \| number \| undefined`          | —              | Initial value when value is not set     |
 | `orientation`       | `'horizontal' \| 'vertical'`             | `'horizontal'` | Layout orientation                      |
 | `appearance`        | `'underline' \| 'pills' \| 'enclosed'`   | `'underline'`  | Visual style                            |
+| `size`              | `'sm' \| 'md' \| 'lg'`                   | `'md'`         | Tab size (height and typography)        |
+| `color`             | `'primary' \| 'neutral'`                 | `'neutral'`    | Accent color for active tab             |
 | `density`           | `'compact' \| 'normal' \| 'comfortable'` | `'normal'`     | Spacing, padding, and typography scale  |
 | `shape`             | `'normal' \| 'wide'`                     | `'normal'`     | Tab proportions                         |
 | `activationMode`    | `'automatic' \| 'manual'`                | `'automatic'`  | Keyboard activation behavior            |
@@ -152,6 +154,40 @@ Use `orientation` to switch between horizontal and vertical layouts.
 | `pills`     | Active tab has a rounded background       |
 | `enclosed`  | Active tab connects visually to the panel |
 
+### Sizes and density
+
+`size` and `density` work together as a 3×3 matrix, mirroring Segmented
+Control. `size` sets the height ladder (via `--solaris-control-height-*`
+tokens) and the typography (`sm` → `xs`, `md` → `sm`, `lg` → `md`), while
+`density` scales padding, gap, and icon size (`compact` < `normal` <
+`comfortable`). When `density` is not set, the theme density is used.
+
+```html
+<solaris-tabs size="sm" density="compact">...</solaris-tabs>
+<solaris-tabs size="md">...</solaris-tabs>
+<solaris-tabs size="lg" density="comfortable">...</solaris-tabs>
+```
+
+| Size | Font size | Example height (`normal` density) |
+| ---- | --------- | --------------------------------- |
+| `sm` | `xs`      | `36px`                            |
+| `md` | `sm`      | `40px`                            |
+| `lg` | `md`      | `44px`                            |
+
+### Colors
+
+```html
+<solaris-tabs color="primary">...</solaris-tabs> <solaris-tabs color="neutral">...</solaris-tabs>
+```
+
+| Color     | Description                                                                          |
+| --------- | ------------------------------------------------------------------------------------ |
+| `primary` | Brand accent for the indicator and active tab                                        |
+| `neutral` | Muted accent for dense docs/headers and `enclosed` tabs over `surface-base`. Default |
+
+`color` only swaps the indicator, the active tab text, and the active tab
+background. Focus rings always use the primary color.
+
 ### Shapes
 
 ```html
@@ -219,7 +255,7 @@ Tabs implement the WAI-ARIA Tabs pattern:
 - `role="tab"` on each tab trigger
 - `role="tabpanel"` on each content panel
 - `aria-selected="true/false"` on tabs
-- `aria-disabled="true"` on disabled tabs
+- `aria-disabled="true"` on disabled tabs and on the tablist when the group is disabled
 - `aria-controls` on tab pointing to the associated panel
 - `aria-labelledby` on panel pointing to the associated tab
 - `aria-orientation` reflecting horizontal/vertical
@@ -227,15 +263,18 @@ Tabs implement the WAI-ARIA Tabs pattern:
 
 ### Keyboard navigation
 
-| Key           | Action                     |
-| ------------- | -------------------------- |
-| ArrowRight    | Next tab (horizontal)      |
-| ArrowLeft     | Previous tab (horizontal)  |
-| ArrowDown     | Next tab (vertical)        |
-| ArrowUp       | Previous tab (vertical)    |
-| Home          | First tab                  |
-| End           | Last tab                   |
-| Enter / Space | Activate tab (manual mode) |
+Keyboard navigation wraps around at the ends (including RTL mirroring of
+`ArrowLeft`/`ArrowRight`) and skips disabled tabs:
+
+| Key           | Action                                    |
+| ------------- | ----------------------------------------- |
+| ArrowRight    | Next tab (horizontal; flipped in RTL)     |
+| ArrowLeft     | Previous tab (horizontal; flipped in RTL) |
+| ArrowDown     | Next tab (vertical)                       |
+| ArrowUp       | Previous tab (vertical)                   |
+| Home          | First tab                                 |
+| End           | Last tab                                  |
+| Enter / Space | Activate tab (manual mode)                |
 
 Disabled tabs are skipped during keyboard navigation.
 
@@ -319,18 +358,34 @@ Not yet implemented:
 
 ## CSS Custom Properties
 
-| Token                                  | Default                          | Description            |
-| -------------------------------------- | -------------------------------- | ---------------------- |
-| `--solaris-tabs-gap`                   | `0`                              | Gap between tabs       |
-| `--solaris-tabs-border-color`          | `var(--solaris-border-subtle)`   | Tablist border color   |
-| `--solaris-tabs-indicator-color`       | `var(--solaris-primary-base)`    | Active indicator color |
-| `--solaris-tabs-tab-color`             | `var(--solaris-text-default)`    | Tab text color         |
-| `--solaris-tabs-tab-active-color`      | `var(--solaris-primary-text)`    | Active tab text color  |
-| `--solaris-tabs-tab-hover-background`  | `var(--solaris-surface-subtle)`  | Tab hover background   |
-| `--solaris-tabs-tab-active-background` | `var(--solaris-primary-surface)` | Active tab background  |
-| `--solaris-tabs-panel-padding`         | `var(--solaris-spacing-4)`       | Panel padding          |
-| `--solaris-tab-padding-x`              | `var(--solaris-spacing-3)`       | Tab horizontal padding |
-| `--solaris-tab-padding-y`              | `var(--solaris-spacing-2)`       | Tab vertical padding   |
-| `--solaris-tab-gap`                    | `var(--solaris-spacing-2)`       | Gap inside tab         |
-| `--solaris-tab-font-size`              | `var(--solaris-font-size-sm)`    | Tab font size          |
-| `--solaris-tab-icon-size`              | `var(--solaris-spacing-4)`       | Tab icon size          |
+Container (`solaris-tabs`) tokens:
+
+| Token                            | Default                                | Description                                      |
+| -------------------------------- | -------------------------------------- | ------------------------------------------------ |
+| `--solaris-tabs-gap`             | `0`                                    | Gap between tabs                                 |
+| `--solaris-tabs-border-color`    | `var(--solaris-neutral-border-subtle)` | Tablist border color                             |
+| `--solaris-tabs-indicator-color` | `var(--solaris-primary-solid)`         | Active indicator color                           |
+| `--solaris-tabs-indicator-size`  | `var(--solaris-border-width-md)`       | Active indicator thickness                       |
+| `--solaris-tabs-separator-gap`   | `var(--solaris-spacing-3)`             | Gap between vertical tabs and the separator line |
+| `--solaris-tabs-panel-padding`   | `var(--solaris-spacing-4)`             | Panel padding                                    |
+
+Tab (`solaris-tab`) tokens:
+
+| Token                             | Default                                | Description            |
+| --------------------------------- | -------------------------------------- | ---------------------- |
+| `--solaris-tab-color`             | `var(--solaris-neutral-text-body)`     | Tab text color         |
+| `--solaris-tab-active-color`      | `var(--solaris-primary-foreground)`    | Active tab text color  |
+| `--solaris-tab-hover-background`  | `var(--solaris-neutral-subtle)`        | Tab hover background   |
+| `--solaris-tab-active-background` | `var(--solaris-primary-soft)`          | Active tab background  |
+| `--solaris-tab-border-color`      | `var(--solaris-neutral-border-subtle)` | Enclosed border color  |
+| `--solaris-tab-height`            | driven by `size` × `density`           | Tab minimum height     |
+| `--solaris-tab-padding-x`         | driven by `size` × `density`           | Tab horizontal padding |
+| `--solaris-tab-padding-y`         | driven by `size` × `density`           | Tab vertical padding   |
+| `--solaris-tab-gap`               | driven by `size` × `density`           | Gap inside tab         |
+| `--solaris-tab-font-size`         | driven by `size`                       | Tab font size          |
+| `--solaris-tab-icon-size`         | driven by `size` × `density`           | Tab icon size          |
+
+With `color="neutral"`, `--solaris-tabs-indicator-color` becomes
+`var(--solaris-neutral-text-heading)`, `--solaris-tab-active-color` becomes
+`var(--solaris-neutral-text-heading)`, and `--solaris-tab-active-background` becomes
+`var(--solaris-neutral-sunken)`.

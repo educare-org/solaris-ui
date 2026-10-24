@@ -1,5 +1,5 @@
 <div class="solaris-toast__root">
-  <div class="solaris-toast__bar"></div>
+  <div class="solaris-toast__bar" aria-hidden="true"></div>
 
   @if (showIcon()) {
     <div class="solaris-toast__media">
@@ -34,11 +34,11 @@
             solaris-button
             [appearance]="action.appearance ?? 'ghost'"
             [color]="action.color ?? 'neutral'"
-            size="sm"
+            [size]="entry().resolvedSize"
             [disabled]="action.disabled ?? false"
             (click)="handleActionClick(action)"
           >
-            {{ action.label }}
+            {{ resolveActionLabel(action) }}
           </button>
         }
       </div>
@@ -67,7 +67,7 @@
       <button
         type="button"
         class="solaris-toast__trailing-btn"
-        [attr.aria-label]="entry().resolvedCloseLabel"
+        [attr.aria-label]="closeButtonLabel()"
         (click)="handleDismiss()"
       >
         <solaris-icon name="x" [decorative]="true" />
@@ -97,12 +97,18 @@
 }
 
 @if (showCountdownText()) {
-  <div class="solaris-toast__countdown-text">
-    <span class="solaris-toast__countdown-message">{{ countdownText() }}</span>
+  <div class="solaris-toast__countdown-text" aria-hidden="true">
+    <span class="solaris-toast__countdown-message">
+      <span class="solaris-toast__countdown-sizer" aria-hidden="true">
+        {{ countdownSizerText() }}
+      </span>
+      <span class="solaris-toast__countdown-value">{{ countdownText() }}</span>
+    </span>
     <button
       type="button"
-      class="solaris-toast__countdown-toggle"
+      tabindex="-1"
       (click)="togglePause()"
+      class="solaris-toast__countdown-toggle"
     >
       {{ pauseButtonLabel() }}
     </button>

@@ -1,29 +1,27 @@
 {
   "forbiddenInternalPaths": ["packages/angular/src/lib/shared"],
   "libStructure": [
+    "packages/angular/src/lib/components",
     "packages/angular/src/lib/core",
+    "packages/angular/src/lib/providers",
+    "packages/angular/src/lib/services",
+    "packages/angular/src/lib/services/accessibility",
+    "packages/angular/src/lib/services/export",
+    "packages/angular/src/lib/services/icon",
     "packages/angular/src/lib/services/theme",
     "packages/angular/src/lib/services/translation",
-    "packages/angular/src/lib/services/accessibility",
-    "packages/angular/src/lib/primitives",
-    "packages/angular/src/lib/actions",
-    "packages/angular/src/lib/components/forms",
-    "packages/angular/src/lib/components/feedback",
-    "packages/angular/src/lib/components/interaction",
-    "packages/angular/src/lib/overlay",
-    "packages/angular/src/lib/navigation",
-    "packages/angular/src/lib/components/data-display"
+    "packages/angular/src/lib/testing"
   ],
   "forbiddenImports": [
     {
       "from": "packages/angular/src/lib/core",
       "mustNotImport": [
-        "packages/angular/src/lib/actions",
+        "packages/angular/src/lib/components/actions",
         "packages/angular/src/lib/components/forms",
         "packages/angular/src/lib/components/interaction",
         "packages/angular/src/lib/components/feedback",
-        "packages/angular/src/lib/overlay",
-        "packages/angular/src/lib/navigation",
+        "packages/angular/src/lib/components/overlay",
+        "packages/angular/src/lib/components/navigation",
         "packages/angular/src/lib/components/data-display"
       ],
       "reason": "core must not import visual domain components"
@@ -31,12 +29,12 @@
     {
       "from": "packages/angular/src/lib/services/theme",
       "mustNotImport": [
-        "packages/angular/src/lib/actions",
+        "packages/angular/src/lib/components/actions",
         "packages/angular/src/lib/components/forms",
         "packages/angular/src/lib/components/interaction",
         "packages/angular/src/lib/components/feedback",
-        "packages/angular/src/lib/overlay",
-        "packages/angular/src/lib/navigation",
+        "packages/angular/src/lib/components/overlay",
+        "packages/angular/src/lib/components/navigation",
         "packages/angular/src/lib/components/data-display"
       ],
       "reason": "theme must not import components"
@@ -44,12 +42,12 @@
     {
       "from": "packages/angular/src/lib/services/translation",
       "mustNotImport": [
-        "packages/angular/src/lib/actions",
+        "packages/angular/src/lib/components/actions",
         "packages/angular/src/lib/components/forms",
         "packages/angular/src/lib/components/interaction",
         "packages/angular/src/lib/components/feedback",
-        "packages/angular/src/lib/overlay",
-        "packages/angular/src/lib/navigation",
+        "packages/angular/src/lib/components/overlay",
+        "packages/angular/src/lib/components/navigation",
         "packages/angular/src/lib/components/data-display"
       ],
       "reason": "translation must not import components"
@@ -57,28 +55,15 @@
     {
       "from": "packages/angular/src/lib/services/accessibility",
       "mustNotImport": [
-        "packages/angular/src/lib/actions",
+        "packages/angular/src/lib/components/actions",
         "packages/angular/src/lib/components/forms",
         "packages/angular/src/lib/components/interaction",
         "packages/angular/src/lib/components/feedback",
-        "packages/angular/src/lib/overlay",
-        "packages/angular/src/lib/navigation",
+        "packages/angular/src/lib/components/overlay",
+        "packages/angular/src/lib/components/navigation",
         "packages/angular/src/lib/components/data-display"
       ],
       "reason": "accessibility must not import final components"
-    },
-    {
-      "from": "packages/angular/src/lib/primitives",
-      "mustNotImport": [
-        "packages/angular/src/lib/actions",
-        "packages/angular/src/lib/components/forms",
-        "packages/angular/src/lib/components/interaction",
-        "packages/angular/src/lib/components/feedback",
-        "packages/angular/src/lib/overlay",
-        "packages/angular/src/lib/navigation",
-        "packages/angular/src/lib/components/data-display"
-      ],
-      "reason": "primitives must not import final components"
     }
   ],
   "forbiddenLibImportFromShowcase": {

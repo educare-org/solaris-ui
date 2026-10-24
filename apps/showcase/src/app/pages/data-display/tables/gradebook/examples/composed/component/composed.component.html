@@ -1,0 +1,15 @@
+<solaris-gradebook
+  [data]="pageRows()"
+  [columns]="columns"
+  [identity]="identity"
+  rowId="id"
+>
+  <ng-template solaris-table-footer>
+    <solaris-pagination
+      [pageIndex]="pageIndex()"
+      [pageSize]="pageSize()"
+      [total]="total"
+      (pageChange)="onPageChange($event)"
+    />
+  </ng-template>
+</solaris-gradebook>

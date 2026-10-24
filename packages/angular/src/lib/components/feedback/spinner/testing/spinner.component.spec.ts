@@ -250,9 +250,8 @@ describe('SolarisSpinnerComponent', () => {
       'Time left: 30 s',
     ]);
     fixture.detectChanges();
-    const content = el.querySelector('.solaris-spinner__content');
-    expect(content).toBeTruthy();
     const header = el.querySelector('.solaris-spinner__header');
+    expect(header).toBeTruthy();
     expect(header?.querySelector('.solaris-spinner__percent')).toBeTruthy();
     expect(header?.querySelector('.solaris-spinner__label')).toBeTruthy();
     expect(
@@ -261,10 +260,27 @@ describe('SolarisSpinnerComponent', () => {
     expect(
       header?.querySelector('.solaris-spinner__label')?.textContent?.trim(),
     ).toBe('Downloading');
-    const descriptions = content?.querySelectorAll(
-      '.solaris-spinner__description',
-    );
-    expect(descriptions?.length).toBe(2);
+    const descriptions = el.querySelector('.solaris-spinner__descriptions');
+    expect(descriptions).toBeTruthy();
+    expect(
+      descriptions?.querySelectorAll('.solaris-spinner__description').length,
+    ).toBe(2);
+  });
+
+  it('should place the ring beside the header row in progress layout', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('variant', 'progress');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-variant')).toBe('progress');
+    expect(el.querySelector(':scope > .solaris-spinner__ring')).toBeTruthy();
+    expect(el.querySelector(':scope > .solaris-spinner__header')).toBeTruthy();
+  });
+
+  it('should omit the descriptions wrapper when there are no lines', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('variant', 'progress');
+    fixture.detectChanges();
+    expect(el.querySelector('.solaris-spinner__descriptions')).toBeFalsy();
   });
 
   it('should render progress label and percent without descriptions', () => {
@@ -303,7 +319,8 @@ describe('SolarisSpinnerComponent', () => {
     fixture.detectChanges();
     const label = el.querySelector('.solaris-spinner__label');
     expect(label?.textContent?.trim()).toBe('Loading data');
-    expect(el.querySelector('.solaris-spinner__content')).toBeFalsy();
+    expect(el.querySelector('.solaris-spinner__header')).toBeFalsy();
+    expect(el.querySelector('.solaris-spinner__descriptions')).toBeFalsy();
   });
 
   it('should combine label, percent, and description in valuetext', () => {
@@ -408,10 +425,10 @@ describe('SolarisSpinnerComponent', () => {
     expect(indicator?.getAttribute('stroke-dasharray')).toBeTruthy();
   });
 
-  it('should render default loading label', () => {
+  it('should render indicator-only when no label is provided', () => {
     const el = createFixture();
-    const label = el.querySelector('.solaris-spinner__label');
-    expect(label?.textContent?.trim()).toBe('Loading...');
+    expect(el.querySelector('.solaris-spinner__label')).toBeFalsy();
+    expect(el.getAttribute('aria-label')).toBe('Loading...');
   });
 
   it('should render explicit label', () => {
@@ -457,6 +474,45 @@ describe('SolarisSpinnerComponent', () => {
     fixture.componentRef.setInput('color', 'custom');
     fixture.detectChanges();
     expect(el.getAttribute('data-color')).toBe('custom');
+  });
+
+  it('should default density to the theme density', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-density')).toBe('normal');
+  });
+
+  it('should apply explicit density values', () => {
+    const el = createFixture();
+    const values = ['compact', 'normal', 'comfortable'] as const;
+    for (const v of values) {
+      fixture.componentRef.setInput('density', v);
+      fixture.detectChanges();
+      expect(el.getAttribute('data-density')).toBe(v);
+    }
+  });
+
+  it('should render overlay attribute when enabled', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('overlay', true);
+    fixture.detectChanges();
+    expect(el.hasAttribute('data-overlay')).toBe(true);
+  });
+
+  it('should not render overlay attribute by default', () => {
+    const el = createFixture();
+    expect(el.hasAttribute('data-overlay')).toBe(false);
+  });
+
+  it('should lock body scroll while backdrop is visible', () => {
+    const el = createFixture();
+    expect(document.body.style.overflow).toBe('');
+    fixture.componentRef.setInput('backdrop', true);
+    fixture.detectChanges();
+    expect(document.body.style.overflow).toBe('hidden');
+    expect(el.hasAttribute('data-backdrop')).toBe(true);
+    fixture.componentRef.setInput('backdrop', false);
+    fixture.detectChanges();
+    expect(document.body.style.overflow).toBe('');
   });
 });
 

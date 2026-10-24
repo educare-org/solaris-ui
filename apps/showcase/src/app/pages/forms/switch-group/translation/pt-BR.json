@@ -1,0 +1,53 @@
+{
+  "switch-group": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Agrupa configurações booleanas relacionadas. Cada switch filho representa uma opção booleana nomeada. O valor é Record<string, boolean>.",
+    "examples": {
+      "note": "Um conjunto de toggles independentes compartilhando um FormControl. Os filhos herdam tamanho e densidade do grupo, a menos que definam os próprios."
+    },
+    "form-field-hint": "Essas opções afetam sua conta.",
+    "form-field-label": "Canais",
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe os componentes do grupo de switches."
+    },
+    "layout": {
+      "grid": "Grid",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve, com o componente de tabela."
+    },
+    "section": {
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "form": "Integração com formulários",
+      "installation": "Instalação",
+      "layouts": "Layouts",
+      "props": "Propriedades",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados",
+      "validation": "Validação"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "O grupo é dono do tamanho e da densidade; cada filho segue, a menos que sobrescreva um deles."
+    },
+    "title": "Switch Group",
+    "validation": {
+      "note": "Limites validados ao vivo: ao menos um e no máximo dois canais devem estar ativados."
+    }
+  }
+}

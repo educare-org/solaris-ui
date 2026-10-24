@@ -1,0 +1,110 @@
+{
+  "password-field": {
+    "affix": {
+      "action": "Gerar",
+      "action-label": "Senha com ação",
+      "note": "Ícones de prefixo e sufixo via inputs. O toggle de visibilidade já é uma suffix action; conteúdo interativo personalizado usa o mesmo slot com [solaris-form-suffix] e [solaris-form-suffix-action].",
+      "prefix-label": "Senha com prefixo"
+    },
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "demo": {
+      "label": "Senha",
+      "placeholder": "Digite sua senha"
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Preset de Form Field para senhas com alternância de visibilidade, validação por política, lista de requisitos e indicador de força. Compõe Form Field + Input.",
+    "error": {
+      "invalid": "Este campo tem um erro."
+    },
+    "examples": {
+      "note": "Campo de senha básico com autocomplete para o contexto de login."
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe o componente de password field."
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Médio",
+      "none": "Nenhum",
+      "note": "O raio é delegado ao Form Field interno: md equivale a 8px e lg vira pill.",
+      "sm": "Pequeno"
+    },
+    "requirements": {
+      "hint": "Crie uma senha forte.",
+      "note": "Forneça uma política com [showRequirements] para a lista e [showStrength] para o medidor heurístico. minLength e maxLength compõem a política efetiva. Funciona com Reactive Forms via ControlValueAccessor e solarisPasswordValidator.",
+      "registration-label": "Nova senha",
+      "strength-label": "Senha com força"
+    },
+    "section": {
+      "affix": "Prefixo, sufixo e ações",
+      "appearances": "Aparências",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "props": "Propriedades",
+      "radius": "Raio",
+      "requirements": "Requisitos e força",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados",
+      "toggle": "Alternância de visibilidade"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em uma matriz 3x3: o Form Field interno define a altura externa enquanto o preset mantém fonte e espaçamento sincronizados. O ícone do toggle escala com a mesma matriz."
+    },
+    "states": {
+      "default": "Padrão",
+      "disabled": "Desabilitado",
+      "invalid": "Inválido",
+      "loading": "Carregando",
+      "note": "Disabled e readonly são reais, não apenas visuais. Loading renderiza um overlay de spinner no slot de sufixo sem deslocar o layout.",
+      "readonly": "Somente leitura"
+    },
+    "title": "Password Field",
+    "toggle": {
+      "hidden-label": "Senha sem alternância",
+      "note": "O toggle é uma suffix action: sem divisor, variante action e ícone dimensionado pela matriz 9-combo de tamanho x densidade. Oculte com [showToggle]=\"false\" e controle com [visible]."
+    }
+  },
+  "solaris": {
+    "password-field": {
+      "requirement": {
+        "lowercase": "Uma letra minúscula.",
+        "maxLength": "No máximo {{ count }} caracteres.",
+        "minLength": "Pelo menos {{ count }} caracteres.",
+        "noWhitespace": "Sem espaços.",
+        "number": "Um número.",
+        "symbol": "Um símbolo.",
+        "uppercase": "Uma letra maiúscula."
+      },
+      "strength": {
+        "medium": "Média",
+        "strong": "Forte",
+        "weak": "Fraca"
+      },
+      "toggle": {
+        "hide": "Ocultar senha",
+        "show": "Mostrar senha"
+      }
+    }
+  }
+}

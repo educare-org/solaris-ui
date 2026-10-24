@@ -1,0 +1,57 @@
+{
+  "checkbox-group": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Controle de formulário para seleção múltipla com inputs nativos, selecionar-todos, validação de mínimo/máximo, layouts, tamanhos e estados.",
+    "examples": {
+      "note": "Um conjunto de opções relacionadas com valor em array. Os filhos herdam tamanho e densidade do grupo."
+    },
+    "form-field-hint": "Selecione ao menos uma opção.",
+    "form-field-label": "Interesses",
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe os componentes de checkbox group."
+    },
+    "layout": {
+      "grid": "Grade",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "section": {
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "form": "Integração com formulários",
+      "installation": "Instalação",
+      "layouts": "Layouts",
+      "props": "Propriedades",
+      "select-all": "Selecionar todos",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados",
+      "validation": "Validação"
+    },
+    "select-all": {
+      "note": "A caixa de selecionar-todos reflete o grupo: desmarcada quando vazio, indeterminada quando parcial, marcada quando todas as opções ativas estão selecionadas."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Tamanho e densidade propagam para cada filho via token do grupo; o filho mantém seus valores quando definidos explicitamente."
+    },
+    "title": "Checkbox Group",
+    "validation": {
+      "note": "Limites de mínimo e máximo invalidam o grupo. O máximo só valida na v1; não bloqueia a seleção."
+    }
+  }
+}

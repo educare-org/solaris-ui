@@ -1,0 +1,268 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="avatar.title"
+    descriptionKey="avatar.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="avatar.section.examples">
+    <p class="avatar-showcase__note">
+      {{ 'avatar.examples.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-avatar-example />
+    </solaris-preview-code>
+    <solaris-preview-code [code]="groupAddCode" language="html">
+      <app-group-add-avatar-example />
+    </solaris-preview-code>
+    <solaris-preview-code [code]="photoCode" language="html">
+      <app-photo-avatar-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="status" titleKey="avatar.section.status">
+    <p class="avatar-showcase__note">{{ 'avatar.status.note' | translate }}</p>
+    <div class="avatar-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedStatus"
+        [ariaLabel]="'avatar.section.status' | translate"
+      >
+        @for (status of statuses; track status) {
+        <solaris-tab [value]="status"
+          >{{ 'avatar.status.' + status | translate }}</solaris-tab
+        >
+        }
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="offHoursMode"
+        [ariaLabel]="'avatar.toggle.off-hours' | translate"
+      >
+        <solaris-tab value="auto">09–18</solaris-tab>
+        <solaris-tab value="off"
+          >{{ 'avatar.toggle.off-hours' | translate }}</solaris-tab
+        >
+        <solaris-tab value="on"
+          >{{ 'avatar.toggle.on-hours' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="statusCode()" language="html">
+      <solaris-avatar
+        name="Amelia Davis"
+        userId="user-amelia"
+        [status]="selectedStatus()"
+        [showStatus]="true"
+        [offHoursOverride]="offHoursOverride()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="badge" titleKey="avatar.section.badge">
+    <p class="avatar-showcase__note">{{ 'avatar.badge.note' | translate }}</p>
+    <div class="avatar-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedCount"
+        [ariaLabel]="'avatar.section.badge' | translate"
+      >
+        <solaris-tab [value]="0">0</solaris-tab>
+        <solaris-tab [value]="2">2</solaris-tab>
+        <solaris-tab [value]="103">103</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="zeroMode"
+        [ariaLabel]="'avatar.toggle.show-zero' | translate"
+      >
+        <solaris-tab value="hide"
+          >{{ 'avatar.toggle.hide-zero' | translate }}</solaris-tab
+        >
+        <solaris-tab value="show"
+          >{{ 'avatar.toggle.show-zero' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="badgeCode()" language="html">
+      <solaris-avatar
+        name="Amelia Davis"
+        userId="user-amelia"
+        [count]="selectedCount()"
+        [showZero]="showZero()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="overlays" titleKey="avatar.section.overlays">
+    <p class="avatar-showcase__note">
+      {{ 'avatar.overlays.note' | translate }}
+    </p>
+    <div class="avatar-showcase__controls">
+      <solaris-tabs
+        [(value)]="sealMode"
+        [ariaLabel]="'avatar.toggle.verified' | translate"
+      >
+        <solaris-tab value="seal"
+          >{{ 'avatar.toggle.verified' | translate }}</solaris-tab
+        >
+        <solaris-tab value="plain"
+          >{{ 'avatar.toggle.plain' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="overlaysCode()" language="html">
+      <solaris-avatar
+        name="Amelia Davis"
+        userId="user-amelia"
+        [verified]="verified()"
+        actionAriaLabel="Edit photo"
+      >
+        <span solaris-avatar-organization>G</span>
+      </solaris-avatar>
+    </solaris-preview-code>
+    <solaris-preview-code [code]="actionCode" language="html">
+      <app-action-avatar-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="group" titleKey="avatar.section.group">
+    <p class="avatar-showcase__note">{{ 'avatar.group.note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="groupMax"
+      [ariaLabel]="'avatar.section.group' | translate"
+    >
+      <solaris-tab [value]="2">2</solaris-tab>
+      <solaris-tab [value]="4">4</solaris-tab>
+      <solaris-tab [value]="6">6</solaris-tab>
+    </solaris-tabs>
+    <solaris-preview-code [code]="groupCode()" language="html">
+      <app-group-avatar-example [max]="groupMax()" />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="group-badge" titleKey="avatar.section.group-badge">
+    <p class="avatar-showcase__note">
+      {{ 'avatar.group-badge.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="groupBadgeCode" language="html">
+      <solaris-avatar-group-badge
+        [users]="groupBadgeUsers"
+        [max]="3"
+        [label]="'avatar.example.group-badge.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="integrations"
+    titleKey="avatar.section.integrations"
+  >
+    <p class="avatar-showcase__note">
+      {{ 'avatar.integrations.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="tooltipCode" language="html">
+      <app-avatar-tooltip-example />
+    </solaris-preview-code>
+    <solaris-preview-code [code]="groupMenuCode" language="html">
+      <app-group-menu-avatar-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="profile" titleKey="avatar.section.profile">
+    <p class="avatar-showcase__note">{{ 'avatar.profile.note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="profileMode"
+      [ariaLabel]="'avatar.toggle.compact' | translate"
+    >
+      <solaris-tab value="full"
+        >{{ 'avatar.toggle.full' | translate }}</solaris-tab
+      >
+      <solaris-tab value="compact"
+        >{{ 'avatar.toggle.compact' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code [code]="profileCode()" language="html">
+      <solaris-avatar-profile
+        name="Amelia Davis"
+        userId="user-amelia"
+        [title]="'avatar.example.profile.name' | translate"
+        [subtitle]="'avatar.example.profile.email' | translate"
+        [badgeText]="'avatar.example.profile.badge' | translate"
+        [verified]="true"
+        [count]="2"
+        [compact]="profileCompact()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="avatar.section.states">
+    <p class="avatar-showcase__note">{{ 'avatar.states.note' | translate }}</p>
+    <solaris-preview-code [code]="statesCode()" language="html">
+      <div class="avatar-showcase__row">
+        <solaris-avatar
+          name="Amelia Davis"
+          userId="user-amelia"
+          [active]="true"
+        />
+        <solaris-avatar
+          name="Dominic Price"
+          userId="user-dominic"
+          [loading]="true"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="size-radius" titleKey="avatar.section.size-radius">
+    <p class="avatar-showcase__note">
+      {{ 'avatar.size-radius.note' | translate }}
+    </p>
+    <div class="avatar-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'avatar.section.size-radius' | translate"
+      >
+        @for (size of sizes; track size) {
+        <solaris-tab [value]="size">{{ size }}</solaris-tab>
+        }
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedRadius"
+        [ariaLabel]="'avatar.section.size-radius' | translate"
+      >
+        @for (radius of radii; track radius) {
+        <solaris-tab [value]="radius">{{ radius }}</solaris-tab>
+        }
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeRadiusCode()" language="html">
+      <solaris-avatar
+        name="Amelia Davis"
+        userId="user-amelia"
+        [size]="selectedSize()"
+        [radius]="selectedRadius()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="avatar.section.installation"
+  >
+    <p class="avatar-showcase__note">
+      {{ 'avatar.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="avatar.section.props">
+    <p class="avatar-showcase__note">{{ 'avatar.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

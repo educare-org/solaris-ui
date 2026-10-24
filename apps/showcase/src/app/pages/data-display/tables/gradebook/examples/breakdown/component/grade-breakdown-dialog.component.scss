@@ -1,0 +1,42 @@
+.grade-breakdown-dialog__list {
+  display: flex;
+  flex-direction: column;
+  margin: var(--solaris-spacing-0);
+  padding: var(--solaris-spacing-0);
+}
+
+.grade-breakdown-dialog__item {
+  display: flex;
+  align-items: baseline;
+  gap: var(--solaris-spacing-6);
+  justify-content: space-between;
+  padding: var(--solaris-spacing-4);
+}
+
+.grade-breakdown-dialog__item + .grade-breakdown-dialog__item {
+  border-top: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
+}
+
+.grade-breakdown-dialog__term {
+  margin: var(--solaris-spacing-0);
+  color: var(--solaris-neutral-text-secondary);
+  font-weight: var(--solaris-font-weight-medium);
+}
+
+.grade-breakdown-dialog__weight {
+  margin-inline-start: var(--solaris-spacing-3);
+  font-size: var(--solaris-font-size-xs);
+  color: var(--solaris-neutral-text-tertiary);
+}
+
+.grade-breakdown-dialog__value {
+  margin: var(--solaris-spacing-0);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--solaris-font-weight-medium);
+}
+
+.grade-breakdown-dialog__item--result .grade-breakdown-dialog__term,
+.grade-breakdown-dialog__item--result .grade-breakdown-dialog__value {
+  color: var(--solaris-neutral-text-body);
+}

@@ -34,6 +34,7 @@ describe('SolarisIconRegistryService', () => {
     const service = TestBed.inject(SolarisIconRegistryService);
 
     for (const name of [
+      'rotate-ccw',
       'headphones',
       'headphones-off',
       'timer',
@@ -43,6 +44,12 @@ describe('SolarisIconRegistryService', () => {
       'route',
       'mouse-pointer-click',
       'rss',
+      'upload',
+      'minus',
+      'caret-up',
+      'caret-down',
+      'caret-left',
+      'caret-right',
     ]) {
       expect(service.hasIcon(name)).toBe(true);
       expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
@@ -117,6 +124,7 @@ describe('SolarisIconRegistryService', () => {
       'notebook-pen',
       'notebook-text',
       'sticky-note',
+      'clipboard',
     ]) {
       expect(service.hasIcon(name)).toBe(true);
       expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
@@ -202,6 +210,45 @@ describe('SolarisIconRegistryService', () => {
     const rects = microsoft?.elements.filter((el) => el.type === 'rect');
     expect(rects?.length).toBe(4);
     expect(rects?.every((el) => el.type === 'rect' && el.fill)).toBe(true);
+  });
+
+  it('should have language icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of [
+      'typescript',
+      'javascript',
+      'html',
+      'scss',
+      'json',
+      'shell',
+      'bash',
+      'cli',
+      'powershell',
+      'java',
+      'angular',
+      'markdown',
+    ]) {
+      expect(service.hasIcon(name)).toBe(true);
+      expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('should have theme icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of ['sun', 'moon', 'monitor', 'contrast']) {
+      expect(service.hasIcon(name)).toBe(true);
+      expect(service.getIcon(name)?.elements.length).toBeGreaterThan(0);
+    }
   });
 
   it('should return undefined for unregistered icons', () => {
@@ -310,6 +357,26 @@ describe('SolarisIconRegistryService', () => {
     expect(retrieved?.viewBox).toBe(original?.viewBox);
   });
 
+  it('should have table sort icons registered by default', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    for (const name of ['sort', 'sort-asc', 'sort-desc']) {
+      expect(service.hasIcon(name)).toBe(true);
+      const icon = service.getIcon(name);
+      expect(icon?.elements.length).toBeGreaterThan(0);
+      expect(icon?.viewBox).toBe('0 0 24 24');
+      expect(icon?.strokeWidth).toBe(1.8);
+    }
+
+    expect(service.getIcon('sort')?.elements.length).toBe(4);
+    expect(service.getIcon('sort-asc')?.elements.length).toBe(2);
+    expect(service.getIcon('sort-desc')?.elements.length).toBe(2);
+  });
+
   it('should be injectable without provideSolarisIcons', () => {
     TestBed.configureTestingModule({});
 
@@ -317,5 +384,40 @@ describe('SolarisIconRegistryService', () => {
 
     expect(service.hasIcon('check')).toBe(true);
     expect(service.hasIcon('x')).toBe(true);
+  });
+
+  it('should reject extraIcons with invalid names', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        provideSolarisIcons({
+          extraIcons: [
+            {
+              name: 'evil<script>',
+              viewBox: '0 0 24 24',
+              elements: [{ type: 'path', d: 'M0 0h24v24H0z' }],
+            },
+          ],
+        }),
+      ],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+
+    expect(service.hasIcon('evil<script>')).toBe(false);
+  });
+
+  it('should reject icons with unsafe element values', () => {
+    TestBed.configureTestingModule({
+      providers: [provideSolarisIcons()],
+    });
+
+    const service = TestBed.inject(SolarisIconRegistryService);
+    service.registerIcon({
+      name: 'unsafe-icon',
+      viewBox: '0 0 24 24',
+      elements: [{ type: 'path', d: 'M0 0h24v24H0z javascript:alert(1)' }],
+    });
+
+    expect(service.hasIcon('unsafe-icon')).toBe(false);
   });
 });

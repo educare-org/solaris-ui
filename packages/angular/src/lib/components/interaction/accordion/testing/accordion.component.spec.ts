@@ -376,4 +376,60 @@ describe('SolarisAccordionComponent', () => {
       expect(itemEl.getAttribute('data-appearance')).toBe('lined');
     });
   });
+
+  describe('size and density', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisAccordionComponent, SolarisCollapsibleComponent],
+      template: `
+        <solaris-accordion size="lg" density="comfortable">
+          <solaris-collapsible value="a" label="Section A">
+            <p>Content A</p>
+          </solaris-collapsible>
+          <solaris-collapsible
+            value="b"
+            label="Section B"
+            size="sm"
+            density="compact"
+          >
+            <p>Content B</p>
+          </solaris-collapsible>
+        </solaris-accordion>
+      `,
+    })
+    class SizedHost {}
+
+    it('should default to md size and the theme density', () => {
+      expect(getHost().getAttribute('data-size')).toBe('md');
+      expect(getHost().getAttribute('data-density')).toBe('normal');
+    });
+
+    it('should propagate size and density to items', () => {
+      const sizedFixture = TestBed.createComponent(SizedHost);
+      sizedFixture.detectChanges();
+      const accordionEl = sizedFixture.nativeElement.querySelector(
+        'solaris-accordion',
+      ) as HTMLElement;
+      const itemEl = accordionEl.querySelector(
+        'solaris-collapsible',
+      ) as HTMLElement;
+      expect(accordionEl.getAttribute('data-size')).toBe('lg');
+      expect(accordionEl.getAttribute('data-density')).toBe('comfortable');
+      expect(itemEl.getAttribute('data-size')).toBe('lg');
+      expect(itemEl.getAttribute('data-density')).toBe('comfortable');
+    });
+
+    it('should let the container win over per-item size and density', () => {
+      const sizedFixture = TestBed.createComponent(SizedHost);
+      sizedFixture.detectChanges();
+      const accordionEl = sizedFixture.nativeElement.querySelector(
+        'solaris-accordion',
+      ) as HTMLElement;
+      const items = Array.from(
+        accordionEl.querySelectorAll('solaris-collapsible'),
+      ) as HTMLElement[];
+      expect(items[1].getAttribute('data-size')).toBe('lg');
+      expect(items[1].getAttribute('data-density')).toBe('comfortable');
+    });
+  });
 });

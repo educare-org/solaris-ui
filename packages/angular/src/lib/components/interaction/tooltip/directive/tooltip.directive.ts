@@ -1,6 +1,3 @@
-// SECURITY_EXCEPTION_FILE: this.document.activeElement required for restoreFocus. SSR-safe via injected DOCUMENT.
-// SECURITY_EXCEPTION_FILE: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
-// SECURITY_EXCEPTION_FILE: this.document.contains() to safely verify trigger still exists before focus.
 import {
   Directive,
   ElementRef,
@@ -44,6 +41,10 @@ import {
   getTooltipArrowClass,
   derivePlacementFromConnectionPair,
 } from '../model/tooltip-position';
+import {
+  scheduleMotionClose,
+  cancelMotionClose,
+} from '../../../../core/utils/motion-close';
 
 import type {
   SolarisTooltipPlacement,
@@ -52,16 +53,11 @@ import type {
   SolarisTooltipSize,
   SolarisTooltipRadius,
 } from '../model/tooltip.types';
+import { SOLARIS_TOOLTIP_ARROW_SIZE_PX } from '../model/tooltip.types';
 
 let nextPanelId = 0;
 
 const TOOLTIP_TRIGGER_GAP = 3;
-
-const ARROW_SIZE_PX: Record<string, number> = {
-  sm: 12,
-  md: 20,
-  lg: 24,
-};
 
 @Directive({
   selector: '[solaris-tooltip], [solarisTooltip], [solarisTooltipFor]',
@@ -91,10 +87,13 @@ export class SolarisTooltipDirective implements AfterViewInit {
   private outsideClickCleanup: (() => void) | null = null;
   private previousActiveElement: HTMLElement | null = null;
   private hoverTimeout: ReturnType<typeof setTimeout> | null = null;
+  private lastCloseAt = 0;
   private isHovered = false;
   private isFocused = false;
   private tooltipComponentRef: ComponentRef<SolarisTooltipPanelComponent> | null =
     null;
+  private panelContainerRef: HTMLElement | null = null;
+  private closeTimeout: ReturnType<typeof setTimeout> | null = null;
   private positionChangesSub: Subscription | null = null;
   private currentPlacement: SolarisTooltipPlacement = 'top';
 
@@ -168,6 +167,11 @@ export class SolarisTooltipDirective implements AfterViewInit {
 
   readonly solarisTooltipHideDelay = input<number, string | number>(100, {
     alias: 'solarisTooltipHideDelay',
+    transform: numberAttribute,
+  });
+
+  readonly solarisTooltipSkipDelay = input<number, string | number>(300, {
+    alias: 'solarisTooltipSkipDelay',
     transform: numberAttribute,
   });
 
@@ -293,6 +297,7 @@ export class SolarisTooltipDirective implements AfterViewInit {
     }
 
     this.clearHoverTimeout();
+    this.cancelPendingClose();
 
     if (this.solarisTooltipTrigger() === 'click') {
       this.previousActiveElement = this.document.activeElement as HTMLElement;
@@ -312,11 +317,18 @@ export class SolarisTooltipDirective implements AfterViewInit {
     }
 
     this.clearHoverTimeout();
-    this.detachPanel();
+    // State and outputs stay synchronous; only the overlay detach is delayed
+    // so the [data-closing] exit animation can play (motion-standard).
+    this.markPanelClosing();
     this.restoreFocus();
     this.isOpen.set(false);
+    this.lastCloseAt = Date.now();
     this.solarisTooltipClosed.emit();
     this.solarisTooltipOpenChange.emit(false);
+    this.closeTimeout = scheduleMotionClose(() => {
+      this.closeTimeout = null;
+      this.detachPanel();
+    });
   }
 
   toggle(): void {
@@ -377,7 +389,9 @@ export class SolarisTooltipDirective implements AfterViewInit {
 
   private scheduleOpen(delay: number): void {
     this.clearHoverTimeout();
-    if (delay > 0) {
+    const skipDelay = Number(this.solarisTooltipSkipDelay());
+    const sinceClose = Date.now() - this.lastCloseAt;
+    if (delay > 0 && !(skipDelay > 0 && sinceClose < skipDelay)) {
       this.hoverTimeout = setTimeout(() => {
         this.ngZone.run(() => {
           if ((this.isHovered || this.isFocused) && !this.isOpen()) {
@@ -417,6 +431,17 @@ export class SolarisTooltipDirective implements AfterViewInit {
     }
   }
 
+  private markPanelClosing(): void {
+    this.panelContainerRef?.setAttribute('data-closing', '');
+    this.panelContainerRef?.setAttribute('aria-hidden', 'true');
+  }
+
+  private cancelPendingClose(): void {
+    this.closeTimeout = cancelMotionClose(this.closeTimeout);
+    this.panelContainerRef?.removeAttribute('data-closing');
+    this.panelContainerRef?.removeAttribute('aria-hidden');
+  }
+
   private createOverlay(): void {
     this.disposeOverlay();
 
@@ -438,7 +463,7 @@ export class SolarisTooltipDirective implements AfterViewInit {
     const userOffset = Number(this.solarisTooltipOffset());
     const hasArrow = this.solarisTooltipArrow();
     const size = this.solarisTooltipSize();
-    const arrowPx = hasArrow ? (ARROW_SIZE_PX[size] ?? 20) : 0;
+    const arrowPx = hasArrow ? (SOLARIS_TOOLTIP_ARROW_SIZE_PX[size] ?? 14) : 0;
     const effectiveOffset = arrowPx + TOOLTIP_TRIGGER_GAP + userOffset;
     const positions = getTooltipPositions(placement, effectiveOffset);
 
@@ -494,6 +519,9 @@ export class SolarisTooltipDirective implements AfterViewInit {
     );
 
     this.tooltipComponentRef = this.overlayRef.attach(portal);
+    this.panelContainerRef = this.overlayRef.overlayElement.querySelector(
+      '.solaris-tooltip-panel__container',
+    );
 
     const strategy = this.overlayRef.getConfig()
       .positionStrategy as FlexibleConnectedPositionStrategy;
@@ -522,9 +550,11 @@ export class SolarisTooltipDirective implements AfterViewInit {
   }
 
   private disposeOverlay(): void {
+    this.cancelPendingClose();
     this.positionChangesSub?.unsubscribe();
     this.positionChangesSub = null;
     this.tooltipComponentRef = null;
+    this.panelContainerRef = null;
     if (this.overlayRef) {
       this.overlayRef.dispose();
       this.overlayRef = null;

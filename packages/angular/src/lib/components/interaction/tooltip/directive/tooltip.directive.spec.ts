@@ -6,6 +6,8 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { provideSolarisTranslateTesting } from '../../../../services/translation/testing/solaris-translate-testing.provider';
 
 import { SolarisTooltipDirective } from './tooltip.directive';
+import { SOLARIS_TOOLTIP_ARROW_SIZE_PX } from '../model/tooltip.types';
+import { SOLARIS_MOTION_DETACH_MS } from '../../../../core/utils/motion-close';
 
 describe('SolarisTooltipDirective', () => {
   let overlayContainer: OverlayContainer;
@@ -75,6 +77,16 @@ describe('SolarisTooltipDirective', () => {
     appRef.tick();
   };
 
+  const flushMotionClose = async <T>(
+    fixture: ComponentFixture<T>,
+  ): Promise<void> => {
+    await new Promise((resolve) =>
+      setTimeout(resolve, SOLARIS_MOTION_DETACH_MS + 50),
+    );
+    fixture.detectChanges();
+    appRef.tick();
+  };
+
   describe('basic tooltip', () => {
     @Component({
       standalone: true,
@@ -99,7 +111,7 @@ describe('SolarisTooltipDirective', () => {
       expect(getPanelContent()).toBeTruthy();
     });
 
-    it('should close tooltip on mouse leave', () => {
+    it('should close tooltip on mouse leave', async () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
 
@@ -107,6 +119,7 @@ describe('SolarisTooltipDirective', () => {
       expect(getPanelContent()).toBeTruthy();
 
       triggerMouseLeave(fixture);
+      await flushMotionClose(fixture);
       expect(getPanelContent()).toBeNull();
     });
 
@@ -119,7 +132,7 @@ describe('SolarisTooltipDirective', () => {
       expect(getPanelContent()).toBeTruthy();
     });
 
-    it('should close tooltip on blur', () => {
+    it('should close tooltip on blur', async () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
 
@@ -127,6 +140,7 @@ describe('SolarisTooltipDirective', () => {
       expect(getPanelContent()).toBeTruthy();
 
       triggerFocusOut(fixture);
+      await flushMotionClose(fixture);
       expect(getPanelContent()).toBeNull();
     });
   });
@@ -244,7 +258,7 @@ describe('SolarisTooltipDirective', () => {
       expect(getPanelContent()).toBeTruthy();
     });
 
-    it('should close on second click (toggle)', () => {
+    it('should close on second click (toggle)', async () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
 
@@ -252,10 +266,11 @@ describe('SolarisTooltipDirective', () => {
       expect(getPanelContent()).toBeTruthy();
 
       triggerClick(fixture);
+      await flushMotionClose(fixture);
       expect(getPanelContent()).toBeNull();
     });
 
-    it('should close on outside click', () => {
+    it('should close on outside click', async () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
 
@@ -264,8 +279,7 @@ describe('SolarisTooltipDirective', () => {
 
       const outsideArea = fixture.nativeElement.querySelector('button');
       outsideArea.click();
-      fixture.detectChanges();
-      appRef.tick();
+      await flushMotionClose(fixture);
       expect(getPanelContent()).toBeNull();
     });
   });
@@ -314,7 +328,7 @@ describe('SolarisTooltipDirective', () => {
       expect(getPanelContent()).toBeTruthy();
     });
 
-    it('should close via close() method', () => {
+    it('should close via close() method', async () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
 
@@ -330,10 +344,12 @@ describe('SolarisTooltipDirective', () => {
       directive.close();
       fixture.detectChanges();
       appRef.tick();
+      expect(getPanelContent()?.getAttribute('data-closing')).toBe('');
+      await flushMotionClose(fixture);
       expect(getPanelContent()).toBeNull();
     });
 
-    it('should toggle via toggle() method', () => {
+    it('should toggle via toggle() method', async () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
 
@@ -347,8 +363,7 @@ describe('SolarisTooltipDirective', () => {
       expect(getPanelContent()).toBeTruthy();
 
       directive.toggle();
-      fixture.detectChanges();
-      appRef.tick();
+      await flushMotionClose(fixture);
       expect(getPanelContent()).toBeNull();
     });
   });
@@ -421,7 +436,7 @@ describe('SolarisTooltipDirective', () => {
     })
     class TestHost {}
 
-    it('should close on Escape', () => {
+    it('should close on Escape', async () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
 
@@ -432,8 +447,7 @@ describe('SolarisTooltipDirective', () => {
       triggerEl.dispatchEvent(
         new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }),
       );
-      fixture.detectChanges();
-      appRef.tick();
+      await flushMotionClose(fixture);
       expect(getPanelContent()).toBeNull();
     });
   });
@@ -465,7 +479,7 @@ describe('SolarisTooltipDirective', () => {
       expect(closeBtn).toBeTruthy();
     });
 
-    it('should close tooltip when close button is clicked', () => {
+    it('should close tooltip when close button is clicked', async () => {
       const fixture = TestBed.createComponent(TestHost);
       fixture.detectChanges();
 
@@ -474,8 +488,7 @@ describe('SolarisTooltipDirective', () => {
 
       const closeBtn = getCloseButton() as HTMLElement;
       closeBtn.click();
-      fixture.detectChanges();
-      appRef.tick();
+      await flushMotionClose(fixture);
       expect(getPanelContent()).toBeNull();
     });
 
@@ -825,6 +838,77 @@ describe('SolarisTooltipDirective', () => {
       const describedBy = triggerEl.getAttribute('aria-describedby');
       expect(describedBy).toBeTruthy();
       expect(describedBy).toContain('solaris-tooltip-panel-');
+    });
+  });
+
+  describe('skip delay', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisTooltipDirective],
+      host: { 'data-testid': 'skip-delay-host' },
+      template: `<button
+        [solarisTooltip]="'Skip delay'"
+        [solarisTooltipShowDelay]="showDelay"
+        [solarisTooltipHideDelay]="0"
+        [solarisTooltipSkipDelay]="skipDelay"
+      >
+        Trigger
+      </button>`,
+    })
+    class TestHost {
+      showDelay = 60;
+      skipDelay = 1000;
+    }
+
+    const sleep = (ms: number): Promise<void> =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
+    it('should skip showDelay when reopening within skipDelay', async () => {
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+
+      triggerMouseEnter(fixture);
+      await sleep(120);
+      appRef.tick();
+      expect(getPanelContent()).toBeTruthy();
+
+      triggerMouseLeave(fixture);
+      await flushMotionClose(fixture);
+      expect(getPanelContent()).toBeNull();
+
+      triggerMouseEnter(fixture);
+      expect(getPanelContent()).toBeTruthy();
+    });
+
+    it('should respect showDelay again after skipDelay expires', async () => {
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.skipDelay = 0;
+      fixture.detectChanges();
+
+      triggerMouseEnter(fixture);
+      await sleep(120);
+      appRef.tick();
+      expect(getPanelContent()).toBeTruthy();
+
+      triggerMouseLeave(fixture);
+      await flushMotionClose(fixture);
+      expect(getPanelContent()).toBeNull();
+
+      triggerMouseEnter(fixture);
+      expect(getPanelContent()).toBeNull();
+      await sleep(120);
+      appRef.tick();
+      expect(getPanelContent()).toBeTruthy();
+    });
+  });
+
+  describe('arrow size contract', () => {
+    it('should match the rendered arrow size per size', () => {
+      expect(SOLARIS_TOOLTIP_ARROW_SIZE_PX).toEqual({
+        sm: 8,
+        md: 10,
+        lg: 12,
+      });
     });
   });
 

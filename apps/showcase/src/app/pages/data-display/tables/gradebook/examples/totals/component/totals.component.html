@@ -1,0 +1,55 @@
+<solaris-tabs
+  [(value)]="aggregate"
+  [ariaLabel]="'gradebook.totals.aggregate.label' | translate"
+>
+  <solaris-tab value="average">{{
+    'gradebook.totals.aggregate.average' | translate
+  }}</solaris-tab>
+  <solaris-tab value="sum">{{
+    'gradebook.totals.aggregate.sum' | translate
+  }}</solaris-tab>
+  <solaris-tab value="max">{{
+    'gradebook.totals.aggregate.max' | translate
+  }}</solaris-tab>
+</solaris-tabs>
+<div class="totals-controls">
+  <label class="totals-toggle">
+    <input
+      type="checkbox"
+      class="totals-toggle__input"
+      [checked]="withMax()"
+      (change)="toggleMax($event)"
+    />
+    <span class="totals-toggle__label">{{
+      'gradebook.totals.max.label' | translate
+    }}</span>
+  </label>
+  <label class="totals-field">
+    <span class="totals-field__label">{{
+      'gradebook.totals.rounding.label' | translate
+    }}</span>
+    <select
+      class="totals-field__select"
+      [value]="roundingKey()"
+      (change)="roundingKey.set($any($event.target).value)"
+      [attr.aria-label]="'gradebook.totals.rounding.label' | translate"
+    >
+      <option value="standard">
+        {{ 'gradebook.totals.rounding.standard' | translate }}
+      </option>
+      <option value="up">
+        {{ 'gradebook.totals.rounding.up' | translate }}
+      </option>
+      <option value="down">
+        {{ 'gradebook.totals.rounding.down' | translate }}
+      </option>
+    </select>
+  </label>
+</div>
+<solaris-gradebook
+  [data]="rows"
+  [columns]="columns()"
+  [identity]="identity"
+  [rounding]="rounding()"
+  rowId="id"
+/>

@@ -1,283 +1,259 @@
-<div class="spinner-showcase">
-  <header class="spinner-showcase__header">
-    <h1 class="spinner-showcase__title">{{ 'spinner.title' | translate }}</h1>
-    <p class="spinner-showcase__description">
-      {{ 'spinner.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="spinner.title"
+    descriptionKey="spinner.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="spinner-showcase__section">
-    <h2 class="spinner-showcase__section-title">
-      {{ 'spinner.variants' | translate }}
-    </h2>
-    <div class="spinner-showcase__row">
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Ring</span>
-        <solaris-spinner variant="ring"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Stacked</span>
-        <solaris-spinner variant="stacked"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Progress</span>
+  <app-docs-section anchor="examples" titleKey="spinner.section.examples">
+    <p class="spinner-showcase__note">
+      {{ 'spinner.examples.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <solaris-spinner label="Saving…" />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="variants" titleKey="spinner.section.variants">
+    <p class="spinner-showcase__note">
+      {{ 'spinner.variants-desc' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedVariant"
+      [ariaLabel]="'spinner.section.variants' | translate"
+    >
+      <solaris-tab value="ring"
+        >{{ 'spinner.variant.ring' | translate }}</solaris-tab
+      >
+      <solaris-tab value="stacked"
+        >{{ 'spinner.variant.stacked' | translate }}</solaris-tab
+      >
+      <solaris-tab value="progress"
+        >{{ 'spinner.variant.progress' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="ring">
+        <solaris-preview-code [code]="variantCode()" language="html">
+          <solaris-spinner [variant]="selectedVariant()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="stacked">
+        <solaris-preview-code [code]="variantCode()" language="html">
+          <solaris-spinner [variant]="selectedVariant()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="progress">
+        <solaris-preview-code [code]="variantCode()" language="html">
+          <solaris-spinner
+            [variant]="selectedVariant()"
+            [value]="65"
+            [showPercent]="true"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="spinner.section.size-density"
+  >
+    <p class="spinner-showcase__note">
+      {{ 'spinner.size-density.note' | translate }}
+    </p>
+    <div class="spinner-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'spinner.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'spinner.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'spinner.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'spinner.size.lg' | translate }}</solaris-tab
+        >
+        <solaris-tab value="xl"
+          >{{ 'spinner.size.xl' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'spinner.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'spinner.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'spinner.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'spinner.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-spinner
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+        label="Loading…"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="determinate" titleKey="spinner.section.determinate">
+    <p class="spinner-showcase__note">
+      {{ 'spinner.determinate.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="determinateCode()" language="html">
+      <div class="spinner-showcase__stack">
         <solaris-spinner
           variant="progress"
-          [value]="30"
+          [value]="progressValue()"
+          label="Downloading"
           [showPercent]="true"
-        ></solaris-spinner>
+          [description]="['File size: 12 MB', 'Time left: 30 s']"
+        />
+        <div>
+          <button
+            solaris-button
+            type="button"
+            [disabled]="isAnimating()"
+            (click)="playAnimation()"
+          >
+            {{ 'spinner.play' | translate }}
+          </button>
+        </div>
       </div>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="spinner-showcase__section">
-    <h2 class="spinner-showcase__section-title">
-      {{ 'spinner.stacked-sizes' | translate }}
-    </h2>
-    <div class="spinner-showcase__row">
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">sm</span>
-        <solaris-spinner variant="stacked" size="sm"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">md</span>
-        <solaris-spinner variant="stacked" size="md"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">lg</span>
-        <solaris-spinner variant="stacked" size="lg"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">xl</span>
-        <solaris-spinner variant="stacked" size="xl"></solaris-spinner>
-      </div>
-    </div>
-  </section>
-
-  <section class="spinner-showcase__section">
-    <h2 class="spinner-showcase__section-title">
-      {{ 'spinner.stacked-speeds' | translate }}
-    </h2>
-    <div class="spinner-showcase__row">
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Slow</span>
-        <solaris-spinner variant="stacked" speed="slow"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Normal</span>
-        <solaris-spinner variant="stacked" speed="normal"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Fast</span>
-        <solaris-spinner variant="stacked" speed="fast"></solaris-spinner>
-      </div>
-    </div>
-  </section>
-
-  <section class="spinner-showcase__section">
-    <h2 class="spinner-showcase__section-title">
-      {{ 'spinner.determinate' | translate }}
-    </h2>
+  <app-docs-section anchor="colors" titleKey="spinner.section.colors">
     <p class="spinner-showcase__note">
-      {{ 'spinner.determinate-note' | translate }}
+      {{ 'spinner.colors-desc' | translate }}
     </p>
-    <div class="spinner-showcase__stack">
-      <solaris-spinner
-        variant="progress"
-        [value]="progressValue()"
-        label="Downloading"
-        [showPercent]="true"
-        [description]="['File size: 12 MB', 'Time left: 30 s']"
-      ></solaris-spinner>
+    <solaris-tabs
+      [(value)]="selectedColor"
+      [ariaLabel]="'spinner.section.colors' | translate"
+    >
+      <solaris-tab value="neutral"
+        >{{ 'spinner.color.neutral' | translate }}</solaris-tab
+      >
+      <solaris-tab value="primary"
+        >{{ 'spinner.color.primary' | translate }}</solaris-tab
+      >
+      <solaris-tab value="success"
+        >{{ 'spinner.color.success' | translate }}</solaris-tab
+      >
+      <solaris-tab value="warning"
+        >{{ 'spinner.color.warning' | translate }}</solaris-tab
+      >
+      <solaris-tab value="danger"
+        >{{ 'spinner.color.danger' | translate }}</solaris-tab
+      >
+      <solaris-tab value="info"
+        >{{ 'spinner.color.info' | translate }}</solaris-tab
+      >
+      <solaris-tab value="custom"
+        >{{ 'spinner.color.custom' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="neutral">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-spinner [color]="selectedColor()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="primary">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-spinner [color]="selectedColor()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="success">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-spinner [color]="selectedColor()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="warning">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-spinner [color]="selectedColor()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="danger">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-spinner [color]="selectedColor()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="info">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-spinner [color]="selectedColor()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="custom">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-spinner
+            [color]="selectedColor()"
+            class="spinner-showcase__custom"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="loading-zone"
+    titleKey="spinner.section.loading-zone"
+  >
+    <p class="spinner-showcase__note">
+      {{ 'spinner.loading-zone.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="zoneCode" language="html">
+      <app-spinner-loading-zone-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="backdrop" titleKey="spinner.section.backdrop">
+    <p class="spinner-showcase__note">
+      {{ 'spinner.backdrop.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="backdropCode" language="html">
       <div>
-        <button
-          class="spinner-showcase__button"
-          type="button"
-          [disabled]="isAnimating()"
-          (click)="playAnimation()"
-        >
-          {{ 'spinner.play' | translate }}
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <section class="spinner-showcase__section">
-    <h2 class="spinner-showcase__section-title">
-      {{ 'spinner.sizes' | translate }}
-    </h2>
-    <div class="spinner-showcase__row">
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">sm</span>
-        <solaris-spinner size="sm"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">md</span>
-        <solaris-spinner size="md"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">lg</span>
-        <solaris-spinner size="lg"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">xl</span>
-        <solaris-spinner size="xl"></solaris-spinner>
-      </div>
-    </div>
-  </section>
-
-  <section class="spinner-showcase__section">
-    <h2 class="spinner-showcase__section-title">
-      {{ 'spinner.speeds' | translate }}
-    </h2>
-    <div class="spinner-showcase__row">
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Slow</span>
-        <solaris-spinner speed="slow"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Normal</span>
-        <solaris-spinner speed="normal"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Fast</span>
-        <solaris-spinner speed="fast"></solaris-spinner>
-      </div>
-    </div>
-  </section>
-
-  <section class="spinner-showcase__section">
-    <h2 class="spinner-showcase__section-title">
-      {{ 'spinner.easings' | translate }}
-    </h2>
-    <div class="spinner-showcase__row">
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Linear</span>
-        <solaris-spinner easing="linear"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Ease</span>
-        <solaris-spinner easing="ease"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Ease-in</span>
-        <solaris-spinner easing="ease-in"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Ease-out</span>
-        <solaris-spinner easing="ease-out"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Ease-in-out</span>
-        <solaris-spinner easing="ease-in-out"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Spring</span>
-        <solaris-spinner easing="spring"></solaris-spinner>
-      </div>
-    </div>
-  </section>
-
-  <section class="spinner-showcase__section">
-    <h2 class="spinner-showcase__section-title">
-      {{ 'spinner.colors' | translate }}
-    </h2>
-    <div class="spinner-showcase__row">
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Neutral</span>
-        <solaris-spinner color="neutral"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Primary</span>
-        <solaris-spinner color="primary"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Success</span>
-        <solaris-spinner color="success"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Warning</span>
-        <solaris-spinner color="warning"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Danger</span>
-        <solaris-spinner color="danger"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Info</span>
-        <solaris-spinner color="info"></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Custom</span>
-        <solaris-spinner
-          color="custom"
-          class="spinner-showcase__custom"
-        ></solaris-spinner>
-      </div>
-    </div>
-  </section>
-
-  <section class="spinner-showcase__section">
-    <h2 class="spinner-showcase__section-title">
-      {{ 'spinner.labels' | translate }}
-    </h2>
-    <div class="spinner-showcase__row">
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Default</span>
-        <solaris-spinner></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">With label</span>
-        <solaris-spinner label="Saving..."></solaris-spinner>
-      </div>
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">i18n key</span>
-        <solaris-spinner labelKey="solaris.spinner.loading"></solaris-spinner>
-      </div>
-    </div>
-  </section>
-
-  <section class="spinner-showcase__section">
-    <h2 class="spinner-showcase__section-title">
-      {{ 'spinner.backdrop' | translate }}
-    </h2>
-    <p class="spinner-showcase__note">
-      {{ 'spinner.backdrop-note' | translate }}
-    </p>
-    <div class="spinner-showcase__row">
-      <div class="spinner-showcase__item">
-        <button
-          class="spinner-showcase__button"
-          type="button"
-          (click)="showBackdrop.set(true)"
-        >
+        <button solaris-button type="button" (click)="showBackdrop.set(true)">
           {{ 'spinner.show-backdrop' | translate }}
         </button>
       </div>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="spinner-showcase__section">
-    <h2 class="spinner-showcase__section-title">
-      {{ 'spinner.reduced-motion' | translate }}
-    </h2>
+  <app-docs-section
+    anchor="installation"
+    titleKey="spinner.section.installation"
+  >
     <p class="spinner-showcase__note">
-      {{ 'spinner.reduced-motion-note' | translate }}
+      {{ 'spinner.installation.note' | translate }}
     </p>
-    <div class="spinner-showcase__row">
-      <div class="spinner-showcase__item">
-        <span class="spinner-showcase__label">Static indicator</span>
-        <solaris-spinner></solaris-spinner>
-      </div>
-    </div>
-  </section>
-</div>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="spinner.section.props">
+    <p class="spinner-showcase__note">{{ 'spinner.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>
 
 @if (showBackdrop()) {
 <solaris-spinner
   size="xl"
   [backdrop]="true"
-  label="Loading application..."
+  label="Loading application…"
   (click)="showBackdrop.set(false)"
-></solaris-spinner>
+/>
 }

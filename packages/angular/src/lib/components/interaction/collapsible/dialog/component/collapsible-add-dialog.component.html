@@ -1,0 +1,76 @@
+<solaris-dialog-header [title]="dialogTitle()" />
+<solaris-dialog-content>
+  <form
+    [formGroup]="form"
+    (ngSubmit)="confirm()"
+    class="solaris-collapsible-add-dialog__form"
+  >
+    <solaris-select
+      [label]="iconLabel()"
+      formControlName="leadingIcon"
+      [clearable]="false"
+      [searchable]="iconSearchable()"
+    >
+      <solaris-option [value]="null">{{ noIconLabel() }}</solaris-option>
+      @for (option of iconOptions(); track option.value) {
+        <solaris-option [value]="option.value">
+          <solaris-icon
+            solaris-option-leading
+            [name]="option.value"
+            [decorative]="true"
+          />
+          {{ optionLabel(option) }}
+        </solaris-option>
+      }
+    </solaris-select>
+
+    <solaris-form-field
+      [label]="titleLabel()"
+      [required]="true"
+      [invalid]="form.controls.label.invalid && form.controls.label.touched"
+    >
+      <input
+        solaris-input
+        formControlName="label"
+        type="text"
+        autocomplete="off"
+      />
+      @if (form.controls.label.invalid && form.controls.label.touched) {
+        <solaris-form-error>{{ requiredLabel() }}</solaris-form-error>
+      }
+    </solaris-form-field>
+
+    <solaris-form-field
+      [label]="descriptionLabel()"
+      [required]="true"
+      [invalid]="
+        form.controls.description.invalid && form.controls.description.touched
+      "
+    >
+      <textarea
+        solaris-textarea
+        formControlName="description"
+        rows="3"
+      ></textarea>
+      @if (
+        form.controls.description.invalid && form.controls.description.touched
+      ) {
+        <solaris-form-error>{{ requiredLabel() }}</solaris-form-error>
+      }
+    </solaris-form-field>
+  </form>
+</solaris-dialog-content>
+<solaris-dialog-footer align="end">
+  <button type="button" solaris-button appearance="ghost" solaris-dialog-close>
+    {{ cancelLabel() }}
+  </button>
+  <button
+    type="button"
+    solaris-button
+    color="primary"
+    [disabled]="form.invalid"
+    (click)="confirm()"
+  >
+    {{ confirmLabel() }}
+  </button>
+</solaris-dialog-footer>

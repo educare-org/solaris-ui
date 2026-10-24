@@ -62,6 +62,18 @@ describe('SolarisBreadcrumbComponent', () => {
     ];
   }
 
+  @Component({
+    standalone: true,
+    imports: [SolarisBreadcrumbComponent],
+    template: ` <solaris-breadcrumb [items]="items" density="compact" /> `,
+  })
+  class DensityHost {
+    items: SolarisBreadcrumbItem[] = [
+      { label: 'Home', current: true },
+      { label: 'Settings' },
+    ];
+  }
+
   let fixture: ComponentFixture<TestHostComponent>;
 
   const getHost = (): HTMLElement =>
@@ -206,6 +218,38 @@ describe('SolarisBreadcrumbComponent', () => {
         'solaris-breadcrumb',
       ) as HTMLElement;
       expect(hostEl.getAttribute('data-size')).toBe('lg');
+    });
+  });
+
+  describe('density', () => {
+    it('should default to the theme density', () => {
+      expect(getHost().getAttribute('data-density')).toBe('normal');
+    });
+
+    it('should reflect the density input', () => {
+      const densityFixture = TestBed.createComponent(DensityHost);
+      densityFixture.detectChanges();
+      const hostEl = densityFixture.nativeElement.querySelector(
+        'solaris-breadcrumb',
+      ) as HTMLElement;
+      expect(hostEl.getAttribute('data-density')).toBe('compact');
+    });
+
+    it('should combine size and density attributes', () => {
+      const sizeFixture = TestBed.createComponent(SizeHost);
+      sizeFixture.detectChanges();
+      const hostEl = sizeFixture.nativeElement.querySelector(
+        'solaris-breadcrumb',
+      ) as HTMLElement;
+      expect(hostEl.getAttribute('data-size')).toBe('lg');
+      expect(hostEl.getAttribute('data-density')).toBe('normal');
+    });
+  });
+
+  describe('label truncation', () => {
+    it('should expose the label as title for truncated items', () => {
+      const link = getLinks()[0];
+      expect(link.getAttribute('title')).toBe('Home');
     });
   });
 });

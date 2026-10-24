@@ -1,0 +1,43 @@
+<solaris-icon
+  class="solaris-file-list-item__icon"
+  [name]="iconName()"
+  [decorative]="true"
+/>
+<div class="solaris-file-list-item__body">
+  <span class="solaris-file-list-item__name" [attr.title]="item().file.name">{{
+    item().file.name
+  }}</span>
+  <span class="solaris-file-list-item__meta"
+    >{{ sizeText() }} · {{ statusText() }}</span
+  >
+  @if (item().status === 'uploading') {
+    <solaris-progress
+      class="solaris-file-list-item__progress"
+      [value]="item().progress"
+      [ariaLabel]="progressAriaLabel()"
+    />
+  }
+  @if (errorText()) {
+    <span class="solaris-file-list-item__error">{{ errorText() }}</span>
+  }
+</div>
+<div class="solaris-file-list-item__actions">
+  @if (canRetry()) {
+    <button
+      type="button"
+      class="solaris-file-list-item__action"
+      [attr.aria-label]="retryText()"
+      (click)="retried.emit(item().id)"
+    >
+      <solaris-icon name="refresh" [decorative]="true" />
+    </button>
+  }
+  <button
+    type="button"
+    class="solaris-file-list-item__action"
+    [attr.aria-label]="removeText()"
+    (click)="removed.emit(item().id)"
+  >
+    <solaris-icon name="x" [decorative]="true" />
+  </button>
+</div>

@@ -85,8 +85,8 @@ export class SolarisComponentComponent {
 
 ```scss
 [solaris-component] {
-  --solaris-component-color: var(--solaris-text-default);
-  --solaris-component-bg: var(--solaris-surface-base);
+  --solaris-component-color: var(--solaris-neutral-text-body);
+  --solaris-component-bg: var(--solaris-neutral-default);
   --solaris-component-radius: var(--solaris-radius-md);
   --solaris-component-padding: var(--solaris-spacing-3);
 

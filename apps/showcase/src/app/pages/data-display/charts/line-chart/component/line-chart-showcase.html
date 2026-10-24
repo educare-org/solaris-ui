@@ -1,0 +1,197 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="line-chart-view.title"
+    descriptionKey="line-chart-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="examples"
+    titleKey="line-chart-view.section.examples"
+  >
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.examples.note' | translate }}
+    </p>
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.examples.keyboardNote' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #chartCard>
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="series()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+      </ng-template>
+      <div class="line-chart-showcase__demo">
+        <ng-container *ngTemplateOutlet="chartCard" />
+      </div>
+    </solaris-preview-code>
+    @if (log()) {
+    <p class="line-chart-showcase__log" data-testid="line-event-log">
+      {{ log() }}
+    </p>
+    }
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="interpolation"
+    titleKey="line-chart-view.section.interpolation"
+  >
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.interpolation.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="interpolationTab"
+      [ariaLabel]="'line-chart-view.interpolation.label' | translate"
+    >
+      <solaris-tab [value]="'smooth'"
+        >{{ 'line-chart-view.interpolation.smooth' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'linear'"
+        >{{ 'line-chart-view.interpolation.linear' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'step'"
+        >{{ 'line-chart-view.interpolation.step' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      [code]="interpolationCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="line-chart-showcase__demo">
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="series()"
+          [interpolation]="interpolation()"
+          [step]="step()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+      </div>
+    </solaris-preview-code>
+    @if (log()) {
+    <p class="line-chart-showcase__log" data-testid="line-interpolation-log">
+      {{ log() }}
+    </p>
+    }
+  </app-docs-section>
+
+  <app-docs-section anchor="gaps" titleKey="line-chart-view.section.gaps">
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.gaps.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [code]="gapsCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="line-chart-showcase__demo">
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="gapSeries()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+      </div>
+    </solaris-preview-code>
+    @if (log()) {
+    <p class="line-chart-showcase__log" data-testid="line-gaps-log">
+      {{ log() }}
+    </p>
+    }
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="line-chart-view.section.size-density"
+  >
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.size-density.note' | translate }}
+    </p>
+    <div class="line-chart-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'line-chart-view.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'line-chart-view.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'line-chart-view.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'line-chart-view.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'line-chart-view.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'line-chart-view.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'line-chart-view.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'line-chart-view.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [code]="sizeDensityCode()"
+      language="html"
+      previewAlign="stretch"
+    >
+      <div class="line-chart-showcase__demo">
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="series()"
+          [referenceLines]="referenceLines()"
+          [size]="selectedSize()"
+          [density]="selectedDensity()"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="line-chart-view.section.installation"
+  >
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block [code]="importCode" language="ts" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="line-chart-view.section.props">
+    <p class="line-chart-showcase__note">
+      {{ 'line-chart-view.props.note' | translate }}
+    </p>
+    <div class="line-chart-showcase__table-wrap">
+      <solaris-table
+        [data]="propsRows"
+        [columns]="propsColumns()"
+        rowId="prop"
+        appearance="soft"
+      />
+    </div>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

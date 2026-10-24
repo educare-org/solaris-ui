@@ -1,0 +1,100 @@
+{
+  "toast": {
+    "actions": "Ações",
+    "actions-desc": "Botões de ação que executam callbacks e opcionalmente fecham o toast.",
+    "actions-description": "Você tem alterações não salvas. Deseja continuar?",
+    "actions-dismiss": "Dispensar",
+    "actions-title": "Alterações não salvas",
+    "actions-undo": "Desfazer",
+    "appearance-desc": "Toast com aparência {{appearance}}.",
+    "appearance-outline": "Outline",
+    "appearance-surface": "Surface",
+    "appearance-title": "Aparência: {{appearance}}",
+    "appearances": "Aparências",
+    "appearances-desc": "Aparências surface (padrão) e outline.",
+    "basic-desc": "A instituição foi registrada com sucesso.",
+    "basic-title": "Matrícula criada",
+    "complete-desc": "Sua solicitação foi processada.",
+    "complete-title": "Concluído!",
+    "countdown": "Contagem Regressiva",
+    "countdown-bar": "Barra",
+    "countdown-both": "Barra + Texto",
+    "countdown-demo-title": "Contagem {{countdown}}",
+    "countdown-desc": "Contagem regressiva real mostrando o tempo restante até o fechamento automático.",
+    "countdown-text": "Texto",
+    "countdown-text-desc": "Este toast mostra contagem apenas como texto.",
+    "danger": "Danger",
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Componente de feedback temporário e não bloqueante para confirmar ações, exibir mensagens do sistema ou notificar usuários sobre eventos.",
+    "examples": {
+      "note": "Cada demo dispara um toast real. O snippet mostra a chamada mínima do serviço."
+    },
+    "info": "Info",
+    "installation": {
+      "note": "Instale o pacote único do Solaris UI e importe o serviço de toast."
+    },
+    "loading": "Loading",
+    "loading-desc": "Aguarde enquanto processamos sua solicitação.",
+    "loading-title": "Processando...",
+    "neutral": "Neutral",
+    "persistent": "Persistente",
+    "persistent-desc": "Toasts persistentes exigem dispensa manual e não fecham automaticamente.",
+    "position-bottom-center": "Base Centro",
+    "position-bottom-end": "Base Fim",
+    "position-bottom-start": "Base Início",
+    "position-desc": "Toast posicionado em {{position}}.",
+    "position-title": "Posição: {{position}}",
+    "position-top-center": "Topo Centro",
+    "position-top-end": "Topo Fim",
+    "position-top-start": "Topo Início",
+    "positions": "Posições",
+    "positions-desc": "Toast pode ser posicionado em qualquer canto ou centro-topo/base.",
+    "progress": "Progresso",
+    "progress-complete-description": "Seu arquivo foi enviado com sucesso.",
+    "progress-complete-title": "Upload concluído!",
+    "progress-demo-desc": "Seu arquivo está sendo enviado.",
+    "progress-desc": "Indicador visual de progresso para operações com duração conhecida, além de promise toasts.",
+    "progress-title": "Enviando...",
+    "progress-trigger": "Simular upload",
+    "promise-trigger": "Executar promise toast",
+    "props": {
+      "note": "A referência completa de props está na documentação do componente."
+    },
+    "section": {
+      "actions": "Ações",
+      "appearance": "Aparência",
+      "countdown": "Contagem regressiva",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "positions": "Posições",
+      "progress": "Progresso",
+      "props": "Propriedades",
+      "size-density": "Tamanho & Densidade",
+      "sizes": "Tamanhos",
+      "variants": "Variantes"
+    },
+    "show": "Mostrar",
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "A escala do card segue a matriz adaptada tamanho × densidade. O snippet reflete a seleção atual."
+    },
+    "size-density-demo-desc": "A escala do card segue a matriz adaptada tamanho × densidade.",
+    "size-density-title": "Tamanho {{size}} / densidade {{density}}",
+    "success": "Success",
+    "title": "Toast",
+    "variant-desc": "Esta é uma mensagem toast {{variant}}.",
+    "variant-title": "Toast {{variant}}",
+    "variants": "Variantes",
+    "variants-desc": "Variantes neutral, info, success, warning, danger e loading.",
+    "warning": "Warning"
+  }
+}

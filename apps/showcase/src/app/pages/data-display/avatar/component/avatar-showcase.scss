@@ -1,0 +1,20 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.avatar-showcase__note {
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.avatar-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: var(--solaris-spacing-4);
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+}
+
+.avatar-showcase__row {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--solaris-spacing-8);
+}

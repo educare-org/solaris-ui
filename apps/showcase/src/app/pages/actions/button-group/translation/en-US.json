@@ -1,0 +1,65 @@
+{
+  "button-group": {
+    "anchor": "Anchor support",
+    "attached": {
+      "false": "Separated",
+      "note": "With attached=true the items form a single block with soft dividers. With attached=false each item keeps its own radius and a gap separates them.",
+      "true": "Attached"
+    },
+    "attached-false": "Separated (attached=false)",
+    "badge": "Badge composition",
+    "basic": {
+      "note": "Group related actions. The group owns layout and visual union; each child owns its appearance and state."
+    },
+    "basic-horizontal": "Basic horizontal group",
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Component that groups related actions together with controlled layout and visual union.",
+    "full-width": "Full width",
+    "future-note": "Future components",
+    "future-note-text": "Button Group is not Segmented Control, Toggle Group, Split Button, or Dropdown Button. Segmented Control selects one option from a small set. Toggle Group controls on/off state. Split Button combines a primary action with a dropdown. Dropdown Button opens a menu. These are separate components/patterns that will be built in future releases.",
+    "horizontal-disabled": "Horizontal with disabled",
+    "installation": {
+      "note": "Install the single Solaris package and import the component."
+    },
+    "loading": "Loading state",
+    "mixed": "Mixed group (button + icon button)",
+    "mixed-note": "This is visual grouping only. Split button/dropdown behavior will be a separate component in the future.",
+    "orientation": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Props table coming soon, with the table component."
+    },
+    "section": {
+      "attached": "Attached",
+      "basic": "Basic",
+      "density": "Density",
+      "full-width": "Full width",
+      "installation": "Installation",
+      "mixed": "Mixed group",
+      "orientation": "Orientation",
+      "props": "Props",
+      "size-density": "Size and density",
+      "sizes": "Sizes",
+      "states": "States"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "The group size and density are forced onto every child, standardizing the outer height of each item."
+    },
+    "states": {
+      "note": "Disabled and loading belong to each child. The group only ensures correct layout."
+    },
+    "title": "Button group",
+    "vertical-icon": "Vertical icon group"
+  }
+}

@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.getAttribute('id') is the standard DOM API to check existing ID before generating one. Same approach used by Angular CDK form controls.
 import type { ElementRef } from '@angular/core';
 
 let nextId = 0;

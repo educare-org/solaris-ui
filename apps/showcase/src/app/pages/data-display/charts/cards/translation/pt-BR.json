@@ -1,0 +1,46 @@
+{
+  "chart-cards-view": {
+    "title": "Cards de Gráficos",
+    "description": "Receitas livres de chart-card para o Sales Report: componha slots do solaris-card com sparklines e gráficos. Prefira o chart-shell quando for preciso trocar visão, período ou legenda.",
+    "section": {
+      "recipes": "Receitas",
+      "pattern": "Padrão",
+      "installation": "Instalação",
+      "props": "Props"
+    },
+    "recipes": {
+      "note": "Três receitas do Sales Report sobre slots do solaris-card — sem novo componente wrapper. Cada receita combina o gráfico visual com uma tabela de totais para leitores de tela e impressão.",
+      "revenueTitle": "Receita (KPI)",
+      "revenueDescription": "Sales Report · 2026",
+      "revenueKpi": "R$ 1,2 mi",
+      "revenueDelta": "+12,4%",
+      "revenueSparkLabel": "Tendência de receita, em alta",
+      "channelsTitle": "Vendas por canal",
+      "channelsDescription": "T3 2026 · pedidos faturados",
+      "targetTitle": "Meta mensal",
+      "targetDescription": "Realizado vs meta · 2026",
+      "channelOnline": "Online",
+      "channelRetail": "Varejo",
+      "channelPartners": "Parceiros",
+      "listChannel": "Canal",
+      "listTotal": "Total",
+      "seriesActual": "Realizado",
+      "seriesGoal": "Meta"
+    },
+    "pattern": {
+      "note": "Chart-card livre = solaris-card (padding md) + slot de header (título, descrição) + slot de conteúdo (linha de KPI, gráfico, tabela de totais). O shell controla trocas (visão/período/legenda/exibição); o card livre controla layout. Nunca aninhe um chart-shell dentro de uma receita de chart-card — escolha um wrapper por card.",
+      "whenFree": "Use card livre para layouts fixos do Sales Report: KPI + sparkline, gráfico único + tabela, realizado vs meta.",
+      "whenShell": "Use chart-shell quando o usuário troca visões, períodos, modos de exibição ou alterna séries na legenda."
+    },
+    "installation": {
+      "note": "Instale o pacote e importe os componentes standalone de card e gráficos."
+    },
+    "props": {
+      "note": "O chart-card livre não tem API de componente: é uma composição documentada de slots do solaris-card. A tabela abaixo lista o contrato que cada receita segue.",
+      "colProp": "Slot",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Padrão"
+    }
+  }
+}

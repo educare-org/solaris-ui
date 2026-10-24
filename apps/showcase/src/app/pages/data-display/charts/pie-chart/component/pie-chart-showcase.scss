@@ -1,0 +1,44 @@
+.pie-chart-showcase__note {
+  margin: 0 0 var(--solaris-spacing-7);
+}
+
+.pie-chart-showcase__demo {
+  width: 100%;
+  display: grid;
+  gap: var(--solaris-spacing-7);
+}
+
+.pie-chart-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.pie-chart-showcase__log {
+  margin: 0;
+  min-height: var(--solaris-spacing-9);
+  font-size: var(--solaris-font-size-xs);
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-neutral-sunken);
+  color: var(--solaris-neutral-text-secondary);
+  font-family: var(--solaris-font-family-mono);
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5);
+}
+
+.pie-chart-showcase__detail {
+  display: grid;
+  gap: var(--solaris-spacing-5);
+}
+
+.pie-chart-showcase__detail-title {
+  margin: 0;
+  font-size: var(--solaris-font-size-sm);
+  color: var(--solaris-neutral-text-heading);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.pie-chart-showcase__table-wrap {
+  overflow-x: auto;
+}

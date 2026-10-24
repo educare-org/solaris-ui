@@ -1,0 +1,66 @@
+{
+  "sparkline-view": {
+    "description": "Mini linha de tendência sem rótulo para cards de KPI: cor semântica a partir da tendência, falhas ignoradas, sem teclado.",
+    "examples": {
+      "note": "Alta aparece como sucesso, queda como perigo. A direção também está no rótulo acessível — a cor nunca é o único sinal.",
+      "rising": "Usuários ativos",
+      "falling": "Evasão",
+      "risingLabel": "Tendência de usuários ativos, em alta",
+      "fallingLabel": "Tendência de evasão, em queda"
+    },
+    "kpis": {
+      "note": "Cards de indicador com delta e sparkline de tendência, migrados do shell de gráficos. O delta usa badge semântico; a direção também está no rótulo acessível do sparkline.",
+      "kpiUsers": "Usuários ativos",
+      "kpiChurn": "Evasão",
+      "deltaUsers": "+12,4%",
+      "deltaChurn": "-8,1%",
+      "usersLabel": "Tendência de usuários ativos, em alta",
+      "churnLabel": "Tendência de evasão, em queda é bom"
+    },
+    "gaps": {
+      "note": "Pontos nulos ou indefinidos interrompem a linha em vez de interpolar. Entrada vazia renderiza um quadro vazio que mantém seu rótulo."
+    },
+    "card": {
+      "note": "Trio de KPI sobre solaris-card: título, valor, badge de delta e sparkline. A cor do badge segue deltaDirection cruzado com positiveIsGood; a direção continua no rótulo acessível."
+    },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em matriz 3×3: sm reduz herói e canvas, lg amplia, md é o padrão. A densidade refina gaps de legenda e espessura do traço."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "density": {
+      "compact": "Compacta",
+      "normal": "Normal",
+      "comfortable": "Confortável"
+    },
+    "states": {
+      "note": "Dados vazios renderizam um quadro vazio com seu rótulo acessível. Sparklines não têm visuais de loading ou erro — o card de KPI é dono desses estados."
+    },
+    "installation": {
+      "note": "Instale o pacote e importe o componente standalone do sparkline."
+    },
+    "props": {
+      "note": "Entradas e padrões. Sparklines são apresentacionais: sem outputs, sem paradas de teclado, sem tooltip.",
+      "colProp": "Propriedade",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Padrão"
+    },
+    "section": {
+      "examples": "Exemplos",
+      "kpis": "Indicadores",
+      "card": "Cartão",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "density": "Densidade",
+      "gaps": "Falhas",
+      "states": "Estados",
+      "installation": "Instalação",
+      "props": "Props"
+    },
+    "title": "Sparkline"
+  }
+}

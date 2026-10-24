@@ -1,20 +1,24 @@
 <solaris-form-field
+  [control]="this"
   [hint]="hint()"
   [label]="label()"
   [radius]="radius()"
-  [density]="density()"
+  [density]="effectiveDensity()"
+  [size]="size()"
   [hintKey]="hintKey()"
   [labelKey]="labelKey()"
   [errorKey]="errorKey()"
-  [required]="required()"
+  [required]="requiredInput()"
   [optional]="optional()"
-  [readonly]="readonly()"
+  [readonly]="readonlyInput()"
   [appearance]="appearance()"
   [invalid]="isFieldInvalid()"
   [error]="error() || computedError()"
   [disabled]="isEffectivelyDisabled()"
+  [loading]="loading()"
   [hasPrefix]="hasPrefix()"
   [hasSuffix]="hasSuffix()"
+  [hasSuffixAction]="!!projectedSuffixAction()"
 >
   @if (prefix() && !projectedPrefix()) {
     <span solaris-form-prefix>
@@ -30,11 +34,13 @@
     #inputElement
     solaris-input
     data-bwignore="true"
-    [density]="density()"
+    [density]="effectiveDensity()"
+    [size]="size()"
     (blur)="onInputBlur()"
-    [readonly]="readonly()"
+    [readonly]="readonlyInput()"
     (focus)="onInputFocus()"
-    [attr.id]="id() ?? null"
+    [attr.id]="fieldId() ?? null"
+    [attr.aria-describedby]="ariaDescribedBy()"
     (input)="onInput($event)"
     [value]="internalValue()"
     [attr.inputmode]="'email'"
@@ -46,11 +52,28 @@
     [attr.maxlength]="maxLength() ?? null"
     [attr.placeholder]="placeholderText() || null"
   />
+  @if (canClear() && !loading()) {
+    <button
+      type="button"
+      solaris-form-suffix
+      class="solaris-email-field__clear"
+      [attr.aria-label]="clearAriaLabel()"
+      [disabled]="isEffectivelyDisabled() || readonlyInput()"
+      (click)="clearValue(); $event.stopPropagation()"
+      tabindex="-1"
+    >
+      <solaris-icon name="x" [decorative]="true" />
+    </button>
+  }
   @if (suffix() && !projectedSuffix()) {
     <span solaris-form-suffix>
       <solaris-icon [name]="suffix() ?? ''" [decorative]="true" />
     </span>
   }
+  <ng-content
+    select="[solaris-form-suffix][solaris-form-suffix-action]"
+    ngProjectAs="[solaris-form-suffix-action]"
+  />
   <ng-content
     select="[solaris-form-suffix]"
     ngProjectAs="[solaris-form-suffix]"

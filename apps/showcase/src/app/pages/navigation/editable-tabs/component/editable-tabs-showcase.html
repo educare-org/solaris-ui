@@ -1,0 +1,93 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="editableTabs.title"
+    descriptionKey="editableTabs.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="editableTabs.section.examples">
+    <p class="editable-tabs-showcase__note">
+      {{ 'editableTabs.examples.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-editable-tabs-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="management"
+    titleKey="editableTabs.section.management"
+  >
+    <p class="editable-tabs-showcase__note">
+      {{ 'editableTabs.management.note' | translate }}
+    </p>
+    <div class="editable-tabs-showcase__stack">
+      <solaris-preview-code [code]="renameCode" language="html">
+        <app-editable-tabs-rename-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="removeCode" language="html">
+        <app-editable-tabs-remove-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="moveCode" language="html">
+        <app-editable-tabs-move-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="defaultEventCode" language="html">
+        <app-editable-tabs-default-event-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="customActionsCode" language="html">
+        <app-editable-tabs-custom-actions-example />
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="features" titleKey="editableTabs.section.features">
+    <div class="editable-tabs-showcase__stack">
+      <solaris-preview-code [code]="iconsBadgesCode" language="html">
+        <app-editable-tabs-icons-badges-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="lockedCode" language="html">
+        <app-editable-tabs-locked-example />
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="layout" titleKey="editableTabs.section.layout">
+    <div class="editable-tabs-showcase__stack">
+      <solaris-preview-code [code]="verticalCode" language="html">
+        <app-editable-tabs-vertical-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="compactCode" language="html">
+        <app-editable-tabs-compact-example />
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="editableTabs.section.installation"
+  >
+    <p class="editable-tabs-showcase__note">
+      {{ 'editableTabs.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="editableTabs.section.props">
+    <p class="editable-tabs-showcase__note">
+      {{ 'editableTabs.props.note' | translate }}
+    </p>
+    <p class="editable-tabs-showcase__note">
+      {{ 'editableTabs.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

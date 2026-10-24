@@ -1,0 +1,60 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.translate-page {
+  @include layout.page;
+}
+
+.translate-page__header {
+  @include layout.header;
+}
+
+.translate-page__title {
+  @include layout.title;
+}
+
+.translate-page__description {
+  @include layout.description;
+}
+
+.translate-page__note {
+  @include layout.note;
+}
+
+.translate-page__card {
+  @include layout.section-card;
+}
+
+.translate-page__card-title {
+  @include layout.section-title;
+}
+
+.translate-page__subtitle {
+  @include layout.section-title;
+
+  font-size: var(--solaris-font-size-md);
+}
+
+.translate-page__row {
+  @include layout.row;
+}
+
+.translate-page__fact {
+  margin: var(--solaris-spacing-2) 0 0;
+  color: var(--solaris-neutral-text-body);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}
+
+.translate-page__api {
+  display: grid;
+  gap: var(--solaris-spacing-3);
+  margin: var(--solaris-spacing-4) 0 0;
+}
+
+.translate-page__snippet {
+  overflow-x: auto;
+  padding: var(--solaris-spacing-4);
+  color: var(--solaris-neutral-text-body);
+  background: var(--solaris-neutral-subtle);
+  border-radius: var(--solaris-radius-md);
+}

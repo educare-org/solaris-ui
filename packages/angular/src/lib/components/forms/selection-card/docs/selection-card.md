@@ -42,16 +42,16 @@ description, price, or icon.
 | `invalid`           | `boolean`                                                                            | `false`              | Applies invalid styling and `aria-invalid`.                 |
 | `appearance`        | `'surface' \| 'outline' \| 'tonal' \| 'glass'`                                       | `'surface'`          | Controls the unselected card surface.                       |
 | `color`             | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'`          | Semantic selected-state color.                              |
-| `size`              | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`               | Controls padding and indicator size.                        |
+| `size`              | `'sm' \| 'md' \| 'lg'`                                                               | inherited (`'md'`)   | Controls padding and indicator size (own → group → `'md'`). |
 | `radius`            | `'none' \| 'sm' \| 'lg' \| 'xl'`                                                     | `'lg'`               | Controls card radius.                                       |
-| `density`           | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited            | Controls spacing.                                           |
+| `density`           | `'compact' \| 'normal' \| 'comfortable'`                                             | inherited            | Controls spacing (own → group → theme).                     |
 | `ariaLabel`         | `string`                                                                             | `undefined`          | Accessible label when projected content is not textual.     |
 | `ariaLabelKey`      | `string`                                                                             | `undefined`          | Translation key for `ariaLabel`.                            |
 
-> Selection Card v2 ships with zero spacing by default (`padding`, `gap` and
-> section margins are `0`). `size` and `density` are the opt-in sources of
-> spacing. Header and footer separators default to `true`; set
-> `[separator]="false"` to remove them.
+> Selection Card spacing comes from the `size` × `density` matrix:
+> `density` drives `gap` + `padding`, `size` drives the indicator, dot,
+> media thumb, and the internal switch geometry. Header and footer
+> separators default to `true`; set `[separator]="false"` to remove them.
 
 | Output          | Type      | Description                    |
 | --------------- | --------- | ------------------------------ |
@@ -61,10 +61,53 @@ description, price, or icon.
 ## Visual Variants
 
 `size` adjusts padding and indicator dimensions. `density` inherits the theme
-unless provided, and `radius` controls the card surface shape. `color` controls
-the selected surface, border, indicator, and focus ring. The checked, disabled,
-readonly, and invalid states use the same token-driven visual language in every
-variant.
+(or the enclosing radio group) unless provided, and `radius` controls the card
+surface shape. `color` controls the selected surface, border, indicator, and
+focus ring. The checked, disabled, readonly, and invalid states use the same
+token-driven visual language in every variant.
+
+## Sizes
+
+Size and density combine into an explicit 3x3 matrix. The radio indicator
+grows with both: 16px (`sm` + `compact`/`normal`) up to 24px (`lg` +
+`comfortable`). The indicator dot follows size only (6px `sm`, 8px `md`,
+12px `lg`); `gap` + `padding` follow density only (2px/4px `compact`,
+4px/6px `normal`, 6px/8px `comfortable`).
+
+| Size | `compact` | `normal` | `comfortable` |
+| ---- | --------- | -------- | ------------- |
+| `sm` | 16px      | 16px     | 18px          |
+| `md` | 18px      | 20px     | 22px          |
+| `lg` | 20px      | 22px     | 24px          |
+
+Inside a Radio Group, `size` and `density` are inherited from the group
+unless the card sets its own — the same contract as `solaris-radio`
+(`SOLARIS_RADIO_GROUP`; the legacy `SOLARIS_RADIO_GROUP_NAME` keeps
+providing the native name).
+
+```html
+<solaris-radio-group size="lg" density="compact">
+  <!-- inherits lg + compact -->
+  <solaris-selection-card value="basic">Basic</solaris-selection-card>
+  <!-- own size wins over the group -->
+  <solaris-selection-card value="pro" size="sm">Pro</solaris-selection-card>
+</solaris-radio-group>
+```
+
+## Density
+
+| Density       | `gap` | `padding` |
+| ------------- | ----- | --------- |
+| `compact`     | 2px   | 4px       |
+| `normal`      | 4px   | 6px       |
+| `comfortable` | 6px   | 8px       |
+
+## Switch selection
+
+In `switch` mode the internal switch follows the P1 `solaris-switch`
+scale: the `md` card renders the `md` + `normal` switch geometry
+(20px track, 16px thumb), `sm`/`lg` cards render the `sm` +
+`compact` / `lg` + `normal` equivalents.
 
 ## Appearances
 
@@ -226,6 +269,7 @@ Outside a Radio Group, the component is a boolean ControlValueAccessor.
   selected border and surface styling.
 - Disabled cards use a native disabled input. Readonly cards preserve their
   value and expose `aria-readonly="true"`.
+- Required cards expose `aria-required="true"` on the native input.
 - Projected interactive elements are forbidden because the card is one radio
   target.
 

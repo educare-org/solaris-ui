@@ -518,14 +518,14 @@ describe('SolarisDialogContainerComponent', () => {
     it('should reflect custom radius, density and separators on host', () => {
       const fixture = createSimpleFixture({
         title: 'Test',
-        radius: 'full',
+        radius: 'xl',
         density: 'comfortable',
         headerSeparator: false,
         footerSeparator: false,
       });
       const hostEl = fixture.nativeElement as HTMLElement;
 
-      expect(hostEl.getAttribute('data-radius')).toBe('full');
+      expect(hostEl.getAttribute('data-radius')).toBe('xl');
       expect(hostEl.getAttribute('data-density')).toBe('comfortable');
       expect(hostEl.getAttribute('data-header-separator')).toBeNull();
       expect(hostEl.getAttribute('data-footer-separator')).toBeNull();

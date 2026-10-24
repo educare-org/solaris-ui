@@ -1,0 +1,377 @@
+:host {
+  --solaris-bar-chart-bar-radius: var(--solaris-radius-sm);
+  --solaris-bar-chart-label-size: var(--solaris-font-size-2xs);
+  --solaris-bar-chart-tooltip-radius: var(--solaris-radius-md);
+  --solaris-bar-chart-tooltip-shadow: var(--solaris-shadow-sm);
+  --solaris-bar-chart-tooltip-color: var(--solaris-neutral-text-body);
+  --solaris-bar-chart-grid-color: var(--solaris-neutral-border-default);
+  --solaris-bar-chart-label-color: var(--solaris-neutral-text-secondary);
+  --solaris-bar-chart-tooltip-background: var(--solaris-neutral-default);
+  --solaris-bar-chart-tooltip-border-color: var(
+    --solaris-neutral-border-default
+  );
+
+  display: block;
+}
+
+:host([data-size='sm']) {
+  --solaris-bar-chart-label-size: var(--solaris-font-size-3xs);
+}
+
+:host([data-size='lg']) {
+  --solaris-bar-chart-label-size: var(--solaris-font-size-xs);
+}
+
+:host([data-density='compact']) .solaris-bar-chart__empty {
+  min-height: 120px;
+  gap: var(--solaris-spacing-1);
+}
+
+:host([data-density='comfortable']) .solaris-bar-chart__empty {
+  min-height: 200px;
+  gap: var(--solaris-spacing-3);
+}
+
+.solaris-bar-chart__frame {
+  position: relative;
+  overflow-x: auto;
+}
+
+.solaris-bar-chart__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  shape-rendering: geometricprecision;
+}
+
+.solaris-bar-chart__svg[hidden] {
+  display: none;
+}
+
+.solaris-bar-chart__grid,
+.solaris-bar-chart__tick,
+.solaris-bar-chart__reference,
+.solaris-bar-chart__reference-label {
+  animation: solaris-bar-chart-fade-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+.solaris-bar-chart__grid {
+  stroke: var(--solaris-bar-chart-grid-color);
+  stroke-width: 1;
+}
+
+.solaris-bar-chart__reference {
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
+.solaris-bar-chart__tick {
+  fill: var(--solaris-bar-chart-label-color);
+  font-size: var(--solaris-bar-chart-label-size);
+  transition: fill var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-bar-chart__reference-label {
+  font-size: var(--solaris-bar-chart-label-size);
+}
+
+.solaris-bar-chart__bar {
+  cursor: pointer;
+
+  // NOTE: the per-bar transition-delay bound in the template lists delays in
+  // this same property order so that only the `d` transition is staggered.
+  transition:
+    fill var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    filter var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    d var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+  animation: solaris-bar-chart-bar-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+  transform-box: fill-box;
+  transform-origin: bottom;
+}
+
+:host([data-orientation='horizontal']) .solaris-bar-chart__bar {
+  transform-origin: left;
+  animation-name: solaris-bar-chart-bar-enter-horizontal;
+}
+
+.solaris-bar-chart__bar:hover {
+  filter: brightness(1.07);
+}
+
+.solaris-bar-chart__bar[data-active] {
+  opacity: var(--solaris-opacity-90);
+}
+
+.solaris-bar-chart__bar[data-dimmed] {
+  opacity: var(--solaris-opacity-40);
+  filter: brightness(0.72);
+}
+
+// While collapsing bars to the baseline on layout/orientation switches,
+// transitions are disabled so the zero state applies instantly; the regrow
+// to the new geometry then animates through the regular `d` transition.
+:host([data-morphing]) .solaris-bar-chart__bar {
+  transition: none;
+}
+
+.solaris-bar-chart__axis-hit {
+  fill: transparent;
+  pointer-events: all;
+}
+
+.solaris-bar-chart__tick--category {
+  cursor: default;
+}
+
+.solaris-bar-chart__tick--category[data-active] {
+  fill: var(--solaris-neutral-text-body);
+}
+
+.solaris-bar-chart__value {
+  fill: var(--solaris-bar-chart-label-color);
+  font-size: var(--solaris-bar-chart-label-size);
+  pointer-events: none;
+  animation: solaris-bar-chart-fade-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+.solaris-bar-chart__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--solaris-spacing-2);
+  min-height: 160px;
+  padding: var(--solaris-spacing-6) var(--solaris-spacing-5);
+  text-align: center;
+}
+
+.solaris-bar-chart__empty-title {
+  margin: 0;
+  color: var(--solaris-neutral-text-heading);
+  font-size: var(--solaris-font-size-xs);
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.solaris-bar-chart__empty-message {
+  margin: 0;
+  color: var(--solaris-bar-chart-label-color);
+  font-size: var(--solaris-bar-chart-label-size);
+}
+
+@keyframes solaris-bar-chart-bar-enter {
+  from {
+    opacity: 0;
+    transform: scaleY(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes solaris-bar-chart-bar-enter-horizontal {
+  from {
+    opacity: 0;
+    transform: scaleX(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes solaris-bar-chart-fade-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.solaris-bar-chart__selection-guide {
+  opacity: var(--solaris-opacity-60);
+  transform-box: view-box;
+  pointer-events: none;
+  transition:
+    x var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    y var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    width var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    height var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    transform var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-decelerate);
+}
+
+:host([data-orientation='vertical']) .solaris-bar-chart__selection-guide {
+  transform-origin: bottom;
+}
+
+:host([data-orientation='vertical'])
+  .solaris-bar-chart__selection-guide[data-hidden] {
+  opacity: 0;
+  transform: scaleY(0);
+}
+
+:host([data-orientation='horizontal']) .solaris-bar-chart__selection-guide {
+  transform-origin: left;
+}
+
+:host([data-orientation='horizontal'])
+  .solaris-bar-chart__selection-guide[data-hidden] {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.solaris-bar-chart__bar:focus {
+  outline: none;
+}
+
+.solaris-bar-chart__bar:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-bar-chart__tooltip {
+  top: 0;
+  position: absolute;
+  pointer-events: none;
+  transform: translateX(-50%);
+  z-index: var(--solaris-z-index-content);
+  max-width: calc(100% - var(--solaris-spacing-7));
+}
+
+.solaris-bar-chart__tooltip-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  min-width: var(--solaris-spacing-16);
+  width: max-content;
+  max-width: 100%;
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-bar-chart-tooltip-border-color);
+  border-radius: var(--solaris-bar-chart-tooltip-radius);
+  background: var(--solaris-bar-chart-tooltip-background);
+  color: var(--solaris-bar-chart-tooltip-color);
+  box-shadow: var(--solaris-bar-chart-tooltip-shadow);
+  font-size: var(--solaris-bar-chart-label-size);
+  animation: solaris-motion-tooltip-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+.solaris-bar-chart__tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-4);
+  white-space: nowrap;
+}
+
+.solaris-bar-chart__tooltip-label {
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.solaris-bar-chart__tooltip-heading {
+  font-weight: var(--solaris-font-weight-semibold);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.solaris-bar-chart__tooltip-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--solaris-spacing-5);
+}
+
+.solaris-bar-chart__tooltip-dot {
+  width: var(--solaris-spacing-4);
+  height: var(--solaris-spacing-4);
+  border-radius: var(--solaris-radius-full);
+  flex: none;
+}
+
+.solaris-bar-chart__tooltip-value {
+  margin-inline-start: auto;
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.solaris-bar-chart__tooltip-total {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-4);
+  white-space: nowrap;
+  font-weight: var(--solaris-font-weight-bold);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.solaris-bar-chart__tooltip-total-label {
+  color: var(--solaris-neutral-text-secondary);
+  font-weight: var(--solaris-font-weight-regular);
+}
+
+.solaris-bar-chart__data {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  clip-path: inset(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-bar-chart__bar,
+  .solaris-bar-chart__grid,
+  .solaris-bar-chart__tick,
+  .solaris-bar-chart__value,
+  .solaris-bar-chart__reference,
+  .solaris-bar-chart__reference-label,
+  .solaris-bar-chart__selection-guide,
+  .solaris-bar-chart__tooltip-card {
+    transition: none;
+    animation: none;
+  }
+}
+
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. Print must stay ink-safe on every theme (including dark and
+// high-contrast): theme tokens resolve to dark surfaces there, so the print
+// baseline pins paper #fff / ink #000. Screen rendering is untouched.
+@media print {
+  .solaris-bar-chart__frame {
+    overflow-x: visible;
+  }
+
+  .solaris-bar-chart__tooltip {
+    display: none;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper host for the chart area.
+  .solaris-bar-chart__svg {
+    background: #fff;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): ink for axis text on paper.
+  .solaris-bar-chart__tick,
+  .solaris-bar-chart__reference-label {
+    fill: #000;
+  }
+}

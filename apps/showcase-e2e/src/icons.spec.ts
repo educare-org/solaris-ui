@@ -13,13 +13,20 @@ test.describe('Icons', () => {
   });
 
   test('lists all built-in icons', async () => {
-    await expect(icons.gridItems()).toHaveCount(178);
+    await expect(icons.gridItems()).toHaveCount(209);
   });
 
   test('filters icons by search', async () => {
     await icons.search('bookmark');
-    await expect(icons.gridItems()).toHaveCount(1);
+    await expect(icons.gridItems()).toHaveCount(2);
     await expect(icons.iconItem('bookmark')).toBeVisible();
+  });
+
+  test('finds icons by keyword in another language', async () => {
+    await icons.search('save');
+    await expect(icons.gridItems()).toHaveCount(2);
+    await expect(icons.iconItem('bookmark')).toBeVisible();
+    await expect(icons.iconItem('save')).toBeVisible();
   });
 
   test('shows empty state when no icon matches', async () => {
@@ -45,7 +52,7 @@ test.describe('Icons', () => {
 
   test('filters icons by brands category', async () => {
     await icons.category('Brands').click();
-    await expect(icons.gridItems()).toHaveCount(5);
+    await expect(icons.gridItems()).toHaveCount(7);
     await expect(icons.iconItem('google')).toBeVisible();
     await expect(icons.iconItem('microsoft')).toBeVisible();
     await expect(icons.iconItem('github')).toBeVisible();
@@ -65,10 +72,10 @@ test.describe('Icons', () => {
     await icons.colorSwatch('Primary').click();
 
     const icon = icons.itemIcon('check');
-    await expect(icon).toHaveCSS('color', 'rgb(106, 159, 255)');
+    await expect(icon).toHaveCSS('color', 'rgb(63, 93, 202)');
     await expect(icons.colorPicker()).toHaveCSS(
       'background-color',
-      'rgb(106, 159, 255)',
+      'rgb(63, 93, 202)',
     );
   });
 
@@ -106,7 +113,7 @@ test.describe('Icons', () => {
     await icons.colorSwatch('Inherit').click();
 
     const icon = icons.itemIcon('check');
-    await expect(icon).not.toHaveCSS('color', 'rgb(106, 159, 255)');
+    await expect(icon).not.toHaveCSS('color', 'rgb(63, 93, 202)');
   });
 
   test('reveals usage snippet and copies it on click', async ({
@@ -157,24 +164,24 @@ test.describe('Icons', () => {
     });
   });
 
-  test('usage sheet is fixed to the bottom of the viewport with spacing', async () => {
+  test('usage dialog is centered with spacing', async () => {
     await icons.iconItem('check').click();
     const panel = icons.usagePanel();
     await expect(panel).toBeVisible();
 
     const box = await panel.boundingBox();
     expect(box).not.toBeNull();
-    expect(box!.width).toBeLessThanOrEqual(640);
+    expect(box!.width).toBeLessThanOrEqual(720);
 
     const viewport = await icons.page.viewportSize();
-    expect(box!.y + box!.height).toBeLessThanOrEqual(viewport!.height);
-    expect(box!.y + box!.height).toBeLessThan(viewport!.height - 8);
+    expect(box!.x).toBeGreaterThan(0);
+    expect(box!.x + box!.width).toBeLessThanOrEqual(viewport!.width);
   });
 
-  test('usage sheet disables the backdrop', async () => {
+  test('usage dialog enables the backdrop', async () => {
     await icons.iconItem('check').click();
     const container = icons.usageDialogContainer();
-    await expect(container).toHaveAttribute('data-backdrop', 'false');
+    await expect(container).toHaveAttribute('data-backdrop', 'true');
   });
 
   test('usage sheet shows a square preview beside the title', async () => {
@@ -207,23 +214,53 @@ test.describe('Icons', () => {
     await expect(icons.usageSheet()).toHaveCount(0);
   });
 
-  test('page remains scrollable while the usage sheet is open', async () => {
+  test('locks background scroll while the usage dialog is open', async () => {
     await icons.iconItem('check').click();
     await expect(icons.usageSheet()).toBeVisible();
 
     await icons.page.evaluate(() => window.scrollBy(0, 200));
     const scrollY = await icons.page.evaluate(() => window.scrollY);
-    expect(scrollY).toBeGreaterThan(0);
+    expect(scrollY).toBe(0);
   });
 
-  test('clicking multiple icons opens a single usage sheet', async () => {
+  test('selecting another icon updates the single usage sheet', async () => {
     await icons.iconItem('chevron-down').click();
-    await icons.iconItem('chevron-left').click();
+    await expect(icons.usageSnippet()).toHaveText(
+      '<solaris-icon name="chevron-down" />',
+    );
+
+    await icons.usageCloseButton().click();
     await icons.iconItem('chevron-right').click();
 
     await expect(icons.usageSheet()).toHaveCount(1);
     await expect(icons.usageSnippet()).toHaveText(
       '<solaris-icon name="chevron-right" />',
     );
+  });
+
+  test('switching variant keeps all icons visible without badges', async () => {
+    await icons.variantTab('Solid').click();
+    await expect(icons.iconItem('bookmark')).toBeVisible();
+    await expect(icons.iconItem('chart-spline')).toBeVisible();
+
+    await icons.variantTab('Outline').click();
+    await expect(icons.iconItem('bookmark')).toBeVisible();
+  });
+
+  test('stroke customizer changes stroke width', async () => {
+    await icons.strokeSlider().fill('3');
+
+    await expect(icons.itemSvg('check')).toHaveAttribute('stroke-width', '3');
+  });
+
+  test('usage dialog offers angular and svg snippets', async () => {
+    await icons.iconItem('check').click();
+
+    await expect(icons.usageSnippet()).toHaveText(
+      '<solaris-icon name="check" />',
+    );
+    const svg = await icons.svgSnippet().textContent();
+    expect(svg).toContain('<svg');
+    expect(svg).toContain('viewBox="0 0 24 24"');
   });
 });

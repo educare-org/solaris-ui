@@ -1,0 +1,42 @@
+/// Solaris UI — Control height tokens.
+///
+/// Deterministic heights for every size x density combination, forming a
+/// chained ladder from 28px to 52px in 4px steps: the `sm` of a denser
+/// scale always equals the `lg` of the previous one
+/// (`compact-lg` = `normal-sm` = 36px, `normal-lg` = `comfortable-sm` = 44px).
+///
+/// The ladder measures the control's outer box (what devtools reports for
+/// the host element). It holds because segmented controls render their
+/// container padding at zero, so outer height always equals item height:
+/// keep `--solaris-segmented-control-container-padding: 0` on every
+/// size x density combination or the outer box drifts above the token.
+///
+/// `md` is the base of each density and always matches that density's
+/// `min-height`, so a default (`md`) control aligns with sibling controls
+/// that only consume `--solaris-density-min-height` (form fields, buttons,
+/// selection cards, OTP boxes). This is the contract every component must
+/// follow: the rendered outer height of any size x density combination
+/// must equal its token below, whether the component references the token
+/// directly or arrives at the same value through its own padding and
+/// content math.
+///
+/// Referencing rule: always use the token of your own combination, even
+/// when values coincide across densities (e.g. `normal-sm`, never
+/// `compact-lg`, for a `normal` + `sm` control). Value coincidences are
+/// alignment features, not aliases.
+///
+/// compact:     sm 28px | md 32px | lg 36px
+/// normal:      sm 36px | md 40px | lg 44px
+/// comfortable: sm 44px | md 48px | lg 52px
+
+:root {
+  --solaris-control-height-compact-sm: 28px;
+  --solaris-control-height-compact-md: 32px;
+  --solaris-control-height-compact-lg: 36px;
+  --solaris-control-height-normal-sm: 36px;
+  --solaris-control-height-normal-md: 40px;
+  --solaris-control-height-normal-lg: 44px;
+  --solaris-control-height-comfortable-sm: 44px;
+  --solaris-control-height-comfortable-md: 48px;
+  --solaris-control-height-comfortable-lg: 52px;
+}

@@ -1,0 +1,18 @@
+@if (!suppressed()) {
+  <solaris-alert
+    [variant]="variant()"
+    [appearance]="appearance()"
+    [radius]="radius()"
+    [size]="size()"
+    [density]="density()"
+    [closable]="closable()"
+    [showIcon]="showIcon()"
+    [icon]="icon()"
+    [textPosition]="textPosition()"
+    live="off"
+    [closeLabel]="closeButtonLabel()"
+    (dismissed)="handleDismiss()"
+  >
+    <ng-content />
+  </solaris-alert>
+}

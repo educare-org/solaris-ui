@@ -1,0 +1,14 @@
+{
+  "solaris": {
+    "dataDisplay": {
+      "gradebook": {
+        "editorLabel": "Editar calificación",
+        "status": {
+          "excused": "Justificada",
+          "late": "Atrasada",
+          "missing": "Faltante"
+        }
+      }
+    }
+  }
+}

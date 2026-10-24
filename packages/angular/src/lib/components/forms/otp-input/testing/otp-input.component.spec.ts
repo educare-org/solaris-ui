@@ -4,6 +4,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { SolarisOtpInputComponent } from '../component/otp-input.component';
+import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
+import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
 
 @Component({
@@ -117,6 +119,13 @@ describe('SolarisOtpInputComponent', () => {
       const { fixture } = await setup(BasicHost);
       const host = fixture.debugElement.query(By.css('solaris-otp-input'));
       expect(host.nativeElement.getAttribute('data-density')).toBeTruthy();
+    });
+
+    it('has default radius md reflected on the host', async () => {
+      const { fixture, component } = await setup(BasicHost);
+      expect(component.radius()).toBe('md');
+      const host = fixture.debugElement.query(By.css('solaris-otp-input'));
+      expect(host.nativeElement.getAttribute('data-radius')).toBe('md');
     });
   });
 
@@ -247,6 +256,98 @@ describe('SolarisOtpInputComponent', () => {
     it('disables all boxes', async () => {
       const { boxes } = await setup(DisabledHost);
       expect(boxes.every((b) => b.disabled)).toBe(true);
+    });
+  });
+
+  describe('form-field repasse (P4 Lote C)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisOtpInputComponent, ReactiveFormsModule],
+      template: `<solaris-otp-input
+        label="Code"
+        [maxLength]="4"
+        size="lg"
+        density="compact"
+        radius="md"
+        appearance="filled"
+      ></solaris-otp-input>`,
+    })
+    class RepasseHost {}
+
+    it('forwards size, density, radius and appearance to the inner form field', async () => {
+      const { fixture } = await setup(RepasseHost);
+      const field = fixture.nativeElement.querySelector(
+        'solaris-otp-input solaris-form-field',
+      ) as HTMLElement;
+      expect(field.getAttribute('data-size')).toBe('lg');
+      expect(field.getAttribute('data-density')).toBe('compact');
+      expect(field.getAttribute('data-radius')).toBe('md');
+      expect(field.getAttribute('data-appearance')).toBe('filled');
+    });
+
+    it('keeps default radius md on the host', async () => {
+      const { fixture } = await setup(BasicHost);
+      const host = fixture.nativeElement.querySelector(
+        'solaris-otp-input',
+      ) as HTMLElement;
+      expect(host.getAttribute('data-radius')).toBe('md');
+    });
+
+    it('forwards loading to the inner form field and disables boxes', async () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisOtpInputComponent, ReactiveFormsModule],
+        template: `<solaris-otp-input
+          label="Code"
+          [maxLength]="4"
+          [loading]="true"
+        ></solaris-otp-input>`,
+      })
+      class LoadingHost {}
+      const { fixture } = await setup(LoadingHost);
+      const field = fixture.nativeElement.querySelector(
+        'solaris-otp-input solaris-form-field',
+      ) as HTMLElement;
+      expect(field.hasAttribute('data-loading')).toBe(true);
+      const boxes = Array.from(
+        fixture.nativeElement.querySelectorAll(
+          '.solaris-otp-input__box',
+        ) as NodeListOf<HTMLInputElement>,
+      );
+      expect(boxes.length).toBe(4);
+      expect(boxes.every((b) => b.disabled)).toBe(true);
+    });
+
+    it('projects suffix-action into the action variant (P5 B/C)', async () => {
+      @Component({
+        standalone: true,
+        imports: [
+          SolarisOtpInputComponent,
+          ReactiveFormsModule,
+          SolarisFormSuffixDirective,
+          SolarisFormSuffixActionDirective,
+        ],
+        template: `<solaris-otp-input label="Code" [maxLength]="4">
+          <button
+            type="button"
+            solaris-form-suffix
+            solaris-form-suffix-action
+            aria-label="Resend"
+          >
+            Resend
+          </button>
+        </solaris-otp-input>`,
+      })
+      class SuffixActionHost {}
+      const { fixture } = await setup(SuffixActionHost);
+      const field = fixture.nativeElement.querySelector(
+        'solaris-otp-input solaris-form-field',
+      ) as HTMLElement;
+      const affix = field.querySelector(
+        '.solaris-form-field__affix--suffix',
+      ) as HTMLElement;
+      expect(affix.getAttribute('data-variant')).toBe('action');
+      expect(affix.querySelector('[solaris-form-suffix-action]')).toBeTruthy();
     });
   });
 });

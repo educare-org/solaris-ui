@@ -1,0 +1,173 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="chart-cards-view.title"
+    descriptionKey="chart-cards-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="recipes"
+    titleKey="chart-cards-view.section.recipes"
+  >
+    <p class="chart-cards-showcase__note">
+      {{ 'chart-cards-view.recipes.note' | translate }}
+    </p>
+
+    <h3 class="chart-cards-showcase__recipe-title">
+      {{ 'chart-cards-view.recipes.revenueTitle' | translate }}
+    </h3>
+    <solaris-preview-code
+      [code]="revenueCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <solaris-card padding="md">
+        <div solaris-card-header [separator]="false">
+          <h3 solaris-card-title>
+            {{ 'chart-cards-view.recipes.revenueTitle' | translate }}
+          </h3>
+          <p solaris-card-description>
+            {{ 'chart-cards-view.recipes.revenueDescription' | translate }}
+          </p>
+        </div>
+        <div solaris-card-content>
+          <div class="chart-cards-showcase__kpi">
+            <span class="chart-cards-showcase__kpi-value">
+              {{ 'chart-cards-view.recipes.revenueKpi' | translate }}
+            </span>
+            <solaris-badge color="success" size="sm">
+              {{ 'chart-cards-view.recipes.revenueDelta' | translate }}
+            </solaris-badge>
+          </div>
+          <solaris-sparkline
+            [points]="revenueSpark"
+            [ariaLabel]="'chart-cards-view.recipes.revenueSparkLabel' | translate"
+          />
+        </div>
+      </solaris-card>
+    </solaris-preview-code>
+
+    <h3 class="chart-cards-showcase__recipe-title">
+      {{ 'chart-cards-view.recipes.channelsTitle' | translate }}
+    </h3>
+    <solaris-preview-code
+      [code]="channelsCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <solaris-card padding="md">
+        <div solaris-card-header [separator]="false">
+          <h3 solaris-card-title>
+            {{ 'chart-cards-view.recipes.channelsTitle' | translate }}
+          </h3>
+          <p solaris-card-description>
+            {{ 'chart-cards-view.recipes.channelsDescription' | translate }}
+          </p>
+        </div>
+        <div solaris-card-content>
+          <solaris-bar-chart
+            locale="pt-BR"
+            [series]="channelSeries()"
+            [xLabels]="['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']"
+          />
+          <table class="chart-cards-showcase__table">
+            <caption>
+              {{ 'chart-cards-view.recipes.channelsTitle' | translate }}
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">
+                  {{ 'chart-cards-view.recipes.listChannel' | translate }}
+                </th>
+                <th scope="col">
+                  {{ 'chart-cards-view.recipes.listTotal' | translate }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of channelTotals(); track row.id) {
+              <tr>
+                <th scope="row">{{ row.label }}</th>
+                <td>{{ row.total }}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </solaris-card>
+    </solaris-preview-code>
+
+    <h3 class="chart-cards-showcase__recipe-title">
+      {{ 'chart-cards-view.recipes.targetTitle' | translate }}
+    </h3>
+    <solaris-preview-code
+      [code]="targetCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <solaris-card padding="md">
+        <div solaris-card-header [separator]="false">
+          <h3 solaris-card-title>
+            {{ 'chart-cards-view.recipes.targetTitle' | translate }}
+          </h3>
+          <p solaris-card-description>
+            {{ 'chart-cards-view.recipes.targetDescription' | translate }}
+          </p>
+        </div>
+        <div solaris-card-content>
+          <solaris-line-chart
+            locale="pt-BR"
+            [series]="targetSeries()"
+            [referenceLines]="targetReference"
+          />
+        </div>
+      </solaris-card>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="pattern"
+    titleKey="chart-cards-view.section.pattern"
+  >
+    <p class="chart-cards-showcase__note">
+      {{ 'chart-cards-view.pattern.note' | translate }}
+    </p>
+    <ul class="chart-cards-showcase__rules">
+      <li>{{ 'chart-cards-view.pattern.whenFree' | translate }}</li>
+      <li>{{ 'chart-cards-view.pattern.whenShell' | translate }}</li>
+    </ul>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="chart-cards-view.section.installation"
+  >
+    <p class="chart-cards-showcase__note">
+      {{ 'chart-cards-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block [code]="importCode" language="ts" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="chart-cards-view.section.props">
+    <p class="chart-cards-showcase__note">
+      {{ 'chart-cards-view.props.note' | translate }}
+    </p>
+    <div class="chart-cards-showcase__table-wrap">
+      <solaris-table
+        [data]="propsRows"
+        [columns]="propsColumns()"
+        rowId="prop"
+        appearance="soft"
+      />
+    </div>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

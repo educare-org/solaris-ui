@@ -1,0 +1,16 @@
+{
+  "solaris": {
+    "navigation": {
+      "pagination": {
+        "ariaLabel": "Paginação",
+        "firstPage": "Primeira página",
+        "lastPage": "Última página",
+        "nextPage": "Próxima página",
+        "previousPage": "Página anterior",
+        "rangeLabel": "{{start}}–{{end}} de {{total}}",
+        "rangeLabelCompact": "{{start}}–{{end}}",
+        "rowsPerPageLabel": "Linhas por página"
+      }
+    }
+  }
+}

@@ -27,6 +27,7 @@ import type {
   SolarisStepperDensity,
   SolarisStepperContentTransition,
   SolarisStepperChangeEvent,
+  SolarisStepperBlockedEvent,
 } from '../model/stepper.types';
 
 @Component({
@@ -77,6 +78,7 @@ export class SolarisStepperComponent implements SolarisStepperControl {
   readonly activeIndexChange = output<number>();
   readonly stepChange = output<SolarisStepperChangeEvent>();
   readonly stepClick = output<{ index: number; label: string | undefined }>();
+  readonly stepBlocked = output<SolarisStepperBlockedEvent>();
 
   readonly effectiveDensity = computed(() => {
     return this.density() ?? this.themeService.density;
@@ -116,9 +118,27 @@ export class SolarisStepperComponent implements SolarisStepperControl {
     const step = this.steps()[index];
     if (!step) return;
     if (step.computedStatus() === 'disabled') return;
+
+    const from = this.activeIndex();
+    if (index !== from) {
+      const canEnterFn = step.canEnter();
+      if (canEnterFn && !canEnterFn()) {
+        this.stepBlocked.emit({ index, from, reason: 'enter' });
+        return;
+      }
+      const current = this.steps()[from];
+      const canExitFn = current?.canExit();
+      if (canExitFn && !canExitFn()) {
+        this.stepBlocked.emit({ index, from, reason: 'exit' });
+        return;
+      }
+    }
+
+    const status = step.computedStatus();
     if (
       this.linear() &&
-      step.computedStatus() !== 'completed' &&
+      status !== 'completed' &&
+      status !== 'warning' &&
       index !== this.activeIndex()
     )
       return;

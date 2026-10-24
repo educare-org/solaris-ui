@@ -1,0 +1,19 @@
+{
+  "solaris": {
+    "multiSelect": {
+      "clear": "Borrar selección",
+      "empty": "No hay opciones disponibles",
+      "loading": "Cargando...",
+      "noResults": "No se encontraron resultados",
+      "removeChip": "Quitar",
+      "search": {
+        "placeholder": "Buscar..."
+      },
+      "selectAll": "Seleccionar todo",
+      "selectedCount": {
+        "plural": "{{ count }} seleccionados",
+        "singular": "1 seleccionado"
+      }
+    }
+  }
+}

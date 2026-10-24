@@ -4,3 +4,6 @@
 /.nx/cache
 /.nx/workspace-data
 .angular
+# Whitespace-sensitive Angular templates (white-space: pre): formatting injects
+# text nodes that render literally and breaks code layout
+packages/angular/src/lib/components/data-display/code-block/component/code-block.component.html

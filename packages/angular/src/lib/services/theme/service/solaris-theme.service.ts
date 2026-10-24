@@ -1,10 +1,11 @@
-// SECURITY_EXCEPTION_FILE: getComputedStyle(document.documentElement) reads the --solaris-density-default CSS custom property set by the theme() SCSS mixin. This is the only way to connect SCSS-configured density to the runtime; it is SSR-safe via the injected DOCUMENT token and isPlatformBrowser guard.
 import { Injectable, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID, DOCUMENT } from '@angular/core';
 
 import type { SolarisDensity } from '../model/solaris-theme.types';
 import { SOLARIS_THEME_CONFIG } from '../token/solaris-theme.tokens';
+
+export const SOLARIS_DENSITY_DEFAULT_ATTRIBUTE = 'data-density-default';
 
 const DENSITIES: ReadonlySet<string> = new Set([
   'compact',
@@ -27,14 +28,28 @@ export class SolarisThemeService {
     if (explicit) {
       return explicit;
     }
-    return this.readDensityDefault() ?? 'normal';
+    return (
+      this.readDensityDefaultAttribute() ??
+      this.readDensityDefaultCss() ??
+      'normal'
+    );
   }
 
   get reducedMotion(): string {
     return this.config?.reducedMotion ?? 'auto';
   }
 
-  private readDensityDefault(): SolarisDensity | null {
+  private readDensityDefaultAttribute(): SolarisDensity | null {
+    const value = this.document.documentElement
+      .getAttribute(SOLARIS_DENSITY_DEFAULT_ATTRIBUTE)
+      ?.trim();
+    if (value && DENSITIES.has(value)) {
+      return value as SolarisDensity;
+    }
+    return null;
+  }
+
+  private readDensityDefaultCss(): SolarisDensity | null {
     if (!isPlatformBrowser(this.platformId)) {
       return null;
     }

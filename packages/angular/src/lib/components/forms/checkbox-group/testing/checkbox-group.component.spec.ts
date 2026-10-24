@@ -247,6 +247,19 @@ describe('SolarisCheckboxGroupComponent CVA', () => {
     ) as HTMLElement;
     expect(el.hasAttribute('data-disabled')).toBe(false);
   });
+
+  it('setCvaReadonlyState should toggle group readonly', () => {
+    const { groupComp } = setup();
+    groupComp.setCvaReadonlyState(true);
+    hostFixture!.detectChanges();
+    const el = hostFixture!.nativeElement.querySelector(
+      'solaris-checkbox-group',
+    ) as HTMLElement;
+    expect(el.hasAttribute('data-readonly')).toBe(true);
+    groupComp.setCvaReadonlyState(false);
+    hostFixture!.detectChanges();
+    expect(el.hasAttribute('data-readonly')).toBe(false);
+  });
 });
 
 describe('SolarisCheckboxGroupComponent value management', () => {
@@ -1027,5 +1040,103 @@ describe('SolarisCheckboxGroupComponent public API surface', () => {
     const focusSpy = vi.spyOn(checkbox, 'focus');
     group.focus();
     expect(focusSpy).toHaveBeenCalled();
+  });
+});
+
+describe('SolarisCheckboxGroupComponent size and inheritance', () => {
+  let fixture: ComponentFixture<SolarisCheckboxGroupComponent>;
+
+  const createFixture = () => {
+    configureSolarisTesting();
+    fixture = TestBed.createComponent(SolarisCheckboxGroupComponent);
+    fixture.detectChanges();
+    return fixture.nativeElement;
+  };
+
+  it('should have default size md', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-size')).toBe('md');
+  });
+
+  it('should apply size sm', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-size')).toBe('sm');
+  });
+
+  it('should propagate size and density to children through the token', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisCheckboxGroupComponent, SolarisCheckboxComponent],
+      template: `
+        <solaris-checkbox-group size="lg" density="compact">
+          <solaris-checkbox value="a">A</solaris-checkbox>
+          <solaris-checkbox value="b">B</solaris-checkbox>
+        </solaris-checkbox-group>
+      `,
+    })
+    class InheritanceHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(InheritanceHost);
+    hostFixture.detectChanges();
+    const children = hostFixture.nativeElement.querySelectorAll(
+      '.solaris-checkbox-group__options solaris-checkbox',
+    );
+    expect(children.length).toBe(2);
+    expect(children[0].getAttribute('data-size')).toBe('lg');
+    expect(children[0].getAttribute('data-density')).toBe('compact');
+    expect(children[1].getAttribute('data-size')).toBe('lg');
+    expect(children[1].getAttribute('data-density')).toBe('compact');
+  });
+
+  it('should expose aria-required on the host when required', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('required', true);
+    fixture.detectChanges();
+    expect(el.getAttribute('aria-required')).toBe('true');
+  });
+
+  it('should render the required marker next to the group label', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisCheckboxGroupComponent, SolarisCheckboxComponent],
+      template: `
+        <solaris-checkbox-group label="Interests" [required]="true">
+          <solaris-checkbox value="a">A</solaris-checkbox>
+        </solaris-checkbox-group>
+      `,
+    })
+    class RequiredLabelHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(RequiredLabelHost);
+    hostFixture.detectChanges();
+    const marker = (hostFixture.nativeElement as HTMLElement).querySelector(
+      '.solaris-checkbox-group__required',
+    );
+    expect(marker?.textContent).toBe('*');
+  });
+
+  it('should not render the required marker when not required', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisCheckboxGroupComponent, SolarisCheckboxComponent],
+      template: `
+        <solaris-checkbox-group label="Interests">
+          <solaris-checkbox value="a">A</solaris-checkbox>
+        </solaris-checkbox-group>
+      `,
+    })
+    class OptionalLabelHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(OptionalLabelHost);
+    hostFixture.detectChanges();
+    const marker = (hostFixture.nativeElement as HTMLElement).querySelector(
+      '.solaris-checkbox-group__required',
+    );
+    expect(marker).toBeFalsy();
   });
 });

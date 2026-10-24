@@ -1,0 +1,10 @@
+{
+  "solaris": {
+    "collapsibleInput": {
+      "loading": "Lendo a documentação",
+      "placeholder": "Pergunte outra coisa",
+      "stop": "Parar",
+      "submit": "Enviar pergunta"
+    }
+  }
+}

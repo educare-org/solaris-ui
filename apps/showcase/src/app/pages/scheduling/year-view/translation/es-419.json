@@ -1,0 +1,37 @@
+{
+  "year-view": {
+    "description": "Doce mini-meses con puntos de densidad. Activar un día profundiza en la vista mensual.",
+    "drill": {
+      "note": "La vista mensual siguiente comparte la misma fecha enfocada: profundiza desde la cuadrícula anual y observa cómo el mes la sigue, luego elige un día para finalizar la profundización."
+    },
+    "examples": {
+      "note": "Usa la barra de herramientas para cambiar de año. Los puntos de densidad resumen cada día; activar un día establece la fecha enfocada y el registro siguiente muestra el evento de profundización."
+    },
+    "installation": {
+      "note": "Instala el paquete e importa el componente independiente de la vista anual."
+    },
+    "locales": {
+      "note": "Meses, días de la semana y textos de ayuda siguen el idioma seleccionado."
+    },
+    "props": {
+      "note": "Pasa eventos (la lib expande la recurrencia sin mutar el array), tareas y festivos resueltos. La profundización emite daySelect y mueve focusedDate."
+    },
+    "section": {
+      "drill": "Profundización",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "locales": "Idiomas",
+      "props": "Props",
+      "size-density": "Tamaño y densidad"
+    },
+    "size-density": {
+      "note": "El tamaño determina los números de los días, mientras que la densidad determina los espacios entre mini-meses."
+    },
+    "title": "Vista anual",
+    "toolbar": {
+      "next": "Año siguiente",
+      "previous": "Año anterior",
+      "today": "Hoy"
+    }
+  }
+}

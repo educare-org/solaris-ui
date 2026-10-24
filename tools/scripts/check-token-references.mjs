@@ -27,8 +27,16 @@ const globalTokens = new Set();
 const componentTokens = new Set();
 const referencedTokens = new Map();
 
+function stripScssComments(content) {
+  // Remove block comments first, then // line comments.
+  return content
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/(^|[^:"'(-])\/\/[^\n]*/g, '$1');
+}
+
 function extractTokenDefs(content) {
   const defs = [];
+  const clean = stripScssComments(content);
   const defRegex = /^\s*--solaris-[\w-]+\s*:/gm;
   let match;
   while ((match = defRegex.exec(content)) !== null) {
@@ -39,13 +47,14 @@ function extractTokenDefs(content) {
 
 function extractTokenRefs(content) {
   const refs = [];
+  const clean = stripScssComments(content);
   const varRegex = /var\((--solaris-[\w-]+)/g;
   let match;
-  while ((match = varRegex.exec(content)) !== null) {
+  while ((match = varRegex.exec(clean)) !== null) {
     const token = match[1];
     if (
       token.endsWith('-') &&
-      content.slice(match.index + match[0].length).startsWith('#')
+      clean.slice(match.index + match[0].length).startsWith('#')
     ) {
       continue;
     }

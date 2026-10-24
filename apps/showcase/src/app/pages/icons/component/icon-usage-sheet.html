@@ -1,8 +1,22 @@
 <div class="icon-usage-sheet">
+  <div class="icon-usage-sheet__header">
+    <div class="icon-usage-sheet__title-wrap">
+      <h2 class="icon-usage-sheet__title">{{ data.name }}</h2>
+      @if (categoryId(); as category) {
+      <span class="icon-usage-sheet__badge"
+        >{{ 'icons.category.' + category | translate }}</span
+      >
+      }
+      <span class="icon-usage-sheet__badge">{{ variant() }}</span>
+    </div>
+  </div>
+
   <div class="icon-usage-sheet__main">
     <div class="icon-usage-sheet__preview">
       <solaris-icon
         [name]="data.name"
+        [variant]="variant()"
+        [strokeWidth]="strokeWidth()"
         [decorative]="true"
         class="icon-usage-sheet__preview-icon"
         [style.width]="widthCss()"
@@ -11,24 +25,38 @@
       />
     </div>
     <div class="icon-usage-sheet__info">
-      <h2 class="icon-usage-sheet__title">{{ 'icons.usage' | translate }}</h2>
       <p class="icon-usage-sheet__note">{{ 'icons.usage-note' | translate }}</p>
+      @if (visibleKeywords().length > 0) {
+      <div class="icon-usage-sheet__keywords">
+        @for (keyword of visibleKeywords(); track keyword) {
+        <span class="icon-usage-sheet__keyword">{{ keyword }}</span>
+        } @if (hiddenKeywordCount() > 0) {
+        <span class="icon-usage-sheet__keyword"
+          >+{{ hiddenKeywordCount() }}</span
+        >
+        }
+      </div>
+      }
     </div>
   </div>
 
   <div class="icon-usage-sheet__code">
-    <pre><code>{{ snippet() }}</code></pre>
+    <pre><code>{{ angularSnippet() }}</code></pre>
     <button
       type="button"
       solaris-button
       size="lg"
       appearance="ghost"
       class="icon-usage-sheet__copy"
-      [attr.data-copied]="copied() ? 'true' : 'false'"
-      [attr.aria-label]="copied() ? ('icons.copied' | translate) : ('icons.copy' | translate)"
-      (click)="copy()"
+      [attr.data-copied]="copiedAngular() ? 'true' : 'false'"
+      [attr.aria-label]="
+        copiedAngular()
+          ? ('icons.copied' | translate)
+          : ('icons.copy-angular' | translate)
+      "
+      (click)="copyAngular()"
     >
-      @if (copied()) {
+      @if (copiedAngular()) {
       <solaris-icon
         name="check"
         [decorative]="true"
@@ -41,6 +69,44 @@
         class="icon-usage-sheet__copy-icon"
       />
       }
+    </button>
+  </div>
+
+  <div class="icon-usage-sheet__code">
+    <pre><code>{{ svgSnippet() }}</code></pre>
+    <button
+      type="button"
+      solaris-button
+      size="lg"
+      appearance="ghost"
+      class="icon-usage-sheet__copy"
+      [attr.data-copied]="copiedSvg() ? 'true' : 'false'"
+      [attr.aria-label]="
+        copiedSvg()
+          ? ('icons.copied' | translate)
+          : ('icons.copy-svg' | translate)
+      "
+      (click)="copySvg()"
+    >
+      @if (copiedSvg()) {
+      <solaris-icon
+        name="check"
+        [decorative]="true"
+        class="icon-usage-sheet__copy-icon"
+      />
+      } @else {
+      <solaris-icon
+        name="copy"
+        [decorative]="true"
+        class="icon-usage-sheet__copy-icon"
+      />
+      }
+    </button>
+  </div>
+
+  <div class="icon-usage-sheet__actions">
+    <button type="button" solaris-button appearance="tonal" [disabled]="true">
+      {{ 'icons.edit-in-studio' | translate }}
     </button>
   </div>
 </div>

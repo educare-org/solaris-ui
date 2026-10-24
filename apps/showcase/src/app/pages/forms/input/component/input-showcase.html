@@ -1,408 +1,474 @@
-<div class="input-showcase">
-  <header class="input-showcase__header">
-    <h1 class="input-showcase__title">{{ 'input.title' | translate }}</h1>
-    <p class="input-showcase__description">
-      {{ 'input.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="input.title"
+    descriptionKey="input.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">
-      {{ 'input.basic' | translate }}
-    </h2>
-    <div class="input-showcase__demo">
-      <input
-        solaris-input
-        [placeholder]="'input.placeholder.name' | translate"
-      />
-    </div>
-  </section>
+  <app-docs-section anchor="examples" titleKey="input.section.examples">
+    <p class="input-showcase__note">{{ 'input.examples.note' | translate }}</p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-input-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">
-      {{ 'input.with-form-field' | translate }}
-    </h2>
+  <app-docs-section anchor="form-field" titleKey="input.section.form-field">
     <p class="input-showcase__note">
-      {{ 'input.with-form-field-note' | translate }}
+      {{ 'input.form-field.note' | translate }}
     </p>
-    <div class="input-showcase__demo">
+    <solaris-preview-code [code]="formFieldCode" language="html">
       <solaris-form-field
-        [label]="'input.label.name' | translate"
-        [hint]="'input.hint.name' | translate"
-      >
-        <input solaris-input />
-      </solaris-form-field>
-    </div>
-    <div class="input-showcase__demo">
-      <solaris-form-field
-        [label]="'input.label.email' | translate"
-        [hint]="'input.hint.email' | translate"
+        [label]="'input.form-field.label' | translate"
+        [hint]="'input.form-field.hint' | translate"
       >
         <input
           solaris-input
-          type="email"
-          [placeholder]="'input.placeholder.email' | translate"
+          [placeholder]="'input.form-field.placeholder' | translate"
         />
       </solaris-form-field>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">
-      {{ 'input.reactive-forms' | translate }}
-    </h2>
+  <app-docs-section anchor="appearances" titleKey="input.section.appearances">
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'input.section.appearances' | translate"
+    >
+      <solaris-tab value="outline"
+        >{{ 'input.appearance.outline' | translate }}</solaris-tab
+      >
+      <solaris-tab value="surface"
+        >{{ 'input.appearance.surface' | translate }}</solaris-tab
+      >
+      <solaris-tab value="filled"
+        >{{ 'input.appearance.filled' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="outline">
+        <solaris-preview-code [code]="appearanceOutlineCode" language="html">
+          <solaris-form-field
+            [label]="'input.appearance.outline' | translate"
+            appearance="outline"
+          >
+            <input
+              solaris-input
+              appearance="outline"
+              [placeholder]="'input.appearance.outline' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="surface">
+        <solaris-preview-code [code]="appearanceSurfaceCode" language="html">
+          <solaris-form-field
+            [label]="'input.appearance.surface' | translate"
+            appearance="surface"
+          >
+            <input
+              solaris-input
+              appearance="surface"
+              [placeholder]="'input.appearance.surface' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="filled">
+        <solaris-preview-code [code]="appearanceFilledCode" language="html">
+          <solaris-form-field
+            [label]="'input.appearance.filled' | translate"
+            appearance="filled"
+          >
+            <input
+              solaris-input
+              appearance="filled"
+              [placeholder]="'input.appearance.filled' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="size-density" titleKey="input.section.size-density">
     <p class="input-showcase__note">
-      {{ 'input.reactive-forms-note' | translate }}
+      {{ 'input.size-density.note' | translate }}
     </p>
-    <div class="input-showcase__demo">
+    <div class="input-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'input.section.sizes' | translate"
+      >
+        <solaris-tab value="sm">{{ 'input.size.sm' | translate }}</solaris-tab>
+        <solaris-tab value="md">{{ 'input.size.md' | translate }}</solaris-tab>
+        <solaris-tab value="lg">{{ 'input.size.lg' | translate }}</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'input.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'input.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'input.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'input.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
       <solaris-form-field
-        [label]="'input.label.required-email' | translate"
-        [hint]="'input.hint.required-email' | translate"
+        [label]="'input.form-field.label' | translate"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+      >
+        <input
+          solaris-input
+          [size]="selectedSize()"
+          [density]="selectedDensity()"
+          [placeholder]="'input.form-field.placeholder' | translate"
+        />
+      </solaris-form-field>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="radius" titleKey="input.section.radius">
+    <p class="input-showcase__note">{{ 'input.radius.note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedRadius"
+      [ariaLabel]="'input.section.radius' | translate"
+    >
+      <solaris-tab value="none"
+        >{{ 'input.radius.none' | translate }}</solaris-tab
+      >
+      <solaris-tab value="sm">{{ 'input.radius.sm' | translate }}</solaris-tab>
+      <solaris-tab value="md">{{ 'input.radius.md' | translate }}</solaris-tab>
+      <solaris-tab value="lg">{{ 'input.radius.lg' | translate }}</solaris-tab>
+      <solaris-tab value="xl">{{ 'input.radius.xl' | translate }}</solaris-tab>
+      <solaris-tab-panel value="none">
+        <solaris-preview-code [code]="radiusNoneCode" language="html">
+          <solaris-form-field
+            [label]="'input.radius.none' | translate"
+            radius="none"
+          >
+            <input
+              solaris-input
+              radius="none"
+              [placeholder]="'input.radius.none' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="sm">
+        <solaris-preview-code [code]="radiusSmCode" language="html">
+          <solaris-form-field
+            [label]="'input.radius.sm' | translate"
+            radius="sm"
+          >
+            <input
+              solaris-input
+              radius="sm"
+              [placeholder]="'input.radius.sm' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="md">
+        <solaris-preview-code [code]="radiusMdCode" language="html">
+          <solaris-form-field
+            [label]="'input.radius.md' | translate"
+            radius="md"
+          >
+            <input
+              solaris-input
+              radius="md"
+              [placeholder]="'input.radius.md' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="lg">
+        <solaris-preview-code [code]="radiusLgCode" language="html">
+          <solaris-form-field
+            [label]="'input.radius.lg' | translate"
+            radius="lg"
+          >
+            <input
+              solaris-input
+              radius="lg"
+              [placeholder]="'input.radius.lg' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="xl">
+        <solaris-preview-code [code]="radiusXlCode" language="html">
+          <solaris-form-field
+            [label]="'input.radius.xl' | translate"
+            radius="xl"
+          >
+            <input
+              solaris-input
+              radius="xl"
+              [placeholder]="'input.radius.xl' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="input.section.states">
+    <solaris-preview-code [code]="statesCode" language="html">
+      <div class="input-showcase__stack">
+        <solaris-form-field [label]="'input.states.default' | translate">
+          <input
+            solaris-input
+            [placeholder]="'input.states.default' | translate"
+          />
+        </solaris-form-field>
+        <solaris-form-field
+          [label]="'input.states.invalid' | translate"
+          [invalid]="true"
+          [error]="'input.error.invalid' | translate"
+        >
+          <input
+            solaris-input
+            [invalid]="true"
+            [placeholder]="'input.states.invalid' | translate"
+          />
+        </solaris-form-field>
+        <solaris-form-field
+          [label]="'input.states.disabled' | translate"
+          [disabled]="true"
+        >
+          <input
+            solaris-input
+            disabled
+            [placeholder]="'input.states.disabled' | translate"
+          />
+        </solaris-form-field>
+        <solaris-form-field
+          [label]="'input.states.readonly' | translate"
+          [readonly]="true"
+        >
+          <input
+            solaris-input
+            readonly
+            [value]="'input.states.readonly-value' | translate"
+          />
+        </solaris-form-field>
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="types" titleKey="input.section.types">
+    <p class="input-showcase__note">{{ 'input.types.note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedType"
+      [ariaLabel]="'input.section.types' | translate"
+    >
+      <solaris-tab value="text"
+        >{{ 'input.types.text' | translate }}</solaris-tab
+      >
+      <solaris-tab value="email"
+        >{{ 'input.types.email' | translate }}</solaris-tab
+      >
+      <solaris-tab value="password"
+        >{{ 'input.types.password' | translate }}</solaris-tab
+      >
+      <solaris-tab value="search"
+        >{{ 'input.types.search' | translate }}</solaris-tab
+      >
+      <solaris-tab value="tel">{{ 'input.types.tel' | translate }}</solaris-tab>
+      <solaris-tab value="url">{{ 'input.types.url' | translate }}</solaris-tab>
+      <solaris-tab value="number"
+        >{{ 'input.types.number' | translate }}</solaris-tab
+      >
+      <solaris-tab value="date"
+        >{{ 'input.types.date' | translate }}</solaris-tab
+      >
+      <solaris-tab value="time"
+        >{{ 'input.types.time' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="text">
+        <solaris-preview-code [code]="typeCodes.text" language="html">
+          <solaris-form-field [label]="'input.types.text' | translate">
+            <input
+              solaris-input
+              type="text"
+              [placeholder]="'input.types.text-placeholder' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="email">
+        <solaris-preview-code [code]="typeCodes.email" language="html">
+          <solaris-form-field [label]="'input.types.email' | translate">
+            <input
+              solaris-input
+              type="email"
+              [placeholder]="'input.types.email-placeholder' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="password">
+        <solaris-preview-code [code]="typeCodes.password" language="html">
+          <solaris-form-field [label]="'input.types.password' | translate">
+            <input
+              solaris-input
+              type="password"
+              [placeholder]="'input.types.password-placeholder' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="search">
+        <solaris-preview-code [code]="typeCodes.search" language="html">
+          <solaris-form-field [label]="'input.types.search' | translate">
+            <input
+              solaris-input
+              type="search"
+              [placeholder]="'input.types.search-placeholder' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="tel">
+        <solaris-preview-code [code]="typeCodes.tel" language="html">
+          <solaris-form-field [label]="'input.types.tel' | translate">
+            <input
+              solaris-input
+              type="tel"
+              [placeholder]="'input.types.tel-placeholder' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="url">
+        <solaris-preview-code [code]="typeCodes.url" language="html">
+          <solaris-form-field [label]="'input.types.url' | translate">
+            <input
+              solaris-input
+              type="url"
+              [placeholder]="'input.types.url-placeholder' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="number">
+        <solaris-preview-code [code]="typeCodes.number" language="html">
+          <solaris-form-field [label]="'input.types.number' | translate">
+            <input
+              solaris-input
+              type="number"
+              [placeholder]="'input.types.number-placeholder' | translate"
+            />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="date">
+        <solaris-preview-code [code]="typeCodes.date" language="html">
+          <solaris-form-field [label]="'input.types.date' | translate">
+            <input solaris-input type="date" />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="time">
+        <solaris-preview-code [code]="typeCodes.time" language="html">
+          <solaris-form-field [label]="'input.types.time' | translate">
+            <input solaris-input type="time" />
+          </solaris-form-field>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="prefix-suffix"
+    titleKey="input.section.prefix-suffix"
+  >
+    <div class="input-showcase__stack">
+      <solaris-preview-code [code]="prefixCode" language="html">
+        <solaris-form-field [label]="'input.types.search' | translate">
+          <solaris-icon solaris-form-prefix name="search" [decorative]="true" />
+          <input
+            solaris-input
+            type="search"
+            [placeholder]="'input.types.search-placeholder' | translate"
+          />
+        </solaris-form-field>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="affixCode" language="html">
+        <solaris-form-field [label]="'input.affix.price' | translate">
+          <span solaris-form-prefix>$</span>
+          <input
+            solaris-input
+            type="number"
+            [placeholder]="'input.affix.price-placeholder' | translate"
+          />
+          <span solaris-form-suffix>{{ 'input.affix.usd' | translate }}</span>
+        </solaris-form-field>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="passwordCode" language="html">
+        <solaris-form-field [label]="'input.types.password' | translate">
+          <input
+            solaris-input
+            [type]="passwordVisible() ? 'text' : 'password'"
+            value="secret123"
+          />
+          <button
+            solaris-form-suffix
+            type="button"
+            (click)="togglePassword()"
+            [attr.aria-label]="(passwordVisible() ? 'input.aria-label.hide' : 'input.aria-label.show') | translate"
+          >
+            <solaris-icon
+              [name]="passwordVisible() ? 'eye-off' : 'eye'"
+              [decorative]="true"
+            />
+          </button>
+        </solaris-form-field>
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="form" titleKey="input.section.form">
+    <solaris-preview-code [code]="reactiveCode" language="html">
+      <solaris-form-field
+        [label]="'input.form.label' | translate"
+        [hint]="'input.form.hint' | translate"
         [error]="emailError"
       >
         <input
           solaris-input
           type="email"
           [formControl]="emailControl"
-          [placeholder]="'input.placeholder.email' | translate"
+          [placeholder]="'input.types.email-placeholder' | translate"
         />
       </solaris-form-field>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">
-      {{ 'input.appearances' | translate }}
-    </h2>
-    <div class="input-showcase__demo">
-      <solaris-form-field
-        [label]="'input.label.outline' | translate"
-        appearance="outline"
-      >
-        <input
-          solaris-input
-          appearance="outline"
-          [placeholder]="'input.placeholder.outline' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'input.label.surface' | translate"
-        appearance="surface"
-      >
-        <input
-          solaris-input
-          appearance="surface"
-          [placeholder]="'input.placeholder.surface' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'input.label.filled' | translate"
-        appearance="filled"
-      >
-        <input
-          solaris-input
-          appearance="filled"
-          [placeholder]="'input.placeholder.filled' | translate"
-        />
-      </solaris-form-field>
-    </div>
-  </section>
-
-  <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">
-      {{ 'input.sizes' | translate }}
-    </h2>
-    <div class="input-showcase__demo">
-      <solaris-form-field [label]="'input.label.small' | translate" size="sm">
-        <input
-          solaris-input
-          size="sm"
-          [placeholder]="'input.placeholder.small' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field [label]="'input.label.medium' | translate" size="md">
-        <input
-          solaris-input
-          size="md"
-          [placeholder]="'input.placeholder.medium' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field [label]="'input.label.large' | translate" size="lg">
-        <input
-          solaris-input
-          size="lg"
-          [placeholder]="'input.placeholder.large' | translate"
-        />
-      </solaris-form-field>
-    </div>
-  </section>
-
-  <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">
-      {{ 'input.density' | translate }}
-    </h2>
-    <div class="input-showcase__demo">
-      <solaris-form-field
-        [label]="'input.label.compact' | translate"
-        density="compact"
-      >
-        <input
-          solaris-input
-          density="compact"
-          [placeholder]="'input.placeholder.compact' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'input.label.normal' | translate"
-        density="normal"
-      >
-        <input
-          solaris-input
-          density="normal"
-          [placeholder]="'input.placeholder.normal' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'input.label.comfortable' | translate"
-        density="comfortable"
-      >
-        <input
-          solaris-input
-          density="comfortable"
-          [placeholder]="'input.placeholder.comfortable' | translate"
-        />
-      </solaris-form-field>
-    </div>
-  </section>
-
-  <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">
-      {{ 'input.radius' | translate }}
-    </h2>
-    <div class="input-showcase__row">
-      <solaris-form-field
-        [label]="'input.label.radius-none' | translate"
-        radius="none"
-      >
-        <input
-          solaris-input
-          radius="none"
-          [placeholder]="'input.placeholder.radius-none' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'input.label.radius-sm' | translate"
-        radius="sm"
-      >
-        <input
-          solaris-input
-          radius="sm"
-          [placeholder]="'input.placeholder.radius-sm' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'input.label.radius-md' | translate"
-        radius="md"
-      >
-        <input
-          solaris-input
-          radius="md"
-          [placeholder]="'input.placeholder.radius-md' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'input.label.radius-lg' | translate"
-        radius="lg"
-      >
-        <input
-          solaris-input
-          radius="lg"
-          [placeholder]="'input.placeholder.radius-lg' | translate"
-        />
-      </solaris-form-field>
-    </div>
-  </section>
-
-  <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">
-      {{ 'input.states' | translate }}
-    </h2>
-    <div class="input-showcase__demo">
-      <solaris-form-field [label]="'input.label.default' | translate">
-        <input
-          solaris-input
-          [placeholder]="'input.placeholder.default' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'input.label.invalid' | translate"
-        [invalid]="true"
-        [error]="'input.error.invalid' | translate"
-      >
-        <input
-          solaris-input
-          [invalid]="true"
-          [placeholder]="'input.placeholder.invalid' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'input.label.disabled' | translate"
-        [disabled]="true"
-      >
-        <input
-          solaris-input
-          disabled
-          [placeholder]="'input.placeholder.disabled' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'input.label.readonly' | translate"
-        [readonly]="true"
-      >
-        <input
-          solaris-input
-          readonly
-          [value]="'form-field.value.readonly' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field
-        [label]="'input.label.required' | translate"
-        [required]="true"
-      >
-        <input
-          solaris-input
-          required
-          [placeholder]="'input.placeholder.required' | translate"
-        />
-      </solaris-form-field>
-    </div>
-  </section>
-
-  <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">
-      {{ 'input.types' | translate }}
-    </h2>
-    <div class="input-showcase__demo">
-      <solaris-form-field [label]="'input.label.text' | translate">
-        <input
-          solaris-input
-          type="text"
-          [placeholder]="'input.placeholder.text' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field [label]="'input.label.email' | translate">
-        <input
-          solaris-input
-          type="email"
-          [placeholder]="'input.placeholder.email-type' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field [label]="'input.label.password' | translate">
-        <input
-          solaris-input
-          type="password"
-          [placeholder]="'input.placeholder.password' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field [label]="'input.label.search' | translate">
-        <input
-          solaris-input
-          type="search"
-          [placeholder]="'input.placeholder.search' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field [label]="'input.label.phone' | translate">
-        <input
-          solaris-input
-          type="tel"
-          [placeholder]="'input.placeholder.phone' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field [label]="'input.label.url' | translate">
-        <input
-          solaris-input
-          type="url"
-          [placeholder]="'input.placeholder.url' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field [label]="'input.label.number' | translate">
-        <input
-          solaris-input
-          type="number"
-          [placeholder]="'input.placeholder.number' | translate"
-        />
-      </solaris-form-field>
-      <solaris-form-field [label]="'input.label.date' | translate">
-        <input solaris-input type="date" />
-      </solaris-form-field>
-      <solaris-form-field [label]="'input.label.time' | translate">
-        <input solaris-input type="time" />
-      </solaris-form-field>
-    </div>
-  </section>
-
-  <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">
-      {{ 'input.prefix-suffix' | translate }}
-    </h2>
-    <div class="input-showcase__demo">
-      <solaris-form-field [label]="'input.label.search' | translate">
-        <solaris-icon solaris-form-prefix name="search" [decorative]="true" />
-        <input
-          solaris-input
-          type="search"
-          [placeholder]="'input.placeholder.search-type' | translate"
-        />
-      </solaris-form-field>
-    </div>
-    <div class="input-showcase__demo">
-      <solaris-form-field [label]="'input.label.price' | translate">
-        <span solaris-form-prefix>$</span>
-        <input
-          solaris-input
-          type="number"
-          [placeholder]="'input.placeholder.price' | translate"
-        />
-        <span solaris-form-suffix>{{ 'input.suffix.usd' | translate }}</span>
-      </solaris-form-field>
-    </div>
-    <div class="input-showcase__demo">
-      <solaris-form-field [label]="'input.label.password' | translate">
-        <input
-          solaris-input
-          [type]="passwordVisible ? 'text' : 'password'"
-          value="secret123"
-        />
-        <button
-          solaris-form-suffix
-          type="button"
-          (click)="togglePassword()"
-          [attr.aria-label]="(passwordVisible ? 'input.aria-label.hide' : 'input.aria-label.show') | translate"
-        >
-          <solaris-icon
-            [name]="passwordVisible ? 'eye-off' : 'eye'"
-            [decorative]="true"
-          />
-        </button>
-      </solaris-form-field>
-    </div>
-  </section>
-
-  <section class="input-showcase__section">
-    <h2 class="input-showcase__section-title">
-      {{ 'input.placeholder-note' | translate }}
-    </h2>
+  <app-docs-section anchor="installation" titleKey="input.section.installation">
     <p class="input-showcase__note">
-      {{ 'input.placeholder-note-text' | translate }}
+      {{ 'input.installation.note' | translate }}
     </p>
-    <div class="input-showcase__demo">
-      <solaris-form-field [label]="'input.label.email-placeholder' | translate">
-        <input
-          solaris-input
-          type="email"
-          [placeholder]="'input.placeholder.email-placeholder' | translate"
-        />
-      </solaris-form-field>
-    </div>
-  </section>
-</div>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="input.section.props">
+    <p class="input-showcase__note">{{ 'input.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

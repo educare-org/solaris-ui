@@ -1,0 +1,81 @@
+{
+  "breadcrumb": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "analytics": "Analíticas",
+    "basic": "Ruta básica",
+    "basic-note": "Una jerarquía simple con enlaces para los niveles superiores y texto para la página actual.",
+    "campuses": "Campus",
+    "current": "Página actual",
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Navegación jerárquica con enlaces, iconos, separadores, overflow y controles opcionales anterior/siguiente.",
+    "enrollment": "Matrícula",
+    "example": {
+      "truncation": {
+        "current": "Listado detallado de estudiantes",
+        "long-one": "Informe consolidado de rendimiento académico",
+        "long-two": "Estadísticas trimestrales de matrícula por campus"
+      }
+    },
+    "examples": {
+      "note": "Comenzar con la ruta predeterminada y luego explorar separadores, densidad y overflow a continuación."
+    },
+    "home": "Inicio",
+    "icons": "Iconos y texto",
+    "icons-note": "Los elementos pueden ser solo texto, solo icono o combinar icono y texto.",
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "navigation": "Botones de navegación opcionales",
+    "navigation-note": "Los botones chevron anterior y siguiente pueden mostrarse junto al Breadcrumb.",
+    "organization": "Organización",
+    "overflow": {
+      "end": "Fin",
+      "label": "Posiciones de overflow",
+      "middle": "Medio",
+      "start": "Inicio"
+    },
+    "overflow-note": "Limitar los elementos visibles y contraer el segmento inicial, medio o final en un menú de puntos suspensivos.",
+    "products": "Productos",
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "navigation": "Navegación",
+      "overflow": "Overflow",
+      "props": "Props",
+      "separators": "Separadores",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "truncation": "Truncamiento"
+    },
+    "security": "Seguridad",
+    "separator": {
+      "chevron": "Chevron",
+      "dot": "Punto",
+      "slash": "Slash"
+    },
+    "separators": "Variantes de separador",
+    "separators-note": "Elige separadores slash, chevron o de punto central.",
+    "settings": "Configuración",
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "El tamaño escala el texto y los iconos, mientras que la densidad controla el espacio entre elementos. Combinar ambos controles para ver todas las combinaciones."
+    },
+    "students": "Estudiantes",
+    "title": "Breadcrumb",
+    "truncation-note": "Las etiquetas largas se truncan con puntos suspensivos y exponen el texto completo mediante el tooltip nativo."
+  }
+}

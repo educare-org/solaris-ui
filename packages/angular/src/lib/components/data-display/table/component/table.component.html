@@ -1,0 +1,893 @@
+<div class="solaris-table__announcement" role="status">
+  {{ sortAnnouncement() }}
+</div>
+@if (effectiveLoading()) {
+  <div class="solaris-table__announcement" role="status" aria-live="polite">
+    {{ resolvedLoadingText() }}
+  </div>
+}
+<div class="solaris-table__frame">
+  @if (toolbarTemplate()) {
+    <div class="solaris-table__toolbar">
+      <ng-container *ngTemplateOutlet="toolbarTemplate()?.templateRef" />
+    </div>
+  }
+  <div
+    class="solaris-table__viewport"
+    role="region"
+    [attr.aria-label]="resolvedTableAriaLabel()"
+  >
+    <ng-template #sortArrows let-column="column">
+      <span
+        class="solaris-table__sort-indicator"
+        [attr.data-sort]="currentSortDirection(column.id) || 'none'"
+        aria-hidden="true"
+      >
+        <solaris-icon
+          class="solaris-table__sort-part"
+          name="sort-asc"
+          data-direction="asc"
+          [attr.data-active]="
+            currentSortDirection(column.id) === 'asc' || undefined
+          "
+          [decorative]="true"
+        />
+        <solaris-icon
+          class="solaris-table__sort-part"
+          name="sort-desc"
+          data-direction="desc"
+          [attr.data-active]="
+            currentSortDirection(column.id) === 'desc' || undefined
+          "
+          [decorative]="true"
+        />
+      </span>
+    </ng-template>
+    @if (isCardLayout()) {
+      <div class="solaris-table__cards">
+        @if (effectiveLoading()) {
+          @if (loadingTemplate()[0]; as loadingSlot) {
+            <ng-container
+              *ngTemplateOutlet="loadingSlot.templateRef"
+            ></ng-container>
+          } @else {
+            @for (loadingRow of loadingRowIndexes; track loadingRow) {
+              <div class="solaris-table__card" aria-hidden="true">
+                <solaris-skeleton variant="text" width="60%" />
+              </div>
+            }
+          }
+        } @else if (hasError()) {
+          <div class="solaris-table__cards-error" role="alert">
+            @if (errorTemplate()[0]; as errorSlot) {
+              <ng-container
+                *ngTemplateOutlet="errorSlot.templateRef"
+              ></ng-container>
+            } @else {
+              {{ resolvedErrorText() }}
+            }
+          </div>
+        } @else if (hasEmptyState()) {
+          <div class="solaris-table__cards-empty">
+            @if (emptyTemplate()[0]; as emptySlot) {
+              <ng-container
+                *ngTemplateOutlet="emptySlot.templateRef"
+              ></ng-container>
+            } @else {
+              {{ resolvedEmptyText() }}
+            }
+          </div>
+        } @else {
+          @if (normalizedSelectionMode() === 'multiple') {
+            <div class="solaris-table__cards-select-all">
+              <solaris-checkbox
+                radius="sm"
+                [checked]="allVisibleRowsSelected()"
+                [indeterminate]="someVisibleRowsSelected()"
+                [ariaLabel]="resolvedSelectAllLabel()"
+                (checkedChange)="toggleSelectAllVisibleRows()"
+              />
+            </div>
+          }
+          <ul class="solaris-table__cards-list">
+            @for (row of visibleRows(); track trackByRowId($index, row)) {
+              <li
+                class="solaris-table__card"
+                [attr.data-selected]="row.selected || undefined"
+              >
+                @if (isSelectable()) {
+                  <solaris-checkbox
+                    radius="sm"
+                    [checked]="row.selected"
+                    [ariaLabel]="resolveRowSelectionLabel(row)"
+                    (checkedChange)="toggleRowSelection(row)"
+                  />
+                }
+                <div class="solaris-table__card-fields">
+                  @if (
+                    resolveCardTitle(row) !== null ||
+                    resolveCardSubtitle(row) !== null
+                  ) {
+                    <div class="solaris-table__card-header">
+                      @if (resolveCardTitle(row); as cardTitle) {
+                        <span class="solaris-table__card-title">{{
+                          cardTitle
+                        }}</span>
+                      }
+                      @if (resolveCardSubtitle(row); as cardSubtitle) {
+                        <span class="solaris-table__card-subtitle">{{
+                          cardSubtitle
+                        }}</span>
+                      }
+                    </div>
+                  }
+                  @for (
+                    column of cardColumns();
+                    track trackByColumnId($index, column)
+                  ) {
+                    <div
+                      class="solaris-table__card-field"
+                      [attr.data-hidelabel]="column.hideCardLabel || undefined"
+                    >
+                      @if (!column.hideCardLabel) {
+                        <span class="solaris-table__card-label">
+                          {{ resolveColumnHeader(column) }}
+                        </span>
+                      }
+                      <span class="solaris-table__card-value">
+                        @if (resolveCellTemplate(column); as cellSlot) {
+                          <ng-container
+                            *ngTemplateOutlet="
+                              cellSlot.templateRef;
+                              context: customCellContext(row, column)
+                            "
+                          ></ng-container>
+                        } @else {
+                          {{ resolveCellText(row, column) }}
+                        }
+                        @if (isCellExpandableColumn(column)) {
+                          <button
+                            type="button"
+                            class="solaris-table__cell-expand"
+                            (click)="toggleCellExpanded(row, column)"
+                            [attr.aria-expanded]="isCellExpanded(row, column)"
+                            [attr.aria-controls]="cellDetailId(row, $index)"
+                            [attr.aria-label]="
+                              resolveCellExpandLabel(row, column)
+                            "
+                            [attr.data-expanded]="
+                              isCellExpanded(row, column) || undefined
+                            "
+                          >
+                            <solaris-icon
+                              name="chevron-down"
+                              [decorative]="true"
+                            />
+                          </button>
+                        }
+                      </span>
+                    </div>
+                    @if (isCellExpanded(row, column)) {
+                      <div
+                        class="solaris-table__card-detail"
+                        [attr.id]="cellDetailId(row, $index)"
+                      >
+                        @if (resolveDetailTemplate(column); as detailSlot) {
+                          <ng-container
+                            *ngTemplateOutlet="
+                              detailSlot.templateRef;
+                              context: customCellContext(row, column)
+                            "
+                          ></ng-container>
+                        } @else {
+                          {{ resolveCellText(row, column) }}
+                        }
+                      </div>
+                    }
+                  }
+                </div>
+                @if (rowClickable()) {
+                  <button
+                    type="button"
+                    class="solaris-table__row-button"
+                    (click)="handleRowClick(row, $event)"
+                    [attr.aria-label]="resolveRowSelectionLabel(row)"
+                  ></button>
+                }
+              </li>
+            }
+          </ul>
+          @if (showAddRow() && !effectiveLoading() && !hasError()) {
+            <button
+              type="button"
+              class="solaris-table__add-row solaris-table__add-row--card"
+              (click)="handleAddRow()"
+              [attr.aria-label]="resolvedAddRowLabel()"
+            >
+              <solaris-icon
+                class="solaris-table__add-row-icon"
+                name="plus"
+                [decorative]="true"
+              />
+              <span>{{ resolvedAddRowLabel() }}</span>
+            </button>
+          }
+        }
+      </div>
+    } @else {
+      <table
+        class="solaris-table__table"
+        [attr.aria-label]="resolvedTableAriaLabel()"
+        [attr.aria-rowcount]="total() ?? -1"
+      >
+        <ng-template #headerCellContent let-column="column">
+          @if (column.type === 'checkbox') {
+            @if (normalizedSelectionMode() === 'multiple') {
+              <solaris-checkbox
+                radius="sm"
+                [checked]="allVisibleRowsSelected()"
+                [indeterminate]="someVisibleRowsSelected()"
+                [ariaLabel]="resolvedSelectAllLabel()"
+                (checkedChange)="toggleSelectAllVisibleRows()"
+              />
+            }
+          } @else if (isColumnSortable(column)) {
+            @if (resolveHeaderTemplate(column); as headerSlot) {
+              <button
+                type="button"
+                class="solaris-table__sort-button"
+                (click)="toggleSort(column)"
+                [attr.aria-label]="sortButtonLabel(column)"
+              >
+                <ng-container
+                  *ngTemplateOutlet="
+                    headerSlot.templateRef;
+                    context: { $implicit: column, column }
+                  "
+                ></ng-container>
+                <ng-container
+                  *ngTemplateOutlet="
+                    sortArrows;
+                    context: { $implicit: column, column }
+                  "
+                ></ng-container>
+              </button>
+            } @else {
+              <button
+                type="button"
+                class="solaris-table__sort-button"
+                (click)="toggleSort(column)"
+                [attr.aria-label]="sortButtonLabel(column)"
+              >
+                @if (resolveColumnIcon(column); as headerIcon) {
+                  @if (resolveColumnIconPosition(column) === 'start') {
+                    <solaris-icon
+                      class="solaris-table__head-icon"
+                      [name]="headerIcon"
+                      [decorative]="true"
+                    />
+                  }
+                }
+                <span class="solaris-table__sort-button-text">
+                  {{ resolveColumnHeader(column) }}
+                </span>
+                @if (resolveColumnIcon(column); as headerIconEnd) {
+                  @if (resolveColumnIconPosition(column) === 'end') {
+                    <solaris-icon
+                      class="solaris-table__head-icon"
+                      [name]="headerIconEnd"
+                      [decorative]="true"
+                    />
+                  }
+                }
+                <ng-container
+                  *ngTemplateOutlet="
+                    sortArrows;
+                    context: { $implicit: column, column }
+                  "
+                ></ng-container>
+              </button>
+            }
+          } @else {
+            @if (resolveHeaderTemplate(column); as headerSlot) {
+              <ng-container
+                *ngTemplateOutlet="
+                  headerSlot.templateRef;
+                  context: { $implicit: column, column }
+                "
+              ></ng-container>
+            } @else {
+              <span class="solaris-table__head-label">
+                @if (resolveColumnIcon(column); as labelIcon) {
+                  @if (resolveColumnIconPosition(column) === 'start') {
+                    <solaris-icon
+                      class="solaris-table__head-icon"
+                      [name]="labelIcon"
+                      [decorative]="true"
+                    />
+                  }
+                }
+                <span class="solaris-table__head-label-text">{{
+                  resolveColumnHeader(column)
+                }}</span>
+                @if (resolveColumnIcon(column); as labelIconEnd) {
+                  @if (resolveColumnIconPosition(column) === 'end') {
+                    <solaris-icon
+                      class="solaris-table__head-icon"
+                      [name]="labelIconEnd"
+                      [decorative]="true"
+                    />
+                  }
+                }
+              </span>
+            }
+          }
+        </ng-template>
+        <thead class="solaris-table__head">
+          @if (hasHeaderGroups()) {
+            <tr
+              class="solaris-table__head-row solaris-table__head-row--group"
+              aria-rowindex="1"
+            >
+              @for (
+                span of headerSpans();
+                track span.group?.id ?? span.columns[0].id
+              ) {
+                @if (span.group !== null) {
+                  <th
+                    class="solaris-table__head-cell solaris-table__head-cell--group"
+                    scope="colgroup"
+                    [attr.colspan]="span.columns.length"
+                    [attr.data-sticky]="
+                      spanStickyOf(span.startIndex, span.columns.length)
+                    "
+                  >
+                    <span class="solaris-table__head-label">
+                      {{ resolveHeaderGroupText(span.group) }}
+                    </span>
+                  </th>
+                } @else {
+                  <th
+                    class="solaris-table__head-cell"
+                    scope="col"
+                    rowspan="2"
+                    [attr.data-align]="
+                      span.columns[0].headerAlign ??
+                      span.columns[0].align ??
+                      'start'
+                    "
+                    [attr.data-column-type]="span.columns[0].type"
+                    [attr.data-column-id]="span.columns[0].id"
+                    [attr.data-priority]="span.columns[0].priority ?? null"
+                    [attr.data-sticky]="stickyOf(span.startIndex)"
+                    [attr.aria-sort]="getAriaSort(span.columns[0])"
+                    [style]="resolveColumnWidthStyles(span.columns[0])"
+                  >
+                    <ng-container
+                      *ngTemplateOutlet="
+                        headerCellContent;
+                        context: {
+                          $implicit: span.columns[0],
+                          column: span.columns[0],
+                        }
+                      "
+                    />
+                  </th>
+                }
+              }
+              @if (isRowExpandable()) {
+                <th
+                  class="solaris-table__head-cell solaris-table__head-cell--expand"
+                  scope="col"
+                  rowspan="2"
+                >
+                  <span class="solaris-table__head-label">
+                    {{ resolvedExpandColumnLabel() }}
+                  </span>
+                </th>
+              }
+            </tr>
+          }
+          <tr
+            class="solaris-table__head-row"
+            [attr.aria-rowindex]="hasHeaderGroups() ? 2 : 1"
+          >
+            @for (
+              column of renderedColumns();
+              track trackByColumnId($index, column);
+              let columnIndex = $index
+            ) {
+              @if (!hasHeaderGroups() || isGroupedColumn(column)) {
+                <th
+                  class="solaris-table__head-cell"
+                  [attr.data-align]="
+                    column.headerAlign ?? column.align ?? 'start'
+                  "
+                  [attr.data-column-type]="column.type"
+                  [attr.data-column-id]="column.id"
+                  [attr.data-priority]="column.priority ?? null"
+                  [attr.data-sticky]="stickyOf(columnIndex)"
+                  [attr.data-group-start]="
+                    isGroupStart(columnIndex) || undefined
+                  "
+                  [attr.aria-sort]="getAriaSort(column)"
+                  [style]="resolveColumnWidthStyles(column)"
+                  scope="col"
+                >
+                  <ng-container
+                    *ngTemplateOutlet="
+                      headerCellContent;
+                      context: { $implicit: column, column }
+                    "
+                  />
+                </th>
+              }
+            }
+            @if (isRowExpandable() && !hasHeaderGroups()) {
+              <th
+                class="solaris-table__head-cell solaris-table__head-cell--expand"
+                scope="col"
+              >
+                <span class="solaris-table__head-label">
+                  {{ resolvedExpandColumnLabel() }}
+                </span>
+              </th>
+            }
+          </tr>
+        </thead>
+        <tbody class="solaris-table__body">
+          @if (effectiveLoading()) {
+            @if (loadingTemplate()[0]; as loadingSlot) {
+              <tr class="solaris-table__row solaris-table__row--loading">
+                <td
+                  class="solaris-table__cell"
+                  [attr.colspan]="detailColumnCount()"
+                >
+                  <ng-container
+                    *ngTemplateOutlet="loadingSlot.templateRef"
+                  ></ng-container>
+                </td>
+              </tr>
+            } @else {
+              @for (loadingRow of loadingRowIndexes; track loadingRow) {
+                <tr
+                  class="solaris-table__row solaris-table__row--loading"
+                  aria-hidden="true"
+                >
+                  @for (
+                    column of renderedColumns();
+                    track trackByColumnId($index, column)
+                  ) {
+                    <td
+                      class="solaris-table__cell"
+                      [attr.data-align]="column.align ?? 'start'"
+                      [attr.data-column-type]="column.type"
+                    >
+                      <solaris-skeleton variant="text" width="60%" />
+                    </td>
+                  }
+                  @if (isRowExpandable()) {
+                    <td class="solaris-table__cell"></td>
+                  }
+                </tr>
+              }
+            }
+          } @else if (hasError()) {
+            <tr class="solaris-table__row solaris-table__row--error">
+              <td
+                class="solaris-table__cell solaris-table__cell--error"
+                [attr.colspan]="detailColumnCount()"
+                role="alert"
+              >
+                @if (errorTemplate()[0]; as errorSlot) {
+                  <ng-container
+                    *ngTemplateOutlet="errorSlot.templateRef"
+                  ></ng-container>
+                } @else {
+                  {{ resolvedErrorText() }}
+                }
+              </td>
+            </tr>
+          } @else if (hasEmptyState()) {
+            <tr class="solaris-table__row solaris-table__row--empty">
+              <td
+                class="solaris-table__cell solaris-table__cell--empty"
+                [attr.colspan]="detailColumnCount()"
+              >
+                @if (emptyTemplate()[0]; as emptySlot) {
+                  <ng-container
+                    *ngTemplateOutlet="emptySlot.templateRef"
+                  ></ng-container>
+                } @else {
+                  {{ resolvedEmptyText() }}
+                }
+              </td>
+            </tr>
+          } @else {
+            @for (
+              row of visibleRows();
+              track trackByRowId($index, row);
+              let rowIndex = $index
+            ) {
+              <tr
+                class="solaris-table__row"
+                [attr.data-selected]="row.selected || undefined"
+                [attr.aria-rowindex]="rowIndex + headerRowCount() + 1"
+                [attr.aria-selected]="isSelectable() ? row.selected : null"
+              >
+                @for (
+                  column of renderedColumns();
+                  track trackByColumnId($index, column);
+                  let columnIndex = $index
+                ) {
+                  <td
+                    class="solaris-table__cell"
+                    [attr.data-align]="column.align ?? 'start'"
+                    [attr.data-column-type]="column.type"
+                    [attr.data-column-id]="column.id"
+                    [attr.data-priority]="column.priority ?? null"
+                    [attr.data-sticky]="stickyOf(columnIndex)"
+                    [attr.data-selected]="row.selected || undefined"
+                    [attr.data-cell-expanded]="
+                      isCellExpanded(row, column) || undefined
+                    "
+                    [attr.data-editable]="isEditableColumn(column) || undefined"
+                    [attr.tabindex]="
+                      isEditableColumn(column) && !isEditingCell(row, column)
+                        ? '0'
+                        : null
+                    "
+                    [attr.title]="resolveCellTitle(row, column)"
+                    (dblclick)="startEditing(row, column, $event)"
+                    (keydown.enter)="startEditing(row, column, $event)"
+                    (keydown.escape)="stopEditing(row, column)"
+                  >
+                    @if (
+                      isEditingCell(row, column) &&
+                        resolveEditorTemplate(column);
+                      as editorSlot
+                    ) {
+                      <span
+                        class="solaris-table__cell-main solaris-table__cell-main--editing"
+                      >
+                        <ng-container
+                          *ngTemplateOutlet="
+                            editorSlot.templateRef;
+                            context: cellEditorContext(row, column)
+                          "
+                        ></ng-container>
+                      </span>
+                    } @else if (column.type === 'checkbox' && isSelectable()) {
+                      <solaris-checkbox
+                        radius="sm"
+                        [checked]="row.selected"
+                        [ariaLabel]="resolveRowSelectionLabel(row)"
+                        (checkedChange)="toggleRowSelection(row)"
+                      />
+                    } @else if (resolveCellTemplate(column); as cellSlot) {
+                      <span class="solaris-table__cell-main">
+                        <ng-container
+                          *ngTemplateOutlet="
+                            cellSlot.templateRef;
+                            context: customCellContext(row, column)
+                          "
+                        ></ng-container>
+                        @if (isCellExpandableColumn(column)) {
+                          <button
+                            type="button"
+                            class="solaris-table__cell-expand"
+                            (click)="toggleCellExpanded(row, column)"
+                            [attr.aria-expanded]="isCellExpanded(row, column)"
+                            [attr.aria-controls]="cellDetailRowId(rowIndex)"
+                            [attr.aria-label]="
+                              resolveCellExpandLabel(row, column)
+                            "
+                            [attr.data-expanded]="
+                              isCellExpanded(row, column) || undefined
+                            "
+                          >
+                            <solaris-icon
+                              name="chevron-down"
+                              [decorative]="true"
+                            />
+                          </button>
+                        }
+                      </span>
+                    } @else {
+                      <span class="solaris-table__cell-main">
+                        <span class="solaris-table__cell-text">
+                          {{ resolveCellText(row, column) }}
+                        </span>
+                        @if (isCellExpandableColumn(column)) {
+                          <button
+                            type="button"
+                            class="solaris-table__cell-expand"
+                            (click)="toggleCellExpanded(row, column)"
+                            [attr.aria-expanded]="isCellExpanded(row, column)"
+                            [attr.aria-controls]="cellDetailRowId(rowIndex)"
+                            [attr.aria-label]="
+                              resolveCellExpandLabel(row, column)
+                            "
+                            [attr.data-expanded]="
+                              isCellExpanded(row, column) || undefined
+                            "
+                          >
+                            <solaris-icon
+                              name="chevron-down"
+                              [decorative]="true"
+                            />
+                          </button>
+                        }
+                      </span>
+                    }
+                    @if (
+                      rowClickable() &&
+                      $index === 0 &&
+                      column.type !== 'checkbox'
+                    ) {
+                      <button
+                        type="button"
+                        class="solaris-table__row-button"
+                        (click)="handleRowClick(row, $event)"
+                        [attr.aria-label]="resolveCellText(row, column)"
+                      ></button>
+                    }
+                  </td>
+                }
+                @if (isRowExpandable()) {
+                  <td class="solaris-table__cell solaris-table__cell--expand">
+                    @if (detailColumns().length > 0) {
+                      <button
+                        type="button"
+                        class="solaris-table__expand-button"
+                        (click)="toggleRowExpanded(row)"
+                        [attr.aria-expanded]="isRowExpanded(row)"
+                        [attr.aria-controls]="detailRowId(rowIndex)"
+                        [attr.aria-label]="resolveExpandLabel(row)"
+                        [attr.data-expanded]="isRowExpanded(row) || undefined"
+                      >
+                        <solaris-icon name="chevron-down" [decorative]="true" />
+                      </button>
+                    }
+                  </td>
+                }
+              </tr>
+              @if (isCellExpandable() && isCellDetailRowVisible(row)) {
+                <tr
+                  class="solaris-table__row solaris-table__row--detail solaris-table__row--cell-detail"
+                  [attr.id]="cellDetailRowId(rowIndex)"
+                  [attr.data-open]="isCellDetailRowOpen(row) || undefined"
+                  data-detail="cell"
+                >
+                  <td
+                    class="solaris-table__cell solaris-table__cell--detail"
+                    [attr.colspan]="detailColumnCount()"
+                  >
+                    <div class="solaris-table__detail-wrapper">
+                      <div class="solaris-table__detail-inner">
+                        <dl class="solaris-table__detail-list">
+                          @for (
+                            column of visibleCellColumns(row);
+                            track trackByColumnId($index, column)
+                          ) {
+                            @if (column.detailVariant === 'free') {
+                              <div class="solaris-table__detail-free">
+                                @if (
+                                  resolveDetailTemplate(column);
+                                  as detailSlot
+                                ) {
+                                  <ng-container
+                                    *ngTemplateOutlet="
+                                      detailSlot.templateRef;
+                                      context: customCellContext(row, column)
+                                    "
+                                  ></ng-container>
+                                } @else if (
+                                  resolveCellTemplate(column);
+                                  as cellSlot
+                                ) {
+                                  <ng-container
+                                    *ngTemplateOutlet="
+                                      cellSlot.templateRef;
+                                      context: customCellContext(row, column)
+                                    "
+                                  ></ng-container>
+                                } @else {
+                                  {{ resolveCellText(row, column) }}
+                                }
+                              </div>
+                            } @else {
+                              <div class="solaris-table__detail-item">
+                                <dt class="solaris-table__detail-term">
+                                  {{ resolveColumnHeader(column) }}
+                                </dt>
+                                <dd class="solaris-table__detail-value">
+                                  @if (
+                                    resolveDetailTemplate(column);
+                                    as detailSlot
+                                  ) {
+                                    <ng-container
+                                      *ngTemplateOutlet="
+                                        detailSlot.templateRef;
+                                        context: customCellContext(row, column)
+                                      "
+                                    ></ng-container>
+                                  } @else if (
+                                    resolveCellTemplate(column);
+                                    as cellSlot
+                                  ) {
+                                    <ng-container
+                                      *ngTemplateOutlet="
+                                        cellSlot.templateRef;
+                                        context: customCellContext(row, column)
+                                      "
+                                    ></ng-container>
+                                  } @else {
+                                    {{ resolveCellText(row, column) }}
+                                  }
+                                </dd>
+                              </div>
+                            }
+                          }
+                        </dl>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              }
+              @if (isRowExpandable() && isDetailRowVisible(row)) {
+                <tr
+                  class="solaris-table__row solaris-table__row--detail"
+                  [attr.id]="detailRowId(rowIndex)"
+                  [attr.data-open]="isDetailOpen(row) || undefined"
+                >
+                  <td
+                    class="solaris-table__cell solaris-table__cell--detail"
+                    [attr.colspan]="detailColumnCount()"
+                  >
+                    <div class="solaris-table__detail-wrapper">
+                      <div class="solaris-table__detail-inner">
+                        <dl class="solaris-table__detail-list">
+                          @for (
+                            column of detailColumns();
+                            track trackByColumnId($index, column)
+                          ) {
+                            @if (column.detailVariant === 'free') {
+                              <div class="solaris-table__detail-free">
+                                @if (
+                                  resolveDetailTemplate(column);
+                                  as detailSlot
+                                ) {
+                                  <ng-container
+                                    *ngTemplateOutlet="
+                                      detailSlot.templateRef;
+                                      context: customCellContext(row, column)
+                                    "
+                                  ></ng-container>
+                                } @else if (
+                                  resolveCellTemplate(column);
+                                  as cellSlot
+                                ) {
+                                  <ng-container
+                                    *ngTemplateOutlet="
+                                      cellSlot.templateRef;
+                                      context: customCellContext(row, column)
+                                    "
+                                  ></ng-container>
+                                } @else {
+                                  {{ resolveCellText(row, column) }}
+                                }
+                              </div>
+                            } @else {
+                              <div class="solaris-table__detail-item">
+                                <dt class="solaris-table__detail-term">
+                                  {{ resolveColumnHeader(column) }}
+                                </dt>
+                                <dd class="solaris-table__detail-value">
+                                  @if (
+                                    resolveDetailTemplate(column);
+                                    as detailSlot
+                                  ) {
+                                    <ng-container
+                                      *ngTemplateOutlet="
+                                        detailSlot.templateRef;
+                                        context: customCellContext(row, column)
+                                      "
+                                    ></ng-container>
+                                  } @else if (
+                                    resolveCellTemplate(column);
+                                    as cellSlot
+                                  ) {
+                                    <ng-container
+                                      *ngTemplateOutlet="
+                                        cellSlot.templateRef;
+                                        context: customCellContext(row, column)
+                                      "
+                                    ></ng-container>
+                                  } @else {
+                                    {{ resolveCellText(row, column) }}
+                                  }
+                                </dd>
+                              </div>
+                            }
+                          }
+                        </dl>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              }
+            }
+          }
+          @if (showAddRow() && !effectiveLoading() && !hasError()) {
+            <tr class="solaris-table__row solaris-table__row--add">
+              <td
+                class="solaris-table__cell solaris-table__cell--add"
+                [attr.colspan]="detailColumnCount()"
+              >
+                <button
+                  type="button"
+                  class="solaris-table__add-row"
+                  (click)="handleAddRow()"
+                  [attr.aria-label]="resolvedAddRowLabel()"
+                >
+                  <solaris-icon
+                    class="solaris-table__add-row-icon"
+                    name="plus"
+                    [decorative]="true"
+                  />
+                  <span>{{ resolvedAddRowLabel() }}</span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+        @if (showFooter()) {
+          <tfoot class="solaris-table__foot">
+            <tr class="solaris-table__foot-row">
+              @for (
+                column of renderedColumns();
+                track trackByColumnId($index, column);
+                let columnIndex = $index
+              ) {
+                <td
+                  class="solaris-table__cell solaris-table__cell--footer"
+                  [attr.data-align]="resolveFooterAlign(column)"
+                  [attr.data-column-type]="column.type"
+                  [attr.data-column-id]="column.id"
+                  [attr.data-sticky]="stickyOf(columnIndex)"
+                  [attr.title]="resolveFooterTitle(column)"
+                >
+                  @if (column.type !== 'checkbox' || !isSelectable()) {
+                    @if (resolveFooterCellTemplate(column); as footerSlot) {
+                      <ng-container
+                        *ngTemplateOutlet="
+                          footerSlot.templateRef;
+                          context: footerCellContext(column)
+                        "
+                      ></ng-container>
+                    } @else {
+                      <span class="solaris-table__cell-text">{{
+                        resolveFooterText(column)
+                      }}</span>
+                    }
+                  }
+                </td>
+              }
+              @if (isRowExpandable()) {
+                <td
+                  class="solaris-table__cell solaris-table__cell--footer solaris-table__cell--expand"
+                ></td>
+              }
+            </tr>
+          </tfoot>
+        }
+      </table>
+    }
+  </div>
+  @if (footerTemplate()) {
+    <div class="solaris-table__footer">
+      <ng-container *ngTemplateOutlet="footerTemplate()?.templateRef" />
+    </div>
+  }
+</div>

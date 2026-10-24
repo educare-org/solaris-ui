@@ -1,6 +1,6 @@
+import { execSync } from 'node:child_process';
 import path from 'node:path';
 import fs from 'node:fs';
-import { execSync } from 'node:child_process';
 import {
   workspaceRoot,
   fileExists,
@@ -11,20 +11,28 @@ import {
 
 const errors = [];
 const warnings = [];
+const infos = [];
+
+function info(msg) {
+  infos.push(msg);
+}
 
 const nodeVersion = process.version;
-const nodeMajor = parseInt(nodeVersion.replace('v', '').split('.')[0], 10);
+const nodeMajor = Number.parseInt(
+  nodeVersion.replace('v', '').split('.')[0],
+  10,
+);
 if (nodeMajor < 18) {
   errors.push(
     `Node version ${nodeVersion} is too old. Solaris requires Node >= 18. Current: ${nodeVersion}`,
   );
 } else {
-  warnings.push(`Node version: ${nodeVersion}`);
+  info(`Node version: ${nodeVersion}`);
 }
 
 try {
   const pnpmVersion = execSync('pnpm --version', { encoding: 'utf-8' }).trim();
-  warnings.push(`pnpm version: ${pnpmVersion}`);
+  info(`pnpm version: ${pnpmVersion}`);
 } catch {
   errors.push(
     'pnpm is not installed or not found in PATH. Solaris requires pnpm.',
@@ -34,7 +42,7 @@ try {
 if (fileExists('package.json')) {
   const pkg = readJson('package.json');
   if (pkg.packageManager) {
-    warnings.push(`packageManager: ${pkg.packageManager}`);
+    info(`packageManager: ${pkg.packageManager}`);
   } else {
     errors.push('Missing "packageManager" field in package.json');
   }
@@ -43,7 +51,7 @@ if (fileExists('package.json')) {
 }
 
 if (fileExists('pnpm-lock.yaml')) {
-  warnings.push('pnpm-lock.yaml found — OK');
+  info('pnpm-lock.yaml found — OK');
 } else {
   errors.push('pnpm-lock.yaml not found — run pnpm install');
 }
@@ -57,14 +65,14 @@ for (const lock of forbiddenLocks) {
 
 if (fileExists('apps')) {
   const apps = readdirSafe('apps');
-  warnings.push(`apps/ directory found with ${apps.length} entries`);
+  info(`apps/ directory found with ${apps.length} entries`);
 } else {
   warnings.push('apps/ directory not found');
 }
 
 if (fileExists('packages')) {
   const packages = readdirSafe('packages');
-  warnings.push(`packages/ directory found with ${packages.length} entries`);
+  info(`packages/ directory found with ${packages.length} entries`);
 } else {
   warnings.push('packages/ directory not found');
 }
@@ -81,7 +89,7 @@ const docDirs = [
 for (const dir of docDirs) {
   if (fileExists(dir)) {
     const entries = readdirSafe(dir);
-    warnings.push(`${dir}/ — ${entries.length} file(s)`);
+    info(`${dir}/ — ${entries.length} file(s)`);
   } else {
     warnings.push(`${dir}/ — not found`);
   }
@@ -108,30 +116,30 @@ if (fileExists('package.json')) {
 }
 
 try {
-  const isPnpm =
-    process.env.npm_config_user_agent &&
-    process.env.npm_config_user_agent.startsWith('pnpm');
+  const isPnpm = process.env.npm_config_user_agent?.startsWith('pnpm');
   if (isPnpm) {
-    warnings.push('Running with pnpm — OK');
+    info('Running with pnpm — OK');
   } else {
     warnings.push('Not detected as running with pnpm. Run with: pnpm doctor');
   }
-} catch {}
+} catch {
+  /* empty */
+}
 
 if (fs.existsSync(path.join(workspaceRoot, '.git'))) {
-  warnings.push('.git found — repository initialized');
+  info('.git found — repository initialized');
   const hooksDirPath = path.join(workspaceRoot, '.git', 'hooks');
   try {
     const hookFiles = fs.readdirSync(hooksDirPath);
     const hasPreCommit = hookFiles.includes('pre-commit');
     const hasCommitMsg = hookFiles.includes('commit-msg');
     if (hasPreCommit) {
-      warnings.push('pre-commit hook is installed');
+      info('pre-commit hook is installed');
     } else {
       warnings.push('pre-commit hook not found — run pnpm prepare');
     }
     if (hasCommitMsg) {
-      warnings.push('commit-msg hook is installed');
+      info('commit-msg hook is installed');
     } else {
       warnings.push('commit-msg hook not found — run pnpm prepare');
     }
@@ -143,7 +151,7 @@ if (fs.existsSync(path.join(workspaceRoot, '.git'))) {
 }
 
 if (fileExists('commitlint.config.mjs')) {
-  warnings.push('commitlint config found — OK');
+  info('commitlint config found — OK');
 } else {
   errors.push('commitlint.config.mjs not found');
 }
@@ -151,20 +159,20 @@ if (fileExists('commitlint.config.mjs')) {
 if (fileExists('package.json')) {
   const pkg = readJson('package.json');
   if (pkg['simple-git-hooks']) {
-    warnings.push('simple-git-hooks configured in package.json');
+    info('simple-git-hooks configured in package.json');
   } else {
     warnings.push('simple-git-hooks not configured in package.json');
   }
 }
 
 if (fileExists('.changeset/config.json')) {
-  warnings.push('.changeset/config.json found — OK');
+  info('.changeset/config.json found — OK');
 } else {
   warnings.push('.changeset directory not found — run pnpm changeset init');
 }
 
 if (fileExists('.github/workflows/ci.yml')) {
-  warnings.push('.github/workflows/ci.yml found — OK');
+  info('.github/workflows/ci.yml found — OK');
 } else {
   warnings.push('CI workflow not configured');
 }
@@ -172,8 +180,8 @@ if (fileExists('.github/workflows/ci.yml')) {
 const angularPkg = fileExists('packages/angular/project.json')
   ? readJson('packages/angular/project.json')
   : null;
-if (angularPkg && angularPkg.targets && angularPkg.targets['test:coverage']) {
-  warnings.push('test:coverage target configured with thresholds');
+if (angularPkg?.targets?.['test:coverage']) {
+  info('test:coverage target configured with thresholds');
 } else {
   warnings.push(
     'test:coverage target not configured in packages/angular/project.json',
@@ -184,15 +192,23 @@ if (
   fileExists('packages/angular/vitest.config.ts') ||
   fileExists('packages/angular/vitest-base.config.ts')
 ) {
-  warnings.push('vitest coverage config found — OK');
+  info('vitest coverage config found — OK');
 } else {
   warnings.push('vitest coverage config not found');
 }
 
 if (fileExists('packages/angular/src/lib/testing/provide-solaris-testing.ts')) {
-  warnings.push('Centralized testing utilities found — OK');
+  info('Centralized testing utilities found — OK');
 } else {
   warnings.push('Centralized testing utilities not found');
+}
+
+if (infos.length > 0) {
+  console.log('\n=== Doctor Info ===');
+  console.log(`  Info (${infos.length}):`);
+  for (const line of infos) {
+    console.log(`    [INFO] ${line}`);
+  }
 }
 
 const result = printSummary('Doctor', errors, warnings);

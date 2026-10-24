@@ -1,16 +1,3 @@
-// SECURITY_EXCEPTION_FILE: Setting disabled/readonly on native control is standard DOM API.
-// SECURITY_EXCEPTION_FILE: Required for FormField to propagate disabled/readonly state to projected control.
-// SECURITY_EXCEPTION_FILE: Setting disabled/readonly on native control is required for FormField propagation.
-// SECURITY_EXCEPTION_FILE: nativeElement.querySelector required to find trigger element. Standard DOM API used after Angular CDK pattern.
-// SECURITY_EXCEPTION_FILE: nativeElement access required to detect projected form controls.
-// SECURITY_EXCEPTION_FILE: Angular CDK and Material use the same approach.
-// SECURITY_EXCEPTION_FILE: Read-only querySelectorAll, no DOM mutation.
-// SECURITY_EXCEPTION_FILE: nativeElement.tagName is the standard DOM API to check element type.
-// SECURITY_EXCEPTION_FILE: getAttribute is the standard DOM API to read HTML attributes.
-// SECURITY_EXCEPTION_FILE: reading value.length from native input/textarea is required for character counter.
-// SECURITY_EXCEPTION_FILE: reading value.length from native input/textarea is standard DOM API for character counter.
-// SECURITY_EXCEPTION_FILE: nativeElement access required to count projected controls.
-// SECURITY_EXCEPTION_FILE: Same justification as detectControl: read-only query, no DOM mutation.
 import {
   Component,
   input,
@@ -22,6 +9,7 @@ import {
   OnDestroy,
   ElementRef,
   inject,
+  forwardRef,
   NgZone,
   ChangeDetectionStrategy,
 } from '@angular/core';
@@ -29,6 +17,7 @@ import { FormControlDirective, FormControlName, NgModel } from '@angular/forms';
 
 import { SolarisFormPrefixDirective } from '../directives/form-prefix.directive';
 import { SolarisFormSuffixDirective } from '../directives/form-suffix.directive';
+import { SolarisFormSuffixActionDirective } from '../directives/form-suffix-action.directive';
 import { SolarisFormLabelActionDirective } from '../directives/form-label-action.directive';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
@@ -37,12 +26,15 @@ import { SolarisFormLabelComponent } from './form-label.component';
 import { SolarisFormErrorComponent } from './form-error.component';
 import { SolarisFormHintComponent } from './form-hint.component';
 import { SolarisIconComponent } from '../../../icon';
+import { SolarisSpinnerComponent } from '../../../feedback/spinner';
+import { SOLARIS_FORM_FIELD } from '../model/form-field.token';
 import { nextIdFor } from '../../../../core';
 
 import type {
   SolarisFormFieldAppearance,
   SolarisFormFieldDensity,
   SolarisFormFieldRadius,
+  SolarisFormFieldSize,
   ControlResize,
 } from '../model/form-field.types';
 import type { SolarisIconName } from '../../../../services/icon';
@@ -52,19 +44,29 @@ import type { SolarisIconName } from '../../../../services/icon';
   standalone: true,
   imports: [
     SolarisIconComponent,
+    SolarisSpinnerComponent,
     SolarisFormPrefixDirective,
     SolarisFormSuffixDirective,
   ],
   templateUrl: './form-field.component.html',
   styleUrls: ['./form-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: SOLARIS_FORM_FIELD,
+      useExisting: forwardRef(() => SolarisFormFieldComponent),
+    },
+  ],
   host: {
     '[attr.data-radius]': 'radius()',
+    '[attr.data-size]': 'size()',
     '[attr.data-bwignore]': '"true"',
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-control-type]': 'controlType()',
     '[attr.data-control-resize]': 'controlResize()',
+    '[attr.data-loading]': 'loading() ? "" : null',
+    '[attr.aria-busy]': 'loading() ? "true" : null',
     '[attr.data-invalid]': 'isInvalid() ? "" : null',
     '[attr.data-focused]': 'isFocused() ? "" : null',
     '[attr.data-has-prefix]': 'effectiveHasPrefix() ? "" : null',
@@ -82,7 +84,8 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     effect(() => {
       this.isEffectivelyDisabled();
       this.isEffectivelyReadonly();
-      this.syncControlDisabledReadonly();
+      this.isEffectivelyRequired();
+      this.syncControlState();
     });
   }
 
@@ -96,12 +99,16 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   readonly requiredLabel = input<string>();
   readonly optionalLabelKey = input<string>();
   readonly requiredLabelKey = input<string>();
-  readonly required = input<boolean>(false);
+  readonly required = input<boolean | undefined>();
   readonly optional = input<boolean>(false);
+  readonly loading = input<boolean>(false);
+  readonly loadingLabel = input<string>();
+  readonly loadingLabelKey = input<string>();
   readonly invalid = input<boolean | undefined>();
   readonly disabled = input<boolean | undefined>();
   readonly readonly = input<boolean | undefined>();
   readonly density = input<SolarisFormFieldDensity>();
+  readonly size = input<SolarisFormFieldSize>('md');
   readonly radius = input<SolarisFormFieldRadius>('md');
   readonly appearance = input<SolarisFormFieldAppearance>('outline');
   readonly control = input<SolarisFormControl | undefined>(undefined);
@@ -109,10 +116,25 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly projectedLabel = contentChild(SolarisFormLabelComponent);
   protected readonly projectedHint = contentChild(SolarisFormHintComponent);
   protected readonly projectedError = contentChild(SolarisFormErrorComponent);
-  protected readonly projectedPrefix = contentChild(SolarisFormPrefixDirective);
-  protected readonly projectedSuffix = contentChild(SolarisFormSuffixDirective);
+  protected readonly projectedPrefix = contentChild(
+    SolarisFormPrefixDirective,
+    {
+      descendants: true,
+    },
+  );
+  protected readonly projectedSuffix = contentChild(
+    SolarisFormSuffixDirective,
+    {
+      descendants: true,
+    },
+  );
+  protected readonly projectedSuffixAction = contentChild(
+    SolarisFormSuffixActionDirective,
+    { descendants: true },
+  );
   protected readonly projectedLabelAction = contentChild(
     SolarisFormLabelActionDirective,
+    { descendants: true },
   );
   protected readonly formControl = contentChild(SolarisFormControl);
   protected readonly formControlDirective = contentChild(FormControlDirective);
@@ -128,16 +150,29 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly isTextareaControl = signal(false);
   protected readonly autoDetectedDisabled = signal(false);
   protected readonly autoDetectedReadonly = signal(false);
+  protected readonly autoDetectedRequired = signal(false);
   protected readonly controlResize = signal<ControlResize | null>(null);
 
   protected readonly maxLength = signal<number | undefined>(undefined);
   protected readonly currentLength = signal<number>(0);
+  protected readonly validatorMaxLength = computed<number | undefined>(() => {
+    const errors = this.effectiveNgControl()?.control?.errors as {
+      maxlength?: { requiredLength?: unknown };
+    } | null;
+    const requiredLength = errors?.maxlength?.requiredLength;
+    return typeof requiredLength === 'number' && requiredLength > 0
+      ? requiredLength
+      : undefined;
+  });
+  protected readonly effectiveMaxLength = computed(() => {
+    return this.maxLength() ?? this.validatorMaxLength();
+  });
   protected readonly showCharacterCounter = computed(() => {
-    const max = this.maxLength();
+    const max = this.effectiveMaxLength();
     return max !== undefined && max > 0;
   });
   protected readonly characterCounterText = computed(() => {
-    const max = this.maxLength();
+    const max = this.effectiveMaxLength();
     if (max === undefined || max <= 0) return '';
     const current = this.currentLength();
     return `${current}/${max}`;
@@ -145,7 +180,7 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly characterCounterSeverity = computed<
     'normal' | 'warning' | 'danger'
   >(() => {
-    const max = this.maxLength();
+    const max = this.effectiveMaxLength();
     const current = this.currentLength();
     if (max === undefined || max <= 0) return 'normal';
     const ratio = current / max;
@@ -176,6 +211,9 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   readonly hasSuffixInput = input<boolean | undefined>(undefined, {
     alias: 'hasSuffix',
   });
+  readonly hasSuffixActionInput = input<boolean | undefined>(undefined, {
+    alias: 'hasSuffixAction',
+  });
 
   readonly prefix = input<SolarisIconName>();
   readonly suffix = input<SolarisIconName>();
@@ -187,8 +225,23 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   });
   protected readonly effectiveHasSuffix = computed(() => {
     return (
-      !!this.suffix() || !!this.projectedSuffix() || !!this.hasSuffixInput()
+      !this.loading() &&
+      (!!this.suffix() ||
+        !!this.projectedSuffix() ||
+        !!this.projectedSuffixAction() ||
+        !!this.hasSuffixInput())
     );
+  });
+  protected readonly hasSuffixAction = computed(
+    () =>
+      !this.loading() &&
+      (!!this.projectedSuffixAction() || !!this.hasSuffixActionInput()),
+  );
+  protected readonly suffixVariant = computed(() => {
+    return this.hasSuffixAction() ? 'action' : null;
+  });
+  protected readonly loadingSpinnerSize = computed(() => {
+    return this.size() === 'lg' ? 'md' : 'sm';
   });
 
   protected readonly controlType = computed<
@@ -273,6 +326,26 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     return this.autoDetectedReadonly();
   });
 
+  protected readonly isEffectivelyRequired = computed(() => {
+    const manual = this.required();
+    if (manual !== undefined) {
+      return manual;
+    }
+    const explicitControl = this.control();
+    if (explicitControl) {
+      return explicitControl.required;
+    }
+    const projectedControl = this.formControl();
+    if (projectedControl) {
+      return projectedControl.required;
+    }
+    return this.autoDetectedRequired();
+  });
+
+  protected readonly showRequiredMarker = computed(() => {
+    return this.isEffectivelyRequired() && !this.optional();
+  });
+
   protected readonly effectiveNgControl = computed(() => {
     return (
       this.formControlDirective() ??
@@ -343,12 +416,12 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     this.detectControl();
     this.connectControl();
     this.syncDescribedBy();
-    this.syncControlDisabledReadonly();
+    this.syncControlState();
     this.warnNoControl();
     this.warnMultipleControls();
   }
 
-  private syncControlDisabledReadonly(): void {
+  private syncControlState(): void {
     if (!this.controlElement) {
       return;
     }
@@ -358,11 +431,15 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     const input = this.controlElement as HTMLInputElement;
     const shouldDisable = this.isEffectivelyDisabled();
     const shouldReadonly = this.isEffectivelyReadonly();
+    const shouldRequire = this.isEffectivelyRequired();
     if (input.disabled !== shouldDisable) {
       input.disabled = shouldDisable;
     }
     if (input.readOnly !== shouldReadonly) {
       input.readOnly = shouldReadonly;
+    }
+    if (input.required !== shouldRequire) {
+      input.required = shouldRequire;
     }
   }
 
@@ -399,6 +476,7 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
 
   private detectExplicitControl(explicitControl: SolarisFormControl): void {
     this.controlId = explicitControl.id;
+    // SECURITY_EXCEPTION: locating the projected trigger element requires a host DOM query; contentChild cannot match arbitrary native controls. Read-only, no mutation.
     const triggerEl = this.elementRef.nativeElement.querySelector(
       '[solaris-form-field-trigger]',
     );
@@ -412,6 +490,7 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   }
 
   private detectNativeControl(): void {
+    // SECURITY_EXCEPTION: detecting projected native controls (input/select/textarea with or without directives) requires a host DOM query. Read-only querySelectorAll, no mutation.
     const nativeElement = this.elementRef.nativeElement;
     const children = nativeElement.querySelectorAll(
       'input, select, textarea, [solaris-input], [solaris-select], [solaris-textarea]',
@@ -425,6 +504,7 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
     this.controlElement = first;
     const isTextarea = first.tagName === 'TEXTAREA';
     this.isTextareaControl.set(isTextarea);
+    this.autoDetectedRequired.set((first as HTMLInputElement).required);
     this.detectCharacterCounter(first);
     this.detectControlResize(first, isTextarea);
   }
@@ -537,6 +617,7 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   }
 
   private warnMultipleControls(): void {
+    // SECURITY_EXCEPTION: counting projected controls for the dev-only multiple-control warning requires a host DOM query. Read-only, no mutation.
     const nativeElement = this.elementRef.nativeElement;
     const children = nativeElement.querySelectorAll(
       'input, select, textarea, [solaris-input], [solaris-select], [solaris-textarea]',

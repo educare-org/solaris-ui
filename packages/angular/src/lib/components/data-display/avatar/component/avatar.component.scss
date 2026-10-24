@@ -1,0 +1,488 @@
+:host {
+  --solaris-avatar-size: var(--solaris-spacing-12);
+  --solaris-avatar-radius: var(--solaris-radius-full);
+  --solaris-avatar-background: var(--solaris-neutral-sunken);
+  --solaris-avatar-color: var(--solaris-neutral-text-body);
+  --solaris-avatar-font-size: var(--solaris-font-size-sm);
+  --solaris-avatar-ring-color: var(--solaris-neutral-default);
+  --solaris-avatar-knockout: var(--solaris-spacing-3);
+  --solaris-avatar-ring-offset: var(--solaris-spacing-4);
+  --solaris-avatar-status-size: var(--solaris-spacing-5);
+  --solaris-avatar-count-height: var(--solaris-spacing-7);
+  --solaris-avatar-count-padding-x: var(--solaris-spacing-4);
+  --solaris-avatar-count-font-size: var(--solaris-font-size-xs);
+  --solaris-avatar-count-background: var(--solaris-danger-solid);
+  --solaris-avatar-count-color: var(--solaris-danger-on-solid);
+  --solaris-avatar-verified-size: var(--solaris-spacing-9);
+  --solaris-avatar-organization-size: var(--solaris-spacing-7);
+  --solaris-avatar-status-color: var(--solaris-neutral-text-secondary);
+  --solaris-avatar-ring-width: var(--solaris-border-width-lg);
+
+  flex-shrink: 0;
+  user-select: none;
+  overflow: visible;
+  position: relative;
+  align-items: center;
+  display: inline-flex;
+  box-sizing: border-box;
+  vertical-align: middle;
+  justify-content: center;
+  width: var(--solaris-avatar-size);
+  height: var(--solaris-avatar-size);
+  color: var(--solaris-avatar-color);
+  font-size: var(--solaris-avatar-font-size);
+  border-radius: var(--solaris-avatar-radius);
+  background: var(--solaris-avatar-background);
+  font-weight: var(--solaris-font-weight-medium);
+  font-family: var(--solaris-font-family-sans), system-ui;
+}
+
+:host([data-size='xs']) {
+  --solaris-avatar-size: var(--solaris-spacing-9);
+  --solaris-avatar-status-size: var(--solaris-spacing-5);
+  --solaris-avatar-font-size: var(--solaris-font-size-xs);
+  --solaris-avatar-count-height: var(--solaris-spacing-5);
+  --solaris-avatar-verified-size: var(--solaris-spacing-6);
+  --solaris-avatar-organization-size: var(--solaris-spacing-5);
+}
+
+:host([data-size='sm']) {
+  --solaris-avatar-size: var(--solaris-spacing-10);
+  --solaris-avatar-font-size: var(--solaris-font-size-xs);
+  --solaris-avatar-status-size: var(--solaris-spacing-6);
+  --solaris-avatar-verified-size: var(--solaris-spacing-7);
+  --solaris-avatar-organization-size: var(--solaris-spacing-6);
+  --solaris-avatar-count-height: var(--solaris-spacing-6);
+}
+
+:host([data-size='md']) {
+  --solaris-avatar-size: var(--solaris-spacing-12);
+  --solaris-avatar-font-size: var(--solaris-font-size-sm);
+  --solaris-avatar-status-size: var(--solaris-spacing-6);
+}
+
+:host([data-size='lg']) {
+  --solaris-avatar-size: var(--solaris-spacing-13);
+  --solaris-avatar-font-size: var(--solaris-font-size-md);
+  --solaris-avatar-status-size: var(--solaris-spacing-7);
+  --solaris-avatar-verified-size: var(--solaris-spacing-10);
+  --solaris-avatar-organization-size: var(--solaris-spacing-8);
+  --solaris-avatar-count-height: var(--solaris-spacing-8);
+  --solaris-avatar-count-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='xl']) {
+  --solaris-avatar-size: var(--solaris-spacing-15);
+  --solaris-avatar-font-size: var(--solaris-font-size-lg);
+  --solaris-avatar-status-size: var(--solaris-spacing-8);
+  --solaris-avatar-verified-size: var(--solaris-spacing-12);
+  --solaris-avatar-organization-size: var(--solaris-spacing-9);
+  --solaris-avatar-count-height: var(--solaris-spacing-9);
+  --solaris-avatar-count-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-radius='full']) {
+  --solaris-avatar-radius: var(--solaris-radius-full);
+}
+
+:host([data-radius='md']) {
+  --solaris-avatar-radius: var(--solaris-radius-md);
+}
+
+:host([data-radius='sm']) {
+  --solaris-avatar-radius: var(--solaris-radius-sm);
+}
+
+:host([data-radius='square']) {
+  --solaris-avatar-radius: var(--solaris-radius-none);
+}
+
+:host([data-status='online']) {
+  --solaris-avatar-status-color: var(--solaris-success-solid);
+}
+
+:host([data-status='away']) {
+  --solaris-avatar-status-color: var(--solaris-warning-solid);
+}
+
+:host([data-status='busy']) {
+  --solaris-avatar-status-color: var(--solaris-danger-solid);
+}
+
+:host([data-status='dnd']) {
+  --solaris-avatar-status-color: var(--solaris-danger-solid);
+}
+
+:host([data-status='offline']) {
+  --solaris-avatar-status-color: var(--solaris-neutral-border-default);
+}
+
+:host([data-palette='0']) {
+  --solaris-avatar-background: var(--solaris-warning-soft);
+  --solaris-avatar-color: var(--solaris-warning-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-warning-solid);
+  --solaris-avatar-mesh-b: var(--solaris-danger-solid);
+  --solaris-avatar-mesh-c: var(--solaris-danger-solid);
+}
+
+:host([data-palette='1']) {
+  --solaris-avatar-background: var(--solaris-info-soft);
+  --solaris-avatar-color: var(--solaris-info-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-info-solid);
+  --solaris-avatar-mesh-b: var(--solaris-success-solid);
+  --solaris-avatar-mesh-c: var(--solaris-primary-solid);
+}
+
+:host([data-palette='2']) {
+  --solaris-avatar-background: var(--solaris-success-soft);
+  --solaris-avatar-color: var(--solaris-success-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-success-solid);
+  --solaris-avatar-mesh-b: var(--solaris-warning-solid);
+  --solaris-avatar-mesh-c: var(--solaris-success-solid);
+}
+
+:host([data-palette='3']) {
+  --solaris-avatar-background: var(--solaris-primary-soft);
+  --solaris-avatar-color: var(--solaris-primary-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-primary-solid);
+  --solaris-avatar-mesh-b: var(--solaris-danger-solid);
+  --solaris-avatar-mesh-c: var(--solaris-info-solid);
+}
+
+:host([data-palette='4']) {
+  --solaris-avatar-background: var(--solaris-neutral-sunken);
+  --solaris-avatar-color: var(--solaris-neutral-text-body);
+  --solaris-avatar-mesh-a: var(--solaris-neutral-text-secondary);
+  --solaris-avatar-mesh-b: var(--solaris-neutral-border-default);
+  --solaris-avatar-mesh-c: var(--solaris-neutral-text-secondary);
+}
+
+:host([data-palette='5']) {
+  --solaris-avatar-background: var(--solaris-accent-soft);
+  --solaris-avatar-color: var(--solaris-accent-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-accent-solid);
+  --solaris-avatar-mesh-b: var(--solaris-danger-solid);
+  --solaris-avatar-mesh-c: var(--solaris-warning-solid);
+}
+
+:host([data-palette='6']) {
+  --solaris-avatar-background: var(--solaris-danger-soft);
+  --solaris-avatar-color: var(--solaris-danger-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-danger-solid);
+  --solaris-avatar-mesh-b: var(--solaris-accent-solid);
+  --solaris-avatar-mesh-c: var(--solaris-warning-solid);
+}
+
+:host([data-palette='7']) {
+  --solaris-avatar-background: var(--solaris-primary-soft);
+  --solaris-avatar-color: var(--solaris-primary-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-primary-solid);
+  --solaris-avatar-mesh-b: var(--solaris-info-solid);
+  --solaris-avatar-mesh-c: var(--solaris-success-solid);
+}
+
+:host([data-palette='8']) {
+  --solaris-avatar-background: var(--solaris-info-soft);
+  --solaris-avatar-color: var(--solaris-info-foreground);
+  --solaris-avatar-mesh-a: var(--solaris-info-solid);
+  --solaris-avatar-mesh-b: var(--solaris-primary-solid);
+  --solaris-avatar-mesh-c: var(--solaris-accent-solid);
+}
+
+:host([data-palette='9']) {
+  --solaris-avatar-mesh-c: var(--solaris-neutral-text-secondary);
+  --solaris-avatar-color: var(--solaris-neutral-text-body);
+  --solaris-avatar-mesh-b: var(--solaris-neutral-text-tertiary);
+  --solaris-avatar-mesh-a: var(--solaris-neutral-border-strong);
+  --solaris-avatar-background: var(--solaris-neutral-sunken);
+}
+
+.solaris-avatar__action {
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  background: transparent;
+  padding: var(--solaris-spacing-0);
+  border-radius: var(--solaris-avatar-radius);
+  border: var(--solaris-border-width-sm) solid transparent;
+}
+
+.solaris-avatar__action:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-avatar__image,
+.solaris-avatar__generative {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: var(--solaris-spacing-0);
+  border-radius: var(--solaris-avatar-radius);
+}
+
+.solaris-avatar__image {
+  object-fit: cover;
+}
+
+.solaris-avatar__mesh-base {
+  fill: var(--solaris-avatar-background);
+}
+
+.solaris-avatar__mesh-a {
+  fill: var(--solaris-avatar-mesh-a);
+}
+
+.solaris-avatar__mesh-b {
+  fill: var(--solaris-avatar-mesh-b);
+}
+
+.solaris-avatar__mesh-c {
+  fill: var(--solaris-avatar-mesh-c);
+}
+
+.solaris-avatar__initials {
+  line-height: 1;
+  position: relative;
+  letter-spacing: var(--solaris-spacing-0);
+  text-shadow:
+    0 0 var(--solaris-spacing-2) var(--solaris-avatar-ring-color),
+    0 var(--solaris-spacing-1) var(--solaris-spacing-3)
+      var(--solaris-avatar-ring-color);
+}
+
+.solaris-avatar__icon {
+  position: relative;
+  width: 55%;
+  height: 55%;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2;
+}
+
+.solaris-avatar__empty-icon {
+  position: relative;
+  width: 40%;
+  height: 40%;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+:host([data-empty]) {
+  --solaris-avatar-background: var(--solaris-neutral-sunken);
+  --solaris-avatar-color: var(--solaris-neutral-text-secondary);
+}
+
+.solaris-avatar__count {
+  position: absolute;
+  top: var(--solaris-spacing-0);
+  right: var(--solaris-spacing-0);
+  z-index: var(--solaris-z-index-raised);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: var(--solaris-avatar-count-height);
+  height: var(--solaris-avatar-count-height);
+  padding-right: var(--solaris-avatar-count-padding-x);
+  padding-left: var(--solaris-avatar-count-padding-x);
+  border-radius: var(--solaris-avatar-radius);
+  background: var(--solaris-avatar-count-background);
+  color: var(--solaris-avatar-count-color);
+  font-size: var(--solaris-avatar-count-font-size);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  transform: translate(35%, -35%);
+
+  // SOLARIS_TOKEN_EXCEPTION: box-shadow used as a knockout separator between the count badge and the photo (not elevation), sized by the spacing token.
+  box-shadow: 0 0 0 var(--solaris-avatar-knockout)
+    var(--solaris-avatar-ring-color);
+}
+
+:host([data-count-single]) .solaris-avatar__count {
+  padding-right: var(--solaris-spacing-0);
+  padding-left: var(--solaris-spacing-0);
+}
+
+.solaris-avatar__status {
+  position: absolute;
+  right: var(--solaris-spacing-0);
+  bottom: var(--solaris-spacing-0);
+  z-index: var(--solaris-z-index-raised);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--solaris-avatar-status-size);
+  height: var(--solaris-avatar-status-size);
+  border-radius: var(--solaris-radius-full);
+  background: var(--solaris-avatar-status-color);
+  transform: translate(30%, 30%);
+
+  // SOLARIS_TOKEN_EXCEPTION: box-shadow used as a knockout separator between the status dot and the photo (not elevation), sized by the spacing token.
+  box-shadow: 0 0 0 var(--solaris-avatar-knockout)
+    var(--solaris-avatar-ring-color);
+}
+
+:host([data-status-placement='bottom-left']) .solaris-avatar__status {
+  right: auto;
+  left: var(--solaris-spacing-0);
+  transform: translate(-30%, 30%);
+}
+
+.solaris-avatar__off-hours {
+  overflow: visible;
+  position: absolute;
+  transform: translate(55%, 60%);
+  right: var(--solaris-spacing-0);
+  bottom: var(--solaris-spacing-0);
+  width: var(--solaris-avatar-status-size);
+  height: var(--solaris-avatar-status-size);
+}
+
+.solaris-avatar__off-hours-halo,
+.solaris-avatar__off-hours-glyph {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.solaris-avatar__off-hours-halo {
+  stroke-width: 14;
+  stroke: var(--solaris-avatar-ring-color);
+}
+
+.solaris-avatar__off-hours-glyph {
+  stroke-width: 4;
+  stroke: var(--solaris-avatar-status-color);
+}
+
+:host([data-status='dnd']) .solaris-avatar__status::after {
+  content: '';
+  top: 50%;
+  left: 50%;
+  width: 55%;
+  position: absolute;
+  height: var(--solaris-spacing-2);
+  transform: translate(-50%, -50%);
+  border-radius: var(--solaris-radius-full);
+  background: var(--solaris-danger-on-solid);
+}
+
+.solaris-avatar__verified {
+  position: absolute;
+  display: inline-flex;
+  transform: translate(35%, 35%);
+  right: var(--solaris-spacing-0);
+  bottom: var(--solaris-spacing-0);
+  z-index: var(--solaris-z-index-raised);
+  width: var(--solaris-avatar-verified-size);
+  height: var(--solaris-avatar-verified-size);
+}
+
+.solaris-avatar__verified svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.solaris-avatar__seal {
+  stroke-width: 10;
+  fill: var(--solaris-info-solid);
+  stroke: var(--solaris-avatar-ring-color);
+}
+
+.solaris-avatar__seal-check {
+  fill: none;
+  stroke: var(--solaris-neutral-text-body);
+  stroke-width: 10;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.solaris-avatar__organization {
+  position: absolute;
+  top: var(--solaris-spacing-0);
+  left: var(--solaris-spacing-0);
+  z-index: var(--solaris-z-index-raised);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--solaris-avatar-organization-size);
+  height: var(--solaris-avatar-organization-size);
+  border-radius: var(--solaris-radius-full);
+  transform: translate(-35%, -35%);
+}
+
+.solaris-avatar__organization:empty {
+  display: none;
+}
+
+.solaris-avatar__ring,
+.solaris-avatar__track,
+.solaris-avatar__bar {
+  position: absolute;
+  inset: calc(var(--solaris-avatar-ring-offset) * -1);
+  border-radius: var(--solaris-avatar-radius);
+  pointer-events: none;
+  padding: var(--solaris-avatar-ring-width);
+
+  // Ring shape cut out of a filled box via mask compositing; the mask color
+  // only needs full opacity, so a text token is reused (never rendered).
+  -webkit-mask:
+    linear-gradient(var(--solaris-neutral-text-body) 0 0) content-box,
+    linear-gradient(var(--solaris-neutral-text-body) 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+:host([data-active]) .solaris-avatar__ring {
+  background: conic-gradient(
+    from 210deg,
+    var(--solaris-primary-solid-active),
+    var(--solaris-info-solid),
+    var(--solaris-primary-solid-hover),
+    var(--solaris-primary-solid),
+    var(--solaris-primary-solid-active)
+  );
+}
+
+:host([data-loading]) .solaris-avatar__track {
+  background: var(--solaris-neutral-border-default);
+}
+
+:host([data-loading]) .solaris-avatar__bar {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    transparent 55%,
+    var(--solaris-primary-solid) 82%,
+    var(--solaris-primary-solid-hover) 100%
+  );
+  animation: solaris-avatar-spin var(--solaris-motion-duration-slower)
+    var(--solaris-motion-easing-standard) infinite;
+}
+
+@keyframes solaris-avatar-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host([data-loading]) .solaris-avatar__bar {
+    animation: none;
+    background: var(--solaris-primary-solid);
+  }
+}
+
+:host-context([data-reduced-motion='true']) .solaris-avatar__bar {
+  animation: none;
+}

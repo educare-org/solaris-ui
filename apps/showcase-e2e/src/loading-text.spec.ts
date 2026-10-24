@@ -9,7 +9,7 @@ test('loading text renders default caption', async ({ page }) => {
 
 test('loading text renders visible custom text', async ({ page }) => {
   await page.goto('/feedback/loading/loading-text');
-  const text = page.getByText('Uploading your document...');
+  const text = page.getByText('Preparing your workspace…');
   await expect(text).toBeVisible();
 });
 
@@ -22,14 +22,15 @@ test('loading text exposes accessible name', async ({ page }) => {
 
 test('loading text font size varies by size', async ({ page }) => {
   await page.goto('/feedback/loading/loading-text');
-  const section = page.locator('.loading-text-showcase__section').nth(1);
+  const section = page.locator('#size-density');
 
-  const sizes = ['sm', 'md', 'lg', 'xl'];
+  const sizes = ['Small', 'Medium', 'Large', 'Extra large'];
   const fontSizes = new Set<string>();
 
-  for (const attr of sizes) {
-    const el = section.locator(`solaris-loading-text[data-size="${attr}"]`);
-    await expect(el).toBeVisible();
+  const el = section.locator('solaris-loading-text');
+  await expect(el).toBeVisible();
+  for (const size of sizes) {
+    await section.getByRole('tab', { name: size, exact: true }).click();
     const fs = await el.evaluate(
       (node) => getComputedStyle(node as HTMLElement).fontSize,
     );
@@ -57,4 +58,14 @@ test('loading text base color is always visible', async ({ page }) => {
     (el) => getComputedStyle(el as HTMLElement).color,
   );
   expect(color).toBeTruthy();
+});
+
+test('loading text renders pulsing dots when enabled', async ({ page }) => {
+  await page.goto('/feedback/loading/loading-text');
+  const text = page.locator('#dots solaris-loading-text');
+  await expect(text).toBeVisible();
+  const dots = text.locator('.solaris-loading-text__dots');
+  await expect(dots).toBeVisible();
+  await expect(dots).toHaveAttribute('aria-hidden', 'true');
+  await expect(dots.locator('span')).toHaveCount(3);
 });

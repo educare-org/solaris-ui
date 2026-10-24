@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular API to read the host element for capture-phase scroll listener tracking bodyScrolled state. SSR-safe via afterNextRender with DestroyRef cleanup. No alternative exists.
 import {
   Component,
   input,
@@ -95,6 +94,9 @@ export class SolarisDialogComponent<TResult = unknown> {
   );
   protected readonly footerSeparator = computed(
     () => this.options().footerSeparator ?? true,
+  );
+  protected readonly collapseFooterSeparator = computed(
+    () => this.hasActions() && this.headerSeparator() && this.footerSeparator(),
   );
   protected readonly actionsShape = computed(() => this.options().actionsShape);
   protected readonly actionsDensity = computed(

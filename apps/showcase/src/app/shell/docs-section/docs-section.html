@@ -1,0 +1,10 @@
+<section
+  class="docs-section"
+  [attr.id]="anchor()"
+  [attr.aria-labelledby]="anchor() + '-title'"
+>
+  <h2 class="docs-section__title" [id]="anchor() + '-title'">
+    {{ titleKey() ? (titleKey()! | translate) : title() }}
+  </h2>
+  <ng-content />
+</section>

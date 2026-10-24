@@ -1,0 +1,9 @@
+.semesters-hint {
+  margin: var(--solaris-spacing-4) var(--solaris-spacing-0);
+  font-size: var(--solaris-font-size-xs);
+  color: var(--solaris-neutral-text-tertiary);
+}
+
+.semesters-scroll {
+  max-width: calc(var(--solaris-spacing-18) * 5);
+}

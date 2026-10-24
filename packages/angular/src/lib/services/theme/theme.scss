@@ -1,6 +1,3 @@
-/// Theme tokens entry point
-/// Re-exports all token modules as a single SCSS entry.
-
 @forward '../../../styles/token/color';
 @forward '../../../styles/token/density';
 @forward '../../../styles/token/radius';

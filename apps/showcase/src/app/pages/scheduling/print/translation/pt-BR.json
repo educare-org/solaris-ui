@@ -1,0 +1,23 @@
+{
+  "print-view": {
+    "description": "Folhas de estilo ink-safe e pré-visualização para exportar mês e agenda.",
+    "examples": {
+      "note": "Use o diálogo de impressão do navegador para exportar PDF. Toolbars e painéis somem, scrollers expandem e sombras achatam."
+    },
+    "installation": {
+      "note": "Sem instalação extra — o CSS de impressão acompanha shell e visões."
+    },
+    "print": {
+      "button": "Pré-visualizar impressão"
+    },
+    "props": {
+      "note": "Mês imprime a grade 6x7; viewports estreitos imprimem a agenda via fallback do shell."
+    },
+    "section": {
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "props": "Propriedades"
+    },
+    "title": "Impressão do Calendário"
+  }
+}

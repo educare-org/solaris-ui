@@ -1,0 +1,320 @@
+<div class="solaris-calendar-week-view__scroll">
+  <div
+    class="solaris-calendar-week-view__grid"
+    role="grid"
+    tabindex="0"
+    [attr.aria-label]="rangeLabel()"
+    [attr.aria-activedescendant]="activeSlotId()"
+    (keydown)="onGridKeydown($event)"
+    (focus)="onGridFocus()"
+    (blur)="onGridBlur()"
+  >
+    <div
+      class="solaris-calendar-week-view__head"
+      role="row"
+      [style.grid-template-columns]="columnTemplate()"
+    >
+      <span
+        class="solaris-calendar-week-view__corner"
+        aria-hidden="true"
+      ></span>
+      @for (column of columns(); track column.date) {
+        <button
+          type="button"
+          class="solaris-calendar-week-view__dayhead"
+          role="columnheader"
+          [attr.aria-label]="dayAriaLabel(column.date)"
+          [attr.aria-current]="isToday(column.date) ? 'date' : null"
+          [attr.data-today]="isToday(column.date) ? '' : null"
+          (click)="openDay(column.date)"
+        >
+          <span class="solaris-calendar-week-view__weekday" aria-hidden="true">
+            {{ weekdayName(column.date) }}
+          </span>
+          <span
+            class="solaris-calendar-week-view__daynumber"
+            aria-hidden="true"
+          >
+            {{ dayNumber(column.date) }}
+          </span>
+        </button>
+      }
+    </div>
+
+    @if (showAllDay()) {
+      <div
+        class="solaris-calendar-week-view__allday"
+        role="row"
+        [style.grid-template-columns]="columnTemplate()"
+      >
+        <span class="solaris-calendar-week-view__allday-label" role="rowheader">
+          {{ allDayLabel() }}
+        </span>
+        @for (column of columns(); track column.date) {
+          <div
+            class="solaris-calendar-week-view__allday-cell"
+            role="gridcell"
+            [attr.data-date]="column.date"
+            [attr.aria-label]="dayAriaLabel(column.date)"
+            (pointerdown)="onAllDayCellPointerDown($event, column.date)"
+          >
+            @for (item of visibleAllDay(column.date); track allDayKey(item)) {
+              @if (item.kind === 'task') {
+                <button
+                  type="button"
+                  class="solaris-calendar-week-view__chip"
+                  data-chip=""
+                  [attr.data-kind]="item.kind"
+                  [attr.data-color]="item.color"
+                  [attr.data-completed]="item.completed ? '' : null"
+                  [attr.data-selected]="isSelectedAllDay(item) ? '' : null"
+                  role="checkbox"
+                  [attr.aria-checked]="item.completed"
+                  [attr.aria-label]="allDayAriaLabel(item)"
+                  (click)="toggleTask(item)"
+                >
+                  <span
+                    class="solaris-calendar-week-view__check"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="solaris-calendar-week-view__chip-text">
+                    {{ item.title }}
+                  </span>
+                </button>
+              } @else if (item.kind === 'holiday') {
+                <span
+                  class="solaris-calendar-week-view__chip"
+                  data-chip=""
+                  [attr.data-kind]="item.kind"
+                  [attr.data-color]="item.color"
+                >
+                  <span class="solaris-calendar-week-view__chip-text">
+                    {{ item.title }}
+                  </span>
+                </span>
+              } @else {
+                <button
+                  type="button"
+                  class="solaris-calendar-week-view__chip"
+                  data-chip=""
+                  [attr.data-kind]="item.kind"
+                  [attr.data-color]="item.color"
+                  [attr.data-occurrence]="item.occurrenceStart"
+                  [attr.data-dragging]="isAllDayDragSource(item) ? '' : null"
+                  [attr.data-selected]="isSelectedAllDay(item) ? '' : null"
+                  [attr.aria-label]="allDayAriaLabel(item)"
+                  (click)="activateAllDay(item, column.date)"
+                  (pointerdown)="
+                    onAllDayChipPointerDown($event, item, column.date)
+                  "
+                  (keydown)="onAllDayChipKeydown($event, item, column.date)"
+                >
+                  <span class="solaris-calendar-week-view__chip-text">
+                    {{ item.title }}
+                  </span>
+                </button>
+              }
+            }
+            @if (allDayGhostDate() === column.date) {
+              <div
+                class="solaris-calendar-week-view__ghost"
+                data-ghost=""
+                data-ghost-kind="allday"
+                [attr.data-mode]="dragSession()?.mode ?? null"
+                aria-hidden="true"
+              >
+                <span class="solaris-calendar-week-view__ghost-text">
+                  {{ allDayGhostText() }}
+                </span>
+              </div>
+            }
+            @if (hiddenAllDay(column.date).length > 0) {
+              <button
+                type="button"
+                class="solaris-calendar-week-view__more"
+                solaris-popover-trigger
+                [solarisPopoverTriggerFor]="morePopover"
+                [solarisPopoverPlacement]="'bottom'"
+                [solarisPopoverAlign]="'start'"
+                [solarisPopoverFitContent]="true"
+                [solarisPopoverMaxWidth]="
+                  'calc(100vw - var(--solaris-spacing-4))'
+                "
+                [solarisPopoverAriaHasPopup]="'dialog'"
+                [attr.aria-label]="moreAriaLabel(column.date)"
+                (click)="openMore(column.date)"
+              >
+                {{ moreText(hiddenAllDay(column.date).length) }}
+              </button>
+              <ng-template #morePopover="solarisPopover" solaris-popover>
+                <div
+                  role="dialog"
+                  class="solaris-calendar-week-view__panel"
+                  [attr.aria-label]="dayAriaLabel(column.date)"
+                >
+                  @for (
+                    item of allDayItems(column.date);
+                    track allDayKey(item)
+                  ) {
+                    @if (item.kind === 'task') {
+                      <button
+                        type="button"
+                        class="solaris-calendar-week-view__chip"
+                        [attr.data-kind]="item.kind"
+                        [attr.data-color]="item.color"
+                        role="checkbox"
+                        [attr.aria-checked]="item.completed"
+                        [attr.aria-label]="allDayAriaLabel(item)"
+                        (click)="toggleTask(item)"
+                      >
+                        <span
+                          class="solaris-calendar-week-view__check"
+                          aria-hidden="true"
+                        ></span>
+                        <span class="solaris-calendar-week-view__chip-text">
+                          {{ item.title }}
+                        </span>
+                      </button>
+                    } @else if (item.kind === 'holiday') {
+                      <span
+                        class="solaris-calendar-week-view__chip"
+                        [attr.data-kind]="item.kind"
+                        [attr.data-color]="item.color"
+                      >
+                        <span class="solaris-calendar-week-view__chip-text">
+                          {{ item.title }}
+                        </span>
+                      </span>
+                    } @else {
+                      <button
+                        type="button"
+                        class="solaris-calendar-week-view__chip"
+                        [attr.data-kind]="item.kind"
+                        [attr.data-color]="item.color"
+                        [attr.aria-label]="allDayAriaLabel(item)"
+                        (click)="activateAllDay(item, column.date)"
+                      >
+                        <span class="solaris-calendar-week-view__chip-text">
+                          {{ item.title }}
+                        </span>
+                      </button>
+                    }
+                  }
+                </div>
+              </ng-template>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <div class="solaris-calendar-week-view__body">
+      @for (hour of hours(); track hour) {
+        <div
+          class="solaris-calendar-week-view__hourrow"
+          role="row"
+          [style.grid-template-columns]="columnTemplate()"
+        >
+          <span
+            class="solaris-calendar-week-view__gutter"
+            role="rowheader"
+            aria-hidden="true"
+          >
+            {{ hourLabel(hour) }}
+          </span>
+          @for (column of columns(); track column.date) {
+            <div
+              class="solaris-calendar-week-view__slotcell"
+              role="gridcell"
+              [attr.data-date]="column.date"
+              [attr.data-hour]="hour"
+              (pointerdown)="onSlotPointerDown($event, column.date, hour)"
+            >
+              <button
+                type="button"
+                class="solaris-calendar-week-view__slot"
+                [id]="slotId(column.date, hour)"
+                tabindex="-1"
+                [attr.aria-label]="slotAriaLabel(column.date, hour)"
+                (click)="selectSlot(column.date, hour)"
+              ></button>
+            </div>
+          }
+        </div>
+      }
+      <div
+        class="solaris-calendar-week-view__overlay"
+        [style.grid-template-columns]="laneTemplate()"
+      >
+        @for (column of columns(); track column.date) {
+          <div
+            class="solaris-calendar-week-view__lane"
+            [attr.data-drag-target]="isDragLane(column.date) ? '' : null"
+          >
+            @for (block of column.blocks; track blockId(block)) {
+              <button
+                type="button"
+                class="solaris-calendar-week-view__block"
+                data-event=""
+                [id]="blockId(block)"
+                [attr.data-color]="block.color"
+                [attr.data-occurrence]="block.occurrenceStart"
+                [attr.data-dragging]="isBlockDragSource(block) ? '' : null"
+                [attr.data-selected]="isSelectedBlock(block) ? '' : null"
+                [attr.aria-label]="blockAriaLabel(block)"
+                [solarisTooltip]="blockAriaLabel(block)"
+                [style.top.%]="blockTop(block, column.date)"
+                [style.height.%]="blockHeight(block, column.date)"
+                [style.left.%]="blockLeft(block)"
+                [style.width]="blockWidth(block)"
+                (click)="openEvent(block)"
+                (pointerdown)="onBlockPointerDown($event, block, column.date)"
+                (keydown)="onBlockKeydown($event, block, column.date)"
+              >
+                <span
+                  class="solaris-calendar-week-view__handle"
+                  data-edge="start"
+                  aria-hidden="true"
+                  (pointerdown)="onResizePointerDown($event, block, 'start')"
+                ></span>
+                <span class="solaris-calendar-week-view__block-title">
+                  {{ block.title }}
+                </span>
+                <span
+                  class="solaris-calendar-week-view__handle"
+                  data-edge="end"
+                  aria-hidden="true"
+                  (pointerdown)="onResizePointerDown($event, block, 'end')"
+                ></span>
+              </button>
+            }
+            @if (timedGhostFor(column.date); as ghost) {
+              <div
+                class="solaris-calendar-week-view__ghost"
+                data-ghost=""
+                data-ghost-kind="timed"
+                [attr.data-mode]="timedGhostMode()"
+                aria-hidden="true"
+                [style.top.%]="ghost.top"
+                [style.height.%]="ghost.height"
+              >
+                <span class="solaris-calendar-week-view__ghost-text">
+                  {{ timedGhostText() }}
+                </span>
+              </div>
+            }
+          </div>
+        }
+        @if (nowTop() !== null) {
+          <div
+            class="solaris-calendar-week-view__now"
+            role="img"
+            [attr.aria-label]="nowText()"
+            [style.top.%]="nowTop()"
+          ></div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+<span solaris-visually-hidden role="status">{{ announcement() }}</span>

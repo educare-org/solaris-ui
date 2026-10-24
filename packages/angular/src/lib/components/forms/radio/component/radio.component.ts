@@ -1,8 +1,7 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
-// SECURITY_EXCEPTION_FILE: nativeElement.childNodes is the standard DOM API to check for projected content in the host element. Same pattern used by Angular CDK content projection detection.
 import {
   Component,
   input,
+  booleanAttribute,
   output,
   computed,
   signal,
@@ -19,7 +18,10 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
-import { SOLARIS_RADIO_GROUP_NAME } from '../../radio-group/model/radio-group.token';
+import {
+  SOLARIS_RADIO_GROUP,
+  SOLARIS_RADIO_GROUP_NAME,
+} from '../../radio-group/model/radio-group.token';
 import { resolveElementId } from '../../../../core';
 import {
   SOLARIS_RADIO_OPTION,
@@ -31,6 +33,7 @@ import type {
   SolarisRadioColor,
   SolarisRadioSize,
   SolarisRadioDensity,
+  SolarisRadioLabelPosition,
 } from '../model/radio.types';
 
 @Component({
@@ -57,8 +60,9 @@ import type {
   host: {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',
-    '[attr.data-size]': 'size()',
+    '[attr.data-size]': 'effectiveSize()',
     '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-label-position]': 'labelPosition()',
     '[attr.data-checked]': '_checked() ? "" : null',
     '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
     '[attr.data-readonly]': 'isEffectivelyReadonly() ? "" : null',
@@ -70,10 +74,12 @@ export class SolarisRadioComponent
   extends SolarisFormControl
   implements ControlValueAccessor, SolarisRadioOption
 {
-  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
-  private readonly translateService = inject(SolarisTranslateService);
   private readonly groupName =
     inject(SOLARIS_RADIO_GROUP_NAME, { optional: true }) ?? null;
+  private readonly group = inject(SOLARIS_RADIO_GROUP, { optional: true });
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly translateService = inject(SolarisTranslateService);
+  protected readonly themeService = inject(SolarisThemeService);
 
   private readonly inputElementRef =
     viewChild<ElementRef<HTMLInputElement>>('inputElement');
@@ -92,43 +98,53 @@ export class SolarisRadioComponent
   protected readonly hasProjectedContent = signal(false);
   private contentChecked = false;
 
-  readonly checked = input<boolean, boolean>(false, {
-    transform: (v: boolean) => v ?? false,
+  readonly checked = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
   });
-  readonly disabledInput = input<boolean, boolean>(false, {
+  readonly disabledInput = input<boolean, unknown>(false, {
     alias: 'disabled',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly readonlyInput = input<boolean, boolean>(false, {
+  readonly readonlyInput = input<boolean, unknown>(false, {
     alias: 'readonly',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly requiredInput = input<boolean, boolean>(false, {
+  readonly requiredInput = input<boolean, unknown>(false, {
     alias: 'required',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
   readonly invalidInput = input<boolean | undefined>(undefined, {
     alias: 'invalid',
   });
+  readonly radioDescription = input<string>(undefined, {
+    alias: 'description',
+  });
+  readonly size = input<SolarisRadioSize | undefined>(undefined);
+  readonly labelPosition = input<SolarisRadioLabelPosition>('end');
   readonly appearance = input<SolarisRadioAppearance>('outline');
-  readonly color = input<SolarisRadioColor>('primary');
-  readonly size = input<SolarisRadioSize>('md');
-  readonly density = input<SolarisRadioDensity>();
   readonly radioLabel = input<string>(undefined, { alias: 'label' });
+  readonly color = input<SolarisRadioColor>('neutral');
+  readonly density = input<SolarisRadioDensity>();
+  readonly descriptionKey = input<string>();
+  readonly ariaLabelKey = input<string>();
+  readonly ariaLabel = input<string>();
   readonly labelKey = input<string>();
   readonly name = input<string>();
   readonly value = input<unknown>();
-  readonly ariaLabel = input<string>();
-  readonly ariaLabelKey = input<string>();
 
   readonly checkedChange = output<boolean>();
-
   readonly changeEvent = output<Event>();
 
-  protected readonly themeService = inject(SolarisThemeService);
+  protected readonly effectiveSize = computed<SolarisRadioSize>(() => {
+    return this.size() ?? this.group?.size() ?? 'md';
+  });
 
   protected readonly effectiveDensity = computed<SolarisRadioDensity>(() => {
-    return this.density() ?? this.themeService.density;
+    return (
+      this.density() ??
+      this.group?.effectiveDensity() ??
+      this.themeService.density
+    );
   });
 
   protected readonly isEffectivelyDisabled = computed(() => {
@@ -147,9 +163,15 @@ export class SolarisRadioComponent
     return resolveElementId(this.elementRef, 'solaris-radio');
   });
 
+  protected readonly descriptionId = computed(
+    () => `${this.elementId()}-description`,
+  );
+
   protected readonly ariaDescribedBy = computed(() => {
     const ids = this._describedByIds();
-    return ids.length > 0 ? ids.join(' ') : null;
+    const ownIds = [...ids];
+    if (this.descriptionText()) ownIds.push(this.descriptionId());
+    return ownIds.length > 0 ? ownIds.join(' ') : null;
   });
 
   protected readonly effectiveName = computed(() => {
@@ -163,6 +185,15 @@ export class SolarisRadioComponent
       return translated !== key ? translated : undefined;
     }
     return this.radioLabel();
+  });
+
+  protected readonly descriptionText = computed(() => {
+    const key = this.descriptionKey();
+    if (key) {
+      const translated = this.translateService.translate(key);
+      return translated !== key ? translated : undefined;
+    }
+    return this.radioDescription();
   });
 
   protected readonly effectiveAriaLabel = computed(() => {
@@ -217,6 +248,7 @@ export class SolarisRadioComponent
   focus(): void {
     const input = this.inputElementRef();
     if (input) {
+      // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
       input.nativeElement.focus();
     }
   }
@@ -278,6 +310,7 @@ export class SolarisRadioComponent
         return;
       }
       this.contentChecked = true;
+      // SECURITY_EXCEPTION: detecting projected content requires reading host childNodes; same pattern as Angular CDK. Read-only.
       const nativeElement = this.elementRef.nativeElement;
       const hasContent = Array.from(nativeElement.childNodes).some(
         (node) => node.nodeType !== Node.COMMENT_NODE,

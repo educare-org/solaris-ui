@@ -1,10 +1,10 @@
 :host {
-  --solaris-switch-group-gap: var(--solaris-spacing-3);
+  --solaris-switch-group-gap: var(--solaris-spacing-4);
   --solaris-switch-group-row-gap: var(--solaris-spacing-3);
   --solaris-switch-group-column-gap: var(--solaris-spacing-3);
-  --solaris-switch-group-label-color: var(--solaris-text-strong);
-  --solaris-switch-group-hint-color: var(--solaris-text-muted);
-  --solaris-switch-group-error-color: var(--solaris-danger-text);
+  --solaris-switch-group-label-color: var(--solaris-neutral-text-heading);
+  --solaris-switch-group-hint-color: var(--solaris-neutral-text-secondary);
+  --solaris-switch-group-error-color: var(--solaris-danger-foreground);
   --solaris-switch-group-label-font-size: var(--solaris-font-size-sm);
   --solaris-switch-group-label-line-height: var(--solaris-line-height-md);
   --solaris-switch-group-hint-font-size: var(--solaris-font-size-xs);
@@ -57,30 +57,33 @@
 
 :host([data-layout='grid'][data-columns='auto'])
   .solaris-switch-group__options {
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(calc(var(--solaris-spacing-18) + var(--solaris-spacing-10)), 1fr)
+  );
 }
 
 :host([data-density='compact']) {
-  --solaris-switch-group-gap: var(--solaris-spacing-2);
+  --solaris-switch-group-gap: var(--solaris-spacing-4);
   --solaris-switch-group-row-gap: var(--solaris-spacing-2);
   --solaris-switch-group-column-gap: var(--solaris-spacing-2);
 }
 
 :host([data-density='normal']) {
-  --solaris-switch-group-gap: var(--solaris-spacing-3);
+  --solaris-switch-group-gap: var(--solaris-spacing-5);
   --solaris-switch-group-row-gap: var(--solaris-spacing-3);
   --solaris-switch-group-column-gap: var(--solaris-spacing-3);
 }
 
 :host([data-density='comfortable']) {
-  --solaris-switch-group-gap: var(--solaris-spacing-4);
+  --solaris-switch-group-gap: var(--solaris-spacing-6);
   --solaris-switch-group-row-gap: var(--solaris-spacing-4);
   --solaris-switch-group-column-gap: var(--solaris-spacing-4);
 }
 
 :host([data-disabled]) {
-  opacity: var(--solaris-opacity-50);
   cursor: not-allowed;
+  opacity: var(--solaris-opacity-50);
 }
 
 :host([data-readonly]) {
@@ -88,11 +91,8 @@
 }
 
 :host([data-invalid]) {
-  --solaris-switch-group-label-color: var(
-    --solaris-text-danger,
-    var(--solaris-text-strong)
-  );
-  --solaris-switch-group-error-color: var(--solaris-danger-text);
+  --solaris-switch-group-label-color: var(--solaris-danger-foreground);
+  --solaris-switch-group-error-color: var(--solaris-danger-foreground);
 }
 
 .solaris-switch-group__hint {

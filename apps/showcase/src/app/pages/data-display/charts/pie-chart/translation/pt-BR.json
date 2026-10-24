@@ -1,0 +1,79 @@
+{
+  "pie-chart-view": {
+    "description": "Pizza, rosca com total no centro e medidor semicircular com meta, além de anel de nota compacto — fatias pequenas viram Outros e a seleção abre o detalhe.",
+    "examples": {
+      "note": "Troque a variante e selecione fatias no log abaixo.",
+      "keyboardNote": "As fatias são focáveis pelo teclado: Tab até uma fatia, setas para mover, Enter para selecionar.",
+      "variantLabel": "Variante",
+      "pie": "Pizza",
+      "donut": "Rosca",
+      "gauge": "Medidor",
+      "seriesFundamental": "Fundamental",
+      "seriesMedio": "Ensino médio",
+      "seriesEja": "EJA",
+      "seriesIntegral": "Integral",
+      "seriesNoturno": "Noturno",
+      "seriesEad": "EAD"
+    },
+    "grouping": {
+      "note": "Fatias abaixo de minSlicePercent se agrupam em uma única fatia Outros, traduzida pelo gráfico."
+    },
+    "gauge": {
+      "note": "O medidor projeta um valor em um arco semicircular entre gaugeMin e gaugeMax; gaugeTarget desenha o traço da meta.",
+      "seriesAttendance": "Frequência"
+    },
+    "scoreRing": {
+      "note": "Uma rosca compacta com fatia única e centerValue/centerLabel funciona como anel de nota no boletim.",
+      "average": "Média",
+      "seriesScore": "Nota"
+    },
+    "drillDown": {
+      "note": "sliceSelect entrega o id da fatia — o consumidor resolve o detalhe por turma abaixo sem o gráfico buscar nada.",
+      "classA": "Turma A",
+      "classB": "Turma B",
+      "classC": "Turma C",
+      "colClass": "Turma",
+      "colStudents": "Alunos"
+    },
+    "empty": {
+      "note": "Sem dados plotáveis, o gráfico oculta o SVG e exibe uma mensagem localizada em vez de um círculo vazio."
+    },
+    "size-density": {
+      "note": "Tamanho e densidade combinam em matriz 3×3: sm compacta rótulos e canvas, lg expande, md é o padrão. A densidade refina gaps e espessura do traço."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "density": {
+      "compact": "Compacta",
+      "normal": "Normal",
+      "comfortable": "Confortável"
+    },
+    "installation": {
+      "note": "Instale o pacote e importe o componente standalone do gráfico de pizza."
+    },
+    "props": {
+      "note": "Entradas, valores possíveis e padrão de cada prop. A saída sliceSelect emite o id da fatia para o drill-down.",
+      "colProp": "Propriedade",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Padrão"
+    },
+    "section": {
+      "examples": "Exemplos",
+      "grouping": "Agrupamento em Outros",
+      "gauge": "Medidor",
+      "scoreRing": "Anel de nota",
+      "drillDown": "Detalhamento",
+      "empty": "Estado vazio",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "density": "Densidade",
+      "installation": "Instalação",
+      "props": "Props"
+    },
+    "title": "Gráfico de pizza"
+  }
+}

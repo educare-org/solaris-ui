@@ -1,10 +1,10 @@
 :host {
   --solaris-skeleton-width: 100%;
-  --solaris-skeleton-gap: var(--solaris-spacing-2);
-  --solaris-skeleton-height: var(--solaris-spacing-4);
+  --solaris-skeleton-gap: var(--solaris-spacing-6);
+  --solaris-skeleton-height: var(--solaris-spacing-7);
   --solaris-skeleton-radius: var(--solaris-radius-sm);
-  --solaris-skeleton-background: var(--solaris-surface-muted);
-  --solaris-skeleton-highlight: var(--solaris-surface-raised);
+  --solaris-skeleton-background: var(--solaris-neutral-sunken);
+  --solaris-skeleton-highlight: var(--solaris-neutral-default);
   --solaris-skeleton-animation-easing: var(--solaris-motion-easing-standard);
   --solaris-skeleton-animation-duration: var(--solaris-motion-duration-slower);
 
@@ -16,6 +16,215 @@
   height: var(--solaris-skeleton-height);
   border-radius: var(--solaris-skeleton-radius);
   background: var(--solaris-skeleton-background);
+}
+
+:host([data-pending]) {
+  visibility: hidden;
+}
+
+:host([data-density='compact']) {
+  --solaris-skeleton-gap: var(--solaris-spacing-5);
+}
+
+:host([data-density='normal']) {
+  --solaris-skeleton-gap: var(--solaris-spacing-6);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-skeleton-gap: var(--solaris-spacing-7);
+}
+
+:host([data-variant='text'][data-size='sm'][data-density='compact']) {
+  --solaris-skeleton-height: var(--solaris-spacing-5);
+}
+
+:host([data-variant='text'][data-size='md'][data-density='compact']) {
+  --solaris-skeleton-height: var(--solaris-spacing-6);
+}
+
+:host([data-variant='text'][data-size='lg'][data-density='compact']) {
+  --solaris-skeleton-height: var(--solaris-spacing-7);
+}
+
+:host([data-variant='text'][data-size='sm'][data-density='normal']) {
+  --solaris-skeleton-height: var(--solaris-spacing-6);
+}
+
+:host([data-variant='text'][data-size='md'][data-density='normal']) {
+  --solaris-skeleton-height: var(--solaris-spacing-7);
+}
+
+:host([data-variant='text'][data-size='lg'][data-density='normal']) {
+  --solaris-skeleton-height: var(--solaris-spacing-8);
+}
+
+:host([data-variant='text'][data-size='sm'][data-density='comfortable']) {
+  --solaris-skeleton-height: var(--solaris-spacing-7);
+}
+
+:host([data-variant='text'][data-size='md'][data-density='comfortable']) {
+  --solaris-skeleton-height: var(--solaris-spacing-8);
+}
+
+:host([data-variant='text'][data-size='lg'][data-density='comfortable']) {
+  --solaris-skeleton-height: var(--solaris-spacing-9);
+}
+
+:host([data-variant='rectangular'][data-size='sm'][data-density='compact']) {
+  --solaris-skeleton-height: var(--solaris-spacing-13);
+}
+
+:host([data-variant='rectangular'][data-size='md'][data-density='compact']) {
+  --solaris-skeleton-height: var(--solaris-spacing-15);
+}
+
+:host([data-variant='rectangular'][data-size='lg'][data-density='compact']) {
+  --solaris-skeleton-height: var(--solaris-spacing-16);
+}
+
+:host([data-variant='rectangular'][data-size='sm'][data-density='normal']) {
+  --solaris-skeleton-height: var(--solaris-spacing-15);
+}
+
+:host([data-variant='rectangular'][data-size='md'][data-density='normal']) {
+  --solaris-skeleton-height: var(--solaris-spacing-17);
+}
+
+:host([data-variant='rectangular'][data-size='lg'][data-density='normal']) {
+  --solaris-skeleton-height: var(--solaris-spacing-18);
+}
+
+:host(
+  [data-variant='rectangular'][data-size='sm'][data-density='comfortable']
+) {
+  --solaris-skeleton-height: var(--solaris-spacing-17);
+}
+
+:host(
+  [data-variant='rectangular'][data-size='md'][data-density='comfortable']
+) {
+  --solaris-skeleton-height: var(--solaris-spacing-18);
+}
+
+:host(
+  [data-variant='rectangular'][data-size='lg'][data-density='comfortable']
+) {
+  --solaris-skeleton-height: var(--solaris-spacing-18);
+}
+
+:host([data-variant='circular'][data-size='sm'][data-density='compact']) {
+  --solaris-skeleton-width: var(--solaris-spacing-8);
+  --solaris-skeleton-height: var(--solaris-spacing-8);
+}
+
+:host([data-variant='circular'][data-size='md'][data-density='compact']) {
+  --solaris-skeleton-width: var(--solaris-spacing-9);
+  --solaris-skeleton-height: var(--solaris-spacing-9);
+}
+
+:host([data-variant='circular'][data-size='lg'][data-density='compact']) {
+  --solaris-skeleton-width: var(--solaris-spacing-10);
+  --solaris-skeleton-height: var(--solaris-spacing-10);
+}
+
+:host([data-variant='circular'][data-size='sm'][data-density='normal']) {
+  --solaris-skeleton-width: var(--solaris-spacing-9);
+  --solaris-skeleton-height: var(--solaris-spacing-9);
+}
+
+:host([data-variant='circular'][data-size='md'][data-density='normal']) {
+  --solaris-skeleton-width: var(--solaris-spacing-10);
+  --solaris-skeleton-height: var(--solaris-spacing-10);
+}
+
+:host([data-variant='circular'][data-size='lg'][data-density='normal']) {
+  --solaris-skeleton-width: var(--solaris-spacing-12);
+  --solaris-skeleton-height: var(--solaris-spacing-12);
+}
+
+:host([data-variant='circular'][data-size='sm'][data-density='comfortable']) {
+  --solaris-skeleton-width: var(--solaris-spacing-10);
+  --solaris-skeleton-height: var(--solaris-spacing-10);
+}
+
+:host([data-variant='circular'][data-size='md'][data-density='comfortable']) {
+  --solaris-skeleton-width: var(--solaris-spacing-12);
+  --solaris-skeleton-height: var(--solaris-spacing-12);
+}
+
+:host([data-variant='circular'][data-size='lg'][data-density='comfortable']) {
+  --solaris-skeleton-width: var(--solaris-spacing-13);
+  --solaris-skeleton-height: var(--solaris-spacing-13);
+}
+
+:host([data-radius='none']) {
+  --solaris-skeleton-radius: var(--solaris-radius-none);
+}
+
+:host([data-radius='sm']) {
+  --solaris-skeleton-radius: var(--solaris-radius-sm);
+}
+
+:host([data-radius='full']) {
+  --solaris-skeleton-radius: var(--solaris-radius-full);
+}
+
+.solaris-skeleton-line {
+  display: block;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 0;
+  height: var(--solaris-skeleton-height);
+  border-radius: var(--solaris-skeleton-radius);
+  background: var(--solaris-skeleton-background);
+}
+
+:host([data-animation='pulse']),
+:host([data-animation='pulse']) .solaris-skeleton-line {
+  animation: solaris-skeleton-pulse var(--solaris-skeleton-animation-duration)
+    var(--solaris-skeleton-animation-easing) infinite;
+}
+
+:host([data-animation='wave']),
+:host([data-animation='wave']) .solaris-skeleton-line {
+  overflow: hidden;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--solaris-skeleton-highlight) 30%,
+      var(--solaris-skeleton-highlight) 70%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: solaris-skeleton-wave var(--solaris-skeleton-animation-duration)
+      var(--solaris-skeleton-animation-easing) infinite;
+  }
+}
+
+:host([data-animation='wave'][data-multiline]) {
+  overflow: visible;
+  position: static;
+
+  &::after {
+    content: none;
+    animation: none;
+  }
+}
+
+:host([data-animation='none']),
+:host([data-animation='none']) .solaris-skeleton-line {
+  animation: none;
+
+  &::after {
+    content: none;
+    animation: none;
+  }
 }
 
 :host([data-multiline]) {
@@ -35,224 +244,31 @@
   }
 }
 
-.solaris-skeleton-line {
-  display: block;
-  box-sizing: border-box;
-  min-width: 0;
-  min-height: 0;
-  height: var(--solaris-skeleton-height);
-  border-radius: var(--solaris-skeleton-radius);
-  background: var(--solaris-skeleton-background);
-}
-
-:host([data-variant='text']) {
-  --solaris-skeleton-height: var(--solaris-spacing-4);
-}
-
-:host([data-variant='rectangular']) {
-  --solaris-skeleton-height: var(--solaris-spacing-20);
-}
-
-:host([data-variant='circular']) {
-  --solaris-skeleton-height: var(--solaris-spacing-12);
-  --solaris-skeleton-width: var(--solaris-spacing-12);
-}
-
-:host([data-size='sm']) {
-  --solaris-skeleton-height: var(--solaris-spacing-3);
-}
-
-:host([data-size='sm'][data-variant='rectangular']) {
-  --solaris-skeleton-height: 60px;
-}
-
-:host([data-size='sm'][data-variant='circular']) {
-  --solaris-skeleton-width: var(--solaris-spacing-6);
-  --solaris-skeleton-height: var(--solaris-spacing-6);
-}
-
-:host([data-size='lg']) {
-  --solaris-skeleton-height: var(--solaris-spacing-5);
-}
-
-:host([data-size='lg'][data-variant='rectangular']) {
-  --solaris-skeleton-height: 100px;
-}
-
-:host([data-size='lg'][data-variant='circular']) {
-  --solaris-skeleton-width: 36px;
-  --solaris-skeleton-height: 36px;
-}
-
-:host([data-density='compact']) {
-  --solaris-skeleton-height: 6px;
-}
-
-:host([data-density='compact'][data-variant='rectangular']) {
-  --solaris-skeleton-height: var(--solaris-spacing-12);
-}
-
-:host([data-density='compact'][data-variant='circular']) {
-  --solaris-skeleton-width: var(--solaris-spacing-5);
-  --solaris-skeleton-height: var(--solaris-spacing-5);
-}
-
-:host([data-density='normal']) {
-  --solaris-skeleton-height: var(--solaris-spacing-2);
-}
-
-:host([data-density='normal'][data-variant='rectangular']) {
-  --solaris-skeleton-height: var(--solaris-spacing-16);
-}
-
-:host([data-density='normal'][data-variant='circular']) {
-  --solaris-skeleton-width: 32px;
-  --solaris-skeleton-height: 32px;
-}
-
-:host([data-density='comfortable']) {
-  --solaris-skeleton-height: var(--solaris-spacing-3);
-}
-
-:host([data-density='comfortable'][data-variant='rectangular']) {
-  --solaris-skeleton-height: 88px;
-}
-
-:host([data-density='comfortable'][data-variant='circular']) {
-  --solaris-skeleton-width: 36px;
-  --solaris-skeleton-height: 36px;
-}
-
-:host([data-radius='none']) {
-  --solaris-skeleton-radius: var(--solaris-radius-none);
-}
-
-:host([data-radius='sm']) {
-  --solaris-skeleton-radius: var(--solaris-radius-sm);
-}
-
-:host([data-radius='full']) {
-  --solaris-skeleton-radius: var(--solaris-radius-full);
-}
-
-:host([data-animation='pulse']) {
-  animation: solaris-skeleton-pulse var(--solaris-skeleton-animation-duration)
-    var(--solaris-skeleton-animation-easing) infinite;
-}
-
-:host([data-animation='pulse']) .solaris-skeleton-line {
-  animation: solaris-skeleton-pulse var(--solaris-skeleton-animation-duration)
-    var(--solaris-skeleton-animation-easing) infinite;
-}
-
-:host([data-animation='wave']) {
-  overflow: hidden;
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      var(--solaris-skeleton-highlight) 50%,
-      transparent 100%
-    );
-    background-size: 200% 100%;
-    animation: solaris-skeleton-wave var(--solaris-skeleton-animation-duration)
-      var(--solaris-skeleton-animation-easing) infinite;
-  }
-}
-
-:host([data-animation='wave']) .solaris-skeleton-line {
-  overflow: hidden;
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      var(--solaris-skeleton-highlight) 50%,
-      transparent 100%
-    );
-    background-size: 200% 100%;
-    animation: solaris-skeleton-wave var(--solaris-skeleton-animation-duration)
-      var(--solaris-skeleton-animation-easing) infinite;
-  }
-}
-
-:host([data-animation='wave'][data-multiline]) {
-  overflow: visible;
-  position: static;
-
-  &::after {
-    content: none;
-    animation: none;
-  }
-}
-
-:host([data-animation='none']) {
-  animation: none;
-
-  &::after {
-    content: none;
-    animation: none;
-  }
+:host-context([dir='rtl']) {
+  transform: scaleX(-1);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :host([data-animation='pulse']) {
+  :host,
+  :host .solaris-skeleton-line {
     animation: none;
   }
 
-  :host([data-animation='pulse']) .solaris-skeleton-line {
-    animation: none;
-  }
-
-  :host([data-animation='wave']) {
-    &::after {
-      animation: none;
-      content: none;
-    }
-  }
-
-  :host([data-animation='wave']) .solaris-skeleton-line::after {
-    animation: none;
+  :host::after,
+  :host .solaris-skeleton-line::after {
     content: none;
-  }
-
-  :host([data-animation='wave'][data-multiline]) {
-    &::after {
-      content: none;
-      animation: none;
-    }
+    animation: none;
   }
 }
 
-[data-reduced-motion='true'] {
-  solaris-skeleton[data-animation='pulse'] {
+:host-context([data-reduced-motion='true']) {
+  &,
+  & .solaris-skeleton-line {
     animation: none;
   }
 
-  solaris-skeleton[data-animation='pulse'] .solaris-skeleton-line {
-    animation: none;
-  }
-
-  solaris-skeleton[data-animation='wave']::after {
-    animation: none;
-    content: none;
-  }
-
-  solaris-skeleton[data-animation='wave'] .solaris-skeleton-line::after {
-    animation: none;
-    content: none;
-  }
-
-  solaris-skeleton[data-animation='wave'][data-multiline]::after {
+  &::after,
+  & .solaris-skeleton-line::after {
     content: none;
     animation: none;
   }

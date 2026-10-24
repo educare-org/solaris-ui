@@ -1,0 +1,150 @@
+{
+  "docs": {
+    "on-this-page": {
+      "title": "En esta página"
+    },
+    "page-header": {
+      "breadcrumb-label": "Breadcrumb",
+      "component-nav": "Navegación de componentes",
+      "copy-page": "Copiar página",
+      "next": "Componente siguiente",
+      "open-chatgpt": "Abrir en ChatGPT",
+      "open-claude": "Abrir en Claude",
+      "open-menu": "Más acciones de la página",
+      "page-actions": "Acciones de la página",
+      "prev": "Componente anterior",
+      "view-markdown": "Ver como Markdown"
+    },
+    "page": {
+      "next": "Siguiente",
+      "prev": "Anterior"
+    }
+  },
+  "shell": {
+    "brand": {
+      "home": "Inicio de Solaris UI",
+      "name": "Solaris UI"
+    },
+    "menu": {
+      "close": "Cerrar menú de navegación",
+      "open": "Abrir menú de navegación"
+    },
+    "search": {
+      "label": "Filtrar páginas de documentación",
+      "no-results": "Ninguna página coincide con el filtro actual.",
+      "placeholder": "Filtrar páginas…"
+    },
+    "sidebar": {
+      "collapse": "Contraer sección",
+      "expand": "Expandir sección",
+      "group": {
+        "actions": "Acciones",
+        "calendar": "Calendario",
+        "content": "Contenido",
+        "data-display": "Visualización de datos",
+        "feedback": "Feedback",
+        "forms": "Formularios",
+        "interaction": "Interacción",
+        "navigation": "Navegación",
+        "overlay": "Superposición",
+        "translation": "Traducción"
+      },
+      "item": {
+        "accordion": "Accordion",
+        "alert": "Alerta",
+        "avatar": "Avatar",
+        "badge": "Badge",
+        "bar-chart": "Gráfico de barras",
+        "breadcrumb": "Breadcrumb",
+        "button": "Botón",
+        "button-group": "Grupo de botones",
+        "card": "Tarjeta",
+        "chart-shell": "Shell de gráficos",
+        "chart-cards": "Tarjetas de gráficos",
+        "charts": "Gráficos",
+        "checkbox": "Checkbox",
+        "checkbox-group": "Grupo de checkboxes",
+        "checkboxes": "Checkboxes",
+        "code-block": "Bloque de código",
+        "collapsible": "Collapsible",
+        "configuration": "Configuración",
+        "date-picker": "Selector de fecha",
+        "dialog": "Dialog",
+        "divider": "Divisor",
+        "dropdown-menu": "Menú desplegable",
+        "editable-tabs": "Pestañas editables",
+        "email-field": "Campo de e-mail",
+        "event-editor": "Editor de eventos",
+        "file-upload": "Carga de archivos",
+        "form-field": "Campo de formulario",
+        "gradebook": "Calificaciones",
+        "heatmap": "Mapa de calor",
+        "holidays": "Días festivos",
+        "icon-button": "Botón de icono",
+        "icons": "Iconos",
+        "input": "Input",
+        "line-chart": "Gráfico de líneas",
+        "loading": "Cargando",
+        "loading-text": "Texto de carga",
+        "mega-menu": "Mega menu",
+        "month-view": "Vista mensual",
+        "multi-select": "Selección múltiple",
+        "option": "Opción",
+        "otp-input": "Entrada OTP",
+        "pagination": "Paginación",
+        "password-field": "Campo de contraseña",
+        "phone-field": "Campo de teléfono",
+        "pickers": "Selectores y listas",
+        "pie-chart": "Gráfico circular",
+        "popover": "Popover",
+        "preview-code": "Vista previa con código",
+        "print": "Impresión del calendario",
+        "progress": "Progreso",
+        "radar": "Radar",
+        "sparkline": "Sparkline",
+        "radio": "Radio",
+        "radio-group": "Grupo de radios",
+        "radios": "Radios",
+        "record-grid": "Cuadrícula de registros",
+        "schedule-view": "Agenda",
+        "segmented-control": "Control segmentado",
+        "select": "Seleccionar",
+        "selection-card": "Tarjeta de selección",
+        "selection-controls": "Controles de selección",
+        "selects": "Campos de selección",
+        "shell": "Shell del calendario",
+        "skeleton": "Skeleton",
+        "spinner": "Spinner",
+        "stepper": "Stepper",
+        "switch": "Switch",
+        "switch-group": "Grupo de Switch",
+        "switches": "Switches",
+        "table": "Tabla",
+        "tables": "Tablas",
+        "tabs": "Pestañas",
+        "text-fields": "Campos de texto",
+        "textarea": "Textarea",
+        "toast": "Toast",
+        "tooltip": "Tooltip",
+        "translate": "Traducir",
+        "week-view": "Vista semanal",
+        "year-view": "Vista anual"
+      },
+      "nav-label": "Secciones de documentación",
+      "section": {
+        "components": "Componentes",
+        "foundation": "Fundación",
+        "getting-started": "Comenzar",
+        "services": "Servicios"
+      }
+    },
+    "skip-link": "Saltar al contenido",
+    "theme": {
+      "dark": "Tema oscuro",
+      "high-contrast": "Alto contraste",
+      "label": "Esquema de colores",
+      "light": "Tema claro",
+      "system": "Tema del sistema"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "solaris": {
+    "breadcrumb": {
+      "label": "Trilha de navegação",
+      "next": "Próximo",
+      "previous": "Anterior",
+      "showMore": "Mostrar mais itens"
+    }
+  }
+}

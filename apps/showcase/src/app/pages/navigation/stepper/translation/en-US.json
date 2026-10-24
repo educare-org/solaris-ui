@@ -1,0 +1,87 @@
+{
+  "stepper": {
+    "actions-alignment": "Actions Alignment",
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "card": "Card",
+      "dashed": "Dashed",
+      "default": "Default"
+    },
+    "basic-horizontal": "Basic Horizontal",
+    "basic-vertical": "Basic Vertical",
+    "card": "Card Appearance",
+    "compact-density": "Compact Density",
+    "content-transition": "Content Transition",
+    "dashed": "Dashed Appearance",
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Stepper component for multi-step flows, wizards, and progress indication.",
+    "error": "Error State",
+    "example": {
+      "size-density": {
+        "step-one": "Step 1",
+        "step-three": "Step 3",
+        "step-two": "Step 2"
+      },
+      "validation": {
+        "confirm": "I confirm my details are correct",
+        "hint": "Confirm the details before continuing to the next step.",
+        "step-one": "Account",
+        "step-three": "Review",
+        "step-two": "Institution"
+      }
+    },
+    "examples": {
+      "note": "Start with the default stepper, then explore orientation, appearances, and validation below."
+    },
+    "icon-stepper": "Icon Stepper",
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "linear": "Linear Stepper",
+    "linear-mode": {
+      "linear": "Linear",
+      "non-linear": "Non-linear"
+    },
+    "non-linear": "Non-linear Stepper",
+    "optional": "Optional Step",
+    "orientation": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "responsive": "Responsive",
+    "section": {
+      "appearances": "Appearances",
+      "density": "Density",
+      "examples": "Examples",
+      "installation": "Installation",
+      "linear": "Linear",
+      "orientation": "Orientation",
+      "props": "Props",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "status": "Status",
+      "validation": "Validation",
+      "wizard": "Wizard"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size scales the indicator and label while density controls the gap and content padding. Combine both controls to see every combination."
+    },
+    "title": "Stepper",
+    "validation-note": "Steps own no form state. Use canEnter and canExit guards to block navigation until the step content is valid; stepBlocked tells you which guard denied.",
+    "wizard": "Wizard Flow"
+  }
+}

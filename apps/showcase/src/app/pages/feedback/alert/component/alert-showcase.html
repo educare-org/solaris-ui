@@ -1,267 +1,177 @@
-<div class="alert-showcase">
-  <header class="alert-showcase__header">
-    <h1 class="alert-showcase__title">{{ 'alert.title' | translate }}</h1>
-    <p class="alert-showcase__description">
-      {{ 'alert.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="alert.title"
+    descriptionKey="alert.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="alert-showcase__section">
-    <h2 class="alert-showcase__section-title">
-      {{ 'alert.colors-and-appearances' | translate }}
-    </h2>
-    <solaris-tabs
-      [(value)]="selectedVariant"
-      [ariaLabel]="'alert.colors-and-appearances' | translate"
-    >
-      @for (variant of variants; track variant.value) {
-      <solaris-tab [value]="variant.value">{{ variant.label }}</solaris-tab>
-      } @for (variant of variants; track variant.value) {
-      <solaris-tab-panel [value]="variant.value">
-        <div class="alert-showcase__row">
-          @for (appearance of appearances; track appearance.value) {
-          <solaris-alert
-            [variant]="variant.value"
-            [appearance]="appearance.value"
-          >
-            {{ variant.label }} {{ appearance.label }}
-          </solaris-alert>
-          }
-        </div>
-      </solaris-tab-panel>
-      }
-    </solaris-tabs>
-  </section>
+  <app-docs-section anchor="examples" titleKey="alert.section.examples">
+    <p class="alert-showcase__note">{{ 'alert.examples.note' | translate }}</p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-alert-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="alert-showcase__section">
-    <h2 class="alert-showcase__section-title">
-      {{ 'alert.text-position' | translate }}
-    </h2>
-    <p class="alert-showcase__section-desc">
-      {{ 'alert.text-position-desc' | translate }}
-    </p>
-    <div class="alert-showcase__text-position-row">
-      <div>
-        <p class="alert-showcase__note">
-          {{ 'alert.text-position-start' | translate }}
-        </p>
-        <solaris-alert variant="info" [textPosition]="'start'">
-          <p solaris-alert-description>Text aligned to the start.</p>
-        </solaris-alert>
-      </div>
-      <div>
-        <p class="alert-showcase__note">
-          {{ 'alert.text-position-center' | translate }}
-        </p>
-        <solaris-alert variant="info" [textPosition]="'center'">
-          <p solaris-alert-description>Text centered.</p>
-        </solaris-alert>
-      </div>
-      <div>
-        <p class="alert-showcase__note">
-          {{ 'alert.text-position-end' | translate }}
-        </p>
-        <solaris-alert variant="info" [textPosition]="'end'">
-          <p solaris-alert-description>Text aligned to the end.</p>
-        </solaris-alert>
-      </div>
-      <div>
-        <p class="alert-showcase__note">
-          {{ 'alert.text-position-space-between' | translate }}
-        </p>
-        <solaris-alert variant="info" [textPosition]="'space-between'">
-          <p solaris-alert-description>First description.</p>
-          <p solaris-alert-description>Second description.</p>
-        </solaris-alert>
-      </div>
-    </div>
-  </section>
-
-  <section class="alert-showcase__section">
-    <h2 class="alert-showcase__section-title">
-      {{ 'alert.density' | translate }}
-    </h2>
-    <p class="alert-showcase__section-desc">
-      {{ 'alert.density-desc' | translate }}
-    </p>
-
-    <div class="alert-showcase__demo">
-      <solaris-alert variant="info" density="compact">
-        {{ 'alert.density-compact' | translate }}: {{
-        'alert.density-compact-desc' | translate }}
-      </solaris-alert>
-      <solaris-alert variant="info" density="normal">
-        {{ 'alert.density-normal' | translate }}: {{ 'alert.density-normal-desc'
-        | translate }}
-      </solaris-alert>
-      <solaris-alert variant="info" density="comfortable">
-        {{ 'alert.density-comfortable' | translate }}: {{
-        'alert.density-comfortable-desc' | translate }}
-      </solaris-alert>
-    </div>
-  </section>
-
-  <section class="alert-showcase__section">
-    <h2 class="alert-showcase__section-title">
-      {{ 'alert.radius' | translate }}
-    </h2>
-    <p class="alert-showcase__section-desc">
-      {{ 'alert.radius-desc' | translate }}
-    </p>
-
-    <div class="alert-showcase__grid">
-      <solaris-alert variant="info" radius="sm"
-        >{{ 'alert.radius-sm' | translate }}</solaris-alert
+  <app-docs-section anchor="variants" titleKey="alert.section.variants">
+    <p class="alert-showcase__note">{{ 'alert.variants.note' | translate }}</p>
+    <div class="alert-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedVariant"
+        [ariaLabel]="'alert.section.variants' | translate"
       >
-      <solaris-alert variant="info" radius="md"
-        >{{ 'alert.radius-md' | translate }}</solaris-alert
+        @for (variant of variants; track variant) {
+        <solaris-tab [value]="variant"
+          >{{ 'alert.variant.' + variant | translate }}</solaris-tab
+        >
+        }
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedAppearance"
+        [ariaLabel]="'alert.section.variants' | translate"
       >
-      <solaris-alert variant="info" radius="lg"
-        >{{ 'alert.radius-lg' | translate }}</solaris-alert
-      >
-      <solaris-alert variant="info" radius="xl"
-        >{{ 'alert.radius-xl' | translate }}</solaris-alert
-      >
+        @for (appearance of appearances; track appearance) {
+        <solaris-tab [value]="appearance"
+          >{{ 'alert.appearance.' + appearance | translate }}</solaris-tab
+        >
+        }
+      </solaris-tabs>
     </div>
-  </section>
-
-  <section class="alert-showcase__section">
-    <h2 class="alert-showcase__section-title">
-      {{ 'alert.anatomy' | translate }}
-    </h2>
-    <p class="alert-showcase__section-desc">
-      {{ 'alert.anatomy-desc' | translate }}
-    </p>
-
-    <div class="alert-showcase__demo">
-      <solaris-alert variant="warning" [closable]="true" [hasTitle]="true">
-        <h3 solaris-alert-title>{{ 'alert.anatomy-title' | translate }}</h3>
-        <p solaris-alert-description>
-          {{ 'alert.anatomy-desc-text' | translate }}
-        </p>
-        <solaris-alert-actions>
-          <a href="#">{{ 'alert.anatomy-action' | translate }}</a>
-        </solaris-alert-actions>
+    <solaris-preview-code [code]="variantAppearanceCode()" language="html">
+      <solaris-alert
+        [variant]="selectedVariant()"
+        [appearance]="selectedAppearance()"
+      >
+        {{ 'alert.example.basic.text' | translate }}
       </solaris-alert>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="alert-showcase__section">
-    <h2 class="alert-showcase__section-title">
-      {{ 'alert.closable' | translate }}
-    </h2>
-    <p class="alert-showcase__section-desc">
-      {{ 'alert.closable-desc' | translate }}
+  <app-docs-section anchor="size-density" titleKey="alert.section.size-density">
+    <p class="alert-showcase__note">
+      {{ 'alert.size-density.note' | translate }}
     </p>
-
-    <div class="alert-showcase__demo">
-      @if (showClosableAlert) {
+    <div class="alert-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'alert.section.sizes' | translate"
+      >
+        <solaris-tab value="sm">{{ 'alert.size.sm' | translate }}</solaris-tab>
+        <solaris-tab value="md">{{ 'alert.size.md' | translate }}</solaris-tab>
+        <solaris-tab value="lg">{{ 'alert.size.lg' | translate }}</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'alert.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'alert.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'alert.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'alert.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
       <solaris-alert
         variant="warning"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
         [closable]="true"
-        (dismissed)="handleDismiss()"
       >
-        {{ 'alert.closable-message' | translate }}
+        <h3 solaris-alert-title>
+          {{ 'alert.example.anatomy.title' | translate }}
+        </h3>
+        <p solaris-alert-description>
+          {{ 'alert.example.anatomy.text' | translate }}
+        </p>
       </solaris-alert>
-      } @if (showClosableAlert2) {
-      <solaris-alert
-        variant="success"
-        [closable]="true"
-        (dismissed)="handleDismiss2()"
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="anatomy" titleKey="alert.section.anatomy">
+    <p class="alert-showcase__note">{{ 'alert.anatomy.note' | translate }}</p>
+    <solaris-preview-code [code]="anatomyCode" language="html">
+      <app-anatomy-alert-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="closable" titleKey="alert.section.closable">
+    <p class="alert-showcase__note">{{ 'alert.closable.note' | translate }}</p>
+    <solaris-preview-code [code]="closableCode" language="html">
+      <app-closable-alert-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="live" titleKey="alert.section.live">
+    <p class="alert-showcase__note">{{ 'alert.live.note' | translate }}</p>
+    <div class="alert-showcase__stack">
+      <solaris-preview-code [code]="liveCode" language="html">
+        <solaris-alert variant="danger" live="assertive">
+          {{ 'alert.example.live.assertive' | translate }}
+        </solaris-alert>
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="announcement" titleKey="alert.section.announcement">
+    <p class="alert-showcase__note">
+      {{ 'alert.announcement.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedAnnouncement"
+      [ariaLabel]="'alert.section.announcement' | translate"
+    >
+      <solaris-tab value="basic"
+        >{{ 'alert.announcement.basic' | translate }}</solaris-tab
       >
-        {{ 'alert.closable-message' | translate }}
-      </solaris-alert>
-      } @if (!showClosableAlert2) {
-      <p class="alert-showcase__note">
-        {{ 'alert.closable-closed' | translate }}
-      </p>
-      <button type="button" (click)="showAgain()">
-        {{ 'alert.closable-show' | translate }}
-      </button>
-      }
-    </div>
-  </section>
-
-  <section class="alert-showcase__section">
-    <h2 class="alert-showcase__section-title">
-      {{ 'alert.live' | translate }}
-    </h2>
-    <p class="alert-showcase__section-desc">
-      {{ 'alert.live-desc' | translate }}
-    </p>
-
-    <div class="alert-showcase__demo">
-      <solaris-alert variant="info" live="off">
-        {{ 'alert.live-off' | translate }}: {{ 'alert.live-off-desc' | translate
-        }}
-      </solaris-alert>
-      <solaris-alert variant="success" live="polite">
-        {{ 'alert.live-polite' | translate }}: {{ 'alert.live-polite-desc' |
-        translate }}
-      </solaris-alert>
-      <solaris-alert variant="danger" live="assertive">
-        {{ 'alert.live-assertive' | translate }}: {{ 'alert.live-assertive-desc'
-        | translate }}
-      </solaris-alert>
-    </div>
-  </section>
-
-  <section class="alert-showcase__section">
-    <h2 class="alert-showcase__section-title">
-      {{ 'alert.icon' | translate }}
-    </h2>
-    <p class="alert-showcase__section-desc">
-      {{ 'alert.icon-desc' | translate }}
-    </p>
-
-    <div class="alert-showcase__demo">
-      <solaris-alert variant="success">
-        {{ 'alert.icon-default' | translate }}
-      </solaris-alert>
-      <solaris-alert variant="info" [showIcon]="false">
-        {{ 'alert.icon-hidden' | translate }}
-      </solaris-alert>
-      <solaris-alert variant="info" icon="check">
-        {{ 'alert.icon-custom' | translate }}
-      </solaris-alert>
-    </div>
-  </section>
-
-  <section class="alert-showcase__section">
-    <h2 class="alert-showcase__section-title">
-      {{ 'alert.promotional' | translate }}
-    </h2>
-    <p class="alert-showcase__section-desc">
-      {{ 'alert.promotional-desc' | translate }}
-    </p>
-
-    <div class="alert-showcase__demo">
-      <solaris-alert
-        variant="neutral"
-        appearance="solid"
-        radius="lg"
-        [closable]="false"
-        [showIcon]="true"
-        icon="info"
+      <solaris-tab value="persistent"
+        >{{ 'alert.announcement.persistent' | translate }}</solaris-tab
       >
-        {{ 'alert.promotional-text' | translate }}
-        <a href="#">{{ 'alert.promotional-link' | translate }}</a>
-      </solaris-alert>
-    </div>
-  </section>
+      <solaris-tab value="image-bg"
+        >{{ 'alert.announcement.image-bg' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="basic">
+        <solaris-preview-code [code]="announcementBasicCode" language="html">
+          <app-announcement-basic-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="persistent">
+        <solaris-preview-code
+          [code]="announcementPersistentCode"
+          language="html"
+        >
+          <app-announcement-persistent-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="image-bg">
+        <solaris-preview-code [code]="announcementImageBgCode" language="html">
+          <app-announcement-image-bg-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="alert-showcase__section">
-    <h2 class="alert-showcase__section-title">
-      {{ 'alert.custom' | translate }}
-    </h2>
-    <p class="alert-showcase__section-desc">
-      {{ 'alert.custom-desc' | translate }}
+  <app-docs-section anchor="installation" titleKey="alert.section.installation">
+    <p class="alert-showcase__note">
+      {{ 'alert.installation.note' | translate }}
     </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
 
-    <div class="alert-showcase__demo">
-      <solaris-alert variant="custom" class="alert-showcase__custom">
-        {{ 'alert.custom-text' | translate }}
-      </solaris-alert>
-    </div>
-  </section>
-</div>
+  <app-docs-section anchor="props" titleKey="alert.section.props">
+    <p class="alert-showcase__note">{{ 'alert.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

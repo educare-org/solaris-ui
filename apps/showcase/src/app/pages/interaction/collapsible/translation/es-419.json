@@ -1,0 +1,83 @@
+{
+  "collapsible": {
+    "add-item": {
+      "action": "Añadir sección",
+      "added": "Secciones añadidas",
+      "note": "El botón de añadir abre un diálogo de creación (primero el icono, luego título y descripción obligatorios). El select de iconos muestra el catálogo integrado completo con vista previa, salvo que iconOptions lo reemplace. Confirmar emite el payload — el host siguiente lo añade como nueva sección."
+    },
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "boxed": "Boxed",
+      "lined": "Lined",
+      "note": "Boxed muestra una tarjeta con borde; lined muestra una fila plana con un divisor bajo el activador; plain no tiene bordes.",
+      "plain": "Plain"
+    },
+    "basic": "Básico",
+    "basic-content": "Gestiona aquí tu información personal, preferencias de notificaciones y configuración de seguridad.",
+    "basic-details": "Configuración de la cuenta",
+    "basic-note": "El activador alterna el panel. Enfoca el activador y pulsa Enter o Espacio para alternar con el teclado.",
+    "controlled": "Estado abierto controlado",
+    "controlled-content": "Este panel lo controla el componente host.",
+    "controlled-label": "Collapsible controlado",
+    "controlled-note": "El estado abierto pertenece al host. Usa [(open)] para enlace bidireccional.",
+    "controlled-state": "abierto",
+    "controlled-state-closed": "cerrado",
+    "controlled-toggle": "Alternar desde fuera",
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Primitiva de disclosure que alterna la visibilidad de una región de contenido con un activador accesible.",
+    "disabled": "Deshabilitado",
+    "disabled-content": "Este contenido nunca se puede expandir mientras esté deshabilitado.",
+    "disabled-label": "Collapsible deshabilitado",
+    "disabled-note": "Un collapsible deshabilitado no se puede alternar y quita el activador del orden de tabulación.",
+    "examples": {
+      "note": "Comienza con el collapsible predeterminado y explora apariencias y tamaños a continuación."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "leading-icon": {
+      "note": "Icono opcional junto a la etiqueta, mostrado antes del chevron de expansión."
+    },
+    "open-on-init": "Abrir al iniciar",
+    "open-on-init-content": "Este collapsible comienza abierto y se puede contraer.",
+    "open-on-init-label": "Expandido de forma predeterminada",
+    "open-on-init-note": "Pasa [open]=\"true\" para mostrar el panel expandido.",
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "add-item": "Añadir elemento",
+      "appearance": "Apariencia",
+      "controlled": "Estado abierto controlado",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "leading-icon": "Icono inicial",
+      "props": "Props",
+      "size-density": "Tamaño y densidad",
+      "states": "Estados"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad funcionan juntos en el componente. Combina ambos controles para ver todas las combinaciones."
+    },
+    "size-lg": "Grande",
+    "size-lg-content": "Cuerpo de collapsible grande.",
+    "size-md": "Mediano",
+    "size-md-content": "Cuerpo de collapsible mediano.",
+    "size-sm": "Pequeño",
+    "size-sm-content": "Cuerpo de collapsible pequeño.",
+    "sizes": "Tamaños",
+    "sizes-note": "La entrada de tamaño reserva la densidad. Todas las variantes comparten el mismo patrón ARIA.",
+    "title": "Collapsible"
+  }
+}

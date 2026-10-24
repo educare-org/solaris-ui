@@ -1,0 +1,74 @@
+{
+  "progress": {
+    "animated": {
+      "note": "La barra cambia suavemente a medida que se actualiza el valor. Haz clic en reproducir para verla ir de 0 a 100."
+    },
+    "buffer": {
+      "note": "Buffer representa el valor esperado detrás del relleno — útil para streaming y cargas fragmentadas."
+    },
+    "color": {
+      "custom": "Personalizado",
+      "danger": "Peligro",
+      "info": "Info",
+      "neutral": "Neutro",
+      "primary": "Primario",
+      "success": "Éxito",
+      "warning": "Advertencia"
+    },
+    "colors-desc": "Colores semánticos, además de personalizado vía --solaris-progress-custom-color.",
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Barra lineal que comunica el progreso de una tarea, ya sea con un valor determinado medible o como indicador indeterminado cuando la duración es desconocida.",
+    "examples": {
+      "note": "Valor determinado, etiqueta con porcentaje y modo indeterminado. El snippet muestra el template mínimo."
+    },
+    "indeterminate": {
+      "note": "Usa indeterminado cuando la duración sea desconocida. La barra se desliza hasta que termina el proceso."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris UI e importa el componente progress."
+    },
+    "play": "Reproducir",
+    "props": {
+      "note": "La referencia completa de Props está en la documentación del componente."
+    },
+    "section": {
+      "animated": "Determinado animado",
+      "buffer": "Buffer",
+      "colors": "Colores",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "indeterminate": "Indeterminado",
+      "installation": "Instalación",
+      "props": "Props",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "status": "Status",
+      "stripes": "Rayas"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Matriz adaptada: size controla el grosor de la barra, density solo ajusta la etiqueta. El snippet refleja la selección actual."
+    },
+    "status": {
+      "active": "Activo",
+      "exception": "Excepción",
+      "note": "Activo sigue la entrada color; success y exception tiñen la barra. El snippet refleja la selección actual.",
+      "success": "Éxito"
+    },
+    "stripes": {
+      "animated": "Animado",
+      "none": "Ninguno",
+      "note": "Rayas diagonales, opcionalmente animadas. La animación permanece estática con movimiento reducido. El snippet refleja la selección actual.",
+      "striped": "Con rayas"
+    },
+    "title": "Progreso"
+  }
+}

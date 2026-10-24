@@ -1,11 +1,16 @@
-solaris-mega-menu {
+.solaris-mega-menu {
   display: inline-block;
+  box-sizing: border-box;
 }
 
 [solaris-mega-menu-trigger] {
+  --solaris-mega-menu-trigger-gap: 0.5em;
+
   display: inline-flex;
   align-items: center;
-  gap: var(--solaris-spacing-2);
+  gap: var(--solaris-mega-menu-trigger-gap);
+  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
   transition: color var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
 }
@@ -13,8 +18,8 @@ solaris-mega-menu {
 [solaris-mega-menu-trigger]::after {
   content: '';
   flex: 0 0 auto;
-  width: var(--solaris-spacing-4);
-  height: var(--solaris-spacing-4);
+  width: 1em;
+  height: 1em;
   background: currentcolor;
   transform: rotate(0deg);
   transform-origin: center;
@@ -31,7 +36,7 @@ solaris-mega-menu {
 }
 
 [solaris-mega-menu-trigger][data-appearance='underline'] {
-  border-bottom: 2px solid transparent;
+  border-bottom: var(--solaris-border-width-md) solid transparent;
 }
 
 [solaris-mega-menu-trigger][data-appearance='underline'][data-open] {
@@ -43,12 +48,12 @@ solaris-mega-menu {
 }
 
 .solaris-mega-menu-anchor__underline {
-  bottom: 1px;
-  height: 2px;
+  bottom: var(--solaris-border-width-sm);
+  height: var(--solaris-border-width-md);
   position: absolute;
   pointer-events: none;
   z-index: var(--solaris-z-index-raised);
-  background: var(--solaris-primary-base);
+  background: var(--solaris-primary-solid);
   transition:
     left var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
@@ -61,26 +66,39 @@ solaris-mega-menu {
   background: transparent;
 }
 
+[solaris-mega-menu-trigger]:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) solid var(--solaris-focus-ring-color);
+}
+
 [solaris-mega-menu-trigger][data-appearance='text'] {
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
 }
 
 [solaris-mega-menu-trigger][data-appearance='text'][data-open] {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
 }
 
 .solaris-mega-menu__panel {
   --solaris-mega-menu-shadow: var(--solaris-shadow-lg);
-  --solaris-mega-menu-color: var(--solaris-text-default);
-  --solaris-mega-menu-background: var(--solaris-surface-raised);
+  --solaris-mega-menu-color: var(--solaris-neutral-text-body);
+  --solaris-mega-menu-background: var(--solaris-neutral-default);
 
   width: 100%;
   box-sizing: border-box;
   color: var(--solaris-mega-menu-color);
   box-shadow: var(--solaris-mega-menu-shadow);
   background: var(--solaris-mega-menu-background);
-  animation: solaris-mega-menu-enter var(--solaris-motion-duration-fast)
-    var(--solaris-motion-easing-decelerate);
+  animation: solaris-motion-overlay-enter-top
+    var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+.solaris-mega-menu__panel[data-closing] {
+  pointer-events: none;
+  animation: solaris-motion-overlay-exit-top
+    var(--solaris-motion-duration-exit, var(--solaris-motion-duration-fast))
+    var(--solaris-motion-easing-accelerate) both;
 }
 
 .cdk-overlay-backdrop.solaris-mega-menu-backdrop {
@@ -92,7 +110,7 @@ solaris-mega-menu {
   display: block;
   position: absolute;
   pointer-events: auto;
-  background: var(--solaris-backdrop);
+  background: var(--solaris-neutral-backdrop);
 }
 
 .solaris-mega-menu-backdrop__region--top,
@@ -117,18 +135,6 @@ solaris-mega-menu {
   right: 0;
 }
 
-@keyframes solaris-mega-menu-enter {
-  from {
-    opacity: 0;
-    transform: translateY(calc(-1 * var(--solaris-spacing-1)));
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   [solaris-mega-menu-trigger],
   .solaris-mega-menu-anchor__underline,
@@ -137,4 +143,9 @@ solaris-mega-menu {
     animation: none;
     transition: none;
   }
+}
+
+// NOTE: ViewEncapsulation.None here, so the app-level attribute (no :host-context).
+[data-reduced-motion='true'] .solaris-mega-menu__panel {
+  animation: none;
 }

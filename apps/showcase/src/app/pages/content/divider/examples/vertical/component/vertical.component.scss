@@ -1,0 +1,11 @@
+.divider-vertical-example__toolbar {
+  height: var(--solaris-spacing-13);
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-3);
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-neutral-default);
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-default);
+}

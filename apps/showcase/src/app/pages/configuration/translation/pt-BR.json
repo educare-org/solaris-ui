@@ -1,0 +1,61 @@
+{
+  "configuration": {
+    "a11y-note": "Conteúdo visualmente oculto permanece disponível para leitores de tela e não é removido da árvore de acessibilidade.",
+    "eyebrow": "Configuração",
+    "hero-description": "Esta área demonstra providers, tokens, temas, i18n, acessibilidade e ícones que definem a fundação do Solaris.",
+    "hero-title": "Contratos de setup do Solaris",
+    "label": {
+      "color-scheme": "Esquema de cores",
+      "density": "Densidade",
+      "fallback": "Tradução: chave ausente (usa fallback)",
+      "fallback-locale": "Idioma de fallback",
+      "font-display": "Display (marca)",
+      "font-family-tokens": "Tokens de família tipográfica",
+      "font-mono": "Mono (código)",
+      "font-sans": "Sans (UI)",
+      "font-serif": "Serif (editorial)",
+      "font-size-tokens": "Tokens de tamanho de fonte",
+      "interpolation": "Tradução: saudação com interpolação",
+      "locale": "Idioma atual",
+      "missing": "Tradução: chave inexistente (retorna a chave)",
+      "reduced-motion": "Movimento reduzido",
+      "reduced-motion-pref": "Preferência de movimento reduzido",
+      "reduced-motion-value": "Movimento reduzido ativado: {{value}}",
+      "unit-strategy": "Estratégia de unidades",
+      "visually-hidden": "Exemplo de diretiva visually hidden"
+    },
+    "meta": {
+      "color-scheme": "Esquema de cores",
+      "density": "Densidade",
+      "fallback-locale": "Fallback",
+      "locale": "Idioma",
+      "reduced-motion": "Movimento reduzido"
+    },
+    "section": {
+      "a11y": "Acessibilidade",
+      "a11y-desc": "Suporte a movimento reduzido e conteúdo visualmente oculto para tecnologias assistivas.",
+      "i18n": "Internacionalização",
+      "i18n-desc": "Fundação de tradução com detecção de idioma, interpolação e resolução de fallback.",
+      "icons": "Ícones",
+      "icons-desc": "Ícones são registrados por definição estruturada, não por string SVG bruta.",
+      "setup": "Setup do consumidor",
+      "setup-desc": "Configuração recomendada para aplicações que consomem o Solaris.",
+      "theme": "Tema",
+      "theme-desc": "Esquema de cores, densidade, preferência de movimento reduzido e estratégia de unidades.",
+      "tokens": "Tokens",
+      "tokens-desc": "Pré-visualização dos tokens de design disponíveis através do sistema de tema Solaris.",
+      "typography": "Tipografia",
+      "typography-desc": "Tokens de família e tamanho de fonte que definem a escala tipográfica do Solaris."
+    },
+    "text": {
+      "font-demo": "Solaris demonstra seus tokens de fonte.",
+      "font-size-demo": "O rato roeu a roupa do rei de Roma.",
+      "sr-only": "Este texto está disponível apenas para leitores de tela.",
+      "unit-strategy": "Solaris usa tokens de design em px para renderização determinística, independente do font-size raiz do consumidor.",
+      "visible": "Este texto está visível."
+    },
+    "typography-note": "Solaris define tokens de fonte; a aplicação consumidora decide como carregar os arquivos."
+  },
+  "farewell": "Adeus",
+  "greeting": "Olá, {{name}}"
+}

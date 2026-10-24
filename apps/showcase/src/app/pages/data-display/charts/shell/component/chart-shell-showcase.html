@@ -1,0 +1,467 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="chart-shell-view.title"
+    descriptionKey="chart-shell-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="examples"
+    titleKey="chart-shell-view.section.examples"
+  >
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.examples.note' | translate }}
+    </p>
+    <div class="chart-shell-showcase__actions">
+      <button type="button" solaris-button (click)="toggleLoading()">
+        {{ 'chart-shell-view.examples.toggleLoading' | translate }}
+      </button>
+    </div>
+    <solaris-preview-code
+      [code]="basicCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <ng-template #chartCard>
+        <solaris-chart-shell
+          locale="pt-BR"
+          [title]="'chart-shell-view.examples.title' | translate"
+          [heroValue]="heroValue()"
+          [heroLabel]="'chart-shell-view.examples.heroLabel' | translate"
+          [heroDelta]="heroDelta()"
+          [heroDeltaDirection]="heroDeltaDirection()"
+          [(intervalStart)]="intervalStart"
+          [(intervalEnd)]="intervalEnd"
+          [view]="view()"
+          [period]="period()"
+          [(displayMode)]="displayMode"
+          [availablePeriods]="periodOptions()"
+          [series]="series()"
+          [loading]="loading()"
+          (viewChange)="onViewChange($event)"
+          (periodChange)="onPeriodChange($event)"
+          (displayModeChange)="onDisplayModeChange($event)"
+          (seriesToggle)="onSeriesToggle($event)"
+          (actionRequest)="onActionRequest($event)"
+        >
+          @if (displayMode() === 'list') {
+          <table class="chart-shell-showcase__list">
+            <thead>
+              <tr>
+                <th scope="col">
+                  {{ 'chart-shell-view.examples.listSeries' | translate }}
+                </th>
+                <th scope="col">
+                  {{ 'chart-shell-view.examples.listTotal' | translate }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (entry of series(); track entry.id) { @if (entry.hidden !==
+              true || isLeaving(entry.id)) {
+              <tr
+                class="chart-shell-showcase__list-row"
+                [class.is-leaving]="isLeaving(entry.id)"
+              >
+                <th scope="row">{{ entry.label }}</th>
+                <td>{{ seriesTotal(entry) }}</td>
+              </tr>
+              } }
+            </tbody>
+          </table>
+          } @else if (view() === 'bar') {
+          <solaris-bar-chart
+            locale="pt-BR"
+            [series]="series()"
+            [xLabels]="xLabels()"
+            [referenceLines]="referenceLines()"
+            (pointSelect)="onBarPointSelect($event)"
+          />
+          } @else if (view() === 'pie') {
+          <solaris-pie-chart
+            locale="pt-BR"
+            variant="donut"
+            [series]="series()"
+            [showValues]="true"
+            (sliceSelect)="onSliceSelect($event)"
+          />
+          } @else {
+          <solaris-line-chart
+            locale="pt-BR"
+            [series]="series()"
+            [xLabels]="xLabels()"
+            [tooltipSubtitle]="tooltipSubtitle()"
+            [referenceLines]="referenceLines()"
+            (pointSelect)="onPointSelect($event)"
+          />
+          }
+        </solaris-chart-shell>
+      </ng-template>
+      <div class="chart-shell-showcase__demo">
+        <p class="chart-shell-showcase__note">
+          {{ 'chart-shell-view.examples.lineNote' | translate }}
+        </p>
+        <ng-container *ngTemplateOutlet="chartCard" />
+      </div>
+    </solaris-preview-code>
+    @if (log()) {
+    <p class="chart-shell-showcase__log" data-testid="event-log">{{ log() }}</p>
+    }
+  </app-docs-section>
+
+  <app-docs-section anchor="views" titleKey="chart-shell-view.section.views">
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.views.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="viewsTab"
+      [ariaLabel]="'chart-shell-view.views.label' | translate"
+    >
+      <solaris-tab [value]="'line'"
+        >{{ 'chart-shell-view.views.line' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'bar'"
+        >{{ 'chart-shell-view.views.bar' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'pie'"
+        >{{ 'chart-shell-view.views.pie' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      [code]="viewsCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [heroValue]="heroValue()"
+        [heroLabel]="'chart-shell-view.examples.heroLabel' | translate"
+        [heroDelta]="heroDelta()"
+        [heroDeltaDirection]="heroDeltaDirection()"
+        [intervalLabel]="intervalLabel()"
+        [view]="viewsTab()"
+        [period]="period()"
+        [availablePeriods]="periodOptions()"
+        [series]="series()"
+        (viewChange)="viewsTab.set($event)"
+        (periodChange)="onPeriodChange($event)"
+        (seriesToggle)="onSeriesToggle($event)"
+        (actionRequest)="onActionRequest($event)"
+      >
+        @if (viewsTab() === 'bar') {
+        <solaris-bar-chart
+          locale="pt-BR"
+          [series]="series()"
+          [xLabels]="xLabels()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onBarPointSelect($event)"
+        />
+        } @else if (viewsTab() === 'pie') {
+        <solaris-pie-chart
+          locale="pt-BR"
+          variant="donut"
+          [series]="series()"
+          [showValues]="true"
+          (sliceSelect)="onSliceSelect($event)"
+        />
+        } @else {
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="series()"
+          [xLabels]="xLabels()"
+          [tooltipSubtitle]="tooltipSubtitle()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+        }
+      </solaris-chart-shell>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="combos" titleKey="chart-shell-view.section.combos">
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.combos.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="combosView"
+      [ariaLabel]="'chart-shell-view.combos.label' | translate"
+    >
+      <solaris-tab [value]="'line'"
+        >{{ 'chart-shell-view.views.line' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'bar'"
+        >{{ 'chart-shell-view.views.bar' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'heatmap'"
+        >{{ 'chart-shell-view.combos.heatmap' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'radar'"
+        >{{ 'chart-shell-view.combos.radar' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      [code]="combosCode()"
+      language="html"
+      previewAlign="stretch"
+    >
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [heroValue]="heroValue()"
+        [heroLabel]="'chart-shell-view.examples.heroLabel' | translate"
+        [heroDelta]="heroDelta()"
+        [heroDeltaDirection]="heroDeltaDirection()"
+        [intervalLabel]="intervalLabel()"
+        [view]="combosView()"
+        [availableViews]="combosViews"
+        [availablePeriods]="periodOptions()"
+        [series]="series()"
+        (viewChange)="onCombosViewChange($event)"
+        (periodChange)="onPeriodChange($event)"
+        (seriesToggle)="onSeriesToggle($event)"
+        (actionRequest)="onActionRequest($event)"
+      >
+        @if (combosView() === 'heatmap') {
+        <solaris-heatmap
+          locale="pt-BR"
+          [rows]="heatmapRows()"
+          [columns]="combosColumns()"
+        />
+        } @else if (combosView() === 'radar') {
+        <solaris-radar
+          locale="pt-BR"
+          [axes]="radarAxes()"
+          [series]="radarSeries()"
+        />
+        } @else if (combosView() === 'bar') {
+        <solaris-bar-chart
+          locale="pt-BR"
+          [series]="series()"
+          [xLabels]="xLabels()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onBarPointSelect($event)"
+        />
+        } @else {
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="series()"
+          [xLabels]="xLabels()"
+          [tooltipSubtitle]="tooltipSubtitle()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+        }
+      </solaris-chart-shell>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="display"
+    titleKey="chart-shell-view.section.display"
+  >
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.display.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="displayTab"
+      [ariaLabel]="'chart-shell-view.display.label' | translate"
+    >
+      <solaris-tab [value]="'timeline'"
+        >{{ 'chart-shell-view.display.timeline' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'list'"
+        >{{ 'chart-shell-view.display.list' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      [code]="displayCode"
+      language="html"
+      previewAlign="stretch"
+    >
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [heroValue]="heroValue()"
+        [intervalLabel]="intervalLabel()"
+        [(displayMode)]="displayTab"
+        [series]="series()"
+        (seriesToggle)="onSeriesToggle($event)"
+      >
+        @if (displayTab() === 'list') {
+        <table class="chart-shell-showcase__list">
+          <thead>
+            <tr>
+              <th scope="col">
+                {{ 'chart-shell-view.examples.listSeries' | translate }}
+              </th>
+              <th scope="col">
+                {{ 'chart-shell-view.examples.listTotal' | translate }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (entry of series(); track entry.id) { @if (entry.hidden !==
+            true || isLeaving(entry.id)) {
+            <tr
+              class="chart-shell-showcase__list-row"
+              [class.is-leaving]="isLeaving(entry.id)"
+            >
+              <th scope="row">{{ entry.label }}</th>
+              <td>{{ seriesTotal(entry) }}</td>
+            </tr>
+            } }
+          </tbody>
+        </table>
+        } @else {
+        <solaris-line-chart
+          locale="pt-BR"
+          [series]="series()"
+          [xLabels]="xLabels()"
+          [tooltipSubtitle]="tooltipSubtitle()"
+          [referenceLines]="referenceLines()"
+          (pointSelect)="onPointSelect($event)"
+        />
+        }
+      </solaris-chart-shell>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="chart-shell-view.section.states">
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.states.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="stateTab"
+      [ariaLabel]="'chart-shell-view.states.label' | translate"
+    >
+      <solaris-tab [value]="'empty'"
+        >{{ 'chart-shell-view.states.empty' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'loading'"
+        >{{ 'chart-shell-view.states.loading' | translate }}</solaris-tab
+      >
+      <solaris-tab [value]="'error'"
+        >{{ 'chart-shell-view.states.error' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      [code]="stateCode()"
+      language="html"
+      previewAlign="stretch"
+    >
+      @if (stateTab() === 'loading') {
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [series]="series()"
+        [loading]="true"
+      />
+      } @else if (stateTab() === 'error') {
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [series]="series()"
+        [error]="stateError()"
+        (retry)="onRetry()"
+      />
+      } @else {
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [series]="[]"
+      />
+      }
+    </solaris-preview-code>
+    @if (stateLog()) {
+    <p class="chart-shell-showcase__log" data-testid="state-event-log">
+      {{ stateLog() }}
+    </p>
+    }
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="chart-shell-view.section.size-density"
+  >
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.size-density.note' | translate }}
+    </p>
+    <div class="chart-shell-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'chart-shell-view.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'chart-shell-view.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'chart-shell-view.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'chart-shell-view.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'chart-shell-view.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'chart-shell-view.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'chart-shell-view.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'chart-shell-view.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      [code]="sizeDensityCode()"
+      language="html"
+      previewAlign="stretch"
+    >
+      <solaris-chart-shell
+        locale="pt-BR"
+        [title]="'chart-shell-view.examples.title' | translate"
+        [series]="series()"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="chart-shell-view.section.installation"
+  >
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block [code]="importCode" language="ts" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="chart-shell-view.section.props">
+    <p class="chart-shell-showcase__note">
+      {{ 'chart-shell-view.props.note' | translate }}
+    </p>
+    <div class="chart-shell-showcase__table-wrap">
+      <solaris-table
+        [data]="propsRows"
+        [columns]="propsColumns()"
+        rowId="prop"
+        appearance="soft"
+      />
+    </div>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement required to check projected content. SSR-safe read-only operation.
 import {
   input,
   inject,
@@ -27,12 +26,12 @@ import { nextIdFor } from '../../../../core';
     '[attr.id]': 'itemId()',
     '(click)': 'onClick()',
     '(keydown)': 'onKeydown($event)',
-    '[attr.data-selected]': 'isSelected()',
-    '[attr.data-disabled]': 'isComputedDisabled()',
     '[attr.aria-checked]': 'isSelected()',
-    '[attr.aria-disabled]': 'isComputedDisabled() || undefined',
-    '[attr.aria-label]': 'resolvedAriaLabel() || undefined',
+    '[attr.data-selected]': 'isSelected()',
     '[attr.tabindex]': 'isTabstop() ? "0" : "-1"',
+    '[attr.data-disabled]': 'isComputedDisabled()',
+    '[attr.aria-label]': 'resolvedAriaLabel() || undefined',
+    '[attr.aria-disabled]': 'isComputedDisabled() || undefined',
     '[class.solaris-segmented-item--icon-only]': 'isIconOnly()',
   },
 })
@@ -47,13 +46,13 @@ export class SolarisSegmentedItemComponent implements AfterContentInit {
 
   protected readonly hasContent = signal(false);
 
-  readonly value = input.required<unknown>();
-  readonly label = input<string | undefined>(undefined);
+  readonly ariaLabelKey = input<string | undefined>(undefined);
+  readonly ariaLabel = input<string | undefined>(undefined);
   readonly labelKey = input<string | undefined>(undefined);
+  readonly label = input<string | undefined>(undefined);
   readonly icon = input<string | undefined>(undefined);
   readonly disabled = input<boolean>(false);
-  readonly ariaLabel = input<string | undefined>(undefined);
-  readonly ariaLabelKey = input<string | undefined>(undefined);
+  readonly value = input.required<unknown>();
 
   protected readonly instanceId = nextIdFor('solaris-segmented-item');
 

@@ -476,7 +476,7 @@ Reference: `docs/standards/accessibility-standard.md`. This section applies that
 
 ## 17. I18n
 
-Reference: `docs/standards/i18n_standard.md`. This section applies that standard to forms.
+Reference: `docs/standards/i18n-standard.md`. This section applies that standard to forms.
 
 ### 17.1. Translation-oriented inputs
 
@@ -671,7 +671,7 @@ Each prompt must reference this contract as the source of truth and **must not**
 - `docs/standards/component-standard.md`
 - `docs/standards/directive-standard.md`
 - `docs/standards/accessibility-standard.md`
-- `docs/standards/i18n_standard.md`
+- `docs/standards/i18n-standard.md`
 - `docs/standards/styling-and-tokens.md`
 - `docs/quality-and-validation/testing-strategy.md`
 - `docs/quality-and-validation/definition-of-done.md`

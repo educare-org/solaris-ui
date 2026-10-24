@@ -66,20 +66,21 @@ Multi Select represents a multiple selection within a form. It controls an array
 | `displayWith`           | `(value) => string \| undefined`                      | —           | Custom display function                |
 | `appearance`            | `'outline' \| 'surface' \| 'filled'`                  | `'outline'` | Visual appearance                      |
 | `density`               | `'compact' \| 'normal' \| 'comfortable' \| undefined` | —           | Density                                |
-| `radius`                | `'none' \| 'sm' \| 'md' \| 'lg'`                      | `'md'`      | Border radius                          |
+| `radius`                | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`              | `'md'`      | Border radius                          |
 | `label`                 | `string \| undefined`                                 | —           | Label text                             |
 | `labelKey`              | `string \| undefined`                                 | —           | Translation key for label              |
 | `hint`                  | `string \| undefined`                                 | —           | Hint text                              |
 | `hintKey`               | `string \| undefined`                                 | —           | Translation key for hint               |
 | `error`                 | `string \| undefined`                                 | —           | Error text                             |
 | `errorKey`              | `string \| undefined`                                 | —           | Translation key for error              |
-| `panelMaxHeight`        | `string \| number`                                    | `'20rem'`   | Max height of dropdown panel           |
+| `panelMaxHeight`        | `string \| number`                                    | `'320px'`   | Max height of dropdown panel           |
 | `panelWidth`            | `string \| number \| undefined`                       | —           | Width of dropdown panel                |
 | `name`                  | `string \| undefined`                                 | —           | Native name attribute                  |
 | `ariaLabel`             | `string \| undefined`                                 | —           | ARIA label                             |
 | `ariaLabelKey`          | `string \| undefined`                                 | —           | Translation key for ARIA label         |
 | `ariaLabelledby`        | `string \| undefined`                                 | —           | ARIA labelledby                        |
 | `prefix`                | `SolarisIconName \| undefined`                        | —           | Prefix icon in the leading affix slot  |
+| `suffix`                | `SolarisIconName \| undefined`                        | —           | Suffix icon in the trailing affix slot |
 
 ### Outputs
 
@@ -165,6 +166,17 @@ Custom comparison function for object values. Defaults to `Object.is`.
 
 Custom function to display values. Useful for object values where `labelText` is not set.
 
+## Trigger and panel min width
+
+Like a native `<select>`, the trigger never shrinks below the widest option:
+`contentMinWidth` estimates the longest option row (label length with a
+size-aware width factor plus option chrome) and applies it as trigger
+`min-width`. The same value backs `effectivePanelMinWidth`, so the panel
+(`matchTriggerWidth`) always fits the longest option without wrapping. An
+explicit `panelMinWidth` input wins over the estimate. Because the trigger
+width no longer depends on the rendered chip/count state, `auto` display mode
+cannot oscillate between chips and count-only while the panel is open.
+
 ## displayMode
 
 Three display modes:
@@ -222,6 +234,35 @@ When search is active, select all acts on currently filtered visible options.
 ## loading
 
 Visual loading state inside the dropdown panel. Does not implement internal fetching.
+
+`loading` is forwarded to the inner `solaris-form-field`: the field shows an
+overlay spinner with no layout shift while the trigger keeps its size.
+
+## Prefix and suffix
+
+Multi Select renders its own `solaris-form-field` internally. Affix content is
+re-projected into that inner field:
+
+- `prefix` renders a leading icon via the `prefix` input.
+- `suffix` renders a trailing icon via the `suffix` input (projected into the
+  field suffix affix, after the trigger chevron).
+- Elements with `[solaris-form-prefix]` are re-projected as the field prefix.
+- Elements with `[solaris-form-suffix]` are re-projected as the field suffix.
+- Suffix actions require **both** `[solaris-form-suffix]` and
+  `[solaris-form-suffix-action]` on the same consumer element. Only then does
+  the element cross the `ngProjectAs` boundary as `[solaris-form-suffix-action]`
+  and switch the suffix affix to `data-variant="action"`.
+- The component bridges the projected action to the inner field via
+  `[hasSuffixAction]`, so the field applies action styling automatically.
+
+```html
+<solaris-multi-select label="Countries" placeholder="Select countries">
+  <solaris-option value="br">Brazil</solaris-option>
+  <button solaris-form-suffix solaris-form-suffix-action type="button" aria-label="Toggle loading">
+    <solaris-icon name="info" [decorative]="true" />
+  </button>
+</solaris-multi-select>
+```
 
 ## empty
 

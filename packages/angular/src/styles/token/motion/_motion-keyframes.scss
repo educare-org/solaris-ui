@@ -1,0 +1,188 @@
+/// Solaris UI — Shared motion keyframes.
+///
+/// Emitted once globally via `core()`. Components reference these keyframes by
+/// name together with the `--solaris-motion-duration-*` / `--solaris-motion-easing-*`
+/// tokens. Never hardcode durations or easings here.
+///
+/// Convention: `-enter` runs with `decelerate`, `-exit` runs with `accelerate`.
+/// Slide distance follows `--solaris-motion-translate-sm` (4px, subtle by design).
+
+@mixin solaris-motion-keyframes {
+  @keyframes solaris-motion-overlay-enter {
+    from {
+      opacity: 0;
+      transform: translateY(var(--solaris-motion-translate-sm)) scale(0.98);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes solaris-motion-overlay-exit {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: translateY(var(--solaris-motion-translate-sm)) scale(0.98);
+    }
+  }
+
+  @keyframes solaris-motion-overlay-enter-top {
+    from {
+      opacity: 0;
+      transform: translateY(calc(-1 * var(--solaris-motion-translate-sm)))
+        scale(0.98);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes solaris-motion-overlay-exit-top {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: translateY(calc(-1 * var(--solaris-motion-translate-sm)))
+        scale(0.98);
+    }
+  }
+
+  @keyframes solaris-motion-dialog-enter {
+    from {
+      opacity: 0;
+      transform: scale(var(--solaris-motion-scale-enter));
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes solaris-motion-dialog-exit {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: scale(var(--solaris-motion-scale-enter));
+    }
+  }
+
+  @keyframes solaris-motion-backdrop-enter {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes solaris-motion-backdrop-exit {
+    from {
+      opacity: 1;
+    }
+
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes solaris-motion-tooltip-enter {
+    from {
+      opacity: 0;
+      transform: scale(var(--solaris-motion-scale-enter));
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes solaris-motion-tooltip-exit {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: scale(var(--solaris-motion-scale-enter));
+    }
+  }
+
+  @keyframes solaris-motion-drawer-enter-left {
+    from {
+      opacity: 0;
+      transform: translateX(calc(-2 * var(--solaris-motion-translate-sm)));
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes solaris-motion-drawer-exit-left {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    to {
+      opacity: 0;
+      transform: translateX(calc(-2 * var(--solaris-motion-translate-sm)));
+    }
+  }
+
+  @keyframes solaris-motion-drawer-enter-right {
+    from {
+      opacity: 0;
+      transform: translateX(calc(2 * var(--solaris-motion-translate-sm)));
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes solaris-motion-drawer-exit-right {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    to {
+      opacity: 0;
+      transform: translateX(calc(2 * var(--solaris-motion-translate-sm)));
+    }
+  }
+
+  @keyframes solaris-motion-pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}

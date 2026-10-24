@@ -1,0 +1,245 @@
+:host {
+  --solaris-line-chart-tooltip-shadow: var(--solaris-shadow-sm);
+  --solaris-line-chart-label-size: var(--solaris-font-size-2xs);
+  --solaris-line-chart-tooltip-radius: var(--solaris-radius-md);
+  --solaris-line-chart-line-width: var(--solaris-border-width-md);
+  --solaris-line-chart-tooltip-color: var(--solaris-neutral-text-body);
+  --solaris-line-chart-grid-color: var(--solaris-neutral-border-default);
+  --solaris-line-chart-label-color: var(--solaris-neutral-text-secondary);
+  --solaris-line-chart-tooltip-background: var(--solaris-neutral-default);
+  --solaris-line-chart-tooltip-border-color: var(
+    --solaris-neutral-border-default
+  );
+
+  display: block;
+}
+
+:host([data-size='sm']) {
+  --solaris-line-chart-label-size: var(--solaris-font-size-3xs);
+  --solaris-line-chart-line-width: var(--solaris-border-width-sm);
+}
+
+:host([data-size='lg']) {
+  --solaris-line-chart-label-size: var(--solaris-font-size-xs);
+  --solaris-line-chart-line-width: var(--solaris-border-width-lg);
+}
+
+:host([data-density='compact']) {
+  --solaris-line-chart-label-size: var(--solaris-font-size-3xs);
+}
+
+:host([data-density='comfortable']) {
+  --solaris-line-chart-label-size: var(--solaris-font-size-xs);
+}
+
+.solaris-line-chart__frame {
+  position: relative;
+}
+
+.solaris-line-chart__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  shape-rendering: geometricprecision;
+}
+
+.solaris-line-chart__grid {
+  stroke: var(--solaris-line-chart-grid-color);
+  stroke-width: 1;
+}
+
+.solaris-line-chart__reference {
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
+.solaris-line-chart__tick {
+  fill: var(--solaris-line-chart-label-color);
+  font-size: var(--solaris-line-chart-label-size);
+}
+
+.solaris-line-chart__reference-label {
+  font-size: var(--solaris-line-chart-label-size);
+}
+
+.solaris-line-chart__line {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: var(--solaris-line-chart-line-width);
+  transition: stroke var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-line-chart__area {
+  stroke: none;
+  opacity: var(--solaris-opacity-90);
+}
+
+.solaris-line-chart__dot {
+  cursor: pointer;
+  stroke-width: 2;
+  transition:
+    fill var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    stroke var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+.solaris-line-chart__dot[data-active] {
+  stroke: var(--solaris-neutral-default);
+}
+
+.solaris-line-chart__selection-guide {
+  fill: var(--solaris-neutral-subtle);
+  opacity: var(--solaris-opacity-60);
+  animation: solaris-line-chart-guide-enter
+    var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+@keyframes solaris-line-chart-guide-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: var(--solaris-opacity-60);
+  }
+}
+
+.solaris-line-chart__dot:focus {
+  outline: none;
+}
+
+.solaris-line-chart__dot:focus-visible {
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-line-chart__tooltip {
+  top: 0;
+  position: absolute;
+  pointer-events: none;
+  transform: translateX(-50%);
+  z-index: var(--solaris-z-index-content);
+  max-width: calc(100% - var(--solaris-spacing-7));
+}
+
+.solaris-line-chart__tooltip-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-3);
+  min-width: var(--solaris-spacing-16);
+  width: max-content;
+  max-width: 100%;
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-5);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-line-chart-tooltip-border-color);
+  border-radius: var(--solaris-line-chart-tooltip-radius);
+  background: var(--solaris-line-chart-tooltip-background);
+  color: var(--solaris-line-chart-tooltip-color);
+  box-shadow: var(--solaris-line-chart-tooltip-shadow);
+  font-size: var(--solaris-line-chart-label-size);
+  animation: solaris-motion-tooltip-enter var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
+}
+
+.solaris-line-chart__tooltip-row {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-4);
+  white-space: nowrap;
+}
+
+.solaris-line-chart__tooltip-label {
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.solaris-line-chart__tooltip-heading {
+  font-weight: var(--solaris-font-weight-semibold);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.solaris-line-chart__tooltip-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--solaris-spacing-5);
+}
+
+.solaris-line-chart__tooltip-subheading {
+  color: var(--solaris-line-chart-label-color);
+  font-weight: var(--solaris-font-weight-regular);
+}
+
+.solaris-line-chart__tooltip-dot {
+  width: var(--solaris-spacing-4);
+  height: var(--solaris-spacing-4);
+  border-radius: var(--solaris-radius-full);
+  flex: none;
+}
+
+.solaris-line-chart__tooltip-value {
+  margin-inline-start: auto;
+  font-weight: var(--solaris-font-weight-semibold);
+}
+
+.solaris-line-chart__tooltip-total {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-spacing-4);
+  white-space: nowrap;
+  font-weight: var(--solaris-font-weight-bold);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.solaris-line-chart__tooltip-total-label {
+  color: var(--solaris-neutral-text-secondary);
+  font-weight: var(--solaris-font-weight-regular);
+}
+
+.solaris-line-chart__data {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  contain: strict;
+  overflow: hidden;
+  clip-path: inset(0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-line-chart__line,
+  .solaris-line-chart__dot,
+  .solaris-line-chart__selection-guide,
+  .solaris-line-chart__tooltip-card {
+    transition: none;
+    animation: none;
+  }
+}
+
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. Print must stay ink-safe on every theme (including dark and
+// high-contrast): theme tokens resolve to dark surfaces there, so the print
+// baseline pins paper #fff / ink #000. Screen rendering is untouched.
+@media print {
+  .solaris-line-chart__tooltip {
+    display: none;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper host for the chart area.
+  .solaris-line-chart__frame {
+    background: #fff;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): ink for axis text on paper.
+  .solaris-line-chart__tick,
+  .solaris-line-chart__reference-label {
+    fill: #000;
+  }
+}

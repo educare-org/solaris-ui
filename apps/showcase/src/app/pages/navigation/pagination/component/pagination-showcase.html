@@ -1,0 +1,105 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="pagination.title"
+    descriptionKey="pagination.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="pagination.section.examples">
+    <p class="pagination-showcase__note">
+      {{ 'pagination.examples.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-section anchor="basic" titleKey="pagination.section.basic">
+    <p class="pagination-showcase__note">
+      {{ 'pagination.basic.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-pagination-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="page-size" titleKey="pagination.section.page-size">
+    <p class="pagination-showcase__note">
+      {{ 'pagination.page-size.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="pageSizeCode" language="html">
+      <solaris-pagination
+        [pageIndex]="pageSizeIndex()"
+        [pageSize]="pageSizeValue()"
+        [total]="95"
+        [pageSizeOptions]="[10, 25, 50]"
+        (pageChange)="onPageSizeChange($event)"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="unknown-total"
+    titleKey="pagination.section.unknown-total"
+  >
+    <p class="pagination-showcase__note">
+      {{ 'pagination.unknown-total.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="unknownTotalCode" language="html">
+      <app-unknown-total-pagination-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="density" titleKey="pagination.section.density">
+    <p class="pagination-showcase__note">
+      {{ 'pagination.density.note' | translate }}
+    </p>
+    <div class="pagination-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'pagination.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'pagination.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'pagination.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'pagination.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <solaris-pagination
+        [pageIndex]="0"
+        [pageSize]="10"
+        [total]="95"
+        [density]="selectedDensity()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="pagination.section.installation"
+  >
+    <p class="pagination-showcase__note">
+      {{ 'pagination.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="pagination.section.props">
+    <p class="pagination-showcase__note">
+      {{ 'pagination.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

@@ -1,0 +1,19 @@
+.custom-button-example__violet [solaris-button] {
+  --solaris-button-custom-color: #ffffff;
+  --solaris-button-custom-background: #9333ea;
+  --solaris-button-custom-border-color: #9333ea;
+  --solaris-button-custom-hover-background: #7e22ce;
+  --solaris-button-custom-hover-border-color: #7e22ce;
+  --solaris-button-custom-active-background: #6b21a8;
+  --solaris-button-custom-active-border-color: #6b21a8;
+}
+
+.custom-button-example__amber [solaris-button] {
+  --solaris-button-custom-color: #17191e;
+  --solaris-button-custom-background: #f59e0b;
+  --solaris-button-custom-border-color: #f59e0b;
+  --solaris-button-custom-hover-background: #d97706;
+  --solaris-button-custom-hover-border-color: #d97706;
+  --solaris-button-custom-active-background: #b45309;
+  --solaris-button-custom-active-border-color: #b45309;
+}

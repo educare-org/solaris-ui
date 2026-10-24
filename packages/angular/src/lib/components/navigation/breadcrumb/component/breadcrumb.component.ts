@@ -15,11 +15,13 @@ import {
   SolarisDropdownMenuTriggerDirective,
 } from '../../../interaction/dropdown-menu';
 import { SolarisTranslateService } from '../../../../services/translation';
+import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisIconComponent } from '../../../icon';
 import { SEPARATOR_ICONS } from '../model/breadcrumb.types';
 
 import type {
   SolarisBreadcrumbSize,
+  SolarisBreadcrumbDensity,
   SolarisBreadcrumbSeparator,
   SolarisBreadcrumbOverflowPosition,
   SolarisBreadcrumbItem,
@@ -43,6 +45,7 @@ import type {
   host: {
     class: 'solaris-breadcrumb',
     '[attr.data-size]': 'size()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-separator]': 'separator()',
     '[attr.data-overflow]': 'overflowPosition()',
   },
@@ -51,9 +54,11 @@ export class SolarisBreadcrumbComponent {
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
+  protected readonly themeService = inject(SolarisThemeService);
 
   readonly items = input.required<SolarisBreadcrumbItem[]>();
   readonly size = input<SolarisBreadcrumbSize>('md');
+  readonly density = input<SolarisBreadcrumbDensity>();
   readonly separator = input<SolarisBreadcrumbSeparator>('slash');
   readonly maxVisibleItems = input<number | null>(null);
   readonly overflowPosition = input<SolarisBreadcrumbOverflowPosition>('none');
@@ -62,6 +67,10 @@ export class SolarisBreadcrumbComponent {
   });
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly ariaLabelKey = input<string | undefined>(undefined);
+
+  readonly effectiveDensity = computed(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   readonly navigate = output<SolarisBreadcrumbNavigateEvent>();
   readonly previous = output<void>();

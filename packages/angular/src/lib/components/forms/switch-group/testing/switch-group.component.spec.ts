@@ -217,6 +217,16 @@ describe('SolarisSwitchGroupComponent ControlValueAccessor', () => {
     const el = fixture.nativeElement;
     expect(el.hasAttribute('data-disabled')).toBe(false);
   });
+
+  it('setCvaReadonlyState should toggle group readonly', () => {
+    createFixture();
+    fixture.componentRef.instance.setCvaReadonlyState(true);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.hasAttribute('data-readonly')).toBe(true);
+    fixture.componentRef.instance.setCvaReadonlyState(false);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.hasAttribute('data-readonly')).toBe(false);
+  });
 });
 
 describe('SolarisSwitchGroupComponent validation', () => {

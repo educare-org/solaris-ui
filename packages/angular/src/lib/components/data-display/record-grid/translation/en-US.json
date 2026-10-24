@@ -1,0 +1,21 @@
+{
+  "solaris": {
+    "dataDisplay": {
+      "recordGrid": {
+        "ariaLabel": "Record grid",
+        "commitAll": "Commit all drafts",
+        "discardAll": "Discard all drafts",
+        "emptyText": "No records found",
+        "errorText": "Unable to load records",
+        "loadingText": "Loading records",
+        "selectAllVisible": "Select all visible rows",
+        "selectRow": "Select row {{rowId}}",
+        "sortAsc": "Sort {{column}} ascending",
+        "sortClear": "Clear sorting for {{column}}",
+        "sortDesc": "Sort {{column}} descending",
+        "sortedAnnounce": "Sorted by {{column}} {{direction}}",
+        "sortedCleared": "Record grid sorting cleared"
+      }
+    }
+  }
+}

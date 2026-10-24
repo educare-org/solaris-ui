@@ -1,6 +1,6 @@
 .example-description {
   margin-bottom: var(--solaris-spacing-3);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-font-size-sm);
 }
 
@@ -12,10 +12,10 @@
 
 .transition-content {
   padding: var(--solaris-spacing-6);
-  background: var(--solaris-surface-subtle);
+  background: var(--solaris-neutral-subtle);
   border-radius: var(--solaris-radius-md);
   text-align: center;
   font: var(--solaris-font-weight-medium) var(--solaris-font-size-lg) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
 }

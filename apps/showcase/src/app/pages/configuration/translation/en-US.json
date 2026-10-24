@@ -1,0 +1,61 @@
+{
+  "configuration": {
+    "a11y-note": "Visually hidden content remains available to screen readers and is not removed from the accessibility tree.",
+    "eyebrow": "Configuration",
+    "hero-description": "This area demonstrates providers, tokens, themes, i18n, accessibility, and icons that define the Solaris foundation.",
+    "hero-title": "Solaris setup contracts",
+    "label": {
+      "color-scheme": "Color scheme",
+      "density": "Density",
+      "fallback": "Translate: missing key (falls back to fallbackLocale)",
+      "fallback-locale": "Fallback locale",
+      "font-display": "Display (brand)",
+      "font-family-tokens": "Font family tokens",
+      "font-mono": "Mono (code)",
+      "font-sans": "Sans (UI)",
+      "font-serif": "Serif (editorial)",
+      "font-size-tokens": "Font size tokens",
+      "interpolation": "Translate: greeting with interpolation",
+      "locale": "Current locale",
+      "missing": "Translate: nonexistent key (returns key)",
+      "reduced-motion": "Reduced motion",
+      "reduced-motion-pref": "Reduced motion preference",
+      "reduced-motion-value": "Reduced motion enabled: {{value}}",
+      "unit-strategy": "Unit strategy",
+      "visually-hidden": "Visually hidden directive example"
+    },
+    "meta": {
+      "color-scheme": "Color scheme",
+      "density": "Density",
+      "fallback-locale": "Fallback",
+      "locale": "Locale",
+      "reduced-motion": "Reduced motion"
+    },
+    "section": {
+      "a11y": "Accessibility",
+      "a11y-desc": "Reduced motion support and visually hidden content for assistive technologies.",
+      "i18n": "Internationalization",
+      "i18n-desc": "Translation foundation with locale detection, interpolation, and fallback resolution.",
+      "icons": "Icons",
+      "icons-desc": "Icons are registered by structured definition, not by raw SVG string.",
+      "setup": "Consumer setup",
+      "setup-desc": "Recommended setup for applications consuming Solaris.",
+      "theme": "Theme",
+      "theme-desc": "Color scheme, density, reduced motion preference, and unit strategy.",
+      "tokens": "Tokens",
+      "tokens-desc": "Visual preview of design tokens available through the Solaris theme system.",
+      "typography": "Typography",
+      "typography-desc": "Font family and size tokens that define the Solaris typographic scale."
+    },
+    "text": {
+      "font-demo": "Solaris demonstrates its font tokens.",
+      "font-size-demo": "The quick brown fox jumps over the lazy dog.",
+      "sr-only": "This text is only available to screen readers.",
+      "unit-strategy": "Solaris uses px-based design tokens so rendering is deterministic regardless of the consumer root font-size.",
+      "visible": "This text is visible."
+    },
+    "typography-note": "Solaris defines font tokens; the consuming application decides how to load the font files."
+  },
+  "farewell": "Goodbye",
+  "greeting": "Hello, {{name}}"
+}

@@ -1,0 +1,18 @@
+<solaris-table
+  rowId="id"
+  [fullWidth]="true"
+  [data]="pageRows()"
+  [columns]="columns"
+  [layout]="layout()"
+  [expandable]="layout() === 'card'"
+>
+  <ng-template solaris-table-footer>
+    <solaris-pagination
+      [total]="total"
+      [pageIndex]="pageIndex()"
+      [pageSize]="pageSize()"
+      [description]="description()"
+      (pageChange)="onPageChange($event)"
+    />
+  </ng-template>
+</solaris-table>

@@ -5,6 +5,7 @@ import { SolarisAlertComponent } from '../component/alert.component';
 import { SolarisAlertTitleDirective } from '../directives/alert-title.directive';
 import { SolarisAlertDescriptionDirective } from '../directives/alert-description.directive';
 import { SolarisAlertActionsComponent } from '../component/alert-actions.component';
+import { SolarisThemeService } from '../../../../services/theme';
 import { provideSolaris } from '../../../../providers/provide-solaris';
 import { SOLARIS_BUILT_IN_ICONS } from '../../../../services/icon/icons/solaris-built-in-icons';
 
@@ -40,6 +41,41 @@ describe('SolarisAlertComponent', () => {
   it('should have default radius md', () => {
     const el = createFixture();
     expect(el.getAttribute('data-radius')).toBe('md');
+  });
+
+  it('should have default size md', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-size')).toBe('md');
+  });
+
+  it('should fall back to theme density when density is undefined', () => {
+    const el = createFixture();
+    const theme = TestBed.inject(SolarisThemeService);
+    expect(el.getAttribute('data-density')).toBe(theme.density);
+  });
+
+  it('should apply size sm', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-size')).toBe('sm');
+  });
+
+  it('should apply size lg', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('size', 'lg');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-size')).toBe('lg');
+  });
+
+  it('should support all sizes', () => {
+    const el = createFixture();
+    const values = ['sm', 'md', 'lg'] as const;
+    for (const v of values) {
+      fixture.componentRef.setInput('size', v);
+      fixture.detectChanges();
+      expect(el.getAttribute('data-size')).toBe(v);
+    }
   });
 
   it('should not be focusable by default', () => {
@@ -567,5 +603,64 @@ describe('SolarisAlertComponent - Text Position', () => {
     fixture.detectChanges();
     const content = el.querySelector('.solaris-alert__content');
     expect(content).toBeTruthy();
+  });
+});
+
+describe('SolarisAlertComponent - Title auto-detection', () => {
+  @Component({
+    standalone: true,
+    imports: [
+      SolarisAlertComponent,
+      SolarisAlertTitleDirective,
+      SolarisAlertDescriptionDirective,
+    ],
+    providers: [
+      provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+    ],
+    template: `
+      <solaris-alert>
+        <h3 solaris-alert-title>Title</h3>
+        <p solaris-alert-description>Description</p>
+      </solaris-alert>
+    `,
+  })
+  class WithTitleHostComponent {}
+
+  @Component({
+    standalone: true,
+    imports: [SolarisAlertComponent],
+    providers: [
+      provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+    ],
+    template: `<solaris-alert>Free content</solaris-alert>`,
+  })
+  class WithoutTitleHostComponent {}
+
+  it('should set data-has-title when a title is projected', () => {
+    TestBed.configureTestingModule({});
+    const f = TestBed.createComponent(WithTitleHostComponent);
+    f.detectChanges();
+    const alert = f.nativeElement.querySelector('solaris-alert');
+    expect(alert.hasAttribute('data-has-title')).toBe(true);
+  });
+
+  it('should not set data-has-title without a projected title', () => {
+    TestBed.configureTestingModule({});
+    const f = TestBed.createComponent(WithoutTitleHostComponent);
+    f.detectChanges();
+    const alert = f.nativeElement.querySelector('solaris-alert');
+    expect(alert.hasAttribute('data-has-title')).toBe(false);
+  });
+
+  it('should respect manual hasTitle override', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+      ],
+    });
+    const fixture = TestBed.createComponent(SolarisAlertComponent);
+    fixture.componentRef.setInput('hasTitle', true);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.hasAttribute('data-has-title')).toBe(true);
   });
 });

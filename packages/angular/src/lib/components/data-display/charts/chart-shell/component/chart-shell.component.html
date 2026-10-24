@@ -1,0 +1,259 @@
+<solaris-card padding="md" [attr.aria-label]="hostAriaLabel()">
+  <div solaris-card-header [separator]="false">
+    <div class="solaris-chart-shell__topbar">
+      <div class="solaris-chart-shell__heading">
+        @if (resolvedTitle(); as heading) {
+          <h3 solaris-card-title>{{ heading }}</h3>
+        }
+        @if (resolvedDescription(); as subheading) {
+          <p solaris-card-description>{{ subheading }}</p>
+        }
+        @if (isIntervalInteractive()) {
+          <button
+            type="button"
+            class="solaris-chart-shell__interval-trigger"
+            [attr.aria-haspopup]="'dialog'"
+            [attr.aria-expanded]="intervalOpen()"
+            (click)="toggleIntervalPicker()"
+          >
+            {{ resolvedInterval() ?? intervalPlaceholder() }}
+          </button>
+        } @else if (resolvedInterval(); as interval) {
+          <span class="solaris-chart-shell__interval">{{ interval }}</span>
+        }
+      </div>
+      <div class="solaris-chart-shell__toolbar">
+        @if (showViewSwitcher() && availableViews().length > 1) {
+          <solaris-select
+            class="solaris-chart-shell__view-select"
+            [value]="view()"
+            [ariaLabel]="translate('solaris.chart.viewSwitcher', {})"
+            (valueChange)="onViewSelect($event)"
+          >
+            @for (option of availableViews(); track option.value) {
+              <solaris-option
+                [value]="option.value"
+                [label]="viewOptionLabel(option)"
+                [disabled]="option.disabled ?? false"
+              />
+            }
+          </solaris-select>
+        }
+        @if (showActions() && fullscreenAction(); as fullscreen) {
+          <button
+            size="sm"
+            type="button"
+            appearance="ghost"
+            solaris-icon-button
+            [ariaLabel]="actionOptionLabel(fullscreen)"
+            (click)="onActionSelect(fullscreen.value)"
+          >
+            <solaris-icon name="maximize" [decorative]="true" />
+          </button>
+        }
+        @if (showActions() && menuActions().length > 0) {
+          <button
+            size="sm"
+            type="button"
+            appearance="ghost"
+            solaris-icon-button
+            solaris-dropdown-menu-trigger
+            [solarisDropdownMenuTriggerFor]="actionsMenu"
+            [ariaLabel]="translate('solaris.chart.actionsMenu', {})"
+          >
+            <solaris-icon name="ellipsis" />
+          </button>
+          <solaris-dropdown-menu #actionsMenu>
+            @for (action of menuActions(); track action.value) {
+              <solaris-dropdown-menu-item
+                [label]="actionOptionLabel(action)"
+                (itemSelected)="onActionSelect(action.value)"
+              />
+            }
+          </solaris-dropdown-menu>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div solaris-card-content>
+    @if (heroValue() !== undefined || resolvedHeroLabel() !== undefined) {
+      <div class="solaris-chart-shell__hero">
+        @if (resolvedHeroLabel(); as heroLabelText) {
+          <span class="solaris-chart-shell__hero-label">
+            {{ heroLabelText }}
+          </span>
+        }
+        @if (heroValue() !== undefined) {
+          <span class="solaris-chart-shell__hero-value">{{ heroValue() }}</span>
+        }
+        @if (heroDelta() !== undefined) {
+          <solaris-badge
+            size="sm"
+            radius="md"
+            appearance="surface"
+            [color]="trendBadgeColor()"
+            [ariaLabel]="trendAriaLabel()"
+          >
+            @if (trendIcon(); as iconName) {
+              <solaris-icon
+                [name]="iconName"
+                solaris-badge-icon
+                [decorative]="true"
+              />
+            }
+            {{ heroDelta() }}
+          </solaris-badge>
+        }
+      </div>
+    }
+
+    @if (
+      (showDisplaySwitcher() && availableDisplayModes().length > 1) ||
+      (showPeriodFilter() && availablePeriods().length > 1)
+    ) {
+      <div class="solaris-chart-shell__filters">
+        @if (hasDisplaySwitcher()) {
+          <solaris-segmented-control
+            size="md"
+            [value]="displayMode()"
+            class="solaris-chart-shell__display"
+            [ariaLabel]="translate('solaris.chart.displaySwitcher', {})"
+            (valueChange)="onDisplayModeSelect($event)"
+          >
+            @for (option of availableDisplayModes(); track option.value) {
+              <solaris-segmented-item
+                [value]="option.value"
+                [label]="displayModeOptionLabel(option)"
+                [disabled]="option.disabled ?? false"
+              />
+            }
+          </solaris-segmented-control>
+        }
+        @if (showPeriodFilter() && effectivePeriods().length > 1) {
+          <solaris-segmented-control
+            #periodsControl
+            size="md"
+            [value]="period()"
+            class="solaris-chart-shell__periods"
+            [ariaLabel]="resolvedInterval() ?? undefined"
+            (valueChange)="onPeriodSelect($event)"
+          >
+            @for (option of leadingPeriods(); track option.value) {
+              <solaris-segmented-item
+                [value]="option.value"
+                [label]="periodOptionLabel(option)"
+                [icon]="option.icon"
+                [disabled]="option.disabled ?? false"
+              />
+            }
+            @if (isAutoCustom()) {
+              <solaris-segmented-item
+                [value]="'custom'"
+                [icon]="'calendar'"
+                [ariaLabel]="periodOptionLabel({ value: 'custom' })"
+                [attr.aria-haspopup]="'dialog'"
+                solaris-popover-trigger
+                [solarisPopoverTriggerFor]="intervalPanel"
+                [solarisPopoverAriaHasPopup]="'dialog'"
+                [solarisPopoverPlacement]="'bottom'"
+                [solarisPopoverAlign]="'end'"
+                (solarisPopoverOpenChange)="intervalOpen.set($event)"
+                (keydown.enter)="toggleIntervalPicker()"
+                (keydown.space)="toggleIntervalPicker()"
+              />
+            }
+            @for (option of trailingPeriods(); track option.value) {
+              <solaris-segmented-item
+                [value]="option.value"
+                [label]="periodOptionLabel(option)"
+                [icon]="option.icon"
+                [disabled]="option.disabled ?? false"
+              />
+            }
+          </solaris-segmented-control>
+        }
+      </div>
+    }
+
+    <ng-template #intervalPanel="solarisPopover" solaris-popover>
+      <solaris-date-range-picker
+        #intervalPicker
+        inline
+        [locale]="locale()"
+        [min]="minInterval()"
+        [max]="maxInterval()"
+        [presets]="intervalPresets()"
+        (valueChange)="onIntervalPickerChange($event)"
+        (cancelled)="closeIntervalPicker()"
+      />
+    </ng-template>
+
+    @if (loading()) {
+      <div class="solaris-chart-shell__loading" role="status">
+        <solaris-skeleton variant="rectangular" height="220px" width="100%" />
+        <solaris-skeleton [lines]="1" />
+      </div>
+    } @else if (resolvedError(); as failure) {
+      <div class="solaris-chart-shell__error" role="alert">
+        <p class="solaris-chart-shell__error-title">
+          {{ translate('solaris.chart.errorTitle', {}) }}
+        </p>
+        <p class="solaris-chart-shell__error-message">{{ failure }}</p>
+        <button solaris-button type="button" size="sm" (click)="onRetry()">
+          {{ translate('solaris.chart.errorRetry', {}) }}
+        </button>
+      </div>
+    } @else if (isEmpty()) {
+      <div class="solaris-chart-shell__empty">
+        <p class="solaris-chart-shell__empty-title">
+          {{ translate('solaris.chart.emptyTitle', {}) }}
+        </p>
+        <p class="solaris-chart-shell__empty-message">
+          {{ translate('solaris.chart.emptyMessage', {}) }}
+        </p>
+      </div>
+    } @else {
+      <div
+        class="solaris-chart-shell__canvas"
+        role="img"
+        [attr.aria-label]="chartSummary()"
+      >
+        <ng-content />
+      </div>
+    }
+
+    @if (hasLegend()) {
+      <div class="solaris-chart-shell__legend" role="group">
+        <span class="solaris-chart-shell__legend-title" aria-hidden="true">
+          {{ translate('solaris.chart.legendFilter', {}) }}
+        </span>
+        @for (entry of series(); track entry.id; let index = $index) {
+          <button
+            class="solaris-chart-shell__legend-item"
+            type="button"
+            [attr.aria-pressed]="entry.hidden === true ? 'false' : 'true'"
+            [attr.aria-label]="
+              translate('solaris.chart.legendToggle', { label: entry.label })
+            "
+            [attr.data-hidden]="entry.hidden === true ? '' : null"
+            (click)="onLegendToggle(entry)"
+          >
+            <span
+              class="solaris-chart-shell__legend-dot"
+              [style.background-color]="seriesColor(entry, index)"
+              aria-hidden="true"
+            ></span>
+            <span class="solaris-chart-shell__legend-label">
+              {{ entry.label }}
+            </span>
+          </button>
+        }
+      </div>
+    }
+
+    <span class="solaris-chart-shell__announcement" aria-live="polite">
+      {{ announcement() }}
+    </span>
+  </div>
+</solaris-card>

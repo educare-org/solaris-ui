@@ -1,0 +1,41 @@
+<div class="theme-toggle">
+  <solaris-segmented-control
+    size="md"
+    radius="md"
+    appearance="outline"
+    [value]="baseTheme()"
+    ariaLabelKey="shell.theme.label"
+    (valueChange)="setTheme($event)"
+  >
+    <solaris-segmented-item
+      icon="sun"
+      value="light"
+      ariaLabelKey="shell.theme.light"
+    />
+    <solaris-segmented-item
+      icon="moon"
+      value="dark"
+      ariaLabelKey="shell.theme.dark"
+    />
+    <solaris-segmented-item
+      value="system"
+      icon="monitor"
+      ariaLabelKey="shell.theme.system"
+    />
+  </solaris-segmented-control>
+
+  <button
+    size="md"
+    radius="md"
+    type="button"
+    color="neutral"
+    solaris-icon-button
+    appearance="outline"
+    [pressed]="highContrast()"
+    [attr.aria-label]="'shell.theme.high-contrast' | translate"
+    [attr.title]="'shell.theme.high-contrast' | translate"
+    (click)="toggleHighContrast()"
+  >
+    <solaris-icon name="contrast" [decorative]="true" />
+  </button>
+</div>

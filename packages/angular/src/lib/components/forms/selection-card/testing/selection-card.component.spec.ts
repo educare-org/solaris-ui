@@ -530,3 +530,112 @@ describe('SolarisSelectionCardComponent in SolarisRadioGroupComponent', () => {
     expect(secondCard['_checked']()).toBe(true);
   });
 });
+
+describe('SolarisSelectionCardComponent effective size', () => {
+  let fixture: ComponentFixture<SolarisSelectionCardComponent>;
+
+  const createFixture = () => {
+    configureSolarisTesting();
+    fixture = TestBed.createComponent(SolarisSelectionCardComponent);
+    fixture.detectChanges();
+    return fixture.nativeElement as HTMLElement;
+  };
+
+  it('should default data-size to md without a group', () => {
+    const element = createFixture();
+    expect(element.getAttribute('data-size')).toBe('md');
+  });
+
+  it('should prefer own size over group size', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisRadioGroupComponent, SolarisSelectionCardComponent],
+      template: `
+        <solaris-radio-group size="lg">
+          <solaris-selection-card value="a" size="sm">
+            <h3>A</h3>
+          </solaris-selection-card>
+        </solaris-radio-group>
+      `,
+    })
+    class OwnSizeHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(OwnSizeHost);
+    hostFixture.detectChanges();
+    const card = hostFixture.nativeElement.querySelector(
+      'solaris-selection-card',
+    ) as HTMLElement;
+    expect(card.getAttribute('data-size')).toBe('sm');
+  });
+
+  it('should inherit size and density from the radio group', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisRadioGroupComponent, SolarisSelectionCardComponent],
+      template: `
+        <solaris-radio-group size="lg" density="compact">
+          <solaris-selection-card value="a">
+            <h3>A</h3>
+          </solaris-selection-card>
+        </solaris-radio-group>
+      `,
+    })
+    class InheritedSizeHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(InheritedSizeHost);
+    hostFixture.detectChanges();
+    const card = hostFixture.nativeElement.querySelector(
+      'solaris-selection-card',
+    ) as HTMLElement;
+    expect(card.getAttribute('data-size')).toBe('lg');
+    expect(card.getAttribute('data-density')).toBe('compact');
+  });
+
+  it('should prefer own density over group density', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisRadioGroupComponent, SolarisSelectionCardComponent],
+      template: `
+        <solaris-radio-group density="compact">
+          <solaris-selection-card value="a" density="comfortable">
+            <h3>A</h3>
+          </solaris-selection-card>
+        </solaris-radio-group>
+      `,
+    })
+    class OwnDensityHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(OwnDensityHost);
+    hostFixture.detectChanges();
+    const card = hostFixture.nativeElement.querySelector(
+      'solaris-selection-card',
+    ) as HTMLElement;
+    expect(card.getAttribute('data-density')).toBe('comfortable');
+  });
+});
+
+describe('SolarisSelectionCardComponent required state', () => {
+  it('should expose aria-required on the native input when required', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisSelectionCardComponent);
+    hostFixture.componentRef.setInput('required', true);
+    hostFixture.detectChanges();
+    const input = (hostFixture.nativeElement as HTMLElement).querySelector(
+      'input.solaris-selection-card__input',
+    ) as HTMLInputElement;
+    expect(input.getAttribute('aria-required')).toBe('true');
+  });
+
+  it('should not expose aria-required when not required', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisSelectionCardComponent);
+    hostFixture.detectChanges();
+    const input = (hostFixture.nativeElement as HTMLElement).querySelector(
+      'input.solaris-selection-card__input',
+    ) as HTMLInputElement;
+    expect(input.hasAttribute('aria-required')).toBe(false);
+  });
+});

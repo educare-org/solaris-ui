@@ -1,0 +1,87 @@
+{
+  "stepper": {
+    "actions-alignment": "Alinhamento de Ações",
+    "ai": {
+      "prompt": "Estou olhando a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usá-lo. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "card": "Card",
+      "dashed": "Tracejada",
+      "default": "Padrão"
+    },
+    "basic-horizontal": "Horizontal Básico",
+    "basic-vertical": "Vertical Básico",
+    "card": "Aparência Card",
+    "compact-density": "Densidade Compacta",
+    "content-transition": "Transição de Conteúdo",
+    "dashed": "Aparência Tracejada",
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Componente Stepper para fluxos multi-etapas, wizards e indicação de progresso.",
+    "error": "Estado de Erro",
+    "example": {
+      "size-density": {
+        "step-one": "Etapa 1",
+        "step-three": "Etapa 3",
+        "step-two": "Etapa 2"
+      },
+      "validation": {
+        "confirm": "Confirmo que meus dados estão corretos",
+        "hint": "Confirme os dados antes de avançar para a próxima etapa.",
+        "step-one": "Conta",
+        "step-three": "Revisão",
+        "step-two": "Instituição"
+      }
+    },
+    "examples": {
+      "note": "Comece pelo stepper padrão e explore orientação, aparências e validação abaixo."
+    },
+    "icon-stepper": "Stepper com Ícones",
+    "installation": {
+      "note": "Instale o pacote único Solaris e importe o componente."
+    },
+    "linear": "Stepper Linear",
+    "linear-mode": {
+      "linear": "Linear",
+      "non-linear": "Não-linear"
+    },
+    "non-linear": "Stepper Não-linear",
+    "optional": "Etapa Opcional",
+    "orientation": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Tabela de props em breve com o componente table."
+    },
+    "responsive": "Responsivo",
+    "section": {
+      "appearances": "Aparências",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "linear": "Linear",
+      "orientation": "Orientação",
+      "props": "Props",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "status": "Status",
+      "validation": "Validação",
+      "wizard": "Wizard"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "O tamanho escala o indicador e o rótulo enquanto a densidade controla o espaçamento e o padding do conteúdo. Combine os dois controles para ver todas as combinações."
+    },
+    "title": "Stepper",
+    "validation-note": "Etapas não guardam estado de formulário. Use os guards canEnter e canExit para bloquear a navegação até o conteúdo ser válido; stepBlocked informa qual guard negou.",
+    "wizard": "Fluxo Wizard"
+  }
+}

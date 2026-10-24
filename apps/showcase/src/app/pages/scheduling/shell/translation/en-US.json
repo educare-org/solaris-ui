@@ -1,0 +1,24 @@
+{
+  "shell-view": {
+    "description": "Toolbar, mini-month, view switcher, time-zone label, and narrow-viewport fallback composing every calendar view.",
+    "examples": {
+      "note": "Switch views, move the focused date, toggle weekends, and change the time zone. Proposals land in the log below."
+    },
+    "installation": {
+      "note": "Install the package and import the standalone calendar shell component."
+    },
+    "props": {
+      "note": "The shell owns view and focusedDate signals and forwards events, tasks, and holidays to the active view."
+    },
+    "responsive": {
+      "note": "At 640px or narrower the shell projects the schedule agenda by default. Resize the viewport or set responsiveFallback to null to disable."
+    },
+    "section": {
+      "examples": "Examples",
+      "installation": "Installation",
+      "props": "Props",
+      "responsive": "Responsive fallback"
+    },
+    "title": "Calendar Shell"
+  }
+}

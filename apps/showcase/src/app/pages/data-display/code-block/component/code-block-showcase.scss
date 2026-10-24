@@ -1,0 +1,17 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.code-block-showcase__note {
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.code-block-showcase__row {
+  margin-bottom: var(--solaris-spacing-4);
+  @include layout.row(var(--solaris-spacing-3));
+}
+
+.code-block-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
+}

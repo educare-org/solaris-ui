@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular API to read the host element for scroll-parent lookup (parentElement traversal) and passive scroll listener for scrolled state. SSR-safe via isPlatformBrowser guard with DestroyRef cleanup. No alternative exists.
 import {
   Component,
   input,
@@ -18,6 +17,7 @@ import { SolarisButtonDirective } from '../../../../../actions/button';
 import { SolarisDialogRef } from '../../../service/dialog-ref';
 import { SOLARIS_DIALOG_REF } from '../../../token/dialog-data.token';
 import { SolarisTranslateService } from '../../../../../../services/translation';
+import { SolarisThemeService } from '../../../../../../services/theme';
 import type {
   SolarisDialogAction,
   SolarisDialogActionsAlign,
@@ -36,7 +36,7 @@ import type {
     '[attr.data-align]': 'align()',
     '[attr.data-stack]': 'stack()',
     '[attr.data-separator]': "separator() ? '' : null",
-    '[attr.data-density]': 'density()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-scrolled]': "effectiveScrolled() ? '' : null",
     class: 'solaris-dialog-actions',
   },
@@ -54,6 +54,9 @@ export class SolarisDialogActionsComponent<TResult = unknown>
     inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly destroyRef = inject(DestroyRef);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly themeService = inject(SolarisThemeService, {
+    optional: true,
+  });
 
   readonly actions = input<SolarisDialogAction<TResult>[]>([]);
   readonly align = input<SolarisDialogActionsAlign>('end');
@@ -63,6 +66,10 @@ export class SolarisDialogActionsComponent<TResult = unknown>
   });
   readonly density = input<SolarisDialogDensity>();
   readonly scrolled = input<boolean>();
+
+  protected readonly effectiveDensity = computed(
+    () => this.density() ?? this.themeService?.density ?? 'normal',
+  );
 
   protected readonly internalScrolled = signal(false);
   protected readonly effectiveScrolled = computed(
@@ -75,6 +82,7 @@ export class SolarisDialogActionsComponent<TResult = unknown>
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
+    this.collapseSeparatorWhenAdjacentToHeader();
     this.observeScrollParent();
   }
 
@@ -91,6 +99,12 @@ export class SolarisDialogActionsComponent<TResult = unknown>
     this.destroyRef.onDestroy(() => {
       scrollParent.removeEventListener('scroll', update);
     });
+  }
+
+  private collapseSeparatorWhenAdjacentToHeader(): void {
+    if (this.separator() && followsHeaderSeparator(this.hostElement)) {
+      this.hostElement.setAttribute('data-adjacent-header', '');
+    }
   }
 
   protected resolvedLabel(action: SolarisDialogAction<TResult>): string {
@@ -133,4 +147,12 @@ function findScrollParent(element: HTMLElement): HTMLElement | null {
 
 function hasMoreBelow(element: HTMLElement): boolean {
   return element.scrollTop + element.clientHeight < element.scrollHeight - 1;
+}
+
+function followsHeaderSeparator(element: HTMLElement): boolean {
+  const previous = element.previousElementSibling as HTMLElement | null;
+  return (
+    previous?.tagName === 'SOLARIS-DIALOG-HEADER' &&
+    previous.hasAttribute('data-separator')
+  );
 }

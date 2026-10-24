@@ -3,6 +3,7 @@ export { SolarisIconButtonBadgeDirective } from './directives/icon-button-badge.
 export { SolarisMenuToggleDirective } from './directives/menu-toggle.directive';
 
 export type {
+  SolarisIconButtonSize,
   SolarisIconButtonAppearance,
   SolarisIconButtonColor,
   SolarisIconButtonRadius,

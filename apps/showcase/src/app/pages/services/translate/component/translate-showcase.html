@@ -1,0 +1,150 @@
+<div class="translate-page">
+  <header class="translate-page__header">
+    <h1 class="translate-page__title" data-testid="page-title">
+      {{ 'translate.title' | translate }}
+    </h1>
+    <p class="translate-page__description">
+      {{ 'translate.description' | translate }}
+    </p>
+    <p class="translate-page__note">{{ 'translate.useWhen' | translate }}</p>
+  </header>
+
+  <section class="translate-page__card">
+    <h2 class="translate-page__card-title">
+      {{ 'translate.section.locale' | translate }}
+    </h2>
+    <p class="translate-page__note">
+      {{ 'translate.section.localeDesc' | translate }}
+    </p>
+    <div class="translate-page__row">
+      @for (locale of locales; track locale) {
+      <button
+        type="button"
+        [attr.data-testid]="'locale-' + locale"
+        [attr.aria-pressed]="activeLocale() === locale"
+        (click)="setLocale(locale)"
+      >
+        {{ locale }}
+      </button>
+      }
+    </div>
+    <p class="translate-page__fact" data-testid="current-locale">
+      {{ 'translate.locale.current' | translate }}: {{ activeLocale() }}
+    </p>
+  </section>
+
+  <section class="translate-page__card">
+    <h2 class="translate-page__card-title">
+      {{ 'translate.section.fallback' | translate }}
+    </h2>
+    <p class="translate-page__note">
+      {{ 'translate.section.fallbackDesc' | translate }}
+    </p>
+    <p class="translate-page__fact" data-testid="fallback-text">
+      {{ fallbackText() }}
+    </p>
+  </section>
+
+  <section class="translate-page__card">
+    <h2 class="translate-page__card-title">
+      {{ 'translate.section.interpolation' | translate }}
+    </h2>
+    <p class="translate-page__note">
+      {{ 'translate.section.interpolationDesc' | translate }}
+    </p>
+    <p class="translate-page__fact" data-testid="greeting">
+      {{ 'translate.demo.nameLabel' | translate }}: {{ greeting() }}
+    </p>
+    <div class="translate-page__row">
+      <button type="button" data-testid="count-dec" (click)="decrement()">
+        −
+      </button>
+      <span class="translate-page__fact" data-testid="items">
+        {{ 'translate.demo.countLabel' | translate }}: {{ itemsText() }}
+      </span>
+      <button type="button" data-testid="count-inc" (click)="increment()">
+        +
+      </button>
+    </div>
+  </section>
+
+  <section class="translate-page__card">
+    <h2 class="translate-page__card-title">
+      {{ 'translate.section.runtime' | translate }}
+    </h2>
+    <p class="translate-page__note">
+      {{ 'translate.section.runtimeDesc' | translate }}
+    </p>
+    <div class="translate-page__row">
+      <button
+        type="button"
+        data-testid="register-custom"
+        (click)="registerCustomKey()"
+      >
+        {{ 'translate.runtime.addButton' | translate }}
+      </button>
+    </div>
+    @if (customRegistered()) {
+    <p class="translate-page__fact" data-testid="custom-text">
+      {{ 'translate.runtime.customLabel' | translate }}: {{ customText() }}
+    </p>
+    }
+  </section>
+
+  <section class="translate-page__card">
+    <h2 class="translate-page__card-title">
+      {{ 'translate.section.api' | translate }}
+    </h2>
+    <p class="translate-page__note">
+      {{ 'translate.section.apiDesc' | translate }}
+    </p>
+    <dl class="translate-page__api">
+      <div>
+        <dt><code>translate</code></dt>
+        <dd>{{ 'translate.api.translate' | translate }}</dd>
+      </div>
+      <div>
+        <dt><code>setLocale</code></dt>
+        <dd>{{ 'translate.api.setLocale' | translate }}</dd>
+      </div>
+      <div>
+        <dt><code>resetLocale</code></dt>
+        <dd>{{ 'translate.api.resetLocale' | translate }}</dd>
+      </div>
+      <div>
+        <dt><code>has</code></dt>
+        <dd>{{ 'translate.api.has' | translate }}</dd>
+      </div>
+      <div>
+        <dt><code>availableLocales</code></dt>
+        <dd>{{ 'translate.api.availableLocales' | translate }}</dd>
+      </div>
+      <div>
+        <dt><code>addTranslations</code></dt>
+        <dd>{{ 'translate.api.addTranslations' | translate }}</dd>
+      </div>
+      <div>
+        <dt><code>normalizeLocale</code></dt>
+        <dd>{{ 'translate.api.normalizeLocale' | translate }}</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="translate-page__card">
+    <h2 class="translate-page__card-title">
+      {{ 'translate.section.install' | translate }}
+    </h2>
+    <h3 class="translate-page__subtitle">
+      {{ 'translate.install.template' | translate }}
+    </h3>
+    <pre
+      class="translate-page__snippet"
+    ><code [textContent]="templateSnippet"></code></pre>
+    <h3 class="translate-page__subtitle">
+      {{ 'translate.install.code' | translate }}
+    </h3>
+    <pre
+      class="translate-page__snippet"
+    ><code [textContent]="tsSnippet"></code></pre>
+  </section>
+</div>

@@ -1,0 +1,117 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="record-grid.title"
+    descriptionKey="record-grid.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="record-grid.section.examples">
+    <p class="record-grid-showcase__note">
+      {{ 'record-grid.examples.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-section anchor="basic" titleKey="record-grid.section.basic">
+    <p class="record-grid-showcase__note">
+      {{ 'record-grid.basic.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="basicCode"
+      language="html"
+    >
+      <app-basic-record-grid-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="sections" titleKey="record-grid.section.sections">
+    <p class="record-grid-showcase__note">
+      {{ 'record-grid.sections.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="sectionsCode"
+      language="html"
+    >
+      <app-sections-record-grid-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="merging" titleKey="record-grid.section.merging">
+    <p class="record-grid-showcase__note">
+      {{ 'record-grid.merging.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="mergingCode"
+      language="html"
+    >
+      <app-merging-record-grid-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="formulas" titleKey="record-grid.section.formulas">
+    <p class="record-grid-showcase__note">
+      {{ 'record-grid.formulas.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="formulasCode"
+      language="html"
+    >
+      <app-formulas-record-grid-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="editing" titleKey="record-grid.section.editing">
+    <p class="record-grid-showcase__note">
+      {{ 'record-grid.editing.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="editingCode"
+      language="html"
+    >
+      <app-editing-record-grid-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="layout" titleKey="record-grid.section.layout">
+    <p class="record-grid-showcase__note">
+      {{ 'record-grid.layout.note' | translate }}
+    </p>
+    <solaris-preview-code
+      [previewAlign]="'stretch'"
+      [code]="layoutCode"
+      language="html"
+    >
+      <app-layout-record-grid-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="record-grid.section.installation"
+  >
+    <p class="record-grid-showcase__note">
+      {{ 'record-grid.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="record-grid.section.props">
+    <p class="record-grid-showcase__note">
+      {{ 'record-grid.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

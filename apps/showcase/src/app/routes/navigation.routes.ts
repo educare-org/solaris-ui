@@ -7,8 +7,8 @@ export const navigationRoutes: Route[] = [
       {
         path: 'tabs',
         loadComponent: () =>
-          import('../pages/navigation/tabs/component/tabs-page.component').then(
-            (m) => m.TabsPageComponent,
+          import('../pages/navigation/tabs/component/tabs-showcase').then(
+            (m) => m.TabsShowcasePage,
           ),
       },
       {
@@ -36,15 +36,22 @@ export const navigationRoutes: Route[] = [
         path: 'segmented-control',
         loadComponent: () =>
           import(
-            '../pages/navigation/segmented-control/component/segmented-control-page.component'
-          ).then((m) => m.SegmentedControlPageComponent),
+            '../pages/navigation/segmented-control/component/segmented-control-showcase'
+          ).then((m) => m.SegmentedControlShowcasePage),
       },
       {
         path: 'editable-tabs',
         loadComponent: () =>
           import(
-            '../pages/navigation/editable-tabs/component/editable-tabs-page.component'
-          ).then((m) => m.EditableTabsPageComponent),
+            '../pages/navigation/editable-tabs/component/editable-tabs-showcase'
+          ).then((m) => m.EditableTabsShowcasePage),
+      },
+      {
+        path: 'pagination',
+        loadComponent: () =>
+          import(
+            '../pages/navigation/pagination/component/pagination-showcase'
+          ).then((m) => m.PaginationShowcasePage),
       },
     ],
   },

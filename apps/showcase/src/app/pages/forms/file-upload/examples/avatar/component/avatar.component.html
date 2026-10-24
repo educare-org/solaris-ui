@@ -1,0 +1,11 @@
+<solaris-file-upload
+  #uploader
+  [label]="'file-upload.modes.avatar-label' | translate"
+  variant="avatar"
+  accept="image/*"
+  [multiple]="false"
+  [size]="size()"
+  [density]="density()"
+  (filesChange)="onPhotoSelected($event)"
+  (fileRejected)="onFileRejected($event)"
+></solaris-file-upload>

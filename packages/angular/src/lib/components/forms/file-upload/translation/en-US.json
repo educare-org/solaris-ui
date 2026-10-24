@@ -1,0 +1,69 @@
+{
+  "solaris": {
+    "file-upload": {
+      "announce": {
+        "addedPlural": "{{count}} files added.",
+        "addedSingular": "1 file added.",
+        "failed": "Upload failed: {{name}}.",
+        "rejectedPlural": "{{count}} files rejected.",
+        "rejectedSingular": "1 file rejected: {{name}}.",
+        "removed": "Removed {{name}}.",
+        "uploaded": "Upload complete: {{name}}."
+      },
+      "avatar": {
+        "browse": "Select a file",
+        "drop": "Drop your photo here or",
+        "images": "images",
+        "label": "Profile photo",
+        "supports": "Supports: {{types}}"
+      },
+      "browse": "Browse files",
+      "drop-active": "Drop files here",
+      "dropzone": "Drag and drop files here, or",
+      "error": {
+        "max-files": "Maximum of {{count}} files allowed.",
+        "max-size": "File exceeds the maximum size of {{size}}.",
+        "type-not-allowed": "File type not allowed.",
+        "upload-failed": "Could not upload {{name}}."
+      },
+      "field": "Drag or browse files",
+      "list": "Selected files",
+      "or": "or",
+      "remove": "Remove {{name}}",
+      "required": "Select at least one file.",
+      "retry": "Retry upload of {{name}}",
+      "status": {
+        "error": "Upload failed",
+        "ready": "Ready to upload",
+        "success": "Uploaded",
+        "uploading": "Uploading"
+      },
+      "up-to": "Up to {{size}}",
+      "url": {
+        "add": "Add",
+        "error": "Could not load a file from this URL.",
+        "invalid": "Enter a valid https URL.",
+        "label": "File URL",
+        "placeholder": "https://example.com/file.pdf",
+        "too-large": "The remote file exceeds the {{size}} limit."
+      }
+    },
+    "image-editor": {
+      "aspect": "Aspect ratio {{aspect}}",
+      "aspect-free": "Free",
+      "cancel": "Cancel",
+      "drag-to-reposition": "Drag to reposition image",
+      "load-error": "Could not load the image. Try another file.",
+      "pan": "Image preview. Drag to move the image. Use arrow keys to move and plus, minus, or the scroll wheel to zoom.",
+      "reset": "Reset",
+      "rotate": "Rotate 90 degrees",
+      "save": "Save",
+      "shape-circle": "Circle",
+      "shape-rect": "Rectangle",
+      "title": "Edit image",
+      "zoom": "Zoom",
+      "zoom-in": "Zoom in",
+      "zoom-out": "Zoom out"
+    }
+  }
+}

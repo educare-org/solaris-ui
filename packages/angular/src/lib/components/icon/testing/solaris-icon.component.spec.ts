@@ -50,6 +50,7 @@ describe('SolarisIconComponent', () => {
   it('should apply aria-label when ariaLabel is provided and not decorative', () => {
     configureTesting();
     fixture.componentRef.setInput('name', 'check');
+    fixture.componentRef.setInput('decorative', false);
     fixture.componentRef.setInput('ariaLabel', 'Confirm');
     fixture.detectChanges();
 
@@ -73,11 +74,22 @@ describe('SolarisIconComponent', () => {
   it('should use role img when not decorative and no ariaLabel', () => {
     configureTesting();
     fixture.componentRef.setInput('name', 'check');
+    fixture.componentRef.setInput('decorative', false);
     fixture.detectChanges();
 
     const svg = fixture.nativeElement.querySelector('svg');
     expect(svg.getAttribute('role')).toBe('img');
     expect(svg.getAttribute('aria-hidden')).toBeFalsy();
+  });
+
+  it('should default to decorative presentation', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'check');
+    fixture.detectChanges();
+
+    const svg = fixture.nativeElement.querySelector('svg');
+    expect(svg.getAttribute('role')).toBe('presentation');
+    expect(svg.getAttribute('aria-hidden')).toBe('true');
   });
 
   it('should render SVG with stroke attributes from definition', () => {
@@ -134,5 +146,110 @@ describe('SolarisIconComponent', () => {
 
     const svg = fixture.nativeElement.querySelector('svg');
     expect(svg.getAttribute('stroke')).toBe('none');
+  });
+
+  it('should default to outline variant', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'check');
+    fixture.detectChanges();
+
+    const svg = fixture.nativeElement.querySelector('svg');
+    expect(svg.getAttribute('data-variant')).toBe('outline');
+  });
+
+  it('should apply size to host dimensions', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'check');
+    fixture.componentRef.setInput('size', 32);
+    fixture.detectChanges();
+
+    const host = fixture.nativeElement as HTMLElement;
+    expect(host.style.width).toBe('32px');
+    expect(host.style.height).toBe('32px');
+  });
+
+  it('should override stroke width per instance', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'check');
+    fixture.componentRef.setInput('strokeWidth', 1);
+    fixture.detectChanges();
+
+    const svg = fixture.nativeElement.querySelector('svg');
+    expect(svg.getAttribute('stroke-width')).toBe('1');
+  });
+
+  it('should fill bookmark in solid variant without fallback', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'bookmark');
+    fixture.componentRef.setInput('variant', 'solid');
+    fixture.detectChanges();
+
+    const svg = fixture.nativeElement.querySelector('svg');
+    expect(svg.getAttribute('fill')).toBe('currentColor');
+    expect(svg.getAttribute('stroke')).toBe('currentColor');
+    expect(svg.getAttribute('data-variant')).toBe('solid');
+    expect(fixture.componentInstance.isFallback()).toBe(false);
+  });
+
+  it('should render knockout fallback for stroke-only icons in solid', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'check');
+    fixture.componentRef.setInput('variant', 'solid');
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('mask')).toBeTruthy();
+    expect(fixture.componentInstance.isFallback()).toBe(true);
+  });
+
+  it('should render duotone fallback with secondary layer', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'check');
+    fixture.componentRef.setInput('variant', 'duotone');
+    fixture.detectChanges();
+
+    const layer = fixture.nativeElement.querySelector('rect[opacity="0.2"]');
+    expect(layer).toBeTruthy();
+    expect(fixture.componentInstance.isFallback()).toBe(true);
+  });
+
+  it('should render dedicated duotone art for fillable icons', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'bookmark');
+    fixture.componentRef.setInput('variant', 'duotone');
+    fixture.detectChanges();
+
+    const layer = fixture.nativeElement.querySelector('g[opacity="0.25"]');
+    expect(layer).toBeTruthy();
+    expect(fixture.componentInstance.isFallback()).toBe(false);
+  });
+
+  it('should render key outline with stroke despite filled dot', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'key');
+    fixture.componentRef.setInput('variant', 'outline');
+    fixture.detectChanges();
+
+    const svg = fixture.nativeElement.querySelector('svg');
+    expect(svg.getAttribute('stroke')).toBe('currentColor');
+    expect(fixture.componentInstance.isFallback()).toBe(false);
+  });
+
+  it('should not apply fallback to loader, dot, slash and ellipsis', () => {
+    configureTesting();
+    for (const name of [
+      'loader',
+      'dot',
+      'slash',
+      'ellipsis',
+      'ellipsis-vertical',
+      'grip-vertical',
+    ]) {
+      fixture.componentRef.setInput('name', name);
+      fixture.componentRef.setInput('variant', 'solid');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isFallback()).toBe(false);
+      expect(fixture.nativeElement.querySelector('mask')).toBeNull();
+    }
   });
 });

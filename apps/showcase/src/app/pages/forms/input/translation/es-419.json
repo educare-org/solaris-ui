@@ -1,0 +1,109 @@
+{
+  "input": {
+    "affix": {
+      "price": "Precio",
+      "price-placeholder": "0.00",
+      "usd": "USD"
+    },
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "aria-label": {
+      "hide": "Ocultar contraseña",
+      "show": "Mostrar contraseña"
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Directiva de estilo e integración para campos <input> text-like nativos. Funciona de forma independiente e integrada con Form Field.",
+    "error": {
+      "invalid": "Este campo tiene un error.",
+      "required": "El correo electrónico es obligatorio.",
+      "valid-email": "Ingresa un correo válido."
+    },
+    "examples": {
+      "note": "Input independiente con su propio contenedor visual: borde, fondo, padding, radio y anillo de enfoque."
+    },
+    "form": {
+      "hint": "Ingresa tu dirección de correo electrónico.",
+      "label": "Correo electrónico obligatorio"
+    },
+    "form-field": {
+      "hint": "Ingresa tu nombre completo.",
+      "label": "Nombre",
+      "note": "Etiqueta, hint y contenedor visual gestionados por Form Field. Input mantiene comportamiento, placeholder y valor. Size en Form Field es válido y define la altura externa mediante la matriz 3x3.",
+      "placeholder": "Tu nombre"
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa la directiva input con Form Field."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "none": "Ninguno",
+      "note": "El radio pertenece a Form Field cuando está proyectado; el input independiente expone los mismos valores none, sm, md, lg y xl. Escala global: md equivale a 4px, lg a 8px y xl se muestra como pill.",
+      "sm": "Pequeño",
+      "xl": "Pill"
+    },
+    "section": {
+      "appearances": "Apariencias",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "form": "Integración con formularios",
+      "form-field": "Con Form Field",
+      "installation": "Instalación",
+      "prefix-suffix": "Prefijo y sufijo",
+      "props": "Props",
+      "radius": "Radio",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados",
+      "types": "Tipos"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en una matriz de 3x3: Form Field define la altura externa, el input mantiene sincronizados su fuente y padding."
+    },
+    "states": {
+      "default": "Predeterminado",
+      "disabled": "Deshabilitado",
+      "invalid": "No válido",
+      "readonly": "Solo lectura",
+      "readonly-value": "Valor de solo lectura"
+    },
+    "title": "Input",
+    "types": {
+      "date": "Fecha",
+      "email": "E-mail",
+      "email-placeholder": "name@company.com",
+      "note": "La semántica nativa del tipo se conserva. Los tipos no admitidos (file, color, range, checkbox, radio, buttons, hidden) advierten en desarrollo.",
+      "number": "Número",
+      "number-placeholder": "42",
+      "password": "Contraseña",
+      "password-placeholder": "Contraseña",
+      "search": "Buscar",
+      "search-placeholder": "Buscar...",
+      "tel": "Teléfono",
+      "tel-placeholder": "(555) 123-4567",
+      "text": "Texto",
+      "text-placeholder": "Texto",
+      "time": "Hora",
+      "url": "URL",
+      "url-placeholder": "https://example.com"
+    }
+  }
+}

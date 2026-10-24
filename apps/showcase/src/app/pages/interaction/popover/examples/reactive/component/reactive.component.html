@@ -1,0 +1,18 @@
+<div class="popover-reactive-example__scroll" cdkScrollable>
+  <div class="popover-reactive-example__spacer" aria-hidden="true"></div>
+  <button
+    solaris-button
+    solaris-popover-trigger
+    [solarisPopoverTriggerFor]="reactivePopover"
+    solarisPopoverPadding="md"
+  >
+    {{ 'popover.reactive-trigger' | translate }}
+  </button>
+  <ng-template solaris-popover #reactivePopover="solarisPopover">
+    <p>{{ 'popover.reactive-content' | translate }}</p>
+  </ng-template>
+  <p class="popover-reactive-example__hint">
+    {{ 'popover.scroll-hint' | translate }}
+  </p>
+  <div class="popover-reactive-example__spacer" aria-hidden="true"></div>
+</div>

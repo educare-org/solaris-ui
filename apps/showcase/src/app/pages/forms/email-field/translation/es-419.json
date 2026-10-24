@@ -1,0 +1,108 @@
+{
+  "email-field": {
+    "affix": {
+      "action": "Verificar",
+      "action-label": "E-mail con acción",
+      "icons-label": "E-mail con iconos",
+      "note": "Iconos de prefijo y sufijo vía inputs; contenido arbitrario vía [solaris-form-prefix] / [solaris-form-suffix]. El contenido interactivo usa el slot suffix-action con [solaris-form-suffix] y [solaris-form-suffix-action].",
+      "projected-label": "E-mail con prefijo proyectado"
+    },
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "clearable": {
+      "label": "E-mail",
+      "note": "Con la opción de borrado, aparece un botón de borrado cuando el campo tiene un valor y emite cleared al hacer clic. Permanece oculto cuando está deshabilitado, en solo lectura o Cargando."
+    },
+    "demo": {
+      "label": "E-mail",
+      "placeholder": "name@company.com"
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Preajuste de Form Field para entrada de correo electrónico con valores predeterminados específicos, validación y filtrado de dominios. Compone Form Field + Input.",
+    "error": {
+      "invalid": "Este campo tiene un error.",
+      "invalid-email": "Ingresa un correo electrónico válido.",
+      "required": "E-mail es obligatorio."
+    },
+    "examples": {
+      "note": "Campo de correo electrónico básico con teclado de correo, autocompletado y validación en blur."
+    },
+    "form": {
+      "hint": "Ingresa tu dirección de correo electrónico.",
+      "label": "E-mail obligatorio",
+      "note": "Funciona con Reactive Forms a través de ControlValueAccessor. Combínalo con solarisEmailValidator para una validación independiente del template."
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa el componente email field."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "none": "Ninguno",
+      "note": "Radio sigue la escala global: md corresponde a 4px, lg a 8px y xl se muestra como Pill.",
+      "sm": "Pequeño",
+      "xl": "Pill"
+    },
+    "section": {
+      "affix": "Prefijo, sufijo y acciones",
+      "appearances": "Apariencias",
+      "clearable": "Con opción de borrado",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "form": "Integración con formularios",
+      "installation": "Instalación",
+      "props": "Props",
+      "radius": "Radio",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados",
+      "validation": "Validación y dominios"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en una matriz de 3x3: el Form Field interno define la altura externa, mientras el preset mantiene la fuente y el espaciado sincronizados."
+    },
+    "states": {
+      "default": "Predeterminado",
+      "disabled": "Deshabilitado",
+      "invalid": "No válido",
+      "loading": "Cargando",
+      "note": "Deshabilitado y solo lectura son reales, no solo visuales. Cargando muestra un Spinner superpuesto en el slot de sufijo sin desplazar el Layout.",
+      "readonly": "Solo lectura"
+    },
+    "title": "Email Field",
+    "validation": {
+      "allowed-label": "E-mail corporativo",
+      "blocked-label": "E-mail",
+      "hint": "Usa tu correo electrónico institucional.",
+      "normalize-label": "E-mail (minúsculas)",
+      "note": "Listas de dominios permitidos y bloqueados con normalización opcional a minúsculas en blur. La validación se ejecuta después de blur, nunca con foco."
+    }
+  },
+  "solaris": {
+    "email-field": {
+      "allowedDomain": "El dominio del correo electrónico no está permitido.",
+      "blockedDomain": "El dominio del correo electrónico no está permitido.",
+      "clear": "Borrar e-mail",
+      "invalid": "Ingresa una dirección de correo electrónico válida.",
+      "required": "El correo electrónico es obligatorio."
+    }
+  }
+}

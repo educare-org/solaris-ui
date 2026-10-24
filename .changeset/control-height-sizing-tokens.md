@@ -1,0 +1,5 @@
+---
+'@educarehq/solaris-ui': patch
+---
+
+Design tokens: add `sizing` control-height scale forming a chained ladder from 28px to 52px in 4px steps (compact 28/32/36, normal 36/40/44, comfortable 44/48/52; the `sm` of a denser scale equals the `lg` of the previous one). The ladder measures the control outer box: segmented controls render container padding at zero so outer height always equals item height. Each density `min-height` points at its own `md` height, so default controls align across components — note `comfortable` `min-height` moves 44px to 48px, growing every comfortable-density control by 4px. Components must reference the token of their own size x density combination, never another combination's token, even when values coincide. Segmented Control items enforce the mapped height via `min-height`, with vertical padding per combination sized so natural content height never exceeds the target. Shared declarations were hoisted to the base selectors: zero container padding on the control, and horizontal padding plus label line-height on the item. Input height moves from density-only to the size x density matrix.

@@ -7,16 +7,16 @@
   background: var(--solaris-dialog-panel-bg);
   padding: var(--solaris-spacing-0);
 
-  --solaris-dialog-icon-color: var(--solaris-text-muted);
+  --solaris-dialog-icon-color: var(--solaris-neutral-text-secondary);
   --solaris-dialog-media-size: var(--solaris-spacing-8);
   --solaris-dialog-icon-size: var(--solaris-font-size-2xl);
-  --solaris-dialog-header-border-color: var(--solaris-border-default);
+  --solaris-dialog-close-icon-size: var(--solaris-font-size-md);
+  --solaris-dialog-header-border-color: var(--solaris-neutral-border-default);
   --solaris-dialog-header-z-index: var(--solaris-z-index-raised);
   --solaris-dialog-header-scrolled-shadow: var(--solaris-shadow-md);
 }
 
 :host([data-separator]) {
-  padding-block-end: var(--solaris-spacing-3);
   border-bottom: var(--solaris-border-width-sm) solid
     var(--solaris-dialog-header-border-color);
 }
@@ -26,19 +26,19 @@
 }
 
 :host([data-variant='info']) {
-  --solaris-dialog-icon-color: var(--solaris-info-base);
+  --solaris-dialog-icon-color: var(--solaris-info-solid);
 }
 
 :host([data-variant='success']) {
-  --solaris-dialog-icon-color: var(--solaris-success-base);
+  --solaris-dialog-icon-color: var(--solaris-success-solid);
 }
 
 :host([data-variant='warning']) {
-  --solaris-dialog-icon-color: var(--solaris-warning-base);
+  --solaris-dialog-icon-color: var(--solaris-warning-solid);
 }
 
 :host([data-variant='danger']) {
-  --solaris-dialog-icon-color: var(--solaris-danger-base);
+  --solaris-dialog-icon-color: var(--solaris-danger-solid);
 }
 
 .solaris-dialog-header__start {
@@ -46,7 +46,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  padding: var(--solaris-spacing-3);
+  padding: var(--solaris-spacing-4) var(--solaris-spacing-6);
 }
 
 .solaris-dialog-header__row {
@@ -72,13 +72,13 @@
   flex: 1;
   min-width: 0;
   margin: 0;
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
   font: var(--solaris-font-weight-semibold) var(--solaris-font-size-lg) /
     var(--solaris-line-height-sm) var(--solaris-font-family-sans);
 }
 
 .solaris-dialog-header__description {
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   margin: var(--solaris-spacing-1) 0 0;
   font: var(--solaris-font-weight-regular) var(--solaris-font-size-xs) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
@@ -95,20 +95,37 @@
   cursor: pointer;
   background: none;
   flex-shrink: 0;
+  position: relative;
   align-items: center;
   justify-content: center;
   margin-left: auto;
+  padding: var(--solaris-spacing-0);
   width: var(--solaris-dialog-media-size);
   height: var(--solaris-dialog-media-size);
+  min-width: var(--solaris-spacing-9);
+  min-height: var(--solaris-spacing-9);
   border-radius: var(--solaris-radius-sm);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-font-size-lg);
   transition: color var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-decelerate);
 }
 
+.solaris-dialog-header__close::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+}
+
 .solaris-dialog-header__close:hover {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
+}
+
+.solaris-dialog-header__close solaris-icon,
+.solaris-dialog-header__close svg {
+  display: block;
+  width: var(--solaris-dialog-close-icon-size);
+  height: var(--solaris-dialog-close-icon-size);
 }
 
 .solaris-dialog-header__close:focus-visible {

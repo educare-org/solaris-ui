@@ -1,0 +1,14 @@
+.skeleton-dashboard-example {
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
+  border-radius: var(--solaris-radius-md);
+  overflow: hidden;
+  background: var(--solaris-neutral-subtle);
+}
+
+.skeleton-dashboard-example__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-2);
+  padding: var(--solaris-spacing-4);
+}

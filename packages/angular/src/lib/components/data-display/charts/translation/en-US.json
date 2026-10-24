@@ -1,0 +1,38 @@
+{
+  "solaris": {
+    "chart": {
+      "viewLine": "Line",
+      "viewBar": "Bar",
+      "viewPie": "Pie",
+      "viewHeatmap": "Heatmap",
+      "viewRadar": "Radar",
+      "periodDay": "1 day",
+      "periodWeek": "7 days",
+      "periodMonth": "1 month",
+      "periodQuarter": "3 months",
+      "periodYear": "This year",
+      "periodAll": "All",
+      "periodCustom": "Custom",
+      "legendToggle": "Toggle {{label}} series",
+      "legendFilter": "Filter by:",
+      "others": "Others",
+      "total": "Total",
+      "emptyTitle": "No data to display",
+      "emptyMessage": "Data for this period will appear here.",
+      "errorTitle": "Chart failed to load",
+      "errorRetry": "Try again",
+      "seriesSummary": "{{label}}: {{count}} points, peak {{max}}",
+      "trendUp": "Rising",
+      "trendDown": "Falling",
+      "trendFlat": "Steady",
+      "viewSwitcher": "Chart view",
+      "displayTimeline": "Timeline",
+      "displayList": "List",
+      "displaySwitcher": "Display mode",
+      "intervalPlaceholder": "Select period",
+      "actionsMenu": "Chart actions",
+      "actionsExport": "Export",
+      "actionsFullscreen": "Fullscreen"
+    }
+  }
+}

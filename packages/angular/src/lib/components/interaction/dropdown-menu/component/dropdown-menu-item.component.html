@@ -2,9 +2,9 @@
   <div class="solaris-dropdown-menu-item__leading">
     @if (type() === 'checkbox') {
       <span
+        aria-hidden="true"
         class="solaris-dropdown-menu-item__checkbox"
         [class.solaris-dropdown-menu-item__checkbox--checked]="checked()"
-        aria-hidden="true"
       >
         @if (checked()) {
           <span class="solaris-dropdown-menu-item__checkbox-icon">
@@ -14,31 +14,31 @@
       </span>
     } @else if (type() === 'radio') {
       <span
+        aria-hidden="true"
         class="solaris-dropdown-menu-item__radio"
         [class.solaris-dropdown-menu-item__radio--checked]="checked()"
-        aria-hidden="true"
       >
         @if (checked()) {
           <span class="solaris-dropdown-menu-item__radio-dot"></span>
         }
       </span>
     } @else {
-      <solaris-icon [name]="icon()!" aria-hidden="true" />
+      <solaris-icon [name]="icon()!" [decorative]="iconDecorative()" />
     }
   </div>
 }
 <div class="solaris-dropdown-menu-item__content">
-  @if (label()) {
-    <span class="solaris-dropdown-menu-item__label">{{ label() }}</span>
+  @if (resolvedLabel()) {
+    <span class="solaris-dropdown-menu-item__label">{{ resolvedLabel() }}</span>
   }
-  @if (description()) {
-    <span class="solaris-dropdown-menu-item__description">{{
-      description()
-    }}</span>
+  @if (resolvedDescription()) {
+    <span class="solaris-dropdown-menu-item__description">
+      {{ resolvedDescription() }}
+    </span>
   }
 </div>
 @if (shortcut()) {
-  <span class="solaris-dropdown-menu-item__shortcut" aria-hidden="true">{{
-    shortcut()
-  }}</span>
+  <span class="solaris-dropdown-menu-item__shortcut" aria-hidden="true">
+    {{ shortcut() }}
+  </span>
 }

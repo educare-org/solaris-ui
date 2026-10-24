@@ -1,0 +1,137 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="year-view.title"
+    descriptionKey="year-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="year-view.section.examples">
+    <p class="year-view-showcase__note">
+      {{ 'year-view.examples.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <div class="year-view-showcase__toolbar">
+        <button type="button" (click)="shiftYear(-1)">
+          {{ 'year-view.toolbar.previous' | translate }}
+        </button>
+        <button type="button" (click)="goToday()">
+          {{ 'year-view.toolbar.today' | translate }}
+        </button>
+        <button type="button" (click)="shiftYear(1)">
+          {{ 'year-view.toolbar.next' | translate }}
+        </button>
+        <strong>{{ yearLabel() }}</strong>
+      </div>
+      <solaris-calendar-year-view
+        [locale]="demoLocale()"
+        timeZone="America/Sao_Paulo"
+        [focusedDate]="focusedDate()"
+        (focusedDateChange)="focusedDate.set($event)"
+        [events]="events"
+        [tasks]="tasks"
+        [holidays]="holidays()"
+        (daySelect)="onDaySelect($event)"
+      />
+      <p data-testid="event-log">{{ log() }}</p>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="drill" titleKey="year-view.section.drill">
+    <p class="year-view-showcase__note">
+      {{ 'year-view.drill.note' | translate }}
+    </p>
+    <solaris-calendar-month-view
+      [locale]="demoLocale()"
+      timeZone="America/Sao_Paulo"
+      [focusedDate]="focusedDate()"
+      (focusedDateChange)="focusedDate.set($event)"
+      [events]="events"
+      [tasks]="tasks"
+      [holidays]="holidays()"
+      (daySelect)="onDaySelect($event)"
+      (eventOpen)="onEventOpen($event)"
+    />
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="year-view.section.size-density"
+  >
+    <p class="year-view-showcase__note">
+      {{ 'year-view.size-density.note' | translate }}
+    </p>
+    <div class="year-view-showcase__controls">
+      <solaris-tabs
+        [value]="selectedSize()"
+        (valueChange)="selectedSize.set($any($event))"
+        [ariaLabel]="'year-view.section.size-density' | translate"
+      >
+        <solaris-tab value="sm">sm</solaris-tab>
+        <solaris-tab value="md">md</solaris-tab>
+        <solaris-tab value="lg">lg</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [value]="selectedDensity()"
+        (valueChange)="selectedDensity.set($any($event))"
+        [ariaLabel]="'year-view.section.size-density' | translate"
+      >
+        <solaris-tab value="compact">compact</solaris-tab>
+        <solaris-tab value="normal">normal</solaris-tab>
+        <solaris-tab value="comfortable">comfortable</solaris-tab>
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-calendar-year-view
+        [locale]="demoLocale()"
+        timeZone="America/Sao_Paulo"
+        focusedDate="2026-10-15"
+        [events]="events"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="locales" titleKey="year-view.section.locales">
+    <p class="year-view-showcase__note">
+      {{ 'year-view.locales.note' | translate }}
+    </p>
+    <div class="year-view-showcase__controls">
+      <solaris-tabs
+        [value]="demoLocale()"
+        (valueChange)="selectLocale($event)"
+        [ariaLabel]="'year-view.section.locales' | translate"
+      >
+        <solaris-tab value="pt-BR">pt-BR</solaris-tab>
+        <solaris-tab value="en-US">en-US</solaris-tab>
+        <solaris-tab value="es">es</solaris-tab>
+      </solaris-tabs>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="year-view.section.installation"
+  >
+    <p class="year-view-showcase__note">
+      {{ 'year-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="year-view.section.props">
+    <p class="year-view-showcase__note">
+      {{ 'year-view.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

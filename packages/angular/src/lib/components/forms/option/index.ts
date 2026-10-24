@@ -11,3 +11,5 @@ export type {
   SolarisOptionDensity,
   SolarisOptionSelectionMode,
 } from './model/option.types';
+export type { SolarisOptionParent } from './token/option.tokens';
+export { SOLARIS_OPTION_PARENT } from './token/option.tokens';

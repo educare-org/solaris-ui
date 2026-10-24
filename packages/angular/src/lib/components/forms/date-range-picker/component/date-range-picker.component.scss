@@ -1,10 +1,35 @@
 :host {
   display: block;
+  --solaris-date-range-picker-trigger-font-size: var(--solaris-font-size-sm);
+  --solaris-date-range-picker-trigger-line-height: var(
+    --solaris-line-height-sm
+  );
+}
+
+:host([data-size='sm'][data-density='compact']),
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-date-range-picker-trigger-font-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='sm'][data-density='comfortable']),
+:host([data-size='md'][data-density='compact']),
+:host([data-size='md'][data-density='normal']),
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-date-range-picker-trigger-font-size: var(--solaris-font-size-sm);
+}
+
+:host([data-size='md'][data-density='comfortable']),
+:host([data-size='lg'][data-density='normal']),
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-date-range-picker-trigger-font-size: var(--solaris-font-size-md);
+  --solaris-date-range-picker-trigger-line-height: var(
+    --solaris-line-height-md
+  );
 }
 
 [solaris-button].solaris-date-range-picker__calendar-trigger,
 .solaris-date-range-picker__calendar-trigger {
-  color: var(--solaris-text-muted) !important;
+  color: var(--solaris-neutral-text-secondary) !important;
   background: transparent !important;
   cursor: pointer;
 }
@@ -13,12 +38,57 @@
 [solaris-button].solaris-date-range-picker__calendar-trigger:active,
 .solaris-date-range-picker__calendar-trigger:hover,
 .solaris-date-range-picker__calendar-trigger:active {
-  color: var(--solaris-text-strong) !important;
+  color: var(--solaris-neutral-text-heading) !important;
   background: transparent !important;
 }
 
 .solaris-date-range-picker__calendar-trigger solaris-icon {
   cursor: pointer;
+}
+
+.solaris-date-range-picker__clear {
+  solaris-icon {
+    width: var(--solaris-font-size-lg);
+    height: var(--solaris-font-size-lg);
+  }
+
+  padding: 0;
+  border: none;
+  display: flex;
+  cursor: pointer;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  width: var(--solaris-font-size-lg);
+  height: var(--solaris-font-size-lg);
+  color: var(--solaris-neutral-text-secondary);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-date-range-picker__clear:hover {
+  color: var(--solaris-neutral-text-heading);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-date-range-picker__panel {
+    animation: none;
+  }
+
+  .solaris-date-range-picker__clear {
+    transition: none;
+  }
+}
+
+[data-reduced-motion='true'] {
+  .solaris-date-range-picker__panel {
+    animation: none;
+  }
+
+  .solaris-date-range-picker__clear {
+    transition: none;
+  }
 }
 
 .solaris-date-range-picker__inputs,
@@ -32,12 +102,14 @@
   min-width: 0;
   padding: 0;
   border: 0;
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
   text-align: start;
   background: transparent;
   cursor: pointer;
-  font: var(--solaris-font-weight-regular) var(--solaris-font-size-md) /
-    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+  font: var(--solaris-font-weight-regular)
+    var(--solaris-date-range-picker-trigger-font-size) /
+    var(--solaris-date-range-picker-trigger-line-height)
+    var(--solaris-font-family-sans);
 }
 
 .solaris-date-range-picker__trigger:focus-visible,
@@ -49,7 +121,7 @@
 
 .solaris-date-range-picker__trigger:disabled {
   cursor: not-allowed;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
 }
 
 .solaris-date-range-picker__inputs {
@@ -58,29 +130,32 @@
 }
 
 .solaris-date-range-picker__inputs input {
-  flex: 0 0 calc(var(--solaris-spacing-24) + var(--solaris-spacing-8));
-  width: calc(var(--solaris-spacing-24) + var(--solaris-spacing-8));
+  flex: 0 0 calc(var(--solaris-spacing-17) + var(--solaris-spacing-8));
+  width: calc(var(--solaris-spacing-17) + var(--solaris-spacing-8));
 }
 
 .solaris-date-range-picker__separator {
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
 }
 
 .solaris-date-range-picker__panel {
   display: grid;
   width: fit-content;
   grid-template-columns: auto auto;
+  animation: solaris-motion-overlay-enter-top
+    var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 .solaris-date-range-picker__presets {
   display: grid;
   align-content: start;
   gap: var(--solaris-spacing-1);
-  min-width: calc(var(--solaris-spacing-24) + var(--solaris-spacing-4));
+  min-width: calc(var(--solaris-spacing-17) + var(--solaris-spacing-4));
   padding-block: var(--solaris-spacing-3);
   padding-inline: var(--solaris-spacing-3) var(--solaris-spacing-4);
   border-inline-end: var(--solaris-border-width-sm) solid
-    var(--solaris-border-subtle);
+    var(--solaris-neutral-border-subtle);
 }
 
 .solaris-date-range-picker__preset {
@@ -89,7 +164,7 @@
   padding: 0 var(--solaris-spacing-2);
   border: 0;
   border-radius: var(--solaris-radius-sm);
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
   text-align: start;
   background: transparent;
   cursor: pointer;
@@ -98,7 +173,7 @@
 }
 
 .solaris-date-range-picker__preset:hover {
-  background: var(--solaris-surface-subtle);
+  background: var(--solaris-neutral-subtle);
 }
 
 .solaris-date-range-picker__preset[data-active]::after {
@@ -106,7 +181,7 @@
   inset-block: 0;
   inset-inline-start: calc(var(--solaris-spacing-3) * -1);
   width: var(--solaris-border-width-md);
-  background: var(--solaris-primary-base);
+  background: var(--solaris-primary-solid);
   content: '';
 }
 
@@ -128,7 +203,7 @@
 .solaris-date-range-picker__calendar-divider {
   align-self: stretch;
   width: var(--solaris-border-width-sm);
-  background: var(--solaris-border-subtle);
+  background: var(--solaris-neutral-border-subtle);
 }
 
 .solaris-date-range-picker__footer {
@@ -138,7 +213,7 @@
   justify-content: space-between;
   padding: var(--solaris-spacing-3);
   border-block-start: var(--solaris-border-width-sm) solid
-    var(--solaris-border-subtle);
+    var(--solaris-neutral-border-subtle);
 }
 
 .solaris-date-range-picker__actions {
@@ -152,7 +227,7 @@
     width: min(
       100%,
       calc(
-        (var(--solaris-spacing-24) * 2) + var(--solaris-spacing-16) +
+        (var(--solaris-spacing-17) * 2) + var(--solaris-spacing-16) +
           (var(--solaris-spacing-3) * 2)
       )
     );
@@ -170,7 +245,7 @@
     overscroll-behavior-inline: contain;
     padding-inline: var(--solaris-spacing-1);
     border-block-end: var(--solaris-border-width-sm) solid
-      var(--solaris-border-subtle);
+      var(--solaris-neutral-border-subtle);
     border-inline-end: 0;
   }
 

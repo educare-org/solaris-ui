@@ -5,7 +5,7 @@ export { SolarisToastService } from './service/toast.service';
 export { SOLARIS_TOAST_CONFIG } from './token/toast.tokens';
 
 export type {
-  SolarisToastCountdownMode,
+  SolarisToastCountdown,
   SolarisToastActionsAlign,
   SolarisToastMediaShape,
   SolarisToastAppearance,
@@ -17,4 +17,8 @@ export type {
   SolarisToastConfig,
   SolarisToastSetup,
   SolarisToastRef,
+  SolarisToastSize,
+  SolarisToastDensity,
+  SolarisToastPromiseMessages,
+  SolarisToastEntry,
 } from './model/toast.types';

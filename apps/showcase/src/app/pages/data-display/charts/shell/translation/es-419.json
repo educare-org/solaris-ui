@@ -1,0 +1,100 @@
+{
+  "chart-shell-view": {
+    "description": "Card con KPI, selector de vista, filtro de período, estados y leyenda para componer todos los tipos de gráficos.",
+    "examples": {
+      "note": "Cambie de vista, cambie el período, alterne series en la leyenda y abra el menú de acciones. Cada interacción aparece en el registro.",
+      "toggleLoading": "Simular carga",
+      "fullscreenClose": "Cerrar pantalla completa",
+      "periodLabelDay": "1 día",
+      "periodLabelWeek": "7 días",
+      "periodLabelMonth": "1 mes",
+      "periodLabelQuarter": "3 meses",
+      "periodLabelYear": "Este año",
+      "periodLabelAll": "Todo",
+      "toggleHidden": "Ocultar una serie",
+      "title": "Actividad semanal de los agentes",
+      "heroLabel": "tareas",
+      "intervalDay": "04 de may. de 2026",
+      "intervalWeek": "28 de abr. → 04 de may. de 2026",
+      "intervalMonth": "abr. de 2026",
+      "intervalQuarter": "ago. → oct. de 2026",
+      "intervalYear": "ene. → oct. de 2026",
+      "intervalAll": "Todo el período",
+      "listSeries": "Serie",
+      "listTotal": "Total",
+      "lineNote": "Los puntos se pueden enfocar con el teclado: Tab hasta un punto, flechas para moverse, Enter para seleccionar.",
+      "lineAverage": "Promedio",
+      "seriesAutomation": "Automatización de tareas",
+      "seriesQueries": "Consultas de usuarios",
+      "seriesSystem": "Acciones del sistema"
+    },
+    "views": {
+      "note": "El shell proyecta cualquier gráfico en la misma tarjeta. Use las pestañas para cambiar la vista proyectada; la leyenda, el hero y el período siguen funcionando.",
+      "label": "Vista del gráfico",
+      "line": "Línea",
+      "bar": "Barras",
+      "pie": "Dona"
+    },
+    "combos": {
+      "note": "Mapa de calor y radar son vistas N1 opt-in: agréguelas a availableViews y proyecte el gráfico correspondiente en el slot del shell. La leyenda y el período siguen funcionando; el contrato de datos difiere (matriz/ejes en vez de series x/y).",
+      "label": "Vista combinada",
+      "heatmap": "Mapa de calor",
+      "radar": "Radar"
+    },
+    "fullscreen": {
+      "description": "Actividad semanal de los agentes con el diálogo de pantalla completa: contexto extendido y tabla de datos visible.",
+      "extended": "La pantalla completa se abre en un diálogo con las mismas series, descripción extendida y tabla de totales para paridad con lector de pantalla e impresión.",
+      "tableCaption": "Totales de las series en pantalla completa"
+    },
+    "display": {
+      "note": "La línea de tiempo muestra el gráfico proyectado; la lista muestra una tabla de totales de las mismas series. La leyenda sigue alternando series en ambos modos.",
+      "label": "Modo de visualización",
+      "timeline": "Línea de tiempo",
+      "list": "Lista"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en matriz 3×3: sm compacta etiquetas y lienzo, lg los expande, md es el valor por defecto. La densidad refina gaps y grosor del trazo."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "density": {
+      "compact": "Compacto",
+      "normal": "Normal",
+      "comfortable": "Cómodo"
+    },
+    "installation": {
+      "note": "Instale el paquete e importe el componente standalone del shell de gráficos."
+    },
+    "props": {
+      "note": "El shell controla los models de vista y período y emite toggles, acciones y retry. Nunca busca datos ni muta el arreglo de series.",
+      "colProp": "Propiedad",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Por defecto"
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "views": "Vistas",
+      "combos": "Combos",
+      "display": "Visualización",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "density": "Densidad",
+      "installation": "Instalación",
+      "props": "Props",
+      "states": "Estados"
+    },
+    "states": {
+      "note": "La carga muestra skeletons, los errores muestran acción de reintento y los datos vacíos muestran texto de orientación. Use las pestañas para cambiar de estado; el reintento aparece en el registro.",
+      "label": "Estado del shell",
+      "empty": "Vacío",
+      "loading": "Cargando",
+      "error": "Error",
+      "errorMessage": "No se pudieron cargar los datos."
+    },
+    "title": "Shell de Gráficos"
+  }
+}

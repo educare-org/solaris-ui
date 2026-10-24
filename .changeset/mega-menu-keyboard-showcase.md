@@ -1,0 +1,5 @@
+---
+'@educarehq/solaris-ui': minor
+---
+
+Full keyboard support for `solaris-mega-menu` triggers: `ArrowLeft`/`ArrowRight` move focus between sibling triggers within the nav or group (RTL-aware, flipping under `[dir="rtl"]`), `Home`/`End` jump to the first/last trigger, and focusing a trigger opens its panel through the existing keyboard focus path. `ArrowDown` now opens the panel and moves focus to its first link or button via the new `focusFirstPanelItem()` control API (also added to `SOLARIS_MEGA_MENU`). Docs gain `When to use / not to use` and `Limitations (v1)` sections (no size/density by design, no nesting or lazy panels, no mobile drawer fallback, panel semantics come from projected content). The showcase page is rebuilt on the docs-page-layout pattern (preview-code per example, tabs for appearance and panel width, extracted basic/behavior/controlled/keyboard examples, responsive guidance section, simple installation, props placeholder, full i18n). Follow-ups: nested or lazy panels, mobile drawer fallback, focus trap option for modal-like panels.

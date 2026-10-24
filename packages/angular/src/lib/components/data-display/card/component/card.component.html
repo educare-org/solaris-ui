@@ -1,1 +1,17 @@
 <ng-content />
+@if (isClickable() && !disabled()) {
+  <a
+    class="solaris-card-link"
+    [href]="href()"
+    [attr.target]="target() ?? null"
+    [attr.rel]="effectiveRel() ?? null"
+    [attr.aria-label]="resolvedAriaLabel() ?? null"
+  ></a>
+} @else if (isClickable()) {
+  <a
+    class="solaris-card-link"
+    tabindex="-1"
+    aria-disabled="true"
+    [attr.aria-label]="resolvedAriaLabel() ?? null"
+  ></a>
+}

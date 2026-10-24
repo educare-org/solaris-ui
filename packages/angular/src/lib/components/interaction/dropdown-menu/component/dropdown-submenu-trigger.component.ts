@@ -1,4 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required for programmatic focus. No alternative exists.
 import {
   Component,
   ElementRef,
@@ -7,6 +6,7 @@ import {
   input,
   computed,
   forwardRef,
+  booleanAttribute,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
@@ -15,6 +15,7 @@ import { SolarisIconComponent } from '../../../icon';
 import type { SolarisDropdownMenuItemColor } from '../model/dropdown-menu.types';
 import { SOLARIS_DROPDOWN_NAVIGABLE_ITEM } from '../model/dropdown-menu-navigation';
 import { SolarisDropdownSubmenuComponent } from './dropdown-submenu.component';
+import { SolarisTranslateService } from '../../../../services/translation';
 
 @Component({
   selector: 'solaris-dropdown-submenu-trigger',
@@ -46,8 +47,14 @@ export class SolarisDropdownSubmenuTriggerComponent {
   private readonly submenu = inject(SolarisDropdownSubmenuComponent, {
     optional: true,
   });
+  private readonly translateService = inject(SolarisTranslateService, {
+    optional: true,
+  });
 
   readonly icon = input<string | undefined>(undefined);
+  readonly iconDecorative = input<boolean, boolean>(true, {
+    transform: booleanAttribute,
+  });
   readonly label = input<string | undefined>(undefined);
   readonly labelKey = input<string | undefined>(undefined);
   readonly disabled = input<boolean>(false);
@@ -62,6 +69,15 @@ export class SolarisDropdownSubmenuTriggerComponent {
   });
 
   protected readonly hasLeadingContent = computed(() => !!this.icon());
+
+  protected readonly resolvedLabel = computed(() => {
+    const key = this.labelKey();
+    if (key && this.translateService) {
+      const translated = this.translateService.translate(key);
+      if (translated !== key) return translated;
+    }
+    return this.label();
+  });
 
   @HostListener('click')
   handleClick(): void {

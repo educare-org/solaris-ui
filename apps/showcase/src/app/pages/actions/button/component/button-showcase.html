@@ -1,216 +1,329 @@
-<div class="button-showcase">
-  <header class="button-showcase__header">
-    <h1 class="button-showcase__title">Button</h1>
-    <p class="button-showcase__description">
-      {{ 'button.description' | translate }}
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="button.title"
+    descriptionKey="button.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="button.section.examples">
+    <p class="button-showcase__note">
+      {{ 'button.examples.note' | translate }}
     </p>
-  </header>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-button-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="button-showcase__section">
-    <h2 class="button-showcase__section-title">
-      {{ 'button.colors-and-appearances' | translate }}
-    </h2>
-    <solaris-tabs
-      [(value)]="selectedColor"
-      [ariaLabel]="'button.colors-and-appearances' | translate"
-    >
-      @for (color of colors; track color.value) {
-      <solaris-tab [value]="color.value">{{ color.label }}</solaris-tab>
-      } @for (color of colors; track color.value) {
-      <solaris-tab-panel [value]="color.value">
-        <div class="button-showcase__row">
-          @for (appearance of appearances; track appearance.value) {
-          <button
-            solaris-button
-            [color]="color.value"
-            [appearance]="appearance.value"
-          >
-            {{ appearance.label }}
-          </button>
-          }
-        </div>
-      </solaris-tab-panel>
-      }
-    </solaris-tabs>
-  </section>
-
-  <section class="button-showcase__section">
-    <h2 class="button-showcase__section-title">
-      {{ 'button.radius' | translate }}
-    </h2>
-    <div class="button-showcase__row">
-      <button solaris-button radius="none" color="primary">none</button>
-      <button solaris-button radius="sm" color="primary">sm</button>
-      <button solaris-button radius="md" color="primary">md</button>
-      <button solaris-button radius="lg" color="primary">lg</button>
-      <button solaris-button radius="full" color="primary">full</button>
+  <app-docs-section anchor="appearances" titleKey="button.section.appearances">
+    <p class="button-showcase__note">
+      {{ 'button.appearances.note' | translate }}
+    </p>
+    <div class="button-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedAppearance"
+        [ariaLabel]="'button.section.appearances' | translate"
+      >
+        @for (appearance of appearances; track appearance) {
+        <solaris-tab [value]="appearance"
+          >{{ 'button.appearance.' + appearance | translate }}</solaris-tab
+        >
+        }
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedColor"
+        [ariaLabel]="'button.section.colors' | translate"
+      >
+        @for (color of colors; track color) {
+        <solaris-tab [value]="color"
+          >{{ 'button.color.' + color | translate }}</solaris-tab
+        >
+        }
+      </solaris-tabs>
     </div>
-  </section>
-
-  <section class="button-showcase__section">
-    <h2 class="button-showcase__section-title">
-      {{ 'button.density' | translate }}
-    </h2>
-    <div class="button-showcase__row">
-      <button solaris-button density="compact" color="primary">Compact</button>
-      <button solaris-button density="normal" color="primary">Normal</button>
-      <button solaris-button density="comfortable" color="primary">
-        Comfortable
-      </button>
-    </div>
-  </section>
-
-  <section class="button-showcase__section">
-    <h2 class="button-showcase__section-title">
-      {{ 'button.shape' | translate }}
-    </h2>
-    <div class="button-showcase__row">
-      <button solaris-button color="primary">Normal</button>
-      <button solaris-button shape="wide" color="primary">Wide</button>
-    </div>
-  </section>
-
-  <section class="button-showcase__section">
-    <h2 class="button-showcase__section-title">
-      {{ 'button.states' | translate }}
-    </h2>
-    <h3 class="button-showcase__subsection-title">
-      {{ 'button.states-default' | translate }}
-    </h3>
-    <div class="button-showcase__row">
-      <button solaris-button color="primary">Default</button>
-      <button solaris-button color="primary" [disabled]="true">Disabled</button>
-      <button solaris-button color="primary" [loading]="true">Loading</button>
-      <button solaris-button color="primary" [loading]="true">
-        <solaris-icon solaris-button-icon name="check" [decorative]="true" />
-        {{ 'button.icon-loading' | translate }}
-      </button>
-    </div>
-    <h3 class="button-showcase__subsection-title">
-      {{ 'button.states-toggle' | translate }}
-    </h3>
-    <div class="button-showcase__row">
-      <button solaris-button color="primary" (click)="toggleLoading()">
-        {{ loading ? ('button.loading' | translate) : ('button.toggle-loading' |
-        translate) }}
-      </button>
-    </div>
-  </section>
-
-  <section class="button-showcase__section">
-    <h2 class="button-showcase__section-title">
-      {{ 'button.with-icons' | translate }}
-    </h2>
-    <div class="button-showcase__row">
-      <button solaris-button color="primary">
-        <solaris-icon solaris-button-icon name="check" [decorative]="true" />
-        {{ 'button.icon-before' | translate }}
-      </button>
-      <button solaris-button color="primary">
-        {{ 'button.icon-after' | translate }}
-        <solaris-icon
-          solaris-button-icon
-          name="chevron-right"
-          [decorative]="true"
-        />
-      </button>
-      <button solaris-button icon="check" color="primary">
-        {{ 'button.icon-input-start' | translate }}
-      </button>
+    <solaris-preview-code [code]="appearanceColorCode()" language="html">
       <button
         solaris-button
-        icon="chevron-right"
-        iconPosition="end"
+        [appearance]="selectedAppearance()"
+        [color]="selectedColor()"
+      >
+        {{ 'button.example.basic.default' | translate }}
+      </button>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="button.section.size-density"
+  >
+    <p class="button-showcase__note">
+      {{ 'button.size-density.note' | translate }}
+    </p>
+    <div class="button-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'button.section.sizes' | translate"
+      >
+        <solaris-tab value="sm">{{ 'button.size.sm' | translate }}</solaris-tab>
+        <solaris-tab value="md">{{ 'button.size.md' | translate }}</solaris-tab>
+        <solaris-tab value="lg">{{ 'button.size.lg' | translate }}</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'button.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'button.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'button.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'button.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <button
+        solaris-button
         color="primary"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
       >
-        {{ 'button.icon-input-end' | translate }}
+        {{ 'button.example.basic.primary' | translate }}
       </button>
-    </div>
-  </section>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="button-showcase__section">
-    <h2 class="button-showcase__section-title">
-      {{ 'button.providers' | translate }}
-    </h2>
+  <app-docs-section
+    anchor="shape-radius"
+    titleKey="button.section.shape-radius"
+  >
     <p class="button-showcase__note">
-      {{ 'button.providers-note' | translate }}
+      {{ 'button.shape-radius.note' | translate }}
     </p>
-    <div class="button-showcase__row">
-      <button solaris-button icon="google" appearance="outline">
-        {{ 'button.provider-google' | translate }}
-      </button>
-      <button solaris-button icon="microsoft" appearance="outline">
-        {{ 'button.provider-microsoft' | translate }}
-      </button>
-      <button solaris-button icon="apple" appearance="outline">
-        {{ 'button.provider-apple' | translate }}
-      </button>
-      <button solaris-button icon="android" appearance="outline">
-        {{ 'button.provider-android' | translate }}
-      </button>
-      <button solaris-button icon="github" appearance="outline">
-        {{ 'button.provider-github' | translate }}
-      </button>
-    </div>
-  </section>
-
-  <section class="button-showcase__section">
-    <h2 class="button-showcase__section-title">
-      {{ 'button.full-width' | translate }}
-    </h2>
-    <div class="button-showcase__full-width-row">
-      <button solaris-button [fullWidth]="true" color="primary">
-        {{ 'button.full-width-primary' | translate }}
-      </button>
-      <button
-        solaris-button
-        icon="google"
-        [fullWidth]="true"
-        appearance="surface"
+    <div class="button-showcase__stack">
+      <solaris-tabs
+        [(value)]="selectedRadius"
+        [ariaLabel]="'button.section.radius' | translate"
       >
-        {{ 'button.full-width-social' | translate }}
+        @for (radius of radii; track radius) {
+        <solaris-tab [value]="radius">{{ radius }}</solaris-tab>
+        } @for (radius of radii; track radius) {
+        <solaris-tab-panel [value]="radius">
+          <solaris-preview-code [code]="radiusCode(radius)" language="html">
+            <button solaris-button [radius]="radius" color="primary">
+              {{ 'button.example.basic.default' | translate }}
+            </button>
+          </solaris-preview-code>
+        </solaris-tab-panel>
+        }
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedShape"
+        [ariaLabel]="'button.section.shape' | translate"
+      >
+        <solaris-tab value="normal"
+          >{{ 'button.shape.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="wide"
+          >{{ 'button.shape.wide' | translate }}</solaris-tab
+        >
+        <solaris-tab-panel value="normal">
+          <solaris-preview-code [code]="shapeCode('normal')" language="html">
+            <button solaris-button color="primary">
+              {{ 'button.example.basic.default' | translate }}
+            </button>
+          </solaris-preview-code>
+        </solaris-tab-panel>
+        <solaris-tab-panel value="wide">
+          <solaris-preview-code [code]="shapeCode('wide')" language="html">
+            <button solaris-button shape="wide" color="primary">
+              {{ 'button.example.basic.default' | translate }}
+            </button>
+          </solaris-preview-code>
+        </solaris-tab-panel>
+      </solaris-tabs>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="icons" titleKey="button.section.icons">
+    <p class="button-showcase__note">{{ 'button.icons.note' | translate }}</p>
+    <div class="button-showcase__stack">
+      <solaris-tabs
+        [(value)]="selectedIconTab"
+        [ariaLabel]="'button.section.icons' | translate"
+      >
+        <solaris-tab value="icon-before"
+          >{{ 'button.icons.tab.before' | translate }}</solaris-tab
+        >
+        <solaris-tab value="icon-after"
+          >{{ 'button.icons.tab.after' | translate }}</solaris-tab
+        >
+        <solaris-tab value="icon-input-start"
+          >{{ 'button.icons.tab.input-start' | translate }}</solaris-tab
+        >
+        <solaris-tab value="icon-input-end"
+          >{{ 'button.icons.tab.input-end' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-preview-code [code]="iconCode()" language="html">
+        @switch (selectedIconTab()) { @case ('icon-after') {
+        <button solaris-button color="primary">
+          {{ 'button.example.icons.after' | translate }}
+          <solaris-icon
+            solaris-button-icon
+            name="chevron-right"
+            [decorative]="true"
+          />
+        </button>
+        } @case ('icon-input-start') {
+        <button solaris-button icon="check" color="primary">
+          {{ 'button.example.icons.input-start' | translate }}
+        </button>
+        } @case ('icon-input-end') {
+        <button
+          solaris-button
+          icon="chevron-right"
+          iconPosition="end"
+          color="primary"
+        >
+          {{ 'button.example.icons.input-end' | translate }}
+        </button>
+        } @default {
+        <button solaris-button color="primary">
+          <solaris-icon solaris-button-icon name="check" [decorative]="true" />
+          {{ 'button.example.icons.before' | translate }}
+        </button>
+        } }
+      </solaris-preview-code>
+      <solaris-tabs
+        [(value)]="selectedProvider"
+        [ariaLabel]="'button.section.providers' | translate"
+      >
+        <solaris-tab value="google"
+          >{{ 'button.example.providers.google' | translate }}</solaris-tab
+        >
+        <solaris-tab value="microsoft"
+          >{{ 'button.example.providers.microsoft' | translate }}</solaris-tab
+        >
+        <solaris-tab value="apple"
+          >{{ 'button.example.providers.apple' | translate }}</solaris-tab
+        >
+        <solaris-tab value="android"
+          >{{ 'button.example.providers.android' | translate }}</solaris-tab
+        >
+        <solaris-tab value="github"
+          >{{ 'button.example.providers.github' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-preview-code [code]="providersCode()" language="html">
+        <button solaris-button [icon]="selectedProvider()" appearance="outline">
+          @switch (selectedProvider()) { @case ('microsoft') { {{
+          'button.example.providers.microsoft' | translate }} } @case ('apple')
+          { {{ 'button.example.providers.apple' | translate }} } @case
+          ('android') { {{ 'button.example.providers.android' | translate }} }
+          @case ('github') { {{ 'button.example.providers.github' | translate }}
+          } @default { {{ 'button.example.providers.google' | translate }} } }
+        </button>
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="button.section.states">
+    <div class="button-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedStateTab"
+        [ariaLabel]="'button.section.states' | translate"
+      >
+        <solaris-tab value="loading"
+          >{{ 'button.states.tab.loading' | translate }}</solaris-tab
+        >
+        <solaris-tab value="disabled"
+          >{{ 'button.states.tab.disabled' | translate }}</solaris-tab
+        >
+        <solaris-tab value="pressed"
+          >{{ 'button.states.tab.pressed' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <button solaris-button appearance="outline" (click)="toggleState()">
+        {{ (stateOn() ? 'button.states.toggle.off' : 'button.states.toggle.on')
+        | translate }}
       </button>
     </div>
-  </section>
+    <solaris-preview-code [code]="stateCode()" language="html">
+      @switch (selectedStateTab()) { @case ('disabled') {
+      <button solaris-button color="primary" [disabled]="stateOn()">
+        {{ stateLabelKey() | translate }}
+      </button>
+      } @case ('pressed') {
+      <button solaris-button color="primary" [pressed]="stateOn()">
+        {{ stateLabelKey() | translate }}
+      </button>
+      } @default {
+      <button solaris-button color="primary" [loading]="stateOn()">
+        {{ stateLabelKey() | translate }}
+      </button>
+      } }
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="button-showcase__section">
-    <h2 class="button-showcase__section-title">
-      {{ 'button.anchor' | translate }}
-    </h2>
-    <div class="button-showcase__row">
-      <a solaris-button href="#" (click)="$event.preventDefault()"
-        >Anchor Link</a
+  <app-docs-section anchor="custom" titleKey="button.section.custom">
+    <p class="button-showcase__note">{{ 'button.custom.note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedCustom"
+      [ariaLabel]="'button.section.custom' | translate"
+    >
+      <solaris-tab value="violet"
+        >{{ 'button.custom.tab.violet' | translate }}</solaris-tab
       >
-      <a
-        solaris-button
-        href="#"
-        [disabled]="true"
-        (click)="$event.preventDefault()"
-        >Anchor Disabled</a
+      <solaris-tab value="amber"
+        >{{ 'button.custom.tab.amber' | translate }}</solaris-tab
       >
-    </div>
-  </section>
+      <solaris-tab-panel value="violet">
+        <solaris-preview-code [code]="customVioletCode" language="css">
+          <app-custom-button-example variant="violet" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="amber">
+        <solaris-preview-code [code]="customAmberCode" language="css">
+          <app-custom-button-example variant="amber" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="button-showcase__section">
-    <h2 class="button-showcase__section-title">
-      {{ 'button.custom' | translate }}
-    </h2>
-    <div class="button-showcase__row">
-      <div class="button-custom-violet">
-        <button solaris-button color="custom">Custom Violet</button>
-      </div>
-      <div class="button-custom-amber">
-        <button solaris-button color="custom">Custom Amber</button>
-      </div>
+  <app-docs-section anchor="layout" titleKey="button.section.layout">
+    <div class="button-showcase__stack">
+      <solaris-preview-code [code]="fullWidthCode" language="html">
+        <app-full-width-button-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="anchorCode" language="html">
+        <app-anchor-link-button-example />
+      </solaris-preview-code>
     </div>
-  </section>
+  </app-docs-section>
 
-  <section class="button-showcase__section">
-    <h2 class="button-showcase__section-title">
-      {{ 'button.button-group' | translate }}
-    </h2>
+  <app-docs-section
+    anchor="installation"
+    titleKey="button.section.installation"
+  >
     <p class="button-showcase__note">
-      {{ 'button.button-group-note' | translate }}
+      {{ 'button.installation.note' | translate }}
     </p>
-  </section>
-</div>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="button.section.props">
+    <p class="button-showcase__note">{{ 'button.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

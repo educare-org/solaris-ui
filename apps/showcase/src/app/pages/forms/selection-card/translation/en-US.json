@@ -1,0 +1,78 @@
+{
+  "selection-card": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "glass": "Glass",
+      "outline": "Outline",
+      "surface": "Surface",
+      "tonal": "Tonal"
+    },
+    "cards-grid": {
+      "note": "Cards compose a checkbox-style grid through a radio group: the group owns the single selected value."
+    },
+    "color": {
+      "custom": "Custom",
+      "danger": "Danger",
+      "info": "Info",
+      "neutral": "Neutral",
+      "note": "The selected surface, border, and indicator follow the semantic color.",
+      "primary": "Primary",
+      "success": "Success",
+      "warning": "Warning"
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Form control for selectable options with a card-sized target, radio and switch modes, media layouts, sizes, and states.",
+    "examples": {
+      "note": "A selectable option with supporting content. The native input covers the whole card surface."
+    },
+    "form-field-hint": "Select a plan to continue.",
+    "form-field-label": "Plan",
+    "installation": {
+      "note": "Install the Solaris UI package and import the selection card components."
+    },
+    "media": {
+      "note": "Media renders full-width on top or as a side thumb at the start.",
+      "start": "Start",
+      "top": "Top"
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "appearances": "Appearances",
+      "cards-grid": "Cards grid",
+      "color": "Color",
+      "density": "Density",
+      "examples": "Examples",
+      "form": "Form integration",
+      "installation": "Installation",
+      "media": "Media layout",
+      "props": "Props",
+      "selection": "Selection mode",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States"
+    },
+    "selected-label": "Selected:",
+    "selection": {
+      "note": "Radio cards belong to a radio group; switch cards are standalone boolean toggles rendered in the footer.",
+      "radio": "Radio",
+      "switch": "Switch"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3x3 matrix: density drives gap and padding, size drives the indicator, media thumb, and internal switch."
+    },
+    "title": "Selection Card"
+  }
+}

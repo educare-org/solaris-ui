@@ -14,7 +14,7 @@ All visual properties MUST use CSS custom properties (design tokens) with the `-
 
 Tokens are organized by category:
 
-- Color: `--solaris-{role}-{variant}` (e.g. `--solaris-primary-base`)
+- Color: `--solaris-{role}-{variant}` (e.g. `--solaris-primary-solid`)
 - Spacing: `--solaris-spacing-{n}` (1-20, based on 4px grid)
 - Radius: `--solaris-radius-{size}`
 - Font: `--solaris-font-{family|size|weight}-{variant}`

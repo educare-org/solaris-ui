@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 
+import { SolarisAnimatedIconComponent } from '../../../icon/component/solaris-animated-icon.component';
 import { SolarisIconButtonDirective } from '../directives/icon-button.directive';
 import { SolarisMenuToggleDirective } from '../directives/menu-toggle.directive';
-import { SolarisAnimatedIconComponent } from '../../../icon/component/solaris-animated-icon.component';
 
 @Component({
   standalone: true,
@@ -20,6 +20,8 @@ import { SolarisAnimatedIconComponent } from '../../../icon/component/solaris-an
       [solarisMenuToggleControls]="controls"
       [solarisMenuToggleOpenLabel]="openLabel"
       [solarisMenuToggleCloseLabel]="closeLabel"
+      [solarisMenuToggleOpenLabelKey]="openLabelKey"
+      [solarisMenuToggleCloseLabelKey]="closeLabelKey"
       [disabled]="disabled"
       [loading]="loading"
     >
@@ -32,6 +34,8 @@ class TestHost {
   controls: string | undefined = 'sidebar';
   openLabel: string | undefined;
   closeLabel: string | undefined;
+  openLabelKey: string | undefined;
+  closeLabelKey: string | undefined;
   disabled = false;
   loading = false;
 }
@@ -105,6 +109,29 @@ describe('SolarisMenuToggleDirective', () => {
     fixture.detectChanges();
 
     expect(button.getAttribute('aria-label')).toBe('Close navigation');
+  });
+
+  it('should resolve labels through custom translation keys', () => {
+    createFixture();
+    fixture.componentInstance.openLabelKey = 'solaris.dialog.close';
+    fixture.componentInstance.closeLabelKey = 'solaris.dialog.confirm';
+    detectExternalChange();
+
+    expect(button.getAttribute('aria-label')).toBe('Close');
+
+    button.click();
+    fixture.detectChanges();
+
+    expect(button.getAttribute('aria-label')).toBe('Confirm');
+  });
+
+  it('should prefer a direct label over its translation key', () => {
+    createFixture();
+    fixture.componentInstance.openLabel = 'Open navigation';
+    fixture.componentInstance.openLabelKey = 'solaris.dialog.close';
+    detectExternalChange();
+
+    expect(button.getAttribute('aria-label')).toBe('Open navigation');
   });
 
   it('should omit aria-controls when no controlled element is provided', () => {

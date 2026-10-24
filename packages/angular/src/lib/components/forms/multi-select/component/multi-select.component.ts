@@ -1,10 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to programmatically focus the multi-select trigger. Standard DOM method used by Angular CDK.
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required as fallback when no triggerElement ref. Standard DOM method.
-// SECURITY_EXCEPTION_FILE: nativeElement access needed to measure trigger content width for auto display mode. ResizeObserver is SSR-safe (guarded by typeof check). offsetWidth is read-only, no XSS risk.
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to focus search input when panel opens. Standard DOM method.
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to restore focus to search input after selection. ElementRef SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement access needed to read option text for search filtering. Read-only, SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement.textContent needed to read option text for search filtering. Read-only, SSR-safe.
 import {
   Component,
   input,
@@ -14,6 +7,7 @@ import {
   effect,
   forwardRef,
   inject,
+  contentChild,
   contentChildren,
   viewChild,
   ElementRef,
@@ -29,12 +23,14 @@ import {
   SolarisFormFieldTriggerDirective,
   SolarisFormPrefixDirective,
   SolarisFormFieldComponent,
+  SolarisFormSuffixActionDirective,
 } from '../../form-field';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisOptionGroupComponent } from '../../option-group';
 import { SolarisOptionComponent } from '../../option';
+import { SOLARIS_OPTION_PARENT } from '../../option/token/option.tokens';
 import { SolarisIconComponent } from '../../../icon';
 import {
   SolarisPopoverDirective,
@@ -48,6 +44,7 @@ import type {
   SolarisMultiSelectDensity,
   SolarisMultiSelectRadius,
   SolarisMultiSelectDisplayMode,
+  SolarisMultiSelectSize,
 } from '../model/multi-select.types';
 import type { SolarisIconName } from '../../../icon/model/icon.types';
 
@@ -79,6 +76,10 @@ function normalizeArray(value: unknown): unknown[] {
       provide: SolarisFormControl,
       useExisting: forwardRef(() => SolarisMultiSelectComponent),
     },
+    {
+      provide: SOLARIS_OPTION_PARENT,
+      useExisting: forwardRef(() => SolarisMultiSelectComponent),
+    },
   ],
   templateUrl: './multi-select.component.html',
   styleUrls: ['./multi-select.component.scss'],
@@ -86,6 +87,8 @@ function normalizeArray(value: unknown): unknown[] {
   host: {
     'solaris-multi-select': '',
     '[attr.id]': 'elementId()',
+    '[attr.data-size]': 'size()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-open]': 'panelOpen() ? "" : null',
     '[attr.aria-label]': 'ariaLabelText() ?? null',
     '[attr.data-has-value]': 'hasValue() ? "" : null',
@@ -112,6 +115,11 @@ export class SolarisMultiSelectComponent
   protected readonly options = contentChildren(SolarisOptionComponent, {
     descendants: true,
   });
+
+  protected readonly projectedSuffixAction = contentChild(
+    SolarisFormSuffixActionDirective,
+    { descendants: true },
+  );
 
   protected readonly optionGroups = contentChildren(
     SolarisOptionGroupComponent,
@@ -150,6 +158,7 @@ export class SolarisMultiSelectComponent
   readonly panelMinWidth = input<string | number>();
   readonly panelMaxWidth = input<string | number>();
   readonly density = input<SolarisMultiSelectDensity>();
+  readonly size = input<SolarisMultiSelectSize>('md');
   readonly panelMatchTriggerWidth = input<boolean>(true);
   readonly radius = input<SolarisMultiSelectRadius>('md');
   readonly disabledInput = input(false, { alias: 'disabled' });
@@ -157,6 +166,7 @@ export class SolarisMultiSelectComponent
   readonly requiredInput = input(false, { alias: 'required' });
   readonly panelMaxHeight = input<string | number>('320px');
   readonly prefix = input<SolarisIconName>();
+  readonly suffix = input<SolarisIconName>();
   readonly displayWith = input<(value: unknown) => string | undefined>();
   readonly appearance = input<SolarisMultiSelectAppearance>('outline');
   readonly compareWith = input<(a: unknown, b: unknown) => boolean>(Object.is);
@@ -212,11 +222,9 @@ export class SolarisMultiSelectComponent
 
   protected readonly themeService = inject(SolarisThemeService);
 
-  protected readonly effectiveDensity = computed<SolarisMultiSelectDensity>(
-    () => {
-      return this.density() ?? this.themeService.density;
-    },
-  );
+  readonly effectiveDensity = computed<SolarisMultiSelectDensity>(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   protected readonly isEffectivelyDisabled = computed(() => {
     return this.disabledInput() || this.internalDisabled();
@@ -325,7 +333,39 @@ export class SolarisMultiSelectComponent
     const tw = this.triggerWidth();
     if (tw <= 0) return 0;
     const searchWidth = this.searchable() && this.panelOpen() ? 80 : 0;
-    return Math.max(0, tw - searchWidth);
+    // Reserve space for trigger gap + actions (chevron + optional clear) so
+    // chip calculation uses the same stable outer width regardless of whether
+    // the clear button is currently rendered. Prevents layout-shift flicker
+    // in clearable mode when the clear button appears/disappears.
+    const triggerGap = 6;
+    const chevronWidth = 20;
+    const clearReserve = this.canClear() ? 24 : 0;
+    return Math.max(
+      0,
+      tw - searchWidth - triggerGap - chevronWidth - clearReserve,
+    );
+  });
+
+  protected readonly contentMinWidth = computed(() => {
+    const opts = this.options();
+    if (!opts || opts.length === 0) return 0;
+    let longest = 0;
+    for (const opt of opts) {
+      longest = Math.max(longest, this.getOptionDisplayLabel(opt).length);
+    }
+    const summaryLength = this.summaryText().length;
+    if (longest === 0 && summaryLength === 0) return 0;
+    const charWidth = this.size() === 'sm' ? 8 : this.size() === 'lg' ? 10 : 9;
+    const widestRow = longest * charWidth * 1.15 + 70;
+    const summaryWidth = summaryLength * charWidth + 20;
+    return Math.ceil(Math.max(widestRow, summaryWidth));
+  });
+
+  protected readonly effectivePanelMinWidth = computed(() => {
+    const input = this.panelMinWidth();
+    if (input !== undefined) return input;
+    const floor = this.contentMinWidth();
+    return floor > 0 ? floor : undefined;
   });
 
   protected readonly autoChipCount = computed(() => {
@@ -655,8 +695,10 @@ export class SolarisMultiSelectComponent
 
   focus(): void {
     if (this.triggerElement()) {
+      // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
       this.triggerElement()?.nativeElement.focus();
     } else {
+      // SECURITY_EXCEPTION: fallback focus on the host requires the native method.
       this.elementRef.nativeElement.focus();
     }
   }
@@ -734,7 +776,14 @@ export class SolarisMultiSelectComponent
   }
 
   private setupResizeObserver(): void {
-    const el = this.triggerContentRef()?.nativeElement;
+    // Observe the outer trigger (stable flex width) instead of the inner content
+    // so chip/count swaps and clear-button appearance don't feed back into the
+    // measurement and cause flicker loops in clearable mode.
+    // SECURITY_EXCEPTION: measuring trigger width for auto display mode requires nativeElement offsetWidth; Renderer2 has no layout-measurement alternative; ResizeObserver is SSR-safe guarded. Read-only, covered by multi-select resize tests.
+    const outer = this.triggerElement()?.nativeElement;
+    // SECURITY_EXCEPTION: same justification as above — inner fallback width measurement is read-only via offsetWidth; Renderer2 has no alternative; SSR-safe guarded; covered by multi-select resize tests.
+    const inner = this.triggerContentRef()?.nativeElement;
+    const el = outer ?? inner;
     if (!el) return;
 
     this.triggerWidth.set(el.offsetWidth);
@@ -743,7 +792,10 @@ export class SolarisMultiSelectComponent
       this.resizeObserver?.disconnect();
       this.resizeObserver = new ResizeObserver((entries) => {
         for (const entry of entries) {
-          this.triggerWidth.set(entry.contentRect.width);
+          const next = entry.contentRect.width;
+          // Ignore subpixel jitter to avoid signal churn -> flicker.
+          if (Math.abs(next - this.triggerWidth()) < 1) continue;
+          this.triggerWidth.set(next);
         }
       });
       this.resizeObserver.observe(el);
@@ -761,6 +813,7 @@ export class SolarisMultiSelectComponent
 
     if (this.searchable()) {
       requestAnimationFrame(() => {
+        // SECURITY_EXCEPTION: focusing the search input when the panel opens requires the native method.
         this.searchInputRef()?.nativeElement.focus();
       });
     }
@@ -798,6 +851,7 @@ export class SolarisMultiSelectComponent
 
     if (this.searchable() && this.panelOpen()) {
       requestAnimationFrame(() => {
+        // SECURITY_EXCEPTION: restoring focus to the search input after selection requires the native method.
         this.searchInputRef()?.nativeElement.focus();
       });
     }
@@ -1112,6 +1166,7 @@ export class SolarisMultiSelectComponent
     const nativeEl = (
       option as unknown as { elementRef: ElementRef<HTMLElement> }
     ).elementRef;
+    // SECURITY_EXCEPTION: reading projected option text for search filtering requires the native textContent. Read-only.
     if (nativeEl?.nativeElement) {
       return nativeEl.nativeElement.textContent?.trim() || '';
     }

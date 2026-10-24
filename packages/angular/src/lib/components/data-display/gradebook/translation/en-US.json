@@ -1,0 +1,14 @@
+{
+  "solaris": {
+    "dataDisplay": {
+      "gradebook": {
+        "editorLabel": "Edit grade",
+        "status": {
+          "excused": "Excused",
+          "late": "Late",
+          "missing": "Missing"
+        }
+      }
+    }
+  }
+}

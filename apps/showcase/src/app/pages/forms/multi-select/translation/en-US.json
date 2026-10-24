@@ -1,0 +1,126 @@
+{
+  "multiSelect": {
+    "affix": {
+      "action": {
+        "button-label": "Toggle loading",
+        "label": "Countries",
+        "placeholder": "Select countries"
+      },
+      "note": "Prefix and suffix content is re-projected into the inner Form Field. Suffix actions require both solaris-form-suffix and solaris-form-suffix-action on the same element.",
+      "prefix": {
+        "label": "Countries",
+        "placeholder": "Select countries"
+      },
+      "suffix": {
+        "icon-label": "More information",
+        "label": "Countries",
+        "placeholder": "Select countries"
+      },
+      "suffix-input": {
+        "label": "Countries with suffix icon",
+        "placeholder": "Select countries"
+      }
+    },
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "chips": {
+      "label": "Countries",
+      "placeholder": "Select countries"
+    },
+    "clearable": {
+      "label": "Countries",
+      "note": "When clearable, a clear button appears once the selection is not empty. Clearing emits the cleared event.",
+      "output": "Clear events",
+      "placeholder": "Select countries"
+    },
+    "country": {
+      "br": "Brazil",
+      "pt": "Portugal",
+      "us": "United States"
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Multi-select form control with local search, select-all, and chips display. Rendered through Form Field with an overlay loading state.",
+    "error": {
+      "invalid": "This field has an error.",
+      "required": "Select at least one option."
+    },
+    "examples": {
+      "basic": {
+        "label": "Countries",
+        "placeholder": "Select countries"
+      },
+      "note": "Basic multiple selection with its own label, placeholder, and options."
+    },
+    "fruit": {
+      "apple": "Apple",
+      "banana": "Banana",
+      "orange": "Orange"
+    },
+    "installation": {
+      "note": "Install the Solaris UI package and import the multi-select with its option components."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "radius": {
+      "lg": "Large",
+      "md": "Medium",
+      "none": "None",
+      "note": "Radius is forwarded to the inner Form Field. Global scale: md maps to 4px, lg to 8px, and xl renders as a pill.",
+      "sm": "Small",
+      "xl": "Pill"
+    },
+    "searchable": {
+      "label": "Countries",
+      "note": "Local search filters options by label, description, and text content. Selection persists when filtered out.",
+      "placeholder": "Select countries",
+      "search-placeholder": "Search countries..."
+    },
+    "section": {
+      "affix": "Affix",
+      "appearance": "Appearance",
+      "clearable": "Clearable",
+      "density": "Density",
+      "examples": "Examples",
+      "installation": "Installation",
+      "props": "Props",
+      "radius": "Radius",
+      "searchable": "Searchable",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States"
+    },
+    "select-all": {
+      "label": "Fruits",
+      "placeholder": "Select fruits"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "label": "Countries",
+      "note": "Size and density combine into a 3x3 matrix: the inner Form Field owns the outer height, the trigger keeps font and padding in sync.",
+      "placeholder": "Select countries"
+    },
+    "states": {
+      "default": "Default",
+      "disabled": "Disabled",
+      "invalid": "Invalid",
+      "loading": "Loading",
+      "readonly": "Readonly"
+    },
+    "title": "Multi Select"
+  }
+}

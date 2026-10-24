@@ -1,0 +1,49 @@
+{
+  "translate": {
+    "api": {
+      "addTranslations": "Fusiona claves nuevas al mapa de un idioma en runtime.",
+      "availableLocales": "Lista los idiomas con mapa de traducción cargado.",
+      "has": "Comprueba si existe una clave, opcionalmente en otro idioma.",
+      "normalizeLocale": "Asigna etiquetas como pt, en-GB o es-MX a pt-BR, en-US, es-419.",
+      "resetLocale": "Limpia la elección explícita y el valor guardado.",
+      "setLocale": "Normaliza, persiste y activa un idioma.",
+      "translate": "Busca una clave con interpolación (alias: instant)."
+    },
+    "demo": {
+      "countLabel": "Cantidad",
+      "greeting": "¡Hola, {{name}}!",
+      "items": {
+        "plural": "{{count}} elementos",
+        "singular": "1 elemento"
+      },
+      "nameLabel": "Nombre"
+    },
+    "description": "Traducción en runtime para textos de componentes y contenido dinámico. El idioma activo es una señal: cada plantilla con el pipe translate se actualiza sin recargar.",
+    "install": {
+      "code": "TypeScript",
+      "template": "Plantilla"
+    },
+    "locale": {
+      "current": "Idioma actual"
+    },
+    "runtime": {
+      "addButton": "Registrar clave personalizada",
+      "customLabel": "Valor de la clave personalizada"
+    },
+    "section": {
+      "api": "Referencia de la API",
+      "apiDesc": "Superficie pública de SolarisTranslateService más la configuración del provider.",
+      "fallback": "Cadena de fallback",
+      "fallbackDesc": "Las claves faltantes se resuelven en idioma, fallbackLocale, en-US, un resolver opcional y luego la clave cruda. La frase siguiente solo existe en en-US, así que se muestra en inglés en todos los idiomas.",
+      "install": "Instalación",
+      "interpolation": "Interpolación y plurales",
+      "interpolationDesc": "Los parámetros usan {{name}} con espacios opcionales. Aún sin plural ICU: la convención es claves .singular / .plural con {{count}}.",
+      "locale": "Cambio de idioma en vivo",
+      "localeDesc": "Elige un idioma. setLocale() normaliza, persiste y notifica a cada pipe translate.",
+      "runtime": "Extensión en runtime",
+      "runtimeDesc": "Las páginas pueden registrar claves tras la carga, p. ej. para contenido diferido. El botón registra translate.demo.custom en el idioma actual."
+    },
+    "title": "Servicio de traducción",
+    "useWhen": "Usa el servicio para textos de componentes, contenido dinámico y cambio rápido de idioma. No reemplaza a @angular/localize en flujos de extracción estática."
+  }
+}

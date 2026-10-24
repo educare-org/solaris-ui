@@ -1,0 +1,108 @@
+{
+  "otp-input": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "label": "Código de verificação",
+      "note": "As caixas carregam a aparência; o wrapper de controle do Form Field permanece limpo.",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "basic": {
+      "hint": "Digite o código de 6 dígitos que enviamos.",
+      "label": "Código de verificação"
+    },
+    "char-type": {
+      "alphanumeric": "Alfanumérico",
+      "label": "Código de verificação",
+      "note": "Numérico aceita só dígitos; alfanumérico aceita letras maiúsculas e dígitos, inclusive na colagem.",
+      "numeric": "Numérico"
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Controle de formulário para senhas de uso único com limite mínimo/máximo configurável, navegação por teclado, colagem, mascaramento e agrupamento visual.",
+    "examples": {
+      "note": "Digite um código para ver as caixas preencherem e o foco avançar. Não há estado de loading: as caixas renderizam de imediato."
+    },
+    "form": {
+      "completed": "Código completo!",
+      "empty": "(vazio)",
+      "hint": "Digite um código entre 4 e 6 dígitos.",
+      "label": "Código reativo",
+      "note": "Usa formControlName com Validators.required e solarisOtpValidator(4, 6). Completed dispara quando o valor alcança maxLength.",
+      "status": "Válido: {{valid}} | Tocou: {{touched}} | Valor: {{value}}"
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe o componente de OTP com seu validador."
+    },
+    "length": {
+      "4": "4 dígitos",
+      "6": "6 dígitos",
+      "8": "8 dígitos",
+      "label": "Código de verificação",
+      "note": "O número de caixas segue maxLength. O comprimento mínimo é garantido por validação, não pelo layout."
+    },
+    "masking": {
+      "hint": "Os caracteres ficam ocultos ao digitar.",
+      "label": "Código mascarado",
+      "note": "Caixas mascaradas exibem um bullet enquanto o valor mantém os caracteres reais."
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "section": {
+      "appearance": "Aparência",
+      "char-type": "Tipo de caractere",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "form": "Integração com formulários",
+      "installation": "Instalação",
+      "length": "Comprimento",
+      "masking": "Mascaramento",
+      "props": "Propriedades",
+      "separator": "Separador",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados",
+      "suffix-action": "Ação de sufixo"
+    },
+    "separator": {
+      "hint": "Agrupado a cada 3 dígitos para leitura.",
+      "label": "Código agrupado",
+      "note": "Um separador decorativo agrupa as caixas visualmente a cada N caracteres sem afetar o valor."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "label": "Código de verificação",
+      "note": "Tamanho e densidade escalam as caixas juntas pelo contrato compartilhado do Form Field."
+    },
+    "states": {
+      "disabled": {
+        "label": "Código desabilitado"
+      },
+      "invalid": {
+        "error": "Digite um código válido.",
+        "label": "Código inválido"
+      },
+      "note": "Desabilitado e somente leitura bloqueiam edição; inválido manual força o estilo de erro com mensagem própria.",
+      "readonly": {
+        "label": "Código confirmado"
+      }
+    },
+    "suffix-action": {
+      "button": "Reenviar",
+      "label": "Código",
+      "note": "Ações extras de sufixo (por exemplo um botão de reenviar código) compõem ao lado das caixas e alternam o afixo de sufixo para a variante de ação."
+    },
+    "title": "OTP Input"
+  }
+}

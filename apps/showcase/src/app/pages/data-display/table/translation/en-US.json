@@ -1,0 +1,161 @@
+{
+  "table": {
+    "action": {
+      "details": "Details"
+    },
+    "add-row": {
+      "note": "Inline creation row. It only emits addRowRequest; action buttons in the toolbar stay separate."
+    },
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "note": "Outline, surface, soft, plain, and grid variants with even or odd striping and frame radius."
+    },
+    "basic": {
+      "note": "Text, number, and date columns with optional sorting."
+    },
+    "cell-editing": {
+      "note": "Enter or double-click edits in place; Escape closes. Committing values is owned by the consumer."
+    },
+    "cell-expand": {
+      "note": "Columns with expandable or a detail template render a chevron next to the value and open a detail row below with only that column."
+    },
+    "col": {
+      "actions": "Actions",
+      "age": "Age",
+      "city": "City",
+      "details": "Details",
+      "grade": "Grade",
+      "joined": "Joined",
+      "level": "Level",
+      "name": "Name",
+      "office": "Office",
+      "person": "Person",
+      "score": "Score",
+      "status": "Status",
+      "team": "Team",
+      "track": "Track"
+    },
+    "composition": {
+      "note": "Avatar and badge columns compose existing components through cell templates. Use column.icon for simple header icons without a template."
+    },
+    "description": "Lean data table with sorting, selection, and pluggable states.",
+    "examples": {
+      "note": "Start with the default table, then explore sorting, selection, and states below."
+    },
+    "footer": {
+      "average": "Average",
+      "note": "Aggregates over visible rows rendered in a semantic footer. The gradebook builds its averages on this contract."
+    },
+    "group": {
+      "metrics": "Metrics"
+    },
+    "header-groups": {
+      "note": "Consecutive columns merge under one group label; ungrouped columns span both rows."
+    },
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "layout": {
+      "note": "Auto sizes columns to content. Full width distributes them across the container.",
+      "tab": {
+        "auto": "Auto",
+        "full": "Full width"
+      }
+    },
+    "mobile-composed": {
+      "note": "Phone-width cards composing avatar, badge, and actions with no horizontal dragging."
+    },
+    "props": {
+      "note": "Props table coming soon."
+    },
+    "responsive": {
+      "note": "On mobile (720px and below) priority columns collapse into an expandable detail row in the Actions column. Columns can also carry their own detail template with extra information."
+    },
+    "row-dialog": {
+      "note": "Cell buttons open a dialog for quick details without leaving the table."
+    },
+    "section": {
+      "add-row": "Add row",
+      "appearance": "Appearance",
+      "basic": "Basic",
+      "cell-editing": "Cell editing",
+      "cell-expand": "Cell expansion",
+      "composition": "Composition",
+      "examples": "Examples",
+      "footer": "Footer aggregates",
+      "header-groups": "Header groups",
+      "installation": "Installation",
+      "layout": "Layout",
+      "mobile": "Mobile",
+      "props": "Props",
+      "responsive": "Responsive",
+      "row-dialog": "Row dialog",
+      "selection": "Selection",
+      "server": "Server data",
+      "sorting": "Sorting",
+      "states": "States",
+      "sticky-column": "Sticky column",
+      "wide": "Many columns",
+      "with-pagination": "With pagination",
+      "with-tabs": "With tabs",
+      "with-toolbar": "With toolbar"
+    },
+    "selection": {
+      "note": "Single swaps the selection, multiple toggles. The header checkbox is tri-state.",
+      "tab": {
+        "multiple": "Multiple",
+        "none": "None",
+        "single": "Single"
+      }
+    },
+    "server": {
+      "note": "A simulated server owns rows, total, and loading through SolarisTableDataSource."
+    },
+    "sorting": {
+      "note": "Click a column header to cycle null, ascending, descending. Changes are announced to screen readers."
+    },
+    "states": {
+      "note": "Loading skeletons, empty text, and error alerts. Slots win over plain text.",
+      "tab": {
+        "empty": "Empty",
+        "error": "Error",
+        "loading": "Loading"
+      }
+    },
+    "sticky-column": {
+      "note": "Pins the first column while the table scrolls horizontally, keeping row identity visible.",
+      "tab": {
+        "off": "Off",
+        "on": "Pinned"
+      }
+    },
+    "title": "Table",
+    "wide": {
+      "note": "Wide tables scroll horizontally inside the viewport. Use fullWidth to distribute columns instead."
+    },
+    "with-pagination": {
+      "note": "Pagination is projected into the table footer slot, so it shares the table border.",
+      "tab": {
+        "default": "Default",
+        "description": "With description",
+        "mobile": "Mobile"
+      }
+    },
+    "with-tabs": {
+      "note": "Tabs switch datasets while each table keeps its own sort.",
+      "tab": {
+        "all": "All",
+        "recent": "Recent"
+      }
+    },
+    "with-toolbar": {
+      "note": "Search, filters, saved views, export and column management projected inside the table frame, with pagination in the footer.",
+      "view": {
+        "adults": "Age 30+",
+        "all": "All contacts"
+      }
+    }
+  }
+}

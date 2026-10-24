@@ -7,21 +7,22 @@
   --solaris-card-glass-texture-opacity: initial;
   --solaris-card-radius: var(--solaris-radius-lg);
   --solaris-card-padding: var(--solaris-spacing-0);
-  --solaris-card-color: var(--solaris-text-default);
+  --solaris-card-color: var(--solaris-neutral-text-body);
   --solaris-card-header-gap: var(--solaris-spacing-0);
   --solaris-card-section-gap: var(--solaris-card-gap);
-  --solaris-card-background: var(--solaris-surface-base);
-  --solaris-card-border-color: var(--solaris-border-subtle);
+  --solaris-card-background: var(--solaris-neutral-default);
+  --solaris-card-border-color: var(--solaris-neutral-border-subtle);
   --solaris-card-border-width: var(--solaris-border-width-sm);
   --solaris-card-section-padding: var(--solaris-card-padding);
-  --solaris-card-footer-border-color: var(--solaris-border-subtle);
-  --solaris-card-header-border-color: var(--solaris-border-subtle);
+  --solaris-card-footer-border-color: var(--solaris-neutral-border-subtle);
+  --solaris-card-header-border-color: var(--solaris-neutral-border-subtle);
   --solaris-card-media-size: var(--solaris-spacing-12);
 
   gap: 0;
   padding: 0;
   display: flex;
   overflow: hidden;
+  position: relative;
   flex-direction: column;
   box-sizing: border-box;
   color: var(--solaris-card-color);
@@ -30,44 +31,63 @@
   background: var(--solaris-card-background);
   border: var(--solaris-card-border-width) solid
     var(--solaris-card-border-color);
+  transition:
+    background-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    border-color var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    box-shadow var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
 }
 
-:host([data-size='sm']) {
+:host([data-padding='sm']) {
   --solaris-card-media-size: var(--solaris-spacing-10);
+  --solaris-card-padding: var(--solaris-density-padding-sm);
+  --solaris-card-gap: var(--solaris-density-gap-sm);
+  --solaris-card-header-gap: var(--solaris-density-gap-xs);
 }
 
-:host([data-size='lg']) {
+:host([data-padding='md']) {
+  --solaris-card-padding: var(--solaris-density-padding-md);
+  --solaris-card-gap: var(--solaris-density-gap-md);
+  --solaris-card-header-gap: var(--solaris-density-gap-sm);
+}
+
+:host([data-padding='lg']) {
   --solaris-card-media-size: var(--solaris-spacing-16);
+  --solaris-card-padding: var(--solaris-density-padding-lg);
+  --solaris-card-gap: var(--solaris-density-gap-lg);
+  --solaris-card-header-gap: var(--solaris-density-gap-md);
 }
 
 :host([data-appearance='surface']) {
   --solaris-card-shadow: none;
-  --solaris-card-color: var(--solaris-text-default);
-  --solaris-card-background: var(--solaris-surface-base);
-  --solaris-card-border-color: var(--solaris-border-subtle);
+  --solaris-card-color: var(--solaris-neutral-text-body);
+  --solaris-card-background: var(--solaris-neutral-default);
+  --solaris-card-border-color: var(--solaris-neutral-border-subtle);
   --solaris-card-border-width: var(--solaris-border-width-sm);
 }
 
 :host([data-appearance='outline']) {
   --solaris-card-shadow: none;
   --solaris-card-background: transparent;
-  --solaris-card-color: var(--solaris-text-default);
-  --solaris-card-border-color: var(--solaris-border-default);
+  --solaris-card-color: var(--solaris-neutral-text-body);
+  --solaris-card-border-color: var(--solaris-neutral-border-default);
   --solaris-card-border-width: var(--solaris-border-width-sm);
 }
 
 :host([data-appearance='tonal']) {
   --solaris-card-shadow: none;
-  --solaris-card-color: var(--solaris-text-default);
-  --solaris-card-background: var(--solaris-surface-subtle);
-  --solaris-card-border-color: var(--solaris-border-subtle);
+  --solaris-card-color: var(--solaris-neutral-text-body);
+  --solaris-card-background: var(--solaris-neutral-subtle);
+  --solaris-card-border-color: var(--solaris-neutral-border-subtle);
   --solaris-card-border-width: var(--solaris-border-width-sm);
 }
 
 :host([data-appearance='glass']) {
   --solaris-card-glass-blur: var(--solaris-glass-blur);
   --solaris-card-glass-texture-opacity: var(--solaris-glass-texture-opacity);
-  --solaris-card-color: var(--solaris-text-glass);
+  --solaris-card-color: var(--solaris-neutral-text-inverse);
   --solaris-card-border-width: var(--solaris-border-width-sm);
   --solaris-card-glass-border-color: var(--solaris-glass-border-color);
   --solaris-card-shadow: var(--solaris-glass-shadow);
@@ -91,7 +111,7 @@
   border-radius: inherit;
   z-index: var(--solaris-z-index-decorative);
   background:
-    radial-gradient(circle at 72% 58%, #ff6e185c, transparent 34%),
+    radial-gradient(circle at 72% 58%, #ffffff1f, transparent 34%),
     radial-gradient(circle at 22% 16%, #ffffff2e, transparent 30%),
     linear-gradient(135deg, #ffffff2e, transparent 42%); // SOLARIS_TOKEN_EXCEPTION: glass ::before gradient needs translucent colors
 }
@@ -107,9 +127,9 @@
   background-image: repeating-radial-gradient(
     circle at 0 0,
     var(--solaris-glass-border-color) 0,
-    var(--solaris-glass-border-color) 1px,
-    transparent 1px,
-    transparent 4px
+    var(--solaris-glass-border-color) var(--solaris-border-width-sm),
+    transparent var(--solaris-border-width-sm),
+    transparent var(--solaris-spacing-3)
   );
 }
 
@@ -127,6 +147,36 @@
 
 :host([data-radius='xl']) {
   --solaris-card-radius: var(--solaris-radius-xl);
+}
+
+:host([data-clickable]:not([data-disabled])) {
+  cursor: pointer;
+}
+
+:host([data-clickable]:not([data-disabled], [data-appearance='glass'])):hover {
+  --solaris-card-shadow: var(--solaris-shadow-sm);
+  --solaris-card-border-color: var(--solaris-neutral-border-default);
+}
+
+:host([data-clickable][data-disabled]) {
+  cursor: default;
+}
+
+:host([data-clickable][data-disabled]) .solaris-card-link {
+  pointer-events: none;
+}
+
+.solaris-card-link {
+  inset: 0;
+  position: absolute;
+  border-radius: inherit;
+  z-index: var(--solaris-z-index-content);
+}
+
+.solaris-card-link:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-focus-ring-color);
 }
 
 :host ::ng-deep .solaris-card-header,
@@ -160,7 +210,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--solaris-spacing-0);
+  gap: var(--solaris-card-gap);
   padding-block: var(--solaris-spacing-0) var(--solaris-card-section-padding);
 }
 
@@ -178,6 +228,16 @@
   padding-block-start: var(--solaris-card-section-gap);
   border-top: var(--solaris-border-width-sm) solid
     var(--solaris-card-footer-border-color);
+}
+
+:host([data-single-section]) ::ng-deep .solaris-card-header[data-separator] {
+  padding-block-end: var(--solaris-card-section-padding);
+  border-bottom: none;
+}
+
+:host([data-single-section]) ::ng-deep .solaris-card-footer[data-separator] {
+  padding-block-start: var(--solaris-card-section-padding);
+  border-top: none;
 }
 
 :host ::ng-deep .solaris-card-media {
@@ -205,11 +265,11 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--solaris-spacing-0);
+  gap: var(--solaris-card-gap);
 }
 
 :host ::ng-deep .solaris-card-title {
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
   font-size: var(--solaris-font-size-lg);
   line-height: var(--solaris-line-height-sm);
   font-weight: var(--solaris-font-weight-semibold);
@@ -218,13 +278,13 @@
 
 :host ::ng-deep .solaris-card-description {
   margin: var(--solaris-spacing-0);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-font-size-sm);
   line-height: var(--solaris-line-height-md);
 }
 
 :host([data-appearance='glass']) ::ng-deep .solaris-card-description {
-  color: var(--solaris-text-glass);
+  color: var(--solaris-neutral-text-inverse);
 }
 
 :host ::ng-deep * + .solaris-card-description {
@@ -260,4 +320,26 @@
 :host([data-media-position='start']) ::ng-deep .solaris-card-actions {
   grid-column: 2;
   min-width: 0;
+}
+
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. Cards print as ink-safe paper surfaces on every theme (dark glass
+// and tonal washes would flood the page): background pins to #fff, text to
+// #000, blur/shadows drop, and the action row (screen-only buttons) hides.
+// Screen rendering is untouched.
+@media print {
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink card surface for print.
+  :host {
+    overflow: visible;
+    background: #fff;
+    color: #000;
+    border-color: #000;
+    box-shadow: none;
+    backdrop-filter: none;
+    break-inside: avoid;
+  }
+
+  ::ng-deep .solaris-card-actions {
+    display: none;
+  }
 }

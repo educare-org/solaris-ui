@@ -1,0 +1,7 @@
+.solaris-loading-zone {
+  position: relative;
+}
+
+.solaris-loading-zone[data-loading] {
+  cursor: progress;
+}

@@ -1,0 +1,60 @@
+<div class="solaris-preview-code__frame" #frame>
+  <div class="solaris-preview-code__toolbar">
+    <solaris-segmented-control
+      [size]="size()"
+      [appearance]="appearance()"
+      [value]="resolvedActiveTab()"
+      [density]="effectiveDensity()"
+      [ariaLabel]="resolvedAriaLabel()"
+      (valueChange)="handleTabChange($event)"
+    >
+      <solaris-segmented-item
+        value="preview"
+        [attr.aria-controls]="previewPanelId"
+      >
+        {{ resolvedPreviewLabel() }}
+      </solaris-segmented-item>
+      <solaris-segmented-item value="code" [attr.aria-controls]="codePanelId">
+        {{ resolvedCodeLabel() }}
+      </solaris-segmented-item>
+    </solaris-segmented-control>
+  </div>
+
+  @if (isPreviewActive()) {
+    <div
+      class="solaris-preview-code__panel solaris-preview-code__panel--preview"
+      role="tabpanel"
+      tabindex="0"
+      [attr.id]="previewPanelId"
+      [attr.aria-label]="resolvedPreviewLabel()"
+    >
+      <div class="solaris-preview-code__preview-surface">
+        <ng-content />
+      </div>
+    </div>
+  }
+  @if (isCodeActive()) {
+    <div
+      class="solaris-preview-code__panel solaris-preview-code__panel--code"
+      role="tabpanel"
+      tabindex="0"
+      [attr.id]="codePanelId"
+      [attr.aria-label]="resolvedCodeLabel()"
+    >
+      <solaris-code-block
+        [code]="resolvedCode()"
+        [commands]="resolvedCodeBlockCommands()"
+        [language]="resolvedLanguage()"
+        [selectedCommand]="resolvedSelectedCodeFileId()"
+        [commandSelectorAriaLabel]="resolvedFileSelectorAriaLabel()"
+        (selectedCommandChange)="handleCodeFileChange($event)"
+        [appearance]="resolvedCodeBlockAppearance()"
+        [size]="resolvedCodeBlockSize()"
+        [density]="effectiveDensity()"
+        [radius]="radius()"
+        [expandable]="codeExpandable()"
+        [collapsedLines]="codeCollapsedLines()"
+      />
+    </div>
+  }
+</div>

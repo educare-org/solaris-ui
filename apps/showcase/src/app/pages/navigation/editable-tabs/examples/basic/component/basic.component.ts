@@ -48,6 +48,6 @@ export class BasicEditableTabsExample {
   }
 
   onDefaultChange(_event: unknown): void {
-    // Consumer handles persistence
+    // no-op
   }
 }

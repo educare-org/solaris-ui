@@ -18,6 +18,7 @@ const ROUTES = [
   'forms/input',
   'forms/password-field',
   'forms/email-field',
+  'forms/file-upload',
   'forms/checkbox',
   'forms/checkbox-group',
   'forms/radio',

@@ -4,17 +4,20 @@ import {
   input,
   computed,
   output,
+  contentChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisIconComponent } from '../../../icon';
+import { SolarisAlertTitleDirective } from '../directives/alert-title.directive';
 
 import type {
   SolarisAlertVariant,
   SolarisAlertAppearance,
   SolarisAlertRadius,
+  SolarisAlertSize,
   SolarisAlertDensity,
   SolarisAlertLive,
   SolarisAlertTextPosition,
@@ -32,10 +35,11 @@ import type {
     '[attr.aria-live]': 'ariaLive()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-variant]': 'variant()',
+    '[attr.data-size]': 'size()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-appearance]': 'appearance()',
-    '[attr.data-closable]': 'closable() ? "" : null',
-    '[attr.data-has-title]': 'hasTitle() ? "" : null',
+    '[attr.data-closable]': 'closable() || undefined',
+    '[attr.data-has-title]': 'effectiveHasTitle() || undefined',
     '[attr.data-text-position]': 'textPosition()',
   },
 })
@@ -43,14 +47,21 @@ export class SolarisAlertComponent {
   private readonly translateService = inject(SolarisTranslateService);
   protected readonly themeService = inject(SolarisThemeService);
 
+  private readonly projectedTitle = contentChild(SolarisAlertTitleDirective);
+
   readonly textPosition = input<SolarisAlertTextPosition>('start');
   readonly appearance = input<SolarisAlertAppearance>('tonal');
   readonly variant = input<SolarisAlertVariant>('info');
   readonly radius = input<SolarisAlertRadius>('md');
+  readonly size = input<SolarisAlertSize>('md');
   readonly live = input<SolarisAlertLive>('off');
-  readonly density = input<SolarisAlertDensity>();
+  readonly density = input<SolarisAlertDensity | undefined>(undefined);
   readonly closable = input<boolean>(false);
-  readonly hasTitle = input<boolean>(false);
+  /**
+   * Manual override for title presence. When `undefined` (default), presence
+   * is auto-detected from a projected `[solaris-alert-title]`.
+   */
+  readonly hasTitle = input<boolean | undefined>(undefined);
   readonly showIcon = input<boolean>(true);
   readonly closeLabelKey = input<string>();
   readonly closeLabel = input<string>();
@@ -60,6 +71,10 @@ export class SolarisAlertComponent {
 
   protected readonly effectiveDensity = computed(() => {
     return this.density() ?? this.themeService.density;
+  });
+
+  protected readonly effectiveHasTitle = computed(() => {
+    return this.hasTitle() ?? this.projectedTitle() != null;
   });
 
   protected readonly iconName = computed<string>(() => {

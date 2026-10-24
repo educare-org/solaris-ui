@@ -1,0 +1,206 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="tabs.title"
+    descriptionKey="tabs.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="tabs.section.examples">
+    <p class="tabs-showcase__note">{{ 'tabs.examples.note' | translate }}</p>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-tabs-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="appearances" titleKey="tabs.section.appearances">
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'tabs.section.appearances' | translate"
+    >
+      <solaris-tab value="underline"
+        >{{ 'tabs.appearance.underline' | translate }}</solaris-tab
+      >
+      <solaris-tab value="pills"
+        >{{ 'tabs.appearance.pills' | translate }}</solaris-tab
+      >
+      <solaris-tab value="enclosed"
+        >{{ 'tabs.appearance.enclosed' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="underline">
+        <solaris-preview-code [code]="appearanceUnderlineCode" language="html">
+          <app-basic-tabs-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="pills">
+        <solaris-preview-code [code]="appearancePillsCode" language="html">
+          <app-pills-tabs-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="enclosed">
+        <solaris-preview-code [code]="appearanceEnclosedCode" language="html">
+          <app-enclosed-tabs-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="size-density" titleKey="tabs.section.size-density">
+    <p class="tabs-showcase__note">
+      {{ 'tabs.size-density.note' | translate }}
+    </p>
+    <div class="tabs-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'tabs.section.sizes' | translate"
+      >
+        <solaris-tab value="sm">{{ 'tabs.size.sm' | translate }}</solaris-tab>
+        <solaris-tab value="md">{{ 'tabs.size.md' | translate }}</solaris-tab>
+        <solaris-tab value="lg">{{ 'tabs.size.lg' | translate }}</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'tabs.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'tabs.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'tabs.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'tabs.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDemoAppearance"
+        [ariaLabel]="'tabs.section.appearances' | translate"
+      >
+        <solaris-tab value="underline"
+          >{{ 'tabs.appearance.underline' | translate }}</solaris-tab
+        >
+        <solaris-tab value="pills"
+          >{{ 'tabs.appearance.pills' | translate }}</solaris-tab
+        >
+        <solaris-tab value="enclosed"
+          >{{ 'tabs.appearance.enclosed' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityAppearanceCode()" language="html">
+      <solaris-tabs
+        defaultValue="m"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+        [appearance]="selectedDemoAppearance()"
+        ariaLabel="Size, density and appearance"
+      >
+        <solaris-tab value="s"
+          >{{ 'tabs.example.sizes.small' | translate }}</solaris-tab
+        >
+        <solaris-tab value="m"
+          >{{ 'tabs.example.sizes.medium' | translate }}</solaris-tab
+        >
+        <solaris-tab value="l"
+          >{{ 'tabs.example.sizes.large' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="color" titleKey="tabs.section.color">
+    <p class="tabs-showcase__note">{{ 'tabs.color.note' | translate }}</p>
+    <div class="tabs-showcase__stack">
+      <solaris-preview-code [code]="colorPrimaryCode" language="html">
+        <solaris-tabs color="primary" defaultValue="a" ariaLabel="Primary">
+          <solaris-tab value="a">Option A</solaris-tab>
+          <solaris-tab value="b">Option B</solaris-tab>
+        </solaris-tabs>
+      </solaris-preview-code>
+      <solaris-preview-code [code]="colorNeutralCode" language="html">
+        <solaris-tabs color="neutral" defaultValue="a" ariaLabel="Neutral">
+          <solaris-tab value="a">Option A</solaris-tab>
+          <solaris-tab value="b">Option B</solaris-tab>
+        </solaris-tabs>
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="orientation" titleKey="tabs.section.orientation">
+    <solaris-preview-code [code]="verticalCode" language="html">
+      <app-vertical-tabs-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="layout" titleKey="tabs.section.layout">
+    <div class="tabs-showcase__stack">
+      <solaris-preview-code [code]="fullWidthCode" language="html">
+        <app-full-width-tabs-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="scrollableCode" language="html">
+        <app-scrollable-tabs-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="shapeCode" language="html">
+        <app-shape-tabs-example />
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="features" titleKey="tabs.section.features">
+    <div class="tabs-showcase__stack">
+      <solaris-preview-code [code]="withPanelsCode" language="html">
+        <app-tabs-with-panels-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="iconsAndBadgesCode" language="html">
+        <app-icons-and-badges-tabs-example />
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="tabs.section.states">
+    <solaris-preview-code [code]="disabledCode" language="html">
+      <app-disabled-tabs-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="transitions" titleKey="tabs.section.transitions">
+    <div class="tabs-showcase__stack">
+      <solaris-preview-code [code]="manualActivationCode" language="html">
+        <app-manual-activation-tabs-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="transitionFadeCode" language="html">
+        <app-transition-fade-tabs-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="transitionSlideCode" language="html">
+        <app-transition-slide-tabs-example />
+      </solaris-preview-code>
+      <p class="tabs-showcase__note">
+        {{ 'tabs.example.reduced-motion.text' | translate }}
+      </p>
+      <p class="tabs-showcase__note">
+        <strong>{{ 'tabs.example.future-editable.title' | translate }}</strong>:
+        {{ 'tabs.example.future-editable.text' | translate }}
+      </p>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="installation" titleKey="tabs.section.installation">
+    <p class="tabs-showcase__note">
+      {{ 'tabs.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="tabs.section.props">
+    <p class="tabs-showcase__note">{{ 'tabs.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

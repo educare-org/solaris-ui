@@ -1,0 +1,62 @@
+<nav
+  class="mega-menu-showcase__nav"
+  [attr.aria-label]="'mega-menu.basic-aria-label' | translate"
+  solaris-mega-menu-anchor
+  solaris-mega-menu-group
+>
+  <a class="mega-menu-showcase__brand" href="/">{{
+    'mega-menu.brand' | translate
+  }}</a>
+  <solaris-mega-menu panelWidth="anchor" [backdrop]="true">
+    <button solaris-mega-menu-trigger class="mega-menu-showcase__trigger">
+      {{ 'mega-menu.products' | translate }}
+    </button>
+    <ng-template solaris-mega-menu-panel>
+      <div class="mega-menu-showcase__panel mega-menu-showcase__panel--wide">
+        <div class="mega-menu-showcase__link-group">
+          <p>{{ 'mega-menu.build' | translate }}</p>
+          <a href="/forms">{{ 'mega-menu.forms' | translate }}</a>
+          <a href="/navigation/tabs">{{
+            'mega-menu.navigation' | translate
+          }}</a>
+          <a href="/feedback/alert">{{ 'mega-menu.feedback' | translate }}</a>
+        </div>
+        <div class="mega-menu-showcase__link-group">
+          <p>{{ 'mega-menu.foundation' | translate }}</p>
+          <a href="/configuration/theme">{{
+            'mega-menu.theming' | translate
+          }}</a>
+          <a href="/icons">{{ 'mega-menu.icons' | translate }}</a>
+          <a href="/content/divider">{{ 'mega-menu.layout' | translate }}</a>
+        </div>
+        <aside class="mega-menu-showcase__feature">
+          <p>{{ 'mega-menu.feature-kicker' | translate }}</p>
+          <h3>{{ 'mega-menu.feature-title' | translate }}</h3>
+          <span>{{ 'mega-menu.feature-description' | translate }}</span>
+        </aside>
+      </div>
+    </ng-template>
+  </solaris-mega-menu>
+  <solaris-mega-menu
+    panelWidth="anchor"
+    [backdrop]="true"
+    [persistentOnClick]="true"
+  >
+    <button solaris-mega-menu-trigger class="mega-menu-showcase__trigger">
+      {{ 'mega-menu.resources' | translate }}
+    </button>
+    <ng-template solaris-mega-menu-panel>
+      <div class="mega-menu-showcase__panel mega-menu-showcase__panel--wide">
+        <div class="mega-menu-showcase__link-group">
+          <p>{{ 'mega-menu.learn' | translate }}</p>
+          <a href="/configuration/accessibility">{{
+            'mega-menu.accessibility' | translate
+          }}</a>
+          <a href="/configuration">{{
+            'mega-menu.configuration' | translate
+          }}</a>
+        </div>
+      </div>
+    </ng-template>
+  </solaris-mega-menu>
+</nav>

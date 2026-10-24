@@ -54,7 +54,7 @@ export type SolarisDialogButtonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full';
 
 export type SolarisDialogButtonIconPosition = 'start' | 'end';
 
-export type SolarisDialogRadius = SolarisDialogButtonRadius;
+export type SolarisDialogRadius = 'none' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type SolarisDialogDensity = SolarisDialogButtonDensity;
 
@@ -89,6 +89,7 @@ export interface SolarisDialogOptions<TResult = unknown> {
   appearance?: SolarisDialogAppearance;
   fullscreen?: boolean;
   placement?: SolarisDialogPlacement;
+  sheet?: boolean;
   width?: string;
   height?: string;
   minWidth?: string;
@@ -155,6 +156,7 @@ export interface SolarisDialogComponentConfig<
   appearance?: SolarisDialogAppearance;
   fullscreen?: boolean;
   placement?: SolarisDialogPlacement;
+  sheet?: boolean;
   headerSeparator?: boolean;
   footerSeparator?: boolean;
   radius?: SolarisDialogRadius;
@@ -171,6 +173,7 @@ export interface SolarisDialogConfig {
   appearance?: SolarisDialogAppearance;
   fullscreen?: boolean;
   placement?: SolarisDialogPlacement;
+  sheet?: boolean;
   closeable?: boolean;
   backdrop?: boolean;
   closeOnEscape?: boolean;

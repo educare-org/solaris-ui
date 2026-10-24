@@ -1,0 +1,30 @@
+.solaris-event-editor-timezone-dialog__zones {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--solaris-spacing-3);
+}
+
+.solaris-event-editor-timezone-dialog__selects {
+  min-width: 0;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--solaris-spacing-5);
+}
+
+.solaris-event-editor-timezone-dialog__selects > solaris-select {
+  min-width: 0;
+}
+
+.solaris-event-editor-timezone-dialog__swap {
+  flex: 0 0 auto;
+  /* Offsets the field label height so the icon sits at the visual center
+     of the two selects. Scoped to the class: never target bare `button`. */
+  margin-top: var(--solaris-spacing-7);
+}
+
+.solaris-event-editor-timezone-dialog__swap-icon {
+  display: block;
+  transform: rotate(90deg);
+}

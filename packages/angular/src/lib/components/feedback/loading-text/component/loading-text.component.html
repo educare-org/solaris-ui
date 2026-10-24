@@ -1,3 +1,13 @@
-<span class="solaris-loading-text__text" [attr.data-text]="resolvedText()">{{
-  resolvedText()
-}}</span>
+<span
+  class="solaris-loading-text__text"
+  [attr.data-text]="resolvedText()"
+  [class.solaris-loading-text__text--clamped]="clampedMaxLines() > 0"
+  [style.-webkit-line-clamp]="clampedMaxLines() > 0 ? clampedMaxLines() : null"
+  [style.line-clamp]="clampedMaxLines() > 0 ? clampedMaxLines() : null"
+  >{{ resolvedText() }}
+  @if (dots() && resolvedText()) {
+    <span class="solaris-loading-text__dots" aria-hidden="true"
+      ><span></span><span></span><span></span
+    ></span>
+  }
+</span>

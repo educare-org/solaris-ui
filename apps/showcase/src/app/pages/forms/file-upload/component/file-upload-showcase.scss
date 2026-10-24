@@ -1,0 +1,26 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.file-upload-showcase__note {
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.file-upload-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+// Demo wrappers are projected as flex items into the centered preview
+// surface: without full width they size to content, and swapping to the
+// shorter drop-active text visibly shrinks the panel. Inline
+// <solaris-file-upload> demos are already full width via the host rule.
+app-basic-file-upload-example,
+app-upload-auto-file-upload-example,
+app-upload-manual-file-upload-example {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}

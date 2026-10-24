@@ -39,18 +39,14 @@ Checkbox Group is a form control component that manages multiple `<solaris-check
   standalone: true,
 })
 class SolarisCheckboxGroupComponent {
-  // Value
-  value: unknown[];
-  compareWith: (a: unknown, b: unknown) => boolean; // Object.is
-
   // Layout
   orientation: 'vertical' | 'horizontal'; // vertical
   layout: 'list' | 'grid'; // list
   columns: 1 | 2 | 3 | 4 | 'auto'; // 1
 
   // Visual
-  density: 'compact' | 'normal' | 'comfortable'; // inherited
-  size: 'sm' | 'md' | 'lg'; // md
+  density: 'compact' | 'normal' | 'comfortable'; // inherited from theme
+  size: 'sm' | 'md' | 'lg'; // md (inherited by children unless a child sets its own)
 
   // State
   disabled: boolean; // false
@@ -69,6 +65,9 @@ class SolarisCheckboxGroupComponent {
   // Selection bounds
   minSelected: number;
   maxSelected: number;
+
+  // Comparison
+  compareWith: (a: unknown, b: unknown) => boolean; // Object.is
 
   // Select-all
   selectAll: boolean; // false
@@ -167,18 +166,36 @@ Only applies when `layout="grid"`. Supported values: `1`, `2`, `3`, `4`, `'auto'
 
 Default: `md`
 
-Size is exposed on the group host via `data-size`. Checkbox children keep their own `size` input.
+Size is exposed on the group host via `data-size` and propagates to all
+child checkboxes through the `SOLARIS_CHECKBOX_GROUP` token — the same
+inheritance contract as `solaris-switch-group`. A child checkbox keeps its
+own `size`/`density` when set explicitly.
+
+```html
+<solaris-checkbox-group size="lg" density="compact">
+  <!-- inherits lg + compact -->
+  <solaris-checkbox value="a">A</solaris-checkbox>
+  <!-- own size wins over the group -->
+  <solaris-checkbox value="b" size="sm">B</solaris-checkbox>
+</solaris-checkbox-group>
+```
+
+The child resolves `size` as own input → group → `'md'`, and `density`
+as own input → group → theme density. Both are exposed on the child
+host as `data-size`/`data-density` with the effective values.
 
 ## Density
 
-| Density       | Effect                                       |
-| ------------- | -------------------------------------------- |
-| `compact`     | Reduced gaps between options (`spacing-2`)   |
-| `comfortable` | Increased gaps between options (`spacing-4`) |
+| Density       | List gap | Grid row/column gaps |
+| ------------- | -------- | -------------------- |
+| `compact`     | 6px      | 2px                  |
+| `normal`      | 8px      | 4px                  |
+| `comfortable` | 12px     | 6px                  |
 
-Default: `comfortable`
+Default: inherited from the theme.
 
-When not provided, the group falls back to `comfortable`.
+When not provided, the group falls back to the theme density, and children
+without their own `density` inherit the group value.
 
 ## CSS Variables
 
@@ -308,6 +325,7 @@ When using Form Field, leave label/hint/error on the group unset to avoid duplic
 - Form Field `aria-describedby` IDs are forwarded.
 - Invalid state is reflected via `aria-invalid`.
 - Required state is reflected via `aria-required`.
+- A required group renders a `*` marker next to the group label.
 - Select-all checkbox has an accessible name.
 - Children maintain their natural tab order.
 - Focus tracking uses `focusin`/`focusout` events.

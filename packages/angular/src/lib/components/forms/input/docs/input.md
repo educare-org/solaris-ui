@@ -104,23 +104,42 @@ The contract provides:
 
 ### Size
 
-- `sm`: 2rem height
-- `md` (default): 2.5rem height
-- `lg`: 3rem height
+- `sm`
+- `md` (default)
+- `lg`
 
-Controls height, padding, font-size, and line-height.
+Standalone, `size` combined with `density` selects one of the 9
+`--solaris-control-height-*` tokens for the input height:
+
+| Size | compact | normal | comfortable |
+| ---- | ------- | ------ | ----------- |
+| `sm` | 28px    | 36px   | 44px        |
+| `md` | 32px    | 40px   | 48px        |
+| `lg` | 36px    | 44px   | 52px        |
+
+Inside `solaris-form-field`, the wrapper owns the outer height and the
+input delegates to it (`height: auto`, only density padding applies).
+Keep `size` in sync on both so font and padding match the wrapper height.
 
 ### Density
 
 - `compact`: reduced height and padding
-- `comfortable` (fallback default): more breathing space
+- `normal`: balanced spacing (theme default)
+- `comfortable`: more breathing space
+
+When omitted, density is inherited from the theme.
 
 ### Radius
 
-- `none`
-- `sm`
-- `md` (default)
-- `lg`
+- `none` (sharp corners)
+- `sm` (2px)
+- `md` (4px, default)
+- `lg` (8px)
+- `xl` (pill)
+
+Radius follows the global scale: `md` maps to the 4px token, `lg` to the
+8px token, and `xl` renders as a pill, so `sm` and `md` stay visually
+distinct.
 
 ### Full width
 

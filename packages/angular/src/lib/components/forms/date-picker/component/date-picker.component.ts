@@ -1,9 +1,9 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API for the FormField focus contract.
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   computed,
+  contentChild,
   forwardRef,
   inject,
   input,
@@ -20,15 +20,20 @@ import {
 } from '../../../interaction/popover';
 import {
   SolarisFormFieldComponent,
+  SolarisFormPrefixDirective,
+  SolarisFormSuffixActionDirective,
   SolarisFormSuffixDirective,
 } from '../../form-field';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisInputDirective } from '../../input';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
-import { SolarisDateCalendarComponent } from '../../date/component/calendar.component';
+import type { SolarisIconName } from '../../../../services/icon';
+import { SolarisDateCalendarComponent } from '../../date';
 import {
+  compareSolarisDates,
   formatSolarisDate,
+  maskLocalizedSolarisDateInput,
   monthForSolarisDate,
   parseLocalizedSolarisDate,
   parseSolarisDate,
@@ -36,11 +41,15 @@ import {
 } from '../../date/model/date.utils';
 import type {
   SolarisCalendarMonth,
+  SolarisDateFormat,
   SolarisDateValue,
+  SolarisWeekStartsOn,
 } from '../../date/model/date.types';
 import type {
   SolarisDatePickerAppearance,
+  SolarisDatePickerDensity,
   SolarisDatePickerRadius,
+  SolarisDatePickerSize,
 } from '../model/date-picker.types';
 import { SolarisIconButtonDirective } from '../../../actions/icon-button';
 
@@ -50,6 +59,8 @@ import { SolarisIconButtonDirective } from '../../../actions/icon-button';
   imports: [
     SolarisDateCalendarComponent,
     SolarisFormFieldComponent,
+    SolarisFormPrefixDirective,
+    SolarisFormSuffixActionDirective,
     SolarisFormSuffixDirective,
     SolarisIconComponent,
     SolarisInputDirective,
@@ -73,6 +84,8 @@ import { SolarisIconButtonDirective } from '../../../actions/icon-button';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'solaris-date-picker',
+    '[attr.data-size]': 'size()',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-open]': 'panelOpen() ? "" : null',
   },
 })
@@ -86,6 +99,11 @@ export class SolarisDatePickerComponent
   protected readonly inputElement =
     viewChild<ElementRef<HTMLInputElement>>('inputElement');
   protected readonly popoverTrigger = viewChild(SolarisPopoverTriggerDirective);
+
+  protected readonly projectedSuffixAction = contentChild(
+    SolarisFormSuffixActionDirective,
+    { descendants: true },
+  );
 
   readonly label = input<string>();
   readonly labelKey = input<string>();
@@ -101,18 +119,30 @@ export class SolarisDatePickerComponent
   readonly disabledDates = input<readonly SolarisDateValue[]>([]);
   readonly appearance = input<SolarisDatePickerAppearance>('outline');
   readonly radius = input<SolarisDatePickerRadius>('md');
-  readonly density = input<'compact' | 'normal' | 'comfortable'>();
+  readonly density = input<SolarisDatePickerDensity>();
+  readonly size = input<SolarisDatePickerSize>('md');
   readonly requiredInput = input(false, { alias: 'required' });
   readonly disabledInput = input(false, { alias: 'disabled' });
   readonly readonlyInput = input(false, { alias: 'readonly' });
   readonly manualInvalid = input<boolean | undefined>(undefined, {
     alias: 'invalid',
   });
+  readonly loading = input<boolean>(false);
   readonly calendarButtonLabel = input<string>();
   readonly calendarButtonLabelKey = input<string>();
+  readonly clearable = input<boolean>(false);
+  readonly clearLabel = input<string>();
+  readonly clearLabelKey = input<string>();
+  readonly prefix = input<SolarisIconName>();
+  readonly suffix = input<SolarisIconName>();
+  readonly weekStartsOn = input<SolarisWeekStartsOn>();
+  readonly disablePast = input<boolean>(false);
+  readonly disableFuture = input<boolean>(false);
+  readonly dateFormat = input<SolarisDateFormat>('2-digit');
 
   readonly valueChange = output<SolarisDateValue | null>();
   readonly openedChange = output<boolean>();
+  readonly cleared = output<void>();
 
   protected readonly value = signal<SolarisDateValue | null>(null);
   protected readonly displayValue = signal('');
@@ -122,7 +152,11 @@ export class SolarisDatePickerComponent
   protected readonly parseError = signal(false);
   protected readonly panelOpen = signal(false);
   protected readonly displayedMonth = signal<SolarisCalendarMonth>(
-    monthForSolarisDate(todaySolarisDate())!,
+    // todaySolarisDate() is always parseable; the fallback only satisfies the type checker.
+    monthForSolarisDate(todaySolarisDate()) ?? {
+      year: new Date().getFullYear(),
+      month: new Date().getMonth(),
+    },
   );
   private readonly describedBy = signal<string[]>([]);
 
@@ -130,9 +164,9 @@ export class SolarisDatePickerComponent
   private onTouched: () => void = () => undefined;
 
   protected readonly resolvedLocale = computed(
-    () => this.locale() ?? this.translateService.locale,
+    () => this.locale() ?? this.translateService.locale(),
   );
-  protected readonly effectiveDensity = computed(
+  protected readonly effectiveDensity = computed<SolarisDatePickerDensity>(
     () => this.density() ?? this.themeService.density,
   );
   protected readonly isEffectivelyDisabled = computed(
@@ -148,6 +182,25 @@ export class SolarisDatePickerComponent
       this.parseError() ||
       (this.requiredInput() && this.touched() && !this.value())
     );
+  });
+  protected readonly canClear = computed(() => {
+    return (
+      this.clearable() &&
+      this.value() !== null &&
+      !this.isEffectivelyDisabled() &&
+      !this.isEffectivelyReadonly()
+    );
+  });
+  protected readonly clearAriaLabel = computed(() => {
+    const key = this.clearLabelKey();
+    if (key) {
+      return this.translateService.translate(key);
+    }
+    const text = this.clearLabel();
+    if (text) {
+      return text;
+    }
+    return this.translateService.translate('solaris.date-picker.clear');
   });
   protected readonly placeholderText = computed(() =>
     this.resolveText(
@@ -186,6 +239,7 @@ export class SolarisDatePickerComponent
   );
 
   get id(): string {
+    // SECURITY_EXCEPTION: reading the host id for control association requires the native element. Read-only.
     return `${this.elementRef.nativeElement.id || 'solaris-date-picker'}-input`;
   }
 
@@ -218,6 +272,7 @@ export class SolarisDatePickerComponent
   }
 
   focus(): void {
+    // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
     this.inputElement()?.nativeElement.focus();
   }
 
@@ -225,7 +280,9 @@ export class SolarisDatePickerComponent
     const valid = parseSolarisDate(value);
     const normalized = valid ? value : null;
     this.value.set(normalized);
-    this.displayValue.set(formatSolarisDate(normalized, this.resolvedLocale()));
+    this.displayValue.set(
+      formatSolarisDate(normalized, this.resolvedLocale(), this.dateFormat()),
+    );
     this.parseError.set(false);
     const month = normalized ? monthForSolarisDate(normalized) : null;
     if (month) this.displayedMonth.set(month);
@@ -244,7 +301,9 @@ export class SolarisDatePickerComponent
   }
 
   protected onInput(event: Event): void {
-    const text = (event.target as HTMLInputElement).value;
+    const input = event.target as HTMLInputElement;
+    const raw = input.value;
+    const text = this.applyDateMask(input, raw);
     this.displayValue.set(text);
     const parsed = parseLocalizedSolarisDate(text, this.resolvedLocale());
 
@@ -261,7 +320,8 @@ export class SolarisDatePickerComponent
 
     this.parseError.set(false);
     this.commitValue(parsed);
-    this.displayedMonth.set(monthForSolarisDate(parsed)!);
+    const month = monthForSolarisDate(parsed);
+    if (month) this.displayedMonth.set(month);
   }
 
   protected onInputFocus(): void {
@@ -273,7 +333,11 @@ export class SolarisDatePickerComponent
     this.markTouched();
     if (!this.parseError()) {
       this.displayValue.set(
-        formatSolarisDate(this.value(), this.resolvedLocale()),
+        formatSolarisDate(
+          this.value(),
+          this.resolvedLocale(),
+          this.dateFormat(),
+        ),
       );
     }
   }
@@ -282,6 +346,21 @@ export class SolarisDatePickerComponent
     if (event.altKey && event.key === 'ArrowDown') {
       event.preventDefault();
       this.popoverTrigger()?.open();
+      return;
+    }
+    if (event.key === 'Escape') {
+      const pristine = formatSolarisDate(
+        this.value(),
+        this.resolvedLocale(),
+        this.dateFormat(),
+      );
+      if (this.displayValue() !== pristine) {
+        event.preventDefault();
+        this.displayValue.set(pristine);
+        this.parseError.set(false);
+      } else {
+        this.popoverTrigger()?.close();
+      }
     }
   }
 
@@ -298,13 +377,41 @@ export class SolarisDatePickerComponent
 
   protected selectDate(value: SolarisDateValue): void {
     this.commitValue(value);
-    this.displayValue.set(formatSolarisDate(value, this.resolvedLocale()));
+    this.displayValue.set(
+      formatSolarisDate(value, this.resolvedLocale(), this.dateFormat()),
+    );
     this.parseError.set(false);
     this.popoverTrigger()?.close();
   }
 
+  protected clearValue(): void {
+    this.commitValue(null);
+    this.displayValue.set('');
+    this.parseError.set(false);
+    this.cleared.emit();
+    this.markTouched();
+  }
+
   protected setDisplayedMonth(month: SolarisCalendarMonth): void {
     this.displayedMonth.set(month);
+  }
+
+  private applyDateMask(input: HTMLInputElement, raw: string): string {
+    if (!raw || !/\d/.test(raw) || /[A-Za-z]/.test(raw)) return raw;
+    const masked = maskLocalizedSolarisDateInput(raw, this.resolvedLocale());
+    if (masked === raw) return raw;
+    const caret = input.selectionStart ?? raw.length;
+    const digitsBeforeCaret = raw.slice(0, caret).replace(/\D/g, '').length;
+    // SECURITY_EXCEPTION: syncing the native input value keeps the caret usable while typing; no declarative alternative.
+    input.value = masked;
+    let position = 0;
+    let seen = 0;
+    while (position < masked.length && seen < digitsBeforeCaret) {
+      if (/\d/.test(masked[position])) seen += 1;
+      position += 1;
+    }
+    input.setSelectionRange(position, position);
+    return masked;
   }
 
   private commitValue(value: SolarisDateValue | null): void {
@@ -315,9 +422,14 @@ export class SolarisDatePickerComponent
   }
 
   private isSelectable(value: SolarisDateValue): boolean {
+    const today = todaySolarisDate();
+    const min = this.min();
+    const max = this.max();
     return (
-      (!this.min() || value >= this.min()!) &&
-      (!this.max() || value <= this.max()!) &&
+      (!min || value >= min) &&
+      (!max || value <= max) &&
+      (!this.disablePast() || compareSolarisDates(value, today) >= 0) &&
+      (!this.disableFuture() || compareSolarisDates(value, today) <= 0) &&
       !this.disabledDates().includes(value)
     );
   }

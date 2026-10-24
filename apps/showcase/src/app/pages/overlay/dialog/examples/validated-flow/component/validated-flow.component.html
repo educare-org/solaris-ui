@@ -1,0 +1,55 @@
+<solaris-dialog-flow [(activeIndex)]="activeStep" transition="slide">
+  <solaris-dialog-step>
+    <div>
+      <h3>{{ 'dialog.examples.validated.step1-title' | translate }}</h3>
+      <p>{{ 'dialog.examples.validated.step1-desc' | translate }}</p>
+      <label>
+        {{ 'dialog.examples.validated.name-label' | translate }}
+        <input
+          type="text"
+          [value]="name()"
+          (input)="name.set($any($event.target).value)"
+          [attr.aria-label]="'dialog.examples.validated.name-label' | translate"
+        />
+      </label>
+      @if (!isNameValid()) {
+        <p>{{ 'dialog.examples.validated.name-required' | translate }}</p>
+      }
+    </div>
+  </solaris-dialog-step>
+
+  <solaris-dialog-step [disabled]="!isNameValid()">
+    <div>
+      <h3>{{ 'dialog.examples.validated.step2-title' | translate }}</h3>
+      <p>{{ 'dialog.examples.validated.step2-desc' | translate }}</p>
+      <p>
+        <strong>{{ name() }}</strong>
+      </p>
+    </div>
+  </solaris-dialog-step>
+
+  <div solaris-dialog-flow-footer>
+    @if (activeStep() > 0) {
+      <button
+        type="button"
+        solaris-button
+        appearance="ghost"
+        (click)="previous()"
+      >
+        {{ 'dialog.common.previous' | translate }}
+      </button>
+    }
+
+    @if (activeStep() === 0) {
+      <button type="button" solaris-button color="primary" (click)="next()">
+        {{ 'dialog.common.next' | translate }}
+      </button>
+    }
+
+    @if (activeStep() === 1) {
+      <button type="button" solaris-button color="primary" (click)="finish()">
+        {{ 'dialog.common.finish' | translate }}
+      </button>
+    }
+  </div>
+</solaris-dialog-flow>

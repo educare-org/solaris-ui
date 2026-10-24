@@ -42,22 +42,25 @@ Select controls choice. Option represents a choice.
 
 ### Inputs
 
-| Input                    | Type                                     | Default        | Description                                                 |
-| ------------------------ | ---------------------------------------- | -------------- | ----------------------------------------------------------- |
-| `value`                  | `unknown`                                | —              | The value this option represents                            |
-| `label`                  | `string`                                 | —              | Direct label text                                           |
-| `labelKey`               | `string`                                 | —              | i18n key for label                                          |
-| `description`            | `string`                                 | —              | Direct description text                                     |
-| `descriptionKey`         | `string`                                 | —              | i18n key for description                                    |
-| `disabled`               | `boolean`                                | `false`        | Disables the option                                         |
-| `selected`               | `boolean`                                | `false`        | Marks the option as selected                                |
-| `active`                 | `boolean`                                | `false`        | Highlights the option as active (e.g., keyboard navigation) |
-| `highlighted`            | `boolean`                                | `false`        | Contextual highlight (e.g., search match)                   |
-| `selectionMode`          | `'none' \| 'single' \| 'multiple'`       | `'none'`       | Visual selection mode                                       |
-| `showSelectionIndicator` | `boolean`                                | `false`        | Shows visual selection indicator                            |
-| `size`                   | `'sm' \| 'md' \| 'lg'`                   | `'md'`         | Size variant                                                |
-| `density`                | `'compact' \| 'normal' \| 'comfortable'` | inherited      | Density variant                                             |
-| `id`                     | `string`                                 | auto-generated | Element ID                                                  |
+| Input                    | Type                               | Default        | Description                                                 |
+| ------------------------ | ---------------------------------- | -------------- | ----------------------------------------------------------- |
+| `value`                  | `unknown`                          | —              | The value this option represents                            |
+| `label`                  | `string`                           | —              | Direct label text                                           |
+| `labelKey`               | `string`                           | —              | i18n key for label                                          |
+| `description`            | `string`                           | —              | Direct description text                                     |
+| `descriptionKey`         | `string`                           | —              | i18n key for description                                    |
+| `disabled`               | `boolean`                          | `false`        | Disables the option                                         |
+| `selected`               | `boolean`                          | `false`        | Marks the option as selected                                |
+| `active`                 | `boolean`                          | `false`        | Highlights the option as active (e.g., keyboard navigation) |
+| `highlighted`            | `boolean`                          | `false`        | Contextual highlight (e.g., search match)                   |
+| `selectionMode`          | `'none' \| 'single' \| 'multiple'` | `'none'`       | Visual selection mode                                       |
+| `showSelectionIndicator` | `boolean`                          | `false`        | Shows visual selection indicator                            |
+| `id`                     | `string`                           | auto-generated | Element ID                                                  |
+
+`size`/`density` are **not** inputs: `solaris-option` inherits both from the
+closest parent (`solaris-select`, `solaris-multi-select` or
+`solaris-option-group`) via `SOLARIS_OPTION_PARENT`. Standalone options fall
+back to `md` and the theme density.
 
 ### Outputs
 
@@ -139,35 +142,49 @@ Disabled options have reduced opacity and `aria-disabled="true"`. They are not i
 
 ## Size and Density
 
-- `size`: `sm` (2rem min-height), `md` (2.5rem), `lg` (3rem)
-- `density`: `compact` (tight), `normal` (default), `comfortable` (spacious)
+`size` (`sm` | `md` | `lg`, default `'md'`) and `density`
+(`compact` | `normal` | `comfortable`, default: theme density) are inherited
+from the closest parent selector via `SOLARIS_OPTION_PARENT` — the option host
+exposes them as `data-size` and `data-density` (effective values, never the raw
+input). An explicit `size`/`density` on `solaris-option-group` wins for its own
+options; a group without them forwards the outer `solaris-select` /
+`solaris-multi-select` values, so rows always match their trigger.
 
-Parent components can control these for all child options.
+The stylesheet carries the 9 explicit `[data-size][data-density]` combinations:
+`gap`, `padding-x/y`, `min-height`, label / description / meta type scale
+(`sm → sm`, `md → md`, `lg → lg`) and the selection indicator
+(box, checkmark and border-width on the checkbox scale). Option is a standalone
+list item: it carries **no** `--solaris-control-height-*` token, rows size to
+their content (`min-height: auto` on `compact`/`normal`, enforced minima only on
+`comfortable`).
 
 ## CSS Variables
 
 Option tokens can be customized on the host or a parent element:
 
-| Token                                    | Purpose                                    |
-| ---------------------------------------- | ------------------------------------------ |
-| `--solaris-option-min-height`            | Minimum row height                         |
-| `--solaris-option-background`            | Background color                           |
-| `--solaris-option-gap`                   | Gap between leading, content, and trailing |
-| `--solaris-option-radius`                | Border radius                              |
-| `--solaris-option-padding-y`             | Vertical padding                           |
-| `--solaris-option-padding-x`             | Horizontal padding                         |
-| `--solaris-option-label-color`           | Label text color                           |
-| `--solaris-option-description-color`     | Description text color                     |
-| `--solaris-option-description-font-size` | Description font size                      |
-| `--solaris-option-meta-color`            | Meta text color                            |
-| `--solaris-option-meta-font-size`        | Meta font size                             |
-| `--solaris-option-indicator-size`        | Selection indicator size                   |
-| `--solaris-option-indicator-color`       | Selection indicator border/background      |
-| `--solaris-option-selected-color`        | Selected text color                        |
-| `--solaris-option-selected-background`   | Selected background color                  |
-| `--solaris-option-hover-background`      | Hover background color                     |
-| `--solaris-option-active-background`     | Active background color (mouse/keyboard)   |
-| `--solaris-option-disabled-opacity`      | Disabled opacity                           |
+| Token                                     | Purpose                                    |
+| ----------------------------------------- | ------------------------------------------ |
+| `--solaris-option-min-height`             | Minimum row height                         |
+| `--solaris-option-background`             | Background color                           |
+| `--solaris-option-gap`                    | Gap between leading, content, and trailing |
+| `--solaris-option-radius`                 | Border radius                              |
+| `--solaris-option-padding-y`              | Vertical padding                           |
+| `--solaris-option-padding-x`              | Horizontal padding                         |
+| `--solaris-option-label-color`            | Label text color                           |
+| `--solaris-option-description-color`      | Description text color                     |
+| `--solaris-option-description-font-size`  | Description font size                      |
+| `--solaris-option-meta-color`             | Meta text color                            |
+| `--solaris-option-meta-font-size`         | Meta font size                             |
+| `--solaris-option-indicator-size`         | Selection indicator size                   |
+| `--solaris-option-indicator-icon-size`    | Selection indicator checkmark size         |
+| `--solaris-option-indicator-border-width` | Selection indicator border width           |
+| `--solaris-option-indicator-radius`       | Selection indicator radius                 |
+| `--solaris-option-indicator-color`        | Selection indicator border/background      |
+| `--solaris-option-selected-color`         | Selected text color                        |
+| `--solaris-option-selected-background`    | Selected background color                  |
+| `--solaris-option-hover-background`       | Hover background color                     |
+| `--solaris-option-active-background`      | Active background color (mouse/keyboard)   |
+| `--solaris-option-disabled-opacity`       | Disabled opacity                           |
 
 ## Accessibility
 
@@ -191,6 +208,13 @@ Option tokens can be customized on the host or a parent element:
 - **No** keyboard navigation implemented in Option v1 (parent responsibility)
 - **No** `appearance` input in v1
 - **No** `radius` input in v1
+- **No** `loading` input in v1 (options render immediately; async state belongs to the parent selector)
+
+## Follow-up (docs only, no implementation)
+
+Textarea `autoGrow`/`maxRows` remains a follow-up and is unrelated to
+Option: options never host free-text editing, so growing text behavior does
+not apply here.
 
 ## Examples
 

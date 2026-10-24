@@ -80,19 +80,30 @@ The contract provides:
 
 Controls padding, font-size, line-height, and min-height.
 
+Inside `solaris-form-field`, height is delegated to the wrapper
+(`height: auto`, `min-height: 0`, only density padding applies) and the
+`form-field[data-control-type='textarea']` wrapper owns the minimum
+height. Keep `size` in sync on both so font and padding match.
+
 ### Density
 
 - `compact`: reduced padding and line-height
-- `comfortable` (fallback default): more breathing space
+- `normal`: balanced spacing (theme default)
+- `comfortable`: more breathing space
+
+When omitted, density is inherited from the theme.
 
 ### Radius
 
-- `none`
-- `sm`
-- `md` (default)
-- `lg`
+- `none` (sharp corners)
+- `sm` (2px)
+- `md` (4px, default)
+- `lg` (8px)
+- `xl` (pill)
 
-`xl` and `full` are excluded in v1 for textual fields.
+Radius follows the global scale: `md` maps to the 4px token, `lg` to the
+8px token, and `xl` renders as a pill, so `sm` and `md` stay visually
+distinct.
 
 ### Resize
 
@@ -232,7 +243,7 @@ Textarea preserves native behavior. Autocomplete, spellcheck, text selection, co
 
 - Not a Rich Text Editor (RTE is a future component).
 - Not a Markdown Editor.
-- No autogrow/autosize (planned for v2 or as a separate extension directive).
+- No autogrow/autosize in v1 (follow-up: `autoGrow` + `maxRows`, planned for v2 or as a separate extension directive).
 - No custom `ControlValueAccessor` (native integration is sufficient).
 - No minRows/maxRows (native `rows` attribute is used).
 - Placeholder does not replace label.

@@ -1,0 +1,235 @@
+<div class="solaris-line-chart__frame" (mouseleave)="onDotsLeave()">
+  <svg
+    class="solaris-line-chart__svg"
+    [attr.viewBox]="`0 0 ${viewWidth} ${viewHeight}`"
+    preserveAspectRatio="xMidYMid meet"
+    role="img"
+    [attr.aria-label]="summary()"
+  >
+    <defs>
+      @if (area()) {
+        @for (row of dotRows(); track row.geometry.id) {
+          <linearGradient
+            [attr.id]="gradientId(row.geometry.id)"
+            x1="0"
+            y1="0"
+            x2="0"
+            y2="1"
+          >
+            <stop
+              offset="0%"
+              [style.stop-color]="
+                'color-mix(in srgb, ' +
+                row.geometry.colorVar +
+                ' 32%, transparent)'
+              "
+              stop-opacity="1"
+            />
+            <stop
+              offset="100%"
+              [style.stop-color]="
+                'color-mix(in srgb, ' +
+                row.geometry.colorVar +
+                ' 0%, transparent)'
+              "
+              stop-opacity="1"
+            />
+          </linearGradient>
+        }
+      }
+    </defs>
+
+    @for (tick of frame().yTicks; track tick.value) {
+      <line
+        class="solaris-line-chart__grid"
+        [attr.x1]="frame().plot.left"
+        [attr.x2]="frame().plot.left + frame().plot.width"
+        [attr.y1]="tick.y"
+        [attr.y2]="tick.y"
+      />
+      <text
+        class="solaris-line-chart__tick"
+        [attr.x]="frame().plot.left - 8"
+        [attr.y]="tick.y + 4"
+        text-anchor="end"
+      >
+        {{ resolvedYFormat()(tick.value) }}
+      </text>
+    }
+
+    @for (view of referenceViews(); track $index) {
+      <line
+        class="solaris-line-chart__reference"
+        [style.stroke]="view.color"
+        [attr.x1]="frame().plot.left"
+        [attr.x2]="frame().plot.left + frame().plot.width"
+        [attr.y1]="view.y"
+        [attr.y2]="view.y"
+      />
+      @if (view.reference.label !== undefined) {
+        <text
+          class="solaris-line-chart__reference-label"
+          [style.fill]="view.color"
+          [attr.x]="frame().plot.left + frame().plot.width - 2"
+          [attr.y]="view.labelY"
+          text-anchor="end"
+        >
+          {{ view.reference.label }}
+        </text>
+      }
+    }
+
+    <g class="solaris-line-chart__series-group">
+      @for (row of dotRows(); track row.geometry.id) {
+        @if (area() && row.geometry.areaPath !== '') {
+          <path
+            class="solaris-line-chart__area"
+            [attr.data-series]="row.geometry.id"
+            [attr.d]="row.geometry.areaPath"
+            [attr.fill]="'url(#' + gradientId(row.geometry.id) + ')'"
+            [style.opacity]="markersOpacity()"
+          />
+        }
+        <path
+          class="solaris-line-chart__line"
+          [attr.data-series]="row.geometry.id"
+          [style.stroke]="row.geometry.colorVar"
+          [attr.d]="row.geometry.linePath"
+          fill="none"
+        />
+      }
+    </g>
+
+    @for (label of resolvedXLabels(); track $index; let last = $last) {
+      @if ($index % labelEvery() === 0 || last) {
+        <text
+          class="solaris-line-chart__tick"
+          [attr.x]="frame().xPositions[$index]"
+          [attr.y]="viewHeight - 8"
+          text-anchor="middle"
+        >
+          {{ label }}
+        </text>
+      }
+    }
+
+    @if (selectionGuide(); as guide) {
+      <rect
+        class="solaris-line-chart__selection-guide"
+        [attr.x]="guide.x"
+        [attr.y]="guide.y"
+        [attr.width]="guide.width"
+        [attr.height]="guide.height"
+      />
+    }
+
+    @if (showDots()) {
+      @for (row of dotRows(); track row.geometry.id) {
+        <g
+          class="solaris-line-chart__dots-row"
+          [attr.data-series]="row.geometry.id"
+          [style.opacity]="markersOpacity()"
+        >
+          @for (dot of row.dots; track dot.index) {
+            <circle
+              class="solaris-line-chart__dot"
+              [style.stroke]="row.geometry.colorVar"
+              [style.fill]="
+                isDotActive(dot)
+                  ? row.geometry.colorVar
+                  : 'var(--solaris-neutral-default)'
+              "
+              [attr.cx]="dot.cx"
+              [attr.cy]="dot.cy"
+              r="4"
+              [attr.data-dot]="dot.seriesId + ':' + dot.position"
+              [attr.data-active]="isDotActive(dot) ? '' : null"
+              [attr.tabindex]="dotTabIndex(dot.seriesId, dot.position)"
+              [attr.aria-label]="
+                dotAriaLabel(row.geometry.label, dot.index, dot.value)
+              "
+              (focus)="onDotFocus(dot)"
+              (blur)="onDotsLeave()"
+              (mouseenter)="onDotFocus(dot)"
+              (keydown)="onDotKeydown($event, dot, row.dots)"
+              (click)="onDotActivate(dot)"
+            />
+          }
+        </g>
+      }
+    }
+
+    <g class="solaris-line-chart__pen-layer"></g>
+  </svg>
+
+  @if (tooltip(); as tip) {
+    <div
+      class="solaris-line-chart__tooltip"
+      aria-hidden="true"
+      [style.left.%]="tip.leftPercent"
+    >
+      <div class="solaris-line-chart__tooltip-card">
+        <div class="solaris-line-chart__tooltip-header">
+          <span class="solaris-line-chart__tooltip-heading">{{
+            tip.heading
+          }}</span>
+          @if (tip.subheading !== null) {
+            <span class="solaris-line-chart__tooltip-subheading">{{
+              tip.subheading
+            }}</span>
+          }
+        </div>
+        @for (row of tip.rows; track row.seriesId) {
+          <span class="solaris-line-chart__tooltip-row">
+            <span
+              class="solaris-line-chart__tooltip-dot"
+              [style.background-color]="row.colorVar"
+            ></span>
+            <span class="solaris-line-chart__tooltip-label"
+              >{{ row.label }}:</span
+            >
+            <span class="solaris-line-chart__tooltip-value">
+              {{ row.formattedValue }}
+            </span>
+          </span>
+        }
+        @if (tip.total !== null && tip.rows.length > 1) {
+          <span class="solaris-line-chart__tooltip-total">
+            <span class="solaris-line-chart__tooltip-total-label"
+              >{{ tip.totalLabel }}:</span
+            >
+            <span>{{ tip.total }}</span>
+          </span>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="solaris-line-chart__data">
+    <table>
+      <caption>
+        {{
+          summary()
+        }}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          @for (entry of visibleSeries(); track entry.id) {
+            <th scope="col">{{ entry.label }}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (label of resolvedXLabels(); track $index; let rowIndex = $index) {
+          <tr>
+            <th scope="row">{{ label }}</th>
+            @for (entry of visibleSeries(); track entry.id) {
+              <td>{{ entry.points[rowIndex]?.y ?? '' }}</td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

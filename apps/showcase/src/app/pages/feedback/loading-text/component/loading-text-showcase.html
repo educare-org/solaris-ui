@@ -1,118 +1,253 @@
-<div class="loading-text-showcase">
-  <header class="loading-text-showcase__header">
-    <h1 class="loading-text-showcase__title">
-      {{ 'loading-text.title' | translate }}
-    </h1>
-    <p class="loading-text-showcase__description">
-      {{ 'loading-text.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="loading-text.title"
+    descriptionKey="loading-text.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="loading-text-showcase__section">
-    <h2 class="loading-text-showcase__section-title">
-      {{ 'loading-text.basic' | translate }}
-    </h2>
-    <div class="loading-text-showcase__stack">
-      <solaris-loading-text></solaris-loading-text>
-      <solaris-loading-text
-        text="Uploading your document..."
-      ></solaris-loading-text>
-    </div>
-  </section>
-
-  <section class="loading-text-showcase__section">
-    <h2 class="loading-text-showcase__section-title">
-      {{ 'loading-text.sizes' | translate }}
-    </h2>
-    <div class="loading-text-showcase__stack">
-      <div class="loading-text-showcase__row">
-        <span class="loading-text-showcase__label">sm</span>
-        <solaris-loading-text text="Loading" size="sm"></solaris-loading-text>
-      </div>
-      <div class="loading-text-showcase__row">
-        <span class="loading-text-showcase__label">md</span>
-        <solaris-loading-text text="Loading" size="md"></solaris-loading-text>
-      </div>
-      <div class="loading-text-showcase__row">
-        <span class="loading-text-showcase__label">lg</span>
-        <solaris-loading-text text="Loading" size="lg"></solaris-loading-text>
-      </div>
-      <div class="loading-text-showcase__row">
-        <span class="loading-text-showcase__label">xl</span>
-        <solaris-loading-text text="Loading" size="xl"></solaris-loading-text>
-      </div>
-    </div>
-  </section>
-
-  <section class="loading-text-showcase__section">
-    <h2 class="loading-text-showcase__section-title">
-      {{ 'loading-text.colors' | translate }}
-    </h2>
-    <div class="loading-text-showcase__stack">
-      <solaris-loading-text
-        text="Neutral"
-        color="neutral"
-      ></solaris-loading-text>
-      <solaris-loading-text
-        text="Primary"
-        color="primary"
-      ></solaris-loading-text>
-      <solaris-loading-text
-        text="Success"
-        color="success"
-      ></solaris-loading-text>
-      <solaris-loading-text
-        text="Warning"
-        color="warning"
-      ></solaris-loading-text>
-      <solaris-loading-text text="Danger" color="danger"></solaris-loading-text>
-      <solaris-loading-text text="Info" color="info"></solaris-loading-text>
-      <solaris-loading-text
-        text="Custom"
-        color="custom"
-        class="loading-text-showcase__custom"
-      ></solaris-loading-text>
-    </div>
-  </section>
-
-  <section class="loading-text-showcase__section">
-    <h2 class="loading-text-showcase__section-title">
-      {{ 'loading-text.speeds' | translate }}
-    </h2>
-    <div class="loading-text-showcase__row">
-      <div class="loading-text-showcase__item">
-        <span class="loading-text-showcase__label">Slow</span>
-        <solaris-loading-text
-          text="Loading"
-          speed="slow"
-        ></solaris-loading-text>
-      </div>
-      <div class="loading-text-showcase__item">
-        <span class="loading-text-showcase__label">Normal</span>
-        <solaris-loading-text
-          text="Loading"
-          speed="normal"
-        ></solaris-loading-text>
-      </div>
-      <div class="loading-text-showcase__item">
-        <span class="loading-text-showcase__label">Fast</span>
-        <solaris-loading-text
-          text="Loading"
-          speed="fast"
-        ></solaris-loading-text>
-      </div>
-    </div>
-  </section>
-
-  <section class="loading-text-showcase__section">
-    <h2 class="loading-text-showcase__section-title">
-      {{ 'loading-text.reduced-motion' | translate }}
-    </h2>
+  <app-docs-section anchor="examples" titleKey="loading-text.section.examples">
     <p class="loading-text-showcase__note">
-      {{ 'loading-text.reduced-motion-note' | translate }}
+      {{ 'loading-text.examples.note' | translate }}
     </p>
-    <div class="loading-text-showcase__stack">
-      <solaris-loading-text text="Static text"></solaris-loading-text>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <div class="loading-text-showcase__stack">
+        <solaris-loading-text />
+        <solaris-loading-text text="Preparing your workspace…" />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="size-density"
+    titleKey="loading-text.section.size-density"
+  >
+    <p class="loading-text-showcase__note">
+      {{ 'loading-text.size-density.note' | translate }}
+    </p>
+    <div class="loading-text-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'loading-text.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'loading-text.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'loading-text.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'loading-text.size.lg' | translate }}</solaris-tab
+        >
+        <solaris-tab value="xl"
+          >{{ 'loading-text.size.xl' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'loading-text.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'loading-text.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'loading-text.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'loading-text.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
     </div>
-  </section>
-</div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-loading-text
+        text="Loading"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="colors" titleKey="loading-text.section.colors">
+    <p class="loading-text-showcase__note">
+      {{ 'loading-text.colors-desc' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedColor"
+      [ariaLabel]="'loading-text.section.colors' | translate"
+    >
+      <solaris-tab value="neutral"
+        >{{ 'loading-text.color.neutral' | translate }}</solaris-tab
+      >
+      <solaris-tab value="primary"
+        >{{ 'loading-text.color.primary' | translate }}</solaris-tab
+      >
+      <solaris-tab value="success"
+        >{{ 'loading-text.color.success' | translate }}</solaris-tab
+      >
+      <solaris-tab value="warning"
+        >{{ 'loading-text.color.warning' | translate }}</solaris-tab
+      >
+      <solaris-tab value="danger"
+        >{{ 'loading-text.color.danger' | translate }}</solaris-tab
+      >
+      <solaris-tab value="info"
+        >{{ 'loading-text.color.info' | translate }}</solaris-tab
+      >
+      <solaris-tab value="custom"
+        >{{ 'loading-text.color.custom' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="neutral">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-loading-text text="Loading" [color]="selectedColor()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="primary">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-loading-text text="Loading" [color]="selectedColor()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="success">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-loading-text text="Loading" [color]="selectedColor()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="warning">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-loading-text text="Loading" [color]="selectedColor()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="danger">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-loading-text text="Loading" [color]="selectedColor()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="info">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-loading-text text="Loading" [color]="selectedColor()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="custom">
+        <solaris-preview-code [code]="colorCode()" language="html">
+          <solaris-loading-text
+            text="Loading"
+            [color]="selectedColor()"
+            class="loading-text-showcase__custom"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="dots" titleKey="loading-text.section.dots">
+    <p class="loading-text-showcase__note">
+      {{ 'loading-text.dots.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="dotsCode" language="html">
+      <solaris-loading-text text="Uploading" [dots]="true" />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="clamp" titleKey="loading-text.section.clamp">
+    <p class="loading-text-showcase__note">
+      {{ 'loading-text.clamp.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedClamp"
+      [ariaLabel]="'loading-text.section.clamp' | translate"
+    >
+      <solaris-tab value="off"
+        >{{ 'loading-text.clamp.off' | translate }}</solaris-tab
+      >
+      <solaris-tab value="2"
+        >{{ 'loading-text.clamp.two' | translate }}</solaris-tab
+      >
+      <solaris-tab value="3"
+        >{{ 'loading-text.clamp.three' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="off">
+        <solaris-preview-code [code]="clampCode()" language="html">
+          <solaris-loading-text
+            text="Preparing your workspace and syncing every document before you start working"
+            [maxLines]="clampValue()"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="2">
+        <solaris-preview-code [code]="clampCode()" language="html">
+          <solaris-loading-text
+            text="Preparing your workspace and syncing every document before you start working"
+            [maxLines]="clampValue()"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="3">
+        <solaris-preview-code [code]="clampCode()" language="html">
+          <solaris-loading-text
+            text="Preparing your workspace and syncing every document before you start working"
+            [maxLines]="clampValue()"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="speeds" titleKey="loading-text.section.speeds">
+    <p class="loading-text-showcase__note">
+      {{ 'loading-text.speeds.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedSpeed"
+      [ariaLabel]="'loading-text.section.speeds' | translate"
+    >
+      <solaris-tab value="slow"
+        >{{ 'loading-text.speed.slow' | translate }}</solaris-tab
+      >
+      <solaris-tab value="normal"
+        >{{ 'loading-text.speed.normal' | translate }}</solaris-tab
+      >
+      <solaris-tab value="fast"
+        >{{ 'loading-text.speed.fast' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="slow">
+        <solaris-preview-code [code]="speedCode()" language="html">
+          <solaris-loading-text text="Loading" [speed]="selectedSpeed()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="normal">
+        <solaris-preview-code [code]="speedCode()" language="html">
+          <solaris-loading-text text="Loading" [speed]="selectedSpeed()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="fast">
+        <solaris-preview-code [code]="speedCode()" language="html">
+          <solaris-loading-text text="Loading" [speed]="selectedSpeed()" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="loading-text.section.installation"
+  >
+    <p class="loading-text-showcase__note">
+      {{ 'loading-text.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="loading-text.section.props">
+    <p class="loading-text-showcase__note">
+      {{ 'loading-text.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

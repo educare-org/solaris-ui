@@ -89,6 +89,36 @@ describe('SolarisTabComponent', () => {
     expect(badge?.textContent?.trim()).toBe('5');
   });
 
+  it('should expose size md and color neutral by default', () => {
+    configureBase();
+    const fixture = TestBed.createComponent(TestHostComponent);
+    fixture.detectChanges();
+    const tabs = fixture.nativeElement.querySelectorAll('solaris-tab');
+    tabs.forEach((tab: HTMLElement) => {
+      expect(tab.getAttribute('data-size')).toBe('md');
+      expect(tab.getAttribute('data-color')).toBe('neutral');
+    });
+  });
+
+  it('should reflect group size and color on tabs', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisTabsComponent, SolarisTabComponent],
+      template: `
+        <solaris-tabs size="lg" color="neutral">
+          <solaris-tab value="a" label="A" />
+        </solaris-tabs>
+      `,
+    })
+    class SizedColoredHost {}
+
+    configureBase();
+    const fixture = TestBed.createComponent(SizedColoredHost);
+    fixture.detectChanges();
+    const tab = fixture.nativeElement.querySelector('solaris-tab');
+    expect(tab.getAttribute('data-size')).toBe('lg');
+    expect(tab.getAttribute('data-color')).toBe('neutral');
+  });
   it('should have role="tab"', () => {
     configureBase();
     const fixture = TestBed.createComponent(TestHostComponent);

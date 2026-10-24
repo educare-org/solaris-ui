@@ -1,0 +1,83 @@
+{
+  "collapsible": {
+    "add-item": {
+      "action": "Add section",
+      "added": "Added sections",
+      "note": "The add button opens a creation dialog (icon first, then required title and description). The icon select lists the full built-in catalog with a preview, unless iconOptions overrides it. Confirming emits the payload — the host below appends it as a new section."
+    },
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "appearance": {
+      "boxed": "Boxed",
+      "lined": "Lined",
+      "note": "Boxed renders a bordered card; lined renders a flat row with a divider under the trigger; plain has no borders.",
+      "plain": "Plain"
+    },
+    "basic": "Basic",
+    "basic-content": "Manage your personal information, notification preferences, and security settings here.",
+    "basic-details": "Account settings",
+    "basic-note": "The trigger toggles the panel. Focus the trigger and press Enter or Space to toggle via keyboard.",
+    "controlled": "Controlled open state",
+    "controlled-content": "This panel is controlled by the host component.",
+    "controlled-label": "Controlled collapsible",
+    "controlled-note": "The open state is owned by the host. Use [(open)] for two-way binding.",
+    "controlled-state": "open",
+    "controlled-state-closed": "closed",
+    "controlled-toggle": "Toggle from outside",
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Disclosure primitive that toggles the visibility of a content region with an accessible trigger.",
+    "disabled": "Disabled",
+    "disabled-content": "This content can never be expanded while disabled.",
+    "disabled-label": "Disabled collapsible",
+    "disabled-note": "A disabled collapsible cannot be toggled and removes the trigger from the tab order.",
+    "examples": {
+      "note": "Start with the default collapsible, then explore appearances and sizes below."
+    },
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "leading-icon": {
+      "note": "Optional icon glued to the label, rendered before the expand chevron."
+    },
+    "open-on-init": "Open on init",
+    "open-on-init-content": "This collapsible starts open and can be collapsed.",
+    "open-on-init-label": "Expanded by default",
+    "open-on-init-note": "Pass [open]=\"true\" to render the panel expanded.",
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "add-item": "Add item",
+      "appearance": "Appearance",
+      "controlled": "Controlled open state",
+      "examples": "Examples",
+      "installation": "Installation",
+      "leading-icon": "Leading icon",
+      "props": "Props",
+      "size-density": "Size & density",
+      "states": "States"
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density work together in the component. Combine both controls to see every combination."
+    },
+    "size-lg": "Large",
+    "size-lg-content": "Large collapsible body.",
+    "size-md": "Medium",
+    "size-md-content": "Medium collapsible body.",
+    "size-sm": "Small",
+    "size-sm-content": "Small collapsible body.",
+    "sizes": "Sizes",
+    "sizes-note": "The size input reserves density. All variants share the same ARIA pattern.",
+    "title": "Collapsible"
+  }
+}

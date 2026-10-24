@@ -1,9 +1,7 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() is the standard DOM API to focus an element. No alternative exists.
-// SECURITY_EXCEPTION_FILE: nativeElement.indeterminate is the standard DOM property to set indeterminate on a native checkbox. No HTML attribute alternative exists.
-// SECURITY_EXCEPTION_FILE: nativeElement.childNodes is the standard DOM API to check for projected content in the host element. Same pattern used by Angular CDK content projection detection.
 import {
   Component,
   input,
+  booleanAttribute,
   output,
   computed,
   signal,
@@ -20,6 +18,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
+import { SOLARIS_CHECKBOX_GROUP } from '../../checkbox-group/model/checkbox-group.token';
 import { resolveElementId } from '../../../../core';
 
 import type {
@@ -50,7 +49,7 @@ import type {
   host: {
     '[attr.data-appearance]': 'appearance()',
     '[attr.data-color]': 'color()',
-    '[attr.data-size]': 'size()',
+    '[attr.data-size]': 'effectiveSize()',
     '[attr.data-radius]': 'radius()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-checked]': '_checked() ? "" : null',
@@ -85,33 +84,37 @@ export class SolarisCheckboxComponent
   protected readonly hasProjectedContent = signal(false);
   private contentChecked = false;
 
-  readonly checked = input<boolean, boolean>(false, {
-    transform: (v: boolean) => v ?? false,
+  readonly checked = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
   });
-  readonly indeterminate = input<boolean, boolean>(false, {
-    transform: (v: boolean) => v ?? false,
+  readonly indeterminate = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
   });
-  readonly disabledInput = input<boolean, boolean>(false, {
+  readonly disabledInput = input<boolean, unknown>(false, {
     alias: 'disabled',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly readonlyInput = input<boolean, boolean>(false, {
+  readonly readonlyInput = input<boolean, unknown>(false, {
     alias: 'readonly',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly requiredInput = input<boolean, boolean>(false, {
+  readonly requiredInput = input<boolean, unknown>(false, {
     alias: 'required',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
   readonly invalidInput = input<boolean | undefined>(undefined, {
     alias: 'invalid',
   });
   readonly appearance = input<SolarisCheckboxAppearance>('outline');
-  readonly color = input<SolarisCheckboxColor>('primary');
-  readonly size = input<SolarisCheckboxSize>('md');
+  readonly color = input<SolarisCheckboxColor>('neutral');
+  readonly size = input<SolarisCheckboxSize | undefined>(undefined);
   readonly density = input<SolarisCheckboxDensity>();
   readonly radius = input<SolarisCheckboxRadius>('sm');
   readonly checkboxLabel = input<string>(undefined, { alias: 'label' });
+  readonly checkboxDescription = input<string>(undefined, {
+    alias: 'description',
+  });
+  readonly descriptionKey = input<string>();
   readonly labelKey = input<string>();
   readonly name = input<string>();
   readonly value = input<unknown>();
@@ -124,9 +127,18 @@ export class SolarisCheckboxComponent
   readonly changeEvent = output<Event>();
 
   protected readonly themeService = inject(SolarisThemeService);
+  private readonly group = inject(SOLARIS_CHECKBOX_GROUP, { optional: true });
+
+  protected readonly effectiveSize = computed<SolarisCheckboxSize>(() => {
+    return this.size() ?? this.group?.size() ?? 'md';
+  });
 
   protected readonly effectiveDensity = computed<SolarisCheckboxDensity>(() => {
-    return this.density() ?? this.themeService.density;
+    return (
+      this.density() ??
+      this.group?.effectiveDensity() ??
+      this.themeService.density
+    );
   });
 
   protected readonly isEffectivelyDisabled = computed(() => {
@@ -146,7 +158,22 @@ export class SolarisCheckboxComponent
 
   protected readonly ariaDescribedBy = computed(() => {
     const ids = this._describedByIds();
-    return ids.length > 0 ? ids.join(' ') : null;
+    const ownIds = [...ids];
+    if (this.descriptionText()) ownIds.push(this.descriptionId());
+    return ownIds.length > 0 ? ownIds.join(' ') : null;
+  });
+
+  protected readonly descriptionId = computed(
+    () => `${this.elementId()}-description`,
+  );
+
+  protected readonly descriptionText = computed(() => {
+    const key = this.descriptionKey();
+    if (key) {
+      const translated = this.translateService.translate(key);
+      return translated !== key ? translated : undefined;
+    }
+    return this.checkboxDescription();
   });
 
   protected readonly labelText = computed(() => {
@@ -210,6 +237,7 @@ export class SolarisCheckboxComponent
   focus(): void {
     const input = this.inputElementRef();
     if (input) {
+      // SECURITY_EXCEPTION: programmatic focus requires the native method; no declarative alternative exists.
       input.nativeElement.focus();
     }
   }
@@ -217,6 +245,7 @@ export class SolarisCheckboxComponent
   private readonly syncIndeterminate = effect(() => {
     const el = this.inputElementRef();
     if (el) {
+      // SECURITY_EXCEPTION: indeterminate has no HTML attribute; the DOM property is the only API.
       el.nativeElement.indeterminate = this.indeterminate();
     }
   });
@@ -285,6 +314,7 @@ export class SolarisCheckboxComponent
         return;
       }
       this.contentChecked = true;
+      // SECURITY_EXCEPTION: detecting projected content requires reading host childNodes; same pattern as Angular CDK. Read-only.
       const nativeElement = this.elementRef.nativeElement;
       const hasContent = Array.from(nativeElement.childNodes).some(
         (node) => node.nodeType !== Node.COMMENT_NODE,

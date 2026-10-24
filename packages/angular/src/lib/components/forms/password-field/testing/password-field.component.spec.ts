@@ -360,6 +360,29 @@ describe('SolarisPasswordFieldComponent', () => {
       expect(hint.nativeElement.textContent).toContain('Use uma senha forte.');
     });
 
+    it('forwards described-by ids from the field to the inner input (control contract)', () => {
+      const fixture = TestBed.createComponent(HintHost);
+      fixture.detectChanges();
+      const hint = fixture.debugElement.query(
+        By.css('.solaris-form-field__hint'),
+      );
+      const input = fixture.debugElement.query(By.css('input[solaris-input]'));
+      expect(hint).toBeTruthy();
+      expect(input.nativeElement.getAttribute('aria-describedby')).toContain(
+        hint.nativeElement.id,
+      );
+    });
+
+    it('reflects fullWidth false by removing the presence attribute', () => {
+      const fixture = TestBed.createComponent(SolarisPasswordFieldComponent);
+      fixture.detectChanges();
+      const el = fixture.nativeElement as HTMLElement;
+      expect(el.hasAttribute('data-full-width')).toBe(true);
+      fixture.componentRef.setInput('fullWidth', false);
+      fixture.detectChanges();
+      expect(el.hasAttribute('data-full-width')).toBe(false);
+    });
+
     it('renders error when invalid state is visible', () => {
       const fixture = TestBed.createComponent(ErrorHost);
       fixture.detectChanges();
@@ -490,16 +513,14 @@ describe('SolarisPasswordFieldComponent', () => {
     it('applies required state', () => {
       const fixture = TestBed.createComponent(RequiredHost);
       fixture.detectChanges();
-      // FormField sets data-* attributes reflecting input state
       const formField = fixture.debugElement.query(
         By.css('solaris-form-field'),
       );
       expect(formField).toBeTruthy();
-      // Verify via component instance that required input was passed
       const passwordField = fixture.debugElement.query(
         By.directive(SolarisPasswordFieldComponent),
       );
-      expect(passwordField.componentInstance.required()).toBe(true);
+      expect(passwordField.componentInstance.requiredInput()).toBe(true);
     });
 
     it('applies optional state', () => {
@@ -599,6 +620,15 @@ describe('SolarisPasswordFieldComponent', () => {
         By.directive(SolarisPasswordFieldComponent),
       );
       expect(passwordField.componentInstance.radius()).toBe('lg');
+    });
+
+    it('has default radius md', () => {
+      const fixture = TestBed.createComponent(BasicHost);
+      fixture.detectChanges();
+      const passwordField = fixture.debugElement.query(
+        By.directive(SolarisPasswordFieldComponent),
+      );
+      expect(passwordField.componentInstance.radius()).toBe('md');
     });
 
     it('applies disabled to input and toggle', () => {
@@ -883,6 +913,75 @@ describe('SolarisPasswordFieldComponent', () => {
         By.css('button.solaris-password-field__toggle'),
       );
       expect(toggle.nativeElement.getAttribute('tabindex')).not.toBe('-1');
+    });
+  });
+
+  describe('form-field repasse (P4 Lote C)', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisPasswordFieldComponent, ReactiveFormsModule],
+      template: `<solaris-password-field
+        label="Password"
+        size="lg"
+        density="compact"
+      ></solaris-password-field>`,
+    })
+    class RepasseHost {}
+
+    @Component({
+      standalone: true,
+      imports: [SolarisPasswordFieldComponent, ReactiveFormsModule],
+      template: `<solaris-password-field
+        label="Password"
+        [loading]="true"
+      ></solaris-password-field>`,
+    })
+    class LoadingHost {}
+
+    function getInnerField(fixture: any): HTMLElement {
+      return fixture.nativeElement.querySelector(
+        'solaris-password-field solaris-form-field',
+      );
+    }
+
+    it('forwards size and effective density to the inner form field', () => {
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      const field = getInnerField(fixture);
+      expect(field.getAttribute('data-size')).toBe('lg');
+      expect(field.getAttribute('data-density')).toBe('compact');
+    });
+
+    it('forwards loading as overlay without layout shift', () => {
+      const fixture = TestBed.createComponent(LoadingHost);
+      fixture.detectChanges();
+      const field = getInnerField(fixture);
+      expect(field.hasAttribute('data-loading')).toBe(true);
+      expect(field.querySelector('.solaris-form-field__loading')).toBeTruthy();
+    });
+
+    it('keeps explicit size/density on the inner input (explicit wins)', () => {
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      const input = fixture.debugElement.query(By.css('input[solaris-input]'));
+      expect(input.nativeElement.getAttribute('data-size')).toBe('lg');
+      expect(input.nativeElement.getAttribute('data-density')).toBe('compact');
+    });
+
+    it('renders the visibility toggle as a suffix action', () => {
+      const fixture = TestBed.createComponent(RepasseHost);
+      fixture.detectChanges();
+      const field = getInnerField(fixture);
+      const toggle = field.querySelector(
+        '.solaris-password-field__toggle',
+      ) as HTMLElement;
+      expect(toggle).toBeTruthy();
+      expect(toggle.hasAttribute('solaris-form-suffix')).toBe(true);
+      expect(toggle.hasAttribute('solaris-form-suffix-action')).toBe(true);
+      const affix = field.querySelector(
+        '.solaris-form-field__affix--suffix',
+      ) as HTMLElement;
+      expect(affix.getAttribute('data-variant')).toBe('action');
     });
   });
 });

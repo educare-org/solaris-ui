@@ -1,0 +1,43 @@
+<solaris-dialog-header
+  closeable
+  [description]="data.subject"
+  [title]="'gradebook.breakdown.dialog.title' | translate"
+/>
+
+<solaris-dialog-content>
+  <dl class="grade-breakdown-dialog__list">
+    @for (part of data.parts; track part.labelKey) {
+      <div class="grade-breakdown-dialog__item">
+        <dt class="grade-breakdown-dialog__term">
+          {{ part.labelKey | translate }}
+          <span class="grade-breakdown-dialog__weight">{{ part.weight }}</span>
+        </dt>
+        <dd class="grade-breakdown-dialog__value">
+          {{ formatScore(part.value) }}
+        </dd>
+      </div>
+    }
+    <div
+      class="grade-breakdown-dialog__item grade-breakdown-dialog__item--result"
+    >
+      <dt class="grade-breakdown-dialog__term">
+        {{ 'gradebook.breakdown.dialog.result' | translate }}
+      </dt>
+      <dd class="grade-breakdown-dialog__value">
+        {{ formatScore(data.result) }}
+      </dd>
+    </div>
+  </dl>
+</solaris-dialog-content>
+
+<solaris-dialog-footer align="end">
+  <button
+    type="button"
+    solaris-button
+    density="compact"
+    appearance="ghost"
+    solaris-dialog-close
+  >
+    {{ 'gradebook.breakdown.dialog.close' | translate }}
+  </button>
+</solaris-dialog-footer>

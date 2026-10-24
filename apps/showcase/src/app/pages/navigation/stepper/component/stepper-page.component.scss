@@ -1,25 +1,19 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.stepper-showcase {
-  @include layout.page;
+.stepper-showcase__note {
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.stepper-showcase__header {
-  @include layout.header;
+.stepper-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
 }
 
-.stepper-showcase__title {
-  @include layout.title;
-}
-
-.stepper-showcase__description {
-  @include layout.description;
-}
-
-.stepper-showcase__section {
-  @include layout.section-card;
-}
-
-.stepper-showcase__section-title {
-  @include layout.section-title;
+.stepper-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
 }

@@ -1,0 +1,42 @@
+{
+  "pagination": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "basic": {
+      "note": "First, previous, next, and last controls with a Page X of Y range."
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal",
+      "note": "Density is inherited from the theme system unless overridden."
+    },
+    "description": "Standalone pagination with page-size selection and unknown-total support.",
+    "examples": {
+      "note": "Start with known-total paging, then explore page size and cursor mode."
+    },
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "page-size": {
+      "note": "Page sizes render through solaris-select. Changing size resets to the first page."
+    },
+    "props": {
+      "note": "Props table coming soon."
+    },
+    "section": {
+      "basic": "Basic",
+      "density": "Density",
+      "examples": "Examples",
+      "installation": "Installation",
+      "page-size": "Page size",
+      "props": "Props",
+      "unknown-total": "Unknown total"
+    },
+    "title": "Pagination",
+    "unknown-total": {
+      "note": "Without a total, the range is compact and next follows hasMore."
+    }
+  }
+}

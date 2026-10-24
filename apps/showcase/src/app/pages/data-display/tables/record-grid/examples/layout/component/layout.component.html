@@ -1,0 +1,10 @@
+<solaris-tabs [(value)]="layout" ariaLabel="Record grid layout">
+  <solaris-tab value="auto">Auto</solaris-tab>
+  <solaris-tab value="card">Card</solaris-tab>
+</solaris-tabs>
+<solaris-record-grid
+  [data]="rows"
+  [columns]="columns"
+  rowId="id"
+  [layout]="layout()"
+/>

@@ -3,7 +3,7 @@
 
   display: grid;
   gap: var(--solaris-date-calendar-gap);
-  width: calc((var(--solaris-spacing-24) * 2) + var(--solaris-spacing-16));
+  width: calc((var(--solaris-spacing-17) * 2) + var(--solaris-spacing-16));
 }
 
 .solaris-date-calendar__header,
@@ -30,7 +30,7 @@
   background: transparent;
   justify-content: center;
   gap: var(--solaris-spacing-2);
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
   font: var(--solaris-font-weight-semibold) var(--solaris-font-size-sm) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
 }
@@ -66,7 +66,7 @@
   justify-content: center;
   background: transparent;
   width: var(--solaris-spacing-10);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   height: var(--solaris-spacing-10);
   padding: 0 var(--solaris-spacing-2);
 
@@ -83,7 +83,7 @@
 .solaris-date-calendar__navigation:hover,
 .solaris-date-calendar__navigation:active {
   background: transparent;
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
 }
 
 .solaris-date-calendar__navigation:focus-visible {
@@ -93,7 +93,7 @@
 }
 
 .solaris-date-calendar__weekdays span {
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   text-align: center;
   font: var(--solaris-font-weight-medium) var(--solaris-font-size-xs) /
     var(--solaris-line-height-sm) var(--solaris-font-family-sans);
@@ -111,7 +111,7 @@
   justify-content: center;
   background: transparent;
   padding: var(--solaris-spacing-1);
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
   min-width: var(--solaris-spacing-6);
   min-height: var(--solaris-spacing-6);
   border-radius: var(--solaris-radius-md);
@@ -124,7 +124,7 @@
 }
 
 .solaris-date-calendar__day:hover:not(:disabled, [data-selected]) {
-  background: var(--solaris-surface-subtle);
+  background: var(--solaris-neutral-subtle);
 }
 
 .solaris-date-calendar__months {
@@ -142,7 +142,7 @@
   padding: 0 var(--solaris-spacing-2);
   border: 0;
   border-radius: var(--solaris-radius-md);
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
   background: transparent;
   cursor: pointer;
   font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
@@ -150,12 +150,12 @@
 }
 
 .solaris-date-calendar__month-option:hover:not([data-selected]) {
-  background: var(--solaris-surface-subtle);
+  background: var(--solaris-neutral-subtle);
 }
 
 .solaris-date-calendar__month-option[data-selected] {
-  color: var(--solaris-primary-text);
-  background: var(--solaris-primary-base);
+  color: var(--solaris-primary-foreground);
+  background: var(--solaris-primary-solid);
 }
 
 .solaris-date-calendar__day:focus-visible {
@@ -165,17 +165,17 @@
 }
 
 .solaris-date-calendar__day[data-outside-month] {
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   opacity: var(--solaris-opacity-70);
 }
 
 .solaris-date-calendar__day[data-in-range] {
-  background: var(--solaris-primary-surface);
+  background: var(--solaris-primary-soft);
 }
 
 .solaris-date-calendar__day[data-selected] {
-  color: var(--solaris-primary-text);
-  background: var(--solaris-primary-base);
+  color: var(--solaris-primary-foreground);
+  background: var(--solaris-primary-solid);
 }
 
 .solaris-date-calendar__day[data-today]:not([data-selected]) {
@@ -184,6 +184,6 @@
 
 .solaris-date-calendar__day:disabled {
   cursor: not-allowed;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   opacity: var(--solaris-opacity-50);
 }

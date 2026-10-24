@@ -1,0 +1,67 @@
+{
+  "record-grid": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "basic": {
+      "note": "Columnas de registro editables con un total calculado; pulsa Enter o haz doble clic en una celda para editar."
+    },
+    "col": {
+      "final": "Final",
+      "note": "Observación",
+      "present": "Presente",
+      "project": "Proyecto",
+      "shift": "Turno",
+      "student": "Estudiante",
+      "total": "Total"
+    },
+    "description": "Hoja de registro con secciones, celdas combinadas y edición controlada con confirmación interna.",
+    "editing": {
+      "note": "Los valores deben estar entre 0 y 10; cada confirmación queda registrada en el log debajo de la cuadrícula.",
+      "tab": {
+        "editable": "Editable",
+        "readonly": "Solo lectura"
+      },
+      "tabs": {
+        "label": "Modo de edición"
+      }
+    },
+    "examples": {
+      "note": "Empieza con la cuadrícula de registros predeterminada y luego explora las secciones, la combinación y la edición a continuación."
+    },
+    "formulas": {
+      "note": "Las columnas de total y final reaccionan a las ediciones; la final pondera el total al doble frente al proyecto."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris y luego importa el componente."
+    },
+    "layout": {
+      "note": "Auto ajusta las columnas al contenido. Tarjeta contrae las filas en campos consolidados."
+    },
+    "merging": {
+      "note": "La celda de turno abarca las filas de su sección y las notas completadas abarcan la columna de proyecto."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente."
+    },
+    "section": {
+      "basic": "Básico",
+      "editing": "Edición",
+      "examples": "Ejemplos",
+      "formulas": "Fórmulas",
+      "installation": "Instalación",
+      "layout": "Layout",
+      "merging": "Combinación",
+      "props": "Props",
+      "sections": "Secciones"
+    },
+    "sections": {
+      "note": "Los turnos de mañana y de noche se muestran como divisores de sección con promedios en el pie de cada grupo."
+    },
+    "shift": {
+      "evening": "Turno de noche",
+      "morning": "Turno de mañana"
+    },
+    "title": "Cuadrícula de registros"
+  }
+}

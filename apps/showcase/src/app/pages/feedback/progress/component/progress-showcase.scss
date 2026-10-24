@@ -1,60 +1,23 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.progress-showcase {
-  @include layout.page;
-}
-
-.progress-showcase__header {
-  @include layout.header;
-}
-
-.progress-showcase__title {
-  @include layout.title;
-}
-
-.progress-showcase__description {
-  @include layout.description;
-}
-
-.progress-showcase__section {
-  @include layout.section-card;
-}
-
-.progress-showcase__section-title {
-  @include layout.section-title;
-}
-
 .progress-showcase__note {
   @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
 }
 
 .progress-showcase__stack {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  inline-size: 100%;
   gap: var(--solaris-spacing-4);
-  max-width: 640px;
+}
+
+.progress-showcase__controls {
+  display: grid;
+  gap: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-4);
 }
 
 .progress-showcase__custom {
-  --solaris-progress-custom-color: var(--solaris-orange-base);
-}
-
-.progress-showcase__button {
-  cursor: pointer;
-  border: 1px solid var(--solaris-border-default);
-  border-radius: var(--solaris-radius-md);
-  background: var(--solaris-surface-subtle);
-  color: var(--solaris-text-default);
-  font-family: var(--solaris-font-family-sans);
-  font-size: var(--solaris-font-size-md);
-  padding: var(--solaris-spacing-2) var(--solaris-spacing-4);
-}
-
-.progress-showcase__button:hover:not(:disabled) {
-  background: var(--solaris-surface-muted);
-}
-
-.progress-showcase__button:disabled {
-  cursor: default;
-  opacity: var(--solaris-opacity-50);
+  --solaris-progress-custom-color: #4253a1;
 }

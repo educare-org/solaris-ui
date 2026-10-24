@@ -1,10 +1,10 @@
 :host {
   --solaris-phone-field-country-gap: var(--solaris-spacing-1);
   --solaris-phone-field-country-padding-inline: var(--solaris-spacing-2);
-  --solaris-phone-field-dial-code-color: var(--solaris-text-muted);
-  --solaris-phone-field-flag-size: var(--solaris-font-size-sm);
-  --solaris-phone-field-chevron-size: var(--solaris-font-size-xs);
-  --solaris-phone-field-country-font-size: var(--solaris-font-size-sm);
+  --solaris-phone-field-dial-code-color: var(--solaris-neutral-text-secondary);
+  --solaris-phone-field-flag-size: var(--solaris-font-size-xs);
+  --solaris-phone-field-chevron-size: var(--solaris-font-size-2xs);
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-xs);
 
   display: block;
   box-sizing: border-box;
@@ -18,18 +18,18 @@
   gap: var(--solaris-phone-field-country-gap);
   padding-inline: var(--solaris-phone-field-country-padding-inline);
   cursor: pointer;
-  color: var(--solaris-text-default);
+  color: var(--solaris-neutral-text-body);
   font-size: var(--solaris-phone-field-country-font-size);
   line-height: var(--solaris-line-height-md);
 
   &:focus-visible {
-    outline-offset: 2px;
-    outline: 2px solid var(--solaris-primary-base);
+    outline-offset: var(--solaris-focus-ring-offset);
+    outline: var(--solaris-focus-ring-width) solid var(--solaris-primary-solid);
   }
 
   &[disabled] {
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: var(--solaris-opacity-50);
   }
 }
 
@@ -51,7 +51,7 @@
 
 :host .solaris-phone-field__country .solaris-phone-field__chevron {
   flex-shrink: 0;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   block-size: var(--solaris-phone-field-chevron-size);
   inline-size: var(--solaris-phone-field-chevron-size);
   transition: transform var(--solaris-motion-duration-normal)
@@ -72,35 +72,132 @@
   margin-inline-end: var(--solaris-spacing-1);
 }
 
-:host([data-density='compact']) {
-  --solaris-phone-field-country-font-size: var(--solaris-density-font-size);
+:host([data-size='sm'][data-density='compact']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-xs);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-sm
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-2xs);
+  --solaris-phone-field-chevron-size: calc(
+    var(--solaris-spacing-5) + var(--solaris-border-width-md)
+  );
+}
+
+:host([data-size='sm'][data-density='normal']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-xs);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-md
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-2xs);
+  --solaris-phone-field-chevron-size: var(--solaris-font-size-2xs);
+}
+
+:host([data-size='sm'][data-density='comfortable']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-xs);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-lg
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-2xs);
+  --solaris-phone-field-chevron-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='md'][data-density='compact']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-sm);
   --solaris-phone-field-country-padding-inline: var(
     --solaris-density-padding-sm
   );
   --solaris-phone-field-flag-size: var(--solaris-font-size-xs);
-  --solaris-phone-field-chevron-size: 10px;
+  --solaris-phone-field-chevron-size: calc(
+    var(--solaris-spacing-5) + var(--solaris-border-width-md)
+  );
 }
 
-:host([data-density='normal']) {
-  --solaris-phone-field-country-font-size: var(--solaris-density-font-size);
+:host([data-size='md'][data-density='normal']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-sm);
   --solaris-phone-field-country-padding-inline: var(
     --solaris-density-padding-md
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-xs);
+  --solaris-phone-field-chevron-size: var(--solaris-font-size-2xs);
+}
+
+:host([data-size='md'][data-density='comfortable']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-sm);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-lg
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-xs);
+  --solaris-phone-field-chevron-size: var(--solaris-font-size-xs);
+}
+
+:host([data-size='lg'][data-density='compact']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-md);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-sm
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-sm);
+  --solaris-phone-field-chevron-size: calc(
+    var(--solaris-spacing-5) + var(--solaris-border-width-md)
+  );
+}
+
+:host([data-size='lg'][data-density='normal']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-md);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-md
+  );
+  --solaris-phone-field-flag-size: var(--solaris-font-size-sm);
+  --solaris-phone-field-chevron-size: var(--solaris-font-size-2xs);
+}
+
+:host([data-size='lg'][data-density='comfortable']) {
+  --solaris-phone-field-country-font-size: var(--solaris-font-size-md);
+  --solaris-phone-field-country-padding-inline: var(
+    --solaris-density-padding-lg
   );
   --solaris-phone-field-flag-size: var(--solaris-font-size-sm);
   --solaris-phone-field-chevron-size: var(--solaris-font-size-xs);
 }
 
-:host([data-density='comfortable']) {
-  --solaris-phone-field-country-font-size: var(--solaris-density-font-size);
-  --solaris-phone-field-country-padding-inline: var(
-    --solaris-density-padding-lg
-  );
-  --solaris-phone-field-flag-size: var(--solaris-font-size-md);
-  --solaris-phone-field-chevron-size: var(--solaris-font-size-sm);
+@media (prefers-reduced-motion: reduce) {
+  .solaris-phone-field__chevron {
+    transition: none;
+  }
+}
+
+.solaris-phone-field__clear {
+  solaris-icon {
+    width: var(--solaris-font-size-lg);
+    height: var(--solaris-font-size-lg);
+  }
+
+  padding: 0;
+  border: none;
+  display: flex;
+  cursor: pointer;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  width: var(--solaris-font-size-lg);
+  height: var(--solaris-font-size-lg);
+  color: var(--solaris-neutral-text-secondary);
+  transition: color var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard);
+}
+
+.solaris-phone-field__clear:hover {
+  color: var(--solaris-neutral-text-heading);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .solaris-phone-field__chevron {
+  .solaris-phone-field__clear {
+    transition: none;
+  }
+}
+
+[data-reduced-motion='true'] {
+  .solaris-phone-field__clear {
     transition: none;
   }
 }

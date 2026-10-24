@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 
 import { configureSolarisTesting } from '../../../../testing/solaris-test-utilities';
 import { SolarisRadioComponent } from '../component/radio.component';
+import { SolarisRadioGroupComponent } from '../../radio-group/component/radio-group.component';
 
 describe('SolarisRadioComponent', () => {
   let fixture: ComponentFixture<SolarisRadioComponent>;
@@ -90,9 +91,9 @@ describe('SolarisRadioComponent', () => {
     }
   });
 
-  it('should have default color primary', () => {
+  it('should have default color neutral', () => {
     const el = createFixture();
-    expect(el.getAttribute('data-color')).toBe('primary');
+    expect(el.getAttribute('data-color')).toBe('neutral');
   });
 
   it('should support all colors', () => {
@@ -398,5 +399,160 @@ describe('SolarisRadioComponent label and a11y', () => {
       '.solaris-radio__dot',
     );
     expect(dot).toBeFalsy();
+  });
+
+  it('should render required marker and aria-required when required', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisRadioComponent);
+    hostFixture.componentRef.setInput('label', 'Option B');
+    hostFixture.componentRef.setInput('required', true);
+    hostFixture.detectChanges();
+    const el = hostFixture.nativeElement as HTMLElement;
+    const marker = el.querySelector('.solaris-radio__required');
+    expect(marker?.textContent).toBe('*');
+    const input = el.querySelector('input[type="radio"]') as HTMLInputElement;
+    expect(input.getAttribute('aria-required')).toBe('true');
+  });
+});
+
+describe('SolarisRadioComponent effective size', () => {
+  let fixture: ComponentFixture<SolarisRadioComponent>;
+
+  const createFixture = () => {
+    configureSolarisTesting();
+    fixture = TestBed.createComponent(SolarisRadioComponent);
+    fixture.detectChanges();
+    return fixture.nativeElement;
+  };
+
+  it('should default data-size to md without a group', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-size')).toBe('md');
+  });
+
+  it('should prefer own size over group size', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisRadioGroupComponent, SolarisRadioComponent],
+      template: `
+        <solaris-radio-group size="lg">
+          <solaris-radio value="a" size="sm">A</solaris-radio>
+        </solaris-radio-group>
+      `,
+    })
+    class OwnSizeHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(OwnSizeHost);
+    hostFixture.detectChanges();
+    const child = hostFixture.nativeElement.querySelector(
+      'solaris-radio',
+    ) as HTMLElement;
+    expect(child.getAttribute('data-size')).toBe('sm');
+  });
+
+  it('should inherit size and density from the group', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisRadioGroupComponent, SolarisRadioComponent],
+      template: `
+        <solaris-radio-group size="lg" density="compact">
+          <solaris-radio value="a">A</solaris-radio>
+        </solaris-radio-group>
+      `,
+    })
+    class InheritedSizeHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(InheritedSizeHost);
+    hostFixture.detectChanges();
+    const child = hostFixture.nativeElement.querySelector(
+      'solaris-radio',
+    ) as HTMLElement;
+    expect(child.getAttribute('data-size')).toBe('lg');
+    expect(child.getAttribute('data-density')).toBe('compact');
+  });
+
+  it('should prefer own density over group density', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisRadioGroupComponent, SolarisRadioComponent],
+      template: `
+        <solaris-radio-group density="compact">
+          <solaris-radio value="a" density="comfortable">A</solaris-radio>
+        </solaris-radio-group>
+      `,
+    })
+    class OwnDensityHost {}
+
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(OwnDensityHost);
+    hostFixture.detectChanges();
+    const child = hostFixture.nativeElement.querySelector(
+      'solaris-radio',
+    ) as HTMLElement;
+    expect(child.getAttribute('data-density')).toBe('comfortable');
+  });
+});
+
+describe('SolarisRadioComponent description and label position', () => {
+  let fixture: ComponentFixture<SolarisRadioComponent>;
+
+  const createFixture = () => {
+    configureSolarisTesting();
+    fixture = TestBed.createComponent(SolarisRadioComponent);
+    fixture.detectChanges();
+    return fixture.nativeElement;
+  };
+
+  it('should default label position to end', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-label-position')).toBe('end');
+  });
+
+  it('should apply label position start', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('labelPosition', 'start');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-label-position')).toBe('start');
+  });
+
+  it('should render description text', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisRadioComponent);
+    hostFixture.componentRef.setInput('label', 'Pro');
+    hostFixture.componentRef.setInput('description', 'For growing teams.');
+    hostFixture.detectChanges();
+    const description = (
+      hostFixture.nativeElement as HTMLElement
+    ).querySelector('.solaris-radio__description');
+    expect(description?.textContent).toContain('For growing teams.');
+  });
+
+  it('should reference description from aria-describedby', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisRadioComponent);
+    hostFixture.componentRef.setInput('label', 'Pro');
+    hostFixture.componentRef.setInput('description', 'For growing teams.');
+    hostFixture.detectChanges();
+    const input = (hostFixture.nativeElement as HTMLElement).querySelector(
+      'input[type="radio"]',
+    ) as HTMLInputElement;
+    const description = (
+      hostFixture.nativeElement as HTMLElement
+    ).querySelector('.solaris-radio__description') as HTMLElement;
+    expect(input.getAttribute('aria-describedby')).toContain(description.id);
+  });
+
+  it('should translate description key', () => {
+    configureSolarisTesting();
+    const hostFixture = TestBed.createComponent(SolarisRadioComponent);
+    hostFixture.detectChanges();
+    const instance = hostFixture.componentRef.instance;
+    expect(
+      (
+        instance as unknown as { descriptionText: () => undefined }
+      ).descriptionText(),
+    ).toBeUndefined();
   });
 });

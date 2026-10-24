@@ -1,0 +1,57 @@
+{
+  "checkbox-group": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "normal": "Normal"
+    },
+    "description": "Form control for multiple selection with native inputs, select-all, min/max validation, layouts, sizes, and states.",
+    "examples": {
+      "note": "A set of related options with an array value. Children inherit size and density from the group."
+    },
+    "form-field-hint": "Select at least one option.",
+    "form-field-label": "Interests",
+    "installation": {
+      "note": "Install the Solaris UI package and import the checkbox group components."
+    },
+    "layout": {
+      "grid": "Grid",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "density": "Density",
+      "examples": "Examples",
+      "form": "Form integration",
+      "installation": "Installation",
+      "layouts": "Layouts",
+      "props": "Props",
+      "select-all": "Select all",
+      "size-density": "Size & density",
+      "sizes": "Sizes",
+      "states": "States",
+      "validation": "Validation"
+    },
+    "select-all": {
+      "note": "The select-all checkbox reflects the group: unchecked when empty, indeterminate when partial, checked when all enabled options are selected."
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density propagate to every child through the group token; a child keeps its own values when set explicitly."
+    },
+    "title": "Checkbox Group",
+    "validation": {
+      "note": "Min and max selected bounds invalidate the group. Max only validates in v1; it does not block selection."
+    }
+  }
+}

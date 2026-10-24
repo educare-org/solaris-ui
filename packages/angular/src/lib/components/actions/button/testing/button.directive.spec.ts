@@ -10,6 +10,7 @@ import type {
   SolarisButtonRadius,
   SolarisButtonDensity,
   SolarisButtonShape,
+  SolarisButtonSize,
   SolarisButtonIconPosition,
 } from '../model/button.types';
 
@@ -332,7 +333,7 @@ describe('SolarisButtonDirective', () => {
       template: `<button solaris-button [density]="density">Test</button>`,
     })
     class TestHost {
-      density: SolarisButtonDensity | undefined = 'compact';
+      density: SolarisButtonDensity = 'compact';
     }
 
     it('should support density compact', () => {
@@ -360,6 +361,210 @@ describe('SolarisButtonDirective', () => {
       fixture.detectChanges();
       const el = fixture.nativeElement.querySelector('[solaris-button]');
       expect(el.getAttribute('data-density')).toBe('normal');
+    });
+  });
+
+  describe('size', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisButtonDirective],
+      template: `<button solaris-button [size]="size">Test</button>`,
+    })
+    class TestHost {
+      size: SolarisButtonSize = 'md';
+    }
+
+    const setup = (size: SolarisButtonSize) => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.size = size;
+      fixture.detectChanges();
+      return fixture.nativeElement.querySelector('[solaris-button]');
+    };
+
+    it('should default to size md', () => {
+      expect(setup('md').getAttribute('data-size')).toBe('md');
+    });
+
+    it('should support size sm', () => {
+      expect(setup('sm').getAttribute('data-size')).toBe('sm');
+    });
+
+    it('should support size lg', () => {
+      expect(setup('lg').getAttribute('data-size')).toBe('lg');
+    });
+  });
+
+  describe('size x density matrix', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisButtonDirective],
+      template: `<button solaris-button [size]="size" [density]="density">
+        Test
+      </button>`,
+    })
+    class TestHost {
+      size: SolarisButtonSize = 'md';
+      density: SolarisButtonDensity | undefined = undefined;
+    }
+
+    it.each([
+      ['sm', 'compact'],
+      ['md', 'compact'],
+      ['lg', 'compact'],
+      ['sm', 'normal'],
+      ['md', 'normal'],
+      ['lg', 'normal'],
+      ['sm', 'comfortable'],
+      ['md', 'comfortable'],
+      ['lg', 'comfortable'],
+    ] as Array<[SolarisButtonSize, SolarisButtonDensity]>)(
+      'should expose data-size=%s and data-density=%s',
+      (size, density) => {
+        TestBed.configureTestingModule({});
+        const fixture = TestBed.createComponent(TestHost);
+        fixture.componentInstance.size = size;
+        fixture.componentInstance.density = density;
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector('[solaris-button]');
+        expect(el.getAttribute('data-size')).toBe(size);
+        expect(el.getAttribute('data-density')).toBe(density);
+      },
+    );
+
+    it('should fall back to theme density when density is unset', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.density = undefined;
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-button]');
+      expect(el.getAttribute('data-density')).toBe('normal');
+    });
+  });
+
+  describe('pressed', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisButtonDirective],
+      template: `<button solaris-button [pressed]="pressed">Test</button>`,
+    })
+    class TestHost {
+      pressed: boolean | undefined = undefined;
+    }
+
+    const setup = (pressed: boolean | undefined) => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.pressed = pressed;
+      fixture.detectChanges();
+      return fixture.nativeElement.querySelector('[solaris-button]');
+    };
+
+    it('should not render aria-pressed when pressed is unset', () => {
+      const el = setup(undefined);
+      expect(el.hasAttribute('aria-pressed')).toBe(false);
+      expect(el.hasAttribute('data-pressed')).toBe(false);
+    });
+
+    it('should render pressed state when pressed is true', () => {
+      const el = setup(true);
+      expect(el.getAttribute('aria-pressed')).toBe('true');
+      expect(el.hasAttribute('data-pressed')).toBe(true);
+    });
+
+    it('should render unpressed state when pressed is false', () => {
+      const el = setup(false);
+      expect(el.getAttribute('aria-pressed')).toBe('false');
+      expect(el.hasAttribute('data-pressed')).toBe(false);
+    });
+  });
+
+  describe('aria-label management', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisButtonDirective],
+      template: `<button
+        solaris-button
+        [loading]="loading"
+        [loadingLabel]="loadingLabel"
+        [ariaLabel]="ariaLabel"
+        [attr.aria-label]="attrLabel"
+      >
+        Save
+      </button>`,
+    })
+    class TestHost {
+      loading = false;
+      loadingLabel: string | undefined = 'Saving…';
+      ariaLabel: string | undefined = undefined;
+      attrLabel: string | null = null;
+    }
+
+    const setup = (patch?: Partial<TestHost>) => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      if (patch) {
+        Object.assign(fixture.componentInstance, patch);
+      }
+      fixture.detectChanges();
+      return {
+        fixture,
+        el: fixture.nativeElement.querySelector('[solaris-button]'),
+      };
+    };
+
+    it('should not clobber a consumer aria-label when idle', () => {
+      const { el } = setup({ attrLabel: 'Close' });
+      expect(el.getAttribute('aria-label')).toBe('Close');
+    });
+
+    it('should apply the loading label while loading', () => {
+      const { el } = setup({ loading: true });
+      expect(el.getAttribute('aria-label')).toBe('Saving…');
+    });
+
+    it('should apply the ariaLabel input when idle', () => {
+      const { el } = setup({ ariaLabel: 'Save changes' });
+      expect(el.getAttribute('aria-label')).toBe('Save changes');
+    });
+
+    it('should prefer the loading label over the idle label', () => {
+      const { el } = setup({ loading: true, ariaLabel: 'Save changes' });
+      expect(el.getAttribute('aria-label')).toBe('Saving…');
+    });
+  });
+
+  describe('icon-only a11y guard', () => {
+    @Component({
+      standalone: true,
+      imports: [SolarisButtonDirective],
+      template: `<button solaris-button [attr.aria-label]="label"></button>`,
+    })
+    class TestHost {
+      label: string | null = null;
+    }
+
+    it('should warn in dev mode when button has no text and no label', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(warn).toHaveBeenCalled();
+      warn.mockRestore();
+    });
+
+    it('should not warn when aria-label is present', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.label = 'Close';
+      fixture.detectChanges();
+      await fixture.whenStable();
+      expect(warn).not.toHaveBeenCalled();
+      warn.mockRestore();
     });
   });
 
@@ -723,6 +928,135 @@ describe('SolarisButtonDirective with icon input', () => {
     const el = fixture.nativeElement.querySelector('[solaris-button]');
     expect(el.hasAttribute('data-icon-position')).toBe(false);
     expect(el.querySelector('solaris-icon.solaris-button-icon')).toBeNull();
+  });
+});
+
+describe('SolarisButtonDirective data-* aliases', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisButtonDirective],
+    template: `<button
+      solaris-button
+      data-size="sm"
+      data-density="compact"
+      data-appearance="outline"
+      data-color="primary"
+      data-radius="lg"
+      data-shape="wide"
+    >
+      Aliased
+    </button>`,
+  })
+  class DataAliasHost {}
+
+  @Component({
+    standalone: true,
+    imports: [SolarisButtonDirective],
+    template: `<button solaris-button size="lg" data-size="sm">
+      Precedence
+    </button>`,
+  })
+  class DataPrecedenceHost {}
+
+  @Component({
+    standalone: true,
+    imports: [SolarisButtonDirective],
+    template: `<button solaris-button>Plain</button>`,
+  })
+  class PlainHost {}
+
+  it('should honor data-* attributes as variant inputs', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(DataAliasHost);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-size')).toBe('sm');
+    expect(el.getAttribute('data-density')).toBe('compact');
+    expect(el.getAttribute('data-appearance')).toBe('outline');
+    expect(el.getAttribute('data-color')).toBe('primary');
+    expect(el.getAttribute('data-radius')).toBe('lg');
+    expect(el.getAttribute('data-shape')).toBe('wide');
+  });
+
+  it('should prefer data-size over the size input', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(DataPrecedenceHost);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-size')).toBe('sm');
+  });
+
+  it('should not stamp variant attributes before the first change detection', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(PlainHost);
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.hasAttribute('data-appearance')).toBe(false);
+    expect(el.hasAttribute('data-size')).toBe(false);
+    expect(el.hasAttribute('data-density')).toBe(false);
+  });
+
+  it('should apply input defaults on the first change detection', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(PlainHost);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-appearance')).toBe('solid');
+    expect(el.getAttribute('data-size')).toBe('md');
+  });
+});
+
+describe('SolarisButtonDirective first-paint stamping', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisButtonDirective],
+    template: `<button solaris-button appearance="ghost" size="sm">
+      Clear
+    </button>`,
+  })
+  class StaticGhostHost {}
+
+  it('should stamp static variant attributes so no solid flash paints', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(StaticGhostHost);
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-appearance')).toBe('ghost');
+    expect(el.getAttribute('data-size')).toBe('sm');
+  });
+});
+
+describe('SolarisButtonDirective hydration marker', () => {
+  @Component({
+    standalone: true,
+    imports: [SolarisButtonDirective],
+    template: `<button solaris-button appearance="ghost" size="sm">
+      Clear
+    </button>`,
+  })
+  class HydrationHost {}
+
+  it('should stamp data-hydrated after the first render with variants resolved', async () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(HydrationHost);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-appearance')).toBe('ghost');
+    expect(el.getAttribute('data-size')).toBe('sm');
+    expect(el.getAttribute('data-density')).toBe('normal');
+    expect(el.hasAttribute('data-hydrated')).toBe(true);
+  });
+
+  it('should keep variant attributes stable when hydrated', async () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(HydrationHost);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const el = fixture.nativeElement.querySelector('[solaris-button]');
+    expect(el.getAttribute('data-appearance')).toBe('ghost');
+    expect(el.hasAttribute('data-hydrated')).toBe(true);
   });
 });
 

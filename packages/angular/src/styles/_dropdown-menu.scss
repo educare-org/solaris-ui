@@ -4,11 +4,11 @@
     overflow: hidden;
   }
   --solaris-dropdown-menu-min-width: calc(
-    var(--solaris-spacing-24) + var(--solaris-spacing-10) +
+    var(--solaris-spacing-17) + var(--solaris-spacing-10) +
       var(--solaris-spacing-1)
   );
   --solaris-dropdown-menu-max-width: calc(
-    var(--solaris-spacing-24) * 2 + var(--solaris-spacing-10) +
+    var(--solaris-spacing-17) * 2 + var(--solaris-spacing-10) +
       var(--solaris-spacing-2)
   );
 }
@@ -53,7 +53,7 @@ solaris-dropdown-menu-label {
   align-items: center;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
   font-size: var(--solaris-font-size-xs);
   line-height: var(--solaris-line-height-xs);
   font-weight: var(--solaris-font-weight-semibold);

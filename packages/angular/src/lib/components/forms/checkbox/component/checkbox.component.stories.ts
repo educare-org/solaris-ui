@@ -20,3 +20,15 @@ export const Heading: Story = {
     await expect(canvas.getByText(/checkbox/gi)).toBeTruthy();
   },
 };
+
+export const Indeterminate: Story = {
+  args: { label: 'Select all', indeterminate: true },
+};
+
+export const Required: Story = {
+  args: { label: 'Accept terms', required: true },
+};
+
+export const Sizes: Story = {
+  args: { label: 'Option', size: 'lg', density: 'comfortable' },
+};

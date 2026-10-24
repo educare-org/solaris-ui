@@ -1,6 +1,7 @@
 export { SolarisBreadcrumbComponent } from './component/breadcrumb.component';
 export type {
   SolarisBreadcrumbSize,
+  SolarisBreadcrumbDensity,
   SolarisBreadcrumbSeparator,
   SolarisBreadcrumbOverflowPosition,
   SolarisBreadcrumbValue,

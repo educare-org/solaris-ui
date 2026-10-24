@@ -20,10 +20,14 @@ const errors = [];
 const warnings = [];
 
 const libScssDir = 'packages/angular/src/lib';
+const stylesScssDir = 'packages/angular/src/styles';
+// Token definition sheets live under token/ and assign raw values to
+// --solaris-* custom properties by design, so they are skipped (see below).
+const scanDirs = [libScssDir, stylesScssDir].filter((dir) => fileExists(dir));
 
-if (!fileExists(libScssDir)) {
+if (scanDirs.length === 0) {
   warnings.push(
-    `${libScssDir} does not exist yet — token validation partially skipped (expected during early setup).`,
+    'packages/angular/src/lib and packages/angular/src/styles do not exist yet — token validation partially skipped (expected during early setup).',
   );
   const result = printSummary('Tokens Check', errors, warnings);
   process.exitCode = result.errorCount > 0 ? 1 : 0;
@@ -46,11 +50,13 @@ if (!fileExists(libScssDir)) {
       }
     }
   }
-  walk(libScssDir);
+  for (const scanDir of scanDirs) {
+    walk(scanDir);
+  }
 
   if (scssFiles.length === 0) {
     warnings.push(
-      'No SCSS files found in packages/angular/src/lib — token validation skipped',
+      'No SCSS files found in packages/angular/src/lib or packages/angular/src/styles — token validation skipped',
     );
   } else {
     for (const file of scssFiles) {

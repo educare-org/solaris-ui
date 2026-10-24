@@ -14,6 +14,7 @@
 @use 'token/color';
 @use 'token/density';
 @use 'token/radius';
+@use 'token/sizing';
 @use 'token/spacing';
 @use 'token/typography';
 @use 'token/shadow';
@@ -48,6 +49,16 @@ $-default-config: (
     :root:not([data-theme]) {
       color-scheme: dark;
       @include color.solaris-dark-tokens;
+    }
+  } @else if $color-scheme == high-contrast {
+    :root:not([data-theme]) {
+      color-scheme: light;
+      @include color.solaris-high-contrast-tokens;
+    }
+  } @else if $color-scheme == high-contrast-dark {
+    :root:not([data-theme]) {
+      color-scheme: dark;
+      @include color.solaris-high-contrast-dark-tokens;
     }
   } @else {
     :root {
@@ -85,6 +96,7 @@ $-default-config: (
       --solaris-motion-duration-normal: 0ms;
       --solaris-motion-duration-slow: 0ms;
       --solaris-motion-duration-slower: 0ms;
+      --solaris-motion-duration-slowest: 0ms;
     }
   }
 }

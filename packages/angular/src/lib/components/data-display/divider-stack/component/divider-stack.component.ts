@@ -12,7 +12,6 @@ import type {
   styleUrls: ['./divider-stack.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'solaris-divider-stack',
     '[attr.data-spacing]': 'spacing()',
     '[attr.data-inset]': 'inset()',
   },

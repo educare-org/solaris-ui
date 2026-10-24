@@ -1,106 +1,224 @@
-<div class="stepper-showcase">
-  <header class="stepper-showcase__header">
-    <h1 class="stepper-showcase__title">{{ 'stepper.title' | translate }}</h1>
-    <p class="stepper-showcase__description">
-      {{ 'stepper.description' | translate }}
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="stepper.title"
+    descriptionKey="stepper.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="stepper.section.examples">
+    <p class="stepper-showcase__note">
+      {{ 'stepper.examples.note' | translate }}
     </p>
-  </header>
+    <solaris-preview-code [code]="basicHorizontalCode" language="html">
+      <app-basic-horizontal-stepper-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.basic-horizontal' | translate }}
-    </h2>
-    <app-basic-horizontal-stepper-example />
-  </section>
+  <app-docs-section anchor="orientation" titleKey="stepper.section.orientation">
+    <solaris-tabs
+      [(value)]="selectedOrientation"
+      [ariaLabel]="'stepper.section.orientation' | translate"
+    >
+      <solaris-tab value="horizontal">{{
+        'stepper.orientation.horizontal' | translate
+      }}</solaris-tab>
+      <solaris-tab value="vertical">{{
+        'stepper.orientation.vertical' | translate
+      }}</solaris-tab>
+      <solaris-tab-panel value="horizontal">
+        <solaris-preview-code [code]="basicHorizontalCode" language="html">
+          <app-basic-horizontal-stepper-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="vertical">
+        <solaris-preview-code [code]="basicVerticalCode" language="html">
+          <app-basic-vertical-stepper-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+    <solaris-preview-code [code]="responsiveCode" language="html">
+      <app-responsive-stepper-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.basic-vertical' | translate }}
-    </h2>
-    <app-basic-vertical-stepper-example />
-  </section>
+  <app-docs-section anchor="appearances" titleKey="stepper.section.appearances">
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'stepper.section.appearances' | translate"
+    >
+      <solaris-tab value="default">{{
+        'stepper.appearance.default' | translate
+      }}</solaris-tab>
+      <solaris-tab value="card">{{
+        'stepper.appearance.card' | translate
+      }}</solaris-tab>
+      <solaris-tab value="dashed">{{
+        'stepper.appearance.dashed' | translate
+      }}</solaris-tab>
+      <solaris-tab-panel value="default">
+        <solaris-preview-code [code]="basicHorizontalCode" language="html">
+          <app-basic-horizontal-stepper-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="card">
+        <solaris-preview-code [code]="cardCode" language="html">
+          <app-card-stepper-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="dashed">
+        <solaris-preview-code [code]="dashedCode" language="html">
+          <app-dashed-stepper-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.dashed' | translate }}
-    </h2>
-    <app-dashed-stepper-example />
-  </section>
+  <app-docs-section
+    anchor="size-density"
+    titleKey="stepper.section.size-density"
+  >
+    <p class="stepper-showcase__note">
+      {{ 'stepper.size-density.note' | translate }}
+    </p>
+    <div class="stepper-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'stepper.section.sizes' | translate"
+      >
+        <solaris-tab value="sm">{{
+          'stepper.size.sm' | translate
+        }}</solaris-tab>
+        <solaris-tab value="md">{{
+          'stepper.size.md' | translate
+        }}</solaris-tab>
+        <solaris-tab value="lg">{{
+          'stepper.size.lg' | translate
+        }}</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'stepper.section.density' | translate"
+      >
+        <solaris-tab value="compact">{{
+          'stepper.density.compact' | translate
+        }}</solaris-tab>
+        <solaris-tab value="normal">{{
+          'stepper.density.normal' | translate
+        }}</solaris-tab>
+        <solaris-tab value="comfortable">{{
+          'stepper.density.comfortable' | translate
+        }}</solaris-tab>
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-stepper
+        [activeIndex]="1"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+      >
+        <solaris-step
+          [labelKey]="'stepper.example.size-density.step-one'"
+          status="completed"
+        />
+        <solaris-step
+          [labelKey]="'stepper.example.size-density.step-two'"
+          status="active"
+        />
+        <solaris-step
+          [labelKey]="'stepper.example.size-density.step-three'"
+          status="pending"
+        />
+      </solaris-stepper>
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.card' | translate }}
-    </h2>
-    <app-card-stepper-example />
-  </section>
+  <app-docs-section anchor="linear" titleKey="stepper.section.linear">
+    <solaris-tabs
+      [(value)]="selectedLinear"
+      [ariaLabel]="'stepper.section.linear' | translate"
+    >
+      <solaris-tab value="linear">{{
+        'stepper.linear-mode.linear' | translate
+      }}</solaris-tab>
+      <solaris-tab value="non-linear">{{
+        'stepper.linear-mode.non-linear' | translate
+      }}</solaris-tab>
+      <solaris-tab-panel value="linear">
+        <solaris-preview-code [code]="linearCode" language="html">
+          <app-linear-stepper-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="non-linear">
+        <solaris-preview-code [code]="nonLinearCode" language="html">
+          <app-non-linear-stepper-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
 
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.linear' | translate }}
-    </h2>
-    <app-linear-stepper-example />
-  </section>
+  <app-docs-section anchor="status" titleKey="stepper.section.status">
+    <div class="stepper-showcase__stack">
+      <solaris-preview-code [code]="errorCode" language="html">
+        <app-error-stepper-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="warningCode" language="html">
+        <app-warning-stepper-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="optionalCode" language="html">
+        <app-optional-step-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="iconCode" language="html">
+        <app-icon-stepper-example />
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
 
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.non-linear' | translate }}
-    </h2>
-    <app-non-linear-stepper-example />
-  </section>
+  <app-docs-section anchor="validation" titleKey="stepper.section.validation">
+    <p class="stepper-showcase__note">
+      {{ 'stepper.validation-note' | translate }}
+    </p>
+    <solaris-preview-code [code]="validationCode" language="html">
+      <app-validation-stepper-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.error' | translate }}
-    </h2>
-    <app-error-stepper-example />
-  </section>
+  <app-docs-section anchor="wizard" titleKey="stepper.section.wizard">
+    <div class="stepper-showcase__stack">
+      <solaris-preview-code [code]="wizardCode" language="html">
+        <app-wizard-stepper-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="transitionCode" language="html">
+        <app-content-transition-stepper-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="actionsCode" language="html">
+        <app-actions-alignment-stepper-example />
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
 
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.optional' | translate }}
-    </h2>
-    <app-optional-step-example />
-  </section>
+  <app-docs-section
+    anchor="installation"
+    titleKey="stepper.section.installation"
+  >
+    <p class="stepper-showcase__note">
+      {{ 'stepper.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
 
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.wizard' | translate }}
-    </h2>
-    <app-wizard-stepper-example />
-  </section>
+  <app-docs-section anchor="props" titleKey="stepper.section.props">
+    <p class="stepper-showcase__note">
+      {{ 'stepper.props.note' | translate }}
+    </p>
+  </app-docs-section>
 
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.content-transition' | translate }}
-    </h2>
-    <app-content-transition-stepper-example />
-  </section>
-
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.actions-alignment' | translate }}
-    </h2>
-    <app-actions-alignment-stepper-example />
-  </section>
-
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.compact-density' | translate }}
-    </h2>
-    <app-compact-density-stepper-example />
-  </section>
-
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.icon-stepper' | translate }}
-    </h2>
-    <app-icon-stepper-example />
-  </section>
-
-  <section class="stepper-showcase__section">
-    <h2 class="stepper-showcase__section-title">
-      {{ 'stepper.responsive' | translate }}
-    </h2>
-    <app-responsive-stepper-example />
-  </section>
-</div>
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

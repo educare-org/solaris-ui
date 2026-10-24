@@ -1,0 +1,74 @@
+{
+  "progress": {
+    "animated": {
+      "note": "A barra faz transição suave conforme o valor atualiza. Clique em executar para vê-la ir de 0 a 100."
+    },
+    "buffer": {
+      "note": "O buffer renderiza o valor esperado atrás do preenchimento — útil para streaming e uploads em partes."
+    },
+    "color": {
+      "custom": "Customizada",
+      "danger": "Perigo",
+      "info": "Informação",
+      "neutral": "Neutra",
+      "primary": "Primária",
+      "success": "Sucesso",
+      "warning": "Alerta"
+    },
+    "colors-desc": "Cores semânticas, além de customizada via --solaris-progress-custom-color.",
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Barra linear que comunica o progresso de uma tarefa, seja com um valor determinado mensurável ou como indicador indeterminado quando a duração é desconhecida.",
+    "examples": {
+      "note": "Valor determinado, rótulo com percentual e modo indeterminado. O snippet mostra o template mínimo."
+    },
+    "indeterminate": {
+      "note": "Use indeterminado quando a duração é desconhecida. A barra desliza até o processo terminar."
+    },
+    "installation": {
+      "note": "Instale o pacote único do Solaris UI e importe o componente progress."
+    },
+    "play": "Executar",
+    "props": {
+      "note": "A referência completa de props está na documentação do componente."
+    },
+    "section": {
+      "animated": "Determinado animado",
+      "buffer": "Buffer",
+      "colors": "Cores",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "indeterminate": "Indeterminado",
+      "installation": "Instalação",
+      "props": "Propriedades",
+      "size-density": "Tamanho & Densidade",
+      "sizes": "Tamanhos",
+      "status": "Status",
+      "stripes": "Listras"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "note": "Matriz adaptada: size controla a espessura da barra, density só ajusta o rótulo. O snippet reflete a seleção atual."
+    },
+    "status": {
+      "active": "Ativo",
+      "exception": "Exceção",
+      "note": "Active segue o input color; success e exception tingem a barra. O snippet reflete a seleção atual.",
+      "success": "Sucesso"
+    },
+    "stripes": {
+      "animated": "Animada",
+      "none": "Nenhuma",
+      "note": "Listras diagonais, opcionalmente animadas. A animação fica estática com movimento reduzido. O snippet reflete a seleção atual.",
+      "striped": "Listrada"
+    },
+    "title": "Progresso"
+  }
+}

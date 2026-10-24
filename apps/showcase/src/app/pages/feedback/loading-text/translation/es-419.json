@@ -1,0 +1,68 @@
+{
+  "loading-text": {
+    "clamp": {
+      "note": "Limita las leyendas largas a N líneas con puntos suspensivos. El snippet refleja la selección actual.",
+      "off": "Sin límite",
+      "three": "3 líneas",
+      "two": "2 líneas"
+    },
+    "color": {
+      "custom": "Personalizado",
+      "danger": "Peligro",
+      "info": "Info",
+      "neutral": "Neutro",
+      "primary": "Primario",
+      "success": "Éxito",
+      "warning": "Advertencia"
+    },
+    "colors-desc": "Colores semánticos, además de personalizado vía --solaris-loading-text-custom-color.",
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Leyenda de carga animada que desplaza un brillo sobre un texto corto para comunicar una operación en curso.",
+    "dots": {
+      "note": "Tres puntos pulsantes decorativos después del texto — ocultos para la tecnología de asistencia, estáticos con movimiento reducido."
+    },
+    "examples": {
+      "note": "Texto predeterminado y texto personalizado. El snippet muestra el template mínimo."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris UI e importa el componente loading-text."
+    },
+    "props": {
+      "note": "La referencia completa de Props está en la documentación del componente."
+    },
+    "section": {
+      "clamp": "Límite de líneas",
+      "colors": "Colores",
+      "density": "Densidad",
+      "dots": "Puntos pulsantes",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "props": "Props",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "speeds": "Velocidades"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño",
+      "xl": "Extragrande"
+    },
+    "size-density": {
+      "note": "Por defecto, el texto hereda el font-size/line-height del contexto. size/density a continuación son reemplazos fijos opcionales. El snippet refleja la selección actual."
+    },
+    "speed": {
+      "fast": "Rápido",
+      "normal": "Normal",
+      "slow": "Lento"
+    },
+    "speeds": {
+      "note": "Velocidad del barrido del brillo. El snippet refleja la selección actual."
+    },
+    "title": "Texto de carga"
+  }
+}

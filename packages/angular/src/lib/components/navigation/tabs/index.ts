@@ -7,6 +7,8 @@ export type { SolarisTabsControl } from './token/tabs.tokens';
 export type {
   SolarisTabsOrientation,
   SolarisTabsAppearance,
+  SolarisTabsSize,
+  SolarisTabsColor,
   SolarisTabsDensity,
   SolarisTabsShape,
   SolarisTabsActivationMode,

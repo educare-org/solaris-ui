@@ -21,12 +21,15 @@ function createFixture(
   inputs: Partial<{
     icon: string;
     title: string;
+    titleKey: string;
     description: string;
+    descriptionKey: string;
     iconDecorative: boolean;
     variant: 'neutral' | 'info' | 'success' | 'warning' | 'danger';
     separator: boolean;
     closeable: boolean;
     closeLabel: string;
+    closeLabelKey: string;
     scrolled: boolean;
   }>,
 ): ComponentFixture<SolarisDialogHeaderComponent> {
@@ -43,8 +46,12 @@ function createFixture(
     fixture.componentRef.setInput('icon', inputs.icon);
   if (inputs.title !== undefined)
     fixture.componentRef.setInput('title', inputs.title);
+  if (inputs.titleKey !== undefined)
+    fixture.componentRef.setInput('titleKey', inputs.titleKey);
   if (inputs.description !== undefined)
     fixture.componentRef.setInput('description', inputs.description);
+  if (inputs.descriptionKey !== undefined)
+    fixture.componentRef.setInput('descriptionKey', inputs.descriptionKey);
   if (inputs.iconDecorative !== undefined)
     fixture.componentRef.setInput('iconDecorative', inputs.iconDecorative);
   if (inputs.variant !== undefined)
@@ -55,6 +62,8 @@ function createFixture(
     fixture.componentRef.setInput('closeable', inputs.closeable);
   if (inputs.closeLabel !== undefined)
     fixture.componentRef.setInput('closeLabel', inputs.closeLabel);
+  if (inputs.closeLabelKey !== undefined)
+    fixture.componentRef.setInput('closeLabelKey', inputs.closeLabelKey);
   if (inputs.scrolled !== undefined)
     fixture.componentRef.setInput('scrolled', inputs.scrolled);
   fixture.detectChanges();
@@ -265,5 +274,73 @@ describe('SolarisDialogHeaderComponent', () => {
     const iconEl = q(fixture, 'solaris-icon');
     const svg = iconEl?.querySelector('svg');
     expect(svg?.getAttribute('role')).toBe('img');
+  });
+
+  it('should resolve titleKey via translations', () => {
+    configureSolarisTesting({
+      translate: {
+        translations: { 'en-US': { 'dlg.title': 'Title translated' } },
+      },
+    });
+    TestBed.configureTestingModule({
+      providers: [
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+        { provide: SOLARIS_DIALOG_REF, useValue: createDialogRef() },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(SolarisDialogHeaderComponent);
+    fixture.componentRef.setInput('title', 'Fallback');
+    fixture.componentRef.setInput('titleKey', 'dlg.title');
+    fixture.detectChanges();
+
+    const titleEl = q(fixture, '.solaris-dialog-header__title');
+    expect(titleEl?.textContent?.trim()).toBe('Title translated');
+  });
+
+  it('should resolve descriptionKey via translations', () => {
+    configureSolarisTesting({
+      translate: {
+        translations: { 'en-US': { 'dlg.desc': 'Desc translated' } },
+      },
+    });
+    TestBed.configureTestingModule({
+      providers: [
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+        { provide: SOLARIS_DIALOG_REF, useValue: createDialogRef() },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(SolarisDialogHeaderComponent);
+    fixture.componentRef.setInput('description', 'Fallback');
+    fixture.componentRef.setInput('descriptionKey', 'dlg.desc');
+    fixture.detectChanges();
+
+    const descEl = q(fixture, '.solaris-dialog-header__description');
+    expect(descEl?.textContent?.trim()).toBe('Desc translated');
+  });
+
+  it('should resolve closeLabelKey via translations', () => {
+    configureSolarisTesting({
+      translate: {
+        translations: { 'en-US': { 'dlg.close': 'Close translated' } },
+      },
+    });
+    TestBed.configureTestingModule({
+      providers: [
+        ...provideSolaris({ icons: { extraIcons: SOLARIS_BUILT_IN_ICONS } }),
+        { provide: SOLARIS_DIALOG_REF, useValue: createDialogRef() },
+      ],
+    });
+
+    const fixture = TestBed.createComponent(SolarisDialogHeaderComponent);
+    fixture.componentRef.setInput('title', 'Test');
+    fixture.componentRef.setInput('closeable', true);
+    fixture.componentRef.setInput('closeLabel', 'Close');
+    fixture.componentRef.setInput('closeLabelKey', 'dlg.close');
+    fixture.detectChanges();
+
+    const closeBtn = q(fixture, '[data-dialog-close]');
+    expect(closeBtn?.getAttribute('aria-label')).toBe('Close translated');
   });
 });

@@ -1,0 +1,23 @@
+{
+  "print-view": {
+    "description": "Hojas de estilo de impresión seguras con tinta y una vista previa de impresión para exportaciones de mes y agenda.",
+    "examples": {
+      "note": "Usa el diálogo de impresión del navegador para exportar un PDF. Las barras de herramientas y los paneles laterales se ocultan automáticamente; los scrollers se expanden y las sombras se aplanan."
+    },
+    "installation": {
+      "note": "Sin instalación adicional: el CSS de impresión viene incluido con el shell del calendario y las vistas."
+    },
+    "print": {
+      "button": "Vista previa de impresión"
+    },
+    "props": {
+      "note": "El mes imprime la cuadrícula de 6x7; las ventanas estrechas imprimen la agenda mediante el fallback del shell."
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "props": "Props"
+    },
+    "title": "Impresión del calendario"
+  }
+}

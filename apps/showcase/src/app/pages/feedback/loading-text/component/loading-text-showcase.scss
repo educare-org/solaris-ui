@@ -1,58 +1,22 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.loading-text-showcase {
-  @include layout.page;
-}
-
-.loading-text-showcase__header {
-  @include layout.header;
-}
-
-.loading-text-showcase__title {
-  @include layout.title;
-}
-
-.loading-text-showcase__description {
-  @include layout.description;
-}
-
-.loading-text-showcase__section {
-  @include layout.section-card;
-}
-
-.loading-text-showcase__section-title {
-  @include layout.section-title;
-}
-
 .loading-text-showcase__note {
   @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
 }
 
 .loading-text-showcase__stack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--solaris-spacing-4);
-  max-width: 640px;
-}
-
-.loading-text-showcase__row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  display: grid;
   gap: var(--solaris-spacing-4);
 }
 
-.loading-text-showcase__item {
-  display: flex;
-  align-items: center;
-  gap: var(--solaris-spacing-2);
-}
-
-.loading-text-showcase__label {
-  font-size: var(--solaris-font-size-sm);
-  color: var(--solaris-text-muted);
+.loading-text-showcase__controls {
+  display: grid;
+  gap: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-4);
 }
 
 .loading-text-showcase__custom {
-  --solaris-loading-text-custom-color: var(--solaris-orange-base);
+  --solaris-loading-text-custom-color: #4253a1;
 }

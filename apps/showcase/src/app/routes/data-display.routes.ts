@@ -5,6 +5,13 @@ export const dataDisplayRoutes: Route[] = [
     path: 'data-display',
     children: [
       {
+        path: 'avatar',
+        loadComponent: () =>
+          import('../pages/data-display/avatar/component/avatar-showcase').then(
+            (m) => m.AvatarShowcasePage,
+          ),
+      },
+      {
         path: 'badge',
         loadComponent: () =>
           import('../pages/data-display/badge/component/badge-showcase').then(
@@ -17,6 +24,117 @@ export const dataDisplayRoutes: Route[] = [
           import('../pages/data-display/card/component/card-showcase').then(
             (m) => m.CardShowcasePage,
           ),
+      },
+      {
+        path: 'chart-shell',
+        redirectTo: 'charts/shell',
+        pathMatch: 'full',
+      },
+      {
+        path: 'charts',
+        children: [
+          {
+            path: 'shell',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/shell/component/chart-shell-showcase'
+              ).then((m) => m.ChartShellShowcasePage),
+          },
+          {
+            path: 'line-chart',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/line-chart/component/line-chart-showcase'
+              ).then((m) => m.LineChartShowcasePage),
+          },
+          {
+            path: 'bar-chart',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/bar-chart/component/bar-chart-showcase'
+              ).then((m) => m.BarChartShowcasePage),
+          },
+          {
+            path: 'pie-chart',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/pie-chart/component/pie-chart-showcase'
+              ).then((m) => m.PieChartShowcasePage),
+          },
+          {
+            path: 'heatmap',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/heatmap/component/heatmap-showcase'
+              ).then((m) => m.HeatmapShowcasePage),
+          },
+          {
+            path: 'radar',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/radar/component/radar-showcase'
+              ).then((m) => m.RadarShowcasePage),
+          },
+          {
+            path: 'sparkline',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/sparkline/component/sparkline-showcase'
+              ).then((m) => m.SparklineShowcasePage),
+          },
+          {
+            path: 'cards',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/charts/cards/component/cards-showcase'
+              ).then((m) => m.ChartCardsShowcasePage),
+          },
+        ],
+      },
+      {
+        path: 'code-block',
+        loadComponent: () =>
+          import(
+            '../pages/data-display/code-block/component/code-block-showcase'
+          ).then((m) => m.CodeBlockShowcasePage),
+      },
+      {
+        path: 'preview-code',
+        loadComponent: () =>
+          import(
+            '../pages/data-display/preview-code/component/preview-code-showcase'
+          ).then((m) => m.PreviewCodeShowcasePage),
+      },
+      {
+        path: 'table',
+        redirectTo: 'tables/table',
+        pathMatch: 'full',
+      },
+      {
+        path: 'tables',
+        children: [
+          {
+            path: 'table',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/table/component/table-showcase'
+              ).then((m) => m.TableShowcasePage),
+          },
+          {
+            path: 'gradebook',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/tables/gradebook/component/gradebook-showcase'
+              ).then((m) => m.GradebookShowcasePage),
+          },
+          {
+            path: 'record-grid',
+            loadComponent: () =>
+              import(
+                '../pages/data-display/tables/record-grid/component/record-grid-showcase'
+              ).then((m) => m.RecordGridShowcasePage),
+          },
+        ],
       },
     ],
   },

@@ -1,0 +1,56 @@
+@use '../../../../shared/showcase-layout' as layout;
+
+.table-showcase__note {
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.table-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.table-showcase__phone {
+  max-width: 375px;
+  margin: 0 auto;
+  padding: var(--solaris-spacing-4);
+  background: var(--solaris-neutral-default);
+  border: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-default);
+  border-radius: var(--solaris-radius-lg);
+}
+
+.points-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.points-detail__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--solaris-spacing-3);
+  padding-block: var(--solaris-spacing-1);
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.points-detail__row + .points-detail__row {
+  border-top: var(--solaris-border-width-sm) solid
+    var(--solaris-neutral-border-subtle);
+}
+
+.points-detail__gain {
+  color: var(--solaris-success-foreground);
+}
+
+.points-detail__loss {
+  color: var(--solaris-danger-foreground);
+}
+
+.points-detail__row--total {
+  color: var(--solaris-neutral-text-body);
+  font-weight: var(--solaris-font-weight-semibold);
+}

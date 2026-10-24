@@ -1,0 +1,104 @@
+{
+  "icon-button": {
+    "accessible-name": "Accessible Name",
+    "accessible-name-note": "Both aria-label and aria-labelledby provide an accessible name for screen readers. Use aria-label directly on the button, or aria-labelledby to reference an element with the label text elsewhere in the DOM.",
+    "anchor": "Anchor (link)",
+    "appearance": {
+      "ghost": "Ghost",
+      "outline": "Outline",
+      "solid": "Solid",
+      "surface": "Surface",
+      "tonal": "Tonal"
+    },
+    "appearances": {
+      "label": "Appearances",
+      "note": "Combine an appearance with a color. Appearances cover every emphasis level, from the solid CTA to subtle ghost actions."
+    },
+    "badge": "With Badge",
+    "badge-note": "The badge is visual only. The accessible name of the icon button must include the badge context when relevant.",
+    "button-group": "Button Group (future)",
+    "button-group-note": "Button Group is planned for a future release. It will support horizontal and vertical layout, disabled states, badge integration, icon-only buttons, separators, and active/selected states.",
+    "chromeless": {
+      "note": "Chromeless keeps the size box, removes background and border, and enlarges the icon (60% of the box). The whole scales with size × density. Hover or press to see the micro-interaction."
+    },
+    "color": {
+      "danger": "Danger",
+      "info": "Info",
+      "neutral": "Neutral",
+      "primary": "Primary",
+      "success": "Success",
+      "warning": "Warning"
+    },
+    "colors": "Colors",
+    "custom": {
+      "label": "Custom Color (CSS variables)",
+      "note": "Custom is not an arbitrary input. Define the custom color tokens in CSS."
+    },
+    "density": {
+      "comfortable": "Comfortable",
+      "compact": "Compact",
+      "label": "Density",
+      "normal": "Normal"
+    },
+    "description": "Attribute directive that turns buttons and anchors into icon-only Solaris-themed action buttons.",
+    "installation": {
+      "note": "Install the single Solaris package and import the directive."
+    },
+    "props": {
+      "note": "Props table coming soon, with the table component."
+    },
+    "radius": "Radius",
+    "section": {
+      "appearances": "Appearance and color",
+      "badge": "Badge",
+      "chromeless": "Chromeless",
+      "colors": "Colors",
+      "custom": "Custom color",
+      "density": "Density",
+      "installation": "Installation",
+      "props": "Props",
+      "radius": "Radius",
+      "shape": "Shape",
+      "shape-radius": "Shape and radius",
+      "size-density": "Size and density",
+      "sizes": "Sizes",
+      "states": "States"
+    },
+    "shape": {
+      "label": "Shape",
+      "normal": "Normal",
+      "wide": "Wide"
+    },
+    "shape-radius": {
+      "note": "Radius controls corner rounding; the wide shape stretches the button horizontally."
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3×3 matrix, just like the standard button. The outer height always equals the control-height token of the combination."
+    },
+    "states": {
+      "label": "States",
+      "tab": {
+        "disabled": "Disabled",
+        "loading": "Loading"
+      },
+      "toggle": {
+        "disabled": {
+          "off": "Enable",
+          "on": "Disable"
+        },
+        "loading": {
+          "off": "Deactivate loading",
+          "on": "Activate loading"
+        }
+      }
+    },
+    "states-default": "Default States",
+    "states-toggle": "Interactive",
+    "title": "Icon Button"
+  }
+}

@@ -8,12 +8,15 @@
   [appearance]="appearance()"
   [required]="requiredInput()"
   [density]="effectiveDensity()"
+  [size]="size()"
   [solarisPopoverPadding]="'md'"
   [solarisPopoverAlign]="'start'"
   [solarisPopoverRadius]="radius()"
   [invalid]="isEffectivelyInvalid()"
   [disabled]="isEffectivelyDisabled()"
   [readonly]="isEffectivelyReadonly()"
+  [loading]="loading()"
+  [hasSuffixAction]="!!projectedSuffixAction()"
   [solarisPopoverPlacement]="'bottom'"
   [solarisPopoverAriaHasPopup]="'dialog'"
   (solarisPopoverOpened)="onPanelOpened()"
@@ -21,6 +24,15 @@
   [solarisPopoverTriggerFor]="calendarPopover"
   [solarisPopoverDisabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
 >
+  @if (prefix(); as prefixName) {
+    <span solaris-form-prefix>
+      <solaris-icon [name]="prefixName" [decorative]="true" />
+    </span>
+  }
+  <ng-content
+    select="[solaris-form-prefix]"
+    ngProjectAs="[solaris-form-prefix]"
+  />
   <input
     [id]="id"
     type="text"
@@ -28,6 +40,8 @@
     solaris-input
     autocomplete="off"
     inputmode="numeric"
+    [density]="effectiveDensity()"
+    [size]="size()"
     (blur)="onInputBlur()"
     [value]="displayValue()"
     (focus)="onInputFocus()"
@@ -45,12 +59,45 @@
     appearance="ghost"
     solaris-icon-button
     solaris-form-suffix
+    solaris-form-suffix-action
     class="solaris-date-picker__calendar-trigger"
+    [size]="size()"
+    [density]="effectiveDensity()"
     [attr.aria-label]="calendarButtonLabelText()"
     [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
   >
     <solaris-icon name="calendar" [decorative]="true" />
   </button>
+  @if (canClear() && !loading()) {
+    <button
+      type="button"
+      solaris-form-suffix
+      class="solaris-date-picker__clear"
+      [attr.aria-label]="clearAriaLabel()"
+      [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
+      (click)="clearValue(); $event.stopPropagation()"
+      tabindex="-1"
+    >
+      <solaris-icon name="x" [decorative]="true" />
+    </button>
+  }
+  @if (suffix(); as suffixName) {
+    <span solaris-form-suffix>
+      <solaris-icon [name]="suffixName" [decorative]="true" />
+    </span>
+  }
+  <ng-content
+    select="[solaris-form-suffix][solaris-form-suffix-action]"
+    ngProjectAs="[solaris-form-suffix-action]"
+  />
+  <ng-content
+    select="[solaris-form-suffix]"
+    ngProjectAs="[solaris-form-suffix]"
+  />
+  <ng-content
+    select="[solaris-form-label-action]"
+    ngProjectAs="[solaris-form-label-action]"
+  />
 </solaris-form-field>
 
 <ng-template #calendarPopover="solarisPopover" solaris-popover>
@@ -66,6 +113,9 @@
       [month]="displayedMonth()"
       [locale]="resolvedLocale()"
       [disabledDates]="disabledDates()"
+      [weekStartsOn]="weekStartsOn()"
+      [disablePast]="disablePast()"
+      [disableFuture]="disableFuture()"
       [nextMonthLabel]="nextMonthLabel()"
       (selectedChange)="selectDate($event)"
       (monthChange)="setDisplayedMonth($event)"

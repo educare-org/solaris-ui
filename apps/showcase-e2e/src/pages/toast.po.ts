@@ -7,12 +7,12 @@ export class ToastPageObject {
     return this.page.locator('solaris-toast').first();
   }
 
-  async show(name: string): Promise<void> {
-    await this.page.getByRole('button', { name }).click();
+  async show(): Promise<void> {
+    await this.page.getByTestId('toast-basic-trigger').click();
   }
 
-  async dismissAll(): Promise<void> {
-    await this.page.getByRole('button', { name: 'Dismiss All Toasts' }).click();
+  async dismiss(): Promise<void> {
+    await this.toast().locator('.solaris-toast__trailing-btn').first().click();
   }
 
   async assertVisible(): Promise<void> {

@@ -38,33 +38,46 @@
 }
 
 <ng-template #triggerContent>
-  <button
-    type="button"
-    class="solaris-collapsible__trigger"
-    [id]="triggerId()"
-    [attr.aria-expanded]="isOpen()"
-    [attr.aria-controls]="panelId()"
-    [attr.aria-label]="effectiveAriaLabel()"
-    [attr.aria-disabled]="!canToggleClosed() && isOpen() ? 'true' : null"
-    [disabled]="isEffectivelyDisabled()"
-    (click)="toggle()"
-  >
-    <span class="solaris-collapsible__trigger-label">
-      @if (leadingIcon(); as leadingIconName) {
-        <solaris-icon
-          [name]="leadingIconName"
-          class="solaris-collapsible__trigger-leading-icon"
-          [decorative]="leadingIconDecorative()"
-        />
-      }
-      {{ labelText() }}
-    </span>
-    <solaris-icon
-      [name]="effectiveIcon()"
-      class="solaris-collapsible__trigger-icon"
-      [decorative]="true"
-    />
-  </button>
+  <div class="solaris-collapsible__header-row">
+    <button
+      type="button"
+      class="solaris-collapsible__trigger"
+      [id]="triggerId()"
+      [attr.aria-expanded]="isOpen()"
+      [attr.aria-controls]="panelId()"
+      [attr.aria-label]="effectiveAriaLabel()"
+      [attr.aria-disabled]="!canToggleClosed() && isOpen() ? 'true' : null"
+      [disabled]="isEffectivelyDisabled()"
+      (click)="toggle()"
+    >
+      <span class="solaris-collapsible__trigger-label">
+        @if (leadingIcon(); as leadingIconName) {
+          <solaris-icon
+            [name]="leadingIconName"
+            class="solaris-collapsible__trigger-leading-icon"
+            [decorative]="leadingIconDecorative()"
+          />
+        }
+        {{ labelText() }}
+      </span>
+      <solaris-icon
+        [name]="effectiveIcon()"
+        class="solaris-collapsible__trigger-icon"
+        [decorative]="true"
+      />
+    </button>
+    @if (showAddAction()) {
+      <button
+        type="button"
+        class="solaris-collapsible__add-action"
+        [attr.aria-label]="addActionText()"
+        [disabled]="isEffectivelyDisabled()"
+        (click)="openAddDialog($event)"
+      >
+        <solaris-icon [name]="addActionIcon()" [decorative]="true" />
+      </button>
+    }
+  </div>
 </ng-template>
 
 <div

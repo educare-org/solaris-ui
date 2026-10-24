@@ -1,0 +1,144 @@
+{
+  "gradebook": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "basic": {
+      "note": "Coluna de identidade fixa, colunas de nota com máximas e médias no rodapé."
+    },
+    "breakdown": {
+      "dialog": {
+        "close": "Fechar",
+        "result": "MP final",
+        "title": "Composição da nota"
+      },
+      "note": "O MP combina FT+AT, GS1 e GS2; o “+” abre um dialog com as parcelas e o resultado.",
+      "open": {
+        "label": "Ver composição da nota"
+      }
+    },
+    "col": {
+      "ftat": "FT + AT",
+      "gs1": "GS1",
+      "gs2": "GS2",
+      "mp": "MP",
+      "result": "SITUAÇÃO",
+      "subject": "Disciplina"
+    },
+    "composed": {
+      "note": "A paginação é projetada no slot de footer da tabela, compartilhando a borda do gradebook."
+    },
+    "description": "Matriz de notas com grupos de semestre, badges de resultado e edição inline de notas.",
+    "editing": {
+      "bulk": {
+        "apply": "Aplicar em {{ count }} selecionadas",
+        "assignment": "Avaliação",
+        "hint": "Selecione linhas, informe a nota e aplique em lote. Também dá para colar uma coluna do Excel direto no editor.",
+        "value": "Nota"
+      },
+      "note": "Enter ou duplo-clique edita a nota; confirmar atualiza as linhas do consumidor. Com seleção múltipla use o commit em lote; com colar ativado dá para colar valores do Excel."
+    },
+    "editor": {
+      "label": "Editar nota"
+    },
+    "examples": {
+      "note": "Comece pelo gradebook padrão e explore semestres, edição e dados do servidor abaixo."
+    },
+    "group": {
+      "result": "Resultado",
+      "semester1": "1º Semestre",
+      "semester2": "2º Semestre"
+    },
+    "hint": {
+      "gs1": "Global Solution, nota de projeto de até 20 pontos.",
+      "gs2": "Global Solution do 2º semestre, nota de projeto de até 20 pontos."
+    },
+    "installation": {
+      "note": "Instale o pacote único do Solaris e importe o componente."
+    },
+    "layout": {
+      "label": "Layout das colunas",
+      "note": "Auto dimensiona colunas pelo conteúdo. Largura total distribui pelo container.",
+      "tab": {
+        "auto": "Auto",
+        "full": "Largura total"
+      }
+    },
+    "legend": {
+      "approved": "Aprovado",
+      "exam": "Exame",
+      "label": "Legenda de resultados",
+      "missing": "Nota faltante",
+      "note": "Uma legenda pontilhada explica badges de resultado e status de relance."
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve."
+    },
+    "scales": {
+      "label": "Escala de notas",
+      "note": "Troque a escala de notas; formatação, leitura e ordenação seguem a escala ativa.",
+      "tab": {
+        "banded": "Com faixas",
+        "concept": "Conceito"
+      }
+    },
+    "section": {
+      "basic": "Básico",
+      "breakdown": "Composição da nota",
+      "composed": "Com paginação",
+      "editing": "Edição",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "layout": "Layout",
+      "legend": "Legenda",
+      "props": "Propriedades",
+      "scales": "Escalas",
+      "semesters": "Semestres",
+      "server": "Dados do servidor",
+      "statuses": "Status da célula",
+      "totals": "Totais"
+    },
+    "semesters": {
+      "note": "Colunas de nota consecutivas se fundem sob grupos de semestre (1º e 2º); o grupo de resultado carrega MP e SITUAÇÃO. Use as abas para fixar a primeira coluna, ambas as bordas ou nenhuma.",
+      "scroll": {
+        "hint": "Role a tabela para o lado para ver as colunas fixas em ação."
+      },
+      "sticky": {
+        "both": "Primeira e última",
+        "first": "Só a primeira",
+        "label": "Colunas fixas",
+        "none": "Nenhuma"
+      }
+    },
+    "server": {
+      "note": "Um servidor simulado controla linhas, total e loading via SolarisTableDataSource."
+    },
+    "status": {
+      "excused": "Dispensada",
+      "late": "Entrega atrasada",
+      "missing": "Nota faltante"
+    },
+    "statuses": {
+      "note": "Cada célula carrega um status (em dia, atrasada, faltante, dispensada) com ponto sutil ao lado do número e rótulo para leitor de tela; nunca só por cor."
+    },
+    "title": "Gradebook",
+    "totals": {
+      "aggregate": {
+        "average": "Média",
+        "label": "Agregação do rodapé",
+        "max": "Máximo",
+        "sum": "Soma"
+      },
+      "max": {
+        "label": "Mostrar colunas MÁX"
+      },
+      "note": "O rodapé pode ser calculado dentro do gradebook com aggregate (média, soma, mínimo, máximo, mediana ou ponderada); um footerValueOf explícito sempre vence. A coluna MP é computada por linha a partir de GS1 e GS2, sem digitação. Ative as colunas MÁX e troque o arredondamento para ver o efeito no rodapé.",
+      "rounding": {
+        "down": "Sempre para baixo",
+        "label": "Arredondamento",
+        "standard": "Padrão da escala",
+        "up": "Sempre para cima"
+      }
+    }
+  }
+}

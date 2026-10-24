@@ -44,6 +44,30 @@ describe('SolarisButtonGroupComponent', () => {
     expect(el.getAttribute('data-orientation')).toBe('vertical');
   });
 
+  it('should have default size md', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-size')).toBe('md');
+  });
+
+  it('should apply size sm', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-size')).toBe('sm');
+  });
+
+  it('should apply size lg', () => {
+    const el = createFixture();
+    fixture.componentRef.setInput('size', 'lg');
+    fixture.detectChanges();
+    expect(el.getAttribute('data-size')).toBe('lg');
+  });
+
+  it('should fall back to theme density when density is unset', () => {
+    const el = createFixture();
+    expect(el.getAttribute('data-density')).toBe('normal');
+  });
+
   it('should have attached by default', () => {
     const el = createFixture();
     expect(el.hasAttribute('data-attached')).toBeTruthy();
@@ -341,5 +365,100 @@ describe('SolarisButtonGroupComponent with content projection', () => {
     const buttons = group.querySelectorAll('[solaris-button]');
     expect(buttons[0].hasAttribute('disabled')).toBeFalsy();
     expect(buttons[2].hasAttribute('disabled')).toBeTruthy();
+  });
+
+  @Component({
+    standalone: true,
+    imports: [
+      SolarisButtonGroupComponent,
+      SolarisButtonDirective,
+      SolarisIconButtonDirective,
+    ],
+    template: `
+      <solaris-button-group aria-label="Actions" size="sm" density="compact">
+        <button solaris-button size="lg">Edit</button>
+        <button solaris-icon-button size="lg" aria-label="More">M</button>
+      </solaris-button-group>
+    `,
+  })
+  class ForcedSizeHostComponent {}
+
+  it('should force group size onto button children', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(ForcedSizeHostComponent);
+    fixture.detectChanges();
+    const group = fixture.nativeElement.querySelector('solaris-button-group');
+    const buttons = group.querySelectorAll('[solaris-button]');
+    expect(buttons[0].getAttribute('data-size')).toBe('sm');
+  });
+
+  it('should force group size onto icon-button children', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(ForcedSizeHostComponent);
+    fixture.detectChanges();
+    const group = fixture.nativeElement.querySelector('solaris-button-group');
+    const iconButtons = group.querySelectorAll('[solaris-icon-button]');
+    expect(iconButtons[0].getAttribute('data-size')).toBe('sm');
+  });
+
+  it('should force group density onto children', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(ForcedSizeHostComponent);
+    fixture.detectChanges();
+    const group = fixture.nativeElement.querySelector('solaris-button-group');
+    const buttons = group.querySelectorAll('[solaris-button]');
+    const iconButtons = group.querySelectorAll('[solaris-icon-button]');
+    expect(buttons[0].getAttribute('data-density')).toBe('compact');
+    expect(iconButtons[0].getAttribute('data-density')).toBe('compact');
+  });
+
+  @Component({
+    standalone: true,
+    imports: [
+      SolarisButtonGroupComponent,
+      SolarisButtonDirective,
+      SolarisIconButtonDirective,
+    ],
+    template: `
+      <solaris-button-group aria-label="Actions" size="sm" density="compact">
+        <button solaris-button data-size="lg" data-density="comfortable">
+          Edit
+        </button>
+        <button solaris-icon-button data-size="lg" aria-label="More">M</button>
+      </solaris-button-group>
+    `,
+  })
+  class DataAttributeHostComponent {}
+
+  it('should force group size over data-* attributes', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(DataAttributeHostComponent);
+    fixture.detectChanges();
+    const group = fixture.nativeElement.querySelector('solaris-button-group');
+    const buttons = group.querySelectorAll('[solaris-button]');
+    const iconButtons = group.querySelectorAll('[solaris-icon-button]');
+    expect(buttons[0].getAttribute('data-size')).toBe('sm');
+    expect(buttons[0].getAttribute('data-density')).toBe('compact');
+    expect(iconButtons[0].getAttribute('data-size')).toBe('sm');
+  });
+
+  it('should mark children with data-group when attached', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(DataAttributeHostComponent);
+    fixture.detectChanges();
+    const group = fixture.nativeElement.querySelector('solaris-button-group');
+    const buttons = group.querySelectorAll('[solaris-button]');
+    const iconButtons = group.querySelectorAll('[solaris-icon-button]');
+    expect(buttons[0].getAttribute('data-group')).toBe('horizontal');
+    expect(iconButtons[0].getAttribute('data-group')).toBe('horizontal');
+  });
+
+  it('should not mark children with data-group when separated', () => {
+    TestBed.configureTestingModule({});
+    fixture = TestBed.createComponent(AttachedFalseHostComponent);
+    fixture.detectChanges();
+    const group = fixture.nativeElement.querySelector('solaris-button-group');
+    const buttons = group.querySelectorAll('[solaris-button]');
+    expect(buttons[0].hasAttribute('data-group')).toBe(false);
   });
 });

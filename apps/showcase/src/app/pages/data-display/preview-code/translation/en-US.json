@@ -1,0 +1,65 @@
+{
+  "preview-code": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "align": {
+      "center": "Center",
+      "start": "Start",
+      "stretch": "Stretch"
+    },
+    "controlled": {
+      "note": "Bind activeTab and activeTabChange for a controlled tab state."
+    },
+    "description": "Live preview with its source code, tab switching, and multi-file support.",
+    "examples": {
+      "note": "Start with the default preview, then explore tabs and files below."
+    },
+    "expandable": {
+      "note": "Long code collapses after four lines and expands on demand."
+    },
+    "files": {
+      "note": "Switch between files inside the code panel; unknown ids fall back to the first file."
+    },
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "layout": {
+      "note": "Align, minimum height, and padding tune the preview surface."
+    },
+    "minHeight": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small",
+      "xl": "Extra large"
+    },
+    "padding": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "controlled": "Controlled tab",
+      "examples": "Examples",
+      "expandable": "Expandable code",
+      "files": "Multiple files",
+      "installation": "Installation",
+      "layout": "Preview layout",
+      "props": "Props"
+    },
+    "title": "Preview Code"
+  },
+  "solaris": {
+    "previewCode": {
+      "ariaLabel": "Preview code",
+      "code": "Code",
+      "fileSelector": {
+        "ariaLabel": "Code files"
+      },
+      "preview": "Preview"
+    }
+  }
+}

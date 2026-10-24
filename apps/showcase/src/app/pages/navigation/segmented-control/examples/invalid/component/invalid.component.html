@@ -1,4 +1,8 @@
-<solaris-segmented-control [invalid]="true">
+<solaris-segmented-control
+  [required]="true"
+  [invalid]="showError()"
+  [ariaLabel]="'segmented-control.example.invalid.group-label' | translate"
+>
   <solaris-segmented-item value="a">{{
     'segmented-control.example.invalid.a' | translate
   }}</solaris-segmented-item>
@@ -6,3 +10,11 @@
     'segmented-control.example.invalid.b' | translate
   }}</solaris-segmented-item>
 </solaris-segmented-control>
+<button solaris-button type="button" (click)="validate()">
+  {{ 'segmented-control.example.invalid.validate' | translate }}
+</button>
+@if (showError()) {
+  <p class="invalid-example__error" role="alert">
+    {{ 'segmented-control.example.invalid.error' | translate }}
+  </p>
+}

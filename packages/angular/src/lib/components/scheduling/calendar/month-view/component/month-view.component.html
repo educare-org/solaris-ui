@@ -1,0 +1,214 @@
+<div
+  class="solaris-calendar-month-view__grid"
+  role="grid"
+  tabindex="0"
+  [attr.aria-label]="monthLabel()"
+  [attr.aria-activedescendant]="activeDescendantId()"
+  (keydown)="onGridKeydown($event)"
+  (focus)="onGridFocus()"
+  (blur)="onGridBlur()"
+>
+  <div
+    class="solaris-calendar-month-view__weekdays"
+    role="row"
+    [style.grid-template-columns]="gridTemplate()"
+  >
+    @for (name of weekdays(); track $index) {
+      <span class="solaris-calendar-month-view__weekday" role="columnheader">
+        {{ name }}
+      </span>
+    }
+  </div>
+
+  @for (week of rows(); track $index) {
+    <div
+      class="solaris-calendar-month-view__week"
+      role="row"
+      [style.grid-template-columns]="gridTemplate()"
+    >
+      @for (day of week; track day.value) {
+        <div
+          class="solaris-calendar-month-view__cell"
+          role="gridcell"
+          [attr.data-date]="day.value"
+          [attr.data-outside-month]="day.inCurrentMonth ? null : ''"
+          [attr.data-today]="isToday(day.value) ? '' : null"
+          [attr.data-dragging]="isDragCell(day.value) ? '' : null"
+          [attr.data-drag-target]="isDragTarget(day.value) ? '' : null"
+          [attr.data-active]="
+            isActiveDay(day.value) && gridFocused() ? '' : null
+          "
+          (pointerdown)="onCellPointerDown($event, day.value)"
+        >
+          <button
+            type="button"
+            class="solaris-calendar-month-view__day"
+            [id]="cellId(day.value)"
+            tabindex="-1"
+            [attr.aria-label]="dayAriaLabel(day.value)"
+            [attr.aria-selected]="isActiveDay(day.value)"
+            [attr.aria-current]="isToday(day.value) ? 'date' : null"
+            (click)="openDay(day.value)"
+          >
+            {{ day.day }}
+          </button>
+          <div class="solaris-calendar-month-view__items">
+            @for (item of visibleItems(day.value); track itemKey(item)) {
+              @if (item.kind === 'task') {
+                <button
+                  type="button"
+                  class="solaris-calendar-month-view__chip"
+                  data-chip=""
+                  [attr.data-kind]="item.kind"
+                  [attr.data-color]="item.color"
+                  [attr.data-completed]="item.completed ? '' : null"
+                  [attr.data-selected]="isSelected(item) ? '' : null"
+                  [attr.data-dragging]="isDragSource(item) ? '' : null"
+                  role="checkbox"
+                  [attr.aria-checked]="item.completed"
+                  [attr.aria-label]="chipAriaLabel(item)"
+                  (click)="toggleTask(item)"
+                  (pointerdown)="onChipPointerDown($event, item, day.value)"
+                  (keydown)="onChipKeydown($event, item)"
+                >
+                  <span
+                    class="solaris-calendar-month-view__check"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="solaris-calendar-month-view__chip-text">
+                    {{ item.title }}
+                  </span>
+                </button>
+              } @else if (item.kind === 'holiday') {
+                <span
+                  class="solaris-calendar-month-view__chip"
+                  data-chip=""
+                  [attr.data-kind]="item.kind"
+                  [attr.data-color]="item.color"
+                >
+                  <span class="solaris-calendar-month-view__chip-text">
+                    {{ item.title }}
+                  </span>
+                </span>
+              } @else {
+                <button
+                  type="button"
+                  class="solaris-calendar-month-view__chip"
+                  data-chip=""
+                  [attr.data-kind]="item.kind"
+                  [attr.data-color]="item.color"
+                  [attr.data-occurrence]="item.occurrenceStart"
+                  [attr.data-dragging]="isDragSource(item) ? '' : null"
+                  [attr.data-selected]="isSelected(item) ? '' : null"
+                  [attr.aria-label]="chipAriaLabel(item)"
+                  (click)="openEvent(item)"
+                  (pointerdown)="onChipPointerDown($event, item, day.value)"
+                  (keydown)="onChipKeydown($event, item)"
+                >
+                  @if (item.time !== null) {
+                    <span class="solaris-calendar-month-view__chip-time">
+                      {{ item.time }}
+                    </span>
+                  }
+                  <span class="solaris-calendar-month-view__chip-text">
+                    {{ item.title }}
+                  </span>
+                </button>
+              }
+            }
+            @if (hiddenItems(day.value).length > 0) {
+              <button
+                type="button"
+                class="solaris-calendar-month-view__more"
+                solaris-popover-trigger
+                [solarisPopoverTriggerFor]="morePopover"
+                [solarisPopoverPlacement]="'bottom'"
+                [solarisPopoverAlign]="'start'"
+                [solarisPopoverFitContent]="true"
+                [solarisPopoverMaxWidth]="
+                  'calc(100vw - var(--solaris-spacing-4))'
+                "
+                [solarisPopoverAriaHasPopup]="'dialog'"
+                [attr.aria-label]="moreAriaLabel(day.value)"
+                (click)="openMore(day.value)"
+              >
+                {{ moreText(hiddenItems(day.value).length) }}
+              </button>
+              <ng-template #morePopover="solarisPopover" solaris-popover>
+                <div
+                  role="dialog"
+                  class="solaris-calendar-month-view__panel"
+                  [attr.aria-label]="dayAriaLabel(day.value)"
+                >
+                  @for (item of itemsFor(day.value); track itemKey(item)) {
+                    @if (item.kind === 'task') {
+                      <button
+                        type="button"
+                        class="solaris-calendar-month-view__chip"
+                        [attr.data-kind]="item.kind"
+                        [attr.data-color]="item.color"
+                        role="checkbox"
+                        [attr.aria-checked]="item.completed"
+                        [attr.aria-label]="chipAriaLabel(item)"
+                        (click)="toggleTask(item)"
+                      >
+                        <span
+                          class="solaris-calendar-month-view__check"
+                          aria-hidden="true"
+                        ></span>
+                        <span class="solaris-calendar-month-view__chip-text">
+                          {{ item.title }}
+                        </span>
+                      </button>
+                    } @else if (item.kind === 'event') {
+                      <button
+                        type="button"
+                        class="solaris-calendar-month-view__chip"
+                        [attr.data-kind]="item.kind"
+                        [attr.data-color]="item.color"
+                        [attr.aria-label]="chipAriaLabel(item)"
+                        (click)="openEvent(item)"
+                      >
+                        @if (item.time !== null) {
+                          <span class="solaris-calendar-month-view__chip-time">
+                            {{ item.time }}
+                          </span>
+                        }
+                        <span class="solaris-calendar-month-view__chip-text">
+                          {{ item.title }}
+                        </span>
+                      </button>
+                    } @else {
+                      <span
+                        class="solaris-calendar-month-view__chip"
+                        [attr.data-kind]="item.kind"
+                        [attr.data-color]="item.color"
+                      >
+                        <span class="solaris-calendar-month-view__chip-text">
+                          {{ item.title }}
+                        </span>
+                      </span>
+                    }
+                  }
+                </div>
+              </ng-template>
+            }
+            @if (dragGhostDate() === day.value) {
+              <div
+                class="solaris-calendar-month-view__ghost"
+                data-ghost=""
+                [attr.data-mode]="dragSession()?.mode ?? null"
+                aria-hidden="true"
+              >
+                <span class="solaris-calendar-month-view__ghost-text">
+                  {{ dragGhostText() }}
+                </span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+<span solaris-visually-hidden role="status">{{ announcement() }}</span>

@@ -46,19 +46,21 @@ Alert is a **highly relevant contextual message**. It alters the user's percepti
 
 **Inputs:**
 
-| Input         | Type                                                                    | Default     | Description                   |
-| ------------- | ----------------------------------------------------------------------- | ----------- | ----------------------------- |
-| variant       | `'neutral' \| 'info' \| 'success' \| 'warning' \| 'danger' \| 'custom'` | `'info'`    | Semantic variant              |
-| appearance    | `'tonal' \| 'outline' \| 'surface' \| 'solid'`                          | `'tonal'`   | Visual appearance             |
-| radius        | `'sm' \| 'md' \| 'lg' \| 'xl'`                                          | `'md'`      | Border radius                 |
-| density       | `'compact' \| 'normal' \| 'comfortable' \| undefined`                   | `undefined` | Spacing density               |
-| closable      | `boolean`                                                               | `false`     | Shows close button            |
-| live          | `'off' \| 'polite' \| 'assertive'`                                      | `'off'`     | Live region setting           |
-| showIcon      | `boolean`                                                               | `true`      | Shows variant icon            |
-| icon          | `string \| undefined`                                                   | `undefined` | Custom icon name              |
-| closeLabel    | `string \| undefined`                                                   | `undefined` | Close button accessible label |
-| closeLabelKey | `string \| undefined`                                                   | `undefined` | Close button i18n key         |
-| textPosition  | `'start' \| 'center' \| 'end' \| 'space-between'`                       | `'start'`   | Text alignment inside content |
+| Input         | Type                                                                    | Default     | Description                                    |
+| ------------- | ----------------------------------------------------------------------- | ----------- | ---------------------------------------------- |
+| variant       | `'neutral' \| 'info' \| 'success' \| 'warning' \| 'danger' \| 'custom'` | `'info'`    | Semantic variant                               |
+| appearance    | `'tonal' \| 'outline' \| 'surface' \| 'solid'`                          | `'tonal'`   | Visual appearance                              |
+| radius        | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                                | `'md'`      | Border radius                                  |
+| size          | `'sm' \| 'md' \| 'lg'`                                                  | `'md'`      | Size (padding, gap, typography, icon)          |
+| density       | `'compact' \| 'normal' \| 'comfortable' \| undefined`                   | `undefined` | Spacing density (falls back to theme density)  |
+| closable      | `boolean`                                                               | `false`     | Shows close button                             |
+| hasTitle      | `boolean \| undefined`                                                  | `undefined` | Manual title-presence override (auto-detected) |
+| live          | `'off' \| 'polite' \| 'assertive'`                                      | `'off'`     | Live region setting                            |
+| showIcon      | `boolean`                                                               | `true`      | Shows variant icon                             |
+| icon          | `string \| undefined`                                                   | `undefined` | Custom icon name                               |
+| closeLabel    | `string \| undefined`                                                   | `undefined` | Close button accessible label                  |
+| closeLabelKey | `string \| undefined`                                                   | `undefined` | Close button i18n key                          |
+| textPosition  | `'start' \| 'center' \| 'end' \| 'space-between'`                       | `'start'`   | Text alignment inside content                  |
 
 **Outputs:**
 
@@ -101,14 +103,29 @@ Applies Alert description typography. Preserves the host element.
 
 ## Appearances
 
-| Appearance        | Visual                                                              |
-| ----------------- | ------------------------------------------------------------------- |
-| `tonal` (default) | Soft variant background, semantic text, subtle border, colored icon |
-| `outline`         | Transparent background, variant border, semantic text/icon          |
-| `surface`         | Surface background, subtle accent border, semantic icon             |
-| `solid`           | Filled background, on-solid text, high prominence                   |
+| Appearance        | Visual                                                         |
+| ----------------- | -------------------------------------------------------------- |
+| `tonal` (default) | Soft variant background, semantic text, no border              |
+| `outline`         | Transparent background, variant border, semantic text/icon     |
+| `surface`         | Soft variant background, semantic text, visible variant border |
+| `solid`           | Filled background, on-solid text, high prominence              |
 
 > **Ghost** and **glass** are not available in Alert v1.
+
+---
+
+## Sizes
+
+| Size           | Content font | Icon | Effect                   |
+| -------------- | ------------ | ---- | ------------------------ |
+| `sm`           | `xs`         | `md` | Compact inline messages  |
+| `md` (default) | `sm`         | `lg` | Balanced default         |
+| `lg`           | `md`         | `xl` | High-prominence messages |
+
+Size selects the padding/gap step (`--solaris-density-padding-*` /
+`--solaris-density-gap-*`); the effective density resolves the value —
+the same tier composition as Card `data-padding`. All 9 `size × density`
+combinations resolve distinctly. Default `md + normal` keeps previous visuals.
 
 ---
 
@@ -124,12 +141,13 @@ Applies Alert description typography. Preserves the host element.
 
 ## Radius
 
-| Value          | Token                           |
-| -------------- | ------------------------------- |
-| `sm`           | `--solaris-radius-sm` (0.25rem) |
-| `md` (default) | `--solaris-radius-md` (0.5rem)  |
-| `lg`           | `--solaris-radius-lg` (0.75rem) |
-| `xl`           | `--solaris-radius-xl` (1rem)    |
+| Value          | Token                                |
+| -------------- | ------------------------------------ |
+| `none`         | `0` (square, for full-bleed banners) |
+| `sm`           | `--solaris-radius-sm` (0.25rem)      |
+| `md` (default) | `--solaris-radius-md` (0.5rem)       |
+| `lg`           | `--solaris-radius-lg` (0.75rem)      |
+| `xl`           | `--solaris-radius-xl` (1rem)         |
 
 > `full` radius is not supported in Alert v1.
 
@@ -200,6 +218,17 @@ These are **optional** anatomy helpers for consistent styling:
 
 - `title` and `description` are directives — they preserve the host element and heading level.
 - `actions` is a component that wraps projected action content.
+- Title presence is **auto-detected**: projecting `[solaris-alert-title]` sets
+  `data-has-title` (first-line typography bump) without any input.
+  Set `hasTitle` explicitly only to override detection.
+
+```html
+<!-- no hasTitle input needed -->
+<solaris-alert variant="warning">
+  <h3 solaris-alert-title>Attention</h3>
+  <p solaris-alert-description>This action affects active users.</p>
+</solaris-alert>
+```
 
 ---
 
@@ -273,6 +302,11 @@ Use the `custom` variant with documented CSS variables:
 <solaris-alert appearance="solid">Solid alert</solaris-alert>
 
 <!-- Density -->
+<solaris-alert size="sm">Small alert</solaris-alert>
+<solaris-alert size="md">Medium alert</solaris-alert>
+<solaris-alert size="lg">Large alert</solaris-alert>
+
+<!-- Density -->
 <solaris-alert density="compact">Compact alert</solaris-alert>
 <solaris-alert density="comfortable">Comfortable alert</solaris-alert>
 
@@ -307,30 +341,33 @@ Use the `custom` variant with documented CSS variables:
 
 The following CSS variables can be customized:
 
-| Token                                    | Purpose                                     |
-| ---------------------------------------- | ------------------------------------------- |
-| `--solaris-alert-background`             | Container background color                  |
-| `--solaris-alert-color`                  | Text color                                  |
-| `--solaris-alert-border-color`           | Border color                                |
-| `--solaris-alert-border-width`           | Border width                                |
-| `--solaris-alert-radius`                 | Border radius                               |
-| `--solaris-alert-padding`                | Container padding                           |
-| `--solaris-alert-gap`                    | Gap between icon, content, and close button |
-| `--solaris-alert-icon-size`              | Icon width/height                           |
-| `--solaris-alert-icon-color`             | Icon color                                  |
-| `--solaris-alert-icon-offset`            | Vertical offset applied to the icon         |
-| `--solaris-alert-close-size`             | Close button width/height                   |
-| `--solaris-alert-close-icon-size`        | Close icon width/height                     |
-| `--solaris-alert-close-color`            | Close button color                          |
-| `--solaris-alert-close-background`       | Close button background                     |
-| `--solaris-alert-close-hover-background` | Close button hover background               |
-| `--solaris-alert-close-offset`           | Vertical offset applied to the close button |
-| `--solaris-alert-title-color`            | Title text color                            |
-| `--solaris-alert-description-color`      | Description text color                      |
-| `--solaris-alert-content-gap`            | Gap between title, description, and actions |
-| `--solaris-alert-actions-gap`            | Gap between action items                    |
-| `--solaris-alert-first-line-height`      | Line height of the first content line       |
-| `--solaris-alert-first-line-font-size`   | Font size of the first content line         |
+| Token                                    | Purpose                                      |
+| ---------------------------------------- | -------------------------------------------- |
+| `--solaris-alert-background`             | Container background color                   |
+| `--solaris-alert-color`                  | Text color                                   |
+| `--solaris-alert-border-color`           | Border color                                 |
+| `--solaris-alert-border-width`           | Border width                                 |
+| `--solaris-alert-radius`                 | Border radius                                |
+| `--solaris-alert-padding`                | Container padding                            |
+| `--solaris-alert-gap`                    | Gap between icon, content, and close button  |
+| `--solaris-alert-icon-size`              | Icon width/height                            |
+| `--solaris-alert-font-size`              | Content font size (driven by `size`)         |
+| `--solaris-alert-title-font-size`        | Title font size (driven by `size`)           |
+| `--solaris-alert-close-size`             | Close button width/height (driven by `size`) |
+| `--solaris-alert-icon-color`             | Icon color                                   |
+| `--solaris-alert-icon-offset`            | Vertical offset applied to the icon          |
+| `--solaris-alert-close-size`             | Close button width/height                    |
+| `--solaris-alert-close-icon-size`        | Close icon width/height                      |
+| `--solaris-alert-close-color`            | Close button color                           |
+| `--solaris-alert-close-background`       | Close button background                      |
+| `--solaris-alert-close-hover-background` | Close button hover background                |
+| `--solaris-alert-close-offset`           | Vertical offset applied to the close button  |
+| `--solaris-alert-title-color`            | Title text color                             |
+| `--solaris-alert-description-color`      | Description text color                       |
+| `--solaris-alert-content-gap`            | Gap between title, description, and actions  |
+| `--solaris-alert-actions-gap`            | Gap between action items                     |
+| `--solaris-alert-first-line-height`      | Line height of the first content line        |
+| `--solaris-alert-first-line-font-size`   | Font size of the first content line          |
 
 ### Custom variant tokens
 

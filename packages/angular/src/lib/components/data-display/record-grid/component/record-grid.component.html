@@ -1,0 +1,478 @@
+<div class="solaris-record-grid__announcement" role="status">
+  {{ sortAnnouncement() }}
+</div>
+@if (toolbarTemplate()) {
+  <div class="solaris-record-grid__toolbar">
+    <ng-container *ngTemplateOutlet="toolbarTemplate()?.templateRef" />
+  </div>
+}
+<div class="solaris-record-grid__frame">
+  @if (loading()) {
+    @if (loadingTemplate(); as loadingSlot) {
+      <ng-container *ngTemplateOutlet="loadingSlot.templateRef" />
+    } @else {
+      <div class="solaris-record-grid__state" role="status" aria-live="polite">
+        <solaris-skeleton variant="text" width="60%" />
+        <solaris-skeleton variant="text" width="80%" />
+        <solaris-skeleton variant="text" width="70%" />
+        <span class="solaris-record-grid__state-text">{{
+          resolvedLoadingText()
+        }}</span>
+      </div>
+    }
+  } @else if (hasError()) {
+    <div class="solaris-record-grid__state" role="alert">
+      @if (errorTemplate(); as errorSlot) {
+        <ng-container *ngTemplateOutlet="errorSlot.templateRef" />
+      } @else {
+        {{ resolvedErrorText() }}
+      }
+    </div>
+  } @else if (hasEmptyState()) {
+    <div class="solaris-record-grid__state">
+      @if (emptyTemplate(); as emptySlot) {
+        <ng-container *ngTemplateOutlet="emptySlot.templateRef" />
+      } @else {
+        {{ resolvedEmptyText() }}
+      }
+    </div>
+  } @else if (isCardLayout()) {
+    <ul class="solaris-record-grid__cards">
+      @for (entry of sortedEntries(); track trackByRowId($index, entry)) {
+        <li
+          class="solaris-record-grid__card"
+          [attr.data-selected]="entry.selected || undefined"
+        >
+          @for (
+            column of visibleColumns();
+            track trackByColumnId($index, column)
+          ) {
+            <div class="solaris-record-grid__card-field">
+              <span class="solaris-record-grid__card-term">{{
+                headerLabel(column)
+              }}</span>
+              <span class="solaris-record-grid__card-value">{{
+                cellText(entry, column)
+              }}</span>
+            </div>
+          }
+        </li>
+      }
+    </ul>
+  } @else {
+    <div
+      class="solaris-record-grid__viewport"
+      role="region"
+      [attr.aria-label]="resolvedAriaLabel()"
+    >
+      <table
+        class="solaris-record-grid__table"
+        [attr.aria-label]="resolvedAriaLabel()"
+        [attr.aria-rowcount]="headRowCount() + sortedEntries().length + 1"
+      >
+        <thead class="solaris-record-grid__head">
+          @if (hasGroups()) {
+            <tr
+              class="solaris-record-grid__head-row solaris-record-grid__head-row--group"
+              [attr.aria-rowindex]="1"
+            >
+              @if (isSelectable()) {
+                <th
+                  class="solaris-record-grid__head-cell"
+                  scope="col"
+                  rowspan="2"
+                >
+                  <solaris-checkbox
+                    radius="sm"
+                    [checked]="allVisibleRowsSelected()"
+                    [indeterminate]="someVisibleRowsSelected()"
+                    [ariaLabel]="resolvedSelectAllLabel()"
+                    (checkedChange)="toggleSelectAllVisibleRows()"
+                  />
+                </th>
+              }
+              @for (span of groupSpans(); track span.group?.id ?? $index) {
+                @if (span.group !== null) {
+                  <th
+                    class="solaris-record-grid__head-cell"
+                    scope="colgroup"
+                    [attr.colspan]="span.columns.length"
+                  >
+                    {{ groupLabel(span.group) }}
+                  </th>
+                } @else {
+                  @for (
+                    column of span.columns;
+                    track trackByColumnId($index, column)
+                  ) {
+                    <th
+                      class="solaris-record-grid__head-cell"
+                      scope="col"
+                      rowspan="2"
+                      [attr.data-column-id]="column.id"
+                      [attr.data-sticky]="
+                        isStickyColumn(column.id) ? 'start' : null
+                      "
+                      [attr.aria-sort]="getAriaSort(column)"
+                      [attr.aria-colindex]="headerColIndex(column)"
+                    >
+                      <ng-container
+                        *ngTemplateOutlet="
+                          headerCellContent;
+                          context: { column: column }
+                        "
+                      />
+                    </th>
+                  }
+                }
+              }
+            </tr>
+          }
+          <tr
+            class="solaris-record-grid__head-row"
+            [attr.aria-rowindex]="hasGroups() ? 2 : 1"
+          >
+            @if (!hasGroups() && isSelectable()) {
+              <th class="solaris-record-grid__head-cell" scope="col">
+                <solaris-checkbox
+                  radius="sm"
+                  [checked]="allVisibleRowsSelected()"
+                  [indeterminate]="someVisibleRowsSelected()"
+                  [ariaLabel]="resolvedSelectAllLabel()"
+                  (checkedChange)="toggleSelectAllVisibleRows()"
+                />
+              </th>
+            }
+            @if (hasGroups()) {
+              @for (span of groupSpans(); track span.group?.id ?? $index) {
+                @if (span.group !== null) {
+                  @for (
+                    column of span.columns;
+                    track trackByColumnId($index, column)
+                  ) {
+                    <th
+                      class="solaris-record-grid__head-cell"
+                      scope="col"
+                      [attr.data-column-id]="column.id"
+                      [attr.data-sticky]="
+                        isStickyColumn(column.id) ? 'start' : null
+                      "
+                      [attr.aria-sort]="getAriaSort(column)"
+                      [attr.aria-colindex]="headerColIndex(column)"
+                    >
+                      <ng-container
+                        *ngTemplateOutlet="
+                          headerCellContent;
+                          context: { column: column }
+                        "
+                      />
+                    </th>
+                  }
+                }
+              }
+            } @else {
+              @for (
+                column of visibleColumns();
+                track trackByColumnId($index, column)
+              ) {
+                <th
+                  class="solaris-record-grid__head-cell"
+                  scope="col"
+                  [attr.data-column-id]="column.id"
+                  [attr.data-sticky]="
+                    isStickyColumn(column.id) ? 'start' : null
+                  "
+                  [attr.aria-sort]="getAriaSort(column)"
+                  [attr.aria-colindex]="headerColIndex(column)"
+                >
+                  <ng-container
+                    *ngTemplateOutlet="
+                      headerCellContent;
+                      context: { column: column }
+                    "
+                  />
+                </th>
+              }
+            }
+          </tr>
+        </thead>
+        <tbody class="solaris-record-grid__body">
+          @for (
+            entry of sortedEntries();
+            track trackByRowId($index, entry);
+            let entryIndex = $index
+          ) {
+            @if (showSectionDivider(entryIndex) && entry.sectionId !== null) {
+              <tr
+                class="solaris-record-grid__section-row"
+                [attr.aria-rowindex]="ariaRowIndex(entryIndex) - 1"
+              >
+                <th
+                  class="solaris-record-grid__section-cell"
+                  scope="rowgroup"
+                  [attr.colspan]="totalColumnCount()"
+                >
+                  {{ sectionLabel(entry.sectionId) }}
+                </th>
+              </tr>
+            }
+            <tr
+              class="solaris-record-grid__row"
+              [attr.data-selected]="entry.selected || undefined"
+              [attr.aria-rowindex]="ariaRowIndex(entryIndex)"
+              (click)="onRowClick(entry, $event)"
+            >
+              @if (isSelectable()) {
+                <td
+                  class="solaris-record-grid__cell solaris-record-grid__cell--selection"
+                  [attr.aria-colindex]="1"
+                >
+                  <solaris-checkbox
+                    radius="sm"
+                    [checked]="entry.selected"
+                    [ariaLabel]="resolveRowSelectionLabel(entry)"
+                    (checkedChange)="toggleRowSelection(entry)"
+                  />
+                </td>
+              }
+              @for (
+                cell of spanCells(entryIndex);
+                track trackByColumnId($index, cell.column);
+                let cellPosition = $index
+              ) {
+                @if (!cell.covered) {
+                  <td
+                    class="solaris-record-grid__cell"
+                    [attr.data-column-id]="cell.column.id"
+                    [attr.data-align]="cell.column.align ?? null"
+                    [attr.data-sticky]="
+                      isStickyColumn(cell.column.id) ? 'start' : null
+                    "
+                    [attr.data-editable]="
+                      isCellEditable(entry, cell.column, cell) || undefined
+                    "
+                    [attr.data-invalid]="
+                      draftError(entry.rowId, cell.column.id) !== null ||
+                      undefined
+                    "
+                    [attr.data-computed]="isComputed(cell.column) || undefined"
+                    [attr.rowspan]="cell.rowSpan > 1 ? cell.rowSpan : null"
+                    [attr.colspan]="cell.colSpan > 1 ? cell.colSpan : null"
+                    [attr.aria-colindex]="
+                      ariaColIndex(spanCells(entryIndex), cellPosition)
+                    "
+                    (dblclick)="openEditor(entry, cell.column, cell)"
+                  >
+                    @if (isEditing(entry.rowId, cell.column.id)) {
+                      <div class="solaris-record-grid__cell-main--editing">
+                        <input
+                          class="solaris-record-grid__editor"
+                          solaris-gradebook-autofocus
+                          type="text"
+                          [value]="draftValue(entry.rowId, cell.column.id)"
+                          [attr.aria-label]="headerLabel(cell.column)"
+                          [attr.aria-invalid]="
+                            draftError(entry.rowId, cell.column.id) !== null
+                          "
+                          [attr.aria-describedby]="
+                            draftError(entry.rowId, cell.column.id) !== null
+                              ? 'rg-' +
+                                entry.rowId +
+                                '-' +
+                                cell.column.id +
+                                '-error'
+                              : null
+                          "
+                          (change)="
+                            commitEditor(
+                              entry,
+                              cell.column,
+                              $any($event.target).value
+                            )
+                          "
+                          (keydown.enter)="
+                            $event.stopPropagation();
+                            commitEditor(
+                              entry,
+                              cell.column,
+                              $any($event.target).value
+                            )
+                          "
+                          (keydown.escape)="closeEditor()"
+                          (blur)="closeEditor()"
+                        />
+                      </div>
+                      @if (
+                        draftError(entry.rowId, cell.column.id);
+                        as cellError
+                      ) {
+                        <span
+                          class="solaris-record-grid__cell-error"
+                          role="alert"
+                          [attr.id]="
+                            'rg-' +
+                            entry.rowId +
+                            '-' +
+                            cell.column.id +
+                            '-error'
+                          "
+                        >
+                          {{ cellError }}
+                        </span>
+                      }
+                    } @else if (resolveCellTemplate(cell.column); as cellSlot) {
+                      <ng-container
+                        *ngTemplateOutlet="
+                          cellSlot.templateRef;
+                          context: {
+                            $implicit: entry.row,
+                            row: entry.row,
+                            rowId: entry.rowId,
+                            value: entry.values[cell.column.id],
+                            column: cell.column,
+                            index: entry.index,
+                          }
+                        "
+                      />
+                    } @else if (isCellEditable(entry, cell.column, cell)) {
+                      <button
+                        type="button"
+                        class="solaris-record-grid__cell-button"
+                        [attr.title]="resolveCellTitle(entry, cell.column)"
+                        (click)="openEditor(entry, cell.column, cell)"
+                      >
+                        {{ cellText(entry, cell.column) }}
+                      </button>
+                    } @else {
+                      <span
+                        class="solaris-record-grid__cell-text"
+                        [attr.title]="resolveCellTitle(entry, cell.column)"
+                      >
+                        {{ cellText(entry, cell.column) }}
+                      </span>
+                    }
+                  </td>
+                }
+              }
+            </tr>
+          }
+        </tbody>
+        <tfoot class="solaris-record-grid__foot">
+          @for (
+            group of sectionFooterGroups();
+            track group.sectionId ?? 'all'
+          ) {
+            <tr class="solaris-record-grid__foot-row">
+              @if (isSelectable()) {
+                <td class="solaris-record-grid__cell" aria-hidden="true"></td>
+              }
+              @for (
+                column of visibleColumns();
+                track trackByColumnId($index, column)
+              ) {
+                <td
+                  class="solaris-record-grid__cell"
+                  [attr.data-column-id]="column.id"
+                >
+                  @if (resolveFooterCellTemplate(column); as footerSlot) {
+                    <ng-container
+                      *ngTemplateOutlet="
+                        footerSlot.templateRef;
+                        context: {
+                          $implicit: group.rows,
+                          rows: group.rows,
+                          column: column,
+                        }
+                      "
+                    />
+                  } @else {
+                    {{ footerText(group.rows, column) }}
+                  }
+                </td>
+              }
+            </tr>
+          }
+        </tfoot>
+      </table>
+    </div>
+  }
+  @if (footerTemplate()) {
+    <div class="solaris-record-grid__footer">
+      <ng-container *ngTemplateOutlet="footerTemplate()?.templateRef" />
+    </div>
+  }
+  @if (draftCount() > 0) {
+    <div class="solaris-record-grid__draftbar">
+      <button
+        type="button"
+        solaris-button
+        appearance="outline"
+        size="sm"
+        (click)="commitAll()"
+      >
+        {{ commitAllLabel() }}
+      </button>
+      <button
+        type="button"
+        solaris-button
+        appearance="outline"
+        size="sm"
+        (click)="discardAll()"
+      >
+        {{ discardAllLabel() }}
+      </button>
+    </div>
+  }
+</div>
+<ng-template #headerCellContent let-column="column">
+  @if (resolveHeaderTemplate(column); as headerSlot) {
+    <ng-container
+      *ngTemplateOutlet="
+        headerSlot.templateRef;
+        context: {
+          $implicit: column,
+          column: column,
+        }
+      "
+    />
+  } @else if (isColumnSortable(column)) {
+    <button
+      type="button"
+      class="solaris-record-grid__sort-button"
+      [attr.aria-label]="sortButtonLabel(column)"
+      (click)="toggleSort(column)"
+    >
+      <span class="solaris-record-grid__head-label">{{
+        headerLabel(column)
+      }}</span>
+      <span
+        class="solaris-record-grid__sort-indicator"
+        [attr.data-sort]="currentSortDirection(column.id) || 'none'"
+        aria-hidden="true"
+      >
+        <solaris-icon
+          class="solaris-record-grid__sort-part"
+          name="sort-asc"
+          data-direction="asc"
+          [attr.data-active]="
+            currentSortDirection(column.id) === 'asc' || undefined
+          "
+          [decorative]="true"
+        />
+        <solaris-icon
+          class="solaris-record-grid__sort-part"
+          name="sort-desc"
+          data-direction="desc"
+          [attr.data-active]="
+            currentSortDirection(column.id) === 'desc' || undefined
+          "
+          [decorative]="true"
+        />
+      </span>
+    </button>
+  } @else {
+    <span class="solaris-record-grid__head-label">{{
+      headerLabel(column)
+    }}</span>
+  }
+</ng-template>

@@ -1,0 +1,15 @@
+<ul class="solaris-gradebook-legend__list">
+  @for (item of items(); track item.label ?? item.labelKey) {
+    <li class="solaris-gradebook-legend__item">
+      <solaris-badge
+        [dot]="true"
+        size="sm"
+        [color]="item.color"
+        [ariaLabel]="resolveItemLabel(item)"
+      />
+      <span class="solaris-gradebook-legend__label">{{
+        resolveItemLabel(item)
+      }}</span>
+    </li>
+  }
+</ul>

@@ -1,1 +1,9 @@
-<ng-content />
+@if (dot()) {
+  <span class="solaris-badge__dot" aria-hidden="true"></span>
+} @else if (displayCount() !== null) {
+  <span class="solaris-badge__content solaris-badge__content--count">{{
+    displayCount()
+  }}</span>
+} @else {
+  <span class="solaris-badge__content"><ng-content /></span>
+}

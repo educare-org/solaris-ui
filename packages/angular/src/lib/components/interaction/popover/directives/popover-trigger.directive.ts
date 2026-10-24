@@ -1,11 +1,3 @@
-// SECURITY_EXCEPTION_FILE: this.document.activeElement required for restoreFocus. SSR-safe via injected DOCUMENT.
-// SECURITY_EXCEPTION_FILE: nativeElement.setAttribute required to sync data-connected-side. Read-only DOM access.
-// SECURITY_EXCEPTION_FILE: querySelector required to find descendant form-field control wrapper. SSR-safe via injected ElementRef.
-// SECURITY_EXCEPTION_FILE: nativeElement.querySelector required to find panel container in attached overlay. CDK overlay provides no typed API for this.
-// SECURITY_EXCEPTION_FILE: nativeElement needed for outside-click containment check. ElementRef SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement.offsetWidth ÔÇö required for matchTriggerWidth.
-// SECURITY_EXCEPTION_FILE: getBoundingClientRect and style required to size fit-content panels after projection.
-// SECURITY_EXCEPTION_FILE: this.document.contains() to safely verify trigger still exists before focus.
 import {
   Directive,
   ElementRef,
@@ -28,6 +20,7 @@ import {
   OverlayRef,
   OverlayConfig,
   FlexibleConnectedPositionStrategy,
+  ConnectedPosition,
 } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
@@ -41,6 +34,10 @@ import {
   getPrimaryPosition,
   getFallbackPositions,
 } from '../model/popover-position';
+import {
+  scheduleMotionClose,
+  cancelMotionClose,
+} from '../../../../core/utils/motion-close';
 
 import type {
   SolarisPopoverPlacement,
@@ -83,6 +80,7 @@ export class SolarisPopoverTriggerDirective {
   private panelComponentRef: ComponentRef<SolarisPopoverPanelComponent> | null =
     null;
   private fitContentSizeTimeout: ReturnType<typeof setTimeout> | null = null;
+  private closeTimeout: ReturnType<typeof setTimeout> | null = null;
   private connectedSide: 'top' | 'bottom' = 'bottom';
 
   readonly solarisPopoverTriggerFor = input<
@@ -133,6 +131,13 @@ export class SolarisPopoverTriggerDirective {
     },
   );
 
+  readonly solarisPopoverMaxHeight = input<string | number | undefined>(
+    undefined,
+    {
+      alias: 'solarisPopoverMaxHeight',
+    },
+  );
+
   readonly solarisPopoverCloseOnOutsideClick = input<boolean>(true, {
     alias: 'solarisPopoverCloseOnOutsideClick',
   });
@@ -174,7 +179,7 @@ export class SolarisPopoverTriggerDirective {
     },
   );
 
-  readonly solarisPopoverPadding = input<SolarisPopoverPadding>('md', {
+  readonly solarisPopoverPadding = input<SolarisPopoverPadding>('none', {
     alias: 'solarisPopoverPadding',
   });
 
@@ -234,6 +239,7 @@ export class SolarisPopoverTriggerDirective {
       return;
     }
 
+    this.cancelPendingClose();
     this.previousActiveElement = this.document.activeElement as HTMLElement;
     this.createOverlay();
     this.attachPanel();
@@ -249,11 +255,17 @@ export class SolarisPopoverTriggerDirective {
       return;
     }
 
-    this.detachPanel();
+    // State and outputs stay synchronous; only the overlay detach is delayed
+    // so the [data-closing] exit animation can play (motion-standard).
+    this.markPanelClosing();
     this.restoreFocus();
     this.isOpen.set(false);
     this.solarisPopoverClosed.emit();
     this.solarisPopoverOpenChange.emit(false);
+    this.closeTimeout = scheduleMotionClose(() => {
+      this.closeTimeout = null;
+      this.detachPanel();
+    });
   }
 
   toggle(): void {
@@ -288,9 +300,6 @@ export class SolarisPopoverTriggerDirective {
     this.positionStrategy.positionChanges.subscribe((change) => {
       this.connectedSide =
         change.connectionPair.originY === 'bottom' ? 'bottom' : 'top';
-      // Keep the panel data object in sync so the template
-      // [attr.data-connected-side] binding does not revert the
-      // flip on the next change detection cycle.
       if (this.panelDataRef) {
         this.panelDataRef.connectedSide = this.connectedSide;
       }
@@ -323,11 +332,6 @@ export class SolarisPopoverTriggerDirective {
   }
 
   private getPositionOrigin(): HTMLElement {
-    // When topConnected (select / multi-select inside form-field), the CDK
-    // origin must be the input box (.solaris-form-field__control-wrapper),
-    // not the whole <solaris-form-field> host (which includes label + hints).
-    // Otherwise the "top" fallback anchors above the label, leaving the
-    // label detached instead of covered by the panel.
     if (this.solarisPopoverTopConnected()) {
       const wrapper = this.elementRef.nativeElement.querySelector(
         ':scope > .solaris-form-field__control-wrapper',
@@ -347,20 +351,34 @@ export class SolarisPopoverTriggerDirective {
     const primaryPosition = getPrimaryPosition(placement, align);
     const fallbackPositions = getFallbackPositions(placement, align);
 
+    const getOffsetY = (pos: ConnectedPosition, offset: number): number => {
+      if (pos.originY === 'bottom' && pos.overlayY === 'top') {
+        return offset;
+      }
+
+      if (pos.originY === 'top' && pos.overlayY === 'bottom') {
+        return -offset;
+      }
+
+      return 0;
+    };
+
+    const getOffsetX = (pos: ConnectedPosition, offset: number): number => {
+      if (pos.originX === 'end' && pos.overlayX === 'start') {
+        return offset;
+      }
+
+      if (pos.originX === 'start' && pos.overlayX === 'end') {
+        return -offset;
+      }
+
+      return 0;
+    };
+
     const allPositions = [primaryPosition, ...fallbackPositions].map((pos) => ({
       ...pos,
-      offsetY:
-        pos.originY === 'bottom' && pos.overlayY === 'top'
-          ? offset
-          : pos.originY === 'top' && pos.overlayY === 'bottom'
-            ? -offset
-            : 0,
-      offsetX:
-        pos.originX === 'end' && pos.overlayX === 'start'
-          ? offset
-          : pos.originX === 'start' && pos.overlayX === 'end'
-            ? -offset
-            : 0,
+      offsetY: getOffsetY(pos, offset),
+      offsetX: getOffsetX(pos, offset),
     }));
 
     return this.overlay
@@ -406,6 +424,7 @@ export class SolarisPopoverTriggerDirective {
       panelId: this.panelId,
       autoFocus: this.solarisPopoverAutoFocus(),
       connectedSide: initialSide,
+      maxHeight: normalizeCssDimension(this.solarisPopoverMaxHeight()),
     };
 
     const panelInjector = Injector.create({
@@ -461,7 +480,19 @@ export class SolarisPopoverTriggerDirective {
     this.removeOutsideClickHandler();
   }
 
+  private markPanelClosing(): void {
+    this.panelContainerRef?.setAttribute('data-closing', '');
+    this.panelContainerRef?.setAttribute('aria-hidden', 'true');
+  }
+
+  private cancelPendingClose(): void {
+    this.closeTimeout = cancelMotionClose(this.closeTimeout);
+    this.panelContainerRef?.removeAttribute('data-closing');
+    this.panelContainerRef?.removeAttribute('aria-hidden');
+  }
+
   private disposeOverlay(): void {
+    this.cancelPendingClose();
     if (this.fitContentSizeTimeout) {
       clearTimeout(this.fitContentSizeTimeout);
       this.fitContentSizeTimeout = null;
@@ -549,19 +580,17 @@ export class SolarisPopoverTriggerDirective {
       width?: number | string;
       minWidth?: number | string;
       maxWidth?: number | string;
+      maxHeight?: number | string;
     } = {};
 
-    // ElementRef is SSR-safe. offsetWidth is a read-only layout property.
-    // For topConnected, measure the control-wrapper (position origin) so the
-    // panel matches the input width even if label/hint rows differ.
     const triggerWidth = this.getPositionOrigin().offsetWidth;
     const matchWidth = this.solarisPopoverMatchTriggerWidth();
     const minWidth = this.solarisPopoverMinWidth();
     const maxWidth = this.solarisPopoverMaxWidth();
+    const maxHeight = this.solarisPopoverMaxHeight();
 
     if (matchWidth) {
       size.width = triggerWidth;
-      // Also set minWidth so it won't shrink below trigger width on flexible dimensions.
       size.minWidth = triggerWidth;
     }
 
@@ -571,6 +600,11 @@ export class SolarisPopoverTriggerDirective {
 
     if (maxWidth !== undefined) {
       size.maxWidth = typeof maxWidth === 'number' ? `${maxWidth}px` : maxWidth;
+    }
+
+    if (maxHeight !== undefined) {
+      size.maxHeight =
+        typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight;
     }
 
     this.overlayRef.updateSize(size);
@@ -594,4 +628,13 @@ export class SolarisPopoverTriggerDirective {
     }
     this.previousActiveElement = null;
   }
+}
+
+function normalizeCssDimension(
+  value: string | number | undefined,
+): string | undefined {
+  if (value === undefined) {
+    return undefined;
+  }
+  return typeof value === 'number' ? `${value}px` : value;
 }

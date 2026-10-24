@@ -1,0 +1,38 @@
+{
+  "solaris": {
+    "chart": {
+      "viewLine": "Línea",
+      "viewBar": "Barras",
+      "viewPie": "Circular",
+      "viewHeatmap": "Mapa de calor",
+      "viewRadar": "Radar",
+      "periodDay": "1 día",
+      "periodWeek": "7 días",
+      "periodMonth": "1 mes",
+      "periodQuarter": "3 meses",
+      "periodYear": "Este año",
+      "periodAll": "Todo el período",
+      "periodCustom": "Personalizado",
+      "legendToggle": "Alternar serie {{label}}",
+      "legendFilter": "Filtrar por:",
+      "others": "Otros",
+      "total": "Total",
+      "emptyTitle": "Sin datos para mostrar",
+      "emptyMessage": "Los datos de este período aparecerán aquí.",
+      "errorTitle": "Error al cargar el gráfico",
+      "errorRetry": "Reintentar",
+      "seriesSummary": "{{label}}: {{count}} puntos, pico {{max}}",
+      "trendUp": "En alza",
+      "trendDown": "En baja",
+      "trendFlat": "Estable",
+      "viewSwitcher": "Tipo de gráfico",
+      "displayTimeline": "Cronología",
+      "displayList": "Lista",
+      "displaySwitcher": "Modo de visualización",
+      "intervalPlaceholder": "Seleccionar período",
+      "actionsMenu": "Acciones del gráfico",
+      "actionsExport": "Exportar",
+      "actionsFullscreen": "Pantalla completa"
+    }
+  }
+}

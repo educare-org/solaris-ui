@@ -1,0 +1,26 @@
+<form
+  class="spinner-zone-example"
+  [solaris-loading-zone]="saving()"
+  (submit)="$event.preventDefault(); save()"
+>
+  <solaris-form-field
+    [label]="'spinner.zone.institution' | translate"
+    [hint]="'spinner.zone.institution-hint' | translate"
+  >
+    <input solaris-input value="Educare" />
+  </solaris-form-field>
+  <solaris-form-field
+    [label]="'spinner.zone.email' | translate"
+    [hint]="'spinner.zone.email-hint' | translate"
+  >
+    <input solaris-input type="email" value="ops@educare.example" />
+  </solaris-form-field>
+  <div>
+    <button solaris-button type="submit" [disabled]="saving()">
+      {{ (saving() ? 'spinner.zone.saving' : 'spinner.zone.save') | translate }}
+    </button>
+  </div>
+  @if (saving()) {
+    <solaris-spinner overlay labelKey="spinner.zone.saving" />
+  }
+</form>

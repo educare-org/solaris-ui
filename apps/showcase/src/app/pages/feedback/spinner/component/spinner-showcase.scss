@@ -1,74 +1,22 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.spinner-showcase {
-  @include layout.page;
-}
-
-.spinner-showcase__header {
-  @include layout.header;
-}
-
-.spinner-showcase__title {
-  @include layout.title;
-}
-
-.spinner-showcase__description {
-  @include layout.description;
-}
-
-.spinner-showcase__section {
-  @include layout.section-card;
-}
-
-.spinner-showcase__section-title {
-  @include layout.section-title;
-}
-
-.spinner-showcase__row {
-  @include layout.row(var(--solaris-spacing-4));
-
-  flex-wrap: wrap;
-}
-
-.spinner-showcase__item {
-  display: flex;
-  flex-direction: column;
-  gap: var(--solaris-spacing-2);
-  min-width: 160px;
-}
-
-.spinner-showcase__label {
-  @include layout.note;
-}
-
 .spinner-showcase__note {
   @include layout.note;
 
-  margin: 0 0 var(--solaris-spacing-4);
+  margin-bottom: var(--solaris-spacing-4);
 }
 
 .spinner-showcase__stack {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: var(--solaris-spacing-4);
-  max-width: 640px;
+}
+
+.spinner-showcase__controls {
+  display: grid;
+  gap: var(--solaris-spacing-3);
+  margin-bottom: var(--solaris-spacing-4);
 }
 
 .spinner-showcase__custom {
-  --solaris-spinner-custom-color: var(--solaris-orange-base);
-}
-
-.spinner-showcase__button {
-  cursor: pointer;
-  border: 1px solid var(--solaris-border-default);
-  border-radius: var(--solaris-radius-md);
-  background: var(--solaris-surface-subtle);
-  color: var(--solaris-text-default);
-  font-family: var(--solaris-font-family-sans);
-  font-size: var(--solaris-font-size-md);
-  padding: var(--solaris-spacing-2) var(--solaris-spacing-4);
-}
-
-.spinner-showcase__button:hover {
-  background: var(--solaris-surface-muted);
+  --solaris-spinner-custom-color: #4253a1;
 }

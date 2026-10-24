@@ -1,0 +1,22 @@
+<solaris-gradebook
+  [data]="rows"
+  [columns]="columns"
+  [headerGroups]="groups"
+  [identity]="identity"
+  rowId="id"
+>
+  <ng-template solaris-table-cell="mp-breakdown" let-row let-value="value">
+    <span class="breakdown-cell">
+      <span class="breakdown-cell__value">{{ formatScore(value) }}</span>
+      <button
+        type="button"
+        class="breakdown-cell__trigger"
+        (click)="openBreakdown(row)"
+        [attr.aria-label]="'gradebook.breakdown.open.label' | translate"
+        [attr.title]="'gradebook.breakdown.open.label' | translate"
+      >
+        <solaris-icon name="plus" [decorative]="true" />
+      </button>
+    </span>
+  </ng-template>
+</solaris-gradebook>

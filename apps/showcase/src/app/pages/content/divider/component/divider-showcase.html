@@ -1,142 +1,237 @@
-<div class="divider-showcase">
-  <header class="divider-showcase__header">
-    <h1 class="divider-showcase__title">Divider</h1>
-    <p class="divider-showcase__description">
-      {{ 'divider.description' | translate }}
-    </p>
-  </header>
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="divider.title"
+    descriptionKey="divider.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
 
-  <section class="divider-showcase__section">
-    <h2 class="divider-showcase__section-title">
-      {{ 'divider.basic' | translate }}
-    </h2>
-    <p class="divider-showcase__note">{{ 'divider.basic-note' | translate }}</p>
-    <p>{{ 'divider.content-above' | translate }}</p>
-    <solaris-divider />
-    <p>{{ 'divider.content-below' | translate }}</p>
-  </section>
-
-  <section class="divider-showcase__section">
-    <h2 class="divider-showcase__section-title">
-      {{ 'divider.strong' | translate }}
-    </h2>
+  <app-docs-section anchor="examples" titleKey="divider.section.examples">
     <p class="divider-showcase__note">
-      {{ 'divider.strong-note' | translate }}
+      {{ 'divider.examples.note' | translate }}
     </p>
-    <p>{{ 'divider.content-above-short' | translate }}</p>
-    <solaris-divider appearance="strong" />
-    <p>{{ 'divider.content-below-short' | translate }}</p>
-  </section>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-divider-basic-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="divider-showcase__section">
-    <h2 class="divider-showcase__section-title">
-      {{ 'divider.spacing' | translate }}
-    </h2>
-    <p class="divider-showcase__note">
-      {{ 'divider.spacing-note' | translate }}
-    </p>
-    <div class="divider-showcase__spacing-demo">
-      <p>{{ 'divider.spacing-none' | translate }}</p>
-      <solaris-divider spacing="none" />
-      <p>{{ 'divider.spacing-sm' | translate }}</p>
-      <solaris-divider spacing="sm" />
-      <p>{{ 'divider.spacing-md' | translate }}</p>
-      <solaris-divider spacing="md" />
-      <p>{{ 'divider.spacing-lg' | translate }}</p>
-      <solaris-divider spacing="lg" />
-    </div>
-  </section>
-
-  <section class="divider-showcase__section">
-    <h2 class="divider-showcase__section-title">
-      {{ 'divider.inset' | translate }}
-    </h2>
-    <p class="divider-showcase__note">{{ 'divider.inset-note' | translate }}</p>
-    <p>{{ 'divider.inset-start' | translate }}</p>
-    <solaris-divider inset="start" />
-    <p>{{ 'divider.inset-end' | translate }}</p>
-    <solaris-divider inset="end" />
-    <p>{{ 'divider.inset-both' | translate }}</p>
-    <solaris-divider inset="both" />
-  </section>
-
-  <section class="divider-showcase__section">
-    <h2 class="divider-showcase__section-title">
-      {{ 'divider.vertical' | translate }}
-    </h2>
-    <p class="divider-showcase__note">
-      {{ 'divider.vertical-note' | translate }}
-    </p>
-    <div class="divider-showcase__toolbar">
-      <span>{{ 'divider.file' | translate }}</span>
-      <solaris-divider orientation="vertical" />
-      <span>{{ 'divider.edit' | translate }}</span>
-      <solaris-divider orientation="vertical" />
-      <span>{{ 'divider.view' | translate }}</span>
-      <solaris-divider orientation="vertical" />
-      <span>{{ 'divider.help' | translate }}</span>
-    </div>
-  </section>
-
-  <section class="divider-showcase__section">
-    <h2 class="divider-showcase__section-title">
-      {{ 'divider.custom-length' | translate }}
-    </h2>
-    <p class="divider-showcase__note">
-      {{ 'divider.custom-length-note' | translate }}
-    </p>
-    <p>{{ 'divider.width-50' | translate }}</p>
-    <solaris-divider width="50%" />
-    <p>{{ 'divider.width-200' | translate }}</p>
-    <solaris-divider width="200px" />
-  </section>
-
-  <section class="divider-showcase__section">
-    <h2 class="divider-showcase__section-title">
-      {{ 'divider.with-label' | translate }}
-    </h2>
-    <p class="divider-showcase__note">
-      {{ 'divider.with-label-note' | translate }}
-    </p>
-    <solaris-divider [label]="'divider.label.center' | translate" />
-    <p class="divider-showcase__spacer"></p>
-    <solaris-divider
-      [label]="'divider.label.start' | translate"
-      textPosition="start"
-    />
-    <p class="divider-showcase__spacer"></p>
-    <solaris-divider
-      [label]="'divider.label.end' | translate"
-      textPosition="end"
-    />
-    <p class="divider-showcase__spacer"></p>
-    <solaris-divider [labelKey]="'divider.label.keyed'" />
-  </section>
-
-  <section class="divider-showcase__section">
-    <h2 class="divider-showcase__section-title">
-      {{ 'divider.dropdown' | translate }}
-    </h2>
-    <p class="divider-showcase__note">
-      {{ 'divider.dropdown-note' | translate }}
-    </p>
-    <button
-      solaris-button
-      solaris-dropdown-menu-trigger
-      [solarisDropdownMenuTriggerFor]="dividerMenu"
+  <app-docs-section anchor="appearance" titleKey="divider.section.appearance">
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'divider.section.appearance' | translate"
     >
-      {{ 'divider.open-menu' | translate }}
-    </button>
-    <solaris-dropdown-menu #dividerMenu>
-      <solaris-dropdown-menu-item label="{{ 'divider.edit' | translate }}" />
-      <solaris-dropdown-menu-item
-        label="{{ 'divider.duplicate' | translate }}"
-      />
-      <solaris-divider />
-      <solaris-dropdown-menu-item
-        label="{{ 'divider.delete' | translate }}"
-        color="danger"
-      />
-    </solaris-dropdown-menu>
-  </section>
-</div>
+      <solaris-tab value="subtle"
+        >{{ 'divider.appearance.subtle' | translate }}</solaris-tab
+      >
+      <solaris-tab value="strong"
+        >{{ 'divider.appearance.strong' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="subtle">
+        <solaris-preview-code [code]="appearanceSubtleCode" language="html">
+          <solaris-divider appearance="subtle" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="strong">
+        <solaris-preview-code [code]="appearanceStrongCode" language="html">
+          <solaris-divider appearance="strong" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="variant" titleKey="divider.section.variant">
+    <p class="divider-showcase__note">
+      {{ 'divider.variant.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedVariant"
+      [ariaLabel]="'divider.section.variant' | translate"
+    >
+      <solaris-tab value="solid"
+        >{{ 'divider.variant.solid' | translate }}</solaris-tab
+      >
+      <solaris-tab value="dashed"
+        >{{ 'divider.variant.dashed' | translate }}</solaris-tab
+      >
+      <solaris-tab value="dotted"
+        >{{ 'divider.variant.dotted' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="solid">
+        <solaris-preview-code [code]="variantSolidCode" language="html">
+          <solaris-divider variant="solid" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="dashed">
+        <solaris-preview-code [code]="variantDashedCode" language="html">
+          <solaris-divider variant="dashed" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="dotted">
+        <solaris-preview-code [code]="variantDottedCode" language="html">
+          <solaris-divider variant="dotted" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="orientation" titleKey="divider.section.orientation">
+    <solaris-tabs
+      [(value)]="selectedOrientation"
+      [ariaLabel]="'divider.section.orientation' | translate"
+    >
+      <solaris-tab value="horizontal"
+        >{{ 'divider.orientation.horizontal' | translate }}</solaris-tab
+      >
+      <solaris-tab value="vertical"
+        >{{ 'divider.orientation.vertical' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="horizontal">
+        <solaris-preview-code
+          [code]="orientationHorizontalCode"
+          language="html"
+        >
+          <solaris-divider orientation="horizontal" />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="vertical">
+        <solaris-preview-code [code]="orientationVerticalCode" language="html">
+          <app-divider-vertical-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="layout" titleKey="divider.section.layout">
+    <solaris-tabs
+      [(value)]="selectedLayout"
+      [ariaLabel]="'divider.section.layout' | translate"
+    >
+      <solaris-tab value="spacing"
+        >{{ 'divider.layout.spacing' | translate }}</solaris-tab
+      >
+      <solaris-tab value="inset"
+        >{{ 'divider.layout.inset' | translate }}</solaris-tab
+      >
+      <solaris-tab value="length"
+        >{{ 'divider.layout.length' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="spacing">
+        <solaris-preview-code [code]="spacingCode" language="html">
+          <div class="divider-showcase__demo">
+            <p>{{ 'divider.content-above-short' | translate }}</p>
+            <solaris-divider spacing="none" />
+            <p>{{ 'divider.content-below-short' | translate }}</p>
+            <solaris-divider spacing="sm" />
+            <p>{{ 'divider.content-above-short' | translate }}</p>
+            <solaris-divider spacing="md" />
+            <p>{{ 'divider.content-below-short' | translate }}</p>
+            <solaris-divider spacing="lg" />
+            <p>{{ 'divider.content-above-short' | translate }}</p>
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="inset">
+        <solaris-preview-code [code]="insetCode" language="html">
+          <div class="divider-showcase__demo">
+            <p>{{ 'divider.content-above-short' | translate }}</p>
+            <solaris-divider inset="none" />
+            <p>{{ 'divider.content-below-short' | translate }}</p>
+            <solaris-divider inset="start" />
+            <p>{{ 'divider.content-above-short' | translate }}</p>
+            <solaris-divider inset="end" />
+            <p>{{ 'divider.content-below-short' | translate }}</p>
+            <solaris-divider inset="both" />
+            <p>{{ 'divider.content-above-short' | translate }}</p>
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="length">
+        <solaris-preview-code [code]="lengthCode" language="html">
+          <div class="divider-showcase__demo">
+            <p>{{ 'divider.content-above-short' | translate }}</p>
+            <solaris-divider width="12rem" />
+            <p>{{ 'divider.content-below-short' | translate }}</p>
+            <div class="divider-showcase__toolbar">
+              <span>{{ 'divider.file' | translate }}</span>
+              <solaris-divider orientation="vertical" height="4rem" />
+              <span>{{ 'divider.edit' | translate }}</span>
+            </div>
+          </div>
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="label" titleKey="divider.section.label">
+    <p class="divider-showcase__note">{{ 'divider.label.note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedTextPosition"
+      [ariaLabel]="'divider.section.label' | translate"
+    >
+      <solaris-tab value="center"
+        >{{ 'divider.text-position.center' | translate }}</solaris-tab
+      >
+      <solaris-tab value="start"
+        >{{ 'divider.text-position.start' | translate }}</solaris-tab
+      >
+      <solaris-tab value="end"
+        >{{ 'divider.text-position.end' | translate }}</solaris-tab
+      >
+      <solaris-tab-panel value="center">
+        <solaris-preview-code [code]="labelCenterCode" language="html">
+          <app-divider-with-label-example />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="start">
+        <solaris-preview-code [code]="labelStartCode" language="html">
+          <solaris-divider
+            [label]="'divider.label.start' | translate"
+            textPosition="start"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+      <solaris-tab-panel value="end">
+        <solaris-preview-code [code]="labelEndCode" language="html">
+          <solaris-divider
+            [label]="'divider.label.end' | translate"
+            textPosition="end"
+          />
+        </solaris-preview-code>
+      </solaris-tab-panel>
+    </solaris-tabs>
+  </app-docs-section>
+
+  <app-docs-section anchor="usage" titleKey="divider.section.usage">
+    <div class="divider-showcase__stack">
+      <solaris-preview-code [code]="dropdownCode" language="html">
+        <app-divider-in-dropdown-example />
+      </solaris-preview-code>
+      <solaris-preview-code [code]="semanticCode" language="html">
+        <solaris-divider [decorative]="false" aria-label="Section separator" />
+      </solaris-preview-code>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="divider.section.installation"
+  >
+    <p class="divider-showcase__note">
+      {{ 'divider.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="divider.section.props">
+    <p class="divider-showcase__note">{{ 'divider.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

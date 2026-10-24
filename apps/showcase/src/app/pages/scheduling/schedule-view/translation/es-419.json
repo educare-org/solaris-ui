@@ -1,0 +1,36 @@
+{
+  "schedule-view": {
+    "dataset": {
+      "label": "Dataset",
+      "sample": "Muestra",
+      "stress": "1000 eventos"
+    },
+    "description": "Agenda cronológica agrupada por día con paginación por ventana. La predeterminada por debajo de 640px.",
+    "examples": {
+      "note": "Pagina con la barra de herramientas dentro de la agenda. Solo se renderiza la ventana visible: cambia al Dataset de 1000 eventos y observa cómo el DOM se mantiene acotado."
+    },
+    "installation": {
+      "note": "Instala el paquete e importa el componente independiente de la vista de agenda."
+    },
+    "locales": {
+      "note": "Días, horas y textos de ayuda siguen el idioma seleccionado."
+    },
+    "props": {
+      "note": "Pasa eventos (la recurrencia solo se expande dentro de la ventana, el array nunca se muta), tareas y festivos resueltos. Los clics en días nunca mueven el ancla de la ventana; la paginación es explícita."
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "locales": "Idiomas",
+      "props": "Props",
+      "size-density": "Tamaño y densidad"
+    },
+    "size-density": {
+      "note": "El tamaño determina los badges de día y el texto de los elementos, mientras que la densidad determina el padding del día."
+    },
+    "title": "Vista de agenda",
+    "window": {
+      "label": "Días por ventana"
+    }
+  }
+}

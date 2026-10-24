@@ -1,97 +1,218 @@
-<div class="date-picker-showcase">
-  <header class="date-picker-showcase__header">
-    <h1 class="date-picker-showcase__title">
-      {{ 'date-picker.title' | translate }}
-    </h1>
-    <p class="date-picker-showcase__description">
-      {{ 'date-picker.description' | translate }}
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="date-picker.title"
+    descriptionKey="date-picker.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="date-picker.section.examples">
+    <p class="date-picker-showcase__note">
+      {{ 'date-picker.examples.note' | translate }}
     </p>
-  </header>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-date-picker-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="date-picker-showcase__section">
-    <h2 class="date-picker-showcase__section-title">
-      {{ 'date-picker.single.title' | translate }}
-    </h2>
-    <solaris-date-picker
-      [formControl]="dateControl"
-      locale="pt-BR"
-      [label]="'date-picker.single.label' | translate"
-      [hint]="'date-picker.single.hint' | translate"
-    />
-  </section>
+  <app-docs-section
+    anchor="size-density"
+    titleKey="date-picker.section.size-density"
+  >
+    <p class="date-picker-showcase__note">
+      {{ 'date-picker.size-density.note' | translate }}
+    </p>
+    <div class="date-picker-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'date-picker.section.sizes' | translate"
+      >
+        <solaris-tab value="sm"
+          >{{ 'date-picker.size.sm' | translate }}</solaris-tab
+        >
+        <solaris-tab value="md"
+          >{{ 'date-picker.size.md' | translate }}</solaris-tab
+        >
+        <solaris-tab value="lg"
+          >{{ 'date-picker.size.lg' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedDensity"
+        [ariaLabel]="'date-picker.section.density' | translate"
+      >
+        <solaris-tab value="compact"
+          >{{ 'date-picker.density.compact' | translate }}</solaris-tab
+        >
+        <solaris-tab value="normal"
+          >{{ 'date-picker.density.normal' | translate }}</solaris-tab
+        >
+        <solaris-tab value="comfortable"
+          >{{ 'date-picker.density.comfortable' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code [code]="sizeDensityCode()" language="html">
+      <solaris-date-picker
+        locale="pt-BR"
+        [size]="selectedSize()"
+        [density]="selectedDensity()"
+        [formControl]="sizeDensityControl"
+        [label]="'date-picker.size-density.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="date-picker-showcase__section">
-    <h2 class="date-picker-showcase__section-title">
-      {{ 'date-picker.range.title' | translate }}
-    </h2>
+  <app-docs-section
+    anchor="appearance"
+    titleKey="date-picker.section.appearance"
+  >
+    <p class="date-picker-showcase__note">
+      {{ 'date-picker.appearance.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedAppearance"
+      [ariaLabel]="'date-picker.section.appearance' | translate"
+    >
+      <solaris-tab value="outline"
+        >{{ 'date-picker.appearance.outline' | translate }}</solaris-tab
+      >
+      <solaris-tab value="surface"
+        >{{ 'date-picker.appearance.surface' | translate }}</solaris-tab
+      >
+      <solaris-tab value="filled"
+        >{{ 'date-picker.appearance.filled' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code [code]="appearanceCode()" language="html">
+      <solaris-date-picker
+        locale="pt-BR"
+        [appearance]="selectedAppearance()"
+        [formControl]="appearanceControl"
+        [label]="'date-picker.appearance.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="date-picker.section.states">
+    <p class="date-picker-showcase__note">
+      {{ 'date-picker.states.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="statesCode" language="html">
+      <div class="date-picker-showcase__stack">
+        <solaris-date-picker
+          locale="pt-BR"
+          [disabled]="true"
+          [label]="'date-picker.states.disabled.label' | translate"
+          [hint]="'date-picker.states.disabled.hint' | translate"
+        />
+        <solaris-date-picker
+          locale="pt-BR"
+          [invalid]="true"
+          [error]="'date-picker.states.invalid.error' | translate"
+          [label]="'date-picker.states.invalid.label' | translate"
+        />
+        <solaris-date-picker
+          locale="pt-BR"
+          [loading]="true"
+          [label]="'date-picker.states.loading.label' | translate"
+          [hint]="'date-picker.states.loading.hint' | translate"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="clearable" titleKey="date-picker.section.clearable">
+    <p class="date-picker-showcase__note">
+      {{ 'date-picker.clearable.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="clearableCode" language="html">
+      <solaris-date-picker
+        locale="pt-BR"
+        [clearable]="true"
+        [formControl]="clearableControl"
+        [label]="'date-picker.clearable.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="affix-action"
+    titleKey="date-picker.section.affix-action"
+  >
+    <p class="date-picker-showcase__note">
+      {{ 'date-picker.affix-action.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="suffixActionCode" language="html">
+      <app-suffix-action-date-picker-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="locale-bounds"
+    titleKey="date-picker.section.locale-bounds"
+  >
+    <p class="date-picker-showcase__note">
+      {{ 'date-picker.locale-bounds.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="boundsCode" language="html">
+      <app-bounds-date-picker-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="calendar-options"
+    titleKey="date-picker.section.calendar-options"
+  >
+    <p class="date-picker-showcase__note">
+      {{ 'date-picker.calendar-options.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="calendarOptionsCode" language="html">
+      <solaris-date-picker
+        locale="pt-BR"
+        [weekStartsOn]="1"
+        [disablePast]="true"
+        dateFormat="numeric"
+        [formControl]="calendarOptionsControl"
+        [label]="'date-picker.calendar-options.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="date-range"
+    titleKey="date-picker.section.date-range"
+  >
     <p class="date-picker-showcase__note">
       {{ 'date-picker.range.note' | translate }}
     </p>
-    <solaris-date-range-picker
-      [formControl]="rangeControl"
-      locale="pt-BR"
-      [presets]="presets"
-      [label]="'date-picker.range.label' | translate"
-      [hint]="'date-picker.range.hint' | translate"
-    />
-  </section>
+    <solaris-preview-code [code]="rangeCode" language="html">
+      <app-date-range-example />
+    </solaris-preview-code>
+  </app-docs-section>
 
-  <section class="date-picker-showcase__section">
-    <h2 class="date-picker-showcase__section-title">
-      {{ 'date-picker.constraints.title' | translate }}
-    </h2>
+  <app-docs-section
+    anchor="installation"
+    titleKey="date-picker.section.installation"
+  >
     <p class="date-picker-showcase__note">
-      {{ 'date-picker.constraints.note' | translate }}
+      {{ 'date-picker.installation.note' | translate }}
     </p>
-    <div class="date-picker-showcase__demo">
-      <solaris-date-picker
-        [formControl]="limitedDateControl"
-        locale="pt-BR"
-        density="compact"
-        [min]="minSelectableDate"
-        [max]="maxSelectableDate"
-        [disabledDates]="unavailableDates"
-        [label]="'date-picker.constraints.date.label' | translate"
-        [hint]="'date-picker.constraints.date.hint' | translate"
-      />
-      <solaris-date-range-picker
-        [formControl]="limitedRangeControl"
-        locale="pt-BR"
-        [min]="minSelectableDate"
-        [max]="maxSelectableDate"
-        [disabledDates]="unavailableDates"
-        [label]="'date-picker.constraints.range.label' | translate"
-        [hint]="'date-picker.constraints.range.hint' | translate"
-      />
-    </div>
-  </section>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
 
-  <section class="date-picker-showcase__section">
-    <h2 class="date-picker-showcase__section-title">
-      {{ 'date-picker.states.title' | translate }}
-    </h2>
-    <div class="date-picker-showcase__demo">
-      <solaris-date-picker
-        [formControl]="requiredDateControl"
-        locale="pt-BR"
-        [required]="true"
-        [label]="'date-picker.states.required.label' | translate"
-        [hint]="'date-picker.states.required.hint' | translate"
-      />
-      <solaris-date-picker
-        [formControl]="readonlyDateControl"
-        locale="pt-BR"
-        [readonly]="true"
-        [label]="'date-picker.states.readonly.label' | translate"
-        [hint]="'date-picker.states.readonly.hint' | translate"
-      />
-      <solaris-date-picker
-        [formControl]="disabledDateControl"
-        locale="pt-BR"
-        [disabled]="true"
-        [label]="'date-picker.states.disabled.label' | translate"
-        [hint]="'date-picker.states.disabled.hint' | translate"
-      />
-    </div>
-  </section>
-</div>
+  <app-docs-section anchor="props" titleKey="date-picker.section.props">
+    <p class="date-picker-showcase__note">
+      {{ 'date-picker.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

@@ -1,0 +1,85 @@
+{
+  "switch": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "color": {
+      "custom": "Personalizado",
+      "danger": "Peligro",
+      "info": "Info",
+      "neutral": "Neutro",
+      "note": "El track marcado sigue el color semántico.",
+      "primary": "Primario",
+      "success": "Éxito",
+      "warning": "Advertencia"
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": {
+      "label": "Control de formulario para configuración binaria de encendido/apagado con input nativo, role=\"switch\", Solo lectura e integración completa con Angular Forms.",
+      "large-label": "Notificaciones por SMS",
+      "large-text": "Recibe alertas urgentes por mensaje de texto.",
+      "note": "Descripción muestra un texto de apoyo atenuado debajo de la etiqueta y escala con el tamaño.",
+      "small-label": "Notificaciones por correo electrónico",
+      "small-text": "Recibe novedades sobre tu cuenta."
+    },
+    "enable-label": "Activar función",
+    "enable-status": "Activado:",
+    "examples": {
+      "note": "Activa o desactiva una configuración. El estado también se expone a la tecnología de asistencia mediante role=\"switch\"."
+    },
+    "form-field-error": "Debes activar las notificaciones.",
+    "form-field-hint": "Estas opciones afectan tu cuenta.",
+    "form-field-label": "Recibir notificaciones",
+    "group": {
+      "note": "Los hijos heredan el tamaño y la densidad del grupo, salvo que definan los propios. Aquí el grupo es Grande y Compacto, y SMS reemplaza el tamaño a Pequeño."
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa los componentes Switch."
+    },
+    "no": "No",
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "section": {
+      "appearances": "Apariencias",
+      "color": "Color",
+      "density": "Densidad",
+      "description": "Descripción",
+      "examples": "Ejemplos",
+      "form": "Integración con formularios",
+      "group": "Grupo de Switch",
+      "installation": "Instalación",
+      "props": "Props",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados",
+      "thumb-content": "Contenido del thumb"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en una matriz de 3×3: ambos cambian el track y el thumb, la densidad también cambia el espacio de la etiqueta."
+    },
+    "thumb": {
+      "icon": "Icono",
+      "none": "Ninguno",
+      "text": "Texto"
+    },
+    "thumb-content": {
+      "note": "Icono decorativo o texto corto (máx. 2 caracteres) dentro del thumb. El icono prevalece cuando ambos están definidos; ninguno afecta el nombre accesible."
+    },
+    "title": "Switch",
+    "yes": "Sí"
+  }
+}

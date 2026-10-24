@@ -1,0 +1,126 @@
+{
+  "multiSelect": {
+    "affix": {
+      "action": {
+        "button-label": "Alternar carregamento",
+        "label": "Países",
+        "placeholder": "Selecione países"
+      },
+      "note": "Conteúdo de prefixo e sufixo é reprojetado para o Form Field interno. Ações de sufixo exigem solaris-form-suffix e solaris-form-suffix-action no mesmo elemento.",
+      "prefix": {
+        "label": "Países",
+        "placeholder": "Selecione países"
+      },
+      "suffix": {
+        "icon-label": "Mais informações",
+        "label": "Países",
+        "placeholder": "Selecione países"
+      },
+      "suffix-input": {
+        "label": "Países com ícone de sufixo",
+        "placeholder": "Selecione países"
+      }
+    },
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "chips": {
+      "label": "Países",
+      "placeholder": "Selecione países"
+    },
+    "clearable": {
+      "label": "Países",
+      "note": "Quando limpável, um botão de limpar aparece após selecionar valores. Limpar emite o evento cleared.",
+      "output": "Eventos de limpeza",
+      "placeholder": "Selecione países"
+    },
+    "country": {
+      "br": "Brasil",
+      "pt": "Portugal",
+      "us": "Estados Unidos"
+    },
+    "density": {
+      "comfortable": "Confortável",
+      "compact": "Compacta",
+      "normal": "Normal"
+    },
+    "description": "Controle de formulário de seleção múltipla com busca local, selecionar-todos e exibição em chips. Renderizado pelo Form Field com estado de carregamento em overlay.",
+    "error": {
+      "invalid": "Este campo tem um erro.",
+      "required": "Selecione pelo menos uma opção."
+    },
+    "examples": {
+      "basic": {
+        "label": "Países",
+        "placeholder": "Selecione países"
+      },
+      "note": "Seleção múltipla básica com label, placeholder e opções próprios."
+    },
+    "fruit": {
+      "apple": "Maçã",
+      "banana": "Banana",
+      "orange": "Laranja"
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe o multi-select com seus componentes de opção."
+    },
+    "props": {
+      "note": "Tabela de propriedades em breve com o componente de tabela."
+    },
+    "radius": {
+      "lg": "Grande",
+      "md": "Médio",
+      "none": "Nenhum",
+      "note": "O raio é repassado ao Form Field interno. Escala global: md equivale a 4px, lg a 8px e xl vira pill.",
+      "sm": "Pequeno",
+      "xl": "Pill"
+    },
+    "searchable": {
+      "label": "Países",
+      "note": "A busca local filtra opções por label, descrição e conteúdo de texto. A seleção permanece ao filtrar.",
+      "placeholder": "Selecione países",
+      "search-placeholder": "Buscar países..."
+    },
+    "section": {
+      "affix": "Afixo",
+      "appearance": "Aparência",
+      "clearable": "Com limpeza",
+      "density": "Densidade",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "props": "Propriedades",
+      "radius": "Raio",
+      "searchable": "Com busca",
+      "size-density": "Tamanho e densidade",
+      "sizes": "Tamanhos",
+      "states": "Estados"
+    },
+    "select-all": {
+      "label": "Frutas",
+      "placeholder": "Selecione frutas"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "size-density": {
+      "label": "Países",
+      "note": "Tamanho e densidade combinam em uma matriz 3x3: o Form Field interno define a altura externa, o gatilho mantém fonte e espaçamento sincronizados.",
+      "placeholder": "Selecione países"
+    },
+    "states": {
+      "default": "Padrão",
+      "disabled": "Desabilitado",
+      "invalid": "Inválido",
+      "loading": "Carregando",
+      "readonly": "Somente leitura"
+    },
+    "title": "Multi Select"
+  }
+}

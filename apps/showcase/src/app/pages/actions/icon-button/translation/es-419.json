@@ -1,0 +1,104 @@
+{
+  "icon-button": {
+    "accessible-name": "Nombre accesible",
+    "accessible-name-note": "Tanto aria-label como aria-labelledby proporcionan un nombre accesible para lectores de pantalla. Usa aria-label directamente en el botón o aria-labelledby para hacer referencia a un elemento con el texto de la etiqueta en otra parte del DOM.",
+    "anchor": "Anchor (enlace)",
+    "appearance": {
+      "ghost": "Ghost",
+      "outline": "Outline",
+      "solid": "Sólido",
+      "surface": "Surface",
+      "tonal": "Tonal"
+    },
+    "appearances": {
+      "label": "Apariencias",
+      "note": "Combina una apariencia con un color. Las apariencias cubren todos los niveles de énfasis, desde el CTA Sólido hasta acciones Ghost sutiles."
+    },
+    "badge": "Con Badge",
+    "badge-note": "El Badge es solo visual. El nombre accesible del icon button debe incluir el contexto del Badge cuando sea relevante.",
+    "button-group": "Button Group (futuro)",
+    "button-group-note": "Button Group está previsto para una versión futura. Admitirá Layout horizontal y vertical, estados deshabilitados, integración con Badge, botones solo con icono, separadores y estados activos/seleccionados.",
+    "chromeless": {
+      "note": "Chromeless conserva la caja de tamaño, quita el fondo y el borde, y amplía el icono (60% de la caja). Todo escala con tamaño × densidad. Pasa el cursor o presiona para ver la microinteracción."
+    },
+    "color": {
+      "danger": "Peligro",
+      "info": "Info",
+      "neutral": "Neutro",
+      "primary": "Primario",
+      "success": "Éxito",
+      "warning": "Advertencia"
+    },
+    "colors": "Colores",
+    "custom": {
+      "label": "Color Personalizado (variables CSS)",
+      "note": "Personalizado no es una entrada arbitraria. Define los tokens de color personalizado en el CSS."
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "label": "Densidad",
+      "normal": "Normal"
+    },
+    "description": "Directiva de atributo que convierte botones y anchors en botones de acción de Solaris solo con icono.",
+    "installation": {
+      "note": "Instala el paquete único de Solaris e importa la directiva."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente, con el componente de tabla."
+    },
+    "radius": "Radio",
+    "section": {
+      "appearances": "Apariencia y color",
+      "badge": "Badge",
+      "chromeless": "Chromeless",
+      "colors": "Colores",
+      "custom": "Color personalizado",
+      "density": "Densidad",
+      "installation": "Instalación",
+      "props": "Props",
+      "radius": "Radio",
+      "shape": "Forma",
+      "shape-radius": "Forma y radio",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados"
+    },
+    "shape": {
+      "label": "Forma",
+      "normal": "Normal",
+      "wide": "Ancho"
+    },
+    "shape-radius": {
+      "note": "Radio controla el redondeo de las esquinas; la forma Ancho estira el botón horizontalmente."
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "note": "Tamaño y densidad se combinan en una matriz de 3×3, igual que el botón estándar. La altura exterior siempre equivale al token control-height de la combinación."
+    },
+    "states": {
+      "label": "Estados",
+      "tab": {
+        "disabled": "Deshabilitado",
+        "loading": "Cargando"
+      },
+      "toggle": {
+        "disabled": {
+          "off": "Habilitar",
+          "on": "Deshabilitar"
+        },
+        "loading": {
+          "off": "Desactivar Cargando",
+          "on": "Activar Cargando"
+        }
+      }
+    },
+    "states-default": "Estados Predeterminados",
+    "states-toggle": "Interactivo",
+    "title": "Icon Button"
+  }
+}

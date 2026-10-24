@@ -1,0 +1,53 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="holidays-view.title"
+    descriptionKey="holidays-view.description"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="holidays-view.section.examples">
+    <p class="holidays-showcase__note">
+      {{ 'holidays-view.examples.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="basicCode" language="typescript">
+      <solaris-calendar-month-view
+        [locale]="demoLocale()"
+        timeZone="America/Sao_Paulo"
+        [focusedDate]="focusedDate()"
+        (focusedDateChange)="focusedDate.set($event)"
+        [holidays]="holidays()"
+      />
+      <ul class="holidays-showcase__list">
+        @for (holiday of holidays(); track holiday.date) {
+        <li>{{ holiday.date }} — {{ holiday.name }}</li>
+        }
+      </ul>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="holidays-view.section.installation"
+  >
+    <p class="holidays-showcase__note">
+      {{ 'holidays-view.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="holidays-view.section.props">
+    <p class="holidays-showcase__note">
+      {{ 'holidays-view.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

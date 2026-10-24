@@ -1,7 +1,7 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focusin/focusout are standard DOM events for focus tracking. Same pattern used by Solaris FormField and Checkbox/Radio groups.
 import {
   Component,
   input,
+  booleanAttribute,
   output,
   computed,
   signal,
@@ -21,7 +21,8 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
-import { SolarisSwitchComponent } from '../../switch';
+import { SolarisSwitchComponent } from '../../switch/component/switch.component';
+import { SOLARIS_SWITCH_GROUP } from '../model/switch-group.token';
 import { resolveElementId } from '../../../../core';
 
 import type {
@@ -43,6 +44,10 @@ import type {
     },
     {
       provide: SolarisFormControl,
+      useExisting: forwardRef(() => SolarisSwitchGroupComponent),
+    },
+    {
+      provide: SOLARIS_SWITCH_GROUP,
       useExisting: forwardRef(() => SolarisSwitchGroupComponent),
     },
   ],
@@ -81,17 +86,17 @@ export class SolarisSwitchGroupComponent
   readonly columns = input<SolarisSwitchGroupColumns>(1);
   readonly density = input<SolarisSwitchGroupDensity>();
   readonly size = input<SolarisSwitchGroupSize>('md');
-  readonly disabledInput = input<boolean, boolean>(false, {
+  readonly disabledInput = input<boolean, unknown>(false, {
     alias: 'disabled',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly readonlyInput = input<boolean, boolean>(false, {
+  readonly readonlyInput = input<boolean, unknown>(false, {
     alias: 'readonly',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
-  readonly requiredInput = input<boolean, boolean>(false, {
+  readonly requiredInput = input<boolean, unknown>(false, {
     alias: 'required',
-    transform: (v: boolean) => v ?? false,
+    transform: booleanAttribute,
   });
   readonly invalidInput = input<boolean | undefined>(undefined, {
     alias: 'invalid',
@@ -115,6 +120,7 @@ export class SolarisSwitchGroupComponent
   private readonly _focused = signal(false);
   private readonly _describedByIds = signal<string[]>([]);
   private readonly cvaDisabled = signal(false);
+  private readonly cvaReadonly = signal(false);
   private readonly autoInvalid = signal(false);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -140,18 +146,17 @@ export class SolarisSwitchGroupComponent
 
   protected readonly themeService = inject(SolarisThemeService);
 
-  protected readonly effectiveDensity = computed<SolarisSwitchGroupDensity>(
-    () => {
-      return this.density() ?? this.themeService.density;
-    },
-  );
+  /** Public for SOLARIS_SWITCH_GROUP: children inherit group density. */
+  readonly effectiveDensity = computed<SolarisSwitchGroupDensity>(() => {
+    return this.density() ?? this.themeService.density;
+  });
 
   protected readonly isEffectivelyDisabled = computed(() => {
     return this.disabledInput() || this.cvaDisabled();
   });
 
   protected readonly isEffectivelyReadonly = computed(() => {
-    return this.readonlyInput();
+    return this.readonlyInput() || this.cvaReadonly();
   });
 
   protected readonly isEffectivelyInvalid = computed(() => {
@@ -278,6 +283,10 @@ export class SolarisSwitchGroupComponent
     this.propagateDisabledToSwitches();
   }
 
+  setCvaReadonlyState(isReadonly: boolean): void {
+    this.cvaReadonly.set(isReadonly);
+  }
+
   ngAfterContentInit(): void {
     this.contentInitialized = true;
     this.validateChildren();
@@ -331,6 +340,7 @@ export class SolarisSwitchGroupComponent
     if (this.focusListenersAttached) return;
     this.focusListenersAttached = true;
 
+    // SECURITY_EXCEPTION: group focus tracking needs native focusin/focusout listeners on the host; read-only, outside Angular.
     const native = this.elementRef.nativeElement;
     this.ngZone.runOutsideAngular(() => {
       native.addEventListener('focusin', () => {

@@ -1,0 +1,17 @@
+<button
+  solaris-button
+  solaris-popover-trigger
+  [solarisPopoverTriggerFor]="tallPopover"
+  solarisPopoverPadding="md"
+  [solarisPopoverMaxHeight]="240"
+>
+  {{ 'popover.max-height-trigger' | translate }}
+</button>
+<ng-template solaris-popover #tallPopover="solarisPopover">
+  <p>{{ 'popover.max-height-content' | translate }}</p>
+  <p>{{ 'popover.max-height-content' | translate }}</p>
+  <p>{{ 'popover.max-height-content' | translate }}</p>
+  <p>{{ 'popover.max-height-content' | translate }}</p>
+  <p>{{ 'popover.max-height-content' | translate }}</p>
+  <p>{{ 'popover.max-height-content' | translate }}</p>
+</ng-template>

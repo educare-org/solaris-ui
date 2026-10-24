@@ -1,36 +1,36 @@
-// SECURITY_EXCEPTION_FILE: ElementRef.nativeElement is the standard Angular API to read the panel element for focus management (panel.focus() and [data-autofocus] lookup). No alternative exists.
 import {
-  Component,
-  input,
-  effect,
-  viewChild,
-  AfterViewInit,
-  ElementRef,
-  ViewContainerRef,
-  inject,
-  HostListener,
-  ChangeDetectionStrategy,
-  signal,
   afterEveryRender,
-  type Type,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
   type ComponentRef,
+  computed,
+  effect,
+  ElementRef,
+  HostListener,
+  inject,
   Injector,
+  input,
   type Provider,
+  signal,
+  type Type,
+  viewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { CdkTrapFocus } from '@angular/cdk/a11y';
 
 import {
-  SOLARIS_DIALOG_REF,
   SOLARIS_DIALOG_DATA,
+  SOLARIS_DIALOG_REF,
 } from '../../../token/dialog-data.token';
 import type {
-  SolarisDialogOptions,
   SolarisDialogAction,
   SolarisDialogActionsAlign,
   SolarisDialogActionsStack,
   SolarisDialogAutoFocus,
   SolarisDialogComponentConfig,
   SolarisDialogDensity,
+  SolarisDialogOptions,
   SolarisDialogVariant,
 } from '../../root/model/dialog.types';
 import { SolarisTranslateService } from '../../../../../../services/translation';
@@ -39,6 +39,7 @@ import { SolarisDialogHeaderComponent } from '../../header/component/dialog-head
 import { SolarisDialogActionsComponent } from '../../actions/component/dialog-actions.component';
 import { SolarisThemeService } from '../../../../../../services/theme';
 import { SolarisDialogRef } from '../../../service/dialog-ref';
+import { SolarisDialogService } from '../../../service/dialog.service';
 import { SolarisIconComponent } from '../../../../../icon';
 
 @Component({
@@ -59,12 +60,14 @@ import { SolarisIconComponent } from '../../../../../icon';
     class: 'solaris-dialog-container',
     '[attr.data-radius]': 'hostRadius',
     '[attr.data-variant]': 'hostVariant',
-    '[attr.data-density]': 'hostDensity',
+    '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-backdrop]': 'hasBackdrop',
     '[attr.data-appearance]': 'hostAppearance',
     '[attr.data-placement]': 'hostPlacement',
+    '[attr.data-sheet]': 'hostSheet',
     '[attr.data-header-separator]': 'hostHeaderSeparator',
     '[attr.data-footer-separator]': 'hostFooterSeparator',
+    '[attr.data-closing]': 'closing() ? "" : null',
   },
 })
 export class SolarisDialogContainerComponent implements AfterViewInit {
@@ -76,12 +79,21 @@ export class SolarisDialogContainerComponent implements AfterViewInit {
   private readonly translateService = inject(SolarisTranslateService, {
     optional: true,
   });
+  private readonly dialogService = inject(SolarisDialogService, {
+    optional: true,
+  });
 
   readonly externalComponent = input<Type<unknown> | null>(null);
   readonly simpleOptions = input<SolarisDialogOptions | null>(null);
   readonly externalComponentConfig = input<SolarisDialogComponentConfig | null>(
     null,
   );
+  /**
+   * Set by `SolarisDialogService` when `DialogRef.close()` fires.
+   * Drives the `[data-closing]` exit animation; the overlay detaches after
+   * `SOLARIS_MOTION_EXIT_MS`. State/outputs stay synchronous.
+   */
+  readonly closing = input<boolean>(false);
 
   private readonly _componentHost = viewChild('componentHost', {
     read: ViewContainerRef,
@@ -99,10 +111,7 @@ export class SolarisDialogContainerComponent implements AfterViewInit {
   }
 
   protected get hostFullscreen(): string | null {
-    const fullscreen = this.simpleOptions()
-      ? (this.simpleOptions()?.fullscreen ?? false)
-      : (this.externalComponentConfig()?.fullscreen ?? false);
-    return fullscreen ? '' : null;
+    return this.isFullscreen ? '' : null;
   }
 
   protected get hostVariant(): string | undefined | null {
@@ -126,16 +135,41 @@ export class SolarisDialogContainerComponent implements AfterViewInit {
     return this.externalComponentConfig()?.radius ?? 'lg';
   }
 
-  protected get hostDensity(): string {
-    if (this.simpleOptions())
-      return (
-        this.simpleOptions()?.density ?? this.themeService?.density ?? 'normal'
-      );
-    return (
+  protected readonly effectiveDensity = computed(
+    () =>
+      this.simpleOptions()?.density ??
       this.externalComponentConfig()?.density ??
       this.themeService?.density ??
-      'normal'
-    );
+      'normal',
+  );
+
+  protected readonly isTopmost = computed(() => {
+    const topmost = this.dialogService?.topmostId();
+    return topmost == null || topmost === this.dialogRef.id;
+  });
+
+  protected get hostSheet(): string | null {
+    const sheet = this.simpleOptions()
+      ? (this.simpleOptions()?.sheet ?? false)
+      : (this.externalComponentConfig()?.sheet ?? false);
+    if (!sheet || this.isFullscreen) {
+      return null;
+    }
+    const placement = this.simpleOptions()
+      ? (this.simpleOptions()?.placement ?? 'center')
+      : (this.externalComponentConfig()?.placement ?? 'center');
+    return placement === 'top' ||
+      placement === 'bottom' ||
+      placement === 'left' ||
+      placement === 'right'
+      ? ''
+      : null;
+  }
+
+  protected get isFullscreen(): boolean {
+    return this.simpleOptions()
+      ? (this.simpleOptions()?.fullscreen ?? false)
+      : (this.externalComponentConfig()?.fullscreen ?? false);
   }
 
   protected get hostHeaderSeparator(): string | null {
@@ -494,7 +528,7 @@ export class SolarisDialogContainerComponent implements AfterViewInit {
 
   @HostListener('document:keydown.escape')
   protected onEscapePress(): void {
-    if (this.closeOnEscapeEnabled) {
+    if (this.closeOnEscapeEnabled && this.isTopmost()) {
       this.dialogRef.close();
     }
   }

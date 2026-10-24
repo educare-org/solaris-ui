@@ -1,6 +1,3 @@
-// SECURITY_EXCEPTION_FILE: nativeElement.focus() required to move focus between OTP boxes on typing/navigation.
-// Standard DOM method used by Angular CDK. ElementRef SSR-safe.
-// SECURITY_EXCEPTION_FILE: nativeElement.value read in onBoxInput to obtain the raw box value.
 import {
   Component,
   input,
@@ -10,6 +7,7 @@ import {
   effect,
   forwardRef,
   inject,
+  contentChild,
   viewChildren,
   ElementRef,
   AfterViewInit,
@@ -24,6 +22,7 @@ import {
 import {
   SolarisFormFieldComponent,
   SolarisFormFieldTriggerDirective,
+  SolarisFormSuffixActionDirective,
 } from '../../form-field';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
 import { SolarisTranslateService } from '../../../../services/translation';
@@ -36,6 +35,7 @@ import type {
   SolarisOtpInputCharType,
   SolarisOtpInputDensity,
   SolarisOtpInputRadius,
+  SolarisOtpInputSize,
 } from '../model/otp-input.types';
 
 const MASK_CHAR = '•';
@@ -65,8 +65,10 @@ const MASK_CHAR = '•';
   host: {
     class: 'solaris-otp-input',
     '[attr.id]': 'elementId()',
+    '[attr.data-size]': 'size()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-appearance]': 'appearance()',
+    '[attr.data-radius]': 'radius()',
     '[attr.data-length]': 'maxLength()',
     '[attr.data-masked]': 'masked() ? "" : null',
     '[attr.data-char-type]': 'charType()',
@@ -83,6 +85,11 @@ export class SolarisOtpInputComponent
 
   protected readonly boxRefs =
     viewChildren<ElementRef<HTMLInputElement>>('box');
+
+  protected readonly projectedSuffixAction = contentChild(
+    SolarisFormSuffixActionDirective,
+    { descendants: true },
+  );
 
   readonly hintKey = input<string>();
   readonly hint = input<string>('');
@@ -108,8 +115,10 @@ export class SolarisOtpInputComponent
   readonly masked = input<boolean>(false);
   readonly separatorEvery = input<number>(0);
   readonly autoFocus = input<boolean>(false);
+  readonly loading = input<boolean>(false);
   readonly appearance = input<SolarisOtpInputAppearance>('outline');
   readonly density = input<SolarisOtpInputDensity>();
+  readonly size = input<SolarisOtpInputSize>('md');
   readonly radius = input<SolarisOtpInputRadius>('md');
 
   readonly valueChange = output<string>();
@@ -276,7 +285,7 @@ export class SolarisOtpInputComponent
 
   focus(): void {
     const index = this.boxChars().findIndex((char) => !char);
-    this.focusBox(index >= 0 ? index : 0);
+    this.focusBox(Math.max(index, 0));
   }
 
   ngAfterViewInit(): void {
@@ -460,6 +469,7 @@ export class SolarisOtpInputComponent
       return;
     }
     const ref = this.boxRefs()[index];
+    // SECURITY_EXCEPTION: moving focus between OTP boxes requires imperative focus; no declarative alternative exists.
     ref?.nativeElement.focus();
   }
 

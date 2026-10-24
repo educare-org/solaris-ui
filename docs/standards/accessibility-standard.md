@@ -27,12 +27,12 @@ out of the box.
 
 These tokens do NOT meet WCAG AA for certain uses:
 
-| Token                    | Value   | Ratio vs white | Issue                                           |
-| ------------------------ | ------- | -------------- | ----------------------------------------------- |
-| `--solaris-primary-base` | #4282fb | ~2.8:1         | Use as text on white only at ≥18px              |
-| `--solaris-text-subtle`  | #7a7d84 | ~4.1:1         | Fails AA for normal text; use for captions only |
-| `--solaris-info-base`    | #5f9be4 | ~2.6:1         | Use for large UI elements or backgrounds only   |
-| `--solaris-warning-base` | #f1d008 | ~1.1:1         | Background only; never use for text             |
+| Token                             | Value   | Ratio vs white | Issue                                           |
+| --------------------------------- | ------- | -------------- | ----------------------------------------------- |
+| `--solaris-primary-solid`         | #4282fb | ~2.8:1         | Use as text on white only at ≥18px              |
+| `--solaris-neutral-text-tertiary` | #7a7d84 | ~4.1:1         | Fails AA for normal text; use for captions only |
+| `--solaris-info-solid`            | #5f9be4 | ~2.6:1         | Use for large UI elements or backgrounds only   |
+| `--solaris-warning-solid`         | #f1d008 | ~1.1:1         | Background only; never use for text             |
 
 ### Color usage rules
 
@@ -50,12 +50,13 @@ These tokens do NOT meet WCAG AA for certain uses:
 
 Solaris provides system-wide focus ring tokens:
 
-| Token                         | Default      | Dark          | High-contrast |
-| ----------------------------- | ------------ | ------------- | ------------- |
-| `--solaris-focus-ring-width`  | 2px          | 2px           | 3px           |
-| `--solaris-focus-ring-offset` | 2px          | 2px           | 2px           |
-| `--solaris-focus-ring-color`  | primary-base | primary-hover | #000000       |
-| `--solaris-focus-ring-style`  | solid        | solid         | solid         |
+| Token                         | Default                                                                 | Dark                                                                    | High-contrast                                                           |
+| ----------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| `--solaris-focus-ring-width`  | 2px                                                                     | 2px                                                                     | 3px                                                                     |
+| `--solaris-focus-ring-offset` | 2px                                                                     | 2px                                                                     | 2px                                                                     |
+| `--solaris-focus-ring-color`  | primary-base                                                            | primary-hover                                                           | #000000                                                                 |
+| `--solaris-focus-ring-style`  | solid                                                                   | solid                                                                   | solid                                                                   |
+| `--solaris-focus-ring-shadow` | `0 0 0 var(--solaris-focus-ring-width) var(--solaris-focus-ring-color)` | `0 0 0 var(--solaris-focus-ring-width) var(--solaris-focus-ring-color)` | `0 0 0 var(--solaris-focus-ring-width) var(--solaris-focus-ring-color)` |
 
 ### Requirements per component
 
@@ -84,18 +85,20 @@ Focus management is required for these patterns:
 
 ## 3. Touch targets
 
-### Minimum sizes (WCAG 2.2)
+### Minimum sizes (WCAG 2.2 AA + Solaris target)
 
-| Target type                | Minimum size               |
-| -------------------------- | -------------------------- |
-| Pointer targets (default)  | 24×24 CSS px               |
-| Essential targets (inline) | no minimum                 |
-| Density compact            | 44×44 CSS px (recommended) |
+| Target type                | Minimum size | Source               |
+| -------------------------- | ------------ | -------------------- |
+| WCAG 2.2 AA floor          | 24×24 CSS px | WCAG 2.5.8           |
+| Solaris target (default)   | 44×44 CSS px | Solaris (exceeds AA) |
+| Essential targets (inline) | no minimum   | WCAG exception       |
 
-All interactive controls should target 44×44px (`--solaris-density-min-height`
+All interactive controls must target 44×44px (`--solaris-density-min-height`
 
-- `--solaris-density-padding-*`), which aligns with the normal density
-  mode (compact is accepted as a tradeoff for dense layouts).
+- `--solaris-density-padding-*`). A 24px optical size is allowed ONLY with a
+  documented 44px hit area. `compact` density is an accepted tradeoff for dense
+  layouts: it may render below 44px visually, but the 44px hit area (or the
+  deliberate exception) must be documented per component.
 
 ---
 

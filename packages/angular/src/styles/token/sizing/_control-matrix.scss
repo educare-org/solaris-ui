@@ -1,0 +1,37 @@
+@mixin solaris-control-matrix($property) {
+  &[data-size='sm'][data-density='compact'] {
+    #{$property}: var(--solaris-control-height-compact-sm);
+  }
+
+  &[data-size='md'][data-density='compact'] {
+    #{$property}: var(--solaris-control-height-compact-md);
+  }
+
+  &[data-size='lg'][data-density='compact'] {
+    #{$property}: var(--solaris-control-height-compact-lg);
+  }
+
+  &[data-size='sm'][data-density='normal'] {
+    #{$property}: var(--solaris-control-height-normal-sm);
+  }
+
+  &[data-size='md'][data-density='normal'] {
+    #{$property}: var(--solaris-control-height-normal-md);
+  }
+
+  &[data-size='lg'][data-density='normal'] {
+    #{$property}: var(--solaris-control-height-normal-lg);
+  }
+
+  &[data-size='sm'][data-density='comfortable'] {
+    #{$property}: var(--solaris-control-height-comfortable-sm);
+  }
+
+  &[data-size='md'][data-density='comfortable'] {
+    #{$property}: var(--solaris-control-height-comfortable-md);
+  }
+
+  &[data-size='lg'][data-density='comfortable'] {
+    #{$property}: var(--solaris-control-height-comfortable-lg);
+  }
+}

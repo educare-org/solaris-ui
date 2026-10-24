@@ -1,94 +1,19 @@
 @use '../../../../shared/showcase-layout' as layout;
 
-.button-showcase {
-  @include layout.page;
-}
-
-.button-showcase__header {
-  @include layout.header;
-}
-
-.button-showcase__title {
-  @include layout.title;
-}
-
-.button-showcase__description {
-  @include layout.description;
-}
-
-.button-showcase__section {
-  @include layout.section-card;
-}
-
-.button-showcase__section-title {
-  @include layout.section-title;
-}
-
-.button-showcase__subsection-title {
-  font: var(--solaris-font-weight-medium) var(--solaris-font-size-md) /
-    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
-  color: var(--solaris-text-muted);
-  margin: var(--solaris-spacing-3) 0 var(--solaris-spacing-2);
-}
-
-.button-showcase__row {
-  @include layout.row;
-}
-
-.button-showcase__full-width-row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--solaris-spacing-3);
-}
-
 .button-showcase__note {
   @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
 }
 
-.button-showcase__glass-preview {
-  overflow: hidden;
-  position: relative;
-  isolation: isolate;
-  border-radius: var(--solaris-radius-lg);
-  background:
-    radial-gradient(circle at 70% 35%, #ff7e2442, transparent 55%),
-    linear-gradient(135deg, #ff681838, #ff3a1814 48%, transparent),
-    var(--solaris-surface-base);
+.button-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-4);
 }
 
-.button-showcase__glass-shape {
-  height: 80px;
-  width: 128px;
-  bottom: -24px;
-  opacity: 0.86;
-  right: -16px;
-  position: absolute;
-  filter: blur(4px);
-  border-radius: var(--solaris-radius-lg);
-  background: linear-gradient(135deg, #ff7a00, #ff4618);
-}
-
-.button-showcase__glass-button {
-  position: relative;
-  z-index: 1;
-}
-
-.button-custom-violet [solaris-button] {
-  --solaris-button-custom-color: #ffffff;
-  --solaris-button-custom-background: #9333ea;
-  --solaris-button-custom-border-color: #9333ea;
-  --solaris-button-custom-hover-background: #7e22ce;
-  --solaris-button-custom-hover-border-color: #7e22ce;
-  --solaris-button-custom-active-background: #6b21a8;
-  --solaris-button-custom-active-border-color: #6b21a8;
-}
-
-.button-custom-amber [solaris-button] {
-  --solaris-button-custom-color: #17191e;
-  --solaris-button-custom-background: #f59e0b;
-  --solaris-button-custom-border-color: #f59e0b;
-  --solaris-button-custom-hover-background: #d97706;
-  --solaris-button-custom-hover-border-color: #d97706;
-  --solaris-button-custom-active-background: #b45309;
-  --solaris-button-custom-active-border-color: #b45309;
+.button-showcase__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--solaris-spacing-3) var(--solaris-spacing-8);
+  margin-bottom: var(--solaris-spacing-4);
 }

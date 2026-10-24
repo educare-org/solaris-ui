@@ -1,0 +1,121 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.solaris-gradebook__editor {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--solaris-radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.solaris-gradebook__editor::-webkit-outer-spin-button,
+.solaris-gradebook__editor::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.solaris-gradebook__editor:focus-visible {
+  outline: var(--solaris-focus-ring-width) solid var(--solaris-focus-ring-color);
+  outline-offset: var(--solaris-focus-ring-offset);
+}
+
+.solaris-gradebook__locked {
+  color: var(--solaris-neutral-text-secondary);
+}
+
+.solaris-gradebook__cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--solaris-spacing-4);
+  font-variant-numeric: tabular-nums;
+}
+
+.solaris-gradebook__value {
+  min-width: var(--solaris-spacing-8);
+}
+
+.solaris-gradebook__sr-only {
+  position: absolute;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+  width: var(--solaris-spacing-1);
+  height: var(--solaris-spacing-1);
+}
+
+.solaris-gradebook__status-dot {
+  width: var(--solaris-spacing-5);
+  height: var(--solaris-spacing-5);
+  flex-shrink: 0;
+  border-radius: var(--solaris-radius-full);
+  background: var(--solaris-neutral-text-tertiary);
+}
+
+.solaris-gradebook__cell[data-status='late'] .solaris-gradebook__status-dot {
+  background: var(--solaris-warning-solid);
+}
+
+.solaris-gradebook__cell[data-status='missing'] .solaris-gradebook__status-dot {
+  background: var(--solaris-danger-solid);
+}
+
+.solaris-gradebook__cell[data-status='excused'] .solaris-gradebook__status-dot {
+  background: var(--solaris-neutral-text-tertiary);
+}
+
+.solaris-gradebook__head-hint {
+  text-decoration: underline dotted;
+  text-underline-offset: var(--solaris-spacing-1);
+}
+
+// SOLARIS_TOKEN_EXCEPTION(print): literal paper/ink colors are intentional
+// below. The grid chrome itself (frame, viewport, sticky, footer nav) is
+// ink-proofed by the inner solaris-table print baseline; this block only
+// neutralizes gradebook-owned ink: editor chrome, status dots, and locked
+// text. Screen rendering is untouched.
+@media print {
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink for the print host.
+  :host {
+    background: #fff;
+    color: #000;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink editor for print.
+  .solaris-gradebook__editor {
+    background: #fff;
+    color: #000;
+    box-shadow: none;
+  }
+
+  // SOLARIS_TOKEN_EXCEPTION(print): ink text for print.
+  .solaris-gradebook__locked {
+    color: #000;
+  }
+
+  // Status dots are never color-only on screen (title + SR label carry the
+  // meaning); in print they render as ink outlines so the row still scans.
+  // SOLARIS_TOKEN_EXCEPTION(print): paper/ink dot for print.
+  .solaris-gradebook__status-dot {
+    background: #fff;
+    border: var(--solaris-border-width-sm) solid #000;
+  }
+
+  .solaris-gradebook__head-hint {
+    text-decoration: underline;
+  }
+}

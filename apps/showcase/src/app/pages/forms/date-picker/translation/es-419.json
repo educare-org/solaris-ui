@@ -1,0 +1,117 @@
+{
+  "date-picker": {
+    "affix-action": {
+      "note": "El botón de calendario integrado es una suffix action. Acciones de sufijo adicionales se colocan junto a él, por ejemplo un botón de borrado."
+    },
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "appearance": {
+      "filled": "Filled",
+      "label": "Fecha de factura",
+      "note": "La apariencia sigue el contrato de Form Field y también aplica estilo al activador del calendario.",
+      "outline": "Outline",
+      "surface": "Surface"
+    },
+    "basic": {
+      "hint": "Escribe una fecha o abre el calendario.",
+      "label": "Fecha de factura"
+    },
+    "bounds": {
+      "hint": "Elige una fecha dentro del período permitido.",
+      "label": "Fecha de entrega"
+    },
+    "calendar-options": {
+      "label": "Fecha de inicio",
+      "note": "La semana empieza el primer día del idioma, salvo que weekStartsOn lo cambie. disablePast y disableFuture limitan la selección a hoy, y dateFormat cambia el relleno día/mes entre 2-digit y numeric."
+    },
+    "clearable": {
+      "label": "Fecha de factura",
+      "note": "Con opción de borrado, aparece un botón de borrado cuando hay una fecha establecida y emite cleared al hacer clic. Permanece oculto mientras esté deshabilitado, solo lectura o cargando."
+    },
+    "density": {
+      "comfortable": "Cómodo",
+      "compact": "Compacto",
+      "normal": "Normal"
+    },
+    "description": "Fechas adaptadas al idioma con entrada manual y selección en calendario. También cubre el Date Range Picker para períodos de inicio y fin.",
+    "examples": {
+      "note": "Escribe una fecha manualmente o abre el popover del calendario. El valor es una cadena ISO solo de fecha."
+    },
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa los componentes date picker."
+    },
+    "locale-bounds": {
+      "note": "La visualización y la escritura siguen el idioma. Min, max y disabled dates limitan el calendario y rechazan entradas fuera de rango."
+    },
+    "props": {
+      "note": "Tabla de Props próximamente con el componente de tabla."
+    },
+    "range": {
+      "basic": {
+        "hint": "Elige fechas de inicio y fin y luego aplica.",
+        "label": "Período del informe"
+      },
+      "note": "Date Range Picker recopila fecha de inicio y fin con presets, un panel pendiente y Aplicar/Cancelar. Tamaño, densidad, loading y suffix actions funcionan igual que en el selector único.",
+      "preset": {
+        "last-7-days": "Últimos 7 días",
+        "this-month": "Este mes",
+        "today": "Hoy"
+      },
+      "presets": {
+        "hint": "Elige un acceso directo o fechas personalizadas.",
+        "label": "Período del informe con accesos directos"
+      }
+    },
+    "section": {
+      "affix-action": "Activador del calendario y acciones de sufijo",
+      "appearance": "Apariencia",
+      "calendar-options": "Opciones del calendario",
+      "clearable": "Con opción de borrado",
+      "date-range": "Intervalo de fechas",
+      "density": "Densidad",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "locale-bounds": "Idioma y límites",
+      "props": "Props",
+      "size-density": "Tamaño y densidad",
+      "sizes": "Tamaños",
+      "states": "Estados"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Mediano",
+      "sm": "Pequeño"
+    },
+    "size-density": {
+      "label": "Fecha de factura",
+      "note": "Tamaño y densidad fluyen juntos al Form Field interno y al input, manteniendo etiqueta, campo y activador del calendario sincronizados."
+    },
+    "states": {
+      "disabled": {
+        "hint": "Este campo está deshabilitado.",
+        "label": "Fecha no disponible"
+      },
+      "invalid": {
+        "error": "Completa este campo para continuar.",
+        "label": "Fecha obligatoria"
+      },
+      "loading": {
+        "hint": "Resolviendo fechas disponibles.",
+        "label": "Cargando fecha"
+      },
+      "note": "Deshabilitado bloquea la interacción, no válido muestra un error manual y cargando muestra el skeleton del campo mientras se resuelven las opciones."
+    },
+    "suffix-action": {
+      "clear": "Borrar fecha",
+      "hint": "Usa la acción de borrado para restablecer el valor.",
+      "label": "Fecha de factura"
+    },
+    "title": "Selector de fecha"
+  },
+  "solaris": {
+    "date-picker": {
+      "clear": "Borrar fecha"
+    }
+  }
+}

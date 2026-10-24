@@ -6,12 +6,12 @@
   margin: 0 0 var(--solaris-spacing-2);
   font: var(--solaris-font-weight-semibold) var(--solaris-font-size-lg) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
-  color: var(--solaris-text-strong);
+  color: var(--solaris-neutral-text-heading);
 }
 
 .wizard-content p {
   margin: 0;
   font: var(--solaris-font-weight-regular) var(--solaris-font-size-md) /
     var(--solaris-line-height-md) var(--solaris-font-family-sans);
-  color: var(--solaris-text-muted);
+  color: var(--solaris-neutral-text-secondary);
 }

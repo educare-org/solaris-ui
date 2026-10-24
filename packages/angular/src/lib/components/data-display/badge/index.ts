@@ -8,4 +8,6 @@ export type {
   SolarisBadgeRadius,
   SolarisBadgeVariant,
   SolarisBadgeDensity,
+  SolarisBadgePlacement,
+  SolarisBadgeOffset,
 } from './model/badge.types';

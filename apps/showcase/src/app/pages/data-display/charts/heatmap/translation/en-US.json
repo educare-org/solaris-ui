@@ -1,0 +1,60 @@
+{
+  "heatmap-view": {
+    "description": "Weekly attendance grid by weekday and class period — intensity follows the primary token, empty periods stay neutral, and every cell is keyboard-focusable.",
+    "examples": {
+      "note": "Select cells in the log below; periods with no class show a dash.",
+      "keyboardNote": "Cells are keyboard-focusable: Tab to a cell, arrows to move across days and periods, Enter to select.",
+      "dayMon": "Monday",
+      "dayTue": "Tuesday",
+      "dayWed": "Wednesday",
+      "dayThu": "Thursday",
+      "dayFri": "Friday"
+    },
+    "scale": {
+      "note": "With showScale the chart paints a segmented intensity bar in 5 buckets (0–20, 20–40, 40–60, 60–80, 80–100) below the grid; this matrix mixes strong and weak weeks, including values near 0, with a few unscheduled periods.",
+      "seriesClassA": "Class A",
+      "seriesClassB": "Class B",
+      "seriesClassC": "Class C",
+      "seriesClassD": "Class D",
+      "seriesClassE": "Class E",
+      "seriesClassF": "Class F"
+    },
+    "empty": {
+      "note": "With no plottable data, the chart hides the SVG and renders a localized empty message instead of an empty grid."
+    },
+    "size-density": {
+      "note": "Size and density combine into a 3×3 matrix: sm compacts labels and canvas, lg expands them, md is the default. Density refines gaps and stroke weight."
+    },
+    "size": {
+      "lg": "Large",
+      "md": "Medium",
+      "sm": "Small"
+    },
+    "density": {
+      "compact": "Compact",
+      "normal": "Normal",
+      "comfortable": "Comfortable"
+    },
+    "installation": {
+      "note": "Install the package and import the standalone heatmap component."
+    },
+    "props": {
+      "note": "Inputs, possible values and defaults. The cellSelect output emits the selected row and column.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
+    },
+    "section": {
+      "examples": "Examples",
+      "scale": "Intensity scale",
+      "empty": "Empty state",
+      "size-density": "Size and density",
+      "sizes": "Sizes",
+      "density": "Density",
+      "installation": "Installation",
+      "props": "Props"
+    },
+    "title": "Heatmap"
+  }
+}

@@ -16,6 +16,7 @@ const meta: Meta<SolarisSelectComponent> = {
     searchable: { control: 'boolean' },
     clearable: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    suffix: { control: 'text' },
   },
 };
 export default meta;
@@ -31,6 +32,16 @@ export const Searchable: Story = {
 export const Clearable: Story = {
   args: { label: 'Clearable', placeholder: 'Select...', clearable: true },
 };
+export const Suffix: Story = {
+  args: { label: 'With suffix', placeholder: 'Select...', suffix: 'info' },
+};
 export const Disabled: Story = {
   args: { label: 'Disabled', placeholder: 'Cannot open', disabled: true },
+};
+export const Minimal: Story = {
+  args: {
+    label: 'Minimal',
+    placeholder: 'Select...',
+    appearance: 'minimal',
+  },
 };

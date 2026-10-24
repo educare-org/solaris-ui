@@ -1,0 +1,45 @@
+{
+  "week-view": {
+    "allday": {
+      "label": "All-day row",
+      "off": "Off",
+      "on": "On"
+    },
+    "days": {
+      "label": "Visible days"
+    },
+    "description": "Time-grid with one to seven visible days, an all-day row, overlapping event blocks, and a time-zone now-line.",
+    "drag": {
+      "note": "Drag an empty slot span to propose a create, drag a block to propose a move, or drag its top/bottom edges to propose a resize. Keyboard parity: arrows move, Shift+arrows resize, Enter confirms, Escape cancels. The lib never mutates the array — proposals land in the log below."
+    },
+    "examples": {
+      "note": "Use the toolbar to move the visible range and switch between day, 3-day, 4-day, and week layouts. Clicking an hour slot emits the wall time in the display zone; the log below shows emitted events."
+    },
+    "installation": {
+      "note": "Install the package and import the standalone week view component."
+    },
+    "locales": {
+      "note": "Weekdays, hours, and helper texts follow the selected locale."
+    },
+    "props": {
+      "note": "Pass events (the lib expands recurrence without mutating the array), tasks, resolved holidays, and the display time zone. Drag proposes creates, moves, and resizes with a snap step; year and schedule views stay click and keyboard only."
+    },
+    "section": {
+      "drag": "Drag and drop",
+      "examples": "Examples",
+      "installation": "Installation",
+      "locales": "Locales",
+      "props": "Props",
+      "size-density": "Size and density"
+    },
+    "size-density": {
+      "note": "Size drives block text while density drives the hour height."
+    },
+    "title": "Week View",
+    "toolbar": {
+      "next": "Next",
+      "previous": "Previous",
+      "today": "Today"
+    }
+  }
+}
