@@ -1,6 +1,6 @@
 {
   "categories": ["actions"],
-  "keywords": [],
+  "keywords": ["logout", "signout", "sair"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

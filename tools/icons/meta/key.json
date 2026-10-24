@@ -1,6 +1,6 @@
 {
   "categories": ["actions"],
-  "keywords": [],
+  "keywords": ["chave", "password"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

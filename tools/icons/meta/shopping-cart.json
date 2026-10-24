@@ -1,6 +1,6 @@
 {
   "categories": ["data"],
-  "keywords": [],
+  "keywords": ["cart", "carrinho", "loja"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

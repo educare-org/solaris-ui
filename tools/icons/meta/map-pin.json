@@ -1,6 +1,6 @@
 {
   "categories": ["data"],
-  "keywords": [],
+  "keywords": ["location", "pin", "local"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

@@ -1,6 +1,6 @@
 {
   "categories": ["layout"],
-  "keywords": [],
+  "keywords": ["sidebar", "painel"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

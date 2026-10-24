@@ -1,6 +1,6 @@
 {
   "categories": ["people"],
-  "keywords": [],
+  "keywords": ["settings", "config"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

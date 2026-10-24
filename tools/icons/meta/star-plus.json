@@ -1,6 +1,6 @@
 {
   "categories": ["actions"],
-  "keywords": [],
+  "keywords": ["favorite-add", "favoritar"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

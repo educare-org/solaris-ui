@@ -1,6 +1,6 @@
 {
   "categories": ["actions"],
-  "keywords": [],
+  "keywords": ["loading", "spinner", "carregando"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

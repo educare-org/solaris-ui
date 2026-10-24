@@ -1,6 +1,6 @@
 {
   "categories": ["status"],
-  "keywords": [],
+  "keywords": ["close", "cancelar"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

@@ -1,6 +1,6 @@
 {
   "categories": ["actions"],
-  "keywords": [],
+  "keywords": ["cursor", "click", "clique"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

@@ -1,8 +1,8 @@
 {
   "categories": ["theme"],
-  "keywords": [],
+  "keywords": ["acessibilidade", "accessibility"],
   "aliases": [],
-  "class": "stroke-only",
+  "class": "fillable",
   "availableVariants": ["outline"],
   "viewBox": "0 0 122.88 122.88"
 }

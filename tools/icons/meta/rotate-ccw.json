@@ -1,6 +1,6 @@
 {
   "categories": ["actions"],
-  "keywords": ["reload", "recarregar"],
+  "keywords": ["reload", "recarregar", "undo"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

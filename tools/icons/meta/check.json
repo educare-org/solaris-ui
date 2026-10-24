@@ -1,6 +1,6 @@
 {
   "categories": ["status"],
-  "keywords": [],
+  "keywords": ["done", "tick", "ok", "confirmar"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

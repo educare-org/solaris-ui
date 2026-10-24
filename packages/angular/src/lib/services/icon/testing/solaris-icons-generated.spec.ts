@@ -24,6 +24,27 @@ describe('solaris-icons-generated', () => {
     expect(SOLARIS_ICONS_METADATA['chart-spline'].class).toBe('stroke-only');
   });
 
+  it('should derive solid and duotone art for fillable icons only', () => {
+    expect(SOLARIS_ICONS_METADATA['bookmark'].availableVariants).toEqual(
+      expect.arrayContaining(['outline', 'solid', 'duotone']),
+    );
+    expect(SOLARIS_ICONS_METADATA['chart-spline'].availableVariants).toEqual([
+      'outline',
+    ]);
+    expect(SOLARIS_ICONS_METADATA['rss'].availableVariants).toEqual([
+      'outline',
+    ]);
+  });
+
+  it('should include name tokens in keywords for every icon', () => {
+    for (const [name, meta] of Object.entries(SOLARIS_ICONS_METADATA)) {
+      expect(meta.keywords.length).toBeGreaterThan(0);
+    }
+    expect(SOLARIS_ICONS_METADATA['message-square'].keywords).toContain(
+      'message',
+    );
+  });
+
   it('should have valid metadata shapes', () => {
     for (const meta of Object.values(SOLARIS_ICONS_METADATA)) {
       expect(meta.categories.length).toBeGreaterThan(0);

@@ -2,7 +2,10 @@
   "categories": [
     "data"
   ],
-  "keywords": [],
+  "keywords": [
+    "box",
+    "caixa"
+  ],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": [

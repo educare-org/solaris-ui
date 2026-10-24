@@ -4,7 +4,9 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const workspaceRoot = path.resolve(__dirname, '..', '..');
-const srcDir = path.join(__dirname, 'src', 'outline');
+const outlineDir = path.join(__dirname, 'src', 'outline');
+const solidDir = path.join(__dirname, 'src', 'solid');
+const duotoneDir = path.join(__dirname, 'src', 'duotone');
 const metaDir = path.join(__dirname, 'meta');
 const outDir = path.join(
   workspaceRoot,
@@ -20,7 +22,6 @@ const outDir = path.join(
 
 const NAME_RE = /^[a-z0-9-]+$/;
 const CLASSES = new Set(['fillable', 'redrawable', 'stroke-only']);
-const VARIANTS = new Set(['outline', 'solid', 'duotone']);
 const ALLOWED_TAGS = new Set([
   'g',
   'mask',
@@ -72,9 +73,57 @@ function fail(msg) {
   errors.push(msg);
 }
 
-const svgFiles = fs.readdirSync(srcDir).filter((f) => f.endsWith('.svg'));
+function readInner(label, filePath) {
+  const raw = fs.readFileSync(filePath, 'utf-8');
+  if (UNSAFE_RE.test(raw)) {
+    fail(`${label}: unsafe SVG content detected`);
+    return null;
+  }
+  const svgMatch = raw.match(/<svg([^<>]*)>([\s\S]*)<\/\s*svg\s*>/i);
+  if (!svgMatch) {
+    fail(`${label}: root <svg> element not found`);
+    return null;
+  }
+  const inner = svgMatch[2].trim();
+  const tagRe = /<\s*\/?\s*([a-zA-Z][a-zA-Z0-9-]*)([^<>]*)/g;
+  let tm;
+  while ((tm = tagRe.exec(inner)) !== null) {
+    if (!ALLOWED_TAGS.has(tm[1].toLowerCase())) {
+      fail(`${label}: disallowed tag <${tm[1]}>`);
+      return null;
+    }
+    const attrRe =
+      /([a-zA-Z_:][a-zA-Z0-9_.:-]*)(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s"'=<>`]+))?/g;
+    let am;
+    while ((am = attrRe.exec(tm[2])) !== null) {
+      const attrName = am[1].toLowerCase();
+      if (
+        attrName.startsWith('on') ||
+        attrName === 'href' ||
+        attrName === 'xlink:href' ||
+        attrName === 'style'
+      ) {
+        fail(`${label}: disallowed attribute ${am[1]}`);
+        return null;
+      }
+      if (!ALLOWED_ATTRS.has(attrName)) {
+        fail(`${label}: disallowed attribute ${am[1]}`);
+        return null;
+      }
+    }
+  }
+  return inner;
+}
+
+function nameTokens(name) {
+  return name.split('-').filter((t) => t.length > 0 && !/^\d+$/.test(t));
+}
+
+const svgFiles = fs.readdirSync(outlineDir).filter((f) => f.endsWith('.svg'));
 const metadata = {};
 const outlines = {};
+const solids = {};
+const duotones = {};
 
 for (const file of svgFiles) {
   const name = path.basename(file, '.svg');
@@ -102,71 +151,48 @@ for (const file of svgFiles) {
     fail(`${file}: meta.class must be fillable|redrawable|stroke-only`);
     continue;
   }
-  if (
-    !Array.isArray(meta.availableVariants) ||
-    meta.availableVariants.length === 0 ||
-    !meta.availableVariants.every((v) => VARIANTS.has(v))
-  ) {
-    fail(`${file}: meta.availableVariants must be a non-empty variant array`);
-    continue;
-  }
-  const raw = fs.readFileSync(path.join(srcDir, file), 'utf-8');
-  if (UNSAFE_RE.test(raw)) {
-    fail(`${file}: unsafe SVG content detected`);
-    continue;
-  }
-  const svgMatch = raw.match(/<svg([^<>]*)>([\s\S]*)<\/\s*svg\s*>/i);
-  if (!svgMatch) {
-    fail(`${file}: root <svg> element not found`);
-    continue;
-  }
-  const inner = svgMatch[2].trim();
-  const tagRe = /<\s*\/?\s*([a-zA-Z][a-zA-Z0-9-]*)([^<>]*)/g;
-  let tm;
-  let tagsOk = true;
-  while ((tm = tagRe.exec(inner)) !== null) {
-    if (!ALLOWED_TAGS.has(tm[1].toLowerCase())) {
-      fail(`${file}: disallowed tag <${tm[1]}>`);
-      tagsOk = false;
-      break;
-    }
-    const attrRe =
-      /([a-zA-Z_:][a-zA-Z0-9_.:-]*)(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s"'=<>`]+))?/g;
-    let am;
-    while ((am = attrRe.exec(tm[2])) !== null) {
-      const attrName = am[1].toLowerCase();
-      if (
-        attrName.startsWith('on') ||
-        attrName === 'href' ||
-        attrName === 'xlink:href' ||
-        attrName === 'style'
-      ) {
-        fail(`${file}: disallowed attribute ${am[1]}`);
-        tagsOk = false;
-        break;
-      }
-      if (!ALLOWED_ATTRS.has(attrName)) {
-        fail(`${file}: disallowed attribute ${am[1]}`);
-        tagsOk = false;
-        break;
-      }
-    }
-    if (!tagsOk) break;
-  }
-  if (!tagsOk) continue;
+  const inner = readInner(`outline/${file}`, path.join(outlineDir, file));
+  if (inner === null) continue;
   if (meta.viewBox) {
+    const raw = fs.readFileSync(path.join(outlineDir, file), 'utf-8');
     const vb = raw.match(/viewBox="([^"]+)"/);
     if (vb && vb[1] !== meta.viewBox) {
       fail(`${file}: viewBox mismatch (svg=${vb[1]} meta=${meta.viewBox})`);
       continue;
     }
   }
+
+  const availableVariants = ['outline'];
+  const solidPath = path.join(solidDir, `${name}.svg`);
+  const duotonePath = path.join(duotoneDir, `${name}.svg`);
+  if (fs.existsSync(solidPath)) {
+    const solidInner = readInner(`solid/${name}.svg`, solidPath);
+    if (solidInner === null) continue;
+    solids[name] = solidInner;
+    availableVariants.push('solid');
+  } else if (meta.class === 'fillable') {
+    solids[name] = inner;
+    availableVariants.push('solid');
+  }
+  if (fs.existsSync(duotonePath)) {
+    const duotoneInner = readInner(`duotone/${name}.svg`, duotonePath);
+    if (duotoneInner === null) continue;
+    duotones[name] = duotoneInner;
+    availableVariants.push('duotone');
+  } else if (meta.class === 'fillable') {
+    duotones[name] = inner;
+    availableVariants.push('duotone');
+  }
+
+  const keywords = [
+    ...new Set([...(meta.keywords ?? []), ...nameTokens(name)]),
+  ];
   metadata[name] = {
     categories: meta.categories,
-    keywords: meta.keywords ?? [],
+    keywords,
     aliases: meta.aliases ?? [],
     class: meta.class,
-    availableVariants: meta.availableVariants,
+    availableVariants,
   };
   outlines[name] = inner;
 }
@@ -180,6 +206,16 @@ if (errors.length > 0) {
 fs.mkdirSync(outDir, { recursive: true });
 const header =
   '// Generated by tools/icons/build-icons.mjs. Do not edit manually.\n';
+function writeMap(fileName, exportName, map, typeImport) {
+  fs.writeFileSync(
+    path.join(outDir, fileName),
+    header +
+      (typeImport ? `${typeImport}\n\n` : '') +
+      `export const ${exportName}: Record<string, string> = ` +
+      JSON.stringify(map, null, 2) +
+      ';\n',
+  );
+}
 fs.writeFileSync(
   path.join(outDir, 'solaris-icons-metadata.ts'),
   header +
@@ -188,13 +224,11 @@ fs.writeFileSync(
     JSON.stringify(metadata, null, 2) +
     ';\n',
 );
-fs.writeFileSync(
-  path.join(outDir, 'solaris-icons-outline-svg.ts'),
-  header +
-    'export const SOLARIS_OUTLINE_SVG: Record<string, string> = ' +
-    JSON.stringify(outlines, null, 2) +
-    ';\n',
-);
+writeMap('solaris-icons-outline-svg.ts', 'SOLARIS_OUTLINE_SVG', outlines);
+writeMap('solaris-icons-solid-svg.ts', 'SOLARIS_SOLID_SVG', solids);
+writeMap('solaris-icons-duotone-svg.ts', 'SOLARIS_DUOTONE_SVG', duotones);
+const withSolid = Object.keys(solids).length;
+const withDuotone = Object.keys(duotones).length;
 console.log(
-  `icons:build ok — ${Object.keys(metadata).length} icons validated.`,
+  `icons:build ok — ${Object.keys(metadata).length} icons validated (${withSolid} solid, ${withDuotone} duotone).`,
 );

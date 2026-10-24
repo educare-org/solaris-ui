@@ -210,4 +210,15 @@ describe('SolarisIconComponent', () => {
     expect(layer).toBeTruthy();
     expect(fixture.componentInstance.isFallback()).toBe(true);
   });
+
+  it('should render dedicated duotone art for fillable icons', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'bookmark');
+    fixture.componentRef.setInput('variant', 'duotone');
+    fixture.detectChanges();
+
+    const layer = fixture.nativeElement.querySelector('g[opacity="0.25"]');
+    expect(layer).toBeTruthy();
+    expect(fixture.componentInstance.isFallback()).toBe(false);
+  });
 });

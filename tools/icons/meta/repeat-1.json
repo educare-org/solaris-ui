@@ -1,6 +1,6 @@
 {
   "categories": ["actions"],
-  "keywords": [],
+  "keywords": ["replay-once"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

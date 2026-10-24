@@ -1,6 +1,6 @@
 {
   "categories": ["table"],
-  "keywords": [],
+  "keywords": ["ascending", "crescente"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

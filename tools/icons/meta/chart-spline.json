@@ -1,6 +1,6 @@
 {
   "categories": ["navigation"],
-  "keywords": [],
+  "keywords": ["line-chart", "trend"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

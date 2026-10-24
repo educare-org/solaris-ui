@@ -1,6 +1,6 @@
 {
   "categories": ["documents"],
-  "keywords": [],
+  "keywords": ["text", "texto"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

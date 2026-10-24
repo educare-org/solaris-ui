@@ -1,6 +1,6 @@
 {
   "categories": ["actions"],
-  "keywords": [],
+  "keywords": ["cmd", "comando"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

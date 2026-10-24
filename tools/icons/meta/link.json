@@ -1,6 +1,6 @@
 {
   "categories": ["navigation"],
-  "keywords": [],
+  "keywords": ["url", "hyperlink"],
   "aliases": [],
   "class": "stroke-only",
   "availableVariants": ["outline"],

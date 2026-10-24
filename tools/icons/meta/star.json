@@ -1,8 +1,8 @@
 {
   "categories": ["actions"],
-  "keywords": ["favorite", "favorito"],
+  "keywords": ["favorite", "favorito", "rating"],
   "aliases": [],
-  "class": "stroke-only",
+  "class": "fillable",
   "availableVariants": ["outline"],
   "viewBox": "0 0 24 24"
 }

@@ -10,7 +10,8 @@ import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
 import { SolarisIconRegistryService } from '../../../services/icon';
 import { SOLARIS_ICONS_CONFIG } from '../../../services/icon';
 import type { SolarisIconVariant, SvgElement } from '../../../services/icon';
-import { SOLARIS_ICONS_METADATA } from '../../../services/icon/icons/generated/solaris-icons-metadata';
+import { SOLARIS_SOLID_SVG } from '../../../services/icon/icons/generated/solaris-icons-solid-svg';
+import { SOLARIS_DUOTONE_SVG } from '../../../services/icon/icons/generated/solaris-icons-duotone-svg';
 import { iconElementsToInner } from '../../../services/icon/service/solaris-icon-serializer';
 import { sanitizeIconSvgInner } from '../../../services/icon/service/solaris-icon-sanitizer';
 
@@ -95,12 +96,8 @@ export class SolarisIconComponent {
     if (!icon || this.hasOwnColors()) return false;
     const requested = this.resolvedVariant();
     if (requested === 'outline') return false;
-    const meta = SOLARIS_ICONS_METADATA[icon.name];
-    if (requested === 'solid') {
-      if (meta?.class === 'fillable') return false;
-      return !meta?.availableVariants.includes('solid');
-    }
-    return !meta?.availableVariants.includes('duotone');
+    if (requested === 'solid') return !(icon.name in SOLARIS_SOLID_SVG);
+    return !(icon.name in SOLARIS_DUOTONE_SVG);
   });
 
   protected readonly isHidden = computed(() => this.decorative());
@@ -138,11 +135,8 @@ export class SolarisIconComponent {
     }
 
     if (variant === 'solid') {
-      const meta = SOLARIS_ICONS_METADATA[icon.name];
-      if (
-        meta?.class === 'fillable' ||
-        meta?.availableVariants.includes('solid')
-      ) {
+      const solidInner = SOLARIS_SOLID_SVG[icon.name];
+      if (solidInner !== undefined) {
         return {
           viewBox: icon.viewBox,
           fill: 'currentColor',
@@ -153,7 +147,7 @@ export class SolarisIconComponent {
           variant,
           // SECURITY_EXCEPTION: inner markup is allowlist-sanitized before trust; built-ins at build, extraIcons at registration.
           safeInner: this.sanitizer.bypassSecurityTrustHtml(
-            sanitizeIconSvgInner(inner),
+            sanitizeIconSvgInner(solidInner),
           ),
         };
       }
@@ -175,6 +169,25 @@ export class SolarisIconComponent {
     }
 
     if (variant === 'duotone') {
+      const duotoneInner = SOLARIS_DUOTONE_SVG[icon.name];
+      if (duotoneInner !== undefined) {
+        return {
+          viewBox: icon.viewBox,
+          fill: null,
+          stroke: null,
+          strokeWidth: null,
+          linecap,
+          linejoin,
+          variant,
+          // SECURITY_EXCEPTION: inner markup is allowlist-sanitized before trust; built-ins at build, extraIcons at registration.
+          safeInner: this.sanitizer.bypassSecurityTrustHtml(
+            sanitizeIconSvgInner(
+              `<g fill="currentColor" opacity="0.25">${duotoneInner}</g>` +
+                `<g fill="none" stroke="currentColor" stroke-width="${strokeWidth}" stroke-linecap="${linecap}" stroke-linejoin="${linejoin}"${vectorEffect}>${duotoneInner}</g>`,
+            ),
+          ),
+        };
+      }
       return {
         viewBox: icon.viewBox,
         fill: null,
