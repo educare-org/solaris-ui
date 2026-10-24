@@ -20,11 +20,11 @@ env:
 
 jobs:
   e2e:
-    name: E2E (shard ${{ matrix.shard }})
+    name: E2E (${{ matrix.browser }})
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3]
+        browser: [chromium, firefox, webkit]
     runs-on: ubuntu-latest
     timeout-minutes: 45
 
@@ -62,7 +62,7 @@ jobs:
         run: pnpm nx build showcase
 
       - name: Run E2E tests
-        run: pnpm exec playwright test -c apps/showcase-e2e/playwright.config.mts --shard=${{ matrix.shard }}/3
+        run: pnpm exec playwright test -c apps/showcase-e2e/playwright.config.mts --project=${{ matrix.browser }} --workers=2
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
