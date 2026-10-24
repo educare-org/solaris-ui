@@ -40,7 +40,6 @@ interface IconColorSwatch {
 export interface ShowcaseIconEntry {
   name: string;
   keywords: string[];
-  isFallback: boolean;
 }
 
 const ICON_VARIANTS: SolarisIconVariant[] = ['outline', 'solid', 'duotone'];
@@ -120,7 +119,6 @@ export class IconsShowcasePage {
   protected readonly icons = computed<ShowcaseIconEntry[]>(() => {
     const query = this.query();
     const category = this.selectedCategory();
-    const variant = this.selectedVariant();
 
     return SOLARIS_BUILT_IN_ICONS.filter((icon) => {
       const matchesCategory =
@@ -143,9 +141,6 @@ export class IconsShowcasePage {
       return {
         name: icon.name,
         keywords: meta?.keywords ?? [],
-        isFallback:
-          variant !== 'outline' &&
-          !(meta?.availableVariants.includes(variant) ?? false),
       };
     });
   });

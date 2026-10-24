@@ -228,16 +228,6 @@
     var(--solaris-line-height-sm) var(--solaris-font-family-mono, monospace);
 }
 
-.icons-showcase__item-badge {
-  white-space: nowrap;
-  color: var(--solaris-warning-foreground);
-  background: var(--solaris-warning-soft);
-  border-radius: var(--solaris-radius-full);
-  padding: 0 var(--solaris-spacing-2);
-  font: var(--solaris-font-weight-medium) var(--solaris-font-size-xs) /
-    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
-}
-
 .icons-showcase__empty {
   @include layout.note;
 

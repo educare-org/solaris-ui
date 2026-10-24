@@ -238,15 +238,13 @@ test.describe('Icons', () => {
     );
   });
 
-  test('switching variant flags outline-only icons as adapted', async () => {
-    await expect(icons.fallbackBadges()).toHaveCount(0);
-
+  test('switching variant keeps all icons visible without badges', async () => {
     await icons.variantTab('Solid').click();
-    await expect(icons.fallbackBadges().first()).toBeVisible();
     await expect(icons.iconItem('bookmark')).toBeVisible();
+    await expect(icons.iconItem('chart-spline')).toBeVisible();
 
     await icons.variantTab('Outline').click();
-    await expect(icons.fallbackBadges()).toHaveCount(0);
+    await expect(icons.iconItem('bookmark')).toBeVisible();
   });
 
   test('stroke customizer changes stroke width', async () => {

@@ -246,11 +246,6 @@
             [style.color]="iconColor() ?? null"
           />
           <code class="icons-showcase__item-name">{{ icon.name }}</code>
-          @if (icon.isFallback) {
-          <span class="icons-showcase__item-badge"
-            >{{ 'icons.fallback' | translate }}</span
-          >
-          }
         </button>
         } @empty {
         <p class="icons-showcase__empty">

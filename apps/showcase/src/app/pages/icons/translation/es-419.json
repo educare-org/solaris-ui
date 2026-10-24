@@ -45,7 +45,6 @@
     "description": "Explora todos los iconos integrados. Usa el cuadro de búsqueda o los filtros de categoría para encontrar un icono y haz clic en él para ver cómo usarlo.",
     "edit-in-studio": "Editar en el studio",
     "explore": "Explorar iconos",
-    "fallback": "Adaptado",
     "no-results": "Ningún icono coincide con tu búsqueda.",
     "result-count": "{{count}} iconos",
     "search-label": "Buscar",

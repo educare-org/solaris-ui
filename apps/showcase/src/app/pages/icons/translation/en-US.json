@@ -45,7 +45,6 @@
     "description": "Browse all built-in icons. Use the search box or category filters to find an icon, then click it to see how to use it.",
     "edit-in-studio": "Edit in studio",
     "explore": "Explore icons",
-    "fallback": "Adapted",
     "no-results": "No icons match your search.",
     "result-count": "{{count}} icons",
     "search-label": "Search",

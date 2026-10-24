@@ -109,12 +109,6 @@
     var(--solaris-line-height-sm) var(--solaris-font-family-sans);
 }
 
-.icon-usage-sheet__badge--fallback {
-  color: var(--solaris-warning-foreground);
-  background: var(--solaris-warning-soft);
-  border-color: var(--solaris-warning-border);
-}
-
 .icon-usage-sheet__keywords {
   display: flex;
   flex-wrap: wrap;

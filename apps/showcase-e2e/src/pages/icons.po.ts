@@ -88,10 +88,6 @@ export class IconsPageObject {
     return this.page.getByRole('slider', { name: 'Icon stroke width' });
   }
 
-  fallbackBadges(): Locator {
-    return this.page.locator('.icons-showcase__item-badge');
-  }
-
   itemSvg(name: string): Locator {
     return this.iconItem(name).locator('svg');
   }

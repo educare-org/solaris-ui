@@ -72,15 +72,6 @@ export class IconUsageSheetComponent {
     Math.max(0, (this.meta()?.keywords ?? []).length - MAX_VISIBLE_KEYWORDS),
   );
 
-  protected readonly isFallback = computed(() => {
-    const meta = this.meta();
-    const variant = this.variant();
-    return (
-      variant !== 'outline' &&
-      !(meta?.availableVariants.includes(variant) ?? false)
-    );
-  });
-
   protected readonly angularSnippet = computed(() => {
     const attrs: string[] = [`name="${this.data.name}"`];
     if (this.variant() !== 'outline') attrs.push(`variant="${this.variant()}"`);
