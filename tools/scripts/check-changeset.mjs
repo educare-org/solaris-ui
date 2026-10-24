@@ -123,9 +123,11 @@ if (!fileExists(path.join(libPath, 'package.json'))) {
         const currentBranch = git('git branch --show-current') || '';
         const onProtected =
           currentBranch === 'develop' || currentBranch === 'main';
+        const isRelease = libFiles.includes('packages/angular/CHANGELOG.md');
         const strict =
           forceStrict ||
           (!forceWarn &&
+            !isRelease &&
             (onProtected || pushingToProtectedBranch() || isCiPrToProtected()));
         const msg =
           `Changes detected in @educarehq/solaris-ui vs ${base} ` +

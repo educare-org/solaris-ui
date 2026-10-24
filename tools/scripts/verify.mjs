@@ -69,6 +69,7 @@ runTooling('lint');
 runTooling('typecheck');
 runTooling('test');
 runTooling('build');
+runTooling('build:schematics');
 
 console.log('\n--- Bundle Evaluation (needs dist/) ---');
 runCommand(
