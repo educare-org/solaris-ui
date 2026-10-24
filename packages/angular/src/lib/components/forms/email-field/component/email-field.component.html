@@ -20,15 +20,27 @@
   [hasSuffix]="hasSuffix()"
   [hasSuffixAction]="!!projectedSuffixAction()"
 >
+  <ng-content
+    select="[solaris-form-prefix]"
+    ngProjectAs="[solaris-form-prefix]"
+  />
+  <ng-content
+    select="[solaris-form-suffix][solaris-form-suffix-action]"
+    ngProjectAs="[solaris-form-suffix-action]"
+  />
+  <ng-content
+    select="[solaris-form-suffix]"
+    ngProjectAs="[solaris-form-suffix]"
+  />
+  <ng-content
+    select="[solaris-form-label-action]"
+    ngProjectAs="[solaris-form-label-action]"
+  />
   @if (prefix() && !projectedPrefix()) {
     <span solaris-form-prefix>
       <solaris-icon [name]="prefix() ?? ''" [decorative]="true" />
     </span>
   }
-  <ng-content
-    select="[solaris-form-prefix]"
-    ngProjectAs="[solaris-form-prefix]"
-  />
   <input
     type="email"
     #inputElement
@@ -70,16 +82,4 @@
       <solaris-icon [name]="suffix() ?? ''" [decorative]="true" />
     </span>
   }
-  <ng-content
-    select="[solaris-form-suffix][solaris-form-suffix-action]"
-    ngProjectAs="[solaris-form-suffix-action]"
-  />
-  <ng-content
-    select="[solaris-form-suffix]"
-    ngProjectAs="[solaris-form-suffix]"
-  />
-  <ng-content
-    select="[solaris-form-label-action]"
-    ngProjectAs="[solaris-form-label-action]"
-  />
 </solaris-form-field>

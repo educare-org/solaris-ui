@@ -32,6 +32,18 @@
   [solarisPopoverAutoFocus]="'first-tabbable'"
   [solarisPopoverAriaHasPopup]="'listbox'"
 >
+  <ng-content
+    select="[solaris-form-suffix][solaris-form-suffix-action]"
+    ngProjectAs="[solaris-form-suffix-action]"
+  />
+  <ng-content
+    select="[solaris-form-suffix]"
+    ngProjectAs="[solaris-form-suffix]"
+  />
+  <ng-content
+    select="[solaris-form-label-action]"
+    ngProjectAs="[solaris-form-label-action]"
+  />
   <button
     type="button"
     class="solaris-phone-field__country"
@@ -101,18 +113,6 @@
       <solaris-icon [name]="suffix() ?? ''" [decorative]="true" />
     </span>
   }
-  <ng-content
-    select="[solaris-form-suffix][solaris-form-suffix-action]"
-    ngProjectAs="[solaris-form-suffix-action]"
-  />
-  <ng-content
-    select="[solaris-form-suffix]"
-    ngProjectAs="[solaris-form-suffix]"
-  />
-  <ng-content
-    select="[solaris-form-label-action]"
-    ngProjectAs="[solaris-form-label-action]"
-  />
 </solaris-form-field>
 
 <ng-template #countryPopover="solarisPopover" solaris-popover>

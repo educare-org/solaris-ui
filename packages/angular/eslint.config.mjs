@@ -14,6 +14,7 @@ export default [
           ignoredFiles: [
             '{projectRoot}/eslint.config.{js,cjs,mjs,ts,cts,mts}',
             '{projectRoot}/**/*.stories.ts',
+            '{projectRoot}/**/*.ssr.spec.ts',
           ],
           ignoredDependencies: [
             '@angular/common',

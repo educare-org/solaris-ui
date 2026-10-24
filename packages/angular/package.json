@@ -19,12 +19,12 @@
     "package.json"
   ],
   "peerDependencies": {
-    "@angular-devkit/schematics": "^21.2.19",
-    "@angular/cdk": "^21.2.0",
-    "@angular/common": "^21.2.25",
-    "@angular/core": "^21.2.25",
-    "@angular/forms": "^21.2.25",
-    "@angular/platform-browser": "~21.2.25",
+    "@angular-devkit/schematics": "^22.2.4",
+    "@angular/cdk": "^22.2.0",
+    "@angular/common": "^22.2.3",
+    "@angular/core": "^22.2.3",
+    "@angular/forms": "^22.2.3",
+    "@angular/platform-browser": "~22.2.3",
     "rxjs": "^7.8.0",
     "shiki": "^4.2.0"
   },

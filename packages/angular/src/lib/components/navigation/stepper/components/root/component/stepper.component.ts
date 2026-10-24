@@ -75,7 +75,6 @@ export class SolarisStepperComponent implements SolarisStepperControl {
   readonly ariaLabel = input<string | undefined>(undefined);
   readonly ariaLabelKey = input<string | undefined>(undefined);
 
-  readonly activeIndexChange = output<number>();
   readonly stepChange = output<SolarisStepperChangeEvent>();
   readonly stepClick = output<{ index: number; label: string | undefined }>();
   readonly stepBlocked = output<SolarisStepperBlockedEvent>();
@@ -103,7 +102,6 @@ export class SolarisStepperComponent implements SolarisStepperControl {
       const current = this.activeIndex();
       const prev = this.previousIndex();
       if (current !== prev) {
-        this.activeIndexChange.emit(current);
         this.stepChange.emit({
           activeIndex: current,
           previousIndex: prev,

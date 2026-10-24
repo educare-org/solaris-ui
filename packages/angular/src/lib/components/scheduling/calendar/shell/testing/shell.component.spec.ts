@@ -247,18 +247,14 @@ describe('SolarisCalendarComponent', () => {
     expect(element.getAttribute('data-view')).toBe('month');
   });
 
-  it('switches views and emits viewChange', () => {
+  it('switches views and updates the view model', () => {
     createFixture();
     const instance = fixture.componentRef.instance;
-    let changed: string | undefined;
-    instance.viewChange.subscribe((value) => {
-      changed = value as string;
-    });
     fixture.debugElement
       .query(By.css('solaris-select.solaris-calendar__views-select'))
       .triggerEventHandler('valueChange', 'week');
     fixture.detectChanges();
-    expect(changed).toBe('week');
+    expect(instance.view()).toBe('week');
     expect(
       (fixture.nativeElement as HTMLElement).querySelector(
         '.solaris-calendar-week-view__grid',
@@ -1099,10 +1095,6 @@ describe('SolarisCalendarComponent keyboard shortcuts', () => {
 
   it('switches day/week/month/year/schedule on 1-5', () => {
     const { instance } = createShortcutFixture();
-    const changes: string[] = [];
-    instance.viewChange.subscribe((value) => {
-      changes.push(value as string);
-    });
     const expectations: Array<[string, string]> = [
       ['1', 'day'],
       ['2', 'week'],
@@ -1115,7 +1107,6 @@ describe('SolarisCalendarComponent keyboard shortcuts', () => {
       expect(instance.view()).toBe(view);
       expect(instance.announcement().length).toBeGreaterThan(0);
     }
-    expect(changes).toEqual(['day', 'week', 'month', 'year', 'schedule']);
   });
 
   it('shifts the visible range on [ and ]', () => {

@@ -207,9 +207,6 @@ export class SolarisChartShellComponent implements OnDestroy {
   readonly seriesToggle = output<string>();
   readonly actionRequest = output<string>();
   readonly retry = output<void>();
-  readonly viewChange = output<SolarisChartView>();
-  readonly periodChange = output<SolarisChartPeriod>();
-  readonly displayModeChange = output<SolarisChartDisplayMode>();
   readonly rangeChange = output<SolarisChartShellInterval>();
 
   private readonly translateService = inject(SolarisTranslateService, {
@@ -477,7 +474,6 @@ export class SolarisChartShellComponent implements OnDestroy {
     if (!isChartView(value)) return;
     if (!this.availableViews().some((option) => option.value === value)) return;
     this.view.set(value);
-    this.viewChange.emit(value);
     this.announcement.set(this.viewOptionLabel({ value }));
   }
 
@@ -490,7 +486,6 @@ export class SolarisChartShellComponent implements OnDestroy {
       return;
     }
     this.period.set(value);
-    this.periodChange.emit(value);
     this.announcement.set(this.periodOptionLabel({ value }));
     const option = this.effectivePeriods().find(
       (entry) => entry.value === value,
@@ -515,7 +510,6 @@ export class SolarisChartShellComponent implements OnDestroy {
       ) ?? 'custom';
     if (next !== this.period()) {
       this.period.set(next);
-      this.periodChange.emit(next);
       this.announcement.set(this.periodOptionLabel({ value: next }));
     }
     this.closeIntervalPicker();
@@ -562,7 +556,6 @@ export class SolarisChartShellComponent implements OnDestroy {
     if (!this.availableDisplayModes().some((option) => option.value === value))
       return;
     this.displayMode.set(value);
-    this.displayModeChange.emit(value);
     this.announcement.set(this.displayModeOptionLabel({ value }));
   }
 
