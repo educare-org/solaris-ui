@@ -24,15 +24,27 @@
   [solarisPopoverTriggerFor]="calendarPopover"
   [solarisPopoverDisabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
 >
+  <ng-content
+    select="[solaris-form-prefix]"
+    ngProjectAs="[solaris-form-prefix]"
+  />
+  <ng-content
+    select="[solaris-form-suffix][solaris-form-suffix-action]"
+    ngProjectAs="[solaris-form-suffix-action]"
+  />
+  <ng-content
+    select="[solaris-form-suffix]"
+    ngProjectAs="[solaris-form-suffix]"
+  />
+  <ng-content
+    select="[solaris-form-label-action]"
+    ngProjectAs="[solaris-form-label-action]"
+  />
   @if (prefix(); as prefixName) {
     <span solaris-form-prefix>
       <solaris-icon [name]="prefixName" [decorative]="true" />
     </span>
   }
-  <ng-content
-    select="[solaris-form-prefix]"
-    ngProjectAs="[solaris-form-prefix]"
-  />
   <input
     [id]="id"
     type="text"
@@ -86,18 +98,6 @@
       <solaris-icon [name]="suffixName" [decorative]="true" />
     </span>
   }
-  <ng-content
-    select="[solaris-form-suffix][solaris-form-suffix-action]"
-    ngProjectAs="[solaris-form-suffix-action]"
-  />
-  <ng-content
-    select="[solaris-form-suffix]"
-    ngProjectAs="[solaris-form-suffix]"
-  />
-  <ng-content
-    select="[solaris-form-label-action]"
-    ngProjectAs="[solaris-form-label-action]"
-  />
 </solaris-form-field>
 
 <ng-template #calendarPopover="solarisPopover" solaris-popover>

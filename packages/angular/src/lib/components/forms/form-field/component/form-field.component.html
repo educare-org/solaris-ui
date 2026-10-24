@@ -61,15 +61,13 @@
     [attr.data-empty]="effectiveHasSuffix() ? null : ''"
     [attr.data-variant]="suffixVariant()"
   >
-    @if (!loading()) {
-      @if (suffix(); as suffixName) {
-        <span solaris-form-suffix>
-          <solaris-icon [name]="suffixName" [decorative]="true" />
-        </span>
-      }
-      <ng-content select="[solaris-form-suffix-action]" />
-      <ng-content select="[solaris-form-suffix]" />
+    @if (!loading() && suffix(); as suffixName) {
+      <span solaris-form-suffix>
+        <solaris-icon [name]="suffixName" [decorative]="true" />
+      </span>
     }
+    <ng-content select="[solaris-form-suffix-action]" />
+    <ng-content select="[solaris-form-suffix]" />
   </span>
   @if (loading()) {
     <span class="solaris-form-field__loading">

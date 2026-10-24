@@ -4,6 +4,7 @@ import { SolarisFormErrorComponent } from '../component/form-error.component';
 
 @Component({
   standalone: true,
+  selector: 'solaris-form-error-test-host',
   imports: [SolarisFormErrorComponent],
   template:
     '<solaris-form-error><span class="msg">Error text</span></solaris-form-error>',
