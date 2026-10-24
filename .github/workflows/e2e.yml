@@ -20,7 +20,11 @@ env:
 
 jobs:
   e2e:
-    name: E2E
+    name: E2E (shard ${{ matrix.shard }})
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
     runs-on: ubuntu-latest
     timeout-minutes: 45
 
@@ -55,7 +59,7 @@ jobs:
         run: pnpm exec playwright install --with-deps
 
       - name: Run E2E tests
-        run: pnpm nx e2e showcase-e2e
+        run: pnpm nx e2e showcase-e2e --shard=${{ matrix.shard }}/3
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
