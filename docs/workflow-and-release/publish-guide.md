@@ -63,7 +63,7 @@ pnpm package:check
 
 ## CI Publication
 
-The release workflow is defined in `.github/workflows/release.yml` and runs on pushes to `main`.
+The release workflow is defined in `.github/workflows/release.yml` and runs when the `CI` workflow completes successfully on `main`, so the exact verified commit is published without running verification twice.
 
 The workflow:
 
