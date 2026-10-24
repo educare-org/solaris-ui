@@ -23,6 +23,7 @@ const CLASSES = new Set(['fillable', 'redrawable', 'stroke-only']);
 const VARIANTS = new Set(['outline', 'solid', 'duotone']);
 const ALLOWED_TAGS = new Set([
   'g',
+  'mask',
   'path',
   'circle',
   'rect',
@@ -32,6 +33,8 @@ const ALLOWED_TAGS = new Set([
   'ellipse',
 ]);
 const ALLOWED_ATTRS = new Set([
+  'id',
+  'mask',
   'd',
   'points',
   'cx',

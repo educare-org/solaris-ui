@@ -1,92 +1,18 @@
-@if (definition(); as icon) {
+@if (viewModel(); as vm) {
+  <!-- SECURITY_EXCEPTION: inner SVG is allowlist-sanitized in the component before trust; this binding renders sanitized markup only. -->
   <svg
+    [innerHTML]="vm.safeInner"
     width="100%"
     height="100%"
-    [attr.viewBox]="icon.viewBox"
-    [attr.fill]="icon.fill ?? 'none'"
-    [attr.stroke]="resolvedStroke()"
-    [attr.stroke-width]="resolvedStrokeWidth()"
-    [attr.stroke-linecap]="icon.strokeLinecap ?? 'round'"
-    [attr.stroke-linejoin]="icon.strokeLinejoin ?? 'round'"
+    [attr.viewBox]="vm.viewBox"
+    [attr.fill]="vm.fill"
+    [attr.stroke]="vm.stroke"
+    [attr.stroke-width]="vm.strokeWidth"
+    [attr.stroke-linecap]="vm.linecap"
+    [attr.stroke-linejoin]="vm.linejoin"
+    [attr.data-variant]="vm.variant"
     [attr.aria-hidden]="isHidden() ? 'true' : null"
     [attr.aria-label]="hasSemanticLabel() ? accessibleLabel() : null"
     [attr.role]="isHidden() ? 'presentation' : 'img'"
-  >
-    @for (element of icon.elements; track $index) {
-      @switch (element.type) {
-        @case ('path') {
-          <path
-            [attr.d]="element.d"
-            [attr.fill]="element.fill ?? null"
-            [attr.fill-rule]="element.fillRule ?? null"
-            [attr.clip-rule]="element.clipRule ?? null"
-            [attr.stroke]="element.stroke ?? null"
-            [attr.stroke-width]="element.strokeWidth ?? null"
-            [attr.stroke-linecap]="element.strokeLinecap ?? null"
-            [attr.stroke-linejoin]="element.strokeLinejoin ?? null"
-          />
-        }
-        @case ('line') {
-          <line
-            [attr.x1]="element.x1"
-            [attr.y1]="element.y1"
-            [attr.x2]="element.x2"
-            [attr.y2]="element.y2"
-            [attr.fill]="element.fill ?? null"
-            [attr.stroke]="element.stroke ?? null"
-            [attr.stroke-width]="element.strokeWidth ?? null"
-            [attr.stroke-linecap]="element.strokeLinecap ?? null"
-            [attr.stroke-linejoin]="element.strokeLinejoin ?? null"
-          />
-        }
-        @case ('polyline') {
-          <polyline
-            [attr.points]="element.points"
-            [attr.fill]="element.fill ?? null"
-            [attr.stroke]="element.stroke ?? null"
-            [attr.stroke-width]="element.strokeWidth ?? null"
-            [attr.stroke-linecap]="element.strokeLinecap ?? null"
-            [attr.stroke-linejoin]="element.strokeLinejoin ?? null"
-          />
-        }
-        @case ('polygon') {
-          <polygon
-            [attr.points]="element.points"
-            [attr.fill]="element.fill ?? null"
-            [attr.stroke]="element.stroke ?? null"
-            [attr.stroke-width]="element.strokeWidth ?? null"
-            [attr.stroke-linecap]="element.strokeLinecap ?? null"
-            [attr.stroke-linejoin]="element.strokeLinejoin ?? null"
-          />
-        }
-        @case ('circle') {
-          <circle
-            [attr.cx]="element.cx"
-            [attr.cy]="element.cy"
-            [attr.r]="element.r"
-            [attr.fill]="element.fill ?? null"
-            [attr.stroke]="element.stroke ?? null"
-            [attr.stroke-width]="element.strokeWidth ?? null"
-            [attr.stroke-linecap]="element.strokeLinecap ?? null"
-            [attr.stroke-linejoin]="element.strokeLinejoin ?? null"
-          />
-        }
-        @case ('rect') {
-          <rect
-            [attr.x]="element.x"
-            [attr.y]="element.y"
-            [attr.width]="element.width"
-            [attr.height]="element.height"
-            [attr.rx]="element.rx"
-            [attr.ry]="element.ry"
-            [attr.fill]="element.fill ?? null"
-            [attr.stroke]="element.stroke ?? null"
-            [attr.stroke-width]="element.strokeWidth ?? null"
-            [attr.stroke-linecap]="element.strokeLinecap ?? null"
-            [attr.stroke-linejoin]="element.strokeLinejoin ?? null"
-          />
-        }
-      }
-    }
-  </svg>
+  ></svg>
 }

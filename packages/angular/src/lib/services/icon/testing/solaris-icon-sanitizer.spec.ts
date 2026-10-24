@@ -55,4 +55,10 @@ describe('solaris-icon-sanitizer', () => {
       '<path d="m6 9 6 6 6-6"/>',
     );
   });
+
+  it('should preserve mask-based knockout fallback markup', () => {
+    const inner =
+      '<mask id="solaris-x-2-mask"><rect x="0" y="0" width="24" height="24" rx="6" fill="#fff"/></mask><rect x="0" y="0" width="24" height="24" rx="6" fill="currentColor" mask="url(#solaris-x-2-mask)"/>';
+    expect(sanitizeIconSvgInner(inner)).toBe(inner);
+  });
 });

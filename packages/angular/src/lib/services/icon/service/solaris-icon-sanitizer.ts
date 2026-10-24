@@ -1,5 +1,6 @@
 const ALLOWED_TAGS = new Set([
   'g',
+  'mask',
   'path',
   'circle',
   'rect',
@@ -10,6 +11,8 @@ const ALLOWED_TAGS = new Set([
 ]);
 
 const ALLOWED_ATTRS = new Set([
+  'id',
+  'mask',
   'd',
   'points',
   'cx',
