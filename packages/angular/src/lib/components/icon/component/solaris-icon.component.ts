@@ -34,6 +34,15 @@ function parseViewBoxSize(viewBox: string): { w: number; h: number } {
   return { w: 24, h: 24 };
 }
 
+const NO_VARIANT_ICONS = new Set([
+  'loader',
+  'dot',
+  'slash',
+  'ellipsis',
+  'ellipsis-vertical',
+  'grip-vertical',
+]);
+
 @Component({
   selector: 'solaris-icon',
   standalone: true,
@@ -88,12 +97,20 @@ export class SolarisIconComponent {
     if (icon.fill && icon.fill !== 'none') {
       return true;
     }
-    return icon.elements.some((el: SvgElement) => 'fill' in el && !!el.fill);
+    const elements = icon.elements ?? [];
+    if (elements.length === 0) return false;
+    return elements.every(
+      (el: SvgElement) =>
+        'fill' in el &&
+        !!(el as { fill?: string }).fill &&
+        (el as { fill?: string }).fill !== 'none',
+    );
   });
 
   readonly isFallback = computed(() => {
     const icon = this.definition();
     if (!icon || this.hasOwnColors()) return false;
+    if (NO_VARIANT_ICONS.has(icon.name)) return false;
     const requested = this.resolvedVariant();
     if (requested === 'outline') return false;
     if (requested === 'solid') return !(icon.name in SOLARIS_SOLID_SVG);
@@ -109,7 +126,8 @@ export class SolarisIconComponent {
   protected readonly viewModel = computed<IconViewModel | undefined>(() => {
     const icon = this.definition();
     if (!icon) return undefined;
-    const variant = this.resolvedVariant();
+    const requested = this.resolvedVariant();
+    const variant = NO_VARIANT_ICONS.has(icon.name) ? 'outline' : requested;
     const strokeWidth = this.resolvedStrokeWidth();
     const linecap = icon.strokeLinecap ?? 'round';
     const linejoin = icon.strokeLinejoin ?? 'round';
@@ -140,8 +158,8 @@ export class SolarisIconComponent {
         return {
           viewBox: icon.viewBox,
           fill: 'currentColor',
-          stroke: 'none',
-          strokeWidth: 0,
+          stroke: 'currentColor',
+          strokeWidth,
           linecap,
           linejoin,
           variant,
@@ -181,10 +199,7 @@ export class SolarisIconComponent {
           variant,
           // SECURITY_EXCEPTION: inner markup is allowlist-sanitized before trust; built-ins at build, extraIcons at registration.
           safeInner: this.sanitizer.bypassSecurityTrustHtml(
-            sanitizeIconSvgInner(
-              `<g fill="currentColor" opacity="0.25">${duotoneInner}</g>` +
-                `<g fill="none" stroke="currentColor" stroke-width="${strokeWidth}" stroke-linecap="${linecap}" stroke-linejoin="${linejoin}"${vectorEffect}>${duotoneInner}</g>`,
-            ),
+            sanitizeIconSvgInner(duotoneInner),
           ),
         };
       }
@@ -232,7 +247,7 @@ export class SolarisIconComponent {
     strokeWidth: number,
   ): string {
     const { w, h } = parseViewBoxSize(viewBox);
-    const rx = Math.round(Math.min(w, h) * 0.25 * 100) / 100;
+    const rx = Math.round((Math.min(w, h) / 6) * 100) / 100;
     const id = `solaris-${name.replace(/[^a-z0-9-]/gi, '')}-${String(strokeWidth).replace('.', '-')}-mask`;
     // SOLARIS_TOKEN_EXCEPTION: mask constants (#fff visible, #000 hidden) are luminance values required by SVG mask semantics, not theme colors.
     return (
@@ -249,7 +264,7 @@ export class SolarisIconComponent {
     vectorEffect: string,
   ): string {
     const { w, h } = parseViewBoxSize(viewBox);
-    const rx = Math.round(Math.min(w, h) * 0.25 * 100) / 100;
+    const rx = Math.round((Math.min(w, h) / 6) * 100) / 100;
     return (
       `<rect x="0" y="0" width="${w}" height="${h}" rx="${rx}" fill="currentColor" opacity="0.2"/>` +
       `<g fill="none" stroke="currentColor" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"${vectorEffect}>${inner}</g>`

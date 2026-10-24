@@ -186,13 +186,14 @@ describe('SolarisIconComponent', () => {
 
     const svg = fixture.nativeElement.querySelector('svg');
     expect(svg.getAttribute('fill')).toBe('currentColor');
+    expect(svg.getAttribute('stroke')).toBe('currentColor');
     expect(svg.getAttribute('data-variant')).toBe('solid');
     expect(fixture.componentInstance.isFallback()).toBe(false);
   });
 
   it('should render knockout fallback for stroke-only icons in solid', () => {
     configureTesting();
-    fixture.componentRef.setInput('name', 'chart-spline');
+    fixture.componentRef.setInput('name', 'check');
     fixture.componentRef.setInput('variant', 'solid');
     fixture.detectChanges();
 
@@ -202,7 +203,7 @@ describe('SolarisIconComponent', () => {
 
   it('should render duotone fallback with secondary layer', () => {
     configureTesting();
-    fixture.componentRef.setInput('name', 'rss');
+    fixture.componentRef.setInput('name', 'check');
     fixture.componentRef.setInput('variant', 'duotone');
     fixture.detectChanges();
 
@@ -220,5 +221,35 @@ describe('SolarisIconComponent', () => {
     const layer = fixture.nativeElement.querySelector('g[opacity="0.25"]');
     expect(layer).toBeTruthy();
     expect(fixture.componentInstance.isFallback()).toBe(false);
+  });
+
+  it('should render key outline with stroke despite filled dot', () => {
+    configureTesting();
+    fixture.componentRef.setInput('name', 'key');
+    fixture.componentRef.setInput('variant', 'outline');
+    fixture.detectChanges();
+
+    const svg = fixture.nativeElement.querySelector('svg');
+    expect(svg.getAttribute('stroke')).toBe('currentColor');
+    expect(fixture.componentInstance.isFallback()).toBe(false);
+  });
+
+  it('should not apply fallback to loader, dot, slash and ellipsis', () => {
+    configureTesting();
+    for (const name of [
+      'loader',
+      'dot',
+      'slash',
+      'ellipsis',
+      'ellipsis-vertical',
+      'grip-vertical',
+    ]) {
+      fixture.componentRef.setInput('name', name);
+      fixture.componentRef.setInput('variant', 'solid');
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.isFallback()).toBe(false);
+      expect(fixture.nativeElement.querySelector('mask')).toBeNull();
+    }
   });
 });
