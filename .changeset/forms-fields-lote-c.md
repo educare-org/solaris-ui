@@ -1,5 +1,0 @@
----
-'@educarehq/solaris-ui': minor
----
-
-P4 Lote C: `solaris-email-field`, `solaris-password-field`, `solaris-phone-field`, `solaris-date-picker`, and `solaris-date-range-picker` gain the `loading` input (overlay via the inner Form Field) and the suffix-action passthrough (both `[solaris-form-suffix]` + `[solaris-form-suffix-action]` attributes required). The password visibility toggle and both date calendar triggers are now suffix actions (no divider); the toggle icon follows a 9-combo `size` x `density` matrix (md row preserves the previous density-only scale). Close the unaudited date-range-picker P0 gap: new `size` input, `data-size`/`data-density` host attributes, typed `SolarisDateRangePickerDensity/Radius/Size` aliases, `[size]` repasse, and suffix/label-action slots. Explicit `size`/`density` on inner inputs still wins over inheritance everywhere. Rebuild the email, password, phone, date-picker (with a date-range section), and otp showcases with mirrored i18n; otp deliberately has no `loading`. Follow-up: textarea `autoGrow` + `maxRows` stays docs-only.

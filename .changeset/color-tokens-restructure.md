@@ -1,5 +1,0 @@
----
-'@educarehq/solaris-ui': major
----
-
-Restructure color tokens into a semantic system (breaking). Neutrals move to `--solaris-neutral-*` (`page/default/subtle/sunken/overlay/inverse/text-heading/body/secondary/tertiary/inverse/border-*/backdrop`); semantic colors use `solid/solid-hover/solid-active/soft/border/foreground/on-solid`; `orange-*` becomes `accent-*`; new `violet-*` scale; dark page `#0a0a0a` with containers `#171717`, body text `#f2f5fb`, stronger red danger (`#f13645` dark); new `high-contrast-dark` theme (`data-theme='high-contrast-dark'`, `colorScheme: 'high-contrast' | 'high-contrast-dark'`). The `danger` icon changes from octagon-X to Lucide `circle-alert`. Migrate: `bg-page→neutral-page`, `surface-base/raised→neutral-default`, `surface-subtle→neutral-subtle`, `surface-muted→neutral-sunken`, `surface-reverse*→neutral-inverse*`, `text-strong/default/muted/subtle/inverse→neutral-text-heading/body/secondary/tertiary/inverse`, `border-*→neutral-border-*`, `backdrop→neutral-backdrop`, `*-base→*-solid`, `*-hover/active→*-solid-hover/active`, `*-surface→*-soft`, `*-text→*-foreground`, `orange-*→accent-*`.

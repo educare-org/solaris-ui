@@ -1,5 +1,0 @@
----
-'@educarehq/solaris-ui': minor
----
-
-Add `solaris-pie-chart` (`data-display/charts`, phase H4): SVG pie, donut with the total in the center and a semicircular gauge with a min/max/target goal tick, plus a compact single-slice donut score ring. Slices fill with series-tinted radial gradients, morph between pie and donut through one shared path structure, stagger on enter and group sub-`minSlicePercent` values into a translated "Others" slice via the shared `groupSmallChartSlices` util. Pure geometry lives in `chart-pie.utils.ts` (`buildPieChartFrame`, `buildGaugeGeometry`, `pieSlicePath`, `gaugeArcPath`, `gaugeTargetTick`, `seriesToPieSlices` so the shell can project series sums). Roving-tabindex keyboard marks emit `sliceSelect(id)` for showcase drill-down, with a synthesized summary, tooltip with value/percent/total and a screen-reader data table. Showcase gains the `charts/pie-chart/` page (variants, grouping, gauge, score ring, click-to-detail drill-down, empty, props) and the shell projects the donut on the pie view. Follow-ups: H5 heatmap + radar.
