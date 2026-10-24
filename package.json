@@ -34,6 +34,7 @@
     "check:push": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs && node tools/scripts/check-dependencies.mjs && node tools/scripts/check-tokens.mjs && node tools/scripts/check-token-references.mjs && node tools/scripts/check-i18n.mjs && node tools/scripts/check-translation.mjs && node tools/scripts/check-changeset.mjs --base origin/develop && pnpm lint:scss && pnpm lint && pnpm typecheck && node tools/scripts/validate-component.mjs",
     "package:check": "node tools/scripts/check-package.mjs",
     "generate:component": "node tools/scripts/generate-component.mjs",
+    "icons:build": "node tools/icons/build-icons.mjs",
     "validate:component": "node tools/scripts/validate-component.mjs",
     "prepare": "simple-git-hooks",
     "commitlint": "commitlint",
