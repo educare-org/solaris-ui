@@ -10,7 +10,12 @@ test.describe('Tooltip', () => {
     tooltip = new TooltipPageObject(page);
   });
 
-  test('shows tooltip on click trigger', async () => {
+  test('shows tooltip on click trigger', async ({ page }) => {
+    await page
+      .locator('app-docs-section[anchor="triggers"]')
+      .getByRole('tab', { name: /^(Click|Clique)$/ })
+      .click();
+
     const count = await tooltip.clickTrigger().count();
     test.skip(count === 0, 'No click-trigger tooltips found');
 

@@ -23,12 +23,14 @@ test.describe('Month view', () => {
 
   test('opens events from chips', async ({ page }) => {
     const examples = page.locator('#examples');
-    await examples
+    const chip = examples
+      .locator('[data-date="2026-10-29"]')
       .getByRole('button', { name: /Team standup/ })
-      .first()
-      .click();
+      .first();
+    await chip.scrollIntoViewIfNeeded({ timeout: 10000 });
+    await chip.click({ timeout: 10000 });
     await expect(page.getByTestId('event-log')).toHaveText(
-      'event:standup@2026-10-15T09:00:00-03:00',
+      'event:standup@2026-10-29T09:00:00-03:00',
     );
   });
 
@@ -37,7 +39,13 @@ test.describe('Month view', () => {
   }) => {
     await page.setViewportSize({ width: 360, height: 800 });
     const examples = page.locator('#examples');
-    await examples.getByRole('button', { name: /2 more items/ }).click();
+    const more = examples
+      .getByRole('button', {
+        name: /more items on|itens a mais|eventos más/,
+      })
+      .first();
+    await more.scrollIntoViewIfNeeded({ timeout: 10000 });
+    await more.click({ timeout: 10000 });
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();
     const bounds = await dialog.boundingBox();

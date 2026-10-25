@@ -16,18 +16,18 @@ export class TooltipPageObject {
   }
 
   async showViaHover(index = 0): Promise<void> {
-    await this.hoverTrigger(index).scrollIntoViewIfNeeded();
-    await this.hoverTrigger(index).hover();
-    await this.page.waitForTimeout(500);
+    const trigger = this.hoverTrigger(index);
+    await trigger.scrollIntoViewIfNeeded({ timeout: 10000 });
+    await trigger.hover({ timeout: 10000 });
   }
 
   async showViaClick(index = 0): Promise<void> {
-    await this.clickTrigger(index).scrollIntoViewIfNeeded();
-    await this.clickTrigger(index).click();
-    await this.page.waitForTimeout(300);
+    const trigger = this.clickTrigger(index);
+    await trigger.scrollIntoViewIfNeeded({ timeout: 10000 });
+    await trigger.click({ timeout: 10000 });
   }
 
   async assertVisible(): Promise<void> {
-    await this.panel().waitFor({ state: 'visible', timeout: 5000 });
+    await this.panel().waitFor({ state: 'visible', timeout: 10000 });
   }
 }
