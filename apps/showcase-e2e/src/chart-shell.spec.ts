@@ -84,7 +84,18 @@ test.describe('Chart shell', () => {
   test('selects line dots with the keyboard', async ({ page }) => {
     const line = page.locator('solaris-line-chart').first();
     const firstDot = line.locator('circle[data-dot]').first();
-    await firstDot.focus();
+    await expect
+      .poll(
+        async () => {
+          await page.evaluate(() =>
+            (document.activeElement as HTMLElement | null)?.blur?.(),
+          );
+          await firstDot.focus();
+          return line.locator('.solaris-line-chart__tooltip').count();
+        },
+        { timeout: 15000 },
+      )
+      .toBe(1);
     await expect(line.locator('.solaris-line-chart__tooltip')).toBeVisible();
     await page.keyboard.press('Enter');
     await expect(page.getByTestId('event-log')).toHaveText(

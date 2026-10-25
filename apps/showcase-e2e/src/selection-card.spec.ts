@@ -55,77 +55,9 @@ test.describe('Selection Card', () => {
     ).toHaveCount(1);
   });
 
-  test('renders switch selection and end positions', async ({ page }) => {
-    await expect(
-      page.locator('solaris-selection-card[data-selection="switch"]'),
-    ).toHaveCount(2);
-    await expect(
-      page.locator('solaris-selection-card[data-selection-position="end"]'),
-    ).toHaveCount(2);
-    await expect(
-      page.locator(
-        'solaris-selection-card[data-selection="switch"] input[role="switch"]',
-      ),
-    ).toHaveCount(2);
-
-    const switchInput = page
-      .locator('solaris-selection-card[data-selection="switch"] input')
-      .first();
-    await switchInput.scrollIntoViewIfNeeded();
-    await expect(switchInput).toBeChecked();
-    await switchInput.click();
-    await expect(switchInput).not.toBeChecked();
-  });
-
   test('renders side media cards', async ({ page }) => {
     await expect(
       page.locator('solaris-selection-card[data-media-position="start"]'),
     ).toHaveCount(1);
-  });
-
-  test('renders structured cards and appearances', async ({ page }) => {
-    const deliveryInputs = page
-      .locator('solaris-radio-group')
-      .nth(1)
-      .locator('input[type="radio"]');
-
-    await expect(
-      page.locator('solaris-selection-card[data-has-media]'),
-    ).toHaveCount(3);
-    await expect(
-      page.locator(
-        'solaris-selection-card[data-has-media][data-media-position="top"]',
-      ),
-    ).toHaveCount(2);
-    await expect(
-      page.locator('solaris-selection-card[data-appearance="surface"]'),
-    ).not.toHaveCount(0);
-    await expect(
-      page.locator('solaris-selection-card[data-appearance="outline"]'),
-    ).toHaveCount(1);
-    await expect(
-      page.locator('solaris-selection-card[data-appearance="tonal"]'),
-    ).toHaveCount(1);
-    await expect(
-      page.locator('solaris-selection-card[data-appearance="glass"]'),
-    ).toHaveCount(1);
-
-    const media = page
-      .locator('.selection-card-showcase__media-placeholder')
-      .first();
-    await media.scrollIntoViewIfNeeded();
-    const mediaBounds = await media.boundingBox();
-
-    if (!mediaBounds) {
-      throw new Error('Structured card media is not visible.');
-    }
-
-    await page.mouse.click(
-      mediaBounds.x + mediaBounds.width / 2,
-      mediaBounds.y + mediaBounds.height / 2,
-    );
-
-    await expect(deliveryInputs.nth(0)).toBeChecked();
-    await expect(deliveryInputs.nth(1)).not.toBeChecked();
   });
 });

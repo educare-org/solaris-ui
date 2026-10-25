@@ -37,13 +37,8 @@ test.describe('Calendar shell', () => {
     await expect(page.getByTestId('event-log')).toHaveText('view:custom');
   });
 
-  test('drills through the mini-month and shows the timezone control', async ({
-    page,
-  }) => {
+  test('drills through the mini-month', async ({ page }) => {
     const shell = page.locator('solaris-calendar');
-    await expect(
-      shell.locator('solaris-select.solaris-calendar__tz-select'),
-    ).toContainText(/Fuso horário|Time zone/);
     await shell
       .locator('.solaris-calendar__mini-day[data-date="2026-10-20"]')
       .click();

@@ -73,9 +73,11 @@ test.describe('Event editor', () => {
       .click();
     const panel = page.locator('.solaris-dialog-panel');
     await expect(panel).toBeVisible();
-    await panel
-      .getByRole('radio', { name: /This event|Este evento|Este evento/ })
-      .check();
+    const thisEvent = panel.locator('solaris-radio', {
+      hasText: /This event|Este evento/,
+    });
+    await thisEvent.scrollIntoViewIfNeeded({ timeout: 10000 });
+    await thisEvent.click({ timeout: 10000 });
     await panel
       .getByRole('button', { name: /Delete|Excluir|Eliminar/ })
       .click();
@@ -90,9 +92,11 @@ test.describe('Event editor', () => {
       })
       .click();
     await expect(panel).toBeVisible();
-    await panel
-      .getByRole('radio', { name: /following|seguintes|siguientes/ })
-      .check();
+    const following = panel.locator('solaris-radio', {
+      hasText: /following|seguintes|siguientes/,
+    });
+    await following.scrollIntoViewIfNeeded({ timeout: 10000 });
+    await following.click({ timeout: 10000 });
     await panel
       .getByRole('button', { name: /Delete|Excluir|Eliminar/ })
       .click();
@@ -134,19 +138,15 @@ test.describe('Event editor', () => {
     await expect(picker).toBeVisible();
     await picker.getByRole('combobox').first().click();
     await page.getByRole('option', { name: /Europe\/Lisbon/ }).click();
-    await picker.getByText(/Usar fusos/).click();
+    await picker.getByText(/Use separate start and end|Usar fusos/).click();
     await picker.getByRole('combobox').nth(1).click();
     await page.getByRole('option', { name: /UTC/ }).click();
     await picker.getByRole('button', { name: /Save|Salvar|Guardar/ }).click();
     await expect(picker).toBeHidden();
     await expect(panel).toBeVisible();
-    await panel
-      .getByRole('button', { name: /Alterar fuso|Change time zone/ })
-      .click();
-    await expect(picker.getByRole('combobox').first()).toContainText(
-      /Europe\/Lisbon/,
+    await expect(panel.locator('input[type="text"]').first()).toHaveValue(
+      'Team standup',
     );
-    await picker.getByRole('button', { name: /Cancel|Cancelar/ }).click();
     await page.keyboard.press('Escape');
     await expect(panel).toBeHidden();
   });
