@@ -1,5 +1,11 @@
 # @educarehq/solaris-ui
 
+## 2.0.1
+
+### Patch Changes
+
+- Stabilize the showcase e2e suite against current pages (tab-scoped triggers, examples-scoped menus, app-locale labels, preset picker index, overflow counts, hidden radio inputs, line-chart enter-transition race) and split CI into a sharded chromium PR gate with the full 3-browser matrix on main and nightly.
+
 ## 2.0.0
 
 ### Major Changes
