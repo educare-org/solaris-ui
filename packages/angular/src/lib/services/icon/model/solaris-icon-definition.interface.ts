@@ -70,13 +70,27 @@ export interface SvgRectElement {
   strokeLinejoin?: string;
 }
 
+export interface SvgEllipseElement {
+  type: 'ellipse';
+  cx: number;
+  cy: number;
+  rx: number;
+  ry: number;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: number;
+  strokeLinecap?: string;
+  strokeLinejoin?: string;
+}
+
 export type SvgElement =
   | SvgPathElement
   | SvgLineElement
   | SvgPolylineElement
   | SvgPolygonElement
   | SvgCircleElement
-  | SvgRectElement;
+  | SvgRectElement
+  | SvgEllipseElement;
 
 export interface SolarisIconDefinition {
   name: string;

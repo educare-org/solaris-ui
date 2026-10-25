@@ -1,7 +1,5 @@
 @if (viewModel(); as vm) {
-  <!-- SECURITY_EXCEPTION: inner SVG is allowlist-sanitized in the component before trust; this binding renders sanitized markup only. -->
   <svg
-    [innerHTML]="vm.safeInner"
     width="100%"
     height="100%"
     [attr.viewBox]="vm.viewBox"
@@ -14,5 +12,202 @@
     [attr.aria-hidden]="isHidden() ? 'true' : null"
     [attr.aria-label]="hasSemanticLabel() ? accessibleLabel() : null"
     [attr.role]="isHidden() ? 'presentation' : 'img'"
-  ></svg>
+  >
+    <ng-container
+      *ngTemplateOutlet="nodeList; context: { $implicit: vm.nodes }"
+    ></ng-container>
+  </svg>
+  <ng-template #nodeList let-nodes>
+    @for (node of nodes; track $index) {
+      @switch (node.tag) {
+        @case ('g') {
+          <svg:g
+            [attr.id]="node.attrs['id'] ?? null"
+            [attr.fill]="node.attrs['fill'] ?? null"
+            [attr.fill-rule]="node.attrs['fill-rule'] ?? null"
+            [attr.fill-opacity]="node.attrs['fill-opacity'] ?? null"
+            [attr.clip-rule]="node.attrs['clip-rule'] ?? null"
+            [attr.stroke]="node.attrs['stroke'] ?? null"
+            [attr.stroke-width]="node.attrs['stroke-width'] ?? null"
+            [attr.stroke-linecap]="node.attrs['stroke-linecap'] ?? null"
+            [attr.stroke-linejoin]="node.attrs['stroke-linejoin'] ?? null"
+            [attr.stroke-opacity]="node.attrs['stroke-opacity'] ?? null"
+            [attr.opacity]="node.attrs['opacity'] ?? null"
+            [attr.transform]="node.attrs['transform'] ?? null"
+            [attr.vector-effect]="node.attrs['vector-effect'] ?? null"
+            [attr.mask]="node.attrs['mask'] ?? null"
+          >
+            <ng-container
+              *ngTemplateOutlet="
+                nodeList;
+                context: { $implicit: node.children }
+              "
+            ></ng-container>
+          </svg:g>
+        }
+        @case ('mask') {
+          <svg:mask
+            [attr.id]="node.attrs['id'] ?? null"
+            [attr.x]="node.attrs['x'] ?? null"
+            [attr.y]="node.attrs['y'] ?? null"
+            [attr.width]="node.attrs['width'] ?? null"
+            [attr.height]="node.attrs['height'] ?? null"
+          >
+            <ng-container
+              *ngTemplateOutlet="
+                nodeList;
+                context: { $implicit: node.children }
+              "
+            ></ng-container>
+          </svg:mask>
+        }
+        @case ('path') {
+          <svg:path
+            [attr.d]="node.attrs['d'] ?? null"
+            [attr.id]="node.attrs['id'] ?? null"
+            [attr.fill]="node.attrs['fill'] ?? null"
+            [attr.fill-rule]="node.attrs['fill-rule'] ?? null"
+            [attr.fill-opacity]="node.attrs['fill-opacity'] ?? null"
+            [attr.clip-rule]="node.attrs['clip-rule'] ?? null"
+            [attr.stroke]="node.attrs['stroke'] ?? null"
+            [attr.stroke-width]="node.attrs['stroke-width'] ?? null"
+            [attr.stroke-linecap]="node.attrs['stroke-linecap'] ?? null"
+            [attr.stroke-linejoin]="node.attrs['stroke-linejoin'] ?? null"
+            [attr.stroke-opacity]="node.attrs['stroke-opacity'] ?? null"
+            [attr.opacity]="node.attrs['opacity'] ?? null"
+            [attr.transform]="node.attrs['transform'] ?? null"
+            [attr.vector-effect]="node.attrs['vector-effect'] ?? null"
+            [attr.mask]="node.attrs['mask'] ?? null"
+          />
+        }
+        @case ('circle') {
+          <svg:circle
+            [attr.cx]="node.attrs['cx'] ?? null"
+            [attr.cy]="node.attrs['cy'] ?? null"
+            [attr.r]="node.attrs['r'] ?? null"
+            [attr.id]="node.attrs['id'] ?? null"
+            [attr.fill]="node.attrs['fill'] ?? null"
+            [attr.fill-rule]="node.attrs['fill-rule'] ?? null"
+            [attr.fill-opacity]="node.attrs['fill-opacity'] ?? null"
+            [attr.clip-rule]="node.attrs['clip-rule'] ?? null"
+            [attr.stroke]="node.attrs['stroke'] ?? null"
+            [attr.stroke-width]="node.attrs['stroke-width'] ?? null"
+            [attr.stroke-linecap]="node.attrs['stroke-linecap'] ?? null"
+            [attr.stroke-linejoin]="node.attrs['stroke-linejoin'] ?? null"
+            [attr.stroke-opacity]="node.attrs['stroke-opacity'] ?? null"
+            [attr.opacity]="node.attrs['opacity'] ?? null"
+            [attr.transform]="node.attrs['transform'] ?? null"
+            [attr.vector-effect]="node.attrs['vector-effect'] ?? null"
+            [attr.mask]="node.attrs['mask'] ?? null"
+          />
+        }
+        @case ('rect') {
+          <svg:rect
+            [attr.x]="node.attrs['x'] ?? null"
+            [attr.y]="node.attrs['y'] ?? null"
+            [attr.width]="node.attrs['width'] ?? null"
+            [attr.height]="node.attrs['height'] ?? null"
+            [attr.rx]="node.attrs['rx'] ?? null"
+            [attr.ry]="node.attrs['ry'] ?? null"
+            [attr.id]="node.attrs['id'] ?? null"
+            [attr.fill]="node.attrs['fill'] ?? null"
+            [attr.fill-rule]="node.attrs['fill-rule'] ?? null"
+            [attr.fill-opacity]="node.attrs['fill-opacity'] ?? null"
+            [attr.clip-rule]="node.attrs['clip-rule'] ?? null"
+            [attr.stroke]="node.attrs['stroke'] ?? null"
+            [attr.stroke-width]="node.attrs['stroke-width'] ?? null"
+            [attr.stroke-linecap]="node.attrs['stroke-linecap'] ?? null"
+            [attr.stroke-linejoin]="node.attrs['stroke-linejoin'] ?? null"
+            [attr.stroke-opacity]="node.attrs['stroke-opacity'] ?? null"
+            [attr.opacity]="node.attrs['opacity'] ?? null"
+            [attr.transform]="node.attrs['transform'] ?? null"
+            [attr.vector-effect]="node.attrs['vector-effect'] ?? null"
+            [attr.mask]="node.attrs['mask'] ?? null"
+          />
+        }
+        @case ('line') {
+          <svg:line
+            [attr.x1]="node.attrs['x1'] ?? null"
+            [attr.y1]="node.attrs['y1'] ?? null"
+            [attr.x2]="node.attrs['x2'] ?? null"
+            [attr.y2]="node.attrs['y2'] ?? null"
+            [attr.id]="node.attrs['id'] ?? null"
+            [attr.fill]="node.attrs['fill'] ?? null"
+            [attr.fill-rule]="node.attrs['fill-rule'] ?? null"
+            [attr.fill-opacity]="node.attrs['fill-opacity'] ?? null"
+            [attr.clip-rule]="node.attrs['clip-rule'] ?? null"
+            [attr.stroke]="node.attrs['stroke'] ?? null"
+            [attr.stroke-width]="node.attrs['stroke-width'] ?? null"
+            [attr.stroke-linecap]="node.attrs['stroke-linecap'] ?? null"
+            [attr.stroke-linejoin]="node.attrs['stroke-linejoin'] ?? null"
+            [attr.stroke-opacity]="node.attrs['stroke-opacity'] ?? null"
+            [attr.opacity]="node.attrs['opacity'] ?? null"
+            [attr.transform]="node.attrs['transform'] ?? null"
+            [attr.vector-effect]="node.attrs['vector-effect'] ?? null"
+            [attr.mask]="node.attrs['mask'] ?? null"
+          />
+        }
+        @case ('polyline') {
+          <svg:polyline
+            [attr.points]="node.attrs['points'] ?? null"
+            [attr.id]="node.attrs['id'] ?? null"
+            [attr.fill]="node.attrs['fill'] ?? null"
+            [attr.fill-rule]="node.attrs['fill-rule'] ?? null"
+            [attr.fill-opacity]="node.attrs['fill-opacity'] ?? null"
+            [attr.clip-rule]="node.attrs['clip-rule'] ?? null"
+            [attr.stroke]="node.attrs['stroke'] ?? null"
+            [attr.stroke-width]="node.attrs['stroke-width'] ?? null"
+            [attr.stroke-linecap]="node.attrs['stroke-linecap'] ?? null"
+            [attr.stroke-linejoin]="node.attrs['stroke-linejoin'] ?? null"
+            [attr.stroke-opacity]="node.attrs['stroke-opacity'] ?? null"
+            [attr.opacity]="node.attrs['opacity'] ?? null"
+            [attr.transform]="node.attrs['transform'] ?? null"
+            [attr.vector-effect]="node.attrs['vector-effect'] ?? null"
+            [attr.mask]="node.attrs['mask'] ?? null"
+          />
+        }
+        @case ('polygon') {
+          <svg:polygon
+            [attr.points]="node.attrs['points'] ?? null"
+            [attr.id]="node.attrs['id'] ?? null"
+            [attr.fill]="node.attrs['fill'] ?? null"
+            [attr.fill-rule]="node.attrs['fill-rule'] ?? null"
+            [attr.fill-opacity]="node.attrs['fill-opacity'] ?? null"
+            [attr.clip-rule]="node.attrs['clip-rule'] ?? null"
+            [attr.stroke]="node.attrs['stroke'] ?? null"
+            [attr.stroke-width]="node.attrs['stroke-width'] ?? null"
+            [attr.stroke-linecap]="node.attrs['stroke-linecap'] ?? null"
+            [attr.stroke-linejoin]="node.attrs['stroke-linejoin'] ?? null"
+            [attr.stroke-opacity]="node.attrs['stroke-opacity'] ?? null"
+            [attr.opacity]="node.attrs['opacity'] ?? null"
+            [attr.transform]="node.attrs['transform'] ?? null"
+            [attr.vector-effect]="node.attrs['vector-effect'] ?? null"
+            [attr.mask]="node.attrs['mask'] ?? null"
+          />
+        }
+        @case ('ellipse') {
+          <svg:ellipse
+            [attr.cx]="node.attrs['cx'] ?? null"
+            [attr.cy]="node.attrs['cy'] ?? null"
+            [attr.rx]="node.attrs['rx'] ?? null"
+            [attr.ry]="node.attrs['ry'] ?? null"
+            [attr.id]="node.attrs['id'] ?? null"
+            [attr.fill]="node.attrs['fill'] ?? null"
+            [attr.fill-rule]="node.attrs['fill-rule'] ?? null"
+            [attr.fill-opacity]="node.attrs['fill-opacity'] ?? null"
+            [attr.clip-rule]="node.attrs['clip-rule'] ?? null"
+            [attr.stroke]="node.attrs['stroke'] ?? null"
+            [attr.stroke-width]="node.attrs['stroke-width'] ?? null"
+            [attr.stroke-linecap]="node.attrs['stroke-linecap'] ?? null"
+            [attr.stroke-linejoin]="node.attrs['stroke-linejoin'] ?? null"
+            [attr.stroke-opacity]="node.attrs['stroke-opacity'] ?? null"
+            [attr.opacity]="node.attrs['opacity'] ?? null"
+            [attr.transform]="node.attrs['transform'] ?? null"
+            [attr.vector-effect]="node.attrs['vector-effect'] ?? null"
+            [attr.mask]="node.attrs['mask'] ?? null"
+          />
+        }
+      }
+    }
+  </ng-template>
 }

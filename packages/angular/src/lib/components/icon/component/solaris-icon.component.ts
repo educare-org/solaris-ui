@@ -5,15 +5,19 @@ import {
   computed,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
+import { NgTemplateOutlet } from '@angular/common';
 
-import { SolarisIconRegistryService } from '../../../services/icon';
-import { SOLARIS_ICONS_CONFIG } from '../../../services/icon';
-import type { SolarisIconVariant, SvgElement } from '../../../services/icon';
-import { SOLARIS_SOLID_SVG } from '../../../services/icon/icons/generated/solaris-icons-solid-svg';
-import { SOLARIS_DUOTONE_SVG } from '../../../services/icon/icons/generated/solaris-icons-duotone-svg';
-import { iconElementsToInner } from '../../../services/icon/service/solaris-icon-serializer';
-import { sanitizeIconSvgInner } from '../../../services/icon/service/solaris-icon-sanitizer';
+import {
+  SolarisIconRegistryService,
+  SOLARIS_ICONS_CONFIG,
+  SOLARIS_SOLID_SVG,
+  SOLARIS_DUOTONE_SVG,
+  iconElementsToNodes,
+  sanitizedInnerToNodes,
+  type SolarisIconSvgNode,
+  SolarisIconVariant,
+  SvgElement,
+} from '../../../services/icon';
 
 interface IconViewModel {
   viewBox: string;
@@ -23,7 +27,7 @@ interface IconViewModel {
   linecap: string;
   linejoin: string;
   variant: SolarisIconVariant;
-  safeInner: SafeHtml;
+  nodes: SolarisIconSvgNode[];
 }
 
 function parseViewBoxSize(viewBox: string): { w: number; h: number } {
@@ -43,9 +47,14 @@ const NO_VARIANT_ICONS = new Set([
   'grip-vertical',
 ]);
 
+const VECTOR_EFFECT_ATTRS: Record<string, string> = {
+  'vector-effect': 'non-scaling-stroke',
+};
+
 @Component({
   selector: 'solaris-icon',
   standalone: true,
+  imports: [NgTemplateOutlet],
   templateUrl: './solaris-icon.component.html',
   styleUrls: ['./solaris-icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,7 +67,6 @@ const NO_VARIANT_ICONS = new Set([
 export class SolarisIconComponent {
   private readonly registry = inject(SolarisIconRegistryService);
   private readonly config = inject(SOLARIS_ICONS_CONFIG, { optional: true });
-  private readonly sanitizer = inject(DomSanitizer);
 
   readonly name = input.required<string>();
   readonly variant = input<SolarisIconVariant>();
@@ -131,10 +139,11 @@ export class SolarisIconComponent {
     const strokeWidth = this.resolvedStrokeWidth();
     const linecap = icon.strokeLinecap ?? 'round';
     const linejoin = icon.strokeLinejoin ?? 'round';
-    const inner = iconElementsToInner(icon.elements);
-    const vectorEffect = this.absoluteStrokeWidth()
-      ? ' vector-effect="non-scaling-stroke"'
-      : '';
+    const elementNodes = iconElementsToNodes(icon.elements);
+    const withVectorEffect =
+      this.absoluteStrokeWidth() &&
+      variant === 'outline' &&
+      !this.hasOwnColors();
 
     if (this.hasOwnColors()) {
       return {
@@ -145,10 +154,7 @@ export class SolarisIconComponent {
         linecap,
         linejoin,
         variant,
-        // SECURITY_EXCEPTION: inner markup is allowlist-sanitized before trust; built-ins at build, extraIcons at registration.
-        safeInner: this.sanitizer.bypassSecurityTrustHtml(
-          sanitizeIconSvgInner(inner),
-        ),
+        nodes: elementNodes,
       };
     }
 
@@ -163,10 +169,7 @@ export class SolarisIconComponent {
           linecap,
           linejoin,
           variant,
-          // SECURITY_EXCEPTION: inner markup is allowlist-sanitized before trust; built-ins at build, extraIcons at registration.
-          safeInner: this.sanitizer.bypassSecurityTrustHtml(
-            sanitizeIconSvgInner(solidInner),
-          ),
+          nodes: sanitizedInnerToNodes(solidInner),
         };
       }
       return {
@@ -177,11 +180,11 @@ export class SolarisIconComponent {
         linecap,
         linejoin,
         variant,
-        // SECURITY_EXCEPTION: inner markup is allowlist-sanitized before trust; built-ins at build, extraIcons at registration.
-        safeInner: this.sanitizer.bypassSecurityTrustHtml(
-          sanitizeIconSvgInner(
-            this.knockoutInner(icon.name, icon.viewBox, inner, strokeWidth),
-          ),
+        nodes: this.knockoutNodes(
+          icon.name,
+          icon.viewBox,
+          elementNodes,
+          strokeWidth,
         ),
       };
     }
@@ -197,10 +200,7 @@ export class SolarisIconComponent {
           linecap,
           linejoin,
           variant,
-          // SECURITY_EXCEPTION: inner markup is allowlist-sanitized before trust; built-ins at build, extraIcons at registration.
-          safeInner: this.sanitizer.bypassSecurityTrustHtml(
-            sanitizeIconSvgInner(duotoneInner),
-          ),
+          nodes: sanitizedInnerToNodes(duotoneInner),
         };
       }
       return {
@@ -211,17 +211,24 @@ export class SolarisIconComponent {
         linecap,
         linejoin,
         variant,
-        // SECURITY_EXCEPTION: inner markup is allowlist-sanitized before trust; built-ins at build, extraIcons at registration.
-        safeInner: this.sanitizer.bypassSecurityTrustHtml(
-          sanitizeIconSvgInner(
-            this.duotoneInner(icon.viewBox, inner, strokeWidth, vectorEffect),
-          ),
+        nodes: this.duotoneFallbackNodes(
+          icon.viewBox,
+          elementNodes,
+          strokeWidth,
         ),
       };
     }
 
-    const wrapped =
-      vectorEffect !== '' ? `<g${vectorEffect}>${inner}</g>` : inner;
+    const nodes =
+      withVectorEffect && elementNodes.length > 0
+        ? [
+            {
+              tag: 'g' as const,
+              attrs: { ...VECTOR_EFFECT_ATTRS },
+              children: elementNodes,
+            },
+          ]
+        : elementNodes;
     const stroke = this.inheritColor()
       ? (icon.stroke ?? 'currentColor')
       : 'none';
@@ -233,41 +240,99 @@ export class SolarisIconComponent {
       linecap,
       linejoin,
       variant,
-      // SECURITY_EXCEPTION: inner markup is allowlist-sanitized before trust; built-ins at build, extraIcons at registration.
-      safeInner: this.sanitizer.bypassSecurityTrustHtml(
-        sanitizeIconSvgInner(wrapped),
-      ),
+      nodes,
     };
   });
 
-  private knockoutInner(
+  private knockoutNodes(
     name: string,
     viewBox: string,
-    inner: string,
+    lineNodes: SolarisIconSvgNode[],
     strokeWidth: number,
-  ): string {
+  ): SolarisIconSvgNode[] {
     const { w, h } = parseViewBoxSize(viewBox);
     const rx = Math.round((Math.min(w, h) / 6) * 100) / 100;
     const id = `solaris-${name.replace(/[^a-z0-9-]/gi, '')}-${String(strokeWidth).replace('.', '-')}-mask`;
+    const size = { w: String(w), h: String(h), rx: String(rx) };
     // SOLARIS_TOKEN_EXCEPTION: mask constants (#fff visible, #000 hidden) are luminance values required by SVG mask semantics, not theme colors.
-    return (
-      `<mask id="${id}"><rect x="0" y="0" width="${w}" height="${h}" rx="${rx}" fill="#fff"/>` +
-      `<g fill="none" stroke="#000" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round">${inner}</g></mask>` +
-      `<rect x="0" y="0" width="${w}" height="${h}" rx="${rx}" fill="currentColor" mask="url(#${id})"/>`
-    );
+    return [
+      {
+        tag: 'mask',
+        attrs: { id },
+        children: [
+          {
+            tag: 'rect',
+            attrs: {
+              x: '0',
+              y: '0',
+              width: size.w,
+              height: size.h,
+              rx: size.rx,
+              fill: '#fff',
+            },
+            children: [],
+          },
+          {
+            tag: 'g',
+            attrs: {
+              fill: 'none',
+              stroke: '#000',
+              'stroke-width': String(strokeWidth),
+              'stroke-linecap': 'round',
+              'stroke-linejoin': 'round',
+            },
+            children: lineNodes,
+          },
+        ],
+      },
+      {
+        tag: 'rect',
+        attrs: {
+          x: '0',
+          y: '0',
+          width: size.w,
+          height: size.h,
+          rx: size.rx,
+          fill: 'currentColor',
+          mask: `url(#${id})`,
+        },
+        children: [],
+      },
+    ];
   }
 
-  private duotoneInner(
+  private duotoneFallbackNodes(
     viewBox: string,
-    inner: string,
+    lineNodes: SolarisIconSvgNode[],
     strokeWidth: number,
-    vectorEffect: string,
-  ): string {
+  ): SolarisIconSvgNode[] {
     const { w, h } = parseViewBoxSize(viewBox);
     const rx = Math.round((Math.min(w, h) / 6) * 100) / 100;
-    return (
-      `<rect x="0" y="0" width="${w}" height="${h}" rx="${rx}" fill="currentColor" opacity="0.2"/>` +
-      `<g fill="none" stroke="currentColor" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"${vectorEffect}>${inner}</g>`
-    );
+    const lineAttrs: Record<string, string> = {
+      fill: 'none',
+      stroke: 'currentColor',
+      'stroke-width': String(strokeWidth),
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+    };
+    if (this.absoluteStrokeWidth()) {
+      Object.assign(lineAttrs, VECTOR_EFFECT_ATTRS);
+    }
+    return [
+      {
+        tag: 'rect',
+        attrs: {
+          x: '0',
+          y: '0',
+          width: String(w),
+          height: String(h),
+          rx: String(rx),
+          fill: 'currentColor',
+          opacity: '0.2',
+        },
+        children: [],
+      },
+      { tag: 'g', attrs: lineAttrs, children: lineNodes },
+    ];
   }
 }

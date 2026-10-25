@@ -39,6 +39,7 @@ const ALLOWED_ATTRS = new Set([
   'stroke-opacity',
   'opacity',
   'transform',
+  'vector-effect',
 ]);
 
 const BANNED_PAIRED_RE =
