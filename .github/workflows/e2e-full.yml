@@ -48,7 +48,7 @@ jobs:
           retention-days: 1
 
   e2e:
-    name: E2E (${{ matrix.browser }}, shard ${{ matrix.shard }}/${{ strategy.job-total }})
+    name: E2E (${{ matrix.browser }}, shard ${{ matrix.shard }}/2)
     needs: [build]
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -113,7 +113,7 @@ jobs:
           merge-multiple: true
 
       - name: Merge HTML report
-        run: pnpm exec playwright merge-reports --reporter html ./all-blob-reports --output playwright-report
+        run: pnpm exec playwright merge-reports --reporter html ./all-blob-reports
 
       - name: Upload Playwright report
         uses: actions/upload-artifact@v4
