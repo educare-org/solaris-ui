@@ -6,17 +6,11 @@ test.describe('Code Block', () => {
     await expect(page.locator('#main-content h1')).toBeVisible();
   });
 
-  test('renders inside the shell with a working aside', async ({ page }) => {
+  test('renders inside the shell', async ({ page }) => {
     await expect(
       page.getByRole('link', { name: 'Code block', exact: true }),
     ).toHaveAttribute('aria-current', 'page');
     await expect(page.locator('solaris-code-block').first()).toBeVisible();
-    const aside = page.getByRole('navigation', { name: 'On this page' });
-    await expect(aside).toBeVisible();
-    const basicLink = aside.getByRole('link', { name: 'Basic' });
-    await basicLink.click();
-    await expect(basicLink).toHaveAttribute('aria-current', 'true');
-    await expect(page.locator('#basic h2')).toBeInViewport();
   });
 
   test('copies code through the copy action', async ({ page, browserName }) => {

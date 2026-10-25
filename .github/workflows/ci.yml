@@ -30,34 +30,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup workspace
+        uses: ./.github/actions/setup
         with:
-          run_install: false
+          browsers: chromium
+          install-deps: 'false'
+          save-cache: 'false'
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Derive appropriate SHAs for base and head for Nx
-        uses: nrwl/nx-set-shas@v4
-
-      - name: Restore Nx cache
-        uses: actions/cache/restore@v4
-        with:
-          path: .nx/cache
-          key: nx-${{ runner.os }}-${{ github.sha }}
-          restore-keys: |
-            nx-${{ runner.os }}-
-
-      - name: Run verification
+      - name: Run verification (lint, unit, typecheck, build)
         run: pnpm verify
 
-      - name: Upload Nx cache
+      - name: Save Nx cache
         uses: actions/cache/save@v4
         if: always()
         with:

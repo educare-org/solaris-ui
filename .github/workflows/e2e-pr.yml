@@ -1,0 +1,122 @@
+name: E2E PR
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [develop]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_BRANCH: ${{ github.event.number || github.ref_name }}
+
+jobs:
+  build:
+    name: Build showcase
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup workspace
+        uses: ./.github/actions/setup
+        with:
+          browsers: chromium
+          install-deps: 'false'
+          save-cache: 'false'
+
+      - name: Build showcase
+        run: pnpm nx build showcase
+
+      - name: Upload showcase dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: showcase-dist
+          path: dist/apps/showcase/browser/
+          retention-days: 1
+
+  e2e-chromium:
+    name: E2E chromium (shard ${{ matrix.shard }}/${{ strategy.job-total }})
+    needs: [build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup workspace
+        uses: ./.github/actions/setup
+        with:
+          browsers: chromium
+          install-deps: 'true'
+          save-cache: 'false'
+
+      - name: Download showcase dist
+        uses: actions/download-artifact@v4
+        with:
+          name: showcase-dist
+          path: dist/apps/showcase/browser/
+
+      - name: Run E2E (chromium, shard ${{ matrix.shard }}/4)
+        run: pnpm exec playwright test -c apps/showcase-e2e/playwright.config.mts --project=chromium --shard=${{ matrix.shard }}/4 --workers=4 --reporter=blob
+
+      - name: Upload blob report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: blob-chromium-${{ matrix.shard }}
+          path: blob-report/
+          retention-days: 1
+
+  report:
+    name: Merge reports
+    needs: [e2e-chromium]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup workspace
+        uses: ./.github/actions/setup
+        with:
+          browsers: chromium
+          install-deps: 'false'
+          save-cache: 'false'
+
+      - name: Download blob reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: blob-chromium-*
+          path: all-blob-reports/
+          merge-multiple: true
+
+      - name: Merge HTML report
+        run: pnpm exec playwright merge-reports --reporter html ./all-blob-reports --output playwright-report
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-chromium
+          path: playwright-report/
+          retention-days: 7
