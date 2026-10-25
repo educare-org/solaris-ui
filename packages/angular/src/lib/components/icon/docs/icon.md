@@ -62,6 +62,13 @@ None.
 - The rendered SVG has `focusable="false"` to keep it out of the tab order.
 - Pair icon-only controls with an accessible label on the control itself.
 
+## SSR
+
+The icon renders its SVG nodes structurally (`@for`/`@switch` with
+`[attr.*]` bindings, allowlist-sanitized) instead of `[innerHTML]`, so it
+prerenders on the server (Domino) with markup identical to the browser and
+hydrates cleanly. No `DomSanitizer` is involved at render time.
+
 ## Examples
 
 ```html

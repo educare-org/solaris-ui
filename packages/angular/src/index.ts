@@ -42,6 +42,14 @@ export {
   isSafeIconSvgInner,
 } from './lib/services/icon/service/solaris-icon-sanitizer';
 export { iconElementsToInner } from './lib/services/icon/service/solaris-icon-serializer';
+export {
+  iconElementsToNodes,
+  sanitizedInnerToNodes,
+} from './lib/services/icon/service/solaris-icon-nodes';
+export type {
+  SolarisIconSvgNode,
+  SolarisIconSvgNodeTag,
+} from './lib/services/icon/service/solaris-icon-nodes';
 export { SOLARIS_ICONS_CONFIG } from './lib/services/icon/token/solaris-icon.tokens';
 export { SOLARIS_BUILT_IN_ICONS } from './lib/services/icon/icons/solaris-built-in-icons';
 export { SOLARIS_ICONS_METADATA } from './lib/services/icon/icons/generated/solaris-icons-metadata';
@@ -55,6 +63,8 @@ export type {
   SvgPolylineElement,
   SvgPolygonElement,
   SvgCircleElement,
+  SvgRectElement,
+  SvgEllipseElement,
 } from './lib/services/icon/model/solaris-icon-definition.interface';
 export type {
   SolarisIconName,
