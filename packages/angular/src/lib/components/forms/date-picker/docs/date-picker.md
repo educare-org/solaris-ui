@@ -63,7 +63,7 @@ blocks interaction until dates resolve.
 ## Suffix actions
 
 The built-in calendar trigger button is itself a suffix action (it carries
-both `solaris-form-suffix` and `solaris-form-suffix-action` attributes).
+`solaris-form-suffix-action`, plus `solaris-form-suffix` for backward compatibility).
 Extra suffix actions compose beside it and are detected via
 `projectedSuffixAction` (`hasSuffixAction` on Form Field):
 

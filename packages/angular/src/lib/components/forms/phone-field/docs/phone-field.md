@@ -135,20 +135,19 @@ limit.
 
 ## Suffix action
 
-Projected content with **both** `[solaris-form-suffix]` and
-`[solaris-form-suffix-action]` is forwarded to the inner Form Field as a suffix
+Projected content with `[solaris-form-suffix-action]` is forwarded to the inner Form Field as a suffix
 action: the suffix cell switches to the `action` variant (hugs the content,
 no divider). The prefix slot stays owned by the country selector. Use the slot
 for interactive content such as verification buttons:
 
 ```html
 <solaris-phone-field label="Phone" defaultCountry="BR">
-  <button type="button" solaris-form-suffix solaris-form-suffix-action aria-label="Verify">Verify</button>
+  <button type="button" solaris-form-suffix-action aria-label="Verify">Verify</button>
 </solaris-phone-field>
 ```
 
-Both attributes are required: `[solaris-form-suffix]` selects the preset
-forwarding slot and `[solaris-form-suffix-action]` selects the action styling.
+Only `[solaris-form-suffix-action]` is required; adding `[solaris-form-suffix]`
+alongside remains supported for backward compatibility.
 
 ## Loading
 
@@ -234,7 +233,7 @@ otherwise (empty values pass).
 <solaris-phone-field label="Phone" [formControl]="phoneControl" required="true" invalidError="This number looks wrong."></solaris-phone-field>
 
 <solaris-phone-field label="Phone" defaultCountry="BR">
-  <button type="button" solaris-form-suffix solaris-form-suffix-action aria-label="Verify">Verify</button>
+  <button type="button" solaris-form-suffix-action aria-label="Verify">Verify</button>
 </solaris-phone-field>
 
 <solaris-phone-field label="Phone" [loading]="true" value="+5511999998888" defaultCountry="BR"></solaris-phone-field>

@@ -235,20 +235,19 @@ layout shift:
 
 ## Suffix action
 
-Projected content with **both** `[solaris-form-suffix]` and
-`[solaris-form-suffix-action]` is forwarded to the inner Form Field as a suffix
+Projected content with `[solaris-form-suffix-action]` is forwarded to the inner Form Field as a suffix
 action: the suffix cell switches to the `action` variant (hugs the content,
 no divider), sized to fit a nested button. Use it for interactive content such
 as CTA buttons:
 
 ```html
 <solaris-email-field label="E-mail" prefix="search">
-  <button type="button" solaris-form-suffix solaris-form-suffix-action aria-label="Check">Check</button>
+  <button type="button" solaris-form-suffix-action aria-label="Check">Check</button>
 </solaris-email-field>
 ```
 
-Both attributes are required: `[solaris-form-suffix]` selects the preset
-forwarding slot and `[solaris-form-suffix-action]` selects the action styling.
+Only `[solaris-form-suffix-action]` is required. Adding `[solaris-form-suffix]`
+alongside remains supported for backward compatibility.
 
 ## Accessibility
 
@@ -333,7 +332,7 @@ forwarding slot and `[solaris-form-suffix-action]` selects the action styling.
 
 ```html
 <solaris-email-field label="E-mail" prefix="search">
-  <button type="button" solaris-form-suffix solaris-form-suffix-action aria-label="Check">Check</button>
+  <button type="button" solaris-form-suffix-action aria-label="Check">Check</button>
 </solaris-email-field>
 ```
 

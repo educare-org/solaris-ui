@@ -180,14 +180,14 @@ Built-in visibility toggle. Use `[showToggle]="false"` to hide it.
 
 The toggle icon is sized one typography step above the field's `--solaris-density-font-size` for every density, so it stays proportionally larger than the text and other affix icons.
 
-The toggle button is a suffix **action**: it carries both `solaris-form-suffix`
-and `solaris-form-suffix-action`, so the suffix cell renders in the `action`
+The toggle button is a suffix **action**: it carries `solaris-form-suffix-action`
+(plus `solaris-form-suffix` for backward compatibility), so the suffix cell renders in the `action`
 variant (hugs the content, no divider). Custom interactive content projected
-with the same two attributes shares the slot next to the toggle:
+with `[solaris-form-suffix-action]` shares the slot next to the toggle:
 
 ```html
 <solaris-password-field label="Password" prefix="lock" [showToggle]="false">
-  <button type="button" solaris-form-suffix solaris-form-suffix-action aria-label="Generate">Generate</button>
+  <button type="button" solaris-form-suffix-action aria-label="Generate">Generate</button>
 </solaris-password-field>
 ```
 
@@ -203,11 +203,9 @@ Values are `--solaris-font-size-*` tokens applied to the toggle `solaris-icon`.
 
 ## Suffix action
 
-Projected content with **both** `[solaris-form-suffix]` and
-`[solaris-form-suffix-action]` is forwarded to the inner Form Field as a suffix
-action (see example above). Both attributes are required:
-`[solaris-form-suffix]` selects the preset forwarding slot and
-`[solaris-form-suffix-action]` selects the action styling.
+Projected content with `[solaris-form-suffix-action]` is forwarded to the inner Form Field as a suffix
+action (see example above). Only `[solaris-form-suffix-action]` is required;
+adding `[solaris-form-suffix]` alongside remains supported for backward compatibility.
 
 ## Loading
 
@@ -301,9 +299,9 @@ An explicit manual error via `[invalid]="true"` overrides automatic detection.
 <solaris-password-field label="Password" prefix="lock" />
 <solaris-password-field label="Password" suffix="check" />
 
-<!-- Suffix action (both attributes required) -->
+<!-- Suffix action (only suffix-action required) -->
 <solaris-password-field label="Password" prefix="lock" [showToggle]="false">
-  <button type="button" solaris-form-suffix solaris-form-suffix-action aria-label="Generate">Generate</button>
+  <button type="button" solaris-form-suffix-action aria-label="Generate">Generate</button>
 </solaris-password-field>
 
 <!-- Loading -->
