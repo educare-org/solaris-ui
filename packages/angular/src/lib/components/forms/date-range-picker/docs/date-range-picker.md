@@ -56,8 +56,8 @@ attributes, matching the single Date Picker.
 ## Suffix actions
 
 Like the single picker, the built-in calendar trigger button is a suffix
-action (both `solaris-form-suffix` and `solaris-form-suffix-action`
-attributes). Extra suffix actions compose beside it and set
+action (`solaris-form-suffix-action`, plus `solaris-form-suffix` for backward
+compatibility). Extra suffix actions compose beside it and set
 `hasSuffixAction` on Form Field:
 
 ```html

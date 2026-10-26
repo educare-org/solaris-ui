@@ -128,7 +128,7 @@ are detected via `projectedSuffixAction` (`hasSuffixAction` on Form Field):
 
 ```html
 <solaris-otp-input label="Code" [maxLength]="6">
-  <button type="button" solaris-form-suffix solaris-form-suffix-action aria-label="Resend code" (click)="resend()">Resend</button>
+  <button type="button" solaris-form-suffix-action aria-label="Resend code" (click)="resend()">Resend</button>
 </solaris-otp-input>
 ```
 

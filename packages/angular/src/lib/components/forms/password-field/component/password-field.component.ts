@@ -57,6 +57,7 @@ interface RequirementItem {
     FormsModule,
     SolarisFormFieldComponent,
     SolarisInputDirective,
+    SolarisFormPrefixDirective,
     SolarisFormSuffixDirective,
     SolarisFormSuffixActionDirective,
     SolarisIconComponent,

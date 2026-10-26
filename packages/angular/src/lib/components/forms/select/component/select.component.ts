@@ -24,6 +24,7 @@ import {
   SolarisFormPrefixDirective,
   SolarisFormFieldTriggerDirective,
   SolarisFormFieldComponent,
+  SolarisFormSuffixDirective,
   SolarisFormSuffixActionDirective,
 } from '../../form-field';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
@@ -53,6 +54,7 @@ import type { SolarisIconName } from '../../../../services/icon';
     SolarisFormFieldComponent,
     SolarisFormFieldTriggerDirective,
     SolarisFormPrefixDirective,
+    SolarisFormSuffixDirective,
     SolarisIconComponent,
     SolarisPopoverDirective,
     SolarisPopoverTriggerDirective,

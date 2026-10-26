@@ -22,6 +22,7 @@ import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 import {
   SolarisFormFieldTriggerDirective,
   SolarisFormPrefixDirective,
+  SolarisFormSuffixDirective,
   SolarisFormFieldComponent,
   SolarisFormSuffixActionDirective,
 } from '../../form-field';
@@ -61,6 +62,7 @@ function normalizeArray(value: unknown): unknown[] {
     SolarisFormFieldComponent,
     SolarisFormFieldTriggerDirective,
     SolarisFormPrefixDirective,
+    SolarisFormSuffixDirective,
     SolarisIconComponent,
     SolarisPopoverDirective,
     SolarisPopoverTriggerDirective,
