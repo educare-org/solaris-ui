@@ -46,42 +46,42 @@ Country names are localized with the native `Intl.DisplayNames` API (no translat
 
 ### Inputs
 
-| Input                                          | Type                          | Default     | Description                                                      |
-| ---------------------------------------------- | ----------------------------- | ----------- | ---------------------------------------------------------------- | ------------------------ |
-| `value`                                        | `string`                      | `''`        | One-way E.164 value.                                             |
-| `label` / `labelKey`                           | `string` / `string`           | `''`        | Field label.                                                     |
-| `hint` / `hintKey`                             | `string` / `string`           | `''`        | Helper text.                                                     |
-| `error` / `errorKey`                           | `string` / `string`           | `''`        | Manual error message.                                            |
-| `placeholder` / `placeholderKey`               | `string` / `string`           | —           | Placeholder. Defaults to the country example.                    |
-| `invalidError` / `invalidErrorKey`             | `string` / `string`           | —           | Invalid number error override.                                   |
-| `requiredError` / `requiredErrorKey`           | `string` / `string`           | —           | Required error override.                                         |
-| `required`                                     | `boolean`                     | `false`     | Marks required and validates emptiness.                          |
-| `optional`                                     | `boolean`                     | `false`     | Shows the optional marker.                                       |
-| `disabled`                                     | `boolean`                     | `false`     | Disables the field.                                              |
-| `readonly`                                     | `boolean`                     | `false`     | Read-only field.                                                 |
-| `loading`                                      | `boolean`                     | `false`     | Shows a spinner overlay via the inner Form Field.                |
-| `clearable`                                    | `boolean`                     | `false`     | Shows a clear (`x`) button when a value is set; emits `cleared`. |
-| `clearLabel` / `clearLabelKey`                 | `string` / `string`           | —           | Clear button accessible label override.                          |
-| `invalid`                                      | `boolean                      | undefined`  | —                                                                | Manual invalid override. |
-| `appearance`                                   | `SolarisPhoneFieldAppearance` | `'outline'` | `outline` / `surface` / `filled`.                                |
-| `density`                                      | `SolarisPhoneFieldDensity`    | —           | `compact` / `normal` / `comfortable`.                            |
-| `radius`                                       | `SolarisPhoneFieldRadius`     | `'md'`      | `none` / `sm` / `md` / `lg` / `xl` (pill).                       |
-| `id`                                           | `string`                      | —           | Native input id.                                                 |
-| `name`                                         | `string`                      | —           | Native input name.                                               |
-| `autocomplete`                                 | `string`                      | `'tel'`     | Native autocomplete hint.                                        |
-| `maxLength`                                    | `number`                      | —           | Native max length.                                               |
-| `suffix`                                       | `SolarisIconName`             | —           | Suffix icon.                                                     |
-| `defaultCountry`                               | `SolarisCountryCode`          | —           | Initial country (ISO-3166-1 alpha-2).                            |
-| `country`                                      | `SolarisCountryCode`          | —           | Controlled country.                                              |
-| `searchable`                                   | `boolean`                     | `true`      | Show the country search box.                                     |
-| `allowAnyCountry`                              | `boolean`                     | `true`      | Whether the country can be changed.                              |
-| `countryList`                                  | `SolarisCountryCode[]`        | —           | Restrict selectable countries.                                   |
-| `searchPlaceholder` / `searchPlaceholderKey`   | `string` / `string`           | —           | Country search placeholder.                                      |
-| `emptyText` / `emptyTextKey`                   | `string` / `string`           | —           | Empty list message.                                              |
-| `noResultsText` / `noResultsTextKey`           | `string` / `string`           | —           | No-results message.                                              |
-| `countryButtonLabel` / `countryButtonLabelKey` | `string` / `string`           | —           | Country button accessible label.                                 |
-| `panelMaxWidth`                                | `string \| number`            | —           | Popover max width.                                               |
-| `panelMaxHeight`                               | `string \| number`            | —           | Country list max height.                                         |
+| Input                                          | Type                          | Default     | Description                                                                     |
+| ---------------------------------------------- | ----------------------------- | ----------- | ------------------------------------------------------------------------------- | ------------------------ |
+| `value`                                        | `string`                      | `''`        | One-way E.164 value.                                                            |
+| `label` / `labelKey`                           | `string` / `string`           | `''`        | Field label.                                                                    |
+| `hint` / `hintKey`                             | `string` / `string`           | `''`        | Helper text.                                                                    |
+| `error` / `errorKey`                           | `string` / `string`           | `''`        | Manual error message.                                                           |
+| `placeholder` / `placeholderKey`               | `string` / `string`           | —           | Placeholder. Defaults to the country example.                                   |
+| `invalidError` / `invalidErrorKey`             | `string` / `string`           | —           | Invalid number error override.                                                  |
+| `requiredError` / `requiredErrorKey`           | `string` / `string`           | —           | Required error override.                                                        |
+| `required`                                     | `boolean`                     | `false`     | Marks required and validates emptiness.                                         |
+| `optional`                                     | `boolean`                     | `false`     | Shows the optional marker.                                                      |
+| `disabled`                                     | `boolean`                     | `false`     | Disables the field.                                                             |
+| `readonly`                                     | `boolean`                     | `false`     | Read-only field.                                                                |
+| `loading`                                      | `boolean`                     | `false`     | Shows a spinner overlay via the inner Form Field.                               |
+| `clearable`                                    | `boolean`                     | `false`     | Shows a clear (`x`) button when a value is set; emits `cleared`.                |
+| `clearLabel` / `clearLabelKey`                 | `string` / `string`           | —           | Clear button accessible label override.                                         |
+| `invalid`                                      | `boolean                      | undefined`  | —                                                                               | Manual invalid override. |
+| `appearance`                                   | `SolarisPhoneFieldAppearance` | `'outline'` | `outline` / `surface` / `filled`.                                               |
+| `density`                                      | `SolarisPhoneFieldDensity`    | —           | `compact` / `normal` / `comfortable`.                                           |
+| `radius`                                       | `SolarisPhoneFieldRadius`     | `'md'`      | `none` / `sm` / `md` / `lg` / `xl` (pill).                                      |
+| `id`                                           | `string`                      | —           | Native input id.                                                                |
+| `name`                                         | `string`                      | —           | Native input name.                                                              |
+| `autocomplete`                                 | `string`                      | `'tel'`     | Native autocomplete hint.                                                       |
+| `maxLength`                                    | `number`                      | —           | Max national digits override (native `maxlength` follows the formatted length). |
+| `suffix`                                       | `SolarisIconName`             | —           | Suffix icon.                                                                    |
+| `defaultCountry`                               | `SolarisCountryCode`          | —           | Initial country (ISO-3166-1 alpha-2).                                           |
+| `country`                                      | `SolarisCountryCode`          | —           | Controlled country.                                                             |
+| `searchable`                                   | `boolean`                     | `true`      | Show the country search box.                                                    |
+| `allowAnyCountry`                              | `boolean`                     | `true`      | Whether the country can be changed.                                             |
+| `countryList`                                  | `SolarisCountryCode[]`        | —           | Restrict selectable countries.                                                  |
+| `searchPlaceholder` / `searchPlaceholderKey`   | `string` / `string`           | —           | Country search placeholder.                                                     |
+| `emptyText` / `emptyTextKey`                   | `string` / `string`           | —           | Empty list message.                                                             |
+| `noResultsText` / `noResultsTextKey`           | `string` / `string`           | —           | No-results message.                                                             |
+| `countryButtonLabel` / `countryButtonLabelKey` | `string` / `string`           | —           | Country button accessible label.                                                |
+| `panelMaxWidth`                                | `string \| number`            | —           | Popover max width.                                                              |
+| `panelMaxHeight`                               | `string \| number`            | —           | Country list max height.                                                        |
 
 ### Outputs
 
@@ -131,7 +131,9 @@ injection token.
 The national number is limited to the maximum length allowed for the selected country (e.g.
 11 digits for Brazil, 10 for the US) using `libphonenumber-js` metadata. Typing or pasting
 beyond that limit is truncated. A manual `maxLength` input overrides the country-based
-limit.
+limit. The native input `maxlength` always accounts for the formatting characters (e.g. 15
+for a full BR mobile `(11) 99999-8888`), so the formatted text is never cut off while
+typing; the digit budget itself is enforced on input.
 
 ## Suffix action
 
@@ -183,14 +185,15 @@ Default messages use `solaris.phone-field.*` translation keys with English fallb
 `SolarisPhoneFieldComponent` defines the following tokens. The prefix sizes (flag, chevron,
 font, padding) scale with the field density.
 
-| Token                                          | Default                                 | Description                             |
-| ---------------------------------------------- | --------------------------------------- | --------------------------------------- |
-| `--solaris-phone-field-country-gap`            | `var(--solaris-spacing-1)`              | Gap inside the country button.          |
-| `--solaris-phone-field-country-padding-inline` | `var(--solaris-spacing-2)`              | Country button horizontal padding.      |
-| `--solaris-phone-field-country-font-size`      | `var(--solaris-font-size-sm)`           | Country button and dial-code font size. |
-| `--solaris-phone-field-dial-code-color`        | `var(--solaris-neutral-text-secondary)` | Dial-code prefix color.                 |
-| `--solaris-phone-field-flag-size`              | `var(--solaris-font-size-sm)`           | Flag size.                              |
-| `--solaris-phone-field-chevron-size`           | `var(--solaris-font-size-xs)`           | Country button chevron size.            |
+| Token                                          | Default                                 | Description                              |
+| ---------------------------------------------- | --------------------------------------- | ---------------------------------------- |
+| `--solaris-phone-field-country-gap`            | `var(--solaris-spacing-1)`              | Gap inside the country button.           |
+| `--solaris-phone-field-country-padding-inline` | `var(--solaris-spacing-2)`              | Country button horizontal padding.       |
+| `--solaris-phone-field-country-font-size`      | `var(--solaris-font-size-sm)`           | Country button and dial-code font size.  |
+| `--solaris-phone-field-dial-code-color`        | `var(--solaris-neutral-text-secondary)` | Dial-code prefix color.                  |
+| `--solaris-phone-field-dial-code-gap`          | `var(--solaris-spacing-3)`              | Gap between the dial-code and the input. |
+| `--solaris-phone-field-flag-size`              | `var(--solaris-font-size-sm)`           | Flag size.                               |
+| `--solaris-phone-field-chevron-size`           | `var(--solaris-font-size-xs)`           | Country button chevron size.             |
 
 ## Accessibility
 
