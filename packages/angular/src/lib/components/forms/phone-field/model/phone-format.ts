@@ -15,7 +15,9 @@ export function getMaxNationalNumberLength(
   const metadata = new Metadata();
   metadata.selectNumberingPlan(country as CountryCode);
   const lengths = metadata.numberingPlan?.possibleLengths() ?? [];
-  return lengths.length > 0 ? Math.max(...lengths) : 0;
+  // Fall back to the E.164 maximum when metadata has no lengths, so the
+  // field never becomes untypeable for an unknown numbering plan.
+  return lengths.length > 0 ? Math.max(...lengths) : 15;
 }
 
 export function formatAsYouType(

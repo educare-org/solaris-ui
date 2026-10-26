@@ -126,10 +126,29 @@ describe('SolarisPhoneFieldComponent', () => {
 
     it('caps input length with the effective country max length', async () => {
       const { input, component } = await setup(DefaultCountryHost);
-      const expected = (component as { effectiveMaxLength: () => number })
-        .effectiveMaxLength()
-        .toString();
-      expect(input.getAttribute('maxlength')).toBe(expected);
+      const c = component as {
+        effectiveMaxLength: () => number;
+        inputMaxLength: () => number | null;
+      };
+      expect(input.getAttribute('maxlength')).toBe(
+        c.inputMaxLength()?.toString() ?? null,
+      );
+    });
+
+    it('keeps the native maxlength wide enough for the full formatted number', async () => {
+      const { component } = await setup(DefaultCountryHost);
+      const c = component as {
+        effectiveMaxLength: () => number;
+        inputMaxLength: () => number | null;
+        displayValue: () => string;
+      };
+      // BR mobile: 11 national digits format to 15 chars "(11) 99999-8888".
+      expect(c.effectiveMaxLength()).toBe(11);
+      expect(c.inputMaxLength()).toBe(15);
+      component.writeValue('+5511999998888');
+      expect(c.displayValue().length).toBeLessThanOrEqual(
+        c.inputMaxLength() ?? 0,
+      );
     });
 
     it('applies data-density on the host', async () => {
@@ -678,6 +697,7 @@ describe('SolarisPhoneFieldComponent', () => {
       fixture.componentRef.setInput('maxLength', 5);
       fixture.detectChanges();
       expect(component.effectiveMaxLength()).toBe(5);
+      expect(component.inputMaxLength()).toBeGreaterThanOrEqual(5);
     });
 
     it('resolves placeholder and panel texts from keys, text, and defaults', async () => {
