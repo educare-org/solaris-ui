@@ -1054,6 +1054,33 @@ describe('SolarisEmailFieldComponent', () => {
       expect(affix.getAttribute('data-variant')).toBe('action');
       expect(affix.querySelector('[solaris-form-suffix-action]')).toBeTruthy();
     });
+
+    @Component({
+      standalone: true,
+      imports: [
+        SolarisEmailFieldComponent,
+        ReactiveFormsModule,
+        SolarisFormSuffixActionDirective,
+      ],
+      template: `<solaris-email-field label="E-mail">
+        <button type="button" solaris-form-suffix-action aria-label="Action">
+          Go
+        </button>
+      </solaris-email-field>`,
+    })
+    class SingleSuffixActionHost {}
+
+    it('projects single-attribute suffix-action without requiring solaris-form-suffix', () => {
+      const fixture = TestBed.createComponent(SingleSuffixActionHost);
+      fixture.detectChanges();
+      const field = getInnerField(fixture);
+      const affix = field.querySelector(
+        '.solaris-form-field__affix--suffix',
+      ) as HTMLElement;
+      expect(affix.hasAttribute('data-empty')).toBe(false);
+      expect(affix.getAttribute('data-variant')).toBe('action');
+      expect(affix.querySelector('[solaris-form-suffix-action]')).toBeTruthy();
+    });
   });
 
   describe('clearable (P5 B/C)', () => {
