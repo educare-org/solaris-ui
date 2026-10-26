@@ -229,7 +229,8 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
       (!!this.suffix() ||
         !!this.projectedSuffix() ||
         !!this.projectedSuffixAction() ||
-        !!this.hasSuffixInput())
+        !!this.hasSuffixInput() ||
+        !!this.hasSuffixActionInput())
     );
   });
   protected readonly hasSuffixAction = computed(
