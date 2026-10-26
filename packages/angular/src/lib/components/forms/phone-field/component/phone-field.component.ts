@@ -347,6 +347,24 @@ export class SolarisPhoneFieldComponent
     return getMaxNationalNumberLength(this.effectiveCountry());
   });
 
+  /**
+   * Native `maxlength` for the inner input. `effectiveMaxLength` counts
+   * national digits, but the input displays the formatted value (e.g. BR
+   * `(11) 99999-8888` is 15 chars for 11 digits). Binding the digit count
+   * directly would truncate the formatted text while typing, so the native
+   * limit is derived from the formatted length instead. Digit capping is
+   * still enforced in `onInput`.
+   */
+  protected readonly inputMaxLength = computed(() => {
+    const max = this.effectiveMaxLength();
+    if (!max || max <= 0) {
+      return null;
+    }
+    const country = this.effectiveCountry();
+    const formatted = formatAsYouType('9'.repeat(max), country);
+    return Math.max(formatted.length, max);
+  });
+
   protected readonly placeholderText = computed(() => {
     const key = this.placeholderKey();
     if (key) {
