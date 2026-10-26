@@ -1,5 +1,11 @@
 # @educarehq/solaris-ui
 
+## 2.0.2
+
+### Patch Changes
+
+- Fix `SolarisIconComponent` SSR on Domino: render SVG nodes structurally (`@for`/`@switch` with `[attr.*]` bindings) instead of `[innerHTML]`, which Domino does not implement. Server markup is now identical to the browser markup and hydration stays clean. Also preserve `vector-effect` for `absoluteStrokeWidth`.
+
 ## 2.0.1
 
 ### Patch Changes
