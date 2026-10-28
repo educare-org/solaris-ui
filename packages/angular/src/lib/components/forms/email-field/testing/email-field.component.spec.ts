@@ -14,6 +14,7 @@ import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suf
 import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
+import { SolarisTranslateService } from '../../../../services/translation';
 
 @Component({
   standalone: true,
@@ -1109,6 +1110,7 @@ describe('SolarisEmailFieldComponent', () => {
         '.solaris-email-field__clear',
       ) as HTMLButtonElement;
       expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(false);
       expect(button.getAttribute('aria-label')).toBe('Clear email');
     });
 
@@ -1128,17 +1130,21 @@ describe('SolarisEmailFieldComponent', () => {
       fixture.detectChanges();
       expect((field as any).internalValue()).toBe('');
       expect(fixture.componentInstance.clearedCount).toBe(1);
-      expect(
-        fixture.nativeElement.querySelector('.solaris-email-field__clear'),
-      ).toBeNull();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-email-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
     });
 
     it('hides the clear button without value', () => {
       const fixture = TestBed.createComponent(ClearableHost);
       fixture.detectChanges();
-      expect(
-        fixture.nativeElement.querySelector('.solaris-email-field__clear'),
-      ).toBeNull();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-email-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
     });
 
     it('coerces null writeValue to empty without error when clearable', () => {
@@ -1155,9 +1161,11 @@ describe('SolarisEmailFieldComponent', () => {
       }).not.toThrow();
       expect((field as any).internalValue()).toBe('');
       expect(input.nativeElement.value).toBe('');
-      expect(
-        fixture.nativeElement.querySelector('.solaris-email-field__clear'),
-      ).toBeNull();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-email-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
     });
 
     it('coerces undefined writeValue to empty without error when clearable', () => {
@@ -1174,9 +1182,139 @@ describe('SolarisEmailFieldComponent', () => {
       }).not.toThrow();
       expect((field as any).internalValue()).toBe('');
       expect(input.nativeElement.value).toBe('');
-      expect(
-        fixture.nativeElement.querySelector('.solaris-email-field__clear'),
-      ).toBeNull();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-email-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('keeps the same clear-button node and only flips hidden when the value changes (SSR hydration stability)', () => {
+      const fixture = TestBed.createComponent(ClearableHost);
+      fixture.detectChanges();
+      const field = fixture.debugElement.query(
+        By.directive(SolarisEmailFieldComponent),
+      ).componentInstance as SolarisEmailFieldComponent;
+      const before = fixture.nativeElement.querySelector(
+        '.solaris-email-field__clear',
+      ) as HTMLButtonElement;
+      expect(before).toBeTruthy();
+      expect(before.hasAttribute('hidden')).toBe(true);
+
+      field.writeValue('user@educare.com');
+      fixture.detectChanges();
+      const after = fixture.nativeElement.querySelector(
+        '.solaris-email-field__clear',
+      ) as HTMLButtonElement;
+      expect(after).toBeTruthy();
+      expect(after.hasAttribute('hidden')).toBe(false);
+      expect(after).toBe(before);
+    });
+
+    it('propagates a replayed input event to the form control without replacing the clear-button node', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisEmailFieldComponent, ReactiveFormsModule],
+        template: `<solaris-email-field
+          label="E-mail"
+          [clearable]="true"
+          [formControl]="control"
+        ></solaris-email-field>`,
+      })
+      class ReplayHost {
+        readonly control = new FormControl<string>('');
+      }
+
+      const fixture = TestBed.createComponent(ReplayHost);
+      fixture.detectChanges();
+      const before = fixture.nativeElement.querySelector(
+        '.solaris-email-field__clear',
+      ) as HTMLButtonElement;
+      expect(before).toBeTruthy();
+      expect(before.hasAttribute('hidden')).toBe(true);
+
+      // Simulates an event-replay `input` dispatched before hydration
+      // completes: the value must reach onChange/ngModel and only flip the
+      // `hidden` attribute, never add/remove the button node (NG0502).
+      const input = fixture.debugElement.query(By.css('input[solaris-input]'));
+      input.nativeElement.value = 'replayed@example.com';
+      input.nativeElement.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.control.value).toBe(
+        'replayed@example.com',
+      );
+      const after = fixture.nativeElement.querySelector(
+        '.solaris-email-field__clear',
+      ) as HTMLButtonElement;
+      expect(after).toBeTruthy();
+      expect(after.hasAttribute('hidden')).toBe(false);
+      expect(after).toBe(before);
+    });
+
+    it('hides the clear button via hidden when disabled', () => {
+      const fixture = TestBed.createComponent(ClearableHost);
+      fixture.detectChanges();
+      const field = fixture.debugElement.query(
+        By.directive(SolarisEmailFieldComponent),
+      ).componentInstance as SolarisEmailFieldComponent;
+      field.writeValue('user@educare.com');
+      fixture.detectChanges();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-email-field__clear',
+      ) as HTMLButtonElement;
+      expect(button.hasAttribute('hidden')).toBe(false);
+
+      field.setDisabledState(true);
+      fixture.detectChanges();
+      expect(button.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('hides the clear button via hidden when loading', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisEmailFieldComponent, ReactiveFormsModule],
+        template: `<solaris-email-field
+          label="E-mail"
+          [clearable]="true"
+          [loading]="true"
+        ></solaris-email-field>`,
+      })
+      class LoadingClearableHost {}
+
+      const fixture = TestBed.createComponent(LoadingClearableHost);
+      fixture.detectChanges();
+      const field = fixture.debugElement.query(
+        By.directive(SolarisEmailFieldComponent),
+      ).componentInstance as SolarisEmailFieldComponent;
+      field.writeValue('user@educare.com');
+      fixture.detectChanges();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-email-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('renders the clear button with a default label without a translate provider', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisEmailFieldComponent, ReactiveFormsModule],
+        template: `<solaris-email-field
+          label="E-mail"
+          [clearable]="true"
+        ></solaris-email-field>`,
+        providers: [{ provide: SolarisTranslateService, useValue: null }],
+      })
+      class NoTranslateHost {}
+
+      const fixture = TestBed.createComponent(NoTranslateHost);
+      expect(() => fixture.detectChanges()).not.toThrow();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-email-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.getAttribute('aria-label')).toBe('Clear email');
     });
   });
 });

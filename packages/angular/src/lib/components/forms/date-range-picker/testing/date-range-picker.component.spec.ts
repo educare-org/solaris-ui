@@ -2,6 +2,7 @@ import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
 import { configureSolarisTesting } from '../../../../testing/solaris-test-utilities';
+import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisDateRangePickerComponent } from '../component/date-range-picker.component';
 
 describe('SolarisDateRangePickerComponent', () => {
@@ -184,18 +185,31 @@ describe('SolarisDateRangePickerComponent', () => {
         end: null,
       });
       expect(cleared).toBe(1);
-      expect(
-        element.querySelector('.solaris-date-range-picker__clear'),
-      ).toBeNull();
+      expect(button.hasAttribute('hidden')).toBe(true);
     });
 
     it('hides the trigger clear button without value', () => {
       const element = createFixture();
       fixture.componentRef.setInput('clearable', true);
       fixture.detectChanges();
-      expect(
-        element.querySelector('.solaris-date-range-picker__clear'),
-      ).toBeNull();
+      const button = element.querySelector(
+        '.solaris-date-range-picker__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('renders the clear button with a default label without a translate provider', () => {
+      configureSolarisTesting();
+      TestBed.overrideProvider(SolarisTranslateService, { useValue: null });
+      fixture = TestBed.createComponent(SolarisDateRangePickerComponent);
+      fixture.componentRef.setInput('clearable', true);
+      expect(() => fixture.detectChanges()).not.toThrow();
+      const button = (fixture.nativeElement as HTMLElement).querySelector(
+        '.solaris-date-range-picker__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.getAttribute('aria-label')).toBe('Clear');
     });
 
     it('keeps the footer clear action translated (P5 B/C rename)', () => {

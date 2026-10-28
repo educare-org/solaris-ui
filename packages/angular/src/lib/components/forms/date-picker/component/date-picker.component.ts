@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  afterNextRender,
   computed,
   contentChild,
   forwardRef,
@@ -152,7 +151,6 @@ export class SolarisDatePickerComponent
   protected readonly touched = signal(false);
   protected readonly parseError = signal(false);
   protected readonly panelOpen = signal(false);
-  protected readonly hydrated = signal(false);
   protected readonly displayedMonth = signal<SolarisCalendarMonth>(
     // todaySolarisDate() is always parseable; the fallback only satisfies the type checker.
     monthForSolarisDate(todaySolarisDate()) ?? {
@@ -161,13 +159,6 @@ export class SolarisDatePickerComponent
     },
   );
   private readonly describedBy = signal<string[]>([]);
-
-  constructor() {
-    super();
-    afterNextRender(() => {
-      this.hydrated.set(true);
-    });
-  }
 
   private onChange: (value: SolarisDateValue | null) => void = () => undefined;
   private onTouched: () => void = () => undefined;
@@ -203,13 +194,16 @@ export class SolarisDatePickerComponent
   protected readonly clearAriaLabel = computed(() => {
     const key = this.clearLabelKey();
     if (key) {
-      return this.translateService.translate(key);
+      return this.translateService?.translate(key) ?? key;
     }
     const text = this.clearLabel();
     if (text) {
       return text;
     }
-    return this.translateService.translate('solaris.date-picker.clear');
+    return (
+      this.translateService?.translate('solaris.date-picker.clear') ??
+      'Clear date'
+    );
   });
   protected readonly placeholderText = computed(() =>
     this.resolveText(
@@ -451,7 +445,10 @@ export class SolarisDatePickerComponent
   }
 
   private resolveText(value?: string, key?: string, fallback?: string): string {
-    if (key) return this.translateService.translate(key) || value || '';
-    return value || (fallback ? this.translateService.translate(fallback) : '');
+    if (key) return this.translateService?.translate(key) || value || '';
+    return (
+      value ||
+      (fallback ? (this.translateService?.translate(fallback) ?? '') : '')
+    );
   }
 }

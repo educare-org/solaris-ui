@@ -12,7 +12,6 @@ import {
   ElementRef,
   AfterViewInit,
   OnDestroy,
-  afterNextRender,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
@@ -176,7 +175,6 @@ export class SolarisPhoneFieldComponent
   protected readonly internalFocused = signal(false);
   protected readonly touched = signal(false);
   protected readonly dirty = signal(false);
-  protected readonly hydrated = signal(false);
   protected readonly selectedCountry = signal<SolarisCountryCode | undefined>(
     undefined,
   );
@@ -189,7 +187,7 @@ export class SolarisPhoneFieldComponent
   private readonly popoverSubscriptions: (() => void)[] = [];
 
   protected readonly allCountries = computed(() => {
-    return this.countryListFactory(this.translateService.locale());
+    return this.countryListFactory(this.translateService?.locale() ?? 'en-US');
   });
 
   protected readonly countries = computed(() => {
@@ -256,7 +254,10 @@ export class SolarisPhoneFieldComponent
     if (text) {
       return text;
     }
-    return this.translateService.translate('solaris.phone-field.clear');
+    return this.translateWithDefault(
+      'solaris.phone-field.clear',
+      'Clear phone number',
+    );
   });
 
   protected readonly isEffectivelyDisabled = computed(() => {
@@ -482,9 +483,6 @@ export class SolarisPhoneFieldComponent
 
   constructor() {
     super();
-    afterNextRender(() => {
-      this.hydrated.set(true);
-    });
     effect(() => {
       const value = this.value();
       if (value !== this.lastAppliedValue) {
@@ -661,13 +659,15 @@ export class SolarisPhoneFieldComponent
     defaultText: string,
     params?: SolarisTranslateParams,
   ): string {
-    const result = this.translateService.translate(key, params);
-    return result !== key ? result : defaultText;
+    const translated = this.translateService?.translate(key, params);
+    if (translated === undefined || translated === null) return defaultText;
+    return translated !== key ? translated : defaultText;
   }
 
   private translateKey(key: string | undefined): string | undefined {
     if (key) {
-      const translated = this.translateService.translate(key);
+      const translated = this.translateService?.translate(key);
+      if (translated === undefined || translated === null) return undefined;
       return translated !== key ? translated : undefined;
     }
     return undefined;

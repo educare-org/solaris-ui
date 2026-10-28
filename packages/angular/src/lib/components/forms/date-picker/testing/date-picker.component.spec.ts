@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
+import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisDatePickerComponent } from '../component/date-picker.component';
 import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
 import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
@@ -148,6 +149,7 @@ describe('SolarisDatePickerComponent', () => {
         '.solaris-date-picker__clear',
       ) as HTMLButtonElement;
       expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(false);
       expect(button.getAttribute('aria-label')).toBe('Clear date');
     });
 
@@ -163,16 +165,39 @@ describe('SolarisDatePickerComponent', () => {
       ).componentInstance as SolarisDatePickerComponent;
       expect((picker as any).value()).toBeNull();
       expect(host.clearedCount).toBe(1);
-      expect(
-        fixture.nativeElement.querySelector('.solaris-date-picker__clear'),
-      ).toBeNull();
+      expect(button.hasAttribute('hidden')).toBe(true);
     });
 
     it('hides the clear button without value', () => {
       const { fixture } = setupClearable(null);
-      expect(
-        fixture.nativeElement.querySelector('.solaris-date-picker__clear'),
-      ).toBeNull();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-date-picker__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('renders the clear button with a default label without a translate provider', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisDatePickerComponent, ReactiveFormsModule],
+        template: `
+          <solaris-date-picker
+            label="Date"
+            [clearable]="true"
+          ></solaris-date-picker>
+        `,
+        providers: [{ provide: SolarisTranslateService, useValue: null }],
+      })
+      class NoTranslateHost {}
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(NoTranslateHost);
+      expect(() => fixture.detectChanges()).not.toThrow();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-date-picker__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.getAttribute('aria-label')).toBe('Clear date');
     });
 
     it('hides the clear button when disabled', () => {
@@ -197,9 +222,11 @@ describe('SolarisDatePickerComponent', () => {
       ).componentInstance as SolarisDatePickerComponent;
       picker.writeValue('2025-01-16');
       fixture.detectChanges();
-      expect(
-        fixture.nativeElement.querySelector('.solaris-date-picker__clear'),
-      ).toBeNull();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-date-picker__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
     });
 
     it('resets a dirty query on Escape instead of closing (P5 B/C)', () => {

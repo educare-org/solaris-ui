@@ -16,7 +16,6 @@ import {
   AfterViewInit,
   OnDestroy,
   isDevMode,
-  afterNextRender,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
@@ -184,7 +183,6 @@ export class SolarisSelectComponent
   protected readonly activeOptionIndex = signal(-1);
   protected readonly touched = signal(false);
   protected readonly optionsInitialized = signal(false);
-  protected readonly hydrated = signal(false);
 
   private onChange: (value: unknown) => void = () => undefined;
   private onTouched: () => void = () => undefined;
@@ -382,13 +380,16 @@ export class SolarisSelectComponent
   protected readonly clearAriaLabel = computed(() => {
     const key = this.clearLabelKey();
     if (key) {
-      return this.translateService.translate(key);
+      return this.translateService?.translate(key) ?? key;
     }
     const text = this.clearLabel();
     if (text) {
       return text;
     }
-    return this.translateService.translate('solaris.select.clear');
+    return (
+      this.translateService?.translate('solaris.select.clear') ??
+      'Clear selection'
+    );
   });
 
   protected readonly ariaLabelText = computed(() => {
@@ -534,9 +535,6 @@ export class SolarisSelectComponent
 
   constructor() {
     super();
-    afterNextRender(() => {
-      this.hydrated.set(true);
-    });
     effect(() => {
       if (!this.optionsInitialized()) return;
       this.internalValue();

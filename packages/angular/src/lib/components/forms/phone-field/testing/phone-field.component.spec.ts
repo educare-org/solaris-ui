@@ -8,6 +8,7 @@ import { SolarisPhoneFieldComponent } from '../component/phone-field.component';
 import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suffix.directive';
 import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
+import { SolarisTranslateService } from '../../../../services/translation';
 
 @Component({
   standalone: true,
@@ -452,6 +453,7 @@ describe('SolarisPhoneFieldComponent', () => {
         '.solaris-phone-field__clear',
       ) as HTMLButtonElement;
       expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(false);
       expect(button.getAttribute('aria-label')).toBe('Clear phone number');
     });
 
@@ -472,16 +474,59 @@ describe('SolarisPhoneFieldComponent', () => {
       expect(component.internalValue()).toBe('');
       expect(component.displayValue()).toBe('');
       expect(cleared).toBe(1);
-      expect(
-        fixture.nativeElement.querySelector('.solaris-phone-field__clear'),
-      ).toBeNull();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-phone-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
     });
 
     it('hides the clear button without value', async () => {
       const { fixture } = await setup(ClearableHost);
-      expect(
-        fixture.nativeElement.querySelector('.solaris-phone-field__clear'),
-      ).toBeNull();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-phone-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('renders the clear button with a default label without a translate provider', async () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisPhoneFieldComponent, ReactiveFormsModule],
+        template: `<solaris-phone-field
+          label="Phone"
+          defaultCountry="BR"
+          [clearable]="true"
+        ></solaris-phone-field>`,
+        providers: [{ provide: SolarisTranslateService, useValue: null }],
+      })
+      class NoTranslateHost {}
+
+      const { fixture } = await setup(NoTranslateHost);
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-phone-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.getAttribute('aria-label')).toBe('Clear phone number');
+    });
+
+    it('keeps the same clear-button node and only flips hidden when the value changes (SSR hydration stability)', async () => {
+      const { fixture, component } = await setup(ClearableHost);
+      const before = fixture.nativeElement.querySelector(
+        '.solaris-phone-field__clear',
+      ) as HTMLButtonElement;
+      expect(before).toBeTruthy();
+      expect(before.hasAttribute('hidden')).toBe(true);
+
+      component.writeValue('+5511987654321');
+      fixture.detectChanges();
+      const after = fixture.nativeElement.querySelector(
+        '.solaris-phone-field__clear',
+      ) as HTMLButtonElement;
+      expect(after).toBeTruthy();
+      expect(after.hasAttribute('hidden')).toBe(false);
+      expect(after).toBe(before);
     });
   });
 

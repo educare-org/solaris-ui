@@ -12,7 +12,6 @@ import {
   output,
   signal,
   viewChild,
-  afterNextRender,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
@@ -186,19 +185,12 @@ export class SolarisDateRangePickerComponent
     },
   );
   private readonly describedBy = signal<string[]>([]);
-  protected readonly hydrated = signal(false);
 
-  constructor() {
-    super();
-    afterNextRender(() => {
-      this.hydrated.set(true);
-    });
-  }
   private onChange: (value: SolarisDateRange) => void = () => undefined;
   private onTouched: () => void = () => undefined;
 
   protected readonly resolvedLocale = computed(
-    () => this.locale() ?? this.translateService.locale(),
+    () => this.locale() ?? this.translateService?.locale() ?? 'en-US',
   );
   protected readonly effectiveDensity = computed<SolarisDateRangePickerDensity>(
     () => this.density() ?? this.themeService.density,
@@ -256,8 +248,10 @@ export class SolarisDateRangePickerComponent
   protected readonly endLabel = computed(() =>
     this.translateService.translate('solaris.date-range-picker.end'),
   );
-  protected readonly calendarLabel = computed(() =>
-    this.translateService.translate('solaris.date-picker.open-calendar'),
+  protected readonly calendarLabel = computed(
+    () =>
+      this.translateService?.translate('solaris.date-picker.open-calendar') ??
+      'Open calendar',
   );
   protected readonly previousMonthLabel = computed(() =>
     this.translateService.translate('solaris.date-picker.previous-month'),
@@ -289,19 +283,25 @@ export class SolarisDateRangePickerComponent
   protected readonly clearAriaLabel = computed(() => {
     const key = this.clearLabelKey();
     if (key) {
-      return this.translateService.translate(key);
+      return this.translateService?.translate(key) ?? key;
     }
     const text = this.clearLabel();
     if (text) {
       return text;
     }
-    return this.translateService.translate('solaris.date-range-picker.clear');
+    return (
+      this.translateService?.translate('solaris.date-range-picker.clear') ??
+      'Clear'
+    );
   });
   protected readonly presetsLabel = computed(() =>
     this.translateService.translate('solaris.date-range-picker.presets'),
   );
-  protected readonly placeholderText = computed(() =>
-    this.translateService.translate('solaris.date-range-picker.placeholder'),
+  protected readonly placeholderText = computed(
+    () =>
+      this.translateService?.translate(
+        'solaris.date-range-picker.placeholder',
+      ) ?? 'Select a date range',
   );
   protected readonly customLabel = computed(() =>
     this.translateService.translate('solaris.date-range-picker.custom'),

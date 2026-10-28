@@ -205,6 +205,12 @@
   color: var(--solaris-neutral-text-body);
 }
 
+.solaris-multi-select__chips[hidden],
+.solaris-multi-select__chip[hidden],
+.solaris-multi-select__clear[hidden] {
+  display: none;
+}
+
 .solaris-multi-select__dropdown-icon {
   solaris-icon {
     width: var(--solaris-font-size-lg);

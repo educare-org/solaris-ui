@@ -1,5 +1,21 @@
 # @educarehq/solaris-ui
 
+## 2.0.8
+
+### Patch Changes
+
+- e0bfe39: fix(forms): fall back to embedded labels when no translate provider is present
+
+  Always-rendered, value-driven field chrome (clear-button aria labels in email, phone, date-picker, date-range-picker, select and multi-select; date-picker text resolver; date-range-picker calendar/placeholder labels and resolved locale; phone country list locale) no longer crashes with `TypeError: Cannot read properties of null` when `SolarisTranslateService` is provided as `null`. Label resolution now uses optional chaining with the existing en-US strings as embedded defaults, so trees rendered without a translate provider (e.g. chart-shell and calendar-shell fallback tests) keep working.
+
+## 2.0.7
+
+### Patch Changes
+
+- c07bdf4: fix(forms): render value-driven field chrome without structural hydration gates
+
+  The clear buttons (`solaris-email-field`, `solaris-phone-field`, `solaris-date-picker`, `solaris-date-range-picker`, `solaris-select`, `solaris-multi-select`), the select trigger value/placeholder swap, the multi-select trigger value/placeholder/chips/overflow swap and the password strength meter were wrapped in `@if` blocks gated by `hydrated()` (set in `afterNextRender`) combined with replay-mutable form state (`internalValue`/`hasValue`/`canClear`/`showValue`/`displayText`). Any server/client divergence at those anchors aborts hydration of the subtree with NG0502, leaving `onInput → onChange → ngModel` unwired (consumer CTA permanently `disabled`). Gating on `hydrated` narrowed but did not close the race, so the structural dependency is removed instead: value-driven chrome is now always rendered and its visibility is controlled via the `hidden` attribute, which flips as an attribute-only update and can never add/remove a hydration container — including under pre-hydration event replay. The `hydrated` signals and `afterNextRender` hooks are removed from these components (`showValue` in multi-select is now `hasValue()`). Visible behavior, public APIs, styles, aria labeling, focus order (`tabindex="-1"` clear actions, inert `hidden` subtrees) and `cleared` emissions are unchanged; `[hidden]` display overrides were added wherever a class sets `display` (`flex`/`inline-flex`/`inline-block`), since that overrides the UA `[hidden] { display: none }` rule.
+
 ## 2.0.6
 
 ### Patch Changes

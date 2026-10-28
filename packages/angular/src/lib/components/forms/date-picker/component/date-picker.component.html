@@ -80,19 +80,18 @@
   >
     <solaris-icon name="calendar" [decorative]="true" />
   </button>
-  @if (hydrated() && canClear() && !loading()) {
-    <button
-      type="button"
-      solaris-form-suffix
-      class="solaris-date-picker__clear"
-      [attr.aria-label]="clearAriaLabel()"
-      [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
-      (click)="clearValue(); $event.stopPropagation()"
-      tabindex="-1"
-    >
-      <solaris-icon name="x" [decorative]="true" />
-    </button>
-  }
+  <button
+    type="button"
+    solaris-form-suffix
+    class="solaris-date-picker__clear"
+    [attr.aria-label]="clearAriaLabel()"
+    [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
+    [hidden]="!canClear() || loading()"
+    (click)="clearValue(); $event.stopPropagation()"
+    tabindex="-1"
+  >
+    <solaris-icon name="x" [decorative]="true" />
+  </button>
   @if (suffix(); as suffixName) {
     <span solaris-form-suffix>
       <solaris-icon [name]="suffixName" [decorative]="true" />
