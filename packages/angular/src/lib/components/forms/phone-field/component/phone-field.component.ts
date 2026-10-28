@@ -237,6 +237,10 @@ export class SolarisPhoneFieldComponent
   protected readonly hasSuffix = computed(() => {
     return !!this.projectedSuffix() || !!this.suffix() || this.canClear();
   });
+  protected readonly effectiveSuffix = computed(() => {
+    const icon = this.suffix();
+    return icon && !this.projectedSuffix() ? icon : undefined;
+  });
   protected readonly canClear = computed(() => {
     return (
       this.clearable() &&

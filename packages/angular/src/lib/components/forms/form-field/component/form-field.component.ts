@@ -11,8 +11,10 @@ import {
   inject,
   forwardRef,
   NgZone,
+  TemplateRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { FormControlDirective, FormControlName, NgModel } from '@angular/forms';
 
 import { SolarisFormPrefixDirective } from '../directives/form-prefix.directive';
@@ -43,6 +45,7 @@ import type { SolarisIconName } from '../../../../services/icon';
   selector: 'solaris-form-field',
   standalone: true,
   imports: [
+    NgTemplateOutlet,
     SolarisIconComponent,
     SolarisSpinnerComponent,
     SolarisFormPrefixDirective,
@@ -217,10 +220,16 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
 
   readonly prefix = input<SolarisIconName>();
   readonly suffix = input<SolarisIconName>();
+  readonly prefixTemplate = input<TemplateRef<unknown> | undefined>();
+  readonly suffixTemplate = input<TemplateRef<unknown> | undefined>();
+  readonly suffixActionTemplate = input<TemplateRef<unknown> | undefined>();
 
   protected readonly effectiveHasPrefix = computed(() => {
     return (
-      !!this.prefix() || !!this.projectedPrefix() || !!this.hasPrefixInput()
+      !!this.prefix() ||
+      !!this.projectedPrefix() ||
+      !!this.prefixTemplate() ||
+      !!this.hasPrefixInput()
     );
   });
   protected readonly effectiveHasSuffix = computed(() => {
@@ -229,6 +238,8 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
       (!!this.suffix() ||
         !!this.projectedSuffix() ||
         !!this.projectedSuffixAction() ||
+        !!this.suffixTemplate() ||
+        !!this.suffixActionTemplate() ||
         !!this.hasSuffixInput() ||
         !!this.hasSuffixActionInput())
     );
@@ -236,7 +247,9 @@ export class SolarisFormFieldComponent implements AfterContentInit, OnDestroy {
   protected readonly hasSuffixAction = computed(
     () =>
       !this.loading() &&
-      (!!this.projectedSuffixAction() || !!this.hasSuffixActionInput()),
+      (!!this.projectedSuffixAction() ||
+        !!this.suffixActionTemplate() ||
+        !!this.hasSuffixActionInput()),
   );
   protected readonly suffixVariant = computed(() => {
     return this.hasSuffixAction() ? 'action' : null;

@@ -50,6 +50,9 @@
       </span>
     }
     <ng-content select="[solaris-form-prefix]" />
+    @if (prefixTemplate(); as prefixTpl) {
+      <ng-container [ngTemplateOutlet]="prefixTpl" />
+    }
   </span>
 
   <div class="solaris-form-field__control">
@@ -67,7 +70,13 @@
       </span>
     }
     <ng-content select="[solaris-form-suffix-action]" />
+    @if (suffixActionTemplate(); as suffixActionTpl) {
+      <ng-container [ngTemplateOutlet]="suffixActionTpl" />
+    }
     <ng-content select="[solaris-form-suffix]" />
+    @if (suffixTemplate(); as suffixTpl) {
+      <ng-container [ngTemplateOutlet]="suffixTpl" />
+    }
   </span>
   @if (loading()) {
     <span class="solaris-form-field__loading">

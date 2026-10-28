@@ -25,7 +25,9 @@ Solaris uses Changesets.
 A release requires:
 
 - clean build;
-- passing tests;
+- passing tests — including the SSR + hydration matrix (`test:ssr` is part
+  of `pnpm test`/`pnpm verify`; no release ships with a red hydration
+  scenario, per the CI `verify` job that gates `main`);
 - passing lint;
 - passing typecheck;
 - package validation;
@@ -33,6 +35,18 @@ A release requires:
 - changelog;
 - dependency audit;
 - no undocumented breaking changes.
+
+## Consumer validation (SSR hydration fixes)
+
+After a hydration fix, the consuming app validates with:
+
+1. Remove the temporary `ngSkipHydration` workaround on the affected
+   component.
+2. Rebuild/serve with SSR + `provideClientHydration(withEventReplay())`.
+3. Load the page, type into the field (including immediately on load, to
+   exercise pre-hydration event replay), and confirm no NG0500/NG0502 in
+   the console, the value propagates to the form, and CTAs enable.
+4. Run the consumer E2E suite green.
 
 ## Public publishing
 

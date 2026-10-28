@@ -135,6 +135,52 @@ the threshold silently; add targeted branch tests instead.
 
 Coverage without meaningful assertions is not accepted.
 
+## SSR + hydration tests
+
+Two spec kinds cover server rendering, both matched by `test:ssr`
+(`vitest.ssr.config.ts`, against the built `dist/` bundle):
+
+- `*.ssr.spec.ts` (node environment): `renderApplication` assertions only —
+  the server can serialize the component (node structure, `hidden` state,
+  container counts). Necessary but not sufficient: these never claim the
+  DOM, so projection mismatches (NG0500) pass silently here.
+- `*.hydration.ssr.spec.ts` (jsdom environment): full SSR + hydration
+  matrix via `lib/testing/hydration/hydration-harness.ts`. Each scenario
+  renders on the server with
+  `renderApplication`, installs the HTML into the document, bootstraps the
+  same host on the client with `provideClientHydration(withEventReplay())`,
+  and fails on any NG0500–NG0505 mismatch or hydration warning. Scenarios
+  cover empty/valued, `disabled`/`readonly`/`loading`, error, projected
+  prefix/suffix/actions placement, icon inputs, and post-hydration input
+  propagation (listener survival — the observable signal of the NG0500
+  class of defects).
+
+Run:
+
+```bash
+pnpm nx run angular:test:ssr                      # build + full SSR/hydration matrix
+npx vitest run --config packages/angular/vitest.ssr.config.ts \
+  packages/angular/src/lib/components/forms/email-field/testing/email-field.hydration.ssr.spec.ts --no-coverage
+```
+
+Projection contract (enforced by the matrix): wrapper-style field presets
+must NOT declare their own selective nodes (anything matching
+`[solaris-form-prefix]` / `[solaris-form-suffix]` /
+`[solaris-form-suffix-action]`) as light DOM of the inner
+`solaris-form-field` mixed with re-projection outlets — dehydrated slot
+bookkeeping then disagrees with the client claim walk (NG0500). Icon
+affixes go through the `prefix`/`suffix` inputs; chrome buttons go through
+the `prefixTemplate`/`suffixTemplate`/`suffixActionTemplate` inputs as
+`ng-template` references (visibility via `[hidden]`, never a structural
+gate over replay-mutable state).
+
+True pre-hydration event replay (typing between SSR paint and hydration
+completion) additionally requires the early jsaction contract
+(`window._ejsas`) inlined by the application shell, which
+`renderApplication` does not emit — so it is covered by consumer-side E2E,
+not by this harness (see the consumer validation note in the release
+policy).
+
 ## CI rule
 
 Local hooks help.
