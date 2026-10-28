@@ -21,10 +21,8 @@ import {
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
 import {
-  SolarisFormPrefixDirective,
   SolarisFormFieldTriggerDirective,
   SolarisFormFieldComponent,
-  SolarisFormSuffixDirective,
   SolarisFormSuffixActionDirective,
 } from '../../form-field';
 import { SolarisFormControl } from '../../form-field/model/form-control.contract';
@@ -53,8 +51,6 @@ import type { SolarisIconName } from '../../../../services/icon';
   imports: [
     SolarisFormFieldComponent,
     SolarisFormFieldTriggerDirective,
-    SolarisFormPrefixDirective,
-    SolarisFormSuffixDirective,
     SolarisIconComponent,
     SolarisPopoverDirective,
     SolarisPopoverTriggerDirective,
