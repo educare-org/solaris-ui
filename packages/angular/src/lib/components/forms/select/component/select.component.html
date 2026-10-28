@@ -90,7 +90,7 @@
       />
     } @else {
       <span class="solaris-select__value">
-        @if (displayText()) {
+        @if (hydrated() && displayText()) {
           <span class="solaris-select__value-text">{{ displayText() }}</span>
         } @else {
           <span class="solaris-select__placeholder">{{
@@ -101,7 +101,7 @@
     }
 
     <span class="solaris-select__actions">
-      @if (canClear() && !loading()) {
+      @if (hydrated() && canClear() && !loading()) {
         <button
           type="button"
           class="solaris-select__clear"

@@ -81,7 +81,7 @@
     >
       <solaris-icon name="calendar" [decorative]="true" />
     </button>
-    @if (canClear() && !loading()) {
+    @if (hydrated() && canClear() && !loading()) {
       <button
         type="button"
         solaris-form-suffix

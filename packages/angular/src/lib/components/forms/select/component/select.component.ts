@@ -16,6 +16,7 @@ import {
   AfterViewInit,
   OnDestroy,
   isDevMode,
+  afterNextRender,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
@@ -183,6 +184,7 @@ export class SolarisSelectComponent
   protected readonly activeOptionIndex = signal(-1);
   protected readonly touched = signal(false);
   protected readonly optionsInitialized = signal(false);
+  protected readonly hydrated = signal(false);
 
   private onChange: (value: unknown) => void = () => undefined;
   private onTouched: () => void = () => undefined;
@@ -532,6 +534,9 @@ export class SolarisSelectComponent
 
   constructor() {
     super();
+    afterNextRender(() => {
+      this.hydrated.set(true);
+    });
     effect(() => {
       if (!this.optionsInitialized()) return;
       this.internalValue();

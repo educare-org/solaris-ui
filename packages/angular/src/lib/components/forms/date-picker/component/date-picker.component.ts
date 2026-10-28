@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  afterNextRender,
   computed,
   contentChild,
   forwardRef,
@@ -151,6 +152,7 @@ export class SolarisDatePickerComponent
   protected readonly touched = signal(false);
   protected readonly parseError = signal(false);
   protected readonly panelOpen = signal(false);
+  protected readonly hydrated = signal(false);
   protected readonly displayedMonth = signal<SolarisCalendarMonth>(
     // todaySolarisDate() is always parseable; the fallback only satisfies the type checker.
     monthForSolarisDate(todaySolarisDate()) ?? {
@@ -159,6 +161,13 @@ export class SolarisDatePickerComponent
     },
   );
   private readonly describedBy = signal<string[]>([]);
+
+  constructor() {
+    super();
+    afterNextRender(() => {
+      this.hydrated.set(true);
+    });
+  }
 
   private onChange: (value: SolarisDateValue | null) => void = () => undefined;
   private onTouched: () => void = () => undefined;

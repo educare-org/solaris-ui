@@ -64,7 +64,7 @@
     [attr.maxlength]="maxLength() ?? null"
     [attr.placeholder]="placeholderText() || null"
   />
-  @if (canClear() && !loading()) {
+  @if (hydrated() && canClear() && !loading()) {
     <button
       type="button"
       solaris-form-suffix

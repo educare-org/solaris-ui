@@ -12,6 +12,7 @@ import {
   output,
   signal,
   viewChild,
+  afterNextRender,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
 
@@ -185,6 +186,14 @@ export class SolarisDateRangePickerComponent
     },
   );
   private readonly describedBy = signal<string[]>([]);
+  protected readonly hydrated = signal(false);
+
+  constructor() {
+    super();
+    afterNextRender(() => {
+      this.hydrated.set(true);
+    });
+  }
   private onChange: (value: SolarisDateRange) => void = () => undefined;
   private onTouched: () => void = () => undefined;
 

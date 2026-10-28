@@ -1140,5 +1140,43 @@ describe('SolarisEmailFieldComponent', () => {
         fixture.nativeElement.querySelector('.solaris-email-field__clear'),
       ).toBeNull();
     });
+
+    it('coerces null writeValue to empty without error when clearable', () => {
+      const fixture = TestBed.createComponent(ClearableHost);
+      fixture.detectChanges();
+      const field = fixture.debugElement.query(
+        By.directive(SolarisEmailFieldComponent),
+      ).componentInstance as SolarisEmailFieldComponent;
+      const input = fixture.debugElement.query(By.css('input[solaris-input]'));
+
+      expect(() => {
+        field.writeValue(null);
+        fixture.detectChanges();
+      }).not.toThrow();
+      expect((field as any).internalValue()).toBe('');
+      expect(input.nativeElement.value).toBe('');
+      expect(
+        fixture.nativeElement.querySelector('.solaris-email-field__clear'),
+      ).toBeNull();
+    });
+
+    it('coerces undefined writeValue to empty without error when clearable', () => {
+      const fixture = TestBed.createComponent(ClearableHost);
+      fixture.detectChanges();
+      const field = fixture.debugElement.query(
+        By.directive(SolarisEmailFieldComponent),
+      ).componentInstance as SolarisEmailFieldComponent;
+      const input = fixture.debugElement.query(By.css('input[solaris-input]'));
+
+      expect(() => {
+        field.writeValue(undefined);
+        fixture.detectChanges();
+      }).not.toThrow();
+      expect((field as any).internalValue()).toBe('');
+      expect(input.nativeElement.value).toBe('');
+      expect(
+        fixture.nativeElement.querySelector('.solaris-email-field__clear'),
+      ).toBeNull();
+    });
   });
 });
