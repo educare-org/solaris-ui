@@ -1,5 +1,30 @@
 # @educarehq/solaris-ui
 
+## 2.0.6
+
+### Patch Changes
+
+- 69f3a03: fix(forms): keep SSR and hydrated DOM identical for value-driven field chrome
+
+  The clear action (and value-driven trigger content in select/multi-select, strength meter in password-field) was gated by `@if` blocks depending on mutable form state (`internalValue`/`hasValue`/`canClear`). Any server/client value difference at first render broke hydration with NG0502 and left the input disconnected from its `ControlValueAccessor`. Value-driven DOM in `solaris-email-field`, `solaris-phone-field`, `solaris-password-field`, `solaris-date-picker`, `solaris-date-range-picker`, `solaris-select` and `solaris-multi-select` now renders only after hydration; visibility and validation logic are unchanged. `writeValue` in email-field and password-field also coerces `null`/`undefined` to `''` so fields bound to empty `FormControl`s cannot crash.
+
+## 2.0.5
+
+### Patch Changes
+
+- 23da709: fix(phone-field): stop truncating formatted numbers and widen dial-code gap
+  - Derive the native input `maxlength` from the formatted number length instead of the national digit count, so full numbers (e.g. BR `(11) 99999-8888`) can be typed. Digit capping is still enforced on input.
+  - Fall back to the E.164 maximum when numbering-plan metadata has no lengths, so the field never becomes untypeable.
+  - Increase the gap between the dial-code prefix and the input via the new `--solaris-phone-field-dial-code-gap` token (default `var(--solaris-spacing-3)`).
+
+## 2.0.4
+
+### Patch Changes
+
+- bbe3ce8: fix(forms): count suffix-action inputs in form-field suffix visibility
+
+  Include `hasSuffixActionInput` in `effectiveHasSuffix` so a projected suffix action keeps the suffix cell visible even when no plain suffix is present. A suffix action implies a suffix: `hasSuffixAction` already considered the input for the `action` variant, but the visibility gate did not, hiding single-attribute (`solaris-form-suffix-action`-only) actions re-projected through field presets. Adds an `email-field` regression test for the single-attribute case.
+
 ## 2.0.3
 
 ### Patch Changes
