@@ -11,6 +11,7 @@ import {
   contentChild,
   ElementRef,
   isDevMode,
+  afterNextRender,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
@@ -162,6 +163,7 @@ export class SolarisPasswordFieldComponent
   protected readonly _visibleState = signal(false);
   protected readonly touched = signal(false);
   protected readonly dirty = signal(false);
+  protected readonly hydrated = signal(false);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: string) => void = () => {};
@@ -186,6 +188,9 @@ export class SolarisPasswordFieldComponent
 
   constructor() {
     super();
+    afterNextRender(() => {
+      this.hydrated.set(true);
+    });
     effect(() => {
       this._visibleState.set(this.visible());
     });
@@ -467,8 +472,8 @@ export class SolarisPasswordFieldComponent
     }
   });
 
-  writeValue(safe = ''): void {
-    this.internalValue.set(safe);
+  writeValue(value: string | null | undefined): void {
+    this.internalValue.set(value ?? '');
   }
 
   registerOnChange(fn: (value: string) => void): void {

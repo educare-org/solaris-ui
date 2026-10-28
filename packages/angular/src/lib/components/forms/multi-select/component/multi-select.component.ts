@@ -15,6 +15,7 @@ import {
   AfterViewInit,
   DestroyRef,
   isDevMode,
+  afterNextRender,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
@@ -206,6 +207,7 @@ export class SolarisMultiSelectComponent
   protected readonly activeOptionIndex = signal(-1);
   protected readonly touched = signal(false);
   protected readonly optionsInitialized = signal(false);
+  protected readonly hydrated = signal(false);
 
   protected readonly triggerContentRef =
     viewChild<ElementRef<HTMLElement>>('triggerContent');
@@ -263,6 +265,10 @@ export class SolarisMultiSelectComponent
 
   protected readonly hasValue = computed(() => {
     return this.internalValue().length > 0;
+  });
+
+  protected readonly showValue = computed(() => {
+    return this.hydrated() && this.hasValue();
   });
 
   protected readonly canClear = computed(() => {
@@ -724,6 +730,9 @@ export class SolarisMultiSelectComponent
 
   constructor() {
     super();
+    afterNextRender(() => {
+      this.hydrated.set(true);
+    });
     effect(() => {
       if (!this.optionsInitialized()) return;
       this.internalValue();

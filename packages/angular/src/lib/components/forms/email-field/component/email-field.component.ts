@@ -10,6 +10,7 @@ import {
   contentChild,
   ElementRef,
   isDevMode,
+  afterNextRender,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
@@ -172,6 +173,14 @@ export class SolarisEmailFieldComponent
   protected readonly internalFocused = signal(false);
   protected readonly touched = signal(false);
   protected readonly dirty = signal(false);
+  protected readonly hydrated = signal(false);
+
+  constructor() {
+    super();
+    afterNextRender(() => {
+      this.hydrated.set(true);
+    });
+  }
 
   protected readonly effectiveDensity = computed<SolarisEmailFieldDensity>(
     () => {
@@ -306,8 +315,8 @@ export class SolarisEmailFieldComponent
     return !!this.computedError();
   });
 
-  writeValue(safe = ''): void {
-    this.internalValue.set(safe);
+  writeValue(value: string | null | undefined): void {
+    this.internalValue.set(value ?? '');
   }
 
   registerOnChange(fn: (value: string) => void): void {

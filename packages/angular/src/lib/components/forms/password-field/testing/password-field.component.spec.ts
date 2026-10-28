@@ -822,6 +822,40 @@ describe('SolarisPasswordFieldComponent', () => {
       expect(strength).toBeFalsy();
     });
 
+    it('coerces null writeValue to empty without error', () => {
+      const fixture = TestBed.createComponent(StrengthHost);
+      fixture.detectChanges();
+      const field = fixture.debugElement.query(
+        By.directive(SolarisPasswordFieldComponent),
+      ).componentInstance as SolarisPasswordFieldComponent;
+
+      expect(() => {
+        field.writeValue(null);
+        fixture.detectChanges();
+      }).not.toThrow();
+      expect((field as any).internalValue()).toBe('');
+      expect(
+        fixture.debugElement.query(By.css('.solaris-password-field__strength')),
+      ).toBeFalsy();
+    });
+
+    it('coerces undefined writeValue to empty without error', () => {
+      const fixture = TestBed.createComponent(StrengthHost);
+      fixture.detectChanges();
+      const field = fixture.debugElement.query(
+        By.directive(SolarisPasswordFieldComponent),
+      ).componentInstance as SolarisPasswordFieldComponent;
+
+      expect(() => {
+        field.writeValue(undefined);
+        fixture.detectChanges();
+      }).not.toThrow();
+      expect((field as any).internalValue()).toBe('');
+      expect(
+        fixture.debugElement.query(By.css('.solaris-password-field__strength')),
+      ).toBeFalsy();
+    });
+
     it('shows only first segment active for weak password', () => {
       const fixture = TestBed.createComponent(StrengthHost);
       fixture.detectChanges();
