@@ -49,32 +49,35 @@ Selector: `solaris-form-field`
 
 #### Inputs
 
-| Input              | Type                                     | Default     | Description                                                   |
-| ------------------ | ---------------------------------------- | ----------- | ------------------------------------------------------------- |
-| `label`            | `string`                                 | `''`        | Label text                                                    |
-| `labelKey`         | `string`                                 | —           | Translation key for label                                     |
-| `hint`             | `string`                                 | `''`        | Hint text                                                     |
-| `hintKey`          | `string`                                 | —           | Translation key for hint                                      |
-| `error`            | `string`                                 | `''`        | Error text                                                    |
-| `errorKey`         | `string`                                 | —           | Translation key for error                                     |
-| `required`         | `boolean \| undefined`                   | —           | Required state (marker + native propagation)                  |
-| `optional`         | `boolean`                                | `false`     | Shows optional marker                                         |
-| `optionalLabel`    | `string`                                 | —           | Custom optional label text                                    |
-| `optionalLabelKey` | `string`                                 | —           | Translation key for optional label                            |
-| `requiredLabel`    | `string`                                 | —           | Custom required label text                                    |
-| `requiredLabelKey` | `string`                                 | —           | Translation key for required label                            |
-| `invalid`          | `boolean \| undefined`                   | —           | Manual invalid state (overrides auto-detection)               |
-| `disabled`         | `boolean \| undefined`                   | —           | Manual disabled state (overrides auto-detection)              |
-| `readonly`         | `boolean \| undefined`                   | —           | Manual readonly state (overrides auto-detection)              |
-| `appearance`       | `'outline' \| 'surface' \| 'filled'`     | `'outline'` | Visual style                                                  |
-| `size`             | `'sm' \| 'md' \| 'lg'`                   | `'md'`      | Control size (outer height follows the size × density matrix) |
-| `density`          | `'compact' \| 'normal' \| 'comfortable'` | inherited   | Spacing density                                               |
-| `radius`           | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`      | Border radius                                                 |
-| `prefix`           | `SolarisIconName`                        | —           | Prefix icon rendered in the leading affix slot                |
-| `suffix`           | `SolarisIconName`                        | —           | Suffix icon rendered in the trailing affix slot               |
-| `loading`          | `boolean`                                | `false`     | Shows a spinner in the suffix slot, suppresses suffix content |
-| `loadingLabel`     | `string`                                 | —           | Accessible label for the loading spinner                      |
-| `loadingLabelKey`  | `string`                                 | —           | Translation key for the loading spinner label                 |
+| Input                  | Type                                     | Default     | Description                                                                                                                     |
+| ---------------------- | ---------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `label`                | `string`                                 | `''`        | Label text                                                                                                                      |
+| `labelKey`             | `string`                                 | —           | Translation key for label                                                                                                       |
+| `hint`                 | `string`                                 | `''`        | Hint text                                                                                                                       |
+| `hintKey`              | `string`                                 | —           | Translation key for hint                                                                                                        |
+| `error`                | `string`                                 | `''`        | Error text                                                                                                                      |
+| `errorKey`             | `string`                                 | —           | Translation key for error                                                                                                       |
+| `required`             | `boolean \| undefined`                   | —           | Required state (marker + native propagation)                                                                                    |
+| `optional`             | `boolean`                                | `false`     | Shows optional marker                                                                                                           |
+| `optionalLabel`        | `string`                                 | —           | Custom optional label text                                                                                                      |
+| `optionalLabelKey`     | `string`                                 | —           | Translation key for optional label                                                                                              |
+| `requiredLabel`        | `string`                                 | —           | Custom required label text                                                                                                      |
+| `requiredLabelKey`     | `string`                                 | —           | Translation key for required label                                                                                              |
+| `invalid`              | `boolean \| undefined`                   | —           | Manual invalid state (overrides auto-detection)                                                                                 |
+| `disabled`             | `boolean \| undefined`                   | —           | Manual disabled state (overrides auto-detection)                                                                                |
+| `readonly`             | `boolean \| undefined`                   | —           | Manual readonly state (overrides auto-detection)                                                                                |
+| `appearance`           | `'outline' \| 'surface' \| 'filled'`     | `'outline'` | Visual style                                                                                                                    |
+| `size`                 | `'sm' \| 'md' \| 'lg'`                   | `'md'`      | Control size (outer height follows the size × density matrix)                                                                   |
+| `density`              | `'compact' \| 'normal' \| 'comfortable'` | inherited   | Spacing density                                                                                                                 |
+| `radius`               | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'`      | Border radius                                                                                                                   |
+| `prefix`               | `SolarisIconName`                        | —           | Prefix icon rendered in the leading affix slot                                                                                  |
+| `suffix`               | `SolarisIconName`                        | —           | Suffix icon rendered in the trailing affix slot                                                                                 |
+| `prefixTemplate`       | `TemplateRef<unknown>`                   | —           | Wrapper-owned prefix chrome (e.g. country selector) rendered after the projected prefix outlet                                  |
+| `suffixTemplate`       | `TemplateRef<unknown>`                   | —           | Wrapper-owned suffix chrome (e.g. clear button) rendered after the projected suffix outlet                                      |
+| `suffixActionTemplate` | `TemplateRef<unknown>`                   | —           | Wrapper-owned suffix-action chrome (e.g. visibility toggle, calendar trigger) rendered after the projected suffix-action outlet |
+| `loading`              | `boolean`                                | `false`     | Shows a spinner in the suffix slot, suppresses suffix content                                                                   |
+| `loadingLabel`         | `string`                                 | —           | Accessible label for the loading spinner                                                                                        |
+| `loadingLabelKey`      | `string`                                 | —           | Translation key for the loading spinner label                                                                                   |
 
 ### SolarisFormLabelComponent
 

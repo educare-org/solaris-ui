@@ -16,6 +16,10 @@
     [readonly]="isEffectivelyReadonly()"
     [loading]="loading()"
     [hasSuffixAction]="!!projectedSuffixAction()"
+    [prefix]="prefix()"
+    [suffix]="suffix()"
+    [suffixActionTemplate]="calendarTriggerTemplate"
+    [suffixTemplate]="clearTemplate"
     solaris-popover-trigger
     [solarisPopoverTriggerFor]="rangePopover"
     [solarisPopoverDisabled]="
@@ -47,11 +51,6 @@
       select="[solaris-form-label-action]"
       ngProjectAs="[solaris-form-label-action]"
     />
-    @if (prefix(); as prefixName) {
-      <span solaris-form-prefix>
-        <solaris-icon [name]="prefixName" [decorative]="true" />
-      </span>
-    }
     <button
       #triggerButton
       type="button"
@@ -67,37 +66,36 @@
       {{ rangeDisplay() || placeholderText() }}
     </button>
 
-    <button
-      type="button"
-      appearance="ghost"
-      solaris-icon-button
-      solaris-form-suffix
-      solaris-form-suffix-action
-      class="solaris-date-range-picker__calendar-trigger"
-      [size]="size()"
-      [density]="effectiveDensity()"
-      [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
-      [attr.aria-label]="calendarLabel()"
-    >
-      <solaris-icon name="calendar" [decorative]="true" />
-    </button>
-    <button
-      type="button"
-      solaris-form-suffix
-      class="solaris-date-range-picker__clear"
-      [attr.aria-label]="clearAriaLabel()"
-      [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
-      [hidden]="!canClear() || loading()"
-      (click)="clearValue(); $event.stopPropagation()"
-      tabindex="-1"
-    >
-      <solaris-icon name="x" [decorative]="true" />
-    </button>
-    @if (suffix(); as suffixName) {
-      <span solaris-form-suffix>
-        <solaris-icon [name]="suffixName" [decorative]="true" />
-      </span>
-    }
+    <ng-template #calendarTriggerTemplate>
+      <button
+        type="button"
+        appearance="ghost"
+        solaris-icon-button
+        solaris-form-suffix
+        solaris-form-suffix-action
+        class="solaris-date-range-picker__calendar-trigger"
+        [size]="size()"
+        [density]="effectiveDensity()"
+        [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
+        [attr.aria-label]="calendarLabel()"
+      >
+        <solaris-icon name="calendar" [decorative]="true" />
+      </button>
+    </ng-template>
+    <ng-template #clearTemplate>
+      <button
+        type="button"
+        solaris-form-suffix
+        class="solaris-date-range-picker__clear"
+        [attr.aria-label]="clearAriaLabel()"
+        [disabled]="isEffectivelyDisabled() || isEffectivelyReadonly()"
+        [hidden]="!canClear() || loading()"
+        (click)="clearValue(); $event.stopPropagation()"
+        tabindex="-1"
+      >
+        <solaris-icon name="x" [decorative]="true" />
+      </button>
+    </ng-template>
   </solaris-form-field>
 }
 

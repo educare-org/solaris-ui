@@ -57,7 +57,6 @@ interface RequirementItem {
     FormsModule,
     SolarisFormFieldComponent,
     SolarisInputDirective,
-    SolarisFormPrefixDirective,
     SolarisFormSuffixDirective,
     SolarisFormSuffixActionDirective,
     SolarisIconComponent,
@@ -137,6 +136,14 @@ export class SolarisPasswordFieldComponent
   });
   protected readonly hasSuffix = computed(() => {
     return !!this.suffix() || !!this.projectedSuffix() || this.showToggle();
+  });
+  protected readonly effectivePrefix = computed(() => {
+    const icon = this.prefix();
+    return icon && !this.projectedPrefix() ? icon : undefined;
+  });
+  protected readonly effectiveSuffix = computed(() => {
+    const icon = this.suffix();
+    return icon && !this.projectedSuffix() ? icon : undefined;
   });
 
   readonly showToggle = input<boolean>(true);

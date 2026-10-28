@@ -15,6 +15,7 @@ export default [
             '{projectRoot}/eslint.config.{js,cjs,mjs,ts,cts,mts}',
             '{projectRoot}/**/*.stories.ts',
             '{projectRoot}/**/*.ssr.spec.ts',
+            '{projectRoot}/src/lib/testing/hydration/*.ts',
           ],
           ignoredDependencies: [
             '@angular/common',

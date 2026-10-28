@@ -19,6 +19,9 @@
   [hasPrefix]="hasPrefix()"
   [hasSuffix]="hasSuffix()"
   [hasSuffixAction]="!!projectedSuffixAction()"
+  [prefix]="effectivePrefix()"
+  [suffix]="effectiveSuffix()"
+  [suffixTemplate]="clearTemplate"
 >
   <ng-content
     select="[solaris-form-prefix]"
@@ -36,11 +39,6 @@
     select="[solaris-form-label-action]"
     ngProjectAs="[solaris-form-label-action]"
   />
-  @if (prefix() && !projectedPrefix()) {
-    <span solaris-form-prefix>
-      <solaris-icon [name]="prefix() ?? ''" [decorative]="true" />
-    </span>
-  }
   <input
     type="email"
     #inputElement
@@ -64,21 +62,18 @@
     [attr.maxlength]="maxLength() ?? null"
     [attr.placeholder]="placeholderText() || null"
   />
-  <button
-    type="button"
-    solaris-form-suffix
-    class="solaris-email-field__clear"
-    [attr.aria-label]="clearAriaLabel()"
-    [disabled]="isEffectivelyDisabled() || readonlyInput()"
-    [hidden]="!canClear() || loading()"
-    (click)="clearValue(); $event.stopPropagation()"
-    tabindex="-1"
-  >
-    <solaris-icon name="x" [decorative]="true" />
-  </button>
-  @if (suffix() && !projectedSuffix()) {
-    <span solaris-form-suffix>
-      <solaris-icon [name]="suffix() ?? ''" [decorative]="true" />
-    </span>
-  }
+  <ng-template #clearTemplate>
+    <button
+      type="button"
+      solaris-form-suffix
+      class="solaris-email-field__clear"
+      [attr.aria-label]="clearAriaLabel()"
+      [disabled]="isEffectivelyDisabled() || readonlyInput()"
+      [hidden]="!canClear() || loading()"
+      (click)="clearValue(); $event.stopPropagation()"
+      tabindex="-1"
+    >
+      <solaris-icon name="x" [decorative]="true" />
+    </button>
+  </ng-template>
 </solaris-form-field>

@@ -52,7 +52,6 @@ import { SolarisThemeService } from '../../../../services/theme';
     FormsModule,
     SolarisFormFieldComponent,
     SolarisInputDirective,
-    SolarisFormPrefixDirective,
     SolarisFormSuffixDirective,
     SolarisIconComponent,
   ],
@@ -146,6 +145,14 @@ export class SolarisEmailFieldComponent
   });
   protected readonly hasSuffix = computed(() => {
     return !!this.projectedSuffix() || !!this.suffix() || this.canClear();
+  });
+  protected readonly effectivePrefix = computed(() => {
+    const icon = this.prefix();
+    return icon && !this.projectedPrefix() ? icon : undefined;
+  });
+  protected readonly effectiveSuffix = computed(() => {
+    const icon = this.suffix();
+    return icon && !this.projectedSuffix() ? icon : undefined;
   });
   protected readonly canClear = computed(() => {
     return (
