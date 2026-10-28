@@ -194,13 +194,16 @@ export class SolarisDatePickerComponent
   protected readonly clearAriaLabel = computed(() => {
     const key = this.clearLabelKey();
     if (key) {
-      return this.translateService.translate(key);
+      return this.translateService?.translate(key) ?? key;
     }
     const text = this.clearLabel();
     if (text) {
       return text;
     }
-    return this.translateService.translate('solaris.date-picker.clear');
+    return (
+      this.translateService?.translate('solaris.date-picker.clear') ??
+      'Clear date'
+    );
   });
   protected readonly placeholderText = computed(() =>
     this.resolveText(
@@ -442,7 +445,10 @@ export class SolarisDatePickerComponent
   }
 
   private resolveText(value?: string, key?: string, fallback?: string): string {
-    if (key) return this.translateService.translate(key) || value || '';
-    return value || (fallback ? this.translateService.translate(fallback) : '');
+    if (key) return this.translateService?.translate(key) || value || '';
+    return (
+      value ||
+      (fallback ? (this.translateService?.translate(fallback) ?? '') : '')
+    );
   }
 }

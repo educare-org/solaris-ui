@@ -516,13 +516,16 @@ export class SolarisMultiSelectComponent
   protected readonly clearAriaLabel = computed(() => {
     const key = this.clearLabelKey();
     if (key) {
-      return this.translateService.translate(key);
+      return this.translateService?.translate(key) ?? key;
     }
     const text = this.clearLabel();
     if (text) {
       return text;
     }
-    return this.translateService.translate('solaris.multiSelect.clear');
+    return (
+      this.translateService?.translate('solaris.multiSelect.clear') ??
+      'Clear selection'
+    );
   });
 
   protected readonly selectAllLabelText = computed(() => {

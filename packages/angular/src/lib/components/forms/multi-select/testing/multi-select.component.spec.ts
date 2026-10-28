@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
+import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisMultiSelectComponent } from '../component/multi-select.component';
 import { SolarisOptionComponent } from '../../option/component/option.component';
 import { SolarisOptionGroupComponent } from '../../option-group/component/option-group.component';
@@ -640,6 +641,28 @@ describe('SolarisMultiSelectComponent', () => {
       ) as HTMLButtonElement;
       expect(clearBtn).toBeTruthy();
       expect(clearBtn.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('should render the clear button with a default label without a translate provider', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisMultiSelectComponent, SolarisOptionComponent],
+        template: `
+          <solaris-multi-select [clearable]="true">
+            <solaris-option value="a">Option A</solaris-option>
+          </solaris-multi-select>
+        `,
+        providers: [{ provide: SolarisTranslateService, useValue: null }],
+      })
+      class NoTranslateHost {}
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(NoTranslateHost);
+      expect(() => fixture.detectChanges()).not.toThrow();
+      const clearBtn = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__clear',
+      ) as HTMLButtonElement;
+      expect(clearBtn).toBeTruthy();
+      expect(clearBtn.getAttribute('aria-label')).toBe('Clear selection');
     });
 
     it('should show clear button with selection', () => {
