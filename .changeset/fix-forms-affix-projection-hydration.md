@@ -1,4 +1,6 @@
-## '@educarehq/solaris-ui': patch
+---
+'@educarehq/solaris-ui': patch
+---
 
 fix(forms): hydrate wrapper-owned affix chrome via form-field template outlets
 
