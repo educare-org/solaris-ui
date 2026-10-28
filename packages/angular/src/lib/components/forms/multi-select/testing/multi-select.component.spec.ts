@@ -273,8 +273,9 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const placeholder = fixture.nativeElement.querySelector(
         '.solaris-multi-select__placeholder',
-      );
+      ) as HTMLElement;
       expect(placeholder).toBeTruthy();
+      expect(placeholder.hasAttribute('hidden')).toBe(false);
       expect(placeholder.textContent.trim()).toBe('Select items');
     });
 
@@ -325,7 +326,7 @@ describe('SolarisMultiSelectComponent', () => {
       multiSelect.writeValue(['a', 'b']);
       fixture.detectChanges();
       const chips = fixture.nativeElement.querySelectorAll(
-        '.solaris-multi-select__chip',
+        '.solaris-multi-select__chip:not([hidden])',
       );
       expect(chips.length).toBe(2);
     });
@@ -361,7 +362,7 @@ describe('SolarisMultiSelectComponent', () => {
       multiSelect.writeValue(['a', 'b', 'c']);
       fixture.detectChanges();
       const chips = fixture.nativeElement.querySelectorAll(
-        '.solaris-multi-select__chip',
+        '.solaris-multi-select__chip:not([hidden])',
       );
       expect(chips.length).toBe(2);
       const overflow = fixture.nativeElement.querySelector(
@@ -636,8 +637,9 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const clearBtn = fixture.nativeElement.querySelector(
         '.solaris-multi-select__clear',
-      );
-      expect(clearBtn).toBeFalsy();
+      ) as HTMLButtonElement;
+      expect(clearBtn).toBeTruthy();
+      expect(clearBtn.hasAttribute('hidden')).toBe(true);
     });
 
     it('should show clear button with selection', () => {
@@ -651,8 +653,40 @@ describe('SolarisMultiSelectComponent', () => {
       fixture.detectChanges();
       const clearBtn = fixture.nativeElement.querySelector(
         '.solaris-multi-select__clear',
-      );
+      ) as HTMLButtonElement;
       expect(clearBtn).toBeTruthy();
+      expect(clearBtn.hasAttribute('hidden')).toBe(false);
+    });
+
+    it('should keep the same trigger nodes and only flip hidden when the selection changes (SSR hydration stability)', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.detectChanges();
+      const multiSelect = fixture.debugElement.query(
+        By.css('solaris-multi-select'),
+      ).componentInstance as any;
+      const clearBefore = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__clear',
+      ) as HTMLButtonElement;
+      const valueWrapBefore = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__value',
+      ) as HTMLElement;
+      expect(clearBefore.hasAttribute('hidden')).toBe(true);
+      expect(valueWrapBefore.hasAttribute('hidden')).toBe(false);
+
+      multiSelect.writeValue(['a']);
+      fixture.detectChanges();
+
+      const clearAfter = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__clear',
+      ) as HTMLButtonElement;
+      const valueWrapAfter = fixture.nativeElement.querySelector(
+        '.solaris-multi-select__value',
+      ) as HTMLElement;
+      expect(clearAfter).toBe(clearBefore);
+      expect(valueWrapAfter).toBe(valueWrapBefore);
+      expect(clearAfter.hasAttribute('hidden')).toBe(false);
+      expect(valueWrapAfter.hasAttribute('hidden')).toBe(true);
     });
 
     it('should not show clear in disabled state', () => {
@@ -1803,7 +1837,6 @@ describe('SolarisMultiSelectComponent', () => {
 
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DefaultFallbackHost);
-      fixture.detectChanges();
       const multiSelect = fixture.debugElement.query(
         By.css('solaris-multi-select'),
       ).componentInstance as any;
@@ -1811,6 +1844,7 @@ describe('SolarisMultiSelectComponent', () => {
         translate: (key: string) => string;
       };
       withDefaults.translate = (key: string) => `T:${key}`;
+      fixture.detectChanges();
       expect(multiSelect.emptyTextValue()).toBe('T:solaris.multiSelect.empty');
       expect(multiSelect.noResultsTextValue()).toBe(
         'T:solaris.multiSelect.noResults',

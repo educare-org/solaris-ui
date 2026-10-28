@@ -184,18 +184,18 @@ describe('SolarisDateRangePickerComponent', () => {
         end: null,
       });
       expect(cleared).toBe(1);
-      expect(
-        element.querySelector('.solaris-date-range-picker__clear'),
-      ).toBeNull();
+      expect(button.hasAttribute('hidden')).toBe(true);
     });
 
     it('hides the trigger clear button without value', () => {
       const element = createFixture();
       fixture.componentRef.setInput('clearable', true);
       fixture.detectChanges();
-      expect(
-        element.querySelector('.solaris-date-range-picker__clear'),
-      ).toBeNull();
+      const button = element.querySelector(
+        '.solaris-date-range-picker__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
     });
 
     it('keeps the footer clear action translated (P5 B/C rename)', () => {

@@ -805,6 +805,7 @@ describe('SolarisPasswordFieldComponent', () => {
         By.css('.solaris-password-field__strength'),
       );
       expect(strength).toBeTruthy();
+      expect(strength.nativeElement.hasAttribute('hidden')).toBe(false);
     });
 
     it('does not render strength when showStrength is false', () => {
@@ -819,7 +820,8 @@ describe('SolarisPasswordFieldComponent', () => {
       const strength = fixture.debugElement.query(
         By.css('.solaris-password-field__strength'),
       );
-      expect(strength).toBeFalsy();
+      expect(strength).toBeTruthy();
+      expect(strength.nativeElement.hasAttribute('hidden')).toBe(true);
     });
 
     it('coerces null writeValue to empty without error', () => {
@@ -834,9 +836,11 @@ describe('SolarisPasswordFieldComponent', () => {
         fixture.detectChanges();
       }).not.toThrow();
       expect((field as any).internalValue()).toBe('');
-      expect(
-        fixture.debugElement.query(By.css('.solaris-password-field__strength')),
-      ).toBeFalsy();
+      const strength = fixture.debugElement.query(
+        By.css('.solaris-password-field__strength'),
+      );
+      expect(strength).toBeTruthy();
+      expect(strength.nativeElement.hasAttribute('hidden')).toBe(true);
     });
 
     it('coerces undefined writeValue to empty without error', () => {
@@ -851,9 +855,33 @@ describe('SolarisPasswordFieldComponent', () => {
         fixture.detectChanges();
       }).not.toThrow();
       expect((field as any).internalValue()).toBe('');
-      expect(
-        fixture.debugElement.query(By.css('.solaris-password-field__strength')),
-      ).toBeFalsy();
+      const strength = fixture.debugElement.query(
+        By.css('.solaris-password-field__strength'),
+      );
+      expect(strength).toBeTruthy();
+      expect(strength.nativeElement.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('keeps the same strength-meter node and only flips hidden when the value changes (SSR hydration stability)', () => {
+      const fixture = TestBed.createComponent(StrengthHost);
+      fixture.detectChanges();
+      const before = fixture.nativeElement.querySelector(
+        '.solaris-password-field__strength',
+      ) as HTMLElement;
+      expect(before).toBeTruthy();
+      expect(before.hasAttribute('hidden')).toBe(true);
+
+      const input = fixture.debugElement.query(By.css('input[solaris-input]'));
+      input.nativeElement.value = 'Teste123!';
+      input.nativeElement.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+
+      const after = fixture.nativeElement.querySelector(
+        '.solaris-password-field__strength',
+      ) as HTMLElement;
+      expect(after).toBeTruthy();
+      expect(after.hasAttribute('hidden')).toBe(false);
+      expect(after).toBe(before);
     });
 
     it('shows only first segment active for weak password', () => {

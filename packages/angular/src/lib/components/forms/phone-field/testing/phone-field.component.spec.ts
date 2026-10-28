@@ -452,6 +452,7 @@ describe('SolarisPhoneFieldComponent', () => {
         '.solaris-phone-field__clear',
       ) as HTMLButtonElement;
       expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(false);
       expect(button.getAttribute('aria-label')).toBe('Clear phone number');
     });
 
@@ -472,16 +473,38 @@ describe('SolarisPhoneFieldComponent', () => {
       expect(component.internalValue()).toBe('');
       expect(component.displayValue()).toBe('');
       expect(cleared).toBe(1);
-      expect(
-        fixture.nativeElement.querySelector('.solaris-phone-field__clear'),
-      ).toBeNull();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-phone-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
     });
 
     it('hides the clear button without value', async () => {
       const { fixture } = await setup(ClearableHost);
-      expect(
-        fixture.nativeElement.querySelector('.solaris-phone-field__clear'),
-      ).toBeNull();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-phone-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('keeps the same clear-button node and only flips hidden when the value changes (SSR hydration stability)', async () => {
+      const { fixture, component } = await setup(ClearableHost);
+      const before = fixture.nativeElement.querySelector(
+        '.solaris-phone-field__clear',
+      ) as HTMLButtonElement;
+      expect(before).toBeTruthy();
+      expect(before.hasAttribute('hidden')).toBe(true);
+
+      component.writeValue('+5511987654321');
+      fixture.detectChanges();
+      const after = fixture.nativeElement.querySelector(
+        '.solaris-phone-field__clear',
+      ) as HTMLButtonElement;
+      expect(after).toBeTruthy();
+      expect(after.hasAttribute('hidden')).toBe(false);
+      expect(after).toBe(before);
     });
   });
 

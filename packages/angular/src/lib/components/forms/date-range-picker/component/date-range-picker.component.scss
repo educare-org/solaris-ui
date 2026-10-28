@@ -71,6 +71,10 @@
   color: var(--solaris-neutral-text-heading);
 }
 
+.solaris-date-range-picker__clear[hidden] {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .solaris-date-range-picker__panel {
     animation: none;

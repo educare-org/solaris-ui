@@ -1,7 +1,7 @@
 // @vitest-environment node
 import '@angular/compiler';
 import { Component, type Type } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   bootstrapApplication,
   type BootstrapContext,
@@ -13,6 +13,7 @@ import {
 } from '@angular/platform-server';
 import {
   SolarisEmailFieldComponent,
+  SolarisFormSuffixActionDirective,
   provideSolarisTesting,
 } from '@educarehq/solaris-ui';
 
@@ -58,6 +59,29 @@ class SsrEmailClearableNullHostComponent {
   readonly control = new FormControl<string | null>(null);
 }
 
+@Component({
+  selector: 'solaris-ssr-email-consumer-host',
+  standalone: true,
+  imports: [
+    SolarisEmailFieldComponent,
+    FormsModule,
+    SolarisFormSuffixActionDirective,
+  ],
+  template: `<solaris-email-field
+    label="E-mail"
+    name="email"
+    [clearable]="true"
+    [(ngModel)]="email"
+  >
+    <button type="button" solaris-form-suffix-action [disabled]="!email">
+      Continuar
+    </button>
+  </solaris-email-field>`,
+})
+class SsrEmailConsumerHostComponent {
+  email = '';
+}
+
 async function renderHost(host: Type<unknown>, tag: string): Promise<string> {
   return renderApplication(
     (context: BootstrapContext) =>
@@ -84,24 +108,31 @@ function countContainers(html: string): number {
 }
 
 function hasClearButton(html: string): boolean {
-  return html.includes('solaris-email-field__clear"');
+  return html.includes('solaris-email-field__clear');
+}
+
+function isClearButtonHidden(html: string): boolean {
+  const match = html.match(/<button[^>]*solaris-email-field__clear[^>]*>/);
+  return match !== null && /\bhidden\b/.test(match[0]);
 }
 
 describe('SolarisEmailField SSR (clear-button hydration)', () => {
-  it('omits the value-driven clear button from SSR for empty values', async () => {
+  it('always renders the clear button and hides it for empty values', async () => {
     const html = await renderHost(
       SsrEmailClearableEmptyHostComponent,
       'solaris-ssr-email-clearable-empty-host',
     );
-    expect(hasClearButton(html)).toBe(false);
+    expect(hasClearButton(html)).toBe(true);
+    expect(isClearButtonHidden(html)).toBe(true);
   });
 
-  it('omits the value-driven clear button from SSR for prefilled values', async () => {
+  it('renders the clear button visible for prefilled values without changing the node structure', async () => {
     const html = await renderHost(
       SsrEmailClearableFilledHostComponent,
       'solaris-ssr-email-clearable-filled-host',
     );
-    expect(hasClearButton(html)).toBe(false);
+    expect(hasClearButton(html)).toBe(true);
+    expect(isClearButtonHidden(html)).toBe(false);
   });
 
   it('keeps identical container structure for empty and prefilled values', async () => {
@@ -116,11 +147,36 @@ describe('SolarisEmailField SSR (clear-button hydration)', () => {
     expect(countContainers(filledHtml)).toBe(countContainers(emptyHtml));
   });
 
-  it('renders a null form value without errors and without a clear button', async () => {
+  it('renders a null form value without errors and with a hidden clear button', async () => {
     const html = await renderHost(
       SsrEmailClearableNullHostComponent,
       'solaris-ssr-email-clearable-null-host',
     );
-    expect(hasClearButton(html)).toBe(false);
+    expect(hasClearButton(html)).toBe(true);
+    expect(isClearButtonHidden(html)).toBe(true);
+  });
+
+  it('renders the consumer ngModel + suffix-action layout without errors', async () => {
+    const html = await renderHost(
+      SsrEmailConsumerHostComponent,
+      'solaris-ssr-email-consumer-host',
+    );
+    expect(html).toContain('type="email"');
+    expect(html).toContain('Continuar');
+    expect(html).toContain('solaris-form-suffix-action');
+    expect(hasClearButton(html)).toBe(true);
+    expect(isClearButtonHidden(html)).toBe(true);
+  });
+
+  it('keeps identical container structure between the consumer layout and the empty field', async () => {
+    const emptyHtml = await renderHost(
+      SsrEmailClearableEmptyHostComponent,
+      'solaris-ssr-email-clearable-empty-host',
+    );
+    const consumerHtml = await renderHost(
+      SsrEmailConsumerHostComponent,
+      'solaris-ssr-email-consumer-host',
+    );
+    expect(countContainers(consumerHtml)).toBe(countContainers(emptyHtml));
   });
 });

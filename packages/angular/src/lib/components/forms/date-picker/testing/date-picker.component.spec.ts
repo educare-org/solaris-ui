@@ -148,6 +148,7 @@ describe('SolarisDatePickerComponent', () => {
         '.solaris-date-picker__clear',
       ) as HTMLButtonElement;
       expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(false);
       expect(button.getAttribute('aria-label')).toBe('Clear date');
     });
 
@@ -163,16 +164,16 @@ describe('SolarisDatePickerComponent', () => {
       ).componentInstance as SolarisDatePickerComponent;
       expect((picker as any).value()).toBeNull();
       expect(host.clearedCount).toBe(1);
-      expect(
-        fixture.nativeElement.querySelector('.solaris-date-picker__clear'),
-      ).toBeNull();
+      expect(button.hasAttribute('hidden')).toBe(true);
     });
 
     it('hides the clear button without value', () => {
       const { fixture } = setupClearable(null);
-      expect(
-        fixture.nativeElement.querySelector('.solaris-date-picker__clear'),
-      ).toBeNull();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-date-picker__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
     });
 
     it('hides the clear button when disabled', () => {
@@ -197,9 +198,11 @@ describe('SolarisDatePickerComponent', () => {
       ).componentInstance as SolarisDatePickerComponent;
       picker.writeValue('2025-01-16');
       fixture.detectChanges();
-      expect(
-        fixture.nativeElement.querySelector('.solaris-date-picker__clear'),
-      ).toBeNull();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-date-picker__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.hasAttribute('hidden')).toBe(true);
     });
 
     it('resets a dirty query on Escape instead of closing (P5 B/C)', () => {
