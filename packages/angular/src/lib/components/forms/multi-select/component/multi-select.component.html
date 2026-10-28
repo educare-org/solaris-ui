@@ -12,6 +12,8 @@
   [loading]="loading()"
   [hasPrefix]="!!prefix()"
   [hasSuffixAction]="!!projectedSuffixAction()"
+  [prefix]="prefix()"
+  [suffix]="suffix()"
   solaris-popover-trigger
   [solarisPopoverDisabled]="!canOpen()"
   [solarisPopoverTriggerFor]="matchWidthPopover"
@@ -46,16 +48,6 @@
     select="[solaris-form-label-action]"
     ngProjectAs="[solaris-form-label-action]"
   />
-  @if (prefix(); as iconName) {
-    <span solaris-form-prefix>
-      <solaris-icon [name]="iconName" [decorative]="true" />
-    </span>
-  }
-  @if (suffix(); as suffixName) {
-    <span solaris-form-suffix>
-      <solaris-icon [name]="suffixName" [decorative]="true" />
-    </span>
-  }
 
   <div
     #triggerEl

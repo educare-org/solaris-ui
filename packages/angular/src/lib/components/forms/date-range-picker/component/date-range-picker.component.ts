@@ -23,7 +23,6 @@ import {
 } from '../../../interaction/popover';
 import {
   SolarisFormFieldComponent,
-  SolarisFormPrefixDirective,
   SolarisFormSuffixActionDirective,
   SolarisFormSuffixDirective,
 } from '../../form-field';
@@ -69,7 +68,6 @@ const EMPTY_RANGE: SolarisDateRange = { start: null, end: null };
     SolarisButtonDirective,
     SolarisDateCalendarComponent,
     SolarisFormFieldComponent,
-    SolarisFormPrefixDirective,
     SolarisFormSuffixActionDirective,
     SolarisFormSuffixDirective,
     SolarisIconComponent,

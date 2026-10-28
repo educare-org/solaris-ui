@@ -20,7 +20,6 @@ import {
 } from '../../../interaction/popover';
 import {
   SolarisFormFieldComponent,
-  SolarisFormPrefixDirective,
   SolarisFormSuffixActionDirective,
   SolarisFormSuffixDirective,
 } from '../../form-field';
@@ -59,7 +58,6 @@ import { SolarisIconButtonDirective } from '../../../actions/icon-button';
   imports: [
     SolarisDateCalendarComponent,
     SolarisFormFieldComponent,
-    SolarisFormPrefixDirective,
     SolarisFormSuffixActionDirective,
     SolarisFormSuffixDirective,
     SolarisIconComponent,
