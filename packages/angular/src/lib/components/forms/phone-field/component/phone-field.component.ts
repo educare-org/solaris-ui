@@ -12,7 +12,6 @@ import {
   ElementRef,
   AfterViewInit,
   OnDestroy,
-  afterNextRender,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
@@ -176,7 +175,6 @@ export class SolarisPhoneFieldComponent
   protected readonly internalFocused = signal(false);
   protected readonly touched = signal(false);
   protected readonly dirty = signal(false);
-  protected readonly hydrated = signal(false);
   protected readonly selectedCountry = signal<SolarisCountryCode | undefined>(
     undefined,
   );
@@ -482,9 +480,6 @@ export class SolarisPhoneFieldComponent
 
   constructor() {
     super();
-    afterNextRender(() => {
-      this.hydrated.set(true);
-    });
     effect(() => {
       const value = this.value();
       if (value !== this.lastAppliedValue) {

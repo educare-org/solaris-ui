@@ -67,9 +67,15 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const valueEl = fixture.nativeElement.querySelector(
         '.solaris-select__value-text',
-      );
+      ) as HTMLElement;
       expect(valueEl).toBeTruthy();
+      expect(valueEl.hasAttribute('hidden')).toBe(false);
       expect(valueEl.textContent.trim()).toBe('Option A');
+      const placeholder = fixture.nativeElement.querySelector(
+        '.solaris-select__placeholder',
+      ) as HTMLElement;
+      expect(placeholder).toBeTruthy();
+      expect(placeholder.hasAttribute('hidden')).toBe(true);
     });
 
     it('should find content children options', () => {
@@ -101,8 +107,14 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const placeholder = fixture.nativeElement.querySelector(
         '.solaris-select__placeholder',
-      );
+      ) as HTMLElement;
       expect(placeholder).toBeTruthy();
+      expect(placeholder.hasAttribute('hidden')).toBe(false);
+      const valueEl = fixture.nativeElement.querySelector(
+        '.solaris-select__value-text',
+      ) as HTMLElement;
+      expect(valueEl).toBeTruthy();
+      expect(valueEl.hasAttribute('hidden')).toBe(true);
     });
   });
 
@@ -194,8 +206,9 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const clearBtn = fixture.nativeElement.querySelector(
         '.solaris-select__clear',
-      );
-      expect(clearBtn).toBeFalsy();
+      ) as HTMLButtonElement;
+      expect(clearBtn).toBeTruthy();
+      expect(clearBtn.hasAttribute('hidden')).toBe(true);
     });
   });
 
@@ -1453,13 +1466,13 @@ describe('SolarisSelectComponent', () => {
 
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(DefaultFallbackHost);
-      fixture.detectChanges();
       const select = fixture.debugElement.query(By.css('solaris-select'))
         .componentInstance as any;
       const withDefaults = select['translateService'] as {
         translate: (key: string) => string;
       };
       withDefaults.translate = (key: string) => `T:${key}`;
+      fixture.detectChanges();
       expect(select.loadingTextValue()).toBe('T:solaris.select.loading');
       expect(select.emptyTextValue()).toBe('T:solaris.select.empty');
       expect(select.noResultsTextValue()).toBe('T:solaris.select.noResults');
@@ -1827,9 +1840,11 @@ describe('SolarisSelectComponent', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(ClearableHost);
       fixture.detectChanges();
-      expect(
-        fixture.nativeElement.querySelector('.solaris-select__clear'),
-      ).toBeFalsy();
+      const clearBtn = fixture.nativeElement.querySelector(
+        '.solaris-select__clear',
+      ) as HTMLButtonElement;
+      expect(clearBtn).toBeTruthy();
+      expect(clearBtn.hasAttribute('hidden')).toBe(true);
     });
 
     it('should render a clear button once a value is set and clear on click', () => {
@@ -1842,14 +1857,52 @@ describe('SolarisSelectComponent', () => {
       fixture.detectChanges();
       const clearBtn = fixture.nativeElement.querySelector(
         '.solaris-select__clear',
-      );
+      ) as HTMLButtonElement;
       expect(clearBtn).toBeTruthy();
+      expect(clearBtn.hasAttribute('hidden')).toBe(false);
       clearBtn.click();
       fixture.detectChanges();
       expect(fixture.componentInstance.clearedCount).toBe(1);
-      expect(
-        fixture.nativeElement.querySelector('.solaris-select__clear'),
-      ).toBeFalsy();
+      expect(clearBtn.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('should keep the same trigger nodes and only flip hidden when the value changes (SSR hydration stability)', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(ClearableHost);
+      fixture.detectChanges();
+      const select = fixture.debugElement.query(By.css('solaris-select'))
+        .componentInstance as SolarisSelectComponent;
+      const clearBefore = fixture.nativeElement.querySelector(
+        '.solaris-select__clear',
+      ) as HTMLButtonElement;
+      const valueBefore = fixture.nativeElement.querySelector(
+        '.solaris-select__value-text',
+      ) as HTMLElement;
+      const placeholderBefore = fixture.nativeElement.querySelector(
+        '.solaris-select__placeholder',
+      ) as HTMLElement;
+      expect(clearBefore.hasAttribute('hidden')).toBe(true);
+      expect(valueBefore.hasAttribute('hidden')).toBe(true);
+      expect(placeholderBefore.hasAttribute('hidden')).toBe(false);
+
+      select.writeValue('a');
+      fixture.detectChanges();
+
+      const clearAfter = fixture.nativeElement.querySelector(
+        '.solaris-select__clear',
+      ) as HTMLButtonElement;
+      const valueAfter = fixture.nativeElement.querySelector(
+        '.solaris-select__value-text',
+      ) as HTMLElement;
+      const placeholderAfter = fixture.nativeElement.querySelector(
+        '.solaris-select__placeholder',
+      ) as HTMLElement;
+      expect(clearAfter).toBe(clearBefore);
+      expect(valueAfter).toBe(valueBefore);
+      expect(placeholderAfter).toBe(placeholderBefore);
+      expect(clearAfter.hasAttribute('hidden')).toBe(false);
+      expect(valueAfter.hasAttribute('hidden')).toBe(false);
+      expect(placeholderAfter.hasAttribute('hidden')).toBe(true);
     });
   });
 

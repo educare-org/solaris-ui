@@ -73,24 +73,33 @@ function countContainers(html: string): number {
 }
 
 function hasClearButton(html: string): boolean {
-  return html.includes('solaris-date-range-picker__clear"');
+  return html.includes('solaris-date-range-picker__clear');
+}
+
+function isClearButtonHidden(html: string): boolean {
+  const match = html.match(
+    /<button[^>]*solaris-date-range-picker__clear[^>]*>/,
+  );
+  return match !== null && /\bhidden\b/.test(match[0]);
 }
 
 describe('SolarisDateRangePicker SSR (clear-button hydration)', () => {
-  it('omits the value-driven clear button from SSR for empty values', async () => {
+  it('always renders the clear button and hides it for empty values', async () => {
     const html = await renderHost(
       SsrDateRangeClearableEmptyHostComponent,
       'solaris-ssr-date-range-clearable-empty-host',
     );
-    expect(hasClearButton(html)).toBe(false);
+    expect(hasClearButton(html)).toBe(true);
+    expect(isClearButtonHidden(html)).toBe(true);
   });
 
-  it('omits the value-driven clear button from SSR for prefilled values', async () => {
+  it('renders the clear button visible for prefilled values without changing the node structure', async () => {
     const html = await renderHost(
       SsrDateRangeClearableFilledHostComponent,
       'solaris-ssr-date-range-clearable-filled-host',
     );
-    expect(hasClearButton(html)).toBe(false);
+    expect(hasClearButton(html)).toBe(true);
+    expect(isClearButtonHidden(html)).toBe(false);
   });
 
   it('keeps identical container structure for empty and prefilled values', async () => {

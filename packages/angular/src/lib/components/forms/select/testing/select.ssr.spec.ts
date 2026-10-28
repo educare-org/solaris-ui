@@ -84,28 +84,57 @@ function countContainers(html: string): number {
   return html.match(/<!--container-->/g)?.length ?? 0;
 }
 
-function hasValueDrivenDom(html: string): boolean {
+function isHidden(tag: string | null): boolean {
+  return tag !== null && /\bhidden\b/.test(tag);
+}
+
+function matchTag(
+  html: string,
+  tagName: string,
+  className: string,
+): string | null {
   return (
-    html.includes('solaris-select__clear"') ||
-    html.includes('solaris-select__value-text"')
+    html.match(new RegExp(`<${tagName}[^>]*${className}[^>]*>`))?.[0] ?? null
   );
 }
 
 describe('SolarisSelect SSR (value-driven trigger hydration)', () => {
-  it('renders placeholder trigger content from SSR for empty values', async () => {
+  it('always renders trigger chrome and hides value content for empty values', async () => {
     const html = await renderHost(
       SsrSelectClearableEmptyHostComponent,
       'solaris-ssr-select-clearable-empty-host',
     );
-    expect(hasValueDrivenDom(html)).toBe(false);
+    expect(matchTag(html, 'span', 'solaris-select__value-text')).not.toBeNull();
+    expect(
+      matchTag(html, 'span', 'solaris-select__placeholder'),
+    ).not.toBeNull();
+    expect(matchTag(html, 'button', 'solaris-select__clear')).not.toBeNull();
+    expect(isHidden(matchTag(html, 'span', 'solaris-select__value-text'))).toBe(
+      true,
+    );
+    expect(
+      isHidden(matchTag(html, 'span', 'solaris-select__placeholder')),
+    ).toBe(false);
+    expect(isHidden(matchTag(html, 'button', 'solaris-select__clear'))).toBe(
+      true,
+    );
   });
 
-  it('renders placeholder trigger content from SSR for selected values', async () => {
+  it('renders value content visible for selected values without changing the node structure', async () => {
     const html = await renderHost(
       SsrSelectClearableFilledHostComponent,
       'solaris-ssr-select-clearable-filled-host',
     );
-    expect(hasValueDrivenDom(html)).toBe(false);
+    expect(html).toContain('Option A');
+    expect(isHidden(matchTag(html, 'span', 'solaris-select__value-text'))).toBe(
+      false,
+    );
+    expect(
+      isHidden(matchTag(html, 'span', 'solaris-select__placeholder')),
+    ).toBe(true);
+    expect(isHidden(matchTag(html, 'button', 'solaris-select__clear'))).toBe(
+      false,
+    );
   });
 
   it('keeps identical container structure for empty and selected values', async () => {

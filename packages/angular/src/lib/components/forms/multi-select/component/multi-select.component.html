@@ -77,23 +77,94 @@
   >
     <div class="solaris-multi-select__trigger-content" #triggerContent>
       @if (displayMode() === 'auto') {
-        @if (showValue()) {
-          @if (showCountOnly()) {
-            <span
-              class="solaris-multi-select__chip"
-              [solarisTooltip]="countTooltipText()"
-              [solarisTooltipTrigger]="'hover'"
-              tabindex="0"
-            >
+        <span
+          class="solaris-multi-select__chip"
+          [solarisTooltip]="countTooltipText()"
+          [solarisTooltipTrigger]="'hover'"
+          tabindex="0"
+          [hidden]="!showValue() || !showCountOnly()"
+        >
+          <span class="solaris-multi-select__chip-label">{{
+            summaryText()
+          }}</span>
+        </span>
+        <div
+          class="solaris-multi-select__chips solaris-multi-select__chips--auto"
+          [hidden]="!showValue() || showCountOnly()"
+        >
+          @for (opt of autoVisibleChips(); track opt) {
+            <span class="solaris-multi-select__chip" role="listitem">
               <span class="solaris-multi-select__chip-label">{{
-                summaryText()
+                getOptionDisplayLabel(opt)
               }}</span>
+              @if (!isEffectivelyDisabled() && !isEffectivelyReadonly()) {
+                <button
+                  type="button"
+                  class="solaris-multi-select__chip-remove"
+                  [attr.aria-label]="removeChipAriaLabel()"
+                  (click)="removeChip(opt, $event)"
+                  tabindex="-1"
+                >
+                  <solaris-icon name="x" [decorative]="true" />
+                </button>
+              }
             </span>
-          } @else {
-            <div
-              class="solaris-multi-select__chips solaris-multi-select__chips--auto"
-            >
-              @for (opt of autoVisibleChips(); track opt) {
+          }
+          <span
+            class="solaris-multi-select__chip-overflow"
+            [solarisTooltip]="autoOverflowTooltipText()"
+            [solarisTooltipTrigger]="'hover'"
+            tabindex="0"
+            [hidden]="!autoShowOverflow()"
+            [attr.aria-label]="
+              '+ ' + autoOverflowCount() + ' ' + selectedLabels().join(', ')
+            "
+            >+{{ autoOverflowCount() }}</span
+          >
+        </div>
+        @if (searchable() && panelOpen()) {
+          <input
+            #searchInput
+            type="text"
+            class="solaris-multi-select__search-input"
+            [attr.placeholder]="searchPlaceholderText()"
+            [value]="searchQuery()"
+            (input)="onSearchInput($event)"
+            (keydown)="onSearchKeydown($event)"
+            (click)="$event.stopPropagation()"
+            role="searchbox"
+            autocomplete="off"
+          />
+        }
+        <span
+          class="solaris-multi-select__value"
+          [hidden]="showValue() || (searchable() && panelOpen())"
+        >
+          <span class="solaris-multi-select__placeholder">{{
+            placeholderText()
+          }}</span>
+        </span>
+      } @else {
+        @if (searchable() && panelOpen()) {
+          <input
+            #searchInput
+            type="text"
+            class="solaris-multi-select__search-input"
+            [attr.placeholder]="searchPlaceholderText()"
+            [value]="searchQuery()"
+            (input)="onSearchInput($event)"
+            (keydown)="onSearchKeydown($event)"
+            (click)="$event.stopPropagation()"
+            role="searchbox"
+            autocomplete="off"
+          />
+        } @else {
+          @if (displayMode() === 'chips') {
+            <div class="solaris-multi-select__chips" [hidden]="!showValue()">
+              @for (
+                opt of selectedOptions().slice(0, maxVisibleChips());
+                track opt
+              ) {
                 <span class="solaris-multi-select__chip" role="listitem">
                   <span class="solaris-multi-select__chip-label">{{
                     getOptionDisplayLabel(opt)
@@ -111,136 +182,55 @@
                   }
                 </span>
               }
-              @if (autoShowOverflow()) {
-                <span
-                  class="solaris-multi-select__chip-overflow"
-                  [solarisTooltip]="autoOverflowTooltipText()"
-                  [solarisTooltipTrigger]="'hover'"
-                  tabindex="0"
-                  [attr.aria-label]="
-                    '+ ' +
-                    autoOverflowCount() +
-                    ' ' +
-                    selectedLabels().join(', ')
-                  "
-                  >+{{ autoOverflowCount() }}</span
-                >
-              }
+              <span
+                class="solaris-multi-select__chip-overflow"
+                [hidden]="!(overflowCount() > 0)"
+                [attr.aria-label]="
+                  '+ ' + overflowCount() + ' ' + selectedLabels().join(', ')
+                "
+              >
+                {{ overflowText() }}
+              </span>
             </div>
+          } @else if (displayMode() === 'comma') {
+            <span class="solaris-multi-select__value" [hidden]="!showValue()">
+              <span class="solaris-multi-select__value-text">{{
+                commaText()
+              }}</span>
+            </span>
+          } @else {
+            <span
+              class="solaris-multi-select__chip"
+              [solarisTooltip]="countTooltipText()"
+              [solarisTooltipTrigger]="'hover'"
+              tabindex="0"
+              [hidden]="!showValue()"
+            >
+              <span class="solaris-multi-select__chip-label">{{
+                summaryText()
+              }}</span>
+            </span>
           }
-        }
-        @if (searchable() && panelOpen()) {
-          <input
-            #searchInput
-            type="text"
-            class="solaris-multi-select__search-input"
-            [attr.placeholder]="searchPlaceholderText()"
-            [value]="searchQuery()"
-            (input)="onSearchInput($event)"
-            (keydown)="onSearchKeydown($event)"
-            (click)="$event.stopPropagation()"
-            role="searchbox"
-            autocomplete="off"
-          />
-        }
-        @if (!showValue() && !(searchable() && panelOpen())) {
-          <span class="solaris-multi-select__value">
+          <span class="solaris-multi-select__value" [hidden]="showValue()">
             <span class="solaris-multi-select__placeholder">{{
               placeholderText()
             }}</span>
           </span>
         }
-      } @else {
-        @if (searchable() && panelOpen()) {
-          <input
-            #searchInput
-            type="text"
-            class="solaris-multi-select__search-input"
-            [attr.placeholder]="searchPlaceholderText()"
-            [value]="searchQuery()"
-            (input)="onSearchInput($event)"
-            (keydown)="onSearchKeydown($event)"
-            (click)="$event.stopPropagation()"
-            role="searchbox"
-            autocomplete="off"
-          />
-        } @else {
-          @if (showValue()) {
-            @if (displayMode() === 'chips') {
-              <div class="solaris-multi-select__chips">
-                @for (
-                  opt of selectedOptions().slice(0, maxVisibleChips());
-                  track opt
-                ) {
-                  <span class="solaris-multi-select__chip" role="listitem">
-                    <span class="solaris-multi-select__chip-label">{{
-                      getOptionDisplayLabel(opt)
-                    }}</span>
-                    @if (!isEffectivelyDisabled() && !isEffectivelyReadonly()) {
-                      <button
-                        type="button"
-                        class="solaris-multi-select__chip-remove"
-                        [attr.aria-label]="removeChipAriaLabel()"
-                        (click)="removeChip(opt, $event)"
-                        tabindex="-1"
-                      >
-                        <solaris-icon name="x" [decorative]="true" />
-                      </button>
-                    }
-                  </span>
-                }
-                @if (overflowCount() > 0) {
-                  <span
-                    class="solaris-multi-select__chip-overflow"
-                    [attr.aria-label]="
-                      '+ ' + overflowCount() + ' ' + selectedLabels().join(', ')
-                    "
-                  >
-                    {{ overflowText() }}
-                  </span>
-                }
-              </div>
-            } @else if (displayMode() === 'comma') {
-              <span class="solaris-multi-select__value">
-                <span class="solaris-multi-select__value-text">{{
-                  commaText()
-                }}</span>
-              </span>
-            } @else {
-              <span
-                class="solaris-multi-select__chip"
-                [solarisTooltip]="countTooltipText()"
-                [solarisTooltipTrigger]="'hover'"
-                tabindex="0"
-              >
-                <span class="solaris-multi-select__chip-label">{{
-                  summaryText()
-                }}</span>
-              </span>
-            }
-          } @else {
-            <span class="solaris-multi-select__value">
-              <span class="solaris-multi-select__placeholder">{{
-                placeholderText()
-              }}</span>
-            </span>
-          }
-        }
       }
     </div>
 
     <span class="solaris-multi-select__actions">
-      @if (hydrated() && canClear() && !loading()) {
-        <button
-          type="button"
-          class="solaris-multi-select__clear"
-          [attr.aria-label]="clearAriaLabel()"
-          (click)="clearValue(); $event.stopPropagation()"
-          tabindex="-1"
-        >
-          <solaris-icon name="x" [decorative]="true" />
-        </button>
-      }
+      <button
+        type="button"
+        class="solaris-multi-select__clear"
+        [attr.aria-label]="clearAriaLabel()"
+        [hidden]="!canClear() || loading()"
+        (click)="clearValue(); $event.stopPropagation()"
+        tabindex="-1"
+      >
+        <solaris-icon name="x" [decorative]="true" />
+      </button>
 
       @if (!loading()) {
         <solaris-icon

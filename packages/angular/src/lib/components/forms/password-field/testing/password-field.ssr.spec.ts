@@ -70,24 +70,31 @@ function countContainers(html: string): number {
 }
 
 function hasStrengthMeter(html: string): boolean {
-  return html.includes('solaris-password-field__strength"');
+  return html.includes('solaris-password-field__strength');
+}
+
+function isStrengthMeterHidden(html: string): boolean {
+  const match = html.match(/<div[^>]*solaris-password-field__strength[^>]*>/);
+  return match !== null && /\bhidden\b/.test(match[0]);
 }
 
 describe('SolarisPasswordField SSR (strength-meter hydration)', () => {
-  it('omits the value-driven strength meter from SSR for empty values', async () => {
+  it('always renders the strength meter and hides it for empty values', async () => {
     const html = await renderHost(
       SsrPasswordStrengthEmptyHostComponent,
       'solaris-ssr-password-strength-empty-host',
     );
-    expect(hasStrengthMeter(html)).toBe(false);
+    expect(hasStrengthMeter(html)).toBe(true);
+    expect(isStrengthMeterHidden(html)).toBe(true);
   });
 
-  it('omits the value-driven strength meter from SSR for prefilled values', async () => {
+  it('renders the strength meter visible for prefilled values without changing the node structure', async () => {
     const html = await renderHost(
       SsrPasswordStrengthFilledHostComponent,
       'solaris-ssr-password-strength-filled-host',
     );
-    expect(hasStrengthMeter(html)).toBe(false);
+    expect(hasStrengthMeter(html)).toBe(true);
+    expect(isStrengthMeterHidden(html)).toBe(false);
   });
 
   it('keeps identical container structure for empty and prefilled values', async () => {

@@ -191,6 +191,10 @@
   color: var(--solaris-neutral-text-heading);
 }
 
+.solaris-phone-field__clear[hidden] {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .solaris-phone-field__clear {
     transition: none;

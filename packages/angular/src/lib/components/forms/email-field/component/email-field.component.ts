@@ -10,7 +10,6 @@ import {
   contentChild,
   ElementRef,
   isDevMode,
-  afterNextRender,
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
@@ -173,14 +172,6 @@ export class SolarisEmailFieldComponent
   protected readonly internalFocused = signal(false);
   protected readonly touched = signal(false);
   protected readonly dirty = signal(false);
-  protected readonly hydrated = signal(false);
-
-  constructor() {
-    super();
-    afterNextRender(() => {
-      this.hydrated.set(true);
-    });
-  }
 
   protected readonly effectiveDensity = computed<SolarisEmailFieldDensity>(
     () => {

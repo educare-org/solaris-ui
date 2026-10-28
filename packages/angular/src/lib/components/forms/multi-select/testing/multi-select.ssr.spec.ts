@@ -84,28 +84,53 @@ function countContainers(html: string): number {
   return html.match(/<!--container-->/g)?.length ?? 0;
 }
 
-function hasValueDrivenDom(html: string): boolean {
+function isHidden(tag: string | null): boolean {
+  return tag !== null && /\bhidden\b/.test(tag);
+}
+
+function matchTag(
+  html: string,
+  tagName: string,
+  className: string,
+): string | null {
   return (
-    html.includes('solaris-multi-select__clear"') ||
-    html.includes('solaris-multi-select__chip"')
+    html.match(
+      new RegExp(`<${tagName}[^>]*${className}(?=["\\s])[^>]*>`),
+    )?.[0] ?? null
   );
 }
 
+const PLACEHOLDER_WRAPPER = 'solaris-multi-select__value';
+
 describe('SolarisMultiSelect SSR (value-driven trigger hydration)', () => {
-  it('renders placeholder trigger content from SSR for empty values', async () => {
+  it('always renders trigger chrome and hides value content for empty values', async () => {
     const html = await renderHost(
       SsrMultiSelectClearableEmptyHostComponent,
       'solaris-ssr-multi-select-clearable-empty-host',
     );
-    expect(hasValueDrivenDom(html)).toBe(false);
+    expect(
+      matchTag(html, 'button', 'solaris-multi-select__clear'),
+    ).not.toBeNull();
+    expect(matchTag(html, 'span', PLACEHOLDER_WRAPPER)).not.toBeNull();
+    expect(
+      isHidden(matchTag(html, 'button', 'solaris-multi-select__clear')),
+    ).toBe(true);
+    expect(isHidden(matchTag(html, 'span', PLACEHOLDER_WRAPPER))).toBe(false);
   });
 
-  it('renders placeholder trigger content from SSR for selected values', async () => {
+  it('renders value content visible for selected values without changing the node structure', async () => {
     const html = await renderHost(
       SsrMultiSelectClearableFilledHostComponent,
       'solaris-ssr-multi-select-clearable-filled-host',
     );
-    expect(hasValueDrivenDom(html)).toBe(false);
+    expect(
+      matchTag(html, 'button', 'solaris-multi-select__clear'),
+    ).not.toBeNull();
+    expect(matchTag(html, 'div', 'solaris-multi-select__chips')).not.toBeNull();
+    expect(
+      isHidden(matchTag(html, 'button', 'solaris-multi-select__clear')),
+    ).toBe(false);
+    expect(isHidden(matchTag(html, 'span', PLACEHOLDER_WRAPPER))).toBe(true);
   });
 
   it('keeps identical container structure for empty and selected values', async () => {

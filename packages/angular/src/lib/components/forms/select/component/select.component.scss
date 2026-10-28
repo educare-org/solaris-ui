@@ -64,6 +64,11 @@
   min-width: var(--solaris-select-value-min-width);
 }
 
+.solaris-select__value-text[hidden],
+.solaris-select__clear[hidden] {
+  display: none;
+}
+
 .solaris-select__placeholder {
   font-size: var(--solaris-select-font-size);
   color: var(--solaris-select-placeholder-color);
