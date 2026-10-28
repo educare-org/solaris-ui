@@ -1847,6 +1847,28 @@ describe('SolarisSelectComponent', () => {
       expect(clearBtn.hasAttribute('hidden')).toBe(true);
     });
 
+    it('should render the clear button with a default label without a translate provider', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisSelectComponent, SolarisOptionComponent],
+        template: `
+          <solaris-select [clearable]="true">
+            <solaris-option value="a">Option A</solaris-option>
+          </solaris-select>
+        `,
+        providers: [{ provide: SolarisTranslateService, useValue: null }],
+      })
+      class NoTranslateHost {}
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(NoTranslateHost);
+      expect(() => fixture.detectChanges()).not.toThrow();
+      const clearBtn = fixture.nativeElement.querySelector(
+        '.solaris-select__clear',
+      ) as HTMLButtonElement;
+      expect(clearBtn).toBeTruthy();
+      expect(clearBtn.getAttribute('aria-label')).toBe('Clear selection');
+    });
+
     it('should render a clear button once a value is set and clear on click', () => {
       TestBed.configureTestingModule({});
       const fixture = TestBed.createComponent(ClearableHost);

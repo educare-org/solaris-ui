@@ -14,6 +14,7 @@ import { SolarisFormSuffixDirective } from '../../form-field/directives/form-suf
 import { SolarisFormSuffixActionDirective } from '../../form-field/directives/form-suffix-action.directive';
 
 import { provideSolarisTesting } from '../../../../testing/provide-solaris-testing';
+import { SolarisTranslateService } from '../../../../services/translation';
 
 @Component({
   standalone: true,
@@ -1293,6 +1294,27 @@ describe('SolarisEmailFieldComponent', () => {
       ) as HTMLButtonElement;
       expect(button).toBeTruthy();
       expect(button.hasAttribute('hidden')).toBe(true);
+    });
+
+    it('renders the clear button with a default label without a translate provider', () => {
+      @Component({
+        standalone: true,
+        imports: [SolarisEmailFieldComponent, ReactiveFormsModule],
+        template: `<solaris-email-field
+          label="E-mail"
+          [clearable]="true"
+        ></solaris-email-field>`,
+        providers: [{ provide: SolarisTranslateService, useValue: null }],
+      })
+      class NoTranslateHost {}
+
+      const fixture = TestBed.createComponent(NoTranslateHost);
+      expect(() => fixture.detectChanges()).not.toThrow();
+      const button = fixture.nativeElement.querySelector(
+        '.solaris-email-field__clear',
+      ) as HTMLButtonElement;
+      expect(button).toBeTruthy();
+      expect(button.getAttribute('aria-label')).toBe('Clear email');
     });
   });
 });
