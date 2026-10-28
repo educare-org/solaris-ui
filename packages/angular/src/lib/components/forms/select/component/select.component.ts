@@ -380,13 +380,16 @@ export class SolarisSelectComponent
   protected readonly clearAriaLabel = computed(() => {
     const key = this.clearLabelKey();
     if (key) {
-      return this.translateService.translate(key);
+      return this.translateService?.translate(key) ?? key;
     }
     const text = this.clearLabel();
     if (text) {
       return text;
     }
-    return this.translateService.translate('solaris.select.clear');
+    return (
+      this.translateService?.translate('solaris.select.clear') ??
+      'Clear selection'
+    );
   });
 
   protected readonly ariaLabelText = computed(() => {

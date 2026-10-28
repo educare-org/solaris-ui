@@ -164,7 +164,10 @@ export class SolarisEmailFieldComponent
     if (text) {
       return text;
     }
-    return this.translateService.translate('solaris.email-field.clear');
+    return this.translateWithDefault(
+      'solaris.email-field.clear',
+      'Clear email',
+    );
   });
 
   protected readonly internalValue = signal<string>('');
@@ -392,13 +395,15 @@ export class SolarisEmailFieldComponent
     defaultText: string,
     params?: SolarisTranslateParams,
   ): string {
-    const result = this.translateService.translate(key, params);
-    return result !== key ? result : defaultText;
+    const translated = this.translateService?.translate(key, params);
+    if (translated === undefined || translated === null) return defaultText;
+    return translated !== key ? translated : defaultText;
   }
 
   private translateKey(key: string | undefined): string | undefined {
     if (key) {
-      const translated = this.translateService.translate(key);
+      const translated = this.translateService?.translate(key);
+      if (translated === undefined || translated === null) return undefined;
       return translated !== key ? translated : undefined;
     }
     return undefined;
