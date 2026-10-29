@@ -1,0 +1,100 @@
+import type { SolarisMediaSlide } from './solaris-media-slide';
+import type { SolarisMediaCarouselDotsPosition } from './media-carousel-dots-position';
+import type { SolarisMediaCarouselNavigation } from './media-carousel-navigation';
+import type { SolarisMediaCarouselObjectFit } from './media-carousel-object-fit';
+import type { SolarisMediaCarouselRadius } from './media-carousel-radius';
+import type { SolarisMediaCarouselVisibleCount } from './media-carousel-visible-count';
+
+export const DEFAULT_MEDIA_CAROUSEL_ACTIVE_INDEX = 0;
+export const DEFAULT_MEDIA_CAROUSEL_VISIBLE_COUNT: SolarisMediaCarouselVisibleCount =
+  'single';
+export const DEFAULT_MEDIA_CAROUSEL_NAVIGATION: SolarisMediaCarouselNavigation =
+  'dots';
+export const DEFAULT_MEDIA_CAROUSEL_DOTS_POSITION: SolarisMediaCarouselDotsPosition =
+  'overlay';
+export const DEFAULT_MEDIA_CAROUSEL_LOOP = true;
+export const DEFAULT_MEDIA_CAROUSEL_SHOW_ARROWS = true;
+export const DEFAULT_MEDIA_CAROUSEL_AUTOPLAY = false;
+export const DEFAULT_MEDIA_CAROUSEL_DURATION = 5000;
+export const DEFAULT_MEDIA_CAROUSEL_PAUSE_ON_HOVER = true;
+export const DEFAULT_MEDIA_CAROUSEL_ASPECT_RATIO = '16 / 9';
+export const DEFAULT_MEDIA_CAROUSEL_OBJECT_FIT: SolarisMediaCarouselObjectFit =
+  'cover';
+export const DEFAULT_MEDIA_CAROUSEL_RADIUS: SolarisMediaCarouselRadius = 'lg';
+
+export const MEDIA_CAROUSEL_PREV_LABEL_KEY = 'carousel.prev';
+export const MEDIA_CAROUSEL_PREV_LABEL = 'Previous slide';
+export const MEDIA_CAROUSEL_NEXT_LABEL_KEY = 'carousel.next';
+export const MEDIA_CAROUSEL_NEXT_LABEL = 'Next slide';
+export const MEDIA_CAROUSEL_GO_TO_SLIDE_LABEL_KEY = 'carousel.goToSlide';
+export const MEDIA_CAROUSEL_GO_TO_SLIDE_LABEL =
+  'Go to slide {{index}} of {{total}}';
+export const MEDIA_CAROUSEL_SLIDE_N_OF_M_LABEL_KEY = 'carousel.slideNofM';
+export const MEDIA_CAROUSEL_SLIDE_N_OF_M_LABEL = '{{index}} of {{total}}';
+export const MEDIA_CAROUSEL_PLAY_LABEL_KEY = 'carousel.play';
+export const MEDIA_CAROUSEL_PLAY_LABEL = 'Play';
+export const MEDIA_CAROUSEL_PAUSE_LABEL_KEY = 'carousel.pause';
+export const MEDIA_CAROUSEL_PAUSE_LABEL = 'Pause';
+export const MEDIA_CAROUSEL_EMPTY_TEXT_KEY = 'carousel.empty';
+export const MEDIA_CAROUSEL_EMPTY_TEXT = 'No slides to show';
+
+const MEDIA_CAROUSEL_RADII: readonly SolarisMediaCarouselRadius[] = [
+  'none',
+  'sm',
+  'md',
+  'lg',
+  'xl',
+];
+
+export function normalizeMediaSlides(
+  value: readonly SolarisMediaSlide[] | undefined | null,
+): readonly SolarisMediaSlide[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  return value;
+}
+
+export function normalizeMediaCarouselRadius(
+  value: SolarisMediaCarouselRadius,
+): SolarisMediaCarouselRadius {
+  if (MEDIA_CAROUSEL_RADII.includes(value)) {
+    return value;
+  }
+  return DEFAULT_MEDIA_CAROUSEL_RADIUS;
+}
+
+export function normalizeMediaCarouselAspectRatio(
+  value: string | undefined | null,
+): string {
+  const normalized = value?.trim();
+  if (normalized) {
+    return normalized;
+  }
+  return DEFAULT_MEDIA_CAROUSEL_ASPECT_RATIO;
+}
+
+export function normalizeOptionalString(
+  value: string | null | undefined,
+): string | null {
+  if (!value) {
+    return null;
+  }
+  const normalized = value.trim();
+  return normalized.length > 0 ? normalized : null;
+}
+
+export function interpolateCarouselText(
+  template: string,
+  params: Record<string, string | number>,
+): string {
+  return Object.entries(params).reduce((resolved, [key, value]) => {
+    const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return resolved
+      .replace(
+        new RegExp(String.raw`\{\{\s*${escaped}\s*}}`, 'g'),
+        String(value),
+      )
+      .replace(new RegExp(String.raw`\{${escaped}\}`, 'g'), String(value));
+  }, template);
+}

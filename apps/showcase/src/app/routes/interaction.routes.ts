@@ -39,6 +39,13 @@ export const interactionRoutes: Route[] = [
             '../pages/interaction/accordion/component/accordion-showcase'
           ).then((m) => m.AccordionShowcasePage),
       },
+      {
+        path: 'media-carousel',
+        loadComponent: () =>
+          import(
+            '../pages/interaction/media-carousel/component/media-carousel-showcase'
+          ).then((m) => m.MediaCarouselShowcasePage),
+      },
     ],
   },
 ];

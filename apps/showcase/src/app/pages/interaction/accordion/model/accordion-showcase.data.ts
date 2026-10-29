@@ -20,8 +20,8 @@ export const ACCORDION_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const ACCORDION_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.tabs',
-  route: '/navigation/tabs',
+  labelKey: 'shell.sidebar.item.media-carousel',
+  route: '/interaction/media-carousel',
 };
 
 export const ACCORDION_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

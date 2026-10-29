@@ -1,0 +1,11 @@
+{
+  "carousel": {
+    "prev": "Previous slide",
+    "next": "Next slide",
+    "play": "Play",
+    "pause": "Pause",
+    "goToSlide": "Go to slide {{index}} of {{total}}",
+    "slideNofM": "{{index}} of {{total}}",
+    "empty": "No slides to show"
+  }
+}

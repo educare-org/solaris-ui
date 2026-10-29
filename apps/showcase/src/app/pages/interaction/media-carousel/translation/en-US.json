@@ -1,0 +1,36 @@
+{
+  "media-carousel": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "description": "Rotating banner and image viewport with arrows, dot navigation, and keyboard support.",
+    "autoplay": {
+      "note": "With autoplay, the active dot fills over the duration and pauses on hover, focus, hidden tabs, and reduced motion. The toggle pauses and resumes."
+    },
+    "dots-outside": {
+      "note": "Dots render below the viewport instead of overlaid on the image."
+    },
+    "examples": {
+      "label": "Featured stories",
+      "note": "One slide visible at a time. Use the arrows or dots to move, or focus the viewport and use the arrow keys."
+    },
+    "installation": {
+      "note": "Install the single Solaris package, then import the component."
+    },
+    "loop": {
+      "note": "With loop off, the arrows clamp at the first and last slide and expose aria-disabled."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "autoplay": "Autoplay",
+      "dots-outside": "Dots outside",
+      "examples": "Examples",
+      "installation": "Installation",
+      "loop": "Loop",
+      "props": "Props"
+    },
+    "title": "Media carousel"
+  }
+}

@@ -1,0 +1,11 @@
+export { SolarisMediaCarouselComponent } from './component/media-carousel.component';
+export type { SolarisMediaCarouselDirection } from './model/media-carousel-direction';
+export type { SolarisMediaSlide } from './model/solaris-media-slide';
+export type { SolarisMediaImageSlide } from './model/solaris-media-image-slide';
+export type { SolarisMediaVideoSlide } from './model/solaris-media-video-slide';
+export type { SolarisMediaCarouselNavigation } from './model/media-carousel-navigation';
+export type { SolarisMediaCarouselVisibleCount } from './model/media-carousel-visible-count';
+export type { SolarisMediaCarouselDotsPosition } from './model/media-carousel-dots-position';
+export type { SolarisMediaCarouselObjectFit } from './model/media-carousel-object-fit';
+export type { SolarisMediaCarouselRadius } from './model/media-carousel-radius';
+export { SolarisMediaCarouselHarness } from './testing/media-carousel.harness';

@@ -1,0 +1,36 @@
+{
+  "media-carousel": {
+    "ai": {
+      "prompt": "Estou olhando a documentação Solaris UI de {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "description": "Janela giratória de banners e imagens com setas, navegação por pontos e suporte a teclado.",
+    "autoplay": {
+      "note": "Com reprodução automática, o ponto ativo preenche ao longo da duração e pausa com hover, foco, aba oculta e movimento reduzido. O botão pausa e retoma."
+    },
+    "dots-outside": {
+      "note": "Os pontos aparecem abaixo da janela em vez de sobre a imagem."
+    },
+    "examples": {
+      "label": "Destaques",
+      "note": "Um slide visível por vez. Use as setas ou os pontos para navegar, ou foque a janela e use as setas do teclado."
+    },
+    "installation": {
+      "note": "Instale o pacote único Solaris e importe o componente."
+    },
+    "loop": {
+      "note": "Sem repetição, as setas param no primeiro e no último slide e expõem aria-disabled."
+    },
+    "props": {
+      "note": "Tabela de props em breve, com o componente de tabela."
+    },
+    "section": {
+      "autoplay": "Reprodução automática",
+      "dots-outside": "Pontos fora",
+      "examples": "Exemplos",
+      "installation": "Instalação",
+      "loop": "Repetição",
+      "props": "Props"
+    },
+    "title": "Carrossel de mídia"
+  }
+}
