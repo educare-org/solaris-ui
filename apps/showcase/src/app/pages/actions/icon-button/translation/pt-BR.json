@@ -44,6 +44,11 @@
     "installation": {
       "note": "Instale o pacote único do Solaris e importe a diretiva."
     },
+    "motion": {
+      "note": "O press usa scale sutil de 0.99 e o spinner de loading entra com pop-in. Alterne loading e badge para ver a micro-interação.",
+      "toggle-badge": "Alternar badge",
+      "toggle-loading": "Alternar loading"
+    },
     "props": {
       "note": "Tabela de props em breve, com o componente tabela."
     },
@@ -56,6 +61,7 @@
       "custom": "Cor personalizada",
       "density": "Densidade",
       "installation": "Instalação",
+      "motion": "Movimento",
       "props": "Props",
       "radius": "Arredondamento",
       "shape": "Formato",

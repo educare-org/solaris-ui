@@ -30,6 +30,7 @@ export const BUTTON_GROUP_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'orientation', labelKey: 'button-group.section.orientation' },
   { anchor: 'attached', labelKey: 'button-group.section.attached' },
   { anchor: 'mixed', labelKey: 'button-group.section.mixed' },
+  { anchor: 'motion', labelKey: 'button-group.section.motion' },
   { anchor: 'states', labelKey: 'button-group.section.states' },
   { anchor: 'full-width', labelKey: 'button-group.section.full-width' },
   { anchor: 'installation', labelKey: 'button-group.section.installation' },
@@ -38,5 +39,12 @@ export const BUTTON_GROUP_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
 
 export const BUTTON_GROUP_SHOWCASE_IMPORT_CODE =
   "import { SolarisButtonGroupComponent } from '@solaris-ui/angular';";
+
+export const BUTTON_GROUP_SHOWCASE_MOTION_CODE = [
+  '<solaris-button-group aria-label="Save actions">',
+  '  <button solaris-button>Save</button>',
+  '  <button solaris-button [loading]="loading">Save changes</button>',
+  '</solaris-button-group>',
+].join('\n');
 
 export { SHOWCASE_INSTALL_COMMANDS as BUTTON_GROUP_SHOWCASE_INSTALL_COMMANDS } from '../../../shared/showcase-page-utils';

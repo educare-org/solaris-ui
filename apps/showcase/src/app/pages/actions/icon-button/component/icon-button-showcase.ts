@@ -35,6 +35,7 @@ import {
   ICON_BUTTON_SHOWCASE_CUSTOM_VIOLET_CODE,
   ICON_BUTTON_SHOWCASE_IMPORT_CODE,
   ICON_BUTTON_SHOWCASE_INSTALL_COMMANDS,
+  ICON_BUTTON_SHOWCASE_MOTION_CODE,
   ICON_BUTTON_SHOWCASE_NEXT,
   ICON_BUTTON_SHOWCASE_PREV,
   ICON_BUTTON_SHOWCASE_RADII,
@@ -81,6 +82,18 @@ export class IconButtonShowcasePage {
   protected readonly installCommands = ICON_BUTTON_SHOWCASE_INSTALL_COMMANDS;
   protected readonly importCode = ICON_BUTTON_SHOWCASE_IMPORT_CODE;
   protected readonly customVioletCode = ICON_BUTTON_SHOWCASE_CUSTOM_VIOLET_CODE;
+  protected readonly motionCode = ICON_BUTTON_SHOWCASE_MOTION_CODE;
+
+  protected readonly motionLoading = signal(false);
+  protected readonly motionBadge = signal(true);
+
+  protected toggleMotionLoading(): void {
+    this.motionLoading.update((value) => !value);
+  }
+
+  protected toggleMotionBadge(): void {
+    this.motionBadge.update((value) => !value);
+  }
 
   private readonly pageActions = createShowcasePageActions(
     this.translateService,

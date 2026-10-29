@@ -57,6 +57,11 @@
         "input-end": "Icon input end",
         "input-start": "Icon input start"
       },
+      "motion": {
+        "long": "Save changes",
+        "short": "Save",
+        "swap": "Swap label"
+      },
       "loading": {
         "save": "Save"
       },
@@ -87,6 +92,9 @@
     "installation": {
       "note": "Install the single Solaris package, then import the directive."
     },
+    "motion": {
+      "note": "Press uses a subtle 0.99 scale. Width, padding and gap animate, so loading, badge and label swaps grow smoothly instead of flicking."
+    },
     "props": {
       "note": "Props table coming soon with the table component."
     },
@@ -98,6 +106,7 @@
       "icons": "Icons",
       "installation": "Installation",
       "layout": "Layout",
+      "motion": "Motion",
       "props": "Props",
       "providers": "Brand icons",
       "radius": "Radius",

@@ -37,6 +37,7 @@ import {
   BUTTON_SHOWCASE_FULL_WIDTH_CODE,
   BUTTON_SHOWCASE_IMPORT_CODE,
   BUTTON_SHOWCASE_INSTALL_COMMANDS,
+  BUTTON_SHOWCASE_MOTION_CODE,
   BUTTON_SHOWCASE_NEXT,
   BUTTON_SHOWCASE_PREV,
   BUTTON_SHOWCASE_RADII,
@@ -48,6 +49,7 @@ import { AnchorLinkButtonExample } from '../examples/anchor-link/component/ancho
 import { BasicButtonExample } from '../examples/basic/component/basic.component';
 import { CustomButtonExample } from '../examples/custom/component/custom.component';
 import { FullWidthButtonExample } from '../examples/full-width/component/full-width.component';
+import { MotionButtonExample } from '../examples/motion/component/motion.component';
 
 @Component({
   standalone: true,
@@ -69,6 +71,7 @@ import { FullWidthButtonExample } from '../examples/full-width/component/full-wi
     CustomButtonExample,
     AnchorLinkButtonExample,
     FullWidthButtonExample,
+    MotionButtonExample,
   ],
   templateUrl: './button-showcase.html',
   styleUrls: ['./button-showcase.scss'],
@@ -93,6 +96,7 @@ export class ButtonShowcasePage {
   protected readonly customAmberCode = BUTTON_SHOWCASE_CUSTOM_AMBER_CODE;
   protected readonly anchorCode = BUTTON_SHOWCASE_ANCHOR_CODE;
   protected readonly fullWidthCode = BUTTON_SHOWCASE_FULL_WIDTH_CODE;
+  protected readonly motionCode = BUTTON_SHOWCASE_MOTION_CODE;
 
   private readonly pageActions = createShowcasePageActions(
     this.translateService,
@@ -112,6 +116,16 @@ export class ButtonShowcasePage {
   protected readonly selectedStateTab = signal<string>('loading');
   protected readonly selectedCustom = signal<string>('violet');
   protected readonly stateOn = signal(true);
+  protected readonly motionLoading = signal(false);
+  protected readonly motionLongLabel = signal(false);
+
+  protected toggleMotionLoading(): void {
+    this.motionLoading.update((value) => !value);
+  }
+
+  protected toggleMotionLabel(): void {
+    this.motionLongLabel.update((value) => !value);
+  }
 
   protected toggleState(): void {
     this.stateOn.update((value) => !value);

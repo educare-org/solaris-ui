@@ -44,6 +44,11 @@
     "installation": {
       "note": "Install the single Solaris package and import the directive."
     },
+    "motion": {
+      "note": "Press uses a subtle 0.99 scale and the loading spinner pops in. Toggle loading and badge to see the micro-interaction.",
+      "toggle-badge": "Toggle badge",
+      "toggle-loading": "Toggle loading"
+    },
     "props": {
       "note": "Props table coming soon, with the table component."
     },
@@ -56,6 +61,7 @@
       "custom": "Custom color",
       "density": "Density",
       "installation": "Installation",
+      "motion": "Motion",
       "props": "Props",
       "radius": "Radius",
       "shape": "Shape",

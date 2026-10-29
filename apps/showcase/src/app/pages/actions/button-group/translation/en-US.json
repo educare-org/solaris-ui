@@ -28,6 +28,10 @@
     "loading": "Loading state",
     "mixed": "Mixed group (button + icon button)",
     "mixed-note": "This is visual grouping only. Split button/dropdown behavior will be a separate component in the future.",
+    "motion": {
+      "note": "Width changes inside a group item animate on the motion-normal step, so toggling loading grows the item smoothly without shifting siblings abruptly.",
+      "toggle": "Toggle loading"
+    },
     "orientation": {
       "horizontal": "Horizontal",
       "vertical": "Vertical"
@@ -42,6 +46,7 @@
       "full-width": "Full width",
       "installation": "Installation",
       "mixed": "Mixed group",
+      "motion": "Motion",
       "orientation": "Orientation",
       "props": "Props",
       "size-density": "Size and density",

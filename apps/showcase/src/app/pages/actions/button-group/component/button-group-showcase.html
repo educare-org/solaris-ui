@@ -177,6 +177,27 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section anchor="motion" titleKey="button-group.section.motion">
+    <p class="button-group-showcase__note">
+      {{ 'button-group.motion.note' | translate }}
+    </p>
+    <div class="button-group-showcase__controls">
+      <button
+        solaris-button
+        appearance="outline"
+        (click)="toggleMotionLoading()"
+      >
+        {{ 'button-group.motion.toggle' | translate }}
+      </button>
+    </div>
+    <solaris-preview-code [code]="motionCode" language="html">
+      <solaris-button-group aria-label="Save actions">
+        <button solaris-button>Save</button>
+        <button solaris-button [loading]="motionLoading()">Save changes</button>
+      </solaris-button-group>
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section anchor="states" titleKey="button-group.section.states">
     <p class="button-group-showcase__note">
       {{ 'button-group.states.note' | translate }}

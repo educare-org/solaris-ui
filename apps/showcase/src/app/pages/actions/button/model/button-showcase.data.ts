@@ -35,6 +35,7 @@ export const BUTTON_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'size-density', labelKey: 'button.section.size-density' },
   { anchor: 'shape-radius', labelKey: 'button.section.shape-radius' },
   { anchor: 'icons', labelKey: 'button.section.icons' },
+  { anchor: 'motion', labelKey: 'button.section.motion' },
   { anchor: 'states', labelKey: 'button.section.states' },
   { anchor: 'custom', labelKey: 'button.section.custom' },
   { anchor: 'layout', labelKey: 'button.section.layout' },
@@ -83,6 +84,12 @@ export const BUTTON_SHOWCASE_ANCHOR_CODE = [
 export const BUTTON_SHOWCASE_FULL_WIDTH_CODE = [
   '<button solaris-button [fullWidth]="true" color="primary">',
   '  Sign in with email',
+  '</button>',
+].join('\n');
+
+export const BUTTON_SHOWCASE_MOTION_CODE = [
+  '<button solaris-button color="primary" [loading]="loading">',
+  '  Save changes',
   '</button>',
 ].join('\n');
 

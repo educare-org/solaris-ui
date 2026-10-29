@@ -44,6 +44,11 @@
     "installation": {
       "note": "Instala el paquete único de Solaris e importa la directiva."
     },
+    "motion": {
+      "note": "Press usa escala sutil de 0.99 y el spinner de loading entra con pop-in. Alterna loading y badge para ver la micro-interacción.",
+      "toggle-badge": "Alternar badge",
+      "toggle-loading": "Alternar loading"
+    },
     "props": {
       "note": "Tabla de Props próximamente, con el componente de tabla."
     },
@@ -56,6 +61,7 @@
       "custom": "Color personalizado",
       "density": "Densidad",
       "installation": "Instalación",
+      "motion": "Movimiento",
       "props": "Props",
       "radius": "Radio",
       "shape": "Forma",
