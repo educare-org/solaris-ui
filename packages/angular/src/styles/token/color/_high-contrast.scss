@@ -3,6 +3,8 @@
   --solaris-neutral-default: #ffffff;
   --solaris-neutral-subtle: #f0f0f0;
   --solaris-neutral-sunken: #e0e0e0;
+  --solaris-neutral-sunken-hover: #cacaca;
+  --solaris-neutral-sunken-active: #b8b8b8;
   --solaris-neutral-overlay: #ffffff;
   --solaris-neutral-inverse: #000000;
   --solaris-neutral-inverse-subtle: #1a1a1a;
@@ -27,6 +29,8 @@
   --solaris-primary-solid-hover: #000099;
   --solaris-primary-solid-active: #000066;
   --solaris-primary-soft: #e6e6ff;
+  --solaris-primary-soft-hover: #c1c1f7;
+  --solaris-primary-soft-active: #a1a1f0;
   --solaris-primary-border: #9999ff;
   --solaris-primary-foreground: #0000aa;
   --solaris-primary-on-solid: #ffffff;
@@ -35,6 +39,8 @@
   --solaris-success-solid-hover: #004d00;
   --solaris-success-solid-active: #003300;
   --solaris-success-soft: #e6f2e6;
+  --solaris-success-soft-hover: #c1dcc1;
+  --solaris-success-soft-active: #a1c8a1;
   --solaris-success-border: #99cc99;
   --solaris-success-foreground: #004d00;
   --solaris-success-on-solid: #ffffff;
@@ -43,6 +49,8 @@
   --solaris-warning-solid-hover: #7a5200;
   --solaris-warning-solid-active: #5c3d00;
   --solaris-warning-soft: #fff2cc;
+  --solaris-warning-soft-hover: #efdcab;
+  --solaris-warning-soft-active: #e0c88f;
   --solaris-warning-border: #ffd633;
   --solaris-warning-foreground: #664400;
   --solaris-warning-on-solid: #ffffff;
@@ -51,6 +59,8 @@
   --solaris-danger-solid-hover: #990000;
   --solaris-danger-solid-active: #660000;
   --solaris-danger-soft: #ffe6e6;
+  --solaris-danger-soft-hover: #f7c1c1;
+  --solaris-danger-soft-active: #f3afaf;
   --solaris-danger-border: #ff9999;
   --solaris-danger-foreground: #990000;
   --solaris-danger-on-solid: #ffffff;
@@ -59,6 +69,8 @@
   --solaris-info-solid-hover: #003399;
   --solaris-info-solid-active: #002266;
   --solaris-info-soft: #e6eeff;
+  --solaris-info-soft-hover: #c1d3f7;
+  --solaris-info-soft-active: #a1bbf0;
   --solaris-info-border: #99bbff;
   --solaris-info-foreground: #003399;
   --solaris-info-on-solid: #ffffff;
@@ -85,6 +97,8 @@
   --solaris-neutral-default: #000000;
   --solaris-neutral-subtle: #1a1a1a;
   --solaris-neutral-sunken: #2a2a2a;
+  --solaris-neutral-sunken-hover: #444444;
+  --solaris-neutral-sunken-active: #595959;
   --solaris-neutral-overlay: #0a0a0a;
   --solaris-neutral-inverse: #ffffff;
   --solaris-neutral-inverse-subtle: #e8e8e8;
@@ -109,6 +123,8 @@
   --solaris-primary-solid-hover: #a9bcff;
   --solaris-primary-solid-active: #c3cfff;
   --solaris-primary-soft: #0a1440;
+  --solaris-primary-soft-hover: #253266;
+  --solaris-primary-soft-active: #3a4985;
   --solaris-primary-border: #8fa8ff;
   --solaris-primary-foreground: #dce6ff;
   --solaris-primary-on-solid: #000000;
@@ -117,6 +133,8 @@
   --solaris-success-solid-hover: #6ce695;
   --solaris-success-solid-active: #8df0ab;
   --solaris-success-soft: #052e12;
+  --solaris-success-soft-hover: #135128;
+  --solaris-success-soft-active: #1e6d3a;
   --solaris-success-border: #4ade80;
   --solaris-success-foreground: #d9fbe3;
   --solaris-success-on-solid: #000000;
@@ -125,6 +143,8 @@
   --solaris-warning-solid-hover: #ffdd3d;
   --solaris-warning-solid-active: #ffe470;
   --solaris-warning-soft: #332900;
+  --solaris-warning-soft-hover: #5c4c02;
+  --solaris-warning-soft-active: #7c6704;
   --solaris-warning-border: #ffd60a;
   --solaris-warning-foreground: #ffefb0;
   --solaris-warning-on-solid: #000000;
@@ -133,6 +153,8 @@
   --solaris-danger-solid-hover: #ff6b6b;
   --solaris-danger-solid-active: #ff8a8a;
   --solaris-danger-soft: #3d0606;
+  --solaris-danger-soft-hover: #641414;
+  --solaris-danger-soft-active: #832020;
   --solaris-danger-border: #ff4d4d;
   --solaris-danger-foreground: #ffd7d7;
   --solaris-danger-on-solid: #000000;
@@ -141,6 +163,8 @@
   --solaris-info-solid-hover: #8dc5f5;
   --solaris-info-solid-active: #b3d9f9;
   --solaris-info-soft: #081826;
+  --solaris-info-soft-hover: #1c354e;
+  --solaris-info-soft-active: #2b4b6e;
   --solaris-info-border: #6aa7ed;
   --solaris-info-foreground: #d9ecfc;
   --solaris-info-on-solid: #000000;

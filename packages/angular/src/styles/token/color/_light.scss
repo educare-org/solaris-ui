@@ -3,6 +3,8 @@
   --solaris-neutral-default: #ffffff;
   --solaris-neutral-subtle: #f5f6f9;
   --solaris-neutral-sunken: #efefef;
+  --solaris-neutral-sunken-hover: #dbdbdc;
+  --solaris-neutral-sunken-active: #cacbcc;
   --solaris-neutral-overlay: #ffffff;
   --solaris-neutral-inverse: #16191e;
   --solaris-neutral-inverse-subtle: #222324;
@@ -27,6 +29,8 @@
   --solaris-primary-solid-hover: #3550b5;
   --solaris-primary-solid-active: #2c4398;
   --solaris-primary-soft: #d4d8fd;
+  --solaris-primary-soft-hover: #bfc7f6;
+  --solaris-primary-soft-active: #adb8f0;
   --solaris-primary-border: #c9d2ff;
   --solaris-primary-foreground: #23357a;
   --solaris-primary-on-solid: #ffffff;
@@ -35,6 +39,8 @@
   --solaris-success-solid-hover: #2b8c3f;
   --solaris-success-solid-active: #237334;
   --solaris-success-soft: #eaf8ed;
+  --solaris-success-soft-hover: #d0ecd6;
+  --solaris-success-soft-active: #bae2c3;
   --solaris-success-border: #b3e0bd;
   --solaris-success-foreground: #1e6b2e;
   --solaris-success-on-solid: #ffffff;
@@ -43,6 +49,8 @@
   --solaris-warning-solid-hover: #d9bc06;
   --solaris-warning-solid-active: #c2a706;
   --solaris-warning-soft: #fbf1bb;
+  --solaris-warning-soft-hover: #faeda6;
+  --solaris-warning-soft-active: #f9ea94;
   --solaris-warning-border: #f0e6a0;
   --solaris-warning-foreground: #7a6808;
   --solaris-warning-on-solid: #17191e;
@@ -51,14 +59,18 @@
   --solaris-danger-solid-hover: #bb1f26;
   --solaris-danger-solid-active: #9b1920;
   --solaris-danger-soft: #fde8e9;
+  --solaris-danger-soft-hover: #f8cdcf;
+  --solaris-danger-soft-active: #f4b5b8;
   --solaris-danger-border: #f4b3b6;
-  --solaris-danger-foreground: #8a161b;
+  --solaris-danger-foreground: #9c3c40;
   --solaris-danger-on-solid: #ffffff;
 
   --solaris-info-solid: #2f6cb5;
   --solaris-info-solid-hover: #285d9c;
   --solaris-info-solid-active: #214e83;
   --solaris-info-soft: #edf4fc;
+  --solaris-info-soft-hover: #d2e1f2;
+  --solaris-info-soft-active: #bcd1ea;
   --solaris-info-border: #bfd9f3;
   --solaris-info-foreground: #1d4a7a;
   --solaris-info-on-solid: #ffffff;

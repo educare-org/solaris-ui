@@ -3,6 +3,8 @@
   --solaris-neutral-default: #171717;
   --solaris-neutral-subtle: #1e1e1e;
   --solaris-neutral-sunken: #262626;
+  --solaris-neutral-sunken-hover: #3e3f40;
+  --solaris-neutral-sunken-active: #535455;
   --solaris-neutral-overlay: #171717;
   --solaris-neutral-inverse: #f2f5fb;
   --solaris-neutral-inverse-subtle: #dadada;
@@ -23,10 +25,12 @@
   --solaris-button-group-separator-color: #4a4b4d;
   --solaris-button-group-separator-on-solid: #dcdcdc;
 
-  --solaris-primary-solid: #3f5dca;
+  --solaris-primary-solid: #6886ed;
   --solaris-primary-solid-hover: #467ae3;
   --solaris-primary-solid-active: #5280ed;
   --solaris-primary-soft: #2b3b5a;
+  --solaris-primary-soft-hover: #354772;
+  --solaris-primary-soft-active: #3c5083;
   --solaris-primary-border: #6b92c5;
   --solaris-primary-foreground: #c9d8fa;
   --solaris-primary-on-solid: #f2f5fb;
@@ -35,6 +39,8 @@
   --solaris-success-solid-hover: #54ca6c;
   --solaris-success-solid-active: #63d677;
   --solaris-success-soft: #2d7138;
+  --solaris-success-soft-hover: #307a3e;
+  --solaris-success-soft-active: #338142;
   --solaris-success-border: #74f688;
   --solaris-success-foreground: #bce6c7;
   --solaris-success-on-solid: #0c100c;
@@ -43,24 +49,30 @@
   --solaris-warning-solid-hover: #f5e46a;
   --solaris-warning-solid-active: #f9ec93;
   --solaris-warning-soft: #595019;
+  --solaris-warning-soft-hover: #655b1e;
+  --solaris-warning-soft-active: #6d6321;
   --solaris-warning-border: #f1e379;
-  --solaris-warning-foreground: #f0e48a;
+  --solaris-warning-foreground: #f1e377;
   --solaris-warning-on-solid: #2e2a21;
 
-  --solaris-danger-solid: #f13645;
-  --solaris-danger-solid-hover: #f84857;
+  --solaris-danger-solid: #f84857;
+  --solaris-danger-solid-hover: #f45b67;
   --solaris-danger-solid-active: #ff6b75;
   --solaris-danger-soft: #6c2027;
-  --solaris-danger-border: #ca7779;
-  --solaris-danger-foreground: #ffb4b8;
+  --solaris-danger-soft-hover: #7d252d;
+  --solaris-danger-soft-active: #8b2932;
+  --solaris-danger-border: #cc494c;
+  --solaris-danger-foreground: #f68d95;
   --solaris-danger-on-solid: #ffffff;
 
   --solaris-info-solid: #6aa7ed;
   --solaris-info-solid-hover: #76b0ed;
   --solaris-info-solid-active: #8dc5f5;
   --solaris-info-soft: #0e1f30;
+  --solaris-info-soft-hover: #203a56;
+  --solaris-info-soft-active: #2f5074;
   --solaris-info-border: #7c9dc3;
-  --solaris-info-foreground: #dfeaf8;
+  --solaris-info-foreground: #bcd5f6;
   --solaris-info-on-solid: #0e1f30;
 
   --solaris-accent-solid: #e98d16;
