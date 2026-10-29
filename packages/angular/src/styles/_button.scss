@@ -70,6 +70,7 @@
   padding: var(--solaris-button-padding-y) var(--solaris-button-padding-x);
   border: var(--solaris-button-border-width) solid
     var(--solaris-button-border-color);
+  interpolate-size: allow-keywords;
 }
 
 [solaris-button]:not([data-hydrated]) {
@@ -88,6 +89,14 @@
       var(--solaris-motion-easing-standard),
     box-shadow var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
+    min-width var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    width var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    padding var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    gap var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
     transform var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-decelerate);
 }
@@ -103,8 +112,8 @@
 [solaris-button][data-pressed] {
   color: var(--solaris-button-active-color);
   background: var(--solaris-button-active-background);
+  transform: scale(var(--solaris-button-scale-active));
   border-color: var(--solaris-button-active-border-color);
-  transform: scale(var(--solaris-motion-scale-active));
 }
 
 [solaris-button]:focus-visible {
@@ -132,6 +141,9 @@
   --solaris-spinner-track-color: var(--solaris-button-color);
   --solaris-spinner-custom-color: var(--solaris-button-color);
   --solaris-spinner-thickness: var(--solaris-border-width-md);
+
+  animation: solaris-motion-pop-in var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 [solaris-button][data-loading] [solaris-button-icon] {
@@ -781,11 +793,27 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  [solaris-button][data-hydrated] {
+    transition: none;
+  }
+
+  [solaris-button][data-loading] solaris-spinner {
+    animation: none;
+  }
+
   [solaris-button]:active,
   [solaris-button][data-active],
   [solaris-button][data-pressed] {
     transform: none;
   }
+}
+
+[data-reduced-motion='true'] [solaris-button][data-hydrated] {
+  transition: none;
+}
+
+[data-reduced-motion='true'] [solaris-button][data-loading] solaris-spinner {
+  animation: none;
 }
 
 [data-reduced-motion='true'] [solaris-button]:active,

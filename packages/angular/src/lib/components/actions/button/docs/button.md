@@ -187,6 +187,24 @@ When `data-size` is present but `data-density` has not resolved yet (theme
 CSS still loading, group context attaching), normal-density geometry is
 assumed so the resolved density lands without a jump.
 
+### Press and width motion
+
+Press feedback uses dedicated tokens (`--solaris-button-scale-active` /
+`--solaris-icon-button-scale-active`, `0.99`) — subtler than the global
+`--solaris-motion-scale-active` (`0.97`).
+
+Width-affecting content changes (loading spinner, badge slot, label swap)
+animate fluidly via FLIP in `SolarisButtonHostBase`: a `MutationObserver`
+flags content edits and a `ResizeObserver` interpolates the resulting width
+delta with WAAPI (`motion-normal` / `standard` easing, read from the tokens
+at runtime). CSS `transition: width` alone cannot do this — the computed
+`width` stays `auto`, so no transition ever fires. Container-driven changes
+(window resize, font load, density switch) only re-sync the baseline, and
+`fullWidth` buttons are skipped. The loading spinner additionally enters
+with `solaris-motion-pop-in` (`normal` / `decelerate`). Reduced motion
+(`prefers-reduced-motion` or `data-reduced-motion="true"`) disables the
+width animation, the spinner animation, and the press scale.
+
 Inside an attached `solaris-button-group`, the button carries
 `data-group="horizontal"` (or `"vertical"`, from the group context). That
 attribute scopes the attached styling (square middle, flush edge radius,

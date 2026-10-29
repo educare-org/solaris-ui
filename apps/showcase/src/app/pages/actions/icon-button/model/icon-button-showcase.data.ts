@@ -35,6 +35,7 @@ export const ICON_BUTTON_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'size-density', labelKey: 'icon-button.section.size-density' },
   { anchor: 'shape-radius', labelKey: 'icon-button.section.shape-radius' },
   { anchor: 'chromeless', labelKey: 'icon-button.section.chromeless' },
+  { anchor: 'motion', labelKey: 'icon-button.section.motion' },
   { anchor: 'states', labelKey: 'icon-button.section.states' },
   { anchor: 'badge', labelKey: 'icon-button.section.badge' },
   { anchor: 'custom', labelKey: 'icon-button.section.custom' },
@@ -44,6 +45,13 @@ export const ICON_BUTTON_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
 
 export const ICON_BUTTON_SHOWCASE_IMPORT_CODE =
   "import { SolarisIconButtonDirective } from '@solaris-ui/angular';";
+
+export const ICON_BUTTON_SHOWCASE_MOTION_CODE = [
+  '<button solaris-icon-button color="primary" [loading]="loading" aria-label="Notifications">',
+  '  <solaris-icon name="notification" [decorative]="true" />',
+  '  <solaris-badge solaris-icon-button-badge variant="count" color="danger" size="sm">3</solaris-badge>',
+  '</button>',
+].join('\n');
 
 export const ICON_BUTTON_SHOWCASE_CUSTOM_VIOLET_CODE = [
   '.my-custom-icon-button [solaris-icon-button] {',

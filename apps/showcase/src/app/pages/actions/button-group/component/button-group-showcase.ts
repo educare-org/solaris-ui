@@ -28,6 +28,7 @@ import {
   BUTTON_GROUP_SHOWCASE_BREADCRUMBS,
   BUTTON_GROUP_SHOWCASE_IMPORT_CODE,
   BUTTON_GROUP_SHOWCASE_INSTALL_COMMANDS,
+  BUTTON_GROUP_SHOWCASE_MOTION_CODE,
   BUTTON_GROUP_SHOWCASE_NEXT,
   BUTTON_GROUP_SHOWCASE_PREV,
   BUTTON_GROUP_SHOWCASE_SLUG,
@@ -67,6 +68,13 @@ export class ButtonGroupShowcasePage {
 
   protected readonly installCommands = BUTTON_GROUP_SHOWCASE_INSTALL_COMMANDS;
   protected readonly importCode = BUTTON_GROUP_SHOWCASE_IMPORT_CODE;
+  protected readonly motionCode = BUTTON_GROUP_SHOWCASE_MOTION_CODE;
+
+  protected readonly motionLoading = signal(false);
+
+  protected toggleMotionLoading(): void {
+    this.motionLoading.update((value) => !value);
+  }
 
   private readonly pageActions = createShowcasePageActions(
     this.translateService,

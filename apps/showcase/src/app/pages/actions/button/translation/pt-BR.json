@@ -57,6 +57,11 @@
         "input-end": "Ícone no fim (input)",
         "input-start": "Ícone no início (input)"
       },
+      "motion": {
+        "long": "Salvar alterações",
+        "short": "Salvar",
+        "swap": "Trocar rótulo"
+      },
       "loading": {
         "save": "Salvar"
       },
@@ -87,6 +92,9 @@
     "installation": {
       "note": "Instale o pacote único do Solaris e importe a diretiva."
     },
+    "motion": {
+      "note": "O press usa scale sutil de 0.99. Largura, padding e gap animam, então loading, badge e troca de rótulo crescem suavemente sem flick."
+    },
     "props": {
       "note": "Tabela de props em breve, com o componente tabela."
     },
@@ -98,6 +106,7 @@
       "icons": "Ícones",
       "installation": "Instalação",
       "layout": "Layout",
+      "motion": "Movimento",
       "props": "Props",
       "providers": "Ícones de marca",
       "radius": "Arredondamento",

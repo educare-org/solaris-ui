@@ -236,8 +236,35 @@
     </div>
   </app-docs-section>
 
+  <app-docs-section anchor="motion" titleKey="button.section.motion">
+    <p class="button-showcase__note">{{ 'button.motion.note' | translate }}</p>
+    <div class="button-showcase__controls">
+      <button
+        solaris-button
+        appearance="outline"
+        (click)="toggleMotionLoading()"
+      >
+        @if (motionLoading()) { {{ 'button.states.toggle.off' | translate }} }
+        @else { {{ 'button.states.toggle.on' | translate }} }
+      </button>
+      <button solaris-button appearance="outline" (click)="toggleMotionLabel()">
+        {{ 'button.example.motion.swap' | translate }}
+      </button>
+    </div>
+    <solaris-preview-code [code]="motionCode" language="html">
+      <app-motion-button-example
+        [loading]="motionLoading()"
+        [longLabel]="motionLongLabel()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section anchor="states" titleKey="button.section.states">
     <div class="button-showcase__controls">
+      <button solaris-button appearance="outline" (click)="toggleState()">
+        {{ (stateOn() ? 'button.states.toggle.off' : 'button.states.toggle.on')
+        | translate }}
+      </button>
       <solaris-tabs
         [(value)]="selectedStateTab"
         [ariaLabel]="'button.section.states' | translate"
@@ -252,10 +279,6 @@
           >{{ 'button.states.tab.pressed' | translate }}</solaris-tab
         >
       </solaris-tabs>
-      <button solaris-button appearance="outline" (click)="toggleState()">
-        {{ (stateOn() ? 'button.states.toggle.off' : 'button.states.toggle.on')
-        | translate }}
-      </button>
     </div>
     <solaris-preview-code [code]="stateCode()" language="html">
       @switch (selectedStateTab()) { @case ('disabled') {

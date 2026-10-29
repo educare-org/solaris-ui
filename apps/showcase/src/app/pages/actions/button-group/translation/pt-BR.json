@@ -28,6 +28,10 @@
     "loading": "Estado de carregamento",
     "mixed": "Grupo misto (botão + botão de ícone)",
     "mixed-note": "Este é apenas agrupamento visual. Split button/dropdown behavior serão componentes separados no futuro.",
+    "motion": {
+      "note": "Mudanças de largura dentro de um item do grupo animam no passo motion-normal, então alternar loading cresce o item suavemente sem deslocar os vizinhos de golpe.",
+      "toggle": "Alternar loading"
+    },
     "orientation": {
       "horizontal": "Horizontal",
       "vertical": "Vertical"
@@ -42,6 +46,7 @@
       "full-width": "Largura total",
       "installation": "Instalação",
       "mixed": "Grupo misto",
+      "motion": "Movimento",
       "orientation": "Orientação",
       "props": "Props",
       "size-density": "Tamanho e densidade",

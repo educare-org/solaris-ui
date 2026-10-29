@@ -100,8 +100,8 @@
 [solaris-icon-button][data-pressed] {
   color: var(--solaris-icon-button-active-color);
   background: var(--solaris-icon-button-active-background);
+  transform: scale(var(--solaris-icon-button-scale-active));
   border-color: var(--solaris-icon-button-active-border-color);
-  transform: scale(var(--solaris-motion-scale-active));
 }
 
 [solaris-icon-button]:focus-visible {
@@ -154,6 +154,8 @@
   width: 1em;
   height: 1em;
   flex-shrink: 0;
+  animation: solaris-motion-pop-in var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate) both;
 }
 
 [solaris-icon-button][data-loading] solaris-icon,
@@ -767,6 +769,10 @@
     transform: none;
   }
 
+  [solaris-icon-button][data-loading] solaris-spinner {
+    animation: none;
+  }
+
   [solaris-icon-button]:active,
   [solaris-icon-button][data-active],
   [solaris-icon-button][data-pressed] {
@@ -793,6 +799,12 @@
 [data-reduced-motion='true'] [solaris-icon-button][data-active],
 [data-reduced-motion='true'] [solaris-icon-button][data-pressed] {
   transform: none;
+}
+
+[data-reduced-motion='true']
+  [solaris-icon-button][data-loading]
+  solaris-spinner {
+  animation: none;
 }
 
 [solaris-icon-button][data-chromeless][data-appearance='solid'][data-color='neutral'] {

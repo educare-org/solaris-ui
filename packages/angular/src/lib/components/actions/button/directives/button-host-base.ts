@@ -184,9 +184,136 @@ export abstract class SolarisButtonHostBase {
       this.syncLoadingAriaLabel();
     });
 
+    this.setupWidthMotion();
+
     this.destroyRef.onDestroy(() => {
       this.detachSpinner();
+      this.teardownWidthMotion();
     });
+  }
+
+  private widthObserver: ResizeObserver | null = null;
+  private contentObserver: MutationObserver | null = null;
+  private widthAnimation: Animation | null = null;
+  private lastWidth = -1;
+  private pendingContentChange = false;
+
+  /**
+   * Fluid width for content-driven growth (loader insert, badge slot, label
+   * swap). CSS `transition: width` never fires here because the computed
+   * `width` stays `auto` — only the used width changes — so the host tracks
+   * its own box and interpolates content-driven deltas with WAAPI.
+   * Container-driven changes (window resize, font load, density switch) only
+   * re-sync the baseline: no MutationObserver flag, no animation.
+   * SECURITY_EXCEPTION: observers and WAAPI target the own host element only;
+   * same direct-DOM category as the spinner insert/remove below.
+   */
+  private setupWidthMotion(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+    if (
+      typeof ResizeObserver === 'undefined' ||
+      typeof MutationObserver === 'undefined'
+    ) {
+      return;
+    }
+    const el = this.elementRef.nativeElement;
+    this.lastWidth = el.getBoundingClientRect().width;
+
+    this.contentObserver = new MutationObserver(() => {
+      this.pendingContentChange = true;
+    });
+    this.contentObserver.observe(el, {
+      childList: true,
+      characterData: true,
+      subtree: true,
+    });
+
+    this.widthObserver = new ResizeObserver(() => {
+      const width = el.getBoundingClientRect().width;
+      const previous = this.lastWidth;
+      this.lastWidth = width;
+      if (!this.pendingContentChange) {
+        return;
+      }
+      this.pendingContentChange = false;
+      if (previous < 0 || Math.abs(width - previous) < 0.5) {
+        return;
+      }
+      this.animateWidth(el, previous, width);
+    });
+    this.widthObserver.observe(el);
+  }
+
+  private animateWidth(el: HTMLElement, from: number, to: number): void {
+    if (el.hasAttribute('data-full-width')) {
+      return;
+    }
+    if (this.prefersReducedMotion(el)) {
+      return;
+    }
+    if (typeof el.animate !== 'function') {
+      return;
+    }
+    this.widthAnimation?.cancel();
+    const duration = this.readMotionToken(
+      el,
+      '--solaris-motion-duration-normal',
+      300,
+    );
+    const easing =
+      this.readMotionTokenRaw(el, '--solaris-motion-easing-standard') ||
+      'cubic-bezier(0.4, 0, 0.2, 1)';
+    const animation = el.animate(
+      [{ width: `${from}px` }, { width: `${to}px` }],
+      { duration, easing },
+    );
+    this.widthAnimation = animation;
+    const done = () => {
+      if (this.widthAnimation === animation) {
+        this.widthAnimation = null;
+      }
+      this.lastWidth = el.getBoundingClientRect().width;
+    };
+    animation.onfinish = done;
+    animation.oncancel = done;
+  }
+
+  private prefersReducedMotion(el: HTMLElement): boolean {
+    if (el.closest('[data-reduced-motion="true"]')) {
+      return true;
+    }
+    if (typeof matchMedia !== 'undefined') {
+      return matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+    return false;
+  }
+
+  private readMotionToken(
+    el: HTMLElement,
+    token: string,
+    fallback: number,
+  ): number {
+    const raw = this.readMotionTokenRaw(el, token);
+    const parsed = Number.parseFloat(raw);
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  private readMotionTokenRaw(el: HTMLElement, token: string): string {
+    if (typeof getComputedStyle === 'undefined') {
+      return '';
+    }
+    return getComputedStyle(el).getPropertyValue(token).trim();
+  }
+
+  private teardownWidthMotion(): void {
+    this.widthObserver?.disconnect();
+    this.widthObserver = null;
+    this.contentObserver?.disconnect();
+    this.contentObserver = null;
+    this.widthAnimation?.cancel();
+    this.widthAnimation = null;
   }
 
   ngOnInit(): void {

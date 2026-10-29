@@ -57,6 +57,11 @@
         "input-end": "Icono Input al final",
         "input-start": "Icono Input al inicio"
       },
+      "motion": {
+        "long": "Guardar cambios",
+        "short": "Guardar",
+        "swap": "Cambiar etiqueta"
+      },
       "loading": {
         "save": "Guardar"
       },
@@ -87,6 +92,9 @@
     "installation": {
       "note": "Instala el paquete único de Solaris y luego importa la directiva."
     },
+    "motion": {
+      "note": "Press usa una escala sutil de 0.99. Ancho, padding y gap se animan, así loading, badge y cambio de etiqueta crecen suave sin parpadeo."
+    },
     "props": {
       "note": "Tabla de Props próximamente con el componente de tabla."
     },
@@ -98,6 +106,7 @@
       "icons": "Iconos",
       "installation": "Instalación",
       "layout": "Layout",
+      "motion": "Movimiento",
       "props": "Props",
       "providers": "Iconos de marca",
       "radius": "Radio",
