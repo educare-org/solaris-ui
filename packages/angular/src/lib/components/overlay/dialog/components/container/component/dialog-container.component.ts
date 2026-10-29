@@ -362,6 +362,10 @@ export class SolarisDialogContainerComponent implements AfterViewInit {
     return this.externalComponentConfig()?.density;
   }
 
+  protected get chromeFlat(): boolean {
+    return this.externalComponentConfig()?.appearance === 'flat';
+  }
+
   protected get resolvedCloseLabel(): string {
     const closeLabelKey = this.simpleOptions()
       ? this.simpleOptions()?.closeLabelKey

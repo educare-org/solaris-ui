@@ -36,6 +36,8 @@
           [iconDecorative]="chromeIconDecorative"
           [closeable]="closeable"
           [closeLabel]="resolvedCloseLabel"
+          [density]="chromeDensity"
+          [flat]="chromeFlat"
           [scrolled]="panelScrolled()"
         />
       }
@@ -49,6 +51,7 @@
           [stack]="chromeActionsStack"
           [separator]="chromeFooterSeparator"
           [density]="chromeDensity"
+          [flat]="chromeFlat"
           [scrolled]="panelHasMoreBelow()"
         />
       }

@@ -135,7 +135,7 @@ class UserProfileComponent {
 ### SolarisDialogAction
 
 | Property     | Type                                                                     | Description                                   |
-| ------------ | ------------------------------------------------------------------------ | --------------------------------------------- |
+| ------------ | ------------------------------------------------------------------------ | --------------------------------------------- | ------------------------------------ |
 | label        | `string`                                                                 | Button label                                  |
 | labelKey     | `string`                                                                 | Translation key for label                     |
 | appearance   | `'solid' \| 'outline' \| 'ghost' \| 'tonal' \| 'surface'`                | Button appearance                             |
@@ -145,6 +145,7 @@ class UserProfileComponent {
 | radius       | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                               | Button radius (overrides `actionsRadius`)     |
 | icon         | `string`                                                                 | Icon name                                     |
 | iconPosition | `'start' \| 'end'`                                                       | Icon position                                 |
+| position     | `'start'                                                                 | 'end'`                                        | Pin to row start (splits footer 1+2) |
 | loading      | `boolean`                                                                | Whether action shows loading state            |
 | disabled     | `boolean`                                                                | Whether action is disabled                    |
 | close        | `boolean`                                                                | Whether clicking closes the dialog            |
@@ -220,6 +221,20 @@ this.dialog.open({
 });
 ```
 
+Pin the first action to the start while the rest stays at the end with
+`position: 'start'` (renders two groups with `data-split`):
+
+```typescript
+this.dialog.open({
+  title: 'Split actions',
+  actions: [
+    { label: 'Back', appearance: 'ghost', position: 'start', close: true },
+    { label: 'Help', appearance: 'ghost', close: true },
+    { label: 'Verify', color: 'primary', close: true },
+  ],
+});
+```
+
 ## Sizing
 
 The panel adapts to its content by default (constrained by
@@ -241,6 +256,12 @@ mobile).
 
 - `surface`: Borderless surface background (`--solaris-neutral-default`) with shadow, no border.
 - `outline`: Default. Surface background with visible border.
+- `flat`: Bordered panel like `outline`, but the header, footer and actions
+  share the same background as the content (no bands). Pass `flat` implicitly
+  via `appearance: 'flat'` (forwarded to the chrome header and actions);
+  manual compositions set `[flat]` on each `solaris-dialog-header` /
+  `solaris-dialog-footer` / `solaris-dialog-actions`. Separators and scrolled
+  shadows stay off so the chrome never paints a band.
 
 ## Close button
 
@@ -289,6 +310,26 @@ with zero `padding` / `margin` / `gap` by default; spacing is opt-in via
 `density` (`compact` / `normal` / `comfortable`, falling back to the theme
 density like `solaris-card`).
 
+`solaris-dialog-content` exposes `--solaris-dialog-content-padding`
+(`spacing-0/2/4/6` for default/compact/normal/comfortable). Override it
+without `::ng-deep`:
+
+```css
+solaris-dialog-content {
+  --solaris-dialog-content-padding: var(--solaris-spacing-8);
+}
+```
+
+`solaris-dialog-header` accepts `density` (input > theme > `normal`,
+forwarded by `solaris-dialog-container` chrome and by `solaris-dialog`
+in simple mode) and pairs icon and title on the same scale:
+
+| Density       | Title / icon          | Media container    |
+| ------------- | --------------------- | ------------------ |
+| `compact`     | `font-size-md` (18px) | `spacing-7` (16px) |
+| `normal`      | `font-size-lg` (20px) | `spacing-8` (20px) |
+| `comfortable` | `font-size-xl` (24px) | `spacing-9` (24px) |
+
 ## Placements
 
 - `center`: Default. Panel is centered vertically and horizontally.
@@ -314,10 +355,10 @@ interactive.
 
 Set `sheet: true` together with an edge `placement` (`top` / `bottom` /
 `left` / `right`) to dock the panel to that edge: full width (bottom/top)
-or full height (left/right), no 24px offset, radius only on the exposed
-side. `sheet` is ignored for `center`, corner placements and `fullscreen`,
-which keep the floating panel. The container reflects it as `data-sheet`
-(presence attribute).
+or full height (left/right), no 24px offset, always straight edges
+(`radius` is ignored on sheets). `sheet` is ignored for `center`, corner
+placements and `fullscreen`, which keep the floating panel. The container
+reflects it as `data-sheet` (presence attribute).
 
 ```typescript
 this.dialog.open({
@@ -366,30 +407,33 @@ sighted and screen-reader users alike.
 
 The following CSS variables can be customized. Panel and backdrop tokens are declared on the dialog container; icon and close tokens on the dialog header.
 
-| Token                                      | Purpose                                     |
-| ------------------------------------------ | ------------------------------------------- |
-| `--solaris-dialog-panel-bg`                | Panel background                            |
-| `--solaris-dialog-panel-padding`           | Panel inner padding                         |
-| `--solaris-dialog-panel-radius`            | Panel border radius                         |
-| `--solaris-dialog-panel-shadow`            | Panel box shadow                            |
-| `--solaris-dialog-panel-border`            | Panel border color (outline appearance)     |
-| `--solaris-dialog-panel-min-width`         | Panel minimum width                         |
-| `--solaris-dialog-panel-max-width`         | Panel maximum width                         |
-| `--solaris-dialog-panel-max-height`        | Panel maximum height                        |
-| `--solaris-dialog-backdrop-bg`             | Backdrop background                         |
-| `--solaris-dialog-z-index`                 | Stack order of the overlay                  |
-| `--solaris-dialog-icon-color`              | Header icon color                           |
-| `--solaris-dialog-icon-size`               | Header icon size                            |
-| `--solaris-dialog-close-icon-size`         | Close button icon size (header + fallback)  |
-| `--solaris-dialog-media-size`              | Header icon container size                  |
-| `--solaris-dialog-header-border-color`     | Header separator line color                 |
-| `--solaris-dialog-header-z-index`          | Header stacking above scrolled content      |
-| `--solaris-dialog-header-scrolled-shadow`  | Header elevation shadow while scrolled      |
-| `--solaris-dialog-footer-z-index`          | Footer stacking above scrolled content      |
-| `--solaris-dialog-footer-scrolled-shadow`  | Footer elevation shadow with content below  |
-| `--solaris-dialog-actions-z-index`         | Actions stacking above scrolled content     |
-| `--solaris-dialog-actions-scrolled-shadow` | Actions elevation shadow with content below |
-| `--solaris-dialog-actions-border-color`    | Footer separator line color                 |
+| Token                                      | Purpose                                      |
+| ------------------------------------------ | -------------------------------------------- |
+| `--solaris-dialog-panel-bg`                | Panel background                             |
+| `--solaris-dialog-panel-padding`           | Panel inner padding                          |
+| `--solaris-dialog-panel-radius`            | Panel border radius                          |
+| `--solaris-dialog-panel-shadow`            | Panel box shadow                             |
+| `--solaris-dialog-panel-border`            | Panel border color (outline appearance)      |
+| `--solaris-dialog-panel-min-width`         | Panel minimum width                          |
+| `--solaris-dialog-panel-max-width`         | Panel maximum width                          |
+| `--solaris-dialog-panel-max-height`        | Panel maximum height                         |
+| `--solaris-dialog-backdrop-bg`             | Backdrop background                          |
+| `--solaris-dialog-backdrop-filter`         | Backdrop blur (`blur(2px)` by default)       |
+| `--solaris-dialog-z-index`                 | Stack order of the overlay                   |
+| `--solaris-dialog-icon-color`              | Header icon color                            |
+| `--solaris-dialog-icon-size`               | Header icon size (matches title per density) |
+| `--solaris-dialog-title-size`              | Header title size (md/lg/xl per density)     |
+| `--solaris-dialog-content-padding`         | Dialog content padding (per density)         |
+| `--solaris-dialog-close-icon-size`         | Close button icon size (header + fallback)   |
+| `--solaris-dialog-media-size`              | Header icon container size                   |
+| `--solaris-dialog-header-border-color`     | Header separator line color                  |
+| `--solaris-dialog-header-z-index`          | Header stacking above scrolled content       |
+| `--solaris-dialog-header-scrolled-shadow`  | Header elevation shadow while scrolled       |
+| `--solaris-dialog-footer-z-index`          | Footer stacking above scrolled content       |
+| `--solaris-dialog-footer-scrolled-shadow`  | Footer elevation shadow with content below   |
+| `--solaris-dialog-actions-z-index`         | Actions stacking above scrolled content      |
+| `--solaris-dialog-actions-scrolled-shadow` | Actions elevation shadow with content below  |
+| `--solaris-dialog-actions-border-color`    | Footer separator line color                  |
 
 ## Accessibility
 

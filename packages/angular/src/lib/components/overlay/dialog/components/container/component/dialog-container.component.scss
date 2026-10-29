@@ -4,6 +4,7 @@
     var(--solaris-spacing-18) * 3 + var(--solaris-spacing-7)
   );
   --solaris-dialog-backdrop-bg: var(--solaris-neutral-backdrop);
+  --solaris-dialog-backdrop-filter: blur(2px);
   --solaris-dialog-panel-bg: var(--solaris-neutral-default);
   --solaris-dialog-z-index: var(--solaris-z-index-modal);
   --solaris-dialog-panel-shadow: var(--solaris-shadow-lg);
@@ -91,6 +92,8 @@
   align-items: center;
   justify-content: center;
   background: var(--solaris-dialog-backdrop-bg);
+  backdrop-filter: var(--solaris-dialog-backdrop-filter);
+  -webkit-backdrop-filter: var(--solaris-dialog-backdrop-filter);
   animation: solaris-motion-backdrop-enter var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-decelerate) both;
 }
@@ -290,7 +293,8 @@
   outline: var(--solaris-focus-ring-width) solid var(--solaris-focus-ring-color);
 }
 
-:host([data-appearance='outline']) .solaris-dialog-panel {
+:host([data-appearance='outline']) .solaris-dialog-panel,
+:host([data-appearance='flat']) .solaris-dialog-panel {
   border: var(--solaris-border-width-sm) solid
     var(--solaris-dialog-panel-border);
 }
@@ -355,6 +359,16 @@
   max-height: 100%;
   border-radius: var(--solaris-dialog-panel-radius) var(--solaris-radius-none)
     var(--solaris-radius-none) var(--solaris-dialog-panel-radius);
+}
+
+// Sheets always dock flush: straight edges on every side, regardless of
+// the radius input. The per-placement selectors below repeat the full
+// attribute list so this rule ties their specificity and wins by order.
+:host([data-sheet][data-placement='bottom']) .solaris-dialog-panel,
+:host([data-sheet][data-placement='top']) .solaris-dialog-panel,
+:host([data-sheet][data-placement='left']) .solaris-dialog-panel,
+:host([data-sheet][data-placement='right']) .solaris-dialog-panel {
+  border-radius: var(--solaris-radius-none);
 }
 
 @media (width <= 640px) {

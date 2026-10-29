@@ -12,6 +12,18 @@
   --solaris-dialog-actions-scrolled-shadow: var(--solaris-shadow-md);
 }
 
+:host([data-flat]) {
+  background: transparent;
+}
+
+:host([data-flat][data-separator]) {
+  border-top: none;
+}
+
+:host([data-flat][data-scrolled]) {
+  box-shadow: none;
+}
+
 :host([data-separator]) {
   border-top: var(--solaris-border-width-sm) solid
     var(--solaris-dialog-actions-border-color);
@@ -54,4 +66,20 @@
 
 :host([data-stack='horizontal']) .solaris-dialog-actions__inner {
   flex-direction: row;
+}
+
+.solaris-dialog-actions__group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--solaris-spacing-5);
+}
+
+:host([data-split]) .solaris-dialog-actions__inner {
+  justify-content: space-between;
+}
+
+:host([data-split][data-stack='vertical']) .solaris-dialog-actions__inner {
+  flex-direction: column;
+  align-items: stretch;
 }

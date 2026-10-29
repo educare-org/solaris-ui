@@ -11,7 +11,7 @@
     "align-space-between": "Espacio entre",
     "align-start": "Alinear al inicio",
     "appearance": "Apariencia",
-    "appearance-desc": "Outline (predeterminado) tiene fondo Surface con borde visible. Surface no tiene borde y tiene sombra.",
+    "appearance-desc": "Outline (predeterminado) tiene fondo Surface con borde visible. Surface no tiene borde y tiene sombra. Flat mantiene el borde y usa el mismo fondo en encabezado, contenido y pie.",
     "basic": "Dialogs básicos",
     "basic-desc": "Dialogs sencillos creados mediante la configuración de open().",
     "behavior": "Comportamiento",
@@ -43,7 +43,7 @@
       "open-placement": "Abrir dialog de ubicación",
       "open-sheet": "Abrir bottom sheet",
       "open-validated-flow": "Abrir flujo validado",
-      "open-variant": "Abrir dialog de variante"
+      "open-split": "Abrir dialog de acciones divididas"
     },
     "density": {
       "comfortable": "Cómodo",
@@ -107,7 +107,9 @@
       },
       "density": {
         "desc": "El espaciado de las secciones sigue la densidad {{density}}.",
-        "title": "Dialog de densidad"
+        "title": "Dialog de densidad",
+        "item-title": "Sección {{index}}",
+        "item-text": "La densidad cambia el relleno del contenido y la escala del encabezado. Cambia la densidad para comparar."
       },
       "flow": {
         "step1-desc": "Completa tu información básica para comenzar.",
@@ -125,7 +127,8 @@
         "step3-list2": "Verificar los datos de la institución",
         "step3-list3": "Aceptar los términos y condiciones",
         "step3-title": "Paso 3: Revisión",
-        "title": "Dialog de varios pasos"
+        "title": "Dialog de varios pasos",
+        "step-counter": "Paso {{current}} de {{total}}"
       },
       "fullscreen": {
         "desc": "El dialog de pantalla completa ocupa toda la ventana.",
@@ -136,7 +139,8 @@
         "inner-title": "¿Descartar cambios?",
         "open-inner": "Abrir dialog anidado",
         "outer-desc": "Este es el dialog externo. Abrir otro dialog lo abre encima.",
-        "outer-title": "Configuración del proyecto"
+        "outer-title": "Configuración del proyecto",
+        "outer-hint": "Abre un dialog de aviso encima. Solo el superior reacciona a Escape."
       },
       "no-backdrop-close": {
         "desc": "Hacer clic fuera no cerrará este dialog. Usa el botón de abajo.",
@@ -178,9 +182,24 @@
         "step2-title": "Paso 2: Revisión",
         "title": "Flujo validado"
       },
-      "variant": {
-        "desc": "Este dialog usa la variante {{variant}}.",
-        "title": "Variante {{variant}}"
+      "appearance-flat": {
+        "title": "Apariencia Flat",
+        "desc": "Flat usa el mismo fondo en encabezado, contenido y pie: sin franjas. Separadores y sombras de desplazamiento quedan desactivados."
+      },
+      "actions-split": {
+        "title": "Acciones divididas",
+        "desc": "La primera acción se fija al inicio; las demás quedan al final.",
+        "back": "Volver",
+        "help": "Ayuda",
+        "verify": "Verificar"
+      },
+      "tabs": {
+        "basic": "Básico",
+        "confirmation": "Confirmación",
+        "danger": "Peligro",
+        "component": "Componente",
+        "chrome": "Con chrome",
+        "scroll": "Desplazable"
       }
     },
     "flow": "Dialog Flow",
@@ -236,20 +255,13 @@
       "nested": "Dialogs anidados",
       "placement": "Ubicación",
       "props": "Propiedades",
-      "sheet": "Sheets",
-      "variants": "Variantes"
+      "sheet": "Sheets"
     },
     "sheet": {
       "note": "Los Sheets acoplan el panel a un borde con extensión completa. Solo las ubicaciones de borde admiten sheet."
     },
     "surface": "Surface",
     "title": "Dialog",
-    "variant-danger": "peligro",
-    "variant-info": "información",
-    "variant-neutral": "neutro",
-    "variant-success": "éxito",
-    "variant-warning": "advertencia",
-    "variants": "Variantes",
-    "variants-desc": "Las variantes afectan al icono y al color de énfasis."
+    "flat": "Flat"
   }
 }

@@ -1,6 +1,21 @@
-<p class="dialog-showcase__note">
-  {{ 'dialog.examples.nested.outer-desc' | translate }}
-</p>
-<button type="button" solaris-button color="warning" (click)="openInner()">
-  {{ 'dialog.examples.nested.open-inner' | translate }}
-</button>
+<solaris-dialog-header
+  [title]="'dialog.examples.nested.outer-title' | translate"
+  [description]="'dialog.examples.nested.outer-desc' | translate"
+  icon="info"
+  closeable
+/>
+
+<solaris-dialog-content>
+  <p class="nested-outer__text">
+    {{ 'dialog.examples.nested.outer-hint' | translate }}
+  </p>
+</solaris-dialog-content>
+
+<solaris-dialog-footer align="end">
+  <button type="button" solaris-button appearance="ghost" solaris-dialog-close>
+    {{ 'dialog.common.cancel' | translate }}
+  </button>
+  <button type="button" solaris-button color="primary" (click)="openInner()">
+    {{ 'dialog.examples.nested.open-inner' | translate }}
+  </button>
+</solaris-dialog-footer>

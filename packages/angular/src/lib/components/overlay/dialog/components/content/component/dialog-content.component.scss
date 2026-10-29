@@ -1,21 +1,23 @@
 :host {
+  --solaris-dialog-content-padding: var(--solaris-spacing-0);
+
   flex: 1;
   min-height: 0;
   display: block;
   overflow-y: auto;
-  padding: var(--solaris-spacing-0);
+  padding: var(--solaris-dialog-content-padding);
 }
 
 :host([data-density='compact']) {
-  padding: var(--solaris-spacing-2);
+  --solaris-dialog-content-padding: var(--solaris-spacing-2);
 }
 
 :host([data-density='normal']) {
-  padding: var(--solaris-spacing-4);
+  --solaris-dialog-content-padding: var(--solaris-spacing-4);
 }
 
 :host([data-density='comfortable']) {
-  padding: var(--solaris-spacing-6);
+  --solaris-dialog-content-padding: var(--solaris-spacing-6);
 }
 
 .solaris-dialog-content__inner {

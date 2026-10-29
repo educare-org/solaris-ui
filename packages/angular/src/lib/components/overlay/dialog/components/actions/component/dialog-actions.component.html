@@ -1,21 +1,48 @@
+<ng-template #actionButton let-action="action">
+  <button
+    type="button"
+    solaris-button
+    [icon]="action.icon"
+    (click)="handleAction(action)"
+    [radius]="action.radius ?? 'md'"
+    [shape]="action.shape ?? 'wide'"
+    [color]="action.color ?? 'neutral'"
+    [loading]="action.loading ?? false"
+    [disabled]="action.disabled ?? false"
+    [attr.data-autofocus]="action.autoFocus ? '' : null"
+    [density]="action.density ?? 'compact'"
+    [appearance]="action.appearance ?? 'solid'"
+    [iconPosition]="action.iconPosition ?? 'start'"
+  >
+    {{ resolvedLabel(action) }}
+  </button>
+</ng-template>
+
 <div class="solaris-dialog-actions__inner">
-  @for (action of actions(); track $index) {
-    <button
-      type="button"
-      solaris-button
-      [icon]="action.icon"
-      (click)="handleAction(action)"
-      [radius]="action.radius ?? 'md'"
-      [shape]="action.shape ?? 'wide'"
-      [color]="action.color ?? 'neutral'"
-      [loading]="action.loading ?? false"
-      [disabled]="action.disabled ?? false"
-      [attr.data-autofocus]="action.autoFocus ? '' : null"
-      [density]="action.density ?? 'compact'"
-      [appearance]="action.appearance ?? 'solid'"
-      [iconPosition]="action.iconPosition ?? 'start'"
+  @if (hasSplit()) {
+    <div
+      class="solaris-dialog-actions__group solaris-dialog-actions__group--start"
     >
-      {{ resolvedLabel(action) }}
-    </button>
+      @for (action of startActions(); track $index) {
+        <ng-container
+          *ngTemplateOutlet="actionButton; context: { action: action }"
+        />
+      }
+    </div>
+    <div
+      class="solaris-dialog-actions__group solaris-dialog-actions__group--end"
+    >
+      @for (action of endActions(); track $index) {
+        <ng-container
+          *ngTemplateOutlet="actionButton; context: { action: action }"
+        />
+      }
+    </div>
+  } @else {
+    @for (action of actions(); track $index) {
+      <ng-container
+        *ngTemplateOutlet="actionButton; context: { action: action }"
+      />
+    }
   }
 </div>

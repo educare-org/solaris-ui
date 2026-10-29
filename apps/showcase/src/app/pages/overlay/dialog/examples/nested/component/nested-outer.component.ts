@@ -2,6 +2,10 @@ import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 
 import {
   SolarisButtonDirective,
+  SolarisDialogCloseDirective,
+  SolarisDialogContentComponent,
+  SolarisDialogFooterComponent,
+  SolarisDialogHeaderComponent,
   SolarisDialogService,
   SolarisTranslatePipe,
   SolarisTranslateService,
@@ -9,8 +13,16 @@ import {
 
 @Component({
   standalone: true,
-  imports: [SolarisButtonDirective, SolarisTranslatePipe],
+  imports: [
+    SolarisButtonDirective,
+    SolarisDialogCloseDirective,
+    SolarisDialogContentComponent,
+    SolarisDialogFooterComponent,
+    SolarisDialogHeaderComponent,
+    SolarisTranslatePipe,
+  ],
   templateUrl: './nested-outer.component.html',
+  styleUrls: ['./nested-outer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NestedOuterExampleComponent {

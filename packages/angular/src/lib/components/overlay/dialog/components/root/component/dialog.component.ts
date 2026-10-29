@@ -106,6 +106,9 @@ export class SolarisDialogComponent<TResult = unknown> {
     () => this.options().actionsRadius,
   );
   protected readonly density = computed(() => this.options().density);
+  protected readonly flat = computed(
+    () => this.options().appearance === 'flat',
+  );
   protected readonly description = computed(() => this.options().description);
   protected readonly title = computed(() => this.options().title);
   protected readonly icon = computed(() => this.options().icon);

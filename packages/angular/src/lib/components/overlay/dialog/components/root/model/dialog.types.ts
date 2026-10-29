@@ -1,4 +1,4 @@
-export type SolarisDialogAppearance = 'surface' | 'outline';
+export type SolarisDialogAppearance = 'surface' | 'outline' | 'flat';
 
 export type SolarisDialogVariant =
   | 'neutral'
@@ -61,6 +61,7 @@ export type SolarisDialogDensity = SolarisDialogButtonDensity;
 export interface SolarisDialogAction<TResult = unknown> {
   label: string;
   labelKey?: string;
+  position?: 'start' | 'end';
   appearance?: SolarisDialogButtonAppearance;
   color?: SolarisDialogButtonColor;
   shape?: SolarisDialogButtonShape;

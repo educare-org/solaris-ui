@@ -26,6 +26,9 @@ import {
 import {
   DIALOG_SHOWCASE_BASIC_CODE,
   DIALOG_SHOWCASE_BREADCRUMBS,
+  DIALOG_SHOWCASE_CONFIRMATION_CODE,
+  DIALOG_SHOWCASE_DANGER_CODE,
+  DIALOG_SHOWCASE_SCROLL_CODE,
   DIALOG_SHOWCASE_COMPONENT_CHROME_CODE,
   DIALOG_SHOWCASE_COMPONENT_CODE,
   DIALOG_SHOWCASE_FLOW_CODE,
@@ -34,6 +37,7 @@ import {
   DIALOG_SHOWCASE_NEXT,
   DIALOG_SHOWCASE_PREV,
   DIALOG_SHOWCASE_SHEET_CODE,
+  DIALOG_SHOWCASE_SPLIT_CODE,
   DIALOG_SHOWCASE_SLUG,
   DIALOG_SHOWCASE_TOC_ITEMS,
   DIALOG_SHOWCASE_VALIDATED_FLOW_CODE,
@@ -71,7 +75,11 @@ export class DialogShowcaseComponent {
   protected readonly installCommands = SHOWCASE_INSTALL_COMMANDS;
   protected readonly importCode = DIALOG_SHOWCASE_IMPORT_CODE;
   protected readonly basicCode = DIALOG_SHOWCASE_BASIC_CODE;
+  protected readonly confirmationCode = DIALOG_SHOWCASE_CONFIRMATION_CODE;
+  protected readonly dangerCode = DIALOG_SHOWCASE_DANGER_CODE;
   protected readonly sheetCode = DIALOG_SHOWCASE_SHEET_CODE;
+  protected readonly splitCode = DIALOG_SHOWCASE_SPLIT_CODE;
+  protected readonly scrollCode = DIALOG_SHOWCASE_SCROLL_CODE;
   protected readonly nestedCode = DIALOG_SHOWCASE_NESTED_CODE;
   protected readonly componentCode = DIALOG_SHOWCASE_COMPONENT_CODE;
   protected readonly componentChromeCode =
@@ -79,33 +87,24 @@ export class DialogShowcaseComponent {
   protected readonly flowCode = DIALOG_SHOWCASE_FLOW_CODE;
   protected readonly validatedFlowCode = DIALOG_SHOWCASE_VALIDATED_FLOW_CODE;
 
-  protected readonly selectedVariant = signal<string>('warning');
+  protected readonly selectedExample = signal<string>('basic');
   protected readonly selectedAppearance = signal<string>('outline');
+  protected readonly selectedBehavior = signal<string>('fullscreen');
+  protected readonly selectedComponent = signal<string>('basic');
   protected readonly selectedDensity = signal<string>('normal');
   protected readonly selectedPlacement =
     signal<SolarisDialogPlacement>('bottom');
   protected readonly selectedActionsAlign = signal<string>('end');
 
-  protected readonly variantCode = computed(() => {
-    const variant = this.selectedVariant();
-    const lines = [
-      'this.dialog.open({',
-      `  title: '${this.capitalize(variant)} dialog',`,
-      `  description: 'This dialog uses the ${variant} variant.',`,
-      `  variant: '${variant}',`,
-      `  icon: '${variant}',`,
-    ];
-    if (variant === 'danger') {
-      lines.push("  role: 'alertdialog',");
+  protected readonly exampleCode = computed(() => {
+    switch (this.selectedExample()) {
+      case 'confirmation':
+        return this.confirmationCode;
+      case 'danger':
+        return this.dangerCode;
+      default:
+        return this.basicCode;
     }
-    lines.push(
-      '  actions: [',
-      "    { label: 'Cancel', appearance: 'ghost', close: true },",
-      "    { label: 'Confirm', color: 'primary', close: true },",
-      '  ],',
-      '});',
-    );
-    return lines.join('\n');
   });
 
   protected readonly appearanceCode = computed(() => {
@@ -125,10 +124,12 @@ export class DialogShowcaseComponent {
   protected readonly densityCode = computed(() => {
     const density = this.selectedDensity();
     return [
-      'this.dialog.open({',
+      'this.dialog.openComponent(DialogDensityExampleComponent, {',
       "  title: 'Density dialog',",
       `  description: 'Section spacing follows the ${density} density.',`,
+      "  icon: 'info',",
       `  density: '${density}',`,
+      "  width: '520px',",
       '  actions: [',
       "    { label: 'Cancel', appearance: 'ghost', close: true },",
       "    { label: 'Confirm', color: 'primary', close: true },",
@@ -136,6 +137,127 @@ export class DialogShowcaseComponent {
       '});',
     ].join('\n');
   });
+
+  protected readonly behaviorCode = computed(() => {
+    switch (this.selectedBehavior()) {
+      case 'not-closeable':
+        return [
+          'this.dialog.open({',
+          "  title: 'Not closeable',",
+          "  description: 'The close button is hidden and Escape is disabled.',",
+          '  closeable: false,',
+          '  closeOnEscape: false,',
+          '  actions: [',
+          "    { label: 'I understand', color: 'primary', close: true },",
+          '  ],',
+          '});',
+        ].join('\n');
+      case 'no-backdrop-close':
+        return [
+          'this.dialog.open({',
+          "  title: 'Backdrop click disabled',",
+          "  description: 'Clicking outside will not close this dialog.',",
+          '  closeOnBackdropClick: false,',
+          '  actions: [',
+          "    { label: 'Close', color: 'primary', close: true },",
+          '  ],',
+          '});',
+        ].join('\n');
+      case 'no-escape-close':
+        return [
+          'this.dialog.open({',
+          "  title: 'Escape disabled',",
+          "  description: 'Pressing Escape will not close this dialog.',",
+          '  closeOnEscape: false,',
+          '  actions: [',
+          "    { label: 'Close', color: 'primary', close: true },",
+          '  ],',
+          '});',
+        ].join('\n');
+      case 'no-separators':
+        return [
+          'this.dialog.open({',
+          "  title: 'Dialog without separators',",
+          "  description: 'Header and footer separators are disabled.',",
+          '  headerSeparator: false,',
+          '  footerSeparator: false,',
+          '  actions: [',
+          "    { label: 'OK', color: 'primary', close: true },",
+          '  ],',
+          '});',
+        ].join('\n');
+      default:
+        return [
+          'this.dialog.open({',
+          "  title: 'Fullscreen dialog',",
+          "  description: 'Fullscreen dialog fills the entire viewport.',",
+          '  fullscreen: true,',
+          '  actions: [',
+          "    { label: 'Close', color: 'primary', close: true },",
+          '  ],',
+          '});',
+        ].join('\n');
+    }
+  });
+
+  protected readonly componentTabCode = computed(() => {
+    switch (this.selectedComponent()) {
+      case 'chrome':
+        return this.componentChromeCode;
+      case 'scroll':
+        return this.scrollCode;
+      default:
+        return this.componentCode;
+    }
+  });
+
+  protected openComponentDemo(): void {
+    switch (this.selectedComponent()) {
+      case 'chrome':
+        this.openComponentWithChrome();
+        break;
+      case 'scroll':
+        this.openComponentScroll();
+        break;
+      default:
+        this.openComponent();
+        break;
+    }
+  }
+
+  protected openExampleDemo(): void {
+    switch (this.selectedExample()) {
+      case 'confirmation':
+        this.openConfirmation();
+        break;
+      case 'danger':
+        this.openDanger();
+        break;
+      default:
+        this.openBasic();
+        break;
+    }
+  }
+
+  protected openBehaviorDemo(): void {
+    switch (this.selectedBehavior()) {
+      case 'not-closeable':
+        this.openNotCloseable();
+        break;
+      case 'no-backdrop-close':
+        this.openNoBackdropClose();
+        break;
+      case 'no-escape-close':
+        this.openNoEscapeClose();
+        break;
+      case 'no-separators':
+        this.openNoSeparators();
+        break;
+      default:
+        this.openFullscreen();
+        break;
+    }
+  }
 
   protected readonly placementCode = computed(() => {
     const placement = this.selectedPlacement();
@@ -253,38 +375,17 @@ export class DialogShowcaseComponent {
     });
   }
 
-  openVariantDemo(): void {
-    const variant = this.selectedVariant() as
-      | 'neutral'
-      | 'info'
-      | 'success'
-      | 'warning'
-      | 'danger';
-    this.dialogService.open({
-      title: this.translateService.translate('dialog.examples.variant.title', {
-        variant,
-      }),
-      description: this.translateService.translate(
-        'dialog.examples.variant.desc',
-        { variant },
-      ),
-      variant,
-      icon: variant,
-      ...(variant === 'danger' ? { role: 'alertdialog' as const } : {}),
-      actions: [
-        {
-          label: this.translateService.translate('dialog.common.ok'),
-          color: 'primary',
-          close: true,
-        },
-      ],
-    });
-  }
-
   openAppearanceDemo(): void {
-    const appearance = this.selectedAppearance() as 'surface' | 'outline';
+    const appearance = this.selectedAppearance() as
+      | 'surface'
+      | 'outline'
+      | 'flat';
     const key =
-      appearance === 'surface' ? 'appearance-surface' : 'appearance-outline';
+      appearance === 'surface'
+        ? 'appearance-surface'
+        : appearance === 'flat'
+          ? 'appearance-flat'
+          : 'appearance-outline';
     this.dialogService.open({
       title: this.translateService.translate(`dialog.examples.${key}.title`),
       description: this.translateService.translate(
@@ -306,25 +407,29 @@ export class DialogShowcaseComponent {
       | 'compact'
       | 'normal'
       | 'comfortable';
-    this.dialogService.open({
-      title: this.translateService.translate('dialog.examples.density.title'),
-      description: this.translateService.translate(
-        'dialog.examples.density.desc',
-        { density },
-      ),
-      density,
-      actions: [
-        {
-          label: this.translateService.translate('dialog.common.cancel'),
-          appearance: 'ghost',
-          close: true,
-        },
-        {
-          label: this.translateService.translate('dialog.common.confirm'),
-          color: 'primary',
-          close: true,
-        },
-      ],
+    import('../examples/dialog-density-example.component').then((m) => {
+      this.dialogService.openComponent(m.DialogDensityExampleComponent, {
+        title: this.translateService.translate('dialog.examples.density.title'),
+        description: this.translateService.translate(
+          'dialog.examples.density.desc',
+          { density },
+        ),
+        icon: 'info',
+        density,
+        width: '520px',
+        actions: [
+          {
+            label: this.translateService.translate('dialog.common.cancel'),
+            appearance: 'ghost',
+            close: true,
+          },
+          {
+            label: this.translateService.translate('dialog.common.confirm'),
+            color: 'primary',
+            close: true,
+          },
+        ],
+      });
     });
   }
 
@@ -370,10 +475,9 @@ export class DialogShowcaseComponent {
 
   openNestedDemo(): void {
     import('../examples/nested/component/nested-outer.component').then((m) => {
+      // Manual composition: the component renders its own header with
+      // title/description and anchors the inner-dialog button in a footer.
       this.dialogService.openComponent(m.NestedOuterExampleComponent, {
-        title: this.translateService.translate(
-          'dialog.examples.nested.outer-title',
-        ),
         width: '500px',
       });
     });
@@ -401,6 +505,41 @@ export class DialogShowcaseComponent {
         },
         {
           label: this.translateService.translate('dialog.common.confirm'),
+          color: 'primary',
+          close: true,
+        },
+      ],
+    });
+  }
+
+  openSplitDemo(): void {
+    this.dialogService.open({
+      title: this.translateService.translate(
+        'dialog.examples.actions-split.title',
+      ),
+      description: this.translateService.translate(
+        'dialog.examples.actions-split.desc',
+      ),
+      actions: [
+        {
+          label: this.translateService.translate(
+            'dialog.examples.actions-split.back',
+          ),
+          appearance: 'ghost',
+          position: 'start',
+          close: true,
+        },
+        {
+          label: this.translateService.translate(
+            'dialog.examples.actions-split.help',
+          ),
+          appearance: 'ghost',
+          close: true,
+        },
+        {
+          label: this.translateService.translate(
+            'dialog.examples.actions-split.verify',
+          ),
           color: 'primary',
           close: true,
         },
@@ -587,8 +726,8 @@ export class DialogShowcaseComponent {
   openFlow(): void {
     import('../examples/dialog-flow-example.component').then((m) => {
       this.dialogService.openComponent(m.DialogFlowExampleComponent, {
+        title: this.translateService.translate('dialog.examples.flow.title'),
         width: '600px',
-        minHeight: '300px',
       });
     });
   }
@@ -601,8 +740,10 @@ export class DialogShowcaseComponent {
         title: this.translateService.translate(
           'dialog.examples.validated.title',
         ),
+        description: this.translateService.translate(
+          'dialog.examples.validated.step1-desc',
+        ),
         width: '560px',
-        minHeight: '320px',
       });
     });
   }

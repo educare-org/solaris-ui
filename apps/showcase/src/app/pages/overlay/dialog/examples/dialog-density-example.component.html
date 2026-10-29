@@ -1,0 +1,15 @@
+<div class="dialog-density-example">
+  @for (section of sections(); track section) {
+    <section class="dialog-density-example__section">
+      <h3 class="dialog-density-example__heading">
+        {{
+          'dialog.examples.density.item-title'
+            | translate: { index: section + 1 }
+        }}
+      </h3>
+      <p class="dialog-density-example__text">
+        {{ 'dialog.examples.density.item-text' | translate }}
+      </p>
+    </section>
+  }
+</div>

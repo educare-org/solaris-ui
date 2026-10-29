@@ -27,7 +27,6 @@ export const DIALOG_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
 
 export const DIALOG_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'examples', labelKey: 'dialog.section.examples' },
-  { anchor: 'variants', labelKey: 'dialog.section.variants' },
   { anchor: 'appearance', labelKey: 'dialog.section.appearance' },
   { anchor: 'density', labelKey: 'dialog.section.density' },
   { anchor: 'placement', labelKey: 'dialog.section.placement' },
@@ -57,6 +56,44 @@ export const DIALOG_SHOWCASE_BASIC_CODE = [
   '});',
 ].join('\n');
 
+export const DIALOG_SHOWCASE_SPLIT_CODE = [
+  'this.dialog.open({',
+  "  title: 'Split actions',",
+  "  description: 'The first action pins to the start; the rest stays at the end.',",
+  '  actions: [',
+  "    { label: 'Back', appearance: 'ghost', position: 'start', close: true },",
+  "    { label: 'Help', appearance: 'ghost', close: true },",
+  "    { label: 'Verify', color: 'primary', close: true },",
+  '  ],',
+  '});',
+].join('\n');
+
+export const DIALOG_SHOWCASE_CONFIRMATION_CODE = [
+  'this.dialog.open({',
+  "  title: 'Discard changes?',",
+  "  description: 'You have unsaved changes. Do you want to continue?',",
+  "  variant: 'warning',",
+  '  actions: [',
+  "    { label: 'Cancel', appearance: 'ghost', close: true, result: 'cancel' },",
+  "    { label: 'Discard', color: 'danger', close: true, result: 'discard' },",
+  '  ],',
+  '});',
+].join('\n');
+
+export const DIALOG_SHOWCASE_DANGER_CODE = [
+  'this.dialog.open({',
+  "  title: 'Delete account',",
+  "  description: 'This action cannot be undone.',",
+  "  variant: 'danger',",
+  "  role: 'alertdialog',",
+  '  closeOnBackdropClick: false,',
+  '  actions: [',
+  "    { label: 'Cancel', appearance: 'ghost', close: true },",
+  "    { label: 'Delete', color: 'danger', close: true },",
+  '  ],',
+  '});',
+].join('\n');
+
 export const DIALOG_SHOWCASE_SHEET_CODE = [
   'this.dialog.open({',
   "  title: 'Filters',",
@@ -70,13 +107,12 @@ export const DIALOG_SHOWCASE_SHEET_CODE = [
 ].join('\n');
 
 export const DIALOG_SHOWCASE_NESTED_CODE = [
-  '// Outer component dialog:',
-  'this.dialog.openComponent(OuterSettingsComponent, {',
-  "  title: 'Settings',",
+  '// Outer dialog renders its own header/content/footer:',
+  'this.dialog.openComponent(NestedOuterExampleComponent, {',
   "  width: '500px',",
   '});',
   '',
-  '// …inside OuterSettingsComponent:',
+  '// …inside NestedOuterExampleComponent, the footer button stacks another:',
   'this.dialog.open({',
   "  title: 'Discard changes?',",
   "  variant: 'warning',",
@@ -112,22 +148,29 @@ export const DIALOG_SHOWCASE_COMPONENT_CHROME_CODE = [
   '});',
 ].join('\n');
 
+export const DIALOG_SHOWCASE_SCROLL_CODE = [
+  'const ref = this.dialog.openComponent(ComponentDialogScrollExample, {',
+  "  width: '720px',",
+  "  maxHeight: '480px',",
+  '});',
+].join('\n');
+
 export const DIALOG_SHOWCASE_FLOW_CODE = [
   'this.dialog.openComponent(DialogFlowExampleComponent, {',
+  "  title: 'Multi-step Dialog',",
   "  width: '600px',",
-  "  minHeight: '300px',",
   '});',
 ].join('\n');
 
 export const DIALOG_SHOWCASE_VALIDATED_FLOW_CODE = [
   '<solaris-dialog-flow [(activeIndex)]="activeStep">',
   '  <solaris-dialog-step>',
-  '    <label>Name',
-  '      <input [(ngModel)]="name" required />',
-  '    </label>',
+  '    <solaris-form-field label="Name" [error]="nameError" [invalid]="!isNameValid">',
+  '      <input solaris-input [value]="name()" (input)="name.set($event)" />',
+  '    </solaris-form-field>',
   '  </solaris-dialog-step>',
   '',
-  '  <solaris-dialog-step [disabled]="!name().trim()">',
+  '  <solaris-dialog-step [disabled]="!isNameValid">',
   '    <p>Review {{ name() }} before finishing.</p>',
   '  </solaris-dialog-step>',
   '',

@@ -13,10 +13,14 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
-import type { SolarisDialogVariant } from '../../root/model/dialog.types';
+import type {
+  SolarisDialogDensity,
+  SolarisDialogVariant,
+} from '../../root/model/dialog.types';
 import { SOLARIS_DIALOG_REF } from '../../../token/dialog-data.token';
 import type { SolarisDialogRef } from '../../../service/dialog-ref';
 import { SolarisTranslateService } from '../../../../../../services/translation';
+import { SolarisThemeService } from '../../../../../../services/theme';
 import { SolarisIconComponent } from '../../../../../icon';
 import { nextIdFor } from '../../../../../../core';
 
@@ -32,6 +36,8 @@ import { nextIdFor } from '../../../../../../core';
     '[attr.data-variant]': 'variant()',
     '[attr.data-separator]': "separator() ? '' : null",
     '[attr.data-scrolled]': "effectiveScrolled() ? '' : null",
+    '[attr.data-density]': 'effectiveDensity()',
+    '[attr.data-flat]': "flat() ? '' : null",
   },
 })
 export class SolarisDialogHeaderComponent implements AfterViewInit {
@@ -43,6 +49,9 @@ export class SolarisDialogHeaderComponent implements AfterViewInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly translateService = inject(SolarisTranslateService, {
+    optional: true,
+  });
+  private readonly themeService = inject(SolarisThemeService, {
     optional: true,
   });
 
@@ -62,6 +71,14 @@ export class SolarisDialogHeaderComponent implements AfterViewInit {
   readonly closeLabel = input<string>('Close');
   readonly closeLabelKey = input<string>();
   readonly scrolled = input<boolean>();
+  readonly density = input<SolarisDialogDensity>();
+  readonly flat = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
+
+  protected readonly effectiveDensity = computed(
+    () => this.density() ?? this.themeService?.density ?? 'normal',
+  );
 
   protected readonly resolvedTitle = computed(() => {
     const titleKey = this.titleKey();

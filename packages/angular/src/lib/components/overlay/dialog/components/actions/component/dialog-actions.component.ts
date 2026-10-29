@@ -12,7 +12,7 @@ import {
   AfterViewInit,
   PLATFORM_ID,
 } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { NgTemplateOutlet, isPlatformBrowser } from '@angular/common';
 import { SolarisButtonDirective } from '../../../../../actions/button';
 import { SolarisDialogRef } from '../../../service/dialog-ref';
 import { SOLARIS_DIALOG_REF } from '../../../token/dialog-data.token';
@@ -28,7 +28,7 @@ import type {
 @Component({
   selector: 'solaris-dialog-actions',
   standalone: true,
-  imports: [SolarisButtonDirective],
+  imports: [NgTemplateOutlet, SolarisButtonDirective],
   templateUrl: './dialog-actions.component.html',
   styleUrls: ['./dialog-actions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,6 +38,8 @@ import type {
     '[attr.data-separator]': "separator() ? '' : null",
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-scrolled]': "effectiveScrolled() ? '' : null",
+    '[attr.data-flat]': "flat() ? '' : null",
+    '[attr.data-split]': "hasSplit() ? '' : null",
     class: 'solaris-dialog-actions',
   },
 })
@@ -66,9 +68,24 @@ export class SolarisDialogActionsComponent<TResult = unknown>
   });
   readonly density = input<SolarisDialogDensity>();
   readonly scrolled = input<boolean>();
+  readonly flat = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
 
   protected readonly effectiveDensity = computed(
     () => this.density() ?? this.themeService?.density ?? 'normal',
+  );
+
+  protected readonly startActions = computed(() =>
+    this.actions().filter((action) => action.position === 'start'),
+  );
+
+  protected readonly endActions = computed(() =>
+    this.actions().filter((action) => action.position !== 'start'),
+  );
+
+  protected readonly hasSplit = computed(
+    () => this.startActions().length > 0 && this.endActions().length > 0,
   );
 
   protected readonly internalScrolled = signal(false);
