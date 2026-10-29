@@ -1,0 +1,126 @@
+<ng-template #dots>
+  <div
+    class="solaris-media-carousel__dots"
+    role="group"
+    [style.--solaris-carousel-progress-duration]="progressDuration()"
+    (mouseenter)="handleHover(true, 'dots')"
+    (mouseleave)="handleHover(false, 'dots')"
+    (focusin)="handleFocus(true, 'dots')"
+    (focusout)="handleFocus(false, 'dots')"
+  >
+    <div class="solaris-media-carousel__dots-group">
+      @for (index of dotIndices(); track index) {
+        <button
+          type="button"
+          class="solaris-media-carousel__dot"
+          (click)="goTo(index)"
+          [attr.aria-label]="dotLabel(index)"
+          [attr.aria-current]="index === currentIndex() ? 'true' : null"
+          [attr.data-active]="index === currentIndex() ? '' : null"
+        >
+          <span class="solaris-media-carousel__dot-track" aria-hidden="true">
+            @if (index === currentIndex() && showFill()) {
+              <span
+                class="solaris-media-carousel__dot-fill"
+                [style.animation-play-state]="playing ? 'running' : 'paused'"
+              ></span>
+            }
+          </span>
+        </button>
+      }
+    </div>
+    @if (showPlayPauseControl()) {
+      <button
+        type="button"
+        class="solaris-media-carousel__play-pause"
+        (click)="toggleAutoplay()"
+        [attr.aria-label]="playing ? resolvedPauseLabel() : resolvedPlayLabel()"
+        [attr.aria-pressed]="playing ? 'true' : 'false'"
+        [attr.data-playing]="playing ? '' : null"
+      >
+        <span
+          class="solaris-media-carousel__play-pause-labels"
+          aria-hidden="true"
+        >
+          <span
+            class="solaris-media-carousel__play-pause-label solaris-media-carousel__play-pause-label--play"
+            >{{ resolvedPlayLabel() }}</span
+          >
+          <span
+            class="solaris-media-carousel__play-pause-label solaris-media-carousel__play-pause-label--pause"
+            >{{ resolvedPauseLabel() }}</span
+          >
+        </span>
+      </button>
+    }
+  </div>
+</ng-template>
+
+<div
+  class="solaris-media-carousel__viewport"
+  data-testid="solaris-media-carousel-viewport"
+  [style.aspect-ratio]="normalizedAspectRatio()"
+  [attr.data-object-fit]="objectFit()"
+  (mouseenter)="handleHover(true)"
+  (mouseleave)="handleHover(false)"
+  (focusin)="handleFocus(true)"
+  (focusout)="handleFocus(false)"
+>
+  @if (isEmpty()) {
+    <p class="solaris-media-carousel__empty" role="status">
+      {{ resolvedEmptyText() }}
+    </p>
+  } @else {
+    <div
+      class="solaris-media-carousel__track"
+      aria-live="off"
+      [style.transform]="trackTransform()"
+    >
+      @for (slide of normalizedSlides(); track $index) {
+        <div
+          class="solaris-media-carousel__slide"
+          role="group"
+          aria-roledescription="slide"
+          [attr.aria-label]="slideLabel($index)"
+          [attr.aria-hidden]="$index === currentIndex() ? null : 'true'"
+          [attr.inert]="$index === currentIndex() ? null : ''"
+          [attr.data-active]="$index === currentIndex() ? '' : null"
+        >
+          <img
+            class="solaris-media-carousel__image"
+            [src]="slideImageSrc(slide)"
+            [alt]="slideAlt(slide)"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      }
+    </div>
+    @if (showArrowsControl()) {
+      <button
+        type="button"
+        class="solaris-media-carousel__arrow solaris-media-carousel__arrow--prev"
+        (click)="prev()"
+        [attr.aria-label]="resolvedPrevLabel()"
+        [attr.aria-disabled]="canPrevious() ? null : 'true'"
+      >
+        <solaris-icon name="chevron-left" [decorative]="true" />
+      </button>
+      <button
+        type="button"
+        class="solaris-media-carousel__arrow solaris-media-carousel__arrow--next"
+        (click)="next()"
+        [attr.aria-label]="resolvedNextLabel()"
+        [attr.aria-disabled]="canNext() ? null : 'true'"
+      >
+        <solaris-icon name="chevron-right" [decorative]="true" />
+      </button>
+    }
+    @if (showDots() && !isDotsOutside()) {
+      <ng-container *ngTemplateOutlet="dots" />
+    }
+  }
+</div>
+@if (showDots() && isDotsOutside()) {
+  <ng-container *ngTemplateOutlet="dots" />
+}

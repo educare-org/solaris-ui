@@ -323,6 +323,10 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
             labelKey: 'shell.sidebar.item.accordion',
             route: '/interaction/accordion',
           },
+          {
+            labelKey: 'shell.sidebar.item.media-carousel',
+            route: '/interaction/media-carousel',
+          },
         ],
       },
       {

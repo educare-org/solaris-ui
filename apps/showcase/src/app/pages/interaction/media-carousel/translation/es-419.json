@@ -1,0 +1,36 @@
+{
+  "media-carousel": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI de {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "description": "Vista giratoria de pancartas e imágenes con flechas, navegación por puntos y soporte de teclado.",
+    "autoplay": {
+      "note": "Con reproducción automática, el punto activo se llena durante la duración y se pausa con hover, foco, pestaña oculta y movimiento reducido. El botón pausa y reanuda."
+    },
+    "dots-outside": {
+      "note": "Los puntos aparecen debajo de la vista en lugar de sobre la imagen."
+    },
+    "examples": {
+      "label": "Historias destacadas",
+      "note": "Una diapositiva visible a la vez. Usa las flechas o los puntos para moverte, o enfoca la vista y usa las flechas del teclado."
+    },
+    "installation": {
+      "note": "Instala el paquete único de Solaris e importa el componente."
+    },
+    "loop": {
+      "note": "Sin repetición, las flechas se detienen en la primera y la última diapositiva y exponen aria-disabled."
+    },
+    "props": {
+      "note": "Tabla de props próximamente, con el componente de tabla."
+    },
+    "section": {
+      "autoplay": "Reproducción automática",
+      "dots-outside": "Puntos fuera",
+      "examples": "Ejemplos",
+      "installation": "Instalación",
+      "loop": "Repetición",
+      "props": "Props"
+    },
+    "title": "Carrusel multimedia"
+  }
+}
