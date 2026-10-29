@@ -208,6 +208,19 @@ export class SolarisSegmentedControlComponent
 
     this.setupIndicatorMeasurement();
 
+    // Webfont swaps change glyph widths without touching the DOM or the
+    // host box (fixed-width layouts), so neither observer below fires.
+    // Re-measure once fonts settle.
+    if (typeof document !== 'undefined' && document.fonts) {
+      document.fonts.ready
+        .then(() => {
+          this.ngZone.runOutsideAngular(() => {
+            requestAnimationFrame(() => this.measureIndicator());
+          });
+        })
+        .catch(() => undefined);
+    }
+
     effect(
       () => {
         this.value();
@@ -216,6 +229,8 @@ export class SolarisSegmentedControlComponent
         this.size();
         this.effectiveDensity();
         this.radius();
+        this.items();
+        this.observeIndicatorTargets();
         this.ngZone.runOutsideAngular(() => {
           requestAnimationFrame(() => this.measureIndicator());
         });
@@ -324,8 +339,7 @@ export class SolarisSegmentedControlComponent
           requestAnimationFrame(() => this.measureIndicator());
         });
       });
-      const nativeEl = this.elementRef.nativeElement as HTMLElement;
-      this.resizeObserver.observe(nativeEl);
+      this.observeIndicatorTargets();
     }
 
     if (typeof MutationObserver !== 'undefined') {
@@ -347,6 +361,22 @@ export class SolarisSegmentedControlComponent
     this.ngZone.runOutsideAngular(() => {
       requestAnimationFrame(() => this.measureIndicator());
     });
+  }
+
+  private observeIndicatorTargets(): void {
+    // Observe the host AND every item: in fixed-width layouts (fullWidth,
+    // equalWidth) an item can resize while the host box stays put, and the
+    // host-only observation would miss it.
+    const observer = this.resizeObserver;
+    if (!observer) {
+      return;
+    }
+    observer.disconnect();
+    const nativeEl = this.elementRef.nativeElement as HTMLElement;
+    observer.observe(nativeEl);
+    nativeEl
+      .querySelectorAll('solaris-segmented-item')
+      .forEach((item) => observer.observe(item));
   }
 
   private disconnectObserver(): void {

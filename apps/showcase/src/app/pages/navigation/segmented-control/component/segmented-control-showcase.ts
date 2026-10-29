@@ -40,6 +40,7 @@ import {
   SEGMENTED_CONTROL_SHOWCASE_NO_INDICATOR_CODE,
   SEGMENTED_CONTROL_SHOWCASE_PREV,
   SEGMENTED_CONTROL_SHOWCASE_RADIUS_FULL_CODE,
+  SEGMENTED_CONTROL_SHOWCASE_RADIUS_NONE_CODE,
   SEGMENTED_CONTROL_SHOWCASE_RADIUS_LG_CODE,
   SEGMENTED_CONTROL_SHOWCASE_RADIUS_MD_CODE,
   SEGMENTED_CONTROL_SHOWCASE_RADIUS_SM_CODE,
@@ -125,6 +126,8 @@ export class SegmentedControlShowcasePage {
   protected readonly radiusLgCode = SEGMENTED_CONTROL_SHOWCASE_RADIUS_LG_CODE;
   protected readonly radiusFullCode =
     SEGMENTED_CONTROL_SHOWCASE_RADIUS_FULL_CODE;
+  protected readonly radiusNoneCode =
+    SEGMENTED_CONTROL_SHOWCASE_RADIUS_NONE_CODE;
   protected readonly verticalCode = SEGMENTED_CONTROL_SHOWCASE_VERTICAL_CODE;
   protected readonly fullWidthCode = SEGMENTED_CONTROL_SHOWCASE_FULL_WIDTH_CODE;
   protected readonly equalWidthCode =
@@ -162,6 +165,9 @@ export class SegmentedControlShowcasePage {
   protected readonly selectedDensity =
     signal<SolarisSegmentedControlDensity>('normal');
   protected readonly selectedRadius = signal<string>('md');
+  protected readonly selectedLayout = signal<string>('full-width');
+  protected readonly selectedFeature = signal<string>('with-icons');
+  protected readonly selectedState = signal<string>('disabled-group');
 
   protected readonly sizeDensityCode = computed(() =>
     [

@@ -8,24 +8,26 @@
   user-select: none;
   position: relative;
   white-space: nowrap;
+  align-items: center;
   text-decoration: none;
   box-sizing: border-box;
   background: transparent;
-  z-index: var(--solaris-z-index-raised);
-  display: var(--solaris-segmented-item-display);
-  width: var(--solaris-segmented-item-width);
-  max-width: var(--solaris-segmented-item-max-width);
-  flex: var(--solaris-segmented-item-flex);
-  justify-content: var(--solaris-segmented-item-justify);
-  align-items: center;
   gap: var(--solaris-segmented-item-gap);
+  z-index: var(--solaris-z-index-raised);
+  flex: var(--solaris-segmented-item-flex);
+  width: var(--solaris-segmented-item-width);
   color: var(--solaris-segmented-item-color);
+  display: var(--solaris-segmented-item-display);
+  min-width: var(--solaris-segmented-item-min-width);
+  max-width: var(--solaris-segmented-item-max-width);
+  justify-content: var(--solaris-segmented-item-justify);
   min-height: var(--solaris-segmented-item-height-override);
   border-radius: var(--solaris-segmented-item-border-radius);
   padding: var(--solaris-segmented-item-padding-y)
     var(--solaris-segmented-item-padding-x);
   font: var(--solaris-segmented-item-font-weight)
-    var(--solaris-segmented-item-font-size) / 1 var(--solaris-font-family-sans);
+    var(--solaris-segmented-item-font-size) /
+    var(--solaris-segmented-item-line-height) var(--solaris-font-family-sans);
   transition:
     color var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
@@ -101,8 +103,12 @@
 
 .solaris-segmented-item__inner {
   min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
   align-items: center;
   display: inline-flex;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   gap: var(--solaris-segmented-item-gap);
 }
 
@@ -113,6 +119,7 @@
 }
 
 .solaris-segmented-item__label {
+  min-width: 0;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;

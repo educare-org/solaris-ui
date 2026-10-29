@@ -9,7 +9,12 @@ export type SolarisSegmentedControlDensity =
   | 'normal'
   | 'comfortable';
 
-export type SolarisSegmentedControlRadius = 'sm' | 'md' | 'lg' | 'full';
+export type SolarisSegmentedControlRadius =
+  | 'none'
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'full';
 
 export type SolarisSegmentedControlSelectedEdge = 'first' | 'last' | 'both';
 

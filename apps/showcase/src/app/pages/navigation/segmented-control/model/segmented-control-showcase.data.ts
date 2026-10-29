@@ -105,6 +105,13 @@ export const SEGMENTED_CONTROL_SHOWCASE_RADIUS_FULL_CODE = [
   '</solaris-segmented-control>',
 ].join('\n');
 
+export const SEGMENTED_CONTROL_SHOWCASE_RADIUS_NONE_CODE = [
+  '<solaris-segmented-control radius="none" defaultValue="a" aria-label="Radius none">',
+  '  <solaris-segmented-item value="a">Radius SM</solaris-segmented-item>',
+  '  <solaris-segmented-item value="b">Radius Full</solaris-segmented-item>',
+  '</solaris-segmented-control>',
+].join('\n');
+
 export const SEGMENTED_CONTROL_SHOWCASE_VERTICAL_CODE = [
   '<solaris-segmented-control orientation="vertical" [(value)]="section" aria-label="Section">',
   '  <solaris-segmented-item value="general">General</solaris-segmented-item>',
@@ -141,9 +148,9 @@ export const SEGMENTED_CONTROL_SHOWCASE_MANY_OPTIONS_CODE = [
 
 export const SEGMENTED_CONTROL_SHOWCASE_LONG_LABELS_CODE = [
   '<solaris-segmented-control [equalWidth]="true" [(value)]="setting" aria-label="Setting">',
-  '  <solaris-segmented-item value="a">User Settings</solaris-segmented-item>',
-  '  <solaris-segmented-item value="b">System Preferences</solaris-segmented-item>',
-  '  <solaris-segmented-item value="c">Notifications & Alerts</solaris-segmented-item>',
+  '  <solaris-segmented-item value="a" label="User Settings" />',
+  '  <solaris-segmented-item value="b" label="System Preferences" />',
+  '  <solaris-segmented-item value="c" label="Notifications & Alerts" />',
   '</solaris-segmented-control>',
 ].join('\n');
 

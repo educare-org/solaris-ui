@@ -114,13 +114,57 @@ Container with surface background and a visible border. Never fully transparent.
 ## Density
 
 - `compact` — reduced spacing
-- `comfortable` — default spacing
+- `normal` — default spacing
+- `comfortable` — increased spacing
+
+## Height ladder (content + padding, pinned by a floor)
+
+The outer height of a horizontal control is pinned to its `control-height`
+token by `min-height` (`--solaris-segmented-item-height-override`, one token
+per size x density combination, never an alias). Content (label
+`font-size x line-height-sm 1.4`) plus vertical item padding always stays
+below the token, so the floor only absorbs the slack and nothing clips; the
+vertical container padding stays `0`. The override keeps working as a
+consumer escape hatch (`auto` disables the floor, a length forces it).
+
+| Size / density     | Font      | Content | Item `padding-y` / `padding-x` | Content + padding | Token |
+| ------------------ | --------- | ------- | ------------------------------ | ----------------- | ----- |
+| `sm`/`compact`     | `xs` 14px | 19.6    | 2px / 6px                      | 23.6 (slack 4.4)  | 28    |
+| `md`/`compact`     | `xs` 14px | 19.6    | 4px / 6px                      | 27.6 (slack 4.4)  | 32    |
+| `lg`/`compact`     | `sm` 16px | 22.4    | 6px / 8px                      | 34.4 (slack 1.6)  | 36    |
+| `sm`/`normal`      | `sm` 16px | 22.4    | 6px / 8px                      | 34.4 (slack 1.6)  | 36    |
+| `md`/`normal`      | `sm` 16px | 22.4    | 8px / 8px                      | 38.4 (slack 1.6)  | 40    |
+| `lg`/`normal`      | `lg` 20px | 28.0    | 6px / 8px                      | 40.0 (slack 4.0)  | 44    |
+| `sm`/`comfortable` | `lg` 20px | 28.0    | 6px / 8px                      | 40.0 (slack 4.0)  | 44    |
+| `md`/`comfortable` | `lg` 20px | 28.0    | 8px / 12px                     | 44.0 (slack 4.0)  | 48    |
+| `lg`/`comfortable` | `lg` 20px | 28.0    | 8px / 12px                     | 44.0 (slack 8.0)  | 52    |
+
+Notes:
+
+- Exactness comes from the floor (`box-sizing: border-box` counts padding
+  inside `min-height`, so there is no double counting); the table proves the
+  floor always binds instead of squeezing content.
+- Item horizontal padding keeps breathing room at or above the vertical
+  padding in every combination (owner decision on the current file values);
+  the host and label both set `line-height-sm (1.4)` — the old `/1` host
+  shorthand is gone.
+- `appearance="outline"` compensates its own border: the floor drops by
+  `2 x border-width`, so outer height stays exactly on-token here too.
+- The selection indicator re-measures on item resize (not just host resize)
+  and once webfonts settle, so it tracks the selected item in fixed-width
+  (`fullWidth`/`equalWidth`) layouts where the host box never moves.
+- `fullWidth`/`equalWidth` with long labels (e.g. translated `Mensal/Anual`
+  strings) shrink through `min-width: 0` and fall back to `nowrap + ellipsis`
+  on the label instead of wrapping or spilling; projected (non-`label`)
+  content is clipped inside the item box by the inner wrapper, so long text
+  never paints outside the selection indicator.
 
 ## Radius
 
+- `none` — square corners everywhere (container, indicator, flush edges)
 - `sm` — small rounded corners
 - `md` — medium rounded corners (default)
-- `lg` — large rounded corners
+- `lg` — large rounded corners (items and indicator follow the container)
 - `full` — fully rounded (pill shape)
 
 ## Orientation
@@ -155,25 +199,27 @@ container — regardless of how many options the control has.
 
 The following CSS variables can be customized:
 
-| Token                                        | Purpose                          |
-| -------------------------------------------- | -------------------------------- |
-| `--solaris-segmented-item-height`            | Item height                      |
-| `--solaris-segmented-gap`                    | Gap between items                |
-| `--solaris-segmented-radius`                 | Container border radius          |
-| `--solaris-segmented-padding-x`              | Container horizontal padding     |
-| `--solaris-segmented-padding-y`              | Container vertical padding       |
-| `--solaris-segmented-item-color`             | Item text color                  |
-| `--solaris-segmented-item-padding-y`         | Vertical item padding            |
-| `--solaris-segmented-item-padding-x`         | Horizontal item padding          |
-| `--solaris-segmented-background`             | Container background             |
-| `--solaris-segmented-indicator-shadow`       | Selection indicator shadow       |
-| `--solaris-segmented-border-color`           | Container border color (outline) |
-| `--solaris-segmented-border-width`           | Container border width (outline) |
-| `--solaris-segmented-focus-ring-color`       | Focus ring color                 |
-| `--solaris-segmented-item-selected-color`    | Selected item text color         |
-| `--solaris-segmented-indicator-border-color` | Selection indicator border color |
-| `--solaris-segmented-indicator-background`   | Selection indicator background   |
-| `--solaris-segmented-item-hover-background`  | Item hover background            |
+| Token                                        | Purpose                                                                                               |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `--solaris-segmented-item-height`            | Per-combination height floor (own `control-height` token; exact outer height, see Height ladder)      |
+| `--solaris-segmented-item-height-override`   | Effective `min-height` floor; follows the hatch above (`auto` disables the floor, a length forces it) |
+| `--solaris-segmented-gap`                    | Gap between items                                                                                     |
+| `--solaris-segmented-radius`                 | Container border radius                                                                               |
+| `--solaris-segmented-padding-x`              | Container horizontal padding                                                                          |
+| `--solaris-segmented-padding-y`              | Container vertical padding                                                                            |
+| `--solaris-segmented-item-color`             | Item text color                                                                                       |
+| `--solaris-segmented-item-padding-y`         | Vertical item padding                                                                                 |
+| `--solaris-segmented-item-padding-x`         | Horizontal item padding                                                                               |
+| `--solaris-segmented-item-padding-x`         | Horizontal item padding                                                                               |
+| `--solaris-segmented-background`             | Container background                                                                                  |
+| `--solaris-segmented-indicator-shadow`       | Selection indicator shadow                                                                            |
+| `--solaris-segmented-border-color`           | Container border color (outline)                                                                      |
+| `--solaris-segmented-border-width`           | Container border width (outline)                                                                      |
+| `--solaris-segmented-focus-ring-color`       | Focus ring color                                                                                      |
+| `--solaris-segmented-item-selected-color`    | Selected item text color                                                                              |
+| `--solaris-segmented-indicator-border-color` | Selection indicator border color                                                                      |
+| `--solaris-segmented-indicator-background`   | Selection indicator background                                                                        |
+| `--solaris-segmented-item-hover-background`  | Item hover background                                                                                 |
 
 ## Accessibility
 

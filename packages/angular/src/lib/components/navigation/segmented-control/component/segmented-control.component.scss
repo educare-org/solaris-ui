@@ -1,41 +1,42 @@
 :host {
+  --solaris-segmented-item-width: auto;
   --solaris-segmented-item-height: auto;
-  --solaris-segmented-item-height-override: var(
-    --solaris-segmented-item-height
-  );
+  --solaris-segmented-item-flex: 0 1 auto;
+  --solaris-segmented-item-min-width: auto;
+  --solaris-segmented-item-max-width: none;
+  --solaris-segmented-item-justify: flex-start;
+  --solaris-segmented-item-display: inline-flex;
   --solaris-segmented-gap: var(--solaris-spacing-4);
   --solaris-segmented-radius: var(--solaris-radius-md);
+  --solaris-segmented-item-gap: var(--solaris-spacing-5);
   --solaris-segmented-padding-x: var(--solaris-spacing-4);
   --solaris-segmented-padding-y: var(--solaris-spacing-4);
-  --solaris-segmented-item-color: var(--solaris-neutral-text-body);
-  --solaris-segmented-item-gap: var(--solaris-spacing-5);
   --solaris-segmented-item-padding-y: var(--solaris-spacing-2);
   --solaris-segmented-item-padding-x: var(--solaris-spacing-3);
-  --solaris-segmented-item-icon-size: var(--solaris-font-size-sm);
-  --solaris-segmented-item-font-size: var(--solaris-font-size-sm);
   --solaris-segmented-background: var(--solaris-neutral-subtle);
   --solaris-segmented-indicator-shadow: var(--solaris-shadow-sm);
   --solaris-segmented-indicator-radius: var(--solaris-radius-sm);
-  --solaris-segmented-border-color: var(--solaris-neutral-border-subtle);
+  --solaris-segmented-item-icon-size: var(--solaris-font-size-sm);
+  --solaris-segmented-item-font-size: var(--solaris-font-size-sm);
+  --solaris-segmented-item-color: var(--solaris-neutral-text-body);
+  --solaris-segmented-item-border-radius: var(--solaris-radius-sm);
   --solaris-segmented-border-width: var(--solaris-border-width-sm);
   --solaris-segmented-focus-ring-color: var(--solaris-primary-solid);
-  --solaris-segmented-item-selected-color: var(--solaris-neutral-text-heading);
+  --solaris-segmented-border-color: var(--solaris-neutral-border-subtle);
   --solaris-segmented-indicator-background: var(--solaris-neutral-sunken);
   --solaris-segmented-item-hover-background: var(--solaris-neutral-sunken);
+  --solaris-segmented-indicator-position: var(--solaris-segmented-padding-y);
+  --solaris-segmented-item-selected-color: var(--solaris-neutral-text-heading);
+  --solaris-segmented-flush-block: var(--solaris-segmented-item-border-radius);
+  --solaris-segmented-flush-inline: var(--solaris-segmented-item-border-radius);
+  --solaris-segmented-control-container-padding: 0
+    var(--solaris-segmented-padding-x);
+  --solaris-segmented-item-height-override: var(
+    --solaris-segmented-item-height
+  );
   --solaris-segmented-indicator-border-color: var(
     --solaris-neutral-border-subtle
   );
-  --solaris-segmented-indicator-position: var(--solaris-segmented-padding-y);
-  --solaris-segmented-control-container-padding: 0
-    var(--solaris-segmented-padding-x);
-  --solaris-segmented-item-display: inline-flex;
-  --solaris-segmented-item-width: auto;
-  --solaris-segmented-item-max-width: none;
-  --solaris-segmented-item-flex: 0 1 auto;
-  --solaris-segmented-item-justify: flex-start;
-  --solaris-segmented-item-border-radius: var(--solaris-radius-sm);
-  --solaris-segmented-flush-inline: var(--solaris-segmented-item-border-radius);
-  --solaris-segmented-flush-block: var(--solaris-segmented-item-border-radius);
 
   width: auto;
   display: inline-flex;
@@ -48,6 +49,7 @@
   &[data-full-width],
   &[data-equal-width] {
     --solaris-segmented-item-flex: 1;
+    --solaris-segmented-item-min-width: 0;
     --solaris-segmented-item-justify: center;
   }
 
@@ -122,26 +124,19 @@
 
   &[data-appearance='outline'][data-orientation='horizontal']:not(
       [data-size='sm'][data-density='compact']
-    )
-    .solaris-segmented-control__container {
-    padding: var(--solaris-spacing-0) var(--solaris-segmented-padding-x);
-  }
-
-  &[data-appearance='outline'][data-orientation='vertical']
-    .solaris-segmented-control__container {
-    padding: calc(
-      var(--solaris-segmented-padding-x) - var(--solaris-segmented-border-width)
-    );
-  }
-
-  &[data-appearance='outline'][data-orientation='horizontal']:not(
-      [data-size='sm'][data-density='compact']
     ) {
     --solaris-segmented-item-height-override: calc(
       var(--solaris-segmented-item-height) - var(
           --solaris-segmented-border-width
         ) *
         2
+    );
+  }
+
+  &[data-appearance='outline'][data-orientation='vertical']
+    .solaris-segmented-control__container {
+    padding: calc(
+      var(--solaris-segmented-padding-x) - var(--solaris-segmented-border-width)
     );
   }
 
@@ -159,6 +154,13 @@
     background: var(--solaris-segmented-background);
   }
 
+  &[data-radius='none'] {
+    --solaris-segmented-radius: var(--solaris-radius-none);
+    --solaris-segmented-indicator-radius: var(--solaris-radius-none);
+    --solaris-segmented-flush-inline: var(--solaris-radius-none);
+    --solaris-segmented-flush-block: var(--solaris-radius-none);
+  }
+
   &[data-radius='sm'] {
     --solaris-segmented-radius: var(--solaris-radius-sm);
     --solaris-segmented-indicator-radius: var(--solaris-radius-none);
@@ -171,7 +173,10 @@
 
   &[data-radius='lg'] {
     --solaris-segmented-radius: var(--solaris-radius-lg);
-    --solaris-segmented-indicator-radius: var(--solaris-radius-md);
+    --solaris-segmented-flush-block: var(--solaris-radius-lg);
+    --solaris-segmented-flush-inline: var(--solaris-radius-lg);
+    --solaris-segmented-indicator-radius: var(--solaris-radius-lg);
+    --solaris-segmented-item-border-radius: var(--solaris-radius-lg);
   }
 
   &[data-radius='full'] {
@@ -185,6 +190,7 @@
     --solaris-segmented-padding-y: var(--solaris-spacing-2);
     --solaris-segmented-padding-x: var(--solaris-spacing-2);
     --solaris-segmented-item-padding-y: var(--solaris-spacing-2);
+    --solaris-segmented-item-padding-x: var(--solaris-spacing-4);
     --solaris-segmented-indicator-radius: var(--solaris-spacing-0);
     --solaris-segmented-item-icon-size: var(--solaris-font-size-xs);
     --solaris-segmented-item-font-size: var(--solaris-font-size-xs);
@@ -199,6 +205,7 @@
     --solaris-segmented-padding-y: var(--solaris-spacing-2);
     --solaris-segmented-padding-x: var(--solaris-spacing-2);
     --solaris-segmented-item-padding-y: var(--solaris-spacing-3);
+    --solaris-segmented-item-padding-x: var(--solaris-spacing-4);
     --solaris-segmented-item-icon-size: var(--solaris-font-size-xs);
     --solaris-segmented-item-font-size: var(--solaris-font-size-xs);
     --solaris-segmented-item-height: var(--solaris-control-height-compact-md);
@@ -210,6 +217,7 @@
     --solaris-segmented-padding-y: var(--solaris-spacing-3);
     --solaris-segmented-padding-x: var(--solaris-spacing-3);
     --solaris-segmented-item-padding-y: var(--solaris-spacing-4);
+    --solaris-segmented-item-padding-x: var(--solaris-spacing-5);
     --solaris-segmented-item-icon-size: var(--solaris-font-size-sm);
     --solaris-segmented-item-font-size: var(--solaris-font-size-sm);
     --solaris-segmented-item-height: var(--solaris-control-height-compact-lg);
@@ -221,6 +229,7 @@
     --solaris-segmented-padding-y: var(--solaris-spacing-3);
     --solaris-segmented-padding-x: var(--solaris-spacing-3);
     --solaris-segmented-item-padding-y: var(--solaris-spacing-4);
+    --solaris-segmented-item-padding-x: var(--solaris-spacing-5);
     --solaris-segmented-item-icon-size: var(--solaris-font-size-sm);
     --solaris-segmented-item-font-size: var(--solaris-font-size-sm);
     --solaris-segmented-item-height: var(--solaris-control-height-normal-sm);
@@ -232,6 +241,7 @@
     --solaris-segmented-padding-y: var(--solaris-spacing-4);
     --solaris-segmented-padding-x: var(--solaris-spacing-4);
     --solaris-segmented-item-padding-y: var(--solaris-spacing-5);
+    --solaris-segmented-item-padding-x: var(--solaris-spacing-5);
     --solaris-segmented-item-icon-size: var(--solaris-font-size-sm);
     --solaris-segmented-item-font-size: var(--solaris-font-size-sm);
     --solaris-segmented-item-height: var(--solaris-control-height-normal-md);
@@ -243,6 +253,7 @@
     --solaris-segmented-padding-y: var(--solaris-spacing-4);
     --solaris-segmented-padding-x: var(--solaris-spacing-4);
     --solaris-segmented-item-padding-y: var(--solaris-spacing-4);
+    --solaris-segmented-item-padding-x: var(--solaris-spacing-5);
     --solaris-segmented-item-icon-size: var(--solaris-font-size-lg);
     --solaris-segmented-item-font-size: var(--solaris-font-size-lg);
     --solaris-segmented-item-height: var(--solaris-control-height-normal-lg);
@@ -254,6 +265,7 @@
     --solaris-segmented-padding-y: var(--solaris-spacing-4);
     --solaris-segmented-padding-x: var(--solaris-spacing-4);
     --solaris-segmented-item-padding-y: var(--solaris-spacing-4);
+    --solaris-segmented-item-padding-x: var(--solaris-spacing-5);
     --solaris-segmented-item-icon-size: var(--solaris-font-size-lg);
     --solaris-segmented-item-font-size: var(--solaris-font-size-lg);
     --solaris-segmented-item-height: var(
@@ -267,6 +279,7 @@
     --solaris-segmented-padding-y: var(--solaris-spacing-4);
     --solaris-segmented-padding-x: var(--solaris-spacing-4);
     --solaris-segmented-item-padding-y: var(--solaris-spacing-5);
+    --solaris-segmented-item-padding-x: var(--solaris-spacing-6);
     --solaris-segmented-item-icon-size: var(--solaris-font-size-lg);
     --solaris-segmented-item-font-size: var(--solaris-font-size-lg);
     --solaris-segmented-item-height: var(
@@ -280,6 +293,7 @@
     --solaris-segmented-padding-y: var(--solaris-spacing-5);
     --solaris-segmented-padding-x: var(--solaris-spacing-5);
     --solaris-segmented-item-padding-y: var(--solaris-spacing-5);
+    --solaris-segmented-item-padding-x: var(--solaris-spacing-6);
     --solaris-segmented-item-icon-size: var(--solaris-font-size-lg);
     --solaris-segmented-item-font-size: var(--solaris-font-size-lg);
     --solaris-segmented-item-height: var(
