@@ -1,4 +1,4 @@
-import { printSummary, readJson } from './shared.mjs';
+import { printSummary, readJson, fileExists } from './shared.mjs';
 import { execSync } from 'node:child_process';
 
 const errors = [];
@@ -60,13 +60,17 @@ console.log('\n--- Check Suite ---');
 runCommand('pnpm check', 'pnpm check', true);
 
 console.log('\n--- Extended Checks ---');
-runCommand('check:bundle', 'node tools/scripts/check-bundle.mjs', false);
+if (fileExists('dist/packages/angular')) {
+  runTooling('size-limit');
+} else {
+  warnings.push(
+    'dist/packages/angular not found — size-limit skipped (run pnpm build first)',
+  );
+  console.log('  ⚠ size-limit skipped — dist/ not found');
+}
 
 console.log('\n--- Tooling ---');
 runTooling('format:check');
-runTooling('lint:scss');
-runTooling('lint');
-runTooling('typecheck');
 runTooling('test');
 runTooling('build');
 runTooling('build:schematics');

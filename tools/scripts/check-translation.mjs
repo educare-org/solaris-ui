@@ -1,15 +1,36 @@
 import path from 'node:path';
+import fs from 'node:fs';
 import {
+  workspaceRoot,
   fileExists,
   printSummary,
   readdirSafe,
   readFileSafe,
+  collectFiles,
 } from './shared.mjs';
 
 const errors = [];
 const warnings = [];
 
 const REQUIRED_LOCALES = ['en-US', 'pt-BR', 'es-419'];
+const translationRules = JSON.parse(
+  fs.readFileSync(
+    path.join(workspaceRoot, 'tools', 'config', 'translation-rules.json'),
+    'utf-8',
+  ),
+);
+const MAX_IDENTICAL_LENGTH = translationRules.maxIdenticalLength ?? 30;
+
+function normalizeValue(value) {
+  return String(value).trim().replace(/\s+/g, ' ');
+}
+
+function isIdenticalException(dir, key) {
+  const normalizedDir = dir.split(path.sep).join('/');
+  return (translationRules.identicalExceptions || []).some(
+    (entry) => entry.dir === normalizedDir && entry.key === key,
+  );
+}
 const LEGACY_LOCALE_KEYS = [`'es'`, `"es"`, `'es':`, `"es":`];
 const FORBIDDEN_CONSTS = [
   'SOLARIS_TRANSLATE_EN_US',
@@ -111,26 +132,35 @@ if (translationDirs.length === 0) {
         }
       }
 
-      // Exception (i18n-standard): identical values allowed — only missing/extra keys block.
-    }
-  }
-}
-
-function walkTs(dir, callback) {
-  for (const entry of readdirSafe(dir)) {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      if (entry.name === 'node_modules' || entry.name.startsWith('.')) continue;
-      walkTs(fullPath, callback);
-    } else if (entry.name.endsWith('.ts') && !entry.name.endsWith('.spec.ts')) {
-      callback(fullPath);
+      for (const key of base) {
+        const source = maps['en-US'][key];
+        if (typeof source !== 'string') continue;
+        const sourceValue = normalizeValue(source);
+        if (sourceValue.length === 0) continue;
+        for (const locale of ['pt-BR', 'es-419']) {
+          const candidate = maps[locale][key];
+          if (typeof candidate !== 'string') continue;
+          const candidateValue = normalizeValue(candidate);
+          if (
+            candidateValue === sourceValue &&
+            candidateValue.length > MAX_IDENTICAL_LENGTH &&
+            !isIdenticalException(dir, key)
+          ) {
+            errors.push(
+              `${dir}/${locale}.json key '${key}' is identical to en-US.json (${candidateValue.length} chars). Translate it or add a scoped exception in tools/config/translation-rules.json.`,
+            );
+          }
+        }
+      }
     }
   }
 }
 
 for (const root of ['packages/angular/src/lib/services/translation']) {
   if (!fileExists(root)) continue;
-  walkTs(root, (file) => {
+  for (const file of collectFiles(root, /\.ts$/, {
+    excludeFiles: [/\.spec\.ts$/],
+  })) {
     const content = readFileSafe(file);
     for (const name of FORBIDDEN_CONSTS) {
       if (content.includes(name)) {
@@ -139,7 +169,7 @@ for (const root of ['packages/angular/src/lib/services/translation']) {
         );
       }
     }
-  });
+  }
 }
 
 const serviceFiles = [

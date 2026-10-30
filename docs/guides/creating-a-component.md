@@ -158,7 +158,7 @@ Create `docs/<component-name>.md` in English. Sections follow a required baselin
 - `## CSS Variables` — only when the component defines `--solaris-*` tokens
 - Visual variants section (e.g. `## Visual variants`, `## Appearances`, `## Sizes`) — only when the component exposes variant inputs (`appearance`, `size`, `density`, `radius`, `color`, `orientation`, …)
 
-The template used by `generate-component.mjs` already includes all six sections; remove the conditional ones if they do not apply.
+The template used by the `component` generator (`nx generate component`, see `tools/generators/component`) already includes all six sections; remove the conditional ones if they do not apply.
 
 `tools/scripts/validate-component.mjs` enforces the required baseline and warns when tokens or variant inputs exist without the corresponding section. Run `pnpm validate:component` before committing.
 

@@ -7,3 +7,5 @@
 # Whitespace-sensitive Angular templates (white-space: pre): formatting injects
 # text nodes that render literally and breaks code layout
 packages/angular/src/lib/components/data-display/code-block/component/code-block.component.html
+# Nx generator templates contain EJS tags that formatters corrupt
+tools/generators/**/files

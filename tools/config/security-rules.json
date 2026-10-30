@@ -1,7 +1,7 @@
 {
   "dangerousPatterns": [
     {
-      "pattern": "innerHTML",
+      "pattern": "\\binnerHTML\\b",
       "reason": "innerHTML can lead to XSS attacks",
       "allowedExceptionComment": "SECURITY_EXCEPTION"
     },
