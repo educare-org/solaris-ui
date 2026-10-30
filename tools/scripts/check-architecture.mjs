@@ -5,6 +5,7 @@ import {
   fileExists,
   readFileSafe,
   printSummary,
+  collectFiles,
 } from './shared.mjs';
 
 const configPath = path.join(
@@ -47,29 +48,9 @@ if (!fileExists(libBase)) {
     const fromPath = rule.from;
     if (!fileExists(fromPath)) continue;
 
-    const fromFiles = [];
-    function walk(dir) {
-      const resolved = path.join(workspaceRoot, dir);
-      let entries;
-      try {
-        entries = fs.readdirSync(resolved, { withFileTypes: true });
-      } catch {
-        return;
-      }
-      for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name);
-        if (entry.isDirectory()) {
-          walk(fullPath);
-        } else if (
-          /\.(ts|html)$/.test(entry.name) &&
-          !entry.name.endsWith('.spec.ts') &&
-          !entry.name.endsWith('.test.ts')
-        ) {
-          fromFiles.push(fullPath);
-        }
-      }
-    }
-    walk(fromPath);
+    const fromFiles = collectFiles(fromPath, /\.(ts|html)$/, {
+      excludeFiles: [/\.spec\.ts$/, /\.test\.ts$/],
+    });
 
     for (const file of fromFiles) {
       const content = readFileSafe(file);
@@ -97,34 +78,9 @@ if (!fileExists(libBase)) {
 
   const showcaseRule = rules.forbiddenLibImportFromShowcase;
   if (showcaseRule && fileExists(showcaseRule.from)) {
-    const showcaseFiles = [];
-    function walkShowcase(dir) {
-      const resolved = path.join(workspaceRoot, dir);
-      let entries;
-      try {
-        entries = fs.readdirSync(resolved, { withFileTypes: true });
-      } catch {
-        return;
-      }
-      for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name);
-        if (entry.isDirectory()) {
-          if (
-            !entry.name.startsWith('node_modules') &&
-            !entry.name.startsWith('.')
-          ) {
-            walkShowcase(fullPath);
-          }
-        } else if (
-          /\.(ts|html)$/.test(entry.name) &&
-          !entry.name.endsWith('.spec.ts') &&
-          !entry.name.endsWith('.test.ts')
-        ) {
-          showcaseFiles.push(fullPath);
-        }
-      }
-    }
-    walkShowcase(showcaseRule.from);
+    const showcaseFiles = collectFiles(showcaseRule.from, /\.(ts|html)$/, {
+      excludeFiles: [/\.spec\.ts$/, /\.test\.ts$/],
+    });
 
     for (const file of showcaseFiles) {
       const content = readFileSafe(file);

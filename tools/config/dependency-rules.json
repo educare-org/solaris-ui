@@ -1,0 +1,30 @@
+{
+  "forbiddenLibDeps": [
+    {
+      "pattern": "^tailwind",
+      "name": "Tailwind",
+      "reason": "Tailwind is forbidden inside the library per dependency policy"
+    },
+    {
+      "pattern": "^@ngrx\\/store",
+      "name": "State management",
+      "reason": "State management frameworks are not allowed in core per dependency policy"
+    },
+    {
+      "pattern": "^moment",
+      "name": "Moment.js",
+      "reason": "Heavy date libraries are not allowed in core; use Intl or date adapters"
+    },
+    {
+      "pattern": "^date-fns",
+      "name": "date-fns",
+      "reason": "Heavy date libraries are not allowed in core; use Intl or date adapters"
+    },
+    {
+      "pattern": "^dayjs",
+      "name": "Day.js",
+      "reason": "Date libraries should be evaluated only when datepicker/calendar components require them"
+    }
+  ],
+  "heavyRootDeps": ["tailwindcss", "postcss", "autoprefixer"]
+}

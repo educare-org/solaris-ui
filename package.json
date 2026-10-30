@@ -31,7 +31,7 @@
     "check:changeset": "node tools/scripts/check-changeset.mjs",
     "check:bundle-import": "node tools/scripts/check-bundle-import.mjs",
     "check:vulnerabilities": "node tools/scripts/check-vulnerabilities.mjs",
-    "check:push": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs && node tools/scripts/check-dependencies.mjs && node tools/scripts/check-tokens.mjs && node tools/scripts/check-token-references.mjs && node tools/scripts/check-i18n.mjs && node tools/scripts/check-translation.mjs && node tools/scripts/check-changeset.mjs --base origin/develop && pnpm lint:scss && pnpm lint && pnpm typecheck && node tools/scripts/validate-component.mjs",
+    "check:push": "node tools/scripts/run-checks.mjs --base origin/develop --skip check-vulnerabilities",
     "package:check": "node tools/scripts/check-package.mjs",
     "generate:component": "node tools/scripts/generate-component.mjs",
     "icons:build": "node tools/icons/build-icons.mjs",
@@ -47,7 +47,7 @@
     "test:watch": "pnpm nx test angular --watch",
     "test:scope": "pnpm nx test angular --coverage=false --include",
     "test:coverage": "pnpm nx run-many -t test:coverage",
-    "check": "node tools/scripts/check-workspace.mjs && node tools/scripts/check-package-manager.mjs && node tools/scripts/check-scripts.mjs && node tools/scripts/check-architecture.mjs && node tools/scripts/check-docs.mjs && node tools/scripts/check-security.mjs && node tools/scripts/check-dependencies.mjs && node tools/scripts/check-tokens.mjs && node tools/scripts/check-token-references.mjs && node tools/scripts/check-i18n.mjs && node tools/scripts/check-translation.mjs && node tools/scripts/check-changeset.mjs && node tools/scripts/check-vulnerabilities.mjs && pnpm lint:scss && pnpm lint && pnpm typecheck && node tools/scripts/validate-component.mjs",
+    "check": "node tools/scripts/run-checks.mjs",
     "typecheck": "pnpm tsc --noEmit -p packages/angular/tsconfig.lib.json && pnpm tsc --noEmit -p apps/showcase/tsconfig.app.json",
     "verify": "node tools/scripts/verify.mjs"
   },

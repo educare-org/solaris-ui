@@ -7,6 +7,9 @@ import {
   readJson,
   readdirSafe,
   printSummary,
+  findForbiddenLockfiles,
+  lockfileErrorMessage,
+  packageManagerFieldErrors,
 } from './shared.mjs';
 
 const errors = [];
@@ -41,10 +44,11 @@ try {
 
 if (fileExists('package.json')) {
   const pkg = readJson('package.json');
-  if (pkg.packageManager) {
-    info(`packageManager: ${pkg.packageManager}`);
+  const fieldErrors = packageManagerFieldErrors(pkg);
+  if (fieldErrors.length > 0) {
+    errors.push(...fieldErrors);
   } else {
-    errors.push('Missing "packageManager" field in package.json');
+    info(`packageManager: ${pkg.packageManager}`);
   }
 } else {
   errors.push('Missing package.json at workspace root');
@@ -56,11 +60,9 @@ if (fileExists('pnpm-lock.yaml')) {
   errors.push('pnpm-lock.yaml not found — run pnpm install');
 }
 
-const forbiddenLocks = ['package-lock.json', 'yarn.lock', 'bun.lockb'];
+const forbiddenLocks = findForbiddenLockfiles();
 for (const lock of forbiddenLocks) {
-  if (fileExists(lock)) {
-    errors.push(`Found ${lock} — should not exist in a pnpm workspace`);
-  }
+  errors.push(lockfileErrorMessage(lock));
 }
 
 if (fileExists('apps')) {
@@ -82,9 +84,10 @@ const docDirs = [
   'docs/architecture',
   'docs/engineering',
   'docs/quality-and-validation',
-  'docs/roadmap',
   'docs/standards',
   'docs/workflow-and-release',
+  'docs/guides',
+  'docs/adr',
 ];
 for (const dir of docDirs) {
   if (fileExists(dir)) {

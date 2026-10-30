@@ -3,9 +3,10 @@ import fs from 'node:fs';
 import {
   workspaceRoot,
   fileExists,
-  readdirSafe,
   readFileSafe,
   printSummary,
+  collectFiles,
+  hasExceptionNearby,
 } from './shared.mjs';
 
 const configPath = path.join(
@@ -21,8 +22,6 @@ const warnings = [];
 
 const libScssDir = 'packages/angular/src/lib';
 const stylesScssDir = 'packages/angular/src/styles';
-// Token definition sheets live under token/ and assign raw values to
-// --solaris-* custom properties by design, so they are skipped (see below).
 const scanDirs = [libScssDir, stylesScssDir].filter((dir) => fileExists(dir));
 
 if (scanDirs.length === 0) {
@@ -32,27 +31,7 @@ if (scanDirs.length === 0) {
   const result = printSummary('Tokens Check', errors, warnings);
   process.exitCode = result.errorCount > 0 ? 1 : 0;
 } else {
-  const scssFiles = [];
-  function walk(dir) {
-    const resolved = path.join(workspaceRoot, dir);
-    let entries;
-    try {
-      entries = fs.readdirSync(resolved, { withFileTypes: true });
-    } catch {
-      return;
-    }
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        walk(fullPath);
-      } else if (entry.name.endsWith('.scss')) {
-        scssFiles.push(fullPath);
-      }
-    }
-  }
-  for (const scanDir of scanDirs) {
-    walk(scanDir);
-  }
+  const scssFiles = scanDirs.flatMap((dir) => collectFiles(dir, /\.scss$/));
 
   if (scssFiles.length === 0) {
     warnings.push(
@@ -60,7 +39,7 @@ if (scanDirs.length === 0) {
     );
   } else {
     for (const file of scssFiles) {
-      if (file.includes('/token/') || file.includes('\\token\\')) continue;
+      if (file.includes('/token/')) continue;
       const content = readFileSafe(file);
       const lines = content.split('\n');
 
@@ -69,16 +48,13 @@ if (scanDirs.length === 0) {
         const lineNum = i + 1;
         const trimmed = line.trim();
 
-        const hasException = lines
-          .slice(Math.max(0, i - 10), i + 1)
-          .some((l) => l.includes(rules.patterns[0].exceptionComment));
-
         for (const rule of rules.patterns) {
           const regex = new RegExp(rule.pattern, 'i');
           if (regex.test(trimmed)) {
-            if (hasException) continue;
+            if (hasExceptionNearby(lines, i, rule.exceptionComment, 10))
+              continue;
             errors.push(
-              `${file}:${lineNum}: ${trimmed.substring(0, 80)} — ${rule.reason}. Add a "${rule.exceptionComment}: <reason>" on a comment line right above if this is justified.`,
+              `${file}:${lineNum}: ${trimmed.substring(0, 80)} — ${rule.reason}. Add a "${rule.exceptionComment}: <reason>" On a comment line right above if this is justified.`,
             );
           }
         }

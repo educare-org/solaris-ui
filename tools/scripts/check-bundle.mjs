@@ -16,6 +16,12 @@ const baselineFile = path.join(
   'tools/config/bundle-baseline.json',
 );
 
+function fmt(bytes) {
+  if (bytes > 1048576) return `${(bytes / 1048576).toFixed(2)} MB`;
+  if (bytes > 1024) return `${(bytes / 1024).toFixed(2)} KB`;
+  return `${bytes} B`;
+}
+
 function getDirSize(dir) {
   let total = 0;
   try {
@@ -41,53 +47,44 @@ if (!fileExists(distDir)) {
 } else {
   const currentSize = getDirSize(distDir);
 
-  if (fileExists(baselineFile)) {
+  if (!fileExists(baselineFile)) {
+    if (process.argv.includes('--update-baseline') && currentSize !== null) {
+      fs.mkdirSync(path.dirname(baselineFile), { recursive: true });
+      fs.writeFileSync(
+        baselineFile,
+        JSON.stringify({ size: currentSize }, null, 2),
+      );
+      console.log(`  Baseline created: ${fmt(currentSize)}`);
+    } else {
+      warnings.push(
+        'Bundle baseline not found. Run "node tools/scripts/check-bundle.mjs --update-baseline" to create it.',
+      );
+    }
+  } else if (currentSize === null) {
+    errors.push('Could not calculate bundle size.');
+  } else {
     const baseline = readJson(baselineFile);
     const baselineSize = baseline.size;
 
-    if (currentSize === null) {
-      errors.push('Could not calculate bundle size.');
-    } else {
-      const diff = currentSize - baselineSize;
-      const percentChange = (diff / baselineSize) * 100;
-      const fmt = (bytes) => {
-        if (bytes > 1048576) return `${(bytes / 1048576).toFixed(2)} MB`;
-        if (bytes > 1024) return `${(bytes / 1024).toFixed(2)} KB`;
-        return `${bytes} B`;
-      };
+    const diff = currentSize - baselineSize;
+    const percentChange = (diff / baselineSize) * 100;
 
-      console.log(`  Current: ${fmt(currentSize)}`);
-      console.log(`  Baseline: ${fmt(baselineSize)}`);
-      console.log(
-        `  Change: ${diff > 0 ? '+' : ''}${fmt(diff)} (${percentChange.toFixed(2)}%)`,
+    console.log(`  Current: ${fmt(currentSize)}`);
+    console.log(`  Baseline: ${fmt(baselineSize)}`);
+    console.log(
+      `  Change: ${diff > 0 ? '+' : ''}${fmt(diff)} (${percentChange.toFixed(2)}%)`,
+    );
+
+    if (percentChange > 25) {
+      errors.push(
+        `Bundle size increased by ${percentChange.toFixed(2)}% (exceeds 25% threshold).`,
       );
-
-      if (percentChange > 25) {
-        errors.push(
-          `Bundle size increased by ${percentChange.toFixed(2)}% (exceeds 25% threshold).`,
-        );
-        errors.push('  → Review what was added and consider tree-shaking.');
-      } else if (percentChange > 10) {
-        warnings.push(
-          `Bundle size increased by ${percentChange.toFixed(2)}% (exceeds 10% warning threshold).`,
-        );
-      }
+      errors.push('  → Review what was added and consider tree-shaking.');
+    } else if (percentChange > 10) {
+      warnings.push(
+        `Bundle size increased by ${percentChange.toFixed(2)}% (exceeds 10% warning threshold).`,
+      );
     }
-  } else if (currentSize !== null) {
-    fs.mkdirSync(path.dirname(baselineFile), { recursive: true });
-    fs.writeFileSync(
-      baselineFile,
-      JSON.stringify({ size: currentSize }, null, 2),
-    );
-    const fmt = (bytes) => {
-      if (bytes > 1048576) return `${(bytes / 1048576).toFixed(2)} MB`;
-      if (bytes > 1024) return `${(bytes / 1024).toFixed(2)} KB`;
-      return `${bytes} B`;
-    };
-    console.log(`  Baseline created: ${fmt(currentSize)}`);
-    warnings.push(
-      'Baseline created. Commit the baseline file to track future changes.',
-    );
   }
 }
 

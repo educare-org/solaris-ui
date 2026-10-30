@@ -5,6 +5,8 @@ import {
   fileExists,
   readFileSafe,
   printSummary,
+  collectFiles,
+  hasExceptionNearby,
 } from './shared.mjs';
 
 const configPath = path.join(
@@ -27,29 +29,9 @@ if (!fileExists(libDir)) {
     `${libDir} does not exist yet — security validation partially skipped (expected during early setup).`,
   );
 } else {
-  const files = [];
-  function walk(dir) {
-    const resolved = path.join(workspaceRoot, dir);
-    let entries;
-    try {
-      entries = fs.readdirSync(resolved, { withFileTypes: true });
-    } catch {
-      return;
-    }
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        walk(fullPath);
-      } else if (
-        /\.(ts|html)$/.test(entry.name) &&
-        !entry.name.endsWith('.spec.ts') &&
-        !entry.name.endsWith('.test.ts')
-      ) {
-        files.push(fullPath);
-      }
-    }
-  }
-  walk(libDir);
+  const files = collectFiles(libDir, /\.(ts|html)$/, {
+    excludeFiles: [/\.spec\.ts$/, /\.test\.ts$/],
+  });
 
   for (const file of files) {
     const content = readFileSafe(file);
@@ -69,19 +51,16 @@ if (!fileExists(libDir)) {
         continue;
       }
 
-      const hasException = lines
-        .slice(Math.max(0, i - 5), i + 1)
-        .some((l) => l.includes(INLINE_EXCEPTION_COMMENT));
-
-      if (hasException) continue;
+      if (hasExceptionNearby(lines, i, INLINE_EXCEPTION_COMMENT, 5)) continue;
 
       for (const rule of rules) {
         const regex = new RegExp(rule.pattern);
-        if (regex.test(trimmed)) {
+        if (regex.test(line)) {
           errors.push(
             `${file}:${lineNum}: Found dangerous pattern "${rule.pattern}" — ${rule.reason}.\n` +
               `  If this is justified, add a comment with "${rule.allowedExceptionComment}:" above with reason.`,
           );
+          break;
         }
       }
     }
