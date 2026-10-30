@@ -59,6 +59,24 @@ class SsrMediaClampedHostComponent {
   ] as const;
 }
 
+@Component({
+  selector: 'solaris-ssr-media-preview-host',
+  standalone: true,
+  imports: [SolarisMediaCarouselComponent],
+  template: `<solaris-media-carousel
+    [slides]="slides"
+    navigation="preview"
+    ariaLabel="Preview"
+  />`,
+})
+class SsrMediaPreviewHostComponent {
+  readonly slides = [
+    { type: 'image', src: 'slide-1.jpg', alt: 'First story' },
+    { type: 'video', src: 'tour.mp4', poster: 'tour.jpg', alt: 'Tour' },
+    { type: 'image', src: 'slide-3.jpg', alt: 'Third story' },
+  ] as const;
+}
+
 async function renderHost(host: Type<unknown>, tag: string): Promise<string> {
   return renderApplication(
     (context: BootstrapContext) =>
@@ -113,5 +131,17 @@ describe('SolarisMediaCarousel SSR', () => {
     expect(html).toContain('aria-label="3 of 3"');
     expect(html).toContain('aria-disabled="true"');
     expect(html).not.toContain('setInterval');
+  });
+
+  it('renders the preview strip with thumbs and the video badge', async () => {
+    const html = await renderHost(
+      SsrMediaPreviewHostComponent,
+      'solaris-ssr-media-preview-host',
+    );
+    expect(
+      countOccurrences(html, 'solaris-media-carousel__preview-thumb"'),
+    ).toBe(3);
+    expect(html).toContain('aria-current="true"');
+    expect(html).toContain('solaris-media-carousel__preview-badge');
   });
 });

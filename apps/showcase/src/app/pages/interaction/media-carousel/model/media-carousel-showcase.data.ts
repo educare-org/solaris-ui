@@ -29,6 +29,7 @@ export const MEDIA_CAROUSEL_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'dots-outside', labelKey: 'media-carousel.section.dots-outside' },
   { anchor: 'loop', labelKey: 'media-carousel.section.loop' },
   { anchor: 'autoplay', labelKey: 'media-carousel.section.autoplay' },
+  { anchor: 'preview', labelKey: 'media-carousel.section.preview' },
   { anchor: 'installation', labelKey: 'media-carousel.section.installation' },
   { anchor: 'props', labelKey: 'media-carousel.section.props' },
 ];
@@ -64,6 +65,15 @@ export const MEDIA_CAROUSEL_SHOWCASE_AUTOPLAY_CODE = [
   '  [slides]="slides"',
   '  [autoplay]="true"',
   '  [duration]="4000"',
+  '  ariaLabel="Featured stories"',
+  '/>',
+].join('\n');
+
+export const MEDIA_CAROUSEL_SHOWCASE_PREVIEW_CODE = [
+  '<solaris-media-carousel',
+  '  [slides]="previewSlides"',
+  '  navigation="preview"',
+  '  (slideActivate)="openPlayer($event)"',
   '  ariaLabel="Featured stories"',
   '/>',
 ].join('\n');

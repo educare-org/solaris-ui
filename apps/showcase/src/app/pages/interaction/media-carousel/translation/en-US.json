@@ -20,6 +20,9 @@
     "loop": {
       "note": "With loop off, the arrows clamp at the first and last slide and expose aria-disabled."
     },
+    "preview": {
+      "note": "With preview, an overlay strip shows the current slide plus the next two thumbnails. Video thumbs carry a Play badge; clicking a slide or thumb emits slideActivate for the consumer player."
+    },
     "props": {
       "note": "Props table coming soon with the table component."
     },
@@ -29,6 +32,7 @@
       "examples": "Examples",
       "installation": "Installation",
       "loop": "Loop",
+      "preview": "Preview",
       "props": "Props"
     },
     "title": "Media carousel"

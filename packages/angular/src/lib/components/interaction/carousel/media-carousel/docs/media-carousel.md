@@ -20,6 +20,8 @@ output).
 | `activeIndex`                  | `model<number>`                               | `0`                   | Two-way active slide (+ `activeIndexChange`)                      |
 | `visibleCount`                 | `'single' \| 'peek'`                          | `'single'`            | F1 renders `single`; `peek` lands in F5                           |
 | `navigation`                   | `'dots' \| 'progress' \| 'preview' \| 'none'` | `'dots'`              | F1 renders `dots`/`none`; `progress` lands in F2, `preview` in F3 |
+| `previewCount`                 | `number`                                      | `3`                   | Locked v1: current + next two (clamped 1–3)                       |
+| `previewPosition`              | `'overlay'`                                   | `'overlay'`           | v1 overlay only                                                   |
 | `dotsPosition`                 | `'overlay' \| 'outside'`                      | `'overlay'`           | Dots over the image or below it                                   |
 | `showArrows`                   | `boolean`                                     | `true`                | Prev/next arrows (translucent disc, always legible)               |
 | `loop`                         | `boolean`                                     | `true`                | Wrap around or clamp at the ends                                  |
@@ -35,10 +37,11 @@ output).
 | `pauseLabel` / `pauseLabelKey` | `string \| undefined`                         | i18n `carousel.pause` | Pause toggle label                                                |
 | `emptyText` / `emptyTextKey`   | `string \| undefined`                         | i18n `carousel.empty` | `slides=[]` state                                                 |
 
-| Output              | Payload   | Description                     |
-| ------------------- | --------- | ------------------------------- |
-| `activeIndexChange` | `number`  | Two-way pair with `activeIndex` |
-| `autoplayChange`    | `boolean` | Play/pause toggle state         |
+| Output              | Payload             | Description                                    |
+| ------------------- | ------------------- | ---------------------------------------------- |
+| `activeIndexChange` | `number`            | Two-way pair with `activeIndex`                |
+| `autoplayChange`    | `boolean`           | Play/pause toggle state                        |
+| `slideActivate`     | `SolarisMediaSlide` | Slide or preview click (consumer opens player) |
 
 ```typescript
 import type { SolarisMediaSlide, SolarisMediaImageSlide, SolarisMediaVideoSlide } from '@solaris-ui/angular';
@@ -50,16 +53,23 @@ const slides: readonly SolarisMediaSlide[] = [
 ```
 
 With `loop="false"`, arrows at the ends stay in the DOM with
-`aria-disabled="true"` instead of being removed. With a single slide, arrows
-and dots are hidden. With `autoplay`, the active dot stretches into a pill and
+`aria-disabled="true"` instead of being removed. With a single slide, arrows,
+dots, and the preview strip are hidden. With `autoplay`, the active dot stretches into a pill and
 fills over `duration` (linear); the fill pauses in sync with every pause source
 (hover/focus when `pauseOnHover`, hidden tab, offscreen viewport, reduced
 motion, manual pause). The play/pause toggle shows its label as visible text
 (`carousel.play` / `carousel.pause`, crossfading between the two), reports
 `aria-pressed`, and emits `autoplayChange`.
-`navigation="progress"`, `navigation="preview"`, and `visibleCount="peek"` are
-accepted by the type surface; `progress`/`preview` render the dots baseline
-until their phases implement them.
+With `navigation="preview"`, an overlay strip shows the current slide plus the
+next two thumbnails (wrapping when `loop`, truncated when clamped); each thumb
+is a button named `carousel.goToSlide` with `aria-current` on the active one,
+and clicking a thumb navigates to it. Video thumbs carry a centered,
+semi-transparent Play badge (`carousel.play`, never opaque). Clicking a slide
+or a thumb emits `slideActivate` with the slide; the consumer owns the player —
+the lib never plays video itself.
+`navigation="progress"` and `visibleCount="peek"` keep their phase behavior;
+`previewCount` values outside 1–3 clamp to that range and
+`previewPosition` only supports `overlay` in v1.
 
 ## File layout (no-mix rule)
 
@@ -83,8 +93,17 @@ declarations and no pure helper functions inside
   decorative icons, `aria-disabled="true"` at clamped ends.
 - Dots: buttons named `carousel.goToSlide` (`{index, total}` params),
   `aria-current="true"` on the active dot. The track uses `aria-live="off"`.
+- Preview: thumb buttons named `carousel.goToSlide` (`{index, total}` params),
+  `aria-current="true"` on the active thumb. Image thumbs are 56px and video
+  thumbs wider (`--solaris-spacing-14` + `--solaris-spacing-10`), both natively
+  above the 44px target; the video badge is decorative (`aria-hidden`, the
+  button carries the name, `data-video` marks video thumbs). The strip hides
+  for a single slide.
 - Play/pause toggle: single button, label swaps Play/Pause (`+Key`), state in
   `aria-pressed`, `autoplayChange` output. Never motion-only.
+- Slide trigger: the active slide image is wrapped in a button that emits
+  `slideActivate`; its accessible name is the slide `alt` (or `N of M`).
+  Keyboard users can also activate via the preview thumbs (same payload).
 - Keyboard: `ArrowRight`/`ArrowLeft` move, `Home`/`End` jump to first/last.
   Keyboard acts when focus is inside the carousel (arrows, dots, or toggle) —
   Tab reaches only active slide content plus the controls.
@@ -112,23 +131,56 @@ declarations and no pure helper functions inside
   row itself never shifts, so the resting layout is identical after every
   navigation.
 - `visibleCount` and `navigation` are exposed through `data-visible` and
-  `data-navigation`; their F2/F3/F5 behaviors reuse the same attributes.
+  `data-navigation`; `previewPosition` is exposed through
+  `data-preview-position` (v1 `overlay` only).
+- Preview thumbs (`--solaris-carousel-preview-size`, `--solaris-spacing-14`)
+  sit in an overlay strip (`--solaris-carousel-preview-gap`) framed by a subtle
+  translucent-white outer border; the frame radius
+  (`--solaris-carousel-preview-frame-radius`) is the thumb radius plus padding
+  plus border width, so the frame hugs the thumbs. Each thumb carries the same
+  subtle border, and the active thumb uses the solid light border
+  (`--solaris-carousel-preview-active-border-color`). Video thumbs are wider
+  (`--solaris-carousel-preview-video-width`, image + `--solaris-spacing-10`)
+  so the Play badge (`carousel.play`) fits in any locale, and their image is
+  softly blurred (`--solaris-carousel-preview-video-blur`) for badge legibility.
+  The badge reuses the translucent `--solaris-neutral-backdrop` disc with light
+  text — semi-transparent by construction, never opaque. The strip enters with a
+  fade only (no rise), matching the dots' stillness. On navigation the active
+  highlight crossfades (`opacity` + `border-color`, `normal` + `standard`) and
+  the thumbs glide to their new positions (FLIP via WAAPI,
+  `MEDIA_CAROUSEL_PREVIEW_REORDER_MS`/`EASING` mirroring `normal` + `standard`,
+  one glide per order change); origins are anchored in document coordinates, so
+  scrolling to the section never flings the thumbs on the next navigation. The
+  glide is skipped under reduced motion and without WAAPI. Thumbs carry no CSS
+  entrance animation by design: reordering re-inserts DOM nodes, which restarts
+  CSS animations and would flash the strip on every navigation — new thumbs
+  appear instantly instead.
 
 ## CSS Variables
 
-| Token                                  | Purpose                                                                   |
-| -------------------------------------- | ------------------------------------------------------------------------- |
-| `--solaris-carousel-viewport-radius`   | Viewport rounding (`--solaris-radius-*` via `data-radius`)                |
-| `--solaris-carousel-gap`               | Arrow inset + overlay dots offset (`--solaris-spacing-4`)                 |
-| `--solaris-carousel-dots-gap`          | Dot spacing (`--solaris-spacing-3`)                                       |
-| `--solaris-carousel-dot-size`          | Dot diameter (`--solaris-spacing-5`, 8px optical + symmetric hit padding) |
-| `--solaris-carousel-dot-active-width`  | Active dot pill width (`--solaris-spacing-13`, 48px)                      |
-| `--solaris-carousel-control-size`      | Arrow/dot hit area (`--solaris-density-min-height`)                       |
-| `--solaris-carousel-arrow-size`        | Chevron icon size (`--solaris-spacing-8`)                                 |
-| `--solaris-carousel-dot-color`         | Dot color (light text; body text when `dotsPosition="outside"`)           |
-| `--solaris-carousel-arrow-color`       | Arrow/play-pause icon color (light text, both themes)                     |
-| `--solaris-carousel-arrow-background`  | Arrow/play-pause disc (`--solaris-neutral-backdrop`, both themes)         |
-| `--solaris-carousel-progress-duration` | Active-dot fill duration (dynamic ms, inline only)                        |
+| Token                                            | Purpose                                                                   |
+| ------------------------------------------------ | ------------------------------------------------------------------------- | --- | --------------------------------------------- | ----------------------------------------------------------- |
+| `--solaris-carousel-viewport-radius`             | Viewport rounding (`--solaris-radius-*` via `data-radius`)                |
+| `--solaris-carousel-gap`                         | Arrow inset + overlay dots offset (`--solaris-spacing-4`)                 |
+| `--solaris-carousel-dots-gap`                    | Dot spacing (`--solaris-spacing-3`)                                       |
+| `--solaris-carousel-dot-size`                    | Dot diameter (`--solaris-spacing-5`, 8px optical + symmetric hit padding) |
+| `--solaris-carousel-dot-active-width`            | Active dot pill width (`--solaris-spacing-13`, 48px)                      |
+| `--solaris-carousel-control-size`                | Arrow/dot hit area (`--solaris-density-min-height`)                       |
+| `--solaris-carousel-arrow-size`                  | Chevron icon size (`--solaris-spacing-8`)                                 |
+| `--solaris-carousel-dot-color`                   | Dot color (light text; body text when `dotsPosition="outside"`)           |
+| `--solaris-carousel-arrow-color`                 | Arrow/play-pause icon color (light text, both themes)                     |
+| `--solaris-carousel-arrow-background`            | Arrow/play-pause disc (`--solaris-neutral-backdrop`, both themes)         |
+| `--solaris-carousel-progress-duration`           | Active-dot fill duration (dynamic ms, inline only)                        |
+| `--solaris-carousel-preview-size`                | Preview thumb size (`--solaris-spacing-14`, 56px, 44px hit native)        |
+| `--solaris-carousel-preview-gap`                 | Preview thumb spacing (`--solaris-spacing-3`)                             |
+| `--solaris-carousel-preview-radius`              | Preview thumb rounding (`--solaris-radius-md`)                            |     | `--solaris-carousel-preview-badge-background` | Video badge disc (translucent `--solaris-neutral-backdrop`) |
+| `--solaris-carousel-preview-badge-color`         | Video badge text (`--solaris-neutral-text-light`)                         |
+| `--solaris-carousel-preview-border-width`        | Preview frame/thumb border width (`--solaris-border-width-sm`)            |
+| `--solaris-carousel-preview-border-color`        | Subtle translucent-white frame/thumb border (40% light text mix)          |
+| `--solaris-carousel-preview-active-border-color` | Active thumb border (solid `--solaris-neutral-text-light`)                |
+| `--solaris-carousel-preview-frame-radius`        | Frame radius (thumb radius + padding + border width)                      |
+| `--solaris-carousel-preview-video-width`         | Video thumb width (preview size + `--solaris-spacing-10`, badge fit)      |
+| `--solaris-carousel-preview-video-blur`          | Video thumb image softening (dialog-filter precedent)                     |
 
 Inline styles allowed (dynamic values tokens cannot express): `transform` on
 the track (`translateX(-index * 100%)`), `aspect-ratio` on the viewport
@@ -144,6 +196,8 @@ dots (`duration` value), and `animation-play-state` on the fill
 <solaris-media-carousel [slides]="slides" dotsPosition="outside" [loop]="false" radius="md" ariaLabel="Featured stories" />
 
 <solaris-media-carousel [slides]="slides" [autoplay]="true" [duration]="5000" ariaLabel="Featured stories" />
+
+<solaris-media-carousel [slides]="slides" navigation="preview" (slideActivate)="openPlayer($event)" ariaLabel="Featured stories" />
 
 <solaris-media-carousel [slides]="[]" ariaLabel="Featured stories" emptyText="Nothing to show yet" />
 ```

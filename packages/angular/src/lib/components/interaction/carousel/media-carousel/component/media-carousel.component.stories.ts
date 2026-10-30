@@ -51,3 +51,43 @@ export const Autoplay: Story = {
     duration: 5000,
   },
 };
+
+const MIXED_SLIDES: readonly SolarisMediaSlide[] = [
+  {
+    type: 'image',
+    src: 'https://placehold.co/800x450?text=Slide+1',
+    alt: 'First slide',
+  },
+  {
+    type: 'video',
+    src: 'https://example.com/tour.mp4',
+    poster: 'https://placehold.co/800x450?text=Video',
+    alt: 'Product tour',
+  },
+  {
+    type: 'image',
+    src: 'https://placehold.co/800x450?text=Slide+3',
+    alt: 'Third slide',
+  },
+  {
+    type: 'video',
+    src: 'https://example.com/clip.mp4',
+    alt: 'Second clip',
+  },
+];
+
+export const Preview: Story = {
+  args: {
+    slides: SHOWCASE_SLIDES,
+    ariaLabel: 'Featured stories',
+    navigation: 'preview',
+  },
+};
+
+export const PreviewMixed: Story = {
+  args: {
+    slides: MIXED_SLIDES,
+    ariaLabel: 'Featured stories',
+    navigation: 'preview',
+  },
+};

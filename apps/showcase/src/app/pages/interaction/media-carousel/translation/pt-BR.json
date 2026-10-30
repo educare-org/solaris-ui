@@ -20,6 +20,9 @@
     "loop": {
       "note": "Sem repetição, as setas param no primeiro e no último slide e expõem aria-disabled."
     },
+    "preview": {
+      "note": "Com prévia, uma faixa sobre a imagem mostra o slide atual mais as próximas duas miniaturas. Miniaturas de vídeo trazem o selo Reproduzir; clicar num slide ou miniatura emite slideActivate para o player do consumidor."
+    },
     "props": {
       "note": "Tabela de props em breve, com o componente de tabela."
     },
@@ -29,6 +32,7 @@
       "examples": "Exemplos",
       "installation": "Instalação",
       "loop": "Repetição",
+      "preview": "Prévia",
       "props": "Props"
     },
     "title": "Carrossel de mídia"

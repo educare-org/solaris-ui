@@ -98,4 +98,127 @@ test.describe('Media carousel', () => {
     });
     expect(Math.abs(geometry.dotsCenter - geometry.hostCenter)).toBeLessThan(2);
   });
+
+  test('renders the preview strip with three named thumbs', async ({
+    page,
+  }) => {
+    const preview = page.locator('#preview');
+    const region = preview.getByRole('region', { name: 'Featured stories' });
+    const thumbs = region.getByRole('button', { name: /slide \d of 3/ });
+    await expect(thumbs).toHaveCount(3);
+    await expect(
+      region.getByRole('button', { name: 'Go to slide 1 of 3' }),
+    ).toHaveAttribute('aria-current', 'true');
+    await expect(
+      region.getByRole('button', { name: 'Go to slide 2 of 3' }),
+    ).not.toHaveAttribute('aria-current', 'true');
+  });
+
+  test('navigates through preview thumbs with wrap', async ({ page }) => {
+    const preview = page.locator('#preview');
+    const region = preview.getByRole('region', { name: 'Featured stories' });
+    await region.getByRole('button', { name: 'Go to slide 3 of 3' }).click();
+    await expect(
+      region.getByRole('group', { name: '3 of 3' }),
+    ).not.toHaveAttribute('aria-hidden', 'true');
+    await expect(
+      region.getByRole('button', { name: 'Go to slide 3 of 3' }),
+    ).toHaveAttribute('aria-current', 'true');
+  });
+
+  test('shows the video Play badge on video thumbs', async ({ page }) => {
+    const preview = page.locator('#preview');
+    const region = preview.getByRole('region', { name: 'Featured stories' });
+    const thumb = region.getByRole('button', {
+      name: 'Go to slide 2 of 3',
+    });
+    await expect(
+      thumb.locator('.solaris-media-carousel__preview-badge'),
+    ).toHaveText('Play');
+  });
+
+  test('keeps the Play badge inside the video thumb', async ({ page }) => {
+    const preview = page.locator('#preview');
+    const region = preview.getByRole('region', { name: 'Featured stories' });
+    const thumb = region.getByRole('button', {
+      name: 'Go to slide 2 of 3',
+    });
+    const boxes = await thumb.evaluate((el) => {
+      const host = el.getBoundingClientRect().toJSON();
+      const badge = el
+        .querySelector('.solaris-media-carousel__preview-badge')
+        ?.getBoundingClientRect()
+        .toJSON();
+      return { host, badge };
+    });
+    expect(boxes.badge).toBeDefined();
+    expect(boxes.badge.x).toBeGreaterThanOrEqual(boxes.host.x - 1);
+    expect(boxes.badge.x + boxes.badge.width).toBeLessThanOrEqual(
+      boxes.host.x + boxes.host.width + 1,
+    );
+  });
+
+  test('renders video thumbs wider than image thumbs', async ({ page }) => {
+    const preview = page.locator('#preview');
+    const region = preview.getByRole('region', { name: 'Featured stories' });
+    const imageThumb = region.getByRole('button', {
+      name: 'Go to slide 1 of 3',
+    });
+    const videoThumb = region.getByRole('button', {
+      name: 'Go to slide 2 of 3',
+    });
+    const imageBox = await imageThumb.evaluate((el) =>
+      el.getBoundingClientRect().toJSON(),
+    );
+    const videoBox = await videoThumb.evaluate((el) =>
+      el.getBoundingClientRect().toJSON(),
+    );
+    expect(videoBox.width).toBeGreaterThan(imageBox.width);
+  });
+
+  test('harmonizes the preview frame radius with the thumbs', async ({
+    page,
+  }) => {
+    const preview = page.locator('#preview');
+    const region = preview.getByRole('region', { name: 'Featured stories' });
+    const radii = await region.evaluate((host) => {
+      const frame = host.querySelector('.solaris-media-carousel__preview');
+      const thumb = host.querySelector(
+        '.solaris-media-carousel__preview-thumb',
+      );
+      const parse = (value: string | undefined): number =>
+        Number.parseFloat(value ?? '0');
+      return {
+        frame: parse(
+          frame ? getComputedStyle(frame).borderTopLeftRadius : undefined,
+        ),
+        thumb: parse(
+          thumb ? getComputedStyle(thumb).borderTopLeftRadius : undefined,
+        ),
+      };
+    });
+    expect(radii.thumb).toBeGreaterThan(0);
+    expect(radii.frame - radii.thumb).toBeCloseTo(3, 0);
+  });
+
+  test('highlights the active thumb with a lighter border', async ({
+    page,
+  }) => {
+    const preview = page.locator('#preview');
+    const region = preview.getByRole('region', { name: 'Featured stories' });
+    const colors = await region.evaluate((host) => {
+      const active = host.querySelector(
+        '.solaris-media-carousel__preview-thumb[data-active]',
+      );
+      const inactive = host.querySelector(
+        '.solaris-media-carousel__preview-thumb:not([data-active])',
+      );
+      return {
+        active: active ? getComputedStyle(active).borderTopColor : null,
+        inactive: inactive ? getComputedStyle(inactive).borderTopColor : null,
+      };
+    });
+    expect(colors.active).toBe('rgb(242, 245, 251)');
+    expect(colors.inactive).not.toBe(colors.active);
+  });
 });
