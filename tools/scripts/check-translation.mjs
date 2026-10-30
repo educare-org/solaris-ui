@@ -1,11 +1,9 @@
 import path from 'node:path';
-import fs from 'node:fs';
 import {
   fileExists,
   printSummary,
   readdirSafe,
   readFileSafe,
-  workspaceRoot,
 } from './shared.mjs';
 
 const errors = [];
@@ -21,9 +19,7 @@ const FORBIDDEN_CONSTS = [
 
 function findTranslationDirs() {
   const roots = ['packages/angular/src/lib', 'apps/showcase/src/app'];
-  // Fase 3: o agregador central (lib/i18n) não carrega dicionários próprios —
-  // ele importa os pacotes de components/**/translation e faz merge profundo.
-  // Não validar a pasta do serviço como pacote de dicionário.
+  // Exception: the service folder aggregates packs and ships no dictionaries of its own.
   const skipped = new Set([
     path.normalize('packages/angular/src/lib/services/translation'),
   ]);
@@ -48,19 +44,6 @@ function findTranslationDirs() {
     if (fileExists(root)) walk(root);
   }
   return found;
-}
-
-function findAllowlist(dir) {
-  let current = path.join(workspaceRoot, dir);
-
-  while (current.startsWith(workspaceRoot)) {
-    const candidate = path.join(current, 'translation-terms.allowlist.json');
-    if (fs.existsSync(candidate)) return candidate;
-    const parent = path.dirname(current);
-    if (parent === current) break;
-    current = parent;
-  }
-  return null;
 }
 
 function flattenTranslations(tree, prefix = '', out = {}) {
@@ -128,29 +111,7 @@ if (translationDirs.length === 0) {
         }
       }
 
-      // Allowlist: values identical to en-US must be declared.
-      const allowlistFile = findAllowlist(dir);
-      let allowlist = [];
-      if (allowlistFile) {
-        try {
-          allowlist = JSON.parse(fs.readFileSync(allowlistFile, 'utf-8'));
-        } catch {
-          errors.push(`Invalid allowlist JSON: ${allowlistFile}.`);
-        }
-      }
-      const allowed = new Set(allowlist);
-      for (const locale of ['pt-BR', 'es-419']) {
-        for (const key of base) {
-          if (
-            maps[locale][key] === maps['en-US'][key] &&
-            !allowed.has(maps['en-US'][key])
-          ) {
-            errors.push(
-              `${dir}/${locale}.json key '${key}' repeats the en-US value without allowlist entry (${JSON.stringify(maps['en-US'][key])}). Add it to translation-terms.allowlist.json or translate it.`,
-            );
-          }
-        }
-      }
+      // Exception (i18n-standard): identical values allowed — only missing/extra keys block.
     }
   }
 }

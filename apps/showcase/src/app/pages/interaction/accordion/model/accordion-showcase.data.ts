@@ -67,7 +67,7 @@ export const ACCORDION_SHOWCASE_MULTIPLE_CODE = [
 export const ACCORDION_SHOWCASE_QUESTION_CODE = [
   '<solaris-accordion [(value)]="openValue">',
   '  <solaris-collapsible value="a" label="What is Solaris?">',
-  '    <p>A design system for Educare.</p>',
+  '    <p>A design system for institutional products.</p>',
   '  </solaris-collapsible>',
   '  <solaris-collapsible-input',
   '    value="ask"',

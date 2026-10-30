@@ -25,7 +25,9 @@ AI can accelerate development, but it must not define architecture during implem
 - generate Unix-only commands unless explicitly requested and documented;
 - generate Windows-only commands unless explicitly requested and documented;
 - assume Bash, zsh, PowerShell, or CMD as the default shell;
-- use OS-specific path syntax without justification.
+- use OS-specific path syntax without justification;
+- add explanatory code comments (only `// Exception:` comments are allowed);
+- commit, push, or publish without explicit human validation for each action.
 
 ## Required prompt context
 
@@ -43,39 +45,12 @@ Every AI implementation prompt must include:
 
 ## Cross-platform command generation
 
-AI-generated commands must follow `CROSS_PLATFORM_COMMANDS.md`.
-
-When creating or editing scripts, AI must assume the project is developed on Windows, Linux, and macOS.
-
-AI must prefer:
-
-```txt
-pnpm
-Nx commands
-Node scripts
-cross-platform utilities
-portable paths
-```
-
-AI must avoid:
-
-```txt
-rm -rf
-cp -r
-mkdir -p
-NODE_ENV=value command
-Bash-only syntax
-PowerShell-only syntax
-CMD-only syntax
-hardcoded path separators
-```
-
-If an OS-specific command is unavoidable, AI must:
-
-1. explain why;
-2. isolate it behind a documented wrapper;
-3. provide a cross-platform alternative when possible;
-4. never place it directly in a general-purpose package script.
+AI-generated commands must follow
+`docs/quality-and-validation/cross-platform-commands.md`. Assume Windows,
+Linux, and macOS. Prefer `pnpm`, Nx commands, Node scripts, and portable
+paths. If an OS-specific command is unavoidable, explain why, isolate it
+behind a documented wrapper, and never place it directly in a
+general-purpose package script.
 
 ## Generated code rule
 

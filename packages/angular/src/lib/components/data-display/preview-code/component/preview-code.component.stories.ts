@@ -56,7 +56,7 @@ export const Expandable: Story = {
       '  return `Hello ${name}`;',
       '}',
       "console.log(greet('Solaris'));",
-      "console.log(greet('Educare'));",
+      "console.log(greet('Solaris'));",
       "console.log(greet('Docs'));",
       "console.log(greet('Tokens'));",
       "console.log(greet('Signals'));",

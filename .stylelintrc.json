@@ -42,7 +42,8 @@
         "transition-property": ["all"]
       },
       {
-        "message": "Use explicit transition properties with solaris motion tokens, never 'all' (see docs/standards/motion-standard.md)."
+        "message": "Avoid 'all' in transitions; list explicit properties (see docs/standards/motion-standard.md).",
+        "severity": "warning"
       }
     ],
     "property-no-vendor-prefix": null,

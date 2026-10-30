@@ -64,7 +64,7 @@ export const PREVIEW_CODE_SHOWCASE_LONG_CODE = [
   '  return `Hello ${name}`;',
   '}',
   "console.log(greet('Solaris'));",
-  "console.log(greet('Educare'));",
+  "console.log(greet('Solaris'));",
   "console.log(greet('Docs'));",
 ].join('\n');
 

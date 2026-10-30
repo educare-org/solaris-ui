@@ -4,26 +4,31 @@
 
 I18n is native and mandatory.
 
-## Initial locales
+## Locales
+
+Every dictionary ships exactly three locales. No exceptions.
 
 ```txt
 pt-BR
 en-US
-es
+es-419
 ```
 
-## Future locale readiness
+`es` alone is legacy and forbidden. The canonical Spanish locale is `es-419`.
+`check-translation.mjs` blocks missing/extra keys per locale and blocks legacy
+`es` keys. Enforced by CI.
 
-Solaris must be ready for locales with different character systems and layout implications:
+## Component and product names
 
-```txt
-zh
-ja
-ru
-ar
-```
+Component names, product names, proper nouns, brand terms, and established
+market terms stay in English in every locale. Do not force-translate them.
 
-RTL must be considered in future architecture.
+Examples that stay identical: `Segmented Control`, `Zoom`, `Online`,
+`Color`, `Total`, `Radar`.
+
+Rationale: users search, discuss, and import these terms in English even
+inside pt-BR and es-419 UIs. Forced translation hurts discoverability and
+adds churn without user value.
 
 ## Text strategy
 
@@ -35,9 +40,15 @@ Examples:
 label / labelKey
 title / titleKey
 description / descriptionKey
-ariaLabel / ariaLabelKey
 emptyStateText / emptyStateTextKey
 ```
+
+## Identical values
+
+Dictionary values identical to `en-US` are allowed without declaration.
+Only missing keys and extra keys (relative to `en-US`) block CI.
+Long user-facing sentences left untranslated should still be translated —
+identical values are intended for names and short terms, not paragraphs.
 
 ## Forbidden
 

@@ -95,18 +95,80 @@ function checkStructure(compDir, name) {
   const hasModel = walk(compDir, '.ts').some((f) =>
     f.includes(`${sep}model${sep}`),
   );
+  const hasFunctions = existsSync(join(compDir, 'functions'));
+  const hasTranslation = existsSync(join(compDir, 'translation'));
   const hasDocs = existsSync(join(compDir, 'docs'));
   const hasIndex = existsSync(join(compDir, 'index.ts'));
 
   if (!hasSourceDir)
-    warnings.push(
+    errors.push(
       `${name}: missing component/ (or directives/ or components/) directory`,
     );
-  if (!hasModel) warnings.push(`${name}: missing model/ directory`);
+  if (!hasModel) errors.push(`${name}: missing model/ directory`);
+  if (!hasFunctions)
+    warnings.push(
+      `${name}: missing functions/ directory (required for new components; existing components migrate opportunistically)`,
+    );
+  if (!hasTranslation)
+    warnings.push(
+      `${name}: missing translation/ directory (required when the component exposes text)`,
+    );
   if (!hasDocs) errors.push(`${name}: missing docs/ directory`);
   if (!hasIndex) errors.push(`${name}: missing index.ts`);
 
   return { hasSourceDir, hasDocs };
+}
+
+function checkFolderContract(filePath) {
+  const content = readFileSync(filePath, 'utf-8');
+  const normalized = filePath.split(sep).join('/');
+  const fileName = normalized.split('/').pop() ?? '';
+
+  if (normalized.includes('/component/') && filePath.endsWith('.ts')) {
+    if (/export\s+(type|interface)\s+\w+/.test(content)) {
+      warnings.push(
+        `${filePath}: component/ exports types or interfaces (move them to model/)`,
+      );
+    }
+    if (/^export\s+function/m.test(content)) {
+      warnings.push(
+        `${filePath}: component/ exports standalone functions (move them to functions/)`,
+      );
+    }
+  }
+
+  if (normalized.includes('/model/') && filePath.endsWith('.ts')) {
+    // Exception: DI token definitions legitimately import Angular.
+    if (
+      /\.tokens?\.ts$|\.contract\.ts$/.test(fileName) ||
+      /new\s+InjectionToken/.test(content)
+    )
+      return;
+    const valueImportsAngular =
+      /import\s+(?!type\b)[^;]*?from\s*['"]@angular\//.test(content);
+    if (valueImportsAngular) {
+      warnings.push(
+        `${filePath}: model/ imports Angular values (keep data-only; move logic to functions/)`,
+      );
+    }
+  }
+
+  if (normalized.includes('/functions/') && filePath.endsWith('.ts')) {
+    if (content.includes('@angular/')) {
+      errors.push(
+        `${filePath}: functions/ must not import Angular (pure logic only)`,
+      );
+    }
+    if (
+      /\b(document|window|localStorage|sessionStorage|navigator)\b/.test(
+        content,
+      )
+    ) {
+      errors.push(
+        `${filePath}: functions/ must not touch browser globals directly`,
+      );
+    }
+  }
 }
 
 function checkInlineTemplate(tsFile, content) {
@@ -180,6 +242,7 @@ function validateComponent(compDir) {
 
     for (const filePath of tsFiles) {
       checkTsFile(filePath);
+      checkFolderContract(filePath);
     }
   }
 

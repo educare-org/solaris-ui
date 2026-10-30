@@ -181,8 +181,34 @@ completion) additionally requires the early jsaction contract
 not by this harness (see the consumer validation note in the release
 policy).
 
+## Execution tiers
+
+Run the smallest scope that covers the change. Never run the full suite
+for a scoped change during development.
+
+| Tier            | When                                                                                    | Command                                                          |
+| --------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| 1 — Single test | Changed one function and its spec covers it (or write the spec first, then run only it) | `pnpm test:scope "**/<name>.spec.ts" --filter="<test name>"`     |
+| 2 — Component   | Finished all changes in one component                                                   | `pnpm test:scope "**/components/<category>/<name>/**/*.spec.ts"` |
+| 3 — System      | Before merging the branch, and always in CI                                             | `pnpm test` (full unit + SSR/hydration matrix)                   |
+
+Rules:
+
+- Tiers 1–2 always pass `--coverage=false` (the `test:scope` script does
+  this). Global 85% thresholds only hold on full runs; scoped runs with
+  coverage enabled fail spuriously.
+- `--include` needs the `**/` prefix and the `*.spec.ts` suffix. Bare
+  directory paths (`src/lib/...`) match nothing, and unscoped directory
+  globs pull non-test files (`.html`, `.scss`, `.md`) into the compiler
+  and break the build.
+- Tier 3 is mandatory before merge: `pnpm test` plus `pnpm check`.
+  The SSR/hydration matrix always runs full — no scoped SSR shortcut.
+- `pnpm test:watch` is for active iteration on the current scope.
+
 ## CI rule
 
 Local hooks help.
 
-CI decides.
+Tier 3 (`pnpm verify`, which runs the full `check` + `test` + `build`)
+is what CI enforces. Tiers 1–2 exist so developers get feedback in
+seconds without waiting for the system suite.

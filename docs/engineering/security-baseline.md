@@ -42,18 +42,8 @@ Components must not access browser globals directly.
 
 ## Dependency security
 
-Every new dependency requires review:
-
-1. Does it solve a real problem?
-2. Is there a native Angular/CDK alternative?
-3. Is it maintained?
-4. Is the license acceptable?
-5. Is it tree-shakable?
-6. Does it work with SSR?
-7. Does it work with strict mode?
-8. Does it increase bundle size significantly?
-9. Is it replaceable later?
-10. Does it have known vulnerabilities?
+Every new dependency requires review per `docs/engineering/dependency-policy.md`.
+No dependency ships without justification, license check, and audit.
 
 ## Supply chain
 

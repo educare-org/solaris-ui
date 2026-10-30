@@ -14,6 +14,9 @@ The `main` branch must always be releasable.
 
 ## Branch naming
 
+Branch names and all documentation are in English. Never use another
+language for branch names, file names, code identifiers, or docs.
+
 Examples:
 
 ```txt
@@ -44,6 +47,12 @@ chore(repo): configure workspace validation
 PRs are required.
 
 Working alone does not lower the quality bar.
+
+## Human validation
+
+AI must never commit, push, or publish on its own. Every commit, push, and
+release requires explicit human validation first. Prepare the changes and
+stop — the human runs the commit command.
 
 ## Local hooks
 

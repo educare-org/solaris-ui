@@ -51,7 +51,7 @@ export const CODE_BLOCK_SHOWCASE_LONG_CODE = [
   '  return `Hello ${name}`;',
   '}',
   "console.log(greet('Solaris'));",
-  "console.log(greet('Educare'));",
+  "console.log(greet('Solaris'));",
   "console.log(greet('Docs'));",
   "console.log(greet('Tokens'));",
   "console.log(greet('Signals'));",

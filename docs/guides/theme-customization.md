@@ -19,7 +19,17 @@ Solaris uses CSS custom properties (tokens) for all visual properties. Themes ar
 }
 ```
 
-The default theme is `light`. Changing `data-theme` on a parent element switches all children.
+The default is `system`: with no `data-theme` attribute, light tokens apply,
+except under `prefers-color-scheme: dark`, where dark tokens apply
+automatically. Set `data-theme` on a parent element to pin a scheme for
+all children.
+
+The `solaris.theme()` mixin accepts `color-scheme` (`light | dark |
+system | high-contrast | high-contrast-dark`), `density` (`compact |
+normal | comfortable`), `radius` (`none | sm | md | lg | xl | full`), and
+`motion` (`auto | reduce`). `motion: reduce` zeroes durations for users who
+need still UI; the default `auto` leaves motion to the per-component
+`prefers-reduced-motion` guards.
 
 ## Overriding individual tokens
 

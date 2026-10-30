@@ -276,7 +276,7 @@ describe('SolarisCalendarEventEditorComponent', () => {
     expect(change).not.toBeUndefined();
   });
 
-  it.each(['pt-BR', 'en-US', 'es'] as const)(
+  it.each(['pt-BR', 'en-US', 'es-419'] as const)(
     'translates chrome strings for locale %s',
     (locale) => {
       TestBed.resetTestingModule();

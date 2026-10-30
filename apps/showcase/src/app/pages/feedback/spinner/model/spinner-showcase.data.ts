@@ -68,7 +68,7 @@ export function spinnerColorCode(color: string): string {
 export const SPINNER_SHOWCASE_ZONE_CODE = [
   '<form [solaris-loading-zone]="saving()">',
   '  <solaris-form-field label="Institution">',
-  '    <input solaris-input value="Educare" />',
+  '    <input solaris-input value="Solaris" />',
   '  </solaris-form-field>',
   '  @if (saving()) {',
   '    <solaris-spinner overlay label="Saving…" />',
