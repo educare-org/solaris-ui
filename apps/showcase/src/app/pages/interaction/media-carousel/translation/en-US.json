@@ -32,6 +32,9 @@
     "minimal": {
       "note": "Without arrows or dots, the carousel is a quiet rotator driven by autoplay or keyboard only."
     },
+    "peek": {
+      "note": "With peek, the active slide centers at 80% with neighbors peeking at the edges. Side slides render smaller and dimmed; keyboard and dots keep working."
+    },
     "progress": {
       "note": "With progress navigation and autoplay, the active dot fills over the duration, then the carousel advances."
     },
@@ -49,6 +52,7 @@
       "installation": "Installation",
       "loop": "Loop",
       "minimal": "Minimal",
+      "peek": "Peek",
       "preview": "Preview",
       "progress": "Progress",
       "props": "Props",

@@ -74,6 +74,7 @@ import {
   normalizeOptionalString,
   previewReorderDelta,
   resolveMediaCarouselPreviewIndices,
+  resolveMediaCarouselTrackTransform,
   resolveSwipeDirection,
 } from '../model/media-carousel-defaults';
 
@@ -335,8 +336,11 @@ export class SolarisMediaCarouselComponent {
     Array.from({ length: this.slideCount() }, (_, index) => index),
   );
 
-  protected readonly trackTransform = computed(
-    () => `translateX(-${this.currentIndex() * 100}%)`,
+  protected readonly trackTransform = computed(() =>
+    resolveMediaCarouselTrackTransform(
+      this.currentIndex(),
+      this.visibleCount(),
+    ),
   );
 
   protected readonly resolvedAriaLabel = computed(() =>

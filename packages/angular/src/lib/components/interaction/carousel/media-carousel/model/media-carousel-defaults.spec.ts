@@ -8,6 +8,7 @@ import {
   normalizeOptionalString,
   previewReorderDelta,
   resolveMediaCarouselPreviewIndices,
+  resolveMediaCarouselTrackTransform,
   resolveSwipeDirection,
   DEFAULT_MEDIA_CAROUSEL_ASPECT_RATIO,
   DEFAULT_MEDIA_CAROUSEL_PREVIEW_COUNT,
@@ -188,5 +189,37 @@ describe('resolveSwipeDirection', () => {
   it('should ignore non-finite deltas', () => {
     expect(resolveSwipeDirection(Number.NaN, 0)).toBeNull();
     expect(resolveSwipeDirection(120, Number.POSITIVE_INFINITY)).toBeNull();
+  });
+});
+
+describe('resolveMediaCarouselTrackTransform', () => {
+  it('should move one viewport per slide for single', () => {
+    expect(resolveMediaCarouselTrackTransform(0, 'single')).toBe(
+      'translateX(-0%)',
+    );
+    expect(resolveMediaCarouselTrackTransform(2, 'single')).toBe(
+      'translateX(-200%)',
+    );
+  });
+
+  it('should center the active slide with a gap gutter for peek', () => {
+    expect(resolveMediaCarouselTrackTransform(0, 'peek')).toBe(
+      'translateX(calc(10%))',
+    );
+    expect(resolveMediaCarouselTrackTransform(1, 'peek')).toBe(
+      'translateX(calc(-70% - 1 * var(--solaris-carousel-gap)))',
+    );
+    expect(resolveMediaCarouselTrackTransform(2, 'peek')).toBe(
+      'translateX(calc(-150% - 2 * var(--solaris-carousel-gap)))',
+    );
+  });
+
+  it('should clamp non-finite indices to the first slide', () => {
+    expect(resolveMediaCarouselTrackTransform(Number.NaN, 'peek')).toBe(
+      'translateX(calc(10%))',
+    );
+    expect(resolveMediaCarouselTrackTransform(Number.NaN, 'single')).toBe(
+      'translateX(-0%)',
+    );
   });
 });

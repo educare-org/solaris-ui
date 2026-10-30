@@ -126,3 +126,11 @@ export const Progress: Story = {
     duration: 4000,
   },
 };
+
+export const Peek: Story = {
+  args: {
+    slides: SHOWCASE_SLIDES,
+    ariaLabel: 'Featured stories',
+    visibleCount: 'peek',
+  },
+};

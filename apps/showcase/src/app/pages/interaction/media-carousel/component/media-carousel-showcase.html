@@ -214,6 +214,19 @@
     </solaris-tabs>
   </app-docs-section>
 
+  <app-docs-section anchor="peek" titleKey="media-carousel.section.peek">
+    <p class="media-carousel-showcase__note">
+      {{ 'media-carousel.peek.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="peekCode" language="html">
+      <solaris-media-carousel
+        [slides]="slides"
+        visibleCount="peek"
+        [ariaLabel]="'media-carousel.examples.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section
     anchor="installation"
     titleKey="media-carousel.section.installation"

@@ -32,6 +32,9 @@
     "minimal": {
       "note": "Sin flechas ni puntos, el carrusel es un rotador discreto controlado solo por reproducción automática o teclado."
     },
+    "peek": {
+      "note": "Con peek, la diapositiva activa se centra al 80% con vecinas asomando en los bordes. Las laterales se ven más pequeñas y atenuadas; el teclado y los puntos siguen funcionando."
+    },
     "progress": {
       "note": "Con navegación de progreso y reproducción automática, el punto activo se llena durante la duración y el carrusel avanza."
     },
@@ -49,6 +52,7 @@
       "installation": "Instalación",
       "loop": "Repetición",
       "minimal": "Mínimo",
+      "peek": "Vista parcial",
       "preview": "Vista previa",
       "progress": "Progreso",
       "props": "Props",

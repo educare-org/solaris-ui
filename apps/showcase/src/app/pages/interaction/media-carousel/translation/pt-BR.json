@@ -32,6 +32,9 @@
     "minimal": {
       "note": "Sem setas nem pontos, o carrossel é um rotador discreto controlado só por reprodução automática ou teclado."
     },
+    "peek": {
+      "note": "Com espiada, o slide ativo centraliza a 80% com vizinhos espiando nas bordas. Slides laterais ficam menores e esmaecidos; teclado e pontos continuam funcionando."
+    },
     "progress": {
       "note": "Com navegação de progresso e reprodução automática, o ponto ativo preenche ao longo da duração e o carrossel avança."
     },
@@ -49,6 +52,7 @@
       "installation": "Instalação",
       "loop": "Repetição",
       "minimal": "Mínimo",
+      "peek": "Espiada",
       "preview": "Prévia",
       "progress": "Progresso",
       "props": "Props",

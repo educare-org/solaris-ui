@@ -176,6 +176,27 @@ export function anchorRectForScroll(
 
 export const MEDIA_CAROUSEL_SWIPE_THRESHOLD_PX = 48;
 
+export const MEDIA_CAROUSEL_PEEK_SLIDE_PCT = 80;
+export const MEDIA_CAROUSEL_PEEK_CENTER_OFFSET_PCT =
+  (100 - MEDIA_CAROUSEL_PEEK_SLIDE_PCT) / 2;
+
+export function resolveMediaCarouselTrackTransform(
+  index: number,
+  visibleCount: SolarisMediaCarouselVisibleCount,
+): string {
+  const safeIndex = Number.isFinite(index) && index > 0 ? Math.floor(index) : 0;
+  if (visibleCount === 'peek') {
+    const percent =
+      MEDIA_CAROUSEL_PEEK_CENTER_OFFSET_PCT -
+      safeIndex * MEDIA_CAROUSEL_PEEK_SLIDE_PCT;
+    if (safeIndex === 0) {
+      return `translateX(calc(${percent}%))`;
+    }
+    return `translateX(calc(${percent}% - ${safeIndex} * var(--solaris-carousel-gap)))`;
+  }
+  return `translateX(-${safeIndex * 100}%)`;
+}
+
 export function resolveSwipeDirection(
   deltaX: number,
   deltaY: number,

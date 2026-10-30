@@ -130,6 +130,13 @@ horizontal direction; shorter or vertical drags are ignored so the page keeps
 scrolling normally. The track declares `touch-action: pan-y` for the same
 reason.
 
+## Print
+
+`@media print` renders a static first slide: arrows, dots, and the play/pause
+toggle hide; the track transform resets and only the first slide displays.
+Autoplay, hover, and motion do not run on paper. Print from any slide — the
+paper always shows slide one.
+
 ## Examples
 
 ```html

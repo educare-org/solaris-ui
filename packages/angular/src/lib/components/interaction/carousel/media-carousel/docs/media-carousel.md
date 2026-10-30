@@ -14,28 +14,28 @@ output).
 
 **Selector:** `solaris-media-carousel`
 
-| Input                          | Type                                          | Default               | Description                                                                     |
-| ------------------------------ | --------------------------------------------- | --------------------- | ------------------------------------------------------------------------------- |
-| `slides`                       | `readonly SolarisMediaSlide[]`                | `[]`                  | Immutable slide list (lib never mutates)                                        |
-| `activeIndex`                  | `model<number>`                               | `0`                   | Two-way active slide (+ `activeIndexChange`)                                    |
-| `visibleCount`                 | `'single' \| 'peek'`                          | `'single'`            | F1 renders `single`; `peek` lands in F5                                         |
-| `navigation`                   | `'dots' \| 'progress' \| 'preview' \| 'none'` | `'dots'`              | F1 renders `dots`/`none`; `progress` lands in F2, `preview` in F3               |
-| `previewCount`                 | `number`                                      | `3`                   | Locked v1: current + next two (clamped 1–3)                                     |
-| `previewPosition`              | `'overlay'`                                   | `'overlay'`           | v1 overlay only                                                                 |
-| `dotsPosition`                 | `'overlay' \| 'outside'`                      | `'overlay'`           | Dots over the image or below it                                                 |
-| `showArrows`                   | `boolean`                                     | `true`                | Prev/next arrows (translucent disc, always legible)                             |
-| `loop`                         | `boolean`                                     | `true`                | Wrap around or clamp at the ends                                                |
-| `autoplay`                     | `boolean`                                     | `false`               | Advance every `duration`; off under reduced-motion until play                   |
-| `duration`                     | `number`                                      | `5000`                | ms per slide; drives the active-dot fill                                        |
-| `showPlayPause`                | `boolean \| undefined`                        | `autoplay`            | Play/pause toggle next to the dots                                              |
-| `pauseOnHover`                 | `boolean`                                     | `true`                | Pause the timer on hover and on keyboard focus (mouse focus alone never pauses) |
-| `aspectRatio`                  | `string`                                      | `'16 / 9'`            | Any valid `aspect-ratio` value                                                  |
-| `objectFit`                    | `'cover' \| 'contain'`                        | `'cover'`             | Image fit inside the viewport                                                   |
-| `radius`                       | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`      | `'lg'`                | Viewport radius (`full` forbidden)                                              |
-| `ariaLabel` / `ariaLabelKey`   | `string \| undefined`                         | `undefined`           | Carousel region name (one required)                                             |
-| `playLabel` / `playLabelKey`   | `string \| undefined`                         | i18n `carousel.play`  | Play toggle label                                                               |
-| `pauseLabel` / `pauseLabelKey` | `string \| undefined`                         | i18n `carousel.pause` | Pause toggle label                                                              |
-| `emptyText` / `emptyTextKey`   | `string \| undefined`                         | i18n `carousel.empty` | `slides=[]` state                                                               |
+| Input                          | Type                                          | Default               | Description                                                                                |
+| ------------------------------ | --------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------ |
+| `slides`                       | `readonly SolarisMediaSlide[]`                | `[]`                  | Immutable slide list (lib never mutates)                                                   |
+| `activeIndex`                  | `model<number>`                               | `0`                   | Two-way active slide (+ `activeIndexChange`)                                               |
+| `visibleCount`                 | `'single' \| 'peek'`                          | `'single'`            | `single` fills the viewport; `peek` centers the active slide at 80% with neighbors peeking |
+| `navigation`                   | `'dots' \| 'progress' \| 'preview' \| 'none'` | `'dots'`              | F1 renders `dots`/`none`; `progress` lands in F2, `preview` in F3                          |
+| `previewCount`                 | `number`                                      | `3`                   | Locked v1: current + next two (clamped 1–3)                                                |
+| `previewPosition`              | `'overlay'`                                   | `'overlay'`           | v1 overlay only                                                                            |
+| `dotsPosition`                 | `'overlay' \| 'outside'`                      | `'overlay'`           | Dots over the image or below it                                                            |
+| `showArrows`                   | `boolean`                                     | `true`                | Prev/next arrows (translucent disc, always legible)                                        |
+| `loop`                         | `boolean`                                     | `true`                | Wrap around or clamp at the ends                                                           |
+| `autoplay`                     | `boolean`                                     | `false`               | Advance every `duration`; off under reduced-motion until play                              |
+| `duration`                     | `number`                                      | `5000`                | ms per slide; drives the active-dot fill                                                   |
+| `showPlayPause`                | `boolean \| undefined`                        | `autoplay`            | Play/pause toggle next to the dots                                                         |
+| `pauseOnHover`                 | `boolean`                                     | `true`                | Pause the timer on hover and on keyboard focus (mouse focus alone never pauses)            |
+| `aspectRatio`                  | `string`                                      | `'16 / 9'`            | Any valid `aspect-ratio` value                                                             |
+| `objectFit`                    | `'cover' \| 'contain'`                        | `'cover'`             | Image fit inside the viewport                                                              |
+| `radius`                       | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`      | `'lg'`                | Viewport radius (`full` forbidden)                                                         |
+| `ariaLabel` / `ariaLabelKey`   | `string \| undefined`                         | `undefined`           | Carousel region name (one required)                                                        |
+| `playLabel` / `playLabelKey`   | `string \| undefined`                         | i18n `carousel.play`  | Play toggle label                                                                          |
+| `pauseLabel` / `pauseLabelKey` | `string \| undefined`                         | i18n `carousel.pause` | Pause toggle label                                                                         |
+| `emptyText` / `emptyTextKey`   | `string \| undefined`                         | i18n `carousel.empty` | `slides=[]` state                                                                          |
 
 | Output              | Payload             | Description                                    |
 | ------------------- | ------------------- | ---------------------------------------------- |
@@ -68,7 +68,13 @@ semi-transparent Play badge (`carousel.play`, never opaque). Clicking a slide
 or a thumb emits `slideActivate` with the slide; the consumer owns the player —
 the lib never plays video itself.
 `navigation="progress"` renders the same dots with the duration fill;
-`visibleCount="peek"` keeps its phase behavior;
+`visibleCount="peek"` centers the active slide at 80% of the viewport with a
+`--solaris-carousel-gap` gutter, so both neighbors peek at the edges (first
+and last positions show a gutter without clones — the v1 limit, no cloned
+slides). Side slides render at `scale(0.92)` + `70%` opacity and glide with the
+same `normal` + `standard` track transition; reduced-motion keeps the layout
+but removes the glide. The track offset is `10% - index * (80% + gap)`,
+centered per slide; `preview` thumbs and dots keep working unchanged.
 `previewCount` values outside 1–3 clamp to that range and
 `previewPosition` only supports `overlay` in v1.
 
@@ -136,6 +142,11 @@ declarations and no pure helper functions inside
 - `visibleCount` and `navigation` are exposed through `data-visible` and
   `data-navigation`; `previewPosition` is exposed through
   `data-preview-position` (v1 `overlay` only).
+- `visibleCount="peek"` renders slides at `80%` of the viewport with a gap
+  gutter: the active slide is full-size (`scale(1)`, full opacity) and side
+  slides sit at `scale(0.92)` + `70%` opacity, gliding on the shared
+  `normal` + `standard` track transition (doubled reduced-motion guard, no
+  separate easing).
 - Preview thumbs (`--solaris-carousel-preview-size`, `--solaris-spacing-14`)
   sit in an overlay strip (`--solaris-carousel-preview-gap`) framed by a subtle
   translucent-white outer border; the frame radius
@@ -201,6 +212,13 @@ reason. Slide images are `draggable="false"` so the browser never starts a
 native drag instead of the swipe. A swipe never opens the player: the tap that follows a navigating
 swipe is consumed instead of emitting `slideActivate`.
 
+## Print
+
+`@media print` renders a static first slide: arrows, dots, preview strip, and
+the play/pause toggle hide; the track transform resets and only the first
+slide displays. Autoplay, hover, and motion do not run on paper. Print from
+any slide — the paper always shows slide one.
+
 ## Examples
 
 ```html
@@ -211,6 +229,8 @@ swipe is consumed instead of emitting `slideActivate`.
 <solaris-media-carousel [slides]="slides" [autoplay]="true" [duration]="5000" ariaLabel="Featured stories" />
 
 <solaris-media-carousel [slides]="slides" navigation="preview" (slideActivate)="openPlayer($event)" ariaLabel="Featured stories" />
+
+<solaris-media-carousel [slides]="slides" visibleCount="peek" ariaLabel="Featured stories" />
 
 <solaris-media-carousel [slides]="[]" ariaLabel="Featured stories" emptyText="Nothing to show yet" />
 ```

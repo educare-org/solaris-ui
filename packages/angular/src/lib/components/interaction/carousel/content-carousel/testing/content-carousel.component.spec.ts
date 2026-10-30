@@ -1019,3 +1019,24 @@ describe('SolarisContentCarouselHarness', () => {
     expect(await harness.getDividerSide()).toBe('left');
   });
 });
+
+describe('SolarisContentCarouselComponent print', () => {
+  it('should ship a print baseline with a static first slide', async () => {
+    const { readFileSync } = await import('node:fs');
+    const { resolve } = await import('node:path');
+    const scss = readFileSync(
+      resolve(
+        process.cwd(),
+        'packages/angular/src/lib/components/interaction/carousel/content-carousel/component/content-carousel.component.scss',
+      ),
+      'utf8',
+    );
+    expect(scss).toContain('@media print');
+    const print = scss.split('@media print')[1] ?? '';
+    expect(print).toContain('.solaris-content-carousel__track');
+    expect(print).toContain('transform: none !important');
+    expect(print).toContain('.solaris-content-carousel__slide:first-child');
+    expect(print).toContain('.solaris-content-carousel__arrow');
+    expect(print).toContain('.solaris-content-carousel__dots');
+  });
+});

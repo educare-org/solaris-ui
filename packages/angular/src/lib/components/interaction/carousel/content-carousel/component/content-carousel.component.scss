@@ -331,6 +331,30 @@
   transform: none;
 }
 
+@media print {
+  .solaris-content-carousel__track {
+    transform: none !important;
+  }
+
+  .solaris-content-carousel__slide {
+    display: none;
+  }
+
+  .solaris-content-carousel__slide:first-child {
+    display: block;
+  }
+
+  .solaris-content-carousel__arrow,
+  .solaris-content-carousel__dots,
+  .solaris-content-carousel__play-pause {
+    display: none;
+  }
+
+  .solaris-content-carousel__dot-fill {
+    animation: none;
+  }
+}
+
 @keyframes solaris-content-carousel-dot-fill {
   from {
     transform: scaleX(0);

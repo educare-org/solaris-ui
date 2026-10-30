@@ -100,6 +100,26 @@
   z-index: var(--solaris-z-index-content);
 }
 
+:host([data-visible='peek']) .solaris-media-carousel__track {
+  gap: var(--solaris-carousel-gap);
+}
+
+:host([data-visible='peek']) .solaris-media-carousel__slide {
+  flex: 0 0 80%;
+  opacity: var(--solaris-opacity-70);
+  transform: scale(0.92);
+  transition:
+    opacity var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard),
+    transform var(--solaris-motion-duration-normal)
+      var(--solaris-motion-easing-standard);
+}
+
+:host([data-visible='peek']) .solaris-media-carousel__slide[data-active] {
+  opacity: var(--solaris-opacity-100);
+  transform: scale(1);
+}
+
 .solaris-media-carousel__image {
   width: 100%;
   height: 100%;
@@ -456,6 +476,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .solaris-media-carousel__track,
+  .solaris-media-carousel__slide,
   .solaris-media-carousel__arrow,
   .solaris-media-carousel__play-pause,
   .solaris-media-carousel__dot-track,
@@ -477,6 +498,7 @@
 }
 
 :host-context([data-reduced-motion='true']) .solaris-media-carousel__track,
+:host-context([data-reduced-motion='true']) .solaris-media-carousel__slide,
 :host-context([data-reduced-motion='true']) .solaris-media-carousel__arrow,
 :host-context([data-reduced-motion='true']) .solaris-media-carousel__play-pause,
 :host-context([data-reduced-motion='true']) .solaris-media-carousel__dot-track,
@@ -496,6 +518,39 @@
 :host-context([data-reduced-motion='true']) .solaris-media-carousel__dot-fill {
   animation: none;
   transform: none;
+}
+
+// WHY print shows the first slide static: paper has no autoplay, hover, or
+// motion — chrome (arrows/dots/preview/toggle) hides, the track snaps back to
+// the first slide, and only the first slide renders. Screen rendering untouched.
+@media print {
+  .solaris-media-carousel__track {
+    gap: var(--solaris-spacing-0);
+    transform: none !important;
+  }
+
+  .solaris-media-carousel__slide {
+    flex: 0 0 100%;
+    display: none;
+    opacity: var(--solaris-opacity-100);
+    transform: none;
+  }
+
+  .solaris-media-carousel__slide:first-child {
+    display: block;
+  }
+
+  .solaris-media-carousel__arrow,
+  .solaris-media-carousel__dots,
+  .solaris-media-carousel__preview,
+  .solaris-media-carousel__play-pause {
+    display: none;
+  }
+
+  .solaris-media-carousel__dot-fill,
+  .solaris-media-carousel__preview {
+    animation: none;
+  }
 }
 
 @keyframes solaris-media-carousel-dot-fill {
