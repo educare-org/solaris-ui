@@ -45,9 +45,15 @@ emptyStateText / emptyStateTextKey
 
 ## Identical values
 
-Dictionary values identical to `en-US` are allowed without declaration.
-Only missing keys and extra keys (relative to `en-US`) block CI.
-Long user-facing sentences left untranslated should still be translated —
+Dictionary values identical to `en-US` are allowed without declaration only
+when short (at most 30 characters after trimming and collapsing whitespace).
+A `pt-BR` or `es-419` value equal to `en-US` with more than 30 characters
+blocks CI unless the key carries a scoped exception in
+`tools/config/translation-rules.json` (proper nouns, brand terms, or filler
+text identical by nature, e.g. Lorem ipsum). Enforced by
+`check-translation.mjs`.
+
+Long user-facing sentences left untranslated must still be translated —
 identical values are intended for names and short terms, not paragraphs.
 
 ## Forbidden

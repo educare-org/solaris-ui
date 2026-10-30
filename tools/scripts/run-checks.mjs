@@ -27,7 +27,6 @@ const nodeSteps = [
   'check-dependencies',
   'check-tokens',
   'check-token-references',
-  'check-i18n',
   'check-translation',
 ];
 

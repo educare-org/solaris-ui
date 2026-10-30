@@ -1,5 +1,7 @@
 import path from 'node:path';
+import fs from 'node:fs';
 import {
+  workspaceRoot,
   fileExists,
   printSummary,
   readdirSafe,
@@ -10,6 +12,24 @@ const errors = [];
 const warnings = [];
 
 const REQUIRED_LOCALES = ['en-US', 'pt-BR', 'es-419'];
+const translationRules = JSON.parse(
+  fs.readFileSync(
+    path.join(workspaceRoot, 'tools', 'config', 'translation-rules.json'),
+    'utf-8',
+  ),
+);
+const MAX_IDENTICAL_LENGTH = translationRules.maxIdenticalLength ?? 30;
+
+function normalizeValue(value) {
+  return String(value).trim().replace(/\s+/g, ' ');
+}
+
+function isIdenticalException(dir, key) {
+  const normalizedDir = dir.split(path.sep).join('/');
+  return (translationRules.identicalExceptions || []).some(
+    (entry) => entry.dir === normalizedDir && entry.key === key,
+  );
+}
 const LEGACY_LOCALE_KEYS = [`'es'`, `"es"`, `'es':`, `"es":`];
 const FORBIDDEN_CONSTS = [
   'SOLARIS_TRANSLATE_EN_US',
@@ -111,7 +131,26 @@ if (translationDirs.length === 0) {
         }
       }
 
-      // Exception (i18n-standard): identical values allowed — only missing/extra keys block.
+      for (const key of base) {
+        const source = maps['en-US'][key];
+        if (typeof source !== 'string') continue;
+        const sourceValue = normalizeValue(source);
+        if (sourceValue.length === 0) continue;
+        for (const locale of ['pt-BR', 'es-419']) {
+          const candidate = maps[locale][key];
+          if (typeof candidate !== 'string') continue;
+          const candidateValue = normalizeValue(candidate);
+          if (
+            candidateValue === sourceValue &&
+            candidateValue.length > MAX_IDENTICAL_LENGTH &&
+            !isIdenticalException(dir, key)
+          ) {
+            errors.push(
+              `${dir}/${locale}.json key '${key}' is identical to en-US.json (${candidateValue.length} chars). Translate it or add a scoped exception in tools/config/translation-rules.json.`,
+            );
+          }
+        }
+      }
     }
   }
 }

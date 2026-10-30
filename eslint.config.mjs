@@ -1,5 +1,6 @@
 import nx from '@nx/eslint-plugin';
 import angular from 'angular-eslint';
+import solaris from './tools/eslint-plugin-solaris/index.mjs';
 
 export default [
   ...nx.configs['flat/base'],
@@ -43,6 +44,23 @@ export default [
     // Override or add rules here
     rules: {
       '@angular-eslint/no-input-rename': 'off',
+    },
+  },
+  {
+    files: ['packages/angular/src/lib/**/*.ts'],
+    ignores: [
+      '**/*.spec.ts',
+      '**/*.test.ts',
+      '**/*.stories.ts',
+      '**/testing/**',
+      '**/solaris-translate-defaults.ts',
+      '**/services/translation/model/i18n/**',
+    ],
+    plugins: {
+      solaris,
+    },
+    rules: {
+      'solaris/no-hardcoded-i18n-text': 'error',
     },
   },
 ];
