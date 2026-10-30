@@ -331,6 +331,7 @@ describe('SolarisMediaCarouselComponent', () => {
     expect(images.length).toBe(3);
     expect(images[0].getAttribute('alt')).toBe('First story');
     expect(images[0].getAttribute('loading')).toBe('lazy');
+    expect(images[0].getAttribute('draggable')).toBe('false');
   });
 
   it('should render video slides through their poster with src fallback', () => {
@@ -381,16 +382,174 @@ describe('SolarisMediaCarouselComponent', () => {
     ).toContain('aspect-ratio: 16 / 9');
   });
 
-  it('should render no indicator for progress and preview in F1', () => {
+  it('should render dots for progress and no indicator for preview in F1', () => {
     const progress = createCarousel({ navigation: 'progress' });
     expect(
-      element(progress).querySelector('.solaris-media-carousel__dot'),
-    ).toBeNull();
+      element(progress).querySelectorAll('.solaris-media-carousel__dot').length,
+    ).toBe(3);
     expect(element(progress).getAttribute('data-navigation')).toBe('progress');
     const preview = createCarousel({ navigation: 'preview' });
     expect(
       element(preview).querySelector('.solaris-media-carousel__dot'),
     ).toBeNull();
+  });
+
+  it('should move to the next slide on a left swipe', () => {
+    const fixture = createCarousel();
+    const track = element(fixture).querySelector(
+      '.solaris-media-carousel__track',
+    ) as HTMLElement;
+    track.dispatchEvent(
+      new MouseEvent('pointerdown', {
+        bubbles: true,
+        clientX: 200,
+        clientY: 100,
+      }),
+    );
+    track.dispatchEvent(
+      new MouseEvent('pointerup', {
+        bubbles: true,
+        clientX: 100,
+        clientY: 102,
+      }),
+    );
+    fixture.detectChanges();
+    expect(fixture.componentInstance.activeIndex()).toBe(1);
+  });
+
+  it('should move to the previous slide on a right swipe', () => {
+    const fixture = createCarousel({ activeIndex: 1 });
+    const track = element(fixture).querySelector(
+      '.solaris-media-carousel__track',
+    ) as HTMLElement;
+    track.dispatchEvent(
+      new MouseEvent('pointerdown', {
+        bubbles: true,
+        clientX: 100,
+        clientY: 100,
+      }),
+    );
+    track.dispatchEvent(
+      new MouseEvent('pointerup', { bubbles: true, clientX: 200, clientY: 98 }),
+    );
+    fixture.detectChanges();
+    expect(fixture.componentInstance.activeIndex()).toBe(0);
+  });
+
+  it('should ignore short and vertical drags', () => {
+    const fixture = createCarousel();
+    const track = element(fixture).querySelector(
+      '.solaris-media-carousel__track',
+    ) as HTMLElement;
+    track.dispatchEvent(
+      new MouseEvent('pointerdown', {
+        bubbles: true,
+        clientX: 200,
+        clientY: 100,
+      }),
+    );
+    track.dispatchEvent(
+      new MouseEvent('pointerup', {
+        bubbles: true,
+        clientX: 180,
+        clientY: 100,
+      }),
+    );
+    track.dispatchEvent(
+      new MouseEvent('pointerdown', {
+        bubbles: true,
+        clientX: 200,
+        clientY: 100,
+      }),
+    );
+    track.dispatchEvent(
+      new MouseEvent('pointerup', {
+        bubbles: true,
+        clientX: 200,
+        clientY: 200,
+      }),
+    );
+    fixture.detectChanges();
+    expect(fixture.componentInstance.activeIndex()).toBe(0);
+  });
+
+  it('should forget a cancelled swipe', () => {
+    const fixture = createCarousel();
+    const track = element(fixture).querySelector(
+      '.solaris-media-carousel__track',
+    ) as HTMLElement;
+    track.dispatchEvent(
+      new MouseEvent('pointerdown', {
+        bubbles: true,
+        clientX: 200,
+        clientY: 100,
+      }),
+    );
+    track.dispatchEvent(new MouseEvent('pointercancel', { bubbles: true }));
+    track.dispatchEvent(
+      new MouseEvent('pointerup', {
+        bubbles: true,
+        clientX: 100,
+        clientY: 100,
+      }),
+    );
+    fixture.detectChanges();
+    expect(fixture.componentInstance.activeIndex()).toBe(0);
+  });
+
+  it('should not emit slideActivate for the tap after a swipe', () => {
+    const fixture = createCarousel();
+    const seen: unknown[] = [];
+    fixture.componentInstance.slideActivate.subscribe((slide) =>
+      seen.push(slide),
+    );
+    const track = element(fixture).querySelector(
+      '.solaris-media-carousel__track',
+    ) as HTMLElement;
+    const trigger = element(fixture).querySelector(
+      '.solaris-media-carousel__slide-trigger',
+    ) as HTMLButtonElement;
+    track.dispatchEvent(
+      new MouseEvent('pointerdown', {
+        bubbles: true,
+        clientX: 200,
+        clientY: 100,
+      }),
+    );
+    track.dispatchEvent(
+      new MouseEvent('pointerup', {
+        bubbles: true,
+        clientX: 100,
+        clientY: 100,
+      }),
+    );
+    trigger.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.activeIndex()).toBe(1);
+    expect(seen).toEqual([]);
+    trigger.click();
+    fixture.detectChanges();
+    expect(seen.length).toBe(1);
+  });
+
+  it('should ignore keyboard navigation for a single slide', () => {
+    const fixture = createCarousel({ slides: [THREE_SLIDES[0]] });
+    const viewport = element(fixture).querySelector(
+      '.solaris-media-carousel__viewport',
+    ) as HTMLElement;
+    viewport.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }),
+    );
+    fixture.detectChanges();
+    expect(fixture.componentInstance.activeIndex()).toBe(0);
+  });
+
+  it('should fall back to an empty label for unknown aria keys', () => {
+    const fixture = createCarousel({
+      ariaLabel: undefined,
+      ariaLabelKey: 'missing.key',
+    });
+    expect(element(fixture).getAttribute('aria-label')).toBe('');
   });
 
   it('should expose the peek value through data-visible', () => {

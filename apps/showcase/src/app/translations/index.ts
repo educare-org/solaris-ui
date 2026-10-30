@@ -63,6 +63,7 @@ import { DIVIDER_TRANSLATIONS } from '../pages/content/divider/translation';
 import { DROPDOWN_MENU_TRANSLATIONS } from '../pages/interaction/dropdown-menu/translation';
 import { COLLAPSIBLE_TRANSLATIONS } from '../pages/interaction/collapsible/translation';
 import { MEDIA_CAROUSEL_TRANSLATIONS } from '../pages/interaction/media-carousel/translation';
+import { CONTENT_CAROUSEL_TRANSLATIONS } from '../pages/interaction/content-carousel/translation';
 import { ACCORDION_TRANSLATIONS } from '../pages/interaction/accordion/translation';
 import { EDITABLE_TABS_TRANSLATIONS } from '../pages/navigation/editable-tabs/translation';
 import { PAGINATION_TRANSLATIONS } from '../pages/navigation/pagination/translation';
@@ -172,6 +173,7 @@ const PAGE_MODULES = [
   DROPDOWN_MENU_TRANSLATIONS,
   COLLAPSIBLE_TRANSLATIONS,
   MEDIA_CAROUSEL_TRANSLATIONS,
+  CONTENT_CAROUSEL_TRANSLATIONS,
   ACCORDION_TRANSLATIONS,
   EDITABLE_TABS_TRANSLATIONS,
   PAGINATION_TRANSLATIONS,

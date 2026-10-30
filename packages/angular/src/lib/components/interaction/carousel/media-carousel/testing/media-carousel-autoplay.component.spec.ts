@@ -1,4 +1,5 @@
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
+import { vi } from 'vitest';
 
 import { configureSolarisTesting } from '../../../../../testing/solaris-test-utilities';
 
@@ -47,6 +48,14 @@ describe('SolarisMediaCarouselComponent autoplay', () => {
     ) as HTMLElement;
   }
 
+  function dots(
+    fixture: ComponentFixture<SolarisMediaCarouselComponent>,
+  ): HTMLElement {
+    return element(fixture).querySelector(
+      '.solaris-media-carousel__dots',
+    ) as HTMLElement;
+  }
+
   async function settle(
     fixture: ComponentFixture<SolarisMediaCarouselComponent>,
     ms = 120,
@@ -54,6 +63,81 @@ describe('SolarisMediaCarouselComponent autoplay', () => {
     await new Promise((resolve) => setTimeout(resolve, ms));
     fixture.detectChanges();
   }
+
+  it('should pause when the viewport leaves the screen', () => {
+    const seen: Element[] = [];
+    let disconnected = 0;
+    const previous = (globalThis as unknown as Record<string, unknown>)[
+      'IntersectionObserver'
+    ];
+    try {
+      (globalThis as unknown as Record<string, unknown>)[
+        'IntersectionObserver'
+      ] = class {
+        constructor(
+          private readonly callback: (
+            entries: Array<{ isIntersecting: boolean }>,
+          ) => void,
+        ) {}
+
+        observe(target: Element): void {
+          seen.push(target);
+          this.callback([{ isIntersecting: false }]);
+        }
+
+        disconnect(): void {
+          disconnected += 1;
+        }
+      };
+      const fixture = createAutoplay();
+      expect(seen.length).toBe(1);
+      fixture.destroy();
+      expect(disconnected).toBe(1);
+    } finally {
+      if (previous === undefined) {
+        delete (globalThis as unknown as Record<string, unknown>)[
+          'IntersectionObserver'
+        ];
+      } else {
+        (globalThis as unknown as Record<string, unknown>)[
+          'IntersectionObserver'
+        ] = previous;
+      }
+    }
+  });
+
+  it('should pause on dots hover and resume on leave', async () => {
+    const fixture = createAutoplay();
+    dots(fixture).dispatchEvent(new MouseEvent('mouseenter'));
+    fixture.detectChanges();
+    expect(
+      element(fixture)
+        .querySelector('.solaris-media-carousel__dot-fill')
+        ?.getAttribute('style'),
+    ).toContain('paused');
+    await settle(fixture, 250);
+    expect(fixture.componentInstance.activeIndex()).toBe(0);
+    dots(fixture).dispatchEvent(new MouseEvent('mouseleave'));
+    fixture.detectChanges();
+    await settle(fixture, 150);
+    expect(fixture.componentInstance.activeIndex()).toBeGreaterThan(0);
+    fixture.destroy();
+  });
+
+  it('should pause on dots focus and resume on blur', async () => {
+    const fixture = createAutoplay();
+    const target = dots(fixture);
+    vi.spyOn(target, 'matches').mockReturnValue(true);
+    target.dispatchEvent(new FocusEvent('focusin'));
+    fixture.detectChanges();
+    await settle(fixture, 250);
+    expect(fixture.componentInstance.activeIndex()).toBe(0);
+    target.dispatchEvent(new FocusEvent('focusout'));
+    fixture.detectChanges();
+    await settle(fixture, 150);
+    expect(fixture.componentInstance.activeIndex()).toBeGreaterThan(0);
+    fixture.destroy();
+  });
 
   it('should advance on duration and render the fill on the active dot', async () => {
     const fixture = createAutoplay();
@@ -85,11 +169,24 @@ describe('SolarisMediaCarouselComponent autoplay', () => {
 
   it('should pause on focus and resume on blur', async () => {
     const fixture = createAutoplay();
-    viewport(fixture).dispatchEvent(new FocusEvent('focusin'));
+    const target = viewport(fixture);
+    vi.spyOn(target, 'matches').mockReturnValue(true);
+    target.dispatchEvent(new FocusEvent('focusin'));
     fixture.detectChanges();
     await settle(fixture, 250);
     expect(fixture.componentInstance.activeIndex()).toBe(0);
-    viewport(fixture).dispatchEvent(new FocusEvent('focusout'));
+    target.dispatchEvent(new FocusEvent('focusout'));
+    fixture.detectChanges();
+    await settle(fixture, 150);
+    expect(fixture.componentInstance.activeIndex()).toBeGreaterThan(0);
+    fixture.destroy();
+  });
+
+  it('should not pause on mouse-driven focus', async () => {
+    const fixture = createAutoplay();
+    const target = viewport(fixture);
+    vi.spyOn(target, 'matches').mockReturnValue(false);
+    target.dispatchEvent(new FocusEvent('focusin'));
     fixture.detectChanges();
     await settle(fixture, 150);
     expect(fixture.componentInstance.activeIndex()).toBeGreaterThan(0);

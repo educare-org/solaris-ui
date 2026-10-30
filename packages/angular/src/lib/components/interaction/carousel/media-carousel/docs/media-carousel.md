@@ -14,28 +14,28 @@ output).
 
 **Selector:** `solaris-media-carousel`
 
-| Input                          | Type                                          | Default               | Description                                                       |
-| ------------------------------ | --------------------------------------------- | --------------------- | ----------------------------------------------------------------- |
-| `slides`                       | `readonly SolarisMediaSlide[]`                | `[]`                  | Immutable slide list (lib never mutates)                          |
-| `activeIndex`                  | `model<number>`                               | `0`                   | Two-way active slide (+ `activeIndexChange`)                      |
-| `visibleCount`                 | `'single' \| 'peek'`                          | `'single'`            | F1 renders `single`; `peek` lands in F5                           |
-| `navigation`                   | `'dots' \| 'progress' \| 'preview' \| 'none'` | `'dots'`              | F1 renders `dots`/`none`; `progress` lands in F2, `preview` in F3 |
-| `previewCount`                 | `number`                                      | `3`                   | Locked v1: current + next two (clamped 1–3)                       |
-| `previewPosition`              | `'overlay'`                                   | `'overlay'`           | v1 overlay only                                                   |
-| `dotsPosition`                 | `'overlay' \| 'outside'`                      | `'overlay'`           | Dots over the image or below it                                   |
-| `showArrows`                   | `boolean`                                     | `true`                | Prev/next arrows (translucent disc, always legible)               |
-| `loop`                         | `boolean`                                     | `true`                | Wrap around or clamp at the ends                                  |
-| `autoplay`                     | `boolean`                                     | `false`               | Advance every `duration`; off under reduced-motion until play     |
-| `duration`                     | `number`                                      | `5000`                | ms per slide; drives the active-dot fill                          |
-| `showPlayPause`                | `boolean \| undefined`                        | `autoplay`            | Play/pause toggle next to the dots                                |
-| `pauseOnHover`                 | `boolean`                                     | `true`                | Pause the timer on hover and focus                                |
-| `aspectRatio`                  | `string`                                      | `'16 / 9'`            | Any valid `aspect-ratio` value                                    |
-| `objectFit`                    | `'cover' \| 'contain'`                        | `'cover'`             | Image fit inside the viewport                                     |
-| `radius`                       | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`      | `'lg'`                | Viewport radius (`full` forbidden)                                |
-| `ariaLabel` / `ariaLabelKey`   | `string \| undefined`                         | `undefined`           | Carousel region name (one required)                               |
-| `playLabel` / `playLabelKey`   | `string \| undefined`                         | i18n `carousel.play`  | Play toggle label                                                 |
-| `pauseLabel` / `pauseLabelKey` | `string \| undefined`                         | i18n `carousel.pause` | Pause toggle label                                                |
-| `emptyText` / `emptyTextKey`   | `string \| undefined`                         | i18n `carousel.empty` | `slides=[]` state                                                 |
+| Input                          | Type                                          | Default               | Description                                                                     |
+| ------------------------------ | --------------------------------------------- | --------------------- | ------------------------------------------------------------------------------- |
+| `slides`                       | `readonly SolarisMediaSlide[]`                | `[]`                  | Immutable slide list (lib never mutates)                                        |
+| `activeIndex`                  | `model<number>`                               | `0`                   | Two-way active slide (+ `activeIndexChange`)                                    |
+| `visibleCount`                 | `'single' \| 'peek'`                          | `'single'`            | F1 renders `single`; `peek` lands in F5                                         |
+| `navigation`                   | `'dots' \| 'progress' \| 'preview' \| 'none'` | `'dots'`              | F1 renders `dots`/`none`; `progress` lands in F2, `preview` in F3               |
+| `previewCount`                 | `number`                                      | `3`                   | Locked v1: current + next two (clamped 1–3)                                     |
+| `previewPosition`              | `'overlay'`                                   | `'overlay'`           | v1 overlay only                                                                 |
+| `dotsPosition`                 | `'overlay' \| 'outside'`                      | `'overlay'`           | Dots over the image or below it                                                 |
+| `showArrows`                   | `boolean`                                     | `true`                | Prev/next arrows (translucent disc, always legible)                             |
+| `loop`                         | `boolean`                                     | `true`                | Wrap around or clamp at the ends                                                |
+| `autoplay`                     | `boolean`                                     | `false`               | Advance every `duration`; off under reduced-motion until play                   |
+| `duration`                     | `number`                                      | `5000`                | ms per slide; drives the active-dot fill                                        |
+| `showPlayPause`                | `boolean \| undefined`                        | `autoplay`            | Play/pause toggle next to the dots                                              |
+| `pauseOnHover`                 | `boolean`                                     | `true`                | Pause the timer on hover and on keyboard focus (mouse focus alone never pauses) |
+| `aspectRatio`                  | `string`                                      | `'16 / 9'`            | Any valid `aspect-ratio` value                                                  |
+| `objectFit`                    | `'cover' \| 'contain'`                        | `'cover'`             | Image fit inside the viewport                                                   |
+| `radius`                       | `'none' \| 'sm' \| 'md' \| 'lg' \| 'xl'`      | `'lg'`                | Viewport radius (`full` forbidden)                                              |
+| `ariaLabel` / `ariaLabelKey`   | `string \| undefined`                         | `undefined`           | Carousel region name (one required)                                             |
+| `playLabel` / `playLabelKey`   | `string \| undefined`                         | i18n `carousel.play`  | Play toggle label                                                               |
+| `pauseLabel` / `pauseLabelKey` | `string \| undefined`                         | i18n `carousel.pause` | Pause toggle label                                                              |
+| `emptyText` / `emptyTextKey`   | `string \| undefined`                         | i18n `carousel.empty` | `slides=[]` state                                                               |
 
 | Output              | Payload             | Description                                    |
 | ------------------- | ------------------- | ---------------------------------------------- |
@@ -67,7 +67,8 @@ and clicking a thumb navigates to it. Video thumbs carry a centered,
 semi-transparent Play badge (`carousel.play`, never opaque). Clicking a slide
 or a thumb emits `slideActivate` with the slide; the consumer owns the player —
 the lib never plays video itself.
-`navigation="progress"` and `visibleCount="peek"` keep their phase behavior;
+`navigation="progress"` renders the same dots with the duration fill;
+`visibleCount="peek"` keeps its phase behavior;
 `previewCount` values outside 1–3 clamp to that range and
 `previewPosition` only supports `overlay` in v1.
 
@@ -111,7 +112,9 @@ declarations and no pure helper functions inside
   8px optical size with a symmetric hit padding (24px wide at rest, growing
   with the pill, 40px tall). The play/pause toggle sits at the strip edge with
   the same inset as the arrows, out of the centered dots row.
-  The active dot stretches to a 48px pill. Track motion respects
+  The active dot stretches to a 48px pill. Dot tracks are translucent
+  (60% mix) while the duration fill is solid, so the progress sweep stays
+  legible. Track motion respects
   `prefers-reduced-motion` and the `data-reduced-motion` flag; under reduced
   motion the fill is static and autoplay stays off until the user presses play.
 
@@ -187,6 +190,16 @@ the track (`translateX(-index * 100%)`), `aspect-ratio` on the viewport
 (consumer `aspectRatio` value), `--solaris-carousel-progress-duration` on the
 dots (`duration` value), and `animation-play-state` on the fill
 (paused/running).
+
+## Gestures
+
+Horizontal swipes on the track move to the next/previous slide once the
+pointer travels past `MEDIA_CAROUSEL_SWIPE_THRESHOLD_PX` with a mostly
+horizontal direction; shorter or vertical drags are ignored so the page keeps
+scrolling normally. The track declares `touch-action: pan-y` for the same
+reason. Slide images are `draggable="false"` so the browser never starts a
+native drag instead of the swipe. A swipe never opens the player: the tap that follows a navigating
+swipe is consumed instead of emitting `slideActivate`.
 
 ## Examples
 

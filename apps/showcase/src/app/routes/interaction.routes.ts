@@ -46,6 +46,13 @@ export const interactionRoutes: Route[] = [
             '../pages/interaction/media-carousel/component/media-carousel-showcase'
           ).then((m) => m.MediaCarouselShowcasePage),
       },
+      {
+        path: 'content-carousel',
+        loadComponent: () =>
+          import(
+            '../pages/interaction/content-carousel/component/content-carousel-showcase'
+          ).then((m) => m.ContentCarouselShowcasePage),
+      },
     ],
   },
 ];

@@ -80,8 +80,14 @@
 .solaris-media-carousel__track {
   display: flex;
   height: 100%;
+  cursor: grab;
+  touch-action: pan-y;
   transition: transform var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-standard);
+}
+
+.solaris-media-carousel__track:active {
+  cursor: grabbing;
 }
 
 .solaris-media-carousel__slide {
@@ -105,11 +111,15 @@
   display: block;
   width: 100%;
   height: 100%;
-  cursor: pointer;
+  cursor: grab;
   border-radius: inherit;
   background: transparent;
   border: var(--solaris-spacing-0);
   padding: var(--solaris-spacing-0);
+}
+
+.solaris-media-carousel__slide-trigger:active {
+  cursor: grabbing;
 }
 
 .solaris-media-carousel__viewport[data-object-fit='contain']
@@ -196,7 +206,11 @@
 :host([data-dots-position='outside'])
   .solaris-media-carousel__dots
   .solaris-media-carousel__dot-track {
-  background: var(--solaris-neutral-text-secondary);
+  background: color-mix(
+    in srgb,
+    var(--solaris-neutral-text-secondary) 60%,
+    transparent
+  );
 }
 
 :host([data-dots-position='outside'])
@@ -204,6 +218,17 @@
   .solaris-media-carousel__dot[data-active]
   .solaris-media-carousel__dot-track {
   background: var(--solaris-neutral-text-secondary);
+}
+
+:host([data-dots-position='outside'][data-fill])
+  .solaris-media-carousel__dots
+  .solaris-media-carousel__dot[data-active]
+  .solaris-media-carousel__dot-track {
+  background: color-mix(
+    in srgb,
+    var(--solaris-neutral-text-secondary) 60%,
+    transparent
+  );
 }
 
 :host([data-dots-position='outside'])
@@ -263,22 +288,31 @@
   overflow: hidden;
   position: relative;
   pointer-events: none;
-  opacity: var(--solaris-opacity-60);
   width: var(--solaris-carousel-dot-size);
   height: var(--solaris-carousel-dot-size);
   border-radius: var(--solaris-radius-full);
-  background: var(--solaris-carousel-dot-color);
-  transition:
-    width var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard)
-      var(--solaris-motion-duration-normal),
-    opacity var(--solaris-motion-duration-normal)
-      var(--solaris-motion-easing-standard);
+  background: color-mix(
+    in srgb,
+    var(--solaris-carousel-dot-color) 60%,
+    transparent
+  );
+  transition: width var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard) var(--solaris-motion-duration-normal);
 }
 
 .solaris-media-carousel__dot[data-active] .solaris-media-carousel__dot-track {
   width: var(--solaris-carousel-dot-active-width);
-  opacity: var(--solaris-opacity-100);
+  background: var(--solaris-carousel-dot-color);
+}
+
+:host([data-fill])
+  .solaris-media-carousel__dot[data-active]
+  .solaris-media-carousel__dot-track {
+  background: color-mix(
+    in srgb,
+    var(--solaris-carousel-dot-color) 60%,
+    transparent
+  );
 }
 
 .solaris-media-carousel__dot-fill {

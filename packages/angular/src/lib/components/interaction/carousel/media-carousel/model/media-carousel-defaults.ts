@@ -173,3 +173,19 @@ export function anchorRectForScroll(
 ): { left: number; top: number } {
   return { left: rect.left + scrollX, top: rect.top + scrollY };
 }
+
+export const MEDIA_CAROUSEL_SWIPE_THRESHOLD_PX = 48;
+
+export function resolveSwipeDirection(
+  deltaX: number,
+  deltaY: number,
+  threshold: number = MEDIA_CAROUSEL_SWIPE_THRESHOLD_PX,
+): 'next' | 'prev' | null {
+  if (!Number.isFinite(deltaX) || !Number.isFinite(deltaY)) {
+    return null;
+  }
+  if (Math.abs(deltaX) <= threshold || Math.abs(deltaX) <= Math.abs(deltaY)) {
+    return null;
+  }
+  return deltaX < 0 ? 'next' : 'prev';
+}

@@ -39,7 +39,7 @@
     [style.--solaris-carousel-progress-duration]="progressDuration()"
     (mouseenter)="handleHover(true, 'dots')"
     (mouseleave)="handleHover(false, 'dots')"
-    (focusin)="handleFocus(true, 'dots')"
+    (focusin)="handleFocus(true, 'dots', $event)"
     (focusout)="handleFocus(false, 'dots')"
   >
     <div class="solaris-media-carousel__dots-group">
@@ -97,7 +97,7 @@
   [attr.data-object-fit]="objectFit()"
   (mouseenter)="handleHover(true)"
   (mouseleave)="handleHover(false)"
-  (focusin)="handleFocus(true)"
+  (focusin)="handleFocus(true, 'viewport', $event)"
   (focusout)="handleFocus(false)"
 >
   @if (isEmpty()) {
@@ -109,6 +109,7 @@
       class="solaris-media-carousel__track"
       aria-live="off"
       [style.transform]="trackTransform()"
+      (pointerdown)="handleSwipeStart($event)"
     >
       @for (slide of normalizedSlides(); track $index) {
         <div
@@ -132,6 +133,7 @@
               [alt]="slideAlt(slide)"
               loading="lazy"
               decoding="async"
+              draggable="false"
             />
           </button>
         </div>

@@ -1218,6 +1218,13 @@ export type { SolarisMediaCarouselObjectFit } from './lib/components/interaction
 export type { SolarisMediaCarouselRadius } from './lib/components/interaction/carousel/media-carousel/model/media-carousel-radius';
 export { SolarisMediaCarouselHarness } from './lib/components/interaction/carousel/media-carousel/testing/media-carousel.harness';
 
+export { SolarisContentCarouselComponent } from './lib/components/interaction/carousel/content-carousel/component/content-carousel.component';
+export { SolarisCarouselSlideDirective } from './lib/components/interaction/carousel/content-carousel/directives/carousel-slide.directive';
+export type { SolarisContentCarouselAlign } from './lib/components/interaction/carousel/content-carousel/model/content-carousel-align';
+export type { SolarisContentCarouselDividerSide } from './lib/components/interaction/carousel/content-carousel/model/content-carousel-divider-side';
+export type { SolarisContentCarouselNavigation } from './lib/components/interaction/carousel/content-carousel/model/content-carousel-navigation';
+export { SolarisContentCarouselHarness } from './lib/components/interaction/carousel/content-carousel/testing/content-carousel.harness';
+
 export { SolarisEditableTabsComponent } from './lib/components/navigation/editable-tabs/component/editable-tabs.component';
 export { SolarisEditableTabComponent } from './lib/components/navigation/editable-tabs/editable-tab/editable-tab.component';
 
