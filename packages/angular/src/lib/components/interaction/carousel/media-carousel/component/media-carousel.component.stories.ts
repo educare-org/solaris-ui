@@ -91,3 +91,38 @@ export const PreviewMixed: Story = {
     navigation: 'preview',
   },
 };
+
+export const Minimal: Story = {
+  args: {
+    slides: SHOWCASE_SLIDES,
+    ariaLabel: 'Featured stories',
+    navigation: 'none',
+    showArrows: false,
+  },
+};
+
+export const RatioStandard: Story = {
+  args: {
+    slides: SHOWCASE_SLIDES,
+    ariaLabel: 'Featured stories',
+    aspectRatio: '4 / 3',
+  },
+};
+
+export const RatioSquare: Story = {
+  args: {
+    slides: SHOWCASE_SLIDES,
+    ariaLabel: 'Featured stories',
+    aspectRatio: '1 / 1',
+  },
+};
+
+export const Progress: Story = {
+  args: {
+    slides: SHOWCASE_SLIDES,
+    ariaLabel: 'Featured stories',
+    navigation: 'progress',
+    autoplay: true,
+    duration: 4000,
+  },
+};

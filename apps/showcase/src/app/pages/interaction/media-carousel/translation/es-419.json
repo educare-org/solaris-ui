@@ -10,6 +10,12 @@
     "dots-outside": {
       "note": "Los puntos aparecen debajo de la vista en lugar de sobre la imagen."
     },
+    "chrome": {
+      "arrows": "Solo flechas",
+      "dots": "Solo puntos",
+      "minimal": "Mínimo",
+      "note": "Elige cuánto chrome muestra el carrusel: nada, solo flechas o solo puntos. El teclado sigue funcionando siempre."
+    },
     "examples": {
       "label": "Historias destacadas",
       "note": "Una diapositiva visible a la vez. Usa las flechas o los puntos para moverte, o enfoca la vista y usa las flechas del teclado."
@@ -23,17 +29,30 @@
     "preview": {
       "note": "Con vista previa, una franja sobre la imagen muestra la diapositiva actual más las dos siguientes miniaturas. Las miniaturas de video traen la insignia Reproducir; hacer clic en una diapositiva o miniatura emite slideActivate para el reproductor del consumidor."
     },
+    "minimal": {
+      "note": "Sin flechas ni puntos, el carrusel es un rotador discreto controlado solo por reproducción automática o teclado."
+    },
+    "progress": {
+      "note": "Con navegación de progreso y reproducción automática, el punto activo se llena durante la duración y el carrusel avanza."
+    },
+    "ratios": {
+      "note": "La vista mantiene cualquier proporción válida. Elige una pestaña para comparar panorámico, estándar y cuadrado."
+    },
     "props": {
       "note": "Tabla de props próximamente, con el componente de tabla."
     },
     "section": {
       "autoplay": "Reproducción automática",
+      "chrome": "Controles",
       "dots-outside": "Puntos fuera",
       "examples": "Ejemplos",
       "installation": "Instalación",
       "loop": "Repetición",
+      "minimal": "Mínimo",
       "preview": "Vista previa",
-      "props": "Props"
+      "progress": "Progreso",
+      "props": "Props",
+      "ratios": "Proporciones"
     },
     "title": "Carrusel multimedia"
   }

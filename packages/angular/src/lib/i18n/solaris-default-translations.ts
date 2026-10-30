@@ -21,6 +21,7 @@ import { GRADEBOOK_TRANSLATION } from '../components/data-display/gradebook/tran
 import { ICON_BUTTON_TRANSLATION } from '../components/actions/icon-button/translation';
 import { LOADING_TEXT_TRANSLATION } from '../components/feedback/loading-text/translation';
 import { MEDIA_CAROUSEL_TRANSLATION } from '../components/interaction/carousel/media-carousel/translation';
+import { CONTENT_CAROUSEL_TRANSLATION } from '../components/interaction/carousel/content-carousel/translation';
 import { MULTI_SELECT_TRANSLATION } from '../components/forms/multi-select/translation';
 import { OTP_INPUT_TRANSLATION } from '../components/forms/otp-input/translation';
 import { PAGINATION_TRANSLATION } from '../components/navigation/pagination/translation';
@@ -98,6 +99,7 @@ const TRANSLATION_PACKAGES: readonly Record<string, TranslationTree>[] = [
   COLLAPSIBLE_TRANSLATION,
   COLLAPSIBLE_INPUT_TRANSLATION,
   MEDIA_CAROUSEL_TRANSLATION,
+  CONTENT_CAROUSEL_TRANSLATION,
 ];
 
 function mergeLocaleTrees(locale: string): TranslationRecord {

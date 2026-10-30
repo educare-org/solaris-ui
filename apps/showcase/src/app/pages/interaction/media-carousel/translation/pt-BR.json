@@ -10,6 +10,12 @@
     "dots-outside": {
       "note": "Os pontos aparecem abaixo da janela em vez de sobre a imagem."
     },
+    "chrome": {
+      "arrows": "Só setas",
+      "dots": "Só pontos",
+      "minimal": "Mínimo",
+      "note": "Escolha quanto chrome o carrossel mostra: nada, só setas ou só pontos. O teclado continua funcionando sempre."
+    },
     "examples": {
       "label": "Destaques",
       "note": "Um slide visível por vez. Use as setas ou os pontos para navegar, ou foque a janela e use as setas do teclado."
@@ -23,17 +29,30 @@
     "preview": {
       "note": "Com prévia, uma faixa sobre a imagem mostra o slide atual mais as próximas duas miniaturas. Miniaturas de vídeo trazem o selo Reproduzir; clicar num slide ou miniatura emite slideActivate para o player do consumidor."
     },
+    "minimal": {
+      "note": "Sem setas nem pontos, o carrossel é um rotador discreto controlado só por reprodução automática ou teclado."
+    },
+    "progress": {
+      "note": "Com navegação de progresso e reprodução automática, o ponto ativo preenche ao longo da duração e o carrossel avança."
+    },
+    "ratios": {
+      "note": "A janela mantém qualquer proporção válida. Escolha uma aba para comparar widescreen, padrão e quadrado."
+    },
     "props": {
       "note": "Tabela de props em breve, com o componente de tabela."
     },
     "section": {
       "autoplay": "Reprodução automática",
+      "chrome": "Controles",
       "dots-outside": "Pontos fora",
       "examples": "Exemplos",
       "installation": "Instalação",
       "loop": "Repetição",
+      "minimal": "Mínimo",
       "preview": "Prévia",
-      "props": "Props"
+      "progress": "Progresso",
+      "props": "Props",
+      "ratios": "Proporções"
     },
     "title": "Carrossel de mídia"
   }

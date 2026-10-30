@@ -74,6 +74,7 @@ import {
   normalizeOptionalString,
   previewReorderDelta,
   resolveMediaCarouselPreviewIndices,
+  resolveSwipeDirection,
 } from '../model/media-carousel-defaults';
 
 @Component({
@@ -87,9 +88,12 @@ import {
     class: 'solaris-media-carousel',
     role: 'region',
     '(keydown)': 'handleKeydown($event)',
+    '(pointerup)': 'handleSwipeEnd($event)',
+    '(pointercancel)': 'handleSwipeCancel()',
     '[attr.aria-roledescription]': `'carousel'`,
     '[attr.aria-label]': 'resolvedAriaLabel()',
     '[attr.data-navigation]': 'navigation()',
+    '[attr.data-fill]': "showFill() ? '' : null",
     '[attr.data-visible]': 'visibleCount()',
     '[attr.data-dots-position]': 'dotsPosition()',
     '[attr.data-preview-position]': 'previewPosition()',
@@ -116,6 +120,8 @@ export class SolarisMediaCarouselComponent {
     { left: number; top: number }
   >();
   private previewOrderSignature: string | null = null;
+  private swipeStart: { x: number; y: number } | null = null;
+  private swipeNavigated = false;
 
   readonly slides = input<readonly SolarisMediaSlide[]>([]);
   readonly activeIndex = model<number>(DEFAULT_MEDIA_CAROUSEL_ACTIVE_INDEX);
@@ -270,7 +276,9 @@ export class SolarisMediaCarouselComponent {
   protected readonly showControls = computed(() => this.slideCount() > 1);
 
   protected readonly showDots = computed(
-    () => this.navigation() === 'dots' && this.slideCount() > 1,
+    () =>
+      (this.navigation() === 'dots' || this.navigation() === 'progress') &&
+      this.slideCount() > 1,
   );
 
   protected readonly showPreview = computed(
@@ -428,6 +436,9 @@ export class SolarisMediaCarouselComponent {
   }
 
   protected activateSlide(slide: SolarisMediaSlide): void {
+    if (this.consumeSwipeClick()) {
+      return;
+    }
     this.slideActivate.emit(slide);
   }
 
@@ -437,6 +448,41 @@ export class SolarisMediaCarouselComponent {
       this.goTo(index);
       this.slideActivate.emit(slide);
     }
+  }
+
+  protected handleSwipeStart(event: PointerEvent): void {
+    this.swipeStart = { x: event.clientX, y: event.clientY };
+  }
+
+  protected handleSwipeEnd(event: PointerEvent): void {
+    const start = this.swipeStart;
+    this.swipeStart = null;
+    if (!start || this.slideCount() <= 1) {
+      return;
+    }
+    const direction = resolveSwipeDirection(
+      event.clientX - start.x,
+      event.clientY - start.y,
+    );
+    if (direction === 'next') {
+      this.swipeNavigated = true;
+      this.next();
+    } else if (direction === 'prev') {
+      this.swipeNavigated = true;
+      this.prev();
+    }
+  }
+
+  protected handleSwipeCancel(): void {
+    this.swipeStart = null;
+  }
+
+  private consumeSwipeClick(): boolean {
+    if (!this.swipeNavigated) {
+      return false;
+    }
+    this.swipeNavigated = false;
+    return true;
   }
 
   protected next(): void {
@@ -476,7 +522,11 @@ export class SolarisMediaCarouselComponent {
   protected handleFocus(
     focused: boolean,
     zone: 'viewport' | 'dots' = 'viewport',
+    event?: FocusEvent,
   ): void {
+    if (focused && !this.isKeyboardFocus(event)) {
+      return;
+    }
     if (zone === 'viewport') {
       this.viewportFocused = focused;
     } else {
@@ -485,6 +535,11 @@ export class SolarisMediaCarouselComponent {
     if (this.pauseOnHover()) {
       this.engine.handleFocusChange(this.viewportFocused || this.dotsFocused);
     }
+  }
+
+  private isKeyboardFocus(event: FocusEvent | undefined): boolean {
+    const target = event?.target as Element | null | undefined;
+    return target?.matches?.(':focus-visible') ?? true;
   }
 
   private syncEngineToModel(): void {

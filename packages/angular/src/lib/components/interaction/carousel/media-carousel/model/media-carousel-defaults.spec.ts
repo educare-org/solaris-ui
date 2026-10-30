@@ -8,6 +8,7 @@ import {
   normalizeOptionalString,
   previewReorderDelta,
   resolveMediaCarouselPreviewIndices,
+  resolveSwipeDirection,
   DEFAULT_MEDIA_CAROUSEL_ASPECT_RATIO,
   DEFAULT_MEDIA_CAROUSEL_PREVIEW_COUNT,
   DEFAULT_MEDIA_CAROUSEL_RADIUS,
@@ -165,5 +166,27 @@ describe('anchorRectForScroll', () => {
       left: 100,
       top: 400,
     });
+  });
+});
+
+describe('resolveSwipeDirection', () => {
+  it('should map left swipes to next and right swipes to prev', () => {
+    expect(resolveSwipeDirection(-120, 4)).toBe('next');
+    expect(resolveSwipeDirection(120, -4)).toBe('prev');
+  });
+
+  it('should ignore short drags at or below the threshold', () => {
+    expect(resolveSwipeDirection(-48, 0)).toBeNull();
+    expect(resolveSwipeDirection(10, 0)).toBeNull();
+  });
+
+  it('should ignore vertical drags so the page keeps scrolling', () => {
+    expect(resolveSwipeDirection(-120, 120)).toBeNull();
+    expect(resolveSwipeDirection(0, 200)).toBeNull();
+  });
+
+  it('should ignore non-finite deltas', () => {
+    expect(resolveSwipeDirection(Number.NaN, 0)).toBeNull();
+    expect(resolveSwipeDirection(120, Number.POSITIVE_INFINITY)).toBeNull();
   });
 });

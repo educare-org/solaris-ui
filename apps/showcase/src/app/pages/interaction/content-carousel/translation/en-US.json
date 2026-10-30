@@ -1,0 +1,109 @@
+{
+  "content-carousel": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "description": "Rotating panel for arbitrary projected content with align/divider sides and keyboard support.",
+    "chrome": {
+      "arrows": "Arrows only",
+      "dots": "Dots only",
+      "minimal": "Minimal",
+      "note": "Pick how much chrome the panel shows: nothing, arrows alone, or dots alone. Keyboard always keeps working."
+    },
+    "dividers": {
+      "center": "Centered highlights",
+      "note": "Centered content earns a divider on both sides. Top and bottom alignments flip the divider to the opposite edge."
+    },
+    "examples": {
+      "label": "Login highlights",
+      "note": "Static login form on the left, rotating highlights on the right with a divider between them. Use the arrows or dots to move, or focus the viewport and use the arrow keys."
+    },
+    "installation": {
+      "note": "Install the single Solaris package, then import the component and the slide directive."
+    },
+    "login": {
+      "kicker": "Sign in",
+      "qr": "QR code placeholder for app sign-in",
+      "text": "Use your phone to approve this session, or keep exploring the rotating highlights.",
+      "title": "Welcome back"
+    },
+    "mega-panel": {
+      "label": "Featured content",
+      "note": "Featured slot without a divider: the carousel fits any box and never sizes itself."
+    },
+    "progress": {
+      "label": "Rotating announcements",
+      "note": "With progress navigation and autoplay, the active dot fills over the duration, then the carousel advances. The fill pauses on hover, focus, hidden tabs, and reduced motion."
+    },
+    "promo": {
+      "label": "Promotions",
+      "note": "Same slot, different promo components. Below 360px the vertical divider flips to the bottom so a stacked panel keeps the separation legible."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "chrome": "Chrome",
+      "dividers": "Dividers",
+      "examples": "Examples",
+      "installation": "Installation",
+      "mega-panel": "Mega panel",
+      "progress": "Progress",
+      "promo": "Promo",
+      "props": "Props"
+    },
+    "slides": {
+      "announce": {
+        "kicker": "Announcement",
+        "text": "Scheduled maintenance happens Sunday at dawn.",
+        "title": "Downtime notice"
+      },
+      "cashback": {
+        "kicker": "Limited time",
+        "text": "Earn double points on every card purchase.",
+        "title": "Cashback weekend"
+      },
+      "centered": {
+        "kicker": "Center stage",
+        "text": "Dividers frame both sides of centered content.",
+        "title": "Framed highlight"
+      },
+      "early": {
+        "kicker": "New",
+        "text": "Invite your team and unlock spend controls today.",
+        "title": "Early access is live"
+      },
+      "founders": {
+        "kicker": "Customers",
+        "text": "How three startups scaled spend.",
+        "title": "Founder stories"
+      },
+      "quiet": {
+        "kicker": "Reminder",
+        "text": "Keyboards move slides even with no visible controls.",
+        "title": "Silent rotation"
+      },
+      "scan": {
+        "kicker": "Step one",
+        "text": "Point your banking app at the code to sign in on this device.",
+        "title": "Scan to continue"
+      },
+      "stacked": {
+        "kicker": "Second act",
+        "text": "The divider stays put while slides glide past it.",
+        "title": "Still framed"
+      },
+      "travel": {
+        "kicker": "Premium",
+        "text": "Lounge access included on premium plans.",
+        "title": "Travel perks"
+      },
+      "wellness": {
+        "kicker": "Perks",
+        "text": "New perk guide for growing teams.",
+        "title": "Wellness stipend"
+      }
+    },
+    "title": "Content carousel"
+  }
+}

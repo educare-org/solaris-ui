@@ -5,6 +5,9 @@ import {
   SolarisCodeBlockComponent,
   SolarisMediaCarouselComponent,
   SolarisPreviewCodeComponent,
+  SolarisTabComponent,
+  SolarisTabPanelComponent,
+  SolarisTabsComponent,
   SolarisTranslatePipe,
   SolarisTranslateService,
   type SolarisMediaSlide,
@@ -17,16 +20,25 @@ import { ShowcaseDocsSection } from '../../../../shell/docs-section/docs-section
 
 import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
 import {
+  MEDIA_CAROUSEL_SHOWCASE_ARROWS_ONLY_CODE,
   MEDIA_CAROUSEL_SHOWCASE_AUTOPLAY_CODE,
   MEDIA_CAROUSEL_SHOWCASE_BASIC_CODE,
   MEDIA_CAROUSEL_SHOWCASE_BREADCRUMBS,
+  MEDIA_CAROUSEL_SHOWCASE_DOTS_ONLY_CODE,
   MEDIA_CAROUSEL_SHOWCASE_IMPORT_CODE,
   MEDIA_CAROUSEL_SHOWCASE_INSTALL_COMMANDS,
   MEDIA_CAROUSEL_SHOWCASE_LOOP_CODE,
+  MEDIA_CAROUSEL_SHOWCASE_MINIMAL_CODE,
   MEDIA_CAROUSEL_SHOWCASE_NEXT,
   MEDIA_CAROUSEL_SHOWCASE_OUTSIDE_CODE,
   MEDIA_CAROUSEL_SHOWCASE_PREVIEW_CODE,
   MEDIA_CAROUSEL_SHOWCASE_PREV,
+  MEDIA_CAROUSEL_SHOWCASE_PROGRESS_CODE,
+  MEDIA_CAROUSEL_SHOWCASE_RATIO_PORTRAIT_CODE,
+  MEDIA_CAROUSEL_SHOWCASE_RATIO_SQUARE_CODE,
+  MEDIA_CAROUSEL_SHOWCASE_RATIO_STANDARD_CODE,
+  MEDIA_CAROUSEL_SHOWCASE_RATIO_TALL_CODE,
+  MEDIA_CAROUSEL_SHOWCASE_RATIO_WIDE_CODE,
   MEDIA_CAROUSEL_SHOWCASE_SLUG,
   MEDIA_CAROUSEL_SHOWCASE_TOC_ITEMS,
   MEDIA_CAROUSEL_TRANSLATION_PREFIX,
@@ -38,6 +50,9 @@ import {
     SolarisCodeBlockComponent,
     SolarisMediaCarouselComponent,
     SolarisPreviewCodeComponent,
+    SolarisTabComponent,
+    SolarisTabPanelComponent,
+    SolarisTabsComponent,
     SolarisTranslatePipe,
     ShowcaseDocsPageFooter,
     ShowcaseDocsPageHeader,
@@ -63,6 +78,21 @@ export class MediaCarouselShowcasePage {
   protected readonly loopCode = MEDIA_CAROUSEL_SHOWCASE_LOOP_CODE;
   protected readonly autoplayCode = MEDIA_CAROUSEL_SHOWCASE_AUTOPLAY_CODE;
   protected readonly previewCode = MEDIA_CAROUSEL_SHOWCASE_PREVIEW_CODE;
+  protected readonly minimalCode = MEDIA_CAROUSEL_SHOWCASE_MINIMAL_CODE;
+  protected readonly arrowsOnlyCode = MEDIA_CAROUSEL_SHOWCASE_ARROWS_ONLY_CODE;
+  protected readonly dotsOnlyCode = MEDIA_CAROUSEL_SHOWCASE_DOTS_ONLY_CODE;
+  protected readonly progressCode = MEDIA_CAROUSEL_SHOWCASE_PROGRESS_CODE;
+  protected readonly ratioWideCode = MEDIA_CAROUSEL_SHOWCASE_RATIO_WIDE_CODE;
+  protected readonly ratioStandardCode =
+    MEDIA_CAROUSEL_SHOWCASE_RATIO_STANDARD_CODE;
+  protected readonly ratioSquareCode =
+    MEDIA_CAROUSEL_SHOWCASE_RATIO_SQUARE_CODE;
+  protected readonly ratioPortraitCode =
+    MEDIA_CAROUSEL_SHOWCASE_RATIO_PORTRAIT_CODE;
+  protected readonly ratioTallCode = MEDIA_CAROUSEL_SHOWCASE_RATIO_TALL_CODE;
+
+  protected readonly selectedChrome = signal('minimal');
+  protected readonly selectedRatio = signal('16 / 9');
 
   protected readonly slides: readonly SolarisMediaSlide[] = [
     {

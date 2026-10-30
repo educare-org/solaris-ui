@@ -82,6 +82,18 @@ test.describe('Media carousel', () => {
     );
   });
 
+  test('resumes after mouse focus leaves the carousel', async ({ page }) => {
+    const autoplay = page.locator('#autoplay');
+    await autoplay.scrollIntoViewIfNeeded();
+    const region = autoplay.getByRole('region', { name: 'Featured stories' });
+    await region.getByRole('button', { name: 'Next slide' }).click();
+    await page.mouse.move(4, 4);
+    await expect(region.getByRole('button', { name: 'Pause' })).toHaveAttribute(
+      'aria-pressed',
+      'true',
+    );
+  });
+
   test('keeps the dots centered with the toggle visible', async ({ page }) => {
     const autoplay = page.locator('#autoplay');
     const region = autoplay.getByRole('region', { name: 'Featured stories' });
@@ -199,6 +211,99 @@ test.describe('Media carousel', () => {
     });
     expect(radii.thumb).toBeGreaterThan(0);
     expect(radii.frame - radii.thumb).toBeCloseTo(3, 0);
+  });
+
+  test('switches chrome between minimal, arrows and dots', async ({ page }) => {
+    const carousels = page.locator('#chrome solaris-media-carousel');
+    await expect(carousels).toHaveCount(3);
+    await expect(
+      carousels.nth(0).locator('.solaris-media-carousel__arrow'),
+    ).toHaveCount(0);
+    await expect(
+      carousels.nth(0).locator('.solaris-media-carousel__dot'),
+    ).toHaveCount(0);
+    await expect(
+      carousels.nth(1).locator('.solaris-media-carousel__arrow'),
+    ).toHaveCount(2);
+    await expect(
+      carousels.nth(1).locator('.solaris-media-carousel__dot'),
+    ).toHaveCount(0);
+    await expect(
+      carousels.nth(2).locator('.solaris-media-carousel__arrow'),
+    ).toHaveCount(0);
+    await expect(
+      carousels.nth(2).locator('.solaris-media-carousel__dot'),
+    ).toHaveCount(3);
+  });
+
+  test('fills the active dot over the duration with progress', async ({
+    page,
+  }) => {
+    const region = page
+      .locator('#progress')
+      .getByRole('region', { name: 'Featured stories' });
+    await expect(region).toHaveAttribute('data-navigation', 'progress');
+    await expect(
+      region.locator('.solaris-media-carousel__dot-fill'),
+    ).toHaveCount(1);
+    const colors = await region.evaluate((host) => {
+      const track = host.querySelector(
+        '.solaris-media-carousel__dot[data-active] .solaris-media-carousel__dot-track',
+      );
+      const fill = host.querySelector('.solaris-media-carousel__dot-fill');
+      return {
+        track: track ? getComputedStyle(track).backgroundColor : null,
+        fill: fill ? getComputedStyle(fill).backgroundColor : null,
+      };
+    });
+    expect(colors.fill).not.toBe(colors.track);
+  });
+
+  test('moves slides with a horizontal drag', async ({ page }) => {
+    const region = page
+      .locator('#examples')
+      .getByRole('region', { name: 'Featured stories' });
+    const viewport = region.locator('.solaris-media-carousel__viewport');
+    const box = await viewport.boundingBox();
+    expect(box).not.toBeNull();
+    const y = box.y + box.height / 2;
+    await page.mouse.move(box.x + box.width - 40, y);
+    await page.mouse.down();
+    await page.mouse.move(box.x + 40, y, { steps: 5 });
+    await page.mouse.up();
+    await expect(
+      region.locator('.solaris-media-carousel__slide[data-active]'),
+    ).toHaveAttribute('aria-label', '2 of 3');
+    await expect(region.locator('.solaris-media-carousel__track')).toHaveCSS(
+      'cursor',
+      'grab',
+    );
+  });
+
+  test('renders one viewport per aspect ratio', async ({ page }) => {
+    const ratios = page.locator('#ratios');
+    const viewports = ratios.locator('.solaris-media-carousel__viewport');
+    await expect(viewports).toHaveCount(5);
+    await expect(viewports.nth(0)).toHaveAttribute(
+      'style',
+      /aspect-ratio: 16 \/ 9/,
+    );
+    await expect(viewports.nth(1)).toHaveAttribute(
+      'style',
+      /aspect-ratio: 4 \/ 3/,
+    );
+    await expect(viewports.nth(2)).toHaveAttribute(
+      'style',
+      /aspect-ratio: 1 \/ 1/,
+    );
+    await expect(viewports.nth(3)).toHaveAttribute(
+      'style',
+      /aspect-ratio: 3 \/ 4/,
+    );
+    await expect(viewports.nth(4)).toHaveAttribute(
+      'style',
+      /aspect-ratio: 9 \/ 16/,
+    );
   });
 
   test('highlights the active thumb with a lighter border', async ({
