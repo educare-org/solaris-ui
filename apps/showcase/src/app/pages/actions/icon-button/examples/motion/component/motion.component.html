@@ -1,0 +1,18 @@
+<button
+  solaris-icon-button
+  color="primary"
+  [loading]="loading()"
+  aria-label="Notifications, 3 new"
+>
+  <solaris-icon name="notification" [decorative]="true" />
+  @if (showBadge()) {
+    <solaris-badge
+      solaris-icon-button-badge
+      variant="count"
+      color="danger"
+      size="sm"
+    >
+      3
+    </solaris-badge>
+  }
+</button>

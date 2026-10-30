@@ -23,14 +23,22 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
       {
         labelKey: 'shell.sidebar.group.actions',
         items: [
-          { labelKey: 'shell.sidebar.item.button', route: '/actions/button' },
           {
-            labelKey: 'shell.sidebar.item.icon-button',
-            route: '/actions/icon-button',
-          },
-          {
-            labelKey: 'shell.sidebar.item.button-group',
-            route: '/actions/button-group',
+            labelKey: 'shell.sidebar.item.buttons',
+            children: [
+              {
+                labelKey: 'shell.sidebar.item.button',
+                route: '/actions/button',
+              },
+              {
+                labelKey: 'shell.sidebar.item.icon-button',
+                route: '/actions/icon-button',
+              },
+              {
+                labelKey: 'shell.sidebar.item.button-group',
+                route: '/actions/button-group',
+              },
+            ],
           },
         ],
       },

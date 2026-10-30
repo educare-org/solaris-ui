@@ -3,23 +3,8 @@
     "ai": {
       "prompt": "Estou olhando a documentação Solaris UI de {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a debugar com base nela."
     },
-    "appearance": {
-      "ghost": "Ghost",
-      "outline": "Contorno",
-      "solid": "Sólido",
-      "surface": "Superfície",
-      "tonal": "Tonal"
-    },
     "appearances": {
       "note": "Combine uma aparência com uma cor. As aparências cobrem todos os níveis de ênfase, do CTA sólido às ações ghost discretas."
-    },
-    "color": {
-      "danger": "Perigo",
-      "info": "Informação",
-      "neutral": "Neutra",
-      "primary": "Primária",
-      "success": "Sucesso",
-      "warning": "Alerta"
     },
     "custom": {
       "note": "Custom não é um input arbitrário. Defina os tokens de cor personalizada no CSS.",
@@ -28,17 +13,8 @@
         "violet": "Violeta"
       }
     },
-    "density": {
-      "comfortable": "Confortável",
-      "compact": "Compacta",
-      "normal": "Normal"
-    },
     "description": "Diretiva de atributo que transforma botões e links em botões tematizados do Solaris.",
     "example": {
-      "anchor": {
-        "disabled": "Âncora desabilitada",
-        "link": "Link âncora"
-      },
       "basic": {
         "default": "Padrão",
         "outline": "Contorno",
@@ -46,10 +22,6 @@
       },
       "custom": {
         "label": "Personalizado"
-      },
-      "full-width": {
-        "primary": "Entrar com e-mail",
-        "social": "Entrar com Google"
       },
       "icons": {
         "after": "Continuar",
@@ -96,7 +68,11 @@
       "note": "O press usa scale sutil de 0.99. Largura, padding e gap animam, então loading, badge e troca de rótulo crescem suavemente sem flick."
     },
     "props": {
-      "note": "Tabela de props em breve, com o componente tabela."
+      "note": "Todos os inputs aceitos pela diretiva, com tipos, valores e padrões.",
+      "colProp": "Prop",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Padrão"
     },
     "section": {
       "appearances": "Aparência e cor",
@@ -105,7 +81,6 @@
       "examples": "Exemplos",
       "icons": "Ícones",
       "installation": "Instalação",
-      "layout": "Layout",
       "motion": "Movimento",
       "props": "Props",
       "providers": "Ícones de marca",
@@ -116,27 +91,13 @@
       "sizes": "Tamanhos",
       "states": "Estados"
     },
-    "shape": {
-      "normal": "Normal",
-      "wide": "Largo"
-    },
     "shape-radius": {
       "note": "Radius controla o arredondamento dos cantos; o formato wide alonga o botão horizontalmente."
-    },
-    "size": {
-      "lg": "Grande",
-      "md": "Médio",
-      "sm": "Pequeno"
     },
     "size-density": {
       "note": "Tamanho e densidade combinam em uma matriz 3×3. A altura externa é sempre igual ao token control-height da combinação."
     },
     "states": {
-      "tab": {
-        "disabled": "Desabilitado",
-        "loading": "Loading",
-        "pressed": "Pressionado"
-      },
       "toggle": {
         "off": "Desativar",
         "on": "Ativar"

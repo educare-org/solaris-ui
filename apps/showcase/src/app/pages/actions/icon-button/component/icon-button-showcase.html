@@ -25,9 +25,7 @@
         [ariaLabel]="'icon-button.section.appearances' | translate"
       >
         @for (appearance of appearances; track appearance) {
-        <solaris-tab [value]="appearance"
-          >{{ 'icon-button.appearance.' + appearance | translate }}</solaris-tab
-        >
+        <solaris-tab [value]="appearance">{{ appearance }}</solaris-tab>
         }
       </solaris-tabs>
       <solaris-tabs
@@ -35,9 +33,7 @@
         [ariaLabel]="'icon-button.section.colors' | translate"
       >
         @for (color of colors; track color) {
-        <solaris-tab [value]="color"
-          >{{ 'icon-button.color.' + color | translate }}</solaris-tab
-        >
+        <solaris-tab [value]="color">{{ color }}</solaris-tab>
         }
       </solaris-tabs>
     </div>
@@ -65,29 +61,17 @@
         [(value)]="selectedSize"
         [ariaLabel]="'icon-button.section.sizes' | translate"
       >
-        <solaris-tab value="sm"
-          >{{ 'icon-button.size.sm' | translate }}</solaris-tab
-        >
-        <solaris-tab value="md"
-          >{{ 'icon-button.size.md' | translate }}</solaris-tab
-        >
-        <solaris-tab value="lg"
-          >{{ 'icon-button.size.lg' | translate }}</solaris-tab
-        >
+        <solaris-tab value="sm">sm</solaris-tab>
+        <solaris-tab value="md">md</solaris-tab>
+        <solaris-tab value="lg">lg</solaris-tab>
       </solaris-tabs>
       <solaris-tabs
         [(value)]="selectedDensity"
         [ariaLabel]="'icon-button.section.density' | translate"
       >
-        <solaris-tab value="compact"
-          >{{ 'icon-button.density.compact' | translate }}</solaris-tab
-        >
-        <solaris-tab value="normal"
-          >{{ 'icon-button.density.normal' | translate }}</solaris-tab
-        >
-        <solaris-tab value="comfortable"
-          >{{ 'icon-button.density.comfortable' | translate }}</solaris-tab
-        >
+        <solaris-tab value="compact">compact</solaris-tab>
+        <solaris-tab value="normal">normal</solaris-tab>
+        <solaris-tab value="comfortable">comfortable</solaris-tab>
       </solaris-tabs>
     </div>
     <solaris-preview-code [code]="sizeDensityCode()" language="html">
@@ -117,51 +101,38 @@
       >
         @for (radius of radii; track radius) {
         <solaris-tab [value]="radius">{{ radius }}</solaris-tab>
-        } @for (radius of radii; track radius) {
-        <solaris-tab-panel [value]="radius">
-          <solaris-preview-code [code]="radiusCode(radius)" language="html">
-            <button
-              solaris-icon-button
-              [radius]="radius"
-              color="primary"
-              aria-label="Check"
-            >
-              <solaris-icon name="check" [decorative]="true" />
-            </button>
-          </solaris-preview-code>
-        </solaris-tab-panel>
         }
       </solaris-tabs>
+      <solaris-preview-code
+        [code]="radiusCode(selectedRadius())"
+        language="html"
+      >
+        <button
+          solaris-icon-button
+          [radius]="selectedRadius()"
+          color="primary"
+          aria-label="Check"
+        >
+          <solaris-icon name="check" [decorative]="true" />
+        </button>
+      </solaris-preview-code>
       <solaris-tabs
         [(value)]="selectedShape"
         [ariaLabel]="'icon-button.section.shape' | translate"
       >
-        <solaris-tab value="normal"
-          >{{ 'icon-button.shape.normal' | translate }}</solaris-tab
-        >
-        <solaris-tab value="wide"
-          >{{ 'icon-button.shape.wide' | translate }}</solaris-tab
-        >
-        <solaris-tab-panel value="normal">
-          <solaris-preview-code [code]="shapeCode('normal')" language="html">
-            <button solaris-icon-button color="primary" aria-label="Check">
-              <solaris-icon name="check" [decorative]="true" />
-            </button>
-          </solaris-preview-code>
-        </solaris-tab-panel>
-        <solaris-tab-panel value="wide">
-          <solaris-preview-code [code]="shapeCode('wide')" language="html">
-            <button
-              solaris-icon-button
-              shape="wide"
-              color="primary"
-              aria-label="Check"
-            >
-              <solaris-icon name="check" [decorative]="true" />
-            </button>
-          </solaris-preview-code>
-        </solaris-tab-panel>
+        <solaris-tab value="normal">normal</solaris-tab>
+        <solaris-tab value="wide">wide</solaris-tab>
       </solaris-tabs>
+      <solaris-preview-code [code]="shapeCode(selectedShape())" language="html">
+        <button
+          solaris-icon-button
+          [shape]="selectedShape()"
+          color="primary"
+          aria-label="Check"
+        >
+          <solaris-icon name="check" [decorative]="true" />
+        </button>
+      </solaris-preview-code>
     </div>
   </app-docs-section>
 
@@ -177,15 +148,9 @@
         [(value)]="selectedChromelessSize"
         [ariaLabel]="'icon-button.section.sizes' | translate"
       >
-        <solaris-tab value="sm"
-          >{{ 'icon-button.size.sm' | translate }}</solaris-tab
-        >
-        <solaris-tab value="md"
-          >{{ 'icon-button.size.md' | translate }}</solaris-tab
-        >
-        <solaris-tab value="lg"
-          >{{ 'icon-button.size.lg' | translate }}</solaris-tab
-        >
+        <solaris-tab value="sm">sm</solaris-tab>
+        <solaris-tab value="md">md</solaris-tab>
+        <solaris-tab value="lg">lg</solaris-tab>
       </solaris-tabs>
     </div>
     <solaris-preview-code [code]="chromelessCode()" language="html">
@@ -224,25 +189,11 @@
         {{ 'icon-button.motion.toggle-badge' | translate }}
       </button>
     </div>
-    <solaris-preview-code [code]="motionCode" language="html">
-      <button
-        solaris-icon-button
-        color="primary"
+    <solaris-preview-code [codeFiles]="motionFiles">
+      <app-motion-icon-button-example
         [loading]="motionLoading()"
-        aria-label="Notifications, 3 new"
-      >
-        <solaris-icon name="notification" [decorative]="true" />
-        @if (motionBadge()) {
-        <solaris-badge
-          solaris-icon-button-badge
-          variant="count"
-          color="danger"
-          size="sm"
-        >
-          3
-        </solaris-badge>
-        }
-      </button>
+        [showBadge]="motionBadge()"
+      />
     </solaris-preview-code>
   </app-docs-section>
 
@@ -255,12 +206,8 @@
         [(value)]="selectedStateTab"
         [ariaLabel]="'icon-button.section.states' | translate"
       >
-        <solaris-tab value="loading"
-          >{{ 'icon-button.states.tab.loading' | translate }}</solaris-tab
-        >
-        <solaris-tab value="disabled"
-          >{{ 'icon-button.states.tab.disabled' | translate }}</solaris-tab
-        >
+        <solaris-tab value="loading">loading</solaris-tab>
+        <solaris-tab value="disabled">disabled</solaris-tab>
       </solaris-tabs>
     </div>
     <solaris-preview-code [code]="stateCode()" language="html">
@@ -290,21 +237,8 @@
     <p class="icon-button-showcase__note">
       {{ 'icon-button.badge-note' | translate }}
     </p>
-    <solaris-preview-code
-      code='<button solaris-icon-button aria-label="Notifications, 3 new">&#10;  <solaris-icon name="notification" [decorative]="true" />&#10;  <solaris-badge solaris-icon-button-badge variant="count" color="danger" size="sm">3</solaris-badge>&#10;</button>'
-      language="html"
-    >
-      <button solaris-icon-button aria-label="Notifications, 3 new">
-        <solaris-icon name="notification" [decorative]="true" />
-        <solaris-badge
-          solaris-icon-button-badge
-          variant="count"
-          color="danger"
-          size="sm"
-        >
-          3
-        </solaris-badge>
-      </button>
+    <solaris-preview-code [code]="badgeCode" language="html">
+      <app-badge-icon-button-example />
     </solaris-preview-code>
   </app-docs-section>
 
@@ -312,12 +246,8 @@
     <p class="icon-button-showcase__note">
       {{ 'icon-button.custom.note' | translate }}
     </p>
-    <solaris-preview-code [code]="customVioletCode" language="css">
-      <div class="icon-button-custom-violet">
-        <button solaris-icon-button color="custom" aria-label="Custom violet">
-          <solaris-icon name="info" [decorative]="true" />
-        </button>
-      </div>
+    <solaris-preview-code [codeFiles]="customFiles">
+      <app-custom-icon-button-example />
     </solaris-preview-code>
   </app-docs-section>
 
@@ -336,6 +266,16 @@
     <p class="icon-button-showcase__note">
       {{ 'icon-button.props.note' | translate }}
     </p>
+    <solaris-table
+      [data]="propsRows"
+      [columns]="propsColumns()"
+      rowId="prop"
+      appearance="soft"
+    >
+      <ng-template solaris-table-cell="values" let-row>
+        <span class="icon-button-showcase__props-values">{{ row.values }}</span>
+      </ng-template>
+    </solaris-table>
   </app-docs-section>
 
   <app-docs-page-footer [prev]="prev" [next]="next" />

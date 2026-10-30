@@ -1,0 +1,647 @@
+@mixin solaris-button-matrix(
+  $selector,
+  $prefix,
+  $custom: true,
+  $gradient: false
+) {
+  [#{$selector}][data-color='neutral'][data-appearance='solid'] {
+    --solaris-#{$prefix}-color: var(--solaris-neutral-text-inverse);
+    --solaris-#{$prefix}-hover-color: var(--solaris-neutral-text-inverse);
+    --solaris-#{$prefix}-active-color: var(--solaris-neutral-text-inverse);
+    --solaris-#{$prefix}-background: var(--solaris-neutral-inverse);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-hover-background: var(
+      --solaris-neutral-inverse-subtle
+    );
+    --solaris-#{$prefix}-active-background: var(
+      --solaris-neutral-inverse-muted
+    );
+  }
+
+  [#{$selector}][data-color='neutral'][data-appearance='outline'] {
+    --solaris-#{$prefix}-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-hover-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-active-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-border-color: var(--solaris-neutral-border-default);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-hover-border-color: var(
+      --solaris-neutral-border-strong
+    );
+    --solaris-#{$prefix}-active-border-color: var(
+      --solaris-neutral-border-strong
+    );
+    --solaris-#{$prefix}-hover-background: var(--solaris-neutral-sunken);
+    --solaris-#{$prefix}-active-background: var(--solaris-neutral-sunken);
+  }
+
+  [#{$selector}][data-color='neutral'][data-appearance='ghost'] {
+    --solaris-#{$prefix}-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-hover-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-active-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-hover-background: var(--solaris-neutral-sunken);
+    --solaris-#{$prefix}-active-background: var(--solaris-neutral-sunken);
+  }
+
+  [#{$selector}][data-color='neutral'][data-appearance='tonal'] {
+    --solaris-#{$prefix}-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-background: var(--solaris-neutral-sunken);
+    --solaris-#{$prefix}-hover-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-active-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-border-color: var(--solaris-neutral-border-default);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-hover-border-color: var(
+      --solaris-neutral-border-strong
+    );
+    --solaris-#{$prefix}-active-border-color: var(
+      --solaris-neutral-border-strong
+    );
+    --solaris-#{$prefix}-hover-background: var(--solaris-neutral-sunken-hover);
+    --solaris-#{$prefix}-active-background: var(
+      --solaris-neutral-sunken-active
+    );
+  }
+
+  [#{$selector}][data-color='neutral'][data-appearance='surface'] {
+    --solaris-#{$prefix}-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-background: var(--solaris-neutral-sunken);
+    --solaris-#{$prefix}-hover-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-active-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-hover-background: var(--solaris-neutral-sunken-hover);
+    --solaris-#{$prefix}-active-background: var(
+      --solaris-neutral-sunken-active
+    );
+  }
+
+  [#{$selector}][data-color='primary'][data-appearance='solid'] {
+    --solaris-#{$prefix}-color: var(--solaris-primary-on-solid);
+    --solaris-#{$prefix}-background: var(--solaris-primary-solid);
+    --solaris-#{$prefix}-hover-color: var(--solaris-primary-on-solid);
+    --solaris-#{$prefix}-active-color: var(--solaris-primary-on-solid);
+    --solaris-#{$prefix}-border-color: var(--solaris-primary-border);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-primary-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-primary-solid-hover);
+    --solaris-#{$prefix}-active-background: var(--solaris-primary-solid-active);
+  }
+
+  [#{$selector}][data-color='primary'][data-appearance='outline'] {
+    --solaris-#{$prefix}-color: var(--solaris-primary-solid);
+    --solaris-#{$prefix}-hover-color: var(--solaris-primary-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-primary-foreground);
+    --solaris-#{$prefix}-border-color: var(--solaris-primary-border);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-primary-solid);
+    --solaris-#{$prefix}-hover-border-color: var(--solaris-primary-solid);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-primary-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-primary-soft);
+    --solaris-#{$prefix}-active-background: var(--solaris-primary-soft);
+  }
+
+  [#{$selector}][data-color='primary'][data-appearance='ghost'] {
+    --solaris-#{$prefix}-color: var(--solaris-primary-solid);
+    --solaris-#{$prefix}-hover-color: var(--solaris-primary-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-primary-foreground);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-primary-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-primary-soft);
+    --solaris-#{$prefix}-active-background: var(--solaris-primary-soft);
+  }
+
+  [#{$selector}][data-color='primary'][data-appearance='tonal'] {
+    --solaris-#{$prefix}-color: var(--solaris-primary-foreground);
+    --solaris-#{$prefix}-hover-color: var(--solaris-primary-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-primary-foreground);
+    --solaris-#{$prefix}-background: var(--solaris-primary-soft);
+    --solaris-#{$prefix}-border-color: var(--solaris-primary-border);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-primary-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-primary-soft-hover);
+    --solaris-#{$prefix}-hover-border-color: var(--solaris-primary-solid);
+    --solaris-#{$prefix}-active-background: var(--solaris-primary-soft-active);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-primary-solid);
+  }
+
+  [#{$selector}][data-color='primary'][data-appearance='surface'] {
+    --solaris-#{$prefix}-color: var(--solaris-primary-foreground);
+    --solaris-#{$prefix}-hover-color: var(--solaris-primary-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-primary-foreground);
+    --solaris-#{$prefix}-background: var(--solaris-primary-soft);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-primary-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-primary-soft-hover);
+    --solaris-#{$prefix}-active-background: var(--solaris-primary-soft-active);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-primary-border);
+  }
+
+  [#{$selector}][data-color='success'][data-appearance='solid'] {
+    --solaris-#{$prefix}-color: var(--solaris-success-on-solid);
+    --solaris-#{$prefix}-background: var(--solaris-success-solid);
+    --solaris-#{$prefix}-border-color: var(--solaris-success-border);
+    --solaris-#{$prefix}-hover-color: var(--solaris-success-on-solid);
+    --solaris-#{$prefix}-active-color: var(--solaris-success-on-solid);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-success-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-success-solid-hover);
+    --solaris-#{$prefix}-active-background: var(--solaris-success-solid-active);
+  }
+
+  [#{$selector}][data-color='success'][data-appearance='outline'] {
+    --solaris-#{$prefix}-color: var(--solaris-success-foreground);
+    --solaris-#{$prefix}-border-color: var(--solaris-success-border);
+    --solaris-#{$prefix}-hover-color: var(--solaris-success-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-success-foreground);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-success-solid);
+    --solaris-#{$prefix}-hover-border-color: var(--solaris-success-solid);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-success-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-success-soft);
+    --solaris-#{$prefix}-active-background: var(--solaris-success-soft);
+  }
+
+  [#{$selector}][data-color='success'][data-appearance='ghost'] {
+    --solaris-#{$prefix}-color: var(--solaris-success-foreground);
+    --solaris-#{$prefix}-hover-color: var(--solaris-success-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-success-foreground);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-success-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-success-soft);
+    --solaris-#{$prefix}-active-background: var(--solaris-success-soft);
+  }
+
+  [#{$selector}][data-color='success'][data-appearance='tonal'] {
+    --solaris-#{$prefix}-color: var(--solaris-success-foreground);
+    --solaris-#{$prefix}-background: var(--solaris-success-soft);
+    --solaris-#{$prefix}-border-color: var(--solaris-success-border);
+    --solaris-#{$prefix}-hover-color: var(--solaris-success-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-success-foreground);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-success-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-success-soft-hover);
+    --solaris-#{$prefix}-hover-border-color: var(--solaris-success-solid);
+    --solaris-#{$prefix}-active-background: var(--solaris-success-soft-active);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-success-solid);
+  }
+
+  [#{$selector}][data-color='success'][data-appearance='surface'] {
+    --solaris-#{$prefix}-color: var(--solaris-success-foreground);
+    --solaris-#{$prefix}-background: var(--solaris-success-soft);
+    --solaris-#{$prefix}-hover-color: var(--solaris-success-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-success-foreground);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-success-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-success-soft-hover);
+    --solaris-#{$prefix}-active-background: var(--solaris-success-soft-active);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-success-border);
+  }
+
+  [#{$selector}][data-color='warning'][data-appearance='solid'] {
+    --solaris-#{$prefix}-color: var(--solaris-warning-on-solid);
+    --solaris-#{$prefix}-background: var(--solaris-warning-solid);
+    --solaris-#{$prefix}-border-color: var(--solaris-warning-border);
+    --solaris-#{$prefix}-hover-color: var(--solaris-warning-on-solid);
+    --solaris-#{$prefix}-active-color: var(--solaris-warning-on-solid);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-warning-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-warning-solid-hover);
+    --solaris-#{$prefix}-active-background: var(--solaris-warning-solid-active);
+  }
+
+  [#{$selector}][data-color='warning'][data-appearance='outline'] {
+    --solaris-#{$prefix}-color: var(--solaris-warning-foreground);
+    --solaris-#{$prefix}-border-color: var(--solaris-warning-border);
+    --solaris-#{$prefix}-hover-color: var(--solaris-warning-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-warning-foreground);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-warning-solid);
+    --solaris-#{$prefix}-hover-border-color: var(--solaris-warning-solid);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-warning-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-warning-soft);
+    --solaris-#{$prefix}-active-background: var(--solaris-warning-soft);
+  }
+
+  [#{$selector}][data-color='warning'][data-appearance='ghost'] {
+    --solaris-#{$prefix}-color: var(--solaris-warning-foreground);
+    --solaris-#{$prefix}-hover-color: var(--solaris-warning-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-warning-foreground);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-warning-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-warning-soft);
+    --solaris-#{$prefix}-active-background: var(--solaris-warning-soft);
+  }
+
+  [#{$selector}][data-color='warning'][data-appearance='tonal'] {
+    --solaris-#{$prefix}-color: var(--solaris-warning-foreground);
+    --solaris-#{$prefix}-background: var(--solaris-warning-soft);
+    --solaris-#{$prefix}-border-color: var(--solaris-warning-border);
+    --solaris-#{$prefix}-hover-color: var(--solaris-warning-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-warning-foreground);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-warning-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-warning-soft-hover);
+    --solaris-#{$prefix}-hover-border-color: var(--solaris-warning-solid);
+    --solaris-#{$prefix}-active-background: var(--solaris-warning-soft-active);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-warning-solid);
+  }
+
+  [#{$selector}][data-color='warning'][data-appearance='surface'] {
+    --solaris-#{$prefix}-color: var(--solaris-warning-foreground);
+    --solaris-#{$prefix}-hover-color: var(--solaris-warning-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-warning-foreground);
+    --solaris-#{$prefix}-background: var(--solaris-warning-soft);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-warning-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-warning-soft-hover);
+    --solaris-#{$prefix}-active-background: var(--solaris-warning-soft-active);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-warning-border);
+  }
+
+  [#{$selector}][data-color='danger'][data-appearance='solid'] {
+    --solaris-#{$prefix}-color: var(--solaris-danger-on-solid);
+    --solaris-#{$prefix}-background: var(--solaris-danger-solid);
+    --solaris-#{$prefix}-border-color: var(--solaris-danger-border);
+    --solaris-#{$prefix}-hover-color: var(--solaris-danger-on-solid);
+    --solaris-#{$prefix}-active-color: var(--solaris-danger-on-solid);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-danger-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-danger-solid-hover);
+    --solaris-#{$prefix}-active-background: var(--solaris-danger-solid-active);
+  }
+
+  [#{$selector}][data-color='danger'][data-appearance='outline'] {
+    --solaris-#{$prefix}-color: var(--solaris-danger-foreground);
+    --solaris-#{$prefix}-hover-color: var(--solaris-danger-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-danger-foreground);
+    --solaris-#{$prefix}-border-color: var(--solaris-danger-border);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-danger-solid);
+    --solaris-#{$prefix}-hover-border-color: var(--solaris-danger-solid);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-danger-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-danger-soft);
+    --solaris-#{$prefix}-active-background: var(--solaris-danger-soft);
+  }
+
+  [#{$selector}][data-color='danger'][data-appearance='ghost'] {
+    --solaris-#{$prefix}-color: var(--solaris-danger-foreground);
+    --solaris-#{$prefix}-hover-color: var(--solaris-danger-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-danger-foreground);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-danger-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-danger-soft);
+    --solaris-#{$prefix}-active-background: var(--solaris-danger-soft);
+  }
+
+  [#{$selector}][data-color='danger'][data-appearance='tonal'] {
+    --solaris-#{$prefix}-color: var(--solaris-danger-foreground);
+    --solaris-#{$prefix}-hover-color: var(--solaris-danger-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-danger-foreground);
+    --solaris-#{$prefix}-background: var(--solaris-danger-soft);
+    --solaris-#{$prefix}-border-color: var(--solaris-danger-border);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-danger-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-danger-soft-hover);
+    --solaris-#{$prefix}-hover-border-color: var(--solaris-danger-solid);
+    --solaris-#{$prefix}-active-background: var(--solaris-danger-soft-active);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-danger-solid);
+  }
+
+  [#{$selector}][data-color='danger'][data-appearance='surface'] {
+    --solaris-#{$prefix}-color: var(--solaris-danger-foreground);
+    --solaris-#{$prefix}-hover-color: var(--solaris-danger-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-danger-foreground);
+    --solaris-#{$prefix}-background: var(--solaris-danger-soft);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-danger-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-danger-soft-hover);
+    --solaris-#{$prefix}-active-background: var(--solaris-danger-soft-active);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-danger-border);
+  }
+
+  [#{$selector}][data-color='info'][data-appearance='solid'] {
+    --solaris-#{$prefix}-color: var(--solaris-info-on-solid);
+    --solaris-#{$prefix}-background: var(--solaris-info-solid);
+    --solaris-#{$prefix}-hover-color: var(--solaris-info-on-solid);
+    --solaris-#{$prefix}-active-color: var(--solaris-info-on-solid);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-info-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-info-solid-hover);
+    --solaris-#{$prefix}-active-background: var(--solaris-info-solid-active);
+  }
+
+  [#{$selector}][data-color='info'][data-appearance='outline'] {
+    --solaris-#{$prefix}-color: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-hover-color: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-border-color: var(--solaris-info-border);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-info-solid);
+    --solaris-#{$prefix}-hover-border-color: var(--solaris-info-solid);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-info-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-info-soft);
+    --solaris-#{$prefix}-active-background: var(--solaris-info-soft);
+  }
+
+  [#{$selector}][data-color='info'][data-appearance='ghost'] {
+    --solaris-#{$prefix}-color: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-hover-color: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-info-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-info-soft);
+    --solaris-#{$prefix}-active-background: var(--solaris-info-soft);
+  }
+
+  [#{$selector}][data-color='info'][data-appearance='tonal'] {
+    --solaris-#{$prefix}-color: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-hover-color: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-background: var(--solaris-info-soft);
+    --solaris-#{$prefix}-border-color: var(--solaris-info-border);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-info-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-info-soft-hover);
+    --solaris-#{$prefix}-hover-border-color: var(--solaris-info-solid);
+    --solaris-#{$prefix}-active-background: var(--solaris-info-soft-active);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-info-solid);
+  }
+
+  [#{$selector}][data-color='info'][data-appearance='surface'] {
+    --solaris-#{$prefix}-color: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-hover-color: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-active-color: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-background: var(--solaris-info-soft);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-info-solid);
+    --solaris-#{$prefix}-hover-background: var(--solaris-info-soft-hover);
+    --solaris-#{$prefix}-active-background: var(--solaris-info-soft-active);
+    --solaris-#{$prefix}-active-border-color: var(--solaris-info-border);
+  }
+
+  @if $custom {
+    [#{$selector}][data-color='custom'] {
+      --solaris-#{$prefix}-hover-background: var(
+        --solaris-#{$prefix}-custom-hover-background
+      );
+      --solaris-#{$prefix}-active-background: var(
+        --solaris-#{$prefix}-custom-active-background
+      );
+      --solaris-#{$prefix}-hover-border-color: var(
+        --solaris-#{$prefix}-custom-hover-border-color
+      );
+      --solaris-#{$prefix}-active-border-color: var(
+        --solaris-#{$prefix}-custom-active-border-color
+      );
+      --solaris-#{$prefix}-color: var(--solaris-#{$prefix}-custom-color);
+      --solaris-#{$prefix}-background: var(
+        --solaris-#{$prefix}-custom-background
+      );
+      --solaris-#{$prefix}-focus-ring-color: var(
+        --solaris-#{$prefix}-custom-color
+      );
+      --solaris-#{$prefix}-border-color: var(
+        --solaris-#{$prefix}-custom-border-color
+      );
+      --solaris-#{$prefix}-hover-color: var(
+        --solaris-#{$prefix}-custom-hover-color
+      );
+      --solaris-#{$prefix}-active-color: var(
+        --solaris-#{$prefix}-custom-active-color
+      );
+    }
+  }
+}
+
+@mixin solaris-button-gradient($selector, $prefix, $custom: true) {
+  [#{$selector}][data-color='neutral'][data-appearance='gradient'] {
+    --solaris-#{$prefix}-color: var(--solaris-neutral-text-inverse);
+    --solaris-#{$prefix}-hover-color: var(--solaris-neutral-text-inverse);
+    --solaris-#{$prefix}-active-color: var(--solaris-neutral-text-inverse);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-neutral-text-body);
+    --solaris-#{$prefix}-gradient-from: var(--solaris-neutral-inverse);
+    --solaris-#{$prefix}-gradient-to: var(--solaris-neutral-inverse-muted);
+    --solaris-#{$prefix}-gradient-hover-from: var(
+      --solaris-neutral-inverse-subtle
+    );
+    --solaris-#{$prefix}-gradient-hover-to: var(
+      --solaris-neutral-inverse-muted
+    );
+    --solaris-#{$prefix}-gradient-active-from: var(
+      --solaris-neutral-inverse-muted
+    );
+    --solaris-#{$prefix}-gradient-active-to: var(
+      --solaris-neutral-inverse-muted
+    );
+    --solaris-#{$prefix}-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-from),
+      var(--solaris-#{$prefix}-gradient-to)
+    );
+    --solaris-#{$prefix}-hover-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-hover-from),
+      var(--solaris-#{$prefix}-gradient-hover-to)
+    );
+    --solaris-#{$prefix}-active-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-active-from),
+      var(--solaris-#{$prefix}-gradient-active-to)
+    );
+  }
+
+  [#{$selector}][data-color='primary'][data-appearance='gradient'] {
+    --solaris-#{$prefix}-color: var(--solaris-primary-on-solid);
+    --solaris-#{$prefix}-hover-color: var(--solaris-primary-on-solid);
+    --solaris-#{$prefix}-active-color: var(--solaris-primary-on-solid);
+    --solaris-#{$prefix}-border-color: var(--solaris-primary-border);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-primary-solid);
+    --solaris-#{$prefix}-gradient-from: var(--solaris-primary-solid);
+    --solaris-#{$prefix}-gradient-to: var(--solaris-primary-solid-active);
+    --solaris-#{$prefix}-gradient-hover-from: var(
+      --solaris-primary-solid-hover
+    );
+    --solaris-#{$prefix}-gradient-hover-to: var(--solaris-primary-solid-active);
+    --solaris-#{$prefix}-gradient-active-from: var(
+      --solaris-primary-solid-active
+    );
+    --solaris-#{$prefix}-gradient-active-to: var(
+      --solaris-primary-solid-active
+    );
+    --solaris-#{$prefix}-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-from),
+      var(--solaris-#{$prefix}-gradient-to)
+    );
+    --solaris-#{$prefix}-hover-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-hover-from),
+      var(--solaris-#{$prefix}-gradient-hover-to)
+    );
+    --solaris-#{$prefix}-active-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-active-from),
+      var(--solaris-#{$prefix}-gradient-active-to)
+    );
+  }
+
+  [#{$selector}][data-color='success'][data-appearance='gradient'] {
+    --solaris-#{$prefix}-color: var(--solaris-success-on-solid);
+    --solaris-#{$prefix}-hover-color: var(--solaris-success-on-solid);
+    --solaris-#{$prefix}-active-color: var(--solaris-success-on-solid);
+    --solaris-#{$prefix}-border-color: var(--solaris-success-border);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-success-solid);
+    --solaris-#{$prefix}-gradient-from: var(--solaris-success-solid);
+    --solaris-#{$prefix}-gradient-to: var(--solaris-success-solid-active);
+    --solaris-#{$prefix}-gradient-hover-from: var(
+      --solaris-success-solid-hover
+    );
+    --solaris-#{$prefix}-gradient-hover-to: var(--solaris-success-solid-active);
+    --solaris-#{$prefix}-gradient-active-from: var(
+      --solaris-success-solid-active
+    );
+    --solaris-#{$prefix}-gradient-active-to: var(
+      --solaris-success-solid-active
+    );
+    --solaris-#{$prefix}-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-from),
+      var(--solaris-#{$prefix}-gradient-to)
+    );
+    --solaris-#{$prefix}-hover-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-hover-from),
+      var(--solaris-#{$prefix}-gradient-hover-to)
+    );
+    --solaris-#{$prefix}-active-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-active-from),
+      var(--solaris-#{$prefix}-gradient-active-to)
+    );
+  }
+
+  [#{$selector}][data-color='warning'][data-appearance='gradient'] {
+    --solaris-#{$prefix}-color: var(--solaris-warning-on-solid);
+    --solaris-#{$prefix}-hover-color: var(--solaris-warning-on-solid);
+    --solaris-#{$prefix}-active-color: var(--solaris-warning-on-solid);
+    --solaris-#{$prefix}-border-color: var(--solaris-warning-border);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-warning-solid);
+    --solaris-#{$prefix}-gradient-from: var(--solaris-warning-solid);
+    --solaris-#{$prefix}-gradient-to: var(--solaris-warning-solid-active);
+    --solaris-#{$prefix}-gradient-hover-from: var(
+      --solaris-warning-solid-hover
+    );
+    --solaris-#{$prefix}-gradient-hover-to: var(--solaris-warning-solid-active);
+    --solaris-#{$prefix}-gradient-active-from: var(
+      --solaris-warning-solid-active
+    );
+    --solaris-#{$prefix}-gradient-active-to: var(
+      --solaris-warning-solid-active
+    );
+    --solaris-#{$prefix}-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-from),
+      var(--solaris-#{$prefix}-gradient-to)
+    );
+    --solaris-#{$prefix}-hover-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-hover-from),
+      var(--solaris-#{$prefix}-gradient-hover-to)
+    );
+    --solaris-#{$prefix}-active-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-active-from),
+      var(--solaris-#{$prefix}-gradient-active-to)
+    );
+  }
+
+  [#{$selector}][data-color='danger'][data-appearance='gradient'] {
+    --solaris-#{$prefix}-color: var(--solaris-danger-on-solid);
+    --solaris-#{$prefix}-hover-color: var(--solaris-danger-on-solid);
+    --solaris-#{$prefix}-active-color: var(--solaris-danger-on-solid);
+    --solaris-#{$prefix}-border-color: var(--solaris-danger-border);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-danger-solid);
+    --solaris-#{$prefix}-gradient-from: var(--solaris-danger-solid);
+    --solaris-#{$prefix}-gradient-to: var(--solaris-danger-solid-active);
+    --solaris-#{$prefix}-gradient-hover-from: var(--solaris-danger-solid-hover);
+    --solaris-#{$prefix}-gradient-hover-to: var(--solaris-danger-solid-active);
+    --solaris-#{$prefix}-gradient-active-from: var(
+      --solaris-danger-solid-active
+    );
+    --solaris-#{$prefix}-gradient-active-to: var(--solaris-danger-solid-active);
+    --solaris-#{$prefix}-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-from),
+      var(--solaris-#{$prefix}-gradient-to)
+    );
+    --solaris-#{$prefix}-hover-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-hover-from),
+      var(--solaris-#{$prefix}-gradient-hover-to)
+    );
+    --solaris-#{$prefix}-active-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-active-from),
+      var(--solaris-#{$prefix}-gradient-active-to)
+    );
+  }
+
+  [#{$selector}][data-color='info'][data-appearance='gradient'] {
+    --solaris-#{$prefix}-color: var(--solaris-info-on-solid);
+    --solaris-#{$prefix}-hover-color: var(--solaris-info-on-solid);
+    --solaris-#{$prefix}-active-color: var(--solaris-info-on-solid);
+    --solaris-#{$prefix}-focus-ring-color: var(--solaris-info-solid);
+    --solaris-#{$prefix}-gradient-from: var(--solaris-info-solid);
+    --solaris-#{$prefix}-gradient-to: var(--solaris-info-solid-active);
+    --solaris-#{$prefix}-gradient-hover-from: var(--solaris-info-solid-hover);
+    --solaris-#{$prefix}-gradient-hover-to: var(--solaris-info-solid-active);
+    --solaris-#{$prefix}-gradient-active-from: var(--solaris-info-solid-active);
+    --solaris-#{$prefix}-gradient-active-to: var(--solaris-info-solid-active);
+    --solaris-#{$prefix}-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-from),
+      var(--solaris-#{$prefix}-gradient-to)
+    );
+    --solaris-#{$prefix}-hover-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-hover-from),
+      var(--solaris-#{$prefix}-gradient-hover-to)
+    );
+    --solaris-#{$prefix}-active-background: linear-gradient(
+      135deg,
+      var(--solaris-#{$prefix}-gradient-active-from),
+      var(--solaris-#{$prefix}-gradient-active-to)
+    );
+  }
+
+  @if $custom {
+    [#{$selector}][data-color='custom'][data-appearance='gradient'] {
+      --solaris-#{$prefix}-color: var(--solaris-#{$prefix}-custom-color);
+      --solaris-#{$prefix}-hover-color: var(
+        --solaris-#{$prefix}-custom-hover-color
+      );
+      --solaris-#{$prefix}-active-color: var(
+        --solaris-#{$prefix}-custom-active-color
+      );
+      --solaris-#{$prefix}-border-color: var(
+        --solaris-#{$prefix}-custom-border-color
+      );
+      --solaris-#{$prefix}-focus-ring-color: var(
+        --solaris-#{$prefix}-custom-color
+      );
+      --solaris-#{$prefix}-gradient-from: var(
+        --solaris-#{$prefix}-custom-background
+      );
+      --solaris-#{$prefix}-gradient-to: var(
+        --solaris-#{$prefix}-custom-background
+      );
+      --solaris-#{$prefix}-gradient-hover-from: var(
+        --solaris-#{$prefix}-custom-hover-background
+      );
+      --solaris-#{$prefix}-gradient-hover-to: var(
+        --solaris-#{$prefix}-custom-hover-background
+      );
+      --solaris-#{$prefix}-gradient-active-from: var(
+        --solaris-#{$prefix}-custom-active-background
+      );
+      --solaris-#{$prefix}-gradient-active-to: var(
+        --solaris-#{$prefix}-custom-active-background
+      );
+      --solaris-#{$prefix}-background: linear-gradient(
+        135deg,
+        var(--solaris-#{$prefix}-gradient-from),
+        var(--solaris-#{$prefix}-gradient-to)
+      );
+      --solaris-#{$prefix}-hover-background: linear-gradient(
+        135deg,
+        var(--solaris-#{$prefix}-gradient-hover-from),
+        var(--solaris-#{$prefix}-gradient-hover-to)
+      );
+      --solaris-#{$prefix}-active-background: linear-gradient(
+        135deg,
+        var(--solaris-#{$prefix}-gradient-active-from),
+        var(--solaris-#{$prefix}-gradient-active-to)
+      );
+      --solaris-#{$prefix}-hover-border-color: var(
+        --solaris-#{$prefix}-custom-hover-border-color
+      );
+      --solaris-#{$prefix}-active-border-color: var(
+        --solaris-#{$prefix}-custom-active-border-color
+      );
+    }
+  }
+}

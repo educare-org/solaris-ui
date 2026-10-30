@@ -9,6 +9,8 @@ import {
   SolarisPreviewCodeComponent,
   SolarisTabComponent,
   SolarisTabPanelComponent,
+  SolarisTableCellDirective,
+  SolarisTableComponent,
   SolarisTabsComponent,
   SolarisTranslatePipe,
   SolarisTranslateService,
@@ -18,6 +20,8 @@ import {
   type SolarisButtonRadius,
   type SolarisButtonShape,
   type SolarisButtonSize,
+  type SolarisPreviewCodeFile,
+  type SolarisTableColumn,
 } from '@solaris-ui/angular';
 
 import { ShowcaseDocsPageFooter } from '../../../../shell/docs-page-footer/docs-page-footer';
@@ -27,17 +31,16 @@ import { ShowcaseDocsSection } from '../../../../shell/docs-section/docs-section
 
 import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
 import {
-  BUTTON_SHOWCASE_ANCHOR_CODE,
   BUTTON_SHOWCASE_APPEARANCES,
   BUTTON_SHOWCASE_BASIC_CODE,
   BUTTON_SHOWCASE_BREADCRUMBS,
   BUTTON_SHOWCASE_COLORS,
-  BUTTON_SHOWCASE_CUSTOM_AMBER_CODE,
-  BUTTON_SHOWCASE_CUSTOM_VIOLET_CODE,
-  BUTTON_SHOWCASE_FULL_WIDTH_CODE,
+  BUTTON_SHOWCASE_CUSTOM_HTML_CODE,
+  BUTTON_SHOWCASE_CUSTOM_SCSS_CODE,
   BUTTON_SHOWCASE_IMPORT_CODE,
   BUTTON_SHOWCASE_INSTALL_COMMANDS,
   BUTTON_SHOWCASE_MOTION_CODE,
+  BUTTON_SHOWCASE_MOTION_TS_CODE,
   BUTTON_SHOWCASE_NEXT,
   BUTTON_SHOWCASE_PREV,
   BUTTON_SHOWCASE_RADII,
@@ -45,10 +48,22 @@ import {
   BUTTON_SHOWCASE_TOC_ITEMS,
   BUTTON_TRANSLATION_PREFIX,
 } from '../model/button-showcase.data';
-import { AnchorLinkButtonExample } from '../examples/anchor-link/component/anchor-link.component';
+import {
+  buildButtonAppearanceColorCode,
+  buildButtonIconCode,
+  buildButtonProvidersCode,
+  buildButtonRadiusCode,
+  buildButtonShapeCode,
+  buildButtonSizeDensityCode,
+  buildButtonStateCode,
+} from '../functions/button-showcase-snippets';
+import { BUTTON_PROP_ROWS } from '../model/button-showcase-props.data';
+import {
+  buildActionPropsColumns,
+  type ActionPropRow,
+} from '../../model/action-props-table.data';
 import { BasicButtonExample } from '../examples/basic/component/basic.component';
 import { CustomButtonExample } from '../examples/custom/component/custom.component';
-import { FullWidthButtonExample } from '../examples/full-width/component/full-width.component';
 import { MotionButtonExample } from '../examples/motion/component/motion.component';
 
 @Component({
@@ -61,6 +76,8 @@ import { MotionButtonExample } from '../examples/motion/component/motion.compone
     SolarisPreviewCodeComponent,
     SolarisTabComponent,
     SolarisTabPanelComponent,
+    SolarisTableCellDirective,
+    SolarisTableComponent,
     SolarisTabsComponent,
     SolarisTranslatePipe,
     ShowcaseDocsPageFooter,
@@ -69,8 +86,6 @@ import { MotionButtonExample } from '../examples/motion/component/motion.compone
     ShowcaseDocsSection,
     BasicButtonExample,
     CustomButtonExample,
-    AnchorLinkButtonExample,
-    FullWidthButtonExample,
     MotionButtonExample,
   ],
   templateUrl: './button-showcase.html',
@@ -92,11 +107,50 @@ export class ButtonShowcasePage {
   protected readonly installCommands = BUTTON_SHOWCASE_INSTALL_COMMANDS;
   protected readonly importCode = BUTTON_SHOWCASE_IMPORT_CODE;
   protected readonly basicCode = BUTTON_SHOWCASE_BASIC_CODE;
-  protected readonly customVioletCode = BUTTON_SHOWCASE_CUSTOM_VIOLET_CODE;
-  protected readonly customAmberCode = BUTTON_SHOWCASE_CUSTOM_AMBER_CODE;
-  protected readonly anchorCode = BUTTON_SHOWCASE_ANCHOR_CODE;
-  protected readonly fullWidthCode = BUTTON_SHOWCASE_FULL_WIDTH_CODE;
   protected readonly motionCode = BUTTON_SHOWCASE_MOTION_CODE;
+
+  protected readonly customFiles: readonly SolarisPreviewCodeFile[] = [
+    {
+      id: 'html',
+      label: 'HTML',
+      language: 'html',
+      code: BUTTON_SHOWCASE_CUSTOM_HTML_CODE,
+    },
+    {
+      id: 'scss',
+      label: 'SCSS',
+      language: 'scss',
+      code: BUTTON_SHOWCASE_CUSTOM_SCSS_CODE,
+    },
+  ];
+
+  protected readonly motionFiles: readonly SolarisPreviewCodeFile[] = [
+    {
+      id: 'html',
+      label: 'HTML',
+      language: 'html',
+      code: BUTTON_SHOWCASE_MOTION_CODE,
+    },
+    {
+      id: 'ts',
+      label: 'TypeScript',
+      language: 'ts',
+      code: BUTTON_SHOWCASE_MOTION_TS_CODE,
+    },
+  ];
+
+  protected readonly propsRows = BUTTON_PROP_ROWS;
+
+  protected readonly propsColumns = computed<
+    SolarisTableColumn<ActionPropRow>[]
+  >(() =>
+    buildActionPropsColumns({
+      prop: this.translateService.translate('button.props.colProp'),
+      type: this.translateService.translate('button.props.colType'),
+      values: this.translateService.translate('button.props.colValues'),
+      default: this.translateService.translate('button.props.colDefault'),
+    }),
+  );
 
   private readonly pageActions = createShowcasePageActions(
     this.translateService,
@@ -136,62 +190,23 @@ export class ButtonShowcasePage {
   protected readonly selectedDensity = signal<SolarisButtonDensity>('normal');
 
   protected readonly appearanceColorCode = computed(() =>
-    [
-      `<button solaris-button appearance="${this.selectedAppearance()}" color="${this.selectedColor()}">`,
-      '  Action',
-      '</button>',
-    ].join('\n'),
+    buildButtonAppearanceColorCode(
+      this.selectedAppearance(),
+      this.selectedColor(),
+    ),
   );
 
   protected readonly sizeDensityCode = computed(() =>
-    [
-      `<button solaris-button size="${this.selectedSize()}" density="${this.selectedDensity()}" color="primary">`,
-      '  Save',
-      '</button>',
-    ].join('\n'),
+    buildButtonSizeDensityCode(this.selectedSize(), this.selectedDensity()),
   );
 
-  protected readonly iconCode = computed(() => {
-    switch (this.selectedIconTab()) {
-      case 'icon-after':
-        return [
-          '<button solaris-button color="primary">',
-          '  Continue',
-          '  <solaris-icon solaris-button-icon name="chevron-right" [decorative]="true" />',
-          '</button>',
-        ].join('\n');
-      case 'icon-input-start':
-        return [
-          '<button solaris-button icon="check" color="primary">',
-          '  Confirm',
-          '</button>',
-        ].join('\n');
-      case 'icon-input-end':
-        return [
-          '<button solaris-button icon="chevron-right" iconPosition="end" color="primary">',
-          '  Continue',
-          '</button>',
-        ].join('\n');
-      case 'icon-before':
-      default:
-        return [
-          '<button solaris-button color="primary">',
-          '  <solaris-icon solaris-button-icon name="check" [decorative]="true" />',
-          '  Confirm',
-          '</button>',
-        ].join('\n');
-    }
-  });
+  protected readonly iconCode = computed(() =>
+    buildButtonIconCode(this.selectedIconTab()),
+  );
 
-  protected readonly providersCode = computed(() => {
-    const provider = String(this.selectedProvider());
-    const label = provider.charAt(0).toUpperCase() + provider.slice(1);
-    return [
-      `<button solaris-button icon="${provider}" appearance="outline">`,
-      `  Continue with ${label}`,
-      '</button>',
-    ].join('\n');
-  });
+  protected readonly providersCode = computed(() =>
+    buildButtonProvidersCode(String(this.selectedProvider())),
+  );
 
   protected readonly stateLabelKey = computed(() => {
     switch (this.selectedStateTab()) {
@@ -205,45 +220,16 @@ export class ButtonShowcasePage {
     }
   });
 
-  protected readonly stateCode = computed(() => {
-    const on = this.stateOn() ? 'true' : 'false';
-    switch (this.selectedStateTab()) {
-      case 'disabled':
-        return [
-          `<button solaris-button color="primary" [disabled]="${on}">`,
-          '  Disabled',
-          '</button>',
-        ].join('\n');
-      case 'pressed':
-        return [
-          `<button solaris-button color="primary" [pressed]="${on}">`,
-          '  Favorite',
-          '</button>',
-        ].join('\n');
-      case 'loading':
-      default:
-        return [
-          `<button solaris-button color="primary" [loading]="${on}">`,
-          '  Save',
-          '</button>',
-        ].join('\n');
-    }
-  });
+  protected readonly stateCode = computed(() =>
+    buildButtonStateCode(this.selectedStateTab(), this.stateOn()),
+  );
 
   protected radiusCode(radius: SolarisButtonRadius): string {
-    return [
-      `<button solaris-button radius="${radius}" color="primary">`,
-      '  Action',
-      '</button>',
-    ].join('\n');
+    return buildButtonRadiusCode(radius);
   }
 
   protected shapeCode(shape: SolarisButtonShape): string {
-    return [
-      `<button solaris-button shape="${shape}" color="primary">`,
-      '  Action',
-      '</button>',
-    ].join('\n');
+    return buildButtonShapeCode(shape);
   }
 
   protected copyPageAsMarkdown(): void {

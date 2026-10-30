@@ -16,15 +16,8 @@
     <p class="button-group-showcase__note">
       {{ 'button-group.basic.note' | translate }}
     </p>
-    <solaris-preview-code
-      code='<solaris-button-group aria-label="Editor actions">&#10;  <button solaris-button>Edit</button>&#10;  <button solaris-button>Duplicate</button>&#10;  <button solaris-button>Delete</button>&#10;</solaris-button-group>'
-      language="html"
-    >
-      <solaris-button-group aria-label="Editor actions">
-        <button solaris-button>Edit</button>
-        <button solaris-button>Duplicate</button>
-        <button solaris-button>Delete</button>
-      </solaris-button-group>
+    <solaris-preview-code [code]="basicCode" language="html">
+      <app-basic-button-group-example />
     </solaris-preview-code>
   </app-docs-section>
 
@@ -40,40 +33,34 @@
         [(value)]="selectedSize"
         [ariaLabel]="'button-group.section.sizes' | translate"
       >
-        <solaris-tab value="sm"
-          >{{ 'button-group.size.sm' | translate }}</solaris-tab
-        >
-        <solaris-tab value="md"
-          >{{ 'button-group.size.md' | translate }}</solaris-tab
-        >
-        <solaris-tab value="lg"
-          >{{ 'button-group.size.lg' | translate }}</solaris-tab
-        >
+        <solaris-tab value="sm">sm</solaris-tab>
+        <solaris-tab value="md">md</solaris-tab>
+        <solaris-tab value="lg">lg</solaris-tab>
       </solaris-tabs>
       <solaris-tabs
         [(value)]="selectedDensity"
         [ariaLabel]="'button-group.section.density' | translate"
       >
-        <solaris-tab value="compact"
-          >{{ 'button-group.density.compact' | translate }}</solaris-tab
-        >
-        <solaris-tab value="normal"
-          >{{ 'button-group.density.normal' | translate }}</solaris-tab
-        >
-        <solaris-tab value="comfortable"
-          >{{ 'button-group.density.comfortable' | translate }}</solaris-tab
-        >
+        <solaris-tab value="compact">compact</solaris-tab>
+        <solaris-tab value="normal">normal</solaris-tab>
+        <solaris-tab value="comfortable">comfortable</solaris-tab>
       </solaris-tabs>
     </div>
     <solaris-preview-code [code]="sizeDensityCode()" language="html">
       <solaris-button-group
-        aria-label="Editor actions"
+        [aria-label]="'button-group.example.editorActions' | translate"
         [size]="selectedSize()"
         [density]="selectedDensity()"
       >
-        <button solaris-button>Edit</button>
-        <button solaris-button>Duplicate</button>
-        <button solaris-button>Delete</button>
+        <button solaris-button>
+          {{ 'button-group.example.edit' | translate }}
+        </button>
+        <button solaris-button>
+          {{ 'button-group.example.duplicate' | translate }}
+        </button>
+        <button solaris-button>
+          {{ 'button-group.example.delete' | translate }}
+        </button>
       </solaris-button-group>
     </solaris-preview-code>
   </app-docs-section>
@@ -86,49 +73,14 @@
       [(value)]="selectedOrientation"
       [ariaLabel]="'button-group.section.orientation' | translate"
     >
-      <solaris-tab value="horizontal"
-        >{{ 'button-group.orientation.horizontal' | translate }}</solaris-tab
-      >
-      <solaris-tab value="vertical"
-        >{{ 'button-group.orientation.vertical' | translate }}</solaris-tab
-      >
-      <solaris-tab-panel value="horizontal">
-        <solaris-preview-code
-          code='<solaris-button-group aria-label="Mood">&#10;  <button solaris-icon-button aria-label="Happy">...</button>&#10;  <button solaris-icon-button aria-label="Neutral">...</button>&#10;  <button solaris-icon-button aria-label="Sad">...</button>&#10;</solaris-button-group>'
-          language="html"
-        >
-          <solaris-button-group aria-label="Mood">
-            <button solaris-icon-button aria-label="Happy">
-              <solaris-icon name="success" [decorative]="true" />
-            </button>
-            <button solaris-icon-button aria-label="Neutral">
-              <solaris-icon name="info" [decorative]="true" />
-            </button>
-            <button solaris-icon-button aria-label="Sad">
-              <solaris-icon name="danger" [decorative]="true" />
-            </button>
-          </solaris-button-group>
-        </solaris-preview-code>
-      </solaris-tab-panel>
-      <solaris-tab-panel value="vertical">
-        <solaris-preview-code
-          code='<solaris-button-group orientation="vertical" aria-label="Mood">&#10;  <button solaris-icon-button aria-label="Happy">...</button>&#10;  <button solaris-icon-button aria-label="Neutral">...</button>&#10;  <button solaris-icon-button aria-label="Sad">...</button>&#10;</solaris-button-group>'
-          language="html"
-        >
-          <solaris-button-group orientation="vertical" aria-label="Mood">
-            <button solaris-icon-button aria-label="Happy">
-              <solaris-icon name="success" [decorative]="true" />
-            </button>
-            <button solaris-icon-button aria-label="Neutral">
-              <solaris-icon name="info" [decorative]="true" />
-            </button>
-            <button solaris-icon-button aria-label="Sad">
-              <solaris-icon name="danger" [decorative]="true" />
-            </button>
-          </solaris-button-group>
-        </solaris-preview-code>
-      </solaris-tab-panel>
+      <solaris-tab value="horizontal">horizontal</solaris-tab>
+      <solaris-tab value="vertical">vertical</solaris-tab>
     </solaris-tabs>
+    <solaris-preview-code [code]="orientationCode()" language="html">
+      <app-orientation-button-group-example
+        [orientation]="selectedOrientation()"
+      />
+    </solaris-preview-code>
   </app-docs-section>
 
   <app-docs-section anchor="attached" titleKey="button-group.section.attached">
@@ -140,22 +92,24 @@
         [(value)]="selectedAttached"
         [ariaLabel]="'button-group.section.attached' | translate"
       >
-        <solaris-tab value="attached"
-          >{{ 'button-group.attached.true' | translate }}</solaris-tab
-        >
-        <solaris-tab value="separated"
-          >{{ 'button-group.attached.false' | translate }}</solaris-tab
-        >
+        <solaris-tab value="attached">attached</solaris-tab>
+        <solaris-tab value="separated">separated</solaris-tab>
       </solaris-tabs>
     </div>
     <solaris-preview-code [code]="attachedCode()" language="html">
       <solaris-button-group
-        aria-label="Separated actions"
+        [aria-label]="'button-group.example.separatedActions' | translate"
         [attached]="attached()"
       >
-        <button solaris-button>Edit</button>
-        <button solaris-button>Duplicate</button>
-        <button solaris-button [disabled]="true">Delete</button>
+        <button solaris-button>
+          {{ 'button-group.example.edit' | translate }}
+        </button>
+        <button solaris-button>
+          {{ 'button-group.example.duplicate' | translate }}
+        </button>
+        <button solaris-button [disabled]="true">
+          {{ 'button-group.example.delete' | translate }}
+        </button>
       </solaris-button-group>
     </solaris-preview-code>
   </app-docs-section>
@@ -164,16 +118,8 @@
     <p class="button-group-showcase__note">
       {{ 'button-group.mixed-note' | translate }}
     </p>
-    <solaris-preview-code
-      code='<solaris-button-group aria-label="Save actions">&#10;  <button solaris-button>Copiar página</button>&#10;  <button solaris-icon-button aria-label="More save actions">...</button>&#10;</solaris-button-group>'
-      language="html"
-    >
-      <solaris-button-group aria-label="Save actions">
-        <button solaris-button>Copiar página</button>
-        <button solaris-icon-button aria-label="More save actions">
-          <solaris-icon name="chevron-down" [decorative]="true" />
-        </button>
-      </solaris-button-group>
+    <solaris-preview-code [code]="mixedCode" language="html">
+      <app-mixed-button-group-example />
     </solaris-preview-code>
   </app-docs-section>
 
@@ -190,11 +136,8 @@
         {{ 'button-group.motion.toggle' | translate }}
       </button>
     </div>
-    <solaris-preview-code [code]="motionCode" language="html">
-      <solaris-button-group aria-label="Save actions">
-        <button solaris-button>Save</button>
-        <button solaris-button [loading]="motionLoading()">Save changes</button>
-      </solaris-button-group>
+    <solaris-preview-code [codeFiles]="motionFiles">
+      <app-motion-button-group-example [loading]="motionLoading()" />
     </solaris-preview-code>
   </app-docs-section>
 
@@ -203,24 +146,11 @@
       {{ 'button-group.states.note' | translate }}
     </p>
     <div class="button-group-showcase__stack">
-      <solaris-preview-code
-        code='<solaris-button-group aria-label="Editor actions">&#10;  <button solaris-button>Edit</button>&#10;  <button solaris-button>Duplicate</button>&#10;  <button solaris-button [disabled]="true">Delete</button>&#10;</solaris-button-group>'
-        language="html"
-      >
-        <solaris-button-group aria-label="Editor actions">
-          <button solaris-button>Edit</button>
-          <button solaris-button>Duplicate</button>
-          <button solaris-button [disabled]="true">Delete</button>
-        </solaris-button-group>
+      <solaris-preview-code [code]="statesDisabledCode" language="html">
+        <app-disabled-button-group-example />
       </solaris-preview-code>
-      <solaris-preview-code
-        code='<solaris-button-group aria-label="Loading actions">&#10;  <button solaris-button>Save</button>&#10;  <button solaris-button [loading]="true">Loading</button>&#10;</solaris-button-group>'
-        language="html"
-      >
-        <solaris-button-group aria-label="Loading actions">
-          <button solaris-button>Save</button>
-          <button solaris-button [loading]="true">Loading</button>
-        </solaris-button-group>
+      <solaris-preview-code [code]="statesLoadingCode" language="html">
+        <app-loading-button-group-example />
       </solaris-preview-code>
     </div>
   </app-docs-section>
@@ -229,16 +159,8 @@
     anchor="full-width"
     titleKey="button-group.section.full-width"
   >
-    <solaris-preview-code
-      code='<solaris-button-group aria-label="Form actions" [fullWidth]="true">&#10;  <button solaris-button>Cancel</button>&#10;  <button solaris-button color="primary">Submit</button>&#10;</solaris-button-group>'
-      language="html"
-    >
-      <div class="button-group-showcase__full-width-row">
-        <solaris-button-group aria-label="Form actions" [fullWidth]="true">
-          <button solaris-button>Cancel</button>
-          <button solaris-button color="primary">Submit</button>
-        </solaris-button-group>
-      </div>
+    <solaris-preview-code [code]="fullWidthCode" language="html">
+      <app-full-width-button-group-example />
     </solaris-preview-code>
   </app-docs-section>
 
@@ -257,6 +179,18 @@
     <p class="button-group-showcase__note">
       {{ 'button-group.props.note' | translate }}
     </p>
+    <solaris-table
+      [data]="propsRows"
+      [columns]="propsColumns()"
+      rowId="prop"
+      appearance="soft"
+    >
+      <ng-template solaris-table-cell="values" let-row>
+        <span class="button-group-showcase__props-values"
+          >{{ row.values }}</span
+        >
+      </ng-template>
+    </solaris-table>
   </app-docs-section>
 
   <app-docs-page-footer [prev]="prev" [next]="next" />

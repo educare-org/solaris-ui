@@ -1,12 +1,3 @@
-/**
- * Regression: tonal/surface hover must change the background (one step above
- * rest) with full button/icon-button parity.
- *
- * Context: hover-background used to equal background (*-soft) in every color,
- * so only the border changed and hover looked dead. This spec parses the
- * shared style sheets and fails if any tonal/surface color×appearance goes
- * back to hover == rest.
- */
 describe('Button tonal/surface hover backgrounds', () => {
   const colors = [
     'neutral',
@@ -26,14 +17,20 @@ describe('Button tonal/surface hover backgrounds', () => {
     const { fileURLToPath } = await import('node:url');
     const { dirname, resolve } = await import('node:path');
     const here = dirname(fileURLToPath(import.meta.url));
-    buttonScss = readFileSync(
-      resolve(here, '../../../../../styles/_button.scss'),
+    const variants = readFileSync(
+      resolve(here, '../../../../../styles/_button-variants.scss'),
       'utf8',
     );
-    iconButtonScss = readFileSync(
-      resolve(here, '../../../../../styles/_icon-button.scss'),
-      'utf8',
-    );
+    buttonScss = variants
+      .split('#{$selector}')
+      .join('solaris-button')
+      .split('#{$prefix}')
+      .join('button');
+    iconButtonScss = variants
+      .split('#{$selector}')
+      .join('solaris-icon-button')
+      .split('#{$prefix}')
+      .join('icon-button');
   });
 
   function blockBody(
@@ -173,8 +170,6 @@ describe('Button surface border transition', () => {
         scss.indexOf('{', start) + 1,
         scss.indexOf('}', scss.indexOf('{', start)),
       );
-      // Surface hover flips border-width 0 -> sm; without this line the
-      // border pops instantly instead of following motion-duration-normal.
       expect(body).toContain(
         'border-width var(--solaris-motion-duration-normal)',
       );

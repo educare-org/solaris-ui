@@ -1,22 +1,14 @@
 {
   "button-group": {
     "anchor": "Soporte de ancla",
-    "attached": {
-      "false": "Separado",
-      "note": "Con attached=true los elementos forman un único bloque con divisores suaves. Con attached=false cada elemento conserva su propio radio y un espacio los separa.",
-      "true": "Adjunto"
-    },
-    "attached-false": "Separado (attached=false)",
     "badge": "Composición de Badge",
+    "attached": {
+      "note": "Con attached=true los elementos forman un único bloque con divisores suaves. Con attached=false cada elemento conserva su propio radio y un espacio los separa."
+    },
     "basic": {
       "note": "Agrupa acciones relacionadas. El grupo es responsable del Layout y la unión visual; cada hijo es responsable de su propia apariencia y estado."
     },
     "basic-horizontal": "Grupo horizontal básico",
-    "density": {
-      "comfortable": "Cómodo",
-      "compact": "Compacto",
-      "normal": "Normal"
-    },
     "description": "Componente que agrupa acciones relacionadas con Layout controlado y unión visual.",
     "full-width": "Ancho completo",
     "future-note": "Componentes futuros",
@@ -32,12 +24,12 @@
       "note": "Los cambios de ancho dentro de un elemento del grupo se animan en el paso motion-normal, así alternar loading crece suave sin mover los vecinos de golpe.",
       "toggle": "Alternar loading"
     },
-    "orientation": {
-      "horizontal": "Horizontal",
-      "vertical": "Vertical"
-    },
     "props": {
-      "note": "Tabla de Props próximamente, con el componente de tabla."
+      "note": "Todos los inputs que acepta el componente, con tipos, valores y valores predeterminados.",
+      "colProp": "Prop",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Predeterminado"
     },
     "section": {
       "attached": "Adjunto",
@@ -53,11 +45,6 @@
       "sizes": "Tamaños",
       "states": "Estados"
     },
-    "size": {
-      "lg": "Grande",
-      "md": "Mediano",
-      "sm": "Pequeño"
-    },
     "size-density": {
       "note": "El tamaño y la densidad del grupo se aplican a cada hijo, estandarizando la altura exterior de cada elemento."
     },
@@ -65,6 +52,27 @@
       "note": "Deshabilitado y Cargando pertenecen a cada hijo. El grupo solo garantiza el Layout correcto."
     },
     "title": "Grupo de botones",
-    "vertical-icon": "Grupo vertical de iconos"
+    "vertical-icon": "Grupo vertical de iconos",
+    "example": {
+      "edit": "Editar",
+      "duplicate": "Duplicar",
+      "delete": "Eliminar",
+      "save": "Guardar",
+      "saveChanges": "Guardar cambios",
+      "loading": "Cargando",
+      "cancel": "Cancelar",
+      "submit": "Enviar",
+      "editorActions": "Acciones del editor",
+      "mood": "Estado de ánimo",
+      "happy": "Feliz",
+      "neutral": "Neutral",
+      "sad": "Triste",
+      "moreSaveActions": "Más acciones de guardado",
+      "saveActions": "Acciones de guardado",
+      "separatedActions": "Acciones separadas",
+      "loadingActions": "Acciones de carga",
+      "formActions": "Acciones del formulario",
+      "copyPage": "Copiar página"
+    }
   }
 }

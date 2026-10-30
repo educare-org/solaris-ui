@@ -44,7 +44,7 @@ Selector: `[solaris-icon-button]`
 
 | Input             | Type                                                                                 | Default     | Description                            |
 | ----------------- | ------------------------------------------------------------------------------------ | ----------- | -------------------------------------- |
-| `appearance`      | `'solid' \| 'outline' \| 'ghost' \| 'tonal' \| 'surface'`                            | `'solid'`   | Visual style                           |
+| `appearance`      | `'solid' \| 'outline' \| 'ghost' \| 'tonal' \| 'surface' \| 'gradient'`              | `'solid'`   | Visual style                           |
 | `pressed`         | `boolean \| undefined`                                                               | —           | Toggle state (`aria-pressed` when set) |
 | `color`           | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'` | Semantic color                         |
 | `size`            | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`      | Control size                           |
@@ -74,8 +74,17 @@ Used on a badge element projected inside the icon button to position it correctl
 | `ghost`    | No background or border, subtle hover  |
 | `tonal`    | Soft background, subtle border         |
 | `surface`  | Muted background, no border            |
+| `gradient` | `135deg` ramp from `solid` to darker   |
 
 Default: `solid`
+
+Gradient crosses with every `color`: `linear-gradient(135deg, from, to)`
+with `from` as the `solid` stop and `to` as the darker `solid-active` step.
+Text, border, and focus-ring mirror `solid`. See `button.md` § Gradient for
+the per-color ramp table, contrast ratios, and the `custom` gradient
+variables (`--solaris-icon-button-gradient-from/to`, plus hover/active
+pairs). Without them, `gradient` + `custom` falls back to the flat `custom`
+solid.
 
 ## Colors
 
@@ -278,6 +287,17 @@ The following CSS variables can be customized:
 | `--solaris-icon-button-custom-hover-border-color`  | Hover border color  |
 | `--solaris-icon-button-custom-active-background`   | Active background   |
 | `--solaris-icon-button-custom-active-border-color` | Active border color |
+
+### Gradient tokens
+
+| Token                                        | Purpose                 |
+| -------------------------------------------- | ----------------------- |
+| `--solaris-icon-button-gradient-from`        | Gradient start (rest)   |
+| `--solaris-icon-button-gradient-to`          | Gradient end (rest)     |
+| `--solaris-icon-button-gradient-hover-from`  | Gradient start (hover)  |
+| `--solaris-icon-button-gradient-hover-to`    | Gradient end (hover)    |
+| `--solaris-icon-button-gradient-active-from` | Gradient start (active) |
+| `--solaris-icon-button-gradient-active-to`   | Gradient end (active)   |
 
 ## Accessibility
 

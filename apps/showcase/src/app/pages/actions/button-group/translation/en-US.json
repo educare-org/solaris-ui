@@ -1,22 +1,14 @@
 {
   "button-group": {
     "anchor": "Anchor support",
-    "attached": {
-      "false": "Separated",
-      "note": "With attached=true the items form a single block with soft dividers. With attached=false each item keeps its own radius and a gap separates them.",
-      "true": "Attached"
-    },
-    "attached-false": "Separated (attached=false)",
     "badge": "Badge composition",
+    "attached": {
+      "note": "With attached=true the items form a single block with soft dividers. With attached=false each item keeps its own radius and a gap separates them."
+    },
     "basic": {
       "note": "Group related actions. The group owns layout and visual union; each child owns its appearance and state."
     },
     "basic-horizontal": "Basic horizontal group",
-    "density": {
-      "comfortable": "Comfortable",
-      "compact": "Compact",
-      "normal": "Normal"
-    },
     "description": "Component that groups related actions together with controlled layout and visual union.",
     "full-width": "Full width",
     "future-note": "Future components",
@@ -32,12 +24,12 @@
       "note": "Width changes inside a group item animate on the motion-normal step, so toggling loading grows the item smoothly without shifting siblings abruptly.",
       "toggle": "Toggle loading"
     },
-    "orientation": {
-      "horizontal": "Horizontal",
-      "vertical": "Vertical"
-    },
     "props": {
-      "note": "Props table coming soon, with the table component."
+      "note": "Every input the component accepts, with types, values, and defaults.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
     },
     "section": {
       "attached": "Attached",
@@ -53,11 +45,6 @@
       "sizes": "Sizes",
       "states": "States"
     },
-    "size": {
-      "lg": "Large",
-      "md": "Medium",
-      "sm": "Small"
-    },
     "size-density": {
       "note": "The group size and density are forced onto every child, standardizing the outer height of each item."
     },
@@ -65,6 +52,27 @@
       "note": "Disabled and loading belong to each child. The group only ensures correct layout."
     },
     "title": "Button group",
-    "vertical-icon": "Vertical icon group"
+    "vertical-icon": "Vertical icon group",
+    "example": {
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "delete": "Delete",
+      "save": "Save",
+      "saveChanges": "Save changes",
+      "loading": "Loading",
+      "cancel": "Cancel",
+      "submit": "Submit",
+      "editorActions": "Editor actions",
+      "mood": "Mood",
+      "happy": "Happy",
+      "neutral": "Neutral",
+      "sad": "Sad",
+      "moreSaveActions": "More save actions",
+      "saveActions": "Save actions",
+      "separatedActions": "Separated actions",
+      "loadingActions": "Loading actions",
+      "formActions": "Form actions",
+      "copyPage": "Copy page"
+    }
   }
 }

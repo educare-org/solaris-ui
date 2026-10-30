@@ -20,6 +20,19 @@ import { SolarisTranslateService } from '../../../../services/translation';
 import { SolarisThemeService } from '../../../../services/theme';
 import { SolarisSpinnerComponent } from '../../../feedback/spinner';
 
+import {
+  resolveEffectiveDensity,
+  resolveEffectiveSize,
+  resolveGroupPlacement,
+  resolveVariant,
+  resolveDisabled,
+} from '../functions/button-variants';
+import { shouldAnimateWidth } from '../functions/button-motion';
+import {
+  resolveAriaLabel as resolvePureAriaLabel,
+  resolveLoadingLabel as resolvePureLoadingLabel,
+} from '../functions/button-a11y';
+
 @Directive()
 export abstract class SolarisButtonHostBase {
   abstract readonly size: Signal<string>;
@@ -61,49 +74,49 @@ export abstract class SolarisButtonHostBase {
     skipSelf: true,
   });
 
-  protected readonly resolvedSize = computed(
-    () => this.dataSize() ?? this.size(),
+  protected readonly resolvedSize = computed(() =>
+    resolveVariant(this.dataSize(), this.size()),
   );
 
-  protected readonly resolvedAppearance = computed(
-    () => this.dataAppearance() ?? this.appearance(),
+  protected readonly resolvedAppearance = computed(() =>
+    resolveVariant(this.dataAppearance(), this.appearance()),
   );
 
-  protected readonly resolvedColor = computed(
-    () => this.dataColor() ?? this.color(),
+  protected readonly resolvedColor = computed(() =>
+    resolveVariant(this.dataColor(), this.color()),
   );
 
-  protected readonly resolvedShape = computed(
-    () => this.dataShape() ?? this.shape(),
+  protected readonly resolvedShape = computed(() =>
+    resolveVariant(this.dataShape(), this.shape()),
   );
 
-  protected readonly resolvedRadius = computed(
-    () => this.dataRadius() ?? this.radius(),
+  protected readonly resolvedRadius = computed(() =>
+    resolveVariant(this.dataRadius(), this.radius()),
   );
 
   protected readonly effectiveSize = computed(() => {
-    return this.groupContext?.size() ?? this.resolvedSize();
+    return resolveEffectiveSize(this.groupContext?.size(), this.resolvedSize());
   });
 
   protected readonly groupPlacement = computed(() => {
     const group = this.groupContext;
-    if (!group?.attached()) {
-      return null;
-    }
-    return group.orientation();
-  });
-
-  protected readonly effectiveDensity = computed(() => {
-    return (
-      this.groupContext?.effectiveDensity() ??
-      this.dataDensity() ??
-      this.density() ??
-      this.themeService.density
+    return resolveGroupPlacement(
+      group?.attached() ?? false,
+      group?.orientation() ?? null,
     );
   });
 
-  protected readonly isEffectivelyDisabled = computed(
-    () => this.disabled() || this.loading(),
+  protected readonly effectiveDensity = computed(() => {
+    return resolveEffectiveDensity(
+      this.groupContext?.effectiveDensity(),
+      this.dataDensity(),
+      this.density(),
+      this.themeService.density,
+    );
+  });
+
+  protected readonly isEffectivelyDisabled = computed(() =>
+    resolveDisabled(this.disabled(), this.loading()),
   );
 
   protected readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -117,35 +130,26 @@ export abstract class SolarisButtonHostBase {
   private spinnerRef: ComponentRef<SolarisSpinnerComponent> | null = null;
 
   protected readonly resolvedLoadingLabel = computed(() => {
-    const label = this.loadingLabel();
-    if (label) {
-      return label;
-    }
-
-    const key = this.loadingLabelKey();
-    if (key && this.translate) {
-      return this.translate.translate(key);
-    }
-
-    if (this.translate) {
-      return this.translate.translate('solaris.button.loading');
-    }
-
-    return undefined;
+    const translate = this.translate
+      ? (key: string) => this.translate?.translate(key)
+      : undefined;
+    return resolvePureLoadingLabel(
+      this.loadingLabel(),
+      this.loadingLabelKey(),
+      translate,
+      'solaris.button.loading',
+    );
   });
 
   protected readonly resolvedAriaLabel = computed<string | undefined>(() => {
-    const label = this.ariaLabel();
-    if (label) {
-      return label;
-    }
-
-    const key = this.ariaLabelKey();
-    if (key && this.translate) {
-      return this.translate.translate(key);
-    }
-
-    return undefined;
+    const translate = this.translate
+      ? (key: string) => this.translate?.translate(key)
+      : undefined;
+    return resolvePureAriaLabel(
+      this.ariaLabel(),
+      this.ariaLabelKey(),
+      translate,
+    );
   });
 
   protected readonly isButton =
@@ -227,18 +231,24 @@ export abstract class SolarisButtonHostBase {
     this.contentObserver.observe(el, {
       childList: true,
       characterData: true,
-      subtree: true,
+      subtree: false,
     });
 
     this.widthObserver = new ResizeObserver(() => {
       const width = el.getBoundingClientRect().width;
       const previous = this.lastWidth;
       this.lastWidth = width;
-      if (!this.pendingContentChange) {
-        return;
-      }
+      const contentChanged = this.pendingContentChange;
       this.pendingContentChange = false;
-      if (previous < 0 || Math.abs(width - previous) < 0.5) {
+      if (
+        !shouldAnimateWidth(previous, width, {
+          fullWidth: el.hasAttribute('data-full-width'),
+          attached: this.groupContext?.attached() ?? false,
+          reducedMotion: this.prefersReducedMotion(el),
+          contentChanged,
+          animatable: typeof el.animate === 'function',
+        })
+      ) {
         return;
       }
       this.animateWidth(el, previous, width);
@@ -247,13 +257,15 @@ export abstract class SolarisButtonHostBase {
   }
 
   private animateWidth(el: HTMLElement, from: number, to: number): void {
-    if (el.hasAttribute('data-full-width')) {
-      return;
-    }
-    if (this.prefersReducedMotion(el)) {
-      return;
-    }
-    if (typeof el.animate !== 'function') {
+    if (
+      !shouldAnimateWidth(from, to, {
+        fullWidth: el.hasAttribute('data-full-width'),
+        attached: this.groupContext?.attached() ?? false,
+        reducedMotion: this.prefersReducedMotion(el),
+        contentChanged: true,
+        animatable: typeof el.animate === 'function',
+      })
+    ) {
       return;
     }
     this.widthAnimation?.cancel();
@@ -265,6 +277,7 @@ export abstract class SolarisButtonHostBase {
     const easing =
       this.readMotionTokenRaw(el, '--solaris-motion-easing-standard') ||
       'cubic-bezier(0.4, 0, 0.2, 1)';
+    el.setAttribute('data-width-animating', '');
     const animation = el.animate(
       [{ width: `${from}px` }, { width: `${to}px` }],
       { duration, easing },
@@ -273,6 +286,7 @@ export abstract class SolarisButtonHostBase {
     const done = () => {
       if (this.widthAnimation === animation) {
         this.widthAnimation = null;
+        el.removeAttribute('data-width-animating');
       }
       this.lastWidth = el.getBoundingClientRect().width;
     };

@@ -89,6 +89,7 @@ type SolarisButtonIconPosition = 'start' | 'end';
 | `ghost`    | Toolbar, dense context, low-weight action | No background or border, subtle hover  |
 | `tonal`    | Action with semantics, medium emphasis    | Soft background, subtle border         |
 | `surface`  | Low emphasis, inline with content         | Muted background, no border            |
+| `gradient` | Hero CTA, highest emphasis                | `135deg` ramp from `solid` to darker   |
 
 ### Hover and active
 
@@ -100,6 +101,58 @@ clicks never flash an inverted fill. Only `solid` and `outline` commit to the
 solid `active` background on press (`:active`, `data-pressed`). Only `neutral`
 `solid`/`outline` invert on hover/active, keeping docs
 and dense headers quiet.
+
+### Gradient
+
+`appearance="gradient"` crosses with every `color`: the background is
+`linear-gradient(135deg, from, to)` where `from` is the `solid` stop and `to`
+is the darker `solid-active` step of the same family. Text, border, and
+focus-ring mirror `solid`, so the accessible name channel is unchanged.
+Hover darkens the first stop (`solid-hover → solid-active`); press holds the
+darkest pair (`solid-active → solid-active`) under the standard `0.99` press
+scale. The angle is a single documented constant (`135deg`); per-color choice
+of `to` is documented below. Gradient never animates its stops (no
+`background-image` transition), so reduced motion needs no extra guard beyond
+the shared press-scale rule. Inside an attached `solaris-button-group`,
+gradient follows the P1 group rule (`transform: none` press, no own border).
+
+| Color     | `from` (rest)     | `to` (rest/darker)      | Text (`on-solid`)      | Contrast text×from | Contrast text×to |
+| --------- | ----------------- | ----------------------- | ---------------------- | ------------------ | ---------------- |
+| `neutral` | `neutral-inverse` | `neutral-inverse-muted` | `neutral-text-inverse` | 17.62              | 12.48            |
+| `primary` | `primary-solid`   | `primary-solid-active`  | `primary-on-solid`     | 5.79               | 8.89             |
+| `success` | `success-solid`   | `success-solid-active`  | `success-on-solid`     | 3.20               | 5.88             |
+| `warning` | `warning-solid`   | `warning-solid-active`  | `warning-on-solid`     | 11.53              | 7.39             |
+| `danger`  | `danger-solid`    | `danger-solid-active`   | `danger-on-solid`      | 4.83               | 8.22             |
+| `info`    | `info-solid`      | `info-solid-active`     | `info-on-solid`        | 5.34               | 8.46             |
+
+Ratios measured on the light theme. Every pair meets the 3:1 UI minimum;
+every pair except `success` rest meets 4.5:1 for text. `success` rest (3.20)
+inherits the existing `solid` pairing verbatim — the gradient is never worse
+than `solid` because `from` is `solid` and `to` is strictly darker (lighter
+only for `neutral`, whose 12.48 floor still exceeds AAA). `neutral` is the
+documented exception: its interactive ramp lightens (`inverse →
+inverse-muted`) instead of darkening.
+
+#### Custom gradient
+
+```css
+.my-gradient-button {
+  --solaris-button-gradient-from: #7c3aed;
+  --solaris-button-gradient-to: #4c1d95;
+  --solaris-button-gradient-hover-from: #6d28d9;
+  --solaris-button-gradient-hover-to: #4c1d95;
+  --solaris-button-gradient-active-from: #5b21b6;
+  --solaris-button-gradient-active-to: #5b21b6;
+}
+```
+
+```html
+<button solaris-button appearance="gradient" color="custom" class="my-gradient-button">Custom</button>
+```
+
+Without these variables, `gradient` + `custom` falls back to the flat
+`custom` solid (both stops default to the `custom` backgrounds), so the
+button stays readable instead of rendering a broken gradient.
 
 ## Colors
 
@@ -195,15 +248,21 @@ Press feedback uses dedicated tokens (`--solaris-button-scale-active` /
 
 Width-affecting content changes (loading spinner, badge slot, label swap)
 animate fluidly via FLIP in `SolarisButtonHostBase`: a `MutationObserver`
-flags content edits and a `ResizeObserver` interpolates the resulting width
-delta with WAAPI (`motion-normal` / `standard` easing, read from the tokens
-at runtime). CSS `transition: width` alone cannot do this — the computed
-`width` stays `auto`, so no transition ever fires. Container-driven changes
-(window resize, font load, density switch) only re-sync the baseline, and
-`fullWidth` buttons are skipped. The loading spinner additionally enters
-with `solaris-motion-pop-in` (`normal` / `decelerate`). Reduced motion
-(`prefers-reduced-motion` or `data-reduced-motion="true"`) disables the
-width animation, the spinner animation, and the press scale.
+(`childList` + `characterData`) flags content edits and a `ResizeObserver`
+interpolates the resulting width delta with WAAPI (`motion-normal` /
+`standard` easing, read from the tokens at runtime). The host sets
+`data-width-animating` for the animation and removes it on `finish`/`cancel`.
+While present, the host clips with `overflow: hidden` + `nowrap`, keeps
+children at `flex-shrink: 0`, and fades content via `opacity` on the same
+duration/easing. `width` layout animation is intentional here: the computed
+`width` stays `auto`, so CSS `transition: width` never fires and WAAPI is the
+only way to interpolate the used width. Container-driven changes (window
+resize, font load, density switch) only re-sync the baseline, and `fullWidth`
+buttons plus attached `solaris-button-group` members skip the animation. The
+loading spinner additionally enters with `solaris-motion-pop-in`
+(`normal` / `decelerate`). Reduced motion (`prefers-reduced-motion` or
+`data-reduced-motion="true"`) disables the width animation, the content fade,
+the spinner animation, and the press scale.
 
 Inside an attached `solaris-button-group`, the button carries
 `data-group="horizontal"` (or `"vertical"`, from the group context). That
@@ -398,6 +457,17 @@ The following CSS variables can be customized:
 --solaris-button-custom-hover-border-color
 --solaris-button-custom-active-background
 --solaris-button-custom-active-border-color
+```
+
+### Gradient tokens
+
+```css
+--solaris-button-gradient-from
+--solaris-button-gradient-to
+--solaris-button-gradient-hover-from
+--solaris-button-gradient-hover-to
+--solaris-button-gradient-active-from
+--solaris-button-gradient-active-to
 ```
 
 ## Limitations (v1)

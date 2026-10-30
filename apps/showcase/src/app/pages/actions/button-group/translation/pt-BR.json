@@ -1,22 +1,14 @@
 {
   "button-group": {
     "anchor": "Suporte a âncora",
-    "attached": {
-      "false": "Separado",
-      "note": "Com attached=true os itens formam um bloco único com divisórias suaves. Com attached=false cada item mantém o próprio raio e há separação entre eles.",
-      "true": "Unido"
-    },
-    "attached-false": "Separado (attached=false)",
     "badge": "Composição com badge",
+    "attached": {
+      "note": "Com attached=true os itens formam um bloco único com divisórias suaves. Com attached=false cada item mantém o próprio raio e há separação entre eles."
+    },
     "basic": {
       "note": "Agrupe ações relacionadas. O grupo cuida do layout e da união visual; cada filho cuida da própria aparência e estado."
     },
     "basic-horizontal": "Grupo horizontal básico",
-    "density": {
-      "comfortable": "Confortável",
-      "compact": "Compacta",
-      "normal": "Normal"
-    },
     "description": "Componente que agrupa ações relacionadas com layout controlado e união visual.",
     "full-width": "Largura total",
     "future-note": "Componentes futuros",
@@ -32,12 +24,12 @@
       "note": "Mudanças de largura dentro de um item do grupo animam no passo motion-normal, então alternar loading cresce o item suavemente sem deslocar os vizinhos de golpe.",
       "toggle": "Alternar loading"
     },
-    "orientation": {
-      "horizontal": "Horizontal",
-      "vertical": "Vertical"
-    },
     "props": {
-      "note": "Tabela de props em breve, com o componente tabela."
+      "note": "Todos os inputs aceitos pelo componente, com tipos, valores e padrões.",
+      "colProp": "Prop",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Padrão"
     },
     "section": {
       "attached": "União (attached)",
@@ -53,11 +45,6 @@
       "sizes": "Tamanhos",
       "states": "Estados"
     },
-    "size": {
-      "lg": "Grande",
-      "md": "Médio",
-      "sm": "Pequeno"
-    },
     "size-density": {
       "note": "O size e a density do grupo são forçados em todos os filhos, padronizando a altura externa de cada item."
     },
@@ -65,6 +52,27 @@
       "note": "Desabilitado e loading pertencem a cada filho. O grupo só garante o layout correto."
     },
     "title": "Grupo de botões",
-    "vertical-icon": "Grupo vertical de ícones"
+    "vertical-icon": "Grupo vertical de ícones",
+    "example": {
+      "edit": "Editar",
+      "duplicate": "Duplicar",
+      "delete": "Excluir",
+      "save": "Salvar",
+      "saveChanges": "Salvar alterações",
+      "loading": "Carregando",
+      "cancel": "Cancelar",
+      "submit": "Enviar",
+      "editorActions": "Ações do editor",
+      "mood": "Humor",
+      "happy": "Feliz",
+      "neutral": "Neutra",
+      "sad": "Triste",
+      "moreSaveActions": "Mais ações de salvar",
+      "saveActions": "Ações de salvar",
+      "separatedActions": "Ações separadas",
+      "loadingActions": "Ações de carregamento",
+      "formActions": "Ações do formulário",
+      "copyPage": "Copiar página"
+    }
   }
 }

@@ -16,7 +16,7 @@ export const ICON_BUTTON_TRANSLATION_PREFIX = 'icon-button';
 export const ICON_BUTTON_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
     { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.actions', route: '/configuration' },
+    { labelKey: 'shell.sidebar.item.buttons' },
     { labelKey: 'shell.sidebar.item.icon-button' },
   ];
 
@@ -46,15 +46,78 @@ export const ICON_BUTTON_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
 export const ICON_BUTTON_SHOWCASE_IMPORT_CODE =
   "import { SolarisIconButtonDirective } from '@solaris-ui/angular';";
 
-export const ICON_BUTTON_SHOWCASE_MOTION_CODE = [
-  '<button solaris-icon-button color="primary" [loading]="loading" aria-label="Notifications">',
+export const ICON_BUTTON_SHOWCASE_BADGE_CODE = [
+  '<button solaris-icon-button aria-label="Notifications, 3 new">',
   '  <solaris-icon name="notification" [decorative]="true" />',
-  '  <solaris-badge solaris-icon-button-badge variant="count" color="danger" size="sm">3</solaris-badge>',
+  '  <solaris-badge',
+  '    solaris-icon-button-badge',
+  '    variant="count"',
+  '    color="danger"',
+  '    size="sm"',
+  '  >',
+  '    3',
+  '  </solaris-badge>',
   '</button>',
 ].join('\n');
 
-export const ICON_BUTTON_SHOWCASE_CUSTOM_VIOLET_CODE = [
-  '.my-custom-icon-button [solaris-icon-button] {',
+export const ICON_BUTTON_SHOWCASE_MOTION_HTML_CODE = [
+  '<button',
+  '  solaris-icon-button',
+  '  color="primary"',
+  '  [loading]="loading()"',
+  '  aria-label="Notifications, 3 new"',
+  '>',
+  '  <solaris-icon name="notification" [decorative]="true" />',
+  '  @if (showBadge()) {',
+  '    <solaris-badge',
+  '      solaris-icon-button-badge',
+  '      variant="count"',
+  '      color="danger"',
+  '      size="sm"',
+  '    >',
+  '      3',
+  '    </solaris-badge>',
+  '  }',
+  '</button>',
+].join('\n');
+
+export const ICON_BUTTON_SHOWCASE_MOTION_TS_CODE = [
+  "import { Component, input } from '@angular/core';",
+  '',
+  'import {',
+  '  SolarisBadgeComponent,',
+  '  SolarisIconButtonBadgeDirective,',
+  '  SolarisIconButtonDirective,',
+  '  SolarisIconComponent,',
+  "} from '@solaris-ui/angular';",
+  '',
+  '@Component({',
+  '  standalone: true,',
+  "  selector: 'app-motion-icon-button-example',",
+  '  imports: [',
+  '    SolarisBadgeComponent,',
+  '    SolarisIconButtonBadgeDirective,',
+  '    SolarisIconButtonDirective,',
+  '    SolarisIconComponent,',
+  '  ],',
+  "  templateUrl: './motion.component.html',",
+  '})',
+  'export class MotionIconButtonExample {',
+  '  readonly loading = input(false);',
+  '  readonly showBadge = input(true);',
+  '}',
+].join('\n');
+
+export const ICON_BUTTON_SHOWCASE_CUSTOM_HTML_CODE = [
+  '<div class="custom-icon-button-example__violet">',
+  '  <button solaris-icon-button color="custom" aria-label="Custom violet">',
+  '    <solaris-icon name="info" [decorative]="true" />',
+  '  </button>',
+  '</div>',
+].join('\n');
+
+export const ICON_BUTTON_SHOWCASE_CUSTOM_SCSS_CODE = [
+  '.custom-icon-button-example__violet [solaris-icon-button] {',
   '  --solaris-icon-button-custom-color: #ffffff;',
   '  --solaris-icon-button-custom-background: #9333ea;',
   '  --solaris-icon-button-custom-border-color: #9333ea;',
@@ -66,7 +129,7 @@ export const ICON_BUTTON_SHOWCASE_CUSTOM_VIOLET_CODE = [
 ].join('\n');
 
 export const ICON_BUTTON_SHOWCASE_APPEARANCES: readonly SolarisIconButtonAppearance[] =
-  ['solid', 'outline', 'ghost', 'tonal', 'surface'];
+  ['solid', 'outline', 'ghost', 'tonal', 'surface', 'gradient'];
 
 export const ICON_BUTTON_SHOWCASE_COLORS: readonly SolarisIconButtonColor[] = [
   'neutral',

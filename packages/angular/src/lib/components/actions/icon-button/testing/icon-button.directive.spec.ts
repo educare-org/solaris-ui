@@ -187,6 +187,15 @@ describe('SolarisIconButtonDirective', () => {
       const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
       expect(el.getAttribute('data-appearance')).toBe('surface');
     });
+
+    it('should support appearance gradient', () => {
+      TestBed.configureTestingModule({});
+      const fixture = TestBed.createComponent(TestHost);
+      fixture.componentInstance.appearance = 'gradient';
+      fixture.detectChanges();
+      const el = fixture.nativeElement.querySelector('[solaris-icon-button]');
+      expect(el.getAttribute('data-appearance')).toBe('gradient');
+    });
   });
 
   describe('color', () => {

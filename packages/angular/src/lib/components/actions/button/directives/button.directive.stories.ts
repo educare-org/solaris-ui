@@ -11,7 +11,7 @@ const meta: Meta<SolarisButtonDirective> = {
   argTypes: {
     appearance: {
       control: 'select',
-      options: ['solid', 'outline', 'ghost', 'tonal', 'surface'],
+      options: ['solid', 'outline', 'ghost', 'tonal', 'surface', 'gradient'],
     },
     color: {
       control: 'select',
@@ -89,4 +89,7 @@ export const Comfortable: Story = {
 };
 export const Danger: Story = {
   args: { appearance: 'solid', color: 'danger', density: 'normal' },
+};
+export const Gradient: Story = {
+  args: { appearance: 'gradient', color: 'primary', size: 'md' },
 };

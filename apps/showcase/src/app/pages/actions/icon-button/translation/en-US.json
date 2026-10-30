@@ -3,13 +3,6 @@
     "accessible-name": "Accessible Name",
     "accessible-name-note": "Both aria-label and aria-labelledby provide an accessible name for screen readers. Use aria-label directly on the button, or aria-labelledby to reference an element with the label text elsewhere in the DOM.",
     "anchor": "Anchor (link)",
-    "appearance": {
-      "ghost": "Ghost",
-      "outline": "Outline",
-      "solid": "Solid",
-      "surface": "Surface",
-      "tonal": "Tonal"
-    },
     "appearances": {
       "label": "Appearances",
       "note": "Combine an appearance with a color. Appearances cover every emphasis level, from the solid CTA to subtle ghost actions."
@@ -21,24 +14,10 @@
     "chromeless": {
       "note": "Chromeless keeps the size box, removes background and border, and enlarges the icon (60% of the box). The whole scales with size × density. Hover or press to see the micro-interaction."
     },
-    "color": {
-      "danger": "Danger",
-      "info": "Info",
-      "neutral": "Neutral",
-      "primary": "Primary",
-      "success": "Success",
-      "warning": "Warning"
-    },
     "colors": "Colors",
     "custom": {
       "label": "Custom Color (CSS variables)",
       "note": "Custom is not an arbitrary input. Define the custom color tokens in CSS."
-    },
-    "density": {
-      "comfortable": "Comfortable",
-      "compact": "Compact",
-      "label": "Density",
-      "normal": "Normal"
     },
     "description": "Attribute directive that turns buttons and anchors into icon-only Solaris-themed action buttons.",
     "installation": {
@@ -50,7 +29,11 @@
       "toggle-loading": "Toggle loading"
     },
     "props": {
-      "note": "Props table coming soon, with the table component."
+      "note": "Every input the directive accepts, with types, values, and defaults.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
     },
     "radius": "Radius",
     "section": {
@@ -70,28 +53,14 @@
       "sizes": "Sizes",
       "states": "States"
     },
-    "shape": {
-      "label": "Shape",
-      "normal": "Normal",
-      "wide": "Wide"
-    },
     "shape-radius": {
       "note": "Radius controls corner rounding; the wide shape stretches the button horizontally."
-    },
-    "size": {
-      "lg": "Large",
-      "md": "Medium",
-      "sm": "Small"
     },
     "size-density": {
       "note": "Size and density combine into a 3×3 matrix, just like the standard button. The outer height always equals the control-height token of the combination."
     },
     "states": {
       "label": "States",
-      "tab": {
-        "disabled": "Disabled",
-        "loading": "Loading"
-      },
       "toggle": {
         "disabled": {
           "off": "Enable",
