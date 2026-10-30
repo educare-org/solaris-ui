@@ -2,7 +2,11 @@
 
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, sep } from 'node:path';
-import { workspaceRoot, hasExceptionNearby } from './shared.mjs';
+import {
+  workspaceRoot,
+  hasExceptionNearby,
+  walkFilesByExtension as walk,
+} from './shared.mjs';
 
 const COMPONENTS_BASE = join(
   workspaceRoot,
@@ -32,19 +36,6 @@ const CSS_HEADING = /^##+ .*(css|custom|customiz|styling|variables).*/i;
 
 const errors = [];
 const warnings = [];
-
-function walk(dir, ext, out = []) {
-  if (!existsSync(dir)) return out;
-  for (const entry of readdirSync(dir)) {
-    const full = join(dir, entry);
-    if (statSync(full).isDirectory()) {
-      walk(full, ext, out);
-    } else if (entry.endsWith(ext)) {
-      out.push(full);
-    }
-  }
-  return out;
-}
 
 function baseName(filePath) {
   return filePath.split(/[/\\]/).pop();

@@ -35,6 +35,19 @@ export function readdirSafe(dirPath) {
   }
 }
 
+export function walkFilesByExtension(dir, ext, out = []) {
+  if (!fs.existsSync(dir)) return out;
+  for (const entry of fs.readdirSync(dir)) {
+    const full = path.join(dir, entry);
+    if (fs.statSync(full).isDirectory()) {
+      walkFilesByExtension(full, ext, out);
+    } else if (entry.endsWith(ext)) {
+      out.push(full);
+    }
+  }
+  return out;
+}
+
 export function readFileSafe(filePath) {
   const resolved = path.isAbsolute(filePath)
     ? filePath

@@ -6,6 +6,7 @@ import {
   printSummary,
   readdirSafe,
   readFileSafe,
+  collectFiles,
 } from './shared.mjs';
 
 const errors = [];
@@ -155,21 +156,11 @@ if (translationDirs.length === 0) {
   }
 }
 
-function walkTs(dir, callback) {
-  for (const entry of readdirSafe(dir)) {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      if (entry.name === 'node_modules' || entry.name.startsWith('.')) continue;
-      walkTs(fullPath, callback);
-    } else if (entry.name.endsWith('.ts') && !entry.name.endsWith('.spec.ts')) {
-      callback(fullPath);
-    }
-  }
-}
-
 for (const root of ['packages/angular/src/lib/services/translation']) {
   if (!fileExists(root)) continue;
-  walkTs(root, (file) => {
+  for (const file of collectFiles(root, /\.ts$/, {
+    excludeFiles: [/\.spec\.ts$/],
+  })) {
     const content = readFileSafe(file);
     for (const name of FORBIDDEN_CONSTS) {
       if (content.includes(name)) {
@@ -178,7 +169,7 @@ for (const root of ['packages/angular/src/lib/services/translation']) {
         );
       }
     }
-  });
+  }
 }
 
 const serviceFiles = [

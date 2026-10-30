@@ -26,5 +26,5 @@
       "reason": "Date libraries should be evaluated only when datepicker/calendar components require them"
     }
   ],
-  "heavyRootDeps": ["tailwindcss", "postcss", "autoprefixer"]
+  "heavyRootDeps": ["tailwindcss", "autoprefixer"]
 }
