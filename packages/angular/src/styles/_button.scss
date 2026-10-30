@@ -49,6 +49,7 @@
   --solaris-button-active-background: var(--solaris-neutral-inverse-muted);
 
   cursor: pointer;
+  text-wrap: nowrap;
   user-select: none;
   align-items: center;
   display: inline-flex;
