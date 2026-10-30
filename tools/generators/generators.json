@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "generators": {
+    "component": {
+      "factory": "./component/index",
+      "schema": "./component/schema.json",
+      "description": "Scaffold a Solaris component following the folder contract"
+    }
+  }
+}

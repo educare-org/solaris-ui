@@ -60,7 +60,7 @@ console.log('\n--- Check Suite ---');
 runCommand('pnpm check', 'pnpm check', true);
 
 console.log('\n--- Extended Checks ---');
-runCommand('check:bundle', 'node tools/scripts/check-bundle.mjs', false);
+runTooling('size-limit');
 
 console.log('\n--- Tooling ---');
 runTooling('format:check');

@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Component name in kebab-case (e.g. color-picker)",
+      "x-prompt": "What is the component name (kebab-case)?"
+    },
+    "category": {
+      "type": "string",
+      "description": "Component category",
+      "enum": [
+        "actions",
+        "forms",
+        "feedback",
+        "overlay",
+        "navigation",
+        "data-display",
+        "interaction",
+        "icon",
+        "scheduling"
+      ],
+      "default": "actions",
+      "x-prompt": "Which category does the component belong to?"
+    },
+    "type": {
+      "type": "string",
+      "description": "Scaffold kind",
+      "enum": ["component", "directive"],
+      "default": "component"
+    }
+  },
+  "required": ["name"]
+}

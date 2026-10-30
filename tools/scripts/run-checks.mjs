@@ -1,4 +1,4 @@
-import { execFileSync } from 'node:child_process';
+import { execFileSync, execSync } from 'node:child_process';
 import path from 'node:path';
 import { workspaceRoot } from './shared.mjs';
 
@@ -21,11 +21,8 @@ const nodeSteps = [
   'check-workspace',
   'check-package-manager',
   'check-scripts',
-  'check-architecture',
   'check-docs',
-  'check-security',
   'check-dependencies',
-  'check-tokens',
   'check-token-references',
   'check-translation',
 ];
@@ -57,7 +54,7 @@ function runNode(script, scriptArgs = []) {
 function runPnpm(script) {
   console.log(`\n▶ pnpm ${script}`);
   try {
-    execFileSync('pnpm', [script], {
+    execSync(`pnpm ${script}`, {
       stdio: 'inherit',
       cwd: workspaceRoot,
       shell: true,

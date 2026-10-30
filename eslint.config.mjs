@@ -7,7 +7,13 @@ export default [
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   {
-    ignores: ['**/dist', '**/out-tsc', '**/storybook-static', '.nx'],
+    ignores: [
+      '**/dist',
+      '**/out-tsc',
+      '**/storybook-static',
+      '.nx',
+      'tools/generators/**/files/**',
+    ],
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -61,6 +67,25 @@ export default [
     },
     rules: {
       'solaris/no-hardcoded-i18n-text': 'error',
+      'solaris/no-dangerous-security-patterns': 'error',
+    },
+  },
+  {
+    files: [
+      'packages/angular/src/lib/**/*.ts',
+      'apps/showcase/src/app/**/*.ts',
+    ],
+    ignores: [
+      '**/*.spec.ts',
+      '**/*.test.ts',
+      '**/*.stories.ts',
+      '**/testing/**',
+    ],
+    plugins: {
+      solaris,
+    },
+    rules: {
+      'solaris/no-forbidden-lib-imports': 'error',
     },
   },
 ];

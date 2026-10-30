@@ -1,6 +1,8 @@
 {
   "extends": ["stylelint-config-standard-scss"],
+  "plugins": ["./tools/stylelint-plugin-solaris/index.mjs"],
   "rules": {
+    "solaris/no-raw-design-values": null,
     "selector-pseudo-element-no-unknown": [
       true,
       {
@@ -74,5 +76,16 @@
     "coverage/**/*.scss",
     "node_modules/**/*.scss",
     ".nx/**/*.scss"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "packages/angular/src/lib/**/*.scss",
+        "packages/angular/src/styles/**/*.scss"
+      ],
+      "rules": {
+        "solaris/no-raw-design-values": true
+      }
+    }
   ]
 }
