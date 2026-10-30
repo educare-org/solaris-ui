@@ -326,4 +326,55 @@ test.describe('Media carousel', () => {
     expect(colors.active).toBe('rgb(242, 245, 251)');
     expect(colors.inactive).not.toBe(colors.active);
   });
+
+  test('centers the active slide with neighbors peeking', async ({ page }) => {
+    const region = page
+      .locator('#peek')
+      .getByRole('region', { name: 'Featured stories' });
+    await expect(region).toHaveAttribute('data-visible', 'peek');
+    const geometry = await region.evaluate((host) => {
+      const viewport = host.querySelector(
+        '.solaris-media-carousel__viewport',
+      ) as HTMLElement;
+      const slide = host.querySelector(
+        '.solaris-media-carousel__slide[data-active]',
+      ) as HTMLElement;
+      const viewportBox = viewport.getBoundingClientRect();
+      const slideBox = slide.getBoundingClientRect();
+      return {
+        slideWidth: slideBox.width,
+        viewportWidth: viewportBox.width,
+        slideLeft: slideBox.left - viewportBox.left,
+      };
+    });
+    expect(geometry.slideWidth).toBeLessThan(geometry.viewportWidth);
+    expect(geometry.slideWidth).toBeGreaterThan(geometry.viewportWidth * 0.7);
+    expect(geometry.slideLeft).toBeGreaterThan(0);
+  });
+
+  test('dims side slides and navigates with arrows in peek', async ({
+    page,
+  }) => {
+    const region = page
+      .locator('#peek')
+      .getByRole('region', { name: 'Featured stories' });
+    const opacities = await region.evaluate((host) => {
+      const active = host.querySelector(
+        '.solaris-media-carousel__slide[data-active]',
+      );
+      const inactive = host.querySelector(
+        '.solaris-media-carousel__slide:not([data-active])',
+      );
+      return {
+        active: active ? getComputedStyle(active).opacity : null,
+        inactive: inactive ? getComputedStyle(inactive).opacity : null,
+      };
+    });
+    expect(opacities.active).toBe('1');
+    expect(opacities.inactive).not.toBe(opacities.active);
+    await region.getByRole('button', { name: 'Next slide' }).click();
+    await expect(
+      region.getByRole('group', { name: '2 of 3' }),
+    ).not.toHaveAttribute('aria-hidden', 'true');
+  });
 });

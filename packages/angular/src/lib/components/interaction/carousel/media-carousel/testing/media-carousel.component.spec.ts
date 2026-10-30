@@ -560,6 +560,65 @@ describe('SolarisMediaCarouselComponent', () => {
         .length,
     ).toBe(3);
   });
+
+  it('should center the peek track with a gap gutter', () => {
+    const fixture = createCarousel({ visibleCount: 'peek' });
+    const track = element(fixture).querySelector(
+      '.solaris-media-carousel__track',
+    ) as HTMLElement;
+    expect(track.style.transform).toBe('translateX(calc(10%))');
+    fixture.componentRef.setInput('activeIndex', 1);
+    fixture.detectChanges();
+    expect(track.style.transform).toBe(
+      'translateX(calc(-70% - 1 * var(--solaris-carousel-gap)))',
+    );
+  });
+
+  it('should keep single mode on a viewport-wide track', () => {
+    const fixture = createCarousel({ visibleCount: 'single' });
+    const track = element(fixture).querySelector(
+      '.solaris-media-carousel__track',
+    ) as HTMLElement;
+    expect(track.style.transform).toBe('translateX(-0%)');
+  });
+
+  it('should ship a print baseline with a static first slide', async () => {
+    const { readFileSync } = await import('node:fs');
+    const { resolve } = await import('node:path');
+    const scss = readFileSync(
+      resolve(
+        process.cwd(),
+        'packages/angular/src/lib/components/interaction/carousel/media-carousel/component/media-carousel.component.scss',
+      ),
+      'utf8',
+    );
+    expect(scss).toContain('@media print');
+    const print = scss.split('@media print')[1] ?? '';
+    expect(print).toContain('.solaris-media-carousel__track');
+    expect(print).toContain('transform: none !important');
+    expect(print).toContain('.solaris-media-carousel__slide:first-child');
+    expect(print).toContain('.solaris-media-carousel__arrow');
+    expect(print).toContain('.solaris-media-carousel__dots');
+    expect(print).toContain('.solaris-media-carousel__preview');
+  });
+
+  it('should guard peek motion for reduced motion', async () => {
+    const { readFileSync } = await import('node:fs');
+    const { resolve } = await import('node:path');
+    const scss = readFileSync(
+      resolve(
+        process.cwd(),
+        'packages/angular/src/lib/components/interaction/carousel/media-carousel/component/media-carousel.component.scss',
+      ),
+      'utf8',
+    );
+    expect(scss).toContain(
+      ":host([data-visible='peek']) .solaris-media-carousel__slide",
+    );
+    expect(scss).toContain('scale(0.92)');
+    expect(scss).toContain('var(--solaris-motion-duration-normal)');
+    expect(scss).toContain('var(--solaris-motion-easing-standard)');
+  });
 });
 
 describe('SolarisMediaCarouselComponent i18n', () => {

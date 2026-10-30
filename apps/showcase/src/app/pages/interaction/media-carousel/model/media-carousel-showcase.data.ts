@@ -33,6 +33,7 @@ export const MEDIA_CAROUSEL_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'chrome', labelKey: 'media-carousel.section.chrome' },
   { anchor: 'progress', labelKey: 'media-carousel.section.progress' },
   { anchor: 'ratios', labelKey: 'media-carousel.section.ratios' },
+  { anchor: 'peek', labelKey: 'media-carousel.section.peek' },
   { anchor: 'installation', labelKey: 'media-carousel.section.installation' },
   { anchor: 'props', labelKey: 'media-carousel.section.props' },
 ];
@@ -152,6 +153,14 @@ export const MEDIA_CAROUSEL_SHOWCASE_PROGRESS_CODE = [
   '  navigation="progress"',
   '  [autoplay]="true"',
   '  [duration]="4000"',
+  '  ariaLabel="Featured stories"',
+  '/>',
+].join('\n');
+
+export const MEDIA_CAROUSEL_SHOWCASE_PEEK_CODE = [
+  '<solaris-media-carousel',
+  '  [slides]="slides"',
+  '  visibleCount="peek"',
   '  ariaLabel="Featured stories"',
   '/>',
 ].join('\n');
