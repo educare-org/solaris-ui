@@ -10,6 +10,18 @@ export class SolarisMediaCarouselHarness extends ComponentHarness {
     '.solaris-media-carousel__arrow--next',
   );
   private readonly dots = this.locatorForAll('.solaris-media-carousel__dot');
+  private readonly previewThumbs = this.locatorForAll(
+    '.solaris-media-carousel__preview-thumb',
+  );
+
+  async goToPreview(index: number): Promise<void> {
+    const buttons = await this.previewThumbs();
+    await buttons[index]?.click();
+  }
+
+  async getPreviewCount(): Promise<number> {
+    return (await this.previewThumbs()).length;
+  }
 
   async goToPrevious(): Promise<void> {
     await (await this.prevButton()).click();

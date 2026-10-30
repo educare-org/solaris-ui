@@ -74,6 +74,19 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section anchor="preview" titleKey="media-carousel.section.preview">
+    <p class="media-carousel-showcase__note">
+      {{ 'media-carousel.preview.note' | translate }}
+    </p>
+    <solaris-preview-code [code]="previewCode" language="html">
+      <solaris-media-carousel
+        [slides]="previewSlides"
+        navigation="preview"
+        [ariaLabel]="'media-carousel.examples.label' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section
     anchor="installation"
     titleKey="media-carousel.section.installation"

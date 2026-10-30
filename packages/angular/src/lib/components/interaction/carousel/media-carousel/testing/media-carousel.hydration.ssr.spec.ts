@@ -120,4 +120,42 @@ describe('SolarisMediaCarousel hydration matrix', () => {
     ).toBe('2 of 3');
     cleanupHydrationScenario(result);
   });
+
+  it('preview hydrates with thumbs and thumb navigation', async () => {
+    const tag = 'solaris-media-matrix-preview';
+    @Component({
+      selector: tag,
+      standalone: true,
+      imports: [SolarisMediaCarouselComponent],
+      template: `<solaris-media-carousel
+        [slides]="slides"
+        navigation="preview"
+        ariaLabel="Preview"
+      />`,
+    })
+    class PreviewHost {
+      slides = [
+        { type: 'image', src: 'slide-1.jpg', alt: 'First story' },
+        { type: 'video', src: 'tour.mp4', poster: 'tour.jpg', alt: 'Tour' },
+        { type: 'image', src: 'slide-3.jpg', alt: 'Third story' },
+      ];
+    }
+    const result = await ssrAndHydrate(PreviewHost, tag);
+    assertHydrationClean(result, 'preview');
+    expect(
+      document.querySelectorAll('.solaris-media-carousel__preview-thumb')
+        .length,
+    ).toBe(3);
+    const thumbs = document.querySelectorAll(
+      '.solaris-media-carousel__preview-thumb',
+    );
+    (thumbs[2] as HTMLButtonElement).click();
+    result.appRef?.tick();
+    expect(
+      document
+        .querySelector('.solaris-media-carousel__slide[data-active]')
+        ?.getAttribute('aria-label'),
+    ).toBe('3 of 3');
+    cleanupHydrationScenario(result);
+  });
 });

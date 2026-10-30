@@ -20,6 +20,9 @@
     "loop": {
       "note": "Sin repetición, las flechas se detienen en la primera y la última diapositiva y exponen aria-disabled."
     },
+    "preview": {
+      "note": "Con vista previa, una franja sobre la imagen muestra la diapositiva actual más las dos siguientes miniaturas. Las miniaturas de video traen la insignia Reproducir; hacer clic en una diapositiva o miniatura emite slideActivate para el reproductor del consumidor."
+    },
     "props": {
       "note": "Tabla de props próximamente, con el componente de tabla."
     },
@@ -29,6 +32,7 @@
       "examples": "Ejemplos",
       "installation": "Instalación",
       "loop": "Repetición",
+      "preview": "Vista previa",
       "props": "Props"
     },
     "title": "Carrusel multimedia"

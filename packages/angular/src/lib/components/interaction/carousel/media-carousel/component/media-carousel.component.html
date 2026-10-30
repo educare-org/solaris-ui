@@ -1,3 +1,37 @@
+<ng-template #preview>
+  <div class="solaris-media-carousel__preview" role="group">
+    @for (index of previewIndices(); track index) {
+      @if (previewSlide(index); as slide) {
+        <button
+          type="button"
+          class="solaris-media-carousel__preview-thumb"
+          (click)="activatePreview(index)"
+          [attr.aria-label]="dotLabel(index)"
+          [attr.aria-current]="index === currentIndex() ? 'true' : null"
+          [attr.data-active]="index === currentIndex() ? '' : null"
+          [attr.data-video]="slide.type === 'video' ? '' : null"
+        >
+          <img
+            class="solaris-media-carousel__preview-image"
+            [src]="slideImageSrc(slide)"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+          />
+          @if (slide.type === 'video') {
+            <span
+              class="solaris-media-carousel__preview-badge"
+              aria-hidden="true"
+              >{{ resolvedPlayLabel() }}</span
+            >
+          }
+        </button>
+      }
+    }
+  </div>
+</ng-template>
+
 <ng-template #dots>
   <div
     class="solaris-media-carousel__dots"
@@ -86,13 +120,20 @@
           [attr.inert]="$index === currentIndex() ? null : ''"
           [attr.data-active]="$index === currentIndex() ? '' : null"
         >
-          <img
-            class="solaris-media-carousel__image"
-            [src]="slideImageSrc(slide)"
-            [alt]="slideAlt(slide)"
-            loading="lazy"
-            decoding="async"
-          />
+          <button
+            type="button"
+            class="solaris-media-carousel__slide-trigger"
+            (click)="activateSlide(slide)"
+            [attr.aria-label]="slideAlt(slide) || slideLabel($index)"
+          >
+            <img
+              class="solaris-media-carousel__image"
+              [src]="slideImageSrc(slide)"
+              [alt]="slideAlt(slide)"
+              loading="lazy"
+              decoding="async"
+            />
+          </button>
         </div>
       }
     </div>
@@ -118,6 +159,9 @@
     }
     @if (showDots() && !isDotsOutside()) {
       <ng-container *ngTemplateOutlet="dots" />
+    }
+    @if (showPreview()) {
+      <ng-container *ngTemplateOutlet="preview" />
     }
   }
 </div>

@@ -25,6 +25,7 @@ import {
   MEDIA_CAROUSEL_SHOWCASE_LOOP_CODE,
   MEDIA_CAROUSEL_SHOWCASE_NEXT,
   MEDIA_CAROUSEL_SHOWCASE_OUTSIDE_CODE,
+  MEDIA_CAROUSEL_SHOWCASE_PREVIEW_CODE,
   MEDIA_CAROUSEL_SHOWCASE_PREV,
   MEDIA_CAROUSEL_SHOWCASE_SLUG,
   MEDIA_CAROUSEL_SHOWCASE_TOC_ITEMS,
@@ -61,6 +62,7 @@ export class MediaCarouselShowcasePage {
   protected readonly outsideCode = MEDIA_CAROUSEL_SHOWCASE_OUTSIDE_CODE;
   protected readonly loopCode = MEDIA_CAROUSEL_SHOWCASE_LOOP_CODE;
   protected readonly autoplayCode = MEDIA_CAROUSEL_SHOWCASE_AUTOPLAY_CODE;
+  protected readonly previewCode = MEDIA_CAROUSEL_SHOWCASE_PREVIEW_CODE;
 
   protected readonly slides: readonly SolarisMediaSlide[] = [
     {
@@ -72,6 +74,26 @@ export class MediaCarouselShowcasePage {
       type: 'image',
       src: "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450'%3E%3Crect width='800' height='450' fill='%2316a34a'/%3E%3C/svg%3E",
       alt: 'Second story',
+    },
+    {
+      type: 'image',
+      src: "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450'%3E%3Crect width='800' height='450' fill='%23d97706'/%3E%3C/svg%3E",
+      alt: 'Third story',
+    },
+  ];
+
+  protected readonly previewSlides: readonly SolarisMediaSlide[] = [
+    {
+      type: 'image',
+      src: "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450'%3E%3Crect width='800' height='450' fill='%234282fb'/%3E%3C/svg%3E",
+      alt: 'First story',
+    },
+    {
+      type: 'video',
+      src: 'tour.mp4',
+      poster:
+        "data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='450'%3E%3Crect width='800' height='450' fill='%2316a34a'/%3E%3C/svg%3E",
+      alt: 'Product tour',
     },
     {
       type: 'image',
