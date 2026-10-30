@@ -24,6 +24,7 @@ navigation
 data-display
 interaction
 icon
+scheduling
 ```
 
 ## Minimum component questions
@@ -68,29 +69,48 @@ When applicable, components must support:
 
 ## File organization
 
-Recommended shape:
+Required shape:
 
 ```txt
 button/
-  component/
-    button.component.ts
-    button.component.html
-    button.component.scss
-  model/
-    button.types.ts
-  testing/
-    button.component.spec.ts
-    button.harness.ts
-  docs/
-    button.md
-  index.ts
+  component/              .ts, .html, .scss (wiring only — no exported types, no utils)
+  model/                  types, defaults, consts (data only — no Angular imports)
+  functions/              pure logic, utils, helpers (no Angular imports, testable)
+  translation/            pt-BR.json, en-US.json, es-419.json + index.ts
+  testing/                spec files, harnesses (never beside the component file)
+  docs/                   component docs
+  token/                  optional — only when the component owns tokens
+  service/                optional — only when the component owns a service
+  directives/             optional — only when the component owns directives
+  index.ts                barrel export (only public entry point)
 ```
 
-The structure must not be inflated when not needed.
+`component/` holds wiring: inputs, outputs, signals, lifecycle, DOM glue.
+`model/` holds data: types, interfaces, defaults, consts. It must not import
+Angular. `functions/` holds logic: pure functions and utils extracted from
+the component so they are independently testable. It must not import Angular
+or browser globals. `translation/` ships all three locales
+(`pt-BR`, `en-US`, `es-419`) — enforced by `check-translation.mjs`.
 Specs and harnesses live in `testing/` (never beside the component file).
-`directives/`, `service/`, and `token/` folders live alongside only when the
+`token/`, `service/`, and `directives/` folders live alongside only when the
 component needs them, per `docs/architecture/architecture.md` (accepted, not
-a violation).
+a violation). `validate-component.mjs` requires `functions/` for new
+components and warns on contract drift in existing ones (missing `functions/`,
+types or helpers inside `component/`, Angular value imports inside `model/`);
+warnings become blocking errors once the migration completes.
+
+## Folder import contract
+
+| Folder         | May import Angular | May import browser globals | May export types | May export functions |
+| -------------- | ------------------ | -------------------------- | ---------------- | -------------------- |
+| `component/`   | yes                | via SSR-safe wrappers only | no               | no                   |
+| `model/`       | no                 | no                         | yes              | consts/defaults only |
+| `functions/`   | no                 | no                         | yes              | yes                  |
+| `translation/` | no                 | no                         | maps only        | no                   |
+| `testing/`     | yes                | yes (guarded)              | no               | helpers for tests    |
+
+Mixing models and functions inside the component file is an error, including
+in showcase pages (see showcase structure below).
 
 ## Public API
 
@@ -151,6 +171,10 @@ title / titleKey
 description / descriptionKey
 ariaLabel / ariaLabelKey
 ```
+
+Every dictionary ships `pt-BR`, `en-US`, and `es-419` — enforced by CI.
+Values identical to `en-US` are allowed (proper nouns, brand and market
+terms stay in English). See `docs/standards/i18n-standard.md`.
 
 Hardcoded public text is forbidden.
 

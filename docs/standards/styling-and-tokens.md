@@ -41,9 +41,10 @@ density: compact | normal | comfortable
 radius: none | sm | md | lg | xl | full
 ```
 
-`radius: xl | full` is forbidden on textual inputs (see
-`docs/architecture/forms-foundation-contract.md` §12.3 — textual fields allow
-only `none | sm | md | lg`); allowed elsewhere.
+`radius: xl | full` is forbidden on textual inputs (input, textarea, select,
+date pickers). Textual fields allow only `none | sm | md | lg` (`md` is the
+default); `xl` and `full` would break text clipping and touch affordance.
+`xl | full` remain allowed elsewhere (badges, avatars, toggles).
 
 Custom arbitrary values are not allowed unless explicitly supported.
 

@@ -120,7 +120,8 @@ service, pipe and validators keep operating on dotted keys
 (`solaris.select.empty`) with zero runtime cost. Dictionaries stay nested
 (`{ "solaris": { "select": { "empty": "..." } } }`), values are always
 literals (no `@:` links), keys are sorted, and values intentionally equal to
-`en-US` must be listed in `packages/angular/src/lib/translation-terms.allowlist.json`.
+`en-US` (proper nouns, brand terms, market terms such as "Segmented Control")
+are allowed without declaration.
 
 ## SSR safety
 

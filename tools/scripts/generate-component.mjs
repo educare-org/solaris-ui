@@ -32,6 +32,7 @@ const CATEGORIES = [
   'data-display',
   'interaction',
   'icon',
+  'scheduling',
 ];
 
 function toPascal(name) {
@@ -97,7 +98,14 @@ function main() {
   console.log(`  Target: ${targetDir}\n`);
 
   // Create directory structure
-  const dirs = ['component', 'model', 'testing', 'docs'];
+  const dirs = [
+    'component',
+    'model',
+    'functions',
+    'translation',
+    'testing',
+    'docs',
+  ];
   for (const dir of dirs) {
     mkdirSync(join(targetDir, dir), { recursive: true });
     console.log(`  📁 ${dir}/`);
@@ -124,6 +132,30 @@ function main() {
     );
     console.log(`  📄 ${dest}`);
   }
+
+  const functionsContent = `export function placeholder(): void {\n  return undefined;\n}\n`;
+  writeFileSync(
+    join(targetDir, `functions/${kebabName}.utils.ts`),
+    functionsContent,
+    'utf-8',
+  );
+  console.log(`  📄 functions/${kebabName}.utils.ts`);
+
+  for (const locale of ['en-US', 'pt-BR', 'es-419']) {
+    writeFileSync(
+      join(targetDir, `translation/${locale}.json`),
+      '{}\n',
+      'utf-8',
+    );
+    console.log(`  📄 translation/${locale}.json`);
+  }
+  const translationIndex = `import enUS from './en-US.json';\nimport ptBR from './pt-BR.json';\nimport es419 from './es-419.json';\n\nexport const translations = {\n  'en-US': enUS,\n  'pt-BR': ptBR,\n  'es-419': es419,\n};\n`;
+  writeFileSync(
+    join(targetDir, 'translation/index.ts'),
+    translationIndex,
+    'utf-8',
+  );
+  console.log(`  📄 translation/index.ts`);
 
   // Create index.ts
   const indexContent = `export { Solaris${pascalName}Component } from './component/${kebabName}.component';

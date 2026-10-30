@@ -4,30 +4,44 @@
 
 Read the following docs in order:
 
-1. `COMPONENT_STANDARD.md` — component categories, mandatory states, API rules
-2. `ACCESSIBILITY_STANDARD.md` — ARIA, keyboard, focus requirements
-3. `TESTING_STRATEGY.md` — what and how to test
-4. `STYLING_AND_TOKENS.md` — token-driven styling
-5. `DEFINITION_OF_DONE.md` — acceptance criteria
+1. `docs/standards/component-standard.md` — component categories, mandatory states, API rules
+2. `docs/standards/accessibility-standard.md` — ARIA, keyboard, focus requirements
+3. `docs/quality-and-validation/testing-strategy.md` — what and how to test
+4. `docs/standards/styling-and-tokens.md` — token-driven styling
+5. `docs/quality-and-validation/definition-of-done.md` — acceptance criteria
 
 ## Directory structure
 
 ```
 packages/angular/src/lib/components/<category>/<component-name>/
 ├── component/
-│   ├── <component-name>.component.ts
+│   ├── <component-name>.component.ts    (wiring only — no exported types, no utils)
 │   ├── <component-name>.component.html
 │   └── <component-name>.component.scss
-├── directives/          (optional — if the component has sub-directives)
 ├── model/
-│   ├── <component-name>.types.ts
-│   └── <component-name>.tokens.ts  (optional)
+│   ├── <component-name>.types.ts        (types, interfaces — no Angular imports)
+│   └── <component-name>.defaults.ts     (defaults, consts)
+├── functions/
+│   └── <component-name>.utils.ts        (pure logic — no Angular imports)
+├── translation/
+│   ├── en-US.json
+│   ├── pt-BR.json
+│   ├── es-419.json
+│   └── index.ts
+├── directives/          (optional — if the component has sub-directives)
+├── token/               (optional — if the component owns tokens)
 ├── testing/
 │   └── <component-name>.component.spec.ts
 ├── docs/
 │   └── <component-name>.md
 └── index.ts
 ```
+
+`component/` never exports types or utils. `model/` never imports Angular
+values. `functions/` never imports Angular or browser globals.
+`validate-component.mjs` reports drift as warnings during migration
+(errors for `functions/` purity) — violations in new code block CI after
+the migration completes.
 
 For **directives** (no template), use `directives/<name>.directive.ts` instead of `component/`.
 
@@ -126,7 +140,7 @@ describe('SolarisComponentComponent', () => {
 });
 ```
 
-See `TESTING_STRATEGY.md` for detailed test requirements.
+See `docs/quality-and-validation/testing-strategy.md` for detailed test requirements.
 
 ### 5. Write documentation
 
@@ -169,14 +183,17 @@ Describe what was added. The changeset is required for any change in `packages/a
 
 ## Checklist
 
-- [ ] Types defined in `model/` (input/output types, config interface)
+- [ ] Types in `model/`, logic in `functions/`, wiring in `component/`
+- [ ] `translation/` ships `en-US` + `pt-BR` + `es-419`
 - [ ] Component standalone with OnPush
 - [ ] Inputs use `input()` signal, outputs use `output()`
 - [ ] Host class set (`solaris-<name>`)
 - [ ] CSS uses `--solaris-*` tokens only
 - [ ] Variants use `data-*` attributes
+- [ ] Motion: reduced-motion guard on every transition/animation
 - [ ] Spec file created with minimum 3 tests
-- [ ] Documentation created with all required sections
+- [ ] Documentation created with all required sections, in English
 - [ ] Exported in barrel (`index.ts`)
 - [ ] Changeset created
 - [ ] `pnpm check` passes
+- [ ] No commit without human review (AI never commits autonomously)
