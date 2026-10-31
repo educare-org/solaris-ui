@@ -141,7 +141,7 @@ export class SolarisButtonDirective
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent): void {
-    this.handleActionClick(event);
+    void this.handleActionClick(event);
   }
 
   ngAfterViewInit(): void {
