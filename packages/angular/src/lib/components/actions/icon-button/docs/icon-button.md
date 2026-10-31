@@ -75,19 +75,25 @@ Used on a badge element projected inside the icon button to position it correctl
 
 ## Appearances
 
-| Appearance | Visual                                 |
-| ---------- | -------------------------------------- |
-| `solid`    | Filled background, high visual weight  |
-| `outline`  | Transparent background, visible border |
-| `ghost`    | No background or border, subtle hover  |
-| `tonal`    | Soft background, subtle border         |
-| `surface`  | Muted background, no border            |
-| `gradient` | `135deg` ramp from `solid` to darker   |
+| Appearance | Visual                                                             |
+| ---------- | ------------------------------------------------------------------ |
+| `solid`    | Filled background, high visual weight                              |
+| `outline`  | Transparent background, visible border                             |
+| `ghost`    | No background or border, subtle hover                              |
+| `tonal`    | Soft background, subtle border                                     |
+| `surface`  | Muted background, no border                                        |
+| `gradient` | `135deg` ramp (duotone where it stays accessible, depth otherwise) |
 
 Default: `solid`
 
 Gradient crosses with every `color`: `linear-gradient(135deg, from, to)`
-with `from` as the `solid` stop and `to` as the darker `solid-active` step.
+with `from` as the `solid` stop of the color family and `to` as the `solid`
+stop of a partner hue for `primary`/`success` (`primary` → `violet`,
+`success` → `info`); `warning`/`danger`/`info` use same-hue depth
+(`warning` → `solid-active`, `danger` → `solid-deep`,
+`info` → `foreground`) and `neutral` ramps monochrome
+(`inverse` → `text-secondary`), so red stays red, yellow stays yellow, and
+blue stays blue.
 Text, border, and focus-ring mirror `solid`. See `button.md` § Gradient for
 the per-color ramp table, contrast ratios, and the `custom` gradient
 variables (`--solaris-icon-button-gradient-from/to`, plus hover/active

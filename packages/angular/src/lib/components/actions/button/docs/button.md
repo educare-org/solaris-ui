@@ -90,14 +90,14 @@ type SolarisButtonIconPosition = 'start' | 'end';
 
 ## Appearances
 
-| Appearance | Use case                                  | Visual                                 |
-| ---------- | ----------------------------------------- | -------------------------------------- |
-| `solid`    | Primary action, CTA, destructive action   | Filled background, high weight         |
-| `outline`  | Secondary action                          | Transparent background, visible border |
-| `ghost`    | Toolbar, dense context, low-weight action | No background or border, subtle hover  |
-| `tonal`    | Action with semantics, medium emphasis    | Soft background, subtle border         |
-| `surface`  | Low emphasis, inline with content         | Muted background, no border            |
-| `gradient` | Hero CTA, highest emphasis                | `135deg` ramp from `solid` to darker   |
+| Appearance | Use case                                  | Visual                                                             |
+| ---------- | ----------------------------------------- | ------------------------------------------------------------------ |
+| `solid`    | Primary action, CTA, destructive action   | Filled background, high weight                                     |
+| `outline`  | Secondary action                          | Transparent background, visible border                             |
+| `ghost`    | Toolbar, dense context, low-weight action | No background or border, subtle hover                              |
+| `tonal`    | Action with semantics, medium emphasis    | Soft background, subtle border                                     |
+| `surface`  | Low emphasis, inline with content         | Muted background, no border                                        |
+| `gradient` | Hero CTA, highest emphasis                | `135deg` ramp (duotone where it stays accessible, depth otherwise) |
 
 ### Hover and active
 
@@ -113,44 +113,50 @@ and dense headers quiet.
 ### Gradient
 
 `appearance="gradient"` crosses with every `color`: the background is
-`linear-gradient(135deg, from, to)` where `from` is the `solid` stop and `to`
-is the darker `solid-active` step of the same family. Text, border, and
-focus-ring mirror `solid`, so the accessible name channel is unchanged.
-Hover darkens the first stop (`solid-hover → solid-active`); press holds the
-darkest pair (`solid-active → solid-active`) under the standard `0.99` press
-scale. The angle is a single documented constant (`135deg`); per-color choice
-of `to` is documented below. Gradient never animates its stops (no
-`background-image` transition), so reduced motion needs no extra guard beyond
-the shared press-scale rule. Inside an attached `solaris-button-group`,
-gradient follows the P1 group rule (`transform: none` press, no own border).
+`linear-gradient(135deg, from, to)` where `from` is the `solid` stop of the
+color family. `to` is either the `solid` stop of a partner hue
+(`primary` → `violet`, `success` → `info`) or the deepest same-hue stop
+that keeps text contrast (`warning` → `solid-active`,
+`danger` → `solid-deep`, `info` → `foreground`,
+`neutral`: `inverse` → `text-secondary`). Same-hue depth is used where a
+cross-hue partner would shift identity (red turning pink, yellow turning
+green) or break text contrast (dark warning text over orange). Text, border, and focus-ring mirror `solid`, so the accessible name
+channel is unchanged. Hover shifts the first stop toward press
+(`solid-hover` → deepest stop); press holds the deepest pair under the
+standard `0.99` press scale. The angle is a single
+documented constant (`135deg`); per-color choice of partner is documented
+below. Gradient never animates its stops (no `background-image` transition),
+so reduced motion needs no extra guard beyond the shared press-scale rule.
+Inside an attached `solaris-button-group`, gradient follows the P1 group rule
+(`transform: none` press, no own border).
 
-| Color     | `from` (rest)     | `to` (rest/darker)      | Text (`on-solid`)      | Contrast text×from | Contrast text×to |
-| --------- | ----------------- | ----------------------- | ---------------------- | ------------------ | ---------------- |
-| `neutral` | `neutral-inverse` | `neutral-inverse-muted` | `neutral-text-inverse` | 17.62              | 12.48            |
-| `primary` | `primary-solid`   | `primary-solid-active`  | `primary-on-solid`     | 5.79               | 8.89             |
-| `success` | `success-solid`   | `success-solid-active`  | `success-on-solid`     | 3.20               | 5.88             |
-| `warning` | `warning-solid`   | `warning-solid-active`  | `warning-on-solid`     | 11.53              | 7.39             |
-| `danger`  | `danger-solid`    | `danger-solid-active`   | `danger-on-solid`      | 4.83               | 8.22             |
-| `info`    | `info-solid`      | `info-solid-active`     | `info-on-solid`        | 5.34               | 8.46             |
+| Color     | `from` (rest)     | `to` (partner rest)      | Text (`on-solid`)      | Contrast text×from | Contrast text×to |
+| --------- | ----------------- | ------------------------ | ---------------------- | ------------------ | ---------------- |
+| `neutral` | `neutral-inverse` | `neutral-text-secondary` | `neutral-text-inverse` | 17.62              | 6.41             |
+| `primary` | `primary-solid`   | `violet-solid`           | `primary-on-solid`     | 5.79               | 5.71             |
+| `success` | `success-solid`   | `info-solid`             | `success-on-solid`     | 3.20               | 5.34             |
+| `warning` | `warning-solid`   | `warning-solid-active`   | `warning-on-solid`     | 11.53              | 7.39             |
+| `danger`  | `danger-solid`    | `danger-solid-deep`      | `danger-on-solid`      | 4.83               | 10.37            |
+| `info`    | `info-solid`      | `info-foreground`        | `info-on-solid`        | 5.34               | 9.08             |
 
-Ratios measured on the light theme. Every pair meets the 3:1 UI minimum;
-every pair except `success` rest meets 4.5:1 for text. `success` rest (3.20)
-inherits the existing `solid` pairing verbatim — the gradient is never worse
-than `solid` because `from` is `solid` and `to` is strictly darker (lighter
-only for `neutral`, whose 12.48 floor still exceeds AAA). `neutral` is the
-documented exception: its interactive ramp lightens (`inverse →
-inverse-muted`) instead of darkening.
+Ratios measured on the light theme. Every idle pair meets 4.5:1 for text
+except `success` rest (3.20), which inherits the existing `solid` pairing
+verbatim — the gradient is never worse than `solid` at rest because `from` is
+`solid` and `to` is a partner of equal or darker weight. `neutral` and
+`warning`/`danger`/`info` gradients are monochrome by design (same-hue depth
+instead of a hue shift), so the button keeps its semantic color: red stays
+red, yellow stays yellow, blue stays blue.
 
 #### Custom gradient
 
 ```css
 .my-gradient-button {
-  --solaris-button-gradient-from: #7c3aed;
-  --solaris-button-gradient-to: #4c1d95;
-  --solaris-button-gradient-hover-from: #6d28d9;
-  --solaris-button-gradient-hover-to: #4c1d95;
-  --solaris-button-gradient-active-from: #5b21b6;
-  --solaris-button-gradient-active-to: #5b21b6;
+  --solaris-button-gradient-from: var(--solaris-violet-solid);
+  --solaris-button-gradient-to: var(--solaris-primary-solid-active);
+  --solaris-button-gradient-hover-from: var(--solaris-violet-solid-hover);
+  --solaris-button-gradient-hover-to: var(--solaris-primary-solid-active);
+  --solaris-button-gradient-active-from: var(--solaris-violet-solid-active);
+  --solaris-button-gradient-active-to: var(--solaris-violet-solid-active);
 }
 ```
 

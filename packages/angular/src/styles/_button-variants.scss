@@ -394,18 +394,18 @@
     --solaris-#{$prefix}-active-color: var(--solaris-neutral-text-inverse);
     --solaris-#{$prefix}-focus-ring-color: var(--solaris-neutral-text-body);
     --solaris-#{$prefix}-gradient-from: var(--solaris-neutral-inverse);
-    --solaris-#{$prefix}-gradient-to: var(--solaris-neutral-inverse-muted);
+    --solaris-#{$prefix}-gradient-to: var(--solaris-neutral-text-secondary);
     --solaris-#{$prefix}-gradient-hover-from: var(
       --solaris-neutral-inverse-subtle
     );
     --solaris-#{$prefix}-gradient-hover-to: var(
-      --solaris-neutral-inverse-muted
+      --solaris-neutral-text-secondary
     );
     --solaris-#{$prefix}-gradient-active-from: var(
       --solaris-neutral-inverse-muted
     );
     --solaris-#{$prefix}-gradient-active-to: var(
-      --solaris-neutral-inverse-muted
+      --solaris-neutral-text-secondary
     );
     --solaris-#{$prefix}-background: linear-gradient(
       135deg,
@@ -431,17 +431,15 @@
     --solaris-#{$prefix}-border-color: var(--solaris-primary-border);
     --solaris-#{$prefix}-focus-ring-color: var(--solaris-primary-solid);
     --solaris-#{$prefix}-gradient-from: var(--solaris-primary-solid);
-    --solaris-#{$prefix}-gradient-to: var(--solaris-primary-solid-active);
+    --solaris-#{$prefix}-gradient-to: var(--solaris-violet-solid);
     --solaris-#{$prefix}-gradient-hover-from: var(
       --solaris-primary-solid-hover
     );
-    --solaris-#{$prefix}-gradient-hover-to: var(--solaris-primary-solid-active);
+    --solaris-#{$prefix}-gradient-hover-to: var(--solaris-violet-solid-active);
     --solaris-#{$prefix}-gradient-active-from: var(
       --solaris-primary-solid-active
     );
-    --solaris-#{$prefix}-gradient-active-to: var(
-      --solaris-primary-solid-active
-    );
+    --solaris-#{$prefix}-gradient-active-to: var(--solaris-violet-solid-active);
     --solaris-#{$prefix}-background: linear-gradient(
       135deg,
       var(--solaris-#{$prefix}-gradient-from),
@@ -466,17 +464,15 @@
     --solaris-#{$prefix}-border-color: var(--solaris-success-border);
     --solaris-#{$prefix}-focus-ring-color: var(--solaris-success-solid);
     --solaris-#{$prefix}-gradient-from: var(--solaris-success-solid);
-    --solaris-#{$prefix}-gradient-to: var(--solaris-success-solid-active);
+    --solaris-#{$prefix}-gradient-to: var(--solaris-info-solid);
     --solaris-#{$prefix}-gradient-hover-from: var(
       --solaris-success-solid-hover
     );
-    --solaris-#{$prefix}-gradient-hover-to: var(--solaris-success-solid-active);
+    --solaris-#{$prefix}-gradient-hover-to: var(--solaris-info-solid-active);
     --solaris-#{$prefix}-gradient-active-from: var(
       --solaris-success-solid-active
     );
-    --solaris-#{$prefix}-gradient-active-to: var(
-      --solaris-success-solid-active
-    );
+    --solaris-#{$prefix}-gradient-active-to: var(--solaris-info-solid-active);
     --solaris-#{$prefix}-background: linear-gradient(
       135deg,
       var(--solaris-#{$prefix}-gradient-from),
@@ -536,13 +532,11 @@
     --solaris-#{$prefix}-border-color: var(--solaris-danger-border);
     --solaris-#{$prefix}-focus-ring-color: var(--solaris-danger-solid);
     --solaris-#{$prefix}-gradient-from: var(--solaris-danger-solid);
-    --solaris-#{$prefix}-gradient-to: var(--solaris-danger-solid-active);
+    --solaris-#{$prefix}-gradient-to: var(--solaris-danger-solid-deep);
     --solaris-#{$prefix}-gradient-hover-from: var(--solaris-danger-solid-hover);
-    --solaris-#{$prefix}-gradient-hover-to: var(--solaris-danger-solid-active);
-    --solaris-#{$prefix}-gradient-active-from: var(
-      --solaris-danger-solid-active
-    );
-    --solaris-#{$prefix}-gradient-active-to: var(--solaris-danger-solid-active);
+    --solaris-#{$prefix}-gradient-hover-to: var(--solaris-danger-solid-deep);
+    --solaris-#{$prefix}-gradient-active-from: var(--solaris-danger-solid-deep);
+    --solaris-#{$prefix}-gradient-active-to: var(--solaris-danger-solid-deep);
     --solaris-#{$prefix}-background: linear-gradient(
       135deg,
       var(--solaris-#{$prefix}-gradient-from),
@@ -566,11 +560,11 @@
     --solaris-#{$prefix}-active-color: var(--solaris-info-on-solid);
     --solaris-#{$prefix}-focus-ring-color: var(--solaris-info-solid);
     --solaris-#{$prefix}-gradient-from: var(--solaris-info-solid);
-    --solaris-#{$prefix}-gradient-to: var(--solaris-info-solid-active);
+    --solaris-#{$prefix}-gradient-to: var(--solaris-info-foreground);
     --solaris-#{$prefix}-gradient-hover-from: var(--solaris-info-solid-hover);
-    --solaris-#{$prefix}-gradient-hover-to: var(--solaris-info-solid-active);
-    --solaris-#{$prefix}-gradient-active-from: var(--solaris-info-solid-active);
-    --solaris-#{$prefix}-gradient-active-to: var(--solaris-info-solid-active);
+    --solaris-#{$prefix}-gradient-hover-to: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-gradient-active-from: var(--solaris-info-foreground);
+    --solaris-#{$prefix}-gradient-active-to: var(--solaris-info-foreground);
     --solaris-#{$prefix}-background: linear-gradient(
       135deg,
       var(--solaris-#{$prefix}-gradient-from),

@@ -8,7 +8,7 @@ describe('Button gradient appearance', () => {
     'info',
   ] as const;
 
-  const solidFrom: Record<(typeof colors)[number], string> = {
+  const gradientFrom: Record<(typeof colors)[number], string> = {
     neutral: '--solaris-neutral-inverse',
     primary: '--solaris-primary-solid',
     success: '--solaris-success-solid',
@@ -17,13 +17,13 @@ describe('Button gradient appearance', () => {
     info: '--solaris-info-solid',
   };
 
-  const solidTo: Record<(typeof colors)[number], string> = {
-    neutral: '--solaris-neutral-inverse-muted',
-    primary: '--solaris-primary-solid-active',
-    success: '--solaris-success-solid-active',
+  const gradientTo: Record<(typeof colors)[number], string> = {
+    neutral: '--solaris-neutral-text-secondary',
+    primary: '--solaris-violet-solid',
+    success: '--solaris-info-solid',
     warning: '--solaris-warning-solid-active',
-    danger: '--solaris-danger-solid-active',
-    info: '--solaris-info-solid-active',
+    danger: '--solaris-danger-solid-deep',
+    info: '--solaris-info-foreground',
   };
 
   let buttonVariants = '';
@@ -54,26 +54,58 @@ describe('Button gradient appearance', () => {
     );
   });
 
+  function normalizeCss(css: string): string {
+    return css
+      .replace(/\s+/g, ' ')
+      .replace(/\(\s+/g, '(')
+      .replace(/\s+\)/g, ')');
+  }
+
   function gradientBody(color: string): string {
     const selector = `[solaris-button][data-color='${color}'][data-appearance='gradient'] {`;
     const start = buttonVariants.indexOf(selector);
     expect(start).toBeGreaterThan(-1);
     const open = buttonVariants.indexOf('{', start);
     const close = buttonVariants.indexOf('}', open);
-    return buttonVariants.slice(open + 1, close);
+    return normalizeCss(buttonVariants.slice(open + 1, close));
   }
 
   it.each(colors.map((color) => [color]))(
-    '%s gradient ramps solid to the darker active step at 135deg',
+    '%s gradient ramps solid into its gradient stop at 135deg',
     (color) => {
       const body = gradientBody(color);
       expect(body).toContain(
         'linear-gradient(135deg, var(--solaris-button-gradient-from), var(--solaris-button-gradient-to))',
       );
-      expect(body).toContain(`gradient-from: var(${solidFrom[color]})`);
-      expect(body).toContain(`gradient-to: var(${solidTo[color]})`);
+      expect(body).toContain(`gradient-from: var(${gradientFrom[color]})`);
+      expect(body).toContain(`gradient-to: var(${gradientTo[color]})`);
     },
   );
+
+  it('uses a distinct partner hue for primary/success and depth for the rest', () => {
+    const duotone: Record<string, string> = {
+      primary: 'violet',
+      success: 'info',
+    };
+    for (const [color, hue] of Object.entries(duotone)) {
+      const body = gradientBody(color);
+      expect(body).toContain(`gradient-to: var(--solaris-${hue}-solid)`);
+      expect(body).not.toContain(`gradient-to: var(--solaris-${color}-solid`);
+    }
+  });
+
+  it('keeps warning, danger, info, and neutral monochrome so hue identity holds', () => {
+    const mono: Record<string, string> = {
+      neutral: 'neutral-text-secondary',
+      warning: 'warning-solid-active',
+      danger: 'danger-solid-deep',
+      info: 'info-foreground',
+    };
+    for (const [color, token] of Object.entries(mono)) {
+      const body = gradientBody(color);
+      expect(body).toContain(`gradient-to: var(--solaris-${token})`);
+    }
+  });
 
   it('darkens the first stop on hover and holds the darkest pair on active', () => {
     const body = gradientBody('primary');
@@ -81,13 +113,13 @@ describe('Button gradient appearance', () => {
       'gradient-hover-from: var(--solaris-primary-solid-hover)',
     );
     expect(body).toContain(
-      'gradient-hover-to: var(--solaris-primary-solid-active)',
+      'gradient-hover-to: var(--solaris-violet-solid-active)',
     );
     expect(body).toContain(
       'gradient-active-from: var(--solaris-primary-solid-active)',
     );
     expect(body).toContain(
-      'gradient-active-to: var(--solaris-primary-solid-active)',
+      'gradient-active-to: var(--solaris-violet-solid-active)',
     );
     expect(body).toContain(
       'hover-background: linear-gradient(135deg, var(--solaris-button-gradient-hover-from), var(--solaris-button-gradient-hover-to))',
@@ -109,9 +141,11 @@ describe('Button gradient appearance', () => {
     const selector = `[solaris-button][data-color='custom'][data-appearance='gradient'] {`;
     const start = buttonVariants.indexOf(selector);
     expect(start).toBeGreaterThan(-1);
-    const body = buttonVariants.slice(
-      buttonVariants.indexOf('{', start) + 1,
-      buttonVariants.indexOf('}', buttonVariants.indexOf('{', start)),
+    const body = normalizeCss(
+      buttonVariants.slice(
+        buttonVariants.indexOf('{', start) + 1,
+        buttonVariants.indexOf('}', buttonVariants.indexOf('{', start)),
+      ),
     );
     expect(body).toContain(
       'gradient-from: var(--solaris-button-custom-background)',
