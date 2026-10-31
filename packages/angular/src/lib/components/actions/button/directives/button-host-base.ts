@@ -10,6 +10,7 @@ import {
   inject,
   input,
   output,
+  OnInit,
   PLATFORM_ID,
   signal,
   type ComponentRef,
@@ -44,7 +45,7 @@ import {
 } from '../functions/button-a11y';
 
 @Directive()
-export abstract class SolarisButtonHostBase {
+export abstract class SolarisButtonHostBase implements OnInit {
   abstract readonly size: Signal<string>;
   abstract readonly appearance: Signal<string>;
   abstract readonly color: Signal<string>;
@@ -446,7 +447,7 @@ export abstract class SolarisButtonHostBase {
     this.spinnerRef = null;
   }
 
-  protected handleActionClick(event: MouseEvent): void {
+  protected async handleActionClick(event: MouseEvent): Promise<void> {
     if (!isPlatformBrowser(this.platformId)) {
       this.handleAnchorClick(event);
       return;
@@ -474,26 +475,24 @@ export abstract class SolarisButtonHostBase {
       event.preventDefault();
     }
     this.asyncStatus.set(beginAsync());
-    let started: unknown;
     try {
-      started = run();
+      const started = await run();
+      void Promise.resolve(started).then(
+        (result) => {
+          this.asyncStatus.set(endAsync());
+          this.actionSuccess.emit(result);
+        },
+        (error) => {
+          this.asyncStatus.set(endAsync());
+          this.actionError.emit(error);
+          this.elementRef.nativeElement.focus();
+        },
+      );
     } catch (error) {
       this.asyncStatus.set(endAsync());
       this.actionError.emit(error);
       this.elementRef.nativeElement.focus();
-      return;
     }
-    void Promise.resolve(started).then(
-      (result) => {
-        this.asyncStatus.set(endAsync());
-        this.actionSuccess.emit(result);
-      },
-      (error) => {
-        this.asyncStatus.set(endAsync());
-        this.actionError.emit(error);
-        this.elementRef.nativeElement.focus();
-      },
-    );
   }
 
   protected handleAnchorClick(event: MouseEvent): void {
