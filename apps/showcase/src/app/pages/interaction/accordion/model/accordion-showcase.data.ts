@@ -9,8 +9,8 @@ export const ACCORDION_TRANSLATION_PREFIX = 'accordion';
 
 export const ACCORDION_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.interaction', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.interaction', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.accordion' },
   ];
 

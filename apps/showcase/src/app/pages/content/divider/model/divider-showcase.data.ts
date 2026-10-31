@@ -8,8 +8,8 @@ export const DIVIDER_SHOWCASE_SLUG = 'divider';
 export const DIVIDER_TRANSLATION_PREFIX = 'divider';
 
 export const DIVIDER_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-  { labelKey: 'shell.sidebar.group.content', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+  { labelKey: 'shell.sidebar.group.content', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.divider' },
 ];
 

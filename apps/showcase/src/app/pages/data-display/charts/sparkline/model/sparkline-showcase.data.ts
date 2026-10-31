@@ -10,7 +10,7 @@ export const SPARKLINE_TRANSLATION_PREFIX = 'sparkline-view';
 
 export const SPARKLINE_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.charts' },
     { labelKey: 'shell.sidebar.item.sparkline' },
   ];

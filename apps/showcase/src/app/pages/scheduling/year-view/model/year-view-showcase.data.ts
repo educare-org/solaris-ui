@@ -11,8 +11,8 @@ export const YEAR_VIEW_TRANSLATION_PREFIX = 'year-view';
 
 export const YEAR_VIEW_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.calendar', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.calendar', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.year-view' },
   ];
 

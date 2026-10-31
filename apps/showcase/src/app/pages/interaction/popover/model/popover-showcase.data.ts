@@ -8,8 +8,8 @@ export const POPOVER_SHOWCASE_SLUG = 'popover';
 export const POPOVER_TRANSLATION_PREFIX = 'popover';
 
 export const POPOVER_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-  { labelKey: 'shell.sidebar.group.interaction', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+  { labelKey: 'shell.sidebar.group.interaction', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.popover' },
 ];
 

@@ -8,8 +8,8 @@ export const SPINNER_SHOWCASE_SLUG = 'spinner';
 export const SPINNER_TRANSLATION_PREFIX = 'spinner';
 
 export const SPINNER_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-  { labelKey: 'shell.sidebar.group.feedback', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+  { labelKey: 'shell.sidebar.group.feedback', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.spinner' },
 ];
 

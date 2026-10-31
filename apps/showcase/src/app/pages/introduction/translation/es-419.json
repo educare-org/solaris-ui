@@ -1,0 +1,45 @@
+{
+  "introduction": {
+    "title": "Introducción",
+    "description": "Solaris UI es un framework institucional de UI en Angular: estricto para quien lo mantiene, simple para quien lo consume. Empiece aquí para entender los principios antes de instalar.",
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI sobre {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "section": {
+      "principles": "Principios",
+      "contracts": "Contratos",
+      "next": "A dónde ir"
+    },
+    "principles": {
+      "note": "Consistencia por defecto — todo producto nace creíble.",
+      "trustTitle": "El diseño genera confianza",
+      "trustDesc": "Los visitantes juzgan en segundos; los componentes cuidan los detalles.",
+      "contractTitle": "Estricto por dentro, simple por fuera",
+      "contractDesc": "Contratos rígidos para quien mantiene, API pequeña y estable para quien consume.",
+      "docsTitle": "La documentación es el producto",
+      "docsDesc": "Ejemplos vivos y guía en tres idiomas."
+    },
+    "contracts": {
+      "note": "Seis reglas, verificadas en CI.",
+      "standaloneTitle": "Solo standalone",
+      "standaloneDesc": "Sin NgModules; importe solo lo que usa.",
+      "signalsTitle": "Signals y OnPush",
+      "signalsDesc": "Signals con OnPush para un renderizado predecible.",
+      "tokensTitle": "Estilo por tokens",
+      "tokensDesc": "Sin valores crudos — todo se resuelve con tokens --solaris-*.",
+      "a11yTitle": "Accesible por defecto",
+      "a11yDesc": "Semántica ARIA, soporte de teclado y foco visible.",
+      "motionTitle": "Movimiento con respeto",
+      "motionDesc": "Respeta prefers-reduced-motion; el movimiento nunca es la única señal.",
+      "i18nTitle": "Trilingüe",
+      "i18nDesc": "Cada cadena en pt-BR, en-US y es-419."
+    },
+    "next": {
+      "note": "Dos caminos desde aquí.",
+      "installTitle": "Instalar Solaris",
+      "installDesc": "Agregue el paquete, conecte estilos y providers.",
+      "iconsTitle": "Explorar iconos",
+      "iconsDesc": "Registro de iconos con búsqueda y guía de uso."
+    }
+  }
+}

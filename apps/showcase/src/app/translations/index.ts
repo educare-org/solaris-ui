@@ -1,4 +1,5 @@
-import { CONFIGURATION_TRANSLATIONS } from '../pages/configuration/translation';
+import { INTRODUCTION_TRANSLATIONS } from '../pages/introduction/translation';
+import { INSTALLATION_TRANSLATIONS } from '../pages/installation/translation';
 import { SHELL_TRANSLATIONS } from '../shell/translation';
 import { BADGE_TRANSLATIONS } from '../pages/data-display/badge/translation';
 import { AVATAR_TRANSLATIONS } from '../pages/data-display/avatar/translation';
@@ -109,7 +110,8 @@ function flattenTranslations(
 
 const PAGE_MODULES = [
   SHELL_TRANSLATIONS,
-  CONFIGURATION_TRANSLATIONS,
+  INTRODUCTION_TRANSLATIONS,
+  INSTALLATION_TRANSLATIONS,
   AVATAR_TRANSLATIONS,
   BADGE_TRANSLATIONS,
   SKELETON_TRANSLATIONS,

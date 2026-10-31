@@ -1,0 +1,45 @@
+{
+  "introduction": {
+    "title": "Introdução",
+    "description": "Solaris UI é um framework institucional de UI em Angular: rígido para quem mantém, simples para quem consome. Comece aqui para entender os princípios antes de instalar.",
+    "ai": {
+      "prompt": "Estou olhando a documentação do Solaris UI sobre {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "section": {
+      "principles": "Princípios",
+      "contracts": "Contratos",
+      "next": "Para onde ir"
+    },
+    "principles": {
+      "note": "Consistência por padrão — todo produto já nasce crível.",
+      "trustTitle": "Design constrói confiança",
+      "trustDesc": "Visitantes julgam em segundos; os componentes cuidam dos detalhes.",
+      "contractTitle": "Rígido por dentro, simples por fora",
+      "contractDesc": "Contratos rígidos para quem mantém, API pequena e estável para quem consome.",
+      "docsTitle": "Documentação é o produto",
+      "docsDesc": "Exemplos vivos e orientação em três idiomas."
+    },
+    "contracts": {
+      "note": "Seis regras, verificadas em CI.",
+      "standaloneTitle": "Apenas standalone",
+      "standaloneDesc": "Sem NgModules; importe só o que usa.",
+      "signalsTitle": "Signals e OnPush",
+      "signalsDesc": "Signals com OnPush para renderização previsível.",
+      "tokensTitle": "Estilo por tokens",
+      "tokensDesc": "Sem valores crus — tudo resolve via tokens --solaris-*.",
+      "a11yTitle": "Acessível por padrão",
+      "a11yDesc": "Semântica ARIA, suporte a teclado e foco visível.",
+      "motionTitle": "Movimento com respeito",
+      "motionDesc": "Respeita prefers-reduced-motion; movimento nunca é o único sinal.",
+      "i18nTitle": "Trilíngue",
+      "i18nDesc": "Toda string em pt-BR, en-US e es-419."
+    },
+    "next": {
+      "note": "Dois caminhos a partir daqui.",
+      "installTitle": "Instalar o Solaris",
+      "installDesc": "Adicione o pacote, conecte estilos e providers.",
+      "iconsTitle": "Explorar ícones",
+      "iconsDesc": "Registro de ícones com busca e guia de uso."
+    }
+  }
+}

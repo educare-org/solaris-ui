@@ -9,8 +9,8 @@ export const CODE_BLOCK_TRANSLATION_PREFIX = 'code-block';
 
 export const CODE_BLOCK_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.data-display', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.data-display', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.code-block' },
   ];
 

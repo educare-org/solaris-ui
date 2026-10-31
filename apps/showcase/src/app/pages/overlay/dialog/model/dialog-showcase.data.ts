@@ -10,8 +10,8 @@ export const DIALOG_SHOWCASE_SLUG = 'dialog';
 export const DIALOG_TRANSLATION_PREFIX = 'dialog';
 
 export const DIALOG_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-  { labelKey: 'shell.sidebar.group.overlay', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+  { labelKey: 'shell.sidebar.group.overlay', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.dialog' },
 ];
 
@@ -21,8 +21,8 @@ export const DIALOG_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const DIALOG_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.configuration',
-  route: '/configuration',
+  labelKey: 'shell.sidebar.item.introduction',
+  route: '/introduction',
 };
 
 export const DIALOG_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

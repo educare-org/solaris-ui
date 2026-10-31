@@ -1,0 +1,50 @@
+{
+  "installation": {
+    "title": "Instalación",
+    "description": "Agregue Solaris UI a un proyecto Angular nuevo o existente en minutos: instale el paquete, conecte estilos y providers y renderice su primer componente.",
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI sobre {{component}} ({{url}}). Ayúdame a entender cómo usarla. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "section": {
+      "prerequisites": "Requisitos previos",
+      "install": "Instale el paquete",
+      "styles": "Conecte los estilos",
+      "providers": "Registre los providers",
+      "language": "Agregue un idioma (opcional)",
+      "verify": "Verifique"
+    },
+    "prerequisites": {
+      "note": "Solaris está dirigido a aplicaciones Angular standalone. Necesita Node.js LTS y un gestor de paquetes.",
+      "angular": "Angular 21 o superior con bootstrap standalone (ApplicationConfig).",
+      "node": "Node.js LTS con pnpm, npm, yarn o bun.",
+      "peers": "Las dependencias peer (como @angular/cdk) se instalan automáticamente con el paquete."
+    },
+    "install": {
+      "note": "Instale el paquete único y deje que el schematic conecte el resto.",
+      "package": "Instale con su gestor de paquetes.",
+      "schematic": "Recomendado: ejecute ng add. Crea src/styles/solaris.scss, lo importa desde su hoja global y agrega provideSolaris(...) al app config.",
+      "nx": "En workspaces Nx, instale el paquete y ejecute el generator init en lugar de ng add.",
+      "manual": "¿Prefiere conectarlo manualmente? Omita el schematic y siga las secciones de estilos y providers."
+    },
+    "styles": {
+      "note": "El schematic crea esta hoja de estilos y la importa en sus estilos globales. Las configuraciones manuales copian ambos bloques.",
+      "file": "src/styles/solaris.scss — creado por el schematic.",
+      "global": "Agregado al inicio de su hoja global (por ejemplo src/styles.scss)."
+    },
+    "providers": {
+      "note": "Registre los servicios Solaris una vez en el app config. Empiece por lo mínimo; agregue opciones de tema o traducción solo cuando las necesite.",
+      "tab": {
+        "basic": "Básico",
+        "theme": "Tema",
+        "translate": "Traducción"
+      }
+    },
+    "language": {
+      "note": "La traducción es opcional: sin ella, los providers usan los valores por defecto. Cuando la necesite, pase el idioma, un idioma de fallback y sus mapas de traducción aplanados."
+    },
+    "verify": {
+      "note": "Inicie el servidor de desarrollo y abra la app. Los tokens de tema y estilos base se aplican globalmente — ningún import de componente es necesario para la base.",
+      "success": "Si la página se renderiza con la apariencia Solaris, la configuración está completa. Continúe con la biblioteca de iconos o cualquier página de componentes."
+    }
+  }
+}

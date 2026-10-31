@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 
-import { configurationRoutes } from './routes/configuration.routes';
+import { gettingStartedRoutes } from './routes/getting-started.routes';
 import { servicesRoutes } from './routes/services.routes';
 import { schedulingRoutes } from './routes/scheduling.routes';
 import { dataDisplayRoutes } from './routes/data-display.routes';
@@ -14,8 +14,8 @@ import { formsRoutes } from './routes/forms.routes';
 import { iconsRoutes } from './routes/icons.routes';
 
 export const appRoutes: Route[] = [
-  { path: '', pathMatch: 'full', redirectTo: '/configuration' },
-  ...configurationRoutes,
+  { path: '', pathMatch: 'full', redirectTo: '/introduction' },
+  ...gettingStartedRoutes,
   ...servicesRoutes,
   ...interactionRoutes,
   ...dataDisplayRoutes,

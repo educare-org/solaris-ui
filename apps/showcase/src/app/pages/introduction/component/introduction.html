@@ -1,0 +1,90 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="introduction.title"
+    descriptionKey="introduction.description"
+    [breadcrumbs]="breadcrumbs"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section
+    anchor="principles"
+    titleKey="introduction.section.principles"
+  >
+    <p class="introduction-showcase__note">
+      {{ 'introduction.principles.note' | translate }}
+    </p>
+    <div class="introduction-showcase__numbered">
+      @for (item of principles; track item.titleKey) {
+      <div class="introduction-showcase__block">
+        <div class="introduction-showcase__body">
+          <h3 class="introduction-showcase__heading">
+            {{ item.titleKey | translate }}
+          </h3>
+          <p class="introduction-showcase__text">
+            {{ item.descriptionKey | translate }}
+          </p>
+        </div>
+      </div>
+      }
+    </div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="contracts"
+    titleKey="introduction.section.contracts"
+  >
+    <p class="introduction-showcase__note">
+      {{ 'introduction.contracts.note' | translate }}
+    </p>
+    <div
+      class="introduction-showcase__numbered introduction-showcase__numbered--columns"
+    >
+      @for (item of contracts; track item.titleKey) {
+      <div class="introduction-showcase__block">
+        <div class="introduction-showcase__body">
+          <h3 class="introduction-showcase__heading">
+            {{ item.titleKey | translate }}
+          </h3>
+          <p class="introduction-showcase__text">
+            {{ item.descriptionKey | translate }}
+          </p>
+        </div>
+      </div>
+      }
+    </div>
+  </app-docs-section>
+
+  <app-docs-section anchor="next" titleKey="introduction.section.next">
+    <p class="introduction-showcase__note">
+      {{ 'introduction.next.note' | translate }}
+    </p>
+    <ul class="introduction-showcase__links">
+      @for (item of nextItems; track item.titleKey) {
+      <li class="introduction-showcase__link-item">
+        <a class="introduction-showcase__link" [href]="item.route">
+          <span class="introduction-showcase__link-text">
+            <span class="introduction-showcase__link-title">
+              {{ item.titleKey | translate }}
+            </span>
+            <span class="introduction-showcase__link-description">
+              {{ item.descriptionKey | translate }}
+            </span>
+          </span>
+          <solaris-icon
+            name="chevron-right"
+            [decorative]="true"
+            class="introduction-showcase__link-icon"
+          />
+        </a>
+      </li>
+      }
+    </ul>
+  </app-docs-section>
+
+  <app-docs-page-footer [next]="next" />
+</app-docs-page-layout>

@@ -27,7 +27,7 @@ describe('ShowcaseDocsPageHeader', () => {
     fixture.componentRef.setInput('title', 'Badge');
     fixture.componentRef.setInput('description', 'Status labels.');
     fixture.componentRef.setInput('breadcrumbs', [
-      { label: 'Components', route: '/configuration' },
+      { label: 'Components', route: '/introduction' },
       { label: 'Badge' },
     ]);
     fixture.detectChanges();
