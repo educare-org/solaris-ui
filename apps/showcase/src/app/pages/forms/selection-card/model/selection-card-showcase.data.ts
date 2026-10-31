@@ -9,8 +9,8 @@ export const SELECTION_CARD_TRANSLATION_PREFIX = 'selection-card';
 
 export const SELECTION_CARD_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.forms', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.forms', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.selection-card' },
   ];
 

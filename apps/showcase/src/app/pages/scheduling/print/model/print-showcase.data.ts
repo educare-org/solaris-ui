@@ -15,8 +15,8 @@ export const PRINT_TRANSLATION_PREFIX = 'print-view';
 export const SHOWCASE_PRINT_BODY_CLASS = 'showcase-print-calendars';
 
 export const PRINT_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-  { labelKey: 'shell.sidebar.group.calendar', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+  { labelKey: 'shell.sidebar.group.calendar', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.print' },
 ];
 

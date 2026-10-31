@@ -9,7 +9,7 @@ export const MEDIA_CAROUSEL_TRANSLATION_PREFIX = 'media-carousel';
 
 export const MEDIA_CAROUSEL_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.carousel' },
     { labelKey: 'shell.sidebar.item.media-carousel' },
   ];

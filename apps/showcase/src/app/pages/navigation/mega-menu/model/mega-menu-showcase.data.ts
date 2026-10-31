@@ -9,8 +9,8 @@ export const MEGA_MENU_TRANSLATION_PREFIX = 'mega-menu';
 
 export const MEGA_MENU_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.navigation', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.navigation', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.mega-menu' },
   ];
 

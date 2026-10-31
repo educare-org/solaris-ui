@@ -14,7 +14,7 @@ export const BUTTON_SHOWCASE_SLUG = 'button';
 export const BUTTON_TRANSLATION_PREFIX = 'button';
 
 export const BUTTON_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.buttons' },
   { labelKey: 'shell.sidebar.item.button' },
 ];

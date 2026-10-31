@@ -9,8 +9,8 @@ export const PROGRESS_TRANSLATION_PREFIX = 'progress';
 
 export const PROGRESS_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.feedback', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.feedback', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.progress' },
   ];
 

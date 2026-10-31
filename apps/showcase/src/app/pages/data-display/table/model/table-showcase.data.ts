@@ -21,7 +21,7 @@ export const TABLE_SHOWCASE_SLUG = 'table';
 export const TABLE_TRANSLATION_PREFIX = 'table';
 
 export const TABLE_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.tables' },
   { labelKey: 'shell.sidebar.item.table' },
 ];

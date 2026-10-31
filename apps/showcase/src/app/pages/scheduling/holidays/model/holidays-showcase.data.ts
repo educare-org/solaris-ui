@@ -11,8 +11,8 @@ export const HOLIDAYS_TRANSLATION_PREFIX = 'holidays-view';
 
 export const HOLIDAYS_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.calendar', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.calendar', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.holidays' },
   ];
 

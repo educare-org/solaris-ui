@@ -20,7 +20,7 @@ export const GRADEBOOK_TRANSLATION_PREFIX = 'gradebook';
 
 export const GRADEBOOK_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.tables' },
     { labelKey: 'shell.sidebar.item.gradebook' },
   ];

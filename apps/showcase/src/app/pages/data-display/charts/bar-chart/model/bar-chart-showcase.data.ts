@@ -10,7 +10,7 @@ export const BAR_CHART_TRANSLATION_PREFIX = 'bar-chart-view';
 
 export const BAR_CHART_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.charts' },
     { labelKey: 'shell.sidebar.item.bar-chart' },
   ];

@@ -9,8 +9,8 @@ export const MULTI_SELECT_TRANSLATION_PREFIX = 'multiSelect';
 
 export const MULTI_SELECT_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.forms', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.forms', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.multi-select' },
   ];
 

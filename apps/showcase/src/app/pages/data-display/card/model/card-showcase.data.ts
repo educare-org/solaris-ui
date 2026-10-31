@@ -8,8 +8,8 @@ export const CARD_SHOWCASE_SLUG = 'card';
 export const CARD_TRANSLATION_PREFIX = 'card';
 
 export const CARD_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-  { labelKey: 'shell.sidebar.group.data-display', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+  { labelKey: 'shell.sidebar.group.data-display', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.card' },
 ];
 

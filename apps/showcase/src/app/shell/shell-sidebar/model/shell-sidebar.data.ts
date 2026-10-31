@@ -5,8 +5,12 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
     labelKey: 'shell.sidebar.section.getting-started',
     items: [
       {
-        labelKey: 'shell.sidebar.item.configuration',
-        route: '/configuration',
+        labelKey: 'shell.sidebar.item.introduction',
+        route: '/introduction',
+      },
+      {
+        labelKey: 'shell.sidebar.item.installation',
+        route: '/installation',
       },
     ],
     groups: [],

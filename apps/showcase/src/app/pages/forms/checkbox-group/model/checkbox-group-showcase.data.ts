@@ -9,8 +9,8 @@ export const CHECKBOX_GROUP_TRANSLATION_PREFIX = 'checkbox-group';
 
 export const CHECKBOX_GROUP_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.forms', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.forms', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.checkbox-group' },
   ];
 

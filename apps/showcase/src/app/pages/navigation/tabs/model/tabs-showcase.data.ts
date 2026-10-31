@@ -8,8 +8,8 @@ export const TABS_SHOWCASE_SLUG = 'tabs';
 export const TABS_TRANSLATION_PREFIX = 'tabs';
 
 export const TABS_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-  { labelKey: 'shell.sidebar.group.navigation', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+  { labelKey: 'shell.sidebar.group.navigation', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.tabs' },
 ];
 

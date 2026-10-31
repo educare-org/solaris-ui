@@ -9,8 +9,8 @@ export const PAGINATION_TRANSLATION_PREFIX = 'pagination';
 
 export const PAGINATION_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
-    { labelKey: 'shell.sidebar.group.navigation', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
+    { labelKey: 'shell.sidebar.group.navigation', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.pagination' },
   ];
 

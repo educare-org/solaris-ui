@@ -15,7 +15,7 @@ export const ICON_BUTTON_TRANSLATION_PREFIX = 'icon-button';
 
 export const ICON_BUTTON_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] =
   [
-    { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
+    { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
     { labelKey: 'shell.sidebar.item.buttons' },
     { labelKey: 'shell.sidebar.item.icon-button' },
   ];

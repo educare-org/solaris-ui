@@ -1,0 +1,31 @@
+@use '../../../shared/showcase-layout' as layout;
+
+.installation-showcase__note {
+  @include layout.note;
+
+  margin-bottom: var(--solaris-spacing-4);
+}
+
+.installation-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-6);
+}
+
+.installation-showcase__subtitle {
+  margin: 0 0 var(--solaris-spacing-2);
+  color: var(--solaris-neutral-text-heading);
+  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+}
+
+.installation-showcase__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--solaris-spacing-2);
+  color: var(--solaris-neutral-text-body);
+  font: var(--solaris-font-weight-regular) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-md) var(--solaris-font-family-sans);
+}

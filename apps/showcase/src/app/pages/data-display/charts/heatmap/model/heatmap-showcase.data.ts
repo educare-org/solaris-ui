@@ -9,7 +9,7 @@ export const HEATMAP_SHOWCASE_SLUG = 'heatmap';
 export const HEATMAP_TRANSLATION_PREFIX = 'heatmap-view';
 
 export const HEATMAP_SHOWCASE_BREADCRUMBS: readonly ShowcaseDocsBreadcrumb[] = [
-  { labelKey: 'shell.sidebar.section.components', route: '/configuration' },
+  { labelKey: 'shell.sidebar.section.components', route: '/introduction' },
   { labelKey: 'shell.sidebar.item.charts' },
   { labelKey: 'shell.sidebar.item.heatmap' },
 ];
