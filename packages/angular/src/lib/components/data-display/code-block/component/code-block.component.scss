@@ -417,6 +417,27 @@
   color: var(--solaris-code-block-muted-text);
 }
 
+@media (width <= 768px) {
+  .solaris-code-block__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .solaris-code-block__identity-group {
+    min-inline-size: 0;
+    width: 100%;
+  }
+
+  .solaris-code-block__actions {
+    margin-inline-start: 0;
+    justify-content: flex-end;
+  }
+
+  .solaris-code-block__viewport {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .solaris-code-block__icon-button,
   .solaris-code-block__toggle-button,

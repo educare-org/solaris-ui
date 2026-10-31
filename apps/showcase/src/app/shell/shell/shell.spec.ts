@@ -18,6 +18,15 @@ describe('ShowcaseShell', () => {
   let router: Router;
 
   beforeEach(async () => {
+    Object.defineProperty(window, 'matchMedia', {
+      value: (query: string) => ({
+        matches: false,
+        media: query,
+        addEventListener: (): void => undefined,
+        removeEventListener: (): void => undefined,
+      }),
+      writable: true,
+    });
     await TestBed.configureTestingModule({
       imports: [ShowcaseShell],
       providers: [
@@ -65,8 +74,9 @@ describe('ShowcaseShell', () => {
   });
 
   it('should filter the sidebar through the header search', () => {
-    const input = fixture.debugElement.query(By.css('input[type="search"]'))
-      .nativeElement as HTMLInputElement;
+    const input = fixture.debugElement.query(
+      By.css('app-shell-header input[type="search"]'),
+    ).nativeElement as HTMLInputElement;
     input.value = 'dialog';
     input.dispatchEvent(new Event('input'));
     fixture.detectChanges();
@@ -77,32 +87,72 @@ describe('ShowcaseShell', () => {
     expect(links).toEqual(['Dialog']);
   });
 
-  it('should open and close the mobile navigation from the header', () => {
-    const menuButton = fixture.debugElement.query(
-      By.css('.shell-header__menu-button'),
-    );
+  function enableMobile(): void {
+    (
+      fixture.componentInstance as unknown as {
+        isMobile: { set(v: boolean): void };
+      }
+    ).isMobile.set(true);
+    fixture.detectChanges();
+  }
+
+  it('should render a scrim only while the mobile navigation is open', () => {
+    enableMobile();
+    expect(fixture.debugElement.query(By.css('.shell__scrim'))).toBeNull();
+
+    const navToggle = fixture.debugElement.query(By.css('.shell__nav-toggle'));
+    expect(navToggle).toBeTruthy();
+    navToggle.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(fixture.debugElement.query(By.css('.shell__scrim'))).toBeTruthy();
+  });
+
+  it('should open and close the mobile navigation from the fixed toggle', () => {
+    enableMobile();
+    const navToggle = fixture.debugElement.query(By.css('.shell__nav-toggle'));
     const sidebar = (): HTMLElement =>
       fixture.debugElement.query(By.css('nav.shell-sidebar')).nativeElement;
 
     expect(sidebar().getAttribute('data-open')).toBe('false');
 
-    menuButton.nativeElement.click();
+    navToggle.nativeElement.click();
     fixture.detectChanges();
 
     expect(sidebar().getAttribute('data-open')).toBe('true');
-    expect(menuButton.attributes['aria-expanded']).toBe('true');
+    expect(navToggle.attributes['aria-expanded']).toBe('true');
 
-    menuButton.nativeElement.click();
+    navToggle.nativeElement.click();
     fixture.detectChanges();
 
     expect(sidebar().getAttribute('data-open')).toBe('false');
   });
 
-  it('should close the mobile navigation after navigating', async () => {
-    const menuButton = fixture.debugElement.query(
-      By.css('.shell-header__menu-button'),
+  it('should keep the fixed toggle above header and drawer while animating', () => {
+    enableMobile();
+    const navToggle = fixture.debugElement.query(By.css('.shell__nav-toggle'));
+    navToggle.nativeElement.click();
+    fixture.detectChanges();
+
+    expect(navToggle.query(By.css('solaris-animated-icon'))).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.css('.shell__nav-toggle-wrap')),
+    ).toBeTruthy();
+
+    const fixedToggles = fixture.debugElement.queryAll(
+      By.css('.shell__nav-toggle-wrap app-theme-toggle'),
     );
-    menuButton.nativeElement.click();
+    expect(fixedToggles).toHaveLength(1);
+    expect(
+      fixedToggles[0].query(By.css('solaris-segmented-control')),
+    ).toBeNull();
+    expect(fixedToggles[0].query(By.css('button'))).toBeTruthy();
+  });
+
+  it('should close the mobile navigation after navigating', async () => {
+    enableMobile();
+    const navToggle = fixture.debugElement.query(By.css('.shell__nav-toggle'));
+    navToggle.nativeElement.click();
     fixture.detectChanges();
     expect(
       fixture.debugElement

@@ -109,6 +109,48 @@ describe('ShowcaseShellSidebar', () => {
     expect(subgroups).toEqual(['Actions']);
   });
 
+  it('should render no search, close or footer controls on desktop', () => {
+    expect(
+      fixture.debugElement.query(By.css('.shell-sidebar__topbar')),
+    ).toBeNull();
+    expect(
+      fixture.debugElement.query(By.css('.shell-sidebar__footer')),
+    ).toBeNull();
+    expect(
+      fixture.debugElement.query(By.css('input[type="search"]')),
+    ).toBeNull();
+  });
+
+  it('should render the theme controls in labels full-width mode in the mobile footer', () => {
+    fixture.componentRef.setInput('isMobile', true);
+    fixture.detectChanges();
+
+    const toggle = fixture.debugElement.query(
+      By.css('.shell-sidebar__footer app-theme-toggle'),
+    );
+    expect(toggle).toBeTruthy();
+    expect(toggle.query(By.css('solaris-segmented-control'))).toBeTruthy();
+    expect(toggle.query(By.css('button'))).toBeNull();
+  });
+
+  it('should render a topbar with alignment spacers and no controls on mobile', () => {
+    fixture.componentRef.setInput('isMobile', true);
+    fixture.componentRef.setInput('mobileOpen', true);
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.query(By.css('.shell-sidebar__close')),
+    ).toBeNull();
+    expect(
+      fixture.debugElement.queryAll(By.css('.shell-sidebar__topbar-spacer')),
+    ).toHaveLength(2);
+    expect(
+      fixture.debugElement.query(
+        By.css('.shell-sidebar__topbar app-theme-toggle'),
+      ),
+    ).toBeNull();
+  });
+
   it('should announce when no page matches the filter', () => {
     fixture.componentRef.setInput('query', 'zzz-no-such-page');
     fixture.detectChanges();

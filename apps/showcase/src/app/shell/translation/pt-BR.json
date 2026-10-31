@@ -146,10 +146,13 @@
     "skip-link": "Pular para o conteúdo",
     "theme": {
       "dark": "Tema escuro",
+      "dark-short": "Escuro",
       "high-contrast": "Alto contraste",
       "label": "Esquema de cores",
       "light": "Tema claro",
-      "system": "Tema do sistema"
+      "light-short": "Claro",
+      "system": "Tema do sistema",
+      "system-short": "Sistema"
     }
   }
 }

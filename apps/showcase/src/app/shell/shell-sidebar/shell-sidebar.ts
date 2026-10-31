@@ -22,6 +22,8 @@ import {
   SolarisTranslateService,
 } from '@solaris-ui/angular';
 
+import { ShowcaseThemeToggle } from '../../components/theme-toggle/component/theme-toggle';
+
 import { SHELL_SIDEBAR_SECTIONS } from './model/shell-sidebar.data';
 import type {
   ShowcaseSidebarNavItem,
@@ -41,6 +43,7 @@ import {
     RouterLink,
     RouterLinkActive,
     SolarisTranslatePipe,
+    ShowcaseThemeToggle,
   ],
   selector: 'app-shell-sidebar',
   templateUrl: './shell-sidebar.html',
@@ -56,6 +59,7 @@ export class ShowcaseShellSidebar {
 
   readonly query = input<string>('');
   readonly mobileOpen = input<boolean>(false);
+  readonly isMobile = input<boolean>(false);
   readonly mobileClosed = output<void>();
 
   protected readonly collapsedGroups = signal<readonly string[]>(

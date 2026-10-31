@@ -1,16 +1,7 @@
 <header class="shell-header">
-  <button
-    type="button"
-    class="shell-header__menu-button"
-    aria-controls="showcase-sidebar-nav"
-    [attr.aria-expanded]="menuExpanded().toString()"
-    [attr.aria-label]="
-      (menuExpanded() ? 'shell.menu.close' : 'shell.menu.open') | translate
-    "
-    (click)="menuToggle.emit()"
-  >
-    <span class="shell-header__menu-icon" aria-hidden="true"></span>
-  </button>
+  @if (isMobile()) {
+  <span class="shell-header__menu-spacer" aria-hidden="true"></span>
+  }
 
   <a
     routerLink="/"
@@ -23,6 +14,7 @@
     >
   </a>
 
+  @if (!isMobile()) {
   <div class="shell-header__actions">
     <solaris-form-field density="compact" prefix="search">
       <input
@@ -37,6 +29,11 @@
       />
     </solaris-form-field>
 
-    <app-theme-toggle />
+    <app-theme-toggle [showHighContrast]="false" />
   </div>
+
+  <app-theme-toggle class="shell-header__contrast" [showScheme]="false" />
+  } @else {
+  <span class="shell-header__contrast-spacer" aria-hidden="true"></span>
+  }
 </header>

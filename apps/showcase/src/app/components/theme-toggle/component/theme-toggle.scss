@@ -2,8 +2,23 @@
   display: inline-flex;
 }
 
+:host([data-full-width]) {
+  display: flex;
+  width: 100%;
+}
+
 .theme-toggle {
   display: inline-flex;
   align-items: center;
   gap: var(--solaris-spacing-5);
+}
+
+.theme-toggle[data-full-width] {
+  display: flex;
+  width: 100%;
+}
+
+.theme-toggle[data-full-width] solaris-segmented-control {
+  flex: 1 1 auto;
+  min-inline-size: 0;
 }

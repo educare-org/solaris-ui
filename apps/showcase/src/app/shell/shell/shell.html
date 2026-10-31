@@ -5,15 +5,42 @@
 <app-shell-header
   class="shell__header"
   [(searchQuery)]="searchQuery"
-  [menuExpanded]="sidebarOpen()"
-  (menuToggle)="toggleSidebar()"
+  [isMobile]="isMobile()"
 />
+
+@if (isMobile()) {
+<div class="shell__nav-toggle-wrap">
+  <button
+    type="button"
+    class="shell__nav-toggle"
+    solaris-icon-button
+    size="lg"
+    appearance="ghost"
+    solaris-menu-toggle
+    [solarisMenuToggleOpen]="sidebarOpen()"
+    (solarisMenuToggleOpenChange)="sidebarOpen.set($event)"
+    solarisMenuToggleControls="showcase-sidebar-nav"
+    solarisMenuToggleOpenLabelKey="shell.menu.open"
+    solarisMenuToggleCloseLabelKey="shell.menu.close"
+  >
+    <solaris-animated-icon
+      name="menu"
+      [active]="sidebarOpen()"
+      [decorative]="true"
+    />
+  </button>
+  <app-theme-toggle class="shell__nav-contrast" [showScheme]="false" />
+</div>
+} @if (sidebarOpen()) {
+<div class="shell__scrim" aria-hidden="true" (click)="closeSidebar()"></div>
+}
 
 <div class="shell__body">
   <app-shell-sidebar
     class="shell__sidebar"
     [query]="searchQuery()"
     [mobileOpen]="sidebarOpen()"
+    [isMobile]="isMobile()"
     (mobileClosed)="closeSidebar()"
   />
 

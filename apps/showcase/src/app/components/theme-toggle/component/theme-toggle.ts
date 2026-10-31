@@ -3,6 +3,7 @@ import {
   Component,
   DOCUMENT,
   inject,
+  input,
   PLATFORM_ID,
   signal,
 } from '@angular/core';
@@ -14,6 +15,8 @@ import {
   SolarisSegmentedControlComponent,
   SolarisSegmentedItemComponent,
   SolarisTranslatePipe,
+  type SolarisSegmentedControlDensity,
+  type SolarisSegmentedControlSize,
 } from '@solaris-ui/angular';
 
 import {
@@ -39,11 +42,23 @@ function isBaseTheme(value: unknown): value is ShowcaseBaseTheme {
   templateUrl: './theme-toggle.html',
   styleUrls: ['./theme-toggle.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[attr.data-full-width]': 'fullWidth() || undefined',
+  },
 })
 export class ShowcaseThemeToggle {
   private readonly document = inject(DOCUMENT);
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isBrowser = isPlatformBrowser(this.platformId);
+
+  readonly showScheme = input<boolean>(true);
+  readonly showHighContrast = input<boolean>(true);
+  readonly schemeDisplay = input<'icons' | 'labels'>('icons');
+  readonly fullWidth = input<boolean>(false);
+  readonly size = input<SolarisSegmentedControlSize>('md');
+  readonly density = input<SolarisSegmentedControlDensity | undefined>(
+    undefined,
+  );
 
   protected readonly baseTheme = signal<ShowcaseBaseTheme>('system');
   protected readonly highContrast = signal<boolean>(false);

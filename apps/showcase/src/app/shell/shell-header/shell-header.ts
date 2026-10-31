@@ -3,7 +3,6 @@ import {
   Component,
   input,
   model,
-  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
@@ -20,9 +19,9 @@ import { ShowcaseThemeToggle } from '../../components/theme-toggle/component/the
   imports: [
     RouterLink,
     SolarisTranslatePipe,
-    ShowcaseThemeToggle,
     SolarisFormFieldComponent,
     SolarisInputDirective,
+    ShowcaseThemeToggle,
   ],
   selector: 'app-shell-header',
   templateUrl: './shell-header.html',
@@ -31,8 +30,7 @@ import { ShowcaseThemeToggle } from '../../components/theme-toggle/component/the
 })
 export class ShowcaseShellHeader {
   readonly searchQuery = model<string>('');
-  readonly menuExpanded = input<boolean>(false);
-  readonly menuToggle = output<void>();
+  readonly isMobile = input<boolean>(false);
 
   protected clearSearch(): void {
     this.searchQuery.set('');
