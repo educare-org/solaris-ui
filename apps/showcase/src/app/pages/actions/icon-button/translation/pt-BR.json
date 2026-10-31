@@ -3,6 +3,9 @@
     "accessible-name": "Nome Acessível",
     "accessible-name-note": "Tanto aria-label quanto aria-labelledby fornecem um nome acessível para leitores de tela. Use aria-label diretamente no botão, ou aria-labelledby para referenciar um elemento com o texto do rótulo em outro lugar no DOM.",
     "anchor": "Link (âncora)",
+    "async": {
+      "note": "Execute uma ação assíncrona com pending, busy e disabled automáticos. Cliques durante o pending são ignorados."
+    },
     "appearances": {
       "label": "Aparências",
       "note": "Combine uma aparência com uma cor. As aparências cobrem todos os níveis de ênfase, do CTA sólido às ações ghost discretas."
@@ -20,6 +23,12 @@
       "note": "Custom não é um input arbitrário. Defina os tokens de cor personalizada no CSS."
     },
     "description": "Diretiva de atributo que transforma botões e links em botões de ação do Solaris representados apenas por ícone.",
+    "example": {
+      "async": {
+        "failure": "Falha. Tente novamente.",
+        "success": "Atualizado com sucesso."
+      }
+    },
     "installation": {
       "note": "Instale o pacote único do Solaris e importe a diretiva."
     },
@@ -38,6 +47,7 @@
     "radius": "Arredondamento",
     "section": {
       "appearances": "Aparência e cor",
+      "async": "Ação assíncrona",
       "badge": "Badge",
       "chromeless": "Sem cromo (chromeless)",
       "colors": "Cores",

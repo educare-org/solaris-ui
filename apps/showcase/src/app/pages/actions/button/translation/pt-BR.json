@@ -6,6 +6,9 @@
     "appearances": {
       "note": "Combine uma aparência com uma cor. As aparências cobrem todos os níveis de ênfase, do CTA sólido às ações ghost discretas."
     },
+    "async": {
+      "note": "Execute uma ação assíncrona com pending, busy e disabled automáticos. Cliques durante o pending são ignorados."
+    },
     "custom": {
       "note": "Custom não é um input arbitrário. Defina os tokens de cor personalizada no CSS.",
       "tab": {
@@ -15,6 +18,11 @@
     },
     "description": "Diretiva de atributo que transforma botões e links em botões tematizados do Solaris.",
     "example": {
+      "async": {
+        "failure": "Falha. Tente novamente.",
+        "save": "Salvar",
+        "success": "Salvo com sucesso."
+      },
       "basic": {
         "default": "Padrão",
         "outline": "Contorno",
@@ -76,6 +84,7 @@
     },
     "section": {
       "appearances": "Aparência e cor",
+      "async": "Ação assíncrona",
       "custom": "Cor personalizada",
       "density": "Densidade",
       "examples": "Exemplos",

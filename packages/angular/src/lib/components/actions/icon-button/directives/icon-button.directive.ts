@@ -22,10 +22,10 @@ import { SolarisButtonHostBase } from '../../button/directives/button-host-base'
     '[attr.data-appearance]': 'resolvedAppearance()',
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-group]': 'groupPlacement()',
-    '[attr.data-loading]': 'loading() || undefined',
+    '[attr.data-loading]': 'effectiveLoading() || undefined',
     '[attr.aria-pressed]': 'computedAriaPressed()',
     '[attr.data-pressed]': 'pressed() || undefined',
-    '[attr.aria-busy]': 'loading() ? "true" : null',
+    '[attr.aria-busy]': 'effectiveLoading() ? "true" : null',
     '[attr.data-chromeless]': 'chromeless() || undefined',
     '[tabindex]': 'isAnchor && isEffectivelyDisabled() ? "-1" : null',
     '[attr.aria-disabled]': 'isEffectivelyDisabled() ? "true" : null',
@@ -63,6 +63,6 @@ export class SolarisIconButtonDirective extends SolarisButtonHostBase {
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent): void {
-    this.handleAnchorClick(event);
+    this.handleActionClick(event);
   }
 }

@@ -9,7 +9,9 @@ import {
   EnvironmentInjector,
   inject,
   input,
+  output,
   PLATFORM_ID,
+  signal,
   type ComponentRef,
   type Signal,
 } from '@angular/core';
@@ -29,6 +31,14 @@ import {
 } from '../functions/button-variants';
 import { shouldAnimateWidth } from '../functions/button-motion';
 import {
+  beginAsync,
+  endAsync,
+  initialAsyncStatus,
+  resolveEffectiveLoading,
+  shouldIgnoreClick,
+  type ButtonAsyncStatus,
+} from '../functions/button-async';
+import {
   resolveAriaLabel as resolvePureAriaLabel,
   resolveLoadingLabel as resolvePureLoadingLabel,
 } from '../functions/button-a11y';
@@ -47,6 +57,16 @@ export abstract class SolarisButtonHostBase {
   abstract readonly loadingLabelKey: Signal<string | undefined>;
   abstract readonly ariaLabel: Signal<string | undefined>;
   abstract readonly ariaLabelKey: Signal<string | undefined>;
+
+  readonly action = input<(() => Promise<unknown>) | undefined>(undefined);
+  readonly actionSuccess = output<unknown>();
+  readonly actionError = output<unknown>();
+
+  protected readonly asyncStatus =
+    signal<ButtonAsyncStatus>(initialAsyncStatus());
+  protected readonly effectiveLoading = computed(() =>
+    resolveEffectiveLoading(this.loading(), this.asyncStatus()),
+  );
 
   protected readonly themeService = inject(SolarisThemeService);
 
@@ -116,7 +136,7 @@ export abstract class SolarisButtonHostBase {
   });
 
   protected readonly isEffectivelyDisabled = computed(() =>
-    resolveDisabled(this.disabled(), this.loading()),
+    resolveDisabled(this.disabled(), this.effectiveLoading()),
   );
 
   protected readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -177,7 +197,7 @@ export abstract class SolarisButtonHostBase {
     }
 
     effect(() => {
-      if (this.loading()) {
+      if (this.effectiveLoading()) {
         this.attachSpinner();
       } else {
         this.detachSpinner();
@@ -368,7 +388,7 @@ export abstract class SolarisButtonHostBase {
 
   protected syncLoadingAriaLabel(): void {
     const el = this.elementRef.nativeElement;
-    if (this.loading()) {
+    if (this.effectiveLoading()) {
       const label = this.resolvedLoadingLabel() ?? this.resolvedAriaLabel();
       if (label) {
         if (!this.managedLoadingLabel) {
@@ -424,6 +444,56 @@ export abstract class SolarisButtonHostBase {
     spinnerEl.remove();
     this.spinnerRef.destroy();
     this.spinnerRef = null;
+  }
+
+  protected handleActionClick(event: MouseEvent): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      this.handleAnchorClick(event);
+      return;
+    }
+    if (this.disabled()) {
+      this.handleAnchorClick(event);
+      return;
+    }
+    if (shouldIgnoreClick(this.asyncStatus())) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+    const run = this.action();
+    if (!run) {
+      this.handleAnchorClick(event);
+      return;
+    }
+    if (this.loading()) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+    if (this.isAnchor) {
+      event.preventDefault();
+    }
+    this.asyncStatus.set(beginAsync());
+    let started: unknown;
+    try {
+      started = run();
+    } catch (error) {
+      this.asyncStatus.set(endAsync());
+      this.actionError.emit(error);
+      this.elementRef.nativeElement.focus();
+      return;
+    }
+    void Promise.resolve(started).then(
+      (result) => {
+        this.asyncStatus.set(endAsync());
+        this.actionSuccess.emit(result);
+      },
+      (error) => {
+        this.asyncStatus.set(endAsync());
+        this.actionError.emit(error);
+        this.elementRef.nativeElement.focus();
+      },
+    );
   }
 
   protected handleAnchorClick(event: MouseEvent): void {

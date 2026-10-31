@@ -33,6 +33,8 @@ import { ShowcaseDocsSection } from '../../../../shell/docs-section/docs-section
 import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
 import {
   ICON_BUTTON_SHOWCASE_APPEARANCES,
+  ICON_BUTTON_SHOWCASE_ASYNC_HTML_CODE,
+  ICON_BUTTON_SHOWCASE_ASYNC_TS_CODE,
   ICON_BUTTON_SHOWCASE_BADGE_CODE,
   ICON_BUTTON_SHOWCASE_BREADCRUMBS,
   ICON_BUTTON_SHOWCASE_COLORS,
@@ -50,6 +52,7 @@ import {
   ICON_BUTTON_TRANSLATION_PREFIX,
 } from '../model/icon-button-showcase.data';
 import { BadgeIconButtonExample } from '../examples/badge/component/badge.component';
+import { AsyncIconButtonExample } from '../examples/async/component/async.component';
 import { CustomIconButtonExample } from '../examples/custom/component/custom.component';
 import { MotionIconButtonExample } from '../examples/motion/component/motion.component';
 import {
@@ -85,6 +88,7 @@ import {
     ShowcaseDocsPageHeader,
     ShowcaseDocsPageLayout,
     ShowcaseDocsSection,
+    AsyncIconButtonExample,
     BadgeIconButtonExample,
     CustomIconButtonExample,
     MotionIconButtonExample,
@@ -135,6 +139,20 @@ export class IconButtonShowcasePage {
       label: 'TypeScript',
       language: 'ts',
       code: ICON_BUTTON_SHOWCASE_MOTION_TS_CODE,
+    },
+  ];
+  protected readonly asyncFiles: readonly SolarisPreviewCodeFile[] = [
+    {
+      id: 'html',
+      label: 'HTML',
+      language: 'html',
+      code: ICON_BUTTON_SHOWCASE_ASYNC_HTML_CODE,
+    },
+    {
+      id: 'ts',
+      label: 'TypeScript',
+      language: 'ts',
+      code: ICON_BUTTON_SHOWCASE_ASYNC_TS_CODE,
     },
   ];
 

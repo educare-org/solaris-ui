@@ -59,6 +59,7 @@ Not:
 | `shape`           | `SolarisButtonShape`      | `'normal'`              | Button proportions (`normal` \| `wide`) |
 | `loading`         | `boolean`                 | `false`                 | Loading state                           |
 | `disabled`        | `boolean`                 | `false`                 | Disabled state                          |
+| `action`          | `() => Promise<unknown>`  | —                       | Async action (pending disables + loads) |
 | `pressed`         | `boolean \| undefined`    | `undefined`             | Toggle state (`aria-pressed` when set)  |
 | `fullWidth`       | `boolean`                 | `false`                 | Full width                              |
 | `loadingLabel`    | `string`                  | —                       | Accessible label during loading         |
@@ -67,6 +68,13 @@ Not:
 | `ariaLabelKey`    | `string`                  | —                       | i18n key for accessible label           |
 | `icon`            | `SolarisIconName`         | —                       | Icon rendered inside the button         |
 | `iconPosition`    | `'start' \| 'end'`        | `'start'`               | Whether the icon sits before or after   |
+
+### Outputs
+
+| Output          | Type      | Description                       |
+| --------------- | --------- | --------------------------------- |
+| `actionSuccess` | `unknown` | Emitted with the `action` result  |
+| `actionError`   | `unknown` | Emitted with the `action` failure |
 
 ### Types
 
@@ -327,6 +335,28 @@ When `loading` is `true`:
 
 ```html
 <button solaris-button [loading]="true">Salvar</button>
+```
+
+## Async action
+
+Pass an async function via `action`. While it runs, the button enters an
+internal `pending` state: effective loading is `manual || pending`, the
+effective disabled state includes `pending`, `aria-busy="true"` is set, and a
+second click is discarded. On success the button emits `actionSuccess` with
+the result; on failure it resets, restores focus to the button, and emits
+`actionError` with the error. A manual `loading="true"` still wins and is not
+cleared when the action settles. The action never runs on the server and the
+initial pending state is always `false`.
+
+```html
+<button solaris-button [action]="save" (actionSuccess)="onSaved($event)" (actionError)="onFailed($event)">Save</button>
+```
+
+On `<a>` with `href`, the directive calls `preventDefault()` before running
+the action, so the navigation does not race the async work:
+
+```html
+<a solaris-button href="/report" [action]="exportReport">Export</a>
 ```
 
 ## Disabled

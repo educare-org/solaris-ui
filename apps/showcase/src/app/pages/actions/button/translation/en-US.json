@@ -6,6 +6,9 @@
     "appearances": {
       "note": "Combine an appearance with a color. Appearances cover every emphasis level, from solid CTAs to low-weight ghost actions."
     },
+    "async": {
+      "note": "Run an async action with automatic pending, busy, and disabled states. Clicks during pending are ignored."
+    },
     "custom": {
       "note": "Custom is not an arbitrary input. Define the custom color tokens in CSS.",
       "tab": {
@@ -15,6 +18,11 @@
     },
     "description": "Attribute directive that turns buttons and anchors into Solaris-themed buttons.",
     "example": {
+      "async": {
+        "failure": "Failed. Try again.",
+        "save": "Save",
+        "success": "Saved successfully."
+      },
       "basic": {
         "default": "Default",
         "outline": "Outline",
@@ -76,6 +84,7 @@
     },
     "section": {
       "appearances": "Appearance & color",
+      "async": "Async action",
       "custom": "Custom color",
       "density": "Density",
       "examples": "Examples",

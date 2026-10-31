@@ -197,6 +197,15 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section anchor="async" titleKey="icon-button.section.async">
+    <p class="icon-button-showcase__note">
+      {{ 'icon-button.async.note' | translate }}
+    </p>
+    <solaris-preview-code [codeFiles]="asyncFiles">
+      <app-async-icon-button-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section anchor="states" titleKey="icon-button.section.states">
     <div class="icon-button-showcase__controls">
       <button solaris-button appearance="outline" (click)="toggleState()">

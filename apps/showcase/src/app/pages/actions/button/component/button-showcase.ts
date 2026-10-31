@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 import {
   SolarisButtonDirective,
@@ -32,6 +32,8 @@ import { ShowcaseDocsSection } from '../../../../shell/docs-section/docs-section
 import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
 import {
   BUTTON_SHOWCASE_APPEARANCES,
+  BUTTON_SHOWCASE_ASYNC_HTML_CODE,
+  BUTTON_SHOWCASE_ASYNC_TS_CODE,
   BUTTON_SHOWCASE_BASIC_CODE,
   BUTTON_SHOWCASE_BREADCRUMBS,
   BUTTON_SHOWCASE_COLORS,
@@ -63,6 +65,7 @@ import {
   type ActionPropRow,
 } from '../../model/action-props-table.data';
 import { BasicButtonExample } from '../examples/basic/component/basic.component';
+import { AsyncButtonExample } from '../examples/async/component/async.component';
 import { CustomButtonExample } from '../examples/custom/component/custom.component';
 import { MotionButtonExample } from '../examples/motion/component/motion.component';
 
@@ -85,6 +88,7 @@ import { MotionButtonExample } from '../examples/motion/component/motion.compone
     ShowcaseDocsPageLayout,
     ShowcaseDocsSection,
     BasicButtonExample,
+    AsyncButtonExample,
     CustomButtonExample,
     MotionButtonExample,
   ],
@@ -107,7 +111,6 @@ export class ButtonShowcasePage {
   protected readonly installCommands = BUTTON_SHOWCASE_INSTALL_COMMANDS;
   protected readonly importCode = BUTTON_SHOWCASE_IMPORT_CODE;
   protected readonly basicCode = BUTTON_SHOWCASE_BASIC_CODE;
-  protected readonly motionCode = BUTTON_SHOWCASE_MOTION_CODE;
 
   protected readonly customFiles: readonly SolarisPreviewCodeFile[] = [
     {
@@ -136,6 +139,21 @@ export class ButtonShowcasePage {
       label: 'TypeScript',
       language: 'ts',
       code: BUTTON_SHOWCASE_MOTION_TS_CODE,
+    },
+  ];
+
+  protected readonly asyncFiles: readonly SolarisPreviewCodeFile[] = [
+    {
+      id: 'html',
+      label: 'HTML',
+      language: 'html',
+      code: BUTTON_SHOWCASE_ASYNC_HTML_CODE,
+    },
+    {
+      id: 'ts',
+      label: 'TypeScript',
+      language: 'ts',
+      code: BUTTON_SHOWCASE_ASYNC_TS_CODE,
     },
   ];
 

@@ -36,8 +36,8 @@ import { SolarisIconComponent } from '../../../icon';
     '[attr.data-density]': 'effectiveDensity()',
     '[attr.data-group]': 'groupPlacement()',
     '[attr.aria-pressed]': 'computedAriaPressed()',
-    '[attr.data-loading]': 'loading() || undefined',
-    '[attr.aria-busy]': 'loading() ? "true" : null',
+    '[attr.data-loading]': 'effectiveLoading() || undefined',
+    '[attr.aria-busy]': 'effectiveLoading() ? "true" : null',
     '[attr.data-pressed]': 'pressed() || undefined',
     '[attr.data-full-width]': 'fullWidth() || undefined',
     '[attr.data-icon-position]': 'computedIconPosition()',
@@ -141,7 +141,7 @@ export class SolarisButtonDirective
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent): void {
-    this.handleAnchorClick(event);
+    this.handleActionClick(event);
   }
 
   ngAfterViewInit(): void {

@@ -44,6 +44,24 @@ export const ICON_BUTTON_PROP_ROWS: readonly ActionPropRow[] = [
     default: 'false',
   },
   {
+    prop: 'action',
+    type: '() => Promise<unknown>',
+    values: '—',
+    default: '—',
+  },
+  {
+    prop: 'actionSuccess',
+    type: 'unknown',
+    values: '—',
+    default: '—',
+  },
+  {
+    prop: 'actionError',
+    type: 'unknown',
+    values: '—',
+    default: '—',
+  },
+  {
     prop: 'loading',
     type: 'boolean',
     values: 'true | false',

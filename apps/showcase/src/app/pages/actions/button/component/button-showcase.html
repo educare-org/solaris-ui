@@ -226,6 +226,13 @@
     </solaris-preview-code>
   </app-docs-section>
 
+  <app-docs-section anchor="async" titleKey="button.section.async">
+    <p class="button-showcase__note">{{ 'button.async.note' | translate }}</p>
+    <solaris-preview-code [codeFiles]="asyncFiles">
+      <app-async-button-example />
+    </solaris-preview-code>
+  </app-docs-section>
+
   <app-docs-section anchor="states" titleKey="button.section.states">
     <div class="button-showcase__controls">
       <button solaris-button appearance="outline" (click)="toggleState()">
