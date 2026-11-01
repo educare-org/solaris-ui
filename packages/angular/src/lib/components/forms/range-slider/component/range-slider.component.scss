@@ -1,0 +1,652 @@
+// Why: range-slider shares the --solaris-slider-* track/thumb language with
+// solaris-slider (one visual foundation), but component :host blocks do not
+// cross component boundaries, so the full alias set is redeclared here;
+// otherwise vertical geometry (track-length) and dark surfaces collapse.
+:host {
+  --solaris-slider-track-height: var(--solaris-spacing-4);
+  --solaris-slider-track-length: var(--solaris-spacing-18);
+  --solaris-slider-track-color: var(--solaris-neutral-sunken);
+  --solaris-slider-fill-color: var(--solaris-primary-solid);
+  --solaris-slider-thumb-size: var(--solaris-spacing-8);
+  --solaris-slider-thumb-background: var(--solaris-neutral-default);
+  --solaris-slider-thumb-shadow: var(--solaris-shadow-sm);
+  --solaris-slider-thumb-icon-size: var(--solaris-spacing-5);
+  --solaris-slider-thumb-hit-extend: var(--solaris-spacing-7);
+  --solaris-slider-thumb-border-width: var(--solaris-border-width-sm);
+  --solaris-slider-thumb-border-color: var(--solaris-neutral-border-default);
+  --solaris-slider-tick-size: var(--solaris-spacing-3);
+  --solaris-slider-tick-color: var(--solaris-neutral-text-secondary);
+  --solaris-slider-value-gap: var(--solaris-spacing-3);
+  --solaris-slider-header-gap: var(--solaris-spacing-9);
+  --solaris-slider-edge-icon-size: var(--solaris-spacing-7);
+  --solaris-slider-tooltip-arrow-size: var(--solaris-spacing-5);
+  --solaris-slider-tooltip-reserve: var(--solaris-spacing-10);
+  --solaris-slider-label-color: var(--solaris-neutral-text-body);
+  --solaris-slider-value-color: var(--solaris-neutral-text-secondary);
+  --solaris-slider-focus-ring-color: var(--solaris-primary-solid);
+  --solaris-slider-custom-fill-color: initial;
+
+  outline: none;
+  display: flex;
+  flex-direction: column;
+
+  // Why: the host shrink-wraps to content inside centered preview containers;
+  // form controls fill their container instead.
+  width: 100%;
+  gap: var(--solaris-slider-value-gap);
+}
+
+// Why: the knob at either extreme overhangs the track edge by half its
+// width, and the invisible 44px hit extension reaches further past the
+// host. The body padding below keeps the knob itself (plus its focus ring)
+// inside the host; clipping the host then removes only the invisible
+// sliver, so the control can never cause page or preview overflow-x.
+// Wide transient text (tooltip, long custom values) may still touch the
+// clip at the extremes while revealed — accepted, state always stays in
+// per-thumb aria-valuenow/text.
+:host([data-orientation='horizontal']) {
+  overflow-x: clip;
+}
+
+:host([data-orientation='vertical']) {
+  overflow-y: clip;
+}
+
+.solaris-range-slider__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--solaris-slider-header-gap);
+}
+
+.solaris-range-slider__label {
+  flex: 1 1 auto;
+  color: var(--solaris-slider-label-color);
+  font-size: var(--solaris-font-size-md);
+  line-height: var(--solaris-line-height-md);
+}
+
+.solaris-range-slider__required {
+  color: var(--solaris-danger-solid);
+  margin-inline-start: var(--solaris-spacing-1);
+}
+
+.solaris-range-slider__value {
+  color: var(--solaris-slider-value-color);
+  font-size: var(--solaris-font-size-md);
+  line-height: var(--solaris-line-height-md);
+  font-weight: var(--solaris-font-weight-medium);
+  white-space: nowrap;
+
+  // Why: proportional digits change width per value and shift the header;
+  // tabular figures keep the inline value stable while dragging.
+  font-variant-numeric: tabular-nums;
+}
+
+.solaris-range-slider__body {
+  display: flex;
+  align-items: center;
+  gap: var(--solaris-slider-value-gap);
+}
+
+// Why: the opt-in tooltip floats above the thumb and would cover the header;
+// room for it is reserved only in tooltip mode so other modes stay compact.
+:host([data-value-display='tooltip']) .solaris-range-slider__body {
+  margin-top: var(--solaris-slider-tooltip-reserve);
+}
+
+// Why: per-thumb values overflow below the track and would overlap following
+// content (e.g. the description in a form); room is reserved only in thumb
+// mode, mirroring the tooltip reserve above.
+:host([data-value-display='thumb']) .solaris-range-slider__body {
+  margin-bottom: var(--solaris-spacing-10);
+}
+
+.solaris-range-slider__edge-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--solaris-slider-value-color);
+  font-size: var(--solaris-slider-edge-icon-size);
+}
+
+// Why: static scale bounds reuse the value color with tabular figures; no new
+// tokens, no motion — state already lives in per-thumb aria-valuenow/text.
+.solaris-range-slider__min,
+.solaris-range-slider__max {
+  flex-shrink: 0;
+  color: var(--solaris-slider-value-color);
+  font-size: var(--solaris-font-size-xs);
+  line-height: var(--solaris-line-height-sm);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+:host([data-orientation='horizontal']) .solaris-range-slider__min,
+:host([data-orientation='horizontal']) .solaris-range-slider__max {
+  // Why: the knob at either extreme overlaps the track edge by half its
+  // width; the margin keeps the static bounds clear of the thumbs.
+  margin-inline: var(--solaris-spacing-6);
+}
+
+:host([data-orientation='vertical']) .solaris-range-slider__min,
+:host([data-orientation='vertical']) .solaris-range-slider__max {
+  margin-block: var(--solaris-spacing-6);
+}
+
+.solaris-range-slider__track {
+  position: relative;
+  flex: 1 1 auto;
+  border-radius: var(--solaris-radius-md);
+  background: var(--solaris-slider-track-color);
+  touch-action: none;
+}
+
+:host([data-orientation='horizontal']) .solaris-range-slider__track {
+  height: var(--solaris-slider-track-height);
+  min-width: var(--solaris-spacing-15);
+}
+
+:host([data-orientation='vertical']) .solaris-range-slider__track {
+  width: var(--solaris-slider-track-height);
+  height: var(--solaris-slider-track-length);
+  flex: 0 0 auto;
+}
+
+:host([data-orientation='vertical']) .solaris-range-slider__body {
+  flex-direction: column;
+  padding-block: calc(
+    (var(--solaris-slider-thumb-size) / 2) + var(--solaris-focus-ring-offset) +
+      var(--solaris-focus-ring-width)
+  );
+}
+
+:host([data-orientation='horizontal']) .solaris-range-slider__body {
+  // Why: half the knob plus its focus ring stays inside the host at the
+  // extremes, so the thumb never crosses the component edge.
+  padding-inline: calc(
+    (var(--solaris-slider-thumb-size) / 2) + var(--solaris-focus-ring-offset) +
+      var(--solaris-focus-ring-width)
+  );
+}
+
+.solaris-range-slider__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--solaris-slider-fill-color);
+  transition: transform var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-decelerate);
+}
+
+:host([data-orientation='horizontal']) .solaris-range-slider__fill {
+  transform-origin: left center;
+}
+
+:host([data-orientation='vertical']) .solaris-range-slider__fill {
+  transform-origin: center top;
+}
+
+:host([data-dragging]) .solaris-range-slider__fill {
+  transition: none;
+}
+
+.solaris-range-slider__ticks {
+  position: absolute;
+  inset: 0;
+}
+
+.solaris-range-slider__tick {
+  position: absolute;
+  width: var(--solaris-slider-tick-size);
+  height: var(--solaris-slider-tick-size);
+  border-radius: 50%;
+  background: var(--solaris-slider-tick-color);
+}
+
+:host([data-orientation='horizontal']) .solaris-range-slider__tick {
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+:host([data-orientation='vertical']) .solaris-range-slider__tick {
+  left: 50%;
+  transform: translate(-50%, 50%);
+}
+
+.solaris-range-slider__thumb {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: 50%;
+  width: var(--solaris-slider-thumb-size);
+  height: var(--solaris-slider-thumb-size);
+  color: var(--solaris-slider-value-color);
+  font-size: var(--solaris-slider-thumb-icon-size);
+  background-color: var(--solaris-slider-thumb-background);
+  box-shadow: var(--solaris-slider-thumb-shadow);
+
+  // Why: the knob matches the raised surface in both themes and would vanish
+  // on the sunken track in dark; the token ring restores its edge.
+  border: var(--solaris-slider-thumb-border-width) solid
+    var(--solaris-slider-thumb-border-color);
+  cursor: grab;
+  transition:
+    transform var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard),
+    background-color var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-standard);
+}
+
+:host([data-orientation='horizontal']) .solaris-range-slider__thumb {
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+:host([data-orientation='vertical']) .solaris-range-slider__thumb {
+  left: 50%;
+  transform: translate(-50%, 50%);
+}
+
+// Why: the optical thumb stays compact while the hit target meets the 44px
+// minimum via an invisible token-sized extension on every size.
+.solaris-range-slider__thumb::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--solaris-slider-thumb-hit-extend));
+}
+
+:host([data-orientation='horizontal']) .solaris-range-slider__thumb:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+:host([data-orientation='vertical']) .solaris-range-slider__thumb:hover {
+  transform: translate(-50%, 50%) scale(1.15);
+}
+
+:host([data-orientation='horizontal']) .solaris-range-slider__thumb:active {
+  transform: translate(-50%, -50%) scale(var(--solaris-motion-scale-active));
+  cursor: grabbing;
+}
+
+:host([data-orientation='vertical']) .solaris-range-slider__thumb:active {
+  transform: translate(-50%, 50%) scale(var(--solaris-motion-scale-active));
+  cursor: grabbing;
+}
+
+.solaris-range-slider__thumb:focus-visible {
+  outline-offset: var(--solaris-focus-ring-offset);
+  outline: var(--solaris-focus-ring-width) var(--solaris-focus-ring-style)
+    var(--solaris-slider-focus-ring-color);
+}
+
+:host([data-orientation='horizontal'])
+  .solaris-range-slider__thumb:focus-visible {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+:host([data-orientation='vertical'])
+  .solaris-range-slider__thumb:focus-visible {
+  transform: translate(-50%, 50%) scale(1.15);
+}
+
+// Why: the one-shot pop animates the independent `scale` property so the
+// resting, hover, and focus `transform` (orientation-specific centering)
+// composes underneath; the end state is identity, so clearing
+// `data-released` never snaps the thumb.
+.solaris-range-slider__thumb[data-released] {
+  animation: solaris-range-slider-release-pop
+    var(--solaris-motion-duration-normal) var(--solaris-motion-easing-spring)
+    both;
+}
+
+@keyframes solaris-range-slider-release-pop {
+  0% {
+    scale: var(--solaris-motion-scale-active);
+  }
+
+  60% {
+    scale: 1.1;
+  }
+
+  100% {
+    scale: 1;
+  }
+}
+
+.solaris-range-slider__tooltip {
+  position: absolute;
+  bottom: calc(100% + var(--solaris-slider-value-gap));
+  left: 50%;
+  transform: translate(-50%, var(--solaris-motion-translate-sm));
+  opacity: 0;
+  white-space: nowrap;
+  border-radius: var(--solaris-radius-md);
+  padding: var(--solaris-spacing-2) var(--solaris-spacing-3);
+  color: var(--solaris-neutral-text-body);
+  font-size: var(--solaris-font-size-xs);
+  line-height: var(--solaris-line-height-sm);
+  background: var(--solaris-neutral-default);
+  box-shadow: var(--solaris-shadow-sm);
+  pointer-events: none;
+  transition:
+    opacity var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-accelerate),
+    transform var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-accelerate);
+}
+
+.solaris-range-slider__thumb:hover .solaris-range-slider__tooltip,
+.solaris-range-slider__thumb:focus-visible .solaris-range-slider__tooltip,
+:host([data-dragging]) .solaris-range-slider__tooltip {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition:
+    opacity var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-decelerate),
+    transform var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-decelerate);
+}
+
+// Why: same rotated-square arrow idiom as solaris-tooltip-panel, pointing
+// down at the thumb; static geometry, so no reduced-motion guard needed.
+.solaris-range-slider__tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: var(--solaris-slider-tooltip-arrow-size);
+  height: var(--solaris-slider-tooltip-arrow-size);
+  background: var(--solaris-neutral-default);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.solaris-range-slider__thumb-value {
+  position: absolute;
+  top: calc(100% + var(--solaris-spacing-2));
+  left: 50%;
+  transform: translateX(-50%) translateY(var(--solaris-motion-translate-sm));
+  white-space: nowrap;
+  color: var(--solaris-slider-value-color);
+  font-size: var(--solaris-font-size-xs);
+  line-height: var(--solaris-line-height-sm);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-accelerate),
+    transform var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-accelerate);
+}
+
+// Why: adjacent thumb values collide when thumbs gather, so each label
+// reveals only for its own hovered, focused, or dragged thumb; the state
+// itself always stays in aria-valuetext.
+.solaris-range-slider__thumb:hover .solaris-range-slider__thumb-value,
+.solaris-range-slider__thumb:focus-visible .solaris-range-slider__thumb-value,
+.solaris-range-slider__thumb[data-active] .solaris-range-slider__thumb-value {
+  opacity: 1;
+  transform: translateX(-50%);
+  transition:
+    opacity var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-decelerate),
+    transform var(--solaris-motion-duration-fast)
+      var(--solaris-motion-easing-decelerate);
+}
+
+:host([data-orientation='vertical']) .solaris-range-slider__thumb-value {
+  top: 50%;
+  left: calc(100% + var(--solaris-spacing-2));
+  transform: translateY(-50%) translateX(var(--solaris-motion-translate-sm));
+}
+
+:host([data-orientation='vertical'])
+  .solaris-range-slider__thumb:hover
+  .solaris-range-slider__thumb-value,
+:host([data-orientation='vertical'])
+  .solaris-range-slider__thumb:focus-visible
+  .solaris-range-slider__thumb-value,
+:host([data-orientation='vertical'])
+  .solaris-range-slider__thumb[data-active]
+  .solaris-range-slider__thumb-value {
+  transform: translateY(-50%);
+}
+
+.solaris-range-slider__description {
+  margin: 0;
+  color: var(--solaris-neutral-text-secondary);
+  font-size: var(--solaris-font-size-xs);
+  line-height: var(--solaris-line-height-sm);
+}
+
+:host([data-size='sm']) {
+  --solaris-slider-thumb-size: var(--solaris-spacing-7);
+  --solaris-slider-track-height: var(--solaris-spacing-3);
+}
+
+:host([data-size='md']) {
+  --solaris-slider-thumb-size: var(--solaris-spacing-8);
+  --solaris-slider-track-height: var(--solaris-spacing-4);
+}
+
+:host([data-size='lg']) {
+  --solaris-slider-thumb-size: var(--solaris-spacing-9);
+  --solaris-slider-track-height: var(--solaris-spacing-5);
+}
+
+:host([data-size='sm']) .solaris-range-slider__label,
+:host([data-size='sm']) .solaris-range-slider__value {
+  font-size: var(--solaris-font-size-sm);
+  line-height: var(--solaris-line-height-sm);
+}
+
+:host([data-size='lg']) .solaris-range-slider__label,
+:host([data-size='lg']) .solaris-range-slider__value {
+  font-size: var(--solaris-font-size-lg);
+  line-height: var(--solaris-line-height-lg);
+}
+
+:host([data-color='neutral']) {
+  --solaris-slider-fill-color: var(--solaris-neutral-text-body);
+  --solaris-slider-focus-ring-color: var(--solaris-neutral-text-body);
+}
+
+:host([data-color='primary']) {
+  --solaris-slider-fill-color: var(--solaris-primary-solid);
+  --solaris-slider-focus-ring-color: var(--solaris-primary-solid);
+}
+
+:host([data-color='success']) {
+  --solaris-slider-fill-color: var(--solaris-success-solid);
+  --solaris-slider-focus-ring-color: var(--solaris-success-solid);
+}
+
+:host([data-color='warning']) {
+  --solaris-slider-fill-color: var(--solaris-warning-solid);
+  --solaris-slider-focus-ring-color: var(--solaris-warning-solid);
+}
+
+:host([data-color='danger']) {
+  --solaris-slider-fill-color: var(--solaris-danger-solid);
+  --solaris-slider-focus-ring-color: var(--solaris-danger-solid);
+}
+
+:host([data-color='info']) {
+  --solaris-slider-fill-color: var(--solaris-info-solid);
+  --solaris-slider-focus-ring-color: var(--solaris-info-solid);
+}
+
+:host([data-color='custom']) {
+  --solaris-slider-fill-color: var(--solaris-slider-custom-fill-color);
+}
+
+:host([data-disabled]) {
+  --solaris-slider-disabled-opacity: var(--solaris-opacity-40);
+}
+
+:host([data-disabled]) .solaris-range-slider__track,
+:host([data-disabled]) .solaris-range-slider__header,
+:host([data-disabled]) .solaris-range-slider__edge-icon,
+:host([data-disabled]) .solaris-range-slider__min,
+:host([data-disabled]) .solaris-range-slider__max {
+  opacity: var(--solaris-slider-disabled-opacity);
+}
+
+:host([data-disabled]) .solaris-range-slider__thumb {
+  cursor: not-allowed;
+}
+
+:host([data-readonly]) .solaris-range-slider__thumb {
+  cursor: default;
+}
+
+:host([data-invalid]) {
+  --solaris-slider-focus-ring-color: var(--solaris-danger-solid);
+  --solaris-slider-fill-color: var(--solaris-danger-solid);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solaris-range-slider__fill,
+  .solaris-range-slider__thumb,
+  .solaris-range-slider__tooltip,
+  .solaris-range-slider__thumb-value,
+  .solaris-range-slider__thumb[data-released] {
+    transition: none;
+    animation: none;
+  }
+
+  // Why: the resets repeat the full `:host([data-orientation])` selector so
+  // they win over the hover/focus scale rules at equal specificity, later.
+  :host([data-orientation='horizontal']) .solaris-range-slider__thumb:hover,
+  :host([data-orientation='horizontal'])
+    .solaris-range-slider__thumb:focus-visible {
+    transform: translate(-50%, -50%);
+  }
+
+  :host([data-orientation='vertical']) .solaris-range-slider__thumb:hover,
+  :host([data-orientation='vertical'])
+    .solaris-range-slider__thumb:focus-visible {
+    transform: translate(-50%, 50%);
+  }
+
+  // Why: the reveal slide is motion, so every reveal state (hover, focus,
+  // dragged) rests at the final position when motion is reduced.
+  :host([data-orientation='horizontal'])
+    .solaris-range-slider__thumb:hover
+    .solaris-range-slider__thumb-value,
+  :host([data-orientation='horizontal'])
+    .solaris-range-slider__thumb:focus-visible
+    .solaris-range-slider__thumb-value,
+  :host([data-orientation='horizontal'])
+    .solaris-range-slider__thumb[data-active]
+    .solaris-range-slider__thumb-value {
+    transform: translateX(-50%);
+  }
+
+  :host([data-orientation='vertical'])
+    .solaris-range-slider__thumb:hover
+    .solaris-range-slider__thumb-value,
+  :host([data-orientation='vertical'])
+    .solaris-range-slider__thumb:focus-visible
+    .solaris-range-slider__thumb-value,
+  :host([data-orientation='vertical'])
+    .solaris-range-slider__thumb[data-active]
+    .solaris-range-slider__thumb-value {
+    transform: translateY(-50%);
+  }
+}
+
+:host-context([data-reduced-motion='true']) {
+  .solaris-range-slider__fill,
+  .solaris-range-slider__thumb,
+  .solaris-range-slider__tooltip,
+  .solaris-range-slider__thumb-value,
+  .solaris-range-slider__thumb[data-released] {
+    transition: none;
+    animation: none;
+  }
+}
+
+// Why: the resets keep the compound `:host-context(...):host(...)` form so
+// both conditions stay on one element (nesting would compile to a
+// descendant selector that never matches).
+:host-context([data-reduced-motion='true']):host(
+    [data-orientation='horizontal']
+  )
+  .solaris-range-slider__thumb:hover,
+:host-context([data-reduced-motion='true']):host(
+    [data-orientation='horizontal']
+  )
+  .solaris-range-slider__thumb:focus-visible {
+  transform: translate(-50%, -50%);
+}
+
+:host-context([data-reduced-motion='true']):host(
+    [data-orientation='horizontal']
+  )
+  .solaris-range-slider__thumb:hover
+  .solaris-range-slider__thumb-value,
+:host-context([data-reduced-motion='true']):host(
+    [data-orientation='horizontal']
+  )
+  .solaris-range-slider__thumb:focus-visible
+  .solaris-range-slider__thumb-value,
+:host-context([data-reduced-motion='true']):host(
+    [data-orientation='horizontal']
+  )
+  .solaris-range-slider__thumb[data-active]
+  .solaris-range-slider__thumb-value {
+  transform: translateX(-50%);
+}
+
+:host-context([data-reduced-motion='true']):host([data-orientation='vertical'])
+  .solaris-range-slider__thumb:hover,
+:host-context([data-reduced-motion='true']):host([data-orientation='vertical'])
+  .solaris-range-slider__thumb:focus-visible {
+  transform: translate(-50%, 50%);
+}
+
+:host-context([data-reduced-motion='true']):host([data-orientation='vertical'])
+  .solaris-range-slider__thumb:hover
+  .solaris-range-slider__thumb-value,
+:host-context([data-reduced-motion='true']):host([data-orientation='vertical'])
+  .solaris-range-slider__thumb:focus-visible
+  .solaris-range-slider__thumb-value,
+:host-context([data-reduced-motion='true']):host([data-orientation='vertical'])
+  .solaris-range-slider__thumb[data-active]
+  .solaris-range-slider__thumb-value {
+  transform: translateY(-50%);
+}
+
+// Why: paper has no hover, drag, or motion — the opt-in tooltip hides (its
+// reserve collapses), per-thumb values print statically, drag cursors go
+// static, and motion stops.
+@media print {
+  :host([data-value-display='tooltip']) .solaris-range-slider__body {
+    margin-top: var(--solaris-spacing-0);
+  }
+
+  .solaris-range-slider__tooltip {
+    display: none;
+  }
+
+  .solaris-range-slider__thumb-value {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+
+  :host([data-orientation='vertical']) .solaris-range-slider__thumb-value {
+    transform: translateY(-50%);
+  }
+
+  .solaris-range-slider__thumb {
+    cursor: default;
+    transition: none;
+    animation: none;
+  }
+
+  .solaris-range-slider__fill {
+    transition: none;
+  }
+}

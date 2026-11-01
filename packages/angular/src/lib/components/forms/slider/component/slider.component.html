@@ -1,0 +1,108 @@
+@if (showHeader()) {
+  <div class="solaris-slider__header">
+    @if (labelText(); as label) {
+      <span class="solaris-slider__label" [id]="labelId()">
+        {{ label }}
+        @if (requiredInput()) {
+          <span class="solaris-slider__required" aria-hidden="true">*</span>
+        }
+      </span>
+    }
+    @if (valueDisplay() === 'inline') {
+      <span class="solaris-slider__value">{{ displayText() }}</span>
+    }
+  </div>
+}
+<div class="solaris-slider__body">
+  @if (startIcon(); as startIconName) {
+    <span class="solaris-slider__edge-icon" aria-hidden="true">
+      <solaris-icon [name]="startIconName" [decorative]="true" />
+    </span>
+  }
+  @if (showMinMax()) {
+    <span class="solaris-slider__min" aria-hidden="true">{{ minLabel() }}</span>
+  }
+  <div
+    class="solaris-slider__track"
+    (pointerdown)="onTrackPointerDown($event)"
+    (pointermove)="onTrackPointerMove($event)"
+    (pointerup)="onTrackPointerUp($event)"
+    (pointercancel)="onTrackPointerCancel()"
+    #trackElement
+  >
+    <div
+      class="solaris-slider__fill"
+      aria-hidden="true"
+      [style.transform]="fillTransform()"
+    ></div>
+    @if (showTicks()) {
+      <div class="solaris-slider__ticks" aria-hidden="true">
+        @for (tick of tickOffsets(); track $index) {
+          <span
+            class="solaris-slider__tick"
+            [style.left]="orientation() === 'horizontal' ? tick + '%' : null"
+            [style.bottom]="orientation() === 'vertical' ? tick + '%' : null"
+          ></span>
+        }
+      </div>
+    }
+    <div
+      class="solaris-slider__thumb"
+      role="slider"
+      [attr.tabindex]="isEffectivelyDisabled() ? -1 : 0"
+      [attr.aria-valuemin]="min()"
+      [attr.aria-valuemax]="max()"
+      [attr.aria-valuenow]="effectiveValue()"
+      [attr.aria-valuetext]="ariaValueText()"
+      [attr.aria-orientation]="orientation()"
+      [attr.aria-label]="effectiveAriaLabel() ?? null"
+      [attr.aria-labelledby]="ariaLabelledBy()"
+      [attr.aria-describedby]="ariaDescribedBy()"
+      [attr.aria-disabled]="isEffectivelyDisabled() ? 'true' : null"
+      [attr.aria-readonly]="readonlyInput() ? 'true' : null"
+      [attr.aria-invalid]="invalidInput() ? 'true' : null"
+      [style.left]="orientation() === 'horizontal' ? thumbOffset() : null"
+      [style.bottom]="orientation() === 'vertical' ? thumbOffset() : null"
+      [attr.data-released]="_released() ? '' : null"
+      (keydown)="onThumbKeydown($event)"
+      (focus)="onThumbFocus()"
+      (blur)="onThumbBlur()"
+      (animationend)="onThumbAnimationEnd()"
+      #thumbElement
+    >
+      @if (thumbIcon(); as thumbIconName) {
+        <solaris-icon [name]="thumbIconName" [decorative]="true" />
+      }
+      @if (valueDisplay() === 'thumb') {
+        <span class="solaris-slider__thumb-value" aria-hidden="true">{{
+          displayText()
+        }}</span>
+      }
+      @if (valueDisplay() === 'tooltip') {
+        <span class="solaris-slider__tooltip" aria-hidden="true">{{
+          displayText()
+        }}</span>
+      }
+    </div>
+  </div>
+  @if (showMinMax()) {
+    <span class="solaris-slider__max" aria-hidden="true">{{ maxLabel() }}</span>
+  }
+  @if (endIcon(); as endIconName) {
+    <span class="solaris-slider__edge-icon" aria-hidden="true">
+      <solaris-icon [name]="endIconName" [decorative]="true" />
+    </span>
+  }
+</div>
+@if (descriptionText(); as description) {
+  <p class="solaris-slider__description" [id]="descriptionId()">
+    {{ description }}
+  </p>
+}
+<input
+  type="hidden"
+  aria-hidden="true"
+  tabindex="-1"
+  [attr.name]="name() ?? null"
+  [value]="effectiveValue()"
+/>
