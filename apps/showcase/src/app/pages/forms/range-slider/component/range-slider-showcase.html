@@ -1,0 +1,208 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="range-slider.title"
+    descriptionKey="range-slider.description.label"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="range-slider.section.examples">
+    <p class="range-slider-showcase__note">
+      {{ 'range-slider.examples.note' | translate }}
+    </p>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="currencyCode"
+      language="html"
+    >
+      <app-currency-range-slider-example
+        [label]="'range-slider.examples.budget' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="types" titleKey="range-slider.section.types">
+    <p class="range-slider-showcase__note">
+      {{ 'range-slider.types.note' | translate }}
+    </p>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="negativeCode"
+      language="html"
+    >
+      <solaris-range-slider
+        [label]="'range-slider.examples.temperature' | translate"
+        [min]="-30"
+        [max]="30"
+        [values]="[-10, 20]"
+        unit="°C"
+      />
+    </solaris-preview-code>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="minMaxCode"
+      language="html"
+    >
+      <solaris-range-slider
+        [label]="'range-slider.examples.range' | translate"
+        [(values)]="prices"
+        [showMinMax]="true"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="thumbs" titleKey="range-slider.section.thumbs">
+    <p class="range-slider-showcase__note">
+      {{ 'range-slider.thumbs.note' | translate }}
+    </p>
+    <solaris-tabs
+      [(value)]="selectedThumbs"
+      [ariaLabel]="'range-slider.section.thumbs' | translate"
+    >
+      <solaris-tab value="three"
+        >{{ 'range-slider.thumbs.tab.three' | translate }}</solaris-tab
+      >
+      <solaris-tab value="five"
+        >{{ 'range-slider.thumbs.tab.five' | translate }}</solaris-tab
+      >
+      <solaris-tab value="gap"
+        >{{ 'range-slider.examples.gap' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="thumbsCode()"
+      language="html"
+    >
+      @if (selectedThumbs() === 'three') {
+      <app-three-range-slider-example
+        [label]="'range-slider.examples.segments' | translate"
+      />
+      } @else if (selectedThumbs() === 'five') {
+      <solaris-range-slider
+        [label]="'range-slider.examples.stops' | translate"
+        [values]="[5, 25, 50, 75, 95]"
+      />
+      } @else {
+      <solaris-range-slider
+        [label]="'range-slider.examples.gap' | translate"
+        [values]="[20, 80]"
+        [minStepsBetweenThumbs]="10"
+      />
+      }
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="vertical" titleKey="range-slider.section.vertical">
+    <p class="range-slider-showcase__note">
+      {{ 'range-slider.vertical.note' | translate }}
+    </p>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="verticalCode"
+      language="html"
+    >
+      <solaris-range-slider
+        [label]="'range-slider.examples.range' | translate"
+        orientation="vertical"
+        [(values)]="balance"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="ticks" titleKey="range-slider.section.ticks">
+    <p class="range-slider-showcase__note">
+      {{ 'range-slider.ticks.note' | translate }}
+    </p>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="ticksCode"
+      language="html"
+    >
+      <solaris-range-slider
+        [label]="'range-slider.examples.brightness' | translate"
+        [showTicks]="true"
+        [tickStep]="10"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="range-slider.section.states">
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="statesCode"
+      language="html"
+    >
+      <div class="range-slider-showcase__stack">
+        <solaris-range-slider
+          [label]="'range-slider.states.disabled' | translate"
+          [disabled]="true"
+        />
+        <solaris-range-slider
+          [label]="'range-slider.states.readonly' | translate"
+          [readonly]="true"
+        />
+        <solaris-range-slider
+          [label]="'range-slider.states.invalid' | translate"
+          [invalid]="true"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="form" titleKey="range-slider.section.form">
+    <div class="range-slider-showcase__stack">
+      <solaris-preview-code
+        previewAlign="stretch"
+        [code]="formFieldCode"
+        language="html"
+      >
+        <solaris-form-field
+          appearance="minimal"
+          [label]="'range-slider.examples.price' | translate"
+          [hint]="'range-slider.form-field-hint' | translate"
+        >
+          <solaris-range-slider [formControl]="pricesControl" />
+        </solaris-form-field>
+      </solaris-preview-code>
+      <solaris-preview-code
+        previewAlign="stretch"
+        [code]="reactiveCode"
+        language="html"
+      >
+        <solaris-range-slider
+          [label]="'range-slider.examples.price' | translate"
+          [formControl]="pricesControl"
+        />
+      </solaris-preview-code>
+      <p class="range-slider-showcase__note">
+        {{ 'range-slider.current-value' | translate }} {{ pricesControl.value }}
+      </p>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="range-slider.section.installation"
+  >
+    <p class="range-slider-showcase__note">
+      {{ 'range-slider.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="range-slider.section.props">
+    <p class="range-slider-showcase__note">
+      {{ 'range-slider.props.note' | translate }}
+    </p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

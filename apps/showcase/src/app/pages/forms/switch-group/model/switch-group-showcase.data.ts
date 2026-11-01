@@ -20,8 +20,8 @@ export const SWITCH_GROUP_SHOWCASE_PREV: ShowcaseDocsPageNav = {
 };
 
 export const SWITCH_GROUP_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
-  labelKey: 'shell.sidebar.item.selection-card',
-  route: '/forms/selection-card',
+  labelKey: 'shell.sidebar.item.slider',
+  route: '/forms/slider',
 };
 
 export const SWITCH_GROUP_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [

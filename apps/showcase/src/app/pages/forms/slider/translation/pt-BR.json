@@ -1,0 +1,80 @@
+{
+  "slider": {
+    "ai": {
+      "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Ajude-me a entender como usá-lo. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
+    },
+    "color": {
+      "danger": "Perigo",
+      "info": "Informação",
+      "neutral": "Neutro",
+      "primary": "Primário",
+      "success": "Sucesso",
+      "warning": "Atenção"
+    },
+    "color-size": {
+      "note": "Tamanho e cor atualizam o exemplo ao vivo abaixo."
+    },
+    "current-value": "Valor atual:",
+    "description": {
+      "label": "Controle de formulário para escolher um único valor numérico em um intervalo contínuo, com teclado, Angular Forms e i18n completos."
+    },
+    "display": {
+      "none": "Nenhum",
+      "note": "Inline mostra rótulo mais valor no cabeçalho. Tooltip é opt-in acima do polegar. Thumb renderiza o valor sob o polegar.",
+      "thumb": "Polegar",
+      "tooltip": "Tooltip"
+    },
+    "examples": {
+      "balance": "Balanço",
+      "brightness": "Brilho",
+      "note": "Arraste o polegar, clique na trilha ou use o teclado.",
+      "opacity": "Opacidade",
+      "volume": "Volume"
+    },
+    "form-field-hint": "Estas opções afetam suas caixas de som.",
+    "icons": {
+      "note": "Ícones decorativos de borda enquadram o intervalo; o ícone do polegar é livre para qualquer ícone Solaris e nunca afeta o nome acessível."
+    },
+    "installation": {
+      "note": "Instale o pacote Solaris UI e importe o componente slider."
+    },
+    "props": {
+      "note": "Tabela de props em breve com o componente table."
+    },
+    "section": {
+      "color": "Cor",
+      "color-size": "Tamanho & cor",
+      "display": "Exibição do valor",
+      "examples": "Exemplos",
+      "form": "Integração com formulários",
+      "icons": "Ícones",
+      "installation": "Instalação",
+      "props": "Props",
+      "scale": "Escala",
+      "sizes": "Tamanhos",
+      "states": "Estados",
+      "ticks": "Marcas",
+      "vertical": "Vertical"
+    },
+    "size": {
+      "lg": "Grande",
+      "md": "Médio",
+      "sm": "Pequeno"
+    },
+    "states": {
+      "disabled": "Desabilitado",
+      "invalid": "Inválido",
+      "readonly": "Somente leitura"
+    },
+    "ticks": {
+      "note": "Marcas são decorativas (aria-hidden) e derivam de showTicks mais tickStep."
+    },
+    "title": "Slider",
+    "scale": {
+      "note": "Limites estáticos marcam o mínimo e o máximo da trilha."
+    },
+    "vertical": {
+      "note": "Vertical preenche de baixo para cima. O teclado é idêntico nos dois eixos: ArrowUp e ArrowRight aumentam."
+    }
+  }
+}

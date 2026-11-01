@@ -117,6 +117,20 @@ export const formsRoutes: Route[] = [
           ).then((m) => m.SwitchGroupShowcasePage),
       },
       {
+        path: 'slider',
+        loadComponent: () =>
+          import('../pages/forms/slider/component/slider-showcase').then(
+            (m) => m.SliderShowcasePage,
+          ),
+      },
+      {
+        path: 'range-slider',
+        loadComponent: () =>
+          import(
+            '../pages/forms/range-slider/component/range-slider-showcase'
+          ).then((m) => m.RangeSliderShowcasePage),
+      },
+      {
         path: 'option',
         loadComponent: () =>
           import('../pages/forms/option/component/option-showcase').then(

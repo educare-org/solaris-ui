@@ -1,0 +1,10 @@
+{
+  "solaris": {
+    "slider": {
+      "minHandle": "Valor mínimo",
+      "maxHandle": "Valor máximo",
+      "thumbN": "Valor {{index}} de {{total}}",
+      "empty": "Ningún valor seleccionado"
+    }
+  }
+}
