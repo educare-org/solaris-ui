@@ -38,27 +38,13 @@ export const TABLE_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
 
 export const TABLE_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'examples', labelKey: 'table.section.examples' },
-  { anchor: 'basic', labelKey: 'table.section.basic' },
-  { anchor: 'sorting', labelKey: 'table.section.sorting' },
-  { anchor: 'selection', labelKey: 'table.section.selection' },
+  { anchor: 'interaction', labelKey: 'table.section.interaction' },
   { anchor: 'composition', labelKey: 'table.section.composition' },
-  { anchor: 'row-dialog', labelKey: 'table.section.row-dialog' },
-  { anchor: 'responsive', labelKey: 'table.section.responsive' },
-  { anchor: 'cell-expand', labelKey: 'table.section.cell-expand' },
+  { anchor: 'expansion', labelKey: 'table.section.expansion' },
+  { anchor: 'structure', labelKey: 'table.section.structure' },
   { anchor: 'appearance', labelKey: 'table.section.appearance' },
-  { anchor: 'wide', labelKey: 'table.section.wide' },
-  { anchor: 'sticky-column', labelKey: 'table.section.sticky-column' },
-  { anchor: 'footer', labelKey: 'table.section.footer' },
-  { anchor: 'header-groups', labelKey: 'table.section.header-groups' },
-  { anchor: 'cell-editing', labelKey: 'table.section.cell-editing' },
-  { anchor: 'add-row', labelKey: 'table.section.add-row' },
-  { anchor: 'with-tabs', labelKey: 'table.section.with-tabs' },
-  { anchor: 'mobile', labelKey: 'table.section.mobile' },
-  { anchor: 'layout', labelKey: 'table.section.layout' },
-  { anchor: 'states', labelKey: 'table.section.states' },
-  { anchor: 'server', labelKey: 'table.section.server' },
-  { anchor: 'with-pagination', labelKey: 'table.section.with-pagination' },
-  { anchor: 'with-toolbar', labelKey: 'table.section.with-toolbar' },
+  { anchor: 'data', labelKey: 'table.section.data' },
+  { anchor: 'advanced', labelKey: 'table.section.advanced' },
   { anchor: 'installation', labelKey: 'table.section.installation' },
   { anchor: 'props', labelKey: 'table.section.props' },
 ];
@@ -252,14 +238,6 @@ export const TABLE_ADD_ROW_CODE = [
   '  [showAddRow]="true"',
   '  (addRowRequest)="onAddRow()"',
   '/>',
-].join('\n');
-
-export const TABLE_WITH_TABS_CODE = [
-  '<solaris-tabs [(value)]="tab">',
-  '  <solaris-tab value="all">All</solaris-tab>',
-  '  <solaris-tab value="recent">Recent</solaris-tab>',
-  '</solaris-tabs>',
-  '<solaris-table [data]="rows()" [columns]="columns" rowId="id" />',
 ].join('\n');
 
 export const TABLE_STICKY_CODE = [

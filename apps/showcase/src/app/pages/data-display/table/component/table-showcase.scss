@@ -13,6 +13,18 @@
   margin-bottom: var(--solaris-spacing-4);
 }
 
+.table-showcase__stack {
+  display: grid;
+  gap: var(--solaris-spacing-6);
+}
+
+.table-showcase__subtitle {
+  margin: 0 0 var(--solaris-spacing-2);
+  color: var(--solaris-neutral-text-heading);
+  font: var(--solaris-font-weight-semibold) var(--solaris-font-size-sm) /
+    var(--solaris-line-height-sm) var(--solaris-font-family-sans);
+}
+
 .table-showcase__phone {
   max-width: 375px;
   margin: 0 auto;
@@ -53,4 +65,9 @@
 .points-detail__row--total {
   color: var(--solaris-neutral-text-body);
   font-weight: var(--solaris-font-weight-semibold);
+}
+
+.table-showcase__props-values {
+  overflow-wrap: anywhere;
+  white-space: normal;
 }

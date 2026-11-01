@@ -2,8 +2,10 @@ import { DOCUMENT } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 
 import {
+  SolarisButtonDirective,
   SolarisCodeBlockComponent,
   SolarisPreviewCodeComponent,
+  SolarisTableCellDirective,
   SolarisTableComponent,
   SolarisTableCellEditorDirective,
   SolarisTableDetailDirective,
@@ -13,6 +15,7 @@ import {
   SolarisTranslateService,
   createServerTableDataSource,
   type SolarisTableAppearance,
+  type SolarisTableColumn,
   type SolarisTableSelectionMode,
   type SolarisTableSort,
   type SolarisTableStripedMode,
@@ -24,6 +27,7 @@ import { ShowcaseDocsPageLayout } from '../../../../shell/docs-page-layout/docs-
 import { ShowcaseDocsSection } from '../../../../shell/docs-section/docs-section';
 
 import { createShowcasePageActions } from '../../../shared/showcase-page-utils';
+import { TABLE_PROP_ROWS } from '../model/table-showcase-props.data';
 import {
   TABLE_ADD_ROW_CODE,
   TABLE_APPEARANCE_CODE,
@@ -37,7 +41,6 @@ import {
   TABLE_RESPONSIVE_CODE,
   TABLE_ROW_DIALOG_CODE,
   TABLE_SELECTION_CODE,
-  TABLE_WITH_TABS_CODE,
   TABLE_SHOWCASE_APPEARANCES,
   TABLE_SHOWCASE_BASIC_CODE,
   TABLE_SHOWCASE_BASIC_COLUMNS,
@@ -71,10 +74,16 @@ import { PeopleTableExample } from '../examples/people/component/people.componen
 import { RowDialogTableExample } from '../examples/row-dialog/component/row-dialog.component';
 import { WithPaginationTableExample } from '../examples/with-pagination/component/with-pagination.component';
 import { WithToolbarTableExample } from '../examples/with-toolbar/component/with-toolbar.component';
+import {
+  buildFormPropsColumns,
+  type FormPropRow,
+} from '../../../forms/model/form-props-table.data';
 
 @Component({
   standalone: true,
   imports: [
+    SolarisButtonDirective,
+    SolarisTableCellDirective,
     SolarisTableComponent,
     SolarisTableCellEditorDirective,
     SolarisTableDetailDirective,
@@ -113,7 +122,6 @@ export class TableShowcasePage {
   protected readonly selectionCode = TABLE_SELECTION_CODE;
   protected readonly peopleCode = TABLE_PEOPLE_CODE;
   protected readonly addRowCode = TABLE_ADD_ROW_CODE;
-  protected readonly withTabsCode = TABLE_WITH_TABS_CODE;
   protected readonly rowDialogCode = TABLE_ROW_DIALOG_CODE;
   protected readonly responsiveCode = TABLE_RESPONSIVE_CODE;
   protected readonly cellExpandCode = TABLE_CELL_EXPAND_CODE;
@@ -150,12 +158,11 @@ export class TableShowcasePage {
     });
   }
   protected readonly mobileComposedCode = TABLE_MOBILE_COMPOSED_CODE;
-  protected readonly datasetTab = signal<'all' | 'recent'>('all');
-  protected readonly datasetRows = computed(() =>
-    this.datasetTab() === 'recent'
-      ? TABLE_SHOWCASE_ROWS.slice(5, 10)
-      : TABLE_SHOWCASE_ROWS.slice(0, 5),
+  protected readonly compositionTab = signal<'people' | 'dialog' | 'mobile'>(
+    'people',
   );
+  protected readonly expansionTab = signal<'row' | 'cell'>('row');
+  protected readonly structureTab = signal<'groups' | 'footer'>('groups');
   protected readonly layoutCode = TABLE_LAYOUT_CODE;
   protected readonly layoutMode = signal<'auto' | 'full'>('auto');
   protected readonly statesCode = TABLE_STATES_CODE;
@@ -188,6 +195,18 @@ export class TableShowcasePage {
   protected readonly selectedRowIds = signal<readonly string[]>([]);
   protected readonly stateTab = signal<'loading' | 'empty' | 'error'>(
     'loading',
+  );
+
+  protected readonly propsRows = TABLE_PROP_ROWS;
+
+  protected readonly propsColumns = computed<SolarisTableColumn<FormPropRow>[]>(
+    () =>
+      buildFormPropsColumns({
+        prop: this.translateService.translate('table.props.colProp'),
+        type: this.translateService.translate('table.props.colType'),
+        values: this.translateService.translate('table.props.colValues'),
+        default: this.translateService.translate('table.props.colDefault'),
+      }),
   );
 
   private readonly pageActions = createShowcasePageActions(

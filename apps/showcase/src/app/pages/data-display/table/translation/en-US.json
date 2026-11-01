@@ -6,6 +6,9 @@
     "add-row": {
       "note": "Inline creation row. It only emits addRowRequest; action buttons in the toolbar stay separate."
     },
+    "advanced": {
+      "note": "Pagination and toolbar projected into the table slots."
+    },
     "ai": {
       "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
     },
@@ -40,9 +43,15 @@
     "composition": {
       "note": "Avatar and badge columns compose existing components through cell templates. Use column.icon for simple header icons without a template."
     },
+    "data": {
+      "note": "Async states and paginated server data."
+    },
     "description": "Lean data table with sorting, selection, and pluggable states.",
     "examples": {
       "note": "Start with the default table, then explore sorting, selection, and states below."
+    },
+    "expansion": {
+      "note": "Expandable details per row on mobile or per cell."
     },
     "footer": {
       "average": "Average",
@@ -53,6 +62,9 @@
     },
     "header-groups": {
       "note": "Consecutive columns merge under one group label; ungrouped columns span both rows."
+    },
+    "interaction": {
+      "note": "Sorting, selection, in-place editing and row creation."
     },
     "installation": {
       "note": "Install the single Solaris package, then import the component."
@@ -68,7 +80,11 @@
       "note": "Phone-width cards composing avatar, badge, and actions with no horizontal dragging."
     },
     "props": {
-      "note": "Props table coming soon."
+      "note": "Every input the table accepts, with types, values, and defaults.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
     },
     "responsive": {
       "note": "On mobile (720px and below) priority columns collapse into an expandable detail row in the Actions column. Columns can also carry their own detail template with extra information."
@@ -78,16 +94,18 @@
     },
     "section": {
       "add-row": "Add row",
+      "advanced": "Advanced",
       "appearance": "Appearance",
-      "basic": "Basic",
       "cell-editing": "Cell editing",
       "cell-expand": "Cell expansion",
       "composition": "Composition",
+      "data": "Data",
       "examples": "Examples",
+      "expansion": "Expansion",
       "footer": "Footer aggregates",
       "header-groups": "Header groups",
       "installation": "Installation",
-      "layout": "Layout",
+      "interaction": "Interaction",
       "mobile": "Mobile",
       "props": "Props",
       "responsive": "Responsive",
@@ -97,9 +115,8 @@
       "sorting": "Sorting",
       "states": "States",
       "sticky-column": "Sticky column",
-      "wide": "Many columns",
+      "structure": "Structure",
       "with-pagination": "With pagination",
-      "with-tabs": "With tabs",
       "with-toolbar": "With toolbar"
     },
     "selection": {
@@ -111,7 +128,8 @@
       }
     },
     "server": {
-      "note": "A simulated server owns rows, total, and loading through SolarisTableDataSource."
+      "note": "A simulated server owns rows, total, and loading through SolarisTableDataSource.",
+      "reload": "Reload"
     },
     "sorting": {
       "note": "Click a column header to cycle null, ascending, descending. Changes are announced to screen readers."
@@ -131,6 +149,9 @@
         "on": "Pinned"
       }
     },
+    "structure": {
+      "note": "Horizontal scrolling with a sticky column, header groups and footer aggregates."
+    },
     "title": "Table",
     "wide": {
       "note": "Wide tables scroll horizontally inside the viewport. Use fullWidth to distribute columns instead."
@@ -141,13 +162,6 @@
         "default": "Default",
         "description": "With description",
         "mobile": "Mobile"
-      }
-    },
-    "with-tabs": {
-      "note": "Tabs switch datasets while each table keeps its own sort.",
-      "tab": {
-        "all": "All",
-        "recent": "Recent"
       }
     },
     "with-toolbar": {

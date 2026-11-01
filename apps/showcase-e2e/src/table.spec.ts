@@ -13,20 +13,18 @@ test.describe('Table', () => {
     await expect(page.locator('solaris-table').first()).toBeVisible();
     const aside = page.getByRole('navigation', { name: 'On this page' });
     await expect(aside).toBeVisible();
-    const sortingLink = aside.getByRole('link', { name: 'Sorting' });
+    const sortingLink = aside.getByRole('link', { name: 'Interaction' });
     await sortingLink.click();
     await expect(sortingLink).toHaveAttribute('aria-current', 'true');
-    await expect(page.locator('#sorting h2')).toBeInViewport();
+    await expect(page.locator('#interaction h2')).toBeInViewport();
   });
 
   test('cycles sort with aria-sort updates', async ({ page }) => {
-    const sortingSection = page.locator('#sorting');
-    const nameHeader = sortingSection.locator(
-      '.solaris-table__head-cell[data-column-id="name"]',
-    );
+    const sortingSection = page.locator('#interaction');
+    const nameHeader = sortingSection
+      .locator('.solaris-table__head-cell[data-column-id="name"]')
+      .first();
     await expect(nameHeader).toHaveAttribute('aria-sort', 'none');
-    // Keyboard path: the sticky header shifts under pointer scrolling, so
-    // the sort button is driven via focus + Enter like keyboard users do.
     const sortButton = nameHeader.getByRole('button');
     await sortButton.focus();
     await page.keyboard.press('Enter');
@@ -36,7 +34,7 @@ test.describe('Table', () => {
   });
 
   test('selects rows through multiple selection tabs', async ({ page }) => {
-    const selectionSection = page.locator('#selection');
+    const selectionSection = page.locator('#interaction');
     await selectionSection.getByRole('tab', { name: 'Multiple' }).click();
     // The native input is visually hidden; dispatch click like the label
     // does and assert the checked state afterwards.
@@ -48,7 +46,7 @@ test.describe('Table', () => {
   });
 
   test('combines table and pagination', async ({ page }) => {
-    const combinedSection = page.locator('#with-pagination');
+    const combinedSection = page.locator('#advanced');
     await expect(
       combinedSection.locator('.solaris-table__footer solaris-pagination'),
     ).toBeVisible();

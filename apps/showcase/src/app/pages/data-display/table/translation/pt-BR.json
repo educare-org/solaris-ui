@@ -6,6 +6,9 @@
     "add-row": {
       "note": "Linha de criação inline. Emite só addRowRequest; botões do toolbar ficam separados."
     },
+    "advanced": {
+      "note": "Paginação e toolbar projetados nos slots da tabela."
+    },
     "ai": {
       "prompt": "Estou vendo a documentação do Solaris UI para {{component}} ({{url}}). Me ajude a entender como usar. Esteja pronto para explicar conceitos, dar exemplos ou ajudar a depurar com base nela."
     },
@@ -40,9 +43,15 @@
     "composition": {
       "note": "Colunas de avatar e badge compõem componentes existentes via templates. Use column.icon para ícones simples sem template."
     },
+    "data": {
+      "note": "Estados assíncronos e dados paginados do servidor."
+    },
     "description": "Tabela de dados enxuta com ordenação, seleção e estados plugáveis.",
     "examples": {
       "note": "Comece pela tabela padrão e explore ordenação, seleção e estados abaixo."
+    },
+    "expansion": {
+      "note": "Detalhes expansíveis por linha no mobile ou por célula."
     },
     "footer": {
       "average": "Média",
@@ -53,6 +62,9 @@
     },
     "header-groups": {
       "note": "Colunas consecutivas se fundem sob um rótulo de grupo; colunas avulsas ocupam as duas linhas."
+    },
+    "interaction": {
+      "note": "Ordenação, seleção, edição no lugar e criação de linhas."
     },
     "installation": {
       "note": "Instale o pacote único do Solaris e importe o componente."
@@ -68,7 +80,11 @@
       "note": "Cards em largura de telefone com avatar, badge e ações sem arrastar."
     },
     "props": {
-      "note": "Tabela de propriedades em breve."
+      "note": "Todos os inputs aceitos pela tabela, com tipos, valores e padrões.",
+      "colProp": "Prop",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Padrão"
     },
     "responsive": {
       "note": "No mobile (720px ou menos) colunas com priority colapsam para uma linha de detalhe expansível na coluna Ações. Colunas também podem ter seu próprio template de detalhe com informações extras."
@@ -78,16 +94,18 @@
     },
     "section": {
       "add-row": "Adicionar linha",
+      "advanced": "Avançado",
       "appearance": "Aparência",
-      "basic": "Básico",
       "cell-editing": "Edição de célula",
       "cell-expand": "Expansão por célula",
       "composition": "Composição",
+      "data": "Dados",
       "examples": "Exemplos",
+      "expansion": "Expansão",
       "footer": "Agregados do rodapé",
       "header-groups": "Grupos de cabeçalho",
       "installation": "Instalação",
-      "layout": "Layout",
+      "interaction": "Interação",
       "mobile": "Mobile",
       "props": "Propriedades",
       "responsive": "Responsivo",
@@ -97,9 +115,8 @@
       "sorting": "Ordenação",
       "states": "Estados",
       "sticky-column": "Coluna fixa",
-      "wide": "Muitas colunas",
+      "structure": "Estrutura",
       "with-pagination": "Com paginação",
-      "with-tabs": "Com abas",
       "with-toolbar": "Com toolbar"
     },
     "selection": {
@@ -111,7 +128,8 @@
       }
     },
     "server": {
-      "note": "Um servidor simulado controla linhas, total e loading via SolarisTableDataSource."
+      "note": "Um servidor simulado controla linhas, total e loading via SolarisTableDataSource.",
+      "reload": "Recarregar"
     },
     "sorting": {
       "note": "Clique no cabeçalho para alternar nulo, ascendente, descendente. Mudanças são anunciadas a leitores de tela."
@@ -131,6 +149,9 @@
         "on": "Fixa"
       }
     },
+    "structure": {
+      "note": "Rolagem horizontal com coluna fixa, grupos de cabeçalho e rodapé com agregados."
+    },
     "title": "Table",
     "wide": {
       "note": "Tabelas largas rolam horizontalmente no viewport. Use fullWidth para distribuir as colunas."
@@ -141,13 +162,6 @@
         "default": "Padrão",
         "description": "Com descrição",
         "mobile": "Mobile"
-      }
-    },
-    "with-tabs": {
-      "note": "Abas trocam datasets com sort independente por tabela.",
-      "tab": {
-        "all": "Todos",
-        "recent": "Recentes"
       }
     },
     "with-toolbar": {
