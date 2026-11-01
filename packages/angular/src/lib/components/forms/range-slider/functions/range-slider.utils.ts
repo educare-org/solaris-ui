@@ -4,6 +4,7 @@ import {
   orderValues,
   percentOf,
 } from '../../slider/functions/slider.utils';
+import { ratioOf } from '../../slider/functions/slider.scale';
 import { SOLARIS_RANGE_SLIDER_DEFAULT_MAX_THUMBS } from '../model/range-slider.defaults';
 
 export interface SolarisRangeFillBounds {
@@ -19,8 +20,6 @@ export function normalizeRangeValues(
   minStepsBetweenThumbs: number,
   maxThumbs: number = SOLARIS_RANGE_SLIDER_DEFAULT_MAX_THUMBS,
 ): number[] {
-  // Why: the v1 cap keeps tab order and pointer overlap tractable, so excess
-  // thumbs are dropped after ordering instead of breaking collision math.
   const capped = orderValues(values).slice(
     0,
     Math.max(0, Math.floor(maxThumbs)),
@@ -56,5 +55,16 @@ export function thumbPercents(
 ): number[] {
   return values.map((value) =>
     percentOf(clampToRange(value, min, max), min, max),
+  );
+}
+
+export function thumbRatios(
+  values: number[],
+  min: number,
+  max: number,
+  scale: unknown,
+): number[] {
+  return values.map((value) =>
+    ratioOf(clampToRange(value, min, max), min, max, scale),
   );
 }

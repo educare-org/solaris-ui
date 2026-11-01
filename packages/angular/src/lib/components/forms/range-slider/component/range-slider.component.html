@@ -34,9 +34,30 @@
     (pointercancel)="onTrackPointerCancel()"
     #trackElement
   >
+    @if (distributionBars().length > 0) {
+      <div class="solaris-range-slider__distribution" aria-hidden="true">
+        @for (bar of distributionBars(); track $index) {
+          <span
+            class="solaris-range-slider__bar"
+            [style.transform]="
+              orientation() === 'vertical'
+                ? 'scaleX(' + bar + ')'
+                : 'scaleY(' + bar + ')'
+            "
+          ></span>
+        }
+      </div>
+    }
     <div
       class="solaris-range-slider__fill"
       aria-hidden="true"
+      [style.transform]="fillTransform()"
+    ></div>
+    <div
+      class="solaris-range-slider__zone-fade"
+      aria-hidden="true"
+      [attr.data-zone]="zoneFadeColor()"
+      [attr.data-fade]="zoneFade()"
       [style.transform]="fillTransform()"
     ></div>
     @if (showTicks()) {

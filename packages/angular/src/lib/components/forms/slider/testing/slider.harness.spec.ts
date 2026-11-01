@@ -33,6 +33,23 @@ class HarnessHost {}
 })
 class MinMaxHarnessHost {}
 
+@Component({
+  selector: 'solaris-slider-scale-harness-host',
+  standalone: true,
+  imports: [SolarisSliderComponent],
+  template: `<solaris-slider
+    label="Frequency"
+    [min]="1"
+    [max]="1000"
+    [value]="10"
+    [scale]="{ kind: 'log', base: 10 }"
+    [showTicks]="true"
+    [tickValues]="[1, 10, 100, 1000]"
+    [distribution]="[2, 5, 9]"
+  />`,
+})
+class ScaleHarnessHost {}
+
 describe('SolarisSliderHarness', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -77,5 +94,15 @@ describe('SolarisSliderHarness', () => {
     const harness = await loader.getHarness(SolarisSliderHarness);
     expect(await harness.getMinLabel()).toContain('0');
     expect(await harness.getMaxLabel()).toContain('100');
+  });
+
+  it('reads explicit ticks and distribution bars through the harness', async () => {
+    const fixture = TestBed.createComponent(ScaleHarnessHost);
+    fixture.detectChanges();
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const harness = await loader.getHarness(SolarisSliderHarness);
+    expect(await harness.getValue()).toBe(10);
+    expect(await harness.getTickCount()).toBe(4);
+    expect(await harness.getDistributionBarCount()).toBe(3);
   });
 });

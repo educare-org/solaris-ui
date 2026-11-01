@@ -13,33 +13,37 @@ forms. For two or more ordered values, use `solaris-range-slider` instead.
 
 ### Inputs
 
-| Input                            | Type                                                                                 | Default            | Description                                            |
-| -------------------------------- | ------------------------------------------------------------------------------------ | ------------------ | ------------------------------------------------------ |
-| `value`                          | `model<number>`                                                                      | `50`               | Two-way single value (+ `valueChange`)                 |
-| `min`                            | `number`                                                                             | `0`                | Range floor                                            |
-| `max`                            | `number`                                                                             | `100`              | Range ceiling (`max > min` enforced, else dev warning) |
-| `step`                           | `number`                                                                             | `1`                | Snap interval (`> 0` enforced)                         |
-| `pageStep`                       | `number`                                                                             | `10 * step`        | PageUp/Down jump (clamped to range)                    |
-| `orientation`                    | `'horizontal' \| 'vertical'`                                                         | `'horizontal'`     | Axis                                                   |
-| `size`                           | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`             | Thumb/track scale                                      |
-| `color`                          | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'`        | Fill/thumb color                                       |
-| `valueDisplay`                   | `'inline' \| 'tooltip' \| 'thumb' \| 'none'`                                         | `'inline'`         | Where the value shows                                  |
-| `formatValue`                    | `(v: number) => string`                                                              | `String(v)` + unit | Display formatter                                      |
-| `valueText`                      | `(v: number) => string`                                                              | `formatValue(v)`   | `aria-valuetext` builder                               |
-| `unit` / `unitKey`               | `string`                                                                             | `'%'`              | Suffix appended by the default formatter               |
-| `showTicks`                      | `boolean`                                                                            | `false`            | Render tick marks                                      |
-| `tickStep`                       | `number`                                                                             | `step`             | Tick interval (decorative)                             |
-| `showMinMax`                     | `boolean`                                                                            | `false`            | Static min/max scale bounds (decorative)               |
-| `label` / `labelKey`             | `string`                                                                             | —                  | Field label (header row)                               |
-| `description` / `descriptionKey` | `string`                                                                             | —                  | Help text below the track                              |
-| `ariaLabel` / `ariaLabelKey`     | `string`                                                                             | —                  | Fallback name when no visible label                    |
-| `startIcon` / `endIcon`          | `SolarisIconName`                                                                    | —                  | Decorative extremities (e.g. volume)                   |
-| `thumbIcon`                      | `SolarisIconName`                                                                    | —                  | Free icon inside the thumb (grip suggestion)           |
-| `disabled`                       | `boolean`                                                                            | `false`            | CVA-disabled                                           |
-| `readonly`                       | `boolean`                                                                            | `false`            | Focusable, non-editable                                |
-| `required`                       | `boolean`                                                                            | `false`            | Shows the required marker                              |
-| `invalid`                        | `boolean`                                                                            | `false`            | Error state (+ `aria-invalid`)                         |
-| `name`                           | `string`                                                                             | —                  | Form field name (hidden input)                         |
+| Input                            | Type                                                                                 | Default              | Description                                            |
+| -------------------------------- | ------------------------------------------------------------------------------------ | -------------------- | ------------------------------------------------------ |
+| `value`                          | `model<number>`                                                                      | `50`                 | Two-way single value (+ `valueChange`)                 |
+| `min`                            | `number`                                                                             | `0`                  | Range floor                                            |
+| `max`                            | `number`                                                                             | `100`                | Range ceiling (`max > min` enforced, else dev warning) |
+| `step`                           | `number`                                                                             | `1`                  | Snap interval (`> 0` enforced)                         |
+| `pageStep`                       | `number`                                                                             | `10 * step`          | PageUp/Down jump (clamped to range)                    |
+| `orientation`                    | `'horizontal' \| 'vertical'`                                                         | `'horizontal'`       | Axis                                                   |
+| `size`                           | `'sm' \| 'md' \| 'lg'`                                                               | `'md'`               | Thumb/track scale                                      |
+| `color`                          | `'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'custom'` | `'neutral'`          | Fill/thumb color                                       |
+| `valueDisplay`                   | `'inline' \| 'tooltip' \| 'thumb' \| 'none'`                                         | `'inline'`           | Where the value shows                                  |
+| `formatValue`                    | `(v: number) => string`                                                              | `String(v)` + unit   | Display formatter                                      |
+| `valueText`                      | `(v: number) => string`                                                              | `formatValue(v)`     | `aria-valuetext` builder                               |
+| `unit` / `unitKey`               | `string`                                                                             | `'%'`                | Suffix appended by the default formatter               |
+| `scale`                          | `SolarisSliderScale`                                                                 | `{ kind: 'linear' }` | Position mapping (`linear` = v1 behavior)              |
+| `tickValues`                     | `number[]`                                                                           | —                    | Explicit tick positions (wins over `tickStep`)         |
+| `zones`                          | `SolarisSliderZone[]`                                                                | —                    | First-match `from <= v <= to` resolves `data-color`    |
+| `distribution`                   | `number[]`                                                                           | —                    | Decorative histogram densities (`aria-hidden`)         |
+| `showTicks`                      | `boolean`                                                                            | `false`              | Render tick marks                                      |
+| `tickStep`                       | `number`                                                                             | `step`               | Tick interval (decorative)                             |
+| `showMinMax`                     | `boolean`                                                                            | `false`              | Static min/max scale bounds (decorative)               |
+| `label` / `labelKey`             | `string`                                                                             | —                    | Field label (header row)                               |
+| `description` / `descriptionKey` | `string`                                                                             | —                    | Help text below the track                              |
+| `ariaLabel` / `ariaLabelKey`     | `string`                                                                             | —                    | Fallback name when no visible label                    |
+| `startIcon` / `endIcon`          | `SolarisIconName`                                                                    | —                    | Decorative extremities (e.g. volume)                   |
+| `thumbIcon`                      | `SolarisIconName`                                                                    | —                    | Free icon inside the thumb (grip suggestion)           |
+| `disabled`                       | `boolean`                                                                            | `false`              | CVA-disabled                                           |
+| `readonly`                       | `boolean`                                                                            | `false`              | Focusable, non-editable                                |
+| `required`                       | `boolean`                                                                            | `false`              | Shows the required marker                              |
+| `invalid`                        | `boolean`                                                                            | `false`              | Error state (+ `aria-invalid`)                         |
+| `name`                           | `string`                                                                             | —                    | Form field name (hidden input)                         |
 
 ### Outputs
 
@@ -56,6 +60,13 @@ export type SolarisSliderColor = 'neutral' | 'primary' | 'success' | 'warning' |
 export type SolarisSliderOrientation = 'horizontal' | 'vertical';
 export type SolarisSliderValueDisplay = 'inline' | 'tooltip' | 'thumb' | 'none';
 export type SolarisSliderValueFormatter = (value: number) => string;
+export type SolarisSliderScaleKind = 'linear' | 'log' | 'pow' | 'time' | 'custom';
+export type SolarisSliderScale = { kind: 'linear' } | { kind: 'log'; base?: number } | { kind: 'pow'; exponent?: number } | { kind: 'time' } | { kind: 'custom'; toRatio: (value: number) => number; fromRatio: (ratio: number) => number };
+export interface SolarisSliderZone {
+  from: number;
+  to: number;
+  color: SolarisSliderColor;
+}
 ```
 
 Slider implements `ControlValueAccessor`, so it works with Reactive Forms
@@ -124,6 +135,48 @@ the maximum at the end — as `aria-hidden` decoration, formatted with the
 `formatValue`/`unit` pipeline. Horizontal places them on either side of the
 track; vertical stacks them above and below. They print as-is.
 
+## Scale
+
+`scale` changes WHERE a value sits without changing the value grammar:
+keyboard steps, `step`/`pageStep` snapping, and `aria-valuenow/text` stay in
+value space on every scale. `linear` (default) is the v1 behavior.
+
+| Kind     | Mapping                                                          |
+| -------- | ---------------------------------------------------------------- |
+| `linear` | Uniform (v1 behavior)                                            |
+| `log`    | Decades share the track (`base`, default `10`; needs `min > 0`)  |
+| `pow`    | `value = min + span * ratio^exponent` (default `2`; `min >= 0`)  |
+| `time`   | Linear over epoch ms; dates come from `formatValue`/`valueText`  |
+| `custom` | Consumer `toRatio`/`fromRatio` (non-finite falls back to linear) |
+
+Invalid log/pow domains fall back to linear positioning (plus a dev-mode
+warning). Pointer drags invert through the same scale, so a mid-track click
+on `log` lands on the geometric mean, snapped to `step`.
+
+## Explicit ticks
+
+`tickValues` lists tick positions in value space, placed through the active
+scale. It wins over `tickStep` (dev-mode warning). `tickStep` counts linear
+value steps and is ignored on `log`/`pow`/`custom` (dev-mode warning, no
+ticks) — those scales need explicit values because auto-grids are ambiguous
+(log minors, irregular months).
+
+## Zones
+
+`zones` resolves the host `data-color` from the current value: the first
+zone with `from <= value <= to` wins, else the `color` input applies. Zone
+switches fade the previous color out over the new one (`normal + standard`,
+instant under reduced motion, hidden in print). Zones
+reuse the `SolarisSliderColor` token palette — never raw colors — and never
+carry state alone (`aria-valuetext` always mirrors the value).
+
+## Distribution
+
+`distribution` renders a decorative density strip behind the fill
+(`aria-hidden`, static, prints as-is). Values are normalized by the peak;
+non-finite and negative entries count as zero. It shares the decorative
+tick color and has no motion, so no reduced-motion guard applies.
+
 ## CSS Variables
 
 ```txt
@@ -152,14 +205,19 @@ pointer feedback never lags the hand.
 - Fill: `transform: scaleX` (horizontal) / `scaleY` (vertical) with origin at
   the minimum edge, `normal + decelerate`; `transition: none` while
   `data-dragging`.
-- Thumb: hover and `focus-visible` `scale(1.15)` `fast + standard`; active
+- Fill color: zone switches play an overlay fade — the previous color
+  lingers on an `aria-hidden` layer that tracks the fill segment and fades
+  out (`opacity`, `normal + standard`), revealing the new color underneath
+  with no muddy midpoint; instant under the doubled reduced-motion guards
+  and hidden in print — state always stays in `aria-valuenow/text`.
+- Thumb: hover and `focus-visible` `scale(1.15)` `normal + standard`; active
   `scale(var(--solaris-motion-scale-active))`; `focus-visible` ring.
 - Release pop: one-shot `solaris-slider-release-pop` (dip to
   `scale-active`, overshoot, rest) on `[data-released]` after pointer
   release, `normal + spring`. The spring token is opt-in and
   vestibular-sensitive by design: the pop is pointer-only (keyboard commits
   do not pop) and the doubled reduced-motion guards remove it entirely.
-- Tooltip: `opacity + translate-sm(4px)`, `fast`, enter `decelerate` / exit
+- Tooltip: `opacity + translate-sm(4px)`, `normal`, enter `decelerate` / exit
   `accelerate`. The tooltip is hover-driven (no detach delay), so the
   transitions hold the end state instead of an animation fill mode.
 - Every transition/animation ships the doubled reduced-motion guard
@@ -212,6 +270,15 @@ pointer feedback never lags the hand.
 <!-- Custom formatting -->
 <solaris-slider label="Volume" unit="db" [formatValue]="formatDb" [valueText]="describeDb" />
 
+<!-- Logarithmic scale with explicit ticks -->
+<solaris-slider label="Frequency" [min]="20" [max]="20000" [scale]="{ kind: 'log' }" [showTicks]="true" [tickValues]="[20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000]" />
+
+<!-- Zones (color follows value) -->
+<solaris-slider label="Risk" [zones]="[{ from: 0, to: 33, color: 'success' }, { from: 33, to: 66, color: 'warning' }, { from: 66, to: 100, color: 'danger' }]" />
+
+<!-- Distribution backdrop -->
+<solaris-slider label="Price" [distribution]="[2, 5, 9, 7, 3]" />
+
 <!-- States -->
 <solaris-slider label="Volume" [disabled]="true" />
 <solaris-slider label="Volume" [readonly]="true" />
@@ -228,12 +295,12 @@ hides (its reserve collapses), the thumb cursor goes static, and fill/thumb
 motion stops. Tooltip-mode values are hover-only by design, so paper shows
 no bubble — prefer `inline` or `thumb` display when the page must print.
 
-## Limitations (v1)
+## Limitations (v1 + v2 single)
 
-- Single thumb only; multi-thumb belongs to `solaris-range-slider`.
-- Linear `min/max/step` scales only (no log/date scales).
+- Single thumb only; multi-thumb belongs to `solaris-range-slider` (range scale parity lands in v2 F2).
 - No custom thumb templates (only `thumbIcon` name).
 - No per-tick labels or tick tooltips.
+- `tickStep` is linear-only; non-linear scales require `tickValues`.
 - `required` is a visual marker + form-field concern, not native validation.
 
 ```

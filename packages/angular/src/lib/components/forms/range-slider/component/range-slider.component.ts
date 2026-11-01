@@ -29,30 +29,45 @@ import type { SolarisIconName } from '../../../../services/icon';
 import type {
   SolarisSliderColor,
   SolarisSliderOrientation,
+  SolarisSliderScale,
   SolarisSliderSize,
   SolarisSliderValueDisplay,
   SolarisSliderValueFormatter,
+  SolarisSliderZone,
+  SolarisZoneFadePhase,
 } from '../../slider/model/slider.types';
 import {
   SOLARIS_SLIDER_DEFAULT_COLOR,
+  SOLARIS_SLIDER_DEFAULT_DISTRIBUTION,
   SOLARIS_SLIDER_DEFAULT_MAX,
   SOLARIS_SLIDER_DEFAULT_MIN,
   SOLARIS_SLIDER_DEFAULT_ORIENTATION,
+  SOLARIS_SLIDER_DEFAULT_SCALE,
   SOLARIS_SLIDER_DEFAULT_SHOW_TICKS,
   SOLARIS_SLIDER_DEFAULT_SHOW_MIN_MAX,
   SOLARIS_SLIDER_DEFAULT_SIZE,
   SOLARIS_SLIDER_DEFAULT_STEP,
+  SOLARIS_SLIDER_DEFAULT_TICK_VALUES,
+  SOLARIS_SLIDER_DEFAULT_ZONES,
 } from '../../slider/model/slider.defaults';
 import {
   clampToRange,
   defaultPageStep,
-  percentOf,
   snapToStep,
   tickPositions,
 } from '../../slider/functions/slider.utils';
 import {
+  distributionHeights,
+  ratioOf,
+  resolveZoneColor,
+  resolveZoneFade,
+  validateTickValues,
+  valueFromRatio,
+} from '../../slider/functions/slider.scale';
+import {
   normalizeRangeValues,
   rangeFillBounds,
+  thumbRatios as rangeThumbRatios,
 } from '../functions/range-slider.utils';
 import {
   SOLARIS_RANGE_SLIDER_DEFAULT_MAX_THUMBS,
@@ -84,7 +99,7 @@ import { SOLARIS_SLIDER_DEFAULT_UNIT } from '../../slider/component/slider.compo
   host: {
     class: 'solaris-range-slider',
     '[attr.data-size]': 'size()',
-    '[attr.data-color]': 'color()',
+    '[attr.data-color]': 'resolvedColor()',
     '[attr.data-orientation]': 'orientation()',
     '[attr.data-value-display]': 'valueDisplay()',
     '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
@@ -111,6 +126,7 @@ export class SolarisRangeSliderComponent
   private readonly _describedByIds = signal<string[]>([]);
   private readonly cvaDisabled = signal(false);
   private keyDirty = false;
+  private previousZoneColor: SolarisSliderColor | null = null;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: number[]) => void = () => {};
@@ -167,6 +183,16 @@ export class SolarisRangeSliderComponent
     transform: (v: unknown) =>
       v === undefined || v === null || v === '' ? undefined : Number(v),
   });
+  readonly scale = input<SolarisSliderScale>(SOLARIS_SLIDER_DEFAULT_SCALE);
+  readonly tickValues = input<readonly number[] | undefined>(
+    SOLARIS_SLIDER_DEFAULT_TICK_VALUES,
+  );
+  readonly zones = input<readonly SolarisSliderZone[] | undefined>(
+    SOLARIS_SLIDER_DEFAULT_ZONES,
+  );
+  readonly distribution = input<readonly number[] | undefined>(
+    SOLARIS_SLIDER_DEFAULT_DISTRIBUTION,
+  );
   readonly rangeLabel = input<string | undefined>(undefined, {
     alias: 'label',
   });
@@ -220,10 +246,17 @@ export class SolarisRangeSliderComponent
     ),
   );
 
-  protected readonly thumbPercents = computed(() =>
-    this.effectiveValues().map((value) =>
-      percentOf(value, this.min(), this.max()),
+  protected readonly thumbRatios = computed(() =>
+    rangeThumbRatios(
+      this.effectiveValues(),
+      this.min(),
+      this.max(),
+      this.scale(),
     ),
+  );
+
+  protected readonly thumbPercents = computed(() =>
+    this.thumbRatios().map((ratio) => ratio * 100),
   );
 
   protected readonly effectivePageStep = computed(
@@ -283,11 +316,36 @@ export class SolarisRangeSliderComponent
     if (!this.showTicks()) {
       return [];
     }
+    const min = this.min();
+    const max = this.max();
+    const scale = this.scale();
+    const explicit = validateTickValues(this.tickValues(), min, max);
+    if (explicit.length > 0) {
+      return explicit.map((tick) => ratioOf(tick, min, max, scale) * 100);
+    }
+    if (scale.kind !== 'linear' && scale.kind !== 'time') {
+      return [];
+    }
     const tickStep = this.tickStep() ?? this.step();
-    return tickPositions(this.min(), this.max(), tickStep).map((tick) =>
-      percentOf(tick, this.min(), this.max()),
+    return tickPositions(min, max, tickStep).map(
+      (tick) => ratioOf(tick, min, max, scale) * 100,
     );
   });
+
+  protected readonly resolvedColor = computed(() =>
+    resolveZoneColor(
+      this.effectiveValues()[0] ?? Number.NaN,
+      this.zones(),
+      this.color(),
+    ),
+  );
+
+  protected readonly zoneFadeColor = signal<SolarisSliderColor | null>(null);
+  protected readonly zoneFade = signal<SolarisZoneFadePhase | null>(null);
+
+  protected readonly distributionBars = computed(() =>
+    distributionHeights(this.distribution()),
+  );
 
   protected readonly fillTransform = computed(() => {
     const bounds = rangeFillBounds(
@@ -295,11 +353,10 @@ export class SolarisRangeSliderComponent
       this.min(),
       this.max(),
     );
-    const start = percentOf(bounds.start, this.min(), this.max());
-    const end = percentOf(bounds.end, this.min(), this.max());
+    const start =
+      ratioOf(bounds.start, this.min(), this.max(), this.scale()) * 100;
+    const end = ratioOf(bounds.end, this.min(), this.max(), this.scale()) * 100;
     const span = Math.max(0, (end - start) / 100);
-    // Why: a full-track layer positioned by translate + scale keeps the
-    // animated property transform-only; static left/width would need layout.
     return this.orientation() === 'vertical'
       ? `translateY(${100 - end}%) scaleY(${span})`
       : `translateX(${start}%) scaleX(${span})`;
@@ -403,8 +460,6 @@ export class SolarisRangeSliderComponent
   }
 
   protected thumbName(index: number): string {
-    // Why: a single naming source keeps SSR and client identical; labelledby
-    // plus per-thumb labels would split the accessible name across nodes.
     const base = this.baseAriaLabel();
     const label = this.labelText();
     const prefix = base ?? label ?? '';
@@ -503,8 +558,6 @@ export class SolarisRangeSliderComponent
       }
     }
     this.activeThumb.set(nearest);
-    // Why: a new gesture cancels the one-shot release pop, so the thumb
-    // never pops mid-drag when the pointer re-grabs it.
     this.releasedThumb.set(null);
     this.moveThumb(nearest, candidate, false);
     const track = this.trackElementRef();
@@ -512,9 +565,8 @@ export class SolarisRangeSliderComponent
       try {
         // SECURITY_EXCEPTION: drag continuity requires pointer capture on the track; no declarative alternative exists.
         track.nativeElement.setPointerCapture(event.pointerId);
-      } catch {
-        // Why: capture is best-effort (already-released pointers throw); drag still works via move/up listeners.
-      }
+        // eslint-disable-next-line no-empty
+      } catch {}
     }
     this.focus(nearest);
     event.preventDefault();
@@ -538,8 +590,6 @@ export class SolarisRangeSliderComponent
       return;
     }
     this.activeThumb.set(null);
-    // Why: the release pop is pointer-only (keyboard commits have no press);
-    // state stays in aria-valuenow/text either way.
     this.releasedThumb.set(index);
     this.valueCommit.emit([...this.effectiveValues()]);
     this.onTouched();
@@ -581,8 +631,6 @@ export class SolarisRangeSliderComponent
     const lo = index === 0 ? this.min() : current[index - 1] + gap;
     const hi =
       index === current.length - 1 ? this.max() : current[index + 1] - gap;
-    // Why: thumbs clamp against live neighbors instead of reordering, so
-    // crossing is structurally impossible and the consumer array stays sorted.
     const next = snapToStep(
       clampToRange(candidate, Math.min(lo, hi), Math.max(lo, hi)),
       this.min(),
@@ -591,8 +639,6 @@ export class SolarisRangeSliderComponent
     if (next === current[index]) {
       return;
     }
-    // Why: the consumer array is never mutated in place; a new ordered array
-    // is emitted so OnPush consumers and forms detect the change.
     const updated = [...current];
     updated[index] = next;
     this.values.set(updated);
@@ -607,22 +653,22 @@ export class SolarisRangeSliderComponent
     if (!track) {
       return this.min();
     }
-    // Why: geometry is read per gesture (never cached), so SSR construction stays DOM-free and resizes cannot go stale.
     const rect = track.nativeElement.getBoundingClientRect();
     const min = this.min();
     const max = this.max();
+    const scale = this.scale();
     if (this.orientation() === 'vertical') {
       if (rect.height <= 0) {
         return this.min();
       }
       const ratio = (rect.bottom - event.clientY) / rect.height;
-      return min + ratio * (max - min);
+      return valueFromRatio(ratio, min, max, scale);
     }
     if (rect.width <= 0) {
       return this.min();
     }
     const ratio = (event.clientX - rect.left) / rect.width;
-    return min + ratio * (max - min);
+    return valueFromRatio(ratio, min, max, scale);
   }
 
   private translateWithDefault(
@@ -659,7 +705,37 @@ export class SolarisRangeSliderComponent
             `[SolarisRangeSlider] "values" needs at least ${Math.max(2, Math.floor(this.minThumbs()))} thumbs; single values belong to solaris-slider.`,
           );
         }
+        if (this.tickValues() !== undefined && this.tickStep() !== undefined) {
+          console.warn(
+            `[SolarisRangeSlider] "tickValues" takes precedence over "tickStep". Remove "tickStep" to silence this warning.`,
+          );
+        }
+        const scale = this.scale();
+        if (
+          this.tickStep() !== undefined &&
+          this.tickValues() === undefined &&
+          scale.kind !== 'linear' &&
+          scale.kind !== 'time'
+        ) {
+          console.warn(
+            `[SolarisRangeSlider] "tickStep" counts linear value steps and is ignored on "${scale.kind}" scales. Use "tickValues" instead.`,
+          );
+        }
       });
     }
+    effect(() => {
+      const current = this.resolvedColor();
+      const frame = resolveZoneFade(
+        this.previousZoneColor,
+        current,
+        this.zoneFade(),
+      );
+      this.previousZoneColor = current;
+      if (frame === null) {
+        return;
+      }
+      this.zoneFadeColor.set(frame.zone);
+      this.zoneFade.set(frame.phase);
+    });
   }
 }

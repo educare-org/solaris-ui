@@ -332,6 +332,75 @@ class MinMaxUnitHost {}
 })
 class MinMaxVerticalHost {}
 
+@Component({
+  selector: 'solaris-slider-test-29',
+  standalone: true,
+  imports: [SolarisSliderComponent],
+  template: `<solaris-slider
+    ariaLabel="Frequency"
+    [min]="1"
+    [max]="1000"
+    [value]="10"
+    [scale]="{ kind: 'log', base: 10 }"
+  />`,
+})
+class LogHost {}
+
+@Component({
+  selector: 'solaris-slider-test-30',
+  standalone: true,
+  imports: [SolarisSliderComponent],
+  template: `<solaris-slider
+    ariaLabel="Frequency"
+    [min]="1"
+    [max]="1000"
+    [value]="20"
+    [scale]="{ kind: 'log', base: 10 }"
+  />`,
+})
+class LogPointerHost {}
+
+@Component({
+  selector: 'solaris-slider-test-31',
+  standalone: true,
+  imports: [SolarisSliderComponent],
+  template: `<solaris-slider
+    ariaLabel="V"
+    [value]="70"
+    [showTicks]="true"
+    [tickValues]="[0, 50, 100]"
+  />`,
+})
+class ExplicitTicksHost {}
+
+@Component({
+  selector: 'solaris-slider-test-32',
+  standalone: true,
+  imports: [SolarisSliderComponent],
+  template: `<solaris-slider
+    ariaLabel="Risk"
+    [value]="70"
+    [zones]="[
+      { from: 0, to: 33, color: 'success' },
+      { from: 33, to: 66, color: 'warning' },
+      { from: 66, to: 100, color: 'danger' },
+    ]"
+  />`,
+})
+class ZonesHost {}
+
+@Component({
+  selector: 'solaris-slider-test-33',
+  standalone: true,
+  imports: [SolarisSliderComponent],
+  template: `<solaris-slider
+    ariaLabel="Price"
+    [value]="50"
+    [distribution]="[2, 5, 9, 7, 3]"
+  />`,
+})
+class DistributionHost {}
+
 describe('SolarisSliderComponent rendering', () => {
   it('creates the slider role with default value', () => {
     configure();
@@ -888,5 +957,102 @@ describe('SolarisSliderComponent showMinMax', () => {
     expect(maxIndex).toBeGreaterThanOrEqual(0);
     expect(minIndex).toBeLessThan(trackIndex);
     expect(trackIndex).toBeLessThan(maxIndex);
+  });
+});
+
+describe('SolarisSliderComponent v2 scale', () => {
+  it('positions the thumb through the log scale', () => {
+    configure();
+    const fixture = TestBed.createComponent(LogHost);
+    fixture.detectChanges();
+    expect(thumbOf(fixture).getAttribute('aria-valuenow')).toBe('10');
+    expect((thumbOf(fixture).style.left ?? '').startsWith('33.33')).toBe(true);
+  });
+
+  it('maps pointer drags through the log inverse and snaps to step', () => {
+    configure();
+    const fixture = TestBed.createComponent(LogPointerHost);
+    fixture.detectChanges();
+    const track = trackOf(fixture);
+    mockTrackRect(track, { width: 200, left: 0, right: 200 });
+    track.dispatchEvent(
+      new MouseEvent('pointerdown', {
+        clientX: 100,
+        button: 0,
+        bubbles: true,
+      }),
+    );
+    fixture.detectChanges();
+    expect(thumbOf(fixture).getAttribute('aria-valuenow')).toBe('32');
+  });
+
+  it('keeps keyboard steps in value space on non-linear scales', () => {
+    configure();
+    const fixture = TestBed.createComponent(LogHost);
+    fixture.detectChanges();
+    const thumb = thumbOf(fixture);
+    pressKey(thumb, 'ArrowRight');
+    fixture.detectChanges();
+    expect(thumb.getAttribute('aria-valuenow')).toBe('11');
+  });
+
+  it('renders explicit tickValues instead of the tickStep grid', () => {
+    configure();
+    const fixture = TestBed.createComponent(ExplicitTicksHost);
+    fixture.detectChanges();
+    const ticks = fixture.nativeElement.querySelectorAll(
+      '.solaris-slider__tick',
+    );
+    expect(ticks.length).toBe(3);
+  });
+
+  it('resolves data-color from the matching zone', () => {
+    configure();
+    const fixture = TestBed.createComponent(ZonesHost);
+    fixture.detectChanges();
+    expect(sliderOf(fixture).getAttribute('data-color')).toBe('danger');
+  });
+
+  it('renders the distribution strip as aria-hidden decoration', () => {
+    configure();
+    const fixture = TestBed.createComponent(DistributionHost);
+    fixture.detectChanges();
+    const strip = fixture.nativeElement.querySelector(
+      '.solaris-slider__distribution',
+    ) as HTMLElement;
+    expect(strip?.getAttribute('aria-hidden')).toBe('true');
+    expect(
+      fixture.nativeElement.querySelectorAll('.solaris-slider__bar').length,
+    ).toBe(5);
+  });
+
+  it('fades the previous zone color out over the new one', () => {
+    configure();
+    const fixture = TestBed.createComponent(ZonesHost);
+    fixture.detectChanges();
+    const overlay = (): HTMLElement | null =>
+      fixture.nativeElement.querySelector('.solaris-slider__zone-fade');
+    expect(overlay()?.getAttribute('aria-hidden')).toBe('true');
+    expect(overlay()?.getAttribute('data-zone')).toBeNull();
+    expect(overlay()?.getAttribute('data-fade')).toBeNull();
+    pressKey(thumbOf(fixture), 'Home');
+    fixture.detectChanges();
+    fixture.detectChanges();
+    expect(sliderOf(fixture).getAttribute('data-color')).toBe('success');
+    expect(overlay()?.getAttribute('data-zone')).toBe('danger');
+    expect(overlay()?.getAttribute('data-fade')).toBe('a');
+    expect(overlay()?.style.transform).toBe(
+      (
+        fixture.nativeElement.querySelector(
+          '.solaris-slider__fill',
+        ) as HTMLElement
+      ).style.transform,
+    );
+    pressKey(thumbOf(fixture), 'End');
+    fixture.detectChanges();
+    fixture.detectChanges();
+    expect(sliderOf(fixture).getAttribute('data-color')).toBe('danger');
+    expect(overlay()?.getAttribute('data-zone')).toBe('success');
+    expect(overlay()?.getAttribute('data-fade')).toBe('b');
   });
 });

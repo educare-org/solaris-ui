@@ -28,6 +28,24 @@ class HarnessHost {}
 })
 class MinMaxHarnessHost {}
 
+@Component({
+  selector: 'solaris-range-slider-scale-harness-host',
+  standalone: true,
+  imports: [SolarisRangeSliderComponent],
+  template: `<solaris-range-slider
+    label="Frequency range"
+    [min]="1"
+    [max]="1000"
+    [values]="[10, 100]"
+    [scale]="{ kind: 'log', base: 10 }"
+    [showTicks]="true"
+    [tickValues]="[1, 10, 100, 1000]"
+    [distribution]="[2, 5, 9]"
+    [zones]="[{ from: 0, to: 33, color: 'success' }]"
+  />`,
+})
+class ScaleHarnessHost {}
+
 describe('SolarisRangeSliderHarness', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -68,5 +86,16 @@ describe('SolarisRangeSliderHarness', () => {
     const harness = await loader.getHarness(SolarisRangeSliderHarness);
     expect(await harness.getMinLabel()).toContain('0');
     expect(await harness.getMaxLabel()).toContain('100');
+  });
+
+  it('reads scale ticks, distribution bars and first-thumb color through the harness', async () => {
+    const fixture = TestBed.createComponent(ScaleHarnessHost);
+    fixture.detectChanges();
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const harness = await loader.getHarness(SolarisRangeSliderHarness);
+    expect(await harness.getValues()).toEqual([10, 100]);
+    expect(await harness.getTickCount()).toBe(4);
+    expect(await harness.getDistributionBarCount()).toBe(3);
+    expect(await harness.getColor()).toBe('success');
   });
 });

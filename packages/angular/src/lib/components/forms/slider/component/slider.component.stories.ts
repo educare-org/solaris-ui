@@ -58,3 +58,35 @@ export const MinMax: Story = {
     showMinMax: true,
   },
 };
+
+export const Log: Story = {
+  args: {
+    label: 'Frequency',
+    min: 20,
+    max: 20000,
+    value: 1000,
+    scale: { kind: 'log' },
+    showTicks: true,
+    tickValues: [20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000],
+  },
+};
+
+export const Zones: Story = {
+  args: {
+    label: 'Risk',
+    value: 70,
+    zones: [
+      { from: 0, to: 33, color: 'success' },
+      { from: 33, to: 66, color: 'warning' },
+      { from: 66, to: 100, color: 'danger' },
+    ],
+  },
+};
+
+export const Distribution: Story = {
+  args: {
+    label: 'Price',
+    value: 50,
+    distribution: [2, 5, 9, 7, 3],
+  },
+};

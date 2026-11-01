@@ -31,6 +31,10 @@ export class SolarisRangeSliderHarness extends ComponentHarness {
       : null;
   }
 
+  async getColor(): Promise<string | null> {
+    return (await this.host()).getAttribute('data-color');
+  }
+
   async isDisabled(): Promise<boolean> {
     return (await (await this.host()).getAttribute('data-disabled')) !== null;
   }
@@ -47,6 +51,14 @@ export class SolarisRangeSliderHarness extends ComponentHarness {
   async getMaxLabel(): Promise<string | null> {
     const label = await this.locatorForOptional('.solaris-range-slider__max')();
     return label ? label.text() : null;
+  }
+
+  async getTickCount(): Promise<number> {
+    return (await this.locatorForAll('.solaris-range-slider__tick')()).length;
+  }
+
+  async getDistributionBarCount(): Promise<number> {
+    return (await this.locatorForAll('.solaris-range-slider__bar')()).length;
   }
 
   async focusThumb(index: number): Promise<void> {

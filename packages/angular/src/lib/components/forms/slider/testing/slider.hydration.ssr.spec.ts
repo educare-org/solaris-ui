@@ -105,9 +105,6 @@ describe('SolarisSlider hydration matrix', () => {
     const result = await ssrAndHydrate(KeysHost, tag);
     assertHydrationClean(result, 'keys');
     const thumb = document.querySelector('[role="slider"]') as HTMLElement;
-    // Why: events must be created via the harness document's own realm
-    // (document.createEvent, as the harness does); constructor globals can
-    // belong to the server pass and are rejected by dispatchEvent.
     const keydown = document.createEvent('Event');
     keydown.initEvent('keydown', true, true);
     (keydown as unknown as Record<string, unknown>)['key'] = 'ArrowRight';

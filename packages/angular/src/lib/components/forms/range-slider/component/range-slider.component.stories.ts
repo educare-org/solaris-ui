@@ -54,3 +54,49 @@ export const MinMax: Story = {
     showMinMax: true,
   },
 };
+
+export const LogRange: Story = {
+  args: {
+    label: 'Frequency range',
+    min: 20,
+    max: 20000,
+    values: [100, 5000],
+    scale: { kind: 'log' },
+    showTicks: true,
+    tickValues: [20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000],
+  },
+};
+
+export const TimeRange: Story = {
+  args: {
+    label: 'Booking window',
+    min: 1704067200000,
+    max: 1735689600000,
+    values: [1709251200000, 1725148800000],
+    scale: { kind: 'time' },
+    showTicks: true,
+    tickValues: [
+      1704067200000, 1711929600000, 1719792000000, 1727740800000, 1735689600000,
+    ],
+  },
+};
+
+export const ZonesRange: Story = {
+  args: {
+    label: 'Risk band',
+    values: [10, 70],
+    zones: [
+      { from: 0, to: 33, color: 'success' },
+      { from: 33, to: 66, color: 'warning' },
+      { from: 66, to: 100, color: 'danger' },
+    ],
+  },
+};
+
+export const DistributionRange: Story = {
+  args: {
+    label: 'Demand band',
+    values: [25, 75],
+    distribution: [2, 5, 9, 7, 3],
+  },
+};

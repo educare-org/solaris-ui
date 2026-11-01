@@ -7,4 +7,7 @@ export type {
   SolarisSliderOrientation,
   SolarisSliderValueDisplay,
   SolarisSliderValueFormatter,
+  SolarisSliderScale,
+  SolarisSliderScaleKind,
+  SolarisSliderZone,
 } from './model/slider.types';

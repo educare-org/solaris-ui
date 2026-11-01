@@ -254,6 +254,75 @@ class MinMaxUnitHost {}
 })
 class MinMaxVerticalHost {}
 
+@Component({
+  selector: 'solaris-range-test-log',
+  standalone: true,
+  imports: [SolarisRangeSliderComponent],
+  template: `<solaris-range-slider
+    ariaLabel="Frequency"
+    [min]="1"
+    [max]="1000"
+    [values]="[10, 100]"
+    [scale]="{ kind: 'log', base: 10 }"
+  />`,
+})
+class LogHost {}
+
+@Component({
+  selector: 'solaris-range-test-log-pointer',
+  standalone: true,
+  imports: [SolarisRangeSliderComponent],
+  template: `<solaris-range-slider
+    ariaLabel="Frequency"
+    [min]="1"
+    [max]="1000"
+    [values]="[10, 100]"
+    [scale]="{ kind: 'log', base: 10 }"
+  />`,
+})
+class LogPointerHost {}
+
+@Component({
+  selector: 'solaris-range-test-explicit-ticks',
+  standalone: true,
+  imports: [SolarisRangeSliderComponent],
+  template: `<solaris-range-slider
+    ariaLabel="V"
+    [values]="[20, 80]"
+    [showTicks]="true"
+    [tickValues]="[0, 50, 100]"
+  />`,
+})
+class ExplicitTicksHost {}
+
+@Component({
+  selector: 'solaris-range-test-zones',
+  standalone: true,
+  imports: [SolarisRangeSliderComponent],
+  template: `<solaris-range-slider
+    ariaLabel="Risk"
+    [values]="[10, 70]"
+    [zones]="[
+      { from: 0, to: 33, color: 'success' },
+      { from: 33, to: 66, color: 'warning' },
+      { from: 66, to: 100, color: 'danger' },
+    ]"
+  />`,
+})
+class ZonesHost {}
+
+@Component({
+  selector: 'solaris-range-test-distribution',
+  standalone: true,
+  imports: [SolarisRangeSliderComponent],
+  template: `<solaris-range-slider
+    ariaLabel="Demand"
+    [values]="[25, 75]"
+    [distribution]="[2, 5, 9, 7, 3]"
+  />`,
+})
+class DistributionHost {}
+
 describe('SolarisRangeSliderComponent rendering', () => {
   it('renders two ordered thumbs with the fill between them', () => {
     configure();
@@ -696,5 +765,118 @@ describe('SolarisRangeSliderComponent showMinMax', () => {
     expect(maxIndex).toBeGreaterThanOrEqual(0);
     expect(minIndex).toBeLessThan(trackIndex);
     expect(trackIndex).toBeLessThan(maxIndex);
+  });
+});
+
+describe('SolarisRangeSliderComponent v2 scale', () => {
+  it('positions each thumb through the log scale', () => {
+    configure();
+    const fixture = TestBed.createComponent(LogHost);
+    fixture.detectChanges();
+    const thumbs = thumbsOf(fixture);
+    expect((thumbs[0].style.left ?? '').startsWith('33.33')).toBe(true);
+    expect((thumbs[1].style.left ?? '').startsWith('66.66')).toBe(true);
+  });
+
+  it('spans the fill between the outermost thumbs through the scale', () => {
+    configure();
+    const fixture = TestBed.createComponent(LogHost);
+    fixture.detectChanges();
+    const fill = fixture.nativeElement.querySelector(
+      '.solaris-range-slider__fill',
+    ) as HTMLElement;
+    expect(fill.style.transform).toContain('translateX(33.333');
+    expect(fill.style.transform).toContain('scaleX(0.3333');
+  });
+
+  it('maps pointer drags through the log inverse and snaps to step', () => {
+    configure();
+    const fixture = TestBed.createComponent(LogPointerHost);
+    fixture.detectChanges();
+    const track = trackOf(fixture);
+    mockTrackRect(track, { width: 200, left: 0, right: 200 });
+    track.dispatchEvent(
+      new MouseEvent('pointerdown', {
+        clientX: 100,
+        button: 0,
+        bubbles: true,
+      }),
+    );
+    fixture.detectChanges();
+    const thumbs = thumbsOf(fixture);
+    expect(thumbs[0].getAttribute('aria-valuenow')).toBe('32');
+    expect(thumbs[1].getAttribute('aria-valuenow')).toBe('100');
+  });
+
+  it('keeps keyboard steps in value space on non-linear scales', () => {
+    configure();
+    const fixture = TestBed.createComponent(LogHost);
+    fixture.detectChanges();
+    const thumbs = thumbsOf(fixture);
+    pressKey(thumbs[0], 'ArrowRight');
+    fixture.detectChanges();
+    expect(thumbsOf(fixture)[0].getAttribute('aria-valuenow')).toBe('11');
+    expect(thumbsOf(fixture)[1].getAttribute('aria-valuenow')).toBe('100');
+  });
+
+  it('renders explicit tickValues instead of the tickStep grid', () => {
+    configure();
+    const fixture = TestBed.createComponent(ExplicitTicksHost);
+    fixture.detectChanges();
+    expect(
+      fixture.nativeElement.querySelectorAll('.solaris-range-slider__tick')
+        .length,
+    ).toBe(3);
+  });
+
+  it('resolves data-color from the first thumb value', () => {
+    configure();
+    const fixture = TestBed.createComponent(ZonesHost);
+    fixture.detectChanges();
+    expect(sliderOf(fixture).getAttribute('data-color')).toBe('success');
+  });
+
+  it('renders the distribution strip as aria-hidden decoration', () => {
+    configure();
+    const fixture = TestBed.createComponent(DistributionHost);
+    fixture.detectChanges();
+    const strip = fixture.nativeElement.querySelector(
+      '.solaris-range-slider__distribution',
+    ) as HTMLElement;
+    expect(strip?.getAttribute('aria-hidden')).toBe('true');
+    expect(
+      fixture.nativeElement.querySelectorAll('.solaris-range-slider__bar')
+        .length,
+    ).toBe(5);
+  });
+
+  it('fades the previous first-thumb zone color out over the new one', () => {
+    configure();
+    const fixture = TestBed.createComponent(ZonesHost);
+    fixture.detectChanges();
+    const overlay = (): HTMLElement | null =>
+      fixture.nativeElement.querySelector('.solaris-range-slider__zone-fade');
+    expect(overlay()?.getAttribute('aria-hidden')).toBe('true');
+    expect(overlay()?.getAttribute('data-zone')).toBeNull();
+    expect(overlay()?.getAttribute('data-fade')).toBeNull();
+    pressKey(thumbsOf(fixture)[0], 'End');
+    fixture.detectChanges();
+    fixture.detectChanges();
+    expect(sliderOf(fixture).getAttribute('data-color')).toBe('danger');
+    expect(overlay()?.getAttribute('data-zone')).toBe('success');
+    expect(overlay()?.getAttribute('data-fade')).toBe('a');
+    expect(overlay()?.style.transform).toBe(
+      (
+        fixture.nativeElement.querySelector(
+          '.solaris-range-slider__fill',
+        ) as HTMLElement
+      ).style.transform,
+    );
+    pressKey(thumbsOf(fixture)[0], 'Home');
+    fixture.detectChanges();
+    fixture.detectChanges();
+    expect(sliderOf(fixture).getAttribute('data-color')).toBe('success');
+    expect(overlay()?.getAttribute('data-zone')).toBe('danger');
+    expect(overlay()?.getAttribute('data-fade')).toBe('b');
   });
 });

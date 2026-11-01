@@ -1,7 +1,3 @@
-// Why: range-slider shares the --solaris-slider-* track/thumb language with
-// solaris-slider (one visual foundation), but component :host blocks do not
-// cross component boundaries, so the full alias set is redeclared here;
-// otherwise vertical geometry (track-length) and dark surfaces collapse.
 :host {
   --solaris-slider-track-height: var(--solaris-spacing-4);
   --solaris-slider-track-length: var(--solaris-spacing-18);
@@ -26,24 +22,13 @@
   --solaris-slider-focus-ring-color: var(--solaris-primary-solid);
   --solaris-slider-custom-fill-color: initial;
 
+  width: 100%;
   outline: none;
   display: flex;
   flex-direction: column;
-
-  // Why: the host shrink-wraps to content inside centered preview containers;
-  // form controls fill their container instead.
-  width: 100%;
   gap: var(--solaris-slider-value-gap);
 }
 
-// Why: the knob at either extreme overhangs the track edge by half its
-// width, and the invisible 44px hit extension reaches further past the
-// host. The body padding below keeps the knob itself (plus its focus ring)
-// inside the host; clipping the host then removes only the invisible
-// sliver, so the control can never cause page or preview overflow-x.
-// Wide transient text (tooltip, long custom values) may still touch the
-// clip at the extremes while revealed — accepted, state always stays in
-// per-thumb aria-valuenow/text.
 :host([data-orientation='horizontal']) {
   overflow-x: clip;
 }
@@ -72,15 +57,12 @@
 }
 
 .solaris-range-slider__value {
-  color: var(--solaris-slider-value-color);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
   font-size: var(--solaris-font-size-md);
+  color: var(--solaris-slider-value-color);
   line-height: var(--solaris-line-height-md);
   font-weight: var(--solaris-font-weight-medium);
-  white-space: nowrap;
-
-  // Why: proportional digits change width per value and shift the header;
-  // tabular figures keep the inline value stable while dragging.
-  font-variant-numeric: tabular-nums;
 }
 
 .solaris-range-slider__body {
@@ -89,15 +71,10 @@
   gap: var(--solaris-slider-value-gap);
 }
 
-// Why: the opt-in tooltip floats above the thumb and would cover the header;
-// room for it is reserved only in tooltip mode so other modes stay compact.
 :host([data-value-display='tooltip']) .solaris-range-slider__body {
   margin-top: var(--solaris-slider-tooltip-reserve);
 }
 
-// Why: per-thumb values overflow below the track and would overlap following
-// content (e.g. the description in a form); room is reserved only in thumb
-// mode, mirroring the tooltip reserve above.
 :host([data-value-display='thumb']) .solaris-range-slider__body {
   margin-bottom: var(--solaris-spacing-10);
 }
@@ -109,8 +86,6 @@
   font-size: var(--solaris-slider-edge-icon-size);
 }
 
-// Why: static scale bounds reuse the value color with tabular figures; no new
-// tokens, no motion — state already lives in per-thumb aria-valuenow/text.
 .solaris-range-slider__min,
 .solaris-range-slider__max {
   flex-shrink: 0;
@@ -123,8 +98,6 @@
 
 :host([data-orientation='horizontal']) .solaris-range-slider__min,
 :host([data-orientation='horizontal']) .solaris-range-slider__max {
-  // Why: the knob at either extreme overlaps the track edge by half its
-  // width; the margin keeps the static bounds clear of the thumbs.
   margin-inline: var(--solaris-spacing-6);
 }
 
@@ -161,8 +134,6 @@
 }
 
 :host([data-orientation='horizontal']) .solaris-range-slider__body {
-  // Why: half the knob plus its focus ring stays inside the host at the
-  // extremes, so the thumb never crosses the component edge.
   padding-inline: calc(
     (var(--solaris-slider-thumb-size) / 2) + var(--solaris-focus-ring-offset) +
       var(--solaris-focus-ring-width)
@@ -170,19 +141,21 @@
 }
 
 .solaris-range-slider__fill {
-  position: absolute;
   inset: 0;
+  position: absolute;
   border-radius: inherit;
   background: var(--solaris-slider-fill-color);
   transition: transform var(--solaris-motion-duration-normal)
     var(--solaris-motion-easing-decelerate);
 }
 
-:host([data-orientation='horizontal']) .solaris-range-slider__fill {
+:host([data-orientation='horizontal']) .solaris-range-slider__fill,
+:host([data-orientation='horizontal']) .solaris-range-slider__zone-fade {
   transform-origin: left center;
 }
 
-:host([data-orientation='vertical']) .solaris-range-slider__fill {
+:host([data-orientation='vertical']) .solaris-range-slider__fill,
+:host([data-orientation='vertical']) .solaris-range-slider__zone-fade {
   transform-origin: center top;
 }
 
@@ -190,9 +163,98 @@
   transition: none;
 }
 
+.solaris-range-slider__zone-fade {
+  inset: 0;
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+  border-radius: inherit;
+  background: var(--solaris-slider-fill-color);
+}
+
+.solaris-range-slider__zone-fade[data-fade='a'] {
+  animation: solaris-range-zone-fade-a var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard) both;
+}
+
+.solaris-range-slider__zone-fade[data-fade='b'] {
+  animation: solaris-range-zone-fade-b var(--solaris-motion-duration-normal)
+    var(--solaris-motion-easing-standard) both;
+}
+
+@keyframes solaris-range-zone-fade-a {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes solaris-range-zone-fade-b {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.solaris-range-slider__zone-fade[data-zone='neutral'] {
+  --solaris-slider-fill-color: var(--solaris-neutral-text-body);
+}
+
+.solaris-range-slider__zone-fade[data-zone='primary'] {
+  --solaris-slider-fill-color: var(--solaris-primary-solid);
+}
+
+.solaris-range-slider__zone-fade[data-zone='success'] {
+  --solaris-slider-fill-color: var(--solaris-success-solid);
+}
+
+.solaris-range-slider__zone-fade[data-zone='warning'] {
+  --solaris-slider-fill-color: var(--solaris-warning-solid);
+}
+
+.solaris-range-slider__zone-fade[data-zone='danger'] {
+  --solaris-slider-fill-color: var(--solaris-danger-solid);
+}
+
+.solaris-range-slider__zone-fade[data-zone='info'] {
+  --solaris-slider-fill-color: var(--solaris-info-solid);
+}
+
+.solaris-range-slider__zone-fade[data-zone='custom'] {
+  --solaris-slider-fill-color: var(--solaris-slider-custom-fill-color);
+}
+
 .solaris-range-slider__ticks {
   position: absolute;
   inset: 0;
+}
+
+.solaris-range-slider__distribution {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: stretch;
+  gap: var(--solaris-spacing-1);
+}
+
+.solaris-range-slider__bar {
+  flex: 1 1 0;
+  background: var(--solaris-slider-tick-color);
+  transform-origin: center bottom;
+}
+
+:host([data-orientation='vertical']) .solaris-range-slider__distribution {
+  flex-direction: column;
+}
+
+:host([data-orientation='vertical']) .solaris-range-slider__bar {
+  transform-origin: left center;
 }
 
 .solaris-range-slider__tick {
@@ -226,16 +288,13 @@
   font-size: var(--solaris-slider-thumb-icon-size);
   background-color: var(--solaris-slider-thumb-background);
   box-shadow: var(--solaris-slider-thumb-shadow);
-
-  // Why: the knob matches the raised surface in both themes and would vanish
-  // on the sunken track in dark; the token ring restores its edge.
   border: var(--solaris-slider-thumb-border-width) solid
     var(--solaris-slider-thumb-border-color);
   cursor: grab;
   transition:
-    transform var(--solaris-motion-duration-fast)
+    transform var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard),
-    background-color var(--solaris-motion-duration-fast)
+    background-color var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-standard);
 }
 
@@ -249,8 +308,6 @@
   transform: translate(-50%, 50%);
 }
 
-// Why: the optical thumb stays compact while the hit target meets the 44px
-// minimum via an invisible token-sized extension on every size.
 .solaris-range-slider__thumb::after {
   content: '';
   position: absolute;
@@ -291,10 +348,6 @@
   transform: translate(-50%, 50%) scale(1.15);
 }
 
-// Why: the one-shot pop animates the independent `scale` property so the
-// resting, hover, and focus `transform` (orientation-specific centering)
-// composes underneath; the end state is identity, so clearing
-// `data-released` never snaps the thumb.
 .solaris-range-slider__thumb[data-released] {
   animation: solaris-range-slider-release-pop
     var(--solaris-motion-duration-normal) var(--solaris-motion-easing-spring)
@@ -331,9 +384,9 @@
   box-shadow: var(--solaris-shadow-sm);
   pointer-events: none;
   transition:
-    opacity var(--solaris-motion-duration-fast)
+    opacity var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-accelerate),
-    transform var(--solaris-motion-duration-fast)
+    transform var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-accelerate);
 }
 
@@ -343,14 +396,12 @@
   opacity: 1;
   transform: translate(-50%, 0);
   transition:
-    opacity var(--solaris-motion-duration-fast)
+    opacity var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-decelerate),
-    transform var(--solaris-motion-duration-fast)
+    transform var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-decelerate);
 }
 
-// Why: same rotated-square arrow idiom as solaris-tooltip-panel, pointing
-// down at the thumb; static geometry, so no reduced-motion guard needed.
 .solaris-range-slider__tooltip::after {
   content: '';
   position: absolute;
@@ -374,24 +425,21 @@
   opacity: 0;
   pointer-events: none;
   transition:
-    opacity var(--solaris-motion-duration-fast)
+    opacity var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-accelerate),
-    transform var(--solaris-motion-duration-fast)
+    transform var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-accelerate);
 }
 
-// Why: adjacent thumb values collide when thumbs gather, so each label
-// reveals only for its own hovered, focused, or dragged thumb; the state
-// itself always stays in aria-valuetext.
 .solaris-range-slider__thumb:hover .solaris-range-slider__thumb-value,
 .solaris-range-slider__thumb:focus-visible .solaris-range-slider__thumb-value,
 .solaris-range-slider__thumb[data-active] .solaris-range-slider__thumb-value {
   opacity: 1;
   transform: translateX(-50%);
   transition:
-    opacity var(--solaris-motion-duration-fast)
+    opacity var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-decelerate),
-    transform var(--solaris-motion-duration-fast)
+    transform var(--solaris-motion-duration-normal)
       var(--solaris-motion-easing-decelerate);
 }
 
@@ -511,13 +559,13 @@
   .solaris-range-slider__thumb,
   .solaris-range-slider__tooltip,
   .solaris-range-slider__thumb-value,
-  .solaris-range-slider__thumb[data-released] {
+  .solaris-range-slider__thumb[data-released],
+  .solaris-range-slider__bar,
+  .solaris-range-slider__zone-fade {
     transition: none;
     animation: none;
   }
 
-  // Why: the resets repeat the full `:host([data-orientation])` selector so
-  // they win over the hover/focus scale rules at equal specificity, later.
   :host([data-orientation='horizontal']) .solaris-range-slider__thumb:hover,
   :host([data-orientation='horizontal'])
     .solaris-range-slider__thumb:focus-visible {
@@ -530,8 +578,6 @@
     transform: translate(-50%, 50%);
   }
 
-  // Why: the reveal slide is motion, so every reveal state (hover, focus,
-  // dragged) rests at the final position when motion is reduced.
   :host([data-orientation='horizontal'])
     .solaris-range-slider__thumb:hover
     .solaris-range-slider__thumb-value,
@@ -562,15 +608,14 @@
   .solaris-range-slider__thumb,
   .solaris-range-slider__tooltip,
   .solaris-range-slider__thumb-value,
-  .solaris-range-slider__thumb[data-released] {
+  .solaris-range-slider__thumb[data-released],
+  .solaris-range-slider__bar,
+  .solaris-range-slider__zone-fade {
     transition: none;
     animation: none;
   }
 }
 
-// Why: the resets keep the compound `:host-context(...):host(...)` form so
-// both conditions stay on one element (nesting would compile to a
-// descendant selector that never matches).
 :host-context([data-reduced-motion='true']):host(
     [data-orientation='horizontal']
   )
@@ -619,15 +664,16 @@
   transform: translateY(-50%);
 }
 
-// Why: paper has no hover, drag, or motion — the opt-in tooltip hides (its
-// reserve collapses), per-thumb values print statically, drag cursors go
-// static, and motion stops.
 @media print {
   :host([data-value-display='tooltip']) .solaris-range-slider__body {
     margin-top: var(--solaris-spacing-0);
   }
 
   .solaris-range-slider__tooltip {
+    display: none;
+  }
+
+  .solaris-range-slider__zone-fade {
     display: none;
   }
 

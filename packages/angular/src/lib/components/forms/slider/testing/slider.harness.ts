@@ -44,6 +44,14 @@ export class SolarisSliderHarness extends ComponentHarness {
     return label ? label.text() : null;
   }
 
+  async getTickCount(): Promise<number> {
+    return (await this.locatorForAll('.solaris-slider__tick')()).length;
+  }
+
+  async getDistributionBarCount(): Promise<number> {
+    return (await this.locatorForAll('.solaris-slider__bar')()).length;
+  }
+
   async focus(): Promise<void> {
     await (await this.thumb()).focus();
   }

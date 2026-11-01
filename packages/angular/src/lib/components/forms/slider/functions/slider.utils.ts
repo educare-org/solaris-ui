@@ -26,8 +26,6 @@ export function snapToStep(value: number, min: number, step: number): number {
     return value;
   }
   const snapped = min + Math.round((value - min) / step) * step;
-  // Why: binary floating point drifts on fractional steps (e.g. 0.1), so the
-  // result is re-quantized to the step precision instead of leaking 0.30000004.
   return Number(snapped.toFixed(decimalPlaces(step)));
 }
 
@@ -93,8 +91,6 @@ export function enforceMinStepsBetweenThumbs(
   const ordered = orderValues(values).map((value) =>
     snapToStep(clampToRange(value, lo, hi), lo, step),
   );
-  // Why: a forward-only pass keeps the consumer order stable; thumbs that run
-  // out of room stack at max instead of silently reordering backwards.
   const result: number[] = [];
   for (const value of ordered) {
     const floor = result.length === 0 ? lo : result[result.length - 1] + gap;

@@ -75,6 +75,25 @@ class SsrRangeMinMaxHostComponent {
   readonly control = new FormControl<number[]>([25, 75]);
 }
 
+@Component({
+  selector: 'solaris-ssr-range-scale-host',
+  standalone: true,
+  imports: [SolarisRangeSliderComponent, ReactiveFormsModule],
+  template: `<solaris-range-slider
+    label="Frequency range"
+    [formControl]="control"
+    [min]="1"
+    [max]="1000"
+    [scale]="{ kind: 'log', base: 10 }"
+    [showTicks]="true"
+    [tickValues]="[1, 10, 100, 1000]"
+    [distribution]="[2, 5, 9]"
+  ></solaris-range-slider>`,
+})
+class SsrRangeScaleHostComponent {
+  readonly control = new FormControl<number[]>([10, 100]);
+}
+
 async function renderHost(host: Type<unknown>, tag: string): Promise<string> {
   return renderApplication(
     (context: BootstrapContext) =>
@@ -133,6 +152,17 @@ describe('SolarisRangeSlider SSR', () => {
     expect(html).toContain('solaris-range-slider__min');
     expect(html).toContain('solaris-range-slider__max');
     expect(html).toContain('aria-hidden="true"');
+  });
+
+  it('renders log scale ticks and distribution without DOM access', async () => {
+    const html = await renderHost(
+      SsrRangeScaleHostComponent,
+      'solaris-ssr-range-scale-host',
+    );
+    expect(html).toContain('aria-valuenow="10"');
+    expect(html).toContain('aria-valuenow="100"');
+    expect(html).toContain('solaris-range-slider__bar');
+    expect(html).toContain('solaris-range-slider__tick');
   });
 
   it('keeps identical container structure across value states', async () => {

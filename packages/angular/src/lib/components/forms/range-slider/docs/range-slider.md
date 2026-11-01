@@ -19,14 +19,18 @@ pageStep/orientation/size/color`, `label/description/aria` pairs,
 `startIcon/endIcon/thumbIcon`, `disabled/readonly/required/invalid/name`,
 `showTicks/tickStep/showMinMax`, `formatValue/valueText/unit`).
 
-| Input                   | Type                                         | Default     | Description                                                |
-| ----------------------- | -------------------------------------------- | ----------- | ---------------------------------------------------------- |
-| `values`                | `model<number[]>`                            | `[25, 75]`  | Ordered ascending, length 2..N (+ `valuesChange`)          |
-| `minThumbs`             | `number`                                     | `2`         | Locked v1 floor (single-thumb belongs to `solaris-slider`) |
-| `maxThumbs`             | `number`                                     | `5`         | v1 cap (larger → dev warning + clamp)                      |
-| `minStepsBetweenThumbs` | `number`                                     | `0`         | Minimum step gap between adjacent thumbs                   |
-| `valueDisplay`          | `'inline' \| 'tooltip' \| 'thumb' \| 'none'` | `'tooltip'` | Bubble above each thumb by default                         |
-| `showMinMax`            | `boolean`                                    | `false`     | Static min/max scale bounds (decorative)                   |
+| Input                   | Type                                         | Default              | Description                                                |
+| ----------------------- | -------------------------------------------- | -------------------- | ---------------------------------------------------------- |
+| `values`                | `model<number[]>`                            | `[25, 75]`           | Ordered ascending, length 2..N (+ `valuesChange`)          |
+| `minThumbs`             | `number`                                     | `2`                  | Locked v1 floor (single-thumb belongs to `solaris-slider`) |
+| `maxThumbs`             | `number`                                     | `5`                  | v1 cap (larger → dev warning + clamp)                      |
+| `minStepsBetweenThumbs` | `number`                                     | `0`                  | Minimum step gap between adjacent thumbs                   |
+| `scale`                 | `SolarisSliderScale`                         | `{ kind: 'linear' }` | Position mapping (`linear` = v1 behavior)                  |
+| `tickValues`            | `number[]`                                   | —                    | Explicit tick positions (wins over `tickStep`)             |
+| `zones`                 | `SolarisSliderZone[]`                        | —                    | First-match on the first thumb resolves `data-color`       |
+| `distribution`          | `number[]`                                   | —                    | Decorative histogram densities (`aria-hidden`)             |
+| `valueDisplay`          | `'inline' \| 'tooltip' \| 'thumb' \| 'none'` | `'tooltip'`          | Bubble above each thumb by default                         |
+| `showMinMax`            | `boolean`                                    | `false`              | Static min/max scale bounds (decorative)                   |
 
 ### Outputs
 
@@ -40,6 +44,13 @@ pageStep/orientation/size/color`, `label/description/aria` pairs,
 
 ```typescript
 export type SolarisRangeSliderValues = number[];
+export type SolarisSliderScaleKind = 'linear' | 'log' | 'pow' | 'time' | 'custom';
+export type SolarisSliderScale = { kind: 'linear' } | { kind: 'log'; base?: number } | { kind: 'pow'; exponent?: number } | { kind: 'time' } | { kind: 'custom'; toRatio: (value: number) => number; fromRatio: (ratio: number) => number };
+export interface SolarisSliderZone {
+  from: number;
+  to: number;
+  color: SolarisSliderColor;
+}
 ```
 
 Shared scale types (`SolarisSliderSize`, `SolarisSliderColor`,
@@ -99,6 +110,52 @@ the maximum at the end — as `aria-hidden` decoration, formatted with the
 `formatValue`/`unit` pipeline. Horizontal places them on either side of the
 track; vertical stacks them above and below. They print as-is.
 
+## Scale
+
+`scale` changes WHERE each thumb sits without changing the value grammar:
+keyboard steps, `step`/`pageStep` snapping, `minStepsBetweenThumbs` gaps, and
+`aria-valuenow/text` stay in value space on every scale. `linear` (default)
+is the v1 behavior. Each thumb positions through `thumbRatios`; the fill
+spans the outermost thumbs through the same ratios.
+
+| Kind     | Mapping                                                          |
+| -------- | ---------------------------------------------------------------- |
+| `linear` | Uniform (v1 behavior)                                            |
+| `log`    | Decades share the track (`base`, default `10`; needs `min > 0`)  |
+| `pow`    | `value = min + span * ratio^exponent` (default `2`; `min >= 0`)  |
+| `time`   | Linear over epoch ms; dates come from `formatValue`/`valueText`  |
+| `custom` | Consumer `toRatio`/`fromRatio` (non-finite falls back to linear) |
+
+Invalid log/pow domains fall back to linear positioning (plus a dev-mode
+warning). Pointer drags invert through the same scale, so a mid-track click
+on `log` lands on the geometric mean, snapped to `step` and clamped against
+live neighbors.
+
+## Explicit ticks
+
+`tickValues` lists tick positions in value space, placed through the active
+scale. It wins over `tickStep` (dev-mode warning). `tickStep` counts linear
+value steps and is ignored on `log`/`pow`/`custom` (dev-mode warning, no
+ticks) — those scales need explicit values because auto-grids are ambiguous
+(log minors, irregular months).
+
+## Zones
+
+`zones` resolves the host `data-color` from the **first thumb value**: the
+first zone with `from <= value <= to` wins, else the `color` input applies.
+Zone switches fade the previous color out over the new one (`normal +
+standard`, instant under reduced motion, hidden in print).
+Single-host coloring is locked — per-thumb colors are a non-goal. Zones
+reuse the `SolarisSliderColor` token palette — never raw colors — and never
+carry state alone (`aria-valuetext` always mirrors each thumb value).
+
+## Distribution
+
+`distribution` renders a decorative density strip behind the fill
+(`aria-hidden`, static, prints as-is). Values are normalized by the peak;
+non-finite and negative entries count as zero. It shares the decorative
+tick color and has no motion, so no reduced-motion guard applies.
+
 ## CSS Variables
 
 Range Slider owns no token family: it shares the `--solaris-slider-*`
@@ -111,9 +168,13 @@ keeps the knob visible on the sunken track in dark theme.
 
 Same signature as `solaris-slider`: inter-thumb fill glides via
 `transform: translate + scale` (`normal + decelerate`, origin at the segment
-start), `transition: none` while `data-dragging`; thumb hover/`focus-visible`
+start), `transition: none` while `data-dragging`; zone-driven `data-color`
+switches (locked to the first thumb) play an overlay fade — the previous
+color lingers on an `aria-hidden` layer that tracks the fill segment and
+fades out (`opacity`, `normal + standard`) with no muddy midpoint, and is
+instant under the doubled reduced-motion guards and hidden in print; thumb hover/`focus-visible`
 scale, active press, and pointer-release spring pop identical; tooltip and
-per-thumb value reveal with `opacity + translate-sm(4px)`, `fast`, enter
+per-thumb value reveal with `opacity + translate-sm(4px)`, `normal`, enter
 `decelerate` / exit `accelerate`; same doubled reduced-motion guards (pop,
 slide, and scale all removed; state stays per thumb in
 `aria-valuenow/text`). The pop is vestibular-sensitive by design (spring is
@@ -155,6 +216,18 @@ opt-in) and never fires for keyboard commits.
 <!-- Ticks -->
 <solaris-range-slider label="Brightness range" [showTicks]="true" [tickStep]="10" />
 
+<!-- Logarithmic scale with explicit ticks -->
+<solaris-range-slider label="Frequency range" [min]="20" [max]="20000" [values]="[100, 5000]" [scale]="{ kind: 'log' }" [showTicks]="true" [tickValues]="[20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000]" />
+
+<!-- Time scale with explicit ticks -->
+<solaris-range-slider label="Booking window" [min]="1704067200000" [max]="1735689600000" [values]="[1709251200000, 1725148800000]" [scale]="{ kind: 'time' }" [showTicks]="true" [tickValues]="[1704067200000, 1711929600000, 1719792000000, 1727740800000, 1735689600000]" />
+
+<!-- Zones (host color follows the first thumb) -->
+<solaris-range-slider label="Risk band" [values]="[10, 70]" [zones]="[{ from: 0, to: 33, color: 'success' }, { from: 33, to: 66, color: 'warning' }, { from: 66, to: 100, color: 'danger' }]" />
+
+<!-- Distribution backdrop -->
+<solaris-range-slider label="Demand band" [distribution]="[2, 5, 9, 7, 3]" />
+
 <!-- States -->
 <solaris-range-slider label="Range" [disabled]="true" />
 <solaris-range-slider label="Range" [readonly]="true" />
@@ -172,13 +245,14 @@ thumb cursors go static, and fill/thumb motion stops. Tooltip-mode values
 are hover-only by design, so paper shows no bubble — prefer `thumb` or
 `inline` display when the page must print.
 
-## Limitations (v1)
+## Limitations (v1 + v2 range)
 
 - `maxThumbs` is capped at 5 (larger requests warn and clamp).
 - Thumbs never cross or reorder (ordered clamp, no free-crossing mode).
 - `minThumbs` below 2 is out of v1 (use `solaris-slider`).
-- Linear `min/max/step` scales only; no per-thumb colors, per-tick labels,
-  or custom thumb templates.
+- No per-thumb colors (host `data-color` resolves from the first thumb),
+  per-tick labels, or custom thumb templates.
+- `tickStep` is linear-only; non-linear scales require `tickValues`.
 - `required` is a visual marker + form-field concern, not native validation.
 
 ```

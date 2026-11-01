@@ -90,6 +90,25 @@ class SsrSliderVerticalHostComponent {
   readonly control = new FormControl<number>(30);
 }
 
+@Component({
+  selector: 'solaris-ssr-slider-scale-host',
+  standalone: true,
+  imports: [SolarisSliderComponent, ReactiveFormsModule],
+  template: `<solaris-slider
+    label="Frequency"
+    [formControl]="control"
+    [min]="1"
+    [max]="1000"
+    [scale]="{ kind: 'log', base: 10 }"
+    [showTicks]="true"
+    [tickValues]="[1, 10, 100, 1000]"
+    [distribution]="[2, 5, 9]"
+  ></solaris-slider>`,
+})
+class SsrSliderScaleHostComponent {
+  readonly control = new FormControl<number>(10);
+}
+
 async function renderHost(host: Type<unknown>, tag: string): Promise<string> {
   return renderApplication(
     (context: BootstrapContext) =>
@@ -154,6 +173,16 @@ describe('SolarisSlider SSR', () => {
     expect(html).toContain('solaris-slider__min');
     expect(html).toContain('solaris-slider__max');
     expect(html).toContain('aria-hidden="true"');
+  });
+
+  it('renders log scale ticks and distribution without DOM access', async () => {
+    const html = await renderHost(
+      SsrSliderScaleHostComponent,
+      'solaris-ssr-slider-scale-host',
+    );
+    expect(html).toContain('aria-valuenow="10"');
+    expect(html).toContain('solaris-slider__bar');
+    expect(html).toContain('solaris-slider__tick');
   });
 
   it('keeps identical container structure across value states', async () => {

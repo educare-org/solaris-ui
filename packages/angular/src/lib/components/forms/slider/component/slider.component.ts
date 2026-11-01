@@ -26,29 +26,43 @@ import type { SolarisIconName } from '../../../../services/icon';
 import type {
   SolarisSliderColor,
   SolarisSliderOrientation,
+  SolarisSliderScale,
   SolarisSliderSize,
   SolarisSliderValueDisplay,
   SolarisSliderValueFormatter,
+  SolarisSliderZone,
+  SolarisZoneFadePhase,
 } from '../model/slider.types';
 import {
   SOLARIS_SLIDER_DEFAULT_COLOR,
+  SOLARIS_SLIDER_DEFAULT_DISTRIBUTION,
   SOLARIS_SLIDER_DEFAULT_MAX,
   SOLARIS_SLIDER_DEFAULT_MIN,
   SOLARIS_SLIDER_DEFAULT_ORIENTATION,
-  SOLARIS_SLIDER_DEFAULT_SHOW_TICKS,
+  SOLARIS_SLIDER_DEFAULT_SCALE,
   SOLARIS_SLIDER_DEFAULT_SHOW_MIN_MAX,
+  SOLARIS_SLIDER_DEFAULT_SHOW_TICKS,
   SOLARIS_SLIDER_DEFAULT_SIZE,
   SOLARIS_SLIDER_DEFAULT_STEP,
+  SOLARIS_SLIDER_DEFAULT_TICK_VALUES,
   SOLARIS_SLIDER_DEFAULT_VALUE,
   SOLARIS_SLIDER_DEFAULT_VALUE_DISPLAY,
+  SOLARIS_SLIDER_DEFAULT_ZONES,
 } from '../model/slider.defaults';
 import {
   clampToRange,
   defaultPageStep,
-  percentOf,
   snapToStep,
   tickPositions,
 } from '../functions/slider.utils';
+import {
+  distributionHeights,
+  ratioOf,
+  resolveZoneColor,
+  resolveZoneFade,
+  validateTickValues,
+  valueFromRatio,
+} from '../functions/slider.scale';
 
 export const SOLARIS_SLIDER_DEFAULT_UNIT = '%';
 
@@ -73,7 +87,7 @@ export const SOLARIS_SLIDER_DEFAULT_UNIT = '%';
   host: {
     class: 'solaris-slider',
     '[attr.data-size]': 'size()',
-    '[attr.data-color]': 'color()',
+    '[attr.data-color]': 'resolvedColor()',
     '[attr.data-orientation]': 'orientation()',
     '[attr.data-value-display]': 'valueDisplay()',
     '[attr.data-disabled]': 'isEffectivelyDisabled() ? "" : null',
@@ -100,6 +114,7 @@ export class SolarisSliderComponent
   private readonly _describedByIds = signal<string[]>([]);
   private readonly cvaDisabled = signal(false);
   private keyDirty = false;
+  private previousZoneColor: SolarisSliderColor | null = null;
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private onChange: (value: number) => void = () => {};
@@ -144,6 +159,16 @@ export class SolarisSliderComponent
     transform: (v: unknown) =>
       v === undefined || v === null || v === '' ? undefined : Number(v),
   });
+  readonly scale = input<SolarisSliderScale>(SOLARIS_SLIDER_DEFAULT_SCALE);
+  readonly tickValues = input<readonly number[] | undefined>(
+    SOLARIS_SLIDER_DEFAULT_TICK_VALUES,
+  );
+  readonly zones = input<readonly SolarisSliderZone[] | undefined>(
+    SOLARIS_SLIDER_DEFAULT_ZONES,
+  );
+  readonly distribution = input<readonly number[] | undefined>(
+    SOLARIS_SLIDER_DEFAULT_DISTRIBUTION,
+  );
   readonly sliderLabel = input<string | undefined>(undefined, {
     alias: 'label',
   });
@@ -185,8 +210,10 @@ export class SolarisSliderComponent
     ),
   );
 
-  protected readonly percent = computed(() =>
-    percentOf(this.effectiveValue(), this.min(), this.max()),
+  protected readonly percent = computed(
+    () =>
+      ratioOf(this.effectiveValue(), this.min(), this.max(), this.scale()) *
+      100,
   );
 
   protected readonly effectivePageStep = computed(
@@ -248,13 +275,34 @@ export class SolarisSliderComponent
     return this.ariaLabel();
   });
 
+  protected readonly resolvedColor = computed(() =>
+    resolveZoneColor(this.effectiveValue(), this.zones(), this.color()),
+  );
+
+  protected readonly zoneFadeColor = signal<SolarisSliderColor | null>(null);
+  protected readonly zoneFade = signal<SolarisZoneFadePhase | null>(null);
+
+  protected readonly distributionBars = computed(() =>
+    distributionHeights(this.distribution()),
+  );
+
   protected readonly tickOffsets = computed(() => {
     if (!this.showTicks()) {
       return [];
     }
+    const min = this.min();
+    const max = this.max();
+    const scale = this.scale();
+    const explicit = validateTickValues(this.tickValues(), min, max);
+    if (explicit.length > 0) {
+      return explicit.map((tick) => ratioOf(tick, min, max, scale) * 100);
+    }
+    if (scale.kind !== 'linear' && scale.kind !== 'time') {
+      return [];
+    }
     const tickStep = this.tickStep() ?? this.step();
-    return tickPositions(this.min(), this.max(), tickStep).map((tick) =>
-      percentOf(tick, this.min(), this.max()),
+    return tickPositions(min, max, tickStep).map(
+      (tick) => ratioOf(tick, min, max, scale) * 100,
     );
   });
 
@@ -408,8 +456,6 @@ export class SolarisSliderComponent
       return;
     }
     this._dragging.set(true);
-    // Why: a new gesture cancels the one-shot release pop, so the thumb
-    // never pops mid-drag when the pointer re-grabs it.
     this._released.set(false);
     this.applyValue(this.valueFromPointer(event), false);
     const track = this.trackElementRef();
@@ -417,9 +463,8 @@ export class SolarisSliderComponent
       try {
         // SECURITY_EXCEPTION: drag continuity requires pointer capture on the track; no declarative alternative exists.
         track.nativeElement.setPointerCapture(event.pointerId);
-      } catch {
-        // Why: capture is best-effort (already-released pointers throw); drag still works via move/up listeners.
-      }
+        // eslint-disable-next-line no-empty
+      } catch {}
     }
     this.focus();
     event.preventDefault();
@@ -441,8 +486,6 @@ export class SolarisSliderComponent
       return;
     }
     this._dragging.set(false);
-    // Why: the release pop is pointer-only (keyboard commits have no press);
-    // state stays in aria-valuenow/text either way.
     this._released.set(true);
     this.valueCommit.emit(this.effectiveValue());
     this.onTouched();
@@ -487,22 +530,22 @@ export class SolarisSliderComponent
     if (!track) {
       return this.effectiveValue();
     }
-    // Why: geometry is read per gesture (never cached), so SSR construction stays DOM-free and resizes cannot go stale.
     const rect = track.nativeElement.getBoundingClientRect();
     const min = this.min();
     const max = this.max();
+    const scale = this.scale();
     if (this.orientation() === 'vertical') {
       if (rect.height <= 0) {
         return this.effectiveValue();
       }
       const ratio = (rect.bottom - event.clientY) / rect.height;
-      return min + ratio * (max - min);
+      return valueFromRatio(ratio, min, max, scale);
     }
     if (rect.width <= 0) {
       return this.effectiveValue();
     }
     const ratio = (event.clientX - rect.left) / rect.width;
-    return min + ratio * (max - min);
+    return valueFromRatio(ratio, min, max, scale);
   }
 
   constructor() {
@@ -519,7 +562,37 @@ export class SolarisSliderComponent
             `[SolarisSlider] "step" (${this.step()}) must be greater than 0. Snapping is skipped until fixed.`,
           );
         }
+        if (this.tickValues() !== undefined && this.tickStep() !== undefined) {
+          console.warn(
+            `[SolarisSlider] "tickValues" takes precedence over "tickStep". Remove "tickStep" to silence this warning.`,
+          );
+        }
+        const scale = this.scale();
+        if (
+          this.tickStep() !== undefined &&
+          this.tickValues() === undefined &&
+          scale.kind !== 'linear' &&
+          scale.kind !== 'time'
+        ) {
+          console.warn(
+            `[SolarisSlider] "tickStep" counts linear value steps and is ignored on "${scale.kind}" scales. Use "tickValues" instead.`,
+          );
+        }
       });
     }
+    effect(() => {
+      const current = this.resolvedColor();
+      const frame = resolveZoneFade(
+        this.previousZoneColor,
+        current,
+        this.zoneFade(),
+      );
+      this.previousZoneColor = current;
+      if (frame === null) {
+        return;
+      }
+      this.zoneFadeColor.set(frame.zone);
+      this.zoneFade.set(frame.phase);
+    });
   }
 }

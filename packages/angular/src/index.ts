@@ -708,6 +708,9 @@ export type {
   SolarisSliderOrientation,
   SolarisSliderValueDisplay,
   SolarisSliderValueFormatter,
+  SolarisSliderScale,
+  SolarisSliderScaleKind,
+  SolarisSliderZone,
 } from './lib/components/forms/slider/model/slider.types';
 
 export { SolarisSwitchGroupComponent } from './lib/components/forms/switch-group/component/switch-group.component';
