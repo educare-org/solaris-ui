@@ -60,6 +60,26 @@ export const SLIDER_SHOWCASE_MIN_MAX_CODE = [
   '/>',
 ].join('\n');
 
+export const SLIDER_SHOWCASE_SCALE_LOG_CODE = [
+  '<solaris-slider',
+  '  label="Frequency"',
+  '  [min]="20"',
+  '  [max]="20000"',
+  '  [(value)]="frequency"',
+  '  [scale]="{ kind: \'log\', base: 10 }"',
+  '  [showTicks]="true"',
+  '  [tickValues]="[20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000]"',
+  '/>',
+].join('\n');
+
+export const SLIDER_SHOWCASE_SCALE_ZONES_CODE = [
+  '<solaris-slider',
+  '  label="Risk"',
+  '  [(value)]="risk"',
+  '  [zones]="riskZones"',
+  '/>',
+].join('\n');
+
 export const SLIDER_SHOWCASE_VERTICAL_CODE = [
   '<solaris-slider label="Balance" orientation="vertical" [(value)]="balance" />',
 ].join('\n');
@@ -71,14 +91,6 @@ export const SLIDER_SHOWCASE_ICONS_CODE = [
   '  endIcon="plus"',
   '  thumbIcon="grip-vertical"',
   '/>',
-].join('\n');
-
-export const SLIDER_SHOWCASE_TOOLTIP_CODE = [
-  '<solaris-slider label="Opacity" valueDisplay="tooltip" />',
-].join('\n');
-
-export const SLIDER_SHOWCASE_THUMB_VALUE_CODE = [
-  '<solaris-slider label="Opacity" valueDisplay="thumb" />',
 ].join('\n');
 
 export const SLIDER_SHOWCASE_STATES_CODE = [

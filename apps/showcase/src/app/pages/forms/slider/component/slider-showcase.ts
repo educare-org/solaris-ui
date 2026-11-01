@@ -13,6 +13,7 @@ import {
   SolarisTranslateService,
   type SolarisSliderColor,
   type SolarisSliderSize,
+  type SolarisSliderZone,
 } from '@solaris-ui/angular';
 
 import { ShowcaseDocsPageFooter } from '../../../../shell/docs-page-footer/docs-page-footer';
@@ -32,12 +33,12 @@ import {
   SLIDER_SHOWCASE_NEXT,
   SLIDER_SHOWCASE_PREV,
   SLIDER_SHOWCASE_REACTIVE_CODE,
+  SLIDER_SHOWCASE_SCALE_LOG_CODE,
+  SLIDER_SHOWCASE_SCALE_ZONES_CODE,
   SLIDER_SHOWCASE_SLUG,
   SLIDER_SHOWCASE_STATES_CODE,
-  SLIDER_SHOWCASE_THUMB_VALUE_CODE,
   SLIDER_SHOWCASE_TICKS_CODE,
   SLIDER_SHOWCASE_TOC_ITEMS,
-  SLIDER_SHOWCASE_TOOLTIP_CODE,
   SLIDER_SHOWCASE_VERTICAL_CODE,
   SLIDER_TRANSLATION_PREFIX,
 } from '../model/slider-showcase.data';
@@ -80,10 +81,10 @@ export class SliderShowcasePage {
   protected readonly basicCode = SLIDER_SHOWCASE_BASIC_CODE;
   protected readonly ticksCode = SLIDER_SHOWCASE_TICKS_CODE;
   protected readonly minMaxCode = SLIDER_SHOWCASE_MIN_MAX_CODE;
+  protected readonly scaleLogCode = SLIDER_SHOWCASE_SCALE_LOG_CODE;
+  protected readonly scaleZonesCode = SLIDER_SHOWCASE_SCALE_ZONES_CODE;
   protected readonly verticalCode = SLIDER_SHOWCASE_VERTICAL_CODE;
   protected readonly iconsCode = SLIDER_SHOWCASE_ICONS_CODE;
-  protected readonly tooltipCode = SLIDER_SHOWCASE_TOOLTIP_CODE;
-  protected readonly thumbValueCode = SLIDER_SHOWCASE_THUMB_VALUE_CODE;
   protected readonly statesCode = SLIDER_SHOWCASE_STATES_CODE;
   protected readonly formFieldCode = SLIDER_SHOWCASE_FORM_FIELD_CODE;
   protected readonly reactiveCode = SLIDER_SHOWCASE_REACTIVE_CODE;
@@ -106,6 +107,14 @@ export class SliderShowcasePage {
 
   protected readonly volume = signal(50);
   protected readonly balance = signal(30);
+  protected readonly frequency = signal(1000);
+  protected readonly risk = signal(70);
+
+  protected readonly riskZones: SolarisSliderZone[] = [
+    { from: 0, to: 33, color: 'success' },
+    { from: 33, to: 66, color: 'warning' },
+    { from: 66, to: 100, color: 'danger' },
+  ];
 
   protected readonly displayCode = computed(() =>
     [

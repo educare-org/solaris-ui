@@ -27,8 +27,10 @@
     "examples": {
       "balance": "Balanço",
       "brightness": "Brilho",
+      "frequency": "Frequência",
       "note": "Arraste o polegar, clique na trilha ou use o teclado.",
       "opacity": "Opacidade",
+      "risk": "Risco",
       "volume": "Volume"
     },
     "form-field-hint": "Estas opções afetam suas caixas de som.",
@@ -67,11 +69,12 @@
       "readonly": "Somente leitura"
     },
     "ticks": {
-      "note": "Marcas são decorativas (aria-hidden) e derivam de showTicks mais tickStep."
+      "note": "Marcas são decorativas (aria-hidden) e derivam de showTicks mais tickStep ou tickValues explícitos."
     },
     "title": "Slider",
     "scale": {
-      "note": "Limites estáticos marcam o mínimo e o máximo da trilha."
+      "note": "Limites estáticos marcam o mínimo e o máximo da trilha.",
+      "scales-note": "Escalas log precisam de tickValues explícitos; zones recolorem o preenchimento pelo valor."
     },
     "vertical": {
       "note": "Vertical preenche de baixo para cima. O teclado é idêntico nos dois eixos: ArrowUp e ArrowRight aumentam."

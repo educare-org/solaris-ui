@@ -10,10 +10,12 @@
     "examples": {
       "brightness": "Brightness range",
       "budget": "Budget",
+      "frequency": "Frequency range",
       "gap": "Minimum gap",
       "note": "Drag any thumb or click the track to move the nearest one. Thumbs never cross.",
       "price": "Price",
       "range": "Range",
+      "risk": "Risk band",
       "segments": "Segments",
       "stops": "Stops",
       "temperature": "Temperature"
@@ -30,11 +32,16 @@
       "form": "Form integration",
       "installation": "Installation",
       "props": "Props",
+      "scale": "Scale",
       "states": "States",
       "thumbs": "Thumbs",
       "ticks": "Ticks",
       "types": "Types",
       "vertical": "Vertical"
+    },
+    "scale": {
+      "note": "Static scale bounds mark the minimum and maximum of the track.",
+      "scales-note": "Log scales need explicit tickValues; zones recolor the fill from the first thumb."
     },
     "states": {
       "disabled": "Disabled",

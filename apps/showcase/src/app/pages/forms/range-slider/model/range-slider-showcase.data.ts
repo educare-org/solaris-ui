@@ -27,6 +27,7 @@ export const RANGE_SLIDER_SHOWCASE_NEXT: ShowcaseDocsPageNav = {
 export const RANGE_SLIDER_SHOWCASE_TOC_ITEMS: readonly ShowcaseTocItem[] = [
   { anchor: 'examples', labelKey: 'range-slider.section.examples' },
   { anchor: 'types', labelKey: 'range-slider.section.types' },
+  { anchor: 'scale', labelKey: 'range-slider.section.scale' },
   { anchor: 'thumbs', labelKey: 'range-slider.section.thumbs' },
   { anchor: 'vertical', labelKey: 'range-slider.section.vertical' },
   { anchor: 'ticks', labelKey: 'range-slider.section.ticks' },
@@ -101,6 +102,26 @@ export const RANGE_SLIDER_SHOWCASE_TICKS_CODE = [
   '  label="Brightness range"',
   '  [showTicks]="true"',
   '  [tickStep]="10"',
+  '/>',
+].join('\n');
+
+export const RANGE_SLIDER_SHOWCASE_SCALE_LOG_CODE = [
+  '<solaris-range-slider',
+  '  label="Frequency range"',
+  '  [min]="20"',
+  '  [max]="20000"',
+  '  [(values)]="frequencyRange"',
+  '  [scale]="{ kind: \'log\', base: 10 }"',
+  '  [showTicks]="true"',
+  '  [tickValues]="[20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000]"',
+  '/>',
+].join('\n');
+
+export const RANGE_SLIDER_SHOWCASE_SCALE_ZONES_CODE = [
+  '<solaris-range-slider',
+  '  label="Risk band"',
+  '  [(values)]="riskRange"',
+  '  [zones]="riskZones"',
   '/>',
 ].join('\n');
 

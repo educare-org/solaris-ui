@@ -10,10 +10,12 @@
     "examples": {
       "brightness": "Brilho",
       "budget": "Orçamento",
+      "frequency": "Faixa de frequência",
       "gap": "Intervalo mínimo",
       "note": "Arraste qualquer polegar ou clique na trilha para mover o mais próximo. Os polegares nunca se cruzam.",
       "price": "Preço",
       "range": "Intervalo",
+      "risk": "Faixa de risco",
       "segments": "Segmentos",
       "stops": "Paradas",
       "temperature": "Temperatura"
@@ -30,11 +32,16 @@
       "form": "Integração com formulários",
       "installation": "Instalação",
       "props": "Props",
+      "scale": "Escala",
       "states": "Estados",
       "thumbs": "Polegares",
       "ticks": "Marcas",
       "types": "Tipos",
       "vertical": "Vertical"
+    },
+    "scale": {
+      "note": "Limites estáticos marcam o mínimo e o máximo da trilha.",
+      "scales-note": "Escalas log precisam de tickValues explícitos; zonas recolorem o preenchimento pelo primeiro polegar."
     },
     "states": {
       "disabled": "Desabilitado",

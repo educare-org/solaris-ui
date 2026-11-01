@@ -27,8 +27,10 @@
     "examples": {
       "balance": "Balance",
       "brightness": "Brightness",
+      "frequency": "Frequency",
       "note": "Drag the thumb, click the track, or use the keyboard.",
       "opacity": "Opacity",
+      "risk": "Risk",
       "volume": "Volume"
     },
     "form-field-hint": "These options affect your speakers.",
@@ -67,11 +69,12 @@
       "readonly": "Readonly"
     },
     "ticks": {
-      "note": "Tick marks are decorative (aria-hidden) and derive from showTicks plus tickStep."
+      "note": "Tick marks are decorative (aria-hidden) and derive from showTicks plus tickStep or explicit tickValues."
     },
     "title": "Slider",
     "scale": {
-      "note": "Static scale bounds mark the minimum and maximum of the track."
+      "note": "Static scale bounds mark the minimum and maximum of the track.",
+      "scales-note": "Log scales need explicit tickValues; zones recolor the fill by value."
     },
     "vertical": {
       "note": "Vertical fills bottom-to-top. Keyboard is identical on both axes: ArrowUp and ArrowRight increase."

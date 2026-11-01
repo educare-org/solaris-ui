@@ -10,10 +10,12 @@
     "examples": {
       "brightness": "Brillo",
       "budget": "Presupuesto",
+      "frequency": "Rango de frecuencia",
       "gap": "Brecha mínima",
       "note": "Arrastra cualquier pulgar o haz clic en la pista para mover el más cercano. Los pulgares nunca se cruzan.",
       "price": "Precio",
       "range": "Rango",
+      "risk": "Banda de riesgo",
       "segments": "Segmentos",
       "stops": "Paradas",
       "temperature": "Temperatura"
@@ -30,11 +32,16 @@
       "form": "Integración con formularios",
       "installation": "Instalación",
       "props": "Props",
+      "scale": "Escala",
       "states": "Estados",
       "thumbs": "Pulgares",
       "ticks": "Marcas",
       "types": "Tipos",
       "vertical": "Vertical"
+    },
+    "scale": {
+      "note": "Los límites estáticos marcan el mínimo y el máximo de la pista.",
+      "scales-note": "Las escalas log necesitan tickValues explícitos; las zonas recoloran el relleno desde el primer pulgar."
     },
     "states": {
       "disabled": "Deshabilitado",
