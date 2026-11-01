@@ -106,6 +106,24 @@
     position: static;
   }
 
+  // Single fixed bar on mobile: the header background and the transparent
+  // toggle overlay (menu + contrast buttons) are two separate layers.
+  // With `sticky` any sticky failure (or horizontal pan) desyncs them and
+  // content slides between the layers. Fixing the header as well keeps
+  // both layers locked to the viewport on both axes.
+  .shell__header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .shell__body {
+    padding-top: calc(
+      var(--solaris-spacing-15) + var(--solaris-border-width-sm)
+    );
+  }
+
   .shell__main {
     padding: var(--solaris-spacing-4);
   }

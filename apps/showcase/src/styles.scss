@@ -18,7 +18,17 @@ html {
 html,
 body {
   height: 100%;
+  overflow-x: clip;
 }
+
+// The app shell mixes sticky chrome (header, scrolls with the document
+// horizontally) and fixed chrome (mobile nav toggle, mobile action bar,
+// locked to the viewport). Any document-level horizontal pan desyncs
+// them: the header slides while the buttons stay. Clipping horizontal
+// overflow at the root above means the document can never pan sideways;
+// inner scrollers (code viewport, tables, breadcrumbs) keep working.
+// `clip` (not `hidden`) creates no scroll container, so vertical sticky
+// (header, sidebar, toc) is unaffected.
 
 @media (prefers-reduced-motion: reduce) {
   html {

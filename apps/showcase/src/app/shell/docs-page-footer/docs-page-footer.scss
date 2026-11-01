@@ -12,3 +12,23 @@
   border-top: var(--solaris-border-width-sm) solid
     var(--solaris-neutral-border-subtle);
 }
+
+.docs-page-footer__link {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (width <= 768px) {
+  .docs-page-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .docs-page-footer__link {
+    width: 100%;
+  }
+
+  .docs-page-footer > span:empty {
+    display: none;
+  }
+}
