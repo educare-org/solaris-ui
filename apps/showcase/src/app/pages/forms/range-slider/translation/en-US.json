@@ -1,0 +1,62 @@
+{
+  "range-slider": {
+    "ai": {
+      "prompt": "I'm looking at the Solaris UI documentation for {{component}} ({{url}}). Help me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it."
+    },
+    "current-value": "Current value:",
+    "description": {
+      "label": "Form control for choosing two or more ordered values from one continuous range, with per-thumb keyboard, Angular Forms, and i18n support."
+    },
+    "examples": {
+      "brightness": "Brightness range",
+      "budget": "Budget",
+      "gap": "Minimum gap",
+      "note": "Drag any thumb or click the track to move the nearest one. Thumbs never cross.",
+      "price": "Price",
+      "range": "Range",
+      "segments": "Segments",
+      "stops": "Stops",
+      "temperature": "Temperature"
+    },
+    "form-field-hint": "These options affect your search.",
+    "installation": {
+      "note": "Install the Solaris UI package and import the range slider component."
+    },
+    "props": {
+      "note": "Props table coming soon with the table component."
+    },
+    "section": {
+      "examples": "Examples",
+      "form": "Form integration",
+      "installation": "Installation",
+      "props": "Props",
+      "states": "States",
+      "thumbs": "Thumbs",
+      "ticks": "Ticks",
+      "types": "Types",
+      "vertical": "Vertical"
+    },
+    "states": {
+      "disabled": "Disabled",
+      "invalid": "Invalid",
+      "readonly": "Readonly"
+    },
+    "thumbs": {
+      "note": "Two thumbs name themselves minimum and maximum; three or more use positional names. A minimum step gap keeps thumbs apart.",
+      "tab": {
+        "five": "Five thumbs",
+        "three": "Three thumbs"
+      }
+    },
+    "ticks": {
+      "note": "Tick marks are decorative (aria-hidden) and derive from showTicks plus tickStep."
+    },
+    "title": "Range Slider",
+    "types": {
+      "note": "Each format uses the display pipeline: temperature in degrees, and static scale bounds for the range."
+    },
+    "vertical": {
+      "note": "Vertical fills bottom-to-top between the outermost thumbs. Keyboard is identical on both axes."
+    }
+  }
+}

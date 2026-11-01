@@ -279,6 +279,19 @@ export const SHELL_SIDEBAR_SECTIONS: readonly ShowcaseSidebarNavSection[] = [
                 ],
               },
               {
+                labelKey: 'shell.sidebar.item.sliders',
+                children: [
+                  {
+                    labelKey: 'shell.sidebar.item.slider',
+                    route: '/forms/slider',
+                  },
+                  {
+                    labelKey: 'shell.sidebar.item.range-slider',
+                    route: '/forms/range-slider',
+                  },
+                ],
+              },
+              {
                 labelKey: 'shell.sidebar.item.selection-card',
                 route: '/forms/selection-card',
               },

@@ -48,6 +48,8 @@ import { HOLIDAYS_VIEW_TRANSLATIONS } from '../pages/scheduling/holidays/transla
 import { PRINT_VIEW_TRANSLATIONS } from '../pages/scheduling/print/translation';
 import { EVENT_EDITOR_TRANSLATIONS } from '../pages/scheduling/event-editor/translation';
 import { SWITCH_TRANSLATIONS } from '../pages/forms/switch/translation';
+import { SLIDER_TRANSLATIONS } from '../pages/forms/slider/translation';
+import { RANGE_SLIDER_TRANSLATIONS } from '../pages/forms/range-slider/translation';
 import { SWITCH_GROUP_TRANSLATIONS } from '../pages/forms/switch-group/translation';
 import { OPTION_TRANSLATIONS } from '../pages/forms/option/translation';
 import { SELECT_TRANSLATIONS } from '../pages/forms/select/translation';
@@ -159,6 +161,8 @@ const PAGE_MODULES = [
   PRINT_VIEW_TRANSLATIONS,
   EVENT_EDITOR_TRANSLATIONS,
   SWITCH_TRANSLATIONS,
+  SLIDER_TRANSLATIONS,
+  RANGE_SLIDER_TRANSLATIONS,
   SWITCH_GROUP_TRANSLATIONS,
   OPTION_TRANSLATIONS,
   SELECT_TRANSLATIONS,

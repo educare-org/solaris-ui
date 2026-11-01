@@ -30,6 +30,7 @@ import { PHONE_FIELD_TRANSLATION } from '../components/forms/phone-field/transla
 import { PROGRESS_TRANSLATION } from '../components/feedback/progress/translation';
 import { RECORD_GRID_TRANSLATION } from '../components/data-display/record-grid/translation';
 import { SELECT_TRANSLATION } from '../components/forms/select/translation';
+import { SLIDER_TRANSLATION } from '../components/forms/slider/translation';
 import { SPINNER_TRANSLATION } from '../components/feedback/spinner/translation';
 import { STEPPER_TRANSLATION } from '../components/navigation/stepper/translation';
 import { TABLE_FILTER_TRANSLATION } from '../components/data-display/table-filter/translation';
@@ -72,6 +73,7 @@ const TRANSLATION_PACKAGES: readonly Record<string, TranslationTree>[] = [
   LOADING_TEXT_TRANSLATION,
   STEPPER_TRANSLATION,
   SELECT_TRANSLATION,
+  SLIDER_TRANSLATION,
   MULTI_SELECT_TRANSLATION,
   TOAST_TRANSLATION,
   ALERT_TRANSLATION,

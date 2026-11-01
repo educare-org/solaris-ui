@@ -1,0 +1,241 @@
+<app-docs-page-layout [items]="tocItems">
+  <app-docs-page-header
+    titleKey="slider.title"
+    descriptionKey="slider.description.label"
+    [breadcrumbs]="breadcrumbs"
+    [prev]="prev"
+    [next]="next"
+    [copyable]="true"
+    (copyPage)="copyPageAsMarkdown()"
+    (viewMarkdown)="downloadPageAsMarkdown()"
+    (openChatGpt)="openInChatGpt()"
+    (openClaude)="openInClaude()"
+  />
+
+  <app-docs-section anchor="examples" titleKey="slider.section.examples">
+    <p class="slider-showcase__note">
+      {{ 'slider.examples.note' | translate }}
+    </p>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="basicCode"
+      language="html"
+    >
+      <app-basic-slider-example
+        [label]="'slider.examples.volume' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="scale" titleKey="slider.section.scale">
+    <p class="slider-showcase__note">{{ 'slider.scale.note' | translate }}</p>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="minMaxCode"
+      language="html"
+    >
+      <solaris-slider
+        [label]="'slider.examples.volume' | translate"
+        [(value)]="volume"
+        [showMinMax]="true"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="color-size" titleKey="slider.section.color-size">
+    <p class="slider-showcase__note">
+      {{ 'slider.color-size.note' | translate }}
+    </p>
+    <div class="slider-showcase__controls">
+      <solaris-tabs
+        [(value)]="selectedSize"
+        [ariaLabel]="'slider.section.sizes' | translate"
+      >
+        <solaris-tab value="sm">{{ 'slider.size.sm' | translate }}</solaris-tab>
+        <solaris-tab value="md">{{ 'slider.size.md' | translate }}</solaris-tab>
+        <solaris-tab value="lg">{{ 'slider.size.lg' | translate }}</solaris-tab>
+      </solaris-tabs>
+      <solaris-tabs
+        [(value)]="selectedColor"
+        [ariaLabel]="'slider.section.color' | translate"
+      >
+        <solaris-tab value="neutral"
+          >{{ 'slider.color.neutral' | translate }}</solaris-tab
+        >
+        <solaris-tab value="primary"
+          >{{ 'slider.color.primary' | translate }}</solaris-tab
+        >
+        <solaris-tab value="success"
+          >{{ 'slider.color.success' | translate }}</solaris-tab
+        >
+        <solaris-tab value="warning"
+          >{{ 'slider.color.warning' | translate }}</solaris-tab
+        >
+        <solaris-tab value="danger"
+          >{{ 'slider.color.danger' | translate }}</solaris-tab
+        >
+        <solaris-tab value="info"
+          >{{ 'slider.color.info' | translate }}</solaris-tab
+        >
+      </solaris-tabs>
+    </div>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="colorSizeCode()"
+      language="html"
+    >
+      <solaris-slider
+        [label]="'slider.examples.volume' | translate"
+        [color]="selectedColor()"
+        [size]="selectedSize()"
+        [(value)]="volume"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="ticks" titleKey="slider.section.ticks">
+    <p class="slider-showcase__note">{{ 'slider.ticks.note' | translate }}</p>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="ticksCode"
+      language="html"
+    >
+      <solaris-slider
+        [label]="'slider.examples.brightness' | translate"
+        [showTicks]="true"
+        [tickStep]="10"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="vertical" titleKey="slider.section.vertical">
+    <p class="slider-showcase__note">
+      {{ 'slider.vertical.note' | translate }}
+    </p>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="verticalCode"
+      language="html"
+    >
+      <app-vertical-slider-example
+        [label]="'slider.examples.balance' | translate"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="icons" titleKey="slider.section.icons">
+    <p class="slider-showcase__note">{{ 'slider.icons.note' | translate }}</p>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="iconsCode"
+      language="html"
+    >
+      <solaris-slider
+        [label]="'slider.examples.volume' | translate"
+        startIcon="minus"
+        endIcon="plus"
+        thumbIcon="grip-vertical"
+        [(value)]="volume"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="display" titleKey="slider.section.display">
+    <p class="slider-showcase__note">{{ 'slider.display.note' | translate }}</p>
+    <solaris-tabs
+      [(value)]="selectedDisplay"
+      [ariaLabel]="'slider.section.display' | translate"
+    >
+      <solaris-tab value="tooltip"
+        >{{ 'slider.display.tooltip' | translate }}</solaris-tab
+      >
+      <solaris-tab value="thumb"
+        >{{ 'slider.display.thumb' | translate }}</solaris-tab
+      >
+      <solaris-tab value="none"
+        >{{ 'slider.display.none' | translate }}</solaris-tab
+      >
+    </solaris-tabs>
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="displayCode()"
+      language="html"
+    >
+      <solaris-slider
+        [label]="'slider.examples.opacity' | translate"
+        [valueDisplay]="selectedDisplay()"
+      />
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="states" titleKey="slider.section.states">
+    <solaris-preview-code
+      previewAlign="stretch"
+      [code]="statesCode"
+      language="html"
+    >
+      <div class="slider-showcase__stack">
+        <solaris-slider
+          [label]="'slider.states.disabled' | translate"
+          [disabled]="true"
+        />
+        <solaris-slider
+          [label]="'slider.states.readonly' | translate"
+          [readonly]="true"
+        />
+        <solaris-slider
+          [label]="'slider.states.invalid' | translate"
+          [invalid]="true"
+        />
+      </div>
+    </solaris-preview-code>
+  </app-docs-section>
+
+  <app-docs-section anchor="form" titleKey="slider.section.form">
+    <div class="slider-showcase__stack">
+      <solaris-preview-code
+        previewAlign="stretch"
+        [code]="formFieldCode"
+        language="html"
+      >
+        <solaris-form-field
+          appearance="minimal"
+          [label]="'slider.examples.volume' | translate"
+          [hint]="'slider.form-field-hint' | translate"
+        >
+          <solaris-slider [formControl]="volumeControl" />
+        </solaris-form-field>
+      </solaris-preview-code>
+      <solaris-preview-code
+        previewAlign="stretch"
+        [code]="reactiveCode"
+        language="html"
+      >
+        <solaris-slider
+          [label]="'slider.examples.volume' | translate"
+          [formControl]="volumeControl"
+        />
+      </solaris-preview-code>
+      <p class="slider-showcase__note">
+        {{ 'slider.current-value' | translate }} {{ volumeControl.value }}
+      </p>
+    </div>
+  </app-docs-section>
+
+  <app-docs-section
+    anchor="installation"
+    titleKey="slider.section.installation"
+  >
+    <p class="slider-showcase__note">
+      {{ 'slider.installation.note' | translate }}
+    </p>
+    <solaris-code-block variant="command" [commands]="installCommands" />
+    <solaris-code-block [code]="importCode" language="typescript" />
+  </app-docs-section>
+
+  <app-docs-section anchor="props" titleKey="slider.section.props">
+    <p class="slider-showcase__note">{{ 'slider.props.note' | translate }}</p>
+  </app-docs-section>
+
+  <app-docs-page-footer [prev]="prev" [next]="next" />
+</app-docs-page-layout>

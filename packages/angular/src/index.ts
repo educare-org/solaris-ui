@@ -696,6 +696,20 @@ export type {
   SolarisSwitchDensity,
 } from './lib/components/forms/switch/model/switch.types';
 
+export { SolarisSliderComponent } from './lib/components/forms/slider/component/slider.component';
+export { SolarisSliderHarness } from './lib/components/forms/slider/testing/slider.harness';
+
+export { SolarisRangeSliderComponent } from './lib/components/forms/range-slider/component/range-slider.component';
+export { SolarisRangeSliderHarness } from './lib/components/forms/range-slider/testing/range-slider.harness';
+export type { SolarisRangeSliderValues } from './lib/components/forms/range-slider/model/range-slider.types';
+export type {
+  SolarisSliderSize,
+  SolarisSliderColor,
+  SolarisSliderOrientation,
+  SolarisSliderValueDisplay,
+  SolarisSliderValueFormatter,
+} from './lib/components/forms/slider/model/slider.types';
+
 export { SolarisSwitchGroupComponent } from './lib/components/forms/switch-group/component/switch-group.component';
 export type {
   SolarisSwitchGroupOrientation,

@@ -1,0 +1,62 @@
+{
+  "range-slider": {
+    "ai": {
+      "prompt": "Estoy viendo la documentación de Solaris UI para {{component}} ({{url}}). Ayúdame a entender cómo usarlo. Prepárate para explicar conceptos, dar ejemplos o ayudar a depurar con base en ella."
+    },
+    "current-value": "Valor actual:",
+    "description": {
+      "label": "Control de formulario para elegir dos o más valores ordenados en un rango continuo, con teclado por pulgar, Angular Forms e i18n completos."
+    },
+    "examples": {
+      "brightness": "Brillo",
+      "budget": "Presupuesto",
+      "gap": "Brecha mínima",
+      "note": "Arrastra cualquier pulgar o haz clic en la pista para mover el más cercano. Los pulgares nunca se cruzan.",
+      "price": "Precio",
+      "range": "Rango",
+      "segments": "Segmentos",
+      "stops": "Paradas",
+      "temperature": "Temperatura"
+    },
+    "form-field-hint": "Estas opciones afectan tu búsqueda.",
+    "installation": {
+      "note": "Instala el paquete Solaris UI e importa el componente range slider."
+    },
+    "props": {
+      "note": "Tabla de props próximamente con el componente table."
+    },
+    "section": {
+      "examples": "Ejemplos",
+      "form": "Integración con formularios",
+      "installation": "Instalación",
+      "props": "Props",
+      "states": "Estados",
+      "thumbs": "Pulgares",
+      "ticks": "Marcas",
+      "types": "Tipos",
+      "vertical": "Vertical"
+    },
+    "states": {
+      "disabled": "Deshabilitado",
+      "invalid": "Inválido",
+      "readonly": "Solo lectura"
+    },
+    "thumbs": {
+      "note": "Dos pulgares se nombran mínimo y máximo; tres o más usan nombres posicionales. Una brecha mínima mantiene los pulgares separados.",
+      "tab": {
+        "five": "Cinco pulgares",
+        "three": "Tres pulgares"
+      }
+    },
+    "ticks": {
+      "note": "Las marcas son decorativas (aria-hidden) y derivan de showTicks más tickStep."
+    },
+    "title": "Range Slider",
+    "types": {
+      "note": "Cada formato usa el pipeline de visualización: temperatura en grados y límites estáticos de la escala para el rango."
+    },
+    "vertical": {
+      "note": "Vertical rellena de abajo hacia arriba entre los pulgares extremos. El teclado es idéntico en ambos ejes."
+    }
+  }
+}
