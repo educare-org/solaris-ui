@@ -55,14 +55,14 @@
 
 .shell-header__actions {
   display: flex;
+  margin-left: auto;
   align-items: center;
   gap: var(--solaris-spacing-6);
-  margin-left: auto;
 }
 
 .shell-header__actions solaris-form-field {
-  width: calc(var(--solaris-spacing-18) * 2);
   max-width: 100%;
+  width: calc(var(--solaris-spacing-18) * 2);
 }
 
 .shell-header__contrast {
@@ -71,9 +71,9 @@
 
 .shell-header__contrast-spacer {
   flex-shrink: 0;
+  margin-left: auto;
   width: var(--solaris-control-height-normal-md);
   height: var(--solaris-control-height-normal-md);
-  margin-left: auto;
 }
 
 .shell-header__actions + .shell-header__contrast {
