@@ -31,6 +31,7 @@ export type {
   SolarisTableLayout,
   SolarisTableRadius,
   SolarisTableResolvedRow,
+  SolarisTableResponsive,
   SolarisTableRowClickEvent,
   SolarisTableSelectionChange,
   SolarisTableSelectionMode,
@@ -48,6 +49,7 @@ export {
   SOLARIS_TABLE_EXPAND_MODES,
   SOLARIS_TABLE_LAYOUTS,
   SOLARIS_TABLE_RADII,
+  SOLARIS_TABLE_RESPONSIVES,
   SOLARIS_TABLE_SELECTION_MODES,
   SOLARIS_TABLE_STRIPED_MODES,
 } from './model/table.types';

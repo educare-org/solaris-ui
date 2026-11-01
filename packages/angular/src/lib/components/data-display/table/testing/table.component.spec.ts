@@ -1976,3 +1976,94 @@ describe('SolarisTableComponent card titles', () => {
     expect(element.querySelector('.solaris-table__card-subtitle')).toBeFalsy();
   });
 });
+
+describe('SolarisTableComponent responsive cards default', () => {
+  it('should render cards by default on narrow viewports without expandable', () => {
+    const restoreMatchMedia = stubMatchMedia(
+      (query) => query === '(max-width: 720px)',
+    );
+    try {
+      const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+      fixture.componentRef.setInput('columns', COLUMNS);
+      fixture.componentRef.setInput('data', ROWS);
+      fixture.componentRef.setInput('rowId', 'id');
+      fixture.detectChanges();
+      const element = fixture.nativeElement as HTMLElement;
+      expect(element.getAttribute('data-responsive')).toBe('auto');
+      expect(element.querySelector('table')).toBeFalsy();
+      expect(element.querySelectorAll('.solaris-table__card').length).toBe(2);
+      expect(element.getAttribute('data-card-layout')).toBeTruthy();
+      expect(element.textContent).toContain('Beto');
+      fixture.destroy();
+    } finally {
+      restoreMatchMedia();
+    }
+  });
+
+  it('should keep the scrollable table on narrow viewports with responsive scroll', () => {
+    const restoreMatchMedia = stubMatchMedia(
+      (query) => query === '(max-width: 720px)',
+    );
+    try {
+      const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+      fixture.componentRef.setInput('columns', COLUMNS);
+      fixture.componentRef.setInput('data', ROWS);
+      fixture.componentRef.setInput('rowId', 'id');
+      fixture.componentRef.setInput('responsive', 'scroll');
+      fixture.detectChanges();
+      const element = fixture.nativeElement as HTMLElement;
+      expect(element.getAttribute('data-responsive')).toBe('scroll');
+      expect(element.querySelector('table')).toBeTruthy();
+      expect(element.querySelector('.solaris-table__cards-list')).toBeFalsy();
+      expect(element.getAttribute('data-card-layout')).toBeFalsy();
+      fixture.destroy();
+    } finally {
+      restoreMatchMedia();
+    }
+  });
+
+  it('should render cards for layout card without expandable', () => {
+    TestBed.configureTestingModule({});
+    const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+    fixture.componentRef.setInput('columns', COLUMNS);
+    fixture.componentRef.setInput('data', ROWS);
+    fixture.componentRef.setInput('rowId', 'id');
+    fixture.componentRef.setInput('layout', 'card');
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelector('table')).toBeFalsy();
+    expect(element.querySelectorAll('.solaris-table__card').length).toBe(2);
+    expect(element.getAttribute('data-card-layout')).toBeTruthy();
+  });
+
+  it('should render no chevron in cards without expandable', () => {
+    const restoreMatchMedia = stubMatchMedia(
+      (query) => query === '(max-width: 720px)',
+    );
+    try {
+      const fixture = TestBed.createComponent(SolarisTableComponent<Person>);
+      fixture.componentRef.setInput('columns', [
+        { id: 'name', header: 'Name', accessor: 'name' },
+        {
+          id: 'age',
+          header: 'Age',
+          accessor: 'age',
+          type: 'number',
+          expandable: true,
+        },
+      ]);
+      fixture.componentRef.setInput('data', ROWS);
+      fixture.componentRef.setInput('rowId', 'id');
+      fixture.detectChanges();
+      const element = fixture.nativeElement as HTMLElement;
+      expect(element.querySelector('table')).toBeFalsy();
+      expect(element.querySelector('.solaris-table__cell-expand')).toBeFalsy();
+      expect(
+        element.querySelector('.solaris-table__expand-button'),
+      ).toBeFalsy();
+      fixture.destroy();
+    } finally {
+      restoreMatchMedia();
+    }
+  });
+});

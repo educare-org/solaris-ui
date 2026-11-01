@@ -47,8 +47,9 @@ Table displays structured rows and columns with sorting, selection, and loading/
 | `rowClickable`                                  | `boolean`                                               | `false`     | Row action button in the first cell                                                                         |
 | `expandable`                                    | `boolean`                                               | `false`     | Enables row and/or cell expansion                                                                           |
 | `expandMode`                                    | `'row' \| 'cell' \| 'both'`                             | `'row'`     | `row` detail row for priority columns, `cell` inline chevron per expandable column                          |
-| `layout`                                        | `'auto' \| 'card'`                                      | `'auto'`    | `card` forces the card layout regardless of viewport (requires `expandable`)                                |
+| `layout`                                        | `'auto' \| 'card'`                                      | `'auto'`    | `card` forces the card layout regardless of viewport                                                        |
 | `mobile`                                        | `boolean`                                               | `false`     | Deprecated alias of `layout="card"`                                                                         |
+| `responsive`                                    | `'auto' \| 'scroll'`                                    | `'auto'`    | `auto` renders cards on narrow viewports or `layout="card"`; `scroll` keeps the scrollable table everywhere |
 | `cardTitleOf` / `cardSubtitleOf`                | `(row) => string \| null`                               | —           | Optional card header lines in card layout                                                                   |
 | `fullWidth`                                     | `boolean`                                               | `false`     | Fixed table layout distributing columns across the container                                                |
 | `cellPadding`                                   | `'none' \| 'sm' \| 'md' \| 'lg'`                        | `'none'`    | Extra vertical cell breathing room (spacing-3/5/6)                                                          |
@@ -202,7 +203,7 @@ A `solaris-table-detail` template may render anything, including a nested `<sola
 
 Columns with `hideCardLabel: true` render value-only fields in card layout (no label, value spans full width) while keeping the desktop header — useful for identity columns like person/avatar.
 
-On viewports of 720px and below (or anywhere with `layout="card"`), expandable tables render as cards instead of a draggable table: one card per row with compact label/value fields (labels `xs`/tertiary, values `sm`/medium, dividers between fields), card-level selection, and per-field expansion accordions. Cards show **plain labels only — no sort buttons**; sorting moves to the future filter bar. Optional `cardTitleOf`/`cardSubtitleOf` render a header line (title + subtitle) above the fields. The outer `.solaris-table__frame` border is removed in card layout so there is no double frame. Density (`compact`/`comfortable`) adjusts card padding.
+On viewports of 720px and below (or anywhere with `layout="card"`), tables render as cards instead of a draggable table: one card per row with compact label/value fields (labels `xs`/tertiary, values `sm`/medium, dividers between fields), card-level selection, and per-field expansion accordions. Cards show **plain labels only — no sort buttons**; sorting moves to the future filter bar. Optional `cardTitleOf`/`cardSubtitleOf` render a header line (title + subtitle) above the fields. Without `expandable` every field renders plainly with no chevron; with `expandable`, priority columns keep their accordions. Set `responsive="scroll"` to keep the scrollable table on narrow viewports. The outer `.solaris-table__frame` border is removed in card layout so there is no double frame. Density (`compact`/`comfortable`) adjusts card padding.
 
 ## Selection
 
@@ -292,7 +293,10 @@ from the inline add row:
 </solaris-table>
 
 <!-- Forced card layout (mobile anywhere) -->
-<solaris-table [data]="rows" [columns]="columns" rowId="id" [expandable]="true" layout="card" />
+<solaris-table [data]="rows" [columns]="columns" rowId="id" layout="card" />
+
+<!-- Classic scrollable table on narrow viewports -->
+<solaris-table [data]="rows" [columns]="columns" rowId="id" responsive="scroll" />
 
 <!-- Cell expansion (chevron next to score) -->
 <solaris-table [data]="rows" [columns]="columns" rowId="id" [expandable]="true" expandMode="cell">

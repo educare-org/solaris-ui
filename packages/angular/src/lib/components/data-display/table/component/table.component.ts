@@ -75,6 +75,7 @@ import {
   normalizeTableIconPosition,
   normalizeTableLayout,
   normalizeTableRadius,
+  normalizeTableResponsive,
   normalizeTableSelectionMode,
   normalizeTableSort,
   normalizeTableStripedMode,
@@ -104,6 +105,7 @@ import type {
   SolarisTableLayout,
   SolarisTableRadius,
   SolarisTableResolvedRow,
+  SolarisTableResponsive,
   SolarisTableRowClickEvent,
   SolarisTableSelectionChange,
   SolarisTableSelectionMode,
@@ -152,6 +154,7 @@ import {
     '[attr.data-expand-mode]': 'normalizedExpandMode()',
     '[attr.data-mobile]': 'isMobileLayout() || undefined',
     '[attr.data-layout]': 'normalizedLayout()',
+    '[attr.data-responsive]': 'normalizedResponsive()',
     '[attr.data-card-layout]': 'isCardLayout() || undefined',
     '[attr.data-fullwidth]': 'fullWidth() || undefined',
     '[attr.data-cell-padding]': 'cellPadding()',
@@ -216,6 +219,7 @@ export class SolarisTableComponent<T = unknown> {
   readonly addRowLabelKey = input<string | null>(null);
   readonly mobile = input(false, { transform: booleanAttribute });
   readonly layout = input<SolarisTableLayout>('auto');
+  readonly responsive = input<SolarisTableResponsive>('auto');
   readonly cardTitleOf = input<((row: T) => string | null) | undefined>(
     undefined,
   );
@@ -265,6 +269,10 @@ export class SolarisTableComponent<T = unknown> {
     return normalizeTableLayout(this.layout());
   });
 
+  protected readonly normalizedResponsive = computed(() =>
+    normalizeTableResponsive(this.responsive()),
+  );
+
   protected readonly isMobileLayout = computed(
     () => this.normalizedLayout() === 'card',
   );
@@ -284,7 +292,9 @@ export class SolarisTableComponent<T = unknown> {
   });
 
   protected readonly isCardLayout = computed(
-    () => this.expandable() && (this.isMobileLayout() || this.narrowViewport()),
+    () =>
+      this.normalizedResponsive() !== 'scroll' &&
+      (this.isMobileLayout() || this.narrowViewport()),
   );
 
   protected readonly cardColumns = computed(() =>
