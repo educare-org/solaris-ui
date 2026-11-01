@@ -84,6 +84,8 @@
 
 .solaris-code-block__frame {
   overflow: clip;
+  min-inline-size: 0;
+  max-inline-size: 100%;
   border-radius: var(--solaris-code-block-radius);
   background: var(--solaris-code-block-background);
   border: var(--solaris-border-width-sm) solid
@@ -130,8 +132,10 @@
   border: 0;
   flex: 1 1 auto;
   overflow-x: auto;
-  white-space: pre;
+  white-space: pre-wrap;
   min-inline-size: 0;
+  max-inline-size: 100%;
+  overflow-wrap: anywhere;
   background: transparent;
   padding: var(--solaris-code-block-inline-padding-block)
     var(--solaris-code-block-inline-padding-inline);
@@ -208,11 +212,16 @@
 
 .solaris-code-block__viewport-shell {
   position: relative;
+  min-inline-size: 0;
+  max-inline-size: 100%;
 }
 
 .solaris-code-block__viewport {
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   scrollbar-width: thin;
+  min-inline-size: 0;
+  max-inline-size: 100%;
   color: var(--solaris-code-block-text);
   padding: var(--solaris-code-block-padding-block)
     var(--solaris-code-block-padding-inline);
@@ -258,7 +267,10 @@
 }
 
 .solaris-code-block__pre {
-  min-inline-size: max-content;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .solaris-code-block__pre--swap {
@@ -268,7 +280,10 @@
 
 .solaris-code-block__code {
   display: block;
-  white-space: pre;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .solaris-code-block__editor {
@@ -276,11 +291,13 @@
   box-sizing: border-box;
   inline-size: 100%;
   min-block-size: 6em;
+  max-inline-size: 100%;
   padding: 0;
   border: 0;
   resize: vertical;
   overflow-x: auto;
-  white-space: pre;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
   color: var(--solaris-code-block-text);
   background: transparent;
   field-sizing: content;
@@ -419,18 +436,24 @@
 
 @media (width <= 768px) {
   .solaris-code-block__header {
-    flex-direction: column;
-    align-items: stretch;
+    flex-flow: row wrap;
+    align-items: center;
   }
 
   .solaris-code-block__identity-group {
+    flex: 1 1 auto;
     min-inline-size: 0;
-    width: 100%;
+    width: auto;
   }
 
   .solaris-code-block__actions {
-    margin-inline-start: 0;
+    flex: none;
+    margin-inline-start: auto;
     justify-content: flex-end;
+  }
+
+  .solaris-code-block__inline-shell {
+    flex-wrap: wrap;
   }
 
   .solaris-code-block__viewport {
