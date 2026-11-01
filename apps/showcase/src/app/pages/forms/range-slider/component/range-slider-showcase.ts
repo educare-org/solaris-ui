@@ -8,10 +8,13 @@ import {
   SolarisPreviewCodeComponent,
   SolarisRangeSliderComponent,
   SolarisTabComponent,
+  SolarisTableCellDirective,
+  SolarisTableComponent,
   SolarisTabsComponent,
   SolarisTranslatePipe,
   SolarisTranslateService,
   type SolarisSliderZone,
+  type SolarisTableColumn,
 } from '@solaris-ui/angular';
 
 import { ShowcaseDocsPageFooter } from '../../../../shell/docs-page-footer/docs-page-footer';
@@ -46,6 +49,11 @@ import {
 
 import { CurrencyRangeSliderExample } from '../examples/currency/component/currency.component';
 import { ThreeRangeSliderExample } from '../examples/three/component/three.component';
+import { RANGE_SLIDER_PROP_ROWS } from '../model/range-slider-showcase-props.data';
+import {
+  buildFormPropsColumns,
+  type FormPropRow,
+} from '../../model/form-props-table.data';
 
 @Component({
   standalone: true,
@@ -56,6 +64,8 @@ import { ThreeRangeSliderExample } from '../examples/three/component/three.compo
     SolarisPreviewCodeComponent,
     SolarisRangeSliderComponent,
     SolarisTabComponent,
+    SolarisTableCellDirective,
+    SolarisTableComponent,
     SolarisTabsComponent,
     SolarisTranslatePipe,
     ShowcaseDocsPageFooter,
@@ -124,6 +134,20 @@ export class RangeSliderShowcasePage {
   });
 
   protected readonly pricesControl = new FormControl([25, 75]);
+
+  protected readonly propsRows = RANGE_SLIDER_PROP_ROWS;
+
+  protected readonly propsColumns = computed<SolarisTableColumn<FormPropRow>[]>(
+    () =>
+      buildFormPropsColumns({
+        prop: this.translateService.translate('range-slider.props.colProp'),
+        type: this.translateService.translate('range-slider.props.colType'),
+        values: this.translateService.translate('range-slider.props.colValues'),
+        default: this.translateService.translate(
+          'range-slider.props.colDefault',
+        ),
+      }),
+  );
 
   protected copyPageAsMarkdown(): void {
     this.pageActions.copyPageAsMarkdown();

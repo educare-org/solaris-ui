@@ -41,7 +41,11 @@
       "note": "Install the Solaris UI package and import the slider component."
     },
     "props": {
-      "note": "Props table coming soon with the table component."
+      "note": "Every input the slider accepts, with types, values, and defaults.",
+      "colProp": "Prop",
+      "colType": "Type",
+      "colValues": "Values",
+      "colDefault": "Default"
     },
     "section": {
       "color": "Color",

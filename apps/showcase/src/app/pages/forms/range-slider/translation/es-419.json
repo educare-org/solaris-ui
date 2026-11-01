@@ -25,7 +25,11 @@
       "note": "Instala el paquete Solaris UI e importa el componente range slider."
     },
     "props": {
-      "note": "Tabla de props próximamente con el componente table."
+      "note": "Todos los inputs que acepta el range slider, con tipos, valores y valores predeterminados.",
+      "colProp": "Prop",
+      "colType": "Tipo",
+      "colValues": "Valores",
+      "colDefault": "Predeterminado"
     },
     "section": {
       "examples": "Ejemplos",

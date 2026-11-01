@@ -8,12 +8,15 @@ import {
   SolarisPreviewCodeComponent,
   SolarisSliderComponent,
   SolarisTabComponent,
+  SolarisTableCellDirective,
+  SolarisTableComponent,
   SolarisTabsComponent,
   SolarisTranslatePipe,
   SolarisTranslateService,
   type SolarisSliderColor,
   type SolarisSliderSize,
   type SolarisSliderZone,
+  type SolarisTableColumn,
 } from '@solaris-ui/angular';
 
 import { ShowcaseDocsPageFooter } from '../../../../shell/docs-page-footer/docs-page-footer';
@@ -45,6 +48,11 @@ import {
 
 import { BasicSliderExample } from '../examples/basic/component/basic.component';
 import { VerticalSliderExample } from '../examples/vertical/component/vertical.component';
+import { SLIDER_PROP_ROWS } from '../model/slider-showcase-props.data';
+import {
+  buildFormPropsColumns,
+  type FormPropRow,
+} from '../../model/form-props-table.data';
 
 @Component({
   standalone: true,
@@ -55,6 +63,8 @@ import { VerticalSliderExample } from '../examples/vertical/component/vertical.c
     SolarisPreviewCodeComponent,
     SolarisSliderComponent,
     SolarisTabComponent,
+    SolarisTableCellDirective,
+    SolarisTableComponent,
     SolarisTabsComponent,
     SolarisTranslatePipe,
     ShowcaseDocsPageFooter,
@@ -136,6 +146,18 @@ export class SliderShowcasePage {
   );
 
   protected readonly volumeControl = new FormControl(50);
+
+  protected readonly propsRows = SLIDER_PROP_ROWS;
+
+  protected readonly propsColumns = computed<SolarisTableColumn<FormPropRow>[]>(
+    () =>
+      buildFormPropsColumns({
+        prop: this.translateService.translate('slider.props.colProp'),
+        type: this.translateService.translate('slider.props.colType'),
+        values: this.translateService.translate('slider.props.colValues'),
+        default: this.translateService.translate('slider.props.colDefault'),
+      }),
+  );
 
   protected copyPageAsMarkdown(): void {
     this.pageActions.copyPageAsMarkdown();

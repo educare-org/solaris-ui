@@ -264,6 +264,16 @@
 
   <app-docs-section anchor="props" titleKey="slider.section.props">
     <p class="slider-showcase__note">{{ 'slider.props.note' | translate }}</p>
+    <solaris-table
+      [data]="propsRows"
+      [columns]="propsColumns()"
+      rowId="prop"
+      appearance="soft"
+    >
+      <ng-template solaris-table-cell="values" let-row>
+        <span class="slider-showcase__props-values">{{ row.values }}</span>
+      </ng-template>
+    </solaris-table>
   </app-docs-section>
 
   <app-docs-page-footer [prev]="prev" [next]="next" />
