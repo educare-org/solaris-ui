@@ -255,4 +255,38 @@ describe('ShowcaseThemeToggle', () => {
     );
     expect(hcButton.nativeElement.getAttribute('aria-pressed')).toBe('true');
   });
+
+  it('should sync scheme and high-contrast across instances (mobile layout)', () => {
+    const schemeOnly = TestBed.createComponent(ShowcaseThemeToggle);
+    schemeOnly.componentRef.setInput('showHighContrast', false);
+    schemeOnly.detectChanges();
+
+    const contrastOnly = TestBed.createComponent(ShowcaseThemeToggle);
+    contrastOnly.componentRef.setInput('showScheme', false);
+    contrastOnly.detectChanges();
+
+    schemeOnly.debugElement
+      .query(By.css('solaris-segmented-item[value="light"]'))
+      .nativeElement.click();
+    schemeOnly.detectChanges();
+    contrastOnly.detectChanges();
+
+    contrastOnly.debugElement
+      .query(By.css('.theme-toggle button'))
+      .nativeElement.click();
+    schemeOnly.detectChanges();
+    contrastOnly.detectChanges();
+
+    expect(document.documentElement.dataset['theme']).toBe('high-contrast');
+    expect(localStorage.getItem('solaris-theme')).toBe('light');
+    expect(localStorage.getItem('solaris-high-contrast')).toBe('true');
+    expect(
+      contrastOnly.debugElement
+        .query(By.css('.theme-toggle button'))
+        .nativeElement.getAttribute('aria-pressed'),
+    ).toBe('true');
+
+    schemeOnly.destroy();
+    contrastOnly.destroy();
+  });
 });
