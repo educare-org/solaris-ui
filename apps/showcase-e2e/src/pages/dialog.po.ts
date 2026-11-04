@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test';
 import type { Page, Locator } from '@playwright/test';
 
 export class DialogPageObject {
@@ -48,6 +49,14 @@ export class DialogPageObject {
     await this.panel().waitFor({ state: 'visible' });
   }
 
+  async openInSection(sectionId: string, buttonName: string): Promise<void> {
+    await this.page
+      .locator(`#${sectionId}`)
+      .getByRole('button', { name: buttonName })
+      .click();
+    await this.panel().waitFor({ state: 'visible' });
+  }
+
   async closeViaButton(name: string): Promise<void> {
     await this.panel().getByRole('button', { name }).click();
   }
@@ -65,6 +74,6 @@ export class DialogPageObject {
   }
 
   async assertTitle(text: string): Promise<void> {
-    await this.panel().locator('h2').waitFor({ state: 'visible' });
+    await expect(this.panel().locator('h2', { hasText: text })).toBeVisible();
   }
 }

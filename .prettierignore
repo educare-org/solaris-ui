@@ -4,6 +4,9 @@
 /.nx/cache
 /.nx/workspace-data
 .angular
+# Generated lockfile: formatting churns thousands of lines on every pnpm
+# version and adds no value (already validated by pnpm itself)
+pnpm-lock.yaml
 # Whitespace-sensitive Angular templates (white-space: pre): formatting injects
 # text nodes that render literally and breaks code layout
 packages/angular/src/lib/components/data-display/code-block/component/code-block.component.html
