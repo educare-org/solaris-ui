@@ -152,6 +152,12 @@ export const TABLE_PROP_ROWS: readonly FormPropRow[] = [
     default: 'auto',
   },
   {
+    prop: 'responsive',
+    type: 'SolarisTableResponsive',
+    values: 'auto | scroll',
+    default: 'auto',
+  },
+  {
     prop: 'cardTitleOf | cardSubtitleOf',
     type: '(row: T) => string | null | undefined',
     values: '—',

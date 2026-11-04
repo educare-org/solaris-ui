@@ -85,6 +85,15 @@
             [(selectedRowIds)]="selectedRowIds"
           />
         </solaris-preview-code>
+        <solaris-preview-code
+          [previewAlign]="'stretch'"
+          [code]="selectionToolbarCode"
+          language="html"
+        >
+          <div class="table-showcase__phone">
+            <app-with-selection-toolbar-table-example />
+          </div>
+        </solaris-preview-code>
       </div>
       <div>
         <h3 class="table-showcase__subtitle">

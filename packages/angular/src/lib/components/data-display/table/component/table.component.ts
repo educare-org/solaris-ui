@@ -301,6 +301,27 @@ export class SolarisTableComponent<T = unknown> {
     this.userColumns().filter((column) => column.type !== 'checkbox'),
   );
 
+  protected readonly cardDetailColumns = computed(() =>
+    this.isRowExpandable() ? this.detailColumns() : [],
+  );
+
+  protected readonly cardPrimaryColumns = computed(() => {
+    if (!this.isRowExpandable()) {
+      return this.cardColumns();
+    }
+    const detailIds = new Set(
+      this.cardDetailColumns().map((column) => column.id),
+    );
+    const primary = this.cardColumns().filter(
+      (column) => !detailIds.has(column.id),
+    );
+    return primary.length > 0 ? primary : this.cardColumns();
+  });
+
+  protected cardDetailId(row: SolarisTableViewRow<T>): string {
+    return `${this.hostId}-card-detail-${row.rowId}`;
+  }
+
   private readonly narrowViewport = signal(false);
   private readonly expandedRowIds = signal<readonly string[]>([]);
   private readonly expandedCells = signal<readonly string[]>([]);
@@ -600,6 +621,16 @@ export class SolarisTableComponent<T = unknown> {
       return false;
     }
     return visibleRows.every((row) => row.selected);
+  });
+
+  protected readonly selectedVisibleCount = computed(
+    () => this.visibleRows().filter((row) => row.selected).length,
+  );
+
+  protected readonly loadingCardFields = computed(() => {
+    const count = this.cardPrimaryColumns().length;
+    const fields = count > 0 ? count : 3;
+    return Array.from({ length: fields }, (_, index) => index);
   });
 
   protected readonly someVisibleRowsSelected = computed(() => {

@@ -230,6 +230,21 @@ export const TABLE_SELECTION_CODE = [
   '/>',
 ].join('\n');
 
+export const TABLE_SELECTION_TOOLBAR_CODE = [
+  '<solaris-table',
+  '  [data]="rows"',
+  '  [columns]="orderedVisibleColumns()"',
+  '  rowId="id"',
+  '  layout="card"',
+  '  selectionMode="multiple"',
+  '  [(selectedRowIds)]="selected"',
+  '>',
+  '  <ng-template solaris-table-toolbar>',
+  '    <solaris-table-toolbar [columns]="columns" [(filter)]="filter" />',
+  '  </ng-template>',
+  '</solaris-table>',
+].join('\n');
+
 export const TABLE_ADD_ROW_CODE = [
   '<solaris-table',
   '  [data]="rows"',

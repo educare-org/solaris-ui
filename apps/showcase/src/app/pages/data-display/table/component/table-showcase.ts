@@ -41,6 +41,7 @@ import {
   TABLE_RESPONSIVE_CODE,
   TABLE_ROW_DIALOG_CODE,
   TABLE_SELECTION_CODE,
+  TABLE_SELECTION_TOOLBAR_CODE,
   TABLE_SHOWCASE_APPEARANCES,
   TABLE_SHOWCASE_BASIC_CODE,
   TABLE_SHOWCASE_BASIC_COLUMNS,
@@ -73,6 +74,7 @@ import { MobileComposedTableExample } from '../examples/mobile-composed/componen
 import { PeopleTableExample } from '../examples/people/component/people.component';
 import { RowDialogTableExample } from '../examples/row-dialog/component/row-dialog.component';
 import { WithPaginationTableExample } from '../examples/with-pagination/component/with-pagination.component';
+import { WithSelectionToolbarTableExample } from '../examples/with-selection-toolbar/component/with-selection-toolbar.component';
 import { WithToolbarTableExample } from '../examples/with-toolbar/component/with-toolbar.component';
 import {
   buildFormPropsColumns,
@@ -101,6 +103,7 @@ import {
     PeopleTableExample,
     RowDialogTableExample,
     WithPaginationTableExample,
+    WithSelectionToolbarTableExample,
     WithToolbarTableExample,
   ],
   templateUrl: './table-showcase.html',
@@ -120,6 +123,7 @@ export class TableShowcasePage {
   protected readonly basicCode = TABLE_SHOWCASE_BASIC_CODE;
   protected readonly sortingCode = TABLE_SORTING_CODE;
   protected readonly selectionCode = TABLE_SELECTION_CODE;
+  protected readonly selectionToolbarCode = TABLE_SELECTION_TOOLBAR_CODE;
   protected readonly peopleCode = TABLE_PEOPLE_CODE;
   protected readonly addRowCode = TABLE_ADD_ROW_CODE;
   protected readonly rowDialogCode = TABLE_ROW_DIALOG_CODE;

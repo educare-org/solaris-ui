@@ -51,7 +51,7 @@
       "note": "Comece pela tabela padrão e explore ordenação, seleção e estados abaixo."
     },
     "expansion": {
-      "note": "Detalhes expansíveis por linha no mobile ou por célula."
+      "note": "Detalhes expansíveis por linha no mobile ou por célula. Tabelas plain viram cards em 720px ou menos; priority com expandable mantém o detalhe colapsável, layout card ou mobile força cards em toda viewport, e responsive scroll mantém a rolagem antiga."
     },
     "footer": {
       "average": "Média",

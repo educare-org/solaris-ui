@@ -51,7 +51,7 @@
       "note": "Empieza con la tabla predeterminada y luego explora ordenamiento, selección y estados a continuación."
     },
     "expansion": {
-      "note": "Detalles expandibles por fila en Mobile o por celda."
+      "note": "Detalles expandibles por fila en Mobile o por celda. Las tablas plain se vuelven cards en 720px o menos; priority con expandable mantiene el detalle colapsable, layout card o mobile fuerza cards en todo viewport, y responsive scroll mantiene el scroll anterior."
     },
     "footer": {
       "average": "Promedio",

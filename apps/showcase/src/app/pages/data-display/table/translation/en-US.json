@@ -51,7 +51,7 @@
       "note": "Start with the default table, then explore sorting, selection, and states below."
     },
     "expansion": {
-      "note": "Expandable details per row on mobile or per cell."
+      "note": "Expandable details per row on mobile or per cell. Plain tables render as cards at 720px and below; priority plus expandable keeps the collapsible detail, layout card or mobile forces cards everywhere, and responsive scroll keeps the legacy scroll."
     },
     "footer": {
       "average": "Average",
