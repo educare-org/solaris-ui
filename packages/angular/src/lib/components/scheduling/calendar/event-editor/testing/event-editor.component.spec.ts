@@ -288,7 +288,11 @@ describe('SolarisCalendarEventEditorComponent', () => {
       fixture.detectChanges();
       const element = fixture.nativeElement as HTMLElement;
       const expected =
-        locale === 'pt-BR' ? 'Salvar' : locale === 'es' ? 'Guardar' : 'Save';
+        locale === 'pt-BR'
+          ? 'Salvar'
+          : locale === 'es-419'
+            ? 'Guardar'
+            : 'Save';
       expect(element.textContent).toContain(expected);
     },
   );
