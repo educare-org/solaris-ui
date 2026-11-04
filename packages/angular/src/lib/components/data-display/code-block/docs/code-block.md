@@ -86,10 +86,10 @@ component falls back to the built-in regex highlighter or plain text.
 
 ## Appearances
 
-| Appearance | Visual                                                      |
-| ---------- | ----------------------------------------------------------- |
-| `surface`  | Filled background with raised header (default).             |
-| `outline`  | Transparent background, visible border, transparent header. |
+| Appearance | Visual                                                  |
+| ---------- | ------------------------------------------------------- |
+| `surface`  | Filled background with raised header (default).         |
+| `outline`  | Surface background with visible border, uniform header. |
 
 Default: `surface`
 
